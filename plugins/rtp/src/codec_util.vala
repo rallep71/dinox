@@ -162,7 +162,7 @@ public class Dino.Plugins.Rtp.CodecUtil {
 #if ENABLE_V4L2SL
                         "v4l2slh264dec",
 #endif
-                        null
+                        "avdec_h264"
                     };
                 case "vp9":
                     return new string[] {
