@@ -50,6 +50,7 @@ public class ChatInputController : Object {
         chat_input.encryption_widget.encryption_changed.connect(on_encryption_changed);
 
         chat_input.file_button.clicked.connect(() => file_picker_selected());
+        chat_input.send_button.clicked.connect(send_text);
 
         stream_interactor.get_module(MucManager.IDENTITY).received_occupant_role.connect(update_moderated_input_status);
         stream_interactor.get_module(MucManager.IDENTITY).room_info_updated.connect(update_moderated_input_status);
@@ -201,7 +202,10 @@ public class ChatInputController : Object {
     }
 
     private void on_text_input_changed() {
-        if (chat_input.chat_text_view.text_view.buffer.text != "") {
+        bool has_text = chat_input.chat_text_view.text_view.buffer.text.strip() != "";
+        chat_input.send_button.sensitive = has_text;
+        
+        if (has_text) {
             stream_interactor.get_module(ChatInteraction.IDENTITY).on_message_entered(conversation);
         } else {
             stream_interactor.get_module(ChatInteraction.IDENTITY).on_message_cleared(conversation);

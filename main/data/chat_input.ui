@@ -45,8 +45,29 @@
                                     </object>
                                 </child>
                                 <child>
-                                    <object class="DinoUiChatTextView" id="chat_text_view">
-                                        <property name="margin_start">7</property>
+                                    <object class="GtkBox">
+                                        <property name="orientation">horizontal</property>
+                                        <property name="spacing">0</property>
+                                        <child>
+                                            <object class="DinoUiChatTextView" id="chat_text_view">
+                                                <property name="margin_start">7</property>
+                                                <property name="hexpand">True</property>
+                                            </object>
+                                        </child>
+                                        <child>
+                                            <object class="GtkButton" id="send_button">
+                                                <property name="icon-name">mail-send-symbolic</property>
+                                                <property name="valign">center</property>
+                                                <property name="margin-end">7</property>
+                                                <property name="has-frame">False</property>
+                                                <property name="tooltip-text" translatable="yes">Send message</property>
+                                                <style>
+                                                    <class name="flat"/>
+                                                    <class name="dino-chatinput-button"/>
+                                                    <class name="image-button"/>
+                                                </style>
+                                            </object>
+                                        </child>
                                     </object>
                                 </child>
                             </object>

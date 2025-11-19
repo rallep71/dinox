@@ -1,0 +1,194 @@
+(process:107434): GLib-GIO-DEBUG: 19:58:09.908: Using cross-namespace EXTERNAL authentication (this will deadlock if server is GDBus < 2.73.3)
+(process:107434): GLib-GIO-DEBUG: 19:58:09.916: Failed to initialize portal (GNetworkMonitorPortal) for gio-network-monitor: Not using portals
+(process:107434): GLib-GIO-DEBUG: 19:58:09.917: Using cross-namespace EXTERNAL authentication (this will deadlock if server is GDBus < 2.73.3)
+(process:107434): GLib-GIO-DEBUG: 19:58:09.920: _g_io_module_get_default: Found default implementation networkmanager (GNetworkMonitorNM) for ‘gio-network-monitor’
+(process:107434): GLib-GIO-DEBUG: 19:58:09.924: _g_io_module_get_default: Found default implementation gvfs (GDaemonVfs) for ‘gio-vfs’
+(dino:107434): Gtk-DEBUG: 19:58:09.963: Connecting to session manager
+(dino:107434): GLib-GIO-DEBUG: 19:58:10.032: _g_io_module_get_default: Found default implementation dconf (DConfSettingsBackend) for ‘gsettings-backend’
+(dino:107434): dconf-DEBUG: 19:58:10.033: watch_fast: "/org/gnome/desktop/interface/" (establishing: 0, active: 0)
+(dino:107434): dconf-DEBUG: 19:58:10.033: watch_established: "/org/gnome/desktop/interface/" (establishing: 1)
+
+(dino:107434): Gtk-WARNING **: 19:58:10.072: Theme parser error: style.css:248:18-28: Expected a valid color.
+(dino:107434): libdino-DEBUG: 19:58:10.076: history_sync.vala:531: [carl@chat.handwerker.jetzt | carl@chat.handwerker.jetzt] | 1763560924 - 1763578171 vs 1763560924 - 1763578171
+(dino:107434): libdino-DEBUG: 19:58:10.080: connection_manager.vala:185: [carl@chat.handwerker.jetzt] (Maybe) Establishing a new connection
+(dino:107434): libdino-DEBUG: 19:58:10.081: history_sync.vala:531: [carl1@chat.handwerker.jetzt | carl1@chat.handwerker.jetzt] | 1763576598 - 1763578519 vs 1763576598 - 1763578519
+(dino:107434): libdino-DEBUG: 19:58:10.084: connection_manager.vala:185: [carl1@chat.handwerker.jetzt] (Maybe) Establishing a new connection
+(dino:107434): dconf-DEBUG: 19:58:10.094: watch_fast: "/org/gtk/gtk4/settings/emoji-chooser/" (establishing: 0, active: 0)
+(dino:107434): dconf-DEBUG: 19:58:10.095: watch_established: "/org/gtk/gtk4/settings/emoji-chooser/" (establishing: 1)
+(dino:107434): dconf-DEBUG: 19:58:10.139: watch_fast: "/org/gtk/gtk4/settings/emoji-chooser/" (establishing: 0, active: 1)
+(dino:107434): xmpp-vala-DEBUG: 19:58:10.246: stream_connect.vala:36: Got no xmpp-client DNS records for chat.handwerker.jetzt: Kein DNS-Eintrag des angeforderten Typs für »_xmpp-client._tcp.chat.handwerker.jetzt«
+(dino:107434): xmpp-vala-DEBUG: 19:58:10.246: stream_connect.vala:36: Got no xmpp-client DNS records for chat.handwerker.jetzt: Kein DNS-Eintrag des angeforderten Typs für »_xmpp-client._tcp.chat.handwerker.jetzt«
+(dino:107434): Gtk-DEBUG: 19:58:10.249: Registering resource for Emoji data for de from file /usr/share/gtk-4.0/emoji/de.gresource
+(dino:107434): Gtk-DEBUG: 19:58:10.249: Found emoji data for de in resource /org/gtk/libgtk/emoji/de.data
+(dino:107434): Gtk-DEBUG: 19:58:10.250: Found emoji data for de in resource /org/gtk/libgtk/emoji/de.data
+
+(dino:107434): Adwaita-WARNING **: 19:58:10.267: DinoUiMainWindow 0x5d7a62fd0d60 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dino:107434): Gtk-DEBUG: 19:58:10.279: snapshot symbolic icon using mask
+(dino:107434): Gtk-DEBUG: 19:58:10.280: snapshot symbolic icon using mask
+(dino:107434): Gtk-DEBUG: 19:58:10.280: snapshot symbolic icon using mask
+(dino:107434): Gtk-DEBUG: 19:58:10.281: snapshot symbolic icon using mask
+(dino:107434): Gtk-DEBUG: 19:58:10.281: snapshot symbolic icon using mask
+(dino:107434): Gtk-DEBUG: 19:58:10.282: snapshot symbolic icon using color-matrix
+(dino:107434): Gtk-DEBUG: 19:58:10.282: snapshot symbolic icon using mask
+(dino:107434): Gtk-DEBUG: 19:58:10.282: snapshot symbolic icon using mask
+(dino:107434): Gtk-DEBUG: 19:58:10.283: snapshot symbolic icon using mask
+(dino:107434): Gtk-DEBUG: 19:58:10.284: snapshot symbolic icon using mask
+(dino:107434): Gtk-DEBUG: 19:58:10.285: snapshot symbolic icon using mask
+(dino:107434): Gtk-DEBUG: 19:58:10.285: snapshot symbolic icon using mask
+(dino:107434): Gtk-DEBUG: 19:58:10.285: snapshot symbolic icon using mask
+
+(dino:107434): Adwaita-WARNING **: 19:58:10.416: DinoUiMainWindow 0x5d7a62fd0d60 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dino:107434): xmpp-vala-DEBUG: 19:58:10.418: stream_connect.vala:44: Got no xmpps-client DNS records for chat.handwerker.jetzt: Kein DNS-Eintrag des angeforderten Typs für »_xmpps-client._tcp.chat.handwerker.jetzt«
+(dino:107434): xmpp-vala-DEBUG: 19:58:10.419: starttls_xmpp_stream.vala:19: Connecting to chat.handwerker.jetzt:5222 (starttls)
+(dino:107434): dconf-DEBUG: 19:58:10.421: watch_fast: "/system/proxy/" (establishing: 0, active: 0)
+(dino:107434): dconf-DEBUG: 19:58:10.421: watch_fast: "/system/proxy/http/" (establishing: 0, active: 0)
+(dino:107434): dconf-DEBUG: 19:58:10.421: watch_fast: "/system/proxy/https/" (establishing: 0, active: 0)
+(dino:107434): dconf-DEBUG: 19:58:10.421: watch_fast: "/system/proxy/ftp/" (establishing: 0, active: 0)
+(dino:107434): dconf-DEBUG: 19:58:10.421: watch_fast: "/system/proxy/socks/" (establishing: 0, active: 0)
+(dino:107434): dconf-DEBUG: 19:58:10.421: unwatch_fast: "/system/proxy/" (active: 0, establishing: 1)
+(dino:107434): dconf-DEBUG: 19:58:10.421: unwatch_fast: "/system/proxy/http/" (active: 0, establishing: 1)
+(dino:107434): dconf-DEBUG: 19:58:10.421: unwatch_fast: "/system/proxy/https/" (active: 0, establishing: 1)
+(dino:107434): dconf-DEBUG: 19:58:10.422: unwatch_fast: "/system/proxy/ftp/" (active: 0, establishing: 1)
+(dino:107434): dconf-DEBUG: 19:58:10.422: unwatch_fast: "/system/proxy/socks/" (active: 0, establishing: 1)
+(dino:107434): dconf-DEBUG: 19:58:10.423: watch_established: "/system/proxy/" (establishing: 0)
+(dino:107434): dconf-DEBUG: 19:58:10.423: watch_established: "/system/proxy/http/" (establishing: 0)
+(dino:107434): dconf-DEBUG: 19:58:10.423: watch_established: "/system/proxy/https/" (establishing: 0)
+(dino:107434): dconf-DEBUG: 19:58:10.423: watch_established: "/system/proxy/ftp/" (establishing: 0)
+(dino:107434): dconf-DEBUG: 19:58:10.423: watch_established: "/system/proxy/socks/" (establishing: 0)
+(dino:107434): pxbackend-DEBUG: 19:58:10.423: px_config_sysconfig_set_config_file: Could not read file /etc/sysconfig/proxy
+(dino:107434): pxbackend-DEBUG: 19:58:10.423: Active config plugins:
+(dino:107434): pxbackend-DEBUG: 19:58:10.423:  - config-env
+(dino:107434): pxbackend-DEBUG: 19:58:10.423:  - config-kde
+(dino:107434): pxbackend-DEBUG: 19:58:10.423:  - config-gnome
+(dino:107434): pxbackend-DEBUG: 19:58:10.423:  - config-sysconfig
+(dino:107434): pxbackend-DEBUG: 19:58:10.425: px_manager_constructed: Up and running
+(dino:107434): GLib-GIO-DEBUG: 19:58:10.425: _g_io_module_get_default: Found default implementation libproxy (GLibproxyResolver) for ‘gio-proxy-resolver’
+(dino:107434): GLib-GIO-DEBUG: 19:58:10.425: g_socket_client_connect_async: starting new g_socket_client_connect_async() with GTask 0x5d7a649ee2d0 and GSocketClientAsyncConnectData 0x5d7a6386b540
+(dino:107434): GLib-GIO-DEBUG: 19:58:10.425: GSocketClient: Starting new address enumeration
+(dino:107434): xmpp-vala-DEBUG: 19:58:10.425: stream_connect.vala:44: Got no xmpps-client DNS records for chat.handwerker.jetzt: Kein DNS-Eintrag des angeforderten Typs für »_xmpps-client._tcp.chat.handwerker.jetzt«
+(dino:107434): pxbackend-DEBUG: 19:58:10.425: px_manager_get_proxies_sync: url=none://chat.handwerker.jetzt:5222 online=1
+(dino:107434): pxbackend-DEBUG: 19:58:10.425: px_manager_get_proxies_sync: Proxy[0] = direct://
+(dino:107434): xmpp-vala-DEBUG: 19:58:10.425: starttls_xmpp_stream.vala:19: Connecting to chat.handwerker.jetzt:5222 (starttls)
+(dino:107434): GLib-GIO-DEBUG: 19:58:10.425: g_socket_client_connect_async: starting new g_socket_client_connect_async() with GTask 0x5d7a649ef640 and GSocketClientAsyncConnectData 0x5d7a649ea2d0
+(dino:107434): GLib-GIO-DEBUG: 19:58:10.425: GSocketClient: Starting new address enumeration
+(dino:107434): pxbackend-DEBUG: 19:58:10.425: px_manager_get_proxies_sync: url=none://chat.handwerker.jetzt:5222 online=1
+(dino:107434): pxbackend-DEBUG: 19:58:10.425: px_manager_get_proxies_sync: Proxy[0] = direct://
+(dino:107434): GLib-GIO-DEBUG: 19:58:10.425: lookup_by_name_with_flags_async: starting new lookup for chat.handwerker.jetzt with GTask 0x5d7a649f22c0, LookupData 0x5d7a6387a7d0
+(dino:107434): GLib-GIO-DEBUG: 19:58:10.426: lookup_by_name_with_flags_async: starting new lookup for chat.handwerker.jetzt with GTask 0x5d7a649f2380, LookupData 0x5d7a649e4500
+(dino:107434): GLib-GIO-DEBUG: 19:58:10.426: lookup_by_name_with_flags_async: starting new lookup for chat.handwerker.jetzt with GTask 0x5d7a649f2870, LookupData 0x5d7a649f2820
+(dino:107434): GLib-GIO-DEBUG: 19:58:10.426: lookup_by_name_with_flags_async: starting new lookup for chat.handwerker.jetzt with GTask 0x5d7a649f2bd0, LookupData 0x5d7a62af9540
+(dino:107434): GLib-GIO-DEBUG: 19:58:10.456: IPv6 DNS error: Fehler beim Auflösen von »chat.handwerker.jetzt«: Der Name oder der Dienst ist nicht bekannt
+(dino:107434): GLib-GIO-DEBUG: 19:58:10.456: GSocketClient: Address enumeration succeeded
+(dino:107434): GLib-GIO-DEBUG: 19:58:10.456: g_socket_client_enumerator_callback: starting connection attempt 0x5d7a64b79680 for GSocketClientAsyncConnectData 0x5d7a649ea2d0
+(dino:107434): GLib-GIO-DEBUG: 19:58:10.456: GSocketClient: Starting TCP connection attempt
+(dino:107434): GLib-GIO-DEBUG: 19:58:10.456: IPv6 DNS error: Fehler beim Auflösen von »chat.handwerker.jetzt«: Der Name oder der Dienst ist nicht bekannt
+(dino:107434): GLib-GIO-DEBUG: 19:58:10.456: GSocketClient: Address enumeration succeeded
+(dino:107434): GLib-GIO-DEBUG: 19:58:10.456: g_socket_client_enumerator_callback: starting connection attempt 0x5d7a649f2010 for GSocketClientAsyncConnectData 0x5d7a6386b540
+(dino:107434): GLib-GIO-DEBUG: 19:58:10.456: GSocketClient: Starting TCP connection attempt
+(dino:107434): GLib-GIO-DEBUG: 19:58:10.483: GSocketClient: TCP connection successful
+(dino:107434): GLib-GIO-DEBUG: 19:58:10.483: GSocketClient: Starting application layer connection
+(dino:107434): GLib-GIO-DEBUG: 19:58:10.483: GSocketClient: Connection successful!
+(dino:107434): GLib-GIO-DEBUG: 19:58:10.488: GSocketClient: TCP connection successful
+(dino:107434): GLib-GIO-DEBUG: 19:58:10.488: GSocketClient: Starting application layer connection
+(dino:107434): GLib-GIO-DEBUG: 19:58:10.488: GSocketClient: Connection successful!
+(dino:107434): GLib-GIO-DEBUG: 19:58:10.550: _g_io_module_get_default: Found default implementation gnutls (GTlsBackendGnutls) for ‘gio-tls-backend’
+(dino:107434): libdino-DEBUG: 19:58:10.655: connection_manager.vala:232: [carl1@chat.handwerker.jetzt/dino.7b0e2d22] New connection: 0x5d7a649a95e0
+(dino:107434): libdino-DEBUG: 19:58:10.655: connection_manager.vala:232: [carl@chat.handwerker.jetzt/dino.64be09f2] New connection: 0x5d7a649ee6f0
+(dino:107434): libdino-DEBUG: 19:58:10.866: history_sync.vala:34: MAM: [carl@chat.handwerker.jetzt] Reset catchup_id
+(dino:107434): libdino-DEBUG: 19:58:10.869: history_sync.vala:34: MAM: [carl1@chat.handwerker.jetzt] Reset catchup_id
+(dino:107434): libdino-DEBUG: 19:58:10.913: history_sync.vala:493: [carl1@chat.handwerker.jetzt] MAM available
+(dino:107434): libdino-DEBUG: 19:58:10.913: history_sync.vala:124: [carl1@chat.handwerker.jetzt | carl1@chat.handwerker.jetzt] Fetch everything (until 1970-01-01T00:00:00+0000)
+(dino:107434): libdino-DEBUG: 19:58:10.913: history_sync.vala:199: [carl1@chat.handwerker.jetzt | carl1@chat.handwerker.jetzt] Fetching latest page
+(dino:107434): libdino-DEBUG: 19:58:10.914: muc_manager.vala:523: [carl1@chat.handwerker.jetzt] Using PEP native bookmarks (urn:xmpp:bookmarks:1)
+(dino:107434): libdino-DEBUG: 19:58:10.928: history_sync.vala:493: [carl@chat.handwerker.jetzt] MAM available
+(dino:107434): libdino-DEBUG: 19:58:10.928: history_sync.vala:124: [carl@chat.handwerker.jetzt | carl@chat.handwerker.jetzt] Fetch everything (until 1970-01-01T00:00:00+0000)
+(dino:107434): libdino-DEBUG: 19:58:10.928: history_sync.vala:199: [carl@chat.handwerker.jetzt | carl@chat.handwerker.jetzt] Fetching latest page
+(dino:107434): OMEMO-DEBUG: 19:58:10.929: manager.vala:200: received device list for carl@chat.handwerker.jetzt from carl@chat.handwerker.jetzt
+(dino:107434): libdino-DEBUG: 19:58:10.930: muc_manager.vala:523: [carl@chat.handwerker.jetzt] Using PEP native bookmarks (urn:xmpp:bookmarks:1)
+(dino:107434): OMEMO-DEBUG: 19:58:10.938: manager.vala:200: received device list for carl1@chat.handwerker.jetzt from carl1@chat.handwerker.jetzt
+(dino:107434): OMEMO-DEBUG: 19:58:10.938: manager.vala:228: new bundles 1/4 for carl1@chat.handwerker.jetzt
+(dino:107434): ice-DEBUG: 19:58:10.945: plugin.vala:46: Server offers STUN server: 212.87.214.35:3478, resolved to 212.87.214.35
+(dino:107434): ice-DEBUG: 19:58:10.945: plugin.vala:50: Server offers TURN server: 212.87.214.35:3478, resolved to 212.87.214.35
+(dino:107434): ice-DEBUG: 19:58:10.945: plugin.vala:73: Re-fetching TURN credentials in 21600 sec
+
+(dino:107434): Adwaita-WARNING **: 19:58:10.955: DinoUiMainWindow 0x5d7a62fd0d60 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dino:107434): OMEMO-DEBUG: 19:58:10.979: manager.vala:200: received device list for carl1@chat.handwerker.jetzt from carl1@chat.handwerker.jetzt
+(dino:107434): OMEMO-DEBUG: 19:58:10.980: manager.vala:228: new bundles 1/4 for carl1@chat.handwerker.jetzt
+(dino:107434): OMEMO-DEBUG: 19:58:11.030: manager.vala:200: received device list for carl1@chat.handwerker.jetzt from ralf@chat.handwerker.jetzt
+(dino:107434): ice-DEBUG: 19:58:11.049: plugin.vala:46: Server offers STUN server: 212.87.214.35:3478, resolved to 212.87.214.35
+(dino:107434): ice-DEBUG: 19:58:11.049: plugin.vala:50: Server offers TURN server: 212.87.214.35:3478, resolved to 212.87.214.35
+(dino:107434): ice-DEBUG: 19:58:11.049: plugin.vala:73: Re-fetching TURN credentials in 21599 sec
+(dino:107434): OMEMO-DEBUG: 19:58:11.120: manager.vala:200: received device list for carl@chat.handwerker.jetzt from ralf@chat.handwerker.jetzt
+(dino:107434): OMEMO-DEBUG: 19:58:11.124: manager.vala:200: received device list for carl1@chat.handwerker.jetzt from carl@chat.handwerker.jetzt
+(dino:107434): OMEMO-DEBUG: 19:58:11.129: manager.vala:200: received device list for carl@chat.handwerker.jetzt from carl1@chat.handwerker.jetzt
+(dino:107434): libdino-DEBUG: 19:58:11.139: muc_manager.vala:485: [carl1@chat.handwerker.jetzt] Default MUC: conference.chat.handwerker.jetzt
+(dino:107434): OMEMO-DEBUG: 19:58:11.145: manager.vala:200: received device list for carl@chat.handwerker.jetzt from carl@chat.handwerker.jetzt
+(dino:107434): OMEMO-DEBUG: 19:58:11.181: manager.vala:200: received device list for carl@chat.handwerker.jetzt from carl1@chat.handwerker.jetzt
+
+(dino:107434): Adwaita-WARNING **: 19:58:11.205: DinoUiMainWindow 0x5d7a62fd0d60 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dino:107434): Gtk-DEBUG: 19:58:11.206: snapshot symbolic icon using mask
+(dino:107434): libdino-DEBUG: 19:58:11.279: muc_manager.vala:485: [carl@chat.handwerker.jetzt] Default MUC: conference.chat.handwerker.jetzt
+(dino:107434): xmpp-vala-DEBUG: 19:58:11.646: omemo_decryptor.vala:43: Is ours? 1749296668 =? 1749296668
+(dino:107434): xmpp-vala-DEBUG: 19:58:11.646: omemo_decryptor.vala:43: Is ours? 348139690 =? 1749296668
+(dino:107434): xmpp-vala-DEBUG: 19:58:11.646: omemo_decryptor.vala:43: Is ours? 1640513253 =? 1749296668
+(dino:107434): xmpp-vala-DEBUG: 19:58:11.646: omemo_decryptor.vala:43: Is ours? 1761971926 =? 1749296668
+(dino:107434): OMEMO-DEBUG: 19:58:11.646: decrypt.vala:133: Starting new session for decryption with device from ralf@chat.handwerker.jetzt/572719703
+(dino:107434): OMEMO-DEBUG: 19:58:11.646: decrypt.vala:67: Decrypting message from ralf@chat.handwerker.jetzt/572719703 failed: libomemo-c error: SG_ERR_DUPLICATE_MESSAGE
+(dino:107434): OMEMO-DEBUG: 19:58:11.646: decrypt.vala:81: Received OMEMO encryped message that could not be decrypted.
+(dino:107434): xmpp-vala-DEBUG: 19:58:11.646: omemo_decryptor.vala:43: Is ours? 1761971926 =? 1100018763
+(dino:107434): xmpp-vala-DEBUG: 19:58:11.646: omemo_decryptor.vala:43: Is ours? 1749296668 =? 1100018763
+(dino:107434): xmpp-vala-DEBUG: 19:58:11.646: omemo_decryptor.vala:43: Is ours? 348139690 =? 1100018763
+(dino:107434): xmpp-vala-DEBUG: 19:58:11.646: omemo_decryptor.vala:43: Is ours? 1640513253 =? 1100018763
+(dino:107434): xmpp-vala-DEBUG: 19:58:11.646: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dino:107434): xmpp-vala-DEBUG: 19:58:11.646: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dino:107434): OMEMO-DEBUG: 19:58:11.647: decrypt.vala:133: Starting new session for decryption with device from carl@chat.handwerker.jetzt/1100018763
+(dino:107434): OMEMO-DEBUG: 19:58:11.648: decrypt.vala:67: Decrypting message from carl@chat.handwerker.jetzt/1100018763 failed: libomemo-c error: SG_ERR_INVALID_MESSAGE
+(dino:107434): OMEMO-DEBUG: 19:58:11.648: decrypt.vala:81: Received OMEMO encryped message that could not be decrypted.
+(dino:107434): xmpp-vala-DEBUG: 19:58:11.649: omemo_decryptor.vala:43: Is ours? 572719703 =? 1749296668
+(dino:107434): OMEMO-DEBUG: 19:58:11.649: decrypt.vala:81: Received OMEMO encryped message that could not be decrypted.
+(dino:107434): libdino-DEBUG: 19:58:11.649: history_sync.vala:220: [carl@chat.handwerker.jetzt | carl@chat.handwerker.jetzt] Latest page result: DINO_HISTORY_SYNC_PAGE_RESULT_TargetReached
+(dino:107434): libdino-DEBUG: 19:58:11.650: history_sync.vala:185: [carl@chat.handwerker.jetzt | carl@chat.handwerker.jetzt] No logs on server before 1763560924, aborting sync.
+(dino:107434): libdino-DEBUG: 19:58:11.650: history_sync.vala:220: [carl1@chat.handwerker.jetzt | carl1@chat.handwerker.jetzt] Latest page result: DINO_HISTORY_SYNC_PAGE_RESULT_TargetReached
+(dino:107434): libdino-DEBUG: 19:58:11.650: history_sync.vala:185: [carl1@chat.handwerker.jetzt | carl1@chat.handwerker.jetzt] No logs on server before 1763576598, aborting sync.
+
+(dino:107434): Adwaita-WARNING **: 19:58:27.496: DinoUiMainWindow 0x5d7a62fd0d60 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dino:107434): Adwaita-WARNING **: 19:58:28.735: DinoUiMainWindow 0x5d7a62fd0d60 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dino:107434): Gtk-DEBUG: 19:58:28.736: snapshot symbolic icon using mask
+
+(dino:107434): Adwaita-WARNING **: 19:58:33.604: DinoUiMainWindow 0x5d7a62fd0d60 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dino:107434): Adwaita-WARNING **: 19:58:35.358: DinoUiMainWindow 0x5d7a62fd0d60 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dino:107434): Gtk-DEBUG: 19:58:35.359: snapshot symbolic icon using mask
+(dino:107434): Gtk-DEBUG: 19:58:36.747: snapshot symbolic icon using mask
+(dino:107434): Gtk-DEBUG: 19:58:36.760: snapshot symbolic icon using mask
+(dino:107434): Gtk-DEBUG: 19:58:36.774: snapshot symbolic icon using mask
+(dino:107434): Gtk-DEBUG: 19:58:36.790: snapshot symbolic icon using mask
+(dino:107434): Gtk-DEBUG: 19:58:36.807: snapshot symbolic icon using mask
+(dino:107434): Gtk-DEBUG: 19:58:36.820: snapshot symbolic icon using mask
+(dino:107434): Gtk-DEBUG: 19:58:36.837: snapshot symbolic icon using mask
+(dino:107434): Gtk-DEBUG: 19:58:36.944: snapshot symbolic icon using mask
+
+(dino:107434): Adwaita-WARNING **: 19:59:08.247: DinoUiMainWindow 0x5d7a62fd0d60 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dino:107434): Adwaita-WARNING **: 19:59:09.943: DinoUiMainWindow 0x5d7a62fd0d60 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dino:107434): Adwaita-WARNING **: 20:00:08.274: DinoUiMainWindow 0x5d7a62fd0d60 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dino:107434): Adwaita-WARNING **: 20:00:09.942: DinoUiMainWindow 0x5d7a62fd0d60 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dino:107434): Adwaita-WARNING **: 20:01:08.304: DinoUiMainWindow 0x5d7a62fd0d60 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dino:107434): Adwaita-WARNING **: 20:01:09.940: DinoUiMainWindow 0x5d7a62fd0d60 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dino:107434): Adwaita-WARNING **: 20:02:08.336: DinoUiMainWindow 0x5d7a62fd0d60 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dino:107434): Adwaita-WARNING **: 20:02:09.946: DinoUiMainWindow 0x5d7a62fd0d60 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dino:107434): Adwaita-WARNING **: 20:03:08.364: DinoUiMainWindow 0x5d7a62fd0d60 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dino:107434): Adwaita-WARNING **: 20:03:09.943: DinoUiMainWindow 0x5d7a62fd0d60 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dino:107434): Adwaita-WARNING **: 20:04:08.394: DinoUiMainWindow 0x5d7a62fd0d60 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dino:107434): Adwaita-WARNING **: 20:04:09.950: DinoUiMainWindow 0x5d7a62fd0d60 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it

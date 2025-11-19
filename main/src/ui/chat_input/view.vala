@@ -24,6 +24,7 @@ public class View : Box {
     [GtkChild] public unowned Button file_button;
     [GtkChild] public unowned MenuButton emoji_button;
     [GtkChild] public unowned MenuButton encryption_button;
+    [GtkChild] public unowned Button send_button;
     [GtkChild] public unowned Separator file_separator;
     [GtkChild] public unowned Label chat_input_status;
 

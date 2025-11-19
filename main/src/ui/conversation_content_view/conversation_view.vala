@@ -541,9 +541,14 @@ public class ConversationView : Widget, Plugins.ConversationItemCollection, Plug
     }
 
     private void on_action_button_clicked(string action_name, GLib.Variant? variant = null) {
+        if (message_actions == null || current_meta_item == null) return;
+        
         foreach (var action in message_actions) {
             if (action.name != action_name) continue;
-            action.callback(variant);
+            if (action.callback != null) {
+                action.callback(variant);
+            }
+            break;
         }
     }
 
