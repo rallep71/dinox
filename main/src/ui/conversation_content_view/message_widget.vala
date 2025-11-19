@@ -91,9 +91,13 @@ public class MessageMetaItem : ContentMetaItem {
 
         if (markup_text == null) return; // TODO remove
 
-        // Only process messages up to a certain size
-        if (markup_text.length > 10000) {
-            markup_text = markup_text.substring(0, 10000) + " [" + _("Message too long") + "]";
+        // Increased limit from 10,000 to 100,000 characters (issue #1779)
+        // Most XMPP servers limit messages to ~262KB, so 100k chars is reasonable
+        // Extremely long messages (>100k) are truncated with a notice
+        bool message_truncated = false;
+        if (markup_text.length > 100000) {
+            markup_text = markup_text.substring(0, 100000);
+            message_truncated = true;
         }
 
         bool theme_dependent = false;
@@ -164,6 +168,10 @@ public class MessageMetaItem : ContentMetaItem {
         }
         if (message.edit_to != null) {
             markup_text += @"  <span size='small' color='$dim_color'>(%s)</span>".printf(_("edited"));
+            theme_dependent = true;
+        }
+        if (message_truncated) {
+            markup_text += @"\n<i><span size='small' color='$dim_color'>[%s]</span></i>".printf(_("Message truncated - exceeds 100,000 characters"));
             theme_dependent = true;
         }
 
