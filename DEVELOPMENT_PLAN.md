@@ -49,7 +49,7 @@ This fork addresses the slow development pace of the original Dino XMPP client w
 
 | Priority | Issue | Component | Impact | Status |
 |----------|-------|-----------|--------|--------|
-| 🔥 P0 | [#1764](https://github.com/dino/dino/issues/1764) | File Transfer | Segfault on upload error | 🔴 TODO |
+| 🔥 P0 | [#1764](https://github.com/dino/dino/issues/1764) | File Transfer | Segfault on upload error | ✅ FIXED |
 | 🔥 P0 | [#1766](https://github.com/dino/dino/issues/1766) | Memory | RAM grows to GB over days | 🔴 TODO |
 | ⚠️ P1 | [#1746](https://github.com/dino/dino/issues/1746) | Sync | MAM/Carbon messages lost | 🔴 TODO |
 | ⚠️ P1 | [#1779](https://github.com/dino/dino/issues/1779) | UX | Long messages truncated/unreadable | 🔴 TODO |
