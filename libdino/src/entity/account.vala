@@ -21,6 +21,8 @@ public class Account : Object {
     public string? alias { get; set; }
     public bool enabled { get; set; default = false; }
     public string? roster_version { get; set; }
+    public string? custom_host { get; set; }
+    public int custom_port { get; set; default = 0; }
 
     private Database? db;
 
@@ -42,6 +44,8 @@ public class Account : Object {
         alias = row[db.account.alias];
         enabled = row[db.account.enabled];
         roster_version = row[db.account.roster_version];
+        custom_host = row[db.account.custom_host];
+        custom_port = row[db.account.custom_port];
 
         notify.connect(on_update);
     }
@@ -57,6 +61,8 @@ public class Account : Object {
                 .value(db.account.alias, alias)
                 .value(db.account.enabled, enabled)
                 .value(db.account.roster_version, roster_version)
+                .value(db.account.custom_host, custom_host)
+                .value(db.account.custom_port, custom_port)
                 .perform();
 
         notify.connect(on_update);
@@ -104,6 +110,10 @@ public class Account : Object {
                 update.set(db.account.enabled, enabled); break;
             case "roster-version":
                 update.set(db.account.roster_version, roster_version); break;
+            case "custom-host":
+                update.set(db.account.custom_host, custom_host); break;
+            case "custom-port":
+                update.set(db.account.custom_port, custom_port); break;
         }
         update.perform();
     }

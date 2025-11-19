@@ -200,8 +200,12 @@ public class ConnectionManager : Object {
             connection_directly_retry[account] = false;
 
             change_connection_state(account, ConnectionState.CONNECTING);
+            
+            // Pass custom host/port if configured
+            uint16 custom_port = (account.custom_port > 0 && account.custom_port <= 65535) ? (uint16) account.custom_port : 0;
             stream_result = yield Xmpp.establish_stream(account.bare_jid, module_manager.get_modules(account), log_options,
-                    (peer_cert, errors) => { return on_invalid_certificate(account.domainpart, peer_cert, errors); }
+                    (peer_cert, errors) => { return on_invalid_certificate(account.domainpart, peer_cert, errors); },
+                    account.custom_host, custom_port
             );
             connections[account].stream = stream_result.stream;
 

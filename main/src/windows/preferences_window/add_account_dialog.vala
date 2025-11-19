@@ -31,6 +31,10 @@ public class AddAccountDialog : Adw.Dialog {
     [GtkChild] private unowned Adw.EntryRow jid_entry;
     [GtkChild] private unowned Adw.PreferencesGroup password_group;
     [GtkChild] private unowned Adw.PasswordEntryRow password_entry;
+    [GtkChild] private unowned Adw.PreferencesGroup advanced_group;
+    [GtkChild] private unowned Adw.ExpanderRow advanced_expander;
+    [GtkChild] private unowned Adw.EntryRow custom_host_entry;
+    [GtkChild] private unowned Adw.EntryRow custom_port_entry;
     [GtkChild] private unowned Button sign_in_continue_button;
     [GtkChild] private unowned Spinner sign_in_continue_spinner;
     [GtkChild] private unowned Button sign_in_serverlist_button;
@@ -134,6 +138,9 @@ public class AddAccountDialog : Adw.Dialog {
         }
         password_entry.text = "";
         password_group.visible = false;
+        advanced_group.visible = false;
+        custom_host_entry.text = "";
+        custom_port_entry.text = "";
         sign_in_serverlist_button.visible = true;
     }
 
@@ -212,6 +219,17 @@ public class AddAccountDialog : Adw.Dialog {
                 // JID + Psw fields were visible: Try to log in
                 string password = password_entry.text;
                 Account account = new Account(login_jid, password);
+                
+                // Set custom host/port if provided
+                if (custom_host_entry.text.length > 0) {
+                    account.custom_host = custom_host_entry.text;
+                }
+                if (custom_port_entry.text.length > 0) {
+                    int port = int.parse(custom_port_entry.text);
+                    if (port > 0 && port <= 65535) {
+                        account.custom_port = port;
+                    }
+                }
 
                 ConnectionManager.ConnectionError.Source? error = yield stream_interactor.get_module(Register.IDENTITY).add_check_account(account);
                 sign_in_continue_spinner.visible = false;
@@ -238,6 +256,7 @@ public class AddAccountDialog : Adw.Dialog {
                 sign_in_continue_button.sensitive = true;
                 if (server_status.available) {
                     password_group.visible = true;
+                    advanced_group.visible = true;
                     password_entry.grab_focus();
                     sign_in_serverlist_button.visible = false;
                 } else {

@@ -7,7 +7,7 @@ using Dino.Entities;
 namespace Dino {
 
 public class Database : Qlite.Database {
-    private const int VERSION = 30;
+    private const int VERSION = 31;
 
     public class AccountTable : Table {
         public Column<int> id = new Column.Integer("id") { primary_key = true, auto_increment = true };
@@ -19,10 +19,12 @@ public class Database : Qlite.Database {
         public Column<string> roster_version = new Column.Text("roster_version") { min_version=2 };
         // no longer used. all usages already removed. remove db column at some point.
         public Column<long> mam_earliest_synced = new Column.Long("mam_earliest_synced") { min_version=4 };
+        public Column<string> custom_host = new Column.Text("custom_host") { min_version=31 };
+        public Column<int> custom_port = new Column.Integer("custom_port") { min_version=31 };
 
         internal AccountTable(Database db) {
             base(db, "account");
-            init({id, bare_jid, resourcepart, password, alias, enabled, roster_version, mam_earliest_synced});
+            init({id, bare_jid, resourcepart, password, alias, enabled, roster_version, mam_earliest_synced, custom_host, custom_port});
         }
     }
 

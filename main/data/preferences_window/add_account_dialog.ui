@@ -63,6 +63,28 @@
                                                             </object>
                                                         </child>
                                                         <child>
+                                                            <object class="AdwPreferencesGroup" id="advanced_group">
+                                                                <property name="visible">False</property>
+                                                                <child>
+                                                                    <object class="AdwExpanderRow" id="advanced_expander">
+                                                                        <property name="title" translatable="1">Advanced Settings</property>
+                                                                        <child>
+                                                                            <object class="AdwEntryRow" id="custom_host_entry">
+                                                                                <property name="title" translatable="1">Server Hostname</property>
+                                                                                <property name="show-apply-button">False</property>
+                                                                            </object>
+                                                                        </child>
+                                                                        <child>
+                                                                            <object class="AdwEntryRow" id="custom_port_entry">
+                                                                                <property name="title" translatable="1">Port</property>
+                                                                                <property name="show-apply-button">False</property>
+                                                                            </object>
+                                                                        </child>
+                                                                    </object>
+                                                                </child>
+                                                            </object>
+                                                        </child>
+                                                        <child>
                                                             <object class="GtkLabel" id="sign_in_error_label">
                                                                 <property name="visible">False</property>
                                                                 <style>
