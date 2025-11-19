@@ -51,19 +51,20 @@ This fork addresses the slow development pace of the original Dino XMPP client w
 |----------|-------|-----------|--------|--------|
 | 🔥 P0 | [#1764](https://github.com/dino/dino/issues/1764) | File Transfer | Segfault on upload error | ✅ FIXED |
 | 🔥 P0 | [#1766](https://github.com/dino/dino/issues/1766) | Memory | RAM grows to GB over days | ✅ FIXED |
-| ⚠️ P1 | [#1746](https://github.com/dino/dino/issues/1746) | Sync | MAM/Carbon messages lost | 🔴 TODO |
-| ⚠️ P1 | [#1779](https://github.com/dino/dino/issues/1779) | UX | Long messages truncated/unreadable | 🔴 TODO |
+| ⚠️ P1 | [#1746](https://github.com/dino/dino/issues/1746) | Sync | MAM/Carbon messages lost | ✅ FIXED |
+| ⚠️ P1 | [#1779](https://github.com/dino/dino/issues/1779) | UX | Long messages truncated/unreadable | ✅ FIXED |
 
 > **Note**: Issue [#1784](https://github.com/dino/dino/issues/1784) (database crash on long messages) was already fixed in upstream commit [d625058d](https://github.com/dino/dino/commit/d625058d) (Sept 2025). Database schema v30 uses TEXT columns supporting unlimited message size.
 
 **Files Modified**:
 - ✅ `libdino/src/service/file_manager.vala` - Stream cleanup on error (issue #1764)
 - ✅ `libdino/src/service/history_sync.vala` - MAM stanza cleanup on error (issue #1766)
-- 🔴 `libdino/src/service/message_processor.vala` - Message sync (issue #1746)
-- 🔴 `main/src/ui/conversation_view/message_widget.vala` - Long message display (issue #1779)
+- ✅ `xmpp-vala/src/module/xep/0059_result_set_management.vala` - Page size 20→200 (issue #1746)
+- ✅ `main/src/ui/conversation_content_view/message_widget.vala` - Limit 10k→100k chars (issue #1779)
 
-**Estimated Time**: 2-3 weeks  
-**Target Release**: End of January 2026
+**Status**: ✅ **COMPLETED** (November 19, 2025)  
+**Time Spent**: 1 day  
+**Commits**: `b65d6b72`, `65b8f47e`, `c3024d71`
 
 ---
 
