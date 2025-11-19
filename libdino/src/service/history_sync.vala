@@ -396,6 +396,11 @@ public class Dino.HistorySync {
 
         if (query_result.malformed || query_result.error) {
             page_result = PageResult.Error;
+            // Clean up stanzas to prevent memory leak on query error
+            string query_id = query_params.query_id;
+            if (stanzas.has_key(query_id)) {
+                stanzas.unset(query_id);
+            }
         }
 
         // We wait until all the messages from the page are processed (and we got the `mam_times` from them)
