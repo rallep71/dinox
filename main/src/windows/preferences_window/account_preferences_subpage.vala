@@ -21,6 +21,8 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
     [GtkChild] public unowned Widget button_container;
     [GtkChild] public unowned Button remove_account_button;
     [GtkChild] public unowned Button disable_account_button;
+    [GtkChild] public unowned Adw.EntryRow custom_host_entry;
+    [GtkChild] public unowned Adw.EntryRow custom_port_entry;
 
     public Account account { get { return model.selected_account.account; } }
     public ViewModel.PreferencesDialog model { get; set; }
@@ -80,6 +82,19 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
                 local_alias.text = account.alias ?? "";
                 alias_entry_changed = local_alias.changed.connect(() => {
                     account.alias = local_alias.text;
+                });
+
+                // Populate and bind custom host/port fields
+                custom_host_entry.text = account.custom_host ?? "";
+                custom_port_entry.text = account.custom_port > 0 ? account.custom_port.to_string() : "";
+                
+                custom_host_entry.changed.connect(() => {
+                    account.custom_host = custom_host_entry.text.length > 0 ? custom_host_entry.text : null;
+                });
+                
+                custom_port_entry.changed.connect(() => {
+                    int port = int.parse(custom_port_entry.text);
+                    account.custom_port = (port > 0 && port <= 65535) ? port : 0;
                 });
 
                 bindings += account.bind_property("enabled", disable_account_button, "label", BindingFlags.SYNC_CREATE, (binding, from, ref to) => {

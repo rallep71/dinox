@@ -138,7 +138,6 @@ public class AddAccountDialog : Adw.Dialog {
         }
         password_entry.text = "";
         password_group.visible = false;
-        advanced_group.visible = false;
         custom_host_entry.text = "";
         custom_port_entry.text = "";
         sign_in_serverlist_button.visible = true;
@@ -250,23 +249,30 @@ public class AddAccountDialog : Adw.Dialog {
                     show_success(account);
                 }
             } else {
-                // Only JID field was visible: Check if server exists
-                Register.ServerAvailabilityReturn server_status = yield Register.check_server_availability(login_jid);
-                sign_in_continue_spinner.visible = false;
-                sign_in_continue_button.sensitive = true;
-                if (server_status.available) {
-                    password_group.visible = true;
-                    advanced_group.visible = true;
-                    password_entry.grab_focus();
-                    sign_in_serverlist_button.visible = false;
-                } else {
-                    if (server_status.error_flags != null) {
-                        show_tls_error(login_jid.domainpart, server_status.error_flags);
-                    } else {
-                        sign_in_error_label.visible = true;
-                        sign_in_error_label.label = _("Could not connect to %s").printf(login_jid.domainpart);
+                // Only JID field was visible: Check if server exists (skip if custom host set)
+                bool has_custom_host = custom_host_entry.text.length > 0;
+                
+                if (!has_custom_host) {
+                    Register.ServerAvailabilityReturn server_status = yield Register.check_server_availability(login_jid);
+                    sign_in_continue_spinner.visible = false;
+                    sign_in_continue_button.sensitive = true;
+                    if (!server_status.available) {
+                        if (server_status.error_flags != null) {
+                            show_tls_error(login_jid.domainpart, server_status.error_flags);
+                        } else {
+                            sign_in_error_label.visible = true;
+                            sign_in_error_label.label = _("Could not connect to %s").printf(login_jid.domainpart);
+                        }
+                        return;
                     }
                 }
+                
+                // Show password field (server OK or custom host set)
+                sign_in_continue_spinner.visible = false;
+                sign_in_continue_button.sensitive = true;
+                password_group.visible = true;
+                password_entry.grab_focus();
+                sign_in_serverlist_button.visible = false;
             }
         } catch (InvalidJidError e) {
             warning("Invalid address from interface allowed login: %s", e.message);

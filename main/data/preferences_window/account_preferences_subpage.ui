@@ -117,6 +117,22 @@
                       </object>
                     </child>
                     <child>
+                      <object class="AdwPreferencesGroup">
+                        <property name="title" translatable="yes">Advanced Settings</property>
+                        <property name="description" translatable="yes">Custom server connection (leave empty for automatic)</property>
+                        <child>
+                          <object class="AdwEntryRow" id="custom_host_entry">
+                            <property name="title" translatable="yes">Server Hostname</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwEntryRow" id="custom_port_entry">
+                            <property name="title" translatable="yes">Port</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
                       <object class="GtkBox" id="button_container">
                         <property name="halign">center</property>
                         <property name="spacing">24</property>
