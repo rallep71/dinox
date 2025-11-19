@@ -1427,3 +1427,27 @@ msgstr "Scorciatoie da tastiera"
 
 #~ msgid "Add Chat"
 #~ msgstr "Aggiungi conversazione"
+
+# Custom host/port feature (Issue #115)
+#: main/data/preferences_window/add_account_dialog.ui:58
+#: main/data/preferences_window/account_preferences_subpage.ui:121
+msgid "Advanced Settings"
+msgstr "Impostazioni avanzate"
+
+#: main/data/preferences_window/add_account_dialog.ui:59
+msgid "Optional: Custom server connection"
+msgstr "Opzionale: Connessione server personalizzata"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:122
+msgid "Custom server connection (leave empty for automatic)"
+msgstr "Connessione server personalizzata (lasciare vuoto per automatico)"
+
+#: main/data/preferences_window/add_account_dialog.ui:62
+#: main/data/preferences_window/account_preferences_subpage.ui:125
+msgid "Server Hostname"
+msgstr "Nome host del server"
+
+#: main/data/preferences_window/add_account_dialog.ui:68
+#: main/data/preferences_window/account_preferences_subpage.ui:130
+msgid "Port"
+msgstr "Porta"

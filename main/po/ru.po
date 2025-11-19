@@ -1411,3 +1411,27 @@ msgstr "Комбинации клавиш"
 
 #~ msgid "Start Chat"
 #~ msgstr "Начать чат"
+
+# Custom host/port feature (Issue #115)
+#: main/data/preferences_window/add_account_dialog.ui:58
+#: main/data/preferences_window/account_preferences_subpage.ui:121
+msgid "Advanced Settings"
+msgstr "Дополнительные настройки"
+
+#: main/data/preferences_window/add_account_dialog.ui:59
+msgid "Optional: Custom server connection"
+msgstr "Необязательно: Пользовательское подключение к серверу"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:122
+msgid "Custom server connection (leave empty for automatic)"
+msgstr "Пользовательское подключение к серверу (оставьте пустым для автоматического)"
+
+#: main/data/preferences_window/add_account_dialog.ui:62
+#: main/data/preferences_window/account_preferences_subpage.ui:125
+msgid "Server Hostname"
+msgstr "Имя хоста сервера"
+
+#: main/data/preferences_window/add_account_dialog.ui:68
+#: main/data/preferences_window/account_preferences_subpage.ui:130
+msgid "Port"
+msgstr "Порт"

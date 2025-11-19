@@ -1413,3 +1413,27 @@ msgstr "Skróty klawiszowe"
 
 #~ msgid "Start Chat"
 #~ msgstr "Rozpocznij rozmowę"
+
+# Custom host/port feature (Issue #115)
+#: main/data/preferences_window/add_account_dialog.ui:58
+#: main/data/preferences_window/account_preferences_subpage.ui:121
+msgid "Advanced Settings"
+msgstr "Ustawienia zaawansowane"
+
+#: main/data/preferences_window/add_account_dialog.ui:59
+msgid "Optional: Custom server connection"
+msgstr "Opcjonalnie: Niestandardowe połączenie z serwerem"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:122
+msgid "Custom server connection (leave empty for automatic)"
+msgstr "Niestandardowe połączenie z serwerem (pozostaw puste dla automatycznego)"
+
+#: main/data/preferences_window/add_account_dialog.ui:62
+#: main/data/preferences_window/account_preferences_subpage.ui:125
+msgid "Server Hostname"
+msgstr "Nazwa hosta serwera"
+
+#: main/data/preferences_window/add_account_dialog.ui:68
+#: main/data/preferences_window/account_preferences_subpage.ui:130
+msgid "Port"
+msgstr "Port"

@@ -30,6 +30,8 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
     private Binding[] bindings = new Binding[0];
     private ulong[] account_notify_ids = new ulong[0];
     private ulong alias_entry_changed = 0;
+    private ulong custom_host_entry_changed = 0;
+    private ulong custom_port_entry_changed = 0;
 
     construct {
         title = "Account";
@@ -85,14 +87,17 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
                 });
 
                 // Populate and bind custom host/port fields
+                if (custom_host_entry_changed != 0) custom_host_entry.disconnect(custom_host_entry_changed);
+                if (custom_port_entry_changed != 0) custom_port_entry.disconnect(custom_port_entry_changed);
+                
                 custom_host_entry.text = account.custom_host ?? "";
                 custom_port_entry.text = account.custom_port > 0 ? account.custom_port.to_string() : "";
                 
-                custom_host_entry.changed.connect(() => {
+                custom_host_entry_changed = custom_host_entry.changed.connect(() => {
                     account.custom_host = custom_host_entry.text.length > 0 ? custom_host_entry.text : null;
                 });
                 
-                custom_port_entry.changed.connect(() => {
+                custom_port_entry_changed = custom_port_entry.changed.connect(() => {
                     int port = int.parse(custom_port_entry.text);
                     account.custom_port = (port > 0 && port <= 65535) ? port : 0;
                 });
