@@ -68,39 +68,105 @@ This fork addresses the slow development pace of the original Dino XMPP client w
 
 ---
 
-### 🟡 Phase 2: UX Polish (Q1-Q2 2026 - v0.7.0)
+### 🟡 Phase 2: Critical Bug Fixes Round 2 (Q1 2026 - v0.6.1)
 
-**Goal**: Smooth, modern chat experience
+**Goal**: Fix remaining P0/P1 stability issues
 
-| Priority | Issue | Feature | User Impact | Status |
-|----------|-------|---------|-------------|--------|
-| 📱 UX | [#1769](https://github.com/dino/dino/issues/1769) | Chat Scroll | Conversation jumps annoyingly | 🟡 TODO |
-| 🎨 UX | [#1752](https://github.com/dino/dino/issues/1752) | Dark Mode | Requires app restart | 🟡 TODO |
-| 📎 UX | [#1796](https://github.com/dino/dino/issues/1796) | File Sending | Encryption change required | 🟡 TODO |
-| 🔔 UX | [#1787](https://github.com/dino/dino/issues/1787) | Notifications | Better desktop integration | 🟡 TODO |
+| Priority | Issue | Component | Impact | Complexity | Status |
+|----------|-------|-----------|--------|------------|--------|
+| 🔥 P0 | [#440](https://github.com/dino/dino/issues/440) | OMEMO | Offline messages unreadable | Hard | 🔴 TODO |
+| 🔥 P0 | [#752](https://github.com/dino/dino/issues/752) | File Transfer | Cannot send files with OMEMO | Medium | 🔴 TODO |
+| 🔥 P0 | [#1271](https://github.com/dino/dino/issues/1271) | Calls | Stuck connecting with Conversations | Medium | 🔴 TODO |
+| ⚠️ P1 | [#1559](https://github.com/dino/dino/issues/1559) | Calls | Echo cancellation broken | Hard | 🔴 TODO |
+| ⚠️ P1 | [#57](https://github.com/dino/dino/issues/57) | Security | Self-signed certs rejected | Medium | 🔴 TODO |
 
 **Files to Modify**:
-- `main/src/ui/conversation_view/conversation_view.vala` - Scroll behavior
-- `main/src/ui/application.vala` - Dark mode live switching
-- `main/src/ui/conversation_content_view/chat_input.vala` - File encryption UX
-- `libdino/src/service/notification_events.vala` - Notification handling
+- `plugins/omemo/src/file_encryptor.vala` - OMEMO file encryption
+- `plugins/omemo/src/message_encryptor.vala` - Offline message handling
+- `plugins/rtp/src/device/` - Echo cancellation
+- `xmpp-vala/src/core/` - Certificate validation
 
-**Estimated Time**: 3-4 weeks  
+**Estimated Time**: 2-3 weeks  
+**Target Release**: End of December 2025
+
+---
+
+### 🟢 Phase 3: Top User-Requested Features (Q1-Q2 2026 - v0.7.0)
+
+**Goal**: Implement most-wanted features (100+ reactions each!)
+
+| Priority | Issue | Feature | Reactions | Complexity | Status |
+|----------|-------|---------|-----------|------------|--------|
+| ⭐ Feature | [#98](https://github.com/dino/dino/issues/98) | Systray Support | 108 👍 | Medium | 🟢 TODO |
+| ⭐ Feature | [#299](https://github.com/dino/dino/issues/299) | Background Mode | 54 👍 | Medium | 🟢 TODO |
+| ⭐ Feature | [#115](https://github.com/dino/dino/issues/115) | Custom Host/Port | 26 👍 | Easy | 🟢 TODO |
+| 🎨 UX | [#1796](https://github.com/dino/dino/issues/1796) | File Button Bug | - | Easy | 🟢 TODO |
+| 🎨 UX | [#1380](https://github.com/dino/dino/issues/1380) | Spell Checking | - | Medium | 🟢 TODO |
+
+**Files to Create/Modify**:
+- `main/src/ui/systray.vala` - System tray implementation
+- `main/src/ui/application.vala` - Background mode
+- `main/src/ui/add_conversation/server_jid_dialog.vala` - Custom server config
+- GTK4 spell checking integration
+
+**Estimated Time**: 4-5 weeks  
+**Target Release**: End of February 2026
+
+---
+
+### 🔵 Phase 4: Privacy & History Management (Q2 2026 - v0.8.0)
+
+**Goal**: User control over data and privacy
+
+| Priority | Issue | Feature | Why Important | Status |
+|----------|-------|---------|---------------|--------|
+| 🔐 Privacy | [#67](https://github.com/dino/dino/issues/67) | Auto-delete History | Limit retention (e.g., 7 days) | 🔵 TODO |
+| 🔐 Privacy | [#472](https://github.com/dino/dino/issues/472) | Delete Conversation | Clear history without ending chat | 🔵 TODO |
+| 🔐 Privacy | [#1317](https://github.com/dino/dino/issues/1317) | Blocking Fix | Blocked contacts still send messages | 🔵 TODO |
+
+**Files to Modify**:
+- `libdino/src/service/database.vala` - History cleanup
+- `main/src/ui/conversation_selector/conversation_row.vala` - Delete UI
+- `xmpp-vala/src/module/xep/0191_blocking_command.vala` - Blocking
+
+**Estimated Time**: 2-3 weeks  
 **Target Release**: End of March 2026
 
 ---
 
-### 🟢 Phase 3: Feature Completeness (Q2 2026 - v0.8.0)
+### 🟣 Phase 5: UX Polish & Minor Bugs (Q2 2026 - v0.8.5)
+
+**Goal**: Smooth, polished experience
+
+| Priority | Issue | Feature | User Impact | Status |
+|----------|-------|---------|-------------|--------|
+| 📱 UX | [#1769](https://github.com/dino/dino/issues/1769) | Chat Scroll | Conversation jumps annoyingly | 🟣 TODO |
+| 🎨 UX | [#1752](https://github.com/dino/dino/issues/1752) | Dark Mode | Requires app restart | 🟣 TODO |
+| 🔔 UX | [#1787](https://github.com/dino/dino/issues/1787) | Notifications | Better desktop integration | 🟣 TODO |
+| 😀 Feature | [#1776](https://github.com/dino/dino/issues/1776) | Emoji Reactions | Compatibility with Conversations | 🟣 TODO |
+
+**Files to Modify**:
+- `main/src/ui/conversation_view/conversation_view.vala` - Scroll behavior
+- `main/src/ui/application.vala` - Dark mode live switching
+- `libdino/src/service/notification_events.vala` - Notification handling
+- `xmpp-vala/src/module/xep/0444_reactions.vala` - XEP-0444 update
+
+**Estimated Time**: 3-4 weeks  
+**Target Release**: End of April 2026
+
+---
+
+### 🔷 Phase 6: XEP Standards & Modern Features (Q3 2026 - v0.9.0)
 
 **Goal**: Support latest XMPP standards
 
 | Priority | XEP | Feature | Why Important | Status |
 |----------|-----|---------|---------------|--------|
-| 🆕 Feature | XEP-0388 | SASL2/FAST Auth | Modern servers require it | 🟢 TODO |
-| 🆕 Feature | XEP-0357 | Push Notifications | Battery efficiency | 🟢 TODO |
-| 🎨 Feature | XEP-0449 | Stickers | User expectation in 2025 | 🟢 TODO |
-| 🔧 Feature | - | Export/Import | Data portability | 🟢 TODO |
-| 🔧 Feature | - | Multi-Profile | Multiple accounts | 🟢 TODO |
+| 🆕 Feature | XEP-0388 | SASL2/FAST Auth | Modern servers require it | 🔷 TODO |
+| 🆕 Feature | XEP-0357 | Push Notifications | Battery efficiency | 🔷 TODO |
+| 🎨 Feature | XEP-0449 | Stickers | User expectation in 2025 | 🔷 TODO |
+| 🔧 Feature | - | Export/Import | Data portability | 🔷 TODO |
+| 🔧 Feature | - | Multi-Profile | Multiple accounts | 🔷 TODO |
 
 **New Files to Create**:
 - `xmpp-vala/src/module/xep/0388_sasl2.vala`
@@ -110,32 +176,34 @@ This fork addresses the slow development pace of the original Dino XMPP client w
 - UI components in `main/src/ui/stickers/`
 
 **Estimated Time**: 6-8 weeks  
-**Target Release**: End of May 2026
+**Target Release**: End of June 2026
 
 ---
 
-### 🏗️ Phase 4: Technical Debt (Q3 2026 - v0.9.0)
+### 🏗️ Phase 7: Technical Debt & Platform Support (Q3 2026 - v0.9.5)
 
-**Goal**: Clean, maintainable codebase
+**Goal**: Clean codebase + Platform expansion
 
 | Task | Component | Problem | Solution | Status |
 |------|-----------|---------|----------|--------|
-| 🗄️ Refactor | Database | v30 schema, no tests | Migration test suite | 🔵 TODO |
-| 🔔 Refactor | Notifications | Duplicate code (2 files) | Unified backend | 🔵 TODO |
-| 📁 Refactor | File Transfer | 400+ line state machine | Separate providers | 🔵 TODO |
-| ⚠️ Refactor | Error Handling | 10+ error domains | Unified DinoError | 🔵 TODO |
+| 🗄️ Refactor | Database | v30 schema, no tests | Migration test suite | 🏗️ TODO |
+| 🔔 Refactor | Notifications | Duplicate code (2 files) | Unified backend | 🏗️ TODO |
+| 📁 Refactor | File Transfer | 400+ line state machine | Separate providers | 🏗️ TODO |
+| ⚠️ Refactor | Error Handling | 10+ error domains | Unified DinoError | 🏗️ TODO |
+| 🪟 Platform | [#309](https://github.com/dino/dino/issues/309) | Windows Support | Native Windows port | 🏗️ TODO |
 
 **Benefits**:
 - Easier onboarding for new contributors
 - Fewer bugs from code duplication
 - Faster feature development
+- Windows user base expansion
 
-**Estimated Time**: 4-6 weeks  
+**Estimated Time**: 8-10 weeks (incl. Windows port)  
 **Target Release**: End of August 2026
 
 ---
 
-### 🎉 Phase 5: 1.0 Stable (Q4 2026 - v1.0.0)
+### 🎉 Phase 8: 1.0 Stable Release (Q4 2026 - v1.0.0)
 
 **Goal**: Production-ready, stable API
 
@@ -147,7 +215,45 @@ This fork addresses the slow development pace of the original Dino XMPP client w
 - ✅ Performance benchmarks established
 - ✅ Accessibility audit passed
 
-**Target Release**: December 2026
+**Target Release**: October 2026
+
+---
+
+## 📊 Issue Backlog (568 Remaining Issues)
+
+### Overview by Category
+
+| Category | Count | Top Priority Issues |
+|----------|-------|---------------------|
+| 🐛 **Bugs** | ~200 | Crashes, data loss, broken features |
+| ✨ **Features** | ~250 | UX improvements, new capabilities |
+| 📡 **XEPs** | ~50 | Protocol updates, standards compliance |
+| 🎨 **UI/UX** | ~40 | Interface polish, accessibility |
+| 📱 **Platform** | ~15 | Windows, mobile, packaging |
+| 🔐 **Security** | ~13 | Encryption, certificates, privacy |
+
+**Total Upstream Issues**: 572  
+**Fixed by us**: 4 (Phase 1)  
+**Remaining**: 568
+
+### Prioritization Strategy
+
+1. **P0 (Critical)**: Crashes, data loss, security → Phases 1-2
+2. **P1 (High)**: Broken features, major UX → Phases 2-3
+3. **P2 (Medium)**: Minor bugs, nice features → Phases 4-5
+4. **P3 (Low)**: Edge cases, enhancements → Phases 6-8
+
+### Issue Tracking
+
+We'll progressively add issues to phases as we work through them:
+- ✅ Phase 1: Completed (4/4 issues)
+- 🎯 Phase 2: Defined (5 issues)
+- 🎯 Phase 3: Defined (5 issues)
+- 🎯 Phase 4: Defined (3 issues)
+- 🎯 Phase 5: Defined (4 issues)
+- 📋 Phases 6-8: High-level goals, detailed issues TBD
+
+**Approach**: Fix bugs systematically, implement popular features, then polish for 1.0
 
 ---
 
