@@ -1,7 +1,7 @@
 # 🚀 Dino Extended - Development Plan
 
 > **Fork Status**: Independent development branch of [dino/dino](https://github.com/dino/dino)  
-> **Last Updated**: November 19, 2025  
+> **Last Updated**: November 20, 2025  
 > **Version**: 0.5.0-extended  
 > **Original Repository**: https://github.com/dino/dino (572 open issues)
 
@@ -34,8 +34,8 @@ This fork addresses the slow development pace of the original Dino XMPP client w
 |--------|--------|---------|
 | **XEPs Implemented** | ✅ 60+ | One of most compliant XMPP clients |
 | **Open Upstream Issues** | ⚠️ 572 | We'll prioritize top 50 critical ones |
-| **Database Schema** | ✅ v30 | Modern, supports unlimited message size |
-| **Memory Leaks** | 🔴 Active | Issue #1766 - MAM history not freed |
+| **Database Schema** | ✅ v31 | Modern, unlimited messages + custom server |
+| **Memory Leaks** | ✅ Fixed | Issue #1766 - MAM cleanup implemented |
 | **Tech Stack** | ✅ Modern | GTK4, libadwaita 1.5, Meson, Vala |
 | **Platform Support** | ⚠️ Linux Only | Desktop focus (GNOME/KDE) |
 
@@ -99,17 +99,25 @@ This fork addresses the slow development pace of the original Dino XMPP client w
 |----------|-------|---------|-----------|------------|--------|
 | ⭐ Feature | [#98](https://github.com/dino/dino/issues/98) | Systray Support | 108 👍 | Medium | 🟢 TODO |
 | ⭐ Feature | [#299](https://github.com/dino/dino/issues/299) | Background Mode | 54 👍 | Medium | 🟢 TODO |
-| ⭐ Feature | [#115](https://github.com/dino/dino/issues/115) | Custom Host/Port | 26 👍 | Easy | 🟢 TODO |
+| ⭐ Feature | [#115](https://github.com/dino/dino/issues/115) | Custom Host/Port | 26 👍 | Easy | ✅ DONE |
 | 🎨 UX | [#1796](https://github.com/dino/dino/issues/1796) | File Button Bug | - | Easy | 🟢 TODO |
 | 🎨 UX | [#1380](https://github.com/dino/dino/issues/1380) | Spell Checking | - | Medium | 🟢 TODO |
 
-**Files to Create/Modify**:
+**Files Created/Modified** (Issue #115):
+- ✅ `libdino/src/entity/account.vala` - Added custom_host, custom_port fields
+- ✅ `libdino/src/service/database.vala` - Schema v31, new columns
+- ✅ `xmpp-vala/src/core/stream_connect.vala` - Optional host/port, skip SRV
+- ✅ `libdino/src/service/connection_manager.vala` - Pass custom params
+- ✅ `main/data/preferences_window/add_account_dialog.ui` - Advanced Settings UI
+- ✅ `main/src/windows/preferences_window/add_account_dialog.vala` - Logic
+
+**Files to Create/Modify** (Remaining):
 - `main/src/ui/systray.vala` - System tray implementation
 - `main/src/ui/application.vala` - Background mode
-- `main/src/ui/add_conversation/server_jid_dialog.vala` - Custom server config
 - GTK4 spell checking integration
 
 **Estimated Time**: 4-5 weeks  
+**Time Spent**: 1 hour (Issue #115)  
 **Target Release**: End of February 2026
 
 ---
@@ -233,8 +241,8 @@ This fork addresses the slow development pace of the original Dino XMPP client w
 | 🔐 **Security** | ~13 | Encryption, certificates, privacy |
 
 **Total Upstream Issues**: 572  
-**Fixed by us**: 4 (Phase 1)  
-**Remaining**: 568
+**Fixed by us**: 5 (Phase 1: 4, Phase 3: 1)  
+**Remaining**: 567
 
 ### Prioritization Strategy
 
@@ -329,6 +337,6 @@ See [LICENSE](LICENSE) for full text.
 
 ---
 
-**Last Updated**: November 19, 2025  
+**Last Updated**: November 20, 2025  
 **Maintainer**: @rallep71  
 **Status**: 🟢 Active Development
