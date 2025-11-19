@@ -127,6 +127,14 @@ public class FileManager : StreamInteractionModule, Object {
                             }
                         }
                         if (file_encryptor != null) {
+                            // Check if this sender is compatible with Jingle (sender_id=1)
+                            // OMEMO file encryption produces HttpFileMeta which is incompatible with Jingle
+                            if (sender.get_id() == 1 && file_transfer.encryption == Encryption.OMEMO) {
+                                // Skip Jingle sender for OMEMO encrypted files - they require HTTP Upload
+                                debug("Skipping Jingle sender for OMEMO encrypted files");
+                                file_encryptor = null;
+                                continue;
+                            }
                             file_sender = sender;
                             break;
                         }
