@@ -406,8 +406,6 @@ public class Dino.Reactions : StreamInteractionModule, Object {
     private void save_muc_reactions(Account account, int content_item_id, Jid jid, string? occupant_id, Jid? real_jid, int64 reaction_time, Gee.List<string> reactions) {
         assert(occupant_id != null || real_jid != null);
 
-        int jid_id = db.get_jid_id(jid);
-
         var emoji_builder = new StringBuilder();
         for (int i = 0; i < reactions.size; i++) {
             if (i != 0) emoji_builder.append(",");

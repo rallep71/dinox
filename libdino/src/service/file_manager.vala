@@ -166,6 +166,15 @@ public class FileManager : StreamInteractionModule, Object {
         } catch (Error e) {
             warning("Send file error: %s", e.message);
             file_transfer.state = FileTransfer.State.FAILED;
+            
+            // Clean up the input stream to prevent segfault (fixes #1764)
+            if (file_transfer.input_stream != null) {
+                try {
+                    yield file_transfer.input_stream.close_async();
+                } catch (Error close_error) {
+                    debug("Failed to close input stream: %s", close_error.message);
+                }
+            }
         }
     }
 

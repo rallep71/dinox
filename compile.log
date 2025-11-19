@@ -1,0 +1,1395 @@
+ninja: Entering directory `/media/linux/SSD128/xmpp/build'
+[1/540] Building translation main/po/cs/LC_MESSAGES/dino-cs.mo
+[2/540] Building translation main/po/ar/LC_MESSAGES/dino-ar.mo
+[3/540] Building translation main/po/ca/LC_MESSAGES/dino-ca.mo
+[4/540] Building translation main/po/da/LC_MESSAGES/dino-da.mo
+[5/540] Building translation main/po/el/LC_MESSAGES/dino-el.mo
+[6/540] Building translation main/po/de/LC_MESSAGES/dino-de.mo
+[7/540] Building translation main/po/en/LC_MESSAGES/dino-en.mo
+[8/540] Building translation main/po/es/LC_MESSAGES/dino-es.mo
+[9/540] Building translation main/po/eu/LC_MESSAGES/dino-eu.mo
+[10/540] Building translation main/po/et/LC_MESSAGES/dino-et.mo
+[11/540] Building translation main/po/eo/LC_MESSAGES/dino-eo.mo
+[12/540] Building translation main/po/fa/LC_MESSAGES/dino-fa.mo
+[13/540] Building translation main/po/fi/LC_MESSAGES/dino-fi.mo
+[14/540] Building translation main/po/fr/LC_MESSAGES/dino-fr.mo
+[15/540] Building translation main/po/gl/LC_MESSAGES/dino-gl.mo
+[16/540] Building translation main/po/hi/LC_MESSAGES/dino-hi.mo
+[17/540] Building translation main/po/hy/LC_MESSAGES/dino-hy.mo
+[18/540] Building translation main/po/hu/LC_MESSAGES/dino-hu.mo
+[19/540] Building translation main/po/ia/LC_MESSAGES/dino-ia.mo
+[20/540] Building translation main/po/id/LC_MESSAGES/dino-id.mo
+[21/540] Building translation main/po/ie/LC_MESSAGES/dino-ie.mo
+[22/540] Building translation main/po/is/LC_MESSAGES/dino-is.mo
+[23/540] Building translation main/po/it/LC_MESSAGES/dino-it.mo
+[24/540] Building translation main/po/ja/LC_MESSAGES/dino-ja.mo
+[25/540] Building translation main/po/kab/LC_MESSAGES/dino-kab.mo
+[26/540] Building translation main/po/ko/LC_MESSAGES/dino-ko.mo
+[27/540] Building translation main/po/lb/LC_MESSAGES/dino-lb.mo
+[28/540] Building translation main/po/lt/LC_MESSAGES/dino-lt.mo
+[29/540] Generating libdino/version.vala with a custom command
+fatal: Keine Namen gefunden, kann nichts beschreiben.
+[30/540] Building translation main/po/lv/LC_MESSAGES/dino-lv.mo
+[31/540] Building translation main/po/nb/LC_MESSAGES/dino-nb.mo
+[32/540] Building translation main/po/nl/LC_MESSAGES/dino-nl.mo
+[33/540] Building translation main/po/oc/LC_MESSAGES/dino-oc.mo
+[34/540] Building translation main/po/pl/LC_MESSAGES/dino-pl.mo
+[35/540] Building translation main/po/pt/LC_MESSAGES/dino-pt.mo
+[36/540] Building translation main/po/pt_BR/LC_MESSAGES/dino-pt_BR.mo
+[37/540] Building translation main/po/ro/LC_MESSAGES/dino-ro.mo
+[38/540] Building translation main/po/ru/LC_MESSAGES/dino-ru.mo
+[39/540] Building translation main/po/si/LC_MESSAGES/dino-si.mo
+[40/540] Building translation main/po/sq/LC_MESSAGES/dino-sq.mo
+[41/540] Building translation main/po/sv/LC_MESSAGES/dino-sv.mo
+[42/540] Building translation main/po/th/LC_MESSAGES/dino-th.mo
+[43/540] Building translation main/po/tr/LC_MESSAGES/dino-tr.mo
+[44/540] Building translation main/po/ta/LC_MESSAGES/dino-ta.mo
+[45/540] Building translation main/po/uk/LC_MESSAGES/dino-uk.mo
+[46/540] Building translation main/po/zh_TW/LC_MESSAGES/dino-zh_TW.mo
+[47/540] Building translation main/po/vi/LC_MESSAGES/dino-vi.mo
+[48/540] Building translation main/po/zh_CN/LC_MESSAGES/dino-zh_CN.mo
+[49/540] Generating main/resources_h with a custom command
+[50/540] Building translation plugins/omemo/po/ar/LC_MESSAGES/dino-omemo-ar.mo
+[51/540] Building translation plugins/omemo/po/ca/LC_MESSAGES/dino-omemo-ca.mo
+[52/540] Building translation plugins/omemo/po/cs/LC_MESSAGES/dino-omemo-cs.mo
+[53/540] Building translation plugins/omemo/po/da/LC_MESSAGES/dino-omemo-da.mo
+[54/540] Building translation plugins/omemo/po/de/LC_MESSAGES/dino-omemo-de.mo
+[55/540] Building translation plugins/omemo/po/el/LC_MESSAGES/dino-omemo-el.mo
+[56/540] Building translation plugins/omemo/po/en/LC_MESSAGES/dino-omemo-en.mo
+[57/540] Building translation plugins/omemo/po/es/LC_MESSAGES/dino-omemo-es.mo
+[58/540] Generating main/resources_c with a custom command
+[59/540] Building translation plugins/omemo/po/eo/LC_MESSAGES/dino-omemo-eo.mo
+[60/540] Building translation plugins/omemo/po/et/LC_MESSAGES/dino-omemo-et.mo
+[61/540] Building translation plugins/omemo/po/eu/LC_MESSAGES/dino-omemo-eu.mo
+[62/540] Building translation plugins/omemo/po/fi/LC_MESSAGES/dino-omemo-fi.mo
+[63/540] Building translation plugins/omemo/po/fa/LC_MESSAGES/dino-omemo-fa.mo
+[64/540] Building translation plugins/omemo/po/fr/LC_MESSAGES/dino-omemo-fr.mo
+[65/540] Building translation plugins/omemo/po/hi/LC_MESSAGES/dino-omemo-hi.mo
+[66/540] Building translation plugins/omemo/po/gl/LC_MESSAGES/dino-omemo-gl.mo
+[67/540] Building translation plugins/omemo/po/hu/LC_MESSAGES/dino-omemo-hu.mo
+[68/540] Building translation plugins/omemo/po/id/LC_MESSAGES/dino-omemo-id.mo
+[69/540] Building translation plugins/omemo/po/ie/LC_MESSAGES/dino-omemo-ie.mo
+[70/540] Building translation plugins/omemo/po/ja/LC_MESSAGES/dino-omemo-ja.mo
+[71/540] Building translation plugins/omemo/po/it/LC_MESSAGES/dino-omemo-it.mo
+[72/540] Building translation plugins/omemo/po/kab/LC_MESSAGES/dino-omemo-kab.mo
+[73/540] Building translation plugins/omemo/po/lt/LC_MESSAGES/dino-omemo-lt.mo
+[74/540] Building translation plugins/omemo/po/lb/LC_MESSAGES/dino-omemo-lb.mo
+[75/540] Building translation plugins/omemo/po/nb/LC_MESSAGES/dino-omemo-nb.mo
+[76/540] Building translation plugins/omemo/po/nl/LC_MESSAGES/dino-omemo-nl.mo
+[77/540] Building translation plugins/omemo/po/oc/LC_MESSAGES/dino-omemo-oc.mo
+[78/540] Building translation plugins/omemo/po/pl/LC_MESSAGES/dino-omemo-pl.mo
+[79/540] Building translation plugins/omemo/po/pt/LC_MESSAGES/dino-omemo-pt.mo
+[80/540] Building translation plugins/omemo/po/pt_BR/LC_MESSAGES/dino-omemo-pt_BR.mo
+[81/540] Building translation plugins/omemo/po/sq/LC_MESSAGES/dino-omemo-sq.mo
+[82/540] Building translation plugins/omemo/po/ru/LC_MESSAGES/dino-omemo-ru.mo
+[83/540] Building translation plugins/omemo/po/ro/LC_MESSAGES/dino-omemo-ro.mo
+[84/540] Building translation plugins/omemo/po/sv/LC_MESSAGES/dino-omemo-sv.mo
+[85/540] Building translation plugins/omemo/po/ta/LC_MESSAGES/dino-omemo-ta.mo
+[86/540] Building translation plugins/omemo/po/th/LC_MESSAGES/dino-omemo-th.mo
+[87/540] Building translation plugins/omemo/po/tr/LC_MESSAGES/dino-omemo-tr.mo
+[88/540] Building translation plugins/omemo/po/uk/LC_MESSAGES/dino-omemo-uk.mo
+[89/540] Building translation plugins/omemo/po/vi/LC_MESSAGES/dino-omemo-vi.mo
+[90/540] Building translation plugins/omemo/po/zh_CN/LC_MESSAGES/dino-omemo-zh_CN.mo
+[91/540] Building translation plugins/omemo/po/zh_TW/LC_MESSAGES/dino-omemo-zh_TW.mo
+[92/540] Generating plugins/omemo/resources_h with a custom command
+[93/540] Building translation plugins/openpgp/po/ar/LC_MESSAGES/dino-openpgp-ar.mo
+[94/540] Generating plugins/omemo/resources_c with a custom command
+[95/540] Building translation plugins/openpgp/po/ca/LC_MESSAGES/dino-openpgp-ca.mo
+[96/540] Building translation plugins/openpgp/po/cs/LC_MESSAGES/dino-openpgp-cs.mo
+[97/540] Building translation plugins/openpgp/po/da/LC_MESSAGES/dino-openpgp-da.mo
+[98/540] Building translation plugins/openpgp/po/el/LC_MESSAGES/dino-openpgp-el.mo
+[99/540] Building translation plugins/openpgp/po/en/LC_MESSAGES/dino-openpgp-en.mo
+[100/540] Building translation plugins/openpgp/po/de/LC_MESSAGES/dino-openpgp-de.mo
+[101/540] Building translation plugins/openpgp/po/eo/LC_MESSAGES/dino-openpgp-eo.mo
+[102/540] Building translation plugins/openpgp/po/et/LC_MESSAGES/dino-openpgp-et.mo
+[103/540] Building translation plugins/openpgp/po/es/LC_MESSAGES/dino-openpgp-es.mo
+[104/540] Building translation plugins/openpgp/po/eu/LC_MESSAGES/dino-openpgp-eu.mo
+[105/540] Building translation plugins/openpgp/po/fa/LC_MESSAGES/dino-openpgp-fa.mo
+[106/540] Building translation plugins/openpgp/po/fr/LC_MESSAGES/dino-openpgp-fr.mo
+[107/540] Building translation plugins/openpgp/po/fi/LC_MESSAGES/dino-openpgp-fi.mo
+[108/540] Building translation plugins/openpgp/po/gl/LC_MESSAGES/dino-openpgp-gl.mo
+[109/540] Building translation plugins/openpgp/po/hi/LC_MESSAGES/dino-openpgp-hi.mo
+[110/540] Building translation plugins/openpgp/po/hu/LC_MESSAGES/dino-openpgp-hu.mo
+[111/540] Building translation plugins/openpgp/po/ia/LC_MESSAGES/dino-openpgp-ia.mo
+[112/540] Building translation plugins/openpgp/po/id/LC_MESSAGES/dino-openpgp-id.mo
+[113/540] Building translation plugins/openpgp/po/ie/LC_MESSAGES/dino-openpgp-ie.mo
+[114/540] Building translation plugins/openpgp/po/is/LC_MESSAGES/dino-openpgp-is.mo
+[115/540] Building translation plugins/openpgp/po/it/LC_MESSAGES/dino-openpgp-it.mo
+[116/540] Building translation plugins/openpgp/po/ja/LC_MESSAGES/dino-openpgp-ja.mo
+[117/540] Building translation plugins/openpgp/po/lb/LC_MESSAGES/dino-openpgp-lb.mo
+[118/540] Building translation plugins/openpgp/po/kab/LC_MESSAGES/dino-openpgp-kab.mo
+[119/540] Building translation plugins/openpgp/po/ko/LC_MESSAGES/dino-openpgp-ko.mo
+[120/540] Building translation plugins/openpgp/po/lt/LC_MESSAGES/dino-openpgp-lt.mo
+[121/540] Building translation plugins/openpgp/po/lv/LC_MESSAGES/dino-openpgp-lv.mo
+[122/540] Building translation plugins/openpgp/po/nb/LC_MESSAGES/dino-openpgp-nb.mo
+[123/540] Building translation plugins/openpgp/po/nl/LC_MESSAGES/dino-openpgp-nl.mo
+[124/540] Building translation plugins/openpgp/po/oc/LC_MESSAGES/dino-openpgp-oc.mo
+[125/540] Building translation plugins/openpgp/po/pl/LC_MESSAGES/dino-openpgp-pl.mo
+[126/540] Building translation plugins/openpgp/po/pt/LC_MESSAGES/dino-openpgp-pt.mo
+[127/540] Building translation plugins/openpgp/po/pt_BR/LC_MESSAGES/dino-openpgp-pt_BR.mo
+[128/540] Building translation plugins/openpgp/po/sq/LC_MESSAGES/dino-openpgp-sq.mo
+[129/540] Building translation plugins/openpgp/po/ro/LC_MESSAGES/dino-openpgp-ro.mo
+[130/540] Building translation plugins/openpgp/po/sv/LC_MESSAGES/dino-openpgp-sv.mo
+[131/540] Building translation plugins/openpgp/po/ru/LC_MESSAGES/dino-openpgp-ru.mo
+[132/540] Building translation plugins/openpgp/po/ta/LC_MESSAGES/dino-openpgp-ta.mo
+[133/540] Compiling Vala source ../qlite/src/column.vala ../qlite/src/database.vala ../qlite/src/delete_builder.vala ../qlite/src/insert_builder.vala ../qlite/src/query_builder.vala ../qlite/src/row.vala ../qlite/src/statement_builder.vala ../qlite/src/table.vala ../qlite/src/update_builder.vala ../qlite/src/upsert_builder.vala
+[134/540] Building translation plugins/openpgp/po/th/LC_MESSAGES/dino-openpgp-th.mo
+[135/540] Building translation plugins/openpgp/po/tr/LC_MESSAGES/dino-openpgp-tr.mo
+[136/540] Building translation plugins/openpgp/po/uk/LC_MESSAGES/dino-openpgp-uk.mo
+[137/540] Compiling Vala source ../crypto-vala/src/cipher.vala ../crypto-vala/src/cipher_converter.vala ../crypto-vala/src/error.vala ../crypto-vala/src/random.vala ../crypto-vala/src/srtp.vala
+libgcrypt.vapi:568.5-568.17: warning: Switch does not handle `NONE', `CCM' of enum `GCrypt.Cipher.Mode'
+  568 | 				switch (this) {
+      | 				^~~~~~~~~~~~~  
+../crypto-vala/src/cipher.vala:13.9-13.21: warning: Switch does not handle `NONE', `XTS', `CCM' of enum `GCrypt.Cipher.Mode'
+   13 |         switch (mode) {
+      |         ^~~~~~~~~~~~~  
+libgcrypt.vapi:503.3-503.7: warning: Argument `lower_case_cname' never used
+  503 | 	[CCode (lower_case_cname = "cipher_")]
+      | 	 ^~~~~                                
+Compilation succeeded - 3 warning(s)
+[138/540] Compiling C object qlite/libqlite.so.0.1.p/meson-generated_src_delete_builder.c.o
+[139/540] Compiling C object qlite/libqlite.so.0.1.p/meson-generated_src_insert_builder.c.o
+[140/540] Compiling C object qlite/libqlite.so.0.1.p/meson-generated_src_database.c.o
+[141/540] Compiling C object qlite/libqlite.so.0.1.p/meson-generated_src_query_builder.c.o
+[142/540] Compiling C object qlite/libqlite.so.0.1.p/meson-generated_src_column.c.o
+[143/540] Compiling C object qlite/libqlite.so.0.1.p/meson-generated_src_update_builder.c.o
+[144/540] Compiling C object qlite/libqlite.so.0.1.p/meson-generated_src_upsert_builder.c.o
+[145/540] Compiling C object qlite/libqlite.so.0.1.p/meson-generated_src_table.c.o
+[146/540] Compiling C object qlite/libqlite.so.0.1.p/meson-generated_src_statement_builder.c.o
+[147/540] Compiling C object crypto-vala/libcrypto-vala.so.0.0.p/meson-generated_src_random.c.o
+[148/540] Compiling C object crypto-vala/libcrypto-vala.so.0.0.p/meson-generated_src_cipher_converter.c.o
+[149/540] Building translation plugins/openpgp/po/vi/LC_MESSAGES/dino-openpgp-vi.mo
+[150/540] Building translation plugins/openpgp/po/zh_CN/LC_MESSAGES/dino-openpgp-zh_CN.mo
+[151/540] Building translation plugins/openpgp/po/zh_TW/LC_MESSAGES/dino-openpgp-zh_TW.mo
+[152/540] Generating plugins/openpgp/resources_c with a custom command
+[153/540] Generating plugins/openpgp/resources_h with a custom command
+[154/540] Compiling C object crypto-vala/libcrypto-vala.so.0.0.p/meson-generated_src_error.c.o
+[155/540] Compiling C object qlite/libqlite.so.0.1.p/meson-generated_src_row.c.o
+[156/540] Compiling C object crypto-vala/libcrypto-vala.so.0.0.p/meson-generated_src_cipher.c.o
+[157/540] Linking target qlite/libqlite.so.0.1
+[158/540] Compiling C object crypto-vala/libcrypto-vala.so.0.0.p/meson-generated_src_srtp.c.o
+[159/540] Linking target crypto-vala/libcrypto-vala.so.0.0
+[160/540] Generating symbol file qlite/libqlite.so.0.1.p/libqlite.so.0.1.symbols
+[161/540] Generating symbol file crypto-vala/libcrypto-vala.so.0.0.p/libcrypto-vala.so.0.0.symbols
+[162/540] Compiling Vala source ../xmpp-vala/src/glib_fixes.vapi ../xmpp-vala/src/core/direct_tls_xmpp_stream.vala ../xmpp-vala/src/core/io_xmpp_stream.vala ../xmpp-vala/src/core/module_flag.vala ../xmpp-vala/src/core/namespace_state.vala ../xmpp-vala/src/core/stanza_attribute.vala ../xmpp-vala/src/core/stanza_node.vala ../xmpp-vala/src/core/stanza_reader.vala ../xmpp-vala/src/core/stanza_writer.vala ../xmpp-vala/src/core/starttls_xmpp_stream.vala ../xmpp-vala/src/core/stream_connect.vala ../xmpp-vala/src/core/tls_xmpp_stream.vala ../xmpp-vala/src/core/xmpp_log.vala ../xmpp-vala/src/core/xmpp_stream.vala ../xmpp-vala/src/module/bind.vala ../xmpp-vala/src/module/bookmarks_provider.vala ../xmpp-vala/src/module/conference.vala ../xmpp-vala/src/module/iq/module.vala ../xmpp-vala/src/module/iq/stanza.vala ../xmpp-vala/src/module/jid.vala ../xmpp-vala/src/module/message/module.vala ../xmpp-vala/src/module/message/stanza.vala ../xmpp-vala/src/module/presence/flag.vala ../xmpp-vala/src/module/presence/module.vala ../xmpp-vala/src/module/presence/stanza.vala ../xmpp-vala/src/module/roster/flag.vala ../xmpp-vala/src/module/roster/item.vala ../xmpp-vala/src/module/roster/module.vala ../xmpp-vala/src/module/roster/versioning_module.vala ../xmpp-vala/src/module/sasl.vala ../xmpp-vala/src/module/session.vala ../xmpp-vala/src/module/stanza.vala ../xmpp-vala/src/module/stanza_error.vala ../xmpp-vala/src/module/stream_error.vala ../xmpp-vala/src/module/util.vala ../xmpp-vala/src/module/xep/0004_data_forms.vala ../xmpp-vala/src/module/xep/0030_service_discovery/flag.vala ../xmpp-vala/src/module/xep/0030_service_discovery/identity.vala ../xmpp-vala/src/module/xep/0030_service_discovery/info_result.vala ../xmpp-vala/src/module/xep/0030_service_discovery/item.vala ../xmpp-vala/src/module/xep/0030_service_discovery/items_result.vala ../xmpp-vala/src/module/xep/0030_service_discovery/module.vala ../xmpp-vala/src/module/xep/0045_muc/flag.vala ../xmpp-vala/src/module/xep/0045_muc/module.vala ../xmpp-vala/src/module/xep/0045_muc/status_code.vala ../xmpp-vala/src/module/xep/0047_in_band_bytestreams.vala ../xmpp-vala/src/module/xep/0048_bookmarks.vala ../xmpp-vala/src/module/xep/0048_conference.vala ../xmpp-vala/src/module/xep/0394_message_markup.vala ../xmpp-vala/src/module/xep/0049_private_xml_storage.vala ../xmpp-vala/src/module/xep/0054_vcard/module.vala ../xmpp-vala/src/module/xep/0059_result_set_management.vala ../xmpp-vala/src/module/xep/0060_pubsub.vala ../xmpp-vala/src/module/xep/0065_socks5_bytestreams.vala ../xmpp-vala/src/module/xep/0066_out_of_band_data.vala ../xmpp-vala/src/module/xep/0077_in_band_registration.vala ../xmpp-vala/src/module/xep/0082_date_time_profiles.vala ../xmpp-vala/src/module/xep/0084_user_avatars.vala ../xmpp-vala/src/module/xep/0085_chat_state_notifications.vala ../xmpp-vala/src/module/xep/0104_http_scheme_url_data.vala ../xmpp-vala/src/module/xep/0115_entity_capabilities.vala ../xmpp-vala/src/module/xep/0166_jingle/component.vala ../xmpp-vala/src/module/xep/0166_jingle/content.vala ../xmpp-vala/src/module/xep/0166_jingle/content_description.vala ../xmpp-vala/src/module/xep/0166_jingle/content_node.vala ../xmpp-vala/src/module/xep/0166_jingle/content_security.vala ../xmpp-vala/src/module/xep/0166_jingle/content_transport.vala ../xmpp-vala/src/module/xep/0166_jingle/jingle_flag.vala ../xmpp-vala/src/module/xep/0166_jingle/jingle_module.vala ../xmpp-vala/src/module/xep/0166_jingle/jingle_structs.vala ../xmpp-vala/src/module/xep/0166_jingle/reason_element.vala ../xmpp-vala/src/module/xep/0166_jingle/session.vala ../xmpp-vala/src/module/xep/0166_jingle/session_info.vala ../xmpp-vala/src/module/xep/0167_jingle_rtp/content_parameters.vala ../xmpp-vala/src/module/xep/0167_jingle_rtp/content_type.vala ../xmpp-vala/src/module/xep/0167_jingle_rtp/jingle_rtp_module.vala ../xmpp-vala/src/module/xep/0167_jingle_rtp/payload_type.vala ../xmpp-vala/src/module/xep/0167_jingle_rtp/session_info_type.vala ../xmpp-vala/src/module/xep/0167_jingle_rtp/stream.vala ../xmpp-vala/src/module/xep/0176_jingle_ice_udp/candidate.vala ../xmpp-vala/src/module/xep/0176_jingle_ice_udp/jingle_ice_udp_module.vala ../xmpp-vala/src/module/xep/0176_jingle_ice_udp/transport_parameters.vala ../xmpp-vala/src/module/xep/0177_jingle_raw_udp.vala ../xmpp-vala/src/module/xep/0184_message_delivery_receipts.vala ../xmpp-vala/src/module/xep/0191_blocking_command.vala ../xmpp-vala/src/module/xep/0198_stream_management.vala ../xmpp-vala/src/module/xep/0199_ping.vala ../xmpp-vala/src/module/xep/0203_delayed_delivery.vala ../xmpp-vala/src/module/xep/0215_external_service_discovery.vala ../xmpp-vala/src/module/xep/0231_bits_of_binary.vala ../xmpp-vala/src/module/xep/0234_jingle_file_transfer.vala ../xmpp-vala/src/module/xep/0249_direct_muc_invitations.vala ../xmpp-vala/src/module/xep/0260_jingle_socks5_bytestreams.vala ../xmpp-vala/src/module/xep/0261_jingle_in_band_bytestreams.vala ../xmpp-vala/src/module/xep/0264_jingle_content_thumbnails.vala ../xmpp-vala/src/module/xep/0272_muji.vala ../xmpp-vala/src/module/xep/0280_message_carbons.vala ../xmpp-vala/src/module/xep/0297_stanza_forwarding.vala ../xmpp-vala/src/module/xep/0298_coin.vala ../xmpp-vala/src/module/xep/0300_cryptographic_hashes.vala ../xmpp-vala/src/module/xep/0308_last_message_correction.vala ../xmpp-vala/src/module/xep/0313_2_message_archive_management.vala ../xmpp-vala/src/module/xep/0313_message_archive_management.vala ../xmpp-vala/src/module/xep/0333_chat_markers.vala ../xmpp-vala/src/module/xep/0334_message_processing_hints.vala ../xmpp-vala/src/module/xep/0353_jingle_message_initiation.vala ../xmpp-vala/src/module/xep/0359_unique_stable_stanza_ids.vala ../xmpp-vala/src/module/xep/0363_http_file_upload.vala ../xmpp-vala/src/module/xep/0367_message_attaching.vala ../xmpp-vala/src/module/xep/0380_explicit_encryption.vala ../xmpp-vala/src/module/xep/0384_omemo/omemo_decryptor.vala ../xmpp-vala/src/module/xep/0384_omemo/omemo_encryptor.vala ../xmpp-vala/src/module/xep/0391_jingle_encrypted_transports.vala ../xmpp-vala/src/module/xep/0392_consistent_color/consistent_color.vala ../xmpp-vala/src/module/xep/0392_consistent_color/hsluv.vala ../xmpp-vala/src/module/xep/0402_bookmarks2.vala ../xmpp-vala/src/module/xep/0410_muc_self_ping.vala ../xmpp-vala/src/module/xep/0421_occupant_ids.vala ../xmpp-vala/src/module/xep/0424_message_retraction.vala ../xmpp-vala/src/module/xep/0425_message_moderation.vala ../xmpp-vala/src/module/xep/0428_fallback_indication.vala ../xmpp-vala/src/module/xep/0444_reactions.vala ../xmpp-vala/src/module/xep/0446_file_metadata_element.vala ../xmpp-vala/src/module/xep/0447_stateless_file_sharing.vala ../xmpp-vala/src/module/xep/0461_replies.vala ../xmpp-vala/src/module/xep/0482_call_invites.vala ../xmpp-vala/src/util.vala
+../xmpp-vala/src/core/stanza_attribute.vala:59.56-59.81: warning: unhandled error `GLib.IOError'
+   59 |             return printf(ATTRIBUTE_XML_FORMAT, false, state.find_name((!)ns_uri));
+      |                                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~  
+../xmpp-vala/src/core/stanza_attribute.vala:68.61-68.86: warning: unhandled error `GLib.IOError'
+   68 |             return printf(ATTRIBUTE_XML_ANSI_FORMAT, false, state.find_name((!)ns_uri));
+      |                                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~  
+../xmpp-vala/src/core/stream_connect.vala:75.21-75.37: warning: implicit .begin is deprecated
+   75 |                     stream.disconnect();
+      |                     ^~~~~~~~~~~~~~~~~   
+../xmpp-vala/src/module/iq/module.vala:24.13-24.30: warning: implicit .begin is deprecated
+   24 |             stream.write_async(iq.stanza, io_priority, cancellable);
+      |             ^~~~~~~~~~~~~~~~~~                                      
+../xmpp-vala/src/module/session.vala:31.13-31.103: warning: unhandled error `GLib.IOError'
+   31 |             Iq.Stanza result_iq = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../xmpp-vala/src/module/xep/0030_service_discovery/module.vala:56.13-56.105: warning: unhandled error `GLib.IOError'
+   56 |             Iq.Stanza iq_response = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../xmpp-vala/src/module/xep/0030_service_discovery/module.vala:76.9-76.99: warning: unhandled error `GLib.IOError'
+   76 |         Iq.Stanza iq_result = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../xmpp-vala/src/module/xep/0045_muc/module.vala:242.15-242.77: warning: unhandled error `GLib.IOError'
+  242 |         yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+      |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../xmpp-vala/src/module/xep/0045_muc/module.vala:247.9-247.103: warning: unhandled error `GLib.IOError'
+  247 |         Iq.Stanza result_iq = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, get_iq);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../xmpp-vala/src/module/xep/0045_muc/module.vala:261.15-261.81: warning: unhandled error `GLib.IOError'
+  261 |         yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, set_iq);
+      |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../xmpp-vala/src/module/xep/0045_muc/module.vala:478.9-478.99: warning: unhandled error `GLib.IOError'
+  478 |         Iq.Stanza iq_result = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../xmpp-vala/src/module/xep/0049_private_xml_storage.vala:12.19-12.81: warning: unhandled error `GLib.IOError'
+   12 |             yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../xmpp-vala/src/module/xep/0049_private_xml_storage.vala:18.13-18.103: warning: unhandled error `GLib.IOError'
+   18 |             Iq.Stanza iq_result = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../xmpp-vala/src/module/xep/0054_vcard/module.vala:7.5-7.92: warning: unhandled error `GLib.IOError'
+    7 |     Iq.Stanza iq_res = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../xmpp-vala/src/module/xep/0060_pubsub.vala:48.13-48.108: warning: unhandled error `GLib.IOError'
+   48 |             Iq.Stanza iq_res = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, request_iq);
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../xmpp-vala/src/module/xep/0060_pubsub.vala:150.13-150.103: warning: unhandled error `GLib.IOError'
+  150 |             Iq.Stanza result_iq = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../xmpp-vala/src/module/xep/0060_pubsub.vala:166.13-166.103: warning: unhandled error `GLib.IOError'
+  166 |             Iq.Stanza iq_result = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../xmpp-vala/src/module/xep/0060_pubsub.vala:105.13-105.103: warning: unhandled error `GLib.IOError'
+  105 |             Iq.Stanza iq_result = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../xmpp-vala/src/module/xep/0065_socks5_bytestreams.vala:53.9-53.70: warning: unhandled error `GLib.IOError'
+   53 |         foreach (Xep.ServiceDiscovery.Item item in items_result.items) {
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  
+../xmpp-vala/src/module/xep/0077_in_band_registration.vala:15.9-15.112: warning: unhandled error `GLib.IOError'
+   15 |         Iq.Stanza iq_result = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, request_form_iq);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../xmpp-vala/src/module/xep/0077_in_band_registration.vala:24.9-24.99: warning: unhandled error `GLib.IOError'
+   24 |         Iq.Stanza iq_result = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../xmpp-vala/src/module/xep/0077_in_band_registration.vala:43.9-43.114: warning: unhandled error `GLib.IOError'
+   43 |         Iq.Stanza chpw_result = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, set_password_iq);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../xmpp-vala/src/module/xep/0166_jingle/component.vala:44.23-44.42: warning: unhandled error `GLib.IOError'
+   44 |                 yield stream.close_async();
+      |                       ^~~~~~~~~~~~~~~~~~~~ 
+../xmpp-vala/src/module/xep/0166_jingle/component.vala:56.27-56.52: warning: unhandled error `GLib.IOError'
+   56 |                     yield stream.value.close_async();
+      |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../xmpp-vala/src/module/xep/0166_jingle/content.vala:146.9-146.77: warning: unhandled error `Xmpp.Xep.Jingle.IqError'
+  146 |         this.transport_params.handle_transport_accept(content_node.transport);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../xmpp-vala/src/module/xep/0166_jingle/jingle_flag.vala:27.26-27.58: warning: unhandled error `Gee.FutureError'
+   27 |             return yield promises[sid].future.wait_async();
+      |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../xmpp-vala/src/module/xep/0166_jingle/session.vala:196.9-200.38: warning: unhandled error `Xmpp.Xep.Jingle.Error'
+  196 |         Content content = new Content.initiate_received(content_node.name, content_node.senders,
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  197 |                 content_type, content_params,
+      | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  198 |                 transport, transport_params,
+      | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  199 |                 precondition, security_params,
+      | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  200 |                 my_jid, peer_full_jid);
+      | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../xmpp-vala/src/module/xep/0166_jingle/content.vala:160.28-160.136: warning: unhandled error `Xmpp.Xep.Jingle.Error'
+  160 |         transport_params = new_transport.create_transport_parameters(stream, transport_params.components, local_full_jid, peer_full_jid);
+      |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../xmpp-vala/src/module/xep/0166_jingle/session.vala:225.15-225.77: warning: unhandled error `GLib.IOError'
+  225 |         yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+      |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../xmpp-vala/src/module/xep/0176_jingle_ice_udp/transport_parameters.vala:41.13-41.80: warning: unhandled error `Xmpp.Xep.Jingle.IqError'
+   41 |             foreach (StanzaNode candidateNode in node.get_subnodes("candidate")) {
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  
+../xmpp-vala/src/module/xep/0191_blocking_command.vala:99.9-99.99: warning: unhandled error `GLib.IOError'
+   99 |         Iq.Stanza result_iq = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../xmpp-vala/src/module/xep/0199_ping.vala:12.26-12.103: warning: unhandled error `GLib.IOError'
+   12 |             return yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq, Priority.HIGH);
+      |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../xmpp-vala/src/module/xep/0215_external_service_discovery.vala:9.9-9.109: warning: unhandled error `GLib.IOError'
+    9 |         Iq.Stanza response_iq = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, request_iq);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../xmpp-vala/src/module/xep/0234_jingle_file_transfer.vala:59.9-59.67: warning: unhandled error `Xmpp.Xep.Jingle.IqError'
+   59 |         Parameters parameters = Parameters.parse(this, description);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../xmpp-vala/src/module/xep/0260_jingle_socks5_bytestreams.vala:332.19-332.108: warning: unhandled error `GLib.Error'
+  332 |             yield conn.output_stream.write_all_async({0x05, 0x01}, GLib.Priority.DEFAULT, null, out written);
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../xmpp-vala/src/module/xep/0260_jingle_socks5_bytestreams.vala:333.19-333.50: warning: unhandled error `GLib.IOError'
+  333 |             yield conn.output_stream.close_async();
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../xmpp-vala/src/module/xep/0272_muji.vala:89.26-89.52: warning: unhandled error `Gee.FutureError'
+   89 |             return yield promise.future.wait_async();
+      |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../xmpp-vala/src/module/xep/0272_muji.vala:59.74-59.115: warning: unhandled error `Xmpp.InvalidJidError'
+   59 |             Presence.Stanza presence_stanza = new Presence.Stanza() { to=muc_jid.with_resource(group_call.our_nick) };
+      |                                                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~   
+../xmpp-vala/src/module/xep/0280_message_carbons.vala:12.15-12.77: warning: unhandled error `GLib.IOError'
+   12 |         yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+      |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../xmpp-vala/src/module/xep/0280_message_carbons.vala:17.15-17.77: warning: unhandled error `GLib.IOError'
+   17 |         yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+      |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../xmpp-vala/src/module/xep/0313_message_archive_management.vala:71.9-71.126: warning: unhandled error `GLib.IOError'
+   71 |         Iq.Stanza result_iq = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq, Priority.LOW, cancellable);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../xmpp-vala/src/module/xep/0392_consistent_color/hsluv.vala:140.13-140.23: warning: `null' incompatible with return type `int[]'
+  140 |             return null; //throw new Error("Illegal rgb value: " + ch);
+      |             ^~~~~~~~~~~                                                
+../xmpp-vala/src/module/xep/0392_consistent_color/hsluv.vala:343.9-343.35: warning: `string.to_long' is deprecated. Use long.parse
+  343 |         hex.substring(1, 2).to_long(null, 16) / 255.0,
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~                   
+../xmpp-vala/src/module/xep/0392_consistent_color/hsluv.vala:344.9-344.35: warning: `string.to_long' is deprecated. Use long.parse
+  344 |         hex.substring(3, 2).to_long(null, 16) / 255.0,
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~                   
+../xmpp-vala/src/module/xep/0392_consistent_color/hsluv.vala:345.9-345.35: warning: `string.to_long' is deprecated. Use long.parse
+  345 |         hex.substring(5, 2).to_long(null, 16) / 255.0
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~                  
+../xmpp-vala/src/module/xep/0425_message_moderation.vala:16.9-16.103: warning: unhandled error `GLib.IOError'
+   16 |         Iq.Stanza result_stanza = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../xmpp-vala/src/module/xep/0447_stateless_file_sharing.vala:23.28-23.38: warning: `null' incompatible with return type `Gee.List<Xmpp.Xep.StatelessFileSharing.FileShare>'
+   23 |         if (ret.size == 0) return null;
+      |                            ^~~~~~~~~~~ 
+../xmpp-vala/src/core/stanza_reader.vala:41.11-41.32: warning: unreachable catch clause detected
+   41 |         } catch (TlsError.EOF e) {
+      |           ^~~~~~~~~~~~~~~~~~~~~~  
+../xmpp-vala/src/module/xep/0004_data_forms.vala:85.9-85.38: warning: Method `Xmpp.Xep.DataForms.DataForm.Field.add_value_string' never used
+   85 |         internal void add_value_string(string val) {
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~              
+../xmpp-vala/src/module/xep/0084_user_avatars.vala:24.20-24.32: warning: Local variable `metadata_node' declared but never used
+   24 |         StanzaNode metadata_node = new StanzaNode.build("metadata", NS_URI_METADATA).add_self_xmlns();
+      |                    ^~~~~~~~~~~~~                                                                      
+../xmpp-vala/src/module/xep/0261_jingle_in_band_bytestreams.vala:68.5-68.34: warning: Method `Xmpp.Xep.JingleInBandBytestreams.Parameters.transport_ns_uri' never used
+   68 |     public string transport_ns_uri() {
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    
+../xmpp-vala/src/module/xep/0392_consistent_color/hsluv.vala:11.1-11.19: warning: Field `Hsluv.RefX' never used
+   11 | private double RefX = 0.95045592705167;
+      | ^~~~~~~~~~~~~~~~~~~                    
+../xmpp-vala/src/module/xep/0392_consistent_color/hsluv.vala:13.1-13.19: warning: Field `Hsluv.RefZ' never used
+   13 | private double RefZ = 1.089057750759878;
+      | ^~~~~~~~~~~~~~~~~~~                     
+../xmpp-vala/src/module/xep/0392_consistent_color/hsluv.vala:377.1-377.28: warning: Method `Hsluv.hsluv_to_hex' never used
+  377 | internal string hsluv_to_hex(double[] tuple) {
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~                  
+../xmpp-vala/src/module/xep/0392_consistent_color/hsluv.vala:381.1-381.28: warning: Method `Hsluv.hpluv_to_hex' never used
+  381 | internal string hpluv_to_hex(double[] tuple) {
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~                  
+../xmpp-vala/src/module/xep/0392_consistent_color/hsluv.vala:385.1-385.30: warning: Method `Hsluv.hex_to_hsluv' never used
+  385 | internal double[] hex_to_hsluv(string s) {
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~            
+../xmpp-vala/src/module/xep/0392_consistent_color/hsluv.vala:389.1-389.30: warning: Method `Hsluv.hex_to_hpluv' never used
+  389 | internal double[] hex_to_hpluv(string s) {
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~            
+../xmpp-vala/src/module/xep/0461_replies.vala:39.9-39.19: warning: unreachable code detected
+   39 |         return null;
+      |         ^~~~~~~~~~~ 
+../xmpp-vala/src/core/stream_connect.vala:18.109-18.123: warning: copying delegates is not supported
+   18 |         TlsXmppStream.OnInvalidCertWrapper on_invalid_cert_wrapper = new TlsXmppStream.OnInvalidCertWrapper(on_invalid_cert);
+      |                                                                                                             ^~~~~~~~~~~~~~~  
+../xmpp-vala/src/module/xep/0004_data_forms.vala:47.9-47.34: warning: Type `Xmpp.Xep.DataForms.DataForm.Type?' can not be used for a GLib.Object property
+   47 |         public virtual Type? type_ { get; internal set; default=null; }
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~                                     
+Compilation succeeded - 60 warning(s)
+[163/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_core_io_xmpp_stream.c.o
+[164/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_core_direct_tls_xmpp_stream.c.o
+[165/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_core_stanza_attribute.c.o
+[166/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_core_namespace_state.c.o
+[167/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_core_module_flag.c.o
+[168/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_core_starttls_xmpp_stream.c.o
+[169/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_core_stanza_writer.c.o
+[170/540] Compiling C++ object plugins/rtp/librtp-voice-processor.a.p/src_voice_processor_native.cpp.o
+[171/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_core_xmpp_log.c.o
+[172/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_core_stanza_node.c.o
+[173/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_core_stanza_reader.c.o
+[174/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_core_tls_xmpp_stream.c.o
+[175/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_conference.c.o
+[176/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_bind.c.o
+[177/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_core_xmpp_stream.c.o
+[178/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_bookmarks_provider.c.o
+[179/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_core_stream_connect.c.o
+[180/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_message_stanza.c.o
+[181/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_iq_stanza.c.o
+[182/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_presence_flag.c.o
+[183/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_message_module.c.o
+[184/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_jid.c.o
+[185/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_iq_module.c.o
+[186/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_presence_stanza.c.o
+[187/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_roster_flag.c.o
+[188/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_presence_module.c.o
+[189/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_session.c.o
+[190/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_roster_module.c.o
+[191/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_roster_versioning_module.c.o
+[192/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_sasl.c.o
+[193/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_roster_item.c.o
+[194/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_stanza.c.o
+[195/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0030_service_discovery_flag.c.o
+[196/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_stream_error.c.o
+[197/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_stanza_error.c.o
+[198/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_util.c.o
+[199/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0030_service_discovery_item.c.o
+[200/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0030_service_discovery_identity.c.o
+[201/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0030_service_discovery_info_result.c.o
+[202/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0030_service_discovery_module.c.o
+[203/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0045_muc_flag.c.o
+[204/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0045_muc_status_code.c.o
+[205/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0030_service_discovery_items_result.c.o
+[206/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0004_data_forms.c.o
+[207/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0047_in_band_bytestreams.c.o
+[208/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0048_conference.c.o
+[209/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0394_message_markup.c.o
+[210/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0049_private_xml_storage.c.o
+[211/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0048_bookmarks.c.o
+[212/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0065_socks5_bytestreams.c.o
+[213/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0054_vcard_module.c.o
+[214/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0066_out_of_band_data.c.o
+[215/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0059_result_set_management.c.o
+[216/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0045_muc_module.c.o
+[217/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0082_date_time_profiles.c.o
+[218/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0060_pubsub.c.o
+[219/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0084_user_avatars.c.o
+[220/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0085_chat_state_notifications.c.o
+[221/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0077_in_band_registration.c.o
+[222/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0104_http_scheme_url_data.c.o
+[223/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0115_entity_capabilities.c.o
+[224/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0166_jingle_component.c.o
+[225/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0166_jingle_content_node.c.o
+[226/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0166_jingle_content_security.c.o
+[227/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0166_jingle_jingle_flag.c.o
+[228/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0166_jingle_content_description.c.o
+[229/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0166_jingle_content.c.o
+[230/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0166_jingle_session_info.c.o
+[231/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0166_jingle_content_transport.c.o
+[232/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0166_jingle_jingle_structs.c.o
+[233/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0166_jingle_reason_element.c.o
+[234/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0166_jingle_jingle_module.c.o
+[235/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0167_jingle_rtp_content_type.c.o
+[236/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0167_jingle_rtp_jingle_rtp_module.c.o
+[237/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0166_jingle_session.c.o
+[238/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0167_jingle_rtp_content_parameters.c.o
+[239/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0176_jingle_ice_udp_jingle_ice_udp_module.c.o
+[240/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0167_jingle_rtp_payload_type.c.o
+[241/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0167_jingle_rtp_session_info_type.c.o
+[242/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0176_jingle_ice_udp_candidate.c.o
+[243/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0184_message_delivery_receipts.c.o
+[244/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0167_jingle_rtp_stream.c.o
+[245/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0176_jingle_ice_udp_transport_parameters.c.o
+[246/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0199_ping.c.o
+[247/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0177_jingle_raw_udp.c.o
+[248/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0191_blocking_command.c.o
+[249/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0215_external_service_discovery.c.o
+[250/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0203_delayed_delivery.c.o
+[251/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0234_jingle_file_transfer.c.o
+[252/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0198_stream_management.c.o
+[253/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0249_direct_muc_invitations.c.o
+[254/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0231_bits_of_binary.c.o
+[255/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0280_message_carbons.c.o
+[256/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0297_stanza_forwarding.c.o
+[257/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0264_jingle_content_thumbnails.c.o
+[258/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0261_jingle_in_band_bytestreams.c.o
+[259/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0298_coin.c.o
+[260/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0272_muji.c.o
+[261/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0308_last_message_correction.c.o
+[262/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0260_jingle_socks5_bytestreams.c.o
+[263/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0300_cryptographic_hashes.c.o
+[264/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0313_2_message_archive_management.c.o
+[265/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0334_message_processing_hints.c.o
+[266/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0333_chat_markers.c.o
+[267/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0313_message_archive_management.c.o
+[268/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0359_unique_stable_stanza_ids.c.o
+[269/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0380_explicit_encryption.c.o
+[270/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0353_jingle_message_initiation.c.o
+[271/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0367_message_attaching.c.o
+[272/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0384_omemo_omemo_decryptor.c.o
+[273/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0363_http_file_upload.c.o
+[274/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0402_bookmarks2.c.o
+[275/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0392_consistent_color_consistent_color.c.o
+[276/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0391_jingle_encrypted_transports.c.o
+[277/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0392_consistent_color_hsluv.c.o
+[278/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0384_omemo_omemo_encryptor.c.o
+[279/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0424_message_retraction.c.o
+[280/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0421_occupant_ids.c.o
+[281/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0410_muc_self_ping.c.o
+[282/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0444_reactions.c.o
+[283/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0425_message_moderation.c.o
+[284/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0428_fallback_indication.c.o
+[285/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0446_file_metadata_element.c.o
+[286/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0482_call_invites.c.o
+[287/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0461_replies.c.o
+[288/540] Linking static target plugins/rtp/librtp-voice-processor.a
+[289/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_module_xep_0447_stateless_file_sharing.c.o
+[290/540] Compiling C object xmpp-vala/libxmpp-vala.so.0.1.p/meson-generated_src_util.c.o
+[291/540] Compiling Vala source ../xmpp-vala/tests/common.vala ../xmpp-vala/tests/testcase.vala ../xmpp-vala/tests/jid.vala ../xmpp-vala/tests/stanza.vala ../xmpp-vala/tests/color.vala ../xmpp-vala/tests/util.vala xmpp-vala/xmpp-vala.vapi
+../xmpp-vala/tests/stanza.vala:23.9-23.33: warning: unhandled error `GLib.IOError'
+   23 |         var xml1 = node1.to_xml();
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~ 
+../xmpp-vala/tests/stanza.vala:24.9-24.71: warning: unhandled error `GLib.IOError'
+   24 |         var node2 = yield new StanzaReader.for_string(xml1).read_node();
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../xmpp-vala/tests/stanza.vala:58.50-58.72: warning: unhandled error `GLib.IOError'
+   58 |         fail_if_not_eq_node(root_node_cmp, yield reader.read_root_node());
+      |                                                  ^~~~~~~~~~~~~~~~~~~~~~~  
+../xmpp-vala/tests/stanza.vala:59.45-59.62: warning: unhandled error `GLib.IOError'
+   59 |         fail_if_not_eq_node(node_cmp, yield reader.read_node());
+      |                                             ^~~~~~~~~~~~~~~~~~  
+../xmpp-vala/tests/stanza.vala:60.15-60.32: warning: unhandled error `GLib.IOError'
+   60 |         yield reader.read_node();
+      |               ^~~~~~~~~~~~~~~~~~ 
+../xmpp-vala/tests/stanza.vala:108.50-108.72: warning: unhandled error `GLib.IOError'
+  108 |         fail_if_not_eq_node(root_node_cmp, yield reader.read_root_node());
+      |                                                  ^~~~~~~~~~~~~~~~~~~~~~~  
+../xmpp-vala/tests/stanza.vala:109.45-109.62: warning: unhandled error `GLib.IOError'
+  109 |         fail_if_not_eq_node(node_cmp, yield reader.read_node());
+      |                                             ^~~~~~~~~~~~~~~~~~  
+../xmpp-vala/tests/stanza.vala:110.46-110.63: warning: unhandled error `GLib.IOError'
+  110 |         fail_if_not_eq_node(node2_cmp, yield reader.read_node());
+      |                                              ^~~~~~~~~~~~~~~~~~  
+../xmpp-vala/tests/stanza.vala:111.15-111.32: warning: unhandled error `GLib.IOError'
+  111 |         yield reader.read_node();
+      |               ^~~~~~~~~~~~~~~~~~ 
+../xmpp-vala/tests/color.vala:42.41-42.73: warning: `string.to_long' is deprecated. Use long.parse
+   42 |             uint8 r = (uint8) ((double) hex_color.substring(0, 2).to_long(null, 16));
+      |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~            
+../xmpp-vala/tests/color.vala:43.41-43.73: warning: `string.to_long' is deprecated. Use long.parse
+   43 |             uint8 g = (uint8) ((double) hex_color.substring(2, 2).to_long(null, 16));
+      |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~            
+../xmpp-vala/tests/color.vala:44.41-44.73: warning: `string.to_long' is deprecated. Use long.parse
+   44 |             uint8 b = (uint8) ((double) hex_color.substring(4, 2).to_long(null, 16));
+      |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~            
+../xmpp-vala/tests/common.vala:28.1-28.27: warning: Method `Xmpp.Test.fail_if_not_error_code' never used
+   28 | void fail_if_not_error_code(ErrorFunc func, int expectedCode, string? reason = null) {
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~                                                           
+../xmpp-vala/tests/common.vala:106.1-106.29: warning: Method `Xmpp.Test.fail_if_not_eq_uint8_arr' never used
+  106 | bool fail_if_not_eq_uint8_arr(uint8[] left, uint8[] right, string? reason = null) {
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~                                                      
+../xmpp-vala/tests/common.vala:111.1-111.25: warning: Method `Xmpp.Test.fail_if_not_zero_int' never used
+  111 | bool fail_if_not_zero_int(int zero, string? reason = null) {
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~                                   
+../xmpp-vala/tests/common.vala:115.1-115.21: warning: Method `Xmpp.Test.fail_if_zero_int' never used
+  115 | bool fail_if_zero_int(int zero, string? reason = null) {
+      | ^~~~~~~~~~~~~~~~~~~~~                                   
+../xmpp-vala/tests/common.vala:119.1-119.17: warning: Method `Xmpp.Test.fail_if_null' never used
+  119 | bool fail_if_null(void* what, string? reason = null) {
+      | ^~~~~~~~~~~~~~~~~                                     
+../xmpp-vala/tests/color.vala:42.19-42.19: warning: Local variable `r' declared but never used
+   42 |             uint8 r = (uint8) ((double) hex_color.substring(0, 2).to_long(null, 16));
+      |                   ^                                                                  
+../xmpp-vala/tests/color.vala:43.19-43.19: warning: Local variable `g' declared but never used
+   43 |             uint8 g = (uint8) ((double) hex_color.substring(2, 2).to_long(null, 16));
+      |                   ^                                                                  
+../xmpp-vala/tests/color.vala:44.19-44.19: warning: Local variable `b' declared but never used
+   44 |             uint8 b = (uint8) ((double) hex_color.substring(4, 2).to_long(null, 16));
+      |                   ^                                                                  
+Compilation succeeded - 20 warning(s)
+[292/540] Linking target xmpp-vala/libxmpp-vala.so.0.1
+[293/540] Compiling C object xmpp-vala/xmpp-vala-test.p/meson-generated_tests_stanza.c.o
+[294/540] Compiling C object xmpp-vala/xmpp-vala-test.p/meson-generated_tests_testcase.c.o
+[295/540] Generating symbol file xmpp-vala/libxmpp-vala.so.0.1.p/libxmpp-vala.so.0.1.symbols
+[296/540] Compiling C object xmpp-vala/xmpp-vala-test.p/meson-generated_tests_util.c.o
+[297/540] Compiling C object xmpp-vala/xmpp-vala-test.p/meson-generated_tests_jid.c.o
+[298/540] Compiling C object xmpp-vala/xmpp-vala-test.p/meson-generated_tests_common.c.o
+[299/540] Compiling C object xmpp-vala/xmpp-vala-test.p/meson-generated_tests_color.c.o
+[300/540] Linking target xmpp-vala/xmpp-vala-test
+[301/540] Compiling Vala source ../libdino/src/application.vala ../libdino/src/dbus/login1.vala ../libdino/src/dbus/notifications.vala ../libdino/src/dbus/upower.vala ../libdino/src/entity/account.vala ../libdino/src/entity/call.vala ../libdino/src/entity/conversation.vala ../libdino/src/entity/encryption.vala ../libdino/src/entity/file_transfer.vala ../libdino/src/entity/message.vala ../libdino/src/entity/settings.vala ../libdino/src/plugin/interfaces.vala ../libdino/src/plugin/loader.vala ../libdino/src/plugin/registry.vala ../libdino/src/service/avatar_manager.vala ../libdino/src/service/blocking_manager.vala ../libdino/src/service/call_store.vala ../libdino/src/service/call_state.vala ../libdino/src/service/call_peer_state.vala ../libdino/src/service/calls.vala ../libdino/src/service/chat_interaction.vala ../libdino/src/service/connection_manager.vala ../libdino/src/service/contact_model.vala ../libdino/src/service/content_item_store.vala ../libdino/src/service/conversation_manager.vala ../libdino/src/service/counterpart_interaction_manager.vala ../libdino/src/service/database.vala ../libdino/src/service/entity_capabilities_storage.vala ../libdino/src/service/entity_info.vala ../libdino/src/service/fallback_body.vala ../libdino/src/service/file_manager.vala ../libdino/src/service/file_transfer_storage.vala ../libdino/src/service/history_sync.vala ../libdino/src/service/jingle_file_transfers.vala ../libdino/src/service/message_correction.vala ../libdino/src/service/message_deletion.vala ../libdino/src/service/message_processor.vala ../libdino/src/service/message_storage.vala ../libdino/src/service/module_manager.vala ../libdino/src/service/muc_manager.vala ../libdino/src/service/notification_events.vala ../libdino/src/service/occupant_id_store.vala ../libdino/src/service/presence_manager.vala ../libdino/src/service/replies.vala ../libdino/src/service/reactions.vala ../libdino/src/service/registration.vala ../libdino/src/service/roster_manager.vala ../libdino/src/service/search_processor.vala ../libdino/src/service/sfs_metadata.vala ../libdino/src/service/stateless_file_sharing.vala ../libdino/src/service/stream_interactor.vala ../libdino/src/service/util.vala ../libdino/src/util/display_name.vala ../libdino/src/util/limit_input_stream.vala ../libdino/src/util/send_message.vala ../libdino/src/util/util.vala ../libdino/src/util/weak_map.vala ../libdino/src/util/weak_timeout.vala libdino/version.vala qlite/qlite.vapi xmpp-vala/xmpp-vala.vapi
+
+(valac:82017): vala-CRITICAL **: 14:42:23.706: vala_data_type_get_actual_type: assertion 'self != NULL' failed
+../libdino/src/service/history_sync.vala:505.9-505.101: warning: unhandled error `Xmpp.InvalidJidError'
+  505 |         foreach (Row row in db.mam_catchup.select().with(db.mam_catchup.account_id, "=", account.id)) {
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  
+../libdino/src/service/file_transfer_storage.vala:79.13-79.23: warning: `null' incompatible with return type `Dino.Entities.FileTransfer'
+   79 |             return null;
+      |             ^~~~~~~~~~~ 
+../libdino/src/util/limit_input_stream.vala:20.30-20.86: warning: unhandled error `GLib.IOError'
+   20 |             if (!can_poll()) throw new IOError.NOT_SUPPORTED("Stream is not pollable");
+      |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../libdino/src/util/limit_input_stream.vala:25.30-25.86: warning: unhandled error `GLib.IOError'
+   25 |             if (!can_poll()) throw new IOError.NOT_SUPPORTED("Stream is not pollable");
+      |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../libdino/src/util/util.vala:120.5-120.52: warning: unhandled error `GLib.Error'
+  120 |     FileInputStream stream = yield file.read_async();
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../libdino/src/util/util.vala:123.26-123.48: warning: unhandled error `GLib.IOError'
+  123 |     while ((size = yield stream.read_async(fbuf)) > 0) {
+      |                          ^~~~~~~~~~~~~~~~~~~~~~~        
+../libdino/src/service/sfs_metadata.vala:22.13-22.73: warning: unhandled error `GLib.Error'
+   22 |             FileInfo info = file.query_info("*", FileQueryInfoFlags.NONE);
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../libdino/src/service/sfs_metadata.vala:39.32-39.76: warning: unhandled error `GLib.Error'
+   39 |             string mime_type = file.query_info("*", FileQueryInfoFlags.NONE).get_content_type();
+      |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                    
+../libdino/src/service/sfs_metadata.vala:48.58-48.74: warning: unhandled error `GLib.Error'
+   48 |             Pixbuf pixbuf = new Pixbuf.from_stream(yield file.read_async());
+      |                                                          ^~~~~~~~~~~~~~~~~  
+../libdino/src/service/sfs_metadata.vala:48.13-48.75: warning: unhandled error `GLib.Error'
+   48 |             Pixbuf pixbuf = new Pixbuf.from_stream(yield file.read_async());
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../libdino/src/service/sfs_metadata.vala:70.13-70.67: warning: unhandled error `GLib.Error'
+   70 |             thumbnail_pixbuf.save_to_buffer(out buffer, IMAGE_TYPE);
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../libdino/src/service/stateless_file_sharing.vala:147.21-147.46: warning: implicit .begin is deprecated
+  147 |                     outer.create_file_transfer(conversation, message, file_share.id, file_share.metadata, file_share.sources);
+      |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~                                                                                
+../libdino/src/service/stateless_file_sharing.vala:88.13-88.38: warning: implicit .begin is deprecated
+   88 |             file_manager.download_file(file_transfer);
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~                
+../libdino/src/service/call_peer_state.vala:230.21-230.95: warning: unhandled error `Xmpp.Xep.Jingle.Error'
+  230 |                     Xep.Jingle.Content content = rtp_module.add_outgoing_video_content.end(res);
+      |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../libdino/src/service/call_peer_state.vala:115.9-115.195: warning: unhandled error `Xmpp.Xep.Jingle.Error'
+  115 |         Xep.Jingle.Session session = yield stream.get_module(Xep.JingleRtp.Module.IDENTITY).start_call(stream, full_jid, we_should_send_video, sid, group_call != null ? group_call.muc_jid : null);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../libdino/src/service/call_state.vala:357.19-357.82: warning: unhandled error `Xmpp.InvalidJidError'
+  357 |         muc_jid = new Jid("%08x@".printf(Random.next_int()) + muc_jid.to_string()); // TODO longer?
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                 
+../libdino/src/service/calls.vala:418.17-418.69: warning: unhandled error `Xmpp.InvalidJidError'
+  418 |                 foreach (StanzaNode join_method_node in join_methods) {
+      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  
+../libdino/src/service/content_item_store.vala:46.9-46.35: warning: unhandled error `GLib.Error'
+   46 |         foreach (var row in select) {
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~  
+
+(valac:82017): vala-CRITICAL **: 14:42:24.172: vala_data_type_get_actual_type: assertion 'self != NULL' failed
+../libdino/src/service/content_item_store.vala:155.20-155.55: warning: unhandled error `GLib.Error'
+  155 |             return get_item_from_row(row, conversation);
+      |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../libdino/src/service/content_item_store.vala:167.20-167.55: warning: unhandled error `GLib.Error'
+  167 |             return get_item_from_row(row, conversation);
+      |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+
+(valac:82017): vala-CRITICAL **: 14:42:24.200: vala_data_type_get_actual_type: assertion 'self != NULL' failed
+../libdino/src/service/muc_manager.vala:132.34-132.69: warning: unhandled error `Xmpp.InvalidJidError'
+  132 |         mucs_joined[account].add(jid.with_resource(res.nick ?? nick_));
+      |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  
+../libdino/src/service/muc_manager.vala:192.51-192.98: warning: unhandled error `Xmpp.InvalidJidError'
+  192 |             mucs_joined[conversation.account].add(conversation.counterpart.with_resource(new_nick));
+      |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  
+../libdino/src/service/avatar_manager.vala:216.9-218.61: warning: unhandled error `Xmpp.InvalidJidError'
+  216 |         foreach (Row row in db.avatar.select({db.avatar.jid_id, db.avatar.hash})
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  217 |                 .with(db.avatar.type_, "=", type)
+      | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  218 |                 .with(db.avatar.account_id, "=", account.id)) {
+      | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  
+../libdino/src/service/notification_events.vala:80.21-80.79: warning: unhandled error `Gee.FutureError'
+   80 |                     NotificationProvider notifier = yield notifier.wait_async();
+      |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../libdino/src/service/notification_events.vala:94.21-94.79: warning: unhandled error `Gee.FutureError'
+   94 |                     NotificationProvider notifier = yield notifier.wait_async();
+      |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../libdino/src/service/notification_events.vala:116.9-116.67: warning: unhandled error `Gee.FutureError'
+  116 |         NotificationProvider notifier = yield notifier.wait_async();
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../libdino/src/service/notification_events.vala:142.9-142.67: warning: unhandled error `Gee.FutureError'
+  142 |         NotificationProvider notifier = yield notifier.wait_async();
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../libdino/src/service/notification_events.vala:108.9-108.67: warning: unhandled error `Gee.FutureError'
+  108 |         NotificationProvider notifier = yield notifier.wait_async();
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../libdino/src/service/notification_events.vala:124.9-124.67: warning: unhandled error `Gee.FutureError'
+  124 |         NotificationProvider notifier = yield notifier.wait_async();
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../libdino/src/service/notification_events.vala:147.9-147.67: warning: unhandled error `Gee.FutureError'
+  147 |         NotificationProvider notifier = yield notifier.wait_async();
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../libdino/src/service/notification_events.vala:152.9-152.67: warning: unhandled error `Gee.FutureError'
+  152 |         NotificationProvider notifier = yield notifier.wait_async();
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../libdino/src/service/notification_events.vala:42.37-42.65: warning: unhandled error `Gee.FutureError'
+   42 |         if (notifier_outstanding || (yield notifier.wait_async()).get_priority() < notification_provider.get_priority()) {
+      |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~                                                         
+
+(valac:82017): vala-CRITICAL **: 14:42:24.254: vala_data_type_get_actual_type: assertion 'self != NULL' failed
+
+(valac:82017): vala-CRITICAL **: 14:42:24.258: vala_data_type_get_actual_type: assertion 'self != NULL' failed
+../libdino/src/service/reactions.vala:181.9-181.35: warning: unhandled error `Xmpp.InvalidJidError'
+  181 |         foreach (Row row in select) {
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~  
+../libdino/src/service/reactions.vala:208.9-208.35: warning: unhandled error `Xmpp.InvalidJidError'
+  208 |         foreach (Row row in select) {
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~  
+../libdino/src/service/reactions.vala:208.9-208.35: warning: unhandled error `Xmpp.InvalidJidError'
+  208 |         foreach (Row row in select) {
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~  
+../libdino/src/service/message_deletion.vala:56.17-56.70: warning: implicit .begin is deprecated
+   56 |                 stream.get_module(MessageModule.IDENTITY).send_message(stream, stanza);
+      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                 
+../libdino/src/plugin/loader.vala:41.41-41.53: warning: `GLib.Module.SUFFIX' has been deprecated since 2.76
+   41 |                     if (file.has_suffix(Module.SUFFIX)) plugin_names.add(file);
+      |                                         ^~~~~~~~~~~~~                          
+../libdino/src/plugin/loader.vala:62.40-62.60: warning: `GLib.ModuleFlags.BIND_LAZY' has been deprecated since vala-0.46. Use LAZY
+   62 |             module = Module.open(path, ModuleFlags.BIND_LAZY);
+      |                                        ^~~~~~~~~~~~~~~~~~~~~  
+../libdino/src/service/message_deletion.vala:59.31-59.36: warning: Local variable `stanza' declared but never used
+   59 |                 MessageStanza stanza = new MessageStanza() { to = conversation.counterpart };
+      |                               ^~~~~~                                                         
+../libdino/src/service/replies.vala:14.5-14.86: warning: Field `Dino.Replies.unmapped_replies' never used
+   14 |     private HashMap<Conversation, HashMap<string, Gee.List<Message>>> unmapped_replies = new HashMap<Conversation, HashMap<string, Gee.List<Message>>>();
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                                                                   
+../libdino/src/service/reactions.vala:299.5-299.45: warning: Method `Dino.Reactions.get_message_for_reaction' never used
+  299 |     private Message? get_message_for_reaction(Conversation conversation, string message_id) {
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                                                
+../libdino/src/service/reactions.vala:409.13-409.18: warning: Local variable `jid_id' declared but never used
+  409 |         int jid_id = db.get_jid_id(jid);
+      |             ^~~~~~                      
+../libdino/src/util/limit_input_stream.vala:32.5-32.31: warning: Method `Dino.LimitInputStream.check_limit' never used
+   32 |     private ssize_t check_limit(ssize_t read) throws IOError {
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~                               
+../libdino/src/util/util.vala:103.1-103.52: warning: Method `Dino.bindtextdomain' never used
+  103 | private static extern unowned string? bindtextdomain(string domainname, string? dirname);
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                                     
+../libdino/src/util/util.vala:106.1-106.61: warning: Method `Dino.bind_textdomain_codeset' never used
+  106 | private static extern unowned string? bind_textdomain_codeset(string domainname, string? codeset);
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                                     
+Compilation succeeded - 45 warning(s)
+[302/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_dbus_upower.c.o
+[303/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_entity_account.c.o
+[304/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_dbus_notifications.c.o
+[305/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_dbus_login1.c.o
+[306/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_application.c.o
+[307/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_entity_call.c.o
+[308/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_entity_file_transfer.c.o
+[309/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_entity_conversation.c.o
+[310/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_entity_encryption.c.o
+[311/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_entity_message.c.o
+[312/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_plugin_interfaces.c.o
+[313/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_entity_settings.c.o
+[314/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_plugin_loader.c.o
+[315/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_service_call_store.c.o
+[316/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_plugin_registry.c.o
+[317/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_service_avatar_manager.c.o
+[318/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_service_call_state.c.o
+[319/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_service_blocking_manager.c.o
+[320/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_service_connection_manager.c.o
+[321/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_service_chat_interaction.c.o
+[322/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_service_calls.c.o
+[323/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_service_call_peer_state.c.o
+[324/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_service_contact_model.c.o
+[325/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_service_entity_capabilities_storage.c.o
+[326/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_service_conversation_manager.c.o
+[327/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_service_content_item_store.c.o
+[328/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_service_counterpart_interaction_manager.c.o
+[329/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_service_fallback_body.c.o
+[330/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_service_file_transfer_storage.c.o
+[331/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_service_database.c.o
+[332/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_service_entity_info.c.o
+[333/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_service_file_manager.c.o
+[334/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_service_message_processor.c.o
+[335/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_service_message_deletion.c.o
+[336/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_service_history_sync.c.o
+[337/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_service_jingle_file_transfers.c.o
+[338/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_service_message_correction.c.o
+[339/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_service_presence_manager.c.o
+[340/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_service_message_storage.c.o
+[341/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_service_module_manager.c.o
+[342/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_service_notification_events.c.o
+[343/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_service_replies.c.o
+[344/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_service_occupant_id_store.c.o
+[345/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_service_sfs_metadata.c.o
+[346/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_service_reactions.c.o
+[347/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_service_registration.c.o
+[348/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_service_muc_manager.c.o
+[349/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_service_search_processor.c.o
+[350/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_service_roster_manager.c.o
+[351/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_service_stateless_file_sharing.c.o
+[352/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_util_limit_input_stream.c.o
+[353/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_service_util.c.o
+[354/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_util_display_name.c.o
+[355/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_service_stream_interactor.c.o
+[356/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_util_send_message.c.o
+[357/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_util_util.c.o
+[358/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_util_weak_map.c.o
+[359/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_version.c.o
+[360/540] Compiling C object main/dino.p/meson-generated_.._resources.c.o
+[361/540] Compiling C object libdino/libdino.so.0.0.p/meson-generated_src_util_weak_timeout.c.o
+[362/540] Compiling Vala source ../plugins/ice/src/dtls_srtp.vala ../plugins/ice/src/module.vala ../plugins/ice/src/plugin.vala ../plugins/ice/src/transport_parameters.vala ../plugins/ice/src/util.vala ../plugins/ice/src/register_plugin.vala crypto-vala/crypto-vala.vapi libdino/libdino.vapi qlite/qlite.vapi xmpp-vala/xmpp-vala.vapi
+../plugins/ice/src/dtls_srtp.vala:336.5-336.67: warning: unhandled error `GLib.Error'
+  336 |     certificate.get_fingerprint(digest_algo, buf, ref buf_out_size);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../plugins/ice/src/dtls_srtp.vala:152.9-152.74: warning: unhandled error `GLib.Error'
+  152 |         CertificateCredentials cert_cred = CertificateCredentials.create();
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../plugins/ice/src/dtls_srtp.vala:154.9-154.27: warning: unhandled error `GLib.Error'
+  154 |         throw_if_error(err);
+      |         ^~~~~~~~~~~~~~~~~~~ 
+../plugins/ice/src/dtls_srtp.vala:156.9-156.80: warning: unhandled error `GLib.Error'
+  156 |         Session? session = Session.create(server_or_client | InitFlags.DATAGRAM);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../plugins/ice/src/dtls_srtp.vala:158.9-158.70: warning: unhandled error `GLib.Error'
+  158 |         session.set_srtp_profile_direct("SRTP_AES128_CM_HMAC_SHA1_80");
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../plugins/ice/src/dtls_srtp.vala:159.9-159.78: warning: unhandled error `GLib.Error'
+  159 |         session.set_credentials(GnuTLS.CredentialsType.CERTIFICATE, cert_cred);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../plugins/ice/src/dtls_srtp.vala:161.9-161.95: warning: unhandled error `GLib.Error'
+  161 |         session.set_priority_from_string("NORMAL:!VERS-TLS-ALL:+VERS-DTLS-ALL:+CTYPE-CLI-X509");
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../plugins/ice/src/dtls_srtp.vala:206.9-206.110: warning: unhandled error `GLib.Error'
+  206 |         session.get_srtp_keys(km, km.length, out client_key, out client_salt, out server_key, out server_salt);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../plugins/ice/src/transport_parameters.vala:20.9-20.29: warning: Field `Dino.Plugins.Ice.TransportParameters.DatagramConnection.error' never used
+   20 |         private string? error;
+      |         ^~~~~~~~~~~~~~~~~~~~~ 
+gnutls.vapi:7.113-7.125: warning: [CCode (ctype = "...")] is deprecated, use [CCode (type = "...")] instead.
+    7 |     public delegate ssize_t PullFunc(void* transport_ptr, [CCode (ctype = "void*", array_length_type="size_t")] uint8[] array);
+      |                                                                                                                 ^~~~~~~~~~~~~  
+gnutls.vapi:13.113-13.125: warning: [CCode (ctype = "...")] is deprecated, use [CCode (type = "...")] instead.
+   13 |     public delegate ssize_t PushFunc(void* transport_ptr, [CCode (ctype = "void*", array_length_type="size_t")] uint8[] array);
+      |                                                                                                                 ^~~~~~~~~~~~~  
+Compilation succeeded - 11 warning(s)
+[363/540] Compiling C object main/dino.p/src_ui_conversation_content_view_file_transmission_progress.c.o
+[364/540] Compiling Vala source ../plugins/http-files/src/file_provider.vala ../plugins/http-files/src/file_sender.vala ../plugins/http-files/src/plugin.vala ../plugins/http-files/src/register_plugin.vala libdino/libdino.vapi qlite/qlite.vapi xmpp-vala/xmpp-vala.vapi
+../plugins/http-files/src/file_provider.vala:76.32-76.78: warning: unhandled error `GLib.UriError'
+   76 |         string transfer_host = Uri.parse(http_receive_data.url, UriFlags.NONE).get_host();
+      |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~            
+../plugins/http-files/src/file_provider.vala:114.32-114.78: warning: unhandled error `GLib.UriError'
+  114 |         string transfer_host = Uri.parse(http_receive_data.url, UriFlags.NONE).get_host();
+      |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~            
+../plugins/http-files/src/file_provider.vala:119.9-119.112: warning: unhandled error `GLib.Error'
+  119 |         InputStream stream = yield session.send_async(get_message, GLib.Priority.LOW, file_transfer.cancellable);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../plugins/http-files/src/file_sender.vala:146.32-146.78: warning: unhandled error `GLib.UriError'
+  146 |         string transfer_host = Uri.parse(file_send_data.url_up, UriFlags.NONE).get_host();
+      |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~            
+../plugins/http-files/src/plugin.vala:27.1-27.28: warning: Method `Dino.Plugins.HttpFiles.message_is_file' never used
+   27 | private bool message_is_file(Database db, Entities.Message message) {
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~                                         
+Compilation succeeded - 5 warning(s)
+[365/540] Linking target libdino/libdino.so.0.0
+[366/540] Generating symbol file libdino/libdino.so.0.0.p/libdino.so.0.0.symbols
+[367/540] Compiling C object plugins/ice/ice.so.p/meson-generated_src_module.c.o
+[368/540] Compiling C object plugins/ice/ice.so.p/meson-generated_src_dtls_srtp.c.o
+[369/540] Compiling C object plugins/http-files/http-files.so.p/meson-generated_src_file_provider.c.o
+[370/540] Compiling C object plugins/http-files/http-files.so.p/meson-generated_src_plugin.c.o
+[371/540] Compiling C object plugins/ice/ice.so.p/meson-generated_src_plugin.c.o
+[372/540] Compiling C object plugins/ice/ice.so.p/meson-generated_src_transport_parameters.c.o
+[373/540] Compiling C object plugins/http-files/http-files.so.p/meson-generated_src_file_sender.c.o
+[374/540] Compiling C object plugins/http-files/http-files.so.p/meson-generated_src_register_plugin.c.o
+[375/540] Linking target plugins/http-files/http-files.so
+[376/540] Compiling C object plugins/ice/ice.so.p/meson-generated_src_register_plugin.c.o
+[377/540] Compiling C object plugins/ice/ice.so.p/meson-generated_src_util.c.o
+[378/540] Linking target plugins/ice/ice.so
+[379/540] Compiling Vala source ../plugins/omemo/src/dtls_srtp_verification_draft.vala ../plugins/omemo/src/file_transfer/file_decryptor.vala ../plugins/omemo/src/file_transfer/file_encryptor.vala ../plugins/omemo/src/jingle/jet_omemo.vala ../plugins/omemo/src/jingle/jingle_helper.vala ../plugins/omemo/src/logic/database.vala ../plugins/omemo/src/logic/decrypt.vala ../plugins/omemo/src/logic/encrypt.vala ../plugins/omemo/src/logic/manager.vala ../plugins/omemo/src/logic/pre_key_store.vala ../plugins/omemo/src/logic/session_store.vala ../plugins/omemo/src/logic/signed_pre_key_store.vala ../plugins/omemo/src/logic/trust_manager.vala ../plugins/omemo/src/plugin.vala ../plugins/omemo/src/protocol/bundle.vala ../plugins/omemo/src/protocol/message_flag.vala ../plugins/omemo/src/protocol/stream_module.vala ../plugins/omemo/src/register_plugin.vala ../plugins/omemo/src/native/context.vala ../plugins/omemo/src/native/simple_iks.vala ../plugins/omemo/src/native/simple_pks.vala ../plugins/omemo/src/native/simple_spks.vala ../plugins/omemo/src/native/simple_ss.vala ../plugins/omemo/src/native/store.vala ../plugins/omemo/src/native/util.vala ../plugins/omemo/src/trust_level.vala ../plugins/omemo/src/ui/bad_messages_populator.vala ../plugins/omemo/src/ui/call_encryption_entry.vala ../plugins/omemo/src/ui/contact_details_provider.vala ../plugins/omemo/src/ui/device_notification_populator.vala ../plugins/omemo/src/ui/encryption_list_entry.vala ../plugins/omemo/src/ui/encryption_preferences_entry.vala ../plugins/omemo/src/ui/manage_key_dialog.vala ../plugins/omemo/src/ui/own_notifications.vala ../plugins/omemo/src/ui/util.vala crypto-vala/crypto-vala.vapi libdino/libdino.vapi qlite/qlite.vapi xmpp-vala/xmpp-vala.vapi
+../plugins/omemo/src/ui/device_notification_populator.vala:69.9-69.22: warning: Assignment to same variable
+   69 |         this.jid = jid;
+      |         ^~~~~~~~~~~~~~ 
+../plugins/omemo/src/ui/device_notification_populator.vala:70.9-70.30: warning: Assignment to same variable
+   70 |         this.account = account;
+      |         ^~~~~~~~~~~~~~~~~~~~~~ 
+../plugins/omemo/src/logic/decrypt.vala:94.21-94.120: warning: unhandled error `GLib.Error'
+   94 |                     PreKeyOmemoMessage msg = Plugin.get_context().deserialize_signal_pre_key_message(data.encrypted_key);
+      |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../plugins/omemo/src/ui/bad_messages_populator.vala:76.9-76.32: warning: unhandled error `Xmpp.InvalidJidError'
+   76 |         foreach (Row row in qry) {
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~  
+../plugins/omemo/src/jingle/jet_omemo.vala:96.9-96.48: warning: unhandled error `GLib.Error'
+   96 |         Omemo.Plugin.get_context().randomize(iv);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../plugins/omemo/src/jingle/jet_omemo.vala:98.9-98.49: warning: unhandled error `GLib.Error'
+   98 |         Omemo.Plugin.get_context().randomize(key);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../plugins/omemo/src/jingle/jet_omemo.vala:102.9-102.63: warning: unhandled error `Crypto.Error'
+  102 |         SymmetricCipher cipher = new SymmetricCipher("AES-GCM");
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../plugins/omemo/src/jingle/jet_omemo.vala:103.9-103.44: warning: unhandled error `Crypto.Error'
+  103 |         cipher.set_key(secret.transport_key);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../plugins/omemo/src/jingle/jet_omemo.vala:104.9-104.51: warning: unhandled error `Crypto.Error'
+  104 |         cipher.set_iv(secret.initialization_vector);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../plugins/omemo/src/jingle/jet_omemo.vala:108.9-108.70: warning: unhandled error `Crypto.Error'
+  108 |         Crypto.SymmetricCipher cipher = new SymmetricCipher("AES-GCM");
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../plugins/omemo/src/jingle/jet_omemo.vala:109.9-109.44: warning: unhandled error `Crypto.Error'
+  109 |         cipher.set_key(secret.transport_key);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../plugins/omemo/src/jingle/jet_omemo.vala:110.9-110.51: warning: unhandled error `Crypto.Error'
+  110 |         cipher.set_iv(secret.initialization_vector);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../plugins/omemo/src/jingle/jet_omemo.vala:73.9-73.91: warning: unhandled error `GLib.Error'
+   73 |         encryptor.encrypt_key_to_recipient(stream, encryption_data, peer_full_jid.bare_jid);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../plugins/omemo/src/file_transfer/file_decryptor.vala:69.11-69.30: warning: unreachable catch clause detected
+   69 |         } catch (GLib.Error e) {
+      |           ^~~~~~~~~~~~~~~~~~~~  
+../plugins/omemo/src/ui/encryption_preferences_entry.vala:13.5-13.33: warning: Field `Dino.Plugins.Omemo.OmemoPreferencesEntry.widget' never used
+   13 |     OmemoPreferencesWidget widget;
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../plugins/omemo/src/ui/encryption_preferences_entry.vala:44.16-44.55: warning: Field `Dino.Plugins.Omemo.OmemoPreferencesWidget.new_keys_listbox' never used
+   44 |     [GtkChild] private unowned ListBox new_keys_listbox;
+      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../plugins/omemo/src/ui/encryption_preferences_entry.vala:189.14-189.23: warning: Local variable `key_active' declared but never used
+  189 |         bool key_active = device[plugin.db.identity_meta.now_active];
+      |              ^~~~~~~~~~                                              
+../plugins/omemo/src/ui/encryption_preferences_entry.vala:223.13-223.25: warning: Switch does not handle `TRUSTED', `UNKNOWN' of enum `Dino.Plugins.Omemo.TrustLevel'
+  223 |             switch(trust) {
+      |             ^~~~~~~~~~~~~  
+../plugins/omemo/src/ui/manage_key_dialog.vala:129.9-129.65: warning: Switch does not handle `UNKNOWN' of enum `Dino.Plugins.Omemo.TrustLevel'
+  129 |         switch((TrustLevel) device[db.identity_meta.trust_level]) {
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  
+Compilation succeeded - 19 warning(s)
+[380/540] Compiling Vala source ../plugins/openpgp/vapi/gpg-error.vapi ../plugins/openpgp/src/contact_details_provider.vala ../plugins/openpgp/src/database.vala ../plugins/openpgp/src/encryption_list_entry.vala ../plugins/openpgp/src/encryption_preferences_entry.vala ../plugins/openpgp/src/file_transfer/file_decryptor.vala ../plugins/openpgp/src/file_transfer/file_encryptor.vala ../plugins/openpgp/src/gpgme_helper.vala ../plugins/openpgp/src/manager.vala ../plugins/openpgp/src/plugin.vala ../plugins/openpgp/src/register_plugin.vala ../plugins/openpgp/src/stream_flag.vala ../plugins/openpgp/src/stream_module.vala ../plugins/openpgp/src/util.vala libdino/libdino.vapi qlite/qlite.vapi xmpp-vala/xmpp-vala.vapi
+[381/540] Compiling C object plugins/omemo/omemo.so.p/meson-generated_.._resources.c.o
+[382/540] Compiling C object plugins/omemo/omemo.so.p/meson-generated_src_jingle_jet_omemo.c.o
+[383/540] Compiling Vala source ../plugins/rtp/src/codec_util.vala ../plugins/rtp/src/device.vala ../plugins/rtp/src/module.vala ../plugins/rtp/src/plugin.vala ../plugins/rtp/src/register_plugin.vala ../plugins/rtp/src/stream.vala ../plugins/rtp/src/video_widget.vala ../plugins/rtp/src/voice_processor.vala crypto-vala/crypto-vala.vapi libdino/libdino.vapi qlite/qlite.vapi xmpp-vala/xmpp-vala.vapi
+../plugins/rtp/src/codec_util.vala:356.9-356.68: warning: unhandled error `GLib.Error'
+  356 |         Gst.Element bin = Gst.parse_bin_from_description(desc, true);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../plugins/rtp/src/codec_util.vala:393.9-393.68: warning: unhandled error `GLib.Error'
+  393 |         Gst.Element bin = Gst.parse_bin_from_description(desc, true);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../plugins/rtp/src/codec_util.vala:404.9-404.68: warning: unhandled error `GLib.Error'
+  404 |         Gst.Element bin = Gst.parse_bin_from_description(desc, true);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../plugins/rtp/src/codec_util.vala:415.9-415.68: warning: unhandled error `GLib.Error'
+  415 |         Gst.Element bin = Gst.parse_bin_from_description(desc, true);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../plugins/rtp/src/stream.vala:735.25-735.45: warning: `Gst.Element.get_request_pad' has been deprecated since 1.20
+  735 |             input_pad = input.get_request_pad(@"src_$rtpid");
+      |                         ^~~~~~~~~~~~~~~~~~~~~                
+../plugins/rtp/src/stream.vala:416.36-416.67: warning: unhandled error `Crypto.Error'
+  416 |             bytes = new Bytes.take(crypto_session.encrypt_rtp(data));
+      |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  
+../plugins/rtp/src/stream.vala:426.36-426.68: warning: unhandled error `Crypto.Error'
+  426 |             bytes = new Bytes.take(crypto_session.encrypt_rtcp(data));
+      |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  
+../plugins/rtp/src/stream.vala:137.29-137.50: warning: `Gst.Element.get_request_pad' has been deprecated since 1.20
+  137 |         send_rtcp_src_pad = rtpbin.get_request_pad(@"send_rtcp_src_$rtpid");
+      |                             ^~~~~~~~~~~~~~~~~~~~~~                          
+../plugins/rtp/src/stream.vala:139.30-139.51: warning: `Gst.Element.get_request_pad' has been deprecated since 1.20
+  139 |         recv_rtcp_sink_pad = rtpbin.get_request_pad(@"recv_rtcp_sink_$rtpid");
+      |                              ^~~~~~~~~~~~~~~~~~~~~~                           
+../plugins/rtp/src/stream.vala:143.29-143.50: warning: `Gst.Element.get_request_pad' has been deprecated since 1.20
+  143 |         send_rtp_sink_pad = rtpbin.get_request_pad(@"send_rtp_sink_$rtpid");
+      |                             ^~~~~~~~~~~~~~~~~~~~~~                          
+../plugins/rtp/src/stream.vala:145.25-145.45: warning: `Gst.Element.get_request_pad' has been deprecated since 1.20
+  145 |             input_pad = input.get_request_pad(@"src_$rtpid");
+      |                         ^~~~~~~~~~~~~~~~~~~~~                
+../plugins/rtp/src/stream.vala:158.29-158.50: warning: `Gst.Element.get_request_pad' has been deprecated since 1.20
+  158 |         recv_rtp_sink_pad = rtpbin.get_request_pad(@"recv_rtp_sink_$rtpid");
+      |                             ^~~~~~~~~~~~~~~~~~~~~~                          
+../plugins/rtp/src/stream.vala:195.29-195.40: warning: `GLib.ValueArray' has been deprecated since 2.32
+  195 |         unowned ValueArray? source_stats;
+      |                             ^~~~~~~~~~~~ 
+../plugins/rtp/src/plugin.vala:155.55-155.72: warning: `string.to_uint64' is deprecated. Use uint64.parse
+  155 |                     stream.on_ssrc_pad_added((uint32) split[4].to_uint64(), pad);
+      |                                                       ^~~~~~~~~~~~~~~~~~         
+../plugins/rtp/src/plugin.vala:294.37-294.47: warning: `null' incompatible with return type `Dino.Plugins.Rtp.Stream'
+  294 |         if (content_params == null) return null;
+      |                                     ^~~~~~~~~~~ 
+../plugins/rtp/src/video_widget.vala:235.19-235.103: warning: unhandled error `GLib.Error'
+  235 |         prepare = Gst.parse_bin_from_description(@"videoconvert name=video_widget_$(id)_convert", true);
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../plugins/rtp/src/video_widget.vala:254.19-254.236: warning: unhandled error `GLib.Error'
+  254 |         prepare = Gst.parse_bin_from_description(@"videoflip video-direction=auto name=video_widget_$(id)_orientation ! videoflip method=horizontal-flip name=video_widget_$(id)_flip ! videoconvert name=video_widget_$(id)_convert", true);
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../plugins/rtp/src/stream.vala:615.34-615.39: warning: Local variable `camera' declared but never used
+  615 |                             bool camera = (extension_data[0] & 0x8) > 0;
+      |                                  ^~~~~~                                 
+../plugins/rtp/src/stream.vala:616.34-616.37: warning: Local variable `flip' declared but never used
+  616 |                             bool flip = (extension_data[0] & 0x4) > 0;
+      |                                  ^~~~                                 
+../plugins/rtp/src/video_widget.vala:90.55-90.77: warning: Use of possibly unassigned parameter `start'
+   90 |     public override void get_times(Gst.Buffer buffer, out Gst.ClockTime start, out Gst.ClockTime end) {
+      |                                                       ^~~~~~~~~~~~~~~~~~~~~~~                          
+../plugins/rtp/src/video_widget.vala:90.80-90.100: warning: Use of possibly unassigned parameter `end'
+   90 |     public override void get_times(Gst.Buffer buffer, out Gst.ClockTime start, out Gst.ClockTime end) {
+      |                                                                                ^~~~~~~~~~~~~~~~~~~~~   
+../plugins/rtp/src/video_widget.vala:90.80-90.100: warning: Use of possibly unassigned parameter `end'
+   90 |     public override void get_times(Gst.Buffer buffer, out Gst.ClockTime start, out Gst.ClockTime end) {
+      |                                                                                ^~~~~~~~~~~~~~~~~~~~~   
+../plugins/rtp/src/video_widget.vala:125.64-125.92: warning: Use of possibly unassigned parameter `pixel_aspect_ratio'
+  125 |     private Gdk.Texture texture_from_buffer(Gst.Buffer buffer, out double pixel_aspect_ratio) {
+      |                                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~   
+../plugins/rtp/src/video_widget.vala:174.5-174.30: warning: Field `Dino.Plugins.Rtp.VideoWidget.last_caps' never used
+  174 |     private Gst.Caps last_caps;
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../plugins/rtp/src/video_widget.vala:175.5-175.35: warning: Field `Dino.Plugins.Rtp.VideoWidget.recaps_since_change' never used
+  175 |     private int recaps_since_change;
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../plugins/rtp/src/voice_processor.vala:109.5-109.51: warning: Method `Dino.Plugins.Rtp.VoiceProcessor.get_stream_has_voice' never used
+  109 |     private static extern bool get_stream_has_voice(void* native);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~               
+../plugins/rtp/src/voice_processor.vala:173.48-173.71: warning: Use of possibly unassigned parameter `output_buffer'
+  173 |     public override FlowReturn generate_output(out Buffer output_buffer) {
+      |                                                ^~~~~~~~~~~~~~~~~~~~~~~~   
+Compilation succeeded - 27 warning(s)
+[384/540] Compiling Vala source ../main/src/main.vala ../main/src/ui/add_conversation/add_conference_dialog.vala ../main/src/ui/add_conversation/add_contact_dialog.vala ../main/src/ui/add_conversation/add_groupchat_dialog.vala ../main/src/ui/add_conversation/conference_details_fragment.vala ../main/src/ui/add_conversation/conference_list.vala ../main/src/ui/add_conversation/list_row.vala ../main/src/ui/add_conversation/roster_list.vala ../main/src/ui/add_conversation/select_contact_dialog.vala ../main/src/ui/add_conversation/select_jid_fragment.vala ../main/src/ui/application.vala ../main/src/ui/call_window/audio_settings_popover.vala ../main/src/ui/call_window/call_bottom_bar.vala ../main/src/ui/call_window/call_connection_details_window.vala ../main/src/ui/call_window/call_encryption_button.vala ../main/src/ui/call_window/call_window.vala ../main/src/ui/call_window/call_window_controller.vala ../main/src/ui/call_window/participant_widget.vala ../main/src/ui/call_window/video_settings_popover.vala ../main/src/ui/chat_input/chat_input_controller.vala ../main/src/ui/chat_input/chat_text_view.vala ../main/src/ui/chat_input/encryption_button.vala ../main/src/ui/chat_input/occupants_tab_completer.vala ../main/src/ui/chat_input/smiley_converter.vala ../main/src/ui/chat_input/view.vala ../main/src/ui/contact_details/permissions_provider.vala ../main/src/ui/contact_details/settings_provider.vala ../main/src/ui/conversation_content_view/call_widget.vala ../main/src/ui/conversation_content_view/chat_state_populator.vala ../main/src/ui/conversation_content_view/content_populator.vala ../main/src/ui/conversation_content_view/conversation_item_skeleton.vala ../main/src/ui/conversation_content_view/conversation_view.vala ../main/src/ui/conversation_content_view/date_separator_populator.vala ../main/src/ui/conversation_content_view/file_default_widget.vala ../main/src/ui/conversation_content_view/file_image_widget.vala ../main/src/ui/conversation_content_view/file_transmission_progress.vala ../main/src/ui/conversation_content_view/file_widget.vala ../main/src/ui/conversation_content_view/item_actions.vala ../main/src/ui/conversation_content_view/message_widget.vala ../main/src/ui/conversation_content_view/quote_widget.vala ../main/src/ui/conversation_content_view/reactions_widget.vala ../main/src/ui/conversation_content_view/subscription_notification.vala ../main/src/ui/conversation_content_view/unread_indicator_populator.vala ../main/src/ui/conversation_details.vala ../main/src/ui/conversation_selector/conversation_selector.vala ../main/src/ui/conversation_selector/conversation_selector_row.vala ../main/src/ui/conversation_titlebar/call_entry.vala ../main/src/ui/conversation_titlebar/menu_entry.vala ../main/src/ui/conversation_titlebar/occupants_entry.vala ../main/src/ui/conversation_titlebar/search_entry.vala ../main/src/ui/conversation_view.vala ../main/src/ui/conversation_view_controller.vala ../main/src/ui/file_send_overlay.vala ../main/src/ui/global_search.vala ../main/src/ui/main_window.vala ../main/src/ui/main_window_controller.vala ../main/src/ui/notifier_freedesktop.vala ../main/src/ui/notifier_gnotifications.vala ../main/src/ui/occupant_menu/list.vala ../main/src/ui/occupant_menu/list_row.vala ../main/src/ui/occupant_menu/view.vala ../main/src/ui/util/accounts_combo_box.vala ../main/src/ui/util/config.vala ../main/src/ui/util/data_forms.vala ../main/src/ui/util/file_metadata_providers.vala ../main/src/ui/util/helper.vala ../main/src/ui/util/preference_group.vala ../main/src/ui/util/size_request_box.vala ../main/src/ui/util/sizing_bin.vala ../main/src/ui/widgets/avatar_picture.vala ../main/src/ui/widgets/date_separator.vala ../main/src/ui/widgets/fixed_ratio_picture.vala ../main/src/ui/widgets/natural_size_increase.vala ../main/src/view_model/account_details.vala ../main/src/view_model/conversation_details.vala ../main/src/view_model/preferences_dialog.vala ../main/src/view_model/preferences_row.vala ../main/src/windows/preferences_window/account_preferences_subpage.vala ../main/src/windows/preferences_window/accounts_preferences_page.vala ../main/src/windows/preferences_window/add_account_dialog.vala ../main/src/windows/preferences_window/change_password_dialog.vala ../main/src/windows/preferences_window/encryption_preferences_page.vala ../main/src/windows/preferences_window/general_preferences_page.vala ../main/src/windows/preferences_window/preferences_dialog.vala ../main/src/windows/conversation_details.vala libdino/libdino.vapi qlite/qlite.vapi xmpp-vala/xmpp-vala.vapi
+../main/src/ui/main_window.vala:14.16-14.33: warning: [GtkChild] fields must be declared as `unowned'
+   14 |     [GtkChild] public Stack stack;
+      |                ^~~~~~~~~~~~~~~~~~ 
+../main/src/ui/main_window.vala:15.16-15.67: warning: [GtkChild] fields must be declared as `unowned'
+   15 |     [GtkChild] public Adw.NavigationSplitView navigation_split_view;
+      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../main/src/ui/main_window.vala:17.16-17.43: warning: [GtkChild] fields must be declared as `unowned'
+   17 |     [GtkChild] public MenuButton add_button;
+      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../main/src/ui/main_window.vala:18.16-18.44: warning: [GtkChild] fields must be declared as `unowned'
+   18 |     [GtkChild] public MenuButton menu_button;
+      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../main/src/ui/main_window.vala:20.16-20.58: warning: [GtkChild] fields must be declared as `unowned'
+   20 |     [GtkChild] public Adw.HeaderBar conversation_headerbar;
+      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../main/src/ui/main_window.vala:21.16-21.63: warning: [GtkChild] fields must be declared as `unowned'
+   21 |     [GtkChild] public Adw.WindowTitle conversation_window_title;
+      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../main/src/ui/main_window.vala:23.16-23.56: warning: [GtkChild] fields must be declared as `unowned'
+   23 |     [GtkChild] public ConversationView conversation_view;
+      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../main/src/ui/chat_input/encryption_button.vala:48.9-48.27: warning: `GLib.SimpleActionGroup.insert' has been deprecated since 2.38
+   48 |         action_group.insert(action);
+      |         ^~~~~~~~~~~~~~~~~~~         
+../main/src/ui/widgets/avatar_picture.vala:153.9-153.44: warning: Access to possible `null'. Perform a check or use an unsafe cast.
+  153 |         (tiles as GLib.ListStore).remove_all();
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~   
+../main/src/ui/widgets/avatar_picture.vala:190.9-190.40: warning: Access to possible `null'. Perform a check or use an unsafe cast.
+  190 |         (tiles as GLib.ListStore).append(new ConversationParticipantAvatarPictureTileModel(stream_interactor, conversation, jid));
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                                                                                          
+../main/src/ui/util/helper.vala:113.9-113.32: warning: `Gtk.Widget.get_style_context' has been deprecated since 4.10
+  113 |         widget.get_style_context().add_provider(p, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~                                                            
+../main/src/ui/util/helper.vala:223.9-223.90: warning: unhandled error `GLib.RegexError'
+  223 |         Regex quote_regex = new Regex("((?<=\n)" + gt + ".*(\n|$))|(^" + gt + ".*(\n|$))");
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../main/src/ui/util/helper.vala:285.13-285.29: warning: unhandled error `GLib.RegexError'
+  285 |             match_info.next();
+      |             ^~~~~~~~~~~~~~~~~ 
+../main/src/ui/util/helper.vala:133.19-133.42: warning: `Gtk.Widget.get_style_context' has been deprecated since 4.10
+  133 |     Gdk.RGBA bg = widget.get_style_context().get_color();
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~               
+../main/src/ui/util/helper.vala:86.27-86.49: warning: `Gtk.Widget.get_style_context' has been deprecated since 4.10
+   86 |     Gdk.RGBA color_rgba = label.get_style_context().get_color();
+      |                           ^~~~~~~~~~~~~~~~~~~~~~~               
+../main/src/ui/util/helper.vala:87.5-87.27: warning: `Gtk.Widget.get_style_context' has been deprecated since 4.10
+   87 |     label.get_style_context().remove_provider(provider);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~                             
+../main/src/ui/conversation_content_view/file_default_widget.vala:35.13-35.38: warning: `Gtk.Widget.translate_coordinates' has been deprecated since 4.12
+   35 |             this.translate_coordinates(file_menu, x, y, out x_button, out y_button);
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~                                              
+../main/src/ui/conversation_content_view/file_transmission_progress.vala:97.17-97.33: warning: `Gtk.Widget.get_style_context' has been deprecated since 4.10
+   97 |                 get_style_context().lookup_color("accent_color", out fg_color);
+      |                 ^~~~~~~~~~~~~~~~~                                              
+../main/src/ui/conversation_content_view/file_image_widget.vala:71.13-71.72: warning: Access to possible `null'. Perform a check or use an unsafe cast.
+   71 |             (controller.widget as FileImageWidget).on_motion_event_enter();
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~   
+../main/src/ui/conversation_content_view/file_image_widget.vala:80.13-80.72: warning: Access to possible `null'. Perform a check or use an unsafe cast.
+   80 |             (controller.widget as FileImageWidget).image_overlay_toolbar.visible = false;
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                 
+../main/src/ui/conversation_content_view/file_image_widget.vala:81.13-81.66: warning: Access to possible `null'. Perform a check or use an unsafe cast.
+   81 |             (controller.widget as FileImageWidget).file_size_label.visible = false;
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                 
+../main/src/ui/conversation_content_view/file_image_widget.vala:231.16-231.51: warning: unhandled error `GLib.Error'
+  231 |         return new Pixbuf.from_stream(input_stream);
+      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../main/src/ui/conversation_content_view/file_widget.vala:169.31-169.47: warning: `Gtk.FileChooserNative' has been deprecated since 4.10
+  169 |         var save_dialog = new FileChooserNative(_("Save as…"), widget.get_root() as Gtk.Window, FileChooserAction.SAVE, null, null);
+      |                               ^~~~~~~~~~~~~~~~~                                                                                       
+../main/src/ui/conversation_content_view/file_widget.vala:169.13-169.23: warning: `Gtk.FileChooserNative' has been deprecated since 4.10
+  169 |         var save_dialog = new FileChooserNative(_("Save as…"), widget.get_root() as Gtk.Window, FileChooserAction.SAVE, null, null);
+      |             ^~~~~~~~~~~                                                                                                               
+../main/src/ui/util/accounts_combo_box.vala:39.5-39.36: warning: `Gtk.ListStore' has been deprecated since 4.10
+   39 |     private Gtk.ListStore list_store = new Gtk.ListStore(2, typeof(string), typeof(Account));
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                                                         
+../main/src/ui/util/accounts_combo_box.vala:39.44-39.56: warning: `Gtk.ListStore' has been deprecated since 4.10
+   39 |     private Gtk.ListStore list_store = new Gtk.ListStore(2, typeof(string), typeof(Account));
+      |                                            ^~~~~~~~~~~~~                                     
+../main/src/ui/util/accounts_combo_box.vala:44.41-44.60: warning: `Gtk.CellRendererText' has been deprecated since 4.10
+   44 |         CellRendererText renderer = new Gtk.CellRendererText();
+      |                                         ^~~~~~~~~~~~~~~~~~~~   
+../main/src/ui/util/accounts_combo_box.vala:44.26-44.33: warning: `Gtk.CellRendererText' has been deprecated since 4.10
+   44 |         CellRendererText renderer = new Gtk.CellRendererText();
+      |                          ^~~~~~~~                              
+../main/src/ui/util/accounts_combo_box.vala:48.18-48.21: warning: `Gtk.TreeIter' has been deprecated since 4.10
+   48 |         TreeIter iter;
+      |                  ^~~~ 
+../main/src/ui/util/accounts_combo_box.vala:12.22-12.29: warning: `Gtk.TreeIter' has been deprecated since 4.10
+   12 |             TreeIter selected;
+      |                      ^~~~~~~~ 
+../main/src/ui/util/accounts_combo_box.vala:21.22-21.25: warning: `Gtk.TreeIter' has been deprecated since 4.10
+   21 |             TreeIter iter;
+      |                      ^~~~ 
+../main/src/ui/call_window/call_window_controller.vala:304.9-304.39: warning: `Gtk.Widget.get_allocation' has been deprecated since 4.12
+  304 |         this.call_window.get_allocation(out allocation);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                 
+../main/src/ui/call_window/call_window_controller.vala:305.30-305.66: warning: `Gtk.Widget.get_allocated_height' has been deprecated since 4.12
+  305 |         this.window_height = this.call_window.get_allocated_height();
+      |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~   
+../main/src/ui/call_window/call_window_controller.vala:306.29-306.64: warning: `Gtk.Widget.get_allocated_width' has been deprecated since 4.12
+  306 |         this.window_width = this.call_window.get_allocated_width();
+      |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~   
+../main/src/ui/call_window/call_window_controller.vala:87.33-87.68: warning: `Gtk.Widget.get_allocated_width' has been deprecated since 4.12
+   87 |             int current_width = this.call_window.get_allocated_width();
+      |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~   
+../main/src/ui/call_window/call_window_controller.vala:95.34-95.70: warning: `Gtk.Widget.get_allocated_height' has been deprecated since 4.12
+   95 |             int current_height = this.call_window.get_allocated_height();
+      |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~   
+../main/src/ui/call_window/call_window.vala:287.13-287.37: warning: `Gtk.Widget.get_allocation' has been deprecated since 4.12
+  287 |             header_bar.get_allocation(out header_bar_alloc);
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~                       
+../main/src/ui/call_window/call_window.vala:290.13-290.26: warning: `Gtk.Widget.get_allocation' has been deprecated since 4.12
+  290 |             get_allocation(out alloc);
+      |             ^~~~~~~~~~~~~~            
+../main/src/ui/conversation_content_view/content_populator.vala:75.9-75.19: warning: `null' incompatible with return type `Dino.Ui.ConversationSummary.ContentMetaItem'
+   75 |         return null;
+      |         ^~~~~~~~~~~ 
+../main/src/ui/conversation_content_view/unread_indicator_populator.vala:71.13-71.33: warning: `Gtk.Widget.get_style_context' has been deprecated since 4.10
+   71 |             box.get_style_context().add_class("dino-unread-line");
+      |             ^~~~~~~~~~~~~~~~~~~~~                                 
+../main/src/ui/conversation_content_view/conversation_view.vala:193.18-193.44: warning: `Gtk.Widget.get_allocated_height' has been deprecated since 4.12
+  193 |             h += widget.get_allocated_height() + widget.margin_top + widget.margin_bottom;
+      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~                                              
+../main/src/ui/conversation_content_view/conversation_view.vala:212.9-212.31: warning: `Gtk.Widget.translate_coordinates' has been deprecated since 4.12
+  212 |         w.translate_coordinates(main, 0, 0, out widget_x, out widget_y);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~                                         
+../main/src/ui/conversation_content_view/conversation_view.vala:315.18-315.44: warning: `Gtk.Widget.get_allocated_height' has been deprecated since 4.12
+  315 |             h += widget.get_allocated_height();
+      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~   
+../main/src/ui/conversation_content_view/conversation_view.vala:91.9-91.27: warning: `GLib.SimpleActionGroup.insert' has been deprecated since 2.38
+   91 |         action_group.insert(action_action);
+      |         ^~~~~~~~~~~~~~~~~~~                
+../main/src/ui/main_window.vala:24.16-24.64: warning: [GtkChild] fields must be declared as `unowned'
+   24 |     [GtkChild] public ConversationSelector conversation_selector;
+      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../main/src/ui/main_window.vala:25.16-25.42: warning: [GtkChild] fields must be declared as `unowned'
+   25 |     [GtkChild] public Adw.Flap search_flap;
+      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../main/src/ui/main_window.vala:25.16-25.42: warning: `Adw.Flap' has been deprecated since 1.4
+   25 |     [GtkChild] public Adw.Flap search_flap;
+      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../main/src/ui/main_window.vala:26.16-26.39: warning: [GtkChild] fields must be declared as `unowned'
+   26 |     [GtkChild] private Stack left_stack;
+      |                ^~~~~~~~~~~~~~~~~~~~~~~~ 
+../main/src/ui/main_window.vala:27.16-27.40: warning: [GtkChild] fields must be declared as `unowned'
+   27 |     [GtkChild] private Stack right_stack;
+      |                ^~~~~~~~~~~~~~~~~~~~~~~~~ 
+../main/src/ui/main_window.vala:28.16-28.42: warning: [GtkChild] fields must be declared as `unowned'
+   28 |     [GtkChild] public Adw.Bin search_frame;
+      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../main/src/ui/util/preference_group.vala:56.61-56.85: warning: unhandled error `GLib.Error'
+   56 |                 Picture picture = new Picture.for_paintable(Texture.from_bytes(bytes));
+      |                                                             ^~~~~~~~~~~~~~~~~~~~~~~~~  
+../main/src/windows/conversation_details.vala:71.13-71.37: warning: `GLib.SimpleActionGroup.insert' has been deprecated since 2.38
+   71 |             block_action_group.insert(block_action);
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~               
+../main/src/ui/conversation_view_controller.vala:200.41-200.57: warning: `Gtk.FileChooserNative' has been deprecated since 4.10
+  200 |         FileChooserNative chooser = new FileChooserNative(_("Select file"), view.get_root() as Gtk.Window, FileChooserAction.OPEN, _("Select"), _("Cancel"));
+      |                                         ^~~~~~~~~~~~~~~~~                                                                                                    
+../main/src/ui/conversation_view_controller.vala:200.27-200.33: warning: `Gtk.FileChooserNative' has been deprecated since 4.10
+  200 |         FileChooserNative chooser = new FileChooserNative(_("Select file"), view.get_root() as Gtk.Window, FileChooserAction.OPEN, _("Select"), _("Cancel"));
+      |                           ^~~~~~~                                                                                                                            
+../main/src/ui/conversation_view_controller.vala:182.13-182.75: warning: unhandled error `GLib.Error'
+  182 |             Gdk.Texture? texture = yield clipboard.read_texture_async(null); // TODO critical
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                  
+../main/src/ui/conversation_view_controller.vala:41.9-41.37: warning: `Gtk.DropTarget.on_drop' has been deprecated since vala-0.58. Use DropTarget.drop
+   41 |         drop_event_controller.on_drop.connect(this.on_drag_data_received);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~                                     
+../main/src/ui/conversation_titlebar/menu_entry.vala:31.9-31.27: warning: `GLib.SimpleActionGroup.insert' has been deprecated since 2.38
+   31 |         action_group.insert(details_action);
+      |         ^~~~~~~~~~~~~~~~~~~                 
+../main/src/ui/conversation_titlebar/call_entry.vala:37.13-37.31: warning: `GLib.SimpleActionGroup.insert' has been deprecated since 2.38
+   37 |             action_group.insert(audio_call_action);
+      |             ^~~~~~~~~~~~~~~~~~~                    
+../main/src/ui/conversation_titlebar/call_entry.vala:45.13-45.31: warning: `GLib.SimpleActionGroup.insert' has been deprecated since 2.38
+   45 |             action_group.insert(video_call_action);
+      |             ^~~~~~~~~~~~~~~~~~~                    
+../main/src/windows/preferences_window/account_preferences_subpage.vala:131.41-131.57: warning: `Gtk.FileChooserNative' has been deprecated since 4.10
+  131 |         FileChooserNative chooser = new FileChooserNative(_("Select avatar"), (Window)this.get_root(), FileChooserAction.OPEN, _("Select"), _("Cancel"));
+      |                                         ^~~~~~~~~~~~~~~~~                                                                                                
+../main/src/windows/preferences_window/account_preferences_subpage.vala:131.27-131.33: warning: `Gtk.FileChooserNative' has been deprecated since 4.10
+  131 |         FileChooserNative chooser = new FileChooserNative(_("Select avatar"), (Window)this.get_root(), FileChooserAction.OPEN, _("Select"), _("Cancel"));
+      |                           ^~~~~~~                                                                                                                        
+../main/src/ui/application.vala:290.29-290.34: warning: `Gtk.Dialog' has been deprecated since 4.10
+  290 |         Dialog dialog = new Dialog.with_buttons(_("Join Channel"), window, Gtk.DialogFlags.MODAL | Gtk.DialogFlags.USE_HEADER_BAR, _("Join"), ResponseType.OK, _("Cancel"), ResponseType.CANCEL);
+      |                             ^~~~~~                                                                                                                                                               
+../main/src/ui/application.vala:290.16-290.21: warning: `Gtk.Dialog' has been deprecated since 4.10
+  290 |         Dialog dialog = new Dialog.with_buttons(_("Join Channel"), window, Gtk.DialogFlags.MODAL | Gtk.DialogFlags.USE_HEADER_BAR, _("Join"), ResponseType.OK, _("Cancel"), ResponseType.CANCEL);
+      |                ^~~~~~                                                                                                                                                                            
+../main/src/ui/widgets/avatar_picture.vala:288.56-288.107: warning: unhandled error `GLib.Error'
+  288 |         Gdk.Pixbuf? avatar = tile.image_file != null ? new Gdk.Pixbuf.from_file(tile.image_file.get_path()) : null;
+      |                                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~        
+../main/src/ui/notifier_freedesktop.vala:312.29-312.55: warning: `Gdk.pixbuf_get_from_surface' has been deprecated since 4.12
+  312 |         Gdk.Pixbuf avatar = Gdk.pixbuf_get_from_surface(surface, 0, 0, surface.get_width(), surface.get_height());
+      |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~                                                           
+../main/src/ui/notifier_gnotifications.vala:183.33-183.59: warning: `Gdk.pixbuf_get_from_surface' has been deprecated since 4.12
+  183 |             Gdk.Pixbuf avatar = Gdk.pixbuf_get_from_surface(surface, 0, 0, surface.get_width(), surface.get_height());
+      |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~                                                           
+../main/src/ui/notifier_gnotifications.vala:75.13-75.35: warning: `GLib.Notification.set_urgent' has been deprecated since 2.42
+   75 |             notification.set_urgent(true);
+      |             ^~~~~~~~~~~~~~~~~~~~~~~       
+../main/src/ui/util/file_metadata_providers.vala:10.29-10.73: warning: unhandled error `GLib.Error'
+   10 |         string? mime_type = file.query_info("*", FileQueryInfoFlags.NONE).get_content_type();
+      |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                    
+../main/src/ui/application.vala:57.19-57.33: warning: unreachable catch clause detected
+   57 |                 } catch (Error e) {
+      |                   ^~~~~~~~~~~~~~~  
+../main/src/ui/conversation_content_view/conversation_item_skeleton.vala:139.5-139.34: warning: Method `Dino.Ui.ConversationSummary.ConversationItemSkeleton.update_error_mode' never used
+  139 |     private void update_error_mode() {
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    
+../main/src/ui/conversation_content_view/file_widget.vala:25.30-25.46: warning: Local variable `widget_controller' declared but never used
+   25 |         FileWidgetController widget_controller = new FileWidgetController(widget, file_transfer, stream_interactor);
+      |                              ^~~~~~~~~~~~~~~~~                                                                      
+../main/src/ui/conversation_content_view/file_widget.vala:112.15-112.29: warning: unreachable catch clause detected
+  112 |             } catch (Error e) { }
+      |               ^~~~~~~~~~~~~~~    
+../main/src/ui/conversation_content_view/message_widget.vala:105.13-105.30: warning: Local variable `strikethrough_attr' declared but never used
+  105 |         var strikethrough_attr = Pango.attr_strikethrough_new(true);
+      |             ^~~~~~~~~~~~~~~~~~                                      
+../main/src/ui/conversation_titlebar/menu_entry.vala:44.5-44.42: warning: Method `Dino.Ui.MenuEntry.open_conversation_details' never used
+   44 |     private void open_conversation_details() {
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    
+../main/src/ui/conversation_view_controller.vala:14.5-14.34: warning: Field `Dino.Ui.ConversationViewController.overlay_dialog' never used
+   14 |     private Widget? overlay_dialog;
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../main/src/ui/notifier_freedesktop.vala:284.15-284.29: warning: unreachable catch clause detected
+  284 |             } catch (Error e) { }
+      |               ^~~~~~~~~~~~~~~    
+../main/src/ui/notifier_freedesktop.vala:302.11-302.25: warning: unreachable catch clause detected
+  302 |         } catch (Error e) { }
+      |           ^~~~~~~~~~~~~~~    
+../main/src/ui/util/helper.vala:11.1-11.37: warning: Field `Dino.Ui.Util.CODE_BLOCK_REGEX' never used
+   11 | private static Regex CODE_BLOCK_REGEX;
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+../main/src/ui/util/helper.vala:114.7-114.28: warning: unreachable catch clause detected
+  114 |     } catch (GLib.Error err) {
+      |       ^~~~~~~~~~~~~~~~~~~~~~  
+../main/src/windows/preferences_window/account_preferences_subpage.vala:29.5-29.38: warning: Field `Dino.Ui.AccountPreferencesSubpage.account_notify_ids' never used
+   29 |     private ulong[] account_notify_ids = new ulong[0];
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                
+../main/src/windows/preferences_window/account_preferences_subpage.vala:200.9-200.29: warning: Switch does not handle `CONNECTION', `STREAM_ERROR' of enum `Dino.ConnectionManager.ConnectionError.Source'
+  200 |         switch (error.source) {
+      |         ^~~~~~~~~~~~~~~~~~~~~  
+../main/src/windows/conversation_details.vala:129.13-129.39: warning: Switch does not handle `DEFAULT' of enum `Dino.Ui.ViewModel.ConversationDetails.NotificationSetting'
+  129 |             switch (model.notification) {
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~  
+Compilation succeeded - 82 warning(s)
+[385/540] Compiling C object plugins/omemo/omemo.so.p/meson-generated_src_file_transfer_file_encryptor.c.o
+[386/540] Compiling C object plugins/omemo/omemo.so.p/meson-generated_src_dtls_srtp_verification_draft.c.o
+[387/540] Compiling C object plugins/omemo/omemo.so.p/meson-generated_src_file_transfer_file_decryptor.c.o
+[388/540] Compiling C object main/dino.p/meson-generated_src_ui_add_conversation_add_groupchat_dialog.c.o
+[389/540] Compiling C object main/dino.p/meson-generated_src_ui_add_conversation_add_contact_dialog.c.o
+[390/540] Compiling C object main/dino.p/meson-generated_src_ui_add_conversation_add_conference_dialog.c.o
+[391/540] Compiling C object plugins/omemo/omemo.so.p/meson-generated_src_logic_database.c.o
+[392/540] Compiling C object plugins/omemo/omemo.so.p/meson-generated_src_jingle_jingle_helper.c.o
+[393/540] Compiling C object main/dino.p/meson-generated_src_main.c.o
+[394/540] Compiling C object main/dino.p/meson-generated_src_ui_add_conversation_conference_details_fragment.c.o
+[395/540] Compiling C object main/dino.p/meson-generated_src_ui_add_conversation_list_row.c.o
+[396/540] Compiling C object main/dino.p/meson-generated_src_ui_add_conversation_conference_list.c.o
+[397/540] Compiling C object main/dino.p/meson-generated_src_ui_add_conversation_select_jid_fragment.c.o
+[398/540] Compiling C object main/dino.p/meson-generated_src_ui_add_conversation_roster_list.c.o
+[399/540] Compiling C object main/dino.p/meson-generated_src_ui_add_conversation_select_contact_dialog.c.o
+[400/540] Compiling C object main/dino.p/meson-generated_src_ui_application.c.o
+[401/540] Compiling C object main/dino.p/meson-generated_src_ui_call_window_audio_settings_popover.c.o
+[402/540] Compiling C object main/dino.p/meson-generated_src_ui_call_window_call_bottom_bar.c.o
+[403/540] Compiling C object main/dino.p/meson-generated_src_ui_call_window_call_connection_details_window.c.o
+[404/540] Compiling C object main/dino.p/meson-generated_src_ui_call_window_call_encryption_button.c.o
+[405/540] Compiling C object main/dino.p/meson-generated_src_ui_call_window_call_window_controller.c.o
+[406/540] Compiling C object main/dino.p/meson-generated_src_ui_call_window_participant_widget.c.o
+[407/540] Compiling C object main/dino.p/meson-generated_src_ui_call_window_call_window.c.o
+[408/540] Compiling C object main/dino.p/meson-generated_src_ui_call_window_video_settings_popover.c.o
+[409/540] Compiling C object main/dino.p/meson-generated_src_ui_chat_input_chat_input_controller.c.o
+[410/540] Compiling C object main/dino.p/meson-generated_src_ui_chat_input_occupants_tab_completer.c.o
+[411/540] Compiling C object main/dino.p/meson-generated_src_ui_chat_input_encryption_button.c.o
+[412/540] Compiling C object main/dino.p/meson-generated_src_ui_contact_details_permissions_provider.c.o
+[413/540] Compiling C object main/dino.p/meson-generated_src_ui_chat_input_chat_text_view.c.o
+[414/540] Compiling C object main/dino.p/meson-generated_src_ui_contact_details_settings_provider.c.o
+[415/540] Compiling C object main/dino.p/meson-generated_src_ui_chat_input_smiley_converter.c.o
+[416/540] Compiling C object main/dino.p/meson-generated_src_ui_conversation_content_view_content_populator.c.o
+[417/540] Compiling C object main/dino.p/meson-generated_src_ui_chat_input_view.c.o
+[418/540] Compiling C object main/dino.p/meson-generated_src_ui_conversation_content_view_conversation_item_skeleton.c.o
+[419/540] Compiling C object main/dino.p/meson-generated_src_ui_conversation_content_view_call_widget.c.o
+[420/540] Compiling C object main/dino.p/meson-generated_src_ui_conversation_content_view_chat_state_populator.c.o
+[421/540] Compiling C object main/dino.p/meson-generated_src_ui_conversation_content_view_date_separator_populator.c.o
+[422/540] Compiling C object main/dino.p/meson-generated_src_ui_conversation_content_view_file_transmission_progress.c.o
+[423/540] Compiling C object main/dino.p/meson-generated_src_ui_conversation_content_view_conversation_view.c.o
+[424/540] Compiling C object main/dino.p/meson-generated_src_ui_conversation_content_view_file_default_widget.c.o
+[425/540] Compiling C object main/dino.p/meson-generated_src_ui_conversation_content_view_file_image_widget.c.o
+[426/540] Compiling C object main/dino.p/meson-generated_src_ui_conversation_content_view_item_actions.c.o
+[427/540] Compiling C object main/dino.p/meson-generated_src_ui_conversation_content_view_file_widget.c.o
+[428/540] Compiling C object main/dino.p/meson-generated_src_ui_conversation_content_view_reactions_widget.c.o
+[429/540] Compiling C object main/dino.p/meson-generated_src_ui_conversation_content_view_message_widget.c.o
+[430/540] Compiling C object main/dino.p/meson-generated_src_ui_conversation_content_view_quote_widget.c.o
+[431/540] Compiling C object main/dino.p/meson-generated_src_ui_conversation_selector_conversation_selector.c.o
+[432/540] Compiling C object main/dino.p/meson-generated_src_ui_conversation_content_view_subscription_notification.c.o
+[433/540] Compiling C object main/dino.p/meson-generated_src_ui_conversation_content_view_unread_indicator_populator.c.o
+[434/540] Compiling C object main/dino.p/meson-generated_src_ui_conversation_titlebar_call_entry.c.o
+[435/540] Compiling C object main/dino.p/meson-generated_src_ui_conversation_details.c.o
+[436/540] Compiling C object main/dino.p/meson-generated_src_ui_conversation_titlebar_menu_entry.c.o
+[437/540] Compiling C object main/dino.p/meson-generated_src_ui_conversation_selector_conversation_selector_row.c.o
+[438/540] Compiling C object main/dino.p/meson-generated_src_ui_conversation_view.c.o
+[439/540] Compiling C object main/dino.p/meson-generated_src_ui_file_send_overlay.c.o
+[440/540] Compiling C object main/dino.p/meson-generated_src_ui_conversation_titlebar_occupants_entry.c.o
+[441/540] Compiling C object main/dino.p/meson-generated_src_ui_conversation_titlebar_search_entry.c.o
+[442/540] Compiling C object main/dino.p/meson-generated_src_ui_conversation_view_controller.c.o
+[443/540] Compiling C object main/dino.p/meson-generated_src_ui_main_window.c.o
+[444/540] Compiling C object main/dino.p/meson-generated_src_ui_notifier_gnotifications.c.o
+[445/540] Compiling C object main/dino.p/meson-generated_src_ui_global_search.c.o
+[446/540] Compiling C object main/dino.p/meson-generated_src_ui_notifier_freedesktop.c.o
+[447/540] Compiling C object main/dino.p/meson-generated_src_ui_occupant_menu_list_row.c.o
+[448/540] Compiling C object main/dino.p/meson-generated_src_ui_main_window_controller.c.o
+[449/540] Compiling C object main/dino.p/meson-generated_src_ui_occupant_menu_view.c.o
+[450/540] Compiling C object main/dino.p/meson-generated_src_ui_occupant_menu_list.c.o
+[451/540] Compiling C object main/dino.p/meson-generated_src_ui_util_config.c.o
+[452/540] Compiling C object main/dino.p/meson-generated_src_ui_util_accounts_combo_box.c.o
+[453/540] Compiling C object main/dino.p/meson-generated_src_ui_util_data_forms.c.o
+[454/540] Compiling C object main/dino.p/meson-generated_src_ui_util_helper.c.o
+[455/540] Compiling C object main/dino.p/meson-generated_src_ui_util_size_request_box.c.o
+[456/540] Compiling C object main/dino.p/meson-generated_src_ui_util_sizing_bin.c.o
+[457/540] Compiling C object main/dino.p/meson-generated_src_ui_util_file_metadata_providers.c.o
+[458/540] Compiling C object main/dino.p/meson-generated_src_ui_util_preference_group.c.o
+[459/540] Compiling C object main/dino.p/meson-generated_src_view_model_account_details.c.o
+[460/540] Compiling C object main/dino.p/meson-generated_src_ui_widgets_avatar_picture.c.o
+[461/540] Compiling C object main/dino.p/meson-generated_src_ui_widgets_fixed_ratio_picture.c.o
+[462/540] Compiling C object main/dino.p/meson-generated_src_ui_widgets_natural_size_increase.c.o
+[463/540] Compiling C object main/dino.p/meson-generated_src_view_model_preferences_row.c.o
+[464/540] Compiling C object main/dino.p/meson-generated_src_ui_widgets_date_separator.c.o
+[465/540] Compiling C object main/dino.p/meson-generated_src_view_model_conversation_details.c.o
+[466/540] Compiling C object main/dino.p/meson-generated_src_view_model_preferences_dialog.c.o
+[467/540] Compiling C object main/dino.p/meson-generated_src_windows_preferences_window_add_account_dialog.c.o
+[468/540] Compiling C object main/dino.p/meson-generated_src_windows_preferences_window_accounts_preferences_page.c.o
+[469/540] Compiling C object main/dino.p/meson-generated_src_windows_preferences_window_change_password_dialog.c.o
+[470/540] Compiling C object main/dino.p/meson-generated_src_windows_preferences_window_account_preferences_subpage.c.o
+[471/540] Compiling C object main/dino.p/meson-generated_src_windows_preferences_window_general_preferences_page.c.o
+[472/540] Compiling C object main/dino.p/meson-generated_src_windows_preferences_window_preferences_dialog.c.o
+[473/540] Compiling C object main/dino.p/meson-generated_src_windows_preferences_window_encryption_preferences_page.c.o
+[474/540] Compiling C object main/dino.p/meson-generated_src_windows_conversation_details.c.o
+[475/540] Compiling C object plugins/omemo/omemo.so.p/meson-generated_src_logic_decrypt.c.o
+[476/540] Compiling C object plugins/omemo/omemo.so.p/meson-generated_src_logic_encrypt.c.o
+[477/540] Compiling C object plugins/omemo/omemo.so.p/meson-generated_src_logic_pre_key_store.c.o
+[478/540] Linking target main/dino
+[479/540] Compiling C object plugins/omemo/omemo.so.p/meson-generated_src_logic_manager.c.o
+[480/540] Compiling C object plugins/omemo/omemo.so.p/meson-generated_src_logic_session_store.c.o
+[481/540] Compiling C object plugins/omemo/omemo.so.p/meson-generated_src_protocol_bundle.c.o
+[482/540] Compiling C object plugins/omemo/omemo.so.p/meson-generated_src_logic_signed_pre_key_store.c.o
+[483/540] Compiling C object plugins/omemo/omemo.so.p/meson-generated_src_protocol_message_flag.c.o
+[484/540] Compiling C object plugins/omemo/omemo.so.p/meson-generated_src_plugin.c.o
+[485/540] Compiling C object plugins/omemo/omemo.so.p/meson-generated_src_logic_trust_manager.c.o
+[486/540] Compiling C object plugins/omemo/omemo.so.p/meson-generated_src_protocol_stream_module.c.o
+[487/540] Compiling C object plugins/omemo/omemo.so.p/meson-generated_src_native_context.c.o
+[488/540] Compiling C object plugins/omemo/omemo.so.p/meson-generated_src_native_simple_pks.c.o
+[489/540] Compiling C object plugins/omemo/omemo.so.p/meson-generated_src_register_plugin.c.o
+[490/540] Compiling C object plugins/omemo/omemo.so.p/meson-generated_src_native_simple_spks.c.o
+[491/540] Compiling C object plugins/omemo/omemo.so.p/meson-generated_src_native_simple_ss.c.o
+[492/540] Compiling C object plugins/omemo/omemo.so.p/meson-generated_src_native_simple_iks.c.o
+[493/540] Compiling C object plugins/omemo/omemo.so.p/meson-generated_src_native_store.c.o
+[494/540] Compiling C object plugins/omemo/omemo.so.p/meson-generated_src_native_util.c.o
+[495/540] Compiling C object plugins/omemo/omemo.so.p/meson-generated_src_trust_level.c.o
+[496/540] Compiling C object plugins/omemo/omemo.so.p/meson-generated_src_ui_bad_messages_populator.c.o
+[497/540] Compiling C object plugins/omemo/omemo.so.p/meson-generated_src_ui_call_encryption_entry.c.o
+[498/540] Compiling C object plugins/omemo/omemo.so.p/meson-generated_src_ui_device_notification_populator.c.o
+[499/540] Compiling C object plugins/omemo/omemo.so.p/meson-generated_src_ui_contact_details_provider.c.o
+[500/540] Compiling C object plugins/omemo/omemo.so.p/src_native_helper.c.o
+[501/540] Compiling C object plugins/omemo/omemo.so.p/meson-generated_src_ui_encryption_list_entry.c.o
+[502/540] Compiling C object plugins/omemo/omemo.so.p/meson-generated_src_ui_encryption_preferences_entry.c.o
+[503/540] Compiling C object plugins/openpgp/openpgp.so.p/meson-generated_.._resources.c.o
+[504/540] Compiling C object plugins/omemo/omemo.so.p/meson-generated_src_ui_manage_key_dialog.c.o
+[505/540] Compiling C object plugins/omemo/omemo.so.p/meson-generated_src_ui_own_notifications.c.o
+[506/540] Compiling C object plugins/omemo/omemo.so.p/meson-generated_src_ui_util.c.o
+[507/540] Compiling C object plugins/openpgp/openpgp.so.p/meson-generated_src_contact_details_provider.c.o
+[508/540] Compiling C object plugins/openpgp/openpgp.so.p/meson-generated_src_file_transfer_file_decryptor.c.o
+[509/540] Compiling C object plugins/openpgp/openpgp.so.p/meson-generated_src_database.c.o
+[510/540] Compiling C object plugins/openpgp/openpgp.so.p/meson-generated_src_encryption_list_entry.c.o
+[511/540] Linking target plugins/omemo/omemo.so
+[512/540] Generating plugins/omemo/omemo-internal-vapi with a custom command
+[513/540] Compiling C object plugins/openpgp/openpgp.so.p/meson-generated_src_encryption_preferences_entry.c.o
+[514/540] Compiling C object plugins/openpgp/openpgp.so.p/meson-generated_src_gpgme_helper.c.o
+[515/540] Compiling C object plugins/openpgp/openpgp.so.p/meson-generated_src_file_transfer_file_encryptor.c.o
+[516/540] Compiling C object plugins/openpgp/openpgp.so.p/meson-generated_src_plugin.c.o
+[517/540] Compiling C object plugins/openpgp/openpgp.so.p/meson-generated_src_manager.c.o
+[518/540] Compiling C object plugins/openpgp/openpgp.so.p/src_gpgme_fix.c.o
+[519/540] Compiling C object plugins/openpgp/openpgp.so.p/meson-generated_src_register_plugin.c.o
+[520/540] Compiling C object plugins/openpgp/openpgp.so.p/meson-generated_src_stream_flag.c.o
+[521/540] Compiling C object plugins/openpgp/openpgp.so.p/meson-generated_src_util.c.o
+[522/540] Compiling C object plugins/openpgp/openpgp.so.p/meson-generated_src_stream_module.c.o
+[523/540] Compiling Vala source plugins/omemo/omemo-internal.vapi ../plugins/omemo/tests/native/common.vala ../plugins/omemo/tests/native/testcase.vala ../plugins/omemo/tests/native/curve25519.vala ../plugins/omemo/tests/native/hkdf.vala ../plugins/omemo/tests/native/session_builder.vala crypto-vala/crypto-vala.vapi libdino/libdino.vapi qlite/qlite.vapi xmpp-vala/xmpp-vala.vapi
+../plugins/omemo/tests/native/common.vala:84.1-84.21: warning: Method `Omemo.Test.fail_if_zero_int' never used
+   84 | bool fail_if_zero_int(int zero, string? reason = null) {
+      | ^~~~~~~~~~~~~~~~~~~~~                                   
+Compilation succeeded - 1 warning(s)
+[524/540] Compiling C object plugins/rtp/rtp.so.p/meson-generated_src_codec_util.c.o
+[525/540] Linking target plugins/openpgp/openpgp.so
+[526/540] Compiling C object plugins/omemo/omemo-test.p/meson-generated_tests_native_testcase.c.o
+[527/540] Compiling C object plugins/omemo/omemo-test.p/meson-generated_tests_native_common.c.o
+[528/540] Compiling C object plugins/rtp/rtp.so.p/meson-generated_src_module.c.o
+[529/540] Compiling C object plugins/rtp/rtp.so.p/meson-generated_src_plugin.c.o
+[530/540] Compiling C object plugins/omemo/omemo-test.p/meson-generated_tests_native_session_builder.c.o
+[531/540] Compiling C object plugins/rtp/rtp.so.p/meson-generated_src_device.c.o
+[532/540] Compiling C object plugins/omemo/omemo-test.p/meson-generated_tests_native_hkdf.c.o
+[533/540] Compiling C object plugins/rtp/rtp.so.p/src_gst_fixes.c.o
+[534/540] Compiling C object plugins/rtp/rtp.so.p/meson-generated_src_register_plugin.c.o
+[535/540] Compiling C object plugins/omemo/omemo-test.p/meson-generated_tests_native_curve25519.c.o
+[536/540] Compiling C object plugins/rtp/rtp.so.p/meson-generated_src_stream.c.o
+[537/540] Linking target plugins/omemo/omemo-test
+[538/540] Compiling C object plugins/rtp/rtp.so.p/meson-generated_src_video_widget.c.o
+[539/540] Compiling C object plugins/rtp/rtp.so.p/meson-generated_src_voice_processor.c.o
+[540/540] Linking target plugins/rtp/rtp.so
+INFO: autodetecting backend as ninja
+INFO: calculating backend command to run: /usr/bin/ninja -C /media/linux/SSD128/xmpp/build

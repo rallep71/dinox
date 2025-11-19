@@ -29,12 +29,6 @@ public class Dino.LimitInputStream : InputStream, PollableInputStream {
             return remaining_bytes < 65536 || ((PollableInputStream)inner).is_readable();
         }
 
-    private ssize_t check_limit(ssize_t read) throws IOError {
-            if (remaining_bytes - (int64) read < 0) throw new IOError.FAILED("Stream length exceeded limit");
-            this.retrieved_bytes += read;
-            return read;
-        }
-
     public override ssize_t read(uint8[] buffer, Cancellable? cancellable = null) throws IOError {
         if (remaining_bytes == 0) return 0;
             int original_buffer_length = buffer.length;
