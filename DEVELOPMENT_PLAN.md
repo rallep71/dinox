@@ -103,6 +103,9 @@ This fork addresses the slow development pace of the original Dino XMPP client w
 | 🎨 UX | [#1796](https://github.com/dino/dino/issues/1796) | File Button Bug | - | Easy | ✅ FIXED |
 | 🎨 UX | - | Remove Avatar Button | vCard avatar deletion | Easy | ✅ FIXED |
 | 🎨 UX | - | Edit/Delete Message Buttons | Buttons not appearing after GTK4 migration | Easy | ✅ FIXED |
+| 🔥 UX | [#472](https://github.com/dino/dino/issues/472) | Delete Conversation | Clear chat history without removing contact | Medium | 🟡 IN PROGRESS |
+| 🔥 UX | - | Archive Conversation | Hide conversations without deleting | Easy | 🟡 IN PROGRESS |
+| 🔥 UX | - | Roster Management UI | Add/remove/manage contacts with UI | Medium | 🟡 IN PROGRESS |
 | 🎨 UX | [#1380](https://github.com/dino/dino/issues/1380) | Spell Checking | - | Medium | 🟢 TODO |
 
 **Files Created/Modified** (Systray Support #98 & Background Mode #299):
@@ -127,11 +130,58 @@ This fork addresses the slow development pace of the original Dino XMPP client w
 - ✅ `main/src/ui/conversation_content_view/item_actions.vala` - Removed `shortcut_action = false` on delete action
 - ✅ `main/src/ui/conversation_content_view/conversation_view.vala` - Fixed button positioning with bounds checking
 
+**Files to Create/Modify** (Chat Management - IN PROGRESS):
+
+**Delete Conversation** (#472):
+- `main/data/menu_conversation.ui` - Add "Delete Conversation" menu item
+- `main/src/ui/conversation_selector/conversation_selector_row.vala` - Context menu handler
+- `libdino/src/service/database.vala` - Delete conversation history SQL
+- `libdino/src/service/conversation_manager.vala` - Delete conversation logic
+
+**Archive Conversation**:
+- `libdino/src/entity/conversation.vala` - Add `archived` field
+- `libdino/src/service/database.vala` - Schema v32: archived column + migration
+- `main/data/menu_conversation.ui` - Add "Archive" menu item
+- `main/src/ui/conversation_selector/conversation_selector.vala` - Filter archived chats
+
+**Roster Management UI**:
+- `main/data/menu_conversation.ui` - Add "Remove Contact" for 1:1 chats
+- `main/src/ui/add_conversation/roster_list.vala` - Enhance existing roster display
+- `main/src/ui/conversation_details.vala` - Add roster actions to contact details
+
+**Technical Approach**:
+```
+┌─────────────────────────────────────────┐
+│ Chat Management Architecture            │
+├─────────────────────────────────────────┤
+│ 1. Context Menu (right-click)           │
+│    ├─ Delete Conversation (all chats)   │
+│    ├─ Archive (hide/show toggle)        │
+│    └─ Remove Contact (1:1 only)         │
+│                                          │
+│ 2. Database Layer                       │
+│    ├─ DELETE messages WHERE conv_id     │
+│    ├─ UPDATE conversation SET archived  │
+│    └─ Keep contacts in roster           │
+│                                          │
+│ 3. UI Integration                       │
+│    ├─ GtkPopoverMenu on row             │
+│    ├─ Confirm dialogs for destructive   │
+│    └─ Toast notifications for actions   │
+└─────────────────────────────────────────┘
+```
+
+**UX Flow**:
+1. **Right-click conversation** → Context menu
+2. **Delete Conversation**: Confirm dialog → Clear all messages → Keep in roster
+3. **Archive**: Toggle archived state → Hide from list (show with filter)
+4. **Remove Contact**: Confirm → Remove from roster + delete conversation
+
 **Files to Create/Modify** (Remaining):
 - GTK4 spell checking integration
 
 **Estimated Time**: 4-5 weeks  
-**Time Spent**: 1 hour (Issue #115), 2 hours (Avatar removal), 1 hour (Edit/Delete buttons)  
+**Time Spent**: 1 hour (Issue #115), 2 hours (Avatar removal), 1 hour (Edit/Delete buttons), 6-8 hours (Chat Management - in progress)  
 **Target Release**: End of February 2026
 
 ---
@@ -143,7 +193,7 @@ This fork addresses the slow development pace of the original Dino XMPP client w
 | Priority | Issue | Feature | Why Important | Status |
 |----------|-------|---------|---------------|--------|
 | 🔐 Privacy | [#67](https://github.com/dino/dino/issues/67) | Auto-delete History | Limit retention (e.g., 7 days) | 🔵 TODO |
-| 🔐 Privacy | [#472](https://github.com/dino/dino/issues/472) | Delete Conversation | Clear history without ending chat | 🔵 TODO |
+| 🔐 Privacy | [#472](https://github.com/dino/dino/issues/472) | Delete Conversation | Clear history without ending chat | 🟡 MOVED TO PHASE 3 |
 | 🔐 Privacy | [#1317](https://github.com/dino/dino/issues/1317) | Blocking Fix | Blocked contacts still send messages | 🔵 TODO |
 
 **Files to Modify**:
