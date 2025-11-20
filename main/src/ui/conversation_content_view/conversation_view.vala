@@ -9,7 +9,7 @@ namespace Dino.Ui.ConversationSummary {
 
 [GtkTemplate (ui = "/im/dino/Dino/conversation_content_view/view.ui")]
 public class ConversationView : Widget, Plugins.ConversationItemCollection, Plugins.NotificationCollection {
-    private const int MESSAGE_MENU_BOX_OFFSET = -20;
+    private const int MESSAGE_MENU_BOX_OFFSET = 0;
 
     public Conversation? conversation { get; private set; }
 
@@ -185,17 +185,20 @@ public class ConversationView : Widget, Plugins.ConversationItemCollection, Plug
 
         last_y = y;
 
-        // Get widget under pointer
-        int h = 0;
+        // Get widget under pointer by checking which widget contains the mouse position
         Widget? w = null;
         foreach (Plugins.MetaConversationItem item in meta_items) {
             Widget widget = widgets[item];
-            h += widget.get_height() + widget.margin_top + widget.margin_bottom;
-            if (h >= y) {
-                w = widget;
-                break;
+            
+            // Get widget bounds relative to main
+            Graphene.Rect bounds;
+            if (widget.compute_bounds(main, out bounds)) {
+                if (y >= bounds.origin.y && y <= (bounds.origin.y + bounds.size.height)) {
+                    w = widget;
+                    break;
+                }
             }
-        };
+        }
 
         if (currently_highlighted != null) currently_highlighted.remove_css_class("highlight");
 
@@ -207,12 +210,16 @@ public class ConversationView : Widget, Plugins.ConversationItemCollection, Plug
             return;
         }
 
-        // Get widget coordinates in main
-        double widget_x, widget_y;
+        // Get widget coordinates relative to the scrolled main container
+        double widget_y = 0;
+        double widget_x = 0;
+        
+        // Get bounds of the widget
         Graphene.Rect bounds;
-        w.compute_bounds(main, out bounds);
-        widget_x = bounds.origin.x;
-        widget_y = bounds.origin.y;
+        if (w.compute_bounds(main, out bounds)) {
+            widget_y = bounds.origin.y;
+            widget_x = bounds.origin.x;
+        }
 
         // Get MessageItem
         foreach (Plugins.MetaConversationItem item in item_item_skeletons.keys) {
@@ -228,8 +235,9 @@ public class ConversationView : Widget, Plugins.ConversationItemCollection, Plug
             currently_highlighted = w;
             currently_highlighted.add_css_class("highlight");
 
-            // Move message menu
-            message_menu_box.margin_top = (int)(widget_y + MESSAGE_MENU_BOX_OFFSET);
+            // Position menu at the widget's position
+            // Simply use the widget_y which compute_bounds gives us relative to main
+            message_menu_box.margin_top = (int)(widget_y);
         }
     }
 

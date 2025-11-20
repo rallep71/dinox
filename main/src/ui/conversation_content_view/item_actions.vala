@@ -59,7 +59,6 @@ namespace Dino.Ui {
         action.name = "delete";
         action.icon_name = "user-trash-symbolic";
         action.tooltip = _("Delete message");
-        action.shortcut_action = false;
         action.callback = () => {
             // If we can delete for everyone (own message), do that instead of local-only delete
             if (can_delete_for_everyone) {

@@ -102,6 +102,7 @@ This fork addresses the slow development pace of the original Dino XMPP client w
 | ⭐ Feature | [#115](https://github.com/dino/dino/issues/115) | Custom Host/Port | 26 👍 | Easy | ✅ DONE |
 | 🎨 UX | [#1796](https://github.com/dino/dino/issues/1796) | File Button Bug | - | Easy | ✅ FIXED |
 | 🎨 UX | - | Remove Avatar Button | vCard avatar deletion | Easy | ✅ FIXED |
+| 🎨 UX | - | Edit/Delete Message Buttons | Buttons not appearing after GTK4 migration | Easy | ✅ FIXED |
 | 🎨 UX | [#1380](https://github.com/dino/dino/issues/1380) | Spell Checking | - | Medium | 🟢 TODO |
 
 **Files Created/Modified** (Systray Support #98 & Background Mode #299):
@@ -121,11 +122,16 @@ This fork addresses the slow development pace of the original Dino XMPP client w
 **Files Modified** (Remove Avatar Button):
 - ✅ `libdino/src/service/avatar_manager.vala` - vCard avatar removal + cache cleanup
 
+**Files Modified** (Edit/Delete Message Buttons):
+- ✅ `main/src/ui/conversation_content_view/message_widget.vala` - Removed `shortcut_action = false` on edit action
+- ✅ `main/src/ui/conversation_content_view/item_actions.vala` - Removed `shortcut_action = false` on delete action
+- ✅ `main/src/ui/conversation_content_view/conversation_view.vala` - Fixed button positioning with bounds checking
+
 **Files to Create/Modify** (Remaining):
 - GTK4 spell checking integration
 
 **Estimated Time**: 4-5 weeks  
-**Time Spent**: 1 hour (Issue #115), 2 hours (Avatar removal)  
+**Time Spent**: 1 hour (Issue #115), 2 hours (Avatar removal), 1 hour (Edit/Delete buttons)  
 **Target Release**: End of February 2026
 
 ---
@@ -207,6 +213,7 @@ This fork addresses the slow development pace of the original Dino XMPP client w
 | 📦 Deployment | Flatpak | Missing libdbusmenu | Added module to manifest | ✅ DONE |
 | 📦 Deployment | Debian | No packaging files | Created debian/ control, rules, changelog | ✅ DONE |
 | 📦 Deployment | CI/CD | Missing dependencies | Updated GitHub Actions workflow | ✅ DONE |
+| 🎨 Refactor | CSS System | StyleContext deprecated (GTK4.10) | Widget-scoped CSS providers | 🟡 IN PROGRESS |
 | 🗄️ Refactor | Database | v31 schema active, no tests | Migration test suite | ⚠️ PARTIAL |
 | 🔔 Refactor | Notifications | Duplicate code (2 files) | Unified backend | 🏗️ TODO |
 | 📁 Refactor | File Transfer | 400+ line state machine | Separate providers | 🏗️ TODO |
@@ -222,7 +229,79 @@ This fork addresses the slow development pace of the original Dino XMPP client w
 - ✅ File widgets updated for GTK4 drag-and-drop
 - ✅ CSS adjustments for libadwaita themes
 
+**CSS System Refactoring** (GTK4.10+ Future-Proof):
+
+**Current Problem**:
+- Using deprecated `Gtk.StyleContext.add_provider_for_display()` (2 warnings)
+- Global CSS providers attached to display (GTK3 pattern)
+- Manual provider cleanup required
+
+**New Architecture**:
+```
+┌─────────────────────────────────────────────┐
+│ Widget-Scoped CSS (GTK4 Way)                │
+├─────────────────────────────────────────────┤
+│ 1. CssProvider per widget (not per display) │
+│ 2. Automatic cleanup on widget destroy      │
+│ 3. No StyleContext API usage                │
+│ 4. CSS classes + inline styles              │
+└─────────────────────────────────────────────┘
+```
+
+**Implementation Plan**:
+
+**Phase 1: Refactor helper.vala CSS utilities** (1-2 hours)
+- Replace `Gtk.StyleContext.add_provider_for_display()` 
+- Use widget-scoped providers via `Gtk.Widget.add_css_class()`
+- Store provider references in widget data for cleanup
+- Keep backward-compatible API
+
+**Files to Modify**:
+- `main/src/ui/util/helper.vala`:
+  - `force_css()` - Attach provider to widget, not display
+  - `force_color()` - Use widget CSS data storage
+  - `get_label_pango_color()` - Clean up properly
+  
+**Phase 2: Update call sites** (30 min)
+- `main/src/ui/conversation_selector/conversation_selector_row.vala` (3 usages)
+- `main/src/ui/conversation_content_view/message_widget.vala` (1 usage)
+- `main/src/ui/util/preference_group.vala` (2 usages)
+
+**Technical Approach**:
+```vala
+// OLD (deprecated):
+Gtk.StyleContext.add_provider_for_display(display, provider, priority);
+
+// NEW (GTK4 way):
+widget.get_style_context().add_provider(provider, priority);
+// OR use CSS classes + set_data() for lifecycle management
+```
+
+**Testing Strategy**:
+1. Visual regression test (colors, styling unchanged)
+2. Memory leak check (providers properly destroyed)
+3. Performance test (no display-wide provider pollution)
+
 **Benefits**:
+- ✅ Zero deprecation warnings
+- ✅ Better performance (widget-scoped, not display-wide)
+- ✅ Automatic cleanup (widget lifecycle)
+- ✅ Future-proof for GTK5
+- ✅ Follows GTK4 best practices
+
+**Status**: 🟡 **READY TO IMPLEMENT** (Nov 20, 2025)  
+**Time Required**: 2-3 hours total  
+**Risk**: Low (backward-compatible API)
+
+**Recent Work** (Nov 20, 2025):
+- ✅ Fixed edit/delete message buttons not appearing (removed `shortcut_action = false`)
+- ✅ Fixed button positioning using `compute_bounds()` 
+- ✅ Clean build: 0 errors, 541 targets compiled successfully
+- ✅ Only 2 StyleContext deprecation warnings remaining (to be fixed in CSS refactoring)
+
+---
+
+**Original Benefits**:
 - Easier onboarding for new contributors
 - Fewer bugs from code duplication
 - Faster feature development

@@ -243,7 +243,6 @@ public class MessageMetaItem : ContentMetaItem {
             action1.name = "correction";
             action1.icon_name = "document-edit-symbolic";
             action1.tooltip = _("Edit message");
-            action1.shortcut_action = false;
             action1.callback = () => {
                 this.in_edit_mode = true;
             };
