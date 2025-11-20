@@ -97,6 +97,28 @@
                                                     </object>
                                                 </child>
                                                 <child>
+                                                    <object class="GtkImage" id="muted_image">
+                                                        <property name="icon-name">dino-bell-large-none-symbolic</property>
+                                                        <property name="pixel-size">12</property>
+                                                        <property name="visible">False</property>
+                                                        <property name="tooltip-text" translatable="yes">Muted</property>
+                                                        <style>
+                                                            <class name="warning"/>
+                                                        </style>
+                                                    </object>
+                                                </child>
+                                                <child>
+                                                    <object class="GtkImage" id="blocked_image">
+                                                        <property name="icon-name">action-unavailable-symbolic</property>
+                                                        <property name="pixel-size">12</property>
+                                                        <property name="visible">False</property>
+                                                        <property name="tooltip-text" translatable="yes">Blocked</property>
+                                                        <style>
+                                                            <class name="error"/>
+                                                        </style>
+                                                    </object>
+                                                </child>
+                                                <child>
                                                     <object class="GtkImage" id="pinned_image">
                                                         <property name="icon-name">view-pin-symbolic</property>
                                                         <property name="pixel-size">12</property>

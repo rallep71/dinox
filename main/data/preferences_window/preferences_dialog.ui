@@ -14,6 +14,13 @@
       </object>
     </child>
     <child>
+      <object class="DinoUiPreferencesWindowContacts" id="contacts_page">
+        <property name="title" translatable="yes">Contacts</property>
+        <property name="name">contacts</property>
+        <property name="icon-name">avatar-default-symbolic</property>
+      </object>
+    </child>
+    <child>
       <object class="DinoUiPreferencesWindowEncryption" id="encryption_page">
         <property name="title" translatable="yes">Encryption</property>
         <property name="name">encryption</property>

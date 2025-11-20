@@ -26,6 +26,7 @@ namespace Dino.Ui.ConversationDetails {
         // Set some data once
         view_model.avatar = new ViewModel.CompatAvatarPictureModel(stream_interactor).set_conversation(model.conversation);
         view_model.show_blocked = model.conversation.type_ == Conversation.Type.CHAT && stream_interactor.get_module(BlockingManager.IDENTITY).is_supported(model.conversation.account);
+        view_model.show_remove_contact = model.conversation.type_ == Conversation.Type.CHAT;  // Only show for 1:1 chats
         view_model.members_sorted.set_model(model.members);
         view_model.members.set_map_func((item) => {
             var conference_member = (Ui.Model.ConferenceMember) item;
@@ -115,6 +116,12 @@ namespace Dino.Ui.ConversationDetails {
                     break;
             }
             view_model.blocked = action;
+        });
+        view_model.remove_contact.connect(() => {
+            // Delete conversation history first, then remove contact from roster
+            stream_interactor.get_module(ConversationManager.IDENTITY).clear_conversation_history(model.conversation);
+            stream_interactor.get_module(RosterManager.IDENTITY).remove_jid(model.conversation.account, model.conversation.counterpart);
+            stream_interactor.get_module(ConversationManager.IDENTITY).close_conversation(model.conversation);
         });
         view_model.notification_changed.connect((setting) => {
             switch (setting) {

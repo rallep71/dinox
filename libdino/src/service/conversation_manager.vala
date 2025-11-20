@@ -279,6 +279,8 @@ public class ConversationManager : StreamInteractionModule, Object {
         
         // Clear OMEMO bad message warnings through signal
         // The BadMessagesPopulator will receive this and clear warnings
+        // NOTE: OMEMO plugin will also catch this signal via conversation_cleared
+        // to delete identity_meta, sessions, and trust data for this contact
         conversation_cleared(conversation);
 
     }

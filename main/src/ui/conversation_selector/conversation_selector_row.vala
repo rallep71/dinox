@@ -18,6 +18,8 @@ public class ConversationSelectorRow : ListBoxRow {
     [GtkChild] protected unowned Label nick_label;
     [GtkChild] protected unowned Label message_label;
     [GtkChild] protected unowned Label unread_count_label;
+    [GtkChild] protected unowned Image muted_image;
+    [GtkChild] protected unowned Image blocked_image;
     [GtkChild] protected unowned Image pinned_image;
     [GtkChild] public unowned Revealer main_revealer;
 
@@ -41,6 +43,16 @@ public class ConversationSelectorRow : ListBoxRow {
 
         var display_name_model = stream_interactor.get_module(ContactModels.IDENTITY).get_display_name_model(conversation);
         display_name_model.bind_property("display-name", name_label, "label", BindingFlags.SYNC_CREATE);
+
+        // Add right-click context menu for chat conversations
+        if (conversation.type_ == Conversation.Type.CHAT) {
+            GestureClick gesture = new GestureClick();
+            gesture.set_button(3); // Right click
+            gesture.pressed.connect((n, x, y) => {
+                show_context_menu(x, y);
+            });
+            this.add_controller(gesture);
+        }
 
         if (conversation.type_ == Conversation.Type.GROUPCHAT) {
             stream_interactor.get_module(MucManager.IDENTITY).room_info_updated.connect((account, jid) => {
@@ -95,9 +107,21 @@ public class ConversationSelectorRow : ListBoxRow {
         picture.model = new ViewModel.CompatAvatarPictureModel(stream_interactor).set_conversation(conversation);
         conversation.notify["read-up-to-item"].connect(() => update_read());
         conversation.notify["pinned"].connect(() => { update_pinned_icon(); });
+        conversation.notify["notify-setting"].connect(() => { update_muted_icon(); });
+        
+        // Listen for block status changes
+        if (conversation.type_ == Conversation.Type.CHAT) {
+            stream_interactor.get_module(BlockingManager.IDENTITY).block_changed.connect((account, jid) => {
+                if (conversation.account.equals(account) && conversation.counterpart.equals_bare(jid)) {
+                    update_blocked_icon();
+                }
+            });
+        }
 
         update_name_label();
         update_pinned_icon();
+        update_muted_icon();
+        update_blocked_icon();
         content_item_received();
     }
 
@@ -131,6 +155,19 @@ public class ConversationSelectorRow : ListBoxRow {
 
     private void update_pinned_icon() {
         pinned_image.visible = conversation.pinned != 0;
+    }
+
+    private void update_muted_icon() {
+        muted_image.visible = (conversation.notify_setting == Conversation.NotifySetting.OFF);
+    }
+
+    private void update_blocked_icon() {
+        if (conversation.type_ == Conversation.Type.CHAT) {
+            bool is_blocked = stream_interactor.get_module(BlockingManager.IDENTITY).is_blocked(conversation.account, conversation.counterpart);
+            blocked_image.visible = is_blocked;
+        } else {
+            blocked_image.visible = false;
+        }
     }
 
     protected void update_time_label(DateTime? new_time = null) {
@@ -359,6 +396,208 @@ public class ConversationSelectorRow : ListBoxRow {
          } else {
              return _("Just now");
          }
+    }
+
+    private void show_context_menu(double x, double y) {
+        var menu = new Menu();
+        
+        // Edit alias
+        menu.append(_("Edit Alias"), "row.edit");
+        
+        // Mute/Unmute
+        bool is_muted = (conversation.notify_setting == Conversation.NotifySetting.OFF);
+        menu.append(is_muted ? _("Unmute") : _("Mute"), "row.mute");
+        
+        // Block/Unblock
+        bool is_blocked = stream_interactor.get_module(BlockingManager.IDENTITY).is_blocked(conversation.account, conversation.counterpart);
+        menu.append(is_blocked ? _("Unblock") : _("Block"), "row.block");
+        
+        // Remove contact
+        menu.append(_("Remove Contact"), "row.remove");
+        
+        // Create action group
+        var action_group = new SimpleActionGroup();
+        
+        // Edit action
+        var edit_action = new SimpleAction("edit", null);
+        edit_action.activate.connect(() => {
+            show_edit_dialog();
+        });
+        action_group.add_action(edit_action);
+        
+        // Mute action
+        var mute_action = new SimpleAction("mute", null);
+        mute_action.activate.connect(() => {
+            toggle_mute();
+        });
+        action_group.add_action(mute_action);
+        
+        // Block action
+        var block_action = new SimpleAction("block", null);
+        block_action.activate.connect(() => {
+            toggle_block();
+        });
+        action_group.add_action(block_action);
+        
+        // Remove action
+        var remove_action = new SimpleAction("remove", null);
+        remove_action.activate.connect(() => {
+            show_remove_dialog();
+        });
+        action_group.add_action(remove_action);
+        
+        this.insert_action_group("row", action_group);
+        
+        // Show popover menu
+        var popover = new PopoverMenu.from_model(menu);
+        popover.set_parent(this);
+        popover.set_pointing_to({ (int)x, (int)y, 1, 1 });
+        popover.popup();
+    }
+
+    private void show_edit_dialog() {
+        var dialog = new Adw.AlertDialog(
+            _("Edit Alias"),
+            null
+        );
+        
+        var entry = new Entry() {
+            placeholder_text = _("Alias"),
+            text = stream_interactor.get_module(RosterManager.IDENTITY).get_roster_item(conversation.account, conversation.counterpart)?.name ?? ""
+        };
+        
+        dialog.set_extra_child(entry);
+        dialog.add_response("cancel", _("Cancel"));
+        dialog.add_response("save", _("Save"));
+        dialog.set_response_appearance("save", SUGGESTED);
+        dialog.set_default_response("save");
+        dialog.set_close_response("cancel");
+        
+        dialog.response.connect((response) => {
+            if (response == "save") {
+                string new_alias = entry.text.strip();
+                if (new_alias.length > 0) {
+                    stream_interactor.get_module(RosterManager.IDENTITY).set_jid_handle(conversation.account, conversation.counterpart, new_alias);
+                }
+            }
+        });
+        
+        dialog.present((Window)this.get_root());
+    }
+
+    private void toggle_mute() {
+        bool currently_muted = (conversation.notify_setting == Conversation.NotifySetting.OFF);
+        
+        if (currently_muted) {
+            // Unmute
+            var dialog = new Adw.AlertDialog(
+                _("Unmute contact?"),
+                _("This will enable notifications from %s.").printf(conversation.counterpart.to_string())
+            );
+            dialog.add_response("cancel", _("Cancel"));
+            dialog.add_response("unmute", _("Unmute"));
+            dialog.set_response_appearance("unmute", SUGGESTED);
+            dialog.set_default_response("unmute");
+            dialog.set_close_response("cancel");
+            
+            dialog.response.connect((response) => {
+                if (response == "unmute") {
+                    conversation.notify_setting = Conversation.NotifySetting.DEFAULT;
+                }
+            });
+            
+            dialog.present((Window)this.get_root());
+        } else {
+            // Mute
+            var dialog = new Adw.AlertDialog(
+                _("Mute contact?"),
+                _("This will disable notifications from %s.").printf(conversation.counterpart.to_string())
+            );
+            dialog.add_response("cancel", _("Cancel"));
+            dialog.add_response("mute", _("Mute"));
+            dialog.set_response_appearance("mute", DESTRUCTIVE);
+            dialog.set_default_response("mute");
+            dialog.set_close_response("cancel");
+            
+            dialog.response.connect((response) => {
+                if (response == "mute") {
+                    conversation.notify_setting = Conversation.NotifySetting.OFF;
+                }
+            });
+            
+            dialog.present((Window)this.get_root());
+        }
+    }
+
+    private void toggle_block() {
+        bool currently_blocked = stream_interactor.get_module(BlockingManager.IDENTITY).is_blocked(conversation.account, conversation.counterpart);
+        
+        if (currently_blocked) {
+            // Unblock
+            var dialog = new Adw.AlertDialog(
+                _("Unblock contact?"),
+                _("This will allow %s to send you messages again.").printf(conversation.counterpart.to_string())
+            );
+            dialog.add_response("cancel", _("Cancel"));
+            dialog.add_response("unblock", _("Unblock"));
+            dialog.set_response_appearance("unblock", SUGGESTED);
+            dialog.set_default_response("unblock");
+            dialog.set_close_response("cancel");
+            
+            dialog.response.connect((response) => {
+                if (response == "unblock") {
+                    stream_interactor.get_module(BlockingManager.IDENTITY).unblock(conversation.account, conversation.counterpart);
+                }
+            });
+            
+            dialog.present((Window)this.get_root());
+        } else {
+            // Block
+            var dialog = new Adw.AlertDialog(
+                _("Block contact?"),
+                _("This will prevent %s from sending you messages.").printf(conversation.counterpart.to_string())
+            );
+            dialog.add_response("cancel", _("Cancel"));
+            dialog.add_response("block", _("Block"));
+            dialog.set_response_appearance("block", DESTRUCTIVE);
+            dialog.set_default_response("block");
+            dialog.set_close_response("cancel");
+            
+            dialog.response.connect((response) => {
+                if (response == "block") {
+                    stream_interactor.get_module(BlockingManager.IDENTITY).block(conversation.account, conversation.counterpart);
+                }
+            });
+            
+            dialog.present((Window)this.get_root());
+        }
+    }
+
+    private void show_remove_dialog() {
+        var dialog = new Adw.AlertDialog(
+            _("Remove contact?"),
+            _("This will:\n• Delete all conversation history\n• Remove %s from your contact list\n\nThis action cannot be undone.").printf(conversation.counterpart.to_string())
+        );
+        dialog.add_response("cancel", _("Cancel"));
+        dialog.add_response("remove", _("Remove"));
+        dialog.set_response_appearance("remove", DESTRUCTIVE);
+        dialog.set_default_response("cancel");
+        dialog.set_close_response("cancel");
+        
+        dialog.response.connect((response) => {
+            if (response == "remove") {
+                // Clear conversation history
+                stream_interactor.get_module(ConversationManager.IDENTITY).clear_conversation_history(conversation);
+                
+                // Close conversation
+                stream_interactor.get_module(ConversationManager.IDENTITY).close_conversation(conversation);
+                
+                // Remove from roster
+                stream_interactor.get_module(RosterManager.IDENTITY).remove_jid(conversation.account, conversation.counterpart);
+            }
+        });
+        
+        dialog.present((Window)this.get_root());
     }
 }
 

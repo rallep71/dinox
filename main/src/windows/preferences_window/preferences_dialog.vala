@@ -8,6 +8,7 @@ using Gtk;
 [GtkTemplate (ui = "/im/dino/Dino/preferences_window/preferences_dialog.ui")]
 public class Dino.Ui.PreferencesDialog : Adw.PreferencesDialog {
     [GtkChild] public unowned Dino.Ui.PreferencesWindowAccounts accounts_page;
+    [GtkChild] public unowned Dino.Ui.PreferencesWindowContacts contacts_page;
     [GtkChild] public unowned Dino.Ui.PreferencesWindowEncryption encryption_page;
     [GtkChild] public unowned Dino.Ui.GeneralPreferencesPage general_page;
     public Dino.Ui.AccountPreferencesSubpage account_page = new Dino.Ui.AccountPreferencesSubpage();
@@ -16,6 +17,7 @@ public class Dino.Ui.PreferencesDialog : Adw.PreferencesDialog {
 
     construct {
         this.bind_property("model", accounts_page, "model", BindingFlags.SYNC_CREATE);
+        this.bind_property("model", contacts_page, "model", BindingFlags.SYNC_CREATE);
         this.bind_property("model", account_page, "model", BindingFlags.SYNC_CREATE);
         this.bind_property("model", encryption_page, "model", BindingFlags.SYNC_CREATE);
 

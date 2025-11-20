@@ -33,9 +33,13 @@ class AccountComboBox : Box {
 
     private StreamInteractor? stream_interactor;
 
-    public AccountComboBox() {
-        Object(orientation: Orientation.HORIZONTAL, spacing: 0);
-        dropdown = new DropDown(null, null);
+    construct {
+        orientation = Orientation.HORIZONTAL;
+        spacing = 0;
+        
+        // Create empty model and set expression immediately to avoid GTK warnings
+        var empty_model = new GLib.ListStore(typeof(Account));
+        dropdown = new DropDown(empty_model, new PropertyExpression(typeof(Account), null, "display_name"));
         dropdown.hexpand = true;
         append(dropdown);
         

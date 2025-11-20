@@ -70,6 +70,37 @@ public class Manager : StreamInteractionModule, Object {
         stream_interactor.stream_negotiated.connect(on_stream_negotiated);
         stream_interactor.get_module(MessageProcessor.IDENTITY).pre_message_send.connect(on_pre_message_send);
         stream_interactor.get_module(RosterManager.IDENTITY).mutual_subscription.connect(on_mutual_subscription);
+        stream_interactor.get_module(ConversationManager.IDENTITY).conversation_cleared.connect(on_conversation_cleared);
+    }
+
+    private void on_conversation_cleared(Conversation conversation) {
+        // When conversation history is cleared, also clear OMEMO data for this contact
+        clear_contact_data(conversation.account, conversation.counterpart);
+    }
+
+    private void clear_contact_data(Account account, Xmpp.Jid jid) {
+        int identity_id = db.identity.get_id(account.id);
+        if (identity_id < 0) return;
+
+        string address_name = jid.bare_jid.to_string();
+
+        // Delete all OMEMO data for this contact
+        db.identity_meta.delete()
+                .with(db.identity_meta.identity_id, "=", identity_id)
+                .with(db.identity_meta.address_name, "=", address_name)
+                .perform();
+
+        db.session.delete()
+                .with(db.session.identity_id, "=", identity_id)
+                .with(db.session.address_name, "=", address_name)
+                .perform();
+
+        db.trust.delete()
+                .with(db.trust.identity_id, "=", identity_id)
+                .with(db.trust.address_name, "=", address_name)
+                .perform();
+
+        // Note: content_item_meta is tied to message_id, already deleted when messages are deleted
     }
 
     public void clear_device_list(Account account) {

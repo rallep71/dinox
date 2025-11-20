@@ -14,6 +14,7 @@ namespace Dino.Ui.ConversationDetails {
         [GtkChild] public unowned Adw.ButtonContent pin_button_content;
         [GtkChild] public unowned MenuButton block_button;
         [GtkChild] public unowned Adw.ButtonContent block_button_content;
+        [GtkChild] public unowned Button remove_contact_button;
         [GtkChild] public unowned Button notification_button_toggle;
         [GtkChild] public unowned Adw.ButtonContent notification_button_toggle_content;
         [GtkChild] public unowned MenuButton notification_button_menu;
@@ -39,6 +40,28 @@ namespace Dino.Ui.ConversationDetails {
             install_action("notification.off", null, (widget, action_name) => { ((Dialog) widget).model.notification_changed(ViewModel.ConversationDetails.NotificationSetting.OFF); } );
             install_action("notification.highlight", null, (widget, action_name) => { ((Dialog) widget).model.notification_changed(ViewModel.ConversationDetails.NotificationSetting.HIGHLIGHT); } );
             install_action("notification.default", null, (widget, action_name) => { ((Dialog) widget).model.notification_changed(ViewModel.ConversationDetails.NotificationSetting.DEFAULT); } );
+            install_action("contact.remove", null, (widget, action_name) => { ((Dialog) widget).on_remove_contact(); } );
+        }
+        
+        private void on_remove_contact() {
+            var dialog = new Adw.AlertDialog(
+                _("Remove contact?"),
+                _("This contact will be removed from your contact list and all conversation history will be permanently deleted.")
+            );
+            dialog.add_response("cancel", _("Cancel"));
+            dialog.add_response("remove", _("Remove"));
+            dialog.set_response_appearance("remove", Adw.ResponseAppearance.DESTRUCTIVE);
+            dialog.default_response = "cancel";
+            dialog.close_response = "cancel";
+            
+            dialog.response.connect((response) => {
+                if (response == "remove") {
+                    model.remove_contact();
+                    this.close();
+                }
+            });
+            
+            dialog.present(this);
         }
 
         construct {

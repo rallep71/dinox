@@ -26,6 +26,15 @@ public class Module : XmppStreamModule, Iq.Handler {
         fill_node_with_items(block_node, jids);
         Iq.Stanza iq = new Iq.Stanza.set(block_node);
         stream.get_module(Iq.Module.IDENTITY).send_iq(stream, iq, null);
+        
+        // Update local blocklist immediately for UI responsiveness
+        if (stream.has_flag(Flag.IDENTITY)) {
+            foreach (string jid in jids) {
+                if (!stream.get_flag(Flag.IDENTITY).blocklist.contains(jid)) {
+                    stream.get_flag(Flag.IDENTITY).blocklist.add(jid);
+                }
+            }
+        }
         return true;
     }
 
@@ -36,6 +45,13 @@ public class Module : XmppStreamModule, Iq.Handler {
         fill_node_with_items(unblock_node, jids);
         Iq.Stanza iq = new Iq.Stanza.set(unblock_node);
         stream.get_module(Iq.Module.IDENTITY).send_iq(stream, iq, null);
+        
+        // Update local blocklist immediately for UI responsiveness
+        if (stream.has_flag(Flag.IDENTITY)) {
+            foreach (string jid in jids) {
+                stream.get_flag(Flag.IDENTITY).blocklist.remove(jid);
+            }
+        }
         return true;
     }
 

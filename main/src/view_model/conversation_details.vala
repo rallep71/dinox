@@ -9,6 +9,7 @@ public class Dino.Ui.ViewModel.ConversationDetails : Object {
     public signal void block_changed(BlockState action);
     public signal void notification_flipped();
     public signal void notification_changed(NotificationSetting setting);
+    public signal void remove_contact();
 
     public enum BlockState {
         USER,
@@ -38,6 +39,8 @@ public class Dino.Ui.ViewModel.ConversationDetails : Object {
 
     public bool show_blocked { get; set; }
     public BlockState blocked { get; set; }
+    
+    public bool show_remove_contact { get; set; }
 
     public GLib.ListStore about_rows = new GLib.ListStore(typeof(PreferencesRow.Any));
     public string? account_jid { get; set; }

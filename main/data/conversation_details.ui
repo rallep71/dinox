@@ -132,6 +132,21 @@
                             </child>
                           </object>
                         </child>
+                        <child>
+                          <object class="GtkButton" id="remove_contact_button">
+                            <property name="visible" bind-source="model" bind-property="show-remove-contact" bind-flags="sync-create"/>
+                            <property name="action-name">contact.remove</property>
+                            <style>
+                              <class name="destructive-action"/>
+                            </style>
+                            <child>
+                              <object class="AdwButtonContent">
+                                <property name="icon-name">user-trash-symbolic</property>
+                                <property name="label" translatable="yes">Remove Contact</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
                       </object>
                     </child>
                     <child>
