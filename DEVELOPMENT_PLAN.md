@@ -10,6 +10,7 @@
 ## 📋 Quick Links
 
 - 🔧 [Build Instructions](docs/BUILD.md)
+- 🚀 [Release Guide](docs/RELEASE.md)
 - 🏛️ [Architecture Guide](docs/ARCHITECTURE.md)
 - 📡 [XMPP Extensions Support](docs/XEP_SUPPORT.md)
 - 🔍 [XEP UI Implementation Analysis](docs/XEP_UI_ANALYSIS.md)

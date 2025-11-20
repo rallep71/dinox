@@ -1,0 +1,135 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'  # Trigger on version tags like v0.6.0
+
+permissions:
+  contents: write
+
+jobs:
+  create-release:
+    name: "Create GitHub Release"
+    runs-on: ubuntu-24.04
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+      version: ${{ steps.get_version.outputs.version }}
+    steps:
+      - name: "Get version from tag"
+        id: get_version
+        run: echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
+      - name: "Create Release"
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Dino Extended v${{ steps.get_version.outputs.version }}
+          body: |
+            ## Dino Extended v${{ steps.get_version.outputs.version }}
+            
+            Active fork of [dino/dino](https://github.com/dino/dino) with extended features and faster development.
+            
+            ### 🎉 What's New
+            
+            See [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/CHANGELOG.md) for full details.
+            
+            ### 📦 Installation
+            
+            **Flatpak** (Recommended):
+            ```bash
+            flatpak install im.dino.Dino.flatpak
+            ```
+            
+            **From Source**:
+            See [BUILD.md](https://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/docs/BUILD.md)
+            
+            ### 📋 Requirements
+            
+            - GTK4 4.0+
+            - libadwaita 1.5+
+            - libdbusmenu-glib 0.4+ (for systray support)
+            
+            ### 🔗 Links
+            
+            - [Documentation](https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}/docs)
+            - [Development Plan](https://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/DEVELOPMENT_PLAN.md)
+            - [Report Issues](https://github.com/${{ github.repository }}/issues)
+          draft: false
+          prerelease: false
+
+  build-source-tarball:
+    name: "Build Source Tarball"
+    needs: create-release
+    runs-on: ubuntu-24.04
+    steps:
+      - name: "Checkout sources"
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: "Create source tarball"
+        run: |
+          version="${{ needs.create-release.outputs.version }}"
+          git archive --format=tar.gz --prefix=dino-extended-${version}/ HEAD > dino-extended-${version}.tar.gz
+          sha256sum dino-extended-${version}.tar.gz > dino-extended-${version}.tar.gz.sha256
+
+      - name: "Upload source tarball"
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create-release.outputs.upload_url }}
+          asset_path: ./dino-extended-${{ needs.create-release.outputs.version }}.tar.gz
+          asset_name: dino-extended-${{ needs.create-release.outputs.version }}.tar.gz
+          asset_content_type: application/gzip
+
+      - name: "Upload checksum"
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create-release.outputs.upload_url }}
+          asset_path: ./dino-extended-${{ needs.create-release.outputs.version }}.tar.gz.sha256
+          asset_name: dino-extended-${{ needs.create-release.outputs.version }}.tar.gz.sha256
+          asset_content_type: text/plain
+
+  build-flatpak:
+    name: "Build Flatpak (${{ matrix.variant.arch }})"
+    needs: create-release
+    container:
+      image: ghcr.io/flathub-infra/flatpak-github-actions:gnome-49
+      options: --privileged
+    strategy:
+      matrix:
+        variant:
+          - arch: x86_64
+            runner: ubuntu-24.04
+          - arch: aarch64
+            runner: ubuntu-24.04-arm
+    runs-on: ${{ matrix.variant.runner }}
+    steps:
+      - name: "Checkout sources"
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: "Build Flatpak"
+        uses: flatpak/flatpak-github-actions/flatpak-builder@v6
+        with:
+          manifest-path: im.dino.Dino.json
+          bundle: im.dino.Dino-${{ matrix.variant.arch }}.flatpak
+          arch: ${{ matrix.variant.arch }}
+
+      - name: "Upload Flatpak"
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create-release.outputs.upload_url }}
+          asset_path: ./im.dino.Dino-${{ matrix.variant.arch }}.flatpak
+          asset_name: dino-extended-${{ needs.create-release.outputs.version }}-${{ matrix.variant.arch }}.flatpak
+          asset_content_type: application/octet-stream
