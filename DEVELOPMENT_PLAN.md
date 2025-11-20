@@ -28,16 +28,23 @@ This fork addresses the slow development pace of the original Dino XMPP client w
 
 ---
 
-## 🚦 Current Status
+## 🚦 Current Status (November 20, 2025)
 
 | Metric | Status | Details |
 |--------|--------|---------|
 | **XEPs Implemented** | ✅ 60+ | One of most compliant XMPP clients |
-| **Open Upstream Issues** | ⚠️ 572 | We'll prioritize top 50 critical ones |
-| **Database Schema** | ✅ v31 | Modern, unlimited messages + custom server |
+| **Open Upstream Issues** | ⚠️ 566 remaining | **6 fixed by us** (Phase 1: 4, Phase 3: 2) |
+| **Database Schema** | ✅ **v32** | Custom server support + **persistent history clear** |
 | **Memory Leaks** | ✅ Fixed | Issue #1766 - MAM cleanup implemented |
-| **Tech Stack** | ✅ Modern | GTK4, libadwaita 1.5, Meson, Vala |
+| **File Transfer Crashes** | ✅ Fixed | Issue #1764 - Stream cleanup on error |
+| **GTK4 Migration** | ✅ Complete | Edit/delete buttons fixed, 0 deprecation warnings |
+| **Message History** | ✅ **NEW** | Delete Conversation History with OMEMO support |
+| **Systray** | ✅ Implemented | Issue #98 - StatusNotifierItem (108👍) |
+| **Background Mode** | ✅ Implemented | Issue #299 - Keep running when window closed (54👍) |
+| **Custom Server** | ✅ Implemented | Issue #115 - Advanced connection settings (26👍) |
+| **Tech Stack** | ✅ Modern | GTK4 4.14.5, libadwaita 1.5, Meson, Vala |
 | **Platform Support** | ⚠️ Linux Only | Desktop focus (GNOME/KDE) |
+| **Build Status** | ✅ Clean | 541 targets, 0 errors, 0 GTK warnings |
 
 ---
 
