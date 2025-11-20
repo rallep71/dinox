@@ -213,7 +213,7 @@ This fork addresses the slow development pace of the original Dino XMPP client w
 | 📦 Deployment | Flatpak | Missing libdbusmenu | Added module to manifest | ✅ DONE |
 | 📦 Deployment | Debian | No packaging files | Created debian/ control, rules, changelog | ✅ DONE |
 | 📦 Deployment | CI/CD | Missing dependencies | Updated GitHub Actions workflow | ✅ DONE |
-| 🎨 Refactor | CSS System | StyleContext deprecated (GTK4.10) | Widget-scoped CSS providers | 🟡 IN PROGRESS |
+| 🎨 Refactor | CSS System | StyleContext deprecated (GTK4.10) | Widget-scoped CSS providers | ✅ DONE |
 | 🗄️ Refactor | Database | v31 schema active, no tests | Migration test suite | ⚠️ PARTIAL |
 | 🔔 Refactor | Notifications | Duplicate code (2 files) | Unified backend | 🏗️ TODO |
 | 📁 Refactor | File Transfer | 400+ line state machine | Separate providers | 🏗️ TODO |
@@ -289,15 +289,20 @@ widget.get_style_context().add_provider(provider, priority);
 - ✅ Future-proof for GTK5
 - ✅ Follows GTK4 best practices
 
-**Status**: 🟡 **READY TO IMPLEMENT** (Nov 20, 2025)  
-**Time Required**: 2-3 hours total  
+**Status**: ✅ **COMPLETED** (Nov 20, 2025)  
+**Time Spent**: 1 hour  
 **Risk**: Low (backward-compatible API)
 
-**Recent Work** (Nov 20, 2025):
+**Work Completed** (Nov 20, 2025):
 - ✅ Fixed edit/delete message buttons not appearing (removed `shortcut_action = false`)
 - ✅ Fixed button positioning using `compute_bounds()` 
-- ✅ Clean build: 0 errors, 541 targets compiled successfully
-- ✅ Only 2 StyleContext deprecation warnings remaining (to be fixed in CSS refactoring)
+- ✅ Refactored CSS system to widget-scoped providers (GTK4 best practices)
+- ✅ Eliminated 2 StyleContext deprecation warnings
+- ✅ Clean build: 0 errors, 0 StyleContext warnings, 541 targets compiled
+
+**Commits**:
+- `c9c6cc54` - fix(ui): restore edit/delete message button functionality
+- `d1874703` - refactor(ui): modernize CSS system to GTK4 widget-scoped providers
 
 ---
 
