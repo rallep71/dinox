@@ -31,8 +31,6 @@ public class AddAccountDialog : Adw.Dialog {
     [GtkChild] private unowned Adw.EntryRow jid_entry;
     [GtkChild] private unowned Adw.PreferencesGroup password_group;
     [GtkChild] private unowned Adw.PasswordEntryRow password_entry;
-    [GtkChild] private unowned Adw.PreferencesGroup advanced_group;
-    [GtkChild] private unowned Adw.ExpanderRow advanced_expander;
     [GtkChild] private unowned Adw.EntryRow custom_host_entry;
     [GtkChild] private unowned Adw.EntryRow custom_port_entry;
     [GtkChild] private unowned Button sign_in_continue_button;

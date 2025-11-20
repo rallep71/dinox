@@ -28,7 +28,6 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
     public ViewModel.PreferencesDialog model { get; set; }
 
     private Binding[] bindings = new Binding[0];
-    private ulong[] account_notify_ids = new ulong[0];
     private ulong alias_entry_changed = 0;
     private ulong custom_host_entry_changed = 0;
     private ulong custom_port_entry_changed = 0;
@@ -148,26 +147,36 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
     }
 
     private void show_select_avatar() {
-        FileChooserNative chooser = new FileChooserNative(_("Select avatar"), (Window)this.get_root(), FileChooserAction.OPEN, _("Select"), _("Cancel"));
-        FileFilter filter = new FileFilter();
+        var chooser = new Gtk.FileDialog();
+        chooser.title = _("Select avatar");
+        chooser.accept_label = _("Select");
+
+        var filters = new GLib.ListStore(typeof(Gtk.FileFilter));
+
+        var image_filter = new Gtk.FileFilter();
         foreach (PixbufFormat pixbuf_format in Pixbuf.get_formats()) {
             foreach (string mime_type in pixbuf_format.get_mime_types()) {
-                filter.add_mime_type(mime_type);
+                image_filter.add_mime_type(mime_type);
             }
         }
-        filter.set_filter_name(_("Images"));
-        chooser.add_filter(filter);
+        image_filter.name = _("Images");
+        filters.append(image_filter);
 
-        filter = new FileFilter();
-        filter.set_filter_name(_("All files"));
-        filter.add_pattern("*");
-        chooser.add_filter(filter);
+        var all_filter = new Gtk.FileFilter();
+        all_filter.name = _("All files");
+        all_filter.add_pattern("*");
+        filters.append(all_filter);
 
-        chooser.response.connect(() => {
-            model.set_avatar_file(account, chooser.get_file());
+        chooser.filters = filters;
+        chooser.default_filter = image_filter;
+
+        chooser.open.begin((Window)this.get_root(), null, (obj, res) => {
+            try {
+                File file = chooser.open.end(res);
+                model.set_avatar_file(account, file);
+            } catch (Error e) {
+            }
         });
-
-        chooser.show();
     }
 
     private void show_remove_account_dialog() {
@@ -222,6 +231,10 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
                 return _("Wrong password");
             case ConnectionManager.ConnectionError.Source.TLS:
                 return _("Invalid TLS certificate");
+            case ConnectionManager.ConnectionError.Source.CONNECTION:
+            case ConnectionManager.ConnectionError.Source.STREAM_ERROR:
+                // Fall through to default error handling
+                break;
         }
         if (error.identifier != null) {
             return _("Error") + ": " + error.identifier;

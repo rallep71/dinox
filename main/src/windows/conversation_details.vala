@@ -68,7 +68,7 @@ namespace Dino.Ui.ConversationDetails {
                 block_action.set_state(parameter);
                 model.block_changed((ViewModel.ConversationDetails.BlockState) parameter.get_int32());
             });
-            block_action_group.insert(block_action);
+            block_action_group.add_action(block_action);
             this.insert_action_group("block", block_action_group);
 
             // Create block menu model
@@ -139,6 +139,9 @@ namespace Dino.Ui.ConversationDetails {
                     notification_button_toggle_content.label = _("Muted");
                     notification_button_split_content.label = _("Muted");
                     notification_button_menu_content.label = _("Notifications disabled");
+                    break;
+                case DEFAULT:
+                    // Should not happen in this context or handled elsewhere
                     break;
             }
         }
