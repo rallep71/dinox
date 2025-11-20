@@ -39,6 +39,7 @@ This fork addresses the slow development pace of the original Dino XMPP client w
 | **File Transfer Crashes** | ✅ Fixed | Issue #1764 - Stream cleanup on error |
 | **GTK4 Migration** | ✅ Complete | Edit/delete buttons fixed, 0 deprecation warnings |
 | **Message History** | ✅ **NEW** | Delete Conversation History with OMEMO support |
+| **Contact Management** | ✅ **NEW** | Full roster management with block/mute features |
 | **Systray** | ✅ Implemented | Issue #98 - StatusNotifierItem (108👍) |
 | **Background Mode** | ✅ Implemented | Issue #299 - Keep running when window closed (54👍) |
 | **Custom Server** | ✅ Implemented | Issue #115 - Advanced connection settings (26👍) |
@@ -111,8 +112,8 @@ This fork addresses the slow development pace of the original Dino XMPP client w
 | 🎨 UX | - | Remove Avatar Button | vCard avatar deletion | Easy | ✅ FIXED |
 | 🎨 UX | - | Edit/Delete Message Buttons | Buttons not appearing after GTK4 migration | Easy | ✅ FIXED |
 | 🔥 UX | [#472](https://github.com/dino/dino/issues/472) | **Delete Conversation History** | Clear chat history with persistence | Medium | ✅ **COMPLETED** |
-| 🔥 UX | - | Archive Conversation | Hide conversations without deleting | Easy | 🔴 TODO |
-| 🔥 UX | - | Roster Management UI | Add/remove/manage contacts with UI | Medium | 🔴 TODO |
+| 🔥 UX | - | **Contact Management Suite** | Full roster management with block/mute | High | ✅ **COMPLETED** |
+| 🔥 UX | - | Archive Conversation | Hide conversations without deleting | Easy | ❌ **REMOVED** |
 | 🎨 UX | [#1380](https://github.com/dino/dino/issues/1380) | Spell Checking | - | Medium | 🟢 TODO |
 
 **Files Created/Modified** (Systray Support #98 & Background Mode #299):
@@ -190,13 +191,95 @@ This fork addresses the slow development pace of the original Dino XMPP client w
 
 ---
 
-**Files to Create/Modify** (Remaining Chat Management):
+**Files Created/Modified** (Contact Management Suite - **COMPLETED**):
 
-**Archive Conversation**:
-- `libdino/src/entity/conversation.vala` - Add `archived` field
-- `libdino/src/service/database.vala` - Schema v32: archived column + migration
-- `main/data/menu_conversation.ui` - Add "Archive" menu item
-- `main/src/ui/conversation_selector/conversation_selector.vala` - Filter archived chats
+**Core Services**:
+- ✅ `libdino/src/service/blocking_manager.vala` - Fixed `stream_negotiated` signal, immediate UI updates
+- ✅ `xmpp-vala/src/module/xep/0191_blocking_command.vala` - Local blocklist updates for responsiveness
+- ✅ `libdino/src/service/conversation_manager.vala` - Enhanced `clear_conversation_history()` and `close_conversation()`
+
+**Central Management UI**:
+- ✅ `main/src/windows/preferences_window/contacts_preferences_page.vala` - **NEW** Full contact management page (396 lines)
+  - Contact list with search/filter
+  - Edit button (document-edit-symbolic) - Change display name with duplicate detection
+  - Mute button (dino-bell-large-symbolic) - Toggle notifications (OFF/DEFAULT)
+  - Block button (action-unavailable-symbolic) - XEP-0191 blocking with red highlight
+  - Remove button (user-trash-symbolic) - Remove from roster with history cleanup
+  - Auto-refresh on roster/blocking changes
+  - All actions with confirmation dialogs
+- ✅ `main/src/windows/preferences_window/preferences_dialog.vala` - Added "Contacts" navigation item
+- ✅ `main/data/preferences_window/preferences_dialog.ui` - Added Contacts page to sidebar
+
+**Context Menu Integration**:
+- ✅ `main/src/ui/conversation_selector/conversation_selector_row.vala` - Right-click context menu on conversation rows
+  - GestureClick controller for right-click detection
+  - PopoverMenu with Edit/Mute/Block/Remove actions
+  - Same confirmation dialogs as Contacts page
+  - Reuses contact management logic
+
+**Visual Status Badges**:
+- ✅ `main/data/conversation_row.ui` - Added mute_image and blocked_image widgets
+  - Mute icon: `dino-bell-large-none-symbolic` with orange/warning color
+  - Block icon: `action-unavailable-symbolic` with red/error color
+  - Positioned next to pinned icon with tooltips
+- ✅ `main/src/ui/conversation_selector/conversation_selector_row.vala` - Badge update logic
+  - `update_muted_icon()` - Shows/hides based on NotifySetting.OFF
+  - `update_blocked_icon()` - Shows/hides based on BlockingManager status
+  - Live updates via signal listeners (notify-setting, block_changed)
+
+**Add Contact Dialog**:
+- ✅ `main/src/ui/add_conversation/add_contact_dialog.vala` - Enhanced with validation
+  - JID format validation
+  - Duplicate contact detection
+  - Account selection dropdown
+  - Optional alias field
+
+**Technical Features**:
+- ✅ **XEP-0191 Blocking Command**: Full blocking support with server sync
+- ✅ **Immediate UI Updates**: Fixed signal connection bug for instant feedback
+- ✅ **Local Blocklist Cache**: Updates before server response for responsiveness
+- ✅ **Notification Control**: Per-contact mute with NotifySetting (OFF/DEFAULT)
+- ✅ **Full Cleanup**: History deletion, OMEMO data, roster removal
+- ✅ **Live Status Badges**: Visual indicators for muted/blocked contacts
+- ✅ **Duplicate Prevention**: Alias validation to avoid conflicts
+
+**UX Flow Examples**:
+
+*Block Contact*:
+```
+1. Right-click contact → "Block"
+2. AlertDialog: "This will prevent [JID] from sending you messages" [Cancel] [Block]
+3. Backend: BlockingManager.block() → XEP-0191 IQ → Local cache update
+4. UI: Block icon appears immediately (red), status updates in Contacts page
+```
+
+*Mute Contact*:
+```
+1. Right-click contact → "Mute"
+2. AlertDialog: "This will disable notifications from [JID]" [Cancel] [Mute]
+3. Backend: conversation.notify_setting = OFF
+4. UI: Mute icon appears (orange bell), notifications disabled
+```
+
+*Remove Contact*:
+```
+1. Right-click contact → "Remove Contact"
+2. AlertDialog: "This will: • Delete all history • Remove from roster • Delete OMEMO data"
+3. Backend: clear_history() → close_conversation() → RosterManager.remove_jid()
+4. UI: Contact disappears from list and sidebar
+```
+
+**Commit**: `f77364fb` - "Add comprehensive contact management features"  
+**Time Spent**: 6 hours (November 20, 2025)  
+**Lines Changed**: +806, -8 (16 files modified)
+
+---
+
+**Removed Features**:
+
+**Archive Conversation** ❌:
+- **Reason**: XMPP model doesn't fit archiving - conversations are roster-based, not message threads
+- **Alternative**: Use group chats for different topics, or remove contact to hide conversation
 
 **Roster Management UI**:
 - `main/data/menu_conversation.ui` - Add "Remove Contact" for 1:1 chats
