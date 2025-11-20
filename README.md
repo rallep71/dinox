@@ -1,36 +1,87 @@
 <img src="https://dino.im/img/logo.svg" width="80">
 
-# Dino
+# Dino Extended
 
-Dino is an XMPP messaging app for Linux using GTK and Vala.
-It supports calls, encryption, file transfers, group chats and more.
+**Active fork of [dino/dino](https://github.com/dino/dino) with faster development and extended features**
 
-![screenshot](https://dino.im/img/appdata/screenshot-dino-0.4-main-2244x1644@2.png)
+Dino Extended is a modern XMPP messaging client for Linux using GTK4 and Vala.
+It supports calls, OMEMO encryption, file transfers, group chats and more.
 
-Installation
-------------
-Have a look at the [prebuilt packages](https://github.com/dino/dino/wiki/Distribution-Packages).
+> **Status**: Active development | Based on upstream master | Database schema v32
 
-Build
------
-Make sure to install all [dependencies](https://github.com/dino/dino/wiki/Build#dependencies).
+## ✨ Extended Features
 
-    meson setup build
-    meson compile -C build
-    build/main/dino
+This fork adds features that are missing in upstream Dino:
 
-Resources
----------
-- Check out the [Dino website](https://dino.im).
-- Join our XMPP channel at `chat@dino.im`.
-- The [wiki](https://github.com/dino/dino/wiki) provides additional information.
+- ✅ **System Tray Support** - StatusNotifierItem with background mode (Issue [#98](https://github.com/dino/dino/issues/98))
+- ✅ **Custom Server Settings** - Advanced connection options (Issue [#115](https://github.com/dino/dino/issues/115))
+- ✅ **Delete Conversation History** - Persistent history clearing (Issue [#472](https://github.com/dino/dino/issues/472))
+- ✅ **Contact Management Suite** - Edit/Mute/Block/Remove contacts with UI
+- ✅ **Status Badges** - Visual indicators for muted/blocked contacts
+- ✅ **Context Menu** - Quick access via right-click on conversations
+- ✅ **Memory Leak Fixes** - MAM cleanup (Issue [#1766](https://github.com/dino/dino/issues/1766))
+- ✅ **File Transfer Fixes** - Segfault prevention (Issue [#1764](https://github.com/dino/dino/issues/1764))
 
-Contribute
-----------
-- Pull requests are welcome. [These](https://github.com/dino/dino/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22) might be good first issues. Please discuss bigger changes in our channel first.
-- Look at [how to debug](https://github.com/dino/dino/wiki/Debugging) Dino before you report a bug.
-- Help [translating](https://github.com/dino/dino/wiki/Translations) Dino into your language.
-- Make a [donation](https://dino.im/#donate).
+See [DEVELOPMENT_PLAN.md](DEVELOPMENT_PLAN.md) for complete feature list and roadmap.
+
+## 📦 Installation
+
+### From Source
+
+**Dependencies**: GTK4 4.0+, libadwaita 1.5+, libdbusmenu-glib
+
+```bash
+# Clone repository
+git clone https://github.com/rallep71/dino.git
+cd dino
+
+# Install dependencies (Debian/Ubuntu/Mint)
+sudo apt install -y build-essential meson ninja-build valac \
+  libgtk-4-dev libadwaita-1-dev libglib2.0-dev libgee-0.8-dev \
+  libsqlite3-dev libicu-dev libdbusmenu-glib-dev libgcrypt20-dev \
+  libgpgme-dev libqrencode-dev libsoup-3.0-dev
+
+# Build and run
+meson setup build
+meson compile -C build
+./build/main/dino
+```
+
+For other distributions see [docs/BUILD.md](docs/BUILD.md).
+
+## 🚀 Quick Start
+
+```bash
+# Run directly from build directory
+./build/main/dino
+
+# With debug logging
+DINO_LOG_LEVEL=debug ./build/main/dino
+
+# Install system-wide
+sudo meson install -C build
+```
+
+## 📚 Documentation
+
+- 📖 [Build Instructions](docs/BUILD.md) - Complete build guide for all distros
+- 🏗️ [Architecture Overview](docs/ARCHITECTURE.md) - Code structure and design
+- 🔧 [Development Plan](DEVELOPMENT_PLAN.md) - Roadmap and completed features
+- 📡 [XMPP Extensions](docs/XEP_SUPPORT.md) - Supported XEPs
+- 🗄️ [Database Schema](docs/DATABASE_SCHEMA.md) - SQLite schema documentation
+
+## 🤝 Contribute
+
+- **Report Issues**: Use GitHub Issues for bug reports
+- **Feature Requests**: Check [DEVELOPMENT_PLAN.md](DEVELOPMENT_PLAN.md) first
+- **Pull Requests**: Welcome! Discuss bigger changes first
+- **Translations**: Help translate via upstream Dino
+
+## 🔗 Resources
+
+- **Upstream**: [dino/dino](https://github.com/dino/dino) - Original project
+- **Website**: [dino.im](https://dino.im) - Official Dino website
+- **XMPP Channel**: `chat@dino.im` - Community chat
 
 License
 -------
