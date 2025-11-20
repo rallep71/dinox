@@ -4,7 +4,9 @@ using Qlite;
 namespace Dino.Plugins.Omemo {
 
 [GtkTemplate (ui = "/im/dino/Dino/omemo/manage_key_dialog.ui")]
-public class ManageKeyDialog : Gtk.Dialog {
+public class ManageKeyDialog : Gtk.Window {
+
+    public signal void response(int response_id);
 
     [GtkChild] private unowned Stack manage_stack;
 
@@ -40,8 +42,6 @@ public class ManageKeyDialog : Gtk.Dialog {
     }
 
     public ManageKeyDialog(Row device, Database db) {
-        Object(use_header_bar : 1);
-
         this.device = device;
         this.db = db;
 
@@ -50,7 +50,7 @@ public class ManageKeyDialog : Gtk.Dialog {
 
         cancel_button.clicked.connect(handle_cancel);
         ok_button.clicked.connect(() => {
-            response(current_response);
+            this.response(current_response);
             close();
         });
 

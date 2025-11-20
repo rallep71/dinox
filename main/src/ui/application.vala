@@ -1,4 +1,5 @@
 using Gtk;
+using Adw;
 
 using Dino.Entities;
 using Dino.Ui;
@@ -33,7 +34,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         Object(application_id: "im.dino.Dino", flags: ApplicationFlags.HANDLES_OPEN);
         init();
         Environment.set_application_name("Dino");
-        Window.set_default_icon_name("im.dino.Dino");
+        Gtk.Window.set_default_icon_name("im.dino.Dino");
 
         create_actions();
         add_main_option_entries(options);
@@ -46,17 +47,12 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
 
             NotificationEvents notification_events = stream_interactor.get_module(NotificationEvents.IDENTITY);
             get_notifications_dbus.begin((_, res) => {
-                // It might take a bit to get the interface. NotificationEvents will queue any notifications in the meantime.
-                try {
-                    DBusNotifications? dbus_notifications = get_notifications_dbus.end(res);
-                    if (dbus_notifications != null) {
-                        FreeDesktopNotifier free_desktop_notifier = new FreeDesktopNotifier(stream_interactor, dbus_notifications);
-                        notification_events.register_notification_provider.begin(free_desktop_notifier);
-                    } else {
-                        notification_events.register_notification_provider.begin(new GNotificationsNotifier(stream_interactor));
-                    }
-                } catch (Error e) {
-                    debug("Failed accessing fdo notification server: %s", e.message);
+                DBusNotifications? dbus_notifications = get_notifications_dbus.end(res);
+                if (dbus_notifications != null) {
+                    FreeDesktopNotifier free_desktop_notifier = new FreeDesktopNotifier(stream_interactor, dbus_notifications);
+                    notification_events.register_notification_provider.begin(free_desktop_notifier);
+                } else {
+                    notification_events.register_notification_provider.begin(new GNotificationsNotifier(stream_interactor));
                 }
             });
 
@@ -313,26 +309,39 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
     }
 
     private void show_join_muc_dialog(Account? account, string jid) {
-        Dialog dialog = new Dialog.with_buttons(_("Join Channel"), window, Gtk.DialogFlags.MODAL | Gtk.DialogFlags.USE_HEADER_BAR, _("Join"), ResponseType.OK, _("Cancel"), ResponseType.CANCEL);
-        dialog.modal = true;
-        Button ok_button = dialog.get_widget_for_response(ResponseType.OK) as Button;
+        var window = new Gtk.Window();
+        window.transient_for = this.window;
+        window.modal = true;
+        window.title = _("Join Channel");
+        window.default_width = 400;
+        window.default_height = 300;
+
+        var box = new Gtk.Box(Gtk.Orientation.VERTICAL, 0);
+        window.child = box;
+
+        var header = new Adw.HeaderBar();
+        box.append(header);
+
+        var cancel_button = new Gtk.Button.with_label(_("Cancel"));
+        cancel_button.clicked.connect(() => window.destroy());
+        header.pack_start(cancel_button);
+
+        var ok_button = new Gtk.Button.with_label(_("Join"));
         ok_button.add_css_class("suggested-action");
+        header.pack_end(ok_button);
+
         ConferenceDetailsFragment conference_fragment = new ConferenceDetailsFragment(stream_interactor) { ok_button=ok_button };
         conference_fragment.jid = jid;
         if (account != null)  {
             conference_fragment.account = account;
         }
-        Box content_area = dialog.get_content_area();
-        content_area.append(conference_fragment);
+        box.append(conference_fragment);
+
         conference_fragment.joined.connect(() => {
-            dialog.destroy();
+            window.destroy();
         });
-        dialog.response.connect((response_id) => {
-            if (response_id == ResponseType.CANCEL) {
-                dialog.destroy();
-            }
-        });
-        dialog.present();
+
+        window.present();
     }
 }
 

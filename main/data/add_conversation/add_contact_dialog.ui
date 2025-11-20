@@ -24,7 +24,7 @@
                 </child>
             </object>
         </child>
-        <child internal-child="content_area">
+        <child>
             <object class="GtkBox">
                 <child>
                     <object class="GtkGrid" id="info_grid">
@@ -101,9 +101,5 @@
                 </child>
             </object>
         </child>
-        <action-widgets>
-            <action-widget response="cancel">cancel_button</action-widget>
-            <action-widget response="ok" default="true">ok_button</action-widget>
-        </action-widgets>
     </template>
 </interface>

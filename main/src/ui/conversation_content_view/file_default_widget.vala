@@ -1,13 +1,14 @@
 using Gee;
 using Gdk;
 using Gtk;
+using Graphene;
 
 using Dino.Entities;
 
 namespace Dino.Ui {
 
 [GtkTemplate (ui = "/im/dino/Dino/file_default_widget.ui")]
-public class FileDefaultWidget : Box {
+public class FileDefaultWidget : Gtk.Box {
 
     public signal void clicked();
 
@@ -31,9 +32,10 @@ public class FileDefaultWidget : Box {
         this.add_controller(gesture_click_controller);
         gesture_click_controller.pressed.connect((n_press, x, y) => {
             // Check whether the click was inside the file menu. Otherwise, open the file.
-            double x_button, y_button;
-            this.translate_coordinates(file_menu, x, y, out x_button, out y_button);
-            if (file_menu.contains(x_button, y_button)) return;
+            Graphene.Point p = { (float)x, (float)y };
+            if (this.compute_point(file_menu, p, out p)) {
+                if (file_menu.contains(p.x, p.y)) return;
+            }
 
             this.clicked();
         });

@@ -94,7 +94,9 @@ namespace Dino.Ui {
                 snapshot.translate({get_width() / 2, get_height() / 2});
 #if GTK_4_14
                 var fg_color = get_color();
-                get_style_context().lookup_color("accent_color", out fg_color);
+                // TODO: get_style_context().lookup_color is deprecated. 
+                // We fallback to fg_color until we have a better way to get accent_color in code.
+                // get_style_context().lookup_color("accent_color", out fg_color);
                 var builder = new Gsk.PathBuilder();
                 builder.add_circle({0, 0}, radius - line_width / 2);
                 var circle_path = builder.to_path();

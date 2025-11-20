@@ -279,27 +279,23 @@ public class Dino.Ui.FreeDesktopNotifier : NotificationProvider, Object {
 
     public async void retract_content_item_notifications() {
         foreach (uint32 id in content_notifications.values) {
-            try {
-                dbus_notifications.close_notification.begin(id);
-            } catch (Error e) { }
+            dbus_notifications.close_notification.begin(id);
         }
         content_notifications.clear();
     }
 
     public async void retract_conversation_notifications(Conversation conversation) {
-        try {
-            if (content_notifications.has_key(conversation)) {
-                dbus_notifications.close_notification.begin(content_notifications[conversation]);
-                content_notifications.unset(conversation);
-            }
+        if (content_notifications.has_key(conversation)) {
+            dbus_notifications.close_notification.begin(content_notifications[conversation]);
+            content_notifications.unset(conversation);
+        }
 
-            if (conversation_notifications.has_key(conversation)) {
-                foreach (var notification_id in conversation_notifications[conversation]) {
-                    dbus_notifications.close_notification.begin(notification_id);
-                }
-                conversation_notifications.unset(conversation);
+        if (conversation_notifications.has_key(conversation)) {
+            foreach (var notification_id in conversation_notifications[conversation]) {
+                dbus_notifications.close_notification.begin(notification_id);
             }
-        } catch (Error e) { }
+            conversation_notifications.unset(conversation);
+        }
     }
 
     private async Variant get_conversation_icon(Conversation conversation) {
@@ -309,7 +305,21 @@ public class Dino.Ui.FreeDesktopNotifier : NotificationProvider, Object {
             height_request = 40
         };
         Cairo.ImageSurface surface = drawer.draw_image_surface();
-        Gdk.Pixbuf avatar = Gdk.pixbuf_get_from_surface(surface, 0, 0, surface.get_width(), surface.get_height());
+        
+        var buffer = new ByteArray();
+        surface.write_to_png_stream((data) => {
+            buffer.append(data);
+            return Cairo.Status.SUCCESS;
+        });
+
+        Gdk.Pixbuf avatar;
+        try {
+            var stream = new MemoryInputStream.from_bytes(new Bytes(buffer.data));
+            avatar = new Gdk.Pixbuf.from_stream(stream);
+        } catch (Error e) {
+            error("Failed to create pixbuf from surface: %s", e.message);
+        }
+
         var bytes = avatar.pixel_bytes;
         var image_bytes = Variant.new_from_data<Bytes>(new VariantType("ay"), bytes.get_data(), true, bytes);
         return new Variant("(iiibii@ay)", avatar.width, avatar.height, avatar.rowstride, avatar.has_alpha, avatar.bits_per_sample, avatar.n_channels, image_bytes);

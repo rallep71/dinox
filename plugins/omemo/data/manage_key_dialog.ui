@@ -20,7 +20,7 @@
                 </child>
             </object>
         </child>
-        <child internal-child="content_area">
+        <child>
             <object class="GtkBox">
                 <child>
                     <object class="GtkStack" id="manage_stack">

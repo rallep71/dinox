@@ -11,21 +11,21 @@ public class MainWindow : Adw.ApplicationWindow {
 
     public signal void conversation_selected(Conversation conversation);
 
-    [GtkChild] public Stack stack;
-    [GtkChild] public Adw.NavigationSplitView navigation_split_view;
+    [GtkChild] public unowned Stack stack;
+    [GtkChild] public unowned Adw.NavigationSplitView navigation_split_view;
 
-    [GtkChild] public MenuButton add_button;
-    [GtkChild] public MenuButton menu_button;
+    [GtkChild] public unowned MenuButton add_button;
+    [GtkChild] public unowned MenuButton menu_button;
 
-    [GtkChild] public Adw.HeaderBar conversation_headerbar;
-    [GtkChild] public Adw.WindowTitle conversation_window_title;
+    [GtkChild] public unowned Adw.HeaderBar conversation_headerbar;
+    [GtkChild] public unowned Adw.WindowTitle conversation_window_title;
 
-    [GtkChild] public ConversationView conversation_view;
-    [GtkChild] public ConversationSelector conversation_selector;
-    [GtkChild] public Adw.Flap search_flap;
-    [GtkChild] private Stack left_stack;
-    [GtkChild] private Stack right_stack;
-    [GtkChild] public Adw.Bin search_frame;
+    [GtkChild] public unowned ConversationView conversation_view;
+    [GtkChild] public unowned ConversationSelector conversation_selector;
+    [GtkChild] public unowned Adw.OverlaySplitView search_flap;
+    [GtkChild] private unowned Stack left_stack;
+    [GtkChild] private unowned Stack right_stack;
+    [GtkChild] public unowned Adw.Bin search_frame;
 
     public GlobalSearch global_search;
 
@@ -37,7 +37,7 @@ public class MainWindow : Adw.ApplicationWindow {
 
     class construct {
         var shortcut = new Shortcut(new KeyvalTrigger(Key.F, ModifierType.CONTROL_MASK), new CallbackAction((widget, args) => {
-            ((MainWindow) widget).search_flap.reveal_flap = true;
+            ((MainWindow) widget).search_flap.show_sidebar = true;
             return false;
         }));
         add_shortcut(shortcut);

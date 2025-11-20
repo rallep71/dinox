@@ -11,7 +11,6 @@ public class ConversationViewController : Object {
     private Application app;
     private MainWindow main_window;
     private ConversationView view;
-    private Widget? overlay_dialog;
     public SearchMenuEntry search_menu_entry = new SearchMenuEntry();
     public ListView list_view = new ListView(null, null);
     private DropTarget drop_event_controller = new DropTarget(typeof(File), DragAction.COPY );
@@ -38,7 +37,7 @@ public class ConversationViewController : Object {
         view.conversation_frame.init(stream_interactor);
 
         // drag 'n drop file upload
-        drop_event_controller.on_drop.connect(this.on_drag_data_received);
+        drop_event_controller.drop.connect(this.on_drag_data_received);
 
         // forward key presses
         var key_controller = new EventControllerKey() { name = "dino-forward-to-input-key-events-1" };
@@ -180,11 +179,15 @@ public class ConversationViewController : Object {
         try {
             Clipboard clipboard = view.get_clipboard();
             Gdk.Texture? texture = yield clipboard.read_texture_async(null); // TODO critical
-            var file_name = Path.build_filename(FileManager.get_storage_dir(), Xmpp.random_uuid() + ".png");
-            texture.save_to_png(file_name);
-            open_send_file_overlay(File.new_for_path(file_name));
+            if (texture != null) {
+                var file_name = Path.build_filename(FileManager.get_storage_dir(), Xmpp.random_uuid() + ".png");
+                texture.save_to_png(file_name);
+                open_send_file_overlay(File.new_for_path(file_name));
+            }
         } catch (IOError.NOT_SUPPORTED e) {
             // Format not supported, ignore
+        } catch (Error e) {
+            warning("Failed to read texture from clipboard: %s", e.message);
         }
     }
 
@@ -197,13 +200,17 @@ public class ConversationViewController : Object {
     }
 
     private void open_file_picker() {
-        FileChooserNative chooser = new FileChooserNative(_("Select file"), view.get_root() as Gtk.Window, FileChooserAction.OPEN, _("Select"), _("Cancel"));
-        chooser.response.connect((response) => {
-            if (response == ResponseType.ACCEPT) {
-                open_send_file_overlay(chooser.get_file());
+        var chooser = new Gtk.FileDialog();
+        chooser.title = _("Select file");
+        chooser.accept_label = _("Select");
+
+        chooser.open.begin(view.get_root() as Gtk.Window, null, (obj, res) => {
+            try {
+                File file = chooser.open.end(res);
+                open_send_file_overlay(file);
+            } catch (Error e) {
             }
         });
-        chooser.show();
     }
 
     private void open_send_file_overlay(File file) {

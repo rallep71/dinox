@@ -26,7 +26,10 @@ public class ContentProvider : ContentItemCollection, Object {
     }
 
     public void insert_item(ContentItem item) {
-        item_collection.insert_item(create_content_meta_item(item));
+        var meta_item = create_content_meta_item(item);
+        if (meta_item != null) {
+            item_collection.insert_item(meta_item);
+        }
     }
 
     public void remove_item(ContentItem item) { }
@@ -54,16 +57,19 @@ public class ContentProvider : ContentItemCollection, Object {
         Gee.List<ContentMetaItem> ret = new ArrayList<ContentMetaItem>();
         Gee.List<ContentItem> items = stream_interactor.get_module(ContentItemStore.IDENTITY).get_after(conversation, after_item, n);
         foreach (ContentItem item in items) {
-            ret.add(create_content_meta_item(item));
+            var meta_item = create_content_meta_item(item);
+            if (meta_item != null) {
+                ret.add(meta_item);
+            }
         }
         return ret;
     }
 
-    public ContentMetaItem get_content_meta_item(ContentItem content_item) {
+    public ContentMetaItem? get_content_meta_item(ContentItem content_item) {
         return create_content_meta_item(content_item);
     }
 
-    private ContentMetaItem create_content_meta_item(ContentItem content_item) {
+    private ContentMetaItem? create_content_meta_item(ContentItem content_item) {
         if (content_item.type_ == MessageItem.TYPE) {
             return new MessageMetaItem(content_item, stream_interactor);
         } else if (content_item.type_ == FileItem.TYPE) {

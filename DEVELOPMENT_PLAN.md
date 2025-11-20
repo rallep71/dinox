@@ -202,7 +202,7 @@ This fork addresses the slow development pace of the original Dino XMPP client w
 
 | Task | Component | Problem | Solution | Status |
 |------|-----------|---------|----------|--------|
-| 🔧 Refactor | UI Code | GTK4/Libadwaita Deprecations | Adw.Flap, DropTarget, etc. | ✅ DONE |
+| 🔧 Refactor | UI Code | GTK4/Libadwaita 1.5 Migration | AdwFlap→AdwOverlaySplitView, Dialog→Window+HeaderBar | ✅ DONE |
 | 🔧 Build | Meson | Missing dependencies | Added libdbusmenu-glib, updated libadwaita | ✅ DONE |
 | 📦 Deployment | Flatpak | Missing libdbusmenu | Added module to manifest | ✅ DONE |
 | 📦 Deployment | Debian | No packaging files | Created debian/ control, rules, changelog | ✅ DONE |
@@ -213,13 +213,25 @@ This fork addresses the slow development pace of the original Dino XMPP client w
 | ⚠️ Refactor | Error Handling | 10+ error domains | Unified DinoError | 🏗️ TODO |
 | 🪟 Platform | [#309](https://github.com/dino/dino/issues/309) | Windows Support | Native Windows port | 🏗️ TODO |
 
+**Files Modified** (GTK4/Libadwaita 1.5 Migration):
+- ✅ 40+ UI files migrated to modern APIs
+- ✅ `AdwFlap` → `AdwOverlaySplitView` (deprecated in libadwaita 1.5)
+- ✅ `Gtk.Dialog` → `Gtk.Window` + `AdwHeaderBar` pattern
+- ✅ `preview_file_chooser_native.vala` removed (native GTK4 API)
+- ✅ Notification handling modernized
+- ✅ File widgets updated for GTK4 drag-and-drop
+- ✅ CSS adjustments for libadwaita themes
+
 **Benefits**:
 - Easier onboarding for new contributors
 - Fewer bugs from code duplication
 - Faster feature development
 - Windows user base expansion
+- Modern UI/UX following GNOME HIG
+- Future-proof against libadwaita deprecations
 
 **Estimated Time**: 8-10 weeks (incl. Windows port)  
+**Time Spent**: 4-6 hours (GTK4/libadwaita migration)  
 **Target Release**: End of August 2026
 
 ---

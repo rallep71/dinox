@@ -1,5 +1,6 @@
 using Gee;
 using Gtk;
+using Adw;
 
 using Dino.Entities;
 using Xmpp;
@@ -8,7 +9,6 @@ using Xmpp.Xep;
 namespace Dino.Ui.Util {
 
 private static Regex URL_REGEX;
-private static Regex CODE_BLOCK_REGEX;
 private static Map<unichar, unichar> MATCHING_CHARS;
 private const unichar[] NON_TRAILING_CHARS = {'\'', '"', ',', '.', ';', '!', '?', '»', '”', '’', '`', '~', '‽', ':', '>', '*', '_'};
 private const string[] ALLOWED_SCHEMAS = {"http", "https", "ftp", "ftps", "irc", "ircs", "xmpp", "mailto", "sms", "smsto", "mms", "tel", "geo", "openpgp4fpr", "im", "news", "nntp", "sip", "ssh", "bitcoin", "sftp", "magnet", "vnc"};
@@ -83,8 +83,14 @@ public static string get_occupant_display_name(StreamInteractor stream_interacto
 
 public static Gdk.RGBA get_label_pango_color(Label label, string css_color) {
     Gtk.CssProvider provider = force_color(label, css_color);
-    Gdk.RGBA color_rgba = label.get_style_context().get_color();
-    label.get_style_context().remove_provider(provider);
+    Gdk.RGBA color_rgba = label.get_color();
+    
+    string? class_name = provider.get_data<string>("dino-style-class");
+    if (class_name != null) {
+        label.remove_css_class(class_name);
+    }
+    Gtk.StyleContext.remove_provider_for_display(label.get_display(), provider);
+    
     return color_rgba;
 }
 
@@ -102,18 +108,21 @@ private const string force_color_css = "%s { color: %s; }";
 
 public static Gtk.CssProvider force_css(Gtk.Widget widget, string css) {
     var p = new Gtk.CssProvider();
-    try {
+    string class_name = "dino-style-%u".printf(Random.next_int());
+    string scoped_css = ".%s %s".printf(class_name, css);
+
 #if GTK_4_12 && (VALA_0_56_GREATER_11 || VALA_0_58)
-        p.load_from_string(css);
+    p.load_from_string(scoped_css);
 #elif (VALA_0_56_11 || VALA_0_56_12)
-        p.load_from_data(css, css.length);
+    p.load_from_data(scoped_css, scoped_css.length);
 #else
-        p.load_from_data(css.data);
+    p.load_from_data(scoped_css.data);
 #endif
-        widget.get_style_context().add_provider(p, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
-    } catch (GLib.Error err) {
-        // handle err
-    }
+
+    widget.add_css_class(class_name);
+    Gtk.StyleContext.add_provider_for_display(widget.get_display(), p, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
+    p.set_data("dino-style-class", class_name);
+
     return p;
 }
 
@@ -130,8 +139,7 @@ public static void force_error_color(Gtk.Widget widget, string selector = "*") {
 }
 
 public static bool is_dark_theme(Gtk.Widget widget) {
-    Gdk.RGBA bg = widget.get_style_context().get_color();
-    return (bg.red > 0.5 && bg.green > 0.5 && bg.blue > 0.5);
+    return Adw.StyleManager.get_default().dark;
 }
 
 private static int8 is24h = 0;
@@ -220,19 +228,23 @@ public static string parse_add_markup_theme(string s_, string? highlight_word, b
 
     if (parse_quotes) {
         string gt = already_escaped ? "&gt;" : ">";
-        Regex quote_regex = new Regex("((?<=\n)" + gt + ".*(\n|$))|(^" + gt + ".*(\n|$))");
-        MatchInfo quote_match_info;
-        quote_regex.match(s.down(), 0, out quote_match_info);
-        if (quote_match_info.matches()) {
-            int start, end;
+        try {
+            Regex quote_regex = new Regex("((?<=\n)" + gt + ".*(\n|$))|(^" + gt + ".*(\n|$))");
+            MatchInfo quote_match_info;
+            quote_regex.match(s.down(), 0, out quote_match_info);
+            if (quote_match_info.matches()) {
+                int start, end;
 
-            string dim_color = dark_theme ? "#BDBDBD": "#707070";
+                string dim_color = dark_theme ? "#BDBDBD": "#707070";
 
-            theme_dependent = true;
-            quote_match_info.fetch_pos(0, out start, out end);
-            return parse_add_markup_theme(s[0:start], highlight_word, parse_links, parse_text_markup, parse_quotes, dark_theme, ref theme_dependent, already_escaped) +
-                    @"<span color='$dim_color'>$gt" + parse_add_markup_theme(s[start + gt.length:end], highlight_word, parse_links, parse_text_markup, false, dark_theme, ref theme_dependent, already_escaped) + "</span>" +
-                    parse_add_markup_theme(s[end:s.length], highlight_word, parse_links, parse_text_markup, parse_quotes, dark_theme, ref theme_dependent, already_escaped);
+                theme_dependent = true;
+                quote_match_info.fetch_pos(0, out start, out end);
+                return parse_add_markup_theme(s[0:start], highlight_word, parse_links, parse_text_markup, parse_quotes, dark_theme, ref theme_dependent, already_escaped) +
+                        @"<span color='$dim_color'>$gt" + parse_add_markup_theme(s[start + gt.length:end], highlight_word, parse_links, parse_text_markup, false, dark_theme, ref theme_dependent, already_escaped) + "</span>" +
+                        parse_add_markup_theme(s[end:s.length], highlight_word, parse_links, parse_text_markup, parse_quotes, dark_theme, ref theme_dependent, already_escaped);
+            }
+        } catch (RegexError e) {
+            warning("Failed to create quote regex: %s", e.message);
         }
     }
 
@@ -282,7 +294,12 @@ public static string parse_add_markup_theme(string s_, string? highlight_word, b
                         "</a>" +
                         parse_add_markup_theme(s[end:s.length], highlight_word, parse_links, parse_text_markup, false, dark_theme, ref theme_dependent, already_escaped);
             }
-            match_info.next();
+            try {
+                match_info.next();
+            } catch (RegexError e) {
+                warning("Failed to advance regex match: %s", e.message);
+                break;
+            }
         }
     }
 
@@ -420,7 +437,7 @@ public string summarize_whitespaces_to_space(string s) {
     }
 }
 
-public void present_window(Window window) {
+public void present_window(Gtk.Window window) {
 #if GDK3_WITH_X11
         Gdk.X11.Window x11window = window.get_window() as Gdk.X11.Window;
     if (x11window != null) {

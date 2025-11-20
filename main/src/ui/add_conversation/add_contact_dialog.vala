@@ -7,11 +7,11 @@ using Xmpp;
 namespace Dino.Ui {
 
 [GtkTemplate (ui = "/im/dino/Dino/add_conversation/add_contact_dialog.ui")]
-protected class AddContactDialog : Gtk.Dialog {
+protected class AddContactDialog : Gtk.Window {
 
     public Account? account {
-        get { return account_combobox.selected; }
-        set { account_combobox.selected = value; }
+        get { return account_combobox.active_account; }
+        set { account_combobox.active_account = value; }
     }
 
     public string jid {
@@ -28,7 +28,6 @@ protected class AddContactDialog : Gtk.Dialog {
     private StreamInteractor stream_interactor;
 
     public AddContactDialog(StreamInteractor stream_interactor) {
-        Object(use_header_bar : 1);
         this.stream_interactor = stream_interactor;
         account_combobox.initialize(stream_interactor);
 

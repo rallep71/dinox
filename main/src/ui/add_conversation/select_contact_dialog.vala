@@ -7,7 +7,7 @@ using Xmpp;
 
 namespace Dino.Ui {
 
-public class SelectContactDialog : Gtk.Dialog {
+public class SelectContactDialog : Gtk.Window {
 
     public signal void selected(Account account, Jid jid);
 
@@ -20,7 +20,6 @@ public class SelectContactDialog : Gtk.Dialog {
     private Gee.List<Account> accounts;
 
     public SelectContactDialog(StreamInteractor stream_interactor, Gee.List<Account> accounts) {
-        Object(use_header_bar : 1);
         modal = true;
         this.default_width = 460;
         this.default_height = 550;
@@ -46,10 +45,12 @@ public class SelectContactDialog : Gtk.Dialog {
         ok_button.sensitive = false;
         ok_button.visible = true;
 
-        HeaderBar header_bar = get_header_bar() as HeaderBar;
+        HeaderBar header_bar = new HeaderBar();
         header_bar.show_title_buttons = false;
         header_bar.pack_start(cancel_button);
         header_bar.pack_end(ok_button);
+        
+        this.titlebar = header_bar;
 
         cancel_button.clicked.connect(() => { close(); });
         ok_button.clicked.connect(() => {
@@ -76,7 +77,7 @@ public class SelectContactDialog : Gtk.Dialog {
         select_jid_fragment.notify["done"].connect(() => {
             ok_button.sensitive = select_jid_fragment.done;
         });
-        get_content_area().append(select_jid_fragment);
+        this.child = select_jid_fragment;
     }
 }
 

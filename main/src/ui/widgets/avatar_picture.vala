@@ -54,7 +54,7 @@ public class Dino.Ui.ViewModel.ConversationParticipantAvatarPictureTileModel : A
     }
 
     private void update_image_file() {
-        File image_file = avatar_manager.get_avatar_file(conversation.account, primary_avatar_jid);
+        File? image_file = avatar_manager.get_avatar_file(conversation.account, primary_avatar_jid);
         if (image_file == null && secondary_avatar_jid != null) {
             image_file = avatar_manager.get_avatar_file(conversation.account, secondary_avatar_jid);
         }
@@ -150,7 +150,10 @@ public class Dino.Ui.ViewModel.CompatAvatarPictureModel : AvatarPictureModel {
     }
 
     public void reset() {
-        (tiles as GLib.ListStore).remove_all();
+        var store = tiles as GLib.ListStore;
+        if (store != null) {
+            store.remove_all();
+        }
     }
 
     public CompatAvatarPictureModel set_conversation(Conversation conversation) {
@@ -187,7 +190,10 @@ public class Dino.Ui.ViewModel.CompatAvatarPictureModel : AvatarPictureModel {
             critical("add_participant() used on CompatAvatarPictureModel without stream_interactor");
             return this;
         }
-        (tiles as GLib.ListStore).append(new ConversationParticipantAvatarPictureTileModel(stream_interactor, conversation, jid));
+        var store = tiles as GLib.ListStore;
+        if (store != null) {
+            store.append(new ConversationParticipantAvatarPictureTileModel(stream_interactor, conversation, jid));
+        }
         return this;
     }
 
@@ -285,7 +291,14 @@ public class Dino.Ui.CompatAvatarDrawer {
 
     private Cairo.Surface sub_surface_idx(Cairo.Context ctx, int idx, int width, int height, int font_factor = 1) {
         ViewModel.AvatarPictureTileModel tile = (ViewModel.AvatarPictureTileModel) this.model.tiles.get_item(idx);
-        Gdk.Pixbuf? avatar = tile.image_file != null ? new Gdk.Pixbuf.from_file(tile.image_file.get_path()) : null;
+        Gdk.Pixbuf? avatar = null;
+        if (tile.image_file != null) {
+            try {
+                avatar = new Gdk.Pixbuf.from_file(tile.image_file.get_path());
+            } catch (Error e) {
+                warning("Failed to load avatar from file: %s", e.message);
+            }
+        }
         string? name = idx >= 0 ? tile.display_text : "";
         Gdk.RGBA hex_color = tile.background_color;
         return sub_surface(ctx, font_family, avatar, name, hex_color, width, height, font_factor);

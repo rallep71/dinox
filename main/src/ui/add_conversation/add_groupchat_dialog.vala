@@ -7,7 +7,7 @@ using Xmpp;
 namespace Dino.Ui {
 
 [GtkTemplate (ui = "/im/dino/Dino/add_conversation/add_groupchat_dialog.ui")]
-protected class AddGroupchatDialog : Gtk.Dialog {
+protected class AddGroupchatDialog : Gtk.Window {
 
     [GtkChild] private unowned Stack accounts_stack;
     [GtkChild] private unowned AccountComboBox account_combobox;
@@ -21,7 +21,6 @@ protected class AddGroupchatDialog : Gtk.Dialog {
     private bool alias_entry_changed = false;
 
     public AddGroupchatDialog(StreamInteractor stream_interactor) {
-        Object(use_header_bar : 1);
         this.stream_interactor = stream_interactor;
         ok_button.label = _("Add");
         ok_button.add_css_class("suggested-action"); // TODO why doesn't it work in XML
@@ -62,7 +61,7 @@ protected class AddGroupchatDialog : Gtk.Dialog {
             conference.jid = new Jid(jid_entry.text);
             conference.nick = nick_entry.text != "" ? nick_entry.text : null;
             conference.name = alias_entry.text;
-            stream_interactor.get_module(MucManager.IDENTITY).add_bookmark(account_combobox.selected, conference);
+            stream_interactor.get_module(MucManager.IDENTITY).add_bookmark(account_combobox.active_account, conference);
             close();
         } catch (InvalidJidError e) {
             warning("Ignoring invalid conference Jid: %s", e.message);

@@ -245,7 +245,7 @@ window.dino-main box.dino-chatinput.activatable {
 window.dino-main box.dino-chatinput.activatable:focus-within {
   outline-offset: -1px;
   outline-width: 2px;
-  outline-color: color-mix(in srgb, var(--accent-color) 50%, transparent);
+  outline-color: alpha(@accent_color, 0.5);
 }
 
 .dino-unread-line label {

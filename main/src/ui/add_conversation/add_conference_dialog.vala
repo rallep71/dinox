@@ -7,7 +7,7 @@ using Xmpp.Xep;
 
 namespace Dino.Ui {
 
-public class AddConferenceDialog : Gtk.Dialog {
+public class AddConferenceDialog : Gtk.Window {
 
     private Stack stack = new Stack();
     private Button cancel_button = new Button();
@@ -21,7 +21,6 @@ public class AddConferenceDialog : Gtk.Dialog {
     private StreamInteractor stream_interactor;
 
     public AddConferenceDialog(StreamInteractor stream_interactor) {
-        Object(use_header_bar : 1);
         this.title = _("Join Channel");
         this.modal = true;
         this.default_width = 460;
@@ -30,7 +29,7 @@ public class AddConferenceDialog : Gtk.Dialog {
 
         stack.visible = true;
         stack.vhomogeneous = false;
-        get_content_area().append(stack);
+        this.child = stack;
 
         setup_headerbar();
         setup_jid_add_view();
@@ -73,11 +72,13 @@ public class AddConferenceDialog : Gtk.Dialog {
         ok_button = new Button() { can_focus=true };
         ok_button.add_css_class("suggested-action");
 
-        HeaderBar header_bar = get_header_bar() as HeaderBar;
+        HeaderBar header_bar = new HeaderBar();
         header_bar.show_title_buttons = false;
 
         header_bar.pack_start(cancel_button);
         header_bar.pack_end(ok_button);
+        
+        this.titlebar = header_bar;
     }
 
     private void setup_jid_add_view() {

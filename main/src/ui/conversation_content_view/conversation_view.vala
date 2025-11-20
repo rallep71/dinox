@@ -1,7 +1,7 @@
 using Gee;
 using Gtk;
 using Gdk;
-using Pango;
+using Graphene;
 
 using Dino.Entities;
 
@@ -15,9 +15,9 @@ public class ConversationView : Widget, Plugins.ConversationItemCollection, Plug
 
     [GtkChild] public unowned ScrolledWindow scrolled;
     [GtkChild] private unowned Revealer notification_revealer;
-    [GtkChild] private unowned Box message_menu_box;
-    [GtkChild] private unowned Box notifications;
-    [GtkChild] private unowned Box main;
+    [GtkChild] private unowned Gtk.Box message_menu_box;
+    [GtkChild] private unowned Gtk.Box notifications;
+    [GtkChild] private unowned Gtk.Box main;
     [GtkChild] private unowned Widget main_wrap_box;
 
     private HashMap<string, Widget> action_buttons = new HashMap<string, Widget>();
@@ -88,7 +88,7 @@ public class ConversationView : Widget, Plugins.ConversationItemCollection, Plug
             on_action_button_clicked(parameter.get_string());
         });
         SimpleActionGroup action_group = new SimpleActionGroup();
-        action_group.insert(action_action);
+        action_group.add_action(action_action);
         this.insert_action_group("action", action_group);
     }
 
@@ -190,7 +190,7 @@ public class ConversationView : Widget, Plugins.ConversationItemCollection, Plug
         Widget? w = null;
         foreach (Plugins.MetaConversationItem item in meta_items) {
             Widget widget = widgets[item];
-            h += widget.get_allocated_height() + widget.margin_top + widget.margin_bottom;
+            h += widget.get_height() + widget.margin_top + widget.margin_bottom;
             if (h >= y) {
                 w = widget;
                 break;
@@ -209,7 +209,10 @@ public class ConversationView : Widget, Plugins.ConversationItemCollection, Plug
 
         // Get widget coordinates in main
         double widget_x, widget_y;
-        w.translate_coordinates(main, 0, 0, out widget_x, out widget_y);
+        Graphene.Rect bounds;
+        w.compute_bounds(main, out bounds);
+        widget_x = bounds.origin.x;
+        widget_y = bounds.origin.y;
 
         // Get MessageItem
         foreach (Plugins.MetaConversationItem item in item_item_skeletons.keys) {
@@ -312,7 +315,7 @@ public class ConversationView : Widget, Plugins.ConversationItemCollection, Plug
             if (target == item) {
                 break;
             }
-            h += widget.get_allocated_height();
+            h += widget.get_height();
         }
         if (widget != widgets[target]) {
             warning("Target item widget not reached");

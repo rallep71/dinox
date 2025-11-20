@@ -283,12 +283,9 @@ namespace Dino.Ui {
         }
 
         public void on_header_bar_size_allocate() {
-            Allocation header_bar_alloc;
-            header_bar.get_allocation(out header_bar_alloc);
-
-            Allocation alloc;
-            get_allocation(out alloc);
-            alloc.height = header_bar_alloc.height;
+            // int header_bar_height = header_bar.get_height();
+            // int alloc_height = get_height();
+            // alloc.height = header_bar_alloc.height;
 //            set_allocation(alloc);
         }
     }

@@ -53,8 +53,12 @@ namespace Dino.Ui.Util {
             Adw.EntryRow view = new Adw.EntryRow() { title = entry_view_model.title, show_apply_button=true };
             if (preferences_row.media_uri != null) {
                 var bytes = Xmpp.get_data_for_uri(preferences_row.media_uri);
-                Picture picture = new Picture.for_paintable(Texture.from_bytes(bytes));
-                view.add_suffix(picture);
+                try {
+                    Picture picture = new Picture.for_paintable(Texture.from_bytes(bytes));
+                    view.add_suffix(picture);
+                } catch (Error e) {
+                    warning("Failed to create texture from bytes: %s", e.message);
+                }
             }
             entry_view_model.bind_property("text", view, "text", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL, (_, from, ref to) => {
                 var str = (string) from;

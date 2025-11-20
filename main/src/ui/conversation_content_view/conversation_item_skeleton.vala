@@ -136,13 +136,7 @@ public class ConversationItemSkeleton : Plugins.ConversationItemWidgetInterface,
         }
     }
 
-    private void update_error_mode() {
-        if (item_mark == Message.Marked.ERROR) {
-            main_grid.add_css_class("error");
-        } else {
-            main_grid.remove_css_class("error");
-        }
-    }
+
 
     private void update_encryption_icon() {
         Application app = GLib.Application.get_default() as Application;

@@ -39,9 +39,15 @@ class ColorTest : Gee.TestCase {
     public void test_rgb_to_angle() {
         string[] colors = {"e57373", "f06292", "ba68c8", "9575cd", "7986cb", "64b5f6", "4fc3f7", "4dd0e1", "4db6ac", "81c784", "aed581", "dce775", "fff176", "ffd54f", "ffb74d", "ff8a65"};
         foreach(string hex_color in colors) {
-            uint8 r = (uint8) ((double) hex_color.substring(0, 2).to_long(null, 16));
-            uint8 g = (uint8) ((double) hex_color.substring(2, 2).to_long(null, 16));
-            uint8 b = (uint8) ((double) hex_color.substring(4, 2).to_long(null, 16));
+            int r_int;
+            hex_color.substring(0, 2).scanf("%x", out r_int);
+            uint8 r = (uint8) r_int;
+            int g_int;
+            hex_color.substring(2, 2).scanf("%x", out g_int);
+            uint8 g = (uint8) g_int;
+            int b_int;
+            hex_color.substring(4, 2).scanf("%x", out b_int);
+            uint8 b = (uint8) b_int;
             //print(@"$hex_color, $r, $g, $b, $(ConsistentColor.rgb_to_angle(r, g, b))\n");
         }
     }

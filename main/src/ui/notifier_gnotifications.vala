@@ -72,7 +72,7 @@ namespace Dino.Ui {
                 body = video ? _("Incoming video group call") : _("Incoming group call");
             }
             notification.set_body(body);
-            notification.set_urgent(true);
+            notification.set_priority(GLib.NotificationPriority.URGENT);
 
             notification.set_icon(new ThemedIcon.from_names(new string[] {"call-start-symbolic"}));
 
@@ -180,10 +180,12 @@ namespace Dino.Ui {
                 height_request = 40
             };
             Cairo.ImageSurface surface = drawer.draw_image_surface();
-            Gdk.Pixbuf avatar = Gdk.pixbuf_get_from_surface(surface, 0, 0, surface.get_width(), surface.get_height());
-            uint8[] buffer;
-            avatar.save_to_buffer(out buffer, "png");
-            return new BytesIcon(new Bytes(buffer));
+            var buffer = new ByteArray();
+            surface.write_to_png_stream((data) => {
+                buffer.append(data);
+                return Cairo.Status.SUCCESS;
+            });
+            return new BytesIcon(new Bytes(buffer.data));
         }
     }
 }

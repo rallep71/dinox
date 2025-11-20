@@ -45,7 +45,7 @@ public class EncryptionButton {
             conversation.encryption = (Encryption) parameter.get_int32();
             encryption_changed(conversation.encryption);
         });
-        action_group.insert(action);
+        action_group.add_action(action);
         menu_button.insert_action_group("enc", action_group);
 
         // Create and set popover menu

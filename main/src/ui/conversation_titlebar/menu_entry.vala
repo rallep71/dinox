@@ -28,7 +28,7 @@ class MenuEntry : Plugins.ConversationTitlebarEntry, Object {
             var variant = new Variant.tuple(new Variant[] {new Variant.int32(conversation.id), new Variant.string("about")});
             GLib.Application.get_default().activate_action("open-conversation-details", variant);
         });
-        action_group.insert(details_action);
+        action_group.add_action(details_action);
         button.insert_action_group("conversation", action_group);
     }
 
@@ -41,10 +41,7 @@ class MenuEntry : Plugins.ConversationTitlebarEntry, Object {
         button.sensitive = false;
     }
 
-    private void open_conversation_details() {
-        var conversation_details = ConversationDetails.setup_dialog(conversation, stream_interactor);
-        conversation_details.present((Window)button.get_root());
-    }
+
 
     public Object? get_widget(Plugins.WidgetType type) {
         if (type != Plugins.WidgetType.GTK4) return null;

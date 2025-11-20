@@ -38,7 +38,7 @@ public class Loader : Object {
                 Dir dir = Dir.open(path, 0);
                 string? file = null;
                 while ((file = dir.read_name()) != null) {
-                    if (file.has_suffix(Module.SUFFIX)) plugin_names.add(file);
+                    if (file.has_suffix("so") || file.has_suffix("dll") || file.has_suffix("dylib")) plugin_names.add(file);
                 }
             } catch (Error e) {
                 // Ignore this folder
@@ -59,7 +59,7 @@ public class Loader : Object {
         string path = "";
         foreach (string prefix in search_paths) {
             path = Path.build_filename(prefix, name);
-            module = Module.open(path, ModuleFlags.BIND_LAZY);
+            module = Module.open(path, ModuleFlags.LAZY);
             if (module != null) break;
         }
         if (module == null) {

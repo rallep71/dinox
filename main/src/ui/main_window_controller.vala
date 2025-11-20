@@ -45,10 +45,10 @@ public class MainWindowController : Object {
 
         this.conversation_view_controller = new ConversationViewController(window, window.conversation_view, stream_interactor);
 
-        conversation_view_controller.search_menu_entry.button.bind_property("active", window.search_flap, "reveal-flap", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
+        conversation_view_controller.search_menu_entry.button.bind_property("active", window.search_flap, "show-sidebar", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
 
-        window.search_flap.notify["reveal-flap"].connect(() => {
-            if (window.search_flap.reveal_flap) {
+        window.search_flap.notify["show-sidebar"].connect(() => {
+            if (window.search_flap.show_sidebar) {
                 if (window.conversation_view.conversation_frame.conversation != null && window.global_search.search_entry.text == "") {
                     reset_search_entry();
                 }
@@ -59,7 +59,7 @@ public class MainWindowController : Object {
         window.global_search.selected_item.connect((item) => {
             select_conversation(item.conversation, false, false);
             window.conversation_view.conversation_frame.initialize_around_message(item.conversation, item);
-            if (window.search_flap.folded) {
+            if (window.search_flap.collapsed) {
                 close_search();
             }
         });

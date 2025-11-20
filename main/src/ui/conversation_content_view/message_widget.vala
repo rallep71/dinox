@@ -106,7 +106,6 @@ public class MessageMetaItem : ContentMetaItem {
 
         var bold_attr = Pango.attr_weight_new(Pango.Weight.BOLD);
         var italic_attr = Pango.attr_style_new(Pango.Style.ITALIC);
-        var strikethrough_attr = Pango.attr_strikethrough_new(true);
 
         // Prefix message with name instead of /me
         if (markup_text.has_prefix("/me ")) {

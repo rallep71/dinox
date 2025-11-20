@@ -84,7 +84,7 @@ public class Dino.Ui.CallWindowController : Object {
         });
         call_window_handler_ids += call_window.notify["default-width"].connect((event) => {
             if (call_window.default_width == -1) return;
-            int current_width = this.call_window.get_allocated_width();
+            int current_width = this.call_window.get_width();
             if (window_width != current_width) {
                 debug("Call window size changed by user. Disabling auto window-to-video size adaptation. Width %i->%i", window_width, current_width);
                 window_size_changed = true;
@@ -92,7 +92,7 @@ public class Dino.Ui.CallWindowController : Object {
         });
         call_window_handler_ids += call_window.notify["default-height"].connect((event) => {
             if (call_window.default_height == -1) return;
-            int current_height = this.call_window.get_allocated_height();
+            int current_height = this.call_window.get_height();
             if (window_height != current_height) {
                 debug("Call window size changed by user. Disabling auto window-to-video size adaptation. Height %i->%i", window_height, current_height);
                 window_size_changed = true;
@@ -300,10 +300,8 @@ public class Dino.Ui.CallWindowController : Object {
     }
 
     private void capture_window_size() {
-        Allocation allocation;
-        this.call_window.get_allocation(out allocation);
-        this.window_height = this.call_window.get_allocated_height();
-        this.window_width = this.call_window.get_allocated_width();
+        this.window_height = this.call_window.get_height();
+        this.window_width = this.call_window.get_width();
     }
 
     private void update_audio_device_choices() {

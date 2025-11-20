@@ -68,7 +68,10 @@ public class FileImageWidget : Widget {
         EventControllerMotion this_motion_events = new EventControllerMotion();
         this.add_controller(this_motion_events);
         this_motion_events.enter.connect((controller, x, y) => {
-            (controller.widget as FileImageWidget).on_motion_event_enter();
+            var widget = controller.widget as FileImageWidget;
+            if (widget != null) {
+                widget.on_motion_event_enter();
+            }
         });
         attach_on_motion_event_leave(this_motion_events, button);
     }
@@ -77,8 +80,11 @@ public class FileImageWidget : Widget {
         this_motion_events.leave.connect((controller) => {
             if (button.popover != null && button.popover.visible) return;
 
-            (controller.widget as FileImageWidget).image_overlay_toolbar.visible = false;
-            (controller.widget as FileImageWidget).file_size_label.visible = false;
+            var widget = controller.widget as FileImageWidget;
+            if (widget != null) {
+                widget.image_overlay_toolbar.visible = false;
+                widget.file_size_label.visible = false;
+            }
         });
     }
 
@@ -228,7 +234,12 @@ public class FileImageWidget : Widget {
 
     public static Pixbuf? parse_thumbnail(Xep.JingleContentThumbnails.Thumbnail thumbnail) {
         MemoryInputStream input_stream = new MemoryInputStream.from_data(thumbnail.data.get_data());
-        return new Pixbuf.from_stream(input_stream);
+        try {
+            return new Pixbuf.from_stream(input_stream);
+        } catch (Error e) {
+            warning("Failed to parse thumbnail: %s", e.message);
+            return null;
+        }
     }
 
     public static bool can_display(FileTransfer file_transfer) {

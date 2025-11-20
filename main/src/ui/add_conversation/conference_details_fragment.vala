@@ -15,10 +15,10 @@ protected class ConferenceDetailsFragment : Box {
     public bool done { get; private set; }
 
     public Account account {
-        owned get { return account_combobox.selected; }
+        owned get { return account_combobox.active_account; }
         set {
             accounts_label.label = value.bare_jid.to_string();
-            account_combobox.selected = value;
+            account_combobox.active_account = value;
             if (nick == null && value.alias != null) {
                 nick = value.alias;
             }
@@ -104,8 +104,8 @@ protected class ConferenceDetailsFragment : Box {
         nick_button.clicked.connect(() => { set_active_stack(nick_stack); });
         password_button.clicked.connect(() => { set_active_stack(password_stack); });
 
-        account_combobox.changed.connect(() => { accounts_label.label = account_combobox.selected.bare_jid.to_string(); });
-        accounts_label.label = account_combobox.selected.bare_jid.to_string();
+        account_combobox.notify["active-account"].connect(() => { accounts_label.label = account_combobox.active_account.bare_jid.to_string(); });
+        accounts_label.label = account_combobox.active_account.bare_jid.to_string();
 //        jid_entry.key_release_event.connect(on_jid_key_release_event);
 //        nick_entry.key_release_event.connect(on_nick_key_release_event);
 //        password_entry.key_release_event.connect(on_password_key_release_event);

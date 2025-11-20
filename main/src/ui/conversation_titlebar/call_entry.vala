@@ -34,7 +34,7 @@ namespace Dino.Ui {
                     open_call_window(call_state);
                 });
             });
-            action_group.insert(audio_call_action);
+            action_group.add_action(audio_call_action);
             SimpleAction video_call_action = new SimpleAction("video", null);
             video_call_action.activate.connect((parameter) => {
                 stream_interactor.get_module(Calls.IDENTITY).initiate_call.begin(conversation, true, (_, res) => {
@@ -42,7 +42,7 @@ namespace Dino.Ui {
                     open_call_window(call_state);
                 });
             });
-            action_group.insert(video_call_action);
+            action_group.add_action(video_call_action);
             button.insert_action_group("call", action_group);
 
             stream_interactor.get_module(Calls.IDENTITY).call_incoming.connect((call, state,conversation) => {

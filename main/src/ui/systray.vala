@@ -29,32 +29,32 @@ public class StatusNotifierItem : Object {
     public signal void secondary_activate(int x, int y);
     
     [DBus (name = "Activate")]
-    public void dbus_activate(int x, int y) {
+    public void dbus_activate(int x, int y) throws Error {
         activate(x, y);
     }
     
     [DBus (name = "SecondaryActivate")]
-    public void dbus_secondary_activate(int x, int y) {
+    public void dbus_secondary_activate(int x, int y) throws Error {
         secondary_activate(x, y);
     }
     
     [DBus (name = "ContextMenu")]
-    public void context_menu(int x, int y) {
+    public void context_menu(int x, int y) throws Error {
         print("Systray: ContextMenu called at (%d, %d) - Cinnamon should show DBusMenu\n", x, y);
         // Menu is supposed to be handled via DBusMenu by the StatusNotifierHost
         // But Cinnamon has a bug and shows empty white field
     }
     
     [DBus (name = "Scroll")]
-    public void scroll(int delta, string orientation) {
+    public void scroll(int delta, string orientation) throws Error {
     }
     
-    public void update_icon(string icon) {
+    public void update_icon(string icon) throws Error {
         icon_name = icon;
         new_icon();
     }
     
-    public void update_status(string new_status_value) {
+    public void update_status(string new_status_value) throws Error {
         status = new_status_value;
         new_status(new_status_value);
     }
@@ -104,8 +104,8 @@ public class SystrayManager : Object {
             // Show/Hide Item
             item_show = new Dbusmenu.Menuitem();
             item_show.property_set(Dbusmenu.MENUITEM_PROP_LABEL, _("Hide Window"));
-            item_show.property_set(Dbusmenu.MENUITEM_PROP_ENABLED, "true");
-            item_show.property_set(Dbusmenu.MENUITEM_PROP_VISIBLE, "true");
+            item_show.property_set_bool(Dbusmenu.MENUITEM_PROP_ENABLED, true);
+            item_show.property_set_bool(Dbusmenu.MENUITEM_PROP_VISIBLE, true);
             item_show.property_set(Dbusmenu.MENUITEM_PROP_ICON_NAME, "view-restore-symbolic");
             item_show.item_activated.connect((timestamp) => {
                 toggle_window_visibility();
@@ -115,14 +115,14 @@ public class SystrayManager : Object {
             // Separator
             var item_sep = new Dbusmenu.Menuitem();
             item_sep.property_set(Dbusmenu.MENUITEM_PROP_TYPE, Dbusmenu.CLIENT_TYPES_SEPARATOR);
-            item_sep.property_set(Dbusmenu.MENUITEM_PROP_VISIBLE, "true");
+            item_sep.property_set_bool(Dbusmenu.MENUITEM_PROP_VISIBLE, true);
             root.child_append(item_sep);
             
             // Quit Item
             var item_quit = new Dbusmenu.Menuitem();
             item_quit.property_set(Dbusmenu.MENUITEM_PROP_LABEL, _("Quit"));
-            item_quit.property_set(Dbusmenu.MENUITEM_PROP_ENABLED, "true");
-            item_quit.property_set(Dbusmenu.MENUITEM_PROP_VISIBLE, "true");
+            item_quit.property_set_bool(Dbusmenu.MENUITEM_PROP_ENABLED, true);
+            item_quit.property_set_bool(Dbusmenu.MENUITEM_PROP_VISIBLE, true);
             item_quit.property_set(Dbusmenu.MENUITEM_PROP_ICON_NAME, "application-exit-symbolic");
             item_quit.item_activated.connect((timestamp) => {
                 application.activate_action("quit", null);

@@ -5,53 +5,59 @@ using Dino.Entities;
 
 namespace Dino.Ui {
 
-class AccountComboBox : ComboBox {
+class AccountComboBox : Box {
 
-    public Account? selected {
+    private DropDown dropdown;
+
+    public Account? active_account {
         get {
-            TreeIter selected;
-            if (get_active_iter(out selected)) {
-                Value value;
-                list_store.get_value(selected, 1, out value);
-                return value as Account;
-            }
-            return null;
+            return dropdown.selected_item as Account;
         }
         set {
-            TreeIter iter;
-            if (list_store.get_iter_first(out iter)) {
-                int i = 0;
-                do {
-                    Value val;
-                    list_store.get_value(iter, 1, out val);
-                    Account? account = val as Account;
-                    if (account != null && account.equals(value)) {
-                        active = i;
+            if (value == null) {
+                return;
+            }
+            
+            var list_model = dropdown.model as GLib.ListStore;
+            if (list_model != null) {
+                for (uint i = 0; i < list_model.get_n_items(); i++) {
+                    var item = list_model.get_item(i) as Account;
+                    if (item != null && item.equals(value)) {
+                        dropdown.selected = i;
                         break;
                     }
-                    i++;
-                } while (list_store.iter_next(ref iter));
+                }
             }
         }
     }
 
     private StreamInteractor? stream_interactor;
-    private Gtk.ListStore list_store = new Gtk.ListStore(2, typeof(string), typeof(Account));
+
+    public AccountComboBox() {
+        Object(orientation: Orientation.HORIZONTAL, spacing: 0);
+        dropdown = new DropDown(null, null);
+        dropdown.hexpand = true;
+        append(dropdown);
+        
+        dropdown.notify["selected-item"].connect(() => {
+            notify_property("active-account");
+        });
+    }
 
     public void initialize(StreamInteractor stream_interactor) {
         this.stream_interactor = stream_interactor;
 
-        CellRendererText renderer = new Gtk.CellRendererText();
-        pack_start(renderer, true);
-        add_attribute(renderer, "text", 0);
-
-        TreeIter iter;
+        var list_store = new GLib.ListStore(typeof(Account));
         foreach (Account account in stream_interactor.get_accounts()) {
-            list_store.append(out iter);
-            list_store.set(iter, 0, account.bare_jid.to_string(), 1, account);
+            list_store.append(account);
         }
-        set_model(list_store);
-        active = 0;
+        
+        dropdown.model = list_store;
+        dropdown.expression = new PropertyExpression(typeof(Account), null, "display_name");
+        
+        if (list_store.get_n_items() > 0) {
+            dropdown.selected = 0;
+        }
     }
 }
 

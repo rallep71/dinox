@@ -22,7 +22,7 @@ public class FileMetaItem : ConversationSummary.ContentMetaItem {
 
     public override Object? get_widget(Plugins.ConversationItemWidgetInterface outer, Plugins.WidgetType type) {
         FileWidget widget = new FileWidget(file_transfer);
-        FileWidgetController widget_controller = new FileWidgetController(widget, file_transfer, stream_interactor);
+        new FileWidgetController(widget, file_transfer, stream_interactor);
         return widget;
     }
 
@@ -97,19 +97,17 @@ public class FileWidget : SizeRequestBin {
             var content_bak = content;
 
             FileImageWidget file_image_widget = null;
-            try {
-                file_image_widget = new FileImageWidget();
-                yield file_image_widget.set_file_transfer(file_transfer);
+            file_image_widget = new FileImageWidget();
+            yield file_image_widget.set_file_transfer(file_transfer);
 
-                // If the widget changed in the meanwhile, stop
-                if (content != content_bak) return;
+            // If the widget changed in the meanwhile, stop
+            if (content != content_bak) return;
 
-                if (content != null) content.unparent();
-                content = file_image_widget;
-                state = State.IMAGE;
-                content.insert_after(this, null);
-                return;
-            } catch (Error e) { }
+            if (content != null) content.unparent();
+            content = file_image_widget;
+            state = State.IMAGE;
+            content.insert_after(this, null);
+            return;
         }
 
         if (!show_image && state != State.DEFAULT) {
@@ -166,24 +164,20 @@ public class FileWidgetController : Object {
     }
 
     private void save_file() {
-        var save_dialog = new FileChooserNative(_("Save as…"), widget.get_root() as Gtk.Window, FileChooserAction.SAVE, null, null);
-        save_dialog.set_modal(true);
-        save_dialog.set_current_name(file_transfer.file_name);
+        var save_dialog = new Gtk.FileDialog();
+        save_dialog.title = _("Save as…");
+        save_dialog.initial_name = file_transfer.file_name;
 
-        save_dialog.response.connect(() => {
-            File? target_file = save_dialog.get_file();
-            if (target_file == null) {
-                warning("No file returned from save dialog.");
-                return;
-            }
+        save_dialog.save.begin(widget.get_root() as Gtk.Window, null, (obj, res) => {
             try {
-                file_transfer.get_file().copy(save_dialog.get_file(), GLib.FileCopyFlags.OVERWRITE, null);
-            } catch (Error err) {
-                warning("Failed copy file %s - %s", file_transfer.get_file().get_uri(), err.message);
+                File? target_file = save_dialog.save.end(res);
+                if (target_file != null) {
+                    file_transfer.get_file().copy(target_file, GLib.FileCopyFlags.OVERWRITE, null);
+                }
+            } catch (Error e) {
+                // Handle error
             }
         });
-
-        save_dialog.show();
     }
 
     private void start_download() {
