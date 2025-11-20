@@ -103,9 +103,9 @@ This fork addresses the slow development pace of the original Dino XMPP client w
 | 🎨 UX | [#1796](https://github.com/dino/dino/issues/1796) | File Button Bug | - | Easy | ✅ FIXED |
 | 🎨 UX | - | Remove Avatar Button | vCard avatar deletion | Easy | ✅ FIXED |
 | 🎨 UX | - | Edit/Delete Message Buttons | Buttons not appearing after GTK4 migration | Easy | ✅ FIXED |
-| 🔥 UX | [#472](https://github.com/dino/dino/issues/472) | Delete Conversation | Clear chat history without removing contact | Medium | 🟡 IN PROGRESS |
-| 🔥 UX | - | Archive Conversation | Hide conversations without deleting | Easy | 🟡 IN PROGRESS |
-| 🔥 UX | - | Roster Management UI | Add/remove/manage contacts with UI | Medium | 🟡 IN PROGRESS |
+| 🔥 UX | [#472](https://github.com/dino/dino/issues/472) | **Delete Conversation History** | Clear chat history with persistence | Medium | ✅ **COMPLETED** |
+| 🔥 UX | - | Archive Conversation | Hide conversations without deleting | Easy | 🔴 TODO |
+| 🔥 UX | - | Roster Management UI | Add/remove/manage contacts with UI | Medium | 🔴 TODO |
 | 🎨 UX | [#1380](https://github.com/dino/dino/issues/1380) | Spell Checking | - | Medium | 🟢 TODO |
 
 **Files Created/Modified** (Systray Support #98 & Background Mode #299):
@@ -130,13 +130,60 @@ This fork addresses the slow development pace of the original Dino XMPP client w
 - ✅ `main/src/ui/conversation_content_view/item_actions.vala` - Removed `shortcut_action = false` on delete action
 - ✅ `main/src/ui/conversation_content_view/conversation_view.vala` - Fixed button positioning with bounds checking
 
-**Files to Create/Modify** (Chat Management - IN PROGRESS):
+**Files Created/Modified** (Delete Conversation History #472 - **COMPLETED**):
 
-**Delete Conversation** (#472):
-- `main/data/menu_conversation.ui` - Add "Delete Conversation" menu item
-- `main/src/ui/conversation_selector/conversation_selector_row.vala` - Context menu handler
-- `libdino/src/service/database.vala` - Delete conversation history SQL
-- `libdino/src/service/conversation_manager.vala` - Delete conversation logic
+**Core Implementation**:
+- ✅ `libdino/src/service/database.vala` - Schema v31→v32: Added `history_cleared_at` column (LONG, Unix timestamp)
+- ✅ `libdino/src/entity/conversation.vala` - Added `history_cleared_at` property with DB persistence
+- ✅ `libdino/src/service/conversation_manager.vala` - Implemented `clear_conversation_history()` method
+  - Batch deletion with XEP-0425 Message Retraction to server
+  - Local DB cleanup (messages, content_items)
+  - Force MAM re-sync by deleting mam_catchup entries
+  - Set persistent `history_cleared_at` timestamp
+  - Emit `conversation_cleared` signal
+- ✅ `libdino/src/service/message_processor.vala` - `ClearedConversationFilterListener` to filter MAM messages
+- ✅ `libdino/src/service/message_storage.vala` - `clear_conversation_cache()` method
+
+**UI Components**:
+- ✅ `main/src/ui/conversation_titlebar/menu_entry.vala` - Menu item + GTK 4.10 AlertDialog confirmation
+- ✅ `main/src/ui/conversation_view_controller.vala` - Force reload view on history clear
+- ✅ `main/src/ui/conversation_selector/conversation_selector_row.vala` - Update row on clear
+- ✅ `main/src/ui/conversation_content_view/conversation_view.vala` - Force reload parameter
+
+**OMEMO Integration** (Critical for encrypted chats):
+- ✅ `plugins/omemo/src/plugin.vala` - `clear_bad_message_state()` method
+- ✅ `plugins/omemo/src/ui/bad_messages_populator.vala` - Listen to `conversation_cleared` signal
+- ✅ `plugins/omemo/src/logic/decrypt.vala` - Check `history_cleared_at` before marking messages undecryptable
+- ✅ `plugins/omemo/src/logic/trust_manager.vala` - Check `history_cleared_at` before marking messages untrusted
+
+**Technical Features**:
+- ✅ **Persistent Deletion**: Messages stay deleted across app restarts
+- ✅ **XEP-0425 Message Retraction**: Sends deletion requests to server (ejabberd 23.04+ support)
+- ✅ **MAM Filter**: Prevents deleted messages from reappearing during sync
+- ✅ **OMEMO Support**: Clears encryption warnings and prevents re-creation during MAM sync
+- ✅ **Cache Management**: Clears all in-memory caches (stanza_id, server_id maps)
+- ✅ **GTK 4.10 AlertDialog**: Modern confirmation dialog
+
+**UX Flow**:
+```
+1. User clicks "Delete Conversation History" in menu
+2. GTK AlertDialog: "Delete all message history?" [Cancel] [Delete]
+3. Backend:
+   - Delete local messages from database
+   - Send XEP-0425 retractions to server
+   - Set history_cleared_at = NOW()
+   - Force MAM re-sync
+4. MAM sync runs → Filter rejects messages older than history_cleared_at
+5. Result: Empty conversation, contact remains in roster
+```
+
+**Commit**: `9c7262e4` - "feat: Add persistent 'Delete Conversation History' with OMEMO support"  
+**Time Spent**: 8 hours (November 20, 2025)  
+**Lines Changed**: +315, -28 (15 files modified)
+
+---
+
+**Files to Create/Modify** (Remaining Chat Management):
 
 **Archive Conversation**:
 - `libdino/src/entity/conversation.vala` - Add `archived` field
@@ -181,8 +228,8 @@ This fork addresses the slow development pace of the original Dino XMPP client w
 - GTK4 spell checking integration
 
 **Estimated Time**: 4-5 weeks  
-**Time Spent**: 1 hour (Issue #115), 2 hours (Avatar removal), 1 hour (Edit/Delete buttons), 6-8 hours (Chat Management - in progress)  
-**Target Release**: End of February 2026
+**Time Spent**: 1 hour (Issue #115), 2 hours (Avatar removal), 1 hour (Edit/Delete buttons), **8 hours (Delete Conversation History - COMPLETED)**  
+**Target Release**: End of February 2026 (Archive & Roster features pending)
 
 ---
 
@@ -193,7 +240,7 @@ This fork addresses the slow development pace of the original Dino XMPP client w
 | Priority | Issue | Feature | Why Important | Status |
 |----------|-------|---------|---------------|--------|
 | 🔐 Privacy | [#67](https://github.com/dino/dino/issues/67) | Auto-delete History | Limit retention (e.g., 7 days) | 🔵 TODO |
-| 🔐 Privacy | [#472](https://github.com/dino/dino/issues/472) | Delete Conversation | Clear history without ending chat | 🟡 MOVED TO PHASE 3 |
+| 🔐 Privacy | [#472](https://github.com/dino/dino/issues/472) | Delete Conversation | Clear history without ending chat | ✅ **COMPLETED IN PHASE 3** |
 | 🔐 Privacy | [#1317](https://github.com/dino/dino/issues/1317) | Blocking Fix | Blocked contacts still send messages | 🔵 TODO |
 
 **Files to Modify**:
@@ -400,8 +447,8 @@ widget.get_style_context().add_provider(provider, priority);
 | 🔐 **Security** | ~13 | Encryption, certificates, privacy |
 
 **Total Upstream Issues**: 572  
-**Fixed by us**: 5 (Phase 1: 4, Phase 3: 1)  
-**Remaining**: 567
+**Fixed by us**: 6 (Phase 1: 4, Phase 3: 2 including **Delete Conversation History**)  
+**Remaining**: 566
 
 ### Prioritization Strategy
 
