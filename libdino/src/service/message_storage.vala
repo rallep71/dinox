@@ -204,6 +204,19 @@ public class MessageStorage : StreamInteractionModule, Object {
         }
     }
 
+    public void clear_conversation_cache(Conversation conversation) {
+        // Remove all cached messages for this conversation
+        if (messages_by_stanza_id.has_key(conversation)) {
+            messages_by_stanza_id.unset(conversation);
+        }
+        if (messages_by_server_id.has_key(conversation)) {
+            messages_by_server_id.unset(conversation);
+        }
+        
+        // Clear message refs (this will also clear messages_by_db_id via WeakMap)
+        message_refs.clear();
+    }
+
     public static string? get_reference_id(Message message) {
         if (message.edit_to != null) return message.edit_to;
 

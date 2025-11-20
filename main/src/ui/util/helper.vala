@@ -82,19 +82,21 @@ public static string get_occupant_display_name(StreamInteractor stream_interacto
 }
 
 public static Gdk.RGBA get_label_pango_color(Label label, string css_color) {
-    Gtk.CssProvider provider = force_color(label, css_color);
-    Gdk.RGBA color_rgba = label.get_color();
+    // GTK 4.10+: Direct CSS manipulation without deprecated StyleContext
+    Gdk.RGBA result = {0, 0, 0, 1};
     
-    // Cleanup: remove CSS class and provider
-    string? class_name = provider.get_data<string>("dino-style-class");
-    if (class_name != null) {
-        label.remove_css_class(class_name);
+    // Parse CSS color to RGBA
+    if (css_color.has_prefix("@")) {
+        // Theme color - create temporary label with CSS class
+        var temp_label = new Label("");
+        temp_label.add_css_class(css_color.substring(1));
+        result = temp_label.get_color();
+    } else {
+        // Direct color value
+        result.parse(css_color);
     }
     
-    // Remove widget-scoped provider (GTK4 way)
-    label.get_style_context().remove_provider(provider);
-    
-    return color_rgba;
+    return result;
 }
 
 public static string rgba_to_hex(Gdk.RGBA rgba) {
@@ -110,27 +112,26 @@ private const string force_background_css = "%s { background-color: %s; }";
 private const string force_color_css = "%s { color: %s; }";
 
 public static Gtk.CssProvider force_css(Gtk.Widget widget, string css) {
-    var p = new Gtk.CssProvider();
+    // GTK 4.10+: Inline style without deprecated StyleContext
     string class_name = "dino-style-%u".printf(Random.next_int());
     string scoped_css = ".%s %s".printf(class_name, css);
 
+    var provider = new Gtk.CssProvider();
 #if GTK_4_12 && (VALA_0_56_GREATER_11 || VALA_0_58)
-    p.load_from_string(scoped_css);
+    provider.load_from_string(scoped_css);
 #elif (VALA_0_56_11 || VALA_0_56_12)
-    p.load_from_data(scoped_css, scoped_css.length);
+    provider.load_from_data(scoped_css, scoped_css.length);
 #else
-    p.load_from_data(scoped_css.data);
+    provider.load_from_data(scoped_css.data);
 #endif
 
     widget.add_css_class(class_name);
     
-    // GTK4 way: widget-scoped provider instead of display-wide
-    widget.get_style_context().add_provider(p, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
-    
-    // Store class name for cleanup
-    p.set_data("dino-style-class", class_name);
+    // Store provider in widget data to keep it alive
+    widget.set_data("dino-css-provider", provider);
+    widget.set_data("dino-style-class", class_name);
 
-    return p;
+    return provider;
 }
 
 public static void force_background(Gtk.Widget widget, string color, string selector = "*") {

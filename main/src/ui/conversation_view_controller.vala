@@ -71,6 +71,14 @@ public class ConversationViewController : Object {
         });
 
         stream_interactor.get_module(FileManager.IDENTITY).upload_available.connect(update_file_upload_status);
+        
+        // Listen for conversation history cleared signal
+        stream_interactor.get_module(ConversationManager.IDENTITY).conversation_cleared.connect((cleared_conversation) => {
+            if (this.conversation != null && this.conversation.id == cleared_conversation.id) {
+                // Force reload the conversation view to show empty chat
+                view.conversation_frame.initialize_for_conversation(this.conversation, true);
+            }
+        });
 
         // Headerbar plugins
         app.plugin_registry.register_contact_titlebar_entry(new MenuEntry(stream_interactor));

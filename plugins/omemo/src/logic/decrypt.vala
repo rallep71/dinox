@@ -74,8 +74,19 @@ namespace Dino.Plugins.Omemo {
                 data.our_potential_encrypted_keys.size == 0 && // The message was not encrypted to us
                 stream_interactor.module_manager.get_module(message.account, StreamModule.IDENTITY).store.local_registration_id != data.sid // Message from this device. Never encrypted to itself.
             ) {
-                db.identity_meta.update_last_message_undecryptable(identity_id, data.sid, message.time);
-                trust_manager.bad_message_state_updated(conversation.account, message.from, data.sid);
+                // Don't mark messages as undecryptable if they are older than conversation history clear
+                bool should_mark_undecryptable = true;
+                if (conversation.history_cleared_at != null && message.time != null) {
+                    if (message.time.compare(conversation.history_cleared_at) < 0) {
+                        // Message is older than clear timestamp - don't mark as undecryptable
+                        should_mark_undecryptable = false;
+                    }
+                }
+                
+                if (should_mark_undecryptable) {
+                    db.identity_meta.update_last_message_undecryptable(identity_id, data.sid, message.time);
+                    trust_manager.bad_message_state_updated(conversation.account, message.from, data.sid);
+                }
             }
 
             debug("Received OMEMO encryped message that could not be decrypted.");

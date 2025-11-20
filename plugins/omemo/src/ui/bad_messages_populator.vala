@@ -34,6 +34,17 @@ public class BadMessagesPopulator : Plugins.ConversationItemPopulator, Plugins.C
             clear_state();
             init_state();
         });
+
+        // Clear bad message warnings when conversation history is cleared
+        stream_interactor.get_module(ConversationManager.IDENTITY).conversation_cleared.connect((conversation) => {
+            // Always clear bad message state for this conversation, regardless of UI state
+            plugin.clear_bad_message_state(conversation.account, conversation.counterpart);
+            
+            // If this is the currently displayed conversation, also clear UI
+            if (conversation == current_conversation) {
+                clear_state();
+            }
+        });
     }
 
     private void init_state() {

@@ -36,6 +36,7 @@ public class MessageProcessor : StreamInteractionModule, Object {
 
         received_pipeline.connect(new DeduplicateMessageListener(this));
         received_pipeline.connect(new FilterMessageListener());
+        received_pipeline.connect(new ClearedConversationFilterListener(stream_interactor));
         received_pipeline.connect(new StoreMessageListener(this, stream_interactor));
         received_pipeline.connect(new StoreContentItemListener(stream_interactor));
         received_pipeline.connect(new MarkupListener(stream_interactor));
@@ -318,6 +319,39 @@ public class MessageProcessor : StreamInteractionModule, Object {
         public override async bool run(Entities.Message message, Xmpp.MessageStanza stanza, Conversation conversation) {
             return message.body == null &&
                     Xep.StatelessFileSharing.get_file_shares(stanza) == null;
+        }
+    }
+
+    private class ClearedConversationFilterListener : MessageListener {
+        private StreamInteractor stream_interactor;
+
+        public ClearedConversationFilterListener(StreamInteractor stream_interactor) {
+            this.stream_interactor = stream_interactor;
+        }
+
+        public string[] after_actions_const = new string[]{ "FILTER_EMPTY" };
+        public override string action_group { get { return "FILTER_CLEARED"; } }
+        public override string[] after_actions { get { return after_actions_const; } }
+
+        public override async bool run(Entities.Message message, Xmpp.MessageStanza stanza, Conversation conversation) {
+            // Check if this conversation had its history cleared
+            if (conversation.history_cleared_at == null) {
+                return false; // Not cleared, allow message
+            }
+
+            // Check if this is a MAM message (from archive)
+            var mam_flag = Xmpp.MessageArchiveManagement.MessageFlag.get_flag(stanza);
+            if (mam_flag == null || mam_flag.server_time == null) {
+                return false; // Not from MAM, allow (new live message)
+            }
+
+            // Filter out MAM messages older than the clear timestamp
+            if (mam_flag.server_time.compare(conversation.history_cleared_at) < 0) {
+                // Message is older than clear timestamp - filter it out
+                return true; // ABORT processing
+            }
+
+            return false; // Message is newer, allow it
         }
     }
 

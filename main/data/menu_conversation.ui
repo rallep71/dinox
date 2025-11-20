@@ -7,5 +7,11 @@
                 <attribute name="label" translatable="yes">Contact Details</attribute>
             </item>
         </section>
+        <section>
+            <item>
+                <attribute name="action">app.clear_conversation</attribute>
+                <attribute name="label" translatable="yes">Delete Conversation History</attribute>
+            </item>
+        </section>
     </menu>
 </interface>

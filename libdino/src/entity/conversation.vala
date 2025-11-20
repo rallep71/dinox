@@ -45,6 +45,8 @@ public class Conversation : Object {
     public Setting send_marker { get; set; default = Setting.DEFAULT; }
 
     public int pinned { get; set; default = 0; }
+    
+    public DateTime? history_cleared_at { get; set; default = null; }
 
     private Database? db;
 
@@ -76,6 +78,10 @@ public class Conversation : Object {
         send_typing = (Setting) row[db.conversation.send_typing];
         send_marker = (Setting) row[db.conversation.send_marker];
         pinned = row[db.conversation.pinned];
+        int64? history_cleared = row[db.conversation.history_cleared_at];
+        if (history_cleared != null && history_cleared > 0) {
+            this.history_cleared_at = new DateTime.from_unix_utc(history_cleared);
+        }
 
         notify.connect(on_update);
     }
@@ -109,6 +115,9 @@ public class Conversation : Object {
         }
         if (last_active != null) {
             insert.value(db.conversation.last_active, (long) last_active.to_unix());
+        }
+        if (history_cleared_at != null) {
+            insert.value(db.conversation.history_cleared_at, (long) history_cleared_at.to_unix());
         }
         id = (int) insert.perform();
         notify.connect(on_update);
@@ -203,6 +212,13 @@ public class Conversation : Object {
                 update.set(db.conversation.send_marker, send_marker); break;
             case "pinned":
                 update.set(db.conversation.pinned, pinned); break;
+            case "history-cleared-at":
+                if (history_cleared_at != null) {
+                    update.set(db.conversation.history_cleared_at, (long) history_cleared_at.to_unix());
+                } else {
+                    update.set_null(db.conversation.history_cleared_at);
+                }
+                break;
         }
         update.perform();
     }

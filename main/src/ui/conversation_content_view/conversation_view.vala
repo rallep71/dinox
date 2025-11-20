@@ -290,7 +290,7 @@ public class ConversationView : Widget, Plugins.ConversationItemCollection, Plug
         }
     }
 
-    public void initialize_for_conversation(Conversation? conversation) {
+    public void initialize_for_conversation(Conversation? conversation, bool force_reload = false) {
         // Workaround for rendering issues
         if (firstLoad) {
             main.visible = false;
@@ -300,7 +300,7 @@ public class ConversationView : Widget, Plugins.ConversationItemCollection, Plug
             });
             firstLoad = false;
         }
-        if (conversation == this.conversation && at_current_content) {
+        if (conversation == this.conversation && at_current_content && !force_reload) {
             // Just make sure we are scrolled down
             if (scrolled.vadjustment.value != scrolled.vadjustment.upper) {
                 scroll_animation(scrolled.vadjustment.upper).play();

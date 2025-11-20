@@ -10,6 +10,7 @@ public class ConversationManager : StreamInteractionModule, Object {
 
     public signal void conversation_activated(Conversation conversation);
     public signal void conversation_deactivated(Conversation conversation);
+    public signal void conversation_cleared(Conversation conversation);
 
     private StreamInteractor stream_interactor;
     private Database db;
@@ -209,6 +210,77 @@ public class ConversationManager : StreamInteractionModule, Object {
     private void handle_new_call(Call call, CallState state, Conversation conversation) {
         conversation.last_active = call.time;
         start_conversation(conversation);
+    }
+
+    public void clear_conversation_history(Conversation conversation) {
+        // Delete all content items globally (server + local) in batches
+        var content_item_store = stream_interactor.get_module(ContentItemStore.IDENTITY);
+        var message_deletion = stream_interactor.get_module(MessageDeletion.IDENTITY);
+        
+        // Get items in batches and delete them from server using XEP-0425 Message Retraction
+        int batch_size = 100;
+        while (true) {
+            var items = content_item_store.get_n_latest(conversation, batch_size);
+            if (items.size == 0) break;
+            
+            foreach (ContentItem item in items) {
+                if (message_deletion.is_deletable(conversation, item)) {
+                    // Send XEP-0425 retraction to server and delete locally
+                    message_deletion.delete_globally(conversation, item);
+                }
+            }
+            
+            if (items.size < batch_size) break;
+        }
+        
+        // Clear message storage caches
+        stream_interactor.get_module(MessageStorage.IDENTITY).clear_conversation_cache(conversation);
+        
+        // Delete all remaining local data from database
+        db.message.delete()
+            .with(db.message.account_id, "=", conversation.account.id)
+            .with(db.message.counterpart_id, "=", db.get_jid_id(conversation.counterpart))
+            .with(db.message.type_, "=", Util.get_message_type_for_conversation(conversation))
+            .perform();
+                
+        db.content_item.delete()
+            .with(db.content_item.conversation_id, "=", conversation.id)
+            .perform();
+        
+        // NOTE: Message deletion from server depends on XEP-0425 support:
+        // - If the server supports XEP-0425 AND applies it to MAM archives: Messages stay deleted
+        // - If the server doesn't support it or ignores it for MAM: Messages will reappear on next sync
+        // 
+        // This is a limitation of XMPP - there's no standard way to delete from MAM archives.
+        // XEP-0313 (Message Archive Management) has no delete operation.
+        //
+        // To check if your server supports XEP-0425 for MAM:
+        // 1. Check https://compliance.conversations.im/
+        // 2. Or check ejabberd config for mod_message_retract
+        
+        // CRITICAL: Delete ALL MAM catchup for this account's bare JID
+        // This forces a complete re-sync from scratch, but messages will be deduplicated
+        // This is the ONLY way to prevent deleted messages from reappearing via MAM
+        db.mam_catchup.delete()
+            .with(db.mam_catchup.account_id, "=", conversation.account.id)
+            .with(db.mam_catchup.server_jid, "=", conversation.account.bare_jid.to_string())
+            .perform();
+        
+        // Mark this conversation as "cleared" with current timestamp
+        // This will filter out old messages during MAM re-sync (both in-memory and after restart)
+        var clear_timestamp = new DateTime.now_utc();
+        conversation.history_cleared_at = clear_timestamp;
+        
+        // Persist the clear timestamp to database
+        db.conversation.update()
+            .with(db.conversation.id, "=", conversation.id)
+            .set(db.conversation.history_cleared_at, (long) conversation.history_cleared_at.to_unix())
+            .perform();
+        
+        // Clear OMEMO bad message warnings through signal
+        // The BadMessagesPopulator will receive this and clear warnings
+        conversation_cleared(conversation);
+
     }
 
     private void add_conversation(Conversation conversation) {

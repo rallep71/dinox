@@ -1,0 +1,38 @@
+Source: dino
+Section: net
+Priority: optional
+Maintainer: Dino Developers <chat@dino.im>
+Build-Depends: debhelper-compat (= 13),
+               meson,
+               ninja-build,
+               valac,
+               libgtk-4-dev,
+               libadwaita-1-dev,
+               libglib2.0-dev,
+               libgee-0.8-dev,
+               libsqlite3-dev,
+               libgcrypt20-dev,
+               libgstreamer1.0-dev,
+               libgstreamer-plugins-base1.0-dev,
+               libnice-dev,
+               libsrtp2-dev,
+               libgnutls28-dev,
+               libgpgme-dev,
+               libqrencode-dev,
+               libsoup-3.0-dev,
+               libicu-dev,
+               libcanberra-dev,
+               libwebrtc-audio-processing-dev,
+               libdbusmenu-glib-dev
+Standards-Version: 4.6.2
+Homepage: https://dino.im
+Vcs-Git: https://github.com/dino/dino.git
+Vcs-Browser: https://github.com/dino/dino
+
+Package: dino
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Modern XMPP Chat Client
+ Dino is a modern open-source chat client for the desktop.
+ It focuses on providing a clean and reliable Jabber/XMPP experience
+ while having your privacy in mind.

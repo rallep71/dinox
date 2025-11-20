@@ -82,6 +82,13 @@ public class ConversationSelectorRow : ListBoxRow {
                 content_item_received(item);
             }
         });
+        stream_interactor.get_module(ConversationManager.IDENTITY).conversation_cleared.connect((cleared_conversation) => {
+            if (conversation.id == cleared_conversation.id) {
+                last_content_item = null;
+                update_message_label();
+                update_time_label();
+            }
+        });
 
         last_content_item = stream_interactor.get_module(ContentItemStore.IDENTITY).get_latest(conversation);
 

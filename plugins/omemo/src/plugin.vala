@@ -92,6 +92,21 @@ public class Plugin : RootInterface, Object {
 
         return db.identity_meta.get_new_devices(identity_id, jid.bare_jid.to_string()).count() > 0;
     }
+
+    public void clear_bad_message_state(Account account, Xmpp.Jid jid) {
+        int identity_id = db.identity.get_id(account.id);
+        if (identity_id < 0) return;
+
+        // Clear all bad message warnings for this contact
+        var devices = db.identity_meta.with_address(identity_id, jid.bare_jid.to_string());
+        foreach (Qlite.Row device in devices) {
+            int device_id = device[db.identity_meta.device_id];
+            db.identity_meta.update_last_message_untrusted(identity_id, device_id, null);
+            db.identity_meta.update_last_message_undecryptable(identity_id, device_id, null);
+        }
+        
+        trust_manager.bad_message_state_updated(account, jid, 0);
+    }
 }
 
 }

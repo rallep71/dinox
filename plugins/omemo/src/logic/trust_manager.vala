@@ -121,8 +121,19 @@ public class TrustManager {
                 TrustLevel trust_level = (TrustLevel) db.identity_meta.get_device(identity_id, jid.bare_jid.to_string(), device_id)[db.identity_meta.trust_level];
                 if (trust_level == TrustLevel.UNTRUSTED || trust_level == TrustLevel.UNKNOWN) {
                     stream_interactor.get_module(ContentItemStore.IDENTITY).set_item_hide(content_item, true);
-                    db.identity_meta.update_last_message_untrusted(identity_id, device_id, message.time);
-                    trust_manager.bad_message_state_updated(conversation.account, jid, device_id);
+                    
+                    // Don't mark messages as untrusted if they are older than conversation history clear
+                    bool should_mark_untrusted = true;
+                    if (conversation.history_cleared_at != null && message.time != null) {
+                        if (message.time.compare(conversation.history_cleared_at) < 0) {
+                            should_mark_untrusted = false;
+                        }
+                    }
+                    
+                    if (should_mark_untrusted) {
+                        db.identity_meta.update_last_message_untrusted(identity_id, device_id, message.time);
+                        trust_manager.bad_message_state_updated(conversation.account, jid, device_id);
+                    }
                 }
 
                 db.content_item_meta.insert()
