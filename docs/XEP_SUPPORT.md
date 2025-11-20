@@ -158,5 +158,14 @@ These are fully implemented but have no/minimal UI (by design):
 
 ---
 
-**Last Updated**: November 20, 2025  
+## 📚 Related Documentation
+
+- 📋 [Development Plan](../DEVELOPMENT_PLAN.md) - Roadmap and feature status
+- 🔍 [XEP UI Analysis](XEP_UI_ANALYSIS.md) - Detailed implementation analysis with code snippets
+- 🏛️ [Architecture Guide](ARCHITECTURE.md) - Codebase structure
+- 🔧 [Build Instructions](BUILD.md) - How to compile
+
+---
+
+**Last Updated**: November 21, 2025  
 **Dino Version**: 0.5.0-extended

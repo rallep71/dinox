@@ -12,6 +12,7 @@
 - 🔧 [Build Instructions](docs/BUILD.md)
 - 🏛️ [Architecture Guide](docs/ARCHITECTURE.md)
 - 📡 [XMPP Extensions Support](docs/XEP_SUPPORT.md)
+- 🔍 [XEP UI Implementation Analysis](docs/XEP_UI_ANALYSIS.md)
 - 🗄️ [Database Schema](docs/DATABASE_SCHEMA.md)
 - 👥 [Contributing Guidelines](docs/CONTRIBUTING.md)
 
@@ -78,7 +79,7 @@ This fork addresses the slow development pace of the original Dino XMPP client w
 
 ### 🟡 Phase 2: Critical Bug Fixes Round 2 (Q1 2026 - v0.6.1)
 
-**Goal**: Fix remaining P0/P1 stability issues
+**Goal**: Fix remaining P0/P1 stability issues + Complete missing XEP UIs
 
 | Priority | Issue | Component | Impact | Complexity | Status |
 |----------|-------|-----------|--------|------------|--------|
@@ -87,14 +88,32 @@ This fork addresses the slow development pace of the original Dino XMPP client w
 | 🔥 P0 | [#1271](https://github.com/dino/dino/issues/1271) | Calls | Stuck connecting with Conversations | Medium | ✅ FIXED |
 | ⚠️ P1 | [#1559](https://github.com/dino/dino/issues/1559) | Calls | Echo cancellation broken | Hard | 🔴 TODO |
 | ⚠️ P1 | [#57](https://github.com/dino/dino/issues/57) | Security | Self-signed certs rejected | Medium | 🔴 TODO |
+| 🎨 P1 | **XEP-0424** | **Message UI** | **Delete individual messages** | Easy | 🟡 **READY** |
+| 🎨 P2 | **XEP-0425** | **MUC UI** | **Moderator message deletion** | Medium | 🟡 **READY** |
 
 **Files to Modify**:
 - `plugins/omemo/src/file_encryptor.vala` - OMEMO file encryption
 - `plugins/omemo/src/message_encryptor.vala` - Offline message handling
 - `plugins/rtp/src/device/` - Echo cancellation
 - `xmpp-vala/src/core/` - Certificate validation
+- **`main/src/ui/conversation_content_view/message_widget.vala`** - XEP-0424/0425 UI
+- **`main/src/ui/conversation_content_view/item_actions.vala`** - Delete action
 
-**Estimated Time**: 2-3 weeks  
+**XEP UI Implementation** (Backend already complete, see [XEP_UI_ANALYSIS.md](docs/XEP_UI_ANALYSIS.md)):
+
+**XEP-0424 - Message Retraction UI** (1-2 days):
+- Backend ✅ `xmpp-vala/src/module/xep/0424_message_retraction.vala`
+- Backend ✅ Used in `conversation_manager.vala` for bulk delete
+- Missing: Context menu "Delete message for everyone" on own messages
+- Implementation: Add action in `message_widget.vala`, call `MessageDeletion.delete_message_for_everyone()`
+
+**XEP-0425 - Message Moderation UI** (2-3 days):
+- Backend ✅ `xmpp-vala/src/module/xep/0425_message_moderation.vala`
+- Backend ✅ Moderator checks in `message_deletion.vala`
+- Missing: Context menu "Delete message (Moderator)" for MUC moderators
+- Implementation: Check `is_muc_moderator` in UI, show option for others' messages
+
+**Estimated Time**: 3-4 weeks (2 weeks bugs + 1 week XEP UIs)  
 **Target Release**: End of December 2025
 
 ---
@@ -558,6 +577,46 @@ We'll progressively add issues to phases as we work through them:
 - 📋 Phases 6-8: High-level goals, detailed issues TBD
 
 **Approach**: Fix bugs systematically, implement popular features, then polish for 1.0
+
+---
+
+## 📡 XEP Protocol Compliance
+
+**Total XEPs Implemented**: 60+ (see [XEP_SUPPORT.md](docs/XEP_SUPPORT.md))
+
+### Implementation Status Breakdown
+
+| Status | Count | Percentage | Description |
+|--------|-------|------------|-------------|
+| ✅ **Full UI** | ~32 | 53% | Complete backend + user interface |
+| 🔧 **Backend Only** | ~24 | 40% | Protocol implemented, no UI needed |
+| ⚠️ **Partial** | ~4 | 7% | Incomplete implementation |
+
+### Recently Added (Dino Extended)
+
+- ✅ **XEP-0191** (Blocking Command) - Full UI in Contacts page with status badges
+- ✅ **XEP-0424** (Message Retraction) - Backend complete, used for delete history
+- ✅ **XEP-0425** (Message Moderation) - Backend complete, MUC moderator support
+
+### Missing UI Work (Backend Ready)
+
+**High Priority**:
+1. **XEP-0424** - Delete individual messages UI (1-2 days)
+   - Backend: ✅ Complete in `xmpp-vala/src/module/xep/0424_message_retraction.vala`
+   - Missing: Context menu "Delete for everyone" on own messages
+   - Complexity: 🟢 Easy - Just UI button needed
+
+2. **XEP-0425** - MUC moderator message deletion UI (2-3 days)
+   - Backend: ✅ Complete in `xmpp-vala/src/module/xep/0425_message_moderation.vala`
+   - Missing: Context menu for moderators to delete others' messages
+   - Complexity: 🟡 Medium - Need moderator status checks
+
+**Planned**:
+- **XEP-0357** (Push Notifications) - Backend + UI needed
+- **XEP-0388** (SASL2/FAST) - Modern authentication
+- **XEP-0449** (Stickers) - Fun feature for users
+
+📊 **[Full XEP Analysis](docs/XEP_UI_ANALYSIS.md)** - 400+ lines with code snippets, implementation difficulty, and priority recommendations
 
 ---
 
