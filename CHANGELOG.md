@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.0] - 2025-11-21
+
 ### Added
 - XEP-0424 UI: Delete individual messages
 - XEP-0425 UI: MUC moderator message deletion
