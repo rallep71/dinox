@@ -97,11 +97,17 @@ This fork addresses the slow development pace of the original Dino XMPP client w
 
 | Priority | Issue | Feature | Reactions | Complexity | Status |
 |----------|-------|---------|-----------|------------|--------|
-| ⭐ Feature | [#98](https://github.com/dino/dino/issues/98) | Systray Support | 108 👍 | Medium | 🟢 TODO |
-| ⭐ Feature | [#299](https://github.com/dino/dino/issues/299) | Background Mode | 54 👍 | Medium | 🟢 TODO |
+| ⭐ Feature | [#98](https://github.com/dino/dino/issues/98) | Systray Support | 108 👍 | Medium | ✅ DONE |
+| ⭐ Feature | [#299](https://github.com/dino/dino/issues/299) | Background Mode | 54 👍 | Medium | ✅ DONE |
 | ⭐ Feature | [#115](https://github.com/dino/dino/issues/115) | Custom Host/Port | 26 👍 | Easy | ✅ DONE |
 | 🎨 UX | [#1796](https://github.com/dino/dino/issues/1796) | File Button Bug | - | Easy | 🟢 TODO |
 | 🎨 UX | [#1380](https://github.com/dino/dino/issues/1380) | Spell Checking | - | Medium | 🟢 TODO |
+
+**Files Created/Modified** (Systray Support #98 & Background Mode #299):
+- ✅ `main/src/ui/systray.vala` - StatusNotifierItem & DBusMenu implementation
+- ✅ `main/src/ui/application.vala` - Integration & Background mode logic
+- ✅ `main/vapi/dbusmenu-glib-0.4.vapi` - Vala bindings for libdbusmenu
+- ✅ `main/meson.build` - Build configuration
 
 **Files Created/Modified** (Issue #115):
 - ✅ `libdino/src/entity/account.vala` - Added custom_host, custom_port fields
@@ -112,8 +118,6 @@ This fork addresses the slow development pace of the original Dino XMPP client w
 - ✅ `main/src/windows/preferences_window/add_account_dialog.vala` - Logic
 
 **Files to Create/Modify** (Remaining):
-- `main/src/ui/systray.vala` - System tray implementation
-- `main/src/ui/application.vala` - Background mode
 - GTK4 spell checking integration
 
 **Estimated Time**: 4-5 weeks  

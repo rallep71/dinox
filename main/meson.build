@@ -1,6 +1,7 @@
 subdir('po')
 dependencies = [
     dep_dino,
+    dep_dbusmenu,
     dep_gee,
     dep_glib,
     dep_gmodule,
@@ -12,6 +13,8 @@ dependencies = [
     dep_xmpp_vala,
     meson.get_compiler('vala').find_library('posix'),
 ]
+
+# Systray uses StatusNotifierItem via D-Bus (no external dependencies needed)
 sources = files(
     'src/main.vala',
     'src/ui/add_conversation/add_conference_dialog.vala',
@@ -82,6 +85,7 @@ sources = files(
     'src/ui/util/preference_group.vala',
     'src/ui/util/size_request_box.vala',
     'src/ui/util/sizing_bin.vala',
+    'src/ui/systray.vala',
     'src/ui/widgets/avatar_picture.vala',
     'src/ui/widgets/date_separator.vala',
     'src/ui/widgets/fixed_ratio_picture.vala',
@@ -111,8 +115,9 @@ c_args = [
     '-DLOCALE_INSTALL_DIR="@0@"'.format(get_option('prefix') / get_option('localedir')),
 ]
 vala_args = [
-    '--vapidir', meson.current_source_dir() / 'vapi',
+    '--vapidir=' + (meson.current_source_dir() / 'vapi'),
 ]
+message('VAPI DIR: ' + (meson.current_source_dir() / 'vapi'))
 if dep_gtk4.version() == 'unknown' or dep_gtk4.version().version_compare('>=4.6')
     vala_args += ['-D', 'GTK_4_6']
 endif

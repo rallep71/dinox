@@ -38,6 +38,7 @@ Complete guide to building Dino from source on various Linux distributions.
 | libgee | 0.8+ | Data structures |
 | SQLite | 3.24+ | Database |
 | ICU | any | Unicode support |
+| libdbusmenu-glib | 0.4+ | System Tray Menu |
 
 ### Optional Dependencies (Plugins)
 
@@ -74,7 +75,8 @@ sudo apt install -y \
   libgio2.0-dev \
   libgee-0.8-dev \
   libsqlite3-dev \
-  libicu-dev
+  libicu-dev \
+  libdbusmenu-glib-dev
 
 # Install plugin dependencies
 sudo apt install -y \
@@ -135,7 +137,8 @@ sudo dnf install -y \
   glib2-devel \
   gee-devel \
   sqlite-devel \
-  libicu-devel
+  libicu-devel \
+  libdbusmenu-glib-devel
 
 # Install plugin dependencies
 sudo dnf install -y \
@@ -179,7 +182,7 @@ sudo pacman -S meson vala gtk4 libadwaita glib2 libgee \
   sqlite libgcrypt gstreamer gst-plugins-base \
   gst-plugins-good gst-plugins-bad libnice libsrtp \
   gnutls gpgme qrencode libsoup3 icu libcanberra \
-  webrtc-audio-processing git cmake
+  webrtc-audio-processing git cmake libdbusmenu-glib
 
 # Build libomemo-c
 cd /tmp
@@ -212,7 +215,8 @@ sudo zypper install -y \
   glib2-devel \
   libgee-devel \
   sqlite3-devel \
-  libicu-devel
+  libicu-devel \
+  libdbusmenu-glib-devel
 
 # Install plugin dependencies
 sudo zypper install -y \

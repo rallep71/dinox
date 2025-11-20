@@ -14,6 +14,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
 
     public MainWindow window;
     public MainWindowController controller;
+    private SystrayManager? systray_manager = null;
 
     public Database db { get; set; }
     public Dino.Entities.Settings settings { get; set; }
@@ -70,6 +71,9 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
                 }
             });
             stream_interactor.get_module(FileManager.IDENTITY).add_metadata_provider(new Util.AudioVideoFileMetadataProvider());
+            
+            // Initialize systray
+            systray_manager = new SystrayManager(this);
         });
 
         activate.connect(() => {
@@ -79,6 +83,11 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
                 window = new MainWindow(this, stream_interactor, db, config);
                 controller.set_window(window);
                 if ((get_flags() & ApplicationFlags.IS_SERVICE) == ApplicationFlags.IS_SERVICE) window.hide_on_close = true;
+                
+                // Connect systray to window
+                if (systray_manager != null) {
+                    systray_manager.set_window(window);
+                }
             }
             window.present();
         });
@@ -136,6 +145,23 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         quit_action.activate.connect(quit);
         add_action(quit_action);
         set_accels_for_action("app.quit", KEY_COMBINATION_QUIT);
+        
+        // Systray actions
+        SimpleAction show_window_action = new SimpleAction("show-window", null);
+        show_window_action.activate.connect(() => {
+            if (systray_manager != null) {
+                window.present();
+            }
+        });
+        add_action(show_window_action);
+        
+        SimpleAction hide_window_action = new SimpleAction("hide-window", null);
+        hide_window_action.activate.connect(() => {
+            if (systray_manager != null && window != null) {
+                window.hide();
+            }
+        });
+        add_action(hide_window_action);
 
         SimpleAction open_conversation_action = new SimpleAction("open-conversation", VariantType.INT32);
         open_conversation_action.activate.connect((variant) => {

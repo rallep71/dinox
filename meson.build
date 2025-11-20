@@ -30,6 +30,7 @@ dep_gstreamer_audio = dependency('gstreamer-audio-1.0', disabler: true, required
 dep_gstreamer_rtp = dependency('gstreamer-rtp-1.0', disabler: true, required: get_option('plugin-rtp'))
 dep_gstreamer_video = dependency('gstreamer-video-1.0', disabler: true, required: get_option('plugin-rtp'))
 dep_gtk4 = dependency('gtk4')
+dep_dbusmenu = dependency('dbusmenu-glib-0.4')
 dep_icu_uc = dependency('icu-uc')
 dep_libadwaita = dependency('libadwaita-1', version: '>=1.5')
 dep_libcanberra = dependency('libcanberra', disabler: true, required: get_option('plugin-notification-sound'))
