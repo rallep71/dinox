@@ -74,9 +74,9 @@ This fork addresses the slow development pace of the original Dino XMPP client w
 
 | Priority | Issue | Component | Impact | Complexity | Status |
 |----------|-------|-----------|--------|------------|--------|
-| 🔥 P0 | [#440](https://github.com/dino/dino/issues/440) | OMEMO | Offline messages unreadable | Hard | 🔴 TODO |
-| 🔥 P0 | [#752](https://github.com/dino/dino/issues/752) | File Transfer | Cannot send files with OMEMO | Medium | 🔴 TODO |
-| 🔥 P0 | [#1271](https://github.com/dino/dino/issues/1271) | Calls | Stuck connecting with Conversations | Medium | 🔴 TODO |
+| 🔥 P0 | [#440](https://github.com/dino/dino/issues/440) | OMEMO | Offline messages unreadable | Hard | ✅ FIXED |
+| 🔥 P0 | [#752](https://github.com/dino/dino/issues/752) | File Transfer | Cannot send files with OMEMO | Medium | ✅ FIXED |
+| 🔥 P0 | [#1271](https://github.com/dino/dino/issues/1271) | Calls | Stuck connecting with Conversations | Medium | ✅ FIXED |
 | ⚠️ P1 | [#1559](https://github.com/dino/dino/issues/1559) | Calls | Echo cancellation broken | Hard | 🔴 TODO |
 | ⚠️ P1 | [#57](https://github.com/dino/dino/issues/57) | Security | Self-signed certs rejected | Medium | 🔴 TODO |
 
@@ -100,7 +100,8 @@ This fork addresses the slow development pace of the original Dino XMPP client w
 | ⭐ Feature | [#98](https://github.com/dino/dino/issues/98) | Systray Support | 108 👍 | Medium | ✅ DONE |
 | ⭐ Feature | [#299](https://github.com/dino/dino/issues/299) | Background Mode | 54 👍 | Medium | ✅ DONE |
 | ⭐ Feature | [#115](https://github.com/dino/dino/issues/115) | Custom Host/Port | 26 👍 | Easy | ✅ DONE |
-| 🎨 UX | [#1796](https://github.com/dino/dino/issues/1796) | File Button Bug | - | Easy | 🟢 TODO |
+| 🎨 UX | [#1796](https://github.com/dino/dino/issues/1796) | File Button Bug | - | Easy | ✅ FIXED |
+| 🎨 UX | - | Remove Avatar Button | vCard avatar deletion | Easy | ✅ FIXED |
 | 🎨 UX | [#1380](https://github.com/dino/dino/issues/1380) | Spell Checking | - | Medium | 🟢 TODO |
 
 **Files Created/Modified** (Systray Support #98 & Background Mode #299):
@@ -109,7 +110,7 @@ This fork addresses the slow development pace of the original Dino XMPP client w
 - ✅ `main/vapi/dbusmenu-glib-0.4.vapi` - Vala bindings for libdbusmenu
 - ✅ `main/meson.build` - Build configuration
 
-**Files Created/Modified** (Issue #115):
+**Files Created/Modified** (Custom Host/Port #115):
 - ✅ `libdino/src/entity/account.vala` - Added custom_host, custom_port fields
 - ✅ `libdino/src/service/database.vala` - Schema v31, new columns
 - ✅ `xmpp-vala/src/core/stream_connect.vala` - Optional host/port, skip SRV
@@ -117,11 +118,14 @@ This fork addresses the slow development pace of the original Dino XMPP client w
 - ✅ `main/data/preferences_window/add_account_dialog.ui` - Advanced Settings UI
 - ✅ `main/src/windows/preferences_window/add_account_dialog.vala` - Logic
 
+**Files Modified** (Remove Avatar Button):
+- ✅ `libdino/src/service/avatar_manager.vala` - vCard avatar removal + cache cleanup
+
 **Files to Create/Modify** (Remaining):
 - GTK4 spell checking integration
 
 **Estimated Time**: 4-5 weeks  
-**Time Spent**: 1 hour (Issue #115)  
+**Time Spent**: 1 hour (Issue #115), 2 hours (Avatar removal)  
 **Target Release**: End of February 2026
 
 ---
@@ -198,7 +202,12 @@ This fork addresses the slow development pace of the original Dino XMPP client w
 
 | Task | Component | Problem | Solution | Status |
 |------|-----------|---------|----------|--------|
-| 🗄️ Refactor | Database | v30 schema, no tests | Migration test suite | 🏗️ TODO |
+| 🔧 Refactor | UI Code | GTK4/Libadwaita Deprecations | Adw.Flap, DropTarget, etc. | ✅ DONE |
+| 🔧 Build | Meson | Missing dependencies | Added libdbusmenu-glib, updated libadwaita | ✅ DONE |
+| 📦 Deployment | Flatpak | Missing libdbusmenu | Added module to manifest | ✅ DONE |
+| 📦 Deployment | Debian | No packaging files | Created debian/ control, rules, changelog | ✅ DONE |
+| 📦 Deployment | CI/CD | Missing dependencies | Updated GitHub Actions workflow | ✅ DONE |
+| 🗄️ Refactor | Database | v31 schema active, no tests | Migration test suite | ⚠️ PARTIAL |
 | 🔔 Refactor | Notifications | Duplicate code (2 files) | Unified backend | 🏗️ TODO |
 | 📁 Refactor | File Transfer | 400+ line state machine | Separate providers | 🏗️ TODO |
 | ⚠️ Refactor | Error Handling | 10+ error domains | Unified DinoError | 🏗️ TODO |
@@ -280,7 +289,8 @@ sudo apt install -y meson ninja-build valac \
   libsqlite3-dev libgcrypt20-dev libgstreamer1.0-dev \
   libgstreamer-plugins-base1.0-dev libnice-dev libsrtp2-dev \
   libgnutls28-dev libgpgme-dev libqrencode-dev libsoup-3.0-dev \
-  libicu-dev libcanberra-dev libwebrtc-audio-processing-dev
+  libicu-dev libcanberra-dev libwebrtc-audio-processing-dev \
+  libdbusmenu-glib-dev
 
 # Build & run
 meson setup build && meson compile -C build && ./build/main/dino

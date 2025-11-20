@@ -143,6 +143,75 @@ public class AvatarManager : StreamInteractionModule, Object {
         XmppStream stream = stream_interactor.get_stream(account);
         if (stream == null) return;
         Xmpp.Xep.UserAvatars.unset_avatar(stream);
+        unset_vcard_avatar.begin(stream, account);
+    }
+
+    private async void unset_vcard_avatar(XmppStream stream, Account account) {
+        try {
+            Iq.Stanza iq = new Iq.Stanza.get(new StanzaNode.build("vCard", "vcard-temp").add_self_xmlns());
+            Iq.Stanza iq_res = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+
+            if (iq_res.is_error()) return;
+
+            StanzaNode? vcard = iq_res.stanza.get_subnode("vCard", "vcard-temp");
+            if (vcard == null) return;
+
+            // Create a new vCard node to ensure clean state
+            StanzaNode new_vcard = new StanzaNode.build("vCard", "vcard-temp");
+            new_vcard.add_self_xmlns();
+
+            // Copy all children except PHOTO
+            foreach (var child in vcard.sub_nodes) {
+                if (child.name != "PHOTO") {
+                    new_vcard.put_node(child);
+                }
+            }
+
+            // Do NOT add any PHOTO element. This removes it entirely.
+
+            Iq.Stanza iq_set = new Iq.Stanza.set(new_vcard);
+            Iq.Stanza iq_set_res = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq_set);
+            
+            if (iq_set_res.is_error()) return;
+
+            // Manually update local cache and notify UI
+            Jid jid = account.bare_jid;
+            
+            // Delete the old avatar file from disk if it exists
+            string? old_hash = null;
+            
+            // Check both vcard_avatars and user_avatars
+            if (vcard_avatars.has_key(jid)) {
+                old_hash = vcard_avatars[jid];
+                vcard_avatars.unset(jid);
+            }
+            
+            if (user_avatars.has_key(jid)) {
+                string? user_hash = user_avatars[jid];
+                if (old_hash == null) old_hash = user_hash;
+                user_avatars.unset(jid);
+            }
+            
+            if (old_hash != null) {
+                File old_file = File.new_for_path(Path.build_filename(folder, old_hash));
+                if (old_file.query_exists()) {
+                    try {
+                        old_file.delete();
+                    } catch (Error e) {
+                        warning("Failed to delete old avatar file: %s", e.message);
+                    }
+                }
+            }
+            
+            // Remove from database for both sources
+            remove_avatar_hash(account, jid, Source.VCARD);
+            remove_avatar_hash(account, jid, Source.USER_AVATARS);
+            
+            received_avatar(jid, account);
+
+        } catch (Error e) {
+            warning("Failed to unset vCard avatar: %s", e.message);
+        }
     }
 
     private void on_account_added(Account account) {
