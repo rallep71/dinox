@@ -85,11 +85,14 @@ public static Gdk.RGBA get_label_pango_color(Label label, string css_color) {
     Gtk.CssProvider provider = force_color(label, css_color);
     Gdk.RGBA color_rgba = label.get_color();
     
+    // Cleanup: remove CSS class and provider
     string? class_name = provider.get_data<string>("dino-style-class");
     if (class_name != null) {
         label.remove_css_class(class_name);
     }
-    Gtk.StyleContext.remove_provider_for_display(label.get_display(), provider);
+    
+    // Remove widget-scoped provider (GTK4 way)
+    label.get_style_context().remove_provider(provider);
     
     return color_rgba;
 }
@@ -120,7 +123,11 @@ public static Gtk.CssProvider force_css(Gtk.Widget widget, string css) {
 #endif
 
     widget.add_css_class(class_name);
-    Gtk.StyleContext.add_provider_for_display(widget.get_display(), p, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
+    
+    // GTK4 way: widget-scoped provider instead of display-wide
+    widget.get_style_context().add_provider(p, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
+    
+    // Store class name for cleanup
     p.set_data("dino-style-class", class_name);
 
     return p;
