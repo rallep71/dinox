@@ -24,7 +24,8 @@
             ],
             "config-opts": [
                 "-Dprotobuf_BUILD_TESTS=OFF",
-                "-Dprotobuf_BUILD_LIBUPB=OFF"
+                "-Dprotobuf_BUILD_LIBUPB=OFF",
+                "-Dprotobuf_BUILD_PROTOC_BINARIES=OFF"
             ],
             "sources": [
                 {
