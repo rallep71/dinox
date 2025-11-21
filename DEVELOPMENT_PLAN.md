@@ -1,4 +1,4 @@
-# 🚀 DinoX - Development Plan
+# DinoX - Development Plan
 
 > **Fork Status**: Modern XMPP client - Independent development branch of [dino/dino](https://github.com/dino/dino)  
 > **Last Updated**: November 21, 2025  
@@ -7,19 +7,19 @@
 
 ---
 
-## 📋 Quick Links
+## Quick Links
 
-- 🔧 [Build Instructions](docs/BUILD.md)
-- 🚀 [Release Guide](docs/RELEASE.md)
-- 🏛️ [Architecture Guide](docs/ARCHITECTURE.md)
-- 📡 [XMPP Extensions Support](docs/XEP_SUPPORT.md)
-- 🔍 [XEP UI Implementation Analysis](docs/XEP_UI_ANALYSIS.md)
-- 🗄️ [Database Schema](docs/DATABASE_SCHEMA.md)
-- 👥 [Contributing Guidelines](docs/CONTRIBUTING.md)
+- [Build Instructions](docs/BUILD.md)
+- [Release Guide](docs/RELEASE.md)
+- [Architecture Guide](docs/ARCHITECTURE.md)
+- [XMPP Extensions Support](docs/XEP_SUPPORT.md)
+- [XEP UI Implementation Analysis](docs/XEP_UI_ANALYSIS.md)
+- [Database Schema](docs/DATABASE_SCHEMA.md)
+- [Contributing Guidelines](docs/CONTRIBUTING.md)
 
 ---
 
-## 🎯 Mission Statement
+## Mission Statement
 
 DinoX addresses the slow development pace of the original Dino XMPP client while maintaining full XMPP protocol compliance. We focus on:
 
@@ -30,67 +30,67 @@ DinoX addresses the slow development pace of the original Dino XMPP client while
 
 ---
 
-## 🚦 Current Status (November 20, 2025)
+## Current Status (November 20, 2025)
 
 | Metric | Status | Details |
 |--------|--------|---------|
-| **XEPs Implemented** | ✅ 60+ | One of most compliant XMPP clients |
-| **Open Upstream Issues** | ⚠️ 566 remaining | **6 fixed by us** (Phase 1: 4, Phase 3: 2) |
-| **Database Schema** | ✅ **v32** | Custom server support + **persistent history clear** |
-| **Memory Leaks** | ✅ Fixed | Issue #1766 - MAM cleanup implemented |
-| **File Transfer Crashes** | ✅ Fixed | Issue #1764 - Stream cleanup on error |
-| **GTK4 Migration** | ✅ Complete | Edit/delete buttons fixed, 0 deprecation warnings |
-| **Message History** | ✅ **NEW** | Delete Conversation History with OMEMO support |
-| **Contact Management** | ✅ **NEW** | Full roster management with block/mute features |
-| **Systray** | ✅ Implemented | Issue #98 - StatusNotifierItem (108👍) |
-| **Background Mode** | ✅ Implemented | Issue #299 - Keep running when window closed (54👍) |
-| **Custom Server** | ✅ Implemented | Issue #115 - Advanced connection settings (26👍) |
-| **Tech Stack** | ✅ Modern | GTK4 4.14.5, libadwaita 1.5, Meson, Vala |
-| **Platform Support** | ⚠️ Linux Only | Desktop focus (GNOME/KDE) |
-| **Build Status** | ✅ Clean | 541 targets, 0 errors, 0 GTK warnings |
+| **XEPs Implemented** | ✓ 60+ | One of most compliant XMPP clients |
+| **Open Upstream Issues** | ! 566 remaining | **6 fixed by us** (Phase 1: 4, Phase 3: 2) |
+| **Database Schema** | ✓ **v32** | Custom server support + **persistent history clear** |
+| **Memory Leaks** | ✓ Fixed | Issue #1766 - MAM cleanup implemented |
+| **File Transfer Crashes** | ✓ Fixed | Issue #1764 - Stream cleanup on error |
+| **GTK4 Migration** | ✓ Complete | Edit/delete buttons fixed, 0 deprecation warnings |
+| **Message History** | ✓ **NEW** | Delete Conversation History with OMEMO support |
+| **Contact Management** | ✓ **NEW** | Full roster management with block/mute features |
+| **Systray** | ✓ Implemented | Issue #98 - StatusNotifierItem (108👍) |
+| **Background Mode** | ✓ Implemented | Issue #299 - Keep running when window closed (54👍) |
+| **Custom Server** | ✓ Implemented | Issue #115 - Advanced connection settings (26👍) |
+| **Tech Stack** | ✓ Modern | GTK4 4.14.5, libadwaita 1.5, Meson, Vala |
+| **Platform Support** | ! Linux Only | Desktop focus (GNOME/KDE) |
+| **Build Status** | ✓ Clean | 541 targets, 0 errors, 0 GTK warnings |
 
 ---
 
-## 🎯 Development Roadmap
+## Development Roadmap
 
-### 🔴 Phase 1: Critical Stability (Q1 2026 - v0.6.0)
+### Phase 1: Critical Stability (Q1 2026 - v0.6.0)
 
 **Goal**: Make Dino rock-solid for daily use
 
 | Priority | Issue | Component | Impact | Status |
 |----------|-------|-----------|--------|--------|
-| 🔥 P0 | [#1764](https://github.com/dino/dino/issues/1764) | File Transfer | Segfault on upload error | ✅ FIXED |
-| 🔥 P0 | [#1766](https://github.com/dino/dino/issues/1766) | Memory | RAM grows to GB over days | ✅ FIXED |
-| ⚠️ P1 | [#1746](https://github.com/dino/dino/issues/1746) | Sync | MAM/Carbon messages lost | ✅ FIXED |
-| ⚠️ P1 | [#1779](https://github.com/dino/dino/issues/1779) | UX | Long messages truncated/unreadable | ✅ FIXED |
+| P0 | [#1764](https://github.com/dino/dino/issues/1764) | File Transfer | Segfault on upload error | ✓ FIXED |
+| P0 | [#1766](https://github.com/dino/dino/issues/1766) | Memory | RAM grows to GB over days | ✓ FIXED |
+| P1 | [#1746](https://github.com/dino/dino/issues/1746) | Sync | MAM/Carbon messages lost | ✓ FIXED |
+| P1 | [#1779](https://github.com/dino/dino/issues/1779) | UX | Long messages truncated/unreadable | ✓ FIXED |
 
 > **Note**: Issue [#1784](https://github.com/dino/dino/issues/1784) (database crash on long messages) was already fixed in upstream commit [d625058d](https://github.com/dino/dino/commit/d625058d) (Sept 2025). Database schema v30 uses TEXT columns supporting unlimited message size.
 
 **Files Modified**:
-- ✅ `libdino/src/service/file_manager.vala` - Stream cleanup on error (issue #1764)
-- ✅ `libdino/src/service/history_sync.vala` - MAM stanza cleanup on error (issue #1766)
-- ✅ `xmpp-vala/src/module/xep/0059_result_set_management.vala` - Page size 20→200 (issue #1746)
-- ✅ `main/src/ui/conversation_content_view/message_widget.vala` - Limit 10k→100k chars (issue #1779)
+- ✓ `libdino/src/service/file_manager.vala` - Stream cleanup on error (issue #1764)
+- ✓ `libdino/src/service/history_sync.vala` - MAM stanza cleanup on error (issue #1766)
+- ✓ `xmpp-vala/src/module/xep/0059_result_set_management.vala` - Page size 20→200 (issue #1746)
+- ✓ `main/src/ui/conversation_content_view/message_widget.vala` - Limit 10k→100k chars (issue #1779)
 
-**Status**: ✅ **COMPLETED** (November 19, 2025)  
+**Status**: ✓ **COMPLETED** (November 19, 2025)  
 **Time Spent**: 1 day  
 **Commits**: `b65d6b72`, `65b8f47e`, `c3024d71`
 
 ---
 
-### 🟡 Phase 2: Critical Bug Fixes Round 2 (Q1 2026 - v0.6.1)
+### READY Phase 2: Critical Bug Fixes Round 2 (Q1 2026 - v0.6.1)
 
 **Goal**: Fix remaining P0/P1 stability issues + Complete missing XEP UIs
 
 | Priority | Issue | Component | Impact | Complexity | Status |
 |----------|-------|-----------|--------|------------|--------|
-| 🔥 P0 | [#440](https://github.com/dino/dino/issues/440) | OMEMO | Offline messages unreadable | Hard | ✅ FIXED |
-| 🔥 P0 | [#752](https://github.com/dino/dino/issues/752) | File Transfer | Cannot send files with OMEMO | Medium | ✅ FIXED |
-| 🔥 P0 | [#1271](https://github.com/dino/dino/issues/1271) | Calls | Stuck connecting with Conversations | Medium | ✅ FIXED |
-| ⚠️ P1 | [#1559](https://github.com/dino/dino/issues/1559) | Calls | Echo cancellation broken | Hard | 🔴 TODO |
-| ⚠️ P1 | [#57](https://github.com/dino/dino/issues/57) | Security | Self-signed certs rejected | Medium | 🔴 TODO |
-| 🎨 P1 | **XEP-0424** | **Message UI** | **Delete individual messages** | Easy | 🟡 **READY** |
-| 🎨 P2 | **XEP-0425** | **MUC UI** | **Moderator message deletion** | Medium | 🟡 **READY** |
+| P0 | [#440](https://github.com/dino/dino/issues/440) | OMEMO | Offline messages unreadable | Hard | ✓ FIXED |
+| P0 | [#752](https://github.com/dino/dino/issues/752) | File Transfer | Cannot send files with OMEMO | Medium | ✓ FIXED |
+| P0 | [#1271](https://github.com/dino/dino/issues/1271) | Calls | Stuck connecting with Conversations | Medium | ✓ FIXED |
+| P1 | [#1559](https://github.com/dino/dino/issues/1559) | Calls | Echo cancellation broken | Hard | TODO |
+| P1 | [#57](https://github.com/dino/dino/issues/57) | Security | Self-signed certs rejected | Medium | TODO |
+|  P1 | **XEP-0424** | **Message UI** | **Delete individual messages** | Easy | READY **READY** |
+|  P2 | **XEP-0425** | **MUC UI** | **Moderator message deletion** | Medium | READY **READY** |
 
 **Files to Modify**:
 - `plugins/omemo/src/file_encryptor.vala` - OMEMO file encryption
@@ -103,14 +103,14 @@ DinoX addresses the slow development pace of the original Dino XMPP client while
 **XEP UI Implementation** (Backend already complete, see [XEP_UI_ANALYSIS.md](docs/XEP_UI_ANALYSIS.md)):
 
 **XEP-0424 - Message Retraction UI** (1-2 days):
-- Backend ✅ `xmpp-vala/src/module/xep/0424_message_retraction.vala`
-- Backend ✅ Used in `conversation_manager.vala` for bulk delete
+- Backend ✓ `xmpp-vala/src/module/xep/0424_message_retraction.vala`
+- Backend ✓ Used in `conversation_manager.vala` for bulk delete
 - Missing: Context menu "Delete message for everyone" on own messages
 - Implementation: Add action in `message_widget.vala`, call `MessageDeletion.delete_message_for_everyone()`
 
 **XEP-0425 - Message Moderation UI** (2-3 days):
-- Backend ✅ `xmpp-vala/src/module/xep/0425_message_moderation.vala`
-- Backend ✅ Moderator checks in `message_deletion.vala`
+- Backend ✓ `xmpp-vala/src/module/xep/0425_message_moderation.vala`
+- Backend ✓ Moderator checks in `message_deletion.vala`
 - Missing: Context menu "Delete message (Moderator)" for MUC moderators
 - Implementation: Check `is_muc_moderator` in UI, show option for others' messages
 
@@ -119,78 +119,78 @@ DinoX addresses the slow development pace of the original Dino XMPP client while
 
 ---
 
-### 🟢 Phase 3: Top User-Requested Features (Q1-Q2 2026 - v0.7.0)
+### DONE Phase 3: Top User-Requested Features (Q1-Q2 2026 - v0.7.0)
 
 **Goal**: Implement most-wanted features (100+ reactions each!)
 
 | Priority | Issue | Feature | Reactions | Complexity | Status |
 |----------|-------|---------|-----------|------------|--------|
-| ⭐ Feature | [#98](https://github.com/dino/dino/issues/98) | Systray Support | 108 👍 | Medium | ✅ DONE |
-| ⭐ Feature | [#299](https://github.com/dino/dino/issues/299) | Background Mode | 54 👍 | Medium | ✅ DONE |
-| ⭐ Feature | [#115](https://github.com/dino/dino/issues/115) | Custom Host/Port | 26 👍 | Easy | ✅ DONE |
-| 🎨 UX | [#1796](https://github.com/dino/dino/issues/1796) | File Button Bug | - | Easy | ✅ FIXED |
-| 🎨 UX | - | Remove Avatar Button | vCard avatar deletion | Easy | ✅ FIXED |
-| 🎨 UX | - | Edit/Delete Message Buttons | Buttons not appearing after GTK4 migration | Easy | ✅ FIXED |
-| 🔥 UX | [#472](https://github.com/dino/dino/issues/472) | **Delete Conversation History** | Clear chat history with persistence | Medium | ✅ **COMPLETED** |
-| 🔥 UX | - | **Contact Management Suite** | Full roster management with block/mute | High | ✅ **COMPLETED** |
-| 🔥 UX | - | Archive Conversation | Hide conversations without deleting | Easy | ❌ **REMOVED** |
-| 🎨 UX | [#1380](https://github.com/dino/dino/issues/1380) | Spell Checking | - | Medium | 🟢 TODO |
+|  Feature | [#98](https://github.com/dino/dino/issues/98) | Systray Support | 108 👍 | Medium | ✓ DONE |
+|  Feature | [#299](https://github.com/dino/dino/issues/299) | Background Mode | 54 👍 | Medium | ✓ DONE |
+|  Feature | [#115](https://github.com/dino/dino/issues/115) | Custom Host/Port | 26 👍 | Easy | ✓ DONE |
+|  UX | [#1796](https://github.com/dino/dino/issues/1796) | File Button Bug | - | Easy | ✓ FIXED |
+|  UX | - | Remove Avatar Button | vCard avatar deletion | Easy | ✓ FIXED |
+|  UX | - | Edit/Delete Message Buttons | Buttons not appearing after GTK4 migration | Easy | ✓ FIXED |
+| P0 UX | [#472](https://github.com/dino/dino/issues/472) | **Delete Conversation History** | Clear chat history with persistence | Medium | ✓ **COMPLETED** |
+| P0 UX | - | **Contact Management Suite** | Full roster management with block/mute | High | ✓ **COMPLETED** |
+| P0 UX | - | Archive Conversation | Hide conversations without deleting | Easy | ✗ **REMOVED** |
+|  UX | [#1380](https://github.com/dino/dino/issues/1380) | Spell Checking | - | Medium | DONE TODO |
 
 **Files Created/Modified** (Systray Support #98 & Background Mode #299):
-- ✅ `main/src/ui/systray.vala` - StatusNotifierItem & DBusMenu implementation
-- ✅ `main/src/ui/application.vala` - Integration & Background mode logic
-- ✅ `main/vapi/dbusmenu-glib-0.4.vapi` - Vala bindings for libdbusmenu
-- ✅ `main/meson.build` - Build configuration
+- ✓ `main/src/ui/systray.vala` - StatusNotifierItem & DBusMenu implementation
+- ✓ `main/src/ui/application.vala` - Integration & Background mode logic
+- ✓ `main/vapi/dbusmenu-glib-0.4.vapi` - Vala bindings for libdbusmenu
+- ✓ `main/meson.build` - Build configuration
 
 **Files Created/Modified** (Custom Host/Port #115):
-- ✅ `libdino/src/entity/account.vala` - Added custom_host, custom_port fields
-- ✅ `libdino/src/service/database.vala` - Schema v31, new columns
-- ✅ `xmpp-vala/src/core/stream_connect.vala` - Optional host/port, skip SRV
-- ✅ `libdino/src/service/connection_manager.vala` - Pass custom params
-- ✅ `main/data/preferences_window/add_account_dialog.ui` - Advanced Settings UI
-- ✅ `main/src/windows/preferences_window/add_account_dialog.vala` - Logic
+- ✓ `libdino/src/entity/account.vala` - Added custom_host, custom_port fields
+- ✓ `libdino/src/service/database.vala` - Schema v31, new columns
+- ✓ `xmpp-vala/src/core/stream_connect.vala` - Optional host/port, skip SRV
+- ✓ `libdino/src/service/connection_manager.vala` - Pass custom params
+- ✓ `main/data/preferences_window/add_account_dialog.ui` - Advanced Settings UI
+- ✓ `main/src/windows/preferences_window/add_account_dialog.vala` - Logic
 
 **Files Modified** (Remove Avatar Button):
-- ✅ `libdino/src/service/avatar_manager.vala` - vCard avatar removal + cache cleanup
+- ✓ `libdino/src/service/avatar_manager.vala` - vCard avatar removal + cache cleanup
 
 **Files Modified** (Edit/Delete Message Buttons):
-- ✅ `main/src/ui/conversation_content_view/message_widget.vala` - Removed `shortcut_action = false` on edit action
-- ✅ `main/src/ui/conversation_content_view/item_actions.vala` - Removed `shortcut_action = false` on delete action
-- ✅ `main/src/ui/conversation_content_view/conversation_view.vala` - Fixed button positioning with bounds checking
+- ✓ `main/src/ui/conversation_content_view/message_widget.vala` - Removed `shortcut_action = false` on edit action
+- ✓ `main/src/ui/conversation_content_view/item_actions.vala` - Removed `shortcut_action = false` on delete action
+- ✓ `main/src/ui/conversation_content_view/conversation_view.vala` - Fixed button positioning with bounds checking
 
 **Files Created/Modified** (Delete Conversation History #472 - **COMPLETED**):
 
 **Core Implementation**:
-- ✅ `libdino/src/service/database.vala` - Schema v31→v32: Added `history_cleared_at` column (LONG, Unix timestamp)
-- ✅ `libdino/src/entity/conversation.vala` - Added `history_cleared_at` property with DB persistence
-- ✅ `libdino/src/service/conversation_manager.vala` - Implemented `clear_conversation_history()` method
+- ✓ `libdino/src/service/database.vala` - Schema v31→v32: Added `history_cleared_at` column (LONG, Unix timestamp)
+- ✓ `libdino/src/entity/conversation.vala` - Added `history_cleared_at` property with DB persistence
+- ✓ `libdino/src/service/conversation_manager.vala` - Implemented `clear_conversation_history()` method
   - Batch deletion with XEP-0425 Message Retraction to server
   - Local DB cleanup (messages, content_items)
   - Force MAM re-sync by deleting mam_catchup entries
   - Set persistent `history_cleared_at` timestamp
   - Emit `conversation_cleared` signal
-- ✅ `libdino/src/service/message_processor.vala` - `ClearedConversationFilterListener` to filter MAM messages
-- ✅ `libdino/src/service/message_storage.vala` - `clear_conversation_cache()` method
+- ✓ `libdino/src/service/message_processor.vala` - `ClearedConversationFilterListener` to filter MAM messages
+- ✓ `libdino/src/service/message_storage.vala` - `clear_conversation_cache()` method
 
 **UI Components**:
-- ✅ `main/src/ui/conversation_titlebar/menu_entry.vala` - Menu item + GTK 4.10 AlertDialog confirmation
-- ✅ `main/src/ui/conversation_view_controller.vala` - Force reload view on history clear
-- ✅ `main/src/ui/conversation_selector/conversation_selector_row.vala` - Update row on clear
-- ✅ `main/src/ui/conversation_content_view/conversation_view.vala` - Force reload parameter
+- ✓ `main/src/ui/conversation_titlebar/menu_entry.vala` - Menu item + GTK 4.10 AlertDialog confirmation
+- ✓ `main/src/ui/conversation_view_controller.vala` - Force reload view on history clear
+- ✓ `main/src/ui/conversation_selector/conversation_selector_row.vala` - Update row on clear
+- ✓ `main/src/ui/conversation_content_view/conversation_view.vala` - Force reload parameter
 
 **OMEMO Integration** (Critical for encrypted chats):
-- ✅ `plugins/omemo/src/plugin.vala` - `clear_bad_message_state()` method
-- ✅ `plugins/omemo/src/ui/bad_messages_populator.vala` - Listen to `conversation_cleared` signal
-- ✅ `plugins/omemo/src/logic/decrypt.vala` - Check `history_cleared_at` before marking messages undecryptable
-- ✅ `plugins/omemo/src/logic/trust_manager.vala` - Check `history_cleared_at` before marking messages untrusted
+- ✓ `plugins/omemo/src/plugin.vala` - `clear_bad_message_state()` method
+- ✓ `plugins/omemo/src/ui/bad_messages_populator.vala` - Listen to `conversation_cleared` signal
+- ✓ `plugins/omemo/src/logic/decrypt.vala` - Check `history_cleared_at` before marking messages undecryptable
+- ✓ `plugins/omemo/src/logic/trust_manager.vala` - Check `history_cleared_at` before marking messages untrusted
 
 **Technical Features**:
-- ✅ **Persistent Deletion**: Messages stay deleted across app restarts
-- ✅ **XEP-0425 Message Retraction**: Sends deletion requests to server (ejabberd 23.04+ support)
-- ✅ **MAM Filter**: Prevents deleted messages from reappearing during sync
-- ✅ **OMEMO Support**: Clears encryption warnings and prevents re-creation during MAM sync
-- ✅ **Cache Management**: Clears all in-memory caches (stanza_id, server_id maps)
-- ✅ **GTK 4.10 AlertDialog**: Modern confirmation dialog
+- ✓ **Persistent Deletion**: Messages stay deleted across app restarts
+- ✓ **XEP-0425 Message Retraction**: Sends deletion requests to server (ejabberd 23.04+ support)
+- ✓ **MAM Filter**: Prevents deleted messages from reappearing during sync
+- ✓ **OMEMO Support**: Clears encryption warnings and prevents re-creation during MAM sync
+- ✓ **Cache Management**: Clears all in-memory caches (stanza_id, server_id maps)
+- ✓ **GTK 4.10 AlertDialog**: Modern confirmation dialog
 
 **UX Flow**:
 ```
@@ -214,12 +214,12 @@ DinoX addresses the slow development pace of the original Dino XMPP client while
 **Files Created/Modified** (Contact Management Suite - **COMPLETED**):
 
 **Core Services**:
-- ✅ `libdino/src/service/blocking_manager.vala` - Fixed `stream_negotiated` signal, immediate UI updates
-- ✅ `xmpp-vala/src/module/xep/0191_blocking_command.vala` - Local blocklist updates for responsiveness
-- ✅ `libdino/src/service/conversation_manager.vala` - Enhanced `clear_conversation_history()` and `close_conversation()`
+- ✓ `libdino/src/service/blocking_manager.vala` - Fixed `stream_negotiated` signal, immediate UI updates
+- ✓ `xmpp-vala/src/module/xep/0191_blocking_command.vala` - Local blocklist updates for responsiveness
+- ✓ `libdino/src/service/conversation_manager.vala` - Enhanced `clear_conversation_history()` and `close_conversation()`
 
 **Central Management UI**:
-- ✅ `main/src/windows/preferences_window/contacts_preferences_page.vala` - **NEW** Full contact management page (396 lines)
+- ✓ `main/src/windows/preferences_window/contacts_preferences_page.vala` - **NEW** Full contact management page (396 lines)
   - Contact list with search/filter
   - Edit button (document-edit-symbolic) - Change display name with duplicate detection
   - Mute button (dino-bell-large-symbolic) - Toggle notifications (OFF/DEFAULT)
@@ -227,41 +227,41 @@ DinoX addresses the slow development pace of the original Dino XMPP client while
   - Remove button (user-trash-symbolic) - Remove from roster with history cleanup
   - Auto-refresh on roster/blocking changes
   - All actions with confirmation dialogs
-- ✅ `main/src/windows/preferences_window/preferences_dialog.vala` - Added "Contacts" navigation item
-- ✅ `main/data/preferences_window/preferences_dialog.ui` - Added Contacts page to sidebar
+- ✓ `main/src/windows/preferences_window/preferences_dialog.vala` - Added "Contacts" navigation item
+- ✓ `main/data/preferences_window/preferences_dialog.ui` - Added Contacts page to sidebar
 
 **Context Menu Integration**:
-- ✅ `main/src/ui/conversation_selector/conversation_selector_row.vala` - Right-click context menu on conversation rows
+- ✓ `main/src/ui/conversation_selector/conversation_selector_row.vala` - Right-click context menu on conversation rows
   - GestureClick controller for right-click detection
   - PopoverMenu with Edit/Mute/Block/Remove actions
   - Same confirmation dialogs as Contacts page
   - Reuses contact management logic
 
 **Visual Status Badges**:
-- ✅ `main/data/conversation_row.ui` - Added mute_image and blocked_image widgets
+- ✓ `main/data/conversation_row.ui` - Added mute_image and blocked_image widgets
   - Mute icon: `dino-bell-large-none-symbolic` with orange/warning color
   - Block icon: `action-unavailable-symbolic` with red/error color
   - Positioned next to pinned icon with tooltips
-- ✅ `main/src/ui/conversation_selector/conversation_selector_row.vala` - Badge update logic
+- ✓ `main/src/ui/conversation_selector/conversation_selector_row.vala` - Badge update logic
   - `update_muted_icon()` - Shows/hides based on NotifySetting.OFF
   - `update_blocked_icon()` - Shows/hides based on BlockingManager status
   - Live updates via signal listeners (notify-setting, block_changed)
 
 **Add Contact Dialog**:
-- ✅ `main/src/ui/add_conversation/add_contact_dialog.vala` - Enhanced with validation
+- ✓ `main/src/ui/add_conversation/add_contact_dialog.vala` - Enhanced with validation
   - JID format validation
   - Duplicate contact detection
   - Account selection dropdown
   - Optional alias field
 
 **Technical Features**:
-- ✅ **XEP-0191 Blocking Command**: Full blocking support with server sync
-- ✅ **Immediate UI Updates**: Fixed signal connection bug for instant feedback
-- ✅ **Local Blocklist Cache**: Updates before server response for responsiveness
-- ✅ **Notification Control**: Per-contact mute with NotifySetting (OFF/DEFAULT)
-- ✅ **Full Cleanup**: History deletion, OMEMO data, roster removal
-- ✅ **Live Status Badges**: Visual indicators for muted/blocked contacts
-- ✅ **Duplicate Prevention**: Alias validation to avoid conflicts
+- ✓ **XEP-0191 Blocking Command**: Full blocking support with server sync
+- ✓ **Immediate UI Updates**: Fixed signal connection bug for instant feedback
+- ✓ **Local Blocklist Cache**: Updates before server response for responsiveness
+- ✓ **Notification Control**: Per-contact mute with NotifySetting (OFF/DEFAULT)
+- ✓ **Full Cleanup**: History deletion, OMEMO data, roster removal
+- ✓ **Live Status Badges**: Visual indicators for muted/blocked contacts
+- ✓ **Duplicate Prevention**: Alias validation to avoid conflicts
 
 **UX Flow Examples**:
 
@@ -297,7 +297,7 @@ DinoX addresses the slow development pace of the original Dino XMPP client while
 
 **Removed Features**:
 
-**Archive Conversation** ❌:
+**Archive Conversation** ✗:
 - **Reason**: XMPP model doesn't fit archiving - conversations are roster-based, not message threads
 - **Alternative**: Use group chats for different topics, or remove contact to hide conversation
 
@@ -350,7 +350,7 @@ DinoX addresses the slow development pace of the original Dino XMPP client while
 | Priority | Issue | Feature | Why Important | Status |
 |----------|-------|---------|---------------|--------|
 | 🔐 Privacy | [#67](https://github.com/dino/dino/issues/67) | Auto-delete History | Limit retention (e.g., 7 days) | 🔵 TODO |
-| 🔐 Privacy | [#472](https://github.com/dino/dino/issues/472) | Delete Conversation | Clear history without ending chat | ✅ **COMPLETED IN PHASE 3** |
+| 🔐 Privacy | [#472](https://github.com/dino/dino/issues/472) | Delete Conversation | Clear history without ending chat | ✓ **COMPLETED IN PHASE 3** |
 | 🔐 Privacy | [#1317](https://github.com/dino/dino/issues/1317) | Blocking Fix | Blocked contacts still send messages | 🔵 TODO |
 
 **Files to Modify**:
@@ -369,9 +369,9 @@ DinoX addresses the slow development pace of the original Dino XMPP client while
 
 | Priority | Issue | Feature | User Impact | Status |
 |----------|-------|---------|-------------|--------|
-| 📱 UX | [#1769](https://github.com/dino/dino/issues/1769) | Chat Scroll | Conversation jumps annoyingly | 🟣 TODO |
-| 🎨 UX | [#1752](https://github.com/dino/dino/issues/1752) | Dark Mode | Requires app restart | 🟣 TODO |
-| 🔔 UX | [#1787](https://github.com/dino/dino/issues/1787) | Notifications | Better desktop integration | 🟣 TODO |
+|  UX | [#1769](https://github.com/dino/dino/issues/1769) | Chat Scroll | Conversation jumps annoyingly | 🟣 TODO |
+|  UX | [#1752](https://github.com/dino/dino/issues/1752) | Dark Mode | Requires app restart | 🟣 TODO |
+|  UX | [#1787](https://github.com/dino/dino/issues/1787) | Notifications | Better desktop integration | 🟣 TODO |
 | 😀 Feature | [#1776](https://github.com/dino/dino/issues/1776) | Emoji Reactions | Compatibility with Conversations | 🟣 TODO |
 
 **Files to Modify**:
@@ -393,9 +393,9 @@ DinoX addresses the slow development pace of the original Dino XMPP client while
 |----------|-----|---------|---------------|--------|
 | 🆕 Feature | XEP-0388 | SASL2/FAST Auth | Modern servers require it | 🔷 TODO |
 | 🆕 Feature | XEP-0357 | Push Notifications | Battery efficiency | 🔷 TODO |
-| 🎨 Feature | XEP-0449 | Stickers | User expectation in 2025 | 🔷 TODO |
-| 🔧 Feature | - | Export/Import | Data portability | 🔷 TODO |
-| 🔧 Feature | - | Multi-Profile | Multiple accounts | 🔷 TODO |
+|  Feature | XEP-0449 | Stickers | User expectation in 2025 | 🔷 TODO |
+|  Feature | - | Export/Import | Data portability | 🔷 TODO |
+|  Feature | - | Multi-Profile | Multiple accounts | 🔷 TODO |
 
 **New Files to Create**:
 - `xmpp-vala/src/module/xep/0388_sasl2.vala`
@@ -409,32 +409,32 @@ DinoX addresses the slow development pace of the original Dino XMPP client while
 
 ---
 
-### 🏗️ Phase 7: Technical Debt & Platform Support (Q3 2026 - v0.9.5)
+###  Phase 7: Technical Debt & Platform Support (Q3 2026 - v0.9.5)
 
 **Goal**: Clean codebase + Platform expansion
 
 | Task | Component | Problem | Solution | Status |
 |------|-----------|---------|----------|--------|
-| 🔧 Refactor | UI Code | GTK4/Libadwaita 1.5 Migration | AdwFlap→AdwOverlaySplitView, Dialog→Window+HeaderBar | ✅ DONE |
-| 🔧 Build | Meson | Missing dependencies | Added libdbusmenu-glib, updated libadwaita | ✅ DONE |
-| 📦 Deployment | Flatpak | Missing libdbusmenu | Added module to manifest | ✅ DONE |
-| 📦 Deployment | Debian | No packaging files | Created debian/ control, rules, changelog | ✅ DONE |
-| 📦 Deployment | CI/CD | Missing dependencies | Updated GitHub Actions workflow | ✅ DONE |
-| 🎨 Refactor | CSS System | StyleContext deprecated (GTK4.10) | Widget-scoped CSS providers | ✅ DONE |
-| 🗄️ Refactor | Database | v31 schema active, no tests | Migration test suite | ⚠️ PARTIAL |
-| 🔔 Refactor | Notifications | Duplicate code (2 files) | Unified backend | 🏗️ TODO |
-| 📁 Refactor | File Transfer | 400+ line state machine | Separate providers | 🏗️ TODO |
-| ⚠️ Refactor | Error Handling | 10+ error domains | Unified DinoError | 🏗️ TODO |
-| 🪟 Platform | [#309](https://github.com/dino/dino/issues/309) | Windows Support | Native Windows port | 🏗️ TODO |
+|  Refactor | UI Code | GTK4/Libadwaita 1.5 Migration | AdwFlap→AdwOverlaySplitView, Dialog→Window+HeaderBar | ✓ DONE |
+|  Build | Meson | Missing dependencies | Added libdbusmenu-glib, updated libadwaita | ✓ DONE |
+|  Deployment | Flatpak | Missing libdbusmenu | Added module to manifest | ✓ DONE |
+|  Deployment | Debian | No packaging files | Created debian/ control, rules, changelog | ✓ DONE |
+|  Deployment | CI/CD | Missing dependencies | Updated GitHub Actions workflow | ✓ DONE |
+|  Refactor | CSS System | StyleContext deprecated (GTK4.10) | Widget-scoped CSS providers | ✓ DONE |
+|  Refactor | Database | v31 schema active, no tests | Migration test suite | ! PARTIAL |
+|  Refactor | Notifications | Duplicate code (2 files) | Unified backend |  TODO |
+|  Refactor | File Transfer | 400+ line state machine | Separate providers |  TODO |
+| ! Refactor | Error Handling | 10+ error domains | Unified DinoError |  TODO |
+|  Platform | [#309](https://github.com/dino/dino/issues/309) | Windows Support | Native Windows port |  TODO |
 
 **Files Modified** (GTK4/Libadwaita 1.5 Migration):
-- ✅ 40+ UI files migrated to modern APIs
-- ✅ `AdwFlap` → `AdwOverlaySplitView` (deprecated in libadwaita 1.5)
-- ✅ `Gtk.Dialog` → `Gtk.Window` + `AdwHeaderBar` pattern
-- ✅ `preview_file_chooser_native.vala` removed (native GTK4 API)
-- ✅ Notification handling modernized
-- ✅ File widgets updated for GTK4 drag-and-drop
-- ✅ CSS adjustments for libadwaita themes
+- ✓ 40+ UI files migrated to modern APIs
+- ✓ `AdwFlap` → `AdwOverlaySplitView` (deprecated in libadwaita 1.5)
+- ✓ `Gtk.Dialog` → `Gtk.Window` + `AdwHeaderBar` pattern
+- ✓ `preview_file_chooser_native.vala` removed (native GTK4 API)
+- ✓ Notification handling modernized
+- ✓ File widgets updated for GTK4 drag-and-drop
+- ✓ CSS adjustments for libadwaita themes
 
 **CSS System Refactoring** (GTK4.10+ Future-Proof):
 
@@ -490,22 +490,22 @@ widget.get_style_context().add_provider(provider, priority);
 3. Performance test (no display-wide provider pollution)
 
 **Benefits**:
-- ✅ Zero deprecation warnings
-- ✅ Better performance (widget-scoped, not display-wide)
-- ✅ Automatic cleanup (widget lifecycle)
-- ✅ Future-proof for GTK5
-- ✅ Follows GTK4 best practices
+- ✓ Zero deprecation warnings
+- ✓ Better performance (widget-scoped, not display-wide)
+- ✓ Automatic cleanup (widget lifecycle)
+- ✓ Future-proof for GTK5
+- ✓ Follows GTK4 best practices
 
-**Status**: ✅ **COMPLETED** (Nov 20, 2025)  
+**Status**: ✓ **COMPLETED** (Nov 20, 2025)  
 **Time Spent**: 1 hour  
 **Risk**: Low (backward-compatible API)
 
 **Work Completed** (Nov 20, 2025):
-- ✅ Fixed edit/delete message buttons not appearing (removed `shortcut_action = false`)
-- ✅ Fixed button positioning using `compute_bounds()` 
-- ✅ Refactored CSS system to widget-scoped providers (GTK4 best practices)
-- ✅ Eliminated 2 StyleContext deprecation warnings
-- ✅ Clean build: 0 errors, 0 StyleContext warnings, 541 targets compiled
+- ✓ Fixed edit/delete message buttons not appearing (removed `shortcut_action = false`)
+- ✓ Fixed button positioning using `compute_bounds()` 
+- ✓ Refactored CSS system to widget-scoped providers (GTK4 best practices)
+- ✓ Eliminated 2 StyleContext deprecation warnings
+- ✓ Clean build: 0 errors, 0 StyleContext warnings, 541 targets compiled
 
 **Commits**:
 - `c9c6cc54` - fix(ui): restore edit/delete message button functionality
@@ -527,33 +527,33 @@ widget.get_style_context().add_provider(provider, priority);
 
 ---
 
-### 🎉 Phase 8: 1.0 Stable Release (Q4 2026 - v1.0.0)
+###  Phase 8: 1.0 Stable Release (Q4 2026 - v1.0.0)
 
 **Goal**: Production-ready, stable API
 
 **Requirements**:
-- ✅ Zero known crash bugs
-- ✅ Memory usage <200MB for 7-day sessions
-- ✅ 90%+ test coverage for critical paths
-- ✅ Complete documentation (API, architecture, build)
-- ✅ Performance benchmarks established
-- ✅ Accessibility audit passed
+- ✓ Zero known crash bugs
+- ✓ Memory usage <200MB for 7-day sessions
+- ✓ 90%+ test coverage for critical paths
+- ✓ Complete documentation (API, architecture, build)
+- ✓ Performance benchmarks established
+- ✓ Accessibility audit passed
 
 **Target Release**: October 2026
 
 ---
 
-## 📊 Issue Backlog (568 Remaining Issues)
+## Issue Backlog (568 Remaining Issues)
 
 ### Overview by Category
 
 | Category | Count | Top Priority Issues |
 |----------|-------|---------------------|
-| 🐛 **Bugs** | ~200 | Crashes, data loss, broken features |
-| ✨ **Features** | ~250 | UX improvements, new capabilities |
-| 📡 **XEPs** | ~50 | Protocol updates, standards compliance |
-| 🎨 **UI/UX** | ~40 | Interface polish, accessibility |
-| 📱 **Platform** | ~15 | Windows, mobile, packaging |
+|  **Bugs** | ~200 | Crashes, data loss, broken features |
+|  **Features** | ~250 | UX improvements, new capabilities |
+|  **XEPs** | ~50 | Protocol updates, standards compliance |
+|  **UI/UX** | ~40 | Interface polish, accessibility |
+|  **Platform** | ~15 | Windows, mobile, packaging |
 | 🔐 **Security** | ~13 | Encryption, certificates, privacy |
 
 **Total Upstream Issues**: 572  
@@ -570,18 +570,18 @@ widget.get_style_context().add_provider(provider, priority);
 ### Issue Tracking
 
 We'll progressively add issues to phases as we work through them:
-- ✅ Phase 1: Completed (4/4 issues)
-- 🎯 Phase 2: Defined (5 issues)
-- 🎯 Phase 3: Defined (5 issues)
-- 🎯 Phase 4: Defined (3 issues)
-- 🎯 Phase 5: Defined (4 issues)
-- 📋 Phases 6-8: High-level goals, detailed issues TBD
+- ✓ Phase 1: Completed (4/4 issues)
+- Phase 2: Defined (5 issues)
+- Phase 3: Defined (5 issues)
+- Phase 4: Defined (3 issues)
+- Phase 5: Defined (4 issues)
+- Phases 6-8: High-level goals, detailed issues TBD
 
 **Approach**: Fix bugs systematically, implement popular features, then polish for 1.0
 
 ---
 
-## 📡 XEP Protocol Compliance
+## XEP Protocol Compliance
 
 **Total XEPs Implemented**: 60+ (see [XEP_SUPPORT.md](docs/XEP_SUPPORT.md))
 
@@ -589,39 +589,39 @@ We'll progressively add issues to phases as we work through them:
 
 | Status | Count | Percentage | Description |
 |--------|-------|------------|-------------|
-| ✅ **Full UI** | ~32 | 53% | Complete backend + user interface |
-| 🔧 **Backend Only** | ~24 | 40% | Protocol implemented, no UI needed |
-| ⚠️ **Partial** | ~4 | 7% | Incomplete implementation |
+| ✓ **Full UI** | ~32 | 53% | Complete backend + user interface |
+|  **Backend Only** | ~24 | 40% | Protocol implemented, no UI needed |
+| ! **Partial** | ~4 | 7% | Incomplete implementation |
 
 ### Recently Added (Dino Extended)
 
-- ✅ **XEP-0191** (Blocking Command) - Full UI in Contacts page with status badges
-- ✅ **XEP-0424** (Message Retraction) - Backend complete, used for delete history
-- ✅ **XEP-0425** (Message Moderation) - Backend complete, MUC moderator support
+- ✓ **XEP-0191** (Blocking Command) - Full UI in Contacts page with status badges
+- ✓ **XEP-0424** (Message Retraction) - Backend complete, used for delete history
+- ✓ **XEP-0425** (Message Moderation) - Backend complete, MUC moderator support
 
 ### Missing UI Work (Backend Ready)
 
 **High Priority**:
 1. **XEP-0424** - Delete individual messages UI (1-2 days)
-   - Backend: ✅ Complete in `xmpp-vala/src/module/xep/0424_message_retraction.vala`
+   - Backend: ✓ Complete in `xmpp-vala/src/module/xep/0424_message_retraction.vala`
    - Missing: Context menu "Delete for everyone" on own messages
-   - Complexity: 🟢 Easy - Just UI button needed
+   - Complexity: DONE Easy - Just UI button needed
 
 2. **XEP-0425** - MUC moderator message deletion UI (2-3 days)
-   - Backend: ✅ Complete in `xmpp-vala/src/module/xep/0425_message_moderation.vala`
+   - Backend: ✓ Complete in `xmpp-vala/src/module/xep/0425_message_moderation.vala`
    - Missing: Context menu for moderators to delete others' messages
-   - Complexity: 🟡 Medium - Need moderator status checks
+   - Complexity: READY Medium - Need moderator status checks
 
 **Planned**:
 - **XEP-0357** (Push Notifications) - Backend + UI needed
 - **XEP-0388** (SASL2/FAST) - Modern authentication
 - **XEP-0449** (Stickers) - Fun feature for users
 
-📊 **[Full XEP Analysis](docs/XEP_UI_ANALYSIS.md)** - 400+ lines with code snippets, implementation difficulty, and priority recommendations
+ **[Full XEP Analysis](docs/XEP_UI_ANALYSIS.md)** - 400+ lines with code snippets, implementation difficulty, and priority recommendations
 
 ---
 
-## 🏗️ Quick Build Guide
+## Quick Build Guide
 
 ### One-Line Install (Ubuntu/Debian)
 
@@ -643,27 +643,27 @@ meson setup build && meson compile -C build && ./build/main/dinox
 
 ---
 
-## 🐛 Bug Reporting
+## Bug Reporting
 
 Found a bug? Please check:
 
-1. ✅ [Existing Issues](../../issues) - Maybe it's already reported
-2. ✅ [Upstream Issues](https://github.com/dino/dino/issues) - Check if it's in original
-3. ✅ Latest build - Run `git pull && meson compile -C build`
+1. ✓ [Existing Issues](../../issues) - Maybe it's already reported
+2. ✓ [Upstream Issues](https://github.com/dino/dino/issues) - Check if it's in original
+3. ✓ Latest build - Run `git pull && meson compile -C build`
 
-[🐛 Create Bug Report](../../issues/new?template=bug_report.md)
+[ Create Bug Report](../../issues/new?template=bug_report.md)
 
 ---
 
-## 💡 Feature Requests
+## Feature Requests
 
 Have an idea? Check the [Feature Roadmap](#-development-roadmap) first.
 
-[💡 Request Feature](../../issues/new?template=feature_request.md)
+[ Request Feature](../../issues/new?template=feature_request.md)
 
 ---
 
-## 👥 Contributing
+## Contributing
 
 We welcome contributions! Please read [CONTRIBUTING.md](docs/CONTRIBUTING.md).
 
@@ -678,7 +678,7 @@ git push origin feature/my-awesome-feature
 
 ---
 
-## 📞 Community
+## Community
 
 - **Issues**: [GitHub Issues](../../issues)
 - **Discussions**: [GitHub Discussions](../../discussions)
@@ -696,4 +696,4 @@ See [LICENSE](LICENSE) for full text.
 
 **Last Updated**: November 20, 2025  
 **Maintainer**: @rallep71  
-**Status**: 🟢 Active Development
+**Status**: DONE Active Development
