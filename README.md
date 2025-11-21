@@ -32,7 +32,7 @@ See [DEVELOPMENT_PLAN.md](DEVELOPMENT_PLAN.md) for complete feature list and roa
 
 ```bash
 # Clone repository
-git clone https://github.com/rallep71/dino.git
+git clone https://github.com/rallep71/dinox.git
 cd dino
 
 # Install dependencies (Debian/Ubuntu/Mint)

@@ -121,10 +121,10 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     echo -e "  3. Create release with assets"
     echo ""
     echo -e "Track progress at:"
-    echo -e "  ${YELLOW}https://github.com/rallep71/dino/actions${NC}"
+    echo -e "  ${YELLOW}https://github.com/rallep71/dinox/actions${NC}"
     echo ""
     echo -e "Release will be available at:"
-    echo -e "  ${YELLOW}https://github.com/rallep71/dino/releases/tag/$TAG${NC}"
+    echo -e "  ${YELLOW}https://github.com/rallep71/dinox/releases/tag/$TAG${NC}"
 else
     echo -e "${YELLOW}Aborted.${NC}"
     echo ""

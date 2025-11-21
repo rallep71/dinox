@@ -67,6 +67,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This is the base version from [dino/dino](https://github.com/dino/dino) that we forked from.
 
-[Unreleased]: https://github.com/rallep71/dino/compare/v0.6.0...HEAD
-[0.6.0]: https://github.com/rallep71/dino/releases/tag/v0.6.0
+[Unreleased]: https://github.com/rallep71/dinox/compare/v0.6.0...HEAD
+[0.6.0]: https://github.com/rallep71/dinox/releases/tag/v0.6.0
 [0.5.0]: https://github.com/dino/dino/releases/tag/v0.5.0

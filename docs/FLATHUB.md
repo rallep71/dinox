@@ -33,9 +33,9 @@ The appdata.xml needs to reflect that this is DinoX:
   <p>New features include: system tray support, custom server settings, comprehensive contact management with blocking, and improved message history management.</p>
   <p>It maintains full compatibility with the XMPP protocol and supports 60+ XEPs including OMEMO and OpenPGP encryption.</p>
 </description>
-<url type="homepage">https://github.com/rallep71/dino</url>
-<url type="bugtracker">https://github.com/rallep71/dino/issues</url>
-<url type="vcs-browser">https://github.com/rallep71/dino</url>
+<url type="homepage">https://github.com/rallep71/dinox</url>
+<url type="bugtracker">https://github.com/rallep71/dinox/issues</url>
+<url type="vcs-browser">https://github.com/rallep71/dinox</url>
 
 <releases>
   <release date="2025-11-21" version="0.6.0">
@@ -76,7 +76,7 @@ im.dinox.Dino  (Requires custom domain)
 2. Select "New app submission"
 3. Provide:
    - App ID: `im.github.rallep71.DinoX`
-   - Repository: https://github.com/rallep71/dino
+   - Repository: https://github.com/rallep71/dinox
    - Flatpak manifest: Already in repo
    
 4. Flathub creates a repository: `https://github.com/flathub/im.dino.Dino`

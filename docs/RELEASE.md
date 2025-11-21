@@ -117,12 +117,12 @@ Before creating a release:
 
 After pushing the tag:
 
-1. **GitHub Actions**: https://github.com/rallep71/dino/actions
+1. **GitHub Actions**: https://github.com/rallep71/dinox/actions
    - Watch the "Release" workflow
    - Usually takes 10-15 minutes
    - Builds for both x86_64 and aarch64
 
-2. **Release Page**: https://github.com/rallep71/dino/releases
+2. **Release Page**: https://github.com/rallep71/dinox/releases
    - Release appears automatically
    - All artifacts are uploaded
    - Users can download immediately

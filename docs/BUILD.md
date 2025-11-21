@@ -245,7 +245,7 @@ sudo zypper install -y \
 ### Clone Repository
 
 ```bash
-git clone https://github.com/rallep71/dino.git
+git clone https://github.com/rallep71/dinox.git
 cd dino
 ```
 
@@ -575,9 +575,9 @@ meson setup build --buildtype=release --strip
 After successful build:
 
 1. 📖 Read [ARCHITECTURE.md](ARCHITECTURE.md) to understand codebase
-2. 🐛 Check [GitHub Issues](https://github.com/rallep71/dino/issues) for bugs to fix
+2. 🐛 Check [GitHub Issues](https://github.com/rallep71/dinox/issues) for bugs to fix
 3. 👥 Read [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines
 
 ---
 
-**Questions?** Open an issue: https://github.com/rallep71/dino/issues
+**Questions?** Open an issue: https://github.com/rallep71/dinox/issues

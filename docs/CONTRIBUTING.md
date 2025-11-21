@@ -57,7 +57,7 @@ git clone https://github.com/YOUR_USERNAME/dino.git
 cd dino
 
 # Add upstream remote
-git remote add upstream https://github.com/rallep71/dino.git
+git remote add upstream https://github.com/rallep71/dinox.git
 
 # Install dependencies and build
 # (see BUILD.md for your distro)
@@ -67,7 +67,7 @@ meson compile -C build
 
 ### 2. Find Something to Work On
 
-**Good First Issues**: Check issues labeled [`good first issue`](https://github.com/rallep71/dino/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
+**Good First Issues**: Check issues labeled [`good first issue`](https://github.com/rallep71/dinox/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
 
 **Priority Areas**:
 - 🐛 Bug fixes (see [DEVELOPMENT_PLAN.md](../DEVELOPMENT_PLAN.md) Phase 1)
@@ -358,7 +358,7 @@ git push origin feature/my-feature
 ```
 
 2. **Open PR on GitHub**:
-   - Go to https://github.com/rallep71/dino
+   - Go to https://github.com/rallep71/dinox
    - Click "New Pull Request"
    - Select your branch
    - Fill out PR template (see below)
@@ -595,8 +595,8 @@ Contributors are recognized in:
 
 ## ❓ Questions?
 
-- **General questions**: [GitHub Discussions](https://github.com/rallep71/dino/discussions)
-- **Bug reports**: [GitHub Issues](https://github.com/rallep71/dino/issues)
+- **General questions**: [GitHub Discussions](https://github.com/rallep71/dinox/discussions)
+- **Bug reports**: [GitHub Issues](https://github.com/rallep71/dinox/issues)
 - **Chat**: XMPP channel `chat@dino.im` (upstream community)
 
 ---
