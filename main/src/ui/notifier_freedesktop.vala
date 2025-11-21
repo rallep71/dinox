@@ -203,7 +203,7 @@ public class Dino.Ui.FreeDesktopNotifier : NotificationProvider, Object {
         hash_table["category"] = new Variant.string("im.error");
         string[] actions = new string[] {"default", "Open preferences"};
         try {
-            uint32 notification_id = yield dbus_notifications.notify("Dino", 0, "im.dino.Dino", summary, body, actions, hash_table, -1);
+            uint32 notification_id = yield dbus_notifications.notify("DinoX", 0, "im.github.rallep71.DinoX", summary, body, actions, hash_table, -1);
 
             add_action_listener(notification_id, "default", () => {
                 GLib.Application.get_default().activate_action("preferences-account", new Variant.int32(account.id));

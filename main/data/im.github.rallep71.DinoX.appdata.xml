@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<component type="desktop">
-  <id>im.dino.Dino</id>
+<component type="desktop-application">
+  <id>im.github.rallep71.DinoX</id>
   <metadata_license>CC0-1.0</metadata_license>
   <name>Dino</name>
   <summary>Modern XMPP chat client</summary>
@@ -44,7 +44,7 @@
   <summary xml:lang="cs">Moderní XMPP klient</summary>
   <summary xml:lang="ca">Client de xat XMPP modern</summary>
   <summary xml:lang="ar">عميل دردشة XMPP عصري</summary>
-  <icon type="stock">im.dino.Dino</icon>
+  <icon type="stock">im.github.rallep71.DinoX</icon>
   <icon type="remote" width="128" height="128">https://dino.im/img/appdata/icon-dino-0.4-128x128.png</icon>
   <description>
     <p>Dino is a modern open-source chat client for the desktop. It focuses on providing a clean and reliable Jabber/XMPP experience while having your privacy in mind.</p>
@@ -189,7 +189,7 @@
   <url type="donation">https://dino.im/#donate</url>
   <url type="vcs-browser">https://github.com/dino/dino</url>
   <url type="translate">https://hosted.weblate.org/projects/dino/</url>
-  <launchable type="desktop-id">im.dino.Dino.desktop</launchable>
+  <launchable type="desktop-id">im.github.rallep71.DinoX.desktop</launchable>
   <releases>
     <release date="2025-04-11" version="0.5">
       <description>

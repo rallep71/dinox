@@ -1,10 +1,10 @@
 [Desktop Entry]
 Version=1.0
-Name=Dino
+Name=DinoX
 GenericName=Jabber/XMPP Client
 Keywords=chat;talk;im;message;xmpp;jabber;
 Exec=dino %U
-Icon=im.dino.Dino
+Icon=im.github.rallep71.DinoX
 StartupNotify=true
 Terminal=false
 Type=Application

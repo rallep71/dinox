@@ -14,16 +14,16 @@ Your app is ready for Flathub submission! Here's what you need to do:
 
 Your app needs these files (✅ = ready, ⚠️ = needs update):
 
-- ✅ `im.dino.Dino.json` - Flatpak manifest
+- ✅ `im.github.rallep71.DinoX.json` - Flatpak manifest
 - ✅ `flathub.json` - Build configuration
-- ⚠️ `im.dino.Dino.appdata.xml` - Needs version 0.6.0 entry
+- ⚠️ `im.github.rallep71.DinoX.appdata.xml` - Needs version 0.6.0 entry
 - ✅ Icons and desktop file
 
 ### 3. Update AppData for Fork
 
 The appdata.xml needs to reflect that this is DinoX:
 
-**Required changes to `main/data/im.dino.Dino.appdata.xml.in`:**
+**Required changes to `main/data/im.github.rallep71.DinoX.appdata.xml.in`:**
 
 ```xml
 <name translate="no">DinoX</name>

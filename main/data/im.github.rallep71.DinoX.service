@@ -1,0 +1,3 @@
+[D-BUS Service]
+Name=im.github.rallep71.DinoX
+Exec=dino

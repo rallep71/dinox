@@ -41,7 +41,7 @@ jobs:
             
             **Flatpak** (Recommended):
             ```bash
-            flatpak install im.dino.Dino.flatpak
+            flatpak install im.github.rallep71.DinoX.flatpak
             ```
             
             **From Source**:
@@ -120,8 +120,8 @@ jobs:
       - name: "Build Flatpak"
         uses: flatpak/flatpak-github-actions/flatpak-builder@v6
         with:
-          manifest-path: im.dino.Dino.json
-          bundle: im.dino.Dino-${{ matrix.variant.arch }}.flatpak
+          manifest-path: im.github.rallep71.DinoX.json
+          bundle: im.github.rallep71.DinoX-${{ matrix.variant.arch }}.flatpak
           arch: ${{ matrix.variant.arch }}
 
       - name: "Upload Flatpak"
@@ -130,6 +130,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.create-release.outputs.upload_url }}
-          asset_path: ./im.dino.Dino-${{ matrix.variant.arch }}.flatpak
+          asset_path: ./im.github.rallep71.DinoX-${{ matrix.variant.arch }}.flatpak
           asset_name: dinox-${{ needs.create-release.outputs.version }}-${{ matrix.variant.arch }}.flatpak
           asset_content_type: application/octet-stream

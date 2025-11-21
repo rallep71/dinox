@@ -132,7 +132,7 @@
                     <property name="name">no-channels</property>
                     <property name="child">
                       <object class="AdwStatusPage">
-                        <property name="icon-name">im.dino.Dino-symbolic</property>
+                        <property name="icon-name">im.github.rallep71.DinoX-symbolic</property>
                         <property name="title">No known channels</property>
                         <property name="description">Discover new channels or enter an XMPP address!</property>
                       </object>
@@ -144,7 +144,7 @@
                     <property name="name">offline</property>
                     <property name="child">
                       <object class="AdwStatusPage">
-                        <property name="icon-name">im.dino.Dino-symbolic</property>
+                        <property name="icon-name">im.github.rallep71.DinoX-symbolic</property>
                         <property name="title">You are offline</property>
                       </object>
                     </property>

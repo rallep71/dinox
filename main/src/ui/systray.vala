@@ -8,7 +8,7 @@ namespace Dino.Ui {
 public class StatusNotifierItem : Object {
     
     public string status { get; set; default = "Active"; }
-    public string icon_name { get; set; default = "im.dino.Dino"; }
+    public string icon_name { get; set; default = "im.github.rallep71.DinoX"; }
     public string title { get; set; default = "Dino"; }
     public string category { get; set; default = "Communications"; }
     public string id { get; set; default = "dino"; }

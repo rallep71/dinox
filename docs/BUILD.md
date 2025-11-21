@@ -331,10 +331,10 @@ cd /path/to/dino
 
 # Build and install locally
 flatpak-builder --user --install --force-clean \
-  build-flatpak im.dino.Dino.json
+  build-flatpak im.github.rallep71.DinoX.json
 
 # Run Flatpak
-flatpak run im.dino.Dino
+flatpak run im.github.rallep71.DinoX
 ```
 
 ### Export Flatpak
@@ -342,10 +342,10 @@ flatpak run im.dino.Dino
 ```bash
 # Create repository
 flatpak-builder --repo=repo --force-clean \
-  build-flatpak im.dino.Dino.json
+  build-flatpak im.github.rallep71.DinoX.json
 
 # Build single-file bundle
-flatpak build-bundle repo dino-extended.flatpak im.dino.Dino
+flatpak build-bundle repo dinox.flatpak im.github.rallep71.DinoX
 
 # Install bundle on another system
 flatpak install dino-extended.flatpak

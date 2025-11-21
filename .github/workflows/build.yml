@@ -83,6 +83,6 @@ jobs:
       - name: "Build"
         uses: flatpak/flatpak-github-actions/flatpak-builder@v6
         with:
-          manifest-path: im.dino.Dino.json
-          bundle: im.dino.Dino.flatpak
+          manifest-path: im.github.rallep71.DinoX.json
+          bundle: im.github.rallep71.DinoX.flatpak
           arch: ${{ matrix.variant.arch }}

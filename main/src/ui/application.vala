@@ -31,10 +31,10 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
     };
 
     public Application() throws Error {
-        Object(application_id: "im.dino.Dino", flags: ApplicationFlags.HANDLES_OPEN);
+        Object(application_id: "im.github.rallep71.DinoX", flags: ApplicationFlags.HANDLES_OPEN);
         init();
-        Environment.set_application_name("Dino");
-        Gtk.Window.set_default_icon_name("im.dino.Dino");
+        Environment.set_application_name("DinoX");
+        Gtk.Window.set_default_icon_name("im.github.rallep71.DinoX");
 
         create_actions();
         add_main_option_entries(options);
@@ -297,7 +297,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         }
 
         Adw.AboutDialog about_dialog = new Adw.AboutDialog();
-        about_dialog.application_icon = "im.dino.Dino";
+        about_dialog.application_icon = "im.github.rallep71.DinoX";
         about_dialog.application_name = "DinoX";
         about_dialog.issue_url = "https://github.com/rallep71/dinox/issues";
         about_dialog.title = _("About DinoX");

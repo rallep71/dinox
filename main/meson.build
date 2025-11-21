@@ -149,8 +149,8 @@ if meson.get_compiler('vala').version().version_compare('=0.56.12')
 endif
 exe_dino = executable('dino', sources, c_args: c_args, vala_args: vala_args, dependencies: dependencies, install: true, install_rpath: default_install_rpath)
 
-install_data('data/icons/scalable/apps/im.dino.Dino-symbolic.svg', install_dir: get_option('datadir') / 'icons/hicolor/symbolic/apps')
-install_data('data/icons/scalable/apps/im.dino.Dino.svg', install_dir: get_option('datadir') / 'icons/hicolor/scalable/apps')
-install_data('data/im.dino.Dino.appdata.xml', install_dir: get_option('datadir') / 'metainfo')
-install_data('data/im.dino.Dino.desktop', install_dir: get_option('datadir') / 'applications')
-install_data('data/im.dino.Dino.service', install_dir: get_option('datadir') / 'dbus-1/services')
+install_data('data/icons/scalable/apps/im.github.rallep71.DinoX-symbolic.svg', install_dir: get_option('datadir') / 'icons/hicolor/symbolic/apps')
+install_data('data/icons/scalable/apps/im.github.rallep71.DinoX.svg', install_dir: get_option('datadir') / 'icons/hicolor/scalable/apps')
+install_data('data/im.github.rallep71.DinoX.appdata.xml', install_dir: get_option('datadir') / 'metainfo')
+install_data('data/im.github.rallep71.DinoX.desktop', install_dir: get_option('datadir') / 'applications')
+install_data('data/im.github.rallep71.DinoX.service', install_dir: get_option('datadir') / 'dbus-1/services')

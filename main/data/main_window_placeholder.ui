@@ -20,7 +20,7 @@
                         <property name="vexpand">True</property>
                         <child>
                             <object class="AdwStatusPage" id="status_page">
-                                <property name="icon-name">im.dino.Dino-symbolic</property>
+                                <property name="icon-name">im.github.rallep71.DinoX-symbolic</property>
                             </object>
                         </child>
                         <child>
