@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.1] - 2025-11-22
+
+### Added
+- **User Status** - Set global presence status (Online, Away, DND, Invisible) via main menu.
+
+### Fixed
+- **Flatpak Build** - Fixed `libdbusmenu` installation path issue causing build failures.
+
 ## [0.6.0] - 2025-11-21
 
 **First release as DinoX - Complete fork and rebranding!**
