@@ -18,15 +18,21 @@
     "modules": [
         {
             "name": "protobuf",
-            "buildsystem": "autotools",
+            "buildsystem": "cmake-ninja",
+            "config-opts": [
+                "-Dprotobuf_BUILD_TESTS=OFF",
+                "-Dprotobuf_BUILD_SHARED_LIBS=ON"
+            ],
             "cleanup": [
-                "/bin"
+                "/bin",
+                "/include",
+                "/lib/cmake"
             ],
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://github.com/protocolbuffers/protobuf/releases/download/v3.6.1/protobuf-cpp-3.6.1.tar.gz",
-                    "sha256": "b3732e471a9bb7950f090fd0457ebd2536a9ba0891b7f3785919c654fe2a2529"
+                    "url": "https://github.com/protocolbuffers/protobuf/releases/download/v21.12/protobuf-cpp-3.21.12.tar.gz",
+                    "sha256": "4eab9b524aa5913c6fffb20b2a8abf5ef7f95a80bc0701f3a6dbb4c607f73460"
                 }
             ]
         },
