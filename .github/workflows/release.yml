@@ -9,25 +9,52 @@ permissions:
   contents: write
 
 jobs:
-  create-release:
-    name: "Create GitHub Release"
-    runs-on: ubuntu-24.04
-    outputs:
-      upload_url: ${{ steps.create_release.outputs.upload_url }}
-      version: ${{ steps.get_version.outputs.version }}
+  build-and-release:
+    name: "Build and Release (${{ matrix.variant.arch }})"
+    strategy:
+      matrix:
+        variant:
+          - arch: x86_64
+            runner: ubuntu-24.04
+          - arch: aarch64
+            runner: ubuntu-24.04
+    runs-on: ${{ matrix.variant.runner }}
+    container:
+      image: ghcr.io/flathub-infra/flatpak-github-actions:gnome-49
+      options: --privileged
     steps:
       - name: "Get version from tag"
         id: get_version
         run: echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
 
-      - name: "Create Release"
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: "Checkout sources"
+        uses: actions/checkout@v4
         with:
-          tag_name: ${{ github.ref }}
-          release_name: DinoX v${{ steps.get_version.outputs.version }}
+          fetch-depth: 0
+
+      - name: "Create source tarball"
+        if: matrix.variant.arch == 'x86_64'
+        run: |
+          version="${{ steps.get_version.outputs.version }}"
+          git archive --format=tar.gz --prefix=dinox-${version}/ HEAD > dinox-${version}.tar.gz
+          sha256sum dinox-${version}.tar.gz > dinox-${version}.tar.gz.sha256
+
+      - name: "Build Flatpak"
+        uses: flatpak/flatpak-github-actions/flatpak-builder@v6
+        with:
+          manifest-path: im.github.rallep71.DinoX.json
+          bundle: im.github.rallep71.DinoX-${{ matrix.variant.arch }}.flatpak
+          arch: ${{ matrix.variant.arch }}
+
+      - name: "Rename Flatpak bundle"
+        run: |
+          mv im.github.rallep71.DinoX-${{ matrix.variant.arch }}.flatpak \
+             dinox-${{ steps.get_version.outputs.version }}-${{ matrix.variant.arch }}.flatpak
+
+      - name: "Upload Release Assets"
+        uses: softprops/action-gh-release@v2
+        with:
+          name: DinoX v${{ steps.get_version.outputs.version }}
           body: |
             ## DinoX v${{ steps.get_version.outputs.version }}
             
@@ -41,7 +68,11 @@ jobs:
             
             **Flatpak** (Recommended):
             ```bash
-            flatpak install im.github.rallep71.DinoX.flatpak
+            # x86_64 systems
+            flatpak install dinox-${{ steps.get_version.outputs.version }}-x86_64.flatpak
+            
+            # aarch64/ARM64 systems
+            flatpak install dinox-${{ steps.get_version.outputs.version }}-aarch64.flatpak
             ```
             
             **From Source**:
@@ -60,76 +91,8 @@ jobs:
             - [Report Issues](https://github.com/${{ github.repository }}/issues)
           draft: false
           prerelease: false
-
-  build-source-tarball:
-    name: "Build Source Tarball"
-    needs: create-release
-    runs-on: ubuntu-24.04
-    steps:
-      - name: "Checkout sources"
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: "Create source tarball"
-        run: |
-          version="${{ needs.create-release.outputs.version }}"
-          git archive --format=tar.gz --prefix=dinox-${version}/ HEAD > dinox-${version}.tar.gz
-          sha256sum dinox-${version}.tar.gz > dinox-${version}.tar.gz.sha256
-
-      - name: "Upload source tarball"
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ needs.create-release.outputs.upload_url }}
-          asset_path: ./dinox-${{ needs.create-release.outputs.version }}.tar.gz
-          asset_name: dinox-${{ needs.create-release.outputs.version }}.tar.gz
-          asset_content_type: application/gzip
-
-      - name: "Upload checksum"
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ needs.create-release.outputs.upload_url }}
-          asset_path: ./dinox-${{ needs.create-release.outputs.version }}.tar.gz.sha256
-          asset_name: dinox-${{ needs.create-release.outputs.version }}.tar.gz.sha256
-          asset_content_type: text/plain
-
-  build-flatpak:
-    name: "Build Flatpak (${{ matrix.variant.arch }})"
-    needs: create-release
-    container:
-      image: ghcr.io/flathub-infra/flatpak-github-actions:gnome-49
-      options: --privileged
-    strategy:
-      matrix:
-        variant:
-          - arch: x86_64
-            runner: ubuntu-24.04
-          - arch: aarch64
-            runner: ubuntu-24.04-arm
-    runs-on: ${{ matrix.variant.runner }}
-    steps:
-      - name: "Checkout sources"
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: "Build Flatpak"
-        uses: flatpak/flatpak-github-actions/flatpak-builder@v6
-        with:
-          manifest-path: im.github.rallep71.DinoX.json
-          bundle: im.github.rallep71.DinoX-${{ matrix.variant.arch }}.flatpak
-          arch: ${{ matrix.variant.arch }}
-
-      - name: "Upload Flatpak"
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ needs.create-release.outputs.upload_url }}
-          asset_path: ./im.github.rallep71.DinoX-${{ matrix.variant.arch }}.flatpak
-          asset_name: dinox-${{ needs.create-release.outputs.version }}-${{ matrix.variant.arch }}.flatpak
-          asset_content_type: application/octet-stream
+          files: |
+            dinox-${{ steps.get_version.outputs.version }}-${{ matrix.variant.arch }}.flatpak
+            dinox-${{ steps.get_version.outputs.version }}.tar.gz
+            dinox-${{ steps.get_version.outputs.version }}.tar.gz.sha256
+          fail_on_unmatched_files: false
