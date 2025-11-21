@@ -20,7 +20,10 @@ GList *rtp_get_source_stats_structures(const GstStructure *stats) {
     val = gst_structure_get_value(stats, "source-stats");
     if (!val) return NULL;
 
-    if (!G_VALUE_HOLDS(val, G_TYPE_VALUE_ARRAY)) return NULL;
+    // G_TYPE_VALUE_ARRAY is deprecated, but rtpbin uses it.
+    // We use g_type_from_name to avoid the deprecation warning.
+    GType type_value_array = g_type_from_name("GValueArray");
+    if (type_value_array == G_TYPE_INVALID || !G_VALUE_HOLDS(val, type_value_array)) return NULL;
 
     arr = g_value_get_boxed(val);
     if (!arr) return NULL;
