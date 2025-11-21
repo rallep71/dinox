@@ -63,16 +63,14 @@ jobs:
         run: meson test -C build
   build-flatpak:
     needs: build
-    name: "Build Flatpak (${{ matrix.variant.arch }})"
+    name: "Build Flatpak (${{ matrix.arch }})"
     runs-on: ubuntu-24.04
     container:
       image: ghcr.io/flathub-infra/flatpak-github-actions:gnome-49
       options: --privileged
     strategy:
       matrix:
-        variant:
-          - arch: x86_64
-          - arch: aarch64
+        arch: [x86_64, aarch64]
     steps:
       - name: "Checkout sources"
         uses: actions/checkout@v4
@@ -83,4 +81,4 @@ jobs:
         with:
           manifest-path: im.github.rallep71.DinoX.json
           bundle: im.github.rallep71.DinoX.flatpak
-          arch: ${{ matrix.variant.arch }}
+          arch: ${{ matrix.arch }}
