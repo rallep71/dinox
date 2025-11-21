@@ -298,13 +298,21 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
 
         Adw.AboutDialog about_dialog = new Adw.AboutDialog();
         about_dialog.application_icon = "im.dino.Dino";
-        about_dialog.application_name = "Dino";
-        about_dialog.issue_url = "https://github.com/dino/dino/issues";
-        about_dialog.title = _("About Dino");
+        about_dialog.application_name = "DinoX";
+        about_dialog.issue_url = "https://github.com/rallep71/dino/issues";
+        about_dialog.title = _("About DinoX");
         about_dialog.version = version;
-        about_dialog.website = "https://dino.im/";
-        about_dialog.copyright = "Copyright © 2016-2025 - Dino Team";
+        about_dialog.website = "https://github.com/rallep71/dino";
+        about_dialog.copyright = "Copyright © 2016-2025 - Dino Team\nCopyright © 2025 - Ralf Peter";
         about_dialog.license_type = License.GPL_3_0;
+        about_dialog.comments = "Modern XMPP client with extended features";
+        
+        string[] developers = {
+            "Dino Team (original authors)",
+            "Ralf Peter (fork maintainer)",
+            null
+        };
+        about_dialog.developers = developers;
         about_dialog.present(window);
     }
 

@@ -1,8 +1,8 @@
-# 🚀 Dino Extended - Development Plan
+# 🚀 DinoX - Development Plan
 
-> **Fork Status**: Independent development branch of [dino/dino](https://github.com/dino/dino)  
-> **Last Updated**: November 20, 2025  
-> **Version**: 0.5.0-extended  
+> **Fork Status**: Modern XMPP client - Independent development branch of [dino/dino](https://github.com/dino/dino)  
+> **Last Updated**: November 21, 2025  
+> **Version**: 0.6.0  
 > **Original Repository**: https://github.com/dino/dino (572 open issues)
 
 ---
@@ -21,7 +21,7 @@
 
 ## 🎯 Mission Statement
 
-This fork addresses the slow development pace of the original Dino XMPP client while maintaining full XMPP protocol compliance. We focus on:
+DinoX addresses the slow development pace of the original Dino XMPP client while maintaining full XMPP protocol compliance. We focus on:
 
 1. **Stability First** - Fix critical crashes, data loss, and memory leaks
 2. **Modern UX** - Implement missing features users expect in 2025

@@ -1,10 +1,10 @@
 <img src="https://dino.im/img/logo.svg" width="80">
 
-# Dino Extended
+# DinoX
 
-**Active fork of [dino/dino](https://github.com/dino/dino) with faster development and extended features**
+**Modern XMPP client - Active fork of [dino/dino](https://github.com/dino/dino) with extended features**
 
-Dino Extended is a modern XMPP messaging client for Linux using GTK4 and Vala.
+DinoX is a modern XMPP messaging client for Linux using GTK4 and Vala.
 It supports calls, OMEMO encryption, file transfers, group chats and more.
 
 > **Status**: Active development | Based on upstream master | Database schema v32

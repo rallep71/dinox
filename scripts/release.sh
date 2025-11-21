@@ -1,5 +1,5 @@
 #!/bin/bash
-# Release script for Dino Extended
+# Release script for DinoX
 
 set -e
 
@@ -28,7 +28,7 @@ fi
 TAG="v$VERSION"
 
 echo -e "${GREEN}======================================${NC}"
-echo -e "${GREEN}Dino Extended Release Script${NC}"
+echo -e "${GREEN}DinoX Release Script${NC}"
 echo -e "${GREEN}======================================${NC}"
 echo ""
 echo -e "Version: ${YELLOW}$VERSION${NC}"
@@ -74,13 +74,13 @@ fi
 git add CHANGELOG.md
 git commit -m "chore: Release version $VERSION
 
-Release: Dino Extended v$VERSION
+Release: DinoX v$VERSION
 
 See CHANGELOG.md for full details."
 echo -e "${GREEN}✓${NC} Committed version bump"
 
 # Create annotated tag
-git tag -a "$TAG" -m "Release Dino Extended v$VERSION
+git tag -a "$TAG" -m "Release DinoX v$VERSION
 
 See CHANGELOG.md for details."
 echo -e "${GREEN}✓${NC} Created tag $TAG"

@@ -1,0 +1,65 @@
+LEGAL NOTICES
+=============
+
+DinoX
+-----
+Copyright (C) 2025 Ralf Peter
+
+This project is a fork of Dino, which is:
+Copyright (C) 2016-2025 Dino Team
+
+Both projects are licensed under the GNU General Public License v3.0.
+See the LICENSE file for the complete license text.
+
+ATTRIBUTION
+-----------
+DinoX is based on Dino, a modern XMPP client.
+
+Original Dino project:
+- Website: https://dino.im/
+- Source: https://github.com/dino/dino
+- Authors: Dino Team and contributors
+
+This fork maintains the same high standards of the original while
+adding community-requested features and faster development cycles.
+
+TRADEMARK NOTICE
+----------------
+"Dino" is a trademark of its respective owners. This fork is an
+independent community project and is NOT affiliated with, endorsed by,
+or sponsored by the original Dino Team.
+
+The name "DinoX" is used to clearly distinguish this fork
+from the original project while acknowledging its origins.
+
+DISCLAIMER
+----------
+This software is provided "as is", without warranty of any kind.
+See the GNU GPL-3.0 license for complete warranty disclaimer.
+
+CHANGES
+-------
+For a list of changes and additions made in this fork, see:
+- CHANGELOG.md - Version history
+- DEVELOPMENT_PLAN.md - Roadmap and feature list
+- docs/XEP_SUPPORT.md - Protocol implementation status
+
+CONTACT
+-------
+- Bug Reports: https://github.com/rallep71/dino/issues
+- Source Code: https://github.com/rallep71/dino
+- Documentation: https://github.com/rallep71/dino/tree/master/docs
+
+For issues with the original Dino project, please report them at:
+https://github.com/dino/dino/issues
+
+LICENSE COMPLIANCE
+------------------
+This project complies with the GNU GPL-3.0 license:
+✓ Source code is publicly available
+✓ License text is included (LICENSE file)
+✓ Original authors are credited (AUTHORS file)
+✓ Modifications are documented (CHANGELOG.md)
+✓ Same license is maintained (GPL-3.0)
+
+Last Updated: November 21, 2025

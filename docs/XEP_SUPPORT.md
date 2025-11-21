@@ -1,6 +1,6 @@
 # 📡 XMPP Extension Protocol (XEP) Support
 
-Complete list of XEPs implemented in Dino Extended with differentiated implementation status.
+Complete list of XEPs implemented in DinoX with differentiated implementation status.
 
 **Total XEPs**: 60+  
 **Compliance**: One of the most protocol-compliant XMPP clients
@@ -168,4 +168,4 @@ These are fully implemented but have no/minimal UI (by design):
 ---
 
 **Last Updated**: November 21, 2025  
-**Dino Version**: 0.5.0-extended
+**Version**: DinoX 0.6.0

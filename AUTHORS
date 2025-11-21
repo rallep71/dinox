@@ -1,0 +1,36 @@
+DinoX - Authors & Contributors
+==============================
+
+DinoX is a community-maintained fork of Dino.
+
+FORK MAINTAINER
+---------------
+Ralf Peter <ralf@example.com>
+
+ORIGINAL DINO AUTHORS
+---------------------
+Dino was created by the Dino Team.
+
+For a complete list of original Dino contributors, see:
+https://github.com/dino/dino/graphs/contributors
+
+The original Dino project can be found at:
+https://github.com/dino/dino
+https://dino.im/
+
+DINOX CONTRIBUTORS
+------------------
+(Future contributors to this fork will be listed here)
+
+- Ralf Peter - Fork maintainer, extended features development
+
+CREDITS
+-------
+This project would not exist without the excellent work of the
+original Dino Team. We are grateful for their contributions to
+the XMPP ecosystem and open source community.
+
+LICENSE
+-------
+Both Dino and DinoX are licensed under GNU GPL-3.0.
+See LICENSE file for details.
