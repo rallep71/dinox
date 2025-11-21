@@ -17,6 +17,36 @@
     ],
     "modules": [
         {
+            "name": "protobuf",
+            "buildsystem": "cmake-ninja",
+            "cleanup": [
+                "/bin"
+            ],
+            "config-opts": [
+                "-DCMAKE_BUILD_TYPE=Release",
+                "-Dprotobuf_BUILD_TESTS=OFF",
+                "-Dprotobuf_BUILD_LIBUPB=OFF"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/protocolbuffers/protobuf/releases/download/v3.21.12/protobuf-all-3.21.12.tar.gz",
+                    "sha256": "930c2c3b5ecc6c9c12615cf5ad93f1cd6e12d0aba862b572e076259970ac3a53"
+                }
+            ]
+        },
+        {
+            "name": "libprotobuf-c",
+            "buildsystem": "autotools",
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/protobuf-c/protobuf-c/releases/download/v1.5.0/protobuf-c-1.5.0.tar.gz",
+                    "sha256": "7b404c63361ed35b3667aec75cc37b54298d56dd2bcf369de3373212cc06fd98"
+                }
+            ]
+        },
+        {
             "name": "libomemo-c",
             "buildsystem": "meson",
             "cleanup": [
