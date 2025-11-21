@@ -1,10 +1,10 @@
-# 🔧 Build Instructions - Dino Extended
+# Build Instructions - DinoX
 
-Complete guide to building Dino from source on various Linux distributions.
+Complete guide to building DinoX from source on various Linux distributions.
 
 ---
 
-## 📋 Table of Contents
+## Table of Contents
 
 - [Prerequisites](#prerequisites)
 - [Debian/Ubuntu](#debianubuntu)
@@ -38,7 +38,7 @@ Complete guide to building Dino from source on various Linux distributions.
 | libgee | 0.8+ | Data structures |
 | SQLite | 3.24+ | Database |
 | ICU | any | Unicode support |
-| libdbusmenu-glib | 0.4+ | System Tray Menu |
+| libdbusmenu-glib | 0.4+ | System Tray/AppIndicator |
 
 ### Optional Dependencies (Plugins)
 
@@ -98,7 +98,7 @@ sudo apt install -y \
   libgnutls28-dev \
   libwebrtc-audio-processing-dev
 
-# Build libomemo-c (not in Ubuntu repos)
+# Build libomemo-c (required for OMEMO encryption)
 cd /tmp
 wget https://github.com/dino/libomemo-c/releases/download/v0.5.1/libomemo-c-0.5.1.tar.gz
 tar xf libomemo-c-0.5.1.tar.gz
@@ -290,10 +290,10 @@ meson compile -C build -j 2
 ./build/main/dinox
 
 # With debug logging
-DINO_LOG_LEVEL=debug ./build/main/dinoxx
+DINO_LOG_LEVEL=debug ./build/main/dinox
 
 # With verbose XMPP logging
-G_MESSAGES_DEBUG=all ./build/main/dinoxx
+G_MESSAGES_DEBUG=all ./build/main/dinox
 ```
 
 ### Install System-Wide
@@ -313,9 +313,9 @@ sudo ninja -C build uninstall
 ### Install Flatpak SDK
 
 ```bash
-# Install flatpak-builder
-sudo apt install flatpak-builder  # Debian/Ubuntu
-sudo dnf install flatpak-builder  # Fedora
+# Install flatpak-builder and dependencies
+sudo apt install flatpak-builder flatpak  # Debian/Ubuntu
+sudo dnf install flatpak-builder flatpak  # Fedora
 
 # Add Flathub
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
@@ -412,7 +412,7 @@ meson test -C build --verbose
 meson setup build --buildtype=debug
 
 # Run in GDB
-gdb --args ./build/main/dinoxx
+gdb --args ./build/main/dinox
 
 # GDB commands:
 # (gdb) run
@@ -521,7 +521,7 @@ Dino uses GTK4 which prefers Wayland but falls back to X11.
 
 **Force X11**:
 ```bash
-GDK_BACKEND=x11 ./build/main/dinoxx
+GDK_BACKEND=x11 ./build/main/dinox
 ```
 
 **Force Wayland**:
@@ -574,9 +574,9 @@ meson setup build --buildtype=release --strip
 
 After successful build:
 
-1. 📖 Read [ARCHITECTURE.md](ARCHITECTURE.md) to understand codebase
-2. 🐛 Check [GitHub Issues](https://github.com/rallep71/dinox/issues) for bugs to fix
-3. 👥 Read [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines
+1. Read [ARCHITECTURE.md](ARCHITECTURE.md) to understand codebase
+2. Check [GitHub Issues](https://github.com/rallep71/dinox/issues) for bugs to fix
+3. Read [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines
 
 ---
 
