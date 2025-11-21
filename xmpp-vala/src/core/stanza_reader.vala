@@ -38,8 +38,14 @@ public class StanzaReader {
         if (cancellable != null && cancellable.is_cancelled()) throw new IOError.CANCELLED("Input stream is canceled.");
         try {
             buffer_fill = (int) yield ((!)input).read_async(buffer, GLib.Priority.DEFAULT, cancellable);
-        } catch (TlsError.EOF e) {
-            throw new IOError.CLOSED("End of TLS stream reached");
+        } catch (Error e) {
+            if (e is TlsError.EOF) {
+                throw new IOError.CLOSED("End of TLS stream reached");
+            }
+            if (e is IOError) {
+                throw (IOError) e;
+            }
+            throw new IOError.FAILED(e.message);
         }
         if (buffer_fill == 0) throw new IOError.CLOSED("End of input stream reached.");
         buffer_pos = 0;

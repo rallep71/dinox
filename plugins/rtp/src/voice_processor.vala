@@ -106,7 +106,6 @@ public class Dino.Plugins.Rtp.VoiceProcessor : Audio.Filter {
     private static extern void set_stream_delay(void* native, int delay);
     private static extern void notify_gain_level(void* native, int gain_level);
     private static extern int get_suggested_gain_level(void* native);
-    private static extern bool get_stream_has_voice(void* native);
 
     public override bool setup(Audio.Info info) {
         debug("VoiceProcessor.setup(%s)", info.to_caps().to_string());
@@ -171,6 +170,7 @@ public class Dino.Plugins.Rtp.VoiceProcessor : Audio.Filter {
     }
 
     public override FlowReturn generate_output(out Buffer output_buffer) {
+        output_buffer = null;
         lock (adapter) {
             if (adapter.available() >= period_size) {
                 output_buffer = (Gst.Buffer) adapter.take_buffer(period_size).make_writable();

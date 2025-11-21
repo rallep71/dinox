@@ -143,10 +143,16 @@ public class HttpFileSender : FileSender, Object {
         var put_message = new Soup.Message("PUT", file_send_data.url_up);
 
 #if SOUP_3_0
-        string transfer_host = Uri.parse(file_send_data.url_up, UriFlags.NONE).get_host();
+        string transfer_host = "";
+        try {
+            transfer_host = Uri.parse(file_send_data.url_up, UriFlags.NONE).get_host();
+        } catch (Error e) {
+            warning("Failed to parse URI: %s", e.message);
+        }
         put_message.accept_certificate.connect((peer_cert, errors) => { return ConnectionManager.on_invalid_certificate(transfer_host, peer_cert, errors); });
         put_message.set_request_body(file_meta.mime_type, file_transfer.input_stream, (ssize_t) file_meta.size);
 #else
+
         put_message.request_headers.set_content_type(file_meta.mime_type, null);
         put_message.request_headers.set_content_length(file_meta.size);
         put_message.request_body.set_accumulate(false);

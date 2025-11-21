@@ -41,16 +41,17 @@ class ColorTest : Gee.TestCase {
         foreach(string hex_color in colors) {
             int r_int;
             hex_color.substring(0, 2).scanf("%x", out r_int);
-            uint8 r = (uint8) r_int;
+            //uint8 r = (uint8) r_int;
             int g_int;
             hex_color.substring(2, 2).scanf("%x", out g_int);
-            uint8 g = (uint8) g_int;
+            //uint8 g = (uint8) g_int;
             int b_int;
             hex_color.substring(4, 2).scanf("%x", out b_int);
-            uint8 b = (uint8) b_int;
+            //uint8 b = (uint8) b_int;
             //print(@"$hex_color, $r, $g, $b, $(ConsistentColor.rgb_to_angle(r, g, b))\n");
         }
     }
+
 }
 
 }

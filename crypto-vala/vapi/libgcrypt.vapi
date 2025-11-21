@@ -500,7 +500,6 @@ namespace GCrypt {
 	}
 	public Error control (ControlCommand cmd, ...);
 
-	[CCode (lower_case_cname = "cipher_")]
 	namespace Cipher {
 		[CCode (cname = "enum gcry_cipher_algos", cprefix = "GCRY_CIPHER_")]
 		public enum Algorithm {
@@ -578,6 +577,8 @@ namespace GCrypt {
 					case OCB: return "OCB";
 					case CFB8: return "CFB8";
 					case XTS: return "XTS";
+					case CCM: return "CCM";
+					case NONE: return "NONE";
 				}
 				return "NONE";
 			}

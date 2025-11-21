@@ -44,7 +44,7 @@ public class DataForm {
             get { return node.get_attribute("label", NS_URI); }
             set { node.set_attribute("label", value); }
         }
-        public virtual Type? type_ { get; internal set; default=null; }
+        public Type? type_ = null;
         public string? var {
             get { return node.get_attribute("var", NS_URI); }
             set { node.set_attribute("var", value); }
@@ -80,11 +80,6 @@ public class DataForm {
             }
             value_node.sub_nodes.clear();
             value_node.put_node(new StanzaNode.text(val));
-        }
-
-        internal void add_value_string(string val) {
-            StanzaNode node = new StanzaNode.build("value");
-            node.put_node(new StanzaNode.text(val));
         }
 
         internal Gee.List<Option>? get_options() {

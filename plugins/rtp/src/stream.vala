@@ -134,15 +134,15 @@ public class Dino.Plugins.Rtp.Stream : Xmpp.Xep.JingleRtp.Stream {
         pipe.add(recv_rtcp);
 
         // Connect RTCP
-        send_rtcp_src_pad = rtpbin.get_request_pad(@"send_rtcp_src_$rtpid");
+        send_rtcp_src_pad = rtpbin.request_pad_simple(@"send_rtcp_src_$rtpid");
         send_rtcp_src_pad.link(send_rtcp.get_static_pad("sink"));
-        recv_rtcp_sink_pad = rtpbin.get_request_pad(@"recv_rtcp_sink_$rtpid");
+        recv_rtcp_sink_pad = rtpbin.request_pad_simple(@"recv_rtcp_sink_$rtpid");
         recv_rtcp.get_static_pad("src").link(recv_rtcp_sink_pad);
 
         // Connect input
-        send_rtp_sink_pad = rtpbin.get_request_pad(@"send_rtp_sink_$rtpid");
+        send_rtp_sink_pad = rtpbin.request_pad_simple(@"send_rtp_sink_$rtpid");
         if (input != null) {
-            input_pad = input.get_request_pad(@"src_$rtpid");
+            input_pad = input.request_pad_simple(@"src_$rtpid");
             input_pad.link(send_rtp_sink_pad);
         }
 
@@ -155,7 +155,7 @@ public class Dino.Plugins.Rtp.Stream : Xmpp.Xep.JingleRtp.Stream {
         }
 
         // Connect RTP
-        recv_rtp_sink_pad = rtpbin.get_request_pad(@"recv_rtp_sink_$rtpid");
+        recv_rtp_sink_pad = rtpbin.request_pad_simple(@"recv_rtp_sink_$rtpid");
         recv_rtp.get_static_pad("src").link(recv_rtp_sink_pad);
 
         created = true;
@@ -413,7 +413,12 @@ public class Dino.Plugins.Rtp.Stream : Xmpp.Xep.JingleRtp.Stream {
     private void encrypt_and_send_rtp(owned uint8[] data) {
         Bytes bytes;
         if (crypto_session.has_encrypt) {
-            bytes = new Bytes.take(crypto_session.encrypt_rtp(data));
+            try {
+                bytes = new Bytes.take(crypto_session.encrypt_rtp(data));
+            } catch (Crypto.Error e) {
+                warning("Failed to encrypt RTP: %s", e.message);
+                return;
+            }
         } else {
             bytes = new Bytes.take(data);
         }
@@ -423,7 +428,12 @@ public class Dino.Plugins.Rtp.Stream : Xmpp.Xep.JingleRtp.Stream {
     private void encrypt_and_send_rtcp(owned uint8[] data) {
         Bytes bytes;
         if (crypto_session.has_encrypt) {
-            bytes = new Bytes.take(crypto_session.encrypt_rtcp(data));
+            try {
+                bytes = new Bytes.take(crypto_session.encrypt_rtcp(data));
+            } catch (Crypto.Error e) {
+                warning("Failed to encrypt RTCP: %s", e.message);
+                return;
+            }
         } else {
             bytes = new Bytes.take(data);
         }
@@ -612,8 +622,6 @@ public class Dino.Plugins.Rtp.Stream : Xmpp.Xep.JingleRtp.Stream {
                     if (ext != null) {
                         unowned uint8[] extension_data;
                         if (rtp_buffer.get_extension_onebyte_header(ext.id, 0, out extension_data) && extension_data.length == 1) {
-                            bool camera = (extension_data[0] & 0x8) > 0;
-                            bool flip = (extension_data[0] & 0x4) > 0;
                             uint8 rotation = extension_data[0] & 0x3;
                             uint16 rotation_degree = uint16.MAX;
                             switch(rotation) {
@@ -732,7 +740,7 @@ public class Dino.Plugins.Rtp.Stream : Xmpp.Xep.JingleRtp.Stream {
 
         if (created && sending && !paused && input != null) {
             plugin.pause();
-            input_pad = input.get_request_pad(@"src_$rtpid");
+            input_pad = input.request_pad_simple(@"src_$rtpid");
             input_pad.link(send_rtp_sink_pad);
             plugin.unpause();
         }

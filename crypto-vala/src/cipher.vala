@@ -27,7 +27,6 @@ public class SymmetricCipher {
             case GCrypt.Cipher.Mode.NONE: return "NONE";
             default: return "UNKNOWN";
         }
-        return "NONE";
     }
 
     private static GCrypt.Cipher.Mode mode_from_string(string name) {

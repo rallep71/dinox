@@ -152,7 +152,7 @@ public class Dino.Plugins.Rtp.Plugin : RootInterface, VideoCallPlugin, Object {
             uint8 rtpid = (uint8)int.parse(split[3]);
             foreach (Stream stream in streams) {
                 if (stream.rtpid == rtpid) {
-                    stream.on_ssrc_pad_added((uint32) split[4].to_uint64(), pad);
+                    stream.on_ssrc_pad_added((uint32) uint64.parse(split[4]), pad);
                 }
             }
         }
@@ -288,7 +288,7 @@ public class Dino.Plugins.Rtp.Plugin : RootInterface, VideoCallPlugin, Object {
 //        return participant;
 //    }
 
-    public Stream open_stream(Xmpp.Xep.Jingle.Content content) {
+    public Stream? open_stream(Xmpp.Xep.Jingle.Content content) {
         init_call_pipe();
         var content_params = content.content_params as Xmpp.Xep.JingleRtp.Parameters;
         if (content_params == null) return null;

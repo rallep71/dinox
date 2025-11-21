@@ -73,9 +73,15 @@ public class FileProvider : Dino.FileProvider, Object {
         head_message.request_headers.append("Accept-Encoding", "identity");
 
 #if SOUP_3_0
-        string transfer_host = Uri.parse(http_receive_data.url, UriFlags.NONE).get_host();
+        string transfer_host = "";
+        try {
+            transfer_host = Uri.parse(http_receive_data.url, UriFlags.NONE).get_host();
+        } catch (Error e) {
+            warning("Failed to parse URI: %s", e.message);
+        }
         head_message.accept_certificate.connect((peer_cert, errors) => { return ConnectionManager.on_invalid_certificate(transfer_host, peer_cert, errors); });
 #endif
+
 
         try {
 #if SOUP_3_0
@@ -111,20 +117,30 @@ public class FileProvider : Dino.FileProvider, Object {
         var get_message = new Soup.Message("GET", http_receive_data.url);
 
 #if SOUP_3_0
-        string transfer_host = Uri.parse(http_receive_data.url, UriFlags.NONE).get_host();
+        string transfer_host = "";
+        try {
+            transfer_host = Uri.parse(http_receive_data.url, UriFlags.NONE).get_host();
+        } catch (Error e) {
+            warning("Failed to parse URI: %s", e.message);
+        }
         get_message.accept_certificate.connect((peer_cert, errors) => { return ConnectionManager.on_invalid_certificate(transfer_host, peer_cert, errors); });
 #endif
 
+        try {
 #if SOUP_3_0
-        InputStream stream = yield session.send_async(get_message, GLib.Priority.LOW, file_transfer.cancellable);
+            InputStream stream = yield session.send_async(get_message, GLib.Priority.LOW, file_transfer.cancellable);
 #else
-        InputStream stream = yield session.send_async(get_message, file_transfer.cancellable);
+            InputStream stream = yield session.send_async(get_message, file_transfer.cancellable);
 #endif
-        if (file_meta.size != -1) {
-            return new LimitInputStream(stream, file_meta.size);
-        } else {
-            return stream;
+            if (file_meta.size != -1) {
+                return new LimitInputStream(stream, file_meta.size);
+            } else {
+                return stream;
+            }
+        } catch (Error e) {
+            throw new IOError.FAILED(e.message);
         }
+
     }
 
     public FileMeta get_file_meta(FileTransfer file_transfer) throws FileReceiveError {
