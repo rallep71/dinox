@@ -2,8 +2,8 @@
 
 Detailed analysis of which XEPs have UI integration and which are backend-only.
 
-**Date**: November 20, 2025  
-**Dino Version**: 0.5.0-extended
+**Date**: November 21, 2025  
+**Version**: DinoX 0.6.0
 
 ---
 

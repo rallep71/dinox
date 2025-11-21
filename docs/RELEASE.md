@@ -1,6 +1,6 @@
-# 🚀 Release Guide for Dino Extended
+# 🚀 Release Guide for DinoX
 
-This guide explains how to create releases for Dino Extended.
+This guide explains how to create releases for DinoX.
 
 ## 📋 Prerequisites
 

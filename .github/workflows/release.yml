@@ -27,11 +27,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ github.ref }}
-          release_name: Dino Extended v${{ steps.get_version.outputs.version }}
+          release_name: DinoX v${{ steps.get_version.outputs.version }}
           body: |
-            ## Dino Extended v${{ steps.get_version.outputs.version }}
+            ## DinoX v${{ steps.get_version.outputs.version }}
             
-            Active fork of [dino/dino](https://github.com/dino/dino) with extended features and faster development.
+            Modern XMPP client - Active fork of [dino/dino](https://github.com/dino/dino) with extended features.
             
             ### 🎉 What's New
             
@@ -74,8 +74,8 @@ jobs:
       - name: "Create source tarball"
         run: |
           version="${{ needs.create-release.outputs.version }}"
-          git archive --format=tar.gz --prefix=dino-extended-${version}/ HEAD > dino-extended-${version}.tar.gz
-          sha256sum dino-extended-${version}.tar.gz > dino-extended-${version}.tar.gz.sha256
+          git archive --format=tar.gz --prefix=dinox-${version}/ HEAD > dinox-${version}.tar.gz
+          sha256sum dinox-${version}.tar.gz > dinox-${version}.tar.gz.sha256
 
       - name: "Upload source tarball"
         uses: actions/upload-release-asset@v1
@@ -83,8 +83,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.create-release.outputs.upload_url }}
-          asset_path: ./dino-extended-${{ needs.create-release.outputs.version }}.tar.gz
-          asset_name: dino-extended-${{ needs.create-release.outputs.version }}.tar.gz
+          asset_path: ./dinox-${{ needs.create-release.outputs.version }}.tar.gz
+          asset_name: dinox-${{ needs.create-release.outputs.version }}.tar.gz
           asset_content_type: application/gzip
 
       - name: "Upload checksum"
@@ -93,8 +93,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.create-release.outputs.upload_url }}
-          asset_path: ./dino-extended-${{ needs.create-release.outputs.version }}.tar.gz.sha256
-          asset_name: dino-extended-${{ needs.create-release.outputs.version }}.tar.gz.sha256
+          asset_path: ./dinox-${{ needs.create-release.outputs.version }}.tar.gz.sha256
+          asset_name: dinox-${{ needs.create-release.outputs.version }}.tar.gz.sha256
           asset_content_type: text/plain
 
   build-flatpak:
@@ -131,5 +131,5 @@ jobs:
         with:
           upload_url: ${{ needs.create-release.outputs.upload_url }}
           asset_path: ./im.dino.Dino-${{ matrix.variant.arch }}.flatpak
-          asset_name: dino-extended-${{ needs.create-release.outputs.version }}-${{ matrix.variant.arch }}.flatpak
+          asset_name: dinox-${{ needs.create-release.outputs.version }}-${{ matrix.variant.arch }}.flatpak
           asset_content_type: application/octet-stream
