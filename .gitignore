@@ -1,8 +1,28 @@
+# Build artifacts
 *.o
+*.so
+*.a
+*.lo
+*.la
 build/
-Makefile
-.vscode/
-*.iml
-.idea
-.sqlite3
+.libs/
+*.gresource
 gschemas.compiled
+Makefile
+
+# IDE configurations
+.vscode/
+.idea/
+*.iml
+
+# Runtime/User data
+.sqlite3
+*.db
+*.log
+
+# OS specific
+.DS_Store
+Thumbs.db
+*~
+*.swp
+*.swo
