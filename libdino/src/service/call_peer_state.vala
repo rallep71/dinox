@@ -112,7 +112,13 @@ public class Dino.PeerState : Object {
 
         if (sid == null) sid = Xmpp.random_uuid();
 
-        Xep.Jingle.Session session = yield stream.get_module(Xep.JingleRtp.Module.IDENTITY).start_call(stream, full_jid, we_should_send_video, sid, group_call != null ? group_call.muc_jid : null);
+        Xep.Jingle.Session session;
+        try {
+            session = yield stream.get_module(Xep.JingleRtp.Module.IDENTITY).start_call(stream, full_jid, we_should_send_video, sid, group_call != null ? group_call.muc_jid : null);
+        } catch (Xep.Jingle.Error e) {
+            warning("Failed to start call: %s", e.message);
+            return;
+        }
         set_session(session);
     }
 
@@ -227,7 +233,13 @@ public class Dino.PeerState : Object {
             XmppStream stream = stream_interactor.get_stream(call.account);
             rtp_module.add_outgoing_video_content.begin(stream, session, group_call != null ? group_call.muc_jid : null, (_, res) => {
                 if (video_content_parameter == null) {
-                    Xep.Jingle.Content content = rtp_module.add_outgoing_video_content.end(res);
+                    Xep.Jingle.Content content;
+                    try {
+                        content = rtp_module.add_outgoing_video_content.end(res);
+                    } catch (Xep.Jingle.Error e) {
+                        warning("Failed to add outgoing video content: %s", e.message);
+                        return;
+                    }
                     Xep.JingleRtp.Parameters? rtp_content_parameter = content.content_params as Xep.JingleRtp.Parameters;
                     if (rtp_content_parameter != null) {
                         connect_content_signals(content, rtp_content_parameter);

@@ -420,12 +420,19 @@ namespace Dino {
                         // This is a MUJI invite
 
                         // Disregard calls from muc history
-                        DateTime? delay = Xep.DelayedDelivery.get_time_for_message(message_stanza, from_jid.bare_jid);
+                        DateTime? delay;
+                        delay = Xep.DelayedDelivery.get_time_for_message(message_stanza, from_jid.bare_jid);
                         if (delay != null) return;
 
                         string? room_jid_str = join_method_node.get_attribute("room");
                         if (room_jid_str == null) return;
-                        Jid room_jid = new Jid(room_jid_str);
+                        Jid room_jid;
+                        try {
+                            room_jid = new Jid(room_jid_str);
+                        } catch (Xmpp.InvalidJidError e) {
+                            warning("Invalid room JID in MUJI invite: %s", e.message);
+                            continue;
+                        }
                         call_state = create_recv_muji_call(account, call_id, from_jid, room_jid, message_stanza.type_);
 
                         multiparty = true;

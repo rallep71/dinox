@@ -354,7 +354,12 @@ public class Dino.CallState : Object {
         }
 
         if (cim_call_id == null) cim_call_id = Xmpp.random_uuid();
-        muc_jid = new Jid("%08x@".printf(Random.next_int()) + muc_jid.to_string()); // TODO longer?
+        try {
+            muc_jid = new Jid("%08x@".printf(Random.next_int()) + muc_jid.to_string()); // TODO longer?
+        } catch (Xmpp.InvalidJidError e) {
+            warning("Failed to create MUC JID for group call: %s", e.message);
+            return;
+        }
 
         debug("[%s] Converting call to groupcall %s", call.account.bare_jid.to_string(), muc_jid.to_string());
         yield join_group_call(muc_jid);

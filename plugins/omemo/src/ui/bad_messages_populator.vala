@@ -85,7 +85,13 @@ public class BadMessagesPopulator : Plugins.ConversationItemPopulator, Plugins.C
         }
 
         foreach (Row row in qry) {
-            Jid jid = new Jid(row[db.identity_meta.address_name]);
+            Jid jid;
+            try {
+                jid = new Jid(row[db.identity_meta.address_name]);
+            } catch (InvalidJidError e) {
+                warning("Skipping bad message item with invalid JID: %s", e.message);
+                continue;
+            }
             if (!db.identity_meta.last_message_untrusted.is_null(row)) {
                 DateTime time = new DateTime.from_unix_utc(row[db.identity_meta.last_message_untrusted]);
                 var item = new BadMessageItem(plugin, current_conversation, jid, time, BadnessType.UNTRUSTED);

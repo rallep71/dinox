@@ -85,7 +85,7 @@ public class Dino.StatelessFileSharing : StreamInteractionModule, Object {
         }
 
         if (file_manager.is_sender_trustworthy(file_transfer, conversation) && file_transfer.state == FileTransfer.State.NOT_STARTED && file_transfer.size >= 0 && file_transfer.size < 5000000) {
-            file_manager.download_file(file_transfer);
+            file_manager.download_file.begin(file_transfer);
         }
     }
 
@@ -144,7 +144,7 @@ public class Dino.StatelessFileSharing : StreamInteractionModule, Object {
                     }
                 }
                 foreach (Xep.StatelessFileSharing.FileShare file_share in file_shares) {
-                    outer.create_file_transfer(conversation, message, file_share.id, file_share.metadata, file_share.sources);
+                    outer.create_file_transfer.begin(conversation, message, file_share.id, file_share.metadata, file_share.sources);
                 }
                 return true;
             }

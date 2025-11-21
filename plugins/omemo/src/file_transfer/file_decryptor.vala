@@ -64,8 +64,6 @@ public class OmemoFileDecryptor : FileDecryptor, Object {
             cipher.set_iv(iv);
             return new ConverterInputStream(encrypted_stream, new SymmetricCipherDecrypter((owned) cipher, 16));
 
-        } catch (Crypto.Error e) {
-            throw new FileReceiveError.DECRYPTION_FAILED("OMEMO file decryption error: %s".printf(e.message));
         } catch (GLib.Error e) {
             throw new FileReceiveError.DECRYPTION_FAILED("OMEMO file decryption error: %s".printf(e.message));
         }

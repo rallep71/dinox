@@ -53,10 +53,10 @@ namespace Dino {
             if (conversation.type_ == Conversation.Type.CHAT) {
                 MessageStanza stanza = new MessageStanza() { to = conversation.counterpart };
                 Xmpp.Xep.MessageRetraction.set_retract_id(stanza, message_id_to_delete);
-                stream.get_module(MessageModule.IDENTITY).send_message(stream, stanza);
+                stream.get_module(MessageModule.IDENTITY).send_message.begin(stream, stanza);
                 delete_locally(conversation, content_item, conversation.account.bare_jid);
             } else if (conversation.type_.is_muc_semantic()) {
-                MessageStanza stanza = new MessageStanza() { to = conversation.counterpart };
+                // MessageStanza stanza = new MessageStanza() { to = conversation.counterpart };
                 Xmpp.Xep.MessageModeration.moderate.begin(stream, conversation.counterpart, message_id_to_delete);
                 // Message will be deleted locally when the MUC server sends out a moderation message
             }

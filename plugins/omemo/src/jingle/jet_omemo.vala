@@ -70,7 +70,11 @@ public class Module : XmppStreamModule, Jet.EnvelopEncoding {
         encryption_data.iv = security_params.secret.initialization_vector;
         encryption_data.keytag = security_params.secret.transport_key;
         Xep.Omemo.OmemoEncryptor encryptor = stream.get_module(Xep.Omemo.OmemoEncryptor.IDENTITY);
-        encryptor.encrypt_key_to_recipient(stream, encryption_data, peer_full_jid.bare_jid);
+        try {
+            encryptor.encrypt_key_to_recipient(stream, encryption_data, peer_full_jid.bare_jid);
+        } catch (GLib.Error e) {
+            warning("Failed to encrypt key to recipient: %s", e.message);
+        }
 
         security.put_node(encryption_data.get_encrypted_node());
     }
@@ -93,22 +97,36 @@ public class AesGcmCipher : Jet.Cipher, Object {
     }
     public Jet.TransportSecret generate_random_secret() {
         uint8[] iv = new uint8[default_iv_size];
-        Omemo.Plugin.get_context().randomize(iv);
         uint8[] key = new uint8[key_size];
-        Omemo.Plugin.get_context().randomize(key);
+        try {
+            Omemo.Plugin.get_context().randomize(iv);
+            Omemo.Plugin.get_context().randomize(key);
+        } catch (GLib.Error e) {
+            warning("Failed to generate random secret: %s", e.message);
+        }
         return new Jet.TransportSecret(key, iv);
     }
     public InputStream wrap_input_stream(InputStream input, Jet.TransportSecret secret) requires (secret.transport_key.length == key_size) {
-        SymmetricCipher cipher = new SymmetricCipher("AES-GCM");
-        cipher.set_key(secret.transport_key);
-        cipher.set_iv(secret.initialization_vector);
-        return new ConverterInputStream(input, new SymmetricCipherDecrypter((owned) cipher, 16));
+        try {
+            SymmetricCipher cipher = new SymmetricCipher("AES-GCM");
+            cipher.set_key(secret.transport_key);
+            cipher.set_iv(secret.initialization_vector);
+            return new ConverterInputStream(input, new SymmetricCipherDecrypter((owned) cipher, 16));
+        } catch (Crypto.Error e) {
+            warning("Failed to create cipher for input stream: %s", e.message);
+            return input;
+        }
     }
     public OutputStream wrap_output_stream(OutputStream output, Jet.TransportSecret secret) requires (secret.transport_key.length == key_size) {
-        Crypto.SymmetricCipher cipher = new SymmetricCipher("AES-GCM");
-        cipher.set_key(secret.transport_key);
-        cipher.set_iv(secret.initialization_vector);
-        return new ConverterOutputStream(output, new SymmetricCipherEncrypter((owned) cipher, 16));
+        try {
+            Crypto.SymmetricCipher cipher = new SymmetricCipher("AES-GCM");
+            cipher.set_key(secret.transport_key);
+            cipher.set_iv(secret.initialization_vector);
+            return new ConverterOutputStream(output, new SymmetricCipherEncrypter((owned) cipher, 16));
+        } catch (Crypto.Error e) {
+            warning("Failed to create cipher for output stream: %s", e.message);
+            return output;
+        }
     }
 }
 }

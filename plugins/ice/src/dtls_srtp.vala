@@ -149,16 +149,25 @@ public class Handler {
         InitFlags server_or_client = mode == Mode.SERVER ? InitFlags.SERVER : InitFlags.CLIENT;
         debug("Setting up DTLS connection. We're %s", mode.to_string());
 
-        CertificateCredentials cert_cred = CertificateCredentials.create();
-        int err = cert_cred.set_x509_key(credentials.own_cert, credentials.private_key);
-        throw_if_error(err);
+        CertificateCredentials cert_cred;
+        Session? session;
+        int err;
 
-        Session? session = Session.create(server_or_client | InitFlags.DATAGRAM);
-        session.enable_heartbeat(1);
-        session.set_srtp_profile_direct("SRTP_AES128_CM_HMAC_SHA1_80");
-        session.set_credentials(GnuTLS.CredentialsType.CERTIFICATE, cert_cred);
-        session.server_set_request(CertificateRequest.REQUEST);
-        session.set_priority_from_string("NORMAL:!VERS-TLS-ALL:+VERS-DTLS-ALL:+CTYPE-CLI-X509");
+        try {
+            cert_cred = CertificateCredentials.create();
+            err = cert_cred.set_x509_key(credentials.own_cert, credentials.private_key);
+            throw_if_error(err);
+
+            session = Session.create(server_or_client | InitFlags.DATAGRAM);
+            session.enable_heartbeat(1);
+            session.set_srtp_profile_direct("SRTP_AES128_CM_HMAC_SHA1_80");
+            session.set_credentials(GnuTLS.CredentialsType.CERTIFICATE, cert_cred);
+            session.server_set_request(CertificateRequest.REQUEST);
+            session.set_priority_from_string("NORMAL:!VERS-TLS-ALL:+VERS-DTLS-ALL:+CTYPE-CLI-X509");
+        } catch (Error e) {
+            warning("Failed to setup DTLS session: %s", e.message);
+            return null;
+        }
 
         session.set_transport_pointer(this);
         session.set_pull_function(pull_function);
@@ -203,7 +212,12 @@ public class Handler {
 
         uint8[] km = new uint8[150];
         Datum? client_key, client_salt, server_key, server_salt;
-        session.get_srtp_keys(km, km.length, out client_key, out client_salt, out server_key, out server_salt);
+        try {
+            session.get_srtp_keys(km, km.length, out client_key, out client_salt, out server_key, out server_salt);
+        } catch (Error e) {
+            warning("Failed to get SRTP keys: %s", e.message);
+            return null;
+        }
         if (client_key == null || client_salt == null || server_key == null || server_salt == null) {
             warning("SRTP client/server key/salt null");
         }
@@ -333,7 +347,12 @@ public class Handler {
 private uint8[] get_fingerprint(X509.Certificate certificate, DigestAlgorithm digest_algo) {
     uint8[] buf = new uint8[512];
     size_t buf_out_size = 512;
-    certificate.get_fingerprint(digest_algo, buf, ref buf_out_size);
+    try {
+        certificate.get_fingerprint(digest_algo, buf, ref buf_out_size);
+    } catch (Error e) {
+        warning("Failed to get certificate fingerprint: %s", e.message);
+        return new uint8[0];
+    }
 
     uint8[] ret = new uint8[buf_out_size];
     for (int i = 0; i < buf_out_size; i++) {

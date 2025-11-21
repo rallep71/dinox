@@ -10,7 +10,6 @@ namespace Dino.Plugins.Omemo {
 
 public class OmemoPreferencesEntry : Plugins.EncryptionPreferencesEntry {
 
-    OmemoPreferencesWidget widget;
     Plugin plugin;
 
     public OmemoPreferencesEntry(Plugin plugin) {
@@ -41,7 +40,6 @@ public class OmemoPreferencesWidget : Adw.PreferencesGroup {
     [GtkChild] private unowned Label new_keys_label;
 
     [GtkChild] private unowned Adw.PreferencesGroup keys_preferences_group;
-    [GtkChild] private unowned ListBox new_keys_listbox;
     [GtkChild] private unowned Picture qrcode_picture;
     [GtkChild] private unowned Popover qrcode_popover;
 
@@ -186,7 +184,6 @@ public class OmemoPreferencesWidget : Adw.PreferencesGroup {
 
     private void add_fingerprint(Row device, TrustLevel trust) {
         string key_base64 = device[plugin.db.identity_meta.identity_key_public_base64];
-        bool key_active = device[plugin.db.identity_meta.now_active];
         if (store != null) {
             try {
                 Address address = new Address(jid.to_string(), device[plugin.db.identity_meta.device_id]);
@@ -226,6 +223,9 @@ public class OmemoPreferencesWidget : Adw.PreferencesGroup {
                     break;
                 case TrustLevel.VERIFIED:
                     trust_str = _("Verified");
+                    break;
+                case TrustLevel.TRUSTED:
+                default:
                     break;
             }
 

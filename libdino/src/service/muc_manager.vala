@@ -129,7 +129,11 @@ public class MucManager : StreamInteractionModule, Object {
         if (!mucs_joined.has_key(account)) {
             mucs_joined[account] = new HashSet<Jid>(Jid.hash_bare_func, Jid.equals_bare_func);
         }
-        mucs_joined[account].add(jid.with_resource(res.nick ?? nick_));
+        try {
+            mucs_joined[account].add(jid.with_resource(res.nick ?? nick_));
+        } catch (Xmpp.InvalidJidError e) {
+            warning("Failed to add MUC JID to joined list: %s", e.message);
+        }
 
         return res;
     }
@@ -189,7 +193,11 @@ public class MucManager : StreamInteractionModule, Object {
 
         if (mucs_joined.has_key(conversation.account)) {
             mucs_joined[conversation.account].remove(conversation.counterpart);
-            mucs_joined[conversation.account].add(conversation.counterpart.with_resource(new_nick));
+            try {
+                mucs_joined[conversation.account].add(conversation.counterpart.with_resource(new_nick));
+            } catch (Xmpp.InvalidJidError e) {
+                warning("Failed to update MUC JID with new nick: %s", e.message);
+            }
         }
 
         // Update nick in bookmark

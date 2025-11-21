@@ -76,7 +76,7 @@ namespace Dino {
             if (file_transfer != null && file_transfer.info == message_id.to_string() && file_transfer.file_sharing_id == file_sharing_id) {
                 return file_transfer;
             }
-            return null;
+            return (FileTransfer?)null;
         }
 
         private FileTransfer? create_file_from_row_opt(RowOption row_opt, Conversation conversation) {

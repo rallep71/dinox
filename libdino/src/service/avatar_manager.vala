@@ -285,7 +285,11 @@ public class AvatarManager : StreamInteractionModule, Object {
         foreach (Row row in db.avatar.select({db.avatar.jid_id, db.avatar.hash})
                 .with(db.avatar.type_, "=", type)
                 .with(db.avatar.account_id, "=", account.id)) {
-            ret[db.get_jid_by_id(row[db.avatar.jid_id])] = row[db.avatar.hash];
+            try {
+                ret[db.get_jid_by_id(row[db.avatar.jid_id])] = row[db.avatar.hash];
+            } catch (Xmpp.InvalidJidError e) {
+                warning("Invalid JID in avatar DB: %s", e.message);
+            }
         }
         return ret;
     }

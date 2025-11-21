@@ -44,8 +44,12 @@ public class ContentItemStore : StreamInteractionModule, Object {
         Gee.TreeSet<ContentItem> items = new Gee.TreeSet<ContentItem>(ContentItem.compare_func);
 
         foreach (var row in select) {
-            ContentItem content_item = get_item_from_row(row, conversation);
-            items.add(content_item);
+            try {
+                ContentItem content_item = get_item_from_row(row, conversation);
+                items.add(content_item);
+            } catch (GLib.Error e) {
+                warning("Failed to get content item from row: %s", e.message);
+            }
         }
 
         Gee.List<ContentItem> ret = new ArrayList<ContentItem>();
@@ -152,7 +156,12 @@ public class ContentItemStore : StreamInteractionModule, Object {
         Row? row = get_content_item_row_for_message(conversation, message);
 
         if (row != null) {
-            return get_item_from_row(row, conversation);
+            try {
+                return get_item_from_row(row, conversation);
+            } catch (GLib.Error e) {
+                warning("Failed to get content item from row: %s", e.message);
+                return null;
+            }
         }
         return null;
     }
@@ -164,7 +173,12 @@ public class ContentItemStore : StreamInteractionModule, Object {
         Row? row = get_content_item_row_for_message(conversation, message);
 
         if (row != null) {
-            return get_item_from_row(row, conversation);
+            try {
+                return get_item_from_row(row, conversation);
+            } catch (GLib.Error e) {
+                warning("Failed to get content item from row: %s", e.message);
+                return null;
+            }
         }
         return null;
     }

@@ -39,7 +39,14 @@ public class NotificationEvents : StreamInteractionModule, Object {
     }
 
     public async void register_notification_provider(NotificationProvider notification_provider) {
-        if (notifier_outstanding || (yield notifier.wait_async()).get_priority() < notification_provider.get_priority()) {
+        NotificationProvider? current_notifier = null;
+        try {
+            current_notifier = yield notifier.wait_async();
+        } catch (Gee.FutureError e) {
+            warning("Failed to wait for notifier: %s", e.message);
+        }
+
+        if (notifier_outstanding || (current_notifier != null && current_notifier.get_priority() < notification_provider.get_priority())) {
             notifier_outstanding = false;
             notifier_promise.set_value(notification_provider);
         }
@@ -77,8 +84,12 @@ public class NotificationEvents : StreamInteractionModule, Object {
 
                 notify_content_item(item, conversation);
                 if (notify != Conversation.NotifySetting.OFF) {
-                    NotificationProvider notifier = yield notifier.wait_async();
-                    yield notifier.notify_message(message, conversation, conversation_display_name, participant_display_name);
+                    try {
+                        NotificationProvider notifier = yield notifier.wait_async();
+                        yield notifier.notify_message(message, conversation, conversation_display_name, participant_display_name);
+                    } catch (Gee.FutureError e) {
+                        warning("Failed to notify message: %s", e.message);
+                    }
                 }
                 break;
             case FileItem.TYPE:
@@ -91,8 +102,12 @@ public class NotificationEvents : StreamInteractionModule, Object {
 
                 notify_content_item(item, conversation);
                 if (notify != Conversation.NotifySetting.OFF) {
-                    NotificationProvider notifier = yield notifier.wait_async();
-                    yield notifier.notify_file(file_transfer, conversation, is_image, conversation_display_name, participant_display_name);
+                    try {
+                        NotificationProvider notifier = yield notifier.wait_async();
+                        yield notifier.notify_file(file_transfer, conversation, is_image, conversation_display_name, participant_display_name);
+                    } catch (Gee.FutureError e) {
+                        warning("Failed to notify file: %s", e.message);
+                    }
                 }
                 break;
             case CallItem.TYPE:
@@ -105,29 +120,41 @@ public class NotificationEvents : StreamInteractionModule, Object {
         Conversation? conversation = stream_interactor.get_module(ConversationManager.IDENTITY).get_conversation(room_jid, account, Conversation.Type.GROUPCHAT);
         if (conversation == null) return;
 
-        NotificationProvider notifier = yield notifier.wait_async();
-        yield notifier.notify_voice_request(conversation, from_jid);
+        try {
+            NotificationProvider notifier = yield notifier.wait_async();
+            yield notifier.notify_voice_request(conversation, from_jid);
+        } catch (Gee.FutureError e) {
+            warning("Failed to notify voice request: %s", e.message);
+        }
     }
 
     private async void on_received_subscription_request(Jid jid, Account account) {
         Conversation conversation = stream_interactor.get_module(ConversationManager.IDENTITY).create_conversation(jid, account, Conversation.Type.CHAT);
         if (stream_interactor.get_module(ChatInteraction.IDENTITY).is_active_focus(conversation)) return;
 
-        NotificationProvider notifier = yield notifier.wait_async();
-        yield notifier.notify_subscription_request(conversation);
+        try {
+            NotificationProvider notifier = yield notifier.wait_async();
+            yield notifier.notify_subscription_request(conversation);
+        } catch (Gee.FutureError e) {
+            warning("Failed to notify subscription request: %s", e.message);
+        }
     }
 
     private async void on_call_incoming(Call call, CallState call_state, Conversation conversation, bool video, bool multiparty) {
         if (!stream_interactor.get_module(Calls.IDENTITY).can_we_do_calls(call.account)) return;
         string conversation_display_name = get_conversation_display_name(stream_interactor, conversation, null);
 
-        NotificationProvider notifier = yield notifier.wait_async();
-        yield notifier.notify_call(call, conversation, video, multiparty, conversation_display_name);
-        call.notify["state"].connect(() => {
-            if (call.state != Call.State.RINGING) {
-                notifier.retract_call_notification.begin(call, conversation);
-            }
-        });
+        try {
+            NotificationProvider notifier = yield notifier.wait_async();
+            yield notifier.notify_call(call, conversation, video, multiparty, conversation_display_name);
+            call.notify["state"].connect(() => {
+                if (call.state != Call.State.RINGING) {
+                    notifier.retract_call_notification.begin(call, conversation);
+                }
+            });
+        } catch (Gee.FutureError e) {
+            warning("Failed to notify call: %s", e.message);
+        }
     }
 
     private async void on_invite_received(Account account, Jid room_jid, Jid from_jid, string? password, string? reason) {
@@ -139,19 +166,31 @@ public class NotificationEvents : StreamInteractionModule, Object {
             Conversation direct_conversation = new Conversation(from_jid, account, Conversation.Type.CHAT);
             inviter_display_name = get_participant_display_name(stream_interactor, direct_conversation, from_jid);
         }
-        NotificationProvider notifier = yield notifier.wait_async();
-        yield notifier.notify_muc_invite(account, room_jid, from_jid, inviter_display_name);
+        try {
+            NotificationProvider notifier = yield notifier.wait_async();
+            yield notifier.notify_muc_invite(account, room_jid, from_jid, inviter_display_name);
+        } catch (Gee.FutureError e) {
+            warning("Failed to notify muc invite: %s", e.message);
+        }
     }
 
     private async void on_connection_error(Account account, ConnectionManager.ConnectionError error) {
-        NotificationProvider notifier = yield notifier.wait_async();
-        yield notifier.notify_connection_error(account, error);
+        try {
+            NotificationProvider notifier = yield notifier.wait_async();
+            yield notifier.notify_connection_error(account, error);
+        } catch (Gee.FutureError e) {
+            warning("Failed to notify connection error: %s", e.message);
+        }
     }
 
     private async void on_focused_in(Conversation conversation) {
-        NotificationProvider notifier = yield notifier.wait_async();
-        yield notifier.retract_content_item_notifications();
-        yield notifier.retract_conversation_notifications(conversation);
+        try {
+            NotificationProvider notifier = yield notifier.wait_async();
+            yield notifier.retract_content_item_notifications();
+            yield notifier.retract_conversation_notifications(conversation);
+        } catch (Gee.FutureError e) {
+            warning("Failed to retract notifications: %s", e.message);
+        }
     }
 }
 

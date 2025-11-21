@@ -66,8 +66,8 @@ private class ConversationNotification : MetaConversationNotification {
 
     public ConversationNotification(Plugin plugin, Conversation conversation) {
         this.plugin = plugin;
-        this.jid = jid;
-        this.account = account;
+        this.jid = conversation.counterpart;
+        this.account = conversation.account;
 
         Box box = new Box(Orientation.HORIZONTAL, 5);
         Button manage_button = new Button.with_label(_("Manage"));

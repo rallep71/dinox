@@ -102,14 +102,18 @@ namespace Dino.Plugins.Omemo {
                     possible_jids.add(message.real_jid.bare_jid);
                 } else if (data.is_prekey) {
                     // pre key messages do store the identity key, so we can use that to find the real jid
-                    PreKeyOmemoMessage msg = Plugin.get_context().deserialize_signal_pre_key_message(data.encrypted_key);
-                    string identity_key = Base64.encode(msg.identity_key.serialize());
-                    foreach (Row row in db.identity_meta.get_with_device_id(identity_id, data.sid).with(db.identity_meta.identity_key_public_base64, "=", identity_key)) {
-                        try {
-                            possible_jids.add(new Jid(row[db.identity_meta.address_name]));
-                        } catch (InvalidJidError e) {
-                            warning("Ignoring invalid jid from database: %s", e.message);
+                    try {
+                        PreKeyOmemoMessage msg = Plugin.get_context().deserialize_signal_pre_key_message(data.encrypted_key);
+                        string identity_key = Base64.encode(msg.identity_key.serialize());
+                        foreach (Row row in db.identity_meta.get_with_device_id(identity_id, data.sid).with(db.identity_meta.identity_key_public_base64, "=", identity_key)) {
+                            try {
+                                possible_jids.add(new Jid(row[db.identity_meta.address_name]));
+                            } catch (InvalidJidError e) {
+                                warning("Ignoring invalid jid from database: %s", e.message);
+                            }
                         }
+                    } catch (Error e) {
+                        warning("Failed to deserialize pre-key message: %s", e.message);
                     }
                 } else {
                     // If we don't know the device name (MUC history w/o MAM), test decryption with all keys with fitting device id
