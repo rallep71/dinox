@@ -32,7 +32,7 @@ assignees: ''
 ## 🖥️ Environment
 
 **Dino Version**: 
-<!-- Run: ./build/main/dino --version -->
+<!-- Run: ./build/main/dinox --version -->
 <!-- Or check About dialog -->
 
 **OS**: 
@@ -53,7 +53,7 @@ assignees: ''
 
 ```
 <!-- Paste logs here -->
-<!-- Run with: DINO_LOG_LEVEL=debug ./build/main/dino 2>&1 | tee dino.log -->
+<!-- Run with: DINO_LOG_LEVEL=debug ./build/main/dinox 2>&1 | tee dino.log -->
 <!-- Or check: ~/.local/share/dino/dino.log -->
 ```
 

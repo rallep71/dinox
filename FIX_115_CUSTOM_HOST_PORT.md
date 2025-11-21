@@ -160,7 +160,7 @@ Compilation succeeded - 27 warning(s)
 1. **Start Dino**:
    ```bash
    cd /media/linux/SSD128/xmpp
-   ./build/main/dino
+   ./build/main/dinox
    ```
 
 2. **Add New Account**:

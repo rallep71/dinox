@@ -636,7 +636,7 @@ sudo apt install -y meson ninja-build valac \
   libdbusmenu-glib-dev
 
 # Build & run
-meson setup build && meson compile -C build && ./build/main/dino
+meson setup build && meson compile -C build && ./build/main/dinox
 ```
 
 📖 **[Full Build Instructions](docs/BUILD.md)** for other distros and Flatpak

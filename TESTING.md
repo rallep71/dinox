@@ -30,7 +30,7 @@ meson test -C build --verbose
 - No segmentation fault occurs
 
 **Manual Reproduction:**
-1. Start Dino: `./build/main/dino --print-xmpp=all`
+1. Start Dino: `./build/main/dinox --print-xmpp=all`
 2. Try to upload a file larger than server limit
 3. Expected behavior:
    - ✅ Error message displayed
@@ -39,7 +39,7 @@ meson test -C build --verbose
 
 **With Valgrind (memory check):**
 ```bash
-valgrind --leak-check=full ./build/main/dino
+valgrind --leak-check=full ./build/main/dinox
 # Upload file, trigger error, exit Dino
 # Check output for memory leaks
 ```
@@ -114,7 +114,7 @@ valgrind \
   --leak-check=full \
   --show-leak-kinds=all \
   --track-origins=yes \
-  ./build/main/dino
+  ./build/main/dinox
 
 # Use the application
 # Close Dino
@@ -125,7 +125,7 @@ valgrind \
 
 ```bash
 sudo apt install heaptrack heaptrack-gui
-heaptrack ./build/main/dino
+heaptrack ./build/main/dinox
 # Use application
 # Close and analyze: heaptrack_gui heaptrack.dino.*.zst
 ```
@@ -185,14 +185,14 @@ ninja -C build coverage-html
 
 ```bash
 # Run test under GDB
-gdb --args build/main/dino
+gdb --args build/main/dinox
 # Set breakpoints, run, debug
 
 # Check logs
 tail -f ~/.local/share/dino/dino.log
 
 # Enable debug output
-G_MESSAGES_DEBUG=all ./build/main/dino
+G_MESSAGES_DEBUG=all ./build/main/dinox
 ```
 
 ---

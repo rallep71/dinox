@@ -287,13 +287,13 @@ meson compile -C build -j 2
 
 ```bash
 # Run directly from build directory
-./build/main/dino
+./build/main/dinox
 
 # With debug logging
-DINO_LOG_LEVEL=debug ./build/main/dino
+DINO_LOG_LEVEL=debug ./build/main/dinoxx
 
 # With verbose XMPP logging
-G_MESSAGES_DEBUG=all ./build/main/dino
+G_MESSAGES_DEBUG=all ./build/main/dinoxx
 ```
 
 ### Install System-Wide
@@ -412,7 +412,7 @@ meson test -C build --verbose
 meson setup build --buildtype=debug
 
 # Run in GDB
-gdb --args ./build/main/dino
+gdb --args ./build/main/dinoxx
 
 # GDB commands:
 # (gdb) run
@@ -430,7 +430,7 @@ sudo apt install valgrind
 valgrind --leak-check=full --show-leak-kinds=all \
   --track-origins=yes --verbose \
   --log-file=valgrind-out.txt \
-  ./build/main/dino
+  ./build/main/dinox
 
 # Check results
 less valgrind-out.txt
@@ -521,19 +521,19 @@ Dino uses GTK4 which prefers Wayland but falls back to X11.
 
 **Force X11**:
 ```bash
-GDK_BACKEND=x11 ./build/main/dino
+GDK_BACKEND=x11 ./build/main/dinoxx
 ```
 
 **Force Wayland**:
 ```bash
-GDK_BACKEND=wayland ./build/main/dino
+GDK_BACKEND=wayland ./build/main/dinox
 ```
 
 ### High DPI Displays
 
 GTK4 auto-detects scaling. To force:
 ```bash
-GDK_SCALE=2 ./build/main/dino
+GDK_SCALE=2 ./build/main/dinox
 ```
 
 ### PipeWire (Audio/Video)

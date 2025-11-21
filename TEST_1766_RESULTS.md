@@ -157,7 +157,7 @@ Time(s)  | RSS(MB)  | Growth  | Status
 4. **Valgrind Memory Leak Check**
    ```bash
    valgrind --leak-check=full --show-leak-kinds=all \
-            ./build/main/dino 2>&1 | tee valgrind_1766.log
+            ./build/main/dinox 2>&1 | tee valgrind_1766.log
    # Run for 30+ minutes, check for "definitely lost" leaks
    ```
 

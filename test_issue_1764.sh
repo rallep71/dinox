@@ -18,7 +18,7 @@ YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
 # Check if Dino is built
-if [ ! -f "build/main/dino" ]; then
+if [ ! -f "build/main/dinox" ]; then
     echo -e "${RED}Error: Dino not built. Run: meson compile -C build${NC}"
     exit 1
 fi
@@ -90,7 +90,7 @@ EOF
         echo ""
         echo "Steps:"
         echo "1. Ensure your XMPP server has file upload with size limit"
-        echo "2. Run: ./build/main/dino --print-xmpp=all 2>&1 | tee upload_test.log"
+        echo "2. Run: ./build/main/dinox --print-xmpp=all 2>&1 | tee upload_test.log"
         echo "3. Try to upload file larger than server limit"
         echo "4. Watch for error and check for segfault"
         echo ""
@@ -121,7 +121,7 @@ EOF
             --track-origins=yes \
             --verbose \
             --log-file=valgrind_1764.log \
-            ./build/main/dino 2>&1 | tee dino_valgrind.log
+            ./build/main/dinox 2>&1 | tee dino_valgrind.log
         
         echo ""
         echo -e "${GREEN}Valgrind output saved to:${NC}"
