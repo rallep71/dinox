@@ -4,7 +4,7 @@
 
 set -e
 
-DINO_BIN="./build/main/dino"
+DINO_BIN="./build/main/dinox"
 TEST_DURATION=300  # 5 minutes for quick test
 MEMORY_THRESHOLD_MB=500  # Alert if RAM > 500MB
 

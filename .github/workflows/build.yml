@@ -63,7 +63,8 @@ jobs:
         run: meson test -C build
   build-flatpak:
     needs: build
-    name: "Build Flatpak"
+    name: "Build Flatpak (${{ matrix.variant.arch }})"
+    runs-on: ubuntu-24.04
     container:
       image: ghcr.io/flathub-infra/flatpak-github-actions:gnome-49
       options: --privileged
@@ -71,10 +72,7 @@ jobs:
       matrix:
         variant:
           - arch: x86_64
-            runner: ubuntu-24.04
           - arch: aarch64
-            runner: ubuntu-24.04-arm
-    runs-on: ${{ matrix.variant.runner }}
     steps:
       - name: "Checkout sources"
         uses: actions/checkout@v4

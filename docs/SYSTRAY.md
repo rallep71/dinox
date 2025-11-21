@@ -81,7 +81,7 @@ dbus-send --session --dest=:1.XXX --type=method_call --print-reply \
 ### Systray-Logs:
 ```bash
 # Starte Dino mit Debug-Ausgabe
-G_MESSAGES_DEBUG=all ./build/main/dino 2>&1 | grep -i systray
+G_MESSAGES_DEBUG=all ./build/main/dinox 2>&1 | grep -i systray
 ```
 
 Expected output:

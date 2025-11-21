@@ -129,14 +129,14 @@ This HashMap stores **ALL** incoming MAM (Message Archive Management) message st
 
 ```bash
 # With Heaptrack (detailed analysis)
-heaptrack ./build/main/dino
+heaptrack ./build/main/dinox
 # Run for 30+ minutes, then quit
 heaptrack_gui heaptrack.dino.*.gz
 
 # With Valgrind (leak detection)
 valgrind --leak-check=full --show-leak-kinds=all \
          --track-origins=yes \
-         ./build/main/dino 2>&1 | tee valgrind_1766.log
+         ./build/main/dinox 2>&1 | tee valgrind_1766.log
 ```
 
 ### Automated Testing

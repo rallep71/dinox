@@ -114,7 +114,7 @@ Weitere Analyse notwendig.
 3. **Memory Check**:
    ```bash
    # Dino unter Valgrind neu starten:
-   valgrind --leak-check=full ./build/main/dino
+   valgrind --leak-check=full ./build/main/dinox
    # Upload fehlschlagen lassen
    # Prüfen: keine Memory-Leaks
    ```

@@ -114,7 +114,7 @@ git checkout -b bugfix/fix-database-crash
 # Make your changes in appropriate files
 # Test your changes
 meson compile -C build
-./build/main/dino
+./build/main/dinox
 
 # Run tests
 meson test -C build
@@ -485,7 +485,7 @@ Before submitting PR, test:
 
 **Check logs**:
 ```bash
-DINO_LOG_LEVEL=debug ./build/main/dino 2>&1 | tee dino.log
+DINO_LOG_LEVEL=debug ./build/main/dinox 2>&1 | tee dino.log
 # Reproduce issue, then check dino.log
 ```
 

@@ -147,7 +147,7 @@ endif
 if meson.get_compiler('vala').version().version_compare('=0.56.12')
     vala_args += ['-D', 'VALA_0_56_12']
 endif
-exe_dino = executable('dino', sources, c_args: c_args, vala_args: vala_args, dependencies: dependencies, install: true, install_rpath: default_install_rpath)
+exe_dino = executable('dinox', sources, c_args: c_args, vala_args: vala_args, dependencies: dependencies, install: true, install_rpath: default_install_rpath)
 
 # Install app icons (scalable)
 install_data('data/icons/scalable/apps/im.github.rallep71.DinoX-symbolic.svg', install_dir: get_option('datadir') / 'icons/hicolor/symbolic/apps')

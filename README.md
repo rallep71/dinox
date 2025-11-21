@@ -97,7 +97,7 @@ sudo apt install -y build-essential meson ninja-build valac \
 # Build and run
 meson setup build
 meson compile -C build
-./build/main/dino
+./build/main/dinox
 
 # Install system-wide (optional)
 sudo meson install -C build
@@ -118,7 +118,9 @@ After installation, you can:
 
 ```bash
 # Run with debug logging
-DINO_LOG_LEVEL=debug ./build/main/dino
+```bash
+DINO_LOG_LEVEL=debug ./build/main/dinoxx
+```
 
 # Or for Flatpak
 flatpak run --env=DINO_LOG_LEVEL=debug im.github.rallep71.DinoX
