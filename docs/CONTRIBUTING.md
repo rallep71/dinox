@@ -1,10 +1,10 @@
-# 👥 Contributing to Dino Extended
+# Contributing to DinoX
 
 Thank you for your interest in contributing! This document provides guidelines and information for contributors.
 
 ---
 
-## 📋 Table of Contents
+## Table of Contents
 
 - [Code of Conduct](#code-of-conduct)
 - [Getting Started](#getting-started)
@@ -17,7 +17,7 @@ Thank you for your interest in contributing! This document provides guidelines a
 
 ---
 
-## 📜 Code of Conduct
+## Code of Conduct
 
 ### Our Pledge
 
@@ -29,22 +29,22 @@ We are committed to providing a welcoming and inclusive environment for all cont
 
 ### Expected Behavior
 
-- ✅ Be respectful and constructive
-- ✅ Accept feedback gracefully
-- ✅ Focus on what's best for the project
-- ✅ Help newcomers get started
+- Be respectful and constructive
+- Accept feedback gracefully
+- Focus on what's best for the project
+- Help newcomers get started
 
 ### Unacceptable Behavior
 
-- ❌ Harassment, discrimination, or personal attacks
-- ❌ Trolling or inflammatory comments
-- ❌ Publishing others' private information
+- Harassment, discrimination, or personal attacks
+- Trolling or inflammatory comments
+- Publishing others' private information
 
 **Enforcement**: Violations can be reported to maintainers. We reserve the right to remove contributions or ban users who violate these guidelines.
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### 1. Set Up Development Environment
 
@@ -70,10 +70,10 @@ meson compile -C build
 **Good First Issues**: Check issues labeled [`good first issue`](https://github.com/rallep71/dinox/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
 
 **Priority Areas**:
-- 🐛 Bug fixes (see [DEVELOPMENT_PLAN.md](../DEVELOPMENT_PLAN.md) Phase 1)
-- 🌍 Translations (`main/po/*.po` files)
-- 📖 Documentation improvements
-- 🧪 Test coverage expansion
+- Bug fixes (see [DEVELOPMENT_PLAN.md](../DEVELOPMENT_PLAN.md) Phase 1)
+- Translations (`main/po/*.po` files)
+- Documentation improvements
+- Test coverage expansion
 
 **Before Starting**:
 1. Check if issue is already assigned
@@ -82,7 +82,7 @@ meson compile -C build
 
 ---
 
-## 🔄 Development Workflow
+## Development Workflow
 
 ### Branch Strategy
 
@@ -136,7 +136,7 @@ git rebase --continue
 
 ---
 
-## 📝 Coding Standards
+## Coding Standards
 
 ### Vala Style Guide
 
@@ -252,7 +252,7 @@ public class MyClass : Object {
 
 ---
 
-## 📝 Commit Guidelines
+## Commit Guidelines
 
 ### Commit Message Format
 
@@ -329,16 +329,16 @@ Reduces code duplication by ~300 lines.
 
 **Bad commits**:
 ```
-❌ fix bug
-❌ update files
-❌ WIP
-❌ asdf
-❌ Fixed the thing that was broken
+fix bug
+update files
+WIP
+asdf
+Fixed the thing that was broken
 ```
 
 ---
 
-## 🔀 Pull Request Process
+## Pull Request Process
 
 ### Before Submitting
 
@@ -420,7 +420,7 @@ git push origin --delete feature/my-feature
 
 ---
 
-## 🧪 Testing Requirements
+## Testing Requirements
 
 ### Running Tests
 
@@ -477,11 +477,11 @@ class JidTest : Gee.TestCase {
 ### Manual Testing
 
 Before submitting PR, test:
-- ✅ Basic messaging (send/receive)
-- ✅ File transfers
-- ✅ Encryption (if affected)
-- ✅ Calls (if RTP/ICE affected)
-- ✅ No crashes or errors in logs
+- Basic messaging (send/receive)
+- File transfers
+- Encryption (if affected)
+- Calls (if RTP/ICE affected)
+- No crashes or errors in logs
 
 **Check logs**:
 ```bash
@@ -491,7 +491,7 @@ DINO_LOG_LEVEL=debug ./build/main/dinox 2>&1 | tee dino.log
 
 ---
 
-## 📖 Documentation
+## Documentation
 
 ### Code Documentation
 
@@ -553,7 +553,7 @@ ninja -C build dino-update-po
 
 ---
 
-## 🌍 Translation Contributions
+## Translation Contributions
 
 We welcome translations! Dino supports 40+ languages.
 
@@ -584,7 +584,7 @@ echo "pt_BR" >> LINGUAS
 
 ---
 
-## 🎖️ Recognition
+## Recognition
 
 Contributors are recognized in:
 - Git commit history
@@ -593,7 +593,7 @@ Contributors are recognized in:
 
 ---
 
-## ❓ Questions?
+## Questions?
 
 - **General questions**: [GitHub Discussions](https://github.com/rallep71/dinox/discussions)
 - **Bug reports**: [GitHub Issues](https://github.com/rallep71/dinox/issues)
@@ -601,4 +601,4 @@ Contributors are recognized in:
 
 ---
 
-**Thank you for contributing to Dino Extended!** 🎉
+**Thank you for contributing to DinoX!**
