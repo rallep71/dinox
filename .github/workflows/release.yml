@@ -32,12 +32,14 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: "Fix git safe directory"
+        run: git config --global --add safe.directory '*'
+
       - name: "Create source tarball"
         if: matrix.variant.arch == 'x86_64'
         run: |
+          git config --global --add safe.directory '*'
           version="${{ steps.get_version.outputs.version }}"
-          git archive --format=tar.gz --prefix=dinox-${version}/ HEAD > dinox-${version}.tar.gz
-          sha256sum dinox-${version}.tar.gz > dinox-${version}.tar.gz.sha256
 
       - name: "Build Flatpak"
         uses: flatpak/flatpak-github-actions/flatpak-builder@v6
