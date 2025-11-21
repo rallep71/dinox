@@ -56,7 +56,12 @@ public class Module : Jingle.ContentType, XmppStreamModule {
             warning("Sending file %s without size, likely going to cause problems down the road...", basename);
         }
 
-        Parameters parameters = Parameters.parse(this, description);
+        Parameters parameters;
+        try {
+            parameters = Parameters.parse(this, description);
+        } catch (Xmpp.Xep.Jingle.IqError e) {
+            throw new Jingle.Error.BAD_REQUEST(e.message);
+        }
 
         Jingle.Module jingle_module = stream.get_module(Jingle.Module.IDENTITY);
 

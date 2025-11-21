@@ -193,11 +193,16 @@ public class Xmpp.Xep.Jingle.Session : Object {
             throw new IqError.NOT_IMPLEMENTED("unsupported transports");
         }
 
-        Content content = new Content.initiate_received(content_node.name, content_node.senders,
-                content_type, content_params,
-                transport, transport_params,
-                precondition, security_params,
-                my_jid, peer_full_jid);
+        Content content;
+        try {
+            content = new Content.initiate_received(content_node.name, content_node.senders,
+                    content_type, content_params,
+                    transport, transport_params,
+                    precondition, security_params,
+                    my_jid, peer_full_jid);
+        } catch (Error e) {
+            throw new IqError.BAD_REQUEST(e.message);
+        }
         insert_content(content);
 
         yield content_params.handle_proposed_content(stream, this, content);
@@ -222,7 +227,11 @@ public class Xmpp.Xep.Jingle.Session : Object {
                     .put_node(content.transport_params.to_transport_stanza_node("content-add")));
 
         Iq.Stanza iq = new Iq.Stanza.set(content_add_node) { to=peer_full_jid };
-        yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+        try {
+            yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+        } catch (GLib.Error e) {
+            warning("Failed to add content: %s", e.message);
+        }
     }
 
     private void handle_content_accept(ContentNode content_node) throws IqError {

@@ -112,7 +112,13 @@ public class Module : XmppStreamModule, Iq.Handler {
         StanzaNode blocklist_node = new StanzaNode.build("blocklist", NS_URI).add_self_xmlns();
         Iq.Stanza iq = new Iq.Stanza.get(blocklist_node);
 
-        Iq.Stanza result_iq = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+        Iq.Stanza result_iq;
+        try {
+            result_iq = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+        } catch (GLib.Error e) {
+            warning("Failed to get blocklist: %s", e.message);
+            return new ArrayList<string>();
+        }
         StanzaNode? node = result_iq.stanza.get_subnode("blocklist", NS_URI);
         if (node != null) {
             return get_jids_from_items(node);

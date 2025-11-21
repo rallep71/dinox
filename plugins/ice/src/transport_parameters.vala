@@ -17,7 +17,6 @@ public class Dino.Plugins.Ice.TransportParameters : JingleIceUdp.IceUdpTransport
         private Nice.Agent agent;
         private DtlsSrtp.Handler? dtls_srtp_handler;
         private uint stream_id;
-        private string? error;
         private ulong datagram_received_id;
 
         public DatagramConnection(Nice.Agent agent, DtlsSrtp.Handler? dtls_srtp_handler, uint stream_id, uint8 component_id) {

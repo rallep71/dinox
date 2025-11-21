@@ -56,7 +56,13 @@ namespace Xmpp.Xep.Muji {
                 muji_node.put_node(content_node);
             }
 
-            Presence.Stanza presence_stanza = new Presence.Stanza() { to=muc_jid.with_resource(group_call.our_nick) };
+            Presence.Stanza presence_stanza;
+            try {
+                presence_stanza = new Presence.Stanza() { to=muc_jid.with_resource(group_call.our_nick) };
+            } catch (Xmpp.InvalidJidError e) {
+                warning("Invalid JID for MUJI presence: %s", e.message);
+                return null;
+            }
             presence_stanza.stanza.put_node(muji_node);
             stream.get_module(Presence.Module.IDENTITY).send_presence(stream, presence_stanza);
 
@@ -86,7 +92,12 @@ namespace Xmpp.Xep.Muji {
             GroupCall group_call = stream.get_flag(Flag.IDENTITY).calls[muc_jid];
             group_call.waiting_for_finish_prepares[promise] = preparing_peers;
 
-            return yield promise.future.wait_async();
+            try {
+                return yield promise.future.wait_async();
+            } catch (Gee.FutureError e) {
+                warning("MUJI wait failed: %s", e.message);
+                return new ArrayList<Presence.Stanza>();
+            }
         }
 
         private async void compute_payload_intersection(XmppStream stream, GroupCall group_call, string media) {

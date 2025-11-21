@@ -143,7 +143,12 @@ public class Xmpp.Xep.Jingle.Content : Object {
     }
 
     internal void handle_accept(XmppStream stream, ContentNode content_node) {
-        this.transport_params.handle_transport_accept(content_node.transport);
+        try {
+            this.transport_params.handle_transport_accept(content_node.transport);
+        } catch (IqError e) {
+            warning("Failed to handle transport accept: %s", e.message);
+            return;
+        }
         this.transport_params.create_transport_connection(stream, this);
         this.content_params.handle_accept(stream, this.session, this, content_node.description);
     }
@@ -157,7 +162,13 @@ public class Xmpp.Xep.Jingle.Content : Object {
             return;
         }
         tried_transport_methods.add(new_transport.ns_uri);
-        transport_params = new_transport.create_transport_parameters(stream, transport_params.components, local_full_jid, peer_full_jid);
+        try {
+            transport_params = new_transport.create_transport_parameters(stream, transport_params.components, local_full_jid, peer_full_jid);
+        } catch (Error e) {
+            warning("Failed to create transport parameters: %s", e.message);
+            session.terminate(ReasonElement.FAILED_TRANSPORT, null, "failed to create transport parameters");
+            return;
+        }
         set_transport_params(transport_params);
         session.send_transport_replace(this, transport_params);
         state = State.REPLACING_TRANSPORT;

@@ -13,7 +13,13 @@ namespace Xmpp.Xep.MessageModeration {
                 .put_node(new StanzaNode.build("retract", Xep.MessageRetraction.NS_URI).add_self_xmlns());
         Iq.Stanza iq = new Iq.Stanza.set(moderate_node) { to = muc_jid };
 
-        Iq.Stanza result_stanza = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+        Iq.Stanza result_stanza;
+        try {
+            result_stanza = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+        } catch (GLib.Error e) {
+            warning("Failed to moderate message: %s", e.message);
+            return false;
+        }
         return !result_stanza.is_error();
     }
 }

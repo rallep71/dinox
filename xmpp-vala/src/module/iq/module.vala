@@ -19,9 +19,9 @@ namespace Xmpp.Iq {
             Iq.Stanza? return_stanza = null;
             responseListeners[iq.id] = new ResponseListener((_, result_iq) => {
                 return_stanza = result_iq;
-                Idle.add(callback);
+                Idle.add(send_iq_async.callback);
             });
-            stream.write_async(iq.stanza, io_priority, cancellable);
+            stream.write_async.begin(iq.stanza, io_priority, cancellable);
             yield;
             cancellable.set_error_if_cancelled();
             return return_stanza;

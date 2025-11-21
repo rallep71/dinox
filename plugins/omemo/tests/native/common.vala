@@ -60,9 +60,9 @@ bool fail_if_not(bool exp, string? reason = null) {
     return fail_if(!exp, reason);
 }
 
-bool fail_if_eq_int(int left, int right, string? reason = null) {
-    return fail_if(left == right, @"$(reason + ": " ?? "")$left == $right");
-}
+// bool fail_if_eq_int(int left, int right, string? reason = null) {
+//     return fail_if(left == right, @"$(reason + ": " ?? "")$left == $right");
+// }
 
 bool fail_if_not_eq_int(int left, int right, string? reason = null) {
     return fail_if_not(left == right, @"$(reason + ": " ?? "")$left != $right");
@@ -81,9 +81,9 @@ bool fail_if_not_zero_int(int zero, string? reason = null) {
     return fail_if_not_eq_int(zero, 0, reason);
 }
 
-bool fail_if_zero_int(int zero, string? reason = null) {
-    return fail_if_eq_int(zero, 0, reason);
-}
+// bool fail_if_zero_int(int zero, string? reason = null) {
+//     return fail_if_eq_int(zero, 0, reason);
+// }
 
 bool fail_if_null(void* what, string? reason = null) {
     return fail_if(what == null || (size_t)what == 0, reason);

@@ -19,7 +19,13 @@ namespace Dino {
         }
 
         public async void fill_metadata(File file, Xep.FileMetadataElement.FileMetadata metadata) {
-            FileInfo info = file.query_info("*", FileQueryInfoFlags.NONE);
+            FileInfo info;
+            try {
+                info = file.query_info("*", FileQueryInfoFlags.NONE);
+            } catch (GLib.Error e) {
+                warning("Failed to query file info: %s", e.message);
+                return;
+            }
 
             metadata.name = info.get_display_name();
             metadata.mime_type = info.get_content_type();
@@ -36,7 +42,12 @@ namespace Dino {
 
     public class ImageFileMetadataProvider: Dino.FileMetadataProvider, Object {
         public bool supports_file(File file) {
-            string mime_type = file.query_info("*", FileQueryInfoFlags.NONE).get_content_type();
+            string mime_type;
+            try {
+                mime_type = file.query_info("*", FileQueryInfoFlags.NONE).get_content_type();
+            } catch (GLib.Error e) {
+                return false;
+            }
             return Dino.Util.is_pixbuf_supported_mime_type(mime_type);
         }
 
@@ -45,7 +56,13 @@ namespace Dino {
         private const string MIME_TYPE = "image/png";
 
         public async void fill_metadata(File file, Xep.FileMetadataElement.FileMetadata metadata) {
-            Pixbuf pixbuf = new Pixbuf.from_stream(yield file.read_async());
+            Pixbuf pixbuf;
+            try {
+                pixbuf = new Pixbuf.from_stream(yield file.read_async());
+            } catch (GLib.Error e) {
+                warning("Failed to create pixbuf from stream: %s", e.message);
+                return;
+            }
             metadata.width = pixbuf.get_width();
             metadata.height = pixbuf.get_height();
             float ratio = (float)metadata.width / (float) metadata.height;
@@ -67,7 +84,12 @@ namespace Dino {
 
             Pixbuf thumbnail_pixbuf = pixbuf.scale_simple(thumbnail_width, thumbnail_height, InterpType.BILINEAR);
             uint8[] buffer;
-            thumbnail_pixbuf.save_to_buffer(out buffer, IMAGE_TYPE);
+            try {
+                thumbnail_pixbuf.save_to_buffer(out buffer, IMAGE_TYPE);
+            } catch (GLib.Error e) {
+                warning("Failed to save thumbnail to buffer: %s", e.message);
+                return;
+            }
             var thumbnail = new Xep.JingleContentThumbnails.Thumbnail();
             thumbnail.data = new Bytes.take(buffer);
             thumbnail.media_type = MIME_TYPE;

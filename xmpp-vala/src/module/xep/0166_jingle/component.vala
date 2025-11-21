@@ -41,7 +41,11 @@ namespace Xmpp.Xep.Jingle {
             assert(!this.stream.ready);
             promise.set_value(stream);
             if (terminated != null) {
-                yield stream.close_async();
+                try {
+                    yield stream.close_async();
+                } catch (GLib.IOError e) {
+                    warning("Failed to close stream: %s", e.message);
+                }
             }
         }
 
@@ -53,7 +57,11 @@ namespace Xmpp.Xep.Jingle {
             if (terminated == null) {
                 terminated = (reason_name ?? "") + " - " + (reason_text ?? "") + @"we terminated? $we_terminated";
                 if (stream.ready) {
-                    yield stream.value.close_async();
+                    try {
+                        yield stream.value.close_async();
+                    } catch (GLib.IOError e) {
+                        warning("Failed to close stream value: %s", e.message);
+                    }
                 } else {
                     promise.set_exception(new IOError.FAILED("Jingle connection failed"));
                 }

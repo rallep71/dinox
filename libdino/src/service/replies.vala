@@ -11,7 +11,6 @@ public class Dino.Replies : StreamInteractionModule, Object {
 
     private StreamInteractor stream_interactor;
     private Database db;
-    private HashMap<Conversation, HashMap<string, Gee.List<Message>>> unmapped_replies = new HashMap<Conversation, HashMap<string, Gee.List<Message>>>();
 
     private ReceivedMessageListener received_message_listener;
 

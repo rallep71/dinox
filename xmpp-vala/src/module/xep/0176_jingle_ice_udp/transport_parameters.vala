@@ -39,7 +39,11 @@ public abstract class Xmpp.Xep.JingleIceUdp.IceUdpTransportParameters : Jingle.T
             remote_pwd = node.get_attribute("pwd");
             remote_ufrag = node.get_attribute("ufrag");
             foreach (StanzaNode candidateNode in node.get_subnodes("candidate")) {
-                remote_candidates.add(Candidate.parse(candidateNode));
+                try {
+                    remote_candidates.add(Candidate.parse(candidateNode));
+                } catch (Xmpp.Xep.Jingle.IqError e) {
+                    warning("Failed to parse candidate: %s", e.message);
+                }
             }
 
             StanzaNode? fingerprint_node = node.get_subnode("fingerprint", DTLS_NS_URI);

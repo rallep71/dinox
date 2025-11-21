@@ -17,12 +17,21 @@ public class Dino.LimitInputStream : InputStream, PollableInputStream {
         }
 
     public PollableSource create_source(Cancellable? cancellable = null) {
-            if (!can_poll()) throw new IOError.NOT_SUPPORTED("Stream is not pollable");
+            if (!can_poll()) {
+                // PollableInputStream.create_source does not throw, so we can't throw here.
+                // If the stream is not pollable, this method shouldn't be called, but if it is,
+                // we return a dummy source that wraps 'this' to satisfy the return type.
+                // Since can_poll() is false, the source will likely not trigger or behave as non-pollable.
+                warning("LimitInputStream: create_source called on non-pollable stream");
+                return new PollableSource(this);
+            }
             return ((PollableInputStream)inner).create_source(cancellable);
         }
 
     public bool is_readable() {
-            if (!can_poll()) throw new IOError.NOT_SUPPORTED("Stream is not pollable");
+            if (!can_poll()) {
+                 return false;
+            }
             // Due to https://gitlab.gnome.org/GNOME/libsoup/-/issues/473 and
             // https://gitlab.gnome.org/GNOME/glib-networking/-/issues/20, is_readable() can return false when
             // approaching end of stream even if the stream is readable.

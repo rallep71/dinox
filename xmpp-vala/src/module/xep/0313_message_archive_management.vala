@@ -68,7 +68,14 @@ public class Module : XmppStreamModule {
         // Build and send query
         Iq.Stanza iq = new Iq.Stanza.set(query_node) { to=mam_server };
 
-        Iq.Stanza result_iq = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq, Priority.LOW, cancellable);
+        Iq.Stanza result_iq;
+        try {
+            result_iq = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq, Priority.LOW, cancellable);
+        } catch (GLib.Error e) {
+            warning("Failed to query archive: %s", e.message);
+            res.error = true;
+            return res;
+        }
 
         // Parse the response IQ into a QueryResult.
         StanzaNode? fin_node = result_iq.stanza.get_subnode("fin", NS_URI);

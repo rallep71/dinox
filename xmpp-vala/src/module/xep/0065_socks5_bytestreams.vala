@@ -57,7 +57,13 @@ public class Module : XmppStreamModule, Iq.Handler {
             StanzaNode query_node = new StanzaNode.build("query", NS_URI).add_self_xmlns();
             Iq.Stanza iq = new Iq.Stanza.get(query_node) { to=item.jid };
 
-            Iq.Stanza iq_result = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+            Iq.Stanza iq_result;
+            try {
+                iq_result = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+            } catch (GLib.Error e) {
+                warning("Failed to query proxy: %s", e.message);
+                continue;
+            }
             if (iq_result.is_error()) continue;
 
             StanzaNode? query_result_node = iq_result.stanza.get_subnode("query", NS_URI);

@@ -80,7 +80,7 @@ namespace Xmpp {
 
                 connection_timeout_id = Timeout.add_seconds(30, () => {
                     warning("Connection attempt timed out");
-                    stream.disconnect();
+                    stream.disconnect.begin();
                     return Source.REMOVE;
                 });
 

@@ -9,12 +9,20 @@ public class Module : XmppStreamModule {
 
     public async void enable(XmppStream stream) {
         Iq.Stanza iq = new Iq.Stanza.set(new StanzaNode.build("enable", NS_URI).add_self_xmlns());
-        yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+        try {
+            yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+        } catch (GLib.Error e) {
+            warning("Failed to enable carbons: %s", e.message);
+        }
     }
 
     public async void disable(XmppStream stream) {
         Iq.Stanza iq = new Iq.Stanza.set(new StanzaNode.build("disable", NS_URI).add_self_xmlns());
-        yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+        try {
+            yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+        } catch (GLib.Error e) {
+            warning("Failed to disable carbons: %s", e.message);
+        }
     }
 
     public override void attach(XmppStream stream) {

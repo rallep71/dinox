@@ -106,8 +106,8 @@ private static extern unowned string? bindtextdomain(string domainname, string? 
 private static extern unowned string? bind_textdomain_codeset(string domainname, string? codeset);
 
 public static void internationalize(string gettext_package, string locales_dir) {
-    Intl.bind_textdomain_codeset(gettext_package, "UTF-8");
-    Intl.bindtextdomain(gettext_package, locales_dir);
+    bind_textdomain_codeset(gettext_package, "UTF-8");
+    bindtextdomain(gettext_package, locales_dir);
 }
 
 public static async HashMap<ChecksumType, string> compute_file_hashes(File file, Gee.List<ChecksumType> checksum_types) {
@@ -117,13 +117,24 @@ public static async HashMap<ChecksumType, string> compute_file_hashes(File file,
         checksums[i] = new Checksum(checksum_types.get(i));
     }
 
-    FileInputStream stream = yield file.read_async();
+    FileInputStream stream;
+    try {
+        stream = yield file.read_async();
+    } catch (GLib.Error e) {
+        warning("Failed to read file for checksum: %s", e.message);
+        return new HashMap<ChecksumType, string>();
+    }
+
     uint8 fbuf[1024];
     size_t size;
-    while ((size = yield stream.read_async(fbuf)) > 0) {
-        for (int i = 0; i < checksum_types.size; i++) {
-            checksums[i].update(fbuf, size);
+    try {
+        while ((size = yield stream.read_async(fbuf)) > 0) {
+            for (int i = 0; i < checksum_types.size; i++) {
+                checksums[i].update(fbuf, size);
+            }
         }
+    } catch (GLib.Error e) {
+        warning("Failed to read stream for checksum: %s", e.message);
     }
 
     var ret = new HashMap<ChecksumType, string>();

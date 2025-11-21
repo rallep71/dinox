@@ -12,7 +12,13 @@ public class Module : XmppStreamNegotiationModule {
         Iq.Stanza request_form_iq = new Iq.Stanza.get(query_node) { to=jid };
         request_form_iq.to = jid;
 
-        Iq.Stanza iq_result = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, request_form_iq);
+        Iq.Stanza iq_result;
+        try {
+            iq_result = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, request_form_iq);
+        } catch (GLib.Error e) {
+            warning("Failed to get registration form: %s", e.message);
+            return null;
+        }
         return new Form.from_node(stream, iq_result);
     }
 
@@ -21,7 +27,13 @@ public class Module : XmppStreamNegotiationModule {
         query_node.put_node(form.get_submit_node());
         Iq.Stanza iq = new Iq.Stanza.set(query_node) { to=jid };
 
-        Iq.Stanza iq_result = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+        Iq.Stanza iq_result;
+        try {
+            iq_result = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+        } catch (GLib.Error e) {
+            warning("Failed to submit registration form: %s", e.message);
+            return e.message;
+        }
         if (iq_result.is_error()) {
             ErrorStanza? error_stanza = iq_result.get_error();
             return error_stanza.text ?? "Error";
@@ -40,7 +52,13 @@ public class Module : XmppStreamNegotiationModule {
         pw_change_node.put_node(pw_node);
         Iq.Stanza set_password_iq = new Iq.Stanza.set(pw_change_node) { to=jid.bare_jid.domain_jid };
 
-        Iq.Stanza chpw_result = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, set_password_iq);
+        Iq.Stanza chpw_result;
+        try {
+            chpw_result = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, set_password_iq);
+        } catch (GLib.Error e) {
+            warning("Failed to change password: %s", e.message);
+            return null;
+        }
         if (chpw_result.is_error()) {
             return chpw_result.get_error();
         }

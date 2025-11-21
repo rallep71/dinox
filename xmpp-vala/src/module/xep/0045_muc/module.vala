@@ -239,17 +239,25 @@ public class Module : XmppStreamModule {
 
         StanzaNode query = new StanzaNode.build("query", NS_URI_ADMIN).add_self_xmlns().put_node(item_node);
         Iq.Stanza iq = new Iq.Stanza.set(query) { to=muc_jid };
-        yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+        try {
+            yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+        } catch (GLib.Error e) {
+            warning("Failed to change affiliation: %s", e.message);
+        }
     }
 
     public async DataForms.DataForm? get_config_form(XmppStream stream, Jid jid) {
         Iq.Stanza get_iq = new Iq.Stanza.get(new StanzaNode.build("query", NS_URI_OWNER).add_self_xmlns()) { to=jid };
-        Iq.Stanza result_iq = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, get_iq);
+        try {
+            Iq.Stanza result_iq = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, get_iq);
 
-        StanzaNode? x_node = result_iq.stanza.get_deep_subnode(NS_URI_OWNER + ":query", DataForms.NS_URI + ":x");
-        if (x_node != null) {
-            DataForms.DataForm data_form = DataForms.DataForm.create_from_node(x_node);
-            return data_form;
+            StanzaNode? x_node = result_iq.stanza.get_deep_subnode(NS_URI_OWNER + ":query", DataForms.NS_URI + ":x");
+            if (x_node != null) {
+                DataForms.DataForm data_form = DataForms.DataForm.create_from_node(x_node);
+                return data_form;
+            }
+        } catch (GLib.Error e) {
+            warning("Failed to get config form: %s", e.message);
         }
         return null;
     }
@@ -258,7 +266,11 @@ public class Module : XmppStreamModule {
         StanzaNode stanza_node = new StanzaNode.build("query", NS_URI_OWNER);
         stanza_node.add_self_xmlns().put_node(data_form.get_submit_node());
         Iq.Stanza set_iq = new Iq.Stanza.set(stanza_node) { to=jid };
-        yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, set_iq);
+        try {
+            yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, set_iq);
+        } catch (GLib.Error e) {
+            warning("Failed to set config form: %s", e.message);
+        }
     }
 
     public override void attach(XmppStream stream) {
@@ -475,7 +487,13 @@ public class Module : XmppStreamModule {
                     .put_attribute("affiliation", affiliation))
         ) { to=jid };
 
-        Iq.Stanza iq_result = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+        Iq.Stanza iq_result;
+        try {
+            iq_result = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+        } catch (GLib.Error e) {
+            warning("Failed to query affiliation: %s", e.message);
+            return null;
+        }
         if (iq_result.is_error()) return null;
 
         StanzaNode? query_node = iq_result.stanza.get_subnode("query", NS_URI_ADMIN);

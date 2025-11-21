@@ -180,7 +180,13 @@ public class Dino.Reactions : StreamInteractionModule, Object {
         var index = new HashMap<string, ReactionUsers>();
         foreach (Row row in select) {
             string emoji_str = row[db.reaction.emojis];
-            Jid jid = db.get_jid_by_id(row[db.reaction.jid_id]);
+            Jid jid;
+            try {
+                jid = db.get_jid_by_id(row[db.reaction.jid_id]);
+            } catch (Xmpp.InvalidJidError e) {
+                warning("Invalid JID in reactions DB: %s", e.message);
+                continue;
+            }
 
             foreach (string emoji in emoji_str.split(",")) {
                 if (!index.has_key(emoji)) {
@@ -210,13 +216,21 @@ public class Dino.Reactions : StreamInteractionModule, Object {
 
             Jid jid = null;
             if (!db.jid.bare_jid.is_null(row)) {
-                jid = new Jid(row[db.jid.bare_jid]);
+                try {
+                    jid = new Jid(row[db.jid.bare_jid]);
+                } catch (Xmpp.InvalidJidError e) {
+                    warning("Invalid JID in reactions DB (MUC): %s", e.message);
+                }
             } else if (!db.occupantid.occupant_id.is_null(row)) {
                 if (row[db.occupantid.occupant_id] == own_occupant_id) {
                     jid = account.bare_jid;
                 } else {
                     string nick = row[db.occupantid.last_nick];
-                    jid = content_item.jid.with_resource(nick);
+                    try {
+                        jid = content_item.jid.with_resource(nick);
+                    } catch (Xmpp.InvalidJidError e) {
+                        warning("Invalid JID resource in reactions DB (MUC): %s", e.message);
+                    }
                 }
             } else {
                 warning("Reaction with neither JID nor occupant id");
@@ -293,15 +307,6 @@ public class Dino.Reactions : StreamInteractionModule, Object {
 
             debug("Got ContentItem for reaction %s", stanza_id);
             process_reaction_for_message(item.id, applicable_reaction);
-        }
-    }
-
-    private Message? get_message_for_reaction(Conversation conversation, string message_id) {
-        // Query message from a specific account and counterpart. This also makes sure it's a valid reaction for the message.
-        if (conversation.type_ == Conversation.Type.CHAT) {
-            return stream_interactor.get_module(MessageStorage.IDENTITY).get_message_by_stanza_id(message_id, conversation);
-        } else {
-            return stream_interactor.get_module(MessageStorage.IDENTITY).get_message_by_server_id(message_id, conversation);
         }
     }
 

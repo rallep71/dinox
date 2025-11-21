@@ -4,13 +4,13 @@ namespace GnuTLS {
     public int global_init();
 
     [CCode (cname = "gnutls_pull_func", has_target = false)]
-    public delegate ssize_t PullFunc(void* transport_ptr, [CCode (ctype = "void*", array_length_type="size_t")] uint8[] array);
+    public delegate ssize_t PullFunc(void* transport_ptr, [CCode (type = "void*", array_length_type="size_t")] uint8[] array);
 
     [CCode (cname = "gnutls_pull_timeout_func", has_target = false)]
     public delegate int PullTimeoutFunc(void* transport_ptr, uint ms);
 
     [CCode (cname = "gnutls_push_func", has_target = false)]
-    public delegate ssize_t PushFunc(void* transport_ptr, [CCode (ctype = "void*", array_length_type="size_t")] uint8[] array);
+    public delegate ssize_t PushFunc(void* transport_ptr, [CCode (type = "void*", array_length_type="size_t")] uint8[] array);
 
     [CCode (cname = "gnutls_certificate_verify_function", has_target = false)]
     public delegate int VerifyFunc(Session session);

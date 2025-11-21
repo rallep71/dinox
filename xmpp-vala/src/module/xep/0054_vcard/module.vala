@@ -4,7 +4,13 @@ private const string NS_URI_UPDATE = NS_URI + ":x:update";
 
 public async Bytes? fetch_image(XmppStream stream, Jid jid, string hash) {
     Iq.Stanza iq = new Iq.Stanza.get(new StanzaNode.build("vCard", NS_URI).add_self_xmlns()) { to=jid };
-    Iq.Stanza iq_res = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+    Iq.Stanza iq_res;
+    try {
+        iq_res = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+    } catch (GLib.Error e) {
+        warning("Failed to fetch vCard image: %s", e.message);
+        return null;
+    }
 
     if (iq_res.is_error()) return null;
     string? res = iq_res.stanza.get_deep_string_content(@"$NS_URI:vCard", "PHOTO", "BINVAL");

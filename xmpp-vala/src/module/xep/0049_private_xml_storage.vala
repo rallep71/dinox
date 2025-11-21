@@ -9,14 +9,23 @@ namespace Xmpp.Xep.PrivateXmlStorage {
         public async void store(XmppStream stream, StanzaNode node) {
             StanzaNode queryNode = new StanzaNode.build("query", NS_URI).add_self_xmlns().put_node(node);
             Iq.Stanza iq = new Iq.Stanza.set(queryNode);
-            yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+            try {
+                yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+            } catch (GLib.Error e) {
+                warning("Failed to store private XML: %s", e.message);
+            }
         }
 
         public async StanzaNode? retrieve(XmppStream stream, StanzaNode node) {
             StanzaNode queryNode = new StanzaNode.build("query", NS_URI).add_self_xmlns().put_node(node);
             Iq.Stanza iq = new Iq.Stanza.get(queryNode);
-            Iq.Stanza iq_result = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
-            return iq_result.stanza.get_subnode("query", NS_URI);
+            try {
+                Iq.Stanza iq_result = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+                return iq_result.stanza.get_subnode("query", NS_URI);
+            } catch (GLib.Error e) {
+                warning("Failed to retrieve private XML: %s", e.message);
+                return null;
+            }
         }
 
         public override void attach(XmppStream stream) { }

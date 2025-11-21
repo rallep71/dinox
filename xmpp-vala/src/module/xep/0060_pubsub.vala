@@ -45,7 +45,13 @@ namespace Xmpp.Xep.Pubsub {
             Iq.Stanza request_iq = new Iq.Stanza.get(new StanzaNode.build("pubsub", NS_URI).add_self_xmlns().put_node(new StanzaNode.build("items", NS_URI).put_attribute("node", node)));
             request_iq.to = jid;
 
-            Iq.Stanza iq_res = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, request_iq);
+            Iq.Stanza iq_res;
+            try {
+                iq_res = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, request_iq);
+            } catch (GLib.Error e) {
+                warning("Failed to request all items: %s", e.message);
+                return null;
+            }
 
             StanzaNode event_node = iq_res.stanza.get_subnode("pubsub", NS_URI);
             if (event_node == null) return null;
@@ -102,7 +108,13 @@ namespace Xmpp.Xep.Pubsub {
             Iq.Stanza iq = new Iq.Stanza.set(pubsub_node);
 
             // If the node was configured differently before, reconfigure it to meet our requirements and try again
-            Iq.Stanza iq_result = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+            Iq.Stanza iq_result;
+            try {
+                iq_result = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+            } catch (GLib.Error e) {
+                warning("Failed to publish item: %s", e.message);
+                return false;
+            }
             if (iq_result.is_error()) {
                 if (publish_options == null || !try_reconfiguring) return false;
                 bool precondition_not_met = iq_result.get_error().error_node.get_subnode("precondition-not-met", NS_URI_ERROR) != null;
@@ -147,7 +159,13 @@ namespace Xmpp.Xep.Pubsub {
             pubsub_node.put_node(publish_node);
 
             Iq.Stanza iq = new Iq.Stanza.get(pubsub_node);
-            Iq.Stanza result_iq = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+            Iq.Stanza result_iq;
+            try {
+                result_iq = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+            } catch (GLib.Error e) {
+                warning("Failed to request node config: %s", e.message);
+                return null;
+            }
             StanzaNode? data_form_node = result_iq.stanza.get_deep_subnode(Pubsub.NS_URI_OWNER + ":pubsub", Pubsub.NS_URI_OWNER + ":configure", "jabber:x:data:x");
             if (data_form_node == null) return null;
             return DataForms.DataForm.create_from_node(data_form_node);
@@ -163,7 +181,13 @@ namespace Xmpp.Xep.Pubsub {
 
 
             Iq.Stanza iq = new Iq.Stanza.set(pubsub_node);
-            Iq.Stanza iq_result = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+            Iq.Stanza iq_result;
+            try {
+                iq_result = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+            } catch (GLib.Error e) {
+                warning("Failed to submit node config: %s", e.message);
+                return false;
+            }
 
             return !iq_result.is_error();
         }
