@@ -18,20 +18,15 @@
     "modules": [
         {
             "name": "protobuf",
-            "buildsystem": "cmake-ninja",
+            "buildsystem": "autotools",
             "cleanup": [
                 "/bin"
-            ],
-            "config-opts": [
-                "-DCMAKE_BUILD_TYPE=Release",
-                "-Dprotobuf_BUILD_TESTS=OFF",
-                "-Dprotobuf_BUILD_LIBUPB=OFF"
             ],
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://github.com/protocolbuffers/protobuf/releases/download/v21.12/protobuf-all-21.12.tar.gz",
-                    "sha256": "2c6a36c7b5a55accae063667ef3c55f2642e67476d96d355ff0acb13dbb47f09"
+                    "url": "https://github.com/protocolbuffers/protobuf/releases/download/v3.6.1/protobuf-cpp-3.6.1.tar.gz",
+                    "sha256": "b3732e471a9bb7950f090fd0457ebd2536a9ba0891b7f3785919c654fe2a2529"
                 }
             ]
         },
@@ -109,7 +104,7 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://launchpadlibrarian.net/243440794/libdbusmenu-16.04.0.tar.gz",
+                    "url": "https://github.com/rallep71/dinox/raw/vendor/vendor/libdbusmenu-16.04.0.tar.gz",
                     "sha256": "b9cc4a2acd74509435892823607d966d424bd9ad5d0b00938f27240a1bfa878a"
                 }
             ]
