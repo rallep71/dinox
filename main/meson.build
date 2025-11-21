@@ -149,8 +149,19 @@ if meson.get_compiler('vala').version().version_compare('=0.56.12')
 endif
 exe_dino = executable('dino', sources, c_args: c_args, vala_args: vala_args, dependencies: dependencies, install: true, install_rpath: default_install_rpath)
 
+# Install app icons (scalable)
 install_data('data/icons/scalable/apps/im.github.rallep71.DinoX-symbolic.svg', install_dir: get_option('datadir') / 'icons/hicolor/symbolic/apps')
 install_data('data/icons/scalable/apps/im.github.rallep71.DinoX.svg', install_dir: get_option('datadir') / 'icons/hicolor/scalable/apps')
+
+# Install app icons (PNG sizes for better systray support)
+install_data('data/icons/hicolor/16x16/apps/im.github.rallep71.DinoX.png', install_dir: get_option('datadir') / 'icons/hicolor/16x16/apps')
+install_data('data/icons/hicolor/32x32/apps/im.github.rallep71.DinoX.png', install_dir: get_option('datadir') / 'icons/hicolor/32x32/apps')
+install_data('data/icons/hicolor/48x48/apps/im.github.rallep71.DinoX.png', install_dir: get_option('datadir') / 'icons/hicolor/48x48/apps')
+install_data('data/icons/hicolor/128x128/apps/im.github.rallep71.DinoX.png', install_dir: get_option('datadir') / 'icons/hicolor/128x128/apps')
+install_data('data/icons/hicolor/256x256/apps/im.github.rallep71.DinoX.png', install_dir: get_option('datadir') / 'icons/hicolor/256x256/apps')
+install_data('data/icons/hicolor/512x512/apps/im.github.rallep71.DinoX.png', install_dir: get_option('datadir') / 'icons/hicolor/512x512/apps')
+
+# Install metadata and desktop files
 install_data('data/im.github.rallep71.DinoX.appdata.xml', install_dir: get_option('datadir') / 'metainfo')
 install_data('data/im.github.rallep71.DinoX.desktop', install_dir: get_option('datadir') / 'applications')
 install_data('data/im.github.rallep71.DinoX.service', install_dir: get_option('datadir') / 'dbus-1/services')
