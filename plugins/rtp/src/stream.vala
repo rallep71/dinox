@@ -1,6 +1,8 @@
 using Gee;
 using Xmpp;
 
+private static extern GLib.List<unowned Gst.Structure> rtp_get_source_stats_structures(Gst.Structure stats);
+
 public class Dino.Plugins.Rtp.Stream : Xmpp.Xep.JingleRtp.Stream {
     public uint8 rtpid { get; private set; }
 
@@ -192,17 +194,15 @@ public class Dino.Plugins.Rtp.Stream : Xmpp.Xep.JingleRtp.Stream {
             warning("No stats for session %u", rtpid);
             return Source.REMOVE;
         }
-        unowned ValueArray? source_stats;
-        stats.get("source-stats", typeof(ValueArray), out source_stats);
-        if (source_stats == null) {
+        if (!stats.has_field("source-stats")) {
             warning("No source-stats for session %u", rtpid);
             return Source.REMOVE;
         }
+        GLib.List<unowned Gst.Structure> source_stats = rtp_get_source_stats_structures(stats);
 
         if (input_device == null) return Source.CONTINUE;
 
-        foreach (Value value in source_stats.values) {
-            unowned Gst.Structure source_stat = (Gst.Structure) value.get_boxed();
+        foreach (unowned Gst.Structure source_stat in source_stats) {
             uint32 ssrc;
             if (!source_stat.get_uint("ssrc", out ssrc)) continue;
             if (ssrc == participant_ssrc) {
