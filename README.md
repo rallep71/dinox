@@ -13,7 +13,7 @@
 
 Active fork of [dino/dino](https://github.com/dino/dino) with faster development and community-requested features
 
-[Features](#extended-features) • [Install](#installation) • [Build](#installation) • [Documentation](docs/CONTRIBUTING.md) • [Contribute](#contribute)
+[Features](#extended-features) • [Install](#installation) • [Build](#installation) • [Contributing](docs/CONTRIBUTING.md) • [Documentation](#documentation)
 
 </div>
 
