@@ -17,60 +17,6 @@
     ],
     "modules": [
         {
-            "name": "protobuf",
-            "buildsystem": "cmake-ninja",
-            "cleanup": [
-                "*"
-            ],
-            "config-opts": [
-                "-DCMAKE_BUILD_TYPE=MinSizeRel",
-                "-Dprotobuf_BUILD_TESTS=OFF",
-                "-Dprotobuf_BUILD_LIBUPB=OFF",
-                "-Dprotobuf_BUILD_PROTOC_BINARIES=OFF",
-                "-Dprotobuf_BUILD_LIBPROTOC=OFF",
-                "-Dprotobuf_BUILD_SHARED_LIBS=OFF"
-            ],
-            "sources": [
-                {
-                    "type": "archive",
-                    "url": "https://github.com/protocolbuffers/protobuf/releases/download/v30.2/protobuf-30.2.tar.gz",
-                    "sha512": "555d1b18d175eeaf17f3879f124d33080f490367840d35b34bfc4e4a5b383bf6a1d09f1570acb6af9c53ac4940a14572d46423b6e3dd0c712e7802c986fb6be6",
-                    "x-checker-data": {
-                        "type": "anitya",
-                        "project-id": 3715,
-                        "stable-only": true,
-                        "url-template": "https://github.com/protocolbuffers/protobuf/releases/download/v$version/protobuf-$version.tar.gz"
-                    }
-                }
-            ]
-        },
-        {
-            "name": "libprotobuf-c",
-            "buildsystem": "autotools",
-            "config-opts": [
-                "CFLAGS=-fPIC"
-            ],
-            "post-install": [
-                "rm /app/lib/*.so"
-            ],
-            "cleanup": [
-                "*"
-            ],
-            "sources": [
-                {
-                    "type": "archive",
-                    "url": "https://github.com/protobuf-c/protobuf-c/releases/download/v1.5.2/protobuf-c-1.5.2.tar.gz",
-                    "sha512": "78dc72988d7e8232c1b967849aa00939bc05ab7d39b86a8e2af005e38aa4ef4c9b03920d51fb5337399d980e65f35d11bd4742bea745a893ecc909f56a51c9ac",
-                    "x-checker-data": {
-                        "type": "anitya",
-                        "project-id": 3716,
-                        "stable-only": true,
-                        "url-template": "https://github.com/protobuf-c/protobuf-c/releases/download/v$version/protobuf-c-$version.tar.gz"
-                    }
-                }
-            ]
-        },
-        {
             "name": "libomemo-c",
             "buildsystem": "meson",
             "cleanup": [
