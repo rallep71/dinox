@@ -353,9 +353,14 @@ public class Dino.Plugins.Rtp.CodecUtil {
         string? desc = get_decode_bin_description(media, codec, payload_type, null, base_name);
         if (desc == null) return null;
         debug("Pipeline to decode %s %s: %s", media, codec, desc);
-        Gst.Element bin = Gst.parse_bin_from_description(desc, true);
-        bin.name = name;
-        return bin;
+        try {
+            Gst.Element bin = Gst.parse_bin_from_description(desc, true);
+            bin.name = name;
+            return bin;
+        } catch (GLib.Error e) {
+            warning("Failed to parse decode bin: %s", e.message);
+            return null;
+        }
     }
 
     public string? get_encode_bin_description(string media, string? codec, JingleRtp.PayloadType? payload_type, string? element_name = null, string? name = null) {
@@ -390,9 +395,14 @@ public class Dino.Plugins.Rtp.CodecUtil {
         string? desc = get_encode_bin_description(media, codec, payload_type, null, base_name);
         if (desc == null) return null;
         debug("Pipeline to encode %s %s: %s", media, codec, desc);
-        Gst.Element bin = Gst.parse_bin_from_description(desc, true);
-        bin.name = name;
-        return bin;
+        try {
+            Gst.Element bin = Gst.parse_bin_from_description(desc, true);
+            bin.name = name;
+            return bin;
+        } catch (GLib.Error e) {
+            warning("Failed to parse encode bin: %s", e.message);
+            return null;
+        }
     }
 
     public Gst.Element? get_encode_bin_without_payloader(string media, JingleRtp.PayloadType payload_type, string? name = null) {
@@ -401,9 +411,14 @@ public class Dino.Plugins.Rtp.CodecUtil {
         string? desc = get_encode_bin_without_payloader_description(media, codec, payload_type, null, base_name);
         if (desc == null) return null;
         debug("Pipeline to encode %s %s without payloader: %s", media, codec, desc);
-        Gst.Element bin = Gst.parse_bin_from_description(desc, true);
-        bin.name = name;
-        return bin;
+        try {
+            Gst.Element bin = Gst.parse_bin_from_description(desc, true);
+            bin.name = name;
+            return bin;
+        } catch (GLib.Error e) {
+            warning("Failed to parse encode bin without payloader: %s", e.message);
+            return null;
+        }
     }
 
     public Gst.Element? get_payloader_bin(string media, JingleRtp.PayloadType payload_type, string? name = null) {
@@ -412,9 +427,14 @@ public class Dino.Plugins.Rtp.CodecUtil {
         string? desc = get_payloader_bin_description(media, codec, payload_type, base_name);
         if (desc == null) return null;
         debug("Pipeline to payload %s %s: %s", media, codec, desc);
-        Gst.Element bin = Gst.parse_bin_from_description(desc, true);
-        bin.name = name;
-        return bin;
+        try {
+            Gst.Element bin = Gst.parse_bin_from_description(desc, true);
+            bin.name = name;
+            return bin;
+        } catch (GLib.Error e) {
+            warning("Failed to parse payloader bin: %s", e.message);
+            return null;
+        }
     }
 
 }

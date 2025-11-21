@@ -8,9 +8,7 @@ private const double[] MInv0 = { 0.41239079926595, 0.35758433938387, 0.180480788
 private const double[] MInv1 = { 0.21263900587151, 0.71516867876775, 0.072192315360733 };
 private const double[] MInv2 = { 0.019330818715591, 0.11919477979462, 0.95053215224966  };
 
-private double RefX = 0.95045592705167;
 private double RefY = 1.0;
-private double RefZ = 1.089057750759878;
 
 private double RefU = 0.19783000664283;
 private double RefV = 0.46831999493879;
@@ -47,36 +45,10 @@ private Bounds[] get_bounds(double L) {
     };
 }
 
-private double intersect_line_line(double[] lineA, double[] lineB) {
-    return (lineA[1] - lineB[1]) / (lineB[0] - lineA[0]);
-}
-
-private double distance_from_pole(double[] point) {
-    return Math.sqrt(Math.pow(point[0], 2) + Math.pow(point[1], 2));
-}
-
 private bool length_of_ray_until_intersect(double theta, Bounds line, out double length) {
     length = line.t1 / (Math.sin(theta) - line.t0 * Math.cos(theta));
 
     return length >= 0;
-}
-
-private double max_safe_chroma_for_l(double L) {
-    Bounds[] bounds = get_bounds(L);
-    double min = double.MAX;
-
-    for (int i = 0; i < 2; ++i) {
-        var m1 = bounds[i].t0;
-        var b1 = bounds[i].t1;
-        var line = new double[] { m1, b1 };
-
-        double x = intersect_line_line(line, new double[] {-1 / m1, 0 });
-        double length = distance_from_pole(new double[] { x, b1 + x * m1 });
-
-        min = double.min(min, length);
-    }
-
-    return min;
 }
 
 private double max_chroma_for_lh(double L, double H) {
@@ -106,48 +78,12 @@ private double dot_product(double[] a, double[] b) {
     return sum;
 }
 
-private double round(double value, int places) {
-    double n = Math.pow(10, places);
-
-    return Math.round(value * n) / n;
-}
-
 private double from_linear(double c) {
     if (c <= 0.0031308) {
         return 12.92 * c;
     } else {
         return 1.055 * Math.pow(c, 1 / 2.4) - 0.055;
     }
-}
-
-private double to_linear(double c) {
-    if (c > 0.04045) {
-        return Math.pow((c + 0.055) / (1 + 0.055), 2.4);
-    } else {
-        return c / 12.92;
-    }
-}
-
-private int[]? rgb_prepare(double[] tuple) {
-    for (int i = 0; i < tuple.length; ++i) {
-        tuple[i] = round(tuple[i], 3);
-    }
-
-    for (int i = 0; i < tuple.length; ++i) {
-        double ch = tuple[i];
-
-        if (ch < -0.0001 || ch > 1.0001) {
-            return null; //throw new Error("Illegal rgb value: " + ch);
-                }
-    }
-
-    var results = new int[tuple.length];
-
-    for (int i = 0; i < tuple.length; ++i) {
-        results[i] = (int) Math.round(tuple[i] * 255);
-    }
-
-    return results;
 }
 
 internal double[] xyz_to_rgb(double[] tuple) {
@@ -158,54 +94,12 @@ internal double[] xyz_to_rgb(double[] tuple) {
     };
 }
 
-internal double[] rgb_to_xyz(double[] tuple) {
-    var rgbl = new double[]    {
-        to_linear(tuple[0]),
-        to_linear(tuple[1]),
-        to_linear(tuple[2])
-    };
-
-    return new double[]    {
-        dot_product(MInv0, rgbl),
-        dot_product(MInv1, rgbl),
-        dot_product(MInv2, rgbl)
-    };
-}
-
-private double y_to_l(double Y) {
-    if (Y <= Epsilon) {
-        return (Y / RefY) * Kappa;
-    } else {
-        return 116 * Math.pow(Y / RefY, 1.0 / 3.0) - 16;
-    }
-}
-
 private double l_to_y(double L) {
     if (L <= 8) {
         return RefY * L / Kappa;
     } else {
         return RefY * Math.pow((L + 16) / 116, 3);
     }
-}
-
-internal double[] xyz_to_luv(double[] tuple) {
-    double X = tuple[0];
-    double Y = tuple[1];
-    double Z = tuple[2];
-
-    double varU = (4 * X) / (X + (15 * Y) + (3 * Z));
-    double varV = (9 * Y) / (X + (15 * Y) + (3 * Z));
-
-    double L = y_to_l(Y);
-
-    if (L == 0) {
-        return new double[] { 0, 0, 0 };
-    }
-
-    var U = 13 * L * (varU - RefU);
-    var V = 13 * L * (varV - RefV);
-
-    return new double [] { L, U, V };
 }
 
 internal double[] luv_to_xyz(double[] tuple) {
@@ -225,23 +119,6 @@ internal double[] luv_to_xyz(double[] tuple) {
     double Z = (9 * Y - (15 * varV * Y) - (varV * X)) / (3 * varV);
 
     return new double[] { X, Y, Z };
-}
-
-internal double[] luv_to_lch(double[] tuple) {
-    double L = tuple[0];
-    double U = tuple[1];
-    double V = tuple[2];
-
-    double C = Math.pow(Math.pow(U, 2) + Math.pow(V, 2), 0.5);
-    double Hrad = Math.atan2(V, U);
-
-    double H = Hrad * 180.0 / Math.PI;
-
-    if (H < 0) {
-        H = 360 + H;
-    }
-
-    return new double[] { L, C, H };
 }
 
 internal double[] lch_to_luv(double[] tuple) {
@@ -275,83 +152,8 @@ internal double[] hsluv_to_lch(double[] tuple) {
     return new double[] { L, C, H };
 }
 
-internal double[] lch_to_hsluv(double[] tuple) {
-    double L = tuple[0];
-    double C = tuple[1];
-    double H = tuple[2];
-
-    if (L > 99.9999999) {
-        return new double[] { H, 0, 100 };
-    }
-
-    if (L < 0.00000001) {
-        return new double[] { H, 0, 0 };
-    }
-
-    double max = max_chroma_for_lh(L, H);
-    double S = C / max * 100;
-
-    return new double[] { H, S, L };
-}
-
-internal double[] hpluv_to_lch(double[] tuple) {
-    double H = tuple[0];
-    double S = tuple[1];
-    double L = tuple[2];
-
-    if (L > 99.9999999) {
-        return new double[] { 100, 0, H };
-    }
-
-    if (L < 0.00000001) {
-        return new double[] { 0, 0, H };
-    }
-
-    double max = max_safe_chroma_for_l(L);
-    double C = max / 100 * S;
-
-    return new double[] { L, C, H };
-}
-
-internal double[] lch_to_hpluv(double[] tuple) {
-    double L = tuple[0];
-    double C = tuple[1];
-    double H = tuple[2];
-
-    if (L > 99.9999999) {
-        return new double[] { H, 0, 100 };
-    }
-
-    if (L < 0.00000001) {
-        return new double[] { H, 0, 0 };
-    }
-
-    double max = max_safe_chroma_for_l(L);
-    double S = C / max * 100;
-
-    return new double[] { H, S, L };
-}
-
-internal string rgb_to_hex(double[] tuple) {
-    int[] prepared = rgb_prepare(tuple);
-
-    return "#%.2x%.2x%.2x".printf(prepared[0], prepared[1], prepared[2]);
-}
-
-internal double[] hex_to_tgb(string hex) {
-    return new double[]    {
-        long.parse(hex.substring(1, 2), 16) / 255.0,
-        long.parse(hex.substring(3, 2), 16) / 255.0,
-        long.parse(hex.substring(5, 2), 16) / 255.0
-    };
-}
-
 internal double[] lch_to_rgb(double[] tuple) {
     return xyz_to_rgb(luv_to_xyz(lch_to_luv(tuple)));
-}
-
-internal double[] rgb_to_lch(double[] tuple) {
-    return luv_to_lch(xyz_to_luv(rgb_to_xyz(tuple)));
 }
 
 // Rgb <--> Hsluv(p)
@@ -360,34 +162,6 @@ internal double[] hsluv_to_rgb(double[] tuple) {
     return lch_to_rgb(hsluv_to_lch(tuple));
 }
 
-internal double[] rgb_to_hsluv(double[] tuple) {
-    return lch_to_hsluv(rgb_to_lch(tuple));
-}
-
-internal double[] hpluv_to_rgb(double[] tuple) {
-    return lch_to_rgb(hpluv_to_lch(tuple));
-}
-
-internal double[] rgb_to_hpluv(double[] tuple) {
-    return lch_to_hpluv(rgb_to_lch(tuple));
-}
-
-// Hex
-
-internal string hsluv_to_hex(double[] tuple) {
-    return rgb_to_hex(hsluv_to_rgb(tuple));
-}
-
-internal string hpluv_to_hex(double[] tuple) {
-    return rgb_to_hex(hpluv_to_rgb(tuple));
-}
-
-internal double[] hex_to_hsluv(string s) {
-    return rgb_to_hsluv(hex_to_tgb(s));
-}
-
-internal double[] hex_to_hpluv(string s) {
-    return rgb_to_hpluv(hex_to_tgb(s));
-}
 
 }
+

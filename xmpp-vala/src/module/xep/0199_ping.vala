@@ -6,10 +6,15 @@ namespace Xmpp.Xep.Ping {
     public class Module : XmppStreamModule, Iq.Handler {
         public static ModuleIdentity<Module> IDENTITY = new ModuleIdentity<Module>(NS_URI, "0199_ping");
 
-        public async Iq.Stanza send_ping(XmppStream stream, Jid jid) {
+        public async Iq.Stanza? send_ping(XmppStream stream, Jid jid) {
             StanzaNode ping_node = new StanzaNode.build("ping", NS_URI).add_self_xmlns();
             Iq.Stanza iq = new Iq.Stanza.get(ping_node) { to=jid };
-            return yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq, Priority.HIGH);
+            try {
+                return yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq, Priority.HIGH);
+            } catch (GLib.Error e) {
+                warning("Failed to send ping: %s", e.message);
+                return null;
+            }
         }
 
         public override void attach(XmppStream stream) {

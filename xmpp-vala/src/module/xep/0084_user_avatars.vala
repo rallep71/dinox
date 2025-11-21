@@ -21,7 +21,6 @@ namespace Xmpp.Xep.UserAvatars {
     }
 
     public void unset_avatar(XmppStream stream) {
-        StanzaNode metadata_node = new StanzaNode.build("metadata", NS_URI_METADATA).add_self_xmlns();
         stream.get_module(Pubsub.Module.IDENTITY).delete_node(stream, null, NS_URI_METADATA);
     }
 

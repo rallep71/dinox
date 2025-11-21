@@ -88,9 +88,11 @@ public class Dino.Plugins.Rtp.Sink : Gst.Video.Sink {
 #endif
 
     public override void get_times(Gst.Buffer buffer, out Gst.ClockTime start, out Gst.ClockTime end) {
-        if (buffer.pts != -1) {
+        start = Gst.CLOCK_TIME_NONE;
+        end = Gst.CLOCK_TIME_NONE;
+        if (buffer.pts != Gst.CLOCK_TIME_NONE) {
             start = buffer.pts;
-            if (buffer.duration != -1) {
+            if (buffer.duration != Gst.CLOCK_TIME_NONE) {
                 end = start + buffer.duration;
             } else if (info.fps_n > 0) {
                 end = start + Gst.Util.uint64_scale_int(Gst.SECOND, info.fps_d, info.fps_n);
@@ -123,6 +125,7 @@ public class Dino.Plugins.Rtp.Sink : Gst.Video.Sink {
     }
 
     private Gdk.Texture texture_from_buffer(Gst.Buffer buffer, out double pixel_aspect_ratio) {
+        pixel_aspect_ratio = 1.0;
         Gst.Video.Frame frame = Gst.Video.Frame();
         Gdk.Texture texture;
 
@@ -171,8 +174,6 @@ public class Dino.Plugins.Rtp.VideoWidget : Gtk.Widget, Dino.Plugins.VideoCallWi
     private Stream? connected_stream;
     private Gst.Element prepare;
     private Gst.Caps last_input_caps;
-    private Gst.Caps last_caps;
-    private int recaps_since_change;
     private Sink sink;
     private Gtk.Picture widget;
 
@@ -232,7 +233,12 @@ public class Dino.Plugins.Rtp.VideoWidget : Gtk.Widget, Dino.Plugins.VideoCallWi
         if (connected_stream == null) return;
         plugin.pause();
         pipe.add(sink);
-        prepare = Gst.parse_bin_from_description(@"videoconvert name=video_widget_$(id)_convert", true);
+        try {
+            prepare = Gst.parse_bin_from_description(@"videoconvert name=video_widget_$(id)_convert", true);
+        } catch (GLib.Error e) {
+            warning("Failed to parse video widget prepare bin: %s", e.message);
+            return;
+        }
         prepare.name = @"video_widget_$(id)_prepare";
         prepare.get_static_pad("sink").notify["caps"].connect(input_caps_changed);
         pipe.add(prepare);
@@ -250,11 +256,16 @@ public class Dino.Plugins.Rtp.VideoWidget : Gtk.Widget, Dino.Plugins.VideoCallWi
         if (connected_device == null) return;
         plugin.pause();
         pipe.add(sink);
+        try {
 #if GST_1_20
-        prepare = Gst.parse_bin_from_description(@"videoflip video-direction=auto name=video_widget_$(id)_orientation ! videoflip method=horizontal-flip name=video_widget_$(id)_flip ! videoconvert name=video_widget_$(id)_convert", true);
+            prepare = Gst.parse_bin_from_description(@"videoflip video-direction=auto name=video_widget_$(id)_orientation ! videoflip method=horizontal-flip name=video_widget_$(id)_flip ! videoconvert name=video_widget_$(id)_convert", true);
 #else
-        prepare = Gst.parse_bin_from_description(@"videoflip method=horizontal-flip name=video_widget_$(id)_flip ! videoconvert name=video_widget_$(id)_convert", true);
+            prepare = Gst.parse_bin_from_description(@"videoflip method=horizontal-flip name=video_widget_$(id)_flip ! videoconvert name=video_widget_$(id)_convert", true);
 #endif
+        } catch (GLib.Error e) {
+            warning("Failed to parse video widget device prepare bin: %s", e.message);
+            return;
+        }
         prepare.name = @"video_widget_$(id)_prepare";
 #if GST_1_20
         if (prepare is Gst.Bin) {
