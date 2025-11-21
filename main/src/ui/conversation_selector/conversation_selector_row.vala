@@ -21,7 +21,7 @@ public class ConversationSelectorRow : ListBoxRow {
     [GtkChild] protected unowned Image muted_image;
     [GtkChild] protected unowned Image blocked_image;
     [GtkChild] protected unowned Image pinned_image;
-    [GtkChild] protected unowned Image status_image;
+    [GtkChild] protected unowned Label status_label;
     [GtkChild] public unowned Revealer main_revealer;
 
     public Conversation conversation { get; private set; }
@@ -337,7 +337,18 @@ public class ConversationSelectorRow : ListBoxRow {
         for (int i = 0; i < full_jids.size; i++) {
             Jid full_jid = full_jids[i];
             string? show = stream_interactor.get_module(PresenceManager.IDENTITY).get_last_show(full_jid, conversation.account);
-            if (show == null) continue;
+            string? status_msg = stream_interactor.get_module(PresenceManager.IDENTITY).get_last_status_msg(full_jid, conversation.account);
+
+            string? status_text = null;
+            if (show == Presence.Stanza.SHOW_AWAY) {
+                status_text = _("Away");
+            } else if (show == Presence.Stanza.SHOW_XA) {
+                status_text = _("Not Available");
+            } else if (show == Presence.Stanza.SHOW_DND) {
+                status_text = _("Busy");
+            } else {
+                status_text = _("Online");
+            }
 
             int i_cache = i;
             stream_interactor.get_module(EntityInfo.IDENTITY).get_identity.begin(conversation.account, full_jid, (_, res) => {
@@ -358,15 +369,6 @@ public class ConversationSelectorRow : ListBoxRow {
                     Util.force_color(image, "#4CAF50");
                 }
 
-                string? status = null;
-                if (show == Presence.Stanza.SHOW_AWAY) {
-                    status = "away";
-                } else if (show == Presence.Stanza.SHOW_XA) {
-                    status = "not available";
-                } else if (show == Presence.Stanza.SHOW_DND) {
-                    status = "do not disturb";
-                }
-
                 var sb = new StringBuilder();
                 if (identity != null && identity.name != null) {
                     sb.append(identity.name);
@@ -377,8 +379,11 @@ public class ConversationSelectorRow : ListBoxRow {
                 } else {
                     return;
                 }
-                if (status != null) {
-                    sb.append(" <i>(").append(status).append(")</i>");
+                if (status_text != null) {
+                    sb.append(" <i>(").append(status_text).append(")</i>");
+                }
+                if (status_msg != null && status_msg != "") {
+                    sb.append("\n<small>").append(GLib.Markup.escape_text(status_msg)).append("</small>");
                 }
 
                 Label resource = new Label(sb.str) { use_markup=true, hexpand=true, xalign=0 };
@@ -625,7 +630,7 @@ public class ConversationSelectorRow : ListBoxRow {
 
     private void update_status() {
         if (conversation.type_ != Conversation.Type.CHAT) {
-            status_image.visible = false;
+            status_label.visible = false;
             return;
         }
 
@@ -648,25 +653,20 @@ public class ConversationSelectorRow : ListBoxRow {
         }
 
         if (best_show != null) {
-            status_image.visible = true;
-            string icon_name = "user-available-symbolic";
-            string color = "#4CAF50"; // Green
+            status_label.visible = true;
+            string emoji = "🟢";
 
             if (best_show == "away") {
-                icon_name = "user-away-symbolic";
-                color = "#FF9800"; // Orange
+                emoji = "🟠";
             } else if (best_show == "dnd") {
-                icon_name = "user-busy-symbolic";
-                color = "#F44336"; // Red
+                emoji = "🔴";
             } else if (best_show == "xa") {
-                icon_name = "user-invisible-symbolic";
-                color = "#FF5722"; // Deep Orange
+                emoji = "⭕";
             }
 
-            status_image.icon_name = icon_name;
-            Util.force_color(status_image, color);
+            status_label.label = emoji;
         } else {
-            status_image.visible = false;
+            status_label.visible = false;
         }
     }
 

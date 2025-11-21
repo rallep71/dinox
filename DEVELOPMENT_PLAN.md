@@ -124,7 +124,7 @@ DinoX addresses the slow development pace of the original Dino XMPP client while
 | P0 | [#1271](https://github.com/dino/dino/issues/1271) | Calls | Stuck connecting with Conversations | Medium | ✓ FIXED |
 | P1 | [#1559](https://github.com/dino/dino/issues/1559) | Calls | Echo cancellation broken | Hard | TODO |
 | P1 | [#57](https://github.com/dino/dino/issues/57) | Security | Self-signed certs rejected | Medium | TODO |
-| P1 | **User Status** | **Presence UI** | **Set own status / View partner status** | Medium | **READY** |
+| P1 | **User Status** | **Presence UI** | **Set own status / View partner status** | Medium | ✓ **COMPLETED** |
 |  P1 | **XEP-0424** | **Message UI** | **Delete individual messages** | Easy | READY **READY** |
 |  P2 | **XEP-0425** | **MUC UI** | **Moderator message deletion** | Medium | READY **READY** |
 
@@ -142,9 +142,9 @@ DinoX addresses the slow development pace of the original Dino XMPP client while
 
 **User Status (Presence) UI** (2-3 days):
 - Backend ✓ `libdino/src/service/presence_manager.vala` (Already handles presence updates)
-- Missing: UI to set own status (Online, Away, Busy, Offline)
-- Missing: Visual indicator for chat partner's status in conversation list
-- Implementation: Add status selector to Main Menu, add status dots to `ConversationSelectorRow`
+- ✓ UI to set own status (Online, Away, Busy, Offline) via Systray & App Menu
+- ✓ Visual indicator for chat partner's status in conversation list (Emoji-based)
+- Implementation: Added status selector to Main Menu/Systray, added status Emojis to `ConversationSelectorRow`
 
 **XEP-0424 - Message Retraction UI** (1-2 days):
 - Backend ✓ `xmpp-vala/src/module/xep/0424_message_retraction.vala`
