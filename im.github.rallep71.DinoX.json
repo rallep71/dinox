@@ -121,6 +121,10 @@
                 "--disable-gtk",
                 "--with-gtk=no"
             ],
+            "make-install-args": [
+                "typelibdir=/app/lib/girepository-1.0",
+                "girdir=/app/share/gir-1.0"
+            ],
             "sources": [
                 {
                     "type": "archive",
