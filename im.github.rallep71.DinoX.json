@@ -23,9 +23,12 @@
                 "*"
             ],
             "config-opts": [
+                "-DCMAKE_BUILD_TYPE=MinSizeRel",
                 "-Dprotobuf_BUILD_TESTS=OFF",
                 "-Dprotobuf_BUILD_LIBUPB=OFF",
-                "-Dprotobuf_BUILD_PROTOC_BINARIES=OFF"
+                "-Dprotobuf_BUILD_PROTOC_BINARIES=OFF",
+                "-Dprotobuf_BUILD_LIBPROTOC=OFF",
+                "-Dprotobuf_BUILD_SHARED_LIBS=OFF"
             ],
             "sources": [
                 {
