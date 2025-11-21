@@ -9,13 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.6.0] - 2025-11-21
 
-### Added
-- XEP-0424 UI: Delete individual messages
-- XEP-0425 UI: MUC moderator message deletion
-
-## [0.6.0] - 2025-11-21
-
-**First release as DinoX!**
+**First release as DinoX - Complete fork and rebranding!**
 
 ### Added
 - **Systray Support** (#98) - StatusNotifierItem with libdbusmenu (108👍)
@@ -53,6 +47,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Database Schema v32** - Added `history_cleared_at` column
 - **MAM Batch Size** - Increased from 20 to 200 for faster sync
 - **Message Display** - 10k → 100k character limit
+- **Project Rebranding**:
+  - Binary renamed: `dino` → `dinox`
+  - App ID changed: `im.dino.Dino` → `im.github.rallep71.DinoX`
+  - All icons renamed to DinoX branding
+  - Repository moved to `rallep71/dinox`
+  - Professional logo and badges
+- **Icon Installation** - Added PNG icons (16px-512px) for systray support
+- **Build System**:
+  - GitHub Actions CI/CD with Flatpak builds
+  - Multi-architecture support (x86_64, aarch64)
+  - Automated releases with artifacts
 
 ### Removed
 - Archive conversation feature (doesn't fit XMPP model)
@@ -62,6 +67,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 541 build targets compile cleanly
 - XEP compliance: 60+ protocols supported
 - Full OMEMO support with history management
+- Flatpak packaging with complete dependency management
+- libdbusmenu integration for StatusNotifierItem/AppIndicator support
+- Meson build system with automated translations (50+ languages)
 
 ## [0.5.0] - Upstream Base
 
