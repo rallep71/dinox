@@ -12,10 +12,10 @@ public abstract class StatementBuilder {
     internal abstract Statement prepare();
 
     internal abstract class AbstractField<T> {
-        public T value;
+        public T? value;
         public Column<T>? column;
 
-        AbstractField(T value) {
+        AbstractField(T? value) {
             this.value = value;
         }
 
