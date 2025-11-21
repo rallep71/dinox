@@ -101,6 +101,29 @@ public class SystrayManager : Object {
             root.property_set(Dbusmenu.MENUITEM_PROP_CHILD_DISPLAY, "submenu");
             menu_server.set_root(root);
             
+            // Status Submenu
+            var item_status = new Dbusmenu.Menuitem();
+            item_status.property_set(Dbusmenu.MENUITEM_PROP_LABEL, _("Status"));
+            item_status.property_set(Dbusmenu.MENUITEM_PROP_CHILD_DISPLAY, "submenu");
+            item_status.property_set_bool(Dbusmenu.MENUITEM_PROP_ENABLED, true);
+            item_status.property_set_bool(Dbusmenu.MENUITEM_PROP_VISIBLE, true);
+            root.child_append(item_status);
+
+            string[] statuses = {"online", "away", "dnd", "xa"};
+            string[] labels = {_("Online"), _("Away"), _("Busy"), _("Not Available")};
+
+            for (int i = 0; i < statuses.length; i++) {
+                var s = statuses[i];
+                var item = new Dbusmenu.Menuitem();
+                item.property_set(Dbusmenu.MENUITEM_PROP_LABEL, labels[i]);
+                item.property_set_bool(Dbusmenu.MENUITEM_PROP_ENABLED, true);
+                item.property_set_bool(Dbusmenu.MENUITEM_PROP_VISIBLE, true);
+                item.item_activated.connect((timestamp) => {
+                    application.activate_action("set-status", new Variant.string(s));
+                });
+                item_status.child_append(item);
+            }
+
             // Show/Hide Item
             item_show = new Dbusmenu.Menuitem();
             item_show.property_set(Dbusmenu.MENUITEM_PROP_LABEL, _("Hide Window"));

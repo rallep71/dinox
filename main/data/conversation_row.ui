@@ -14,10 +14,25 @@
                         <property name="margin-start">2</property>
                         <property name="margin-end">4</property>
                         <child>
-                            <object class="DinoUiAvatarPicture" id="picture">
-                                <property name="height-request">35</property>
-                                <property name="width-request">35</property>
-                                <property name="valign">center</property>
+                            <object class="GtkOverlay">
+                                <child>
+                                    <object class="DinoUiAvatarPicture" id="picture">
+                                        <property name="height-request">35</property>
+                                        <property name="width-request">35</property>
+                                        <property name="valign">center</property>
+                                    </object>
+                                </child>
+                                <child type="overlay">
+                                    <object class="GtkImage" id="status_image">
+                                        <property name="halign">end</property>
+                                        <property name="valign">end</property>
+                                        <property name="pixel-size">12</property>
+                                        <property name="visible">False</property>
+                                        <style>
+                                            <class name="status-indicator"/>
+                                        </style>
+                                    </object>
+                                </child>
                             </object>
                         </child>
                         <child>

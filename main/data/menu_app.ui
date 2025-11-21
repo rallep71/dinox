@@ -2,6 +2,33 @@
 <interface>
     <menu id="menu_app">
         <section>
+            <submenu>
+                <attribute name="label" translatable="yes">Status</attribute>
+                <section>
+                    <item>
+                        <attribute name="action">app.set-status</attribute>
+                        <attribute name="target">online</attribute>
+                        <attribute name="label" translatable="yes">Online</attribute>
+                    </item>
+                    <item>
+                        <attribute name="action">app.set-status</attribute>
+                        <attribute name="target">away</attribute>
+                        <attribute name="label" translatable="yes">Away</attribute>
+                    </item>
+                    <item>
+                        <attribute name="action">app.set-status</attribute>
+                        <attribute name="target">dnd</attribute>
+                        <attribute name="label" translatable="yes">Busy</attribute>
+                    </item>
+                    <item>
+                        <attribute name="action">app.set-status</attribute>
+                        <attribute name="target">xa</attribute>
+                        <attribute name="label" translatable="yes">Not Available</attribute>
+                    </item>
+                </section>
+            </submenu>
+        </section>
+        <section>
             <item>
                 <attribute name="action">app.preferences</attribute>
                 <attribute name="label" translatable="yes">Preferences</attribute>

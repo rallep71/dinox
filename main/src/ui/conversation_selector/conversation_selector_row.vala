@@ -21,6 +21,7 @@ public class ConversationSelectorRow : ListBoxRow {
     [GtkChild] protected unowned Image muted_image;
     [GtkChild] protected unowned Image blocked_image;
     [GtkChild] protected unowned Image pinned_image;
+    [GtkChild] protected unowned Image status_image;
     [GtkChild] public unowned Revealer main_revealer;
 
     public Conversation conversation { get; private set; }
@@ -48,10 +49,18 @@ public class ConversationSelectorRow : ListBoxRow {
         if (conversation.type_ == Conversation.Type.CHAT) {
             GestureClick gesture = new GestureClick();
             gesture.set_button(3); // Right click
-            gesture.pressed.connect((n, x, y) => {
+            gesture.pressed.connect((n_press, x, y) => {
                 show_context_menu(x, y);
             });
-            this.add_controller(gesture);
+            add_controller(gesture);
+            
+            // Connect presence signals
+            var pm = stream_interactor.get_module(PresenceManager.IDENTITY);
+            pm.show_received.connect(on_presence_changed);
+            pm.received_offline_presence.connect(on_presence_changed);
+            
+            // Initial update
+            update_status();
         }
 
         if (conversation.type_ == Conversation.Type.GROUPCHAT) {
@@ -123,6 +132,14 @@ public class ConversationSelectorRow : ListBoxRow {
         update_muted_icon();
         update_blocked_icon();
         content_item_received();
+    }
+
+    ~ConversationSelectorRow() {
+        if (conversation.type_ == Conversation.Type.CHAT) {
+            var pm = stream_interactor.get_module(PresenceManager.IDENTITY);
+            pm.show_received.disconnect(on_presence_changed);
+            pm.received_offline_presence.disconnect(on_presence_changed);
+        }
     }
 
     public void update() {
@@ -598,6 +615,68 @@ public class ConversationSelectorRow : ListBoxRow {
         });
         
         dialog.present((Window)this.get_root());
+    }
+
+    private void on_presence_changed(Jid jid, Account account) {
+        if (account == conversation.account && jid.bare_jid.equals(conversation.counterpart)) {
+            update_status();
+        }
+    }
+
+    private void update_status() {
+        if (conversation.type_ != Conversation.Type.CHAT) {
+            status_image.visible = false;
+            return;
+        }
+
+        Gee.List<Jid>? full_jids = stream_interactor.get_module(PresenceManager.IDENTITY).get_full_jids(conversation.counterpart, conversation.account);
+        
+        string? best_show = null;
+        if (full_jids != null) {
+            foreach (Jid full_jid in full_jids) {
+                string? show = stream_interactor.get_module(PresenceManager.IDENTITY).get_last_show(full_jid, conversation.account);
+                if (show == null) continue;
+                
+                if (best_show == null) {
+                    best_show = show;
+                } else {
+                    if (score_show(show) > score_show(best_show)) {
+                        best_show = show;
+                    }
+                }
+            }
+        }
+
+        if (best_show != null) {
+            status_image.visible = true;
+            string icon_name = "user-available-symbolic";
+            string color = "#4CAF50"; // Green
+
+            if (best_show == "away") {
+                icon_name = "user-away-symbolic";
+                color = "#FF9800"; // Orange
+            } else if (best_show == "dnd") {
+                icon_name = "user-busy-symbolic";
+                color = "#F44336"; // Red
+            } else if (best_show == "xa") {
+                icon_name = "user-invisible-symbolic";
+                color = "#FF5722"; // Deep Orange
+            }
+
+            status_image.icon_name = icon_name;
+            Util.force_color(status_image, color);
+        } else {
+            status_image.visible = false;
+        }
+    }
+
+    private int score_show(string show) {
+        if (show == "chat") return 5;
+        if (show == "online") return 4;
+        if (show == "away") return 3;
+        if (show == "dnd") return 2;
+        if (show == "xa") return 1;
+        return 0;
     }
 }
 

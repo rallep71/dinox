@@ -227,6 +227,13 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         });
         add_action(accept_voice_request_action);
 
+        SimpleAction set_status_action = new SimpleAction("set-status", VariantType.STRING);
+        set_status_action.activate.connect((variant) => {
+            string status = variant.get_string();
+            stream_interactor.get_module(PresenceManager.IDENTITY).set_status(status, null);
+        });
+        add_action(set_status_action);
+
         SimpleAction loop_conversations_action = new SimpleAction("loop_conversations", null);
         loop_conversations_action.activate.connect(() => { window.loop_conversations(false); });
         add_action(loop_conversations_action);

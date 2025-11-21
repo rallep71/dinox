@@ -17,6 +17,9 @@ public class PresenceManager : StreamInteractionModule, Object {
     private HashMap<Jid, ArrayList<Jid>> resources = new HashMap<Jid, ArrayList<Jid>>(Jid.hash_bare_func, Jid.equals_bare_func);
     private Gee.List<Jid> subscription_requests = new ArrayList<Jid>(Jid.equals_func);
 
+    private string current_show = "online";
+    private string? current_status_msg = null;
+
     public static void start(StreamInteractor stream_interactor) {
         PresenceManager m = new PresenceManager(stream_interactor);
         stream_interactor.add_module(m);
@@ -25,6 +28,36 @@ public class PresenceManager : StreamInteractionModule, Object {
     private PresenceManager(StreamInteractor stream_interactor) {
         this.stream_interactor = stream_interactor;
         stream_interactor.account_added.connect(on_account_added);
+        stream_interactor.stream_negotiated.connect(on_stream_negotiated);
+    }
+
+    public void set_status(string show, string? status_msg) {
+        this.current_show = show;
+        this.current_status_msg = status_msg;
+
+        foreach (Account account in stream_interactor.get_accounts()) {
+            XmppStream? stream = stream_interactor.get_stream(account);
+            if (stream != null) {
+                send_current_presence(stream);
+            }
+        }
+    }
+
+    private void send_current_presence(XmppStream stream) {
+        var presence_module = stream.get_module(Xmpp.Presence.Module.IDENTITY);
+        var presence = new Xmpp.Presence.Stanza();
+        if (current_show != "online") {
+            presence.show = current_show;
+        }
+        presence.status = current_status_msg;
+        presence_module.send_presence(stream, presence);
+    }
+
+    private void on_stream_negotiated(Account account, XmppStream stream) {
+        // Send our custom status after the stream is negotiated
+        // The default presence module sends an initial "available" presence,
+        // but we want to enforce our current global status.
+        send_current_presence(stream);
     }
 
     public string? get_last_show(Jid jid, Account account) {
