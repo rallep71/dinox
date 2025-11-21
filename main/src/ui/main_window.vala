@@ -34,6 +34,7 @@ public class MainWindow : Adw.ApplicationWindow {
 
     private Database db;
     private Config config;
+    private StreamInteractor stream_interactor;
 
     class construct {
         var shortcut = new Shortcut(new KeyvalTrigger(Key.F, ModifierType.CONTROL_MASK), new CallbackAction((widget, args) => {
@@ -47,6 +48,7 @@ public class MainWindow : Adw.ApplicationWindow {
         Object(application : application);
         this.db = db;
         this.config = config;
+        this.stream_interactor = stream_interactor;
 
         this.title = "Dino";
 
@@ -133,7 +135,7 @@ public class MainWindow : Adw.ApplicationWindow {
         }
     }
 
-    private static void create_add_menu(MenuButton add_button, MenuButton menu_button) {
+    private void create_add_menu(MenuButton add_button, MenuButton menu_button) {
         add_button.tooltip_text = Util.string_if_tooltips_active(_("Start Conversation"));
 
         Builder add_builder = new Builder.from_resource("/im/github/rallep71/DinoX/menu_add.ui");
@@ -141,8 +143,50 @@ public class MainWindow : Adw.ApplicationWindow {
         add_button.set_menu_model(add_menu_model);
 
         Builder menu_builder = new Builder.from_resource("/im/github/rallep71/DinoX/menu_app.ui");
-        MenuModel menu_menu_model = menu_builder.get_object("menu_app") as MenuModel;
-        menu_button.set_menu_model(menu_menu_model);
+        Menu menu_app = menu_builder.get_object("menu_app") as Menu;
+        menu_button.set_menu_model(menu_app);
+
+        setup_status_menu(menu_app);
+    }
+
+    private void setup_status_menu(Menu menu_app) {
+        // Traverse to find the status section
+        // Structure: Menu -> Section -> Submenu (Status) -> Section -> Items
+        
+        MenuModel? section = menu_app.get_item_link(0, Menu.LINK_SECTION);
+        if (section == null) return;
+        
+        MenuModel? status_submenu = section.get_item_link(0, Menu.LINK_SUBMENU);
+        if (status_submenu == null) return;
+        
+        MenuModel? status_section = status_submenu.get_item_link(0, Menu.LINK_SECTION);
+        if (status_section == null) return;
+        
+        Menu? status_menu = status_section as Menu;
+        if (status_menu == null) return;
+        
+        var pm = this.stream_interactor.get_module(PresenceManager.IDENTITY);
+        pm.status_changed.connect((show, msg) => {
+            update_status_menu(status_menu, show);
+        });
+        // Initial update (default to online if not set, or fetch from PM if exposed)
+        update_status_menu(status_menu, "online"); 
+    }
+
+    private void update_status_menu(Menu status_menu, string current_status) {
+        string[] statuses = {"online", "away", "dnd", "xa"};
+        string[] labels = {_("Online"), _("Away"), _("Busy"), _("Not Available")};
+        string[] active_emojis = {"🟢", "🟠", "🔴", "⭕"};
+        string inactive_emoji = "⚪"; 
+
+        status_menu.remove_all();
+        
+        for (int i = 0; i < statuses.length; i++) {
+            string emoji = (statuses[i] == current_status) ? active_emojis[i] : inactive_emoji;
+            var item = new MenuItem(emoji + "  " + labels[i], "app.set-status");
+            item.set_attribute("target", "s", statuses[i]);
+            status_menu.append_item(item);
+        }
     }
 }
 

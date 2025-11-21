@@ -23,14 +23,10 @@
                                     </object>
                                 </child>
                                 <child type="overlay">
-                                    <object class="GtkImage" id="status_image">
+                                    <object class="GtkLabel" id="status_label">
                                         <property name="halign">end</property>
                                         <property name="valign">end</property>
-                                        <property name="pixel-size">12</property>
                                         <property name="visible">False</property>
-                                        <style>
-                                            <class name="status-indicator"/>
-                                        </style>
                                     </object>
                                 </child>
                             </object>

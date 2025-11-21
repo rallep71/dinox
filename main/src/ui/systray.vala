@@ -66,9 +66,9 @@ public class SystrayManager : Object {
     public MainWindow? window;
     private StatusNotifierItem? status_notifier;
     private Dbusmenu.Server? menu_server;
-    private Dbusmenu.Menuitem? item_show;
     private uint dbus_id = 0;
     private DBusConnection? connection;
+    private Dbusmenu.Menuitem[] status_items;
     
     public bool is_hidden = false;
     
@@ -101,16 +101,9 @@ public class SystrayManager : Object {
             root.property_set(Dbusmenu.MENUITEM_PROP_CHILD_DISPLAY, "submenu");
             menu_server.set_root(root);
             
-            // Status Submenu
-            var item_status = new Dbusmenu.Menuitem();
-            item_status.property_set(Dbusmenu.MENUITEM_PROP_LABEL, _("Status"));
-            item_status.property_set(Dbusmenu.MENUITEM_PROP_CHILD_DISPLAY, "submenu");
-            item_status.property_set_bool(Dbusmenu.MENUITEM_PROP_ENABLED, true);
-            item_status.property_set_bool(Dbusmenu.MENUITEM_PROP_VISIBLE, true);
-            root.child_append(item_status);
-
             string[] statuses = {"online", "away", "dnd", "xa"};
             string[] labels = {_("Online"), _("Away"), _("Busy"), _("Not Available")};
+            status_items = new Dbusmenu.Menuitem[statuses.length];
 
             for (int i = 0; i < statuses.length; i++) {
                 var s = statuses[i];
@@ -121,20 +114,17 @@ public class SystrayManager : Object {
                 item.item_activated.connect((timestamp) => {
                     application.activate_action("set-status", new Variant.string(s));
                 });
-                item_status.child_append(item);
+                status_items[i] = item;
+                root.child_append(item);
             }
 
-            // Show/Hide Item
-            item_show = new Dbusmenu.Menuitem();
-            item_show.property_set(Dbusmenu.MENUITEM_PROP_LABEL, _("Hide Window"));
-            item_show.property_set_bool(Dbusmenu.MENUITEM_PROP_ENABLED, true);
-            item_show.property_set_bool(Dbusmenu.MENUITEM_PROP_VISIBLE, true);
-            item_show.property_set(Dbusmenu.MENUITEM_PROP_ICON_NAME, "view-restore-symbolic");
-            item_show.item_activated.connect((timestamp) => {
-                toggle_window_visibility();
+            // Connect to PresenceManager status changes
+            var pm = application.stream_interactor.get_module(PresenceManager.IDENTITY);
+            pm.status_changed.connect((show, msg) => {
+                update_status_items(show);
             });
-            root.child_append(item_show);
-            
+            update_status_items("online");
+
             // Separator
             var item_sep = new Dbusmenu.Menuitem();
             item_sep.property_set(Dbusmenu.MENUITEM_PROP_TYPE, Dbusmenu.CLIENT_TYPES_SEPARATOR);
@@ -223,10 +213,6 @@ public class SystrayManager : Object {
         window.present();
         window.set_visible(true);
         is_hidden = false;
-        
-        if (item_show != null) {
-            item_show.property_set(Dbusmenu.MENUITEM_PROP_LABEL, _("Hide Window"));
-        }
     }
     
     private void hide_window() {
@@ -234,9 +220,19 @@ public class SystrayManager : Object {
         
         window.set_visible(false);
         is_hidden = true;
-        
-        if (item_show != null) {
-            item_show.property_set(Dbusmenu.MENUITEM_PROP_LABEL, _("Show Window"));
+    }
+    
+    private void update_status_items(string current_status) {
+        string[] statuses = {"online", "away", "dnd", "xa"};
+        string[] labels = {_("Online"), _("Away"), _("Busy"), _("Not Available")};
+        string[] active_emojis = {"🟢", "🟠", "🔴", "⭕"};
+        string inactive_emoji = "⚪"; 
+
+        for (int i = 0; i < statuses.length; i++) {
+            if (status_items[i] == null) continue;
+            
+            string emoji = (statuses[i] == current_status) ? active_emojis[i] : inactive_emoji;
+            status_items[i].property_set(Dbusmenu.MENUITEM_PROP_LABEL, emoji + "  " + labels[i]);
         }
     }
     

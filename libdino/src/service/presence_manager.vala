@@ -12,6 +12,7 @@ public class PresenceManager : StreamInteractionModule, Object {
     public signal void received_offline_presence(Jid jid, Account account);
     public signal void received_subscription_request(Jid jid, Account account);
     public signal void received_subscription_approval(Jid jid, Account account);
+    public signal void status_changed(string show, string? status_msg);
 
     private StreamInteractor stream_interactor;
     private HashMap<Jid, ArrayList<Jid>> resources = new HashMap<Jid, ArrayList<Jid>>(Jid.hash_bare_func, Jid.equals_bare_func);
@@ -34,6 +35,7 @@ public class PresenceManager : StreamInteractionModule, Object {
     public void set_status(string show, string? status_msg) {
         this.current_show = show;
         this.current_status_msg = status_msg;
+        status_changed(show, status_msg);
 
         foreach (Account account in stream_interactor.get_accounts()) {
             XmppStream? stream = stream_interactor.get_stream(account);
@@ -68,6 +70,16 @@ public class PresenceManager : StreamInteractionModule, Object {
         if (presence == null) return null;
 
         return presence.show;
+    }
+
+    public string? get_last_status_msg(Jid jid, Account account) {
+        XmppStream? stream = stream_interactor.get_stream(account);
+        if (stream == null) return null;
+
+        Xmpp.Presence.Stanza? presence = stream.get_flag(Presence.Flag.IDENTITY).get_presence(jid);
+        if (presence == null) return null;
+
+        return presence.status;
     }
 
     public Gee.List<Jid>? get_full_jids(Jid jid, Account account) {
