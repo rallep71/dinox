@@ -7,7 +7,7 @@ public class Dino.Ui.ViewModel.GeneralPreferencesPage : Object {
     public bool convert_emojis { get; set; }
 }
 
-[GtkTemplate (ui = "/im/dino/Dino/preferences_window/general_preferences_page.ui")]
+[GtkTemplate (ui = "/im/github/rallep71/DinoX/preferences_window/general_preferences_page.ui")]
 public class Dino.Ui.GeneralPreferencesPage : Adw.PreferencesPage {
     [GtkChild] private unowned Adw.SwitchRow typing_row;
     [GtkChild] private unowned Adw.SwitchRow marker_row;

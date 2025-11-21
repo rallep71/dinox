@@ -6,7 +6,7 @@ using Dino.Entities;
 
 namespace Dino.Ui {
 
-[GtkTemplate (ui = "/im/dino/Dino/conversation_view.ui")]
+[GtkTemplate (ui = "/im/github/rallep71/DinoX/conversation_view.ui")]
 public class ConversationView : Widget {
 
     [GtkChild] public unowned Revealer goto_end_revealer;

@@ -9,7 +9,7 @@ using Xmpp;
 
 namespace Dino.Ui {
 
-[GtkTemplate (ui = "/im/dino/Dino/conversation_row.ui")]
+[GtkTemplate (ui = "/im/github/rallep71/DinoX/conversation_row.ui")]
 public class ConversationSelectorRow : ListBoxRow {
 
     [GtkChild] protected unowned AvatarPicture picture;

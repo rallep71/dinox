@@ -6,7 +6,7 @@ using Xmpp;
 
 namespace Dino.Ui{
 
-    [GtkTemplate (ui = "/im/dino/Dino/preferences_window/change_password_dialog.ui")]
+    [GtkTemplate (ui = "/im/github/rallep71/DinoX/preferences_window/change_password_dialog.ui")]
     public class ChangePasswordDialog : Adw.Dialog {
 
         [GtkChild] private unowned Button change_password_button;

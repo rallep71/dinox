@@ -46,7 +46,7 @@ public class ConversationItemSkeleton : Plugins.ConversationItemWidgetInterface,
         item.bind_property("in-edit-mode", this, "item-in-edit-mode");
         this.notify["item-in-edit-mode"].connect(update_edit_mode);
 
-        Builder builder = new Builder.from_resource("/im/dino/Dino/conversation_item_widget.ui");
+        Builder builder = new Builder.from_resource("/im/github/rallep71/DinoX/conversation_item_widget.ui");
         main_grid = (Grid) builder.get_object("main_grid");
         main_grid.add_css_class("message-box");
         name_label = (Label) builder.get_object("name_label");

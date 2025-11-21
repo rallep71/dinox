@@ -35,7 +35,7 @@ public class Dino.Ui.PreferencesWindowEncryption : Adw.PreferencesPage {
         // Populate selector
         if (model.active_accounts_selection.get_n_items() > 0) {
             drop_down = new DropDown(model.active_accounts_selection, null) { halign=Align.CENTER };
-            drop_down.factory = new BuilderListItemFactory.from_resource(null, "/im/dino/Dino/account_picker_row.ui");
+            drop_down.factory = new BuilderListItemFactory.from_resource(null, "/im/github/rallep71/DinoX/account_picker_row.ui");
 
             drop_down.notify["selected-item"].connect(() => {
                 var account_details = (ViewModel.AccountDetails) drop_down.selected_item;

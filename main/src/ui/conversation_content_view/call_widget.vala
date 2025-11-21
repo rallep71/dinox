@@ -26,7 +26,7 @@ namespace Dino.Ui {
         public override Gee.List<Plugins.MessageAction>? get_item_actions(Plugins.WidgetType type) { return null; }
     }
 
-    [GtkTemplate (ui = "/im/dino/Dino/call_widget.ui")]
+    [GtkTemplate (ui = "/im/github/rallep71/DinoX/call_widget.ui")]
     public class CallWidget : SizeRequestBox {
 
         [GtkChild] public unowned Image image;

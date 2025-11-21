@@ -7,7 +7,7 @@ using Dino.Entities;
 
 namespace Dino.Ui {
 
-[GtkTemplate (ui = "/im/dino/Dino/file_default_widget.ui")]
+[GtkTemplate (ui = "/im/github/rallep71/DinoX/file_default_widget.ui")]
 public class FileDefaultWidget : Gtk.Box {
 
     public signal void clicked();

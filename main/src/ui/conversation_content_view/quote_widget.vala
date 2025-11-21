@@ -61,7 +61,7 @@ namespace Dino.Ui.Quote {
     }
 
     public Widget get_widget(Model model) {
-        Builder builder = new Builder.from_resource("/im/dino/Dino/quote.ui");
+        Builder builder = new Builder.from_resource("/im/github/rallep71/DinoX/quote.ui");
         AvatarPicture avatar = (AvatarPicture) builder.get_object("avatar");
         Label author = (Label) builder.get_object("author");
         Label time = (Label) builder.get_object("time");

@@ -7,7 +7,7 @@ using Dino.Entities;
 
 namespace Dino.Ui.ConversationSummary {
 
-[GtkTemplate (ui = "/im/dino/Dino/conversation_content_view/view.ui")]
+[GtkTemplate (ui = "/im/github/rallep71/DinoX/conversation_content_view/view.ui")]
 public class ConversationView : Widget, Plugins.ConversationItemCollection, Plugins.NotificationCollection {
     private const int MESSAGE_MENU_BOX_OFFSET = 0;
 

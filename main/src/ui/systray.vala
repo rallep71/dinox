@@ -9,9 +9,9 @@ public class StatusNotifierItem : Object {
     
     public string status { get; set; default = "Active"; }
     public string icon_name { get; set; default = "im.github.rallep71.DinoX"; }
-    public string title { get; set; default = "Dino"; }
+    public string title { get; set; default = "DinoX"; }
     public string category { get; set; default = "Communications"; }
-    public string id { get; set; default = "dino"; }
+    public string id { get; set; default = "dinox"; }
     public bool item_is_menu { get; set; default = false; }
     
     // Menu is exported on /MenuBar

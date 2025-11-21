@@ -6,7 +6,7 @@ using Dino.Entities;
 
 namespace Dino.Ui {
 
-[GtkTemplate (ui = "/im/dino/Dino/file_send_overlay.ui")]
+[GtkTemplate (ui = "/im/github/rallep71/DinoX/file_send_overlay.ui")]
 public class FileSendOverlay : Adw.Dialog {
 
     public signal void send_file(File file);

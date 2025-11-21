@@ -15,7 +15,7 @@ public class ListRow : Object {
     public Jid? jid;
 
     construct {
-        Builder builder = new Builder.from_resource("/im/dino/Dino/occupant_list_item.ui");
+        Builder builder = new Builder.from_resource("/im/github/rallep71/DinoX/occupant_list_item.ui");
         main_grid = (Grid) builder.get_object("main_grid");
         picture = (AvatarPicture) builder.get_object("picture");
         name_label = (Label) builder.get_object("name_label");

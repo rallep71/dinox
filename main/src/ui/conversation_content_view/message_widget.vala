@@ -330,7 +330,7 @@ public class MessageMetaItem : ContentMetaItem {
     }
 }
 
-[GtkTemplate (ui = "/im/dino/Dino/message_item_widget_edit_mode.ui")]
+[GtkTemplate (ui = "/im/github/rallep71/DinoX/message_item_widget_edit_mode.ui")]
 public class MessageItemEditMode : Box {
 
     public signal void cancelled();

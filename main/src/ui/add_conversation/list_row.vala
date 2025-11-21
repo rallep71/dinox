@@ -21,7 +21,7 @@ public class ListRow : Widget {
     private ulong[] handler_ids = new ulong[0];
 
     construct {
-        Builder builder = new Builder.from_resource("/im/dino/Dino/add_conversation/list_row.ui");
+        Builder builder = new Builder.from_resource("/im/github/rallep71/DinoX/add_conversation/list_row.ui");
         outer_box = (Box) builder.get_object("outer_box");
         picture = (AvatarPicture) builder.get_object("picture");
         name_label = (Label) builder.get_object("name_label");

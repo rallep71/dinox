@@ -6,7 +6,7 @@ using Gtk;
 
 namespace Dino.Ui.ConversationDetails {
 
-    [GtkTemplate (ui = "/im/dino/Dino/conversation_details.ui")]
+    [GtkTemplate (ui = "/im/github/rallep71/DinoX/conversation_details.ui")]
     public class Dialog : Adw.Dialog {
         [GtkChild] public unowned Stack stack;
         [GtkChild] public unowned Box about_box;
@@ -191,7 +191,7 @@ namespace Dino.Ui.ConversationDetails {
 #endif
 
             var selection_model = new NoSelection(model.members_sorted);
-            var item_factory = new BuilderListItemFactory.from_resource(null, "/im/dino/Dino/muc_member_list_row.ui");
+            var item_factory = new BuilderListItemFactory.from_resource(null, "/im/github/rallep71/DinoX/muc_member_list_row.ui");
             var list_view = new ListView(selection_model, item_factory) { single_click_activate = true };
             list_view.add_css_class("card");
             list_view.activate.connect((position) => {
@@ -278,7 +278,7 @@ namespace Dino.Ui.ConversationDetails {
         }
     }
 
-    [GtkTemplate (ui = "/im/dino/Dino/muc_member_list_row.ui")]
+    [GtkTemplate (ui = "/im/github/rallep71/DinoX/muc_member_list_row.ui")]
     public class Dino.Ui.ConversationDetails.MemberListItem : Gtk.Widget {
 
     }

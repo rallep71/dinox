@@ -6,7 +6,7 @@ using Xmpp;
 
 namespace Dino.Ui.OccupantMenu {
 
-[GtkTemplate (ui = "/im/dino/Dino/occupant_list.ui")]
+[GtkTemplate (ui = "/im/github/rallep71/DinoX/occupant_list.ui")]
 public class List : Box {
 
     public signal void conversation_selected(Conversation? conversation);

@@ -28,7 +28,7 @@ public class GlobalSearch {
     public GlobalSearch(StreamInteractor stream_interactor) {
         this.stream_interactor = stream_interactor;
 
-        Builder builder = new Builder.from_resource("/im/dino/Dino/global_search.ui");
+        Builder builder = new Builder.from_resource("/im/github/rallep71/DinoX/global_search.ui");
         overlay = (Overlay) builder.get_object("overlay");
         search_entry = (SearchEntry) builder.get_object("search_entry");
         entry_number_label = (Label) builder.get_object("entry_number_label");
@@ -117,7 +117,7 @@ public class GlobalSearch {
 
             // Populate new suggestions
             foreach(SearchSuggestion suggestion in suggestions) {
-                Builder builder = new Builder.from_resource("/im/dino/Dino/search_autocomplete.ui");
+                Builder builder = new Builder.from_resource("/im/github/rallep71/DinoX/search_autocomplete.ui");
                 AvatarPicture avatar = (AvatarPicture)builder.get_object("picture");
                 Label label = (Label)builder.get_object("label");
                 string display_name;

@@ -6,7 +6,7 @@ using Dino.Entities;
 
 namespace Dino.Ui {
 
-[GtkTemplate (ui = "/im/dino/Dino/main_window.ui")]
+[GtkTemplate (ui = "/im/github/rallep71/DinoX/main_window.ui")]
 public class MainWindow : Adw.ApplicationWindow {
 
     public signal void conversation_selected(Conversation conversation);
@@ -136,11 +136,11 @@ public class MainWindow : Adw.ApplicationWindow {
     private static void create_add_menu(MenuButton add_button, MenuButton menu_button) {
         add_button.tooltip_text = Util.string_if_tooltips_active(_("Start Conversation"));
 
-        Builder add_builder = new Builder.from_resource("/im/dino/Dino/menu_add.ui");
+        Builder add_builder = new Builder.from_resource("/im/github/rallep71/DinoX/menu_add.ui");
         MenuModel add_menu_model = add_builder.get_object("menu_add") as MenuModel;
         add_button.set_menu_model(add_menu_model);
 
-        Builder menu_builder = new Builder.from_resource("/im/dino/Dino/menu_app.ui");
+        Builder menu_builder = new Builder.from_resource("/im/github/rallep71/DinoX/menu_app.ui");
         MenuModel menu_menu_model = menu_builder.get_object("menu_app") as MenuModel;
         menu_button.set_menu_model(menu_menu_model);
     }
@@ -163,7 +163,7 @@ public class NoAccountsPlaceholder : MainWindowPlaceholder {
     }
 }
 
-[GtkTemplate (ui = "/im/dino/Dino/main_window_placeholder.ui")]
+[GtkTemplate (ui = "/im/github/rallep71/DinoX/main_window_placeholder.ui")]
 public class MainWindowPlaceholder : Box {
     [GtkChild] public unowned Adw.StatusPage status_page;
     [GtkChild] public unowned Button primary_button;
