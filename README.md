@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="dinox.svg" width="120" alt="DinoX Logo">
+<img src="dinox.svg" width="200" alt="DinoX Logo">
 
 # DinoX
 
@@ -19,57 +19,57 @@ Active fork of [dino/dino](https://github.com/dino/dino) with faster development
 
 ---
 
-## 🚀 What is DinoX?
+## What is DinoX?
 
 DinoX is a modern, user-friendly XMPP (Jabber) messaging client for Linux built with **GTK4** and **Vala**. It's an active fork of Dino that adds features the community has been requesting for years.
 
 **Key Features:**
-- 🔒 **End-to-End Encryption** - OMEMO & OpenPGP support
-- 📞 **Voice & Video Calls** - High-quality audio/video communication
-- 📁 **File Transfers** - Easy sharing of files and media
-- 👥 **Group Chats** - Full MUC (Multi-User Chat) support
-- 🎨 **Modern UI** - Clean interface with libadwaita design
-- 📡 **60+ XEPs** - Extensive XMPP protocol support
+- **End-to-End Encryption** - OMEMO & OpenPGP support
+- **Voice & Video Calls** - High-quality audio/video communication
+- **File Transfers** - Easy sharing of files and media
+- **Group Chats** - Full MUC (Multi-User Chat) support
+- **Modern UI** - Clean interface with libadwaita design
+- **60+ XEPs** - Extensive XMPP protocol support
 
-> **Status**: ✅ Active development | 🔄 Based on upstream master | 📊 Database schema v32
+> **Status:** Active development | Based on upstream master | Database schema v32
 
-## ✨ Extended Features
+## Extended Features
 
 DinoX adds features that are **missing in upstream Dino** but highly requested by the community:
 
-### 🎯 New Features
+### New Features
 
 | Feature | Status | Upstream Issue |
 |---------|--------|----------------|
-| **🔔 System Tray Support** | ✅ Complete | [#98](https://github.com/dino/dino/issues/98) |
+| **System Tray Support** | ✓ Complete | [#98](https://github.com/dino/dino/issues/98) |
 | StatusNotifierItem with background mode | | Keep running when window closed |
-| **🔧 Custom Server Settings** | ✅ Complete | [#115](https://github.com/dino/dino/issues/115) |
+| **Custom Server Settings** | ✓ Complete | [#115](https://github.com/dino/dino/issues/115) |
 | Advanced connection options | | Manual host/port configuration |
-| **🗑️ Delete Conversation History** | ✅ Complete | [#472](https://github.com/dino/dino/issues/472) |
+| **Delete Conversation History** | ✓ Complete | [#472](https://github.com/dino/dino/issues/472) |
 | Persistent history clearing | | Remove all messages permanently |
-| **👥 Contact Management Suite** | ✅ Complete | Multiple issues |
+| **Contact Management Suite** | ✓ Complete | Multiple issues |
 | Edit/Mute/Block/Remove contacts | | Full contact control with UI |
-| **🏷️ Status Badges** | ✅ Complete | Community request |
+| **Status Badges** | ✓ Complete | Community request |
 | Visual indicators | | See muted/blocked status at a glance |
-| **📋 Context Menu** | ✅ Complete | UX improvement |
+| **Context Menu** | ✓ Complete | UX improvement |
 | Right-click on conversations | | Quick access to common actions |
 
-### 🐛 Bug Fixes
+### Bug Fixes
 
-- ✅ **Memory Leak Fixes** - MAM cleanup ([#1766](https://github.com/dino/dino/issues/1766))
-- ✅ **File Transfer Fixes** - Segfault prevention ([#1764](https://github.com/dino/dino/issues/1764))
+- ✓ **Memory Leak Fixes** - MAM cleanup ([#1766](https://github.com/dino/dino/issues/1766))
+- ✓ **File Transfer Fixes** - Segfault prevention ([#1764](https://github.com/dino/dino/issues/1764))
 
-📋 See [DEVELOPMENT_PLAN.md](DEVELOPMENT_PLAN.md) for complete feature list and roadmap.
+See [DEVELOPMENT_PLAN.md](DEVELOPMENT_PLAN.md) for complete feature list and roadmap.
 
-## 📦 Installation
+## Installation
 
 ### Option 1: Download Release
 
-**📥 [Download Latest Release](https://github.com/rallep71/dinox/releases/latest)**
+**[Download Latest Release](https://github.com/rallep71/dinox/releases/latest)**
 
 Available formats:
-- 📦 **Flatpak** - Universal Linux package (x86_64, aarch64)
-- 📄 **Source Tarball** - Build from source
+- **Flatpak** - Universal Linux package (x86_64, aarch64)
+- **Source Tarball** - Build from source
 
 ```bash
 # Install Flatpak
@@ -103,9 +103,9 @@ meson compile -C build
 sudo meson install -C build
 ```
 
-📖 For other distributions see [docs/BUILD.md](docs/BUILD.md).
+For other distributions see [docs/BUILD.md](docs/BUILD.md).
 
-## 🎮 Quick Start
+## Quick Start
 
 After installation, you can:
 
@@ -126,30 +126,30 @@ DINO_LOG_LEVEL=debug ./build/main/dinoxx
 flatpak run --env=DINO_LOG_LEVEL=debug im.github.rallep71.DinoX
 ```
 
-## 📚 Documentation
+## Documentation
 
 | Document | Description |
 |----------|-------------|
-| 📖 [Build Instructions](docs/BUILD.md) | Complete build guide for all distros |
-| 🏗️ [Architecture Overview](docs/ARCHITECTURE.md) | Code structure and design |
-| 🔧 [Development Plan](DEVELOPMENT_PLAN.md) | Roadmap and completed features |
-| 📡 [XMPP Extensions](docs/XEP_SUPPORT.md) | Supported XEPs (60+) |
-| 🗄️ [Database Schema](docs/DATABASE_SCHEMA.md) | SQLite schema documentation |
-| 🎨 [Logo Guide](docs/LOGO_CREATION_GUIDE.md) | Logo creation and branding |
-| 📦 [Flathub Guide](docs/FLATHUB.md) | Publishing to Flathub |
-| ⚖️ [Legal & Branding](docs/LEGAL_BRANDING.md) | License and trademark info |
+| [Build Instructions](docs/BUILD.md) | Complete build guide for all distros |
+| [Architecture Overview](docs/ARCHITECTURE.md) | Code structure and design |
+| [Development Plan](DEVELOPMENT_PLAN.md) | Roadmap and completed features |
+| [XMPP Extensions](docs/XEP_SUPPORT.md) | Supported XEPs (60+) |
+| [Database Schema](docs/DATABASE_SCHEMA.md) | SQLite schema documentation |
+| [Logo Guide](docs/LOGO_CREATION_GUIDE.md) | Logo creation and branding |
+| [Flathub Guide](docs/FLATHUB.md) | Publishing to Flathub |
+| [Legal & Branding](docs/LEGAL_BRANDING.md) | License and trademark info |
 
-## 🤝 Contribute
+## Contribute
 
 We welcome contributions! Here's how you can help:
 
-- 🐛 **Report Bugs** - Use [GitHub Issues](https://github.com/rallep71/dinox/issues)
-- 💡 **Feature Requests** - Check [DEVELOPMENT_PLAN.md](DEVELOPMENT_PLAN.md) first
-- 🔧 **Pull Requests** - Welcome! Discuss bigger changes first
-- 🌍 **Translations** - Help translate via upstream Dino project
-- ⭐ **Star the Repo** - Show your support!
+- **Report Bugs** - Use [GitHub Issues](https://github.com/rallep71/dinox/issues)
+- **Feature Requests** - Check [DEVELOPMENT_PLAN.md](DEVELOPMENT_PLAN.md) first
+- **Pull Requests** - Welcome! Discuss bigger changes first
+- **Translations** - Help translate via upstream Dino project
+- **Star the Repo** - Show your support!
 
-## 🔗 Resources
+## Resources
 
 | Resource | Link |
 |----------|------|
@@ -159,7 +159,7 @@ We welcome contributions! Here's how you can help:
 | **Releases** | [GitHub Releases](https://github.com/rallep71/dinox/releases) |
 | **Issues** | [Bug Tracker](https://github.com/rallep71/dinox/issues) |
 
-## 📊 Project Stats
+## Project Stats
 
 - **XEP Support**: 60+ XMPP Extension Protocols
 - **Database Schema**: v32 (compatible with upstream)
@@ -168,7 +168,7 @@ We welcome contributions! Here's how you can help:
 
 ---
 
-## 📄 License
+## License
 
 **GPL-3.0** - Same as upstream Dino
 
@@ -194,8 +194,8 @@ See [LICENSE](LICENSE) for the full license text.
 
 <div align="center">
 
-**Made with ❤️ by the XMPP community**
+**Made by the XMPP community**
 
-[⭐ Star on GitHub](https://github.com/rallep71/dinox) • [🐛 Report Issues](https://github.com/rallep71/dinox/issues) • [📖 Read Docs](docs/)
+[Star on GitHub](https://github.com/rallep71/dinox) • [Report Issues](https://github.com/rallep71/dinox/issues) • [Read Docs](docs/)
 
 </div>
