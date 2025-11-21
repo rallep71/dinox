@@ -53,10 +53,14 @@ public class Module : XmppStreamModule, Iq.Handler {
             active_info_requests[jid] = future;
 
             Iq.Stanza iq = new Iq.Stanza.get(new StanzaNode.build("query", NS_URI_INFO).add_self_xmlns()) { to=jid };
-            Iq.Stanza iq_response = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
-            InfoResult? result = InfoResult.create_from_iq(iq_response);
-
-            promise.set_value(result);
+            try {
+                Iq.Stanza iq_response = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+                InfoResult? result = InfoResult.create_from_iq(iq_response);
+                promise.set_value(result);
+            } catch (IOError e) {
+                warning("IOError in request_info: %s", e.message);
+                promise.set_value(null);
+            }
             active_info_requests.unset(jid);
         }
 
@@ -73,10 +77,14 @@ public class Module : XmppStreamModule, Iq.Handler {
         StanzaNode query_node = new StanzaNode.build("query", NS_URI_ITEMS).add_self_xmlns();
         Iq.Stanza iq = new Iq.Stanza.get(query_node) { to=jid };
 
-        Iq.Stanza iq_result = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
-        ItemsResult? result = ItemsResult.create_from_iq(iq_result);
-
-        return result;
+        try {
+            Iq.Stanza iq_result = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+            ItemsResult? result = ItemsResult.create_from_iq(iq_result);
+            return result;
+        } catch (IOError e) {
+            warning("IOError in request_items: %s", e.message);
+            return null;
+        }
     }
 
     public async void on_iq_get(XmppStream stream, Iq.Stanza iq) {

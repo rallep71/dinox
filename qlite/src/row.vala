@@ -133,7 +133,7 @@ public class RowOption {
         return inner != null;
     }
 
-    public T get<T>(Column<T> field, T def = null) {
+    public T? get<T>(Column<T> field, T? def = null) {
         if (inner == null || field.is_null((!)inner)) return def;
         return field[(!)inner];
     }

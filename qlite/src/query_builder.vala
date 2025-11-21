@@ -171,7 +171,7 @@ public class QueryBuilder : StatementBuilder {
         return new RowOption(row_());
     }
 
-    public T get<T>(Column<T> field, T def = null) {
+    public T? get<T>(Column<T> field, T? def = null) {
         return row().get(field, def);
     }
 
