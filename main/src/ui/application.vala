@@ -300,7 +300,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         about_dialog.application_icon = "im.github.rallep71.DinoX";
         about_dialog.application_name = "DinoX";
         about_dialog.issue_url = "https://github.com/rallep71/dinox/issues";
-        about_dialog.title = _("About DinoX");
+        about_dialog.title = _("About Dino");
         about_dialog.version = version;
         about_dialog.website = "https://github.com/rallep71/dinox";
         about_dialog.copyright = "Copyright © 2016-2025 - Dino Team\nCopyright © 2025 - Ralf Peter";
