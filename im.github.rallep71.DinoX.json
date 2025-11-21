@@ -3,7 +3,7 @@
     "runtime": "org.gnome.Platform",
     "runtime-version": "49",
     "sdk": "org.gnome.Sdk",
-    "command": "dino",
+    "command": "dinox",
     "finish-args": [
         "--share=ipc",
         "--socket=fallback-x11",
