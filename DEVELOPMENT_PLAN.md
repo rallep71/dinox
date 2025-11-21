@@ -96,15 +96,20 @@ DinoX addresses the slow development pace of the original Dino XMPP client while
 - **Async Safety**: Enforced explicit `.begin` syntax for all async void method calls to ensure proper execution context.
 - **Clean Build**: Achieved a completely clean build (`meson compile`) with **0 warnings**, ensuring no hidden bugs from deprecated usage.
 - **Runtime Verification**: Verified stability of OMEMO encryption, File Transfers, and Connection logic after refactoring.
+- **Critical Fixes**:
+    - Fixed `WeakMap` null return issue causing potential crashes in `libdino`.
+    - Fixed `GValueArray` deprecation in RTP plugin while maintaining runtime stability (using C helper).
 
 **Files Modified**:
 - `libdino/src/service/*.vala` (Calls, Messages, FileSharing, etc.)
+- `libdino/src/util/weak_map.vala` (Null safety)
 - `plugins/ice/src/dtls_srtp.vala` & `gnutls.vapi`
 - `plugins/omemo/src/` (Crypto logic, UI)
+- `plugins/rtp/src/gst_fixes.c` (GStreamer deprecation helper)
 - `xmpp-vala/src/` (Stream handling)
 
 **Status**: ✓ **COMPLETED** (November 21, 2025)
-**Commits**: `b5af8aab` (Fix errors), `1ab66e71` (Cleanup)
+**Commits**: `b5af8aab` (Fix errors), `1ab66e71` (Cleanup), `[Current]` (WeakMap/RTP fixes)
 
 ---
 
@@ -119,6 +124,7 @@ DinoX addresses the slow development pace of the original Dino XMPP client while
 | P0 | [#1271](https://github.com/dino/dino/issues/1271) | Calls | Stuck connecting with Conversations | Medium | ✓ FIXED |
 | P1 | [#1559](https://github.com/dino/dino/issues/1559) | Calls | Echo cancellation broken | Hard | TODO |
 | P1 | [#57](https://github.com/dino/dino/issues/57) | Security | Self-signed certs rejected | Medium | TODO |
+| P1 | **User Status** | **Presence UI** | **Set own status / View partner status** | Medium | **READY** |
 |  P1 | **XEP-0424** | **Message UI** | **Delete individual messages** | Easy | READY **READY** |
 |  P2 | **XEP-0425** | **MUC UI** | **Moderator message deletion** | Medium | READY **READY** |
 
@@ -127,10 +133,18 @@ DinoX addresses the slow development pace of the original Dino XMPP client while
 - `plugins/omemo/src/message_encryptor.vala` - Offline message handling
 - `plugins/rtp/src/device/` - Echo cancellation
 - `xmpp-vala/src/core/` - Certificate validation
+- **`main/src/ui/main_window.vala`** - User Status Selector
+- **`main/src/ui/conversation_selector/conversation_selector_row.vala`** - Status Indicators
 - **`main/src/ui/conversation_content_view/message_widget.vala`** - XEP-0424/0425 UI
 - **`main/src/ui/conversation_content_view/item_actions.vala`** - Delete action
 
 **XEP UI Implementation** (Backend already complete, see [XEP_UI_ANALYSIS.md](docs/XEP_UI_ANALYSIS.md)):
+
+**User Status (Presence) UI** (2-3 days):
+- Backend ✓ `libdino/src/service/presence_manager.vala` (Already handles presence updates)
+- Missing: UI to set own status (Online, Away, Busy, Offline)
+- Missing: Visual indicator for chat partner's status in conversation list
+- Implementation: Add status selector to Main Menu, add status dots to `ConversationSelectorRow`
 
 **XEP-0424 - Message Retraction UI** (1-2 days):
 - Backend ✓ `xmpp-vala/src/module/xep/0424_message_retraction.vala`

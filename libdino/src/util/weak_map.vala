@@ -40,7 +40,7 @@ public class WeakMap<K, V> : Gee.AbstractMap<K, V> {
     }
 
     public override V @get(K key) {
-        if (!hash_map.has_key(key)) return null;
+        if (!hash_map.has_key(key)) return (V) null;
 
         var v = hash_map[key];
 
