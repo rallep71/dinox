@@ -29,9 +29,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 **First release as DinoX - Complete fork and rebranding!**
 
 ### Added
-- **Systray Support** (#98) - StatusNotifierItem with libdbusmenu (108👍)
-- **Background Mode** (#299) - Keep running when window closed (54👍)
-- **Custom Server Settings** (#115) - Advanced connection options (26👍)
+- **Systray Support** (#98) - StatusNotifierItem with libdbusmenu
+- **Background Mode** (#299) - Keep running when window closed
+- **Custom Server Settings** (#115) - Advanced connection options
 - **Delete Conversation History** (#472) - Clear chat with XEP-0425 persistence
 - **Contact Management Suite**:
   - Central Contacts management page in Preferences

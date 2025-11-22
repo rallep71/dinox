@@ -51,41 +51,55 @@ jobs:
           mv im.github.rallep71.DinoX-${{ matrix.variant.arch }}.flatpak \
              dinox-${{ steps.get_version.outputs.version }}-${{ matrix.variant.arch }}.flatpak
 
+      - name: "Prepare Release Body"
+        run: |
+          version="${{ steps.get_version.outputs.version }}"
+          
+          echo "## DinoX v$version" > RELEASE_BODY.md
+          echo "" >> RELEASE_BODY.md
+          echo "Modern XMPP client with extended features." >> RELEASE_BODY.md
+          echo "" >> RELEASE_BODY.md
+          echo "### What's New" >> RELEASE_BODY.md
+          echo "" >> RELEASE_BODY.md
+          
+          # Extract changelog for this version
+          # Matches "## [version]" and prints until the next "## "
+          awk -v ver="[$version]" '
+            /^## / { if (p) { exit }; if ($2 == ver) { p=1; next } }
+            p { print }
+          ' CHANGELOG.md >> RELEASE_BODY.md
+          
+          echo "" >> RELEASE_BODY.md
+          echo "See [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/CHANGELOG.md) for full details." >> RELEASE_BODY.md
+          echo "" >> RELEASE_BODY.md
+          echo "### Installation" >> RELEASE_BODY.md
+          echo "" >> RELEASE_BODY.md
+          echo "**Flatpak** (Recommended):" >> RELEASE_BODY.md
+          echo "\`\`\`bash" >> RELEASE_BODY.md
+          echo "# x86_64 systems" >> RELEASE_BODY.md
+          echo "flatpak install dinox-$version-x86_64.flatpak" >> RELEASE_BODY.md
+          echo "\`\`\`" >> RELEASE_BODY.md
+          echo "" >> RELEASE_BODY.md
+          echo "**From Source**:" >> RELEASE_BODY.md
+          echo "See [BUILD.md](https://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/docs/BUILD.md)" >> RELEASE_BODY.md
+          echo "" >> RELEASE_BODY.md
+          echo "### Requirements" >> RELEASE_BODY.md
+          echo "" >> RELEASE_BODY.md
+          echo "- GTK4 4.0+" >> RELEASE_BODY.md
+          echo "- libadwaita 1.5+" >> RELEASE_BODY.md
+          echo "- libdbusmenu-glib 0.4+ (for systray support)" >> RELEASE_BODY.md
+          echo "" >> RELEASE_BODY.md
+          echo "### Links" >> RELEASE_BODY.md
+          echo "" >> RELEASE_BODY.md
+          echo "- [Documentation](https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}/docs)" >> RELEASE_BODY.md
+          echo "- [Development Plan](https://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/DEVELOPMENT_PLAN.md)" >> RELEASE_BODY.md
+          echo "- [Report Issues](https://github.com/${{ github.repository }}/issues)" >> RELEASE_BODY.md
+
       - name: "Upload Release Assets"
         uses: softprops/action-gh-release@v2
         with:
           name: DinoX v${{ steps.get_version.outputs.version }}
-          body: |
-            ## DinoX v${{ steps.get_version.outputs.version }}
-            
-            Modern XMPP client with extended features.
-            
-            ### What's New
-            
-            See [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/CHANGELOG.md) for full details.
-            
-            ### Installation
-            
-            **Flatpak** (Recommended):
-            ```bash
-            # x86_64 systems
-            flatpak install dinox-${{ steps.get_version.outputs.version }}-x86_64.flatpak
-            ```
-            
-            **From Source**:
-            See [BUILD.md](https://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/docs/BUILD.md)
-            
-            ### Requirements
-            
-            - GTK4 4.0+
-            - libadwaita 1.5+
-            - libdbusmenu-glib 0.4+ (for systray support)
-            
-            ### Links
-            
-            - [Documentation](https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}/docs)
-            - [Development Plan](https://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/DEVELOPMENT_PLAN.md)
-            - [Report Issues](https://github.com/${{ github.repository }}/issues)
+          body_path: RELEASE_BODY.md
           draft: false
           prerelease: false
           files: |
