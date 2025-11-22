@@ -13,7 +13,8 @@
         "--filesystem=xdg-run/pipewire-0",
         "--share=network",
         "--device=dri",
-        "--talk-name=org.freedesktop.Notifications"
+        "--talk-name=org.freedesktop.Notifications",
+        "--talk-name=org.kde.StatusNotifierWatcher"
     ],
     "modules": [
         {

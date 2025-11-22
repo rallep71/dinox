@@ -58,33 +58,30 @@ jobs:
           body: |
             ## DinoX v${{ steps.get_version.outputs.version }}
             
-            Modern XMPP client - Active fork of [dino/dino](https://github.com/dino/dino) with extended features.
+            Modern XMPP client with extended features.
             
-            ### 🎉 What's New
+            ### What's New
             
             See [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/CHANGELOG.md) for full details.
             
-            ### 📦 Installation
+            ### Installation
             
             **Flatpak** (Recommended):
             ```bash
             # x86_64 systems
             flatpak install dinox-${{ steps.get_version.outputs.version }}-x86_64.flatpak
-            
-            # aarch64/ARM64 systems
-            flatpak install dinox-${{ steps.get_version.outputs.version }}-aarch64.flatpak
             ```
             
             **From Source**:
             See [BUILD.md](https://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/docs/BUILD.md)
             
-            ### 📋 Requirements
+            ### Requirements
             
             - GTK4 4.0+
             - libadwaita 1.5+
             - libdbusmenu-glib 0.4+ (for systray support)
             
-            ### 🔗 Links
+            ### Links
             
             - [Documentation](https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}/docs)
             - [Development Plan](https://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/DEVELOPMENT_PLAN.md)
