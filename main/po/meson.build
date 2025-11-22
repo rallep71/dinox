@@ -1,1 +1,1 @@
-i18n.gettext('dino')
+i18n.gettext('dino', args: ['--from-code=UTF-8'])
