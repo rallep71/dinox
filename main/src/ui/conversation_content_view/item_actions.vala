@@ -58,11 +58,40 @@ namespace Dino.Ui {
         Plugins.MessageAction action = new Plugins.MessageAction();
         action.name = "delete";
         action.icon_name = "user-trash-symbolic";
-        action.tooltip = _("Delete message");
+        
+        if (can_delete_for_everyone) {
+            action.tooltip = _("Delete...");
+        } else {
+            action.tooltip = _("Delete locally");
+        }
+
         action.callback = () => {
-            // If we can delete for everyone (own message), do that instead of local-only delete
+            // If we can delete for everyone (own message), offer choice
             if (can_delete_for_everyone) {
-                stream_interactor.get_module(MessageDeletion.IDENTITY).delete_globally(conversation, content_item);
+                var app = (Dino.Ui.Application) GLib.Application.get_default();
+                var window = app.window;
+
+                Gtk.AlertDialog dialog = new Gtk.AlertDialog(
+                    _("Delete message")
+                );
+                dialog.detail = _("Do you want to delete this message just for yourself or for everyone?");
+                dialog.modal = true;
+                dialog.buttons = new string[] { _("Cancel"), _("Delete locally"), _("Delete for everyone") };
+                dialog.cancel_button = 0;
+                dialog.default_button = 0; // Default to Cancel for safety
+                
+                dialog.choose.begin(window, null, (obj, res) => {
+                    try {
+                        int response = dialog.choose.end(res);
+                        if (response == 1) { // Delete locally
+                            stream_interactor.get_module(MessageDeletion.IDENTITY).delete_locally(conversation, content_item, conversation.account.bare_jid);
+                        } else if (response == 2) { // Delete for everyone
+                            stream_interactor.get_module(MessageDeletion.IDENTITY).delete_globally(conversation, content_item);
+                        }
+                    } catch (Error e) {
+                        // Cancelled
+                    }
+                });
             } else {
                 stream_interactor.get_module(MessageDeletion.IDENTITY).delete_locally(conversation, content_item, conversation.account.bare_jid);
             }

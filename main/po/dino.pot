@@ -1,14 +1,14 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the dino package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: dino\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-13 21:57+0200\n"
+"POT-Creation-Date: 2025-11-22 01:24+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,651 +16,291 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:64
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:131
-#: main/src/ui/conversation_view_controller.vala:203
-#: main/src/ui/add_conversation/select_contact_dialog.vala:41
-#: main/src/ui/add_conversation/add_conference_dialog.vala:42
-#: main/src/ui/application.vala:293
-#: main/src/ui/conversation_content_view/file_default_widget.vala:88
-#: main/data/message_item_widget_edit_mode.ui:46
-#: main/data/preferences_window/change_password_dialog.ui:18
-#: main/data/add_conversation/add_groupchat_dialog.ui:12
-#: main/data/add_conversation/add_contact_dialog.ui:13
-msgid "Cancel"
+#: main/data/call_widget.ui:73 main/src/ui/notifier_freedesktop.vala:125
+#: main/src/ui/notifier_freedesktop.vala:230
+#: main/src/ui/notifier_gnotifications.vala:80
+msgid "Reject"
 msgstr ""
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:65
-msgid "Connect"
+#: main/data/call_widget.ui:81
+#: main/src/ui/conversation_content_view/subscription_notification.vala:67
+#: main/src/ui/notifier_freedesktop.vala:125
+#: main/src/ui/notifier_freedesktop.vala:164
+#: main/src/ui/notifier_freedesktop.vala:230
+#: main/src/ui/notifier_freedesktop.vala:264
+#: main/src/ui/notifier_gnotifications.vala:81
+#: main/src/ui/notifier_gnotifications.vala:97
+#: main/src/ui/notifier_gnotifications.vala:134
+#: main/src/ui/notifier_gnotifications.vala:150
+msgid "Accept"
 msgstr ""
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:87
-#: main/data/preferences_window/account_preferences_subpage.ui:125
-msgid "Disable account"
+#: main/data/chat_input.ui:63
+msgid "Send message"
 msgstr ""
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:87
-msgid "Enable account"
+#: main/data/conversation_details.ui:145
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:438
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:175
+msgid "Remove Contact"
 msgstr ""
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:131
-msgid "Select avatar"
-msgstr ""
-
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:131
-#: main/src/ui/conversation_view_controller.vala:203
-msgid "Select"
-msgstr ""
-
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:138
-msgid "Images"
-msgstr ""
-
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:142
-msgid "All files"
-msgstr ""
-
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:156
-#, c-format
-msgid "Remove account %s?"
-msgstr ""
-
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:188
-#: main/src/ui/call_window/participant_widget.vala:128
-msgid "Connecting…"
-msgstr ""
-
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:190
-msgid "Connected"
-msgstr ""
-
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:192
-msgid "Disconnected"
-msgstr ""
-
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:203
-#: main/src/ui/notifier_freedesktop.vala:192
-msgid "Wrong password"
-msgstr ""
-
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:205
-#: main/src/ui/notifier_freedesktop.vala:195
-msgid "Invalid TLS certificate"
-msgstr ""
-
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:208
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:210
-msgid "Error"
-msgstr ""
-
-#: main/src/windows/preferences_window/accounts_preferences_page.vala:15
-#: main/src/windows/preferences_window/accounts_preferences_page.vala:27
-#: main/data/preferences_window/preferences_dialog.ui:11
-msgid "Accounts"
-msgstr ""
-
-#: main/src/windows/preferences_window/accounts_preferences_page.vala:28
-msgid "Disabled accounts"
-msgstr ""
-
-#: main/src/windows/preferences_window/accounts_preferences_page.vala:31
-#: main/src/windows/preferences_window/add_account_dialog.vala:81
-msgid "Add Account"
-msgstr ""
-
-#: main/src/windows/preferences_window/accounts_preferences_page.vala:71
-#: main/src/windows/preferences_window/encryption_preferences_page.vala:49
-#: main/src/ui/main_window.vala:160
-msgid "No active accounts"
-msgstr ""
-
-#: main/src/windows/preferences_window/add_account_dialog.vala:126
-msgid "Sign in"
-msgstr ""
-
-#: main/src/windows/preferences_window/add_account_dialog.vala:143
-#, c-format
-msgid "The server could not prove that it is %s."
-msgstr ""
-
-#: main/src/windows/preferences_window/add_account_dialog.vala:145
-msgid "Its security certificate is not trusted by your operating system."
-msgstr ""
-
-#: main/src/windows/preferences_window/add_account_dialog.vala:147
-msgid "Its security certificate is issued to another domain."
-msgstr ""
-
-#: main/src/windows/preferences_window/add_account_dialog.vala:149
-msgid "Its security certificate will only become valid in the future."
-msgstr ""
-
-#: main/src/windows/preferences_window/add_account_dialog.vala:151
-msgid "Its security certificate is expired."
-msgstr ""
-
-#: main/src/windows/preferences_window/add_account_dialog.vala:159
-#: main/data/preferences_window/add_account_dialog.ui:111
-msgid "Create account"
-msgstr ""
-
-#: main/src/windows/preferences_window/add_account_dialog.vala:178
-#, c-format
-msgid "You can now use the account %s."
-msgstr ""
-
-#: main/src/windows/preferences_window/add_account_dialog.vala:224
-msgid "Wrong username or password"
-msgstr ""
-
-#: main/src/windows/preferences_window/add_account_dialog.vala:227
-msgid "Something went wrong"
-msgstr ""
-
-#: main/src/windows/preferences_window/add_account_dialog.vala:248
-#: main/src/ui/add_conversation/conference_details_fragment.vala:183
-#: main/src/ui/notifier_gnotifications.vala:104
-#: main/src/ui/notifier_freedesktop.vala:188
-#, c-format
-msgid "Could not connect to %s"
-msgstr ""
-
-#: main/src/windows/preferences_window/add_account_dialog.vala:255
-#: main/src/windows/preferences_window/add_account_dialog.vala:265
-#: main/src/windows/preferences_window/add_account_dialog.vala:275
-#: main/src/windows/preferences_window/add_account_dialog.vala:359
-#: main/src/ui/add_conversation/conference_details_fragment.vala:186
-msgid "Invalid address"
-msgstr ""
-
-#: main/src/windows/preferences_window/add_account_dialog.vala:293
-msgid "No response from server"
-msgstr ""
-
-#: main/src/windows/preferences_window/add_account_dialog.vala:304
-#, c-format
-msgid "Register on %s"
-msgstr ""
-
-#: main/src/windows/preferences_window/add_account_dialog.vala:307
-msgid "The server requires to sign up through a website"
-msgstr ""
-
-#: main/src/windows/preferences_window/add_account_dialog.vala:309
-msgid "Open website"
-msgstr ""
-
-#: main/src/windows/preferences_window/add_account_dialog.vala:321
-#: main/data/preferences_window/add_account_dialog.ui:294
-msgid "Register"
-msgstr ""
-
-#: main/src/windows/preferences_window/add_account_dialog.vala:323
-#, c-format
-msgid "Check %s for information on how to sign up"
-msgstr ""
-
-#: main/src/windows/conversation_details.vala:76
-msgid "Block user"
-msgstr ""
-
-#: main/src/windows/conversation_details.vala:76
-msgid "Block entire domain"
-msgstr ""
-
-#: main/src/windows/conversation_details.vala:76
-msgid "Unblock"
-msgstr ""
-
-#: main/src/windows/conversation_details.vala:93
-msgid "Pinned"
-msgstr ""
-
-#: main/src/windows/conversation_details.vala:93
-msgid "Pin"
-msgstr ""
-
-#: main/src/windows/conversation_details.vala:104
-msgid "Blocked"
-msgstr ""
-
-#: main/src/windows/conversation_details.vala:108
-msgid "Domain blocked"
-msgstr ""
-
-#: main/src/windows/conversation_details.vala:112
-msgid "Block"
-msgstr ""
-
-#: main/src/windows/conversation_details.vala:131
-#: main/src/windows/conversation_details.vala:132
-msgid "Mute"
-msgstr ""
-
-#: main/src/windows/conversation_details.vala:133
-msgid "Notifications enabled"
-msgstr ""
-
-#: main/src/windows/conversation_details.vala:136
-msgid "Notifications for mentions"
-msgstr ""
-
-#: main/src/windows/conversation_details.vala:139
-#: main/src/windows/conversation_details.vala:140
-msgid "Muted"
-msgstr ""
-
-#: main/src/windows/conversation_details.vala:141
-msgid "Notifications disabled"
-msgstr ""
-
-#: main/src/windows/conversation_details.vala:196
-#: main/data/conversation_details.ui:156
+#: main/data/conversation_details.ui:171
+#: main/src/windows/conversation_details.vala:222
 msgid "About"
 msgstr ""
 
-#: main/src/windows/conversation_details.vala:199
-msgid "Settings"
+#: main/data/conversation_row.ui:115
+#: main/src/windows/conversation_details.vala:162
+#: main/src/windows/conversation_details.vala:163
+msgid "Muted"
 msgstr ""
 
-#: main/src/windows/conversation_details.vala:222
-msgid "Room Configuration"
+#: main/data/conversation_row.ui:126
+#: main/src/windows/conversation_details.vala:127
+msgid "Blocked"
 msgstr ""
 
-#: main/src/windows/conversation_details.vala:238
-#: main/data/preferences_window/preferences_dialog.ui:18
-msgid "Encryption"
+#: main/data/gtk/help-overlay.ui:10
+#: main/data/preferences_window/preferences_dialog.ui:32
+msgid "General"
 msgstr ""
 
-#: main/src/windows/conversation_details.vala:248
-#: main/src/ui/conversation_titlebar/occupants_entry.vala:14
-msgid "Members"
-msgstr ""
-
-#: main/src/view_model/conversation_details.vala:131
-#: main/src/ui/occupant_menu/list.vala:110
-msgid "Owner"
-msgstr ""
-
-#: main/src/view_model/conversation_details.vala:132
-#: main/src/ui/occupant_menu/list.vala:112
-msgid "Admin"
-msgstr ""
-
-#: main/src/view_model/conversation_details.vala:133
-#: main/src/ui/occupant_menu/list.vala:114
-msgid "Member"
-msgstr ""
-
-#: main/src/ui/file_send_overlay.vala:84
-msgid "The file exceeds the server's maximum upload size."
-msgstr ""
-
-#: main/src/ui/conversation_content/message_item_widget.vala:124
-#: main/src/ui/conversation_content_view/message_widget.vala:95
-msgid "Message too long"
-msgstr ""
-
-#: main/src/ui/conversation_content/message_item_widget.vala:150
-#: main/src/ui/conversation_content_view/message_widget.vala:161
-msgid "edited"
-msgstr ""
-
-#: main/src/ui/conversation_content/message_item_widget.vala:159
-#: main/src/ui/conversation_content_view/message_widget.vala:170
-msgid "pending…"
-msgstr ""
-
-#: main/src/ui/conversation_content/message_item_widget.vala:172
-#: main/src/ui/conversation_content_view/message_widget.vala:185
-msgid "delivery failed"
-msgstr ""
-
-#: main/src/ui/conversation_content/conversation_content_model.vala:85
-#: main/src/ui/chat_input/encryption_button.vala:26
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:162
-#: main/data/menu_encryption.ui:14
-msgid "Unencrypted"
-msgstr ""
-
-#: main/src/ui/conversation_content/conversation_content_model.vala:101
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:204
-msgid "Unable to send message"
-msgstr ""
-
-#: main/src/ui/conversation_content/conversation_content_model.vala:122
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:241
-#, no-c-format
-msgid "%x, %H∶%M"
-msgstr ""
-
-#: main/src/ui/conversation_content/conversation_content_model.vala:123
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:242
-#, no-c-format
-msgid "%x, %l∶%M %p"
-msgstr ""
-
-#: main/src/ui/conversation_content/conversation_content_model.vala:126
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:245
-#, no-c-format
-msgid "%b %d, %H∶%M"
-msgstr ""
-
-#: main/src/ui/conversation_content/conversation_content_model.vala:127
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:246
-#, no-c-format
-msgid "%b %d, %l∶%M %p"
-msgstr ""
-
-#: main/src/ui/conversation_content/conversation_content_model.vala:130
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:249
-#, no-c-format
-msgid "%a, %H∶%M"
-msgstr ""
-
-#: main/src/ui/conversation_content/conversation_content_model.vala:131
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:250
-#, no-c-format
-msgid "%a, %l∶%M %p"
-msgstr ""
-
-#: main/src/ui/conversation_content/conversation_content_model.vala:134
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:337
-#: main/src/ui/conversation_content_view/call_widget.vala:175
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:253
-#, no-c-format
-msgid "%H∶%M"
-msgstr ""
-
-#: main/src/ui/conversation_content/conversation_content_model.vala:135
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:338
-#: main/src/ui/conversation_content_view/call_widget.vala:175
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:254
-#, no-c-format
-msgid "%l∶%M %p"
-msgstr ""
-
-#: main/src/ui/conversation_content/conversation_content_model.vala:139
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:341
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:258
-#, c-format
-msgid "%i min ago"
-msgid_plural "%i mins ago"
-msgstr[0] ""
-msgstr[1] ""
-
-#: main/src/ui/conversation_content/conversation_content_model.vala:141
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:343
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:260
-msgid "Just now"
-msgstr ""
-
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:151
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:176
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:191
-#: main/src/ui/util/helper.vala:69 main/src/ui/util/helper.vala:73
-#: main/src/ui/util/helper.vala:81
-msgid "Me"
-msgstr ""
-
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:182
-#: main/src/ui/notifier_gnotifications.vala:36
-#: main/src/ui/notifier_freedesktop.vala:71
-msgid "Image sent"
-msgstr ""
-
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:182
-#: main/src/ui/notifier_gnotifications.vala:36
-#: main/src/ui/notifier_freedesktop.vala:71
-msgid "File sent"
-msgstr ""
-
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:184
-#: main/src/ui/notifier_gnotifications.vala:38
-#: main/src/ui/notifier_freedesktop.vala:73
-msgid "Image received"
-msgstr ""
-
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:184
-#: main/src/ui/notifier_gnotifications.vala:38
-#: main/src/ui/notifier_freedesktop.vala:73
-msgid "File received"
-msgstr ""
-
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:193
-#: main/src/ui/conversation_content_view/call_widget.vala:168
-msgid "Outgoing call"
-msgstr ""
-
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:193
-#: main/src/ui/notifier_gnotifications.vala:70
-#: main/src/ui/notifier_freedesktop.vala:114
-#: main/src/ui/conversation_content_view/call_widget.vala:137
-#: main/src/ui/conversation_content_view/call_widget.vala:168
-msgid "Incoming call"
-msgstr ""
-
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:330
-#: main/src/ui/widgets/date_separator.vala:37
-#, no-c-format
-msgid "%b %d"
-msgstr ""
-
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:334
-#: main/src/ui/widgets/date_separator.vala:28
-msgid "Yesterday"
-msgstr ""
-
-#: main/src/ui/occupant_menu/list.vala:116
-msgid "User"
-msgstr ""
-
-#: main/src/ui/occupant_menu/view.vala:27
-#: main/src/ui/occupant_menu/view.vala:145
-#: main/src/ui/call_window/call_window_controller.vala:151
-msgid "Invite"
-msgstr ""
-
-#: main/src/ui/occupant_menu/view.vala:82
-msgid "Start private conversation"
-msgstr ""
-
-#: main/src/ui/occupant_menu/view.vala:90
-msgid "Kick"
-msgstr ""
-
-#: main/src/ui/occupant_menu/view.vala:96
-msgid "Grant write permission"
-msgstr ""
-
-#: main/src/ui/occupant_menu/view.vala:102
-msgid "Revoke write permission"
-msgstr ""
-
-#: main/src/ui/occupant_menu/view.vala:144
-msgid "Invite to Conference"
-msgstr ""
-
-#: main/src/ui/conversation_view_controller.vala:203
-msgid "Select file"
-msgstr ""
-
-#: main/src/ui/util/helper.vala:65
-#, c-format
-msgid "%s from %s"
-msgstr ""
-
-#: main/src/ui/util/data_forms.vala:31
-msgid "Name of the room"
-msgstr ""
-
-#: main/src/ui/util/data_forms.vala:34
-msgid "Description of the room"
-msgstr ""
-
-#: main/src/ui/util/data_forms.vala:37
-msgid "Persistent"
-msgstr ""
-
-#: main/src/ui/util/data_forms.vala:38
-msgid "The room will persist after the last occupant leaves"
-msgstr ""
-
-#: main/src/ui/util/data_forms.vala:41
-msgid "Publicly searchable"
-msgstr ""
-
-#: main/src/ui/util/data_forms.vala:44
-msgid "Occupants may change the subject"
-msgstr ""
-
-#: main/src/ui/util/data_forms.vala:47
-msgid "Permission to view JIDs"
-msgstr ""
-
-#: main/src/ui/util/data_forms.vala:48
-msgid "Who is allowed to view the occupants' JIDs?"
-msgstr ""
-
-#: main/src/ui/util/data_forms.vala:51
-#: main/data/preferences_window/account_preferences_subpage.ui:82
-#: main/data/add_conversation/conference_details_fragment.ui:162
-#: main/data/add_conversation/add_groupchat_dialog.ui:122
-msgid "Password"
-msgstr ""
-
-#: main/src/ui/util/data_forms.vala:55
-msgid "Moderated"
-msgstr ""
-
-#: main/src/ui/util/data_forms.vala:56
-msgid "Only occupants with voice may send messages"
-msgstr ""
-
-#: main/src/ui/util/data_forms.vala:59
-msgid "Members only"
-msgstr ""
-
-#: main/src/ui/util/data_forms.vala:60
-msgid "Only members may enter the room"
-msgstr ""
-
-#: main/src/ui/chat_input/chat_input_controller.vala:217
-msgid "This conference does not allow you to send messages."
-msgstr ""
-
-#: main/src/ui/chat_input/chat_input_controller.vala:217
-msgid "Request permission"
-msgstr ""
-
-#: main/src/ui/chat_input/view.vala:45 main/data/gtk/help-overlay.ui:49
-#: main/data/file_send_overlay.ui:24
-msgid "Send a file"
-msgstr ""
-
-#: main/src/ui/conversation_titlebar/call_entry.vala:13
-msgid "Start call"
-msgstr ""
-
-#: main/src/ui/conversation_titlebar/call_entry.vala:24
-msgid "Audio call"
-msgstr ""
-
-#: main/src/ui/conversation_titlebar/call_entry.vala:25
-msgid "Video call"
-msgstr ""
-
-#: main/src/ui/conversation_titlebar/search_entry.vala:12
-#: main/data/gtk/help-overlay.ui:43
-msgid "Search messages"
-msgstr ""
-
-#: main/src/ui/conversation_titlebar/menu_entry.vala:20
-msgid "Conversation Details"
-msgstr ""
-
-#: main/src/ui/conversation_titlebar/menu_entry.vala:21
-msgid "Close Conversation"
-msgstr ""
-
-#: main/src/ui/call_window/participant_widget.vala:115
-msgid "Debug information"
-msgstr ""
-
-#: main/src/ui/call_window/participant_widget.vala:124
-#: main/src/ui/conversation_content_view/call_widget.vala:152
-msgid "Calling…"
-msgstr ""
-
-#: main/src/ui/call_window/participant_widget.vala:126
-msgid "Ringing…"
-msgstr ""
-
-#: main/src/ui/call_window/call_window.vala:207
-#, c-format
-msgid "%s ended the call"
-msgstr ""
-
-#: main/src/ui/call_window/call_window.vala:209
-#, c-format
-msgid "%s declined the call"
-msgstr ""
-
-#: main/src/ui/call_window/video_settings_popover.vala:25
-msgid "Cameras"
-msgstr ""
-
-#: main/src/ui/call_window/video_settings_popover.vala:28
-msgid "No camera found."
-msgstr ""
-
-#: main/src/ui/call_window/audio_settings_popover.vala:29
-msgid "Microphones"
-msgstr ""
-
-#: main/src/ui/call_window/audio_settings_popover.vala:32
-msgid "No microphone found."
-msgstr ""
-
-#: main/src/ui/call_window/audio_settings_popover.vala:85
-msgid "Speakers"
-msgstr ""
-
-#: main/src/ui/call_window/audio_settings_popover.vala:88
-msgid "No speaker found."
-msgstr ""
-
-#: main/src/ui/call_window/call_window_controller.vala:150
-msgid "Invite to Call"
-msgstr ""
-
-#: main/src/ui/add_conversation/select_contact_dialog.vala:89
-#: main/src/ui/main_window.vala:137 main/data/gtk/help-overlay.ui:14
-#: main/data/menu_add.ui:7
+#: main/data/gtk/help-overlay.ui:14 main/data/menu_add.ui:7
+#: main/src/ui/add_conversation/select_contact_dialog.vala:90
+#: main/src/ui/main_window.vala:139
 msgid "Start Conversation"
 msgstr ""
 
-#: main/src/ui/add_conversation/select_contact_dialog.vala:90
-msgid "Start"
-msgstr ""
-
-#: main/src/ui/add_conversation/add_conference_dialog.vala:25
-#: main/src/ui/application.vala:293 main/data/gtk/help-overlay.ui:20
-#: main/data/menu_add.ui:11
+#: main/data/gtk/help-overlay.ui:20 main/data/menu_add.ui:11
+#: main/src/ui/add_conversation/add_conference_dialog.vala:24
+#: main/src/ui/application.vala:330
 msgid "Join Channel"
 msgstr ""
 
-#: main/src/ui/add_conversation/add_conference_dialog.vala:45
-#: main/data/preferences_window/add_account_dialog.ui:246
+#: main/data/gtk/help-overlay.ui:26
+msgid "Show preferences"
+msgstr ""
+
+#: main/data/gtk/help-overlay.ui:32
+msgid "Keyboard shortcuts"
+msgstr ""
+
+#: main/data/gtk/help-overlay.ui:39
+msgid "Conversation"
+msgstr ""
+
+#: main/data/gtk/help-overlay.ui:43
+#: main/src/ui/conversation_titlebar/search_entry.vala:12
+msgid "Search messages"
+msgstr ""
+
+#: main/data/gtk/help-overlay.ui:49 main/src/ui/chat_input/view.vala:46
+msgid "Send a file"
+msgstr ""
+
+#: main/data/gtk/help-overlay.ui:55
+msgid "Close conversation"
+msgstr ""
+
+#: main/data/gtk/help-overlay.ui:62
+msgid "Navigation"
+msgstr ""
+
+#: main/data/gtk/help-overlay.ui:66
+msgid "Jump to next conversation"
+msgstr ""
+
+#: main/data/gtk/help-overlay.ui:72
+msgid "Jump to previous conversation"
+msgstr ""
+
+#: main/data/main_window.ui:91
+msgid "You have no open chats"
+msgstr ""
+
+#: main/data/main_window.ui:92
+msgid "Click + to start a chat or join a channel"
+msgstr ""
+
+#: main/data/menu_app.ui:6
+msgid "Status"
+msgstr ""
+
+#: main/data/menu_app.ui:11
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:350
+#: main/src/ui/main_window.vala:178 main/src/ui/systray.vala:105
+#: main/src/ui/systray.vala:227
+msgid "Online"
+msgstr ""
+
+#: main/data/menu_app.ui:16
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:344
+#: main/src/ui/main_window.vala:178 main/src/ui/systray.vala:105
+#: main/src/ui/systray.vala:227
+msgid "Away"
+msgstr ""
+
+#: main/data/menu_app.ui:21
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:348
+#: main/src/ui/main_window.vala:178 main/src/ui/systray.vala:105
+#: main/src/ui/systray.vala:227
+msgid "Busy"
+msgstr ""
+
+#: main/data/menu_app.ui:26
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:346
+#: main/src/ui/main_window.vala:178 main/src/ui/systray.vala:105
+#: main/src/ui/systray.vala:227
+msgid "Not Available"
+msgstr ""
+
+#: main/data/menu_app.ui:34
+msgid "Preferences"
+msgstr ""
+
+#: main/data/menu_app.ui:38
+msgid "Keyboard Shortcuts"
+msgstr ""
+
+#: main/data/menu_app.ui:42 main/src/ui/application.vala:310
+msgid "About Dino"
+msgstr ""
+
+#: main/data/menu_conversation.ui:7
+msgid "Contact Details"
+msgstr ""
+
+#: main/data/menu_conversation.ui:13
+#: main/src/ui/conversation_titlebar/menu_entry.vala:21
+msgid "Delete Conversation History"
+msgstr ""
+
+#: main/data/message_item_widget_edit_mode.ui:46
+#: main/data/preferences_window/change_password_dialog.ui:18
+#: main/src/ui/add_conversation/add_conference_dialog.vala:41
+#: main/src/ui/add_conversation/select_contact_dialog.vala:40
+#: main/src/ui/application.vala:340
+#: main/src/ui/conversation_content_view/file_default_widget.vala:90
+#: main/src/ui/conversation_content_view/item_actions.vala:79
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:492
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:519
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:538
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:563
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:582
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:603
+#: main/src/ui/conversation_titlebar/menu_entry.vala:44
+#: main/src/windows/conversation_details.vala:51
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:67
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:205
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:225
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:249
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:269
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:291
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:332
+msgid "Cancel"
+msgstr ""
+
+#: main/data/message_item_widget_edit_mode.ui:51
+msgid "Update message"
+msgstr ""
+
+#: main/data/preferences_window/account_preferences_subpage.ui:68
+#: main/src/ui/conversation_details.vala:150
+msgid "XMPP Address"
+msgstr ""
+
+#: main/data/preferences_window/account_preferences_subpage.ui:77
+msgid "Local alias"
+msgstr ""
+
+#: main/data/preferences_window/account_preferences_subpage.ui:82
+#: main/src/ui/util/data_forms.vala:51
+msgid "Password"
+msgstr ""
+
+#: main/data/preferences_window/account_preferences_subpage.ui:104
+msgid "Connection status"
+msgstr ""
+
+#: main/data/preferences_window/account_preferences_subpage.ui:121
+msgid "Advanced Settings"
+msgstr ""
+
+#: main/data/preferences_window/account_preferences_subpage.ui:122
+msgid "Custom server connection (leave empty for automatic)"
+msgstr ""
+
+#: main/data/preferences_window/account_preferences_subpage.ui:125
+msgid "Server Hostname"
+msgstr ""
+
+#: main/data/preferences_window/account_preferences_subpage.ui:130
+msgid "Port"
+msgstr ""
+
+#: main/data/preferences_window/change_password_dialog.ui:61
+msgid "Current password"
+msgstr ""
+
+#: main/data/preferences_window/change_password_dialog.ui:66
+msgid "New password"
+msgstr ""
+
+#: main/data/preferences_window/change_password_dialog.ui:71
+msgid "Confirm password"
+msgstr ""
+
+#: main/data/preferences_window/general_preferences_page.ui:9
+msgid "Send _Typing Notifications"
+msgstr ""
+
+#: main/data/preferences_window/general_preferences_page.ui:15
+msgid "Send _Read Receipts"
+msgstr ""
+
+#: main/data/preferences_window/general_preferences_page.ui:25
+msgid "_Notifications"
+msgstr ""
+
+#: main/data/preferences_window/general_preferences_page.ui:26
+msgid "Notify when a new message arrives"
+msgstr ""
+
+#: main/data/preferences_window/general_preferences_page.ui:36
+msgid "_Convert Smileys to Emoji"
+msgstr ""
+
+#: main/data/preferences_window/preferences_dialog.ui:11
+#: main/src/windows/preferences_window/accounts_preferences_page.vala:15
+#: main/src/windows/preferences_window/accounts_preferences_page.vala:27
+msgid "Accounts"
+msgstr ""
+
+#: main/data/preferences_window/preferences_dialog.ui:18
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:17
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:67
+msgid "Contacts"
+msgstr ""
+
+#: main/data/preferences_window/preferences_dialog.ui:25
+#: main/src/windows/conversation_details.vala:264
+msgid "Encryption"
+msgstr ""
+
+#: main/src/ui/add_conversation/add_conference_dialog.vala:44
 msgid "Next"
 msgstr ""
 
-#: main/src/ui/add_conversation/add_conference_dialog.vala:60
+#: main/src/ui/add_conversation/add_conference_dialog.vala:59
 #: main/src/ui/add_conversation/conference_details_fragment.vala:151
-#: main/src/ui/application.vala:293 main/data/join_room_dialog2.ui:190
+#: main/src/ui/application.vala:344
 msgid "Join"
+msgstr ""
+
+#: main/src/ui/add_conversation/add_groupchat_dialog.vala:25
+msgid "Add"
 msgstr ""
 
 #: main/src/ui/add_conversation/conference_details_fragment.vala:143
@@ -695,113 +335,107 @@ msgstr ""
 msgid "Too many occupants in room"
 msgstr ""
 
-#: main/src/ui/add_conversation/add_groupchat_dialog.vala:26
-#: main/data/add_conversation/add_contact_dialog.ui:18
-msgid "Add"
-msgstr ""
-
-#: main/src/ui/application.vala:284 main/data/menu_app.ui:15
-msgid "About Dino"
-msgstr ""
-
-#: main/src/ui/widgets/date_separator.vala:22
-msgid "Today"
-msgstr ""
-
-#: main/src/ui/widgets/date_separator.vala:35
-#, no-c-format
-msgid "%a, %b %d"
-msgstr ""
-
-#: main/src/ui/global_search.vala:181
+#: main/src/ui/add_conversation/conference_details_fragment.vala:183
+#: main/src/ui/notifier_freedesktop.vala:188
+#: main/src/ui/notifier_gnotifications.vala:104
+#: main/src/windows/preferences_window/add_account_dialog.vala:262
 #, c-format
-msgid "%i search result"
-msgid_plural "%i search results"
-msgstr[0] ""
-msgstr[1] ""
+msgid "Could not connect to %s"
+msgstr ""
 
-#: main/src/ui/global_search.vala:208
+#: main/src/ui/add_conversation/conference_details_fragment.vala:186
+#: main/src/windows/preferences_window/add_account_dialog.vala:278
+#: main/src/windows/preferences_window/add_account_dialog.vala:288
+#: main/src/windows/preferences_window/add_account_dialog.vala:298
+#: main/src/windows/preferences_window/add_account_dialog.vala:382
+msgid "Invalid address"
+msgstr ""
+
+#: main/src/ui/add_conversation/select_contact_dialog.vala:91
+msgid "Start"
+msgstr ""
+
+#: main/src/ui/call_window/audio_settings_popover.vala:29
+msgid "Microphones"
+msgstr ""
+
+#: main/src/ui/call_window/audio_settings_popover.vala:32
+msgid "No microphone found."
+msgstr ""
+
+#: main/src/ui/call_window/audio_settings_popover.vala:85
+msgid "Speakers"
+msgstr ""
+
+#: main/src/ui/call_window/audio_settings_popover.vala:88
+msgid "No speaker found."
+msgstr ""
+
+#: main/src/ui/call_window/call_window_controller.vala:150
+msgid "Invite to Call"
+msgstr ""
+
+#: main/src/ui/call_window/call_window_controller.vala:151
+#: main/src/ui/occupant_menu/view.vala:27
+#: main/src/ui/occupant_menu/view.vala:145
+msgid "Invite"
+msgstr ""
+
+#: main/src/ui/call_window/call_window.vala:207
 #, c-format
-msgid "In %s"
+msgid "%s ended the call"
 msgstr ""
 
-#: main/src/ui/global_search.vala:208
+#: main/src/ui/call_window/call_window.vala:209
 #, c-format
-msgid "With %s"
+msgid "%s declined the call"
 msgstr ""
 
-#: main/src/ui/notifier_gnotifications.vala:70
-#: main/src/ui/notifier_freedesktop.vala:114
-#: main/src/ui/conversation_content_view/call_widget.vala:137
-msgid "Incoming video call"
+#: main/src/ui/call_window/participant_widget.vala:115
+msgid "Debug information"
 msgstr ""
 
-#: main/src/ui/notifier_gnotifications.vala:72
-#: main/src/ui/notifier_freedesktop.vala:116
-#: main/src/ui/conversation_content_view/call_widget.vala:139
-msgid "Incoming video group call"
+#: main/src/ui/call_window/participant_widget.vala:124
+#: main/src/ui/conversation_content_view/call_widget.vala:152
+msgid "Calling…"
 msgstr ""
 
-#: main/src/ui/notifier_gnotifications.vala:72
-#: main/src/ui/notifier_freedesktop.vala:116
-#: main/src/ui/conversation_content_view/call_widget.vala:139
-msgid "Incoming group call"
+#: main/src/ui/call_window/participant_widget.vala:126
+msgid "Ringing…"
 msgstr ""
 
-#: main/src/ui/notifier_gnotifications.vala:80
-#: main/src/ui/notifier_freedesktop.vala:125
-#: main/src/ui/notifier_freedesktop.vala:230 main/data/call_widget.ui:73
-msgid "Reject"
+#: main/src/ui/call_window/participant_widget.vala:128
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:216
+msgid "Connecting…"
 msgstr ""
 
-#: main/src/ui/notifier_gnotifications.vala:81
-#: main/src/ui/notifier_gnotifications.vala:97
-#: main/src/ui/notifier_gnotifications.vala:134
-#: main/src/ui/notifier_gnotifications.vala:150
-#: main/src/ui/notifier_freedesktop.vala:125
-#: main/src/ui/notifier_freedesktop.vala:164
-#: main/src/ui/notifier_freedesktop.vala:230
-#: main/src/ui/notifier_freedesktop.vala:264
-#: main/src/ui/conversation_content_view/subscription_notification.vala:67
-#: main/data/call_widget.ui:81
-msgid "Accept"
+#: main/src/ui/call_window/video_settings_popover.vala:25
+msgid "Cameras"
 msgstr ""
 
-#: main/src/ui/notifier_gnotifications.vala:91
-#: main/src/ui/notifier_freedesktop.vala:157
-msgid "Subscription request"
+#: main/src/ui/call_window/video_settings_popover.vala:28
+msgid "No camera found."
 msgstr ""
 
-#: main/src/ui/notifier_gnotifications.vala:98
-#: main/src/ui/notifier_gnotifications.vala:133
-#: main/src/ui/notifier_gnotifications.vala:149
-#: main/src/ui/notifier_freedesktop.vala:164
-#: main/src/ui/notifier_freedesktop.vala:264
-#: main/src/ui/conversation_content_view/subscription_notification.vala:68
-msgid "Deny"
+#: main/src/ui/chat_input/chat_input_controller.vala:221
+msgid "This conference does not allow you to send messages."
 msgstr ""
 
-#: main/src/ui/notifier_gnotifications.vala:123
-#: main/src/ui/notifier_freedesktop.vala:220
-#, c-format
-msgid "Invitation to %s"
+#: main/src/ui/chat_input/chat_input_controller.vala:221
+msgid "Request permission"
 msgstr ""
 
-#: main/src/ui/notifier_gnotifications.vala:124
-#: main/src/ui/notifier_freedesktop.vala:221
-#, c-format
-msgid "%s invited you to %s"
+#: main/src/ui/chat_input/encryption_button.vala:26
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:156
+msgid "Unencrypted"
 msgstr ""
 
-#: main/src/ui/notifier_gnotifications.vala:141
-#: main/src/ui/notifier_freedesktop.vala:254
-msgid "Permission request"
+#: main/src/ui/contact_details/permissions_provider.vala:23
+msgid "Request permission to send messages"
 msgstr ""
 
-#: main/src/ui/notifier_gnotifications.vala:142
-#: main/src/ui/notifier_freedesktop.vala:255
-#, c-format
-msgid "%s requests the permission to write in %s"
+#: main/src/ui/contact_details/permissions_provider.vala:24
+msgid "Request"
 msgstr ""
 
 #: main/src/ui/contact_details/settings_provider.vala:21
@@ -832,86 +466,30 @@ msgstr ""
 msgid "Send read receipts"
 msgstr ""
 
-#: main/src/ui/contact_details/permissions_provider.vala:23
-msgid "Request permission to send messages"
+#: main/src/ui/conversation_content_view/call_widget.vala:137
+#: main/src/ui/notifier_freedesktop.vala:114
+#: main/src/ui/notifier_gnotifications.vala:70
+msgid "Incoming video call"
 msgstr ""
 
-#: main/src/ui/contact_details/permissions_provider.vala:24
-msgid "Request"
+#: main/src/ui/conversation_content_view/call_widget.vala:137
+#: main/src/ui/conversation_content_view/call_widget.vala:168
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:264
+#: main/src/ui/notifier_freedesktop.vala:114
+#: main/src/ui/notifier_gnotifications.vala:70
+msgid "Incoming call"
 msgstr ""
 
-#: main/src/ui/main_window.vala:151
-msgid "Welcome to Dino!"
+#: main/src/ui/conversation_content_view/call_widget.vala:139
+#: main/src/ui/notifier_freedesktop.vala:116
+#: main/src/ui/notifier_gnotifications.vala:72
+msgid "Incoming video group call"
 msgstr ""
 
-#: main/src/ui/main_window.vala:152
-msgid "Sign in or create an account to get started."
-msgstr ""
-
-#: main/src/ui/main_window.vala:153
-msgid "Set up account"
-msgstr ""
-
-#: main/src/ui/main_window.vala:161
-msgid "Manage accounts"
-msgstr ""
-
-#: main/src/ui/conversation_details.vala:143
-#: main/data/preferences_window/account_preferences_subpage.ui:68
-msgid "XMPP Address"
-msgstr ""
-
-#: main/src/ui/conversation_details.vala:148
-msgid "Display name"
-msgstr ""
-
-#: main/src/ui/conversation_details.vala:168
-#: main/src/ui/conversation_details.vala:182
-msgid "Topic"
-msgstr ""
-
-#: main/src/ui/conversation_content_view/message_widget.vala:233
-msgid "Edit message"
-msgstr ""
-
-#: main/src/ui/conversation_content_view/reactions_widget.vala:102
-msgid "You"
-msgstr ""
-
-#: main/src/ui/conversation_content_view/reactions_widget.vala:128
-#: main/src/ui/conversation_content_view/item_actions.vala:9
-msgid "Add reaction"
-msgstr ""
-
-#: main/src/ui/conversation_content_view/file_image_widget.vala:42
-#: main/src/ui/conversation_content_view/file_default_widget.vala:65
-msgid "Open"
-msgstr ""
-
-#: main/src/ui/conversation_content_view/file_image_widget.vala:43
-#: main/src/ui/conversation_content_view/file_widget.vala:167
-#: main/src/ui/conversation_content_view/file_default_widget.vala:66
-msgid "Save as…"
-msgstr ""
-
-#: main/src/ui/conversation_content_view/chat_state_populator.vala:108
-#, c-format
-msgid "%s, %s and %i others are typing…"
-msgstr ""
-
-#: main/src/ui/conversation_content_view/chat_state_populator.vala:115
-#, c-format
-msgid "%s, %s and %s are typing…"
-msgstr ""
-
-#: main/src/ui/conversation_content_view/chat_state_populator.vala:121
-#, c-format
-msgid "%s and %s are typing…"
-msgstr ""
-
-#: main/src/ui/conversation_content_view/chat_state_populator.vala:126
-#, c-format
-msgid "%s is typing…"
+#: main/src/ui/conversation_content_view/call_widget.vala:139
+#: main/src/ui/notifier_freedesktop.vala:116
+#: main/src/ui/notifier_gnotifications.vala:72
+msgid "Incoming group call"
 msgstr ""
 
 #: main/src/ui/conversation_content_view/call_widget.vala:159
@@ -923,12 +501,31 @@ msgstr ""
 msgid "Started %s ago"
 msgstr ""
 
+#: main/src/ui/conversation_content_view/call_widget.vala:168
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:264
+msgid "Outgoing call"
+msgstr ""
+
 #: main/src/ui/conversation_content_view/call_widget.vala:169
 msgid "You handled this call on another device"
 msgstr ""
 
 #: main/src/ui/conversation_content_view/call_widget.vala:174
 msgid "Call ended"
+msgstr ""
+
+#: main/src/ui/conversation_content_view/call_widget.vala:175
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:247
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:413
+#, no-c-format
+msgid "%H∶%M"
+msgstr ""
+
+#: main/src/ui/conversation_content_view/call_widget.vala:175
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:248
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:414
+#, no-c-format
+msgid "%l∶%M %p"
 msgstr ""
 
 #: main/src/ui/conversation_content_view/call_widget.vala:177
@@ -971,42 +568,128 @@ msgstr ""
 msgid "Call failed"
 msgstr ""
 
-#: main/src/ui/conversation_content_view/call_widget.vala:227
-#, c-format
-msgid "%i hour"
-msgid_plural "%i hours"
-msgstr[0] ""
-msgstr[1] ""
-
-#: main/src/ui/conversation_content_view/call_widget.vala:234
-#, c-format
-msgid "%i minute"
-msgid_plural "%i minutes"
-msgstr[0] ""
-msgstr[1] ""
-
 #: main/src/ui/conversation_content_view/call_widget.vala:241
 msgid "a few seconds"
 msgstr ""
 
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:194
+#: main/src/ui/conversation_content_view/chat_state_populator.vala:108
+#, c-format
+msgid "%s, %s and %i others are typing…"
+msgstr ""
+
+#: main/src/ui/conversation_content_view/chat_state_populator.vala:115
+#, c-format
+msgid "%s, %s and %s are typing…"
+msgstr ""
+
+#: main/src/ui/conversation_content_view/chat_state_populator.vala:121
+#, c-format
+msgid "%s and %s are typing…"
+msgstr ""
+
+#: main/src/ui/conversation_content_view/chat_state_populator.vala:126
+#, c-format
+msgid "%s is typing…"
+msgstr ""
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:188
 msgid "Delivered"
 msgstr ""
 
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:198
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:192
 msgid "Read"
 msgstr ""
 
-#: main/src/ui/conversation_content_view/subscription_notification.vala:49
-msgid "Send request"
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:198
+msgid "Unable to send message"
 msgstr ""
 
-#: main/src/ui/conversation_content_view/subscription_notification.vala:60
-msgid "You do not receive status updates from this contact yet."
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:235
+#, no-c-format
+msgid "%x, %H∶%M"
 msgstr ""
 
-#: main/src/ui/conversation_content_view/subscription_notification.vala:80
-msgid "This contact would like to add you to their contact list"
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:236
+#, no-c-format
+msgid "%x, %l∶%M %p"
+msgstr ""
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:239
+#, no-c-format
+msgid "%b %d, %H∶%M"
+msgstr ""
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:240
+#, no-c-format
+msgid "%b %d, %l∶%M %p"
+msgstr ""
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:243
+#, no-c-format
+msgid "%a, %H∶%M"
+msgstr ""
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:244
+#, no-c-format
+msgid "%a, %l∶%M %p"
+msgstr ""
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:254
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:419
+msgid "Just now"
+msgstr ""
+
+#: main/src/ui/conversation_content_view/conversation_view.vala:82
+msgid "More actions"
+msgstr ""
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:67
+#: main/src/ui/conversation_content_view/file_image_widget.vala:42
+msgid "Open"
+msgstr ""
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:68
+#: main/src/ui/conversation_content_view/file_image_widget.vala:43
+#: main/src/ui/conversation_content_view/file_widget.vala:168
+msgid "Save as…"
+msgstr ""
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:77
+#, c-format
+msgid "Downloading %s… (%u%%)"
+msgstr ""
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:79
+#, c-format
+msgid "Downloading %s…"
+msgstr ""
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:83
+#, c-format
+msgid "Uploading %s… (%u%%)"
+msgstr ""
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:97
+#, c-format
+msgid "%s offered: %s"
+msgstr ""
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:99
+#, c-format
+msgid "File offered: %s"
+msgstr ""
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:101
+msgid "File offered"
+msgstr ""
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:107
+msgid "File transfer failed"
+msgstr ""
+
+#: main/src/ui/conversation_content_view/item_actions.vala:9
+#: main/src/ui/conversation_content_view/reactions_widget.vala:128
+msgid "Add reaction"
 msgstr ""
 
 #: main/src/ui/conversation_content_view/item_actions.vala:21
@@ -1021,248 +704,674 @@ msgstr ""
 msgid "This conversation does not support replies."
 msgstr ""
 
-#: main/src/ui/conversation_content_view/file_default_widget.vala:75
-#, c-format
-msgid "Downloading %s… (%u%%)"
+#: main/src/ui/conversation_content_view/item_actions.vala:63
+msgid "Delete..."
 msgstr ""
 
-#: main/src/ui/conversation_content_view/file_default_widget.vala:77
-#, c-format
-msgid "Downloading %s…"
+#: main/src/ui/conversation_content_view/item_actions.vala:65
+#: main/src/ui/conversation_content_view/item_actions.vala:79
+msgid "Delete locally"
 msgstr ""
 
-#: main/src/ui/conversation_content_view/file_default_widget.vala:81
-#, c-format
-msgid "Uploading %s… (%u%%)"
+#: main/src/ui/conversation_content_view/item_actions.vala:75
+msgid "Delete message"
 msgstr ""
 
-#: main/src/ui/conversation_content_view/file_default_widget.vala:95
-#, c-format
-msgid "%s offered: %s"
+#: main/src/ui/conversation_content_view/item_actions.vala:77
+msgid "Do you want to delete this message just for yourself or for everyone?"
 msgstr ""
 
-#: main/src/ui/conversation_content_view/file_default_widget.vala:97
-#, c-format
-msgid "File offered: %s"
+#: main/src/ui/conversation_content_view/item_actions.vala:79
+msgid "Delete for everyone"
 msgstr ""
 
-#: main/src/ui/conversation_content_view/file_default_widget.vala:99
-msgid "File offered"
+#: main/src/ui/conversation_content_view/message_widget.vala:165
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:232
+msgid "Message deleted"
 msgstr ""
 
-#: main/src/ui/conversation_content_view/file_default_widget.vala:105
-msgid "File transfer failed"
+#: main/src/ui/conversation_content_view/message_widget.vala:169
+msgid "edited"
+msgstr ""
+
+#: main/src/ui/conversation_content_view/message_widget.vala:173
+msgid "Message truncated - exceeds 100,000 characters"
+msgstr ""
+
+#: main/src/ui/conversation_content_view/message_widget.vala:182
+msgid "pending…"
+msgstr ""
+
+#: main/src/ui/conversation_content_view/message_widget.vala:197
+msgid "delivery failed"
+msgstr ""
+
+#: main/src/ui/conversation_content_view/message_widget.vala:245
+msgid "Edit message"
 msgstr ""
 
 #: main/src/ui/conversation_content_view/quote_widget.vala:34
 msgid "File"
 msgstr ""
 
+#: main/src/ui/conversation_content_view/reactions_widget.vala:102
+msgid "You"
+msgstr ""
+
+#: main/src/ui/conversation_content_view/subscription_notification.vala:49
+msgid "Send request"
+msgstr ""
+
+#: main/src/ui/conversation_content_view/subscription_notification.vala:60
+msgid "You do not receive status updates from this contact yet."
+msgstr ""
+
+#: main/src/ui/conversation_content_view/subscription_notification.vala:68
+#: main/src/ui/notifier_freedesktop.vala:164
+#: main/src/ui/notifier_freedesktop.vala:264
+#: main/src/ui/notifier_gnotifications.vala:98
+#: main/src/ui/notifier_gnotifications.vala:133
+#: main/src/ui/notifier_gnotifications.vala:149
+msgid "Deny"
+msgstr ""
+
+#: main/src/ui/conversation_content_view/subscription_notification.vala:80
+msgid "This contact would like to add you to their contact list"
+msgstr ""
+
 #: main/src/ui/conversation_content_view/unread_indicator_populator.vala:76
 msgid "New"
 msgstr ""
 
-#: main/data/menu_conversation.ui:7
-msgid "Contact Details"
+#: main/src/ui/conversation_details.vala:155
+msgid "Display name"
 msgstr ""
 
-#: main/data/message_item_widget_edit_mode.ui:51
-msgid "Update message"
+#: main/src/ui/conversation_details.vala:175
+#: main/src/ui/conversation_details.vala:189
+msgid "Topic"
 msgstr ""
 
-#: main/data/preferences_window/add_account_dialog.ui:92
-msgid "Login"
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:217
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:247
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:262
+#: main/src/ui/util/helper.vala:69 main/src/ui/util/helper.vala:73
+#: main/src/ui/util/helper.vala:81
+msgid "Me"
 msgstr ""
 
-#: main/data/preferences_window/add_account_dialog.ui:147
-msgid "Could not establish a secure connection"
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:253
+#: main/src/ui/notifier_freedesktop.vala:71
+#: main/src/ui/notifier_gnotifications.vala:36
+msgid "Image sent"
 msgstr ""
 
-#: main/data/preferences_window/add_account_dialog.ui:165
-msgid "Back"
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:253
+#: main/src/ui/notifier_freedesktop.vala:71
+#: main/src/ui/notifier_gnotifications.vala:36
+msgid "File sent"
 msgstr ""
 
-#: main/data/preferences_window/add_account_dialog.ui:183
-msgid "Choose a public server"
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:255
+#: main/src/ui/notifier_freedesktop.vala:73
+#: main/src/ui/notifier_gnotifications.vala:38
+msgid "Image received"
 msgstr ""
 
-#: main/data/preferences_window/add_account_dialog.ui:207
-msgid "Or specify a server address"
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:255
+#: main/src/ui/notifier_freedesktop.vala:73
+#: main/src/ui/notifier_gnotifications.vala:38
+msgid "File received"
 msgstr ""
 
-#: main/data/preferences_window/add_account_dialog.ui:225
-msgid "Sign in instead"
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:406
+#: main/src/ui/widgets/date_separator.vala:37
+#, no-c-format
+msgid "%b %d"
 msgstr ""
 
-#: main/data/preferences_window/add_account_dialog.ui:330
-msgid "All set up!"
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:410
+#: main/src/ui/widgets/date_separator.vala:28
+msgid "Yesterday"
 msgstr ""
 
-#: main/data/preferences_window/add_account_dialog.ui:359
-msgid "Finish"
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:427
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:482
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:126
+msgid "Edit Alias"
 msgstr ""
 
-#: main/data/preferences_window/general_preferences_page.ui:9
-msgid "Send _Typing Notifications"
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:431
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:520
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:140
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:206
+msgid "Unmute"
 msgstr ""
 
-#: main/data/preferences_window/general_preferences_page.ui:15
-msgid "Send _Read Receipts"
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:431
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:539
+#: main/src/windows/conversation_details.vala:154
+#: main/src/windows/conversation_details.vala:155
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:140
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:226
+msgid "Mute"
 msgstr ""
 
-#: main/data/preferences_window/general_preferences_page.ui:25
-msgid "_Notifications"
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:435
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:564
+#: main/src/windows/conversation_details.vala:99
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:250
+msgid "Unblock"
 msgstr ""
 
-#: main/data/preferences_window/general_preferences_page.ui:26
-msgid "Notify when a new message arrives"
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:435
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:583
+#: main/src/windows/conversation_details.vala:135
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:270
+msgid "Block"
 msgstr ""
 
-#: main/data/preferences_window/general_preferences_page.ui:36
-msgid "_Convert Smileys to Emoji"
-msgstr ""
-
-#: main/data/preferences_window/account_preferences_subpage.ui:77
-msgid "Local alias"
-msgstr ""
-
-#: main/data/preferences_window/account_preferences_subpage.ui:104
-msgid "Connection status"
-msgstr ""
-
-#: main/data/preferences_window/account_preferences_subpage.ui:134
-msgid "Remove account"
-msgstr ""
-
-#: main/data/preferences_window/change_password_dialog.ui:5
-msgid "Change password"
-msgstr ""
-
-#: main/data/preferences_window/change_password_dialog.ui:34
-msgid "Change"
-msgstr ""
-
-#: main/data/preferences_window/change_password_dialog.ui:61
-msgid "Current password"
-msgstr ""
-
-#: main/data/preferences_window/change_password_dialog.ui:66
-msgid "New password"
-msgstr ""
-
-#: main/data/preferences_window/change_password_dialog.ui:71
-msgid "Confirm password"
-msgstr ""
-
-#: main/data/preferences_window/preferences_dialog.ui:25
-#: main/data/gtk/help-overlay.ui:10
-msgid "General"
-msgstr ""
-
-#: main/data/gtk/help-overlay.ui:26
-msgid "Show preferences"
-msgstr ""
-
-#: main/data/gtk/help-overlay.ui:32
-msgid "Keyboard shortcuts"
-msgstr ""
-
-#: main/data/gtk/help-overlay.ui:39
-msgid "Conversation"
-msgstr ""
-
-#: main/data/gtk/help-overlay.ui:55
-msgid "Close conversation"
-msgstr ""
-
-#: main/data/gtk/help-overlay.ui:62
-msgid "Navigation"
-msgstr ""
-
-#: main/data/gtk/help-overlay.ui:66
-msgid "Jump to next conversation"
-msgstr ""
-
-#: main/data/gtk/help-overlay.ui:72
-msgid "Jump to previous conversation"
-msgstr ""
-
-#: main/data/add_conversation/conference_details_fragment.ui:20
-#: main/data/add_conversation/add_groupchat_dialog.ui:40
-#: main/data/add_conversation/add_contact_dialog.ui:40
-msgid "Account"
-msgstr ""
-
-#: main/data/add_conversation/conference_details_fragment.ui:114
-#: main/data/add_conversation/add_groupchat_dialog.ui:101
-msgid "Nick"
-msgstr ""
-
-#: main/data/add_conversation/add_groupchat_dialog.ui:144
-#: main/data/add_conversation/add_contact_dialog.ui:81
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:487
 msgid "Alias"
 msgstr ""
 
-#: main/data/add_conversation/add_contact_dialog.ui:5
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:493
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:333
+msgid "Save"
+msgstr ""
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:516
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:202
+msgid "Unmute contact?"
+msgstr ""
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:517
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:203
+#, c-format
+msgid "This will enable notifications from %s."
+msgstr ""
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:535
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:222
+msgid "Mute contact?"
+msgstr ""
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:536
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:223
+#, c-format
+msgid "This will disable notifications from %s."
+msgstr ""
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:560
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:246
+msgid "Unblock contact?"
+msgstr ""
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:561
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:247
+#, c-format
+msgid "This will allow %s to send you messages again."
+msgstr ""
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:579
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:266
+msgid "Block contact?"
+msgstr ""
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:580
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:267
+#, c-format
+msgid "This will prevent %s from sending you messages."
+msgstr ""
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:600
+#: main/src/windows/conversation_details.vala:48
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:288
+msgid "Remove contact?"
+msgstr ""
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:601
+#, c-format
+msgid ""
+"This will:\n"
+"• Delete all conversation history\n"
+"• Remove %s from your contact list\n"
+"\n"
+"This action cannot be undone."
+msgstr ""
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:604
+#: main/src/windows/conversation_details.vala:52
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:292
+msgid "Remove"
+msgstr ""
+
+#: main/src/ui/conversation_titlebar/call_entry.vala:13
+msgid "Start call"
+msgstr ""
+
+#: main/src/ui/conversation_titlebar/call_entry.vala:24
+msgid "Audio call"
+msgstr ""
+
+#: main/src/ui/conversation_titlebar/call_entry.vala:25
+msgid "Video call"
+msgstr ""
+
+#: main/src/ui/conversation_titlebar/menu_entry.vala:20
+msgid "Conversation Details"
+msgstr ""
+
+#: main/src/ui/conversation_titlebar/menu_entry.vala:22
+msgid "Close Conversation"
+msgstr ""
+
+#: main/src/ui/conversation_titlebar/menu_entry.vala:40
+msgid "Delete all message history for this conversation?"
+msgstr ""
+
+#: main/src/ui/conversation_titlebar/menu_entry.vala:42
+msgid "This action cannot be undone."
+msgstr ""
+
+#: main/src/ui/conversation_titlebar/menu_entry.vala:44
+msgid "Delete"
+msgstr ""
+
+#: main/src/ui/conversation_titlebar/occupants_entry.vala:14
+#: main/src/windows/conversation_details.vala:274
+msgid "Members"
+msgstr ""
+
+#: main/src/ui/conversation_view_controller.vala:212
+msgid "Select file"
+msgstr ""
+
+#: main/src/ui/conversation_view_controller.vala:213
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:152
+msgid "Select"
+msgstr ""
+
+#: main/src/ui/file_send_overlay.vala:58
+msgid "The file exceeds the server's maximum upload size."
+msgstr ""
+
+#: main/src/ui/global_search.vala:208
+#, c-format
+msgid "In %s"
+msgstr ""
+
+#: main/src/ui/global_search.vala:208
+#, c-format
+msgid "With %s"
+msgstr ""
+
+#: main/src/ui/main_window.vala:195
+msgid "Welcome to Dino!"
+msgstr ""
+
+#: main/src/ui/main_window.vala:196
+msgid "Sign in or create an account to get started."
+msgstr ""
+
+#: main/src/ui/main_window.vala:197
+msgid "Set up account"
+msgstr ""
+
+#: main/src/ui/main_window.vala:204
+#: main/src/windows/preferences_window/accounts_preferences_page.vala:71
+#: main/src/windows/preferences_window/encryption_preferences_page.vala:49
+msgid "No active accounts"
+msgstr ""
+
+#: main/src/ui/main_window.vala:205
+msgid "Manage accounts"
+msgstr ""
+
+#: main/src/ui/notifier_freedesktop.vala:157
+#: main/src/ui/notifier_gnotifications.vala:91
+msgid "Subscription request"
+msgstr ""
+
+#: main/src/ui/notifier_freedesktop.vala:192
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:231
+msgid "Wrong password"
+msgstr ""
+
+#: main/src/ui/notifier_freedesktop.vala:195
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:233
+msgid "Invalid TLS certificate"
+msgstr ""
+
+#: main/src/ui/notifier_freedesktop.vala:220
+#: main/src/ui/notifier_gnotifications.vala:123
+#, c-format
+msgid "Invitation to %s"
+msgstr ""
+
+#: main/src/ui/notifier_freedesktop.vala:221
+#: main/src/ui/notifier_gnotifications.vala:124
+#, c-format
+msgid "%s invited you to %s"
+msgstr ""
+
+#: main/src/ui/notifier_freedesktop.vala:254
+#: main/src/ui/notifier_gnotifications.vala:141
+msgid "Permission request"
+msgstr ""
+
+#: main/src/ui/notifier_freedesktop.vala:255
+#: main/src/ui/notifier_gnotifications.vala:142
+#, c-format
+msgid "%s requests the permission to write in %s"
+msgstr ""
+
+#: main/src/ui/occupant_menu/list.vala:110
+#: main/src/view_model/conversation_details.vala:134
+msgid "Owner"
+msgstr ""
+
+#: main/src/ui/occupant_menu/list.vala:112
+#: main/src/view_model/conversation_details.vala:135
+msgid "Admin"
+msgstr ""
+
+#: main/src/ui/occupant_menu/list.vala:114
+#: main/src/view_model/conversation_details.vala:136
+msgid "Member"
+msgstr ""
+
+#: main/src/ui/occupant_menu/list.vala:116
+msgid "User"
+msgstr ""
+
+#: main/src/ui/occupant_menu/view.vala:82
+msgid "Start private conversation"
+msgstr ""
+
+#: main/src/ui/occupant_menu/view.vala:90
+msgid "Kick"
+msgstr ""
+
+#: main/src/ui/occupant_menu/view.vala:96
+msgid "Grant write permission"
+msgstr ""
+
+#: main/src/ui/occupant_menu/view.vala:102
+msgid "Revoke write permission"
+msgstr ""
+
+#: main/src/ui/occupant_menu/view.vala:144
+msgid "Invite to Conference"
+msgstr ""
+
+#: main/src/ui/systray.vala:136
+msgid "Quit"
+msgstr ""
+
+#: main/src/ui/util/data_forms.vala:31
+msgid "Name of the room"
+msgstr ""
+
+#: main/src/ui/util/data_forms.vala:34
+msgid "Description of the room"
+msgstr ""
+
+#: main/src/ui/util/data_forms.vala:37
+msgid "Persistent"
+msgstr ""
+
+#: main/src/ui/util/data_forms.vala:38
+msgid "The room will persist after the last occupant leaves"
+msgstr ""
+
+#: main/src/ui/util/data_forms.vala:41
+msgid "Publicly searchable"
+msgstr ""
+
+#: main/src/ui/util/data_forms.vala:44
+msgid "Occupants may change the subject"
+msgstr ""
+
+#: main/src/ui/util/data_forms.vala:47
+msgid "Permission to view JIDs"
+msgstr ""
+
+#: main/src/ui/util/data_forms.vala:48
+msgid "Who is allowed to view the occupants' JIDs?"
+msgstr ""
+
+#: main/src/ui/util/data_forms.vala:55
+msgid "Moderated"
+msgstr ""
+
+#: main/src/ui/util/data_forms.vala:56
+msgid "Only occupants with voice may send messages"
+msgstr ""
+
+#: main/src/ui/util/data_forms.vala:59
+msgid "Members only"
+msgstr ""
+
+#: main/src/ui/util/data_forms.vala:60
+msgid "Only members may enter the room"
+msgstr ""
+
+#: main/src/ui/util/helper.vala:65
+#, c-format
+msgid "%s from %s"
+msgstr ""
+
+#: main/src/ui/widgets/date_separator.vala:22
+msgid "Today"
+msgstr ""
+
+#: main/src/ui/widgets/date_separator.vala:35
+#, no-c-format
+msgid "%a, %b %d"
+msgstr ""
+
+#: main/src/windows/conversation_details.vala:49
+msgid ""
+"This contact will be removed from your contact list and all conversation "
+"history will be permanently deleted."
+msgstr ""
+
+#: main/src/windows/conversation_details.vala:99
+msgid "Block user"
+msgstr ""
+
+#: main/src/windows/conversation_details.vala:99
+msgid "Block entire domain"
+msgstr ""
+
+#: main/src/windows/conversation_details.vala:116
+msgid "Pinned"
+msgstr ""
+
+#: main/src/windows/conversation_details.vala:116
+msgid "Pin"
+msgstr ""
+
+#: main/src/windows/conversation_details.vala:131
+msgid "Domain blocked"
+msgstr ""
+
+#: main/src/windows/conversation_details.vala:156
+msgid "Notifications enabled"
+msgstr ""
+
+#: main/src/windows/conversation_details.vala:159
+msgid "Notifications for mentions"
+msgstr ""
+
+#: main/src/windows/conversation_details.vala:164
+msgid "Notifications disabled"
+msgstr ""
+
+#: main/src/windows/conversation_details.vala:225
+msgid "Settings"
+msgstr ""
+
+#: main/src/windows/conversation_details.vala:248
+msgid "Room Configuration"
+msgstr ""
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:68
+msgid "Connect"
+msgstr ""
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:106
+msgid "Disable account"
+msgstr ""
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:106
+msgid "Enable account"
+msgstr ""
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:151
+msgid "Select avatar"
+msgstr ""
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:162
+msgid "Images"
+msgstr ""
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:166
+msgid "All files"
+msgstr ""
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:184
+#, c-format
+msgid "Remove account %s?"
+msgstr ""
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:218
+msgid "Connected"
+msgstr ""
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:220
+msgid "Disconnected"
+msgstr ""
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:240
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:242
+msgid "Error"
+msgstr ""
+
+#: main/src/windows/preferences_window/accounts_preferences_page.vala:28
+msgid "Disabled accounts"
+msgstr ""
+
+#: main/src/windows/preferences_window/accounts_preferences_page.vala:31
+#: main/src/windows/preferences_window/add_account_dialog.vala:83
+msgid "Add Account"
+msgstr ""
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:128
+msgid "Sign in"
+msgstr ""
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:147
+#, c-format
+msgid "The server could not prove that it is %s."
+msgstr ""
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:149
+msgid "Its security certificate is not trusted by your operating system."
+msgstr ""
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:151
+msgid "Its security certificate is issued to another domain."
+msgstr ""
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:153
+msgid "Its security certificate will only become valid in the future."
+msgstr ""
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:155
+msgid "Its security certificate is expired."
+msgstr ""
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:163
+msgid "Create account"
+msgstr ""
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:182
+#, c-format
+msgid "You can now use the account %s."
+msgstr ""
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:239
+msgid "Wrong username or password"
+msgstr ""
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:242
+msgid "Something went wrong"
+msgstr ""
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:316
+msgid "No response from server"
+msgstr ""
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:327
+#, c-format
+msgid "Register on %s"
+msgstr ""
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:330
+msgid "The server requires to sign up through a website"
+msgstr ""
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:332
+msgid "Open website"
+msgstr ""
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:344
+msgid "Register"
+msgstr ""
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:346
+#, c-format
+msgid "Check %s for information on how to sign up"
+msgstr ""
+
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:70
 msgid "Add Contact"
 msgstr ""
 
-#: main/data/im.dino.Dino.appdata.xml.in:6
-msgid "Modern XMPP chat client"
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:157
+msgid "Unblock Contact"
 msgstr ""
 
-#: main/data/im.dino.Dino.appdata.xml.in:10
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:157
+msgid "Block Contact"
+msgstr ""
+
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:192
+msgid "No contacts"
+msgstr ""
+
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:193
+msgid "Add contacts to start chatting"
+msgstr ""
+
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:289
+#, c-format
 msgid ""
-"Dino is a modern open-source chat client for the desktop. It focuses on "
-"providing a clean and reliable Jabber/XMPP experience while having your "
-"privacy in mind."
+"This will remove %s from your contact list and delete all conversation "
+"history."
 msgstr ""
 
-#: main/data/im.dino.Dino.appdata.xml.in:11
-msgid ""
-"It supports end-to-end encryption with OMEMO and OpenPGP and allows "
-"configuring privacy-related features such as read receipts and typing "
-"notifications."
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:318
+msgid "Edit Contact Alias"
 msgstr ""
 
-#: main/data/im.dino.Dino.appdata.xml.in:12
-msgid ""
-"Dino fetches history from the server and synchronizes messages with other "
-"devices."
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:319
+#, c-format
+msgid "Change the display name for %s"
 msgstr ""
 
-#: main/data/main_window.ui:89
-msgid "You have no open chats"
-msgstr ""
-
-#: main/data/main_window.ui:90
-msgid "Click + to start a chat or join a channel"
-msgstr ""
-
-#: main/data/global_search.ui:27
-msgid "No active search"
-msgstr ""
-
-#: main/data/global_search.ui:28
-msgid "Type to start a search"
-msgstr ""
-
-#: main/data/global_search.ui:42
-msgid "No matching messages"
-msgstr ""
-
-#: main/data/global_search.ui:43
-msgid "Check the spelling or try to remove filters"
-msgstr ""
-
-#: main/data/file_send_overlay.ui:61
-msgid "Send"
-msgstr ""
-
-#: main/data/menu_app.ui:7
-msgid "Preferences"
-msgstr ""
-
-#: main/data/menu_app.ui:11
-msgid "Keyboard Shortcuts"
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:325
+msgid "Alias (optional)"
 msgstr ""

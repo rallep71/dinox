@@ -1,8 +1,8 @@
 # DinoX - Development Plan
 
 > **Fork Status**: Modern XMPP client - Independent development branch of [dino/dino](https://github.com/dino/dino)  
-> **Last Updated**: November 21, 2025  
-> **Version**: 0.6.1  
+> **Last Updated**: November 22, 2025  
+> **Version**: 0.6.2  
 > **Original Repository**: https://github.com/dino/dino (572 open issues)
 
 ---
@@ -125,7 +125,7 @@ DinoX addresses the slow development pace of the original Dino XMPP client while
 | P1 | [#1559](https://github.com/dino/dino/issues/1559) | Calls | Echo cancellation broken | Hard | TODO |
 | P1 | [#57](https://github.com/dino/dino/issues/57) | Security | Self-signed certs rejected | Medium | TODO |
 | P1 | **User Status** | **Presence UI** | **Set own status / View partner status** | Medium | ✓ **COMPLETED** |
-|  P1 | **XEP-0424** | **Message UI** | **Delete individual messages** | Easy | READY **READY** |
+|  P1 | **XEP-0424** | **Message UI** | **Delete individual messages** | Easy | **DONE** |
 |  P2 | **XEP-0425** | **MUC UI** | **Moderator message deletion** | Medium | READY **READY** |
 
 **Files to Modify**:
@@ -640,14 +640,13 @@ We'll progressively add issues to phases as we work through them:
 ### Recently Added (Dino Extended)
 
 - ✓ **XEP-0191** (Blocking Command) - Full UI in Contacts page with status badges
-- ✓ **XEP-0424** (Message Retraction) - Backend complete, used for delete history
+- ✓ **XEP-0424** (Message Retraction) - Full UI implementation (Delete for everyone)
 - ✓ **XEP-0425** (Message Moderation) - Backend complete, MUC moderator support
 
 ### Missing UI Work (Backend Ready)
 
 **High Priority**:
-1. **XEP-0424** - Delete individual messages UI (1-2 days)
-   - Backend: ✓ Complete in `xmpp-vala/src/module/xep/0424_message_retraction.vala`
+1. **XEP-0425** - Message Moderation UI (MUC)
    - Missing: Context menu "Delete for everyone" on own messages
    - Complexity: DONE Easy - Just UI button needed
 
