@@ -108,6 +108,7 @@ public class ConversationView : Widget, Plugins.ConversationItemCollection, Plug
 
     public ConversationView init(StreamInteractor stream_interactor) {
         this.stream_interactor = stream_interactor;
+        stream_interactor.get_module(MessageDeletion.IDENTITY).item_deleted.connect(on_item_deleted);
         scrolled.vadjustment.notify["upper"].connect_after(on_upper_notify);
         scrolled.vadjustment.notify["page-size"].connect(on_upper_notify);
         scrolled.vadjustment.notify["value"].connect(on_value_notify);
@@ -674,6 +675,38 @@ public class ConversationView : Widget, Plugins.ConversationItemCollection, Plug
 //        notifications.@foreach((widget) => { notifications.remove(widget); });
         notification_revealer.transition_duration = 0;
         notification_revealer.set_reveal_child(false);
+    }
+
+    public override void dispose() {
+        if (stream_interactor != null) {
+            stream_interactor.get_module(MessageDeletion.IDENTITY).item_deleted.disconnect(on_item_deleted);
+        }
+        base.dispose();
+    }
+
+    private void on_item_deleted(ContentItem item) {
+        Conversation? item_conversation = null;
+        if (item is MessageItem) {
+            item_conversation = ((MessageItem) item).conversation;
+        } else if (item is FileItem) {
+            item_conversation = ((FileItem) item).conversation;
+        } else if (item is CallItem) {
+            item_conversation = ((CallItem) item).conversation;
+        }
+
+        if (conversation == null || item_conversation != conversation) return;
+
+        ContentMetaItem? to_remove = null;
+        foreach (var meta_item in content_items) {
+            if (meta_item.content_item.id == item.id) {
+                to_remove = meta_item;
+                break;
+            }
+        }
+
+        if (to_remove != null) {
+            remove_item(to_remove);
+        }
     }
 }
 

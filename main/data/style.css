@@ -386,3 +386,26 @@ box.dino-input-error .chat-input-status.input-status-highlight-once {
 .qrcode-container > contents {
     background: white;  /* Color of the quiet zone. MUST have the same "reflectance" as light modules of the QR code. */
 }
+
+/* Audio Player Widget */
+
+.audio-player {
+    background: alpha(@theme_fg_color, 0.05);
+    border-radius: 24px;
+    padding: 4px 8px;
+    border: 1px solid alpha(@theme_fg_color, 0.1);
+    transition: background 0.2s;
+}
+
+.audio-player:hover {
+    background: alpha(@theme_fg_color, 0.08);
+}
+
+.audio-player scale {
+    margin: 0 5px;
+}
+
+.audio-player label {
+    font-feature-settings: "tnum";
+    font-variant-numeric: tabular-nums;
+}

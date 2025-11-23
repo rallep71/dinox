@@ -33,6 +33,9 @@ public class ConversationViewController : Object {
         chat_input_controller.activate_last_message_correction.connect(view.conversation_frame.activate_last_message_correction);
         chat_input_controller.file_picker_selected.connect(open_file_picker);
         chat_input_controller.clipboard_pasted.connect(on_clipboard_paste);
+        chat_input_controller.voice_message_recorded.connect((path) => {
+            send_file(File.new_for_path(path));
+        });
 
         view.conversation_frame.init(stream_interactor);
 

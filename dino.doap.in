@@ -6,8 +6,8 @@
          xmlns:foaf="http://xmlns.com/foaf/0.1/">
   <Project>
 
-    <name>Dino</name>
-    <short-name>dino</short-name>
+    <name>DinoX</name>
+    <short-name>dinox</short-name>
 
     <shortdesc xml:lang="en">Modern XMPP chat client</shortdesc>
     <description xml:lang="en">

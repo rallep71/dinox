@@ -358,5 +358,13 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
 
         window.present();
     }
+
+    public override void shutdown() {
+        if (systray_manager != null) {
+            systray_manager.cleanup();
+            systray_manager = null;
+        }
+        base.shutdown();
+    }
 }
 

@@ -62,13 +62,14 @@ public class StatusNotifierItem : Object {
 
 public class SystrayManager : Object {
     
-    private Application application;
+    private unowned Application application;
     public MainWindow? window;
     private StatusNotifierItem? status_notifier;
     private Dbusmenu.Server? menu_server;
     private uint dbus_id = 0;
     private DBusConnection? connection;
     private Dbusmenu.Menuitem[] status_items;
+    private ulong status_changed_id = 0;
     
     public bool is_hidden = false;
     
@@ -88,7 +89,9 @@ public class SystrayManager : Object {
     
     private async void initialize_dbus() {
         try {
-            connection = yield Bus.get(BusType.SESSION);
+            var conn = yield Bus.get(BusType.SESSION);
+            if (disposed) return;
+            connection = conn;
             
             status_notifier = new StatusNotifierItem();
             status_notifier.activate.connect(on_activate);
@@ -120,7 +123,7 @@ public class SystrayManager : Object {
 
             // Connect to PresenceManager status changes
             var pm = application.stream_interactor.get_module(PresenceManager.IDENTITY);
-            pm.status_changed.connect((show, msg) => {
+            status_changed_id = pm.status_changed.connect((show, msg) => {
                 update_status_items(show);
             });
             update_status_items("online");
@@ -138,7 +141,11 @@ public class SystrayManager : Object {
             item_quit.property_set_bool(Dbusmenu.MENUITEM_PROP_VISIBLE, true);
             item_quit.property_set(Dbusmenu.MENUITEM_PROP_ICON_NAME, "application-exit-symbolic");
             item_quit.item_activated.connect((timestamp) => {
-                application.activate_action("quit", null);
+                // Use a small timeout to ensure we are completely out of the Dbusmenu signal handler stack
+                Timeout.add(50, () => {
+                    application.activate_action("quit", null);
+                    return false;
+                });
             });
             root.child_append(item_quit);
             
@@ -156,6 +163,8 @@ public class SystrayManager : Object {
     }
     
     private async void register_with_watcher() {
+        if (disposed || connection == null) return;
+
         string[] watchers = {
             "org.kde.StatusNotifierWatcher",
             "org.x.StatusNotifierWatcher"
@@ -164,12 +173,14 @@ public class SystrayManager : Object {
         bool registered = false;
         foreach (string watcher_name in watchers) {
             try {
+                if (disposed || connection == null) return;
                 StatusNotifierWatcher watcher = yield connection.get_proxy(
                     watcher_name,
                     "/StatusNotifierWatcher",
                     DBusProxyFlags.NONE
                 );
                 
+                if (disposed || connection == null) return;
                 string service_name = connection.unique_name;
                 yield watcher.register_status_notifier_item(service_name);
                 
@@ -223,6 +234,8 @@ public class SystrayManager : Object {
     }
     
     private void update_status_items(string current_status) {
+        if (status_items == null) return;
+
         string[] statuses = {"online", "away", "dnd", "xa"};
         string[] labels = {_("Online"), _("Away"), _("Busy"), _("Not Available")};
         string[] active_emojis = {"🟢", "🟠", "🔴", "⭕"};
@@ -236,10 +249,33 @@ public class SystrayManager : Object {
         }
     }
     
-    ~SystrayManager() {
-        if (connection != null && dbus_id != 0) {
-            connection.unregister_object(dbus_id);
+    private bool disposed = false;
+    
+    public void cleanup() {
+        if (disposed) {
+            return;
         }
+        disposed = true;
+        
+        if (status_changed_id != 0) {
+            var pm = application.stream_interactor.get_module(PresenceManager.IDENTITY);
+            SignalHandler.disconnect(pm, status_changed_id);
+            status_changed_id = 0;
+        }
+
+        if (connection != null && !connection.is_closed() && dbus_id != 0) {
+            connection.unregister_object(dbus_id);
+            dbus_id = 0;
+        }
+        
+        status_items = null;
+        menu_server = null;
+        status_notifier = null;
+        connection = null;
+    }
+
+    ~SystrayManager() {
+        cleanup();
     }
 }
 

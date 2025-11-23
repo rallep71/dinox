@@ -2,7 +2,7 @@
 <component type="desktop-application">
   <id>im.github.rallep71.DinoX</id>
   <metadata_license>CC0-1.0</metadata_license>
-  <name>Dino</name>
+  <name>DinoX</name>
   <summary>Modern XMPP chat client</summary>
   <summary xml:lang="zh-Hant-TW">現代化的 XMPP 用戶端聊天軟件</summary>
   <summary xml:lang="zh-Hans-CN">现代 XMPP 聊天客户端</summary>

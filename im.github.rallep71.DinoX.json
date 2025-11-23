@@ -14,7 +14,9 @@
         "--share=network",
         "--device=dri",
         "--talk-name=org.freedesktop.Notifications",
-        "--talk-name=org.kde.StatusNotifierWatcher"
+        "--talk-name=org.kde.StatusNotifierWatcher",
+        "--talk-name=org.freedesktop.ScreenSaver",
+        "--own-name=org.mpris.MediaPlayer2.Dino"
     ],
     "modules": [
         {

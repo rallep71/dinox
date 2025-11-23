@@ -73,6 +73,10 @@ public class ContentProvider : ContentItemCollection, Object {
         if (content_item.type_ == MessageItem.TYPE) {
             return new MessageMetaItem(content_item, stream_interactor);
         } else if (content_item.type_ == FileItem.TYPE) {
+            FileItem file_item = (FileItem) content_item;
+            if (file_item.file_transfer.mime_type != null && file_item.file_transfer.mime_type.has_prefix("audio/")) {
+                return new AudioFileMetaItem(content_item, stream_interactor);
+            }
             return new FileMetaItem(content_item, stream_interactor);
         } else if (content_item.type_ == CallItem.TYPE) {
             return new CallMetaItem(content_item, stream_interactor);

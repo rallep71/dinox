@@ -5,6 +5,7 @@ using Xmpp;
 
 using Xmpp;
 using Dino.Entities;
+using Dino.Ui.ChatInput;
 
 namespace Dino.Ui {
 private const string OPEN_CONVERSATION_DETAILS_URI = "x-dino:open-conversation-details";
@@ -14,6 +15,7 @@ public class ChatInputController : Object {
     public signal void activate_last_message_correction();
     public signal void file_picker_selected();
     public signal void clipboard_pasted();
+    public signal void voice_message_recorded(string path);
 
     public new string? conversation_display_name { get; set; }
     public string? conversation_topic { get; set; }
@@ -27,12 +29,16 @@ public class ChatInputController : Object {
     private ChatTextViewController chat_text_view_controller;
 
     private ContentItem? quoted_content_item = null;
+    private AudioRecorder audio_recorder;
+    private VoiceRecorderPopover? recorder_popover = null;
+    private bool is_recording = false;
 
     public ChatInputController(ChatInput.View chat_input, StreamInteractor stream_interactor) {
         this.chat_input = chat_input;
         this.status_description_label = chat_input.chat_input_status;
         this.stream_interactor = stream_interactor;
         this.chat_text_view_controller = new ChatTextViewController(chat_input.chat_text_view, stream_interactor);
+        this.audio_recorder = new AudioRecorder();
 
         chat_input.init(stream_interactor);
 
@@ -50,6 +56,7 @@ public class ChatInputController : Object {
         chat_input.encryption_widget.encryption_changed.connect(on_encryption_changed);
 
         chat_input.file_button.clicked.connect(() => file_picker_selected());
+        chat_input.record_button.clicked.connect(show_recorder_popover);
         chat_input.send_button.clicked.connect(send_text);
 
         stream_interactor.get_module(MucManager.IDENTITY).received_occupant_role.connect(update_moderated_input_status);
@@ -137,6 +144,8 @@ public class ChatInputController : Object {
         }
 
         string text = chat_input.chat_text_view.text_view.buffer.text;
+        if (text.strip() == "") return;
+
         ContentItem? quoted_content_item_bak = quoted_content_item;
         var markups = chat_input.chat_text_view.get_markups();
 
@@ -242,6 +251,66 @@ public class ChatInputController : Object {
             chat_input.do_focus();
         }
         return false;
+    }
+
+    private void show_recorder_popover() {
+        if (recorder_popover == null) {
+            recorder_popover = new VoiceRecorderPopover(audio_recorder);
+            recorder_popover.set_parent(chat_input.record_button);
+            
+            recorder_popover.send_clicked.connect(() => {
+                stop_recording();
+                recorder_popover.popdown();
+            });
+            
+            recorder_popover.cancel_clicked.connect(() => {
+                cancel_recording();
+                recorder_popover.popdown();
+            });
+            
+            recorder_popover.closed.connect(() => {
+                if (is_recording) {
+                    cancel_recording();
+                }
+            });
+        }
+        
+        recorder_popover.popup();
+        start_recording();
+    }
+
+    private void start_recording() {
+        try {
+            string path = Path.build_filename(Environment.get_tmp_dir(), "dino_voice_%s.m4a".printf(new DateTime.now_local().format("%Y%m%d%H%M%S")));
+            audio_recorder.start_recording(path);
+            is_recording = true;
+            chat_input.record_button.icon_name = "media-record-symbolic";
+            chat_input.record_button.add_css_class("destructive-action");
+        } catch (Error e) {
+            warning("Failed to start recording: %s", e.message);
+        }
+    }
+
+    private void stop_recording() {
+        audio_recorder.stop_recording();
+        is_recording = false;
+        chat_input.record_button.icon_name = "microphone-sensitivity-medium-symbolic";
+        chat_input.record_button.remove_css_class("destructive-action");
+
+        if (audio_recorder.current_output_path != null) {
+            voice_message_recorded(audio_recorder.current_output_path);
+        }
+    }
+    
+    private void cancel_recording() {
+        audio_recorder.stop_recording();
+        is_recording = false;
+        chat_input.record_button.icon_name = "microphone-sensitivity-medium-symbolic";
+        chat_input.record_button.remove_css_class("destructive-action");
+        
+        if (audio_recorder.current_output_path != null) {
+            FileUtils.unlink(audio_recorder.current_output_path);
+        }
     }
 }
 

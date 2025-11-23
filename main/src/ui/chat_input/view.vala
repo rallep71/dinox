@@ -22,6 +22,7 @@ public class View : Box {
     [GtkChild] public unowned Box quote_box;
     [GtkChild] public unowned ChatTextView chat_text_view;
     [GtkChild] public unowned Button file_button;
+    [GtkChild] public unowned Button record_button;
     [GtkChild] public unowned MenuButton emoji_button;
     [GtkChild] public unowned MenuButton encryption_button;
     [GtkChild] public unowned Button send_button;

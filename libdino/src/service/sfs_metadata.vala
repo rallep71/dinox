@@ -29,6 +29,9 @@ namespace Dino {
 
             metadata.name = info.get_display_name();
             metadata.mime_type = info.get_content_type();
+            if (metadata.name.has_suffix(".m4a")) {
+                metadata.mime_type = "audio/mp4";
+            }
             metadata.size = info.get_size();
             metadata.date = info.get_modification_date_time();
 

@@ -81,6 +81,7 @@ namespace Dino.Ui.Quote {
         Widget outer = builder.get_object("outer") as Widget;
 
         GestureClick gesture_click_controller = new GestureClick();
+        gesture_click_controller.button = Gdk.BUTTON_PRIMARY;
         outer.add_controller(gesture_click_controller);
         gesture_click_controller.pressed.connect(() => {
             model.jump_to();

@@ -11,7 +11,7 @@ public class FileMetaItem : ConversationSummary.ContentMetaItem {
 
     private StreamInteractor stream_interactor;
     private FileItem file_item;
-    private FileTransfer file_transfer;
+    protected FileTransfer file_transfer;
 
     public FileMetaItem(ContentItem content_item, StreamInteractor stream_interactor) {
         base(content_item);
@@ -27,7 +27,7 @@ public class FileMetaItem : ConversationSummary.ContentMetaItem {
     }
 
     public override Gee.List<Plugins.MessageAction>? get_item_actions(Plugins.WidgetType type) {
-        if ((file_transfer.provider != FileManager.HTTP_PROVIDER_ID && file_transfer.provider != FileManager.SFS_PROVIDER_ID) || file_transfer.info == null) return null;
+        if (file_transfer.provider != FileManager.HTTP_PROVIDER_ID && file_transfer.provider != FileManager.SFS_PROVIDER_ID) return null;
 
         Gee.List<Plugins.MessageAction> actions = new ArrayList<Plugins.MessageAction>();
 

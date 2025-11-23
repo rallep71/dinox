@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **Audio Recording** - Switched to **m4a/AAC** format (MPEG-4 container, AAC-LC, 44.1kHz, 64kbps) for full compatibility with Android (Conversations) and iOS (Monal/Siskin).
+- **Audio Streaming** - Enabled `faststart` (moov atom at beginning) for instant playback of voice messages.
+
+### Fixed
+- **Zombie Process** - Fixed application hang on exit caused by incorrect GStreamer deinitialization.
+- **Message Deletion** - Fixed deleted messages reappearing after restart (implemented persistent "hide" flag in database).
+- **File Deletion** - Fixed missing context menu for file messages, allowing deletion of all file types.
+- **Quote Interaction** - Fixed right-click on quoted messages triggering "jump to message" instead of opening the context menu.
+- **Empty Messages** - Prevented sending empty or whitespace-only messages which caused "Message deleted" errors.
+- **Flatpak Audio** - Added missing permissions (`org.freedesktop.ScreenSaver`, `org.mpris.MediaPlayer2.Dino`) to ensure audio recording/playback works correctly in Flatpak.
+
 ## [0.6.3] - 2025-11-23
 
 ### Added

@@ -1,8 +1,8 @@
 # DinoX - Development Plan
 
 > **Fork Status**: Modern XMPP client - Independent development branch of [dino/dino](https://github.com/dino/dino)  
-> **Last Updated**: November 23, 2025
-> **Version**: 0.6.3
+> **Last Updated**: November 24, 2025
+> **Version**: 0.6.4
 > **Original Repository**: https://github.com/dino/dino (572 open issues)
 
 ---
@@ -113,7 +113,32 @@ DinoX addresses the slow development pace of the original Dino XMPP client while
 
 ---
 
-### READY Phase 3: Critical Bug Fixes Round 2 (Q1 2026 - v0.6.2)
+### Phase 3: Audio & Interaction Polish (Nov 2025 - v0.6.4)
+
+**Goal**: Fix critical audio compatibility issues and refine message interaction.
+
+| Priority | Issue | Component | Impact | Status |
+|----------|-------|-----------|--------|--------|
+| P0 | - | Audio | Incompatible with Android/iOS (Ogg/Opus) | ✓ FIXED |
+| P0 | - | Audio | Poor recording quality | ✓ FIXED |
+| P0 | - | Deletion | Deleted messages reappear on restart | ✓ FIXED |
+| P1 | - | Deletion | Cannot delete files (Context menu missing) | ✓ FIXED |
+| P1 | - | Interaction | Right-click on quote triggers jump | ✓ FIXED |
+| P1 | - | Stability | Zombie process on exit (Gst.deinit) | ✓ FIXED |
+
+**Key Improvements**:
+- **Audio Overhaul**: Switched to **m4a/AAC** (MPEG-4, 44.1kHz, 64kbps) with `faststart` for instant streaming. Compatible with Monal, Gajim, and Conversations.
+- **Soft Deletion**: Implemented proper "hide" logic in database to persist deletions across restarts.
+- **UI Fixes**:
+    - Enabled context menu for all file types (allowing deletion).
+    - Fixed `QuoteWidget` hijacking right-clicks.
+    - Prevented sending empty messages.
+
+**Status**: ✓ **COMPLETED** (November 24, 2025)
+
+---
+
+### READY Phase 4: Critical Bug Fixes Round 2 (Q1 2026 - v0.7.0)
 
 **Goal**: Fix remaining P0/P1 stability issues + Complete missing XEP UIs
 
@@ -163,7 +188,7 @@ DinoX addresses the slow development pace of the original Dino XMPP client while
 
 ---
 
-### DONE Phase 3: Top User-Requested Features (Q1-Q2 2026 - v0.7.0)
+### DONE Phase 5: Top User-Requested Features (Q1-Q2 2026 - v0.8.0)
 
 **Goal**: Implement most-wanted features (100+ reactions each!)
 

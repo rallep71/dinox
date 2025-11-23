@@ -43,6 +43,7 @@ namespace Dino {
                 is_own_message = ((MessageItem) content_item).message.direction == Message.DIRECTION_SENT;
             } else if (content_item is FileItem) {
                 is_own_message = ((FileItem) content_item).file_transfer.direction == FileTransfer.DIRECTION_SENT;
+                if (((FileItem) content_item).file_transfer.info == null) return false;
             }
 
             if (conversation.type_.is_muc_semantic()) {
@@ -100,6 +101,12 @@ namespace Dino {
             if (message != null) {
                 message.body = "";
             }
+
+            // Hide the content item from the view
+            db.content_item.update()
+                .with(db.content_item.id, "=", content_item.id)
+                .set(db.content_item.hide, true)
+                .perform();
 
             item_deleted(content_item);
         }
