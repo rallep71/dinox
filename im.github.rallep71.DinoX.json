@@ -1,7 +1,7 @@
 {
     "id": "im.github.rallep71.DinoX",
     "runtime": "org.gnome.Platform",
-    "runtime-version": "49",
+    "runtime-version": "47",
     "sdk": "org.gnome.Sdk",
     "command": "dinox",
     "add-extensions": {
