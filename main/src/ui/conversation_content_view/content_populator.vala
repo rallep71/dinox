@@ -1,3 +1,12 @@
+/*
+ * Copyright (C) 2025 Ralf Peter <dinox@handwerker.jetzt>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ */
+
 using Gee;
 using Gtk;
 
@@ -74,8 +83,18 @@ public class ContentProvider : ContentItemCollection, Object {
             return new MessageMetaItem(content_item, stream_interactor);
         } else if (content_item.type_ == FileItem.TYPE) {
             FileItem file_item = (FileItem) content_item;
-            if (file_item.file_transfer.mime_type != null && file_item.file_transfer.mime_type.has_prefix("audio/")) {
+            string? mime_type = file_item.file_transfer.mime_type;
+            if (mime_type == null) {
+                bool uncertain;
+                string content_type = ContentType.guess(file_item.file_transfer.file_name, null, out uncertain);
+                mime_type = ContentType.get_mime_type(content_type);
+            }
+
+            if (mime_type != null && mime_type.has_prefix("audio/")) {
                 return new AudioFileMetaItem(content_item, stream_interactor);
+            }
+            if (mime_type != null && mime_type.has_prefix("video/")) {
+                return new VideoFileMetaItem(content_item, stream_interactor);
             }
             return new FileMetaItem(content_item, stream_interactor);
         } else if (content_item.type_ == CallItem.TYPE) {

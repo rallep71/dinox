@@ -33,6 +33,7 @@ Complete guide to building DinoX from source on various Linux distributions.
 | Library | Min Version | Purpose |
 |---------|-------------|---------|
 | GTK4 | 4.0+ | UI framework |
+| GTK4 Media Backend | - | GStreamer backend for GTK4 (required for video) |
 | libadwaita | 1.5+ | Modern GNOME widgets |
 | GLib/GIO | 2.74+ | Core utilities |
 | libgee | 0.8+ | Data structures |
@@ -70,6 +71,7 @@ sudo apt install -y build-essential meson ninja-build \
 # Install GTK4 and core dependencies
 sudo apt install -y \
   libgtk-4-dev \
+  libgtk-4-media-gstreamer \
   libadwaita-1-dev \
   libglib2.0-dev \
   libgio2.0-dev \

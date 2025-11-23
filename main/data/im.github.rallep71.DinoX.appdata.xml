@@ -191,6 +191,16 @@
   <url type="translate">https://hosted.weblate.org/projects/dino/</url>
   <launchable type="desktop-id">im.github.rallep71.DinoX.desktop</launchable>
   <releases>
+    <release date="2025-11-23" version="0.6.5">
+      <description>
+        <p>This release introduces a new video player implementation and adds codec support for Flatpak.</p>
+        <ul>
+          <li>Implemented robust video player for chat messages</li>
+          <li>Added H.264/HEVC codec support for Flatpak (iPhone/Android videos)</li>
+          <li>Improved chat layout stability with media content</li>
+        </ul>
+      </description>
+    </release>
     <release date="2025-11-23" version="0.6.3">
       <description>
         <p>See CHANGELOG.md for details.</p>

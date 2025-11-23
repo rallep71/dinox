@@ -7,7 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.6.4] - 2025-11-23
+## [0.6.5] - 2025-11-23
+
+### Added
+- **Video Player** - Implemented a robust video player using `Gtk.AspectFrame` and `Gtk.MediaFile` for stable playback in chat.
+- **Flatpak Codecs** - Added `org.freedesktop.Platform.ffmpeg-full` extension to Flatpak manifest to support H.264/HEVC (iPhone/Android videos) out of the box.
+
+### Fixed
+- **Chat Layout** - Prevented chat view from collapsing when displaying video messages.
 
 ## [0.6.4] - 2025-11-23
 
@@ -126,7 +133,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This is the base version from [dino/dino](https://github.com/dino/dino) that we forked from.
 
-[Unreleased]: https://github.com/rallep71/dinox/compare/v0.6.3...HEAD
+[Unreleased]: https://github.com/rallep71/dinox/compare/v0.6.5...HEAD
+[0.6.5]: https://github.com/rallep71/dinox/releases/tag/v0.6.5
+[0.6.4]: https://github.com/rallep71/dinox/releases/tag/v0.6.4
+[0.6.3]: https://github.com/rallep71/dinox/releases/tag/v0.6.3
+[0.6.2]: https://github.com/rallep71/dinox/releases/tag/v0.6.2
+[0.6.1]: https://github.com/rallep71/dinox/releases/tag/v0.6.1
 [0.6.0]: https://github.com/rallep71/dinox/releases/tag/v0.6.0
 [0.5.0]: https://github.com/dino/dino/releases/tag/v0.5.0
-[0.6.3]: https://github.com/rallep71/dinox/releases/tag/v0.6.3

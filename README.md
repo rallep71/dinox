@@ -26,8 +26,11 @@ DinoX is a modern, user-friendly XMPP (Jabber) messaging client for Linux built 
 **Key Features:**
 - **End-to-End Encryption** - OMEMO & OpenPGP support
 - **Voice & Video Calls** - High-quality audio/video communication
+- **Voice Messages** - Send audio recordings in 1:1 and group chats
+- **Video Player** - Integrated video playback directly in chat
 - **File Transfers** - Easy sharing of files and media
 - **Group Chats** - Full MUC (Multi-User Chat) support
+- **Advanced Moderation** - Powerful tools for community admins
 - **Modern UI** - Clean interface with libadwaita design
 - **60+ XEPs** - Extensive XMPP protocol support
 
@@ -53,6 +56,16 @@ DinoX adds features that are **missing in upstream Dino** but highly requested b
 | Visual indicators | | See muted/blocked status at a glance |
 | **Context Menu** | ✓ Complete | UX improvement |
 | Right-click on conversations | | Quick access to common actions |
+| **Advanced MUC Moderation** | ✓ Complete | Community request |
+| Timed bans, kick, role management | | Admin tools for group chats |
+| **Cross-Platform Voice Messages** | ✓ Complete | Interop |
+| AAC/m4a format | | Compatible with iOS/Android clients |
+| **Message Retraction** | ✓ Complete | XEP-0424 |
+| "Delete for everyone" | | Retract sent messages |
+| **Global Status Selection** | ✓ Complete | UX improvement |
+| Online, Away, DND, Invisible | | Set status from main menu |
+| **Enhanced Video Player** | ✓ Complete | Stability |
+| H.264/HEVC support | | Stable playback & aspect ratio |
 
 ### Bug Fixes
 

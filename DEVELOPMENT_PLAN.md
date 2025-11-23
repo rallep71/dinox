@@ -1,8 +1,8 @@
 # DinoX - Development Plan
 
 > **Fork Status**: Modern XMPP client - Independent development branch of [dino/dino](https://github.com/dino/dino)  
-> **Last Updated**: November 24, 2025
-> **Version**: 0.6.4
+> **Last Updated**: November 23, 2025
+> **Version**: 0.6.5
 > **Original Repository**: https://github.com/dino/dino (572 open issues)
 
 ---
@@ -138,7 +138,52 @@ DinoX addresses the slow development pace of the original Dino XMPP client while
 
 ---
 
-### READY Phase 4: Critical Bug Fixes Round 2 (Q1 2026 - v0.7.0)
+### Phase 4: Video Playback & Flatpak Support (Nov 2025 - v0.6.5)
+
+**Goal**: Enable robust inline video playback (MP4/MOV) and ensure Flatpak compatibility "out of the box".
+
+| Priority | Issue | Component | Impact | Status |
+|----------|-------|-----------|--------|--------|
+| P0 | **Video Crash** | `VideoPlayerWidget` | Crash on invalid video metadata/layout | ✓ FIXED |
+| P1 | **Layout Collapse** | `VideoPlayerWidget` | Chat view breaks when video loads | ✓ FIXED |
+| P1 | **Aspect Ratio** | `VideoPlayerWidget` | "Schmalfilm" (narrow strip) on some videos | ✓ FIXED |
+| P1 | **Flatpak Codecs** | `Manifest` | iPhone/Android videos (H.264/HEVC) fail | ✓ FIXED |
+
+**Key Improvements**:
+- **Robust Video Container**: Replaced fragile `ScrolledWindow` with `Gtk.AspectFrame` (fixed 16:9 ratio) to prevent layout collapse and crashes.
+- **Crash Protection**: Added error handling for `Gtk.MediaFile` to catch GStreamer errors without crashing the app.
+- **Flatpak Extension**: Added `org.freedesktop.Platform.ffmpeg-full` to Flatpak manifest to support H.264, HEVC, AAC "out of the box".
+- **Layout Stability**: Enforced fixed size requests to prevent UI jumping/collapsing.
+
+**Status**: ✓ **COMPLETED** (November 23, 2025)
+
+---
+
+### Phase 5: Feature Implementation (Q1 2026 - v0.7.0)
+
+**Implementation Plan**:
+
+1.  **VideoPlayerWidget**:
+    -   Create `main/src/ui/conversation_content_view/video_player_widget.vala`.
+    -   Use `Gtk.Video` for playback (GTK4 native widget).
+    -   Handle `FileTransfer` states (downloading vs. complete).
+    -   Show `FileTransmissionProgress` overlay during download.
+    -   Switch to video player when download completes.
+
+2.  **Integration**:
+    -   Modify `main/src/ui/conversation_content_view/file_widget.vala`.
+    -   Detect `video/*` MIME types (mp4, quicktime, etc.).
+    -   Instantiate `VideoPlayerWidget` instead of `FileImageWidget` or `FileDefaultWidget`.
+
+3.  **Codecs & Flatpak**:
+    -   Ensure `org.gnome.Platform` provides necessary GStreamer plugins (H.264/AAC).
+    -   Verify playback of iPhone (.mov/HEVC) and Android (.mp4/H.264) recordings.
+
+**Estimated Time**: 2-3 days.
+
+---
+
+### READY Phase 5: Critical Bug Fixes Round 2 (Q1 2026 - v0.7.0)
 
 **Goal**: Fix remaining P0/P1 stability issues + Complete missing XEP UIs
 
@@ -188,7 +233,7 @@ DinoX addresses the slow development pace of the original Dino XMPP client while
 
 ---
 
-### DONE Phase 5: Top User-Requested Features (Q1-Q2 2026 - v0.8.0)
+### DONE Phase 6: Top User-Requested Features (Q1-Q2 2026 - v0.8.0)
 
 **Goal**: Implement most-wanted features (100+ reactions each!)
 
