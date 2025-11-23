@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.3] - 2025-11-23
+
 ### Added
 - **Timed Bans** - Ban users from MUCs for 10, 15, or 30 minutes (auto-unban).
 - **Moderation Menu** - Comprehensive menu for MUC admins/owners:
@@ -108,6 +110,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This is the base version from [dino/dino](https://github.com/dino/dino) that we forked from.
 
-[Unreleased]: https://github.com/rallep71/dinox/compare/v0.6.0...HEAD
+[Unreleased]: https://github.com/rallep71/dinox/compare/v0.6.3...HEAD
 [0.6.0]: https://github.com/rallep71/dinox/releases/tag/v0.6.0
 [0.5.0]: https://github.com/dino/dino/releases/tag/v0.5.0
+[0.6.3]: https://github.com/rallep71/dinox/releases/tag/v0.6.3

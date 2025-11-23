@@ -191,6 +191,11 @@
   <url type="translate">https://hosted.weblate.org/projects/dino/</url>
   <launchable type="desktop-id">im.github.rallep71.DinoX.desktop</launchable>
   <releases>
+    <release date="2025-11-23" version="0.6.3">
+      <description>
+        <p>See CHANGELOG.md for details.</p>
+      </description>
+    </release>
     <release date="2025-11-22" version="0.6.2">
       <description>
         <p>This release adds a confirmation dialog for message retraction (Delete for everyone vs Delete locally) and fixes the systray icon in Flatpak.</p>
