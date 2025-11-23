@@ -4,6 +4,7 @@
     <file>account_picker_row.ui</file>
     <file>add_conversation/add_contact_dialog.ui</file>
     <file>add_conversation/add_groupchat_dialog.ui</file>
+    <file>add_conversation/room_browser_dialog.ui</file>
     <file>add_conversation/conference_details_fragment.ui</file>
     <file>add_conversation/list_row.ui</file>
     <file>add_conversation/select_jid_fragment.ui</file>

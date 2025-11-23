@@ -126,7 +126,7 @@ DinoX addresses the slow development pace of the original Dino XMPP client while
 | P1 | [#57](https://github.com/dino/dino/issues/57) | Security | Self-signed certs rejected | Medium | TODO |
 | P1 | **User Status** | **Presence UI** | **Set own status / View partner status** | Medium | ✓ **COMPLETED** |
 |  P1 | **XEP-0424** | **Message UI** | **Delete individual messages** | Easy | **DONE** |
-|  P2 | **XEP-0425** | **MUC UI** | **Moderator message deletion** | Medium | READY **READY** |
+|  P2 | **XEP-0425** | **MUC UI** | **Moderator message deletion** | Medium | **DONE** |
 
 **Files to Modify**:
 - `plugins/omemo/src/file_encryptor.vala` - OMEMO file encryption

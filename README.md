@@ -21,7 +21,7 @@ Active fork of [dino/dino](https://github.com/dino/dino) with faster development
 
 ## What is DinoX?
 
-DinoX is a modern, user-friendly XMPP (Jabber) messaging client for Linux built with **GTK4** and **Vala**. It's an active fork of Dino that adds features the community has been requesting for years.
+DinoX is a modern, user-friendly XMPP (Jabber) messaging client for Linux built with **GTK4** and **Vala**. 
 
 **Key Features:**
 - **End-to-End Encryption** - OMEMO & OpenPGP support

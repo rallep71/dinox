@@ -46,6 +46,10 @@ namespace Dino {
 
     public static string get_groupchat_display_name(StreamInteractor stream_interactor, Account account, Jid jid) {
         MucManager muc_manager = stream_interactor.get_module(MucManager.IDENTITY);
+        string? bookmark_name = muc_manager.get_bookmark_name(account, jid);
+        if (bookmark_name != null) {
+            return bookmark_name;
+        }
         string? room_name = muc_manager.get_room_name(account, jid);
         if (room_name != null && room_name != jid.localpart) {
             return room_name;

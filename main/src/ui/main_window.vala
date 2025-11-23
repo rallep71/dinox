@@ -14,7 +14,8 @@ public class MainWindow : Adw.ApplicationWindow {
     [GtkChild] public unowned Stack stack;
     [GtkChild] public unowned Adw.NavigationSplitView navigation_split_view;
 
-    [GtkChild] public unowned MenuButton add_button;
+    [GtkChild] public unowned Button add_chat_button;
+    [GtkChild] public unowned Button add_group_button;
     [GtkChild] public unowned MenuButton menu_button;
 
     [GtkChild] public unowned Adw.HeaderBar conversation_headerbar;
@@ -62,7 +63,7 @@ public class MainWindow : Adw.ApplicationWindow {
         global_search = new GlobalSearch(stream_interactor);
         search_frame.set_child(global_search.get_widget());
 
-        create_add_menu(add_button, menu_button);
+        setup_header_bar();
 
         stack.add_named(welcome_placeholder, "welcome_placeholder");
         stack.add_named(accounts_placeholder, "accounts_placeholder");
@@ -135,12 +136,9 @@ public class MainWindow : Adw.ApplicationWindow {
         }
     }
 
-    private void create_add_menu(MenuButton add_button, MenuButton menu_button) {
-        add_button.tooltip_text = Util.string_if_tooltips_active(_("Start Conversation"));
-
-        Builder add_builder = new Builder.from_resource("/im/github/rallep71/DinoX/menu_add.ui");
-        MenuModel add_menu_model = add_builder.get_object("menu_add") as MenuModel;
-        add_button.set_menu_model(add_menu_model);
+    private void setup_header_bar() {
+        add_chat_button.tooltip_text = Util.string_if_tooltips_active(_("Start Conversation"));
+        add_group_button.tooltip_text = Util.string_if_tooltips_active(_("Join Channel"));
 
         Builder menu_builder = new Builder.from_resource("/im/github/rallep71/DinoX/menu_app.ui");
         Menu menu_app = menu_builder.get_object("menu_app") as Menu;

@@ -67,6 +67,11 @@ namespace Dino.Ui.Util {
             });
             view.apply.connect(() => {
                 entry_view_model.changed();
+                // Reset the apply button state by toggling the property
+                view.show_apply_button = false;
+                view.show_apply_button = true;
+                // Remove focus from the entry to indicate completion
+                view.grab_focus();
             });
             return view;
         }

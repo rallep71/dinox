@@ -17,8 +17,10 @@
                         <property name="spacing">10</property>
                         <child>
                             <object class="GtkEntry" id="entry">
+                                <property name="placeholder-text" translatable="yes">Search or enter channel address...</property>
                                 <property name="activates-default">1</property>
                                 <property name="hexpand">1</property>
+                                <property name="secondary-icon-name">system-search-symbolic</property>
                             </object>
                         </child>
                         <child>

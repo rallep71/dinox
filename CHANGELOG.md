@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **Timed Bans** - Ban users from MUCs for 10, 15, or 30 minutes (auto-unban).
+- **Moderation Menu** - Comprehensive menu for MUC admins/owners:
+    - Kick users
+    - Ban users (Permanent or Timed)
+    - Change Affiliations (Make Admin, Make Owner, Make Member, Revoke)
+    - Mute/Unmute users (Voice management)
+- **UI Polish** - Improved occupant menu layout:
+    - Left-aligned buttons for better readability
+    - Compact spacing
+    - Section headers (Moderation, Administration)
+
+### Fixed
+- **Server Compatibility** - Added workaround for servers missing Status Code 110 (Self-Presence).
+- **Menu Behavior** - Fixed popup menu not closing after action selection.
+
 ## [0.6.2] - 2025-11-22
 
 ### Added

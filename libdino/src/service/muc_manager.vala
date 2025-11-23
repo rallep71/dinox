@@ -9,7 +9,7 @@ public class MucManager : StreamInteractionModule, Object {
     public static ModuleIdentity<MucManager> IDENTITY = new ModuleIdentity<MucManager>("muc_manager");
     public string id { get { return IDENTITY.id; } }
 
-    public signal void left(Account account, Jid jid);
+    public signal void left_signal(Account account, Jid jid);
     public signal void subject_set(Account account, Jid jid, string? subject);
     public signal void room_info_updated(Account account, Jid muc_jid);
     public signal void private_room_occupant_updated(Account account, Jid room, Jid occupant);
@@ -19,6 +19,9 @@ public class MucManager : StreamInteractionModule, Object {
     public signal void bookmarks_updated(Account account, Set<Conference> conferences);
     public signal void conference_added(Account account, Conference conference);
     public signal void conference_removed(Account account, Jid jid);
+    public signal void self_removed(Account account, Jid room_jid, Xep.Muc.StatusCode code, string? reason);
+    public signal void occupant_removed(Account account, Jid room_jid, Jid occupant_jid, Xep.Muc.StatusCode code);
+    public signal void occupant_affiliation_updated(Account account, Jid room_jid, Jid occupant_jid, Xep.Muc.Affiliation affiliation);
 
     private StreamInteractor stream_interactor;
     private HashMap<Account, HashSet<Jid>> mucs_joined = new HashMap<Account, HashSet<Jid>>(Account.hash_func, Account.equals_func);
@@ -30,6 +33,7 @@ public class MucManager : StreamInteractionModule, Object {
     private HashMap<Account, Gee.List<Jid>> invites = new HashMap<Account, Gee.List<Jid>>(Account.hash_func, Account.equals_func);
     public HashMap<Account, Jid> default_muc_server = new HashMap<Account, Jid>(Account.hash_func, Account.equals_func);
     private HashMap<Account, HashMap<Jid, string>> own_occupant_ids = new HashMap<Account, HashMap<Jid, string>>(Account.hash_func, Account.equals_func);
+    private HashMap<Account, HashMap<Jid, string>> bookmark_names = new HashMap<Account, HashMap<Jid, string>>(Account.hash_func, Account.equals_func);
 
     public static void start(StreamInteractor stream_interactor) {
         MucManager m = new MucManager(stream_interactor);
@@ -155,6 +159,17 @@ public class MucManager : StreamInteractionModule, Object {
         cancel_sync(account, jid);
     }
 
+    public void left(Account account, Jid jid, bool close_chat = true) {
+        if (mucs_joined.has_key(account) && mucs_joined[account].contains(jid)) {
+            mucs_joined[account].remove(jid);
+        }
+
+        Conversation? conversation = stream_interactor.get_module(ConversationManager.IDENTITY).get_conversation(jid, account, Conversation.Type.GROUPCHAT);
+        if (close_chat && conversation != null) stream_interactor.get_module(ConversationManager.IDENTITY).close_conversation(conversation);
+        
+        left_signal(account, jid);
+    }
+
     private void cancel_sync(Account account, Jid jid) {
         if (mucs_sync_cancellables.has_key(account) && mucs_sync_cancellables[account].has_key(jid.bare_jid) && !mucs_sync_cancellables[account][jid.bare_jid].is_cancelled()) {
             mucs_sync_cancellables[account][jid.bare_jid].cancel();
@@ -217,9 +232,22 @@ public class MucManager : StreamInteractionModule, Object {
         if (stream != null) stream.get_module(Xep.Muc.Module.IDENTITY).invite(stream, muc.bare_jid, invitee.bare_jid);
     }
 
-    public void kick(Account account, Jid jid, string nick) {
+    public void kick(Account account, Jid jid, string nick, string? reason = null) {
         XmppStream? stream = stream_interactor.get_stream(account);
-        if (stream != null) stream.get_module(Xep.Muc.Module.IDENTITY).kick(stream, jid.bare_jid, nick);
+        if (stream != null) stream.get_module(Xep.Muc.Module.IDENTITY).kick(stream, jid.bare_jid, nick, reason);
+    }
+
+    public void ban(Account account, Jid muc_jid, Jid occupant_jid, string? reason = null) {
+        XmppStream? stream = stream_interactor.get_stream(account);
+        if (stream == null) return;
+
+        Jid? real_jid = get_real_jid(occupant_jid, account);
+        if (real_jid != null) {
+            stream.get_module(Xep.Muc.Module.IDENTITY).change_affiliation.begin(stream, muc_jid.bare_jid, real_jid, null, "outcast", reason);
+        } else {
+            string nick = occupant_jid.resourcepart;
+            stream.get_module(Xep.Muc.Module.IDENTITY).change_affiliation.begin(stream, muc_jid.bare_jid, null, nick, "outcast", reason);
+        }
     }
 
     public void change_affiliation(Account account, Jid jid, string nick, string role) {
@@ -232,6 +260,17 @@ public class MucManager : StreamInteractionModule, Object {
         if (stream != null) stream.get_module(Xep.Muc.Module.IDENTITY).change_role(stream, jid.bare_jid, nick, role);
     }
 
+    public async Gee.List<Jid>? get_affiliations(Account account, Jid muc_jid, string affiliation) {
+        XmppStream? stream = stream_interactor.get_stream(account);
+        if (stream == null) return null;
+        return yield stream.get_module(Xep.Muc.Module.IDENTITY).query_affiliation(stream, muc_jid, affiliation);
+    }
+
+    public void set_affiliation(Account account, Jid muc_jid, Jid user_jid, string affiliation) {
+        XmppStream? stream = stream_interactor.get_stream(account);
+        if (stream != null) stream.get_module(Xep.Muc.Module.IDENTITY).change_affiliation.begin(stream, muc_jid.bare_jid, user_jid, null, affiliation);
+    }
+
     public void request_voice(Account account, Jid jid) {
         XmppStream? stream = stream_interactor.get_stream(account);
         if (stream != null) stream.get_module(Xep.Muc.Module.IDENTITY).request_voice(stream, jid.bare_jid);
@@ -241,6 +280,18 @@ public class MucManager : StreamInteractionModule, Object {
         XmppStream? stream = stream_interactor.get_stream(account);
         if (stream != null) return stream.get_module(Xep.Muc.Module.IDENTITY).kick_possible(stream, occupant);
         return false;
+    }
+
+    public async void destroy_room(Account account, Jid jid, string? reason = null) throws GLib.Error {
+        XmppStream? stream = stream_interactor.get_stream(account);
+        if (stream != null) {
+            yield stream.get_module(Xep.Muc.Module.IDENTITY).destroy_room(stream, jid.bare_jid, reason, null);
+            if (bookmarks_provider.has_key(account)) {
+                Conference c = new Conference();
+                c.jid = jid.bare_jid;
+                yield bookmarks_provider[account].remove_conference(stream, c);
+            }
+        }
     }
 
     //the term `private room` is a short hand for members-only+non-anonymous rooms
@@ -327,6 +378,13 @@ public class MucManager : StreamInteractionModule, Object {
         Xep.Muc.Flag? flag = get_muc_flag(account);
         if (flag != null) {
             return flag.get_room_name(jid);
+        }
+        return null;
+    }
+
+    public string? get_bookmark_name(Account account, Jid jid) {
+        if (bookmark_names.has_key(account)) {
+            return bookmark_names[account].get(jid);
         }
         return null;
     }
@@ -433,9 +491,32 @@ public class MucManager : StreamInteractionModule, Object {
     }
 
     private void on_account_added(Account account) {
-        stream_interactor.module_manager.get_module(account, Xep.Muc.Module.IDENTITY).self_removed_from_room.connect( (stream, jid, code) => {
+        stream_interactor.module_manager.get_module(account, Xep.Muc.Module.IDENTITY).self_removed_from_room.connect( (stream, jid, code, reason) => {
             cancel_sync(account, jid);
-            left(account, jid);
+            
+            printerr("DEBUG: self_removed_from_room code=%d reason='%s'\n", (int)code, reason != null ? reason : "null");
+
+            bool close = true;
+            if (code == Xep.Muc.StatusCode.BANNED && reason != null && (reason.contains("minutes") || reason.contains("min"))) {
+                 close = false;
+                 printerr("DEBUG: Not closing conversation because of timed ban.\n");
+            } else {
+                 printerr("DEBUG: Closing conversation. Code match: %s, Reason match: %s\n", (code == Xep.Muc.StatusCode.BANNED).to_string(), (reason != null && (reason.contains("minutes") || reason.contains("min"))).to_string());
+            }
+
+            left(account, jid, close);
+            self_removed(account, jid, code, reason);
+            if (code == Xep.Muc.StatusCode.REMOVED_SHUTDOWN && bookmarks_provider.has_key(account)) {
+                Conference c = new Conference();
+                c.jid = jid.bare_jid;
+                bookmarks_provider[account].remove_conference.begin(stream, c);
+            }
+        });
+        stream_interactor.module_manager.get_module(account, Xep.Muc.Module.IDENTITY).removed_from_room.connect( (stream, jid, code) => {
+            occupant_removed(account, jid.bare_jid, jid, code);
+        });
+        stream_interactor.module_manager.get_module(account, Xep.Muc.Module.IDENTITY).received_occupant_affiliation.connect( (stream, jid, affiliation) => {
+            if (affiliation != null) occupant_affiliation_updated(account, jid.bare_jid, jid, affiliation);
         });
         stream_interactor.module_manager.get_module(account, Xep.Muc.Module.IDENTITY).subject_set.connect( (stream, subject, jid) => {
             subject_set(account, jid, subject);
@@ -514,6 +595,17 @@ public class MucManager : StreamInteractionModule, Object {
         if (conferences == null) {
             join_all_active(account);
         } else {
+            if (!bookmark_names.has_key(account)) {
+                bookmark_names[account] = new HashMap<Jid, string>(Jid.hash_func, Jid.equals_func);
+            }
+            var names = bookmark_names[account];
+            names.clear();
+            foreach (var conf in conferences) {
+                if (conf.name != null && conf.name != "") {
+                    names[conf.jid] = conf.name;
+                }
+            }
+
             sync_autojoin_active(account, conferences);
         }
 
@@ -536,13 +628,37 @@ public class MucManager : StreamInteractionModule, Object {
         }
 
         bookmarks_provider[account].received_conferences.connect( (stream, conferences) => {
+            if (!bookmark_names.has_key(account)) {
+                bookmark_names[account] = new HashMap<Jid, string>(Jid.hash_func, Jid.equals_func);
+            }
+            var names = bookmark_names[account];
+            names.clear();
+            foreach (var conf in conferences) {
+                if (conf.name != null && conf.name != "") {
+                    names[conf.jid] = conf.name;
+                }
+            }
+
             sync_autojoin_active(account, conferences);
             bookmarks_updated(account, conferences);
         });
         bookmarks_provider[account].conference_added.connect( (stream, conference) => {
+            if (!bookmark_names.has_key(account)) {
+                bookmark_names[account] = new HashMap<Jid, string>(Jid.hash_func, Jid.equals_func);
+            }
+            if (conference.name != null && conference.name != "") {
+                bookmark_names[account][conference.jid] = conference.name;
+            } else {
+                bookmark_names[account].unset(conference.jid);
+            }
+
             on_conference_added(account, conference);
         });
         bookmarks_provider[account].conference_removed.connect( (stream, jid) => {
+            if (bookmark_names.has_key(account)) {
+                bookmark_names[account].unset(jid);
+            }
+
             on_conference_removed(account, jid);
         });
     }

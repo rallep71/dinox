@@ -79,6 +79,20 @@ public class ConversationView : Widget, Plugins.ConversationItemCollection, Plug
         action_buttons["delete"] = delete_button;
         message_menu_box.append(delete_button);
 
+        var kick_button = new Button() { name="kick" };
+        kick_button.clicked.connect((button) => {
+            on_action_button_clicked("kick", null);
+        });
+        action_buttons["kick"] = kick_button;
+        message_menu_box.append(kick_button);
+
+        var ban_button = new Button() { name="ban" };
+        ban_button.clicked.connect((button) => {
+            on_action_button_clicked("ban", null);
+        });
+        action_buttons["ban"] = ban_button;
+        message_menu_box.append(ban_button);
+
         var menu_button = new MenuButton() { name="menu", tooltip_text=_("More actions") };
         action_buttons["menu"] = menu_button;
         message_menu_box.append(menu_button);
@@ -108,6 +122,7 @@ public class ConversationView : Widget, Plugins.ConversationItemCollection, Plug
         app.plugin_registry.register_conversation_addition_populator(new ChatStatePopulator(stream_interactor));
         app.plugin_registry.register_conversation_addition_populator(new DateSeparatorPopulator(stream_interactor));
         app.plugin_registry.register_conversation_addition_populator(new UnreadIndicatorPopulator(stream_interactor));
+        app.plugin_registry.register_conversation_addition_populator(new StatusPopulator(stream_interactor));
 
         // Rather than connecting to the leave event of the main_event_box directly,
         // we connect to the parent event box that also wraps the overlaying message_menu_box.

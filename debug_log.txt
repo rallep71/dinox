@@ -1,0 +1,1246 @@
+(process:160279): GLib-GIO-DEBUG: 17:35:21.653: Using cross-namespace EXTERNAL authentication (this will deadlock if server is GDBus < 2.73.3)
+(process:160279): GLib-GIO-DEBUG: 17:35:21.662: Failed to initialize portal (GNetworkMonitorPortal) for gio-network-monitor: Not using portals
+(process:160279): GLib-GIO-DEBUG: 17:35:21.663: Using cross-namespace EXTERNAL authentication (this will deadlock if server is GDBus < 2.73.3)
+(process:160279): GLib-GIO-DEBUG: 17:35:21.667: _g_io_module_get_default: Found default implementation networkmanager (GNetworkMonitorNM) for ‘gio-network-monitor’
+(process:160279): GLib-GIO-DEBUG: 17:35:21.671: _g_io_module_get_default: Found default implementation gvfs (GDaemonVfs) for ‘gio-vfs’
+(dinox:160279): Gtk-DEBUG: 17:35:21.712: Connecting to session manager
+(dinox:160279): GLib-GIO-DEBUG: 17:35:21.779: _g_io_module_get_default: Found default implementation dconf (DConfSettingsBackend) for ‘gsettings-backend’
+(dinox:160279): dconf-DEBUG: 17:35:21.779: watch_fast: "/org/gnome/desktop/interface/" (establishing: 0, active: 0)
+(dinox:160279): dconf-DEBUG: 17:35:21.780: watch_established: "/org/gnome/desktop/interface/" (establishing: 1)
+(dinox:160279): libdino-DEBUG: 17:35:21.822: history_sync.vala:536: [carl@chat.handwerker.jetzt | kahayutohu@conference.chat.handwerker.jetzt] | 1763793044 - 1763808160 vs 1763793044 - 1763808160
+(dinox:160279): libdino-DEBUG: 17:35:21.822: history_sync.vala:536: [carl@chat.handwerker.jetzt | testmuc@conference.chat.handwerker.jetzt] | 1763817404 - 1763817991 vs 1763817404 - 1763817991
+(dinox:160279): libdino-DEBUG: 17:35:21.822: history_sync.vala:536: [carl@chat.handwerker.jetzt | ralf@chat.handwerker.jetzt] | 1763660717 - 2079193517 vs 1763660717 - 2079193517
+(dinox:160279): libdino-DEBUG: 17:35:21.822: history_sync.vala:536: [carl@chat.handwerker.jetzt | bankickmute@conference.chat.handwerker.jetzt] | 1763827587 - 1763827808 vs 1763827587 - 1763827808
+(dinox:160279): libdino-DEBUG: 17:35:21.822: history_sync.vala:536: [carl@chat.handwerker.jetzt | kickbanmute@conference.chat.handwerker.jetzt] | 1763827882 - 1763828049 vs 1763827882 - 1763828049
+(dinox:160279): libdino-DEBUG: 17:35:21.822: history_sync.vala:536: [carl@chat.handwerker.jetzt | test@conference.chat.handwerker.jetzt] | 1763822727 - 1763826775 vs 1763822727 - 1763826775
+(dinox:160279): libdino-DEBUG: 17:35:21.822: history_sync.vala:536: [carl@chat.handwerker.jetzt | bantime@conference.chat.handwerker.jetzt] | 1763826858 - 1763827517 vs 1763826858 - 1763827517
+(dinox:160279): libdino-DEBUG: 17:35:21.822: history_sync.vala:536: [carl@chat.handwerker.jetzt | mutekickban@conference.chat.handwerker.jetzt] | 1763828109 - 1763828694 vs 1763828109 - 1763828694
+(dinox:160279): libdino-DEBUG: 17:35:21.822: history_sync.vala:536: [carl@chat.handwerker.jetzt | versuch@conference.chat.handwerker.jetzt] | 1763828744 - 1763829073 vs 1763828744 - 1763829073
+(dinox:160279): libdino-DEBUG: 17:35:21.822: history_sync.vala:536: [carl@chat.handwerker.jetzt | meinemuc@conference.chat.handwerker.jetzt] | 1763809240 - 1763817323 vs 1763809240 - 1763817323
+(dinox:160279): libdino-DEBUG: 17:35:21.829: connection_manager.vala:185: [carl@chat.handwerker.jetzt] (Maybe) Establishing a new connection
+(dinox:160279): dconf-DEBUG: 17:35:21.847: watch_fast: "/org/gtk/gtk4/settings/emoji-chooser/" (establishing: 0, active: 0)
+(dinox:160279): dconf-DEBUG: 17:35:21.847: watch_established: "/org/gtk/gtk4/settings/emoji-chooser/" (establishing: 1)
+(dinox:160279): dconf-DEBUG: 17:35:21.897: watch_fast: "/org/gtk/gtk4/settings/emoji-chooser/" (establishing: 0, active: 1)
+Systray: Dbusmenu.Server initialized on /MenuBar
+Systray: StatusNotifierItem registered on D-Bus
+(dinox:160279): xmpp-vala-DEBUG: 17:35:22.011: stream_connect.vala:36: Got no xmpp-client DNS records for chat.handwerker.jetzt: Kein DNS-Eintrag des angeforderten Typs für »_xmpp-client._tcp.chat.handwerker.jetzt«
+(dinox:160279): xmpp-vala-DEBUG: 17:35:22.019: stream_connect.vala:44: Got no xmpps-client DNS records for chat.handwerker.jetzt: Kein DNS-Eintrag des angeforderten Typs für »_xmpps-client._tcp.chat.handwerker.jetzt«
+(dinox:160279): xmpp-vala-DEBUG: 17:35:22.020: starttls_xmpp_stream.vala:19: Connecting to chat.handwerker.jetzt:5222 (starttls)
+(dinox:160279): dconf-DEBUG: 17:35:22.022: watch_fast: "/system/proxy/" (establishing: 0, active: 0)
+(dinox:160279): dconf-DEBUG: 17:35:22.023: watch_fast: "/system/proxy/http/" (establishing: 0, active: 0)
+(dinox:160279): dconf-DEBUG: 17:35:22.023: watch_fast: "/system/proxy/https/" (establishing: 0, active: 0)
+(dinox:160279): dconf-DEBUG: 17:35:22.023: watch_fast: "/system/proxy/ftp/" (establishing: 0, active: 0)
+(dinox:160279): dconf-DEBUG: 17:35:22.023: watch_fast: "/system/proxy/socks/" (establishing: 0, active: 0)
+(dinox:160279): dconf-DEBUG: 17:35:22.023: unwatch_fast: "/system/proxy/" (active: 0, establishing: 1)
+(dinox:160279): dconf-DEBUG: 17:35:22.023: unwatch_fast: "/system/proxy/http/" (active: 0, establishing: 1)
+(dinox:160279): dconf-DEBUG: 17:35:22.023: unwatch_fast: "/system/proxy/https/" (active: 0, establishing: 1)
+(dinox:160279): dconf-DEBUG: 17:35:22.023: unwatch_fast: "/system/proxy/ftp/" (active: 0, establishing: 1)
+(dinox:160279): dconf-DEBUG: 17:35:22.023: unwatch_fast: "/system/proxy/socks/" (active: 0, establishing: 1)
+(dinox:160279): dconf-DEBUG: 17:35:22.023: watch_established: "/system/proxy/" (establishing: 0)
+(dinox:160279): dconf-DEBUG: 17:35:22.023: watch_established: "/system/proxy/http/" (establishing: 0)
+(dinox:160279): dconf-DEBUG: 17:35:22.023: watch_established: "/system/proxy/https/" (establishing: 0)
+(dinox:160279): dconf-DEBUG: 17:35:22.024: watch_established: "/system/proxy/ftp/" (establishing: 0)
+(dinox:160279): dconf-DEBUG: 17:35:22.024: watch_established: "/system/proxy/socks/" (establishing: 0)
+(dinox:160279): pxbackend-DEBUG: 17:35:22.024: px_config_sysconfig_set_config_file: Could not read file /etc/sysconfig/proxy
+(dinox:160279): pxbackend-DEBUG: 17:35:22.024: Active config plugins:
+(dinox:160279): pxbackend-DEBUG: 17:35:22.024:  - config-env
+(dinox:160279): pxbackend-DEBUG: 17:35:22.024:  - config-kde
+(dinox:160279): pxbackend-DEBUG: 17:35:22.024:  - config-gnome
+(dinox:160279): pxbackend-DEBUG: 17:35:22.024:  - config-sysconfig
+(dinox:160279): pxbackend-DEBUG: 17:35:22.026: px_manager_constructed: Up and running
+(dinox:160279): GLib-GIO-DEBUG: 17:35:22.026: _g_io_module_get_default: Found default implementation libproxy (GLibproxyResolver) for ‘gio-proxy-resolver’
+(dinox:160279): GLib-GIO-DEBUG: 17:35:22.026: g_socket_client_connect_async: starting new g_socket_client_connect_async() with GTask 0x55bf6fffa040 and GSocketClientAsyncConnectData 0x55bf6ffd84d0
+(dinox:160279): GLib-GIO-DEBUG: 17:35:22.026: GSocketClient: Starting new address enumeration
+(dinox:160279): pxbackend-DEBUG: 17:35:22.028: px_manager_get_proxies_sync: url=none://chat.handwerker.jetzt:5222 online=1
+(dinox:160279): pxbackend-DEBUG: 17:35:22.028: px_manager_get_proxies_sync: Proxy[0] = direct://
+
+(dinox:160279): Adwaita-WARNING **: 17:35:22.033: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:22.044: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:22.046: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:22.047: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:22.047: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:22.048: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:22.049: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:22.049: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:22.050: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:22.051: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:22.052: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:22.052: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:22.052: snapshot symbolic icon using mask
+(dinox:160279): GLib-GIO-DEBUG: 17:35:22.159: lookup_by_name_with_flags_async: starting new lookup for chat.handwerker.jetzt with GTask 0x55bf71061430, LookupData 0x55bf71000df0
+(dinox:160279): GLib-GIO-DEBUG: 17:35:22.159: lookup_by_name_with_flags_async: starting new lookup for chat.handwerker.jetzt with GTask 0x55bf70ffe3c0, LookupData 0x55bf70fffb10
+(dinox:160279): Gtk-DEBUG: 17:35:22.161: Registering resource for Emoji data for de from file /usr/share/gtk-4.0/emoji/de.gresource
+(dinox:160279): Gtk-DEBUG: 17:35:22.161: Found emoji data for de in resource /org/gtk/libgtk/emoji/de.data
+(dinox:160279): Gtk-DEBUG: 17:35:22.162: Found emoji data for de in resource /org/gtk/libgtk/emoji/de.data
+Systray: Successfully registered with org.kde.StatusNotifierWatcher as :1.1005
+(dinox:160279): GLib-GIO-DEBUG: 17:35:22.168: IPv6 DNS error: Fehler beim Auflösen von »chat.handwerker.jetzt«: Der Name oder der Dienst ist nicht bekannt
+(dinox:160279): GLib-GIO-DEBUG: 17:35:22.168: GSocketClient: Address enumeration succeeded
+(dinox:160279): GLib-GIO-DEBUG: 17:35:22.168: g_socket_client_enumerator_callback: starting connection attempt 0x55bf70bb0bb0 for GSocketClientAsyncConnectData 0x55bf6ffd84d0
+(dinox:160279): GLib-GIO-DEBUG: 17:35:22.168: GSocketClient: Starting TCP connection attempt
+
+(dinox:160279): Adwaita-WARNING **: 17:35:22.179: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:22.180: snapshot symbolic icon using mask
+(dinox:160279): GLib-GIO-DEBUG: 17:35:22.194: GSocketClient: TCP connection successful
+(dinox:160279): GLib-GIO-DEBUG: 17:35:22.194: GSocketClient: Starting application layer connection
+(dinox:160279): GLib-GIO-DEBUG: 17:35:22.194: GSocketClient: Connection successful!
+(dinox:160279): GLib-GIO-DEBUG: 17:35:22.251: _g_io_module_get_default: Found default implementation gnutls (GTlsBackendGnutls) for ‘gio-tls-backend’
+(dinox:160279): libdino-DEBUG: 17:35:22.387: connection_manager.vala:232: [carl@chat.handwerker.jetzt/dino.64be09f2] New connection: 0x55bf6ffd7ba0
+(dinox:160279): libdino-DEBUG: 17:35:22.590: history_sync.vala:34: MAM: [carl@chat.handwerker.jetzt] Reset catchup_id
+(dinox:160279): libdino-DEBUG: 17:35:22.660: history_sync.vala:493: [carl@chat.handwerker.jetzt] MAM available
+(dinox:160279): libdino-DEBUG: 17:35:22.660: history_sync.vala:124: [carl@chat.handwerker.jetzt | carl@chat.handwerker.jetzt] Fetch everything (until 1970-01-01T00:00:00+0000)
+(dinox:160279): libdino-DEBUG: 17:35:22.660: history_sync.vala:199: [carl@chat.handwerker.jetzt | carl@chat.handwerker.jetzt] Fetching latest page
+(dinox:160279): OMEMO-DEBUG: 17:35:22.661: manager.vala:231: received device list for carl@chat.handwerker.jetzt from carl@chat.handwerker.jetzt
+(dinox:160279): libdino-DEBUG: 17:35:22.662: muc_manager.vala:601: [carl@chat.handwerker.jetzt] Using PEP native bookmarks (urn:xmpp:bookmarks:1)
+(dinox:160279): ice-DEBUG: 17:35:22.669: plugin.vala:46: Server offers STUN server: 212.87.214.35:3478, resolved to 212.87.214.35
+(dinox:160279): ice-DEBUG: 17:35:22.669: plugin.vala:50: Server offers TURN server: 212.87.214.35:3478, resolved to 212.87.214.35
+(dinox:160279): ice-DEBUG: 17:35:22.669: plugin.vala:73: Re-fetching TURN credentials in 21600 sec
+(dinox:160279): OMEMO-DEBUG: 17:35:22.675: manager.vala:231: received device list for carl@chat.handwerker.jetzt from ralf@chat.handwerker.jetzt
+
+(dinox:160279): Adwaita-WARNING **: 17:35:22.692: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): OMEMO-DEBUG: 17:35:22.703: manager.vala:231: received device list for carl@chat.handwerker.jetzt from carl@chat.handwerker.jetzt
+(dinox:160279): libdino-DEBUG: 17:35:22.938: reactions.vala:277: Got reaction for 5c0f6e62-a12d-457f-918f-9253053680ea but dont have message yet 1
+(dinox:160279): libdino-DEBUG: 17:35:22.968: reactions.vala:277: Got reaction for fea8163d-64ae-4189-a1d0-8339acc41514 but dont have message yet 1
+(dinox:160279): libdino-DEBUG: 17:35:22.972: reactions.vala:277: Got reaction for fea8163d-64ae-4189-a1d0-8339acc41514 but dont have message yet 1
+
+(dinox:160279): libdino-CRITICAL **: 17:35:22.998: dino_muc_manager_get_affiliation: assertion 'jid != NULL' failed
+
+(dinox:160279): libdino-CRITICAL **: 17:35:22.998: dino_muc_manager_get_affiliation: assertion 'jid != NULL' failed
+
+(dinox:160279): Adwaita-WARNING **: 17:35:23.005: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:23.006: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:23.006: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:23.006: snapshot symbolic icon using mask
+
+(dinox:160279): libdino-CRITICAL **: 17:35:23.019: dino_muc_manager_get_affiliation: assertion 'jid != NULL' failed
+
+(dinox:160279): libdino-CRITICAL **: 17:35:23.019: dino_muc_manager_get_affiliation: assertion 'jid != NULL' failed
+
+(dinox:160279): Adwaita-WARNING **: 17:35:23.023: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:23.024: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:23.024: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:23.025: snapshot symbolic icon using mask
+
+(dinox:160279): libdino-CRITICAL **: 17:35:23.035: dino_muc_manager_get_affiliation: assertion 'jid != NULL' failed
+
+(dinox:160279): libdino-CRITICAL **: 17:35:23.035: dino_muc_manager_get_affiliation: assertion 'jid != NULL' failed
+
+(dinox:160279): Adwaita-WARNING **: 17:35:23.039: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:23.039: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:23.039: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:23.039: snapshot symbolic icon using mask
+
+(dinox:160279): libdino-CRITICAL **: 17:35:23.049: dino_muc_manager_get_affiliation: assertion 'jid != NULL' failed
+
+(dinox:160279): libdino-CRITICAL **: 17:35:23.049: dino_muc_manager_get_affiliation: assertion 'jid != NULL' failed
+
+(dinox:160279): Adwaita-WARNING **: 17:35:23.053: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:23.053: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:23.053: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:23.053: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:35:23.069: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:160279): libdino-CRITICAL **: 17:35:23.153: dino_muc_manager_get_affiliation: assertion 'jid != NULL' failed
+
+(dinox:160279): libdino-CRITICAL **: 17:35:23.153: dino_muc_manager_get_affiliation: assertion 'jid != NULL' failed
+
+(dinox:160279): Adwaita-WARNING **: 17:35:23.157: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:23.157: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:23.157: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:23.157: snapshot symbolic icon using mask
+
+(dinox:160279): libdino-CRITICAL **: 17:35:23.168: dino_muc_manager_get_affiliation: assertion 'jid != NULL' failed
+
+(dinox:160279): libdino-CRITICAL **: 17:35:23.168: dino_muc_manager_get_affiliation: assertion 'jid != NULL' failed
+
+(dinox:160279): Adwaita-WARNING **: 17:35:23.171: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:23.172: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:23.172: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:23.172: snapshot symbolic icon using mask
+
+(dinox:160279): libdino-CRITICAL **: 17:35:23.186: dino_muc_manager_get_affiliation: assertion 'jid != NULL' failed
+
+(dinox:160279): libdino-CRITICAL **: 17:35:23.186: dino_muc_manager_get_affiliation: assertion 'jid != NULL' failed
+
+(dinox:160279): Adwaita-WARNING **: 17:35:23.189: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:23.190: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:23.190: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:23.190: snapshot symbolic icon using mask
+
+(dinox:160279): libdino-CRITICAL **: 17:35:23.215: dino_muc_manager_get_affiliation: assertion 'jid != NULL' failed
+
+(dinox:160279): libdino-CRITICAL **: 17:35:23.215: dino_muc_manager_get_affiliation: assertion 'jid != NULL' failed
+
+(dinox:160279): Adwaita-WARNING **: 17:35:23.219: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:23.219: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:23.219: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:23.219: snapshot symbolic icon using mask
+
+(dinox:160279): libdino-CRITICAL **: 17:35:23.250: dino_muc_manager_get_affiliation: assertion 'jid != NULL' failed
+
+(dinox:160279): libdino-CRITICAL **: 17:35:23.250: dino_muc_manager_get_affiliation: assertion 'jid != NULL' failed
+
+(dinox:160279): Adwaita-WARNING **: 17:35:23.253: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:23.253: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:23.254: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:23.254: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:35:23.267: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): libdino-DEBUG: 17:35:23.763: muc_manager.vala:552: [carl@chat.handwerker.jetzt] Default MUC: conference.chat.handwerker.jetzt
+
+(dinox:160279): Adwaita-WARNING **: 17:35:23.782: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:23.783: snapshot symbolic icon using mask
+(dinox:160279): libdino-DEBUG: 17:35:23.846: history_sync.vala:124: [carl@chat.handwerker.jetzt | muschi@conference.chat.handwerker.jetzt] Fetch everything (until 2025-11-17T16:31:43+0000)
+(dinox:160279): libdino-DEBUG: 17:35:23.847: history_sync.vala:199: [carl@chat.handwerker.jetzt | muschi@conference.chat.handwerker.jetzt] Fetching latest page
+
+(dinox:160279): Adwaita-WARNING **: 17:35:23.851: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.073: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.073: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.073: decrypt.vala:148: Starting new session for decryption with device from ralf@chat.handwerker.jetzt/572719703
+(dinox:160279): OMEMO-DEBUG: 17:35:24.073: decrypt.vala:67: Decrypting message from ralf@chat.handwerker.jetzt/572719703 failed: libomemo-c error: SG_ERR_INVALID_KEY
+(dinox:160279): OMEMO-DEBUG: 17:35:24.073: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): libdino-DEBUG: 17:35:24.077: history_sync.vala:220: [carl@chat.handwerker.jetzt | muschi@conference.chat.handwerker.jetzt] Latest page result: DINO_HISTORY_SYNC_PAGE_RESULT_NoMoreMessages
+(dinox:160279): libdino-DEBUG: 17:35:24.077: history_sync.vala:253: [carl@chat.handwerker.jetzt | muschi@conference.chat.handwerker.jetzt] Creating new db range for latest page
+(dinox:160279): libdino-DEBUG: 17:35:24.078: history_sync.vala:185: [carl@chat.handwerker.jetzt | muschi@conference.chat.handwerker.jetzt] No logs on server before 1763829127, aborting sync.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.079: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.079: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.079: omemo_decryptor.vala:43: Is ours? 1640513253 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.079: omemo_decryptor.vala:43: Is ours? 348139690 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.079: omemo_decryptor.vala:43: Is ours? 1749296668 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.080: decrypt.vala:148: Starting new session for decryption with device from carl1@chat.handwerker.jetzt/1761971926
+(dinox:160279): OMEMO-DEBUG: 17:35:24.080: decrypt.vala:67: Decrypting message from carl1@chat.handwerker.jetzt/1761971926 failed: libomemo-c error: SG_ERR_INVALID_KEY
+(dinox:160279): OMEMO-DEBUG: 17:35:24.080: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.080: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.080: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.080: omemo_decryptor.vala:43: Is ours? 1640513253 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.080: omemo_decryptor.vala:43: Is ours? 348139690 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.080: omemo_decryptor.vala:43: Is ours? 1749296668 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.080: decrypt.vala:153: Continuing session for decryption with device from carl1@chat.handwerker.jetzt/1761971926
+(dinox:160279): OMEMO-DEBUG: 17:35:24.080: decrypt.vala:67: Decrypting message from carl1@chat.handwerker.jetzt/1761971926 failed: libomemo-c error: SG_ERR_NO_SESSION
+(dinox:160279): OMEMO-DEBUG: 17:35:24.080: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.082: omemo_decryptor.vala:43: Is ours? 1761971926 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.082: omemo_decryptor.vala:43: Is ours? 1749296668 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.082: omemo_decryptor.vala:43: Is ours? 348139690 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.082: omemo_decryptor.vala:43: Is ours? 1640513253 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.082: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.082: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.082: decrypt.vala:148: Starting new session for decryption with device from carl@chat.handwerker.jetzt/1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.082: decrypt.vala:67: Decrypting message from carl@chat.handwerker.jetzt/1100018763 failed: libomemo-c error: SG_ERR_DUPLICATE_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.082: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.083: omemo_decryptor.vala:43: Is ours? 1761971926 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.083: omemo_decryptor.vala:43: Is ours? 1749296668 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.083: omemo_decryptor.vala:43: Is ours? 348139690 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.083: omemo_decryptor.vala:43: Is ours? 1640513253 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.083: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.083: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.083: decrypt.vala:148: Starting new session for decryption with device from carl@chat.handwerker.jetzt/1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.083: decrypt.vala:67: Decrypting message from carl@chat.handwerker.jetzt/1100018763 failed: libomemo-c error: SG_ERR_DUPLICATE_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.083: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.084: omemo_decryptor.vala:43: Is ours? 1761971926 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.084: omemo_decryptor.vala:43: Is ours? 1749296668 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.084: omemo_decryptor.vala:43: Is ours? 348139690 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.084: omemo_decryptor.vala:43: Is ours? 1640513253 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.084: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.084: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.084: decrypt.vala:148: Starting new session for decryption with device from carl@chat.handwerker.jetzt/1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.084: decrypt.vala:67: Decrypting message from carl@chat.handwerker.jetzt/1100018763 failed: libomemo-c error: SG_ERR_DUPLICATE_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.084: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.084: omemo_decryptor.vala:43: Is ours? 1761971926 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.084: omemo_decryptor.vala:43: Is ours? 1749296668 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.084: omemo_decryptor.vala:43: Is ours? 348139690 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.084: omemo_decryptor.vala:43: Is ours? 1640513253 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.084: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.084: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.085: decrypt.vala:148: Starting new session for decryption with device from carl@chat.handwerker.jetzt/1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.085: decrypt.vala:67: Decrypting message from carl@chat.handwerker.jetzt/1100018763 failed: libomemo-c error: SG_ERR_DUPLICATE_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.085: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.085: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.085: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.085: decrypt.vala:153: Continuing session for decryption with device from ralf@chat.handwerker.jetzt/572719703
+(dinox:160279): OMEMO-DEBUG: 17:35:24.087: decrypt.vala:67: Decrypting message from ralf@chat.handwerker.jetzt/572719703 failed: libomemo-c error: SG_ERR_INVALID_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.087: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.088: omemo_decryptor.vala:43: Is ours? 572719703 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.088: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.088: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.088: decrypt.vala:148: Starting new session for decryption with device from carl@chat.handwerker.jetzt/1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.088: decrypt.vala:67: Decrypting message from carl@chat.handwerker.jetzt/1100018763 failed: libomemo-c error: SG_ERR_DUPLICATE_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.088: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.089: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.089: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.089: decrypt.vala:153: Continuing session for decryption with device from ralf@chat.handwerker.jetzt/572719703
+(dinox:160279): OMEMO-DEBUG: 17:35:24.090: decrypt.vala:67: Decrypting message from ralf@chat.handwerker.jetzt/572719703 failed: libomemo-c error: SG_ERR_INVALID_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.090: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.090: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.090: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.090: decrypt.vala:153: Continuing session for decryption with device from ralf@chat.handwerker.jetzt/572719703
+(dinox:160279): OMEMO-DEBUG: 17:35:24.091: decrypt.vala:67: Decrypting message from ralf@chat.handwerker.jetzt/572719703 failed: libomemo-c error: SG_ERR_INVALID_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.091: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.092: omemo_decryptor.vala:43: Is ours? 572719703 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.092: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.092: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.092: decrypt.vala:148: Starting new session for decryption with device from carl@chat.handwerker.jetzt/1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.092: decrypt.vala:67: Decrypting message from carl@chat.handwerker.jetzt/1100018763 failed: libomemo-c error: SG_ERR_DUPLICATE_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.092: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.093: omemo_decryptor.vala:43: Is ours? 572719703 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.093: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.093: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.093: decrypt.vala:148: Starting new session for decryption with device from carl@chat.handwerker.jetzt/1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.093: decrypt.vala:67: Decrypting message from carl@chat.handwerker.jetzt/1100018763 failed: libomemo-c error: SG_ERR_DUPLICATE_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.093: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.093: omemo_decryptor.vala:43: Is ours? 572719703 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.093: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.093: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.094: decrypt.vala:148: Starting new session for decryption with device from carl@chat.handwerker.jetzt/1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.094: decrypt.vala:67: Decrypting message from carl@chat.handwerker.jetzt/1100018763 failed: libomemo-c error: SG_ERR_DUPLICATE_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.094: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.094: omemo_decryptor.vala:43: Is ours? 572719703 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.094: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.094: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.094: decrypt.vala:148: Starting new session for decryption with device from carl@chat.handwerker.jetzt/1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.094: decrypt.vala:67: Decrypting message from carl@chat.handwerker.jetzt/1100018763 failed: libomemo-c error: SG_ERR_DUPLICATE_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.094: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.095: omemo_decryptor.vala:43: Is ours? 572719703 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.095: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.095: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.095: decrypt.vala:148: Starting new session for decryption with device from carl@chat.handwerker.jetzt/1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.095: decrypt.vala:67: Decrypting message from carl@chat.handwerker.jetzt/1100018763 failed: libomemo-c error: SG_ERR_DUPLICATE_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.095: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.096: omemo_decryptor.vala:43: Is ours? 572719703 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.096: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.096: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.096: decrypt.vala:148: Starting new session for decryption with device from carl@chat.handwerker.jetzt/1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.096: decrypt.vala:67: Decrypting message from carl@chat.handwerker.jetzt/1100018763 failed: libomemo-c error: SG_ERR_DUPLICATE_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.096: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.096: omemo_decryptor.vala:43: Is ours? 572719703 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.096: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.096: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.097: decrypt.vala:148: Starting new session for decryption with device from carl@chat.handwerker.jetzt/1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.097: decrypt.vala:67: Decrypting message from carl@chat.handwerker.jetzt/1100018763 failed: libomemo-c error: SG_ERR_DUPLICATE_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.097: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.097: omemo_decryptor.vala:43: Is ours? 572719703 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.097: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.097: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.097: decrypt.vala:148: Starting new session for decryption with device from carl@chat.handwerker.jetzt/1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.097: decrypt.vala:67: Decrypting message from carl@chat.handwerker.jetzt/1100018763 failed: libomemo-c error: SG_ERR_DUPLICATE_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.097: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.098: omemo_decryptor.vala:43: Is ours? 572719703 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.098: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.098: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.098: decrypt.vala:148: Starting new session for decryption with device from carl@chat.handwerker.jetzt/1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.098: decrypt.vala:67: Decrypting message from carl@chat.handwerker.jetzt/1100018763 failed: libomemo-c error: SG_ERR_DUPLICATE_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.098: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.099: omemo_decryptor.vala:43: Is ours? 572719703 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.099: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.099: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.099: decrypt.vala:148: Starting new session for decryption with device from carl@chat.handwerker.jetzt/1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.099: decrypt.vala:67: Decrypting message from carl@chat.handwerker.jetzt/1100018763 failed: libomemo-c error: SG_ERR_DUPLICATE_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.099: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.100: omemo_decryptor.vala:43: Is ours? 572719703 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.100: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.100: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.100: decrypt.vala:148: Starting new session for decryption with device from carl@chat.handwerker.jetzt/1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.100: decrypt.vala:67: Decrypting message from carl@chat.handwerker.jetzt/1100018763 failed: libomemo-c error: SG_ERR_DUPLICATE_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.100: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.100: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.100: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.100: decrypt.vala:153: Continuing session for decryption with device from ralf@chat.handwerker.jetzt/572719703
+(dinox:160279): OMEMO-DEBUG: 17:35:24.101: decrypt.vala:67: Decrypting message from ralf@chat.handwerker.jetzt/572719703 failed: libomemo-c error: SG_ERR_INVALID_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.101: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.102: omemo_decryptor.vala:43: Is ours? 572719703 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.102: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.102: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.102: decrypt.vala:148: Starting new session for decryption with device from carl@chat.handwerker.jetzt/1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.102: decrypt.vala:67: Decrypting message from carl@chat.handwerker.jetzt/1100018763 failed: libomemo-c error: SG_ERR_DUPLICATE_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.102: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.102: omemo_decryptor.vala:43: Is ours? 572719703 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.102: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.102: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.103: decrypt.vala:148: Starting new session for decryption with device from carl@chat.handwerker.jetzt/1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.103: decrypt.vala:67: Decrypting message from carl@chat.handwerker.jetzt/1100018763 failed: libomemo-c error: SG_ERR_DUPLICATE_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.103: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.103: omemo_decryptor.vala:43: Is ours? 572719703 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.103: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.103: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.103: decrypt.vala:148: Starting new session for decryption with device from carl@chat.handwerker.jetzt/1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.103: decrypt.vala:67: Decrypting message from carl@chat.handwerker.jetzt/1100018763 failed: libomemo-c error: SG_ERR_DUPLICATE_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.103: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.104: omemo_decryptor.vala:43: Is ours? 572719703 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.104: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.104: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.104: decrypt.vala:148: Starting new session for decryption with device from carl@chat.handwerker.jetzt/1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.104: decrypt.vala:67: Decrypting message from carl@chat.handwerker.jetzt/1100018763 failed: libomemo-c error: SG_ERR_DUPLICATE_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.104: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.104: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.105: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.105: decrypt.vala:153: Continuing session for decryption with device from ralf@chat.handwerker.jetzt/572719703
+(dinox:160279): OMEMO-DEBUG: 17:35:24.106: decrypt.vala:67: Decrypting message from ralf@chat.handwerker.jetzt/572719703 failed: libomemo-c error: SG_ERR_INVALID_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.106: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.106: omemo_decryptor.vala:43: Is ours? 572719703 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.106: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.106: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.106: decrypt.vala:148: Starting new session for decryption with device from carl@chat.handwerker.jetzt/1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.106: decrypt.vala:67: Decrypting message from carl@chat.handwerker.jetzt/1100018763 failed: libomemo-c error: SG_ERR_DUPLICATE_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.106: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.107: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.107: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.107: decrypt.vala:153: Continuing session for decryption with device from ralf@chat.handwerker.jetzt/572719703
+(dinox:160279): OMEMO-DEBUG: 17:35:24.108: decrypt.vala:67: Decrypting message from ralf@chat.handwerker.jetzt/572719703 failed: libomemo-c error: SG_ERR_INVALID_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.108: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.108: omemo_decryptor.vala:43: Is ours? 572719703 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.108: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.108: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.108: decrypt.vala:148: Starting new session for decryption with device from carl@chat.handwerker.jetzt/1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.108: decrypt.vala:67: Decrypting message from carl@chat.handwerker.jetzt/1100018763 failed: libomemo-c error: SG_ERR_DUPLICATE_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.108: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.109: omemo_decryptor.vala:43: Is ours? 572719703 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.109: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.109: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.109: decrypt.vala:148: Starting new session for decryption with device from carl@chat.handwerker.jetzt/1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.109: decrypt.vala:67: Decrypting message from carl@chat.handwerker.jetzt/1100018763 failed: libomemo-c error: SG_ERR_DUPLICATE_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.109: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.109: omemo_decryptor.vala:43: Is ours? 572719703 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.109: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.109: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.109: decrypt.vala:148: Starting new session for decryption with device from carl@chat.handwerker.jetzt/1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.110: decrypt.vala:67: Decrypting message from carl@chat.handwerker.jetzt/1100018763 failed: libomemo-c error: SG_ERR_DUPLICATE_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.110: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.110: omemo_decryptor.vala:43: Is ours? 572719703 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.110: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.110: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.110: decrypt.vala:148: Starting new session for decryption with device from carl@chat.handwerker.jetzt/1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.110: decrypt.vala:67: Decrypting message from carl@chat.handwerker.jetzt/1100018763 failed: libomemo-c error: SG_ERR_DUPLICATE_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.110: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.111: omemo_decryptor.vala:43: Is ours? 572719703 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.111: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.111: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.111: decrypt.vala:148: Starting new session for decryption with device from carl@chat.handwerker.jetzt/1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.111: decrypt.vala:67: Decrypting message from carl@chat.handwerker.jetzt/1100018763 failed: libomemo-c error: SG_ERR_DUPLICATE_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.111: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.111: omemo_decryptor.vala:43: Is ours? 572719703 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.111: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.111: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.111: decrypt.vala:148: Starting new session for decryption with device from carl@chat.handwerker.jetzt/1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.112: decrypt.vala:67: Decrypting message from carl@chat.handwerker.jetzt/1100018763 failed: libomemo-c error: SG_ERR_DUPLICATE_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.112: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.112: omemo_decryptor.vala:43: Is ours? 572719703 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.112: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.112: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.112: decrypt.vala:148: Starting new session for decryption with device from carl@chat.handwerker.jetzt/1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.112: decrypt.vala:67: Decrypting message from carl@chat.handwerker.jetzt/1100018763 failed: libomemo-c error: SG_ERR_DUPLICATE_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.112: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.113: omemo_decryptor.vala:43: Is ours? 572719703 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.113: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.113: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.113: decrypt.vala:148: Starting new session for decryption with device from carl@chat.handwerker.jetzt/1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.113: decrypt.vala:67: Decrypting message from carl@chat.handwerker.jetzt/1100018763 failed: libomemo-c error: SG_ERR_DUPLICATE_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.113: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.113: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.113: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.113: decrypt.vala:153: Continuing session for decryption with device from ralf@chat.handwerker.jetzt/572719703
+(dinox:160279): OMEMO-DEBUG: 17:35:24.115: decrypt.vala:67: Decrypting message from ralf@chat.handwerker.jetzt/572719703 failed: libomemo-c error: SG_ERR_INVALID_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.115: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.115: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.115: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.115: decrypt.vala:153: Continuing session for decryption with device from ralf@chat.handwerker.jetzt/572719703
+(dinox:160279): OMEMO-DEBUG: 17:35:24.117: decrypt.vala:67: Decrypting message from ralf@chat.handwerker.jetzt/572719703 failed: libomemo-c error: SG_ERR_INVALID_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.117: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.117: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.117: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.117: decrypt.vala:153: Continuing session for decryption with device from ralf@chat.handwerker.jetzt/572719703
+(dinox:160279): OMEMO-DEBUG: 17:35:24.118: decrypt.vala:67: Decrypting message from ralf@chat.handwerker.jetzt/572719703 failed: libomemo-c error: SG_ERR_INVALID_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.118: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.119: omemo_decryptor.vala:43: Is ours? 572719703 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.119: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.119: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.119: decrypt.vala:148: Starting new session for decryption with device from carl@chat.handwerker.jetzt/1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.119: decrypt.vala:67: Decrypting message from carl@chat.handwerker.jetzt/1100018763 failed: libomemo-c error: SG_ERR_DUPLICATE_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.119: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.120: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.120: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.120: decrypt.vala:153: Continuing session for decryption with device from ralf@chat.handwerker.jetzt/572719703
+(dinox:160279): OMEMO-DEBUG: 17:35:24.121: decrypt.vala:67: Decrypting message from ralf@chat.handwerker.jetzt/572719703 failed: libomemo-c error: SG_ERR_INVALID_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.121: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.121: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.121: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.121: decrypt.vala:153: Continuing session for decryption with device from ralf@chat.handwerker.jetzt/572719703
+(dinox:160279): OMEMO-DEBUG: 17:35:24.122: decrypt.vala:67: Decrypting message from ralf@chat.handwerker.jetzt/572719703 failed: libomemo-c error: SG_ERR_INVALID_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.122: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.123: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.123: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.123: decrypt.vala:153: Continuing session for decryption with device from ralf@chat.handwerker.jetzt/572719703
+(dinox:160279): OMEMO-DEBUG: 17:35:24.124: decrypt.vala:67: Decrypting message from ralf@chat.handwerker.jetzt/572719703 failed: libomemo-c error: SG_ERR_INVALID_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.124: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.124: omemo_decryptor.vala:43: Is ours? 572719703 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.124: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.124: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.125: decrypt.vala:148: Starting new session for decryption with device from carl@chat.handwerker.jetzt/1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.125: decrypt.vala:67: Decrypting message from carl@chat.handwerker.jetzt/1100018763 failed: libomemo-c error: SG_ERR_DUPLICATE_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.125: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.125: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.125: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.125: decrypt.vala:153: Continuing session for decryption with device from ralf@chat.handwerker.jetzt/572719703
+(dinox:160279): OMEMO-DEBUG: 17:35:24.126: decrypt.vala:67: Decrypting message from ralf@chat.handwerker.jetzt/572719703 failed: libomemo-c error: SG_ERR_INVALID_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.126: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.127: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.127: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.127: decrypt.vala:153: Continuing session for decryption with device from ralf@chat.handwerker.jetzt/572719703
+(dinox:160279): OMEMO-DEBUG: 17:35:24.128: decrypt.vala:67: Decrypting message from ralf@chat.handwerker.jetzt/572719703 failed: libomemo-c error: SG_ERR_INVALID_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.128: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.128: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.128: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.128: decrypt.vala:153: Continuing session for decryption with device from ralf@chat.handwerker.jetzt/572719703
+(dinox:160279): OMEMO-DEBUG: 17:35:24.129: decrypt.vala:67: Decrypting message from ralf@chat.handwerker.jetzt/572719703 failed: libomemo-c error: SG_ERR_INVALID_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.129: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.130: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.130: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.130: decrypt.vala:153: Continuing session for decryption with device from ralf@chat.handwerker.jetzt/572719703
+(dinox:160279): OMEMO-DEBUG: 17:35:24.132: decrypt.vala:67: Decrypting message from ralf@chat.handwerker.jetzt/572719703 failed: libomemo-c error: SG_ERR_INVALID_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.132: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.132: omemo_decryptor.vala:43: Is ours? 572719703 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.132: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.132: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.132: decrypt.vala:148: Starting new session for decryption with device from carl@chat.handwerker.jetzt/1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.132: decrypt.vala:67: Decrypting message from carl@chat.handwerker.jetzt/1100018763 failed: libomemo-c error: SG_ERR_DUPLICATE_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.132: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.133: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.133: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.133: decrypt.vala:153: Continuing session for decryption with device from ralf@chat.handwerker.jetzt/572719703
+(dinox:160279): OMEMO-DEBUG: 17:35:24.134: decrypt.vala:67: Decrypting message from ralf@chat.handwerker.jetzt/572719703 failed: libomemo-c error: SG_ERR_INVALID_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.134: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.134: omemo_decryptor.vala:43: Is ours? 572719703 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.134: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.134: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.134: decrypt.vala:148: Starting new session for decryption with device from carl@chat.handwerker.jetzt/1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.134: decrypt.vala:67: Decrypting message from carl@chat.handwerker.jetzt/1100018763 failed: libomemo-c error: SG_ERR_DUPLICATE_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.134: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.135: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.135: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.135: decrypt.vala:153: Continuing session for decryption with device from ralf@chat.handwerker.jetzt/572719703
+(dinox:160279): OMEMO-DEBUG: 17:35:24.136: decrypt.vala:67: Decrypting message from ralf@chat.handwerker.jetzt/572719703 failed: libomemo-c error: SG_ERR_INVALID_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.136: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.136: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.136: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.136: decrypt.vala:153: Continuing session for decryption with device from ralf@chat.handwerker.jetzt/572719703
+(dinox:160279): OMEMO-DEBUG: 17:35:24.137: decrypt.vala:67: Decrypting message from ralf@chat.handwerker.jetzt/572719703 failed: libomemo-c error: SG_ERR_INVALID_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.137: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.138: omemo_decryptor.vala:43: Is ours? 572719703 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.138: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.138: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.138: decrypt.vala:148: Starting new session for decryption with device from carl@chat.handwerker.jetzt/1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.138: decrypt.vala:67: Decrypting message from carl@chat.handwerker.jetzt/1100018763 failed: libomemo-c error: SG_ERR_DUPLICATE_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.138: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.138: omemo_decryptor.vala:43: Is ours? 572719703 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.138: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.138: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.139: decrypt.vala:148: Starting new session for decryption with device from carl@chat.handwerker.jetzt/1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.139: decrypt.vala:67: Decrypting message from carl@chat.handwerker.jetzt/1100018763 failed: libomemo-c error: SG_ERR_DUPLICATE_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.139: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.139: omemo_decryptor.vala:43: Is ours? 572719703 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.139: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.139: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.139: decrypt.vala:148: Starting new session for decryption with device from carl@chat.handwerker.jetzt/1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.139: decrypt.vala:67: Decrypting message from carl@chat.handwerker.jetzt/1100018763 failed: libomemo-c error: SG_ERR_DUPLICATE_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.139: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.140: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.140: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.140: decrypt.vala:153: Continuing session for decryption with device from ralf@chat.handwerker.jetzt/572719703
+(dinox:160279): OMEMO-DEBUG: 17:35:24.141: decrypt.vala:67: Decrypting message from ralf@chat.handwerker.jetzt/572719703 failed: libomemo-c error: SG_ERR_INVALID_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.141: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.141: omemo_decryptor.vala:43: Is ours? 572719703 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.141: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.141: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.141: decrypt.vala:148: Starting new session for decryption with device from carl@chat.handwerker.jetzt/1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.141: decrypt.vala:67: Decrypting message from carl@chat.handwerker.jetzt/1100018763 failed: libomemo-c error: SG_ERR_DUPLICATE_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.141: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.142: omemo_decryptor.vala:43: Is ours? 572719703 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.142: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.142: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.142: decrypt.vala:148: Starting new session for decryption with device from carl@chat.handwerker.jetzt/1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.142: decrypt.vala:67: Decrypting message from carl@chat.handwerker.jetzt/1100018763 failed: libomemo-c error: SG_ERR_DUPLICATE_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.142: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.142: omemo_decryptor.vala:43: Is ours? 572719703 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.142: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.142: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.143: decrypt.vala:148: Starting new session for decryption with device from carl@chat.handwerker.jetzt/1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.143: decrypt.vala:67: Decrypting message from carl@chat.handwerker.jetzt/1100018763 failed: libomemo-c error: SG_ERR_DUPLICATE_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.143: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.144: omemo_decryptor.vala:43: Is ours? 572719703 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.144: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.144: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.144: decrypt.vala:153: Continuing session for decryption with device from carl@chat.handwerker.jetzt/1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.145: decrypt.vala:67: Decrypting message from carl@chat.handwerker.jetzt/1100018763 failed: libomemo-c error: SG_ERR_INVALID_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.145: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.145: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.145: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.145: decrypt.vala:153: Continuing session for decryption with device from ralf@chat.handwerker.jetzt/572719703
+(dinox:160279): OMEMO-DEBUG: 17:35:24.146: decrypt.vala:67: Decrypting message from ralf@chat.handwerker.jetzt/572719703 failed: libomemo-c error: SG_ERR_INVALID_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.146: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.147: omemo_decryptor.vala:43: Is ours? 572719703 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.147: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.147: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.147: decrypt.vala:153: Continuing session for decryption with device from carl@chat.handwerker.jetzt/1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.148: decrypt.vala:67: Decrypting message from carl@chat.handwerker.jetzt/1100018763 failed: libomemo-c error: SG_ERR_INVALID_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.148: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.149: omemo_decryptor.vala:43: Is ours? 572719703 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.149: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.149: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.149: decrypt.vala:153: Continuing session for decryption with device from carl@chat.handwerker.jetzt/1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.150: decrypt.vala:67: Decrypting message from carl@chat.handwerker.jetzt/1100018763 failed: libomemo-c error: SG_ERR_INVALID_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.150: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.151: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.152: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.152: decrypt.vala:153: Continuing session for decryption with device from ralf@chat.handwerker.jetzt/572719703
+(dinox:160279): OMEMO-DEBUG: 17:35:24.153: decrypt.vala:67: Decrypting message from ralf@chat.handwerker.jetzt/572719703 failed: libomemo-c error: SG_ERR_INVALID_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.153: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.153: omemo_decryptor.vala:43: Is ours? 572719703 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.153: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.153: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.153: decrypt.vala:153: Continuing session for decryption with device from carl@chat.handwerker.jetzt/1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.155: decrypt.vala:67: Decrypting message from carl@chat.handwerker.jetzt/1100018763 failed: libomemo-c error: SG_ERR_INVALID_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.155: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.156: omemo_decryptor.vala:43: Is ours? 572719703 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.156: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.156: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.156: decrypt.vala:153: Continuing session for decryption with device from carl@chat.handwerker.jetzt/1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.158: decrypt.vala:67: Decrypting message from carl@chat.handwerker.jetzt/1100018763 failed: libomemo-c error: SG_ERR_INVALID_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.158: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.159: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.159: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.159: decrypt.vala:153: Continuing session for decryption with device from ralf@chat.handwerker.jetzt/572719703
+(dinox:160279): OMEMO-DEBUG: 17:35:24.159: decrypt.vala:67: Decrypting message from ralf@chat.handwerker.jetzt/572719703 failed: libomemo-c error: SG_ERR_DUPLICATE_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.159: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.159: omemo_decryptor.vala:43: Is ours? 572719703 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.159: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.159: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.159: decrypt.vala:153: Continuing session for decryption with device from carl@chat.handwerker.jetzt/1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.161: decrypt.vala:67: Decrypting message from carl@chat.handwerker.jetzt/1100018763 failed: libomemo-c error: SG_ERR_INVALID_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.161: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.163: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.163: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.163: decrypt.vala:153: Continuing session for decryption with device from ralf@chat.handwerker.jetzt/572719703
+(dinox:160279): OMEMO-DEBUG: 17:35:24.163: decrypt.vala:67: Decrypting message from ralf@chat.handwerker.jetzt/572719703 failed: libomemo-c error: SG_ERR_DUPLICATE_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.163: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.163: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.163: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.163: decrypt.vala:153: Continuing session for decryption with device from ralf@chat.handwerker.jetzt/572719703
+(dinox:160279): OMEMO-DEBUG: 17:35:24.163: decrypt.vala:67: Decrypting message from ralf@chat.handwerker.jetzt/572719703 failed: libomemo-c error: SG_ERR_DUPLICATE_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.163: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.164: omemo_decryptor.vala:43: Is ours? 572719703 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.164: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.164: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.164: decrypt.vala:153: Continuing session for decryption with device from carl@chat.handwerker.jetzt/1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.166: decrypt.vala:67: Decrypting message from carl@chat.handwerker.jetzt/1100018763 failed: libomemo-c error: SG_ERR_INVALID_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.166: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.167: omemo_decryptor.vala:43: Is ours? 572719703 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.167: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.167: omemo_decryptor.vala:43: Is ours? 1100018763 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.167: decrypt.vala:153: Continuing session for decryption with device from carl@chat.handwerker.jetzt/1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.169: decrypt.vala:67: Decrypting message from carl@chat.handwerker.jetzt/1100018763 failed: libomemo-c error: SG_ERR_INVALID_MESSAGE
+(dinox:160279): OMEMO-DEBUG: 17:35:24.169: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): libdino-DEBUG: 17:35:24.170: history_sync.vala:220: [carl@chat.handwerker.jetzt | carl@chat.handwerker.jetzt] Latest page result: DINO_HISTORY_SYNC_PAGE_RESULT_MorePagesAvailable
+(dinox:160279): libdino-DEBUG: 17:35:24.170: history_sync.vala:253: [carl@chat.handwerker.jetzt | carl@chat.handwerker.jetzt] Creating new db range for latest page
+(dinox:160279): libdino-DEBUG: 17:35:24.176: history_sync.vala:316: [carl@chat.handwerker.jetzt | carl@chat.handwerker.jetzt] Fetching before range < 2025-11-19T17:04:53+0000, 1763571893601452
+(dinox:160279): libdino-DEBUG: 17:35:24.178: history_sync.vala:336: [carl@chat.handwerker.jetzt | carl@chat.handwerker.jetzt] Fetch query 1970-01-01T00:00:00+0000 - 2025-11-19T17:04:53+0000
+(dinox:160279): Gtk-DEBUG: 17:35:24.182: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:35:24.199: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.273: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.273: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.273: omemo_decryptor.vala:43: Is ours? 572719703 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.273: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.273: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.274: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.274: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.275: omemo_decryptor.vala:43: Is ours? 572719703 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.275: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.275: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.275: omemo_decryptor.vala:43: Is ours? 572719703 =? 1100018763
+(dinox:160279): xmpp-vala-DEBUG: 17:35:24.275: omemo_decryptor.vala:43: Is ours? 1619426216 =? 1100018763
+(dinox:160279): OMEMO-DEBUG: 17:35:24.275: decrypt.vala:92: Received OMEMO encryped message that could not be decrypted.
+(dinox:160279): libdino-DEBUG: 17:35:24.276: history_sync.vala:340: [carl@chat.handwerker.jetzt | carl@chat.handwerker.jetzt] Page result DINO_HISTORY_SYNC_PAGE_RESULT_NoMoreMessages (got stanzas: true)
+(dinox:160279): libdino-DEBUG: 17:35:24.276: history_sync.vala:350: [carl@chat.handwerker.jetzt | carl@chat.handwerker.jetzt] Updating to 1763560924, 1763560924572831
+(dinox:160279): libdino-DEBUG: 17:35:24.276: history_sync.vala:360: [carl@chat.handwerker.jetzt | carl@chat.handwerker.jetzt] Updating to 1970-01-01T00:00:00+0000 based on query
+
+(dinox:160279): Adwaita-WARNING **: 17:35:28.920: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:160279): Adwaita-WARNING **: 17:35:30.202: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:30.235: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:30.251: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:30.267: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:30.285: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:30.303: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:30.319: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:30.338: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:30.356: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:30.371: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:30.387: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:30.406: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:30.421: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:30.438: snapshot symbolic icon using mask
+(dinox:160279): dino-DEBUG: 17:35:31.119: conversation_view.vala:404: Re-initialized for muschi@conference.chat.handwerker.jetzt
+
+(dinox:160279): Adwaita-WARNING **: 17:35:31.134: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:31.182: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:31.200: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:31.216: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:31.238: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:31.251: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:31.269: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:31.286: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:31.302: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:31.317: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:31.334: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:31.352: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:31.368: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:35:33.566: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:160279): Adwaita-WARNING **: 17:35:35.120: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:35.181: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:35.182: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:35.182: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:35.182: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:35.182: snapshot symbolic icon using mask
+(dinox:160279): dconf-DEBUG: 17:35:37.952: watch_fast: "/org/gtk/gtk4/settings/emoji-chooser/" (establishing: 0, active: 2)
+
+(dinox:160279): Adwaita-WARNING **: 17:35:37.993: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:37.995: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:37.995: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:37.996: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:37.996: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:37.996: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:37.996: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:37.996: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:37.996: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:37.996: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:37.996: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:37.996: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:37.996: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:37.996: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:37.996: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:37.996: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:37.996: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:37.997: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:37.997: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.023: Found emoji data for de in resource /org/gtk/libgtk/emoji/de.data
+
+(dinox:160279): Adwaita-WARNING **: 17:35:38.043: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:38.044: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.044: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.044: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:35:38.296: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:38.296: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.296: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.296: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:35:38.319: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:38.319: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.319: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.319: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:35:38.353: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:38.353: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.353: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.354: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:35:38.369: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:38.369: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.369: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.369: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:35:38.385: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:38.385: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.385: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.386: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:35:38.401: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:38.402: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.402: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.402: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:35:38.452: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:38.452: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.452: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.452: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:35:38.469: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:38.470: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.470: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.470: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:35:38.486: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:38.487: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.487: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.487: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:35:38.502: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:38.502: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.502: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.502: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:35:38.519: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:38.519: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.519: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.519: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:35:38.535: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:38.535: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.535: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.535: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:35:38.552: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:38.552: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.552: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.552: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:35:38.569: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:38.569: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.569: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.569: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:35:38.585: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:38.585: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.585: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.586: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:35:38.605: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:38.606: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.606: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.606: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.606: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:35:38.620: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:38.620: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.620: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.620: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:35:38.636: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:38.636: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.636: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.637: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:35:38.653: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:38.654: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.654: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.654: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:35:38.672: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:38.673: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.673: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.673: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:35:38.690: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:38.691: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.691: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.691: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:35:38.707: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:38.708: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.708: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.708: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:35:38.725: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:38.725: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.725: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.725: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:35:38.744: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:38.745: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.745: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.745: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:35:38.776: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:38.777: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.777: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.777: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:35:38.790: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:38.790: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.790: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.790: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:35:38.806: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:38.807: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.807: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.807: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:35:38.823: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:38.824: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.824: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.824: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:35:38.839: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:38.840: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.840: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.840: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:35:38.873: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:38.873: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.873: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.873: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:35:38.890: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:38.891: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.891: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.891: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:35:38.906: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:38.906: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.906: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.906: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:35:38.922: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:38.923: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.923: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.923: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:35:38.938: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:38.939: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.939: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.939: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:35:38.956: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:38.957: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.957: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:38.957: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:35:38.971: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:160279): Adwaita-WARNING **: 17:35:39.354: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:39.369: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:35:39.982: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:40.567: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:40.567: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:40.567: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:40.604: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:40.617: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:40.634: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:40.651: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:40.668: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:40.686: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:40.702: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:40.719: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:40.736: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:40.753: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:40.770: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:40.786: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:40.802: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:42.300: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:55.462: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:35:55.988: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:55.989: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:35:56.103: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:160279): Adwaita-WARNING **: 17:35:57.544: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:35:57.545: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:57.545: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:57.584: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:57.600: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:57.625: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:57.633: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:57.649: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:57.668: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:57.687: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:57.705: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:57.719: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:35:57.735: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:36:01.288: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:36:01.332: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:36:11.002: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:160279): Adwaita-WARNING **: 17:36:26.322: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:36:26.324: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:26.324: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:26.324: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:26.324: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:36:26.363: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:36:26.365: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:26.365: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:26.366: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:26.366: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:36:26.391: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:160279): Adwaita-WARNING **: 17:36:27.535: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:36:27.539: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:36:28.586: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:36:28.607: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:28.607: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:28.637: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:28.650: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:28.667: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:28.684: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:28.701: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:28.720: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:28.737: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:28.752: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:28.770: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:28.786: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:28.803: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:28.820: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:30.116: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:30.132: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:30.150: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:30.171: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:30.187: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:30.207: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:36:30.220: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:36:30.221: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:30.238: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:30.253: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:30.269: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:30.285: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:30.302: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:36:44.920: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:160279): Adwaita-WARNING **: 17:36:46.990: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:160279): Adwaita-WARNING **: 17:36:49.219: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:36:49.220: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:49.220: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:49.220: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:49.220: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:49.220: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:36:49.249: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:36:49.250: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:49.250: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:49.250: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:49.252: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:49.253: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:36:49.297: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:36:49.298: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:49.298: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:49.298: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:49.298: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:49.298: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:36:49.322: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:36:49.323: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:49.323: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:49.324: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:49.324: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:49.324: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:36:49.703: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:36:49.704: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:49.704: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:49.704: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:49.704: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:49.704: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:36:49.767: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:160279): Adwaita-WARNING **: 17:36:50.068: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:36:50.070: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:50.070: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:50.070: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:50.070: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:50.070: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:36:50.099: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:36:50.100: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:50.100: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:50.100: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:50.100: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:50.101: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:36:50.122: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:160279): Adwaita-WARNING **: 17:36:50.138: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:160279): Adwaita-WARNING **: 17:36:50.153: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:160279): Adwaita-WARNING **: 17:36:50.170: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:160279): Adwaita-WARNING **: 17:36:50.189: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:160279): Adwaita-WARNING **: 17:36:50.203: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:160279): Adwaita-WARNING **: 17:36:50.219: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:160279): Adwaita-WARNING **: 17:36:50.236: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:160279): Adwaita-WARNING **: 17:36:50.253: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:160279): Adwaita-WARNING **: 17:36:50.272: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:160279): Adwaita-WARNING **: 17:36:50.287: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:160279): Adwaita-WARNING **: 17:36:50.303: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:160279): Adwaita-WARNING **: 17:36:50.320: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:160279): Adwaita-WARNING **: 17:36:50.336: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:160279): Adwaita-WARNING **: 17:36:50.354: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:160279): Adwaita-WARNING **: 17:36:50.369: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:160279): Adwaita-WARNING **: 17:36:50.385: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:160279): Gtk-WARNING **: 17:36:51.075: Tried to remove non-child 0x55bf75362700
+
+(dinox:160279): Adwaita-WARNING **: 17:36:51.086: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:160279): Adwaita-WARNING **: 17:36:51.124: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:160279): Adwaita-WARNING **: 17:36:52.008: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:36:52.010: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:52.010: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:52.010: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:52.010: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:52.010: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:36:53.390: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:36:53.391: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:53.391: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:53.391: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:53.391: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:53.391: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:36:53.411: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:36:53.411: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:53.411: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:53.412: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:53.412: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:53.412: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:36:53.421: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:36:53.421: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:53.421: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:53.421: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:53.421: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:53.421: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:36:53.433: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:36:53.434: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:53.434: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:53.434: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:53.434: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:53.434: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:36:53.447: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:160279): Adwaita-WARNING **: 17:36:53.519: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:36:53.521: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:53.521: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:53.521: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:53.521: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:36:53.547: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:36:53.548: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:53.548: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:53.548: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:53.548: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:36:53.599: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:36:53.600: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:53.600: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:53.601: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:53.601: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:36:53.622: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:36:53.623: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:53.623: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:53.623: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:53.623: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:36:53.644: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:36:53.645: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:53.645: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:53.646: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:53.646: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:36:53.829: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:36:53.830: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:53.831: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:53.831: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:53.831: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:36:53.851: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:36:53.852: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:53.853: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:53.853: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:53.853: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:36:53.878: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:36:53.880: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:53.880: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:53.880: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:53.880: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:36:53.901: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:36:53.902: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:53.902: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:53.902: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:53.902: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:36:53.924: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:36:53.925: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:53.925: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:53.925: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:53.925: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:36:53.946: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:36:53.947: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:53.947: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:53.947: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:53.947: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:36:53.969: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:36:53.970: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:53.970: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:53.970: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:53.970: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:36:53.983: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:160279): Adwaita-WARNING **: 17:36:54.736: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:36:54.737: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:54.737: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:54.737: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:54.737: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:36:54.772: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:36:54.774: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:54.774: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:54.774: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:54.774: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:54.774: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:36:54.791: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+(dinox:160279): Gtk-DEBUG: 17:36:56.060: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:56.087: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:56.102: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:56.120: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:56.133: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:56.149: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:56.166: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:56.183: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:56.200: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:56.217: snapshot symbolic icon using mask
+(dinox:160279): Gtk-DEBUG: 17:36:56.233: snapshot symbolic icon using mask
+
+(dinox:160279): Adwaita-WARNING **: 17:37:01.282: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:160279): Adwaita-WARNING **: 17:37:46.986: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:160279): Adwaita-WARNING **: 17:38:01.294: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:160279): Adwaita-WARNING **: 17:38:21.949: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:160279): Adwaita-WARNING **: 17:38:46.996: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:160279): Adwaita-WARNING **: 17:39:01.297: DinoUiMainWindow 0x55bf6f695ca0 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it

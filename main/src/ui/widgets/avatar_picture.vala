@@ -474,6 +474,7 @@ public class Dino.Ui.AvatarPicture : Gtk.Widget {
 #endif
             picture.insert_after(this, label);
             this.notify["model"].connect(on_model_changed);
+            this.notify["background-color"].connect(queue_draw);
         }
 
         private void on_model_changed() {

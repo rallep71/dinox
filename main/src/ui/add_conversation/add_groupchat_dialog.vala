@@ -38,7 +38,7 @@ protected class AddGroupchatDialog : Gtk.Window {
         check_ok();
         if (!alias_entry_changed) {
             try {
-                Jid parsed_jid = new Jid(jid_entry.text);
+                Jid parsed_jid = new Jid(get_effective_jid());
                 alias_entry.text = parsed_jid != null && parsed_jid.localpart != null ? parsed_jid.localpart : jid_entry.text;
             } catch (InvalidJidError e) {
                 alias_entry.text = jid_entry.text;
@@ -46,9 +46,21 @@ protected class AddGroupchatDialog : Gtk.Window {
         }
     }
 
+    private string get_effective_jid() {
+        string text = jid_entry.text;
+        if (text.contains("@")) {
+            return text;
+        }
+        var account = account_combobox.active_account;
+        if (account != null) {
+            return "%s@conference.%s".printf(text, account.domainpart);
+        }
+        return text;
+    }
+
     private void check_ok() {
         try {
-            Jid parsed_jid = new Jid(jid_entry.text);
+            Jid parsed_jid = new Jid(get_effective_jid());
             ok_button.sensitive = parsed_jid != null && parsed_jid.localpart != null && parsed_jid.resourcepart == null;
         } catch (InvalidJidError e) {
             ok_button.sensitive = false;
@@ -58,7 +70,7 @@ protected class AddGroupchatDialog : Gtk.Window {
     private void on_ok_button_clicked() {
         try {
             Conference conference = new Conference();
-            conference.jid = new Jid(jid_entry.text);
+            conference.jid = new Jid(get_effective_jid());
             conference.nick = nick_entry.text != "" ? nick_entry.text : null;
             conference.name = alias_entry.text;
             stream_interactor.get_module(MucManager.IDENTITY).add_bookmark(account_combobox.active_account, conference);

@@ -64,6 +64,11 @@ public class ConversationItemSkeleton : Plugins.ConversationItemWidgetInterface,
         if (item.requires_header) {
             // TODO: For MUC messags, use real jid from message if known
             avatar_picture.model = new ViewModel.CompatAvatarPictureModel(stream_interactor).add_participant(conversation, item.jid);
+
+            var click_controller = new Gtk.GestureClick();
+            click_controller.button = 0;
+            click_controller.pressed.connect(on_avatar_clicked);
+            avatar_picture.add_controller(click_controller);
         }
 
         this.notify["show-skeleton"].connect(update_margin);
@@ -77,6 +82,17 @@ public class ConversationItemSkeleton : Plugins.ConversationItemWidgetInterface,
         }
 
         update_margin();
+    }
+
+    private void on_avatar_clicked(GestureClick controller, int n_press, double x, double y) {
+        // Allow both left (1) and right (3) click
+        if (controller.get_current_button() == 1 || controller.get_current_button() == 3) {
+            var menu = new Dino.Ui.OccupantMenu.View(stream_interactor, conversation);
+            menu.set_parent(avatar_picture);
+            menu.show_menu(item.jid, name_label.label);
+            menu.popup();
+            menu.closed.connect(() => { menu.unparent(); });
+        }
     }
 
     private void set_header() {

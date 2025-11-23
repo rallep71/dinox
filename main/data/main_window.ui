@@ -33,11 +33,26 @@
                                                             <class name="dino-left"/>
                                                         </style>
                                                         <child>
-                                                            <object class="GtkMenuButton" id="add_button">
+                                                            <object class="GtkButton" id="add_chat_button">
                                                                 <property name="has-frame">False</property>
+                                                                <property name="tooltip-text" translatable="yes">Start Conversation</property>
+                                                                <property name="action-name">app.add_chat</property>
                                                                 <child>
                                                                     <object class="GtkImage">
-                                                                        <property name="icon-name">list-add-symbolic</property>
+                                                                        <property name="icon-name">avatar-default-symbolic</property>
+                                                                        <property name="icon-size">normal</property>
+                                                                    </object>
+                                                                </child>
+                                                            </object>
+                                                        </child>
+                                                        <child>
+                                                            <object class="GtkButton" id="add_group_button">
+                                                                <property name="has-frame">False</property>
+                                                                <property name="tooltip-text" translatable="yes">Join Channel</property>
+                                                                <property name="action-name">app.add_conference</property>
+                                                                <child>
+                                                                    <object class="GtkImage">
+                                                                        <property name="icon-name">system-users-symbolic</property>
                                                                         <property name="icon-size">normal</property>
                                                                     </object>
                                                                 </child>

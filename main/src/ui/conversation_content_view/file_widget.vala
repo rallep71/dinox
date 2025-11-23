@@ -34,6 +34,12 @@ public class FileMetaItem : ConversationSummary.ContentMetaItem {
         actions.add(get_reply_action(content_item, file_item.conversation, stream_interactor));
         actions.add(get_reaction_action(content_item, file_item.conversation, stream_interactor));
 
+        // var kick_action = get_kick_action(content_item, file_item.conversation, stream_interactor);
+        // if (kick_action != null) actions.add(kick_action);
+
+        // var ban_action = get_ban_action(content_item, file_item.conversation, stream_interactor);
+        // if (ban_action != null) actions.add(ban_action);
+
         var delete_action = get_delete_action(content_item, file_item.conversation, stream_interactor);
         if (delete_action != null) actions.add(delete_action);
 

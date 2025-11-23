@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+    <requires lib="gtk" version="4.0"/>
+    <template class="DinoUiRoomBrowserDialog" parent="GtkWindow">
+        <property name="title" translatable="yes">Browse Rooms</property>
+        <property name="modal">True</property>
+        <property name="default-width">600</property>
+        <property name="default-height">500</property>
+        <child type="titlebar">
+            <object class="GtkHeaderBar">
+                <child type="start">
+                    <object class="GtkButton" id="cancel_button">
+                        <property name="label" translatable="yes">Cancel</property>
+                    </object>
+                </child>
+                <child type="end">
+                    <object class="GtkButton" id="join_button">
+                        <property name="label" translatable="yes">Join</property>
+                        <property name="sensitive">False</property>
+                        <style>
+                            <class name="suggested-action"/>
+                        </style>
+                    </object>
+                </child>
+            </object>
+        </child>
+        <child>
+            <object class="GtkBox">
+                <property name="orientation">vertical</property>
+                <child>
+                    <object class="GtkSearchEntry" id="search_entry">
+                        <property name="placeholder-text" translatable="yes">Search rooms...</property>
+                        <property name="margin-start">10</property>
+                        <property name="margin-end">10</property>
+                        <property name="margin-top">10</property>
+                        <property name="margin-bottom">10</property>
+                    </object>
+                </child>
+                <child>
+                    <object class="GtkScrolledWindow">
+                        <property name="vexpand">True</property>
+                        <property name="hscrollbar-policy">never</property>
+                        <child>
+                            <object class="GtkListBox" id="room_list">
+                                <property name="selection-mode">single</property>
+                                <style>
+                                    <class name="content"/>
+                                </style>
+                            </object>
+                        </child>
+                    </object>
+                </child>
+                <child>
+                    <object class="GtkSpinner" id="loading_spinner">
+                        <property name="margin-top">20</property>
+                        <property name="margin-bottom">20</property>
+                        <property name="visible">False</property>
+                    </object>
+                </child>
+                <child>
+                    <object class="GtkLabel" id="status_label">
+                        <property name="margin-top">20</property>
+                        <property name="margin-bottom">20</property>
+                        <property name="visible">False</property>
+                        <property name="wrap">True</property>
+                        <property name="max-width-chars">50</property>
+                    </object>
+                </child>
+            </object>
+        </child>
+    </template>
+</interface>

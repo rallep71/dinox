@@ -77,7 +77,7 @@ public class Module : XmppStreamModule {
     public signal void voice_request_received(XmppStream stream, Jid room_jid, Jid from_jid, string nick);
     public signal void room_info_updated(XmppStream stream, Jid muc_jid);
 
-    public signal void self_removed_from_room(XmppStream stream, Jid jid, StatusCode code);
+    public signal void self_removed_from_room(XmppStream stream, Jid jid, StatusCode code, string? reason);
     public signal void removed_from_room(XmppStream stream, Jid jid, StatusCode? code);
 
     private ReceivedPipelineListener received_pipeline_listener;
@@ -190,8 +190,8 @@ public class Module : XmppStreamModule {
         stream.get_module(MessageModule.IDENTITY).send_message.begin(stream, message);
     }
 
-    public void kick(XmppStream stream, Jid jid, string nick) {
-        change_role(stream, jid, nick, "none");
+    public void kick(XmppStream stream, Jid jid, string nick, string? reason = null) {
+        change_role(stream, jid, nick, "none", reason);
     }
 
     /* XEP 0046: "A user cannot be kicked by a moderator with a lower affiliation." (XEP 0045 8.2) */
@@ -221,14 +221,18 @@ public class Module : XmppStreamModule {
         }
     }
 
-    public void change_role(XmppStream stream, Jid jid, string nick, string new_role) {
+    public void change_role(XmppStream stream, Jid jid, string nick, string new_role, string? reason = null) {
         StanzaNode query = new StanzaNode.build("query", NS_URI_ADMIN).add_self_xmlns();
-        query.put_node(new StanzaNode.build("item", NS_URI_ADMIN).put_attribute("nick", nick, NS_URI_ADMIN).put_attribute("role", new_role, NS_URI_ADMIN));
+        StanzaNode item = new StanzaNode.build("item", NS_URI_ADMIN).put_attribute("nick", nick, NS_URI_ADMIN).put_attribute("role", new_role, NS_URI_ADMIN);
+        if (reason != null) {
+            item.put_node(new StanzaNode.build("reason", NS_URI_ADMIN).put_node(new StanzaNode.text(reason)));
+        }
+        query.put_node(item);
         Iq.Stanza iq = new Iq.Stanza.set(query) { to=jid };
         stream.get_module(Iq.Module.IDENTITY).send_iq(stream, iq);
     }
 
-    public async void change_affiliation(XmppStream stream, Jid muc_jid, Jid? user_jid, string? nick, string new_affiliation) {
+    public async void change_affiliation(XmppStream stream, Jid muc_jid, Jid? user_jid, string? nick, string new_affiliation, string? reason = null) {
         StanzaNode item_node = new StanzaNode.build("item", NS_URI_ADMIN)
                 .put_attribute("affiliation", new_affiliation, NS_URI_ADMIN);
         if (user_jid != null) {
@@ -236,6 +240,7 @@ public class Module : XmppStreamModule {
             item_node.put_attribute("jid", user_jid.bare_jid.to_string(), NS_URI_ADMIN);
         }
         if (nick != null) item_node.put_attribute("nick", nick, NS_URI_ADMIN);
+        if (reason != null) item_node.put_node(new StanzaNode.build("reason", NS_URI_ADMIN).put_node(new StanzaNode.text(reason)));
 
         StanzaNode query = new StanzaNode.build("query", NS_URI_ADMIN).add_self_xmlns().put_node(item_node);
         Iq.Stanza iq = new Iq.Stanza.set(query) { to=muc_jid };
@@ -251,10 +256,13 @@ public class Module : XmppStreamModule {
         try {
             Iq.Stanza result_iq = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, get_iq);
 
-            StanzaNode? x_node = result_iq.stanza.get_deep_subnode(NS_URI_OWNER + ":query", DataForms.NS_URI + ":x");
-            if (x_node != null) {
-                DataForms.DataForm data_form = DataForms.DataForm.create_from_node(x_node);
-                return data_form;
+            StanzaNode? query_node = result_iq.stanza.get_subnode("query", NS_URI_OWNER);
+            if (query_node != null) {
+                StanzaNode? x_node = query_node.get_subnode("x", DataForms.NS_URI);
+                if (x_node != null) {
+                    DataForms.DataForm data_form = DataForms.DataForm.create_from_node(x_node);
+                    return data_form;
+                }
             }
         } catch (GLib.Error e) {
             warning("Failed to get config form: %s", e.message);
@@ -414,23 +422,65 @@ public class Module : XmppStreamModule {
     }
 
     private void on_received_unavailable(XmppStream stream, Presence.Stanza presence) {
+        printerr("DEBUG: on_received_unavailable from %s\n", presence.from.to_string());
         Flag flag = stream.get_flag(Flag.IDENTITY);
-        if (!flag.is_occupant(presence.from)) return;
+        if (!flag.is_occupant(presence.from)) {
+            printerr("DEBUG: Not an occupant: %s\n", presence.from.to_string());
+            return;
+        }
 
         StanzaNode? x_node = presence.stanza.get_subnode("x", NS_URI_USER);
-        if (x_node == null) return;
+        if (x_node == null) {
+            printerr("DEBUG: No x_node found\n");
+            return;
+        }
 
         ArrayList<int> status_codes = get_status_codes(x_node);
+        printerr("DEBUG: Status codes: ");
+        foreach (int c in status_codes) printerr("%d ", c);
+        printerr("\n");
 
         if (StatusCode.SELF_PRESENCE in status_codes) {
             flag.remove_occupant_info(presence.from);
         }
 
+        string? reason = null;
+        StanzaNode? item_node = x_node.get_subnode("item", NS_URI_USER);
+        if (item_node != null) {
+            StanzaNode? reason_node = item_node.get_subnode("reason", NS_URI_USER);
+            if (reason_node != null) {
+                reason = reason_node.get_string_content();
+                printerr("DEBUG: Found reason node with content: '%s'\n", reason);
+            } else {
+                printerr("DEBUG: Item node found, but no reason node.\n");
+                // Try without namespace just in case
+                reason_node = item_node.get_subnode("reason");
+                if (reason_node != null) {
+                     reason = reason_node.get_string_content();
+                     printerr("DEBUG: Found reason node without explicit namespace: '%s'\n", reason);
+                }
+            }
+        } else {
+            printerr("DEBUG: No item node found in x_node.\n");
+        }
+
+        bool is_self = StatusCode.SELF_PRESENCE in status_codes;
+        if (!is_self) {
+            string? own_nick = flag.get_muc_nick(presence.from.bare_jid);
+            printerr("DEBUG: Checking self-removal. Own nick: '%s', Presence resource: '%s'\n", own_nick != null ? own_nick : "null", presence.from.resourcepart);
+            if (own_nick != null && presence.from.resourcepart == own_nick) {
+                is_self = true;
+                printerr("DEBUG: Detected self-removal via nick match (missing 110)\n");
+                flag.remove_occupant_info(presence.from);
+            }
+        }
+
         foreach (StatusCode code in USER_REMOVED_CODES) {
             if (code in status_codes) {
-                if (StatusCode.SELF_PRESENCE in status_codes) {
+                if (is_self) {
+                    printerr("DEBUG: Self removed with code %s\n", code.to_string());
                     flag.left_muc(stream, presence.from.bare_jid);
-                    self_removed_from_room(stream, presence.from, code);
+                    self_removed_from_room(stream, presence.from, code, reason);
                     Presence.Flag presence_flag = stream.get_flag(Presence.Flag.IDENTITY);
                     presence_flag.remove_presence(presence.from.bare_jid);
                 } else {
@@ -479,7 +529,7 @@ public class Module : XmppStreamModule {
         room_info_updated(stream, jid);
     }
 
-    private async Gee.List<Jid>? query_affiliation(XmppStream stream, Jid jid, string affiliation) {
+    public async Gee.List<Jid>? query_affiliation(XmppStream stream, Jid jid, string affiliation) {
         Iq.Stanza iq = new Iq.Stanza.get(
             new StanzaNode.build("query", NS_URI_ADMIN)
                 .add_self_xmlns()
@@ -556,6 +606,21 @@ public class Module : XmppStreamModule {
                 role = Role.NONE; break;
         }
         return role;
+    }
+
+    public async void destroy_room(XmppStream stream, Jid jid, string? reason = null, Jid? alternate_venue = null) throws GLib.Error {
+        StanzaNode destroy_node = new StanzaNode.build("destroy", NS_URI_OWNER);
+        if (alternate_venue != null) {
+            destroy_node.put_attribute("jid", alternate_venue.to_string());
+        }
+        if (reason != null) {
+            destroy_node.put_node(new StanzaNode.build("reason", NS_URI_OWNER).put_node(new StanzaNode.text(reason)));
+        }
+
+        StanzaNode query_node = new StanzaNode.build("query", NS_URI_OWNER).add_self_xmlns().put_node(destroy_node);
+        Iq.Stanza set_iq = new Iq.Stanza.set(query_node) { to=jid };
+        
+        yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, set_iq);
     }
 }
 

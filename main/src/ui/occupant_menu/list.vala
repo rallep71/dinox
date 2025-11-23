@@ -87,12 +87,20 @@ public class List : Box {
 
     private void header(ListBoxRow row, ListBoxRow? before_row) {
         ListRow row_wrapper1 = row_wrappers[row.get_child()];
-        Xmpp.Xep.Muc.Affiliation? a1 = stream_interactor.get_module(MucManager.IDENTITY).get_affiliation(conversation.counterpart, row_wrapper1.jid, row_wrapper1.conversation.account);
+        Xmpp.Xep.Muc.Affiliation? a1 = Xmpp.Xep.Muc.Affiliation.NONE;
+        if (row_wrapper1.jid != null) {
+            // print("DEBUG: header check 1 for %s\n", row_wrapper1.jid.to_string());
+            a1 = stream_interactor.get_module(MucManager.IDENTITY).get_affiliation(conversation.counterpart, row_wrapper1.jid, row_wrapper1.conversation.account);
+        }
         if (a1 == null) return;
 
         if (before_row != null) {
             ListRow row_wrapper2 = row_wrappers[before_row.get_child()];
-            Xmpp.Xep.Muc.Affiliation? a2 = stream_interactor.get_module(MucManager.IDENTITY).get_affiliation(conversation.counterpart, row_wrapper2.jid, row_wrapper2.conversation.account);
+            Xmpp.Xep.Muc.Affiliation? a2 = Xmpp.Xep.Muc.Affiliation.NONE;
+            if (row_wrapper2.jid != null) {
+                // print("DEBUG: header check 2 for %s\n", row_wrapper2.jid.to_string());
+                a2 = stream_interactor.get_module(MucManager.IDENTITY).get_affiliation(conversation.counterpart, row_wrapper2.jid, row_wrapper2.conversation.account);
+            }
             if (a1 != a2) {
                 row.set_header(generate_header_widget(a1, false));
             } else if (row.get_header() != null){
@@ -118,7 +126,11 @@ public class List : Box {
 
         int count = 0;
         foreach (ListRow row in row_wrappers.values) {
-            Xmpp.Xep.Muc.Affiliation aff = stream_interactor.get_module(MucManager.IDENTITY).get_affiliation(conversation.counterpart, row.jid, conversation.account);
+            Xmpp.Xep.Muc.Affiliation aff = Xmpp.Xep.Muc.Affiliation.NONE;
+            if (row.jid != null) {
+                // print("DEBUG: generate_header_widget check for %s\n", row.jid.to_string());
+                aff = stream_interactor.get_module(MucManager.IDENTITY).get_affiliation(conversation.counterpart, row.jid, conversation.account) ?? Xmpp.Xep.Muc.Affiliation.NONE;
+            }
             if (aff == affiliation) count++;
         }
 
@@ -147,8 +159,17 @@ public class List : Box {
         ListRow row_wrapper1 = row_wrappers[row1.get_child()];
         ListRow row_wrapper2 = row_wrappers[row2.get_child()];
 
-        int affiliation1 = get_affiliation_ranking(stream_interactor.get_module(MucManager.IDENTITY).get_affiliation(conversation.counterpart, row_wrapper1.jid, row_wrapper1.conversation.account) ?? Xmpp.Xep.Muc.Affiliation.NONE);
-        int affiliation2 = get_affiliation_ranking(stream_interactor.get_module(MucManager.IDENTITY).get_affiliation(conversation.counterpart, row_wrapper2.jid, row_wrapper2.conversation.account) ?? Xmpp.Xep.Muc.Affiliation.NONE);
+        Xmpp.Xep.Muc.Affiliation aff1 = Xmpp.Xep.Muc.Affiliation.NONE;
+        if (row_wrapper1.jid != null) {
+            aff1 = stream_interactor.get_module(MucManager.IDENTITY).get_affiliation(conversation.counterpart, row_wrapper1.jid, row_wrapper1.conversation.account) ?? Xmpp.Xep.Muc.Affiliation.NONE;
+        }
+        int affiliation1 = get_affiliation_ranking(aff1);
+
+        Xmpp.Xep.Muc.Affiliation aff2 = Xmpp.Xep.Muc.Affiliation.NONE;
+        if (row_wrapper2.jid != null) {
+            aff2 = stream_interactor.get_module(MucManager.IDENTITY).get_affiliation(conversation.counterpart, row_wrapper2.jid, row_wrapper2.conversation.account) ?? Xmpp.Xep.Muc.Affiliation.NONE;
+        }
+        int affiliation2 = get_affiliation_ranking(aff2);
 
         if (affiliation1 < affiliation2) return -1;
         else if (affiliation1 > affiliation2) return 1;

@@ -216,16 +216,16 @@ main/src/ui/conversation_content_view/message_widget.vala
 ---
 
 ### 2. XEP-0425 - Message Moderation 🔥
-**Status**: Backend ✅ | UI ❌
+**Status**: Backend ✅ | UI ✅
 
 **What's Implemented**:
 - Protocol support in `xmpp-vala/src/module/xep/0425_message_moderation.vala`
 - Backend checks if user is MUC moderator
 - Handles moderation messages from server
+- **UI**: "Moderate message" action for moderators in `item_actions.vala`
 
 **What's Missing**:
-- No UI for moderators to delete others' messages
-- No visual indication of moderated messages
+- No visual indication of moderated messages (tombstones)
 - No moderation history/log
 
 **Code Locations**:
@@ -234,16 +234,14 @@ main/src/ui/conversation_content_view/message_widget.vala
 xmpp-vala/src/module/xep/0425_message_moderation.vala
 libdino/src/service/message_deletion.vala (has moderator checks)
 
-// UI needed in:
-main/src/ui/conversation_content_view/message_widget.vala
-// For moderators: Add "Delete message (Moderator)" option
-// Only show if: is_muc && user_is_moderator && !own_message
+// UI implemented in:
+main/src/ui/conversation_content_view/item_actions.vala
+// "Moderate message" dialog added
 ```
 
-**Implementation Difficulty**: 🟡 Medium
-- Need to check moderator status in UI
-- Show different context menu for moderators
-- Handle moderation notifications
+**Implementation Difficulty**: 🟢 Done
+- UI action added
+- Dialog distinguishes between Retraction (own) and Moderation (others)
 
 ---
 

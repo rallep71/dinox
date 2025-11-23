@@ -29,18 +29,29 @@ namespace Dino {
         }
 
         public bool is_deletable(Conversation conversation, ContentItem content_item) {
-            MessageItem? message_item = content_item as MessageItem;
-            return message_item != null && message_item.message.body != "";
+            if (content_item is MessageItem) {
+                return ((MessageItem) content_item).message.body != "";
+            } else if (content_item is FileItem) {
+                return true;
+            }
+            return false;
         }
 
         public bool can_delete_for_everyone(Conversation conversation, ContentItem content_item) {
+            bool is_own_message = false;
+            if (content_item is MessageItem) {
+                is_own_message = ((MessageItem) content_item).message.direction == Message.DIRECTION_SENT;
+            } else if (content_item is FileItem) {
+                is_own_message = ((FileItem) content_item).file_transfer.direction == FileTransfer.DIRECTION_SENT;
+            }
+
             if (conversation.type_.is_muc_semantic()) {
                 bool muc_supports_moderation = stream_interactor.get_module(EntityInfo.IDENTITY)
                         .has_feature_cached(conversation.account, conversation.counterpart, Xmpp.Xep.MessageModeration.NS_URI);
                 bool we_are_moderator = stream_interactor.get_module(MucManager.IDENTITY).get_own_role(conversation) == Xmpp.Xep.Muc.Role.MODERATOR;
-                return muc_supports_moderation && we_are_moderator;
+                return is_own_message || (muc_supports_moderation && we_are_moderator);
             } else {
-                return content_item.jid.equals_bare(conversation.account.bare_jid);
+                return is_own_message;
             }
         }
 
@@ -56,9 +67,22 @@ namespace Dino {
                 stream.get_module(MessageModule.IDENTITY).send_message.begin(stream, stanza);
                 delete_locally(conversation, content_item, conversation.account.bare_jid);
             } else if (conversation.type_.is_muc_semantic()) {
-                // MessageStanza stanza = new MessageStanza() { to = conversation.counterpart };
-                Xmpp.Xep.MessageModeration.moderate.begin(stream, conversation.counterpart, message_id_to_delete);
-                // Message will be deleted locally when the MUC server sends out a moderation message
+                bool is_own_message = false;
+                if (content_item is MessageItem) {
+                    is_own_message = ((MessageItem) content_item).message.direction == Message.DIRECTION_SENT;
+                } else if (content_item is FileItem) {
+                    is_own_message = ((FileItem) content_item).file_transfer.direction == FileTransfer.DIRECTION_SENT;
+                }
+
+                if (is_own_message) {
+                    MessageStanza stanza = new MessageStanza() { to = conversation.counterpart };
+                    stanza.type_ = MessageStanza.TYPE_GROUPCHAT;
+                    Xmpp.Xep.MessageRetraction.set_retract_id(stanza, message_id_to_delete);
+                    stream.get_module(MessageModule.IDENTITY).send_message.begin(stream, stanza);
+                } else {
+                    Xmpp.Xep.MessageModeration.moderate.begin(stream, conversation.counterpart, message_id_to_delete);
+                }
+                // Message will be deleted locally when the MUC server sends out a moderation/retraction message
             }
         }
 

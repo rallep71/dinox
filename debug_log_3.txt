@@ -1,0 +1,143 @@
+Systray: Dbusmenu.Server initialized on /MenuBar
+Systray: StatusNotifierItem registered on D-Bus
+
+(dinox:161345): Adwaita-WARNING **: 17:44:28.144: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+Systray: Successfully registered with org.kde.StatusNotifierWatcher as :1.1007
+
+(dinox:161345): Adwaita-WARNING **: 17:44:28.298: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:44:28.782: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:44:29.849: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:44:29.889: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:44:30.628: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:44:32.149: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:44:33.035: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:44:34.239: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:44:35.249: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:44:38.072: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:44:38.121: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:44:38.368: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:44:38.383: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:44:38.647: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:44:38.681: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:44:38.716: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:44:38.748: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:44:38.781: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:44:38.815: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:44:38.857: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:44:38.872: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:44:51.378: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:44:53.813: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:44:55.572: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:45:00.039: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:45:20.991: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:45:22.178: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:45:24.220: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:45:24.289: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:45:24.387: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:45:24.405: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:45:24.423: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:45:24.438: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:45:24.455: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:45:24.472: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:45:24.488: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:45:24.504: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:45:24.521: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:45:24.535: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:45:24.556: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:45:24.569: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:45:24.585: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:45:24.602: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:45:24.619: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:45:24.637: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:45:24.653: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:45:24.669: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:45:24.690: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:45:24.707: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:45:24.723: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:45:24.739: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:45:24.755: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:45:24.772: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:45:27.264: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:45:27.669: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:45:27.724: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:45:27.753: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Gtk-WARNING **: 17:45:29.440: Tried to remove non-child 0x5bd19550a9d0
+
+(dinox:161345): Adwaita-WARNING **: 17:45:29.453: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:45:29.503: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:45:30.074: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:45:30.140: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:45:30.173: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:45:31.140: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:45:31.171: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:45:31.219: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:45:31.243: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:45:33.008: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it
+
+(dinox:161345): Adwaita-WARNING **: 17:45:33.018: DinoUiMainWindow 0x5bd18f9c2200 does not have a minimum size, set the 'width-request' and 'height-request' properties to specify it

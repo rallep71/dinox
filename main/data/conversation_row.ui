@@ -40,6 +40,14 @@
                                         <property name="valign">start</property>
                                         <property name="orientation">horizontal</property>
                                         <child>
+                                            <object class="GtkImage" id="muc_indicator">
+                                                <property name="icon-name">system-users-symbolic</property>
+                                                <property name="visible">False</property>
+                                                <property name="margin-end">5</property>
+                                                <property name="pixel-size">16</property>
+                                            </object>
+                                        </child>
+                                        <child>
                                             <object class="GtkLabel" id="name_label">
                                                 <property name="max_width_chars">1</property>
                                                 <property name="ellipsize">end</property>

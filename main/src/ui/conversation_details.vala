@@ -145,7 +145,7 @@ namespace Dino.Ui.ConversationDetails {
         });
     }
 
-    public void set_about_rows(Model.ConversationDetails model, ViewModel.ConversationDetails view_model, StreamInteractor stream_interactor) {
+    public void set_about_rows(Model.ConversationDetails model, ViewModel.ConversationDetails view_model, StreamInteractor stream_interactor, Gtk.Widget? parent) {
         view_model.about_rows.append(new ViewModel.PreferencesRow.Text() {
             title = _("XMPP Address"),
             text = model.conversation.counterpart.to_string()
@@ -193,6 +193,72 @@ namespace Dino.Ui.ConversationDetails {
             if (preferences_row != null) {
                 view_model.about_rows.append(preferences_row);
             }
+
+            // Administration Button
+            if (own_muc_jid != null) {
+                Xep.Muc.Affiliation? own_affiliation = stream_interactor.get_module(MucManager.IDENTITY).get_affiliation(model.conversation.counterpart, own_muc_jid, model.conversation.account);
+                if (own_affiliation == OWNER || own_affiliation == ADMIN) {
+                    var admin_button = new ViewModel.PreferencesRow.Button() {
+                        title = _("Permissions"),
+                        button_text = _("Manage Affiliations")
+                    };
+                    admin_button.clicked.connect(() => {
+                        var admin_dialog = new MucAdminDialog(stream_interactor, model.conversation.account, model.conversation.counterpart);
+                        // Try to find a window to be transient for
+                        if (parent != null) {
+                            var window = parent.get_root() as Gtk.Window;
+                            if (window != null) admin_dialog.transient_for = window;
+                        }
+                        admin_dialog.present();
+                    });
+                    view_model.settings_rows.append(admin_button);
+                }
+
+                if (own_affiliation == OWNER) {
+                    var destroy_button = new ViewModel.PreferencesRow.Button() {
+                        title = _("Danger Zone"),
+                        button_text = _("Destroy Room")
+                    };
+                    // TODO: Style this button red if possible, but PreferencesRow.Button doesn't expose style classes easily yet
+                    
+                    destroy_button.clicked.connect(() => {
+                        var confirm_dialog = new Adw.AlertDialog(
+                            _("Destroy Room?"),
+                            _("Are you sure you want to permanently destroy this room? This action cannot be undone and all history will be lost for all participants.")
+                        );
+                        confirm_dialog.add_response("cancel", _("Cancel"));
+                        confirm_dialog.add_response("destroy", _("Destroy"));
+                        confirm_dialog.set_response_appearance("destroy", Adw.ResponseAppearance.DESTRUCTIVE);
+                        confirm_dialog.default_response = "cancel";
+                        confirm_dialog.close_response = "cancel";
+                        
+                        confirm_dialog.choose.begin(parent, null, (obj, res) => {
+                            string response = confirm_dialog.choose.end(res);
+                            if (response == "destroy") {
+                                stream_interactor.get_module(MucManager.IDENTITY).destroy_room.begin(model.conversation.account, model.conversation.counterpart, null, (obj2, res2) => {
+                                    try {
+                                        stream_interactor.get_module(MucManager.IDENTITY).destroy_room.end(res2);
+                                        if (parent != null) {
+                                            // If parent is an Adw.Dialog, we can try to close it.
+                                            // But Adw.Dialog doesn't have a close() method in all versions, or it might be 'close()'
+                                            // Casting to our Dialog class which inherits Adw.Dialog
+                                            var dlg = parent as Adw.Dialog;
+                                            if (dlg != null) dlg.close();
+                                        }
+                                    } catch (GLib.Error e) {
+                                        Gtk.Window? window = null;
+                                        if (parent != null) window = parent.get_root() as Gtk.Window;
+                                        var error_dialog = new Adw.MessageDialog(window, _("Failed to destroy room"), e.message);
+                                        error_dialog.add_response("close", _("Close"));
+                                        error_dialog.present();
+                                    }
+                                });
+                            }
+                        });
+                    });
+                    view_model.settings_rows.append(destroy_button);
+                }
+            }
         }
     }
 
@@ -202,7 +268,7 @@ namespace Dino.Ui.ConversationDetails {
         model.populate(stream_interactor, conversation);
         bind_dialog(model, dialog.model, stream_interactor);
 
-        set_about_rows(model, dialog.model, stream_interactor);
+        set_about_rows(model, dialog.model, stream_interactor, dialog);
 
         dialog.closed.connect(() => {
             // Only send the config form if something was changed

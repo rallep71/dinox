@@ -1,4 +1,5 @@
 using Gtk;
+using Gee;
 
 using Dino.Entities;
 
@@ -16,13 +17,6 @@ class MenuEntry : Plugins.ConversationTitlebarEntry, Object {
     public MenuEntry(StreamInteractor stream_interactor) {
         this.stream_interactor = stream_interactor;
 
-        Menu menu_model = new Menu();
-        menu_model.append(_("Conversation Details"), "conversation.details");
-        menu_model.append(_("Delete Conversation History"), "conversation.clear");
-        menu_model.append(_("Close Conversation"), "app.close-current-conversation");
-        Gtk.PopoverMenu popover_menu = new Gtk.PopoverMenu.from_model(menu_model);
-        button.popover = popover_menu;
-
         SimpleActionGroup action_group = new SimpleActionGroup();
         SimpleAction details_action = new SimpleAction("details", null);
         details_action.activate.connect((parameter) => {
@@ -30,6 +24,10 @@ class MenuEntry : Plugins.ConversationTitlebarEntry, Object {
             GLib.Application.get_default().activate_action("open-conversation-details", variant);
         });
         action_group.add_action(details_action);
+
+        SimpleAction invite_action = new SimpleAction("invite", null);
+        invite_action.activate.connect(on_invite_action);
+        action_group.add_action(invite_action);
         
         SimpleAction clear_action = new SimpleAction("clear", null);
         clear_action.activate.connect((parameter) => {
@@ -64,6 +62,42 @@ class MenuEntry : Plugins.ConversationTitlebarEntry, Object {
     public new void set_conversation(Conversation conversation) {
         button.sensitive = true;
         this.conversation = conversation;
+        update_menu();
+    }
+
+    private void update_menu() {
+        Menu menu_model = new Menu();
+        menu_model.append(_("Conversation Details"), "conversation.details");
+        // Invite is available via the occupant menu (user icon)
+        // if (conversation.type_ == Conversation.Type.GROUPCHAT) {
+        //    menu_model.append(_("Invite Contact"), "conversation.invite");
+        // }
+        menu_model.append(_("Delete Conversation History"), "conversation.clear");
+        menu_model.append(_("Close Conversation"), "app.close-current-conversation");
+        
+        Gtk.PopoverMenu popover_menu = new Gtk.PopoverMenu.from_model(menu_model);
+        button.popover = popover_menu;
+    }
+
+    private void on_invite_action(Variant? parameter) {
+        if (conversation == null || conversation.type_ != Conversation.Type.GROUPCHAT) return;
+
+        var accounts = new ArrayList<Account>();
+        accounts.add(conversation.account);
+
+        SelectContactDialog dialog = new SelectContactDialog(stream_interactor, accounts);
+        dialog.title = _("Invite Contact");
+        dialog.ok_button.label = _("Invite");
+        
+        var root = button.get_root() as Gtk.Window;
+        if (root != null) dialog.transient_for = root;
+
+        dialog.selected.connect((account, jid) => {
+            stream_interactor.get_module(MucManager.IDENTITY).invite(conversation.account, conversation.counterpart, jid);
+            dialog.close();
+        });
+        
+        dialog.present();
     }
 
     public new void unset_conversation() {

@@ -22,6 +22,7 @@ public class ConversationSelectorRow : ListBoxRow {
     [GtkChild] protected unowned Image blocked_image;
     [GtkChild] protected unowned Image pinned_image;
     [GtkChild] protected unowned Label status_label;
+    [GtkChild] protected unowned Image muc_indicator;
     [GtkChild] public unowned Revealer main_revealer;
 
     public Conversation conversation { get; private set; }
@@ -64,6 +65,7 @@ public class ConversationSelectorRow : ListBoxRow {
         }
 
         if (conversation.type_ == Conversation.Type.GROUPCHAT) {
+            muc_indicator.visible = true;
             stream_interactor.get_module(MucManager.IDENTITY).room_info_updated.connect((account, jid) => {
                 if (conversation != null && conversation.counterpart.equals_bare(jid) && conversation.account.equals(account)) {
                     update_read(true); // bubble color might have changed

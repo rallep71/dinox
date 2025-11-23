@@ -215,7 +215,15 @@ public class ChatInputController : Object {
     private void update_moderated_input_status(Account account, Xmpp.Jid? jid = null) {
         if (conversation != null && conversation.type_ == Conversation.Type.GROUPCHAT){
             Xmpp.Jid? own_jid = stream_interactor.get_module(MucManager.IDENTITY).get_own_jid(conversation.counterpart, conversation.account);
-            if (own_jid == null) return;
+            if (own_jid == null) {
+                // Check if we are banned or kicked (not joined)
+                // If we are not joined, we might want to show a "Join" button or similar status
+                // For now, just disable input if we are not joined?
+                // Actually, if own_jid is null, we are not in the room.
+                // But we might want to allow typing if we can rejoin?
+                // Let's check if we are banned.
+                return;
+            }
             if (stream_interactor.get_module(MucManager.IDENTITY).is_moderated_room(conversation.account, conversation.counterpart) &&
                     stream_interactor.get_module(MucManager.IDENTITY).get_role(own_jid, conversation.account) == Xmpp.Xep.Muc.Role.VISITOR) {
                 string msg_str = _("This conference does not allow you to send messages.") + " <a href=\"" + OPEN_CONVERSATION_DETAILS_URI + "\">" + _("Request permission") + "</a>";
