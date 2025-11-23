@@ -51,7 +51,7 @@ public class MainWindow : Adw.ApplicationWindow {
         this.config = config;
         this.stream_interactor = stream_interactor;
 
-        this.title = "Dino";
+        this.title = "DinoX";
 
         this.add_css_class("dino-main");
 
@@ -190,7 +190,7 @@ public class MainWindow : Adw.ApplicationWindow {
 
 public class WelcomePlaceholder : MainWindowPlaceholder {
     public WelcomePlaceholder() {
-        status_page.title = _("Welcome to Dino!");
+        status_page.title = _("Welcome to DinoX!");
         status_page.description = _("Sign in or create an account to get started.");
         primary_button.label = _("Set up account");
         primary_button.visible = true;

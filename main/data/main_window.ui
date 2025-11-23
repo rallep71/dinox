@@ -21,7 +21,7 @@
                                 <property name="vexpand">True</property>
                                 <property name="sidebar">
                                     <object class="AdwNavigationPage">
-                                        <property name="title">Dino</property>
+                                        <property name="title">DinoX</property>
                                         <property name="tag">sidebar</property>
                                         <property name="child">
                                             <object class="AdwToolbarView">
