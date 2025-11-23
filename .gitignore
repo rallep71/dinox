@@ -19,6 +19,14 @@ Makefile
 .sqlite3
 *.db
 *.log
+debug_log*.txt
+
+# Test Artifacts
+TEST_*_RESULTS.md
+test_issue_*.sh
+
+# Temporary Assets
+create-a-minimalist-logo-*.jpeg
 
 # OS specific
 .DS_Store
