@@ -1,6 +1,7 @@
 using Xmpp;
 using Gtk;
 using Gee;
+using Adw;
 
 using Dino.Entities;
 
@@ -29,18 +30,12 @@ namespace Dino.Ui {
             SimpleActionGroup action_group = new SimpleActionGroup();
             SimpleAction audio_call_action = new SimpleAction("audio", null);
             audio_call_action.activate.connect((parameter) => {
-                stream_interactor.get_module(Calls.IDENTITY).initiate_call.begin(conversation, false, (_, res) => {
-                    CallState call_state = stream_interactor.get_module(Calls.IDENTITY).initiate_call.end(res);
-                    open_call_window(call_state);
-                });
+                initiate_call(false);
             });
             action_group.add_action(audio_call_action);
             SimpleAction video_call_action = new SimpleAction("video", null);
             video_call_action.activate.connect((parameter) => {
-                stream_interactor.get_module(Calls.IDENTITY).initiate_call.begin(conversation, true, (_, res) => {
-                    CallState call_state = stream_interactor.get_module(Calls.IDENTITY).initiate_call.end(res);
-                    open_call_window(call_state);
-                });
+                initiate_call(true);
             });
             action_group.add_action(video_call_action);
             button.insert_action_group("call", action_group);
@@ -61,6 +56,43 @@ namespace Dino.Ui {
             stream_interactor.connection_manager.connection_state_changed.connect((account, state) => {
                 update_visibility.begin();
             });
+        }
+
+        private void initiate_call(bool video) {
+            // Check if this is a groupchat and if default MUC server is configured
+            if (conversation.type_ == Conversation.Type.GROUPCHAT) {
+                if (!stream_interactor.get_module(Calls.IDENTITY).can_initiate_groupcall(conversation.account)) {
+                    show_muc_server_required_dialog();
+                    return;
+                }
+            }
+
+            stream_interactor.get_module(Calls.IDENTITY).initiate_call.begin(conversation, video, (_, res) => {
+                CallState call_state = stream_interactor.get_module(Calls.IDENTITY).initiate_call.end(res);
+                open_call_window(call_state);
+            });
+        }
+
+        private void show_muc_server_required_dialog() {
+            var dialog = new Adw.MessageDialog(
+                (Gtk.Window) button.get_root(),
+                _("Conference Server Required"),
+                _("To start a group call, you need to configure a default conference server in your account settings.")
+            );
+            
+            dialog.add_response("cancel", _("Cancel"));
+            dialog.add_response("settings", _("Open Settings"));
+            dialog.set_response_appearance("settings", Adw.ResponseAppearance.SUGGESTED);
+            dialog.set_default_response("settings");
+            
+            dialog.response.connect((response) => {
+                if (response == "settings") {
+                    GLib.Application.get_default().activate_action("preferences-account", new Variant.int32(conversation.account.id));
+                }
+                dialog.close();
+            });
+            
+            dialog.present();
         }
 
         private void open_call_window(CallState call_state) {
