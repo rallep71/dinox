@@ -191,6 +191,17 @@
   <url type="translate">https://hosted.weblate.org/projects/dino/</url>
   <launchable type="desktop-id">im.github.rallep71.DinoX.desktop</launchable>
   <releases>
+    <release date="2025-11-24" version="0.6.5.1">
+      <description>
+        <p>Bugfix release for video player improvements.</p>
+        <ul>
+          <li>Fixed video sizing issues (consistent 400x225 pixels, 16:9 aspect ratio)</li>
+          <li>Fixed video player layout conflicts with message actions</li>
+          <li>Improved video format support (MP4, MOV, WebM)</li>
+          <li>Enhanced MediaControls to match video width</li>
+        </ul>
+      </description>
+    </release>
     <release date="2025-11-23" version="0.6.5">
       <description>
         <p>This release introduces a new video player implementation and adds codec support for Flatpak.</p>

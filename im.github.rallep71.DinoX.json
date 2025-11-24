@@ -1,7 +1,7 @@
 {
     "id": "im.github.rallep71.DinoX",
     "runtime": "org.gnome.Platform",
-    "runtime-version": "47",
+    "runtime-version": "48",
     "sdk": "org.gnome.Sdk",
     "command": "dinox",
     "add-extensions": {
@@ -13,6 +13,18 @@
     },
     "cleanup-commands": [
         "mkdir -p /app/lib/ffmpeg"
+    ],
+    "cleanup": [
+        "/include",
+        "/lib/pkgconfig",
+        "/lib/cmake",
+        "/share/pkgconfig",
+        "/share/aclocal",
+        "/man",
+        "/share/man",
+        "/share/gtk-doc",
+        "*.la",
+        "*.a"
     ],
     "finish-args": [
         "--share=ipc",
@@ -34,12 +46,8 @@
             "buildsystem": "cmake-ninja",
             "config-opts": [
                 "-Dprotobuf_BUILD_TESTS=OFF",
-                "-Dprotobuf_BUILD_SHARED_LIBS=ON"
-            ],
-            "cleanup": [
-                "/bin",
-                "/include",
-                "/lib/cmake"
+                "-Dprotobuf_BUILD_SHARED_LIBS=ON",
+                "-DCMAKE_INSTALL_LIBDIR=lib"
             ],
             "sources": [
                 {
@@ -63,13 +71,10 @@
         {
             "name": "libomemo-c",
             "buildsystem": "meson",
-            "cleanup": [
-                "/lib/pkgconfig",
-                "/include"
-            ],
             "config-opts": [
                 "-Dtests=false",
-                "-Ddefault_library=static"
+                "-Ddefault_library=static",
+                "--libdir=lib"
             ],
             "sources": [
                 {
@@ -157,6 +162,9 @@
             "name": "dino",
             "buildsystem": "meson",
             "builddir": true,
+            "config-opts": [
+                "--libdir=lib"
+            ],
             "cleanup": [
                 "/include",
                 "/share/vala"

@@ -18,12 +18,33 @@ using Dino.Entities;
 namespace Dino.Ui.ConversationSummary {
 
 public class VideoFileMetaItem : FileMetaItem {
+    private StreamInteractor stream_interactor_ref;
+    private FileItem file_item_ref;
+    
     public VideoFileMetaItem(ContentItem content_item, StreamInteractor stream_interactor) {
         base(content_item, stream_interactor);
+        this.stream_interactor_ref = stream_interactor;
+        this.file_item_ref = content_item as FileItem;
     }
 
     public override GLib.Object? get_widget(Plugins.ConversationItemWidgetInterface outer, Plugins.WidgetType type) {
         return new VideoPlayerWidget(file_transfer);
+    }
+
+    // Override to provide message actions (Reply, Reaction, Delete)
+    // but exclude Open/Save as those are in the video's overlay menu
+    public override Gee.List<Plugins.MessageAction>? get_item_actions(Plugins.WidgetType type) {
+        if (file_transfer.provider != FileManager.HTTP_PROVIDER_ID && file_transfer.provider != FileManager.SFS_PROVIDER_ID) return null;
+
+        Gee.List<Plugins.MessageAction> actions = new ArrayList<Plugins.MessageAction>();
+
+        actions.add(get_reply_action(content_item, file_item_ref.conversation, stream_interactor_ref));
+        actions.add(get_reaction_action(content_item, file_item_ref.conversation, stream_interactor_ref));
+
+        var delete_action = get_delete_action(content_item, file_item_ref.conversation, stream_interactor_ref);
+        if (delete_action != null) actions.add(delete_action);
+
+        return actions;
     }
 }
 
@@ -35,15 +56,16 @@ public class VideoPlayerWidget : Widget {
     }
     private State state = State.EMPTY;
 
-    private Stack stack = new Stack() { transition_duration=600, transition_type=StackTransitionType.CROSSFADE, hhomogeneous = false, vhomogeneous = false, interpolate_size = true };
+    private Stack stack = new Stack() { transition_duration=600, transition_type=StackTransitionType.CROSSFADE, hhomogeneous=true, vhomogeneous=true, interpolate_size=false };
     private Overlay overlay = new Overlay();
 
     private bool show_overlay_toolbar = false;
-    private Gtk.Box overlay_toolbar = new Gtk.Box(Orientation.VERTICAL, 0) { halign=Align.END, valign=Align.START, margin_top=10, margin_start=10, margin_end=10, margin_bottom=10, vexpand=false, visible=false };
+    private Gtk.Box overlay_toolbar = new Gtk.Box(Orientation.VERTICAL, 0) { halign=Align.START, valign=Align.START, margin_top=10, margin_start=10, margin_end=10, margin_bottom=10, vexpand=false, visible=false };
     private Label file_size_label = new Label(null) { halign=Align.START, valign=Align.END, margin_bottom=4, margin_start=4, visible=false };
 
     private FileTransfer file_transfer;
-    private Gtk.Video? video_player = null;
+    private Gtk.Picture? video_picture = null;
+    private Gtk.MediaFile? media_file = null;
     private Gtk.Widget? video_container = null;
     private FixedRatioPicture? preview_image = null;
 
@@ -60,8 +82,6 @@ public class VideoPlayerWidget : Widget {
         this.hexpand = false;
         this.vexpand = false;
         this.add_css_class("video-player-widget");
-        // Limit max size for video preview in chat
-        // this.set_size_request(300, 200); 
 
         this.file_transfer = file_transfer;
         
@@ -102,6 +122,9 @@ public class VideoPlayerWidget : Widget {
             }
         });
         attach_on_motion_event_leave(this_motion_events, button);
+        
+        // Note: Click to play/pause is handled by Gtk.MediaControls
+        // which is added when the video loads
 
         update_widget.begin();
 
@@ -191,38 +214,71 @@ public class VideoPlayerWidget : Widget {
 
     private void setup_pipeline(File file) {
         debug("VideoPlayerWidget: setup_pipeline for %s", file.get_uri());
-        if (video_player == null) {
-            video_player = new Gtk.Video();
-            video_player.autoplay = false;
-            video_player.loop = false;
-            // Important: expand must be false to respect size requests in some containers
-            video_player.hexpand = true;
-            video_player.vexpand = true;
+        if (video_picture == null) {
+            video_picture = new Gtk.Picture();
+            video_picture.content_fit = ContentFit.SCALE_DOWN;  // Scale down large videos
+            video_picture.can_shrink = true;
+            video_picture.halign = Align.START;
+            video_picture.valign = Align.START;
+            video_picture.hexpand = false;
+            video_picture.vexpand = false;
+            // Set max size but allow scaling down
+            video_picture.set_size_request(400, 225);  // Minimum 400x225 (16:9)
             
-            // Use AspectFrame to handle aspect ratio gracefully and provide a container
-            // obey_child = false to force a stable 16:9 aspect ratio and prevent "Schmalfilm"
-            var aspect_frame = new Gtk.AspectFrame(0.5f, 0.5f, 1.777f, false);
+            // Create aspect frame to maintain ratio
+            var aspect_frame = new Gtk.AspectFrame(0.0f, 0.0f, 16.0f/9.0f, false);
+            aspect_frame.set_child(video_picture);
+            aspect_frame.halign = Align.START;
+            aspect_frame.valign = Align.START;
             aspect_frame.hexpand = false;
             aspect_frame.vexpand = false;
-            aspect_frame.set_child(video_player);
             
-            // Set a fixed size request to ensure it's large enough
-            aspect_frame.set_size_request(400, 225);
+            // Create a box to hold the video and controls
+            var box = new Gtk.Box(Orientation.VERTICAL, 0);
+            box.halign = Align.START;
+            box.valign = Align.START;
+            box.hexpand = false;
+            box.vexpand = false;
             
-            video_container = aspect_frame;
+            box.append(aspect_frame);
+            
+            video_container = box;
             stack.add_child(video_container);
         }
         
-        // Use MediaFile explicitly to catch errors
-        var media_file = Gtk.MediaFile.for_file(file);
+        media_file = Gtk.MediaFile.for_file(file);
         media_file.notify["error"].connect(() => {
             if (media_file.error != null) {
-                warning("VideoPlayerWidget: Media file error: %s", media_file.error.message);
+                warning("VideoPlayerWidget: Media file error for %s: %s", file.get_basename(), media_file.error.message);
             }
         });
-        video_player.set_media_stream(media_file);
+        media_file.notify["prepared"].connect(() => {
+            debug("VideoPlayerWidget: Media file prepared: %s (has_video: %s, has_audio: %s)", 
+                  file.get_basename(), 
+                  media_file.has_video.to_string(), 
+                  media_file.has_audio.to_string());
+        });
+        media_file.loop = false;
+        media_file.playing = false;
         
-        debug("VideoPlayerWidget: set_media_stream done");
+        video_picture.set_paintable(media_file);
+        
+        // Add controls if not already added
+        var box = video_container as Gtk.Box;
+        if (box != null) {
+            Gtk.Widget? existing_controls = box.get_last_child();
+            if (existing_controls != null && existing_controls is Gtk.MediaControls) {
+                ((Gtk.MediaControls)existing_controls).media_stream = media_file;
+            } else {
+                var controls = new Gtk.MediaControls(media_file);
+                controls.halign = Align.START;
+                controls.hexpand = false;
+                controls.set_size_request(400, -1);  // Match video width
+                box.append(controls);
+            }
+        }
+        
+        debug("VideoPlayerWidget: set_paintable done");
 
         // Show the container
         if (video_container != null) {
@@ -262,8 +318,12 @@ public class VideoPlayerWidget : Widget {
     }
 
     public override void dispose() {
-        if (video_player != null) {
-            video_player.set_file(null);
+        if (media_file != null) {
+            media_file.set_playing(false);
+            media_file = null;
+        }
+        if (video_picture != null) {
+            video_picture.set_paintable(null);
         }
         base.dispose();
     }

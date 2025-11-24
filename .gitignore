@@ -35,3 +35,13 @@ Thumbs.db
 *.swp
 *.swo
 plugins/rtp/src/failed.pl
+
+# Flatpak builder
+.flatpak-builder/
+repo/
+
+# Logs
+*.log
+
+# Local documentation (not for GitHub)
+RELEASE_CHECKLIST.md

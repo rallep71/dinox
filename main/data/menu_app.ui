@@ -39,7 +39,7 @@
             </item>
             <item>
                 <attribute name="action">app.about</attribute>
-                <attribute name="label" translatable="yes">About Dino</attribute>
+                <attribute name="label" translatable="yes">About DinoX</attribute>
             </item>
         </section>
     </menu>

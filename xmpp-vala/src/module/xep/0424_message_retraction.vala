@@ -10,6 +10,7 @@ namespace Xmpp.Xep.MessageRetraction {
     }
 
     public static void set_retract_id(MessageStanza message, string message_id) {
+        if (message_id == null) return;
         StanzaNode retract_node = (new StanzaNode.build("retract", NS_URI))
                 .add_self_xmlns()
                 .put_attribute("id", message_id);

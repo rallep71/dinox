@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.5.1] - 2025-11-24
+
+### Fixed
+- **Video Player Layout** - Fixed video sizing issues where videos appeared too small or expanded beyond chat boundaries
+  - Videos now have consistent size (400x225 pixels, 16:9 aspect ratio)
+  - AspectFrame maintains proper aspect ratio for all video formats
+  - MediaControls width matches video width (400px)
+- **Video Player UI** - Resolved UI conflicts and positioning issues
+  - Videos appear left-aligned next to username (not full-width)
+  - Message actions (Reply, Reaction, Delete) remain visible on the right
+  - Video menu (Open, Save) positioned top-left to avoid conflicts
+  - Eliminated size jumps when loading multiple videos in chat
+- **Video Format Support** - Enhanced codec compatibility
+  - MP4 playback working correctly
+  - MOV (iPhone) playback working correctly  
+  - WebM playback working correctly with GStreamer plugins
+
 ## [0.6.5] - 2025-11-23
 
 ### Added

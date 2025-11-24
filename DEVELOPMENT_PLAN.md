@@ -1,8 +1,8 @@
 # DinoX - Development Plan
 
 > **Fork Status**: Modern XMPP client - Independent development branch of [dino/dino](https://github.com/dino/dino)  
-> **Last Updated**: November 23, 2025
-> **Version**: 0.6.5
+> **Last Updated**: November 24, 2025
+> **Version**: 0.6.5.1
 > **Original Repository**: https://github.com/dino/dino (572 open issues)
 
 ---
@@ -30,7 +30,7 @@ DinoX addresses the slow development pace of the original Dino XMPP client while
 
 ---
 
-## Current Status (November 20, 2025)
+## Current Status (November 24, 2025)
 
 | Metric | Status | Details |
 |--------|--------|---------|

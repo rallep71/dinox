@@ -409,3 +409,23 @@ box.dino-input-error .chat-input-status.input-status-highlight-once {
     font-feature-settings: "tnum";
     font-variant-numeric: tabular-nums;
 }
+
+/* Video Player Widget */
+
+window.dino-main .video-player-widget {
+    border: 1px solid alpha(@theme_fg_color, 0.1);
+    border-radius: 6px;
+}
+
+window.dino-main .video-player-widget box {
+    max-width: 400px;
+}
+
+window.dino-main .video-player-widget picture {
+    border-radius: 6px 6px 0 0;
+    max-width: 400px;
+}
+
+window.dino-main .video-player-widget .compact-card-toolbar {
+    margin: 6px;
+}

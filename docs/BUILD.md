@@ -322,8 +322,8 @@ sudo dnf install flatpak-builder flatpak  # Fedora
 # Add Flathub
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
-# Install GNOME SDK 49
-flatpak install -y flathub org.gnome.Platform//49 org.gnome.Sdk//49
+# Install GNOME SDK 48
+flatpak install -y flathub org.gnome.Platform//48 org.gnome.Sdk//48
 ```
 
 ### Build Flatpak
