@@ -25,6 +25,12 @@ public class VideoFileMetaItem : FileMetaItem {
         base(content_item, stream_interactor);
         this.stream_interactor_ref = stream_interactor;
         this.file_item_ref = content_item as FileItem;
+        
+        // Auto-download video files if not yet downloaded
+        if (file_transfer.direction == FileTransfer.DIRECTION_RECEIVED && 
+            file_transfer.state == FileTransfer.State.NOT_STARTED) {
+            stream_interactor.get_module(FileManager.IDENTITY).download_file.begin(file_transfer);
+        }
     }
 
     public override GLib.Object? get_widget(Plugins.ConversationItemWidgetInterface outer, Plugins.WidgetType type) {

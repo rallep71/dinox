@@ -191,6 +191,17 @@
   <url type="translate">https://hosted.weblate.org/projects/dino/</url>
   <launchable type="desktop-id">im.github.rallep71.DinoX.desktop</launchable>
   <releases>
+    <release date="2025-11-24" version="0.6.5.2">
+      <description>
+        <p>Bugfix release with file sharing improvements for MUC private messages.</p>
+        <ul>
+          <li>Fixed SFS (Stateless File Sharing) support in MUC private conversations</li>
+          <li>Fixed audio player for voice messages in private conversations</li>
+          <li>Fixed video player display in private conversations</li>
+          <li>Improved metadata parsing from SFS elements</li>
+        </ul>
+      </description>
+    </release>
     <release date="2025-11-24" version="0.6.5.1">
       <description>
         <p>Bugfix release for video player improvements.</p>

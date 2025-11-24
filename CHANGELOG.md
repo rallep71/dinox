@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.5.2] - 2025-11-24
+
+### Fixed
+- **SFS (Stateless File Sharing)** - Fixed file sharing in MUC private messages
+  - Added support for GROUPCHAT_PM conversation type
+  - Fixed null file_sharing_id handling to prevent crashes
+  - Parse SFS metadata (mime_type) from incoming messages
+- **Audio Player** - Fixed voice message playback in private conversations
+  - Added automatic download for received audio files
+  - Fixed file availability check before pipeline setup
+- **Video Player** - Fixed video display in private conversations
+  - Added automatic download for received video files
+  - Parse mime_type from SFS element for correct widget selection
+
 ## [0.6.5.1] - 2025-11-24
 
 ### Fixed
@@ -151,8 +165,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 This is the base version from [dino/dino](https://github.com/dino/dino) that we forked from.
 
 [Unreleased]: https://github.com/rallep71/dinox/compare/v0.6.5...HEAD
+[0.6.5.2]: https://github.com/rallep71/dinox/releases/tag/v0.6.5.2
+[0.6.5.1]: https://github.com/rallep71/dinox/releases/tag/v0.6.5.1
 [0.6.5]: https://github.com/rallep71/dinox/releases/tag/v0.6.5
-[0.6.4]: https://github.com/rallep71/dinox/releases/tag/v0.6.4
 [0.6.3]: https://github.com/rallep71/dinox/releases/tag/v0.6.3
 [0.6.2]: https://github.com/rallep71/dinox/releases/tag/v0.6.2
 [0.6.1]: https://github.com/rallep71/dinox/releases/tag/v0.6.1

@@ -66,10 +66,12 @@ namespace Xmpp.Xep.StatelessFileSharing {
         return sources;
     }
 
-    public static void set_sfs_element(MessageStanza message, string file_sharing_id, FileMetadataElement.FileMetadata metadata, Gee.List<Xep.StatelessFileSharing.Source>? sources) {
+    public static void set_sfs_element(MessageStanza message, string? file_sharing_id, FileMetadataElement.FileMetadata metadata, Gee.List<Xep.StatelessFileSharing.Source>? sources) {
         var file_sharing_node = new StanzaNode.build("file-sharing", NS_URI).add_self_xmlns()
-                .put_attribute("id", file_sharing_id, NS_URI)
                 .put_node(metadata.to_stanza_node());
+        if (file_sharing_id != null) {
+            file_sharing_node.put_attribute("id", file_sharing_id, NS_URI);
+        }
         if (sources != null && !sources.is_empty) {
             file_sharing_node.put_node(create_sources_node(file_sharing_id, sources));
         }

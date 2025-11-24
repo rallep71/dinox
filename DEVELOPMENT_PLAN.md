@@ -2,7 +2,7 @@
 
 > **Fork Status**: Modern XMPP client - Independent development branch of [dino/dino](https://github.com/dino/dino)  
 > **Last Updated**: November 24, 2025
-> **Version**: 0.6.5.1
+> **Version**: 0.6.5.2
 > **Original Repository**: https://github.com/dino/dino (572 open issues)
 
 ---

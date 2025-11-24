@@ -43,7 +43,8 @@ public class HttpFileSender : FileSender, Object {
         HttpFileSendData? send_data = file_send_data as HttpFileSendData;
         if (send_data == null) return;
 
-        bool can_reference_element = conversation.type_ == Conversation.Type.CHAT || (
+        bool can_reference_element = conversation.type_ == Conversation.Type.CHAT || 
+                                      conversation.type_ == Conversation.Type.GROUPCHAT_PM || (
                 // The stable stanza ID XEP is not clear about an announcing MUC having to attach stanza-ids, thus we also check for MAM, which requires this.
                 stream_interactor.get_module(EntityInfo.IDENTITY).has_feature_cached(conversation.account, conversation.counterpart, Xep.UniqueStableStanzaIDs.NS_URI) &&
                 stream_interactor.get_module(EntityInfo.IDENTITY).has_feature_cached(conversation.account, conversation.counterpart, Xmpp.MessageArchiveManagement.NS_URI)

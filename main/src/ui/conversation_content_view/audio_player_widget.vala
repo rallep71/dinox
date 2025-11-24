@@ -14,8 +14,17 @@ using Dino.Entities;
 namespace Dino.Ui.ConversationSummary {
 
 public class AudioFileMetaItem : FileMetaItem {
+    private StreamInteractor stream_interactor;
+    
     public AudioFileMetaItem(ContentItem content_item, StreamInteractor stream_interactor) {
         base(content_item, stream_interactor);
+        this.stream_interactor = stream_interactor;
+        
+        // Auto-download audio files if not yet downloaded
+        if (file_transfer.direction == FileTransfer.DIRECTION_RECEIVED && 
+            file_transfer.state == FileTransfer.State.NOT_STARTED) {
+            stream_interactor.get_module(FileManager.IDENTITY).download_file.begin(file_transfer);
+        }
     }
 
     public override GLib.Object? get_widget(Plugins.ConversationItemWidgetInterface outer, Plugins.WidgetType type) {
@@ -48,6 +57,13 @@ public class AudioPlayerWidget : Box {
         this.halign = Align.START;
         this.hexpand = false;
         this.set_size_request(250, -1);
+        
+        // Listen for file download completion
+        file_transfer.notify["path"].connect(() => {
+            if (file_transfer.path != null && pipeline == null) {
+                // File is now available, can setup pipeline if needed
+            }
+        });
 
         play_button = new Button.from_icon_name("media-playback-start-symbolic");
         play_button.add_css_class("circular");
@@ -152,7 +168,10 @@ public class AudioPlayerWidget : Box {
     
     private bool setup_pipeline() {
         var file = file_transfer.get_file();
-        if (file == null) return false;
+        if (file == null) {
+            warning("Audio file not yet downloaded");
+            return false;
+        }
         
         pipeline = ElementFactory.make("playbin", "playbin");
         if (pipeline == null) {

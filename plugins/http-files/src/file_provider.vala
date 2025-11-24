@@ -45,14 +45,14 @@ public class FileProvider : Dino.FileProvider, Object {
             bool normal_file = oob_url != null && oob_url == message.body && FileProvider.http_url_regex.match(message.body);
             bool omemo_file = FileProvider.omemo_url_regex.match(message.body);
             if (normal_file || omemo_file) {
-                outer.on_file_message(message, conversation);
+                outer.on_file_message(message, stanza, conversation);
                 return true;
             }
             return false;
         }
     }
 
-    private void on_file_message(Entities.Message message, Conversation conversation) {
+    private void on_file_message(Entities.Message message, Xmpp.MessageStanza stanza, Conversation conversation) {
         var additional_info = message.id.to_string();
 
         var receive_data = new HttpFileReceiveData();
@@ -61,6 +61,17 @@ public class FileProvider : Dino.FileProvider, Object {
         var file_meta = new HttpFileMeta();
         file_meta.file_name = extract_file_name_from_url(message.body);
         file_meta.message = message;
+        
+        // Try to get metadata from SFS element
+        var file_shares = Xep.StatelessFileSharing.get_file_shares(stanza);
+        if (file_shares != null && !file_shares.is_empty) {
+            var sfs_metadata = file_shares[0].metadata;
+            if (sfs_metadata != null) {
+                if (sfs_metadata.mime_type != null) file_meta.mime_type = sfs_metadata.mime_type;
+                if (sfs_metadata.name != null) file_meta.file_name = sfs_metadata.name;
+                if (sfs_metadata.size != -1) file_meta.size = sfs_metadata.size;
+            }
+        }
 
         file_incoming(additional_info, message.from, message.time, message.local_time, conversation, receive_data, file_meta);
     }
