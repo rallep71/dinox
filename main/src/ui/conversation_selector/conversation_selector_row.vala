@@ -32,6 +32,7 @@ public class ConversationSelectorRow : ListBoxRow {
     [GtkChild] protected unowned Image pinned_image;
     [GtkChild] protected unowned Label status_label;
     [GtkChild] protected unowned Image muc_indicator;
+    [GtkChild] protected unowned Image private_room_image;
     [GtkChild] public unowned Revealer main_revealer;
 
     public Conversation conversation { get; private set; }
@@ -78,8 +79,10 @@ public class ConversationSelectorRow : ListBoxRow {
             stream_interactor.get_module(MucManager.IDENTITY).room_info_updated.connect((account, jid) => {
                 if (conversation != null && conversation.counterpart.equals_bare(jid) && conversation.account.equals(account)) {
                     update_read(true); // bubble color might have changed
+                    update_private_room_indicator();
                 }
             });
+            update_private_room_indicator();
         }
 
         // Set tooltip
@@ -688,6 +691,20 @@ public class ConversationSelectorRow : ListBoxRow {
         if (show == "dnd") return 2;
         if (show == "xa") return 1;
         return 0;
+    }
+
+    private void update_private_room_indicator() {
+        if (conversation.type_ != Conversation.Type.GROUPCHAT) {
+            private_room_image.visible = false;
+            return;
+        }
+
+        bool is_private = stream_interactor.get_module(MucManager.IDENTITY).is_private_room(
+            conversation.account, 
+            conversation.counterpart
+        );
+        
+        private_room_image.visible = is_private;
     }
 }
 
