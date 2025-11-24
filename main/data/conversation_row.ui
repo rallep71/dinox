@@ -48,6 +48,18 @@
                                             </object>
                                         </child>
                                         <child>
+                                            <object class="GtkImage" id="private_room_image">
+                                                <property name="icon-name">changes-prevent-symbolic</property>
+                                                <property name="visible">False</property>
+                                                <property name="margin-end">5</property>
+                                                <property name="pixel-size">14</property>
+                                                <property name="tooltip-text" translatable="yes">Private room (supports group calls)</property>
+                                                <style>
+                                                    <class name="success"/>
+                                                </style>
+                                            </object>
+                                        </child>
+                                        <child>
                                             <object class="GtkLabel" id="name_label">
                                                 <property name="max_width_chars">1</property>
                                                 <property name="ellipsize">end</property>
