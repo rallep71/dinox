@@ -17,10 +17,35 @@ public class SelectJidFragment : Gtk.Box {
         private set {}
     }
 
+    public bool show_button_labels {
+        get { return _show_button_labels; }
+        set {
+            _show_button_labels = value;
+            update_button_labels_visibility();
+        }
+    }
+    private bool _show_button_labels = false;
+    
+    public enum ButtonMode {
+        CONTACT,
+        GROUP
+    }
+    
+    public ButtonMode button_mode {
+        get { return _button_mode; }
+        set {
+            _button_mode = value;
+            update_button_texts();
+        }
+    }
+    private ButtonMode _button_mode = ButtonMode.CONTACT;
+
     [GtkChild] private unowned Entry entry;
     [GtkChild] private unowned Box box;
     [GtkChild] private unowned Button add_button;
     [GtkChild] private unowned Button remove_button;
+    [GtkChild] private unowned Label add_button_label;
+    [GtkChild] private unowned Label remove_button_label;
 
     private StreamInteractor stream_interactor;
     private Gee.List<Account> accounts;
@@ -88,9 +113,11 @@ public class SelectJidFragment : Gtk.Box {
         list.set_filter_func(filter);
         list.set_header_func(header);
         list.row_selected.connect(check_buttons_active);
+        list.row_selected.connect(update_button_label);
         list.row_selected.connect(() => { done = true; }); // just for notifying
         entry.changed.connect(() => { set_filter(entry.text); });
         entry.icon_press.connect(on_icon_press);
+        
         add_button.clicked.connect(() => { add_jid(); });
         remove_button.clicked.connect(() => {
             var list_row = list.get_selected_row();
@@ -123,6 +150,41 @@ public class SelectJidFragment : Gtk.Box {
                 entry.text = jid.to_string();
             });
             dialog.present();
+        }
+    }
+    
+    private void update_button_labels_visibility() {
+        add_button_label.visible = _show_button_labels;
+        remove_button_label.visible = _show_button_labels;
+    }
+    
+    private void update_button_texts() {
+        if (_button_mode == ButtonMode.CONTACT) {
+            add_button_label.label = _("Add Contact");
+            remove_button_label.label = _("Delete Contact");
+        } else {
+            add_button_label.label = _("Add Group");
+            remove_button_label.label = _("Delete Group");
+        }
+    }
+    
+    private void update_button_label() {
+        if (!_show_button_labels) return;
+        
+        // Only update label for GROUP mode (to show "Delete Private Group")
+        if (_button_mode != ButtonMode.GROUP) return;
+        
+        var selected_row = list.get_selected_row();
+        if (selected_row != null && selected_row is ConferenceListRow) {
+            var conference_row = (ConferenceListRow) selected_row;
+            // Check if it's a private room by checking if private_room_image is visible
+            if (conference_row.private_room_image != null && conference_row.private_room_image.visible) {
+                remove_button_label.label = _("Delete Private Group");
+            } else {
+                remove_button_label.label = _("Delete Group");
+            }
+        } else {
+            remove_button_label.label = _("Delete Group");
         }
     }
 

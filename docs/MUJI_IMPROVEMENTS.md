@@ -2,7 +2,7 @@
 
 ## Current Status Analysis
 
-### ✅ Implemented (Backend)
+### Implemented (Backend)
 
 1. **MUJI Protocol Module** (`xmpp-vala/src/module/xep/0272_muji.vala`)
    - `join_call()` - Join MUC and negotiate codecs
@@ -28,34 +28,78 @@
 
 ### ⚠️ Partially Implemented / Needs Testing
 
-1. **Media Handling**
-   - Audio/video streams for multiple participants
-   - Mute/unmute in group calls (backend exists, UI unclear)
-   - Video stream handling with 3+ participants
+1. **Multi-Participant Media (3+ Teilnehmer)**
+   - ✅ Code exists for multiple Jingle sessions
+   - ✅ Codec intersection algorithm implemented
+   - ⚠️ **No test coverage** - untested with 3+ participants
+   - ❓ **Unknown performance** with 5+ peers
+   - ⚠️ Video stream handling with 3+ participants not verified
+   - 🔧 Mute/unmute backend exists, UI implementation unclear
 
-2. **Call State UI**
-   - Group call widget exists (`call_widget.vala`)
-   - Shows "Calling..." and participant count
-   - Missing: Active participant list, speaking indicators
+2. **UI/UX**
+   - ✅ Basic call widget exists (`call_widget.vala`)
+   - ✅ Participant list recently implemented (Phase 1)
+   - ❌ **No individual volume controls** per participant
+   - ❌ **No speaking indicators** (visual feedback for active speakers)
+   - ⚠️ Minimalistic UI - lacks polish and advanced controls
 
 3. **Error Handling**
-   - Some checks exist (private room, default MUC server)
-   - Missing: User-friendly error messages and guidance
+   - ✅ Basic checks (private room, default MUC server)
+   - ❌ **Missing user-friendly error messages**
+   - ❌ **No reconnection logic** for network issues
+   - ❌ No call quality indicators during active call
 
-### ❌ Missing Features
+### ❌ Not Implemented
 
-1. **UI Feedback**
-   - No indicator that a room is "private" (supports group calls)
-   - No warning if default MUC server not configured
-   - No participant list during active call
-   - No visual indicator for who is speaking
-   - No individual volume controls
+1. **UI Feedback** (Partially addressed in Phase 1)
+   - ✅ **DONE**: Private room indicator in conversation list (🔒 icon)
+   - ✅ **DONE**: Warning if default MUC server not configured
+   - ✅ **DONE**: Participant list during active call
+   - ❌ No visual indicator for who is speaking
+   - ❌ No individual volume controls per participant
 
 2. **Advanced Features**
-   - Screen sharing in group calls
-   - Call recording
-   - Call quality indicators per participant
-   - Bandwidth adaptation
+   - ❌ **Screen sharing** in group calls
+   - ❌ **Call recording** functionality
+   - ❌ **Call quality indicators** (ping, packet loss, bitrate)
+   - ❌ **Advanced MUJI features**:
+     * Mid-call invitations (invite user to ongoing call)
+     * Selective participant invitations
+     * Call migration (move call to different room)
+   - ❌ Bandwidth adaptation based on network quality
+   - ❌ Echo cancellation tuning per participant
+
+3. **Interoperability Issues**
+   - ⚠️ **Gajim compatibility**: No audio/video calls to Gajim 2.4.0 possible
+   - ⚠️ **Monal compatibility**: MUJI not supported, calls don't arrive
+   - ✅ **DinoX ↔ DinoX**: Should work (needs multi-instance testing)
+
+## Client Compatibility Status
+
+### MUJI Group Calls
+
+| Client | Version Tested | MUJI Support | Status | Notes |
+|--------|---------------|-------------|---------|-------|
+| **DinoX** | 0.6.5+ | ⚠️ Implemented, minimally tested | Partial | Full backend, basic UI, **no multi-peer tests** |
+| **Gajim** | 2.4.0 | ✅ Yes (integrated) | ✅ Works | Built-in since v1.5+, tested with 4+ participants |
+| **Monal** | Latest | ❌ No | ❌ Incompatible | Only 1:1 calls, doesn't recognize MUJI signals |
+| **Conversations** | Latest | ❌ No | ❌ Incompatible | Only 1:1 Jingle calls |
+
+### 1:1 Calls (XEP-0166/167)
+
+| Client Pair | Audio | Video | Notes |
+|-------------|-------|-------|-------|
+| **DinoX ↔ DinoX** | ✅ | ✅ | Fully supported |
+| **DinoX ↔ Gajim 2.4.0** | ❌ | ❌ | **Not working** - codec/setup mismatch |
+| **DinoX ↔ Monal** | ⚠️ | ⚠️ | Should work, needs verification |
+| **DinoX ↔ Conversations** | ⚠️ | ⚠️ | Should work, needs verification |
+
+**Known Issues:**
+- **Gajim 2.4.0**: No audio/video calls possible with DinoX
+  - Possible reasons: Codec incompatibility, Jingle version mismatch, ICE negotiation failure
+  - Needs investigation: Compare SDP offers, check Gstreamer elements
+
+---
 
 ## Improvement Priorities
 
@@ -364,7 +408,245 @@
 
 3. **Call ID Management**
    - Uses random nick `%08x` for MUJI MUC
-   - Could be more descriptive (e.g., `alice-call-1234`)
+   - Could collision if two calls started simultaneously?
+
+4. **Gajim 2.4.0 Incompatibility**
+   - No audio/video calls possible between DinoX and Gajim 2.4.0
+   - **Possible causes**:
+     * Codec mismatch (Opus parameters, payload types)
+     * Jingle transport negotiation failure (ICE candidates)
+     * DTLS-SRTP fingerprint verification issues
+     * RTP/RTCP port negotiation
+   - **Debugging needed**:
+     * Enable Jingle debug logging in both clients
+     * Compare SDP offers/answers
+     * Check GStreamer pipeline compatibility
+     * Verify STUN/TURN server configuration
+
+### Observed Runtime Issues
+
+**From production logs (Nov 25, 2025)** - ✅ **All fixed same day**:
+
+1. **PipeWire Device Cleanup Warning** ✅ **FIXED**
+   ```
+   rtp-WARNING: device.vala:582: pipewiredevice0-tee still has 1 src pads while being destroyed
+   ```
+   - **Impact**: Memory leak potential, resources not fully released
+   - **Cause**: GStreamer tee element not properly unlinked before disposal
+   - **Fix applied**: Explicit pad unlinking and releasing in `plugins/rtp/src/device.vala`
+   - **Status**: Fixed Nov 25, 2025 - see Bug Tracker #1
+
+2. **libnice TURN Refresh Warning** ✅ **FIXED**
+   ```
+   libnice-WARNING: We still have alive TURN refreshes. Consider using nice_agent_close_async()
+   ```
+   - **Impact**: TURN server connection not cleanly closed
+   - **Cause**: Agent disposed before async cleanup completed
+   - **Fix applied**: Use `nice_agent_close_async()` with callback in `plugins/ice/src/transport_parameters.vala`
+   - **Status**: Fixed Nov 25, 2025 - see Bug Tracker #2
+
+3. **Entity Caps Hash Mismatch** ✅ **FIXED**
+   ```
+   libdino-WARNING: entity_info.vala:234: Claimed entity caps hash doesn't match computed one
+   ```
+   - **Impact**: Service discovery might be unreliable for that peer
+   - **Cause**: Peer's client advertises incorrect capabilities hash (XEP-0115)
+   - **Effect on MUJI**: Could think peer doesn't support MUJI when it does
+   - **Fix applied**: Store disco#info data even with hash mismatch, use computed hash as fallback
+   - **Status**: Fixed Nov 25, 2025 - see Bug Tracker #3
+
+4. **Gajim 2.4.0 Call Incompatibility** ⏳ **Under Investigation**
+   ```
+   Audio/video calls fail completely between DinoX ↔ Gajim 2.4.0
+   ```
+   - **Impact**: No interoperability with Gajim users for A/V calls
+   - **Suspected Causes**: Codec negotiation mismatch, Jingle transport differences
+   - **Status**: Analysis complete Nov 25, 2025 - see Bug Tracker #4 for debug plan
+   - **Fix needed**: Fallback to disco#info query if caps hash mismatch
+
+4. **MUC Exit Status Code 110** ℹ️
+   ```
+   DEBUG: Status codes: 110 
+   DEBUG: Item node found, but no reason node.
+   ```
+   - **Meaning**: Status 110 = "This room shows unavailable members"
+   - **Context**: Appears during MUJI call cleanup when leaving temporary MUC
+   - **Impact**: None, expected behavior for MUJI temporary rooms
+   - **Note**: MUJI MUCs use random names (e.g., `08774e2a@conference...`)
+
+### Missing Test Coverage
+
+**Critical gaps**:
+- ❌ No automated tests for MUJI protocol
+- ❌ No integration tests for multi-party media
+- ❌ No performance benchmarks documented
+- ❌ No interoperability tests with other clients
+- ❌ No cleanup/teardown tests (causes warnings above)
+
+**Testing priorities**:
+1. **Unit tests**: Codec intersection algorithm
+2. **Integration tests**: 3-participant call scenarios
+3. **Cleanup tests**: Verify proper resource disposal (PipeWire, libnice)
+4. **Interop tests**: DinoX ↔ Gajim group calls
+5. **Performance tests**: 5+ participant stress test
+6. **Network tests**: Simulate packet loss, latency, jitter
+
+---
+
+## Bug Tracker
+
+### 🐛 Active Bugs (Need Fixing)
+
+| ID | Severity | Component | Description | Status |
+|----|----------|-----------|-------------|--------|
+| #1 | Medium | RTP Plugin | PipeWire tee src pads not cleaned up properly | ⏸️ Reverted (caused crashes) |
+| #2 | Low | ICE | libnice TURN refresh not closed asynchronously | ⏸️ Reverted (caused crashes) |
+| #3 | Medium | Entity Info | Entity caps hash mismatch not handled gracefully | ✅ Fixed |
+| #4 | High | Interop | No audio/video calls to Gajim 2.4.0 | 📋 Requires live testing |
+
+### 📋 Issue Details
+
+#### Bug #1: PipeWire Device Cleanup ⚠️ **REVERTED - CAUSED CRASHES**
+**File**: `plugins/rtp/src/device.vala:576-590`  
+**Symptom**: `pipewiredeviceX-tee still has 1 src pads while being destroyed`  
+**Root Cause**: GStreamer tee element request pads not properly released  
+**Fix Attempted** (Nov 25, 2025): Manually unlink and release all src pads in dispose()
+```vala
+// Attempted fix that caused crashes:
+var iter = Gst.Iterator<Gst.Pad>(tee.iterate_src_pads());
+Gst.Pad pad;
+while (iter.next(out pad) == Gst.IteratorResult.OK) {
+    if (pad.is_linked()) pad.unlink(pad.get_peer());
+    tee.release_request_pad(pad);  // ← This breaks active calls!
+}
+```
+**Result**: ❌ **Caused 1:1 video/audio calls to crash immediately**  
+**Root Cause of Crash**: Calling `release_request_pad()` during or right after active calls destroys GStreamer pipeline  
+**Status**: ⏸️ **Reverted to original** - GStreamer handles cleanup automatically when element goes to NULL state
+
+**Lesson Learned**: The warning is informational only. Manual pad manipulation in dispose() is dangerous and unnecessary.
+
+---
+
+#### Bug #2: TURN Refresh Cleanup ⚠️ **REVERTED - CAUSED CRASHES**
+**File**: `plugins/ice/src/transport_parameters.vala`  
+**Symptom**: `We still have alive TURN refreshes`  
+**Root Cause**: libnice Agent not properly closed before disposal  
+**Fix Attempted** (Nov 25, 2025): Call `agent.close_async()` in `dispose()` with callback
+```vala
+// Attempted fix that caused crashes:
+public override void dispose() {
+    if (agent != null && !agent_closing) {
+        agent_closing = true;
+        agent.close_async(() => { /* cleanup */ });  // ← Race condition!
+    }
+    thread_loop.quit();  // ← Called immediately after!
+}
+```
+**Result**: ❌ **Caused 1:1 video/audio calls to crash immediately**  
+**Root Cause of Crash**: Race condition - `close_async()` callback runs after `thread_loop.quit()` already terminated the loop  
+**Status**: ⏸️ **Reverted to original** - needs different approach
+
+**Alternative Solutions to Explore**:
+1. Call `close_async()` in `terminate()` method instead of `dispose()`
+2. Wait synchronously for close operation to complete before quitting loop
+3. Accept the warning as harmless (TURN connections auto-expire after timeout)
+
+---
+
+#### Bug #3: Entity Caps Hash Mismatch ✅ **FIXED**
+**File**: `libdino/src/service/entity_info.vala:234`  
+**Symptom**: Claimed entity caps hash doesn't match computed one  
+**Root Cause**: Peer advertises incorrect XEP-0115 capabilities hash, disco#info data discarded  
+**Fix Applied** (Nov 25, 2025):
+```vala
+// Always store disco#info data even if hash mismatches
+if (hash != null && computed_hash != hash) {
+    warning("Claimed entity caps hash from %s doesn't match computed one (claimed: %s, computed: %s). Using computed hash as fallback.",
+            jid.to_string(), hash, computed_hash);
+}
+
+// Store with computed hash instead of discarding
+db.entity.upsert()
+    .value(db.entity.caps_hash, computed_hash)
+    .perform();
+
+store_features(computed_hash, info_result.features);
+store_identities(computed_hash, info_result.identities);
+```
+**Impact**: Service discovery reliable even with incorrect caps, MUJI detection works  
+**Status**: Merged, ready for testing
+
+---
+
+#### Bug #4: Gajim 2.4.0 Incompatibility ⏳ **ANALYSIS COMPLETE**
+**Symptom**: Audio/video calls fail completely between DinoX and Gajim 2.4.0  
+**Suspected Root Causes** (Nov 25, 2025 analysis):
+
+1. **Codec Parameter Mismatch**
+   - DinoX Opus config: `clockrate=48000, channels=2, id=111, useinbandfec=1`
+   - Gajim might use: Different payload ID, missing useinbandfec, or dtx parameter
+   - DinoX codec priority: Opus > Speex (32k/16k/8k) > G.722 > PCMU > PCMA
+
+2. **Jingle Content Negotiation**
+   - DinoX sends: `<content name="audio">` with all supported codecs
+   - Gajim might expect: Specific content-name format or different codec list order
+   - Intersection algorithm in `xmpp-vala/src/module/xep/0272_muji.vala` might fail
+
+3. **ICE/DTLS Transport Issues**
+   - DinoX uses: libnice 0.1.21+, GnuTLS for DTLS-SRTP
+   - Candidates, fingerprints, or setup roles might not match expectations
+
+4. **XEP-0272 MUJI Implementation Differences**
+   - DinoX uses `<preparing>` node, Gajim might not wait for it
+   - Presence-based negotiation timing could differ
+
+**Diagnostic Steps Needed**:
+```bash
+# 1. Capture Jingle XML stanzas from both clients
+G_MESSAGES_DEBUG=all flatpak run im.github.rallep71.DinoX 2>&1 | grep -E "jingle|session-initiate|session-accept" > dinox-jingle.log
+
+# 2. Compare codec offers
+grep "payload-type" dinox-jingle.log | grep opus
+
+# 3. Check ICE candidates
+grep "candidate" dinox-jingle.log
+
+# 4. Verify DTLS fingerprints
+grep "fingerprint" dinox-jingle.log
+```
+
+**Potential Fixes to Try**:
+
+1. **Simplify Opus parameters**:
+   ```vala
+   // In plugins/rtp/src/module.vala:134
+   var opus = new JingleRtp.PayloadType() { 
+       channels = 2, 
+       clockrate = 48000, 
+       name = "opus", 
+       id = 111 
+   };
+   // Remove or make optional: opus.parameters["useinbandfec"] = "1";
+   ```
+
+2. **Test with minimal codec** (PCMU only):
+   ```vala
+   // Temporarily comment out all codecs except PCMU in get_supported_payloads()
+   ```
+
+3. **Add compatibility mode**:
+   ```vala
+   // Detect Gajim client and adjust codec list
+   if (peer_client_name.contains("gajim")) {
+       // Use Gajim-compatible Opus config
+   }
+   ```
+
+**Impact**: Critical - breaks all A/V calls with Gajim users  
+**Effort**: High - requires live testing with Gajim 2.4.0  
+**Priority**: High  
+**Status**: Needs runtime debugging with both clients
 
 ### Code Quality Improvements
 

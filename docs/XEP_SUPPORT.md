@@ -90,7 +90,7 @@ Complete list of XEPs implemented in DinoX with differentiated implementation st
 | [XEP-0167](https://xmpp.org/extensions/xep-0167.html) | Jingle RTP Sessions | ✅ | ✅ | Audio/video streaming |
 | [XEP-0176](https://xmpp.org/extensions/xep-0176.html) | Jingle ICE-UDP Transport | ✅ | 🔧 | Backend connection handling |
 | [XEP-0215](https://xmpp.org/extensions/xep-0215.html) | External Service Discovery | ✅ | 🔧 | TURN/STUN discovery |
-| [XEP-0272](https://xmpp.org/extensions/xep-0272.html) | Multiparty Jingle (Muji) | ⚠️ | ⚠️ | Partial implementation |
+| [XEP-0272](https://xmpp.org/extensions/xep-0272.html) | Multiparty Jingle (Muji) | ⚠️ | ⚠️ | Backend complete, minimally tested |
 | [XEP-0294](https://xmpp.org/extensions/xep-0294.html) | Jingle RTP Header Extensions | ✅ | 🔧 | Backend media handling |
 | [XEP-0320](https://xmpp.org/extensions/xep-0320.html) | Use of DTLS-SRTP in Jingle | ✅ | 🔧 | Backend encryption |
 | [XEP-0338](https://xmpp.org/extensions/xep-0338.html) | Jingle Grouping Framework | ✅ | 🔧 | Backend media grouping |

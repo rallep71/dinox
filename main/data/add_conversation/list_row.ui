@@ -24,6 +24,13 @@
                         <property name="orientation">horizontal</property>
                         <property name="spacing">6</property>
                         <child>
+                            <object class="GtkImage" id="private_room_image">
+                                <property name="icon-name">changes-prevent-symbolic</property>
+                                <property name="pixel-size">14</property>
+                                <property name="visible">0</property>
+                            </object>
+                        </child>
+                        <child>
                             <object class="GtkLabel" id="name_label">
                                 <property name="ellipsize">end</property>
                                 <property name="xalign">0</property>

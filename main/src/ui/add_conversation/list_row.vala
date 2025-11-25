@@ -13,6 +13,7 @@ public class ListRow : Widget {
     public Label name_label;
     public Image status_dot;
     public Label via_label;
+    public Image private_room_image;
 
     public StreamInteractor stream_interactor;
     public Jid jid;
@@ -27,6 +28,7 @@ public class ListRow : Widget {
         name_label = (Label) builder.get_object("name_label");
         status_dot = (Image) builder.get_object("status_dot");
         via_label = (Label) builder.get_object("via_label");
+        private_room_image = (Image) builder.get_object("private_room_image");
 
 
         this.layout_manager = new BinLayout();
