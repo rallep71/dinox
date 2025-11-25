@@ -42,6 +42,7 @@ sources = files(
     'src/ui/call_window/call_encryption_button.vala',
     'src/ui/call_window/call_window.vala',
     'src/ui/call_window/call_window_controller.vala',
+    'src/ui/call_window/group_call_participant_list.vala',
     'src/ui/call_window/participant_widget.vala',
     'src/ui/call_window/video_settings_popover.vala',
     'src/ui/chat_input/audio_recorder.vala',

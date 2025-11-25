@@ -62,6 +62,9 @@ public class Dino.Ui.CallWindowController : Object {
             add_new_participant(peer_state.internal_id, peer_state.jid);
         }
 
+        // Setup MUJI group call participant list
+        setup_group_call_participant_list();
+
         // Call window signals
 
         bottom_bar_handler_ids += call_window.bottom_bar.hang_up.connect(() => {
@@ -389,5 +392,47 @@ public class Dino.Ui.CallWindowController : Object {
             own_video = null;
         }
         base.dispose();
+    }
+
+    private void setup_group_call_participant_list() {
+        // Check if this is a group call with MUJI
+        if (call_state.group_call == null) return;
+        
+        // Show the participant list sidebar
+        call_window.show_participant_list(true);
+        
+        // Add ourselves
+        call_window.add_group_call_participant(call.account.bare_jid, _("Me"));
+        call_window.set_group_call_participant_status(call.account.bare_jid, true);
+        
+        // Add existing participants from MUJI
+        foreach (Jid peer_jid in call_state.group_call.peers) {
+            Jid? real_jid = call_state.group_call.real_jids[peer_jid];
+            if (real_jid != null) {
+                string display_name = get_participant_display_name(real_jid);
+                call_window.add_group_call_participant(real_jid, display_name);
+                call_window.set_group_call_participant_status(real_jid, true);
+            }
+        }
+        
+        // Listen for new participants joining
+        call_state.group_call.peer_joined.connect((real_jid) => {
+            string display_name = get_participant_display_name(real_jid);
+            call_window.add_group_call_participant(real_jid, display_name);
+            call_window.set_group_call_participant_status(real_jid, true);
+        });
+        
+        // Listen for participants leaving
+        call_state.group_call.peer_left.connect((real_jid) => {
+            call_window.remove_group_call_participant(real_jid);
+        });
+    }
+    
+    private string get_participant_display_name(Jid jid) {
+        Conversation? conversation = stream_interactor.get_module(ConversationManager.IDENTITY).get_conversation(jid.bare_jid, call.account, Conversation.Type.CHAT);
+        if (conversation != null) {
+            return Util.get_conversation_display_name(stream_interactor, conversation);
+        }
+        return jid.bare_jid.to_string();
     }
 }

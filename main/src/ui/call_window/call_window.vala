@@ -11,6 +11,7 @@ namespace Dino.Ui {
 
         public CallWindowController controller;
 
+        public Box main_box = new Box(Orientation.HORIZONTAL, 0);
         public Overlay overlay = new Overlay();
         public Grid grid = new Grid();
         public CallBottomBar bottom_bar = new CallBottomBar();
@@ -18,6 +19,8 @@ namespace Dino.Ui {
         public HeaderBar header_bar = new HeaderBar() { valign=Align.START, halign=Align.END, show_title_buttons=true, opacity=0.0 };
         public Revealer header_bar_revealer = new Revealer() { halign=Align.END, valign=Align.START, transition_type=RevealerTransitionType.SLIDE_LEFT, transition_duration=200, reveal_child=false };
         public Box own_video_box = new Box(Orientation.HORIZONTAL, 0) { halign=Align.END, valign=Align.END };
+        public Revealer participant_list_revealer = new Revealer() { halign=Align.END, valign=Align.FILL, transition_type=RevealerTransitionType.SLIDE_LEFT, transition_duration=300, reveal_child=false };
+        public GroupCallParticipantList participant_list = new GroupCallParticipantList();
         private HashMap<string, ParticipantWidget> participant_widgets = new HashMap<string, ParticipantWidget>();
         private ArrayList<string> participants = new ArrayList<string>();
 
@@ -51,7 +54,16 @@ namespace Dino.Ui {
             overlay.add_overlay(header_bar_revealer);
             overlay.get_child_position.connect(on_get_child_position);
 
-            set_child(overlay);
+            // Setup participant list sidebar
+            participant_list_revealer.set_child(participant_list);
+            participant_list.add_css_class("sidebar");
+            
+            // Main layout: video area (overlay) + participant list (sidebar)
+            main_box.append(overlay);
+            main_box.append(participant_list_revealer);
+            overlay.hexpand = true;
+
+            set_child(main_box);
         }
 
         public CallWindow() {
@@ -266,6 +278,22 @@ namespace Dino.Ui {
                 return true;
             }
             return false;
+        }
+        
+        public void show_participant_list(bool show) {
+            participant_list_revealer.reveal_child = show;
+        }
+        
+        public void add_group_call_participant(Jid jid, string? display_name = null) {
+            participant_list.add_participant(jid, display_name);
+        }
+        
+        public void remove_group_call_participant(Jid jid) {
+            participant_list.remove_participant(jid);
+        }
+        
+        public void set_group_call_participant_status(Jid jid, bool connected) {
+            participant_list.set_participant_connection_status(jid, connected);
         }
     }
 
