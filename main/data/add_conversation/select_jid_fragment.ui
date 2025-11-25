@@ -54,9 +54,19 @@
                                         <child>
                                             <object class="GtkButton" id="add_button">
                                                 <child>
-                                                    <object class="GtkImage">
-                                                        <property name="icon-name">list-add-symbolic</property>
-                                                        <property name="icon-size">normal</property>
+                                                    <object class="GtkBox">
+                                                        <property name="spacing">6</property>
+                                                        <child>
+                                                            <object class="GtkImage">
+                                                                <property name="icon-name">list-add-symbolic</property>
+                                                                <property name="icon-size">normal</property>
+                                                            </object>
+                                                        </child>
+                                                        <child>
+                                                            <object class="GtkLabel" id="add_button_label">
+                                                                <property name="label" translatable="yes">Add Group</property>
+                                                            </object>
+                                                        </child>
                                                     </object>
                                                 </child>
                                             </object>
@@ -65,9 +75,19 @@
                                             <object class="GtkButton" id="remove_button">
                                                 <property name="sensitive">0</property>
                                                 <child>
-                                                    <object class="GtkImage">
-                                                        <property name="icon-name">list-remove-symbolic</property>
-                                                        <property name="icon-size">normal</property>
+                                                    <object class="GtkBox">
+                                                        <property name="spacing">6</property>
+                                                        <child>
+                                                            <object class="GtkImage">
+                                                                <property name="icon-name">list-remove-symbolic</property>
+                                                                <property name="icon-size">normal</property>
+                                                            </object>
+                                                        </child>
+                                                        <child>
+                                                            <object class="GtkLabel" id="remove_button_label">
+                                                                <property name="label" translatable="yes">Delete Group</property>
+                                                            </object>
+                                                        </child>
                                                     </object>
                                                 </child>
                                             </object>

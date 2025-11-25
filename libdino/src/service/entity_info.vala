@@ -219,20 +219,24 @@ public class EntityInfo : StreamInteractionModule, Object {
 
         var computed_hash = EntityCapabilities.Module.compute_hash_for_info_result(info_result);
 
-        if (hash == null || computed_hash == hash) {
-            db.entity.upsert()
-                .value(db.entity.account_id, account.id, true)
-                .value(db.entity.jid_id, db.get_jid_id(jid), true)
-                .value(db.entity.resource, jid.resourcepart ?? "", true)
-                .value(db.entity.last_seen, (long)(new DateTime.now_local()).to_unix())
-                .value(db.entity.caps_hash, computed_hash)
-                .perform();
-
-            store_features(computed_hash, info_result.features);
-            store_identities(computed_hash, info_result.identities);
-        } else {
-            warning("Claimed entity caps hash from %s doesn't match computed one", jid.to_string());
+        if (hash != null && computed_hash != hash) {
+            warning("Claimed entity caps hash from %s doesn't match computed one (claimed: %s, computed: %s). Using computed hash as fallback.",
+                    jid.to_string(), hash, computed_hash);
         }
+        
+        // Always store the info, even if hash doesn't match
+        // Use the computed hash to ensure consistency
+        db.entity.upsert()
+            .value(db.entity.account_id, account.id, true)
+            .value(db.entity.jid_id, db.get_jid_id(jid), true)
+            .value(db.entity.resource, jid.resourcepart ?? "", true)
+            .value(db.entity.last_seen, (long)(new DateTime.now_local()).to_unix())
+            .value(db.entity.caps_hash, computed_hash)
+            .perform();
+
+        store_features(computed_hash, info_result.features);
+        store_identities(computed_hash, info_result.identities);
+        
         jid_features[jid] = info_result.features;
         jid_identity[jid] = info_result.identities;
 

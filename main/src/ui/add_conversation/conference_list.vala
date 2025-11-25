@@ -104,7 +104,25 @@ internal class ConferenceListRow : ListRow {
         this.bookmark = bookmark;
 
         status_dot.visible = false;
+        
         name_label.label = bookmark.name != null && bookmark.name != "" ? bookmark.name : bookmark.jid.to_string();
+        
+        // Check if room is private and show lock icon
+        Conversation? conversation = stream_interactor.get_module(ConversationManager.IDENTITY).get_conversation(bookmark.jid, account);
+        if (conversation != null) {
+            XmppStream? stream = stream_interactor.get_stream(account);
+            if (stream != null) {
+                Xep.Muc.Flag? flag = stream.get_flag(Xep.Muc.Flag.IDENTITY);
+                if (flag != null) {
+                    bool is_members_only = flag.has_room_feature(bookmark.jid, Xep.Muc.Feature.MEMBERS_ONLY);
+                    bool is_non_anonymous = flag.has_room_feature(bookmark.jid, Xep.Muc.Feature.NON_ANONYMOUS);
+                    if (is_members_only && is_non_anonymous) {
+                        private_room_image.visible = true;
+                    }
+                }
+            }
+        }
+        
         if (stream_interactor.get_accounts().size > 1) {
             via_label.label = "via " + account.bare_jid.to_string();
         } else if (bookmark.name != null && bookmark.name != bookmark.jid.to_string()) {

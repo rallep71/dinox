@@ -88,6 +88,8 @@ public class AddConferenceDialog : Gtk.Window {
 
         select_fragment = new SelectJidFragment(stream_interactor, conference_list_box, stream_interactor.get_accounts());
         select_fragment.enable_muc_search = true;
+        select_fragment.button_mode = SelectJidFragment.ButtonMode.GROUP;
+        select_fragment.show_button_labels = true;
         select_fragment.add_jid.connect(() => {
             AddGroupchatDialog dialog = new AddGroupchatDialog(stream_interactor);
             dialog.set_transient_for(this);

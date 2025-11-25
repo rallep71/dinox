@@ -141,6 +141,25 @@
                             </object>
                         </child>
                         <child>
+                            <object class="GtkLabel">
+                                <property name="xalign">1</property>
+                                <layout>
+                                    <property name="column">0</property>
+                                    <property name="row">4</property>
+                                </layout>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkCheckButton" id="private_room_checkbutton">
+                                <property name="label" translatable="1">Create as private room (for group calls)</property>
+                                <property name="tooltip-text" translatable="1">Private rooms are members-only and non-anonymous, enabling MUJI group calls</property>
+                                <layout>
+                                    <property name="column">1</property>
+                                    <property name="row">4</property>
+                                </layout>
+                            </object>
+                        </child>
+                        <child>
                             <object class="GtkLabel" id="alias_label">
                                 <property name="label" translatable="1">Alias</property>
                                 <property name="xalign">1</property>
