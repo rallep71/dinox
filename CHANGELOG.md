@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.5.3] - 2025-11-25
+
+### Added
+- **MUJI Group Calls - Phase 1** - Complete implementation of XEP-0272 (Jingle Multiparty) UI enhancements
+  - **Participant List Sidebar** - Live participant list during group calls with connection status (✓ connected, ⟳ connecting)
+  - **Private Room Creation** - Checkbox "Create as private room" automatically configures rooms as members-only, non-anonymous, and persistent
+  - **Private Room Indicator** - 🔒 icon in conversation list and group chat dialogs for private rooms
+  - **MUC Server Warning** - Warning dialog when no default conference server is configured
+  - **Group Call Button** - "Start group call" button now only visible for MUC conversations
+
+### Fixed
+- **Entity Capabilities** - Fixed XEP-0115 hash mismatch handling by saving disco#info data with computed hash as fallback, improving MUJI capability detection
+
+### Documentation
+- **MUJI_GROUP_CALLS.md** - Complete guide for MUJI group calls (414 lines)
+- **MUJI_IMPROVEMENTS.md** - Detailed implementation plan and bug tracker (691 lines)
+
 ## [0.6.5.2] - 2025-11-24
 
 ### Fixed
