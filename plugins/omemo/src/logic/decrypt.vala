@@ -65,28 +65,6 @@ namespace Dino.Plugins.Omemo {
                         return true;
                     } catch (Error e) {
                         debug("Decrypting message from %s/%d failed: %s", possible_jid.to_string(), data.sid, e.message);
-                        
-                        // If session is missing or invalid, automatically rebuild it
-                        if (e.message.contains("SG_ERR_NO_SESSION") || e.message.contains("SG_ERR_INVALID_MESSAGE")) {
-                            debug("Session broken for %s/%d - requesting new bundle and clearing old session", possible_jid.to_string(), data.sid);
-                            
-                            // Delete broken session so next encryption will use PreKey message
-                            Address address = new Address(possible_jid.to_string(), data.sid);
-                            try {
-                                if (store.contains_session(address)) {
-                                    store.delete_session(address);
-                                    debug("Deleted broken session for %s/%d", possible_jid.to_string(), data.sid);
-                                }
-                            } catch (Error delete_error) {
-                                warning("Failed to delete broken session: %s", delete_error.message);
-                            }
-                            
-                            // Request new bundle to rebuild session
-                            XmppStream? stream = stream_interactor.get_stream(account);
-                            if (stream != null) {
-                                stream.get_module(StreamModule.IDENTITY).fetch_bundle(stream, possible_jid, data.sid, false);
-                            }
-                        }
                     }
                 }
             }
