@@ -4,6 +4,7 @@ public class Dino.Ui.ViewModel.GeneralPreferencesPage : Object {
     public bool send_typing { get; set; }
     public bool send_marker { get; set; }
     public bool notifications { get; set; }
+    public bool keep_background { get; set; }
     public bool convert_emojis { get; set; }
 }
 
@@ -12,6 +13,7 @@ public class Dino.Ui.GeneralPreferencesPage : Adw.PreferencesPage {
     [GtkChild] private unowned Adw.SwitchRow typing_row;
     [GtkChild] private unowned Adw.SwitchRow marker_row;
     [GtkChild] private unowned Adw.SwitchRow notification_row;
+    [GtkChild] private unowned Adw.SwitchRow keep_background_row;
     [GtkChild] private unowned Adw.SwitchRow emoji_row;
 
     public ViewModel.GeneralPreferencesPage model { get; set; default = new ViewModel.GeneralPreferencesPage(); }
@@ -30,6 +32,7 @@ public class Dino.Ui.GeneralPreferencesPage : Adw.PreferencesPage {
                 model.bind_property("send-typing", typing_row, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL),
                 model.bind_property("send-marker", marker_row, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL),
                 model.bind_property("notifications", notification_row, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL),
+                model.bind_property("keep-background", keep_background_row, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL),
                 model.bind_property("convert-emojis", emoji_row, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL)
             };
         } else {

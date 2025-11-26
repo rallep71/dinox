@@ -87,7 +87,8 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
                 config = new Config(db);
                 window = new MainWindow(this, stream_interactor, db, config);
                 controller.set_window(window);
-                if ((get_flags() & ApplicationFlags.IS_SERVICE) == ApplicationFlags.IS_SERVICE) window.hide_on_close = true;
+                // Always enable hide_on_close - we'll control quit behavior in close_request handler
+                window.hide_on_close = true;
                 
                 // Connect systray to window
                 if (systray_manager != null) {
@@ -373,6 +374,15 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             systray_manager.cleanup();
             systray_manager = null;
         }
+        
+        // Disconnect all accounts to clean up XMPP connections
+        if (stream_interactor != null) {
+            var accounts = stream_interactor.get_accounts();
+            foreach (var account in accounts) {
+                stream_interactor.disconnect_account.begin(account);
+            }
+        }
+        
         base.shutdown();
     }
 }

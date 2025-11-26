@@ -91,9 +91,39 @@ public class SystrayManager : Object {
         this.window = window;
         
         window.close_request.connect(() => {
-            hide_window();
-            return true;
+            // Check if background mode is enabled
+            if (Dino.Application.get_default().settings.keep_background) {
+                // Keep running in background - just hide the window
+                hide_window();
+                return true;  // Prevent window destruction
+            } else {
+                // User wants normal quit - quit the application
+                quit_application();
+                return true;  // Handler handled
+            }
         });
+    }
+    
+    public void quit_application() {
+        print("Systray: quit_application() called\n");
+        
+        // Cleanup systray first
+        cleanup();
+        
+        // Disconnect XMPP accounts - fire and forget
+        var accounts = application.stream_interactor.get_accounts();
+        print("Systray: Disconnecting %d accounts...\n", accounts.size);
+        foreach (var account in accounts) {
+            application.stream_interactor.disconnect_account.begin(account);
+        }
+        
+        // Try graceful GTK quit
+        print("Systray: Calling application.quit()\n");
+        application.quit();
+        
+        // Force exit immediately - Flatpak doesn't quit cleanly otherwise
+        print("Systray: Force exit - Process.exit(0)\n");
+        Process.exit(0);
     }
     
     private async void initialize_dbus() {
@@ -152,7 +182,7 @@ public class SystrayManager : Object {
             item_quit.item_activated.connect((timestamp) => {
                 // Use a small timeout to ensure we are completely out of the Dbusmenu signal handler stack
                 Timeout.add(50, () => {
-                    application.activate_action("quit", null);
+                    quit_application();
                     return false;
                 });
             });

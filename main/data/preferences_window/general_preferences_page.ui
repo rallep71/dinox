@@ -27,6 +27,13 @@
             <property name="use-underline">True</property>
           </object>
         </child>
+        <child>
+          <object class="AdwSwitchRow" id="keep_background_row">
+            <property name="title" translatable="yes">_Keep Running in Background</property>
+            <property name="subtitle" translatable="yes">Continue running after closing window to receive notifications immediately</property>
+            <property name="use-underline">True</property>
+          </object>
+        </child>
       </object>
     </child>
     <child>
