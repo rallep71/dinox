@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="./">
+    <meta name="description" content="DinoX - Moderner XMPP Client mit MUJI Multi-Party Videocalls, OMEMO Verschlüsselung und GTK4/libadwaita UI">
+    <meta name="keywords" content="XMPP, Jabber, Messenger, OMEMO, MUJI, Videocall, Open Source, Linux">
+    <meta name="author" content="Ralf Peter">
+    <title>DinoX - Modern XMPP Messenger</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="assets/icon.svg">
+</head>
+<body>
+    <a class="skip-link" href="#content">Zum Inhalt springen</a>
+    <!-- Navigation -->
+    <nav class="navbar" role="navigation">
+        <div class="container">
+            <div class="nav-brand">
+                <img src="assets/dinox-logo.svg" alt="DinoX Logo" class="logo">
+                <span class="brand-name">DinoX</span>
+            </div>
+            <ul id="navMenu" class="nav-menu">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#download">Download</a></li>
+                <li><a href="docs/">Dokumentation</a></li>
+                <li><a href="#about">Über</a></li>
+                <li><a href="https://github.com/rallep71/dinox" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+            </ul>
+            <button class="theme-toggle" id="themeToggle" aria-label="Theme umschalten">
+                <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="5"/>
+                    <line x1="12" y1="1" x2="12" y2="3"/>
+                    <line x1="12" y1="21" x2="12" y2="23"/>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                    <line x1="1" y1="12" x2="3" y2="12"/>
+                    <line x1="21" y1="12" x2="23" y2="12"/>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                </svg>
+                <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                </svg>
+            </button>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Menü" aria-controls="navMenu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Moderner XMPP Messenger für Linux</h1>
+                <p class="hero-subtitle">
+                    Sichere End-to-End-Verschlüsselung, Multi-Party Videocalls und moderne GTK4 Oberfläche
+                </p>
+                <div class="hero-buttons">
+                    <a href="#download" class="btn btn-primary">Jetzt herunterladen</a>
+                    <a href="https://github.com/rallep71/dinox" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">GitHub ansehen</a>
+                </div>
+                <div class="hero-badges">
+                    <span class="badge">GTK4/libadwaita</span>
+                    <span class="badge">OMEMO E2EE</span>
+                    <span class="badge">MUJI Videocalls</span>
+                    <span class="badge">Open Source</span>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="assets/screenshot-main.svg" alt="DinoX Screenshot" class="screenshot">
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title">Features</h2>
+            <p class="section-subtitle">Alles was ein moderner XMPP-Client können muss</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                    </div>
+                    <h3>OMEMO Verschlüsselung</h3>
+                    <p>End-to-End-Verschlüsselung für Nachrichten und Dateien. Ihre Kommunikation bleibt privat.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="23 7 16 12 23 17 23 7"/>
+                            <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+                        </svg>
+                    </div>
+                    <h3>MUJI Multi-Party Calls</h3>
+                    <p>Video- und Audiokonferenzen mit mehreren Teilnehmern. Mesh-basiert und dezentral.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                            <line x1="9" y1="9" x2="15" y2="15"/>
+                            <line x1="15" y1="9" x2="9" y2="15"/>
+                        </svg>
+                    </div>
+                    <h3>GTK4 & libadwaita</h3>
+                    <p>Moderne, native GNOME-Integration mit adaptivem Design und Dark Mode Support.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="17 8 12 3 7 8"/>
+                            <line x1="12" y1="3" x2="12" y2="15"/>
+                        </svg>
+                    </div>
+                    <h3>Dateiübertragung</h3>
+                    <p>HTTP File Upload, Jingle File Transfer und OMEMO-verschlüsselte Dateien.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                    </div>
+                    <h3>Gruppenchats</h3>
+                    <p>Multi-User Chats (MUC) mit Moderation, privaten Räumen und persistentem Verlauf.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12 6 12 12 16 14"/>
+                        </svg>
+                    </div>
+                    <h3>Message Archive</h3>
+                    <p>MAM (XEP-0313) Support für Nachrichtensynchronisation über alle Geräte hinweg.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Screenshots Section -->
+    <section class="screenshots">
+        <div class="container">
+            <h2 class="section-title">Screenshots</h2>
+            <div class="screenshots-gallery">
+                <img src="assets/screenshot-chat.svg" alt="Chat-Ansicht" class="screenshot-item">
+                <img src="assets/screenshot-call.svg" alt="Videocall" class="screenshot-item">
+                <img src="assets/screenshot-preferences.svg" alt="Einstellungen" class="screenshot-item">
+            </div>
+        </div>
+    </section>
+
+    <!-- Download Section -->
+    <section id="download" class="download">
+        <div class="container">
+            <h2 class="section-title">Download</h2>
+            <p class="section-subtitle">Installieren Sie DinoX auf Ihrem System</p>
+            
+            <div class="download-cards">
+                <div class="download-card">
+                    <div class="download-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                            <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+                            <line x1="12" y1="22.08" x2="12" y2="12"/>
+                        </svg>
+                    </div>
+                    <h3>Flatpak</h3>
+                    <p>Empfohlene Installation für alle Linux-Distributionen</p>
+                    <pre><code>flatpak install flathub im.github.rallep71.DinoX</code></pre>
+                                        <a href="https://flathub.org/apps/im.github.rallep71.DinoX" class="btn btn-primary btn-cta" target="_blank" rel="noopener noreferrer">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                                <path d="M12 2v20M4 10h16"/>
+                                            </svg>
+                                            Auf Flathub ansehen
+                                        </a>
+                </div>
+
+                <div class="download-card">
+                    <div class="download-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="16 18 22 12 16 6"/>
+                            <polyline points="8 6 2 12 8 18"/>
+                        </svg>
+                    </div>
+                    <h3>Quellcode</h3>
+                    <p>Build from source für Entwickler und Paketbetreuer</p>
+                    <pre><code>git clone https://github.com/rallep71/dinox.git
+cd dinox
+meson setup build
+ninja -C build
+sudo ninja -C build install</code></pre>
+                                        <a href="https://github.com/rallep71/dinox" class="btn btn-secondary btn-cta secondary" target="_blank" rel="noopener noreferrer">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                                <path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.16 6.84 9.49.5.09.68-.22.68-.48 0-.24-.01-.87-.01-1.71-2.78.61-3.37-1.17-3.37-1.17-.45-1.15-1.11-1.45-1.11-1.45-.91-.62.07-.61.07-.61 1.01.07 1.54 1.04 1.54 1.04.9 1.54 2.36 1.1 2.94.84.09-.66.35-1.1.64-1.36-2.22-.25-4.56-1.12-4.56-4.99 0-1.1.39-1.99 1.03-2.69-.1-.26-.45-1.3.1-2.7 0 0 .84-.27 2.75 1.03A9.56 9.56 0 0112 7.93c.85.004 1.71.116 2.5.34 1.9-1.3 2.74-1.03 2.74-1.03.55 1.4.2 2.44.1 2.7.64.7 1.03 1.6 1.03 2.69 0 3.88-2.34 4.73-4.57 4.99.36.31.68.92.68 1.85 0 1.34-.01 2.42-.01 2.74 0 .26.18.58.69.48C19.13 20.15 22 16.42 22 12c0-5.52-4.48-10-10-10z"/>
+                                            </svg>
+                                            GitHub Repository
+                                        </a>
+                </div>
+            </div>
+
+            <div class="system-requirements">
+                <h3>Systemanforderungen</h3>
+                <ul>
+                    <li>Linux (GTK4 ≥ 4.14, libadwaita ≥ 1.5)</li>
+                    <li>GStreamer 1.24+ (für Audio/Video)</li>
+                    <li>libomemo-c (für OMEMO Verschlüsselung)</li>
+                    <li>libnice (für Videocalls)</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Documentation Section -->
+    <section id="docs" class="documentation">
+        <div class="container">
+            <h2 class="section-title">Dokumentation</h2>
+            <div class="docs-grid">
+                <div class="doc-card">
+                    <h3>Installation</h3>
+                    <p>Schritt-für-Schritt Anleitung zur Installation von DinoX auf verschiedenen Linux-Distributionen.</p>
+                    <a href="docs/installation.html">Mehr erfahren →</a>
+                </div>
+                <div class="doc-card">
+                    <h3>Erste Schritte</h3>
+                    <p>Account einrichten, Kontakte hinzufügen und erste Nachricht senden.</p>
+                    <a href="docs/getting-started.html">Mehr erfahren →</a>
+                </div>
+                <div class="doc-card">
+                    <h3>MUJI Videocalls</h3>
+                    <p>Multi-User Jingle für Gruppen-Videocalls einrichten und nutzen.</p>
+                    <a href="docs/muji.html">Mehr erfahren →</a>
+                </div>
+                <div class="doc-card">
+                    <h3>OMEMO Verschlüsselung</h3>
+                    <p>End-to-End-Verschlüsselung verstehen und konfigurieren.</p>
+                    <a href="docs/omemo.html">Mehr erfahren →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">Über DinoX</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>
+                        DinoX ist ein moderner XMPP-Client basierend auf Dino, erweitert um professionelle 
+                        Multi-Party Videocall-Funktionalität (MUJI) und zahlreiche Verbesserungen für die tägliche Nutzung.
+                    </p>
+                    <p>
+                        Das Projekt fokussiert sich auf sichere Kommunikation, moderne Benutzeroberfläche und 
+                        zuverlässige Gruppenkommunikation - perfekt für Teams, Familien und Communities die 
+                        Wert auf Privatsphäre und Dezentralität legen.
+                    </p>
+                    <h3>Entwicklung</h3>
+                    <p>
+                        DinoX wird aktiv entwickelt und erweitert. Contributions, Bug Reports und Feature 
+                        Requests sind auf GitHub willkommen.
+                    </p>
+                    <div class="project-links">
+                        <a href="https://github.com/rallep71/dinox" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">GitHub</a>
+                        <a href="https://github.com/rallep71/dinox/issues" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">Issues</a>
+                        <a href="https://github.com/rallep71/dinox/blob/master/CONTRIBUTING.md" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">Contributing</a>
+                    </div>
+                </div>
+                <div class="about-stats">
+                    <div class="stat-card">
+                        <div class="stat-number">100+</div>
+                        <div class="stat-label">XEPs unterstützt</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">MUJI</div>
+                        <div class="stat-label">Multi-Party Calls</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">Open Source</div>
+                        <div class="stat-label">GPLv3 Lizenz</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>DinoX</h4>
+                    <p>Moderner XMPP Messenger für Linux</p>
+                    <p class="copyright">© 2025 Ralf Peter. GPLv3 Lizenz.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Links</h4>
+                    <ul>
+                        <li><a href="https://github.com/rallep71/dinox">GitHub</a></li>
+                        <li><a href="https://flathub.org/apps/im.github.rallep71.DinoX">Flathub</a></li>
+                        <li><a href="#docs">Dokumentation</a></li>
+                        <li><a href="https://github.com/rallep71/dinox/issues">Issue Tracker</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Projekt</h4>
+                    <ul>
+                        <li><a href="https://github.com/rallep71/dinox/blob/master/LICENSE">Lizenz</a></li>
+                        <li><a href="https://github.com/rallep71/dinox/blob/master/CONTRIBUTING.md">Mitmachen</a></li>
+                        <li><a href="https://github.com/rallep71/dinox/blob/master/CHANGELOG.md">Changelog</a></li>
+                        <li><a href="https://dino.im">Basiert auf Dino</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Kontakt</h4>
+                    <ul>
+                        <li><a href="mailto:dinox@handwerker.jetzt">E-Mail</a></li>
+                        <li><a href="xmpp:dinox@chat.handwerker.jetzt">XMPP</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <button id="backToTop" class="back-to-top" aria-label="Nach oben" title="Nach oben">↑</button>
+</body>
+</html>

@@ -548,6 +548,32 @@ section {
     justify-content: space-between;
     z-index: 1; /* keep above layout elements that might overlap */
 }
+
+/* Larger CTA treatment for Download section */
+.download-card .btn-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 14px 22px;
+    border-radius: 999px; /* pill button */
+    font-size: 1rem;
+    font-weight: 700;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+.download-card .btn-cta svg { width: 20px; height: 20px; display: inline-block; }
+
+/* Variant for secondary CTA */
+.download-card .btn-cta.secondary { background: transparent; color: var(--text-primary); border: 1px solid var(--border-color); }
+
+/* Improve mobile stacking and spacing for download cards */
+@media (max-width: 768px) {
+    .download-cards { grid-template-columns: 1fr; }
+    .download-card { padding: calc(var(--spacing-md) * 1.25); }
+    .download-card .btn-cta { width: 100%; justify-content: center; }
+}
+
+/* Ensure copy buttons are visible but not overlapping large CTAs */
+pre button.copy-button { right: 12px; top: 12px; }
 .download-card .download-icon { margin-bottom: var(--spacing-md); }
 /* Ensure copy buttons on `pre` don't overlap with other UI elements */
 pre { position: relative; }
