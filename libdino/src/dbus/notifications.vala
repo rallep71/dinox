@@ -19,9 +19,12 @@ namespace Dino {
 
     public static async DBusNotifications? get_notifications_dbus() {
         try {
-            return yield Bus.get_proxy(BusType.SESSION, "org.freedesktop.Notifications", "/org/freedesktop/Notifications");
+            DBusNotifications proxy = yield Bus.get_proxy(BusType.SESSION, "org.freedesktop.Notifications", "/org/freedesktop/Notifications");
+            return proxy;
         } catch (IOError e) {
             warning("Couldn't get org.freedesktop.Notifications DBus instance: %s\n", e.message);
+        } catch (Error e) {
+            warning("Error getting notifications DBus: %s\n", e.message);
         }
         return null;
     }

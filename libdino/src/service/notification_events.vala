@@ -39,6 +39,14 @@ public class NotificationEvents : StreamInteractionModule, Object {
     }
 
     public async void register_notification_provider(NotificationProvider notification_provider) {
+        // If this is the first provider (notifier_outstanding is true), set it immediately
+        if (notifier_outstanding) {
+            notifier_outstanding = false;
+            notifier_promise.set_value(notification_provider);
+            return;
+        }
+        
+        // Otherwise check if this provider has higher priority
         NotificationProvider? current_notifier = null;
         try {
             current_notifier = yield notifier.wait_async();
@@ -46,8 +54,9 @@ public class NotificationEvents : StreamInteractionModule, Object {
             warning("Failed to wait for notifier: %s", e.message);
         }
 
-        if (notifier_outstanding || (current_notifier != null && current_notifier.get_priority() < notification_provider.get_priority())) {
-            notifier_outstanding = false;
+        if (current_notifier != null && current_notifier.get_priority() < notification_provider.get_priority()) {
+            notifier_promise = new Promise<NotificationProvider>();
+            notifier = notifier_promise.future;
             notifier_promise.set_value(notification_provider);
         }
     }
@@ -85,8 +94,8 @@ public class NotificationEvents : StreamInteractionModule, Object {
                 notify_content_item(item, conversation);
                 if (notify != Conversation.NotifySetting.OFF) {
                     try {
-                        NotificationProvider notifier = yield notifier.wait_async();
-                        yield notifier.notify_message(message, conversation, conversation_display_name, participant_display_name);
+                        NotificationProvider provider = yield notifier.wait_async();
+                        yield provider.notify_message(message, conversation, conversation_display_name, participant_display_name);
                     } catch (Gee.FutureError e) {
                         warning("Failed to notify message: %s", e.message);
                     }
