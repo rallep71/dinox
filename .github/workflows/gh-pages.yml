@@ -1,0 +1,40 @@
+name: Deploy website to GitHub Pages
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js (optional for static builds)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Ensure website/fonts directory
+        run: mkdir -p website/fonts
+
+      - name: Download Inter fonts for self-hosting
+        run: |
+          set -euo pipefail
+          RELEASE="v3.19"
+          URL="https://github.com/rsms/inter/releases/download/$RELEASE/Inter-$RELEASE.zip"
+          TMPZIP="/tmp/inter.zip"
+          echo "Fetching Inter $RELEASE from $URL"
+          curl -L -o "$TMPZIP" "$URL"
+          echo "Extracting .woff2 files to website/fonts"
+          unzip -o "$TMPZIP" '*.woff2' -d website/fonts || true
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./website
+          publish_branch: gh-pages
+          keep_files: false
