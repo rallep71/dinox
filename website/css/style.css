@@ -536,8 +536,20 @@ section {
 
 .download-card p {
     color: var(--text-secondary);
-    margin-bottom: var(--spacing-md);
+    padding: calc(var(--spacing-lg) * 1.25);
 }
+
+/* Make download cards clearer and avoid overlapping with other UI (close buttons) */
+.download-card {
+    position: relative; /* contain any positioned children like copy button */
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.download-card .download-icon { margin-bottom: var(--spacing-md); }
+/* Ensure copy buttons on `pre` don't overlap with other UI elements */
+pre { position: relative; }
 
 .download-card pre {
     background-color: var(--bg-tertiary);
