@@ -110,6 +110,26 @@ public class Manager : StreamInteractionModule, Object {
         stream.get_module(StreamModule.IDENTITY).clear_device_list(stream);
     }
 
+    public void reset_session_with_jid(Account account, Jid jid) {
+        debug("Resetting OMEMO session with %s", jid.to_string());
+        
+        int identity_id = db.identity.get_id(account.id);
+        
+        // Delete all sessions for this JID
+        db.session.delete()
+                .with(db.session.identity_id, "=", identity_id)
+                .with(db.session.address_name, "=", jid.bare_jid.to_string())
+                .perform();
+        
+        // Request fresh device list and bundles
+        XmppStream? stream = stream_interactor.get_stream(account);
+        if (stream != null) {
+            stream.get_module(StreamModule.IDENTITY).request_user_devicelist.begin(stream, jid.bare_jid);
+        }
+        
+        debug("OMEMO session with %s reset successfully", jid.to_string());
+    }
+
     private Gee.List<Jid> get_occupants(Jid jid, Account account){
         Gee.List<Jid> occupants = new ArrayList<Jid>(Jid.equals_bare_func);
         if(!stream_interactor.get_module(MucManager.IDENTITY).is_groupchat(jid, account)){
