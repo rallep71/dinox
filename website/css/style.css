@@ -546,6 +546,7 @@ section {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    z-index: 1; /* keep above layout elements that might overlap */
 }
 .download-card .download-icon { margin-bottom: var(--spacing-md); }
 /* Ensure copy buttons on `pre` don't overlap with other UI elements */
