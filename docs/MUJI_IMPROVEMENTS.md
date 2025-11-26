@@ -70,9 +70,10 @@
    - ❌ Echo cancellation tuning per participant
 
 3. **Interoperability Issues**
-   - ⚠️ **Gajim compatibility**: No audio/video calls to Gajim 2.4.0 possible
-   - ⚠️ **Monal compatibility**: MUJI not supported, calls don't arrive
+   - ❌ **Gajim**: No Jingle A/V support at all - not a compatibility issue, feature missing entirely
+   - ⚠️ **Monal/Conversations compatibility**: Have 1:1 calls, but MUJI not implemented
    - ✅ **DinoX ↔ DinoX**: Should work (needs multi-instance testing)
+   - 🎯 **DinoX is currently the ONLY desktop client with MUJI support**
 
 ## Client Compatibility Status
 
@@ -80,24 +81,27 @@
 
 | Client | Version Tested | MUJI Support | Status | Notes |
 |--------|---------------|-------------|---------|-------|
-| **DinoX** | 0.6.5+ | ⚠️ Implemented, minimally tested | Partial | Full backend, basic UI, **no multi-peer tests** |
-| **Gajim** | 2.4.0 | ✅ Yes (integrated) | ✅ Works | Built-in since v1.5+, tested with 4+ participants |
-| **Monal** | Latest | ❌ No | ❌ Incompatible | Only 1:1 calls, doesn't recognize MUJI signals |
-| **Conversations** | Latest | ❌ No | ❌ Incompatible | Only 1:1 Jingle calls |
+| **DinoX** | 0.6.5.3+ | ⚠️ Implemented, minimally tested | Partial | Full backend, Phase 1 UI complete, **no multi-peer tests** |
+| **Gajim** | 2.4.0 | ❌ No | ❌ Not Supported | **No Jingle A/V implementation at all** |
+| **Monal** | Latest | ⚠️ Partial | ⚠️ 1:1 only | Has 1:1 calls, but no MUJI support |
+| **Conversations** | Latest | ⚠️ Partial | ⚠️ 1:1 only | Has 1:1 Jingle calls, no MUJI |
+| **Siskin** | Latest | ⚠️ Partial | ⚠️ 1:1 only | Has 1:1 calls (iOS), no MUJI |
 
 ### 1:1 Calls (XEP-0166/167)
 
 | Client Pair | Audio | Video | Notes |
 |-------------|-------|-------|-------|
-| **DinoX ↔ DinoX** | ✅ | ✅ | Fully supported |
-| **DinoX ↔ Gajim 2.4.0** | ❌ | ❌ | **Not working** - codec/setup mismatch |
-| **DinoX ↔ Monal** | ⚠️ | ⚠️ | Should work, needs verification |
-| **DinoX ↔ Conversations** | ⚠️ | ⚠️ | Should work, needs verification |
+| **DinoX ↔ DinoX** | ✅ | ✅ | Fully supported and tested |
+| **DinoX ↔ Gajim 2.4.0** | ❌ | ❌ | **Gajim has no Jingle A/V implementation** |
+| **DinoX ↔ Monal** | ✅ | ✅ | Should work, needs verification |
+| **DinoX ↔ Conversations** | ✅ | ✅ | Should work, needs verification |
+| **DinoX ↔ Siskin** | ✅ | ✅ | Should work (iOS), needs verification |
 
-**Known Issues:**
-- **Gajim 2.4.0**: No audio/video calls possible with DinoX
-  - Possible reasons: Codec incompatibility, Jingle version mismatch, ICE negotiation failure
-  - Needs investigation: Compare SDP offers, check Gstreamer elements
+**Important Notes:**
+- **Gajim**: No audio/video call support at all (neither XEP-0166/167 nor MUJI)
+- **Pidgin**: Also no Jingle support - both clients "missed" this feature
+- **DinoX/Dino**: One of the few desktop clients with full A/V support
+- **Mobile**: Monal (iOS), Conversations/Siskin have 1:1 calls, but no group calls
 
 ---
 
@@ -177,11 +181,13 @@
 
 ### Priority 2: Enhanced Group Call Experience
 
-#### 2.1 Speaking Indicator
+#### 2.1 Speaking Indicator ⏸️ **DEFERRED**
 
 **Problem**: In group calls, hard to know who is speaking.
 
 **Solution**: Visual indicator (e.g., green border) around speaking participant.
+
+**Status**: ⏸️ **Postponed** - affects both 1:1 and group calls, needs careful testing of working functionality
 
 **Implementation**:
 - Use audio level detection from RTP stream
@@ -195,9 +201,11 @@
 
 **Files to modify**:
 - `main/src/ui/call_window/participant_list_widget.vala`
+- `main/src/ui/call_window/group_call_participant_list.vala`
 - May need backend changes to expose audio levels
 
 **Estimated effort**: 6-8 hours (needs audio analysis)
+**Note**: Postponed to avoid breaking working 1:1 calls
 
 ---
 
@@ -686,6 +694,77 @@ grep "fingerprint" dinox-jingle.log
 
 ---
 
+## 🔮 Future Development Roadmap
+
+### Phase 3: Advanced Features (v0.7.0+)
+
+#### ✅ Message Retraction UI - **ALREADY IMPLEMENTED**
+**Status**: ✅ Complete - XEP-0424 backend + full UI
+- "Delete for everyone" option in message context menu
+- Dialog with options: "Delete locally" / "Delete for everyone"
+- MUC moderation support for room moderators
+- **Files**: `main/src/ui/conversation_content_view/item_actions.vala`
+- **Backend**: `libdino/src/service/message_deletion.vala`
+
+---
+
+#### 🔔 Push Notifications (XEP-0357) - **PLANNED**
+**Status**: 🚧 Not implemented yet
+**Priority**: 🔥 High - Very requested feature
+
+**What**: Receive notifications even when DinoX is closed
+- Server-side push via XEP-0357
+- Desktop notifications via libnotify/GNotifications
+- Wake app on notification
+
+**Implementation Plan**:
+1. Check existing notification infrastructure (`notifier_gnotifications.vala`, `notifier_freedesktop.vala`)
+2. Implement XEP-0357 module in `xmpp-vala/src/module/xep/`
+3. Register with push service on connection
+4. Handle push wake-up signal
+5. Update notification preferences UI
+
+**Estimated Effort**: 8-12 hours
+**Dependencies**: 
+- XEP-0357 Push Notifications
+- XEP-0388 SASL2 (recommended but not required)
+- Server support for push
+
+**Files to create**:
+- `xmpp-vala/src/module/xep/0357_push_notifications.vala`
+- Push service configuration in preferences
+
+**Testing needs**:
+- Modern XMPP server with push support (Prosody 0.12+, ejabberd 21+)
+- Test with app closed/backgrounded
+- Verify battery impact
+
+---
+
+#### 📊 Speaking Indicators - **DEFERRED**
+See Priority 2, Section 2.1 above - postponed to avoid breaking working calls
+
+---
+
+### Phase 4: Enterprise Features (v0.8.0+)
+
+#### Call Recording
+- Record all streams to separate files
+- Mux with ffmpeg after call
+- Requires consent from all participants
+- Legal/GDPR considerations
+
+#### Screen Sharing in Group Calls
+- Extend MUJI for screen capture source
+- Layout: Main screen + video thumbnails
+
+#### Advanced MUJI
+- Mid-call invitations
+- Selective participant invitations
+- Call migration (move to different room)
+
+---
+
 **Document Created**: November 24, 2025  
-**Last Updated**: November 24, 2025  
-**Target Version**: 0.6.6 (Phase 1)
+**Last Updated**: November 26, 2025  
+**Target Version**: 0.6.5.3 (Phase 1 Complete)
