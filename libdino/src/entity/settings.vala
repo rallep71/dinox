@@ -13,11 +13,17 @@ public class Settings : Object {
         convert_utf8_smileys_ = col_to_bool_or_default("convert_utf8_smileys", true);
         check_spelling = col_to_bool_or_default("check_spelling", true);
         keep_background_ = col_to_bool_or_default("keep_background", true);
+        color_scheme_ = col_to_string_or_default("color_scheme", "default");
     }
 
     private bool col_to_bool_or_default(string key, bool def) {
         string? val = db.settings.select({db.settings.value}).with(db.settings.key, "=", key)[db.settings.value];
         return val != null ? bool.parse(val) : def;
+    }
+
+    private string col_to_string_or_default(string key, string def) {
+        string? val = db.settings.select({db.settings.value}).with(db.settings.key, "=", key)[db.settings.value];
+        return val ?? def;
     }
 
     private bool send_typing_;
@@ -90,6 +96,18 @@ public class Settings : Object {
                 .value(db.settings.value, value.to_string())
                 .perform();
             keep_background_ = value;
+        }
+    }
+
+    private string color_scheme_;
+    public string color_scheme {
+        get { return color_scheme_; }
+        set {
+            db.settings.upsert()
+                .value(db.settings.key, "color_scheme", true)
+                .value(db.settings.value, value)
+                .perform();
+            color_scheme_ = value;
         }
     }
 

@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.8] - 2025-11-27
+
+### Added
+- **Dark Mode Toggle** - Manual color scheme control in Preferences → General
+  - New "Appearance" section with "Color Scheme" dropdown
+  - Three options: "Default (Follow System)", "Light", "Dark"
+  - **Instant switching** - Changes apply immediately without restart
+  - Persistent setting saved to database
+  - Fixes upstream issue [#1752](https://github.com/dino/dino/issues/1752) (requested by 54+ users)
+  - Implementation: `Adw.StyleManager` with `FORCE_LIGHT`, `FORCE_DARK`, or `DEFAULT` modes
+
+### Technical Details
+- Backend: `libdino/src/entity/settings.vala` - Added `color_scheme` property
+- UI: New "Appearance" preferences group with ComboRow
+- Live updates: `settings.notify["color-scheme"]` signal triggers instant theme change
+- No restart required - immediate visual feedback
+
 ## [0.6.7] - 2025-11-27
 
 ### Added

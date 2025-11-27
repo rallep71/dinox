@@ -2,7 +2,7 @@
 
 > **Fork Status**: Modern XMPP client - Independent development branch of [dino/dino](https://github.com/dino/dino)  
 > **Last Updated**: November 27, 2025
-> **Version**: 0.6.7
+> **Version**: 0.6.8
 > **Original Repository**: https://github.com/dino/dino (572 open issues)
 
 ---
@@ -36,7 +36,7 @@ DinoX addresses the slow development pace of the original Dino XMPP client while
 
 | Metric | Status | Details |
 |--------|--------|---------||
-| **Version** | [OK] **v0.6.7** | Latest stable release |
+| **Version** | [OK] **v0.6.8** | Latest stable release |
 | **XEPs Implemented** | [OK] **67** | One of most compliant XMPP clients |
 | **Database Schema** | [OK] **v32** | Custom server + history clear + background mode |
 | **Build Status** | [OK] **Clean** | 0 compiler warnings, 0 errors, 541 targets |
@@ -64,6 +64,7 @@ DinoX addresses the slow development pace of the original Dino XMPP client while
 | **Message Styling (XEP-0393)** | Inherited | Dino v0.1 | [DONE] Partial (bold/italic/strikethrough) |
 | **MUJI Group Calls Phase 1** | v0.6.5.3 | XEP-0272 | [DONE] Complete |
 | **Desktop Notifications Fix** | v0.6.5.4 | Critical bug | [DONE] Fixed |
+| **Dark Mode Toggle** | v0.6.8 | [#1752](https://github.com/dino/dino/issues/1752) | [DONE] Complete |
 
 ---
 
@@ -276,9 +277,39 @@ These features were inherited from upstream Dino and are fully functional in Din
 
 ---
 
+### [DONE] Phase 8: Dark Mode Toggle (v0.6.8 - Nov 2025)
+
+**Goal**: Manual color scheme control with instant switching
+
+**Completed**:
+- [DONE] **Dark Mode Toggle in Preferences** - Color Scheme dropdown in General settings
+  - Three options: "Default (Follow System)", "Light", "Dark"
+  - Instant switching without restart using `Adw.StyleManager`
+  - Persistent storage in database settings
+  - Applied at startup automatically
+- [DONE] **System Integration** - Respects system dark mode preferences by default
+- [DONE] **Clean Implementation** - Settings entity, ViewModel, UI binding, and live updates
+
+**Implementation**:
+- Backend: `libdino/src/entity/settings.vala` - Added `color_scheme` property with database persistence
+- UI: `main/data/preferences_window/general_preferences_page.ui` - New "Appearance" group with ComboRow
+- UI: `main/src/windows/preferences_window/general_preferences_page.vala` - ComboRow binding with conversion logic
+- UI: `main/src/ui/application.vala` - `apply_color_scheme()` method with live updates via signal
+- ViewModel: `main/src/view_model/preferences_dialog.vala` - Bidirectional property binding
+
+**Technical Details**:
+- Uses `Adw.ColorScheme.FORCE_LIGHT`, `FORCE_DARK`, or `DEFAULT` (system preference)
+- Changes apply immediately via `settings.notify["color-scheme"]` signal
+- No restart required - instant visual feedback
+- Fixes upstream issue [#1752](https://github.com/dino/dino/issues/1752)
+
+**Status**: [DONE] **COMPLETED** (November 27, 2025)
+
+---
+
 ##  Roadmap - What's Next
 
-### [TODO] Phase 8: MUC Administration (Inherited from Dino v0.4)
+### [TODO] Phase 9: MUC Administration (Inherited from Dino v0.4)
 
 **Goal**: Complete MUC management features
 

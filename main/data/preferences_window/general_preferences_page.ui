@@ -38,6 +38,18 @@
     </child>
     <child>
       <object class="AdwPreferencesGroup">
+        <property name="title" translatable="yes">Appearance</property>
+        <child>
+          <object class="AdwComboRow" id="color_scheme_row">
+            <property name="title" translatable="yes">_Color Scheme</property>
+            <property name="subtitle" translatable="yes">Choose between light and dark appearance</property>
+            <property name="use-underline">True</property>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="AdwPreferencesGroup">
         <child>
           <object class="AdwSwitchRow" id="emoji_row">
             <property name="title" translatable="yes">_Convert Smileys to Emoji</property>

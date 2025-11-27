@@ -77,6 +77,14 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             });
             stream_interactor.get_module(FileManager.IDENTITY).add_metadata_provider(new Util.AudioVideoFileMetadataProvider());
             
+            // Apply saved color scheme at startup
+            apply_color_scheme(settings.color_scheme);
+            
+            // Watch for color scheme changes
+            settings.notify["color-scheme"].connect(() => {
+                apply_color_scheme(settings.color_scheme);
+            });
+            
             // Initialize systray
             systray_manager = new SystrayManager(this);
         });
@@ -367,6 +375,21 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         });
 
         window.present();
+    }
+
+    private void apply_color_scheme(string scheme) {
+        var style_manager = Adw.StyleManager.get_default();
+        switch (scheme) {
+            case "light":
+                style_manager.color_scheme = Adw.ColorScheme.FORCE_LIGHT;
+                break;
+            case "dark":
+                style_manager.color_scheme = Adw.ColorScheme.FORCE_DARK;
+                break;
+            default:
+                style_manager.color_scheme = Adw.ColorScheme.DEFAULT;
+                break;
+        }
     }
 
     public override void shutdown() {
