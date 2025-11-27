@@ -29,6 +29,7 @@ sources = files(
     'src/ui/add_conversation/add_contact_dialog.vala',
     'src/ui/add_conversation/add_groupchat_dialog.vala',
     'src/ui/add_conversation/room_browser_dialog.vala',
+    'src/ui/add_conversation/contact_browser_dialog.vala',
     'src/ui/add_conversation/conference_details_fragment.vala',
     'src/ui/add_conversation/conference_list.vala',
     'src/ui/add_conversation/list_row.vala',

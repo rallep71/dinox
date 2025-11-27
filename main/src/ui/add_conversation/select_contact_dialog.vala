@@ -67,6 +67,9 @@ public class SelectContactDialog : Gtk.Window {
         select_jid_fragment = new SelectJidFragment(stream_interactor, roster_list_box, accounts);
         select_jid_fragment.button_mode = SelectJidFragment.ButtonMode.CONTACT;
         select_jid_fragment.show_button_labels = true;
+        select_jid_fragment.placeholder_text = _("Search or enter contact address...");
+        select_jid_fragment.enable_contact_browse = true;
+        select_jid_fragment.browse_contacts_clicked.connect(open_contact_browser);
         select_jid_fragment.add_jid.connect((row) => {
             AddContactDialog add_contact_dialog = new AddContactDialog(stream_interactor);
             add_contact_dialog.set_transient_for(this);
@@ -80,6 +83,17 @@ public class SelectContactDialog : Gtk.Window {
             ok_button.sensitive = select_jid_fragment.done;
         });
         this.child = select_jid_fragment;
+    }
+    
+    private void open_contact_browser() {
+        var dialog = new ContactBrowserDialog(stream_interactor, accounts);
+        dialog.transient_for = this;
+        dialog.contact_selected.connect((account, jid) => {
+            // Trigger selection as if user typed the JID
+            selected(account, jid);
+            close();
+        });
+        dialog.present();
     }
 }
 

@@ -39,6 +39,11 @@ public class SelectJidFragment : Gtk.Box {
         }
     }
     private ButtonMode _button_mode = ButtonMode.CONTACT;
+    
+    public string placeholder_text {
+        get { return entry.placeholder_text; }
+        set { entry.placeholder_text = value; }
+    }
 
     [GtkChild] private unowned Entry entry;
     [GtkChild] private unowned Box box;
@@ -60,8 +65,7 @@ public class SelectJidFragment : Gtk.Box {
         get { return _enable_muc_search; }
         set {
             _enable_muc_search = value;
-            entry.secondary_icon_name = value ? "system-search-symbolic" : null;
-            entry.secondary_icon_tooltip_text = value ? _("Browse Rooms") : null;
+            update_search_icon();
             if (value && !discovery_started) {
                 discovery_started = true;
                 fetch_public_rooms.begin();
@@ -69,8 +73,21 @@ public class SelectJidFragment : Gtk.Box {
         }
     }
     private bool _enable_muc_search = false;
+    
+    public bool enable_contact_browse {
+        get { return _enable_contact_browse; }
+        set {
+            _enable_contact_browse = value;
+            update_search_icon();
+        }
+    }
+    private bool _enable_contact_browse = false;
+    
+    public signal void browse_contacts_clicked();
 
     private async void fetch_public_rooms() {
+        var seen_jids = new Gee.HashSet<string>();
+        
         foreach (Account account in accounts) {
             if (!account.enabled) continue;
             try {
@@ -85,7 +102,12 @@ public class SelectJidFragment : Gtk.Box {
                     var result = yield disco_module.request_items(stream, muc_server);
                     if (result != null) {
                         foreach (var item in result.items) {
-                            cached_public_rooms.add(item);
+                            string jid_str = item.jid.to_string();
+                            // Only add if we haven't seen this JID before
+                            if (!seen_jids.contains(jid_str)) {
+                                cached_public_rooms.add(item);
+                                seen_jids.add(jid_str);
+                            }
                         }
                     }
                     // Refresh filter if user has typed something
@@ -126,9 +148,26 @@ public class SelectJidFragment : Gtk.Box {
         });
     }
 
+    private void update_search_icon() {
+        if (enable_muc_search) {
+            entry.secondary_icon_name = "system-search-symbolic";
+            entry.secondary_icon_tooltip_text = _("Browse Rooms");
+        } else if (enable_contact_browse) {
+            entry.secondary_icon_name = "system-search-symbolic";
+            entry.secondary_icon_tooltip_text = _("Browse Contacts");
+        } else {
+            entry.secondary_icon_name = null;
+            entry.secondary_icon_tooltip_text = null;
+        }
+    }
+    
     private void on_icon_press(EntryIconPosition pos) {
-        if (pos == EntryIconPosition.SECONDARY && enable_muc_search) {
-            open_room_browser();
+        if (pos == EntryIconPosition.SECONDARY) {
+            if (enable_muc_search) {
+                open_room_browser();
+            } else if (enable_contact_browse) {
+                browse_contacts_clicked();
+            }
         }
     }
 
@@ -164,28 +203,17 @@ public class SelectJidFragment : Gtk.Box {
             remove_button_label.label = _("Delete Contact");
         } else {
             add_button_label.label = _("Add Group");
-            remove_button_label.label = _("Delete Group");
+            remove_button_label.label = _("Leave Group");
         }
     }
     
     private void update_button_label() {
         if (!_show_button_labels) return;
         
-        // Only update label for GROUP mode (to show "Delete Private Group")
+        // For GROUP mode, always show "Leave Group"
         if (_button_mode != ButtonMode.GROUP) return;
         
-        var selected_row = list.get_selected_row();
-        if (selected_row != null && selected_row is ConferenceListRow) {
-            var conference_row = (ConferenceListRow) selected_row;
-            // Check if it's a private room by checking if private_room_image is visible
-            if (conference_row.private_room_image != null && conference_row.private_room_image.visible) {
-                remove_button_label.label = _("Delete Private Group");
-            } else {
-                remove_button_label.label = _("Delete Group");
-            }
-        } else {
-            remove_button_label.label = _("Delete Group");
-        }
+        remove_button_label.label = _("Leave Group");
     }
 
     public void set_filter(string str) {
@@ -225,6 +253,9 @@ public class SelectJidFragment : Gtk.Box {
                     foreach(var acc in accounts) { if (acc.enabled) { account = acc; break; } }
                     
                     if (account != null) {
+                        // Skip rooms where we are already joined
+                        if (stream_interactor.get_module(MucManager.IDENTITY).is_joined(item.jid, account)) continue;
+
                         var list_row = new Gtk.ListBoxRow();
                         list_row.set_child(new AddListRow(stream_interactor, item.jid, account, item.name));
                         list.append(list_row);
