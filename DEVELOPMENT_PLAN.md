@@ -36,153 +36,153 @@ DinoX addresses the slow development pace of the original Dino XMPP client while
 
 | Metric | Status | Details |
 |--------|--------|---------|
-| **Version** | ✓ **v0.6.5.4** | Latest stable release |
-| **XEPs Implemented** | ✓ 60+ | One of most compliant XMPP clients |
-| **Database Schema** | ✓ **v32** | Custom server + history clear + background mode |
-| **Build Status** | ✓ **Clean** | 0 compiler warnings, 0 errors, 541 targets |
-| **Code Quality** | ✓ **High** | Async/Error safety enforced, WeakMap null checks |
-| **GTK/libadwaita** | ✓ **Modern** | GTK4 4.14.5, libadwaita 1.5, 0 deprecation warnings |
-| **Memory Leaks** | ✓ **Fixed** | MAM cleanup, GStreamer resource handling |
-| **Platform Support** | ⚠️ **Linux Only** | Desktop focus (GNOME/KDE) |
+| **Version** | [OK] **v0.6.5.4** | Latest stable release |
+| **XEPs Implemented** | [OK] 60+ | One of most compliant XMPP clients |
+| **Database Schema** | [OK] **v32** | Custom server + history clear + background mode |
+| **Build Status** | [OK] **Clean** | 0 compiler warnings, 0 errors, 541 targets |
+| **Code Quality** | [OK] **High** | Async/Error safety enforced, WeakMap null checks |
+| **GTK/libadwaita** | [OK] **Modern** | GTK4 4.14.5, libadwaita 1.5, 0 deprecation warnings |
+| **Memory Leaks** | [OK] **Fixed** | MAM cleanup, GStreamer resource handling |
+| **Platform Support** | [WARNING] **Linux Only** | Desktop focus (GNOME/KDE) |
 
-### ✅ Completed Features (2025)
+### [DONE] Completed Features (2025)
 
 | Feature | Version | Upstream Issue | Status |
 |---------|---------|----------------|--------|
-| **System Tray** | v0.6.0 | [#98](https://github.com/dino/dino/issues/98) (108👍) | ✅ Complete |
-| **Background Mode Toggle** | v0.6.5.4 | [#299](https://github.com/dino/dino/issues/299) (54👍) | ✅ Complete |
-| **Custom Server Settings** | v0.6.1 | [#115](https://github.com/dino/dino/issues/115) (26👍) | ✅ Complete |
-| **Delete Conversation History** | v0.6.2 | [#472](https://github.com/dino/dino/issues/472) | ✅ Complete |
-| **Contact Management Suite** | v0.6.2 | Multiple | ✅ Complete |
-| **Voice Messages (AAC/m4a)** | v0.6.4 | Interop | ✅ Complete |
-| **Video Player (H.264/HEVC)** | v0.6.5 | Stability | ✅ Complete |
-| **Message Retraction (XEP-0424)** | v0.6.3 | Protocol | ✅ Complete |
-| **MUC Invitations** | v0.6.0 | XEP-0045/0249 | ✅ Complete |
-| **MUJI Group Calls Phase 1** | v0.6.5.3 | XEP-0272 | ✅ Complete |
-| **Desktop Notifications Fix** | v0.6.5.4 | Critical bug | ✅ Fixed |
+| **System Tray** | v0.6.0 | [#98](https://github.com/dino/dino/issues/98) (108) | [DONE] Complete |
+| **Background Mode Toggle** | v0.6.5.4 | [#299](https://github.com/dino/dino/issues/299) (54) | [DONE] Complete |
+| **Custom Server Settings** | v0.6.1 | [#115](https://github.com/dino/dino/issues/115) (26) | [DONE] Complete |
+| **Delete Conversation History** | v0.6.2 | [#472](https://github.com/dino/dino/issues/472) | [DONE] Complete |
+| **Contact Management Suite** | v0.6.2 | Multiple | [DONE] Complete |
+| **Voice Messages (AAC/m4a)** | v0.6.4 | Interop | [DONE] Complete |
+| **Video Player (H.264/HEVC)** | v0.6.5 | Stability | [DONE] Complete |
+| **Message Retraction (XEP-0424)** | v0.6.3 | Protocol | [DONE] Complete |
+| **MUC Invitations** | v0.6.0 | XEP-0045/0249 | [DONE] Complete |
+| **MUJI Group Calls Phase 1** | v0.6.5.3 | XEP-0272 | [DONE] Complete |
+| **Desktop Notifications Fix** | v0.6.5.4 | Critical bug | [DONE] Fixed |
 
 ---
 
 ## Development History
 
-### ✅ Phase 1: Critical Stability (v0.6.0 - Nov 2025)
+### [DONE] Phase 1: Critical Stability (v0.6.0 - Nov 2025)
 
 **Goal**: Make Dino rock-solid for daily use
 
 **Completed**:
-- ✅ [#1764](https://github.com/dino/dino/issues/1764) - File Transfer segfault on upload error
-- ✅ [#1766](https://github.com/dino/dino/issues/1766) - Memory leak (RAM grows to GB over days)
-- ✅ [#1746](https://github.com/dino/dino/issues/1746) - MAM/Carbon messages lost
-- ✅ [#1779](https://github.com/dino/dino/issues/1779) - Long messages truncated
+- [DONE] [#1764](https://github.com/dino/dino/issues/1764) - File Transfer segfault on upload error
+- [DONE] [#1766](https://github.com/dino/dino/issues/1766) - Memory leak (RAM grows to GB over days)
+- [DONE] [#1746](https://github.com/dino/dino/issues/1746) - MAM/Carbon messages lost
+- [DONE] [#1779](https://github.com/dino/dino/issues/1779) - Long messages truncated
 
-**Status**: ✅ **COMPLETED** (November 19, 2025)
+**Status**: [DONE] **COMPLETED** (November 19, 2025)
 
 ---
 
-### ✅ Phase 2: Codebase Modernization (v0.6.1 - Nov 2025)
+### [DONE] Phase 2: Codebase Modernization (v0.6.1 - Nov 2025)
 
 **Goal**: Eliminate technical debt, achieve clean build
 
 **Completed**:
-- ✅ Unhandled errors fixed (try/catch blocks everywhere)
-- ✅ Async correctness enforced (explicit `.begin` syntax)
-- ✅ 50+ compiler warnings eliminated
-- ✅ VAPI syntax updated (gnutls, libgcrypt)
-- ✅ WeakMap null safety improved
-- ✅ GValueArray deprecation fixed (RTP plugin)
+- [DONE] Unhandled errors fixed (try/catch blocks everywhere)
+- [DONE] Async correctness enforced (explicit `.begin` syntax)
+- [DONE] 50+ compiler warnings eliminated
+- [DONE] VAPI syntax updated (gnutls, libgcrypt)
+- [DONE] WeakMap null safety improved
+- [DONE] GValueArray deprecation fixed (RTP plugin)
 
-**Status**: ✅ **COMPLETED** (November 21, 2025)
+**Status**: [DONE] **COMPLETED** (November 21, 2025)
 
 ---
 
-### ✅ Phase 3: Audio & Interaction Polish (v0.6.4 - Nov 2025)
+### [DONE] Phase 3: Audio & Interaction Polish (v0.6.4 - Nov 2025)
 
 **Goal**: Fix audio compatibility and message interaction
 
 **Completed**:
-- ✅ Audio format switch to m4a/AAC (iOS/Android compatible)
-- ✅ Persistent message deletion (no reappearance on restart)
-- ✅ File deletion context menu for all file types
-- ✅ Quote widget right-click fix
-- ✅ Empty message prevention
-- ✅ Zombie process fix (GStreamer cleanup)
+- [DONE] Audio format switch to m4a/AAC (iOS/Android compatible)
+- [DONE] Persistent message deletion (no reappearance on restart)
+- [DONE] File deletion context menu for all file types
+- [DONE] Quote widget right-click fix
+- [DONE] Empty message prevention
+- [DONE] Zombie process fix (GStreamer cleanup)
 
-**Status**: ✅ **COMPLETED** (November 23, 2025)
+**Status**: [DONE] **COMPLETED** (November 23, 2025)
 
 ---
 
-### ✅ Phase 4: Video Playback & Flatpak (v0.6.5 - Nov 2025)
+### [DONE] Phase 4: Video Playback & Flatpak (v0.6.5 - Nov 2025)
 
 **Goal**: Robust inline video playback
 
 **Completed**:
-- ✅ Video player widget (Gtk.AspectFrame + Gtk.MediaFile)
-- ✅ Layout stability (no chat view collapse)
-- ✅ Aspect ratio fix (16:9 enforcement)
-- ✅ Flatpak codecs (ffmpeg-full extension for H.264/HEVC)
-- ✅ SFS fixes for MUC private messages
-- ✅ Video/audio player fixes for private conversations
+- [DONE] Video player widget (Gtk.AspectFrame + Gtk.MediaFile)
+- [DONE] Layout stability (no chat view collapse)
+- [DONE] Aspect ratio fix (16:9 enforcement)
+- [DONE] Flatpak codecs (ffmpeg-full extension for H.264/HEVC)
+- [DONE] SFS fixes for MUC private messages
+- [DONE] Video/audio player fixes for private conversations
 
-**Status**: ✅ **COMPLETED** (November 24, 2025)
+**Status**: [DONE] **COMPLETED** (November 24, 2025)
 
 ---
 
-### ✅ Phase 5: MUJI Group Calls Phase 1 (v0.6.5.3 - Nov 2025)
+### [DONE] Phase 5: MUJI Group Calls Phase 1 (v0.6.5.3 - Nov 2025)
 
 **Goal**: Make MUJI discoverable and user-friendly
 
 **Completed**:
-- ✅ Participant list sidebar during group calls
-- ✅ Private room creation checkbox (auto-config)
-- ✅ Private room indicator (🔒 icon in conversation list)
-- ✅ MUC server warning dialog
-- ✅ Group call button only visible for MUC
-- ✅ Entity capabilities hash mismatch fix (improves MUJI detection)
+- [DONE] Participant list sidebar during group calls
+- [DONE] Private room creation checkbox (auto-config)
+- [DONE] Private room indicator ( icon in conversation list)
+- [DONE] MUC server warning dialog
+- [DONE] Group call button only visible for MUC
+- [DONE] Entity capabilities hash mismatch fix (improves MUJI detection)
 
-**Backend**: ✅ Complete (XEP-0272 fully implemented)  
-**UI Phase 1**: ✅ Complete  
-**Testing**: ⚠️ **Not tested with 3+ participants yet!**
+**Backend**: [DONE] Complete (XEP-0272 fully implemented)  
+**UI Phase 1**: [DONE] Complete  
+**Testing**: [WARNING] **Not tested with 3+ participants yet!**
 
-**Status**: ✅ **COMPLETED** (November 25, 2025)
+**Status**: [DONE] **COMPLETED** (November 25, 2025)
 
 **See**: [MUJI_GROUP_CALLS.md](docs/MUJI_GROUP_CALLS.md), [MUJI_IMPROVEMENTS.md](docs/MUJI_IMPROVEMENTS.md)
 
 ---
 
-### ✅ Phase 6: Background Mode & Notifications (v0.6.5.4 - Nov 2025)
+### [DONE] Phase 6: Background Mode & Notifications (v0.6.5.4 - Nov 2025)
 
 **Goal**: Configurable quit behavior and reliable notifications
 
 **Completed**:
-- ✅ Background Mode Toggle in Preferences → General
+- [DONE] Background Mode Toggle in Preferences → General
   - ON (default): Window closes to systray, app keeps running
   - OFF: Window close triggers application quit
-- ✅ Systray Quit menu with proper XMPP disconnect
-- ✅ Notification system deadlock fix (register_notification_provider)
-- ✅ Flatpak exit handling (Process.exit(0) for clean termination)
+- [DONE] Systray Quit menu with proper XMPP disconnect
+- [DONE] Notification system deadlock fix (register_notification_provider)
+- [DONE] Flatpak exit handling (Process.exit(0) for clean termination)
 
-**Status**: ✅ **COMPLETED** (November 27, 2025)
+**Status**: [DONE] **COMPLETED** (November 27, 2025)
 
 ---
 
-## 🎯 Roadmap - What's Next
+##  Roadmap - What's Next
 
-### 🔵 Phase 7: MUC Administration (v0.6.6 - Dec 2025)
+### [TODO] Phase 7: MUC Administration (v0.6.6 - Dec 2025)
 
 **Goal**: Complete MUC management features
 
 | Priority | Feature | Complexity | Status |
 |----------|---------|------------|--------|
-| ✅ | **MUC Invitations** | Easy | ✅ **DONE** |
-| P1 | **Affiliation Management UI** | Medium | 🔵 TODO |
-| P2 | **Room Destruction** | Easy | 🔵 TODO |
+| [DONE] | **MUC Invitations** | Easy | [DONE] **DONE** |
+| P1 | **Affiliation Management UI** | Medium | [TODO] TODO |
+| P2 | **Room Destruction** | Easy | [TODO] TODO |
 
-**MUC Invitations** ✅ **ALREADY IMPLEMENTED**:
-- ✅ Available via **Occupant Menu** (user icon in titlebar)
-- ✅ "Invite" button opens contact selection dialog
-- ✅ Backend: `MucManager.invite()` fully functional
-- ✅ UI: `main/src/ui/occupant_menu/view.vala` - Complete implementation
-- ✅ Also prepared in conversation menu (currently commented out)
+**MUC Invitations** [DONE] **ALREADY IMPLEMENTED**:
+- [DONE] Available via **Occupant Menu** (user icon in titlebar)
+- [DONE] "Invite" button opens contact selection dialog
+- [DONE] Backend: `MucManager.invite()` fully functional
+- [DONE] UI: `main/src/ui/occupant_menu/view.vala` - Complete implementation
+- [DONE] Also prepared in conversation menu (currently commented out)
 
 **Implementation Details**:
 - `main/src/ui/occupant_menu/view.vala:269` - `on_invite_clicked()`
@@ -196,22 +196,22 @@ DinoX addresses the slow development pace of the original Dino XMPP client while
 
 ---
 
-### 🔵 Phase 8: MUJI Group Calls Phase 2 (v0.6.7 - Q1 2026)
+### [TODO] Phase 8: MUJI Group Calls Phase 2 (v0.6.7 - Q1 2026)
 
 **Goal**: Enhance group call experience
 
 | Priority | Feature | Complexity | Status |
 |----------|---------|------------|--------|
-| P1 | **Individual Volume Controls** | Medium | 🔵 TODO |
-| P2 | **Call Quality Indicators** | Medium | 🔵 TODO |
-| P2 | **Better Error Messages** | Easy | 🔵 TODO |
-| P3 | **Speaking Indicator** | Hard | ⏸️ DEFERRED |
+| P1 | **Individual Volume Controls** | Medium | [TODO] TODO |
+| P2 | **Call Quality Indicators** | Medium | [TODO] TODO |
+| P2 | **Better Error Messages** | Easy | [TODO] TODO |
+| P3 | **Speaking Indicator** | Hard | [DEFERRED] DEFERRED |
 
 **Speaking Indicator**: Postponed to avoid breaking working 1:1 calls
 
 **Critical**: 
-- ⚠️ **MUJI needs testing with 3+ participants!**
-- ⚠️ **Performance unknown with 5+ peers**
+- [WARNING] **MUJI needs testing with 3+ participants!**
+- [WARNING] **Performance unknown with 5+ peers**
 
 **See**: [MUJI_IMPROVEMENTS.md](docs/MUJI_IMPROVEMENTS.md) for roadmap
 
@@ -219,15 +219,15 @@ DinoX addresses the slow development pace of the original Dino XMPP client while
 
 ---
 
-### 🟢 Phase 9: Critical Bug Fixes (v0.7.0 - Q1 2026)
+### [TODO] Phase 9: Critical Bug Fixes (v0.7.0 - Q1 2026)
 
 **Goal**: Fix remaining P1 bugs
 
 | Priority | Issue | Component | Complexity | Status |
 |----------|-------|-----------|------------|--------|
-| P1 | [#1559](https://github.com/dino/dino/issues/1559) | Echo Cancellation | Hard | 🟢 TODO |
-| P1 | [#57](https://github.com/dino/dino/issues/57) | Self-signed Certs | Medium | 🟢 TODO |
-| P2 | [#1380](https://github.com/dino/dino/issues/1380) | Spell Checking | Medium | 🟢 TODO |
+| P1 | [#1559](https://github.com/dino/dino/issues/1559) | Echo Cancellation | Hard | [TODO] TODO |
+| P1 | [#57](https://github.com/dino/dino/issues/57) | Self-signed Certs | Medium | [TODO] TODO |
+| P2 | [#1380](https://github.com/dino/dino/issues/1380) | Spell Checking | Medium | [TODO] TODO |
 
 **Files to modify**:
 - `plugins/rtp/src/device/` - Echo cancellation
@@ -238,31 +238,31 @@ DinoX addresses the slow development pace of the original Dino XMPP client while
 
 ---
 
-### 🟣 Phase 10: UX Polish (v0.7.5 - Q2 2026)
+### [TODO] Phase 10: UX Polish (v0.7.5 - Q2 2026)
 
 **Goal**: Smooth, polished experience
 
 | Priority | Issue | Feature | Complexity | Status |
 |----------|-------|---------|------------|--------|
-| P2 | [#1769](https://github.com/dino/dino/issues/1769) | Chat Scroll Fix | Medium | 🟣 TODO |
-| P2 | [#1752](https://github.com/dino/dino/issues/1752) | Dark Mode (no restart) | Easy | 🟣 TODO |
-| P2 | [#1787](https://github.com/dino/dino/issues/1787) | Better Notifications | Medium | 🟣 TODO |
-| P3 | [#1776](https://github.com/dino/dino/issues/1776) | Emoji Reactions | Medium | 🟣 TODO |
+| P2 | [#1769](https://github.com/dino/dino/issues/1769) | Chat Scroll Fix | Medium | [TODO] TODO |
+| P2 | [#1752](https://github.com/dino/dino/issues/1752) | Dark Mode (no restart) | Easy | [TODO] TODO |
+| P2 | [#1787](https://github.com/dino/dino/issues/1787) | Better Notifications | Medium | [TODO] TODO |
+| P3 | [#1776](https://github.com/dino/dino/issues/1776) | Emoji Reactions | Medium | [TODO] TODO |
 
 **Target**: End of April 2026
 
 ---
 
-### 🔷 Phase 11: Modern XEP Support (v0.8.0 - Q2 2026)
+### [TODO] Phase 11: Modern XEP Support (v0.8.0 - Q2 2026)
 
 **Goal**: Support latest XMPP standards
 
 | Priority | XEP | Feature | Complexity | Status |
 |----------|-----|---------|------------|--------|
-| P1 | XEP-0388 | SASL2/FAST Auth | Hard | 🔷 TODO |
-| P1 | XEP-0357 | Push Notifications | Hard | 🔷 TODO |
-| P2 | XEP-0449 | Stickers | Medium | 🔷 TODO |
-| P3 | - | Export/Import | Medium | 🔷 TODO |
+| P1 | XEP-0388 | SASL2/FAST Auth | Hard | [TODO] TODO |
+| P1 | XEP-0357 | Push Notifications | Hard | [TODO] TODO |
+| P2 | XEP-0449 | Stickers | Medium | [TODO] TODO |
+| P3 | - | Export/Import | Medium | [TODO] TODO |
 
 **New files to create**:
 - `xmpp-vala/src/module/xep/0388_sasl2.vala`
@@ -292,12 +292,12 @@ DinoX addresses the slow development pace of the original Dino XMPP client while
 **Goal**: Production-ready, stable API
 
 **Requirements**:
-- ✅ Zero known crash bugs
-- ✅ Memory usage <200MB for 7-day sessions
-- ✅ 90%+ test coverage for critical paths
-- ✅ Complete documentation
-- ✅ Performance benchmarks established
-- ✅ Accessibility audit passed
+- [DONE] Zero known crash bugs
+- [DONE] Memory usage <200MB for 7-day sessions
+- [DONE] 90%+ test coverage for critical paths
+- [DONE] Complete documentation
+- [DONE] Performance benchmarks established
+- [DONE] Accessibility audit passed
 
 **Target**: October 2026
 
@@ -317,12 +317,12 @@ DinoX addresses the slow development pace of the original Dino XMPP client while
 
 | Category | Count | Top Priority |
 |----------|-------|--------------|
-| 🐛 **Bugs** | ~200 | Crashes, data loss |
-| ✨ **Features** | ~250 | UX improvements |
-| 📡 **XEPs** | ~50 | Protocol updates |
-| 🎨 **UI/UX** | ~40 | Interface polish |
-| 🖥️ **Platform** | ~15 | Windows, mobile |
-| 🔐 **Security** | ~13 | Encryption, privacy |
+|  **Bugs** | ~200 | Crashes, data loss |
+|  **Features** | ~250 | UX improvements |
+|  **XEPs** | ~50 | Protocol updates |
+|  **UI/UX** | ~40 | Interface polish |
+|  **Platform** | ~15 | Windows, mobile |
+|  **Security** | ~13 | Encryption, privacy |
 
 ---
 
@@ -336,22 +336,22 @@ See [XEP_SUPPORT.md](docs/XEP_SUPPORT.md) for full list.
 
 | Status | Count | Percentage |
 |--------|-------|------------|
-| ✅ **Full (Backend + UI)** | ~32 | 53% |
-| ⚙️ **Backend Only** | ~24 | 40% |
-| ⚠️ **Partial** | ~4 | 7% |
+| [DONE] **Full (Backend + UI)** | ~32 | 53% |
+|  **Backend Only** | ~24 | 40% |
+| [WARNING] **Partial** | ~4 | 7% |
 
 ### Recently Added
 
-- ✅ XEP-0191 (Blocking Command) - Full UI
-- ✅ XEP-0272 (MUJI) - Group calls with UI
-- ✅ XEP-0424 (Message Retraction) - Full UI
-- ✅ XEP-0425 (Message Moderation) - Backend complete
+- [DONE] XEP-0191 (Blocking Command) - Full UI
+- [DONE] XEP-0272 (MUJI) - Group calls with UI
+- [DONE] XEP-0424 (Message Retraction) - Full UI
+- [DONE] XEP-0425 (Message Moderation) - Backend complete
 
 ---
 
 ## Testing Status
 
-### ✅ Tested & Stable
+### [DONE] Tested & Stable
 
 - 1:1 Audio/Video Calls (DinoX ↔ DinoX)
 - File transfers (HTTP, Jingle)
@@ -361,7 +361,7 @@ See [XEP_SUPPORT.md](docs/XEP_SUPPORT.md) for full list.
 - Voice messages (AAC/m4a)
 - Video playback (H.264, HEVC)
 
-### ⚠️ Needs Testing
+### [WARNING] Needs Testing
 
 - **MUJI Group Calls with 3+ participants**
 - **Performance with 5+ participants in group call**
@@ -373,11 +373,11 @@ See [XEP_SUPPORT.md](docs/XEP_SUPPORT.md) for full list.
 ## Known Issues
 
 ### Critical (P0)
-None! 🎉
+None! 
 
 ### High Priority (P1)
-- ⚠️ Echo cancellation broken in some configurations ([#1559](https://github.com/dino/dino/issues/1559))
-- ⚠️ Self-signed certificates rejected ([#57](https://github.com/dino/dino/issues/57))
+- [WARNING] Echo cancellation broken in some configurations ([#1559](https://github.com/dino/dino/issues/1559))
+- [WARNING] Self-signed certificates rejected ([#57](https://github.com/dino/dino/issues/57))
 
 ### Medium Priority (P2)
 - Chat scroll behavior jumpy ([#1769](https://github.com/dino/dino/issues/1769))
@@ -437,4 +437,4 @@ See [LICENSE](LICENSE) for full text.
 
 **Last Updated**: November 27, 2025  
 **Maintainer**: @rallep71  
-**Status**: ✅ Active Development
+**Status**: [DONE] Active Development

@@ -2,21 +2,21 @@
 
 This plan outlines the steps to bring Dino's Multi-User Chat (MUC) capabilities closer to feature parity with clients like Gajim, focusing on Administration and Usability.
 
-## Phase 1: Invitations ✅ **COMPLETED**
+## Phase 1: Invitations [DONE] **COMPLETED**
 **Goal:** Allow users to invite contacts to the current MUC easily.
 
-**Status**: ✅ **ALREADY IMPLEMENTED** (since early versions)
+**Status**: [DONE] **ALREADY IMPLEMENTED** (since early versions)
 
 **Implementation**:
-1.  ✅ **UI Entry Point**: "Invite" button in **Occupant Menu** (user icon in MUC titlebar)
+1.  [DONE] **UI Entry Point**: "Invite" button in **Occupant Menu** (user icon in MUC titlebar)
     - Location: `main/src/ui/occupant_menu/view.vala:27`
     - Opens contact selection dialog on click
-2.  ✅ **Selection Dialog**: Uses `SelectContactDialog` for roster contact selection
+2.  [DONE] **Selection Dialog**: Uses `SelectContactDialog` for roster contact selection
     - Location: `main/src/ui/occupant_menu/view.vala:269-280`
-3.  ✅ **Backend Implementation**: 
+3.  [DONE] **Backend Implementation**: 
     - `MucManager.invite()` fully functional (`libdino/src/service/muc_manager.vala:230`)
-    - ✅ Supports both Direct (XEP-0249) and Mediated (XEP-0045) invitations
-    - ✅ Handles invite reception and notifications
+    - [DONE] Supports both Direct (XEP-0249) and Mediated (XEP-0045) invitations
+    - [DONE] Handles invite reception and notifications
 
 **Alternative Entry Point** (prepared but commented out):
 - Conversation menu also has invite action prepared (`main/src/ui/conversation_titlebar/menu_entry.vala:37-109`)
@@ -51,10 +51,10 @@ This plan outlines the steps to bring Dino's Multi-User Chat (MUC) capabilities 
 **Goal:** Provide clear feedback in the chat when administrative actions occur.
 
 1.  **Status Codes**:
-    *   ✓ Ensure `MucManager` emits signals for specific status codes (e.g., 301 for Ban, 307 for Kick, 321 for Affiliation Change).
+    *   [OK] Ensure `MucManager` emits signals for specific status codes (e.g., 301 for Ban, 307 for Kick, 321 for Affiliation Change).
 2.  **Chat View**:
-    *   ✓ Catch these signals and insert "System Messages" into the chat stream.
-    *   ✓ Example: "User X has been banned by Admin Y: [Reason]".
+    *   [OK] Catch these signals and insert "System Messages" into the chat stream.
+    *   [OK] Example: "User X has been banned by Admin Y: [Reason]".
 
 ---
 
