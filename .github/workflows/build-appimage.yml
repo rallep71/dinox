@@ -48,6 +48,8 @@ jobs:
             libdbusmenu-glib-dev \
             libgdk-pixbuf-2.0-dev \
             libsignal-protocol-c-dev \
+            libprotobuf-c-dev \
+            protobuf-c-compiler \
             cmake \
             patchelf \
             file \
