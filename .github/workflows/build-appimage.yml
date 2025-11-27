@@ -77,29 +77,33 @@ jobs:
           mkdir -p "$APPDIR"
           DESTDIR="$APPDIR" meson install -C build
           
+          # Move from /usr/local to /usr for AppImage standard
+          if [ -d "$APPDIR/usr/local" ]; then
+            echo "Moving files from /usr/local to /usr..."
+            cp -r "$APPDIR/usr/local"/* "$APPDIR/usr/" 2>/dev/null || true
+            rm -rf "$APPDIR/usr/local"
+          fi
+          
+          # Consolidate libraries from x86_64-linux-gnu to main lib dir
+          if [ -d "$APPDIR/usr/lib/x86_64-linux-gnu" ]; then
+            echo "Consolidating libraries..."
+            cp -L "$APPDIR/usr/lib/x86_64-linux-gnu"/*.so* "$APPDIR/usr/lib/" 2>/dev/null || true
+            # Also copy plugins
+            if [ -d "$APPDIR/usr/lib/x86_64-linux-gnu/dino" ]; then
+              mkdir -p "$APPDIR/usr/lib/dino"
+              cp -r "$APPDIR/usr/lib/x86_64-linux-gnu/dino"/* "$APPDIR/usr/lib/dino/" 2>/dev/null || true
+            fi
+          fi
+          
           # Create standard directories
-          mkdir -p "$APPDIR/usr/bin"
-          mkdir -p "$APPDIR/usr/lib"
-          mkdir -p "$APPDIR/usr/share/applications"
-          mkdir -p "$APPDIR/usr/share/icons/hicolor/scalable/apps"
-          mkdir -p "$APPDIR/usr/share/glib-2.0/schemas"
           mkdir -p "$APPDIR/usr/lib/gstreamer-1.0"
+          mkdir -p "$APPDIR/usr/share/glib-2.0/schemas"
       
-      - name: Copy DinoX libraries
+      - name: Copy libomemo-c
         run: |
           APPDIR="${GITHUB_WORKSPACE}/AppDir"
-          cp -L build/libdino/*.so* "$APPDIR/usr/lib/" 2>/dev/null || true
-          cp -L build/crypto-vala/*.so* "$APPDIR/usr/lib/" 2>/dev/null || true
-          cp -L build/qlite/*.so* "$APPDIR/usr/lib/" 2>/dev/null || true
-          cp -L build/xmpp-vala/*.so* "$APPDIR/usr/lib/" 2>/dev/null || true
           # Copy libomemo-c (built from source)
           cp -L /usr/lib/libomemo-c.so* "$APPDIR/usr/lib/" 2>/dev/null || true
-      
-      - name: Copy plugins
-        run: |
-          APPDIR="${GITHUB_WORKSPACE}/AppDir"
-          mkdir -p "$APPDIR/usr/lib/dino/plugins"
-          find build/plugins -name "*.so" -exec cp {} "$APPDIR/usr/lib/dino/plugins/" \;
       
       - name: Copy GStreamer plugins (including ffmpeg)
         run: |
