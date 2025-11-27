@@ -188,12 +188,15 @@ namespace Dino.Plugins.Omemo {
                     critical("Failed learning a device.");
                     return false;
                 }
-
-                XmppStream? stream = stream_interactor.get_stream(account);
-                if (device == null && stream != null) {
-                    stream.get_module(StreamModule.IDENTITY).request_user_devicelist.begin(stream, from_jid);
-                }
             }
+            
+            // Always update device list when receiving prekey message, even for known devices
+            // This fixes decryption issues in old chats where sessions have expired
+            XmppStream? stream = stream_interactor.get_stream(account);
+            if (stream != null) {
+                stream.get_module(StreamModule.IDENTITY).request_user_devicelist.begin(stream, from_jid);
+            }
+            
             return true;
         }
 
