@@ -47,8 +47,8 @@ Complete list of XEPs implemented in DinoX with differentiated implementation st
 | [XEP-0333](https://xmpp.org/extensions/xep-0333.html) | Chat Markers | [DONE] | [DONE] | Read receipts shown |
 | [XEP-0334](https://xmpp.org/extensions/xep-0334.html) | Message Processing Hints | [DONE] |  | Backend hints, no UI |
 | [XEP-0359](https://xmpp.org/extensions/xep-0359.html) | Unique and Stable Stanza IDs | [DONE] |  | Backend only, message tracking |
-| [XEP-0424](https://xmpp.org/extensions/xep-0424.html) | Message Retraction | [DONE] |  | **Backend only**, no delete UI yet |
-| [XEP-0425](https://xmpp.org/extensions/xep-0425.html) | Message Moderation | [DONE] |  | **Backend only**, MUC moderator feature |
+| [XEP-0424](https://xmpp.org/extensions/xep-0424.html) | Message Retraction | [DONE] | [DONE] | Delete button "Delete for everyone" |
+| [XEP-0425](https://xmpp.org/extensions/xep-0425.html) | Message Moderation | [DONE] | [DONE] | MUC moderator "Moderate message" UI |
 | [XEP-0428](https://xmpp.org/extensions/xep-0428.html) | Fallback Indication | [DONE] |  | Backend only, compatibility |
 | [XEP-0444](https://xmpp.org/extensions/xep-0444.html) | Message Reactions | [DONE] | [DONE] | Emoji reactions with picker |
 | [XEP-0461](https://xmpp.org/extensions/xep-0461.html) | Message Replies | [DONE] | [DONE] | Quote/reply shown in messages |
@@ -129,18 +129,16 @@ Complete list of XEPs implemented in DinoX with differentiated implementation st
 | [XEP-0357](https://xmpp.org/extensions/xep-0357.html) | Push Notifications | [NO] | [NO] |  High | Planned for v0.8.0 |
 | [XEP-0388](https://xmpp.org/extensions/xep-0388.html) | Extensible SASL (SASL2) | [NO] | [NO] |  High | Planned for v0.8.0 |
 | [XEP-0386](https://xmpp.org/extensions/xep-0386.html) | Bind 2 | [NO] | [NO] |  High | Planned for v0.8.0 |
-| [XEP-0424](https://xmpp.org/extensions/xep-0424.html) | Message Retraction | [DONE] | [NO] | [WARNING] High | **Backend done**, needs delete message UI |
-| [XEP-0425](https://xmpp.org/extensions/xep-0425.html) | Message Moderation | [DONE] | [NO] | [WARNING] Medium | **Backend done**, MUC moderator UI needed |
 | [XEP-0449](https://xmpp.org/extensions/xep-0449.html) | Stickers | [NO] | [NO] | [TODO] Low | Planned for v0.8.0 |
 
 ---
 
 ##  Implementation Notes
 
-### [DONE] Recently Added (Dino Extended)
-- **XEP-0191 (Blocking Command)**: Full UI in Contacts management page
-- **XEP-0424 (Message Retraction)**: Backend implemented, used in delete history
-- **XEP-0425 (Message Moderation)**: Backend implemented for MUC
+### [DONE] Recently Added (DinoX Extended)
+- **XEP-0191 (Blocking Command)**: Full UI in Contacts management page with block/unblock buttons
+- **XEP-0424 (Message Retraction)**: Full UI with "Delete for everyone" button (own messages)
+- **XEP-0425 (Message Moderation)**: Full UI with "Moderate message" button (MUC moderators)
 
 ###  Backend-Only XEPs
 These are fully implemented but have no/minimal UI (by design):
@@ -152,9 +150,8 @@ These are fully implemented but have no/minimal UI (by design):
 - **XEP-0428**: Fallback indication (compatibility layer)
 - **Stream Management**: XEP-0198, 0352, 0368
 
-### [WARNING] Needs UI Work
-- **XEP-0424**: Delete individual messages (currently only bulk delete)
-- **XEP-0425**: MUC message moderation UI for moderators
+### [DONE] All Core XEPs Have UI
+All messaging, MUC, file transfer, and call-related XEPs now have complete UI implementations.
 
 ---
 
@@ -167,5 +164,5 @@ These are fully implemented but have no/minimal UI (by design):
 
 ---
 
-**Last Updated**: November 21, 2025  
-**Version**: DinoX 0.6.0
+**Last Updated**: November 27, 2025  
+**Version**: DinoX 0.6.5.4

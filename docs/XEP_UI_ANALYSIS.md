@@ -2,8 +2,8 @@
 
 Detailed analysis of which XEPs have UI integration and which are backend-only.
 
-**Date**: November 21, 2025  
-**Version**: DinoX 0.6.0
+**Date**: November 27, 2025  
+**Version**: DinoX 0.6.5.4
 
 ---
 
@@ -12,9 +12,9 @@ Detailed analysis of which XEPs have UI integration and which are backend-only.
 | Category | Count | Percentage |
 |----------|-------|------------|
 | **Total XEPs** | 60+ | 100% |
-| **Full UI Integration** | 32 | ~53% |
+| **Full UI Integration** | 34 | ~57% |
 | **Backend Only** | 24 | ~40% |
-| **Partial/Incomplete** | 4 | ~7% |
+| **Partial/Incomplete** | 2 | ~3% |
 | **Planned** | 6 | - |
 
 ---
@@ -138,6 +138,15 @@ Detailed analysis of which XEPs have UI integration and which are backend-only.
     - UI: Full registration UI in Add Account dialog
     - Location: `add_account_dialog.vala`, registration forms
 
+### Message Management (2)
+28. **XEP-0424** - Message Retraction
+    - UI: "Delete for everyone" button for own messages
+    - Location: `item_actions.vala`, message context menu
+
+29. **XEP-0425** - Message Moderation
+    - UI: "Moderate message" button for MUC moderators
+    - Location: `item_actions.vala`, moderator actions
+
 ---
 
 ##  XEPs Backend-Only (By Design)
@@ -179,69 +188,54 @@ These XEPs are infrastructure/protocol features with no UI needed:
 
 ---
 
-## [WARNING] XEPs with Backend but NO UI Yet
+## [DONE] XEPs Recently Completed
 
-These are implemented in the protocol layer but lack user-facing features:
+### XEP-0424 - Message Retraction 
+**Status**: Backend [DONE] | UI [DONE]
 
-### 1. XEP-0424 - Message Retraction 
-**Status**: Backend [DONE] | UI [NO]
+**Implementation**:
+- Protocol: `xmpp-vala/src/module/xep/0424_message_retraction.vala`
+- Service: `libdino/src/service/message_deletion.vala`
+- UI: `main/src/ui/conversation_content_view/item_actions.vala`
 
-**What's Implemented**:
-- Protocol support in `xmpp-vala/src/module/xep/0424_message_retraction.vala`
-- Used internally for bulk delete history
-- Handles incoming retraction messages
+**Features**:
+- "Delete for everyone" button in message context menu
+- Checks `can_delete_for_everyone()` before showing option
+- Distinguishes own messages (retraction) from moderator actions
+- Tooltip: "Delete..." for retractable messages
 
-**What's Missing**:
-- No UI to delete individual sent messages
-- No "Delete for everyone" context menu option
-- No visual indication of retracted messages
-
-**Code Locations**:
+**Code**:
 ```vala
-// Backend exists:
-xmpp-vala/src/module/xep/0424_message_retraction.vala
-libdino/src/service/message_deletion.vala (uses it internally)
-libdino/src/service/conversation_manager.vala (delete history)
-
-// UI needed in:
-main/src/ui/conversation_content_view/message_widget.vala
-// Add context menu: "Delete message for everyone"
+// UI in item_actions.vala ~line 126:
+if (message_deletion.can_delete_for_everyone(content_item, conversation)) {
+    button.tooltip_text = _("Delete...");
+}
 ```
-
-**Implementation Difficulty**: [TODO] Easy
-- Backend already works
-- Just need UI button in message context menu
-- Similar to edit message feature
 
 ---
 
-### 2. XEP-0425 - Message Moderation 
+### XEP-0425 - Message Moderation 
 **Status**: Backend [DONE] | UI [DONE]
 
-**What's Implemented**:
-- Protocol support in `xmpp-vala/src/module/xep/0425_message_moderation.vala`
-- Backend checks if user is MUC moderator
-- Handles moderation messages from server
-- **UI**: "Moderate message" action for moderators in `item_actions.vala`
+**Implementation**:
+- Protocol: `xmpp-vala/src/module/xep/0425_message_moderation.vala`
+- Service: `libdino/src/service/message_deletion.vala`
+- UI: `main/src/ui/conversation_content_view/item_actions.vala`
 
-**What's Missing**:
-- No visual indication of moderated messages (tombstones)
-- No moderation history/log
+**Features**:
+- "Moderate message" button for MUC moderators
+- Checks moderator permissions before showing option
+- Works on other users' messages in MUC
+- Tooltip: "Moderate message..." for moderators
 
-**Code Locations**:
+**Code**:
 ```vala
-// Backend exists:
-xmpp-vala/src/module/xep/0425_message_moderation.vala
-libdino/src/service/message_deletion.vala (has moderator checks)
-
-// UI implemented in:
-main/src/ui/conversation_content_view/item_actions.vala
-// "Moderate message" dialog added
+// UI in item_actions.vala:
+// Check if it is own message to distinguish between Retraction and Moderation
+if (is_moderation) {
+    button.tooltip_text = _("Moderate message...");
+}
 ```
-
-**Implementation Difficulty**: [TODO] Done
-- UI action added
-- Dialog distinguishes between Retraction (own) and Moderation (others)
 
 ---
 

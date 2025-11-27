@@ -427,7 +427,7 @@ git push origin feature/my-awesome-feature
 
 ---
 
-## 📜 License
+## License
 
 **GPL-3.0** (same as upstream Dino)
 
