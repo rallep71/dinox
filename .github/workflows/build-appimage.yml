@@ -19,7 +19,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y \
             build-essential \
-            meson \
+            python3-pip \
             ninja-build \
             valac \
             gettext \
@@ -54,6 +54,9 @@ jobs:
             patchelf \
             file \
             wget
+          
+          # Install newer Meson from PyPI (Ubuntu 22.04 has 0.61, we need 1.3+)
+          sudo pip3 install meson>=1.3.0
 
       - name: Checkout libomemo-c
         uses: actions/checkout@v4
