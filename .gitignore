@@ -46,3 +46,6 @@ repo/
 # Local documentation (not for GitHub)
 RELEASE_CHECKLIST.md
 *.flatpak
+
+# Ignore local website directory (managed outside of repo)
+website/
