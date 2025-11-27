@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.5.4] - 2025-11-27
+
+### Added
+- **Background Mode Toggle** - New "Keep Running in Background" setting in Preferences → General
+  - ON (default): Window closes to systray, app keeps running
+  - OFF: Window close triggers application quit
+  - Systray Quit menu properly disconnects XMPP and exits process cleanly
+  - Fixes Flatpak background process issue with proper Process.exit(0)
+
+### Fixed
+- **Desktop Notifications** - Resolved notification system deadlock that prevented notifications from appearing
+  - Fixed infinite wait in register_notification_provider()
+  - First provider now set immediately without waiting
+  - Desktop notifications for incoming messages and calls now work correctly
+
 ## [0.6.5.3] - 2025-11-25
 
 ### Added

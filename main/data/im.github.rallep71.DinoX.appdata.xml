@@ -191,6 +191,16 @@
   <url type="translate">https://hosted.weblate.org/projects/dino/</url>
   <launchable type="desktop-id">im.github.rallep71.DinoX.desktop</launchable>
   <releases>
+    <release date="2025-11-27" version="0.6.5.4">
+      <description>
+        <p>Feature release with configurable background mode and notification system fixes.</p>
+        <ul>
+          <li>Added Background Mode Toggle - Configure quit behavior in Preferences → General</li>
+          <li>Fixed notification system deadlock preventing desktop notifications</li>
+          <li>Improved application exit handling in Flatpak with proper XMPP disconnect</li>
+        </ul>
+      </description>
+    </release>
     <release date="2025-11-24" version="0.6.5.2">
       <description>
         <p>Bugfix release with file sharing improvements for MUC private messages.</p>

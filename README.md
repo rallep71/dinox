@@ -46,6 +46,8 @@ DinoX adds features that are **missing in upstream Dino** but highly requested b
 |---------|--------|----------------|
 | **System Tray Support** | ✓ Complete | [#98](https://github.com/dino/dino/issues/98) |
 | StatusNotifierItem with background mode | | Keep running when window closed |
+| **Background Mode Toggle** | ✓ Complete | [#299](https://github.com/dino/dino/issues/299) |
+| Configurable quit behavior | | Choose between systray or full quit |
 | **Custom Server Settings** | ✓ Complete | [#115](https://github.com/dino/dino/issues/115) |
 | Advanced connection options | | Manual host/port configuration |
 | **Delete Conversation History** | ✓ Complete | [#472](https://github.com/dino/dino/issues/472) |
@@ -66,6 +68,8 @@ DinoX adds features that are **missing in upstream Dino** but highly requested b
 | Online, Away, DND, Invisible | | Set status from main menu |
 | **Enhanced Video Player** | ✓ Complete | Stability |
 | H.264/HEVC support | | Stable playback & aspect ratio |
+| **MUJI Group Calls (Phase 1)** | ✓ Complete | XEP-0272 |
+| Participant list, private rooms | | Multi-party Jingle calls UI |
 
 ### Bug Fixes
 
