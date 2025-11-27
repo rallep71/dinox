@@ -143,6 +143,49 @@ DINO_LOG_LEVEL=debug ./build/main/dinoxx
 flatpak run --env=DINO_LOG_LEVEL=debug im.github.rallep71.DinoX
 ```
 
+## Legal Notice - Codec Distribution
+
+> **Important Legal Information Regarding FFmpeg and Video/Audio Codecs**
+
+DinoX AppImage builds include **FFmpeg** (via GStreamer's `gst-libav` plugin) to provide out-of-the-box support for video and audio codecs like **H.264, H.265/HEVC, VP8, VP9**, and others.
+
+### Licensing
+
+- **FFmpeg**: Licensed under **LGPL 2.1+** (Lesser GNU General Public License)
+- **DinoX**: Licensed under **GPL 3.0** (compatible with FFmpeg's LGPL)
+- **GStreamer**: Licensed under **LGPL 2.1+**
+
+### Patent Notice
+
+**H.264 and H.265/HEVC codecs are subject to patent claims in some jurisdictions.**
+
+- **Personal Use**: Generally permitted in most countries for non-commercial purposes
+- **Commercial Use**: Requires patent licenses from MPEG LA and other patent pools
+- **Geographic Restrictions**: Patent laws vary by country; some countries have no software patents
+
+### User Responsibility
+
+**By downloading and using DinoX with FFmpeg, you acknowledge that:**
+
+1. You are responsible for ensuring compliance with applicable laws in your jurisdiction
+2. You understand that commercial use may require additional patent licenses
+3. You use this software at your own risk and discretion
+4. DinoX maintainers provide no legal advice or warranties regarding patent compliance
+
+### Why We Include FFmpeg
+
+We include FFmpeg to provide a complete, working XMPP client with modern audio/video call support. This follows the same approach as other popular open-source projects like **VLC Media Player**, **OBS Studio**, and **Firefox**, which also distribute FFmpeg.
+
+### Alternatives
+
+If you prefer to avoid FFmpeg:
+- Use the **Flatpak version** (you can choose which GStreamer plugins to install)
+- **Build from source** without `gstreamer1.0-libav` (limited codec support)
+
+For questions about patent licensing for commercial use, consult a qualified intellectual property attorney in your jurisdiction.
+
+---
+
 ## Documentation
 
 | Document | Description |

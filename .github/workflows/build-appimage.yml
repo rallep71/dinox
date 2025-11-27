@@ -1,0 +1,307 @@
+name: Build AppImage
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+
+jobs:
+  build-appimage:
+    runs-on: ubuntu-22.04
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            meson \
+            ninja-build \
+            valac \
+            gettext \
+            cmake \
+            libglib2.0-dev \
+            libgtk-4-dev \
+            libadwaita-1-dev \
+            libgee-0.8-dev \
+            libgnutls28-dev \
+            libgpgme-dev \
+            libsqlite3-dev \
+            libqrencode-dev \
+            libgcrypt20-dev \
+            libsoup-3.0-dev \
+            libgstreamer1.0-dev \
+            libgstreamer-plugins-base1.0-dev \
+            libgstreamer-plugins-bad1.0-dev \
+            libnice-dev \
+            libsrtp2-dev \
+            libwebrtc-audio-processing-dev \
+            libdbusmenu-gtk3-dev \
+            libicu-dev \
+            libomemo-c-dev \
+            gstreamer1.0-plugins-base \
+            gstreamer1.0-plugins-good \
+            gstreamer1.0-plugins-bad \
+            gstreamer1.0-libav \
+            patchelf \
+            file \
+            wget
+      
+      - name: Setup build directory
+        run: |
+          meson setup build --prefix=/usr
+      
+      - name: Build DinoX
+        run: |
+          ninja -C build
+      
+      - name: Create AppDir
+        run: |
+          APPDIR="${GITHUB_WORKSPACE}/AppDir"
+          mkdir -p "$APPDIR"
+          DESTDIR="$APPDIR" meson install -C build
+          
+          # Create standard directories
+          mkdir -p "$APPDIR/usr/bin"
+          mkdir -p "$APPDIR/usr/lib"
+          mkdir -p "$APPDIR/usr/share/applications"
+          mkdir -p "$APPDIR/usr/share/icons/hicolor/scalable/apps"
+          mkdir -p "$APPDIR/usr/share/glib-2.0/schemas"
+          mkdir -p "$APPDIR/usr/lib/gstreamer-1.0"
+      
+      - name: Copy DinoX libraries
+        run: |
+          APPDIR="${GITHUB_WORKSPACE}/AppDir"
+          cp -L build/libdino/*.so* "$APPDIR/usr/lib/" 2>/dev/null || true
+          cp -L build/crypto-vala/*.so* "$APPDIR/usr/lib/" 2>/dev/null || true
+          cp -L build/qlite/*.so* "$APPDIR/usr/lib/" 2>/dev/null || true
+          cp -L build/xmpp-vala/*.so* "$APPDIR/usr/lib/" 2>/dev/null || true
+      
+      - name: Copy plugins
+        run: |
+          APPDIR="${GITHUB_WORKSPACE}/AppDir"
+          mkdir -p "$APPDIR/usr/lib/dino/plugins"
+          find build/plugins -name "*.so" -exec cp {} "$APPDIR/usr/lib/dino/plugins/" \;
+      
+      - name: Copy GStreamer plugins (including ffmpeg)
+        run: |
+          APPDIR="${GITHUB_WORKSPACE}/AppDir"
+          
+          # Copy essential GStreamer plugins
+          for plugin in \
+            libgstcoreelements.so \
+            libgstplayback.so \
+            libgsttypefindfunctions.so \
+            libgstvideoconvertscale.so \
+            libgstaudioconvert.so \
+            libgstaudioresample.so \
+            libgstvolume.so \
+            libgstapp.so \
+            libgstvideoparsersbad.so \
+            libgstvideofilter.so \
+            libgstgtk4.so \
+            libgstlibav.so \
+            libgstnice.so \
+            libgstrtp.so \
+            libgstrtpmanager.so \
+            libgstdtls.so \
+            libgstsrtp.so \
+            libgstaudiotestsrc.so \
+            libgstvideotestsrc.so \
+            libgstwebrtc.so
+          do
+            find /usr/lib/x86_64-linux-gnu/gstreamer-1.0 -name "$plugin" -exec cp {} "$APPDIR/usr/lib/gstreamer-1.0/" \; 2>/dev/null || true
+          done
+          
+          echo "Copied GStreamer plugins:"
+          ls -lh "$APPDIR/usr/lib/gstreamer-1.0/"
+      
+      - name: Copy required system libraries
+        run: |
+          APPDIR="${GITHUB_WORKSPACE}/AppDir"
+          DINOX_BIN="$APPDIR/usr/bin/dinox"
+          
+          # Function to copy library and its dependencies
+          copy_lib_recursive() {
+            local lib=$1
+            local target_dir=$2
+            
+            if [ ! -f "$target_dir/$(basename $lib)" ]; then
+              cp -L "$lib" "$target_dir/" 2>/dev/null || true
+              
+              # Copy dependencies
+              ldd "$lib" 2>/dev/null | grep "=> /" | awk '{print $3}' | while read dep; do
+                if [[ ! "$dep" =~ ^/(lib|lib64|usr/lib/x86_64-linux-gnu)/(libc|libm|libdl|libpthread|librt|ld-linux) ]]; then
+                  if [ ! -f "$target_dir/$(basename $dep)" ]; then
+                    cp -L "$dep" "$target_dir/" 2>/dev/null || true
+                  fi
+                fi
+              done
+            fi
+          }
+          
+          # Copy DinoX dependencies
+          ldd "$DINOX_BIN" | grep "=> /" | awk '{print $3}' | while read lib; do
+            # Skip system libraries that should be present everywhere
+            if [[ ! "$lib" =~ ^/(lib|lib64|usr/lib/x86_64-linux-gnu)/(libc|libm|libdl|libpthread|librt|libgcc|libstdc|ld-linux) ]]; then
+              copy_lib_recursive "$lib" "$APPDIR/usr/lib"
+            fi
+          done
+          
+          # Copy GStreamer plugin dependencies
+          for plugin in "$APPDIR/usr/lib/gstreamer-1.0"/*.so; do
+            if [ -f "$plugin" ]; then
+              ldd "$plugin" 2>/dev/null | grep "=> /" | awk '{print $3}' | while read lib; do
+                if [[ ! "$lib" =~ ^/(lib|lib64|usr/lib/x86_64-linux-gnu)/(libc|libm|libdl|libpthread|librt|libgcc|libstdc|ld-linux) ]]; then
+                  copy_lib_recursive "$lib" "$APPDIR/usr/lib"
+                fi
+              done
+            fi
+          done
+          
+          echo "Copied libraries:"
+          ls -lh "$APPDIR/usr/lib/" | head -20
+      
+      - name: Copy GLib schemas
+        run: |
+          APPDIR="${GITHUB_WORKSPACE}/AppDir"
+          cp /usr/share/glib-2.0/schemas/org.gtk.gtk4.Settings.* "$APPDIR/usr/share/glib-2.0/schemas/" 2>/dev/null || true
+          glib-compile-schemas "$APPDIR/usr/share/glib-2.0/schemas/" || true
+      
+      - name: Create AppRun
+        run: |
+          APPDIR="${GITHUB_WORKSPACE}/AppDir"
+          cat > "$APPDIR/AppRun" << 'EOF'
+          #!/bin/bash
+          # DinoX AppRun launcher
+          
+          APPDIR="$(dirname "$(readlink -f "$0")")"
+          
+          # Set library paths
+          export LD_LIBRARY_PATH="$APPDIR/usr/lib:$LD_LIBRARY_PATH"
+          
+          # Set GStreamer paths
+          export GST_PLUGIN_PATH="$APPDIR/usr/lib/gstreamer-1.0"
+          export GST_PLUGIN_SYSTEM_PATH="$APPDIR/usr/lib/gstreamer-1.0"
+          export GST_PLUGIN_SCANNER="$APPDIR/usr/lib/gstreamer-1.0/gst-plugin-scanner"
+          
+          # Set GStreamer registry
+          export GST_REGISTRY="$HOME/.cache/dinox/gstreamer-1.0/registry.x86_64.bin"
+          mkdir -p "$(dirname "$GST_REGISTRY")"
+          
+          # Set Dino plugin path
+          export DINO_PLUGIN_DIR="$APPDIR/usr/lib/dino/plugins"
+          
+          # Set GSettings schema path
+          export GSETTINGS_SCHEMA_DIR="$APPDIR/usr/share/glib-2.0/schemas:$GSETTINGS_SCHEMA_DIR"
+          
+          # Set locale path
+          export LOCPATH="$APPDIR/usr/share/locale"
+          
+          # Run DinoX
+          exec "$APPDIR/usr/bin/dinox" "$@"
+          EOF
+          chmod +x "$APPDIR/AppRun"
+      
+      - name: Create desktop file
+        run: |
+          APPDIR="${GITHUB_WORKSPACE}/AppDir"
+          cat > "$APPDIR/im.github.rallep71.DinoX.desktop" << 'EOF'
+          [Desktop Entry]
+          Name=DinoX
+          GenericName=Jabber/XMPP Client
+          Comment=Modern XMPP/Jabber chat client
+          Exec=dinox %U
+          Icon=im.github.rallep71.DinoX
+          Terminal=false
+          Type=Application
+          Categories=Network;InstantMessaging;Chat;
+          MimeType=x-scheme-handler/xmpp;
+          Keywords=chat;messaging;im;xmpp;jabber;
+          StartupNotify=true
+          StartupWMClass=dinox
+          EOF
+          
+          cp "$APPDIR/im.github.rallep71.DinoX.desktop" "$APPDIR/usr/share/applications/"
+      
+      - name: Copy icon
+        run: |
+          APPDIR="${GITHUB_WORKSPACE}/AppDir"
+          ICON_SOURCE="main/data/icons/hicolor/scalable/apps/im.github.rallep71.DinoX.svg"
+          
+          if [ -f "$ICON_SOURCE" ]; then
+            cp "$ICON_SOURCE" "$APPDIR/usr/share/icons/hicolor/scalable/apps/"
+            cp "$ICON_SOURCE" "$APPDIR/im.github.rallep71.DinoX.svg"
+          fi
+      
+      - name: Download appimagetool
+        run: |
+          wget -O appimagetool-x86_64.AppImage https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
+          chmod +x appimagetool-x86_64.AppImage
+      
+      - name: Create AppImage
+        run: |
+          VERSION=$(cat VERSION | grep RELEASE | awk '{print $2}')
+          APPIMAGE_NAME="DinoX-$VERSION-x86_64.AppImage"
+          
+          ARCH=x86_64 ./appimagetool-x86_64.AppImage AppDir "$APPIMAGE_NAME"
+          
+          echo "AppImage created: $APPIMAGE_NAME"
+          ls -lh "$APPIMAGE_NAME"
+          
+          # Create checksums
+          sha256sum "$APPIMAGE_NAME" > "$APPIMAGE_NAME.sha256"
+          
+          # Save for upload
+          echo "APPIMAGE_NAME=$APPIMAGE_NAME" >> $GITHUB_ENV
+      
+      - name: Upload AppImage as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: DinoX-AppImage
+          path: |
+            DinoX-*.AppImage
+            DinoX-*.AppImage.sha256
+      
+      - name: Create Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            DinoX-*.AppImage
+            DinoX-*.AppImage.sha256
+          body: |
+            ## DinoX AppImage Release
+            
+            ### Download
+            Download the AppImage file below, make it executable, and run it:
+            ```bash
+            chmod +x DinoX-*.AppImage
+            ./DinoX-*.AppImage
+            ```
+            
+            ### Features
+            - Portable single-file application
+            - No installation required
+            - Includes all dependencies
+            - Works on Ubuntu 22.04+ and compatible distributions
+            
+            ### Legal Notice
+            This AppImage includes FFmpeg libraries (via gst-libav) for video/audio codec support.
+            FFmpeg is licensed under LGPL 2.1+. The H.264/HEVC codec implementations may be 
+            subject to patent restrictions in some jurisdictions.
+            
+            **This software is provided for personal, non-commercial use only.**
+            
+            For commercial use, please ensure compliance with applicable patent licenses.
+            See README.md for full legal information.
+            
+            ### Verify Download
+            ```bash
+            sha256sum -c DinoX-*.AppImage.sha256
+            ```
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
