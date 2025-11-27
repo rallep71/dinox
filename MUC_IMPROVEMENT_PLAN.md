@@ -2,17 +2,25 @@
 
 This plan outlines the steps to bring Dino's Multi-User Chat (MUC) capabilities closer to feature parity with clients like Gajim, focusing on Administration and Usability.
 
-## Phase 1: Invitations (Easy Win)
+## Phase 1: Invitations ✅ **COMPLETED**
 **Goal:** Allow users to invite contacts to the current MUC easily.
 
-1.  **UI Entry Point**:
-    *   Add an "Invite Contact" item to the Conversation Menu (top-right menu in the chat window).
-    *   Alternatively/Additionally: Add an "Invite" button in the Conversation Details > Members section.
-2.  **Selection Dialog**:
-    *   Reuse or adapt `SelectContactDialog` to allow selecting multiple contacts from the roster.
-3.  **Backend Implementation**:
-    *   Connect the dialog result to `MucManager.invite()`.
-    *   Ensure both Direct Invitations (XEP-0249) and Mediated Invitations (XEP-0045) are handled (Dino likely handles this, but we need to verify).
+**Status**: ✅ **ALREADY IMPLEMENTED** (since early versions)
+
+**Implementation**:
+1.  ✅ **UI Entry Point**: "Invite" button in **Occupant Menu** (user icon in MUC titlebar)
+    - Location: `main/src/ui/occupant_menu/view.vala:27`
+    - Opens contact selection dialog on click
+2.  ✅ **Selection Dialog**: Uses `SelectContactDialog` for roster contact selection
+    - Location: `main/src/ui/occupant_menu/view.vala:269-280`
+3.  ✅ **Backend Implementation**: 
+    - `MucManager.invite()` fully functional (`libdino/src/service/muc_manager.vala:230`)
+    - ✅ Supports both Direct (XEP-0249) and Mediated (XEP-0045) invitations
+    - ✅ Handles invite reception and notifications
+
+**Alternative Entry Point** (prepared but commented out):
+- Conversation menu also has invite action prepared (`main/src/ui/conversation_titlebar/menu_entry.vala:37-109`)
+- Currently commented out with note: "Invite is available via the occupant menu"
 
 ## Phase 2: Room Administration (Affiliations & Banning)
 **Goal:** Allow Owners/Admins to manage the room's access lists (Bans, Members, Admins).
