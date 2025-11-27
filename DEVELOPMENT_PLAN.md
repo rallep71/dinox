@@ -238,32 +238,46 @@ These features were inherited from upstream Dino and are fully functional in Din
 
 ##  Roadmap - What's Next
 
-### [TODO] Phase 7: MUC Administration (v0.6.6 - Dec 2025)
+### [DONE] Phase 7: MUC Administration (Inherited from Dino v0.4)
 
 **Goal**: Complete MUC management features
 
 | Priority | Feature | Complexity | Status |
 |----------|---------|------------|--------|
 | [DONE] | **MUC Invitations** | Easy | [DONE] **DONE** |
-| P1 | **Affiliation Management UI** | Medium | [TODO] TODO |
-| P2 | **Room Destruction** | Easy | [TODO] TODO |
+| [DONE] | **Affiliation Management UI** | Medium | [DONE] **DONE** |
+| [DONE] | **Room Destruction** | Easy | [DONE] **DONE** |
 
-**MUC Invitations** [DONE] **ALREADY IMPLEMENTED**:
+**MUC Invitations** [DONE] **IMPLEMENTED**:
 - [DONE] Available via **Occupant Menu** (user icon in titlebar)
 - [DONE] "Invite" button opens contact selection dialog
 - [DONE] Backend: `MucManager.invite()` fully functional
-- [DONE] UI: `main/src/ui/occupant_menu/view.vala` - Complete implementation
-- [DONE] Also prepared in conversation menu (currently commented out)
+- [DONE] UI: `main/src/ui/occupant_menu/view.vala:269` - Complete implementation
+- [DONE] Supports both XEP-0045 (Mediated) and XEP-0249 (Direct) invitations
 
-**Implementation Details**:
-- `main/src/ui/occupant_menu/view.vala:269` - `on_invite_clicked()`
-- `main/src/ui/conversation_titlebar/menu_entry.vala:91` - Alternative entry point (commented)
-- `libdino/src/service/muc_manager.vala:230` - `invite()` method
-- Supports both XEP-0045 (Mediated) and XEP-0249 (Direct) invitations
+**Affiliation Management** [DONE] **FULLY IMPLEMENTED**:
+- [DONE] **Make Admin / Revoke Admin** - Owner can promote/demote admins
+- [DONE] **Make Owner** - Transfer ownership to another user
+- [DONE] **Make Member / Revoke Membership** - Manage member list (members-only rooms)
+- [DONE] **Ban (Permanent)** - Permanent outcast affiliation
+- [DONE] **Ban (Timed)** - 10/15/30 minute temporary bans
+- [DONE] **Kick** - Temporarily remove from room
+- [DONE] **Mute/Unmute** - Voice control (visitor/participant role)
+- [DONE] **Block/Unblock** - XEP-0191 blocking integration
+- [DONE] **Permission Checks** - Owner/Admin hierarchy enforced
+- [DONE] UI: `main/src/ui/occupant_menu/view.vala:143-167`
+- [DONE] Message Context: `main/src/ui/conversation_content_view/item_actions.vala:45-76`
+
+**Room Destruction** [DONE] **IMPLEMENTED**:
+- [DONE] "Destroy Room" button in conversation details (Owner only)
+- [DONE] Confirmation dialog with destructive styling
+- [DONE] Error handling and feedback
+- [DONE] UI: `main/src/ui/conversation_details.vala:218-257`
+- [DONE] Backend: `MucManager.destroy_room()`
+
+**Status**: [DONE] **COMPLETED** (Inherited from upstream Dino v0.4)
 
 **See**: [MUC_IMPROVEMENT_PLAN.md](MUC_IMPROVEMENT_PLAN.md) for details
-
-**Target**: End of December 2025
 
 ---
 
@@ -274,9 +288,22 @@ These features were inherited from upstream Dino and are fully functional in Din
 | Priority | Feature | Complexity | Status |
 |----------|---------|------------|--------|
 | P1 | **Individual Volume Controls** | Medium | [TODO] TODO |
-| P2 | **Call Quality Indicators** | Medium | [TODO] TODO |
-| P2 | **Better Error Messages** | Easy | [TODO] TODO |
+| P2 | **Call Quality Indicators** | Medium | [PARTIAL] Backend ready |
+| P2 | **Better Error Messages** | Easy | [DONE] Audio/Video errors |
 | P3 | **Speaking Indicator** | Hard | [DEFERRED] DEFERRED |
+
+**Individual Volume Controls**: 
+- Backend has volume/gain support (`voice_processor.vala`)
+- No UI implementation yet
+
+**Call Quality Indicators**:
+- Backend tracks bandwidth, packet info (`content_parameters.vala`)
+- No UI to display quality metrics yet
+
+**Better Error Messages** [PARTIAL]:
+- [DONE] Audio device errors shown (`call_window_controller.vala:312`)
+- [DONE] Video device errors shown (`call_window_controller.vala:340`)
+- [ ] TODO: Network quality/connection issues
 
 **Speaking Indicator**: Postponed to avoid breaking working 1:1 calls
 
@@ -296,14 +323,37 @@ These features were inherited from upstream Dino and are fully functional in Din
 
 | Priority | Issue | Component | Complexity | Status |
 |----------|-------|-----------|------------|--------|
-| P1 | [#1559](https://github.com/dino/dino/issues/1559) | Echo Cancellation | Hard | [TODO] TODO |
-| P1 | [#57](https://github.com/dino/dino/issues/57) | Self-signed Certs | Medium | [TODO] TODO |
-| P2 | [#1380](https://github.com/dino/dino/issues/1380) | Spell Checking | Medium | [TODO] TODO |
+| P1 | [#1559](https://github.com/dino/dino/issues/1559) | Echo Cancellation | Hard | [PARTIAL] Backend ready |
+| P1 | [#57](https://github.com/dino/dino/issues/57) | Self-signed Certs | Medium | [PARTIAL] Basic handling |
+| P2 | [#1380](https://github.com/dino/dino/issues/1380) | Spell Checking | Medium | [BLOCKED] GTK4 |
+
+**Echo Cancellation** [PARTIAL]:
+- [DONE] WebRTC Audio Processing Library integrated
+- [DONE] AEC (Acoustic Echo Cancellation) implemented (`voice_processor.vala:21`)
+- [DONE] AGC (Automatic Gain Control) implemented
+- [DONE] EchoProbe for playback monitoring
+- [ ] TODO: Fine-tuning, configuration UI, testing with various hardware
+
+**Self-signed Certificates** [PARTIAL]:
+- [DONE] TLS error detection (`stream_connect.vala:21`)
+- [DONE] Invalid cert callback mechanism (`TlsXmppStream.OnInvalidCert`)
+- [DONE] Notification on TLS errors
+- [ ] TODO: User dialog to accept/pin self-signed certs
+- [ ] TODO: Certificate pinning storage
+- [ ] TODO: Per-account cert trust settings
+
+**Spell Checking** [BLOCKED]:
+- [INFO] Setting exists: `check_spelling` (default: true)
+- [BLOCKED] "There is currently no spell checking for GTK4" (`settings.vala:71`)
+- [INFO] No UI for setting (hidden)
+- [ ] TODO: Wait for GTK4 spell check library
+- [ ] TODO: Consider GtkSpell alternative or native GTK4 API
 
 **Files to modify**:
-- `plugins/rtp/src/device/` - Echo cancellation
-- `xmpp-vala/src/core/` - Certificate validation
-- GTK4 spell checking integration
+- `plugins/rtp/src/voice_processor.vala` - Echo cancellation tuning
+- `main/src/ui/` - Certificate trust dialog
+- `libdino/src/service/` - Certificate storage
+- GTK4 spell checking integration (when available)
 
 **Target**: End of March 2026
 
@@ -316,8 +366,22 @@ These features were inherited from upstream Dino and are fully functional in Din
 | Priority | Issue | Feature | Complexity | Status |
 |----------|-------|---------|------------|--------|
 | P2 | [#1769](https://github.com/dino/dino/issues/1769) | Chat Scroll Fix | Medium | [TODO] TODO |
-| P2 | [#1752](https://github.com/dino/dino/issues/1752) | Dark Mode (no restart) | Easy | [TODO] TODO |
-| P2 | [#1787](https://github.com/dino/dino/issues/1787) | Better Notifications | Medium | [TODO] TODO |
+| P2 | [#1752](https://github.com/dino/dino/issues/1752) | Dark Mode Toggle | Easy | [TODO] TODO |
+| P2 | [#1787](https://github.com/dino/dino/issues/1787) | Better Notifications | Medium | [PARTIAL] Basic done |
+
+**Dark Mode** [TODO]:
+- [INFO] `Adw.StyleManager` already used (`helper.vala:150`)
+- [INFO] System dark mode detection works
+- [ ] TODO: Add appearance toggle in Preferences → General
+- [ ] TODO: Save preference (light/dark/auto)
+- [ ] TODO: Apply without restart using `StyleManager.set_color_scheme()`
+
+**Notifications** [PARTIAL]:
+- [DONE] Desktop notifications fixed (v0.6.5.4)
+- [DONE] FreeDesktop + GNotifications support
+- [ ] TODO: Per-conversation notification settings
+- [ ] TODO: Notification preview customization
+- [ ] TODO: Do Not Disturb mode
 
 **Target**: End of April 2026
 
@@ -329,11 +393,13 @@ These features were inherited from upstream Dino and are fully functional in Din
 
 | Priority | XEP | Feature | Complexity | Status |
 |----------|-----|---------|------------|--------|
-| P1 | XEP-0388 | SASL2/FAST Auth | Hard | [TODO] TODO |
-| P1 | XEP-0386 | Bind 2 | Hard | [TODO] TODO |
-| P1 | XEP-0357 | Push Notifications | Hard | [TODO] TODO |
-| P2 | XEP-0449 | Stickers | Medium | [TODO] TODO |
-| P3 | - | Export/Import | Medium | [TODO] TODO |
+| P1 | XEP-0388 | SASL2/FAST Auth | Hard | [TODO] Future |
+| P1 | XEP-0386 | Bind 2 | Hard | [TODO] Future |
+| P1 | XEP-0357 | Push Notifications | Hard | [TODO] Future |
+| P2 | XEP-0449 | Stickers | Medium | [TODO] Future |
+| P3 | - | Export/Import | Medium | [TODO] Future |
+
+**Note**: These are modern XMPP 2.0 features currently under development in the protocol. Implementation timeline depends on server adoption and protocol stabilization.
 
 **New files to create**:
 - `xmpp-vala/src/module/xep/0388_sasl2.vala`
@@ -341,33 +407,46 @@ These features were inherited from upstream Dino and are fully functional in Din
 - `xmpp-vala/src/module/xep/0357_push.vala`
 - `xmpp-vala/src/module/xep/0449_stickers.vala`
 
-**Target**: End of June 2026
+**Target**: End of June 2026 (subject to protocol readiness)
 
 ---
 
-###  Phase 12: Platform Expansion (v0.9.0 - Q3 2026)
+###  Phase 12: Platform Expansion (v0.9.0 - Q3 2026+)
 
 **Goal**: Windows support and packaging
 
 | Priority | Feature | Complexity | Status |
 |----------|---------|------------|--------|
-| P2 | Windows Native Port | Very Hard |  TODO |
-| P3 | Android (via GTK4) | Very Hard |  TODO |
-| P3 | macOS (via GTK4) | Hard |  TODO |
+| P2 | Windows Native Port | Very Hard |  FUTURE |
+| P3 | Android (via GTK4) | Very Hard |  FUTURE |
+| P3 | macOS (via GTK4) | Hard |  FUTURE |
 
-**Target**: End of August 2026
+**Note**: Platform expansion requires significant GTK4 ecosystem maturity and cross-platform testing infrastructure. Current focus is on Linux desktop experience.
+
+**Target**: End of August 2026 (optimistic, likely Q4 2026+)
 
 ---
 
-###  Phase 13: 1.0 Stable Release (Q4 2026 - v1.0.0)
+###  Phase 13: 1.0 Stable Release (Q4 2026+ - v1.0.0)
 
 **Goal**: Production-ready, stable API
 
 **Requirements**:
-- [DONE] Zero known crash bugs
-- [DONE] Memory usage <200MB for 7-day sessions
-- [DONE] 90%+ test coverage for critical paths
-- [DONE] Complete documentation
+- [ ] Zero known P1 crash bugs
+- [ ] Memory usage <200MB for 7-day sessions
+- [ ] 90%+ test coverage for critical paths
+- [ ] Complete documentation
+- [ ] All Phase 1-9 features complete
+- [ ] 3+ months beta testing period
+- [ ] Performance benchmarks established
+- [ ] Accessibility audit passed
+
+**Current Status**: 
+- v0.6.5.5 (November 2025)
+- Focus: Stability, bug fixes, inherited feature verification
+- Path to 1.0: Complete Phases 7-10, address critical bugs, extensive testing
+
+**Target**: Q4 2026 or later (depends on phases 7-11 completion)
 - [DONE] Performance benchmarks established
 - [DONE] Accessibility audit passed
 
