@@ -344,8 +344,8 @@ See [XEP_SUPPORT.md](docs/XEP_SUPPORT.md) for full list.
 
 - [DONE] XEP-0191 (Blocking Command) - Full UI
 - [DONE] XEP-0272 (MUJI) - Group calls with UI
-- [DONE] XEP-0424 (Message Retraction) - Full UI
-- [DONE] XEP-0425 (Message Moderation) - Backend complete
+- [DONE] XEP-0424 (Message Retraction) - Full UI with "Delete for everyone"
+- [DONE] XEP-0425 (Message Moderation) - Full UI for MUC moderators
 
 ---
 
