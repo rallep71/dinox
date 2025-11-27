@@ -1,4 +1,4 @@
-# 🔍 XEP UI Implementation Analysis
+#  XEP UI Implementation Analysis
 
 Detailed analysis of which XEPs have UI integration and which are backend-only.
 
@@ -7,7 +7,7 @@ Detailed analysis of which XEPs have UI integration and which are backend-only.
 
 ---
 
-## 📊 Summary Statistics
+##  Summary Statistics
 
 | Category | Count | Percentage |
 |----------|-------|------------|
@@ -19,7 +19,7 @@ Detailed analysis of which XEPs have UI integration and which are backend-only.
 
 ---
 
-## ✅ XEPs with Full UI Integration
+## [DONE] XEPs with Full UI Integration
 
 ### Messaging & Chat (11)
 1. **XEP-0085** - Chat State Notifications
@@ -30,7 +30,7 @@ Detailed analysis of which XEPs have UI integration and which are backend-only.
    - UI: Checkmarks for delivery/read status
    - Location: `message_widget.vala`
 
-3. **XEP-0191** - Blocking Command ⭐ **NEW**
+3. **XEP-0191** - Blocking Command  **NEW**
    - UI: Block/Unblock buttons in Contacts page
    - Location: `contacts_preferences_page.vala`, context menu
    - Files: `blocking_manager.vala`, UI badges
@@ -140,7 +140,7 @@ Detailed analysis of which XEPs have UI integration and which are backend-only.
 
 ---
 
-## 🔧 XEPs Backend-Only (By Design)
+##  XEPs Backend-Only (By Design)
 
 These XEPs are infrastructure/protocol features with no UI needed:
 
@@ -179,12 +179,12 @@ These XEPs are infrastructure/protocol features with no UI needed:
 
 ---
 
-## ⚠️ XEPs with Backend but NO UI Yet
+## [WARNING] XEPs with Backend but NO UI Yet
 
 These are implemented in the protocol layer but lack user-facing features:
 
-### 1. XEP-0424 - Message Retraction 🔥
-**Status**: Backend ✅ | UI ❌
+### 1. XEP-0424 - Message Retraction 
+**Status**: Backend [DONE] | UI [NO]
 
 **What's Implemented**:
 - Protocol support in `xmpp-vala/src/module/xep/0424_message_retraction.vala`
@@ -208,15 +208,15 @@ main/src/ui/conversation_content_view/message_widget.vala
 // Add context menu: "Delete message for everyone"
 ```
 
-**Implementation Difficulty**: 🟢 Easy
+**Implementation Difficulty**: [TODO] Easy
 - Backend already works
 - Just need UI button in message context menu
 - Similar to edit message feature
 
 ---
 
-### 2. XEP-0425 - Message Moderation 🔥
-**Status**: Backend ✅ | UI ✅
+### 2. XEP-0425 - Message Moderation 
+**Status**: Backend [DONE] | UI [DONE]
 
 **What's Implemented**:
 - Protocol support in `xmpp-vala/src/module/xep/0425_message_moderation.vala`
@@ -239,16 +239,16 @@ main/src/ui/conversation_content_view/item_actions.vala
 // "Moderate message" dialog added
 ```
 
-**Implementation Difficulty**: 🟢 Done
+**Implementation Difficulty**: [TODO] Done
 - UI action added
 - Dialog distinguishes between Retraction (own) and Moderation (others)
 
 ---
 
-## ⚠️ Partial Implementations
+## [WARNING] Partial Implementations
 
 ### XEP-0272 - Multiparty Jingle (Muji)
-**Status**: Backend ⚠️ | UI ⚠️
+**Status**: Backend [WARNING] | UI [WARNING]
 
 **Issue**: Group calls partially work but have limitations
 - 1-to-1 calls work perfectly
@@ -257,34 +257,34 @@ main/src/ui/conversation_content_view/item_actions.vala
 
 ---
 
-## 📋 Priority Recommendations
+##  Priority Recommendations
 
 ### High Priority (Should Have UI)
-1. **XEP-0424 (Message Retraction)** 🔥
+1. **XEP-0424 (Message Retraction)** 
    - Users expect "Delete message" feature
    - Backend is ready, just needs UI
    - ~1-2 days work
 
-2. **XEP-0425 (Message Moderation)** 🔥
+2. **XEP-0425 (Message Moderation)** 
    - Important for MUC moderators
    - Backend checks already exist
    - ~2-3 days work
 
 ### Medium Priority
-3. **XEP-0272 (Muji) Improvements** ⚠️
+3. **XEP-0272 (Muji) Improvements** [WARNING]
    - Fix group call issues
    - Better than current state
    - Significant WebRTC work
 
 ### Low Priority (Future)
-4. **XEP-0449 (Stickers)** 🟢
+4. **XEP-0449 (Stickers)** [TODO]
    - Nice to have, not essential
    - Requires custom UI
    - Fun feature for users
 
 ---
 
-## 🎯 Next Steps for XEP-0424/0425 UI
+##  Next Steps for XEP-0424/0425 UI
 
 ### Step 1: XEP-0424 - Delete Own Messages
 ```vala
@@ -324,7 +324,7 @@ if (is_muc_moderator && !message_item.message.from.equals(my_jid)) {
 
 ---
 
-## 📚 Code References
+##  Code References
 
 ### Key Files for XEP Implementation
 
@@ -344,7 +344,7 @@ if (is_muc_moderator && !message_item.message.from.equals(my_jid)) {
 
 ---
 
-## 🔄 Recent Changes (Dino Extended)
+##  Recent Changes (Dino Extended)
 
 ### Added in This Fork
 - **XEP-0191 UI**: Full blocking UI in Contacts page

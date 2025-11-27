@@ -1,4 +1,4 @@
-# 📜 Legal & Branding Analysis for DinoX Fork
+#  Legal & Branding Analysis for DinoX Fork
 
 **Date**: November 21, 2025  
 **Analysis for**: rallep71/dino fork
@@ -9,10 +9,10 @@
 
 ### Current Situation
 
-✅ **License**: GPL-3.0 (same as upstream)
+[DONE] **License**: GPL-3.0 (same as upstream)
 - **What this means**: You MUST keep GPL-3.0 license
 - **Why**: GPL-3.0 is "copyleft" - derivative works must use the same license
-- **Result**: ✅ Correct - You can't change the license
+- **Result**: [DONE] Correct - You can't change the license
 
 ### Copyright
 
@@ -28,15 +28,15 @@ Copyright © 2025 - Ralf Peter (fork maintainer)
 ```
 ```
 
-**Recommendation**: ✅ Update the About dialog to show both copyrights
+**Recommendation**: [DONE] Update the About dialog to show both copyrights
 
 ---
 
-## 🎨 Logo & Branding Analysis
+##  Logo & Branding Analysis
 
 ### Can You Use the Dino Logo?
 
-**Short Answer**: ⚠️ Legally yes (GPL-3.0), but NOT recommended
+**Short Answer**: [WARNING] Legally yes (GPL-3.0), but NOT recommended
 
 **Why**:
 1. **Trademark Risk**: 
@@ -51,8 +51,8 @@ Copyright © 2025 - Ralf Peter (fork maintainer)
 
 ### Recommendation: Create New Identity
 
-**Option 1: Subtle Rebrand** ⭐ **Recommended**
-- Name: **"DinoX"** ⭐ (chosen)
+**Option 1: Subtle Rebrand**  **Recommended**
+- Name: **"DinoX"**  (chosen)
 - Logo: Modified version (change color, add badge/icon)
 - Tagline: "Community fork with extended features"
 - Keep "based on Dino" attribution
@@ -62,7 +62,7 @@ Copyright © 2025 - Ralf Peter (fork maintainer)
 - Logo: Completely new design
 - More work, but cleaner separation
 
-**Option 3: Keep Everything** ⚠️ Not Recommended
+**Option 3: Keep Everything** [WARNING] Not Recommended
 - Risk of trademark complaints
 - User confusion
 - Credibility issues
@@ -73,15 +73,15 @@ Copyright © 2025 - Ralf Peter (fork maintainer)
 
 ### Current Issues
 
-❌ **Repository name**: "dino" 
+[NO] **Repository name**: "dino" 
 - Too similar, causes confusion
 - Should indicate it's a fork
 
-❌ **App ID**: `im.dino.Dino`
+[NO] **App ID**: `im.dino.Dino`
 - Conflicts with upstream
 - Flathub won't accept if original exists
 
-❌ **About Dialog**: Shows "Dino" without fork indication
+[NO] **About Dialog**: Shows "Dino" without fork indication
 
 ### Recommended Changes
 
@@ -109,11 +109,11 @@ or: `org.dinoextended.Dino`
 
 ---
 
-## 🌐 GitHub Pages Website
+##  GitHub Pages Website
 
 ### Can You Create a Website?
 
-✅ **YES!** Free with GitHub Pages
+[DONE] **YES!** Free with GitHub Pages
 
 ### Setup Steps
 
@@ -161,7 +161,7 @@ dino-extended/
 
 ---
 
-## 📋 Complete Rebranding Checklist
+##  Complete Rebranding Checklist
 
 ### Phase 1: Legal Compliance (Critical)
 
@@ -208,7 +208,7 @@ dino-extended/
 
 ---
 
-## 🎨 Logo Design Options
+##  Logo Design Options
 
 ### Option A: Color Variant
 Keep Dino dinosaur, change colors:
@@ -235,7 +235,7 @@ Create new animal/character:
 
 ---
 
-## 📝 Required Legal Files
+##  Required Legal Files
 
 ### 1. AUTHORS File
 ```
@@ -280,7 +280,7 @@ about_dialog.website_label = "dinoextended.org";
 
 ---
 
-## ⚠️ Trademark Research
+## [WARNING] Trademark Research
 
 ### Check if "Dino" is Trademarked
 
@@ -301,57 +301,57 @@ about_dialog.website_label = "dinoextended.org";
 
 ---
 
-## 🎯 Recommendations Summary
+##  Recommendations Summary
 
 ### Immediate Actions (This Week)
 
-1. ✅ **Update About Dialog** - Add your copyright
-2. ✅ **Create AUTHORS file** - Credit both teams  
-3. ✅ **Add NOTICE file** - Legal attribution
-4. ✅ **Design new logo** - Or color variant
-5. ✅ **Rename repository** - `dino-extended`
+1. [DONE] **Update About Dialog** - Add your copyright
+2. [DONE] **Create AUTHORS file** - Credit both teams  
+3. [DONE] **Add NOTICE file** - Legal attribution
+4. [DONE] **Design new logo** - Or color variant
+5. [DONE] **Rename repository** - `dino-extended`
 
 ### Short Term (This Month)
 
-1. ✅ **Change App ID** - `im.github.rallep71.DinoExtended`
-2. ✅ **Create website** - GitHub Pages
-3. ✅ **Update all branding** - Name/logo throughout
-4. ⚠️ **Contact Dino team** - Inform about fork (courtesy)
+1. [DONE] **Change App ID** - `im.github.rallep71.DinoExtended`
+2. [DONE] **Create website** - GitHub Pages
+3. [DONE] **Update all branding** - Name/logo throughout
+4. [WARNING] **Contact Dino team** - Inform about fork (courtesy)
 
 ### Long Term (Next 3 Months)
 
-1. ⚠️ **Submit to Flathub** - With new App ID
-2. ⚠️ **Build community** - Forum/chat/Discord
-3. ⚠️ **Custom domain** - Buy dinoextended.org
-4. ⚠️ **Marketing** - Blog, Reddit, etc.
+1. [WARNING] **Submit to Flathub** - With new App ID
+2. [WARNING] **Build community** - Forum/chat/Discord
+3. [WARNING] **Custom domain** - Buy dinoextended.org
+4. [WARNING] **Marketing** - Blog, Reddit, etc.
 
 ---
 
-## 💡 My Recommendation
+##  My Recommendation
 
 **Best Path Forward**:
 
-1. **Name**: "DinoX" ✅
+1. **Name**: "DinoX" [DONE]
    - Clear it's a fork
    - Respects original
    - Good for SEO
 
-2. **Logo**: Color variant with badge ✅
+2. **Logo**: Color variant with badge [DONE]
    - Recognizable as Dino-related
    - Visually distinct
    - Easy to create
 
-3. **App ID**: `im.github.rallep71.DinoExtended` ✅
+3. **App ID**: `im.github.rallep71.DinoExtended` [DONE]
    - No conflicts
    - Professional
    - Flathub-ready
 
-4. **Website**: GitHub Pages + custom domain later ✅
+4. **Website**: GitHub Pages + custom domain later [DONE]
    - Free to start
    - Professional URL later
    - Full control
 
-5. **Repository**: Rename to `dino-extended` ✅
+5. **Repository**: Rename to `dino-extended` [DONE]
    - Clear identity
    - Better SEO
    - Professional
@@ -360,7 +360,7 @@ about_dialog.website_label = "dinoextended.org";
 
 ## 🆘 Legal Risk Assessment
 
-**Overall Risk Level**: 🟢 **LOW**
+**Overall Risk Level**: [TODO] **LOW**
 
 **Why**:
 - GPL-3.0 explicitly allows forks
@@ -380,11 +380,11 @@ about_dialog.website_label = "dinoextended.org";
 
 Would you like me to:
 
-1. ✅ Update About dialog with dual copyright?
-2. ✅ Create AUTHORS and NOTICE files?
-3. ✅ Help design a new logo concept?
-4. ✅ Set up GitHub Pages?
-5. ✅ Rename App ID throughout project?
-6. ✅ Create website template?
+1. [DONE] Update About dialog with dual copyright?
+2. [DONE] Create AUTHORS and NOTICE files?
+3. [DONE] Help design a new logo concept?
+4. [DONE] Set up GitHub Pages?
+5. [DONE] Rename App ID throughout project?
+6. [DONE] Create website template?
 
 Let me know which ones you want to tackle first!

@@ -1,15 +1,15 @@
-# 🎨 DinoX Logo Creation Guide
+#  DinoX Logo Creation Guide
 
-## ✅ Rechtliche Situation bei KI-Logos
+## [DONE] Rechtliche Situation bei KI-Logos
 
 ### Keine Watermarks bei:
-- **DALL-E 3** (ChatGPT Plus) - ✅ Kommerzielle Nutzung erlaubt
-- **Ideogram.ai** (Free) - ✅ Keine Watermarks, kommerzielle Nutzung OK
-- **Microsoft Designer** (Bing Image Creator) - ✅ Kostenlos, keine Watermarks
+- **DALL-E 3** (ChatGPT Plus) - [DONE] Kommerzielle Nutzung erlaubt
+- **Ideogram.ai** (Free) - [DONE] Keine Watermarks, kommerzielle Nutzung OK
+- **Microsoft Designer** (Bing Image Creator) - [DONE] Kostenlos, keine Watermarks
 
 ### Urheberrecht:
 - **KI-generierte Bilder**: Meist **kein Urheberrecht** (Deutschland/EU)
-- **Für dich bedeutet**: ✅ Du kannst sie frei nutzen
+- **Für dich bedeutet**: [DONE] Du kannst sie frei nutzen
 - **Aber**: Andere können ähnliche Logos auch erstellen
 - **Lösung**: Logo registrieren lassen (optional, kostet ~300€)
 
@@ -17,7 +17,7 @@
 
 ## 🤖 KI-Prompts für DinoX Logo
 
-### Option 1: DALL-E 3 / ChatGPT Plus ⭐ EMPFOHLEN
+### Option 1: DALL-E 3 / ChatGPT Plus  EMPFOHLEN
 
 **Prompt für erstes Logo:**
 ```
@@ -168,24 +168,24 @@ cp logo.svg main/data/icons/hicolor/scalable/apps/im.dino.Dino.svg
 
 ---
 
-## 🎯 Design-Tipps für die KI
+##  Design-Tipps für die KI
 
 ### Was funktioniert gut:
-✅ "Minimalist", "flat design", "simple shapes"
-✅ Konkrete Farbcodes (#00D9FF)
-✅ Referenzen zu bekannten Apps (Discord, Telegram)
-✅ "Transparent background"
-✅ "SVG-ready" oder "vector style"
+[DONE] "Minimalist", "flat design", "simple shapes"
+[DONE] Konkrete Farbcodes (#00D9FF)
+[DONE] Referenzen zu bekannten Apps (Discord, Telegram)
+[DONE] "Transparent background"
+[DONE] "SVG-ready" oder "vector style"
 
 ### Was vermeiden:
-❌ "Realistic", "3D", "detailed"
-❌ Komplexe Gradienten (schlecht bei kleinen Icons)
-❌ Zu viele Details (werden bei 16px unleserlich)
-❌ Text im Logo (schwer lesbar bei kleinen Größen)
+[NO] "Realistic", "3D", "detailed"
+[NO] Komplexe Gradienten (schlecht bei kleinen Icons)
+[NO] Zu viele Details (werden bei 16px unleserlich)
+[NO] Text im Logo (schwer lesbar bei kleinen Größen)
 
 ### Farbschema-Vorschläge:
 
-**Variante 1: Cyan/Electric Blue** ⭐ Empfohlen
+**Variante 1: Cyan/Electric Blue**  Empfohlen
 ```
 Primary:   #00D9FF (Electric Cyan)
 Secondary: #4FC3F7 (Bright Blue)
@@ -208,7 +208,7 @@ Accent:    #00B8D4 (Deep Cyan)
 
 ---
 
-## 📋 Checkliste
+##  Checkliste
 
 Nach dem Erstellen prüfen:
 
@@ -223,7 +223,7 @@ Nach dem Erstellen prüfen:
 
 ---
 
-## 🚀 Quick Start
+##  Quick Start
 
 **Schnellste Methode (5 Minuten):**
 
@@ -242,7 +242,7 @@ Nach dem Erstellen prüfen:
 
 ---
 
-## 💡 Alternativen wenn KI nicht passt
+##  Alternativen wenn KI nicht passt
 
 **Plan B: Logo-Vorlagen modifizieren**
 1. https://www.svgrepo.com/vectors/dinosaur/ (kostenlos, MIT License)
@@ -274,4 +274,4 @@ A: Minimum: 128px + SVG für Flathub. Aber besser alle Größen für perfekte Da
 
 ---
 
-**Viel Erfolg! Bei Fragen einfach melden.** 🦕✨
+**Viel Erfolg! Bei Fragen einfach melden.** 🦕

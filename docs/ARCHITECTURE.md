@@ -1,10 +1,10 @@
-# 🏛️ Architecture Guide - Dino Extended
+#  Architecture Guide - Dino Extended
 
 Deep dive into Dino's codebase structure, design patterns, and key components.
 
 ---
 
-## 📋 Table of Contents
+##  Table of Contents
 
 - [Overview](#overview)
 - [Directory Structure](#directory-structure)
@@ -16,7 +16,7 @@ Deep dive into Dino's codebase structure, design patterns, and key components.
 
 ---
 
-## 🎯 Overview
+##  Overview
 
 Dino follows a **layered architecture**:
 
@@ -56,7 +56,7 @@ Dino follows a **layered architecture**:
 
 ---
 
-## 📁 Directory Structure
+##  Directory Structure
 
 See [BUILD.md](BUILD.md) for detailed directory listing.
 
@@ -70,7 +70,7 @@ See [BUILD.md](BUILD.md) for detailed directory listing.
 
 ---
 
-## ��️ Core Components
+## [TODO]️ Core Components
 
 ### 1. Application
 
@@ -109,7 +109,7 @@ See [DATABASE_SCHEMA.md](DATABASE_SCHEMA.md) for details.
 
 ---
 
-## 📡 XMPP Protocol Layer
+##  XMPP Protocol Layer
 
 ### XmppStream
 

@@ -1,14 +1,14 @@
-# 🎨 DinoX - Logo & Branding Guide
+#  DinoX - Logo & Branding Guide
 
 ## Current Status
 
-⚠️ **Using original Dino logo temporarily**
+[WARNING] **Using original Dino logo temporarily**
 - Logo location: `main/data/icons/`
 - App icon: `im.dino.Dino` (symbolic icons)
 
 ## Logo Design Concepts
 
-### Option 1: Color Variant ⭐ **Recommended**
+### Option 1: Color Variant  **Recommended**
 
 **Keep the Dino dinosaur shape, but:**
 - Change color from blue/purple → **green/teal**
@@ -61,9 +61,9 @@
 ### Phase 1: Temporary Logo (Now)
 
 Keep current logo with clear attribution:
-- ✅ About dialog: "Based on Dino"
-- ✅ Website: "Fork of Dino project"
-- ✅ README: Attribution to original
+- [DONE] About dialog: "Based on Dino"
+- [DONE] Website: "Fork of Dino project"
+- [DONE] README: Attribution to original
 
 ### Phase 2: Modified Logo (This Week)
 
@@ -89,7 +89,7 @@ If budget allows:
 - Accent: Light blue
 - Style: Flat, modern
 
-### DinoX Colors ⭐
+### DinoX Colors 
 - Primary: **Electric Blue** `#00D9FF` or **Cyan** `#00CED1`
 - Accent: **Bright Blue** `#4FC3F7`
 - Badge: **Dark Blue** `#0288D1` for "X"
@@ -178,12 +178,12 @@ for messaging app, white background, vector style"
 
 ## Legal Considerations
 
-✅ **Color variant = OK**
+[DONE] **Color variant = OK**
 - Derivative work under GPL-3.0
 - Clear visual distinction
 - Proper attribution
 
-⚠️ **Exact copy = Not recommended**
+[WARNING] **Exact copy = Not recommended**
 - Could cause confusion
 - Potential trademark issues
 - Better to be safe
@@ -235,4 +235,4 @@ Need help with:
 - Exporting different sizes?
 - Commissioning designer?
 
-Just ask! 🎨
+Just ask! 

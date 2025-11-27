@@ -27,25 +27,25 @@ Die Implementierung nutzt **StatusNotifierItem** (SNI) über D-Bus, den modernen
 ## Desktop-Umgebungen-Kompatibilität
 
 ### Voll unterstützt (native SNI-Unterstützung):
-- ✅ **KDE Plasma** (alle Versionen)
-- ✅ **XFCE** 4.14+ (mit xfce4-statusnotifier-plugin)
-- ✅ **Cinnamon** (native Unterstützung)
-- ✅ **MATE** 1.24+ (native Unterstützung)
+- [DONE] **KDE Plasma** (alle Versionen)
+- [DONE] **XFCE** 4.14+ (mit xfce4-statusnotifier-plugin)
+- [DONE] **Cinnamon** (native Unterstützung)
+- [DONE] **MATE** 1.24+ (native Unterstützung)
 
 ### Mit Extension:
-- ⚠️ **GNOME**: Benötigt [AppIndicator/KStatusNotifierItem Extension](https://extensions.gnome.org/extension/615/appindicator-support/)
+- [WARNING] **GNOME**: Benötigt [AppIndicator/KStatusNotifierItem Extension](https://extensions.gnome.org/extension/615/appindicator-support/)
 
 ### Nicht unterstützt:
-- ❌ Sehr alte Desktop-Umgebungen ohne SNI-Support
+- [NO] Sehr alte Desktop-Umgebungen ohne SNI-Support
 
 ## Funktionen
 
 ### Aktuell implementiert:
-- ✅ Icon in der Systemleiste
-- ✅ Linksklick: Fenster anzeigen/verstecken (Toggle)
-- ✅ Rechtsklick-Kontextmenü (Show/Hide, Quit)
-- ✅ Window schließen minimiert zum Tray statt zu beenden
-- ✅ Hintergrund-Betrieb mit verstecktem Fenster
+- [DONE] Icon in der Systemleiste
+- [DONE] Linksklick: Fenster anzeigen/verstecken (Toggle)
+- [DONE] Rechtsklick-Kontextmenü (Show/Hide, Quit)
+- [DONE] Window schließen minimiert zum Tray statt zu beenden
+- [DONE] Hintergrund-Betrieb mit verstecktem Fenster
 
 ### Geplant:
 - ⏳ Attention-Icon bei neuen Nachrichten
@@ -104,7 +104,7 @@ Expected output:
 
 ## Issue References
 
-- Issue #98: Systray support (seit 2017, 82 👍, 26 ❤️)
+- Issue #98: Systray support (seit 2017, 82 , 26 ❤️)
 - Issue #1723: Application doesn't run in background (verwandt)
 
 ## Weitere Informationen

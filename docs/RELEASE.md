@@ -1,14 +1,14 @@
-# 🚀 Release Guide for DinoX
+#  Release Guide for DinoX
 
 This guide explains how to create releases for DinoX.
 
-## 📋 Prerequisites
+##  Prerequisites
 
 - Push access to the repository
 - Clean git working directory (no uncommitted changes)
 - On `master` branch (or specify a different branch)
 
-## 🎯 Quick Release
+##  Quick Release
 
 ### Option 1: Using the Release Script (Recommended)
 
@@ -18,13 +18,13 @@ This guide explains how to create releases for DinoX.
 ```
 
 The script will:
-1. ✅ Validate version format
-2. ✅ Check for uncommitted changes
-3. ✅ Update `CHANGELOG.md` with date
-4. ✅ Create commit
-5. ✅ Create annotated git tag
-6. ✅ Push to GitHub
-7. ✅ Trigger release workflow
+1. [DONE] Validate version format
+2. [DONE] Check for uncommitted changes
+3. [DONE] Update `CHANGELOG.md` with date
+4. [DONE] Create commit
+5. [DONE] Create annotated git tag
+6. [DONE] Push to GitHub
+7. [DONE] Trigger release workflow
 
 ### Option 2: Manual Process
 
@@ -44,7 +44,7 @@ git push origin master
 git push origin v0.6.0
 ```
 
-## 📦 What Gets Built
+##  What Gets Built
 
 The GitHub Actions workflow (`.github/workflows/release.yml`) automatically builds:
 
@@ -61,7 +61,7 @@ The GitHub Actions workflow (`.github/workflows/release.yml`) automatically buil
    - All build artifacts attached
    - Installation instructions included
 
-## 🔄 Versioning
+##  Versioning
 
 We use [Semantic Versioning](https://semver.org/):
 
@@ -76,7 +76,7 @@ We use [Semantic Versioning](https://semver.org/):
 - `0.7.0` - Add XEP-0424/0425 UI features
 - `1.0.0` - Stable release, production-ready
 
-## 📝 CHANGELOG.md Format
+##  CHANGELOG.md Format
 
 Follow [Keep a Changelog](https://keepachangelog.com/) format:
 
@@ -102,7 +102,7 @@ Follow [Keep a Changelog](https://keepachangelog.com/) format:
 - Feature 2
 ```
 
-## 🎯 Release Checklist
+##  Release Checklist
 
 Before creating a release:
 
@@ -113,7 +113,7 @@ Before creating a release:
 - [ ] Documentation is up to date
 - [ ] No uncommitted changes
 
-## 🔍 Monitoring the Release
+##  Monitoring the Release
 
 After pushing the tag:
 
@@ -127,7 +127,7 @@ After pushing the tag:
    - All artifacts are uploaded
    - Users can download immediately
 
-## 🐛 Troubleshooting
+##  Troubleshooting
 
 ### Release workflow failed
 
@@ -158,15 +158,15 @@ The workflow only triggers on tag push. If you created the tag locally:
 git push origin v0.6.0
 ```
 
-## 🔐 Permissions
+##  Permissions
 
 The release workflow uses `GITHUB_TOKEN` which is automatically provided by GitHub Actions. No additional secrets needed.
 
-## 📊 Version History
+##  Version History
 
 See [CHANGELOG.md](../CHANGELOG.md) for full version history.
 
-## 🔗 Links
+##  Links
 
 - [GitHub Actions Workflow](../.github/workflows/release.yml)
 - [Semantic Versioning](https://semver.org/)

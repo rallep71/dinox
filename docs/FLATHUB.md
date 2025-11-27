@@ -1,6 +1,6 @@
 # Flathub Submission Guide for DinoX
 
-## 🎯 Quick Start
+##  Quick Start
 
 Your app is ready for Flathub submission! Here's what you need to do:
 
@@ -12,12 +12,12 @@ Your app is ready for Flathub submission! Here's what you need to do:
 
 ### 2. Prepare Submission
 
-Your app needs these files (✅ = ready, ⚠️ = needs update):
+Your app needs these files ([DONE] = ready, [WARNING] = needs update):
 
-- ✅ `im.github.rallep71.DinoX.json` - Flatpak manifest
-- ✅ `flathub.json` - Build configuration
-- ⚠️ `im.github.rallep71.DinoX.appdata.xml` - Needs version 0.6.0 entry
-- ✅ Icons and desktop file
+- [DONE] `im.github.rallep71.DinoX.json` - Flatpak manifest
+- [DONE] `flathub.json` - Build configuration
+- [WARNING] `im.github.rallep71.DinoX.appdata.xml` - Needs version 0.6.0 entry
+- [DONE] Icons and desktop file
 
 ### 3. Update AppData for Fork
 
@@ -61,7 +61,7 @@ The appdata.xml needs to reflect that this is DinoX:
 Since this is a fork, you should use a different App ID to avoid conflicts:
 
 ```
-im.github.rallep71.DinoX  (New ID - recommended ⭐)
+im.github.rallep71.DinoX  (New ID - recommended )
 ```
 
 or alternative:
@@ -95,7 +95,7 @@ If Dino is already on Flathub (check: https://flathub.org/apps/im.dino.Dino):
 
 ### 5. Flathub Build Requirements
 
-✅ Your manifest already meets these:
+[DONE] Your manifest already meets these:
 
 - Uses stable GNOME runtime (49)
 - Includes appdata.xml with screenshots
@@ -121,7 +121,7 @@ After submission:
    - App appears on Flathub
    - Available via: `flatpak install flathub im.dino.Dino`
 
-## 📋 Pre-submission Checklist
+##  Pre-submission Checklist
 
 Before submitting, ensure:
 
@@ -155,23 +155,23 @@ Add to appdata.xml:
 </screenshots>
 ```
 
-## 🔑 App ID Consideration
+##  App ID Consideration
 
 **Important decision:**
 
 1. **Keep `im.dino.Dino`** (original ID)
-   - ✅ Users find it easily
-   - ❌ Conflicts with upstream if they submit
-   - ❌ Might confuse with original
+   - [DONE] Users find it easily
+   - [NO] Conflicts with upstream if they submit
+   - [NO] Might confuse with original
    
 2. **Use `im.dino.DinoExtended`** (new ID)
-   - ✅ Clear it's a fork
-   - ✅ No conflicts
-   - ❌ Users must know the exact name
+   - [DONE] Clear it's a fork
+   - [DONE] No conflicts
+   - [NO] Users must know the exact name
 
 **Recommendation:** Use new ID if upstream Dino might submit to Flathub later.
 
-## 🌐 Alternative: Unofficial Repository
+##  Alternative: Unofficial Repository
 
 If Flathub submission takes too long, you can host your own Flatpak repo:
 
@@ -185,7 +185,7 @@ flatpak install dino-extended im.dino.Dino
 
 This requires setting up a flatpak repository with OSTree.
 
-## 📚 Resources
+##  Resources
 
 - Flathub Submission: https://docs.flathub.org/docs/for-app-authors/submission
 - App Requirements: https://docs.flathub.org/docs/for-app-authors/requirements
@@ -206,4 +206,4 @@ This requires setting up a flatpak repository with OSTree.
 - First build: 30 minutes
 - Published: Immediately after approval
 
-Your app is well-prepared and should pass review easily! 🚀
+Your app is well-prepared and should pass review easily! 

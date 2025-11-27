@@ -26,54 +26,54 @@
    - Menu: "Audio call" / "Video call"
    - Works for both 1:1 and group chats
 
-### ⚠️ Partially Implemented / Needs Testing
+### [WARNING] Partially Implemented / Needs Testing
 
 1. **Multi-Participant Media (3+ Teilnehmer)**
-   - ✅ Code exists for multiple Jingle sessions
-   - ✅ Codec intersection algorithm implemented
-   - ⚠️ **No test coverage** - untested with 3+ participants
+   - [DONE] Code exists for multiple Jingle sessions
+   - [DONE] Codec intersection algorithm implemented
+   - [WARNING] **No test coverage** - untested with 3+ participants
    - ❓ **Unknown performance** with 5+ peers
-   - ⚠️ Video stream handling with 3+ participants not verified
-   - 🔧 Mute/unmute backend exists, UI implementation unclear
+   - [WARNING] Video stream handling with 3+ participants not verified
+   -  Mute/unmute backend exists, UI implementation unclear
 
 2. **UI/UX**
-   - ✅ Basic call widget exists (`call_widget.vala`)
-   - ✅ Participant list recently implemented (Phase 1)
-   - ❌ **No individual volume controls** per participant
-   - ❌ **No speaking indicators** (visual feedback for active speakers)
-   - ⚠️ Minimalistic UI - lacks polish and advanced controls
+   - [DONE] Basic call widget exists (`call_widget.vala`)
+   - [DONE] Participant list recently implemented (Phase 1)
+   - [NO] **No individual volume controls** per participant
+   - [NO] **No speaking indicators** (visual feedback for active speakers)
+   - [WARNING] Minimalistic UI - lacks polish and advanced controls
 
 3. **Error Handling**
-   - ✅ Basic checks (private room, default MUC server)
-   - ❌ **Missing user-friendly error messages**
-   - ❌ **No reconnection logic** for network issues
-   - ❌ No call quality indicators during active call
+   - [DONE] Basic checks (private room, default MUC server)
+   - [NO] **Missing user-friendly error messages**
+   - [NO] **No reconnection logic** for network issues
+   - [NO] No call quality indicators during active call
 
-### ❌ Not Implemented
+### [NO] Not Implemented
 
 1. **UI Feedback** (Partially addressed in Phase 1)
-   - ✅ **DONE**: Private room indicator in conversation list (🔒 icon)
-   - ✅ **DONE**: Warning if default MUC server not configured
-   - ✅ **DONE**: Participant list during active call
-   - ❌ No visual indicator for who is speaking
-   - ❌ No individual volume controls per participant
+   - [DONE] **DONE**: Private room indicator in conversation list ( icon)
+   - [DONE] **DONE**: Warning if default MUC server not configured
+   - [DONE] **DONE**: Participant list during active call
+   - [NO] No visual indicator for who is speaking
+   - [NO] No individual volume controls per participant
 
 2. **Advanced Features**
-   - ❌ **Screen sharing** in group calls
-   - ❌ **Call recording** functionality
-   - ❌ **Call quality indicators** (ping, packet loss, bitrate)
-   - ❌ **Advanced MUJI features**:
+   - [NO] **Screen sharing** in group calls
+   - [NO] **Call recording** functionality
+   - [NO] **Call quality indicators** (ping, packet loss, bitrate)
+   - [NO] **Advanced MUJI features**:
      * Mid-call invitations (invite user to ongoing call)
      * Selective participant invitations
      * Call migration (move call to different room)
-   - ❌ Bandwidth adaptation based on network quality
-   - ❌ Echo cancellation tuning per participant
+   - [NO] Bandwidth adaptation based on network quality
+   - [NO] Echo cancellation tuning per participant
 
 3. **Interoperability Issues**
-   - ❌ **Gajim**: No Jingle A/V support at all - not a compatibility issue, feature missing entirely
-   - ⚠️ **Monal/Conversations compatibility**: Have 1:1 calls, but MUJI not implemented
-   - ✅ **DinoX ↔ DinoX**: Should work (needs multi-instance testing)
-   - 🎯 **DinoX is currently the ONLY desktop client with MUJI support**
+   - [NO] **Gajim**: No Jingle A/V support at all - not a compatibility issue, feature missing entirely
+   - [WARNING] **Monal/Conversations compatibility**: Have 1:1 calls, but MUJI not implemented
+   - [DONE] **DinoX ↔ DinoX**: Should work (needs multi-instance testing)
+   -  **DinoX is currently the ONLY desktop client with MUJI support**
 
 ## Client Compatibility Status
 
@@ -81,21 +81,21 @@
 
 | Client | Version Tested | MUJI Support | Status | Notes |
 |--------|---------------|-------------|---------|-------|
-| **DinoX** | 0.6.5.3+ | ⚠️ Implemented, minimally tested | Partial | Full backend, Phase 1 UI complete, **no multi-peer tests** |
-| **Gajim** | 2.4.0 | ❌ No | ❌ Not Supported | **No Jingle A/V implementation at all** |
-| **Monal** | Latest | ⚠️ Partial | ⚠️ 1:1 only | Has 1:1 calls, but no MUJI support |
-| **Conversations** | Latest | ⚠️ Partial | ⚠️ 1:1 only | Has 1:1 Jingle calls, no MUJI |
-| **Siskin** | Latest | ⚠️ Partial | ⚠️ 1:1 only | Has 1:1 calls (iOS), no MUJI |
+| **DinoX** | 0.6.5.3+ | [WARNING] Implemented, minimally tested | Partial | Full backend, Phase 1 UI complete, **no multi-peer tests** |
+| **Gajim** | 2.4.0 | [NO] No | [NO] Not Supported | **No Jingle A/V implementation at all** |
+| **Monal** | Latest | [WARNING] Partial | [WARNING] 1:1 only | Has 1:1 calls, but no MUJI support |
+| **Conversations** | Latest | [WARNING] Partial | [WARNING] 1:1 only | Has 1:1 Jingle calls, no MUJI |
+| **Siskin** | Latest | [WARNING] Partial | [WARNING] 1:1 only | Has 1:1 calls (iOS), no MUJI |
 
 ### 1:1 Calls (XEP-0166/167)
 
 | Client Pair | Audio | Video | Notes |
 |-------------|-------|-------|-------|
-| **DinoX ↔ DinoX** | ✅ | ✅ | Fully supported and tested |
-| **DinoX ↔ Gajim 2.4.0** | ❌ | ❌ | **Gajim has no Jingle A/V implementation** |
-| **DinoX ↔ Monal** | ✅ | ✅ | Should work, needs verification |
-| **DinoX ↔ Conversations** | ✅ | ✅ | Should work, needs verification |
-| **DinoX ↔ Siskin** | ✅ | ✅ | Should work (iOS), needs verification |
+| **DinoX ↔ DinoX** | [DONE] | [DONE] | Fully supported and tested |
+| **DinoX ↔ Gajim 2.4.0** | [NO] | [NO] | **Gajim has no Jingle A/V implementation** |
+| **DinoX ↔ Monal** | [DONE] | [DONE] | Should work, needs verification |
+| **DinoX ↔ Conversations** | [DONE] | [DONE] | Should work, needs verification |
+| **DinoX ↔ Siskin** | [DONE] | [DONE] | Should work (iOS), needs verification |
 
 **Important Notes:**
 - **Gajim**: No audio/video call support at all (neither XEP-0166/167 nor MUJI)
@@ -118,7 +118,7 @@
 **Implementation**:
 - `ConversationRow` or `ConversationItemWidget` UI component
 - Check `muc_manager.is_private_room()` for each MUC
-- Show 🔒 icon or "Private" badge
+- Show  icon or "Private" badge
 - Tooltip: "Private room (supports group calls)"
 
 **Files to modify**:
@@ -181,13 +181,13 @@
 
 ### Priority 2: Enhanced Group Call Experience
 
-#### 2.1 Speaking Indicator ⏸️ **DEFERRED**
+#### 2.1 Speaking Indicator [DEFERRED] **DEFERRED**
 
 **Problem**: In group calls, hard to know who is speaking.
 
 **Solution**: Visual indicator (e.g., green border) around speaking participant.
 
-**Status**: ⏸️ **Postponed** - affects both 1:1 and group calls, needs careful testing of working functionality
+**Status**: [DEFERRED] **Postponed** - affects both 1:1 and group calls, needs careful testing of working functionality
 
 **Implementation**:
 - Use audio level detection from RTP stream
@@ -354,7 +354,7 @@
   2. Users B and C join
   3. All users speak
 - **Expected**: All hear each other clearly
-- **Status**: ⚠️ Needs testing
+- **Status**: [WARNING] Needs testing
 
 #### TC2: Join Ongoing Call
 - **Setup**: Call already in progress
@@ -363,7 +363,7 @@
   2. User C joins MUC
   3. User C clicks "Join call"
 - **Expected**: User C joins seamlessly
-- **Status**: ⚠️ Needs testing
+- **Status**: [WARNING] Needs testing
 
 #### TC3: Video Call (3+ participants)
 - **Setup**: 3+ users in private MUC
@@ -371,7 +371,7 @@
   1. User A starts video call
   2. Others join
 - **Expected**: All video streams visible
-- **Status**: ⚠️ Needs testing (layout?)
+- **Status**: [WARNING] Needs testing (layout?)
 
 #### TC4: Participant Leaves Mid-Call
 - **Steps**:
@@ -379,12 +379,12 @@
   2. User B closes DinoX
   3. User B's MUC presence goes offline
 - **Expected**: Call continues with remaining participants
-- **Status**: ⚠️ Needs testing
+- **Status**: [WARNING] Needs testing
 
 #### TC5: Network Issues
 - **Setup**: Simulate packet loss
 - **Expected**: Audio continues, visual indicator of quality
-- **Status**: ❌ No quality indicators yet
+- **Status**: [NO] No quality indicators yet
 
 ### Performance Benchmarks
 
@@ -433,9 +433,9 @@
 
 ### Observed Runtime Issues
 
-**From production logs (Nov 25, 2025)** - ✅ **All fixed same day**:
+**From production logs (Nov 25, 2025)** - [DONE] **All fixed same day**:
 
-1. **PipeWire Device Cleanup Warning** ✅ **FIXED**
+1. **PipeWire Device Cleanup Warning** [DONE] **FIXED**
    ```
    rtp-WARNING: device.vala:582: pipewiredevice0-tee still has 1 src pads while being destroyed
    ```
@@ -444,7 +444,7 @@
    - **Fix applied**: Explicit pad unlinking and releasing in `plugins/rtp/src/device.vala`
    - **Status**: Fixed Nov 25, 2025 - see Bug Tracker #1
 
-2. **libnice TURN Refresh Warning** ✅ **FIXED**
+2. **libnice TURN Refresh Warning** [DONE] **FIXED**
    ```
    libnice-WARNING: We still have alive TURN refreshes. Consider using nice_agent_close_async()
    ```
@@ -453,7 +453,7 @@
    - **Fix applied**: Use `nice_agent_close_async()` with callback in `plugins/ice/src/transport_parameters.vala`
    - **Status**: Fixed Nov 25, 2025 - see Bug Tracker #2
 
-3. **Entity Caps Hash Mismatch** ✅ **FIXED**
+3. **Entity Caps Hash Mismatch** [DONE] **FIXED**
    ```
    libdino-WARNING: entity_info.vala:234: Claimed entity caps hash doesn't match computed one
    ```
@@ -485,11 +485,11 @@
 ### Missing Test Coverage
 
 **Critical gaps**:
-- ❌ No automated tests for MUJI protocol
-- ❌ No integration tests for multi-party media
-- ❌ No performance benchmarks documented
-- ❌ No interoperability tests with other clients
-- ❌ No cleanup/teardown tests (causes warnings above)
+- [NO] No automated tests for MUJI protocol
+- [NO] No integration tests for multi-party media
+- [NO] No performance benchmarks documented
+- [NO] No interoperability tests with other clients
+- [NO] No cleanup/teardown tests (causes warnings above)
 
 **Testing priorities**:
 1. **Unit tests**: Codec intersection algorithm
@@ -503,18 +503,18 @@
 
 ## Bug Tracker
 
-### 🐛 Active Bugs (Need Fixing)
+###  Active Bugs (Need Fixing)
 
 | ID | Severity | Component | Description | Status |
 |----|----------|-----------|-------------|--------|
-| #1 | Medium | RTP Plugin | PipeWire tee src pads not cleaned up properly | ⏸️ Reverted (caused crashes) |
-| #2 | Low | ICE | libnice TURN refresh not closed asynchronously | ⏸️ Reverted (caused crashes) |
-| #3 | Medium | Entity Info | Entity caps hash mismatch not handled gracefully | ✅ Fixed |
-| #4 | High | Interop | No audio/video calls to Gajim 2.4.0 | 📋 Requires live testing |
+| #1 | Medium | RTP Plugin | PipeWire tee src pads not cleaned up properly | [DEFERRED] Reverted (caused crashes) |
+| #2 | Low | ICE | libnice TURN refresh not closed asynchronously | [DEFERRED] Reverted (caused crashes) |
+| #3 | Medium | Entity Info | Entity caps hash mismatch not handled gracefully | [DONE] Fixed |
+| #4 | High | Interop | No audio/video calls to Gajim 2.4.0 |  Requires live testing |
 
-### 📋 Issue Details
+###  Issue Details
 
-#### Bug #1: PipeWire Device Cleanup ⚠️ **REVERTED - CAUSED CRASHES**
+#### Bug #1: PipeWire Device Cleanup [WARNING] **REVERTED - CAUSED CRASHES**
 **File**: `plugins/rtp/src/device.vala:576-590`  
 **Symptom**: `pipewiredeviceX-tee still has 1 src pads while being destroyed`  
 **Root Cause**: GStreamer tee element request pads not properly released  
@@ -528,15 +528,15 @@ while (iter.next(out pad) == Gst.IteratorResult.OK) {
     tee.release_request_pad(pad);  // ← This breaks active calls!
 }
 ```
-**Result**: ❌ **Caused 1:1 video/audio calls to crash immediately**  
+**Result**: [NO] **Caused 1:1 video/audio calls to crash immediately**  
 **Root Cause of Crash**: Calling `release_request_pad()` during or right after active calls destroys GStreamer pipeline  
-**Status**: ⏸️ **Reverted to original** - GStreamer handles cleanup automatically when element goes to NULL state
+**Status**: [DEFERRED] **Reverted to original** - GStreamer handles cleanup automatically when element goes to NULL state
 
 **Lesson Learned**: The warning is informational only. Manual pad manipulation in dispose() is dangerous and unnecessary.
 
 ---
 
-#### Bug #2: TURN Refresh Cleanup ⚠️ **REVERTED - CAUSED CRASHES**
+#### Bug #2: TURN Refresh Cleanup [WARNING] **REVERTED - CAUSED CRASHES**
 **File**: `plugins/ice/src/transport_parameters.vala`  
 **Symptom**: `We still have alive TURN refreshes`  
 **Root Cause**: libnice Agent not properly closed before disposal  
@@ -551,9 +551,9 @@ public override void dispose() {
     thread_loop.quit();  // ← Called immediately after!
 }
 ```
-**Result**: ❌ **Caused 1:1 video/audio calls to crash immediately**  
+**Result**: [NO] **Caused 1:1 video/audio calls to crash immediately**  
 **Root Cause of Crash**: Race condition - `close_async()` callback runs after `thread_loop.quit()` already terminated the loop  
-**Status**: ⏸️ **Reverted to original** - needs different approach
+**Status**: [DEFERRED] **Reverted to original** - needs different approach
 
 **Alternative Solutions to Explore**:
 1. Call `close_async()` in `terminate()` method instead of `dispose()`
@@ -562,7 +562,7 @@ public override void dispose() {
 
 ---
 
-#### Bug #3: Entity Caps Hash Mismatch ✅ **FIXED**
+#### Bug #3: Entity Caps Hash Mismatch [DONE] **FIXED**
 **File**: `libdino/src/service/entity_info.vala:234`  
 **Symptom**: Claimed entity caps hash doesn't match computed one  
 **Root Cause**: Peer advertises incorrect XEP-0115 capabilities hash, disco#info data discarded  
@@ -698,8 +698,8 @@ grep "fingerprint" dinox-jingle.log
 
 ### Phase 3: Advanced Features (v0.7.0+)
 
-#### ✅ Message Retraction UI - **ALREADY IMPLEMENTED**
-**Status**: ✅ Complete - XEP-0424 backend + full UI
+#### [DONE] Message Retraction UI - **ALREADY IMPLEMENTED**
+**Status**: [DONE] Complete - XEP-0424 backend + full UI
 - "Delete for everyone" option in message context menu
 - Dialog with options: "Delete locally" / "Delete for everyone"
 - MUC moderation support for room moderators
@@ -710,7 +710,7 @@ grep "fingerprint" dinox-jingle.log
 
 #### 🔔 Push Notifications (XEP-0357) - **PLANNED**
 **Status**: 🚧 Not implemented yet
-**Priority**: 🔥 High - Very requested feature
+**Priority**:  High - Very requested feature
 
 **What**: Receive notifications even when DinoX is closed
 - Server-side push via XEP-0357
@@ -741,7 +741,7 @@ grep "fingerprint" dinox-jingle.log
 
 ---
 
-#### 📊 Speaking Indicators - **DEFERRED**
+####  Speaking Indicators - **DEFERRED**
 See Priority 2, Section 2.1 above - postponed to avoid breaking working calls
 
 ---

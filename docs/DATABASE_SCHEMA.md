@@ -8,7 +8,7 @@ Complete reference for Dino's SQLite database structure.
 
 ---
 
-## 📋 Core Tables
+##  Core Tables
 
 ### 1. `account` - User XMPP Accounts
 
@@ -103,14 +103,14 @@ CREATE TABLE call (
 
 ---
 
-## 🔗 Foreign Keys
+##  Foreign Keys
 
 All tables cascade on account deletion:
 - `ON DELETE CASCADE` ensures data consistency
 
 ---
 
-## 🔄 Migrations
+##  Migrations
 
 Current migration path: v1 → v2 → ... → v30
 
@@ -124,7 +124,7 @@ if (old_version < 31) {
 
 ---
 
-## 💾 Backup
+##  Backup
 
 ```bash
 # Backup database

@@ -128,21 +128,21 @@ DinoX automatically detects if the server and other clients support MUJI through
 
 ## Current Implementation Status
 
-### ✅ Implemented
+### [DONE] Implemented
 
 - Private room detection (`is_private_room()`)
 - Group call initiation (`initiate_groupchat_call()`)
 - MUJI protocol module (`xmpp-vala/src/module/xep/0272_muji.vala`)
 - UI checks for group call availability
 
-### ⚠️ Partial / Needs Testing
+### [WARNING] Partial / Needs Testing
 
 - Media negotiation for multiple participants
 - Call state synchronization across clients
 - Mute/unmute in group calls
 - Video stream handling with multiple participants
 
-### ❌ Not Implemented
+### [NO] Not Implemented
 
 - Screen sharing in group calls
 - Recording group calls
@@ -274,8 +274,8 @@ grep "entity caps\|disco#info" dinox-debug.log
 1. Create a test private room:
    ```
    testcall@conference.example.org
-   - Members-only: ✓
-   - Non-anonymous: ✓
+   - Members-only: [OK]
+   - Non-anonymous: [OK]
    ```
 
 2. Join with 2-3 test accounts (DinoX or other MUJI clients)
@@ -308,19 +308,19 @@ grep "entity caps\|disco#info" dinox-debug.log
 
 | Client | Version | Support | Notes |
 |--------|---------|---------|-------|
-| **DinoX** | 0.6.5+ | ⚠️ Implemented, untested | Backend complete, needs multi-peer testing |
-| **Gajim** | 2.4.0+ | ✅ Full | Built-in support, well-tested |
-| **Monal** | All | ❌ None | Only 1:1 calls supported |
-| **Conversations** | All | ❌ None | Only 1:1 calls supported |
+| **DinoX** | 0.6.5+ | [WARNING] Implemented, untested | Backend complete, needs multi-peer testing |
+| **Gajim** | 2.4.0+ | [DONE] Full | Built-in support, well-tested |
+| **Monal** | All | [NO] None | Only 1:1 calls supported |
+| **Conversations** | All | [NO] None | Only 1:1 calls supported |
 
 ### 1:1 Call Compatibility
 
 | DinoX ↔ Client | Status | Known Issues |
 |----------------|--------|--------------|
-| **DinoX** | ✅ Works | - |
-| **Gajim 2.4.0** | ❌ Broken | Audio/video calls fail - codec/negotiation mismatch |
-| **Monal** | ⚠️ Untested | Should work, needs verification |
-| **Conversations** | ⚠️ Untested | Should work, needs verification |
+| **DinoX** | [DONE] Works | - |
+| **Gajim 2.4.0** | [NO] Broken | Audio/video calls fail - codec/negotiation mismatch |
+| **Monal** | [WARNING] Untested | Should work, needs verification |
+| **Conversations** | [WARNING] Untested | Should work, needs verification |
 
 ### Troubleshooting Gajim 2.4.0 Incompatibility
 
@@ -357,19 +357,19 @@ G_MESSAGES_DEBUG=all flatpak run im.github.rallep71.DinoX 2>&1 | grep -i jingle
 
 ### Not Implemented
 
-- ❌ **Screen sharing** in group calls
-- ❌ **Call recording** functionality
-- ❌ **Call quality indicators** (per-participant metrics)
-- ❌ **Individual volume controls** for each participant
-- ❌ **Speaking indicators** (visual feedback)
-- ❌ **Mid-call invitations** (invite to ongoing call)
-- ❌ **Reconnection logic** after network interruption
+- [NO] **Screen sharing** in group calls
+- [NO] **Call recording** functionality
+- [NO] **Call quality indicators** (per-participant metrics)
+- [NO] **Individual volume controls** for each participant
+- [NO] **Speaking indicators** (visual feedback)
+- [NO] **Mid-call invitations** (invite to ongoing call)
+- [NO] **Reconnection logic** after network interruption
 
 ### Partially Implemented
 
-- ⚠️ **Multi-participant media**: Code exists, not tested with 3+ peers
-- ⚠️ **Error handling**: Basic checks, no user-friendly messages
-- ⚠️ **Performance**: Unknown with 5+ participants
+- [WARNING] **Multi-participant media**: Code exists, not tested with 3+ peers
+- [WARNING] **Error handling**: Basic checks, no user-friendly messages
+- [WARNING] **Performance**: Unknown with 5+ participants
 
 ---
 
@@ -385,7 +385,7 @@ G_MESSAGES_DEBUG=all flatpak run im.github.rallep71.DinoX 2>&1 | grep -i jingle
 
 ### Priority 2: UI/UX Enhancements
 
-- [x] ✅ Participant list in active group call
+- [x] [DONE] Participant list in active group call
 - [ ] Individual volume controls per participant
 - [ ] Visual indicators for who is speaking
 - [ ] Call quality indicators (ping, packet loss)
