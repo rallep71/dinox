@@ -213,8 +213,39 @@ public class Manager : StreamInteractionModule, Object {
     private void on_stream_negotiated(Account account, XmppStream stream) {
         StreamModule module = stream_interactor.module_manager.get_module(account, StreamModule.IDENTITY);
         if (module != null) {
-            module.request_user_devicelist.begin(stream, account.bare_jid);
+            // Request our device list - this will automatically trigger republish if needed
+            module.request_user_devicelist.begin(stream, account.bare_jid, (obj, res) => {
+                module.request_user_devicelist.end(res);
+                // Force republish of device list to notify all subscribers
+                republish_device_list(account, stream);
+            });
         }
+    }
+
+    private void republish_device_list(Account account, XmppStream stream) {
+        int identity_id = db.identity.get_id(account.id);
+        if (identity_id < 0) return;
+
+        // Build device list with all known active devices
+        ArrayList<int32> devices = new ArrayList<int32>();
+        foreach (Row row in db.identity_meta.with_address(identity_id, account.bare_jid.to_string())
+                .with(db.identity_meta.now_active, "=", true)) {
+            devices.add(row[db.identity_meta.device_id]);
+        }
+
+        // Create device list stanza node
+        StanzaNode list_node = new StanzaNode.build("list", Xep.Omemo.NS_URI).add_self_xmlns();
+        foreach (int32 device_id in devices) {
+            list_node.put_node(new StanzaNode.build("device", Xep.Omemo.NS_URI)
+                .put_attribute("id", device_id.to_string()));
+        }
+
+        // Publish to trigger PEP notification to all subscribers
+        // NODE_DEVICELIST = "eu.siacs.conversations.axolotl.devicelist"
+        stream.get_module(Xep.Pubsub.Module.IDENTITY).publish.begin(stream, account.bare_jid, 
+            Xep.Omemo.NS_URI + ".devicelist", null, list_node);
+        
+        debug("Republished device list for %s with %d devices", account.bare_jid.to_string(), devices.size);
     }
 
     private void on_account_added(Account account) {

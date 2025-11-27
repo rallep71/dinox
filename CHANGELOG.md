@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.5.5] - 2025-11-27
+
+### Fixed
+- **OMEMO Decryption Bug** - Fixed critical bug where incoming OMEMO encrypted messages showed "[This message is OMEMO encrypted]" in old/inactive chats after DinoX restart
+  - Root cause: Other clients had stale device list cache with old DinoX device ID
+  - Solution: Force republish device list on connect to notify all subscribers
+  - Impact: Encryption now works immediately after restart without sending a message first
+  - See OMEMO_BUG_FIX.md for detailed technical analysis
+
 ## [0.6.5.4] - 2025-11-27
 
 ### Added

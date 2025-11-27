@@ -191,6 +191,16 @@
   <url type="translate">https://hosted.weblate.org/projects/dino/</url>
   <launchable type="desktop-id">im.github.rallep71.DinoX.desktop</launchable>
   <releases>
+    <release date="2025-11-27" version="0.6.5.5">
+      <description>
+        <p>Critical bugfix release for OMEMO encryption in old/inactive chats.</p>
+        <ul>
+          <li>Fixed OMEMO decryption bug where incoming messages showed "[This message is OMEMO encrypted]" after restart</li>
+          <li>Device list is now republished on connect to prevent stale cache in other clients</li>
+          <li>Encryption now works immediately without needing to send a message first</li>
+        </ul>
+      </description>
+    </release>
     <release date="2025-11-27" version="0.6.5.4">
       <description>
         <p>Feature release with configurable background mode and notification system fixes.</p>
