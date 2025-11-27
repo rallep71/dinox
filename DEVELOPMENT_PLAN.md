@@ -247,7 +247,6 @@ DinoX addresses the slow development pace of the original Dino XMPP client while
 | P2 | [#1769](https://github.com/dino/dino/issues/1769) | Chat Scroll Fix | Medium | [TODO] TODO |
 | P2 | [#1752](https://github.com/dino/dino/issues/1752) | Dark Mode (no restart) | Easy | [TODO] TODO |
 | P2 | [#1787](https://github.com/dino/dino/issues/1787) | Better Notifications | Medium | [TODO] TODO |
-| P3 | [#1776](https://github.com/dino/dino/issues/1776) | Emoji Reactions | Medium | [TODO] TODO |
 
 **Target**: End of April 2026
 
