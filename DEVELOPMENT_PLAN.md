@@ -2,7 +2,7 @@
 
 > **Fork Status**: Modern XMPP client - Independent development branch of [dino/dino](https://github.com/dino/dino)  
 > **Last Updated**: November 27, 2025
-> **Version**: 0.6.5.4
+> **Version**: 0.6.6
 > **Original Repository**: https://github.com/dino/dino (572 open issues)
 
 ---
@@ -36,7 +36,7 @@ DinoX addresses the slow development pace of the original Dino XMPP client while
 
 | Metric | Status | Details |
 |--------|--------|---------|
-| **Version** | [OK] **v0.6.5.4** | Latest stable release |
+| **Version** | [OK] **v0.6.6** | Latest stable release |
 | **XEPs Implemented** | [OK] **67** | One of most compliant XMPP clients |
 | **Database Schema** | [OK] **v32** | Custom server + history clear + background mode |
 | **Build Status** | [OK] **Clean** | 0 compiler warnings, 0 errors, 541 targets |
@@ -250,10 +250,22 @@ These features were inherited from upstream Dino and are fully functional in Din
 
 **MUC Invitations** [DONE] **IMPLEMENTED**:
 - [DONE] Available via **Occupant Menu** (user icon in titlebar)
+- [DONE] Available via **Three-dot Menu** in conversation titlebar
+- [DONE] Available via **Right-click Context Menu** on conversation list (v0.6.6)
 - [DONE] "Invite" button opens contact selection dialog
 - [DONE] Backend: `MucManager.invite()` fully functional
 - [DONE] UI: `main/src/ui/occupant_menu/view.vala:269` - Complete implementation
+- [DONE] UI: `main/src/ui/conversation_selector/conversation_selector_row.vala:463-479` - Context menu
 - [DONE] Supports both XEP-0045 (Mediated) and XEP-0249 (Direct) invitations
+
+**Conversation Context Menu** [DONE] **IMPLEMENTED** (v0.6.6):
+- [DONE] **Right-click on Conversation List** - Quick access to common actions
+- [DONE] **MUC Options**: Details, Invite, Mute, Clear History, Leave and Close
+- [DONE] **1:1 Chat Options**: Details, Edit Alias, Mute, Block, Clear History, Remove Contact
+- [DONE] **Unified UX** - Matches three-dot menu functionality
+- [DONE] **PopoverMenu** - Native GTK4 context menu widget
+- [DONE] UI: `main/src/ui/conversation_selector/conversation_selector_row.vala:59-574`
+- [DONE] Gesture: Right-click (button 3) support for all conversation types
 
 **Affiliation Management** [DONE] **FULLY IMPLEMENTED**:
 - [DONE] **Make Admin / Revoke Admin** - Owner can promote/demote admins

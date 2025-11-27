@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.6] - 2025-11-27
+
+### Added
+- **Conversation List Context Menu** - Right-click context menu on conversation entries in sidebar
+  - **MUC Options**: Conversation Details, Invite Contact, Mute/Unmute, Delete Conversation History, Leave and Close
+  - **1:1 Chat Options**: Conversation Details, Edit Alias, Mute/Unmute, Block/Unblock, Delete Conversation History, Remove Contact
+  - Provides unified UX matching three-dot menu functionality
+  - Especially useful for quick MUC invitations directly from bookmarks
+  - Implementation: `main/src/ui/conversation_selector/conversation_selector_row.vala`
+
+### Changed
+- **MUC Invite Access** - Invite feature now accessible from three locations:
+  1. Occupant menu (user icon in titlebar)
+  2. Three-dot menu in conversation titlebar
+  3. Right-click context menu on conversation list _(new)_
+
 ## [0.6.5.5] - 2025-11-27
 
 ### Fixed

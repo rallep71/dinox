@@ -56,15 +56,15 @@ public class ConversationSelectorRow : ListBoxRow {
         var display_name_model = stream_interactor.get_module(ContactModels.IDENTITY).get_display_name_model(conversation);
         display_name_model.bind_property("display-name", name_label, "label", BindingFlags.SYNC_CREATE);
 
-        // Add right-click context menu for chat conversations
+        // Add right-click context menu for all conversations
+        GestureClick gesture = new GestureClick();
+        gesture.set_button(3); // Right click
+        gesture.pressed.connect((n_press, x, y) => {
+            show_context_menu(x, y);
+        });
+        add_controller(gesture);
+        
         if (conversation.type_ == Conversation.Type.CHAT) {
-            GestureClick gesture = new GestureClick();
-            gesture.set_button(3); // Right click
-            gesture.pressed.connect((n_press, x, y) => {
-                show_context_menu(x, y);
-            });
-            add_controller(gesture);
-            
             // Connect presence signals
             var pm = stream_interactor.get_module(PresenceManager.IDENTITY);
             pm.show_received.connect(on_presence_changed);
@@ -436,51 +436,115 @@ public class ConversationSelectorRow : ListBoxRow {
 
     private void show_context_menu(double x, double y) {
         var menu = new Menu();
-        
-        // Edit alias
-        menu.append(_("Edit Alias"), "row.edit");
-        
-        // Mute/Unmute
-        bool is_muted = (conversation.notify_setting == Conversation.NotifySetting.OFF);
-        menu.append(is_muted ? _("Unmute") : _("Mute"), "row.mute");
-        
-        // Block/Unblock
-        bool is_blocked = stream_interactor.get_module(BlockingManager.IDENTITY).is_blocked(conversation.account, conversation.counterpart);
-        menu.append(is_blocked ? _("Unblock") : _("Block"), "row.block");
-        
-        // Remove contact
-        menu.append(_("Remove Contact"), "row.remove");
-        
-        // Create action group
         var action_group = new SimpleActionGroup();
         
-        // Edit action
-        var edit_action = new SimpleAction("edit", null);
-        edit_action.activate.connect(() => {
-            show_edit_dialog();
-        });
-        action_group.add_action(edit_action);
-        
-        // Mute action
-        var mute_action = new SimpleAction("mute", null);
-        mute_action.activate.connect(() => {
-            toggle_mute();
-        });
-        action_group.add_action(mute_action);
-        
-        // Block action
-        var block_action = new SimpleAction("block", null);
-        block_action.activate.connect(() => {
-            toggle_block();
-        });
-        action_group.add_action(block_action);
-        
-        // Remove action
-        var remove_action = new SimpleAction("remove", null);
-        remove_action.activate.connect(() => {
-            show_remove_dialog();
-        });
-        action_group.add_action(remove_action);
+        if (conversation.type_ == Conversation.Type.GROUPCHAT) {
+            // MUC/Groupchat options
+            menu.append(_("Conversation Details"), "row.details");
+            menu.append(_("Invite Contact"), "row.invite");
+            
+            // Mute/Unmute
+            bool is_muted = (conversation.notify_setting == Conversation.NotifySetting.OFF);
+            menu.append(is_muted ? _("Unmute") : _("Mute"), "row.mute");
+            
+            menu.append(_("Delete Conversation History"), "row.clear");
+            menu.append(_("Leave and Close"), "row.close");
+            
+            // Details action
+            var details_action = new SimpleAction("details", null);
+            details_action.activate.connect(() => {
+                var variant = new GLib.Variant.tuple(new GLib.Variant[] {new GLib.Variant.int32(conversation.id), new GLib.Variant.string("about")});
+                GLib.Application.get_default().activate_action("open-conversation-details", variant);
+            });
+            action_group.add_action(details_action);
+            
+            // Invite action
+            var invite_action = new SimpleAction("invite", null);
+            invite_action.activate.connect(() => {
+                show_invite_dialog();
+            });
+            action_group.add_action(invite_action);
+            
+            // Mute action
+            var mute_action = new SimpleAction("mute", null);
+            mute_action.activate.connect(() => {
+                toggle_mute();
+            });
+            action_group.add_action(mute_action);
+            
+            // Clear history action
+            var clear_action = new SimpleAction("clear", null);
+            clear_action.activate.connect(() => {
+                show_clear_history_dialog();
+            });
+            action_group.add_action(clear_action);
+            
+            // Close conversation action
+            var close_action = new SimpleAction("close", null);
+            close_action.activate.connect(() => {
+                GLib.Application.get_default().activate_action("close-conversation", new GLib.Variant.int32(conversation.id));
+            });
+            action_group.add_action(close_action);
+            
+        } else {
+            // 1:1 Chat options
+            menu.append(_("Conversation Details"), "row.details");
+            menu.append(_("Edit Alias"), "row.edit");
+            
+            // Mute/Unmute
+            bool is_muted = (conversation.notify_setting == Conversation.NotifySetting.OFF);
+            menu.append(is_muted ? _("Unmute") : _("Mute"), "row.mute");
+            
+            // Block/Unblock
+            bool is_blocked = stream_interactor.get_module(BlockingManager.IDENTITY).is_blocked(conversation.account, conversation.counterpart);
+            menu.append(is_blocked ? _("Unblock") : _("Block"), "row.block");
+            
+            menu.append(_("Delete Conversation History"), "row.clear");
+            menu.append(_("Remove Contact"), "row.remove");
+            
+            // Details action
+            var details_action = new SimpleAction("details", null);
+            details_action.activate.connect(() => {
+                var variant = new GLib.Variant.tuple(new GLib.Variant[] {new GLib.Variant.int32(conversation.id), new GLib.Variant.string("about")});
+                GLib.Application.get_default().activate_action("open-conversation-details", variant);
+            });
+            action_group.add_action(details_action);
+            
+            // Edit action
+            var edit_action = new SimpleAction("edit", null);
+            edit_action.activate.connect(() => {
+                show_edit_dialog();
+            });
+            action_group.add_action(edit_action);
+            
+            // Mute action
+            var mute_action = new SimpleAction("mute", null);
+            mute_action.activate.connect(() => {
+                toggle_mute();
+            });
+            action_group.add_action(mute_action);
+            
+            // Block action
+            var block_action = new SimpleAction("block", null);
+            block_action.activate.connect(() => {
+                toggle_block();
+            });
+            action_group.add_action(block_action);
+            
+            // Clear history action
+            var clear_action = new SimpleAction("clear", null);
+            clear_action.activate.connect(() => {
+                show_clear_history_dialog();
+            });
+            action_group.add_action(clear_action);
+            
+            // Remove action
+            var remove_action = new SimpleAction("remove", null);
+            remove_action.activate.connect(() => {
+                show_remove_dialog();
+            });
+            action_group.add_action(remove_action);
+        }
         
         this.insert_action_group("row", action_group);
         
@@ -630,6 +694,45 @@ public class ConversationSelectorRow : ListBoxRow {
                 
                 // Remove from roster
                 stream_interactor.get_module(RosterManager.IDENTITY).remove_jid(conversation.account, conversation.counterpart);
+            }
+        });
+        
+        dialog.present((Window)this.get_root());
+    }
+
+    private void show_invite_dialog() {
+        var accounts = new ArrayList<Account>();
+        accounts.add(conversation.account);
+
+        SelectContactDialog dialog = new SelectContactDialog(stream_interactor, accounts);
+        dialog.title = _("Invite Contact");
+        dialog.ok_button.label = _("Invite");
+        
+        var root = this.get_root() as Gtk.Window;
+        if (root != null) dialog.transient_for = root;
+
+        dialog.selected.connect((account, jid) => {
+            stream_interactor.get_module(MucManager.IDENTITY).invite(conversation.account, conversation.counterpart, jid);
+            dialog.close();
+        });
+        
+        dialog.present();
+    }
+
+    private void show_clear_history_dialog() {
+        var dialog = new Adw.AlertDialog(
+            _("Delete all message history?"),
+            _("This will permanently delete all messages in this conversation. This action cannot be undone.")
+        );
+        dialog.add_response("cancel", _("Cancel"));
+        dialog.add_response("delete", _("Delete"));
+        dialog.set_response_appearance("delete", DESTRUCTIVE);
+        dialog.set_default_response("cancel");
+        dialog.set_close_response("cancel");
+        
+        dialog.response.connect((response) => {
+            if (response == "delete") {
+                stream_interactor.get_module(ConversationManager.IDENTITY).clear_conversation_history(conversation);
             }
         });
         
