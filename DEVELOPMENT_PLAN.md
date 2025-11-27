@@ -37,7 +37,7 @@ DinoX addresses the slow development pace of the original Dino XMPP client while
 | Metric | Status | Details |
 |--------|--------|---------|
 | **Version** | [OK] **v0.6.5.4** | Latest stable release |
-| **XEPs Implemented** | [OK] 60+ | One of most compliant XMPP clients |
+| **XEPs Implemented** | [OK] **67** | One of most compliant XMPP clients |
 | **Database Schema** | [OK] **v32** | Custom server + history clear + background mode |
 | **Build Status** | [OK] **Clean** | 0 compiler warnings, 0 errors, 541 targets |
 | **Code Quality** | [OK] **High** | Async/Error safety enforced, WeakMap null checks |
@@ -57,7 +57,11 @@ DinoX addresses the slow development pace of the original Dino XMPP client while
 | **Voice Messages (AAC/m4a)** | v0.6.4 | Interop | [DONE] Complete |
 | **Video Player (H.264/HEVC)** | v0.6.5 | Stability | [DONE] Complete |
 | **Message Retraction (XEP-0424)** | v0.6.3 | Protocol | [DONE] Complete |
+| **Message Moderation (XEP-0425)** | v0.6.3 | Protocol | [DONE] Complete |
 | **MUC Invitations** | v0.6.0 | XEP-0045/0249 | [DONE] Complete |
+| **Message Reactions (XEP-0444)** | Inherited | Dino v0.4 | [DONE] Complete |
+| **Message Replies (XEP-0461)** | Inherited | Dino v0.4 | [DONE] Complete |
+| **Message Styling (XEP-0393)** | Inherited | Dino v0.1 | [DONE] Partial (bold/italic/strikethrough) |
 | **MUJI Group Calls Phase 1** | v0.6.5.3 | XEP-0272 | [DONE] Complete |
 | **Desktop Notifications Fix** | v0.6.5.4 | Critical bug | [DONE] Fixed |
 
@@ -333,20 +337,34 @@ DinoX addresses the slow development pace of the original Dino XMPP client while
 
 See [XEP_SUPPORT.md](docs/XEP_SUPPORT.md) for full list.
 
-### Implementation Status
+### Implementation Status (November 27, 2025)
 
 | Status | Count | Percentage |
 |--------|-------|------------|
-| [DONE] **Full (Backend + UI)** | ~32 | 53% |
-|  **Backend Only** | ~24 | 40% |
-| [WARNING] **Partial** | ~4 | 7% |
+| [DONE] **Full (Backend + UI)** | 36 | 54% |
+|  **Backend Only** | 28 | 42% |
+| [WARNING] **Partial** | 3 | 4% |
+| **Total XEPs** | **67** | 100% |
 
-### Recently Added
+### DinoX Extensions (Beyond Upstream Dino)
 
-- [DONE] XEP-0191 (Blocking Command) - Full UI
-- [DONE] XEP-0272 (MUJI) - Group calls with UI
-- [DONE] XEP-0424 (Message Retraction) - Full UI with "Delete for everyone"
-- [DONE] XEP-0425 (Message Moderation) - Full UI for MUC moderators
+- [DONE] XEP-0191 (Blocking Command) - Enhanced UI in Contacts page
+- [DONE] XEP-0272 (MUJI) - Full Phase 1 UI with participant grid
+- [DONE] XEP-0424 (Message Retraction) - "Delete for everyone" button
+- [DONE] XEP-0425 (Message Moderation) - "Moderate message" for moderators
+- [DONE] System Tray - Background mode toggle
+- [DONE] Custom Server Settings - Connection customization
+- [DONE] Contact Management - Block/unblock, search, filtering
+
+### Verified from Upstream Dino
+
+- [DONE] XEP-0444 (Message Reactions) - Emoji picker + reaction display
+- [DONE] XEP-0461 (Message Replies) - Quote widget in chat
+- [DONE] XEP-0393 (Message Styling) - Bold/Italic/Strikethrough (CTRL+B/I/S)
+- [DONE] XEP-0392 (Consistent Colors) - Contact color generation
+- [DONE] XEP-0047 (In-Band Bytestreams) - File transfer fallback
+- [DONE] XEP-0298 (COIN) - Conference information
+- [DONE] XEP-0396 (OMEMO Jingle) - Encrypted calls
 
 ---
 
