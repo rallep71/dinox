@@ -260,12 +260,14 @@ DinoX addresses the slow development pace of the original Dino XMPP client while
 | Priority | XEP | Feature | Complexity | Status |
 |----------|-----|---------|------------|--------|
 | P1 | XEP-0388 | SASL2/FAST Auth | Hard | [TODO] TODO |
+| P1 | XEP-0386 | Bind 2 | Hard | [TODO] TODO |
 | P1 | XEP-0357 | Push Notifications | Hard | [TODO] TODO |
 | P2 | XEP-0449 | Stickers | Medium | [TODO] TODO |
 | P3 | - | Export/Import | Medium | [TODO] TODO |
 
 **New files to create**:
 - `xmpp-vala/src/module/xep/0388_sasl2.vala`
+- `xmpp-vala/src/module/xep/0386_bind2.vala`
 - `xmpp-vala/src/module/xep/0357_push.vala`
 - `xmpp-vala/src/module/xep/0449_stickers.vala`
 
