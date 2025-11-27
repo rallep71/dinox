@@ -11,11 +11,11 @@ Detailed analysis of which XEPs have UI integration and which are backend-only.
 
 | Category | Count | Percentage |
 |----------|-------|------------|
-| **Total XEPs** | 60+ | 100% |
-| **Full UI Integration** | 34 | ~57% |
-| **Backend Only** | 24 | ~40% |
-| **Partial/Incomplete** | 2 | ~3% |
-| **Planned** | 6 | - |
+| **Total XEPs** | 67 | 100% |
+| **Full UI Integration** | 36 | ~54% |
+| **Backend Only** | 28 | ~42% |
+| **Partial/Incomplete** | 3 | ~4% |
+| **Planned** | 4 | - |
 
 ---
 

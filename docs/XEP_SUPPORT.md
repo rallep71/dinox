@@ -2,7 +2,7 @@
 
 Complete list of XEPs implemented in DinoX with differentiated implementation status.
 
-**Total XEPs**: 60+  
+**Total XEPs**: 67  
 **Compliance**: One of the most protocol-compliant XMPP clients
 
 ---
@@ -24,6 +24,7 @@ Complete list of XEPs implemented in DinoX with differentiated implementation st
 |-----|-------|---------|----|----|
 | [XEP-0004](https://xmpp.org/extensions/xep-0004.html) | Data Forms | [DONE] | [DONE] | Used in registration, MUC config |
 | [XEP-0030](https://xmpp.org/extensions/xep-0030.html) | Service Discovery | [DONE] |  | Backend only, no UI needed |
+| [XEP-0047](https://xmpp.org/extensions/xep-0047.html) | In-Band Bytestreams | [DONE] |  | Backend file transfer fallback |
 | [XEP-0060](https://xmpp.org/extensions/xep-0060.html) | Publish-Subscribe (PubSub) | [DONE] |  | Backend only, used by other XEPs |
 | [XEP-0077](https://xmpp.org/extensions/xep-0077.html) | In-Band Registration | [DONE] | [DONE] | Full UI in Add Account dialog |
 | [XEP-0092](https://xmpp.org/extensions/xep-0092.html) | Software Version | [DONE] |  | Backend only, no UI needed |
@@ -79,6 +80,7 @@ Complete list of XEPs implemented in DinoX with differentiated implementation st
 | [XEP-0363](https://xmpp.org/extensions/xep-0363.html) | HTTP File Upload | [DONE] | [DONE] | Modern file sharing UI |
 | [XEP-0446](https://xmpp.org/extensions/xep-0446.html) | File metadata element | [DONE] | [DONE] | File info displayed |
 | [XEP-0447](https://xmpp.org/extensions/xep-0447.html) | Stateless File Sharing | [DONE] | [DONE] | Multi-source downloads |
+| [XEP-0454](https://xmpp.org/extensions/xep-0454.html) | OMEMO Media Sharing | [WARNING] | [WARNING] | Partial - no thumbnails |
 
 ---
 
@@ -92,6 +94,7 @@ Complete list of XEPs implemented in DinoX with differentiated implementation st
 | [XEP-0215](https://xmpp.org/extensions/xep-0215.html) | External Service Discovery | [DONE] |  | TURN/STUN discovery |
 | [XEP-0272](https://xmpp.org/extensions/xep-0272.html) | Multiparty Jingle (Muji) | [WARNING] | [WARNING] | Backend complete, minimally tested |
 | [XEP-0294](https://xmpp.org/extensions/xep-0294.html) | Jingle RTP Header Extensions | [DONE] |  | Backend media handling |
+| [XEP-0298](https://xmpp.org/extensions/xep-0298.html) | Delivering Conference Information (COIN) | [DONE] |  | Backend conference info |
 | [XEP-0320](https://xmpp.org/extensions/xep-0320.html) | Use of DTLS-SRTP in Jingle | [DONE] |  | Backend encryption |
 | [XEP-0338](https://xmpp.org/extensions/xep-0338.html) | Jingle Grouping Framework | [DONE] |  | Backend media grouping |
 | [XEP-0339](https://xmpp.org/extensions/xep-0339.html) | Source-Specific Media Attributes | [DONE] |  | Backend SSRC handling |
@@ -107,8 +110,12 @@ Complete list of XEPs implemented in DinoX with differentiated implementation st
 | [XEP-0027](https://xmpp.org/extensions/xep-0027.html) | Current Jabber OpenPGP Usage | [DONE] | [DONE] | Legacy PGP via plugin |
 | [XEP-0373](https://xmpp.org/extensions/xep-0373.html) | OpenPGP for XMPP | [DONE] | [DONE] | Modern PGP via plugin |
 | [XEP-0374](https://xmpp.org/extensions/xep-0374.html) | OpenPGP for XMPP Instant Messaging | [DONE] | [DONE] | PGP message encryption |
-| [XEP-0380](https://xmpp.org/extensions/xep-0380.html) | Explicit Message Encryption | [DONE] | [DONE] | Lock icon shows encryption |
+| [XEP-0380](https://xmpp.org/extensions/xep-0380.html) | Explicit Message Encryption | [DONE] | [DONE] | Lock icon shows encryption status |
 | [XEP-0384](https://xmpp.org/extensions/xep-0384.html) | OMEMO Encryption | [DONE] | [DONE] | Full OMEMO UI + device mgmt |
+| [XEP-0391](https://xmpp.org/extensions/xep-0391.html) | Jingle Encrypted Transports | [WARNING] |  | Partial backend for encrypted calls |
+| [XEP-0392](https://xmpp.org/extensions/xep-0392.html) | Consistent Color Generation | [DONE] | [DONE] | Contact colors in UI |
+| [XEP-0393](https://xmpp.org/extensions/xep-0393.html) | Message Styling | [WARNING] | [WARNING] | Partial markdown support |
+| [XEP-0396](https://xmpp.org/extensions/xep-0396.html) | Jingle Encrypted Transports - OMEMO | [DONE] |  | OMEMO for Jingle calls |
 
 ---
 
