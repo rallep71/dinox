@@ -53,10 +53,15 @@ jobs:
             file \
             wget
 
+      - name: Checkout libomemo-c
+        uses: actions/checkout@v4
+        with:
+          repository: gkdr/libomemo-c
+          path: libomemo-c
+      
       - name: Build libomemo-c from source
         run: |
-          git clone https://github.com/gkdr/libomemo-c.git /tmp/libomemo-c
-          cd /tmp/libomemo-c
+          cd libomemo-c
           mkdir build
           cd build
           cmake -DCMAKE_INSTALL_PREFIX=/usr ..
