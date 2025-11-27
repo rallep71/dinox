@@ -56,7 +56,7 @@ jobs:
       - name: Checkout libomemo-c
         uses: actions/checkout@v4
         with:
-          repository: gkdr/libomemo-c
+          repository: rallep71/libomemo-c
           path: libomemo-c
       
       - name: Build libomemo-c from source
