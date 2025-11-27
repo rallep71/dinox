@@ -23,8 +23,6 @@ namespace Dino {
             return proxy;
         } catch (IOError e) {
             warning("Couldn't get org.freedesktop.Notifications DBus instance: %s\n", e.message);
-        } catch (Error e) {
-            warning("Error getting notifications DBus: %s\n", e.message);
         }
         return null;
     }

@@ -7,6 +7,40 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.7] - 2025-11-27
+
+### Added
+- **Browse Contacts** - New contact browser dialog in Start Conversation
+  - Click magnifying glass icon to browse all roster contacts
+  - Search/filter contacts by name or JID
+  - Square avatars matching system design (unlike round MUC avatars)
+  - Consistent UX with Browse Rooms dialog
+  - Implementation: `main/src/ui/add_conversation/contact_browser_dialog.vala`
+
+### Improved
+- **Browse Rooms Enhancements** - Better MUC discovery and joining experience
+  - Deduplicate rooms by JID (fixes confusing "dinomuc (2)" duplicate entries)
+  - Display member count as subtitle ("N members" parsed from room names)
+  - Mark already-joined rooms with green "Joined" label
+  - Change button to "Open" for joined rooms (was "Join")
+  - Double-click joined rooms to open conversation directly
+  - Filter out already-joined rooms from Join Channel suggestions
+  - Implementation: `main/src/ui/add_conversation/room_browser_dialog.vala`
+
+### Fixed
+- **Leave Group** - Now actually leaves MUC rooms instead of just removing bookmark
+  - Previous "Delete Group" only removed bookmark, didn't send room part
+  - Now calls `MucManager.part()` before `remove_bookmark()`
+  - Renamed to "Leave Group" for clarity
+  - Implementation: `main/src/ui/add_conversation/add_conference_dialog.vala`
+- **Placeholder Text** - Context-specific search field hints
+  - "Search or enter channel address..." for Join Channel dialog
+  - "Search or enter contact address..." for Start Conversation dialog
+- **Compiler Warnings** - Removed 2 unreachable catch clause warnings
+  - Fixed `Bus.get_proxy()` error handling (only throws IOError, not generic Error)
+  - Removed try-catch from `int.parse()` (doesn't throw exceptions)
+  - Fixed `new Jid()` to catch specific `InvalidJidError` instead of generic `Error`
+
 ## [0.6.6] - 2025-11-27
 
 ### Added

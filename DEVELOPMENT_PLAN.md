@@ -2,7 +2,7 @@
 
 > **Fork Status**: Modern XMPP client - Independent development branch of [dino/dino](https://github.com/dino/dino)  
 > **Last Updated**: November 27, 2025
-> **Version**: 0.6.6
+> **Version**: 0.6.7
 > **Original Repository**: https://github.com/dino/dino (572 open issues)
 
 ---
@@ -35,8 +35,8 @@ DinoX addresses the slow development pace of the original Dino XMPP client while
 ## Current Status (November 27, 2025)
 
 | Metric | Status | Details |
-|--------|--------|---------|
-| **Version** | [OK] **v0.6.6** | Latest stable release |
+|--------|--------|---------||
+| **Version** | [OK] **v0.6.7** | Latest stable release |
 | **XEPs Implemented** | [OK] **67** | One of most compliant XMPP clients |
 | **Database Schema** | [OK] **v32** | Custom server + history clear + background mode |
 | **Build Status** | [OK] **Clean** | 0 compiler warnings, 0 errors, 541 targets |
@@ -236,9 +236,49 @@ These features were inherited from upstream Dino and are fully functional in Din
 
 ---
 
+### [DONE] Phase 7: MUC & Contact Browse UX (v0.6.7 - Nov 2025)
+
+**Goal**: Improve browsing experience for rooms and contacts
+
+**Completed**:
+- [DONE] **Browse Rooms Improvements** - Enhanced MUC discovery and joining
+  - Deduplicate rooms by JID (fixes confusion from duplicate "dinomuc (2)" entries)
+  - Display member count as subtitle ("N members" from room name parsing)
+  - Mark already-joined rooms with green "Joined" label
+  - Change button to "Open" for joined rooms instead of "Join"
+  - Double-click joined rooms to open conversation directly
+  - Filter out already-joined rooms from suggestions in Join Channel dialog
+- [DONE] **Browse Contacts Feature** - New contact browser dialog
+  - "Browse Contacts" button with magnifying glass icon in Start Conversation dialog
+  - Display all roster contacts with square avatars, name, and JID
+  - Search/filter functionality for quick contact lookup
+  - Consistent UX with Browse Rooms dialog
+- [DONE] **Leave Group Fix** - Properly leave MUC rooms
+  - Fixed "Delete Group" button that only removed bookmark
+  - Now calls `part()` to actually leave room before removing bookmark
+  - Renamed to "Leave Group" for clarity
+- [DONE] **Placeholder Text** - Context-specific search field hints
+  - "Search or enter channel address..." for Join Channel dialog
+  - "Search or enter contact address..." for Start Conversation dialog
+- [DONE] **Compiler Warnings** - Clean build
+  - Removed unreachable catch clauses (Bus.get_proxy, int.parse)
+  - Fixed InvalidJidError handling
+
+**Implementation**:
+- UI: `main/src/ui/add_conversation/room_browser_dialog.vala` - Room deduplication, member count, joined status
+- UI: `main/src/ui/add_conversation/contact_browser_dialog.vala` - New contact browser dialog
+- UI: `main/src/ui/add_conversation/select_jid_fragment.vala` - Browse icons, placeholder text
+- UI: `main/src/ui/add_conversation/select_contact_dialog.vala` - Browse contacts integration
+- UI: `main/src/ui/add_conversation/add_conference_dialog.vala` - Leave group fix
+- Backend: `libdino/src/service/muc_manager.vala` - `is_joined()` method for accurate detection
+
+**Status**: [DONE] **COMPLETED** (November 27, 2025)
+
+---
+
 ##  Roadmap - What's Next
 
-### [DONE] Phase 7: MUC Administration (Inherited from Dino v0.4)
+### [TODO] Phase 8: MUC Administration (Inherited from Dino v0.4)
 
 **Goal**: Complete MUC management features
 
