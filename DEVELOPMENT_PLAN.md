@@ -69,6 +69,73 @@ DinoX addresses the slow development pace of the original Dino XMPP client while
 
 ## Development History
 
+### [DONE] Phase 0: Inherited Features from Upstream Dino
+
+**Goal**: Document features already present in forked codebase
+
+These features were inherited from upstream Dino and are fully functional in DinoX:
+
+#### XEP Protocol Support (7 XEPs)
+- [DONE] **XEP-0047** (In-Band Bytestreams) - File transfer fallback method
+  - Backend: `xmpp-vala/src/module/xep/0047_in_band_bytestreams.vala`
+  - Used automatically when direct connections fail
+  
+- [DONE] **XEP-0298** (COIN - Conference Information) - Jingle conference metadata
+  - Backend: `xmpp-vala/src/module/xep/0298_coin.vala`
+  - Module: `libdino/src/service/calls.vala` line 539 (`coin_info_received`)
+  
+- [DONE] **XEP-0391** (Jingle Encrypted Transports) - Encrypted call framework
+  - Backend: `libdino/src/service/call_peer_state.vala` (`ContentEncryption`)
+  - Partial implementation for secure calls
+  
+- [DONE] **XEP-0392** (Consistent Color Generation) - Contact color algorithm
+  - Backend: `xmpp-vala/src/module/xep/0392_consistent_color/`
+  - UI: `main/src/ui/util/helper.vala` (`get_consistent_hex_color`)
+  - Full implementation with unit tests
+  
+- [DONE] **XEP-0393** (Message Styling) - Bold/Italic/Strikethrough formatting
+  - Backend: Protocol support in dino.doap
+  - UI: `main/src/ui/chat_input/chat_text_view.vala` line 163-180
+  - Keyboard shortcuts: **CTRL+B** (bold), **CTRL+I** (italic), **CTRL+S** (strikethrough)
+  
+- [DONE] **XEP-0396** (OMEMO Jingle) - OMEMO encryption for calls
+  - Backend: `plugins/omemo/src/jingle/jet_omemo.vala`
+  - Module: `plugins/omemo/src/dtls_srtp_verification_draft.vala`
+  
+- [DONE] **XEP-0454** (OMEMO Media Sharing) - Encrypted file sharing
+  - Backend: Listed in dino.doap
+  - Partial: No thumbnail support yet
+
+#### Message Features (3 Features)
+- [DONE] **XEP-0444** (Message Reactions) - Emoji reactions (since Dino v0.4)
+  - Backend: `libdino/src/service/reactions.vala`
+  - Protocol: `xmpp-vala/src/module/xep/0444_reactions.vala`
+  - UI: `main/src/ui/conversation_content_view/item_actions.vala` line 78-90
+  - Features: "Add reaction" button with emoji picker
+  
+- [DONE] **XEP-0461** (Message Replies) - Quote/reply to messages (since Dino v0.4)
+  - Backend: `libdino/src/service/replies.vala`
+  - Protocol: `xmpp-vala/src/module/xep/0461_replies.vala`
+  - UI: `main/src/ui/conversation_content_view/quote_widget.vala`
+  - Features: Quote display above message, reply context preservation
+  
+- [DONE] **Message Styling UI** - Rich text input
+  - UI: Bold/Italic/Strikethrough tags in `chat_text_view.vala`
+  - Database: `MarkupTable` for persistence
+  - Rendering: Styled text display in message widgets
+
+#### Infrastructure
+- [DONE] GTK4/libadwaita 1.5 migration (from Dino upstream)
+- [DONE] Modern Vala syntax and async patterns
+- [DONE] PubSub-based XEP implementations
+- [DONE] Jingle framework for calls and file transfers
+
+**Status**: [DONE] **INHERITED** (Forked November 2025)
+
+**Note**: These features required no DinoX-specific development but are essential to document for completeness.
+
+---
+
 ### [DONE] Phase 1: Critical Stability (v0.6.0 - Nov 2025)
 
 **Goal**: Make Dino rock-solid for daily use
