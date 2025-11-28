@@ -332,6 +332,28 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         about_dialog.license_type = License.GPL_3_0;
         about_dialog.comments = "Modern XMPP client with extended features";
         
+        // Add debug info with data location
+        string config_dir = Path.build_filename(Environment.get_user_config_dir(), "dino");
+        string data_dir = Path.build_filename(Environment.get_user_data_dir(), "dino");
+        string cache_dir = Path.build_filename(Environment.get_user_cache_dir(), "dino");
+        
+        string debug_info = """User Data Locations:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Configuration: %s
+Data & Database: %s
+Cache: %s
+
+Note: Your personal data (accounts, messages, files)
+is stored separately from the application.
+
+When you update DinoX (via AppImage, Flatpak, or
+system package), your data remains intact.
+
+To backup your data, copy the Data directory.
+To start fresh, remove the Data directory.""".printf(config_dir, data_dir, cache_dir);
+        
+        about_dialog.debug_info = debug_info;
+        
         string[] developers = {
             "Dino Team (original authors)",
             "Ralf Peter (fork maintainer)",
