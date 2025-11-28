@@ -78,6 +78,24 @@ public class EntityInfo : StreamInteractionModule, Object {
         return null;
     }
 
+    // Invalidate cached features for a JID and refresh from server
+    public async void refresh_features(Account account, Jid jid) {
+        // Remove from caches
+        jid_features.unset(jid);
+        jid_identity.unset(jid);
+        entity_caps_hashes.unset(jid);
+        
+        // Fetch fresh info from server
+        XmppStream? stream = stream_interactor.get_stream(account);
+        if (stream == null) return;
+        
+        ServiceDiscovery.InfoResult? info_result = yield stream.get_module(ServiceDiscovery.Module.IDENTITY).request_info(stream, jid);
+        if (info_result != null) {
+            jid_features[jid] = info_result.features;
+            jid_identity[jid] = info_result.identities;
+        }
+    }
+
     public async bool has_feature(Account account, Jid jid, string feature) {
         int has_feature_cached = has_feature_cached_int(account, jid, feature);
         if (has_feature_cached != -1) {

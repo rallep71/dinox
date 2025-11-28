@@ -25,6 +25,7 @@ namespace Dino {
             this.stream_interactor = stream_interactor;
 
             stream_interactor.get_module(MucManager.IDENTITY).room_info_updated.connect((account, jid) => {
+                debug("room_info_updated received for %s", jid.to_string());
                 check_update_models(account, jid, Conversation.Type.GROUPCHAT);
             });
             stream_interactor.get_module(MucManager.IDENTITY).private_room_occupant_updated.connect((account, room, occupant) => {
@@ -40,10 +41,18 @@ namespace Dino {
 
         private void check_update_models(Account account, Jid jid, Conversation.Type conversation_ty) {
             var conversation = stream_interactor.get_module(ConversationManager.IDENTITY).get_conversation(jid, account, conversation_ty);
-            if (conversation == null) return;
+            if (conversation == null) {
+                debug("check_update_models: No conversation for %s", jid.to_string());
+                return;
+            }
             var display_name_model = conversation_models[conversation];
-            if (display_name_model == null) return;
-            display_name_model.display_name = Dino.get_conversation_display_name(stream_interactor, conversation, "%s (%s)");
+            if (display_name_model == null) {
+                debug("check_update_models: No display_name_model for %s", jid.to_string());
+                return;
+            }
+            string new_name = Dino.get_conversation_display_name(stream_interactor, conversation, "%s (%s)");
+            debug("check_update_models: Updating display name for %s to '%s'", jid.to_string(), new_name);
+            display_name_model.display_name = new_name;
         }
 
         public Model.ConversationDisplayName get_display_name_model(Conversation conversation) {

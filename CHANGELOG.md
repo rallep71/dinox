@@ -7,6 +7,52 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.9] - 2025-11-28
+
+### Added
+- **Backup User Data** - Complete data backup functionality in Preferences → General
+  - One-click backup of all DinoX data (database, keys, settings)
+  - Creates timestamped `.tar.gz` archive (e.g., `dinox-backup-20251128-143022.tar.gz`)
+  - File chooser dialog to select save location
+  - Progress notification with toast messages
+  - Success notification shows backup file size
+  - Includes both `~/.local/share/dino` and `~/.config/dino` directories
+
+- **User Data Locations** - View data paths in Preferences → General
+  - Shows Config, Data, and Cache directory locations
+  - Helpful for manual backup or troubleshooting
+  - Info dialog with backup instructions
+
+- **MUC Room Privacy Control** - Comprehensive room privacy management
+  - Automatic OMEMO enable/disable when room privacy changes
+  - When room becomes **public**: OMEMO automatically disabled with warning
+  - When room becomes **private**: OMEMO automatically enabled
+  - System notification messages sent to room when privacy changes:
+    - "⚠️ This room is now PUBLIC. OMEMO encryption has been disabled."
+    - "🔒 This room is now PRIVATE (members-only). OMEMO encryption is now available."
+  - Automatic member addition when switching to members-only (prevents Status 322 kicks)
+  - Feature cache refresh after config change (🔒 icon updates immediately)
+
+### Improved
+- **MUC Tooltip Enhancements** - Better room information display
+  - Room subject/topic now displayed in conversation list tooltips
+  - Tooltip shows: Account, Room JID, Subject, Member count
+  - First line of multi-line subjects shown with "..." indicator
+  - Empty subjects hidden from tooltip (cleaner display)
+  
+- **MUC Room Name Updates** - Room configuration changes now properly reflected
+  - Bookmark name updated when room name changed in config
+  - Room name in sidebar updates immediately after config change
+  - Room info refresh triggered after configuration saved
+
+### Technical Details
+- Backend: `libdino/src/service/muc_manager.vala` - Extended `set_config_form` with privacy detection
+- New function: `add_occupants_as_members()` - Auto-adds users when switching to members-only
+- New function: `send_room_notification()` - Sends groupchat messages about privacy changes
+- New function: `refresh_features()` in `entity_info.vala` - Invalidates and refreshes entity cache
+- UI: `encryption_button.vala` - Added `check_encryption_validity()` for auto OMEMO toggle
+- UI: `application.vala` - Added `create_backup()` and `perform_backup()` functions
+
 ## [0.6.8] - 2025-11-27
 
 ### Added
@@ -272,7 +318,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This is the base version from [dino/dino](https://github.com/dino/dino) that we forked from.
 
-[Unreleased]: https://github.com/rallep71/dinox/compare/v0.6.5...HEAD
+[Unreleased]: https://github.com/rallep71/dinox/compare/v0.6.9...HEAD
+[0.6.9]: https://github.com/rallep71/dinox/releases/tag/v0.6.9
+[0.6.8]: https://github.com/rallep71/dinox/releases/tag/v0.6.8
+[0.6.7]: https://github.com/rallep71/dinox/releases/tag/v0.6.7
+[0.6.6]: https://github.com/rallep71/dinox/releases/tag/v0.6.6
+[0.6.5.5]: https://github.com/rallep71/dinox/releases/tag/v0.6.5.5
+[0.6.5.4]: https://github.com/rallep71/dinox/releases/tag/v0.6.5.4
+[0.6.5.3]: https://github.com/rallep71/dinox/releases/tag/v0.6.5.3
 [0.6.5.2]: https://github.com/rallep71/dinox/releases/tag/v0.6.5.2
 [0.6.5.1]: https://github.com/rallep71/dinox/releases/tag/v0.6.5.1
 [0.6.5]: https://github.com/rallep71/dinox/releases/tag/v0.6.5

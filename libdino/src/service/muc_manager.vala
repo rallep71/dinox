@@ -185,12 +185,118 @@ public class MucManager : StreamInteractionModule, Object {
     public async void set_config_form(Account account, Jid jid, DataForms.DataForm data_form) {
         XmppStream? stream = stream_interactor.get_stream(account);
         if (stream == null) return;
+        
+        // Extract room name and check for membersonly change
+        string? new_room_name = null;
+        bool room_name_field_found = false;
+        bool enabling_members_only = false;
+        bool disabling_members_only = false;
+        bool was_private = is_private_room(account, jid);
+        
+        foreach (DataForms.DataForm.Field field in data_form.fields) {
+            if (field.var == "muc#roomconfig_roomname") {
+                room_name_field_found = true;
+                new_room_name = field.get_value_string();
+                // Treat empty string as null (no custom name)
+                if (new_room_name != null && new_room_name.strip() == "") {
+                    new_room_name = null;
+                }
+            } else if (field.var == "muc#roomconfig_membersonly") {
+                // Check if members-only is being changed
+                var bool_field = field as DataForms.DataForm.BooleanField;
+                if (bool_field != null) {
+                    if (bool_field.value == true && !was_private) {
+                        enabling_members_only = true;
+                    } else if (bool_field.value == false && was_private) {
+                        disabling_members_only = true;
+                    }
+                }
+            }
+        }
+        
+        // If enabling members-only, add all current occupants as members first
+        // This prevents them from being kicked out (Status Code 322)
+        if (enabling_members_only) {
+            yield add_occupants_as_members(account, jid, stream);
+        }
+        
         yield stream.get_module(Xep.Muc.Module.IDENTITY).set_config_form(stream, jid, data_form);
+        
+        // Refresh entity features since room configuration changed (affects is_private_room, etc.)
+        yield stream_interactor.get_module(EntityInfo.IDENTITY).refresh_features(account, jid);
+        
+        // Send notification message to the room about privacy change
+        if (disabling_members_only) {
+            // Room switched from private to public
+            string notification = "⚠️ This room is now PUBLIC. OMEMO encryption has been disabled. Messages are no longer end-to-end encrypted.";
+            send_room_notification(account, jid, notification);
+        } else if (enabling_members_only) {
+            // Room switched from public to private
+            string notification = "🔒 This room is now PRIVATE (members-only). OMEMO encryption is now available.";
+            send_room_notification(account, jid, notification);
+        }
+        
+        // Update bookmark with new room name if changed
+        if (room_name_field_found && bookmarks_provider.has_key(account)) {
+            Set<Conference>? conferences = yield bookmarks_provider[account].get_conferences(stream);
+            if (conferences != null) {
+                foreach (Conference conference in conferences) {
+                    if (conference.jid.equals(jid)) {
+                        // Check if name actually changed (treat null and empty as equivalent)
+                        string? old_name = (conference.name != null && conference.name.strip() != "") ? conference.name : null;
+                        if (old_name != new_room_name) {
+                            Conference new_conference = new Conference() { 
+                                jid=jid, 
+                                nick=conference.nick, 
+                                name=new_room_name,  // null means no custom name, will use JID
+                                password=conference.password, 
+                                autojoin=conference.autojoin 
+                            };
+                            
+                            // Update local cache FIRST before server roundtrip can override it
+                            if (!bookmark_names.has_key(account)) {
+                                bookmark_names[account] = new HashMap<Jid, string>(Jid.hash_bare_func, Jid.equals_bare_func);
+                            }
+                            if (new_room_name != null) {
+                                bookmark_names[account][jid] = new_room_name;
+                            } else {
+                                // Remove from cache if name is cleared
+                                bookmark_names[account].unset(jid);
+                            }
+                            
+                            yield bookmarks_provider[account].replace_conference(stream, jid, new_conference);
+                            
+                            // Trigger room_info_updated to refresh UI with new bookmark name
+                            room_info_updated(account, jid);
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+        
+        // After saving config, refresh room info to update the room name (only if we set a name)
+        if (new_room_name != null) {
+            yield stream.get_module(Xep.Muc.Module.IDENTITY).query_room_info(stream, jid);
+        }
     }
 
     public void change_subject(Account account, Jid jid, string subject) {
         XmppStream? stream = stream_interactor.get_stream(account);
         if (stream != null) stream.get_module(Xep.Muc.Module.IDENTITY).change_subject(stream, jid.bare_jid, subject);
+    }
+
+    // Send a notification message to a MUC room (visible to all participants)
+    private void send_room_notification(Account account, Jid room_jid, string message) {
+        XmppStream? stream = stream_interactor.get_stream(account);
+        if (stream == null) return;
+        
+        MessageStanza stanza = new MessageStanza();
+        stanza.to = room_jid.bare_jid;
+        stanza.type_ = MessageStanza.TYPE_GROUPCHAT;
+        stanza.body = message;
+        
+        stream.get_module(Xmpp.MessageModule.IDENTITY).send_message.begin(stream, stanza);
     }
 
     public async void change_nick(Conversation conversation, string new_nick) {
@@ -269,6 +375,50 @@ public class MucManager : StreamInteractionModule, Object {
     public void set_affiliation(Account account, Jid muc_jid, Jid user_jid, string affiliation) {
         XmppStream? stream = stream_interactor.get_stream(account);
         if (stream != null) stream.get_module(Xep.Muc.Module.IDENTITY).change_affiliation.begin(stream, muc_jid.bare_jid, user_jid, null, affiliation);
+    }
+
+    // Add all current occupants as members to prevent them from being kicked
+    // when the room switches to members-only mode
+    private async void add_occupants_as_members(Account account, Jid muc_jid, XmppStream stream) {
+        // Get current members to avoid duplicates
+        Gee.List<Jid>? existing_members = yield stream.get_module(Xep.Muc.Module.IDENTITY).query_affiliation(stream, muc_jid, "member");
+        Gee.List<Jid>? existing_admins = yield stream.get_module(Xep.Muc.Module.IDENTITY).query_affiliation(stream, muc_jid, "admin");
+        Gee.List<Jid>? existing_owners = yield stream.get_module(Xep.Muc.Module.IDENTITY).query_affiliation(stream, muc_jid, "owner");
+        
+        var existing_affiliations = new Gee.HashSet<string>();
+        if (existing_members != null) {
+            foreach (Jid j in existing_members) existing_affiliations.add(j.bare_jid.to_string());
+        }
+        if (existing_admins != null) {
+            foreach (Jid j in existing_admins) existing_affiliations.add(j.bare_jid.to_string());
+        }
+        if (existing_owners != null) {
+            foreach (Jid j in existing_owners) existing_affiliations.add(j.bare_jid.to_string());
+        }
+        
+        // Get all current occupants
+        Gee.List<Jid>? occupants = get_occupants(muc_jid, account);
+        if (occupants == null || occupants.size == 0) {
+            return;
+        }
+        
+        int added_count = 0;
+        foreach (Jid occupant_jid in occupants) {
+            // Get the real JID of the occupant
+            Jid? real_jid = get_real_jid(occupant_jid, account);
+            if (real_jid == null) {
+                continue;
+            }
+            
+            // Skip if already has an affiliation
+            if (existing_affiliations.contains(real_jid.bare_jid.to_string())) {
+                continue;
+            }
+            
+            // Add as member
+            yield stream.get_module(Xep.Muc.Module.IDENTITY).change_affiliation(stream, muc_jid.bare_jid, real_jid.bare_jid, null, "member");
+            added_count++;
+        }
     }
 
     public void request_voice(Account account, Jid jid) {

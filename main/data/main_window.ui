@@ -58,6 +58,18 @@
                                                                 </child>
                                                             </object>
                                                         </child>
+                                                        <child>
+                                                            <object class="GtkButton" id="join_help_button">
+                                                                <property name="has-frame">False</property>
+                                                                <property name="tooltip-text" translatable="yes">Help: How to join channels</property>
+                                                                <child>
+                                                                    <object class="GtkImage">
+                                                                        <property name="icon-name">dialog-question-symbolic</property>
+                                                                        <property name="icon-size">normal</property>
+                                                                    </object>
+                                                                </child>
+                                                            </object>
+                                                        </child>
                                                         <child type="end">
                                                             <object class="GtkMenuButton" id="menu_button">
                                                                 <property name="has-frame">False</property>

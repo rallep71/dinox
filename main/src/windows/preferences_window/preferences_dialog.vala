@@ -15,6 +15,9 @@ public class Dino.Ui.PreferencesDialog : Adw.PreferencesDialog {
 
     [GtkChild] public unowned ViewModel.PreferencesDialog model { get; }
 
+    public signal void backup_requested();
+    public signal void show_data_location();
+
     construct {
         this.bind_property("model", accounts_page, "model", BindingFlags.SYNC_CREATE);
         this.bind_property("model", contacts_page, "model", BindingFlags.SYNC_CREATE);
@@ -25,5 +28,8 @@ public class Dino.Ui.PreferencesDialog : Adw.PreferencesDialog {
             model.selected_account = model.account_details[account];
             this.push_subpage(account_page);
         });
+        
+        general_page.backup_requested.connect(() => backup_requested());
+        general_page.show_data_location.connect(() => show_data_location());
     }
 }

@@ -58,5 +58,34 @@
         </child>
       </object>
     </child>
+    <child>
+      <object class="AdwPreferencesGroup">
+        <property name="title" translatable="yes">User Data</property>
+        <child>
+          <object class="AdwActionRow" id="backup_row">
+            <property name="title" translatable="yes">Backup User Data</property>
+            <property name="subtitle" translatable="yes">Create a backup of your accounts, messages and settings</property>
+            <property name="activatable">True</property>
+            <child>
+              <object class="GtkImage">
+                <property name="icon-name">document-save-symbolic</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwActionRow" id="data_location_row">
+            <property name="title" translatable="yes">Data Location</property>
+            <property name="subtitle" translatable="yes">View where your data is stored</property>
+            <property name="activatable">True</property>
+            <child>
+              <object class="GtkImage">
+                <property name="icon-name">folder-symbolic</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
   </template>
 </interface>

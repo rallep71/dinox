@@ -28,6 +28,11 @@ namespace Dino.Ui.Util {
             }
 
         }
+        
+        // Don't forget the last preference group!
+        if (preference_group != null) {
+            preference_groups.add(preference_group);
+        }
 
         return preference_groups;
     }

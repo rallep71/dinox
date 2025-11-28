@@ -236,7 +236,13 @@ namespace Dino.Ui.ConversationDetails {
         }
 
         public void add_room_configuration_tab_element() {
-            if (model.room_configuration_rows == null || model.room_configuration_rows.get_n_items() == 0) return;
+            debug("add_room_configuration_tab_element called");
+            if (model.room_configuration_rows == null) {
+                debug("room_configuration_rows is null");
+                return;
+            }
+            debug("room_configuration_rows has %u items", model.room_configuration_rows.get_n_items());
+            if (model.room_configuration_rows.get_n_items() == 0) return;
 
             if (room_config_stack_page == null) {
                 room_config_box = new Box(Orientation.VERTICAL, 12) { margin_end = 12, margin_start = 12, margin_top = 18, margin_bottom = 40 };
@@ -247,9 +253,11 @@ namespace Dino.Ui.ConversationDetails {
                 room_config_stack_page = stack.add_child(scrolled_window);
                 room_config_stack_page.title = _("Room Configuration");
                 room_config_stack_page.name = "room_config";
+                debug("Created room_config_stack_page");
             }
             foreach (Adw.PreferencesGroup preferences_group in Util.rows_to_preference_window_split_at_text(model.room_configuration_rows)) {
                 room_config_box.append(preferences_group);
+                debug("Added preferences_group to room_config_box");
             }
         }
 

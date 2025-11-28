@@ -17,9 +17,14 @@ public class Dino.Ui.GeneralPreferencesPage : Adw.PreferencesPage {
     [GtkChild] private unowned Adw.SwitchRow keep_background_row;
     [GtkChild] private unowned Adw.SwitchRow emoji_row;
     [GtkChild] private unowned Adw.ComboRow color_scheme_row;
+    [GtkChild] private unowned Adw.ActionRow backup_row;
+    [GtkChild] private unowned Adw.ActionRow data_location_row;
 
     public ViewModel.GeneralPreferencesPage model { get; set; default = new ViewModel.GeneralPreferencesPage(); }
     private Binding[] model_bindings = new Binding[0];
+    
+    public signal void backup_requested();
+    public signal void show_data_location();
 
     construct {
         this.notify["model"].connect(on_model_changed);
@@ -30,6 +35,10 @@ public class Dino.Ui.GeneralPreferencesPage : Adw.PreferencesPage {
         scheme_model.append("Light");
         scheme_model.append("Dark");
         color_scheme_row.model = scheme_model;
+        
+        // Connect backup and data location rows
+        backup_row.activated.connect(() => backup_requested());
+        data_location_row.activated.connect(() => show_data_location());
     }
 
     private void on_model_changed() {

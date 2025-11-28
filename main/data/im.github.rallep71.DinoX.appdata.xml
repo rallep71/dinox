@@ -191,6 +191,20 @@
   <url type="translate">https://hosted.weblate.org/projects/dino/</url>
   <launchable type="desktop-id">im.github.rallep71.DinoX.desktop</launchable>
   <releases>
+    <release date="2025-11-28" version="0.6.9">
+      <description>
+        <p>Backup functionality, MUC room privacy management, and tooltip improvements.</p>
+        <ul>
+          <li>NEW: Backup User Data - One-click backup of all DinoX data to .tar.gz archive</li>
+          <li>NEW: User Data Locations - View config/data/cache paths in Preferences</li>
+          <li>Automatic OMEMO enable/disable when room privacy changes</li>
+          <li>System notifications sent when room becomes public or private</li>
+          <li>Automatic member addition when switching to members-only (prevents kicks)</li>
+          <li>Room subject/topic now displayed in conversation list tooltips</li>
+          <li>Room name updates immediately after configuration change</li>
+        </ul>
+      </description>
+    </release>
     <release date="2025-11-27" version="0.6.5.5">
       <description>
         <p>Critical bugfix release for OMEMO encryption in old/inactive chats.</p>

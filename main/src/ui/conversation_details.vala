@@ -16,7 +16,18 @@ namespace Dino.Ui.ConversationDetails {
         if (conversation.type_ == Conversation.Type.GROUPCHAT) {
             stream_interactor.get_module(MucManager.IDENTITY).get_config_form.begin(conversation.account, conversation.counterpart, (_, res) => {
                 model.data_form = stream_interactor.get_module(MucManager.IDENTITY).get_config_form.end(res);
-                if (model.data_form == null) return;
+                if (model.data_form == null) {
+                    debug("Room configuration: No config form received (you may not be owner/admin)");
+                    return;
+                }
+                debug("Room configuration: Received config form with %d fields", model.data_form.fields.size);
+                // Debug: Print all field vars
+                foreach (var field in model.data_form.fields) {
+                    debug("  Config field: var='%s' label='%s' type='%s'", 
+                        field.var ?? "null", 
+                        field.label ?? "null",
+                        field.type_ != null ? field.type_.to_string() : "null");
+                }
                 model.data_form_bak = model.data_form.stanza_node.to_string();
             });
         }
@@ -272,8 +283,18 @@ namespace Dino.Ui.ConversationDetails {
 
         dialog.closed.connect(() => {
             // Only send the config form if something was changed
-            if (model.data_form_bak != null && model.data_form_bak != model.data_form.stanza_node.to_string()) {
-                stream_interactor.get_module(MucManager.IDENTITY).set_config_form.begin(conversation.account, conversation.counterpart, model.data_form);
+            if (model.data_form != null && model.data_form_bak != null) {
+                string current = model.data_form.stanza_node.to_string();
+                debug("Config form check - bak length: %d, current length: %d", model.data_form_bak.length, current.length);
+                debug("Config changed: %s", (model.data_form_bak != current).to_string());
+                if (model.data_form_bak != current) {
+                    debug("Saving config form for %s", conversation.counterpart.to_string());
+                    stream_interactor.get_module(MucManager.IDENTITY).set_config_form.begin(conversation.account, conversation.counterpart, model.data_form);
+                }
+            } else {
+                debug("No data form available (data_form: %s, bak: %s)", 
+                    (model.data_form != null).to_string(), 
+                    (model.data_form_bak != null).to_string());
             }
         });
 

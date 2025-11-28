@@ -300,6 +300,12 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
     private void show_preferences_window() {
         Ui.PreferencesDialog dialog = new Ui.PreferencesDialog();
         dialog.model.populate(db, stream_interactor);
+        dialog.backup_requested.connect(() => {
+            string data_dir = Path.build_filename(Environment.get_user_data_dir(), "dino");
+            string config_dir = Path.build_filename(Environment.get_user_config_dir(), "dino");
+            create_backup(data_dir, config_dir);
+        });
+        dialog.show_data_location.connect(() => show_data_location_dialog());
         dialog.present(window);
     }
 
@@ -337,22 +343,29 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         string data_dir = Path.build_filename(Environment.get_user_data_dir(), "dino");
         string cache_dir = Path.build_filename(Environment.get_user_cache_dir(), "dino");
         
-        string debug_info = """User Data Locations:
+        string support_info = """User Data Locations
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Configuration: %s
-Data & Database: %s
-Cache: %s
 
-Note: Your personal data (accounts, messages, files)
-is stored separately from the application.
+Configuration:
+%s
 
-When you update DinoX (via AppImage, Flatpak, or
-system package), your data remains intact.
+Data & Database:
+%s
 
-To backup your data, copy the Data directory.
-To start fresh, remove the Data directory.""".printf(config_dir, data_dir, cache_dir);
+Cache:
+%s
+
+ℹInfo:
+Your personal data (accounts, messages, files) is stored 
+separately from the application.
+
+When you update DinoX (AppImage, Flatpak, or package),
+your data remains intact.
+
+Use Settings → General → Backup User Data to create a backup.""".printf(config_dir, data_dir, cache_dir);
         
-        about_dialog.debug_info = debug_info;
+        about_dialog.debug_info = support_info;
+        about_dialog.debug_info_filename = "dinox-data-locations.txt";
         
         string[] developers = {
             "Dino Team (original authors)",
@@ -360,7 +373,150 @@ To start fresh, remove the Data directory.""".printf(config_dir, data_dir, cache
             null
         };
         about_dialog.developers = developers;
+        
         about_dialog.present(window);
+    }
+    
+    private void show_data_location_dialog() {
+        string config_dir = Path.build_filename(Environment.get_user_config_dir(), "dino");
+        string data_dir = Path.build_filename(Environment.get_user_data_dir(), "dino");
+        string cache_dir = Path.build_filename(Environment.get_user_cache_dir(), "dino");
+        
+        var dialog = new Adw.AlertDialog(
+            _("User Data Locations"),
+            null
+        );
+        
+        string message = """<b>Configuration:</b>
+%s
+
+<b>Data &amp; Database:</b>
+%s
+
+<b>Cache:</b>
+%s
+
+<small>Your personal data (accounts, messages, files) is stored separately from the application.
+
+When you update DinoX (AppImage, Flatpak, or package), your data remains intact.</small>""".printf(
+            Markup.escape_text(config_dir),
+            Markup.escape_text(data_dir),
+            Markup.escape_text(cache_dir)
+        );
+        
+        dialog.body_use_markup = true;
+        dialog.body = message;
+        dialog.add_response("close", _("Close"));
+        dialog.set_response_appearance("close", Adw.ResponseAppearance.DEFAULT);
+        dialog.present(window);
+    }
+    
+    private void create_backup(string data_dir, string config_dir) {
+        var file_chooser = new Gtk.FileDialog();
+        file_chooser.title = _("Select Backup Location");
+        file_chooser.modal = true;
+        
+        var now = new DateTime.now_local();
+        string default_name = "dinox-backup-%s.tar.gz".printf(now.format("%Y%m%d-%H%M%S"));
+        file_chooser.initial_name = default_name;
+        
+        file_chooser.save.begin(window, null, (obj, res) => {
+            GLib.File? file = null;
+            try {
+                file = file_chooser.save.end(res);
+            } catch (Error err) {
+                // User cancelled
+                return;
+            }
+            
+            if (file != null) {
+                string backup_path = file.get_path();
+                perform_backup(data_dir, config_dir, backup_path);
+            }
+        });
+    }
+    
+    private void perform_backup(string data_dir, string config_dir, string backup_path) {
+        var toast_overlay = window.get_first_child() as Adw.ToastOverlay;
+        
+        // Show starting toast
+        if (toast_overlay != null) {
+            var toast = new Adw.Toast(_("Creating backup..."));
+            toast.timeout = 2;
+            toast_overlay.add_toast(toast);
+        }
+        
+        // Run backup in background
+        new Thread<void*>("backup", () => {
+            // Create tar.gz backup
+            string[] argv = {
+                "tar",
+                "-czf",
+                backup_path,
+                "-C", Environment.get_user_data_dir(), "dino",
+                "-C", Environment.get_user_config_dir(), "dino"
+            };
+            
+            string? stdout_str = null;
+            string? stderr_str = null;
+            int exit_status = -1;
+            bool success = false;
+            
+            try {
+                Process.spawn_sync(
+                    null,
+                    argv,
+                    null,
+                    SpawnFlags.SEARCH_PATH,
+                    null,
+                    out stdout_str,
+                    out stderr_str,
+                    out exit_status
+                );
+                success = (exit_status == 0);
+            } catch (Error err) {
+                stderr_str = err.message;
+            }
+            
+            // Get file size if successful
+            string size_str = "";
+            if (success) {
+                try {
+                    var file = File.new_for_path(backup_path);
+                    FileInfo info = file.query_info(FileAttribute.STANDARD_SIZE, FileQueryInfoFlags.NONE);
+                    int64 size = info.get_size();
+                    size_str = format_size(size);
+                } catch (Error err) {
+                    // Ignore size check error
+                }
+            }
+            
+            // Show result toast on main thread
+            string final_stderr = stderr_str;
+            string final_size = size_str;
+            Idle.add(() => {
+                if (toast_overlay != null) {
+                    Adw.Toast toast;
+                    if (success) {
+                        if (final_size.length > 0) {
+                            toast = new Adw.Toast(_("Backup created successfully (%s)").printf(final_size));
+                        } else {
+                            toast = new Adw.Toast(_("Backup created successfully"));
+                        }
+                        toast.timeout = 3;
+                    } else {
+                        string msg = final_stderr != null && final_stderr.length > 0 ? 
+                            final_stderr : _("Unknown error");
+                        toast = new Adw.Toast(_("Backup failed: %s").printf(msg));
+                        toast.timeout = 5;
+                    }
+                    toast_overlay.add_toast(toast);
+                }
+                return false;
+            });
+            
+            return null;
+        });
     }
 
     private void show_join_muc_dialog(Account? account, string jid) {

@@ -28,10 +28,12 @@ public static ViewModel.PreferencesRow.Any? get_data_form_field_view_model(DataF
     if (field.var != null) {
         switch (field.var) {
             case "muc#roomconfig_roomname":
-                label = _("Name of the room");
+                label = _("Display name");
+                desc = _("A friendly name shown in room listings (does not change the room address)");
                 break;
             case "muc#roomconfig_roomdesc":
-                label = _("Description of the room");
+                label = _("Description");
+                desc = _("A description of the room shown in room listings");
                 break;
             case "muc#roomconfig_persistentroom":
                 label = _("Persistent");
@@ -39,6 +41,7 @@ public static ViewModel.PreferencesRow.Any? get_data_form_field_view_model(DataF
                 break;
             case "muc#roomconfig_publicroom":
                 label = _("Publicly searchable");
+                desc = _("The room will appear in public room listings");
                 break;
             case "muc#roomconfig_changesubject":
                 label = _("Occupants may change the subject");
@@ -57,7 +60,7 @@ public static ViewModel.PreferencesRow.Any? get_data_form_field_view_model(DataF
                 break;
             case "muc#roomconfig_membersonly":
                 label = _("Members only");
-                desc = _("Only members may enter the room");
+                desc = _("Only members may enter the room. Warning: Non-members will be removed when enabled!");
                 break;
 //            case "muc#roomconfig_historylength":
 //                label = _("Message history");

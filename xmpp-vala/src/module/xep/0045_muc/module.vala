@@ -490,14 +490,18 @@ public class Module : XmppStreamModule {
         }
     }
 
-    private async void query_room_info(XmppStream stream, Jid jid) {
+    public async void query_room_info(XmppStream stream, Jid jid) {
         ServiceDiscovery.InfoResult? info_result = yield stream.get_module(ServiceDiscovery.Module.IDENTITY).request_info(stream, jid);
-        if (info_result == null) return;
+        if (info_result == null) {
+            debug("query_room_info: No info result for %s", jid.to_string());
+            return;
+        }
 
         Gee.List<Feature> features = new ArrayList<Feature>();
 
         foreach (ServiceDiscovery.Identity identity in info_result.identities) {
             if (identity.category == "conference" && identity.name != null) {
+                debug("query_room_info: Setting room name for %s to '%s'", jid.to_string(), identity.name);
                 stream.get_flag(Flag.IDENTITY).set_room_name(jid, identity.name);
             }
         }

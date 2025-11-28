@@ -96,7 +96,16 @@ public class ConversationSelectorRow : ListBoxRow {
                 break;
             case Conversation.Type.GROUPCHAT:
                 has_tooltip = Util.use_tooltips();
-                set_tooltip_text(Util.string_if_tooltips_active(conversation.counterpart.bare_jid.to_string()));
+                query_tooltip.connect ((x, y, keyboard_tooltip, tooltip) => {
+                    tooltip.set_custom(Util.widget_if_tooltips_active(generate_groupchat_tooltip()));
+                    return true;
+                });
+                // Invalidate tooltip when subject changes
+                stream_interactor.get_module(MucManager.IDENTITY).subject_set.connect((account, jid, subject) => {
+                    if (conversation.account.equals(account) && conversation.counterpart.equals_bare(jid)) {
+                        trigger_tooltip_query();
+                    }
+                });
                 break;
             case Conversation.Type.GROUPCHAT_PM:
                 break;
@@ -332,6 +341,60 @@ public class ConversationSelectorRow : ListBoxRow {
             change_label_attribute(nick_label, attr_weight_new(Weight.BOLD));
             change_label_attribute(message_label, attr_weight_new(Weight.BOLD));
         }
+    }
+
+    private Widget generate_groupchat_tooltip() {
+        Grid grid = new Grid() { row_spacing=5, column_homogeneous=false, column_spacing=5, margin_start=7, margin_end=7, margin_top=7, margin_bottom=7 };
+
+        // JID as title
+        Label jid_label = new Label(conversation.counterpart.bare_jid.to_string()) { valign=Align.START, xalign=0 };
+        jid_label.attributes = new AttrList();
+        jid_label.attributes.insert(attr_weight_new(Weight.BOLD));
+        grid.attach(jid_label, 0, 0, 2, 1);
+
+        int row = 1;
+
+        // Room topic/subject
+        string? topic = stream_interactor.get_module(MucManager.IDENTITY).get_groupchat_subject(conversation.counterpart, conversation.account);
+        debug("generate_groupchat_tooltip: topic='%s' for %s", topic ?? "(null)", conversation.counterpart.to_string());
+        if (topic != null && topic.strip() != "") {
+            Label topic_title = new Label(_("Thema:")) { valign=Align.START, xalign=0 };
+            topic_title.attributes = new AttrList();
+            topic_title.attributes.insert(attr_style_new(Style.ITALIC));
+            grid.attach(topic_title, 0, row, 1, 1);
+
+            // Limit topic length for tooltip
+            string display_topic = topic.strip();
+            if (display_topic.length > 100) {
+                display_topic = display_topic.substring(0, 100) + "…";
+            }
+            Label topic_label = new Label(display_topic) { valign=Align.START, xalign=0, wrap=true, max_width_chars=40 };
+            grid.attach(topic_label, 1, row, 1, 1);
+            row++;
+        }
+
+        // Room features (private/public, members-only, etc.)
+        MucManager muc_manager = stream_interactor.get_module(MucManager.IDENTITY);
+        var features = new StringBuilder();
+        
+        if (muc_manager.is_private_room(conversation.account, conversation.counterpart)) {
+            features.append(_("Privat"));
+        } else {
+            features.append(_("Öffentlich"));
+        }
+
+        if (features.len > 0) {
+            Label features_title = new Label(_("Typ:")) { valign=Align.START, xalign=0 };
+            features_title.attributes = new AttrList();
+            features_title.attributes.insert(attr_style_new(Style.ITALIC));
+            grid.attach(features_title, 0, row, 1, 1);
+
+            Label features_label = new Label(features.str) { valign=Align.START, xalign=0 };
+            grid.attach(features_label, 1, row, 1, 1);
+            row++;
+        }
+
+        return grid;
     }
 
     private static Regex dino_resource_regex = /^dino\.[a-f0-9]{8}$/;

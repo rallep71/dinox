@@ -16,6 +16,7 @@ public class MainWindow : Adw.ApplicationWindow {
 
     [GtkChild] public unowned Button add_chat_button;
     [GtkChild] public unowned Button add_group_button;
+    [GtkChild] public unowned Button join_help_button;
     [GtkChild] public unowned MenuButton menu_button;
 
     [GtkChild] public unowned Adw.HeaderBar conversation_headerbar;
@@ -139,12 +140,24 @@ public class MainWindow : Adw.ApplicationWindow {
     private void setup_header_bar() {
         add_chat_button.tooltip_text = Util.string_if_tooltips_active(_("Start Conversation"));
         add_group_button.tooltip_text = Util.string_if_tooltips_active(_("Join Channel"));
+        if (join_help_button != null) {
+            join_help_button.tooltip_text = Util.string_if_tooltips_active(_("Help: How to join channels"));
+            join_help_button.clicked.connect(() => show_join_channel_help());
+        }
 
         Builder menu_builder = new Builder.from_resource("/im/github/rallep71/DinoX/menu_app.ui");
         Menu menu_app = menu_builder.get_object("menu_app") as Menu;
         menu_button.set_menu_model(menu_app);
 
         setup_status_menu(menu_app);
+    }
+
+    private void show_join_channel_help() {
+        var dialog = new Adw.AlertDialog(_("Join Channel Help"), null);
+        string body = _("To join a channel, click the \"Join Channel\" button and enter the channel JID (example: room@conference.example.org).\n\nIf you need a password or a nickname, provide them in the dialog. Use the discovery features in the server to find public rooms.");
+        dialog.body = body;
+        dialog.add_response("close", _("Close"));
+        dialog.present(this);
     }
 
     private void setup_status_menu(Menu menu_app) {

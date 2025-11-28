@@ -46,27 +46,23 @@ namespace Dino {
 
     public static string get_groupchat_display_name(StreamInteractor stream_interactor, Account account, Jid jid) {
         MucManager muc_manager = stream_interactor.get_module(MucManager.IDENTITY);
+        
+        // Priority 1: User's personal bookmark name (highest priority)
         string? bookmark_name = muc_manager.get_bookmark_name(account, jid);
-        if (bookmark_name != null) {
+        if (bookmark_name != null && bookmark_name.strip() != "") {
+            debug("get_groupchat_display_name: Using bookmark_name '%s' for %s", bookmark_name, jid.to_string());
             return bookmark_name;
         }
-        string? room_name = muc_manager.get_room_name(account, jid);
-        if (room_name != null && room_name != jid.localpart) {
-            return room_name;
+        
+        // Priority 2: Use JID localpart (the actual MUC address name)
+        // We deliberately skip room_name from server config because:
+        // - If user clears their bookmark name, they want to see the JID name
+        // - room_name from server config may be outdated or confusing
+        debug("get_groupchat_display_name: Using localpart '%s' for %s (no bookmark)", jid.localpart ?? "(null)", jid.to_string());
+        if (jid.localpart != null) {
+            return jid.localpart;
         }
-        if (muc_manager.is_private_room(account, jid)) {
-            Gee.List<Jid>? other_occupants = muc_manager.get_other_offline_members(jid, account);
-            if (other_occupants != null && other_occupants.size > 0) {
-                var builder = new StringBuilder ();
-                foreach(Jid occupant in other_occupants) {
-                    if (builder.len != 0) {
-                        builder.append(", ");
-                    }
-                    builder.append((get_real_display_name(stream_interactor, account, occupant) ?? occupant.localpart ?? occupant.domainpart).split(" ")[0]);
-                }
-                return builder.str;
-            }
-        }
+        
         return jid.to_string();
     }
 

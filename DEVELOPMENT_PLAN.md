@@ -1,8 +1,8 @@
 # DinoX - Development Plan
 
 > **Fork Status**: Modern XMPP client - Independent development branch of [dino/dino](https://github.com/dino/dino)  
-> **Last Updated**: November 27, 2025
-> **Version**: 0.6.8
+> **Last Updated**: November 28, 2025
+> **Version**: 0.6.9
 > **Original Repository**: https://github.com/dino/dino (572 open issues)
 
 ---
@@ -32,11 +32,11 @@ DinoX addresses the slow development pace of the original Dino XMPP client while
 
 ---
 
-## Current Status (November 27, 2025)
+## Current Status (November 28, 2025)
 
 | Metric | Status | Details |
 |--------|--------|---------||
-| **Version** | [OK] **v0.6.8** | Latest stable release |
+| **Version** | [OK] **v0.6.9** | Latest stable release |
 | **XEPs Implemented** | [OK] **67** | One of most compliant XMPP clients |
 | **Database Schema** | [OK] **v32** | Custom server + history clear + background mode |
 | **Build Status** | [OK] **Clean** | 0 compiler warnings, 0 errors, 541 targets |
@@ -65,6 +65,9 @@ DinoX addresses the slow development pace of the original Dino XMPP client while
 | **MUJI Group Calls Phase 1** | v0.6.5.3 | XEP-0272 | [DONE] Complete |
 | **Desktop Notifications Fix** | v0.6.5.4 | Critical bug | [DONE] Fixed |
 | **Dark Mode Toggle** | v0.6.8 | [#1752](https://github.com/dino/dino/issues/1752) | [DONE] Complete |
+| **Backup User Data** | v0.6.9 | Data Safety | [DONE] Complete |
+| **MUC Room Privacy Control** | v0.6.9 | XEP-0045 | [DONE] Complete |
+| **MUC Tooltip Enhancements** | v0.6.9 | UX | [DONE] Complete |
 
 ---
 

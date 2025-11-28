@@ -54,9 +54,35 @@ public class EncryptionButton {
 
         stream_interactor.get_module(MucManager.IDENTITY).room_info_updated.connect((account, muc_jid) => {
             if (conversation != null && conversation.account.equals(account) && conversation.counterpart.equals(muc_jid)) {
+                check_encryption_validity();
                 update_visibility();
             }
         });
+    }
+
+    // Check if encryption is still valid for this conversation
+    // If room changed from private to public, disable encryption
+    // If room changed from public to private, enable encryption (OMEMO preferred)
+    private void check_encryption_validity() {
+        if (conversation == null) return;
+        if (conversation.type_ != Conversation.Type.GROUPCHAT) return;
+        
+        bool is_private = stream_interactor.get_module(MucManager.IDENTITY).is_private_room(
+            conversation.account, conversation.counterpart);
+        
+        if (!is_private && conversation.encryption != Encryption.NONE) {
+            // Room became public - disable encryption
+            conversation.encryption = Encryption.NONE;
+            update_encryption_menu_state();
+            update_encryption_menu_icon();
+            encryption_changed(Encryption.NONE);
+        } else if (is_private && conversation.encryption == Encryption.NONE) {
+            // Room became private - enable OMEMO encryption by default
+            conversation.encryption = Encryption.OMEMO;
+            update_encryption_menu_state();
+            update_encryption_menu_icon();
+            encryption_changed(conversation.encryption);
+        }
     }
 
     private void update_encryption_menu_state() {
