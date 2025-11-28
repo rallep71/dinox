@@ -7,6 +7,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.7.1] - 2025-11-28
+
+### Changed
+- **Dark Theme as Default** - DinoX now starts with dark theme by default
+  - New installations will have dark mode enabled automatically
+  - Existing users keep their chosen setting
+  - Can still be changed in Preferences → General → Appearance
+
+### Fixed
+- **AppImage Audio/Video Support** - Fixed voice and video calls in AppImage builds
+  - Added missing GStreamer plugins: `gstreamer1.0-nice`, `pulseaudio`, `pipewire`, `alsa`, `v4l2`
+  - Fixed `gst-plugin-scanner` path for proper plugin detection
+  - Bundled all required WebRTC plugins (nice, srtp, dtls, webrtc)
+  - Camera and microphone now properly detected in AppImage
+
+- **AppImage Locale Support** - Fixed translations not working in AppImage
+  - Added `TEXTDOMAINDIR` environment variable support
+  - AppImage now respects system locale (LANG, LC_ALL)
+  - All 45 languages now work correctly in AppImage builds
+
+### Documentation
+- **BUILD.md Updated** - Added missing build dependencies
+  - Added `gstreamer1.0-nice` to Debian/Ubuntu build instructions
+  - Added `gstreamer1-plugins-bad-free-extras` to Fedora instructions
+  - New "AppImage Build" section with complete build guide
+  - GStreamer plugin troubleshooting section added
+
 ## [0.7] - 2025-11-28
 
 ### Changed

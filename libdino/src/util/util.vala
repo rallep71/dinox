@@ -15,6 +15,12 @@ public class SearchPathGenerator {
     }
 
     public string get_locale_path(string gettext_package, string locale_install_dir) {
+        // Check for TEXTDOMAINDIR environment variable (used by AppImage)
+        string? env_locale_dir = Environment.get_variable("TEXTDOMAINDIR");
+        if (env_locale_dir != null && FileUtils.test(Path.build_filename(env_locale_dir, "de", "LC_MESSAGES", gettext_package + ".mo"), FileTest.IS_REGULAR)) {
+            return env_locale_dir;
+        }
+        
         string? locale_dir = null;
         string dirname = Path.get_dirname(exec_path);
         // Does our environment look like a CMake build dir?

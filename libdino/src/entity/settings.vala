@@ -13,7 +13,7 @@ public class Settings : Object {
         convert_utf8_smileys_ = col_to_bool_or_default("convert_utf8_smileys", true);
         check_spelling = col_to_bool_or_default("check_spelling", true);
         keep_background_ = col_to_bool_or_default("keep_background", true);
-        color_scheme_ = col_to_string_or_default("color_scheme", "default");
+        color_scheme_ = col_to_string_or_default("color_scheme", "dark");
     }
 
     private bool col_to_bool_or_default(string key, bool def) {

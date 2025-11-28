@@ -131,6 +131,68 @@ copy_dependencies() {
     mkdir -p "$APPDIR/usr/lib/dino/plugins"
     cp -r "$BUILD_DIR"/plugins/*/*.so "$APPDIR/usr/lib/dino/plugins/" 2>/dev/null || true
     
+    # Copy GStreamer plugins
+    log_info "Copying GStreamer plugins..."
+    mkdir -p "$APPDIR/usr/lib/gstreamer-1.0"
+    
+    for plugin in \
+        libgstcoreelements.so \
+        libgstplayback.so \
+        libgsttypefindfunctions.so \
+        libgstvideoconvertscale.so \
+        libgstaudioconvert.so \
+        libgstaudioresample.so \
+        libgstvolume.so \
+        libgstapp.so \
+        libgstvideoparsersbad.so \
+        libgstvideofilter.so \
+        libgstgtk4.so \
+        libgstlibav.so \
+        libgstnice.so \
+        libgstrtp.so \
+        libgstrtpmanager.so \
+        libgstdtls.so \
+        libgstsrtp.so \
+        libgstaudiotestsrc.so \
+        libgstvideotestsrc.so \
+        libgstwebrtc.so \
+        libgstpulseaudio.so \
+        libgstalsa.so \
+        libgstautodetect.so \
+        libgstpipewire.so \
+        libgstv4l2.so \
+        libgstvideo4linux2.so \
+        libgstcamerabin.so \
+        libgstvideorate.so \
+        libgstaudiomixer.so \
+        libgstaudioparsers.so \
+        libgstopus.so \
+        libgstvpx.so \
+        libgstjpeg.so \
+        libgstpng.so \
+        libgstalaw.so \
+        libgstmulaw.so \
+        libgstinterleave.so \
+        libgstlevel.so
+    do
+        find /usr/lib/x86_64-linux-gnu/gstreamer-1.0 -name "$plugin" -exec cp {} "$APPDIR/usr/lib/gstreamer-1.0/" \; 2>/dev/null || true
+    done
+    
+    # Copy GStreamer plugin scanner
+    if [ -f "/usr/lib/x86_64-linux-gnu/gstreamer1.0/gstreamer-1.0/gst-plugin-scanner" ]; then
+        cp /usr/lib/x86_64-linux-gnu/gstreamer1.0/gstreamer-1.0/gst-plugin-scanner "$APPDIR/usr/lib/gstreamer-1.0/"
+    elif [ -f "/usr/libexec/gstreamer-1.0/gst-plugin-scanner" ]; then
+        cp /usr/libexec/gstreamer-1.0/gst-plugin-scanner "$APPDIR/usr/lib/gstreamer-1.0/"
+    fi
+    
+    # Copy PulseAudio and audio libraries
+    log_info "Copying audio libraries..."
+    for lib in libpulse.so* libpulse-simple.so* libpulsecommon-*.so libasound.so* \
+               libpipewire-0.3.so* libspa-0.2.so* libsndfile.so* libFLAC.so* \
+               libvorbis.so* libvorbisenc.so* libogg.so*; do
+        find /usr/lib/x86_64-linux-gnu -maxdepth 1 -name "$lib" -exec cp -L {} "$APPDIR/usr/lib/" \; 2>/dev/null || true
+    done
+    
     log_info "Dependencies copied!"
 }
 
@@ -150,11 +212,35 @@ export LD_LIBRARY_PATH="$APPDIR/usr/lib:$LD_LIBRARY_PATH"
 # Set plugin path
 export DINO_PLUGIN_DIR="$APPDIR/usr/lib/dino/plugins"
 
-# Set GStreamer plugin path
-export GST_PLUGIN_PATH="$APPDIR/usr/lib/gstreamer-1.0:$GST_PLUGIN_PATH"
+# Set GStreamer plugin paths - include both bundled and system plugins
+export GST_PLUGIN_PATH="$APPDIR/usr/lib/gstreamer-1.0:/usr/lib/x86_64-linux-gnu/gstreamer-1.0"
+export GST_PLUGIN_SYSTEM_PATH="$APPDIR/usr/lib/gstreamer-1.0:/usr/lib/x86_64-linux-gnu/gstreamer-1.0"
 
-# Set locale
-export LOCPATH="$APPDIR/usr/share/locale"
+# Use bundled scanner if available, otherwise system scanner
+if [ -x "$APPDIR/usr/lib/gstreamer-1.0/gst-plugin-scanner" ]; then
+    export GST_PLUGIN_SCANNER="$APPDIR/usr/lib/gstreamer-1.0/gst-plugin-scanner"
+fi
+
+# Set GStreamer registry (per-user cache)
+export GST_REGISTRY="$HOME/.cache/dinox/gstreamer-1.0/registry.x86_64.bin"
+mkdir -p "$(dirname "$GST_REGISTRY")"
+
+# PulseAudio configuration - use system socket if available
+if [ -z "$PULSE_SERVER" ]; then
+    if [ -S "$XDG_RUNTIME_DIR/pulse/native" ]; then
+        export PULSE_SERVER="unix:$XDG_RUNTIME_DIR/pulse/native"
+    fi
+fi
+
+# Allow PipeWire access
+export PIPEWIRE_RUNTIME_DIR="${PIPEWIRE_RUNTIME_DIR:-$XDG_RUNTIME_DIR}"
+
+# Set locale - use bundled translations but keep system locale settings
+# This allows the app to use German, French, etc. based on system LANG
+export TEXTDOMAINDIR="$APPDIR/usr/share/locale"
+
+# Set GSettings schema path
+export GSETTINGS_SCHEMA_DIR="$APPDIR/usr/share/glib-2.0/schemas:$GSETTINGS_SCHEMA_DIR"
 
 # Run DinoX
 exec "$APPDIR/usr/bin/dinox" "$@"

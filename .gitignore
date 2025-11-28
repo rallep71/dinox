@@ -46,6 +46,8 @@ repo/
 # Local documentation (not for GitHub)
 RELEASE_CHECKLIST.md
 *.flatpak
+*.AppImage
 
 # Ignore local website directory (managed outside of repo)
+website-new/
 website/

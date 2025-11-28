@@ -191,6 +191,18 @@
   <url type="translate">https://hosted.weblate.org/projects/dino/</url>
   <launchable type="desktop-id">im.github.rallep71.DinoX.desktop</launchable>
   <releases>
+    <release date="2025-11-28" version="0.7.1">
+      <description>
+        <p>Dark theme default, AppImage audio/video fix, and locale support improvements.</p>
+        <ul>
+          <li>Dark theme is now the default for new installations</li>
+          <li>Fixed voice/video calls in AppImage (added missing GStreamer plugins)</li>
+          <li>Fixed translations not working in AppImage (TEXTDOMAINDIR support)</li>
+          <li>Camera and microphone now properly detected in AppImage builds</li>
+          <li>Updated BUILD.md with complete AppImage build instructions</li>
+        </ul>
+      </description>
+    </release>
     <release date="2025-11-28" version="0.7">
       <description>
         <p>Complete translation milestone - All 45 languages now at 100% coverage!</p>

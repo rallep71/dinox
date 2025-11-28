@@ -95,6 +95,7 @@ sudo apt install -y \
   libgstreamer-plugins-bad1.0-dev \
   gstreamer1.0-plugins-good \
   gstreamer1.0-plugins-bad \
+  gstreamer1.0-nice \
   libnice-dev \
   libsrtp2-dev \
   libgnutls28-dev \
@@ -156,6 +157,7 @@ sudo dnf install -y \
   gstreamer1-plugins-base-devel \
   gstreamer1-plugins-good \
   gstreamer1-plugins-bad-free \
+  gstreamer1-plugins-bad-free-extras \
   libnice-devel \
   libsrtp-devel \
   gnutls-devel \
@@ -355,6 +357,62 @@ flatpak install dino-extended.flatpak
 
 ---
 
+## AppImage Build
+
+### Prerequisites for AppImage
+
+The AppImage build requires additional GStreamer plugins for full audio/video support:
+
+```bash
+# Debian/Ubuntu - Required for Voice/Video calls
+sudo apt install -y \
+  gstreamer1.0-plugins-good \
+  gstreamer1.0-plugins-bad \
+  gstreamer1.0-nice \
+  gstreamer1.0-pulseaudio \
+  gstreamer1.0-pipewire \
+  linuxdeploy \
+  linuxdeploy-plugin-gtk
+```
+
+**Important**: The `gstreamer1.0-nice` package is essential for ICE/NAT traversal in WebRTC calls. Without it, voice and video calls may fail to connect.
+
+### Build AppImage Locally
+
+```bash
+# First, build DinoX
+cd /path/to/dinox
+meson setup build --prefix=/usr
+meson compile -C build
+
+# Run AppImage build script
+./scripts/build-appimage.sh
+
+# The AppImage will be created as:
+# build/DinoX-<version>-x86_64.AppImage
+```
+
+### AppImage GStreamer Plugins
+
+The following GStreamer plugins are bundled in the AppImage for full functionality:
+
+| Plugin | Purpose |
+|--------|---------|
+| `libgstpulseaudio.so` | PulseAudio audio support |
+| `libgstpipewire.so` | PipeWire audio/video support |
+| `libgstalsa.so` | ALSA audio fallback |
+| `libgstv4l2.so` | Video4Linux2 camera support |
+| `libgstautodetect.so` | Automatic device detection |
+| `libgstnice.so` | ICE/NAT traversal (essential for calls) |
+| `libgstwebrtc.so` | WebRTC support |
+| `libgstsrtp.so` | Secure RTP encryption |
+| `libgstdtls.so` | DTLS encryption |
+| `libgstrtp.so` | RTP protocol |
+| `libgstvideoconvertscale.so` | Video scaling |
+| `libgstvideofilter.so` | Video effects (flip, etc.) |
+
+---
+
 ## Development Setup
 
 ### IDE Setup (VS Code / Codium)
@@ -492,6 +550,26 @@ source ~/.bashrc
 **Solution**: Install GStreamer plugins
 ```bash
 sudo apt install gstreamer1.0-plugins-good gstreamer1.0-plugins-bad
+```
+
+#### Error: Voice/Video calls cannot connect or no devices found
+
+**Solution**: Install the `gstreamer1.0-nice` plugin for ICE/NAT traversal:
+```bash
+# Debian/Ubuntu
+sudo apt install gstreamer1.0-nice gstreamer1.0-pulseaudio
+
+# Fedora
+sudo dnf install gstreamer1-plugins-bad-free-extras
+
+# Arch
+sudo pacman -S gst-plugins-bad
+```
+
+You can verify the nice plugin is installed:
+```bash
+gst-inspect-1.0 nicesrc
+# Should show plugin details, not "No such element or plugin"
 ```
 
 ### Build Logs

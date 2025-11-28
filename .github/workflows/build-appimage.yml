@@ -142,7 +142,25 @@ jobs:
             libgstsrtp.so \
             libgstaudiotestsrc.so \
             libgstvideotestsrc.so \
-            libgstwebrtc.so
+            libgstwebrtc.so \
+            libgstpulseaudio.so \
+            libgstalsa.so \
+            libgstautodetect.so \
+            libgstpipewire.so \
+            libgstv4l2.so \
+            libgstvideo4linux2.so \
+            libgstcamerabin.so \
+            libgstvideorate.so \
+            libgstaudiomixer.so \
+            libgstaudioparsers.so \
+            libgstopus.so \
+            libgstvpx.so \
+            libgstjpeg.so \
+            libgstpng.so \
+            libgstalaw.so \
+            libgstmulaw.so \
+            libgstinterleave.so \
+            libgstlevel.so
           do
             find /usr/lib/x86_64-linux-gnu/gstreamer-1.0 -name "$plugin" -exec cp {} "$APPDIR/usr/lib/gstreamer-1.0/" \; 2>/dev/null || true
           done
@@ -193,6 +211,15 @@ jobs:
             fi
           done
           
+          # Copy essential PulseAudio and audio libraries
+          for lib in libpulse.so libpulse.so.0 libpulse-simple.so libpulse-simple.so.0 \
+                     libpulsecore-*.so libpulsecommon-*.so \
+                     libasound.so libasound.so.2 \
+                     libpipewire-0.3.so libpipewire-0.3.so.0 \
+                     libspa-0.2.so libsndfile.so.1 libFLAC.so.12 libvorbis.so.0 libvorbisenc.so.2 libogg.so.0; do
+            find /usr/lib/x86_64-linux-gnu -maxdepth 1 -name "$lib" -exec cp -L {} "$APPDIR/usr/lib/" \; 2>/dev/null || true
+          done
+          
           echo "Copied libraries:"
           ls -lh "$APPDIR/usr/lib/" | head -20
       
@@ -214,14 +241,32 @@ jobs:
           # Set library paths
           export LD_LIBRARY_PATH="$APPDIR/usr/lib:$LD_LIBRARY_PATH"
           
-          # Set GStreamer paths
-          export GST_PLUGIN_PATH="$APPDIR/usr/lib/gstreamer-1.0"
-          export GST_PLUGIN_SYSTEM_PATH="$APPDIR/usr/lib/gstreamer-1.0"
-          export GST_PLUGIN_SCANNER="$APPDIR/usr/lib/gstreamer-1.0/gst-plugin-scanner"
+          # Set GStreamer paths - include both bundled and system plugins
+          export GST_PLUGIN_PATH="$APPDIR/usr/lib/gstreamer-1.0:/usr/lib/x86_64-linux-gnu/gstreamer-1.0"
+          export GST_PLUGIN_SYSTEM_PATH="$APPDIR/usr/lib/gstreamer-1.0:/usr/lib/x86_64-linux-gnu/gstreamer-1.0"
+          
+          # Use bundled scanner if available
+          if [ -x "$APPDIR/usr/lib/gstreamer-1.0/gst-plugin-scanner" ]; then
+            export GST_PLUGIN_SCANNER="$APPDIR/usr/lib/gstreamer-1.0/gst-plugin-scanner"
+          fi
           
           # Set GStreamer registry
           export GST_REGISTRY="$HOME/.cache/dinox/gstreamer-1.0/registry.x86_64.bin"
           mkdir -p "$(dirname "$GST_REGISTRY")"
+          
+          # Enable GStreamer debug output for troubleshooting (optional)
+          # export GST_DEBUG=2
+          
+          # PulseAudio and ALSA configuration
+          # Use system PulseAudio socket if available
+          if [ -z "$PULSE_SERVER" ]; then
+            if [ -S "$XDG_RUNTIME_DIR/pulse/native" ]; then
+              export PULSE_SERVER="unix:$XDG_RUNTIME_DIR/pulse/native"
+            fi
+          fi
+          
+          # Allow PipeWire access through portal
+          export PIPEWIRE_RUNTIME_DIR="${PIPEWIRE_RUNTIME_DIR:-$XDG_RUNTIME_DIR}"
           
           # Set Dino plugin path
           export DINO_PLUGIN_DIR="$APPDIR/usr/lib/dino/plugins"
@@ -229,8 +274,8 @@ jobs:
           # Set GSettings schema path
           export GSETTINGS_SCHEMA_DIR="$APPDIR/usr/share/glib-2.0/schemas:$GSETTINGS_SCHEMA_DIR"
           
-          # Set locale path
-          export LOCPATH="$APPDIR/usr/share/locale"
+          # Set locale - use bundled translations but keep system locale settings
+          export TEXTDOMAINDIR="$APPDIR/usr/share/locale"
           
           # Run DinoX
           exec "$APPDIR/usr/bin/dinox" "$@"
