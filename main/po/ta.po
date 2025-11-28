@@ -19,25 +19,24 @@ msgstr ""
 
 #: main/data/add_conversation/add_groupchat_dialog.ui:80
 msgid "Add MUC"
-msgstr ""
+msgstr "MUC சேர்க்க"
 
 #: main/data/add_conversation/add_groupchat_dialog.ui:90
 msgid "Insert a Name for MUC..."
-msgstr ""
+msgstr "MUC-க்கு ஒரு பெயரை உள்ளிடுக..."
 
 #: main/data/add_conversation/select_jid_fragment.ui:20
 msgid "Search or enter channel address..."
-msgstr ""
+msgstr "சேனல் முகவரியை தேட அல்லது உள்ளிடுக..."
 
 #: main/data/add_conversation/select_jid_fragment.ui:67
 #: main/src/ui/add_conversation/select_jid_fragment.vala:205
-#, fuzzy
 msgid "Add Group"
-msgstr "கணக்கைச் சேர்க்கவும்"
+msgstr "குழு சேர்"
 
 #: main/data/add_conversation/select_jid_fragment.ui:88
 msgid "Delete Group"
-msgstr ""
+msgstr "குழு நீக்கு"
 
 #: main/data/call_widget.ui:73 main/src/ui/notifier_freedesktop.vala:125
 #: main/src/ui/notifier_freedesktop.vala:230
@@ -59,21 +58,18 @@ msgid "Accept"
 msgstr "ஏற்றுக்கொள்"
 
 #: main/data/chat_input.ui:63
-#, fuzzy
 msgid "Record voice message"
-msgstr "தேடல் செய்திகளைத் தேடுகிறது"
+msgstr "குரல் செய்தி பதிவு செய்"
 
 #: main/data/chat_input.ui:77
-#, fuzzy
 msgid "Send message"
-msgstr "செய்தியைத் திருத்தவும்"
+msgstr "செய்தி அனுப்பு"
 
 #: main/data/conversation_details.ui:145
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:566
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:175
-#, fuzzy
 msgid "Remove Contact"
-msgstr "கணக்கை அகற்று"
+msgstr "தொடர்பை நீக்கு"
 
 #: main/data/conversation_details.ui:171
 #: main/src/windows/conversation_details.vala:231
@@ -82,7 +78,7 @@ msgstr "பற்றி"
 
 #: main/data/conversation_row.ui:56
 msgid "Private room (supports group calls)"
-msgstr ""
+msgstr "தனிப்பட்ட அறை (குழு அழைப்புகளை ஆதரிக்கிறது)"
 
 #: main/data/conversation_row.ui:135
 #: main/src/windows/conversation_details.vala:171
@@ -116,7 +112,7 @@ msgstr "சேனலில் சேரவும்"
 
 #: main/data/gtk/help-overlay.ui:26
 msgid "Show preferences"
-msgstr ""
+msgstr "விருப்பங்களைக் காட்டு"
 
 #: main/data/gtk/help-overlay.ui:32
 msgid "Keyboard shortcuts"
@@ -137,7 +133,7 @@ msgstr "ஒரு கோப்பை அனுப்பவும்"
 
 #: main/data/gtk/help-overlay.ui:55
 msgid "Close conversation"
-msgstr ""
+msgstr "உரையாடலை மூடு"
 
 #: main/data/gtk/help-overlay.ui:62
 msgid "Navigation"
@@ -153,7 +149,7 @@ msgstr "முந்தைய உரையாடலுக்கு செல்�
 
 #: main/data/main_window.ui:64 main/src/ui/main_window.vala:144
 msgid "Help: How to join channels"
-msgstr ""
+msgstr "உதவி: சேனல்களில் எப்படி சேர்வது"
 
 #: main/data/main_window.ui:118
 msgid "You have no open chats"
@@ -165,35 +161,35 @@ msgstr "அரட்டையைத் தொடங்க + அல்லது �
 
 #: main/data/menu_app.ui:6
 msgid "Status"
-msgstr ""
+msgstr "நிலை"
 
 #: main/data/menu_app.ui:11
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:427
 #: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Online"
-msgstr ""
+msgstr "ஆன்லைன்"
 
 #: main/data/menu_app.ui:16
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:421
 #: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Away"
-msgstr ""
+msgstr "விலகியுள்ளேன்"
 
 #: main/data/menu_app.ui:21
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:425
 #: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Busy"
-msgstr ""
+msgstr "பிஸி"
 
 #: main/data/menu_app.ui:26
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:423
 #: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Not Available"
-msgstr ""
+msgstr "கிடைக்கவில்லை"
 
 #: main/data/menu_app.ui:34
 msgid "Preferences"
@@ -204,9 +200,8 @@ msgid "Keyboard Shortcuts"
 msgstr "விசைப்பலகை குறுக்குவழிகள்"
 
 #: main/data/menu_app.ui:42 main/src/ui/application.vala:334
-#, fuzzy
 msgid "About DinoX"
-msgstr "டினோ பற்றி"
+msgstr "DinoX பற்றி"
 
 #: main/data/menu_conversation.ui:7
 msgid "Contact Details"
@@ -216,9 +211,8 @@ msgstr "தொடர்பு விவரங்கள்"
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:513
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:565
 #: main/src/ui/conversation_titlebar/menu_entry.vala:84
-#, fuzzy
 msgid "Delete Conversation History"
-msgstr "உரையாடலை மூடு"
+msgstr "உரையாடல் வரலாற்றை நீக்கு"
 
 #: main/data/message_item_widget_edit_mode.ui:46
 #: main/data/preferences_window/change_password_dialog.ui:18
@@ -274,31 +268,31 @@ msgstr "இணைப்பு நிலை"
 # Custom host/port feature (Issue #115)
 #: main/data/preferences_window/account_preferences_subpage.ui:121
 msgid "Advanced Settings"
-msgstr ""
+msgstr "மேம்பட்ட அமைப்புகள்"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:122
 msgid "Custom server connection (leave empty for automatic)"
-msgstr ""
+msgstr "தனிப்பயன் சேவையக இணைப்பு (தானியங்கிக்கு காலியாக விடவும்)"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:125
 msgid "Server Hostname"
-msgstr ""
+msgstr "சேவையக ஹோஸ்ட்பெயர்"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:130
 msgid "Port"
-msgstr ""
+msgstr "போர்ட்"
 
 #: main/data/preferences_window/change_password_dialog.ui:61
 msgid "Current password"
-msgstr ""
+msgstr "தற்போதைய கடவுச்சொல்"
 
 #: main/data/preferences_window/change_password_dialog.ui:66
 msgid "New password"
-msgstr ""
+msgstr "புதிய கடவுச்சொல்"
 
 #: main/data/preferences_window/change_password_dialog.ui:71
 msgid "Confirm password"
-msgstr ""
+msgstr "கடவுச்சொல்லை உறுதிப்படுத்து"
 
 #: main/data/preferences_window/general_preferences_page.ui:9
 msgid "Send _Typing Notifications"
@@ -318,49 +312,48 @@ msgstr "ஒரு புதிய செய்தி வரும்போது
 
 #: main/data/preferences_window/general_preferences_page.ui:32
 msgid "_Keep Running in Background"
-msgstr ""
+msgstr "_பின்னணியில் இயக்கவும்"
 
 #: main/data/preferences_window/general_preferences_page.ui:33
 msgid ""
 "Continue running after closing window to receive notifications immediately"
-msgstr ""
+msgstr "அறிவிப்புகளை உடனடியாகப் பெற சாளரத்தை மூடிய பிறகும் இயங்கத் தொடரவும்"
 
 #: main/data/preferences_window/general_preferences_page.ui:41
 msgid "Appearance"
-msgstr ""
+msgstr "தோற்றம்"
 
 #: main/data/preferences_window/general_preferences_page.ui:44
 msgid "_Color Scheme"
-msgstr ""
+msgstr "_வண்ணத் திட்டம்"
 
 #: main/data/preferences_window/general_preferences_page.ui:45
 msgid "Choose between light and dark appearance"
-msgstr ""
+msgstr "ஒளி மற்றும் இருண்ட தோற்றத்திற்கு இடையே தேர்வு செய்க"
 
 #: main/data/preferences_window/general_preferences_page.ui:55
 msgid "_Convert Smileys to Emoji"
 msgstr "_ ச்மைல்களை ஈமோசிக்கு மாற்றவும்"
 
 #: main/data/preferences_window/general_preferences_page.ui:63
-#, fuzzy
 msgid "User Data"
-msgstr "பயனர்"
+msgstr "பயனர் தரவு"
 
 #: main/data/preferences_window/general_preferences_page.ui:66
 msgid "Backup User Data"
-msgstr ""
+msgstr "பயனர் தரவை காப்புப்பிரதி எடு"
 
 #: main/data/preferences_window/general_preferences_page.ui:67
 msgid "Create a backup of your accounts, messages and settings"
-msgstr ""
+msgstr "உங்கள் கணக்குகள், செய்திகள் மற்றும் அமைப்புகளின் காப்புப்பிரதியை உருவாக்கு"
 
 #: main/data/preferences_window/general_preferences_page.ui:78
 msgid "Data Location"
-msgstr ""
+msgstr "தரவு இருப்பிடம்"
 
 #: main/data/preferences_window/general_preferences_page.ui:79
 msgid "View where your data is stored"
-msgstr ""
+msgstr "உங்கள் தரவு எங்கே சேமிக்கப்பட்டுள்ளது என்பதைப் பார்க்கவும்"
 
 #: main/data/preferences_window/preferences_dialog.ui:11
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:15
@@ -371,9 +364,8 @@ msgstr "கணக்குகள்"
 #: main/data/preferences_window/preferences_dialog.ui:18
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:17
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:67
-#, fuzzy
 msgid "Contacts"
-msgstr "தொடர்பைச் சேர்க்கவும்"
+msgstr "தொடர்புகள்"
 
 #: main/data/preferences_window/preferences_dialog.ui:25
 #: main/src/windows/conversation_details.vala:281
@@ -444,7 +436,7 @@ msgstr "தவறான முகவரி"
 
 #: main/src/ui/add_conversation/select_contact_dialog.vala:70
 msgid "Search or enter contact address..."
-msgstr ""
+msgstr "தொடர்பு முகவரியை தேட அல்லது உள்ளிடுக..."
 
 #: main/src/ui/add_conversation/select_contact_dialog.vala:107
 msgid "Start"
@@ -452,12 +444,11 @@ msgstr "தொடங்கு"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:154
 msgid "Browse Rooms"
-msgstr ""
+msgstr "அறைகளை உலாவுக"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:157
-#, fuzzy
 msgid "Browse Contacts"
-msgstr "தொடர்பைச் சேர்க்கவும்"
+msgstr "தொடர்புகளை உலாவு"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:202
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:70
@@ -465,90 +456,88 @@ msgid "Add Contact"
 msgstr "தொடர்பைச் சேர்க்கவும்"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:203
-#, fuzzy
 msgid "Delete Contact"
-msgstr "தொடர்பைச் சேர்க்கவும்"
+msgstr "தொடர்பை நீக்கு"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:206
 #: main/src/ui/add_conversation/select_jid_fragment.vala:216
 msgid "Leave Group"
-msgstr ""
+msgstr "குழுவை விடு"
 
 #: main/src/ui/application.vala:339
 msgid "Modern XMPP client with extended features"
-msgstr ""
+msgstr "விரிவாக்கப்பட்ட அம்சங்களுடன் நவீன XMPP கிளையன்ட்"
 
 #: main/src/ui/application.vala:346 main/src/ui/application.vala:385
 msgid "User Data Locations"
-msgstr ""
+msgstr "பயனர் தரவு இருப்பிடங்கள்"
 
 #: main/src/ui/application.vala:349 main/src/ui/application.vala:399
-#, fuzzy
 msgid "Configuration:"
-msgstr "அறை உள்ளமைவு"
+msgstr "உள்ளமைவு:"
 
 #: main/src/ui/application.vala:352 main/src/ui/application.vala:401
 msgid "Data & Database:"
-msgstr ""
+msgstr "தரவு & தரவுத்தளம்:"
 
 #: main/src/ui/application.vala:355 main/src/ui/application.vala:403
 msgid "Cache:"
-msgstr ""
+msgstr "தற்காலிக சேமிப்பு:"
 
 #: main/src/ui/application.vala:358
 msgid "Info:"
-msgstr ""
+msgstr "தகவல்:"
 
 #: main/src/ui/application.vala:359
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
-msgstr ""
+msgstr "உங்கள் தனிப்பட்ட தரவு (கணக்குகள், செய்திகள், கோப்புகள்) பயன்பாட்டிலிருந்து தனியாக சேமிக்கப்படுகிறது."
 
 #: main/src/ui/application.vala:361
 msgid "When you update DinoX, your data remains intact."
-msgstr ""
+msgstr "நீங்கள் DinoX-ஐ புதுப்பிக்கும்போது, உங்கள் தரவு அப்படியே இருக்கும்."
 
 #: main/src/ui/application.vala:363
 msgid "Use Settings → General → Backup User Data to create a backup."
-msgstr ""
+msgstr "காப்புப்பிரதி உருவாக்க அமைப்புகள் → பொது → பயனர் தரவை காப்புப்பிரதி எடு பயன்படுத்தவும்."
 
 #: main/src/ui/application.vala:405
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
-msgstr ""
+msgstr "உங்கள் தனிப்பட்ட தரவு (கணக்குகள், செய்திகள், கோப்புகள்) பயன்பாட்டிலிருந்து தனியாக சேமிக்கப்படுகிறது. நீங்கள் DinoX ஐ புதுப்பிக்கும்போது, உங்கள் தரவு அப்படியே இருக்கும்."
 
 #: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
 #: main/src/ui/main_window.vala:159
 msgid "Close"
-msgstr ""
+msgstr "மூடு"
 
 #: main/src/ui/application.vala:417
 msgid "Select Backup Location"
-msgstr ""
+msgstr "காப்புப்பிரதி இருப்பிடத்தைத் தேர்ந்தெடுக்கவும்"
 
 #: main/src/ui/application.vala:445
 msgid "Creating backup..."
-msgstr ""
+msgstr "காப்புப்பிரதி உருவாக்குகிறது..."
 
 #: main/src/ui/application.vala:503
 #, c-format
 msgid "Backup created successfully (%s)"
-msgstr ""
+msgstr "காப்புப்பிரதி வெற்றிகரமாக உருவாக்கப்பட்டது (%s)"
 
 #: main/src/ui/application.vala:505
 msgid "Backup created successfully"
-msgstr ""
+msgstr "காப்புப்பிரதி வெற்றிகரமாக உருவாக்கப்பட்டது"
 
 #: main/src/ui/application.vala:510
 msgid "Unknown error"
-msgstr ""
+msgstr "அறியப்படாத பிழை"
 
 #: main/src/ui/application.vala:511
 #, c-format
 msgid "Backup failed: %s"
-msgstr ""
+msgstr "காப்புப்பிரதி தோல்வியடைந்தது: %s"
 
 #: main/src/ui/call_window/audio_settings_popover.vala:29
 msgid "Microphones"
@@ -846,9 +835,8 @@ msgid "Just now"
 msgstr "இப்போது"
 
 #: main/src/ui/conversation_content_view/conversation_view.vala:105
-#, fuzzy
 msgid "More actions"
-msgstr "எதிர்வினை சேர்க்கவும்"
+msgstr "மேலும் செயல்கள்"
 
 #: main/src/ui/conversation_content_view/file_default_widget.vala:67
 #: main/src/ui/conversation_content_view/file_image_widget.vala:42
@@ -864,7 +852,7 @@ msgstr "சேமிக்கவும்…"
 #: main/src/ui/conversation_content_view/file_default_widget.vala:77
 #, c-format
 msgid "Downloading %s… (%u%%)"
-msgstr ""
+msgstr "%s பதிவிறக்குகிறது… (%u%%)"
 
 #: main/src/ui/conversation_content_view/file_default_widget.vala:79
 #, c-format
@@ -874,7 +862,7 @@ msgstr "%s பதிவிறக்கப்படுகிறது…"
 #: main/src/ui/conversation_content_view/file_default_widget.vala:83
 #, c-format
 msgid "Uploading %s… (%u%%)"
-msgstr ""
+msgstr "%s பதிவேற்றுகிறது… (%u%%)"
 
 #: main/src/ui/conversation_content_view/file_default_widget.vala:97
 #, c-format
@@ -895,14 +883,12 @@ msgid "File transfer failed"
 msgstr "கோப்பு பரிமாற்றம் தோல்வியடைந்தது"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:36
-#, fuzzy
 msgid "Kick user"
-msgstr "தொகுதி பயனர்"
+msgstr "பயனரை வெளியேற்று"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:69
-#, fuzzy
 msgid "Ban user"
-msgstr "தொகுதி பயனர்"
+msgstr "பயனரை தடை செய்"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:82
 #: main/src/ui/conversation_content_view/reactions_widget.vala:128
@@ -922,32 +908,29 @@ msgid "This conversation does not support replies."
 msgstr "இந்த உரையாடல் பதில்களை ஆதரிக்கவில்லை."
 
 #: main/src/ui/conversation_content_view/item_actions.vala:146
-#, fuzzy
 msgid "Moderate message..."
-msgstr "செய்தியைப் புதுப்பிக்கவும்"
+msgstr "செய்தியை மேற்பார்வையிடு…"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:148
 msgid "Delete..."
-msgstr ""
+msgstr "நீக்கு..."
 
 #: main/src/ui/conversation_content_view/item_actions.vala:150
 #: main/src/ui/conversation_content_view/item_actions.vala:168
 msgid "Delete locally"
-msgstr ""
+msgstr "உள்ளூரில் நீக்கு"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:160
-#, fuzzy
 msgid "Moderate message"
-msgstr "செய்தியைப் புதுப்பிக்கவும்"
+msgstr "செய்தியை மேற்பார்வையிடு"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:160
-#, fuzzy
 msgid "Delete message"
-msgstr "செய்தியைப் புதுப்பிக்கவும்"
+msgstr "செய்தியை நீக்கு"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:164
 msgid "Do you want to remove this message from the channel?"
-msgstr ""
+msgstr "இந்த செய்தியை சேனலில் இருந்து அகற்ற விரும்புகிறீர்களா?"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:165
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:745
@@ -958,16 +941,16 @@ msgstr "அகற்று"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:167
 msgid "Do you want to delete this message just for yourself or for everyone?"
-msgstr ""
+msgstr "இந்த செய்தியை உங்களுக்கு மட்டும் நீக்க வேண்டுமா அல்லது அனைவருக்கும் நீக்க வேண்டுமா?"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:168
 msgid "Delete for everyone"
-msgstr ""
+msgstr "அனைவருக்கும் நீக்கு"
 
 #: main/src/ui/conversation_content_view/message_widget.vala:174
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:255
 msgid "Message deleted"
-msgstr ""
+msgstr "செய்தி நீக்கப்பட்டது"
 
 #: main/src/ui/conversation_content_view/message_widget.vala:178
 msgid "edited"
@@ -975,7 +958,7 @@ msgstr "திருத்தப்பட்டது"
 
 #: main/src/ui/conversation_content_view/message_widget.vala:182
 msgid "Message truncated - exceeds 100,000 characters"
-msgstr ""
+msgstr "செய்தி வெட்டப்பட்டது - 100,000 எழுத்துகளை மீறுகிறது"
 
 #: main/src/ui/conversation_content_view/message_widget.vala:191
 msgid "pending…"
@@ -999,11 +982,11 @@ msgstr "நீங்கள்"
 
 #: main/src/ui/conversation_content_view/subscription_notification.vala:49
 msgid "Send request"
-msgstr ""
+msgstr "கோரிக்கையை அனுப்பு"
 
 #: main/src/ui/conversation_content_view/subscription_notification.vala:60
 msgid "You do not receive status updates from this contact yet."
-msgstr ""
+msgstr "இந்த தொடர்பில் இருந்து நிலை புதுப்பிப்புகளை நீங்கள் இன்னும் பெறவில்லை."
 
 #: main/src/ui/conversation_content_view/subscription_notification.vala:68
 #: main/src/ui/notifier_freedesktop.vala:164
@@ -1033,41 +1016,38 @@ msgid "Topic"
 msgstr "தலைப்பு"
 
 #: main/src/ui/conversation_details.vala:222
-#, fuzzy
 msgid "Permissions"
-msgstr "இசைவு கோரிக்கை"
+msgstr "அனுமதிகள்"
 
 #: main/src/ui/conversation_details.vala:223
-#, fuzzy
 msgid "Manage Affiliations"
-msgstr "கணக்குகளை நிர்வகிக்கவும்"
+msgstr "உறவுகளை நிர்வகி"
 
 #: main/src/ui/conversation_details.vala:239
 msgid "Danger Zone"
-msgstr ""
+msgstr "ஆபத்து மண்டலம்"
 
 #: main/src/ui/conversation_details.vala:240
 msgid "Destroy Room"
-msgstr ""
+msgstr "அறையை அழி"
 
 #: main/src/ui/conversation_details.vala:246
 msgid "Destroy Room?"
-msgstr ""
+msgstr "அறையை அழிக்கவா?"
 
 #: main/src/ui/conversation_details.vala:247
 msgid ""
 "Are you sure you want to permanently destroy this room? This action cannot "
 "be undone and all history will be lost for all participants."
-msgstr ""
+msgstr "இந்த அறையை நிரந்தரமாக அழிக்க விரும்புகிறீர்களா? இந்த செயலை செயல்தவிர்க்க முடியாது மற்றும் அனைத்து பங்கேற்பாளர்களுக்கும் அனைத்து வரலாறும் இழக்கப்படும்."
 
 #: main/src/ui/conversation_details.vala:250
 msgid "Destroy"
-msgstr ""
+msgstr "அழி"
 
 #: main/src/ui/conversation_details.vala:271
-#, fuzzy
 msgid "Failed to destroy room"
-msgstr "அறையை உருவாக்க அனுமதிக்கப்படவில்லை"
+msgstr "அறையை அழிக்க முடியவில்லை"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:276
 #: main/src/ui/notifier_freedesktop.vala:71
@@ -1095,19 +1075,19 @@ msgstr "கோப்பு பெறப்பட்டது"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:361
 msgid "Thema:"
-msgstr ""
+msgstr "தீம்:"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:381
 msgid "Privat"
-msgstr ""
+msgstr "தனிப்பட்ட"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:383
 msgid "Öffentlich"
-msgstr ""
+msgstr "பொது"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:387
 msgid "Typ:"
-msgstr ""
+msgstr "வகை:"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:483
 #: main/src/ui/widgets/date_separator.vala:37
@@ -1129,9 +1109,8 @@ msgstr "உரையாடல் விவரங்கள்"
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:507
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:771
 #: main/src/ui/conversation_titlebar/menu_entry.vala:98
-#, fuzzy
 msgid "Invite Contact"
-msgstr "மாநாட்டிற்கு அழைக்கவும்"
+msgstr "தொடர்பை அழை"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:511
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:559
@@ -1140,7 +1119,7 @@ msgstr "மாநாட்டிற்கு அழைக்கவும்"
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:140
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:206
 msgid "Unmute"
-msgstr ""
+msgstr "ஒலி இயக்கு"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:511
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:559
@@ -1155,14 +1134,13 @@ msgstr "முடக்கு"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:514
 msgid "Leave and Close"
-msgstr ""
+msgstr "வெளியேறி மூடு"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:555
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:623
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:126
-#, fuzzy
 msgid "Edit Alias"
-msgstr "மாற்றுப்பெயர்"
+msgstr "புனைப்பெயர் திருத்து"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:563
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:705
@@ -1185,59 +1163,56 @@ msgstr "மாற்றுப்பெயர்"
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:634
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:333
 msgid "Save"
-msgstr ""
+msgstr "சேமி"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:657
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:202
 msgid "Unmute contact?"
-msgstr ""
+msgstr "தொடர்பை ஒலியடக்கத்திலிருந்து நீக்கவா?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:658
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:203
 #, c-format
 msgid "This will enable notifications from %s."
-msgstr ""
+msgstr "இது %s இலிருந்து அறிவிப்புகளை இயக்கும்."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:676
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:222
 msgid "Mute contact?"
-msgstr ""
+msgstr "தொடர்பை ஒலியடக்கவா?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:677
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:223
 #, c-format
 msgid "This will disable notifications from %s."
-msgstr ""
+msgstr "இது %s இலிருந்து அறிவிப்புகளை முடக்கும்."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:701
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:246
-#, fuzzy
 msgid "Unblock contact?"
-msgstr "தடை"
+msgstr "தொடர்பு தடையை நீக்கவா?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:702
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:247
-#, fuzzy, c-format
 msgid "This will allow %s to send you messages again."
-msgstr "இந்த மாநாடு செய்திகளை அனுப்ப உங்களை அனுமதிக்காது."
+msgstr "இது %s மீண்டும் உங்களுக்கு செய்திகள் அனுப்ப அனுமதிக்கும்."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:720
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:266
 msgid "Block contact?"
-msgstr ""
+msgstr "தொடர்பைத் தடை செய்யவா?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:721
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:267
 #, c-format
 msgid "This will prevent %s from sending you messages."
-msgstr ""
+msgstr "இது %s உங்களுக்கு செய்திகள் அனுப்புவதைத் தடுக்கும்."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:741
 #: main/src/windows/conversation_details.vala:57
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:288
-#, fuzzy
 msgid "Remove contact?"
-msgstr "கணக்கை அகற்று"
+msgstr "தொடர்பை நீக்கவா?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:742
 #, c-format
@@ -1247,22 +1222,22 @@ msgid ""
 "• Remove %s from your contact list\n"
 "\n"
 "This action cannot be undone."
-msgstr ""
+msgstr "இது:\n• அனைத்து உரையாடல் வரலாற்றையும் நீக்கும்\n• உங்கள் தொடர்பு பட்டியலிலிருந்து %s ஐ அகற்றும்\n\nஇந்த செயலை மாற்ற இயலாது."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:787
 msgid "Delete all message history?"
-msgstr ""
+msgstr "அனைத்து செய்தி வரலாற்றையும் நீக்கவா?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:788
 msgid ""
 "This will permanently delete all messages in this conversation. This action "
 "cannot be undone."
-msgstr ""
+msgstr "இது இந்த உரையாடலில் உள்ள அனைத்து செய்திகளையும் நிரந்தரமாக நீக்கும். இந்த செயலை செயல்தவிர்க்க முடியாது."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:791
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
 msgid "Delete"
-msgstr ""
+msgstr "நீக்கு"
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:14
 msgid "Start call"
@@ -1278,26 +1253,25 @@ msgstr "வீடியோ அழைப்பு"
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:79
 msgid "Conference Server Required"
-msgstr ""
+msgstr "மாநாட்டு சேவையகம் தேவை"
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:80
 msgid ""
 "To start a group call, you need to configure a default conference server in "
 "your account settings."
-msgstr ""
+msgstr "குழு அழைப்பைத் தொடங்க, உங்கள் கணக்கு அமைப்புகளில் இயல்புநிலை மாநாட்டு சேவையகத்தை உள்ளமைக்க வேண்டும்."
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:84
-#, fuzzy
 msgid "Open Settings"
-msgstr "அமைப்புகள்"
+msgstr "அமைப்புகளைத் திற"
 
 #: main/src/ui/conversation_titlebar/menu_entry.vala:47
 msgid "Delete all message history for this conversation?"
-msgstr ""
+msgstr "இந்த உரையாடலுக்கான அனைத்து செய்தி வரலாற்றையும் நீக்கவா?"
 
 #: main/src/ui/conversation_titlebar/menu_entry.vala:49
 msgid "This action cannot be undone."
-msgstr ""
+msgstr "இந்த செயலை செயல்தவிர்க்க முடியாது."
 
 #: main/src/ui/conversation_titlebar/menu_entry.vala:85
 msgid "Close Conversation"
@@ -1332,9 +1306,8 @@ msgid "With %s"
 msgstr "%s உடன்"
 
 #: main/src/ui/main_window.vala:156
-#, fuzzy
 msgid "Join Channel Help"
-msgstr "சேனலில் சேரவும்"
+msgstr "சேனல் சேர் உதவி"
 
 #: main/src/ui/main_window.vala:157
 msgid ""
@@ -1343,12 +1316,11 @@ msgid ""
 "\n"
 "If you need a password or a nickname, provide them in the dialog. Use the "
 "discovery features in the server to find public rooms."
-msgstr ""
+msgstr "சேனலில் சேர, \"சேனலில் சேர்\" பொத்தானைக் கிளிக் செய்து சேனல் JID ஐ உள்ளிடவும் (எடுத்துக்காட்டு: room@conference.example.org).\n\nகடவுச்சொல் அல்லது புனைப்பெயர் தேவைப்பட்டால், உரையாடலில் வழங்கவும். பொது அறைகளைக் கண்டறிய சேவையகத்தின் கண்டுபிடிப்பு அம்சங்களைப் பயன்படுத்தவும்."
 
 #: main/src/ui/main_window.vala:206
-#, fuzzy
 msgid "Welcome to DinoX!"
-msgstr "டினோவுக்கு வருக!"
+msgstr "DinoX க்கு வரவேற்கிறோம்!"
 
 #: main/src/ui/main_window.vala:207
 msgid "Sign in or create an account to get started."
@@ -1431,20 +1403,17 @@ msgstr "தனிப்பட்ட உரையாடலைத் தொடங�
 
 #: main/src/ui/occupant_menu/view.vala:125
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:157
-#, fuzzy
 msgid "Unblock Contact"
-msgstr "தடை"
+msgstr "தொடர்பு தடையை நீக்கு"
 
 #: main/src/ui/occupant_menu/view.vala:127
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:157
-#, fuzzy
 msgid "Block Contact"
-msgstr "தொடர்பைச் சேர்க்கவும்"
+msgstr "தொடர்பை தடை செய்"
 
 #: main/src/ui/occupant_menu/view.vala:133
-#, fuzzy
 msgid "Moderation"
-msgstr "மிதமான"
+msgstr "மேற்பார்வை"
 
 #: main/src/ui/occupant_menu/view.vala:135
 msgid "Kick"
@@ -1452,52 +1421,47 @@ msgstr "கிக்"
 
 #: main/src/ui/occupant_menu/view.vala:139
 msgid "Ban (Permanent)"
-msgstr ""
+msgstr "தடை (நிரந்தர)"
 
 #: main/src/ui/occupant_menu/view.vala:140
 msgid "Ban (10 min)"
-msgstr ""
+msgstr "தடை (10 நிமிடம்)"
 
 #: main/src/ui/occupant_menu/view.vala:141
 msgid "Ban (15 min)"
-msgstr ""
+msgstr "தடை (15 நிமிடம்)"
 
 #: main/src/ui/occupant_menu/view.vala:142
 msgid "Ban (30 min)"
-msgstr ""
+msgstr "தடை (30 நிமிடம்)"
 
 #: main/src/ui/occupant_menu/view.vala:146
-#, fuzzy
 msgid "Administration"
-msgstr "எதிர்வினை சேர்க்கவும்"
+msgstr "நிர்வாகம்"
 
 #: main/src/ui/occupant_menu/view.vala:150
-#, fuzzy
 msgid "Make Admin"
-msgstr "நிர்வாகி"
+msgstr "நிர்வாகியாக்கு"
 
 #: main/src/ui/occupant_menu/view.vala:152
 msgid "Revoke Admin"
-msgstr ""
+msgstr "நிர்வாகியை திரும்பப்பெறு"
 
 #: main/src/ui/occupant_menu/view.vala:156
-#, fuzzy
 msgid "Make Owner"
-msgstr "உரிமையாளர்"
+msgstr "உரிமையாளராக்கு"
 
 #: main/src/ui/occupant_menu/view.vala:161
-#, fuzzy
 msgid "Make Member"
-msgstr "உறுப்பினர்"
+msgstr "உறுப்பினராக்கு"
 
 #: main/src/ui/occupant_menu/view.vala:163
-#, fuzzy
 msgid "Revoke Membership"
-msgstr "எழுதும் இசைவு ரத்து"
+msgstr "உறுப்பினரை நீக்கு"
 
 #: main/src/ui/occupant_menu/view.vala:228
 msgid "Kicked by moderator"
-msgstr ""
+msgstr "மதிப்பீட்டாளரால் வெளியேற்றப்பட்டது"
 
 #: main/src/ui/occupant_menu/view.vala:275
 msgid "Invite to Conference"
@@ -1505,22 +1469,20 @@ msgstr "மாநாட்டிற்கு அழைக்கவும்"
 
 #: main/src/ui/systray.vala:178
 msgid "Quit"
-msgstr ""
+msgstr "வெளியேறு"
 
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
 "A friendly name shown in room listings (does not change the room address)"
-msgstr ""
+msgstr "அறை பட்டியல்களில் காட்டப்படும் நட்புப் பெயர் (அறை முகவரியை மாற்றாது)"
 
 #: main/src/ui/util/data_forms.vala:44
-#, fuzzy
 msgid "Description"
-msgstr "குறியாக்கம்"
+msgstr "விளக்கம்"
 
 #: main/src/ui/util/data_forms.vala:45
-#, fuzzy
 msgid "A description of the room shown in room listings"
-msgstr "அறையின் விளக்கம்"
+msgstr "அறை பட்டியல்களில் காட்டப்படும் அறையின் விளக்கம்"
 
 #: main/src/ui/util/data_forms.vala:48
 msgid "Persistent"
@@ -1536,7 +1498,7 @@ msgstr "பகிரங்கமாக தேடக்கூடியது"
 
 #: main/src/ui/util/data_forms.vala:53
 msgid "The room will appear in public room listings"
-msgstr ""
+msgstr "அறை பொது அறை பட்டியலில் தோன்றும்"
 
 #: main/src/ui/util/data_forms.vala:56
 msgid "Occupants may change the subject"
@@ -1566,7 +1528,7 @@ msgstr "உறுப்பினர்கள் மட்டுமே"
 msgid ""
 "Only members may enter the room. Warning: Non-members will be removed when "
 "enabled!"
-msgstr ""
+msgstr "உறுப்பினர்கள் மட்டுமே அறையில் நுழைய முடியும். எச்சரிக்கை: இயக்கப்படும்போது உறுப்பினர் அல்லாதவர்கள் அகற்றப்படுவர்!"
 
 #: main/src/ui/util/helper.vala:65
 #, c-format
@@ -1586,7 +1548,7 @@ msgstr "%a, %b %d"
 msgid ""
 "This contact will be removed from your contact list and all conversation "
 "history will be permanently deleted."
-msgstr ""
+msgstr "இந்த தொடர்பு உங்கள் தொடர்பு பட்டியலிலிருந்து அகற்றப்படும் மற்றும் அனைத்து உரையாடல் வரலாறும் நிரந்தரமாக நீக்கப்படும்."
 
 #: main/src/windows/conversation_details.vala:108
 msgid "Block user"
@@ -1748,34 +1710,32 @@ msgid "Check %s for information on how to sign up"
 msgstr "பதிவுபெறுவது எப்படி என்பது குறித்த தகவலுக்கு %s ஐ சரிபார்க்கவும்"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:192
-#, fuzzy
 msgid "No contacts"
-msgstr "தொடர்பைச் சேர்க்கவும்"
+msgstr "தொடர்புகள் இல்லை"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:193
 msgid "Add contacts to start chatting"
-msgstr ""
+msgstr "அரட்டையைத் தொடங்க தொடர்புகளைச் சேர்க்கவும்"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:289
 #, c-format
 msgid ""
 "This will remove %s from your contact list and delete all conversation "
 "history."
-msgstr ""
+msgstr "இது உங்கள் தொடர்பு பட்டியலிலிருந்து %s ஐ அகற்றி அனைத்து உரையாடல் வரலாற்றையும் நீக்கும்."
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:318
-#, fuzzy
 msgid "Edit Contact Alias"
-msgstr "தொடர்பைச் சேர்க்கவும்"
+msgstr "தொடர்பு புனைப்பெயர் திருத்து"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:319
 #, c-format
 msgid "Change the display name for %s"
-msgstr ""
+msgstr "%s க்கான காட்சி பெயரை மாற்று"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:325
 msgid "Alias (optional)"
-msgstr ""
+msgstr "புனைப்பெயர் (விரும்பினால்)"
 
 #~ msgid "Message too long"
 #~ msgstr "செய்தி மிக நீளமானது"

@@ -21,25 +21,24 @@ msgstr ""
 
 #: main/data/add_conversation/add_groupchat_dialog.ui:80
 msgid "Add MUC"
-msgstr ""
+msgstr "إضافة MUC"
 
 #: main/data/add_conversation/add_groupchat_dialog.ui:90
 msgid "Insert a Name for MUC..."
-msgstr ""
+msgstr "...أدخل اسماً للغرفة"
 
 #: main/data/add_conversation/select_jid_fragment.ui:20
 msgid "Search or enter channel address..."
-msgstr ""
+msgstr "...ابحث أو أدخل عنوان القناة"
 
 #: main/data/add_conversation/select_jid_fragment.ui:67
 #: main/src/ui/add_conversation/select_jid_fragment.vala:205
-#, fuzzy
 msgid "Add Group"
-msgstr "إضافة حساب"
+msgstr "إضافة مجموعة"
 
 #: main/data/add_conversation/select_jid_fragment.ui:88
 msgid "Delete Group"
-msgstr ""
+msgstr "حذف المجموعة"
 
 #: main/data/call_widget.ui:73 main/src/ui/notifier_freedesktop.vala:125
 #: main/src/ui/notifier_freedesktop.vala:230
@@ -61,21 +60,18 @@ msgid "Accept"
 msgstr "اقبل"
 
 #: main/data/chat_input.ui:63
-#, fuzzy
 msgid "Record voice message"
-msgstr "ابحث في الرسائل"
+msgstr "تسجيل رسالة صوتية"
 
 #: main/data/chat_input.ui:77
-#, fuzzy
 msgid "Send message"
-msgstr "عَدِّل الرسالة"
+msgstr "إرسال رسالة"
 
 #: main/data/conversation_details.ui:145
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:566
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:175
-#, fuzzy
 msgid "Remove Contact"
-msgstr "أزِل الحساب"
+msgstr "إزالة جهة الاتصال"
 
 #: main/data/conversation_details.ui:171
 #: main/src/windows/conversation_details.vala:231
@@ -84,7 +80,7 @@ msgstr "عَنْ"
 
 #: main/data/conversation_row.ui:56
 msgid "Private room (supports group calls)"
-msgstr ""
+msgstr "غرفة خاصة (تدعم المكالمات الجماعية)"
 
 #: main/data/conversation_row.ui:135
 #: main/src/windows/conversation_details.vala:171
@@ -139,7 +135,7 @@ msgstr "أرسِل ملفًا"
 
 #: main/data/gtk/help-overlay.ui:55
 msgid "Close conversation"
-msgstr ""
+msgstr "إغلاق المحادثة"
 
 #: main/data/gtk/help-overlay.ui:62
 msgid "Navigation"
@@ -155,7 +151,7 @@ msgstr "الانتقال إلى المحادثة السابقة"
 
 #: main/data/main_window.ui:64 main/src/ui/main_window.vala:144
 msgid "Help: How to join channels"
-msgstr ""
+msgstr "المساعدة: كيفية الانضمام إلى القنوات"
 
 #: main/data/main_window.ui:118
 msgid "You have no open chats"
@@ -167,35 +163,35 @@ msgstr "انقر على + لبدء محادثة أو الانضمام إلى ق�
 
 #: main/data/menu_app.ui:6
 msgid "Status"
-msgstr ""
+msgstr "الحالة"
 
 #: main/data/menu_app.ui:11
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:427
 #: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Online"
-msgstr ""
+msgstr "متصل"
 
 #: main/data/menu_app.ui:16
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:421
 #: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Away"
-msgstr ""
+msgstr "بعيد"
 
 #: main/data/menu_app.ui:21
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:425
 #: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Busy"
-msgstr ""
+msgstr "مشغول"
 
 #: main/data/menu_app.ui:26
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:423
 #: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Not Available"
-msgstr ""
+msgstr "غير متاح"
 
 #: main/data/menu_app.ui:34
 msgid "Preferences"
@@ -206,9 +202,8 @@ msgid "Keyboard Shortcuts"
 msgstr "اختصارات لوحة المفاتيح"
 
 #: main/data/menu_app.ui:42 main/src/ui/application.vala:334
-#, fuzzy
 msgid "About DinoX"
-msgstr "عَنْ Dino"
+msgstr "حول DinoX"
 
 #: main/data/menu_conversation.ui:7
 msgid "Contact Details"
@@ -218,9 +213,8 @@ msgstr "تفاصيل المُراسل"
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:513
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:565
 #: main/src/ui/conversation_titlebar/menu_entry.vala:84
-#, fuzzy
 msgid "Delete Conversation History"
-msgstr "أغلِق المحادثة"
+msgstr "حذف سجل المحادثات"
 
 #: main/data/message_item_widget_edit_mode.ui:46
 #: main/data/preferences_window/change_password_dialog.ui:18
@@ -276,19 +270,19 @@ msgstr "حالة الاتصال"
 # Custom host/port feature (Issue #115)
 #: main/data/preferences_window/account_preferences_subpage.ui:121
 msgid "Advanced Settings"
-msgstr ""
+msgstr "الإعدادات المتقدمة"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:122
 msgid "Custom server connection (leave empty for automatic)"
-msgstr ""
+msgstr "اتصال خادم مخصص (اتركه فارغًا للتلقائي)"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:125
 msgid "Server Hostname"
-msgstr ""
+msgstr "اسم المضيف للخادم"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:130
 msgid "Port"
-msgstr ""
+msgstr "المنفذ"
 
 #: main/data/preferences_window/change_password_dialog.ui:61
 msgid "Current password"
@@ -320,49 +314,48 @@ msgstr "نبِّه عند تلقي رسالة جديدة"
 
 #: main/data/preferences_window/general_preferences_page.ui:32
 msgid "_Keep Running in Background"
-msgstr ""
+msgstr "_البقاء قيد التشغيل في الخلفية"
 
 #: main/data/preferences_window/general_preferences_page.ui:33
 msgid ""
 "Continue running after closing window to receive notifications immediately"
-msgstr ""
+msgstr "استمر في التشغيل بعد إغلاق النافذة لتلقي الإشعارات فورًا"
 
 #: main/data/preferences_window/general_preferences_page.ui:41
 msgid "Appearance"
-msgstr ""
+msgstr "المظهر"
 
 #: main/data/preferences_window/general_preferences_page.ui:44
 msgid "_Color Scheme"
-msgstr ""
+msgstr "_نظام الألوان"
 
 #: main/data/preferences_window/general_preferences_page.ui:45
 msgid "Choose between light and dark appearance"
-msgstr ""
+msgstr "اختر بين المظهر الفاتح والداكن"
 
 #: main/data/preferences_window/general_preferences_page.ui:55
 msgid "_Convert Smileys to Emoji"
 msgstr "حوّل الا_بتسامات إلى إيموجيات"
 
 #: main/data/preferences_window/general_preferences_page.ui:63
-#, fuzzy
 msgid "User Data"
-msgstr "مستخدِم"
+msgstr "بيانات المستخدم"
 
 #: main/data/preferences_window/general_preferences_page.ui:66
 msgid "Backup User Data"
-msgstr ""
+msgstr "نسخ احتياطي للبيانات"
 
 #: main/data/preferences_window/general_preferences_page.ui:67
 msgid "Create a backup of your accounts, messages and settings"
-msgstr ""
+msgstr "إنشاء نسخة احتياطية من حساباتك ورسائلك وإعداداتك"
 
 #: main/data/preferences_window/general_preferences_page.ui:78
 msgid "Data Location"
-msgstr ""
+msgstr "موقع البيانات"
 
 #: main/data/preferences_window/general_preferences_page.ui:79
 msgid "View where your data is stored"
-msgstr ""
+msgstr "عرض مكان تخزين بياناتك"
 
 #: main/data/preferences_window/preferences_dialog.ui:11
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:15
@@ -373,9 +366,8 @@ msgstr "الحسابات"
 #: main/data/preferences_window/preferences_dialog.ui:18
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:17
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:67
-#, fuzzy
 msgid "Contacts"
-msgstr "أضف مُراسِلًا"
+msgstr "جهات الاتصال"
 
 #: main/data/preferences_window/preferences_dialog.ui:25
 #: main/src/windows/conversation_details.vala:281
@@ -446,7 +438,7 @@ msgstr "العنوان غير صالح"
 
 #: main/src/ui/add_conversation/select_contact_dialog.vala:70
 msgid "Search or enter contact address..."
-msgstr ""
+msgstr "البحث أو إدخال عنوان جهة الاتصال..."
 
 #: main/src/ui/add_conversation/select_contact_dialog.vala:107
 msgid "Start"
@@ -454,12 +446,11 @@ msgstr "ابدأ"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:154
 msgid "Browse Rooms"
-msgstr ""
+msgstr "تصفح الغرف"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:157
-#, fuzzy
 msgid "Browse Contacts"
-msgstr "أضف مُراسِلًا"
+msgstr "تصفح جهات الاتصال"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:202
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:70
@@ -467,90 +458,88 @@ msgid "Add Contact"
 msgstr "أضف مُراسِلًا"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:203
-#, fuzzy
 msgid "Delete Contact"
-msgstr "أضف مُراسِلًا"
+msgstr "حذف جهة الاتصال"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:206
 #: main/src/ui/add_conversation/select_jid_fragment.vala:216
 msgid "Leave Group"
-msgstr ""
+msgstr "مغادرة المجموعة"
 
 #: main/src/ui/application.vala:339
 msgid "Modern XMPP client with extended features"
-msgstr ""
+msgstr "عميل XMPP حديث مع ميزات موسعة"
 
 #: main/src/ui/application.vala:346 main/src/ui/application.vala:385
 msgid "User Data Locations"
-msgstr ""
+msgstr "مواقع البيانات"
 
 #: main/src/ui/application.vala:349 main/src/ui/application.vala:399
-#, fuzzy
 msgid "Configuration:"
-msgstr "ضبط الغرفة"
+msgstr "الإعدادات:"
 
 #: main/src/ui/application.vala:352 main/src/ui/application.vala:401
 msgid "Data & Database:"
-msgstr ""
+msgstr "البيانات وقاعدة البيانات:"
 
 #: main/src/ui/application.vala:355 main/src/ui/application.vala:403
 msgid "Cache:"
-msgstr ""
+msgstr "الذاكرة المؤقتة:"
 
 #: main/src/ui/application.vala:358
 msgid "Info:"
-msgstr ""
+msgstr "معلومات:"
 
 #: main/src/ui/application.vala:359
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
-msgstr ""
+msgstr "يتم تخزين بياناتك الشخصية (الحسابات والرسائل والملفات) بشكل منفصل عن التطبيق."
 
 #: main/src/ui/application.vala:361
 msgid "When you update DinoX, your data remains intact."
-msgstr ""
+msgstr "عند تحديث DinoX، تبقى بياناتك سليمة."
 
 #: main/src/ui/application.vala:363
 msgid "Use Settings → General → Backup User Data to create a backup."
-msgstr ""
+msgstr "استخدم الإعدادات ← عام ← نسخ احتياطي لبيانات المستخدم لإنشاء نسخة احتياطية."
 
 #: main/src/ui/application.vala:405
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
-msgstr ""
+msgstr "يتم تخزين بياناتك الشخصية (الحسابات والرسائل والملفات) بشكل منفصل عن التطبيق. عند تحديث DinoX، تظل بياناتك سليمة."
 
 #: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
 #: main/src/ui/main_window.vala:159
 msgid "Close"
-msgstr ""
+msgstr "إغلاق"
 
 #: main/src/ui/application.vala:417
 msgid "Select Backup Location"
-msgstr ""
+msgstr "اختر موقع النسخ الاحتياطي"
 
 #: main/src/ui/application.vala:445
 msgid "Creating backup..."
-msgstr ""
+msgstr "...جاري إنشاء النسخة الاحتياطية"
 
 #: main/src/ui/application.vala:503
 #, c-format
 msgid "Backup created successfully (%s)"
-msgstr ""
+msgstr "تم إنشاء النسخة الاحتياطية بنجاح (%s)"
 
 #: main/src/ui/application.vala:505
 msgid "Backup created successfully"
-msgstr ""
+msgstr "تم إنشاء النسخة الاحتياطية بنجاح"
 
 #: main/src/ui/application.vala:510
 msgid "Unknown error"
-msgstr ""
+msgstr "خطأ غير معروف"
 
 #: main/src/ui/application.vala:511
 #, c-format
 msgid "Backup failed: %s"
-msgstr ""
+msgstr "فشل النسخ الاحتياطي: %s"
 
 #: main/src/ui/call_window/audio_settings_popover.vala:29
 msgid "Microphones"
@@ -848,9 +837,8 @@ msgid "Just now"
 msgstr "الآن"
 
 #: main/src/ui/conversation_content_view/conversation_view.vala:105
-#, fuzzy
 msgid "More actions"
-msgstr "أضِف رد فعل"
+msgstr "المزيد من الإجراءات"
 
 #: main/src/ui/conversation_content_view/file_default_widget.vala:67
 #: main/src/ui/conversation_content_view/file_image_widget.vala:42
@@ -897,14 +885,12 @@ msgid "File transfer failed"
 msgstr "فشل نقل الملف"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:36
-#, fuzzy
 msgid "Kick user"
-msgstr "احظر المستخدم"
+msgstr "طرد المستخدم"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:69
-#, fuzzy
 msgid "Ban user"
-msgstr "احظر المستخدم"
+msgstr "حظر المستخدم"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:82
 #: main/src/ui/conversation_content_view/reactions_widget.vala:128
@@ -924,32 +910,29 @@ msgid "This conversation does not support replies."
 msgstr "لا تدعم هذه المحادثة الردود."
 
 #: main/src/ui/conversation_content_view/item_actions.vala:146
-#, fuzzy
 msgid "Moderate message..."
-msgstr "حَدِّث الرسالة"
+msgstr "إدارة الرسالة…"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:148
 msgid "Delete..."
-msgstr ""
+msgstr "...حذف"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:150
 #: main/src/ui/conversation_content_view/item_actions.vala:168
 msgid "Delete locally"
-msgstr ""
+msgstr "حذف محلياً"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:160
-#, fuzzy
 msgid "Moderate message"
-msgstr "حَدِّث الرسالة"
+msgstr "إدارة الرسالة"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:160
-#, fuzzy
 msgid "Delete message"
-msgstr "حَدِّث الرسالة"
+msgstr "حذف الرسالة"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:164
 msgid "Do you want to remove this message from the channel?"
-msgstr ""
+msgstr "هل تريد إزالة هذه الرسالة من القناة؟"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:165
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:745
@@ -960,17 +943,16 @@ msgstr "أزِل"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:167
 msgid "Do you want to delete this message just for yourself or for everyone?"
-msgstr ""
+msgstr "هل تريد حذف هذه الرسالة لنفسك فقط أم للجميع؟"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:168
 msgid "Delete for everyone"
-msgstr ""
+msgstr "حذف للجميع"
 
 #: main/src/ui/conversation_content_view/message_widget.vala:174
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:255
-#, fuzzy
 msgid "Message deleted"
-msgstr "إدارة التأريخ"
+msgstr "تم حذف الرسالة"
 
 #: main/src/ui/conversation_content_view/message_widget.vala:178
 msgid "edited"
@@ -978,7 +960,7 @@ msgstr "مُعَدَّلة"
 
 #: main/src/ui/conversation_content_view/message_widget.vala:182
 msgid "Message truncated - exceeds 100,000 characters"
-msgstr ""
+msgstr "تم اقتطاع الرسالة - تتجاوز 100000 حرف"
 
 #: main/src/ui/conversation_content_view/message_widget.vala:191
 msgid "pending…"
@@ -1040,36 +1022,34 @@ msgid "Permissions"
 msgstr "التصريحات"
 
 #: main/src/ui/conversation_details.vala:223
-#, fuzzy
 msgid "Manage Affiliations"
-msgstr "أدِر الحسابات"
+msgstr "إدارة العضويات"
 
 #: main/src/ui/conversation_details.vala:239
 msgid "Danger Zone"
-msgstr ""
+msgstr "منطقة خطرة"
 
 #: main/src/ui/conversation_details.vala:240
 msgid "Destroy Room"
-msgstr ""
+msgstr "تدمير الغرفة"
 
 #: main/src/ui/conversation_details.vala:246
 msgid "Destroy Room?"
-msgstr ""
+msgstr "تدمير الغرفة؟"
 
 #: main/src/ui/conversation_details.vala:247
 msgid ""
 "Are you sure you want to permanently destroy this room? This action cannot "
 "be undone and all history will be lost for all participants."
-msgstr ""
+msgstr "هل أنت متأكد من أنك تريد تدمير هذه الغرفة نهائيًا؟ لا يمكن التراجع عن هذا الإجراء وسيتم فقدان كل السجل لجميع المشاركين."
 
 #: main/src/ui/conversation_details.vala:250
 msgid "Destroy"
-msgstr ""
+msgstr "تدمير"
 
 #: main/src/ui/conversation_details.vala:271
-#, fuzzy
 msgid "Failed to destroy room"
-msgstr "لا تصريح لإنشاء غرفة"
+msgstr "فشل في حذف الغرفة"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:276
 #: main/src/ui/notifier_freedesktop.vala:71
@@ -1097,19 +1077,19 @@ msgstr "استُلِم ملف"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:361
 msgid "Thema:"
-msgstr ""
+msgstr "الموضوع:"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:381
 msgid "Privat"
-msgstr ""
+msgstr "خاص"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:383
 msgid "Öffentlich"
-msgstr ""
+msgstr "عام"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:387
 msgid "Typ:"
-msgstr ""
+msgstr "النوع:"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:483
 #: main/src/ui/widgets/date_separator.vala:37
@@ -1131,9 +1111,8 @@ msgstr "تفاصيل المحادثة"
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:507
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:771
 #: main/src/ui/conversation_titlebar/menu_entry.vala:98
-#, fuzzy
 msgid "Invite Contact"
-msgstr "ادعُ إلى المؤتمر"
+msgstr "دعوة جهة اتصال"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:511
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:559
@@ -1142,7 +1121,7 @@ msgstr "ادعُ إلى المؤتمر"
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:140
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:206
 msgid "Unmute"
-msgstr ""
+msgstr "إلغاء الكتم"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:511
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:559
@@ -1157,14 +1136,13 @@ msgstr "اكتم"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:514
 msgid "Leave and Close"
-msgstr ""
+msgstr "مغادرة وإغلاق"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:555
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:623
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:126
-#, fuzzy
 msgid "Edit Alias"
-msgstr "الكنية"
+msgstr "تعديل الاسم المستعار"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:563
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:705
@@ -1192,54 +1170,52 @@ msgstr "حفظ"
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:657
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:202
 msgid "Unmute contact?"
-msgstr ""
+msgstr "إلغاء كتم جهة الاتصال؟"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:658
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:203
 #, c-format
 msgid "This will enable notifications from %s."
-msgstr ""
+msgstr "سيؤدي هذا إلى تفعيل الإشعارات من %s."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:676
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:222
 msgid "Mute contact?"
-msgstr ""
+msgstr "كتم جهة الاتصال؟"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:677
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:223
 #, c-format
 msgid "This will disable notifications from %s."
-msgstr ""
+msgstr "سيؤدي هذا إلى تعطيل الإشعارات من %s."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:701
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:246
-#, fuzzy
 msgid "Unblock contact?"
-msgstr "ألغِ الحظر"
+msgstr "إلغاء حظر جهة الاتصال؟"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:702
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:247
-#, fuzzy, c-format
+# c-format
 msgid "This will allow %s to send you messages again."
-msgstr "هذا المؤتمر لا يسمح لك بإرسال الرسائل."
+msgstr "سيسمح هذا لـ %s بإرسال رسائل إليك مرة أخرى."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:720
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:266
 msgid "Block contact?"
-msgstr ""
+msgstr "حظر جهة الاتصال؟"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:721
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:267
 #, c-format
 msgid "This will prevent %s from sending you messages."
-msgstr ""
+msgstr "سيمنع هذا %s من إرسال رسائل إليك."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:741
 #: main/src/windows/conversation_details.vala:57
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:288
-#, fuzzy
 msgid "Remove contact?"
-msgstr "أزِل الحساب"
+msgstr "إزالة جهة الاتصال؟"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:742
 #, c-format
@@ -1249,23 +1225,22 @@ msgid ""
 "• Remove %s from your contact list\n"
 "\n"
 "This action cannot be undone."
-msgstr ""
+msgstr "سيؤدي هذا إلى:\n• حذف كل سجل المحادثات\n• إزالة %s من قائمة جهات الاتصال الخاصة بك\n\nلا يمكن التراجع عن هذا الإجراء."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:787
-#, fuzzy
 msgid "Delete all message history?"
-msgstr "إدارة التأريخ"
+msgstr "حذف كل سجل الرسائل؟"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:788
 msgid ""
 "This will permanently delete all messages in this conversation. This action "
 "cannot be undone."
-msgstr ""
+msgstr "سيؤدي هذا إلى حذف جميع الرسائل في هذه المحادثة نهائيًا. لا يمكن التراجع عن هذا الإجراء."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:791
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
 msgid "Delete"
-msgstr ""
+msgstr "حذف"
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:14
 msgid "Start call"
@@ -1281,26 +1256,25 @@ msgstr "مكالمة مرئية"
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:79
 msgid "Conference Server Required"
-msgstr ""
+msgstr "مطلوب خادم المؤتمرات"
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:80
 msgid ""
 "To start a group call, you need to configure a default conference server in "
 "your account settings."
-msgstr ""
+msgstr "لبدء مكالمة جماعية، تحتاج إلى تكوين خادم مؤتمرات افتراضي في إعدادات حسابك."
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:84
-#, fuzzy
 msgid "Open Settings"
-msgstr "الإعدادات"
+msgstr "فتح الإعدادات"
 
 #: main/src/ui/conversation_titlebar/menu_entry.vala:47
 msgid "Delete all message history for this conversation?"
-msgstr ""
+msgstr "حذف كل سجل الرسائل لهذه المحادثة؟"
 
 #: main/src/ui/conversation_titlebar/menu_entry.vala:49
 msgid "This action cannot be undone."
-msgstr ""
+msgstr "لا يمكن التراجع عن هذا الإجراء."
 
 #: main/src/ui/conversation_titlebar/menu_entry.vala:85
 msgid "Close Conversation"
@@ -1335,9 +1309,8 @@ msgid "With %s"
 msgstr "مع %s"
 
 #: main/src/ui/main_window.vala:156
-#, fuzzy
 msgid "Join Channel Help"
-msgstr "انضم إلى قناة"
+msgstr "مساعدة الانضمام للقناة"
 
 #: main/src/ui/main_window.vala:157
 msgid ""
@@ -1346,12 +1319,11 @@ msgid ""
 "\n"
 "If you need a password or a nickname, provide them in the dialog. Use the "
 "discovery features in the server to find public rooms."
-msgstr ""
+msgstr "للانضمام إلى قناة، انقر على زر \"الانضمام إلى القناة\" وأدخل معرف JID الخاص بالقناة (مثال: room@conference.example.org).\n\nإذا كنت بحاجة إلى كلمة مرور أو اسم مستعار، قم بتوفيرها في مربع الحوار. استخدم ميزات الاكتشاف في الخادم للعثور على الغرف العامة."
 
 #: main/src/ui/main_window.vala:206
-#, fuzzy
 msgid "Welcome to DinoX!"
-msgstr "مرحبًا بكم في Dino!"
+msgstr "مرحباً بك في DinoX!"
 
 #: main/src/ui/main_window.vala:207
 msgid "Sign in or create an account to get started."
@@ -1434,20 +1406,17 @@ msgstr "ابدأ محادثة خاصة"
 
 #: main/src/ui/occupant_menu/view.vala:125
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:157
-#, fuzzy
 msgid "Unblock Contact"
-msgstr "ألغِ الحظر"
+msgstr "إلغاء حظر جهة الاتصال"
 
 #: main/src/ui/occupant_menu/view.vala:127
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:157
-#, fuzzy
 msgid "Block Contact"
-msgstr "أضف مُراسِلًا"
+msgstr "حظر جهة الاتصال"
 
 #: main/src/ui/occupant_menu/view.vala:133
-#, fuzzy
 msgid "Moderation"
-msgstr "تحت الإشراف"
+msgstr "الإشراف"
 
 #: main/src/ui/occupant_menu/view.vala:135
 msgid "Kick"
@@ -1455,52 +1424,47 @@ msgstr "اطرد"
 
 #: main/src/ui/occupant_menu/view.vala:139
 msgid "Ban (Permanent)"
-msgstr ""
+msgstr "حظر (دائم)"
 
 #: main/src/ui/occupant_menu/view.vala:140
 msgid "Ban (10 min)"
-msgstr ""
+msgstr "حظر (10 دقائق)"
 
 #: main/src/ui/occupant_menu/view.vala:141
 msgid "Ban (15 min)"
-msgstr ""
+msgstr "حظر (15 دقيقة)"
 
 #: main/src/ui/occupant_menu/view.vala:142
 msgid "Ban (30 min)"
-msgstr ""
+msgstr "حظر (30 دقيقة)"
 
 #: main/src/ui/occupant_menu/view.vala:146
-#, fuzzy
 msgid "Administration"
-msgstr "التسجيلات مفتوحة"
+msgstr "الإدارة"
 
 #: main/src/ui/occupant_menu/view.vala:150
-#, fuzzy
 msgid "Make Admin"
-msgstr "مدير"
+msgstr "جعله مشرفاً"
 
 #: main/src/ui/occupant_menu/view.vala:152
 msgid "Revoke Admin"
-msgstr ""
+msgstr "إلغاء صلاحيات المشرف"
 
 #: main/src/ui/occupant_menu/view.vala:156
-#, fuzzy
 msgid "Make Owner"
-msgstr "مالك"
+msgstr "جعله مالكاً"
 
 #: main/src/ui/occupant_menu/view.vala:161
-#, fuzzy
 msgid "Make Member"
-msgstr "عضو"
+msgstr "جعله عضواً"
 
 #: main/src/ui/occupant_menu/view.vala:163
-#, fuzzy
 msgid "Revoke Membership"
-msgstr "أبطِل تصريح الكتابة"
+msgstr "إلغاء العضوية"
 
 #: main/src/ui/occupant_menu/view.vala:228
 msgid "Kicked by moderator"
-msgstr ""
+msgstr "تم طرده من المشرف"
 
 #: main/src/ui/occupant_menu/view.vala:275
 msgid "Invite to Conference"
@@ -1513,17 +1477,15 @@ msgstr "الخروج"
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
 "A friendly name shown in room listings (does not change the room address)"
-msgstr ""
+msgstr "اسم ودي يظهر في قوائم الغرف (لا يغير عنوان الغرفة)"
 
 #: main/src/ui/util/data_forms.vala:44
-#, fuzzy
 msgid "Description"
-msgstr "التعمية"
+msgstr "الوصف"
 
 #: main/src/ui/util/data_forms.vala:45
-#, fuzzy
 msgid "A description of the room shown in room listings"
-msgstr "وصف الغرفة"
+msgstr "وصف للغرفة يظهر في قوائم الغرف"
 
 #: main/src/ui/util/data_forms.vala:48
 msgid "Persistent"
@@ -1539,7 +1501,7 @@ msgstr "البحث للعلن"
 
 #: main/src/ui/util/data_forms.vala:53
 msgid "The room will appear in public room listings"
-msgstr ""
+msgstr "ستظهر الغرفة في قوائم الغرف العامة"
 
 #: main/src/ui/util/data_forms.vala:56
 msgid "Occupants may change the subject"
@@ -1569,7 +1531,7 @@ msgstr "الأعضاء فقط"
 msgid ""
 "Only members may enter the room. Warning: Non-members will be removed when "
 "enabled!"
-msgstr ""
+msgstr "يمكن للأعضاء فقط الدخول إلى الغرفة. تحذير: سيتم إزالة غير الأعضاء عند التفعيل!"
 
 #: main/src/ui/util/helper.vala:65
 #, c-format
@@ -1589,7 +1551,7 @@ msgstr "%A، %Od %b"
 msgid ""
 "This contact will be removed from your contact list and all conversation "
 "history will be permanently deleted."
-msgstr ""
+msgstr "ستتم إزالة جهة الاتصال هذه من قائمة جهات الاتصال الخاصة بك وسيتم حذف كل سجل المحادثات نهائياً."
 
 #: main/src/windows/conversation_details.vala:108
 msgid "Block user"
@@ -1751,34 +1713,32 @@ msgid "Check %s for information on how to sign up"
 msgstr "طالِع %s للمزيد من المعلومات حول التسجيل"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:192
-#, fuzzy
 msgid "No contacts"
-msgstr "أضف مُراسِلًا"
+msgstr "لا توجد جهات اتصال"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:193
 msgid "Add contacts to start chatting"
-msgstr ""
+msgstr "أضف جهات اتصال لبدء المحادثة"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:289
 #, c-format
 msgid ""
 "This will remove %s from your contact list and delete all conversation "
 "history."
-msgstr ""
+msgstr "سيؤدي هذا إلى إزالة %s من قائمة جهات الاتصال الخاصة بك وحذف كل سجل المحادثات."
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:318
-#, fuzzy
 msgid "Edit Contact Alias"
-msgstr "أضف مُراسِلًا"
+msgstr "تعديل اسم جهة الاتصال المستعار"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:319
 #, c-format
 msgid "Change the display name for %s"
-msgstr ""
+msgstr "تغيير اسم العرض لـ %s"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:325
 msgid "Alias (optional)"
-msgstr ""
+msgstr "الاسم المستعار (اختياري)"
 
 #~ msgid "Message too long"
 #~ msgstr "الرسالة طويلة جدًا"

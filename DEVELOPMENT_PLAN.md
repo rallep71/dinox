@@ -2,7 +2,7 @@
 
 > **Fork Status**: Modern XMPP client - Independent development branch of [dino/dino](https://github.com/dino/dino)  
 > **Last Updated**: November 28, 2025
-> **Version**: 0.6.9
+> **Version**: 0.7
 > **Original Repository**: https://github.com/dino/dino (572 open issues)
 
 ---
@@ -36,7 +36,7 @@ DinoX addresses the slow development pace of the original Dino XMPP client while
 
 | Metric | Status | Details |
 |--------|--------|---------||
-| **Version** | [OK] **v0.6.9** | Latest stable release |
+| **Version** | [OK] **v0.7** | Latest stable release |
 | **XEPs Implemented** | [OK] **67** | One of most compliant XMPP clients |
 | **Database Schema** | [OK] **v32** | Custom server + history clear + background mode |
 | **Build Status** | [OK] **Clean** | 0 compiler warnings, 0 errors, 541 targets |

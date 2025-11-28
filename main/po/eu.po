@@ -19,27 +19,25 @@ msgstr ""
 "X-Generator: Weblate 4.15-dev\n"
 
 #: main/data/add_conversation/add_groupchat_dialog.ui:80
-#, fuzzy
 msgid "Add MUC"
-msgstr "Berriketa gehitu"
+msgstr "MUC gehitu"
 
 #: main/data/add_conversation/add_groupchat_dialog.ui:90
 msgid "Insert a Name for MUC..."
-msgstr ""
+msgstr "Sartu gelaren izena..."
 
 #: main/data/add_conversation/select_jid_fragment.ui:20
 msgid "Search or enter channel address..."
-msgstr ""
+msgstr "Bilatu edo sartu kanalaren helbidea..."
 
 #: main/data/add_conversation/select_jid_fragment.ui:67
 #: main/src/ui/add_conversation/select_jid_fragment.vala:205
-#, fuzzy
 msgid "Add Group"
-msgstr "Kontua gehitu"
+msgstr "Gehitu taldea"
 
 #: main/data/add_conversation/select_jid_fragment.ui:88
 msgid "Delete Group"
-msgstr ""
+msgstr "Ezabatu taldea"
 
 #: main/data/call_widget.ui:73 main/src/ui/notifier_freedesktop.vala:125
 #: main/src/ui/notifier_freedesktop.vala:230
@@ -61,41 +59,38 @@ msgid "Accept"
 msgstr "Onartu"
 
 #: main/data/chat_input.ui:63
-#, fuzzy
 msgid "Record voice message"
-msgstr "Mezuak bilatu"
+msgstr "Ahots mezua grabatu"
 
 #: main/data/chat_input.ui:77
-#, fuzzy
 msgid "Send message"
-msgstr "Mezu marka bidali"
+msgstr "Mezua bidali"
 
 #: main/data/conversation_details.ui:145
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:566
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:175
-#, fuzzy
 msgid "Remove Contact"
-msgstr "Kontaktua gehitu"
+msgstr "Kontaktua kendu"
 
 #: main/data/conversation_details.ui:171
 #: main/src/windows/conversation_details.vala:231
 msgid "About"
-msgstr ""
+msgstr "Honi buruz"
 
 #: main/data/conversation_row.ui:56
 msgid "Private room (supports group calls)"
-msgstr ""
+msgstr "Gela pribatua (talde-deiak onartzen ditu)"
 
 #: main/data/conversation_row.ui:135
 #: main/src/windows/conversation_details.vala:171
 #: main/src/windows/conversation_details.vala:172
 msgid "Muted"
-msgstr ""
+msgstr "Isilduta"
 
 #: main/data/conversation_row.ui:146
 #: main/src/windows/conversation_details.vala:136
 msgid "Blocked"
-msgstr ""
+msgstr "Blokeatuta"
 
 #: main/data/gtk/help-overlay.ui:10
 #: main/data/preferences_window/preferences_dialog.ui:32
@@ -118,11 +113,11 @@ msgstr "Kanalera gehitu"
 
 #: main/data/gtk/help-overlay.ui:26
 msgid "Show preferences"
-msgstr ""
+msgstr "Erakutsi hobespenak"
 
 #: main/data/gtk/help-overlay.ui:32
 msgid "Keyboard shortcuts"
-msgstr ""
+msgstr "Teklatuko lasterbideak"
 
 #: main/data/gtk/help-overlay.ui:39
 msgid "Conversation"
@@ -139,7 +134,7 @@ msgstr "Fitxategi bat bidali"
 
 #: main/data/gtk/help-overlay.ui:55
 msgid "Close conversation"
-msgstr ""
+msgstr "Itxi elkarrizketa"
 
 #: main/data/gtk/help-overlay.ui:62
 msgid "Navigation"
@@ -155,7 +150,7 @@ msgstr "Jauzi aurreko elkarrizketara"
 
 #: main/data/main_window.ui:64 main/src/ui/main_window.vala:144
 msgid "Help: How to join channels"
-msgstr ""
+msgstr "Laguntza: Nola batu kanaletara"
 
 #: main/data/main_window.ui:118
 msgid "You have no open chats"
@@ -163,39 +158,39 @@ msgstr "Ez duzu irekitako txatik"
 
 #: main/data/main_window.ui:119
 msgid "Click + to start a chat or join a channel"
-msgstr ""
+msgstr "Egin klik +-n txata hasteko edo kanal batean sartzeko"
 
 #: main/data/menu_app.ui:6
 msgid "Status"
-msgstr ""
+msgstr "Egoera"
 
 #: main/data/menu_app.ui:11
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:427
 #: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Online"
-msgstr ""
+msgstr "Linean"
 
 #: main/data/menu_app.ui:16
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:421
 #: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Away"
-msgstr ""
+msgstr "Kanpoan"
 
 #: main/data/menu_app.ui:21
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:425
 #: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Busy"
-msgstr ""
+msgstr "Lanpetuta"
 
 #: main/data/menu_app.ui:26
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:423
 #: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Not Available"
-msgstr ""
+msgstr "Ez dago eskuragarri"
 
 #: main/data/menu_app.ui:34
 msgid "Preferences"
@@ -206,9 +201,8 @@ msgid "Keyboard Shortcuts"
 msgstr "Laster-teklak"
 
 #: main/data/menu_app.ui:42 main/src/ui/application.vala:334
-#, fuzzy
 msgid "About DinoX"
-msgstr "Dinori buruz"
+msgstr "DinoX-ri buruz"
 
 #: main/data/menu_conversation.ui:7
 msgid "Contact Details"
@@ -218,9 +212,8 @@ msgstr "Kontaktuaren xehetasunak"
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:513
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:565
 #: main/src/ui/conversation_titlebar/menu_entry.vala:84
-#, fuzzy
 msgid "Delete Conversation History"
-msgstr "Elkarrizketa hasi"
+msgstr "Elkarrizketa historia ezabatu"
 
 #: main/data/message_item_widget_edit_mode.ui:46
 #: main/data/preferences_window/change_password_dialog.ui:18
@@ -258,7 +251,7 @@ msgstr "Mezua eguneratu"
 #: main/data/preferences_window/account_preferences_subpage.ui:68
 #: main/src/ui/conversation_details.vala:170
 msgid "XMPP Address"
-msgstr ""
+msgstr "XMPP helbidea"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:77
 msgid "Local alias"
@@ -271,48 +264,48 @@ msgstr "Pasahitza"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:104
 msgid "Connection status"
-msgstr ""
+msgstr "Konexio egoera"
 
 # Custom host/port feature (Issue #115)
 #: main/data/preferences_window/account_preferences_subpage.ui:121
 msgid "Advanced Settings"
-msgstr ""
+msgstr "Ezarpen aurreratuak"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:122
 msgid "Custom server connection (leave empty for automatic)"
-msgstr ""
+msgstr "Zerbitzari konexio pertsonalizatua (utzi hutsik automatikorako)"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:125
 msgid "Server Hostname"
-msgstr ""
+msgstr "Zerbitzariaren ostalari izena"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:130
 msgid "Port"
-msgstr ""
+msgstr "Ataka"
 
 #: main/data/preferences_window/change_password_dialog.ui:61
 msgid "Current password"
-msgstr ""
+msgstr "Uneko pasahitza"
 
 #: main/data/preferences_window/change_password_dialog.ui:66
 msgid "New password"
-msgstr ""
+msgstr "Pasahitz berria"
 
 #: main/data/preferences_window/change_password_dialog.ui:71
 msgid "Confirm password"
-msgstr ""
+msgstr "Berretsi pasahitza"
 
 #: main/data/preferences_window/general_preferences_page.ui:9
 msgid "Send _Typing Notifications"
-msgstr ""
+msgstr "Bidali _idazketa jakinarazpenak"
 
 #: main/data/preferences_window/general_preferences_page.ui:15
 msgid "Send _Read Receipts"
-msgstr ""
+msgstr "Bidali _irakurketa-agiria"
 
 #: main/data/preferences_window/general_preferences_page.ui:25
 msgid "_Notifications"
-msgstr ""
+msgstr "_Jakinarazpenak"
 
 #: main/data/preferences_window/general_preferences_page.ui:26
 msgid "Notify when a new message arrives"
@@ -320,49 +313,49 @@ msgstr "Mezu berri bat heltzerakoan jakinarazi"
 
 #: main/data/preferences_window/general_preferences_page.ui:32
 msgid "_Keep Running in Background"
-msgstr ""
+msgstr "_Atzeko planoan mantendu"
 
 #: main/data/preferences_window/general_preferences_page.ui:33
 msgid ""
 "Continue running after closing window to receive notifications immediately"
-msgstr ""
+msgstr "Jarraitu exekutatzen leihoa itxi ondoren jakinarazpenak berehala jasotzeko"
+"Exekutatzen jarraitu leihoa itxi ondoren jakinarazpenak berehala jasotzeko"
 
 #: main/data/preferences_window/general_preferences_page.ui:41
 msgid "Appearance"
-msgstr ""
+msgstr "Itxura"
 
 #: main/data/preferences_window/general_preferences_page.ui:44
 msgid "_Color Scheme"
-msgstr ""
+msgstr "_Kolore-eskema"
 
 #: main/data/preferences_window/general_preferences_page.ui:45
 msgid "Choose between light and dark appearance"
-msgstr ""
+msgstr "Aukeratu itxura argia edo iluna"
 
 #: main/data/preferences_window/general_preferences_page.ui:55
 msgid "_Convert Smileys to Emoji"
-msgstr ""
+msgstr "_Bihurtu irrifartxoak emoji-ra"
 
 #: main/data/preferences_window/general_preferences_page.ui:63
-#, fuzzy
 msgid "User Data"
-msgstr "Erabiltzailea"
+msgstr "Erabiltzailearen datuak"
 
 #: main/data/preferences_window/general_preferences_page.ui:66
 msgid "Backup User Data"
-msgstr ""
+msgstr "Datuen babeskopia"
 
 #: main/data/preferences_window/general_preferences_page.ui:67
 msgid "Create a backup of your accounts, messages and settings"
-msgstr ""
+msgstr "Sortu kontuen, mezuen eta ezarpenen babeskopia"
 
 #: main/data/preferences_window/general_preferences_page.ui:78
 msgid "Data Location"
-msgstr ""
+msgstr "Datuen kokapena"
 
 #: main/data/preferences_window/general_preferences_page.ui:79
 msgid "View where your data is stored"
-msgstr ""
+msgstr "Ikusi non gordetzen diren zure datuak"
 
 #: main/data/preferences_window/preferences_dialog.ui:11
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:15
@@ -373,14 +366,13 @@ msgstr "Kontuak"
 #: main/data/preferences_window/preferences_dialog.ui:18
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:17
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:67
-#, fuzzy
 msgid "Contacts"
-msgstr "Kontaktua gehitu"
+msgstr "Kontaktuak"
 
 #: main/data/preferences_window/preferences_dialog.ui:25
 #: main/src/windows/conversation_details.vala:281
 msgid "Encryption"
-msgstr ""
+msgstr "Zifratzea"
 
 #: main/src/ui/add_conversation/add_conference_dialog.vala:44
 msgid "Next"
@@ -446,7 +438,7 @@ msgstr "Helbide ez balioduna"
 
 #: main/src/ui/add_conversation/select_contact_dialog.vala:70
 msgid "Search or enter contact address..."
-msgstr ""
+msgstr "Bilatu edo sartu kontaktuaren helbidea..."
 
 #: main/src/ui/add_conversation/select_contact_dialog.vala:107
 msgid "Start"
@@ -454,12 +446,11 @@ msgstr "Hasi"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:154
 msgid "Browse Rooms"
-msgstr ""
+msgstr "Arakatu gelak"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:157
-#, fuzzy
 msgid "Browse Contacts"
-msgstr "Kontaktua gehitu"
+msgstr "Kontaktuak arakatu"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:202
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:70
@@ -467,90 +458,90 @@ msgid "Add Contact"
 msgstr "Kontaktua gehitu"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:203
-#, fuzzy
 msgid "Delete Contact"
-msgstr "Kontaktua gehitu"
+msgstr "Kontaktua ezabatu"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:206
 #: main/src/ui/add_conversation/select_jid_fragment.vala:216
 msgid "Leave Group"
-msgstr ""
+msgstr "Utzi taldea"
 
 #: main/src/ui/application.vala:339
 msgid "Modern XMPP client with extended features"
-msgstr ""
+msgstr "XMPP bezero modernoa funtzio hedatuekin"
 
 #: main/src/ui/application.vala:346 main/src/ui/application.vala:385
 msgid "User Data Locations"
-msgstr ""
+msgstr "Datuen kokapena"
 
 #: main/src/ui/application.vala:349 main/src/ui/application.vala:399
-#, fuzzy
 msgid "Configuration:"
-msgstr "Gelaren konfigurazioa"
+msgstr "Konfigurazioa:"
 
 #: main/src/ui/application.vala:352 main/src/ui/application.vala:401
 msgid "Data & Database:"
-msgstr ""
+msgstr "Datuak eta datu-basea:"
 
 #: main/src/ui/application.vala:355 main/src/ui/application.vala:403
 msgid "Cache:"
-msgstr ""
+msgstr "Cache:"
 
 #: main/src/ui/application.vala:358
 msgid "Info:"
-msgstr ""
+msgstr "Informazioa:"
 
 #: main/src/ui/application.vala:359
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
-msgstr ""
+msgstr "Zure datu pertsonalak (kontuak, mezuak, fitxategiak) aplikaziotik bereizita gordetzen dira."
 
 #: main/src/ui/application.vala:361
 msgid "When you update DinoX, your data remains intact."
-msgstr ""
+msgstr "DinoX eguneratzean, zure datuak osorik geratzen dira."
 
 #: main/src/ui/application.vala:363
 msgid "Use Settings → General → Backup User Data to create a backup."
-msgstr ""
+msgstr "Erabili Ezarpenak → Orokorra → Erabiltzaile datuen babeskopia sortzeko."
 
 #: main/src/ui/application.vala:405
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
-msgstr ""
+msgstr "Zure datu pertsonalak (kontuak, mezuak, fitxategiak) aplikaziotik bereizita gordetzen dira. DinoX eguneratzen duzunean, zure datuak osoak mantentzen dira."
+"Zure datu pertsonalak (kontuak, mezuak, fitxategiak) aplikaziotik bereizita "
+"gordetzen dira. DinoX eguneratzen duzunean, zure datuak ukitu gabe geratzen dira."
 
 #: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
 #: main/src/ui/main_window.vala:159
 msgid "Close"
-msgstr ""
+msgstr "Itxi"
 
 #: main/src/ui/application.vala:417
 msgid "Select Backup Location"
-msgstr ""
+msgstr "Hautatu babeskopia kokapena"
 
 #: main/src/ui/application.vala:445
 msgid "Creating backup..."
-msgstr ""
+msgstr "Babeskopia sortzen..."
 
 #: main/src/ui/application.vala:503
 #, c-format
 msgid "Backup created successfully (%s)"
-msgstr ""
+msgstr "Babeskopia sortuta (%s)"
 
 #: main/src/ui/application.vala:505
 msgid "Backup created successfully"
-msgstr ""
+msgstr "Babeskopia sortuta"
 
 #: main/src/ui/application.vala:510
 msgid "Unknown error"
-msgstr ""
+msgstr "Errore ezezaguna"
 
 #: main/src/ui/application.vala:511
 #, c-format
 msgid "Backup failed: %s"
-msgstr ""
+msgstr "Babeskopia huts egin du: %s"
 
 #: main/src/ui/call_window/audio_settings_popover.vala:29
 msgid "Microphones"
@@ -802,11 +793,11 @@ msgstr "%s idazten ari da…"
 
 #: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:204
 msgid "Delivered"
-msgstr ""
+msgstr "Entregatuta"
 
 #: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:208
 msgid "Read"
-msgstr ""
+msgstr "Irakurrita"
 
 #: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:214
 msgid "Unable to send message"
@@ -848,9 +839,8 @@ msgid "Just now"
 msgstr "Orain"
 
 #: main/src/ui/conversation_content_view/conversation_view.vala:105
-#, fuzzy
 msgid "More actions"
-msgstr "Ez dago kontu aktiborik"
+msgstr "Ekintza gehiago"
 
 #: main/src/ui/conversation_content_view/file_default_widget.vala:67
 #: main/src/ui/conversation_content_view/file_image_widget.vala:42
@@ -866,7 +856,7 @@ msgstr "Gorde honela…"
 #: main/src/ui/conversation_content_view/file_default_widget.vala:77
 #, c-format
 msgid "Downloading %s… (%u%%)"
-msgstr ""
+msgstr "Deskargatzen %s… (%u%%)"
 
 #: main/src/ui/conversation_content_view/file_default_widget.vala:79
 #, c-format
@@ -876,7 +866,7 @@ msgstr "%s deskargatzen…"
 #: main/src/ui/conversation_content_view/file_default_widget.vala:83
 #, c-format
 msgid "Uploading %s… (%u%%)"
-msgstr ""
+msgstr "Igotzen %s… (%u%%)"
 
 #: main/src/ui/conversation_content_view/file_default_widget.vala:97
 #, c-format
@@ -897,58 +887,54 @@ msgid "File transfer failed"
 msgstr "Fitxategiaren transmisioak huts egin du"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:36
-#, fuzzy
 msgid "Kick user"
-msgstr "Kanporatu"
+msgstr "Erabiltzailea kanporatu"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:69
 msgid "Ban user"
-msgstr ""
+msgstr "Debekatu erabiltzailea"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:82
 #: main/src/ui/conversation_content_view/reactions_widget.vala:128
 msgid "Add reaction"
-msgstr ""
+msgstr "Gehitu erreakzioa"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:94
 msgid "This conversation does not support reactions."
-msgstr ""
+msgstr "Elkarrizketa honek ez ditu erreakzioak onartzen."
 
 #: main/src/ui/conversation_content_view/item_actions.vala:107
 msgid "Reply"
-msgstr ""
+msgstr "Erantzun"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:117
 msgid "This conversation does not support replies."
-msgstr ""
+msgstr "Elkarrizketa honek ez ditu erantzunak onartzen."
 
 #: main/src/ui/conversation_content_view/item_actions.vala:146
-#, fuzzy
 msgid "Moderate message..."
-msgstr "Mezua eguneratu"
+msgstr "Mezua moderatu…"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:148
 msgid "Delete..."
-msgstr ""
+msgstr "Ezabatu..."
 
 #: main/src/ui/conversation_content_view/item_actions.vala:150
 #: main/src/ui/conversation_content_view/item_actions.vala:168
 msgid "Delete locally"
-msgstr ""
+msgstr "Ezabatu lokalki"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:160
-#, fuzzy
 msgid "Moderate message"
-msgstr "Mezua eguneratu"
+msgstr "Mezua moderatu"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:160
-#, fuzzy
 msgid "Delete message"
-msgstr "Mezua eguneratu"
+msgstr "Mezua ezabatu"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:164
 msgid "Do you want to remove this message from the channel?"
-msgstr ""
+msgstr "Mezu hau kanaletik kendu nahi duzu?"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:165
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:745
@@ -959,17 +945,16 @@ msgstr "Kendu"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:167
 msgid "Do you want to delete this message just for yourself or for everyone?"
-msgstr ""
+msgstr "Mezu hau zuretzat bakarrik edo guztientzat ezabatu nahi duzu?"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:168
 msgid "Delete for everyone"
-msgstr ""
+msgstr "Ezabatu guztientzat"
 
 #: main/src/ui/conversation_content_view/message_widget.vala:174
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:255
-#, fuzzy
 msgid "Message deleted"
-msgstr "Mezuen historia"
+msgstr "Mezua ezabatuta"
 
 #: main/src/ui/conversation_content_view/message_widget.vala:178
 msgid "edited"
@@ -977,7 +962,7 @@ msgstr "editatuta"
 
 #: main/src/ui/conversation_content_view/message_widget.vala:182
 msgid "Message truncated - exceeds 100,000 characters"
-msgstr ""
+msgstr "Mezua moztuta - 100.000 karaktere gainditzen ditu"
 
 #: main/src/ui/conversation_content_view/message_widget.vala:191
 msgid "pending…"
@@ -989,7 +974,7 @@ msgstr "entregak huts egin du"
 
 #: main/src/ui/conversation_content_view/message_widget.vala:254
 msgid "Edit message"
-msgstr ""
+msgstr "Editatu mezua"
 
 #: main/src/ui/conversation_content_view/quote_widget.vala:43
 msgid "File"
@@ -997,15 +982,15 @@ msgstr "Fitxategia"
 
 #: main/src/ui/conversation_content_view/reactions_widget.vala:102
 msgid "You"
-msgstr ""
+msgstr "Zu"
 
 #: main/src/ui/conversation_content_view/subscription_notification.vala:49
 msgid "Send request"
-msgstr ""
+msgstr "Bidali eskaera"
 
 #: main/src/ui/conversation_content_view/subscription_notification.vala:60
 msgid "You do not receive status updates from this contact yet."
-msgstr ""
+msgstr "Oraindik ez duzu kontaktu honen egoera eguneraketarik jasotzen."
 
 #: main/src/ui/conversation_content_view/subscription_notification.vala:68
 #: main/src/ui/notifier_freedesktop.vala:164
@@ -1022,53 +1007,53 @@ msgstr "Kontaktu honek bere kontaktuen zerrendara gehitu nahi zaitu"
 
 #: main/src/ui/conversation_content_view/unread_indicator_populator.vala:76
 msgid "New"
-msgstr ""
+msgstr "Berria"
 
 #: main/src/ui/conversation_details.vala:175
 #: main/src/ui/util/data_forms.vala:40
 msgid "Display name"
-msgstr ""
+msgstr "Bistaratzeko izena"
 
 #: main/src/ui/conversation_details.vala:195
 #: main/src/ui/conversation_details.vala:209
 msgid "Topic"
-msgstr ""
+msgstr "Gaia"
 
 #: main/src/ui/conversation_details.vala:222
 msgid "Permissions"
 msgstr "Baimenak"
 
 #: main/src/ui/conversation_details.vala:223
-#, fuzzy
 msgid "Manage Affiliations"
-msgstr "Kontuak kudeatu"
+msgstr "Afiliazioak kudeatu"
 
 #: main/src/ui/conversation_details.vala:239
 msgid "Danger Zone"
-msgstr ""
+msgstr "Arrisku-eremua"
 
 #: main/src/ui/conversation_details.vala:240
 msgid "Destroy Room"
-msgstr ""
+msgstr "Suntsitu gela"
 
 #: main/src/ui/conversation_details.vala:246
 msgid "Destroy Room?"
-msgstr ""
+msgstr "Suntsitu gela?"
 
 #: main/src/ui/conversation_details.vala:247
 msgid ""
 "Are you sure you want to permanently destroy this room? This action cannot "
 "be undone and all history will be lost for all participants."
-msgstr ""
+msgstr "Ziur zaude gela hau betirako suntsitu nahi duzula? Ekintza hau ezin da desegin eta historia guztia galduko da partaide guztientzat."
+"Ziur zaude gela hau betirako suntsitu nahi duzula? Ekintza hau ezin da "
+"desegin eta historia guztia galduko da partaide guztientzat."
 
 #: main/src/ui/conversation_details.vala:250
 msgid "Destroy"
-msgstr ""
+msgstr "Suntsitu"
 
 #: main/src/ui/conversation_details.vala:271
-#, fuzzy
 msgid "Failed to destroy room"
-msgstr "Ez duzu gela sortzeko baimenik"
+msgstr "Ezin izan da gela suntsitu"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:276
 #: main/src/ui/notifier_freedesktop.vala:71
@@ -1096,19 +1081,19 @@ msgstr "Fitxategia jaso da"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:361
 msgid "Thema:"
-msgstr ""
+msgstr "Gaia:"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:381
 msgid "Privat"
-msgstr ""
+msgstr "Pribatua"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:383
 msgid "Öffentlich"
-msgstr ""
+msgstr "Publikoa"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:387
 msgid "Typ:"
-msgstr ""
+msgstr "Mota:"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:483
 #: main/src/ui/widgets/date_separator.vala:37
@@ -1125,14 +1110,13 @@ msgstr "Atzo"
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:554
 #: main/src/ui/conversation_titlebar/menu_entry.vala:79
 msgid "Conversation Details"
-msgstr ""
+msgstr "Elkarrizketaren xehetasunak"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:507
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:771
 #: main/src/ui/conversation_titlebar/menu_entry.vala:98
-#, fuzzy
 msgid "Invite Contact"
-msgstr "Konferentziara gonbidatu"
+msgstr "Kontaktua gonbidatu"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:511
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:559
@@ -1141,7 +1125,7 @@ msgstr "Konferentziara gonbidatu"
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:140
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:206
 msgid "Unmute"
-msgstr ""
+msgstr "Aktibatu soinua"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:511
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:559
@@ -1152,25 +1136,24 @@ msgstr ""
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:140
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:226
 msgid "Mute"
-msgstr ""
+msgstr "Mututu"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:514
 msgid "Leave and Close"
-msgstr ""
+msgstr "Utzi eta itxi"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:555
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:623
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:126
-#, fuzzy
 msgid "Edit Alias"
-msgstr "Ezizena"
+msgstr "Ezizena editatu"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:563
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:705
 #: main/src/windows/conversation_details.vala:108
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:250
 msgid "Unblock"
-msgstr ""
+msgstr "Desblokeatu"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:563
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:724
@@ -1191,53 +1174,51 @@ msgstr "Gorde"
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:657
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:202
 msgid "Unmute contact?"
-msgstr ""
+msgstr "Aktibatu kontaktuaren soinua?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:658
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:203
 #, c-format
 msgid "This will enable notifications from %s."
-msgstr ""
+msgstr "Honek %s-ren jakinarazpenak gaitu egingo ditu."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:676
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:222
 msgid "Mute contact?"
-msgstr ""
+msgstr "Isildu kontaktua?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:677
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:223
 #, c-format
 msgid "This will disable notifications from %s."
-msgstr ""
+msgstr "Honek %s-ren jakinarazpenak desgaitu egingo ditu."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:701
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:246
 msgid "Unblock contact?"
-msgstr ""
+msgstr "Kontaktua desblokeatu?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:702
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:247
-#, fuzzy, c-format
 msgid "This will allow %s to send you messages again."
-msgstr "Konferentzia honek ez dizu mezuak bidaltzea baimentzen."
+msgstr "Honek %s-ri berriro mezuak bidaltzea baimentzen dio."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:720
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:266
 msgid "Block contact?"
-msgstr ""
+msgstr "Kontaktua blokeatu?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:721
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:267
 #, c-format
 msgid "This will prevent %s from sending you messages."
-msgstr ""
+msgstr "Honek %s-ri mezuak bidaltzea galaraziko dio."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:741
 #: main/src/windows/conversation_details.vala:57
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:288
-#, fuzzy
 msgid "Remove contact?"
-msgstr "%s kontua kendu?"
+msgstr "Kontaktua kendu?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:742
 #, c-format
@@ -1247,23 +1228,22 @@ msgid ""
 "• Remove %s from your contact list\n"
 "\n"
 "This action cannot be undone."
-msgstr ""
+msgstr "Honek:\n• Elkarrizketa-historia guztia ezabatuko du\n• %s zure kontaktu-zerrendatik kenduko du\n\nEkintza hau ezin da desegin."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:787
-#, fuzzy
 msgid "Delete all message history?"
-msgstr "Mezuen historia"
+msgstr "Mezu historia guztia ezabatu?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:788
 msgid ""
 "This will permanently delete all messages in this conversation. This action "
 "cannot be undone."
-msgstr ""
+msgstr "Honek elkarrizketa honetako mezu guztiak betirako ezabatuko ditu. Ekintza hau ezin da desegin."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:791
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
 msgid "Delete"
-msgstr ""
+msgstr "Ezabatu"
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:14
 msgid "Start call"
@@ -1279,30 +1259,29 @@ msgstr "Bideo-deia"
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:79
 msgid "Conference Server Required"
-msgstr ""
+msgstr "Konferentzia zerbitzaria beharrezkoa"
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:80
 msgid ""
 "To start a group call, you need to configure a default conference server in "
 "your account settings."
-msgstr ""
+msgstr "Talde-deia hasteko, konferentzia-zerbitzari lehenetsi bat konfiguratu behar duzu kontuaren ezarpenetan."
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:84
-#, fuzzy
 msgid "Open Settings"
-msgstr "Ezarpenak"
+msgstr "Ezarpenak ireki"
 
 #: main/src/ui/conversation_titlebar/menu_entry.vala:47
 msgid "Delete all message history for this conversation?"
-msgstr ""
+msgstr "Elkarrizketa honetako mezu historia guztia ezabatu?"
 
 #: main/src/ui/conversation_titlebar/menu_entry.vala:49
 msgid "This action cannot be undone."
-msgstr ""
+msgstr "Ekintza hau ezin da desegin."
 
 #: main/src/ui/conversation_titlebar/menu_entry.vala:85
 msgid "Close Conversation"
-msgstr ""
+msgstr "Itxi elkarrizketa"
 
 #: main/src/ui/conversation_titlebar/occupants_entry.vala:14
 #: main/src/windows/conversation_details.vala:291
@@ -1320,7 +1299,7 @@ msgstr "Hautatu"
 
 #: main/src/ui/file_send_overlay.vala:58
 msgid "The file exceeds the server's maximum upload size."
-msgstr ""
+msgstr "Fitxategiak zerbitzariaren gehienezko karga-tamaina gainditzen du."
 "Fitxategiak zerbitzariaren kargatzeko gehienezko tamaina gainditzen du."
 
 #: main/src/ui/global_search.vala:208
@@ -1334,9 +1313,8 @@ msgid "With %s"
 msgstr "%s(r)ekin"
 
 #: main/src/ui/main_window.vala:156
-#, fuzzy
 msgid "Join Channel Help"
-msgstr "Kanalera gehitu"
+msgstr "Kanalera batzeko laguntza"
 
 #: main/src/ui/main_window.vala:157
 msgid ""
@@ -1345,12 +1323,11 @@ msgid ""
 "\n"
 "If you need a password or a nickname, provide them in the dialog. Use the "
 "discovery features in the server to find public rooms."
-msgstr ""
+msgstr "Kanal batera batzeko, egin klik \"Kanalera batu\" botoian eta sartu kanalaren JID-a (adibidea: room@conference.example.org).\n\nPasahitz edo goitizen bat behar baduzu, eman elkarrizketa-koadroan. Erabili zerbitzariaren aurkikuntza-ezaugarriak gela publikoak aurkitzeko."
 
 #: main/src/ui/main_window.vala:206
-#, fuzzy
 msgid "Welcome to DinoX!"
-msgstr "Ongi etorri Dino!"
+msgstr "Ongi etorri DinoX-era!"
 
 #: main/src/ui/main_window.vala:207
 msgid "Sign in or create an account to get started."
@@ -1433,20 +1410,17 @@ msgstr "Solasaldi pribatua hasi"
 
 #: main/src/ui/occupant_menu/view.vala:125
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:157
-#, fuzzy
 msgid "Unblock Contact"
-msgstr "Kontaktua gehitu"
+msgstr "Kontaktua desblokeatu"
 
 #: main/src/ui/occupant_menu/view.vala:127
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:157
-#, fuzzy
 msgid "Block Contact"
-msgstr "Kontaktua gehitu"
+msgstr "Kontaktua blokeatu"
 
 #: main/src/ui/occupant_menu/view.vala:133
-#, fuzzy
 msgid "Moderation"
-msgstr "Moderatua"
+msgstr "Moderazioa"
 
 #: main/src/ui/occupant_menu/view.vala:135
 msgid "Kick"
@@ -1454,52 +1428,47 @@ msgstr "Kanporatu"
 
 #: main/src/ui/occupant_menu/view.vala:139
 msgid "Ban (Permanent)"
-msgstr ""
+msgstr "Debekua (Betikoa)"
 
 #: main/src/ui/occupant_menu/view.vala:140
 msgid "Ban (10 min)"
-msgstr ""
+msgstr "Debekua (10 min)"
 
 #: main/src/ui/occupant_menu/view.vala:141
 msgid "Ban (15 min)"
-msgstr ""
+msgstr "Debekua (15 min)"
 
 #: main/src/ui/occupant_menu/view.vala:142
 msgid "Ban (30 min)"
-msgstr ""
+msgstr "Debekua (30 min)"
 
 #: main/src/ui/occupant_menu/view.vala:146
-#, fuzzy
 msgid "Administration"
-msgstr "Izen emate irekia"
+msgstr "Administrazioa"
 
 #: main/src/ui/occupant_menu/view.vala:150
-#, fuzzy
 msgid "Make Admin"
-msgstr "Administratzailea"
+msgstr "Administratzaile egin"
 
 #: main/src/ui/occupant_menu/view.vala:152
 msgid "Revoke Admin"
-msgstr ""
+msgstr "Kudeatzailea kendu"
 
 #: main/src/ui/occupant_menu/view.vala:156
-#, fuzzy
 msgid "Make Owner"
-msgstr "Jabea"
+msgstr "Jabea egin"
 
 #: main/src/ui/occupant_menu/view.vala:161
-#, fuzzy
 msgid "Make Member"
-msgstr "Kidea"
+msgstr "Kidea egin"
 
 #: main/src/ui/occupant_menu/view.vala:163
-#, fuzzy
 msgid "Revoke Membership"
-msgstr "Idazteko baimena ezeztatu"
+msgstr "Kide izatea kendu"
 
 #: main/src/ui/occupant_menu/view.vala:228
 msgid "Kicked by moderator"
-msgstr ""
+msgstr "Moderatzaileak kanporatua"
 
 #: main/src/ui/occupant_menu/view.vala:275
 msgid "Invite to Conference"
@@ -1512,17 +1481,17 @@ msgstr "Irten"
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
 "A friendly name shown in room listings (does not change the room address)"
-msgstr ""
+msgstr "Gelen zerrendetan erakusten den izen adiskidetsua (ez du gelaren helbidea aldatzen)"
+"Gela-zerrendetan erakusten den izen atsegina (ez du gela-helbidea aldatzen)"
+"Gelen zerrendetan erakusten den izen adiskidetsua (ez du gela helbidea aldatzen)"
 
 #: main/src/ui/util/data_forms.vala:44
-#, fuzzy
 msgid "Description"
-msgstr "Gelaren deskribapena"
+msgstr "Deskribapena"
 
 #: main/src/ui/util/data_forms.vala:45
-#, fuzzy
 msgid "A description of the room shown in room listings"
-msgstr "Gelaren deskribapena"
+msgstr "Gela zerrendetan erakusten den gelaren deskribapena"
 
 #: main/src/ui/util/data_forms.vala:48
 msgid "Persistent"
@@ -1538,7 +1507,7 @@ msgstr "Publikoki bilagarria"
 
 #: main/src/ui/util/data_forms.vala:53
 msgid "The room will appear in public room listings"
-msgstr ""
+msgstr "Gela gela publiko zerrendetan agertuko da"
 
 #: main/src/ui/util/data_forms.vala:56
 msgid "Occupants may change the subject"
@@ -1568,7 +1537,7 @@ msgstr "Kideak soilik"
 msgid ""
 "Only members may enter the room. Warning: Non-members will be removed when "
 "enabled!"
-msgstr ""
+msgstr "Bakarrik kideek sar daitezke gelan. Abisua: Ez-kideak kenduko dira gaituta dagoenean!"
 
 #: main/src/ui/util/helper.vala:65
 #, c-format
@@ -1588,39 +1557,39 @@ msgstr "%a, %b %d"
 msgid ""
 "This contact will be removed from your contact list and all conversation "
 "history will be permanently deleted."
-msgstr ""
+msgstr "Kontaktu hau zure kontaktu-zerrendatik kenduko da eta elkarrizketa-historia guztia betirako ezabatuko da."
 
 #: main/src/windows/conversation_details.vala:108
 msgid "Block user"
-msgstr ""
+msgstr "Blokeatu erabiltzailea"
 
 #: main/src/windows/conversation_details.vala:108
 msgid "Block entire domain"
-msgstr ""
+msgstr "Blokeatu domeinu osoa"
 
 #: main/src/windows/conversation_details.vala:125
 msgid "Pinned"
-msgstr ""
+msgstr "Finkatuta"
 
 #: main/src/windows/conversation_details.vala:125
 msgid "Pin"
-msgstr ""
+msgstr "Finkatu"
 
 #: main/src/windows/conversation_details.vala:140
 msgid "Domain blocked"
-msgstr ""
+msgstr "Domeinua blokeatuta"
 
 #: main/src/windows/conversation_details.vala:165
 msgid "Notifications enabled"
-msgstr ""
+msgstr "Jakinarazpenak gaituta"
 
 #: main/src/windows/conversation_details.vala:168
 msgid "Notifications for mentions"
-msgstr ""
+msgstr "Jakinarazpenak aipamenetarako"
 
 #: main/src/windows/conversation_details.vala:173
 msgid "Notifications disabled"
-msgstr ""
+msgstr "Jakinarazpenak desgaituta"
 
 #: main/src/windows/conversation_details.vala:234
 msgid "Settings"
@@ -1636,11 +1605,11 @@ msgstr "Konektatu"
 
 #: main/src/windows/preferences_window/account_preferences_subpage.vala:106
 msgid "Disable account"
-msgstr ""
+msgstr "Desgaitu kontua"
 
 #: main/src/windows/preferences_window/account_preferences_subpage.vala:106
 msgid "Enable account"
-msgstr ""
+msgstr "Gaitu kontua"
 
 #: main/src/windows/preferences_window/account_preferences_subpage.vala:151
 msgid "Select avatar"
@@ -1674,7 +1643,7 @@ msgstr "Akatsa"
 
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:28
 msgid "Disabled accounts"
-msgstr ""
+msgstr "Desgaitutako kontuak"
 
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:31
 #: main/src/windows/preferences_window/add_account_dialog.vala:92
@@ -1750,34 +1719,34 @@ msgid "Check %s for information on how to sign up"
 msgstr "Ikusi %s izena ematearen inguruko informazioa lortzeko"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:192
-#, fuzzy
 msgid "No contacts"
-msgstr "Kontaktua gehitu"
+msgstr "Kontakturik ez"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:193
 msgid "Add contacts to start chatting"
-msgstr ""
+msgstr "Gehitu kontaktuak txateatzen hasteko"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:289
 #, c-format
 msgid ""
 "This will remove %s from your contact list and delete all conversation "
 "history."
-msgstr ""
+msgstr "Honek %s zure kontaktu-zerrendatik kenduko du eta elkarrizketa-historia guztia ezabatuko du."
+"%s zure kontaktu-zerrendatik kendu eta elkarrizketa-historia guztia "
+"ezabatuko da."
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:318
-#, fuzzy
 msgid "Edit Contact Alias"
-msgstr "Kontaktua gehitu"
+msgstr "Kontaktuaren ezizena editatu"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:319
 #, c-format
 msgid "Change the display name for %s"
-msgstr ""
+msgstr "Aldatu %s(r)en bistaratze-izena"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:325
 msgid "Alias (optional)"
-msgstr ""
+msgstr "Ezizena (aukerakoa)"
 
 #~ msgid "Message too long"
 #~ msgstr "Mezu luzeegia"

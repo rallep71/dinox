@@ -19,25 +19,24 @@ msgstr ""
 
 #: main/data/add_conversation/add_groupchat_dialog.ui:80
 msgid "Add MUC"
-msgstr ""
+msgstr "Thêm MUC"
 
 #: main/data/add_conversation/add_groupchat_dialog.ui:90
 msgid "Insert a Name for MUC..."
-msgstr ""
+msgstr "Nhập tên phòng..."
 
 #: main/data/add_conversation/select_jid_fragment.ui:20
 msgid "Search or enter channel address..."
-msgstr ""
+msgstr "Tìm kiếm hoặc nhập địa chỉ kênh..."
 
 #: main/data/add_conversation/select_jid_fragment.ui:67
 #: main/src/ui/add_conversation/select_jid_fragment.vala:205
-#, fuzzy
 msgid "Add Group"
-msgstr "Thêm tài khoản"
+msgstr "Thêm nhóm"
 
 #: main/data/add_conversation/select_jid_fragment.ui:88
 msgid "Delete Group"
-msgstr ""
+msgstr "Xóa nhóm"
 
 #: main/data/call_widget.ui:73 main/src/ui/notifier_freedesktop.vala:125
 #: main/src/ui/notifier_freedesktop.vala:230
@@ -59,31 +58,27 @@ msgid "Accept"
 msgstr "Chấp nhận"
 
 #: main/data/chat_input.ui:63
-#, fuzzy
 msgid "Record voice message"
-msgstr "Tìm tin nhắn"
+msgstr "Ghi tin nhắn thoại"
 
 #: main/data/chat_input.ui:77
-#, fuzzy
 msgid "Send message"
-msgstr "Sửa tin nhắn"
+msgstr "Gửi tin nhắn"
 
 #: main/data/conversation_details.ui:145
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:566
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:175
-#, fuzzy
 msgid "Remove Contact"
-msgstr "Gỡ tài khoản"
+msgstr "Xóa liên hệ"
 
 #: main/data/conversation_details.ui:171
 #: main/src/windows/conversation_details.vala:231
-#, fuzzy
 msgid "About"
-msgstr "Thông tin chung"
+msgstr "Giới thiệu"
 
 #: main/data/conversation_row.ui:56
 msgid "Private room (supports group calls)"
-msgstr ""
+msgstr "Phòng riêng tư (hỗ trợ cuộc gọi nhóm)"
 
 #: main/data/conversation_row.ui:135
 #: main/src/windows/conversation_details.vala:171
@@ -116,7 +111,6 @@ msgid "Join Channel"
 msgstr "Tham gia kênh"
 
 #: main/data/gtk/help-overlay.ui:26
-#, fuzzy
 msgid "Show preferences"
 msgstr "Hiển thị tùy chọn"
 
@@ -139,7 +133,7 @@ msgstr "Gửi một tệp tin"
 
 #: main/data/gtk/help-overlay.ui:55
 msgid "Close conversation"
-msgstr ""
+msgstr "Đóng cuộc trò chuyện"
 
 #: main/data/gtk/help-overlay.ui:62
 msgid "Navigation"
@@ -155,7 +149,7 @@ msgstr "Chuyển đến cuộc hội thoại trước đó"
 
 #: main/data/main_window.ui:64 main/src/ui/main_window.vala:144
 msgid "Help: How to join channels"
-msgstr ""
+msgstr "Trợ giúp: Cách tham gia kênh"
 
 #: main/data/main_window.ui:118
 msgid "You have no open chats"
@@ -167,35 +161,35 @@ msgstr "Nhấn + để bắt đầu một cuộc trò chuyện hoặc tham gia m
 
 #: main/data/menu_app.ui:6
 msgid "Status"
-msgstr ""
+msgstr "Trạng thái"
 
 #: main/data/menu_app.ui:11
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:427
 #: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Online"
-msgstr ""
+msgstr "Trực tuyến"
 
 #: main/data/menu_app.ui:16
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:421
 #: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Away"
-msgstr ""
+msgstr "Vắng mặt"
 
 #: main/data/menu_app.ui:21
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:425
 #: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Busy"
-msgstr ""
+msgstr "Bận"
 
 #: main/data/menu_app.ui:26
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:423
 #: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Not Available"
-msgstr ""
+msgstr "Không khả dụng"
 
 #: main/data/menu_app.ui:34
 msgid "Preferences"
@@ -206,9 +200,8 @@ msgid "Keyboard Shortcuts"
 msgstr "Phím tắt"
 
 #: main/data/menu_app.ui:42 main/src/ui/application.vala:334
-#, fuzzy
 msgid "About DinoX"
-msgstr "Về Dino"
+msgstr "Giới thiệu DinoX"
 
 #: main/data/menu_conversation.ui:7
 msgid "Contact Details"
@@ -218,9 +211,8 @@ msgstr "Thông tin liên hệ"
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:513
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:565
 #: main/src/ui/conversation_titlebar/menu_entry.vala:84
-#, fuzzy
 msgid "Delete Conversation History"
-msgstr "Đóng cuộc trò chuyện"
+msgstr "Xóa lịch sử trò chuyện"
 
 #: main/data/message_item_widget_edit_mode.ui:46
 #: main/data/preferences_window/change_password_dialog.ui:18
@@ -276,19 +268,19 @@ msgstr "Trạng thái kết nối"
 # Custom host/port feature (Issue #115)
 #: main/data/preferences_window/account_preferences_subpage.ui:121
 msgid "Advanced Settings"
-msgstr ""
+msgstr "Cài đặt nâng cao"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:122
 msgid "Custom server connection (leave empty for automatic)"
-msgstr ""
+msgstr "Kết nối máy chủ tùy chỉnh (để trống cho tự động)"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:125
 msgid "Server Hostname"
-msgstr ""
+msgstr "Tên máy chủ"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:130
 msgid "Port"
-msgstr ""
+msgstr "Cổng"
 
 #: main/data/preferences_window/change_password_dialog.ui:61
 msgid "Current password"
@@ -320,49 +312,48 @@ msgstr "Thông báo khi có tin nhắn mới"
 
 #: main/data/preferences_window/general_preferences_page.ui:32
 msgid "_Keep Running in Background"
-msgstr ""
+msgstr "_Chạy trong nền"
 
 #: main/data/preferences_window/general_preferences_page.ui:33
 msgid ""
 "Continue running after closing window to receive notifications immediately"
-msgstr ""
+msgstr "Tiếp tục chạy sau khi đóng cửa sổ để nhận thông báo ngay lập tức"
 
 #: main/data/preferences_window/general_preferences_page.ui:41
 msgid "Appearance"
-msgstr ""
+msgstr "Giao diện"
 
 #: main/data/preferences_window/general_preferences_page.ui:44
 msgid "_Color Scheme"
-msgstr ""
+msgstr "_Bảng màu"
 
 #: main/data/preferences_window/general_preferences_page.ui:45
 msgid "Choose between light and dark appearance"
-msgstr ""
+msgstr "Chọn giao diện sáng hoặc tối"
 
 #: main/data/preferences_window/general_preferences_page.ui:55
 msgid "_Convert Smileys to Emoji"
-msgstr ""
+msgstr "_Chuyển đổi mặt cười thành Emoji"
 
 #: main/data/preferences_window/general_preferences_page.ui:63
-#, fuzzy
 msgid "User Data"
-msgstr "Người dùng"
+msgstr "Dữ liệu người dùng"
 
 #: main/data/preferences_window/general_preferences_page.ui:66
 msgid "Backup User Data"
-msgstr ""
+msgstr "Sao lưu dữ liệu"
 
 #: main/data/preferences_window/general_preferences_page.ui:67
 msgid "Create a backup of your accounts, messages and settings"
-msgstr ""
+msgstr "Tạo bản sao lưu tài khoản, tin nhắn và cài đặt"
 
 #: main/data/preferences_window/general_preferences_page.ui:78
 msgid "Data Location"
-msgstr ""
+msgstr "Vị trí dữ liệu"
 
 #: main/data/preferences_window/general_preferences_page.ui:79
 msgid "View where your data is stored"
-msgstr ""
+msgstr "Xem nơi lưu trữ dữ liệu"
 
 #: main/data/preferences_window/preferences_dialog.ui:11
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:15
@@ -373,9 +364,8 @@ msgstr "Tài khoản"
 #: main/data/preferences_window/preferences_dialog.ui:18
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:17
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:67
-#, fuzzy
 msgid "Contacts"
-msgstr "Thêm Liên hệ"
+msgstr "Danh bạ"
 
 #: main/data/preferences_window/preferences_dialog.ui:25
 #: main/src/windows/conversation_details.vala:281
@@ -446,7 +436,7 @@ msgstr "Địa chỉ không đúng"
 
 #: main/src/ui/add_conversation/select_contact_dialog.vala:70
 msgid "Search or enter contact address..."
-msgstr ""
+msgstr "Tìm kiếm hoặc nhập địa chỉ liên hệ..."
 
 #: main/src/ui/add_conversation/select_contact_dialog.vala:107
 msgid "Start"
@@ -454,12 +444,11 @@ msgstr "Bắt đầu"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:154
 msgid "Browse Rooms"
-msgstr ""
+msgstr "Duyệt phòng"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:157
-#, fuzzy
 msgid "Browse Contacts"
-msgstr "Thêm Liên hệ"
+msgstr "Duyệt danh bạ"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:202
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:70
@@ -467,90 +456,88 @@ msgid "Add Contact"
 msgstr "Thêm Liên hệ"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:203
-#, fuzzy
 msgid "Delete Contact"
-msgstr "Thêm Liên hệ"
+msgstr "Xóa liên hệ"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:206
 #: main/src/ui/add_conversation/select_jid_fragment.vala:216
 msgid "Leave Group"
-msgstr ""
+msgstr "Rời nhóm"
 
 #: main/src/ui/application.vala:339
 msgid "Modern XMPP client with extended features"
-msgstr ""
+msgstr "Ứng dụng XMPP hiện đại với tính năng mở rộng"
 
 #: main/src/ui/application.vala:346 main/src/ui/application.vala:385
 msgid "User Data Locations"
-msgstr ""
+msgstr "Vị trí dữ liệu người dùng"
 
 #: main/src/ui/application.vala:349 main/src/ui/application.vala:399
-#, fuzzy
 msgid "Configuration:"
-msgstr "Cấu hình phòng"
+msgstr "Cấu hình:"
 
 #: main/src/ui/application.vala:352 main/src/ui/application.vala:401
 msgid "Data & Database:"
-msgstr ""
+msgstr "Dữ liệu & Cơ sở dữ liệu:"
 
 #: main/src/ui/application.vala:355 main/src/ui/application.vala:403
 msgid "Cache:"
-msgstr ""
+msgstr "Bộ nhớ đệm:"
 
 #: main/src/ui/application.vala:358
 msgid "Info:"
-msgstr ""
+msgstr "Thông tin:"
 
 #: main/src/ui/application.vala:359
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
-msgstr ""
+msgstr "Dữ liệu cá nhân của bạn (tài khoản, tin nhắn, tệp) được lưu trữ riêng biệt khỏi ứng dụng."
 
 #: main/src/ui/application.vala:361
 msgid "When you update DinoX, your data remains intact."
-msgstr ""
+msgstr "Khi bạn cập nhật DinoX, dữ liệu của bạn vẫn được giữ nguyên."
 
 #: main/src/ui/application.vala:363
 msgid "Use Settings → General → Backup User Data to create a backup."
-msgstr ""
+msgstr "Sử dụng Cài đặt → Chung → Sao lưu dữ liệu người dùng để tạo bản sao lưu."
 
 #: main/src/ui/application.vala:405
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
-msgstr ""
+msgstr "Dữ liệu cá nhân của bạn (tài khoản, tin nhắn, tệp) được lưu trữ riêng biệt. Khi bạn cập nhật DinoX, dữ liệu của bạn vẫn được giữ nguyên."
 
 #: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
 #: main/src/ui/main_window.vala:159
 msgid "Close"
-msgstr ""
+msgstr "Đóng"
 
 #: main/src/ui/application.vala:417
 msgid "Select Backup Location"
-msgstr ""
+msgstr "Chọn vị trí sao lưu"
 
 #: main/src/ui/application.vala:445
 msgid "Creating backup..."
-msgstr ""
+msgstr "Đang tạo bản sao lưu..."
 
 #: main/src/ui/application.vala:503
 #, c-format
 msgid "Backup created successfully (%s)"
-msgstr ""
+msgstr "Sao lưu thành công (%s)"
 
 #: main/src/ui/application.vala:505
 msgid "Backup created successfully"
-msgstr ""
+msgstr "Sao lưu thành công"
 
 #: main/src/ui/application.vala:510
 msgid "Unknown error"
-msgstr ""
+msgstr "Lỗi không xác định"
 
 #: main/src/ui/application.vala:511
 #, c-format
 msgid "Backup failed: %s"
-msgstr ""
+msgstr "Sao lưu thất bại: %s"
 
 #: main/src/ui/call_window/audio_settings_popover.vala:29
 msgid "Microphones"
@@ -848,9 +835,8 @@ msgid "Just now"
 msgstr "Ngay bây giờ"
 
 #: main/src/ui/conversation_content_view/conversation_view.vala:105
-#, fuzzy
 msgid "More actions"
-msgstr "Bày tỏ cảm xúc"
+msgstr "Thêm hành động"
 
 #: main/src/ui/conversation_content_view/file_default_widget.vala:67
 #: main/src/ui/conversation_content_view/file_image_widget.vala:42
@@ -897,14 +883,12 @@ msgid "File transfer failed"
 msgstr "Truyền tệp tin thất bại"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:36
-#, fuzzy
 msgid "Kick user"
-msgstr "Chặn người dùng"
+msgstr "Đuổi người dùng"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:69
-#, fuzzy
 msgid "Ban user"
-msgstr "Chặn người dùng"
+msgstr "Cấm người dùng"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:82
 #: main/src/ui/conversation_content_view/reactions_widget.vala:128
@@ -924,32 +908,29 @@ msgid "This conversation does not support replies."
 msgstr "Cuộc hội thoại này không hỗ trợ phản hồi."
 
 #: main/src/ui/conversation_content_view/item_actions.vala:146
-#, fuzzy
 msgid "Moderate message..."
-msgstr "Cập nhật tin nhắn"
+msgstr "Kiểm duyệt tin nhắn…"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:148
 msgid "Delete..."
-msgstr ""
+msgstr "Xóa..."
 
 #: main/src/ui/conversation_content_view/item_actions.vala:150
 #: main/src/ui/conversation_content_view/item_actions.vala:168
 msgid "Delete locally"
-msgstr ""
+msgstr "Xóa cục bộ"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:160
-#, fuzzy
 msgid "Moderate message"
-msgstr "Cập nhật tin nhắn"
+msgstr "Kiểm duyệt tin nhắn"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:160
-#, fuzzy
 msgid "Delete message"
-msgstr "Cập nhật tin nhắn"
+msgstr "Xóa tin nhắn"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:164
 msgid "Do you want to remove this message from the channel?"
-msgstr ""
+msgstr "Bạn có muốn xóa tin nhắn này khỏi kênh không?"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:165
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:745
@@ -960,17 +941,16 @@ msgstr "Gỡ bỏ"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:167
 msgid "Do you want to delete this message just for yourself or for everyone?"
-msgstr ""
+msgstr "Bạn muốn xóa tin nhắn này chỉ cho mình hay cho tất cả mọi người?"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:168
 msgid "Delete for everyone"
-msgstr ""
+msgstr "Xóa cho tất cả"
 
 #: main/src/ui/conversation_content_view/message_widget.vala:174
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:255
-#, fuzzy
 msgid "Message deleted"
-msgstr "Lịch sử tin nhắn"
+msgstr "Tin nhắn đã xóa"
 
 #: main/src/ui/conversation_content_view/message_widget.vala:178
 msgid "edited"
@@ -978,7 +958,7 @@ msgstr "đã chỉnh sửa"
 
 #: main/src/ui/conversation_content_view/message_widget.vala:182
 msgid "Message truncated - exceeds 100,000 characters"
-msgstr ""
+msgstr "Tin nhắn bị cắt ngắn - vượt quá 100.000 ký tự"
 
 #: main/src/ui/conversation_content_view/message_widget.vala:191
 msgid "pending…"
@@ -1005,7 +985,6 @@ msgid "Send request"
 msgstr "Gửi yêu cầu"
 
 #: main/src/ui/conversation_content_view/subscription_notification.vala:60
-#, fuzzy
 msgid "You do not receive status updates from this contact yet."
 msgstr "Bạn chưa nhận được cập nhật trạng thái từ liên hệ này."
 
@@ -1041,36 +1020,34 @@ msgid "Permissions"
 msgstr "Quyền"
 
 #: main/src/ui/conversation_details.vala:223
-#, fuzzy
 msgid "Manage Affiliations"
-msgstr "Quản lý các tài khoản"
+msgstr "Quản lý liên kết"
 
 #: main/src/ui/conversation_details.vala:239
 msgid "Danger Zone"
-msgstr ""
+msgstr "Vùng nguy hiểm"
 
 #: main/src/ui/conversation_details.vala:240
 msgid "Destroy Room"
-msgstr ""
+msgstr "Hủy phòng"
 
 #: main/src/ui/conversation_details.vala:246
 msgid "Destroy Room?"
-msgstr ""
+msgstr "Hủy phòng?"
 
 #: main/src/ui/conversation_details.vala:247
 msgid ""
 "Are you sure you want to permanently destroy this room? This action cannot "
 "be undone and all history will be lost for all participants."
-msgstr ""
+msgstr "Bạn có chắc muốn xóa vĩnh viễn phòng này? Hành động này không thể hoàn tác và toàn bộ lịch sử sẽ bị mất cho tất cả người tham gia."
 
 #: main/src/ui/conversation_details.vala:250
 msgid "Destroy"
-msgstr ""
+msgstr "Hủy"
 
 #: main/src/ui/conversation_details.vala:271
-#, fuzzy
 msgid "Failed to destroy room"
-msgstr "Không được phép tạo phòng"
+msgstr "Không thể xóa phòng"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:276
 #: main/src/ui/notifier_freedesktop.vala:71
@@ -1098,19 +1075,19 @@ msgstr "Đã nhận file"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:361
 msgid "Thema:"
-msgstr ""
+msgstr "Chủ đề:"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:381
 msgid "Privat"
-msgstr ""
+msgstr "Riêng tư"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:383
 msgid "Öffentlich"
-msgstr ""
+msgstr "Công khai"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:387
 msgid "Typ:"
-msgstr ""
+msgstr "Loại:"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:483
 #: main/src/ui/widgets/date_separator.vala:37
@@ -1126,16 +1103,14 @@ msgstr "Hôm qua"
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:506
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:554
 #: main/src/ui/conversation_titlebar/menu_entry.vala:79
-#, fuzzy
 msgid "Conversation Details"
 msgstr "Chi tiết cuộc trò chuyện"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:507
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:771
 #: main/src/ui/conversation_titlebar/menu_entry.vala:98
-#, fuzzy
 msgid "Invite Contact"
-msgstr "Mời tham gia Cuộc họp"
+msgstr "Mời liên hệ"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:511
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:559
@@ -1144,7 +1119,7 @@ msgstr "Mời tham gia Cuộc họp"
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:140
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:206
 msgid "Unmute"
-msgstr ""
+msgstr "Bật tiếng"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:511
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:559
@@ -1154,20 +1129,18 @@ msgstr ""
 #: main/src/windows/conversation_details.vala:164
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:140
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:226
-#, fuzzy
 msgid "Mute"
 msgstr "Tắt tiếng"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:514
 msgid "Leave and Close"
-msgstr ""
+msgstr "Rời và đóng"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:555
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:623
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:126
-#, fuzzy
 msgid "Edit Alias"
-msgstr "Bí danh"
+msgstr "Sửa bí danh"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:563
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:705
@@ -1190,59 +1163,56 @@ msgstr "Bí danh"
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:634
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:333
 msgid "Save"
-msgstr ""
+msgstr "Lưu"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:657
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:202
 msgid "Unmute contact?"
-msgstr ""
+msgstr "Bỏ tắt tiếng liên hệ?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:658
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:203
 #, c-format
 msgid "This will enable notifications from %s."
-msgstr ""
+msgstr "Điều này sẽ bật thông báo từ %s."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:676
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:222
 msgid "Mute contact?"
-msgstr ""
+msgstr "Tắt tiếng liên hệ?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:677
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:223
 #, c-format
 msgid "This will disable notifications from %s."
-msgstr ""
+msgstr "Điều này sẽ tắt thông báo từ %s."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:701
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:246
-#, fuzzy
 msgid "Unblock contact?"
-msgstr "Bỏ chặn"
+msgstr "Bỏ chặn liên hệ?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:702
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:247
-#, fuzzy, c-format
 msgid "This will allow %s to send you messages again."
-msgstr "Cuộc họp này không cho phép bạn gửi tin nhắn."
+msgstr "Điều này sẽ cho phép %s gửi tin nhắn cho bạn một lần nữa."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:720
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:266
 msgid "Block contact?"
-msgstr ""
+msgstr "Chặn liên hệ?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:721
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:267
 #, c-format
 msgid "This will prevent %s from sending you messages."
-msgstr ""
+msgstr "Điều này sẽ ngăn %s gửi tin nhắn cho bạn."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:741
 #: main/src/windows/conversation_details.vala:57
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:288
-#, fuzzy
 msgid "Remove contact?"
-msgstr "Gỡ tài khoản"
+msgstr "Xóa liên hệ?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:742
 #, c-format
@@ -1252,23 +1222,22 @@ msgid ""
 "• Remove %s from your contact list\n"
 "\n"
 "This action cannot be undone."
-msgstr ""
+msgstr "Điều này sẽ:\n• Xóa toàn bộ lịch sử trò chuyện\n• Xóa %s khỏi danh sách liên hệ của bạn\n\nHành động này không thể hoàn tác."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:787
-#, fuzzy
 msgid "Delete all message history?"
-msgstr "Lịch sử tin nhắn"
+msgstr "Xóa tất cả lịch sử tin nhắn?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:788
 msgid ""
 "This will permanently delete all messages in this conversation. This action "
 "cannot be undone."
-msgstr ""
+msgstr "Điều này sẽ xóa vĩnh viễn tất cả tin nhắn trong cuộc hội thoại này. Hành động này không thể hoàn tác."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:791
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
 msgid "Delete"
-msgstr ""
+msgstr "Xóa"
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:14
 msgid "Start call"
@@ -1284,29 +1253,27 @@ msgstr "Cuộc gọi video"
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:79
 msgid "Conference Server Required"
-msgstr ""
+msgstr "Cần máy chủ hội nghị"
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:80
 msgid ""
 "To start a group call, you need to configure a default conference server in "
 "your account settings."
-msgstr ""
+msgstr "Để bắt đầu cuộc gọi nhóm, bạn cần cấu hình máy chủ hội nghị mặc định trong cài đặt tài khoản."
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:84
-#, fuzzy
 msgid "Open Settings"
-msgstr "Cài đặt"
+msgstr "Mở cài đặt"
 
 #: main/src/ui/conversation_titlebar/menu_entry.vala:47
 msgid "Delete all message history for this conversation?"
-msgstr ""
+msgstr "Xóa tất cả lịch sử tin nhắn cho cuộc trò chuyện này?"
 
 #: main/src/ui/conversation_titlebar/menu_entry.vala:49
 msgid "This action cannot be undone."
-msgstr ""
+msgstr "Hành động này không thể hoàn tác."
 
 #: main/src/ui/conversation_titlebar/menu_entry.vala:85
-#, fuzzy
 msgid "Close Conversation"
 msgstr "Đóng cuộc trò chuyện"
 
@@ -1339,9 +1306,8 @@ msgid "With %s"
 msgstr "Với %s"
 
 #: main/src/ui/main_window.vala:156
-#, fuzzy
 msgid "Join Channel Help"
-msgstr "Tham gia kênh"
+msgstr "Trợ giúp tham gia kênh"
 
 #: main/src/ui/main_window.vala:157
 msgid ""
@@ -1350,12 +1316,11 @@ msgid ""
 "\n"
 "If you need a password or a nickname, provide them in the dialog. Use the "
 "discovery features in the server to find public rooms."
-msgstr ""
+msgstr "Để tham gia kênh, nhấp vào nút \"Tham gia Kênh\" và nhập JID kênh (ví dụ: room@conference.example.org).\n\nNếu bạn cần mật khẩu hoặc biệt danh, hãy cung cấp chúng trong hộp thoại. Sử dụng tính năng khám phá của máy chủ để tìm các phòng công cộng."
 
 #: main/src/ui/main_window.vala:206
-#, fuzzy
 msgid "Welcome to DinoX!"
-msgstr "Chào mừng đến với Dino!"
+msgstr "Chào mừng đến DinoX!"
 
 #: main/src/ui/main_window.vala:207
 msgid "Sign in or create an account to get started."
@@ -1438,20 +1403,17 @@ msgstr "Bắt đầu một cuộc trò chuyện riêng tư"
 
 #: main/src/ui/occupant_menu/view.vala:125
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:157
-#, fuzzy
 msgid "Unblock Contact"
-msgstr "Bỏ chặn"
+msgstr "Bỏ chặn liên hệ"
 
 #: main/src/ui/occupant_menu/view.vala:127
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:157
-#, fuzzy
 msgid "Block Contact"
-msgstr "Thêm Liên hệ"
+msgstr "Chặn liên hệ"
 
 #: main/src/ui/occupant_menu/view.vala:133
-#, fuzzy
 msgid "Moderation"
-msgstr "Kiểm duyệt viên"
+msgstr "Kiểm duyệt"
 
 #: main/src/ui/occupant_menu/view.vala:135
 msgid "Kick"
@@ -1459,52 +1421,47 @@ msgstr "Đuổi"
 
 #: main/src/ui/occupant_menu/view.vala:139
 msgid "Ban (Permanent)"
-msgstr ""
+msgstr "Cấm (Vĩnh viễn)"
 
 #: main/src/ui/occupant_menu/view.vala:140
 msgid "Ban (10 min)"
-msgstr ""
+msgstr "Cấm (10 phút)"
 
 #: main/src/ui/occupant_menu/view.vala:141
 msgid "Ban (15 min)"
-msgstr ""
+msgstr "Cấm (15 phút)"
 
 #: main/src/ui/occupant_menu/view.vala:142
 msgid "Ban (30 min)"
-msgstr ""
+msgstr "Cấm (30 phút)"
 
 #: main/src/ui/occupant_menu/view.vala:146
-#, fuzzy
 msgid "Administration"
-msgstr "Bày tỏ cảm xúc"
+msgstr "Quản trị"
 
 #: main/src/ui/occupant_menu/view.vala:150
-#, fuzzy
 msgid "Make Admin"
-msgstr "Quản trị viên"
+msgstr "Phong quản trị"
 
 #: main/src/ui/occupant_menu/view.vala:152
 msgid "Revoke Admin"
-msgstr ""
+msgstr "Thu hồi quyền quản trị"
 
 #: main/src/ui/occupant_menu/view.vala:156
-#, fuzzy
 msgid "Make Owner"
-msgstr "Chủ sở hữu"
+msgstr "Phong chủ sở hữu"
 
 #: main/src/ui/occupant_menu/view.vala:161
-#, fuzzy
 msgid "Make Member"
-msgstr "Thành viên"
+msgstr "Phong thành viên"
 
 #: main/src/ui/occupant_menu/view.vala:163
-#, fuzzy
 msgid "Revoke Membership"
-msgstr "Thu hồi quyền chat"
+msgstr "Thu hồi thành viên"
 
 #: main/src/ui/occupant_menu/view.vala:228
 msgid "Kicked by moderator"
-msgstr ""
+msgstr "Bị moderator đuổi"
 
 #: main/src/ui/occupant_menu/view.vala:275
 msgid "Invite to Conference"
@@ -1512,22 +1469,20 @@ msgstr "Mời tham gia Cuộc họp"
 
 #: main/src/ui/systray.vala:178
 msgid "Quit"
-msgstr ""
+msgstr "Thoát"
 
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
 "A friendly name shown in room listings (does not change the room address)"
-msgstr ""
+msgstr "Tên thân thiện hiển thị trong danh sách phòng (không thay đổi địa chỉ phòng)"
 
 #: main/src/ui/util/data_forms.vala:44
-#, fuzzy
 msgid "Description"
-msgstr "Mã hoá"
+msgstr "Mô tả"
 
 #: main/src/ui/util/data_forms.vala:45
-#, fuzzy
 msgid "A description of the room shown in room listings"
-msgstr "Mô tả phòng"
+msgstr "Mô tả phòng được hiển thị trong danh sách phòng"
 
 #: main/src/ui/util/data_forms.vala:48
 msgid "Persistent"
@@ -1543,7 +1498,7 @@ msgstr "Cho phép tìm thấy công khai"
 
 #: main/src/ui/util/data_forms.vala:53
 msgid "The room will appear in public room listings"
-msgstr ""
+msgstr "Phòng sẽ xuất hiện trong danh sách phòng công khai"
 
 #: main/src/ui/util/data_forms.vala:56
 msgid "Occupants may change the subject"
@@ -1573,7 +1528,7 @@ msgstr "Chỉ thành viên"
 msgid ""
 "Only members may enter the room. Warning: Non-members will be removed when "
 "enabled!"
-msgstr ""
+msgstr "Chỉ thành viên mới có thể vào phòng. Cảnh báo: Những người không phải thành viên sẽ bị xóa khi bật!"
 
 #: main/src/ui/util/helper.vala:65
 #, c-format
@@ -1585,24 +1540,22 @@ msgid "Today"
 msgstr "Hôm nay"
 
 #: main/src/ui/widgets/date_separator.vala:35
-#, fuzzy, no-c-format
 msgid "%a, %b %d"
-msgstr "%a, %d %b"
+msgstr "%a, %b %d"
 
 #: main/src/windows/conversation_details.vala:58
 msgid ""
 "This contact will be removed from your contact list and all conversation "
 "history will be permanently deleted."
-msgstr ""
+msgstr "Liên hệ này sẽ bị xóa khỏi danh sách liên hệ của bạn và tất cả lịch sử hội thoại sẽ bị xóa vĩnh viễn."
 
 #: main/src/windows/conversation_details.vala:108
 msgid "Block user"
 msgstr "Chặn người dùng"
 
 #: main/src/windows/conversation_details.vala:108
-#, fuzzy
 msgid "Block entire domain"
-msgstr "Chặn toàn bộ domain"
+msgstr "Chặn toàn bộ tên miền"
 
 #: main/src/windows/conversation_details.vala:125
 msgid "Pinned"
@@ -1698,7 +1651,7 @@ msgstr "Máy chủ không thể xác minh đó là %s."
 
 #: main/src/windows/preferences_window/add_account_dialog.vala:158
 msgid "Its security certificate is not trusted by your operating system."
-msgstr ""
+msgstr "Chứng chỉ bảo mật của nó không được hệ điều hành của bạn tin cậy."
 "Chứng chỉ bảo mật của nó không được tin tưởng bởi hệ điều hành của bạn."
 
 #: main/src/windows/preferences_window/add_account_dialog.vala:160
@@ -1757,34 +1710,32 @@ msgid "Check %s for information on how to sign up"
 msgstr "Xem %s để có thêm thông tin về cách đăng ký"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:192
-#, fuzzy
 msgid "No contacts"
-msgstr "Thêm Liên hệ"
+msgstr "Không có liên hệ"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:193
 msgid "Add contacts to start chatting"
-msgstr ""
+msgstr "Thêm liên hệ để bắt đầu trò chuyện"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:289
 #, c-format
 msgid ""
 "This will remove %s from your contact list and delete all conversation "
 "history."
-msgstr ""
+msgstr "Điều này sẽ xóa %s khỏi danh sách liên hệ của bạn và xóa tất cả lịch sử hội thoại."
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:318
-#, fuzzy
 msgid "Edit Contact Alias"
-msgstr "Thêm Liên hệ"
+msgstr "Sửa bí danh liên hệ"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:319
 #, c-format
 msgid "Change the display name for %s"
-msgstr ""
+msgstr "Thay đổi tên hiển thị cho %s"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:325
 msgid "Alias (optional)"
-msgstr ""
+msgstr "Bí danh (tùy chọn)"
 
 #~ msgid "Message too long"
 #~ msgstr "Tin nhắn quá dài"
