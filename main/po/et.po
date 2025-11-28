@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-13 21:57+0200\n"
+"POT-Creation-Date: 2025-11-28 12:18+0100\n"
 "PO-Revision-Date: 2025-05-06 13:05+0000\n"
 "Language-Team: none\n"
 "Language: et\n"
@@ -17,650 +17,382 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.12-dev\n"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:64
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:131
-#: main/src/ui/conversation_view_controller.vala:203
-#: main/src/ui/add_conversation/select_contact_dialog.vala:41
-#: main/src/ui/add_conversation/add_conference_dialog.vala:42
-#: main/src/ui/application.vala:293
-#: main/src/ui/conversation_content_view/file_default_widget.vala:88
-#: main/data/message_item_widget_edit_mode.ui:46
-#: main/data/preferences_window/change_password_dialog.ui:18
-#: main/data/add_conversation/add_groupchat_dialog.ui:12
-#: main/data/add_conversation/add_contact_dialog.ui:13
-msgid "Cancel"
-msgstr "Katkesta"
+#: main/data/add_conversation/add_groupchat_dialog.ui:80
+msgid "Add MUC"
+msgstr ""
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:65
-msgid "Connect"
-msgstr "Ühenda"
+#: main/data/add_conversation/add_groupchat_dialog.ui:90
+msgid "Insert a Name for MUC..."
+msgstr ""
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:87
-#: main/data/preferences_window/account_preferences_subpage.ui:125
-msgid "Disable account"
-msgstr "Lülita kasutajakonto välja"
+#: main/data/add_conversation/select_jid_fragment.ui:20
+msgid "Search or enter channel address..."
+msgstr ""
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:87
-msgid "Enable account"
-msgstr "Lülita kasutajakonto sisse"
-
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:131
-msgid "Select avatar"
-msgstr "Vali tunnuspilt"
-
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:131
-#: main/src/ui/conversation_view_controller.vala:203
-msgid "Select"
-msgstr "Vali"
-
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:138
-msgid "Images"
-msgstr "Pildid"
-
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:142
-msgid "All files"
-msgstr "Kõik failid"
-
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:156
-#, c-format
-msgid "Remove account %s?"
-msgstr "Kas eemaldame kasutajakonto: %s?"
-
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:188
-#: main/src/ui/call_window/participant_widget.vala:128
-msgid "Connecting…"
-msgstr "Ühendame…"
-
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:190
-msgid "Connected"
-msgstr "Ühendatud"
-
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:192
-msgid "Disconnected"
-msgstr "Ühendus on katkestatud"
-
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:203
-#: main/src/ui/notifier_freedesktop.vala:192
-msgid "Wrong password"
-msgstr "Vale salasõna"
-
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:205
-#: main/src/ui/notifier_freedesktop.vala:195
-msgid "Invalid TLS certificate"
-msgstr "Vigane TLS-sertifikaat"
-
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:208
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:210
-msgid "Error"
-msgstr "Viga"
-
-#: main/src/windows/preferences_window/accounts_preferences_page.vala:15
-#: main/src/windows/preferences_window/accounts_preferences_page.vala:27
-#: main/data/preferences_window/preferences_dialog.ui:11
-msgid "Accounts"
-msgstr "Kasutajakontod"
-
-#: main/src/windows/preferences_window/accounts_preferences_page.vala:28
-msgid "Disabled accounts"
-msgstr "Mittekasutusel kontod"
-
-#: main/src/windows/preferences_window/accounts_preferences_page.vala:31
-#: main/src/windows/preferences_window/add_account_dialog.vala:81
-msgid "Add Account"
+#: main/data/add_conversation/select_jid_fragment.ui:67
+#: main/src/ui/add_conversation/select_jid_fragment.vala:205
+#, fuzzy
+msgid "Add Group"
 msgstr "Lisa kasutajakonto"
 
-#: main/src/windows/preferences_window/accounts_preferences_page.vala:71
-#: main/src/windows/preferences_window/encryption_preferences_page.vala:49
-#: main/src/ui/main_window.vala:160
-msgid "No active accounts"
-msgstr "Aktiivseid kasutajakontosid ei leidu"
+#: main/data/add_conversation/select_jid_fragment.ui:88
+msgid "Delete Group"
+msgstr ""
 
-#: main/src/windows/preferences_window/add_account_dialog.vala:126
-msgid "Sign in"
-msgstr "Logi sisse"
+#: main/data/call_widget.ui:73 main/src/ui/notifier_freedesktop.vala:125
+#: main/src/ui/notifier_freedesktop.vala:230
+#: main/src/ui/notifier_gnotifications.vala:80
+msgid "Reject"
+msgstr "Keeldu"
 
-#: main/src/windows/preferences_window/add_account_dialog.vala:143
-#, c-format
-msgid "The server could not prove that it is %s."
-msgstr "Server ei suutnud tuvastada, et see on %s."
+#: main/data/call_widget.ui:81
+#: main/src/ui/conversation_content_view/subscription_notification.vala:67
+#: main/src/ui/notifier_freedesktop.vala:125
+#: main/src/ui/notifier_freedesktop.vala:164
+#: main/src/ui/notifier_freedesktop.vala:230
+#: main/src/ui/notifier_freedesktop.vala:264
+#: main/src/ui/notifier_gnotifications.vala:81
+#: main/src/ui/notifier_gnotifications.vala:97
+#: main/src/ui/notifier_gnotifications.vala:134
+#: main/src/ui/notifier_gnotifications.vala:150
+msgid "Accept"
+msgstr "Nõustu"
 
-#: main/src/windows/preferences_window/add_account_dialog.vala:145
-msgid "Its security certificate is not trusted by your operating system."
-msgstr "Tema turvasertifikaat pole sinu operatsioonisüsteemi poolt usaldatud."
+#: main/data/chat_input.ui:63
+#, fuzzy
+msgid "Record voice message"
+msgstr "Otsi sõnumeid"
 
-#: main/src/windows/preferences_window/add_account_dialog.vala:147
-msgid "Its security certificate is issued to another domain."
-msgstr "Tema turvasertifikaat on välja antud muule domeenile."
+#: main/data/chat_input.ui:77
+#, fuzzy
+msgid "Send message"
+msgstr "Muuda sõnumit"
 
-#: main/src/windows/preferences_window/add_account_dialog.vala:149
-msgid "Its security certificate will only become valid in the future."
-msgstr "Tema turvasertifikaadi kehtivus algab tulevikus."
+#: main/data/conversation_details.ui:145
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:566
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:175
+#, fuzzy
+msgid "Remove Contact"
+msgstr "Eemalda kasutajakonto"
 
-#: main/src/windows/preferences_window/add_account_dialog.vala:151
-msgid "Its security certificate is expired."
-msgstr "Tema turvasertifikaat on aegunud."
-
-#: main/src/windows/preferences_window/add_account_dialog.vala:159
-#: main/data/preferences_window/add_account_dialog.ui:111
-msgid "Create account"
-msgstr "Loo kasutajakonto"
-
-#: main/src/windows/preferences_window/add_account_dialog.vala:178
-#, c-format
-msgid "You can now use the account %s."
-msgstr "Sa võid nüüd kasutada kontot %s."
-
-#: main/src/windows/preferences_window/add_account_dialog.vala:224
-msgid "Wrong username or password"
-msgstr "Vale kasutajanimi või salasõna"
-
-#: main/src/windows/preferences_window/add_account_dialog.vala:227
-msgid "Something went wrong"
-msgstr "Midagi läks valesti"
-
-#: main/src/windows/preferences_window/add_account_dialog.vala:248
-#: main/src/ui/add_conversation/conference_details_fragment.vala:183
-#: main/src/ui/notifier_gnotifications.vala:104
-#: main/src/ui/notifier_freedesktop.vala:188
-#, c-format
-msgid "Could not connect to %s"
-msgstr "Ühenduse loomine serveriga %s ei õnnestunud"
-
-#: main/src/windows/preferences_window/add_account_dialog.vala:255
-#: main/src/windows/preferences_window/add_account_dialog.vala:265
-#: main/src/windows/preferences_window/add_account_dialog.vala:275
-#: main/src/windows/preferences_window/add_account_dialog.vala:359
-#: main/src/ui/add_conversation/conference_details_fragment.vala:186
-msgid "Invalid address"
-msgstr "Vigane aadress"
-
-#: main/src/windows/preferences_window/add_account_dialog.vala:293
-msgid "No response from server"
-msgstr "Server ei vasta"
-
-#: main/src/windows/preferences_window/add_account_dialog.vala:304
-#, c-format
-msgid "Register on %s"
-msgstr "Registreeri serveris %s"
-
-#: main/src/windows/preferences_window/add_account_dialog.vala:307
-msgid "The server requires to sign up through a website"
-msgstr "Serveri reeglid näevad ette, et registreerud veebisaidis"
-
-#: main/src/windows/preferences_window/add_account_dialog.vala:309
-msgid "Open website"
-msgstr "Ava veebisait"
-
-#: main/src/windows/preferences_window/add_account_dialog.vala:321
-#: main/data/preferences_window/add_account_dialog.ui:294
-msgid "Register"
-msgstr "Registreeru"
-
-#: main/src/windows/preferences_window/add_account_dialog.vala:323
-#, c-format
-msgid "Check %s for information on how to sign up"
-msgstr "Registreerumise kohta leiad teavet: %s"
-
-#: main/src/windows/conversation_details.vala:76
-msgid "Block user"
-msgstr "Blokeeri kasutaja"
-
-#: main/src/windows/conversation_details.vala:76
-msgid "Block entire domain"
-msgstr "Blokeeri kogu domeen"
-
-#: main/src/windows/conversation_details.vala:76
-msgid "Unblock"
-msgstr "Eemalda blokeering"
-
-#: main/src/windows/conversation_details.vala:93
-msgid "Pinned"
-msgstr "Esiletõstetud"
-
-#: main/src/windows/conversation_details.vala:93
-msgid "Pin"
-msgstr "Tõsta esile"
-
-#: main/src/windows/conversation_details.vala:104
-msgid "Blocked"
-msgstr "Blokeeritud"
-
-#: main/src/windows/conversation_details.vala:108
-msgid "Domain blocked"
-msgstr "Domeen on blokeeritud"
-
-#: main/src/windows/conversation_details.vala:112
-msgid "Block"
-msgstr "Blokeeri"
-
-#: main/src/windows/conversation_details.vala:131
-#: main/src/windows/conversation_details.vala:132
-msgid "Mute"
-msgstr "Summuta"
-
-#: main/src/windows/conversation_details.vala:133
-msgid "Notifications enabled"
-msgstr "Teavitused on kasutusel"
-
-#: main/src/windows/conversation_details.vala:136
-msgid "Notifications for mentions"
-msgstr "Teavitused mainimiste puhul"
-
-#: main/src/windows/conversation_details.vala:139
-#: main/src/windows/conversation_details.vala:140
-msgid "Muted"
-msgstr "Summutatud"
-
-#: main/src/windows/conversation_details.vala:141
-msgid "Notifications disabled"
-msgstr "Teavitused pole kasutusel"
-
-#: main/src/windows/conversation_details.vala:196
-#: main/data/conversation_details.ui:156
+#: main/data/conversation_details.ui:171
+#: main/src/windows/conversation_details.vala:231
 msgid "About"
 msgstr "Teave"
 
-#: main/src/windows/conversation_details.vala:199
-msgid "Settings"
-msgstr "Seadistused"
-
-#: main/src/windows/conversation_details.vala:222
-msgid "Room Configuration"
-msgstr "Jututoa seadistused"
-
-#: main/src/windows/conversation_details.vala:238
-#: main/data/preferences_window/preferences_dialog.ui:18
-msgid "Encryption"
-msgstr "Krüptimine"
-
-#: main/src/windows/conversation_details.vala:248
-#: main/src/ui/conversation_titlebar/occupants_entry.vala:14
-msgid "Members"
-msgstr "Liikmed"
-
-#: main/src/view_model/conversation_details.vala:131
-#: main/src/ui/occupant_menu/list.vala:110
-msgid "Owner"
-msgstr "Omanik"
-
-#: main/src/view_model/conversation_details.vala:132
-#: main/src/ui/occupant_menu/list.vala:112
-msgid "Admin"
-msgstr "Peakasutaja"
-
-#: main/src/view_model/conversation_details.vala:133
-#: main/src/ui/occupant_menu/list.vala:114
-msgid "Member"
-msgstr "Liige"
-
-#: main/src/ui/file_send_overlay.vala:84
-msgid "The file exceeds the server's maximum upload size."
-msgstr "Faili suurus ületab serveris seadistatud üleslaadimise mahupiiri."
-
-#: main/src/ui/conversation_content/message_item_widget.vala:124
-#: main/src/ui/conversation_content_view/message_widget.vala:95
-msgid "Message too long"
-msgstr "Sõnum on liiga pikk"
-
-#: main/src/ui/conversation_content/message_item_widget.vala:150
-#: main/src/ui/conversation_content_view/message_widget.vala:161
-msgid "edited"
-msgstr "muudetud"
-
-#: main/src/ui/conversation_content/message_item_widget.vala:159
-#: main/src/ui/conversation_content_view/message_widget.vala:170
-msgid "pending…"
-msgstr "ootel…"
-
-#: main/src/ui/conversation_content/message_item_widget.vala:172
-#: main/src/ui/conversation_content_view/message_widget.vala:185
-msgid "delivery failed"
-msgstr "edasisaatmine ei õnnestunud"
-
-#: main/src/ui/conversation_content/conversation_content_model.vala:85
-#: main/src/ui/chat_input/encryption_button.vala:26
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:162
-#: main/data/menu_encryption.ui:14
-msgid "Unencrypted"
-msgstr "Krüptimata"
-
-#: main/src/ui/conversation_content/conversation_content_model.vala:101
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:204
-msgid "Unable to send message"
-msgstr "Sõnumi saatmine ei õnnestu"
-
-#: main/src/ui/conversation_content/conversation_content_model.vala:122
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:241
-#, no-c-format
-msgid "%x, %H∶%M"
-msgstr "%x, %H∶%M"
-
-#: main/src/ui/conversation_content/conversation_content_model.vala:123
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:242
-#, no-c-format
-msgid "%x, %l∶%M %p"
-msgstr "%x, %l∶%M %p"
-
-#: main/src/ui/conversation_content/conversation_content_model.vala:126
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:245
-#, no-c-format
-msgid "%b %d, %H∶%M"
-msgstr "%b. %d, %H∶%M"
-
-#: main/src/ui/conversation_content/conversation_content_model.vala:127
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:246
-#, no-c-format
-msgid "%b %d, %l∶%M %p"
-msgstr "%b. %d, %l∶%M %p"
-
-#: main/src/ui/conversation_content/conversation_content_model.vala:130
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:249
-#, no-c-format
-msgid "%a, %H∶%M"
-msgstr "%a, %H∶%M"
-
-#: main/src/ui/conversation_content/conversation_content_model.vala:131
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:250
-#, no-c-format
-msgid "%a, %l∶%M %p"
-msgstr "%a, %l∶%M %p"
-
-#: main/src/ui/conversation_content/conversation_content_model.vala:134
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:337
-#: main/src/ui/conversation_content_view/call_widget.vala:175
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:253
-#, no-c-format
-msgid "%H∶%M"
-msgstr "%H∶%M"
-
-#: main/src/ui/conversation_content/conversation_content_model.vala:135
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:338
-#: main/src/ui/conversation_content_view/call_widget.vala:175
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:254
-#, no-c-format
-msgid "%l∶%M %p"
-msgstr "%l∶%M %p"
-
-#: main/src/ui/conversation_content/conversation_content_model.vala:139
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:341
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:258
-#, c-format
-msgid "%i min ago"
-msgid_plural "%i mins ago"
-msgstr[0] "%i min eest"
-msgstr[1] "%i min eest"
-
-#: main/src/ui/conversation_content/conversation_content_model.vala:141
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:343
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:260
-msgid "Just now"
-msgstr "Just nüüd"
-
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:151
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:176
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:191
-#: main/src/ui/util/helper.vala:69 main/src/ui/util/helper.vala:73
-#: main/src/ui/util/helper.vala:81
-msgid "Me"
-msgstr "Mina"
-
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:182
-#: main/src/ui/notifier_gnotifications.vala:36
-#: main/src/ui/notifier_freedesktop.vala:71
-msgid "Image sent"
-msgstr "Pilt on saadetud"
-
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:182
-#: main/src/ui/notifier_gnotifications.vala:36
-#: main/src/ui/notifier_freedesktop.vala:71
-msgid "File sent"
-msgstr "Fail on saadetud"
-
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:184
-#: main/src/ui/notifier_gnotifications.vala:38
-#: main/src/ui/notifier_freedesktop.vala:73
-msgid "Image received"
-msgstr "Pilt on vastu võetud"
-
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:184
-#: main/src/ui/notifier_gnotifications.vala:38
-#: main/src/ui/notifier_freedesktop.vala:73
-msgid "File received"
-msgstr "Fail on vastu võetud"
-
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:193
-#: main/src/ui/conversation_content_view/call_widget.vala:168
-msgid "Outgoing call"
-msgstr "Väljuv kõne"
-
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:193
-#: main/src/ui/notifier_gnotifications.vala:70
-#: main/src/ui/notifier_freedesktop.vala:114
-#: main/src/ui/conversation_content_view/call_widget.vala:137
-#: main/src/ui/conversation_content_view/call_widget.vala:168
-msgid "Incoming call"
-msgstr "Saabuv kõne"
-
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:330
-#: main/src/ui/widgets/date_separator.vala:37
-#, no-c-format
-msgid "%b %d"
-msgstr "%d. %b"
-
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:334
-#: main/src/ui/widgets/date_separator.vala:28
-msgid "Yesterday"
-msgstr "Eile"
-
-#: main/src/ui/occupant_menu/list.vala:116
-msgid "User"
-msgstr "Kasutaja"
-
-#: main/src/ui/occupant_menu/view.vala:27
-#: main/src/ui/occupant_menu/view.vala:145
-#: main/src/ui/call_window/call_window_controller.vala:151
-msgid "Invite"
-msgstr "Kutsu"
-
-#: main/src/ui/occupant_menu/view.vala:82
-msgid "Start private conversation"
-msgstr "Alusta privaatset vestlust"
-
-#: main/src/ui/occupant_menu/view.vala:90
-msgid "Kick"
-msgstr "Müksa välja"
-
-#: main/src/ui/occupant_menu/view.vala:96
-msgid "Grant write permission"
-msgstr "Luba kirjutusõigus"
-
-#: main/src/ui/occupant_menu/view.vala:102
-msgid "Revoke write permission"
-msgstr "Keela kirjutusõigus"
-
-#: main/src/ui/occupant_menu/view.vala:144
-msgid "Invite to Conference"
-msgstr "Kutsu vestlusrühma"
-
-#: main/src/ui/conversation_view_controller.vala:203
-msgid "Select file"
-msgstr "Vali fail"
-
-#: main/src/ui/util/helper.vala:65
-#, c-format
-msgid "%s from %s"
-msgstr "%s vestlusest %s"
-
-#: main/src/ui/util/data_forms.vala:31
-msgid "Name of the room"
-msgstr "Jututoa nimi"
-
-#: main/src/ui/util/data_forms.vala:34
-msgid "Description of the room"
-msgstr "Jututoa kirjeldus"
-
-#: main/src/ui/util/data_forms.vala:37
-msgid "Persistent"
-msgstr "Püsiv"
-
-#: main/src/ui/util/data_forms.vala:38
-msgid "The room will persist after the last occupant leaves"
-msgstr "Jututuba säilib ka peale viimase osaleja lahkumist"
-
-#: main/src/ui/util/data_forms.vala:41
-msgid "Publicly searchable"
-msgstr "Avalikult leitav"
-
-#: main/src/ui/util/data_forms.vala:44
-msgid "Occupants may change the subject"
-msgstr "Jututoas osalejad võivad teemat muuta"
-
-#: main/src/ui/util/data_forms.vala:47
-msgid "Permission to view JIDs"
-msgstr "Õigus näha osalejate JID-tunnuseid"
-
-#: main/src/ui/util/data_forms.vala:48
-msgid "Who is allowed to view the occupants' JIDs?"
-msgstr "Kellel on õigus näha jututoas osalejate JID-tunnuseid?"
-
-#: main/src/ui/util/data_forms.vala:51
-#: main/data/preferences_window/account_preferences_subpage.ui:82
-#: main/data/add_conversation/conference_details_fragment.ui:162
-#: main/data/add_conversation/add_groupchat_dialog.ui:122
-msgid "Password"
-msgstr "Salasõna"
-
-#: main/src/ui/util/data_forms.vala:55
-msgid "Moderated"
-msgstr "Modereeritud"
-
-#: main/src/ui/util/data_forms.vala:56
-msgid "Only occupants with voice may send messages"
-msgstr "Sõnumeid võivad saata vaid hääleõigusega osalejad"
-
-#: main/src/ui/util/data_forms.vala:59
-msgid "Members only"
-msgstr "Ainult liikmetele"
-
-#: main/src/ui/util/data_forms.vala:60
-msgid "Only members may enter the room"
-msgstr "Jututuppa pääsevad vaid liikmed"
-
-#: main/src/ui/chat_input/chat_input_controller.vala:217
-msgid "This conference does not allow you to send messages."
-msgstr "Selles vestlusrühmas sa ei saa saata sõnumeid."
-
-#: main/src/ui/chat_input/chat_input_controller.vala:217
-msgid "Request permission"
-msgstr "Küsi luba"
-
-#: main/src/ui/chat_input/view.vala:45 main/data/gtk/help-overlay.ui:49
-#: main/data/file_send_overlay.ui:24
-msgid "Send a file"
-msgstr "Saada fail"
-
-#: main/src/ui/conversation_titlebar/call_entry.vala:13
-msgid "Start call"
-msgstr "Helista"
-
-#: main/src/ui/conversation_titlebar/call_entry.vala:24
-msgid "Audio call"
-msgstr "Häälkõne"
-
-#: main/src/ui/conversation_titlebar/call_entry.vala:25
-msgid "Video call"
-msgstr "Videokõne"
-
-#: main/src/ui/conversation_titlebar/search_entry.vala:12
-#: main/data/gtk/help-overlay.ui:43
-msgid "Search messages"
-msgstr "Otsi sõnumeid"
-
-#: main/src/ui/conversation_titlebar/menu_entry.vala:20
-msgid "Conversation Details"
-msgstr "Vestluse üksikasjad"
-
-#: main/src/ui/conversation_titlebar/menu_entry.vala:21
-msgid "Close Conversation"
-msgstr "Sulge vestlus"
-
-#: main/src/ui/call_window/participant_widget.vala:115
-msgid "Debug information"
-msgstr "Silumisteave"
-
-#: main/src/ui/call_window/participant_widget.vala:124
-#: main/src/ui/conversation_content_view/call_widget.vala:152
-msgid "Calling…"
-msgstr "Helistame…"
-
-#: main/src/ui/call_window/participant_widget.vala:126
-msgid "Ringing…"
-msgstr "Heliseb…"
-
-#: main/src/ui/call_window/call_window.vala:207
-#, c-format
-msgid "%s ended the call"
-msgstr "%s lõpetas kõne"
-
-#: main/src/ui/call_window/call_window.vala:209
-#, c-format
-msgid "%s declined the call"
-msgstr "%s ei võtnud kõnet vastu"
-
-#: main/src/ui/call_window/video_settings_popover.vala:25
-msgid "Cameras"
-msgstr "Kaamerad"
-
-#: main/src/ui/call_window/video_settings_popover.vala:28
-msgid "No camera found."
-msgstr "Ühtegi kaamerat ei leidunud."
-
-#: main/src/ui/call_window/audio_settings_popover.vala:29
-msgid "Microphones"
-msgstr "Mikrofonid"
-
-#: main/src/ui/call_window/audio_settings_popover.vala:32
-msgid "No microphone found."
-msgstr "Ühtegi mikrofoni ei leidunud."
-
-#: main/src/ui/call_window/audio_settings_popover.vala:85
-msgid "Speakers"
-msgstr "Kõlarid"
-
-#: main/src/ui/call_window/audio_settings_popover.vala:88
-msgid "No speaker found."
-msgstr "Ühtegi kõlarit ei leidunud."
-
-#: main/src/ui/call_window/call_window_controller.vala:150
-msgid "Invite to Call"
-msgstr "Helista"
-
-#: main/src/ui/add_conversation/select_contact_dialog.vala:89
-#: main/src/ui/main_window.vala:137 main/data/gtk/help-overlay.ui:14
+#: main/data/conversation_row.ui:56
+msgid "Private room (supports group calls)"
+msgstr ""
+
+#: main/data/conversation_row.ui:135
+#: main/src/windows/conversation_details.vala:171
+#: main/src/windows/conversation_details.vala:172
+msgid "Muted"
+msgstr "Summutatud"
+
+#: main/data/conversation_row.ui:146
+#: main/src/windows/conversation_details.vala:136
+msgid "Blocked"
+msgstr "Blokeeritud"
+
+#: main/data/gtk/help-overlay.ui:10
+#: main/data/preferences_window/preferences_dialog.ui:32
+msgid "General"
+msgstr "Üldised"
+
+#: main/data/gtk/help-overlay.ui:14 main/data/main_window.ui:38
 #: main/data/menu_add.ui:7
+#: main/src/ui/add_conversation/select_contact_dialog.vala:106
+#: main/src/ui/main_window.vala:141
 msgid "Start Conversation"
 msgstr "Alusta vestlust"
 
-#: main/src/ui/add_conversation/select_contact_dialog.vala:90
-msgid "Start"
-msgstr "Alusta"
-
-#: main/src/ui/add_conversation/add_conference_dialog.vala:25
-#: main/src/ui/application.vala:293 main/data/gtk/help-overlay.ui:20
+#: main/data/gtk/help-overlay.ui:20 main/data/main_window.ui:51
 #: main/data/menu_add.ui:11
+#: main/src/ui/add_conversation/add_conference_dialog.vala:24
+#: main/src/ui/application.vala:527 main/src/ui/main_window.vala:142
 msgid "Join Channel"
 msgstr "Liitu kanaliga"
 
-#: main/src/ui/add_conversation/add_conference_dialog.vala:45
-#: main/data/preferences_window/add_account_dialog.ui:246
+#: main/data/gtk/help-overlay.ui:26
+msgid "Show preferences"
+msgstr "Näita eelistusi"
+
+#: main/data/gtk/help-overlay.ui:32
+msgid "Keyboard shortcuts"
+msgstr "Klaviatuuri kiirklahvid"
+
+#: main/data/gtk/help-overlay.ui:39
+msgid "Conversation"
+msgstr "Vestlus"
+
+#: main/data/gtk/help-overlay.ui:43
+#: main/src/ui/conversation_titlebar/search_entry.vala:12
+msgid "Search messages"
+msgstr "Otsi sõnumeid"
+
+#: main/data/gtk/help-overlay.ui:49 main/src/ui/chat_input/view.vala:47
+msgid "Send a file"
+msgstr "Saada fail"
+
+#: main/data/gtk/help-overlay.ui:55
+msgid "Close conversation"
+msgstr ""
+
+#: main/data/gtk/help-overlay.ui:62
+msgid "Navigation"
+msgstr "Liikumine rakenduses"
+
+#: main/data/gtk/help-overlay.ui:66
+msgid "Jump to next conversation"
+msgstr "Suundu järgmise vestluse juurde"
+
+#: main/data/gtk/help-overlay.ui:72
+msgid "Jump to previous conversation"
+msgstr "Suundu eelmise vestluse juurde"
+
+#: main/data/main_window.ui:64 main/src/ui/main_window.vala:144
+msgid "Help: How to join channels"
+msgstr ""
+
+#: main/data/main_window.ui:118
+msgid "You have no open chats"
+msgstr "Sul pole vestlusi"
+
+#: main/data/main_window.ui:119
+msgid "Click + to start a chat or join a channel"
+msgstr "Vestluse loomiseks või kanaliga liitumiseks klõpsi + ikooni"
+
+#: main/data/menu_app.ui:6
+msgid "Status"
+msgstr ""
+
+#: main/data/menu_app.ui:11
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:427
+#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/systray.vala:279
+msgid "Online"
+msgstr ""
+
+#: main/data/menu_app.ui:16
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:421
+#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/systray.vala:279
+msgid "Away"
+msgstr ""
+
+#: main/data/menu_app.ui:21
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:425
+#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/systray.vala:279
+msgid "Busy"
+msgstr ""
+
+#: main/data/menu_app.ui:26
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:423
+#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/systray.vala:279
+msgid "Not Available"
+msgstr ""
+
+#: main/data/menu_app.ui:34
+msgid "Preferences"
+msgstr "Eelistused"
+
+#: main/data/menu_app.ui:38
+msgid "Keyboard Shortcuts"
+msgstr "Klaviatuuri kiirklahvid"
+
+#: main/data/menu_app.ui:42 main/src/ui/application.vala:334
+#, fuzzy
+msgid "About DinoX"
+msgstr "Rakenduse teave: Dino"
+
+#: main/data/menu_conversation.ui:7
+msgid "Contact Details"
+msgstr "Kontaktandmed"
+
+#: main/data/menu_conversation.ui:13
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:513
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:565
+#: main/src/ui/conversation_titlebar/menu_entry.vala:84
+#, fuzzy
+msgid "Delete Conversation History"
+msgstr "Sulge vestlus"
+
+#: main/data/message_item_widget_edit_mode.ui:46
+#: main/data/preferences_window/change_password_dialog.ui:18
+#: main/src/ui/add_conversation/add_conference_dialog.vala:41
+#: main/src/ui/add_conversation/select_contact_dialog.vala:40
+#: main/src/ui/application.vala:537
+#: main/src/ui/conversation_content_view/file_default_widget.vala:90
+#: main/src/ui/conversation_content_view/item_actions.vala:165
+#: main/src/ui/conversation_content_view/item_actions.vala:168
+#: main/src/ui/conversation_details.vala:249
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:633
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:660
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:679
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:704
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:723
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:744
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:790
+#: main/src/ui/conversation_titlebar/call_entry.vala:83
+#: main/src/ui/conversation_titlebar/menu_entry.vala:51
+#: main/src/windows/conversation_details.vala:60
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:67
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:205
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:225
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:249
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:269
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:291
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:332
+msgid "Cancel"
+msgstr "Katkesta"
+
+#: main/data/message_item_widget_edit_mode.ui:51
+msgid "Update message"
+msgstr "Uuenda sõnumit"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:68
+#: main/src/ui/conversation_details.vala:170
+msgid "XMPP Address"
+msgstr "XMPP aadress"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:77
+msgid "Local alias"
+msgstr "Kohalik varjunimi"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:82
+#: main/src/ui/util/data_forms.vala:63
+msgid "Password"
+msgstr "Salasõna"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:104
+msgid "Connection status"
+msgstr "Ühenduse olek"
+
+# Custom host/port feature (Issue #115)
+#: main/data/preferences_window/account_preferences_subpage.ui:121
+msgid "Advanced Settings"
+msgstr ""
+
+#: main/data/preferences_window/account_preferences_subpage.ui:122
+msgid "Custom server connection (leave empty for automatic)"
+msgstr ""
+
+#: main/data/preferences_window/account_preferences_subpage.ui:125
+msgid "Server Hostname"
+msgstr ""
+
+#: main/data/preferences_window/account_preferences_subpage.ui:130
+msgid "Port"
+msgstr ""
+
+#: main/data/preferences_window/change_password_dialog.ui:61
+msgid "Current password"
+msgstr "Praegune salasõna"
+
+#: main/data/preferences_window/change_password_dialog.ui:66
+msgid "New password"
+msgstr "Uus salasõna"
+
+#: main/data/preferences_window/change_password_dialog.ui:71
+msgid "Confirm password"
+msgstr "Korda salasõna"
+
+#: main/data/preferences_window/general_preferences_page.ui:9
+msgid "Send _Typing Notifications"
+msgstr "Saada _kirjutamisteatisi"
+
+#: main/data/preferences_window/general_preferences_page.ui:15
+msgid "Send _Read Receipts"
+msgstr "Saada _lugemisteatisi"
+
+#: main/data/preferences_window/general_preferences_page.ui:25
+msgid "_Notifications"
+msgstr "_Teavitused"
+
+#: main/data/preferences_window/general_preferences_page.ui:26
+msgid "Notify when a new message arrives"
+msgstr "Teavita uue sõnumi saabumisel"
+
+#: main/data/preferences_window/general_preferences_page.ui:32
+msgid "_Keep Running in Background"
+msgstr ""
+
+#: main/data/preferences_window/general_preferences_page.ui:33
+msgid ""
+"Continue running after closing window to receive notifications immediately"
+msgstr ""
+
+#: main/data/preferences_window/general_preferences_page.ui:41
+msgid "Appearance"
+msgstr ""
+
+#: main/data/preferences_window/general_preferences_page.ui:44
+msgid "_Color Scheme"
+msgstr ""
+
+#: main/data/preferences_window/general_preferences_page.ui:45
+msgid "Choose between light and dark appearance"
+msgstr ""
+
+#: main/data/preferences_window/general_preferences_page.ui:55
+msgid "_Convert Smileys to Emoji"
+msgstr "_Muuda emotikonid emojideks"
+
+#: main/data/preferences_window/general_preferences_page.ui:63
+#, fuzzy
+msgid "User Data"
+msgstr "Kasutaja"
+
+#: main/data/preferences_window/general_preferences_page.ui:66
+msgid "Backup User Data"
+msgstr ""
+
+#: main/data/preferences_window/general_preferences_page.ui:67
+msgid "Create a backup of your accounts, messages and settings"
+msgstr ""
+
+#: main/data/preferences_window/general_preferences_page.ui:78
+msgid "Data Location"
+msgstr ""
+
+#: main/data/preferences_window/general_preferences_page.ui:79
+msgid "View where your data is stored"
+msgstr ""
+
+#: main/data/preferences_window/preferences_dialog.ui:11
+#: main/src/windows/preferences_window/accounts_preferences_page.vala:15
+#: main/src/windows/preferences_window/accounts_preferences_page.vala:27
+msgid "Accounts"
+msgstr "Kasutajakontod"
+
+#: main/data/preferences_window/preferences_dialog.ui:18
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:17
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:67
+#, fuzzy
+msgid "Contacts"
+msgstr "Lisa kontakt"
+
+#: main/data/preferences_window/preferences_dialog.ui:25
+#: main/src/windows/conversation_details.vala:281
+msgid "Encryption"
+msgstr "Krüptimine"
+
+#: main/src/ui/add_conversation/add_conference_dialog.vala:44
 msgid "Next"
 msgstr "Edasi"
 
-#: main/src/ui/add_conversation/add_conference_dialog.vala:60
+#: main/src/ui/add_conversation/add_conference_dialog.vala:59
 #: main/src/ui/add_conversation/conference_details_fragment.vala:151
-#: main/src/ui/application.vala:293 main/data/join_room_dialog2.ui:190
+#: main/src/ui/application.vala:541
 msgid "Join"
 msgstr "Liitu"
+
+#: main/src/ui/add_conversation/add_groupchat_dialog.vala:26
+msgid "Add"
+msgstr "Lisa"
 
 #: main/src/ui/add_conversation/conference_details_fragment.vala:143
 msgid "Joining…"
@@ -694,114 +426,223 @@ msgstr "Vali mõni muu hüüdnimi"
 msgid "Too many occupants in room"
 msgstr "Jututoas on liiga palju osalejaid"
 
-#: main/src/ui/add_conversation/add_groupchat_dialog.vala:26
-#: main/data/add_conversation/add_contact_dialog.ui:18
-msgid "Add"
-msgstr "Lisa"
-
-#: main/src/ui/application.vala:284 main/data/menu_app.ui:15
-msgid "About Dino"
-msgstr "Rakenduse teave: Dino"
-
-#: main/src/ui/widgets/date_separator.vala:22
-msgid "Today"
-msgstr "Täna"
-
-#: main/src/ui/widgets/date_separator.vala:35
-#, no-c-format
-msgid "%a, %b %d"
-msgstr "%a, %d. %b"
-
-#: main/src/ui/global_search.vala:181
+#: main/src/ui/add_conversation/conference_details_fragment.vala:183
+#: main/src/ui/notifier_freedesktop.vala:188
+#: main/src/ui/notifier_gnotifications.vala:104
+#: main/src/windows/preferences_window/add_account_dialog.vala:271
 #, c-format
-msgid "%i search result"
-msgid_plural "%i search results"
-msgstr[0] "%i otsingutulemus"
-msgstr[1] "%i otsingutulemust"
+msgid "Could not connect to %s"
+msgstr "Ühenduse loomine serveriga %s ei õnnestunud"
 
-#: main/src/ui/global_search.vala:208
+#: main/src/ui/add_conversation/conference_details_fragment.vala:186
+#: main/src/windows/preferences_window/add_account_dialog.vala:287
+#: main/src/windows/preferences_window/add_account_dialog.vala:297
+#: main/src/windows/preferences_window/add_account_dialog.vala:307
+#: main/src/windows/preferences_window/add_account_dialog.vala:391
+msgid "Invalid address"
+msgstr "Vigane aadress"
+
+#: main/src/ui/add_conversation/select_contact_dialog.vala:70
+msgid "Search or enter contact address..."
+msgstr ""
+
+#: main/src/ui/add_conversation/select_contact_dialog.vala:107
+msgid "Start"
+msgstr "Alusta"
+
+#: main/src/ui/add_conversation/select_jid_fragment.vala:154
+msgid "Browse Rooms"
+msgstr ""
+
+#: main/src/ui/add_conversation/select_jid_fragment.vala:157
+#, fuzzy
+msgid "Browse Contacts"
+msgstr "Lisa kontakt"
+
+#: main/src/ui/add_conversation/select_jid_fragment.vala:202
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:70
+msgid "Add Contact"
+msgstr "Lisa kontakt"
+
+#: main/src/ui/add_conversation/select_jid_fragment.vala:203
+#, fuzzy
+msgid "Delete Contact"
+msgstr "Lisa kontakt"
+
+#: main/src/ui/add_conversation/select_jid_fragment.vala:206
+#: main/src/ui/add_conversation/select_jid_fragment.vala:216
+msgid "Leave Group"
+msgstr ""
+
+#: main/src/ui/application.vala:339
+msgid "Modern XMPP client with extended features"
+msgstr ""
+
+#: main/src/ui/application.vala:346 main/src/ui/application.vala:385
+msgid "User Data Locations"
+msgstr ""
+
+#: main/src/ui/application.vala:349 main/src/ui/application.vala:399
+#, fuzzy
+msgid "Configuration:"
+msgstr "Jututoa seadistused"
+
+#: main/src/ui/application.vala:352 main/src/ui/application.vala:401
+msgid "Data & Database:"
+msgstr ""
+
+#: main/src/ui/application.vala:355 main/src/ui/application.vala:403
+msgid "Cache:"
+msgstr ""
+
+#: main/src/ui/application.vala:358
+msgid "Info:"
+msgstr ""
+
+#: main/src/ui/application.vala:359
+msgid ""
+"Your personal data (accounts, messages, files) is stored separately from the "
+"application."
+msgstr ""
+
+#: main/src/ui/application.vala:361
+msgid "When you update DinoX, your data remains intact."
+msgstr ""
+
+#: main/src/ui/application.vala:363
+msgid "Use Settings → General → Backup User Data to create a backup."
+msgstr ""
+
+#: main/src/ui/application.vala:405
+msgid ""
+"Your personal data (accounts, messages, files) is stored separately from the "
+"application. When you update DinoX, your data remains intact."
+msgstr ""
+
+#: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
+#: main/src/ui/main_window.vala:159
+msgid "Close"
+msgstr ""
+
+#: main/src/ui/application.vala:417
+msgid "Select Backup Location"
+msgstr ""
+
+#: main/src/ui/application.vala:445
+msgid "Creating backup..."
+msgstr ""
+
+#: main/src/ui/application.vala:503
 #, c-format
-msgid "In %s"
-msgstr "Vestlusrühmas %s"
+msgid "Backup created successfully (%s)"
+msgstr ""
 
-#: main/src/ui/global_search.vala:208
+#: main/src/ui/application.vala:505
+msgid "Backup created successfully"
+msgstr ""
+
+#: main/src/ui/application.vala:510
+msgid "Unknown error"
+msgstr ""
+
+#: main/src/ui/application.vala:511
 #, c-format
-msgid "With %s"
-msgstr "Kasutajaga %s"
+msgid "Backup failed: %s"
+msgstr ""
 
-#: main/src/ui/notifier_gnotifications.vala:70
-#: main/src/ui/notifier_freedesktop.vala:114
-#: main/src/ui/conversation_content_view/call_widget.vala:137
-msgid "Incoming video call"
-msgstr "Saabuv videokõne"
+#: main/src/ui/call_window/audio_settings_popover.vala:29
+msgid "Microphones"
+msgstr "Mikrofonid"
 
-#: main/src/ui/notifier_gnotifications.vala:72
-#: main/src/ui/notifier_freedesktop.vala:116
-#: main/src/ui/conversation_content_view/call_widget.vala:139
-msgid "Incoming video group call"
-msgstr "Saabuv videokõne rühmaga"
+#: main/src/ui/call_window/audio_settings_popover.vala:32
+msgid "No microphone found."
+msgstr "Ühtegi mikrofoni ei leidunud."
 
-#: main/src/ui/notifier_gnotifications.vala:72
-#: main/src/ui/notifier_freedesktop.vala:116
-#: main/src/ui/conversation_content_view/call_widget.vala:139
-msgid "Incoming group call"
-msgstr "Saabub kõne rühmaga"
+#: main/src/ui/call_window/audio_settings_popover.vala:85
+msgid "Speakers"
+msgstr "Kõlarid"
 
-#: main/src/ui/notifier_gnotifications.vala:80
-#: main/src/ui/notifier_freedesktop.vala:125
-#: main/src/ui/notifier_freedesktop.vala:230 main/data/call_widget.ui:73
-msgid "Reject"
-msgstr "Keeldu"
+#: main/src/ui/call_window/audio_settings_popover.vala:88
+msgid "No speaker found."
+msgstr "Ühtegi kõlarit ei leidunud."
 
-#: main/src/ui/notifier_gnotifications.vala:81
-#: main/src/ui/notifier_gnotifications.vala:97
-#: main/src/ui/notifier_gnotifications.vala:134
-#: main/src/ui/notifier_gnotifications.vala:150
-#: main/src/ui/notifier_freedesktop.vala:125
-#: main/src/ui/notifier_freedesktop.vala:164
-#: main/src/ui/notifier_freedesktop.vala:230
-#: main/src/ui/notifier_freedesktop.vala:264
-#: main/src/ui/conversation_content_view/subscription_notification.vala:67
-#: main/data/call_widget.ui:81
-msgid "Accept"
-msgstr "Nõustu"
+#: main/src/ui/call_window/call_window_controller.vala:153
+msgid "Invite to Call"
+msgstr "Helista"
 
-#: main/src/ui/notifier_gnotifications.vala:91
-#: main/src/ui/notifier_freedesktop.vala:157
-msgid "Subscription request"
-msgstr "Tellimuspäring"
+#: main/src/ui/call_window/call_window_controller.vala:154
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:772
+#: main/src/ui/conversation_titlebar/menu_entry.vala:99
+#: main/src/ui/occupant_menu/view.vala:27
+#: main/src/ui/occupant_menu/view.vala:276
+msgid "Invite"
+msgstr "Kutsu"
 
-#: main/src/ui/notifier_gnotifications.vala:98
-#: main/src/ui/notifier_gnotifications.vala:133
-#: main/src/ui/notifier_gnotifications.vala:149
-#: main/src/ui/notifier_freedesktop.vala:164
-#: main/src/ui/notifier_freedesktop.vala:264
-#: main/src/ui/conversation_content_view/subscription_notification.vala:68
-msgid "Deny"
-msgstr "Keeldu"
+#: main/src/ui/call_window/call_window_controller.vala:405
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:240
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:270
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:285
+#: main/src/ui/util/helper.vala:69 main/src/ui/util/helper.vala:73
+#: main/src/ui/util/helper.vala:81
+msgid "Me"
+msgstr "Mina"
 
-#: main/src/ui/notifier_gnotifications.vala:123
-#: main/src/ui/notifier_freedesktop.vala:220
+#: main/src/ui/call_window/call_window.vala:219
 #, c-format
-msgid "Invitation to %s"
-msgstr "Vestluskutse: %s"
+msgid "%s ended the call"
+msgstr "%s lõpetas kõne"
 
-#: main/src/ui/notifier_gnotifications.vala:124
-#: main/src/ui/notifier_freedesktop.vala:221
+#: main/src/ui/call_window/call_window.vala:221
 #, c-format
-msgid "%s invited you to %s"
-msgstr "%s saatis sulle kutse vestlusrühma %s"
+msgid "%s declined the call"
+msgstr "%s ei võtnud kõnet vastu"
 
-#: main/src/ui/notifier_gnotifications.vala:141
-#: main/src/ui/notifier_freedesktop.vala:254
-msgid "Permission request"
-msgstr "Loa küsimine"
+#: main/src/ui/call_window/participant_widget.vala:115
+msgid "Debug information"
+msgstr "Silumisteave"
 
-#: main/src/ui/notifier_gnotifications.vala:142
-#: main/src/ui/notifier_freedesktop.vala:255
-#, c-format
-msgid "%s requests the permission to write in %s"
-msgstr "%s küsib õigusi kirjutada vestlusrühmas %s"
+#: main/src/ui/call_window/participant_widget.vala:124
+#: main/src/ui/conversation_content_view/call_widget.vala:152
+msgid "Calling…"
+msgstr "Helistame…"
+
+#: main/src/ui/call_window/participant_widget.vala:126
+msgid "Ringing…"
+msgstr "Heliseb…"
+
+#: main/src/ui/call_window/participant_widget.vala:128
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:216
+msgid "Connecting…"
+msgstr "Ühendame…"
+
+#: main/src/ui/call_window/video_settings_popover.vala:25
+msgid "Cameras"
+msgstr "Kaamerad"
+
+#: main/src/ui/call_window/video_settings_popover.vala:28
+msgid "No camera found."
+msgstr "Ühtegi kaamerat ei leidunud."
+
+#: main/src/ui/chat_input/chat_input_controller.vala:247
+msgid "This conference does not allow you to send messages."
+msgstr "Selles vestlusrühmas sa ei saa saata sõnumeid."
+
+#: main/src/ui/chat_input/chat_input_controller.vala:247
+msgid "Request permission"
+msgstr "Küsi luba"
+
+#: main/src/ui/chat_input/encryption_button.vala:35
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:172
+msgid "Unencrypted"
+msgstr "Krüptimata"
+
+#: main/src/ui/contact_details/permissions_provider.vala:23
+msgid "Request permission to send messages"
+msgstr "Palu õigust kirjutada siin vestlusrühmas"
+
+#: main/src/ui/contact_details/permissions_provider.vala:24
+msgid "Request"
+msgstr "Palu"
 
 #: main/src/ui/contact_details/settings_provider.vala:21
 #: main/src/ui/contact_details/settings_provider.vala:24
@@ -831,87 +672,31 @@ msgstr "Vaikimisi: %s"
 msgid "Send read receipts"
 msgstr "Saada lugemisteatisi"
 
-#: main/src/ui/contact_details/permissions_provider.vala:23
-msgid "Request permission to send messages"
-msgstr "Palu õigust kirjutada siin vestlusrühmas"
+#: main/src/ui/conversation_content_view/call_widget.vala:137
+#: main/src/ui/notifier_freedesktop.vala:114
+#: main/src/ui/notifier_gnotifications.vala:70
+msgid "Incoming video call"
+msgstr "Saabuv videokõne"
 
-#: main/src/ui/contact_details/permissions_provider.vala:24
-msgid "Request"
-msgstr "Palu"
+#: main/src/ui/conversation_content_view/call_widget.vala:137
+#: main/src/ui/conversation_content_view/call_widget.vala:168
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:287
+#: main/src/ui/notifier_freedesktop.vala:114
+#: main/src/ui/notifier_gnotifications.vala:70
+msgid "Incoming call"
+msgstr "Saabuv kõne"
 
-#: main/src/ui/main_window.vala:151
-msgid "Welcome to Dino!"
-msgstr "Tere tulemast suhtlusrakendusse Dino!"
+#: main/src/ui/conversation_content_view/call_widget.vala:139
+#: main/src/ui/notifier_freedesktop.vala:116
+#: main/src/ui/notifier_gnotifications.vala:72
+msgid "Incoming video group call"
+msgstr "Saabuv videokõne rühmaga"
 
-#: main/src/ui/main_window.vala:152
-msgid "Sign in or create an account to get started."
-msgstr "Alustamiseks logi sisse või loo kasutajakonto."
-
-#: main/src/ui/main_window.vala:153
-msgid "Set up account"
-msgstr "Seadista kasutajakontot"
-
-#: main/src/ui/main_window.vala:161
-msgid "Manage accounts"
-msgstr "Halda kasutajakontosid"
-
-#: main/src/ui/conversation_details.vala:143
-#: main/data/preferences_window/account_preferences_subpage.ui:68
-msgid "XMPP Address"
-msgstr "XMPP aadress"
-
-#: main/src/ui/conversation_details.vala:148
-msgid "Display name"
-msgstr "Kuvatav nimi"
-
-#: main/src/ui/conversation_details.vala:168
-#: main/src/ui/conversation_details.vala:182
-msgid "Topic"
-msgstr "Teema"
-
-#: main/src/ui/conversation_content_view/message_widget.vala:233
-msgid "Edit message"
-msgstr "Muuda sõnumit"
-
-#: main/src/ui/conversation_content_view/reactions_widget.vala:102
-msgid "You"
-msgstr "Sina"
-
-#: main/src/ui/conversation_content_view/reactions_widget.vala:128
-#: main/src/ui/conversation_content_view/item_actions.vala:9
-msgid "Add reaction"
-msgstr "Reageeri"
-
-#: main/src/ui/conversation_content_view/file_image_widget.vala:42
-#: main/src/ui/conversation_content_view/file_default_widget.vala:65
-msgid "Open"
-msgstr "Ava"
-
-#: main/src/ui/conversation_content_view/file_image_widget.vala:43
-#: main/src/ui/conversation_content_view/file_widget.vala:167
-#: main/src/ui/conversation_content_view/file_default_widget.vala:66
-msgid "Save as…"
-msgstr "Salvesta kui…"
-
-#: main/src/ui/conversation_content_view/chat_state_populator.vala:108
-#, c-format
-msgid "%s, %s and %i others are typing…"
-msgstr "%s, %s ja %i muud kasutajat kirjutavad…"
-
-#: main/src/ui/conversation_content_view/chat_state_populator.vala:115
-#, c-format
-msgid "%s, %s and %s are typing…"
-msgstr "%s, %s ja %s kirjutavad…"
-
-#: main/src/ui/conversation_content_view/chat_state_populator.vala:121
-#, c-format
-msgid "%s and %s are typing…"
-msgstr "%s ja %s kirjutavad…"
-
-#: main/src/ui/conversation_content_view/chat_state_populator.vala:126
-#, c-format
-msgid "%s is typing…"
-msgstr "%s kirjutab…"
+#: main/src/ui/conversation_content_view/call_widget.vala:139
+#: main/src/ui/notifier_freedesktop.vala:116
+#: main/src/ui/notifier_gnotifications.vala:72
+msgid "Incoming group call"
+msgstr "Saabub kõne rühmaga"
 
 #: main/src/ui/conversation_content_view/call_widget.vala:159
 msgid "Call started"
@@ -922,6 +707,11 @@ msgstr "Kõne algas"
 msgid "Started %s ago"
 msgstr "Algusest möödas: %s"
 
+#: main/src/ui/conversation_content_view/call_widget.vala:168
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:287
+msgid "Outgoing call"
+msgstr "Väljuv kõne"
+
 #: main/src/ui/conversation_content_view/call_widget.vala:169
 msgid "You handled this call on another device"
 msgstr "Sa tegelesid selle kõnega muus seadmes"
@@ -929,6 +719,20 @@ msgstr "Sa tegelesid selle kõnega muus seadmes"
 #: main/src/ui/conversation_content_view/call_widget.vala:174
 msgid "Call ended"
 msgstr "Kõne lõppes"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:175
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:263
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:490
+#, no-c-format
+msgid "%H∶%M"
+msgstr "%H∶%M"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:175
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:264
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:491
+#, no-c-format
+msgid "%l∶%M %p"
+msgstr "%l∶%M %p"
 
 #: main/src/ui/conversation_content_view/call_widget.vala:177
 #, c-format
@@ -970,31 +774,228 @@ msgstr "%s keeldus vastamast sellele kõnele"
 msgid "Call failed"
 msgstr "Kõne ei õnnestunud"
 
-#: main/src/ui/conversation_content_view/call_widget.vala:227
-#, c-format
-msgid "%i hour"
-msgid_plural "%i hours"
-msgstr[0] "%i tund"
-msgstr[1] "%i tundi"
-
-#: main/src/ui/conversation_content_view/call_widget.vala:234
-#, c-format
-msgid "%i minute"
-msgid_plural "%i minutes"
-msgstr[0] "%i minut"
-msgstr[1] "%i minutit"
-
 #: main/src/ui/conversation_content_view/call_widget.vala:241
 msgid "a few seconds"
 msgstr "paar sekundit"
 
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:194
+#: main/src/ui/conversation_content_view/chat_state_populator.vala:108
+#, c-format
+msgid "%s, %s and %i others are typing…"
+msgstr "%s, %s ja %i muud kasutajat kirjutavad…"
+
+#: main/src/ui/conversation_content_view/chat_state_populator.vala:115
+#, c-format
+msgid "%s, %s and %s are typing…"
+msgstr "%s, %s ja %s kirjutavad…"
+
+#: main/src/ui/conversation_content_view/chat_state_populator.vala:121
+#, c-format
+msgid "%s and %s are typing…"
+msgstr "%s ja %s kirjutavad…"
+
+#: main/src/ui/conversation_content_view/chat_state_populator.vala:126
+#, c-format
+msgid "%s is typing…"
+msgstr "%s kirjutab…"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:204
 msgid "Delivered"
 msgstr "Kohaletoimetatud"
 
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:198
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:208
 msgid "Read"
 msgstr "Loetud"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:214
+msgid "Unable to send message"
+msgstr "Sõnumi saatmine ei õnnestu"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:251
+#, no-c-format
+msgid "%x, %H∶%M"
+msgstr "%x, %H∶%M"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:252
+#, no-c-format
+msgid "%x, %l∶%M %p"
+msgstr "%x, %l∶%M %p"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:255
+#, no-c-format
+msgid "%b %d, %H∶%M"
+msgstr "%b. %d, %H∶%M"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:256
+#, no-c-format
+msgid "%b %d, %l∶%M %p"
+msgstr "%b. %d, %l∶%M %p"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:259
+#, no-c-format
+msgid "%a, %H∶%M"
+msgstr "%a, %H∶%M"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:260
+#, no-c-format
+msgid "%a, %l∶%M %p"
+msgstr "%a, %l∶%M %p"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:270
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:496
+msgid "Just now"
+msgstr "Just nüüd"
+
+#: main/src/ui/conversation_content_view/conversation_view.vala:105
+#, fuzzy
+msgid "More actions"
+msgstr "Reageeri"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:67
+#: main/src/ui/conversation_content_view/file_image_widget.vala:42
+msgid "Open"
+msgstr "Ava"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:68
+#: main/src/ui/conversation_content_view/file_image_widget.vala:43
+#: main/src/ui/conversation_content_view/file_widget.vala:174
+msgid "Save as…"
+msgstr "Salvesta kui…"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:77
+#, c-format
+msgid "Downloading %s… (%u%%)"
+msgstr "Allalaadimisel %s… (%u%%)"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:79
+#, c-format
+msgid "Downloading %s…"
+msgstr "Laadime alla %s…"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:83
+#, c-format
+msgid "Uploading %s… (%u%%)"
+msgstr "Üleslaadimisel %s… (%u%%)"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:97
+#, c-format
+msgid "%s offered: %s"
+msgstr "%s, mahuga: %s"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:99
+#, c-format
+msgid "File offered: %s"
+msgstr "Fail mahuga: %s"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:101
+msgid "File offered"
+msgstr "Pakutav fail"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:107
+msgid "File transfer failed"
+msgstr "Faili edastamine ei õnnestunud"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:36
+#, fuzzy
+msgid "Kick user"
+msgstr "Blokeeri kasutaja"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:69
+#, fuzzy
+msgid "Ban user"
+msgstr "Blokeeri kasutaja"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:82
+#: main/src/ui/conversation_content_view/reactions_widget.vala:128
+msgid "Add reaction"
+msgstr "Reageeri"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:94
+msgid "This conversation does not support reactions."
+msgstr "See vestlus ei toeta reageerimise võimalust."
+
+#: main/src/ui/conversation_content_view/item_actions.vala:107
+msgid "Reply"
+msgstr "Vasta"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:117
+msgid "This conversation does not support replies."
+msgstr "See vestlus ei toeta vastamise võimalust."
+
+#: main/src/ui/conversation_content_view/item_actions.vala:146
+#, fuzzy
+msgid "Moderate message..."
+msgstr "Uuenda sõnumit"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:148
+msgid "Delete..."
+msgstr ""
+
+#: main/src/ui/conversation_content_view/item_actions.vala:150
+#: main/src/ui/conversation_content_view/item_actions.vala:168
+msgid "Delete locally"
+msgstr ""
+
+#: main/src/ui/conversation_content_view/item_actions.vala:160
+#, fuzzy
+msgid "Moderate message"
+msgstr "Uuenda sõnumit"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:160
+#, fuzzy
+msgid "Delete message"
+msgstr "Uuenda sõnumit"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:164
+msgid "Do you want to remove this message from the channel?"
+msgstr ""
+
+#: main/src/ui/conversation_content_view/item_actions.vala:165
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:745
+#: main/src/windows/conversation_details.vala:61
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:292
+msgid "Remove"
+msgstr "Eemalda"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:167
+msgid "Do you want to delete this message just for yourself or for everyone?"
+msgstr ""
+
+#: main/src/ui/conversation_content_view/item_actions.vala:168
+msgid "Delete for everyone"
+msgstr ""
+
+#: main/src/ui/conversation_content_view/message_widget.vala:174
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:255
+msgid "Message deleted"
+msgstr ""
+
+#: main/src/ui/conversation_content_view/message_widget.vala:178
+msgid "edited"
+msgstr "muudetud"
+
+#: main/src/ui/conversation_content_view/message_widget.vala:182
+msgid "Message truncated - exceeds 100,000 characters"
+msgstr ""
+
+#: main/src/ui/conversation_content_view/message_widget.vala:191
+msgid "pending…"
+msgstr "ootel…"
+
+#: main/src/ui/conversation_content_view/message_widget.vala:206
+msgid "delivery failed"
+msgstr "edasisaatmine ei õnnestunud"
+
+#: main/src/ui/conversation_content_view/message_widget.vala:254
+msgid "Edit message"
+msgstr "Muuda sõnumit"
+
+#: main/src/ui/conversation_content_view/quote_widget.vala:43
+msgid "File"
+msgstr "Fail"
+
+#: main/src/ui/conversation_content_view/reactions_widget.vala:102
+msgid "You"
+msgstr "Sina"
 
 #: main/src/ui/conversation_content_view/subscription_notification.vala:49
 msgid "Send request"
@@ -1004,279 +1005,893 @@ msgstr "Saada päring"
 msgid "You do not receive status updates from this contact yet."
 msgstr "Sa veel ei saa selle kontakti olekuteateid."
 
+#: main/src/ui/conversation_content_view/subscription_notification.vala:68
+#: main/src/ui/notifier_freedesktop.vala:164
+#: main/src/ui/notifier_freedesktop.vala:264
+#: main/src/ui/notifier_gnotifications.vala:98
+#: main/src/ui/notifier_gnotifications.vala:133
+#: main/src/ui/notifier_gnotifications.vala:149
+msgid "Deny"
+msgstr "Keeldu"
+
 #: main/src/ui/conversation_content_view/subscription_notification.vala:80
 msgid "This contact would like to add you to their contact list"
 msgstr "See kontakt soovib sind lisada oma kontaktiloendisse"
-
-#: main/src/ui/conversation_content_view/item_actions.vala:21
-msgid "This conversation does not support reactions."
-msgstr "See vestlus ei toeta reageerimise võimalust."
-
-#: main/src/ui/conversation_content_view/item_actions.vala:34
-msgid "Reply"
-msgstr "Vasta"
-
-#: main/src/ui/conversation_content_view/item_actions.vala:44
-msgid "This conversation does not support replies."
-msgstr "See vestlus ei toeta vastamise võimalust."
-
-#: main/src/ui/conversation_content_view/file_default_widget.vala:75
-#, c-format
-msgid "Downloading %s… (%u%%)"
-msgstr "Allalaadimisel %s… (%u%%)"
-
-#: main/src/ui/conversation_content_view/file_default_widget.vala:77
-#, c-format
-msgid "Downloading %s…"
-msgstr "Laadime alla %s…"
-
-#: main/src/ui/conversation_content_view/file_default_widget.vala:81
-#, c-format
-msgid "Uploading %s… (%u%%)"
-msgstr "Üleslaadimisel %s… (%u%%)"
-
-#: main/src/ui/conversation_content_view/file_default_widget.vala:95
-#, c-format
-msgid "%s offered: %s"
-msgstr "%s, mahuga: %s"
-
-#: main/src/ui/conversation_content_view/file_default_widget.vala:97
-#, c-format
-msgid "File offered: %s"
-msgstr "Fail mahuga: %s"
-
-#: main/src/ui/conversation_content_view/file_default_widget.vala:99
-msgid "File offered"
-msgstr "Pakutav fail"
-
-#: main/src/ui/conversation_content_view/file_default_widget.vala:105
-msgid "File transfer failed"
-msgstr "Faili edastamine ei õnnestunud"
-
-#: main/src/ui/conversation_content_view/quote_widget.vala:34
-msgid "File"
-msgstr "Fail"
 
 #: main/src/ui/conversation_content_view/unread_indicator_populator.vala:76
 msgid "New"
 msgstr "Uus"
 
-#: main/data/menu_conversation.ui:7
-msgid "Contact Details"
-msgstr "Kontaktandmed"
+#: main/src/ui/conversation_details.vala:175
+#: main/src/ui/util/data_forms.vala:40
+msgid "Display name"
+msgstr "Kuvatav nimi"
 
-#: main/data/message_item_widget_edit_mode.ui:51
-msgid "Update message"
-msgstr "Uuenda sõnumit"
+#: main/src/ui/conversation_details.vala:195
+#: main/src/ui/conversation_details.vala:209
+msgid "Topic"
+msgstr "Teema"
 
-#: main/data/preferences_window/add_account_dialog.ui:92
-msgid "Login"
-msgstr "Logi sisse"
+#: main/src/ui/conversation_details.vala:222
+#, fuzzy
+msgid "Permissions"
+msgstr "Loa küsimine"
 
-#: main/data/preferences_window/add_account_dialog.ui:147
-msgid "Could not establish a secure connection"
-msgstr "Turvalise ühendus loomine ei õnnestunud"
+#: main/src/ui/conversation_details.vala:223
+#, fuzzy
+msgid "Manage Affiliations"
+msgstr "Halda kasutajakontosid"
 
-#: main/data/preferences_window/add_account_dialog.ui:165
-msgid "Back"
-msgstr "Tagasi"
-
-#: main/data/preferences_window/add_account_dialog.ui:183
-msgid "Choose a public server"
-msgstr "Vali avalik server"
-
-#: main/data/preferences_window/add_account_dialog.ui:207
-msgid "Or specify a server address"
-msgstr "Või sisesta serveri aadress"
-
-#: main/data/preferences_window/add_account_dialog.ui:225
-msgid "Sign in instead"
-msgstr "Või pigem logi sisse"
-
-#: main/data/preferences_window/add_account_dialog.ui:330
-msgid "All set up!"
-msgstr "Kõik on valmis!"
-
-#: main/data/preferences_window/add_account_dialog.ui:359
-msgid "Finish"
-msgstr "Lõpeta"
-
-#: main/data/preferences_window/general_preferences_page.ui:9
-msgid "Send _Typing Notifications"
-msgstr "Saada _kirjutamisteatisi"
-
-#: main/data/preferences_window/general_preferences_page.ui:15
-msgid "Send _Read Receipts"
-msgstr "Saada _lugemisteatisi"
-
-#: main/data/preferences_window/general_preferences_page.ui:25
-msgid "_Notifications"
-msgstr "_Teavitused"
-
-#: main/data/preferences_window/general_preferences_page.ui:26
-msgid "Notify when a new message arrives"
-msgstr "Teavita uue sõnumi saabumisel"
-
-#: main/data/preferences_window/general_preferences_page.ui:36
-msgid "_Convert Smileys to Emoji"
-msgstr "_Muuda emotikonid emojideks"
-
-#: main/data/preferences_window/account_preferences_subpage.ui:77
-msgid "Local alias"
-msgstr "Kohalik varjunimi"
-
-#: main/data/preferences_window/account_preferences_subpage.ui:104
-msgid "Connection status"
-msgstr "Ühenduse olek"
-
-#: main/data/preferences_window/account_preferences_subpage.ui:134
-msgid "Remove account"
-msgstr "Eemalda kasutajakonto"
-
-#: main/data/preferences_window/change_password_dialog.ui:5
-msgid "Change password"
-msgstr "Salasõna muutmine"
-
-#: main/data/preferences_window/change_password_dialog.ui:34
-msgid "Change"
-msgstr "Muuda"
-
-#: main/data/preferences_window/change_password_dialog.ui:61
-msgid "Current password"
-msgstr "Praegune salasõna"
-
-#: main/data/preferences_window/change_password_dialog.ui:66
-msgid "New password"
-msgstr "Uus salasõna"
-
-#: main/data/preferences_window/change_password_dialog.ui:71
-msgid "Confirm password"
-msgstr "Korda salasõna"
-
-#: main/data/preferences_window/preferences_dialog.ui:25
-#: main/data/gtk/help-overlay.ui:10
-msgid "General"
-msgstr "Üldised"
-
-#: main/data/gtk/help-overlay.ui:26
-msgid "Show preferences"
-msgstr "Näita eelistusi"
-
-#: main/data/gtk/help-overlay.ui:32
-msgid "Keyboard shortcuts"
-msgstr "Klaviatuuri kiirklahvid"
-
-#: main/data/gtk/help-overlay.ui:39
-msgid "Conversation"
-msgstr "Vestlus"
-
-#: main/data/gtk/help-overlay.ui:55
-msgid "Close conversation"
+#: main/src/ui/conversation_details.vala:239
+msgid "Danger Zone"
 msgstr ""
 
-#: main/data/gtk/help-overlay.ui:62
-msgid "Navigation"
-msgstr "Liikumine rakenduses"
+#: main/src/ui/conversation_details.vala:240
+msgid "Destroy Room"
+msgstr ""
 
-#: main/data/gtk/help-overlay.ui:66
-msgid "Jump to next conversation"
-msgstr "Suundu järgmise vestluse juurde"
+#: main/src/ui/conversation_details.vala:246
+msgid "Destroy Room?"
+msgstr ""
 
-#: main/data/gtk/help-overlay.ui:72
-msgid "Jump to previous conversation"
-msgstr "Suundu eelmise vestluse juurde"
+#: main/src/ui/conversation_details.vala:247
+msgid ""
+"Are you sure you want to permanently destroy this room? This action cannot "
+"be undone and all history will be lost for all participants."
+msgstr ""
 
-#: main/data/add_conversation/conference_details_fragment.ui:20
-#: main/data/add_conversation/add_groupchat_dialog.ui:40
-#: main/data/add_conversation/add_contact_dialog.ui:40
-msgid "Account"
-msgstr "Kasutajakonto"
+#: main/src/ui/conversation_details.vala:250
+msgid "Destroy"
+msgstr ""
 
-#: main/data/add_conversation/conference_details_fragment.ui:114
-#: main/data/add_conversation/add_groupchat_dialog.ui:101
-msgid "Nick"
-msgstr "Hüüdnimi"
+#: main/src/ui/conversation_details.vala:271
+#, fuzzy
+msgid "Failed to destroy room"
+msgstr "Jututoa loomine pole lubatud"
 
-#: main/data/add_conversation/add_groupchat_dialog.ui:144
-#: main/data/add_conversation/add_contact_dialog.ui:81
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:276
+#: main/src/ui/notifier_freedesktop.vala:71
+#: main/src/ui/notifier_gnotifications.vala:36
+msgid "Image sent"
+msgstr "Pilt on saadetud"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:276
+#: main/src/ui/notifier_freedesktop.vala:71
+#: main/src/ui/notifier_gnotifications.vala:36
+msgid "File sent"
+msgstr "Fail on saadetud"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:278
+#: main/src/ui/notifier_freedesktop.vala:73
+#: main/src/ui/notifier_gnotifications.vala:38
+msgid "Image received"
+msgstr "Pilt on vastu võetud"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:278
+#: main/src/ui/notifier_freedesktop.vala:73
+#: main/src/ui/notifier_gnotifications.vala:38
+msgid "File received"
+msgstr "Fail on vastu võetud"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:361
+msgid "Thema:"
+msgstr ""
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:381
+msgid "Privat"
+msgstr ""
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:383
+msgid "Öffentlich"
+msgstr ""
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:387
+msgid "Typ:"
+msgstr ""
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:483
+#: main/src/ui/widgets/date_separator.vala:37
+#, no-c-format
+msgid "%b %d"
+msgstr "%d. %b"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:487
+#: main/src/ui/widgets/date_separator.vala:28
+msgid "Yesterday"
+msgstr "Eile"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:506
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:554
+#: main/src/ui/conversation_titlebar/menu_entry.vala:79
+msgid "Conversation Details"
+msgstr "Vestluse üksikasjad"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:507
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:771
+#: main/src/ui/conversation_titlebar/menu_entry.vala:98
+#, fuzzy
+msgid "Invite Contact"
+msgstr "Kutsu vestlusrühma"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:511
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:559
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:661
+#: main/src/ui/occupant_menu/view.vala:173
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:140
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:206
+msgid "Unmute"
+msgstr ""
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:511
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:559
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:680
+#: main/src/ui/occupant_menu/view.vala:177
+#: main/src/windows/conversation_details.vala:163
+#: main/src/windows/conversation_details.vala:164
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:140
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:226
+msgid "Mute"
+msgstr "Summuta"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:514
+msgid "Leave and Close"
+msgstr ""
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:555
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:623
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:126
+#, fuzzy
+msgid "Edit Alias"
+msgstr "Varjunimi"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:563
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:705
+#: main/src/windows/conversation_details.vala:108
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:250
+msgid "Unblock"
+msgstr "Eemalda blokeering"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:563
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:724
+#: main/src/windows/conversation_details.vala:144
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:270
+msgid "Block"
+msgstr "Blokeeri"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:628
 msgid "Alias"
 msgstr "Varjunimi"
 
-#: main/data/add_conversation/add_contact_dialog.ui:5
-msgid "Add Contact"
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:634
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:333
+msgid "Save"
+msgstr ""
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:657
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:202
+msgid "Unmute contact?"
+msgstr ""
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:658
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:203
+#, c-format
+msgid "This will enable notifications from %s."
+msgstr ""
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:676
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:222
+msgid "Mute contact?"
+msgstr ""
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:677
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:223
+#, c-format
+msgid "This will disable notifications from %s."
+msgstr ""
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:701
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:246
+#, fuzzy
+msgid "Unblock contact?"
+msgstr "Eemalda blokeering"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:702
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:247
+#, fuzzy, c-format
+msgid "This will allow %s to send you messages again."
+msgstr "Selles vestlusrühmas sa ei saa saata sõnumeid."
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:720
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:266
+msgid "Block contact?"
+msgstr ""
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:721
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:267
+#, c-format
+msgid "This will prevent %s from sending you messages."
+msgstr ""
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:741
+#: main/src/windows/conversation_details.vala:57
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:288
+#, fuzzy
+msgid "Remove contact?"
+msgstr "Eemalda kasutajakonto"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:742
+#, c-format
+msgid ""
+"This will:\n"
+"• Delete all conversation history\n"
+"• Remove %s from your contact list\n"
+"\n"
+"This action cannot be undone."
+msgstr ""
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:787
+msgid "Delete all message history?"
+msgstr ""
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:788
+msgid ""
+"This will permanently delete all messages in this conversation. This action "
+"cannot be undone."
+msgstr ""
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:791
+#: main/src/ui/conversation_titlebar/menu_entry.vala:51
+msgid "Delete"
+msgstr ""
+
+#: main/src/ui/conversation_titlebar/call_entry.vala:14
+msgid "Start call"
+msgstr "Helista"
+
+#: main/src/ui/conversation_titlebar/call_entry.vala:25
+msgid "Audio call"
+msgstr "Häälkõne"
+
+#: main/src/ui/conversation_titlebar/call_entry.vala:26
+msgid "Video call"
+msgstr "Videokõne"
+
+#: main/src/ui/conversation_titlebar/call_entry.vala:79
+msgid "Conference Server Required"
+msgstr ""
+
+#: main/src/ui/conversation_titlebar/call_entry.vala:80
+msgid ""
+"To start a group call, you need to configure a default conference server in "
+"your account settings."
+msgstr ""
+
+#: main/src/ui/conversation_titlebar/call_entry.vala:84
+#, fuzzy
+msgid "Open Settings"
+msgstr "Seadistused"
+
+#: main/src/ui/conversation_titlebar/menu_entry.vala:47
+msgid "Delete all message history for this conversation?"
+msgstr ""
+
+#: main/src/ui/conversation_titlebar/menu_entry.vala:49
+msgid "This action cannot be undone."
+msgstr ""
+
+#: main/src/ui/conversation_titlebar/menu_entry.vala:85
+msgid "Close Conversation"
+msgstr "Sulge vestlus"
+
+#: main/src/ui/conversation_titlebar/occupants_entry.vala:14
+#: main/src/windows/conversation_details.vala:291
+msgid "Members"
+msgstr "Liikmed"
+
+#: main/src/ui/conversation_view_controller.vala:224
+msgid "Select file"
+msgstr "Vali fail"
+
+#: main/src/ui/conversation_view_controller.vala:225
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:152
+msgid "Select"
+msgstr "Vali"
+
+#: main/src/ui/file_send_overlay.vala:58
+msgid "The file exceeds the server's maximum upload size."
+msgstr "Faili suurus ületab serveris seadistatud üleslaadimise mahupiiri."
+
+#: main/src/ui/global_search.vala:208
+#, c-format
+msgid "In %s"
+msgstr "Vestlusrühmas %s"
+
+#: main/src/ui/global_search.vala:208
+#, c-format
+msgid "With %s"
+msgstr "Kasutajaga %s"
+
+#: main/src/ui/main_window.vala:156
+#, fuzzy
+msgid "Join Channel Help"
+msgstr "Liitu kanaliga"
+
+#: main/src/ui/main_window.vala:157
+msgid ""
+"To join a channel, click the \"Join Channel\" button and enter the channel "
+"JID (example: room@conference.example.org).\n"
+"\n"
+"If you need a password or a nickname, provide them in the dialog. Use the "
+"discovery features in the server to find public rooms."
+msgstr ""
+
+#: main/src/ui/main_window.vala:206
+#, fuzzy
+msgid "Welcome to DinoX!"
+msgstr "Tere tulemast suhtlusrakendusse Dino!"
+
+#: main/src/ui/main_window.vala:207
+msgid "Sign in or create an account to get started."
+msgstr "Alustamiseks logi sisse või loo kasutajakonto."
+
+#: main/src/ui/main_window.vala:208
+msgid "Set up account"
+msgstr "Seadista kasutajakontot"
+
+#: main/src/ui/main_window.vala:215
+#: main/src/windows/preferences_window/accounts_preferences_page.vala:71
+#: main/src/windows/preferences_window/encryption_preferences_page.vala:49
+msgid "No active accounts"
+msgstr "Aktiivseid kasutajakontosid ei leidu"
+
+#: main/src/ui/main_window.vala:216
+msgid "Manage accounts"
+msgstr "Halda kasutajakontosid"
+
+#: main/src/ui/notifier_freedesktop.vala:157
+#: main/src/ui/notifier_gnotifications.vala:91
+msgid "Subscription request"
+msgstr "Tellimuspäring"
+
+#: main/src/ui/notifier_freedesktop.vala:192
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:231
+msgid "Wrong password"
+msgstr "Vale salasõna"
+
+#: main/src/ui/notifier_freedesktop.vala:195
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:233
+msgid "Invalid TLS certificate"
+msgstr "Vigane TLS-sertifikaat"
+
+#: main/src/ui/notifier_freedesktop.vala:220
+#: main/src/ui/notifier_gnotifications.vala:123
+#, c-format
+msgid "Invitation to %s"
+msgstr "Vestluskutse: %s"
+
+#: main/src/ui/notifier_freedesktop.vala:221
+#: main/src/ui/notifier_gnotifications.vala:124
+#, c-format
+msgid "%s invited you to %s"
+msgstr "%s saatis sulle kutse vestlusrühma %s"
+
+#: main/src/ui/notifier_freedesktop.vala:254
+#: main/src/ui/notifier_gnotifications.vala:141
+msgid "Permission request"
+msgstr "Loa küsimine"
+
+#: main/src/ui/notifier_freedesktop.vala:255
+#: main/src/ui/notifier_gnotifications.vala:142
+#, c-format
+msgid "%s requests the permission to write in %s"
+msgstr "%s küsib õigusi kirjutada vestlusrühmas %s"
+
+#: main/src/ui/occupant_menu/list.vala:118
+#: main/src/view_model/conversation_details.vala:134
+msgid "Owner"
+msgstr "Omanik"
+
+#: main/src/ui/occupant_menu/list.vala:120
+#: main/src/view_model/conversation_details.vala:135
+msgid "Admin"
+msgstr "Peakasutaja"
+
+#: main/src/ui/occupant_menu/list.vala:122
+#: main/src/view_model/conversation_details.vala:136
+msgid "Member"
+msgstr "Liige"
+
+#: main/src/ui/occupant_menu/list.vala:124
+msgid "User"
+msgstr "Kasutaja"
+
+#: main/src/ui/occupant_menu/view.vala:89
+msgid "Start private conversation"
+msgstr "Alusta privaatset vestlust"
+
+#: main/src/ui/occupant_menu/view.vala:125
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:157
+#, fuzzy
+msgid "Unblock Contact"
+msgstr "Eemalda blokeering"
+
+#: main/src/ui/occupant_menu/view.vala:127
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:157
+#, fuzzy
+msgid "Block Contact"
 msgstr "Lisa kontakt"
 
-#: main/data/im.dino.Dino.appdata.xml.in:6
-msgid "Modern XMPP chat client"
-msgstr "Moodne XMPP-põhine vestlusrakendus"
+#: main/src/ui/occupant_menu/view.vala:133
+#, fuzzy
+msgid "Moderation"
+msgstr "Modereeritud"
 
-#: main/data/im.dino.Dino.appdata.xml.in:10
+#: main/src/ui/occupant_menu/view.vala:135
+msgid "Kick"
+msgstr "Müksa välja"
+
+#: main/src/ui/occupant_menu/view.vala:139
+msgid "Ban (Permanent)"
+msgstr ""
+
+#: main/src/ui/occupant_menu/view.vala:140
+msgid "Ban (10 min)"
+msgstr ""
+
+#: main/src/ui/occupant_menu/view.vala:141
+msgid "Ban (15 min)"
+msgstr ""
+
+#: main/src/ui/occupant_menu/view.vala:142
+msgid "Ban (30 min)"
+msgstr ""
+
+#: main/src/ui/occupant_menu/view.vala:146
+#, fuzzy
+msgid "Administration"
+msgstr "Reageeri"
+
+#: main/src/ui/occupant_menu/view.vala:150
+#, fuzzy
+msgid "Make Admin"
+msgstr "Peakasutaja"
+
+#: main/src/ui/occupant_menu/view.vala:152
+msgid "Revoke Admin"
+msgstr ""
+
+#: main/src/ui/occupant_menu/view.vala:156
+#, fuzzy
+msgid "Make Owner"
+msgstr "Omanik"
+
+#: main/src/ui/occupant_menu/view.vala:161
+#, fuzzy
+msgid "Make Member"
+msgstr "Liige"
+
+#: main/src/ui/occupant_menu/view.vala:163
+#, fuzzy
+msgid "Revoke Membership"
+msgstr "Keela kirjutusõigus"
+
+#: main/src/ui/occupant_menu/view.vala:228
+msgid "Kicked by moderator"
+msgstr ""
+
+#: main/src/ui/occupant_menu/view.vala:275
+msgid "Invite to Conference"
+msgstr "Kutsu vestlusrühma"
+
+#: main/src/ui/systray.vala:178
+msgid "Quit"
+msgstr ""
+
+#: main/src/ui/util/data_forms.vala:41
 msgid ""
-"Dino is a modern open-source chat client for the desktop. It focuses on "
-"providing a clean and reliable Jabber/XMPP experience while having your "
-"privacy in mind."
+"A friendly name shown in room listings (does not change the room address)"
 msgstr ""
-"Dino on moodne avatud lähtekoodil põhinev vestlusrakendus töölauale. "
-"Rakenduse eesmärgiks on tagada selge ja usaldusväärne Jabber/XMPP võrgul "
-"põhinev suhtlusvõimalus, mis arvestab sinu privaatsusega."
 
-#: main/data/im.dino.Dino.appdata.xml.in:11
+#: main/src/ui/util/data_forms.vala:44
+#, fuzzy
+msgid "Description"
+msgstr "Krüptimine"
+
+#: main/src/ui/util/data_forms.vala:45
+#, fuzzy
+msgid "A description of the room shown in room listings"
+msgstr "Jututoa kirjeldus"
+
+#: main/src/ui/util/data_forms.vala:48
+msgid "Persistent"
+msgstr "Püsiv"
+
+#: main/src/ui/util/data_forms.vala:49
+msgid "The room will persist after the last occupant leaves"
+msgstr "Jututuba säilib ka peale viimase osaleja lahkumist"
+
+#: main/src/ui/util/data_forms.vala:52
+msgid "Publicly searchable"
+msgstr "Avalikult leitav"
+
+#: main/src/ui/util/data_forms.vala:53
+msgid "The room will appear in public room listings"
+msgstr ""
+
+#: main/src/ui/util/data_forms.vala:56
+msgid "Occupants may change the subject"
+msgstr "Jututoas osalejad võivad teemat muuta"
+
+#: main/src/ui/util/data_forms.vala:59
+msgid "Permission to view JIDs"
+msgstr "Õigus näha osalejate JID-tunnuseid"
+
+#: main/src/ui/util/data_forms.vala:60
+msgid "Who is allowed to view the occupants' JIDs?"
+msgstr "Kellel on õigus näha jututoas osalejate JID-tunnuseid?"
+
+#: main/src/ui/util/data_forms.vala:67
+msgid "Moderated"
+msgstr "Modereeritud"
+
+#: main/src/ui/util/data_forms.vala:68
+msgid "Only occupants with voice may send messages"
+msgstr "Sõnumeid võivad saata vaid hääleõigusega osalejad"
+
+#: main/src/ui/util/data_forms.vala:71
+msgid "Members only"
+msgstr "Ainult liikmetele"
+
+#: main/src/ui/util/data_forms.vala:72
 msgid ""
-"It supports end-to-end encryption with OMEMO and OpenPGP and allows "
-"configuring privacy-related features such as read receipts and typing "
-"notifications."
+"Only members may enter the room. Warning: Non-members will be removed when "
+"enabled!"
 msgstr ""
-"Rakendus toetab nii OMEMO, kui OpenPGP standardil põhinevat läbivat "
-"krüptimist ja võimaldab seadistada privaatsusega seotud funktsionaalsusi, "
-"nagu lugemis- ja kirjutamisteatised."
 
-#: main/data/im.dino.Dino.appdata.xml.in:12
+#: main/src/ui/util/helper.vala:65
+#, c-format
+msgid "%s from %s"
+msgstr "%s vestlusest %s"
+
+#: main/src/ui/widgets/date_separator.vala:22
+msgid "Today"
+msgstr "Täna"
+
+#: main/src/ui/widgets/date_separator.vala:35
+#, no-c-format
+msgid "%a, %b %d"
+msgstr "%a, %d. %b"
+
+#: main/src/windows/conversation_details.vala:58
 msgid ""
-"Dino fetches history from the server and synchronizes messages with other "
-"devices."
+"This contact will be removed from your contact list and all conversation "
+"history will be permanently deleted."
 msgstr ""
-"Dino laadib vestluste ajaloo serverist ja sünkroniseerib sõnumeid kõikide "
-"sinu seadmete vahel."
 
-#: main/data/main_window.ui:89
-msgid "You have no open chats"
-msgstr "Sul pole vestlusi"
+#: main/src/windows/conversation_details.vala:108
+msgid "Block user"
+msgstr "Blokeeri kasutaja"
 
-#: main/data/main_window.ui:90
-msgid "Click + to start a chat or join a channel"
-msgstr "Vestluse loomiseks või kanaliga liitumiseks klõpsi + ikooni"
+#: main/src/windows/conversation_details.vala:108
+msgid "Block entire domain"
+msgstr "Blokeeri kogu domeen"
 
-#: main/data/global_search.ui:27
-msgid "No active search"
-msgstr "Ei leidu ühtegi otsingut"
+#: main/src/windows/conversation_details.vala:125
+msgid "Pinned"
+msgstr "Esiletõstetud"
 
-#: main/data/global_search.ui:28
-msgid "Type to start a search"
-msgstr "Otsimiseks kirjuta midagi"
+#: main/src/windows/conversation_details.vala:125
+msgid "Pin"
+msgstr "Tõsta esile"
 
-#: main/data/global_search.ui:42
-msgid "No matching messages"
-msgstr "Sellele otsingule pole vastuseid"
+#: main/src/windows/conversation_details.vala:140
+msgid "Domain blocked"
+msgstr "Domeen on blokeeritud"
 
-#: main/data/global_search.ui:43
-msgid "Check the spelling or try to remove filters"
+#: main/src/windows/conversation_details.vala:165
+msgid "Notifications enabled"
+msgstr "Teavitused on kasutusel"
+
+#: main/src/windows/conversation_details.vala:168
+msgid "Notifications for mentions"
+msgstr "Teavitused mainimiste puhul"
+
+#: main/src/windows/conversation_details.vala:173
+msgid "Notifications disabled"
+msgstr "Teavitused pole kasutusel"
+
+#: main/src/windows/conversation_details.vala:234
+msgid "Settings"
+msgstr "Seadistused"
+
+#: main/src/windows/conversation_details.vala:263
+msgid "Room Configuration"
+msgstr "Jututoa seadistused"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:68
+msgid "Connect"
+msgstr "Ühenda"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:106
+msgid "Disable account"
+msgstr "Lülita kasutajakonto välja"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:106
+msgid "Enable account"
+msgstr "Lülita kasutajakonto sisse"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:151
+msgid "Select avatar"
+msgstr "Vali tunnuspilt"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:162
+msgid "Images"
+msgstr "Pildid"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:166
+msgid "All files"
+msgstr "Kõik failid"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:184
+#, c-format
+msgid "Remove account %s?"
+msgstr "Kas eemaldame kasutajakonto: %s?"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:218
+msgid "Connected"
+msgstr "Ühendatud"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:220
+msgid "Disconnected"
+msgstr "Ühendus on katkestatud"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:240
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:242
+msgid "Error"
+msgstr "Viga"
+
+#: main/src/windows/preferences_window/accounts_preferences_page.vala:28
+msgid "Disabled accounts"
+msgstr "Mittekasutusel kontod"
+
+#: main/src/windows/preferences_window/accounts_preferences_page.vala:31
+#: main/src/windows/preferences_window/add_account_dialog.vala:92
+msgid "Add Account"
+msgstr "Lisa kasutajakonto"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:137
+msgid "Sign in"
+msgstr "Logi sisse"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:156
+#, c-format
+msgid "The server could not prove that it is %s."
+msgstr "Server ei suutnud tuvastada, et see on %s."
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:158
+msgid "Its security certificate is not trusted by your operating system."
+msgstr "Tema turvasertifikaat pole sinu operatsioonisüsteemi poolt usaldatud."
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:160
+msgid "Its security certificate is issued to another domain."
+msgstr "Tema turvasertifikaat on välja antud muule domeenile."
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:162
+msgid "Its security certificate will only become valid in the future."
+msgstr "Tema turvasertifikaadi kehtivus algab tulevikus."
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:164
+msgid "Its security certificate is expired."
+msgstr "Tema turvasertifikaat on aegunud."
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:172
+msgid "Create account"
+msgstr "Loo kasutajakonto"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:191
+#, c-format
+msgid "You can now use the account %s."
+msgstr "Sa võid nüüd kasutada kontot %s."
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:248
+msgid "Wrong username or password"
+msgstr "Vale kasutajanimi või salasõna"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:251
+msgid "Something went wrong"
+msgstr "Midagi läks valesti"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:325
+msgid "No response from server"
+msgstr "Server ei vasta"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:336
+#, c-format
+msgid "Register on %s"
+msgstr "Registreeri serveris %s"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:339
+msgid "The server requires to sign up through a website"
+msgstr "Serveri reeglid näevad ette, et registreerud veebisaidis"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:341
+msgid "Open website"
+msgstr "Ava veebisait"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:353
+msgid "Register"
+msgstr "Registreeru"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:355
+#, c-format
+msgid "Check %s for information on how to sign up"
+msgstr "Registreerumise kohta leiad teavet: %s"
+
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:192
+#, fuzzy
+msgid "No contacts"
+msgstr "Lisa kontakt"
+
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:193
+msgid "Add contacts to start chatting"
 msgstr ""
-"Proovi laiendada otsingut, kontrollida õigekirja või eemaldada filtreid"
 
-#: main/data/file_send_overlay.ui:61
-msgid "Send"
-msgstr "Saada"
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:289
+#, c-format
+msgid ""
+"This will remove %s from your contact list and delete all conversation "
+"history."
+msgstr ""
 
-#: main/data/menu_app.ui:7
-msgid "Preferences"
-msgstr "Eelistused"
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:318
+#, fuzzy
+msgid "Edit Contact Alias"
+msgstr "Lisa kontakt"
 
-#: main/data/menu_app.ui:11
-msgid "Keyboard Shortcuts"
-msgstr "Klaviatuuri kiirklahvid"
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:319
+#, c-format
+msgid "Change the display name for %s"
+msgstr ""
 
-#~ msgid "Remove"
-#~ msgstr "Eemalda"
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:325
+msgid "Alias (optional)"
+msgstr ""
+
+#~ msgid "Message too long"
+#~ msgstr "Sõnum on liiga pikk"
+
+#, c-format
+#~ msgid "%i min ago"
+#~ msgid_plural "%i mins ago"
+#~ msgstr[0] "%i min eest"
+#~ msgstr[1] "%i min eest"
+
+#~ msgid "Grant write permission"
+#~ msgstr "Luba kirjutusõigus"
+
+#~ msgid "Name of the room"
+#~ msgstr "Jututoa nimi"
+
+#~ msgid "Only members may enter the room"
+#~ msgstr "Jututuppa pääsevad vaid liikmed"
+
+#, c-format
+#~ msgid "%i search result"
+#~ msgid_plural "%i search results"
+#~ msgstr[0] "%i otsingutulemus"
+#~ msgstr[1] "%i otsingutulemust"
+
+#, c-format
+#~ msgid "%i hour"
+#~ msgid_plural "%i hours"
+#~ msgstr[0] "%i tund"
+#~ msgstr[1] "%i tundi"
+
+#, c-format
+#~ msgid "%i minute"
+#~ msgid_plural "%i minutes"
+#~ msgstr[0] "%i minut"
+#~ msgstr[1] "%i minutit"
+
+#~ msgid "Login"
+#~ msgstr "Logi sisse"
+
+#~ msgid "Could not establish a secure connection"
+#~ msgstr "Turvalise ühendus loomine ei õnnestunud"
+
+#~ msgid "Back"
+#~ msgstr "Tagasi"
+
+#~ msgid "Choose a public server"
+#~ msgstr "Vali avalik server"
+
+#~ msgid "Or specify a server address"
+#~ msgstr "Või sisesta serveri aadress"
+
+#~ msgid "Sign in instead"
+#~ msgstr "Või pigem logi sisse"
+
+#~ msgid "All set up!"
+#~ msgstr "Kõik on valmis!"
+
+#~ msgid "Finish"
+#~ msgstr "Lõpeta"
+
+#~ msgid "Change password"
+#~ msgstr "Salasõna muutmine"
+
+#~ msgid "Change"
+#~ msgstr "Muuda"
+
+#~ msgid "Account"
+#~ msgstr "Kasutajakonto"
+
+#~ msgid "Nick"
+#~ msgstr "Hüüdnimi"
+
+#~ msgid "Modern XMPP chat client"
+#~ msgstr "Moodne XMPP-põhine vestlusrakendus"
+
+#~ msgid ""
+#~ "Dino is a modern open-source chat client for the desktop. It focuses on "
+#~ "providing a clean and reliable Jabber/XMPP experience while having your "
+#~ "privacy in mind."
+#~ msgstr ""
+#~ "Dino on moodne avatud lähtekoodil põhinev vestlusrakendus töölauale. "
+#~ "Rakenduse eesmärgiks on tagada selge ja usaldusväärne Jabber/XMPP võrgul "
+#~ "põhinev suhtlusvõimalus, mis arvestab sinu privaatsusega."
+
+#~ msgid ""
+#~ "It supports end-to-end encryption with OMEMO and OpenPGP and allows "
+#~ "configuring privacy-related features such as read receipts and typing "
+#~ "notifications."
+#~ msgstr ""
+#~ "Rakendus toetab nii OMEMO, kui OpenPGP standardil põhinevat läbivat "
+#~ "krüptimist ja võimaldab seadistada privaatsusega seotud funktsionaalsusi, "
+#~ "nagu lugemis- ja kirjutamisteatised."
+
+#~ msgid ""
+#~ "Dino fetches history from the server and synchronizes messages with other "
+#~ "devices."
+#~ msgstr ""
+#~ "Dino laadib vestluste ajaloo serverist ja sünkroniseerib sõnumeid kõikide "
+#~ "sinu seadmete vahel."
+
+#~ msgid "No active search"
+#~ msgstr "Ei leidu ühtegi otsingut"
+
+#~ msgid "Type to start a search"
+#~ msgstr "Otsimiseks kirjuta midagi"
+
+#~ msgid "No matching messages"
+#~ msgstr "Sellele otsingule pole vastuseid"
+
+#~ msgid "Check the spelling or try to remove filters"
+#~ msgstr ""
+#~ "Proovi laiendada otsingut, kontrollida õigekirja või eemaldada filtreid"
+
+#~ msgid "Send"
+#~ msgstr "Saada"
 
 #, c-format
 #~ msgid "Sign in to %s"
@@ -1290,27 +1905,3 @@ msgstr "Klaviatuuri kiirklahvid"
 
 #~ msgid "Pick another server"
 #~ msgstr "Vali mõni muu server"
-
-# Custom host/port feature (Issue #115)
-#: main/data/preferences_window/add_account_dialog.ui:58
-#: main/data/preferences_window/account_preferences_subpage.ui:121
-msgid "Advanced Settings"
-msgstr ""
-
-#: main/data/preferences_window/add_account_dialog.ui:59
-msgid "Optional: Custom server connection"
-msgstr ""
-
-#: main/data/preferences_window/account_preferences_subpage.ui:122
-msgid "Custom server connection (leave empty for automatic)"
-msgstr ""
-
-#: main/data/preferences_window/add_account_dialog.ui:62
-#: main/data/preferences_window/account_preferences_subpage.ui:125
-msgid "Server Hostname"
-msgstr ""
-
-#: main/data/preferences_window/add_account_dialog.ui:68
-#: main/data/preferences_window/account_preferences_subpage.ui:130
-msgid "Port"
-msgstr ""

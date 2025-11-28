@@ -235,6 +235,7 @@ public class MucManager : StreamInteractionModule, Object {
         yield stream_interactor.get_module(EntityInfo.IDENTITY).refresh_features(account, jid);
         
         // Send notification message to the room about privacy change
+        // Note: These are sent to all clients, so we keep them in English
         if (disabling_members_only) {
             // Room switched from private to public
             string notification = "⚠️ This room is now PUBLIC. OMEMO encryption has been disabled. Messages are no longer end-to-end encrypted.";

@@ -336,33 +336,32 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         about_dialog.website = "https://github.com/rallep71/dinox";
         about_dialog.copyright = "Copyright © 2016-2025 - Dino Team\nCopyright © 2025 - Ralf Peter";
         about_dialog.license_type = License.GPL_3_0;
-        about_dialog.comments = "Modern XMPP client with extended features";
+        about_dialog.comments = _("Modern XMPP client with extended features");
         
         // Add debug info with data location
         string config_dir = Path.build_filename(Environment.get_user_config_dir(), "dino");
         string data_dir = Path.build_filename(Environment.get_user_data_dir(), "dino");
         string cache_dir = Path.build_filename(Environment.get_user_cache_dir(), "dino");
         
-        string support_info = """User Data Locations
+        string support_info = _("User Data Locations") + """
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Configuration:
+""" + _("Configuration:") + """
 %s
 
-Data & Database:
+""" + _("Data & Database:") + """
 %s
 
-Cache:
+""" + _("Cache:") + """
 %s
 
-ℹInfo:
-Your personal data (accounts, messages, files) is stored 
-separately from the application.
+ℹ """ + _("Info:") + """
+""" + _("Your personal data (accounts, messages, files) is stored separately from the application.") + """
 
-When you update DinoX (AppImage, Flatpak, or package),
-your data remains intact.
+""" + _("When you update DinoX, your data remains intact.") + """
 
-Use Settings → General → Backup User Data to create a backup.""".printf(config_dir, data_dir, cache_dir);
+""" + _("Use Settings → General → Backup User Data to create a backup.");
+        support_info = support_info.printf(config_dir, data_dir, cache_dir);
         
         about_dialog.debug_info = support_info;
         about_dialog.debug_info_filename = "dinox-data-locations.txt";
@@ -387,21 +386,23 @@ Use Settings → General → Backup User Data to create a backup.""".printf(conf
             null
         );
         
-        string message = """<b>Configuration:</b>
+        string message = """<b>%s</b>
 %s
 
-<b>Data &amp; Database:</b>
+<b>%s</b>
 %s
 
-<b>Cache:</b>
+<b>%s</b>
 %s
 
-<small>Your personal data (accounts, messages, files) is stored separately from the application.
-
-When you update DinoX (AppImage, Flatpak, or package), your data remains intact.</small>""".printf(
+<small>%s</small>""".printf(
+            _("Configuration:"),
             Markup.escape_text(config_dir),
+            _("Data & Database:"),
             Markup.escape_text(data_dir),
-            Markup.escape_text(cache_dir)
+            _("Cache:"),
+            Markup.escape_text(cache_dir),
+            _("Your personal data (accounts, messages, files) is stored separately from the application. When you update DinoX, your data remains intact.")
         );
         
         dialog.body_use_markup = true;
