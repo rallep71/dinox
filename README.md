@@ -23,25 +23,25 @@ Active fork of [dino/dino](https://github.com/dino/dino) with MUJI group calls, 
 
 DinoX is a modern XMPP (Jabber) messaging client for Linux built with **GTK4** and **libadwaita**. 
 
-It's an actively maintained fork of Dino with features the community has been requesting for years - System Tray, MUJI group video calls, message retraction, advanced MUC moderation and much more.
+Based on the excellent [Dino](https://dino.im) project, DinoX adds additional features like System Tray support, MUJI group video calls, message retraction, advanced MUC moderation and more.
 
 ## Key Features
 
 | Feature | Description |
 |---------|-------------|
-| 🔐 **OMEMO Encryption** | End-to-end encryption for all messages and files |
-| 📹 **MUJI Group Calls** | Multi-party audio/video conferences (mesh-based) |
-| 📞 **1:1 Voice & Video** | High-quality Jingle calls with ICE/STUN/TURN |
-| 🎤 **Voice Messages** | Record and send audio messages (AAC format) |
-| 💬 **Group Chats (MUC)** | Full support with moderation, roles, private rooms |
-| 🔔 **System Tray** | Background mode with StatusNotifierItem |
-| ↩️ **Message Retraction** | Delete messages for everyone (XEP-0424) |
-| 😀 **Emoji Reactions** | React to messages (XEP-0444) |
-| 💬 **Message Replies** | Quote and reply to messages (XEP-0461) |
-| 🛡️ **MUC Moderation** | Kick, ban (timed), manage roles (XEP-0425) |
-| 💾 **Data Backup** | Export all user data |
-| 🌍 **45 Languages** | 100% translated |
-| 🌙 **Dark Mode** | System theme or manual toggle |
+| **OMEMO Encryption** | End-to-end encryption for all messages and files |
+| **MUJI Group Calls** | Multi-party audio/video conferences (mesh-based) |
+| **1:1 Voice & Video** | High-quality Jingle calls with ICE/STUN/TURN |
+| **Voice Messages** | Record and send audio messages (AAC format) |
+| **Group Chats (MUC)** | Full support with moderation, roles, private rooms |
+| **System Tray** | Background mode with StatusNotifierItem |
+| **Message Retraction** | Delete messages for everyone (XEP-0424) |
+| **Emoji Reactions** | React to messages (XEP-0444) |
+| **Message Replies** | Quote and reply to messages (XEP-0461) |
+| **MUC Moderation** | Kick, ban (timed), manage roles (XEP-0425) |
+| **Data Backup** | Export all user data |
+| **45 Languages** | 100% translated |
+| **Dark Mode** | System theme or manual toggle |
 
 ## Installation
 
@@ -145,8 +145,12 @@ DinoX implements **67 XMPP Extension Protocols**. Here are the key ones with ful
 ## Screenshots
 
 <p align="center">
-  <img src="docs/assets/mucji.png" width="45%" alt="MUJI Group Calls">
+  <img src="docs/assets/voicecal.png" width="45%" alt="Voice and Video Calls">
   <img src="docs/assets/privt.png" width="45%" alt="Private MUC Rooms">
+</p>
+<p align="center">
+  <img src="docs/assets/voise.png" width="45%" alt="Voice Messages">
+  <img src="docs/assets/backup.png" width="45%" alt="Data Backup">
 </p>
 
 ## Resources
