@@ -6,14 +6,14 @@
 
 [![License: GPL-3.0](https://img.shields.io/badge/License-GPL%203.0-blue.svg)](LICENSE)
 [![GTK4](https://img.shields.io/badge/GTK-4.14.5-4a86cf.svg)](https://www.gtk.org/)
-[![Vala](https://img.shields.io/badge/Vala-0.56-744c9e.svg)](https://vala.dev/)
+[![Flatpak](https://img.shields.io/flathub/v/im.github.rallep71.DinoX)](https://flathub.org/apps/im.github.rallep71.DinoX)
 [![Release](https://img.shields.io/github/v/release/rallep71/dinox)](https://github.com/rallep71/dinox/releases)
 
-**Modern XMPP client with extended features**
+**Modern XMPP Messenger for Linux**
 
-Active fork of [dino/dino](https://github.com/dino/dino) with faster development and community-requested features
+Active fork of [dino/dino](https://github.com/dino/dino) with MUJI group calls, extended features and 45 languages
 
-[Features](#extended-features) • [Install](#installation) • [Build](#installation) • [Contributing](docs/CONTRIBUTING.md) • [Documentation](#documentation)
+[Website](https://dinox.handwerker.jetzt) • [Download](#installation) • [Features](#key-features) • [XEP Support](#xep-support) • [Contributing](CONTRIBUTING.md)
 
 </div>
 
@@ -21,241 +21,165 @@ Active fork of [dino/dino](https://github.com/dino/dino) with faster development
 
 ## What is DinoX?
 
-DinoX is a modern, user-friendly XMPP (Jabber) messaging client for Linux built with **GTK4** and **Vala**. 
+DinoX is a modern XMPP (Jabber) messaging client for Linux built with **GTK4** and **libadwaita**. 
 
-**Key Features:**
-- **End-to-End Encryption** - OMEMO & OpenPGP support
-- **Voice & Video Calls** - High-quality audio/video communication
-- **Voice Messages** - Send audio recordings in 1:1 and group chats
-- **Video Player** - Integrated video playback directly in chat
-- **File Transfers** - Easy sharing of files and media
-- **Group Chats** - Full MUC (Multi-User Chat) support
-- **Advanced Moderation** - Powerful tools for community admins
-- **Modern UI** - Clean interface with libadwaita design
-- **60+ XEPs** - Extensive XMPP protocol support
+It's an actively maintained fork of Dino with features the community has been requesting for years - System Tray, MUJI group video calls, message retraction, advanced MUC moderation and much more.
 
-> **Status:** Active development | Based on upstream master | Database schema v32
+## Key Features
 
-## Extended Features
-
-DinoX adds features that are **missing in upstream Dino** but highly requested by the community:
-
-### New Features
-
-| Feature | Status | Upstream Issue |
-|---------|--------|----------------|
-| **System Tray Support** | ✓ Complete | [#98](https://github.com/dino/dino/issues/98) |
-| StatusNotifierItem with background mode | | Keep running when window closed |
-| **Background Mode Toggle** | ✓ Complete | [#299](https://github.com/dino/dino/issues/299) |
-| Configurable quit behavior | | Choose between systray or full quit |
-| **Custom Server Settings** | ✓ Complete | [#115](https://github.com/dino/dino/issues/115) |
-| Advanced connection options | | Manual host/port configuration |
-| **Delete Conversation History** | ✓ Complete | [#472](https://github.com/dino/dino/issues/472) |
-| Persistent history clearing | | Remove all messages permanently |
-| **Contact Management Suite** | ✓ Complete | Multiple issues |
-| Edit/Mute/Block/Remove contacts | | Full contact control with UI |
-| **Status Badges** | ✓ Complete | Community request |
-| Visual indicators | | See muted/blocked status at a glance |
-| **Context Menu** | ✓ Complete | UX improvement |
-| Right-click on conversations | | Quick access to common actions |
-| **Advanced MUC Moderation** | ✓ Complete | Community request |
-| Timed bans, kick, role management | | Admin tools for group chats |
-| **Cross-Platform Voice Messages** | ✓ Complete | Interop |
-| AAC/m4a format | | Compatible with iOS/Android clients |
-| **Message Retraction** | ✓ Complete | XEP-0424 |
-| "Delete for everyone" | | Retract sent messages |
-| **Global Status Selection** | ✓ Complete | UX improvement |
-| Online, Away, DND, Invisible | | Set status from main menu |
-| **Enhanced Video Player** | ✓ Complete | Stability |
-| H.264/HEVC support | | Stable playback & aspect ratio |
-| **MUJI Group Calls (Phase 1)** | ✓ Complete | XEP-0272 |
-| Participant list, private rooms | | Multi-party Jingle calls UI |
-
-### Bug Fixes
-
-- ✓ **Memory Leak Fixes** - MAM cleanup ([#1766](https://github.com/dino/dino/issues/1766))
-- ✓ **File Transfer Fixes** - Segfault prevention ([#1764](https://github.com/dino/dino/issues/1764))
-
-See [DEVELOPMENT_PLAN.md](DEVELOPMENT_PLAN.md) for complete feature list and roadmap.
+| Feature | Description |
+|---------|-------------|
+| 🔐 **OMEMO Encryption** | End-to-end encryption for all messages and files |
+| 📹 **MUJI Group Calls** | Multi-party audio/video conferences (mesh-based) |
+| 📞 **1:1 Voice & Video** | High-quality Jingle calls with ICE/STUN/TURN |
+| 🎤 **Voice Messages** | Record and send audio messages (AAC format) |
+| 💬 **Group Chats (MUC)** | Full support with moderation, roles, private rooms |
+| 🔔 **System Tray** | Background mode with StatusNotifierItem |
+| ↩️ **Message Retraction** | Delete messages for everyone (XEP-0424) |
+| 😀 **Emoji Reactions** | React to messages (XEP-0444) |
+| 💬 **Message Replies** | Quote and reply to messages (XEP-0461) |
+| 🛡️ **MUC Moderation** | Kick, ban (timed), manage roles (XEP-0425) |
+| 💾 **Data Backup** | Export all user data |
+| 🌍 **45 Languages** | 100% translated |
+| 🌙 **Dark Mode** | System theme or manual toggle |
 
 ## Installation
 
-### Option 1: Download Release
-
-**[Download Latest Release](https://github.com/rallep71/dinox/releases/latest)**
-
-Available formats:
-- **Flatpak** - Universal Linux package (x86_64, aarch64)
-- **Source Tarball** - Build from source
+### Flatpak (Recommended)
 
 ```bash
-# Install Flatpak
-flatpak install dinox-0.6.0-x86_64.flatpak
-
-# Run DinoX
+flatpak install flathub im.github.rallep71.DinoX
 flatpak run im.github.rallep71.DinoX
 ```
 
-### Option 2: Build from Source
+<a href="https://flathub.org/apps/im.github.rallep71.DinoX">
+  <img src="https://flathub.org/api/badge?locale=en" alt="Download on Flathub" width="200">
+</a>
 
-**Requirements**: GTK4 4.0+, libadwaita 1.5+, libdbusmenu-glib
+### AppImage
+
+Download from [GitHub Releases](https://github.com/rallep71/dinox/releases/latest)
 
 ```bash
-# Clone repository
+chmod +x DinoX-*.AppImage
+./DinoX-*.AppImage
+```
+
+### Build from Source
+
+```bash
 git clone https://github.com/rallep71/dinox.git
 cd dinox
+meson setup build
+ninja -C build
+./build/main/dinox
+```
 
-# Install dependencies (Debian/Ubuntu/Mint)
-sudo apt install -y build-essential meson ninja-build valac \
+**Dependencies (Debian/Ubuntu):**
+```bash
+sudo apt install build-essential meson ninja-build valac \
   libgtk-4-dev libadwaita-1-dev libglib2.0-dev libgee-0.8-dev \
   libsqlite3-dev libicu-dev libdbusmenu-glib-dev libgcrypt20-dev \
-  libgpgme-dev libqrencode-dev libsoup-3.0-dev
-
-# Build and run
-meson setup build
-meson compile -C build
-./build/main/dinox
-
-# Install system-wide (optional)
-sudo meson install -C build
+  libgpgme-dev libqrencode-dev libsoup-3.0-dev libgstreamer1.0-dev \
+  libgstreamer-plugins-base1.0-dev libwebrtc-audio-processing-dev \
+  libnice-dev libsrtp2-dev
 ```
 
-For other distributions see [docs/BUILD.md](docs/BUILD.md).
+## XEP Support
 
-## Quick Start
+DinoX implements **67 XMPP Extension Protocols**. Here are the key ones with full UI support:
 
-After installation, you can:
+### Messaging
+| XEP | Name | Status |
+|-----|------|--------|
+| XEP-0085 | Chat State Notifications | ✅ Full |
+| XEP-0184 | Message Delivery Receipts | ✅ Full |
+| XEP-0308 | Last Message Correction | ✅ Full |
+| XEP-0313 | Message Archive Management | ✅ Full |
+| XEP-0333 | Chat Markers | ✅ Full |
+| XEP-0424 | Message Retraction | ✅ Full |
+| XEP-0444 | Message Reactions | ✅ Full |
+| XEP-0461 | Message Replies | ✅ Full |
 
-1. **Add Account** - Configure your XMPP account (e.g., `user@jabber.org`)
-2. **Enable System Tray** - Settings → Background Mode (keep running when closed)
-3. **Customize Server** - Advanced → Connection Settings (if needed)
-4. **Manage Contacts** - Right-click on conversations for options
+### Security
+| XEP | Name | Status |
+|-----|------|--------|
+| XEP-0384 | OMEMO Encryption | ✅ Full |
+| XEP-0373 | OpenPGP for XMPP | ✅ Full |
+| XEP-0454 | OMEMO Media Sharing | ✅ Full |
 
-### Debug Mode
+### Voice & Video
+| XEP | Name | Status |
+|-----|------|--------|
+| XEP-0166 | Jingle | ✅ Full |
+| XEP-0167 | Jingle RTP | ✅ Full |
+| XEP-0272 | MUJI (Group Calls) | ✅ Full |
+| XEP-0176 | Jingle ICE | ✅ Full |
+| XEP-0320 | Jingle DTLS | ✅ Full |
 
-```bash
-# Run with debug logging
-```bash
-DINO_LOG_LEVEL=debug ./build/main/dinoxx
-```
+### Multi-User Chat
+| XEP | Name | Status |
+|-----|------|--------|
+| XEP-0045 | Multi-User Chat | ✅ Full |
+| XEP-0249 | Direct MUC Invitations | ✅ Full |
+| XEP-0421 | Anonymous Unique IDs | ✅ Full |
+| XEP-0425 | Message Moderation | ✅ Full |
 
-# Or for Flatpak
-flatpak run --env=DINO_LOG_LEVEL=debug im.github.rallep71.DinoX
-```
+### File Transfer
+| XEP | Name | Status |
+|-----|------|--------|
+| XEP-0363 | HTTP File Upload | ✅ Full |
+| XEP-0234 | Jingle File Transfer | ✅ Full |
+| XEP-0447 | Stateless File Sharing | ✅ Full |
 
-## Legal Notice - Codec Distribution
+### Core
+| XEP | Name | Status |
+|-----|------|--------|
+| XEP-0030 | Service Discovery | ✅ Full |
+| XEP-0115 | Entity Capabilities | ✅ Full |
+| XEP-0198 | Stream Management | ✅ Full |
+| XEP-0280 | Message Carbons | ✅ Full |
+| XEP-0352 | Client State Indication | ✅ Full |
+| XEP-0368 | SRV for XMPP over TLS | ✅ Full |
 
-> **Important Legal Information Regarding FFmpeg and Video/Audio Codecs**
+## Screenshots
 
-DinoX AppImage builds include **FFmpeg** (via GStreamer's `gst-libav` plugin) to provide out-of-the-box support for video and audio codecs like **H.264, H.265/HEVC, VP8, VP9**, and others.
-
-### Licensing
-
-- **FFmpeg**: Licensed under **LGPL 2.1+** (Lesser GNU General Public License)
-- **DinoX**: Licensed under **GPL 3.0** (compatible with FFmpeg's LGPL)
-- **GStreamer**: Licensed under **LGPL 2.1+**
-
-### Patent Notice
-
-**H.264 and H.265/HEVC codecs are subject to patent claims in some jurisdictions.**
-
-- **Personal Use**: Generally permitted in most countries for non-commercial purposes
-- **Commercial Use**: Requires patent licenses from MPEG LA and other patent pools
-- **Geographic Restrictions**: Patent laws vary by country; some countries have no software patents
-
-### User Responsibility
-
-**By downloading and using DinoX with FFmpeg, you acknowledge that:**
-
-1. You are responsible for ensuring compliance with applicable laws in your jurisdiction
-2. You understand that commercial use may require additional patent licenses
-3. You use this software at your own risk and discretion
-4. DinoX maintainers provide no legal advice or warranties regarding patent compliance
-
-### Why We Include FFmpeg
-
-We include FFmpeg to provide a complete, working XMPP client with modern audio/video call support. This follows the same approach as other popular open-source projects like **VLC Media Player**, **OBS Studio**, and **Firefox**, which also distribute FFmpeg.
-
-### Alternatives
-
-If you prefer to avoid FFmpeg:
-- Use the **Flatpak version** (you can choose which GStreamer plugins to install)
-- **Build from source** without `gstreamer1.0-libav` (limited codec support)
-
-For questions about patent licensing for commercial use, consult a qualified intellectual property attorney in your jurisdiction.
-
----
-
-## Documentation
-
-| Document | Description |
-|----------|-------------|
-| [Build Instructions](docs/BUILD.md) | Complete build guide for all distros |
-| [Architecture Overview](docs/ARCHITECTURE.md) | Code structure and design |
-| [Development Plan](DEVELOPMENT_PLAN.md) | Roadmap and completed features |
-| [XMPP Extensions](docs/XEP_SUPPORT.md) | Supported XEPs (60+) |
-| [Database Schema](docs/DATABASE_SCHEMA.md) | SQLite schema documentation |
-| [Logo Guide](docs/LOGO_CREATION_GUIDE.md) | Logo creation and branding |
-| [Flathub Guide](docs/FLATHUB.md) | Publishing to Flathub |
-| [Legal & Branding](docs/LEGAL_BRANDING.md) | License and trademark info |
-
-## Contribute
-
-We welcome contributions! Here's how you can help:
-
-- **Report Bugs** - Use [GitHub Issues](https://github.com/rallep71/dinox/issues)
-- **Feature Requests** - Check [DEVELOPMENT_PLAN.md](DEVELOPMENT_PLAN.md) first
-- **Pull Requests** - Welcome! Discuss bigger changes first
-- **Translations** - Help translate via upstream Dino project
-- **Star the Repo** - Show your support!
+<p align="center">
+  <img src="docs/assets/mucji.png" width="45%" alt="MUJI Group Calls">
+  <img src="docs/assets/privt.png" width="45%" alt="Private MUC Rooms">
+</p>
 
 ## Resources
 
 | Resource | Link |
 |----------|------|
-| **Upstream Project** | [dino/dino](https://github.com/dino/dino) |
-| **Official Website** | [dino.im](https://dino.im) |
-| **XMPP Community** | `chat@dino.im` |
+| **Website** | [dinox.handwerker.jetzt](https://dinox.handwerker.jetzt) |
 | **Releases** | [GitHub Releases](https://github.com/rallep71/dinox/releases) |
 | **Issues** | [Bug Tracker](https://github.com/rallep71/dinox/issues) |
+| **XMPP Chat** | [dinox@chat.handwerker.jetzt](xmpp:dinox@chat.handwerker.jetzt?join) |
+| **Email** | dinox@handwerker.jetzt |
+| **Ko-fi** | [ko-fi.com/rallep](https://ko-fi.com/rallep) |
 
-## Project Stats
+## Contributing
 
-- **XEP Support**: 60+ XMPP Extension Protocols
-- **Database Schema**: v32 (compatible with upstream)
-- **Active Development**: Regular updates and bug fixes
-- **License**: GPL-3.0 (same as upstream)
+See [CONTRIBUTING.md](CONTRIBUTING.md) for how to contribute.
 
----
+## Debug Mode
+
+See [DEBUG.md](DEBUG.md) for debugging instructions.
 
 ## License
 
 **GPL-3.0** - Same as upstream Dino
 
-```
-DinoX - Modern XMPP client with extended features
-Copyright (C) 2016-2025 Dino Team (original authors)
-Copyright (C) 2025 Ralf Peter (fork maintainer)
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
-```
-
-See [LICENSE](LICENSE) for the full license text.
+Based on [Dino](https://dino.im) by the Dino developers.
 
 ---
 
 <div align="center">
 
-**Made by the XMPP community**
+**Made with ❤️ for the XMPP community**
 
-[Star on GitHub](https://github.com/rallep71/dinox) • [Report Issues](https://github.com/rallep71/dinox/issues) • [Read Docs](docs/)
+[⭐ Star on GitHub](https://github.com/rallep71/dinox) • [🐛 Report Issues](https://github.com/rallep71/dinox/issues) • [☕ Support](https://ko-fi.com/rallep)
 
 </div>
