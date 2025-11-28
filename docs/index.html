@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="DinoX - Moderner XMPP Messenger für Linux mit OMEMO Verschlüsselung, MUJI Gruppen-Videocalls und GTK4/libadwaita Oberfläche. Open Source, sicher und dezentral.">
+    <meta name="keywords" content="XMPP, Jabber, Messenger, OMEMO, MUJI, Videocall, Open Source, Linux, GTK4, Dino, DinoX, Verschlüsselung, Chat">
+    <meta name="author" content="Ralf Peter">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Social -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://dinox.handwerker.jetzt/">
+    <meta property="og:title" content="DinoX - Moderner XMPP Messenger">
+    <meta property="og:description" content="Sichere Kommunikation mit OMEMO Verschlüsselung, Gruppen-Videocalls und moderner GTK4 Oberfläche.">
+    <meta property="og:image" content="https://dinox.handwerker.jetzt/assets/og-image.png">
+    
+    <title>DinoX - Moderner XMPP Messenger für Linux</title>
+    
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/svg+xml" href="assets/icon.svg">
+    <link rel="canonical" href="https://dinox.handwerker.jetzt/">
+</head>
+<body>
+    <a class="skip-link" href="#main">Zum Inhalt springen</a>
+
+    <!-- ===== Navigation ===== -->
+    <nav class="navbar" role="navigation" aria-label="Hauptnavigation">
+        <div class="container">
+            <a href="#" class="nav-brand">
+                <img src="assets/icon.svg" alt="" class="logo" width="36" height="36">
+                <span class="brand-name">DinoX</span>
+            </a>
+            
+            <ul class="nav-menu">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#download">Download</a></li>
+                <li><a href="#xep">XEP Support</a></li>
+                <li><a href="#changelog">Changelog</a></li>
+                <li><a href="#donate">Spenden</a></li>
+                <li><a href="https://github.com/rallep71/dinox">GitHub</a></li>
+            </ul>
+            
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle" aria-label="Theme wechseln" title="Hell/Dunkel umschalten">
+                    <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"/>
+                        <line x1="12" y1="1" x2="12" y2="3"/>
+                        <line x1="12" y1="21" x2="12" y2="23"/>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                        <line x1="1" y1="12" x2="3" y2="12"/>
+                        <line x1="21" y1="12" x2="23" y2="12"/>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                    </svg>
+                    <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                    </svg>
+                </button>
+                
+                <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mobileMenu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="#features">Features</a>
+            <a href="#download">Download</a>
+            <a href="#xep">XEP Support</a>
+            <a href="#changelog">Changelog</a>
+            <a href="#donate">Spenden</a>
+            <a href="https://github.com/rallep71/dinox">GitHub</a>
+        </div>
+    </nav>
+
+    <main id="main">
+        <!-- ===== Hero Section ===== -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-badge">
+                        <span>Version 0.7.1 verfügbar</span>
+                    </div>
+                    
+                    <h1 class="hero-title">Moderner XMPP Messenger für Linux</h1>
+                    
+                    <p class="hero-subtitle">
+                        Sichere End-to-End-Verschlüsselung mit OMEMO, Gruppen-Videocalls und eine moderne GTK4 Oberfläche. 
+                        Open Source, dezentral und datenschutzfreundlich.
+                    </p>
+                    
+                    <div class="hero-buttons">
+                        <a href="#download" class="btn btn-primary btn-lg">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="7 10 12 15 17 10"/>
+                                <line x1="12" y1="15" x2="12" y2="3"/>
+                            </svg>
+                            Download
+                        </a>
+                        <a href="https://github.com/rallep71/dinox" class="btn btn-secondary btn-lg">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+                            </svg>
+                            GitHub
+                        </a>
+                    </div>
+                    
+                    <div class="hero-tags">
+                        <span class="tag">GTK4 / libadwaita</span>
+                        <span class="tag">OMEMO E2EE</span>
+                        <span class="tag">MUJI Videocalls</span>
+                        <span class="tag">67 XEPs</span>
+                        <span class="tag">45 Sprachen</span>
+                    </div>
+                </div>
+                
+                <div class="hero-slider">
+                    <div class="hero-slides">
+                        <div class="hero-slide active">
+                            <img src="assets/mucji.png" alt="MUJI Gruppen-Videocall">
+                        </div>
+                        <div class="hero-slide">
+                            <img src="assets/voicecal.png" alt="Audio & Video Anrufe">
+                        </div>
+                        <div class="hero-slide">
+                            <img src="assets/voise.png" alt="Sprachnachrichten">
+                        </div>
+                        <div class="hero-slide">
+                            <img src="assets/privt.png" alt="Private MUC-Räume">
+                        </div>
+                        <div class="hero-slide">
+                            <img src="assets/backup.png" alt="Daten-Backup">
+                        </div>
+                        <div class="hero-slide">
+                            <img src="assets/emoji.png" alt="Emoji-Picker">
+                        </div>
+                    </div>
+                    <div class="hero-slider-dots"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== Features Section ===== -->
+        <section id="features" class="features">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Funktionen</h2>
+                    <p class="section-subtitle">Alles was ein moderner XMPP-Client können muss - und mehr</p>
+                </div>
+                
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                            </svg>
+                        </div>
+                        <h3>OMEMO Verschlüsselung</h3>
+                        <p>End-to-End-Verschlüsselung für alle Nachrichten und Dateien. Double Ratchet Protokoll für maximale Sicherheit.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="23 7 16 12 23 17 23 7"/>
+                                <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+                            </svg>
+                        </div>
+                        <h3>MUJI Gruppen-Calls</h3>
+                        <p>Audio- und Videokonferenzen mit mehreren Teilnehmern. Mesh-basiert, dezentral und ohne zentralen Server.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                                <line x1="8" y1="21" x2="16" y2="21"/>
+                                <line x1="12" y1="17" x2="12" y2="21"/>
+                            </svg>
+                        </div>
+                        <h3>Moderne GTK4 UI</h3>
+                        <p>Native GNOME-Integration mit libadwaita Design. Dark Mode, responsive Layout und Touchscreen-Support.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                <circle cx="9" cy="7" r="4"/>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                            </svg>
+                        </div>
+                        <h3>Gruppenchats (MUC)</h3>
+                        <p>Multi-User Chats mit Moderation, privaten Räumen, Rollen-Management und persistentem Verlauf.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="17 8 12 3 7 8"/>
+                                <line x1="12" y1="3" x2="12" y2="15"/>
+                            </svg>
+                        </div>
+                        <h3>Dateiübertragung</h3>
+                        <p>HTTP File Upload, Jingle File Transfer und verschlüsselte OMEMO-Medien. Bilder, Videos, Sprachnachrichten.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <polyline points="12 6 12 12 16 14"/>
+                            </svg>
+                        </div>
+                        <h3>Message Archive</h3>
+                        <p>MAM (XEP-0313) für Nachrichtensynchronisation. Verlauf löschen, Backup erstellen und geräteübergreifend chatten.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                <polyline points="22,6 12,13 2,6"/>
+                            </svg>
+                        </div>
+                        <h3>System Tray</h3>
+                        <p>StatusNotifierItem Support für Hintergrund-Betrieb. Benachrichtigungen auch bei geschlossenem Fenster.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="3"/>
+                                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                            </svg>
+                        </div>
+                        <h3>Erweiterte Einstellungen</h3>
+                        <p>Server-Konfiguration, Backup-Funktion, Farbschema-Wahl und viele Optionen die im Original-Dino fehlen.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <line x1="2" y1="12" x2="22" y2="12"/>
+                                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                            </svg>
+                        </div>
+                        <h3>45 Sprachen</h3>
+                        <p>Vollständig übersetzt in 45 Sprachen - 100% Abdeckung. Von Arabisch bis Chinesisch, von Deutsch bis Vietnamesisch.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== Screenshots Section ===== -->
+        <section id="screenshots" class="screenshots">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Screenshots</h2>
+                    <p class="section-subtitle">DinoX im Einsatz</p>
+                </div>
+                
+                <div class="screenshots-grid">
+                    <div class="screenshot-item">
+                        <img src="assets/mucji.png" alt="MUJI Gruppen-Videocall">
+                        <div class="caption">MUJI Gruppen-Calls</div>
+                    </div>
+                    <div class="screenshot-item">
+                        <img src="assets/voicecal.png" alt="Voice Call Oberfläche">
+                        <div class="caption">Audio & Video</div>
+                    </div>
+                    <div class="screenshot-item">
+                        <img src="assets/voise.png" alt="Voice Message Ansicht">
+                        <div class="caption">Sprachnachrichten</div>
+                    </div>
+                    <div class="screenshot-item">
+                        <img src="assets/privt.png" alt="Private Räume mit Schloss-Symbol">
+                        <div class="caption">Private MUC-Räume</div>
+                    </div>
+                    <div class="screenshot-item">
+                        <img src="assets/backup.png" alt="Backup-Funktion in Einstellungen">
+                        <div class="caption">Daten-Backup</div>
+                    </div>
+                    <div class="screenshot-item">
+                        <img src="assets/emoji.png" alt="Emoji-Picker mit Kategorien">
+                        <div class="caption">Emoji-Picker</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== Download Section ===== -->
+        <section id="download" class="download">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Download</h2>
+                    <p class="section-subtitle">DinoX für Ihr Linux-System installieren</p>
+                </div>
+                
+                <div class="download-grid">
+                    <div class="download-card featured">
+                        <div class="download-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                                <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+                                <line x1="12" y1="22.08" x2="12" y2="12"/>
+                            </svg>
+                        </div>
+                        <h3>Flatpak</h3>
+                        <p>Empfohlene Installation für alle Linux-Distributionen. Sandboxed, automatische Updates.</p>
+                        <pre><code>flatpak install flathub im.github.rallep71.DinoX</code></pre>
+                        <a href="https://flathub.org/apps/im.github.rallep71.DinoX" class="btn btn-primary">
+                            Auf Flathub ansehen
+                        </a>
+                    </div>
+                    
+                    <div class="download-card">
+                        <div class="download-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+                                <line x1="9" y1="9" x2="9.01" y2="9"/>
+                                <line x1="15" y1="9" x2="15.01" y2="9"/>
+                            </svg>
+                        </div>
+                        <h3>AppImage</h3>
+                        <p>Portable Version - einfach herunterladen und ausführen. Keine Installation nötig.</p>
+                        <pre><code>chmod +x DinoX-*.AppImage
+./DinoX-*.AppImage</code></pre>
+                        <a href="https://github.com/rallep71/dinox/releases/latest" class="btn btn-secondary">
+                            GitHub Releases
+                        </a>
+                    </div>
+                    
+                    <div class="download-card">
+                        <div class="download-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="16 18 22 12 16 6"/>
+                                <polyline points="8 6 2 12 8 18"/>
+                            </svg>
+                        </div>
+                        <h3>Quellcode</h3>
+                        <p>Build from source für Entwickler und Paketbetreuer. Meson/Ninja Build-System.</p>
+                        <pre><code>git clone https://github.com/rallep71/dinox
+cd dinox && meson setup build
+ninja -C build && sudo ninja -C build install</code></pre>
+                        <a href="https://github.com/rallep71/dinox" class="btn btn-secondary">
+                            GitHub Repository
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== Donate Section ===== -->
+        <section id="donate" class="donate">
+            <div class="container">
+                <div class="donate-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                    </svg>
+                </div>
+                
+                <h2>Unterstütze DinoX</h2>
+                
+                <p>
+                    DinoX ist ein Open-Source-Projekt und wird in meiner Freizeit entwickelt. 
+                    Wenn dir DinoX gefällt und du die Weiterentwicklung unterstützen möchtest, 
+                    freue ich mich über eine kleine Spende. Jeder Beitrag hilft!
+                </p>
+                
+                <div class="donate-buttons">
+                    <a href="https://ko-fi.com/rallep" class="btn btn-donate-light btn-lg">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 8h1a4 4 0 0 1 0 8h-1"/>
+                            <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
+                            <line x1="6" y1="1" x2="6" y2="4"/>
+                            <line x1="10" y1="1" x2="10" y2="4"/>
+                            <line x1="14" y1="1" x2="14" y2="4"/>
+                        </svg>
+                        Ko-fi
+                    </a>
+                    <a href="https://github.com/sponsors/rallep71" class="btn btn-donate-outline btn-lg">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                        </svg>
+                        GitHub Sponsors
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== XEP Section ===== -->
+        <section id="xep" class="xep">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">XEP Unterstützung</h2>
+                    <p class="section-subtitle">Einer der protokollkonformsten XMPP-Clients</p>
+                </div>
+                
+                <div class="xep-stats">
+                    <div class="xep-stat">
+                        <div class="xep-stat-number">67</div>
+                        <div class="xep-stat-label">XEPs implementiert</div>
+                    </div>
+                    <div class="xep-stat">
+                        <div class="xep-stat-number">45</div>
+                        <div class="xep-stat-label">Sprachen</div>
+                    </div>
+                    <div class="xep-stat">
+                        <div class="xep-stat-number">100%</div>
+                        <div class="xep-stat-label">Übersetzung</div>
+                    </div>
+                    <div class="xep-stat">
+                        <div class="xep-stat-number">v0.7.1</div>
+                        <div class="xep-stat-label">Aktuelle Version</div>
+                    </div>
+                </div>
+                
+                <div class="xep-categories">
+                    <div class="xep-category">
+                        <h3>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                            </svg>
+                            Messaging
+                        </h3>
+                        <div class="xep-list">
+                            <span class="xep-badge">XEP-0085</span>
+                            <span class="xep-badge">XEP-0184</span>
+                            <span class="xep-badge">XEP-0308</span>
+                            <span class="xep-badge">XEP-0313</span>
+                            <span class="xep-badge">XEP-0333</span>
+                            <span class="xep-badge">XEP-0424</span>
+                            <span class="xep-badge">XEP-0444</span>
+                            <span class="xep-badge">XEP-0461</span>
+                        </div>
+                    </div>
+                    
+                    <div class="xep-category">
+                        <h3>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                <circle cx="9" cy="7" r="4"/>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                            </svg>
+                            Multi-User Chat
+                        </h3>
+                        <div class="xep-list">
+                            <span class="xep-badge">XEP-0045</span>
+                            <span class="xep-badge">XEP-0048</span>
+                            <span class="xep-badge">XEP-0249</span>
+                            <span class="xep-badge">XEP-0402</span>
+                            <span class="xep-badge">XEP-0410</span>
+                            <span class="xep-badge">XEP-0421</span>
+                            <span class="xep-badge">XEP-0425</span>
+                        </div>
+                    </div>
+                    
+                    <div class="xep-category">
+                        <h3>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                            </svg>
+                            Verschlüsselung
+                        </h3>
+                        <div class="xep-list">
+                            <span class="xep-badge">XEP-0373</span>
+                            <span class="xep-badge">XEP-0374</span>
+                            <span class="xep-badge">XEP-0380</span>
+                            <span class="xep-badge">XEP-0384</span>
+                            <span class="xep-badge">XEP-0396</span>
+                            <span class="xep-badge">XEP-0454</span>
+                        </div>
+                    </div>
+                    
+                    <div class="xep-category">
+                        <h3>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="23 7 16 12 23 17 23 7"/>
+                                <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+                            </svg>
+                            Audio/Video
+                        </h3>
+                        <div class="xep-list">
+                            <span class="xep-badge">XEP-0166</span>
+                            <span class="xep-badge">XEP-0167</span>
+                            <span class="xep-badge">XEP-0176</span>
+                            <span class="xep-badge">XEP-0272</span>
+                            <span class="xep-badge">XEP-0320</span>
+                            <span class="xep-badge">XEP-0353</span>
+                            <span class="xep-badge">XEP-0482</span>
+                        </div>
+                    </div>
+                    
+                    <div class="xep-category">
+                        <h3>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                            </svg>
+                            Dateitransfer
+                        </h3>
+                        <div class="xep-list">
+                            <span class="xep-badge">XEP-0066</span>
+                            <span class="xep-badge">XEP-0234</span>
+                            <span class="xep-badge">XEP-0264</span>
+                            <span class="xep-badge">XEP-0363</span>
+                            <span class="xep-badge">XEP-0446</span>
+                            <span class="xep-badge">XEP-0447</span>
+                        </div>
+                    </div>
+                    
+                    <div class="xep-category">
+                        <h3>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <polyline points="12 6 12 12 16 14"/>
+                            </svg>
+                            Core & Stream
+                        </h3>
+                        <div class="xep-list">
+                            <span class="xep-badge">XEP-0030</span>
+                            <span class="xep-badge">XEP-0115</span>
+                            <span class="xep-badge">XEP-0198</span>
+                            <span class="xep-badge">XEP-0280</span>
+                            <span class="xep-badge">XEP-0352</span>
+                            <span class="xep-badge">XEP-0368</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== Changelog Section ===== -->
+        <section id="changelog" class="changelog">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Changelog</h2>
+                    <p class="section-subtitle">Neueste Änderungen und Updates</p>
+                </div>
+                
+                <div class="changelog-list">
+                    <div class="changelog-item">
+                        <span class="changelog-version">v0.7.1</span>
+                        <div class="changelog-date">28. November 2025</div>
+                        <div class="changelog-content">
+                            <h4>AppImage & Theme</h4>
+                            <ul>
+                                <li>Dark Theme als Standard aktiviert</li>
+                                <li>AppImage Audio/Video Support repariert</li>
+                                <li>AppImage Locale-Unterstützung hinzugefügt</li>
+                                <li>GStreamer Plugins (nice, srtp, dtls, webrtc) gebündelt</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="changelog-item">
+                        <span class="changelog-version">v0.7.0</span>
+                        <div class="changelog-date">28. November 2025</div>
+                        <div class="changelog-content">
+                            <h4>Übersetzungen</h4>
+                            <ul>
+                                <li>Alle 45 Sprachen jetzt bei 100% Übersetzung (361/361 Strings)</li>
+                                <li>Vollständige Überarbeitung aller Übersetzungsdateien</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="changelog-item">
+                        <span class="changelog-version">v0.6.9</span>
+                        <div class="changelog-date">28. November 2025</div>
+                        <div class="changelog-content">
+                            <h4>Neu</h4>
+                            <ul>
+                                <li>Backup-Funktion für alle Benutzerdaten</li>
+                                <li>MUC Room Privacy Control mit automatischer OMEMO-Steuerung</li>
+                                <li>Verbesserte MUC-Tooltips mit Raum-Topic</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="changelog-item">
+                        <span class="changelog-version">v0.6.8</span>
+                        <div class="changelog-date">27. November 2025</div>
+                        <div class="changelog-content">
+                            <h4>Neu</h4>
+                            <ul>
+                                <li>Dark Mode Toggle in Einstellungen</li>
+                                <li>Sofortiges Umschalten zwischen Hell/Dunkel/System</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center" style="margin-top: var(--space-xl);">
+                    <a href="https://github.com/rallep71/dinox/blob/master/CHANGELOG.md" class="btn btn-secondary">
+                        Vollständiges Changelog
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== About Section ===== -->
+        <section id="about" class="about">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Über DinoX</h2>
+                </div>
+                
+                <div class="about-grid">
+                    <div class="about-content">
+                        <p>
+                            DinoX ist ein moderner XMPP-Client basierend auf Dino, erweitert um professionelle 
+                            Multi-Party Videocall-Funktionalität (MUJI) und zahlreiche Verbesserungen für die tägliche Nutzung.
+                        </p>
+                        <p>
+                            Das Projekt fokussiert sich auf sichere Kommunikation, moderne Benutzeroberfläche und 
+                            zuverlässige Gruppenkommunikation - perfekt für Teams, Familien und Communities die 
+                            Wert auf Privatsphäre und Dezentralität legen.
+                        </p>
+                        
+                        <h3>Warum DinoX?</h3>
+                        <p>
+                            DinoX enthält Features die im Original-Dino seit Jahren angefragt werden: 
+                            System Tray Support, erweiterte Server-Einstellungen, Verlauf löschen, 
+                            Kontakt-Management und vieles mehr. Ein aktiv gepflegter Fork mit schnellerer Entwicklung.
+                        </p>
+                        
+                        <div class="about-links">
+                            <a href="https://github.com/rallep71/dinox" class="btn btn-secondary">GitHub</a>
+                            <a href="https://github.com/rallep71/dinox/issues" class="btn btn-secondary">Issues</a>
+                            <a href="https://github.com/rallep71/dinox/blob/master/docs/CONTRIBUTING.md" class="btn btn-secondary">Mitmachen</a>
+                        </div>
+                        
+                        <div class="contact-info">
+                            <h3>Kontakt</h3>
+                            <div class="contact-item">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <line x1="2" y1="12" x2="22" y2="12"/>
+                                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                                </svg>
+                                <a href="https://dinox.handwerker.jetzt">dinox.handwerker.jetzt</a>
+                            </div>
+                            <div class="contact-item">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                    <polyline points="22,6 12,13 2,6"/>
+                                </svg>
+                                <a href="mailto:dinox@handwerker.jetzt">dinox@handwerker.jetzt</a>
+                            </div>
+                            <div class="contact-item">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                                </svg>
+                                <a href="xmpp:dinox@chat.handwerker.jetzt?join">XMPP: dinox@chat.handwerker.jetzt</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="about-stats">
+                        <div class="stat-card">
+                            <div class="stat-number">67+</div>
+                            <div class="stat-label">XEPs implementiert</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">MUJI</div>
+                            <div class="stat-label">Gruppen-Videocalls</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">GPLv3</div>
+                            <div class="stat-label">Open Source</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ===== Footer ===== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo-row">
+                        <img src="assets/icon.svg" alt="" width="32" height="32">
+                        <span>DinoX</span>
+                    </div>
+                    <p>Moderner XMPP Messenger für Linux. Sicher, dezentral und Open Source.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Links</h4>
+                    <ul>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#download">Download</a></li>
+                        <li><a href="#xep">XEP Support</a></li>
+                        <li><a href="#changelog">Changelog</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Projekt</h4>
+                    <ul>
+                        <li><a href="https://github.com/rallep71/dinox">GitHub</a></li>
+                        <li><a href="https://flathub.org/apps/im.github.rallep71.DinoX">Flathub</a></li>
+                        <li><a href="https://github.com/rallep71/dinox/issues">Issues</a></li>
+                        <li><a href="https://github.com/rallep71/dinox/blob/master/LICENSE">Lizenz (GPLv3)</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Kontakt</h4>
+                    <ul>
+                        <li><a href="mailto:dinox@handwerker.jetzt">E-Mail</a></li>
+                        <li><a href="xmpp:dinox@chat.handwerker.jetzt?join">XMPP Chat</a></li>
+                        <li><a href="#donate">Spenden</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2025 Ralf Peter. Lizenziert unter <a href="https://github.com/rallep71/dinox/blob/master/LICENSE">GPLv3</a>.</p>
+                <p>Basiert auf <a href="https://dino.im">Dino</a> von den Dino-Entwicklern.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" class="back-to-top" aria-label="Nach oben scrollen" title="Nach oben">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="18 15 12 9 6 15"/>
+        </svg>
+    </button>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <img class="lightbox-img" id="lightboxImg" src="" alt="">
+        <div class="lightbox-caption" id="lightboxCaption"></div>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
