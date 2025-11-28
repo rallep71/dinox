@@ -20,25 +20,24 @@ msgstr ""
 
 #: main/data/add_conversation/add_groupchat_dialog.ui:80
 msgid "Add MUC"
-msgstr ""
+msgstr "Pridėti MUC"
 
 #: main/data/add_conversation/add_groupchat_dialog.ui:90
 msgid "Insert a Name for MUC..."
-msgstr ""
+msgstr "Įveskite kambario pavadinimą..."
 
 #: main/data/add_conversation/select_jid_fragment.ui:20
 msgid "Search or enter channel address..."
-msgstr ""
+msgstr "Ieškoti arba įvesti kanalo adresą..."
 
 #: main/data/add_conversation/select_jid_fragment.ui:67
 #: main/src/ui/add_conversation/select_jid_fragment.vala:205
-#, fuzzy
 msgid "Add Group"
-msgstr "Pridėti paskyrą"
+msgstr "Pridėti grupę"
 
 #: main/data/add_conversation/select_jid_fragment.ui:88
 msgid "Delete Group"
-msgstr ""
+msgstr "Ištrinti grupę"
 
 #: main/data/call_widget.ui:73 main/src/ui/notifier_freedesktop.vala:125
 #: main/src/ui/notifier_freedesktop.vala:230
@@ -60,21 +59,18 @@ msgid "Accept"
 msgstr "Priimti"
 
 #: main/data/chat_input.ui:63
-#, fuzzy
 msgid "Record voice message"
-msgstr "Ieškoti žinučių"
+msgstr "Įrašyti balso žinutę"
 
 #: main/data/chat_input.ui:77
-#, fuzzy
 msgid "Send message"
-msgstr "Taisyti žinutę"
+msgstr "Siųsti žinutę"
 
 #: main/data/conversation_details.ui:145
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:566
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:175
-#, fuzzy
 msgid "Remove Contact"
-msgstr "Šalinti paskyrą"
+msgstr "Pašalinti kontaktą"
 
 #: main/data/conversation_details.ui:171
 #: main/src/windows/conversation_details.vala:231
@@ -83,7 +79,7 @@ msgstr "Apie"
 
 #: main/data/conversation_row.ui:56
 msgid "Private room (supports group calls)"
-msgstr ""
+msgstr "Privatus kambarys (palaiko grupinius skambučius)"
 
 #: main/data/conversation_row.ui:135
 #: main/src/windows/conversation_details.vala:171
@@ -117,7 +113,7 @@ msgstr "Prisijungti prie kanalo"
 
 #: main/data/gtk/help-overlay.ui:26
 msgid "Show preferences"
-msgstr ""
+msgstr "Rodyti nustatymus"
 
 #: main/data/gtk/help-overlay.ui:32
 msgid "Keyboard shortcuts"
@@ -138,7 +134,7 @@ msgstr "Siųsti failą"
 
 #: main/data/gtk/help-overlay.ui:55
 msgid "Close conversation"
-msgstr ""
+msgstr "Uždaryti pokalbį"
 
 #: main/data/gtk/help-overlay.ui:62
 msgid "Navigation"
@@ -154,7 +150,7 @@ msgstr "Peršokti prie ankstesnio pokalbio"
 
 #: main/data/main_window.ui:64 main/src/ui/main_window.vala:144
 msgid "Help: How to join channels"
-msgstr ""
+msgstr "Pagalba: Kaip prisijungti prie kanalų"
 
 #: main/data/main_window.ui:118
 msgid "You have no open chats"
@@ -166,35 +162,35 @@ msgstr "Spustelėkite „+“ norėdami pradėti pokalbį ar prisijungti prie ka
 
 #: main/data/menu_app.ui:6
 msgid "Status"
-msgstr ""
+msgstr "Būsena"
 
 #: main/data/menu_app.ui:11
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:427
 #: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Online"
-msgstr ""
+msgstr "Prisijungęs"
 
 #: main/data/menu_app.ui:16
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:421
 #: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Away"
-msgstr ""
+msgstr "Pasišalinęs"
 
 #: main/data/menu_app.ui:21
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:425
 #: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Busy"
-msgstr ""
+msgstr "Užsiėmęs"
 
 #: main/data/menu_app.ui:26
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:423
 #: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Not Available"
-msgstr ""
+msgstr "Nepasiekiamas"
 
 #: main/data/menu_app.ui:34
 msgid "Preferences"
@@ -205,9 +201,8 @@ msgid "Keyboard Shortcuts"
 msgstr "Trumpiniai"
 
 #: main/data/menu_app.ui:42 main/src/ui/application.vala:334
-#, fuzzy
 msgid "About DinoX"
-msgstr "Apie Dino"
+msgstr "Apie DinoX"
 
 #: main/data/menu_conversation.ui:7
 msgid "Contact Details"
@@ -217,9 +212,8 @@ msgstr "Išsamiau apie adresatą"
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:513
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:565
 #: main/src/ui/conversation_titlebar/menu_entry.vala:84
-#, fuzzy
 msgid "Delete Conversation History"
-msgstr "Užverti pokalbį"
+msgstr "Ištrinti pokalbių istoriją"
 
 #: main/data/message_item_widget_edit_mode.ui:46
 #: main/data/preferences_window/change_password_dialog.ui:18
@@ -275,31 +269,31 @@ msgstr "Ryšio būsena"
 # Custom host/port feature (Issue #115)
 #: main/data/preferences_window/account_preferences_subpage.ui:121
 msgid "Advanced Settings"
-msgstr ""
+msgstr "Išplėstiniai nustatymai"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:122
 msgid "Custom server connection (leave empty for automatic)"
-msgstr ""
+msgstr "Pasirinktinis serverio ryšys (palikite tuščią automatiniam)"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:125
 msgid "Server Hostname"
-msgstr ""
+msgstr "Serverio prieglobos vardas"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:130
 msgid "Port"
-msgstr ""
+msgstr "Prievadas"
 
 #: main/data/preferences_window/change_password_dialog.ui:61
 msgid "Current password"
-msgstr ""
+msgstr "Dabartinis slaptažodis"
 
 #: main/data/preferences_window/change_password_dialog.ui:66
 msgid "New password"
-msgstr ""
+msgstr "Naujas slaptažodis"
 
 #: main/data/preferences_window/change_password_dialog.ui:71
 msgid "Confirm password"
-msgstr ""
+msgstr "Patvirtinti slaptažodį"
 
 #: main/data/preferences_window/general_preferences_page.ui:9
 msgid "Send _Typing Notifications"
@@ -319,49 +313,49 @@ msgstr "Pranešti, kai gaunama nauja žinutė"
 
 #: main/data/preferences_window/general_preferences_page.ui:32
 msgid "_Keep Running in Background"
-msgstr ""
+msgstr "_Veikti fone"
 
 #: main/data/preferences_window/general_preferences_page.ui:33
 msgid ""
 "Continue running after closing window to receive notifications immediately"
-msgstr ""
+msgstr "Tęsti veikimą uždarius langą, kad gautumėte pranešimus iš karto"
+"Tęsti veikimą uždarius langą, kad iš karto gautumėte pranešimus"
 
 #: main/data/preferences_window/general_preferences_page.ui:41
 msgid "Appearance"
-msgstr ""
+msgstr "Išvaizda"
 
 #: main/data/preferences_window/general_preferences_page.ui:44
 msgid "_Color Scheme"
-msgstr ""
+msgstr "_Spalvų schema"
 
 #: main/data/preferences_window/general_preferences_page.ui:45
 msgid "Choose between light and dark appearance"
-msgstr ""
+msgstr "Pasirinkite šviesią arba tamsią išvaizdą"
 
 #: main/data/preferences_window/general_preferences_page.ui:55
 msgid "_Convert Smileys to Emoji"
 msgstr "_Konvertuoti šypsenėles į šypsniukus"
 
 #: main/data/preferences_window/general_preferences_page.ui:63
-#, fuzzy
 msgid "User Data"
-msgstr "Naudotojas"
+msgstr "Naudotojo duomenys"
 
 #: main/data/preferences_window/general_preferences_page.ui:66
 msgid "Backup User Data"
-msgstr ""
+msgstr "Sukurti atsarginę kopiją"
 
 #: main/data/preferences_window/general_preferences_page.ui:67
 msgid "Create a backup of your accounts, messages and settings"
-msgstr ""
+msgstr "Sukurti paskyrų, žinučių ir nustatymų atsarginę kopiją"
 
 #: main/data/preferences_window/general_preferences_page.ui:78
 msgid "Data Location"
-msgstr ""
+msgstr "Duomenų vieta"
 
 #: main/data/preferences_window/general_preferences_page.ui:79
 msgid "View where your data is stored"
-msgstr ""
+msgstr "Peržiūrėkite, kur saugomi jūsų duomenys"
 
 #: main/data/preferences_window/preferences_dialog.ui:11
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:15
@@ -372,9 +366,8 @@ msgstr "Paskyros"
 #: main/data/preferences_window/preferences_dialog.ui:18
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:17
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:67
-#, fuzzy
 msgid "Contacts"
-msgstr "Pridėti adresatą"
+msgstr "Kontaktai"
 
 #: main/data/preferences_window/preferences_dialog.ui:25
 #: main/src/windows/conversation_details.vala:281
@@ -445,7 +438,7 @@ msgstr "Neteisingas adresas"
 
 #: main/src/ui/add_conversation/select_contact_dialog.vala:70
 msgid "Search or enter contact address..."
-msgstr ""
+msgstr "Ieškoti arba įvesti kontakto adresą..."
 
 #: main/src/ui/add_conversation/select_contact_dialog.vala:107
 msgid "Start"
@@ -453,12 +446,11 @@ msgstr "Pradėti"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:154
 msgid "Browse Rooms"
-msgstr ""
+msgstr "Naršyti kambarius"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:157
-#, fuzzy
 msgid "Browse Contacts"
-msgstr "Pridėti adresatą"
+msgstr "Naršyti kontaktus"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:202
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:70
@@ -466,90 +458,90 @@ msgid "Add Contact"
 msgstr "Pridėti adresatą"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:203
-#, fuzzy
 msgid "Delete Contact"
-msgstr "Pridėti adresatą"
+msgstr "Ištrinti kontaktą"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:206
 #: main/src/ui/add_conversation/select_jid_fragment.vala:216
 msgid "Leave Group"
-msgstr ""
+msgstr "Palikti grupę"
 
 #: main/src/ui/application.vala:339
 msgid "Modern XMPP client with extended features"
-msgstr ""
+msgstr "Modernus XMPP klientas su išplėstinėmis funkcijomis"
 
 #: main/src/ui/application.vala:346 main/src/ui/application.vala:385
 msgid "User Data Locations"
-msgstr ""
+msgstr "Duomenų vietos"
 
 #: main/src/ui/application.vala:349 main/src/ui/application.vala:399
-#, fuzzy
 msgid "Configuration:"
-msgstr "Kambario konfigūracija"
+msgstr "Konfigūracija:"
 
 #: main/src/ui/application.vala:352 main/src/ui/application.vala:401
 msgid "Data & Database:"
-msgstr ""
+msgstr "Duomenys ir duomenų bazė:"
 
 #: main/src/ui/application.vala:355 main/src/ui/application.vala:403
 msgid "Cache:"
-msgstr ""
+msgstr "Podėlis:"
 
 #: main/src/ui/application.vala:358
 msgid "Info:"
-msgstr ""
+msgstr "Informacija:"
 
 #: main/src/ui/application.vala:359
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
-msgstr ""
+msgstr "Jūsų asmeniniai duomenys (paskyros, žinutės, failai) saugomi atskirai nuo programos."
 
 #: main/src/ui/application.vala:361
 msgid "When you update DinoX, your data remains intact."
-msgstr ""
+msgstr "Kai atnaujinate DinoX, jūsų duomenys išlieka nepažeisti."
 
 #: main/src/ui/application.vala:363
 msgid "Use Settings → General → Backup User Data to create a backup."
-msgstr ""
+msgstr "Naudokite Nustatymai → Bendra → Vartotojo duomenų atsarginė kopija, kad sukurtumėte atsarginę kopiją."
 
 #: main/src/ui/application.vala:405
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
-msgstr ""
+msgstr "Jūsų asmeniniai duomenys (paskyros, žinutės, failai) saugomi atskirai nuo programos. Kai atnaujinate DinoX, jūsų duomenys išlieka nepažeisti."
+"Jūsų asmeniniai duomenys (paskyros, žinutės, failai) saugomi atskirai nuo "
+"programos. Atnaujinus DinoX, jūsų duomenys išlieka nepakitę."
 
 #: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
 #: main/src/ui/main_window.vala:159
 msgid "Close"
-msgstr ""
+msgstr "Uždaryti"
 
 #: main/src/ui/application.vala:417
 msgid "Select Backup Location"
-msgstr ""
+msgstr "Pasirinkite atsarginės kopijos vietą"
 
 #: main/src/ui/application.vala:445
 msgid "Creating backup..."
-msgstr ""
+msgstr "Kuriama atsarginė kopija..."
 
 #: main/src/ui/application.vala:503
 #, c-format
 msgid "Backup created successfully (%s)"
-msgstr ""
+msgstr "Atsarginė kopija sukurta (%s)"
 
 #: main/src/ui/application.vala:505
 msgid "Backup created successfully"
-msgstr ""
+msgstr "Atsarginė kopija sukurta"
 
 #: main/src/ui/application.vala:510
 msgid "Unknown error"
-msgstr ""
+msgstr "Nežinoma klaida"
 
 #: main/src/ui/application.vala:511
 #, c-format
 msgid "Backup failed: %s"
-msgstr ""
+msgstr "Atsarginė kopija nepavyko: %s"
 
 #: main/src/ui/call_window/audio_settings_popover.vala:29
 msgid "Microphones"
@@ -847,9 +839,8 @@ msgid "Just now"
 msgstr "Ką tik"
 
 #: main/src/ui/conversation_content_view/conversation_view.vala:105
-#, fuzzy
 msgid "More actions"
-msgstr "Pridėti reakciją"
+msgstr "Daugiau veiksmų"
 
 #: main/src/ui/conversation_content_view/file_default_widget.vala:67
 #: main/src/ui/conversation_content_view/file_image_widget.vala:42
@@ -865,7 +856,7 @@ msgstr "Išsaugoti kaip…"
 #: main/src/ui/conversation_content_view/file_default_widget.vala:77
 #, c-format
 msgid "Downloading %s… (%u%%)"
-msgstr ""
+msgstr "Atsiunčiama %s… (%u%%)"
 
 #: main/src/ui/conversation_content_view/file_default_widget.vala:79
 #, c-format
@@ -875,7 +866,7 @@ msgstr "Atsisiunčiama %s…"
 #: main/src/ui/conversation_content_view/file_default_widget.vala:83
 #, c-format
 msgid "Uploading %s… (%u%%)"
-msgstr ""
+msgstr "Įkeliama %s… (%u%%)"
 
 #: main/src/ui/conversation_content_view/file_default_widget.vala:97
 #, c-format
@@ -896,12 +887,10 @@ msgid "File transfer failed"
 msgstr "Failo persiuntimas nepavyko"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:36
-#, fuzzy
 msgid "Kick user"
-msgstr "Užblokuoti naudotoją"
+msgstr "Išmesti naudotoją"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:69
-#, fuzzy
 msgid "Ban user"
 msgstr "Užblokuoti naudotoją"
 
@@ -923,32 +912,29 @@ msgid "This conversation does not support replies."
 msgstr "Šis pokalbis nepalaiko atsakymų."
 
 #: main/src/ui/conversation_content_view/item_actions.vala:146
-#, fuzzy
 msgid "Moderate message..."
-msgstr "Atnaujinti žinutę"
+msgstr "Moderuoti žinutę…"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:148
 msgid "Delete..."
-msgstr ""
+msgstr "Ištrinti..."
 
 #: main/src/ui/conversation_content_view/item_actions.vala:150
 #: main/src/ui/conversation_content_view/item_actions.vala:168
 msgid "Delete locally"
-msgstr ""
+msgstr "Ištrinti vietiniai"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:160
-#, fuzzy
 msgid "Moderate message"
-msgstr "Atnaujinti žinutę"
+msgstr "Moderuoti žinutę"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:160
-#, fuzzy
 msgid "Delete message"
-msgstr "Atnaujinti žinutę"
+msgstr "Ištrinti žinutę"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:164
 msgid "Do you want to remove this message from the channel?"
-msgstr ""
+msgstr "Ar norite pašalinti šią žinutę iš kanalo?"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:165
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:745
@@ -959,17 +945,16 @@ msgstr "Šalinti"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:167
 msgid "Do you want to delete this message just for yourself or for everyone?"
-msgstr ""
+msgstr "Ar norite ištrinti šią žinutę tik sau ar visiems?"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:168
 msgid "Delete for everyone"
-msgstr ""
+msgstr "Ištrinti visiems"
 
 #: main/src/ui/conversation_content_view/message_widget.vala:174
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:255
-#, fuzzy
 msgid "Message deleted"
-msgstr "Žinučių istorija"
+msgstr "Žinutė ištrinta"
 
 #: main/src/ui/conversation_content_view/message_widget.vala:178
 msgid "edited"
@@ -977,7 +962,7 @@ msgstr "redaguota"
 
 #: main/src/ui/conversation_content_view/message_widget.vala:182
 msgid "Message truncated - exceeds 100,000 characters"
-msgstr ""
+msgstr "Pranešimas sutrumpintas - viršija 100 000 simbolių"
 
 #: main/src/ui/conversation_content_view/message_widget.vala:191
 msgid "pending…"
@@ -1001,11 +986,11 @@ msgstr "Jūs"
 
 #: main/src/ui/conversation_content_view/subscription_notification.vala:49
 msgid "Send request"
-msgstr ""
+msgstr "Siųsti užklausą"
 
 #: main/src/ui/conversation_content_view/subscription_notification.vala:60
 msgid "You do not receive status updates from this contact yet."
-msgstr ""
+msgstr "Dar negaunate būsenos atnaujinimų iš šio kontakto."
 
 #: main/src/ui/conversation_content_view/subscription_notification.vala:68
 #: main/src/ui/notifier_freedesktop.vala:164
@@ -1039,36 +1024,36 @@ msgid "Permissions"
 msgstr "Leidimai"
 
 #: main/src/ui/conversation_details.vala:223
-#, fuzzy
 msgid "Manage Affiliations"
-msgstr "Tvarkyti paskyras"
+msgstr "Tvarkyti narystes"
 
 #: main/src/ui/conversation_details.vala:239
 msgid "Danger Zone"
-msgstr ""
+msgstr "Pavojinga zona"
 
 #: main/src/ui/conversation_details.vala:240
 msgid "Destroy Room"
-msgstr ""
+msgstr "Sunaikinti kambarį"
 
 #: main/src/ui/conversation_details.vala:246
 msgid "Destroy Room?"
-msgstr ""
+msgstr "Sunaikinti kambarį?"
 
 #: main/src/ui/conversation_details.vala:247
 msgid ""
 "Are you sure you want to permanently destroy this room? This action cannot "
 "be undone and all history will be lost for all participants."
-msgstr ""
+msgstr "Ar tikrai norite visam laikui sunaikinti šį kambarį? Šio veiksmo negalima atšaukti ir visa istorija bus prarasta visiems dalyviams."
+"Ar tikrai norite visam laikui sunaikinti šį kambarį? Šio veiksmo negalima "
+"atšaukti ir visa istorija bus prarasta visiems dalyviams."
 
 #: main/src/ui/conversation_details.vala:250
 msgid "Destroy"
-msgstr ""
+msgstr "Sunaikinti"
 
 #: main/src/ui/conversation_details.vala:271
-#, fuzzy
 msgid "Failed to destroy room"
-msgstr "Neleidžiama kurti kambarių"
+msgstr "Nepavyko sunaikinti kambario"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:276
 #: main/src/ui/notifier_freedesktop.vala:71
@@ -1096,19 +1081,19 @@ msgstr "Failas gautas"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:361
 msgid "Thema:"
-msgstr ""
+msgstr "Tema:"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:381
 msgid "Privat"
-msgstr ""
+msgstr "Privatus"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:383
 msgid "Öffentlich"
-msgstr ""
+msgstr "Viešas"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:387
 msgid "Typ:"
-msgstr ""
+msgstr "Tipas:"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:483
 #: main/src/ui/widgets/date_separator.vala:37
@@ -1130,9 +1115,8 @@ msgstr "Išsamiau apie pokalbį"
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:507
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:771
 #: main/src/ui/conversation_titlebar/menu_entry.vala:98
-#, fuzzy
 msgid "Invite Contact"
-msgstr "Pakviesti į konferenciją"
+msgstr "Pakviesti kontaktą"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:511
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:559
@@ -1141,7 +1125,7 @@ msgstr "Pakviesti į konferenciją"
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:140
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:206
 msgid "Unmute"
-msgstr ""
+msgstr "Įjungti garsą"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:511
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:559
@@ -1156,14 +1140,13 @@ msgstr "Nutildyti pranešimus"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:514
 msgid "Leave and Close"
-msgstr ""
+msgstr "Palikti ir uždaryti"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:555
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:623
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:126
-#, fuzzy
 msgid "Edit Alias"
-msgstr "Pseudonimas"
+msgstr "Redaguoti slapyvardį"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:563
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:705
@@ -1191,54 +1174,52 @@ msgstr "Įrašyti"
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:657
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:202
 msgid "Unmute contact?"
-msgstr ""
+msgstr "Įjungti kontakto garsą?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:658
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:203
 #, c-format
 msgid "This will enable notifications from %s."
-msgstr ""
+msgstr "Tai įjungs pranešimus iš %s."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:676
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:222
 msgid "Mute contact?"
-msgstr ""
+msgstr "Nutildyti kontaktą?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:677
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:223
 #, c-format
 msgid "This will disable notifications from %s."
-msgstr ""
+msgstr "Tai išjungs pranešimus iš %s."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:701
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:246
-#, fuzzy
 msgid "Unblock contact?"
-msgstr "Atblokuoti"
+msgstr "Atblokuoti kontaktą?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:702
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:247
-#, fuzzy, c-format
+# c-format
 msgid "This will allow %s to send you messages again."
-msgstr "Ši konferencija jums neleidžia siųsti žinučių."
+msgstr "Tai leis %s vėl siųsti jums žinutes."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:720
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:266
 msgid "Block contact?"
-msgstr ""
+msgstr "Blokuoti kontaktą?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:721
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:267
 #, c-format
 msgid "This will prevent %s from sending you messages."
-msgstr ""
+msgstr "Tai neleis %s siųsti jums žinučių."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:741
 #: main/src/windows/conversation_details.vala:57
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:288
-#, fuzzy
 msgid "Remove contact?"
-msgstr "Šalinti paskyrą"
+msgstr "Pašalinti kontaktą?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:742
 #, c-format
@@ -1248,23 +1229,22 @@ msgid ""
 "• Remove %s from your contact list\n"
 "\n"
 "This action cannot be undone."
-msgstr ""
+msgstr "Tai:\n• Ištrins visą pokalbių istoriją\n• Pašalins %s iš jūsų kontaktų sąrašo\n\nŠio veiksmo negalima atšaukti."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:787
-#, fuzzy
 msgid "Delete all message history?"
-msgstr "Žinučių istorija"
+msgstr "Ištrinti visą žinučių istoriją?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:788
 msgid ""
 "This will permanently delete all messages in this conversation. This action "
 "cannot be undone."
-msgstr ""
+msgstr "Tai visam laikui ištrins visas žinutes šiame pokalbyje. Šio veiksmo negalima atšaukti."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:791
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
 msgid "Delete"
-msgstr ""
+msgstr "Ištrinti"
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:14
 msgid "Start call"
@@ -1280,26 +1260,25 @@ msgstr "Vaizdo skambutis"
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:79
 msgid "Conference Server Required"
-msgstr ""
+msgstr "Reikalingas konferencijos serveris"
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:80
 msgid ""
 "To start a group call, you need to configure a default conference server in "
 "your account settings."
-msgstr ""
+msgstr "Norėdami pradėti grupinį skambutį, turite nustatyti numatytąjį konferencijų serverį paskyros nustatymuose."
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:84
-#, fuzzy
 msgid "Open Settings"
-msgstr "Nustatymai"
+msgstr "Atidaryti nustatymus"
 
 #: main/src/ui/conversation_titlebar/menu_entry.vala:47
 msgid "Delete all message history for this conversation?"
-msgstr ""
+msgstr "Ištrinti visą šio pokalbio pranešimų istoriją?"
 
 #: main/src/ui/conversation_titlebar/menu_entry.vala:49
 msgid "This action cannot be undone."
-msgstr ""
+msgstr "Šio veiksmo negalima atšaukti."
 
 #: main/src/ui/conversation_titlebar/menu_entry.vala:85
 msgid "Close Conversation"
@@ -1334,9 +1313,8 @@ msgid "With %s"
 msgstr "Su %s"
 
 #: main/src/ui/main_window.vala:156
-#, fuzzy
 msgid "Join Channel Help"
-msgstr "Prisijungti prie kanalo"
+msgstr "Pagalba prisijungiant prie kanalo"
 
 #: main/src/ui/main_window.vala:157
 msgid ""
@@ -1345,12 +1323,11 @@ msgid ""
 "\n"
 "If you need a password or a nickname, provide them in the dialog. Use the "
 "discovery features in the server to find public rooms."
-msgstr ""
+msgstr "Norėdami prisijungti prie kanalo, spustelėkite mygtuką \"Prisijungti prie kanalo\" ir įveskite kanalo JID (pavyzdys: room@conference.example.org).\n\nJei jums reikia slaptažodžio arba slapyvardžio, pateikite juos dialoge. Naudokite serverio aptikimo funkcijas viešiems kambariams rasti."
 
 #: main/src/ui/main_window.vala:206
-#, fuzzy
 msgid "Welcome to DinoX!"
-msgstr "Sveiki atvykę į Dino!"
+msgstr "Sveiki atvykę į DinoX!"
 
 #: main/src/ui/main_window.vala:207
 msgid "Sign in or create an account to get started."
@@ -1433,20 +1410,17 @@ msgstr "Pradėti privatų pokalbį"
 
 #: main/src/ui/occupant_menu/view.vala:125
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:157
-#, fuzzy
 msgid "Unblock Contact"
-msgstr "Atblokuoti"
+msgstr "Atblokuoti kontaktą"
 
 #: main/src/ui/occupant_menu/view.vala:127
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:157
-#, fuzzy
 msgid "Block Contact"
-msgstr "Pridėti adresatą"
+msgstr "Užblokuoti kontaktą"
 
 #: main/src/ui/occupant_menu/view.vala:133
-#, fuzzy
 msgid "Moderation"
-msgstr "Moderuojamas"
+msgstr "Moderavimas"
 
 #: main/src/ui/occupant_menu/view.vala:135
 msgid "Kick"
@@ -1454,52 +1428,47 @@ msgstr "Išvaryti"
 
 #: main/src/ui/occupant_menu/view.vala:139
 msgid "Ban (Permanent)"
-msgstr ""
+msgstr "Blokuoti (Visam laikui)"
 
 #: main/src/ui/occupant_menu/view.vala:140
 msgid "Ban (10 min)"
-msgstr ""
+msgstr "Blokuoti (10 min)"
 
 #: main/src/ui/occupant_menu/view.vala:141
 msgid "Ban (15 min)"
-msgstr ""
+msgstr "Uždrausti (15 min)"
 
 #: main/src/ui/occupant_menu/view.vala:142
 msgid "Ban (30 min)"
-msgstr ""
+msgstr "Uždrausti (30 min)"
 
 #: main/src/ui/occupant_menu/view.vala:146
-#, fuzzy
 msgid "Administration"
-msgstr "Atverti registraciją"
+msgstr "Administravimas"
 
 #: main/src/ui/occupant_menu/view.vala:150
-#, fuzzy
 msgid "Make Admin"
-msgstr "Administratorius"
+msgstr "Padaryti administratoriumi"
 
 #: main/src/ui/occupant_menu/view.vala:152
 msgid "Revoke Admin"
-msgstr ""
+msgstr "Atšaukti administratorių"
 
 #: main/src/ui/occupant_menu/view.vala:156
-#, fuzzy
 msgid "Make Owner"
-msgstr "Savininkas"
+msgstr "Padaryti savininku"
 
 #: main/src/ui/occupant_menu/view.vala:161
-#, fuzzy
 msgid "Make Member"
-msgstr "Narys"
+msgstr "Padaryti nariu"
 
 #: main/src/ui/occupant_menu/view.vala:163
-#, fuzzy
 msgid "Revoke Membership"
-msgstr "Panaikinti leidimą rašyti"
+msgstr "Atšaukti narystę"
 
 #: main/src/ui/occupant_menu/view.vala:228
 msgid "Kicked by moderator"
-msgstr ""
+msgstr "Pašalintas moderatoriaus"
 
 #: main/src/ui/occupant_menu/view.vala:275
 msgid "Invite to Conference"
@@ -1507,22 +1476,22 @@ msgstr "Pakviesti į konferenciją"
 
 #: main/src/ui/systray.vala:178
 msgid "Quit"
-msgstr ""
+msgstr "Išeiti"
 
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
 "A friendly name shown in room listings (does not change the room address)"
-msgstr ""
+msgstr "Draugiškas pavadinimas rodomas kambarių sąrašuose (nekeičia kambario adreso)"
+"Draugiškas pavadinimas, rodomas kambarių sąrašuose (nekeičia kambario adreso)"
+"Draugiškas vardas, rodomas kambarių sąrašuose (nekeičia kambario adreso)"
 
 #: main/src/ui/util/data_forms.vala:44
-#, fuzzy
 msgid "Description"
-msgstr "Šifravimas"
+msgstr "Aprašymas"
 
 #: main/src/ui/util/data_forms.vala:45
-#, fuzzy
 msgid "A description of the room shown in room listings"
-msgstr "Kambario aprašas"
+msgstr "Kambario aprašymas, rodomas kambarių sąrašuose"
 
 #: main/src/ui/util/data_forms.vala:48
 msgid "Persistent"
@@ -1538,7 +1507,7 @@ msgstr "Viešai randamas"
 
 #: main/src/ui/util/data_forms.vala:53
 msgid "The room will appear in public room listings"
-msgstr ""
+msgstr "Kambarys bus rodomas viešuose kambarių sąrašuose"
 
 #: main/src/ui/util/data_forms.vala:56
 msgid "Occupants may change the subject"
@@ -1568,7 +1537,7 @@ msgstr "Tik nariai"
 msgid ""
 "Only members may enter the room. Warning: Non-members will be removed when "
 "enabled!"
-msgstr ""
+msgstr "Tik nariai gali įeiti į kambarį. Įspėjimas: Ne nariai bus pašalinti kai įjungta!"
 
 #: main/src/ui/util/helper.vala:65
 #, c-format
@@ -1588,7 +1557,7 @@ msgstr "%b %d, %a"
 msgid ""
 "This contact will be removed from your contact list and all conversation "
 "history will be permanently deleted."
-msgstr ""
+msgstr "Šis kontaktas bus pašalintas iš jūsų kontaktų sąrašo ir visa pokalbių istorija bus visam laikui ištrinta."
 
 #: main/src/windows/conversation_details.vala:108
 msgid "Block user"
@@ -1750,34 +1719,34 @@ msgid "Check %s for information on how to sign up"
 msgstr "Išsamesnei informacijai apie registraciją, žiūrėkite %s"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:192
-#, fuzzy
 msgid "No contacts"
-msgstr "Pridėti adresatą"
+msgstr "Nėra kontaktų"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:193
 msgid "Add contacts to start chatting"
-msgstr ""
+msgstr "Pridėkite kontaktų, kad pradėtumėte kalbėtis"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:289
 #, c-format
 msgid ""
 "This will remove %s from your contact list and delete all conversation "
 "history."
-msgstr ""
+msgstr "Tai pašalins %s iš jūsų kontaktų sąrašo ir ištrins visą pokalbių istoriją."
+"%s bus pašalintas iš jūsų kontaktų sąrašo ir visa pokalbių istorija bus "
+"ištrinta."
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:318
-#, fuzzy
 msgid "Edit Contact Alias"
-msgstr "Pridėti adresatą"
+msgstr "Redaguoti kontakto slapyvardį"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:319
 #, c-format
 msgid "Change the display name for %s"
-msgstr ""
+msgstr "Pakeisti %s rodomą vardą"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:325
 msgid "Alias (optional)"
-msgstr ""
+msgstr "Slapyvardis (neprivaloma)"
 
 #~ msgid "Message too long"
 #~ msgstr "Žinutė per ilga"

@@ -191,6 +191,16 @@
   <url type="translate">https://hosted.weblate.org/projects/dino/</url>
   <launchable type="desktop-id">im.github.rallep71.DinoX.desktop</launchable>
   <releases>
+    <release date="2025-11-28" version="0.7">
+      <description>
+        <p>Complete translation milestone - All 45 languages now at 100% coverage!</p>
+        <ul>
+          <li>All 45 supported languages now have 100% translation coverage (361/361 strings)</li>
+          <li>Previously most languages were at 70-85%, now every language is fully translated</li>
+          <li>Includes: Arabic, Catalan, Czech, Danish, German, Greek, Esperanto, Spanish, Estonian, Basque, Persian, Finnish, French, Galician, Hindi, Hungarian, Armenian, Indonesian, Interlingue, Icelandic, Italian, Japanese, Kabyle, Korean, Luxembourgish, Lithuanian, Latvian, Norwegian, Dutch, Occitan, Polish, Portuguese, Brazilian Portuguese, Romanian, Russian, Sinhala, Albanian, Swedish, Tamil, Thai, Turkish, Ukrainian, Vietnamese, Chinese (Simplified &amp; Traditional)</li>
+        </ul>
+      </description>
+    </release>
     <release date="2025-11-28" version="0.6.9">
       <description>
         <p>Backup functionality, MUC room privacy management, and tooltip improvements.</p>

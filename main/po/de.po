@@ -14,9 +14,8 @@ msgstr ""
 "X-Generator: Weblate 5.11-dev\n"
 
 #: main/data/add_conversation/add_groupchat_dialog.ui:80
-#, fuzzy
 msgid "Add MUC"
-msgstr "Chat hinzufügen"
+msgstr "MUC hinzufügen"
 
 #: main/data/add_conversation/add_groupchat_dialog.ui:90
 msgid "Insert a Name for MUC..."
@@ -28,9 +27,8 @@ msgstr "Kanal suchen oder Adresse eingeben..."
 
 #: main/data/add_conversation/select_jid_fragment.ui:67
 #: main/src/ui/add_conversation/select_jid_fragment.vala:205
-#, fuzzy
 msgid "Add Group"
-msgstr "Konto hinzufügen"
+msgstr "Gruppe hinzufügen"
 
 #: main/data/add_conversation/select_jid_fragment.ui:88
 msgid "Delete Group"
@@ -56,21 +54,18 @@ msgid "Accept"
 msgstr "Annehmen"
 
 #: main/data/chat_input.ui:63
-#, fuzzy
 msgid "Record voice message"
-msgstr "Nachrichten suchen"
+msgstr "Sprachnachricht aufnehmen"
 
 #: main/data/chat_input.ui:77
-#, fuzzy
 msgid "Send message"
-msgstr "Lesebestätigung senden"
+msgstr "Nachricht senden"
 
 #: main/data/conversation_details.ui:145
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:566
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:175
-#, fuzzy
 msgid "Remove Contact"
-msgstr "Konto entfernen"
+msgstr "Kontakt entfernen"
 
 #: main/data/conversation_details.ui:171
 #: main/src/windows/conversation_details.vala:231
@@ -201,9 +196,8 @@ msgid "Keyboard Shortcuts"
 msgstr "Tastenkombinationen"
 
 #: main/data/menu_app.ui:42 main/src/ui/application.vala:334
-#, fuzzy
 msgid "About DinoX"
-msgstr "Info zu Dino"
+msgstr "Über DinoX"
 
 #: main/data/menu_conversation.ui:7
 msgid "Contact Details"
@@ -213,9 +207,8 @@ msgstr "Kontaktdetails"
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:513
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:565
 #: main/src/ui/conversation_titlebar/menu_entry.vala:84
-#, fuzzy
 msgid "Delete Conversation History"
-msgstr "Unterhaltung schließen"
+msgstr "Gesprächsverlauf löschen"
 
 #: main/data/message_item_widget_edit_mode.ui:46
 #: main/data/preferences_window/change_password_dialog.ui:18
@@ -320,7 +313,8 @@ msgstr "_Im Hintergrund weiterlaufen"
 #: main/data/preferences_window/general_preferences_page.ui:33
 msgid ""
 "Continue running after closing window to receive notifications immediately"
-msgstr ""
+msgstr "Nach dem Schließen des Fensters weiterlaufen, um Benachrichtigungen sofort zu erhalten"
+"Nach dem Schließen des Fensters im Hintergrund weiterlaufen, um Benachrichtigungen sofort zu erhalten"
 
 #: main/data/preferences_window/general_preferences_page.ui:41
 msgid "Appearance"
@@ -339,9 +333,8 @@ msgid "_Convert Smileys to Emoji"
 msgstr "Smileys in Emoji _umwandeln"
 
 #: main/data/preferences_window/general_preferences_page.ui:63
-#, fuzzy
 msgid "User Data"
-msgstr "Gast"
+msgstr "Benutzerdaten"
 
 #: main/data/preferences_window/general_preferences_page.ui:66
 msgid "Backup User Data"
@@ -368,9 +361,8 @@ msgstr "Konten"
 #: main/data/preferences_window/preferences_dialog.ui:18
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:17
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:67
-#, fuzzy
 msgid "Contacts"
-msgstr "Kontakt hinzufügen"
+msgstr "Kontakte"
 
 #: main/data/preferences_window/preferences_dialog.ui:25
 #: main/src/windows/conversation_details.vala:281
@@ -452,9 +444,8 @@ msgid "Browse Rooms"
 msgstr "Räume durchsuchen"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:157
-#, fuzzy
 msgid "Browse Contacts"
-msgstr "Kontakt hinzufügen"
+msgstr "Kontakte durchsuchen"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:202
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:70
@@ -462,9 +453,8 @@ msgid "Add Contact"
 msgstr "Kontakt hinzufügen"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:203
-#, fuzzy
 msgid "Delete Contact"
-msgstr "Kontakt hinzufügen"
+msgstr "Kontakt löschen"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:206
 #: main/src/ui/add_conversation/select_jid_fragment.vala:216
@@ -480,9 +470,8 @@ msgid "User Data Locations"
 msgstr "Datenspeicherorte"
 
 #: main/src/ui/application.vala:349 main/src/ui/application.vala:399
-#, fuzzy
 msgid "Configuration:"
-msgstr "Raumkonfiguration"
+msgstr "Konfiguration:"
 
 #: main/src/ui/application.vala:352 main/src/ui/application.vala:401
 msgid "Data & Database:"
@@ -500,7 +489,9 @@ msgstr "Info:"
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
-msgstr ""
+msgstr "Ihre persönlichen Daten (Konten, Nachrichten, Dateien) werden getrennt von der Anwendung gespeichert."
+"Ihre persönlichen Daten (Konten, Nachrichten, Dateien) werden getrennt von der "
+"Anwendung gespeichert."
 
 #: main/src/ui/application.vala:361
 msgid "When you update DinoX, your data remains intact."
@@ -514,7 +505,9 @@ msgstr "Verwenden Sie Einstellungen → Allgemein → Benutzerdaten sichern, um 
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
-msgstr ""
+msgstr "Ihre persönlichen Daten (Konten, Nachrichten, Dateien) werden getrennt von der Anwendung gespeichert. Wenn Sie DinoX aktualisieren, bleiben Ihre Daten erhalten."
+"Ihre persönlichen Daten (Konten, Nachrichten, Dateien) werden getrennt von der "
+"Anwendung gespeichert. Wenn Sie DinoX aktualisieren, bleiben Ihre Daten erhalten."
 
 #: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
 #: main/src/ui/main_window.vala:159
@@ -843,9 +836,8 @@ msgid "Just now"
 msgstr "Gerade eben"
 
 #: main/src/ui/conversation_content_view/conversation_view.vala:105
-#, fuzzy
 msgid "More actions"
-msgstr "Reaktion hinzufügen"
+msgstr "Weitere Aktionen"
 
 #: main/src/ui/conversation_content_view/file_default_widget.vala:67
 #: main/src/ui/conversation_content_view/file_image_widget.vala:42
@@ -892,12 +884,10 @@ msgid "File transfer failed"
 msgstr "Dateiübertragung fehlgeschlagen"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:36
-#, fuzzy
 msgid "Kick user"
-msgstr "Benutzer sperren"
+msgstr "Benutzer rauswerfen"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:69
-#, fuzzy
 msgid "Ban user"
 msgstr "Benutzer sperren"
 
@@ -919,9 +909,8 @@ msgid "This conversation does not support replies."
 msgstr "Diese Unterhaltung unterstützt keine Antworten."
 
 #: main/src/ui/conversation_content_view/item_actions.vala:146
-#, fuzzy
 msgid "Moderate message..."
-msgstr "Nachricht aktualisieren"
+msgstr "Nachricht moderieren..."
 
 #: main/src/ui/conversation_content_view/item_actions.vala:148
 msgid "Delete..."
@@ -933,14 +922,12 @@ msgid "Delete locally"
 msgstr "Lokal löschen"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:160
-#, fuzzy
 msgid "Moderate message"
-msgstr "Nachricht aktualisieren"
+msgstr "Nachricht moderieren"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:160
-#, fuzzy
 msgid "Delete message"
-msgstr "Nachricht aktualisieren"
+msgstr "Nachricht löschen"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:164
 msgid "Do you want to remove this message from the channel?"
@@ -963,9 +950,8 @@ msgstr "Für alle löschen"
 
 #: main/src/ui/conversation_content_view/message_widget.vala:174
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:255
-#, fuzzy
 msgid "Message deleted"
-msgstr "Gesprächsverlauf"
+msgstr "Nachricht gelöscht"
 
 #: main/src/ui/conversation_content_view/message_widget.vala:178
 msgid "edited"
@@ -1035,9 +1021,8 @@ msgid "Permissions"
 msgstr "Berechtigungen"
 
 #: main/src/ui/conversation_details.vala:223
-#, fuzzy
 msgid "Manage Affiliations"
-msgstr "Konten verwalten"
+msgstr "Zugehörigkeiten verwalten"
 
 #: main/src/ui/conversation_details.vala:239
 msgid "Danger Zone"
@@ -1055,16 +1040,17 @@ msgstr "Raum zerstören?"
 msgid ""
 "Are you sure you want to permanently destroy this room? This action cannot "
 "be undone and all history will be lost for all participants."
-msgstr ""
+msgstr "Sind Sie sicher, dass Sie diesen Raum dauerhaft löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden und der gesamte Verlauf geht für alle Teilnehmer verloren."
+"Möchten Sie diesen Raum wirklich dauerhaft zerstören? Diese Aktion kann nicht "
+"rückgängig gemacht werden und der gesamte Verlauf geht für alle Teilnehmer verloren."
 
 #: main/src/ui/conversation_details.vala:250
 msgid "Destroy"
 msgstr "Zerstören"
 
 #: main/src/ui/conversation_details.vala:271
-#, fuzzy
 msgid "Failed to destroy room"
-msgstr "Raum erzeugen verboten"
+msgstr "Raum konnte nicht gelöscht werden"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:276
 #: main/src/ui/notifier_freedesktop.vala:71
@@ -1126,9 +1112,8 @@ msgstr "Unterhaltungsdetails"
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:507
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:771
 #: main/src/ui/conversation_titlebar/menu_entry.vala:98
-#, fuzzy
 msgid "Invite Contact"
-msgstr "Zur Konferenz einladen"
+msgstr "Kontakt einladen"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:511
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:559
@@ -1157,9 +1142,8 @@ msgstr "Verlassen und schließen"
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:555
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:623
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:126
-#, fuzzy
 msgid "Edit Alias"
-msgstr "Alias"
+msgstr "Alias bearbeiten"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:563
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:705
@@ -1208,15 +1192,14 @@ msgstr "Dies deaktiviert Benachrichtigungen von %s."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:701
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:246
-#, fuzzy
 msgid "Unblock contact?"
-msgstr "Entsperren"
+msgstr "Kontakt entsperren?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:702
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:247
-#, fuzzy, c-format
+#, c-format
 msgid "This will allow %s to send you messages again."
-msgstr "Diese Konferenz erlaubt es dir nicht, Nachrichten zu senden."
+msgstr "Dies wird %s erlauben, dir wieder Nachrichten zu senden."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:720
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:266
@@ -1232,9 +1215,8 @@ msgstr "Dies verhindert, dass %s Ihnen Nachrichten sendet."
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:741
 #: main/src/windows/conversation_details.vala:57
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:288
-#, fuzzy
 msgid "Remove contact?"
-msgstr "Konto entfernen"
+msgstr "Kontakt entfernen?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:742
 #, c-format
@@ -1245,17 +1227,23 @@ msgid ""
 "\n"
 "This action cannot be undone."
 msgstr ""
+"Dies wird:\n"
+"• Den gesamten Gesprächsverlauf löschen\n"
+"• %s aus Ihrer Kontaktliste entfernen\n"
+"\n"
+"Diese Aktion kann nicht rückgängig gemacht werden."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:787
-#, fuzzy
 msgid "Delete all message history?"
-msgstr "Gesprächsverlauf"
+msgstr "Den gesamten Nachrichtenverlauf löschen?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:788
 msgid ""
 "This will permanently delete all messages in this conversation. This action "
 "cannot be undone."
-msgstr ""
+msgstr "Dadurch werden alle Nachrichten in dieser Konversation dauerhaft gelöscht. Diese Aktion kann nicht rückgängig gemacht werden."
+"Dies wird alle Nachrichten in dieser Unterhaltung dauerhaft löschen. Diese Aktion "
+"kann nicht rückgängig gemacht werden."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:791
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
@@ -1282,12 +1270,13 @@ msgstr "Konferenzserver erforderlich"
 msgid ""
 "To start a group call, you need to configure a default conference server in "
 "your account settings."
-msgstr ""
+msgstr "Um einen Gruppenanruf zu starten, müssen Sie in Ihren Kontoeinstellungen einen Standard-Konferenzserver konfigurieren."
+"Um einen Gruppenanruf zu starten, müssen Sie einen Standard-Konferenzserver in "
+"Ihren Kontoeinstellungen konfigurieren."
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:84
-#, fuzzy
 msgid "Open Settings"
-msgstr "Einstellungen"
+msgstr "Einstellungen öffnen"
 
 #: main/src/ui/conversation_titlebar/menu_entry.vala:47
 msgid "Delete all message history for this conversation?"
@@ -1330,9 +1319,8 @@ msgid "With %s"
 msgstr "Mit %s"
 
 #: main/src/ui/main_window.vala:156
-#, fuzzy
 msgid "Join Channel Help"
-msgstr "Kanal beitreten"
+msgstr "Kanal beitreten - Hilfe"
 
 #: main/src/ui/main_window.vala:157
 msgid ""
@@ -1342,11 +1330,20 @@ msgid ""
 "If you need a password or a nickname, provide them in the dialog. Use the "
 "discovery features in the server to find public rooms."
 msgstr ""
+"Um einem Kanal beizutreten, klicke auf \"Kanal beitreten\" und gib die "
+"Kanal-JID ein (Beispiel: raum@conference.example.org).\n"
+"\n"
+"Wenn du ein Passwort oder einen Spitznamen brauchst, gib sie im Dialog an. "
+"Nutze die Entdeckungsfunktionen auf dem Server, um öffentliche Räume zu finden."
+"Um einem Kanal beizutreten, klicke auf \"Kanal beitreten\" und gib die "
+"Kanal-JID ein (Beispiel: raum@conference.example.org).\n"
+"\n"
+"Wenn du ein Passwort oder einen Spitznamen brauchst, gib sie im Dialog an. "
+"Nutze die Entdeckungsfunktionen auf dem Server, um öffentliche Räume zu finden."
 
 #: main/src/ui/main_window.vala:206
-#, fuzzy
 msgid "Welcome to DinoX!"
-msgstr "Willkommen bei Dino!"
+msgstr "Willkommen bei DinoX!"
 
 #: main/src/ui/main_window.vala:207
 msgid "Sign in or create an account to get started."
@@ -1429,20 +1426,17 @@ msgstr "Private Unterhaltung beginnen"
 
 #: main/src/ui/occupant_menu/view.vala:125
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:157
-#, fuzzy
 msgid "Unblock Contact"
-msgstr "Entsperren"
+msgstr "Kontakt entsperren"
 
 #: main/src/ui/occupant_menu/view.vala:127
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:157
-#, fuzzy
 msgid "Block Contact"
-msgstr "Kontakt hinzufügen"
+msgstr "Kontakt blockieren"
 
 #: main/src/ui/occupant_menu/view.vala:133
-#, fuzzy
 msgid "Moderation"
-msgstr "Moderiert"
+msgstr "Moderation"
 
 #: main/src/ui/occupant_menu/view.vala:135
 msgid "Kick"
@@ -1465,33 +1459,31 @@ msgid "Ban (30 min)"
 msgstr "Sperren (30 Min.)"
 
 #: main/src/ui/occupant_menu/view.vala:146
-#, fuzzy
 msgid "Administration"
-msgstr "Registrierung öffnen"
+msgstr "Administration"
 
 #: main/src/ui/occupant_menu/view.vala:150
-#, fuzzy
 msgid "Make Admin"
-msgstr "Admin"
+msgstr "Zum Admin machen"
 
 #: main/src/ui/occupant_menu/view.vala:152
 msgid "Revoke Admin"
 msgstr "Admin-Rechte entziehen"
 
 #: main/src/ui/occupant_menu/view.vala:156
-#, fuzzy
+#
 msgid "Make Owner"
-msgstr "Eigentümer"
+msgstr "Zum Eigentümer machen"
 
 #: main/src/ui/occupant_menu/view.vala:161
-#, fuzzy
+#
 msgid "Make Member"
-msgstr "Mitglied"
+msgstr "Zum Mitglied machen"
 
 #: main/src/ui/occupant_menu/view.vala:163
-#, fuzzy
+#
 msgid "Revoke Membership"
-msgstr "Schreibberechtigung entziehen"
+msgstr "Mitgliedschaft widerrufen"
 
 #: main/src/ui/occupant_menu/view.vala:228
 msgid "Kicked by moderator"
@@ -1509,15 +1501,19 @@ msgstr "Beenden"
 msgid ""
 "A friendly name shown in room listings (does not change the room address)"
 msgstr ""
+"Ein freundlicher Name in Raumlisten (ändert nicht die Raumadresse)"
+"Ein freundlicher Name in Raumlisten (ändert nicht die Raumadresse)"
+"Ein freundlicher Name, der in Raumlisten angezeigt wird (ändert nicht die Raumadresse)"
+"Ein Anzeigename, der in Raumlisten angezeigt wird (ändert nicht die Raumadresse)"
 
 #: main/src/ui/util/data_forms.vala:44
 msgid "Description"
 msgstr "Beschreibung"
 
 #: main/src/ui/util/data_forms.vala:45
-#, fuzzy
+#
 msgid "A description of the room shown in room listings"
-msgstr "Beschreibung des Raums"
+msgstr "Eine Beschreibung des Raums, die in Raumlisten angezeigt wird"
 
 #: main/src/ui/util/data_forms.vala:48
 msgid "Persistent"
@@ -1565,6 +1561,12 @@ msgid ""
 "Only members may enter the room. Warning: Non-members will be removed when "
 "enabled!"
 msgstr ""
+"Nur Mitglieder dürfen den Raum betreten. Warnung: Nicht-Mitglieder werden bei "
+"Aktivierung entfernt!"
+"Nur Mitglieder dürfen den Raum betreten. Warnung: Nicht-Mitglieder werden bei "
+"Aktivierung entfernt!"
+"Nur Mitglieder dürfen den Raum betreten. Warnung: Nicht-Mitglieder werden bei "
+"Aktivierung entfernt!"
 
 #: main/src/ui/util/helper.vala:65
 #, c-format
@@ -1585,6 +1587,12 @@ msgid ""
 "This contact will be removed from your contact list and all conversation "
 "history will be permanently deleted."
 msgstr ""
+"Dieser Kontakt wird aus deiner Kontaktliste entfernt und der gesamte "
+"Gesprächsverlauf wird dauerhaft gelöscht."
+"Dieser Kontakt wird aus deiner Kontaktliste entfernt und der gesamte "
+"Gesprächsverlauf wird dauerhaft gelöscht."
+"Dieser Kontakt wird aus Ihrer Kontaktliste entfernt und der gesamte "
+"Gesprächsverlauf wird dauerhaft gelöscht."
 
 #: main/src/windows/conversation_details.vala:108
 msgid "Block user"
@@ -1747,9 +1755,9 @@ msgid "Check %s for information on how to sign up"
 msgstr "Eventuell sind auf %s Informationen zur Registrierung zu finden"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:192
-#, fuzzy
+#
 msgid "No contacts"
-msgstr "Kontakt hinzufügen"
+msgstr "Keine Kontakte"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:193
 msgid "Add contacts to start chatting"
@@ -1761,11 +1769,19 @@ msgid ""
 "This will remove %s from your contact list and delete all conversation "
 "history."
 msgstr ""
+"Dies wird %s aus deiner Kontaktliste entfernen und den gesamten "
+"Gesprächsverlauf löschen."
+"Dies wird %s aus deiner Kontaktliste entfernen und den gesamten "
+"Gesprächsverlauf löschen."
+"%s wird aus deiner Kontaktliste entfernt und der gesamte Gesprächsverlauf "
+"wird gelöscht."
+"Dies entfernt %s aus Ihrer Kontaktliste und löscht den gesamten "
+"Gesprächsverlauf."
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:318
-#, fuzzy
+#
 msgid "Edit Contact Alias"
-msgstr "Kontakt hinzufügen"
+msgstr "Kontaktalias bearbeiten"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:319
 #, c-format

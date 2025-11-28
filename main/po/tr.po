@@ -19,25 +19,24 @@ msgstr ""
 
 #: main/data/add_conversation/add_groupchat_dialog.ui:80
 msgid "Add MUC"
-msgstr ""
+msgstr "MUC Ekle"
 
 #: main/data/add_conversation/add_groupchat_dialog.ui:90
 msgid "Insert a Name for MUC..."
-msgstr ""
+msgstr "Oda için bir isim girin..."
 
 #: main/data/add_conversation/select_jid_fragment.ui:20
 msgid "Search or enter channel address..."
-msgstr ""
+msgstr "Kanal arayın veya adres girin..."
 
 #: main/data/add_conversation/select_jid_fragment.ui:67
 #: main/src/ui/add_conversation/select_jid_fragment.vala:205
-#, fuzzy
 msgid "Add Group"
-msgstr "Hesap Ekle"
+msgstr "Grup Ekle"
 
 #: main/data/add_conversation/select_jid_fragment.ui:88
 msgid "Delete Group"
-msgstr ""
+msgstr "Grubu Sil"
 
 #: main/data/call_widget.ui:73 main/src/ui/notifier_freedesktop.vala:125
 #: main/src/ui/notifier_freedesktop.vala:230
@@ -59,21 +58,18 @@ msgid "Accept"
 msgstr "Kabul et"
 
 #: main/data/chat_input.ui:63
-#, fuzzy
 msgid "Record voice message"
-msgstr "Mesajları ara"
+msgstr "Sesli mesaj kaydet"
 
 #: main/data/chat_input.ui:77
-#, fuzzy
 msgid "Send message"
-msgstr "Mesajı düzenle"
+msgstr "Mesaj gönder"
 
 #: main/data/conversation_details.ui:145
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:566
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:175
-#, fuzzy
 msgid "Remove Contact"
-msgstr "Hesabı kaldır"
+msgstr "Kişiyi Kaldır"
 
 #: main/data/conversation_details.ui:171
 #: main/src/windows/conversation_details.vala:231
@@ -82,7 +78,7 @@ msgstr "Hakkında"
 
 #: main/data/conversation_row.ui:56
 msgid "Private room (supports group calls)"
-msgstr ""
+msgstr "Özel oda (grup aramalarını destekler)"
 
 #: main/data/conversation_row.ui:135
 #: main/src/windows/conversation_details.vala:171
@@ -137,7 +133,7 @@ msgstr "Dosya gönder"
 
 #: main/data/gtk/help-overlay.ui:55
 msgid "Close conversation"
-msgstr ""
+msgstr "Konuşmayı kapat"
 
 #: main/data/gtk/help-overlay.ui:62
 msgid "Navigation"
@@ -153,7 +149,7 @@ msgstr "Bir önceki sohbete geç"
 
 #: main/data/main_window.ui:64 main/src/ui/main_window.vala:144
 msgid "Help: How to join channels"
-msgstr ""
+msgstr "Yardım: Kanallara nasıl katılınır"
 
 #: main/data/main_window.ui:118
 msgid "You have no open chats"
@@ -165,35 +161,35 @@ msgstr "Sohbet başlatmak veya bir kanala katılmak için +'ya tıklayın"
 
 #: main/data/menu_app.ui:6
 msgid "Status"
-msgstr ""
+msgstr "Durum"
 
 #: main/data/menu_app.ui:11
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:427
 #: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Online"
-msgstr ""
+msgstr "Çevrimiçi"
 
 #: main/data/menu_app.ui:16
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:421
 #: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Away"
-msgstr ""
+msgstr "Uzakta"
 
 #: main/data/menu_app.ui:21
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:425
 #: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Busy"
-msgstr ""
+msgstr "Meşgul"
 
 #: main/data/menu_app.ui:26
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:423
 #: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Not Available"
-msgstr ""
+msgstr "Müsait Değil"
 
 #: main/data/menu_app.ui:34
 msgid "Preferences"
@@ -204,9 +200,8 @@ msgid "Keyboard Shortcuts"
 msgstr "Klavye Kısayolları"
 
 #: main/data/menu_app.ui:42 main/src/ui/application.vala:334
-#, fuzzy
 msgid "About DinoX"
-msgstr "Dino Hakkında"
+msgstr "DinoX Hakkında"
 
 #: main/data/menu_conversation.ui:7
 msgid "Contact Details"
@@ -216,9 +211,8 @@ msgstr "Kişi Ayrıntıları"
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:513
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:565
 #: main/src/ui/conversation_titlebar/menu_entry.vala:84
-#, fuzzy
 msgid "Delete Conversation History"
-msgstr "Sohbeti Kapat"
+msgstr "Konuşma Geçmişini Sil"
 
 #: main/data/message_item_widget_edit_mode.ui:46
 #: main/data/preferences_window/change_password_dialog.ui:18
@@ -274,19 +268,19 @@ msgstr "Bağlantı durumu"
 # Custom host/port feature (Issue #115)
 #: main/data/preferences_window/account_preferences_subpage.ui:121
 msgid "Advanced Settings"
-msgstr ""
+msgstr "Gelişmiş Ayarlar"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:122
 msgid "Custom server connection (leave empty for automatic)"
-msgstr ""
+msgstr "Özel sunucu bağlantısı (otomatik için boş bırakın)"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:125
 msgid "Server Hostname"
-msgstr ""
+msgstr "Sunucu Ana Bilgisayar Adı"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:130
 msgid "Port"
-msgstr ""
+msgstr "Port"
 
 #: main/data/preferences_window/change_password_dialog.ui:61
 msgid "Current password"
@@ -318,49 +312,49 @@ msgstr "Mesaj ulaştığında bildirim gönder"
 
 #: main/data/preferences_window/general_preferences_page.ui:32
 msgid "_Keep Running in Background"
-msgstr ""
+msgstr "_Arka planda çalış"
 
 #: main/data/preferences_window/general_preferences_page.ui:33
 msgid ""
 "Continue running after closing window to receive notifications immediately"
-msgstr ""
+msgstr "Bildirimleri anında almak için pencereyi kapattıktan sonra çalışmaya devam et"
+"Bildirimleri hemen almak için pencere kapatıldıktan sonra çalışmaya devam et"
 
 #: main/data/preferences_window/general_preferences_page.ui:41
 msgid "Appearance"
-msgstr ""
+msgstr "Görünüm"
 
 #: main/data/preferences_window/general_preferences_page.ui:44
 msgid "_Color Scheme"
-msgstr ""
+msgstr "_Renk Şeması"
 
 #: main/data/preferences_window/general_preferences_page.ui:45
 msgid "Choose between light and dark appearance"
-msgstr ""
+msgstr "Açık ve koyu görünüm arasında seçin"
 
 #: main/data/preferences_window/general_preferences_page.ui:55
 msgid "_Convert Smileys to Emoji"
 msgstr "Gülen Yüzleri Emoji'ye _Dönüştür"
 
 #: main/data/preferences_window/general_preferences_page.ui:63
-#, fuzzy
 msgid "User Data"
-msgstr "Kullanıcı"
+msgstr "Kullanıcı Verileri"
 
 #: main/data/preferences_window/general_preferences_page.ui:66
 msgid "Backup User Data"
-msgstr ""
+msgstr "Kullanıcı Verilerini Yedekle"
 
 #: main/data/preferences_window/general_preferences_page.ui:67
 msgid "Create a backup of your accounts, messages and settings"
-msgstr ""
+msgstr "Hesaplarınızın, mesajlarınızın ve ayarlarınızın yedeğini oluşturun"
 
 #: main/data/preferences_window/general_preferences_page.ui:78
 msgid "Data Location"
-msgstr ""
+msgstr "Veri Konumu"
 
 #: main/data/preferences_window/general_preferences_page.ui:79
 msgid "View where your data is stored"
-msgstr ""
+msgstr "Verilerinizin nerede depolandığını görün"
 
 #: main/data/preferences_window/preferences_dialog.ui:11
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:15
@@ -371,9 +365,8 @@ msgstr "Hesaplar"
 #: main/data/preferences_window/preferences_dialog.ui:18
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:17
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:67
-#, fuzzy
 msgid "Contacts"
-msgstr "Kişi Ekle"
+msgstr "Kişiler"
 
 #: main/data/preferences_window/preferences_dialog.ui:25
 #: main/src/windows/conversation_details.vala:281
@@ -444,7 +437,7 @@ msgstr "Geçersiz adres"
 
 #: main/src/ui/add_conversation/select_contact_dialog.vala:70
 msgid "Search or enter contact address..."
-msgstr ""
+msgstr "Kişi arayın veya adres girin..."
 
 #: main/src/ui/add_conversation/select_contact_dialog.vala:107
 msgid "Start"
@@ -452,12 +445,11 @@ msgstr "Başla"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:154
 msgid "Browse Rooms"
-msgstr ""
+msgstr "Odaları Gözat"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:157
-#, fuzzy
 msgid "Browse Contacts"
-msgstr "Kişi Ekle"
+msgstr "Kişilere Gözat"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:202
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:70
@@ -465,90 +457,90 @@ msgid "Add Contact"
 msgstr "Kişi Ekle"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:203
-#, fuzzy
 msgid "Delete Contact"
-msgstr "Kişi Ekle"
+msgstr "Kişiyi Sil"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:206
 #: main/src/ui/add_conversation/select_jid_fragment.vala:216
 msgid "Leave Group"
-msgstr ""
+msgstr "Gruptan Ayrıl"
 
 #: main/src/ui/application.vala:339
 msgid "Modern XMPP client with extended features"
-msgstr ""
+msgstr "Gelişmiş özelliklere sahip modern XMPP istemcisi"
 
 #: main/src/ui/application.vala:346 main/src/ui/application.vala:385
 msgid "User Data Locations"
-msgstr ""
+msgstr "Veri Konumları"
 
 #: main/src/ui/application.vala:349 main/src/ui/application.vala:399
-#, fuzzy
 msgid "Configuration:"
-msgstr "Oda Ayarları"
+msgstr "Yapılandırma:"
 
 #: main/src/ui/application.vala:352 main/src/ui/application.vala:401
 msgid "Data & Database:"
-msgstr ""
+msgstr "Veri ve Veritabanı:"
 
 #: main/src/ui/application.vala:355 main/src/ui/application.vala:403
 msgid "Cache:"
-msgstr ""
+msgstr "Önbellek:"
 
 #: main/src/ui/application.vala:358
 msgid "Info:"
-msgstr ""
+msgstr "Bilgi:"
 
 #: main/src/ui/application.vala:359
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
-msgstr ""
+msgstr "Kişisel verileriniz (hesaplar, mesajlar, dosyalar) uygulamadan ayrı olarak saklanır."
 
 #: main/src/ui/application.vala:361
 msgid "When you update DinoX, your data remains intact."
-msgstr ""
+msgstr "DinoX'u güncellediğinizde verileriniz korunur."
 
 #: main/src/ui/application.vala:363
 msgid "Use Settings → General → Backup User Data to create a backup."
-msgstr ""
+msgstr "Yedek oluşturmak için Ayarlar → Genel → Yedekle'yi kullanın."
 
 #: main/src/ui/application.vala:405
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
-msgstr ""
+msgstr "Kişisel verileriniz (hesaplar, mesajlar, dosyalar) uygulamadan ayrı olarak saklanır. DinoX'i güncellediğinizde verileriniz bozulmadan kalır."
+"Kişisel verileriniz (hesaplar, mesajlar, dosyalar) uygulamadan ayrı olarak "
+"saklanır. DinoX'u güncellediğinizde verileriniz korunur."
 
 #: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
 #: main/src/ui/main_window.vala:159
 msgid "Close"
-msgstr ""
+msgstr "Kapat"
 
 #: main/src/ui/application.vala:417
 msgid "Select Backup Location"
-msgstr ""
+msgstr "Yedekleme Konumu Seçin"
 
 #: main/src/ui/application.vala:445
 msgid "Creating backup..."
-msgstr ""
+msgstr "Yedek oluşturuluyor..."
 
 #: main/src/ui/application.vala:503
 #, c-format
 msgid "Backup created successfully (%s)"
-msgstr ""
+msgstr "Yedek başarıyla oluşturuldu (%s)"
 
 #: main/src/ui/application.vala:505
 msgid "Backup created successfully"
-msgstr ""
+msgstr "Yedek başarıyla oluşturuldu"
 
 #: main/src/ui/application.vala:510
 msgid "Unknown error"
-msgstr ""
+msgstr "Bilinmeyen hata"
 
 #: main/src/ui/application.vala:511
 #, c-format
 msgid "Backup failed: %s"
-msgstr ""
+msgstr "Yedekleme başarısız: %s"
 
 #: main/src/ui/call_window/audio_settings_popover.vala:29
 msgid "Microphones"
@@ -846,9 +838,8 @@ msgid "Just now"
 msgstr "Şu an"
 
 #: main/src/ui/conversation_content_view/conversation_view.vala:105
-#, fuzzy
 msgid "More actions"
-msgstr "Tepki ekle"
+msgstr "Daha fazla eylem"
 
 #: main/src/ui/conversation_content_view/file_default_widget.vala:67
 #: main/src/ui/conversation_content_view/file_image_widget.vala:42
@@ -895,14 +886,12 @@ msgid "File transfer failed"
 msgstr "Dosya transferi başarısız"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:36
-#, fuzzy
 msgid "Kick user"
-msgstr "Kullanıcıyı engelle"
+msgstr "Kullanıcıyı at"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:69
-#, fuzzy
 msgid "Ban user"
-msgstr "Kullanıcıyı engelle"
+msgstr "Kullanıcıyı yasakla"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:82
 #: main/src/ui/conversation_content_view/reactions_widget.vala:128
@@ -922,32 +911,29 @@ msgid "This conversation does not support replies."
 msgstr "Bu sohbet yanıtları desteklemiyor."
 
 #: main/src/ui/conversation_content_view/item_actions.vala:146
-#, fuzzy
 msgid "Moderate message..."
-msgstr "Mesajı güncelle"
+msgstr "Mesajı yönet…"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:148
 msgid "Delete..."
-msgstr ""
+msgstr "Sil..."
 
 #: main/src/ui/conversation_content_view/item_actions.vala:150
 #: main/src/ui/conversation_content_view/item_actions.vala:168
 msgid "Delete locally"
-msgstr ""
+msgstr "Yerel olarak sil"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:160
-#, fuzzy
 msgid "Moderate message"
-msgstr "Mesajı güncelle"
+msgstr "Mesajı yönet"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:160
-#, fuzzy
 msgid "Delete message"
-msgstr "Mesajı güncelle"
+msgstr "Mesajı sil"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:164
 msgid "Do you want to remove this message from the channel?"
-msgstr ""
+msgstr "Bu mesajı kanaldan kaldırmak istiyor musunuz?"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:165
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:745
@@ -958,17 +944,16 @@ msgstr "Sil"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:167
 msgid "Do you want to delete this message just for yourself or for everyone?"
-msgstr ""
+msgstr "Bu mesajı sadece kendiniz için mi yoksa herkes için mi silmek istiyorsunuz?"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:168
 msgid "Delete for everyone"
-msgstr ""
+msgstr "Herkes için sil"
 
 #: main/src/ui/conversation_content_view/message_widget.vala:174
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:255
-#, fuzzy
 msgid "Message deleted"
-msgstr "Mesaj geçmişi"
+msgstr "Mesaj silindi"
 
 #: main/src/ui/conversation_content_view/message_widget.vala:178
 msgid "edited"
@@ -976,7 +961,7 @@ msgstr "düzenlendi"
 
 #: main/src/ui/conversation_content_view/message_widget.vala:182
 msgid "Message truncated - exceeds 100,000 characters"
-msgstr ""
+msgstr "Mesaj kırpıldı - 100.000 karakteri aşıyor"
 
 #: main/src/ui/conversation_content_view/message_widget.vala:191
 msgid "pending…"
@@ -1038,36 +1023,36 @@ msgid "Permissions"
 msgstr "İzinler"
 
 #: main/src/ui/conversation_details.vala:223
-#, fuzzy
 msgid "Manage Affiliations"
-msgstr "Hesapları yönet"
+msgstr "Üyelikleri Yönet"
 
 #: main/src/ui/conversation_details.vala:239
 msgid "Danger Zone"
-msgstr ""
+msgstr "Tehlike Bölgesi"
 
 #: main/src/ui/conversation_details.vala:240
 msgid "Destroy Room"
-msgstr ""
+msgstr "Odayı Yok Et"
 
 #: main/src/ui/conversation_details.vala:246
 msgid "Destroy Room?"
-msgstr ""
+msgstr "Oda Yok Edilsin mi?"
 
 #: main/src/ui/conversation_details.vala:247
 msgid ""
 "Are you sure you want to permanently destroy this room? This action cannot "
 "be undone and all history will be lost for all participants."
-msgstr ""
+msgstr "Bu odayı kalıcı olarak yok etmek istediğinizden emin misiniz? Bu işlem geri alınamaz ve tüm geçmiş tüm katılımcılar için kaybolacaktır."
+"Bu odayı kalıcı olarak yok etmek istediğinizden emin misiniz? Bu işlem "
+"geri alınamaz ve tüm geçmiş tüm katılımcılar için kaybolacaktır."
 
 #: main/src/ui/conversation_details.vala:250
 msgid "Destroy"
-msgstr ""
+msgstr "Yok Et"
 
 #: main/src/ui/conversation_details.vala:271
-#, fuzzy
 msgid "Failed to destroy room"
-msgstr "Oda oluşturulmasına izin verilmedi"
+msgstr "Oda yok edilemedi"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:276
 #: main/src/ui/notifier_freedesktop.vala:71
@@ -1095,19 +1080,19 @@ msgstr "Dosya alındı"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:361
 msgid "Thema:"
-msgstr ""
+msgstr "Konu:"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:381
 msgid "Privat"
-msgstr ""
+msgstr "Özel"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:383
 msgid "Öffentlich"
-msgstr ""
+msgstr "Herkese Açık"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:387
 msgid "Typ:"
-msgstr ""
+msgstr "Tür:"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:483
 #: main/src/ui/widgets/date_separator.vala:37
@@ -1129,9 +1114,8 @@ msgstr "Sohbet Ayrıntıları"
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:507
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:771
 #: main/src/ui/conversation_titlebar/menu_entry.vala:98
-#, fuzzy
 msgid "Invite Contact"
-msgstr "Görüşmeye Davet et"
+msgstr "Kişi Davet Et"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:511
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:559
@@ -1140,7 +1124,7 @@ msgstr "Görüşmeye Davet et"
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:140
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:206
 msgid "Unmute"
-msgstr ""
+msgstr "Sesi Aç"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:511
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:559
@@ -1155,14 +1139,13 @@ msgstr "Sesini kapat"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:514
 msgid "Leave and Close"
-msgstr ""
+msgstr "Ayrıl ve Kapat"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:555
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:623
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:126
-#, fuzzy
 msgid "Edit Alias"
-msgstr "Mahlas"
+msgstr "Takma Adı Düzenle"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:563
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:705
@@ -1190,54 +1173,51 @@ msgstr "Kaydet"
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:657
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:202
 msgid "Unmute contact?"
-msgstr ""
+msgstr "Kişinin sesini aç?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:658
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:203
 #, c-format
 msgid "This will enable notifications from %s."
-msgstr ""
+msgstr "Bu, %s'den gelen bildirimleri etkinleştirir."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:676
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:222
 msgid "Mute contact?"
-msgstr ""
+msgstr "Kişiyi sessize al?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:677
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:223
 #, c-format
 msgid "This will disable notifications from %s."
-msgstr ""
+msgstr "Bu, %s'den gelen bildirimleri devre dışı bırakır."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:701
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:246
-#, fuzzy
 msgid "Unblock contact?"
-msgstr "Engeli kaldır"
+msgstr "Kişi engelini kaldır?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:702
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:247
-#, fuzzy, c-format
 msgid "This will allow %s to send you messages again."
-msgstr "Bu görüşme mesaj göndermenize izin vermiyor."
+msgstr "Bu, %s adlı kişinin size tekrar mesaj göndermesine izin verecek."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:720
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:266
 msgid "Block contact?"
-msgstr ""
+msgstr "Kişiyi engelle?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:721
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:267
 #, c-format
 msgid "This will prevent %s from sending you messages."
-msgstr ""
+msgstr "Bu, %s'nin size mesaj göndermesini engeller."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:741
 #: main/src/windows/conversation_details.vala:57
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:288
-#, fuzzy
 msgid "Remove contact?"
-msgstr "Hesabı kaldır"
+msgstr "Kişiyi kaldır?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:742
 #, c-format
@@ -1247,23 +1227,22 @@ msgid ""
 "• Remove %s from your contact list\n"
 "\n"
 "This action cannot be undone."
-msgstr ""
+msgstr "Bu işlem:\n• Tüm sohbet geçmişini silecek\n• %s adlı kişiyi kişi listenizden kaldıracak\n\nBu işlem geri alınamaz."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:787
-#, fuzzy
 msgid "Delete all message history?"
-msgstr "Mesaj geçmişi"
+msgstr "Tüm mesaj geçmişi silinsin mi?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:788
 msgid ""
 "This will permanently delete all messages in this conversation. This action "
 "cannot be undone."
-msgstr ""
+msgstr "Bu, bu konuşmadaki tüm mesajları kalıcı olarak silecektir. Bu işlem geri alınamaz."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:791
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
 msgid "Delete"
-msgstr ""
+msgstr "Sil"
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:14
 msgid "Start call"
@@ -1279,26 +1258,25 @@ msgstr "Görüntülü arama"
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:79
 msgid "Conference Server Required"
-msgstr ""
+msgstr "Konferans Sunucusu Gerekli"
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:80
 msgid ""
 "To start a group call, you need to configure a default conference server in "
 "your account settings."
-msgstr ""
+msgstr "Grup araması başlatmak için hesap ayarlarınızda varsayılan bir konferans sunucusu yapılandırmanız gerekir."
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:84
-#, fuzzy
 msgid "Open Settings"
-msgstr "Ayarlar"
+msgstr "Ayarları Aç"
 
 #: main/src/ui/conversation_titlebar/menu_entry.vala:47
 msgid "Delete all message history for this conversation?"
-msgstr ""
+msgstr "Bu konuşmanın tüm mesaj geçmişi silinsin mi?"
 
 #: main/src/ui/conversation_titlebar/menu_entry.vala:49
 msgid "This action cannot be undone."
-msgstr ""
+msgstr "Bu işlem geri alınamaz."
 
 #: main/src/ui/conversation_titlebar/menu_entry.vala:85
 msgid "Close Conversation"
@@ -1333,9 +1311,8 @@ msgid "With %s"
 msgstr "%s ile"
 
 #: main/src/ui/main_window.vala:156
-#, fuzzy
 msgid "Join Channel Help"
-msgstr "Kanala katıl"
+msgstr "Kanala Katılma Yardımı"
 
 #: main/src/ui/main_window.vala:157
 msgid ""
@@ -1344,12 +1321,11 @@ msgid ""
 "\n"
 "If you need a password or a nickname, provide them in the dialog. Use the "
 "discovery features in the server to find public rooms."
-msgstr ""
+msgstr "Bir kanala katılmak için \"Kanala Katıl\" düğmesine tıklayın ve kanal JID'sini girin (örnek: room@conference.example.org).\n\nŞifreye veya takma ada ihtiyacınız varsa, bunları iletişim kutusunda belirtin. Herkese açık odaları bulmak için sunucunun keşif özelliklerini kullanın."
 
 #: main/src/ui/main_window.vala:206
-#, fuzzy
 msgid "Welcome to DinoX!"
-msgstr "Dino'ya hoş geldiniz!"
+msgstr "DinoX'a Hoş Geldiniz!"
 
 #: main/src/ui/main_window.vala:207
 msgid "Sign in or create an account to get started."
@@ -1432,20 +1408,17 @@ msgstr "Özel sohbet başlat"
 
 #: main/src/ui/occupant_menu/view.vala:125
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:157
-#, fuzzy
 msgid "Unblock Contact"
-msgstr "Engeli kaldır"
+msgstr "Kişi Engelini Kaldır"
 
 #: main/src/ui/occupant_menu/view.vala:127
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:157
-#, fuzzy
 msgid "Block Contact"
-msgstr "Kişi Ekle"
+msgstr "Kişiyi Engelle"
 
 #: main/src/ui/occupant_menu/view.vala:133
-#, fuzzy
 msgid "Moderation"
-msgstr "Moderasyonlu"
+msgstr "Yönetim"
 
 #: main/src/ui/occupant_menu/view.vala:135
 msgid "Kick"
@@ -1453,52 +1426,47 @@ msgstr "Kov"
 
 #: main/src/ui/occupant_menu/view.vala:139
 msgid "Ban (Permanent)"
-msgstr ""
+msgstr "Yasakla (Kalıcı)"
 
 #: main/src/ui/occupant_menu/view.vala:140
 msgid "Ban (10 min)"
-msgstr ""
+msgstr "Yasakla (10 dk)"
 
 #: main/src/ui/occupant_menu/view.vala:141
 msgid "Ban (15 min)"
-msgstr ""
+msgstr "Yasakla (15 dk)"
 
 #: main/src/ui/occupant_menu/view.vala:142
 msgid "Ban (30 min)"
-msgstr ""
+msgstr "Yasakla (30 dk)"
 
 #: main/src/ui/occupant_menu/view.vala:146
-#, fuzzy
 msgid "Administration"
-msgstr "Açık Kaydolma"
+msgstr "İdare"
 
 #: main/src/ui/occupant_menu/view.vala:150
-#, fuzzy
 msgid "Make Admin"
-msgstr "Yönetici"
+msgstr "Yönetici Yap"
 
 #: main/src/ui/occupant_menu/view.vala:152
 msgid "Revoke Admin"
-msgstr ""
+msgstr "Yöneticiyi Kaldır"
 
 #: main/src/ui/occupant_menu/view.vala:156
-#, fuzzy
 msgid "Make Owner"
-msgstr "Sahip"
+msgstr "Sahip Yap"
 
 #: main/src/ui/occupant_menu/view.vala:161
-#, fuzzy
 msgid "Make Member"
-msgstr "Üye"
+msgstr "Üye Yap"
 
 #: main/src/ui/occupant_menu/view.vala:163
-#, fuzzy
 msgid "Revoke Membership"
-msgstr "Yazma iznini iptal et"
+msgstr "Üyeliği İptal Et"
 
 #: main/src/ui/occupant_menu/view.vala:228
 msgid "Kicked by moderator"
-msgstr ""
+msgstr "Moderatör tarafından atıldı"
 
 #: main/src/ui/occupant_menu/view.vala:275
 msgid "Invite to Conference"
@@ -1506,22 +1474,21 @@ msgstr "Görüşmeye Davet et"
 
 #: main/src/ui/systray.vala:178
 msgid "Quit"
-msgstr ""
+msgstr "Çık"
 
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
 "A friendly name shown in room listings (does not change the room address)"
-msgstr ""
+msgstr "Oda listelerinde gösterilen kolay anlaşılır bir ad (oda adresini değiştirmez)"
+"Oda listelerinde gösterilen kolay ad (oda adresini değiştirmez)"
 
 #: main/src/ui/util/data_forms.vala:44
-#, fuzzy
 msgid "Description"
-msgstr "Şifreleme"
+msgstr "Açıklama"
 
 #: main/src/ui/util/data_forms.vala:45
-#, fuzzy
 msgid "A description of the room shown in room listings"
-msgstr "Oda tanımı"
+msgstr "Oda listelerinde gösterilen oda açıklaması"
 
 #: main/src/ui/util/data_forms.vala:48
 msgid "Persistent"
@@ -1537,7 +1504,7 @@ msgstr "Herkese açık aranabilir"
 
 #: main/src/ui/util/data_forms.vala:53
 msgid "The room will appear in public room listings"
-msgstr ""
+msgstr "Oda herkese açık listelerde görünür"
 
 #: main/src/ui/util/data_forms.vala:56
 msgid "Occupants may change the subject"
@@ -1567,7 +1534,7 @@ msgstr "Sadece üyeler"
 msgid ""
 "Only members may enter the room. Warning: Non-members will be removed when "
 "enabled!"
-msgstr ""
+msgstr "Sadece üyeler odaya girebilir. Uyarı: Üye olmayanlar etkinleştirildiğinde kaldırılacak!"
 
 #: main/src/ui/util/helper.vala:65
 #, c-format
@@ -1587,7 +1554,7 @@ msgstr "%a, %b %d"
 msgid ""
 "This contact will be removed from your contact list and all conversation "
 "history will be permanently deleted."
-msgstr ""
+msgstr "Bu kişi, kişi listenizden kaldırılacak ve tüm sohbet geçmişi kalıcı olarak silinecek."
 
 #: main/src/windows/conversation_details.vala:108
 msgid "Block user"
@@ -1749,34 +1716,32 @@ msgid "Check %s for information on how to sign up"
 msgstr "Nasıl kaydolacağınızla ilgili bilgi için %s sayfasına bakın"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:192
-#, fuzzy
 msgid "No contacts"
-msgstr "Kişi Ekle"
+msgstr "Kişi yok"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:193
 msgid "Add contacts to start chatting"
-msgstr ""
+msgstr "Sohbete başlamak için kişi ekleyin"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:289
 #, c-format
 msgid ""
 "This will remove %s from your contact list and delete all conversation "
 "history."
-msgstr ""
+msgstr "Bu, %s adlı kişiyi kişi listenizden kaldıracak ve tüm sohbet geçmişini silecek."
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:318
-#, fuzzy
 msgid "Edit Contact Alias"
-msgstr "Kişi Ekle"
+msgstr "Kişi Takma Adını Düzenle"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:319
 #, c-format
 msgid "Change the display name for %s"
-msgstr ""
+msgstr "%s için görünen adı değiştir"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:325
 msgid "Alias (optional)"
-msgstr ""
+msgstr "Takma ad (isteğe bağlı)"
 
 #~ msgid "Message too long"
 #~ msgstr "Mesaj çok uzun"

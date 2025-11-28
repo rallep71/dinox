@@ -19,25 +19,24 @@ msgstr ""
 
 #: main/data/add_conversation/add_groupchat_dialog.ui:80
 msgid "Add MUC"
-msgstr ""
+msgstr "Adjunter MUC"
 
 #: main/data/add_conversation/add_groupchat_dialog.ui:90
 msgid "Insert a Name for MUC..."
-msgstr ""
+msgstr "Inserter un nómine por MUC..."
 
 #: main/data/add_conversation/select_jid_fragment.ui:20
 msgid "Search or enter channel address..."
-msgstr ""
+msgstr "Serchar o inserter adresse de canal..."
 
 #: main/data/add_conversation/select_jid_fragment.ui:67
 #: main/src/ui/add_conversation/select_jid_fragment.vala:205
-#, fuzzy
 msgid "Add Group"
-msgstr "Adjunter un conto"
+msgstr "Addir gruppe"
 
 #: main/data/add_conversation/select_jid_fragment.ui:88
 msgid "Delete Group"
-msgstr ""
+msgstr "Deleter gruppe"
 
 #: main/data/call_widget.ui:73 main/src/ui/notifier_freedesktop.vala:125
 #: main/src/ui/notifier_freedesktop.vala:230
@@ -59,41 +58,38 @@ msgid "Accept"
 msgstr "Acceptar"
 
 #: main/data/chat_input.ui:63
-#, fuzzy
 msgid "Record voice message"
-msgstr "Serchar missages"
+msgstr "Registrar missage vocal"
 
 #: main/data/chat_input.ui:77
-#, fuzzy
 msgid "Send message"
-msgstr "Serchar missages"
+msgstr "Misser missage"
 
 #: main/data/conversation_details.ui:145
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:566
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:175
-#, fuzzy
 msgid "Remove Contact"
-msgstr "Adjunter li contacte"
+msgstr "Remover contacte"
 
 #: main/data/conversation_details.ui:171
 #: main/src/windows/conversation_details.vala:231
 msgid "About"
-msgstr ""
+msgstr "Pri"
 
 #: main/data/conversation_row.ui:56
 msgid "Private room (supports group calls)"
-msgstr ""
+msgstr "Chambre privat (supporta voces gruppal)"
 
 #: main/data/conversation_row.ui:135
 #: main/src/windows/conversation_details.vala:171
 #: main/src/windows/conversation_details.vala:172
 msgid "Muted"
-msgstr ""
+msgstr "Silentiat"
 
 #: main/data/conversation_row.ui:146
 #: main/src/windows/conversation_details.vala:136
 msgid "Blocked"
-msgstr ""
+msgstr "Bloccat"
 
 #: main/data/gtk/help-overlay.ui:10
 #: main/data/preferences_window/preferences_dialog.ui:32
@@ -116,11 +112,11 @@ msgstr "Adherer al chanele"
 
 #: main/data/gtk/help-overlay.ui:26
 msgid "Show preferences"
-msgstr ""
+msgstr "Monstrar preferenties"
 
 #: main/data/gtk/help-overlay.ui:32
 msgid "Keyboard shortcuts"
-msgstr ""
+msgstr "Claviatural abbreviationes"
 
 #: main/data/gtk/help-overlay.ui:39
 msgid "Conversation"
@@ -137,7 +133,7 @@ msgstr "Inviar un file"
 
 #: main/data/gtk/help-overlay.ui:55
 msgid "Close conversation"
-msgstr ""
+msgstr "Clauder conversation"
 
 #: main/data/gtk/help-overlay.ui:62
 msgid "Navigation"
@@ -153,7 +149,7 @@ msgstr "Ear al precedent conversation"
 
 #: main/data/main_window.ui:64 main/src/ui/main_window.vala:144
 msgid "Help: How to join channels"
-msgstr ""
+msgstr "Auxilie: Qualmen junter canales"
 
 #: main/data/main_window.ui:118
 msgid "You have no open chats"
@@ -161,52 +157,51 @@ msgstr "Vu ne have apertet conversationes"
 
 #: main/data/main_window.ui:119
 msgid "Click + to start a chat or join a channel"
-msgstr ""
+msgstr "Clacca + por comensar un chat o junter un canal"
 
 #: main/data/menu_app.ui:6
 msgid "Status"
-msgstr ""
+msgstr "Statu"
 
 #: main/data/menu_app.ui:11
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:427
 #: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Online"
-msgstr ""
+msgstr "Conectet"
 
 #: main/data/menu_app.ui:16
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:421
 #: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Away"
-msgstr ""
+msgstr "Absent"
 
 #: main/data/menu_app.ui:21
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:425
 #: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Busy"
-msgstr ""
+msgstr "Occupat"
 
 #: main/data/menu_app.ui:26
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:423
 #: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Not Available"
-msgstr ""
+msgstr "Ne disponibil"
 
 #: main/data/menu_app.ui:34
 msgid "Preferences"
-msgstr ""
+msgstr "Preferenties"
 
 #: main/data/menu_app.ui:38
 msgid "Keyboard Shortcuts"
 msgstr "Rapid-tastes"
 
 #: main/data/menu_app.ui:42 main/src/ui/application.vala:334
-#, fuzzy
 msgid "About DinoX"
-msgstr "Pri Dino"
+msgstr "Pri DinoX"
 
 #: main/data/menu_conversation.ui:7
 msgid "Contact Details"
@@ -216,9 +211,8 @@ msgstr "Detallies del contacte"
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:513
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:565
 #: main/src/ui/conversation_titlebar/menu_entry.vala:84
-#, fuzzy
 msgid "Delete Conversation History"
-msgstr "Iniciar un conversation"
+msgstr "Deler historie del conversationes"
 
 #: main/data/message_item_widget_edit_mode.ui:46
 #: main/data/preferences_window/change_password_dialog.ui:18
@@ -256,7 +250,7 @@ msgstr "Actualisar li missage"
 #: main/data/preferences_window/account_preferences_subpage.ui:68
 #: main/src/ui/conversation_details.vala:170
 msgid "XMPP Address"
-msgstr ""
+msgstr "Adresse XMPP"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:77
 msgid "Local alias"
@@ -269,48 +263,48 @@ msgstr "Contrasigne"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:104
 msgid "Connection status"
-msgstr ""
+msgstr "Status de connexion"
 
 # Custom host/port feature (Issue #115)
 #: main/data/preferences_window/account_preferences_subpage.ui:121
 msgid "Advanced Settings"
-msgstr ""
+msgstr "Parametres avansat"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:122
 msgid "Custom server connection (leave empty for automatic)"
-msgstr ""
+msgstr "Connexion de servitor personalisat (vacue por automatic)"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:125
 msgid "Server Hostname"
-msgstr ""
+msgstr "Nómine de servitor"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:130
 msgid "Port"
-msgstr ""
+msgstr "Port"
 
 #: main/data/preferences_window/change_password_dialog.ui:61
 msgid "Current password"
-msgstr ""
+msgstr "Contrasigne actual"
 
 #: main/data/preferences_window/change_password_dialog.ui:66
 msgid "New password"
-msgstr ""
+msgstr "Nov contrasigne"
 
 #: main/data/preferences_window/change_password_dialog.ui:71
 msgid "Confirm password"
-msgstr ""
+msgstr "Confirmar contrasigne"
 
 #: main/data/preferences_window/general_preferences_page.ui:9
 msgid "Send _Typing Notifications"
-msgstr ""
+msgstr "Inviar notificationes de _tippar"
 
 #: main/data/preferences_window/general_preferences_page.ui:15
 msgid "Send _Read Receipts"
-msgstr ""
+msgstr "Inviar _recepisse de lecture"
 
 #: main/data/preferences_window/general_preferences_page.ui:25
 msgid "_Notifications"
-msgstr ""
+msgstr "_Notificationes"
 
 #: main/data/preferences_window/general_preferences_page.ui:26
 msgid "Notify when a new message arrives"
@@ -318,49 +312,48 @@ msgstr "Notificar quande un missage ariva"
 
 #: main/data/preferences_window/general_preferences_page.ui:32
 msgid "_Keep Running in Background"
-msgstr ""
+msgstr "_Mantener in funde"
 
 #: main/data/preferences_window/general_preferences_page.ui:33
 msgid ""
 "Continue running after closing window to receive notifications immediately"
-msgstr ""
+msgstr "Continuar executer pos clausura del fenestre por receiver notificationes immediatmen"
 
 #: main/data/preferences_window/general_preferences_page.ui:41
 msgid "Appearance"
-msgstr ""
+msgstr "Apparentie"
 
 #: main/data/preferences_window/general_preferences_page.ui:44
 msgid "_Color Scheme"
-msgstr ""
+msgstr "_Schema de colores"
 
 #: main/data/preferences_window/general_preferences_page.ui:45
 msgid "Choose between light and dark appearance"
-msgstr ""
+msgstr "Selecter inter apparentie clar e obscur"
 
 #: main/data/preferences_window/general_preferences_page.ui:55
 msgid "_Convert Smileys to Emoji"
-msgstr ""
+msgstr "_Converter smileys a emoji"
 
 #: main/data/preferences_window/general_preferences_page.ui:63
-#, fuzzy
 msgid "User Data"
-msgstr "Usator"
+msgstr "Data del usator"
 
 #: main/data/preferences_window/general_preferences_page.ui:66
 msgid "Backup User Data"
-msgstr ""
+msgstr "Copia de securitá de usator"
 
 #: main/data/preferences_window/general_preferences_page.ui:67
 msgid "Create a backup of your accounts, messages and settings"
-msgstr ""
+msgstr "Crear un copia de securitá de tui contos, missages e parametres"
 
 #: main/data/preferences_window/general_preferences_page.ui:78
 msgid "Data Location"
-msgstr ""
+msgstr "Location de data"
 
 #: main/data/preferences_window/general_preferences_page.ui:79
 msgid "View where your data is stored"
-msgstr ""
+msgstr "Vider u tui data es stocat"
 
 #: main/data/preferences_window/preferences_dialog.ui:11
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:15
@@ -371,14 +364,13 @@ msgstr "Contos"
 #: main/data/preferences_window/preferences_dialog.ui:18
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:17
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:67
-#, fuzzy
 msgid "Contacts"
-msgstr "Adjunter li contacte"
+msgstr "Contactes"
 
 #: main/data/preferences_window/preferences_dialog.ui:25
 #: main/src/windows/conversation_details.vala:281
 msgid "Encryption"
-msgstr ""
+msgstr "Cryptation"
 
 #: main/src/ui/add_conversation/add_conference_dialog.vala:44
 msgid "Next"
@@ -444,7 +436,7 @@ msgstr "Adresse es ínvalid"
 
 #: main/src/ui/add_conversation/select_contact_dialog.vala:70
 msgid "Search or enter contact address..."
-msgstr ""
+msgstr "Serchar o inserter adresse de contacto..."
 
 #: main/src/ui/add_conversation/select_contact_dialog.vala:107
 msgid "Start"
@@ -452,12 +444,11 @@ msgstr "Iniciar"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:154
 msgid "Browse Rooms"
-msgstr ""
+msgstr "Explorar chambres"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:157
-#, fuzzy
 msgid "Browse Contacts"
-msgstr "Adjunter li contacte"
+msgstr "Percurrer contactes"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:202
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:70
@@ -465,110 +456,108 @@ msgid "Add Contact"
 msgstr "Adjunter li contacte"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:203
-#, fuzzy
 msgid "Delete Contact"
-msgstr "Adjunter li contacte"
+msgstr "Deler contacte"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:206
 #: main/src/ui/add_conversation/select_jid_fragment.vala:216
 msgid "Leave Group"
-msgstr ""
+msgstr "Quitar gruppe"
 
 #: main/src/ui/application.vala:339
 msgid "Modern XMPP client with extended features"
-msgstr ""
+msgstr "Client XMPP modern con functiones extendet"
 
 #: main/src/ui/application.vala:346 main/src/ui/application.vala:385
 msgid "User Data Locations"
-msgstr ""
+msgstr "Locationes de data de usator"
 
 #: main/src/ui/application.vala:349 main/src/ui/application.vala:399
-#, fuzzy
 msgid "Configuration:"
-msgstr "Configuration del chambre"
+msgstr "Configuration:"
 
 #: main/src/ui/application.vala:352 main/src/ui/application.vala:401
 msgid "Data & Database:"
-msgstr ""
+msgstr "Data e base de data:"
 
 #: main/src/ui/application.vala:355 main/src/ui/application.vala:403
 msgid "Cache:"
-msgstr ""
+msgstr "Cache:"
 
 #: main/src/ui/application.vala:358
 msgid "Info:"
-msgstr ""
+msgstr "Information:"
 
 #: main/src/ui/application.vala:359
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
-msgstr ""
+msgstr "Tui datas personal (contos, missages, files) es storat separatmen del application."
 
 #: main/src/ui/application.vala:361
 msgid "When you update DinoX, your data remains intact."
-msgstr ""
+msgstr "Quande vu actualisa DinoX, tui data remane intacte."
 
 #: main/src/ui/application.vala:363
 msgid "Use Settings → General → Backup User Data to create a backup."
-msgstr ""
+msgstr "Usa Parametres → General → Copia de securitá por crear un copia."
 
 #: main/src/ui/application.vala:405
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
-msgstr ""
+msgstr "Tui datas personal (contos, missages, files) es storat separatmen del application. Quande tu actualisar DinoX, tui datas remane intact."
 
 #: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
 #: main/src/ui/main_window.vala:159
 msgid "Close"
-msgstr ""
+msgstr "Cluder"
 
 #: main/src/ui/application.vala:417
 msgid "Select Backup Location"
-msgstr ""
+msgstr "Selecter location de copia"
 
 #: main/src/ui/application.vala:445
 msgid "Creating backup..."
-msgstr ""
+msgstr "Creante copia de securitá..."
 
 #: main/src/ui/application.vala:503
 #, c-format
 msgid "Backup created successfully (%s)"
-msgstr ""
+msgstr "Copia creat successosimen (%s)"
 
 #: main/src/ui/application.vala:505
 msgid "Backup created successfully"
-msgstr ""
+msgstr "Copia creat successosimen"
 
 #: main/src/ui/application.vala:510
 msgid "Unknown error"
-msgstr ""
+msgstr "Errore ínconosset"
 
 #: main/src/ui/application.vala:511
 #, c-format
 msgid "Backup failed: %s"
-msgstr ""
+msgstr "Copia fallit: %s"
 
 #: main/src/ui/call_window/audio_settings_popover.vala:29
 msgid "Microphones"
-msgstr ""
+msgstr "Microphones"
 
 #: main/src/ui/call_window/audio_settings_popover.vala:32
 msgid "No microphone found."
-msgstr ""
+msgstr "Null microphone trovat."
 
 #: main/src/ui/call_window/audio_settings_popover.vala:85
 msgid "Speakers"
-msgstr ""
+msgstr "Altparlatores"
 
 #: main/src/ui/call_window/audio_settings_popover.vala:88
 msgid "No speaker found."
-msgstr ""
+msgstr "Null altparlator trovat."
 
 #: main/src/ui/call_window/call_window_controller.vala:153
 msgid "Invite to Call"
-msgstr ""
+msgstr "Invitar a voce"
 
 #: main/src/ui/call_window/call_window_controller.vala:154
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:772
@@ -590,25 +579,25 @@ msgstr "Yo"
 #: main/src/ui/call_window/call_window.vala:219
 #, c-format
 msgid "%s ended the call"
-msgstr ""
+msgstr "%s finit li voce"
 
 #: main/src/ui/call_window/call_window.vala:221
 #, c-format
 msgid "%s declined the call"
-msgstr ""
+msgstr "%s refusat li voce"
 
 #: main/src/ui/call_window/participant_widget.vala:115
 msgid "Debug information"
-msgstr ""
+msgstr "Information de depurar"
 
 #: main/src/ui/call_window/participant_widget.vala:124
 #: main/src/ui/conversation_content_view/call_widget.vala:152
 msgid "Calling…"
-msgstr ""
+msgstr "Vocante…"
 
 #: main/src/ui/call_window/participant_widget.vala:126
 msgid "Ringing…"
-msgstr ""
+msgstr "Sonante…"
 
 #: main/src/ui/call_window/participant_widget.vala:128
 #: main/src/windows/preferences_window/account_preferences_subpage.vala:216
@@ -617,11 +606,11 @@ msgstr "Conexion…"
 
 #: main/src/ui/call_window/video_settings_popover.vala:25
 msgid "Cameras"
-msgstr ""
+msgstr "Cameras"
 
 #: main/src/ui/call_window/video_settings_popover.vala:28
 msgid "No camera found."
-msgstr ""
+msgstr "Null camera trovat."
 
 #: main/src/ui/chat_input/chat_input_controller.vala:247
 msgid "This conference does not allow you to send messages."
@@ -676,7 +665,7 @@ msgstr "Inviar confirmationes de letion"
 #: main/src/ui/notifier_freedesktop.vala:114
 #: main/src/ui/notifier_gnotifications.vala:70
 msgid "Incoming video call"
-msgstr ""
+msgstr "Voce video entrante"
 
 #: main/src/ui/conversation_content_view/call_widget.vala:137
 #: main/src/ui/conversation_content_view/call_widget.vala:168
@@ -684,41 +673,41 @@ msgstr ""
 #: main/src/ui/notifier_freedesktop.vala:114
 #: main/src/ui/notifier_gnotifications.vala:70
 msgid "Incoming call"
-msgstr ""
+msgstr "Voce entrante"
 
 #: main/src/ui/conversation_content_view/call_widget.vala:139
 #: main/src/ui/notifier_freedesktop.vala:116
 #: main/src/ui/notifier_gnotifications.vala:72
 msgid "Incoming video group call"
-msgstr ""
+msgstr "Voce video gruppal entrante"
 
 #: main/src/ui/conversation_content_view/call_widget.vala:139
 #: main/src/ui/notifier_freedesktop.vala:116
 #: main/src/ui/notifier_gnotifications.vala:72
 msgid "Incoming group call"
-msgstr ""
+msgstr "Voce gruppal entrante"
 
 #: main/src/ui/conversation_content_view/call_widget.vala:159
 msgid "Call started"
-msgstr ""
+msgstr "Voce comensat"
 
 #: main/src/ui/conversation_content_view/call_widget.vala:161
 #, c-format
 msgid "Started %s ago"
-msgstr ""
+msgstr "Comensat ante %s"
 
 #: main/src/ui/conversation_content_view/call_widget.vala:168
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:287
 msgid "Outgoing call"
-msgstr ""
+msgstr "Voce exiente"
 
 #: main/src/ui/conversation_content_view/call_widget.vala:169
 msgid "You handled this call on another device"
-msgstr ""
+msgstr "Vu maneat ti voce sur un altri aparate"
 
 #: main/src/ui/conversation_content_view/call_widget.vala:174
 msgid "Call ended"
-msgstr ""
+msgstr "Voce finit"
 
 #: main/src/ui/conversation_content_view/call_widget.vala:175
 #: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:263
@@ -737,46 +726,46 @@ msgstr "%l:%M %p"
 #: main/src/ui/conversation_content_view/call_widget.vala:177
 #, c-format
 msgid "Ended at %s"
-msgstr ""
+msgstr "Finit ye %s"
 
 #: main/src/ui/conversation_content_view/call_widget.vala:179
 #, c-format
 msgid "Lasted %s"
-msgstr ""
+msgstr "Durat %s"
 
 #: main/src/ui/conversation_content_view/call_widget.vala:183
 msgid "Call missed"
-msgstr ""
+msgstr "Voce missat"
 
 #: main/src/ui/conversation_content_view/call_widget.vala:185
 msgid "You missed this call"
-msgstr ""
+msgstr "Vu missat ti voce"
 
 #: main/src/ui/conversation_content_view/call_widget.vala:188
 #, c-format
 msgid "%s missed this call"
-msgstr ""
+msgstr "%s missat ti voce"
 
 #: main/src/ui/conversation_content_view/call_widget.vala:193
 msgid "Call declined"
-msgstr ""
+msgstr "Voce refusat"
 
 #: main/src/ui/conversation_content_view/call_widget.vala:195
 msgid "You declined this call"
-msgstr ""
+msgstr "Vu refusat ti voce"
 
 #: main/src/ui/conversation_content_view/call_widget.vala:198
 #, c-format
 msgid "%s declined this call"
-msgstr ""
+msgstr "%s refusat ti voce"
 
 #: main/src/ui/conversation_content_view/call_widget.vala:203
 msgid "Call failed"
-msgstr ""
+msgstr "Voce fallit"
 
 #: main/src/ui/conversation_content_view/call_widget.vala:241
 msgid "a few seconds"
-msgstr ""
+msgstr "qualc secundes"
 
 #: main/src/ui/conversation_content_view/chat_state_populator.vala:108
 #, c-format
@@ -800,11 +789,11 @@ msgstr "%s tippa…"
 
 #: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:204
 msgid "Delivered"
-msgstr ""
+msgstr "Livrat"
 
 #: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:208
 msgid "Read"
-msgstr ""
+msgstr "Leyet"
 
 #: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:214
 msgid "Unable to send message"
@@ -846,25 +835,24 @@ msgid "Just now"
 msgstr "Strax"
 
 #: main/src/ui/conversation_content_view/conversation_view.vala:105
-#, fuzzy
 msgid "More actions"
-msgstr "Null activ contos"
+msgstr "Plu actiones"
 
 #: main/src/ui/conversation_content_view/file_default_widget.vala:67
 #: main/src/ui/conversation_content_view/file_image_widget.vala:42
 msgid "Open"
-msgstr ""
+msgstr "Aperter"
 
 #: main/src/ui/conversation_content_view/file_default_widget.vala:68
 #: main/src/ui/conversation_content_view/file_image_widget.vala:43
 #: main/src/ui/conversation_content_view/file_widget.vala:174
 msgid "Save as…"
-msgstr ""
+msgstr "Conservar quam…"
 
 #: main/src/ui/conversation_content_view/file_default_widget.vala:77
 #, c-format
 msgid "Downloading %s… (%u%%)"
-msgstr ""
+msgstr "Descargante %s… (%u%%)"
 
 #: main/src/ui/conversation_content_view/file_default_widget.vala:79
 #, c-format
@@ -874,7 +862,7 @@ msgstr "Descargante %s…"
 #: main/src/ui/conversation_content_view/file_default_widget.vala:83
 #, c-format
 msgid "Uploading %s… (%u%%)"
-msgstr ""
+msgstr "Cargante %s… (%u%%)"
 
 #: main/src/ui/conversation_content_view/file_default_widget.vala:97
 #, c-format
@@ -895,58 +883,54 @@ msgid "File transfer failed"
 msgstr "Transferte de un file ne successat"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:36
-#, fuzzy
 msgid "Kick user"
-msgstr "Remover"
+msgstr "Expeller usator"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:69
 msgid "Ban user"
-msgstr ""
+msgstr "Bannar usator"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:82
 #: main/src/ui/conversation_content_view/reactions_widget.vala:128
 msgid "Add reaction"
-msgstr ""
+msgstr "Adjunter reaction"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:94
 msgid "This conversation does not support reactions."
-msgstr ""
+msgstr "Ti conversation ne supporta reactiones."
 
 #: main/src/ui/conversation_content_view/item_actions.vala:107
 msgid "Reply"
-msgstr ""
+msgstr "Responder"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:117
 msgid "This conversation does not support replies."
-msgstr ""
+msgstr "Ti conversation ne supporta responsas."
 
 #: main/src/ui/conversation_content_view/item_actions.vala:146
-#, fuzzy
 msgid "Moderate message..."
-msgstr "Actualisar li missage"
+msgstr "Moderar missage…"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:148
 msgid "Delete..."
-msgstr ""
+msgstr "Suprimer..."
 
 #: main/src/ui/conversation_content_view/item_actions.vala:150
 #: main/src/ui/conversation_content_view/item_actions.vala:168
 msgid "Delete locally"
-msgstr ""
+msgstr "Suprimer localmen"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:160
-#, fuzzy
 msgid "Moderate message"
-msgstr "Actualisar li missage"
+msgstr "Moderar missage"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:160
-#, fuzzy
 msgid "Delete message"
-msgstr "Actualisar li missage"
+msgstr "Deler missage"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:164
 msgid "Do you want to remove this message from the channel?"
-msgstr ""
+msgstr "Esque vu vole suprimer ti missage del canal?"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:165
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:745
@@ -957,17 +941,16 @@ msgstr "Remover"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:167
 msgid "Do you want to delete this message just for yourself or for everyone?"
-msgstr ""
+msgstr "Esque vu vole suprimer ti missage solmen por vu o por omnes?"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:168
 msgid "Delete for everyone"
-msgstr ""
+msgstr "Suprimer por omnes"
 
 #: main/src/ui/conversation_content_view/message_widget.vala:174
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:255
-#, fuzzy
 msgid "Message deleted"
-msgstr "Diarium de missages"
+msgstr "Missage delet"
 
 #: main/src/ui/conversation_content_view/message_widget.vala:178
 msgid "edited"
@@ -975,35 +958,35 @@ msgstr "redactet"
 
 #: main/src/ui/conversation_content_view/message_widget.vala:182
 msgid "Message truncated - exceeds 100,000 characters"
-msgstr ""
+msgstr "Missage truncat - plu de 100.000 caracteres"
 
 #: main/src/ui/conversation_content_view/message_widget.vala:191
 msgid "pending…"
-msgstr ""
+msgstr "expectante…"
 
 #: main/src/ui/conversation_content_view/message_widget.vala:206
 msgid "delivery failed"
-msgstr ""
+msgstr "livration fallit"
 
 #: main/src/ui/conversation_content_view/message_widget.vala:254
 msgid "Edit message"
-msgstr ""
+msgstr "Redacter missage"
 
 #: main/src/ui/conversation_content_view/quote_widget.vala:43
 msgid "File"
-msgstr ""
+msgstr "File"
 
 #: main/src/ui/conversation_content_view/reactions_widget.vala:102
 msgid "You"
-msgstr ""
+msgstr "Vu"
 
 #: main/src/ui/conversation_content_view/subscription_notification.vala:49
 msgid "Send request"
-msgstr ""
+msgstr "Inviar demanda"
 
 #: main/src/ui/conversation_content_view/subscription_notification.vala:60
 msgid "You do not receive status updates from this contact yet."
-msgstr ""
+msgstr "Vu ancor ne recive actualisationes de status de ti contacto."
 
 #: main/src/ui/conversation_content_view/subscription_notification.vala:68
 #: main/src/ui/notifier_freedesktop.vala:164
@@ -1020,53 +1003,51 @@ msgstr "Ti-ci contacte desira adjunter vos al su contact-liste"
 
 #: main/src/ui/conversation_content_view/unread_indicator_populator.vala:76
 msgid "New"
-msgstr ""
+msgstr "Nov"
 
 #: main/src/ui/conversation_details.vala:175
 #: main/src/ui/util/data_forms.vala:40
 msgid "Display name"
-msgstr ""
+msgstr "Nómine monstrat"
 
 #: main/src/ui/conversation_details.vala:195
 #: main/src/ui/conversation_details.vala:209
 msgid "Topic"
-msgstr ""
+msgstr "Tema"
 
 #: main/src/ui/conversation_details.vala:222
 msgid "Permissions"
 msgstr "Permissiones"
 
 #: main/src/ui/conversation_details.vala:223
-#, fuzzy
 msgid "Manage Affiliations"
-msgstr "Gerer contos"
+msgstr "Gerer affiliationes"
 
 #: main/src/ui/conversation_details.vala:239
 msgid "Danger Zone"
-msgstr ""
+msgstr "Zone de dangere"
 
 #: main/src/ui/conversation_details.vala:240
 msgid "Destroy Room"
-msgstr ""
+msgstr "Destructer chambre"
 
 #: main/src/ui/conversation_details.vala:246
 msgid "Destroy Room?"
-msgstr ""
+msgstr "Destructer chambre?"
 
 #: main/src/ui/conversation_details.vala:247
 msgid ""
 "Are you sure you want to permanently destroy this room? This action cannot "
 "be undone and all history will be lost for all participants."
-msgstr ""
+msgstr "Esque tu es cert que tu vole destructer ti chambre permanentmen? Ti action ne posse esser revertet e omni historie va esser perdit por omni participantes."
 
 #: main/src/ui/conversation_details.vala:250
 msgid "Destroy"
-msgstr ""
+msgstr "Destructer"
 
 #: main/src/ui/conversation_details.vala:271
-#, fuzzy
 msgid "Failed to destroy room"
-msgstr "Ne es permisset crear chambres"
+msgstr "Ne successat destructer li sala"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:276
 #: main/src/ui/notifier_freedesktop.vala:71
@@ -1094,19 +1075,19 @@ msgstr "Image es recivet"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:361
 msgid "Thema:"
-msgstr ""
+msgstr "Tema:"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:381
 msgid "Privat"
-msgstr ""
+msgstr "Privat"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:383
 msgid "Öffentlich"
-msgstr ""
+msgstr "Public"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:387
 msgid "Typ:"
-msgstr ""
+msgstr "Tip:"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:483
 #: main/src/ui/widgets/date_separator.vala:37
@@ -1123,14 +1104,13 @@ msgstr "Yer"
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:554
 #: main/src/ui/conversation_titlebar/menu_entry.vala:79
 msgid "Conversation Details"
-msgstr ""
+msgstr "Detallies de conversation"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:507
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:771
 #: main/src/ui/conversation_titlebar/menu_entry.vala:98
-#, fuzzy
 msgid "Invite Contact"
-msgstr "Invitar a un conferentie"
+msgstr "Invitar contacte"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:511
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:559
@@ -1139,7 +1119,7 @@ msgstr "Invitar a un conferentie"
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:140
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:206
 msgid "Unmute"
-msgstr ""
+msgstr "Desilentiar"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:511
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:559
@@ -1150,25 +1130,24 @@ msgstr ""
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:140
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:226
 msgid "Mute"
-msgstr ""
+msgstr "Silentiar"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:514
 msgid "Leave and Close"
-msgstr ""
+msgstr "Lear e clauder"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:555
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:623
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:126
-#, fuzzy
 msgid "Edit Alias"
-msgstr "Pseudonim"
+msgstr "Redacter pseudonyme"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:563
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:705
 #: main/src/windows/conversation_details.vala:108
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:250
 msgid "Unblock"
-msgstr ""
+msgstr "Debloccar"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:563
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:724
@@ -1189,53 +1168,51 @@ msgstr "Gardar quam"
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:657
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:202
 msgid "Unmute contact?"
-msgstr ""
+msgstr "Desilentiar contacto?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:658
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:203
 #, c-format
 msgid "This will enable notifications from %s."
-msgstr ""
+msgstr "Ti va activar notificationes de %s."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:676
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:222
 msgid "Mute contact?"
-msgstr ""
+msgstr "Silentiar contacto?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:677
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:223
 #, c-format
 msgid "This will disable notifications from %s."
-msgstr ""
+msgstr "Ti va desactivar notificationes de %s."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:701
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:246
 msgid "Unblock contact?"
-msgstr ""
+msgstr "Debloccar contacto?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:702
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:247
-#, fuzzy, c-format
 msgid "This will allow %s to send you messages again."
-msgstr "Ti-ci conferentie ne permisse a vos inviar missages."
+msgstr "To va permisser %s inviar te missages denove."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:720
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:266
 msgid "Block contact?"
-msgstr ""
+msgstr "Bloccar contacto?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:721
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:267
 #, c-format
 msgid "This will prevent %s from sending you messages."
-msgstr ""
+msgstr "Ti va preventer %s de inviar missages a vu."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:741
 #: main/src/windows/conversation_details.vala:57
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:288
-#, fuzzy
 msgid "Remove contact?"
-msgstr "Remover li conto %s?"
+msgstr "Remover contacte?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:742
 #, c-format
@@ -1245,62 +1222,60 @@ msgid ""
 "• Remove %s from your contact list\n"
 "\n"
 "This action cannot be undone."
-msgstr ""
+msgstr "To va:\n• Deleter omni historie de conversationes\n• Remover %s de tui liste de contactes\n\nIst action ne posse esser reverset."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:787
-#, fuzzy
 msgid "Delete all message history?"
-msgstr "Diarium de missages"
+msgstr "Deler tot li historie de missages?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:788
 msgid ""
 "This will permanently delete all messages in this conversation. This action "
 "cannot be undone."
-msgstr ""
+msgstr "Ti va permanentmen deleter omni missages in ti conversation. Ti action ne posse esser revertet."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:791
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
 msgid "Delete"
-msgstr ""
+msgstr "Deleter"
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:14
 msgid "Start call"
-msgstr ""
+msgstr "Comensar voce"
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:25
 msgid "Audio call"
-msgstr ""
+msgstr "Voce audio"
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:26
 msgid "Video call"
-msgstr ""
+msgstr "Voce video"
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:79
 msgid "Conference Server Required"
-msgstr ""
+msgstr "Servitor de conferentie necessi"
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:80
 msgid ""
 "To start a group call, you need to configure a default conference server in "
 "your account settings."
-msgstr ""
+msgstr "Por iniciar un clamada de gruppe, tu deve configurar un servitor de conferentie predefinit in tui parametres de conto."
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:84
-#, fuzzy
 msgid "Open Settings"
-msgstr "Parametres"
+msgstr "Aperter parametres"
 
 #: main/src/ui/conversation_titlebar/menu_entry.vala:47
 msgid "Delete all message history for this conversation?"
-msgstr ""
+msgstr "Suprimer tot li historie de missages por ti conversation?"
 
 #: main/src/ui/conversation_titlebar/menu_entry.vala:49
 msgid "This action cannot be undone."
-msgstr ""
+msgstr "Ti action ne posse esser revertet."
 
 #: main/src/ui/conversation_titlebar/menu_entry.vala:85
 msgid "Close Conversation"
-msgstr ""
+msgstr "Clauder conversation"
 
 #: main/src/ui/conversation_titlebar/occupants_entry.vala:14
 #: main/src/windows/conversation_details.vala:291
@@ -1331,9 +1306,8 @@ msgid "With %s"
 msgstr "Con %s"
 
 #: main/src/ui/main_window.vala:156
-#, fuzzy
 msgid "Join Channel Help"
-msgstr "Adherer al chanele"
+msgstr "Helpe por junter canale"
 
 #: main/src/ui/main_window.vala:157
 msgid ""
@@ -1342,12 +1316,11 @@ msgid ""
 "\n"
 "If you need a password or a nickname, provide them in the dialog. Use the "
 "discovery features in the server to find public rooms."
-msgstr ""
+msgstr "Por junter un canal, clicka li buton \"Junter Canal\" e entra li JID del canal (exemple: room@conference.example.org).\n\nSi tu besona un passa-parol o un pseudonime, provid les in li dialogo. Usa li functiones de descoverta del servitor por trovar cameras public."
 
 #: main/src/ui/main_window.vala:206
-#, fuzzy
 msgid "Welcome to DinoX!"
-msgstr "Benevenit a Dino!"
+msgstr "Benevenit a DinoX!"
 
 #: main/src/ui/main_window.vala:207
 msgid "Sign in or create an account to get started."
@@ -1430,20 +1403,17 @@ msgstr "Iniciar un privat conversation"
 
 #: main/src/ui/occupant_menu/view.vala:125
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:157
-#, fuzzy
 msgid "Unblock Contact"
-msgstr "Adjunter li contacte"
+msgstr "Desblocar contacte"
 
 #: main/src/ui/occupant_menu/view.vala:127
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:157
-#, fuzzy
 msgid "Block Contact"
-msgstr "Adjunter li contacte"
+msgstr "Blocar contacte"
 
 #: main/src/ui/occupant_menu/view.vala:133
-#, fuzzy
 msgid "Moderation"
-msgstr "Moderat"
+msgstr "Moderation"
 
 #: main/src/ui/occupant_menu/view.vala:135
 msgid "Kick"
@@ -1451,52 +1421,47 @@ msgstr "Remover"
 
 #: main/src/ui/occupant_menu/view.vala:139
 msgid "Ban (Permanent)"
-msgstr ""
+msgstr "Bannar (permanent)"
 
 #: main/src/ui/occupant_menu/view.vala:140
 msgid "Ban (10 min)"
-msgstr ""
+msgstr "Bannar (10 min)"
 
 #: main/src/ui/occupant_menu/view.vala:141
 msgid "Ban (15 min)"
-msgstr ""
+msgstr "Bannar (15 min)"
 
 #: main/src/ui/occupant_menu/view.vala:142
 msgid "Ban (30 min)"
-msgstr ""
+msgstr "Bannar (30 min)"
 
 #: main/src/ui/occupant_menu/view.vala:146
-#, fuzzy
 msgid "Administration"
-msgstr "Apert registration"
+msgstr "Administration"
 
 #: main/src/ui/occupant_menu/view.vala:150
-#, fuzzy
 msgid "Make Admin"
-msgstr "Administrator"
+msgstr "Far administrator"
 
 #: main/src/ui/occupant_menu/view.vala:152
 msgid "Revoke Admin"
-msgstr ""
+msgstr "Revocar administrator"
 
 #: main/src/ui/occupant_menu/view.vala:156
-#, fuzzy
 msgid "Make Owner"
-msgstr "Proprietario"
+msgstr "Far proprietario"
 
 #: main/src/ui/occupant_menu/view.vala:161
-#, fuzzy
 msgid "Make Member"
-msgstr "Membre"
+msgstr "Far membre"
 
 #: main/src/ui/occupant_menu/view.vala:163
-#, fuzzy
 msgid "Revoke Membership"
-msgstr "Revocar li permission scrir"
+msgstr "Revocar membrité"
 
 #: main/src/ui/occupant_menu/view.vala:228
 msgid "Kicked by moderator"
-msgstr ""
+msgstr "Expulset de moderator"
 
 #: main/src/ui/occupant_menu/view.vala:275
 msgid "Invite to Conference"
@@ -1504,22 +1469,20 @@ msgstr "Invitar a un conferentie"
 
 #: main/src/ui/systray.vala:178
 msgid "Quit"
-msgstr ""
+msgstr "Quitar"
 
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
 "A friendly name shown in room listings (does not change the room address)"
-msgstr ""
+msgstr "Un nómine amical monstrat in listes de cameras (ne cambia li adresse del camera)"
 
 #: main/src/ui/util/data_forms.vala:44
-#, fuzzy
 msgid "Description"
-msgstr "Descrition del chambre"
+msgstr "Description"
 
 #: main/src/ui/util/data_forms.vala:45
-#, fuzzy
 msgid "A description of the room shown in room listings"
-msgstr "Descrition del chambre"
+msgstr "Un description del sala monstrat in li listes de salas"
 
 #: main/src/ui/util/data_forms.vala:48
 msgid "Persistent"
@@ -1535,7 +1498,7 @@ msgstr "Serchabil publicmen"
 
 #: main/src/ui/util/data_forms.vala:53
 msgid "The room will appear in public room listings"
-msgstr ""
+msgstr "Li chambre va apparer in listes public de chambres"
 
 #: main/src/ui/util/data_forms.vala:56
 msgid "Occupants may change the subject"
@@ -1565,7 +1528,7 @@ msgstr "Solmen membres"
 msgid ""
 "Only members may enter the room. Warning: Non-members will be removed when "
 "enabled!"
-msgstr ""
+msgstr "Solmen membres posse intrar li chambre. Avertiment: Non-membres va esser removet quande activat!"
 
 #: main/src/ui/util/helper.vala:65
 #, c-format
@@ -1577,47 +1540,46 @@ msgid "Today"
 msgstr "Hodie"
 
 #: main/src/ui/widgets/date_separator.vala:35
-#, fuzzy, no-c-format
 msgid "%a, %b %d"
-msgstr "%a, %d %b"
+msgstr "%a, %b %d"
 
 #: main/src/windows/conversation_details.vala:58
 msgid ""
 "This contact will be removed from your contact list and all conversation "
 "history will be permanently deleted."
-msgstr ""
+msgstr "Ti contacte va esser removet de tui liste de contactes e omni historie de conversationes va esser deletet permanentmen."
 
 #: main/src/windows/conversation_details.vala:108
 msgid "Block user"
-msgstr ""
+msgstr "Bloccar usator"
 
 #: main/src/windows/conversation_details.vala:108
 msgid "Block entire domain"
-msgstr ""
+msgstr "Bloccar tot li dominia"
 
 #: main/src/windows/conversation_details.vala:125
 msgid "Pinned"
-msgstr ""
+msgstr "Fixat"
 
 #: main/src/windows/conversation_details.vala:125
 msgid "Pin"
-msgstr ""
+msgstr "Fixar"
 
 #: main/src/windows/conversation_details.vala:140
 msgid "Domain blocked"
-msgstr ""
+msgstr "Dominia bloccat"
 
 #: main/src/windows/conversation_details.vala:165
 msgid "Notifications enabled"
-msgstr ""
+msgstr "Notificationes activat"
 
 #: main/src/windows/conversation_details.vala:168
 msgid "Notifications for mentions"
-msgstr ""
+msgstr "Notificationes por mentiones"
 
 #: main/src/windows/conversation_details.vala:173
 msgid "Notifications disabled"
-msgstr ""
+msgstr "Notificationes desactivat"
 
 #: main/src/windows/conversation_details.vala:234
 msgid "Settings"
@@ -1633,11 +1595,11 @@ msgstr "Connexer"
 
 #: main/src/windows/preferences_window/account_preferences_subpage.vala:106
 msgid "Disable account"
-msgstr ""
+msgstr "Desactivar conto"
 
 #: main/src/windows/preferences_window/account_preferences_subpage.vala:106
 msgid "Enable account"
-msgstr ""
+msgstr "Activar conto"
 
 #: main/src/windows/preferences_window/account_preferences_subpage.vala:151
 msgid "Select avatar"
@@ -1671,7 +1633,7 @@ msgstr "Errore"
 
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:28
 msgid "Disabled accounts"
-msgstr ""
+msgstr "Contos desactivat"
 
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:31
 #: main/src/windows/preferences_window/add_account_dialog.vala:92
@@ -1747,34 +1709,32 @@ msgid "Check %s for information on how to sign up"
 msgstr "Visita %s por li information pri registration"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:192
-#, fuzzy
 msgid "No contacts"
-msgstr "Adjunter li contacte"
+msgstr "Null contactes"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:193
 msgid "Add contacts to start chatting"
-msgstr ""
+msgstr "Adjunter contactos por comensar chattar"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:289
 #, c-format
 msgid ""
 "This will remove %s from your contact list and delete all conversation "
 "history."
-msgstr ""
+msgstr "To va remover %s de tui liste de contactes e deleter omni historie de conversationes."
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:318
-#, fuzzy
 msgid "Edit Contact Alias"
-msgstr "Adjunter li contacte"
+msgstr "Redacter pseudonyme del contacte"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:319
 #, c-format
 msgid "Change the display name for %s"
-msgstr ""
+msgstr "Changear li nómine monstrat por %s"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:325
 msgid "Alias (optional)"
-msgstr ""
+msgstr "Alias (optional)"
 
 #~ msgid "Message too long"
 #~ msgstr "Li missage es tre long"

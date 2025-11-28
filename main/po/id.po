@@ -19,25 +19,24 @@ msgstr ""
 
 #: main/data/add_conversation/add_groupchat_dialog.ui:80
 msgid "Add MUC"
-msgstr ""
+msgstr "Tambah MUC"
 
 #: main/data/add_conversation/add_groupchat_dialog.ui:90
 msgid "Insert a Name for MUC..."
-msgstr ""
+msgstr "Masukkan nama ruang..."
 
 #: main/data/add_conversation/select_jid_fragment.ui:20
 msgid "Search or enter channel address..."
-msgstr ""
+msgstr "Cari atau masukkan alamat kanal..."
 
 #: main/data/add_conversation/select_jid_fragment.ui:67
 #: main/src/ui/add_conversation/select_jid_fragment.vala:205
-#, fuzzy
 msgid "Add Group"
-msgstr "Tambah akun"
+msgstr "Tambah Grup"
 
 #: main/data/add_conversation/select_jid_fragment.ui:88
 msgid "Delete Group"
-msgstr ""
+msgstr "Hapus grup"
 
 #: main/data/call_widget.ui:73 main/src/ui/notifier_freedesktop.vala:125
 #: main/src/ui/notifier_freedesktop.vala:230
@@ -59,21 +58,18 @@ msgid "Accept"
 msgstr "Terima"
 
 #: main/data/chat_input.ui:63
-#, fuzzy
 msgid "Record voice message"
-msgstr "Cari pesan"
+msgstr "Rekam pesan suara"
 
 #: main/data/chat_input.ui:77
-#, fuzzy
 msgid "Send message"
-msgstr "Ubah pesan"
+msgstr "Kirim pesan"
 
 #: main/data/conversation_details.ui:145
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:566
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:175
-#, fuzzy
 msgid "Remove Contact"
-msgstr "Hapus akun"
+msgstr "Hapus Kontak"
 
 #: main/data/conversation_details.ui:171
 #: main/src/windows/conversation_details.vala:231
@@ -82,7 +78,7 @@ msgstr "Tentang"
 
 #: main/data/conversation_row.ui:56
 msgid "Private room (supports group calls)"
-msgstr ""
+msgstr "Ruang privat (mendukung panggilan grup)"
 
 #: main/data/conversation_row.ui:135
 #: main/src/windows/conversation_details.vala:171
@@ -116,7 +112,7 @@ msgstr "Bergabung dengan Channel"
 
 #: main/data/gtk/help-overlay.ui:26
 msgid "Show preferences"
-msgstr ""
+msgstr "Tampilkan preferensi"
 
 #: main/data/gtk/help-overlay.ui:32
 msgid "Keyboard shortcuts"
@@ -137,7 +133,7 @@ msgstr "Kirim file"
 
 #: main/data/gtk/help-overlay.ui:55
 msgid "Close conversation"
-msgstr ""
+msgstr "Tutup percakapan"
 
 #: main/data/gtk/help-overlay.ui:62
 msgid "Navigation"
@@ -153,7 +149,7 @@ msgstr "Pesan sebelumnya"
 
 #: main/data/main_window.ui:64 main/src/ui/main_window.vala:144
 msgid "Help: How to join channels"
-msgstr ""
+msgstr "Bantuan: Cara bergabung dengan kanal"
 
 #: main/data/main_window.ui:118
 msgid "You have no open chats"
@@ -165,35 +161,35 @@ msgstr "Klik + untuk memulai obrolan atau bergabung dengan saluran"
 
 #: main/data/menu_app.ui:6
 msgid "Status"
-msgstr ""
+msgstr "Status"
 
 #: main/data/menu_app.ui:11
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:427
 #: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Online"
-msgstr ""
+msgstr "Daring"
 
 #: main/data/menu_app.ui:16
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:421
 #: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Away"
-msgstr ""
+msgstr "Pergi"
 
 #: main/data/menu_app.ui:21
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:425
 #: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Busy"
-msgstr ""
+msgstr "Sibuk"
 
 #: main/data/menu_app.ui:26
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:423
 #: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Not Available"
-msgstr ""
+msgstr "Tidak tersedia"
 
 #: main/data/menu_app.ui:34
 msgid "Preferences"
@@ -204,9 +200,8 @@ msgid "Keyboard Shortcuts"
 msgstr "Kombinasi tombol"
 
 #: main/data/menu_app.ui:42 main/src/ui/application.vala:334
-#, fuzzy
 msgid "About DinoX"
-msgstr "Tentang Dino"
+msgstr "Tentang DinoX"
 
 #: main/data/menu_conversation.ui:7
 msgid "Contact Details"
@@ -216,9 +211,8 @@ msgstr "Detail kontak"
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:513
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:565
 #: main/src/ui/conversation_titlebar/menu_entry.vala:84
-#, fuzzy
 msgid "Delete Conversation History"
-msgstr "Tutup Obrolan"
+msgstr "Hapus Riwayat Percakapan"
 
 #: main/data/message_item_widget_edit_mode.ui:46
 #: main/data/preferences_window/change_password_dialog.ui:18
@@ -274,43 +268,43 @@ msgstr "Status koneksi"
 # Custom host/port feature (Issue #115)
 #: main/data/preferences_window/account_preferences_subpage.ui:121
 msgid "Advanced Settings"
-msgstr ""
+msgstr "Pengaturan Lanjutan"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:122
 msgid "Custom server connection (leave empty for automatic)"
-msgstr ""
+msgstr "Koneksi server kustom (kosongkan untuk otomatis)"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:125
 msgid "Server Hostname"
-msgstr ""
+msgstr "Nama Host Server"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:130
 msgid "Port"
-msgstr ""
+msgstr "Port"
 
 #: main/data/preferences_window/change_password_dialog.ui:61
 msgid "Current password"
-msgstr ""
+msgstr "Kata sandi saat ini"
 
 #: main/data/preferences_window/change_password_dialog.ui:66
 msgid "New password"
-msgstr ""
+msgstr "Kata sandi baru"
 
 #: main/data/preferences_window/change_password_dialog.ui:71
 msgid "Confirm password"
-msgstr ""
+msgstr "Konfirmasi kata sandi"
 
 #: main/data/preferences_window/general_preferences_page.ui:9
 msgid "Send _Typing Notifications"
-msgstr ""
+msgstr "Kirim _Notifikasi Mengetik"
 
 #: main/data/preferences_window/general_preferences_page.ui:15
 msgid "Send _Read Receipts"
-msgstr ""
+msgstr "Kirim _Tanda Dibaca"
 
 #: main/data/preferences_window/general_preferences_page.ui:25
 msgid "_Notifications"
-msgstr ""
+msgstr "_Notifikasi"
 
 #: main/data/preferences_window/general_preferences_page.ui:26
 msgid "Notify when a new message arrives"
@@ -318,49 +312,48 @@ msgstr "Beri tahu saat ada pesan"
 
 #: main/data/preferences_window/general_preferences_page.ui:32
 msgid "_Keep Running in Background"
-msgstr ""
+msgstr "_Terus berjalan di latar belakang"
 
 #: main/data/preferences_window/general_preferences_page.ui:33
 msgid ""
 "Continue running after closing window to receive notifications immediately"
-msgstr ""
+msgstr "Terus berjalan setelah menutup jendela untuk menerima notifikasi segera"
 
 #: main/data/preferences_window/general_preferences_page.ui:41
 msgid "Appearance"
-msgstr ""
+msgstr "Tampilan"
 
 #: main/data/preferences_window/general_preferences_page.ui:44
 msgid "_Color Scheme"
-msgstr ""
+msgstr "_Skema warna"
 
 #: main/data/preferences_window/general_preferences_page.ui:45
 msgid "Choose between light and dark appearance"
-msgstr ""
+msgstr "Pilih antara tampilan terang dan gelap"
 
 #: main/data/preferences_window/general_preferences_page.ui:55
 msgid "_Convert Smileys to Emoji"
-msgstr ""
+msgstr "_Konversi Emotikon ke Emoji"
 
 #: main/data/preferences_window/general_preferences_page.ui:63
-#, fuzzy
 msgid "User Data"
-msgstr "Pengguna"
+msgstr "Data Pengguna"
 
 #: main/data/preferences_window/general_preferences_page.ui:66
 msgid "Backup User Data"
-msgstr ""
+msgstr "Cadangkan data pengguna"
 
 #: main/data/preferences_window/general_preferences_page.ui:67
 msgid "Create a backup of your accounts, messages and settings"
-msgstr ""
+msgstr "Buat cadangan akun, pesan, dan pengaturan Anda"
 
 #: main/data/preferences_window/general_preferences_page.ui:78
 msgid "Data Location"
-msgstr ""
+msgstr "Lokasi data"
 
 #: main/data/preferences_window/general_preferences_page.ui:79
 msgid "View where your data is stored"
-msgstr ""
+msgstr "Lihat di mana data Anda disimpan"
 
 #: main/data/preferences_window/preferences_dialog.ui:11
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:15
@@ -371,9 +364,8 @@ msgstr "Akun"
 #: main/data/preferences_window/preferences_dialog.ui:18
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:17
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:67
-#, fuzzy
 msgid "Contacts"
-msgstr "Tambah kontak"
+msgstr "Kontak"
 
 #: main/data/preferences_window/preferences_dialog.ui:25
 #: main/src/windows/conversation_details.vala:281
@@ -444,7 +436,7 @@ msgstr "Alamat tidak valid"
 
 #: main/src/ui/add_conversation/select_contact_dialog.vala:70
 msgid "Search or enter contact address..."
-msgstr ""
+msgstr "Cari atau masukkan alamat kontak..."
 
 #: main/src/ui/add_conversation/select_contact_dialog.vala:107
 msgid "Start"
@@ -452,12 +444,11 @@ msgstr "Mulai"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:154
 msgid "Browse Rooms"
-msgstr ""
+msgstr "Jelajahi ruang"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:157
-#, fuzzy
 msgid "Browse Contacts"
-msgstr "Tambah kontak"
+msgstr "Jelajahi Kontak"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:202
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:70
@@ -465,90 +456,88 @@ msgid "Add Contact"
 msgstr "Tambah kontak"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:203
-#, fuzzy
 msgid "Delete Contact"
-msgstr "Tambah kontak"
+msgstr "Hapus Kontak"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:206
 #: main/src/ui/add_conversation/select_jid_fragment.vala:216
 msgid "Leave Group"
-msgstr ""
+msgstr "Keluar grup"
 
 #: main/src/ui/application.vala:339
 msgid "Modern XMPP client with extended features"
-msgstr ""
+msgstr "Klien XMPP modern dengan fitur yang diperluas"
 
 #: main/src/ui/application.vala:346 main/src/ui/application.vala:385
 msgid "User Data Locations"
-msgstr ""
+msgstr "Lokasi Data Pengguna"
 
 #: main/src/ui/application.vala:349 main/src/ui/application.vala:399
-#, fuzzy
 msgid "Configuration:"
-msgstr "Konfigurasi kamar"
+msgstr "Konfigurasi:"
 
 #: main/src/ui/application.vala:352 main/src/ui/application.vala:401
 msgid "Data & Database:"
-msgstr ""
+msgstr "Data & Database:"
 
 #: main/src/ui/application.vala:355 main/src/ui/application.vala:403
 msgid "Cache:"
-msgstr ""
+msgstr "Cache:"
 
 #: main/src/ui/application.vala:358
 msgid "Info:"
-msgstr ""
+msgstr "Info:"
 
 #: main/src/ui/application.vala:359
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
-msgstr ""
+msgstr "Data pribadi Anda (akun, pesan, file) disimpan terpisah dari aplikasi."
 
 #: main/src/ui/application.vala:361
 msgid "When you update DinoX, your data remains intact."
-msgstr ""
+msgstr "Saat Anda memperbarui DinoX, data Anda tetap utuh."
 
 #: main/src/ui/application.vala:363
 msgid "Use Settings → General → Backup User Data to create a backup."
-msgstr ""
+msgstr "Gunakan Pengaturan → Umum → Cadangkan Data Pengguna untuk membuat cadangan."
 
 #: main/src/ui/application.vala:405
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
-msgstr ""
+msgstr "Data pribadi Anda (akun, pesan, file) disimpan terpisah dari aplikasi. Saat Anda memperbarui DinoX, data Anda tetap utuh."
 
 #: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
 #: main/src/ui/main_window.vala:159
 msgid "Close"
-msgstr ""
+msgstr "Tutup"
 
 #: main/src/ui/application.vala:417
 msgid "Select Backup Location"
-msgstr ""
+msgstr "Pilih Lokasi Cadangan"
 
 #: main/src/ui/application.vala:445
 msgid "Creating backup..."
-msgstr ""
+msgstr "Membuat cadangan..."
 
 #: main/src/ui/application.vala:503
 #, c-format
 msgid "Backup created successfully (%s)"
-msgstr ""
+msgstr "Cadangan berhasil dibuat (%s)"
 
 #: main/src/ui/application.vala:505
 msgid "Backup created successfully"
-msgstr ""
+msgstr "Cadangan berhasil dibuat"
 
 #: main/src/ui/application.vala:510
 msgid "Unknown error"
-msgstr ""
+msgstr "Kesalahan tidak diketahui"
 
 #: main/src/ui/application.vala:511
 #, c-format
 msgid "Backup failed: %s"
-msgstr ""
+msgstr "Cadangan gagal: %s"
 
 #: main/src/ui/call_window/audio_settings_popover.vala:29
 msgid "Microphones"
@@ -568,7 +557,7 @@ msgstr "Sepiker tidak ditemukan."
 
 #: main/src/ui/call_window/call_window_controller.vala:153
 msgid "Invite to Call"
-msgstr ""
+msgstr "Undang ke Panggilan"
 
 #: main/src/ui/call_window/call_window_controller.vala:154
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:772
@@ -846,9 +835,8 @@ msgid "Just now"
 msgstr "Sesaat lalu"
 
 #: main/src/ui/conversation_content_view/conversation_view.vala:105
-#, fuzzy
 msgid "More actions"
-msgstr "Tambahkan reaksi"
+msgstr "Tindakan lainnya"
 
 #: main/src/ui/conversation_content_view/file_default_widget.vala:67
 #: main/src/ui/conversation_content_view/file_image_widget.vala:42
@@ -864,7 +852,7 @@ msgstr "Simpan sebagai…"
 #: main/src/ui/conversation_content_view/file_default_widget.vala:77
 #, c-format
 msgid "Downloading %s… (%u%%)"
-msgstr ""
+msgstr "Mengunduh %s… (%u%%)"
 
 #: main/src/ui/conversation_content_view/file_default_widget.vala:79
 #, c-format
@@ -874,7 +862,7 @@ msgstr "Mengunduh %s…"
 #: main/src/ui/conversation_content_view/file_default_widget.vala:83
 #, c-format
 msgid "Uploading %s… (%u%%)"
-msgstr ""
+msgstr "Mengunggah %s… (%u%%)"
 
 #: main/src/ui/conversation_content_view/file_default_widget.vala:97
 #, c-format
@@ -895,12 +883,10 @@ msgid "File transfer failed"
 msgstr "Transfer file gagal"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:36
-#, fuzzy
 msgid "Kick user"
-msgstr "Blokir pengguna"
+msgstr "Tendang pengguna"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:69
-#, fuzzy
 msgid "Ban user"
 msgstr "Blokir pengguna"
 
@@ -922,32 +908,29 @@ msgid "This conversation does not support replies."
 msgstr "Percakapan ini tidak mendukung balasan."
 
 #: main/src/ui/conversation_content_view/item_actions.vala:146
-#, fuzzy
 msgid "Moderate message..."
-msgstr "Update pesan"
+msgstr "Moderasi pesan…"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:148
 msgid "Delete..."
-msgstr ""
+msgstr "Hapus..."
 
 #: main/src/ui/conversation_content_view/item_actions.vala:150
 #: main/src/ui/conversation_content_view/item_actions.vala:168
 msgid "Delete locally"
-msgstr ""
+msgstr "Hapus secara lokal"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:160
-#, fuzzy
 msgid "Moderate message"
-msgstr "Update pesan"
+msgstr "Moderasi pesan"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:160
-#, fuzzy
 msgid "Delete message"
-msgstr "Update pesan"
+msgstr "Hapus pesan"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:164
 msgid "Do you want to remove this message from the channel?"
-msgstr ""
+msgstr "Apakah Anda ingin menghapus pesan ini dari kanal?"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:165
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:745
@@ -958,17 +941,16 @@ msgstr "Hapus"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:167
 msgid "Do you want to delete this message just for yourself or for everyone?"
-msgstr ""
+msgstr "Apakah Anda ingin menghapus pesan ini hanya untuk diri sendiri atau untuk semua orang?"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:168
 msgid "Delete for everyone"
-msgstr ""
+msgstr "Hapus untuk semua orang"
 
 #: main/src/ui/conversation_content_view/message_widget.vala:174
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:255
-#, fuzzy
 msgid "Message deleted"
-msgstr "Riwayat pesan"
+msgstr "Pesan dihapus"
 
 #: main/src/ui/conversation_content_view/message_widget.vala:178
 msgid "edited"
@@ -976,7 +958,7 @@ msgstr "Diedit"
 
 #: main/src/ui/conversation_content_view/message_widget.vala:182
 msgid "Message truncated - exceeds 100,000 characters"
-msgstr ""
+msgstr "Pesan terpotong - melebihi 100.000 karakter"
 
 #: main/src/ui/conversation_content_view/message_widget.vala:191
 msgid "pending…"
@@ -1000,11 +982,11 @@ msgstr "Anda"
 
 #: main/src/ui/conversation_content_view/subscription_notification.vala:49
 msgid "Send request"
-msgstr ""
+msgstr "Kirim permintaan"
 
 #: main/src/ui/conversation_content_view/subscription_notification.vala:60
 msgid "You do not receive status updates from this contact yet."
-msgstr ""
+msgstr "Anda belum menerima pembaruan status dari kontak ini."
 
 #: main/src/ui/conversation_content_view/subscription_notification.vala:68
 #: main/src/ui/notifier_freedesktop.vala:164
@@ -1026,48 +1008,46 @@ msgstr "Baru"
 #: main/src/ui/conversation_details.vala:175
 #: main/src/ui/util/data_forms.vala:40
 msgid "Display name"
-msgstr ""
+msgstr "Nama tampilan"
 
 #: main/src/ui/conversation_details.vala:195
 #: main/src/ui/conversation_details.vala:209
 msgid "Topic"
-msgstr ""
+msgstr "Topik"
 
 #: main/src/ui/conversation_details.vala:222
 msgid "Permissions"
 msgstr "Ijin"
 
 #: main/src/ui/conversation_details.vala:223
-#, fuzzy
 msgid "Manage Affiliations"
-msgstr "Atur akun"
+msgstr "Kelola Afiliasi"
 
 #: main/src/ui/conversation_details.vala:239
 msgid "Danger Zone"
-msgstr ""
+msgstr "Zona berbahaya"
 
 #: main/src/ui/conversation_details.vala:240
 msgid "Destroy Room"
-msgstr ""
+msgstr "Hancurkan ruang"
 
 #: main/src/ui/conversation_details.vala:246
 msgid "Destroy Room?"
-msgstr ""
+msgstr "Hancurkan Ruangan?"
 
 #: main/src/ui/conversation_details.vala:247
 msgid ""
 "Are you sure you want to permanently destroy this room? This action cannot "
 "be undone and all history will be lost for all participants."
-msgstr ""
+msgstr "Apakah Anda yakin ingin menghancurkan ruangan ini secara permanen? Tindakan ini tidak dapat dibatalkan dan semua riwayat akan hilang untuk semua peserta."
 
 #: main/src/ui/conversation_details.vala:250
 msgid "Destroy"
-msgstr ""
+msgstr "Hancurkan"
 
 #: main/src/ui/conversation_details.vala:271
-#, fuzzy
 msgid "Failed to destroy room"
-msgstr "Tidak diperbolehkan membuat kamar"
+msgstr "Gagal menghapus ruangan"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:276
 #: main/src/ui/notifier_freedesktop.vala:71
@@ -1095,19 +1075,19 @@ msgstr "File diterima"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:361
 msgid "Thema:"
-msgstr ""
+msgstr "Tema:"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:381
 msgid "Privat"
-msgstr ""
+msgstr "Privat"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:383
 msgid "Öffentlich"
-msgstr ""
+msgstr "Publik"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:387
 msgid "Typ:"
-msgstr ""
+msgstr "Tipe:"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:483
 #: main/src/ui/widgets/date_separator.vala:37
@@ -1129,9 +1109,8 @@ msgstr "Detail Obrolan"
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:507
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:771
 #: main/src/ui/conversation_titlebar/menu_entry.vala:98
-#, fuzzy
 msgid "Invite Contact"
-msgstr "Undang ke Grup"
+msgstr "Undang Kontak"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:511
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:559
@@ -1140,7 +1119,7 @@ msgstr "Undang ke Grup"
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:140
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:206
 msgid "Unmute"
-msgstr ""
+msgstr "Bunyikan"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:511
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:559
@@ -1155,14 +1134,13 @@ msgstr "Senyapkan"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:514
 msgid "Leave and Close"
-msgstr ""
+msgstr "Keluar dan tutup"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:555
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:623
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:126
-#, fuzzy
 msgid "Edit Alias"
-msgstr "Alias"
+msgstr "Edit Alias"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:563
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:705
@@ -1185,59 +1163,56 @@ msgstr "Alias"
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:634
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:333
 msgid "Save"
-msgstr ""
+msgstr "Simpan"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:657
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:202
 msgid "Unmute contact?"
-msgstr ""
+msgstr "Bunyikan kontak?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:658
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:203
 #, c-format
 msgid "This will enable notifications from %s."
-msgstr ""
+msgstr "Ini akan mengaktifkan notifikasi dari %s."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:676
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:222
 msgid "Mute contact?"
-msgstr ""
+msgstr "Bisukan kontak?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:677
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:223
 #, c-format
 msgid "This will disable notifications from %s."
-msgstr ""
+msgstr "Ini akan menonaktifkan notifikasi dari %s."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:701
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:246
-#, fuzzy
 msgid "Unblock contact?"
-msgstr "Buka blokir"
+msgstr "Buka blokir kontak?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:702
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:247
-#, fuzzy, c-format
 msgid "This will allow %s to send you messages again."
-msgstr "Grup ini tidak mengijinkan anda mengirim pesan."
+msgstr "Ini akan memungkinkan %s mengirim pesan kepada Anda lagi."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:720
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:266
 msgid "Block contact?"
-msgstr ""
+msgstr "Blokir kontak?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:721
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:267
 #, c-format
 msgid "This will prevent %s from sending you messages."
-msgstr ""
+msgstr "Ini akan mencegah %s mengirim pesan kepada Anda."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:741
 #: main/src/windows/conversation_details.vala:57
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:288
-#, fuzzy
 msgid "Remove contact?"
-msgstr "Hapus akun"
+msgstr "Hapus kontak?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:742
 #, c-format
@@ -1247,23 +1222,22 @@ msgid ""
 "• Remove %s from your contact list\n"
 "\n"
 "This action cannot be undone."
-msgstr ""
+msgstr "Ini akan:\n• Menghapus semua riwayat percakapan\n• Menghapus %s dari daftar kontak Anda\n\nTindakan ini tidak dapat dibatalkan."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:787
-#, fuzzy
 msgid "Delete all message history?"
-msgstr "Riwayat pesan"
+msgstr "Hapus semua riwayat pesan?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:788
 msgid ""
 "This will permanently delete all messages in this conversation. This action "
 "cannot be undone."
-msgstr ""
+msgstr "Ini akan menghapus semua pesan dalam percakapan ini secara permanen. Tindakan ini tidak dapat dibatalkan."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:791
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
 msgid "Delete"
-msgstr ""
+msgstr "Hapus"
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:14
 msgid "Start call"
@@ -1279,26 +1253,25 @@ msgstr "Panggilan video"
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:79
 msgid "Conference Server Required"
-msgstr ""
+msgstr "Server Konferensi Diperlukan"
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:80
 msgid ""
 "To start a group call, you need to configure a default conference server in "
 "your account settings."
-msgstr ""
+msgstr "Untuk memulai panggilan grup, Anda perlu mengonfigurasi server konferensi default di pengaturan akun Anda."
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:84
-#, fuzzy
 msgid "Open Settings"
-msgstr "Pengaturan"
+msgstr "Buka Pengaturan"
 
 #: main/src/ui/conversation_titlebar/menu_entry.vala:47
 msgid "Delete all message history for this conversation?"
-msgstr ""
+msgstr "Hapus semua riwayat pesan untuk percakapan ini?"
 
 #: main/src/ui/conversation_titlebar/menu_entry.vala:49
 msgid "This action cannot be undone."
-msgstr ""
+msgstr "Tindakan ini tidak dapat dibatalkan."
 
 #: main/src/ui/conversation_titlebar/menu_entry.vala:85
 msgid "Close Conversation"
@@ -1333,9 +1306,8 @@ msgid "With %s"
 msgstr "Pada %s"
 
 #: main/src/ui/main_window.vala:156
-#, fuzzy
 msgid "Join Channel Help"
-msgstr "Bergabung dengan Channel"
+msgstr "Bantuan Bergabung Saluran"
 
 #: main/src/ui/main_window.vala:157
 msgid ""
@@ -1344,12 +1316,11 @@ msgid ""
 "\n"
 "If you need a password or a nickname, provide them in the dialog. Use the "
 "discovery features in the server to find public rooms."
-msgstr ""
+msgstr "Untuk bergabung dengan saluran, klik tombol \"Gabung Saluran\" dan masukkan JID saluran (contoh: room@conference.example.org).\n\nJika Anda memerlukan kata sandi atau nama panggilan, berikan di dialog. Gunakan fitur penemuan server untuk menemukan ruangan publik."
 
 #: main/src/ui/main_window.vala:206
-#, fuzzy
 msgid "Welcome to DinoX!"
-msgstr "Selamat datang di Dino!"
+msgstr "Selamat datang di DinoX!"
 
 #: main/src/ui/main_window.vala:207
 msgid "Sign in or create an account to get started."
@@ -1432,20 +1403,17 @@ msgstr "Mulai percakapan pribadi"
 
 #: main/src/ui/occupant_menu/view.vala:125
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:157
-#, fuzzy
 msgid "Unblock Contact"
-msgstr "Buka blokir"
+msgstr "Buka Blokir Kontak"
 
 #: main/src/ui/occupant_menu/view.vala:127
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:157
-#, fuzzy
 msgid "Block Contact"
-msgstr "Tambah kontak"
+msgstr "Blokir Kontak"
 
 #: main/src/ui/occupant_menu/view.vala:133
-#, fuzzy
 msgid "Moderation"
-msgstr "Dimoderasi"
+msgstr "Moderasi"
 
 #: main/src/ui/occupant_menu/view.vala:135
 msgid "Kick"
@@ -1453,52 +1421,47 @@ msgstr "Depak"
 
 #: main/src/ui/occupant_menu/view.vala:139
 msgid "Ban (Permanent)"
-msgstr ""
+msgstr "Larangan (Permanen)"
 
 #: main/src/ui/occupant_menu/view.vala:140
 msgid "Ban (10 min)"
-msgstr ""
+msgstr "Larangan (10 menit)"
 
 #: main/src/ui/occupant_menu/view.vala:141
 msgid "Ban (15 min)"
-msgstr ""
+msgstr "Larangan (15 menit)"
 
 #: main/src/ui/occupant_menu/view.vala:142
 msgid "Ban (30 min)"
-msgstr ""
+msgstr "Larangan (30 menit)"
 
 #: main/src/ui/occupant_menu/view.vala:146
-#, fuzzy
 msgid "Administration"
-msgstr "Tambahkan reaksi"
+msgstr "Administrasi"
 
 #: main/src/ui/occupant_menu/view.vala:150
-#, fuzzy
 msgid "Make Admin"
-msgstr "Moderator"
+msgstr "Jadikan Admin"
 
 #: main/src/ui/occupant_menu/view.vala:152
 msgid "Revoke Admin"
-msgstr ""
+msgstr "Cabut Admin"
 
 #: main/src/ui/occupant_menu/view.vala:156
-#, fuzzy
 msgid "Make Owner"
-msgstr "Pemilik"
+msgstr "Jadikan Pemilik"
 
 #: main/src/ui/occupant_menu/view.vala:161
-#, fuzzy
 msgid "Make Member"
-msgstr "Anggota"
+msgstr "Jadikan Anggota"
 
 #: main/src/ui/occupant_menu/view.vala:163
-#, fuzzy
 msgid "Revoke Membership"
-msgstr "Batalkan ijin menulis"
+msgstr "Cabut Keanggotaan"
 
 #: main/src/ui/occupant_menu/view.vala:228
 msgid "Kicked by moderator"
-msgstr ""
+msgstr "Dikeluarkan oleh moderator"
 
 #: main/src/ui/occupant_menu/view.vala:275
 msgid "Invite to Conference"
@@ -1506,22 +1469,20 @@ msgstr "Undang ke Grup"
 
 #: main/src/ui/systray.vala:178
 msgid "Quit"
-msgstr ""
+msgstr "Keluar"
 
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
 "A friendly name shown in room listings (does not change the room address)"
-msgstr ""
+msgstr "Nama ramah yang ditampilkan dalam daftar ruangan (tidak mengubah alamat ruangan)"
 
 #: main/src/ui/util/data_forms.vala:44
-#, fuzzy
 msgid "Description"
-msgstr "Enkripsi"
+msgstr "Deskripsi"
 
 #: main/src/ui/util/data_forms.vala:45
-#, fuzzy
 msgid "A description of the room shown in room listings"
-msgstr "Deskripsi kamar"
+msgstr "Deskripsi ruangan yang ditampilkan dalam daftar ruangan"
 
 #: main/src/ui/util/data_forms.vala:48
 msgid "Persistent"
@@ -1537,7 +1498,7 @@ msgstr "Dapat ditemukan"
 
 #: main/src/ui/util/data_forms.vala:53
 msgid "The room will appear in public room listings"
-msgstr ""
+msgstr "Ruangan akan muncul di daftar ruangan publik"
 
 #: main/src/ui/util/data_forms.vala:56
 msgid "Occupants may change the subject"
@@ -1567,7 +1528,7 @@ msgstr "Khusus anggota"
 msgid ""
 "Only members may enter the room. Warning: Non-members will be removed when "
 "enabled!"
-msgstr ""
+msgstr "Hanya anggota yang dapat masuk ke ruangan. Peringatan: Non-anggota akan dihapus ketika diaktifkan!"
 
 #: main/src/ui/util/helper.vala:65
 #, c-format
@@ -1579,15 +1540,14 @@ msgid "Today"
 msgstr "Hari ini"
 
 #: main/src/ui/widgets/date_separator.vala:35
-#, fuzzy, no-c-format
 msgid "%a, %b %d"
-msgstr "%a, %d %b"
+msgstr "%a, %b %d"
 
 #: main/src/windows/conversation_details.vala:58
 msgid ""
 "This contact will be removed from your contact list and all conversation "
 "history will be permanently deleted."
-msgstr ""
+msgstr "Kontak ini akan dihapus dari daftar kontak Anda dan semua riwayat percakapan akan dihapus secara permanen."
 
 #: main/src/windows/conversation_details.vala:108
 msgid "Block user"
@@ -1749,34 +1709,32 @@ msgid "Check %s for information on how to sign up"
 msgstr "Periksa %s untuk informasi pendaftaran"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:192
-#, fuzzy
 msgid "No contacts"
-msgstr "Tambah kontak"
+msgstr "Tidak ada kontak"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:193
 msgid "Add contacts to start chatting"
-msgstr ""
+msgstr "Tambahkan kontak untuk mulai mengobrol"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:289
 #, c-format
 msgid ""
 "This will remove %s from your contact list and delete all conversation "
 "history."
-msgstr ""
+msgstr "Ini akan menghapus %s dari daftar kontak Anda dan menghapus semua riwayat percakapan."
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:318
-#, fuzzy
 msgid "Edit Contact Alias"
-msgstr "Tambah kontak"
+msgstr "Edit Alias Kontak"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:319
 #, c-format
 msgid "Change the display name for %s"
-msgstr ""
+msgstr "Ubah nama tampilan untuk %s"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:325
 msgid "Alias (optional)"
-msgstr ""
+msgstr "Alias (opsional)"
 
 #~ msgid "Message too long"
 #~ msgstr "Pesan terlalu panjang"

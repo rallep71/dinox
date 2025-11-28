@@ -20,25 +20,24 @@ msgstr ""
 
 #: main/data/add_conversation/add_groupchat_dialog.ui:80
 msgid "Add MUC"
-msgstr ""
+msgstr "MUC hozzáadása"
 
 #: main/data/add_conversation/add_groupchat_dialog.ui:90
 msgid "Insert a Name for MUC..."
-msgstr ""
+msgstr "Adjon meg egy szoba nevet..."
 
 #: main/data/add_conversation/select_jid_fragment.ui:20
 msgid "Search or enter channel address..."
-msgstr ""
+msgstr "Keresés vagy csatorna cím megadása..."
 
 #: main/data/add_conversation/select_jid_fragment.ui:67
 #: main/src/ui/add_conversation/select_jid_fragment.vala:205
-#, fuzzy
 msgid "Add Group"
-msgstr "Fiók hozzáadása"
+msgstr "Csoport hozzáadása"
 
 #: main/data/add_conversation/select_jid_fragment.ui:88
 msgid "Delete Group"
-msgstr ""
+msgstr "Csoport törlése"
 
 #: main/data/call_widget.ui:73 main/src/ui/notifier_freedesktop.vala:125
 #: main/src/ui/notifier_freedesktop.vala:230
@@ -60,21 +59,18 @@ msgid "Accept"
 msgstr "Elfogadás"
 
 #: main/data/chat_input.ui:63
-#, fuzzy
 msgid "Record voice message"
-msgstr "Üzenetek keresése"
+msgstr "Hangüzenet rögzítése"
 
 #: main/data/chat_input.ui:77
-#, fuzzy
 msgid "Send message"
-msgstr "Üzenet szerkesztése"
+msgstr "Üzenet küldése"
 
 #: main/data/conversation_details.ui:145
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:566
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:175
-#, fuzzy
 msgid "Remove Contact"
-msgstr "Fiók eltávolítása"
+msgstr "Névjegy eltávolítása"
 
 #: main/data/conversation_details.ui:171
 #: main/src/windows/conversation_details.vala:231
@@ -83,7 +79,7 @@ msgstr "Névjegy"
 
 #: main/data/conversation_row.ui:56
 msgid "Private room (supports group calls)"
-msgstr ""
+msgstr "Privát szoba (támogatja a csoportos hívásokat)"
 
 #: main/data/conversation_row.ui:135
 #: main/src/windows/conversation_details.vala:171
@@ -138,7 +134,7 @@ msgstr "Fájl küldése"
 
 #: main/data/gtk/help-overlay.ui:55
 msgid "Close conversation"
-msgstr ""
+msgstr "Beszélgetés bezárása"
 
 #: main/data/gtk/help-overlay.ui:62
 msgid "Navigation"
@@ -154,7 +150,7 @@ msgstr "Ugrás az előző beszélgetésre"
 
 #: main/data/main_window.ui:64 main/src/ui/main_window.vala:144
 msgid "Help: How to join channels"
-msgstr ""
+msgstr "Súgó: Hogyan csatlakozzunk csatornákhoz"
 
 #: main/data/main_window.ui:118
 msgid "You have no open chats"
@@ -162,41 +158,41 @@ msgstr "Önnek nincsenek nyitott csevegései"
 
 #: main/data/main_window.ui:119
 msgid "Click + to start a chat or join a channel"
-msgstr ""
+msgstr "Kattintson a +-ra beszélgetés indításához vagy csatornához való csatlakozáshoz"
 "Kattintson a + gombra egy csevegés indításához vagy egy csatornához való "
 "csatlakozáshoz"
 
 #: main/data/menu_app.ui:6
 msgid "Status"
-msgstr ""
+msgstr "Állapot"
 
 #: main/data/menu_app.ui:11
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:427
 #: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Online"
-msgstr ""
+msgstr "Online"
 
 #: main/data/menu_app.ui:16
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:421
 #: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Away"
-msgstr ""
+msgstr "Távol"
 
 #: main/data/menu_app.ui:21
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:425
 #: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Busy"
-msgstr ""
+msgstr "Elfoglalt"
 
 #: main/data/menu_app.ui:26
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:423
 #: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Not Available"
-msgstr ""
+msgstr "Nem elérhető"
 
 #: main/data/menu_app.ui:34
 msgid "Preferences"
@@ -207,9 +203,8 @@ msgid "Keyboard Shortcuts"
 msgstr "Gyorsbillentyűk"
 
 #: main/data/menu_app.ui:42 main/src/ui/application.vala:334
-#, fuzzy
 msgid "About DinoX"
-msgstr "A Dino névjegye"
+msgstr "A DinoX névjegye"
 
 #: main/data/menu_conversation.ui:7
 msgid "Contact Details"
@@ -219,9 +214,8 @@ msgstr "Partner részletei"
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:513
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:565
 #: main/src/ui/conversation_titlebar/menu_entry.vala:84
-#, fuzzy
 msgid "Delete Conversation History"
-msgstr "Beszélgetés bezárása"
+msgstr "Beszélgetési előzmények törlése"
 
 #: main/data/message_item_widget_edit_mode.ui:46
 #: main/data/preferences_window/change_password_dialog.ui:18
@@ -277,19 +271,19 @@ msgstr "Kapcsolat állapota"
 # Custom host/port feature (Issue #115)
 #: main/data/preferences_window/account_preferences_subpage.ui:121
 msgid "Advanced Settings"
-msgstr ""
+msgstr "Speciális beállítások"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:122
 msgid "Custom server connection (leave empty for automatic)"
-msgstr ""
+msgstr "Egyéni szerver kapcsolat (hagyja üresen az automatikushoz)"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:125
 msgid "Server Hostname"
-msgstr ""
+msgstr "Kiszolgáló gazdaneve"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:130
 msgid "Port"
-msgstr ""
+msgstr "Port"
 
 #: main/data/preferences_window/change_password_dialog.ui:61
 msgid "Current password"
@@ -321,49 +315,49 @@ msgstr "Értesítés új üzenet érkezésekor"
 
 #: main/data/preferences_window/general_preferences_page.ui:32
 msgid "_Keep Running in Background"
-msgstr ""
+msgstr "_Futtatás a háttérben"
 
 #: main/data/preferences_window/general_preferences_page.ui:33
 msgid ""
 "Continue running after closing window to receive notifications immediately"
-msgstr ""
+msgstr "Folytatás futása az ablak bezárása után az értesítések azonnali fogadásához"
+"Folytatás a háttérben az ablak bezárása után az azonnali értesítések fogadásához"
 
 #: main/data/preferences_window/general_preferences_page.ui:41
 msgid "Appearance"
-msgstr ""
+msgstr "Megjelenés"
 
 #: main/data/preferences_window/general_preferences_page.ui:44
 msgid "_Color Scheme"
-msgstr ""
+msgstr "_Színséma"
 
 #: main/data/preferences_window/general_preferences_page.ui:45
 msgid "Choose between light and dark appearance"
-msgstr ""
+msgstr "Válasszon világos és sötét megjelenés között"
 
 #: main/data/preferences_window/general_preferences_page.ui:55
 msgid "_Convert Smileys to Emoji"
 msgstr "Mosolyjelek át_alakítása emodzsivá"
 
 #: main/data/preferences_window/general_preferences_page.ui:63
-#, fuzzy
 msgid "User Data"
-msgstr "Felhasználó"
+msgstr "Felhasználói adatok"
 
 #: main/data/preferences_window/general_preferences_page.ui:66
 msgid "Backup User Data"
-msgstr ""
+msgstr "Adatok mentése"
 
 #: main/data/preferences_window/general_preferences_page.ui:67
 msgid "Create a backup of your accounts, messages and settings"
-msgstr ""
+msgstr "Fiókok, üzenetek és beállítások biztonsági mentése"
 
 #: main/data/preferences_window/general_preferences_page.ui:78
 msgid "Data Location"
-msgstr ""
+msgstr "Adatok helye"
 
 #: main/data/preferences_window/general_preferences_page.ui:79
 msgid "View where your data is stored"
-msgstr ""
+msgstr "Nézze meg, hol tárolódnak az adatai"
 
 #: main/data/preferences_window/preferences_dialog.ui:11
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:15
@@ -374,9 +368,8 @@ msgstr "Fiókok"
 #: main/data/preferences_window/preferences_dialog.ui:18
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:17
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:67
-#, fuzzy
 msgid "Contacts"
-msgstr "Partner hozzáadása"
+msgstr "Névjegyek"
 
 #: main/data/preferences_window/preferences_dialog.ui:25
 #: main/src/windows/conversation_details.vala:281
@@ -407,7 +400,7 @@ msgstr "Jelszó szükséges a szobába való belépéshez"
 
 #: main/src/ui/add_conversation/conference_details_fragment.vala:169
 msgid "Banned from joining or creating conference"
-msgstr ""
+msgstr "Kitiltva a konferenciához való csatlakozásból vagy létrehozásából"
 "Eltiltva a konferenciához való csatlakozástól vagy a konferencia "
 "létrehozásától"
 
@@ -449,7 +442,7 @@ msgstr "Érvénytelen cím"
 
 #: main/src/ui/add_conversation/select_contact_dialog.vala:70
 msgid "Search or enter contact address..."
-msgstr ""
+msgstr "Keresés vagy kapcsolat cím megadása..."
 
 #: main/src/ui/add_conversation/select_contact_dialog.vala:107
 msgid "Start"
@@ -457,12 +450,11 @@ msgstr "Indítás"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:154
 msgid "Browse Rooms"
-msgstr ""
+msgstr "Szobák böngészése"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:157
-#, fuzzy
 msgid "Browse Contacts"
-msgstr "Partner hozzáadása"
+msgstr "Névjegyek böngészése"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:202
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:70
@@ -470,90 +462,90 @@ msgid "Add Contact"
 msgstr "Partner hozzáadása"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:203
-#, fuzzy
 msgid "Delete Contact"
-msgstr "Partner hozzáadása"
+msgstr "Névjegy törlése"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:206
 #: main/src/ui/add_conversation/select_jid_fragment.vala:216
 msgid "Leave Group"
-msgstr ""
+msgstr "Csoport elhagyása"
 
 #: main/src/ui/application.vala:339
 msgid "Modern XMPP client with extended features"
-msgstr ""
+msgstr "Modern XMPP kliens bővített funkciókkal"
 
 #: main/src/ui/application.vala:346 main/src/ui/application.vala:385
 msgid "User Data Locations"
-msgstr ""
+msgstr "Felhasználói adatok helye"
 
 #: main/src/ui/application.vala:349 main/src/ui/application.vala:399
-#, fuzzy
 msgid "Configuration:"
-msgstr "Szoba beállítása"
+msgstr "Beállítás:"
 
 #: main/src/ui/application.vala:352 main/src/ui/application.vala:401
 msgid "Data & Database:"
-msgstr ""
+msgstr "Adatok és adatbázis:"
 
 #: main/src/ui/application.vala:355 main/src/ui/application.vala:403
 msgid "Cache:"
-msgstr ""
+msgstr "Gyorsítótár:"
 
 #: main/src/ui/application.vala:358
 msgid "Info:"
-msgstr ""
+msgstr "Infó:"
 
 #: main/src/ui/application.vala:359
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
-msgstr ""
+msgstr "Személyes adatai (fiókok, üzenetek, fájlok) az alkalmazástól elkülönítve tárolódnak."
 
 #: main/src/ui/application.vala:361
 msgid "When you update DinoX, your data remains intact."
-msgstr ""
+msgstr "DinoX frissítésekor az adatai megmaradnak."
 
 #: main/src/ui/application.vala:363
 msgid "Use Settings → General → Backup User Data to create a backup."
-msgstr ""
+msgstr "Használja a Beállítások → Általános → Mentés opciót biztonsági másolathoz."
 
 #: main/src/ui/application.vala:405
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
-msgstr ""
+msgstr "Személyes adatai (fiókok, üzenetek, fájlok) az alkalmazástól elkülönítve tárolódnak. Amikor frissíti a DinoX-ot, az adatai érintetlenek maradnak."
+"Személyes adatai (fiókok, üzenetek, fájlok) az alkalmazástól elkülönítve "
+"tárolódnak. A DinoX frissítésekor az adatai megmaradnak."
 
 #: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
 #: main/src/ui/main_window.vala:159
 msgid "Close"
-msgstr ""
+msgstr "Bezárás"
 
 #: main/src/ui/application.vala:417
 msgid "Select Backup Location"
-msgstr ""
+msgstr "Válassza ki a mentés helyét"
 
 #: main/src/ui/application.vala:445
 msgid "Creating backup..."
-msgstr ""
+msgstr "Biztonsági mentés készítése..."
 
 #: main/src/ui/application.vala:503
 #, c-format
 msgid "Backup created successfully (%s)"
-msgstr ""
+msgstr "Biztonsági mentés sikeres (%s)"
 
 #: main/src/ui/application.vala:505
 msgid "Backup created successfully"
-msgstr ""
+msgstr "Biztonsági mentés sikeres"
 
 #: main/src/ui/application.vala:510
 msgid "Unknown error"
-msgstr ""
+msgstr "Ismeretlen hiba"
 
 #: main/src/ui/application.vala:511
 #, c-format
 msgid "Backup failed: %s"
-msgstr ""
+msgstr "Mentés sikertelen: %s"
 
 #: main/src/ui/call_window/audio_settings_popover.vala:29
 msgid "Microphones"
@@ -851,9 +843,8 @@ msgid "Just now"
 msgstr "Épp most"
 
 #: main/src/ui/conversation_content_view/conversation_view.vala:105
-#, fuzzy
 msgid "More actions"
-msgstr "Reakció hozzáadása"
+msgstr "További műveletek"
 
 #: main/src/ui/conversation_content_view/file_default_widget.vala:67
 #: main/src/ui/conversation_content_view/file_image_widget.vala:42
@@ -900,14 +891,12 @@ msgid "File transfer failed"
 msgstr "A fájlátvitel sikertelen"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:36
-#, fuzzy
 msgid "Kick user"
-msgstr "Felhasználó tiltása"
+msgstr "Felhasználó kirúgása"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:69
-#, fuzzy
 msgid "Ban user"
-msgstr "Felhasználó tiltása"
+msgstr "Felhasználó kitiltása"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:82
 #: main/src/ui/conversation_content_view/reactions_widget.vala:128
@@ -927,32 +916,29 @@ msgid "This conversation does not support replies."
 msgstr "Ez a beszélgetés nem támogatja a válaszokat."
 
 #: main/src/ui/conversation_content_view/item_actions.vala:146
-#, fuzzy
 msgid "Moderate message..."
-msgstr "Üzenet frissítése"
+msgstr "Üzenet moderálása…"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:148
 msgid "Delete..."
-msgstr ""
+msgstr "Törlés..."
 
 #: main/src/ui/conversation_content_view/item_actions.vala:150
 #: main/src/ui/conversation_content_view/item_actions.vala:168
 msgid "Delete locally"
-msgstr ""
+msgstr "Helyi törlés"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:160
-#, fuzzy
 msgid "Moderate message"
-msgstr "Üzenet frissítése"
+msgstr "Üzenet moderálása"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:160
-#, fuzzy
 msgid "Delete message"
-msgstr "Üzenet frissítése"
+msgstr "Üzenet törlése"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:164
 msgid "Do you want to remove this message from the channel?"
-msgstr ""
+msgstr "El szeretné távolítani ezt az üzenetet a csatornából?"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:165
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:745
@@ -963,17 +949,16 @@ msgstr "Eltávolítás"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:167
 msgid "Do you want to delete this message just for yourself or for everyone?"
-msgstr ""
+msgstr "Csak magának vagy mindenkinek törölni szeretné az üzenetet?"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:168
 msgid "Delete for everyone"
-msgstr ""
+msgstr "Törlés mindenkinél"
 
 #: main/src/ui/conversation_content_view/message_widget.vala:174
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:255
-#, fuzzy
 msgid "Message deleted"
-msgstr "Üzenetelőzmények"
+msgstr "Üzenet törölve"
 
 #: main/src/ui/conversation_content_view/message_widget.vala:178
 msgid "edited"
@@ -981,7 +966,7 @@ msgstr "szerkesztve"
 
 #: main/src/ui/conversation_content_view/message_widget.vala:182
 msgid "Message truncated - exceeds 100,000 characters"
-msgstr ""
+msgstr "Üzenet csonkolva - meghaladja a 100 000 karaktert"
 
 #: main/src/ui/conversation_content_view/message_widget.vala:191
 msgid "pending…"
@@ -1043,36 +1028,36 @@ msgid "Permissions"
 msgstr "Jogosultságok"
 
 #: main/src/ui/conversation_details.vala:223
-#, fuzzy
 msgid "Manage Affiliations"
-msgstr "Fiókok kezelése"
+msgstr "Tagságok kezelése"
 
 #: main/src/ui/conversation_details.vala:239
 msgid "Danger Zone"
-msgstr ""
+msgstr "Veszélyes zóna"
 
 #: main/src/ui/conversation_details.vala:240
 msgid "Destroy Room"
-msgstr ""
+msgstr "Szoba megsemmisítése"
 
 #: main/src/ui/conversation_details.vala:246
 msgid "Destroy Room?"
-msgstr ""
+msgstr "Szoba megsemmisítése?"
 
 #: main/src/ui/conversation_details.vala:247
 msgid ""
 "Are you sure you want to permanently destroy this room? This action cannot "
 "be undone and all history will be lost for all participants."
-msgstr ""
+msgstr "Biztosan véglegesen meg akarja semmisíteni ezt a szobát? Ez a művelet nem vonható vissza, és az összes előzmény elveszik minden résztvevő számára."
+"Biztosan véglegesen meg akarja semmisíteni ezt a szobát? Ez a művelet nem "
+"vonható vissza, és az összes előzmény elvész minden résztvevő számára."
 
 #: main/src/ui/conversation_details.vala:250
 msgid "Destroy"
-msgstr ""
+msgstr "Megsemmisítés"
 
 #: main/src/ui/conversation_details.vala:271
-#, fuzzy
 msgid "Failed to destroy room"
-msgstr "Nem engedélyezett a szoba létrehozása"
+msgstr "Nem sikerült megsemmisíteni a szobát"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:276
 #: main/src/ui/notifier_freedesktop.vala:71
@@ -1100,19 +1085,19 @@ msgstr "Fájl érkezett"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:361
 msgid "Thema:"
-msgstr ""
+msgstr "Téma:"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:381
 msgid "Privat"
-msgstr ""
+msgstr "Privát"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:383
 msgid "Öffentlich"
-msgstr ""
+msgstr "Nyilvános"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:387
 msgid "Typ:"
-msgstr ""
+msgstr "Típus:"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:483
 #: main/src/ui/widgets/date_separator.vala:37
@@ -1134,9 +1119,8 @@ msgstr "Beszélgetés részletei"
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:507
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:771
 #: main/src/ui/conversation_titlebar/menu_entry.vala:98
-#, fuzzy
 msgid "Invite Contact"
-msgstr "Meghívás a konferenciába"
+msgstr "Névjegy meghívása"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:511
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:559
@@ -1145,7 +1129,7 @@ msgstr "Meghívás a konferenciába"
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:140
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:206
 msgid "Unmute"
-msgstr ""
+msgstr "Némítás feloldása"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:511
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:559
@@ -1160,14 +1144,13 @@ msgstr "Némítás"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:514
 msgid "Leave and Close"
-msgstr ""
+msgstr "Kilépés és bezárás"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:555
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:623
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:126
-#, fuzzy
 msgid "Edit Alias"
-msgstr "Álnév"
+msgstr "Álnév szerkesztése"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:563
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:705
@@ -1195,54 +1178,52 @@ msgstr "Mentés"
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:657
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:202
 msgid "Unmute contact?"
-msgstr ""
+msgstr "Kapcsolat némításának feloldása?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:658
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:203
 #, c-format
 msgid "This will enable notifications from %s."
-msgstr ""
+msgstr "Ez engedélyezi az értesítéseket %s-tól."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:676
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:222
 msgid "Mute contact?"
-msgstr ""
+msgstr "Kapcsolat némítása?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:677
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:223
 #, c-format
 msgid "This will disable notifications from %s."
-msgstr ""
+msgstr "Ez letiltja az értesítéseket %s-tól."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:701
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:246
-#, fuzzy
 msgid "Unblock contact?"
-msgstr "Tiltás feloldása"
+msgstr "Névjegy feloldása?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:702
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:247
-#, fuzzy, c-format
+# c-format
 msgid "This will allow %s to send you messages again."
-msgstr "Ez a konferencia nem engedélyezi az üzenetek küldését."
+msgstr "Ez lehetővé teszi %s számára, hogy újra üzeneteket küldjön."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:720
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:266
 msgid "Block contact?"
-msgstr ""
+msgstr "Kapcsolat blokkolása?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:721
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:267
 #, c-format
 msgid "This will prevent %s from sending you messages."
-msgstr ""
+msgstr "Ez megakadályozza, hogy %s üzeneteket küldjön."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:741
 #: main/src/windows/conversation_details.vala:57
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:288
-#, fuzzy
 msgid "Remove contact?"
-msgstr "Fiók eltávolítása"
+msgstr "Névjegy eltávolítása?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:742
 #, c-format
@@ -1252,23 +1233,22 @@ msgid ""
 "• Remove %s from your contact list\n"
 "\n"
 "This action cannot be undone."
-msgstr ""
+msgstr "Ez:\n• Törli az összes beszélgetési előzményt\n• Eltávolítja %s személyt a névjegyzékedből\n\nEz a művelet nem vonható vissza."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:787
-#, fuzzy
 msgid "Delete all message history?"
-msgstr "Üzenetelőzmények"
+msgstr "Összes üzenetelőzmény törlése?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:788
 msgid ""
 "This will permanently delete all messages in this conversation. This action "
 "cannot be undone."
-msgstr ""
+msgstr "Ez véglegesen törli az összes üzenetet ebben a beszélgetésben. Ez a művelet nem vonható vissza."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:791
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
 msgid "Delete"
-msgstr ""
+msgstr "Törlés"
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:14
 msgid "Start call"
@@ -1284,26 +1264,25 @@ msgstr "Videohívás"
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:79
 msgid "Conference Server Required"
-msgstr ""
+msgstr "Konferencia szerver szükséges"
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:80
 msgid ""
 "To start a group call, you need to configure a default conference server in "
 "your account settings."
-msgstr ""
+msgstr "Csoportos hívás indításához be kell állítania egy alapértelmezett konferenciaszervert a fiókbeállításokban."
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:84
-#, fuzzy
 msgid "Open Settings"
-msgstr "Beállítások"
+msgstr "Beállítások megnyitása"
 
 #: main/src/ui/conversation_titlebar/menu_entry.vala:47
 msgid "Delete all message history for this conversation?"
-msgstr ""
+msgstr "Az összes üzenet előzmény törlése?"
 
 #: main/src/ui/conversation_titlebar/menu_entry.vala:49
 msgid "This action cannot be undone."
-msgstr ""
+msgstr "Ez a művelet nem vonható vissza."
 
 #: main/src/ui/conversation_titlebar/menu_entry.vala:85
 msgid "Close Conversation"
@@ -1338,9 +1317,8 @@ msgid "With %s"
 msgstr "Ezzel: %s"
 
 #: main/src/ui/main_window.vala:156
-#, fuzzy
 msgid "Join Channel Help"
-msgstr "Csatlakozás csatornához"
+msgstr "Segítség a csatornához csatlakozáshoz"
 
 #: main/src/ui/main_window.vala:157
 msgid ""
@@ -1349,12 +1327,11 @@ msgid ""
 "\n"
 "If you need a password or a nickname, provide them in the dialog. Use the "
 "discovery features in the server to find public rooms."
-msgstr ""
+msgstr "Csatornához való csatlakozáshoz kattints a \"Csatlakozás csatornához\" gombra, és add meg a csatorna JID-jét (példa: room@conference.example.org).\n\nHa jelszóra vagy becenévre van szükséged, add meg őket a párbeszédablakban. Használd a szerver felfedezési funkcióit a nyilvános szobák megtalálásához."
 
 #: main/src/ui/main_window.vala:206
-#, fuzzy
 msgid "Welcome to DinoX!"
-msgstr "Üdvözli a Dino!"
+msgstr "Üdvözöljük a DinoX-ban!"
 
 #: main/src/ui/main_window.vala:207
 msgid "Sign in or create an account to get started."
@@ -1437,20 +1414,17 @@ msgstr "Magánbeszélgetés indítása"
 
 #: main/src/ui/occupant_menu/view.vala:125
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:157
-#, fuzzy
 msgid "Unblock Contact"
-msgstr "Tiltás feloldása"
+msgstr "Névjegy feloldása"
 
 #: main/src/ui/occupant_menu/view.vala:127
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:157
-#, fuzzy
 msgid "Block Contact"
-msgstr "Partner hozzáadása"
+msgstr "Névjegy letiltása"
 
 #: main/src/ui/occupant_menu/view.vala:133
-#, fuzzy
 msgid "Moderation"
-msgstr "Moderált"
+msgstr "Moderálás"
 
 #: main/src/ui/occupant_menu/view.vala:135
 msgid "Kick"
@@ -1458,52 +1432,47 @@ msgstr "Kirúgás"
 
 #: main/src/ui/occupant_menu/view.vala:139
 msgid "Ban (Permanent)"
-msgstr ""
+msgstr "Kitiltás (Végleges)"
 
 #: main/src/ui/occupant_menu/view.vala:140
 msgid "Ban (10 min)"
-msgstr ""
+msgstr "Kitiltás (10 perc)"
 
 #: main/src/ui/occupant_menu/view.vala:141
 msgid "Ban (15 min)"
-msgstr ""
+msgstr "Kitiltás (15 perc)"
 
 #: main/src/ui/occupant_menu/view.vala:142
 msgid "Ban (30 min)"
-msgstr ""
+msgstr "Kitiltás (30 perc)"
 
 #: main/src/ui/occupant_menu/view.vala:146
-#, fuzzy
 msgid "Administration"
-msgstr "Reakció hozzáadása"
+msgstr "Adminisztráció"
 
 #: main/src/ui/occupant_menu/view.vala:150
-#, fuzzy
 msgid "Make Admin"
-msgstr "Adminisztrátor"
+msgstr "Rendszergazdává tesz"
 
 #: main/src/ui/occupant_menu/view.vala:152
 msgid "Revoke Admin"
-msgstr ""
+msgstr "Admin visszavonása"
 
 #: main/src/ui/occupant_menu/view.vala:156
-#, fuzzy
 msgid "Make Owner"
-msgstr "Tulajdonos"
+msgstr "Tulajdonossá tesz"
 
 #: main/src/ui/occupant_menu/view.vala:161
-#, fuzzy
 msgid "Make Member"
-msgstr "Tag"
+msgstr "Taggá tesz"
 
 #: main/src/ui/occupant_menu/view.vala:163
-#, fuzzy
 msgid "Revoke Membership"
-msgstr "Írási jogosultság visszavonása"
+msgstr "Tagság visszavonása"
 
 #: main/src/ui/occupant_menu/view.vala:228
 msgid "Kicked by moderator"
-msgstr ""
+msgstr "Moderátor által kirúgva"
 
 #: main/src/ui/occupant_menu/view.vala:275
 msgid "Invite to Conference"
@@ -1516,17 +1485,17 @@ msgstr "Kilépés"
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
 "A friendly name shown in room listings (does not change the room address)"
-msgstr ""
+msgstr "Egy barátságos név, amely a szobalistákon jelenik meg (nem változtatja meg a szobacímet)"
+"Egy barátságos név, amely megjelenik a szobalistákban (nem változtatja meg a szobacímet)"
+"Egy barátságos név a szobalistákban (nem változtatja meg a szoba címét)"
 
 #: main/src/ui/util/data_forms.vala:44
-#, fuzzy
 msgid "Description"
-msgstr "Titkosítás"
+msgstr "Leírás"
 
 #: main/src/ui/util/data_forms.vala:45
-#, fuzzy
 msgid "A description of the room shown in room listings"
-msgstr "A szoba leírása"
+msgstr "A szoba leírása a szobalistában"
 
 #: main/src/ui/util/data_forms.vala:48
 msgid "Persistent"
@@ -1542,7 +1511,7 @@ msgstr "Nyilvánosan kereshető"
 
 #: main/src/ui/util/data_forms.vala:53
 msgid "The room will appear in public room listings"
-msgstr ""
+msgstr "A szoba megjelenik a nyilvános szoba listákban"
 
 #: main/src/ui/util/data_forms.vala:56
 msgid "Occupants may change the subject"
@@ -1572,7 +1541,9 @@ msgstr "Csak tagok"
 msgid ""
 "Only members may enter the room. Warning: Non-members will be removed when "
 "enabled!"
-msgstr ""
+msgstr "Csak tagok léphetnek be a szobába. Figyelmeztetés: A nem tagok törlődnek aktiváláskor!"
+"Csak tagok léphetnek be a szobába. Figyelmeztetés: A nem tagok eltávolításra "
+"kerülnek az aktiváláskor!"
 
 #: main/src/ui/util/helper.vala:65
 #, c-format
@@ -1592,7 +1563,9 @@ msgstr "%b. %e., %a"
 msgid ""
 "This contact will be removed from your contact list and all conversation "
 "history will be permanently deleted."
-msgstr ""
+msgstr "Ez a névjegy törlődik a névjegyzékedből, és az összes beszélgetési előzmény véglegesen törlődik."
+"Ez a kapcsolat eltávolításra kerül a névjegyzékedből és az összes beszélgetési "
+"előzmény véglegesen törlődik."
 
 #: main/src/windows/conversation_details.vala:108
 msgid "Block user"
@@ -1751,38 +1724,38 @@ msgstr "Regisztráció"
 #: main/src/windows/preferences_window/add_account_dialog.vala:355
 #, c-format
 msgid "Check %s for information on how to sign up"
-msgstr ""
+msgstr "Nézd meg a %s oldalt a regisztrációval kapcsolatos információkért"
 "Nézze meg a %s oldalt azon információkért, hogy hogyan kell regisztrálni"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:192
-#, fuzzy
 msgid "No contacts"
-msgstr "Partner hozzáadása"
+msgstr "Nincsenek névjegyek"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:193
 msgid "Add contacts to start chatting"
-msgstr ""
+msgstr "Adjon hozzá kapcsolatokat a csevegéshez"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:289
 #, c-format
 msgid ""
 "This will remove %s from your contact list and delete all conversation "
 "history."
-msgstr ""
+msgstr "Ez eltávolítja %s személyt a névjegyzékedből és törli az összes beszélgetési előzményt."
+"%s eltávolításra kerül a névjegyzékedből és az összes beszélgetési előzmény "
+"törlődik."
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:318
-#, fuzzy
 msgid "Edit Contact Alias"
-msgstr "Partner hozzáadása"
+msgstr "Névjegy álnév szerkesztése"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:319
 #, c-format
 msgid "Change the display name for %s"
-msgstr ""
+msgstr "Megjelenített név módosítása %s számára"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:325
 msgid "Alias (optional)"
-msgstr ""
+msgstr "Becenév (opcionális)"
 
 #~ msgid "Message too long"
 #~ msgstr "Az üzenet túl hosszú"

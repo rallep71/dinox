@@ -20,25 +20,24 @@ msgstr ""
 
 #: main/data/add_conversation/add_groupchat_dialog.ui:80
 msgid "Add MUC"
-msgstr ""
+msgstr "Lisää MUC"
 
 #: main/data/add_conversation/add_groupchat_dialog.ui:90
 msgid "Insert a Name for MUC..."
-msgstr ""
+msgstr "Anna huoneen nimi..."
 
 #: main/data/add_conversation/select_jid_fragment.ui:20
 msgid "Search or enter channel address..."
-msgstr ""
+msgstr "Etsi tai anna kanavan osoite..."
 
 #: main/data/add_conversation/select_jid_fragment.ui:67
 #: main/src/ui/add_conversation/select_jid_fragment.vala:205
-#, fuzzy
 msgid "Add Group"
-msgstr "Lisää tili"
+msgstr "Lisää ryhmä"
 
 #: main/data/add_conversation/select_jid_fragment.ui:88
 msgid "Delete Group"
-msgstr ""
+msgstr "Poista ryhmä"
 
 #: main/data/call_widget.ui:73 main/src/ui/notifier_freedesktop.vala:125
 #: main/src/ui/notifier_freedesktop.vala:230
@@ -60,21 +59,18 @@ msgid "Accept"
 msgstr "Hyväksy"
 
 #: main/data/chat_input.ui:63
-#, fuzzy
 msgid "Record voice message"
-msgstr "Etsi viestejä"
+msgstr "Äänitä ääniviesti"
 
 #: main/data/chat_input.ui:77
-#, fuzzy
 msgid "Send message"
-msgstr "Lähetä lukukuittaus"
+msgstr "Lähetä viesti"
 
 #: main/data/conversation_details.ui:145
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:566
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:175
-#, fuzzy
 msgid "Remove Contact"
-msgstr "Poista tili"
+msgstr "Poista yhteystieto"
 
 #: main/data/conversation_details.ui:171
 #: main/src/windows/conversation_details.vala:231
@@ -83,7 +79,7 @@ msgstr "Tietoja"
 
 #: main/data/conversation_row.ui:56
 msgid "Private room (supports group calls)"
-msgstr ""
+msgstr "Yksityinen huone (tukee ryhmäpuheluja)"
 
 #: main/data/conversation_row.ui:135
 #: main/src/windows/conversation_details.vala:171
@@ -138,7 +134,7 @@ msgstr "Lähetä tiedosto"
 
 #: main/data/gtk/help-overlay.ui:55
 msgid "Close conversation"
-msgstr ""
+msgstr "Sulje keskustelu"
 
 #: main/data/gtk/help-overlay.ui:62
 msgid "Navigation"
@@ -154,7 +150,7 @@ msgstr "Siirry edelliseen keskusteluun"
 
 #: main/data/main_window.ui:64 main/src/ui/main_window.vala:144
 msgid "Help: How to join channels"
-msgstr ""
+msgstr "Ohje: Kuinka liittyä kanaviin"
 
 #: main/data/main_window.ui:118
 msgid "You have no open chats"
@@ -166,35 +162,35 @@ msgstr "Napsauta + aloittaaksesi keskustelun tai liittyäksesi kanavalle"
 
 #: main/data/menu_app.ui:6
 msgid "Status"
-msgstr ""
+msgstr "Tila"
 
 #: main/data/menu_app.ui:11
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:427
 #: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Online"
-msgstr ""
+msgstr "Paikalla"
 
 #: main/data/menu_app.ui:16
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:421
 #: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Away"
-msgstr ""
+msgstr "Poissa"
 
 #: main/data/menu_app.ui:21
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:425
 #: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Busy"
-msgstr ""
+msgstr "Varattu"
 
 #: main/data/menu_app.ui:26
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:423
 #: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Not Available"
-msgstr ""
+msgstr "Ei tavoitettavissa"
 
 #: main/data/menu_app.ui:34
 msgid "Preferences"
@@ -205,9 +201,8 @@ msgid "Keyboard Shortcuts"
 msgstr "Pikanäppäimet"
 
 #: main/data/menu_app.ui:42 main/src/ui/application.vala:334
-#, fuzzy
 msgid "About DinoX"
-msgstr "Tietoja Dinosta"
+msgstr "Tietoja DinoX:stä"
 
 #: main/data/menu_conversation.ui:7
 msgid "Contact Details"
@@ -217,9 +212,8 @@ msgstr "Yhteystiedot"
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:513
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:565
 #: main/src/ui/conversation_titlebar/menu_entry.vala:84
-#, fuzzy
 msgid "Delete Conversation History"
-msgstr "Sulje keskustelu"
+msgstr "Poista keskusteluhistoria"
 
 #: main/data/message_item_widget_edit_mode.ui:46
 #: main/data/preferences_window/change_password_dialog.ui:18
@@ -275,19 +269,19 @@ msgstr "Yhteyden tila"
 # Custom host/port feature (Issue #115)
 #: main/data/preferences_window/account_preferences_subpage.ui:121
 msgid "Advanced Settings"
-msgstr ""
+msgstr "Lisäasetukset"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:122
 msgid "Custom server connection (leave empty for automatic)"
-msgstr ""
+msgstr "Mukautettu palvelinyhteys (jätä tyhjäksi automaattiselle)"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:125
 msgid "Server Hostname"
-msgstr ""
+msgstr "Palvelimen isäntänimi"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:130
 msgid "Port"
-msgstr ""
+msgstr "Portti"
 
 #: main/data/preferences_window/change_password_dialog.ui:61
 msgid "Current password"
@@ -319,49 +313,49 @@ msgstr "Ilmoita, kun uusi viesti saapuu"
 
 #: main/data/preferences_window/general_preferences_page.ui:32
 msgid "_Keep Running in Background"
-msgstr ""
+msgstr "_Pidä käynnissä taustalla"
 
 #: main/data/preferences_window/general_preferences_page.ui:33
 msgid ""
 "Continue running after closing window to receive notifications immediately"
-msgstr ""
+msgstr "Jatka suoritusta ikkunan sulkemisen jälkeen vastaanottaaksesi ilmoitukset välittömästi"
+"Jatka suorittamista ikkunan sulkemisen jälkeen vastaanottaaksesi ilmoitukset välittömästi"
 
 #: main/data/preferences_window/general_preferences_page.ui:41
 msgid "Appearance"
-msgstr ""
+msgstr "Ulkoasu"
 
 #: main/data/preferences_window/general_preferences_page.ui:44
 msgid "_Color Scheme"
-msgstr ""
+msgstr "_Värimaailma"
 
 #: main/data/preferences_window/general_preferences_page.ui:45
 msgid "Choose between light and dark appearance"
-msgstr ""
+msgstr "Valitse vaalean ja tumman ulkoasun välillä"
 
 #: main/data/preferences_window/general_preferences_page.ui:55
 msgid "_Convert Smileys to Emoji"
 msgstr "_Muunna hymiöt emojeiksi"
 
 #: main/data/preferences_window/general_preferences_page.ui:63
-#, fuzzy
 msgid "User Data"
-msgstr "Käyttäjä"
+msgstr "Käyttäjätiedot"
 
 #: main/data/preferences_window/general_preferences_page.ui:66
 msgid "Backup User Data"
-msgstr ""
+msgstr "Varmuuskopioi tiedot"
 
 #: main/data/preferences_window/general_preferences_page.ui:67
 msgid "Create a backup of your accounts, messages and settings"
-msgstr ""
+msgstr "Luo varmuuskopio tileistä, viesteistä ja asetuksista"
 
 #: main/data/preferences_window/general_preferences_page.ui:78
 msgid "Data Location"
-msgstr ""
+msgstr "Tietojen sijainti"
 
 #: main/data/preferences_window/general_preferences_page.ui:79
 msgid "View where your data is stored"
-msgstr ""
+msgstr "Näytä missä tietosi on tallennettu"
 
 #: main/data/preferences_window/preferences_dialog.ui:11
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:15
@@ -372,9 +366,8 @@ msgstr "Tilit"
 #: main/data/preferences_window/preferences_dialog.ui:18
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:17
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:67
-#, fuzzy
 msgid "Contacts"
-msgstr "Lisää yhteystieto"
+msgstr "Yhteystiedot"
 
 #: main/data/preferences_window/preferences_dialog.ui:25
 #: main/src/windows/conversation_details.vala:281
@@ -445,7 +438,7 @@ msgstr "VIrheellinen osoite"
 
 #: main/src/ui/add_conversation/select_contact_dialog.vala:70
 msgid "Search or enter contact address..."
-msgstr ""
+msgstr "Etsi tai syötä yhteystiedon osoite..."
 
 #: main/src/ui/add_conversation/select_contact_dialog.vala:107
 msgid "Start"
@@ -453,12 +446,11 @@ msgstr "Aloita"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:154
 msgid "Browse Rooms"
-msgstr ""
+msgstr "Selaa huoneita"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:157
-#, fuzzy
 msgid "Browse Contacts"
-msgstr "Lisää yhteystieto"
+msgstr "Selaa yhteystietoja"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:202
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:70
@@ -466,90 +458,90 @@ msgid "Add Contact"
 msgstr "Lisää yhteystieto"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:203
-#, fuzzy
 msgid "Delete Contact"
-msgstr "Lisää yhteystieto"
+msgstr "Poista yhteystieto"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:206
 #: main/src/ui/add_conversation/select_jid_fragment.vala:216
 msgid "Leave Group"
-msgstr ""
+msgstr "Poistu ryhmästä"
 
 #: main/src/ui/application.vala:339
 msgid "Modern XMPP client with extended features"
-msgstr ""
+msgstr "Moderni XMPP-asiakas laajennetuilla ominaisuuksilla"
 
 #: main/src/ui/application.vala:346 main/src/ui/application.vala:385
 msgid "User Data Locations"
-msgstr ""
+msgstr "Käyttäjätietojen sijainnit"
 
 #: main/src/ui/application.vala:349 main/src/ui/application.vala:399
-#, fuzzy
 msgid "Configuration:"
-msgstr "Huoneen asetukset"
+msgstr "Määritys:"
 
 #: main/src/ui/application.vala:352 main/src/ui/application.vala:401
 msgid "Data & Database:"
-msgstr ""
+msgstr "Tiedot ja tietokanta:"
 
 #: main/src/ui/application.vala:355 main/src/ui/application.vala:403
 msgid "Cache:"
-msgstr ""
+msgstr "Välimuisti:"
 
 #: main/src/ui/application.vala:358
 msgid "Info:"
-msgstr ""
+msgstr "Tiedot:"
 
 #: main/src/ui/application.vala:359
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
-msgstr ""
+msgstr "Henkilökohtaiset tietosi (tilit, viestit, tiedostot) tallennetaan erillään sovelluksesta."
 
 #: main/src/ui/application.vala:361
 msgid "When you update DinoX, your data remains intact."
-msgstr ""
+msgstr "Kun päivität DinoX:n, tietosi säilyvät koskemattomina."
 
 #: main/src/ui/application.vala:363
 msgid "Use Settings → General → Backup User Data to create a backup."
-msgstr ""
+msgstr "Käytä Asetukset → Yleiset → Varmuuskopioi käyttäjätiedot luodaksesi varmuuskopion."
 
 #: main/src/ui/application.vala:405
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
-msgstr ""
+msgstr "Henkilökohtaiset tietosi (tilit, viestit, tiedostot) tallennetaan erillään sovelluksesta. Kun päivität DinoX:n, tietosi säilyvät koskemattomina."
+"Henkilökohtaiset tietosi (tilit, viestit, tiedostot) tallennetaan erillään "
+"sovelluksesta. Kun päivität DinoX:n, tietosi säilyvät ehjinä."
 
 #: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
 #: main/src/ui/main_window.vala:159
 msgid "Close"
-msgstr ""
+msgstr "Sulje"
 
 #: main/src/ui/application.vala:417
 msgid "Select Backup Location"
-msgstr ""
+msgstr "Valitse varmuuskopion sijainti"
 
 #: main/src/ui/application.vala:445
 msgid "Creating backup..."
-msgstr ""
+msgstr "Luodaan varmuuskopiota..."
 
 #: main/src/ui/application.vala:503
 #, c-format
 msgid "Backup created successfully (%s)"
-msgstr ""
+msgstr "Varmuuskopio luotu (%s)"
 
 #: main/src/ui/application.vala:505
 msgid "Backup created successfully"
-msgstr ""
+msgstr "Varmuuskopio luotu"
 
 #: main/src/ui/application.vala:510
 msgid "Unknown error"
-msgstr ""
+msgstr "Tuntematon virhe"
 
 #: main/src/ui/application.vala:511
 #, c-format
 msgid "Backup failed: %s"
-msgstr ""
+msgstr "Varmuuskopiointi epäonnistui: %s"
 
 #: main/src/ui/call_window/audio_settings_popover.vala:29
 msgid "Microphones"
@@ -847,9 +839,8 @@ msgid "Just now"
 msgstr "Juuri nyt"
 
 #: main/src/ui/conversation_content_view/conversation_view.vala:105
-#, fuzzy
 msgid "More actions"
-msgstr "Lisää reaktio"
+msgstr "Lisää toimintoja"
 
 #: main/src/ui/conversation_content_view/file_default_widget.vala:67
 #: main/src/ui/conversation_content_view/file_image_widget.vala:42
@@ -896,14 +887,12 @@ msgid "File transfer failed"
 msgstr "Tiedostonsiirto epäonnistui"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:36
-#, fuzzy
 msgid "Kick user"
-msgstr "Estä käyttäjä"
+msgstr "Potkaise käyttäjä"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:69
-#, fuzzy
 msgid "Ban user"
-msgstr "Estä käyttäjä"
+msgstr "Kiellä käyttäjä"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:82
 #: main/src/ui/conversation_content_view/reactions_widget.vala:128
@@ -923,32 +912,29 @@ msgid "This conversation does not support replies."
 msgstr "Tämä keskustelu ei tue vastauksia."
 
 #: main/src/ui/conversation_content_view/item_actions.vala:146
-#, fuzzy
 msgid "Moderate message..."
-msgstr "Päivitä viesti"
+msgstr "Moderoi viesti…"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:148
 msgid "Delete..."
-msgstr ""
+msgstr "Poista..."
 
 #: main/src/ui/conversation_content_view/item_actions.vala:150
 #: main/src/ui/conversation_content_view/item_actions.vala:168
 msgid "Delete locally"
-msgstr ""
+msgstr "Poista paikallisesti"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:160
-#, fuzzy
 msgid "Moderate message"
-msgstr "Päivitä viesti"
+msgstr "Moderoi viesti"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:160
-#, fuzzy
 msgid "Delete message"
-msgstr "Päivitä viesti"
+msgstr "Poista viesti"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:164
 msgid "Do you want to remove this message from the channel?"
-msgstr ""
+msgstr "Haluatko poistaa tämän viestin kanavalta?"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:165
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:745
@@ -959,17 +945,16 @@ msgstr "Poista"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:167
 msgid "Do you want to delete this message just for yourself or for everyone?"
-msgstr ""
+msgstr "Haluatko poistaa tämän viestin vain itseltäsi vai kaikilta?"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:168
 msgid "Delete for everyone"
-msgstr ""
+msgstr "Poista kaikilta"
 
 #: main/src/ui/conversation_content_view/message_widget.vala:174
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:255
-#, fuzzy
 msgid "Message deleted"
-msgstr "Viestihistoria"
+msgstr "Viesti poistettu"
 
 #: main/src/ui/conversation_content_view/message_widget.vala:178
 msgid "edited"
@@ -977,7 +962,7 @@ msgstr "muokattu"
 
 #: main/src/ui/conversation_content_view/message_widget.vala:182
 msgid "Message truncated - exceeds 100,000 characters"
-msgstr ""
+msgstr "Viesti katkaistu - ylittää 100 000 merkkiä"
 
 #: main/src/ui/conversation_content_view/message_widget.vala:191
 msgid "pending…"
@@ -1039,36 +1024,36 @@ msgid "Permissions"
 msgstr "Oikeudet"
 
 #: main/src/ui/conversation_details.vala:223
-#, fuzzy
 msgid "Manage Affiliations"
-msgstr "Hallitse tilejä"
+msgstr "Hallitse jäsenyyksiä"
 
 #: main/src/ui/conversation_details.vala:239
 msgid "Danger Zone"
-msgstr ""
+msgstr "Vaaravyöhyke"
 
 #: main/src/ui/conversation_details.vala:240
 msgid "Destroy Room"
-msgstr ""
+msgstr "Tuhoa huone"
 
 #: main/src/ui/conversation_details.vala:246
 msgid "Destroy Room?"
-msgstr ""
+msgstr "Tuhoa huone?"
 
 #: main/src/ui/conversation_details.vala:247
 msgid ""
 "Are you sure you want to permanently destroy this room? This action cannot "
 "be undone and all history will be lost for all participants."
-msgstr ""
+msgstr "Haluatko varmasti tuhota tämän huoneen pysyvästi? Tätä toimintoa ei voi perua ja kaikki historia menetetään kaikilta osallistujilta."
+"Haluatko varmasti tuhota tämän huoneen pysyvästi? Tätä toimintoa ei voi "
+"kumota, ja kaikki historia menetetään kaikilta osallistujilta."
 
 #: main/src/ui/conversation_details.vala:250
 msgid "Destroy"
-msgstr ""
+msgstr "Tuhoa"
 
 #: main/src/ui/conversation_details.vala:271
-#, fuzzy
 msgid "Failed to destroy room"
-msgstr "Huoneen luomista ei sallita"
+msgstr "Huoneen tuhoaminen epäonnistui"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:276
 #: main/src/ui/notifier_freedesktop.vala:71
@@ -1096,19 +1081,19 @@ msgstr "Tiedosto vastaanotettu"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:361
 msgid "Thema:"
-msgstr ""
+msgstr "Aihe:"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:381
 msgid "Privat"
-msgstr ""
+msgstr "Yksityinen"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:383
 msgid "Öffentlich"
-msgstr ""
+msgstr "Julkinen"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:387
 msgid "Typ:"
-msgstr ""
+msgstr "Tyyppi:"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:483
 #: main/src/ui/widgets/date_separator.vala:37
@@ -1130,9 +1115,8 @@ msgstr "Keskustelun tiedot"
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:507
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:771
 #: main/src/ui/conversation_titlebar/menu_entry.vala:98
-#, fuzzy
 msgid "Invite Contact"
-msgstr "Kutsu ryhmäkeskusteluun"
+msgstr "Kutsu yhteystieto"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:511
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:559
@@ -1141,7 +1125,7 @@ msgstr "Kutsu ryhmäkeskusteluun"
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:140
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:206
 msgid "Unmute"
-msgstr ""
+msgstr "Poista mykistys"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:511
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:559
@@ -1156,14 +1140,13 @@ msgstr "Mykistä"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:514
 msgid "Leave and Close"
-msgstr ""
+msgstr "Poistu ja sulje"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:555
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:623
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:126
-#, fuzzy
 msgid "Edit Alias"
-msgstr "Alias"
+msgstr "Muokkaa lempinimeä"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:563
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:705
@@ -1191,54 +1174,52 @@ msgstr "Tallenna"
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:657
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:202
 msgid "Unmute contact?"
-msgstr ""
+msgstr "Poista yhteystiedon mykistys?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:658
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:203
 #, c-format
 msgid "This will enable notifications from %s."
-msgstr ""
+msgstr "Tämä ottaa käyttöön ilmoitukset käyttäjältä %s."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:676
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:222
 msgid "Mute contact?"
-msgstr ""
+msgstr "Mykistä yhteystieto?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:677
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:223
 #, c-format
 msgid "This will disable notifications from %s."
-msgstr ""
+msgstr "Tämä poistaa ilmoitukset käyttäjältä %s."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:701
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:246
-#, fuzzy
 msgid "Unblock contact?"
-msgstr "Kumoa esto"
+msgstr "Poista yhteystiedon esto?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:702
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:247
-#, fuzzy, c-format
+# c-format
 msgid "This will allow %s to send you messages again."
-msgstr "Tämä konferenssi ei salli viestien lähettämistä."
+msgstr "Tämä sallii %s lähettää sinulle viestejä uudelleen."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:720
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:266
 msgid "Block contact?"
-msgstr ""
+msgstr "Estä yhteystieto?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:721
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:267
 #, c-format
 msgid "This will prevent %s from sending you messages."
-msgstr ""
+msgstr "Tämä estää käyttäjää %s lähettämästä viestejä."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:741
 #: main/src/windows/conversation_details.vala:57
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:288
-#, fuzzy
 msgid "Remove contact?"
-msgstr "Poista tili"
+msgstr "Poista yhteystieto?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:742
 #, c-format
@@ -1248,23 +1229,22 @@ msgid ""
 "• Remove %s from your contact list\n"
 "\n"
 "This action cannot be undone."
-msgstr ""
+msgstr "Tämä:\n• Poistaa kaiken keskusteluhistorian\n• Poistaa henkilön %s yhteystietoluettelostasi\n\nTätä toimintoa ei voi kumota."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:787
-#, fuzzy
 msgid "Delete all message history?"
-msgstr "Viestihistoria"
+msgstr "Poista kaikki viestihistoria?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:788
 msgid ""
 "This will permanently delete all messages in this conversation. This action "
 "cannot be undone."
-msgstr ""
+msgstr "Tämä poistaa pysyvästi kaikki viestit tästä keskustelusta. Tätä toimintoa ei voi perua."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:791
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
 msgid "Delete"
-msgstr ""
+msgstr "Poista"
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:14
 msgid "Start call"
@@ -1280,26 +1260,25 @@ msgstr "Videopuhelu"
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:79
 msgid "Conference Server Required"
-msgstr ""
+msgstr "Konferenssipalvelin vaaditaan"
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:80
 msgid ""
 "To start a group call, you need to configure a default conference server in "
 "your account settings."
-msgstr ""
+msgstr "Aloittaaksesi ryhmäpuhelun sinun on määritettävä oletuskonferenssipalvelin tiliasetuksissasi."
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:84
-#, fuzzy
 msgid "Open Settings"
-msgstr "Asetukset"
+msgstr "Avaa asetukset"
 
 #: main/src/ui/conversation_titlebar/menu_entry.vala:47
 msgid "Delete all message history for this conversation?"
-msgstr ""
+msgstr "Poista kaikki tämän keskustelun viestit?"
 
 #: main/src/ui/conversation_titlebar/menu_entry.vala:49
 msgid "This action cannot be undone."
-msgstr ""
+msgstr "Tätä toimintoa ei voi kumota."
 
 #: main/src/ui/conversation_titlebar/menu_entry.vala:85
 msgid "Close Conversation"
@@ -1334,9 +1313,8 @@ msgid "With %s"
 msgstr "%s:n kanssa"
 
 #: main/src/ui/main_window.vala:156
-#, fuzzy
 msgid "Join Channel Help"
-msgstr "Liity kanavalle"
+msgstr "Kanavalle liittymisen ohje"
 
 #: main/src/ui/main_window.vala:157
 msgid ""
@@ -1345,12 +1323,11 @@ msgid ""
 "\n"
 "If you need a password or a nickname, provide them in the dialog. Use the "
 "discovery features in the server to find public rooms."
-msgstr ""
+msgstr "Liittyäksesi kanavalle, napsauta \"Liity kanavalle\" -painiketta ja anna kanavan JID (esimerkki: room@conference.example.org).\n\nJos tarvitset salasanan tai lempinimen, anna ne valintaikkunassa. Käytä palvelimen etsintäominaisuuksia julkisten huoneiden löytämiseen."
 
 #: main/src/ui/main_window.vala:206
-#, fuzzy
 msgid "Welcome to DinoX!"
-msgstr "Tervetuloa, tämä on Dino!"
+msgstr "Tervetuloa DinoX:ään!"
 
 #: main/src/ui/main_window.vala:207
 msgid "Sign in or create an account to get started."
@@ -1433,20 +1410,17 @@ msgstr "Aloita yksityiskeskustelu"
 
 #: main/src/ui/occupant_menu/view.vala:125
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:157
-#, fuzzy
 msgid "Unblock Contact"
-msgstr "Kumoa esto"
+msgstr "Poista yhteystiedon esto"
 
 #: main/src/ui/occupant_menu/view.vala:127
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:157
-#, fuzzy
 msgid "Block Contact"
-msgstr "Lisää yhteystieto"
+msgstr "Estä yhteystieto"
 
 #: main/src/ui/occupant_menu/view.vala:133
-#, fuzzy
 msgid "Moderation"
-msgstr "Moderoitu"
+msgstr "Moderointi"
 
 #: main/src/ui/occupant_menu/view.vala:135
 msgid "Kick"
@@ -1454,52 +1428,47 @@ msgstr "Potkaise pihalle"
 
 #: main/src/ui/occupant_menu/view.vala:139
 msgid "Ban (Permanent)"
-msgstr ""
+msgstr "Porttikielto (Pysyvä)"
 
 #: main/src/ui/occupant_menu/view.vala:140
 msgid "Ban (10 min)"
-msgstr ""
+msgstr "Porttikielto (10 min)"
 
 #: main/src/ui/occupant_menu/view.vala:141
 msgid "Ban (15 min)"
-msgstr ""
+msgstr "Porttikielto (15 min)"
 
 #: main/src/ui/occupant_menu/view.vala:142
 msgid "Ban (30 min)"
-msgstr ""
+msgstr "Porttikielto (30 min)"
 
 #: main/src/ui/occupant_menu/view.vala:146
-#, fuzzy
 msgid "Administration"
-msgstr "Lisää reaktio"
+msgstr "Hallinto"
 
 #: main/src/ui/occupant_menu/view.vala:150
-#, fuzzy
 msgid "Make Admin"
-msgstr "Ylläpitäjä"
+msgstr "Tee ylläpitäjäksi"
 
 #: main/src/ui/occupant_menu/view.vala:152
 msgid "Revoke Admin"
-msgstr ""
+msgstr "Poista ylläpitäjäoikeudet"
 
 #: main/src/ui/occupant_menu/view.vala:156
-#, fuzzy
 msgid "Make Owner"
-msgstr "Omistaja"
+msgstr "Tee omistajaksi"
 
 #: main/src/ui/occupant_menu/view.vala:161
-#, fuzzy
 msgid "Make Member"
-msgstr "Jäsen"
+msgstr "Tee jäseneksi"
 
 #: main/src/ui/occupant_menu/view.vala:163
-#, fuzzy
 msgid "Revoke Membership"
-msgstr "Kumoa kirjoitusoikeus"
+msgstr "Peruuta jäsenyys"
 
 #: main/src/ui/occupant_menu/view.vala:228
 msgid "Kicked by moderator"
-msgstr ""
+msgstr "Moderaattori poisti"
 
 #: main/src/ui/occupant_menu/view.vala:275
 msgid "Invite to Conference"
@@ -1512,17 +1481,17 @@ msgstr "Lopeta"
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
 "A friendly name shown in room listings (does not change the room address)"
-msgstr ""
+msgstr "Ystävällinen nimi, joka näytetään huoneluetteloissa (ei muuta huoneen osoitetta)"
+"Ystävällinen nimi huoneluetteloissa (ei muuta huoneen osoitetta)"
+"Ystävällinen nimi huonelistoissa (ei muuta huoneen osoitetta)"
 
 #: main/src/ui/util/data_forms.vala:44
-#, fuzzy
 msgid "Description"
-msgstr "Salaus"
+msgstr "Kuvaus"
 
 #: main/src/ui/util/data_forms.vala:45
-#, fuzzy
 msgid "A description of the room shown in room listings"
-msgstr "Huoneen kuvaus"
+msgstr "Huoneen kuvaus huoneluetteloissa"
 
 #: main/src/ui/util/data_forms.vala:48
 msgid "Persistent"
@@ -1538,7 +1507,7 @@ msgstr "Julkisesti löydettävissä"
 
 #: main/src/ui/util/data_forms.vala:53
 msgid "The room will appear in public room listings"
-msgstr ""
+msgstr "Huone näkyy julkisissa huonelistoissa"
 
 #: main/src/ui/util/data_forms.vala:56
 msgid "Occupants may change the subject"
@@ -1568,7 +1537,7 @@ msgstr "Vain jäsenille"
 msgid ""
 "Only members may enter the room. Warning: Non-members will be removed when "
 "enabled!"
-msgstr ""
+msgstr "Vain jäsenet voivat tulla huoneeseen. Varoitus: Ei-jäsenet poistetaan kun käytössä!"
 
 #: main/src/ui/util/helper.vala:65
 #, c-format
@@ -1588,7 +1557,7 @@ msgstr "%a, %d %b"
 msgid ""
 "This contact will be removed from your contact list and all conversation "
 "history will be permanently deleted."
-msgstr ""
+msgstr "Tämä yhteystieto poistetaan yhteystietoluettelostasi ja kaikki keskusteluhistoria poistetaan pysyvästi."
 
 #: main/src/windows/conversation_details.vala:108
 msgid "Block user"
@@ -1750,13 +1719,12 @@ msgid "Check %s for information on how to sign up"
 msgstr "Tarkista %s ohjeet kirjautumiseen"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:192
-#, fuzzy
 msgid "No contacts"
-msgstr "Lisää yhteystieto"
+msgstr "Ei yhteystietoja"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:193
 msgid "Add contacts to start chatting"
-msgstr ""
+msgstr "Lisää yhteystietoja aloittaaksesi keskustelun"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:289
 #, c-format
@@ -1764,20 +1732,21 @@ msgid ""
 "This will remove %s from your contact list and delete all conversation "
 "history."
 msgstr ""
+"%s poistetaan yhteystietoluettelostasi ja kaikki keskusteluhistoria "
+"poistetaan."
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:318
-#, fuzzy
 msgid "Edit Contact Alias"
-msgstr "Lisää yhteystieto"
+msgstr "Muokkaa yhteystiedon lempinimeä"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:319
 #, c-format
 msgid "Change the display name for %s"
-msgstr ""
+msgstr "Muuta näyttönimeä käyttäjälle %s"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:325
 msgid "Alias (optional)"
-msgstr ""
+msgstr "Alias (valinnainen)"
 
 #~ msgid "Message too long"
 #~ msgstr "Viesti liian pitkä"
