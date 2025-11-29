@@ -6,7 +6,6 @@
 
 [![License: GPL-3.0](https://img.shields.io/badge/License-GPL%203.0-blue.svg)](LICENSE)
 [![GTK4](https://img.shields.io/badge/GTK-4.14.5-4a86cf.svg)](https://www.gtk.org/)
-[![Flatpak](https://img.shields.io/flathub/v/im.github.rallep71.DinoX)](https://flathub.org/apps/im.github.rallep71.DinoX)
 [![Release](https://img.shields.io/github/v/release/rallep71/dinox)](https://github.com/rallep71/dinox/releases)
 
 **Modern XMPP Messenger for Linux**
@@ -45,16 +44,14 @@ Based on the excellent [Dino](https://dino.im) project, DinoX adds additional fe
 
 ## Installation
 
-### Flatpak (Recommended)
+### Flatpak
+
+Download from [GitHub Releases](https://github.com/rallep71/dinox/releases/latest)
 
 ```bash
-flatpak install flathub im.github.rallep71.DinoX
+flatpak install --user DinoX.flatpak
 flatpak run im.github.rallep71.DinoX
 ```
-
-<a href="https://flathub.org/apps/im.github.rallep71.DinoX">
-  <img src="https://flathub.org/api/badge?locale=en" alt="Download on Flathub" width="200">
-</a>
 
 ### AppImage
 
