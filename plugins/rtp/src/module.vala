@@ -173,8 +173,26 @@ public class Dino.Plugins.Rtp.Module : JingleRtp.Module {
 
     public override async JingleRtp.PayloadType? pick_payload_type(string media, Gee.List<JingleRtp.PayloadType> payloads) {
         if (media == "audio" || media == "video") {
+            // Prefer our codec priority order for better quality
+            // Check for high-quality codecs first, even if not first in remote list
+            string[] preferred_audio = {"opus", "speex", "g722", "pcmu", "pcma"};
+            string[] preferred_video = {"h264", "vp9", "vp8"};
+            string[] preferred = media == "audio" ? preferred_audio : preferred_video;
+            
+            foreach (string codec_name in preferred) {
+                foreach (JingleRtp.PayloadType type in payloads) {
+                    if (type.name.down() == codec_name && (yield is_payload_supported(media, type))) {
+                        debug("Selected %s codec (our preference) for %s", type.name, media);
+                        return adjust_payload_type(media, type.clone());
+                    }
+                }
+            }
+            // Fallback: accept any supported codec from remote list
             foreach (JingleRtp.PayloadType type in payloads) {
-                if (yield is_payload_supported(media, type)) return adjust_payload_type(media, type.clone());
+                if (yield is_payload_supported(media, type)) {
+                    debug("Selected %s codec (remote preference) for %s", type.name, media);
+                    return adjust_payload_type(media, type.clone());
+                }
             }
         } else {
             warning("Unsupported media type: %s", media);
