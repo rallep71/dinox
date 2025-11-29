@@ -22,6 +22,16 @@ namespace Dino.Ui {
         public bool shows_video = false;
         public string? participant_name;
 
+        // Volume control for this participant
+        private Box volume_box = new Box(Orientation.HORIZONTAL, 6) { valign=Align.END, halign=Align.CENTER, margin_bottom=10, margin_start=20, margin_end=20 };
+        private Image volume_icon = new Image.from_icon_name("audio-volume-high-symbolic") { margin_end=4 };
+        private Gtk.Scale volume_scale = new Gtk.Scale.with_range(Orientation.HORIZONTAL, 0.0, 1.0, 0.05) { 
+            draw_value=false, 
+            hexpand=true,
+            width_request=120
+        };
+        public signal void volume_changed(double volume);
+
         bool is_highest_row = false;
         bool is_start_row = false;
         public bool controls_active { get; set; }
@@ -61,8 +71,20 @@ namespace Dino.Ui {
 
             invite_button.clicked.connect(() => invite_button_clicked());
 
+            // Setup volume control slider
+            volume_scale.set_value(1.0);
+            volume_box.append(volume_icon);
+            volume_box.append(volume_scale);
+            volume_box.add_css_class("participant-volume-box");
+            volume_scale.value_changed.connect(() => {
+                double vol = volume_scale.get_value();
+                update_volume_icon(vol);
+                volume_changed(vol);
+            });
+
             this.append(overlay);
             overlay.add_overlay(header_bar);
+            overlay.add_overlay(volume_box);
 
             this.notify["controls-active"].connect(reveal_or_hide_controls);
             this.notify["may-show-invite-button"].connect(reveal_or_hide_controls);
@@ -131,12 +153,34 @@ namespace Dino.Ui {
             }
         }
 
+        public void set_volume(double volume) {
+            volume_scale.set_value(volume);
+            update_volume_icon(volume);
+        }
+
+        public double get_volume() {
+            return volume_scale.get_value();
+        }
+
+        private void update_volume_icon(double volume) {
+            if (volume <= 0.0) {
+                volume_icon.icon_name = "audio-volume-muted-symbolic";
+            } else if (volume < 0.33) {
+                volume_icon.icon_name = "audio-volume-low-symbolic";
+            } else if (volume < 0.66) {
+                volume_icon.icon_name = "audio-volume-medium-symbolic";
+            } else {
+                volume_icon.icon_name = "audio-volume-high-symbolic";
+            }
+        }
+
         public bool is_menu_active() {
             return false;
         }
 
         private void reveal_or_hide_controls() {
             header_bar.opacity = controls_active ? 1.0 : 0.0;
+            volume_box.opacity = controls_active ? 1.0 : 0.0;
             invite_button.visible = may_show_invite_button && is_highest_row && is_start_row;
         }
 

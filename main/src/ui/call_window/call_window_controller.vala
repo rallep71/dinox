@@ -165,6 +165,16 @@ public class Dino.Ui.CallWindowController : Object {
 
         peer_state.connection_ready.connect(() => {
             call_window.set_status(peer_id, "");
+            
+            // Initialize participant volume from stream
+            if (participant_widgets.has_key(peer_id)) {
+                var audio_stream = peer_state.get_audio_stream();
+                if (audio_stream != null) {
+                    double current_volume = call_plugin.get_stream_volume(audio_stream);
+                    participant_widgets[peer_id].set_volume(current_volume);
+                }
+            }
+            
             if (participant_widgets.size == 1) {
                 // This is the first peer.
                 // If it can do MUJI, show invite button.
@@ -264,6 +274,17 @@ public class Dino.Ui.CallWindowController : Object {
             this.call_window.close_request.connect(() => { conn_details_window.close(); return false; });
         });
         invite_handler_ids[participant_id] += participant_widget.invite_button_clicked.connect(() => invite_button_clicked());
+        
+        // Connect volume slider to stream volume control
+        participant_widget.volume_changed.connect((volume) => {
+            if (peer_states.has_key(participant_id)) {
+                var audio_stream = peer_states[participant_id].get_audio_stream();
+                if (audio_stream != null) {
+                    call_plugin.set_stream_volume(audio_stream, volume);
+                }
+            }
+        });
+        
         participant_widgets[participant_id] = participant_widget;
 
         call_window.add_participant(participant_id, participant_widget);

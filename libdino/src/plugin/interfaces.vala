@@ -118,6 +118,10 @@ public interface VideoCallPlugin : Object {
     public abstract double get_device_volume(MediaDevice? device);
     public abstract void set_device_volume(MediaDevice? device, double volume);
 
+    // Per-stream volume control for individual participant audio (0.0 to 1.0)
+    public abstract double get_stream_volume(Xmpp.Xep.JingleRtp.Stream? stream);
+    public abstract void set_stream_volume(Xmpp.Xep.JingleRtp.Stream? stream, double volume);
+
     public abstract void dump_dot();
 }
 

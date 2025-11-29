@@ -524,4 +524,16 @@ public class Dino.Plugins.Rtp.Plugin : RootInterface, VideoCallPlugin, Object {
         if (real_device == null) return;
         real_device.set_volume(volume);
     }
+
+    public double get_stream_volume(Xmpp.Xep.JingleRtp.Stream? stream) {
+        Stream? plugin_stream = stream as Stream?;
+        if (plugin_stream == null || plugin_stream.output_device == null) return 1.0;
+        return plugin_stream.output_device.get_volume();
+    }
+
+    public void set_stream_volume(Xmpp.Xep.JingleRtp.Stream? stream, double volume) {
+        Stream? plugin_stream = stream as Stream?;
+        if (plugin_stream == null || plugin_stream.output_device == null) return;
+        plugin_stream.output_device.set_volume(volume);
+    }
 }
