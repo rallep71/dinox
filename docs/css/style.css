@@ -140,10 +140,17 @@
     box-sizing: border-box;
 }
 
+/* Hide horizontal scrollbars globally */
+::-webkit-scrollbar:horizontal {
+    display: none;
+    height: 0;
+}
+
 html {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
     overflow-x: hidden;
+    scrollbar-width: thin;
 }
 
 body {
@@ -165,14 +172,22 @@ img, svg {
 
 /* Prevent horizontal overflow from any element */
 .container, section, main, footer, header {
-    max-width: 100vw;
+    max-width: 100%;
     overflow-x: hidden;
 }
 
 /* Navbar needs overflow visible for mobile menu dropdown */
 nav.navbar {
-    max-width: 100vw;
+    max-width: 100%;
     overflow: visible;
+}
+
+/* Global pre/code - prevent scrollbars */
+pre, code {
+    max-width: 100%;
+    overflow-x: hidden;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 a {
