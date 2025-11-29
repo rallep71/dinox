@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.7.6] - 2025-11-29
+
+### Fixed
+- **Call Stability** - Fixed null pointer crash in GStreamer device cleanup
+- **OMEMO Call Sessions** - Auto-refresh stale OMEMO bundles when call decryption fails
+- **Audio Quality** - Prefer Opus codec (48kHz) over legacy PCMA (8kHz) for much better sound
+
+### Changed
+- Volume slider now only shown in group calls (not needed for 1:1 calls)
+- Codec selection prioritizes high-quality codecs: Opus > Speex > G.722 > PCMU > PCMA
+
 ## [0.7.5] - 2025-11-29
 
 ### Added

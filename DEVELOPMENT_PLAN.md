@@ -1,7 +1,7 @@
 # DinoX - Development Plan
 
 > **Last Updated**: November 29, 2025  
-> **Version**: 0.7.5
+> **Version**: 0.7.6
 
 ---
 
@@ -9,7 +9,7 @@
 
 | Metric | Status |
 |--------|--------|
-| **Version** | v0.7.5 |
+| **Version** | v0.7.6 |
 | **XEPs Implemented** | 67 |
 | **Languages** | 45 (100% translated) |
 | **Build Status** | Clean (0 warnings) |
