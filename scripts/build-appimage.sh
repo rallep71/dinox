@@ -216,10 +216,19 @@ export DINO_PLUGIN_DIR="$APPDIR/usr/lib/dino/plugins"
 export GST_PLUGIN_PATH="$APPDIR/usr/lib/gstreamer-1.0:/usr/lib/x86_64-linux-gnu/gstreamer-1.0"
 export GST_PLUGIN_SYSTEM_PATH="$APPDIR/usr/lib/gstreamer-1.0:/usr/lib/x86_64-linux-gnu/gstreamer-1.0"
 
-# Use bundled scanner if available, otherwise system scanner
-if [ -x "$APPDIR/usr/lib/gstreamer-1.0/gst-plugin-scanner" ]; then
-    export GST_PLUGIN_SCANNER="$APPDIR/usr/lib/gstreamer-1.0/gst-plugin-scanner"
-fi
+# Don't fork for plugin scanning - avoids issues with bundled scanner
+export GST_REGISTRY_FORK=no
+
+# Use system gst-plugin-scanner (we don't bundle it anymore)
+for scanner in \
+    "/usr/libexec/gstreamer-1.0/gst-plugin-scanner" \
+    "/usr/lib/x86_64-linux-gnu/gstreamer1.0/gstreamer-1.0/gst-plugin-scanner" \
+    "/usr/lib/gstreamer-1.0/gst-plugin-scanner"; do
+    if [ -x "$scanner" ]; then
+        export GST_PLUGIN_SCANNER="$scanner"
+        break
+    fi
+done
 
 # Set GStreamer registry (per-user cache)
 export GST_REGISTRY="$HOME/.cache/dinox/gstreamer-1.0/registry.x86_64.bin"
@@ -355,6 +364,11 @@ create_appimage() {
     for pattern in "${BLACKLIST[@]}"; do
         find "$APPDIR/usr/lib" -name "$pattern" -delete 2>/dev/null || true
     done
+    
+    # Also remove gst-plugin-scanner - it won't work without libc anyway
+    # GStreamer works fine without it (uses host scanner or no scanning)
+    rm -f "$APPDIR/usr/lib/gstreamer-1.0/gst-plugin-scanner" 2>/dev/null || true
+    
     log_info "Blacklisted libraries removed!"
     
     # Update information for AppImageUpdate (GitHub Releases)

@@ -191,6 +191,16 @@
   <url type="translate">https://hosted.weblate.org/projects/dino/</url>
   <launchable type="desktop-id">im.github.rallep71.DinoX.desktop</launchable>
   <releases>
+    <release date="2025-11-29" version="0.7.3">
+      <description>
+        <p>GStreamer plugin scanner fix for AppImage.</p>
+        <ul>
+          <li>Fixed "External plugin loader failed" GStreamer warning</li>
+          <li>Removed bundled gst-plugin-scanner that caused issues</li>
+          <li>AppImage now uses system GStreamer scanner properly</li>
+        </ul>
+      </description>
+    </release>
     <release date="2025-11-29" version="0.7.2">
       <description>
         <p>AppImage compatibility fix and auto-update support.</p>

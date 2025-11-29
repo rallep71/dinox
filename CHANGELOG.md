@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.7.3] - 2025-11-29
+
+### Fixed
+- **GStreamer Plugin Scanner** - Fixed "External plugin loader failed" warning
+  - Removed bundled gst-plugin-scanner (doesn't work without libc)
+  - Set GST_REGISTRY_FORK=no to avoid forking issues
+  - AppImage now uses system gst-plugin-scanner with proper fallbacks
+  - Based on GStreamer documentation and msys2/MINGW-packages#20492
+
 ## [0.7.2] - 2025-11-29
 
 ### Fixed
@@ -374,7 +383,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This is the base version from [dino/dino](https://github.com/dino/dino) that we forked from.
 
-[Unreleased]: https://github.com/rallep71/dinox/compare/v0.7.2...HEAD
+[Unreleased]: https://github.com/rallep71/dinox/compare/v0.7.3...HEAD
+[0.7.3]: https://github.com/rallep71/dinox/releases/tag/v0.7.3
 [0.7.2]: https://github.com/rallep71/dinox/releases/tag/v0.7.2
 [0.7.1]: https://github.com/rallep71/dinox/releases/tag/v0.7.1
 [0.7]: https://github.com/rallep71/dinox/releases/tag/v0.7
