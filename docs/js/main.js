@@ -1,11 +1,85 @@
 /**
  * DinoX Website - Main JavaScript
- * Theme Toggle, Mobile Menu, Smooth Scroll, Back to Top
+ * Theme Toggle, Mobile Menu, Smooth Scroll, Back to Top, Auto Version Update
  * No external dependencies - pure vanilla JS
  */
 
 (function() {
     'use strict';
+
+    // ===== GitHub Release Auto-Update =====
+    const GITHUB_API = 'https://api.github.com/repos/rallep71/dinox/releases/latest';
+    const VERSION_CACHE_KEY = 'dinox-release-cache';
+    const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+    
+    async function fetchLatestRelease() {
+        // Check cache first
+        const cached = localStorage.getItem(VERSION_CACHE_KEY);
+        if (cached) {
+            const { data, timestamp } = JSON.parse(cached);
+            if (Date.now() - timestamp < CACHE_DURATION) {
+                return data;
+            }
+        }
+        
+        try {
+            const response = await fetch(GITHUB_API);
+            if (!response.ok) throw new Error('GitHub API error');
+            const data = await response.json();
+            
+            // Cache the result
+            localStorage.setItem(VERSION_CACHE_KEY, JSON.stringify({
+                data: data,
+                timestamp: Date.now()
+            }));
+            
+            return data;
+        } catch (error) {
+            console.warn('Could not fetch latest release:', error);
+            return null;
+        }
+    }
+    
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return date.toLocaleDateString('en-US', options);
+    }
+    
+    function updateVersionDisplay(release) {
+        if (!release) return;
+        
+        const version = release.tag_name.replace('v', '');
+        const date = formatDate(release.published_at);
+        
+        // Update hero badge
+        const heroBadge = document.querySelector('.hero-badge span');
+        if (heroBadge) {
+            heroBadge.textContent = `Version ${version} available`;
+        }
+        
+        // Update schema.org version
+        const schemaScript = document.querySelector('script[type="application/ld+json"]');
+        if (schemaScript) {
+            try {
+                const schema = JSON.parse(schemaScript.textContent);
+                schema.softwareVersion = version;
+                schemaScript.textContent = JSON.stringify(schema, null, 2);
+            } catch (e) {}
+        }
+        
+        // Update first changelog entry (latest version)
+        const firstChangelog = document.querySelector('.changelog-item:first-child');
+        if (firstChangelog) {
+            const versionSpan = firstChangelog.querySelector('.changelog-version');
+            const dateDiv = firstChangelog.querySelector('.changelog-date');
+            if (versionSpan) versionSpan.textContent = `v${version}`;
+            if (dateDiv) dateDiv.textContent = date;
+        }
+    }
+    
+    // Fetch and update on page load
+    fetchLatestRelease().then(updateVersionDisplay);
 
     // ===== DOM Elements =====
     const themeToggle = document.getElementById('themeToggle');
