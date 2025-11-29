@@ -936,11 +936,10 @@ section {
     .download-grid {
         grid-template-columns: repeat(2, 1fr);
     }
-}
-
-@media (min-width: 1024px) {
-    .download-grid {
-        grid-template-columns: repeat(3, 1fr);
+    
+    /* Source Code card spans full width */
+    .download-card:last-child {
+        grid-column: 1 / -1;
     }
 }
 
@@ -1015,8 +1014,7 @@ section {
     background: var(--bg-code);
     padding: var(--space-md);
     border-radius: var(--radius-md);
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+    overflow-x: hidden;
     margin-bottom: var(--space-lg);
     font-family: var(--font-mono);
     font-size: 0.7rem;
@@ -1813,8 +1811,7 @@ section {
 
 /* Tags Mobile - Horizontal Scroll */
 .hero-tags {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+    overflow-x: hidden;
     scrollbar-width: none;
     -ms-overflow-style: none;
     padding-bottom: var(--space-sm);
