@@ -323,10 +323,16 @@ jobs:
           VERSION=$(cat VERSION | grep RELEASE | awk '{print $2}')
           APPIMAGE_NAME="DinoX-$VERSION-x86_64.AppImage"
           
-          ARCH=x86_64 ./appimagetool-x86_64.AppImage AppDir "$APPIMAGE_NAME"
+          # Update information for automatic updates via GitHub Releases
+          UPDATE_INFO="gh-releases-zsync|rallep71|dinox|latest|DinoX-*-x86_64.AppImage.zsync"
+          
+          # Create AppImage with update support and zsync
+          ARCH=x86_64 ./appimagetool-x86_64.AppImage \
+            --updateinformation "$UPDATE_INFO" \
+            AppDir "$APPIMAGE_NAME"
           
           echo "AppImage created: $APPIMAGE_NAME"
-          ls -lh "$APPIMAGE_NAME"
+          ls -lh "$APPIMAGE_NAME"*
           
           # Create checksums
           sha256sum "$APPIMAGE_NAME" > "$APPIMAGE_NAME.sha256"
@@ -340,6 +346,7 @@ jobs:
           name: DinoX-AppImage
           path: |
             DinoX-*.AppImage
+            DinoX-*.AppImage.zsync
             DinoX-*.AppImage.sha256
       
       - name: Create Release
@@ -348,6 +355,7 @@ jobs:
         with:
           files: |
             DinoX-*.AppImage
+            DinoX-*.AppImage.zsync
             DinoX-*.AppImage.sha256
           body: |
             ## DinoX AppImage Release

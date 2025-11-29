@@ -303,19 +303,33 @@ create_appimage() {
     VERSION=$(cat "$PROJECT_ROOT/VERSION" | grep RELEASE | awk '{print $2}')
     APPIMAGE_NAME="DinoX-$VERSION-x86_64.AppImage"
     
-    # Remove old AppImage
+    # Remove old AppImage and zsync
     rm -f "$APPIMAGE_NAME"
+    rm -f "$APPIMAGE_NAME.zsync"
     
-    # Create AppImage
-    log_info "Running appimagetool..."
-    ARCH=x86_64 "$BUILD_DIR/appimagetool-x86_64.AppImage" "$APPDIR" "$APPIMAGE_NAME"
+    # Update information for AppImageUpdate (GitHub Releases)
+    UPDATE_INFO="gh-releases-zsync|rallep71|dinox|latest|DinoX-*-x86_64.AppImage.zsync"
+    
+    # Create AppImage with update information and zsync
+    log_info "Running appimagetool with update support..."
+    ARCH=x86_64 "$BUILD_DIR/appimagetool-x86_64.AppImage" \
+        --updateinformation "$UPDATE_INFO" \
+        "$APPDIR" "$APPIMAGE_NAME"
     
     if [ -f "$APPIMAGE_NAME" ]; then
         log_info "AppImage created successfully: $APPIMAGE_NAME"
         log_info "Size: $(du -h "$APPIMAGE_NAME" | cut -f1)"
+        
+        # Check for zsync file
+        if [ -f "$APPIMAGE_NAME.zsync" ]; then
+            log_info "Zsync file created: $APPIMAGE_NAME.zsync"
+            log_info "Delta updates enabled!"
+        fi
+        
         log_info ""
         log_info "To test: ./$APPIMAGE_NAME"
         log_info "To install: Move to ~/Applications or ~/.local/bin/"
+        log_info "To update: Use AppImageUpdate or run with --appimage-update"
     else
         log_error "Failed to create AppImage!"
         exit 1
