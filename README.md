@@ -89,55 +89,55 @@ DinoX implements **67 XMPP Extension Protocols**. Here are the key ones with ful
 ### Messaging
 | XEP | Name | Status |
 |-----|------|--------|
-| XEP-0085 | Chat State Notifications | ✅ Full |
-| XEP-0184 | Message Delivery Receipts | ✅ Full |
-| XEP-0308 | Last Message Correction | ✅ Full |
-| XEP-0313 | Message Archive Management | ✅ Full |
-| XEP-0333 | Chat Markers | ✅ Full |
-| XEP-0424 | Message Retraction | ✅ Full |
-| XEP-0444 | Message Reactions | ✅ Full |
-| XEP-0461 | Message Replies | ✅ Full |
+| XEP-0085 | Chat State Notifications | Full |
+| XEP-0184 | Message Delivery Receipts | Full |
+| XEP-0308 | Last Message Correction | Full |
+| XEP-0313 | Message Archive Management | Full |
+| XEP-0333 | Chat Markers | Full |
+| XEP-0424 | Message Retraction | Full |
+| XEP-0444 | Message Reactions | Full |
+| XEP-0461 | Message Replies | Full |
 
 ### Security
 | XEP | Name | Status |
 |-----|------|--------|
-| XEP-0384 | OMEMO Encryption | ✅ Full |
-| XEP-0373 | OpenPGP for XMPP | ✅ Full |
-| XEP-0454 | OMEMO Media Sharing | ✅ Full |
+| XEP-0384 | OMEMO Encryption | Full |
+| XEP-0373 | OpenPGP for XMPP | Full |
+| XEP-0454 | OMEMO Media Sharing | Full |
 
 ### Voice & Video
 | XEP | Name | Status |
 |-----|------|--------|
-| XEP-0166 | Jingle | ✅ Full |
-| XEP-0167 | Jingle RTP | ✅ Full |
-| XEP-0272 | MUJI (Group Calls) | ✅ Full |
-| XEP-0176 | Jingle ICE | ✅ Full |
-| XEP-0320 | Jingle DTLS | ✅ Full |
+| XEP-0166 | Jingle | Full |
+| XEP-0167 | Jingle RTP | Full |
+| XEP-0272 | MUJI (Group Calls) | Full |
+| XEP-0176 | Jingle ICE | Full |
+| XEP-0320 | Jingle DTLS | Full |
 
 ### Multi-User Chat
 | XEP | Name | Status |
 |-----|------|--------|
-| XEP-0045 | Multi-User Chat | ✅ Full |
-| XEP-0249 | Direct MUC Invitations | ✅ Full |
-| XEP-0421 | Anonymous Unique IDs | ✅ Full |
-| XEP-0425 | Message Moderation | ✅ Full |
+| XEP-0045 | Multi-User Chat | Full |
+| XEP-0249 | Direct MUC Invitations | Full |
+| XEP-0421 | Anonymous Unique IDs | Full |
+| XEP-0425 | Message Moderation | Full |
 
 ### File Transfer
 | XEP | Name | Status |
 |-----|------|--------|
-| XEP-0363 | HTTP File Upload | ✅ Full |
-| XEP-0234 | Jingle File Transfer | ✅ Full |
-| XEP-0447 | Stateless File Sharing | ✅ Full |
+| XEP-0363 | HTTP File Upload | Full |
+| XEP-0234 | Jingle File Transfer | Full |
+| XEP-0447 | Stateless File Sharing | Full |
 
 ### Core
 | XEP | Name | Status |
 |-----|------|--------|
-| XEP-0030 | Service Discovery | ✅ Full |
-| XEP-0115 | Entity Capabilities | ✅ Full |
-| XEP-0198 | Stream Management | ✅ Full |
-| XEP-0280 | Message Carbons | ✅ Full |
-| XEP-0352 | Client State Indication | ✅ Full |
-| XEP-0368 | SRV for XMPP over TLS | ✅ Full |
+| XEP-0030 | Service Discovery | Full |
+| XEP-0115 | Entity Capabilities | Full |
+| XEP-0198 | Stream Management | Full |
+| XEP-0280 | Message Carbons | Full |
+| XEP-0352 | Client State Indication | Full |
+| XEP-0368 | SRV for XMPP over TLS | Full |
 
 ## Screenshots
 
@@ -177,8 +177,8 @@ See [DEBUG.md](DEBUG.md) for debugging instructions.
 
 <div align="center">
 
-**Made with ❤️ for the XMPP community**
+**Made for the XMPP community**
 
-[⭐ Star on GitHub](https://github.com/rallep71/dinox) • [🐛 Report Issues](https://github.com/rallep71/dinox/issues) • [☕ Support](https://ko-fi.com/rallep)
+[Star on GitHub](https://github.com/rallep71/dinox) | [Report Issues](https://github.com/rallep71/dinox/issues) | [Support](https://ko-fi.com/rallep)
 
 </div>

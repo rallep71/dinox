@@ -1,26 +1,26 @@
-## 📝 Description
+## Description
 
 <!-- Briefly describe what this PR does -->
 
-## 🔗 Related Issues
+## Related Issues
 
 <!-- Link related issues -->
 Fixes #
 Closes #
 Related to #
 
-## 🎯 Type of Change
+## Type of Change
 
 <!-- Mark with [x] -->
-- [ ] 🐛 Bug fix (non-breaking change fixing an issue)
-- [ ] ✨ New feature (non-breaking change adding functionality)
-- [ ] 💥 Breaking change (fix or feature causing existing functionality to not work as expected)
-- [ ] 📝 Documentation update
-- [ ] 🎨 Code style/refactoring (no functional changes)
-- [ ] ⚡ Performance improvement
-- [ ] 🧪 Test addition/modification
+- [ ] Bug fix (non-breaking change fixing an issue)
+- [ ] New feature (non-breaking change adding functionality)
+- [ ] Breaking change (fix or feature causing existing functionality to not work as expected)
+- [ ] Documentation update
+- [ ] Code style/refactoring (no functional changes)
+- [ ] Performance improvement
+- [ ] Test addition/modification
 
-## 🧪 Testing Done
+## Testing Done
 
 <!-- Describe the tests you ran -->
 - [ ] Tested manually on: ___
@@ -35,7 +35,7 @@ Related to #
 - Desktop Environment: 
 - Dino Version: 
 
-## 📸 Screenshots
+## Screenshots
 
 <!-- If UI changes, add before/after screenshots -->
 
@@ -53,7 +53,7 @@ Related to #
 
 </details>
 
-## ✅ Checklist
+## Checklist
 
 <!-- Mark completed items with [x] -->
 
@@ -84,11 +84,11 @@ Related to #
 - [ ] Or: Database migration added and tested
 - [ ] Or: Migration documented in [DATABASE_SCHEMA.md](../docs/DATABASE_SCHEMA.md)
 
-## 🔍 Additional Notes
+## Additional Notes
 
 <!-- Any additional information for reviewers -->
 
-## 📋 Review Checklist (for maintainers)
+## Review Checklist (for maintainers)
 
 - [ ] Code review completed
 - [ ] Tested locally

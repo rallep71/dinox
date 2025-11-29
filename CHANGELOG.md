@@ -91,11 +91,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Automatic OMEMO enable/disable when room privacy changes
   - When room becomes **public**: OMEMO automatically disabled with warning
   - When room becomes **private**: OMEMO automatically enabled
-  - System notification messages sent to room when privacy changes:
-    - "⚠️ This room is now PUBLIC. OMEMO encryption has been disabled."
-    - "🔒 This room is now PRIVATE (members-only). OMEMO encryption is now available."
+  - System notification messages sent to room when privacy changes
   - Automatic member addition when switching to members-only (prevents Status 322 kicks)
-  - Feature cache refresh after config change (🔒 icon updates immediately)
+  - Feature cache refresh after config change (lock icon updates immediately)
 
 ### Improved
 - **MUC Tooltip Enhancements** - Better room information display
@@ -123,9 +121,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Dark Mode Toggle** - Manual color scheme control in Preferences → General
   - New "Appearance" section with "Color Scheme" dropdown
   - Three options: "Default (Follow System)", "Light", "Dark"
-  - **Instant switching** - Changes apply immediately without restart
+  - Instant switching - Changes apply immediately without restart
   - Persistent setting saved to database
-  - Fixes upstream issue [#1752](https://github.com/dino/dino/issues/1752) (requested by 54+ users)
   - Implementation: `Adw.StyleManager` with `FORCE_LIGHT`, `FORCE_DARK`, or `DEFAULT` modes
 
 ### Technical Details
@@ -212,9 +209,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - **MUJI Group Calls - Phase 1** - Complete implementation of XEP-0272 (Jingle Multiparty) UI enhancements
-  - **Participant List Sidebar** - Live participant list during group calls with connection status (✓ connected, ⟳ connecting)
+  - **Participant List Sidebar** - Live participant list during group calls with connection status
   - **Private Room Creation** - Checkbox "Create as private room" automatically configures rooms as members-only, non-anonymous, and persistent
-  - **Private Room Indicator** - 🔒 icon in conversation list and group chat dialogs for private rooms
+  - **Private Room Indicator** - Lock icon in conversation list and group chat dialogs for private rooms
   - **MUC Server Warning** - Warning dialog when no default conference server is configured
   - **Group Call Button** - "Start group call" button now only visible for MUC conversations
 
