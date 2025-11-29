@@ -154,7 +154,13 @@ public class Dino.Plugins.Rtp.CodecUtil {
                         "msdkh264dec",
 #endif
 #if ENABLE_VAAPI
-                        "vaapih264dec",
+                        "vah264dec",
+#endif
+#if ENABLE_V4L2
+                        "v4l2h264dec",
+#endif
+#if ENABLE_V4L2SL
+                        "v4l2slh264dec",
 #endif
                         null
                     };
@@ -164,7 +170,13 @@ public class Dino.Plugins.Rtp.CodecUtil {
                         "msdkvp9dec",
 #endif
 #if ENABLE_VAAPI
-                        "vaapivp9dec",
+                        "vavp9dec",
+#endif
+#if ENABLE_V4L2
+                        "v4l2vp9dec",
+#endif
+#if ENABLE_V4L2SL
+                        "v4l2slvp9dec",
 #endif
                         "vp9dec"
                     };
@@ -174,7 +186,13 @@ public class Dino.Plugins.Rtp.CodecUtil {
                         "msdkvp8dec",
 #endif
 #if ENABLE_VAAPI
-                        "vaapivp8dec",
+                        "vavp8dec",
+#endif
+#if ENABLE_V4L2
+                        "v4l2vp8dec",
+#endif
+#if ENABLE_V4L2SL
+                        "v4l2slvp8dec",
 #endif
                         "vp8dec"
                     };
@@ -265,12 +283,13 @@ public class Dino.Plugins.Rtp.CodecUtil {
     }
 
     public static string? get_decode_prefix(string media, string codec, string decode, JingleRtp.PayloadType? payload_type) {
+        if (decode == "vah264dec" || decode == "v4l2h264dec" || decode == "v4l2slh264dec" || decode == "avdec_h264") return "h264parse ! ";
         return null;
     }
 
     public static string? get_decode_args(string media, string codec, string decode, JingleRtp.PayloadType? payload_type) {
         if (decode == "opusdec" && payload_type != null && payload_type.parameters.has("useinbandfec", "1")) return " use-inband-fec=true";
-        if (decode == "vaapivp9dec" || decode == "vaapivp8dec" || decode == "vaapih264dec") return " max-errors=100";
+        if (decode == "vavp8dec" || decode == "v4l2vp8dec" || decode == "v4l2slvp8dec" || decode == "vah264dec" || decode == "v4l2h264dec" || decode == "v4l2slh264dec") return " max-errors=100";
         if (decode == "vp8dec" || decode == "vp9dec") return " threads=8";
         return null;
     }

@@ -75,6 +75,17 @@ endif
 if get_option('plugin-rtp-vaapi').allowed()
     vala_args += ['-D', 'ENABLE_VAAPI']
 endif
+
+option_v4l2_enabled = get_option('plugin-rtp-v4l2').enabled()
+if option_v4l2_enabled
+    vala_args += ['-D', 'ENABLE_V4L2']
+endif
+
+option_v4l2_sl_enabled = (get_option('plugin-rtp-v4l2-sl').allowed() and dep_gstreamer_rtp.version().version_compare('>=1.26'))
+if option_v4l2_sl_enabled
+    vala_args += ['-D', 'ENABLE_V4L2SL']
+endif
+
 if get_option('plugin-rtp-vp9').allowed()
     vala_args += ['-D', 'ENABLE_VP9']
 endif
@@ -88,5 +99,7 @@ if dep_rtp.found()
     summary('VP9 codec', get_option('plugin-rtp-vp9').allowed(), section: 'RTP configuration')
     summary('Intel MediaSDK', get_option('plugin-rtp-msdk').allowed(), section: 'RTP configuration')
     summary('Video Acceleration API', get_option('plugin-rtp-vaapi').allowed(), section: 'RTP configuration')
+    summary('V4L2 API (stateful)', option_v4l2_enabled, section: 'RTP configuration')
+    summary('V4L2 API (stateless)', option_v4l2_sl_enabled, section: 'RTP configuration')
     summary('Voice preprocessing', dep_webrtc_audio_processing.found(), section: 'RTP configuration')
 endif
