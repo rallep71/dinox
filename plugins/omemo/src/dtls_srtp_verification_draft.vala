@@ -78,8 +78,21 @@ namespace Dino.Plugins.Omemo.DtlsSrtpVerificationDraft {
                         break;
                     } catch (Error e) {
                         debug("Decrypting message from %s/%d failed: %s", iq.from.bare_jid.to_string(), parsed_data.sid, e.message);
+                        // Trigger async bundle refresh for next call attempt
+                        refresh_bundles_async.begin(stream, iq.from.bare_jid, parsed_data.sid);
                     }
                 }
+            }
+        }
+        
+        // Asynchronously refresh OMEMO bundles when decryption fails
+        private async void refresh_bundles_async(XmppStream stream, Jid jid, int device_id) {
+            debug("Refreshing OMEMO bundles for %s/%d due to call decryption failure", jid.to_string(), device_id);
+            Omemo.StreamModule? omemo_module = stream.get_module(Omemo.StreamModule.IDENTITY);
+            if (omemo_module != null) {
+                // Request fresh device list and bundles
+                yield omemo_module.request_user_devicelist(stream, jid);
+                omemo_module.fetch_bundle(stream, jid, device_id, false);
             }
         }
 

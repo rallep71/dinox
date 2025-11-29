@@ -532,25 +532,31 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
                 if (linked_sink_pads > 0) {
                     warning("%s-mixer still has %i sink pads while being destroyed", id, linked_sink_pads);
                 }
-                mixer.unlink(plugin.echoprobe ?? element);
+                if (plugin.echoprobe != null) {
+                    mixer.unlink(plugin.echoprobe);
+                } else if (element != null) {
+                    mixer.unlink(element);
+                }
             }
-            if (filter != null) {
+            if (filter != null && element != null) {
                 filter.set_locked_state(true);
                 filter.set_state(Gst.State.NULL);
                 filter.unlink(element);
                 pipe.remove(filter);
                 filter = null;
             }
-            if (plugin.echoprobe != null) {
+            if (plugin.echoprobe != null && element != null) {
                 plugin.echoprobe.unlink(element);
             }
         }
-        element.set_locked_state(true);
-        element.set_state(Gst.State.NULL);
-        if (filter != null) element.unlink(filter);
-        else if (is_source) element.unlink(tee);
-        pipe.remove(element);
-        element = null;
+        if (element != null) {
+            element.set_locked_state(true);
+            element.set_state(Gst.State.NULL);
+            if (filter != null) element.unlink(filter);
+            else if (is_source) element.unlink(tee);
+            pipe.remove(element);
+            element = null;
+        }
         if (mixer != null) {
             mixer.set_locked_state(true);
             mixer.set_state(Gst.State.NULL);

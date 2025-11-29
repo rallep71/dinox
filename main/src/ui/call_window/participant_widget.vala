@@ -21,8 +21,9 @@ namespace Dino.Ui {
         public Button invite_button = new Button.from_icon_name("contact-new-symbolic") { has_frame=false };
         public bool shows_video = false;
         public string? participant_name;
+        public bool show_volume_control { get; set; default = false; }
 
-        // Volume control for this participant
+        // Volume control for this participant (only shown in group calls)
         private Box volume_box = new Box(Orientation.HORIZONTAL, 6) { valign=Align.END, halign=Align.CENTER, margin_bottom=10, margin_start=20, margin_end=20 };
         private Image volume_icon = new Image.from_icon_name("audio-volume-high-symbolic") { margin_end=4 };
         private Gtk.Scale volume_scale = new Gtk.Scale.with_range(Orientation.HORIZONTAL, 0.0, 1.0, 0.05) { 
@@ -85,9 +86,11 @@ namespace Dino.Ui {
             this.append(overlay);
             overlay.add_overlay(header_bar);
             overlay.add_overlay(volume_box);
+            volume_box.visible = false;  // Hidden by default, shown only in group calls
 
             this.notify["controls-active"].connect(reveal_or_hide_controls);
             this.notify["may-show-invite-button"].connect(reveal_or_hide_controls);
+            this.notify["show-volume-control"].connect(reveal_or_hide_controls);
         }
 
         public void on_row_changed(bool is_highest, bool is_lowest, bool is_start, bool is_end) {
@@ -180,7 +183,8 @@ namespace Dino.Ui {
 
         private void reveal_or_hide_controls() {
             header_bar.opacity = controls_active ? 1.0 : 0.0;
-            volume_box.opacity = controls_active ? 1.0 : 0.0;
+            volume_box.visible = show_volume_control;
+            volume_box.opacity = (controls_active && show_volume_control) ? 1.0 : 0.0;
             invite_button.visible = may_show_invite_button && is_highest_row && is_start_row;
         }
 

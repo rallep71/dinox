@@ -166,12 +166,18 @@ public class Dino.Ui.CallWindowController : Object {
         peer_state.connection_ready.connect(() => {
             call_window.set_status(peer_id, "");
             
-            // Initialize participant volume from stream
-            if (participant_widgets.has_key(peer_id)) {
-                var audio_stream = peer_state.get_audio_stream();
-                if (audio_stream != null) {
-                    double current_volume = call_plugin.get_stream_volume(audio_stream);
-                    participant_widgets[peer_id].set_volume(current_volume);
+            // Show volume controls only in group calls (more than 1 participant)
+            if (participant_widgets.size > 1) {
+                // Enable volume controls for all participants in group call
+                participant_widgets.values.@foreach((widget) => widget.show_volume_control = true);
+                
+                // Initialize participant volume from stream
+                if (participant_widgets.has_key(peer_id)) {
+                    var audio_stream = peer_state.get_audio_stream();
+                    if (audio_stream != null) {
+                        double current_volume = call_plugin.get_stream_volume(audio_stream);
+                        participant_widgets[peer_id].set_volume(current_volume);
+                    }
                 }
             }
             

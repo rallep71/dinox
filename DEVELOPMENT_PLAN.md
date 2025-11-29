@@ -69,6 +69,7 @@
 
 | Issue | Description | Status |
 |-------|-------------|--------|
+| OMEMO Call Sessions | Auto-refresh stale OMEMO sessions for calls | PARTIAL |
 | Echo Cancellation | Fine-tuning WebRTC AEC | PARTIAL |
 | Self-signed Certs | Accept/pin dialog | PARTIAL |
 | Spell Checking | Waiting for GTK4 support | BLOCKED |
