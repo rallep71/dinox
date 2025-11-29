@@ -28,6 +28,16 @@
   <url type="translate">https://hosted.weblate.org/projects/dino/</url>
   <launchable type="desktop-id">im.github.rallep71.DinoX.desktop</launchable>
   <releases>
+    <release date="2025-11-29" version="0.7.5">
+      <description>
+        <p>Individual volume control per participant in calls. V4L2 hardware decoding for ARM devices.</p>
+      </description>
+    </release>
+    <release date="2025-11-29" version="0.7.4">
+      <description>
+        <p>Volume controls for microphone and speaker in call settings.</p>
+      </description>
+    </release>
     <release date="2025-04-11" version="0.5">
       <description>
         <p>The 0.5 release improves the user experience around file transfers and includes two completely reworked dialogs.</p>

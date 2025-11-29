@@ -1,7 +1,7 @@
 # DinoX - Development Plan
 
 > **Last Updated**: November 29, 2025  
-> **Version**: 0.7.4
+> **Version**: 0.7.5
 
 ---
 
@@ -9,7 +9,7 @@
 
 | Metric | Status |
 |--------|--------|
-| **Version** | v0.7.4 |
+| **Version** | v0.7.5 |
 | **XEPs Implemented** | 67 |
 | **Languages** | 45 (100% translated) |
 | **Build Status** | Clean (0 warnings) |
@@ -57,7 +57,7 @@
 | Feature | Status |
 |---------|--------|
 | Volume controls | DONE |
-| Individual volume per participant | TODO |
+| Individual volume per participant | DONE |
 | Call quality indicators | TODO |
 | Speaking indicator | DEFERRED |
 

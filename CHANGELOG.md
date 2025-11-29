@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.7.5] - 2025-11-29
+
+### Added
+- **Individual Volume per Participant** - Each call participant has their own volume slider
+  - Volume slider visible on hover over participant video
+  - Icon changes based on volume level (muted/low/medium/high)
+  - Works for 1:1 calls and MUJI group calls
+  - Real-time adjustment of incoming audio per participant
+
+- **V4L2 Hardware Decoding** - ARM device support (Raspberry Pi, etc.)
+  - V4L2 stateful decoder support (opt-in)
+  - V4L2 stateless decoder support (auto, requires GStreamer 1.26+)
+  - H.264, VP8, VP9 hardware decoding on ARM
+  - Based on dino/dino#1781 by Robert Mader
+
+### Changed
+- Updated VAAPI decoder names to new `va*` prefix (vah264dec, vavp8dec, vavp9dec)
+- About dialog: "DinoX Maintainer" now listed first, "Dino Project" instead of "original authors"
+
 ## [0.7.4] - 2025-11-29
 
 ### Added
