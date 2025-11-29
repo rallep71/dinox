@@ -191,6 +191,27 @@
   <url type="translate">https://hosted.weblate.org/projects/dino/</url>
   <launchable type="desktop-id">im.github.rallep71.DinoX.desktop</launchable>
   <releases>
+    <release date="2025-11-29" version="0.7.6">
+      <description>
+        <p>Call stability and audio quality improvements.</p>
+        <ul>
+          <li>Fixed null pointer crash in GStreamer device cleanup</li>
+          <li>Auto-refresh stale OMEMO sessions for encrypted calls</li>
+          <li>Prefer Opus codec (48kHz) for much better audio quality</li>
+          <li>Volume slider now only shown in group calls</li>
+        </ul>
+      </description>
+    </release>
+    <release date="2025-11-29" version="0.7.5">
+      <description>
+        <p>Individual volume per participant and ARM hardware decoding.</p>
+        <ul>
+          <li>Volume slider per participant in group calls</li>
+          <li>V4L2 hardware decoding for ARM devices</li>
+          <li>Updated VAAPI decoder names</li>
+        </ul>
+      </description>
+    </release>
     <release date="2025-11-29" version="0.7.4">
       <description>
         <p>Volume controls for audio and video calls.</p>
