@@ -68,6 +68,13 @@
             } catch (e) {}
         }
         
+        // Update XEP section version stat
+        const xepVersionStat = document.getElementById('xep-version-stat');
+        if (xepVersionStat) {
+            const versionNumber = xepVersionStat.querySelector('.xep-stat-number');
+            if (versionNumber) versionNumber.textContent = `v${version}`;
+        }
+        
         // Update first changelog entry (latest version)
         const firstChangelog = document.querySelector('.changelog-item:first-child');
         if (firstChangelog) {
