@@ -191,6 +191,17 @@
   <url type="translate">https://hosted.weblate.org/projects/dino/</url>
   <launchable type="desktop-id">im.github.rallep71.DinoX.desktop</launchable>
   <releases>
+    <release date="2025-11-29" version="0.7.2">
+      <description>
+        <p>AppImage compatibility fix and auto-update support.</p>
+        <ul>
+          <li>Fixed AppImage crashes by removing bundled system libraries (libc, libstdc++, etc.)</li>
+          <li>Added zsync support for efficient AppImage delta updates</li>
+          <li>AppImage now properly uses host system libraries</li>
+          <li>Website and documentation updated (Flathub references removed)</li>
+        </ul>
+      </description>
+    </release>
     <release date="2025-11-28" version="0.7.1">
       <description>
         <p>Dark theme default, AppImage audio/video fix, and locale support improvements.</p>

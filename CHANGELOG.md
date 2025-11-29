@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.7.2] - 2025-11-29
+
+### Fixed
+- **AppImage System Libraries** - Fixed crashes caused by bundled system libraries
+  - Removed blacklisted libraries (libc, libstdc++, libX11, libwayland, etc.)
+  - AppImage now uses host system libraries as required by AppImage specification
+  - Fixes "undefined symbol: __tunable_is_initialized" errors
+  - Should now pass AppImageHub compatibility tests
+
+### Added
+- **AppImage Auto-Updates** - zsync support for delta updates
+  - AppImage can now update itself using appimagetool's built-in updater
+  - Generates .zsync file alongside AppImage for efficient updates
+  - Uses GitHub Releases as update source
+
+### Changed
+- **Website & Documentation** - Removed Flathub references
+  - Website now points to GitHub Releases for downloads
+  - README updated to use GitHub Releases only
+  - Flathub submission rejected due to fork policy
+
 ## [0.7.1] - 2025-11-28
 
 ### Changed
@@ -353,7 +374,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This is the base version from [dino/dino](https://github.com/dino/dino) that we forked from.
 
-[Unreleased]: https://github.com/rallep71/dinox/compare/v0.6.9...HEAD
+[Unreleased]: https://github.com/rallep71/dinox/compare/v0.7.2...HEAD
+[0.7.2]: https://github.com/rallep71/dinox/releases/tag/v0.7.2
+[0.7.1]: https://github.com/rallep71/dinox/releases/tag/v0.7.1
+[0.7]: https://github.com/rallep71/dinox/releases/tag/v0.7
 [0.6.9]: https://github.com/rallep71/dinox/releases/tag/v0.6.9
 [0.6.8]: https://github.com/rallep71/dinox/releases/tag/v0.6.8
 [0.6.7]: https://github.com/rallep71/dinox/releases/tag/v0.6.7
