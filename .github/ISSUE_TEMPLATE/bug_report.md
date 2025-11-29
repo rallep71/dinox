@@ -1,37 +1,37 @@
 ---
 name: Bug Report
-about: Report a bug or crash in Dino Extended
+about: Report a bug or crash in DinoX
 title: '[BUG] '
 labels: bug
 assignees: ''
 ---
 
-## 🐛 Bug Description
+## Bug Description
 
 <!-- A clear and concise description of what the bug is -->
 
-## 📋 Steps to Reproduce
+## Steps to Reproduce
 
 1. Go to '...'
 2. Click on '...'
 3. Scroll down to '...'
 4. See error
 
-## ✅ Expected Behavior
+## Expected Behavior
 
 <!-- What you expected to happen -->
 
-## ❌ Actual Behavior
+## Actual Behavior
 
 <!-- What actually happened -->
 
-## 📸 Screenshots
+## Screenshots
 
 <!-- If applicable, add screenshots to help explain your problem -->
 
-## 🖥️ Environment
+## Environment
 
-**Dino Version**: 
+**DinoX Version**: 
 <!-- Run: ./build/main/dinox --version -->
 <!-- Or check About dialog -->
 
@@ -46,7 +46,7 @@ assignees: ''
 **Desktop Environment**:
 <!-- e.g., GNOME 47, KDE Plasma 6, etc. -->
 
-## 📝 Logs
+## Logs
 
 <details>
 <summary>Click to expand logs</summary>
@@ -59,15 +59,11 @@ assignees: ''
 
 </details>
 
-## 🔍 Additional Context
+## Additional Context
 
 <!-- Any other context about the problem here -->
 
-<!-- Check if this issue exists in upstream Dino: -->
-**Upstream Issue**: 
-<!-- Link to https://github.com/dino/dino/issues if applicable -->
-
-## ✅ Checklist
+## Checklist
 
 - [ ] I have searched existing issues
 - [ ] I am using the latest version

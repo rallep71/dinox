@@ -120,7 +120,7 @@ private void republish_device_list(Account account, XmppStream stream) {
 2025-11-27
 
 ### Test Result
-✅ **PASSED** - Initial test successful
+**PASSED** - Initial test successful
 
 ### Test Procedure
 1. Built DinoX with fix: `cd /media/linux/SSD128/xmpp/build && ninja`
@@ -130,10 +130,10 @@ private void republish_device_list(Account account, XmppStream stream) {
 5. **Result:** Message decrypted successfully, no `[This message is OMEMO encrypted]` error
 
 ### Follow-Up Testing Needed
-- [ ] Test after several hours of inactivity
-- [ ] Test in Flatpak version
-- [ ] Test with multiple devices
-- [ ] Test with group chats (MUC)
+-  Test after several hours of inactivity
+-  Test in Flatpak version
+-  Test with multiple devices
+-  Test with group chats (MUC)
 
 ## Previous Fix Attempts
 
@@ -150,7 +150,7 @@ private void republish_device_list(Account account, XmppStream stream) {
 ### Attempt 3 (Success)
 **File:** `plugins/omemo/src/logic/manager.vala` 
 **Change:** Proactive republish on stream connect (before any messages)
-**Result:** ✅ Success - subscribers get updated device list immediately
+**Result:** Success - subscribers get updated device list immediately
 
 ## Related Files
 

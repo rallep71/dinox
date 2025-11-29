@@ -1,30 +1,30 @@
 ---
 name: Feature Request
-about: Suggest a new feature or enhancement for Dino Extended
+about: Suggest a new feature or enhancement for DinoX
 title: '[FEATURE] '
 labels: enhancement
 assignees: ''
 ---
 
-## 💡 Feature Description
+## Feature Description
 
 <!-- A clear and concise description of the feature you'd like to see -->
 
-## 🎯 Problem/Motivation
+## Problem/Motivation
 
 <!-- What problem does this feature solve? -->
 <!-- Or: Why would this feature be useful? -->
 
-## 📝 Proposed Solution
+## Proposed Solution
 
 <!-- How do you envision this feature working? -->
 <!-- Be as detailed as possible -->
 
-## 🔄 Alternatives Considered
+## Alternatives Considered
 
 <!-- Have you considered any alternative solutions or features? -->
 
-## 📊 Impact
+## Impact
 
 **Who benefits from this feature?**
 - [ ] All users
@@ -42,17 +42,17 @@ assignees: ''
 - [ ] Database
 - [ ] Other: ___
 
-## 🔗 Related XEPs
+## Related XEPs
 
 <!-- If this relates to an XMPP Extension Protocol: -->
 **XEP Number**: 
 **XEP URL**: https://xmpp.org/extensions/xep-XXXX.html
 
-## 📸 Mockups/Examples
+## Mockups/Examples
 
 <!-- If applicable, add mockups, screenshots from other apps, or examples -->
 
-## ✅ Implementation Checklist
+## Implementation Checklist
 
 <!-- For maintainers/contributors -->
 <details>
@@ -70,13 +70,10 @@ assignees: ''
 
 </details>
 
-## 🔍 Additional Context
+## Additional Context
 
 <!-- Any other context or information -->
 
-**Upstream Status**: 
-<!-- Check if this is requested in original Dino: https://github.com/dino/dino/issues -->
+## Community Interest
 
-## 🗳️ Community Interest
-
-👍 React with 👍 if you want this feature!
+React with thumbs up if you want this feature!
