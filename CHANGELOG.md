@@ -32,10 +32,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Uses GitHub Releases as update source
 
 ### Changed
-- **Website & Documentation** - Removed Flathub references
+- **Website & Documentation** - Updated download references
   - Website now points to GitHub Releases for downloads
-  - README updated to use GitHub Releases only
-  - Flathub submission rejected due to fork policy
+  - README updated to use GitHub Releases
 
 ## [0.7.1] - 2025-11-28
 
@@ -317,7 +316,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.6.0] - 2025-11-21
 
-**First release as DinoX - Complete fork and rebranding!**
+**First release of DinoX!**
 
 ### Added
 - **Systray Support** (#98) - StatusNotifierItem with libdbusmenu
@@ -381,7 +380,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.5.0] - Upstream Base
 
-This is the base version from [dino/dino](https://github.com/dino/dino) that we forked from.
+Base version incorporating code from the Dino project.
 
 [Unreleased]: https://github.com/rallep71/dinox/compare/v0.7.3...HEAD
 [0.7.3]: https://github.com/rallep71/dinox/releases/tag/v0.7.3

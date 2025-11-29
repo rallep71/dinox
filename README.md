@@ -10,7 +10,7 @@
 
 **Modern XMPP Messenger for Linux**
 
-Active fork of [dino/dino](https://github.com/dino/dino) with MUJI group calls, extended features and 45 languages
+Featuring MUJI group video calls, voice messages, OMEMO encryption and 45 languages
 
 [Website](https://dinox.handwerker.jetzt) • [Download](#installation) • [Features](#key-features) • [XEP Support](#xep-support) • [Contributing](CONTRIBUTING.md)
 
@@ -22,7 +22,7 @@ Active fork of [dino/dino](https://github.com/dino/dino) with MUJI group calls, 
 
 DinoX is a modern XMPP (Jabber) messaging client for Linux built with **GTK4** and **libadwaita**. 
 
-Based on the excellent [Dino](https://dino.im) project, DinoX adds additional features like System Tray support, MUJI group video calls, message retraction, advanced MUC moderation and more.
+DinoX features System Tray support, MUJI group video calls, voice messages, message retraction, advanced MUC moderation and more.
 
 ## Key Features
 
@@ -171,9 +171,7 @@ See [DEBUG.md](DEBUG.md) for debugging instructions.
 
 ## License
 
-**GPL-3.0** - Same as upstream Dino
-
-Based on [Dino](https://dino.im) by the Dino developers.
+**GPL-3.0** - See [LICENSE](LICENSE) for details.
 
 ---
 
