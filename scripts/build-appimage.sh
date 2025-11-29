@@ -307,6 +307,56 @@ create_appimage() {
     rm -f "$APPIMAGE_NAME"
     rm -f "$APPIMAGE_NAME.zsync"
     
+    # Remove blacklisted libraries that should come from the host system
+    # These cause crashes when bundled (glibc incompatibility)
+    log_info "Removing blacklisted system libraries..."
+    BLACKLIST=(
+        "libc.so*"
+        "libm.so*"
+        "libdl.so*"
+        "librt.so*"
+        "libpthread.so*"
+        "libresolv.so*"
+        "libstdc++.so*"
+        "libgcc_s.so*"
+        "ld-linux*.so*"
+        "libnss_*.so*"
+        "libdrm.so*"
+        "libxcb.so*"
+        "libxcb-*.so*"
+        "libX11.so*"
+        "libX11-xcb.so*"
+        "libXext.so*"
+        "libXi.so*"
+        "libXfixes.so*"
+        "libXrender.so*"
+        "libXcursor.so*"
+        "libXdamage.so*"
+        "libXrandr.so*"
+        "libXcomposite.so*"
+        "libwayland-*.so*"
+        "libasound.so*"
+        "libfontconfig.so*"
+        "libfreetype.so*"
+        "libharfbuzz.so*"
+        "libcom_err.so*"
+        "libexpat.so*"
+        "libgpg-error.so*"
+        "libz.so*"
+        "libpipewire-0.3.so*"
+        "libfribidi.so*"
+        "libgmp.so*"
+        "libGL.so*"
+        "libGLX.so*"
+        "libGLdispatch.so*"
+        "libEGL.so*"
+    )
+    
+    for pattern in "${BLACKLIST[@]}"; do
+        find "$APPDIR/usr/lib" -name "$pattern" -delete 2>/dev/null || true
+    done
+    log_info "Blacklisted libraries removed!"
+    
     # Update information for AppImageUpdate (GitHub Releases)
     UPDATE_INFO="gh-releases-zsync|rallep71|dinox|latest|DinoX-*-x86_64.AppImage.zsync"
     

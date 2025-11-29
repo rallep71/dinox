@@ -318,6 +318,64 @@ jobs:
           wget -O appimagetool-x86_64.AppImage https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
           chmod +x appimagetool-x86_64.AppImage
       
+      - name: Remove blacklisted libraries
+        run: |
+          APPDIR="${GITHUB_WORKSPACE}/AppDir"
+          
+          # Remove libraries that must come from the host system
+          # These cause glibc incompatibility crashes when bundled
+          echo "Removing blacklisted system libraries..."
+          
+          BLACKLIST=(
+            "libc.so*"
+            "libm.so*"
+            "libdl.so*"
+            "librt.so*"
+            "libpthread.so*"
+            "libresolv.so*"
+            "libstdc++.so*"
+            "libgcc_s.so*"
+            "ld-linux*.so*"
+            "libnss_*.so*"
+            "libdrm.so*"
+            "libxcb.so*"
+            "libxcb-*.so*"
+            "libX11.so*"
+            "libX11-xcb.so*"
+            "libXext.so*"
+            "libXi.so*"
+            "libXfixes.so*"
+            "libXrender.so*"
+            "libXcursor.so*"
+            "libXdamage.so*"
+            "libXrandr.so*"
+            "libXcomposite.so*"
+            "libwayland-*.so*"
+            "libasound.so*"
+            "libfontconfig.so*"
+            "libfreetype.so*"
+            "libharfbuzz.so*"
+            "libcom_err.so*"
+            "libexpat.so*"
+            "libgpg-error.so*"
+            "libz.so*"
+            "libpipewire-0.3.so*"
+            "libfribidi.so*"
+            "libgmp.so*"
+            "libGL.so*"
+            "libGLX.so*"
+            "libGLdispatch.so*"
+            "libEGL.so*"
+          )
+          
+          for pattern in "${BLACKLIST[@]}"; do
+            find "$APPDIR/usr/lib" -name "$pattern" -delete 2>/dev/null || true
+          done
+          
+          echo "Blacklisted libraries removed!"
+          echo "Remaining libraries:"
+          ls "$APPDIR/usr/lib" | head -20
+
       - name: Create AppImage
         run: |
           VERSION=$(cat VERSION | grep RELEASE | awk '{print $2}')
