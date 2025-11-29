@@ -378,10 +378,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - libdbusmenu integration for StatusNotifierItem/AppIndicator support
 - Meson build system with automated translations (50+ languages)
 
-## [0.5.0] - Upstream Base
-
-Base version incorporating code from the Dino project.
-
 [Unreleased]: https://github.com/rallep71/dinox/compare/v0.7.3...HEAD
 [0.7.3]: https://github.com/rallep71/dinox/releases/tag/v0.7.3
 [0.7.2]: https://github.com/rallep71/dinox/releases/tag/v0.7.2
@@ -401,4 +397,3 @@ Base version incorporating code from the Dino project.
 [0.6.2]: https://github.com/rallep71/dinox/releases/tag/v0.6.2
 [0.6.1]: https://github.com/rallep71/dinox/releases/tag/v0.6.1
 [0.6.0]: https://github.com/rallep71/dinox/releases/tag/v0.6.0
-[0.5.0]: https://github.com/dino/dino/releases/tag/v0.5.0
