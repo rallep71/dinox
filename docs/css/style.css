@@ -952,6 +952,8 @@ section {
     display: flex;
     flex-direction: column;
     transition: all var(--transition-base);
+    min-width: 0;
+    overflow: hidden;
 }
 
 .download-card:hover {
@@ -1017,17 +1019,23 @@ section {
     -webkit-overflow-scrolling: touch;
     margin-bottom: var(--space-lg);
     font-family: var(--font-mono);
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     color: var(--text-primary);
     border: 1px solid var(--border-subtle);
-    word-break: break-word;
+    word-break: break-all;
     white-space: pre-wrap;
+    max-width: 100%;
 }
 
 @media (min-width: 480px) {
     .download-card pre {
+        font-size: 0.75rem;
+    }
+}
+
+@media (min-width: 1200px) {
+    .download-card pre {
         font-size: 0.8125rem;
-        white-space: pre;
     }
 }
 
