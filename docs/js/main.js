@@ -46,6 +46,44 @@
         return date.toLocaleDateString('en-US', options);
     }
     
+    function parseReleaseBody(body) {
+        // Extract title from ### Added or first ### heading
+        let title = 'New Features';
+        let items = [];
+        
+        const lines = body.split('\n');
+        for (const line of lines) {
+            // Look for main feature heading like "**Volume Controls**"
+            const boldMatch = line.match(/^\s*-?\s*\*\*([^*]+)\*\*/);
+            if (boldMatch && !title.match(/Volume|Controls|Features/i)) {
+                title = boldMatch[1].replace(/ - .*/, '').trim();
+            }
+            // Look for list items (- item)
+            const itemMatch = line.match(/^\s*-\s+(?!\*\*)(.+)$/);
+            if (itemMatch) {
+                const item = itemMatch[1].trim();
+                // Skip items that are just sub-descriptions
+                if (item && !item.startsWith('Slider') && !item.startsWith('Works for') && !item.startsWith('Real-time')) {
+                    items.push(item);
+                }
+            }
+        }
+        
+        // If we found a bold title like "**Volume Controls**", use that
+        const mainFeatureMatch = body.match(/\*\*([^*]+)\*\*\s*-\s*([^\n]+)/);
+        if (mainFeatureMatch) {
+            title = mainFeatureMatch[1].trim();
+            items = [mainFeatureMatch[2].trim()];
+            // Get sub-items
+            const subItems = body.match(/^\s+-\s+([^\n*]+)$/gm);
+            if (subItems) {
+                items = items.concat(subItems.map(s => s.replace(/^\s+-\s+/, '').trim()));
+            }
+        }
+        
+        return { title, items: items.slice(0, 4) }; // Limit to 4 items
+    }
+    
     function updateVersionDisplay(release) {
         if (!release) return;
         
@@ -75,13 +113,27 @@
             if (versionNumber) versionNumber.textContent = `v${version}`;
         }
         
-        // Update first changelog entry (latest version)
+        // Update first changelog entry (latest version) with content from release body
         const firstChangelog = document.querySelector('.changelog-item:first-child');
         if (firstChangelog) {
             const versionSpan = firstChangelog.querySelector('.changelog-version');
             const dateDiv = firstChangelog.querySelector('.changelog-date');
+            const contentDiv = firstChangelog.querySelector('.changelog-content');
+            
             if (versionSpan) versionSpan.textContent = `v${version}`;
             if (dateDiv) dateDiv.textContent = date;
+            
+            // Parse and update changelog content from release body
+            if (contentDiv && release.body) {
+                const { title, items } = parseReleaseBody(release.body);
+                const h4 = contentDiv.querySelector('h4');
+                const ul = contentDiv.querySelector('ul');
+                
+                if (h4) h4.textContent = title;
+                if (ul && items.length > 0) {
+                    ul.innerHTML = items.map(item => `<li>${item}</li>`).join('');
+                }
+            }
         }
     }
     

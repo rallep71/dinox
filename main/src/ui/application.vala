@@ -367,8 +367,8 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         about_dialog.debug_info_filename = "dinox-data-locations.txt";
         
         string[] developers = {
-            "Dino Team (original authors)",
-            "Ralf Peter (fork maintainer)",
+            "Ralf Peter (DinoX Maintainer)",
+            "Dino Team (Dino Project)",
             null
         };
         about_dialog.developers = developers;
