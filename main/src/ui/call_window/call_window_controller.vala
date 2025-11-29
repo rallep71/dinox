@@ -326,11 +326,32 @@ public class Dino.Ui.CallWindowController : Object {
             call_state.set_audio_device(device);
             update_current_audio_device(audio_settings_popover);
         });
+        audio_settings_popover.microphone_volume_changed.connect((volume) => {
+            var device = call_state.get_microphone_device();
+            if (device != null) {
+                call_plugin.set_device_volume(device, volume);
+            }
+        });
+        audio_settings_popover.speaker_volume_changed.connect((volume) => {
+            var device = call_state.get_speaker_device();
+            if (device != null) {
+                call_plugin.set_device_volume(device, volume);
+            }
+        });
     }
 
     private void update_current_audio_device(AudioSettingsPopover audio_settings_popover) {
         audio_settings_popover.current_microphone_device = call_state.get_microphone_device();
         audio_settings_popover.current_speaker_device = call_state.get_speaker_device();
+        // Update volume sliders
+        var mic = call_state.get_microphone_device();
+        var speaker = call_state.get_speaker_device();
+        if (mic != null) {
+            audio_settings_popover.set_microphone_volume(call_plugin.get_device_volume(mic));
+        }
+        if (speaker != null) {
+            audio_settings_popover.set_speaker_volume(call_plugin.get_device_volume(speaker));
+        }
     }
 
     private void update_video_device_choices() {

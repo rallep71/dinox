@@ -512,4 +512,16 @@ public class Dino.Plugins.Rtp.Plugin : RootInterface, VideoCallPlugin, Object {
             plugin_stream.output_device = real_device;
         }
     }
+
+    public double get_device_volume(MediaDevice? device) {
+        Device? real_device = device as Device?;
+        if (real_device == null) return 1.0;
+        return real_device.get_volume();
+    }
+
+    public void set_device_volume(MediaDevice? device, double volume) {
+        Device? real_device = device as Device?;
+        if (real_device == null) return;
+        real_device.set_volume(volume);
+    }
 }

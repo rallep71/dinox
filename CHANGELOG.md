@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.7.4] - 2025-11-29
+
+### Added
+- **Volume Controls** - Microphone and speaker volume sliders in call settings
+  - Slider controls for microphone input level
+  - Slider controls for speaker output level
+  - Works for 1:1 calls and MUJI group calls
+  - Real-time volume adjustment during calls
+
+### Changed
+- Updated website with new screenshots
+- Added new development plan
+
 ## [0.7.3] - 2025-11-29
 
 ### Fixed

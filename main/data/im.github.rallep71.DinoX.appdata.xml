@@ -191,6 +191,17 @@
   <url type="translate">https://hosted.weblate.org/projects/dino/</url>
   <launchable type="desktop-id">im.github.rallep71.DinoX.desktop</launchable>
   <releases>
+    <release date="2025-11-29" version="0.7.4">
+      <description>
+        <p>Volume controls for audio and video calls.</p>
+        <ul>
+          <li>Added microphone volume slider in call settings</li>
+          <li>Added speaker volume slider in call settings</li>
+          <li>Real-time volume adjustment during 1:1 and group calls</li>
+          <li>Updated website with new screenshots</li>
+        </ul>
+      </description>
+    </release>
     <release date="2025-11-29" version="0.7.3">
       <description>
         <p>GStreamer plugin scanner fix for AppImage.</p>

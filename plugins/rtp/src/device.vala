@@ -589,4 +589,18 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
         }
         debug("Destroyed device %s", id);
     }
+
+    public double get_volume() {
+        if (element == null) return 1.0;
+        var stream_volume = element as Gst.Audio.StreamVolume;
+        if (stream_volume == null) return 1.0;
+        return stream_volume.get_volume(Gst.Audio.StreamVolumeFormat.LINEAR);
+    }
+
+    public void set_volume(double volume) {
+        if (element == null) return;
+        var stream_volume = element as Gst.Audio.StreamVolume;
+        if (stream_volume == null) return;
+        stream_volume.set_volume(Gst.Audio.StreamVolumeFormat.LINEAR, volume.clamp(0.0, 1.0));
+    }
 }

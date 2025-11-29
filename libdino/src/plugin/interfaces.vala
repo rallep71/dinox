@@ -114,6 +114,10 @@ public interface VideoCallPlugin : Object {
     public abstract void set_pause(Xmpp.Xep.JingleRtp.Stream? stream, bool pause);
     public abstract void set_device(Xmpp.Xep.JingleRtp.Stream? stream, MediaDevice? device);
 
+    // Volume control (0.0 to 1.0)
+    public abstract double get_device_volume(MediaDevice? device);
+    public abstract void set_device_volume(MediaDevice? device, double volume);
+
     public abstract void dump_dot();
 }
 

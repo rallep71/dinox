@@ -6,12 +6,17 @@ public class Dino.Ui.AudioSettingsPopover : Gtk.Popover {
 
     public signal void microphone_selected(Plugins.MediaDevice device);
     public signal void speaker_selected(Plugins.MediaDevice device);
+    public signal void microphone_volume_changed(double volume);
+    public signal void speaker_volume_changed(double volume);
 
     public Plugins.MediaDevice? current_microphone_device { get; set; }
     public Plugins.MediaDevice? current_speaker_device { get; set; }
 
     private HashMap<ListBoxRow, Plugins.MediaDevice> row_microphone_device = new HashMap<ListBoxRow, Plugins.MediaDevice>();
     private HashMap<ListBoxRow, Plugins.MediaDevice> row_speaker_device = new HashMap<ListBoxRow, Plugins.MediaDevice>();
+    
+    private Scale? microphone_volume_scale;
+    private Scale? speaker_volume_scale;
 
     public AudioSettingsPopover() {
         Box box = new Box(Orientation.VERTICAL, 15);
@@ -19,6 +24,18 @@ public class Dino.Ui.AudioSettingsPopover : Gtk.Popover {
         box.append(create_speaker_box());
 
         this.set_child(box);
+    }
+    
+    public void set_microphone_volume(double volume) {
+        if (microphone_volume_scale != null) {
+            microphone_volume_scale.set_value(volume);
+        }
+    }
+    
+    public void set_speaker_volume(double volume) {
+        if (speaker_volume_scale != null) {
+            speaker_volume_scale.set_value(volume);
+        }
     }
 
     private Widget create_microphone_box() {
@@ -72,6 +89,20 @@ public class Dino.Ui.AudioSettingsPopover : Gtk.Popover {
                 micro_list_box.unselect_row(row);
             });
             micro_box.append(micro_frame);
+            
+            // Volume slider for microphone
+            Box volume_box = new Box(Orientation.HORIZONTAL, 8);
+            volume_box.append(new Image.from_icon_name("microphone-sensitivity-low-symbolic"));
+            microphone_volume_scale = new Scale.with_range(Orientation.HORIZONTAL, 0.0, 1.0, 0.05);
+            microphone_volume_scale.set_value(1.0);
+            microphone_volume_scale.hexpand = true;
+            microphone_volume_scale.draw_value = false;
+            microphone_volume_scale.value_changed.connect(() => {
+                microphone_volume_changed(microphone_volume_scale.get_value());
+            });
+            volume_box.append(microphone_volume_scale);
+            volume_box.append(new Image.from_icon_name("microphone-sensitivity-high-symbolic"));
+            micro_box.append(volume_box);
         }
 
         return micro_box;
@@ -131,6 +162,20 @@ public class Dino.Ui.AudioSettingsPopover : Gtk.Popover {
                 speaker_list_box.unselect_row(row);
             });
             speaker_box.append(speaker_frame);
+            
+            // Volume slider for speaker
+            Box volume_box = new Box(Orientation.HORIZONTAL, 8);
+            volume_box.append(new Image.from_icon_name("audio-volume-low-symbolic"));
+            speaker_volume_scale = new Scale.with_range(Orientation.HORIZONTAL, 0.0, 1.0, 0.05);
+            speaker_volume_scale.set_value(1.0);
+            speaker_volume_scale.hexpand = true;
+            speaker_volume_scale.draw_value = false;
+            speaker_volume_scale.value_changed.connect(() => {
+                speaker_volume_changed(speaker_volume_scale.get_value());
+            });
+            volume_box.append(speaker_volume_scale);
+            volume_box.append(new Image.from_icon_name("audio-volume-high-symbolic"));
+            speaker_box.append(volume_box);
         }
 
         return speaker_box;
