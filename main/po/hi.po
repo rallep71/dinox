@@ -506,7 +506,9 @@ msgstr "बैकअप बनाने के लिए सेटिंग्�
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
-msgstr "आपका व्यक्तिगत डेटा (खाते, संदेश, फ़ाइलें) एप्लिकेशन से अलग संग्रहीत किया जाता है। जब आप DinoX को अपडेट करते हैं, तो आपका डेटा बरकरार रहता है।"
+msgstr ""
+"आपका व्यक्तिगत डेटा (खाते, संदेश, फ़ाइलें) एप्लिकेशन से अलग संग्रहीत किया जाता है। जब आप "
+"DinoX को अपडेट करते हैं, तो आपका डेटा बरकरार रहता है।"
 
 #: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
 #: main/src/ui/main_window.vala:159
@@ -516,6 +518,52 @@ msgstr "बंद करें"
 #: main/src/ui/application.vala:417
 msgid "Select Backup Location"
 msgstr "बैकअप स्थान चुनें"
+
+#: main/src/ui/application.vala
+msgid "Creating Backup..."
+msgstr "Creating Backup..."
+
+#: main/src/ui/application.vala
+msgid "Creating Encrypted Backup..."
+msgstr "Creating Encrypted Backup..."
+
+#: main/src/ui/application.vala
+msgid "Please wait while your data is being backed up."
+msgstr "Please wait while your data is being backed up."
+
+#: main/src/ui/application.vala
+msgid "No data directories found to backup"
+msgstr "No data directories found to backup"
+
+#: main/src/ui/application.vala
+msgid "Backup Created"
+msgstr "Backup Created"
+
+#: main/src/ui/application.vala
+msgid "Encrypted Backup Created"
+msgstr "Encrypted Backup Created"
+
+#: main/src/ui/application.vala
+#, c-format
+msgid "Your backup was created successfully.\\n\\nSize: %s"
+msgstr "Your backup was created successfully.\\n\\nSize: %s"
+
+#: main/src/ui/application.vala
+msgid "Your backup was created successfully."
+msgstr "Your backup was created successfully."
+
+#: main/src/ui/application.vala
+#, c-format
+msgid "Your encrypted backup was created successfully.\\n\\nSize: %s"
+msgstr "Your encrypted backup was created successfully.\\n\\nSize: %s"
+
+#: main/src/ui/application.vala
+msgid "Your encrypted backup was created successfully."
+msgstr "Your encrypted backup was created successfully."
+
+#: main/src/ui/application.vala
+msgid "Backup Failed"
+msgstr "Backup Failed"
 
 #: main/src/ui/application.vala:445
 msgid "Creating backup..."
@@ -1039,7 +1087,9 @@ msgstr "कमरा नष्ट करें?"
 msgid ""
 "Are you sure you want to permanently destroy this room? This action cannot "
 "be undone and all history will be lost for all participants."
-msgstr "क्या आप वाकई इस कमरे को स्थायी रूप से नष्ट करना चाहते हैं? इस क्रिया को पूर्ववत नहीं किया जा सकता और सभी प्रतिभागियों का सारा इतिहास खो जाएगा।"
+msgstr ""
+"क्या आप वाकई इस कमरे को स्थायी रूप से नष्ट करना चाहते हैं? इस क्रिया को पूर्ववत नहीं किया "
+"जा सकता और सभी प्रतिभागियों का सारा इतिहास खो जाएगा।"
 
 #: main/src/ui/conversation_details.vala:250
 msgid "Destroy"
@@ -1222,7 +1272,12 @@ msgid ""
 "• Remove %s from your contact list\n"
 "\n"
 "This action cannot be undone."
-msgstr "यह:\n• सभी वार्तालाप इतिहास हटा देगा\n• आपकी संपर्क सूची से %s को हटा देगा\n\nइस क्रिया को पूर्ववत नहीं किया जा सकता।"
+msgstr ""
+"यह:\n"
+"• सभी वार्तालाप इतिहास हटा देगा\n"
+"• आपकी संपर्क सूची से %s को हटा देगा\n"
+"\n"
+"इस क्रिया को पूर्ववत नहीं किया जा सकता।"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:787
 msgid "Delete all message history?"
@@ -1232,7 +1287,9 @@ msgstr "सभी संदेश इतिहास हटाएं?"
 msgid ""
 "This will permanently delete all messages in this conversation. This action "
 "cannot be undone."
-msgstr "इससे इस वार्तालाप के सभी संदेश स्थायी रूप से हटा दिए जाएंगे। इस क्रिया को पूर्ववत नहीं किया जा सकता।"
+msgstr ""
+"इससे इस वार्तालाप के सभी संदेश स्थायी रूप से हटा दिए जाएंगे। इस क्रिया को पूर्ववत नहीं "
+"किया जा सकता।"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:791
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
@@ -1259,7 +1316,9 @@ msgstr "कॉन्फ्रेंस सर्वर आवश्यक"
 msgid ""
 "To start a group call, you need to configure a default conference server in "
 "your account settings."
-msgstr "समूह कॉल शुरू करने के लिए, आपको अपनी खाता सेटिंग में एक डिफ़ॉल्ट कॉन्फ़्रेंस सर्वर कॉन्फ़िगर करना होगा।"
+msgstr ""
+"समूह कॉल शुरू करने के लिए, आपको अपनी खाता सेटिंग में एक डिफ़ॉल्ट कॉन्फ़्रेंस सर्वर कॉन्फ़िगर "
+"करना होगा।"
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:84
 msgid "Open Settings"
@@ -1316,7 +1375,12 @@ msgid ""
 "\n"
 "If you need a password or a nickname, provide them in the dialog. Use the "
 "discovery features in the server to find public rooms."
-msgstr "चैनल में शामिल होने के लिए, \"चैनल में शामिल हों\" बटन पर क्लिक करें और चैनल JID दर्ज करें (उदाहरण: room@conference.example.org)।\n\nयदि आपको पासवर्ड या उपनाम की आवश्यकता है, तो उन्हें संवाद में प्रदान करें। सार्वजनिक कमरे खोजने के लिए सर्वर की खोज सुविधाओं का उपयोग करें।"
+msgstr ""
+"चैनल में शामिल होने के लिए, \"चैनल में शामिल हों\" बटन पर क्लिक करें और चैनल JID दर्ज करें "
+"(उदाहरण: room@conference.example.org)।\n"
+"\n"
+"यदि आपको पासवर्ड या उपनाम की आवश्यकता है, तो उन्हें संवाद में प्रदान करें। सार्वजनिक कमरे "
+"खोजने के लिए सर्वर की खोज सुविधाओं का उपयोग करें।"
 
 #: main/src/ui/main_window.vala:206
 msgid "Welcome to DinoX!"
@@ -1527,7 +1591,9 @@ msgstr "केवल सदस्य"
 msgid ""
 "Only members may enter the room. Warning: Non-members will be removed when "
 "enabled!"
-msgstr "केवल सदस्य ही कमरे में प्रवेश कर सकते हैं। चेतावनी: सक्षम होने पर गैर-सदस्यों को हटा दिया जाएगा!"
+msgstr ""
+"केवल सदस्य ही कमरे में प्रवेश कर सकते हैं। चेतावनी: सक्षम होने पर गैर-सदस्यों को हटा दिया "
+"जाएगा!"
 
 #: main/src/ui/util/helper.vala:65
 #, c-format
@@ -1546,7 +1612,9 @@ msgstr "%a, %b %d"
 msgid ""
 "This contact will be removed from your contact list and all conversation "
 "history will be permanently deleted."
-msgstr "इस संपर्क को आपकी संपर्क सूची से हटा दिया जाएगा और सभी वार्तालाप इतिहास स्थायी रूप से हटा दिया जाएगा।"
+msgstr ""
+"इस संपर्क को आपकी संपर्क सूची से हटा दिया जाएगा और सभी वार्तालाप इतिहास स्थायी रूप से "
+"हटा दिया जाएगा।"
 
 #: main/src/windows/conversation_details.vala:108
 msgid "Block user"
@@ -1735,6 +1803,387 @@ msgstr "%s के लिए प्रदर्शन नाम बदलें"
 msgid "Alias (optional)"
 msgstr "उपनाम (वैकल्पिक)"
 
+# DinoX v0.7.7 - Database Maintenance & Backup/Restore
+msgid "Clean Database"
+msgstr "Clean Database"
+
+msgid "Reset Database"
+msgstr "Reset Database"
+
+msgid "Restore Complete!"
+msgstr "Restore Complete!"
+
+msgid "Restore Failed"
+msgstr "Restore Failed"
+
+msgid "Decrypting Backup..."
+msgstr "Decrypting Backup..."
+
+msgid "Restoring Backup..."
+msgstr "Restoring Backup..."
+
+msgid "Set Backup Password"
+msgstr "Set Backup Password"
+
+msgid "Confirm Password"
+msgstr "Confirm Password"
+
+msgid "Create Encrypted Backup"
+msgstr "Create Encrypted Backup"
+
+msgid "Password too short"
+msgstr "Password too short"
+
+msgid "Passwords do not match"
+msgstr "Passwords do not match"
+
+msgid "✓ Passwords match"
+msgstr "✓ Passwords match"
+
+msgid "Encrypting Backup..."
+msgstr "Encrypting Backup..."
+
+msgid "Factory Reset"
+msgstr "Factory Reset"
+
+msgid "Restore from Backup"
+msgstr "Restore from Backup"
+
+msgid "Restore Backup"
+msgstr "Restore Backup"
+
+msgid "Select Backup File"
+msgstr "Select Backup File"
+
+msgid "Enter Backup Password"
+msgstr "Enter Backup Password"
+
+msgid "Decrypt & Restore"
+msgstr "Decrypt & Restore"
+
+msgid "Create Backup First"
+msgstr "Create Backup First"
+
+msgid "No Encryption"
+msgstr "No Encryption"
+
+msgid "Encrypt with Password"
+msgstr "Encrypt with Password"
+
+msgid "Delete Everything"
+msgstr "Delete Everything"
+
+msgid "Confirm Delete"
+msgstr "Confirm Delete"
+
+msgid "Are you absolutely sure?"
+msgstr "Are you absolutely sure?"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "डेटाबेस रखरखाव"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "बैकअप फ़ाइल से खाते, संदेश और सेटिंग्स पुनर्स्थापित करें"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr "सभी संदेश, फ़ाइलें और OMEMO कुंजियाँ हटाएं। आपके खाते बने रहेंगे।"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr "खातों सहित सभी डेटा हटाएं। इसे पूर्ववत नहीं किया जा सकता!"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "बैकअप फ़ाइलें (*.tar.gz, *.tar.gz.gpg)"
+
+msgid "Creating encrypted backup..."
+msgstr "एन्क्रिप्टेड बैकअप बना रहा है..."
+
+msgid "Decryption Failed"
+msgstr "डिक्रिप्शन विफल"
+
+msgid "DinoX will now restart..."
+msgstr "DinoX अब पुनः आरंभ होगा..."
+
+msgid "Encrypted backup created successfully"
+msgstr "एन्क्रिप्टेड बैकअप सफलतापूर्वक बनाया गया"
+
+msgid "Password (minimum 4 characters)"
+msgstr "पासवर्ड (न्यूनतम 4 अक्षर)"
+
+msgid "Decrypting encrypted backup file..."
+msgstr "बैकअप फ़ाइल डिक्रिप्ट कर रहा है..."
+
+msgid "Extracting files from backup..."
+msgstr "बैकअप से फ़ाइलें निकाल रहा है..."
+
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "फ़ैक्टरी रीसेट प्रगति पर है... DinoX पुनः आरंभ होगा।"
+
+msgid "Resetting database... DinoX will restart."
+msgstr "डेटाबेस रीसेट हो रहा है... DinoX पुनः आरंभ होगा।"
+
+msgid "Encrypted backup created (%s)"
+msgstr "एन्क्रिप्टेड बैकअप बनाया गया (%s)"
+
+msgid ""
+"Could not decrypt the backup file.\n"
+"\n"
+"Please check if the password is correct."
+msgstr ""
+"बैकअप फ़ाइल को डिक्रिप्ट नहीं किया जा सका.\n"
+"\n"
+"कृपया जांचें कि पासवर्ड सही है।"
+
+msgid ""
+"Could not restore the backup file.\n"
+"\n"
+"Error: %s"
+msgstr ""
+"बैकअप फ़ाइल को पुनर्स्थापित नहीं किया जा सका.\n"
+"\n"
+"त्रुटि: %s"
+
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "यह बैकअप एन्क्रिप्टेड है। डिक्रिप्ट करने के लिए पासवर्ड दर्ज करें।"
+
+msgid ""
+"Enter a password to encrypt the backup.\n"
+"\n"
+"<b>Important:</b> Remember this password! Without it, the backup cannot be "
+"restored."
+msgstr ""
+"बैकअप को एन्क्रिप्ट करने के लिए पासवर्ड दर्ज करें।\n"
+"\n"
+"<b>महत्वपूर्ण:</b> यह पासवर्ड याद रखें! इसके बिना, बैकअप को पुनर्स्थापित नहीं किया जा "
+"सकता।"
+
+msgid ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+msgstr ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+
+msgid ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+msgstr ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+
+msgid ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+msgstr ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+
+msgid ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+msgstr ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+
+# OpenPGP Key Management
+msgid "OpenPGP Key Management"
+msgstr "OpenPGP Key Management"
+
+msgid "Actions"
+msgstr "Actions"
+
+msgid "Generate New Key"
+msgstr "Generate New Key"
+
+msgid "Import Key"
+msgstr "Import Key"
+
+msgid "Your Keys"
+msgstr "Your Keys"
+
+msgid "Fingerprint"
+msgstr "Fingerprint"
+
+msgid "Export Public Key"
+msgstr "Export Public Key"
+
+msgid "Delete Key"
+msgstr "Delete Key"
+
+msgid "Name"
+msgstr "Name"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Passphrase"
+msgstr "Passphrase"
+
+msgid "Generate"
+msgstr "Generate"
+
+msgid "Select OpenPGP Key"
+msgstr "Select OpenPGP Key"
+
+msgid "Wrong passphrase"
+msgstr "Wrong passphrase"
+
+msgid "Manage Keys"
+msgstr "Manage Keys"
+
+msgid "Announce key"
+msgstr "Announce key"
+
+msgid "Disabled"
+msgstr "Disabled"
+
+msgid "Success"
+msgstr "Success"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Create a new OpenPGP key pair"
+msgstr "नया OpenPGP कुंजी जोड़ी बनाएं"
+
+msgid "Import a key from file (.asc, .gpg)"
+msgstr "फ़ाइल से कुंजी आयात करें (.asc, .gpg)"
+
+msgid "Private keys available for signing and decryption"
+msgstr "हस्ताक्षर और डिक्रिप्शन के लिए उपलब्ध निजी कुंजियाँ"
+
+msgid "No private keys found"
+msgstr "कोई निजी कुंजी नहीं मिली"
+
+msgid "Generate or import a key to get started"
+msgstr "शुरू करने के लिए कुंजी बनाएं या आयात करें"
+
+msgid "Generate New OpenPGP Key"
+msgstr "नई OpenPGP कुंजी बनाएं"
+
+msgid "Enter your details to create a new key pair."
+msgstr "नया कुंजी जोड़ी बनाने के लिए अपना विवरण दर्ज करें।"
+
+msgid "Your Name"
+msgstr "आपका नाम"
+
+msgid "you@example.com"
+msgstr "you@example.com"
+
+msgid "Passphrase (optional)"
+msgstr "पासफ़्रेज़ (वैकल्पिक)"
+
+msgid "4096-bit RSA key, valid for 2 years."
+msgstr "4096-बिट RSA कुंजी, 2 साल के लिए वैध।"
+
+msgid "Name must be at least 2 characters"
+msgstr "नाम कम से कम 2 अक्षर का होना चाहिए"
+
+msgid "Please enter a valid email address"
+msgstr "कृपया एक वैध ईमेल पता दर्ज करें"
+
+msgid "Generating Key..."
+msgstr "कुंजी बना रहे हैं..."
+
+msgid "Please wait while your key is being generated. This may take a moment."
+msgstr "कृपया प्रतीक्षा करें जब तक आपकी कुंजी बनाई जा रही है। इसमें कुछ समय लग सकता है।"
+
+msgid "Key generated successfully!"
+msgstr "कुंजी सफलतापूर्वक बनाई गई!"
+
+msgid "Failed to generate key."
+msgstr "कुंजी बनाने में विफल।"
+
+msgid "Import OpenPGP Key"
+msgstr "OpenPGP कुंजी आयात करें"
+
+msgid "OpenPGP Keys (*.asc, *.gpg)"
+msgstr "OpenPGP कुंजियाँ (*.asc, *.gpg)"
+
+msgid "All Files"
+msgstr "सभी फ़ाइलें"
+
+msgid "Key imported! Re-open Key Management to see it."
+msgstr "कुंजी आयात हो गई! इसे देखने के लिए कुंजी प्रबंधन फिर से खोलें।"
+
+msgid "Import failed: "
+msgstr "आयात विफल: "
+
+msgid "Key exported to: "
+msgstr "कुंजी निर्यात की गई: "
+
+msgid "Export failed."
+msgstr "निर्यात विफल।"
+
+msgid "Delete Key?"
+msgstr "कुंजी हटाएं?"
+
+msgid ""
+"Delete this key?\n"
+"\n"
+"%s\n"
+"\n"
+"This cannot be undone!"
+msgstr ""
+"यह कुंजी हटाएं?\n"
+"\n"
+"%s\n"
+"\n"
+"इसे पूर्ववत नहीं किया जा सकता!"
+
+msgid "Key deleted."
+msgstr "कुंजी हटा दी गई।"
+
+msgid "Delete failed: "
+msgstr "हटाना विफल: "
+
+msgid "Choose a key to announce to your contacts."
+msgstr "अपने संपर्कों को घोषित करने के लिए एक कुंजी चुनें।"
+
+msgid "Enter GPG passphrase to confirm:"
+msgstr "पुष्टि के लिए GPG पासफ़्रेज़ दर्ज करें:"
+
+msgid "Generate, import, export, or delete keys"
+msgstr "कुंजियाँ बनाएं, आयात करें, निर्यात करें या हटाएं"
+
+msgid "No keys available. Generate or import one!"
+msgstr "कोई कुंजी उपलब्ध नहीं। एक बनाएं या आयात करें!"
+
+msgid "Error in GnuPG"
+msgstr "GnuPG में त्रुटि"
+
 #~ msgid "Message too long"
 #~ msgstr "संदेश बहुत लंबा है"
 
@@ -1851,154 +2300,3 @@ msgstr "उपनाम (वैकल्पिक)"
 
 #~ msgid "Pick another server"
 #~ msgstr "कोई अन्य सर्वर चुनें"
-
-# DinoX v0.7.7 - Database Maintenance & Backup/Restore
-msgid "Clean Database"
-msgstr "Clean Database"
-
-msgid "Reset Database"
-msgstr "Reset Database"
-
-msgid "Restore Complete!"
-msgstr "Restore Complete!"
-
-msgid "Restore Failed"
-msgstr "Restore Failed"
-
-msgid "Decrypting Backup..."
-msgstr "Decrypting Backup..."
-
-msgid "Restoring Backup..."
-msgstr "Restoring Backup..."
-
-msgid "Set Backup Password"
-msgstr "Set Backup Password"
-
-msgid "Confirm Password"
-msgstr "Confirm Password"
-
-msgid "Create Encrypted Backup"
-msgstr "Create Encrypted Backup"
-
-msgid "Password too short"
-msgstr "Password too short"
-
-msgid "Passwords do not match"
-msgstr "Passwords do not match"
-
-msgid "✓ Passwords match"
-msgstr "✓ Passwords match"
-
-msgid "Encrypting Backup..."
-msgstr "Encrypting Backup..."
-
-msgid "Factory Reset"
-msgstr "Factory Reset"
-
-msgid "Restore from Backup"
-msgstr "Restore from Backup"
-
-msgid "Restore Backup"
-msgstr "Restore Backup"
-
-msgid "Select Backup File"
-msgstr "Select Backup File"
-
-msgid "Enter Backup Password"
-msgstr "Enter Backup Password"
-
-msgid "Decrypt & Restore"
-msgstr "Decrypt & Restore"
-
-msgid "Create Backup First"
-msgstr "Create Backup First"
-
-msgid "No Encryption"
-msgstr "No Encryption"
-
-msgid "Encrypt with Password"
-msgstr "Encrypt with Password"
-
-msgid "Delete Everything"
-msgstr "Delete Everything"
-
-msgid "Confirm Delete"
-msgstr "Confirm Delete"
-
-msgid "Are you absolutely sure?"
-msgstr "Are you absolutely sure?"
-
-#: main/data/preferences_window/general_preferences_page.ui:104
-msgid "Database Maintenance"
-msgstr "डेटाबेस रखरखाव"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Restore accounts, messages and settings from a backup file"
-msgstr "बैकअप फ़ाइल से खाते, संदेश और सेटिंग्स पुनर्स्थापित करें"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
-msgstr "सभी संदेश, फ़ाइलें और OMEMO कुंजियाँ हटाएं। आपके खाते बने रहेंगे।"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete ALL data including accounts. This cannot be undone!"
-msgstr "खातों सहित सभी डेटा हटाएं। इसे पूर्ववत नहीं किया जा सकता!"
-
-# DinoX v0.7.7 - Additional Backup/Restore strings
-
-msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
-msgstr "बैकअप फ़ाइलें (*.tar.gz, *.tar.gz.gpg)"
-
-msgid "Creating encrypted backup..."
-msgstr "एन्क्रिप्टेड बैकअप बना रहा है..."
-
-msgid "Decryption Failed"
-msgstr "डिक्रिप्शन विफल"
-
-msgid "DinoX will now restart..."
-msgstr "DinoX अब पुनः आरंभ होगा..."
-
-msgid "Encrypted backup created successfully"
-msgstr "एन्क्रिप्टेड बैकअप सफलतापूर्वक बनाया गया"
-
-msgid "Password (minimum 4 characters)"
-msgstr "पासवर्ड (न्यूनतम 4 अक्षर)"
-
-msgid "Decrypting encrypted backup file..."
-msgstr "बैकअप फ़ाइल डिक्रिप्ट कर रहा है..."
-
-msgid "Extracting files from backup..."
-msgstr "बैकअप से फ़ाइलें निकाल रहा है..."
-
-msgid "Factory reset in progress... DinoX will restart."
-msgstr "फ़ैक्टरी रीसेट प्रगति पर है... DinoX पुनः आरंभ होगा।"
-
-msgid "Resetting database... DinoX will restart."
-msgstr "डेटाबेस रीसेट हो रहा है... DinoX पुनः आरंभ होगा।"
-
-msgid "Encrypted backup created (%s)"
-msgstr "एन्क्रिप्टेड बैकअप बनाया गया (%s)"
-
-msgid "Could not decrypt the backup file.\n\nPlease check if the password is correct."
-msgstr "बैकअप फ़ाइल को डिक्रिप्ट नहीं किया जा सका.\n\nकृपया जांचें कि पासवर्ड सही है।"
-
-msgid "Could not restore the backup file.\n\nError: %s"
-msgstr "बैकअप फ़ाइल को पुनर्स्थापित नहीं किया जा सका.\n\nत्रुटि: %s"
-
-msgid "This backup is encrypted. Please enter the password to decrypt it."
-msgstr "यह बैकअप एन्क्रिप्टेड है। डिक्रिप्ट करने के लिए पासवर्ड दर्ज करें।"
-
-msgid "Enter a password to encrypt the backup.\n\n<b>Important:</b> Remember this password! Without it, the backup cannot be restored."
-msgstr "बैकअप को एन्क्रिप्ट करने के लिए पासवर्ड दर्ज करें।\n\n<b>महत्वपूर्ण:</b> यह पासवर्ड याद रखें! इसके बिना, बैकअप को पुनर्स्थापित नहीं किया जा सकता।"
-
-msgid "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
-msgstr "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
-
-msgid "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
-msgstr "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
-
-msgid "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
-msgstr "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
-
-msgid "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"
-msgstr "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"

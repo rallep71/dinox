@@ -492,7 +492,9 @@ msgstr "தகவல்:"
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
-msgstr "உங்கள் தனிப்பட்ட தரவு (கணக்குகள், செய்திகள், கோப்புகள்) பயன்பாட்டிலிருந்து தனியாக சேமிக்கப்படுகிறது."
+msgstr ""
+"உங்கள் தனிப்பட்ட தரவு (கணக்குகள், செய்திகள், கோப்புகள்) பயன்பாட்டிலிருந்து தனியாக "
+"சேமிக்கப்படுகிறது."
 
 #: main/src/ui/application.vala:361
 msgid "When you update DinoX, your data remains intact."
@@ -500,13 +502,16 @@ msgstr "நீங்கள் DinoX-ஐ புதுப்பிக்கும�
 
 #: main/src/ui/application.vala:363
 msgid "Use Settings → General → Backup User Data to create a backup."
-msgstr "காப்புப்பிரதி உருவாக்க அமைப்புகள் → பொது → பயனர் தரவை காப்புப்பிரதி எடு பயன்படுத்தவும்."
+msgstr ""
+"காப்புப்பிரதி உருவாக்க அமைப்புகள் → பொது → பயனர் தரவை காப்புப்பிரதி எடு பயன்படுத்தவும்."
 
 #: main/src/ui/application.vala:405
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
-msgstr "உங்கள் தனிப்பட்ட தரவு (கணக்குகள், செய்திகள், கோப்புகள்) பயன்பாட்டிலிருந்து தனியாக சேமிக்கப்படுகிறது. நீங்கள் DinoX ஐ புதுப்பிக்கும்போது, உங்கள் தரவு அப்படியே இருக்கும்."
+msgstr ""
+"உங்கள் தனிப்பட்ட தரவு (கணக்குகள், செய்திகள், கோப்புகள்) பயன்பாட்டிலிருந்து தனியாக "
+"சேமிக்கப்படுகிறது. நீங்கள் DinoX ஐ புதுப்பிக்கும்போது, உங்கள் தரவு அப்படியே இருக்கும்."
 
 #: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
 #: main/src/ui/main_window.vala:159
@@ -516,6 +521,52 @@ msgstr "மூடு"
 #: main/src/ui/application.vala:417
 msgid "Select Backup Location"
 msgstr "காப்புப்பிரதி இருப்பிடத்தைத் தேர்ந்தெடுக்கவும்"
+
+#: main/src/ui/application.vala
+msgid "Creating Backup..."
+msgstr "Creating Backup..."
+
+#: main/src/ui/application.vala
+msgid "Creating Encrypted Backup..."
+msgstr "Creating Encrypted Backup..."
+
+#: main/src/ui/application.vala
+msgid "Please wait while your data is being backed up."
+msgstr "Please wait while your data is being backed up."
+
+#: main/src/ui/application.vala
+msgid "No data directories found to backup"
+msgstr "No data directories found to backup"
+
+#: main/src/ui/application.vala
+msgid "Backup Created"
+msgstr "Backup Created"
+
+#: main/src/ui/application.vala
+msgid "Encrypted Backup Created"
+msgstr "Encrypted Backup Created"
+
+#: main/src/ui/application.vala
+#, c-format
+msgid "Your backup was created successfully.\\n\\nSize: %s"
+msgstr "Your backup was created successfully.\\n\\nSize: %s"
+
+#: main/src/ui/application.vala
+msgid "Your backup was created successfully."
+msgstr "Your backup was created successfully."
+
+#: main/src/ui/application.vala
+#, c-format
+msgid "Your encrypted backup was created successfully.\\n\\nSize: %s"
+msgstr "Your encrypted backup was created successfully.\\n\\nSize: %s"
+
+#: main/src/ui/application.vala
+msgid "Your encrypted backup was created successfully."
+msgstr "Your encrypted backup was created successfully."
+
+#: main/src/ui/application.vala
+msgid "Backup Failed"
+msgstr "Backup Failed"
 
 #: main/src/ui/application.vala:445
 msgid "Creating backup..."
@@ -1039,7 +1090,9 @@ msgstr "அறையை அழிக்கவா?"
 msgid ""
 "Are you sure you want to permanently destroy this room? This action cannot "
 "be undone and all history will be lost for all participants."
-msgstr "இந்த அறையை நிரந்தரமாக அழிக்க விரும்புகிறீர்களா? இந்த செயலை செயல்தவிர்க்க முடியாது மற்றும் அனைத்து பங்கேற்பாளர்களுக்கும் அனைத்து வரலாறும் இழக்கப்படும்."
+msgstr ""
+"இந்த அறையை நிரந்தரமாக அழிக்க விரும்புகிறீர்களா? இந்த செயலை செயல்தவிர்க்க முடியாது "
+"மற்றும் அனைத்து பங்கேற்பாளர்களுக்கும் அனைத்து வரலாறும் இழக்கப்படும்."
 
 #: main/src/ui/conversation_details.vala:250
 msgid "Destroy"
@@ -1222,7 +1275,12 @@ msgid ""
 "• Remove %s from your contact list\n"
 "\n"
 "This action cannot be undone."
-msgstr "இது:\n• அனைத்து உரையாடல் வரலாற்றையும் நீக்கும்\n• உங்கள் தொடர்பு பட்டியலிலிருந்து %s ஐ அகற்றும்\n\nஇந்த செயலை மாற்ற இயலாது."
+msgstr ""
+"இது:\n"
+"• அனைத்து உரையாடல் வரலாற்றையும் நீக்கும்\n"
+"• உங்கள் தொடர்பு பட்டியலிலிருந்து %s ஐ அகற்றும்\n"
+"\n"
+"இந்த செயலை மாற்ற இயலாது."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:787
 msgid "Delete all message history?"
@@ -1232,7 +1290,9 @@ msgstr "அனைத்து செய்தி வரலாற்றையு�
 msgid ""
 "This will permanently delete all messages in this conversation. This action "
 "cannot be undone."
-msgstr "இது இந்த உரையாடலில் உள்ள அனைத்து செய்திகளையும் நிரந்தரமாக நீக்கும். இந்த செயலை செயல்தவிர்க்க முடியாது."
+msgstr ""
+"இது இந்த உரையாடலில் உள்ள அனைத்து செய்திகளையும் நிரந்தரமாக நீக்கும். இந்த செயலை "
+"செயல்தவிர்க்க முடியாது."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:791
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
@@ -1259,7 +1319,9 @@ msgstr "மாநாட்டு சேவையகம் தேவை"
 msgid ""
 "To start a group call, you need to configure a default conference server in "
 "your account settings."
-msgstr "குழு அழைப்பைத் தொடங்க, உங்கள் கணக்கு அமைப்புகளில் இயல்புநிலை மாநாட்டு சேவையகத்தை உள்ளமைக்க வேண்டும்."
+msgstr ""
+"குழு அழைப்பைத் தொடங்க, உங்கள் கணக்கு அமைப்புகளில் இயல்புநிலை மாநாட்டு சேவையகத்தை "
+"உள்ளமைக்க வேண்டும்."
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:84
 msgid "Open Settings"
@@ -1316,7 +1378,12 @@ msgid ""
 "\n"
 "If you need a password or a nickname, provide them in the dialog. Use the "
 "discovery features in the server to find public rooms."
-msgstr "சேனலில் சேர, \"சேனலில் சேர்\" பொத்தானைக் கிளிக் செய்து சேனல் JID ஐ உள்ளிடவும் (எடுத்துக்காட்டு: room@conference.example.org).\n\nகடவுச்சொல் அல்லது புனைப்பெயர் தேவைப்பட்டால், உரையாடலில் வழங்கவும். பொது அறைகளைக் கண்டறிய சேவையகத்தின் கண்டுபிடிப்பு அம்சங்களைப் பயன்படுத்தவும்."
+msgstr ""
+"சேனலில் சேர, \"சேனலில் சேர்\" பொத்தானைக் கிளிக் செய்து சேனல் JID ஐ உள்ளிடவும் "
+"(எடுத்துக்காட்டு: room@conference.example.org).\n"
+"\n"
+"கடவுச்சொல் அல்லது புனைப்பெயர் தேவைப்பட்டால், உரையாடலில் வழங்கவும். பொது அறைகளைக் கண்டறிய "
+"சேவையகத்தின் கண்டுபிடிப்பு அம்சங்களைப் பயன்படுத்தவும்."
 
 #: main/src/ui/main_window.vala:206
 msgid "Welcome to DinoX!"
@@ -1528,7 +1595,9 @@ msgstr "உறுப்பினர்கள் மட்டுமே"
 msgid ""
 "Only members may enter the room. Warning: Non-members will be removed when "
 "enabled!"
-msgstr "உறுப்பினர்கள் மட்டுமே அறையில் நுழைய முடியும். எச்சரிக்கை: இயக்கப்படும்போது உறுப்பினர் அல்லாதவர்கள் அகற்றப்படுவர்!"
+msgstr ""
+"உறுப்பினர்கள் மட்டுமே அறையில் நுழைய முடியும். எச்சரிக்கை: இயக்கப்படும்போது உறுப்பினர் "
+"அல்லாதவர்கள் அகற்றப்படுவர்!"
 
 #: main/src/ui/util/helper.vala:65
 #, c-format
@@ -1548,7 +1617,9 @@ msgstr "%a, %b %d"
 msgid ""
 "This contact will be removed from your contact list and all conversation "
 "history will be permanently deleted."
-msgstr "இந்த தொடர்பு உங்கள் தொடர்பு பட்டியலிலிருந்து அகற்றப்படும் மற்றும் அனைத்து உரையாடல் வரலாறும் நிரந்தரமாக நீக்கப்படும்."
+msgstr ""
+"இந்த தொடர்பு உங்கள் தொடர்பு பட்டியலிலிருந்து அகற்றப்படும் மற்றும் அனைத்து உரையாடல் வரலாறும் "
+"நிரந்தரமாக நீக்கப்படும்."
 
 #: main/src/windows/conversation_details.vala:108
 msgid "Block user"
@@ -1722,7 +1793,8 @@ msgstr "அரட்டையைத் தொடங்க தொடர்பு�
 msgid ""
 "This will remove %s from your contact list and delete all conversation "
 "history."
-msgstr "இது உங்கள் தொடர்பு பட்டியலிலிருந்து %s ஐ அகற்றி அனைத்து உரையாடல் வரலாற்றையும் நீக்கும்."
+msgstr ""
+"இது உங்கள் தொடர்பு பட்டியலிலிருந்து %s ஐ அகற்றி அனைத்து உரையாடல் வரலாற்றையும் நீக்கும்."
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:318
 msgid "Edit Contact Alias"
@@ -1736,6 +1808,388 @@ msgstr "%s க்கான காட்சி பெயரை மாற்று
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:325
 msgid "Alias (optional)"
 msgstr "புனைப்பெயர் (விரும்பினால்)"
+
+# DinoX v0.7.7 - Database Maintenance & Backup/Restore
+msgid "Clean Database"
+msgstr "Clean Database"
+
+msgid "Reset Database"
+msgstr "Reset Database"
+
+msgid "Restore Complete!"
+msgstr "Restore Complete!"
+
+msgid "Restore Failed"
+msgstr "Restore Failed"
+
+msgid "Decrypting Backup..."
+msgstr "Decrypting Backup..."
+
+msgid "Restoring Backup..."
+msgstr "Restoring Backup..."
+
+msgid "Set Backup Password"
+msgstr "Set Backup Password"
+
+msgid "Confirm Password"
+msgstr "Confirm Password"
+
+msgid "Create Encrypted Backup"
+msgstr "Create Encrypted Backup"
+
+msgid "Password too short"
+msgstr "Password too short"
+
+msgid "Passwords do not match"
+msgstr "Passwords do not match"
+
+msgid "✓ Passwords match"
+msgstr "✓ Passwords match"
+
+msgid "Encrypting Backup..."
+msgstr "Encrypting Backup..."
+
+msgid "Factory Reset"
+msgstr "Factory Reset"
+
+msgid "Restore from Backup"
+msgstr "Restore from Backup"
+
+msgid "Restore Backup"
+msgstr "Restore Backup"
+
+msgid "Select Backup File"
+msgstr "Select Backup File"
+
+msgid "Enter Backup Password"
+msgstr "Enter Backup Password"
+
+msgid "Decrypt & Restore"
+msgstr "Decrypt & Restore"
+
+msgid "Create Backup First"
+msgstr "Create Backup First"
+
+msgid "No Encryption"
+msgstr "No Encryption"
+
+msgid "Encrypt with Password"
+msgstr "Encrypt with Password"
+
+msgid "Delete Everything"
+msgstr "Delete Everything"
+
+msgid "Confirm Delete"
+msgstr "Confirm Delete"
+
+msgid "Are you absolutely sure?"
+msgstr "Are you absolutely sure?"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "தரவுத்தள பராமரிப்பு"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "காப்பு கோப்பிலிருந்து கணக்குகள், செய்திகள் மற்றும் அமைப்புகளை மீட்டமைக்கவும்"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr ""
+"அனைத்து செய்திகள், கோப்புகள் மற்றும் OMEMO விசைகளை நீக்கு. உங்கள் கணக்குகள் இருக்கும்."
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr "கணக்குகள் உட்பட அனைத்து தரவையும் நீக்கு. இதை செயல்தவிர்க்க முடியாது!"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "காப்புப்பிரதி கோப்புகள் (*.tar.gz, *.tar.gz.gpg)"
+
+msgid "Creating encrypted backup..."
+msgstr "மறையாக்கப்பட்ட காப்புப்பிரதி உருவாக்குகிறது..."
+
+msgid "Decryption Failed"
+msgstr "மறைவிலக்கம் தோல்வியடைந்தது"
+
+msgid "DinoX will now restart..."
+msgstr "DinoX இப்போது மீண்டும் தொடங்கும்..."
+
+msgid "Encrypted backup created successfully"
+msgstr "மறையாக்கப்பட்ட காப்புப்பிரதி வெற்றிகரமாக உருவாக்கப்பட்டது"
+
+msgid "Password (minimum 4 characters)"
+msgstr "கடவுச்சொல் (குறைந்தபட்சம் 4 எழுத்துகள்)"
+
+msgid "Decrypting encrypted backup file..."
+msgstr "காப்புப்பிரதி கோப்பை மறைவிலக்குகிறது..."
+
+msgid "Extracting files from backup..."
+msgstr "காப்புப்பிரதியிலிருந்து கோப்புகளை பிரித்தெடுக்கிறது..."
+
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "தொழிற்சாலை மீட்டமைப்பு நடைபெறுகிறது... DinoX மீண்டும் தொடங்கும்."
+
+msgid "Resetting database... DinoX will restart."
+msgstr "தரவுத்தளம் மீட்டமைக்கப்படுகிறது... DinoX மீண்டும் தொடங்கும்."
+
+msgid "Encrypted backup created (%s)"
+msgstr "மறையாக்கப்பட்ட காப்புப்பிரதி உருவாக்கப்பட்டது (%s)"
+
+msgid ""
+"Could not decrypt the backup file.\n"
+"\n"
+"Please check if the password is correct."
+msgstr ""
+"கோப்பை மறைவிலக்க முடியவில்லை.\n"
+"\n"
+"கடவுச்சொல் சரியானதா என சரிபார்க்கவும்."
+
+msgid ""
+"Could not restore the backup file.\n"
+"\n"
+"Error: %s"
+msgstr ""
+"கோப்பை மீட்டெடுக்க முடியவில்லை.\n"
+"\n"
+"பிழை: %s"
+
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "இந்த காப்புப்பிரதி மறையாக்கப்பட்டுள்ளது. கடவுச்சொல்லை உள்ளிடவும்."
+
+msgid ""
+"Enter a password to encrypt the backup.\n"
+"\n"
+"<b>Important:</b> Remember this password! Without it, the backup cannot be "
+"restored."
+msgstr ""
+"காப்புப்பிரதியை மறையாக்க கடவுச்சொல்லை உள்ளிடவும்.\n"
+"\n"
+"<b>முக்கியம்:</b> இந்த கடவுச்சொல்லை நினைவில் கொள்ளுங்கள்! இது இல்லாமல், காப்புப்பிரதியை "
+"மீட்டெடுக்க முடியாது."
+
+msgid ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+msgstr ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+
+msgid ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+msgstr ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+
+msgid ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+msgstr ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+
+msgid ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+msgstr ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+
+# OpenPGP Key Management
+msgid "OpenPGP Key Management"
+msgstr "OpenPGP Key Management"
+
+msgid "Actions"
+msgstr "Actions"
+
+msgid "Generate New Key"
+msgstr "Generate New Key"
+
+msgid "Import Key"
+msgstr "Import Key"
+
+msgid "Your Keys"
+msgstr "Your Keys"
+
+msgid "Fingerprint"
+msgstr "Fingerprint"
+
+msgid "Export Public Key"
+msgstr "Export Public Key"
+
+msgid "Delete Key"
+msgstr "Delete Key"
+
+msgid "Name"
+msgstr "Name"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Passphrase"
+msgstr "Passphrase"
+
+msgid "Generate"
+msgstr "Generate"
+
+msgid "Select OpenPGP Key"
+msgstr "Select OpenPGP Key"
+
+msgid "Wrong passphrase"
+msgstr "Wrong passphrase"
+
+msgid "Manage Keys"
+msgstr "Manage Keys"
+
+msgid "Announce key"
+msgstr "Announce key"
+
+msgid "Disabled"
+msgstr "Disabled"
+
+msgid "Success"
+msgstr "Success"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Create a new OpenPGP key pair"
+msgstr "புதிய OpenPGP விசை ஜோடி உருவாக்கு"
+
+msgid "Import a key from file (.asc, .gpg)"
+msgstr "கோப்பிலிருந்து விசை இறக்கு (.asc, .gpg)"
+
+msgid "Private keys available for signing and decryption"
+msgstr "கையொப்பமிடல் மற்றும் மறைகுறியீட்டுக்கு கிடைக்கும் தனிப்பட்ட விசைகள்"
+
+msgid "No private keys found"
+msgstr "தனிப்பட்ட விசைகள் கிடைக்கவில்லை"
+
+msgid "Generate or import a key to get started"
+msgstr "தொடங்க ஒரு விசை உருவாக்கவும் அல்லது இறக்கவும்"
+
+msgid "Generate New OpenPGP Key"
+msgstr "புதிய OpenPGP விசை உருவாக்கு"
+
+msgid "Enter your details to create a new key pair."
+msgstr "புதிய விசை ஜோடி உருவாக்க உங்கள் விவரங்களை உள்ளிடவும்."
+
+msgid "Your Name"
+msgstr "உங்கள் பெயர்"
+
+msgid "you@example.com"
+msgstr "you@example.com"
+
+msgid "Passphrase (optional)"
+msgstr "கடவுச்சொற்றொடர் (விருப்பமானது)"
+
+msgid "4096-bit RSA key, valid for 2 years."
+msgstr "4096-பிட் RSA விசை, 2 ஆண்டுகள் செல்லுபடியாகும்."
+
+msgid "Name must be at least 2 characters"
+msgstr "பெயர் குறைந்தது 2 எழுத்துக்கள் இருக்க வேண்டும்"
+
+msgid "Please enter a valid email address"
+msgstr "சரியான மின்னஞ்சல் முகவரியை உள்ளிடவும்"
+
+msgid "Generating Key..."
+msgstr "விசை உருவாக்குகிறது..."
+
+msgid "Please wait while your key is being generated. This may take a moment."
+msgstr "உங்கள் விசை உருவாக்கப்படும் வரை காத்திருக்கவும். இது சிறிது நேரம் ஆகலாம்."
+
+msgid "Key generated successfully!"
+msgstr "விசை வெற்றிகரமாக உருவாக்கப்பட்டது!"
+
+msgid "Failed to generate key."
+msgstr "விசை உருவாக்க முடியவில்லை."
+
+msgid "Import OpenPGP Key"
+msgstr "OpenPGP விசை இறக்கு"
+
+msgid "OpenPGP Keys (*.asc, *.gpg)"
+msgstr "OpenPGP விசைகள் (*.asc, *.gpg)"
+
+msgid "All Files"
+msgstr "எல்லா கோப்புகளும்"
+
+msgid "Key imported! Re-open Key Management to see it."
+msgstr "விசை இறக்கப்பட்டது! பார்க்க விசை நிர்வாகத்தை மீண்டும் திறக்கவும்."
+
+msgid "Import failed: "
+msgstr "இறக்குமதி தோல்வி: "
+
+msgid "Key exported to: "
+msgstr "விசை ஏற்றுமதி செய்யப்பட்டது: "
+
+msgid "Export failed."
+msgstr "ஏற்றுமதி தோல்வி."
+
+msgid "Delete Key?"
+msgstr "விசை நீக்கவா?"
+
+msgid ""
+"Delete this key?\n"
+"\n"
+"%s\n"
+"\n"
+"This cannot be undone!"
+msgstr ""
+"இந்த விசையை நீக்கவா?\n"
+"\n"
+"%s\n"
+"\n"
+"இதை மாற்ற முடியாது!"
+
+msgid "Key deleted."
+msgstr "விசை நீக்கப்பட்டது."
+
+msgid "Delete failed: "
+msgstr "நீக்குதல் தோல்வி: "
+
+msgid "Choose a key to announce to your contacts."
+msgstr "உங்கள் தொடர்புகளுக்கு அறிவிக்க ஒரு விசை தேர்வு செய்யவும்."
+
+msgid "Enter GPG passphrase to confirm:"
+msgstr "உறுதிப்படுத்த GPG கடவுச்சொற்றொடர் உள்ளிடவும்:"
+
+msgid "Generate, import, export, or delete keys"
+msgstr "விசைகளை உருவாக்கு, இறக்கு, ஏற்றுமதி செய் அல்லது நீக்கு"
+
+msgid "No keys available. Generate or import one!"
+msgstr "விசைகள் கிடைக்கவில்லை. ஒன்று உருவாக்கவும் அல்லது இறக்கவும்!"
+
+msgid "Error in GnuPG"
+msgstr "GnuPG-ல் பிழை"
 
 #~ msgid "Message too long"
 #~ msgstr "செய்தி மிக நீளமானது"
@@ -1855,154 +2309,3 @@ msgstr "புனைப்பெயர் (விரும்பினால்)
 
 #~ msgid "Pick another server"
 #~ msgstr "மற்றொரு சேவையகத்தைத் தேர்ந்தெடுங்கள்"
-
-# DinoX v0.7.7 - Database Maintenance & Backup/Restore
-msgid "Clean Database"
-msgstr "Clean Database"
-
-msgid "Reset Database"
-msgstr "Reset Database"
-
-msgid "Restore Complete!"
-msgstr "Restore Complete!"
-
-msgid "Restore Failed"
-msgstr "Restore Failed"
-
-msgid "Decrypting Backup..."
-msgstr "Decrypting Backup..."
-
-msgid "Restoring Backup..."
-msgstr "Restoring Backup..."
-
-msgid "Set Backup Password"
-msgstr "Set Backup Password"
-
-msgid "Confirm Password"
-msgstr "Confirm Password"
-
-msgid "Create Encrypted Backup"
-msgstr "Create Encrypted Backup"
-
-msgid "Password too short"
-msgstr "Password too short"
-
-msgid "Passwords do not match"
-msgstr "Passwords do not match"
-
-msgid "✓ Passwords match"
-msgstr "✓ Passwords match"
-
-msgid "Encrypting Backup..."
-msgstr "Encrypting Backup..."
-
-msgid "Factory Reset"
-msgstr "Factory Reset"
-
-msgid "Restore from Backup"
-msgstr "Restore from Backup"
-
-msgid "Restore Backup"
-msgstr "Restore Backup"
-
-msgid "Select Backup File"
-msgstr "Select Backup File"
-
-msgid "Enter Backup Password"
-msgstr "Enter Backup Password"
-
-msgid "Decrypt & Restore"
-msgstr "Decrypt & Restore"
-
-msgid "Create Backup First"
-msgstr "Create Backup First"
-
-msgid "No Encryption"
-msgstr "No Encryption"
-
-msgid "Encrypt with Password"
-msgstr "Encrypt with Password"
-
-msgid "Delete Everything"
-msgstr "Delete Everything"
-
-msgid "Confirm Delete"
-msgstr "Confirm Delete"
-
-msgid "Are you absolutely sure?"
-msgstr "Are you absolutely sure?"
-
-#: main/data/preferences_window/general_preferences_page.ui:104
-msgid "Database Maintenance"
-msgstr "தரவுத்தள பராமரிப்பு"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Restore accounts, messages and settings from a backup file"
-msgstr "காப்பு கோப்பிலிருந்து கணக்குகள், செய்திகள் மற்றும் அமைப்புகளை மீட்டமைக்கவும்"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
-msgstr "அனைத்து செய்திகள், கோப்புகள் மற்றும் OMEMO விசைகளை நீக்கு. உங்கள் கணக்குகள் இருக்கும்."
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete ALL data including accounts. This cannot be undone!"
-msgstr "கணக்குகள் உட்பட அனைத்து தரவையும் நீக்கு. இதை செயல்தவிர்க்க முடியாது!"
-
-# DinoX v0.7.7 - Additional Backup/Restore strings
-
-msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
-msgstr "காப்புப்பிரதி கோப்புகள் (*.tar.gz, *.tar.gz.gpg)"
-
-msgid "Creating encrypted backup..."
-msgstr "மறையாக்கப்பட்ட காப்புப்பிரதி உருவாக்குகிறது..."
-
-msgid "Decryption Failed"
-msgstr "மறைவிலக்கம் தோல்வியடைந்தது"
-
-msgid "DinoX will now restart..."
-msgstr "DinoX இப்போது மீண்டும் தொடங்கும்..."
-
-msgid "Encrypted backup created successfully"
-msgstr "மறையாக்கப்பட்ட காப்புப்பிரதி வெற்றிகரமாக உருவாக்கப்பட்டது"
-
-msgid "Password (minimum 4 characters)"
-msgstr "கடவுச்சொல் (குறைந்தபட்சம் 4 எழுத்துகள்)"
-
-msgid "Decrypting encrypted backup file..."
-msgstr "காப்புப்பிரதி கோப்பை மறைவிலக்குகிறது..."
-
-msgid "Extracting files from backup..."
-msgstr "காப்புப்பிரதியிலிருந்து கோப்புகளை பிரித்தெடுக்கிறது..."
-
-msgid "Factory reset in progress... DinoX will restart."
-msgstr "தொழிற்சாலை மீட்டமைப்பு நடைபெறுகிறது... DinoX மீண்டும் தொடங்கும்."
-
-msgid "Resetting database... DinoX will restart."
-msgstr "தரவுத்தளம் மீட்டமைக்கப்படுகிறது... DinoX மீண்டும் தொடங்கும்."
-
-msgid "Encrypted backup created (%s)"
-msgstr "மறையாக்கப்பட்ட காப்புப்பிரதி உருவாக்கப்பட்டது (%s)"
-
-msgid "Could not decrypt the backup file.\n\nPlease check if the password is correct."
-msgstr "கோப்பை மறைவிலக்க முடியவில்லை.\n\nகடவுச்சொல் சரியானதா என சரிபார்க்கவும்."
-
-msgid "Could not restore the backup file.\n\nError: %s"
-msgstr "கோப்பை மீட்டெடுக்க முடியவில்லை.\n\nபிழை: %s"
-
-msgid "This backup is encrypted. Please enter the password to decrypt it."
-msgstr "இந்த காப்புப்பிரதி மறையாக்கப்பட்டுள்ளது. கடவுச்சொல்லை உள்ளிடவும்."
-
-msgid "Enter a password to encrypt the backup.\n\n<b>Important:</b> Remember this password! Without it, the backup cannot be restored."
-msgstr "காப்புப்பிரதியை மறையாக்க கடவுச்சொல்லை உள்ளிடவும்.\n\n<b>முக்கியம்:</b> இந்த கடவுச்சொல்லை நினைவில் கொள்ளுங்கள்! இது இல்லாமல், காப்புப்பிரதியை மீட்டெடுக்க முடியாது."
-
-msgid "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
-msgstr "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
-
-msgid "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
-msgstr "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
-
-msgid "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
-msgstr "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
-
-msgid "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"
-msgstr "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"

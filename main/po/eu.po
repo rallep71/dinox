@@ -318,8 +318,10 @@ msgstr "_Atzeko planoan mantendu"
 #: main/data/preferences_window/general_preferences_page.ui:33
 msgid ""
 "Continue running after closing window to receive notifications immediately"
-msgstr "Jarraitu exekutatzen leihoa itxi ondoren jakinarazpenak berehala jasotzeko"
-"Exekutatzen jarraitu leihoa itxi ondoren jakinarazpenak berehala jasotzeko"
+msgstr ""
+"Jarraitu exekutatzen leihoa itxi ondoren jakinarazpenak berehala "
+"jasotzekoExekutatzen jarraitu leihoa itxi ondoren jakinarazpenak berehala "
+"jasotzeko"
 
 #: main/data/preferences_window/general_preferences_page.ui:41
 msgid "Appearance"
@@ -494,7 +496,9 @@ msgstr "Informazioa:"
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
-msgstr "Zure datu pertsonalak (kontuak, mezuak, fitxategiak) aplikaziotik bereizita gordetzen dira."
+msgstr ""
+"Zure datu pertsonalak (kontuak, mezuak, fitxategiak) aplikaziotik bereizita "
+"gordetzen dira."
 
 #: main/src/ui/application.vala:361
 msgid "When you update DinoX, your data remains intact."
@@ -502,15 +506,19 @@ msgstr "DinoX eguneratzean, zure datuak osorik geratzen dira."
 
 #: main/src/ui/application.vala:363
 msgid "Use Settings → General → Backup User Data to create a backup."
-msgstr "Erabili Ezarpenak → Orokorra → Erabiltzaile datuen babeskopia sortzeko."
+msgstr ""
+"Erabili Ezarpenak → Orokorra → Erabiltzaile datuen babeskopia sortzeko."
 
 #: main/src/ui/application.vala:405
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
-msgstr "Zure datu pertsonalak (kontuak, mezuak, fitxategiak) aplikaziotik bereizita gordetzen dira. DinoX eguneratzen duzunean, zure datuak osoak mantentzen dira."
+msgstr ""
 "Zure datu pertsonalak (kontuak, mezuak, fitxategiak) aplikaziotik bereizita "
-"gordetzen dira. DinoX eguneratzen duzunean, zure datuak ukitu gabe geratzen dira."
+"gordetzen dira. DinoX eguneratzen duzunean, zure datuak osoak mantentzen "
+"dira.Zure datu pertsonalak (kontuak, mezuak, fitxategiak) aplikaziotik "
+"bereizita gordetzen dira. DinoX eguneratzen duzunean, zure datuak ukitu gabe "
+"geratzen dira."
 
 #: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
 #: main/src/ui/main_window.vala:159
@@ -520,6 +528,52 @@ msgstr "Itxi"
 #: main/src/ui/application.vala:417
 msgid "Select Backup Location"
 msgstr "Hautatu babeskopia kokapena"
+
+#: main/src/ui/application.vala
+msgid "Creating Backup..."
+msgstr "Creating Backup..."
+
+#: main/src/ui/application.vala
+msgid "Creating Encrypted Backup..."
+msgstr "Creating Encrypted Backup..."
+
+#: main/src/ui/application.vala
+msgid "Please wait while your data is being backed up."
+msgstr "Please wait while your data is being backed up."
+
+#: main/src/ui/application.vala
+msgid "No data directories found to backup"
+msgstr "No data directories found to backup"
+
+#: main/src/ui/application.vala
+msgid "Backup Created"
+msgstr "Backup Created"
+
+#: main/src/ui/application.vala
+msgid "Encrypted Backup Created"
+msgstr "Encrypted Backup Created"
+
+#: main/src/ui/application.vala
+#, c-format
+msgid "Your backup was created successfully.\\n\\nSize: %s"
+msgstr "Your backup was created successfully.\\n\\nSize: %s"
+
+#: main/src/ui/application.vala
+msgid "Your backup was created successfully."
+msgstr "Your backup was created successfully."
+
+#: main/src/ui/application.vala
+#, c-format
+msgid "Your encrypted backup was created successfully.\\n\\nSize: %s"
+msgstr "Your encrypted backup was created successfully.\\n\\nSize: %s"
+
+#: main/src/ui/application.vala
+msgid "Your encrypted backup was created successfully."
+msgstr "Your encrypted backup was created successfully."
+
+#: main/src/ui/application.vala
+msgid "Backup Failed"
+msgstr "Backup Failed"
 
 #: main/src/ui/application.vala:445
 msgid "Creating backup..."
@@ -1043,9 +1097,11 @@ msgstr "Suntsitu gela?"
 msgid ""
 "Are you sure you want to permanently destroy this room? This action cannot "
 "be undone and all history will be lost for all participants."
-msgstr "Ziur zaude gela hau betirako suntsitu nahi duzula? Ekintza hau ezin da desegin eta historia guztia galduko da partaide guztientzat."
+msgstr ""
 "Ziur zaude gela hau betirako suntsitu nahi duzula? Ekintza hau ezin da "
-"desegin eta historia guztia galduko da partaide guztientzat."
+"desegin eta historia guztia galduko da partaide guztientzat.Ziur zaude gela "
+"hau betirako suntsitu nahi duzula? Ekintza hau ezin da desegin eta historia "
+"guztia galduko da partaide guztientzat."
 
 #: main/src/ui/conversation_details.vala:250
 msgid "Destroy"
@@ -1228,7 +1284,12 @@ msgid ""
 "• Remove %s from your contact list\n"
 "\n"
 "This action cannot be undone."
-msgstr "Honek:\n• Elkarrizketa-historia guztia ezabatuko du\n• %s zure kontaktu-zerrendatik kenduko du\n\nEkintza hau ezin da desegin."
+msgstr ""
+"Honek:\n"
+"• Elkarrizketa-historia guztia ezabatuko du\n"
+"• %s zure kontaktu-zerrendatik kenduko du\n"
+"\n"
+"Ekintza hau ezin da desegin."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:787
 msgid "Delete all message history?"
@@ -1238,7 +1299,9 @@ msgstr "Mezu historia guztia ezabatu?"
 msgid ""
 "This will permanently delete all messages in this conversation. This action "
 "cannot be undone."
-msgstr "Honek elkarrizketa honetako mezu guztiak betirako ezabatuko ditu. Ekintza hau ezin da desegin."
+msgstr ""
+"Honek elkarrizketa honetako mezu guztiak betirako ezabatuko ditu. Ekintza "
+"hau ezin da desegin."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:791
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
@@ -1265,7 +1328,9 @@ msgstr "Konferentzia zerbitzaria beharrezkoa"
 msgid ""
 "To start a group call, you need to configure a default conference server in "
 "your account settings."
-msgstr "Talde-deia hasteko, konferentzia-zerbitzari lehenetsi bat konfiguratu behar duzu kontuaren ezarpenetan."
+msgstr ""
+"Talde-deia hasteko, konferentzia-zerbitzari lehenetsi bat konfiguratu behar "
+"duzu kontuaren ezarpenetan."
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:84
 msgid "Open Settings"
@@ -1299,7 +1364,8 @@ msgstr "Hautatu"
 
 #: main/src/ui/file_send_overlay.vala:58
 msgid "The file exceeds the server's maximum upload size."
-msgstr "Fitxategiak zerbitzariaren gehienezko karga-tamaina gainditzen du."
+msgstr ""
+"Fitxategiak zerbitzariaren gehienezko karga-tamaina gainditzen du."
 "Fitxategiak zerbitzariaren kargatzeko gehienezko tamaina gainditzen du."
 
 #: main/src/ui/global_search.vala:208
@@ -1323,7 +1389,12 @@ msgid ""
 "\n"
 "If you need a password or a nickname, provide them in the dialog. Use the "
 "discovery features in the server to find public rooms."
-msgstr "Kanal batera batzeko, egin klik \"Kanalera batu\" botoian eta sartu kanalaren JID-a (adibidea: room@conference.example.org).\n\nPasahitz edo goitizen bat behar baduzu, eman elkarrizketa-koadroan. Erabili zerbitzariaren aurkikuntza-ezaugarriak gela publikoak aurkitzeko."
+msgstr ""
+"Kanal batera batzeko, egin klik \"Kanalera batu\" botoian eta sartu "
+"kanalaren JID-a (adibidea: room@conference.example.org).\n"
+"\n"
+"Pasahitz edo goitizen bat behar baduzu, eman elkarrizketa-koadroan. Erabili "
+"zerbitzariaren aurkikuntza-ezaugarriak gela publikoak aurkitzeko."
 
 #: main/src/ui/main_window.vala:206
 msgid "Welcome to DinoX!"
@@ -1481,9 +1552,11 @@ msgstr "Irten"
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
 "A friendly name shown in room listings (does not change the room address)"
-msgstr "Gelen zerrendetan erakusten den izen adiskidetsua (ez du gelaren helbidea aldatzen)"
-"Gela-zerrendetan erakusten den izen atsegina (ez du gela-helbidea aldatzen)"
-"Gelen zerrendetan erakusten den izen adiskidetsua (ez du gela helbidea aldatzen)"
+msgstr ""
+"Gelen zerrendetan erakusten den izen adiskidetsua (ez du gelaren helbidea "
+"aldatzen)Gela-zerrendetan erakusten den izen atsegina (ez du gela-helbidea "
+"aldatzen)Gelen zerrendetan erakusten den izen adiskidetsua (ez du gela "
+"helbidea aldatzen)"
 
 #: main/src/ui/util/data_forms.vala:44
 msgid "Description"
@@ -1537,7 +1610,9 @@ msgstr "Kideak soilik"
 msgid ""
 "Only members may enter the room. Warning: Non-members will be removed when "
 "enabled!"
-msgstr "Bakarrik kideek sar daitezke gelan. Abisua: Ez-kideak kenduko dira gaituta dagoenean!"
+msgstr ""
+"Bakarrik kideek sar daitezke gelan. Abisua: Ez-kideak kenduko dira gaituta "
+"dagoenean!"
 
 #: main/src/ui/util/helper.vala:65
 #, c-format
@@ -1557,7 +1632,9 @@ msgstr "%a, %b %d"
 msgid ""
 "This contact will be removed from your contact list and all conversation "
 "history will be permanently deleted."
-msgstr "Kontaktu hau zure kontaktu-zerrendatik kenduko da eta elkarrizketa-historia guztia betirako ezabatuko da."
+msgstr ""
+"Kontaktu hau zure kontaktu-zerrendatik kenduko da eta elkarrizketa-historia "
+"guztia betirako ezabatuko da."
 
 #: main/src/windows/conversation_details.vala:108
 msgid "Block user"
@@ -1731,9 +1808,10 @@ msgstr "Gehitu kontaktuak txateatzen hasteko"
 msgid ""
 "This will remove %s from your contact list and delete all conversation "
 "history."
-msgstr "Honek %s zure kontaktu-zerrendatik kenduko du eta elkarrizketa-historia guztia ezabatuko du."
-"%s zure kontaktu-zerrendatik kendu eta elkarrizketa-historia guztia "
-"ezabatuko da."
+msgstr ""
+"Honek %s zure kontaktu-zerrendatik kenduko du eta elkarrizketa-historia "
+"guztia ezabatuko du.%s zure kontaktu-zerrendatik kendu eta elkarrizketa-"
+"historia guztia ezabatuko da."
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:318
 msgid "Edit Contact Alias"
@@ -1747,6 +1825,388 @@ msgstr "Aldatu %s(r)en bistaratze-izena"
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:325
 msgid "Alias (optional)"
 msgstr "Ezizena (aukerakoa)"
+
+# DinoX v0.7.7 - Database Maintenance & Backup/Restore
+msgid "Clean Database"
+msgstr "Clean Database"
+
+msgid "Reset Database"
+msgstr "Reset Database"
+
+msgid "Restore Complete!"
+msgstr "Restore Complete!"
+
+msgid "Restore Failed"
+msgstr "Restore Failed"
+
+msgid "Decrypting Backup..."
+msgstr "Decrypting Backup..."
+
+msgid "Restoring Backup..."
+msgstr "Restoring Backup..."
+
+msgid "Set Backup Password"
+msgstr "Set Backup Password"
+
+msgid "Confirm Password"
+msgstr "Confirm Password"
+
+msgid "Create Encrypted Backup"
+msgstr "Create Encrypted Backup"
+
+msgid "Password too short"
+msgstr "Password too short"
+
+msgid "Passwords do not match"
+msgstr "Passwords do not match"
+
+msgid "✓ Passwords match"
+msgstr "✓ Passwords match"
+
+msgid "Encrypting Backup..."
+msgstr "Encrypting Backup..."
+
+msgid "Factory Reset"
+msgstr "Factory Reset"
+
+msgid "Restore from Backup"
+msgstr "Restore from Backup"
+
+msgid "Restore Backup"
+msgstr "Restore Backup"
+
+msgid "Select Backup File"
+msgstr "Select Backup File"
+
+msgid "Enter Backup Password"
+msgstr "Enter Backup Password"
+
+msgid "Decrypt & Restore"
+msgstr "Decrypt & Restore"
+
+msgid "Create Backup First"
+msgstr "Create Backup First"
+
+msgid "No Encryption"
+msgstr "No Encryption"
+
+msgid "Encrypt with Password"
+msgstr "Encrypt with Password"
+
+msgid "Delete Everything"
+msgstr "Delete Everything"
+
+msgid "Confirm Delete"
+msgstr "Confirm Delete"
+
+msgid "Are you absolutely sure?"
+msgstr "Are you absolutely sure?"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "Datu-basearen mantentze-lanak"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "Berrezarri kontuak, mezuak eta ezarpenak babeskopia-fitxategi batetik"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr ""
+"Ezabatu mezu, fitxategi eta OMEMO gako guztiak. Zure kontuak mantenduko dira."
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr "Ezabatu datu GUZTIAK, kontuak barne. Hau ezin da desegin!"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "Babeskopia fitxategiak (*.tar.gz, *.tar.gz.gpg)"
+
+msgid "Creating encrypted backup..."
+msgstr "Enkriptatutako babeskopia sortzen..."
+
+msgid "Decryption Failed"
+msgstr "Deszifraketa huts egin du"
+
+msgid "DinoX will now restart..."
+msgstr "DinoX orain berrabiaraziko da..."
+
+msgid "Encrypted backup created successfully"
+msgstr "Enkriptatutako babeskopia ongi sortu da"
+
+msgid "Password (minimum 4 characters)"
+msgstr "Pasahitza (gutxienez 4 karaktere)"
+
+msgid "Decrypting encrypted backup file..."
+msgstr "Babeskopia fitxategia deszifratzean..."
+
+msgid "Extracting files from backup..."
+msgstr "Fitxategiak babeskopiatik ateratzen..."
+
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "Fabrikako berrezarpena abian... DinoX berrabiaraziko da."
+
+msgid "Resetting database... DinoX will restart."
+msgstr "Datu-basea berrezartzen... DinoX berrabiaraziko da."
+
+msgid "Encrypted backup created (%s)"
+msgstr "Enkriptatutako babeskopia sortu da (%s)"
+
+msgid ""
+"Could not decrypt the backup file.\n"
+"\n"
+"Please check if the password is correct."
+msgstr ""
+"Ezin izan da fitxategia deszifratu.\n"
+"\n"
+"Egiaztatu pasahitza zuzena den."
+
+msgid ""
+"Could not restore the backup file.\n"
+"\n"
+"Error: %s"
+msgstr ""
+"Ezin izan da fitxategia leheneratu.\n"
+"\n"
+"Errorea: %s"
+
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "Babeskopia hau enkriptatuta dago. Sartu pasahitza deszifratzeko."
+
+msgid ""
+"Enter a password to encrypt the backup.\n"
+"\n"
+"<b>Important:</b> Remember this password! Without it, the backup cannot be "
+"restored."
+msgstr ""
+"Sartu pasahitz bat babeskopia enkriptatzeko.\n"
+"\n"
+"<b>Garrantzitsua:</b> Gogoratu pasahitz hau! Hura gabe, ezin da babeskopia "
+"leheneratu."
+
+msgid ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+msgstr ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+
+msgid ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+msgstr ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+
+msgid ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+msgstr ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+
+msgid ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+msgstr ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+
+# OpenPGP Key Management
+msgid "OpenPGP Key Management"
+msgstr "OpenPGP Key Management"
+
+msgid "Actions"
+msgstr "Actions"
+
+msgid "Generate New Key"
+msgstr "Generate New Key"
+
+msgid "Import Key"
+msgstr "Import Key"
+
+msgid "Your Keys"
+msgstr "Your Keys"
+
+msgid "Fingerprint"
+msgstr "Fingerprint"
+
+msgid "Export Public Key"
+msgstr "Export Public Key"
+
+msgid "Delete Key"
+msgstr "Delete Key"
+
+msgid "Name"
+msgstr "Name"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Passphrase"
+msgstr "Passphrase"
+
+msgid "Generate"
+msgstr "Generate"
+
+msgid "Select OpenPGP Key"
+msgstr "Select OpenPGP Key"
+
+msgid "Wrong passphrase"
+msgstr "Wrong passphrase"
+
+msgid "Manage Keys"
+msgstr "Manage Keys"
+
+msgid "Announce key"
+msgstr "Announce key"
+
+msgid "Disabled"
+msgstr "Disabled"
+
+msgid "Success"
+msgstr "Success"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Create a new OpenPGP key pair"
+msgstr "Sortu OpenPGP gako-pare berria"
+
+msgid "Import a key from file (.asc, .gpg)"
+msgstr "Inportatu gakoa fitxategitik (.asc, .gpg)"
+
+msgid "Private keys available for signing and decryption"
+msgstr "Sinatzeko eta deszifratzeko eskuragarri dauden gako pribatuak"
+
+msgid "No private keys found"
+msgstr "Ez da gako pribaturik aurkitu"
+
+msgid "Generate or import a key to get started"
+msgstr "Sortu edo inportatu gako bat hasteko"
+
+msgid "Generate New OpenPGP Key"
+msgstr "Sortu OpenPGP gako berria"
+
+msgid "Enter your details to create a new key pair."
+msgstr "Sartu zure datuak gako-pare berria sortzeko."
+
+msgid "Your Name"
+msgstr "Zure izena"
+
+msgid "you@example.com"
+msgstr "zu@adibidea.eus"
+
+msgid "Passphrase (optional)"
+msgstr "Pasaesaldia (aukerakoa)"
+
+msgid "4096-bit RSA key, valid for 2 years."
+msgstr "4096 biteko RSA gakoa, 2 urterako baliogarria."
+
+msgid "Name must be at least 2 characters"
+msgstr "Izenak gutxienez 2 karaktere izan behar ditu"
+
+msgid "Please enter a valid email address"
+msgstr "Mesedez, sartu baliozko helbide elektronikoa"
+
+msgid "Generating Key..."
+msgstr "Gakoa sortzen..."
+
+msgid "Please wait while your key is being generated. This may take a moment."
+msgstr "Itxaron gakoa sortzen den bitartean. Une bat behar izan dezake."
+
+msgid "Key generated successfully!"
+msgstr "Gakoa ondo sortu da!"
+
+msgid "Failed to generate key."
+msgstr "Gakoa sortzeak huts egin du."
+
+msgid "Import OpenPGP Key"
+msgstr "Inportatu OpenPGP gakoa"
+
+msgid "OpenPGP Keys (*.asc, *.gpg)"
+msgstr "OpenPGP gakoak (*.asc, *.gpg)"
+
+msgid "All Files"
+msgstr "Fitxategi guztiak"
+
+msgid "Key imported! Re-open Key Management to see it."
+msgstr "Gakoa inportatu da! Ireki berriro Gako kudeaketa ikusteko."
+
+msgid "Import failed: "
+msgstr "Inportazioak huts egin du: "
+
+msgid "Key exported to: "
+msgstr "Gakoa esportatu da: "
+
+msgid "Export failed."
+msgstr "Esportazioak huts egin du."
+
+msgid "Delete Key?"
+msgstr "Ezabatu gakoa?"
+
+msgid ""
+"Delete this key?\n"
+"\n"
+"%s\n"
+"\n"
+"This cannot be undone!"
+msgstr ""
+"Gako hau ezabatu?\n"
+"\n"
+"%s\n"
+"\n"
+"Hau ezin da desegin!"
+
+msgid "Key deleted."
+msgstr "Gakoa ezabatu da."
+
+msgid "Delete failed: "
+msgstr "Ezabatzeak huts egin du: "
+
+msgid "Choose a key to announce to your contacts."
+msgstr "Hautatu gako bat zure kontaktuei jakinarazteko."
+
+msgid "Enter GPG passphrase to confirm:"
+msgstr "Sartu GPG pasaesaldia berresteko:"
+
+msgid "Generate, import, export, or delete keys"
+msgstr "Sortu, inportatu, esportatu edo ezabatu gakoak"
+
+msgid "No keys available. Generate or import one!"
+msgstr "Ez dago gakorik eskuragarri. Sortu edo inportatu bat!"
+
+msgid "Error in GnuPG"
+msgstr "Errorea GnuPG-n"
 
 #~ msgid "Message too long"
 #~ msgstr "Mezu luzeegia"
@@ -1971,154 +2431,3 @@ msgstr "Ezizena (aukerakoa)"
 
 #~ msgid "Join on startup"
 #~ msgstr "Hasieran batu"
-
-# DinoX v0.7.7 - Database Maintenance & Backup/Restore
-msgid "Clean Database"
-msgstr "Clean Database"
-
-msgid "Reset Database"
-msgstr "Reset Database"
-
-msgid "Restore Complete!"
-msgstr "Restore Complete!"
-
-msgid "Restore Failed"
-msgstr "Restore Failed"
-
-msgid "Decrypting Backup..."
-msgstr "Decrypting Backup..."
-
-msgid "Restoring Backup..."
-msgstr "Restoring Backup..."
-
-msgid "Set Backup Password"
-msgstr "Set Backup Password"
-
-msgid "Confirm Password"
-msgstr "Confirm Password"
-
-msgid "Create Encrypted Backup"
-msgstr "Create Encrypted Backup"
-
-msgid "Password too short"
-msgstr "Password too short"
-
-msgid "Passwords do not match"
-msgstr "Passwords do not match"
-
-msgid "✓ Passwords match"
-msgstr "✓ Passwords match"
-
-msgid "Encrypting Backup..."
-msgstr "Encrypting Backup..."
-
-msgid "Factory Reset"
-msgstr "Factory Reset"
-
-msgid "Restore from Backup"
-msgstr "Restore from Backup"
-
-msgid "Restore Backup"
-msgstr "Restore Backup"
-
-msgid "Select Backup File"
-msgstr "Select Backup File"
-
-msgid "Enter Backup Password"
-msgstr "Enter Backup Password"
-
-msgid "Decrypt & Restore"
-msgstr "Decrypt & Restore"
-
-msgid "Create Backup First"
-msgstr "Create Backup First"
-
-msgid "No Encryption"
-msgstr "No Encryption"
-
-msgid "Encrypt with Password"
-msgstr "Encrypt with Password"
-
-msgid "Delete Everything"
-msgstr "Delete Everything"
-
-msgid "Confirm Delete"
-msgstr "Confirm Delete"
-
-msgid "Are you absolutely sure?"
-msgstr "Are you absolutely sure?"
-
-#: main/data/preferences_window/general_preferences_page.ui:104
-msgid "Database Maintenance"
-msgstr "Datu-basearen mantentze-lanak"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Restore accounts, messages and settings from a backup file"
-msgstr "Berrezarri kontuak, mezuak eta ezarpenak babeskopia-fitxategi batetik"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
-msgstr "Ezabatu mezu, fitxategi eta OMEMO gako guztiak. Zure kontuak mantenduko dira."
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete ALL data including accounts. This cannot be undone!"
-msgstr "Ezabatu datu GUZTIAK, kontuak barne. Hau ezin da desegin!"
-
-# DinoX v0.7.7 - Additional Backup/Restore strings
-
-msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
-msgstr "Babeskopia fitxategiak (*.tar.gz, *.tar.gz.gpg)"
-
-msgid "Creating encrypted backup..."
-msgstr "Enkriptatutako babeskopia sortzen..."
-
-msgid "Decryption Failed"
-msgstr "Deszifraketa huts egin du"
-
-msgid "DinoX will now restart..."
-msgstr "DinoX orain berrabiaraziko da..."
-
-msgid "Encrypted backup created successfully"
-msgstr "Enkriptatutako babeskopia ongi sortu da"
-
-msgid "Password (minimum 4 characters)"
-msgstr "Pasahitza (gutxienez 4 karaktere)"
-
-msgid "Decrypting encrypted backup file..."
-msgstr "Babeskopia fitxategia deszifratzean..."
-
-msgid "Extracting files from backup..."
-msgstr "Fitxategiak babeskopiatik ateratzen..."
-
-msgid "Factory reset in progress... DinoX will restart."
-msgstr "Fabrikako berrezarpena abian... DinoX berrabiaraziko da."
-
-msgid "Resetting database... DinoX will restart."
-msgstr "Datu-basea berrezartzen... DinoX berrabiaraziko da."
-
-msgid "Encrypted backup created (%s)"
-msgstr "Enkriptatutako babeskopia sortu da (%s)"
-
-msgid "Could not decrypt the backup file.\n\nPlease check if the password is correct."
-msgstr "Ezin izan da fitxategia deszifratu.\n\nEgiaztatu pasahitza zuzena den."
-
-msgid "Could not restore the backup file.\n\nError: %s"
-msgstr "Ezin izan da fitxategia leheneratu.\n\nErrorea: %s"
-
-msgid "This backup is encrypted. Please enter the password to decrypt it."
-msgstr "Babeskopia hau enkriptatuta dago. Sartu pasahitza deszifratzeko."
-
-msgid "Enter a password to encrypt the backup.\n\n<b>Important:</b> Remember this password! Without it, the backup cannot be restored."
-msgstr "Sartu pasahitz bat babeskopia enkriptatzeko.\n\n<b>Garrantzitsua:</b> Gogoratu pasahitz hau! Hura gabe, ezin da babeskopia leheneratu."
-
-msgid "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
-msgstr "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
-
-msgid "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
-msgstr "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
-
-msgid "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
-msgstr "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
-
-msgid "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"
-msgstr "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"

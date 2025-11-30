@@ -65,6 +65,20 @@ namespace Dino.Plugins.Omemo {
                         return true;
                     } catch (Error e) {
                         debug("Decrypting message from %s/%d failed: %s", possible_jid.to_string(), data.sid, e.message);
+                        
+                        // If we have SG_ERR_NO_SESSION error, the other client has a stale session
+                        // We need to trigger a session rebuild by fetching their bundle
+                        if (e.message.contains("SG_ERR_NO_SESSION") && !data.is_prekey) {
+                            debug("No session available for %s/%d - fetching bundle to prepare for next message", possible_jid.to_string(), data.sid);
+                            XmppStream? stream = stream_interactor.get_stream(account);
+                            if (stream != null) {
+                                StreamModule? module = stream.get_module(StreamModule.IDENTITY);
+                                if (module != null) {
+                                    // Fetch their bundle - this will create a session when we next send them a message
+                                    module.fetch_bundle(stream, possible_jid, data.sid, false);
+                                }
+                            }
+                        }
                     }
                 }
             }

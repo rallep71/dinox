@@ -317,8 +317,10 @@ msgstr "_Vazhdo në sfond"
 #: main/data/preferences_window/general_preferences_page.ui:33
 msgid ""
 "Continue running after closing window to receive notifications immediately"
-msgstr "Vazhdo të ekzekutosh pas mbylljes së dritares për të marrë njoftime menjëherë"
-"Vazhdo të ekzekutosh pas mbylljes së dritares për të marrë njoftimet menjëherë"
+msgstr ""
+"Vazhdo të ekzekutosh pas mbylljes së dritares për të marrë njoftime "
+"menjëherëVazhdo të ekzekutosh pas mbylljes së dritares për të marrë "
+"njoftimet menjëherë"
 
 #: main/data/preferences_window/general_preferences_page.ui:41
 msgid "Appearance"
@@ -493,7 +495,9 @@ msgstr "Info:"
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
-msgstr "Të dhënat tuaja personale (llogaritë, mesazhet, skedarët) ruhen veçmas nga aplikacioni."
+msgstr ""
+"Të dhënat tuaja personale (llogaritë, mesazhet, skedarët) ruhen veçmas nga "
+"aplikacioni."
 
 #: main/src/ui/application.vala:361
 msgid "When you update DinoX, your data remains intact."
@@ -501,14 +505,18 @@ msgstr "Kur përditësoni DinoX, të dhënat tuaja mbeten të paprekura."
 
 #: main/src/ui/application.vala:363
 msgid "Use Settings → General → Backup User Data to create a backup."
-msgstr "Përdorni Cilësimet → Të përgjithshme → Rezervo të dhënat e përdoruesit për të krijuar një kopje rezervë."
+msgstr ""
+"Përdorni Cilësimet → Të përgjithshme → Rezervo të dhënat e përdoruesit për "
+"të krijuar një kopje rezervë."
 
 #: main/src/ui/application.vala:405
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
-msgstr "Të dhënat tuaja personale (llogaritë, mesazhet, skedarët) ruhen veçmas nga aplikacioni. Kur përditësoni DinoX, të dhënat tuaja mbeten të paprekura."
+msgstr ""
 "Të dhënat tuaja personale (llogaritë, mesazhet, skedarët) ruhen veçmas nga "
+"aplikacioni. Kur përditësoni DinoX, të dhënat tuaja mbeten të paprekura.Të "
+"dhënat tuaja personale (llogaritë, mesazhet, skedarët) ruhen veçmas nga "
 "aplikacioni. Kur përditësoni DinoX, të dhënat tuaja mbeten të paprekura."
 
 #: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
@@ -519,6 +527,52 @@ msgstr "Mbyll"
 #: main/src/ui/application.vala:417
 msgid "Select Backup Location"
 msgstr "Zgjidhni vendndodhjen e kopjes"
+
+#: main/src/ui/application.vala
+msgid "Creating Backup..."
+msgstr "Creating Backup..."
+
+#: main/src/ui/application.vala
+msgid "Creating Encrypted Backup..."
+msgstr "Creating Encrypted Backup..."
+
+#: main/src/ui/application.vala
+msgid "Please wait while your data is being backed up."
+msgstr "Please wait while your data is being backed up."
+
+#: main/src/ui/application.vala
+msgid "No data directories found to backup"
+msgstr "No data directories found to backup"
+
+#: main/src/ui/application.vala
+msgid "Backup Created"
+msgstr "Backup Created"
+
+#: main/src/ui/application.vala
+msgid "Encrypted Backup Created"
+msgstr "Encrypted Backup Created"
+
+#: main/src/ui/application.vala
+#, c-format
+msgid "Your backup was created successfully.\\n\\nSize: %s"
+msgstr "Your backup was created successfully.\\n\\nSize: %s"
+
+#: main/src/ui/application.vala
+msgid "Your backup was created successfully."
+msgstr "Your backup was created successfully."
+
+#: main/src/ui/application.vala
+#, c-format
+msgid "Your encrypted backup was created successfully.\\n\\nSize: %s"
+msgstr "Your encrypted backup was created successfully.\\n\\nSize: %s"
+
+#: main/src/ui/application.vala
+msgid "Your encrypted backup was created successfully."
+msgstr "Your encrypted backup was created successfully."
+
+#: main/src/ui/application.vala
+msgid "Backup Failed"
+msgstr "Backup Failed"
 
 #: main/src/ui/application.vala:445
 msgid "Creating backup..."
@@ -944,7 +998,8 @@ msgstr "Hiqe"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:167
 msgid "Do you want to delete this message just for yourself or for everyone?"
-msgstr "Dëshironi ta fshini këtë mesazh vetëm për veten tuaj apo për të gjithë?"
+msgstr ""
+"Dëshironi ta fshini këtë mesazh vetëm për veten tuaj apo për të gjithë?"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:168
 msgid "Delete for everyone"
@@ -1042,9 +1097,12 @@ msgstr "Të shkatërrohet dhoma?"
 msgid ""
 "Are you sure you want to permanently destroy this room? This action cannot "
 "be undone and all history will be lost for all participants."
-msgstr "Jeni i sigurt që doni të shkatërroni përgjithmonë këtë dhomë? Ky veprim nuk mund të zhbëhet dhe e gjithë historia do të humbasë për të gjithë pjesëmarrësit."
-"Jeni i sigurt që dëshironi të shkatërroni përgjithmonë këtë dhomë? Ky veprim nuk mund "
-"të zhbëhet dhe i gjithë historiku do të humbasë për të gjithë pjesëmarrësit."
+msgstr ""
+"Jeni i sigurt që doni të shkatërroni përgjithmonë këtë dhomë? Ky veprim nuk "
+"mund të zhbëhet dhe e gjithë historia do të humbasë për të gjithë "
+"pjesëmarrësit.Jeni i sigurt që dëshironi të shkatërroni përgjithmonë këtë "
+"dhomë? Ky veprim nuk mund të zhbëhet dhe i gjithë historiku do të humbasë "
+"për të gjithë pjesëmarrësit."
 
 #: main/src/ui/conversation_details.vala:250
 msgid "Destroy"
@@ -1197,9 +1255,9 @@ msgstr "Kjo do të çaktivizojë njoftimet nga %s."
 msgid "Unblock contact?"
 msgstr "Zhblloko kontaktin?"
 
+# c-format
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:702
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:247
-# c-format
 msgid "This will allow %s to send you messages again."
 msgstr "Kjo do të lejojë %s t'ju dërgojë mesazhe përsëri."
 
@@ -1228,7 +1286,12 @@ msgid ""
 "• Remove %s from your contact list\n"
 "\n"
 "This action cannot be undone."
-msgstr "Kjo do të:\n• Fshijë të gjithë historikun e bisedave\n• Heqë %s nga lista juaj e kontakteve\n\nKjo veprim nuk mund të zhbëhet."
+msgstr ""
+"Kjo do të:\n"
+"• Fshijë të gjithë historikun e bisedave\n"
+"• Heqë %s nga lista juaj e kontakteve\n"
+"\n"
+"Kjo veprim nuk mund të zhbëhet."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:787
 msgid "Delete all message history?"
@@ -1238,7 +1301,9 @@ msgstr "Fshi të gjithë historikun e mesazheve?"
 msgid ""
 "This will permanently delete all messages in this conversation. This action "
 "cannot be undone."
-msgstr "Kjo do të fshijë përgjithmonë të gjitha mesazhet në këtë bisedë. Ky veprim nuk mund të zhbëhet."
+msgstr ""
+"Kjo do të fshijë përgjithmonë të gjitha mesazhet në këtë bisedë. Ky veprim "
+"nuk mund të zhbëhet."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:791
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
@@ -1265,7 +1330,9 @@ msgstr "Kërkohet server konference"
 msgid ""
 "To start a group call, you need to configure a default conference server in "
 "your account settings."
-msgstr "Për të filluar një thirrje në grup, duhet të konfiguroni një server konference të paracaktuar në cilësimet e llogarisë suaj."
+msgstr ""
+"Për të filluar një thirrje në grup, duhet të konfiguroni një server "
+"konference të paracaktuar në cilësimet e llogarisë suaj."
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:84
 msgid "Open Settings"
@@ -1322,7 +1389,12 @@ msgid ""
 "\n"
 "If you need a password or a nickname, provide them in the dialog. Use the "
 "discovery features in the server to find public rooms."
-msgstr "Për t'u bashkuar me një kanal, klikoni butonin \"Bashkohu me Kanalin\" dhe futni JID-in e kanalit (shembull: room@conference.example.org).\n\nNëse keni nevojë për fjalëkalim ose pseudonim, jepini ato në dialogun. Përdorni veçoritë e zbulimit të serverit për të gjetur dhoma publike."
+msgstr ""
+"Për t'u bashkuar me një kanal, klikoni butonin \"Bashkohu me Kanalin\" dhe "
+"futni JID-in e kanalit (shembull: room@conference.example.org).\n"
+"\n"
+"Nëse keni nevojë për fjalëkalim ose pseudonim, jepini ato në dialogun. "
+"Përdorni veçoritë e zbulimit të serverit për të gjetur dhoma publike."
 
 #: main/src/ui/main_window.vala:206
 msgid "Welcome to DinoX!"
@@ -1480,9 +1552,11 @@ msgstr "Dil"
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
 "A friendly name shown in room listings (does not change the room address)"
-msgstr "Një emër miqësor i shfaqur në listat e dhomave (nuk ndryshon adresën e dhomës)"
-"Një emër miqësor që shfaqet në listat e dhomave (nuk e ndryshon adresën e dhomës)"
-"Një emër miqësor i shfaqur në listat e dhomave (nuk ndryshon adresën e dhomës)"
+msgstr ""
+"Një emër miqësor i shfaqur në listat e dhomave (nuk ndryshon adresën e "
+"dhomës)Një emër miqësor që shfaqet në listat e dhomave (nuk e ndryshon "
+"adresën e dhomës)Një emër miqësor i shfaqur në listat e dhomave (nuk "
+"ndryshon adresën e dhomës)"
 
 #: main/src/ui/util/data_forms.vala:44
 msgid "Description"
@@ -1536,7 +1610,9 @@ msgstr "Vetëm anëtarët"
 msgid ""
 "Only members may enter the room. Warning: Non-members will be removed when "
 "enabled!"
-msgstr "Vetëm anëtarët mund të hyjnë në dhomë. Paralajmërim: Jo-anëtarët do të hiqen kur aktivizohet!"
+msgstr ""
+"Vetëm anëtarët mund të hyjnë në dhomë. Paralajmërim: Jo-anëtarët do të hiqen "
+"kur aktivizohet!"
 
 #: main/src/ui/util/helper.vala:65
 #, c-format
@@ -1556,7 +1632,9 @@ msgstr "%a %d %b"
 msgid ""
 "This contact will be removed from your contact list and all conversation "
 "history will be permanently deleted."
-msgstr "Ky kontakt do të hiqet nga lista juaj e kontakteve dhe i gjithë historiku i bisedave do të fshihet përgjithmonë."
+msgstr ""
+"Ky kontakt do të hiqet nga lista juaj e kontakteve dhe i gjithë historiku i "
+"bisedave do të fshihet përgjithmonë."
 
 #: main/src/windows/conversation_details.vala:108
 msgid "Block user"
@@ -1730,9 +1808,10 @@ msgstr "Shtoni kontakte për të filluar bisedën"
 msgid ""
 "This will remove %s from your contact list and delete all conversation "
 "history."
-msgstr "Kjo do të heqë %s nga lista juaj e kontakteve dhe do të fshijë të gjithë historikun e bisedave."
-"%s do të hiqet nga lista juaj e kontakteve dhe e gjithë historia e bisedave "
-"do të fshihet."
+msgstr ""
+"Kjo do të heqë %s nga lista juaj e kontakteve dhe do të fshijë të gjithë "
+"historikun e bisedave.%s do të hiqet nga lista juaj e kontakteve dhe e "
+"gjithë historia e bisedave do të fshihet."
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:318
 msgid "Edit Contact Alias"
@@ -1746,6 +1825,392 @@ msgstr "Ndrysho emrin e shfaqjes për %s"
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:325
 msgid "Alias (optional)"
 msgstr "Pseudonim (opsionale)"
+
+# DinoX v0.7.7 - Database Maintenance & Backup/Restore
+msgid "Clean Database"
+msgstr "Clean Database"
+
+msgid "Reset Database"
+msgstr "Reset Database"
+
+msgid "Restore Complete!"
+msgstr "Restore Complete!"
+
+msgid "Restore Failed"
+msgstr "Restore Failed"
+
+msgid "Decrypting Backup..."
+msgstr "Decrypting Backup..."
+
+msgid "Restoring Backup..."
+msgstr "Restoring Backup..."
+
+msgid "Set Backup Password"
+msgstr "Set Backup Password"
+
+msgid "Confirm Password"
+msgstr "Confirm Password"
+
+msgid "Create Encrypted Backup"
+msgstr "Create Encrypted Backup"
+
+msgid "Password too short"
+msgstr "Password too short"
+
+msgid "Passwords do not match"
+msgstr "Passwords do not match"
+
+msgid "✓ Passwords match"
+msgstr "✓ Passwords match"
+
+msgid "Encrypting Backup..."
+msgstr "Encrypting Backup..."
+
+msgid "Factory Reset"
+msgstr "Factory Reset"
+
+msgid "Restore from Backup"
+msgstr "Restore from Backup"
+
+msgid "Restore Backup"
+msgstr "Restore Backup"
+
+msgid "Select Backup File"
+msgstr "Select Backup File"
+
+msgid "Enter Backup Password"
+msgstr "Enter Backup Password"
+
+msgid "Decrypt & Restore"
+msgstr "Decrypt & Restore"
+
+msgid "Create Backup First"
+msgstr "Create Backup First"
+
+msgid "No Encryption"
+msgstr "No Encryption"
+
+msgid "Encrypt with Password"
+msgstr "Encrypt with Password"
+
+msgid "Delete Everything"
+msgstr "Delete Everything"
+
+msgid "Confirm Delete"
+msgstr "Confirm Delete"
+
+msgid "Are you absolutely sure?"
+msgstr "Are you absolutely sure?"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "Mirëmbajtja e bazës së të dhënave"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr ""
+"Rivendos llogaritë, mesazhet dhe cilësimet nga një skedar kopje rezervë"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr ""
+"Fshi të gjitha mesazhet, skedarët dhe çelësat OMEMO. Llogaritë tuaja do të "
+"mbeten."
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr ""
+"Fshi TË GJITHA të dhënat duke përfshirë llogaritë. Kjo nuk mund të zhbëhet!"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "Skedarë kopjeruajtjeje (*.tar.gz, *.tar.gz.gpg)"
+
+msgid "Creating encrypted backup..."
+msgstr "Po krijohet kopja rezervë e kriptuar..."
+
+msgid "Decryption Failed"
+msgstr "Dekriptimi dështoi"
+
+msgid "DinoX will now restart..."
+msgstr "DinoX do të riniset tani..."
+
+msgid "Encrypted backup created successfully"
+msgstr "Kopja rezervë e kriptuar u krijua me sukses"
+
+msgid "Password (minimum 4 characters)"
+msgstr "Fjalëkalimi (minimumi 4 karaktere)"
+
+msgid "Decrypting encrypted backup file..."
+msgstr "Po dekriptohet skedari i kopjes rezervë..."
+
+msgid "Extracting files from backup..."
+msgstr "Po nxirren skedarët nga kopja rezervë..."
+
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "Rivendosja në gjendjen e fabrikës në vazhdim... DinoX do të riniset."
+
+msgid "Resetting database... DinoX will restart."
+msgstr "Po rivendoset baza e të dhënave... DinoX do të riniset."
+
+msgid "Encrypted backup created (%s)"
+msgstr "Kopja rezervë e kriptuar u krijua (%s)"
+
+msgid ""
+"Could not decrypt the backup file.\n"
+"\n"
+"Please check if the password is correct."
+msgstr ""
+"Nuk u arrit të dekriptohet skedari.\n"
+"\n"
+"Kontrolloni nëse fjalëkalimi është i saktë."
+
+msgid ""
+"Could not restore the backup file.\n"
+"\n"
+"Error: %s"
+msgstr ""
+"Nuk u arrit të rikthehet skedari.\n"
+"\n"
+"Gabim: %s"
+
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "Kjo kopje është e kriptuar. Vendosni fjalëkalimin."
+
+msgid ""
+"Enter a password to encrypt the backup.\n"
+"\n"
+"<b>Important:</b> Remember this password! Without it, the backup cannot be "
+"restored."
+msgstr ""
+"Vendosni fjalëkalimin për kriptimin.\n"
+"\n"
+"<b>E rëndësishme:</b> Mbani mend këtë fjalëkalim! Pa të, kopja nuk mund të "
+"rikthehet."
+
+msgid ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+msgstr ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+
+msgid ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+msgstr ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+
+msgid ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+msgstr ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+
+msgid ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+msgstr ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+
+# OpenPGP Key Management
+msgid "OpenPGP Key Management"
+msgstr "OpenPGP Key Management"
+
+msgid "Actions"
+msgstr "Actions"
+
+msgid "Generate New Key"
+msgstr "Generate New Key"
+
+msgid "Import Key"
+msgstr "Import Key"
+
+msgid "Your Keys"
+msgstr "Your Keys"
+
+msgid "Fingerprint"
+msgstr "Fingerprint"
+
+msgid "Export Public Key"
+msgstr "Export Public Key"
+
+msgid "Delete Key"
+msgstr "Delete Key"
+
+msgid "Name"
+msgstr "Name"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Passphrase"
+msgstr "Passphrase"
+
+msgid "Generate"
+msgstr "Generate"
+
+msgid "Select OpenPGP Key"
+msgstr "Select OpenPGP Key"
+
+msgid "Wrong passphrase"
+msgstr "Wrong passphrase"
+
+msgid "Manage Keys"
+msgstr "Manage Keys"
+
+msgid "Announce key"
+msgstr "Announce key"
+
+msgid "Disabled"
+msgstr "Disabled"
+
+msgid "Success"
+msgstr "Success"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Create a new OpenPGP key pair"
+msgstr "Krijo një palë çelësash OpenPGP të rinj"
+
+msgid "Import a key from file (.asc, .gpg)"
+msgstr "Importo çelës nga skedari (.asc, .gpg)"
+
+msgid "Private keys available for signing and decryption"
+msgstr "Çelësat privatë të disponueshëm për nënshkrim dhe deshifrim"
+
+msgid "No private keys found"
+msgstr "Nuk u gjetën çelësa privatë"
+
+msgid "Generate or import a key to get started"
+msgstr "Krijo ose importo një çelës për të filluar"
+
+msgid "Generate New OpenPGP Key"
+msgstr "Krijo çelës OpenPGP të ri"
+
+msgid "Enter your details to create a new key pair."
+msgstr "Futni të dhënat tuaja për të krijuar një palë çelësash."
+
+msgid "Your Name"
+msgstr "Emri juaj"
+
+msgid "you@example.com"
+msgstr "ti@shembull.com"
+
+msgid "Passphrase (optional)"
+msgstr "Frazëkalimi (opsionale)"
+
+msgid "4096-bit RSA key, valid for 2 years."
+msgstr "Çelës RSA 4096-bit, i vlefshëm për 2 vjet."
+
+msgid "Name must be at least 2 characters"
+msgstr "Emri duhet të ketë të paktën 2 karaktere"
+
+msgid "Please enter a valid email address"
+msgstr "Ju lutem futni një adresë email të vlefshme"
+
+msgid "Generating Key..."
+msgstr "Po krijohet çelësi..."
+
+msgid "Please wait while your key is being generated. This may take a moment."
+msgstr ""
+"Ju lutem prisni ndërsa çelësi juaj po krijohet. Kjo mund të marrë pak kohë."
+
+msgid "Key generated successfully!"
+msgstr "Çelësi u krijua me sukses!"
+
+msgid "Failed to generate key."
+msgstr "Dështoi krijimi i çelësit."
+
+msgid "Import OpenPGP Key"
+msgstr "Importo çelës OpenPGP"
+
+msgid "OpenPGP Keys (*.asc, *.gpg)"
+msgstr "Çelësa OpenPGP (*.asc, *.gpg)"
+
+msgid "All Files"
+msgstr "Të gjithë skedarët"
+
+msgid "Key imported! Re-open Key Management to see it."
+msgstr "Çelësi u importua! Rihapni Menaxhimin e Çelësave për ta parë."
+
+msgid "Import failed: "
+msgstr "Importimi dështoi: "
+
+msgid "Key exported to: "
+msgstr "Çelësi u eksportua në: "
+
+msgid "Export failed."
+msgstr "Eksportimi dështoi."
+
+msgid "Delete Key?"
+msgstr "Fshi çelësin?"
+
+msgid ""
+"Delete this key?\n"
+"\n"
+"%s\n"
+"\n"
+"This cannot be undone!"
+msgstr ""
+"Fshi këtë çelës?\n"
+"\n"
+"%s\n"
+"\n"
+"Kjo nuk mund të zhbëhet!"
+
+msgid "Key deleted."
+msgstr "Çelësi u fshi."
+
+msgid "Delete failed: "
+msgstr "Fshirja dështoi: "
+
+msgid "Choose a key to announce to your contacts."
+msgstr "Zgjidhni një çelës për të njoftuar kontaktet tuaja."
+
+msgid "Enter GPG passphrase to confirm:"
+msgstr "Futni frazëkalimin GPG për të konfirmuar:"
+
+msgid "Generate, import, export, or delete keys"
+msgstr "Krijo, importo, eksporto ose fshi çelësat"
+
+msgid "No keys available. Generate or import one!"
+msgstr "Nuk ka çelësa. Krijoni ose importoni një!"
+
+msgid "Error in GnuPG"
+msgstr "Gabim në GnuPG"
 
 #~ msgid "Message too long"
 #~ msgstr "Mesazh shumë i gjatë"
@@ -1913,154 +2378,3 @@ msgstr "Pseudonim (opsionale)"
 
 #~ msgid "Click here to start a conversation or join a channel."
 #~ msgstr "Klikoni këtu që të nisni një bisedë ose të hyni në një kanal."
-
-# DinoX v0.7.7 - Database Maintenance & Backup/Restore
-msgid "Clean Database"
-msgstr "Clean Database"
-
-msgid "Reset Database"
-msgstr "Reset Database"
-
-msgid "Restore Complete!"
-msgstr "Restore Complete!"
-
-msgid "Restore Failed"
-msgstr "Restore Failed"
-
-msgid "Decrypting Backup..."
-msgstr "Decrypting Backup..."
-
-msgid "Restoring Backup..."
-msgstr "Restoring Backup..."
-
-msgid "Set Backup Password"
-msgstr "Set Backup Password"
-
-msgid "Confirm Password"
-msgstr "Confirm Password"
-
-msgid "Create Encrypted Backup"
-msgstr "Create Encrypted Backup"
-
-msgid "Password too short"
-msgstr "Password too short"
-
-msgid "Passwords do not match"
-msgstr "Passwords do not match"
-
-msgid "✓ Passwords match"
-msgstr "✓ Passwords match"
-
-msgid "Encrypting Backup..."
-msgstr "Encrypting Backup..."
-
-msgid "Factory Reset"
-msgstr "Factory Reset"
-
-msgid "Restore from Backup"
-msgstr "Restore from Backup"
-
-msgid "Restore Backup"
-msgstr "Restore Backup"
-
-msgid "Select Backup File"
-msgstr "Select Backup File"
-
-msgid "Enter Backup Password"
-msgstr "Enter Backup Password"
-
-msgid "Decrypt & Restore"
-msgstr "Decrypt & Restore"
-
-msgid "Create Backup First"
-msgstr "Create Backup First"
-
-msgid "No Encryption"
-msgstr "No Encryption"
-
-msgid "Encrypt with Password"
-msgstr "Encrypt with Password"
-
-msgid "Delete Everything"
-msgstr "Delete Everything"
-
-msgid "Confirm Delete"
-msgstr "Confirm Delete"
-
-msgid "Are you absolutely sure?"
-msgstr "Are you absolutely sure?"
-
-#: main/data/preferences_window/general_preferences_page.ui:104
-msgid "Database Maintenance"
-msgstr "Mirëmbajtja e bazës së të dhënave"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Restore accounts, messages and settings from a backup file"
-msgstr "Rivendos llogaritë, mesazhet dhe cilësimet nga një skedar kopje rezervë"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
-msgstr "Fshi të gjitha mesazhet, skedarët dhe çelësat OMEMO. Llogaritë tuaja do të mbeten."
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete ALL data including accounts. This cannot be undone!"
-msgstr "Fshi TË GJITHA të dhënat duke përfshirë llogaritë. Kjo nuk mund të zhbëhet!"
-
-# DinoX v0.7.7 - Additional Backup/Restore strings
-
-msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
-msgstr "Skedarë kopjeruajtjeje (*.tar.gz, *.tar.gz.gpg)"
-
-msgid "Creating encrypted backup..."
-msgstr "Po krijohet kopja rezervë e kriptuar..."
-
-msgid "Decryption Failed"
-msgstr "Dekriptimi dështoi"
-
-msgid "DinoX will now restart..."
-msgstr "DinoX do të riniset tani..."
-
-msgid "Encrypted backup created successfully"
-msgstr "Kopja rezervë e kriptuar u krijua me sukses"
-
-msgid "Password (minimum 4 characters)"
-msgstr "Fjalëkalimi (minimumi 4 karaktere)"
-
-msgid "Decrypting encrypted backup file..."
-msgstr "Po dekriptohet skedari i kopjes rezervë..."
-
-msgid "Extracting files from backup..."
-msgstr "Po nxirren skedarët nga kopja rezervë..."
-
-msgid "Factory reset in progress... DinoX will restart."
-msgstr "Rivendosja në gjendjen e fabrikës në vazhdim... DinoX do të riniset."
-
-msgid "Resetting database... DinoX will restart."
-msgstr "Po rivendoset baza e të dhënave... DinoX do të riniset."
-
-msgid "Encrypted backup created (%s)"
-msgstr "Kopja rezervë e kriptuar u krijua (%s)"
-
-msgid "Could not decrypt the backup file.\n\nPlease check if the password is correct."
-msgstr "Nuk u arrit të dekriptohet skedari.\n\nKontrolloni nëse fjalëkalimi është i saktë."
-
-msgid "Could not restore the backup file.\n\nError: %s"
-msgstr "Nuk u arrit të rikthehet skedari.\n\nGabim: %s"
-
-msgid "This backup is encrypted. Please enter the password to decrypt it."
-msgstr "Kjo kopje është e kriptuar. Vendosni fjalëkalimin."
-
-msgid "Enter a password to encrypt the backup.\n\n<b>Important:</b> Remember this password! Without it, the backup cannot be restored."
-msgstr "Vendosni fjalëkalimin për kriptimin.\n\n<b>E rëndësishme:</b> Mbani mend këtë fjalëkalim! Pa të, kopja nuk mund të rikthehet."
-
-msgid "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
-msgstr "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
-
-msgid "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
-msgstr "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
-
-msgid "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
-msgstr "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
-
-msgid "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"
-msgstr "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"

@@ -318,8 +318,9 @@ msgstr "_バックグラウンドで実行"
 #: main/data/preferences_window/general_preferences_page.ui:33
 msgid ""
 "Continue running after closing window to receive notifications immediately"
-msgstr "ウィンドウを閉じた後も実行を続け、通知をすぐに受信する"
-"ウィンドウを閉じた後もバックグラウンドで実行し、通知をすぐに受け取る"
+msgstr ""
+"ウィンドウを閉じた後も実行を続け、通知をすぐに受信するウィンドウを閉じた後も"
+"バックグラウンドで実行し、通知をすぐに受け取る"
 
 #: main/data/preferences_window/general_preferences_page.ui:41
 msgid "Appearance"
@@ -494,7 +495,9 @@ msgstr "情報:"
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
-msgstr "個人データ（アカウント、メッセージ、ファイル）はアプリケーションとは別に保存されます。"
+msgstr ""
+"個人データ（アカウント、メッセージ、ファイル）はアプリケーションとは別に保存"
+"されます。"
 
 #: main/src/ui/application.vala:361
 msgid "When you update DinoX, your data remains intact."
@@ -508,9 +511,11 @@ msgstr "設定 → 一般 → ユーザーデータをバックアップでバ�
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
-msgstr "個人データ（アカウント、メッセージ、ファイル）はアプリケーションとは別に保存されます。DinoXを更新しても、データはそのまま残ります。"
-"個人データ（アカウント、メッセージ、ファイル）はアプリケーションとは別に保存されます。"
-"DinoXを更新しても、データはそのまま保持されます。"
+msgstr ""
+"個人データ（アカウント、メッセージ、ファイル）はアプリケーションとは別に保存"
+"されます。DinoXを更新しても、データはそのまま残ります。個人データ（アカウン"
+"ト、メッセージ、ファイル）はアプリケーションとは別に保存されます。DinoXを更新"
+"しても、データはそのまま保持されます。"
 
 #: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
 #: main/src/ui/main_window.vala:159
@@ -520,6 +525,52 @@ msgstr "閉じる"
 #: main/src/ui/application.vala:417
 msgid "Select Backup Location"
 msgstr "バックアップ場所を選択"
+
+#: main/src/ui/application.vala
+msgid "Creating Backup..."
+msgstr "Creating Backup..."
+
+#: main/src/ui/application.vala
+msgid "Creating Encrypted Backup..."
+msgstr "Creating Encrypted Backup..."
+
+#: main/src/ui/application.vala
+msgid "Please wait while your data is being backed up."
+msgstr "Please wait while your data is being backed up."
+
+#: main/src/ui/application.vala
+msgid "No data directories found to backup"
+msgstr "No data directories found to backup"
+
+#: main/src/ui/application.vala
+msgid "Backup Created"
+msgstr "Backup Created"
+
+#: main/src/ui/application.vala
+msgid "Encrypted Backup Created"
+msgstr "Encrypted Backup Created"
+
+#: main/src/ui/application.vala
+#, c-format
+msgid "Your backup was created successfully.\\n\\nSize: %s"
+msgstr "Your backup was created successfully.\\n\\nSize: %s"
+
+#: main/src/ui/application.vala
+msgid "Your backup was created successfully."
+msgstr "Your backup was created successfully."
+
+#: main/src/ui/application.vala
+#, c-format
+msgid "Your encrypted backup was created successfully.\\n\\nSize: %s"
+msgstr "Your encrypted backup was created successfully.\\n\\nSize: %s"
+
+#: main/src/ui/application.vala
+msgid "Your encrypted backup was created successfully."
+msgstr "Your encrypted backup was created successfully."
+
+#: main/src/ui/application.vala
+msgid "Backup Failed"
+msgstr "Backup Failed"
 
 #: main/src/ui/application.vala:445
 msgid "Creating backup..."
@@ -1043,9 +1094,10 @@ msgstr "ルームを破棄しますか？"
 msgid ""
 "Are you sure you want to permanently destroy this room? This action cannot "
 "be undone and all history will be lost for all participants."
-msgstr "このルームを永久に削除してもよろしいですか？この操作は取り消せず、すべての参加者の履歴がすべて失われます。"
-"このルームを完全に削除してもよろしいですか？この操作は取り消すことができず、"
-"すべての参加者の履歴が失われます。"
+msgstr ""
+"このルームを永久に削除してもよろしいですか？この操作は取り消せず、すべての参"
+"加者の履歴がすべて失われます。このルームを完全に削除してもよろしいですか？こ"
+"の操作は取り消すことができず、すべての参加者の履歴が失われます。"
 
 #: main/src/ui/conversation_details.vala:250
 msgid "Destroy"
@@ -1228,7 +1280,12 @@ msgid ""
 "• Remove %s from your contact list\n"
 "\n"
 "This action cannot be undone."
-msgstr "これにより：\n• すべての会話履歴が削除されます\n• 連絡先リストから %s が削除されます\n\nこの操作は元に戻せません。"
+msgstr ""
+"これにより：\n"
+"• すべての会話履歴が削除されます\n"
+"• 連絡先リストから %s が削除されます\n"
+"\n"
+"この操作は元に戻せません。"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:787
 msgid "Delete all message history?"
@@ -1238,7 +1295,9 @@ msgstr "すべてのメッセージ履歴を削除しますか？"
 msgid ""
 "This will permanently delete all messages in this conversation. This action "
 "cannot be undone."
-msgstr "これにより、この会話のすべてのメッセージが永久に削除されます。この操作は取り消せません。"
+msgstr ""
+"これにより、この会話のすべてのメッセージが永久に削除されます。この操作は取り"
+"消せません。"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:791
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
@@ -1265,7 +1324,9 @@ msgstr "会議サーバーが必要"
 msgid ""
 "To start a group call, you need to configure a default conference server in "
 "your account settings."
-msgstr "グループ通話を開始するには、アカウント設定でデフォルトの会議サーバーを設定する必要があります。"
+msgstr ""
+"グループ通話を開始するには、アカウント設定でデフォルトの会議サーバーを設定す"
+"る必要があります。"
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:84
 msgid "Open Settings"
@@ -1299,8 +1360,9 @@ msgstr "選択"
 
 #: main/src/ui/file_send_overlay.vala:58
 msgid "The file exceeds the server's maximum upload size."
-msgstr "ファイルがサーバーの最大アップロードサイズを超えています。"
-"ファイルのサイズがサーバーの最大アップロード可能サイズを超過しています。"
+msgstr ""
+"ファイルがサーバーの最大アップロードサイズを超えています。ファイルのサイズが"
+"サーバーの最大アップロード可能サイズを超過しています。"
 
 #: main/src/ui/global_search.vala:208
 #, c-format
@@ -1323,7 +1385,12 @@ msgid ""
 "\n"
 "If you need a password or a nickname, provide them in the dialog. Use the "
 "discovery features in the server to find public rooms."
-msgstr "チャンネルに参加するには、「チャンネルに参加」ボタンをクリックし、チャンネルのJIDを入力してください（例：room@conference.example.org）。\n\nパスワードやニックネームが必要な場合は、ダイアログで入力してください。サーバーの検出機能を使用して公開ルームを見つけてください。"
+msgstr ""
+"チャンネルに参加するには、「チャンネルに参加」ボタンをクリックし、チャンネル"
+"のJIDを入力してください（例：room@conference.example.org）。\n"
+"\n"
+"パスワードやニックネームが必要な場合は、ダイアログで入力してください。サー"
+"バーの検出機能を使用して公開ルームを見つけてください。"
 
 #: main/src/ui/main_window.vala:206
 msgid "Welcome to DinoX!"
@@ -1481,7 +1548,8 @@ msgstr "終了"
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
 "A friendly name shown in room listings (does not change the room address)"
-msgstr "ルームリストに表示されるわかりやすい名前（ルームアドレスは変更されません）"
+msgstr ""
+"ルームリストに表示されるわかりやすい名前（ルームアドレスは変更されません）"
 "ルーム一覧に表示されるわかりやすい名前（ルームアドレスは変更されません）"
 
 #: main/src/ui/util/data_forms.vala:44
@@ -1536,7 +1604,9 @@ msgstr "メンバー制"
 msgid ""
 "Only members may enter the room. Warning: Non-members will be removed when "
 "enabled!"
-msgstr "メンバーのみがルームに入室できます。警告：有効にすると非メンバーは削除されます！"
+msgstr ""
+"メンバーのみがルームに入室できます。警告：有効にすると非メンバーは削除されま"
+"す！"
 
 #: main/src/ui/util/helper.vala:65
 msgid "%s from %s"
@@ -1555,7 +1625,8 @@ msgstr "%b%d日 (%a)"
 msgid ""
 "This contact will be removed from your contact list and all conversation "
 "history will be permanently deleted."
-msgstr "この連絡先は連絡先リストから削除され、すべての会話履歴は完全に削除されます。"
+msgstr ""
+"この連絡先は連絡先リストから削除され、すべての会話履歴は完全に削除されます。"
 
 #: main/src/windows/conversation_details.vala:108
 msgid "Block user"
@@ -1659,7 +1730,8 @@ msgstr "サーバーはこれが %s だと証明できませんでした。"
 
 #: main/src/windows/preferences_window/add_account_dialog.vala:158
 msgid "Its security certificate is not trusted by your operating system."
-msgstr "そのセキュリティ証明書はオペレーティングシステムによって信頼されていません。"
+msgstr ""
+"そのセキュリティ証明書はオペレーティングシステムによって信頼されていません。"
 "このセキュリティー証明書はオペレーティングシステムに信頼されていません。"
 
 #: main/src/windows/preferences_window/add_account_dialog.vala:160
@@ -1744,6 +1816,388 @@ msgstr "%s の表示名を変更"
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:325
 msgid "Alias (optional)"
 msgstr "エイリアス（任意）"
+
+# DinoX v0.7.7 - Database Maintenance & Backup/Restore
+msgid "Clean Database"
+msgstr "データベースをクリーンアップ"
+
+msgid "Reset Database"
+msgstr "データベースをリセット"
+
+msgid "Restore Complete!"
+msgstr "復元が完了しました！"
+
+msgid "Restore Failed"
+msgstr "復元に失敗しました"
+
+msgid "Decrypting Backup..."
+msgstr "バックアップを復号化中..."
+
+msgid "Restoring Backup..."
+msgstr "バックアップを復元中..."
+
+msgid "Set Backup Password"
+msgstr "バックアップパスワードを設定"
+
+msgid "Confirm Password"
+msgstr "パスワードを確認"
+
+msgid "Create Encrypted Backup"
+msgstr "暗号化バックアップを作成"
+
+msgid "Password too short"
+msgstr "パスワードが短すぎます"
+
+msgid "Passwords do not match"
+msgstr "パスワードが一致しません"
+
+msgid "✓ Passwords match"
+msgstr "✓ パスワードが一致しました"
+
+msgid "Encrypting Backup..."
+msgstr "バックアップを暗号化中..."
+
+msgid "Factory Reset"
+msgstr "工場出荷時設定にリセット"
+
+msgid "Restore from Backup"
+msgstr "バックアップから復元"
+
+msgid "Restore Backup"
+msgstr "バックアップを復元"
+
+msgid "Select Backup File"
+msgstr "バックアップファイルを選択"
+
+msgid "Enter Backup Password"
+msgstr "バックアップパスワードを入力"
+
+msgid "Decrypt & Restore"
+msgstr "復号化して復元"
+
+msgid "Create Backup First"
+msgstr "先にバックアップを作成"
+
+msgid "No Encryption"
+msgstr "暗号化なし"
+
+msgid "Encrypt with Password"
+msgstr "パスワードで暗号化"
+
+msgid "Delete Everything"
+msgstr "すべて削除"
+
+msgid "Confirm Delete"
+msgstr "削除を確認"
+
+msgid "Are you absolutely sure?"
+msgstr "本当によろしいですか？"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "データベースメンテナンス"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "バックアップファイルからアカウント、メッセージ、設定を復元"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr ""
+"すべてのメッセージ、ファイル、OMEMOキーを削除します。アカウントは残ります。"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr "アカウントを含むすべてのデータを削除します。この操作は元に戻せません！"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "バックアップファイル (*.tar.gz, *.tar.gz.gpg)"
+
+msgid "Creating encrypted backup..."
+msgstr "暗号化バックアップを作成中..."
+
+msgid "Decryption Failed"
+msgstr "復号化に失敗しました"
+
+msgid "DinoX will now restart..."
+msgstr "DinoXを再起動します..."
+
+msgid "Encrypted backup created successfully"
+msgstr "暗号化バックアップが正常に作成されました"
+
+msgid "Password (minimum 4 characters)"
+msgstr "パスワード（4文字以上）"
+
+msgid "Decrypting encrypted backup file..."
+msgstr "バックアップファイルを復号化中..."
+
+msgid "Extracting files from backup..."
+msgstr "バックアップからファイルを抽出中..."
+
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "工場出荷時リセット中... DinoXが再起動します。"
+
+msgid "Resetting database... DinoX will restart."
+msgstr "データベースをリセット中... DinoXが再起動します。"
+
+msgid "Encrypted backup created (%s)"
+msgstr "暗号化バックアップが作成されました (%s)"
+
+msgid ""
+"Could not decrypt the backup file.\n"
+"\n"
+"Please check if the password is correct."
+msgstr ""
+"バックアップファイルを復号化できませんでした。\n"
+"\n"
+"パスワードが正しいか確認してください。"
+
+msgid ""
+"Could not restore the backup file.\n"
+"\n"
+"Error: %s"
+msgstr ""
+"バックアップファイルを復元できませんでした。\n"
+"\n"
+"エラー: %s"
+
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "このバックアップは暗号化されています。パスワードを入力してください。"
+
+msgid ""
+"Enter a password to encrypt the backup.\n"
+"\n"
+"<b>Important:</b> Remember this password! Without it, the backup cannot be "
+"restored."
+msgstr ""
+"バックアップを暗号化するパスワードを入力してください。\n"
+"\n"
+"<b>重要:</b> このパスワードを覚えておいてください！これがないとバックアップを"
+"復元できません。"
+
+msgid ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+msgstr ""
+"これにより、すべてのメッセージ、ファイル、OMEMO暗号化キーが削除されます。\n"
+"\n"
+"<b>アカウントは残りますが、すべてのチャット履歴が失われ、連絡先と暗号化を再確"
+"認する必要があります。</b>\n"
+"\n"
+"この操作は元に戻せません！"
+
+msgid ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+msgstr ""
+"これにより、すべての現在のデータがバックアップで置き換えられます。\n"
+"\n"
+"<b>現在のアカウント、メッセージ、設定は上書きされます！</b>\n"
+"\n"
+"復元後、DinoXは再起動します。"
+
+msgid ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+msgstr ""
+"'DELETE'と入力して工場出荷時リセットを確認してください。\n"
+"\n"
+"これによりすべてのDinoXデータが完全に削除されます。"
+
+msgid ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+msgstr ""
+"<b>⚠️ 警告：すべてのデータが削除されます！</b>\n"
+"\n"
+"• すべてのアカウント\n"
+"• すべてのメッセージとファイル\n"
+"• すべての暗号化キー\n"
+"• すべての設定\n"
+"\n"
+"これは元に戻せません。先にバックアップを作成してください！"
+
+# OpenPGP Key Management translations
+msgid "OpenPGP Key Management"
+msgstr "OpenPGP鍵の管理"
+
+msgid "Actions"
+msgstr "アクション"
+
+msgid "Generate New Key"
+msgstr "新しい鍵を生成"
+
+msgid "Create a new OpenPGP key pair"
+msgstr "新しいOpenPGP鍵ペアを作成"
+
+msgid "Import Key"
+msgstr "鍵をインポート"
+
+msgid "Import a key from file (.asc, .gpg)"
+msgstr "ファイルから鍵をインポート (.asc, .gpg)"
+
+msgid "Your Keys"
+msgstr "あなたの鍵"
+
+msgid "Private keys available for signing and decryption"
+msgstr "署名と復号に利用可能な秘密鍵"
+
+msgid "No private keys found"
+msgstr "秘密鍵が見つかりません"
+
+msgid "Generate or import a key to get started"
+msgstr "開始するには鍵を生成またはインポートしてください"
+
+msgid "Fingerprint"
+msgstr "フィンガープリント"
+
+msgid "Export Public Key"
+msgstr "公開鍵をエクスポート"
+
+msgid "Delete Key"
+msgstr "鍵を削除"
+
+msgid "Generate New OpenPGP Key"
+msgstr "新しいOpenPGP鍵を生成"
+
+msgid "Enter your details to create a new key pair."
+msgstr "新しい鍵ペアを作成するために情報を入力してください。"
+
+msgid "Name"
+msgstr "名前"
+
+msgid "Your Name"
+msgstr "あなたの名前"
+
+msgid "Email"
+msgstr "メール"
+
+msgid "you@example.com"
+msgstr "you@example.com"
+
+msgid "Passphrase (optional)"
+msgstr "パスフレーズ（オプション）"
+
+msgid "Passphrase"
+msgstr "パスフレーズ"
+
+msgid "4096-bit RSA key, valid for 2 years."
+msgstr "4096ビットRSA鍵、2年間有効。"
+
+msgid "Generate"
+msgstr "生成"
+
+msgid "Name must be at least 2 characters"
+msgstr "名前は2文字以上必要です"
+
+msgid "Please enter a valid email address"
+msgstr "有効なメールアドレスを入力してください"
+
+msgid "Generating Key..."
+msgstr "鍵を生成中..."
+
+msgid "Please wait while your key is being generated. This may take a moment."
+msgstr "鍵を生成中です。しばらくお待ちください。"
+
+msgid "Key generated successfully!"
+msgstr "鍵が正常に生成されました！"
+
+msgid "Failed to generate key."
+msgstr "鍵の生成に失敗しました。"
+
+msgid "Import OpenPGP Key"
+msgstr "OpenPGP鍵をインポート"
+
+msgid "OpenPGP Keys (*.asc, *.gpg)"
+msgstr "OpenPGP鍵 (*.asc, *.gpg)"
+
+msgid "All Files"
+msgstr "すべてのファイル"
+
+msgid "Key imported! Re-open Key Management to see it."
+msgstr "鍵がインポートされました！確認するには鍵管理を再度開いてください。"
+
+msgid "Import failed: "
+msgstr "インポート失敗："
+
+msgid "Key exported to: "
+msgstr "鍵をエクスポート先："
+
+msgid "Export failed."
+msgstr "エクスポート失敗。"
+
+msgid "Delete Key?"
+msgstr "鍵を削除しますか？"
+
+msgid ""
+"Delete this key?\n"
+"\n"
+"%s\n"
+"\n"
+"This cannot be undone!"
+msgstr ""
+"この鍵を削除しますか？\n"
+"\n"
+"%s\n"
+"\n"
+"この操作は元に戻せません！"
+
+msgid "Key deleted."
+msgstr "鍵が削除されました。"
+
+msgid "Delete failed: "
+msgstr "削除失敗："
+
+msgid "Select OpenPGP Key"
+msgstr "OpenPGP鍵を選択"
+
+msgid "Choose a key to announce to your contacts."
+msgstr "連絡先に公開する鍵を選択してください。"
+
+msgid "Enter GPG passphrase to confirm:"
+msgstr "確認のためGPGパスフレーズを入力："
+
+msgid "Wrong passphrase"
+msgstr "パスフレーズが間違っています"
+
+msgid "Manage Keys"
+msgstr "鍵を管理"
+
+msgid "Generate, import, export, or delete keys"
+msgstr "鍵の生成、インポート、エクスポート、削除"
+
+msgid "No keys available. Generate or import one!"
+msgstr "利用可能な鍵がありません。生成またはインポートしてください！"
+
+msgid "Announce key"
+msgstr "鍵を公開"
+
+msgid "Disabled"
+msgstr "無効"
+
+msgid "Error in GnuPG"
+msgstr "GnuPGエラー"
+
+msgid "Success"
+msgstr "成功"
+
+msgid "OK"
+msgstr "OK"
 
 #~ msgid "Message too long"
 #~ msgstr "メッセージが長すぎます"
@@ -1956,154 +2410,3 @@ msgstr "エイリアス（任意）"
 
 #~ msgid "Start Chat"
 #~ msgstr "会話を開始"
-
-# DinoX v0.7.7 - Database Maintenance & Backup/Restore
-msgid "Clean Database"
-msgstr "データベースをクリーンアップ"
-
-msgid "Reset Database"
-msgstr "データベースをリセット"
-
-msgid "Restore Complete!"
-msgstr "復元が完了しました！"
-
-msgid "Restore Failed"
-msgstr "復元に失敗しました"
-
-msgid "Decrypting Backup..."
-msgstr "バックアップを復号化中..."
-
-msgid "Restoring Backup..."
-msgstr "バックアップを復元中..."
-
-msgid "Set Backup Password"
-msgstr "バックアップパスワードを設定"
-
-msgid "Confirm Password"
-msgstr "パスワードを確認"
-
-msgid "Create Encrypted Backup"
-msgstr "暗号化バックアップを作成"
-
-msgid "Password too short"
-msgstr "パスワードが短すぎます"
-
-msgid "Passwords do not match"
-msgstr "パスワードが一致しません"
-
-msgid "✓ Passwords match"
-msgstr "✓ パスワードが一致しました"
-
-msgid "Encrypting Backup..."
-msgstr "バックアップを暗号化中..."
-
-msgid "Factory Reset"
-msgstr "工場出荷時設定にリセット"
-
-msgid "Restore from Backup"
-msgstr "バックアップから復元"
-
-msgid "Restore Backup"
-msgstr "バックアップを復元"
-
-msgid "Select Backup File"
-msgstr "バックアップファイルを選択"
-
-msgid "Enter Backup Password"
-msgstr "バックアップパスワードを入力"
-
-msgid "Decrypt & Restore"
-msgstr "復号化して復元"
-
-msgid "Create Backup First"
-msgstr "先にバックアップを作成"
-
-msgid "No Encryption"
-msgstr "暗号化なし"
-
-msgid "Encrypt with Password"
-msgstr "パスワードで暗号化"
-
-msgid "Delete Everything"
-msgstr "すべて削除"
-
-msgid "Confirm Delete"
-msgstr "削除を確認"
-
-msgid "Are you absolutely sure?"
-msgstr "本当によろしいですか？"
-
-#: main/data/preferences_window/general_preferences_page.ui:104
-msgid "Database Maintenance"
-msgstr "データベースメンテナンス"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Restore accounts, messages and settings from a backup file"
-msgstr "バックアップファイルからアカウント、メッセージ、設定を復元"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
-msgstr "すべてのメッセージ、ファイル、OMEMOキーを削除します。アカウントは残ります。"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete ALL data including accounts. This cannot be undone!"
-msgstr "アカウントを含むすべてのデータを削除します。この操作は元に戻せません！"
-
-# DinoX v0.7.7 - Additional Backup/Restore strings
-
-msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
-msgstr "バックアップファイル (*.tar.gz, *.tar.gz.gpg)"
-
-msgid "Creating encrypted backup..."
-msgstr "暗号化バックアップを作成中..."
-
-msgid "Decryption Failed"
-msgstr "復号化に失敗しました"
-
-msgid "DinoX will now restart..."
-msgstr "DinoXを再起動します..."
-
-msgid "Encrypted backup created successfully"
-msgstr "暗号化バックアップが正常に作成されました"
-
-msgid "Password (minimum 4 characters)"
-msgstr "パスワード（4文字以上）"
-
-msgid "Decrypting encrypted backup file..."
-msgstr "バックアップファイルを復号化中..."
-
-msgid "Extracting files from backup..."
-msgstr "バックアップからファイルを抽出中..."
-
-msgid "Factory reset in progress... DinoX will restart."
-msgstr "工場出荷時リセット中... DinoXが再起動します。"
-
-msgid "Resetting database... DinoX will restart."
-msgstr "データベースをリセット中... DinoXが再起動します。"
-
-msgid "Encrypted backup created (%s)"
-msgstr "暗号化バックアップが作成されました (%s)"
-
-msgid "Could not decrypt the backup file.\n\nPlease check if the password is correct."
-msgstr "バックアップファイルを復号化できませんでした。\n\nパスワードが正しいか確認してください。"
-
-msgid "Could not restore the backup file.\n\nError: %s"
-msgstr "バックアップファイルを復元できませんでした。\n\nエラー: %s"
-
-msgid "This backup is encrypted. Please enter the password to decrypt it."
-msgstr "このバックアップは暗号化されています。パスワードを入力してください。"
-
-msgid "Enter a password to encrypt the backup.\n\n<b>Important:</b> Remember this password! Without it, the backup cannot be restored."
-msgstr "バックアップを暗号化するパスワードを入力してください。\n\n<b>重要:</b> このパスワードを覚えておいてください！これがないとバックアップを復元できません。"
-
-msgid "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
-msgstr "これにより、すべてのメッセージ、ファイル、OMEMO暗号化キーが削除されます。\n\n<b>アカウントは残りますが、すべてのチャット履歴が失われ、連絡先と暗号化を再確認する必要があります。</b>\n\nこの操作は元に戻せません！"
-
-msgid "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
-msgstr "これにより、すべての現在のデータがバックアップで置き換えられます。\n\n<b>現在のアカウント、メッセージ、設定は上書きされます！</b>\n\n復元後、DinoXは再起動します。"
-
-msgid "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
-msgstr "'DELETE'と入力して工場出荷時リセットを確認してください。\n\nこれによりすべてのDinoXデータが完全に削除されます。"
-
-msgid "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"
-msgstr "<b>⚠️ 警告：すべてのデータが削除されます！</b>\n\n• すべてのアカウント\n• すべてのメッセージとファイル\n• すべての暗号化キー\n• すべての設定\n\nこれは元に戻せません。先にバックアップを作成してください！"

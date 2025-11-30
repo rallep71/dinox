@@ -317,8 +317,9 @@ msgstr "_Běžet na pozadí"
 #: main/data/preferences_window/general_preferences_page.ui:33
 msgid ""
 "Continue running after closing window to receive notifications immediately"
-msgstr "Pokračovat v běhu po zavření okna pro okamžité přijímání oznámení"
-"Pokračovat v běhu po zavření okna pro okamžité přijímání oznámení"
+msgstr ""
+"Pokračovat v běhu po zavření okna pro okamžité přijímání oznámeníPokračovat "
+"v běhu po zavření okna pro okamžité přijímání oznámení"
 
 #: main/data/preferences_window/general_preferences_page.ui:41
 msgid "Appearance"
@@ -493,7 +494,8 @@ msgstr "Info:"
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
-msgstr "Vaše osobní údaje (účty, zprávy, soubory) jsou uloženy odděleně od aplikace."
+msgstr ""
+"Vaše osobní údaje (účty, zprávy, soubory) jsou uloženy odděleně od aplikace."
 
 #: main/src/ui/application.vala:361
 msgid "When you update DinoX, your data remains intact."
@@ -507,9 +509,11 @@ msgstr "Použijte Nastavení → Obecné → Záloha pro vytvoření zálohy."
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
-msgstr "Vaše osobní údaje (účty, zprávy, soubory) jsou uloženy odděleně od aplikace. Když aktualizujete DinoX, vaše data zůstanou nedotčena."
-"Vaše osobní údaje (účty, zprávy, soubory) jsou uloženy odděleně od "
-"aplikace. Při aktualizaci DinoX zůstanou vaše data nedotčena."
+msgstr ""
+"Vaše osobní údaje (účty, zprávy, soubory) jsou uloženy odděleně od aplikace. "
+"Když aktualizujete DinoX, vaše data zůstanou nedotčena.Vaše osobní údaje "
+"(účty, zprávy, soubory) jsou uloženy odděleně od aplikace. Při aktualizaci "
+"DinoX zůstanou vaše data nedotčena."
 
 #: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
 #: main/src/ui/main_window.vala:159
@@ -519,6 +523,52 @@ msgstr "Zavřít"
 #: main/src/ui/application.vala:417
 msgid "Select Backup Location"
 msgstr "Vybrat umístění zálohy"
+
+#: main/src/ui/application.vala
+msgid "Creating Backup..."
+msgstr "Creating Backup..."
+
+#: main/src/ui/application.vala
+msgid "Creating Encrypted Backup..."
+msgstr "Creating Encrypted Backup..."
+
+#: main/src/ui/application.vala
+msgid "Please wait while your data is being backed up."
+msgstr "Please wait while your data is being backed up."
+
+#: main/src/ui/application.vala
+msgid "No data directories found to backup"
+msgstr "No data directories found to backup"
+
+#: main/src/ui/application.vala
+msgid "Backup Created"
+msgstr "Backup Created"
+
+#: main/src/ui/application.vala
+msgid "Encrypted Backup Created"
+msgstr "Encrypted Backup Created"
+
+#: main/src/ui/application.vala
+#, c-format
+msgid "Your backup was created successfully.\\n\\nSize: %s"
+msgstr "Your backup was created successfully.\\n\\nSize: %s"
+
+#: main/src/ui/application.vala
+msgid "Your backup was created successfully."
+msgstr "Your backup was created successfully."
+
+#: main/src/ui/application.vala
+#, c-format
+msgid "Your encrypted backup was created successfully.\\n\\nSize: %s"
+msgstr "Your encrypted backup was created successfully.\\n\\nSize: %s"
+
+#: main/src/ui/application.vala
+msgid "Your encrypted backup was created successfully."
+msgstr "Your encrypted backup was created successfully."
+
+#: main/src/ui/application.vala
+msgid "Backup Failed"
+msgstr "Backup Failed"
 
 #: main/src/ui/application.vala:445
 msgid "Creating backup..."
@@ -1042,9 +1092,11 @@ msgstr "Zničit místnost?"
 msgid ""
 "Are you sure you want to permanently destroy this room? This action cannot "
 "be undone and all history will be lost for all participants."
-msgstr "Opravdu chcete trvale zničit tuto místnost? Tuto akci nelze vrátit zpět a veškerá historie bude ztracena pro všechny účastníky."
-"Opravdu chcete tuto místnost trvale zničit? Tuto akci nelze "
-"vrátit zpět a celá historie bude ztracena pro všechny účastníky."
+msgstr ""
+"Opravdu chcete trvale zničit tuto místnost? Tuto akci nelze vrátit zpět a "
+"veškerá historie bude ztracena pro všechny účastníky.Opravdu chcete tuto "
+"místnost trvale zničit? Tuto akci nelze vrátit zpět a celá historie bude "
+"ztracena pro všechny účastníky."
 
 #: main/src/ui/conversation_details.vala:250
 msgid "Destroy"
@@ -1227,7 +1279,12 @@ msgid ""
 "• Remove %s from your contact list\n"
 "\n"
 "This action cannot be undone."
-msgstr "Toto:\n• Smaže celou historii konverzací\n• Odstraní uživatele %s z vašeho seznamu kontaktů\n\nTuto akci nelze vrátit zpět."
+msgstr ""
+"Toto:\n"
+"• Smaže celou historii konverzací\n"
+"• Odstraní uživatele %s z vašeho seznamu kontaktů\n"
+"\n"
+"Tuto akci nelze vrátit zpět."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:787
 msgid "Delete all message history?"
@@ -1237,7 +1294,9 @@ msgstr "Smazat celou historii zpráv?"
 msgid ""
 "This will permanently delete all messages in this conversation. This action "
 "cannot be undone."
-msgstr "Tím se trvale odstraní všechny zprávy v této konverzaci. Tuto akci nelze vrátit zpět."
+msgstr ""
+"Tím se trvale odstraní všechny zprávy v této konverzaci. Tuto akci nelze "
+"vrátit zpět."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:791
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
@@ -1264,7 +1323,9 @@ msgstr "Vyžadován konferenční server"
 msgid ""
 "To start a group call, you need to configure a default conference server in "
 "your account settings."
-msgstr "Pro zahájení skupinového hovoru je třeba v nastavení účtu nakonfigurovat výchozí konferenční server."
+msgstr ""
+"Pro zahájení skupinového hovoru je třeba v nastavení účtu nakonfigurovat "
+"výchozí konferenční server."
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:84
 msgid "Open Settings"
@@ -1321,7 +1382,12 @@ msgid ""
 "\n"
 "If you need a password or a nickname, provide them in the dialog. Use the "
 "discovery features in the server to find public rooms."
-msgstr "Pro připojení ke kanálu klikněte na tlačítko \"Připojit se ke kanálu\" a zadejte JID kanálu (příklad: room@conference.example.org).\n\nPokud potřebujete heslo nebo přezdívku, zadejte je v dialogu. Pro nalezení veřejných místností použijte funkce zjišťování serveru."
+msgstr ""
+"Pro připojení ke kanálu klikněte na tlačítko \"Připojit se ke kanálu\" a "
+"zadejte JID kanálu (příklad: room@conference.example.org).\n"
+"\n"
+"Pokud potřebujete heslo nebo přezdívku, zadejte je v dialogu. Pro nalezení "
+"veřejných místností použijte funkce zjišťování serveru."
 
 #: main/src/ui/main_window.vala:206
 msgid "Welcome to DinoX!"
@@ -1479,9 +1545,11 @@ msgstr "Ukončit"
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
 "A friendly name shown in room listings (does not change the room address)"
-msgstr "Přátelské jméno zobrazené v seznamech místností (nemění adresu místnosti)"
-"Přátelský název zobrazený v seznamech místností (nemění adresu místnosti)"
-"Přátelský název zobrazovaný v seznamech místností (nemění adresu místnosti)"
+msgstr ""
+"Přátelské jméno zobrazené v seznamech místností (nemění adresu "
+"místnosti)Přátelský název zobrazený v seznamech místností (nemění adresu "
+"místnosti)Přátelský název zobrazovaný v seznamech místností (nemění adresu "
+"místnosti)"
 
 #: main/src/ui/util/data_forms.vala:44
 msgid "Description"
@@ -1535,7 +1603,9 @@ msgstr "Pouze pro členy"
 msgid ""
 "Only members may enter the room. Warning: Non-members will be removed when "
 "enabled!"
-msgstr "Pouze členové mohou vstoupit do místnosti. Varování: Nečlenové budou odstraněni při aktivaci!"
+msgstr ""
+"Pouze členové mohou vstoupit do místnosti. Varování: Nečlenové budou "
+"odstraněni při aktivaci!"
 
 #: main/src/ui/util/helper.vala:65
 #, c-format
@@ -1554,7 +1624,9 @@ msgstr "%a, %b %d"
 msgid ""
 "This contact will be removed from your contact list and all conversation "
 "history will be permanently deleted."
-msgstr "Tento kontakt bude odstraněn z vašeho seznamu kontaktů a veškerá historie konverzací bude trvale smazána."
+msgstr ""
+"Tento kontakt bude odstraněn z vašeho seznamu kontaktů a veškerá historie "
+"konverzací bude trvale smazána."
 
 #: main/src/windows/conversation_details.vala:108
 msgid "Block user"
@@ -1728,9 +1800,10 @@ msgstr "Přidejte kontakty a začněte chatovat"
 msgid ""
 "This will remove %s from your contact list and delete all conversation "
 "history."
-msgstr "Toto odstraní uživatele %s z vašeho seznamu kontaktů a smaže veškerou historii konverzací."
-"%s bude odebrán z vašeho seznamu kontaktů a celá historie konverzací bude "
-"smazána."
+msgstr ""
+"Toto odstraní uživatele %s z vašeho seznamu kontaktů a smaže veškerou "
+"historii konverzací.%s bude odebrán z vašeho seznamu kontaktů a celá "
+"historie konverzací bude smazána."
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:318
 msgid "Edit Contact Alias"
@@ -1744,6 +1817,387 @@ msgstr "Změnit zobrazované jméno pro %s"
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:325
 msgid "Alias (optional)"
 msgstr "Přezdívka (volitelné)"
+
+# DinoX v0.7.7 - Database Maintenance & Backup/Restore
+msgid "Clean Database"
+msgstr "Vyčistit databázi"
+
+msgid "Reset Database"
+msgstr "Resetovat databázi"
+
+msgid "Restore Complete!"
+msgstr "Obnova dokončena!"
+
+msgid "Restore Failed"
+msgstr "Obnova selhala"
+
+msgid "Decrypting Backup..."
+msgstr "Dešifrování zálohy..."
+
+msgid "Restoring Backup..."
+msgstr "Obnovování zálohy..."
+
+msgid "Set Backup Password"
+msgstr "Nastavit heslo zálohy"
+
+msgid "Confirm Password"
+msgstr "Potvrdit heslo"
+
+msgid "Create Encrypted Backup"
+msgstr "Vytvořit šifrovanou zálohu"
+
+msgid "Password too short"
+msgstr "Heslo je příliš krátké"
+
+msgid "Passwords do not match"
+msgstr "Hesla se neshodují"
+
+msgid "✓ Passwords match"
+msgstr "✓ Hesla se shodují"
+
+msgid "Encrypting Backup..."
+msgstr "Šifrování zálohy..."
+
+msgid "Factory Reset"
+msgstr "Obnovení továrního nastavení"
+
+msgid "Restore from Backup"
+msgstr "Obnovit ze zálohy"
+
+msgid "Restore Backup"
+msgstr "Obnovit zálohu"
+
+msgid "Select Backup File"
+msgstr "Vybrat soubor zálohy"
+
+msgid "Enter Backup Password"
+msgstr "Zadejte heslo zálohy"
+
+msgid "Decrypt & Restore"
+msgstr "Dešifrovat a obnovit"
+
+msgid "Create Backup First"
+msgstr "Nejprve vytvořte zálohu"
+
+msgid "No Encryption"
+msgstr "Bez šifrování"
+
+msgid "Encrypt with Password"
+msgstr "Šifrovat heslem"
+
+msgid "Delete Everything"
+msgstr "Smazat vše"
+
+msgid "Confirm Delete"
+msgstr "Potvrdit smazání"
+
+msgid "Are you absolutely sure?"
+msgstr "Jste si naprosto jisti?"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "Údržba databáze"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "Obnovit účty, zprávy a nastavení ze záložního souboru"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr ""
+"Smazat všechny zprávy, soubory a klíče OMEMO. Vaše účty zůstanou zachovány."
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr "Smazat VŠECHNA data včetně účtů. Toto nelze vrátit zpět!"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "Záložní soubory (*.tar.gz, *.tar.gz.gpg)"
+
+msgid "Creating encrypted backup..."
+msgstr "Vytváření šifrované zálohy..."
+
+msgid "Decryption Failed"
+msgstr "Dešifrování selhalo"
+
+msgid "DinoX will now restart..."
+msgstr "DinoX se nyní restartuje..."
+
+msgid "Encrypted backup created successfully"
+msgstr "Šifrovaná záloha byla úspěšně vytvořena"
+
+msgid "Password (minimum 4 characters)"
+msgstr "Heslo (minimálně 4 znaky)"
+
+msgid "Decrypting encrypted backup file..."
+msgstr "Dešifrování záložního souboru..."
+
+msgid "Extracting files from backup..."
+msgstr "Extrahování souborů ze zálohy..."
+
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "Probíhá obnovení továrního nastavení... DinoX se restartuje."
+
+msgid "Resetting database... DinoX will restart."
+msgstr "Resetování databáze... DinoX se restartuje."
+
+msgid "Encrypted backup created (%s)"
+msgstr "Šifrovaná záloha vytvořena (%s)"
+
+msgid ""
+"Could not decrypt the backup file.\n"
+"\n"
+"Please check if the password is correct."
+msgstr ""
+"Nepodařilo se dešifrovat záložní soubor.\n"
+"\n"
+"Zkontrolujte, zda je heslo správné."
+
+msgid ""
+"Could not restore the backup file.\n"
+"\n"
+"Error: %s"
+msgstr ""
+"Nepodařilo se obnovit záložní soubor.\n"
+"\n"
+"Chyba: %s"
+
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "Tato záloha je zašifrovaná. Zadejte heslo pro dešifrování."
+
+msgid ""
+"Enter a password to encrypt the backup.\n"
+"\n"
+"<b>Important:</b> Remember this password! Without it, the backup cannot be "
+"restored."
+msgstr ""
+"Zadejte heslo pro zašifrování zálohy.\n"
+"\n"
+"<b>Důležité:</b> Zapamatujte si toto heslo! Bez něj nelze zálohu obnovit."
+
+msgid ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+msgstr ""
+"Toto smaže všechny zprávy, soubory a šifrovací klíče OMEMO.\n"
+"\n"
+"<b>Vaše účty zůstanou, ale ztratíte veškerou historii chatů a budete muset "
+"znovu ověřit šifrování s kontakty.</b>\n"
+"\n"
+"Tuto akci nelze vrátit!"
+
+msgid ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+msgstr ""
+"Toto nahradí všechna aktuální data zálohou.\n"
+"\n"
+"<b>Stávající účty, zprávy a nastavení budou přepsány!</b>\n"
+"\n"
+"DinoX se po obnovení restartuje."
+
+msgid ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+msgstr ""
+"Zadejte 'DELETE' pro potvrzení obnovení továrního nastavení.\n"
+"\n"
+"Toto trvale odstraní všechna vaše data DinoX."
+
+msgid ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+msgstr ""
+"<b>⚠️ VAROVÁNÍ: Tímto smažete VŠECHNA data!</b>\n"
+"\n"
+"• Všechny účty\n"
+"• Všechny zprávy a soubory\n"
+"• Všechny šifrovací klíče\n"
+"• Všechna nastavení\n"
+"\n"
+"Toto je nevratné. Nejprve si vytvořte zálohu!"
+
+# OpenPGP Key Management translations
+msgid "OpenPGP Key Management"
+msgstr "Správa klíčů OpenPGP"
+
+msgid "Actions"
+msgstr "Akce"
+
+msgid "Generate New Key"
+msgstr "Vytvořit nový klíč"
+
+msgid "Create a new OpenPGP key pair"
+msgstr "Vytvořit nový pár klíčů OpenPGP"
+
+msgid "Import Key"
+msgstr "Importovat klíč"
+
+msgid "Import a key from file (.asc, .gpg)"
+msgstr "Importovat klíč ze souboru (.asc, .gpg)"
+
+msgid "Your Keys"
+msgstr "Vaše klíče"
+
+msgid "Private keys available for signing and decryption"
+msgstr "Soukromé klíče pro podepisování a dešifrování"
+
+msgid "No private keys found"
+msgstr "Nebyly nalezeny žádné soukromé klíče"
+
+msgid "Generate or import a key to get started"
+msgstr "Pro začátek vytvořte nebo importujte klíč"
+
+msgid "Fingerprint"
+msgstr "Otisk"
+
+msgid "Export Public Key"
+msgstr "Exportovat veřejný klíč"
+
+msgid "Delete Key"
+msgstr "Smazat klíč"
+
+msgid "Generate New OpenPGP Key"
+msgstr "Vytvořit nový klíč OpenPGP"
+
+msgid "Enter your details to create a new key pair."
+msgstr "Zadejte své údaje pro vytvoření nového páru klíčů."
+
+msgid "Name"
+msgstr "Jméno"
+
+msgid "Your Name"
+msgstr "Vaše jméno"
+
+msgid "Email"
+msgstr "E-mail"
+
+msgid "you@example.com"
+msgstr "vy@priklad.cz"
+
+msgid "Passphrase (optional)"
+msgstr "Heslo (volitelné)"
+
+msgid "Passphrase"
+msgstr "Heslo"
+
+msgid "4096-bit RSA key, valid for 2 years."
+msgstr "4096-bitový RSA klíč, platný 2 roky."
+
+msgid "Generate"
+msgstr "Vytvořit"
+
+msgid "Name must be at least 2 characters"
+msgstr "Jméno musí mít alespoň 2 znaky"
+
+msgid "Please enter a valid email address"
+msgstr "Zadejte prosím platnou e-mailovou adresu"
+
+msgid "Generating Key..."
+msgstr "Vytváření klíče..."
+
+msgid "Please wait while your key is being generated. This may take a moment."
+msgstr "Počkejte prosím, klíč se vytváří. Může to chvíli trvat."
+
+msgid "Key generated successfully!"
+msgstr "Klíč byl úspěšně vytvořen!"
+
+msgid "Failed to generate key."
+msgstr "Vytvoření klíče se nezdařilo."
+
+msgid "Import OpenPGP Key"
+msgstr "Importovat klíč OpenPGP"
+
+msgid "OpenPGP Keys (*.asc, *.gpg)"
+msgstr "Klíče OpenPGP (*.asc, *.gpg)"
+
+msgid "All Files"
+msgstr "Všechny soubory"
+
+msgid "Key imported! Re-open Key Management to see it."
+msgstr "Klíč importován! Pro zobrazení znovu otevřete Správu klíčů."
+
+msgid "Import failed: "
+msgstr "Import se nezdařil: "
+
+msgid "Key exported to: "
+msgstr "Klíč exportován do: "
+
+msgid "Export failed."
+msgstr "Export se nezdařil."
+
+msgid "Delete Key?"
+msgstr "Smazat klíč?"
+
+msgid ""
+"Delete this key?\n"
+"\n"
+"%s\n"
+"\n"
+"This cannot be undone!"
+msgstr ""
+"Smazat tento klíč?\n"
+"\n"
+"%s\n"
+"\n"
+"Toto nelze vrátit zpět!"
+
+msgid "Key deleted."
+msgstr "Klíč smazán."
+
+msgid "Delete failed: "
+msgstr "Smazání se nezdařilo: "
+
+msgid "Select OpenPGP Key"
+msgstr "Vybrat klíč OpenPGP"
+
+msgid "Choose a key to announce to your contacts."
+msgstr "Vyberte klíč k oznámení vašim kontaktům."
+
+msgid "Enter GPG passphrase to confirm:"
+msgstr "Zadejte heslo GPG pro potvrzení:"
+
+msgid "Wrong passphrase"
+msgstr "Nesprávné heslo"
+
+msgid "Manage Keys"
+msgstr "Spravovat klíče"
+
+msgid "Generate, import, export, or delete keys"
+msgstr "Vytvářet, importovat, exportovat nebo mazat klíče"
+
+msgid "No keys available. Generate or import one!"
+msgstr "Žádné klíče nejsou k dispozici. Vytvořte nebo importujte!"
+
+msgid "Announce key"
+msgstr "Oznámit klíč"
+
+msgid "Disabled"
+msgstr "Vypnuto"
+
+msgid "Error in GnuPG"
+msgstr "Chyba v GnuPG"
+
+msgid "Success"
+msgstr "Úspěch"
+
+msgid "OK"
+msgstr "OK"
 
 #~ msgid "Message too long"
 #~ msgstr "Zpráva je příliš dlouhá"
@@ -1903,154 +2357,3 @@ msgstr "Přezdívka (volitelné)"
 
 #~ msgid "Click here to start a conversation or join a channel."
 #~ msgstr "Kliknutím sem zahájíte konverzaci nebo se připojíte ke kanálu."
-
-# DinoX v0.7.7 - Database Maintenance & Backup/Restore
-msgid "Clean Database"
-msgstr "Vyčistit databázi"
-
-msgid "Reset Database"
-msgstr "Resetovat databázi"
-
-msgid "Restore Complete!"
-msgstr "Obnova dokončena!"
-
-msgid "Restore Failed"
-msgstr "Obnova selhala"
-
-msgid "Decrypting Backup..."
-msgstr "Dešifrování zálohy..."
-
-msgid "Restoring Backup..."
-msgstr "Obnovování zálohy..."
-
-msgid "Set Backup Password"
-msgstr "Nastavit heslo zálohy"
-
-msgid "Confirm Password"
-msgstr "Potvrdit heslo"
-
-msgid "Create Encrypted Backup"
-msgstr "Vytvořit šifrovanou zálohu"
-
-msgid "Password too short"
-msgstr "Heslo je příliš krátké"
-
-msgid "Passwords do not match"
-msgstr "Hesla se neshodují"
-
-msgid "✓ Passwords match"
-msgstr "✓ Hesla se shodují"
-
-msgid "Encrypting Backup..."
-msgstr "Šifrování zálohy..."
-
-msgid "Factory Reset"
-msgstr "Obnovení továrního nastavení"
-
-msgid "Restore from Backup"
-msgstr "Obnovit ze zálohy"
-
-msgid "Restore Backup"
-msgstr "Obnovit zálohu"
-
-msgid "Select Backup File"
-msgstr "Vybrat soubor zálohy"
-
-msgid "Enter Backup Password"
-msgstr "Zadejte heslo zálohy"
-
-msgid "Decrypt & Restore"
-msgstr "Dešifrovat a obnovit"
-
-msgid "Create Backup First"
-msgstr "Nejprve vytvořte zálohu"
-
-msgid "No Encryption"
-msgstr "Bez šifrování"
-
-msgid "Encrypt with Password"
-msgstr "Šifrovat heslem"
-
-msgid "Delete Everything"
-msgstr "Smazat vše"
-
-msgid "Confirm Delete"
-msgstr "Potvrdit smazání"
-
-msgid "Are you absolutely sure?"
-msgstr "Jste si naprosto jisti?"
-
-#: main/data/preferences_window/general_preferences_page.ui:104
-msgid "Database Maintenance"
-msgstr "Údržba databáze"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Restore accounts, messages and settings from a backup file"
-msgstr "Obnovit účty, zprávy a nastavení ze záložního souboru"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
-msgstr "Smazat všechny zprávy, soubory a klíče OMEMO. Vaše účty zůstanou zachovány."
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete ALL data including accounts. This cannot be undone!"
-msgstr "Smazat VŠECHNA data včetně účtů. Toto nelze vrátit zpět!"
-
-# DinoX v0.7.7 - Additional Backup/Restore strings
-
-msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
-msgstr "Záložní soubory (*.tar.gz, *.tar.gz.gpg)"
-
-msgid "Creating encrypted backup..."
-msgstr "Vytváření šifrované zálohy..."
-
-msgid "Decryption Failed"
-msgstr "Dešifrování selhalo"
-
-msgid "DinoX will now restart..."
-msgstr "DinoX se nyní restartuje..."
-
-msgid "Encrypted backup created successfully"
-msgstr "Šifrovaná záloha byla úspěšně vytvořena"
-
-msgid "Password (minimum 4 characters)"
-msgstr "Heslo (minimálně 4 znaky)"
-
-msgid "Decrypting encrypted backup file..."
-msgstr "Dešifrování záložního souboru..."
-
-msgid "Extracting files from backup..."
-msgstr "Extrahování souborů ze zálohy..."
-
-msgid "Factory reset in progress... DinoX will restart."
-msgstr "Probíhá obnovení továrního nastavení... DinoX se restartuje."
-
-msgid "Resetting database... DinoX will restart."
-msgstr "Resetování databáze... DinoX se restartuje."
-
-msgid "Encrypted backup created (%s)"
-msgstr "Šifrovaná záloha vytvořena (%s)"
-
-msgid "Could not decrypt the backup file.\n\nPlease check if the password is correct."
-msgstr "Nepodařilo se dešifrovat záložní soubor.\n\nZkontrolujte, zda je heslo správné."
-
-msgid "Could not restore the backup file.\n\nError: %s"
-msgstr "Nepodařilo se obnovit záložní soubor.\n\nChyba: %s"
-
-msgid "This backup is encrypted. Please enter the password to decrypt it."
-msgstr "Tato záloha je zašifrovaná. Zadejte heslo pro dešifrování."
-
-msgid "Enter a password to encrypt the backup.\n\n<b>Important:</b> Remember this password! Without it, the backup cannot be restored."
-msgstr "Zadejte heslo pro zašifrování zálohy.\n\n<b>Důležité:</b> Zapamatujte si toto heslo! Bez něj nelze zálohu obnovit."
-
-msgid "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
-msgstr "Toto smaže všechny zprávy, soubory a šifrovací klíče OMEMO.\n\n<b>Vaše účty zůstanou, ale ztratíte veškerou historii chatů a budete muset znovu ověřit šifrování s kontakty.</b>\n\nTuto akci nelze vrátit!"
-
-msgid "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
-msgstr "Toto nahradí všechna aktuální data zálohou.\n\n<b>Stávající účty, zprávy a nastavení budou přepsány!</b>\n\nDinoX se po obnovení restartuje."
-
-msgid "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
-msgstr "Zadejte 'DELETE' pro potvrzení obnovení továrního nastavení.\n\nToto trvale odstraní všechna vaše data DinoX."
-
-msgid "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"
-msgstr "<b>⚠️ VAROVÁNÍ: Tímto smažete VŠECHNA data!</b>\n\n• Všechny účty\n• Všechny zprávy a soubory\n• Všechny šifrovací klíče\n• Všechna nastavení\n\nToto je nevratné. Nejprve si vytvořte zálohu!"

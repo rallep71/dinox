@@ -304,9 +304,8 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         Ui.PreferencesDialog dialog = new Ui.PreferencesDialog();
         dialog.model.populate(db, stream_interactor);
         dialog.backup_requested.connect(() => {
-            string data_dir = Path.build_filename(Environment.get_user_data_dir(), "dino");
-            string config_dir = Path.build_filename(Environment.get_user_config_dir(), "dino");
-            create_backup(data_dir, config_dir);
+            string data_dir = Path.build_filename(Environment.get_user_data_dir(), "dinox");
+            create_backup(data_dir);
         });
         dialog.restore_backup_requested.connect(() => restore_from_backup());
         dialog.show_data_location.connect(() => show_data_location_dialog());
@@ -346,9 +345,9 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         about_dialog.comments = _("Modern XMPP client with extended features");
         
         // Add debug info with data location
-        string config_dir = Path.build_filename(Environment.get_user_config_dir(), "dino");
-        string data_dir = Path.build_filename(Environment.get_user_data_dir(), "dino");
-        string cache_dir = Path.build_filename(Environment.get_user_cache_dir(), "dino");
+        string config_dir = Path.build_filename(Environment.get_user_config_dir(), "dinox");
+        string data_dir = Path.build_filename(Environment.get_user_data_dir(), "dinox");
+        string cache_dir = Path.build_filename(Environment.get_user_cache_dir(), "dinox");
         
         string support_info = _("User Data Locations") + """
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -686,8 +685,8 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         
         // Try both possible locations for omemo.db
         string[] possible_paths = {
-            Path.build_filename(Environment.get_user_data_dir(), "dino", "omemo.db"),
-            Path.build_filename(Environment.get_user_config_dir(), "dino", "omemo.db")
+            Path.build_filename(Environment.get_user_data_dir(), "dinox", "omemo.db"),
+            Path.build_filename(Environment.get_user_config_dir(), "dinox", "omemo.db")
         };
         
         foreach (string omemo_db_path in possible_paths) {
@@ -720,9 +719,9 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
     }
     
     private void show_data_location_dialog() {
-        string config_dir = Path.build_filename(Environment.get_user_config_dir(), "dino");
-        string data_dir = Path.build_filename(Environment.get_user_data_dir(), "dino");
-        string cache_dir = Path.build_filename(Environment.get_user_cache_dir(), "dino");
+        string config_dir = Path.build_filename(Environment.get_user_config_dir(), "dinox");
+        string data_dir = Path.build_filename(Environment.get_user_data_dir(), "dinox");
+        string cache_dir = Path.build_filename(Environment.get_user_cache_dir(), "dinox");
         
         var dialog = new Adw.AlertDialog(
             _("User Data Locations"),
@@ -739,13 +738,13 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
 %s
 
 <small>%s</small>""".printf(
-            _("Configuration:"),
+            Markup.escape_text(_("Configuration:")),
             Markup.escape_text(config_dir),
-            _("Data & Database:"),
+            Markup.escape_text(_("Data & Database:")),
             Markup.escape_text(data_dir),
-            _("Cache:"),
+            Markup.escape_text(_("Cache:")),
             Markup.escape_text(cache_dir),
-            _("Your personal data (accounts, messages, files) is stored separately from the application. When you update DinoX, your data remains intact.")
+            Markup.escape_text(_("Your personal data (accounts, messages, files) is stored separately from the application. When you update DinoX, your data remains intact."))
         );
         
         dialog.body_use_markup = true;
@@ -756,7 +755,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
     }
     
     private void clear_cache() {
-        string cache_dir = Path.build_filename(Environment.get_user_cache_dir(), "dino");
+        string cache_dir = Path.build_filename(Environment.get_user_cache_dir(), "dinox");
         
         var dialog = new Adw.AlertDialog(
             _("Clear Cache"),
@@ -857,7 +856,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
     }
     
     private void perform_reset_database() {
-        string data_dir = Path.build_filename(Environment.get_user_data_dir(), "dino");
+        string data_dir = Path.build_filename(Environment.get_user_data_dir(), "dinox");
         string db_path = Path.build_filename(data_dir, "dino.db");
         
         // Close the database before deleting
@@ -911,9 +910,8 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
                 // Show second confirmation
                 confirm_factory_reset();
             } else if (response == "backup") {
-                string data_dir = Path.build_filename(Environment.get_user_data_dir(), "dino");
-                string config_dir = Path.build_filename(Environment.get_user_config_dir(), "dino");
-                create_backup(data_dir, config_dir);
+                string data_dir = Path.build_filename(Environment.get_user_data_dir(), "dinox");
+                create_backup(data_dir);
             }
         });
         
@@ -954,9 +952,9 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
     }
     
     private void perform_factory_reset() {
-        string data_dir = Path.build_filename(Environment.get_user_data_dir(), "dino");
-        string config_dir = Path.build_filename(Environment.get_user_config_dir(), "dino");
-        string cache_dir = Path.build_filename(Environment.get_user_cache_dir(), "dino");
+        string data_dir = Path.build_filename(Environment.get_user_data_dir(), "dinox");
+        string config_dir = Path.build_filename(Environment.get_user_config_dir(), "dinox");
+        string cache_dir = Path.build_filename(Environment.get_user_cache_dir(), "dinox");
         
         var toast_overlay = window.get_first_child() as Adw.ToastOverlay;
         if (toast_overlay != null) {
@@ -1022,7 +1020,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         Process.exit(0);
     }
     
-    private void create_backup(string data_dir, string config_dir) {
+    private void create_backup(string data_dir) {
         // First ask if user wants to encrypt the backup
         var encrypt_dialog = new Adw.AlertDialog(
             _("Backup Encryption"),
@@ -1037,16 +1035,16 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         
         encrypt_dialog.response.connect((response) => {
             if (response == "yes") {
-                show_password_dialog_for_backup(data_dir, config_dir);
+                show_password_dialog_for_backup(data_dir);
             } else {
-                show_backup_file_chooser(data_dir, config_dir, null);
+                show_backup_file_chooser(data_dir, null);
             }
         });
         
         encrypt_dialog.present(window);
     }
     
-    private void show_password_dialog_for_backup(string data_dir, string config_dir) {
+    private void show_password_dialog_for_backup(string data_dir) {
         var dialog = new Adw.AlertDialog(
             _("Set Backup Password"),
             _("Enter a password to encrypt the backup.\n\n<b>Important:</b> Remember this password! Without it, the backup cannot be restored.")
@@ -1129,14 +1127,14 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         
         dialog.response.connect((response) => {
             if (response == "ok") {
-                show_backup_file_chooser(data_dir, config_dir, password_entry.text);
+                show_backup_file_chooser(data_dir, password_entry.text);
             }
         });
         
         dialog.present(window);
     }
     
-    private void show_backup_file_chooser(string data_dir, string config_dir, string? password) {
+    private void show_backup_file_chooser(string data_dir, string? password) {
         var file_chooser = new Gtk.FileDialog();
         file_chooser.title = _("Select Backup Location");
         file_chooser.modal = true;
@@ -1157,24 +1155,65 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             
             if (file != null) {
                 string backup_path = file.get_path();
-                perform_backup(data_dir, config_dir, backup_path, password);
+                perform_backup(data_dir, backup_path, password);
             }
         });
     }
     
-    private void perform_backup(string data_dir, string config_dir, string backup_path, string? password = null) {
-        var toast_overlay = window.get_first_child() as Adw.ToastOverlay;
-        
-        // Show starting toast
-        if (toast_overlay != null) {
-            string msg = password != null ? _("Creating encrypted backup...") : _("Creating backup...");
-            var toast = new Adw.Toast(msg);
-            toast.timeout = 2;
-            toast_overlay.add_toast(toast);
+    private void checkpoint_databases() {
+        // Checkpoint the main database to flush WAL to main file
+        try {
+            db.exec("PRAGMA wal_checkpoint(TRUNCATE)");
+        } catch (Error e) {
+            warning("Failed to checkpoint main database: %s", e.message);
         }
+        
+        // Also checkpoint omemo.db and pgp.db via sqlite3 command
+        string data_dir = Path.build_filename(Environment.get_user_data_dir(), "dinox");
+        string[] db_files = { "omemo.db", "pgp.db" };
+        
+        foreach (string db_file in db_files) {
+            string db_path = Path.build_filename(data_dir, db_file);
+            if (FileUtils.test(db_path, FileTest.EXISTS)) {
+                try {
+                    string[] argv = { "sqlite3", db_path, "PRAGMA wal_checkpoint(TRUNCATE);" };
+                    Process.spawn_sync(null, argv, null, SpawnFlags.SEARCH_PATH, null, null, null, null);
+                } catch (Error e) {
+                    warning("Failed to checkpoint %s: %s", db_file, e.message);
+                }
+            }
+        }
+    }
+    
+    private void perform_backup(string data_dir, string backup_path, string? password = null) {
+        // Checkpoint all databases to ensure WAL data is written to main files
+        checkpoint_databases();
+        
+        // Create progress dialog with spinner
+        var progress_dialog = new Adw.AlertDialog(
+            password != null ? _("Creating Encrypted Backup...") : _("Creating Backup..."),
+            _("Please wait while your data is being backed up.")
+        );
+        
+        var spinner = new Gtk.Spinner();
+        spinner.spinning = true;
+        spinner.width_request = 48;
+        spinner.height_request = 48;
+        spinner.halign = Gtk.Align.CENTER;
+        spinner.margin_top = 12;
+        spinner.margin_bottom = 12;
+        progress_dialog.set_extra_child(spinner);
+        
+        // No close button during backup
+        progress_dialog.set_close_response("");
+        
+        progress_dialog.present(window);
         
         // Capture password for use in thread
         string? backup_password = password;
+        
+        // Capture directories for thread
+        string data_directory = data_dir;
         
         // Run backup in background
         new Thread<void*>("backup", () => {
@@ -1188,14 +1227,27 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
                 temp_tar_path = Path.build_filename(Environment.get_tmp_dir(), "dinox-backup-temp.tar.gz");
             }
             
-            // Create tar.gz backup
-            string[] argv = {
-                "tar",
-                "-czf",
-                temp_tar_path,
-                "-C", Environment.get_user_data_dir(), "dino",
-                "-C", Environment.get_user_config_dir(), "dino"
-            };
+            // Check if data directory exists
+            bool data_exists = FileUtils.test(data_directory, FileTest.IS_DIR);
+            
+            if (!data_exists) {
+                stderr_str = _("No data directory found to backup");
+                Idle.add(() => {
+                    spinner.spinning = false;
+                    progress_dialog.heading = _("Backup Failed");
+                    progress_dialog.body = stderr_str;
+                    progress_dialog.set_extra_child(null);
+                    progress_dialog.add_response("close", _("Close"));
+                    progress_dialog.set_default_response("close");
+                    progress_dialog.set_close_response("close");
+                    return false;
+                });
+                return null;
+            }
+            
+            // Build tar command - backup the data directory
+            // DinoX stores all data in ~/.local/share/dinox (get_user_data_dir)
+            string[] argv = { "tar", "-czf", temp_tar_path, "-C", Environment.get_user_data_dir(), "dinox" };
             
             string? stdout_str = null;
             int exit_status = -1;
@@ -1262,33 +1314,36 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
                 }
             }
             
-            // Show result toast on main thread
+            // Update dialog on main thread
             string final_stderr = stderr_str;
             string final_size = size_str;
             bool was_encrypted = backup_password != null;
             Idle.add(() => {
-                if (toast_overlay != null) {
-                    Adw.Toast toast;
-                    if (success) {
-                        string msg;
-                        if (was_encrypted) {
-                            msg = final_size.length > 0 ? 
-                                _("Encrypted backup created (%s)").printf(final_size) :
-                                _("Encrypted backup created successfully");
-                        } else {
-                            msg = final_size.length > 0 ? 
-                                _("Backup created successfully (%s)").printf(final_size) :
-                                _("Backup created successfully");
-                        }
-                        toast = new Adw.Toast(msg);
-                        toast.timeout = 3;
+                spinner.spinning = false;
+                progress_dialog.set_extra_child(null);
+                progress_dialog.add_response("close", _("Close"));
+                progress_dialog.set_default_response("close");
+                progress_dialog.set_close_response("close");
+                
+                if (success) {
+                    string msg;
+                    if (was_encrypted) {
+                        progress_dialog.heading = _("Encrypted Backup Created");
+                        msg = final_size.length > 0 ? 
+                            _("Your encrypted backup was created successfully.\n\nSize: %s").printf(final_size) :
+                            _("Your encrypted backup was created successfully.");
                     } else {
-                        string msg = final_stderr != null && final_stderr.length > 0 ? 
-                            final_stderr : _("Unknown error");
-                        toast = new Adw.Toast(_("Backup failed: %s").printf(msg));
-                        toast.timeout = 5;
+                        progress_dialog.heading = _("Backup Created");
+                        msg = final_size.length > 0 ? 
+                            _("Your backup was created successfully.\n\nSize: %s").printf(final_size) :
+                            _("Your backup was created successfully.");
                     }
-                    toast_overlay.add_toast(toast);
+                    progress_dialog.body = msg;
+                } else {
+                    progress_dialog.heading = _("Backup Failed");
+                    string msg = final_stderr != null && final_stderr.length > 0 ? 
+                        final_stderr : _("Unknown error");
+                    progress_dialog.body = _("Backup failed: %s").printf(msg);
                 }
                 return false;
             });

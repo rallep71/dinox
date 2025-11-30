@@ -492,7 +492,9 @@ msgstr "Thông tin:"
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
-msgstr "Dữ liệu cá nhân của bạn (tài khoản, tin nhắn, tệp) được lưu trữ riêng biệt khỏi ứng dụng."
+msgstr ""
+"Dữ liệu cá nhân của bạn (tài khoản, tin nhắn, tệp) được lưu trữ riêng biệt "
+"khỏi ứng dụng."
 
 #: main/src/ui/application.vala:361
 msgid "When you update DinoX, your data remains intact."
@@ -500,13 +502,16 @@ msgstr "Khi bạn cập nhật DinoX, dữ liệu của bạn vẫn được gi�
 
 #: main/src/ui/application.vala:363
 msgid "Use Settings → General → Backup User Data to create a backup."
-msgstr "Sử dụng Cài đặt → Chung → Sao lưu dữ liệu người dùng để tạo bản sao lưu."
+msgstr ""
+"Sử dụng Cài đặt → Chung → Sao lưu dữ liệu người dùng để tạo bản sao lưu."
 
 #: main/src/ui/application.vala:405
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
-msgstr "Dữ liệu cá nhân của bạn (tài khoản, tin nhắn, tệp) được lưu trữ riêng biệt. Khi bạn cập nhật DinoX, dữ liệu của bạn vẫn được giữ nguyên."
+msgstr ""
+"Dữ liệu cá nhân của bạn (tài khoản, tin nhắn, tệp) được lưu trữ riêng biệt. "
+"Khi bạn cập nhật DinoX, dữ liệu của bạn vẫn được giữ nguyên."
 
 #: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
 #: main/src/ui/main_window.vala:159
@@ -516,6 +521,52 @@ msgstr "Đóng"
 #: main/src/ui/application.vala:417
 msgid "Select Backup Location"
 msgstr "Chọn vị trí sao lưu"
+
+#: main/src/ui/application.vala
+msgid "Creating Backup..."
+msgstr "Creating Backup..."
+
+#: main/src/ui/application.vala
+msgid "Creating Encrypted Backup..."
+msgstr "Creating Encrypted Backup..."
+
+#: main/src/ui/application.vala
+msgid "Please wait while your data is being backed up."
+msgstr "Please wait while your data is being backed up."
+
+#: main/src/ui/application.vala
+msgid "No data directories found to backup"
+msgstr "No data directories found to backup"
+
+#: main/src/ui/application.vala
+msgid "Backup Created"
+msgstr "Backup Created"
+
+#: main/src/ui/application.vala
+msgid "Encrypted Backup Created"
+msgstr "Encrypted Backup Created"
+
+#: main/src/ui/application.vala
+#, c-format
+msgid "Your backup was created successfully.\\n\\nSize: %s"
+msgstr "Your backup was created successfully.\\n\\nSize: %s"
+
+#: main/src/ui/application.vala
+msgid "Your backup was created successfully."
+msgstr "Your backup was created successfully."
+
+#: main/src/ui/application.vala
+#, c-format
+msgid "Your encrypted backup was created successfully.\\n\\nSize: %s"
+msgstr "Your encrypted backup was created successfully.\\n\\nSize: %s"
+
+#: main/src/ui/application.vala
+msgid "Your encrypted backup was created successfully."
+msgstr "Your encrypted backup was created successfully."
+
+#: main/src/ui/application.vala
+msgid "Backup Failed"
+msgstr "Backup Failed"
 
 #: main/src/ui/application.vala:445
 msgid "Creating backup..."
@@ -1039,7 +1090,9 @@ msgstr "Hủy phòng?"
 msgid ""
 "Are you sure you want to permanently destroy this room? This action cannot "
 "be undone and all history will be lost for all participants."
-msgstr "Bạn có chắc muốn xóa vĩnh viễn phòng này? Hành động này không thể hoàn tác và toàn bộ lịch sử sẽ bị mất cho tất cả người tham gia."
+msgstr ""
+"Bạn có chắc muốn xóa vĩnh viễn phòng này? Hành động này không thể hoàn tác "
+"và toàn bộ lịch sử sẽ bị mất cho tất cả người tham gia."
 
 #: main/src/ui/conversation_details.vala:250
 msgid "Destroy"
@@ -1222,7 +1275,12 @@ msgid ""
 "• Remove %s from your contact list\n"
 "\n"
 "This action cannot be undone."
-msgstr "Điều này sẽ:\n• Xóa toàn bộ lịch sử trò chuyện\n• Xóa %s khỏi danh sách liên hệ của bạn\n\nHành động này không thể hoàn tác."
+msgstr ""
+"Điều này sẽ:\n"
+"• Xóa toàn bộ lịch sử trò chuyện\n"
+"• Xóa %s khỏi danh sách liên hệ của bạn\n"
+"\n"
+"Hành động này không thể hoàn tác."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:787
 msgid "Delete all message history?"
@@ -1232,7 +1290,9 @@ msgstr "Xóa tất cả lịch sử tin nhắn?"
 msgid ""
 "This will permanently delete all messages in this conversation. This action "
 "cannot be undone."
-msgstr "Điều này sẽ xóa vĩnh viễn tất cả tin nhắn trong cuộc hội thoại này. Hành động này không thể hoàn tác."
+msgstr ""
+"Điều này sẽ xóa vĩnh viễn tất cả tin nhắn trong cuộc hội thoại này. Hành "
+"động này không thể hoàn tác."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:791
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
@@ -1259,7 +1319,9 @@ msgstr "Cần máy chủ hội nghị"
 msgid ""
 "To start a group call, you need to configure a default conference server in "
 "your account settings."
-msgstr "Để bắt đầu cuộc gọi nhóm, bạn cần cấu hình máy chủ hội nghị mặc định trong cài đặt tài khoản."
+msgstr ""
+"Để bắt đầu cuộc gọi nhóm, bạn cần cấu hình máy chủ hội nghị mặc định trong "
+"cài đặt tài khoản."
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:84
 msgid "Open Settings"
@@ -1316,7 +1378,12 @@ msgid ""
 "\n"
 "If you need a password or a nickname, provide them in the dialog. Use the "
 "discovery features in the server to find public rooms."
-msgstr "Để tham gia kênh, nhấp vào nút \"Tham gia Kênh\" và nhập JID kênh (ví dụ: room@conference.example.org).\n\nNếu bạn cần mật khẩu hoặc biệt danh, hãy cung cấp chúng trong hộp thoại. Sử dụng tính năng khám phá của máy chủ để tìm các phòng công cộng."
+msgstr ""
+"Để tham gia kênh, nhấp vào nút \"Tham gia Kênh\" và nhập JID kênh (ví dụ: "
+"room@conference.example.org).\n"
+"\n"
+"Nếu bạn cần mật khẩu hoặc biệt danh, hãy cung cấp chúng trong hộp thoại. Sử "
+"dụng tính năng khám phá của máy chủ để tìm các phòng công cộng."
 
 #: main/src/ui/main_window.vala:206
 msgid "Welcome to DinoX!"
@@ -1474,7 +1541,8 @@ msgstr "Thoát"
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
 "A friendly name shown in room listings (does not change the room address)"
-msgstr "Tên thân thiện hiển thị trong danh sách phòng (không thay đổi địa chỉ phòng)"
+msgstr ""
+"Tên thân thiện hiển thị trong danh sách phòng (không thay đổi địa chỉ phòng)"
 
 #: main/src/ui/util/data_forms.vala:44
 msgid "Description"
@@ -1528,7 +1596,9 @@ msgstr "Chỉ thành viên"
 msgid ""
 "Only members may enter the room. Warning: Non-members will be removed when "
 "enabled!"
-msgstr "Chỉ thành viên mới có thể vào phòng. Cảnh báo: Những người không phải thành viên sẽ bị xóa khi bật!"
+msgstr ""
+"Chỉ thành viên mới có thể vào phòng. Cảnh báo: Những người không phải thành "
+"viên sẽ bị xóa khi bật!"
 
 #: main/src/ui/util/helper.vala:65
 #, c-format
@@ -1547,7 +1617,9 @@ msgstr "%a, %b %d"
 msgid ""
 "This contact will be removed from your contact list and all conversation "
 "history will be permanently deleted."
-msgstr "Liên hệ này sẽ bị xóa khỏi danh sách liên hệ của bạn và tất cả lịch sử hội thoại sẽ bị xóa vĩnh viễn."
+msgstr ""
+"Liên hệ này sẽ bị xóa khỏi danh sách liên hệ của bạn và tất cả lịch sử hội "
+"thoại sẽ bị xóa vĩnh viễn."
 
 #: main/src/windows/conversation_details.vala:108
 msgid "Block user"
@@ -1651,8 +1723,9 @@ msgstr "Máy chủ không thể xác minh đó là %s."
 
 #: main/src/windows/preferences_window/add_account_dialog.vala:158
 msgid "Its security certificate is not trusted by your operating system."
-msgstr "Chứng chỉ bảo mật của nó không được hệ điều hành của bạn tin cậy."
-"Chứng chỉ bảo mật của nó không được tin tưởng bởi hệ điều hành của bạn."
+msgstr ""
+"Chứng chỉ bảo mật của nó không được hệ điều hành của bạn tin cậy.Chứng chỉ "
+"bảo mật của nó không được tin tưởng bởi hệ điều hành của bạn."
 
 #: main/src/windows/preferences_window/add_account_dialog.vala:160
 msgid "Its security certificate is issued to another domain."
@@ -1722,7 +1795,9 @@ msgstr "Thêm liên hệ để bắt đầu trò chuyện"
 msgid ""
 "This will remove %s from your contact list and delete all conversation "
 "history."
-msgstr "Điều này sẽ xóa %s khỏi danh sách liên hệ của bạn và xóa tất cả lịch sử hội thoại."
+msgstr ""
+"Điều này sẽ xóa %s khỏi danh sách liên hệ của bạn và xóa tất cả lịch sử hội "
+"thoại."
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:318
 msgid "Edit Contact Alias"
@@ -1736,6 +1811,391 @@ msgstr "Thay đổi tên hiển thị cho %s"
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:325
 msgid "Alias (optional)"
 msgstr "Bí danh (tùy chọn)"
+
+# DinoX v0.7.7 - Database Maintenance & Backup/Restore
+msgid "Clean Database"
+msgstr "Clean Database"
+
+msgid "Reset Database"
+msgstr "Reset Database"
+
+msgid "Restore Complete!"
+msgstr "Restore Complete!"
+
+msgid "Restore Failed"
+msgstr "Restore Failed"
+
+msgid "Decrypting Backup..."
+msgstr "Decrypting Backup..."
+
+msgid "Restoring Backup..."
+msgstr "Restoring Backup..."
+
+msgid "Set Backup Password"
+msgstr "Set Backup Password"
+
+msgid "Confirm Password"
+msgstr "Confirm Password"
+
+msgid "Create Encrypted Backup"
+msgstr "Create Encrypted Backup"
+
+msgid "Password too short"
+msgstr "Password too short"
+
+msgid "Passwords do not match"
+msgstr "Passwords do not match"
+
+msgid "✓ Passwords match"
+msgstr "✓ Passwords match"
+
+msgid "Encrypting Backup..."
+msgstr "Encrypting Backup..."
+
+msgid "Factory Reset"
+msgstr "Factory Reset"
+
+msgid "Restore from Backup"
+msgstr "Restore from Backup"
+
+msgid "Restore Backup"
+msgstr "Restore Backup"
+
+msgid "Select Backup File"
+msgstr "Select Backup File"
+
+msgid "Enter Backup Password"
+msgstr "Enter Backup Password"
+
+msgid "Decrypt & Restore"
+msgstr "Decrypt & Restore"
+
+msgid "Create Backup First"
+msgstr "Create Backup First"
+
+msgid "No Encryption"
+msgstr "No Encryption"
+
+msgid "Encrypt with Password"
+msgstr "Encrypt with Password"
+
+msgid "Delete Everything"
+msgstr "Delete Everything"
+
+msgid "Confirm Delete"
+msgstr "Confirm Delete"
+
+msgid "Are you absolutely sure?"
+msgstr "Are you absolutely sure?"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "Bảo trì cơ sở dữ liệu"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "Khôi phục tài khoản, tin nhắn và cài đặt từ tệp sao lưu"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr ""
+"Xóa tất cả tin nhắn, tệp và khóa OMEMO. Tài khoản của bạn sẽ được giữ lại."
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr ""
+"Xóa TẤT CẢ dữ liệu bao gồm tài khoản. Hành động này không thể hoàn tác!"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "Tệp sao lưu (*.tar.gz, *.tar.gz.gpg)"
+
+msgid "Creating encrypted backup..."
+msgstr "Đang tạo bản sao lưu được mã hóa..."
+
+msgid "Decryption Failed"
+msgstr "Giải mã thất bại"
+
+msgid "DinoX will now restart..."
+msgstr "DinoX sẽ khởi động lại ngay bây giờ..."
+
+msgid "Encrypted backup created successfully"
+msgstr "Đã tạo bản sao lưu được mã hóa thành công"
+
+msgid "Password (minimum 4 characters)"
+msgstr "Mật khẩu (tối thiểu 4 ký tự)"
+
+msgid "Decrypting encrypted backup file..."
+msgstr "Đang giải mã tệp sao lưu..."
+
+msgid "Extracting files from backup..."
+msgstr "Đang giải nén tệp từ bản sao lưu..."
+
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "Đang khôi phục cài đặt gốc... DinoX sẽ khởi động lại."
+
+msgid "Resetting database... DinoX will restart."
+msgstr "Đang đặt lại cơ sở dữ liệu... DinoX sẽ khởi động lại."
+
+msgid "Encrypted backup created (%s)"
+msgstr "Đã tạo bản sao lưu được mã hóa (%s)"
+
+msgid ""
+"Could not decrypt the backup file.\n"
+"\n"
+"Please check if the password is correct."
+msgstr ""
+"Không thể giải mã tệp sao lưu.\n"
+"\n"
+"Vui lòng kiểm tra xem mật khẩu có đúng không."
+
+msgid ""
+"Could not restore the backup file.\n"
+"\n"
+"Error: %s"
+msgstr ""
+"Không thể khôi phục tệp sao lưu.\n"
+"\n"
+"Lỗi: %s"
+
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "Bản sao lưu này được mã hóa. Vui lòng nhập mật khẩu."
+
+msgid ""
+"Enter a password to encrypt the backup.\n"
+"\n"
+"<b>Important:</b> Remember this password! Without it, the backup cannot be "
+"restored."
+msgstr ""
+"Nhập mật khẩu để mã hóa bản sao lưu.\n"
+"\n"
+"<b>Quan trọng:</b> Hãy nhớ mật khẩu này! Không có nó, bản sao lưu không thể "
+"khôi phục."
+
+msgid ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+msgstr ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+
+msgid ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+msgstr ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+
+msgid ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+msgstr ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+
+msgid ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+msgstr ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+
+# OpenPGP Key Management
+msgid "OpenPGP Key Management"
+msgstr "OpenPGP Key Management"
+
+msgid "Actions"
+msgstr "Actions"
+
+msgid "Generate New Key"
+msgstr "Generate New Key"
+
+msgid "Import Key"
+msgstr "Import Key"
+
+msgid "Your Keys"
+msgstr "Your Keys"
+
+msgid "Fingerprint"
+msgstr "Fingerprint"
+
+msgid "Export Public Key"
+msgstr "Export Public Key"
+
+msgid "Delete Key"
+msgstr "Delete Key"
+
+msgid "Name"
+msgstr "Name"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Passphrase"
+msgstr "Passphrase"
+
+msgid "Generate"
+msgstr "Generate"
+
+msgid "Select OpenPGP Key"
+msgstr "Select OpenPGP Key"
+
+msgid "Wrong passphrase"
+msgstr "Wrong passphrase"
+
+msgid "Manage Keys"
+msgstr "Manage Keys"
+
+msgid "Announce key"
+msgstr "Announce key"
+
+msgid "Disabled"
+msgstr "Disabled"
+
+msgid "Success"
+msgstr "Success"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Create a new OpenPGP key pair"
+msgstr "Tạo cặp khóa OpenPGP mới"
+
+msgid "Import a key from file (.asc, .gpg)"
+msgstr "Nhập khóa từ tệp (.asc, .gpg)"
+
+msgid "Private keys available for signing and decryption"
+msgstr "Khóa riêng tư có sẵn để ký và giải mã"
+
+msgid "No private keys found"
+msgstr "Không tìm thấy khóa riêng tư"
+
+msgid "Generate or import a key to get started"
+msgstr "Tạo hoặc nhập khóa để bắt đầu"
+
+msgid "Generate New OpenPGP Key"
+msgstr "Tạo khóa OpenPGP mới"
+
+msgid "Enter your details to create a new key pair."
+msgstr "Nhập thông tin của bạn để tạo cặp khóa mới."
+
+msgid "Your Name"
+msgstr "Tên của bạn"
+
+msgid "you@example.com"
+msgstr "ban@vidu.com"
+
+msgid "Passphrase (optional)"
+msgstr "Cụm mật khẩu (tùy chọn)"
+
+msgid "4096-bit RSA key, valid for 2 years."
+msgstr "Khóa RSA 4096-bit, có hiệu lực trong 2 năm."
+
+msgid "Name must be at least 2 characters"
+msgstr "Tên phải có ít nhất 2 ký tự"
+
+msgid "Please enter a valid email address"
+msgstr "Vui lòng nhập địa chỉ email hợp lệ"
+
+msgid "Generating Key..."
+msgstr "Đang tạo khóa..."
+
+msgid "Please wait while your key is being generated. This may take a moment."
+msgstr ""
+"Vui lòng đợi trong khi khóa của bạn đang được tạo. Việc này có thể mất một "
+"lát."
+
+msgid "Key generated successfully!"
+msgstr "Tạo khóa thành công!"
+
+msgid "Failed to generate key."
+msgstr "Không tạo được khóa."
+
+msgid "Import OpenPGP Key"
+msgstr "Nhập khóa OpenPGP"
+
+msgid "OpenPGP Keys (*.asc, *.gpg)"
+msgstr "Khóa OpenPGP (*.asc, *.gpg)"
+
+msgid "All Files"
+msgstr "Tất cả tệp"
+
+msgid "Key imported! Re-open Key Management to see it."
+msgstr "Đã nhập khóa! Mở lại Quản lý khóa để xem."
+
+msgid "Import failed: "
+msgstr "Nhập thất bại: "
+
+msgid "Key exported to: "
+msgstr "Khóa đã xuất tới: "
+
+msgid "Export failed."
+msgstr "Xuất thất bại."
+
+msgid "Delete Key?"
+msgstr "Xóa khóa?"
+
+msgid ""
+"Delete this key?\n"
+"\n"
+"%s\n"
+"\n"
+"This cannot be undone!"
+msgstr ""
+"Xóa khóa này?\n"
+"\n"
+"%s\n"
+"\n"
+"Không thể hoàn tác!"
+
+msgid "Key deleted."
+msgstr "Đã xóa khóa."
+
+msgid "Delete failed: "
+msgstr "Xóa thất bại: "
+
+msgid "Choose a key to announce to your contacts."
+msgstr "Chọn khóa để thông báo cho danh bạ của bạn."
+
+msgid "Enter GPG passphrase to confirm:"
+msgstr "Nhập cụm mật khẩu GPG để xác nhận:"
+
+msgid "Generate, import, export, or delete keys"
+msgstr "Tạo, nhập, xuất hoặc xóa khóa"
+
+msgid "No keys available. Generate or import one!"
+msgstr "Không có khóa nào. Tạo hoặc nhập một khóa!"
+
+msgid "Error in GnuPG"
+msgstr "Lỗi trong GnuPG"
 
 #~ msgid "Message too long"
 #~ msgstr "Tin nhắn quá dài"
@@ -1895,154 +2355,3 @@ msgstr "Bí danh (tùy chọn)"
 
 #~ msgid "Modern XMPP Chat Client"
 #~ msgstr "Ứng dụng chat XMPP hiện đại"
-
-# DinoX v0.7.7 - Database Maintenance & Backup/Restore
-msgid "Clean Database"
-msgstr "Clean Database"
-
-msgid "Reset Database"
-msgstr "Reset Database"
-
-msgid "Restore Complete!"
-msgstr "Restore Complete!"
-
-msgid "Restore Failed"
-msgstr "Restore Failed"
-
-msgid "Decrypting Backup..."
-msgstr "Decrypting Backup..."
-
-msgid "Restoring Backup..."
-msgstr "Restoring Backup..."
-
-msgid "Set Backup Password"
-msgstr "Set Backup Password"
-
-msgid "Confirm Password"
-msgstr "Confirm Password"
-
-msgid "Create Encrypted Backup"
-msgstr "Create Encrypted Backup"
-
-msgid "Password too short"
-msgstr "Password too short"
-
-msgid "Passwords do not match"
-msgstr "Passwords do not match"
-
-msgid "✓ Passwords match"
-msgstr "✓ Passwords match"
-
-msgid "Encrypting Backup..."
-msgstr "Encrypting Backup..."
-
-msgid "Factory Reset"
-msgstr "Factory Reset"
-
-msgid "Restore from Backup"
-msgstr "Restore from Backup"
-
-msgid "Restore Backup"
-msgstr "Restore Backup"
-
-msgid "Select Backup File"
-msgstr "Select Backup File"
-
-msgid "Enter Backup Password"
-msgstr "Enter Backup Password"
-
-msgid "Decrypt & Restore"
-msgstr "Decrypt & Restore"
-
-msgid "Create Backup First"
-msgstr "Create Backup First"
-
-msgid "No Encryption"
-msgstr "No Encryption"
-
-msgid "Encrypt with Password"
-msgstr "Encrypt with Password"
-
-msgid "Delete Everything"
-msgstr "Delete Everything"
-
-msgid "Confirm Delete"
-msgstr "Confirm Delete"
-
-msgid "Are you absolutely sure?"
-msgstr "Are you absolutely sure?"
-
-#: main/data/preferences_window/general_preferences_page.ui:104
-msgid "Database Maintenance"
-msgstr "Bảo trì cơ sở dữ liệu"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Restore accounts, messages and settings from a backup file"
-msgstr "Khôi phục tài khoản, tin nhắn và cài đặt từ tệp sao lưu"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
-msgstr "Xóa tất cả tin nhắn, tệp và khóa OMEMO. Tài khoản của bạn sẽ được giữ lại."
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete ALL data including accounts. This cannot be undone!"
-msgstr "Xóa TẤT CẢ dữ liệu bao gồm tài khoản. Hành động này không thể hoàn tác!"
-
-# DinoX v0.7.7 - Additional Backup/Restore strings
-
-msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
-msgstr "Tệp sao lưu (*.tar.gz, *.tar.gz.gpg)"
-
-msgid "Creating encrypted backup..."
-msgstr "Đang tạo bản sao lưu được mã hóa..."
-
-msgid "Decryption Failed"
-msgstr "Giải mã thất bại"
-
-msgid "DinoX will now restart..."
-msgstr "DinoX sẽ khởi động lại ngay bây giờ..."
-
-msgid "Encrypted backup created successfully"
-msgstr "Đã tạo bản sao lưu được mã hóa thành công"
-
-msgid "Password (minimum 4 characters)"
-msgstr "Mật khẩu (tối thiểu 4 ký tự)"
-
-msgid "Decrypting encrypted backup file..."
-msgstr "Đang giải mã tệp sao lưu..."
-
-msgid "Extracting files from backup..."
-msgstr "Đang giải nén tệp từ bản sao lưu..."
-
-msgid "Factory reset in progress... DinoX will restart."
-msgstr "Đang khôi phục cài đặt gốc... DinoX sẽ khởi động lại."
-
-msgid "Resetting database... DinoX will restart."
-msgstr "Đang đặt lại cơ sở dữ liệu... DinoX sẽ khởi động lại."
-
-msgid "Encrypted backup created (%s)"
-msgstr "Đã tạo bản sao lưu được mã hóa (%s)"
-
-msgid "Could not decrypt the backup file.\n\nPlease check if the password is correct."
-msgstr "Không thể giải mã tệp sao lưu.\n\nVui lòng kiểm tra xem mật khẩu có đúng không."
-
-msgid "Could not restore the backup file.\n\nError: %s"
-msgstr "Không thể khôi phục tệp sao lưu.\n\nLỗi: %s"
-
-msgid "This backup is encrypted. Please enter the password to decrypt it."
-msgstr "Bản sao lưu này được mã hóa. Vui lòng nhập mật khẩu."
-
-msgid "Enter a password to encrypt the backup.\n\n<b>Important:</b> Remember this password! Without it, the backup cannot be restored."
-msgstr "Nhập mật khẩu để mã hóa bản sao lưu.\n\n<b>Quan trọng:</b> Hãy nhớ mật khẩu này! Không có nó, bản sao lưu không thể khôi phục."
-
-msgid "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
-msgstr "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
-
-msgid "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
-msgstr "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
-
-msgid "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
-msgstr "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
-
-msgid "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"
-msgstr "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"

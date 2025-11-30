@@ -274,8 +274,10 @@ msgstr "Дополнительные настройки"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:122
 msgid "Custom server connection (leave empty for automatic)"
-msgstr "Пользовательское подключение к серверу (оставьте пустым для автоматического)"
-"Пользовательское подключение к серверу (оставьте пустым для автоматического)"
+msgstr ""
+"Пользовательское подключение к серверу (оставьте пустым для "
+"автоматического)Пользовательское подключение к серверу (оставьте пустым для "
+"автоматического)"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:125
 msgid "Server Hostname"
@@ -320,8 +322,9 @@ msgstr "_Работать в фоне"
 #: main/data/preferences_window/general_preferences_page.ui:33
 msgid ""
 "Continue running after closing window to receive notifications immediately"
-msgstr "Продолжать работу после закрытия окна для немедленного получения уведомлений"
-"Продолжать работу после закрытия окна для получения уведомлений"
+msgstr ""
+"Продолжать работу после закрытия окна для немедленного получения "
+"уведомленийПродолжать работу после закрытия окна для получения уведомлений"
 
 #: main/data/preferences_window/general_preferences_page.ui:41
 msgid "Appearance"
@@ -496,7 +499,9 @@ msgstr "Инфо:"
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
-msgstr "Ваши персональные данные (аккаунты, сообщения, файлы) хранятся отдельно от приложения."
+msgstr ""
+"Ваши персональные данные (аккаунты, сообщения, файлы) хранятся отдельно от "
+"приложения."
 
 #: main/src/ui/application.vala:361
 msgid "When you update DinoX, your data remains intact."
@@ -510,8 +515,10 @@ msgstr "Используйте Настройки → Общие → Резер�
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
-msgstr "Ваши персональные данные (аккаунты, сообщения, файлы) хранятся отдельно от приложения. При обновлении DinoX ваши данные остаются нетронутыми."
-"Ваши личные данные (учётные записи, сообщения, файлы) хранятся отдельно от "
+msgstr ""
+"Ваши персональные данные (аккаунты, сообщения, файлы) хранятся отдельно от "
+"приложения. При обновлении DinoX ваши данные остаются нетронутыми.Ваши "
+"личные данные (учётные записи, сообщения, файлы) хранятся отдельно от "
 "приложения. При обновлении DinoX ваши данные сохраняются."
 
 #: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
@@ -522,6 +529,52 @@ msgstr "Закрыть"
 #: main/src/ui/application.vala:417
 msgid "Select Backup Location"
 msgstr "Выбрать место для бэкапа"
+
+#: main/src/ui/application.vala
+msgid "Creating Backup..."
+msgstr "Creating Backup..."
+
+#: main/src/ui/application.vala
+msgid "Creating Encrypted Backup..."
+msgstr "Creating Encrypted Backup..."
+
+#: main/src/ui/application.vala
+msgid "Please wait while your data is being backed up."
+msgstr "Please wait while your data is being backed up."
+
+#: main/src/ui/application.vala
+msgid "No data directories found to backup"
+msgstr "No data directories found to backup"
+
+#: main/src/ui/application.vala
+msgid "Backup Created"
+msgstr "Backup Created"
+
+#: main/src/ui/application.vala
+msgid "Encrypted Backup Created"
+msgstr "Encrypted Backup Created"
+
+#: main/src/ui/application.vala
+#, c-format
+msgid "Your backup was created successfully.\\n\\nSize: %s"
+msgstr "Your backup was created successfully.\\n\\nSize: %s"
+
+#: main/src/ui/application.vala
+msgid "Your backup was created successfully."
+msgstr "Your backup was created successfully."
+
+#: main/src/ui/application.vala
+#, c-format
+msgid "Your encrypted backup was created successfully.\\n\\nSize: %s"
+msgstr "Your encrypted backup was created successfully.\\n\\nSize: %s"
+
+#: main/src/ui/application.vala
+msgid "Your encrypted backup was created successfully."
+msgstr "Your encrypted backup was created successfully."
+
+#: main/src/ui/application.vala
+msgid "Backup Failed"
+msgstr "Backup Failed"
 
 #: main/src/ui/application.vala:445
 msgid "Creating backup..."
@@ -1045,9 +1098,11 @@ msgstr "Уничтожить комнату?"
 msgid ""
 "Are you sure you want to permanently destroy this room? This action cannot "
 "be undone and all history will be lost for all participants."
-msgstr "Вы уверены, что хотите безвозвратно удалить эту комнату? Это действие нельзя отменить, и вся история будет потеряна для всех участников."
-"Вы уверены, что хотите навсегда уничтожить эту комнату? Это действие нельзя "
-"отменить, и вся история будет потеряна для всех участников."
+msgstr ""
+"Вы уверены, что хотите безвозвратно удалить эту комнату? Это действие нельзя "
+"отменить, и вся история будет потеряна для всех участников.Вы уверены, что "
+"хотите навсегда уничтожить эту комнату? Это действие нельзя отменить, и вся "
+"история будет потеряна для всех участников."
 
 #: main/src/ui/conversation_details.vala:250
 msgid "Destroy"
@@ -1230,7 +1285,12 @@ msgid ""
 "• Remove %s from your contact list\n"
 "\n"
 "This action cannot be undone."
-msgstr "Это:\n• Удалит всю историю переписки\n• Удалит %s из вашего списка контактов\n\nЭто действие нельзя отменить."
+msgstr ""
+"Это:\n"
+"• Удалит всю историю переписки\n"
+"• Удалит %s из вашего списка контактов\n"
+"\n"
+"Это действие нельзя отменить."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:787
 msgid "Delete all message history?"
@@ -1240,8 +1300,9 @@ msgstr "Удалить всю историю сообщений?"
 msgid ""
 "This will permanently delete all messages in this conversation. This action "
 "cannot be undone."
-msgstr "Это навсегда удалит все сообщения в этой беседе. Это действие нельзя отменить."
-"Это навсегда удалит все сообщения в этой беседе. Это действие "
+msgstr ""
+"Это навсегда удалит все сообщения в этой беседе. Это действие нельзя "
+"отменить.Это навсегда удалит все сообщения в этой беседе. Это действие "
 "нельзя отменить."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:791
@@ -1269,7 +1330,9 @@ msgstr "Требуется сервер конференций"
 msgid ""
 "To start a group call, you need to configure a default conference server in "
 "your account settings."
-msgstr "Чтобы начать групповой звонок, необходимо настроить сервер конференций по умолчанию в настройках аккаунта."
+msgstr ""
+"Чтобы начать групповой звонок, необходимо настроить сервер конференций по "
+"умолчанию в настройках аккаунта."
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:84
 msgid "Open Settings"
@@ -1326,7 +1389,12 @@ msgid ""
 "\n"
 "If you need a password or a nickname, provide them in the dialog. Use the "
 "discovery features in the server to find public rooms."
-msgstr "Чтобы присоединиться к каналу, нажмите кнопку \"Присоединиться к каналу\" и введите JID канала (пример: room@conference.example.org).\n\nЕсли вам нужен пароль или псевдоним, укажите их в диалоге. Используйте функции обнаружения сервера для поиска публичных комнат."
+msgstr ""
+"Чтобы присоединиться к каналу, нажмите кнопку \"Присоединиться к каналу\" и "
+"введите JID канала (пример: room@conference.example.org).\n"
+"\n"
+"Если вам нужен пароль или псевдоним, укажите их в диалоге. Используйте "
+"функции обнаружения сервера для поиска публичных комнат."
 
 #: main/src/ui/main_window.vala:206
 msgid "Welcome to DinoX!"
@@ -1484,9 +1552,10 @@ msgstr "Выйти"
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
 "A friendly name shown in room listings (does not change the room address)"
-msgstr "Понятное имя, отображаемое в списках комнат (не изменяет адрес комнаты)"
-"Дружественное имя, отображаемое в списках комнат (не меняет адрес комнаты)"
-"Понятное имя в списках комнат (не меняет адрес комнаты)"
+msgstr ""
+"Понятное имя, отображаемое в списках комнат (не изменяет адрес "
+"комнаты)Дружественное имя, отображаемое в списках комнат (не меняет адрес "
+"комнаты)Понятное имя в списках комнат (не меняет адрес комнаты)"
 
 #: main/src/ui/util/data_forms.vala:44
 msgid "Description"
@@ -1540,7 +1609,9 @@ msgstr "Только для участников"
 msgid ""
 "Only members may enter the room. Warning: Non-members will be removed when "
 "enabled!"
-msgstr "Только участники могут войти в комнату. Предупреждение: Не-участники будут удалены при включении!"
+msgstr ""
+"Только участники могут войти в комнату. Предупреждение: Не-участники будут "
+"удалены при включении!"
 
 #: main/src/ui/util/helper.vala:65
 #, c-format
@@ -1560,7 +1631,9 @@ msgstr "%a, %d %b"
 msgid ""
 "This contact will be removed from your contact list and all conversation "
 "history will be permanently deleted."
-msgstr "Этот контакт будет удален из вашего списка контактов, и вся история переписки будет безвозвратно удалена."
+msgstr ""
+"Этот контакт будет удален из вашего списка контактов, и вся история "
+"переписки будет безвозвратно удалена."
 
 #: main/src/windows/conversation_details.vala:108
 msgid "Block user"
@@ -1750,6 +1823,393 @@ msgstr "Изменить отображаемое имя для %s"
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:325
 msgid "Alias (optional)"
 msgstr "Псевдоним (необязательно)"
+
+# DinoX v0.7.7 - Database Maintenance & Backup/Restore
+msgid "Clean Database"
+msgstr "Очистить базу данных"
+
+msgid "Reset Database"
+msgstr "Сбросить базу данных"
+
+msgid "Restore Complete!"
+msgstr "Восстановление завершено!"
+
+msgid "Restore Failed"
+msgstr "Ошибка восстановления"
+
+msgid "Decrypting Backup..."
+msgstr "Расшифровка резервной копии..."
+
+msgid "Restoring Backup..."
+msgstr "Восстановление резервной копии..."
+
+msgid "Set Backup Password"
+msgstr "Установить пароль резервной копии"
+
+msgid "Confirm Password"
+msgstr "Подтвердить пароль"
+
+msgid "Create Encrypted Backup"
+msgstr "Создать зашифрованную копию"
+
+msgid "Password too short"
+msgstr "Пароль слишком короткий"
+
+msgid "Passwords do not match"
+msgstr "Пароли не совпадают"
+
+msgid "✓ Passwords match"
+msgstr "✓ Пароли совпадают"
+
+msgid "Encrypting Backup..."
+msgstr "Шифрование резервной копии..."
+
+msgid "Factory Reset"
+msgstr "Сброс к заводским настройкам"
+
+msgid "Restore from Backup"
+msgstr "Восстановить из копии"
+
+msgid "Restore Backup"
+msgstr "Восстановить копию"
+
+msgid "Select Backup File"
+msgstr "Выбрать файл резервной копии"
+
+msgid "Enter Backup Password"
+msgstr "Введите пароль резервной копии"
+
+msgid "Decrypt & Restore"
+msgstr "Расшифровать и восстановить"
+
+msgid "Create Backup First"
+msgstr "Сначала создайте резервную копию"
+
+msgid "No Encryption"
+msgstr "Без шифрования"
+
+msgid "Encrypt with Password"
+msgstr "Зашифровать паролем"
+
+msgid "Delete Everything"
+msgstr "Удалить всё"
+
+msgid "Confirm Delete"
+msgstr "Подтвердить удаление"
+
+msgid "Are you absolutely sure?"
+msgstr "Вы абсолютно уверены?"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "Обслуживание базы данных"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr ""
+"Восстановить учётные записи, сообщения и настройки из файла резервной копии"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr ""
+"Удалить все сообщения, файлы и ключи OMEMO. Ваши учётные записи сохранятся."
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr ""
+"Удалить ВСЕ данные, включая учётные записи. Это действие нельзя отменить!"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "Файлы резервных копий (*.tar.gz, *.tar.gz.gpg)"
+
+msgid "Creating encrypted backup..."
+msgstr "Создание зашифрованной резервной копии..."
+
+msgid "Decryption Failed"
+msgstr "Ошибка расшифровки"
+
+msgid "DinoX will now restart..."
+msgstr "DinoX сейчас перезапустится..."
+
+msgid "Encrypted backup created successfully"
+msgstr "Зашифрованная резервная копия успешно создана"
+
+msgid "Password (minimum 4 characters)"
+msgstr "Пароль (минимум 4 символа)"
+
+msgid "Decrypting encrypted backup file..."
+msgstr "Расшифровка файла резервной копии..."
+
+msgid "Extracting files from backup..."
+msgstr "Извлечение файлов из резервной копии..."
+
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "Выполняется сброс до заводских настроек... DinoX перезапустится."
+
+msgid "Resetting database... DinoX will restart."
+msgstr "Сброс базы данных... DinoX перезапустится."
+
+msgid "Encrypted backup created (%s)"
+msgstr "Зашифрованная резервная копия создана (%s)"
+
+msgid ""
+"Could not decrypt the backup file.\n"
+"\n"
+"Please check if the password is correct."
+msgstr ""
+"Не удалось расшифровать файл.\n"
+"\n"
+"Проверьте правильность пароля."
+
+msgid ""
+"Could not restore the backup file.\n"
+"\n"
+"Error: %s"
+msgstr ""
+"Не удалось восстановить файл.\n"
+"\n"
+"Ошибка: %s"
+
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "Эта резервная копия зашифрована. Введите пароль."
+
+msgid ""
+"Enter a password to encrypt the backup.\n"
+"\n"
+"<b>Important:</b> Remember this password! Without it, the backup cannot be "
+"restored."
+msgstr ""
+"Введите пароль для шифрования резервной копии.\n"
+"\n"
+"<b>Важно:</b> Запомните этот пароль! Без него резервная копия не может быть "
+"восстановлена."
+
+msgid ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+msgstr ""
+"Это удалит все сообщения, файлы и ключи шифрования OMEMO.\n"
+"\n"
+"<b>Ваши аккаунты останутся, но вы потеряете всю историю чатов и вам нужно "
+"будет повторно верифицировать шифрование с контактами.</b>\n"
+"\n"
+"Это действие нельзя отменить!"
+
+msgid ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+msgstr ""
+"Это заменит все текущие данные резервной копией.\n"
+"\n"
+"<b>Текущие аккаунты, сообщения и настройки будут перезаписаны!</b>\n"
+"\n"
+"DinoX перезапустится после восстановления."
+
+msgid ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+msgstr ""
+"Введите 'DELETE' для подтверждения сброса.\n"
+"\n"
+"Это навсегда удалит все ваши данные DinoX."
+
+msgid ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+msgstr ""
+"<b>⚠️ ВНИМАНИЕ: Это удалит ВСЕ данные!</b>\n"
+"\n"
+"• Все аккаунты\n"
+"• Все сообщения и файлы\n"
+"• Все ключи шифрования\n"
+"• Все настройки\n"
+"\n"
+"Это необратимо. Сначала создайте резервную копию!"
+
+# OpenPGP Key Management translations
+msgid "OpenPGP Key Management"
+msgstr "Управление ключами OpenPGP"
+
+msgid "Actions"
+msgstr "Действия"
+
+msgid "Generate New Key"
+msgstr "Создать новый ключ"
+
+msgid "Create a new OpenPGP key pair"
+msgstr "Создать новую пару ключей OpenPGP"
+
+msgid "Import Key"
+msgstr "Импортировать ключ"
+
+msgid "Import a key from file (.asc, .gpg)"
+msgstr "Импортировать ключ из файла (.asc, .gpg)"
+
+msgid "Your Keys"
+msgstr "Ваши ключи"
+
+msgid "Private keys available for signing and decryption"
+msgstr "Закрытые ключи для подписи и расшифровки"
+
+msgid "No private keys found"
+msgstr "Закрытые ключи не найдены"
+
+msgid "Generate or import a key to get started"
+msgstr "Создайте или импортируйте ключ для начала"
+
+msgid "Fingerprint"
+msgstr "Отпечаток"
+
+msgid "Export Public Key"
+msgstr "Экспортировать открытый ключ"
+
+msgid "Delete Key"
+msgstr "Удалить ключ"
+
+msgid "Generate New OpenPGP Key"
+msgstr "Создать новый ключ OpenPGP"
+
+msgid "Enter your details to create a new key pair."
+msgstr "Введите ваши данные для создания новой пары ключей."
+
+msgid "Name"
+msgstr "Имя"
+
+msgid "Your Name"
+msgstr "Ваше имя"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "you@example.com"
+msgstr "вы@пример.com"
+
+msgid "Passphrase (optional)"
+msgstr "Парольная фраза (необязательно)"
+
+msgid "Passphrase"
+msgstr "Парольная фраза"
+
+msgid "4096-bit RSA key, valid for 2 years."
+msgstr "4096-битный RSA ключ, действителен 2 года."
+
+msgid "Generate"
+msgstr "Создать"
+
+msgid "Name must be at least 2 characters"
+msgstr "Имя должно содержать минимум 2 символа"
+
+msgid "Please enter a valid email address"
+msgstr "Пожалуйста, введите корректный адрес email"
+
+msgid "Generating Key..."
+msgstr "Создание ключа..."
+
+msgid "Please wait while your key is being generated. This may take a moment."
+msgstr ""
+"Пожалуйста, подождите, пока создаётся ваш ключ. Это может занять некоторое "
+"время."
+
+msgid "Key generated successfully!"
+msgstr "Ключ успешно создан!"
+
+msgid "Failed to generate key."
+msgstr "Не удалось создать ключ."
+
+msgid "Import OpenPGP Key"
+msgstr "Импортировать ключ OpenPGP"
+
+msgid "OpenPGP Keys (*.asc, *.gpg)"
+msgstr "Ключи OpenPGP (*.asc, *.gpg)"
+
+msgid "All Files"
+msgstr "Все файлы"
+
+msgid "Key imported! Re-open Key Management to see it."
+msgstr ""
+"Ключ импортирован! Откройте Управление ключами заново, чтобы увидеть его."
+
+msgid "Import failed: "
+msgstr "Ошибка импорта: "
+
+msgid "Key exported to: "
+msgstr "Ключ экспортирован в: "
+
+msgid "Export failed."
+msgstr "Ошибка экспорта."
+
+msgid "Delete Key?"
+msgstr "Удалить ключ?"
+
+msgid ""
+"Delete this key?\n"
+"\n"
+"%s\n"
+"\n"
+"This cannot be undone!"
+msgstr ""
+"Удалить этот ключ?\n"
+"\n"
+"%s\n"
+"\n"
+"Это действие нельзя отменить!"
+
+msgid "Key deleted."
+msgstr "Ключ удалён."
+
+msgid "Delete failed: "
+msgstr "Ошибка удаления: "
+
+msgid "Select OpenPGP Key"
+msgstr "Выбрать ключ OpenPGP"
+
+msgid "Choose a key to announce to your contacts."
+msgstr "Выберите ключ для объявления вашим контактам."
+
+msgid "Enter GPG passphrase to confirm:"
+msgstr "Введите парольную фразу GPG для подтверждения:"
+
+msgid "Wrong passphrase"
+msgstr "Неверная парольная фраза"
+
+msgid "Manage Keys"
+msgstr "Управление ключами"
+
+msgid "Generate, import, export, or delete keys"
+msgstr "Создавать, импортировать, экспортировать или удалять ключи"
+
+msgid "No keys available. Generate or import one!"
+msgstr "Нет доступных ключей. Создайте или импортируйте!"
+
+msgid "Announce key"
+msgstr "Объявить ключ"
+
+msgid "Disabled"
+msgstr "Отключено"
+
+msgid "Error in GnuPG"
+msgstr "Ошибка в GnuPG"
+
+msgid "Success"
+msgstr "Успех"
+
+msgid "OK"
+msgstr "ОК"
 
 #~ msgid "Message too long"
 #~ msgstr "Сообщение слишком длинное"
@@ -1974,154 +2434,3 @@ msgstr "Псевдоним (необязательно)"
 
 #~ msgid "Optional: Custom server connection"
 #~ msgstr "Необязательно: Пользовательское подключение к серверу"
-
-# DinoX v0.7.7 - Database Maintenance & Backup/Restore
-msgid "Clean Database"
-msgstr "Очистить базу данных"
-
-msgid "Reset Database"
-msgstr "Сбросить базу данных"
-
-msgid "Restore Complete!"
-msgstr "Восстановление завершено!"
-
-msgid "Restore Failed"
-msgstr "Ошибка восстановления"
-
-msgid "Decrypting Backup..."
-msgstr "Расшифровка резервной копии..."
-
-msgid "Restoring Backup..."
-msgstr "Восстановление резервной копии..."
-
-msgid "Set Backup Password"
-msgstr "Установить пароль резервной копии"
-
-msgid "Confirm Password"
-msgstr "Подтвердить пароль"
-
-msgid "Create Encrypted Backup"
-msgstr "Создать зашифрованную копию"
-
-msgid "Password too short"
-msgstr "Пароль слишком короткий"
-
-msgid "Passwords do not match"
-msgstr "Пароли не совпадают"
-
-msgid "✓ Passwords match"
-msgstr "✓ Пароли совпадают"
-
-msgid "Encrypting Backup..."
-msgstr "Шифрование резервной копии..."
-
-msgid "Factory Reset"
-msgstr "Сброс к заводским настройкам"
-
-msgid "Restore from Backup"
-msgstr "Восстановить из копии"
-
-msgid "Restore Backup"
-msgstr "Восстановить копию"
-
-msgid "Select Backup File"
-msgstr "Выбрать файл резервной копии"
-
-msgid "Enter Backup Password"
-msgstr "Введите пароль резервной копии"
-
-msgid "Decrypt & Restore"
-msgstr "Расшифровать и восстановить"
-
-msgid "Create Backup First"
-msgstr "Сначала создайте резервную копию"
-
-msgid "No Encryption"
-msgstr "Без шифрования"
-
-msgid "Encrypt with Password"
-msgstr "Зашифровать паролем"
-
-msgid "Delete Everything"
-msgstr "Удалить всё"
-
-msgid "Confirm Delete"
-msgstr "Подтвердить удаление"
-
-msgid "Are you absolutely sure?"
-msgstr "Вы абсолютно уверены?"
-
-#: main/data/preferences_window/general_preferences_page.ui:104
-msgid "Database Maintenance"
-msgstr "Обслуживание базы данных"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Restore accounts, messages and settings from a backup file"
-msgstr "Восстановить учётные записи, сообщения и настройки из файла резервной копии"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
-msgstr "Удалить все сообщения, файлы и ключи OMEMO. Ваши учётные записи сохранятся."
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete ALL data including accounts. This cannot be undone!"
-msgstr "Удалить ВСЕ данные, включая учётные записи. Это действие нельзя отменить!"
-
-# DinoX v0.7.7 - Additional Backup/Restore strings
-
-msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
-msgstr "Файлы резервных копий (*.tar.gz, *.tar.gz.gpg)"
-
-msgid "Creating encrypted backup..."
-msgstr "Создание зашифрованной резервной копии..."
-
-msgid "Decryption Failed"
-msgstr "Ошибка расшифровки"
-
-msgid "DinoX will now restart..."
-msgstr "DinoX сейчас перезапустится..."
-
-msgid "Encrypted backup created successfully"
-msgstr "Зашифрованная резервная копия успешно создана"
-
-msgid "Password (minimum 4 characters)"
-msgstr "Пароль (минимум 4 символа)"
-
-msgid "Decrypting encrypted backup file..."
-msgstr "Расшифровка файла резервной копии..."
-
-msgid "Extracting files from backup..."
-msgstr "Извлечение файлов из резервной копии..."
-
-msgid "Factory reset in progress... DinoX will restart."
-msgstr "Выполняется сброс до заводских настроек... DinoX перезапустится."
-
-msgid "Resetting database... DinoX will restart."
-msgstr "Сброс базы данных... DinoX перезапустится."
-
-msgid "Encrypted backup created (%s)"
-msgstr "Зашифрованная резервная копия создана (%s)"
-
-msgid "Could not decrypt the backup file.\n\nPlease check if the password is correct."
-msgstr "Не удалось расшифровать файл.\n\nПроверьте правильность пароля."
-
-msgid "Could not restore the backup file.\n\nError: %s"
-msgstr "Не удалось восстановить файл.\n\nОшибка: %s"
-
-msgid "This backup is encrypted. Please enter the password to decrypt it."
-msgstr "Эта резервная копия зашифрована. Введите пароль."
-
-msgid "Enter a password to encrypt the backup.\n\n<b>Important:</b> Remember this password! Without it, the backup cannot be restored."
-msgstr "Введите пароль для шифрования резервной копии.\n\n<b>Важно:</b> Запомните этот пароль! Без него резервная копия не может быть восстановлена."
-
-msgid "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
-msgstr "Это удалит все сообщения, файлы и ключи шифрования OMEMO.\n\n<b>Ваши аккаунты останутся, но вы потеряете всю историю чатов и вам нужно будет повторно верифицировать шифрование с контактами.</b>\n\nЭто действие нельзя отменить!"
-
-msgid "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
-msgstr "Это заменит все текущие данные резервной копией.\n\n<b>Текущие аккаунты, сообщения и настройки будут перезаписаны!</b>\n\nDinoX перезапустится после восстановления."
-
-msgid "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
-msgstr "Введите 'DELETE' для подтверждения сброса.\n\nЭто навсегда удалит все ваши данные DinoX."
-
-msgid "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"
-msgstr "<b>⚠️ ВНИМАНИЕ: Это удалит ВСЕ данные!</b>\n\n• Все аккаунты\n• Все сообщения и файлы\n• Все ключи шифрования\n• Все настройки\n\nЭто необратимо. Сначала создайте резервную копию!"

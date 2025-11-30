@@ -492,7 +492,8 @@ msgstr "Delays:"
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
-msgstr " Delays delays delays delays delays delays delays delays delays delays."
+msgstr ""
+" Delays delays delays delays delays delays delays delays delays delays."
 
 #: main/src/ui/application.vala:361
 msgid "When you update DinoX, your data remains intact."
@@ -506,7 +507,9 @@ msgstr "Delays → Delays → Delays"
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
-msgstr "Delays delays delays delays delays delays delays delays delays. Delays DinoX delays delays delays delays delays."
+msgstr ""
+"Delays delays delays delays delays delays delays delays delays. Delays DinoX "
+"delays delays delays delays delays."
 
 #: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
 #: main/src/ui/main_window.vala:159
@@ -516,6 +519,52 @@ msgstr "Փdelays"
 #: main/src/ui/application.vala:417
 msgid "Select Backup Location"
 msgstr "Delays delays delays"
+
+#: main/src/ui/application.vala
+msgid "Creating Backup..."
+msgstr "Creating Backup..."
+
+#: main/src/ui/application.vala
+msgid "Creating Encrypted Backup..."
+msgstr "Creating Encrypted Backup..."
+
+#: main/src/ui/application.vala
+msgid "Please wait while your data is being backed up."
+msgstr "Please wait while your data is being backed up."
+
+#: main/src/ui/application.vala
+msgid "No data directories found to backup"
+msgstr "No data directories found to backup"
+
+#: main/src/ui/application.vala
+msgid "Backup Created"
+msgstr "Backup Created"
+
+#: main/src/ui/application.vala
+msgid "Encrypted Backup Created"
+msgstr "Encrypted Backup Created"
+
+#: main/src/ui/application.vala
+#, c-format
+msgid "Your backup was created successfully.\\n\\nSize: %s"
+msgstr "Your backup was created successfully.\\n\\nSize: %s"
+
+#: main/src/ui/application.vala
+msgid "Your backup was created successfully."
+msgstr "Your backup was created successfully."
+
+#: main/src/ui/application.vala
+#, c-format
+msgid "Your encrypted backup was created successfully.\\n\\nSize: %s"
+msgstr "Your encrypted backup was created successfully.\\n\\nSize: %s"
+
+#: main/src/ui/application.vala
+msgid "Your encrypted backup was created successfully."
+msgstr "Your encrypted backup was created successfully."
+
+#: main/src/ui/application.vala
+msgid "Backup Failed"
+msgstr "Backup Failed"
 
 #: main/src/ui/application.vala:445
 msgid "Creating backup..."
@@ -1039,7 +1088,9 @@ msgstr "Delays delays?"
 msgid ""
 "Are you sure you want to permanently destroy this room? This action cannot "
 "be undone and all history will be lost for all participants."
-msgstr "Delays delays delays delays delays delays? Delays delays delays delays delays delays delays delays delays delays."
+msgstr ""
+"Delays delays delays delays delays delays? Delays delays delays delays "
+"delays delays delays delays delays delays."
 
 #: main/src/ui/conversation_details.vala:250
 msgid "Destroy"
@@ -1192,9 +1243,9 @@ msgstr "Սա կdelays delays %s- delays delays delays."
 msgid "Unblock contact?"
 msgstr "Delays delays?"
 
+# c-format
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:702
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:247
-# c-format
 msgid "This will allow %s to send you messages again."
 msgstr "%s- delays delays delays delay."
 
@@ -1223,7 +1274,12 @@ msgid ""
 "• Remove %s from your contact list\n"
 "\n"
 "This action cannot be undone."
-msgstr "Սա կdelays\n• Կdelays բոdelays զdelays delays delays\n• Կdelays %s delaysdelays delays delays delays\n\ndelay delay delays delays delays."
+msgstr ""
+"Սա կdelays\n"
+"• Կdelays բոdelays զdelays delays delays\n"
+"• Կdelays %s delaysdelays delays delays delays\n"
+"\n"
+"delay delay delays delays delays."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:787
 msgid "Delete all message history?"
@@ -1233,7 +1289,9 @@ msgstr "Delays delays delays delays?"
 msgid ""
 "This will permanently delete all messages in this conversation. This action "
 "cannot be undone."
-msgstr "Delays delays delays delays delays delays delays delays. Delays delays delays delays delays."
+msgstr ""
+"Delays delays delays delays delays delays delays delays. Delays delays "
+"delays delays delays."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:791
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
@@ -1260,7 +1318,9 @@ msgstr "Delays delays delays δηλαδή delays"
 msgid ""
 "To start a group call, you need to configure a default conference server in "
 "your account settings."
-msgstr "Delays delays delays delays delays delays delays delays delays delays delays delays delays."
+msgstr ""
+"Delays delays delays delays delays delays delays delays delays delays delays "
+"delays delays."
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:84
 msgid "Open Settings"
@@ -1317,7 +1377,12 @@ msgid ""
 "\n"
 "If you need a password or a nickname, provide them in the dialog. Use the "
 "discovery features in the server to find public rooms."
-msgstr "Ալdelays delay delay, delays \"delay delay\" delays delay delay JID- delays (delays: room@conference.example.org).\n\ndelay delays delays delay delays, delays delays delay. Delay delays delays delay delays delays delay delay."
+msgstr ""
+"Ալdelays delay delay, delays \"delay delay\" delays delay delay JID- delays "
+"(delays: room@conference.example.org).\n"
+"\n"
+"delay delays delays delay delays, delays delays delay. Delay delays delays "
+"delay delays delays delay delay."
 
 #: main/src/ui/main_window.vala:206
 msgid "Welcome to DinoX!"
@@ -1519,8 +1584,9 @@ msgstr "Խօսքի կարգաւորումներ են առկայ"
 
 #: main/src/ui/util/data_forms.vala:68
 msgid "Only occupants with voice may send messages"
-msgstr "Delays delays delays delays delays delays delays delays"
-"Միայն խօսքի թոյլտւութիւն ունեցող մասնակիցներն են ունակ յղել գրութիւններ"
+msgstr ""
+"Delays delays delays delays delays delays delays delaysՄիայն խօսքի "
+"թոյլտւութիւն ունեցող մասնակիցներն են ունակ յղել գրութիւններ"
 
 #: main/src/ui/util/data_forms.vala:71
 msgid "Members only"
@@ -1530,7 +1596,9 @@ msgstr "Միայն անդամների համար"
 msgid ""
 "Only members may enter the room. Warning: Non-members will be removed when "
 "enabled!"
-msgstr "Միdelays delay delay delay delay. delay: delay-delay delay delay delay delay delay!"
+msgstr ""
+"Միdelays delay delay delay delay. delay: delay-delay delay delay delay delay "
+"delay!"
 
 #: main/src/ui/util/helper.vala:65
 #, c-format
@@ -1550,7 +1618,8 @@ msgstr "%a, %b %d"
 msgid ""
 "This contact will be removed from your contact list and all conversation "
 "history will be permanently deleted."
-msgstr "delays delay delays delays delay delays delay delay delay delay delay delays."
+msgstr ""
+"delays delay delays delays delay delays delay delay delay delay delay delays."
 
 #: main/src/windows/conversation_details.vala:108
 msgid "Block user"
@@ -1654,8 +1723,10 @@ msgstr "Սպասարկիչը չի ապացուցել որ այն %s֊ն է։"
 
 #: main/src/windows/preferences_window/add_account_dialog.vala:158
 msgid "Its security certificate is not trusted by your operating system."
-msgstr "Նրա անվdelays վdelays այdelays delays delays ձdelays delays delays delays delays delays delays delays delays delays delays delays delays delays ."
-"Ձեր օպերացիոն համակարգը չի վստահում սպասարկչի անվտանգ միացման վկայականին։"
+msgstr ""
+"Նրա անվdelays վdelays այdelays delays delays ձdelays delays delays delays "
+"delays delays delays delays delays delays delays delays delays delays .Ձեր "
+"օպերացիոն համակարգը չի վստահում սպասարկչի անվտանգ միացման վկայականին։"
 
 #: main/src/windows/preferences_window/add_account_dialog.vala:160
 msgid "Its security certificate is issued to another domain."
@@ -1739,6 +1810,386 @@ msgstr "Delays delays delays delays %s"
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:325
 msgid "Alias (optional)"
 msgstr "Delays (delays)"
+
+# DinoX v0.7.7 - Database Maintenance & Backup/Restore
+msgid "Clean Database"
+msgstr "Clean Database"
+
+msgid "Reset Database"
+msgstr "Reset Database"
+
+msgid "Restore Complete!"
+msgstr "Restore Complete!"
+
+msgid "Restore Failed"
+msgstr "Restore Failed"
+
+msgid "Decrypting Backup..."
+msgstr "Decrypting Backup..."
+
+msgid "Restoring Backup..."
+msgstr "Restoring Backup..."
+
+msgid "Set Backup Password"
+msgstr "Set Backup Password"
+
+msgid "Confirm Password"
+msgstr "Confirm Password"
+
+msgid "Create Encrypted Backup"
+msgstr "Create Encrypted Backup"
+
+msgid "Password too short"
+msgstr "Password too short"
+
+msgid "Passwords do not match"
+msgstr "Passwords do not match"
+
+msgid "✓ Passwords match"
+msgstr "✓ Passwords match"
+
+msgid "Encrypting Backup..."
+msgstr "Encrypting Backup..."
+
+msgid "Factory Reset"
+msgstr "Factory Reset"
+
+msgid "Restore from Backup"
+msgstr "Restore from Backup"
+
+msgid "Restore Backup"
+msgstr "Restore Backup"
+
+msgid "Select Backup File"
+msgstr "Select Backup File"
+
+msgid "Enter Backup Password"
+msgstr "Enter Backup Password"
+
+msgid "Decrypt & Restore"
+msgstr "Decrypt & Restore"
+
+msgid "Create Backup First"
+msgstr "Create Backup First"
+
+msgid "No Encryption"
+msgstr "No Encryption"
+
+msgid "Encrypt with Password"
+msgstr "Encrypt with Password"
+
+msgid "Delete Everything"
+msgstr "Delete Everything"
+
+msgid "Confirm Delete"
+msgstr "Confirm Delete"
+
+msgid "Are you absolutely sure?"
+msgstr "Are you absolutely sure?"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "Տdelays բdelays delays delaysdelays"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "Վdelays delays delays delays delays"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr "Ջdelays delays delays delays"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr " Delays delays delays delays"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "Պdelays delays (*.tar.gz, *.tar.gz.gpg)"
+
+msgid "Creating encrypted backup..."
+msgstr "Ստdelays delays..."
+
+msgid "Decryption Failed"
+msgstr "Գdeलayուdelays delays"
+
+msgid "DinoX will now restart..."
+msgstr "DinoX հdelays delays..."
+
+msgid "Encrypted backup created successfully"
+msgstr "Գdelaayուdelays delays"
+
+msgid "Password (minimum 4 characters)"
+msgstr "Գdelays (delays 4 delays)"
+
+msgid "Decrypting encrypted backup file..."
+msgstr "Գdelays delays..."
+
+msgid "Extracting files from backup..."
+msgstr " Delays delays delays..."
+
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "Գdelays delays... DinoX delays."
+
+msgid "Resetting database... DinoX will restart."
+msgstr "Տdelays delays... DinoX delays."
+
+msgid "Encrypted backup created (%s)"
+msgstr "Գdelaays delays (%s)"
+
+msgid ""
+"Could not decrypt the backup file.\n"
+"\n"
+"Please check if the password is correct."
+msgstr ""
+"Չdelays delays.\n"
+"\n"
+"Խdelays delays."
+
+msgid ""
+"Could not restore the backup file.\n"
+"\n"
+"Error: %s"
+msgstr ""
+"Չdelays delays.\n"
+"\n"
+"Սdelays: %s"
+
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "Այdelays delays. Մdelays delays."
+
+msgid ""
+"Enter a password to encrypt the backup.\n"
+"\n"
+"<b>Important:</b> Remember this password! Without it, the backup cannot be "
+"restored."
+msgstr ""
+"Մdelays delays.\n"
+"\n"
+"<b>Կdelays:</b> Հdelays delays!"
+
+msgid ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+msgstr ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+
+msgid ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+msgstr ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+
+msgid ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+msgstr ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+
+msgid ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+msgstr ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+
+# OpenPGP Key Management - English fallback (Armenian script not available)
+msgid "OpenPGP Key Management"
+msgstr "OpenPGP Key Management"
+
+msgid "Actions"
+msgstr "Actions"
+
+msgid "Generate New Key"
+msgstr "Generate New Key"
+
+msgid "Create a new OpenPGP key pair"
+msgstr "Create a new OpenPGP key pair"
+
+msgid "Import Key"
+msgstr "Import Key"
+
+msgid "Import a key from file (.asc, .gpg)"
+msgstr "Import a key from file (.asc, .gpg)"
+
+msgid "Your Keys"
+msgstr "Your Keys"
+
+msgid "Private keys available for signing and decryption"
+msgstr "Private keys available for signing and decryption"
+
+msgid "No private keys found"
+msgstr "No private keys found"
+
+msgid "Generate or import a key to get started"
+msgstr "Generate or import a key to get started"
+
+msgid "Fingerprint"
+msgstr "Fingerprint"
+
+msgid "Export Public Key"
+msgstr "Export Public Key"
+
+msgid "Delete Key"
+msgstr "Delete Key"
+
+msgid "Generate New OpenPGP Key"
+msgstr "Generate New OpenPGP Key"
+
+msgid "Enter your details to create a new key pair."
+msgstr "Enter your details to create a new key pair."
+
+msgid "Name"
+msgstr "Name"
+
+msgid "Your Name"
+msgstr "Your Name"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "you@example.com"
+msgstr "you@example.com"
+
+msgid "Passphrase (optional)"
+msgstr "Passphrase (optional)"
+
+msgid "Passphrase"
+msgstr "Passphrase"
+
+msgid "4096-bit RSA key, valid for 2 years."
+msgstr "4096-bit RSA key, valid for 2 years."
+
+msgid "Generate"
+msgstr "Generate"
+
+msgid "Name must be at least 2 characters"
+msgstr "Name must be at least 2 characters"
+
+msgid "Please enter a valid email address"
+msgstr "Please enter a valid email address"
+
+msgid "Generating Key..."
+msgstr "Generating Key..."
+
+msgid "Please wait while your key is being generated. This may take a moment."
+msgstr "Please wait while your key is being generated. This may take a moment."
+
+msgid "Key generated successfully!"
+msgstr "Key generated successfully!"
+
+msgid "Failed to generate key."
+msgstr "Failed to generate key."
+
+msgid "Import OpenPGP Key"
+msgstr "Import OpenPGP Key"
+
+msgid "OpenPGP Keys (*.asc, *.gpg)"
+msgstr "OpenPGP Keys (*.asc, *.gpg)"
+
+msgid "All Files"
+msgstr "All Files"
+
+msgid "Key imported! Re-open Key Management to see it."
+msgstr "Key imported! Re-open Key Management to see it."
+
+msgid "Import failed: "
+msgstr "Import failed: "
+
+msgid "Key exported to: "
+msgstr "Key exported to: "
+
+msgid "Export failed."
+msgstr "Export failed."
+
+msgid "Delete Key?"
+msgstr "Delete Key?"
+
+msgid ""
+"Delete this key?\n"
+"\n"
+"%s\n"
+"\n"
+"This cannot be undone!"
+msgstr ""
+"Delete this key?\n"
+"\n"
+"%s\n"
+"\n"
+"This cannot be undone!"
+
+msgid "Key deleted."
+msgstr "Key deleted."
+
+msgid "Delete failed: "
+msgstr "Delete failed: "
+
+msgid "Select OpenPGP Key"
+msgstr "Select OpenPGP Key"
+
+msgid "Choose a key to announce to your contacts."
+msgstr "Choose a key to announce to your contacts."
+
+msgid "Enter GPG passphrase to confirm:"
+msgstr "Enter GPG passphrase to confirm:"
+
+msgid "Wrong passphrase"
+msgstr "Wrong passphrase"
+
+msgid "Manage Keys"
+msgstr "Manage Keys"
+
+msgid "Generate, import, export, or delete keys"
+msgstr "Generate, import, export, or delete keys"
+
+msgid "No keys available. Generate or import one!"
+msgstr "No keys available. Generate or import one!"
+
+msgid "Announce key"
+msgstr "Announce key"
+
+msgid "Disabled"
+msgstr "Disabled"
+
+msgid "Error in GnuPG"
+msgstr "Error in GnuPG"
+
+msgid "Success"
+msgstr "Success"
+
+msgid "OK"
+msgstr "OK"
 
 #~ msgid "Message too long"
 #~ msgstr "Հաղորդագրութիւնը չափից շատ երկար է"
@@ -1854,154 +2305,3 @@ msgstr "Delays (delays)"
 
 #~ msgid "Send"
 #~ msgstr "Ուղարկել"
-
-# DinoX v0.7.7 - Database Maintenance & Backup/Restore
-msgid "Clean Database"
-msgstr "Clean Database"
-
-msgid "Reset Database"
-msgstr "Reset Database"
-
-msgid "Restore Complete!"
-msgstr "Restore Complete!"
-
-msgid "Restore Failed"
-msgstr "Restore Failed"
-
-msgid "Decrypting Backup..."
-msgstr "Decrypting Backup..."
-
-msgid "Restoring Backup..."
-msgstr "Restoring Backup..."
-
-msgid "Set Backup Password"
-msgstr "Set Backup Password"
-
-msgid "Confirm Password"
-msgstr "Confirm Password"
-
-msgid "Create Encrypted Backup"
-msgstr "Create Encrypted Backup"
-
-msgid "Password too short"
-msgstr "Password too short"
-
-msgid "Passwords do not match"
-msgstr "Passwords do not match"
-
-msgid "✓ Passwords match"
-msgstr "✓ Passwords match"
-
-msgid "Encrypting Backup..."
-msgstr "Encrypting Backup..."
-
-msgid "Factory Reset"
-msgstr "Factory Reset"
-
-msgid "Restore from Backup"
-msgstr "Restore from Backup"
-
-msgid "Restore Backup"
-msgstr "Restore Backup"
-
-msgid "Select Backup File"
-msgstr "Select Backup File"
-
-msgid "Enter Backup Password"
-msgstr "Enter Backup Password"
-
-msgid "Decrypt & Restore"
-msgstr "Decrypt & Restore"
-
-msgid "Create Backup First"
-msgstr "Create Backup First"
-
-msgid "No Encryption"
-msgstr "No Encryption"
-
-msgid "Encrypt with Password"
-msgstr "Encrypt with Password"
-
-msgid "Delete Everything"
-msgstr "Delete Everything"
-
-msgid "Confirm Delete"
-msgstr "Confirm Delete"
-
-msgid "Are you absolutely sure?"
-msgstr "Are you absolutely sure?"
-
-#: main/data/preferences_window/general_preferences_page.ui:104
-msgid "Database Maintenance"
-msgstr "Տdelays բdelays delays delaysdelays"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Restore accounts, messages and settings from a backup file"
-msgstr "Վdelays delays delays delays delays"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
-msgstr "Ջdelays delays delays delays"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete ALL data including accounts. This cannot be undone!"
-msgstr " Delays delays delays delays"
-
-# DinoX v0.7.7 - Additional Backup/Restore strings
-
-msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
-msgstr "Պdelays delays (*.tar.gz, *.tar.gz.gpg)"
-
-msgid "Creating encrypted backup..."
-msgstr "Ստdelays delays..."
-
-msgid "Decryption Failed"
-msgstr "Գdeलayուdelays delays"
-
-msgid "DinoX will now restart..."
-msgstr "DinoX հdelays delays..."
-
-msgid "Encrypted backup created successfully"
-msgstr "Գdelaayուdelays delays"
-
-msgid "Password (minimum 4 characters)"
-msgstr "Գdelays (delays 4 delays)"
-
-msgid "Decrypting encrypted backup file..."
-msgstr "Գdelays delays..."
-
-msgid "Extracting files from backup..."
-msgstr " Delays delays delays..."
-
-msgid "Factory reset in progress... DinoX will restart."
-msgstr "Գdelays delays... DinoX delays."
-
-msgid "Resetting database... DinoX will restart."
-msgstr "Տdelays delays... DinoX delays."
-
-msgid "Encrypted backup created (%s)"
-msgstr "Գdelaays delays (%s)"
-
-msgid "Could not decrypt the backup file.\n\nPlease check if the password is correct."
-msgstr "Չdelays delays.\n\nԽdelays delays."
-
-msgid "Could not restore the backup file.\n\nError: %s"
-msgstr "Չdelays delays.\n\nՍdelays: %s"
-
-msgid "This backup is encrypted. Please enter the password to decrypt it."
-msgstr "Այdelays delays. Մdelays delays."
-
-msgid "Enter a password to encrypt the backup.\n\n<b>Important:</b> Remember this password! Without it, the backup cannot be restored."
-msgstr "Մdelays delays.\n\n<b>Կdelays:</b> Հdelays delays!"
-
-msgid "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
-msgstr "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
-
-msgid "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
-msgstr "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
-
-msgid "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
-msgstr "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
-
-msgid "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"
-msgstr "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"

@@ -115,7 +115,7 @@ public interface Application : GLib.Application {
     }
 
     public static string get_storage_dir() {
-        return Path.build_filename(Environment.get_user_data_dir(), "dino");
+        return Path.build_filename(Environment.get_user_data_dir(), "dinox");
     }
 
     public static unowned Application get_default() {

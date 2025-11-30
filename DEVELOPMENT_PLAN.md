@@ -1,7 +1,7 @@
 # DinoX - Development Plan
 
 > **Last Updated**: November 30, 2025  
-> **Version**: 0.7.8
+> **Version**: 0.7.9
 
 ---
 
@@ -9,7 +9,7 @@
 
 | Metric | Status |
 |--------|--------|
-| **Version** | v0.7.8 |
+| **Version** | v0.7.9 |
 | **XEPs Implemented** | 67 |
 | **Languages** | 47 (100% translated) |
 | **Build Status** | Clean (0 warnings) |
@@ -17,7 +17,7 @@
 
 ---
 
-## Completed Features (v0.6.0 - v0.7.8)
+## Completed Features (v0.6.0 - v0.7.9)
 
 ### Core Features
 - System Tray with background mode toggle
@@ -27,7 +27,7 @@
 - Dark mode toggle (light/dark/system)
 - Volume controls for calls (microphone & speaker)
 
-### TLS Certificate Pinning (NEW in v0.7.8)
+### TLS Certificate Pinning (NEW in v0.7.9)
 - **Self-Signed Certificate Support**: Trust/pin dialog like Conversations Android
 - **Certificate Details**: Shows fingerprint, issuer, validity period
 - **Trust Button**: "Trust Certificate" in account preferences on TLS errors

@@ -313,8 +313,10 @@ msgstr "_Am Hannergrond lafen"
 #: main/data/preferences_window/general_preferences_page.ui:33
 msgid ""
 "Continue running after closing window to receive notifications immediately"
-msgstr "No dem Zoumaache vum Fënster weiderlafen fir Notifikatiounen direkt ze kréien"
-"Weider lafen nodeems d'Fënster zougemaach gouf fir Notifikatiounen direkt ze kréien"
+msgstr ""
+"No dem Zoumaache vum Fënster weiderlafen fir Notifikatiounen direkt ze "
+"kréienWeider lafen nodeems d'Fënster zougemaach gouf fir Notifikatiounen "
+"direkt ze kréien"
 
 #: main/data/preferences_window/general_preferences_page.ui:41
 msgid "Appearance"
@@ -489,7 +491,9 @@ msgstr "Info:"
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
-msgstr "Är perséinlech Daten (Konten, Messagen, Fichieren) ginn getrennt vun der Applikatioun gespäichert."
+msgstr ""
+"Är perséinlech Daten (Konten, Messagen, Fichieren) ginn getrennt vun der "
+"Applikatioun gespäichert."
 
 #: main/src/ui/application.vala:361
 msgid "When you update DinoX, your data remains intact."
@@ -497,15 +501,20 @@ msgstr "Wann Dir DinoX aktualiséiert, bleiwen Är Daten intakt."
 
 #: main/src/ui/application.vala:363
 msgid "Use Settings → General → Backup User Data to create a backup."
-msgstr "Benotzt Astellungen → Allgemeng → Benotzerdaten zécherheetskopiéieren fir e Backup ze maachen."
+msgstr ""
+"Benotzt Astellungen → Allgemeng → Benotzerdaten zécherheetskopiéieren fir e "
+"Backup ze maachen."
 
 #: main/src/ui/application.vala:405
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
-msgstr "Är perséinlech Daten (Konten, Messagen, Fichieren) ginn getrennt vun der Applikatioun gespäichert. Wann Dir DinoX aktualiséiert, bleiwen Är Daten erhalen."
-"Är perséinlech Donnéeën (Konte, Messagen, Fichieren) gi getrennt vun der "
-"Applikatioun gespäichert. Wann Dir DinoX aktualiséiert, bleiwen Är Donnéeën intakt."
+msgstr ""
+"Är perséinlech Daten (Konten, Messagen, Fichieren) ginn getrennt vun der "
+"Applikatioun gespäichert. Wann Dir DinoX aktualiséiert, bleiwen Är Daten "
+"erhalen.Är perséinlech Donnéeën (Konte, Messagen, Fichieren) gi getrennt vun "
+"der Applikatioun gespäichert. Wann Dir DinoX aktualiséiert, bleiwen Är "
+"Donnéeën intakt."
 
 #: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
 #: main/src/ui/main_window.vala:159
@@ -515,6 +524,52 @@ msgstr "Zoumaachen"
 #: main/src/ui/application.vala:417
 msgid "Select Backup Location"
 msgstr "Backup Standuert wielen"
+
+#: main/src/ui/application.vala
+msgid "Creating Backup..."
+msgstr "Creating Backup..."
+
+#: main/src/ui/application.vala
+msgid "Creating Encrypted Backup..."
+msgstr "Creating Encrypted Backup..."
+
+#: main/src/ui/application.vala
+msgid "Please wait while your data is being backed up."
+msgstr "Please wait while your data is being backed up."
+
+#: main/src/ui/application.vala
+msgid "No data directories found to backup"
+msgstr "No data directories found to backup"
+
+#: main/src/ui/application.vala
+msgid "Backup Created"
+msgstr "Backup Created"
+
+#: main/src/ui/application.vala
+msgid "Encrypted Backup Created"
+msgstr "Encrypted Backup Created"
+
+#: main/src/ui/application.vala
+#, c-format
+msgid "Your backup was created successfully.\\n\\nSize: %s"
+msgstr "Your backup was created successfully.\\n\\nSize: %s"
+
+#: main/src/ui/application.vala
+msgid "Your backup was created successfully."
+msgstr "Your backup was created successfully."
+
+#: main/src/ui/application.vala
+#, c-format
+msgid "Your encrypted backup was created successfully.\\n\\nSize: %s"
+msgstr "Your encrypted backup was created successfully.\\n\\nSize: %s"
+
+#: main/src/ui/application.vala
+msgid "Your encrypted backup was created successfully."
+msgstr "Your encrypted backup was created successfully."
+
+#: main/src/ui/application.vala
+msgid "Backup Failed"
+msgstr "Backup Failed"
 
 #: main/src/ui/application.vala:445
 msgid "Creating backup..."
@@ -1037,9 +1092,12 @@ msgstr "Raum zerstéieren?"
 msgid ""
 "Are you sure you want to permanently destroy this room? This action cannot "
 "be undone and all history will be lost for all participants."
-msgstr "Sidd Dir sécher datt Dir dëse Raum permanent wëllt läschen? Dës Aktioun kann net réckgängeg gemaach ginn an d'ganzt Archiv geet fir all Participanten verluer."
-"Sidd Dir sécher datt Dir dëse Raum permanent zerstéiere wëllt? Dës Aktioun kann net "
-"réckgängeg gemaach ginn an all Geschicht geet fir all Participante verluer."
+msgstr ""
+"Sidd Dir sécher datt Dir dëse Raum permanent wëllt läschen? Dës Aktioun kann "
+"net réckgängeg gemaach ginn an d'ganzt Archiv geet fir all Participanten "
+"verluer.Sidd Dir sécher datt Dir dëse Raum permanent zerstéiere wëllt? Dës "
+"Aktioun kann net réckgängeg gemaach ginn an all Geschicht geet fir all "
+"Participante verluer."
 
 #: main/src/ui/conversation_details.vala:250
 msgid "Destroy"
@@ -1223,7 +1281,12 @@ msgid ""
 "• Remove %s from your contact list\n"
 "\n"
 "This action cannot be undone."
-msgstr "Dëst wäert:\n• All Gespréichsgeschicht läschen\n• %s aus Ärer Kontaktlëscht ewechhuelen\n\nDës Aktioun kann net réckgängeg gemaach ginn."
+msgstr ""
+"Dëst wäert:\n"
+"• All Gespréichsgeschicht läschen\n"
+"• %s aus Ärer Kontaktlëscht ewechhuelen\n"
+"\n"
+"Dës Aktioun kann net réckgängeg gemaach ginn."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:787
 msgid "Delete all message history?"
@@ -1233,7 +1296,9 @@ msgstr "All Message Geschicht läschen?"
 msgid ""
 "This will permanently delete all messages in this conversation. This action "
 "cannot be undone."
-msgstr "Dëst wäert permanent all Messagen an dëser Konversatioun läschen. Dës Aktioun kann net réckgängeg gemaach ginn."
+msgstr ""
+"Dëst wäert permanent all Messagen an dëser Konversatioun läschen. Dës "
+"Aktioun kann net réckgängeg gemaach ginn."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:791
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
@@ -1260,7 +1325,9 @@ msgstr "Konferenz-Server erfuerderlech"
 msgid ""
 "To start a group call, you need to configure a default conference server in "
 "your account settings."
-msgstr "Fir e Gruppenuruff ze starten, musst Dir en Default-Konferenzserver an Ären Kontoastellungen konfiguréieren."
+msgstr ""
+"Fir e Gruppenuruff ze starten, musst Dir en Default-Konferenzserver an Ären "
+"Kontoastellungen konfiguréieren."
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:84
 msgid "Open Settings"
@@ -1317,7 +1384,12 @@ msgid ""
 "\n"
 "If you need a password or a nickname, provide them in the dialog. Use the "
 "discovery features in the server to find public rooms."
-msgstr "Fir engem Kanal bäizetrieden, klickt op de Knäppchen \"Kanal bäitrieden\" a gitt de Kanal-JID an (Beispill: room@conference.example.org).\n\nWann Dir e Passwuert oder e Spëtznumm braucht, gitt se am Dialog un. Benotzt d'Entdeckungsfunktiounen vum Server fir ëffentlech Raim ze fannen."
+msgstr ""
+"Fir engem Kanal bäizetrieden, klickt op de Knäppchen \"Kanal bäitrieden\" a "
+"gitt de Kanal-JID an (Beispill: room@conference.example.org).\n"
+"\n"
+"Wann Dir e Passwuert oder e Spëtznumm braucht, gitt se am Dialog un. Benotzt "
+"d'Entdeckungsfunktiounen vum Server fir ëffentlech Raim ze fannen."
 
 #: main/src/ui/main_window.vala:206
 msgid "Welcome to DinoX!"
@@ -1475,9 +1547,10 @@ msgstr "Zoumaachen"
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
 "A friendly name shown in room listings (does not change the room address)"
-msgstr "E frëndlechen Numm an de Raumlëschten ugewisen (ännert d'Raumadress net)"
-"E frëndlechen Numm, deen an de Raum-Lëschten ugewisen gëtt (ännert d'Raum-Adress net)"
-"E frëndlechen Numm an de Raumlëschten (ännert d'Raumadress net)"
+msgstr ""
+"E frëndlechen Numm an de Raumlëschten ugewisen (ännert d'Raumadress net)E "
+"frëndlechen Numm, deen an de Raum-Lëschten ugewisen gëtt (ännert d'Raum-"
+"Adress net)E frëndlechen Numm an de Raumlëschten (ännert d'Raumadress net)"
 
 #: main/src/ui/util/data_forms.vala:44
 msgid "Description"
@@ -1531,7 +1604,9 @@ msgstr "Nëmme fir Memberen"
 msgid ""
 "Only members may enter the room. Warning: Non-members will be removed when "
 "enabled!"
-msgstr "Nëmmen Membere kënnen an de Raum goen. Warnung: Net-Membere ginn ewechgeholl wann aktivéiert!"
+msgstr ""
+"Nëmmen Membere kënnen an de Raum goen. Warnung: Net-Membere ginn ewechgeholl "
+"wann aktivéiert!"
 
 #: main/src/ui/util/helper.vala:65
 #, c-format
@@ -1551,7 +1626,9 @@ msgstr "%a, %b %d"
 msgid ""
 "This contact will be removed from your contact list and all conversation "
 "history will be permanently deleted."
-msgstr "Dëse Kontakt gëtt aus Ärer Kontaktlëscht ewechgeholl an d'ganz Gespréichsgeschicht gëtt permanent geläscht."
+msgstr ""
+"Dëse Kontakt gëtt aus Ärer Kontaktlëscht ewechgeholl an d'ganz "
+"Gespréichsgeschicht gëtt permanent geläscht."
 
 #: main/src/windows/conversation_details.vala:108
 msgid "Block user"
@@ -1725,7 +1802,9 @@ msgstr "Kontakte derbäisetzen fir ze chatten"
 msgid ""
 "This will remove %s from your contact list and delete all conversation "
 "history."
-msgstr "Dëst wäert %s aus Ärer Kontaktlëscht ewechhuelen an all Gespréichsgeschicht läschen."
+msgstr ""
+"Dëst wäert %s aus Ärer Kontaktlëscht ewechhuelen an all Gespréichsgeschicht "
+"läschen."
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:318
 msgid "Edit Contact Alias"
@@ -1739,6 +1818,392 @@ msgstr "Den ugezeechte Numm fir %s änneren"
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:325
 msgid "Alias (optional)"
 msgstr "Alias (optional)"
+
+# DinoX v0.7.7 - Database Maintenance & Backup/Restore
+msgid "Clean Database"
+msgstr "Clean Database"
+
+msgid "Reset Database"
+msgstr "Reset Database"
+
+msgid "Restore Complete!"
+msgstr "Restore Complete!"
+
+msgid "Restore Failed"
+msgstr "Restore Failed"
+
+msgid "Decrypting Backup..."
+msgstr "Decrypting Backup..."
+
+msgid "Restoring Backup..."
+msgstr "Restoring Backup..."
+
+msgid "Set Backup Password"
+msgstr "Set Backup Password"
+
+msgid "Confirm Password"
+msgstr "Confirm Password"
+
+msgid "Create Encrypted Backup"
+msgstr "Create Encrypted Backup"
+
+msgid "Password too short"
+msgstr "Password too short"
+
+msgid "Passwords do not match"
+msgstr "Passwords do not match"
+
+msgid "✓ Passwords match"
+msgstr "✓ Passwords match"
+
+msgid "Encrypting Backup..."
+msgstr "Encrypting Backup..."
+
+msgid "Factory Reset"
+msgstr "Factory Reset"
+
+msgid "Restore from Backup"
+msgstr "Restore from Backup"
+
+msgid "Restore Backup"
+msgstr "Restore Backup"
+
+msgid "Select Backup File"
+msgstr "Select Backup File"
+
+msgid "Enter Backup Password"
+msgstr "Enter Backup Password"
+
+msgid "Decrypt & Restore"
+msgstr "Decrypt & Restore"
+
+msgid "Create Backup First"
+msgstr "Create Backup First"
+
+msgid "No Encryption"
+msgstr "No Encryption"
+
+msgid "Encrypt with Password"
+msgstr "Encrypt with Password"
+
+msgid "Delete Everything"
+msgstr "Delete Everything"
+
+msgid "Confirm Delete"
+msgstr "Confirm Delete"
+
+msgid "Are you absolutely sure?"
+msgstr "Are you absolutely sure?"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "Datebank Ënnerhalt"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "Konten, Noriichten an Astellungen vun enger Backup-Datei restauréieren"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr ""
+"All Noriichten, Dateien an OMEMO-Schlësselen läschen. Är Konten bleiwen "
+"erhalen."
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr ""
+"ALL Daten inklusiv Konten läschen. Dëst kann net réckgängeg gemaach ginn!"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "Backup-Dateien (*.tar.gz, *.tar.gz.gpg)"
+
+msgid "Creating encrypted backup..."
+msgstr "Verschlësselte Backup gëtt erstallt..."
+
+msgid "Decryption Failed"
+msgstr "Entschlësselung fehlgeschloen"
+
+msgid "DinoX will now restart..."
+msgstr "DinoX gëtt elo nei gestart..."
+
+msgid "Encrypted backup created successfully"
+msgstr "Verschlësselte Backup erfollegräich erstallt"
+
+msgid "Password (minimum 4 characters)"
+msgstr "Passwuert (mindestens 4 Zeechen)"
+
+msgid "Decrypting encrypted backup file..."
+msgstr "Entschlësselung vum Backup-Fichier..."
+
+msgid "Extracting files from backup..."
+msgstr "Fichieren aus dem Backup extrahéieren..."
+
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "Fabréck-Reset am Gang... DinoX gëtt nei gestart."
+
+msgid "Resetting database... DinoX will restart."
+msgstr "Datebank-Reset... DinoX gëtt nei gestart."
+
+msgid "Encrypted backup created (%s)"
+msgstr "Verschlësselte Backup erstallt (%s)"
+
+msgid ""
+"Could not decrypt the backup file.\n"
+"\n"
+"Please check if the password is correct."
+msgstr ""
+"De Fichier konnt net entschlësselt ginn.\n"
+"\n"
+"Iwwerpréift ob d'Passwuert richteg ass."
+
+msgid ""
+"Could not restore the backup file.\n"
+"\n"
+"Error: %s"
+msgstr ""
+"De Fichier konnt net zréckgesat ginn.\n"
+"\n"
+"Feeler: %s"
+
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "Dëse Backup ass verschlësselt. Gitt d'Passwuert an."
+
+msgid ""
+"Enter a password to encrypt the backup.\n"
+"\n"
+"<b>Important:</b> Remember this password! Without it, the backup cannot be "
+"restored."
+msgstr ""
+"Gitt e Passwuert an fir de Backup ze verschlësselen.\n"
+"\n"
+"<b>Wichteg:</b> Erënnert Iech un dëst Passwuert! Ouni et kann de Backup net "
+"zréckgesat ginn."
+
+msgid ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+msgstr ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+
+msgid ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+msgstr ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+
+msgid ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+msgstr ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+
+msgid ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+msgstr ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+
+# OpenPGP Key Management
+msgid "OpenPGP Key Management"
+msgstr "OpenPGP Key Management"
+
+msgid "Actions"
+msgstr "Actions"
+
+msgid "Generate New Key"
+msgstr "Generate New Key"
+
+msgid "Import Key"
+msgstr "Import Key"
+
+msgid "Your Keys"
+msgstr "Your Keys"
+
+msgid "Fingerprint"
+msgstr "Fingerprint"
+
+msgid "Export Public Key"
+msgstr "Export Public Key"
+
+msgid "Delete Key"
+msgstr "Delete Key"
+
+msgid "Name"
+msgstr "Name"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Passphrase"
+msgstr "Passphrase"
+
+msgid "Generate"
+msgstr "Generate"
+
+msgid "Select OpenPGP Key"
+msgstr "Select OpenPGP Key"
+
+msgid "Wrong passphrase"
+msgstr "Wrong passphrase"
+
+msgid "Manage Keys"
+msgstr "Manage Keys"
+
+msgid "Announce key"
+msgstr "Announce key"
+
+msgid "Disabled"
+msgstr "Disabled"
+
+msgid "Success"
+msgstr "Success"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Create a new OpenPGP key pair"
+msgstr "E neit OpenPGP Schlësselpaar erstellen"
+
+msgid "Import a key from file (.asc, .gpg)"
+msgstr "E Schlëssel aus enger Datei importéieren (.asc, .gpg)"
+
+msgid "Private keys available for signing and decryption"
+msgstr "Privat Schlëssele fir z'ënnerschreiwen an z'entschlësselen"
+
+msgid "No private keys found"
+msgstr "Keng privat Schlëssele fonnt"
+
+msgid "Generate or import a key to get started"
+msgstr "Erstellt oder importéiert e Schlëssel fir unzefänken"
+
+msgid "Generate New OpenPGP Key"
+msgstr "Neien OpenPGP Schlëssel erstellen"
+
+msgid "Enter your details to create a new key pair."
+msgstr "Gitt Är Detailer an fir en neit Schlësselpaar ze erstellen."
+
+msgid "Your Name"
+msgstr "Ären Numm"
+
+msgid "you@example.com"
+msgstr "dir@beispill.lu"
+
+msgid "Passphrase (optional)"
+msgstr "Passwuert (optional)"
+
+msgid "4096-bit RSA key, valid for 2 years."
+msgstr "4096-Bit RSA Schlëssel, 2 Joer gëlteg."
+
+msgid "Name must be at least 2 characters"
+msgstr "Den Numm muss mindestens 2 Zeeche laang sinn"
+
+msgid "Please enter a valid email address"
+msgstr "Gitt w.e.g. eng gëlteg E-Mailadress an"
+
+msgid "Generating Key..."
+msgstr "Schlëssel gëtt erstallt..."
+
+msgid "Please wait while your key is being generated. This may take a moment."
+msgstr ""
+"Waart w.e.g. während Äre Schlëssel erstallt gëtt. Dat kann e Moment daueren."
+
+msgid "Key generated successfully!"
+msgstr "Schlëssel erfollegräich erstallt!"
+
+msgid "Failed to generate key."
+msgstr "Schlëssel konnt net erstallt ginn."
+
+msgid "Import OpenPGP Key"
+msgstr "OpenPGP Schlëssel importéieren"
+
+msgid "OpenPGP Keys (*.asc, *.gpg)"
+msgstr "OpenPGP Schlësselen (*.asc, *.gpg)"
+
+msgid "All Files"
+msgstr "All Dateien"
+
+msgid "Key imported! Re-open Key Management to see it."
+msgstr ""
+"Schlëssel importéiert! Maacht d'Schlësselverwaltung nei op fir en ze gesinn."
+
+msgid "Import failed: "
+msgstr "Import huet net funktionéiert: "
+
+msgid "Key exported to: "
+msgstr "Schlëssel exportéiert op: "
+
+msgid "Export failed."
+msgstr "Export huet net funktionéiert."
+
+msgid "Delete Key?"
+msgstr "Schlëssel läschen?"
+
+msgid ""
+"Delete this key?\n"
+"\n"
+"%s\n"
+"\n"
+"This cannot be undone!"
+msgstr ""
+"Dëse Schlëssel läschen?\n"
+"\n"
+"%s\n"
+"\n"
+"Dat kann net réckgängeg gemaach ginn!"
+
+msgid "Key deleted."
+msgstr "Schlëssel geläscht."
+
+msgid "Delete failed: "
+msgstr "Läsche huet net funktionéiert: "
+
+msgid "Choose a key to announce to your contacts."
+msgstr "Wielt e Schlëssel fir Äre Kontakter matzedeelen."
+
+msgid "Enter GPG passphrase to confirm:"
+msgstr "Gitt d'GPG Passwuert an fir ze bestätegen:"
+
+msgid "Generate, import, export, or delete keys"
+msgstr "Schlësselen erstellen, importéieren, exportéieren oder läschen"
+
+msgid "No keys available. Generate or import one!"
+msgstr "Keng Schlëssele do. Erstellt oder importéiert een!"
+
+msgid "Error in GnuPG"
+msgstr "Feeler am GnuPG"
 
 #~ msgid "Message too long"
 #~ msgstr "Noriicht ze laang"
@@ -1942,154 +2407,3 @@ msgstr "Alias (optional)"
 #~ msgstr ""
 #~ "Dat heiten ass eng App-Notifikatioun. Klick de Knäppche fir ze ewech ze "
 #~ "maachen"
-
-# DinoX v0.7.7 - Database Maintenance & Backup/Restore
-msgid "Clean Database"
-msgstr "Clean Database"
-
-msgid "Reset Database"
-msgstr "Reset Database"
-
-msgid "Restore Complete!"
-msgstr "Restore Complete!"
-
-msgid "Restore Failed"
-msgstr "Restore Failed"
-
-msgid "Decrypting Backup..."
-msgstr "Decrypting Backup..."
-
-msgid "Restoring Backup..."
-msgstr "Restoring Backup..."
-
-msgid "Set Backup Password"
-msgstr "Set Backup Password"
-
-msgid "Confirm Password"
-msgstr "Confirm Password"
-
-msgid "Create Encrypted Backup"
-msgstr "Create Encrypted Backup"
-
-msgid "Password too short"
-msgstr "Password too short"
-
-msgid "Passwords do not match"
-msgstr "Passwords do not match"
-
-msgid "✓ Passwords match"
-msgstr "✓ Passwords match"
-
-msgid "Encrypting Backup..."
-msgstr "Encrypting Backup..."
-
-msgid "Factory Reset"
-msgstr "Factory Reset"
-
-msgid "Restore from Backup"
-msgstr "Restore from Backup"
-
-msgid "Restore Backup"
-msgstr "Restore Backup"
-
-msgid "Select Backup File"
-msgstr "Select Backup File"
-
-msgid "Enter Backup Password"
-msgstr "Enter Backup Password"
-
-msgid "Decrypt & Restore"
-msgstr "Decrypt & Restore"
-
-msgid "Create Backup First"
-msgstr "Create Backup First"
-
-msgid "No Encryption"
-msgstr "No Encryption"
-
-msgid "Encrypt with Password"
-msgstr "Encrypt with Password"
-
-msgid "Delete Everything"
-msgstr "Delete Everything"
-
-msgid "Confirm Delete"
-msgstr "Confirm Delete"
-
-msgid "Are you absolutely sure?"
-msgstr "Are you absolutely sure?"
-
-#: main/data/preferences_window/general_preferences_page.ui:104
-msgid "Database Maintenance"
-msgstr "Datebank Ënnerhalt"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Restore accounts, messages and settings from a backup file"
-msgstr "Konten, Noriichten an Astellungen vun enger Backup-Datei restauréieren"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
-msgstr "All Noriichten, Dateien an OMEMO-Schlësselen läschen. Är Konten bleiwen erhalen."
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete ALL data including accounts. This cannot be undone!"
-msgstr "ALL Daten inklusiv Konten läschen. Dëst kann net réckgängeg gemaach ginn!"
-
-# DinoX v0.7.7 - Additional Backup/Restore strings
-
-msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
-msgstr "Backup-Dateien (*.tar.gz, *.tar.gz.gpg)"
-
-msgid "Creating encrypted backup..."
-msgstr "Verschlësselte Backup gëtt erstallt..."
-
-msgid "Decryption Failed"
-msgstr "Entschlësselung fehlgeschloen"
-
-msgid "DinoX will now restart..."
-msgstr "DinoX gëtt elo nei gestart..."
-
-msgid "Encrypted backup created successfully"
-msgstr "Verschlësselte Backup erfollegräich erstallt"
-
-msgid "Password (minimum 4 characters)"
-msgstr "Passwuert (mindestens 4 Zeechen)"
-
-msgid "Decrypting encrypted backup file..."
-msgstr "Entschlësselung vum Backup-Fichier..."
-
-msgid "Extracting files from backup..."
-msgstr "Fichieren aus dem Backup extrahéieren..."
-
-msgid "Factory reset in progress... DinoX will restart."
-msgstr "Fabréck-Reset am Gang... DinoX gëtt nei gestart."
-
-msgid "Resetting database... DinoX will restart."
-msgstr "Datebank-Reset... DinoX gëtt nei gestart."
-
-msgid "Encrypted backup created (%s)"
-msgstr "Verschlësselte Backup erstallt (%s)"
-
-msgid "Could not decrypt the backup file.\n\nPlease check if the password is correct."
-msgstr "De Fichier konnt net entschlësselt ginn.\n\nIwwerpréift ob d'Passwuert richteg ass."
-
-msgid "Could not restore the backup file.\n\nError: %s"
-msgstr "De Fichier konnt net zréckgesat ginn.\n\nFeeler: %s"
-
-msgid "This backup is encrypted. Please enter the password to decrypt it."
-msgstr "Dëse Backup ass verschlësselt. Gitt d'Passwuert an."
-
-msgid "Enter a password to encrypt the backup.\n\n<b>Important:</b> Remember this password! Without it, the backup cannot be restored."
-msgstr "Gitt e Passwuert an fir de Backup ze verschlësselen.\n\n<b>Wichteg:</b> Erënnert Iech un dëst Passwuert! Ouni et kann de Backup net zréckgesat ginn."
-
-msgid "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
-msgstr "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
-
-msgid "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
-msgstr "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
-
-msgid "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
-msgstr "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
-
-msgid "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"
-msgstr "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"

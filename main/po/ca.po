@@ -316,8 +316,10 @@ msgstr "_Continua en segon pla"
 #: main/data/preferences_window/general_preferences_page.ui:33
 msgid ""
 "Continue running after closing window to receive notifications immediately"
-msgstr "Continuar executant després de tancar la finestra per rebre notificacions immediatament"
-"Continua funcionant després de tancar la finestra per rebre notificacions immediatament"
+msgstr ""
+"Continuar executant després de tancar la finestra per rebre notificacions "
+"immediatamentContinua funcionant després de tancar la finestra per rebre "
+"notificacions immediatament"
 
 #: main/data/preferences_window/general_preferences_page.ui:41
 msgid "Appearance"
@@ -492,7 +494,9 @@ msgstr "Info:"
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
-msgstr "Les vostres dades personals (comptes, missatges, fitxers) s'emmagatzemen per separat de l'aplicació."
+msgstr ""
+"Les vostres dades personals (comptes, missatges, fitxers) s'emmagatzemen per "
+"separat de l'aplicació."
 
 #: main/src/ui/application.vala:361
 msgid "When you update DinoX, your data remains intact."
@@ -500,15 +504,20 @@ msgstr "Quan actualitzeu DinoX, les vostres dades romanen intactes."
 
 #: main/src/ui/application.vala:363
 msgid "Use Settings → General → Backup User Data to create a backup."
-msgstr "Utilitzeu Configuració → General → Còpia de seguretat de dades d'usuari per crear una còpia de seguretat."
+msgstr ""
+"Utilitzeu Configuració → General → Còpia de seguretat de dades d'usuari per "
+"crear una còpia de seguretat."
 
 #: main/src/ui/application.vala:405
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
-msgstr "Les vostres dades personals (comptes, missatges, fitxers) s'emmagatzemen per separat de l'aplicació. Quan actualitzeu DinoX, les vostres dades romanen intactes."
-"Les teves dades personals (comptes, missatges, fitxers) s'emmagatzemen per separat de "
-"l'aplicació. Quan actualitzes DinoX, les teves dades es mantenen intactes."
+msgstr ""
+"Les vostres dades personals (comptes, missatges, fitxers) s'emmagatzemen per "
+"separat de l'aplicació. Quan actualitzeu DinoX, les vostres dades romanen "
+"intactes.Les teves dades personals (comptes, missatges, fitxers) "
+"s'emmagatzemen per separat de l'aplicació. Quan actualitzes DinoX, les teves "
+"dades es mantenen intactes."
 
 #: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
 #: main/src/ui/main_window.vala:159
@@ -518,6 +527,52 @@ msgstr "Tanca"
 #: main/src/ui/application.vala:417
 msgid "Select Backup Location"
 msgstr "Seleccioneu la ubicació de la còpia"
+
+#: main/src/ui/application.vala
+msgid "Creating Backup..."
+msgstr "Creating Backup..."
+
+#: main/src/ui/application.vala
+msgid "Creating Encrypted Backup..."
+msgstr "Creating Encrypted Backup..."
+
+#: main/src/ui/application.vala
+msgid "Please wait while your data is being backed up."
+msgstr "Please wait while your data is being backed up."
+
+#: main/src/ui/application.vala
+msgid "No data directories found to backup"
+msgstr "No data directories found to backup"
+
+#: main/src/ui/application.vala
+msgid "Backup Created"
+msgstr "Backup Created"
+
+#: main/src/ui/application.vala
+msgid "Encrypted Backup Created"
+msgstr "Encrypted Backup Created"
+
+#: main/src/ui/application.vala
+#, c-format
+msgid "Your backup was created successfully.\\n\\nSize: %s"
+msgstr "Your backup was created successfully.\\n\\nSize: %s"
+
+#: main/src/ui/application.vala
+msgid "Your backup was created successfully."
+msgstr "Your backup was created successfully."
+
+#: main/src/ui/application.vala
+#, c-format
+msgid "Your encrypted backup was created successfully.\\n\\nSize: %s"
+msgstr "Your encrypted backup was created successfully.\\n\\nSize: %s"
+
+#: main/src/ui/application.vala
+msgid "Your encrypted backup was created successfully."
+msgstr "Your encrypted backup was created successfully."
+
+#: main/src/ui/application.vala
+msgid "Backup Failed"
+msgstr "Backup Failed"
 
 #: main/src/ui/application.vala:445
 msgid "Creating backup..."
@@ -1041,8 +1096,10 @@ msgstr "Destruir la sala?"
 msgid ""
 "Are you sure you want to permanently destroy this room? This action cannot "
 "be undone and all history will be lost for all participants."
-msgstr "Esteu segur que voleu destruir permanentment aquesta sala? Aquesta acció no es pot desfer i tot l'historial es perdrà per a tots els participants."
-"Esteu segur que voleu destruir permanentment aquesta sala? Aquesta acció no es pot "
+msgstr ""
+"Esteu segur que voleu destruir permanentment aquesta sala? Aquesta acció no "
+"es pot desfer i tot l'historial es perdrà per a tots els participants.Esteu "
+"segur que voleu destruir permanentment aquesta sala? Aquesta acció no es pot "
 "desfer i tot l'historial es perdrà per a tots els participants."
 
 #: main/src/ui/conversation_details.vala:250
@@ -1196,9 +1253,9 @@ msgstr "Això desactivarà les notificacions de %s."
 msgid "Unblock contact?"
 msgstr "Desbloquejar contacte?"
 
+# c-format
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:702
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:247
-# c-format
 msgid "This will allow %s to send you messages again."
 msgstr "Això permetrà a %s enviar-te missatges de nou."
 
@@ -1227,7 +1284,12 @@ msgid ""
 "• Remove %s from your contact list\n"
 "\n"
 "This action cannot be undone."
-msgstr "Això:\n• Esborrarà tot l'historial de converses\n• Eliminarà %s de la vostra llista de contactes\n\nAquesta acció no es pot desfer."
+msgstr ""
+"Això:\n"
+"• Esborrarà tot l'historial de converses\n"
+"• Eliminarà %s de la vostra llista de contactes\n"
+"\n"
+"Aquesta acció no es pot desfer."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:787
 msgid "Delete all message history?"
@@ -1237,7 +1299,9 @@ msgstr "Esborrar tot l'historial de missatges?"
 msgid ""
 "This will permanently delete all messages in this conversation. This action "
 "cannot be undone."
-msgstr "Això eliminarà permanentment tots els missatges d'aquesta conversa. Aquesta acció no es pot desfer."
+msgstr ""
+"Això eliminarà permanentment tots els missatges d'aquesta conversa. Aquesta "
+"acció no es pot desfer."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:791
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
@@ -1264,7 +1328,9 @@ msgstr "Cal servidor de conferència"
 msgid ""
 "To start a group call, you need to configure a default conference server in "
 "your account settings."
-msgstr "Per iniciar una trucada de grup, heu de configurar un servidor de conferències predeterminat a la configuració del vostre compte."
+msgstr ""
+"Per iniciar una trucada de grup, heu de configurar un servidor de "
+"conferències predeterminat a la configuració del vostre compte."
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:84
 msgid "Open Settings"
@@ -1321,7 +1387,13 @@ msgid ""
 "\n"
 "If you need a password or a nickname, provide them in the dialog. Use the "
 "discovery features in the server to find public rooms."
-msgstr "Per unir-vos a un canal, feu clic al botó \"Unir-se al canal\" i introduïu el JID del canal (exemple: room@conference.example.org).\n\nSi necessiteu una contrasenya o un sobrenom, proporcioneu-los al diàleg. Utilitzeu les funcions de descobriment del servidor per trobar sales públiques."
+msgstr ""
+"Per unir-vos a un canal, feu clic al botó \"Unir-se al canal\" i introduïu "
+"el JID del canal (exemple: room@conference.example.org).\n"
+"\n"
+"Si necessiteu una contrasenya o un sobrenom, proporcioneu-los al diàleg. "
+"Utilitzeu les funcions de descobriment del servidor per trobar sales "
+"públiques."
 
 #: main/src/ui/main_window.vala:206
 msgid "Welcome to DinoX!"
@@ -1479,9 +1551,11 @@ msgstr "Surt"
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
 "A friendly name shown in room listings (does not change the room address)"
-msgstr "Un nom amigable mostrat a les llistes de sales (no canvia l'adreça de la sala)"
-"Un nom amigable mostrat a les llistes de sales (no canvia l'adreça de la sala)"
-"Un nom amigable que es mostra a les llistes de sales (no canvia l'adreça de la sala)"
+msgstr ""
+"Un nom amigable mostrat a les llistes de sales (no canvia l'adreça de la "
+"sala)Un nom amigable mostrat a les llistes de sales (no canvia l'adreça de "
+"la sala)Un nom amigable que es mostra a les llistes de sales (no canvia "
+"l'adreça de la sala)"
 
 #: main/src/ui/util/data_forms.vala:44
 msgid "Description"
@@ -1535,7 +1609,9 @@ msgstr "Només per membres"
 msgid ""
 "Only members may enter the room. Warning: Non-members will be removed when "
 "enabled!"
-msgstr "Només els membres poden entrar a la sala. Avís: Els no membres seran eliminats quan s'activi!"
+msgstr ""
+"Només els membres poden entrar a la sala. Avís: Els no membres seran "
+"eliminats quan s'activi!"
 
 #: main/src/ui/util/helper.vala:65
 #, c-format
@@ -1555,7 +1631,9 @@ msgstr "%a, %b %d"
 msgid ""
 "This contact will be removed from your contact list and all conversation "
 "history will be permanently deleted."
-msgstr "Aquest contacte serà eliminat de la vostra llista de contactes i tot l'historial de converses serà esborrat permanentment."
+msgstr ""
+"Aquest contacte serà eliminat de la vostra llista de contactes i tot "
+"l'historial de converses serà esborrat permanentment."
 
 #: main/src/windows/conversation_details.vala:108
 msgid "Block user"
@@ -1659,8 +1737,10 @@ msgstr "El servidor no ha pogut demostrar que és %s."
 
 #: main/src/windows/preferences_window/add_account_dialog.vala:158
 msgid "Its security certificate is not trusted by your operating system."
-msgstr "El seu certificat de seguretat no és de confiança pel vostre sistema operatiu."
-"El seu certificat de seguretat no és de confiança pel seu sistema operatiu."
+msgstr ""
+"El seu certificat de seguretat no és de confiança pel vostre sistema "
+"operatiu.El seu certificat de seguretat no és de confiança pel seu sistema "
+"operatiu."
 
 #: main/src/windows/preferences_window/add_account_dialog.vala:160
 msgid "Its security certificate is issued to another domain."
@@ -1746,6 +1826,389 @@ msgstr "Canvia el nom de visualització per a %s"
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:325
 msgid "Alias (optional)"
 msgstr "Àlies (opcional)"
+
+# DinoX v0.7.7 - Database Maintenance & Backup/Restore
+msgid "Clean Database"
+msgstr "Netejar base de dades"
+
+msgid "Reset Database"
+msgstr "Reiniciar base de dades"
+
+msgid "Restore Complete!"
+msgstr "Restauració completada!"
+
+msgid "Restore Failed"
+msgstr "La restauració ha fallat"
+
+msgid "Decrypting Backup..."
+msgstr "Desxifrant còpia de seguretat..."
+
+msgid "Restoring Backup..."
+msgstr "Restaurant còpia de seguretat..."
+
+msgid "Set Backup Password"
+msgstr "Establir contrasenya de còpia"
+
+msgid "Confirm Password"
+msgstr "Confirmar contrasenya"
+
+msgid "Create Encrypted Backup"
+msgstr "Crear còpia xifrada"
+
+msgid "Password too short"
+msgstr "Contrasenya massa curta"
+
+msgid "Passwords do not match"
+msgstr "Les contrasenyes no coincideixen"
+
+msgid "✓ Passwords match"
+msgstr "✓ Les contrasenyes coincideixen"
+
+msgid "Encrypting Backup..."
+msgstr "Xifrant còpia de seguretat..."
+
+msgid "Factory Reset"
+msgstr "Restablir de fàbrica"
+
+msgid "Restore from Backup"
+msgstr "Restaurar des de còpia"
+
+msgid "Restore Backup"
+msgstr "Restaurar còpia"
+
+msgid "Select Backup File"
+msgstr "Seleccionar fitxer de còpia"
+
+msgid "Enter Backup Password"
+msgstr "Introduir contrasenya de còpia"
+
+msgid "Decrypt & Restore"
+msgstr "Desxifrar i restaurar"
+
+msgid "Create Backup First"
+msgstr "Crear còpia primer"
+
+msgid "No Encryption"
+msgstr "Sense xifratge"
+
+msgid "Encrypt with Password"
+msgstr "Xifrar amb contrasenya"
+
+msgid "Delete Everything"
+msgstr "Esborrar-ho tot"
+
+msgid "Confirm Delete"
+msgstr "Confirmar eliminació"
+
+msgid "Are you absolutely sure?"
+msgstr "Esteu absolutament segur?"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "Manteniment de la base de dades"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr ""
+"Restaura comptes, missatges i configuració des d'un fitxer de còpia de "
+"seguretat"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr ""
+"Suprimeix tots els missatges, fitxers i claus OMEMO. Els teus comptes es "
+"mantindran."
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr ""
+"Suprimeix TOTES les dades, inclosos els comptes. Això no es pot desfer!"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "Fitxers de còpia de seguretat (*.tar.gz, *.tar.gz.gpg)"
+
+msgid "Creating encrypted backup..."
+msgstr "Creant còpia de seguretat xifrada..."
+
+msgid "Decryption Failed"
+msgstr "Error de desxifratge"
+
+msgid "DinoX will now restart..."
+msgstr "DinoX es reiniciarà ara..."
+
+msgid "Encrypted backup created successfully"
+msgstr "S'ha creat la còpia de seguretat xifrada correctament"
+
+msgid "Password (minimum 4 characters)"
+msgstr "Contrasenya (mínim 4 caràcters)"
+
+msgid "Decrypting encrypted backup file..."
+msgstr "Desxifrant el fitxer de còpia de seguretat..."
+
+msgid "Extracting files from backup..."
+msgstr "S'estan extraient els fitxers de la còpia de seguretat..."
+
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "S'està fent el restabliment de fàbrica... DinoX es reiniciarà."
+
+msgid "Resetting database... DinoX will restart."
+msgstr "S'està restablint la base de dades... DinoX es reiniciarà."
+
+msgid "Encrypted backup created (%s)"
+msgstr "S'ha creat còpia de seguretat xifrada (%s)"
+
+msgid ""
+"Could not decrypt the backup file.\n"
+"\n"
+"Please check if the password is correct."
+msgstr "No s'ha pogut desxifrar el fitxer. Comproveu la contrasenya."
+
+msgid ""
+"Could not restore the backup file.\n"
+"\n"
+"Error: %s"
+msgstr ""
+"No s'ha pogut restaurar el fitxer.\n"
+"\n"
+"Error: %s"
+
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "Aquesta còpia està xifrada. Introduïu la contrasenya per desxifrar-la."
+
+msgid ""
+"Enter a password to encrypt the backup.\n"
+"\n"
+"<b>Important:</b> Remember this password! Without it, the backup cannot be "
+"restored."
+msgstr ""
+"Introduïu una contrasenya per xifrar la còpia.\n"
+"\n"
+"<b>Important:</b> Recordeu aquesta contrasenya! Sense ella, no es pot "
+"restaurar."
+
+msgid ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+msgstr ""
+"Això suprimirà tots els missatges, fitxers i claus de xifratge OMEMO.\n"
+"\n"
+"<b>Els vostres comptes romandran, però perdreu tot l'historial de xats i "
+"haureu de tornar a verificar el xifratge amb els vostres contactes.</b>\n"
+"\n"
+"Aquesta acció no es pot desfer!"
+
+msgid ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+msgstr ""
+"Això substituirà totes les dades actuals per la còpia de seguretat.\n"
+"\n"
+"<b>Els comptes, missatges i configuracions actuals se sobreescriuran!</b>\n"
+"\n"
+"DinoX es reiniciarà després de restaurar."
+
+msgid ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+msgstr ""
+"Escriviu 'DELETE' per confirmar el restabliment de fàbrica.\n"
+"\n"
+"Això eliminarà permanentment totes les dades de DinoX."
+
+msgid ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+msgstr ""
+"<b>⚠️ AVÍS: Això suprimirà TOTES les dades!</b>\n"
+"\n"
+"• Tots els comptes\n"
+"• Tots els missatges i fitxers\n"
+"• Totes les claus de xifratge\n"
+"• Tots els paràmetres\n"
+"\n"
+"Això és irreversible. Creeu una còpia de seguretat primer!"
+
+# OpenPGP Key Management
+msgid "OpenPGP Key Management"
+msgstr "OpenPGP Key Management"
+
+msgid "Actions"
+msgstr "Actions"
+
+msgid "Generate New Key"
+msgstr "Generate New Key"
+
+msgid "Import Key"
+msgstr "Import Key"
+
+msgid "Your Keys"
+msgstr "Your Keys"
+
+msgid "Fingerprint"
+msgstr "Fingerprint"
+
+msgid "Export Public Key"
+msgstr "Export Public Key"
+
+msgid "Delete Key"
+msgstr "Delete Key"
+
+msgid "Name"
+msgstr "Name"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Passphrase"
+msgstr "Passphrase"
+
+msgid "Generate"
+msgstr "Generate"
+
+msgid "Select OpenPGP Key"
+msgstr "Select OpenPGP Key"
+
+msgid "Wrong passphrase"
+msgstr "Wrong passphrase"
+
+msgid "Manage Keys"
+msgstr "Manage Keys"
+
+msgid "Announce key"
+msgstr "Announce key"
+
+msgid "Disabled"
+msgstr "Disabled"
+
+msgid "Success"
+msgstr "Success"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Create a new OpenPGP key pair"
+msgstr "Crear un nou parell de claus OpenPGP"
+
+msgid "Import a key from file (.asc, .gpg)"
+msgstr "Importar una clau des d'un fitxer (.asc, .gpg)"
+
+msgid "Private keys available for signing and decryption"
+msgstr "Claus privades disponibles per signar i desxifrar"
+
+msgid "No private keys found"
+msgstr "No s'han trobat claus privades"
+
+msgid "Generate or import a key to get started"
+msgstr "Genera o importa una clau per començar"
+
+msgid "Generate New OpenPGP Key"
+msgstr "Generar nova clau OpenPGP"
+
+msgid "Enter your details to create a new key pair."
+msgstr "Introdueix les teves dades per crear un nou parell de claus."
+
+msgid "Your Name"
+msgstr "El teu nom"
+
+msgid "you@example.com"
+msgstr "tu@exemple.cat"
+
+msgid "Passphrase (optional)"
+msgstr "Contrasenya (opcional)"
+
+msgid "4096-bit RSA key, valid for 2 years."
+msgstr "Clau RSA de 4096 bits, vàlida durant 2 anys."
+
+msgid "Name must be at least 2 characters"
+msgstr "El nom ha de tenir almenys 2 caràcters"
+
+msgid "Please enter a valid email address"
+msgstr "Si us plau, introdueix una adreça de correu vàlida"
+
+msgid "Generating Key..."
+msgstr "Generant clau..."
+
+msgid "Please wait while your key is being generated. This may take a moment."
+msgstr "Si us plau, espera mentre es genera la clau. Això pot trigar una mica."
+
+msgid "Key generated successfully!"
+msgstr "Clau generada correctament!"
+
+msgid "Failed to generate key."
+msgstr "Error en generar la clau."
+
+msgid "Import OpenPGP Key"
+msgstr "Importar clau OpenPGP"
+
+msgid "OpenPGP Keys (*.asc, *.gpg)"
+msgstr "Claus OpenPGP (*.asc, *.gpg)"
+
+msgid "All Files"
+msgstr "Tots els fitxers"
+
+msgid "Key imported! Re-open Key Management to see it."
+msgstr "Clau importada! Torna a obrir la Gestió de claus per veure-la."
+
+msgid "Import failed: "
+msgstr "Error d'importació: "
+
+msgid "Key exported to: "
+msgstr "Clau exportada a: "
+
+msgid "Export failed."
+msgstr "Error d'exportació."
+
+msgid "Delete Key?"
+msgstr "Eliminar clau?"
+
+msgid ""
+"Delete this key?\n"
+"\n"
+"%s\n"
+"\n"
+"This cannot be undone!"
+msgstr ""
+"Eliminar aquesta clau?\n"
+"\n"
+"%s\n"
+"\n"
+"Això no es pot desfer!"
+
+msgid "Key deleted."
+msgstr "Clau eliminada."
+
+msgid "Delete failed: "
+msgstr "Error en eliminar: "
+
+msgid "Choose a key to announce to your contacts."
+msgstr "Tria una clau per anunciar als teus contactes."
+
+msgid "Enter GPG passphrase to confirm:"
+msgstr "Introdueix la contrasenya GPG per confirmar:"
+
+msgid "Generate, import, export, or delete keys"
+msgstr "Generar, importar, exportar o eliminar claus"
+
+msgid "No keys available. Generate or import one!"
+msgstr "No hi ha claus disponibles. Genera o importa'n una!"
+
+msgid "Error in GnuPG"
+msgstr "Error en GnuPG"
 
 #~ msgid "Message too long"
 #~ msgstr "El missatge és massa llarg"
@@ -1971,154 +2434,3 @@ msgstr "Àlies (opcional)"
 
 #~ msgid "Start Chat"
 #~ msgstr "Inicia un xat"
-
-# DinoX v0.7.7 - Database Maintenance & Backup/Restore
-msgid "Clean Database"
-msgstr "Netejar base de dades"
-
-msgid "Reset Database"
-msgstr "Reiniciar base de dades"
-
-msgid "Restore Complete!"
-msgstr "Restauració completada!"
-
-msgid "Restore Failed"
-msgstr "La restauració ha fallat"
-
-msgid "Decrypting Backup..."
-msgstr "Desxifrant còpia de seguretat..."
-
-msgid "Restoring Backup..."
-msgstr "Restaurant còpia de seguretat..."
-
-msgid "Set Backup Password"
-msgstr "Establir contrasenya de còpia"
-
-msgid "Confirm Password"
-msgstr "Confirmar contrasenya"
-
-msgid "Create Encrypted Backup"
-msgstr "Crear còpia xifrada"
-
-msgid "Password too short"
-msgstr "Contrasenya massa curta"
-
-msgid "Passwords do not match"
-msgstr "Les contrasenyes no coincideixen"
-
-msgid "✓ Passwords match"
-msgstr "✓ Les contrasenyes coincideixen"
-
-msgid "Encrypting Backup..."
-msgstr "Xifrant còpia de seguretat..."
-
-msgid "Factory Reset"
-msgstr "Restablir de fàbrica"
-
-msgid "Restore from Backup"
-msgstr "Restaurar des de còpia"
-
-msgid "Restore Backup"
-msgstr "Restaurar còpia"
-
-msgid "Select Backup File"
-msgstr "Seleccionar fitxer de còpia"
-
-msgid "Enter Backup Password"
-msgstr "Introduir contrasenya de còpia"
-
-msgid "Decrypt & Restore"
-msgstr "Desxifrar i restaurar"
-
-msgid "Create Backup First"
-msgstr "Crear còpia primer"
-
-msgid "No Encryption"
-msgstr "Sense xifratge"
-
-msgid "Encrypt with Password"
-msgstr "Xifrar amb contrasenya"
-
-msgid "Delete Everything"
-msgstr "Esborrar-ho tot"
-
-msgid "Confirm Delete"
-msgstr "Confirmar eliminació"
-
-msgid "Are you absolutely sure?"
-msgstr "Esteu absolutament segur?"
-
-#: main/data/preferences_window/general_preferences_page.ui:104
-msgid "Database Maintenance"
-msgstr "Manteniment de la base de dades"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Restore accounts, messages and settings from a backup file"
-msgstr "Restaura comptes, missatges i configuració des d'un fitxer de còpia de seguretat"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
-msgstr "Suprimeix tots els missatges, fitxers i claus OMEMO. Els teus comptes es mantindran."
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete ALL data including accounts. This cannot be undone!"
-msgstr "Suprimeix TOTES les dades, inclosos els comptes. Això no es pot desfer!"
-
-# DinoX v0.7.7 - Additional Backup/Restore strings
-
-msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
-msgstr "Fitxers de còpia de seguretat (*.tar.gz, *.tar.gz.gpg)"
-
-msgid "Creating encrypted backup..."
-msgstr "Creant còpia de seguretat xifrada..."
-
-msgid "Decryption Failed"
-msgstr "Error de desxifratge"
-
-msgid "DinoX will now restart..."
-msgstr "DinoX es reiniciarà ara..."
-
-msgid "Encrypted backup created successfully"
-msgstr "S'ha creat la còpia de seguretat xifrada correctament"
-
-msgid "Password (minimum 4 characters)"
-msgstr "Contrasenya (mínim 4 caràcters)"
-
-msgid "Decrypting encrypted backup file..."
-msgstr "Desxifrant el fitxer de còpia de seguretat..."
-
-msgid "Extracting files from backup..."
-msgstr "S'estan extraient els fitxers de la còpia de seguretat..."
-
-msgid "Factory reset in progress... DinoX will restart."
-msgstr "S'està fent el restabliment de fàbrica... DinoX es reiniciarà."
-
-msgid "Resetting database... DinoX will restart."
-msgstr "S'està restablint la base de dades... DinoX es reiniciarà."
-
-msgid "Encrypted backup created (%s)"
-msgstr "S'ha creat còpia de seguretat xifrada (%s)"
-
-msgid "Could not decrypt the backup file.\n\nPlease check if the password is correct."
-msgstr "No s'ha pogut desxifrar el fitxer. Comproveu la contrasenya."
-
-msgid "Could not restore the backup file.\n\nError: %s"
-msgstr "No s'ha pogut restaurar el fitxer.\n\nError: %s"
-
-msgid "This backup is encrypted. Please enter the password to decrypt it."
-msgstr "Aquesta còpia està xifrada. Introduïu la contrasenya per desxifrar-la."
-
-msgid "Enter a password to encrypt the backup.\n\n<b>Important:</b> Remember this password! Without it, the backup cannot be restored."
-msgstr "Introduïu una contrasenya per xifrar la còpia.\n\n<b>Important:</b> Recordeu aquesta contrasenya! Sense ella, no es pot restaurar."
-
-msgid "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
-msgstr "Això suprimirà tots els missatges, fitxers i claus de xifratge OMEMO.\n\n<b>Els vostres comptes romandran, però perdreu tot l'historial de xats i haureu de tornar a verificar el xifratge amb els vostres contactes.</b>\n\nAquesta acció no es pot desfer!"
-
-msgid "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
-msgstr "Això substituirà totes les dades actuals per la còpia de seguretat.\n\n<b>Els comptes, missatges i configuracions actuals se sobreescriuran!</b>\n\nDinoX es reiniciarà després de restaurar."
-
-msgid "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
-msgstr "Escriviu 'DELETE' per confirmar el restabliment de fàbrica.\n\nAixò eliminarà permanentment totes les dades de DinoX."
-
-msgid "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"
-msgstr "<b>⚠️ AVÍS: Això suprimirà TOTES les dades!</b>\n\n• Tots els comptes\n• Tots els missatges i fitxers\n• Totes les claus de xifratge\n• Tots els paràmetres\n\nAixò és irreversible. Creeu una còpia de seguretat primer!"

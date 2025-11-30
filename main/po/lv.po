@@ -494,7 +494,9 @@ msgstr "Info:"
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
-msgstr "Jūsu personas dati (konti, ziņojumi, faili) tiek glabāti atsevišķi no lietojumprogrammas."
+msgstr ""
+"Jūsu personas dati (konti, ziņojumi, faili) tiek glabāti atsevišķi no "
+"lietojumprogrammas."
 
 #: main/src/ui/application.vala:361
 msgid "When you update DinoX, your data remains intact."
@@ -502,7 +504,9 @@ msgstr "Atjauninot DinoX, jūsu dati paliek neskarti."
 
 #: main/src/ui/application.vala:363
 msgid "Use Settings → General → Backup User Data to create a backup."
-msgstr "Izmantojiet Iestatījumi → Vispārīgi → Dublēt lietotāja datus, lai izveidotu dublējumu."
+msgstr ""
+"Izmantojiet Iestatījumi → Vispārīgi → Dublēt lietotāja datus, lai izveidotu "
+"dublējumu."
 
 #: main/src/ui/application.vala:405
 msgid ""
@@ -520,6 +524,52 @@ msgstr "Aizvērt"
 #: main/src/ui/application.vala:417
 msgid "Select Backup Location"
 msgstr "Izvēlieties dublējuma vietu"
+
+#: main/src/ui/application.vala
+msgid "Creating Backup..."
+msgstr "Creating Backup..."
+
+#: main/src/ui/application.vala
+msgid "Creating Encrypted Backup..."
+msgstr "Creating Encrypted Backup..."
+
+#: main/src/ui/application.vala
+msgid "Please wait while your data is being backed up."
+msgstr "Please wait while your data is being backed up."
+
+#: main/src/ui/application.vala
+msgid "No data directories found to backup"
+msgstr "No data directories found to backup"
+
+#: main/src/ui/application.vala
+msgid "Backup Created"
+msgstr "Backup Created"
+
+#: main/src/ui/application.vala
+msgid "Encrypted Backup Created"
+msgstr "Encrypted Backup Created"
+
+#: main/src/ui/application.vala
+#, c-format
+msgid "Your backup was created successfully.\\n\\nSize: %s"
+msgstr "Your backup was created successfully.\\n\\nSize: %s"
+
+#: main/src/ui/application.vala
+msgid "Your backup was created successfully."
+msgstr "Your backup was created successfully."
+
+#: main/src/ui/application.vala
+#, c-format
+msgid "Your encrypted backup was created successfully.\\n\\nSize: %s"
+msgstr "Your encrypted backup was created successfully.\\n\\nSize: %s"
+
+#: main/src/ui/application.vala
+msgid "Your encrypted backup was created successfully."
+msgstr "Your encrypted backup was created successfully."
+
+#: main/src/ui/application.vala
+msgid "Backup Failed"
+msgstr "Backup Failed"
 
 #: main/src/ui/application.vala:445
 msgid "Creating backup..."
@@ -1244,7 +1294,9 @@ msgstr "Dzēst visu ziņojumu vēsturi?"
 msgid ""
 "This will permanently delete all messages in this conversation. This action "
 "cannot be undone."
-msgstr "Šī darbība neatgriezeniski izdzēsīs visas ziņas šajā sarunā. Šo darbību nevar atsaukt."
+msgstr ""
+"Šī darbība neatgriezeniski izdzēsīs visas ziņas šajā sarunā. Šo darbību "
+"nevar atsaukt."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:791
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
@@ -1271,7 +1323,9 @@ msgstr "Nepieciešams konferences serveris"
 msgid ""
 "To start a group call, you need to configure a default conference server in "
 "your account settings."
-msgstr "Lai sāktu grupas zvanu, konta iestatījumos jākonfigurē noklusējuma konferenču serveris."
+msgstr ""
+"Lai sāktu grupas zvanu, konta iestatījumos jākonfigurē noklusējuma "
+"konferenču serveris."
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:84
 msgid "Open Settings"
@@ -1491,7 +1545,9 @@ msgstr "Iziet"
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
 "A friendly name shown in room listings (does not change the room address)"
-msgstr "Draudzīgs nosaukums, kas tiek rādīts istabu sarakstos (nemaina istabas adresi)"
+msgstr ""
+"Draudzīgs nosaukums, kas tiek rādīts istabu sarakstos (nemaina istabas "
+"adresi)"
 
 #: main/src/ui/util/data_forms.vala:44
 msgid "Description"
@@ -1545,7 +1601,9 @@ msgstr "Tikai biedriem"
 msgid ""
 "Only members may enter the room. Warning: Non-members will be removed when "
 "enabled!"
-msgstr "Tikai dalībnieki drīkst ieiet istabā. Brīdinājums: Nedalībnieki tiks noņemti, kad iespējots!"
+msgstr ""
+"Tikai dalībnieki drīkst ieiet istabā. Brīdinājums: Nedalībnieki tiks "
+"noņemti, kad iespējots!"
 
 #: main/src/ui/util/helper.vala:65
 #, c-format
@@ -1565,7 +1623,9 @@ msgstr "%a, %d. %b"
 msgid ""
 "This contact will be removed from your contact list and all conversation "
 "history will be permanently deleted."
-msgstr "Šis kontakts tiks noņemts no jūsu kontaktu saraksta un visa sarunas vēsture tiks neatgriezeniski izdzēsta."
+msgstr ""
+"Šis kontakts tiks noņemts no jūsu kontaktu saraksta un visa sarunas vēsture "
+"tiks neatgriezeniski izdzēsta."
 
 #: main/src/windows/conversation_details.vala:108
 msgid "Block user"
@@ -1739,7 +1799,8 @@ msgstr "Pievienojiet kontaktus, lai sāktu saraksti"
 msgid ""
 "This will remove %s from your contact list and delete all conversation "
 "history."
-msgstr "Tas noņems %s no jūsu kontaktu saraksta un izdzēsīs visu sarunas vēsturi."
+msgstr ""
+"Tas noņems %s no jūsu kontaktu saraksta un izdzēsīs visu sarunas vēsturi."
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:318
 msgid "Edit Contact Alias"
@@ -1753,12 +1814,6 @@ msgstr "Mainīt attēlojamo vārdu lietotājam %s"
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:325
 msgid "Alias (optional)"
 msgstr "Aizstājvārds (neobligāti)"
-
-#~ msgid "Message too long"
-#~ msgstr "Ziņojums ir pārāk garš"
-
-#~ msgid "Grant write permission"
-#~ msgstr "Piešķirt rakstīšanas tiesības"
 
 # DinoX v0.7.7 - Database Maintenance & Backup/Restore
 msgid "Clean Database"
@@ -1853,7 +1908,6 @@ msgid "Delete ALL data including accounts. This cannot be undone!"
 msgstr "Dzēst VISUS datus, ieskaitot kontus. Šo darbību nevar atsaukt!"
 
 # DinoX v0.7.7 - Additional Backup/Restore strings
-
 msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
 msgstr "Rezerves kopiju faili (*.tar.gz, *.tar.gz.gpg)"
 
@@ -1887,26 +1941,264 @@ msgstr "Datubāzes atiestatīšana... DinoX tiks restartēts."
 msgid "Encrypted backup created (%s)"
 msgstr "Šifrēts dublējums izveidots (%s)"
 
-msgid "Could not decrypt the backup file.\n\nPlease check if the password is correct."
-msgstr "Nevarēja atšifrēt failu.\n\nLūdzu pārbaudiet, vai parole ir pareiza."
+msgid ""
+"Could not decrypt the backup file.\n"
+"\n"
+"Please check if the password is correct."
+msgstr ""
+"Nevarēja atšifrēt failu.\n"
+"\n"
+"Lūdzu pārbaudiet, vai parole ir pareiza."
 
-msgid "Could not restore the backup file.\n\nError: %s"
-msgstr "Nevarēja atjaunot failu.\n\nKļūda: %s"
+msgid ""
+"Could not restore the backup file.\n"
+"\n"
+"Error: %s"
+msgstr ""
+"Nevarēja atjaunot failu.\n"
+"\n"
+"Kļūda: %s"
 
 msgid "This backup is encrypted. Please enter the password to decrypt it."
 msgstr "Šis dublējums ir šifrēts. Ievadiet paroli atšifrēšanai."
 
-msgid "Enter a password to encrypt the backup.\n\n<b>Important:</b> Remember this password! Without it, the backup cannot be restored."
-msgstr "Ievadiet paroli dublējuma šifrēšanai.\n\n<b>Svarīgi:</b> Atcerieties šo paroli! Bez tās dublējumu nevar atjaunot."
+msgid ""
+"Enter a password to encrypt the backup.\n"
+"\n"
+"<b>Important:</b> Remember this password! Without it, the backup cannot be "
+"restored."
+msgstr ""
+"Ievadiet paroli dublējuma šifrēšanai.\n"
+"\n"
+"<b>Svarīgi:</b> Atcerieties šo paroli! Bez tās dublējumu nevar atjaunot."
 
-msgid "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
-msgstr "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
+msgid ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+msgstr ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
 
-msgid "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
-msgstr "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
+msgid ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+msgstr ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
 
-msgid "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
-msgstr "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
+msgid ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+msgstr ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
 
-msgid "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"
-msgstr "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"
+msgid ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+msgstr ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+
+# OpenPGP Key Management
+msgid "OpenPGP Key Management"
+msgstr "OpenPGP Key Management"
+
+msgid "Actions"
+msgstr "Actions"
+
+msgid "Generate New Key"
+msgstr "Generate New Key"
+
+msgid "Import Key"
+msgstr "Import Key"
+
+msgid "Your Keys"
+msgstr "Your Keys"
+
+msgid "Fingerprint"
+msgstr "Fingerprint"
+
+msgid "Export Public Key"
+msgstr "Export Public Key"
+
+msgid "Delete Key"
+msgstr "Delete Key"
+
+msgid "Name"
+msgstr "Name"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Passphrase"
+msgstr "Passphrase"
+
+msgid "Generate"
+msgstr "Generate"
+
+msgid "Select OpenPGP Key"
+msgstr "Select OpenPGP Key"
+
+msgid "Wrong passphrase"
+msgstr "Wrong passphrase"
+
+msgid "Manage Keys"
+msgstr "Manage Keys"
+
+msgid "Announce key"
+msgstr "Announce key"
+
+msgid "Disabled"
+msgstr "Disabled"
+
+msgid "Success"
+msgstr "Success"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Create a new OpenPGP key pair"
+msgstr "Izveidot jaunu OpenPGP atslēgu pāri"
+
+msgid "Import a key from file (.asc, .gpg)"
+msgstr "Importēt atslēgu no faila (.asc, .gpg)"
+
+msgid "Private keys available for signing and decryption"
+msgstr "Privātās atslēgas parakstīšanai un atšifrēšanai"
+
+msgid "No private keys found"
+msgstr "Privātās atslēgas nav atrastas"
+
+msgid "Generate or import a key to get started"
+msgstr "Ģenerējiet vai importējiet atslēgu, lai sāktu"
+
+msgid "Generate New OpenPGP Key"
+msgstr "Ģenerēt jaunu OpenPGP atslēgu"
+
+msgid "Enter your details to create a new key pair."
+msgstr "Ievadiet savus datus, lai izveidotu jaunu atslēgu pāri."
+
+msgid "Your Name"
+msgstr "Jūsu vārds"
+
+msgid "you@example.com"
+msgstr "jus@piemers.lv"
+
+msgid "Passphrase (optional)"
+msgstr "Paroles frāze (neobligāta)"
+
+msgid "4096-bit RSA key, valid for 2 years."
+msgstr "4096 bitu RSA atslēga, derīga 2 gadus."
+
+msgid "Name must be at least 2 characters"
+msgstr "Vārdam jābūt vismaz 2 rakstzīmēm"
+
+msgid "Please enter a valid email address"
+msgstr "Lūdzu, ievadiet derīgu e-pasta adresi"
+
+msgid "Generating Key..."
+msgstr "Ģenerē atslēgu..."
+
+msgid "Please wait while your key is being generated. This may take a moment."
+msgstr ""
+"Lūdzu, uzgaidiet, kamēr tiek ģenerēta jūsu atslēga. Tas var aizņemt brīdi."
+
+msgid "Key generated successfully!"
+msgstr "Atslēga veiksmīgi ģenerēta!"
+
+msgid "Failed to generate key."
+msgstr "Neizdevās ģenerēt atslēgu."
+
+msgid "Import OpenPGP Key"
+msgstr "Importēt OpenPGP atslēgu"
+
+msgid "OpenPGP Keys (*.asc, *.gpg)"
+msgstr "OpenPGP atslēgas (*.asc, *.gpg)"
+
+msgid "All Files"
+msgstr "Visi faili"
+
+msgid "Key imported! Re-open Key Management to see it."
+msgstr ""
+"Atslēga importēta! Atkārtoti atveriet Atslēgu pārvaldību, lai to redzētu."
+
+msgid "Import failed: "
+msgstr "Importēšana neizdevās: "
+
+msgid "Key exported to: "
+msgstr "Atslēga eksportēta uz: "
+
+msgid "Export failed."
+msgstr "Eksportēšana neizdevās."
+
+msgid "Delete Key?"
+msgstr "Dzēst atslēgu?"
+
+msgid ""
+"Delete this key?\n"
+"\n"
+"%s\n"
+"\n"
+"This cannot be undone!"
+msgstr ""
+"Dzēst šo atslēgu?\n"
+"\n"
+"%s\n"
+"\n"
+"To nevar atsaukt!"
+
+msgid "Key deleted."
+msgstr "Atslēga dzēsta."
+
+msgid "Delete failed: "
+msgstr "Dzēšana neizdevās: "
+
+msgid "Choose a key to announce to your contacts."
+msgstr "Izvēlieties atslēgu, ko paziņot kontaktpersonām."
+
+msgid "Enter GPG passphrase to confirm:"
+msgstr "Ievadiet GPG paroles frāzi, lai apstiprinātu:"
+
+msgid "Generate, import, export, or delete keys"
+msgstr "Ģenerēt, importēt, eksportēt vai dzēst atslēgas"
+
+msgid "No keys available. Generate or import one!"
+msgstr "Nav atslēgu. Ģenerējiet vai importējiet vienu!"
+
+msgid "Error in GnuPG"
+msgstr "Kļūda GnuPG"
+
+#~ msgid "Message too long"
+#~ msgstr "Ziņojums ir pārāk garš"
+
+#~ msgid "Grant write permission"
+#~ msgstr "Piešķirt rakstīšanas tiesības"

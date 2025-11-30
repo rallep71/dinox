@@ -317,8 +317,10 @@ msgstr "_Arka planda çalış"
 #: main/data/preferences_window/general_preferences_page.ui:33
 msgid ""
 "Continue running after closing window to receive notifications immediately"
-msgstr "Bildirimleri anında almak için pencereyi kapattıktan sonra çalışmaya devam et"
-"Bildirimleri hemen almak için pencere kapatıldıktan sonra çalışmaya devam et"
+msgstr ""
+"Bildirimleri anında almak için pencereyi kapattıktan sonra çalışmaya devam "
+"etBildirimleri hemen almak için pencere kapatıldıktan sonra çalışmaya devam "
+"et"
 
 #: main/data/preferences_window/general_preferences_page.ui:41
 msgid "Appearance"
@@ -493,7 +495,9 @@ msgstr "Bilgi:"
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
-msgstr "Kişisel verileriniz (hesaplar, mesajlar, dosyalar) uygulamadan ayrı olarak saklanır."
+msgstr ""
+"Kişisel verileriniz (hesaplar, mesajlar, dosyalar) uygulamadan ayrı olarak "
+"saklanır."
 
 #: main/src/ui/application.vala:361
 msgid "When you update DinoX, your data remains intact."
@@ -507,9 +511,11 @@ msgstr "Yedek oluşturmak için Ayarlar → Genel → Yedekle'yi kullanın."
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
-msgstr "Kişisel verileriniz (hesaplar, mesajlar, dosyalar) uygulamadan ayrı olarak saklanır. DinoX'i güncellediğinizde verileriniz bozulmadan kalır."
+msgstr ""
 "Kişisel verileriniz (hesaplar, mesajlar, dosyalar) uygulamadan ayrı olarak "
-"saklanır. DinoX'u güncellediğinizde verileriniz korunur."
+"saklanır. DinoX'i güncellediğinizde verileriniz bozulmadan kalır.Kişisel "
+"verileriniz (hesaplar, mesajlar, dosyalar) uygulamadan ayrı olarak saklanır. "
+"DinoX'u güncellediğinizde verileriniz korunur."
 
 #: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
 #: main/src/ui/main_window.vala:159
@@ -519,6 +525,52 @@ msgstr "Kapat"
 #: main/src/ui/application.vala:417
 msgid "Select Backup Location"
 msgstr "Yedekleme Konumu Seçin"
+
+#: main/src/ui/application.vala
+msgid "Creating Backup..."
+msgstr "Creating Backup..."
+
+#: main/src/ui/application.vala
+msgid "Creating Encrypted Backup..."
+msgstr "Creating Encrypted Backup..."
+
+#: main/src/ui/application.vala
+msgid "Please wait while your data is being backed up."
+msgstr "Please wait while your data is being backed up."
+
+#: main/src/ui/application.vala
+msgid "No data directories found to backup"
+msgstr "No data directories found to backup"
+
+#: main/src/ui/application.vala
+msgid "Backup Created"
+msgstr "Backup Created"
+
+#: main/src/ui/application.vala
+msgid "Encrypted Backup Created"
+msgstr "Encrypted Backup Created"
+
+#: main/src/ui/application.vala
+#, c-format
+msgid "Your backup was created successfully.\\n\\nSize: %s"
+msgstr "Your backup was created successfully.\\n\\nSize: %s"
+
+#: main/src/ui/application.vala
+msgid "Your backup was created successfully."
+msgstr "Your backup was created successfully."
+
+#: main/src/ui/application.vala
+#, c-format
+msgid "Your encrypted backup was created successfully.\\n\\nSize: %s"
+msgstr "Your encrypted backup was created successfully.\\n\\nSize: %s"
+
+#: main/src/ui/application.vala
+msgid "Your encrypted backup was created successfully."
+msgstr "Your encrypted backup was created successfully."
+
+#: main/src/ui/application.vala
+msgid "Backup Failed"
+msgstr "Backup Failed"
 
 #: main/src/ui/application.vala:445
 msgid "Creating backup..."
@@ -944,7 +996,8 @@ msgstr "Sil"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:167
 msgid "Do you want to delete this message just for yourself or for everyone?"
-msgstr "Bu mesajı sadece kendiniz için mi yoksa herkes için mi silmek istiyorsunuz?"
+msgstr ""
+"Bu mesajı sadece kendiniz için mi yoksa herkes için mi silmek istiyorsunuz?"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:168
 msgid "Delete for everyone"
@@ -1042,9 +1095,11 @@ msgstr "Oda Yok Edilsin mi?"
 msgid ""
 "Are you sure you want to permanently destroy this room? This action cannot "
 "be undone and all history will be lost for all participants."
-msgstr "Bu odayı kalıcı olarak yok etmek istediğinizden emin misiniz? Bu işlem geri alınamaz ve tüm geçmiş tüm katılımcılar için kaybolacaktır."
-"Bu odayı kalıcı olarak yok etmek istediğinizden emin misiniz? Bu işlem "
-"geri alınamaz ve tüm geçmiş tüm katılımcılar için kaybolacaktır."
+msgstr ""
+"Bu odayı kalıcı olarak yok etmek istediğinizden emin misiniz? Bu işlem geri "
+"alınamaz ve tüm geçmiş tüm katılımcılar için kaybolacaktır.Bu odayı kalıcı "
+"olarak yok etmek istediğinizden emin misiniz? Bu işlem geri alınamaz ve tüm "
+"geçmiş tüm katılımcılar için kaybolacaktır."
 
 #: main/src/ui/conversation_details.vala:250
 msgid "Destroy"
@@ -1227,7 +1282,12 @@ msgid ""
 "• Remove %s from your contact list\n"
 "\n"
 "This action cannot be undone."
-msgstr "Bu işlem:\n• Tüm sohbet geçmişini silecek\n• %s adlı kişiyi kişi listenizden kaldıracak\n\nBu işlem geri alınamaz."
+msgstr ""
+"Bu işlem:\n"
+"• Tüm sohbet geçmişini silecek\n"
+"• %s adlı kişiyi kişi listenizden kaldıracak\n"
+"\n"
+"Bu işlem geri alınamaz."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:787
 msgid "Delete all message history?"
@@ -1237,7 +1297,9 @@ msgstr "Tüm mesaj geçmişi silinsin mi?"
 msgid ""
 "This will permanently delete all messages in this conversation. This action "
 "cannot be undone."
-msgstr "Bu, bu konuşmadaki tüm mesajları kalıcı olarak silecektir. Bu işlem geri alınamaz."
+msgstr ""
+"Bu, bu konuşmadaki tüm mesajları kalıcı olarak silecektir. Bu işlem geri "
+"alınamaz."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:791
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
@@ -1264,7 +1326,9 @@ msgstr "Konferans Sunucusu Gerekli"
 msgid ""
 "To start a group call, you need to configure a default conference server in "
 "your account settings."
-msgstr "Grup araması başlatmak için hesap ayarlarınızda varsayılan bir konferans sunucusu yapılandırmanız gerekir."
+msgstr ""
+"Grup araması başlatmak için hesap ayarlarınızda varsayılan bir konferans "
+"sunucusu yapılandırmanız gerekir."
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:84
 msgid "Open Settings"
@@ -1321,7 +1385,13 @@ msgid ""
 "\n"
 "If you need a password or a nickname, provide them in the dialog. Use the "
 "discovery features in the server to find public rooms."
-msgstr "Bir kanala katılmak için \"Kanala Katıl\" düğmesine tıklayın ve kanal JID'sini girin (örnek: room@conference.example.org).\n\nŞifreye veya takma ada ihtiyacınız varsa, bunları iletişim kutusunda belirtin. Herkese açık odaları bulmak için sunucunun keşif özelliklerini kullanın."
+msgstr ""
+"Bir kanala katılmak için \"Kanala Katıl\" düğmesine tıklayın ve kanal "
+"JID'sini girin (örnek: room@conference.example.org).\n"
+"\n"
+"Şifreye veya takma ada ihtiyacınız varsa, bunları iletişim kutusunda "
+"belirtin. Herkese açık odaları bulmak için sunucunun keşif özelliklerini "
+"kullanın."
 
 #: main/src/ui/main_window.vala:206
 msgid "Welcome to DinoX!"
@@ -1479,8 +1549,9 @@ msgstr "Çık"
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
 "A friendly name shown in room listings (does not change the room address)"
-msgstr "Oda listelerinde gösterilen kolay anlaşılır bir ad (oda adresini değiştirmez)"
-"Oda listelerinde gösterilen kolay ad (oda adresini değiştirmez)"
+msgstr ""
+"Oda listelerinde gösterilen kolay anlaşılır bir ad (oda adresini "
+"değiştirmez)Oda listelerinde gösterilen kolay ad (oda adresini değiştirmez)"
 
 #: main/src/ui/util/data_forms.vala:44
 msgid "Description"
@@ -1534,7 +1605,9 @@ msgstr "Sadece üyeler"
 msgid ""
 "Only members may enter the room. Warning: Non-members will be removed when "
 "enabled!"
-msgstr "Sadece üyeler odaya girebilir. Uyarı: Üye olmayanlar etkinleştirildiğinde kaldırılacak!"
+msgstr ""
+"Sadece üyeler odaya girebilir. Uyarı: Üye olmayanlar etkinleştirildiğinde "
+"kaldırılacak!"
 
 #: main/src/ui/util/helper.vala:65
 #, c-format
@@ -1554,7 +1627,9 @@ msgstr "%a, %b %d"
 msgid ""
 "This contact will be removed from your contact list and all conversation "
 "history will be permanently deleted."
-msgstr "Bu kişi, kişi listenizden kaldırılacak ve tüm sohbet geçmişi kalıcı olarak silinecek."
+msgstr ""
+"Bu kişi, kişi listenizden kaldırılacak ve tüm sohbet geçmişi kalıcı olarak "
+"silinecek."
 
 #: main/src/windows/conversation_details.vala:108
 msgid "Block user"
@@ -1728,7 +1803,9 @@ msgstr "Sohbete başlamak için kişi ekleyin"
 msgid ""
 "This will remove %s from your contact list and delete all conversation "
 "history."
-msgstr "Bu, %s adlı kişiyi kişi listenizden kaldıracak ve tüm sohbet geçmişini silecek."
+msgstr ""
+"Bu, %s adlı kişiyi kişi listenizden kaldıracak ve tüm sohbet geçmişini "
+"silecek."
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:318
 msgid "Edit Contact Alias"
@@ -1742,6 +1819,388 @@ msgstr "%s için görünen adı değiştir"
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:325
 msgid "Alias (optional)"
 msgstr "Takma ad (isteğe bağlı)"
+
+# DinoX v0.7.7 - Database Maintenance & Backup/Restore
+msgid "Clean Database"
+msgstr "Veritabanını temizle"
+
+msgid "Reset Database"
+msgstr "Veritabanını sıfırla"
+
+msgid "Restore Complete!"
+msgstr "Geri yükleme tamamlandı!"
+
+msgid "Restore Failed"
+msgstr "Geri yükleme başarısız"
+
+msgid "Decrypting Backup..."
+msgstr "Yedek şifresi çözülüyor..."
+
+msgid "Restoring Backup..."
+msgstr "Yedek geri yükleniyor..."
+
+msgid "Set Backup Password"
+msgstr "Yedek şifresini ayarla"
+
+msgid "Confirm Password"
+msgstr "Şifreyi onayla"
+
+msgid "Create Encrypted Backup"
+msgstr "Şifreli yedek oluştur"
+
+msgid "Password too short"
+msgstr "Şifre çok kısa"
+
+msgid "Passwords do not match"
+msgstr "Şifreler eşleşmiyor"
+
+msgid "✓ Passwords match"
+msgstr "✓ Şifreler eşleşiyor"
+
+msgid "Encrypting Backup..."
+msgstr "Yedek şifreleniyor..."
+
+msgid "Factory Reset"
+msgstr "Fabrika ayarlarına sıfırla"
+
+msgid "Restore from Backup"
+msgstr "Yedekten geri yükle"
+
+msgid "Restore Backup"
+msgstr "Yedeği geri yükle"
+
+msgid "Select Backup File"
+msgstr "Yedek dosyasını seç"
+
+msgid "Enter Backup Password"
+msgstr "Yedek şifresini girin"
+
+msgid "Decrypt & Restore"
+msgstr "Şifreyi çöz ve geri yükle"
+
+msgid "Create Backup First"
+msgstr "Önce yedek oluştur"
+
+msgid "No Encryption"
+msgstr "Şifreleme yok"
+
+msgid "Encrypt with Password"
+msgstr "Şifreyle şifrele"
+
+msgid "Delete Everything"
+msgstr "Her şeyi sil"
+
+msgid "Confirm Delete"
+msgstr "Silmeyi onayla"
+
+msgid "Are you absolutely sure?"
+msgstr "Kesinlikle emin misiniz?"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "Veritabanı Bakımı"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "Hesapları, mesajları ve ayarları yedek dosyasından geri yükle"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr ""
+"Tüm mesajları, dosyaları ve OMEMO anahtarlarını sil. Hesaplarınız kalacak."
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr "Hesaplar dahil TÜM verileri sil. Bu geri alınamaz!"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "Yedekleme dosyaları (*.tar.gz, *.tar.gz.gpg)"
+
+msgid "Creating encrypted backup..."
+msgstr "Şifreli yedekleme oluşturuluyor..."
+
+msgid "Decryption Failed"
+msgstr "Şifre çözme başarısız"
+
+msgid "DinoX will now restart..."
+msgstr "DinoX şimdi yeniden başlatılacak..."
+
+msgid "Encrypted backup created successfully"
+msgstr "Şifreli yedekleme başarıyla oluşturuldu"
+
+msgid "Password (minimum 4 characters)"
+msgstr "Şifre (en az 4 karakter)"
+
+msgid "Decrypting encrypted backup file..."
+msgstr "Yedekleme dosyasının şifresi çözülüyor..."
+
+msgid "Extracting files from backup..."
+msgstr "Yedeklemeden dosyalar çıkarılıyor..."
+
+msgid "Factory reset in progress... DinoX will restart."
+msgstr ""
+"Fabrika ayarlarına sıfırlama devam ediyor... DinoX yeniden başlatılacak."
+
+msgid "Resetting database... DinoX will restart."
+msgstr "Veritabanı sıfırlanıyor... DinoX yeniden başlatılacak."
+
+msgid "Encrypted backup created (%s)"
+msgstr "Şifreli yedekleme oluşturuldu (%s)"
+
+msgid ""
+"Could not decrypt the backup file.\n"
+"\n"
+"Please check if the password is correct."
+msgstr ""
+"Dosyanın şifresi çözülemedi.\n"
+"\n"
+"Şifrenin doğru olup olmadığını kontrol edin."
+
+msgid ""
+"Could not restore the backup file.\n"
+"\n"
+"Error: %s"
+msgstr ""
+"Dosya geri yüklenemedi.\n"
+"\n"
+"Hata: %s"
+
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "Bu yedekleme şifrelenmiş. Şifresini çözmek için parolayı girin."
+
+msgid ""
+"Enter a password to encrypt the backup.\n"
+"\n"
+"<b>Important:</b> Remember this password! Without it, the backup cannot be "
+"restored."
+msgstr ""
+"Yedeklemeyi şifrelemek için bir parola girin.\n"
+"\n"
+"<b>Önemli:</b> Bu parolayı unutmayın! Onsuz yedekleme geri yüklenemez."
+
+msgid ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+msgstr ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+
+msgid ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+msgstr ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+
+msgid ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+msgstr ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+
+msgid ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+msgstr ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+
+# OpenPGP Key Management translations
+msgid "OpenPGP Key Management"
+msgstr "OpenPGP Anahtar Yönetimi"
+
+msgid "Actions"
+msgstr "Eylemler"
+
+msgid "Generate New Key"
+msgstr "Yeni anahtar oluştur"
+
+msgid "Create a new OpenPGP key pair"
+msgstr "Yeni bir OpenPGP anahtar çifti oluştur"
+
+msgid "Import Key"
+msgstr "Anahtar içe aktar"
+
+msgid "Import a key from file (.asc, .gpg)"
+msgstr "Dosyadan anahtar içe aktar (.asc, .gpg)"
+
+msgid "Your Keys"
+msgstr "Anahtarlarınız"
+
+msgid "Private keys available for signing and decryption"
+msgstr "İmzalama ve şifre çözme için kullanılabilir özel anahtarlar"
+
+msgid "No private keys found"
+msgstr "Özel anahtar bulunamadı"
+
+msgid "Generate or import a key to get started"
+msgstr "Başlamak için bir anahtar oluşturun veya içe aktarın"
+
+msgid "Fingerprint"
+msgstr "Parmak izi"
+
+msgid "Export Public Key"
+msgstr "Genel anahtarı dışa aktar"
+
+msgid "Delete Key"
+msgstr "Anahtarı sil"
+
+msgid "Generate New OpenPGP Key"
+msgstr "Yeni OpenPGP anahtarı oluştur"
+
+msgid "Enter your details to create a new key pair."
+msgstr "Yeni bir anahtar çifti oluşturmak için bilgilerinizi girin."
+
+msgid "Name"
+msgstr "Ad"
+
+msgid "Your Name"
+msgstr "Adınız"
+
+msgid "Email"
+msgstr "E-posta"
+
+msgid "you@example.com"
+msgstr "siz@ornek.com"
+
+msgid "Passphrase (optional)"
+msgstr "Parola (isteğe bağlı)"
+
+msgid "Passphrase"
+msgstr "Parola"
+
+msgid "4096-bit RSA key, valid for 2 years."
+msgstr "4096-bit RSA anahtarı, 2 yıl geçerli."
+
+msgid "Generate"
+msgstr "Oluştur"
+
+msgid "Name must be at least 2 characters"
+msgstr "Ad en az 2 karakter olmalıdır"
+
+msgid "Please enter a valid email address"
+msgstr "Lütfen geçerli bir e-posta adresi girin"
+
+msgid "Generating Key..."
+msgstr "Anahtar oluşturuluyor..."
+
+msgid "Please wait while your key is being generated. This may take a moment."
+msgstr "Anahtarınız oluşturulurken lütfen bekleyin. Bu biraz zaman alabilir."
+
+msgid "Key generated successfully!"
+msgstr "Anahtar başarıyla oluşturuldu!"
+
+msgid "Failed to generate key."
+msgstr "Anahtar oluşturulamadı."
+
+msgid "Import OpenPGP Key"
+msgstr "OpenPGP anahtarı içe aktar"
+
+msgid "OpenPGP Keys (*.asc, *.gpg)"
+msgstr "OpenPGP Anahtarları (*.asc, *.gpg)"
+
+msgid "All Files"
+msgstr "Tüm Dosyalar"
+
+msgid "Key imported! Re-open Key Management to see it."
+msgstr "Anahtar içe aktarıldı! Görmek için Anahtar Yönetimini yeniden açın."
+
+msgid "Import failed: "
+msgstr "İçe aktarma başarısız: "
+
+msgid "Key exported to: "
+msgstr "Anahtar dışa aktarıldı: "
+
+msgid "Export failed."
+msgstr "Dışa aktarma başarısız."
+
+msgid "Delete Key?"
+msgstr "Anahtar silinsin mi?"
+
+msgid ""
+"Delete this key?\n"
+"\n"
+"%s\n"
+"\n"
+"This cannot be undone!"
+msgstr ""
+"Bu anahtar silinsin mi?\n"
+"\n"
+"%s\n"
+"\n"
+"Bu işlem geri alınamaz!"
+
+msgid "Key deleted."
+msgstr "Anahtar silindi."
+
+msgid "Delete failed: "
+msgstr "Silme başarısız: "
+
+msgid "Select OpenPGP Key"
+msgstr "OpenPGP anahtarı seç"
+
+msgid "Choose a key to announce to your contacts."
+msgstr "Kişilerinize duyurmak için bir anahtar seçin."
+
+msgid "Enter GPG passphrase to confirm:"
+msgstr "Onaylamak için GPG parolasını girin:"
+
+msgid "Wrong passphrase"
+msgstr "Yanlış parola"
+
+msgid "Manage Keys"
+msgstr "Anahtarları yönet"
+
+msgid "Generate, import, export, or delete keys"
+msgstr "Anahtar oluştur, içe/dışa aktar veya sil"
+
+msgid "No keys available. Generate or import one!"
+msgstr "Kullanılabilir anahtar yok. Bir tane oluşturun veya içe aktarın!"
+
+msgid "Announce key"
+msgstr "Anahtarı duyur"
+
+msgid "Disabled"
+msgstr "Devre dışı"
+
+msgid "Error in GnuPG"
+msgstr "GnuPG hatası"
+
+msgid "Success"
+msgstr "Başarılı"
+
+msgid "OK"
+msgstr "Tamam"
 
 #~ msgid "Message too long"
 #~ msgstr "Mesaj çok uzun"
@@ -1966,154 +2425,3 @@ msgstr "Takma ad (isteğe bağlı)"
 
 #~ msgid "Password required for room entry, if any"
 #~ msgstr "Odaya giriş için yapmak için parola ( gerekirse )"
-
-# DinoX v0.7.7 - Database Maintenance & Backup/Restore
-msgid "Clean Database"
-msgstr "Veritabanını temizle"
-
-msgid "Reset Database"
-msgstr "Veritabanını sıfırla"
-
-msgid "Restore Complete!"
-msgstr "Geri yükleme tamamlandı!"
-
-msgid "Restore Failed"
-msgstr "Geri yükleme başarısız"
-
-msgid "Decrypting Backup..."
-msgstr "Yedek şifresi çözülüyor..."
-
-msgid "Restoring Backup..."
-msgstr "Yedek geri yükleniyor..."
-
-msgid "Set Backup Password"
-msgstr "Yedek şifresini ayarla"
-
-msgid "Confirm Password"
-msgstr "Şifreyi onayla"
-
-msgid "Create Encrypted Backup"
-msgstr "Şifreli yedek oluştur"
-
-msgid "Password too short"
-msgstr "Şifre çok kısa"
-
-msgid "Passwords do not match"
-msgstr "Şifreler eşleşmiyor"
-
-msgid "✓ Passwords match"
-msgstr "✓ Şifreler eşleşiyor"
-
-msgid "Encrypting Backup..."
-msgstr "Yedek şifreleniyor..."
-
-msgid "Factory Reset"
-msgstr "Fabrika ayarlarına sıfırla"
-
-msgid "Restore from Backup"
-msgstr "Yedekten geri yükle"
-
-msgid "Restore Backup"
-msgstr "Yedeği geri yükle"
-
-msgid "Select Backup File"
-msgstr "Yedek dosyasını seç"
-
-msgid "Enter Backup Password"
-msgstr "Yedek şifresini girin"
-
-msgid "Decrypt & Restore"
-msgstr "Şifreyi çöz ve geri yükle"
-
-msgid "Create Backup First"
-msgstr "Önce yedek oluştur"
-
-msgid "No Encryption"
-msgstr "Şifreleme yok"
-
-msgid "Encrypt with Password"
-msgstr "Şifreyle şifrele"
-
-msgid "Delete Everything"
-msgstr "Her şeyi sil"
-
-msgid "Confirm Delete"
-msgstr "Silmeyi onayla"
-
-msgid "Are you absolutely sure?"
-msgstr "Kesinlikle emin misiniz?"
-
-#: main/data/preferences_window/general_preferences_page.ui:104
-msgid "Database Maintenance"
-msgstr "Veritabanı Bakımı"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Restore accounts, messages and settings from a backup file"
-msgstr "Hesapları, mesajları ve ayarları yedek dosyasından geri yükle"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
-msgstr "Tüm mesajları, dosyaları ve OMEMO anahtarlarını sil. Hesaplarınız kalacak."
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete ALL data including accounts. This cannot be undone!"
-msgstr "Hesaplar dahil TÜM verileri sil. Bu geri alınamaz!"
-
-# DinoX v0.7.7 - Additional Backup/Restore strings
-
-msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
-msgstr "Yedekleme dosyaları (*.tar.gz, *.tar.gz.gpg)"
-
-msgid "Creating encrypted backup..."
-msgstr "Şifreli yedekleme oluşturuluyor..."
-
-msgid "Decryption Failed"
-msgstr "Şifre çözme başarısız"
-
-msgid "DinoX will now restart..."
-msgstr "DinoX şimdi yeniden başlatılacak..."
-
-msgid "Encrypted backup created successfully"
-msgstr "Şifreli yedekleme başarıyla oluşturuldu"
-
-msgid "Password (minimum 4 characters)"
-msgstr "Şifre (en az 4 karakter)"
-
-msgid "Decrypting encrypted backup file..."
-msgstr "Yedekleme dosyasının şifresi çözülüyor..."
-
-msgid "Extracting files from backup..."
-msgstr "Yedeklemeden dosyalar çıkarılıyor..."
-
-msgid "Factory reset in progress... DinoX will restart."
-msgstr "Fabrika ayarlarına sıfırlama devam ediyor... DinoX yeniden başlatılacak."
-
-msgid "Resetting database... DinoX will restart."
-msgstr "Veritabanı sıfırlanıyor... DinoX yeniden başlatılacak."
-
-msgid "Encrypted backup created (%s)"
-msgstr "Şifreli yedekleme oluşturuldu (%s)"
-
-msgid "Could not decrypt the backup file.\n\nPlease check if the password is correct."
-msgstr "Dosyanın şifresi çözülemedi.\n\nŞifrenin doğru olup olmadığını kontrol edin."
-
-msgid "Could not restore the backup file.\n\nError: %s"
-msgstr "Dosya geri yüklenemedi.\n\nHata: %s"
-
-msgid "This backup is encrypted. Please enter the password to decrypt it."
-msgstr "Bu yedekleme şifrelenmiş. Şifresini çözmek için parolayı girin."
-
-msgid "Enter a password to encrypt the backup.\n\n<b>Important:</b> Remember this password! Without it, the backup cannot be restored."
-msgstr "Yedeklemeyi şifrelemek için bir parola girin.\n\n<b>Önemli:</b> Bu parolayı unutmayın! Onsuz yedekleme geri yüklenemez."
-
-msgid "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
-msgstr "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
-
-msgid "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
-msgstr "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
-
-msgid "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
-msgstr "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
-
-msgid "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"
-msgstr "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"

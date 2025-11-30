@@ -316,7 +316,9 @@ msgstr "_Mantener in execution in fundo"
 #: main/data/preferences_window/general_preferences_page.ui:33
 msgid ""
 "Continue running after closing window to receive notifications immediately"
-msgstr "Continuar executar post clauder fenestra pro reciper notificationes immediatemente"
+msgstr ""
+"Continuar executar post clauder fenestra pro reciper notificationes "
+"immediatemente"
 
 #: main/data/preferences_window/general_preferences_page.ui:41
 msgid "Appearance"
@@ -491,7 +493,9 @@ msgstr "Info:"
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
-msgstr "Tu datos personal (contos, messages, files) es immagazinate separatemente del application."
+msgstr ""
+"Tu datos personal (contos, messages, files) es immagazinate separatemente "
+"del application."
 
 #: main/src/ui/application.vala:361
 msgid "When you update DinoX, your data remains intact."
@@ -499,13 +503,16 @@ msgstr "Quando tu actualisa DinoX, tu datos remane intacte."
 
 #: main/src/ui/application.vala:363
 msgid "Use Settings → General → Backup User Data to create a backup."
-msgstr "Usa Configurationes → General → Copia de securitate pro crear un copia."
+msgstr ""
+"Usa Configurationes → General → Copia de securitate pro crear un copia."
 
 #: main/src/ui/application.vala:405
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
-msgstr "Tu datos personal (contos, messages, files) es immagazinate separatemente del application. Quando tu actualisa DinoX, tu datos remane intacte."
+msgstr ""
+"Tu datos personal (contos, messages, files) es immagazinate separatemente "
+"del application. Quando tu actualisa DinoX, tu datos remane intacte."
 
 #: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
 #: main/src/ui/main_window.vala:159
@@ -515,6 +522,52 @@ msgstr "Clauder"
 #: main/src/ui/application.vala:417
 msgid "Select Backup Location"
 msgstr "Seliger location del copia de securitate"
+
+#: main/src/ui/application.vala
+msgid "Creating Backup..."
+msgstr "Creating Backup..."
+
+#: main/src/ui/application.vala
+msgid "Creating Encrypted Backup..."
+msgstr "Creating Encrypted Backup..."
+
+#: main/src/ui/application.vala
+msgid "Please wait while your data is being backed up."
+msgstr "Please wait while your data is being backed up."
+
+#: main/src/ui/application.vala
+msgid "No data directories found to backup"
+msgstr "No data directories found to backup"
+
+#: main/src/ui/application.vala
+msgid "Backup Created"
+msgstr "Backup Created"
+
+#: main/src/ui/application.vala
+msgid "Encrypted Backup Created"
+msgstr "Encrypted Backup Created"
+
+#: main/src/ui/application.vala
+#, c-format
+msgid "Your backup was created successfully.\\n\\nSize: %s"
+msgstr "Your backup was created successfully.\\n\\nSize: %s"
+
+#: main/src/ui/application.vala
+msgid "Your backup was created successfully."
+msgstr "Your backup was created successfully."
+
+#: main/src/ui/application.vala
+#, c-format
+msgid "Your encrypted backup was created successfully.\\n\\nSize: %s"
+msgstr "Your encrypted backup was created successfully.\\n\\nSize: %s"
+
+#: main/src/ui/application.vala
+msgid "Your encrypted backup was created successfully."
+msgstr "Your encrypted backup was created successfully."
+
+#: main/src/ui/application.vala
+msgid "Backup Failed"
+msgstr "Backup Failed"
 
 #: main/src/ui/application.vala:445
 msgid "Creating backup..."
@@ -1038,7 +1091,10 @@ msgstr "Destruer sala?"
 msgid ""
 "Are you sure you want to permanently destroy this room? This action cannot "
 "be undone and all history will be lost for all participants."
-msgstr "Es tu secur que tu vole destruer permanentemente iste sala? Iste action non pote esser disfacite e tote le historia essera perdite pro tote le participantes."
+msgstr ""
+"Es tu secur que tu vole destruer permanentemente iste sala? Iste action non "
+"pote esser disfacite e tote le historia essera perdite pro tote le "
+"participantes."
 
 #: main/src/ui/conversation_details.vala:250
 msgid "Destroy"
@@ -1237,7 +1293,9 @@ msgstr "Deler tote le historia de messages?"
 msgid ""
 "This will permanently delete all messages in this conversation. This action "
 "cannot be undone."
-msgstr "Isto delera permanentemente tote le messages in iste conversation. Iste action non pote esser disfacite."
+msgstr ""
+"Isto delera permanentemente tote le messages in iste conversation. Iste "
+"action non pote esser disfacite."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:791
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
@@ -1264,7 +1322,9 @@ msgstr "Servitor de conferentia requirite"
 msgid ""
 "To start a group call, you need to configure a default conference server in "
 "your account settings."
-msgstr "Pro initiar un appello de gruppo, tu debe configurar un servitor de conferentia predefinite in tu configurationes de conto."
+msgstr ""
+"Pro initiar un appello de gruppo, tu debe configurar un servitor de "
+"conferentia predefinite in tu configurationes de conto."
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:84
 msgid "Open Settings"
@@ -1484,7 +1544,9 @@ msgstr "Quitar"
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
 "A friendly name shown in room listings (does not change the room address)"
-msgstr "Un nomine amical monstrate in listas de salas (non cambia le adresse del sala)"
+msgstr ""
+"Un nomine amical monstrate in listas de salas (non cambia le adresse del "
+"sala)"
 
 #: main/src/ui/util/data_forms.vala:44
 msgid "Description"
@@ -1538,7 +1600,9 @@ msgstr "Solo membros"
 msgid ""
 "Only members may enter the room. Warning: Non-members will be removed when "
 "enabled!"
-msgstr "Solo membros pote entrar in le sala. Advertimento: Non-membros essera removite quando activate!"
+msgstr ""
+"Solo membros pote entrar in le sala. Advertimento: Non-membros essera "
+"removite quando activate!"
 
 #: main/src/ui/util/helper.vala:65
 #, c-format
@@ -1558,7 +1622,9 @@ msgstr "%a, %b %d"
 msgid ""
 "This contact will be removed from your contact list and all conversation "
 "history will be permanently deleted."
-msgstr "Iste contacto essera removite de tu lista de contactos e tote le historia del conversation essera delite permanentemente."
+msgstr ""
+"Iste contacto essera removite de tu lista de contactos e tote le historia "
+"del conversation essera delite permanentemente."
 
 #: main/src/windows/conversation_details.vala:108
 msgid "Block user"
@@ -1732,7 +1798,9 @@ msgstr "Adde contactos pro comenciar chattar"
 msgid ""
 "This will remove %s from your contact list and delete all conversation "
 "history."
-msgstr "Isto removera %s de tu lista de contactos e delera tote le historia del conversation."
+msgstr ""
+"Isto removera %s de tu lista de contactos e delera tote le historia del "
+"conversation."
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:318
 msgid "Edit Contact Alias"
@@ -1840,7 +1908,6 @@ msgid "Delete ALL data including accounts. This cannot be undone!"
 msgstr "Deler TOTE le datos includente contos. Isto non pote esser disfacite!"
 
 # DinoX v0.7.7 - Additional Backup/Restore strings
-
 msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
 msgstr "Files de backup (*.tar.gz, *.tar.gz.gpg)"
 
@@ -1874,26 +1941,259 @@ msgstr "Reinitialisation del base de datos... DinoX va reinitiar."
 msgid "Encrypted backup created (%s)"
 msgstr "Backup cryptate create (%s)"
 
-msgid "Could not decrypt the backup file.\n\nPlease check if the password is correct."
-msgstr "Non poteva decryptar le file.\n\nVerifica si le contrasigno es correcte."
+msgid ""
+"Could not decrypt the backup file.\n"
+"\n"
+"Please check if the password is correct."
+msgstr ""
+"Non poteva decryptar le file.\n"
+"\n"
+"Verifica si le contrasigno es correcte."
 
-msgid "Could not restore the backup file.\n\nError: %s"
-msgstr "Non poteva restaurar le file.\n\nError: %s"
+msgid ""
+"Could not restore the backup file.\n"
+"\n"
+"Error: %s"
+msgstr ""
+"Non poteva restaurar le file.\n"
+"\n"
+"Error: %s"
 
 msgid "This backup is encrypted. Please enter the password to decrypt it."
 msgstr "Iste backup es cryptate. Entra le contrasigno."
 
-msgid "Enter a password to encrypt the backup.\n\n<b>Important:</b> Remember this password! Without it, the backup cannot be restored."
-msgstr "Entra un contrasigno pro cryptar le backup.\n\n<b>Importante:</b> Memora iste contrasigno! Sin illo, le backup non pote esser restaurate."
+msgid ""
+"Enter a password to encrypt the backup.\n"
+"\n"
+"<b>Important:</b> Remember this password! Without it, the backup cannot be "
+"restored."
+msgstr ""
+"Entra un contrasigno pro cryptar le backup.\n"
+"\n"
+"<b>Importante:</b> Memora iste contrasigno! Sin illo, le backup non pote "
+"esser restaurate."
 
-msgid "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
-msgstr "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
+msgid ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+msgstr ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
 
-msgid "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
-msgstr "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
+msgid ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+msgstr ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
 
-msgid "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
-msgstr "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
+msgid ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+msgstr ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
 
-msgid "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"
-msgstr "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"
+msgid ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+msgstr ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+
+# OpenPGP Key Management
+msgid "OpenPGP Key Management"
+msgstr "OpenPGP Key Management"
+
+msgid "Actions"
+msgstr "Actions"
+
+msgid "Generate New Key"
+msgstr "Generate New Key"
+
+msgid "Import Key"
+msgstr "Import Key"
+
+msgid "Your Keys"
+msgstr "Your Keys"
+
+msgid "Fingerprint"
+msgstr "Fingerprint"
+
+msgid "Export Public Key"
+msgstr "Export Public Key"
+
+msgid "Delete Key"
+msgstr "Delete Key"
+
+msgid "Name"
+msgstr "Name"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Passphrase"
+msgstr "Passphrase"
+
+msgid "Generate"
+msgstr "Generate"
+
+msgid "Select OpenPGP Key"
+msgstr "Select OpenPGP Key"
+
+msgid "Wrong passphrase"
+msgstr "Wrong passphrase"
+
+msgid "Manage Keys"
+msgstr "Manage Keys"
+
+msgid "Announce key"
+msgstr "Announce key"
+
+msgid "Disabled"
+msgstr "Disabled"
+
+msgid "Success"
+msgstr "Success"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Create a new OpenPGP key pair"
+msgstr "Crear un nove par de claves OpenPGP"
+
+msgid "Import a key from file (.asc, .gpg)"
+msgstr "Importar un clave de archivo (.asc, .gpg)"
+
+msgid "Private keys available for signing and decryption"
+msgstr "Claves private disponibile pro signar e decifrar"
+
+msgid "No private keys found"
+msgstr "Nulle claves private trovate"
+
+msgid "Generate or import a key to get started"
+msgstr "Genera o importa un clave pro comenciar"
+
+msgid "Generate New OpenPGP Key"
+msgstr "Generar nove clave OpenPGP"
+
+msgid "Enter your details to create a new key pair."
+msgstr "Insere tu detalios pro crear un nove par de claves."
+
+msgid "Your Name"
+msgstr "Tu nomine"
+
+msgid "you@example.com"
+msgstr "tu@exemplo.com"
+
+msgid "Passphrase (optional)"
+msgstr "Passphrase (optional)"
+
+msgid "4096-bit RSA key, valid for 2 years."
+msgstr "Clave RSA de 4096 bits, valide pro 2 annos."
+
+msgid "Name must be at least 2 characters"
+msgstr "Le nomine debe haber al minus 2 characteres"
+
+msgid "Please enter a valid email address"
+msgstr "Per favor insere un adresse de e-mail valide"
+
+msgid "Generating Key..."
+msgstr "Generante clave..."
+
+msgid "Please wait while your key is being generated. This may take a moment."
+msgstr ""
+"Per favor attende durante que tu clave es generate. Isto pote prender un "
+"momento."
+
+msgid "Key generated successfully!"
+msgstr "Clave generate con successo!"
+
+msgid "Failed to generate key."
+msgstr "Fallite a generar clave."
+
+msgid "Import OpenPGP Key"
+msgstr "Importar clave OpenPGP"
+
+msgid "OpenPGP Keys (*.asc, *.gpg)"
+msgstr "Claves OpenPGP (*.asc, *.gpg)"
+
+msgid "All Files"
+msgstr "Tote le archivos"
+
+msgid "Key imported! Re-open Key Management to see it."
+msgstr "Clave importate! Reaperi Gestion de Claves pro vider lo."
+
+msgid "Import failed: "
+msgstr "Importation fallite: "
+
+msgid "Key exported to: "
+msgstr "Clave exportate a: "
+
+msgid "Export failed."
+msgstr "Exportation fallite."
+
+msgid "Delete Key?"
+msgstr "Deler clave?"
+
+msgid ""
+"Delete this key?\n"
+"\n"
+"%s\n"
+"\n"
+"This cannot be undone!"
+msgstr ""
+"Deler iste clave?\n"
+"\n"
+"%s\n"
+"\n"
+"Isto non pote esser revocar!"
+
+msgid "Key deleted."
+msgstr "Clave delite."
+
+msgid "Delete failed: "
+msgstr "Deletion fallite: "
+
+msgid "Choose a key to announce to your contacts."
+msgstr "Selige un clave pro annunciar a tu contactos."
+
+msgid "Enter GPG passphrase to confirm:"
+msgstr "Insere passphrase GPG pro confirmar:"
+
+msgid "Generate, import, export, or delete keys"
+msgstr "Generar, importar, exportar, o deler claves"
+
+msgid "No keys available. Generate or import one!"
+msgstr "Nulle claves disponibile. Genera o importa un!"
+
+msgid "Error in GnuPG"
+msgstr "Error in GnuPG"

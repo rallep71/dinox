@@ -87,7 +87,7 @@
         </child>
         <child>
           <object class="AdwActionRow" id="data_location_row">
-            <property name="title" translatable="yes">Data Location</property>
+            <property name="title" translatable="yes">Data Storage Location</property>
             <property name="subtitle" translatable="yes">View where your data is stored</property>
             <property name="activatable">True</property>
             <child>
