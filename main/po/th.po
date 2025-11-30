@@ -506,7 +506,9 @@ msgstr "ใช้การตั้งค่า → ทั่วไป → ส�
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
-msgstr "ข้อมูลส่วนบุคคลของคุณ (บัญชี ข้อความ ไฟล์) ถูกจัดเก็บแยกต่างหากจากแอปพลิเคชัน เมื่อคุณอัปเดต DinoX ข้อมูลของคุณจะยังคงสมบูรณ์"
+msgstr ""
+"ข้อมูลส่วนบุคคลของคุณ (บัญชี ข้อความ ไฟล์) ถูกจัดเก็บแยกต่างหากจากแอปพลิเคชัน เมื่อคุณอัปเดต "
+"DinoX ข้อมูลของคุณจะยังคงสมบูรณ์"
 
 #: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
 #: main/src/ui/main_window.vala:159
@@ -516,6 +518,52 @@ msgstr "ปิด"
 #: main/src/ui/application.vala:417
 msgid "Select Backup Location"
 msgstr "เลือกตำแหน่งสำรองข้อมูล"
+
+#: main/src/ui/application.vala
+msgid "Creating Backup..."
+msgstr "Creating Backup..."
+
+#: main/src/ui/application.vala
+msgid "Creating Encrypted Backup..."
+msgstr "Creating Encrypted Backup..."
+
+#: main/src/ui/application.vala
+msgid "Please wait while your data is being backed up."
+msgstr "Please wait while your data is being backed up."
+
+#: main/src/ui/application.vala
+msgid "No data directories found to backup"
+msgstr "No data directories found to backup"
+
+#: main/src/ui/application.vala
+msgid "Backup Created"
+msgstr "Backup Created"
+
+#: main/src/ui/application.vala
+msgid "Encrypted Backup Created"
+msgstr "Encrypted Backup Created"
+
+#: main/src/ui/application.vala
+#, c-format
+msgid "Your backup was created successfully.\\n\\nSize: %s"
+msgstr "Your backup was created successfully.\\n\\nSize: %s"
+
+#: main/src/ui/application.vala
+msgid "Your backup was created successfully."
+msgstr "Your backup was created successfully."
+
+#: main/src/ui/application.vala
+#, c-format
+msgid "Your encrypted backup was created successfully.\\n\\nSize: %s"
+msgstr "Your encrypted backup was created successfully.\\n\\nSize: %s"
+
+#: main/src/ui/application.vala
+msgid "Your encrypted backup was created successfully."
+msgstr "Your encrypted backup was created successfully."
+
+#: main/src/ui/application.vala
+msgid "Backup Failed"
+msgstr "Backup Failed"
 
 #: main/src/ui/application.vala:445
 msgid "Creating backup..."
@@ -1039,7 +1087,9 @@ msgstr "ทำลายห้อง?"
 msgid ""
 "Are you sure you want to permanently destroy this room? This action cannot "
 "be undone and all history will be lost for all participants."
-msgstr "คุณแน่ใจหรือไม่ว่าต้องการทำลายห้องนี้อย่างถาวร? การกระทำนี้ไม่สามารถย้อนกลับได้และประวัติทั้งหมดจะสูญหายสำหรับผู้เข้าร่วมทุกคน"
+msgstr ""
+"คุณแน่ใจหรือไม่ว่าต้องการทำลายห้องนี้อย่างถาวร? "
+"การกระทำนี้ไม่สามารถย้อนกลับได้และประวัติทั้งหมดจะสูญหายสำหรับผู้เข้าร่วมทุกคน"
 
 #: main/src/ui/conversation_details.vala:250
 msgid "Destroy"
@@ -1222,7 +1272,12 @@ msgid ""
 "• Remove %s from your contact list\n"
 "\n"
 "This action cannot be undone."
-msgstr "การดำเนินการนี้จะ:\n• ลบประวัติการสนทนาทั้งหมด\n• ลบ %s ออกจากรายชื่อผู้ติดต่อของคุณ\n\nการดำเนินการนี้ไม่สามารถยกเลิกได้"
+msgstr ""
+"การดำเนินการนี้จะ:\n"
+"• ลบประวัติการสนทนาทั้งหมด\n"
+"• ลบ %s ออกจากรายชื่อผู้ติดต่อของคุณ\n"
+"\n"
+"การดำเนินการนี้ไม่สามารถยกเลิกได้"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:787
 msgid "Delete all message history?"
@@ -1232,7 +1287,8 @@ msgstr "ลบประวัติข้อความทั้งหมด?"
 msgid ""
 "This will permanently delete all messages in this conversation. This action "
 "cannot be undone."
-msgstr "การดำเนินการนี้จะลบข้อความทั้งหมดในการสนทนานี้อย่างถาวร การกระทำนี้ไม่สามารถย้อนกลับได้"
+msgstr ""
+"การดำเนินการนี้จะลบข้อความทั้งหมดในการสนทนานี้อย่างถาวร การกระทำนี้ไม่สามารถย้อนกลับได้"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:791
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
@@ -1259,7 +1315,8 @@ msgstr "ต้องการเซิร์ฟเวอร์ประชุม
 msgid ""
 "To start a group call, you need to configure a default conference server in "
 "your account settings."
-msgstr "หากต้องการเริ่มการโทรกลุ่ม คุณต้องกำหนดค่าเซิร์ฟเวอร์การประชุมเริ่มต้นในการตั้งค่าบัญชีของคุณ"
+msgstr ""
+"หากต้องการเริ่มการโทรกลุ่ม คุณต้องกำหนดค่าเซิร์ฟเวอร์การประชุมเริ่มต้นในการตั้งค่าบัญชีของคุณ"
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:84
 msgid "Open Settings"
@@ -1316,7 +1373,12 @@ msgid ""
 "\n"
 "If you need a password or a nickname, provide them in the dialog. Use the "
 "discovery features in the server to find public rooms."
-msgstr "หากต้องการเข้าร่วมช่อง ให้คลิกปุ่ม \"เข้าร่วมช่อง\" และป้อน JID ของช่อง (ตัวอย่าง: room@conference.example.org)\n\nหากคุณต้องการรหัสผ่านหรือชื่อเล่น ให้ระบุในกล่องโต้ตอบ ใช้คุณสมบัติการค้นหาของเซิร์ฟเวอร์เพื่อค้นหาห้องสาธารณะ"
+msgstr ""
+"หากต้องการเข้าร่วมช่อง ให้คลิกปุ่ม \"เข้าร่วมช่อง\" และป้อน JID ของช่อง (ตัวอย่าง: "
+"room@conference.example.org)\n"
+"\n"
+"หากคุณต้องการรหัสผ่านหรือชื่อเล่น ให้ระบุในกล่องโต้ตอบ "
+"ใช้คุณสมบัติการค้นหาของเซิร์ฟเวอร์เพื่อค้นหาห้องสาธารณะ"
 
 #: main/src/ui/main_window.vala:206
 msgid "Welcome to DinoX!"
@@ -1474,9 +1536,9 @@ msgstr "ออก"
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
 "A friendly name shown in room listings (does not change the room address)"
-msgstr "ชื่อที่เป็นมิตรที่แสดงในรายการห้อง (ไม่เปลี่ยนที่อยู่ห้อง)"
-"ชื่อที่เป็นมิตรแสดงในรายการห้อง (ไม่เปลี่ยนที่อยู่ของห้อง)"
-"ชื่อที่เป็นมิตรแสดงในรายการห้อง (ไม่เปลี่ยนที่อยู่ของห้อง)"
+msgstr ""
+"ชื่อที่เป็นมิตรที่แสดงในรายการห้อง (ไม่เปลี่ยนที่อยู่ห้อง)ชื่อที่เป็นมิตรแสดงในรายการห้อง "
+"(ไม่เปลี่ยนที่อยู่ของห้อง)ชื่อที่เป็นมิตรแสดงในรายการห้อง (ไม่เปลี่ยนที่อยู่ของห้อง)"
 
 #: main/src/ui/util/data_forms.vala:44
 msgid "Description"
@@ -1530,11 +1592,10 @@ msgstr "เฉพาะสมาชิกเท่านั้น"
 msgid ""
 "Only members may enter the room. Warning: Non-members will be removed when "
 "enabled!"
-msgstr "เฉพาะสมาชิกเท่านั้นที่สามารถเข้าห้องได้ คำเตือน: ผู้ที่ไม่ใช่สมาชิกจะถูกลบออกเมื่อเปิดใช้งาน!"
-"เฉพาะสมาชิกเท่านั้นที่สามารถเข้าห้องได้ คำเตือน: ผู้ที่ไม่ใช่สมาชิกจะถูกลบออกเมื่อ"
-"เปิดใช้งาน!"
-"เฉพาะสมาชิกเท่านั้นที่สามารถเข้าห้องได้ คำเตือน: ผู้ที่ไม่ใช่สมาชิกจะถูกลบออกเมื่อ"
-"เปิดใช้งาน!"
+msgstr ""
+"เฉพาะสมาชิกเท่านั้นที่สามารถเข้าห้องได้ คำเตือน: ผู้ที่ไม่ใช่สมาชิกจะถูกลบออกเมื่อเปิดใช้งาน!"
+"เฉพาะสมาชิกเท่านั้นที่สามารถเข้าห้องได้ คำเตือน: ผู้ที่ไม่ใช่สมาชิกจะถูกลบออกเมื่อเปิดใช้งาน!"
+"เฉพาะสมาชิกเท่านั้นที่สามารถเข้าห้องได้ คำเตือน: ผู้ที่ไม่ใช่สมาชิกจะถูกลบออกเมื่อเปิดใช้งาน!"
 
 #: main/src/ui/util/helper.vala:65
 #, c-format
@@ -1743,26 +1804,6 @@ msgstr "เปลี่ยนชื่อที่แสดงสำหรับ
 msgid "Alias (optional)"
 msgstr "นามแฝง (ไม่บังคับ)"
 
-#~ msgid "Message too long"
-#~ msgstr "ข้อความยาวเกินไป"
-
-#, c-format
-#~ msgid "%i min ago"
-#~ msgid_plural "%i mins ago"
-#~ msgstr[0] "%i นาทีที่แล้ว"
-
-#~ msgid "Grant write permission"
-#~ msgstr "อนุญาตเขียนอนุญาต"
-
-#~ msgid "Name of the room"
-#~ msgstr "ชื่อห้อง"
-
-#~ msgid "Only members may enter the room"
-#~ msgstr "เฉพาะสมาชิกเท่านั้นที่สามารถเข้าห้องได้"
-
-#~ msgid "Back"
-#~ msgstr "กลับ"
-
 # DinoX v0.7.7 - Database Maintenance & Backup/Restore
 msgid "Clean Database"
 msgstr "Clean Database"
@@ -1856,7 +1897,6 @@ msgid "Delete ALL data including accounts. This cannot be undone!"
 msgstr "ลบข้อมูลทั้งหมดรวมถึงบัญชี การดำเนินการนี้ไม่สามารถยกเลิกได้!"
 
 # DinoX v0.7.7 - Additional Backup/Restore strings
-
 msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
 msgstr "ไฟล์สำรองข้อมูล (*.tar.gz, *.tar.gz.gpg)"
 
@@ -1890,26 +1930,276 @@ msgstr "กำลังรีเซ็ตฐานข้อมูล... DinoX �
 msgid "Encrypted backup created (%s)"
 msgstr "สร้างสำเนาสำรองที่เข้ารหัสแล้ว (%s)"
 
-msgid "Could not decrypt the backup file.\n\nPlease check if the password is correct."
-msgstr "ไม่สามารถถอดรหัสไฟล์สำรองได้\n\nโปรดตรวจสอบว่ารหัสผ่านถูกต้อง"
+msgid ""
+"Could not decrypt the backup file.\n"
+"\n"
+"Please check if the password is correct."
+msgstr ""
+"ไม่สามารถถอดรหัสไฟล์สำรองได้\n"
+"\n"
+"โปรดตรวจสอบว่ารหัสผ่านถูกต้อง"
 
-msgid "Could not restore the backup file.\n\nError: %s"
-msgstr "ไม่สามารถกู้คืนไฟล์สำรองได้\n\nข้อผิดพลาด: %s"
+msgid ""
+"Could not restore the backup file.\n"
+"\n"
+"Error: %s"
+msgstr ""
+"ไม่สามารถกู้คืนไฟล์สำรองได้\n"
+"\n"
+"ข้อผิดพลาด: %s"
 
 msgid "This backup is encrypted. Please enter the password to decrypt it."
 msgstr "สำเนาสำรองนี้ถูกเข้ารหัส กรุณาใส่รหัสผ่าน"
 
-msgid "Enter a password to encrypt the backup.\n\n<b>Important:</b> Remember this password! Without it, the backup cannot be restored."
-msgstr "ใส่รหัสผ่านเพื่อเข้ารหัสสำเนาสำรอง\n\n<b>สำคัญ:</b> จำรหัสผ่านนี้ไว้! หากไม่มีจะไม่สามารถกู้คืนได้"
+msgid ""
+"Enter a password to encrypt the backup.\n"
+"\n"
+"<b>Important:</b> Remember this password! Without it, the backup cannot be "
+"restored."
+msgstr ""
+"ใส่รหัสผ่านเพื่อเข้ารหัสสำเนาสำรอง\n"
+"\n"
+"<b>สำคัญ:</b> จำรหัสผ่านนี้ไว้! หากไม่มีจะไม่สามารถกู้คืนได้"
 
-msgid "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
-msgstr "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
+msgid ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+msgstr ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
 
-msgid "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
-msgstr "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
+msgid ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+msgstr ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
 
-msgid "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
-msgstr "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
+msgid ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+msgstr ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
 
-msgid "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"
-msgstr "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"
+msgid ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+msgstr ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+
+# OpenPGP Key Management
+msgid "OpenPGP Key Management"
+msgstr "OpenPGP Key Management"
+
+msgid "Actions"
+msgstr "Actions"
+
+msgid "Generate New Key"
+msgstr "Generate New Key"
+
+msgid "Import Key"
+msgstr "Import Key"
+
+msgid "Your Keys"
+msgstr "Your Keys"
+
+msgid "Fingerprint"
+msgstr "Fingerprint"
+
+msgid "Export Public Key"
+msgstr "Export Public Key"
+
+msgid "Delete Key"
+msgstr "Delete Key"
+
+msgid "Name"
+msgstr "Name"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Passphrase"
+msgstr "Passphrase"
+
+msgid "Generate"
+msgstr "Generate"
+
+msgid "Select OpenPGP Key"
+msgstr "Select OpenPGP Key"
+
+msgid "Wrong passphrase"
+msgstr "Wrong passphrase"
+
+msgid "Manage Keys"
+msgstr "Manage Keys"
+
+msgid "Announce key"
+msgstr "Announce key"
+
+msgid "Disabled"
+msgstr "Disabled"
+
+msgid "Success"
+msgstr "Success"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Create a new OpenPGP key pair"
+msgstr "สร้างคู่คีย์ OpenPGP ใหม่"
+
+msgid "Import a key from file (.asc, .gpg)"
+msgstr "นำเข้าคีย์จากไฟล์ (.asc, .gpg)"
+
+msgid "Private keys available for signing and decryption"
+msgstr "คีย์ส่วนตัวที่พร้อมใช้สำหรับการลงนามและถอดรหัส"
+
+msgid "No private keys found"
+msgstr "ไม่พบคีย์ส่วนตัว"
+
+msgid "Generate or import a key to get started"
+msgstr "สร้างหรือนำเข้าคีย์เพื่อเริ่มต้น"
+
+msgid "Generate New OpenPGP Key"
+msgstr "สร้างคีย์ OpenPGP ใหม่"
+
+msgid "Enter your details to create a new key pair."
+msgstr "ใส่รายละเอียดของคุณเพื่อสร้างคู่คีย์ใหม่"
+
+msgid "Your Name"
+msgstr "ชื่อของคุณ"
+
+msgid "you@example.com"
+msgstr "you@example.com"
+
+msgid "Passphrase (optional)"
+msgstr "วลีรหัสผ่าน (ไม่บังคับ)"
+
+msgid "4096-bit RSA key, valid for 2 years."
+msgstr "คีย์ RSA 4096 บิต ใช้ได้ 2 ปี"
+
+msgid "Name must be at least 2 characters"
+msgstr "ชื่อต้องมีอย่างน้อย 2 ตัวอักษร"
+
+msgid "Please enter a valid email address"
+msgstr "กรุณาใส่ที่อยู่อีเมลที่ถูกต้อง"
+
+msgid "Generating Key..."
+msgstr "กำลังสร้างคีย์..."
+
+msgid "Please wait while your key is being generated. This may take a moment."
+msgstr "กรุณารอขณะที่กำลังสร้างคีย์ของคุณ อาจใช้เวลาสักครู่"
+
+msgid "Key generated successfully!"
+msgstr "สร้างคีย์สำเร็จ!"
+
+msgid "Failed to generate key."
+msgstr "ไม่สามารถสร้างคีย์ได้"
+
+msgid "Import OpenPGP Key"
+msgstr "นำเข้าคีย์ OpenPGP"
+
+msgid "OpenPGP Keys (*.asc, *.gpg)"
+msgstr "คีย์ OpenPGP (*.asc, *.gpg)"
+
+msgid "All Files"
+msgstr "ไฟล์ทั้งหมด"
+
+msgid "Key imported! Re-open Key Management to see it."
+msgstr "นำเข้าคีย์แล้ว! เปิดการจัดการคีย์ใหม่เพื่อดู"
+
+msgid "Import failed: "
+msgstr "นำเข้าล้มเหลว: "
+
+msgid "Key exported to: "
+msgstr "ส่งออกคีย์ไปที่: "
+
+msgid "Export failed."
+msgstr "ส่งออกล้มเหลว"
+
+msgid "Delete Key?"
+msgstr "ลบคีย์?"
+
+msgid ""
+"Delete this key?\n"
+"\n"
+"%s\n"
+"\n"
+"This cannot be undone!"
+msgstr ""
+"ลบคีย์นี้?\n"
+"\n"
+"%s\n"
+"\n"
+"ไม่สามารถยกเลิกได้!"
+
+msgid "Key deleted."
+msgstr "ลบคีย์แล้ว"
+
+msgid "Delete failed: "
+msgstr "ลบล้มเหลว: "
+
+msgid "Choose a key to announce to your contacts."
+msgstr "เลือกคีย์เพื่อประกาศให้ผู้ติดต่อของคุณ"
+
+msgid "Enter GPG passphrase to confirm:"
+msgstr "ใส่วลีรหัสผ่าน GPG เพื่อยืนยัน:"
+
+msgid "Generate, import, export, or delete keys"
+msgstr "สร้าง นำเข้า ส่งออก หรือลบคีย์"
+
+msgid "No keys available. Generate or import one!"
+msgstr "ไม่มีคีย์ สร้างหรือนำเข้าคีย์!"
+
+msgid "Error in GnuPG"
+msgstr "ข้อผิดพลาดใน GnuPG"
+
+#~ msgid "Message too long"
+#~ msgstr "ข้อความยาวเกินไป"
+
+#, c-format
+#~ msgid "%i min ago"
+#~ msgid_plural "%i mins ago"
+#~ msgstr[0] "%i นาทีที่แล้ว"
+
+#~ msgid "Grant write permission"
+#~ msgstr "อนุญาตเขียนอนุญาต"
+
+#~ msgid "Name of the room"
+#~ msgstr "ชื่อห้อง"
+
+#~ msgid "Only members may enter the room"
+#~ msgstr "เฉพาะสมาชิกเท่านั้นที่สามารถเข้าห้องได้"
+
+#~ msgid "Back"
+#~ msgstr "กลับ"

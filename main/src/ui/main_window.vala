@@ -98,16 +98,29 @@ public class MainWindow : Adw.ApplicationWindow {
     }
 
     public void restore_window_size() {
+        // Set minimum size to prevent invisible window after factory reset
+        set_size_request(400, 300);
+        
+        // Default size if config values are invalid
+        int width = config.window_width > 0 ? config.window_width : 900;
+        int height = config.window_height > 0 ? config.window_height : 600;
+        
         Gdk.Display? display = Gdk.Display.get_default();
         if (display != null) {
             Gdk.Surface? surface = get_surface();
             Gdk.Monitor? monitor = display.get_monitor_at_surface(surface);
 
             if (monitor != null &&
-                    config.window_width <= monitor.geometry.width &&
-                    config.window_height <= monitor.geometry.height) {
-                set_default_size(config.window_width, config.window_height);
+                    width <= monitor.geometry.width &&
+                    height <= monitor.geometry.height) {
+                set_default_size(width, height);
+            } else {
+                // Fallback to default size
+                set_default_size(900, 600);
             }
+        } else {
+            // No display info, use default size
+            set_default_size(width, height);
         }
         if (config.window_maximize) {
             maximize();

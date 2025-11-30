@@ -209,27 +209,23 @@ public class CertificateManager : Object {
         // GLib.TlsCertificate doesn't expose issuer directly
         // We need to parse the certificate data
         // For now, return the issuer name from the certificate if available
-        try {
-            var issuer = cert.issuer_name;
-            if (issuer != null && issuer.length > 0) {
-                // Extract CN or O from the DN
-                string[] parts = issuer.split(",");
-                foreach (string part in parts) {
-                    string trimmed = part.strip();
-                    if (trimmed.has_prefix("CN=")) {
-                        return trimmed.substring(3);
-                    }
+        var issuer = cert.issuer_name;
+        if (issuer != null && issuer.length > 0) {
+            // Extract CN or O from the DN
+            string[] parts = issuer.split(",");
+            foreach (string part in parts) {
+                string trimmed = part.strip();
+                if (trimmed.has_prefix("CN=")) {
+                    return trimmed.substring(3);
                 }
-                foreach (string part in parts) {
-                    string trimmed = part.strip();
-                    if (trimmed.has_prefix("O=")) {
-                        return trimmed.substring(2);
-                    }
-                }
-                return issuer;
             }
-        } catch (Error e) {
-            debug("Could not get certificate issuer: %s", e.message);
+            foreach (string part in parts) {
+                string trimmed = part.strip();
+                if (trimmed.has_prefix("O=")) {
+                    return trimmed.substring(2);
+                }
+            }
+            return issuer;
         }
         return null;
     }
@@ -238,22 +234,14 @@ public class CertificateManager : Object {
      * Get certificate validity start date.
      */
     public static DateTime? get_certificate_not_before(TlsCertificate cert) {
-        try {
-            return cert.not_valid_before;
-        } catch (Error e) {
-            return null;
-        }
+        return cert.not_valid_before;
     }
 
     /**
      * Get certificate validity end date.
      */
     public static DateTime? get_certificate_not_after(TlsCertificate cert) {
-        try {
-            return cert.not_valid_after;
-        } catch (Error e) {
-            return null;
-        }
+        return cert.not_valid_after;
     }
 
     /**

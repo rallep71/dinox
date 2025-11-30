@@ -317,8 +317,9 @@ msgstr "_Käivita taustal"
 #: main/data/preferences_window/general_preferences_page.ui:33
 msgid ""
 "Continue running after closing window to receive notifications immediately"
-msgstr "Jätka töötamist pärast akna sulgemist, et saada teateid kohe"
-"Jätka töötamist pärast akna sulgemist, et saada teateid kohe"
+msgstr ""
+"Jätka töötamist pärast akna sulgemist, et saada teateid koheJätka töötamist "
+"pärast akna sulgemist, et saada teateid kohe"
 
 #: main/data/preferences_window/general_preferences_page.ui:41
 msgid "Appearance"
@@ -493,7 +494,8 @@ msgstr "Info:"
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
-msgstr "Teie isikuandmed (kontod, sõnumid, failid) salvestatakse rakendusest eraldi."
+msgstr ""
+"Teie isikuandmed (kontod, sõnumid, failid) salvestatakse rakendusest eraldi."
 
 #: main/src/ui/application.vala:361
 msgid "When you update DinoX, your data remains intact."
@@ -501,15 +503,18 @@ msgstr "Kui värskendate DinoX-i, jäävad teie andmed puutumatuks."
 
 #: main/src/ui/application.vala:363
 msgid "Use Settings → General → Backup User Data to create a backup."
-msgstr "Varukoopia loomiseks kasutage Seaded → Üldine → Kasutaja andmete varundamine."
+msgstr ""
+"Varukoopia loomiseks kasutage Seaded → Üldine → Kasutaja andmete varundamine."
 
 #: main/src/ui/application.vala:405
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
-msgstr "Teie isikuandmed (kontod, sõnumid, failid) salvestatakse rakendusest eraldi. Kui värskendate DinoX-i, jäävad teie andmed puutumatuks."
+msgstr ""
 "Teie isikuandmed (kontod, sõnumid, failid) salvestatakse rakendusest eraldi. "
-"DinoX-i värskendamisel jäävad teie andmed puutumata."
+"Kui värskendate DinoX-i, jäävad teie andmed puutumatuks.Teie isikuandmed "
+"(kontod, sõnumid, failid) salvestatakse rakendusest eraldi. DinoX-i "
+"värskendamisel jäävad teie andmed puutumata."
 
 #: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
 #: main/src/ui/main_window.vala:159
@@ -519,6 +524,52 @@ msgstr "Sulge"
 #: main/src/ui/application.vala:417
 msgid "Select Backup Location"
 msgstr "Valige varukoopia asukoht"
+
+#: main/src/ui/application.vala
+msgid "Creating Backup..."
+msgstr "Creating Backup..."
+
+#: main/src/ui/application.vala
+msgid "Creating Encrypted Backup..."
+msgstr "Creating Encrypted Backup..."
+
+#: main/src/ui/application.vala
+msgid "Please wait while your data is being backed up."
+msgstr "Please wait while your data is being backed up."
+
+#: main/src/ui/application.vala
+msgid "No data directories found to backup"
+msgstr "No data directories found to backup"
+
+#: main/src/ui/application.vala
+msgid "Backup Created"
+msgstr "Backup Created"
+
+#: main/src/ui/application.vala
+msgid "Encrypted Backup Created"
+msgstr "Encrypted Backup Created"
+
+#: main/src/ui/application.vala
+#, c-format
+msgid "Your backup was created successfully.\\n\\nSize: %s"
+msgstr "Your backup was created successfully.\\n\\nSize: %s"
+
+#: main/src/ui/application.vala
+msgid "Your backup was created successfully."
+msgstr "Your backup was created successfully."
+
+#: main/src/ui/application.vala
+#, c-format
+msgid "Your encrypted backup was created successfully.\\n\\nSize: %s"
+msgstr "Your encrypted backup was created successfully.\\n\\nSize: %s"
+
+#: main/src/ui/application.vala
+msgid "Your encrypted backup was created successfully."
+msgstr "Your encrypted backup was created successfully."
+
+#: main/src/ui/application.vala
+msgid "Backup Failed"
+msgstr "Backup Failed"
 
 #: main/src/ui/application.vala:445
 msgid "Creating backup..."
@@ -1042,9 +1093,11 @@ msgstr "Hävita tuba?"
 msgid ""
 "Are you sure you want to permanently destroy this room? This action cannot "
 "be undone and all history will be lost for all participants."
-msgstr "Kas olete kindel, et soovite selle ruumi jäädavalt hävitada? Seda toimingut ei saa tagasi võtta ja kogu ajalugu läheb kõigi osalejate jaoks kaduma."
-"Kas olete kindel, et soovite selle ruumi jäädavalt hävitada? Seda toimingut ei saa "
-"tagasi võtta ja kogu ajalugu kaob kõigi osalejate jaoks."
+msgstr ""
+"Kas olete kindel, et soovite selle ruumi jäädavalt hävitada? Seda toimingut "
+"ei saa tagasi võtta ja kogu ajalugu läheb kõigi osalejate jaoks kaduma.Kas "
+"olete kindel, et soovite selle ruumi jäädavalt hävitada? Seda toimingut ei "
+"saa tagasi võtta ja kogu ajalugu kaob kõigi osalejate jaoks."
 
 #: main/src/ui/conversation_details.vala:250
 msgid "Destroy"
@@ -1227,7 +1280,12 @@ msgid ""
 "• Remove %s from your contact list\n"
 "\n"
 "This action cannot be undone."
-msgstr "See:\n• Kustutab kogu vestlusajaloo\n• Eemaldab kasutaja %s sinu kontaktiloendist\n\nSeda toimingut ei saa tagasi võtta."
+msgstr ""
+"See:\n"
+"• Kustutab kogu vestlusajaloo\n"
+"• Eemaldab kasutaja %s sinu kontaktiloendist\n"
+"\n"
+"Seda toimingut ei saa tagasi võtta."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:787
 msgid "Delete all message history?"
@@ -1237,7 +1295,9 @@ msgstr "Kustuta kogu sõnumite ajalugu?"
 msgid ""
 "This will permanently delete all messages in this conversation. This action "
 "cannot be undone."
-msgstr "See kustutab jäädavalt kõik sõnumid selles vestluses. Seda toimingut ei saa tagasi võtta."
+msgstr ""
+"See kustutab jäädavalt kõik sõnumid selles vestluses. Seda toimingut ei saa "
+"tagasi võtta."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:791
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
@@ -1264,7 +1324,9 @@ msgstr "Vajalik on konverentsiserver"
 msgid ""
 "To start a group call, you need to configure a default conference server in "
 "your account settings."
-msgstr "Rühmakõne alustamiseks peate konto seadetes seadistama vaikimisi konverentsiserveri."
+msgstr ""
+"Rühmakõne alustamiseks peate konto seadetes seadistama vaikimisi "
+"konverentsiserveri."
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:84
 msgid "Open Settings"
@@ -1321,7 +1383,12 @@ msgid ""
 "\n"
 "If you need a password or a nickname, provide them in the dialog. Use the "
 "discovery features in the server to find public rooms."
-msgstr "Kanalile liitumiseks klõpsa nuppu \"Liitu kanaliga\" ja sisesta kanali JID (näide: room@conference.example.org).\n\nKui vajad parooli või hüüdnime, sisesta need dialoogis. Kasuta serveri avastamisfunktsioone avalike tubade leidmiseks."
+msgstr ""
+"Kanalile liitumiseks klõpsa nuppu \"Liitu kanaliga\" ja sisesta kanali JID "
+"(näide: room@conference.example.org).\n"
+"\n"
+"Kui vajad parooli või hüüdnime, sisesta need dialoogis. Kasuta serveri "
+"avastamisfunktsioone avalike tubade leidmiseks."
 
 #: main/src/ui/main_window.vala:206
 msgid "Welcome to DinoX!"
@@ -1479,9 +1546,10 @@ msgstr "Välju"
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
 "A friendly name shown in room listings (does not change the room address)"
-msgstr "Sõbralik nimi, mida kuvatakse tubade nimekirjas (ei muuda toa aadressi)"
-"Sõbralik nimi, mis kuvatakse ruumi nimekirjades (ei muuda ruumi aadressi)"
-"Sõbralik nimi ruumide loendites (ei muuda ruumi aadressi)"
+msgstr ""
+"Sõbralik nimi, mida kuvatakse tubade nimekirjas (ei muuda toa "
+"aadressi)Sõbralik nimi, mis kuvatakse ruumi nimekirjades (ei muuda ruumi "
+"aadressi)Sõbralik nimi ruumide loendites (ei muuda ruumi aadressi)"
 
 #: main/src/ui/util/data_forms.vala:44
 msgid "Description"
@@ -1535,7 +1603,9 @@ msgstr "Ainult liikmetele"
 msgid ""
 "Only members may enter the room. Warning: Non-members will be removed when "
 "enabled!"
-msgstr "Ainult liikmed võivad ruumi siseneda. Hoiatus: Mitteliikmed eemaldatakse kui lubatud!"
+msgstr ""
+"Ainult liikmed võivad ruumi siseneda. Hoiatus: Mitteliikmed eemaldatakse kui "
+"lubatud!"
 
 #: main/src/ui/util/helper.vala:65
 #, c-format
@@ -1555,7 +1625,9 @@ msgstr "%a, %d. %b"
 msgid ""
 "This contact will be removed from your contact list and all conversation "
 "history will be permanently deleted."
-msgstr "See kontakt eemaldatakse sinu kontaktiloendist ja kogu vestlusajalugu kustutatakse jäädavalt."
+msgstr ""
+"See kontakt eemaldatakse sinu kontaktiloendist ja kogu vestlusajalugu "
+"kustutatakse jäädavalt."
 
 #: main/src/windows/conversation_details.vala:108
 msgid "Block user"
@@ -1729,9 +1801,10 @@ msgstr "Lisa kontakte, et alustada vestlust"
 msgid ""
 "This will remove %s from your contact list and delete all conversation "
 "history."
-msgstr "See eemaldab kasutaja %s sinu kontaktiloendist ja kustutab kogu vestlusajaloo."
-"%s eemaldatakse sinu kontaktide nimekirjast ja kogu vestluste ajalugu "
-"kustutatakse."
+msgstr ""
+"See eemaldab kasutaja %s sinu kontaktiloendist ja kustutab kogu "
+"vestlusajaloo.%s eemaldatakse sinu kontaktide nimekirjast ja kogu vestluste "
+"ajalugu kustutatakse."
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:318
 msgid "Edit Contact Alias"
@@ -1745,6 +1818,388 @@ msgstr "Muuda %s kuvatavat nime"
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:325
 msgid "Alias (optional)"
 msgstr "Alias (valikuline)"
+
+# DinoX v0.7.7 - Database Maintenance & Backup/Restore
+msgid "Clean Database"
+msgstr "Clean Database"
+
+msgid "Reset Database"
+msgstr "Reset Database"
+
+msgid "Restore Complete!"
+msgstr "Restore Complete!"
+
+msgid "Restore Failed"
+msgstr "Restore Failed"
+
+msgid "Decrypting Backup..."
+msgstr "Decrypting Backup..."
+
+msgid "Restoring Backup..."
+msgstr "Restoring Backup..."
+
+msgid "Set Backup Password"
+msgstr "Set Backup Password"
+
+msgid "Confirm Password"
+msgstr "Confirm Password"
+
+msgid "Create Encrypted Backup"
+msgstr "Create Encrypted Backup"
+
+msgid "Password too short"
+msgstr "Password too short"
+
+msgid "Passwords do not match"
+msgstr "Passwords do not match"
+
+msgid "✓ Passwords match"
+msgstr "✓ Passwords match"
+
+msgid "Encrypting Backup..."
+msgstr "Encrypting Backup..."
+
+msgid "Factory Reset"
+msgstr "Factory Reset"
+
+msgid "Restore from Backup"
+msgstr "Restore from Backup"
+
+msgid "Restore Backup"
+msgstr "Restore Backup"
+
+msgid "Select Backup File"
+msgstr "Select Backup File"
+
+msgid "Enter Backup Password"
+msgstr "Enter Backup Password"
+
+msgid "Decrypt & Restore"
+msgstr "Decrypt & Restore"
+
+msgid "Create Backup First"
+msgstr "Create Backup First"
+
+msgid "No Encryption"
+msgstr "No Encryption"
+
+msgid "Encrypt with Password"
+msgstr "Encrypt with Password"
+
+msgid "Delete Everything"
+msgstr "Delete Everything"
+
+msgid "Confirm Delete"
+msgstr "Confirm Delete"
+
+msgid "Are you absolutely sure?"
+msgstr "Are you absolutely sure?"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "Andmebaasi hooldus"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "Taasta kontod, sõnumid ja seaded varukoopiast"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr ""
+"Kustuta kõik sõnumid, failid ja OMEMO võtmed. Teie kontod jäävad alles."
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr "Kustuta KÕIK andmed, sealhulgas kontod. Seda ei saa tagasi võtta!"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "Varukoopiafailid (*.tar.gz, *.tar.gz.gpg)"
+
+msgid "Creating encrypted backup..."
+msgstr "Krüpteeritud varukoopia loomine..."
+
+msgid "Decryption Failed"
+msgstr "Dekrüpteerimine ebaõnnestus"
+
+msgid "DinoX will now restart..."
+msgstr "DinoX taaskäivitub nüüd..."
+
+msgid "Encrypted backup created successfully"
+msgstr "Krüpteeritud varukoopia edukalt loodud"
+
+msgid "Password (minimum 4 characters)"
+msgstr "Parool (vähemalt 4 tähemärki)"
+
+msgid "Decrypting encrypted backup file..."
+msgstr "Varukoopia faili dekrüpteerimine..."
+
+msgid "Extracting files from backup..."
+msgstr "Failide ekstraktimine varukoopiast..."
+
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "Tehaseseadete taastamine... DinoX taaskäivitub."
+
+msgid "Resetting database... DinoX will restart."
+msgstr "Andmebaasi lähtestamine... DinoX taaskäivitub."
+
+msgid "Encrypted backup created (%s)"
+msgstr "Krüpteeritud varukoopia loodud (%s)"
+
+msgid ""
+"Could not decrypt the backup file.\n"
+"\n"
+"Please check if the password is correct."
+msgstr ""
+"Varukoopia faili ei saanud dekrüpteerida.\n"
+"\n"
+"Palun kontrollige, kas parool on õige."
+
+msgid ""
+"Could not restore the backup file.\n"
+"\n"
+"Error: %s"
+msgstr ""
+"Varukoopia faili ei saanud taastada.\n"
+"\n"
+"Viga: %s"
+
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "See varukoopia on krüpteeritud. Sisestage parool dekrüpteerimiseks."
+
+msgid ""
+"Enter a password to encrypt the backup.\n"
+"\n"
+"<b>Important:</b> Remember this password! Without it, the backup cannot be "
+"restored."
+msgstr ""
+"Sisestage parool varukoopia krüpteerimiseks.\n"
+"\n"
+"<b>Oluline:</b> Pidage seda parooli meeles! Ilma selleta ei saa varukoopiat "
+"taastada."
+
+msgid ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+msgstr ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+
+msgid ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+msgstr ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+
+msgid ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+msgstr ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+
+msgid ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+msgstr ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+
+# OpenPGP Key Management
+msgid "OpenPGP Key Management"
+msgstr "OpenPGP Key Management"
+
+msgid "Actions"
+msgstr "Actions"
+
+msgid "Generate New Key"
+msgstr "Generate New Key"
+
+msgid "Import Key"
+msgstr "Import Key"
+
+msgid "Your Keys"
+msgstr "Your Keys"
+
+msgid "Fingerprint"
+msgstr "Fingerprint"
+
+msgid "Export Public Key"
+msgstr "Export Public Key"
+
+msgid "Delete Key"
+msgstr "Delete Key"
+
+msgid "Name"
+msgstr "Name"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Passphrase"
+msgstr "Passphrase"
+
+msgid "Generate"
+msgstr "Generate"
+
+msgid "Select OpenPGP Key"
+msgstr "Select OpenPGP Key"
+
+msgid "Wrong passphrase"
+msgstr "Wrong passphrase"
+
+msgid "Manage Keys"
+msgstr "Manage Keys"
+
+msgid "Announce key"
+msgstr "Announce key"
+
+msgid "Disabled"
+msgstr "Disabled"
+
+msgid "Success"
+msgstr "Success"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Create a new OpenPGP key pair"
+msgstr "Loo uus OpenPGP võtmepaar"
+
+msgid "Import a key from file (.asc, .gpg)"
+msgstr "Impordi võti failist (.asc, .gpg)"
+
+msgid "Private keys available for signing and decryption"
+msgstr "Allkirjastamiseks ja dekrüpteerimiseks saadaolevad privaatvõtmed"
+
+msgid "No private keys found"
+msgstr "Privaatvõtmeid ei leitud"
+
+msgid "Generate or import a key to get started"
+msgstr "Alustamiseks loo või impordi võti"
+
+msgid "Generate New OpenPGP Key"
+msgstr "Loo uus OpenPGP võti"
+
+msgid "Enter your details to create a new key pair."
+msgstr "Sisesta oma andmed uue võtmepaari loomiseks."
+
+msgid "Your Name"
+msgstr "Sinu nimi"
+
+msgid "you@example.com"
+msgstr "sina@näide.ee"
+
+msgid "Passphrase (optional)"
+msgstr "Parool (valikuline)"
+
+msgid "4096-bit RSA key, valid for 2 years."
+msgstr "4096-bitine RSA võti, kehtib 2 aastat."
+
+msgid "Name must be at least 2 characters"
+msgstr "Nimi peab olema vähemalt 2 tähemärki"
+
+msgid "Please enter a valid email address"
+msgstr "Palun sisesta kehtiv e-posti aadress"
+
+msgid "Generating Key..."
+msgstr "Võtme loomine..."
+
+msgid "Please wait while your key is being generated. This may take a moment."
+msgstr "Palun oota, võtit luuakse. See võib võtta hetke."
+
+msgid "Key generated successfully!"
+msgstr "Võti loodud edukalt!"
+
+msgid "Failed to generate key."
+msgstr "Võtme loomine ebaõnnestus."
+
+msgid "Import OpenPGP Key"
+msgstr "Impordi OpenPGP võti"
+
+msgid "OpenPGP Keys (*.asc, *.gpg)"
+msgstr "OpenPGP võtmed (*.asc, *.gpg)"
+
+msgid "All Files"
+msgstr "Kõik failid"
+
+msgid "Key imported! Re-open Key Management to see it."
+msgstr "Võti imporditud! Ava võtmehaldus uuesti, et seda näha."
+
+msgid "Import failed: "
+msgstr "Importimine ebaõnnestus: "
+
+msgid "Key exported to: "
+msgstr "Võti eksporditud: "
+
+msgid "Export failed."
+msgstr "Eksportimine ebaõnnestus."
+
+msgid "Delete Key?"
+msgstr "Kustuta võti?"
+
+msgid ""
+"Delete this key?\n"
+"\n"
+"%s\n"
+"\n"
+"This cannot be undone!"
+msgstr ""
+"Kustuta see võti?\n"
+"\n"
+"%s\n"
+"\n"
+"Seda ei saa tagasi võtta!"
+
+msgid "Key deleted."
+msgstr "Võti kustutatud."
+
+msgid "Delete failed: "
+msgstr "Kustutamine ebaõnnestus: "
+
+msgid "Choose a key to announce to your contacts."
+msgstr "Vali võti, mida kontaktidele teatada."
+
+msgid "Enter GPG passphrase to confirm:"
+msgstr "Sisesta GPG parool kinnitamiseks:"
+
+msgid "Generate, import, export, or delete keys"
+msgstr "Loo, impordi, ekspordi või kustuta võtmeid"
+
+msgid "No keys available. Generate or import one!"
+msgstr "Võtmeid pole saadaval. Loo või impordi üks!"
+
+msgid "Error in GnuPG"
+msgstr "Viga GnuPG-s"
 
 #~ msgid "Message too long"
 #~ msgstr "Sõnum on liiga pikk"
@@ -1874,154 +2329,3 @@ msgstr "Alias (valikuline)"
 
 #~ msgid "Pick another server"
 #~ msgstr "Vali mõni muu server"
-
-# DinoX v0.7.7 - Database Maintenance & Backup/Restore
-msgid "Clean Database"
-msgstr "Clean Database"
-
-msgid "Reset Database"
-msgstr "Reset Database"
-
-msgid "Restore Complete!"
-msgstr "Restore Complete!"
-
-msgid "Restore Failed"
-msgstr "Restore Failed"
-
-msgid "Decrypting Backup..."
-msgstr "Decrypting Backup..."
-
-msgid "Restoring Backup..."
-msgstr "Restoring Backup..."
-
-msgid "Set Backup Password"
-msgstr "Set Backup Password"
-
-msgid "Confirm Password"
-msgstr "Confirm Password"
-
-msgid "Create Encrypted Backup"
-msgstr "Create Encrypted Backup"
-
-msgid "Password too short"
-msgstr "Password too short"
-
-msgid "Passwords do not match"
-msgstr "Passwords do not match"
-
-msgid "✓ Passwords match"
-msgstr "✓ Passwords match"
-
-msgid "Encrypting Backup..."
-msgstr "Encrypting Backup..."
-
-msgid "Factory Reset"
-msgstr "Factory Reset"
-
-msgid "Restore from Backup"
-msgstr "Restore from Backup"
-
-msgid "Restore Backup"
-msgstr "Restore Backup"
-
-msgid "Select Backup File"
-msgstr "Select Backup File"
-
-msgid "Enter Backup Password"
-msgstr "Enter Backup Password"
-
-msgid "Decrypt & Restore"
-msgstr "Decrypt & Restore"
-
-msgid "Create Backup First"
-msgstr "Create Backup First"
-
-msgid "No Encryption"
-msgstr "No Encryption"
-
-msgid "Encrypt with Password"
-msgstr "Encrypt with Password"
-
-msgid "Delete Everything"
-msgstr "Delete Everything"
-
-msgid "Confirm Delete"
-msgstr "Confirm Delete"
-
-msgid "Are you absolutely sure?"
-msgstr "Are you absolutely sure?"
-
-#: main/data/preferences_window/general_preferences_page.ui:104
-msgid "Database Maintenance"
-msgstr "Andmebaasi hooldus"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Restore accounts, messages and settings from a backup file"
-msgstr "Taasta kontod, sõnumid ja seaded varukoopiast"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
-msgstr "Kustuta kõik sõnumid, failid ja OMEMO võtmed. Teie kontod jäävad alles."
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete ALL data including accounts. This cannot be undone!"
-msgstr "Kustuta KÕIK andmed, sealhulgas kontod. Seda ei saa tagasi võtta!"
-
-# DinoX v0.7.7 - Additional Backup/Restore strings
-
-msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
-msgstr "Varukoopiafailid (*.tar.gz, *.tar.gz.gpg)"
-
-msgid "Creating encrypted backup..."
-msgstr "Krüpteeritud varukoopia loomine..."
-
-msgid "Decryption Failed"
-msgstr "Dekrüpteerimine ebaõnnestus"
-
-msgid "DinoX will now restart..."
-msgstr "DinoX taaskäivitub nüüd..."
-
-msgid "Encrypted backup created successfully"
-msgstr "Krüpteeritud varukoopia edukalt loodud"
-
-msgid "Password (minimum 4 characters)"
-msgstr "Parool (vähemalt 4 tähemärki)"
-
-msgid "Decrypting encrypted backup file..."
-msgstr "Varukoopia faili dekrüpteerimine..."
-
-msgid "Extracting files from backup..."
-msgstr "Failide ekstraktimine varukoopiast..."
-
-msgid "Factory reset in progress... DinoX will restart."
-msgstr "Tehaseseadete taastamine... DinoX taaskäivitub."
-
-msgid "Resetting database... DinoX will restart."
-msgstr "Andmebaasi lähtestamine... DinoX taaskäivitub."
-
-msgid "Encrypted backup created (%s)"
-msgstr "Krüpteeritud varukoopia loodud (%s)"
-
-msgid "Could not decrypt the backup file.\n\nPlease check if the password is correct."
-msgstr "Varukoopia faili ei saanud dekrüpteerida.\n\nPalun kontrollige, kas parool on õige."
-
-msgid "Could not restore the backup file.\n\nError: %s"
-msgstr "Varukoopia faili ei saanud taastada.\n\nViga: %s"
-
-msgid "This backup is encrypted. Please enter the password to decrypt it."
-msgstr "See varukoopia on krüpteeritud. Sisestage parool dekrüpteerimiseks."
-
-msgid "Enter a password to encrypt the backup.\n\n<b>Important:</b> Remember this password! Without it, the backup cannot be restored."
-msgstr "Sisestage parool varukoopia krüpteerimiseks.\n\n<b>Oluline:</b> Pidage seda parooli meeles! Ilma selleta ei saa varukoopiat taastada."
-
-msgid "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
-msgstr "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
-
-msgid "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
-msgstr "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
-
-msgid "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
-msgstr "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
-
-msgid "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"
-msgstr "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"

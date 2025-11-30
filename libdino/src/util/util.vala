@@ -53,7 +53,7 @@ public class SearchPathGenerator {
         if (Environment.get_variable("DINO_PLUGIN_DIR") != null) {
             search_paths += Environment.get_variable("DINO_PLUGIN_DIR");
         }
-        search_paths += Path.build_filename(Environment.get_home_dir(), ".local", "lib", "dino", "plugins");
+        search_paths += Path.build_filename(Environment.get_home_dir(), ".local", "lib", "dinox", "plugins");
         string? exec_path = this.exec_path;
         if (exec_path != null) {
             if (!exec_path.contains(Path.DIR_SEPARATOR_S)) {
@@ -83,7 +83,7 @@ public class SearchPathGenerator {
                 }
             }
             if (Path.get_basename(dirname) == "bin") {
-                search_paths += Path.build_filename(Path.get_dirname(Path.get_dirname(exec_path)), SYSTEM_LIBDIR_NAME, "dino", "plugins");
+                search_paths += Path.build_filename(Path.get_dirname(Path.get_dirname(exec_path)), SYSTEM_LIBDIR_NAME, "dinox", "plugins");
             }
         }
         search_paths += SYSTEM_PLUGIN_DIR;
@@ -92,11 +92,11 @@ public class SearchPathGenerator {
 }
 
 public static string get_storage_dir() {
-    return Path.build_filename(Environment.get_user_data_dir(), "dino");
+    return Path.build_filename(Environment.get_user_data_dir(), "dinox");
 }
 
 public static string get_cache_dir() {
-    return Path.build_filename(Environment.get_user_cache_dir(), "dino");
+    return Path.build_filename(Environment.get_user_cache_dir(), "dinox");
 }
 
 [CCode (cname = "dino_gettext", cheader_filename = "dino_i18n.h")]

@@ -318,8 +318,9 @@ msgstr "_Працювати у фоні"
 #: main/data/preferences_window/general_preferences_page.ui:33
 msgid ""
 "Continue running after closing window to receive notifications immediately"
-msgstr "Продовжувати роботу після закриття вікна для негайного отримання сповіщень"
-"Продовжувати роботу після закриття вікна для отримання сповіщень"
+msgstr ""
+"Продовжувати роботу після закриття вікна для негайного отримання "
+"сповіщеньПродовжувати роботу після закриття вікна для отримання сповіщень"
 
 #: main/data/preferences_window/general_preferences_page.ui:41
 msgid "Appearance"
@@ -494,7 +495,9 @@ msgstr "Інфо:"
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
-msgstr "Ваші особисті дані (облікові записи, повідомлення, файли) зберігаються окремо від програми."
+msgstr ""
+"Ваші особисті дані (облікові записи, повідомлення, файли) зберігаються "
+"окремо від програми."
 
 #: main/src/ui/application.vala:361
 msgid "When you update DinoX, your data remains intact."
@@ -502,15 +505,19 @@ msgstr "При оновленні DinoX ваші дані зберігаютьс
 
 #: main/src/ui/application.vala:363
 msgid "Use Settings → General → Backup User Data to create a backup."
-msgstr "Використовуйте Налаштування → Загальні → Резервна копія для створення бекапу."
+msgstr ""
+"Використовуйте Налаштування → Загальні → Резервна копія для створення бекапу."
 
 #: main/src/ui/application.vala:405
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
-msgstr "Ваші особисті дані (облікові записи, повідомлення, файли) зберігаються окремо від програми. Коли ви оновлюєте DinoX, ваші дані залишаються недоторканими."
-"Ваші особисті дані (облікові записи, повідомлення, файли) зберігаються окремо від "
-"програми. При оновленні DinoX ваші дані залишаються недоторканими."
+msgstr ""
+"Ваші особисті дані (облікові записи, повідомлення, файли) зберігаються "
+"окремо від програми. Коли ви оновлюєте DinoX, ваші дані залишаються "
+"недоторканими.Ваші особисті дані (облікові записи, повідомлення, файли) "
+"зберігаються окремо від програми. При оновленні DinoX ваші дані залишаються "
+"недоторканими."
 
 #: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
 #: main/src/ui/main_window.vala:159
@@ -520,6 +527,52 @@ msgstr "Закрити"
 #: main/src/ui/application.vala:417
 msgid "Select Backup Location"
 msgstr "Вибрати місце для бекапу"
+
+#: main/src/ui/application.vala
+msgid "Creating Backup..."
+msgstr "Creating Backup..."
+
+#: main/src/ui/application.vala
+msgid "Creating Encrypted Backup..."
+msgstr "Creating Encrypted Backup..."
+
+#: main/src/ui/application.vala
+msgid "Please wait while your data is being backed up."
+msgstr "Please wait while your data is being backed up."
+
+#: main/src/ui/application.vala
+msgid "No data directories found to backup"
+msgstr "No data directories found to backup"
+
+#: main/src/ui/application.vala
+msgid "Backup Created"
+msgstr "Backup Created"
+
+#: main/src/ui/application.vala
+msgid "Encrypted Backup Created"
+msgstr "Encrypted Backup Created"
+
+#: main/src/ui/application.vala
+#, c-format
+msgid "Your backup was created successfully.\\n\\nSize: %s"
+msgstr "Your backup was created successfully.\\n\\nSize: %s"
+
+#: main/src/ui/application.vala
+msgid "Your backup was created successfully."
+msgstr "Your backup was created successfully."
+
+#: main/src/ui/application.vala
+#, c-format
+msgid "Your encrypted backup was created successfully.\\n\\nSize: %s"
+msgstr "Your encrypted backup was created successfully.\\n\\nSize: %s"
+
+#: main/src/ui/application.vala
+msgid "Your encrypted backup was created successfully."
+msgstr "Your encrypted backup was created successfully."
+
+#: main/src/ui/application.vala
+msgid "Backup Failed"
+msgstr "Backup Failed"
 
 #: main/src/ui/application.vala:445
 msgid "Creating backup..."
@@ -1043,9 +1096,11 @@ msgstr "Знищити кімнату?"
 msgid ""
 "Are you sure you want to permanently destroy this room? This action cannot "
 "be undone and all history will be lost for all participants."
-msgstr "Ви впевнені, що хочете назавжди знищити цю кімнату? Цю дію не можна скасувати, і вся історія буде втрачена для всіх учасників."
-"Ви впевнені, що хочете назавжди знищити цю кімнату? Цю дію неможливо "
-"скасувати, і вся історія буде втрачена для всіх учасників."
+msgstr ""
+"Ви впевнені, що хочете назавжди знищити цю кімнату? Цю дію не можна "
+"скасувати, і вся історія буде втрачена для всіх учасників.Ви впевнені, що "
+"хочете назавжди знищити цю кімнату? Цю дію неможливо скасувати, і вся "
+"історія буде втрачена для всіх учасників."
 
 #: main/src/ui/conversation_details.vala:250
 msgid "Destroy"
@@ -1228,7 +1283,12 @@ msgid ""
 "• Remove %s from your contact list\n"
 "\n"
 "This action cannot be undone."
-msgstr "Це:\n• Видалить всю історію розмов\n• Видалить %s з вашого списку контактів\n\nЦю дію неможливо скасувати."
+msgstr ""
+"Це:\n"
+"• Видалить всю історію розмов\n"
+"• Видалить %s з вашого списку контактів\n"
+"\n"
+"Цю дію неможливо скасувати."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:787
 msgid "Delete all message history?"
@@ -1238,7 +1298,9 @@ msgstr "Видалити всю історію повідомлень?"
 msgid ""
 "This will permanently delete all messages in this conversation. This action "
 "cannot be undone."
-msgstr "Це назавжди видалить усі повідомлення в цій розмові. Цю дію не можна скасувати."
+msgstr ""
+"Це назавжди видалить усі повідомлення в цій розмові. Цю дію не можна "
+"скасувати."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:791
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
@@ -1265,7 +1327,9 @@ msgstr "Потрібен сервер конференцій"
 msgid ""
 "To start a group call, you need to configure a default conference server in "
 "your account settings."
-msgstr "Щоб розпочати груповий дзвінок, потрібно налаштувати сервер конференцій за замовчуванням у налаштуваннях облікового запису."
+msgstr ""
+"Щоб розпочати груповий дзвінок, потрібно налаштувати сервер конференцій за "
+"замовчуванням у налаштуваннях облікового запису."
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:84
 msgid "Open Settings"
@@ -1322,7 +1386,12 @@ msgid ""
 "\n"
 "If you need a password or a nickname, provide them in the dialog. Use the "
 "discovery features in the server to find public rooms."
-msgstr "Щоб приєднатися до каналу, натисніть кнопку \"Приєднатися до каналу\" та введіть JID каналу (приклад: room@conference.example.org).\n\nЯкщо вам потрібен пароль або псевдонім, вкажіть їх у діалозі. Використовуйте функції виявлення сервера для пошуку публічних кімнат."
+msgstr ""
+"Щоб приєднатися до каналу, натисніть кнопку \"Приєднатися до каналу\" та "
+"введіть JID каналу (приклад: room@conference.example.org).\n"
+"\n"
+"Якщо вам потрібен пароль або псевдонім, вкажіть їх у діалозі. Використовуйте "
+"функції виявлення сервера для пошуку публічних кімнат."
 
 #: main/src/ui/main_window.vala:206
 msgid "Welcome to DinoX!"
@@ -1480,9 +1549,10 @@ msgstr "Вийти"
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
 "A friendly name shown in room listings (does not change the room address)"
-msgstr "Зрозуміла назва, що відображається у списках кімнат (не змінює адресу кімнати)"
-"Дружня назва, що показується у списках кімнат (не змінює адресу кімнати)"
-"Зрозуміла назва у списках кімнат (не змінює адресу кімнати)"
+msgstr ""
+"Зрозуміла назва, що відображається у списках кімнат (не змінює адресу "
+"кімнати)Дружня назва, що показується у списках кімнат (не змінює адресу "
+"кімнати)Зрозуміла назва у списках кімнат (не змінює адресу кімнати)"
 
 #: main/src/ui/util/data_forms.vala:44
 msgid "Description"
@@ -1536,7 +1606,9 @@ msgstr "Тільки для учасників"
 msgid ""
 "Only members may enter the room. Warning: Non-members will be removed when "
 "enabled!"
-msgstr "Лише учасники можуть увійти до кімнати. Попередження: Не-учасники будуть видалені при увімкненні!"
+msgstr ""
+"Лише учасники можуть увійти до кімнати. Попередження: Не-учасники будуть "
+"видалені при увімкненні!"
 
 #: main/src/ui/util/helper.vala:65
 #, c-format
@@ -1556,7 +1628,9 @@ msgstr "%a, %b %d"
 msgid ""
 "This contact will be removed from your contact list and all conversation "
 "history will be permanently deleted."
-msgstr "Цей контакт буде видалено з вашого списку контактів, і вся історія розмов буде назавжди видалена."
+msgstr ""
+"Цей контакт буде видалено з вашого списку контактів, і вся історія розмов "
+"буде назавжди видалена."
 
 #: main/src/windows/conversation_details.vala:108
 msgid "Block user"
@@ -1730,9 +1804,9 @@ msgstr "Додайте контакти, щоб почати спілкуван�
 msgid ""
 "This will remove %s from your contact list and delete all conversation "
 "history."
-msgstr "Це видалить %s з вашого списку контактів і видалить всю історію розмов."
-"%s буде видалено з вашого списку контактів, і вся історія розмов буде "
-"видалена."
+msgstr ""
+"Це видалить %s з вашого списку контактів і видалить всю історію розмов.%s "
+"буде видалено з вашого списку контактів, і вся історія розмов буде видалена."
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:318
 msgid "Edit Contact Alias"
@@ -1746,6 +1820,395 @@ msgstr "Змінити відображуване ім'я для %s"
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:325
 msgid "Alias (optional)"
 msgstr "Псевдонім (необов'язково)"
+
+# DinoX v0.7.7 - Database Maintenance & Backup/Restore
+msgid "Clean Database"
+msgstr "Очистити базу даних"
+
+msgid "Reset Database"
+msgstr "Скинути базу даних"
+
+msgid "Restore Complete!"
+msgstr "Відновлення завершено!"
+
+msgid "Restore Failed"
+msgstr "Помилка відновлення"
+
+msgid "Decrypting Backup..."
+msgstr "Розшифрування резервної копії..."
+
+msgid "Restoring Backup..."
+msgstr "Відновлення резервної копії..."
+
+msgid "Set Backup Password"
+msgstr "Встановити пароль резервної копії"
+
+msgid "Confirm Password"
+msgstr "Підтвердити пароль"
+
+msgid "Create Encrypted Backup"
+msgstr "Створити зашифровану копію"
+
+msgid "Password too short"
+msgstr "Пароль занадто короткий"
+
+msgid "Passwords do not match"
+msgstr "Паролі не збігаються"
+
+msgid "✓ Passwords match"
+msgstr "✓ Паролі збігаються"
+
+msgid "Encrypting Backup..."
+msgstr "Шифрування резервної копії..."
+
+msgid "Factory Reset"
+msgstr "Скидання до заводських налаштувань"
+
+msgid "Restore from Backup"
+msgstr "Відновити з копії"
+
+msgid "Restore Backup"
+msgstr "Відновити копію"
+
+msgid "Select Backup File"
+msgstr "Вибрати файл резервної копії"
+
+msgid "Enter Backup Password"
+msgstr "Введіть пароль резервної копії"
+
+msgid "Decrypt & Restore"
+msgstr "Розшифрувати і відновити"
+
+msgid "Create Backup First"
+msgstr "Спочатку створіть резервну копію"
+
+msgid "No Encryption"
+msgstr "Без шифрування"
+
+msgid "Encrypt with Password"
+msgstr "Зашифрувати паролем"
+
+msgid "Delete Everything"
+msgstr "Видалити все"
+
+msgid "Confirm Delete"
+msgstr "Підтвердити видалення"
+
+msgid "Are you absolutely sure?"
+msgstr "Ви абсолютно впевнені?"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "Обслуговування бази даних"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr ""
+"Відновити облікові записи, повідомлення та налаштування з файлу резервної "
+"копії"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr ""
+"Видалити всі повідомлення, файли та ключі OMEMO. Ваші облікові записи "
+"залишаться."
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr ""
+"Видалити ВСІ дані, включаючи облікові записи. Цю дію не можна скасувати!"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "Файли резервних копій (*.tar.gz, *.tar.gz.gpg)"
+
+msgid "Creating encrypted backup..."
+msgstr "Створення зашифрованої резервної копії..."
+
+msgid "Decryption Failed"
+msgstr "Помилка розшифрування"
+
+msgid "DinoX will now restart..."
+msgstr "DinoX зараз перезапуститься..."
+
+msgid "Encrypted backup created successfully"
+msgstr "Зашифровану резервну копію успішно створено"
+
+msgid "Password (minimum 4 characters)"
+msgstr "Пароль (мінімум 4 символи)"
+
+msgid "Decrypting encrypted backup file..."
+msgstr "Розшифрування файлу резервної копії..."
+
+msgid "Extracting files from backup..."
+msgstr "Вилучення файлів з резервної копії..."
+
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "Скидання до заводських налаштувань... DinoX перезапуститься."
+
+msgid "Resetting database... DinoX will restart."
+msgstr "Скидання бази даних... DinoX перезапуститься."
+
+msgid "Encrypted backup created (%s)"
+msgstr "Зашифровану резервну копію створено (%s)"
+
+msgid ""
+"Could not decrypt the backup file.\n"
+"\n"
+"Please check if the password is correct."
+msgstr ""
+"Не вдалося розшифрувати файл.\n"
+"\n"
+"Перевірте правильність пароля."
+
+msgid ""
+"Could not restore the backup file.\n"
+"\n"
+"Error: %s"
+msgstr ""
+"Не вдалося відновити файл.\n"
+"\n"
+"Помилка: %s"
+
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "Ця резервна копія зашифрована. Введіть пароль."
+
+msgid ""
+"Enter a password to encrypt the backup.\n"
+"\n"
+"<b>Important:</b> Remember this password! Without it, the backup cannot be "
+"restored."
+msgstr ""
+"Введіть пароль для шифрування резервної копії.\n"
+"\n"
+"<b>Важливо:</b> Запам'ятайте цей пароль! Без нього резервну копію не можна "
+"відновити."
+
+msgid ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+msgstr ""
+"Це видалить усі повідомлення, файли та ключі шифрування OMEMO.\n"
+"\n"
+"<b>Ваші облікові записи залишаться, але ви втратите всю історію чатів і вам "
+"потрібно буде повторно верифікувати шифрування з контактами.</b>\n"
+"\n"
+"Цю дію не можна скасувати!"
+
+msgid ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+msgstr ""
+"Це замінить усі поточні дані резервною копією.\n"
+"\n"
+"<b>Поточні облікові записи, повідомлення та налаштування будуть перезаписані!"
+"</b>\n"
+"\n"
+"DinoX перезапуститься після відновлення."
+
+msgid ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+msgstr ""
+"Введіть 'DELETE' для підтвердження скидання.\n"
+"\n"
+"Це назавжди видалить усі ваші дані DinoX."
+
+msgid ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+msgstr ""
+"<b>⚠️ УВАГА: Це видалить ВСІ дані!</b>\n"
+"\n"
+"• Усі облікові записи\n"
+"• Усі повідомлення та файли\n"
+"• Усі ключі шифрування\n"
+"• Усі налаштування\n"
+"\n"
+"Це незворотно. Спочатку створіть резервну копію!"
+
+# OpenPGP Key Management translations
+msgid "OpenPGP Key Management"
+msgstr "Керування ключами OpenPGP"
+
+msgid "Actions"
+msgstr "Дії"
+
+msgid "Generate New Key"
+msgstr "Створити новий ключ"
+
+msgid "Create a new OpenPGP key pair"
+msgstr "Створити нову пару ключів OpenPGP"
+
+msgid "Import Key"
+msgstr "Імпортувати ключ"
+
+msgid "Import a key from file (.asc, .gpg)"
+msgstr "Імпортувати ключ з файлу (.asc, .gpg)"
+
+msgid "Your Keys"
+msgstr "Ваші ключі"
+
+msgid "Private keys available for signing and decryption"
+msgstr "Приватні ключі для підпису та розшифрування"
+
+msgid "No private keys found"
+msgstr "Приватні ключі не знайдено"
+
+msgid "Generate or import a key to get started"
+msgstr "Створіть або імпортуйте ключ для початку"
+
+msgid "Fingerprint"
+msgstr "Відбиток"
+
+msgid "Export Public Key"
+msgstr "Експортувати публічний ключ"
+
+msgid "Delete Key"
+msgstr "Видалити ключ"
+
+msgid "Generate New OpenPGP Key"
+msgstr "Створити новий ключ OpenPGP"
+
+msgid "Enter your details to create a new key pair."
+msgstr "Введіть свої дані для створення нової пари ключів."
+
+msgid "Name"
+msgstr "Ім'я"
+
+msgid "Your Name"
+msgstr "Ваше ім'я"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "you@example.com"
+msgstr "ви@приклад.com"
+
+msgid "Passphrase (optional)"
+msgstr "Парольна фраза (необов'язково)"
+
+msgid "Passphrase"
+msgstr "Парольна фраза"
+
+msgid "4096-bit RSA key, valid for 2 years."
+msgstr "4096-бітний RSA ключ, дійсний 2 роки."
+
+msgid "Generate"
+msgstr "Створити"
+
+msgid "Name must be at least 2 characters"
+msgstr "Ім'я повинно містити щонайменше 2 символи"
+
+msgid "Please enter a valid email address"
+msgstr "Будь ласка, введіть дійсну адресу email"
+
+msgid "Generating Key..."
+msgstr "Створення ключа..."
+
+msgid "Please wait while your key is being generated. This may take a moment."
+msgstr ""
+"Будь ласка, зачекайте, поки створюється ваш ключ. Це може зайняти деякий час."
+
+msgid "Key generated successfully!"
+msgstr "Ключ успішно створено!"
+
+msgid "Failed to generate key."
+msgstr "Не вдалося створити ключ."
+
+msgid "Import OpenPGP Key"
+msgstr "Імпортувати ключ OpenPGP"
+
+msgid "OpenPGP Keys (*.asc, *.gpg)"
+msgstr "Ключі OpenPGP (*.asc, *.gpg)"
+
+msgid "All Files"
+msgstr "Усі файли"
+
+msgid "Key imported! Re-open Key Management to see it."
+msgstr ""
+"Ключ імпортовано! Відкрийте Керування ключами знову, щоб побачити його."
+
+msgid "Import failed: "
+msgstr "Помилка імпорту: "
+
+msgid "Key exported to: "
+msgstr "Ключ експортовано до: "
+
+msgid "Export failed."
+msgstr "Помилка експорту."
+
+msgid "Delete Key?"
+msgstr "Видалити ключ?"
+
+msgid ""
+"Delete this key?\n"
+"\n"
+"%s\n"
+"\n"
+"This cannot be undone!"
+msgstr ""
+"Видалити цей ключ?\n"
+"\n"
+"%s\n"
+"\n"
+"Цю дію неможливо скасувати!"
+
+msgid "Key deleted."
+msgstr "Ключ видалено."
+
+msgid "Delete failed: "
+msgstr "Помилка видалення: "
+
+msgid "Select OpenPGP Key"
+msgstr "Вибрати ключ OpenPGP"
+
+msgid "Choose a key to announce to your contacts."
+msgstr "Виберіть ключ для оголошення вашим контактам."
+
+msgid "Enter GPG passphrase to confirm:"
+msgstr "Введіть парольну фразу GPG для підтвердження:"
+
+msgid "Wrong passphrase"
+msgstr "Неправильна парольна фраза"
+
+msgid "Manage Keys"
+msgstr "Керування ключами"
+
+msgid "Generate, import, export, or delete keys"
+msgstr "Створювати, імпортувати, експортувати або видаляти ключі"
+
+msgid "No keys available. Generate or import one!"
+msgstr "Немає доступних ключів. Створіть або імпортуйте!"
+
+msgid "Announce key"
+msgstr "Оголосити ключ"
+
+msgid "Disabled"
+msgstr "Вимкнено"
+
+msgid "Error in GnuPG"
+msgstr "Помилка в GnuPG"
+
+msgid "Success"
+msgstr "Успіх"
+
+msgid "OK"
+msgstr "OK"
 
 #~ msgid "Message too long"
 #~ msgstr "Повідомлення задовге"
@@ -1911,154 +2374,3 @@ msgstr "Псевдонім (необов'язково)"
 
 #~ msgid "Check spelling"
 #~ msgstr "Перевіряти правопис"
-
-# DinoX v0.7.7 - Database Maintenance & Backup/Restore
-msgid "Clean Database"
-msgstr "Очистити базу даних"
-
-msgid "Reset Database"
-msgstr "Скинути базу даних"
-
-msgid "Restore Complete!"
-msgstr "Відновлення завершено!"
-
-msgid "Restore Failed"
-msgstr "Помилка відновлення"
-
-msgid "Decrypting Backup..."
-msgstr "Розшифрування резервної копії..."
-
-msgid "Restoring Backup..."
-msgstr "Відновлення резервної копії..."
-
-msgid "Set Backup Password"
-msgstr "Встановити пароль резервної копії"
-
-msgid "Confirm Password"
-msgstr "Підтвердити пароль"
-
-msgid "Create Encrypted Backup"
-msgstr "Створити зашифровану копію"
-
-msgid "Password too short"
-msgstr "Пароль занадто короткий"
-
-msgid "Passwords do not match"
-msgstr "Паролі не збігаються"
-
-msgid "✓ Passwords match"
-msgstr "✓ Паролі збігаються"
-
-msgid "Encrypting Backup..."
-msgstr "Шифрування резервної копії..."
-
-msgid "Factory Reset"
-msgstr "Скидання до заводських налаштувань"
-
-msgid "Restore from Backup"
-msgstr "Відновити з копії"
-
-msgid "Restore Backup"
-msgstr "Відновити копію"
-
-msgid "Select Backup File"
-msgstr "Вибрати файл резервної копії"
-
-msgid "Enter Backup Password"
-msgstr "Введіть пароль резервної копії"
-
-msgid "Decrypt & Restore"
-msgstr "Розшифрувати і відновити"
-
-msgid "Create Backup First"
-msgstr "Спочатку створіть резервну копію"
-
-msgid "No Encryption"
-msgstr "Без шифрування"
-
-msgid "Encrypt with Password"
-msgstr "Зашифрувати паролем"
-
-msgid "Delete Everything"
-msgstr "Видалити все"
-
-msgid "Confirm Delete"
-msgstr "Підтвердити видалення"
-
-msgid "Are you absolutely sure?"
-msgstr "Ви абсолютно впевнені?"
-
-#: main/data/preferences_window/general_preferences_page.ui:104
-msgid "Database Maintenance"
-msgstr "Обслуговування бази даних"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Restore accounts, messages and settings from a backup file"
-msgstr "Відновити облікові записи, повідомлення та налаштування з файлу резервної копії"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
-msgstr "Видалити всі повідомлення, файли та ключі OMEMO. Ваші облікові записи залишаться."
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete ALL data including accounts. This cannot be undone!"
-msgstr "Видалити ВСІ дані, включаючи облікові записи. Цю дію не можна скасувати!"
-
-# DinoX v0.7.7 - Additional Backup/Restore strings
-
-msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
-msgstr "Файли резервних копій (*.tar.gz, *.tar.gz.gpg)"
-
-msgid "Creating encrypted backup..."
-msgstr "Створення зашифрованої резервної копії..."
-
-msgid "Decryption Failed"
-msgstr "Помилка розшифрування"
-
-msgid "DinoX will now restart..."
-msgstr "DinoX зараз перезапуститься..."
-
-msgid "Encrypted backup created successfully"
-msgstr "Зашифровану резервну копію успішно створено"
-
-msgid "Password (minimum 4 characters)"
-msgstr "Пароль (мінімум 4 символи)"
-
-msgid "Decrypting encrypted backup file..."
-msgstr "Розшифрування файлу резервної копії..."
-
-msgid "Extracting files from backup..."
-msgstr "Вилучення файлів з резервної копії..."
-
-msgid "Factory reset in progress... DinoX will restart."
-msgstr "Скидання до заводських налаштувань... DinoX перезапуститься."
-
-msgid "Resetting database... DinoX will restart."
-msgstr "Скидання бази даних... DinoX перезапуститься."
-
-msgid "Encrypted backup created (%s)"
-msgstr "Зашифровану резервну копію створено (%s)"
-
-msgid "Could not decrypt the backup file.\n\nPlease check if the password is correct."
-msgstr "Не вдалося розшифрувати файл.\n\nПеревірте правильність пароля."
-
-msgid "Could not restore the backup file.\n\nError: %s"
-msgstr "Не вдалося відновити файл.\n\nПомилка: %s"
-
-msgid "This backup is encrypted. Please enter the password to decrypt it."
-msgstr "Ця резервна копія зашифрована. Введіть пароль."
-
-msgid "Enter a password to encrypt the backup.\n\n<b>Important:</b> Remember this password! Without it, the backup cannot be restored."
-msgstr "Введіть пароль для шифрування резервної копії.\n\n<b>Важливо:</b> Запам'ятайте цей пароль! Без нього резервну копію не можна відновити."
-
-msgid "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
-msgstr "Це видалить усі повідомлення, файли та ключі шифрування OMEMO.\n\n<b>Ваші облікові записи залишаться, але ви втратите всю історію чатів і вам потрібно буде повторно верифікувати шифрування з контактами.</b>\n\nЦю дію не можна скасувати!"
-
-msgid "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
-msgstr "Це замінить усі поточні дані резервною копією.\n\n<b>Поточні облікові записи, повідомлення та налаштування будуть перезаписані!</b>\n\nDinoX перезапуститься після відновлення."
-
-msgid "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
-msgstr "Введіть 'DELETE' для підтвердження скидання.\n\nЦе назавжди видалить усі ваші дані DinoX."
-
-msgid "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"
-msgstr "<b>⚠️ УВАГА: Це видалить ВСІ дані!</b>\n\n• Усі облікові записи\n• Усі повідомлення та файли\n• Усі ключі шифрування\n• Усі налаштування\n\nЦе незворотно. Спочатку створіть резервну копію!"

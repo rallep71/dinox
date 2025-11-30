@@ -492,7 +492,9 @@ msgstr "Talɣut:"
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
-msgstr "Isefka-inek udmawanen (imiḍanen, iznan, ifuyla) ttuskelsen s wudem yemgaraden ɣef usnas."
+msgstr ""
+"Isefka-inek udmawanen (imiḍanen, iznan, ifuyla) ttuskelsen s wudem "
+"yemgaraden ɣef usnas."
 
 #: main/src/ui/application.vala:361
 msgid "When you update DinoX, your data remains intact."
@@ -506,7 +508,9 @@ msgstr "Seqdec Iɣewwaṛen → Amatu → Ḥrez isefka n useqdac i usnulfu n u�
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
-msgstr "Isefka-inek udmawanen (imiḍanen, iznan, ifuyla) ttuskelsen s wudem yemgaraden ɣef usnas. Ticki tseggmeḍ DinoX, isefka-inek ad qqimen akken."
+msgstr ""
+"Isefka-inek udmawanen (imiḍanen, iznan, ifuyla) ttuskelsen s wudem "
+"yemgaraden ɣef usnas. Ticki tseggmeḍ DinoX, isefka-inek ad qqimen akken."
 
 #: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
 #: main/src/ui/main_window.vala:159
@@ -516,6 +520,52 @@ msgstr "Mdel"
 #: main/src/ui/application.vala:417
 msgid "Select Backup Location"
 msgstr "Fren adig n uḥraz"
+
+#: main/src/ui/application.vala
+msgid "Creating Backup..."
+msgstr "Creating Backup..."
+
+#: main/src/ui/application.vala
+msgid "Creating Encrypted Backup..."
+msgstr "Creating Encrypted Backup..."
+
+#: main/src/ui/application.vala
+msgid "Please wait while your data is being backed up."
+msgstr "Please wait while your data is being backed up."
+
+#: main/src/ui/application.vala
+msgid "No data directories found to backup"
+msgstr "No data directories found to backup"
+
+#: main/src/ui/application.vala
+msgid "Backup Created"
+msgstr "Backup Created"
+
+#: main/src/ui/application.vala
+msgid "Encrypted Backup Created"
+msgstr "Encrypted Backup Created"
+
+#: main/src/ui/application.vala
+#, c-format
+msgid "Your backup was created successfully.\\n\\nSize: %s"
+msgstr "Your backup was created successfully.\\n\\nSize: %s"
+
+#: main/src/ui/application.vala
+msgid "Your backup was created successfully."
+msgstr "Your backup was created successfully."
+
+#: main/src/ui/application.vala
+#, c-format
+msgid "Your encrypted backup was created successfully.\\n\\nSize: %s"
+msgstr "Your encrypted backup was created successfully.\\n\\nSize: %s"
+
+#: main/src/ui/application.vala
+msgid "Your encrypted backup was created successfully."
+msgstr "Your encrypted backup was created successfully."
+
+#: main/src/ui/application.vala
+msgid "Backup Failed"
+msgstr "Backup Failed"
 
 #: main/src/ui/application.vala:445
 msgid "Creating backup..."
@@ -1039,7 +1089,9 @@ msgstr "Reg taxxamt?"
 msgid ""
 "Are you sure you want to permanently destroy this room? This action cannot "
 "be undone and all history will be lost for all participants."
-msgstr "Tebɣiḍ ad tekkseḍ taxxamt-a i lebda? Tigawt-a ur tezmir ara ad tuɣal ɣer deffir u akk amazray ad iṛuḥ i yimttekkiyen merra."
+msgstr ""
+"Tebɣiḍ ad tekkseḍ taxxamt-a i lebda? Tigawt-a ur tezmir ara ad tuɣal ɣer "
+"deffir u akk amazray ad iṛuḥ i yimttekkiyen merra."
 
 #: main/src/ui/conversation_details.vala:250
 msgid "Destroy"
@@ -1238,7 +1290,9 @@ msgstr "Kkes meṛṛa amazray n yiznan?"
 msgid ""
 "This will permanently delete all messages in this conversation. This action "
 "cannot be undone."
-msgstr "Aya ad yekkes akk iznan seg useslay-a i lebda. Tigawt-a ur tezmir ara ad tuɣal ɣer deffir."
+msgstr ""
+"Aya ad yekkes akk iznan seg useslay-a i lebda. Tigawt-a ur tezmir ara ad "
+"tuɣal ɣer deffir."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:791
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
@@ -1265,7 +1319,9 @@ msgstr "Aqeddac n tmuɣri yettusra"
 msgid ""
 "To start a group call, you need to configure a default conference server in "
 "your account settings."
-msgstr "I wakken ad tebduḍ asiwel n terbaat, yessefk ad tesbaduḍ aqeddac n temnadin s wudem amezwer deg yiɣewwaṛen n umiḍan-inek."
+msgstr ""
+"I wakken ad tebduḍ asiwel n terbaat, yessefk ad tesbaduḍ aqeddac n temnadin "
+"s wudem amezwer deg yiɣewwaṛen n umiḍan-inek."
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:84
 msgid "Open Settings"
@@ -1486,8 +1542,9 @@ msgstr "Ffeɣ"
 msgid ""
 "A friendly name shown in room listings (does not change the room address)"
 msgstr ""
-"Isem iɣemsen yettwaskanen deg tebdarin n texxamin (ur isenfali ara tansa n texxamt)"
-"Isem iɣemsen yettwaskanen deg tebdarin n texxamin (ur isenfali ara tansa n texxamt)"
+"Isem iɣemsen yettwaskanen deg tebdarin n texxamin (ur isenfali ara tansa n "
+"texxamt)Isem iɣemsen yettwaskanen deg tebdarin n texxamin (ur isenfali ara "
+"tansa n texxamt)"
 
 #: main/src/ui/util/data_forms.vala:44
 msgid "Description"
@@ -1542,10 +1599,10 @@ msgid ""
 "Only members may enter the room. Warning: Non-members will be removed when "
 "enabled!"
 msgstr ""
-"Imttekkiyen kan i yezemren ad kecmen ɣer texxamt. Ɣur-k: Wid ur nelli d imttekkiyen ad "
-"ttwakksen mi ara yettwarmed!"
-"Imttekkiyen kan i yezemren ad kecmen ɣer texxamt. Ɣur-k: Wid ur nelli d imttekkiyen ad "
-"ttwakksen mi ara yettwarmed!"
+"Imttekkiyen kan i yezemren ad kecmen ɣer texxamt. Ɣur-k: Wid ur nelli d "
+"imttekkiyen ad ttwakksen mi ara yettwarmed!Imttekkiyen kan i yezemren ad "
+"kecmen ɣer texxamt. Ɣur-k: Wid ur nelli d imttekkiyen ad ttwakksen mi ara "
+"yettwarmed!"
 
 #: main/src/ui/util/helper.vala:65
 #, c-format
@@ -1567,9 +1624,8 @@ msgid ""
 "history will be permanently deleted."
 msgstr ""
 "Anermis-agi ad yettwakkes seg tebdert-ik n yinermas, akk d umezruy n "
-"yimeslayen ad yettwakkes i lebda."
-"Anermis-agi ad yettwakkes seg tebdert-ik n yinermas, akk d umezruy n "
-"yimeslayen ad yettwakkes i lebda."
+"yimeslayen ad yettwakkes i lebda.Anermis-agi ad yettwakkes seg tebdert-ik n "
+"yinermas, akk d umezruy n yimeslayen ad yettwakkes i lebda."
 
 #: main/src/windows/conversation_details.vala:108
 msgid "Block user"
@@ -1743,7 +1799,8 @@ msgstr "Rnu inermisen akken ad tebduḍ aṭṭuṭṭu"
 msgid ""
 "This will remove %s from your contact list and delete all conversation "
 "history."
-msgstr "Aya ad yekkes %s seg tebdert-ik n yinermisen akk d ukkis n umezruy n useslay."
+msgstr ""
+"Aya ad yekkes %s seg tebdert-ik n yinermisen akk d ukkis n umezruy n useslay."
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:318
 msgid "Edit Contact Alias"
@@ -1757,42 +1814,6 @@ msgstr "Senfel isem n uskan i %s"
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:325
 msgid "Alias (optional)"
 msgstr "Meffer isem (d afrayan)"
-
-#~ msgid "Login"
-#~ msgstr "Qqen"
-
-#~ msgid "Back"
-#~ msgstr "Tuɣalin"
-
-#~ msgid "Choose a public server"
-#~ msgstr "Fren aqeddac azayaz"
-
-#~ msgid "Or specify a server address"
-#~ msgstr "Neɣ efk-d tansa n uqeddac"
-
-#~ msgid "Sign in instead"
-#~ msgstr "Qqen deg nnuba-s"
-
-#~ msgid "Finish"
-#~ msgstr "Fakk"
-
-#~ msgid "Change password"
-#~ msgstr "Asnifel n wawal n uɛeddi"
-
-#~ msgid "Change"
-#~ msgstr "Snifel"
-
-#~ msgid "Account"
-#~ msgstr "Amiḍan"
-
-#~ msgid "Send"
-#~ msgstr "Azen"
-
-#~ msgid "Notifications"
-#~ msgstr "Ilɣa"
-
-#~ msgid "Check spelling"
-#~ msgstr "Sefqed taɣdira"
 
 # DinoX v0.7.7 - Database Maintenance & Backup/Restore
 msgid "Clean Database"
@@ -1887,7 +1908,6 @@ msgid "Delete ALL data including accounts. This cannot be undone!"
 msgstr "Kkes akk isefka s yimiḍanen. Aya ur yezmir ara ad yettwaseɣti!"
 
 # DinoX v0.7.7 - Additional Backup/Restore strings
-
 msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
 msgstr "Ifuyla n uḥraz (*.tar.gz, *.tar.gz.gpg)"
 
@@ -1921,26 +1941,294 @@ msgstr "Tiririt n taffa n yisefka... DinoX ad yales."
 msgid "Encrypted backup created (%s)"
 msgstr "Aḥraz awgelhan yettwarna (%s)"
 
-msgid "Could not decrypt the backup file.\n\nPlease check if the password is correct."
-msgstr "Ur yezmir ara ad yekkes awgelhen.\n\nSenqed ma yella wawal uffir d ameɣtu."
+msgid ""
+"Could not decrypt the backup file.\n"
+"\n"
+"Please check if the password is correct."
+msgstr ""
+"Ur yezmir ara ad yekkes awgelhen.\n"
+"\n"
+"Senqed ma yella wawal uffir d ameɣtu."
 
-msgid "Could not restore the backup file.\n\nError: %s"
-msgstr "Ur yezmir ara ad yerr afaylu.\n\nTuccḍa: %s"
+msgid ""
+"Could not restore the backup file.\n"
+"\n"
+"Error: %s"
+msgstr ""
+"Ur yezmir ara ad yerr afaylu.\n"
+"\n"
+"Tuccḍa: %s"
 
 msgid "This backup is encrypted. Please enter the password to decrypt it."
 msgstr "Aḥraz-a yettwawgelhen. Sekcem awal uffir."
 
-msgid "Enter a password to encrypt the backup.\n\n<b>Important:</b> Remember this password! Without it, the backup cannot be restored."
-msgstr "Sekcem awal uffir akken ad tawgelheḍ aḥraz.\n\n<b>Axatar:</b> Cfu ɣef wawal-a uffir! Mebla-t, aḥraz ur yezmir ara ad yettuɣal."
+msgid ""
+"Enter a password to encrypt the backup.\n"
+"\n"
+"<b>Important:</b> Remember this password! Without it, the backup cannot be "
+"restored."
+msgstr ""
+"Sekcem awal uffir akken ad tawgelheḍ aḥraz.\n"
+"\n"
+"<b>Axatar:</b> Cfu ɣef wawal-a uffir! Mebla-t, aḥraz ur yezmir ara ad "
+"yettuɣal."
 
-msgid "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
-msgstr "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
+msgid ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+msgstr ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
 
-msgid "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
-msgstr "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
+msgid ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+msgstr ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
 
-msgid "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
-msgstr "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
+msgid ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+msgstr ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
 
-msgid "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"
-msgstr "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"
+msgid ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+msgstr ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+
+# OpenPGP Key Management
+msgid "OpenPGP Key Management"
+msgstr "OpenPGP Key Management"
+
+msgid "Actions"
+msgstr "Actions"
+
+msgid "Generate New Key"
+msgstr "Generate New Key"
+
+msgid "Import Key"
+msgstr "Import Key"
+
+msgid "Your Keys"
+msgstr "Your Keys"
+
+msgid "Fingerprint"
+msgstr "Fingerprint"
+
+msgid "Export Public Key"
+msgstr "Export Public Key"
+
+msgid "Delete Key"
+msgstr "Delete Key"
+
+msgid "Name"
+msgstr "Name"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Passphrase"
+msgstr "Passphrase"
+
+msgid "Generate"
+msgstr "Generate"
+
+msgid "Select OpenPGP Key"
+msgstr "Select OpenPGP Key"
+
+msgid "Wrong passphrase"
+msgstr "Wrong passphrase"
+
+msgid "Manage Keys"
+msgstr "Manage Keys"
+
+msgid "Announce key"
+msgstr "Announce key"
+
+msgid "Disabled"
+msgstr "Disabled"
+
+msgid "Success"
+msgstr "Success"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Create a new OpenPGP key pair"
+msgstr "Snulfu tayuga n tsura OpenPGP tamaynut"
+
+msgid "Import a key from file (.asc, .gpg)"
+msgstr "Kter tasarut seg ufaylu (.asc, .gpg)"
+
+msgid "Private keys available for signing and decryption"
+msgstr "Tisura tusligin i uzmul d wekkat"
+
+msgid "No private keys found"
+msgstr "Ulac tisura tusligin"
+
+msgid "Generate or import a key to get started"
+msgstr "Snulfu neɣ kter tasarut i wakken ad tebduḍ"
+
+msgid "Generate New OpenPGP Key"
+msgstr "Snulfu tasarut OpenPGP tamaynut"
+
+msgid "Enter your details to create a new key pair."
+msgstr "Sekcem talɣut-ik i wakken ad tesnulfuḍ tayuga n tsura tamaynut."
+
+msgid "Your Name"
+msgstr "Isem-inek"
+
+msgid "you@example.com"
+msgstr "kečč@amedya.com"
+
+msgid "Passphrase (optional)"
+msgstr "Tafyirt n uεeddi (d afrayan)"
+
+msgid "4096-bit RSA key, valid for 2 years."
+msgstr "Tasarut RSA n 4096 ibiṭen, tameɣtut i 2 iseggasen."
+
+msgid "Name must be at least 2 characters"
+msgstr "Isem yessefk ad yili 2 isekkilen drus"
+
+msgid "Please enter a valid email address"
+msgstr "Ma ulac aɣilif sekcem tansa imayl tameɣtut"
+
+msgid "Generating Key..."
+msgstr "Asnulfu n tsarut..."
+
+msgid "Please wait while your key is being generated. This may take a moment."
+msgstr ""
+"Ma ulac aɣilif ṛǧu tasarut-ik ad tesnulfu. Ayagi izmer ad yeṭṭef kra n wakud."
+
+msgid "Key generated successfully!"
+msgstr "Tasarut tesnulfa-d akken iwata!"
+
+msgid "Failed to generate key."
+msgstr "Asnulfu n tsarut ur yeddi ara."
+
+msgid "Import OpenPGP Key"
+msgstr "Kter tasarut OpenPGP"
+
+msgid "OpenPGP Keys (*.asc, *.gpg)"
+msgstr "Tisura OpenPGP (*.asc, *.gpg)"
+
+msgid "All Files"
+msgstr "Ifuyla meṛṛa"
+
+msgid "Key imported! Re-open Key Management to see it."
+msgstr "Tasarut tetwakter! Ales-d aselkim n tsura i wakken ad tt-twaliḍ."
+
+msgid "Import failed: "
+msgstr "Aktar ur yeddi ara: "
+
+msgid "Key exported to: "
+msgstr "Tasarut tettusifḍ ɣer: "
+
+msgid "Export failed."
+msgstr "Asifeḍ ur yeddi ara."
+
+msgid "Delete Key?"
+msgstr "Kkes tasarut?"
+
+msgid ""
+"Delete this key?\n"
+"\n"
+"%s\n"
+"\n"
+"This cannot be undone!"
+msgstr ""
+"Kkes tasarut-agi?\n"
+"\n"
+"%s\n"
+"\n"
+"Ayagi ur izmir ara ad yuɣal ɣer deffir!"
+
+msgid "Key deleted."
+msgstr "Tasarut tetwakkes."
+
+msgid "Delete failed: "
+msgstr "Tukksa ur teddi ara: "
+
+msgid "Choose a key to announce to your contacts."
+msgstr "Fren tasarut i wakken ad tt-tgelmeḍ i yinermisen-ik."
+
+msgid "Enter GPG passphrase to confirm:"
+msgstr "Sekcem tafyirt n uεeddi GPG i wakken ad tesnetmeḍ:"
+
+msgid "Generate, import, export, or delete keys"
+msgstr "Snulfu, kter, sifḍ neɣ kkes tisura"
+
+msgid "No keys available. Generate or import one!"
+msgstr "Ulac tisura. Snulfu neɣ kter yiwet!"
+
+msgid "Error in GnuPG"
+msgstr "Tuccḍa deg GnuPG"
+
+#~ msgid "Login"
+#~ msgstr "Qqen"
+
+#~ msgid "Back"
+#~ msgstr "Tuɣalin"
+
+#~ msgid "Choose a public server"
+#~ msgstr "Fren aqeddac azayaz"
+
+#~ msgid "Or specify a server address"
+#~ msgstr "Neɣ efk-d tansa n uqeddac"
+
+#~ msgid "Sign in instead"
+#~ msgstr "Qqen deg nnuba-s"
+
+#~ msgid "Finish"
+#~ msgstr "Fakk"
+
+#~ msgid "Change password"
+#~ msgstr "Asnifel n wawal n uɛeddi"
+
+#~ msgid "Change"
+#~ msgstr "Snifel"
+
+#~ msgid "Account"
+#~ msgstr "Amiḍan"
+
+#~ msgid "Send"
+#~ msgstr "Azen"
+
+#~ msgid "Notifications"
+#~ msgstr "Ilɣa"
+
+#~ msgid "Check spelling"
+#~ msgstr "Sefqed taɣdira"

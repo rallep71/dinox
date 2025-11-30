@@ -317,8 +317,9 @@ msgstr "_Keyra í bakgrunni"
 #: main/data/preferences_window/general_preferences_page.ui:33
 msgid ""
 "Continue running after closing window to receive notifications immediately"
-msgstr "Halda áfram að keyra eftir lokun glugga til að fá tilkynningar strax"
-"Halda áfram að keyra eftir að glugga er lokað til að fá tilkynningar strax"
+msgstr ""
+"Halda áfram að keyra eftir lokun glugga til að fá tilkynningar straxHalda "
+"áfram að keyra eftir að glugga er lokað til að fá tilkynningar strax"
 
 #: main/data/preferences_window/general_preferences_page.ui:41
 msgid "Appearance"
@@ -493,7 +494,9 @@ msgstr "Upplýsingar:"
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
-msgstr "Persónuleg gögn þín (reikningar, skilaboð, skrár) eru geymd aðskilið frá forritinu."
+msgstr ""
+"Persónuleg gögn þín (reikningar, skilaboð, skrár) eru geymd aðskilið frá "
+"forritinu."
 
 #: main/src/ui/application.vala:361
 msgid "When you update DinoX, your data remains intact."
@@ -501,15 +504,18 @@ msgstr "Þegar þú uppfærir DinoX helst gögnin þín ósnortin."
 
 #: main/src/ui/application.vala:363
 msgid "Use Settings → General → Backup User Data to create a backup."
-msgstr "Notaðu Stillingar → Almennt → Afritun notandagagna til að búa til afrit."
+msgstr ""
+"Notaðu Stillingar → Almennt → Afritun notandagagna til að búa til afrit."
 
 #: main/src/ui/application.vala:405
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
-msgstr "Persónuleg gögn þín (reikningar, skilaboð, skrár) eru geymd aðskilið frá forritinu. Þegar þú uppfærir DinoX haldast gögnin þín ósnortin."
+msgstr ""
 "Persónuleg gögn þín (reikningar, skilaboð, skrár) eru geymd aðskilið frá "
-"forritinu. Þegar þú uppfærir DinoX haldast gögnin þín óbreytt."
+"forritinu. Þegar þú uppfærir DinoX haldast gögnin þín ósnortin.Persónuleg "
+"gögn þín (reikningar, skilaboð, skrár) eru geymd aðskilið frá forritinu. "
+"Þegar þú uppfærir DinoX haldast gögnin þín óbreytt."
 
 #: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
 #: main/src/ui/main_window.vala:159
@@ -519,6 +525,52 @@ msgstr "Loka"
 #: main/src/ui/application.vala:417
 msgid "Select Backup Location"
 msgstr "Veldu staðsetningu öryggisafrits"
+
+#: main/src/ui/application.vala
+msgid "Creating Backup..."
+msgstr "Creating Backup..."
+
+#: main/src/ui/application.vala
+msgid "Creating Encrypted Backup..."
+msgstr "Creating Encrypted Backup..."
+
+#: main/src/ui/application.vala
+msgid "Please wait while your data is being backed up."
+msgstr "Please wait while your data is being backed up."
+
+#: main/src/ui/application.vala
+msgid "No data directories found to backup"
+msgstr "No data directories found to backup"
+
+#: main/src/ui/application.vala
+msgid "Backup Created"
+msgstr "Backup Created"
+
+#: main/src/ui/application.vala
+msgid "Encrypted Backup Created"
+msgstr "Encrypted Backup Created"
+
+#: main/src/ui/application.vala
+#, c-format
+msgid "Your backup was created successfully.\\n\\nSize: %s"
+msgstr "Your backup was created successfully.\\n\\nSize: %s"
+
+#: main/src/ui/application.vala
+msgid "Your backup was created successfully."
+msgstr "Your backup was created successfully."
+
+#: main/src/ui/application.vala
+#, c-format
+msgid "Your encrypted backup was created successfully.\\n\\nSize: %s"
+msgstr "Your encrypted backup was created successfully.\\n\\nSize: %s"
+
+#: main/src/ui/application.vala
+msgid "Your encrypted backup was created successfully."
+msgstr "Your encrypted backup was created successfully."
+
+#: main/src/ui/application.vala
+msgid "Backup Failed"
+msgstr "Backup Failed"
 
 #: main/src/ui/application.vala:445
 msgid "Creating backup..."
@@ -1042,8 +1094,10 @@ msgstr "Eyðileggja herbergi?"
 msgid ""
 "Are you sure you want to permanently destroy this room? This action cannot "
 "be undone and all history will be lost for all participants."
-msgstr "Ertu viss um að þú viljir eyðileggja þetta herbergi varanlega? Ekki er hægt að afturkalla þessa aðgerð og öll saga tapast fyrir alla þátttakendur."
-"Ertu viss um að þú viljir eyða þessu herbergi varanlega? Ekki er hægt að "
+msgstr ""
+"Ertu viss um að þú viljir eyðileggja þetta herbergi varanlega? Ekki er hægt "
+"að afturkalla þessa aðgerð og öll saga tapast fyrir alla þátttakendur.Ertu "
+"viss um að þú viljir eyða þessu herbergi varanlega? Ekki er hægt að "
 "afturkalla þessa aðgerð og öll saga tapast fyrir alla þátttakendur."
 
 #: main/src/ui/conversation_details.vala:250
@@ -1227,7 +1281,12 @@ msgid ""
 "• Remove %s from your contact list\n"
 "\n"
 "This action cannot be undone."
-msgstr "Þetta mun:\n• Eyða öllum samtalsferli\n• Fjarlægja %s af tengiliðalistanum þínum\n\nÞessa aðgerð er ekki hægt að afturkalla."
+msgstr ""
+"Þetta mun:\n"
+"• Eyða öllum samtalsferli\n"
+"• Fjarlægja %s af tengiliðalistanum þínum\n"
+"\n"
+"Þessa aðgerð er ekki hægt að afturkalla."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:787
 msgid "Delete all message history?"
@@ -1237,7 +1296,9 @@ msgstr "Eyða öllum skilaboðasögu?"
 msgid ""
 "This will permanently delete all messages in this conversation. This action "
 "cannot be undone."
-msgstr "Þetta mun eyða öllum skilaboðum í þessu samtali varanlega. Ekki er hægt að afturkalla þessa aðgerð."
+msgstr ""
+"Þetta mun eyða öllum skilaboðum í þessu samtali varanlega. Ekki er hægt að "
+"afturkalla þessa aðgerð."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:791
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
@@ -1264,7 +1325,9 @@ msgstr "Ráðstefnuþjónn nauðsynlegur"
 msgid ""
 "To start a group call, you need to configure a default conference server in "
 "your account settings."
-msgstr "Til að hefja hópsímtal þarftu að stilla sjálfgefinn ráðstefnuþjón í reikningsstillingunum þínum."
+msgstr ""
+"Til að hefja hópsímtal þarftu að stilla sjálfgefinn ráðstefnuþjón í "
+"reikningsstillingunum þínum."
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:84
 msgid "Open Settings"
@@ -1321,7 +1384,12 @@ msgid ""
 "\n"
 "If you need a password or a nickname, provide them in the dialog. Use the "
 "discovery features in the server to find public rooms."
-msgstr "Til að taka þátt í rás skaltu smella á hnappinn \"Taka þátt í rás\" og slá inn JID rásarinnar (dæmi: room@conference.example.org).\n\nEf þú þarft lykilorð eða gælunafn skaltu gefa þau upp í glugganum. Notaðu uppgötvunareiginleika þjónsins til að finna opinber herbergi."
+msgstr ""
+"Til að taka þátt í rás skaltu smella á hnappinn \"Taka þátt í rás\" og slá "
+"inn JID rásarinnar (dæmi: room@conference.example.org).\n"
+"\n"
+"Ef þú þarft lykilorð eða gælunafn skaltu gefa þau upp í glugganum. Notaðu "
+"uppgötvunareiginleika þjónsins til að finna opinber herbergi."
 
 #: main/src/ui/main_window.vala:206
 msgid "Welcome to DinoX!"
@@ -1479,8 +1547,10 @@ msgstr "Hætta"
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
 "A friendly name shown in room listings (does not change the room address)"
-msgstr "Vinalegt nafn sýnt í herbergislistum (breytir ekki heimilisfangi herbergis)"
-"Vingjarnlegt nafn sýnt í herbergislistum (breytir ekki heimilisfangi herbergis)"
+msgstr ""
+"Vinalegt nafn sýnt í herbergislistum (breytir ekki heimilisfangi "
+"herbergis)Vingjarnlegt nafn sýnt í herbergislistum (breytir ekki "
+"heimilisfangi herbergis)"
 
 #: main/src/ui/util/data_forms.vala:44
 msgid "Description"
@@ -1535,7 +1605,9 @@ msgstr "Aðeins meðlimar"
 msgid ""
 "Only members may enter the room. Warning: Non-members will be removed when "
 "enabled!"
-msgstr "Aðeins meðlimir mega koma inn í herbergið. Viðvörun: Þeir sem ekki eru meðlimir verða fjarlægðir þegar virkjað!"
+msgstr ""
+"Aðeins meðlimir mega koma inn í herbergið. Viðvörun: Þeir sem ekki eru "
+"meðlimir verða fjarlægðir þegar virkjað!"
 
 #: main/src/ui/util/helper.vala:65
 #, c-format
@@ -1555,7 +1627,9 @@ msgstr "%a %b %d"
 msgid ""
 "This contact will be removed from your contact list and all conversation "
 "history will be permanently deleted."
-msgstr "Þessi tengiliður verður fjarlægður af tengiliðalistanum þínum og öll samtalsferill verður eytt varanlega."
+msgstr ""
+"Þessi tengiliður verður fjarlægður af tengiliðalistanum þínum og öll "
+"samtalsferill verður eytt varanlega."
 
 #: main/src/windows/conversation_details.vala:108
 msgid "Block user"
@@ -1729,7 +1803,8 @@ msgstr "Bættu við tengiliðum til að hefja spjall"
 msgid ""
 "This will remove %s from your contact list and delete all conversation "
 "history."
-msgstr "Þetta mun fjarlægja %s af tengiliðalistanum þínum og eyða öllum samtalsferli."
+msgstr ""
+"Þetta mun fjarlægja %s af tengiliðalistanum þínum og eyða öllum samtalsferli."
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:318
 msgid "Edit Contact Alias"
@@ -1743,6 +1818,391 @@ msgstr "Breyta birtingarnafni fyrir %s"
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:325
 msgid "Alias (optional)"
 msgstr "Samnefni (valfrjálst)"
+
+# DinoX v0.7.7 - Database Maintenance & Backup/Restore
+msgid "Clean Database"
+msgstr "Clean Database"
+
+msgid "Reset Database"
+msgstr "Reset Database"
+
+msgid "Restore Complete!"
+msgstr "Restore Complete!"
+
+msgid "Restore Failed"
+msgstr "Restore Failed"
+
+msgid "Decrypting Backup..."
+msgstr "Decrypting Backup..."
+
+msgid "Restoring Backup..."
+msgstr "Restoring Backup..."
+
+msgid "Set Backup Password"
+msgstr "Set Backup Password"
+
+msgid "Confirm Password"
+msgstr "Confirm Password"
+
+msgid "Create Encrypted Backup"
+msgstr "Create Encrypted Backup"
+
+msgid "Password too short"
+msgstr "Password too short"
+
+msgid "Passwords do not match"
+msgstr "Passwords do not match"
+
+msgid "✓ Passwords match"
+msgstr "✓ Passwords match"
+
+msgid "Encrypting Backup..."
+msgstr "Encrypting Backup..."
+
+msgid "Factory Reset"
+msgstr "Factory Reset"
+
+msgid "Restore from Backup"
+msgstr "Restore from Backup"
+
+msgid "Restore Backup"
+msgstr "Restore Backup"
+
+msgid "Select Backup File"
+msgstr "Select Backup File"
+
+msgid "Enter Backup Password"
+msgstr "Enter Backup Password"
+
+msgid "Decrypt & Restore"
+msgstr "Decrypt & Restore"
+
+msgid "Create Backup First"
+msgstr "Create Backup First"
+
+msgid "No Encryption"
+msgstr "No Encryption"
+
+msgid "Encrypt with Password"
+msgstr "Encrypt with Password"
+
+msgid "Delete Everything"
+msgstr "Delete Everything"
+
+msgid "Confirm Delete"
+msgstr "Confirm Delete"
+
+msgid "Are you absolutely sure?"
+msgstr "Are you absolutely sure?"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "Gagnagrunnsviðhald"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "Endurheimta reikninga, skilaboð og stillingar úr öryggisafriti"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr ""
+"Eyða öllum skilaboðum, skrám og OMEMO lyklum. Reikningarnir þínir verða "
+"áfram."
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr ""
+"Eyða ÖLLUM gögnum þar með talið reikningum. Þetta er ekki hægt að afturkalla!"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "Öryggisafritsskrár (*.tar.gz, *.tar.gz.gpg)"
+
+msgid "Creating encrypted backup..."
+msgstr "Bý til dulkóðað öryggisafrit..."
+
+msgid "Decryption Failed"
+msgstr "Afkóðun mistókst"
+
+msgid "DinoX will now restart..."
+msgstr "DinoX mun endurræsast núna..."
+
+msgid "Encrypted backup created successfully"
+msgstr "Dulkóðað öryggisafrit búið til"
+
+msgid "Password (minimum 4 characters)"
+msgstr "Lykilorð (að lágmarki 4 stafir)"
+
+msgid "Decrypting encrypted backup file..."
+msgstr "Afkóða öryggisafritsskrá..."
+
+msgid "Extracting files from backup..."
+msgstr "Dreg út skrár úr öryggisafriti..."
+
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "Endurstilling í gangi... DinoX mun endurræsast."
+
+msgid "Resetting database... DinoX will restart."
+msgstr "Endurstilli gagnagrunn... DinoX mun endurræsast."
+
+msgid "Encrypted backup created (%s)"
+msgstr "Dulkóðað öryggisafrit búið til (%s)"
+
+msgid ""
+"Could not decrypt the backup file.\n"
+"\n"
+"Please check if the password is correct."
+msgstr ""
+"Gat ekki afkóðað skrána.\n"
+"\n"
+"Athugaðu hvort lykilorðið sé rétt."
+
+msgid ""
+"Could not restore the backup file.\n"
+"\n"
+"Error: %s"
+msgstr ""
+"Gat ekki endurheimt skrána.\n"
+"\n"
+"Villa: %s"
+
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "Þetta öryggisafrit er dulkóðað. Sláðu inn lykilorðið."
+
+msgid ""
+"Enter a password to encrypt the backup.\n"
+"\n"
+"<b>Important:</b> Remember this password! Without it, the backup cannot be "
+"restored."
+msgstr ""
+"Sláðu inn lykilorð til að dulkóða öryggisafritið.\n"
+"\n"
+"<b>Mikilvægt:</b> Mundu þetta lykilorð! Án þess er ekki hægt að endurheimta."
+
+msgid ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+msgstr ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+
+msgid ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+msgstr ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+
+msgid ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+msgstr ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+
+msgid ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+msgstr ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+
+# OpenPGP Key Management
+msgid "OpenPGP Key Management"
+msgstr "OpenPGP Key Management"
+
+msgid "Actions"
+msgstr "Actions"
+
+msgid "Generate New Key"
+msgstr "Generate New Key"
+
+msgid "Import Key"
+msgstr "Import Key"
+
+msgid "Your Keys"
+msgstr "Your Keys"
+
+msgid "Fingerprint"
+msgstr "Fingerprint"
+
+msgid "Export Public Key"
+msgstr "Export Public Key"
+
+msgid "Delete Key"
+msgstr "Delete Key"
+
+msgid "Name"
+msgstr "Name"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Passphrase"
+msgstr "Passphrase"
+
+msgid "Generate"
+msgstr "Generate"
+
+msgid "Select OpenPGP Key"
+msgstr "Select OpenPGP Key"
+
+msgid "Wrong passphrase"
+msgstr "Wrong passphrase"
+
+msgid "Manage Keys"
+msgstr "Manage Keys"
+
+msgid "Announce key"
+msgstr "Announce key"
+
+msgid "Disabled"
+msgstr "Disabled"
+
+msgid "Success"
+msgstr "Success"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Create a new OpenPGP key pair"
+msgstr "Búa til nýtt OpenPGP lykilpar"
+
+msgid "Import a key from file (.asc, .gpg)"
+msgstr "Flytja inn lykil úr skrá (.asc, .gpg)"
+
+msgid "Private keys available for signing and decryption"
+msgstr "Einkalyklar tiltækir til undirritunar og afkóðunar"
+
+msgid "No private keys found"
+msgstr "Engir einkalyklar fundust"
+
+msgid "Generate or import a key to get started"
+msgstr "Búðu til eða flyttu inn lykil til að byrja"
+
+msgid "Generate New OpenPGP Key"
+msgstr "Búa til nýjan OpenPGP lykil"
+
+msgid "Enter your details to create a new key pair."
+msgstr "Sláðu inn upplýsingarnar þínar til að búa til nýtt lykilpar."
+
+msgid "Your Name"
+msgstr "Nafnið þitt"
+
+msgid "you@example.com"
+msgstr "thu@daemi.is"
+
+msgid "Passphrase (optional)"
+msgstr "Lykilorð (valfrjálst)"
+
+msgid "4096-bit RSA key, valid for 2 years."
+msgstr "4096-bita RSA lykill, gildur í 2 ár."
+
+msgid "Name must be at least 2 characters"
+msgstr "Nafn verður að vera að minnsta kosti 2 stafir"
+
+msgid "Please enter a valid email address"
+msgstr "Vinsamlegast sláðu inn gilt netfang"
+
+msgid "Generating Key..."
+msgstr "Bý til lykil..."
+
+msgid "Please wait while your key is being generated. This may take a moment."
+msgstr ""
+"Vinsamlegast bíddu meðan lykillinn þinn er búinn til. Þetta getur tekið smá "
+"stund."
+
+msgid "Key generated successfully!"
+msgstr "Lykill búinn til!"
+
+msgid "Failed to generate key."
+msgstr "Mistókst að búa til lykil."
+
+msgid "Import OpenPGP Key"
+msgstr "Flytja inn OpenPGP lykil"
+
+msgid "OpenPGP Keys (*.asc, *.gpg)"
+msgstr "OpenPGP lyklar (*.asc, *.gpg)"
+
+msgid "All Files"
+msgstr "Allar skrár"
+
+msgid "Key imported! Re-open Key Management to see it."
+msgstr "Lykill fluttur inn! Opnaðu lyklastjórnun aftur til að sjá hann."
+
+msgid "Import failed: "
+msgstr "Innflutningur mistókst: "
+
+msgid "Key exported to: "
+msgstr "Lykill fluttur út til: "
+
+msgid "Export failed."
+msgstr "Útflutningur mistókst."
+
+msgid "Delete Key?"
+msgstr "Eyða lykli?"
+
+msgid ""
+"Delete this key?\n"
+"\n"
+"%s\n"
+"\n"
+"This cannot be undone!"
+msgstr ""
+"Eyða þessum lykli?\n"
+"\n"
+"%s\n"
+"\n"
+"Þetta er ekki afturkræft!"
+
+msgid "Key deleted."
+msgstr "Lykli eytt."
+
+msgid "Delete failed: "
+msgstr "Eyðing mistókst: "
+
+msgid "Choose a key to announce to your contacts."
+msgstr "Veldu lykil til að tilkynna tengiliðum þínum."
+
+msgid "Enter GPG passphrase to confirm:"
+msgstr "Sláðu inn GPG lykilorð til að staðfesta:"
+
+msgid "Generate, import, export, or delete keys"
+msgstr "Búa til, flytja inn, flytja út eða eyða lyklum"
+
+msgid "No keys available. Generate or import one!"
+msgstr "Engir lyklar til staðar. Búðu til eða flyttu inn einn!"
+
+msgid "Error in GnuPG"
+msgstr "Villa í GnuPG"
 
 #~ msgid "Message too long"
 #~ msgstr "Skilaboð of langt"
@@ -1891,154 +2351,3 @@ msgstr "Samnefni (valfrjálst)"
 
 #~ msgid "Click here to start a conversation or join a channel."
 #~ msgstr "Smelltu hér til að hefja samtal eða taka þátt í rás."
-
-# DinoX v0.7.7 - Database Maintenance & Backup/Restore
-msgid "Clean Database"
-msgstr "Clean Database"
-
-msgid "Reset Database"
-msgstr "Reset Database"
-
-msgid "Restore Complete!"
-msgstr "Restore Complete!"
-
-msgid "Restore Failed"
-msgstr "Restore Failed"
-
-msgid "Decrypting Backup..."
-msgstr "Decrypting Backup..."
-
-msgid "Restoring Backup..."
-msgstr "Restoring Backup..."
-
-msgid "Set Backup Password"
-msgstr "Set Backup Password"
-
-msgid "Confirm Password"
-msgstr "Confirm Password"
-
-msgid "Create Encrypted Backup"
-msgstr "Create Encrypted Backup"
-
-msgid "Password too short"
-msgstr "Password too short"
-
-msgid "Passwords do not match"
-msgstr "Passwords do not match"
-
-msgid "✓ Passwords match"
-msgstr "✓ Passwords match"
-
-msgid "Encrypting Backup..."
-msgstr "Encrypting Backup..."
-
-msgid "Factory Reset"
-msgstr "Factory Reset"
-
-msgid "Restore from Backup"
-msgstr "Restore from Backup"
-
-msgid "Restore Backup"
-msgstr "Restore Backup"
-
-msgid "Select Backup File"
-msgstr "Select Backup File"
-
-msgid "Enter Backup Password"
-msgstr "Enter Backup Password"
-
-msgid "Decrypt & Restore"
-msgstr "Decrypt & Restore"
-
-msgid "Create Backup First"
-msgstr "Create Backup First"
-
-msgid "No Encryption"
-msgstr "No Encryption"
-
-msgid "Encrypt with Password"
-msgstr "Encrypt with Password"
-
-msgid "Delete Everything"
-msgstr "Delete Everything"
-
-msgid "Confirm Delete"
-msgstr "Confirm Delete"
-
-msgid "Are you absolutely sure?"
-msgstr "Are you absolutely sure?"
-
-#: main/data/preferences_window/general_preferences_page.ui:104
-msgid "Database Maintenance"
-msgstr "Gagnagrunnsviðhald"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Restore accounts, messages and settings from a backup file"
-msgstr "Endurheimta reikninga, skilaboð og stillingar úr öryggisafriti"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
-msgstr "Eyða öllum skilaboðum, skrám og OMEMO lyklum. Reikningarnir þínir verða áfram."
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete ALL data including accounts. This cannot be undone!"
-msgstr "Eyða ÖLLUM gögnum þar með talið reikningum. Þetta er ekki hægt að afturkalla!"
-
-# DinoX v0.7.7 - Additional Backup/Restore strings
-
-msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
-msgstr "Öryggisafritsskrár (*.tar.gz, *.tar.gz.gpg)"
-
-msgid "Creating encrypted backup..."
-msgstr "Bý til dulkóðað öryggisafrit..."
-
-msgid "Decryption Failed"
-msgstr "Afkóðun mistókst"
-
-msgid "DinoX will now restart..."
-msgstr "DinoX mun endurræsast núna..."
-
-msgid "Encrypted backup created successfully"
-msgstr "Dulkóðað öryggisafrit búið til"
-
-msgid "Password (minimum 4 characters)"
-msgstr "Lykilorð (að lágmarki 4 stafir)"
-
-msgid "Decrypting encrypted backup file..."
-msgstr "Afkóða öryggisafritsskrá..."
-
-msgid "Extracting files from backup..."
-msgstr "Dreg út skrár úr öryggisafriti..."
-
-msgid "Factory reset in progress... DinoX will restart."
-msgstr "Endurstilling í gangi... DinoX mun endurræsast."
-
-msgid "Resetting database... DinoX will restart."
-msgstr "Endurstilli gagnagrunn... DinoX mun endurræsast."
-
-msgid "Encrypted backup created (%s)"
-msgstr "Dulkóðað öryggisafrit búið til (%s)"
-
-msgid "Could not decrypt the backup file.\n\nPlease check if the password is correct."
-msgstr "Gat ekki afkóðað skrána.\n\nAthugaðu hvort lykilorðið sé rétt."
-
-msgid "Could not restore the backup file.\n\nError: %s"
-msgstr "Gat ekki endurheimt skrána.\n\nVilla: %s"
-
-msgid "This backup is encrypted. Please enter the password to decrypt it."
-msgstr "Þetta öryggisafrit er dulkóðað. Sláðu inn lykilorðið."
-
-msgid "Enter a password to encrypt the backup.\n\n<b>Important:</b> Remember this password! Without it, the backup cannot be restored."
-msgstr "Sláðu inn lykilorð til að dulkóða öryggisafritið.\n\n<b>Mikilvægt:</b> Mundu þetta lykilorð! Án þess er ekki hægt að endurheimta."
-
-msgid "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
-msgstr "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
-
-msgid "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
-msgstr "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
-
-msgid "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
-msgstr "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
-
-msgid "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"
-msgstr "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"

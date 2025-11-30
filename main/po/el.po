@@ -317,8 +317,10 @@ msgstr "_Εκτέλεση στο παρασκήνιο"
 #: main/data/preferences_window/general_preferences_page.ui:33
 msgid ""
 "Continue running after closing window to receive notifications immediately"
-msgstr "Συνέχεια εκτέλεσης μετά το κλείσιμο του παραθύρου για άμεση λήψη ειδοποιήσεων"
-"Συνέχιση εκτέλεσης μετά το κλείσιμο του παραθύρου για άμεση λήψη ειδοποιήσεων"
+msgstr ""
+"Συνέχεια εκτέλεσης μετά το κλείσιμο του παραθύρου για άμεση λήψη "
+"ειδοποιήσεωνΣυνέχιση εκτέλεσης μετά το κλείσιμο του παραθύρου για άμεση λήψη "
+"ειδοποιήσεων"
 
 #: main/data/preferences_window/general_preferences_page.ui:41
 msgid "Appearance"
@@ -493,7 +495,9 @@ msgstr "Πληροφορίες:"
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
-msgstr "Τα προσωπικά σας δεδομένα (λογαριασμοί, μηνύματα, αρχεία) αποθηκεύονται χωριστά από την εφαρμογή."
+msgstr ""
+"Τα προσωπικά σας δεδομένα (λογαριασμοί, μηνύματα, αρχεία) αποθηκεύονται "
+"χωριστά από την εφαρμογή."
 
 #: main/src/ui/application.vala:361
 msgid "When you update DinoX, your data remains intact."
@@ -501,15 +505,20 @@ msgstr "Όταν ενημερώνετε το DinoX, τα δεδομένα σας
 
 #: main/src/ui/application.vala:363
 msgid "Use Settings → General → Backup User Data to create a backup."
-msgstr "Χρησιμοποιήστε Ρυθμίσεις → Γενικά → Δημιουργία αντιγράφου ασφαλείας για να δημιουργήσετε αντίγραφο."
+msgstr ""
+"Χρησιμοποιήστε Ρυθμίσεις → Γενικά → Δημιουργία αντιγράφου ασφαλείας για να "
+"δημιουργήσετε αντίγραφο."
 
 #: main/src/ui/application.vala:405
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
-msgstr "Τα προσωπικά σας δεδομένα (λογαριασμοί, μηνύματα, αρχεία) αποθηκεύονται χωριστά από την εφαρμογή. Όταν ενημερώνετε το DinoX, τα δεδομένα σας παραμένουν ανέπαφα."
-"Τα προσωπικά σας δεδομένα (λογαριασμοί, μηνύματα, αρχεία) αποθηκεύονται ξεχωριστά από την "
-"εφαρμογή. Όταν ενημερώνετε το DinoX, τα δεδομένα σας παραμένουν ανέπαφα."
+msgstr ""
+"Τα προσωπικά σας δεδομένα (λογαριασμοί, μηνύματα, αρχεία) αποθηκεύονται "
+"χωριστά από την εφαρμογή. Όταν ενημερώνετε το DinoX, τα δεδομένα σας "
+"παραμένουν ανέπαφα.Τα προσωπικά σας δεδομένα (λογαριασμοί, μηνύματα, αρχεία) "
+"αποθηκεύονται ξεχωριστά από την εφαρμογή. Όταν ενημερώνετε το DinoX, τα "
+"δεδομένα σας παραμένουν ανέπαφα."
 
 #: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
 #: main/src/ui/main_window.vala:159
@@ -519,6 +528,52 @@ msgstr "Κλείσιμο"
 #: main/src/ui/application.vala:417
 msgid "Select Backup Location"
 msgstr "Επιλογή τοποθεσίας αντιγράφου"
+
+#: main/src/ui/application.vala
+msgid "Creating Backup..."
+msgstr "Creating Backup..."
+
+#: main/src/ui/application.vala
+msgid "Creating Encrypted Backup..."
+msgstr "Creating Encrypted Backup..."
+
+#: main/src/ui/application.vala
+msgid "Please wait while your data is being backed up."
+msgstr "Please wait while your data is being backed up."
+
+#: main/src/ui/application.vala
+msgid "No data directories found to backup"
+msgstr "No data directories found to backup"
+
+#: main/src/ui/application.vala
+msgid "Backup Created"
+msgstr "Backup Created"
+
+#: main/src/ui/application.vala
+msgid "Encrypted Backup Created"
+msgstr "Encrypted Backup Created"
+
+#: main/src/ui/application.vala
+#, c-format
+msgid "Your backup was created successfully.\\n\\nSize: %s"
+msgstr "Your backup was created successfully.\\n\\nSize: %s"
+
+#: main/src/ui/application.vala
+msgid "Your backup was created successfully."
+msgstr "Your backup was created successfully."
+
+#: main/src/ui/application.vala
+#, c-format
+msgid "Your encrypted backup was created successfully.\\n\\nSize: %s"
+msgstr "Your encrypted backup was created successfully.\\n\\nSize: %s"
+
+#: main/src/ui/application.vala
+msgid "Your encrypted backup was created successfully."
+msgstr "Your encrypted backup was created successfully."
+
+#: main/src/ui/application.vala
+msgid "Backup Failed"
+msgstr "Backup Failed"
 
 #: main/src/ui/application.vala:445
 msgid "Creating backup..."
@@ -1042,9 +1097,12 @@ msgstr "Καταστροφή δωματίου;"
 msgid ""
 "Are you sure you want to permanently destroy this room? This action cannot "
 "be undone and all history will be lost for all participants."
-msgstr "Είστε βέβαιοι ότι θέλετε να καταστρέψετε μόνιμα αυτό το δωμάτιο; Αυτή η ενέργεια δεν μπορεί να αναιρεθεί και όλο το ιστορικό θα χαθεί για όλους τους συμμετέχοντες."
-"Είστε βέβαιοι ότι θέλετε να καταστρέψετε μόνιμα αυτό το δωμάτιο; Αυτή η ενέργεια δεν μπορεί "
-"να αναιρεθεί και όλο το ιστορικό θα χαθεί για όλους τους συμμετέχοντες."
+msgstr ""
+"Είστε βέβαιοι ότι θέλετε να καταστρέψετε μόνιμα αυτό το δωμάτιο; Αυτή η "
+"ενέργεια δεν μπορεί να αναιρεθεί και όλο το ιστορικό θα χαθεί για όλους τους "
+"συμμετέχοντες.Είστε βέβαιοι ότι θέλετε να καταστρέψετε μόνιμα αυτό το "
+"δωμάτιο; Αυτή η ενέργεια δεν μπορεί να αναιρεθεί και όλο το ιστορικό θα "
+"χαθεί για όλους τους συμμετέχοντες."
 
 #: main/src/ui/conversation_details.vala:250
 msgid "Destroy"
@@ -1227,7 +1285,12 @@ msgid ""
 "• Remove %s from your contact list\n"
 "\n"
 "This action cannot be undone."
-msgstr "Αυτό θα:\n• Διαγράψει όλο το ιστορικό συνομιλίας\n• Αφαιρέσει τον/την %s από τη λίστα επαφών σας\n\nΑυτή η ενέργεια δεν μπορεί να αναιρεθεί."
+msgstr ""
+"Αυτό θα:\n"
+"• Διαγράψει όλο το ιστορικό συνομιλίας\n"
+"• Αφαιρέσει τον/την %s από τη λίστα επαφών σας\n"
+"\n"
+"Αυτή η ενέργεια δεν μπορεί να αναιρεθεί."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:787
 msgid "Delete all message history?"
@@ -1237,7 +1300,9 @@ msgstr "Διαγραφή όλου του ιστορικού μηνυμάτων;"
 msgid ""
 "This will permanently delete all messages in this conversation. This action "
 "cannot be undone."
-msgstr "Αυτό θα διαγράψει μόνιμα όλα τα μηνύματα σε αυτή τη συνομιλία. Αυτή η ενέργεια δεν μπορεί να αναιρεθεί."
+msgstr ""
+"Αυτό θα διαγράψει μόνιμα όλα τα μηνύματα σε αυτή τη συνομιλία. Αυτή η "
+"ενέργεια δεν μπορεί να αναιρεθεί."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:791
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
@@ -1264,7 +1329,9 @@ msgstr "Απαιτείται διακομιστής διάσκεψης"
 msgid ""
 "To start a group call, you need to configure a default conference server in "
 "your account settings."
-msgstr "Για να ξεκινήσετε μια ομαδική κλήση, πρέπει να ρυθμίσετε έναν προεπιλεγμένο διακομιστή συνεδρίων στις ρυθμίσεις του λογαριασμού σας."
+msgstr ""
+"Για να ξεκινήσετε μια ομαδική κλήση, πρέπει να ρυθμίσετε έναν προεπιλεγμένο "
+"διακομιστή συνεδρίων στις ρυθμίσεις του λογαριασμού σας."
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:84
 msgid "Open Settings"
@@ -1321,7 +1388,13 @@ msgid ""
 "\n"
 "If you need a password or a nickname, provide them in the dialog. Use the "
 "discovery features in the server to find public rooms."
-msgstr "Για να συμμετάσχετε σε ένα κανάλι, κάντε κλικ στο κουμπί \"Συμμετοχή στο κανάλι\" και εισάγετε το JID του καναλιού (παράδειγμα: room@conference.example.org).\n\nΑν χρειάζεστε κωδικό ή ψευδώνυμο, παρέχετέ τα στο διάλογο. Χρησιμοποιήστε τις δυνατότητες ανακάλυψης του διακομιστή για να βρείτε δημόσια δωμάτια."
+msgstr ""
+"Για να συμμετάσχετε σε ένα κανάλι, κάντε κλικ στο κουμπί \"Συμμετοχή στο "
+"κανάλι\" και εισάγετε το JID του καναλιού (παράδειγμα: room@conference."
+"example.org).\n"
+"\n"
+"Αν χρειάζεστε κωδικό ή ψευδώνυμο, παρέχετέ τα στο διάλογο. Χρησιμοποιήστε "
+"τις δυνατότητες ανακάλυψης του διακομιστή για να βρείτε δημόσια δωμάτια."
 
 #: main/src/ui/main_window.vala:206
 msgid "Welcome to DinoX!"
@@ -1479,9 +1552,11 @@ msgstr "Έξοδος"
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
 "A friendly name shown in room listings (does not change the room address)"
-msgstr "Ένα φιλικό όνομα που εμφανίζεται στις λίστες δωματίων (δεν αλλάζει τη διεύθυνση δωματίου)"
-"Ένα φιλικό όνομα που εμφανίζεται στις λίστες δωματίων (δεν αλλάζει τη διεύθυνση του δωματίου)"
-"Ένα φιλικό όνομα στις λίστες δωματίων (δεν αλλάζει τη διεύθυνση του δωματίου)"
+msgstr ""
+"Ένα φιλικό όνομα που εμφανίζεται στις λίστες δωματίων (δεν αλλάζει τη "
+"διεύθυνση δωματίου)Ένα φιλικό όνομα που εμφανίζεται στις λίστες δωματίων "
+"(δεν αλλάζει τη διεύθυνση του δωματίου)Ένα φιλικό όνομα στις λίστες δωματίων "
+"(δεν αλλάζει τη διεύθυνση του δωματίου)"
 
 #: main/src/ui/util/data_forms.vala:44
 msgid "Description"
@@ -1535,7 +1610,9 @@ msgstr "Μόνο για μέλη"
 msgid ""
 "Only members may enter the room. Warning: Non-members will be removed when "
 "enabled!"
-msgstr "Μόνο τα μέλη μπορούν να εισέλθουν στο δωμάτιο. Προειδοποίηση: Τα μη μέλη θα αφαιρεθούν όταν ενεργοποιηθεί!"
+msgstr ""
+"Μόνο τα μέλη μπορούν να εισέλθουν στο δωμάτιο. Προειδοποίηση: Τα μη μέλη θα "
+"αφαιρεθούν όταν ενεργοποιηθεί!"
 
 #: main/src/ui/util/helper.vala:65
 #, c-format
@@ -1554,7 +1631,9 @@ msgstr "%a, %b %d"
 msgid ""
 "This contact will be removed from your contact list and all conversation "
 "history will be permanently deleted."
-msgstr "Αυτή η επαφή θα αφαιρεθεί από τη λίστα επαφών σας και όλο το ιστορικό συνομιλίας θα διαγραφεί μόνιμα."
+msgstr ""
+"Αυτή η επαφή θα αφαιρεθεί από τη λίστα επαφών σας και όλο το ιστορικό "
+"συνομιλίας θα διαγραφεί μόνιμα."
 
 #: main/src/windows/conversation_details.vala:108
 msgid "Block user"
@@ -1658,9 +1737,10 @@ msgstr "Ο διακομιστής δεν μπόρεσε να αποδείξει 
 
 #: main/src/windows/preferences_window/add_account_dialog.vala:158
 msgid "Its security certificate is not trusted by your operating system."
-msgstr "Το πιστοποιητικό ασφαλείας του δεν είναι αξιόπιστο από το λειτουργικό σας σύστημα."
+msgstr ""
 "Το πιστοποιητικό ασφαλείας του δεν είναι αξιόπιστο από το λειτουργικό σας "
-"σύστημα."
+"σύστημα.Το πιστοποιητικό ασφαλείας του δεν είναι αξιόπιστο από το "
+"λειτουργικό σας σύστημα."
 
 #: main/src/windows/preferences_window/add_account_dialog.vala:160
 msgid "Its security certificate is issued to another domain."
@@ -1731,8 +1811,8 @@ msgid ""
 "This will remove %s from your contact list and delete all conversation "
 "history."
 msgstr ""
-"Το %s θα αφαιρεθεί από τη λίστα επαφών σας και όλο το ιστορικό συνομιλιών "
-"θα διαγραφεί."
+"Το %s θα αφαιρεθεί από τη λίστα επαφών σας και όλο το ιστορικό συνομιλιών θα "
+"διαγραφεί."
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:318
 msgid "Edit Contact Alias"
@@ -1746,6 +1826,395 @@ msgstr "Αλλαγή του εμφανιζόμενου ονόματος για %
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:325
 msgid "Alias (optional)"
 msgstr "Ψευδώνυμο (προαιρετικό)"
+
+# DinoX v0.7.7 - Database Maintenance & Backup/Restore
+msgid "Clean Database"
+msgstr "Καθαρισμός βάσης δεδομένων"
+
+msgid "Reset Database"
+msgstr "Επαναφορά βάσης δεδομένων"
+
+msgid "Restore Complete!"
+msgstr "Η επαναφορά ολοκληρώθηκε!"
+
+msgid "Restore Failed"
+msgstr "Η επαναφορά απέτυχε"
+
+msgid "Decrypting Backup..."
+msgstr "Αποκρυπτογράφηση αντιγράφου..."
+
+msgid "Restoring Backup..."
+msgstr "Επαναφορά αντιγράφου..."
+
+msgid "Set Backup Password"
+msgstr "Ορισμός κωδικού αντιγράφου"
+
+msgid "Confirm Password"
+msgstr "Επιβεβαίωση κωδικού"
+
+msgid "Create Encrypted Backup"
+msgstr "Δημιουργία κρυπτογραφημένου αντιγράφου"
+
+msgid "Password too short"
+msgstr "Ο κωδικός είναι πολύ μικρός"
+
+msgid "Passwords do not match"
+msgstr "Οι κωδικοί δεν ταιριάζουν"
+
+msgid "✓ Passwords match"
+msgstr "✓ Οι κωδικοί ταιριάζουν"
+
+msgid "Encrypting Backup..."
+msgstr "Κρυπτογράφηση αντιγράφου..."
+
+msgid "Factory Reset"
+msgstr "Επαναφορά εργοστασιακών"
+
+msgid "Restore from Backup"
+msgstr "Επαναφορά από αντίγραφο"
+
+msgid "Restore Backup"
+msgstr "Επαναφορά αντιγράφου"
+
+msgid "Select Backup File"
+msgstr "Επιλογή αρχείου αντιγράφου"
+
+msgid "Enter Backup Password"
+msgstr "Εισάγετε κωδικό αντιγράφου"
+
+msgid "Decrypt & Restore"
+msgstr "Αποκρυπτογράφηση και επαναφορά"
+
+msgid "Create Backup First"
+msgstr "Δημιουργήστε πρώτα αντίγραφο"
+
+msgid "No Encryption"
+msgstr "Χωρίς κρυπτογράφηση"
+
+msgid "Encrypt with Password"
+msgstr "Κρυπτογράφηση με κωδικό"
+
+msgid "Delete Everything"
+msgstr "Διαγραφή όλων"
+
+msgid "Confirm Delete"
+msgstr "Επιβεβαίωση διαγραφής"
+
+msgid "Are you absolutely sure?"
+msgstr "Είστε απολύτως σίγουροι;"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "Συντήρηση βάσης δεδομένων"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr ""
+"Επαναφορά λογαριασμών, μηνυμάτων και ρυθμίσεων από αρχείο αντιγράφου "
+"ασφαλείας"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr ""
+"Διαγραφή όλων των μηνυμάτων, αρχείων και κλειδιών OMEMO. Οι λογαριασμοί σας "
+"θα παραμείνουν."
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr ""
+"Διαγραφή ΟΛΩΝ των δεδομένων συμπεριλαμβανομένων των λογαριασμών. Αυτό δεν "
+"μπορεί να αναιρεθεί!"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "Αρχεία αντιγράφων ασφαλείας (*.tar.gz, *.tar.gz.gpg)"
+
+msgid "Creating encrypted backup..."
+msgstr "Δημιουργία κρυπτογραφημένου αντιγράφου..."
+
+msgid "Decryption Failed"
+msgstr "Η αποκρυπτογράφηση απέτυχε"
+
+msgid "DinoX will now restart..."
+msgstr "Το DinoX θα επανεκκινήσει τώρα..."
+
+msgid "Encrypted backup created successfully"
+msgstr "Το κρυπτογραφημένο αντίγραφο δημιουργήθηκε επιτυχώς"
+
+msgid "Password (minimum 4 characters)"
+msgstr "Κωδικός (τουλάχιστον 4 χαρακτήρες)"
+
+msgid "Decrypting encrypted backup file..."
+msgstr "Αποκρυπτογράφηση αρχείου αντιγράφου..."
+
+msgid "Extracting files from backup..."
+msgstr "Εξαγωγή αρχείων από το αντίγραφο..."
+
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "Επαναφορά εργοστασιακών ρυθμίσεων... Το DinoX θα επανεκκινήσει."
+
+msgid "Resetting database... DinoX will restart."
+msgstr "Επαναφορά βάσης δεδομένων... Το DinoX θα επανεκκινήσει."
+
+msgid "Encrypted backup created (%s)"
+msgstr "Κρυπτογραφημένο αντίγραφο δημιουργήθηκε (%s)"
+
+msgid ""
+"Could not decrypt the backup file.\n"
+"\n"
+"Please check if the password is correct."
+msgstr ""
+"Δεν ήταν δυνατή η αποκρυπτογράφηση.\n"
+"\n"
+"Ελέγξτε αν ο κωδικός είναι σωστός."
+
+msgid ""
+"Could not restore the backup file.\n"
+"\n"
+"Error: %s"
+msgstr ""
+"Δεν ήταν δυνατή η επαναφορά.\n"
+"\n"
+"Σφάλμα: %s"
+
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "Αυτό το αντίγραφο είναι κρυπτογραφημένο. Εισάγετε τον κωδικό."
+
+msgid ""
+"Enter a password to encrypt the backup.\n"
+"\n"
+"<b>Important:</b> Remember this password! Without it, the backup cannot be "
+"restored."
+msgstr ""
+"Εισάγετε κωδικό για κρυπτογράφηση.\n"
+"\n"
+"<b>Σημαντικό:</b> Θυμηθείτε αυτόν τον κωδικό!"
+
+msgid ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+msgstr ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+
+msgid ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+msgstr ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+
+msgid ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+msgstr ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+
+msgid ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+msgstr ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+
+# OpenPGP Key Management translations
+msgid "OpenPGP Key Management"
+msgstr "Διαχείριση κλειδιών OpenPGP"
+
+msgid "Actions"
+msgstr "Ενέργειες"
+
+msgid "Generate New Key"
+msgstr "Δημιουργία νέου κλειδιού"
+
+msgid "Create a new OpenPGP key pair"
+msgstr "Δημιουργία νέου ζεύγους κλειδιών OpenPGP"
+
+msgid "Import Key"
+msgstr "Εισαγωγή κλειδιού"
+
+msgid "Import a key from file (.asc, .gpg)"
+msgstr "Εισαγωγή κλειδιού από αρχείο (.asc, .gpg)"
+
+msgid "Your Keys"
+msgstr "Τα κλειδιά σας"
+
+msgid "Private keys available for signing and decryption"
+msgstr "Διαθέσιμα ιδιωτικά κλειδιά για υπογραφή και αποκρυπτογράφηση"
+
+msgid "No private keys found"
+msgstr "Δεν βρέθηκαν ιδιωτικά κλειδιά"
+
+msgid "Generate or import a key to get started"
+msgstr "Δημιουργήστε ή εισάγετε ένα κλειδί για να ξεκινήσετε"
+
+msgid "Fingerprint"
+msgstr "Αποτύπωμα"
+
+msgid "Export Public Key"
+msgstr "Εξαγωγή δημόσιου κλειδιού"
+
+msgid "Delete Key"
+msgstr "Διαγραφή κλειδιού"
+
+msgid "Generate New OpenPGP Key"
+msgstr "Δημιουργία νέου κλειδιού OpenPGP"
+
+msgid "Enter your details to create a new key pair."
+msgstr "Εισάγετε τα στοιχεία σας για να δημιουργήσετε ένα νέο ζεύγος κλειδιών."
+
+msgid "Name"
+msgstr "Όνομα"
+
+msgid "Your Name"
+msgstr "Το όνομά σας"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "you@example.com"
+msgstr "εσείς@παράδειγμα.gr"
+
+msgid "Passphrase (optional)"
+msgstr "Φράση πρόσβασης (προαιρετική)"
+
+msgid "Passphrase"
+msgstr "Φράση πρόσβασης"
+
+msgid "4096-bit RSA key, valid for 2 years."
+msgstr "Κλειδί RSA 4096-bit, ισχύει για 2 χρόνια."
+
+msgid "Generate"
+msgstr "Δημιουργία"
+
+msgid "Name must be at least 2 characters"
+msgstr "Το όνομα πρέπει να έχει τουλάχιστον 2 χαρακτήρες"
+
+msgid "Please enter a valid email address"
+msgstr "Παρακαλώ εισάγετε έγκυρη διεύθυνση email"
+
+msgid "Generating Key..."
+msgstr "Δημιουργία κλειδιού..."
+
+msgid "Please wait while your key is being generated. This may take a moment."
+msgstr ""
+"Παρακαλώ περιμένετε καθώς δημιουργείται το κλειδί σας. Αυτό μπορεί να πάρει "
+"λίγο χρόνο."
+
+msgid "Key generated successfully!"
+msgstr "Το κλειδί δημιουργήθηκε επιτυχώς!"
+
+msgid "Failed to generate key."
+msgstr "Αποτυχία δημιουργίας κλειδιού."
+
+msgid "Import OpenPGP Key"
+msgstr "Εισαγωγή κλειδιού OpenPGP"
+
+msgid "OpenPGP Keys (*.asc, *.gpg)"
+msgstr "Κλειδιά OpenPGP (*.asc, *.gpg)"
+
+msgid "All Files"
+msgstr "Όλα τα αρχεία"
+
+msgid "Key imported! Re-open Key Management to see it."
+msgstr ""
+"Το κλειδί εισήχθη! Ανοίξτε ξανά τη Διαχείριση κλειδιών για να το δείτε."
+
+msgid "Import failed: "
+msgstr "Αποτυχία εισαγωγής: "
+
+msgid "Key exported to: "
+msgstr "Το κλειδί εξήχθη σε: "
+
+msgid "Export failed."
+msgstr "Αποτυχία εξαγωγής."
+
+msgid "Delete Key?"
+msgstr "Διαγραφή κλειδιού;"
+
+msgid ""
+"Delete this key?\n"
+"\n"
+"%s\n"
+"\n"
+"This cannot be undone!"
+msgstr ""
+"Διαγραφή αυτού του κλειδιού;\n"
+"\n"
+"%s\n"
+"\n"
+"Αυτό δεν μπορεί να αναιρεθεί!"
+
+msgid "Key deleted."
+msgstr "Το κλειδί διαγράφηκε."
+
+msgid "Delete failed: "
+msgstr "Αποτυχία διαγραφής: "
+
+msgid "Select OpenPGP Key"
+msgstr "Επιλογή κλειδιού OpenPGP"
+
+msgid "Choose a key to announce to your contacts."
+msgstr "Επιλέξτε ένα κλειδί για ανακοίνωση στις επαφές σας."
+
+msgid "Enter GPG passphrase to confirm:"
+msgstr "Εισάγετε τη φράση πρόσβασης GPG για επιβεβαίωση:"
+
+msgid "Wrong passphrase"
+msgstr "Λάθος φράση πρόσβασης"
+
+msgid "Manage Keys"
+msgstr "Διαχείριση κλειδιών"
+
+msgid "Generate, import, export, or delete keys"
+msgstr "Δημιουργία, εισαγωγή, εξαγωγή ή διαγραφή κλειδιών"
+
+msgid "No keys available. Generate or import one!"
+msgstr "Δεν υπάρχουν διαθέσιμα κλειδιά. Δημιουργήστε ή εισάγετε ένα!"
+
+msgid "Announce key"
+msgstr "Ανακοίνωση κλειδιού"
+
+msgid "Disabled"
+msgstr "Απενεργοποιημένο"
+
+msgid "Error in GnuPG"
+msgstr "Σφάλμα στο GnuPG"
+
+msgid "Success"
+msgstr "Επιτυχία"
+
+msgid "OK"
+msgstr "OK"
 
 #~ msgid "Message too long"
 #~ msgstr "Το μήνυμα είναι πολύ μεγάλο"
@@ -1908,154 +2377,3 @@ msgstr "Ψευδώνυμο (προαιρετικό)"
 #~ msgstr ""
 #~ "Κάντε κλικ εδώ για να ξεκινήσετε μια συνομιλία ή να εισέλθετε σε ένα "
 #~ "δωμάτιο ομαδικής συνομιλίας."
-
-# DinoX v0.7.7 - Database Maintenance & Backup/Restore
-msgid "Clean Database"
-msgstr "Καθαρισμός βάσης δεδομένων"
-
-msgid "Reset Database"
-msgstr "Επαναφορά βάσης δεδομένων"
-
-msgid "Restore Complete!"
-msgstr "Η επαναφορά ολοκληρώθηκε!"
-
-msgid "Restore Failed"
-msgstr "Η επαναφορά απέτυχε"
-
-msgid "Decrypting Backup..."
-msgstr "Αποκρυπτογράφηση αντιγράφου..."
-
-msgid "Restoring Backup..."
-msgstr "Επαναφορά αντιγράφου..."
-
-msgid "Set Backup Password"
-msgstr "Ορισμός κωδικού αντιγράφου"
-
-msgid "Confirm Password"
-msgstr "Επιβεβαίωση κωδικού"
-
-msgid "Create Encrypted Backup"
-msgstr "Δημιουργία κρυπτογραφημένου αντιγράφου"
-
-msgid "Password too short"
-msgstr "Ο κωδικός είναι πολύ μικρός"
-
-msgid "Passwords do not match"
-msgstr "Οι κωδικοί δεν ταιριάζουν"
-
-msgid "✓ Passwords match"
-msgstr "✓ Οι κωδικοί ταιριάζουν"
-
-msgid "Encrypting Backup..."
-msgstr "Κρυπτογράφηση αντιγράφου..."
-
-msgid "Factory Reset"
-msgstr "Επαναφορά εργοστασιακών"
-
-msgid "Restore from Backup"
-msgstr "Επαναφορά από αντίγραφο"
-
-msgid "Restore Backup"
-msgstr "Επαναφορά αντιγράφου"
-
-msgid "Select Backup File"
-msgstr "Επιλογή αρχείου αντιγράφου"
-
-msgid "Enter Backup Password"
-msgstr "Εισάγετε κωδικό αντιγράφου"
-
-msgid "Decrypt & Restore"
-msgstr "Αποκρυπτογράφηση και επαναφορά"
-
-msgid "Create Backup First"
-msgstr "Δημιουργήστε πρώτα αντίγραφο"
-
-msgid "No Encryption"
-msgstr "Χωρίς κρυπτογράφηση"
-
-msgid "Encrypt with Password"
-msgstr "Κρυπτογράφηση με κωδικό"
-
-msgid "Delete Everything"
-msgstr "Διαγραφή όλων"
-
-msgid "Confirm Delete"
-msgstr "Επιβεβαίωση διαγραφής"
-
-msgid "Are you absolutely sure?"
-msgstr "Είστε απολύτως σίγουροι;"
-
-#: main/data/preferences_window/general_preferences_page.ui:104
-msgid "Database Maintenance"
-msgstr "Συντήρηση βάσης δεδομένων"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Restore accounts, messages and settings from a backup file"
-msgstr "Επαναφορά λογαριασμών, μηνυμάτων και ρυθμίσεων από αρχείο αντιγράφου ασφαλείας"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
-msgstr "Διαγραφή όλων των μηνυμάτων, αρχείων και κλειδιών OMEMO. Οι λογαριασμοί σας θα παραμείνουν."
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete ALL data including accounts. This cannot be undone!"
-msgstr "Διαγραφή ΟΛΩΝ των δεδομένων συμπεριλαμβανομένων των λογαριασμών. Αυτό δεν μπορεί να αναιρεθεί!"
-
-# DinoX v0.7.7 - Additional Backup/Restore strings
-
-msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
-msgstr "Αρχεία αντιγράφων ασφαλείας (*.tar.gz, *.tar.gz.gpg)"
-
-msgid "Creating encrypted backup..."
-msgstr "Δημιουργία κρυπτογραφημένου αντιγράφου..."
-
-msgid "Decryption Failed"
-msgstr "Η αποκρυπτογράφηση απέτυχε"
-
-msgid "DinoX will now restart..."
-msgstr "Το DinoX θα επανεκκινήσει τώρα..."
-
-msgid "Encrypted backup created successfully"
-msgstr "Το κρυπτογραφημένο αντίγραφο δημιουργήθηκε επιτυχώς"
-
-msgid "Password (minimum 4 characters)"
-msgstr "Κωδικός (τουλάχιστον 4 χαρακτήρες)"
-
-msgid "Decrypting encrypted backup file..."
-msgstr "Αποκρυπτογράφηση αρχείου αντιγράφου..."
-
-msgid "Extracting files from backup..."
-msgstr "Εξαγωγή αρχείων από το αντίγραφο..."
-
-msgid "Factory reset in progress... DinoX will restart."
-msgstr "Επαναφορά εργοστασιακών ρυθμίσεων... Το DinoX θα επανεκκινήσει."
-
-msgid "Resetting database... DinoX will restart."
-msgstr "Επαναφορά βάσης δεδομένων... Το DinoX θα επανεκκινήσει."
-
-msgid "Encrypted backup created (%s)"
-msgstr "Κρυπτογραφημένο αντίγραφο δημιουργήθηκε (%s)"
-
-msgid "Could not decrypt the backup file.\n\nPlease check if the password is correct."
-msgstr "Δεν ήταν δυνατή η αποκρυπτογράφηση.\n\nΕλέγξτε αν ο κωδικός είναι σωστός."
-
-msgid "Could not restore the backup file.\n\nError: %s"
-msgstr "Δεν ήταν δυνατή η επαναφορά.\n\nΣφάλμα: %s"
-
-msgid "This backup is encrypted. Please enter the password to decrypt it."
-msgstr "Αυτό το αντίγραφο είναι κρυπτογραφημένο. Εισάγετε τον κωδικό."
-
-msgid "Enter a password to encrypt the backup.\n\n<b>Important:</b> Remember this password! Without it, the backup cannot be restored."
-msgstr "Εισάγετε κωδικό για κρυπτογράφηση.\n\n<b>Σημαντικό:</b> Θυμηθείτε αυτόν τον κωδικό!"
-
-msgid "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
-msgstr "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
-
-msgid "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
-msgstr "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
-
-msgid "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
-msgstr "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
-
-msgid "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"
-msgstr "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"

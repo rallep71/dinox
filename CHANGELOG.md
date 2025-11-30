@@ -7,6 +7,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.7.9] - 2025-11-30
+
+### Added
+- **OpenPGP Key Management Dialog** - New dedicated dialog for managing PGP keys
+  - Key selection dropdown showing all available secret keys
+  - Key fingerprint display with proper formatting
+  - Generate new PGP key functionality (creates ED25519 key with 2-year expiry)
+  - Delete key button with confirmation dialog
+  - Password verification before key operations
+
+### Fixed
+- **Window Size Bug** - Fixed window not appearing after factory reset
+  - Added minimum window size (400x300) to prevent invisible windows
+  - Fallback to default 900x600 when config values are 0 or invalid
+  
+- **OMEMO Decryption Logging** - Added more debug output for session issues
+  - Logs sender address when starting/continuing session for decryption
+  - Helps diagnose OMEMO session desynchronization problems
+
+### Changed
+- **Certificate Pinning UI** - Simplified certificate display
+  - Show SHA-256 in addition to SHA-1 fingerprint
+  - Better fingerprint formatting with colons
+
+### Technical
+- New `key_management_dialog.vala` for OpenPGP key operations
+- Extended GPGHelper with `get_all_key_info()` for CLI-based key name retrieval
+- Improved OMEMO debug logging in `decrypt.vala`
+
 ## [0.7.8] - 2025-11-30
 
 ### Added
@@ -32,7 +61,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Shows count of cleaned entries
 
 - **Backup & Restore** - Complete data backup functionality
-  - Full backup of `~/.local/share/dino/` and `~/.config/dino/`
+  - Full backup of `~/.local/share/dinox/` and `~/.config/dinox/`
   - Optional **GPG encryption** with AES-256 (password-protected)
   - Restore from unencrypted (`.tar.gz`) or encrypted (`.tar.gz.gpg`) backups
   - Automatic detection of encrypted backups
@@ -168,7 +197,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - File chooser dialog to select save location
   - Progress notification with toast messages
   - Success notification shows backup file size
-  - Includes both `~/.local/share/dino` and `~/.config/dino` directories
+  - Includes both `~/.local/share/dinox` and `~/.config/dinox` directories
 
 - **User Data Locations** - View data paths in Preferences → General
   - Shows Config, Data, and Cache directory locations

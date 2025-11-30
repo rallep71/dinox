@@ -317,7 +317,8 @@ msgstr "_Terus berjalan di latar belakang"
 #: main/data/preferences_window/general_preferences_page.ui:33
 msgid ""
 "Continue running after closing window to receive notifications immediately"
-msgstr "Terus berjalan setelah menutup jendela untuk menerima notifikasi segera"
+msgstr ""
+"Terus berjalan setelah menutup jendela untuk menerima notifikasi segera"
 
 #: main/data/preferences_window/general_preferences_page.ui:41
 msgid "Appearance"
@@ -500,13 +501,16 @@ msgstr "Saat Anda memperbarui DinoX, data Anda tetap utuh."
 
 #: main/src/ui/application.vala:363
 msgid "Use Settings → General → Backup User Data to create a backup."
-msgstr "Gunakan Pengaturan → Umum → Cadangkan Data Pengguna untuk membuat cadangan."
+msgstr ""
+"Gunakan Pengaturan → Umum → Cadangkan Data Pengguna untuk membuat cadangan."
 
 #: main/src/ui/application.vala:405
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
-msgstr "Data pribadi Anda (akun, pesan, file) disimpan terpisah dari aplikasi. Saat Anda memperbarui DinoX, data Anda tetap utuh."
+msgstr ""
+"Data pribadi Anda (akun, pesan, file) disimpan terpisah dari aplikasi. Saat "
+"Anda memperbarui DinoX, data Anda tetap utuh."
 
 #: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
 #: main/src/ui/main_window.vala:159
@@ -516,6 +520,52 @@ msgstr "Tutup"
 #: main/src/ui/application.vala:417
 msgid "Select Backup Location"
 msgstr "Pilih Lokasi Cadangan"
+
+#: main/src/ui/application.vala
+msgid "Creating Backup..."
+msgstr "Creating Backup..."
+
+#: main/src/ui/application.vala
+msgid "Creating Encrypted Backup..."
+msgstr "Creating Encrypted Backup..."
+
+#: main/src/ui/application.vala
+msgid "Please wait while your data is being backed up."
+msgstr "Please wait while your data is being backed up."
+
+#: main/src/ui/application.vala
+msgid "No data directories found to backup"
+msgstr "No data directories found to backup"
+
+#: main/src/ui/application.vala
+msgid "Backup Created"
+msgstr "Backup Created"
+
+#: main/src/ui/application.vala
+msgid "Encrypted Backup Created"
+msgstr "Encrypted Backup Created"
+
+#: main/src/ui/application.vala
+#, c-format
+msgid "Your backup was created successfully.\\n\\nSize: %s"
+msgstr "Your backup was created successfully.\\n\\nSize: %s"
+
+#: main/src/ui/application.vala
+msgid "Your backup was created successfully."
+msgstr "Your backup was created successfully."
+
+#: main/src/ui/application.vala
+#, c-format
+msgid "Your encrypted backup was created successfully.\\n\\nSize: %s"
+msgstr "Your encrypted backup was created successfully.\\n\\nSize: %s"
+
+#: main/src/ui/application.vala
+msgid "Your encrypted backup was created successfully."
+msgstr "Your encrypted backup was created successfully."
+
+#: main/src/ui/application.vala
+msgid "Backup Failed"
+msgstr "Backup Failed"
 
 #: main/src/ui/application.vala:445
 msgid "Creating backup..."
@@ -941,7 +991,9 @@ msgstr "Hapus"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:167
 msgid "Do you want to delete this message just for yourself or for everyone?"
-msgstr "Apakah Anda ingin menghapus pesan ini hanya untuk diri sendiri atau untuk semua orang?"
+msgstr ""
+"Apakah Anda ingin menghapus pesan ini hanya untuk diri sendiri atau untuk "
+"semua orang?"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:168
 msgid "Delete for everyone"
@@ -1039,7 +1091,9 @@ msgstr "Hancurkan Ruangan?"
 msgid ""
 "Are you sure you want to permanently destroy this room? This action cannot "
 "be undone and all history will be lost for all participants."
-msgstr "Apakah Anda yakin ingin menghancurkan ruangan ini secara permanen? Tindakan ini tidak dapat dibatalkan dan semua riwayat akan hilang untuk semua peserta."
+msgstr ""
+"Apakah Anda yakin ingin menghancurkan ruangan ini secara permanen? Tindakan "
+"ini tidak dapat dibatalkan dan semua riwayat akan hilang untuk semua peserta."
 
 #: main/src/ui/conversation_details.vala:250
 msgid "Destroy"
@@ -1222,7 +1276,12 @@ msgid ""
 "• Remove %s from your contact list\n"
 "\n"
 "This action cannot be undone."
-msgstr "Ini akan:\n• Menghapus semua riwayat percakapan\n• Menghapus %s dari daftar kontak Anda\n\nTindakan ini tidak dapat dibatalkan."
+msgstr ""
+"Ini akan:\n"
+"• Menghapus semua riwayat percakapan\n"
+"• Menghapus %s dari daftar kontak Anda\n"
+"\n"
+"Tindakan ini tidak dapat dibatalkan."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:787
 msgid "Delete all message history?"
@@ -1232,7 +1291,9 @@ msgstr "Hapus semua riwayat pesan?"
 msgid ""
 "This will permanently delete all messages in this conversation. This action "
 "cannot be undone."
-msgstr "Ini akan menghapus semua pesan dalam percakapan ini secara permanen. Tindakan ini tidak dapat dibatalkan."
+msgstr ""
+"Ini akan menghapus semua pesan dalam percakapan ini secara permanen. "
+"Tindakan ini tidak dapat dibatalkan."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:791
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
@@ -1259,7 +1320,9 @@ msgstr "Server Konferensi Diperlukan"
 msgid ""
 "To start a group call, you need to configure a default conference server in "
 "your account settings."
-msgstr "Untuk memulai panggilan grup, Anda perlu mengonfigurasi server konferensi default di pengaturan akun Anda."
+msgstr ""
+"Untuk memulai panggilan grup, Anda perlu mengonfigurasi server konferensi "
+"default di pengaturan akun Anda."
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:84
 msgid "Open Settings"
@@ -1316,7 +1379,12 @@ msgid ""
 "\n"
 "If you need a password or a nickname, provide them in the dialog. Use the "
 "discovery features in the server to find public rooms."
-msgstr "Untuk bergabung dengan saluran, klik tombol \"Gabung Saluran\" dan masukkan JID saluran (contoh: room@conference.example.org).\n\nJika Anda memerlukan kata sandi atau nama panggilan, berikan di dialog. Gunakan fitur penemuan server untuk menemukan ruangan publik."
+msgstr ""
+"Untuk bergabung dengan saluran, klik tombol \"Gabung Saluran\" dan masukkan "
+"JID saluran (contoh: room@conference.example.org).\n"
+"\n"
+"Jika Anda memerlukan kata sandi atau nama panggilan, berikan di dialog. "
+"Gunakan fitur penemuan server untuk menemukan ruangan publik."
 
 #: main/src/ui/main_window.vala:206
 msgid "Welcome to DinoX!"
@@ -1474,7 +1542,9 @@ msgstr "Keluar"
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
 "A friendly name shown in room listings (does not change the room address)"
-msgstr "Nama ramah yang ditampilkan dalam daftar ruangan (tidak mengubah alamat ruangan)"
+msgstr ""
+"Nama ramah yang ditampilkan dalam daftar ruangan (tidak mengubah alamat "
+"ruangan)"
 
 #: main/src/ui/util/data_forms.vala:44
 msgid "Description"
@@ -1528,7 +1598,9 @@ msgstr "Khusus anggota"
 msgid ""
 "Only members may enter the room. Warning: Non-members will be removed when "
 "enabled!"
-msgstr "Hanya anggota yang dapat masuk ke ruangan. Peringatan: Non-anggota akan dihapus ketika diaktifkan!"
+msgstr ""
+"Hanya anggota yang dapat masuk ke ruangan. Peringatan: Non-anggota akan "
+"dihapus ketika diaktifkan!"
 
 #: main/src/ui/util/helper.vala:65
 #, c-format
@@ -1547,7 +1619,9 @@ msgstr "%a, %b %d"
 msgid ""
 "This contact will be removed from your contact list and all conversation "
 "history will be permanently deleted."
-msgstr "Kontak ini akan dihapus dari daftar kontak Anda dan semua riwayat percakapan akan dihapus secara permanen."
+msgstr ""
+"Kontak ini akan dihapus dari daftar kontak Anda dan semua riwayat percakapan "
+"akan dihapus secara permanen."
 
 #: main/src/windows/conversation_details.vala:108
 msgid "Block user"
@@ -1721,7 +1795,9 @@ msgstr "Tambahkan kontak untuk mulai mengobrol"
 msgid ""
 "This will remove %s from your contact list and delete all conversation "
 "history."
-msgstr "Ini akan menghapus %s dari daftar kontak Anda dan menghapus semua riwayat percakapan."
+msgstr ""
+"Ini akan menghapus %s dari daftar kontak Anda dan menghapus semua riwayat "
+"percakapan."
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:318
 msgid "Edit Contact Alias"
@@ -1735,6 +1811,389 @@ msgstr "Ubah nama tampilan untuk %s"
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:325
 msgid "Alias (optional)"
 msgstr "Alias (opsional)"
+
+# DinoX v0.7.7 - Database Maintenance & Backup/Restore
+msgid "Clean Database"
+msgstr "Clean Database"
+
+msgid "Reset Database"
+msgstr "Reset Database"
+
+msgid "Restore Complete!"
+msgstr "Restore Complete!"
+
+msgid "Restore Failed"
+msgstr "Restore Failed"
+
+msgid "Decrypting Backup..."
+msgstr "Decrypting Backup..."
+
+msgid "Restoring Backup..."
+msgstr "Restoring Backup..."
+
+msgid "Set Backup Password"
+msgstr "Set Backup Password"
+
+msgid "Confirm Password"
+msgstr "Confirm Password"
+
+msgid "Create Encrypted Backup"
+msgstr "Create Encrypted Backup"
+
+msgid "Password too short"
+msgstr "Password too short"
+
+msgid "Passwords do not match"
+msgstr "Passwords do not match"
+
+msgid "✓ Passwords match"
+msgstr "✓ Passwords match"
+
+msgid "Encrypting Backup..."
+msgstr "Encrypting Backup..."
+
+msgid "Factory Reset"
+msgstr "Factory Reset"
+
+msgid "Restore from Backup"
+msgstr "Restore from Backup"
+
+msgid "Restore Backup"
+msgstr "Restore Backup"
+
+msgid "Select Backup File"
+msgstr "Select Backup File"
+
+msgid "Enter Backup Password"
+msgstr "Enter Backup Password"
+
+msgid "Decrypt & Restore"
+msgstr "Decrypt & Restore"
+
+msgid "Create Backup First"
+msgstr "Create Backup First"
+
+msgid "No Encryption"
+msgstr "No Encryption"
+
+msgid "Encrypt with Password"
+msgstr "Encrypt with Password"
+
+msgid "Delete Everything"
+msgstr "Delete Everything"
+
+msgid "Confirm Delete"
+msgstr "Confirm Delete"
+
+msgid "Are you absolutely sure?"
+msgstr "Are you absolutely sure?"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "Pemeliharaan Database"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "Pulihkan akun, pesan, dan pengaturan dari file cadangan"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr "Hapus semua pesan, file, dan kunci OMEMO. Akun Anda akan tetap ada."
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr "Hapus SEMUA data termasuk akun. Ini tidak dapat dibatalkan!"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "File cadangan (*.tar.gz, *.tar.gz.gpg)"
+
+msgid "Creating encrypted backup..."
+msgstr "Membuat cadangan terenkripsi..."
+
+msgid "Decryption Failed"
+msgstr "Dekripsi gagal"
+
+msgid "DinoX will now restart..."
+msgstr "DinoX akan memulai ulang sekarang..."
+
+msgid "Encrypted backup created successfully"
+msgstr "Cadangan terenkripsi berhasil dibuat"
+
+msgid "Password (minimum 4 characters)"
+msgstr "Kata sandi (minimal 4 karakter)"
+
+msgid "Decrypting encrypted backup file..."
+msgstr "Mendekripsi file cadangan..."
+
+msgid "Extracting files from backup..."
+msgstr "Mengekstrak file dari cadangan..."
+
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "Reset pabrik sedang berlangsung... DinoX akan dimulai ulang."
+
+msgid "Resetting database... DinoX will restart."
+msgstr "Mereset database... DinoX akan dimulai ulang."
+
+msgid "Encrypted backup created (%s)"
+msgstr "Cadangan terenkripsi dibuat (%s)"
+
+msgid ""
+"Could not decrypt the backup file.\n"
+"\n"
+"Please check if the password is correct."
+msgstr ""
+"Tidak dapat mendekripsi file cadangan.\n"
+"\n"
+"Periksa apakah kata sandi benar."
+
+msgid ""
+"Could not restore the backup file.\n"
+"\n"
+"Error: %s"
+msgstr ""
+"Tidak dapat memulihkan file cadangan.\n"
+"\n"
+"Kesalahan: %s"
+
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "Cadangan ini dienkripsi. Masukkan kata sandi untuk mendekripsi."
+
+msgid ""
+"Enter a password to encrypt the backup.\n"
+"\n"
+"<b>Important:</b> Remember this password! Without it, the backup cannot be "
+"restored."
+msgstr ""
+"Masukkan kata sandi untuk mengenkripsi cadangan.\n"
+"\n"
+"<b>Penting:</b> Ingat kata sandi ini! Tanpanya, cadangan tidak dapat "
+"dipulihkan."
+
+msgid ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+msgstr ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+
+msgid ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+msgstr ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+
+msgid ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+msgstr ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+
+msgid ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+msgstr ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+
+# OpenPGP Key Management
+msgid "OpenPGP Key Management"
+msgstr "OpenPGP Key Management"
+
+msgid "Actions"
+msgstr "Actions"
+
+msgid "Generate New Key"
+msgstr "Generate New Key"
+
+msgid "Import Key"
+msgstr "Import Key"
+
+msgid "Your Keys"
+msgstr "Your Keys"
+
+msgid "Fingerprint"
+msgstr "Fingerprint"
+
+msgid "Export Public Key"
+msgstr "Export Public Key"
+
+msgid "Delete Key"
+msgstr "Delete Key"
+
+msgid "Name"
+msgstr "Name"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Passphrase"
+msgstr "Passphrase"
+
+msgid "Generate"
+msgstr "Generate"
+
+msgid "Select OpenPGP Key"
+msgstr "Select OpenPGP Key"
+
+msgid "Wrong passphrase"
+msgstr "Wrong passphrase"
+
+msgid "Manage Keys"
+msgstr "Manage Keys"
+
+msgid "Announce key"
+msgstr "Announce key"
+
+msgid "Disabled"
+msgstr "Disabled"
+
+msgid "Success"
+msgstr "Success"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Create a new OpenPGP key pair"
+msgstr "Buat pasangan kunci OpenPGP baru"
+
+msgid "Import a key from file (.asc, .gpg)"
+msgstr "Impor kunci dari file (.asc, .gpg)"
+
+msgid "Private keys available for signing and decryption"
+msgstr "Kunci pribadi tersedia untuk penandatanganan dan dekripsi"
+
+msgid "No private keys found"
+msgstr "Tidak ada kunci pribadi ditemukan"
+
+msgid "Generate or import a key to get started"
+msgstr "Buat atau impor kunci untuk memulai"
+
+msgid "Generate New OpenPGP Key"
+msgstr "Buat Kunci OpenPGP Baru"
+
+msgid "Enter your details to create a new key pair."
+msgstr "Masukkan detail Anda untuk membuat pasangan kunci baru."
+
+msgid "Your Name"
+msgstr "Nama Anda"
+
+msgid "you@example.com"
+msgstr "anda@contoh.com"
+
+msgid "Passphrase (optional)"
+msgstr "Frasa sandi (opsional)"
+
+msgid "4096-bit RSA key, valid for 2 years."
+msgstr "Kunci RSA 4096-bit, berlaku selama 2 tahun."
+
+msgid "Name must be at least 2 characters"
+msgstr "Nama harus minimal 2 karakter"
+
+msgid "Please enter a valid email address"
+msgstr "Silakan masukkan alamat email yang valid"
+
+msgid "Generating Key..."
+msgstr "Membuat Kunci..."
+
+msgid "Please wait while your key is being generated. This may take a moment."
+msgstr ""
+"Harap tunggu sementara kunci Anda sedang dibuat. Ini mungkin memerlukan "
+"waktu."
+
+msgid "Key generated successfully!"
+msgstr "Kunci berhasil dibuat!"
+
+msgid "Failed to generate key."
+msgstr "Gagal membuat kunci."
+
+msgid "Import OpenPGP Key"
+msgstr "Impor Kunci OpenPGP"
+
+msgid "OpenPGP Keys (*.asc, *.gpg)"
+msgstr "Kunci OpenPGP (*.asc, *.gpg)"
+
+msgid "All Files"
+msgstr "Semua File"
+
+msgid "Key imported! Re-open Key Management to see it."
+msgstr "Kunci diimpor! Buka kembali Manajemen Kunci untuk melihatnya."
+
+msgid "Import failed: "
+msgstr "Impor gagal: "
+
+msgid "Key exported to: "
+msgstr "Kunci diekspor ke: "
+
+msgid "Export failed."
+msgstr "Ekspor gagal."
+
+msgid "Delete Key?"
+msgstr "Hapus Kunci?"
+
+msgid ""
+"Delete this key?\n"
+"\n"
+"%s\n"
+"\n"
+"This cannot be undone!"
+msgstr ""
+"Hapus kunci ini?\n"
+"\n"
+"%s\n"
+"\n"
+"Ini tidak dapat dibatalkan!"
+
+msgid "Key deleted."
+msgstr "Kunci dihapus."
+
+msgid "Delete failed: "
+msgstr "Penghapusan gagal: "
+
+msgid "Choose a key to announce to your contacts."
+msgstr "Pilih kunci untuk diumumkan ke kontak Anda."
+
+msgid "Enter GPG passphrase to confirm:"
+msgstr "Masukkan frasa sandi GPG untuk konfirmasi:"
+
+msgid "Generate, import, export, or delete keys"
+msgstr "Buat, impor, ekspor, atau hapus kunci"
+
+msgid "No keys available. Generate or import one!"
+msgstr "Tidak ada kunci tersedia. Buat atau impor satu!"
+
+msgid "Error in GnuPG"
+msgstr "Kesalahan di GnuPG"
 
 #~ msgid "Message too long"
 #~ msgstr "Pesan terlalu panjang"
@@ -1882,154 +2341,3 @@ msgstr "Alias (opsional)"
 
 #~ msgid "Click here to start a conversation or join a channel."
 #~ msgstr "Klik untuk memulai percakapan atau bergabung dengan channel."
-
-# DinoX v0.7.7 - Database Maintenance & Backup/Restore
-msgid "Clean Database"
-msgstr "Clean Database"
-
-msgid "Reset Database"
-msgstr "Reset Database"
-
-msgid "Restore Complete!"
-msgstr "Restore Complete!"
-
-msgid "Restore Failed"
-msgstr "Restore Failed"
-
-msgid "Decrypting Backup..."
-msgstr "Decrypting Backup..."
-
-msgid "Restoring Backup..."
-msgstr "Restoring Backup..."
-
-msgid "Set Backup Password"
-msgstr "Set Backup Password"
-
-msgid "Confirm Password"
-msgstr "Confirm Password"
-
-msgid "Create Encrypted Backup"
-msgstr "Create Encrypted Backup"
-
-msgid "Password too short"
-msgstr "Password too short"
-
-msgid "Passwords do not match"
-msgstr "Passwords do not match"
-
-msgid "✓ Passwords match"
-msgstr "✓ Passwords match"
-
-msgid "Encrypting Backup..."
-msgstr "Encrypting Backup..."
-
-msgid "Factory Reset"
-msgstr "Factory Reset"
-
-msgid "Restore from Backup"
-msgstr "Restore from Backup"
-
-msgid "Restore Backup"
-msgstr "Restore Backup"
-
-msgid "Select Backup File"
-msgstr "Select Backup File"
-
-msgid "Enter Backup Password"
-msgstr "Enter Backup Password"
-
-msgid "Decrypt & Restore"
-msgstr "Decrypt & Restore"
-
-msgid "Create Backup First"
-msgstr "Create Backup First"
-
-msgid "No Encryption"
-msgstr "No Encryption"
-
-msgid "Encrypt with Password"
-msgstr "Encrypt with Password"
-
-msgid "Delete Everything"
-msgstr "Delete Everything"
-
-msgid "Confirm Delete"
-msgstr "Confirm Delete"
-
-msgid "Are you absolutely sure?"
-msgstr "Are you absolutely sure?"
-
-#: main/data/preferences_window/general_preferences_page.ui:104
-msgid "Database Maintenance"
-msgstr "Pemeliharaan Database"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Restore accounts, messages and settings from a backup file"
-msgstr "Pulihkan akun, pesan, dan pengaturan dari file cadangan"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
-msgstr "Hapus semua pesan, file, dan kunci OMEMO. Akun Anda akan tetap ada."
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete ALL data including accounts. This cannot be undone!"
-msgstr "Hapus SEMUA data termasuk akun. Ini tidak dapat dibatalkan!"
-
-# DinoX v0.7.7 - Additional Backup/Restore strings
-
-msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
-msgstr "File cadangan (*.tar.gz, *.tar.gz.gpg)"
-
-msgid "Creating encrypted backup..."
-msgstr "Membuat cadangan terenkripsi..."
-
-msgid "Decryption Failed"
-msgstr "Dekripsi gagal"
-
-msgid "DinoX will now restart..."
-msgstr "DinoX akan memulai ulang sekarang..."
-
-msgid "Encrypted backup created successfully"
-msgstr "Cadangan terenkripsi berhasil dibuat"
-
-msgid "Password (minimum 4 characters)"
-msgstr "Kata sandi (minimal 4 karakter)"
-
-msgid "Decrypting encrypted backup file..."
-msgstr "Mendekripsi file cadangan..."
-
-msgid "Extracting files from backup..."
-msgstr "Mengekstrak file dari cadangan..."
-
-msgid "Factory reset in progress... DinoX will restart."
-msgstr "Reset pabrik sedang berlangsung... DinoX akan dimulai ulang."
-
-msgid "Resetting database... DinoX will restart."
-msgstr "Mereset database... DinoX akan dimulai ulang."
-
-msgid "Encrypted backup created (%s)"
-msgstr "Cadangan terenkripsi dibuat (%s)"
-
-msgid "Could not decrypt the backup file.\n\nPlease check if the password is correct."
-msgstr "Tidak dapat mendekripsi file cadangan.\n\nPeriksa apakah kata sandi benar."
-
-msgid "Could not restore the backup file.\n\nError: %s"
-msgstr "Tidak dapat memulihkan file cadangan.\n\nKesalahan: %s"
-
-msgid "This backup is encrypted. Please enter the password to decrypt it."
-msgstr "Cadangan ini dienkripsi. Masukkan kata sandi untuk mendekripsi."
-
-msgid "Enter a password to encrypt the backup.\n\n<b>Important:</b> Remember this password! Without it, the backup cannot be restored."
-msgstr "Masukkan kata sandi untuk mengenkripsi cadangan.\n\n<b>Penting:</b> Ingat kata sandi ini! Tanpanya, cadangan tidak dapat dipulihkan."
-
-msgid "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
-msgstr "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
-
-msgid "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
-msgstr "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
-
-msgid "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
-msgstr "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
-
-msgid "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"
-msgstr "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"

@@ -506,7 +506,9 @@ msgstr "설정 → 일반 → 사용자 데이터 백업을 사용하여 백업�
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
-msgstr "개인 데이터(계정, 메시지, 파일)는 애플리케이션과 별도로 저장됩니다. DinoX를 업데이트해도 데이터는 그대로 유지됩니다."
+msgstr ""
+"개인 데이터(계정, 메시지, 파일)는 애플리케이션과 별도로 저장됩니다. DinoX를 "
+"업데이트해도 데이터는 그대로 유지됩니다."
 
 #: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
 #: main/src/ui/main_window.vala:159
@@ -516,6 +518,52 @@ msgstr "닫기"
 #: main/src/ui/application.vala:417
 msgid "Select Backup Location"
 msgstr "백업 위치 선택"
+
+#: main/src/ui/application.vala
+msgid "Creating Backup..."
+msgstr "Creating Backup..."
+
+#: main/src/ui/application.vala
+msgid "Creating Encrypted Backup..."
+msgstr "Creating Encrypted Backup..."
+
+#: main/src/ui/application.vala
+msgid "Please wait while your data is being backed up."
+msgstr "Please wait while your data is being backed up."
+
+#: main/src/ui/application.vala
+msgid "No data directories found to backup"
+msgstr "No data directories found to backup"
+
+#: main/src/ui/application.vala
+msgid "Backup Created"
+msgstr "Backup Created"
+
+#: main/src/ui/application.vala
+msgid "Encrypted Backup Created"
+msgstr "Encrypted Backup Created"
+
+#: main/src/ui/application.vala
+#, c-format
+msgid "Your backup was created successfully.\\n\\nSize: %s"
+msgstr "Your backup was created successfully.\\n\\nSize: %s"
+
+#: main/src/ui/application.vala
+msgid "Your backup was created successfully."
+msgstr "Your backup was created successfully."
+
+#: main/src/ui/application.vala
+#, c-format
+msgid "Your encrypted backup was created successfully.\\n\\nSize: %s"
+msgstr "Your encrypted backup was created successfully.\\n\\nSize: %s"
+
+#: main/src/ui/application.vala
+msgid "Your encrypted backup was created successfully."
+msgstr "Your encrypted backup was created successfully."
+
+#: main/src/ui/application.vala
+msgid "Backup Failed"
+msgstr "Backup Failed"
 
 #: main/src/ui/application.vala:445
 msgid "Creating backup..."
@@ -1039,7 +1087,9 @@ msgstr "방을 삭제하시겠습니까?"
 msgid ""
 "Are you sure you want to permanently destroy this room? This action cannot "
 "be undone and all history will be lost for all participants."
-msgstr "이 방을 영구적으로 삭제하시겠습니까? 이 작업은 취소할 수 없으며 모든 참가자의 기록이 손실됩니다."
+msgstr ""
+"이 방을 영구적으로 삭제하시겠습니까? 이 작업은 취소할 수 없으며 모든 참가자"
+"의 기록이 손실됩니다."
 
 #: main/src/ui/conversation_details.vala:250
 msgid "Destroy"
@@ -1222,7 +1272,12 @@ msgid ""
 "• Remove %s from your contact list\n"
 "\n"
 "This action cannot be undone."
-msgstr "이 작업은:\n• 모든 대화 기록 삭제\n• 연락처 목록에서 %s 제거\n\n이 작업은 취소할 수 없습니다."
+msgstr ""
+"이 작업은:\n"
+"• 모든 대화 기록 삭제\n"
+"• 연락처 목록에서 %s 제거\n"
+"\n"
+"이 작업은 취소할 수 없습니다."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:787
 msgid "Delete all message history?"
@@ -1232,7 +1287,8 @@ msgstr "모든 메시지 기록을 삭제하시겠습니까?"
 msgid ""
 "This will permanently delete all messages in this conversation. This action "
 "cannot be undone."
-msgstr "이 대화의 모든 메시지가 영구적으로 삭제됩니다. 이 작업은 취소할 수 없습니다."
+msgstr ""
+"이 대화의 모든 메시지가 영구적으로 삭제됩니다. 이 작업은 취소할 수 없습니다."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:791
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
@@ -1316,7 +1372,12 @@ msgid ""
 "\n"
 "If you need a password or a nickname, provide them in the dialog. Use the "
 "discovery features in the server to find public rooms."
-msgstr "채널에 참여하려면 \"채널 참여\" 버튼을 클릭하고 채널 JID를 입력하세요 (예: room@conference.example.org).\n\n비밀번호나 닉네임이 필요한 경우 대화 상자에 입력하세요. 서버의 검색 기능을 사용하여 공개 채팅방을 찾으세요."
+msgstr ""
+"채널에 참여하려면 \"채널 참여\" 버튼을 클릭하고 채널 JID를 입력하세요 (예: "
+"room@conference.example.org).\n"
+"\n"
+"비밀번호나 닉네임이 필요한 경우 대화 상자에 입력하세요. 서버의 검색 기능을 사"
+"용하여 공개 채팅방을 찾으세요."
 
 #: main/src/ui/main_window.vala:206
 msgid "Welcome to DinoX!"
@@ -1548,7 +1609,8 @@ msgstr "%a, %m월 %d일"
 msgid ""
 "This contact will be removed from your contact list and all conversation "
 "history will be permanently deleted."
-msgstr "이 연락처가 연락처 목록에서 제거되고 모든 대화 기록이 영구적으로 삭제됩니다."
+msgstr ""
+"이 연락처가 연락처 목록에서 제거되고 모든 대화 기록이 영구적으로 삭제됩니다."
 
 #: main/src/windows/conversation_details.vala:108
 msgid "Block user"
@@ -1722,7 +1784,8 @@ msgstr "채팅을 시작하려면 연락처를 추가하세요"
 msgid ""
 "This will remove %s from your contact list and delete all conversation "
 "history."
-msgstr "이렇게 하면 연락처 목록에서 %s이(가) 제거되고 모든 대화 기록이 삭제됩니다."
+msgstr ""
+"이렇게 하면 연락처 목록에서 %s이(가) 제거되고 모든 대화 기록이 삭제됩니다."
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:318
 msgid "Edit Contact Alias"
@@ -1736,6 +1799,386 @@ msgstr "%s의 표시 이름 변경"
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:325
 msgid "Alias (optional)"
 msgstr "별칭 (선택사항)"
+
+# DinoX v0.7.7 - Database Maintenance & Backup/Restore
+msgid "Clean Database"
+msgstr "데이터베이스 정리"
+
+msgid "Reset Database"
+msgstr "데이터베이스 초기화"
+
+msgid "Restore Complete!"
+msgstr "복원 완료!"
+
+msgid "Restore Failed"
+msgstr "복원 실패"
+
+msgid "Decrypting Backup..."
+msgstr "백업 복호화 중..."
+
+msgid "Restoring Backup..."
+msgstr "백업 복원 중..."
+
+msgid "Set Backup Password"
+msgstr "백업 비밀번호 설정"
+
+msgid "Confirm Password"
+msgstr "비밀번호 확인"
+
+msgid "Create Encrypted Backup"
+msgstr "암호화된 백업 생성"
+
+msgid "Password too short"
+msgstr "비밀번호가 너무 짧습니다"
+
+msgid "Passwords do not match"
+msgstr "비밀번호가 일치하지 않습니다"
+
+msgid "✓ Passwords match"
+msgstr "✓ 비밀번호가 일치합니다"
+
+msgid "Encrypting Backup..."
+msgstr "백업 암호화 중..."
+
+msgid "Factory Reset"
+msgstr "공장 초기화"
+
+msgid "Restore from Backup"
+msgstr "백업에서 복원"
+
+msgid "Restore Backup"
+msgstr "백업 복원"
+
+msgid "Select Backup File"
+msgstr "백업 파일 선택"
+
+msgid "Enter Backup Password"
+msgstr "백업 비밀번호 입력"
+
+msgid "Decrypt & Restore"
+msgstr "복호화 및 복원"
+
+msgid "Create Backup First"
+msgstr "먼저 백업 생성"
+
+msgid "No Encryption"
+msgstr "암호화 없음"
+
+msgid "Encrypt with Password"
+msgstr "비밀번호로 암호화"
+
+msgid "Delete Everything"
+msgstr "모두 삭제"
+
+msgid "Confirm Delete"
+msgstr "삭제 확인"
+
+msgid "Are you absolutely sure?"
+msgstr "정말 확실합니까?"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "데이터베이스 유지보수"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "백업 파일에서 계정, 메시지 및 설정 복원"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr "모든 메시지, 파일 및 OMEMO 키를 삭제합니다. 계정은 유지됩니다."
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr "계정을 포함한 모든 데이터를 삭제합니다. 이 작업은 취소할 수 없습니다!"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "백업 파일 (*.tar.gz, *.tar.gz.gpg)"
+
+msgid "Creating encrypted backup..."
+msgstr "암호화된 백업 생성 중..."
+
+msgid "Decryption Failed"
+msgstr "복호화 실패"
+
+msgid "DinoX will now restart..."
+msgstr "DinoX가 지금 다시 시작됩니다..."
+
+msgid "Encrypted backup created successfully"
+msgstr "암호화된 백업이 성공적으로 생성되었습니다"
+
+msgid "Password (minimum 4 characters)"
+msgstr "비밀번호 (최소 4자)"
+
+msgid "Decrypting encrypted backup file..."
+msgstr "백업 파일 복호화 중..."
+
+msgid "Extracting files from backup..."
+msgstr "백업에서 파일 추출 중..."
+
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "공장 초기화 진행 중... DinoX가 다시 시작됩니다."
+
+msgid "Resetting database... DinoX will restart."
+msgstr "데이터베이스 재설정 중... DinoX가 다시 시작됩니다."
+
+msgid "Encrypted backup created (%s)"
+msgstr "암호화된 백업이 생성되었습니다 (%s)"
+
+msgid ""
+"Could not decrypt the backup file.\n"
+"\n"
+"Please check if the password is correct."
+msgstr ""
+"백업 파일을 복호화할 수 없습니다.\n"
+"\n"
+"비밀번호가 올바른지 확인하세요."
+
+msgid ""
+"Could not restore the backup file.\n"
+"\n"
+"Error: %s"
+msgstr ""
+"백업 파일을 복원할 수 없습니다.\n"
+"\n"
+"오류: %s"
+
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "이 백업은 암호화되어 있습니다. 비밀번호를 입력하세요."
+
+msgid ""
+"Enter a password to encrypt the backup.\n"
+"\n"
+"<b>Important:</b> Remember this password! Without it, the backup cannot be "
+"restored."
+msgstr ""
+"백업을 암호화할 비밀번호를 입력하세요.\n"
+"\n"
+"<b>중요:</b> 이 비밀번호를 기억하세요! 없으면 백업을 복원할 수 없습니다."
+
+msgid ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+msgstr ""
+"이것은 모든 메시지, 파일 및 OMEMO 암호화 키를 삭제합니다.\n"
+"\n"
+"<b>계정은 유지되지만 모든 채팅 기록이 삭제되고 연락처와 암호화를 다시 확인해"
+"야 합니다.</b>\n"
+"\n"
+"이 작업은 취소할 수 없습니다!"
+
+msgid ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+msgstr ""
+"이것은 모든 현재 데이터를 백업으로 대체합니다.\n"
+"\n"
+"<b>현재 계정, 메시지 및 설정이 덮어쓰기됩니다!</b>\n"
+"\n"
+"복원 후 DinoX가 다시 시작됩니다."
+
+msgid ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+msgstr ""
+"'DELETE'를 입력하여 공장 초기화를 확인하세요.\n"
+"\n"
+"이것은 모든 DinoX 데이터를 영구적으로 삭제합니다."
+
+msgid ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+msgstr ""
+"<b>⚠️ 경고: 모든 데이터가 삭제됩니다!</b>\n"
+"\n"
+"• 모든 계정\n"
+"• 모든 메시지와 파일\n"
+"• 모든 암호화 키\n"
+"• 모든 설정\n"
+"\n"
+"이것은 되돌릴 수 없습니다. 먼저 백업을 만드세요!"
+
+# OpenPGP Key Management translations
+msgid "OpenPGP Key Management"
+msgstr "OpenPGP 키 관리"
+
+msgid "Actions"
+msgstr "작업"
+
+msgid "Generate New Key"
+msgstr "새 키 생성"
+
+msgid "Create a new OpenPGP key pair"
+msgstr "새 OpenPGP 키 쌍 생성"
+
+msgid "Import Key"
+msgstr "키 가져오기"
+
+msgid "Import a key from file (.asc, .gpg)"
+msgstr "파일에서 키 가져오기 (.asc, .gpg)"
+
+msgid "Your Keys"
+msgstr "내 키"
+
+msgid "Private keys available for signing and decryption"
+msgstr "서명 및 복호화에 사용 가능한 개인 키"
+
+msgid "No private keys found"
+msgstr "개인 키를 찾을 수 없음"
+
+msgid "Generate or import a key to get started"
+msgstr "시작하려면 키를 생성하거나 가져오세요"
+
+msgid "Fingerprint"
+msgstr "지문"
+
+msgid "Export Public Key"
+msgstr "공개 키 내보내기"
+
+msgid "Delete Key"
+msgstr "키 삭제"
+
+msgid "Generate New OpenPGP Key"
+msgstr "새 OpenPGP 키 생성"
+
+msgid "Enter your details to create a new key pair."
+msgstr "새 키 쌍을 생성하려면 정보를 입력하세요."
+
+msgid "Name"
+msgstr "이름"
+
+msgid "Your Name"
+msgstr "이름"
+
+msgid "Email"
+msgstr "이메일"
+
+msgid "you@example.com"
+msgstr "you@example.com"
+
+msgid "Passphrase (optional)"
+msgstr "암호 (선택사항)"
+
+msgid "Passphrase"
+msgstr "암호"
+
+msgid "4096-bit RSA key, valid for 2 years."
+msgstr "4096비트 RSA 키, 2년간 유효."
+
+msgid "Generate"
+msgstr "생성"
+
+msgid "Name must be at least 2 characters"
+msgstr "이름은 2자 이상이어야 합니다"
+
+msgid "Please enter a valid email address"
+msgstr "유효한 이메일 주소를 입력하세요"
+
+msgid "Generating Key..."
+msgstr "키 생성 중..."
+
+msgid "Please wait while your key is being generated. This may take a moment."
+msgstr "키가 생성되는 동안 기다려 주세요. 시간이 걸릴 수 있습니다."
+
+msgid "Key generated successfully!"
+msgstr "키가 성공적으로 생성되었습니다!"
+
+msgid "Failed to generate key."
+msgstr "키 생성에 실패했습니다."
+
+msgid "Import OpenPGP Key"
+msgstr "OpenPGP 키 가져오기"
+
+msgid "OpenPGP Keys (*.asc, *.gpg)"
+msgstr "OpenPGP 키 (*.asc, *.gpg)"
+
+msgid "All Files"
+msgstr "모든 파일"
+
+msgid "Key imported! Re-open Key Management to see it."
+msgstr "키를 가져왔습니다! 키 관리를 다시 열어 확인하세요."
+
+msgid "Import failed: "
+msgstr "가져오기 실패: "
+
+msgid "Key exported to: "
+msgstr "키 내보내기 위치: "
+
+msgid "Export failed."
+msgstr "내보내기 실패."
+
+msgid "Delete Key?"
+msgstr "키를 삭제하시겠습니까?"
+
+msgid ""
+"Delete this key?\n"
+"\n"
+"%s\n"
+"\n"
+"This cannot be undone!"
+msgstr ""
+"이 키를 삭제하시겠습니까?\n"
+"\n"
+"%s\n"
+"\n"
+"이 작업은 되돌릴 수 없습니다!"
+
+msgid "Key deleted."
+msgstr "키가 삭제되었습니다."
+
+msgid "Delete failed: "
+msgstr "삭제 실패: "
+
+msgid "Select OpenPGP Key"
+msgstr "OpenPGP 키 선택"
+
+msgid "Choose a key to announce to your contacts."
+msgstr "연락처에 공개할 키를 선택하세요."
+
+msgid "Enter GPG passphrase to confirm:"
+msgstr "확인을 위해 GPG 암호를 입력하세요:"
+
+msgid "Wrong passphrase"
+msgstr "잘못된 암호"
+
+msgid "Manage Keys"
+msgstr "키 관리"
+
+msgid "Generate, import, export, or delete keys"
+msgstr "키 생성, 가져오기, 내보내기 또는 삭제"
+
+msgid "No keys available. Generate or import one!"
+msgstr "사용 가능한 키가 없습니다. 키를 생성하거나 가져오세요!"
+
+msgid "Announce key"
+msgstr "키 공개"
+
+msgid "Disabled"
+msgstr "비활성화됨"
+
+msgid "Error in GnuPG"
+msgstr "GnuPG 오류"
+
+msgid "Success"
+msgstr "성공"
+
+msgid "OK"
+msgstr "확인"
 
 #~ msgid "Message too long"
 #~ msgstr "메세지가 너무 김"
@@ -1878,154 +2321,3 @@ msgstr "별칭 (선택사항)"
 
 #~ msgid "Click here to start a conversation or join a channel."
 #~ msgstr "대화를 시작하거나 채널에 들어가려면 여기를 누르세요."
-
-# DinoX v0.7.7 - Database Maintenance & Backup/Restore
-msgid "Clean Database"
-msgstr "데이터베이스 정리"
-
-msgid "Reset Database"
-msgstr "데이터베이스 초기화"
-
-msgid "Restore Complete!"
-msgstr "복원 완료!"
-
-msgid "Restore Failed"
-msgstr "복원 실패"
-
-msgid "Decrypting Backup..."
-msgstr "백업 복호화 중..."
-
-msgid "Restoring Backup..."
-msgstr "백업 복원 중..."
-
-msgid "Set Backup Password"
-msgstr "백업 비밀번호 설정"
-
-msgid "Confirm Password"
-msgstr "비밀번호 확인"
-
-msgid "Create Encrypted Backup"
-msgstr "암호화된 백업 생성"
-
-msgid "Password too short"
-msgstr "비밀번호가 너무 짧습니다"
-
-msgid "Passwords do not match"
-msgstr "비밀번호가 일치하지 않습니다"
-
-msgid "✓ Passwords match"
-msgstr "✓ 비밀번호가 일치합니다"
-
-msgid "Encrypting Backup..."
-msgstr "백업 암호화 중..."
-
-msgid "Factory Reset"
-msgstr "공장 초기화"
-
-msgid "Restore from Backup"
-msgstr "백업에서 복원"
-
-msgid "Restore Backup"
-msgstr "백업 복원"
-
-msgid "Select Backup File"
-msgstr "백업 파일 선택"
-
-msgid "Enter Backup Password"
-msgstr "백업 비밀번호 입력"
-
-msgid "Decrypt & Restore"
-msgstr "복호화 및 복원"
-
-msgid "Create Backup First"
-msgstr "먼저 백업 생성"
-
-msgid "No Encryption"
-msgstr "암호화 없음"
-
-msgid "Encrypt with Password"
-msgstr "비밀번호로 암호화"
-
-msgid "Delete Everything"
-msgstr "모두 삭제"
-
-msgid "Confirm Delete"
-msgstr "삭제 확인"
-
-msgid "Are you absolutely sure?"
-msgstr "정말 확실합니까?"
-
-#: main/data/preferences_window/general_preferences_page.ui:104
-msgid "Database Maintenance"
-msgstr "데이터베이스 유지보수"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Restore accounts, messages and settings from a backup file"
-msgstr "백업 파일에서 계정, 메시지 및 설정 복원"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
-msgstr "모든 메시지, 파일 및 OMEMO 키를 삭제합니다. 계정은 유지됩니다."
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete ALL data including accounts. This cannot be undone!"
-msgstr "계정을 포함한 모든 데이터를 삭제합니다. 이 작업은 취소할 수 없습니다!"
-
-# DinoX v0.7.7 - Additional Backup/Restore strings
-
-msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
-msgstr "백업 파일 (*.tar.gz, *.tar.gz.gpg)"
-
-msgid "Creating encrypted backup..."
-msgstr "암호화된 백업 생성 중..."
-
-msgid "Decryption Failed"
-msgstr "복호화 실패"
-
-msgid "DinoX will now restart..."
-msgstr "DinoX가 지금 다시 시작됩니다..."
-
-msgid "Encrypted backup created successfully"
-msgstr "암호화된 백업이 성공적으로 생성되었습니다"
-
-msgid "Password (minimum 4 characters)"
-msgstr "비밀번호 (최소 4자)"
-
-msgid "Decrypting encrypted backup file..."
-msgstr "백업 파일 복호화 중..."
-
-msgid "Extracting files from backup..."
-msgstr "백업에서 파일 추출 중..."
-
-msgid "Factory reset in progress... DinoX will restart."
-msgstr "공장 초기화 진행 중... DinoX가 다시 시작됩니다."
-
-msgid "Resetting database... DinoX will restart."
-msgstr "데이터베이스 재설정 중... DinoX가 다시 시작됩니다."
-
-msgid "Encrypted backup created (%s)"
-msgstr "암호화된 백업이 생성되었습니다 (%s)"
-
-msgid "Could not decrypt the backup file.\n\nPlease check if the password is correct."
-msgstr "백업 파일을 복호화할 수 없습니다.\n\n비밀번호가 올바른지 확인하세요."
-
-msgid "Could not restore the backup file.\n\nError: %s"
-msgstr "백업 파일을 복원할 수 없습니다.\n\n오류: %s"
-
-msgid "This backup is encrypted. Please enter the password to decrypt it."
-msgstr "이 백업은 암호화되어 있습니다. 비밀번호를 입력하세요."
-
-msgid "Enter a password to encrypt the backup.\n\n<b>Important:</b> Remember this password! Without it, the backup cannot be restored."
-msgstr "백업을 암호화할 비밀번호를 입력하세요.\n\n<b>중요:</b> 이 비밀번호를 기억하세요! 없으면 백업을 복원할 수 없습니다."
-
-msgid "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
-msgstr "이것은 모든 메시지, 파일 및 OMEMO 암호화 키를 삭제합니다.\n\n<b>계정은 유지되지만 모든 채팅 기록이 삭제되고 연락처와 암호화를 다시 확인해야 합니다.</b>\n\n이 작업은 취소할 수 없습니다!"
-
-msgid "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
-msgstr "이것은 모든 현재 데이터를 백업으로 대체합니다.\n\n<b>현재 계정, 메시지 및 설정이 덮어쓰기됩니다!</b>\n\n복원 후 DinoX가 다시 시작됩니다."
-
-msgid "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
-msgstr "'DELETE'를 입력하여 공장 초기화를 확인하세요.\n\n이것은 모든 DinoX 데이터를 영구적으로 삭제합니다."
-
-msgid "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"
-msgstr "<b>⚠️ 경고: 모든 데이터가 삭제됩니다!</b>\n\n• 모든 계정\n• 모든 메시지와 파일\n• 모든 암호화 키\n• 모든 설정\n\n이것은 되돌릴 수 없습니다. 먼저 백업을 만드세요!"

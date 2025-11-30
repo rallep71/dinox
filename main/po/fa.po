@@ -506,7 +506,9 @@ msgstr "از تنظیمات → عمومی → پشتیبان‌گیری داد�
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
-msgstr "داده‌های شخصی شما (حساب‌ها، پیام‌ها، فایل‌ها) جدا از برنامه ذخیره می‌شوند. وقتی DinoX را به‌روزرسانی می‌کنید، داده‌های شما دست‌نخورده باقی می‌مانند."
+msgstr ""
+"داده‌های شخصی شما (حساب‌ها، پیام‌ها، فایل‌ها) جدا از برنامه ذخیره می‌شوند. وقتی "
+"DinoX را به‌روزرسانی می‌کنید، داده‌های شما دست‌نخورده باقی می‌مانند."
 
 #: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
 #: main/src/ui/main_window.vala:159
@@ -516,6 +518,52 @@ msgstr "بستن"
 #: main/src/ui/application.vala:417
 msgid "Select Backup Location"
 msgstr "انتخاب مکان پشتیبان‌گیری"
+
+#: main/src/ui/application.vala
+msgid "Creating Backup..."
+msgstr "Creating Backup..."
+
+#: main/src/ui/application.vala
+msgid "Creating Encrypted Backup..."
+msgstr "Creating Encrypted Backup..."
+
+#: main/src/ui/application.vala
+msgid "Please wait while your data is being backed up."
+msgstr "Please wait while your data is being backed up."
+
+#: main/src/ui/application.vala
+msgid "No data directories found to backup"
+msgstr "No data directories found to backup"
+
+#: main/src/ui/application.vala
+msgid "Backup Created"
+msgstr "Backup Created"
+
+#: main/src/ui/application.vala
+msgid "Encrypted Backup Created"
+msgstr "Encrypted Backup Created"
+
+#: main/src/ui/application.vala
+#, c-format
+msgid "Your backup was created successfully.\\n\\nSize: %s"
+msgstr "Your backup was created successfully.\\n\\nSize: %s"
+
+#: main/src/ui/application.vala
+msgid "Your backup was created successfully."
+msgstr "Your backup was created successfully."
+
+#: main/src/ui/application.vala
+#, c-format
+msgid "Your encrypted backup was created successfully.\\n\\nSize: %s"
+msgstr "Your encrypted backup was created successfully.\\n\\nSize: %s"
+
+#: main/src/ui/application.vala
+msgid "Your encrypted backup was created successfully."
+msgstr "Your encrypted backup was created successfully."
+
+#: main/src/ui/application.vala
+msgid "Backup Failed"
+msgstr "Backup Failed"
 
 #: main/src/ui/application.vala:445
 msgid "Creating backup..."
@@ -1039,7 +1087,9 @@ msgstr "اتاق نابود شود؟"
 msgid ""
 "Are you sure you want to permanently destroy this room? This action cannot "
 "be undone and all history will be lost for all participants."
-msgstr "آیا مطمئن هستید که می‌خواهید این اتاق را برای همیشه نابود کنید؟ این عمل قابل بازگشت نیست و تمام تاریخچه برای همه شرکت‌کنندگان از بین خواهد رفت."
+msgstr ""
+"آیا مطمئن هستید که می‌خواهید این اتاق را برای همیشه نابود کنید؟ این عمل قابل "
+"بازگشت نیست و تمام تاریخچه برای همه شرکت‌کنندگان از بین خواهد رفت."
 
 #: main/src/ui/conversation_details.vala:250
 msgid "Destroy"
@@ -1222,7 +1272,12 @@ msgid ""
 "• Remove %s from your contact list\n"
 "\n"
 "This action cannot be undone."
-msgstr "این کار:\n• تمام تاریخچه گفتگو را حذف می‌کند\n• %s را از لیست مخاطبین شما حذف می‌کند\n\nاین عمل قابل بازگشت نیست."
+msgstr ""
+"این کار:\n"
+"• تمام تاریخچه گفتگو را حذف می‌کند\n"
+"• %s را از لیست مخاطبین شما حذف می‌کند\n"
+"\n"
+"این عمل قابل بازگشت نیست."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:787
 msgid "Delete all message history?"
@@ -1232,7 +1287,9 @@ msgstr "تمام تاریخچه پیام‌ها حذف شود؟"
 msgid ""
 "This will permanently delete all messages in this conversation. This action "
 "cannot be undone."
-msgstr "این کار تمام پیام‌های این گفتگو را برای همیشه حذف می‌کند. این عمل قابل بازگشت نیست."
+msgstr ""
+"این کار تمام پیام‌های این گفتگو را برای همیشه حذف می‌کند. این عمل قابل بازگشت "
+"نیست."
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:791
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
@@ -1259,7 +1316,9 @@ msgstr "سرور کنفرانس لازم است"
 msgid ""
 "To start a group call, you need to configure a default conference server in "
 "your account settings."
-msgstr "برای شروع تماس گروهی، باید یک سرور کنفرانس پیش‌فرض را در تنظیمات حساب خود پیکربندی کنید."
+msgstr ""
+"برای شروع تماس گروهی، باید یک سرور کنفرانس پیش‌فرض را در تنظیمات حساب خود "
+"پیکربندی کنید."
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:84
 msgid "Open Settings"
@@ -1316,7 +1375,12 @@ msgid ""
 "\n"
 "If you need a password or a nickname, provide them in the dialog. Use the "
 "discovery features in the server to find public rooms."
-msgstr "برای پیوستن به کانال، روی دکمه \"پیوستن به کانال\" کلیک کنید و JID کانال را وارد کنید (مثال: room@conference.example.org).\n\nاگر به رمز عبور یا نام مستعار نیاز دارید، آنها را در گفتگو وارد کنید. از ویژگی‌های کشف سرور برای یافتن اتاق‌های عمومی استفاده کنید."
+msgstr ""
+"برای پیوستن به کانال، روی دکمه \"پیوستن به کانال\" کلیک کنید و JID کانال را "
+"وارد کنید (مثال: room@conference.example.org).\n"
+"\n"
+"اگر به رمز عبور یا نام مستعار نیاز دارید، آنها را در گفتگو وارد کنید. از "
+"ویژگی‌های کشف سرور برای یافتن اتاق‌های عمومی استفاده کنید."
 
 #: main/src/ui/main_window.vala:206
 msgid "Welcome to DinoX!"
@@ -1474,7 +1538,8 @@ msgstr "خروج"
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
 "A friendly name shown in room listings (does not change the room address)"
-msgstr "نام دوستانه‌ای که در لیست اتاق‌ها نمایش داده می‌شود (آدرس اتاق را تغییر نمی‌دهد)"
+msgstr ""
+"نام دوستانه‌ای که در لیست اتاق‌ها نمایش داده می‌شود (آدرس اتاق را تغییر نمی‌دهد)"
 
 #: main/src/ui/util/data_forms.vala:44
 msgid "Description"
@@ -1528,7 +1593,8 @@ msgstr "فقط اعضا"
 msgid ""
 "Only members may enter the room. Warning: Non-members will be removed when "
 "enabled!"
-msgstr "فقط اعضا می‌توانند وارد اتاق شوند. هشدار: غیر اعضا هنگام فعال شدن حذف می‌شوند!"
+msgstr ""
+"فقط اعضا می‌توانند وارد اتاق شوند. هشدار: غیر اعضا هنگام فعال شدن حذف می‌شوند!"
 
 #: main/src/ui/util/helper.vala:65
 #, c-format
@@ -1548,7 +1614,9 @@ msgstr "%a , %b %d"
 msgid ""
 "This contact will be removed from your contact list and all conversation "
 "history will be permanently deleted."
-msgstr "این مخاطب از لیست مخاطبین شما حذف می‌شود و تمام تاریخچه گفتگو برای همیشه حذف می‌شود."
+msgstr ""
+"این مخاطب از لیست مخاطبین شما حذف می‌شود و تمام تاریخچه گفتگو برای همیشه حذف "
+"می‌شود."
 
 #: main/src/windows/conversation_details.vala:108
 msgid "Block user"
@@ -1722,7 +1790,9 @@ msgstr "مخاطبین را اضافه کنید تا گفتگو را شروع ک
 msgid ""
 "This will remove %s from your contact list and delete all conversation "
 "history."
-msgstr "این کار %s را از لیست مخاطبین شما حذف می‌کند و تمام تاریخچه گفتگو را پاک می‌کند."
+msgstr ""
+"این کار %s را از لیست مخاطبین شما حذف می‌کند و تمام تاریخچه گفتگو را پاک "
+"می‌کند."
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:318
 msgid "Edit Contact Alias"
@@ -1736,6 +1806,388 @@ msgstr "تغییر نام نمایشی برای %s"
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:325
 msgid "Alias (optional)"
 msgstr "نام مستعار (اختیاری)"
+
+# DinoX v0.7.7 - Database Maintenance & Backup/Restore
+msgid "Clean Database"
+msgstr "Clean Database"
+
+msgid "Reset Database"
+msgstr "Reset Database"
+
+msgid "Restore Complete!"
+msgstr "Restore Complete!"
+
+msgid "Restore Failed"
+msgstr "Restore Failed"
+
+msgid "Decrypting Backup..."
+msgstr "Decrypting Backup..."
+
+msgid "Restoring Backup..."
+msgstr "Restoring Backup..."
+
+msgid "Set Backup Password"
+msgstr "Set Backup Password"
+
+msgid "Confirm Password"
+msgstr "Confirm Password"
+
+msgid "Create Encrypted Backup"
+msgstr "Create Encrypted Backup"
+
+msgid "Password too short"
+msgstr "Password too short"
+
+msgid "Passwords do not match"
+msgstr "Passwords do not match"
+
+msgid "✓ Passwords match"
+msgstr "✓ Passwords match"
+
+msgid "Encrypting Backup..."
+msgstr "Encrypting Backup..."
+
+msgid "Factory Reset"
+msgstr "Factory Reset"
+
+msgid "Restore from Backup"
+msgstr "Restore from Backup"
+
+msgid "Restore Backup"
+msgstr "Restore Backup"
+
+msgid "Select Backup File"
+msgstr "Select Backup File"
+
+msgid "Enter Backup Password"
+msgstr "Enter Backup Password"
+
+msgid "Decrypt & Restore"
+msgstr "Decrypt & Restore"
+
+msgid "Create Backup First"
+msgstr "Create Backup First"
+
+msgid "No Encryption"
+msgstr "No Encryption"
+
+msgid "Encrypt with Password"
+msgstr "Encrypt with Password"
+
+msgid "Delete Everything"
+msgstr "Delete Everything"
+
+msgid "Confirm Delete"
+msgstr "Confirm Delete"
+
+msgid "Are you absolutely sure?"
+msgstr "Are you absolutely sure?"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "نگهداری پایگاه داده"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "بازیابی حساب‌ها، پیام‌ها و تنظیمات از فایل پشتیبان"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr "حذف تمام پیام‌ها، فایل‌ها و کلیدهای OMEMO. حساب‌های شما باقی می‌مانند."
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr "حذف تمام داده‌ها از جمله حساب‌ها. این قابل بازگشت نیست!"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "فایل‌های پشتیبان (*.tar.gz, *.tar.gz.gpg)"
+
+msgid "Creating encrypted backup..."
+msgstr "در حال ایجاد پشتیبان رمزنگاری شده..."
+
+msgid "Decryption Failed"
+msgstr "رمزگشایی ناموفق بود"
+
+msgid "DinoX will now restart..."
+msgstr "DinoX اکنون راه‌اندازی مجدد می‌شود..."
+
+msgid "Encrypted backup created successfully"
+msgstr "پشتیبان رمزنگاری شده با موفقیت ایجاد شد"
+
+msgid "Password (minimum 4 characters)"
+msgstr "رمز عبور (حداقل ۴ کاراکتر)"
+
+msgid "Decrypting encrypted backup file..."
+msgstr "در حال رمزگشایی فایل پشتیبان..."
+
+msgid "Extracting files from backup..."
+msgstr "در حال استخراج فایل‌ها از پشتیبان..."
+
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "بازنشانی کارخانه در حال انجام... DinoX راه‌اندازی مجدد می‌شود."
+
+msgid "Resetting database... DinoX will restart."
+msgstr "بازنشانی پایگاه داده... DinoX راه‌اندازی مجدد می‌شود."
+
+msgid "Encrypted backup created (%s)"
+msgstr "پشتیبان رمزنگاری شده ایجاد شد (%s)"
+
+msgid ""
+"Could not decrypt the backup file.\n"
+"\n"
+"Please check if the password is correct."
+msgstr ""
+"رمزگشایی فایل پشتیبان ممکن نبود.\n"
+"\n"
+"لطفاً بررسی کنید رمز عبور صحیح است."
+
+msgid ""
+"Could not restore the backup file.\n"
+"\n"
+"Error: %s"
+msgstr ""
+"بازیابی فایل پشتیبان ممکن نبود.\n"
+"\n"
+"خطا: %s"
+
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "این پشتیبان رمزنگاری شده است. رمز عبور را وارد کنید."
+
+msgid ""
+"Enter a password to encrypt the backup.\n"
+"\n"
+"<b>Important:</b> Remember this password! Without it, the backup cannot be "
+"restored."
+msgstr ""
+"یک رمز عبور برای رمزنگاری پشتیبان وارد کنید.\n"
+"\n"
+"<b>مهم:</b> این رمز عبور را به خاطر بسپارید! بدون آن، پشتیبان قابل بازیابی "
+"نیست."
+
+msgid ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+msgstr ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+
+msgid ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+msgstr ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+
+msgid ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+msgstr ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+
+msgid ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+msgstr ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+
+# OpenPGP Key Management
+msgid "OpenPGP Key Management"
+msgstr "OpenPGP Key Management"
+
+msgid "Actions"
+msgstr "Actions"
+
+msgid "Generate New Key"
+msgstr "Generate New Key"
+
+msgid "Import Key"
+msgstr "Import Key"
+
+msgid "Your Keys"
+msgstr "Your Keys"
+
+msgid "Fingerprint"
+msgstr "Fingerprint"
+
+msgid "Export Public Key"
+msgstr "Export Public Key"
+
+msgid "Delete Key"
+msgstr "Delete Key"
+
+msgid "Name"
+msgstr "Name"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Passphrase"
+msgstr "Passphrase"
+
+msgid "Generate"
+msgstr "Generate"
+
+msgid "Select OpenPGP Key"
+msgstr "Select OpenPGP Key"
+
+msgid "Wrong passphrase"
+msgstr "Wrong passphrase"
+
+msgid "Manage Keys"
+msgstr "Manage Keys"
+
+msgid "Announce key"
+msgstr "Announce key"
+
+msgid "Disabled"
+msgstr "Disabled"
+
+msgid "Success"
+msgstr "Success"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Create a new OpenPGP key pair"
+msgstr "ایجاد یک جفت کلید OpenPGP جدید"
+
+msgid "Import a key from file (.asc, .gpg)"
+msgstr "وارد کردن کلید از فایل (.asc, .gpg)"
+
+msgid "Private keys available for signing and decryption"
+msgstr "کلیدهای خصوصی موجود برای امضا و رمزگشایی"
+
+msgid "No private keys found"
+msgstr "کلید خصوصی یافت نشد"
+
+msgid "Generate or import a key to get started"
+msgstr "برای شروع یک کلید ایجاد یا وارد کنید"
+
+msgid "Generate New OpenPGP Key"
+msgstr "ایجاد کلید OpenPGP جدید"
+
+msgid "Enter your details to create a new key pair."
+msgstr "اطلاعات خود را برای ایجاد جفت کلید جدید وارد کنید."
+
+msgid "Your Name"
+msgstr "نام شما"
+
+msgid "you@example.com"
+msgstr "you@example.com"
+
+msgid "Passphrase (optional)"
+msgstr "عبارت عبور (اختیاری)"
+
+msgid "4096-bit RSA key, valid for 2 years."
+msgstr "کلید RSA با ۴۰۹۶ بیت، معتبر برای ۲ سال."
+
+msgid "Name must be at least 2 characters"
+msgstr "نام باید حداقل ۲ کاراکتر باشد"
+
+msgid "Please enter a valid email address"
+msgstr "لطفاً یک آدرس ایمیل معتبر وارد کنید"
+
+msgid "Generating Key..."
+msgstr "در حال ایجاد کلید..."
+
+msgid "Please wait while your key is being generated. This may take a moment."
+msgstr ""
+"لطفاً صبر کنید در حالی که کلید شما ایجاد می‌شود. این ممکن است کمی طول بکشد."
+
+msgid "Key generated successfully!"
+msgstr "کلید با موفقیت ایجاد شد!"
+
+msgid "Failed to generate key."
+msgstr "ایجاد کلید ناموفق بود."
+
+msgid "Import OpenPGP Key"
+msgstr "وارد کردن کلید OpenPGP"
+
+msgid "OpenPGP Keys (*.asc, *.gpg)"
+msgstr "کلیدهای OpenPGP (*.asc, *.gpg)"
+
+msgid "All Files"
+msgstr "همه فایل‌ها"
+
+msgid "Key imported! Re-open Key Management to see it."
+msgstr "کلید وارد شد! مدیریت کلید را دوباره باز کنید تا ببینید."
+
+msgid "Import failed: "
+msgstr "وارد کردن ناموفق: "
+
+msgid "Key exported to: "
+msgstr "کلید صادر شد به: "
+
+msgid "Export failed."
+msgstr "صادر کردن ناموفق."
+
+msgid "Delete Key?"
+msgstr "حذف کلید؟"
+
+msgid ""
+"Delete this key?\n"
+"\n"
+"%s\n"
+"\n"
+"This cannot be undone!"
+msgstr ""
+"این کلید حذف شود؟\n"
+"\n"
+"%s\n"
+"\n"
+"این قابل بازگشت نیست!"
+
+msgid "Key deleted."
+msgstr "کلید حذف شد."
+
+msgid "Delete failed: "
+msgstr "حذف ناموفق: "
+
+msgid "Choose a key to announce to your contacts."
+msgstr "یک کلید برای اعلام به مخاطبین خود انتخاب کنید."
+
+msgid "Enter GPG passphrase to confirm:"
+msgstr "عبارت عبور GPG را برای تأیید وارد کنید:"
+
+msgid "Generate, import, export, or delete keys"
+msgstr "ایجاد، وارد کردن، صادر کردن یا حذف کلیدها"
+
+msgid "No keys available. Generate or import one!"
+msgstr "کلیدی موجود نیست. یکی ایجاد یا وارد کنید!"
+
+msgid "Error in GnuPG"
+msgstr "خطا در GnuPG"
 
 #~ msgid "Message too long"
 #~ msgstr "پیام خیلی طولانی است"
@@ -1876,154 +2328,3 @@ msgstr "نام مستعار (اختیاری)"
 
 #~ msgid "No active conversations"
 #~ msgstr "هیچ گفتگوی فعالی نیست"
-
-# DinoX v0.7.7 - Database Maintenance & Backup/Restore
-msgid "Clean Database"
-msgstr "Clean Database"
-
-msgid "Reset Database"
-msgstr "Reset Database"
-
-msgid "Restore Complete!"
-msgstr "Restore Complete!"
-
-msgid "Restore Failed"
-msgstr "Restore Failed"
-
-msgid "Decrypting Backup..."
-msgstr "Decrypting Backup..."
-
-msgid "Restoring Backup..."
-msgstr "Restoring Backup..."
-
-msgid "Set Backup Password"
-msgstr "Set Backup Password"
-
-msgid "Confirm Password"
-msgstr "Confirm Password"
-
-msgid "Create Encrypted Backup"
-msgstr "Create Encrypted Backup"
-
-msgid "Password too short"
-msgstr "Password too short"
-
-msgid "Passwords do not match"
-msgstr "Passwords do not match"
-
-msgid "✓ Passwords match"
-msgstr "✓ Passwords match"
-
-msgid "Encrypting Backup..."
-msgstr "Encrypting Backup..."
-
-msgid "Factory Reset"
-msgstr "Factory Reset"
-
-msgid "Restore from Backup"
-msgstr "Restore from Backup"
-
-msgid "Restore Backup"
-msgstr "Restore Backup"
-
-msgid "Select Backup File"
-msgstr "Select Backup File"
-
-msgid "Enter Backup Password"
-msgstr "Enter Backup Password"
-
-msgid "Decrypt & Restore"
-msgstr "Decrypt & Restore"
-
-msgid "Create Backup First"
-msgstr "Create Backup First"
-
-msgid "No Encryption"
-msgstr "No Encryption"
-
-msgid "Encrypt with Password"
-msgstr "Encrypt with Password"
-
-msgid "Delete Everything"
-msgstr "Delete Everything"
-
-msgid "Confirm Delete"
-msgstr "Confirm Delete"
-
-msgid "Are you absolutely sure?"
-msgstr "Are you absolutely sure?"
-
-#: main/data/preferences_window/general_preferences_page.ui:104
-msgid "Database Maintenance"
-msgstr "نگهداری پایگاه داده"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Restore accounts, messages and settings from a backup file"
-msgstr "بازیابی حساب‌ها، پیام‌ها و تنظیمات از فایل پشتیبان"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
-msgstr "حذف تمام پیام‌ها، فایل‌ها و کلیدهای OMEMO. حساب‌های شما باقی می‌مانند."
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete ALL data including accounts. This cannot be undone!"
-msgstr "حذف تمام داده‌ها از جمله حساب‌ها. این قابل بازگشت نیست!"
-
-# DinoX v0.7.7 - Additional Backup/Restore strings
-
-msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
-msgstr "فایل‌های پشتیبان (*.tar.gz, *.tar.gz.gpg)"
-
-msgid "Creating encrypted backup..."
-msgstr "در حال ایجاد پشتیبان رمزنگاری شده..."
-
-msgid "Decryption Failed"
-msgstr "رمزگشایی ناموفق بود"
-
-msgid "DinoX will now restart..."
-msgstr "DinoX اکنون راه‌اندازی مجدد می‌شود..."
-
-msgid "Encrypted backup created successfully"
-msgstr "پشتیبان رمزنگاری شده با موفقیت ایجاد شد"
-
-msgid "Password (minimum 4 characters)"
-msgstr "رمز عبور (حداقل ۴ کاراکتر)"
-
-msgid "Decrypting encrypted backup file..."
-msgstr "در حال رمزگشایی فایل پشتیبان..."
-
-msgid "Extracting files from backup..."
-msgstr "در حال استخراج فایل‌ها از پشتیبان..."
-
-msgid "Factory reset in progress... DinoX will restart."
-msgstr "بازنشانی کارخانه در حال انجام... DinoX راه‌اندازی مجدد می‌شود."
-
-msgid "Resetting database... DinoX will restart."
-msgstr "بازنشانی پایگاه داده... DinoX راه‌اندازی مجدد می‌شود."
-
-msgid "Encrypted backup created (%s)"
-msgstr "پشتیبان رمزنگاری شده ایجاد شد (%s)"
-
-msgid "Could not decrypt the backup file.\n\nPlease check if the password is correct."
-msgstr "رمزگشایی فایل پشتیبان ممکن نبود.\n\nلطفاً بررسی کنید رمز عبور صحیح است."
-
-msgid "Could not restore the backup file.\n\nError: %s"
-msgstr "بازیابی فایل پشتیبان ممکن نبود.\n\nخطا: %s"
-
-msgid "This backup is encrypted. Please enter the password to decrypt it."
-msgstr "این پشتیبان رمزنگاری شده است. رمز عبور را وارد کنید."
-
-msgid "Enter a password to encrypt the backup.\n\n<b>Important:</b> Remember this password! Without it, the backup cannot be restored."
-msgstr "یک رمز عبور برای رمزنگاری پشتیبان وارد کنید.\n\n<b>مهم:</b> این رمز عبور را به خاطر بسپارید! بدون آن، پشتیبان قابل بازیابی نیست."
-
-msgid "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
-msgstr "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
-
-msgid "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
-msgstr "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
-
-msgid "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
-msgstr "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
-
-msgid "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"
-msgstr "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"

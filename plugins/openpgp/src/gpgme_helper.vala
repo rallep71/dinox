@@ -108,16 +108,68 @@ public static Gee.List<Key> get_keylist(string? pattern = null, bool secret_only
 
         Gee.List<Key> keys = new ArrayList<Key>();
         Context context = Context.create();
-        context.op_keylist_start(pattern, secret_only ? 1 : 0);
+        
+        // First get fingerprints using gpg command (more reliable)
+        Gee.List<string> fingerprints = new ArrayList<string>();
         try {
-            while (true) {
-                Key key = context.op_keylist_next();
-                keys.add(key);
+            string[] argv;
+            if (secret_only) {
+                argv = { "gpg", "--list-secret-keys", "--with-colons" };
+            } else {
+                argv = { "gpg", "--list-keys", "--with-colons" };
+            }
+            if (pattern != null) {
+                argv += pattern;
+            }
+            
+            string stdout_str, stderr_str;
+            int exit_status;
+            Process.spawn_sync(null, argv, null, SpawnFlags.SEARCH_PATH,
+                null, out stdout_str, out stderr_str, out exit_status);
+            
+            if (exit_status == 0) {
+                bool expect_main_fpr = false;  // Only collect fpr after sec:/pub:, not after ssb:/sub:
+                foreach (string line in stdout_str.split("\n")) {
+                    if (line.has_prefix("sec:") || line.has_prefix("pub:")) {
+                        // Main key - next fpr line is what we want
+                        expect_main_fpr = true;
+                    } else if (line.has_prefix("ssb:") || line.has_prefix("sub:")) {
+                        // Subkey - ignore its fpr
+                        expect_main_fpr = false;
+                    } else if (line.has_prefix("fpr:") && expect_main_fpr) {
+                        var parts = line.split(":");
+                        if (parts.length > 9 && parts[9].length > 0) {
+                            fingerprints.add(parts[9]);
+                            expect_main_fpr = false;  // Only take first fpr after sec:/pub:
+                        }
+                    }
+                }
             }
         } catch (Error e) {
-            if (e.code != GPGError.ErrorCode.EOF) throw e;
+            warning("Error getting key list from gpg: %s", e.message);
+            // Fallback to GPGME
+            context.op_keylist_start(pattern, secret_only ? 1 : 0);
+            try {
+                while (true) {
+                    Key key = context.op_keylist_next();
+                    fingerprints.add(key.fpr);
+                }
+            } catch (Error e2) {
+                if (e2.code != GPGError.ErrorCode.EOF) throw e2;
+            }
+            context.op_keylist_end();
         }
-        context.op_keylist_end();
+        
+        // Now get full key data for each fingerprint
+        foreach (string fpr in fingerprints) {
+            try {
+                Key full_key = context.get_key(fpr, secret_only);
+                keys.add(full_key);
+            } catch (Error e) {
+                warning("Could not load key %s: %s", fpr, e.message);
+            }
+        }
+        
         return keys;
     } finally {
         global_mutex.unlock();
