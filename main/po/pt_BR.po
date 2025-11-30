@@ -1979,3 +1979,95 @@ msgstr "Apelido (opcional)"
 
 #~ msgid "Join on startup"
 #~ msgstr "Conectar-se ao inicializar"
+
+# DinoX v0.7.7 - Database Maintenance & Backup/Restore
+msgid "Clean Database"
+msgstr "Limpar banco de dados"
+
+msgid "Reset Database"
+msgstr "Redefinir banco de dados"
+
+msgid "Restore Complete!"
+msgstr "Restauração concluída!"
+
+msgid "Restore Failed"
+msgstr "Restauração falhou"
+
+msgid "Decrypting Backup..."
+msgstr "Descriptografando backup..."
+
+msgid "Restoring Backup..."
+msgstr "Restaurando backup..."
+
+msgid "Set Backup Password"
+msgstr "Definir senha do backup"
+
+msgid "Confirm Password"
+msgstr "Confirmar senha"
+
+msgid "Create Encrypted Backup"
+msgstr "Criar backup criptografado"
+
+msgid "Password too short"
+msgstr "Senha muito curta"
+
+msgid "Passwords do not match"
+msgstr "As senhas não coincidem"
+
+msgid "✓ Passwords match"
+msgstr "✓ As senhas coincidem"
+
+msgid "Encrypting Backup..."
+msgstr "Criptografando backup..."
+
+msgid "Factory Reset"
+msgstr "Restaurar configurações de fábrica"
+
+msgid "Restore from Backup"
+msgstr "Restaurar do backup"
+
+msgid "Restore Backup"
+msgstr "Restaurar backup"
+
+msgid "Select Backup File"
+msgstr "Selecionar arquivo de backup"
+
+msgid "Enter Backup Password"
+msgstr "Digite a senha do backup"
+
+msgid "Decrypt & Restore"
+msgstr "Descriptografar e restaurar"
+
+msgid "Create Backup First"
+msgstr "Criar backup primeiro"
+
+msgid "No Encryption"
+msgstr "Sem criptografia"
+
+msgid "Encrypt with Password"
+msgstr "Criptografar com senha"
+
+msgid "Delete Everything"
+msgstr "Excluir tudo"
+
+msgid "Confirm Delete"
+msgstr "Confirmar exclusão"
+
+msgid "Are you absolutely sure?"
+msgstr "Você tem certeza absoluta?"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "Manutenção do banco de dados"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "Restaurar contas, mensagens e configurações de um arquivo de backup"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr "Excluir todas as mensagens, arquivos e chaves OMEMO. Suas contas permanecerão."
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr "Excluir TODOS os dados, incluindo contas. Esta ação não pode ser desfeita!"

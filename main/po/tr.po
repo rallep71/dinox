@@ -1966,3 +1966,95 @@ msgstr "Takma ad (isteğe bağlı)"
 
 #~ msgid "Password required for room entry, if any"
 #~ msgstr "Odaya giriş için yapmak için parola ( gerekirse )"
+
+# DinoX v0.7.7 - Database Maintenance & Backup/Restore
+msgid "Clean Database"
+msgstr "Veritabanını temizle"
+
+msgid "Reset Database"
+msgstr "Veritabanını sıfırla"
+
+msgid "Restore Complete!"
+msgstr "Geri yükleme tamamlandı!"
+
+msgid "Restore Failed"
+msgstr "Geri yükleme başarısız"
+
+msgid "Decrypting Backup..."
+msgstr "Yedek şifresi çözülüyor..."
+
+msgid "Restoring Backup..."
+msgstr "Yedek geri yükleniyor..."
+
+msgid "Set Backup Password"
+msgstr "Yedek şifresini ayarla"
+
+msgid "Confirm Password"
+msgstr "Şifreyi onayla"
+
+msgid "Create Encrypted Backup"
+msgstr "Şifreli yedek oluştur"
+
+msgid "Password too short"
+msgstr "Şifre çok kısa"
+
+msgid "Passwords do not match"
+msgstr "Şifreler eşleşmiyor"
+
+msgid "✓ Passwords match"
+msgstr "✓ Şifreler eşleşiyor"
+
+msgid "Encrypting Backup..."
+msgstr "Yedek şifreleniyor..."
+
+msgid "Factory Reset"
+msgstr "Fabrika ayarlarına sıfırla"
+
+msgid "Restore from Backup"
+msgstr "Yedekten geri yükle"
+
+msgid "Restore Backup"
+msgstr "Yedeği geri yükle"
+
+msgid "Select Backup File"
+msgstr "Yedek dosyasını seç"
+
+msgid "Enter Backup Password"
+msgstr "Yedek şifresini girin"
+
+msgid "Decrypt & Restore"
+msgstr "Şifreyi çöz ve geri yükle"
+
+msgid "Create Backup First"
+msgstr "Önce yedek oluştur"
+
+msgid "No Encryption"
+msgstr "Şifreleme yok"
+
+msgid "Encrypt with Password"
+msgstr "Şifreyle şifrele"
+
+msgid "Delete Everything"
+msgstr "Her şeyi sil"
+
+msgid "Confirm Delete"
+msgstr "Silmeyi onayla"
+
+msgid "Are you absolutely sure?"
+msgstr "Kesinlikle emin misiniz?"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "Veritabanı Bakımı"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "Hesapları, mesajları ve ayarları yedek dosyasından geri yükle"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr "Tüm mesajları, dosyaları ve OMEMO anahtarlarını sil. Hesaplarınız kalacak."
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr "Hesaplar dahil TÜM verileri sil. Bu geri alınamaz!"

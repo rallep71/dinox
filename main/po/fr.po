@@ -1995,3 +1995,95 @@ msgstr "Alias (optionnel)"
 
 #~ msgid "Optional: Custom server connection"
 #~ msgstr "Optionnel : Connexion serveur personnalisée"
+
+# DinoX v0.7.7 - Database Maintenance & Backup/Restore
+msgid "Clean Database"
+msgstr "Nettoyer la base de données"
+
+msgid "Reset Database"
+msgstr "Réinitialiser la base de données"
+
+msgid "Restore Complete!"
+msgstr "Restauration terminée !"
+
+msgid "Restore Failed"
+msgstr "Échec de la restauration"
+
+msgid "Decrypting Backup..."
+msgstr "Déchiffrement de la sauvegarde..."
+
+msgid "Restoring Backup..."
+msgstr "Restauration de la sauvegarde..."
+
+msgid "Set Backup Password"
+msgstr "Définir le mot de passe de sauvegarde"
+
+msgid "Confirm Password"
+msgstr "Confirmer le mot de passe"
+
+msgid "Create Encrypted Backup"
+msgstr "Créer une sauvegarde chiffrée"
+
+msgid "Password too short"
+msgstr "Mot de passe trop court"
+
+msgid "Passwords do not match"
+msgstr "Les mots de passe ne correspondent pas"
+
+msgid "✓ Passwords match"
+msgstr "✓ Les mots de passe correspondent"
+
+msgid "Encrypting Backup..."
+msgstr "Chiffrement de la sauvegarde..."
+
+msgid "Factory Reset"
+msgstr "Réinitialisation d'usine"
+
+msgid "Restore from Backup"
+msgstr "Restaurer depuis une sauvegarde"
+
+msgid "Restore Backup"
+msgstr "Restaurer la sauvegarde"
+
+msgid "Select Backup File"
+msgstr "Sélectionner le fichier de sauvegarde"
+
+msgid "Enter Backup Password"
+msgstr "Entrer le mot de passe de sauvegarde"
+
+msgid "Decrypt & Restore"
+msgstr "Déchiffrer et restaurer"
+
+msgid "Create Backup First"
+msgstr "Créer d'abord une sauvegarde"
+
+msgid "No Encryption"
+msgstr "Sans chiffrement"
+
+msgid "Encrypt with Password"
+msgstr "Chiffrer avec mot de passe"
+
+msgid "Delete Everything"
+msgstr "Tout supprimer"
+
+msgid "Confirm Delete"
+msgstr "Confirmer la suppression"
+
+msgid "Are you absolutely sure?"
+msgstr "Êtes-vous absolument sûr ?"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "Maintenance de la base de données"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "Restaurer les comptes, messages et paramètres depuis un fichier de sauvegarde"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr "Supprimer tous les messages, fichiers et clés OMEMO. Vos comptes seront conservés."
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr "Supprimer TOUTES les données, y compris les comptes. Cette action est irréversible !"

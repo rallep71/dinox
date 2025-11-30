@@ -1956,3 +1956,95 @@ msgstr "エイリアス（任意）"
 
 #~ msgid "Start Chat"
 #~ msgstr "会話を開始"
+
+# DinoX v0.7.7 - Database Maintenance & Backup/Restore
+msgid "Clean Database"
+msgstr "データベースをクリーンアップ"
+
+msgid "Reset Database"
+msgstr "データベースをリセット"
+
+msgid "Restore Complete!"
+msgstr "復元が完了しました！"
+
+msgid "Restore Failed"
+msgstr "復元に失敗しました"
+
+msgid "Decrypting Backup..."
+msgstr "バックアップを復号化中..."
+
+msgid "Restoring Backup..."
+msgstr "バックアップを復元中..."
+
+msgid "Set Backup Password"
+msgstr "バックアップパスワードを設定"
+
+msgid "Confirm Password"
+msgstr "パスワードを確認"
+
+msgid "Create Encrypted Backup"
+msgstr "暗号化バックアップを作成"
+
+msgid "Password too short"
+msgstr "パスワードが短すぎます"
+
+msgid "Passwords do not match"
+msgstr "パスワードが一致しません"
+
+msgid "✓ Passwords match"
+msgstr "✓ パスワードが一致しました"
+
+msgid "Encrypting Backup..."
+msgstr "バックアップを暗号化中..."
+
+msgid "Factory Reset"
+msgstr "工場出荷時設定にリセット"
+
+msgid "Restore from Backup"
+msgstr "バックアップから復元"
+
+msgid "Restore Backup"
+msgstr "バックアップを復元"
+
+msgid "Select Backup File"
+msgstr "バックアップファイルを選択"
+
+msgid "Enter Backup Password"
+msgstr "バックアップパスワードを入力"
+
+msgid "Decrypt & Restore"
+msgstr "復号化して復元"
+
+msgid "Create Backup First"
+msgstr "先にバックアップを作成"
+
+msgid "No Encryption"
+msgstr "暗号化なし"
+
+msgid "Encrypt with Password"
+msgstr "パスワードで暗号化"
+
+msgid "Delete Everything"
+msgstr "すべて削除"
+
+msgid "Confirm Delete"
+msgstr "削除を確認"
+
+msgid "Are you absolutely sure?"
+msgstr "本当によろしいですか？"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "データベースメンテナンス"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "バックアップファイルからアカウント、メッセージ、設定を復元"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr "すべてのメッセージ、ファイル、OMEMOキーを削除します。アカウントは残ります。"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr "アカウントを含むすべてのデータを削除します。この操作は元に戻せません！"

@@ -1974,3 +1974,95 @@ msgstr "Alias (opcjonalnie)"
 
 #~ msgid "Optional: Custom server connection"
 #~ msgstr "Opcjonalnie: Niestandardowe połączenie z serwerem"
+
+# DinoX v0.7.7 - Database Maintenance & Backup/Restore
+msgid "Clean Database"
+msgstr "Wyczyść bazę danych"
+
+msgid "Reset Database"
+msgstr "Zresetuj bazę danych"
+
+msgid "Restore Complete!"
+msgstr "Przywracanie zakończone!"
+
+msgid "Restore Failed"
+msgstr "Przywracanie nie powiodło się"
+
+msgid "Decrypting Backup..."
+msgstr "Odszyfrowywanie kopii zapasowej..."
+
+msgid "Restoring Backup..."
+msgstr "Przywracanie kopii zapasowej..."
+
+msgid "Set Backup Password"
+msgstr "Ustaw hasło kopii zapasowej"
+
+msgid "Confirm Password"
+msgstr "Potwierdź hasło"
+
+msgid "Create Encrypted Backup"
+msgstr "Utwórz zaszyfrowaną kopię"
+
+msgid "Password too short"
+msgstr "Hasło za krótkie"
+
+msgid "Passwords do not match"
+msgstr "Hasła nie są zgodne"
+
+msgid "✓ Passwords match"
+msgstr "✓ Hasła są zgodne"
+
+msgid "Encrypting Backup..."
+msgstr "Szyfrowanie kopii zapasowej..."
+
+msgid "Factory Reset"
+msgstr "Przywróć ustawienia fabryczne"
+
+msgid "Restore from Backup"
+msgstr "Przywróć z kopii zapasowej"
+
+msgid "Restore Backup"
+msgstr "Przywróć kopię zapasową"
+
+msgid "Select Backup File"
+msgstr "Wybierz plik kopii zapasowej"
+
+msgid "Enter Backup Password"
+msgstr "Wprowadź hasło kopii zapasowej"
+
+msgid "Decrypt & Restore"
+msgstr "Odszyfruj i przywróć"
+
+msgid "Create Backup First"
+msgstr "Najpierw utwórz kopię zapasową"
+
+msgid "No Encryption"
+msgstr "Bez szyfrowania"
+
+msgid "Encrypt with Password"
+msgstr "Zaszyfruj hasłem"
+
+msgid "Delete Everything"
+msgstr "Usuń wszystko"
+
+msgid "Confirm Delete"
+msgstr "Potwierdź usunięcie"
+
+msgid "Are you absolutely sure?"
+msgstr "Czy jesteś absolutnie pewien?"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "Konserwacja bazy danych"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "Przywróć konta, wiadomości i ustawienia z pliku kopii zapasowej"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr "Usuń wszystkie wiadomości, pliki i klucze OMEMO. Twoje konta pozostaną."
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr "Usuń WSZYSTKIE dane, w tym konta. Tej operacji nie można cofnąć!"
