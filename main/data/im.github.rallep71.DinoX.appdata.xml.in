@@ -28,6 +28,21 @@
   <url type="translate">https://hosted.weblate.org/projects/dino/</url>
   <launchable type="desktop-id">im.github.rallep71.DinoX.desktop</launchable>
   <releases>
+    <release date="2025-11-30" version="0.7.8">
+      <description>
+        <p>TLS certificate pinning for self-hosted XMPP servers with self-signed certificates. Trust/pin dialog like Conversations Android.</p>
+      </description>
+    </release>
+    <release date="2025-11-30" version="0.7.7">
+      <description>
+        <p>Database maintenance with "Clean Database" option. Full backup and restore with optional GPG encryption.</p>
+      </description>
+    </release>
+    <release date="2025-11-29" version="0.7.6">
+      <description>
+        <p>Call stability fixes, OMEMO auto-refresh for stale bundles, prefer Opus codec for better audio quality.</p>
+      </description>
+    </release>
     <release date="2025-11-29" version="0.7.5">
       <description>
         <p>Individual volume control per participant in calls. V4L2 hardware decoding for ARM devices.</p>

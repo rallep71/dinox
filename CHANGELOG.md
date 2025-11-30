@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.7.8] - 2025-11-30
+
+### Added
+- **TLS Certificate Pinning** - Support for self-hosted XMPP servers with self-signed certificates
+  - Certificate trust/pin dialog like Conversations Android (GitHub issue #1801)
+  - Shows certificate details: SHA-256 fingerprint, issuer, validity period
+  - "Trust Certificate" button in account preferences when TLS errors occur
+  - Stores pinned certificate fingerprints in database
+  - Supports unpinning/removing trusted certificates
+
+### Technical
+- New `pinned_certificate` database table (database version 33)
+- `CertificateManager` service for fingerprint calculation and validation
+- Extended `ConnectionError` with TLS certificate and flags properties
+- Extended `XmppStreamResult` with peer certificate property
+
 ## [0.7.7] - 2025-11-30
 
 ### Added
@@ -448,6 +464,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Meson build system with automated translations (50+ languages)
 
 [Unreleased]: https://github.com/rallep71/dinox/compare/v0.7.3...HEAD
+[0.7.3]: https://github.com/rallep71/dinox/releases/tag/v0.7.3
+[0.7.2]: https://github.com/rallep71/dinox/releases/tag/v0.7.2
+[0.7.1]: https://github.com/rallep71/dinox/releases/tag/v0.7.1
+[0.7.8]: https://github.com/rallep71/dinox/releases/tag/v0.7.8
+[0.7.7]: https://github.com/rallep71/dinox/releases/tag/v0.7.7
+[0.7.6]: https://github.com/rallep71/dinox/releases/tag/v0.7.6
+[0.7.5]: https://github.com/rallep71/dinox/releases/tag/v0.7.5
+[0.7.4]: https://github.com/rallep71/dinox/releases/tag/v0.7.4
 [0.7.3]: https://github.com/rallep71/dinox/releases/tag/v0.7.3
 [0.7.2]: https://github.com/rallep71/dinox/releases/tag/v0.7.2
 [0.7.1]: https://github.com/rallep71/dinox/releases/tag/v0.7.1
