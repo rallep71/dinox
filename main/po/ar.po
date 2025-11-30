@@ -1984,3 +1984,95 @@ msgstr "الاسم المستعار (اختياري)"
 
 #~ msgid "Start Chat"
 #~ msgstr "إبدأ الدردشة"
+
+# DinoX v0.7.7 - Database Maintenance & Backup/Restore
+msgid "Clean Database"
+msgstr "تنظيف قاعدة البيانات"
+
+msgid "Reset Database"
+msgstr "إعادة تعيين قاعدة البيانات"
+
+msgid "Restore Complete!"
+msgstr "اكتملت الاستعادة!"
+
+msgid "Restore Failed"
+msgstr "فشلت الاستعادة"
+
+msgid "Decrypting Backup..."
+msgstr "جارٍ فك تشفير النسخة الاحتياطية..."
+
+msgid "Restoring Backup..."
+msgstr "جارٍ استعادة النسخة الاحتياطية..."
+
+msgid "Set Backup Password"
+msgstr "تعيين كلمة مرور النسخة الاحتياطية"
+
+msgid "Confirm Password"
+msgstr "تأكيد كلمة المرور"
+
+msgid "Create Encrypted Backup"
+msgstr "إنشاء نسخة احتياطية مشفرة"
+
+msgid "Password too short"
+msgstr "كلمة المرور قصيرة جداً"
+
+msgid "Passwords do not match"
+msgstr "كلمات المرور غير متطابقة"
+
+msgid "✓ Passwords match"
+msgstr "✓ كلمات المرور متطابقة"
+
+msgid "Encrypting Backup..."
+msgstr "جارٍ تشفير النسخة الاحتياطية..."
+
+msgid "Factory Reset"
+msgstr "إعادة ضبط المصنع"
+
+msgid "Restore from Backup"
+msgstr "استعادة من نسخة احتياطية"
+
+msgid "Restore Backup"
+msgstr "استعادة النسخة الاحتياطية"
+
+msgid "Select Backup File"
+msgstr "اختر ملف النسخة الاحتياطية"
+
+msgid "Enter Backup Password"
+msgstr "أدخل كلمة مرور النسخة الاحتياطية"
+
+msgid "Decrypt & Restore"
+msgstr "فك التشفير والاستعادة"
+
+msgid "Create Backup First"
+msgstr "أنشئ نسخة احتياطية أولاً"
+
+msgid "No Encryption"
+msgstr "بدون تشفير"
+
+msgid "Encrypt with Password"
+msgstr "تشفير بكلمة مرور"
+
+msgid "Delete Everything"
+msgstr "حذف كل شيء"
+
+msgid "Confirm Delete"
+msgstr "تأكيد الحذف"
+
+msgid "Are you absolutely sure?"
+msgstr "هل أنت متأكد تماماً؟"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "صيانة قاعدة البيانات"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "استعادة الحسابات والرسائل والإعدادات من ملف نسخة احتياطية"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr "حذف جميع الرسائل والملفات ومفاتيح OMEMO. ستبقى حساباتك."
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr "حذف جميع البيانات بما في ذلك الحسابات. لا يمكن التراجع عن هذا!"

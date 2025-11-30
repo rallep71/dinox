@@ -1971,3 +1971,95 @@ msgstr "Àlies (opcional)"
 
 #~ msgid "Start Chat"
 #~ msgstr "Inicia un xat"
+
+# DinoX v0.7.7 - Database Maintenance & Backup/Restore
+msgid "Clean Database"
+msgstr "Netejar base de dades"
+
+msgid "Reset Database"
+msgstr "Reiniciar base de dades"
+
+msgid "Restore Complete!"
+msgstr "Restauració completada!"
+
+msgid "Restore Failed"
+msgstr "La restauració ha fallat"
+
+msgid "Decrypting Backup..."
+msgstr "Desxifrant còpia de seguretat..."
+
+msgid "Restoring Backup..."
+msgstr "Restaurant còpia de seguretat..."
+
+msgid "Set Backup Password"
+msgstr "Establir contrasenya de còpia"
+
+msgid "Confirm Password"
+msgstr "Confirmar contrasenya"
+
+msgid "Create Encrypted Backup"
+msgstr "Crear còpia xifrada"
+
+msgid "Password too short"
+msgstr "Contrasenya massa curta"
+
+msgid "Passwords do not match"
+msgstr "Les contrasenyes no coincideixen"
+
+msgid "✓ Passwords match"
+msgstr "✓ Les contrasenyes coincideixen"
+
+msgid "Encrypting Backup..."
+msgstr "Xifrant còpia de seguretat..."
+
+msgid "Factory Reset"
+msgstr "Restablir de fàbrica"
+
+msgid "Restore from Backup"
+msgstr "Restaurar des de còpia"
+
+msgid "Restore Backup"
+msgstr "Restaurar còpia"
+
+msgid "Select Backup File"
+msgstr "Seleccionar fitxer de còpia"
+
+msgid "Enter Backup Password"
+msgstr "Introduir contrasenya de còpia"
+
+msgid "Decrypt & Restore"
+msgstr "Desxifrar i restaurar"
+
+msgid "Create Backup First"
+msgstr "Crear còpia primer"
+
+msgid "No Encryption"
+msgstr "Sense xifratge"
+
+msgid "Encrypt with Password"
+msgstr "Xifrar amb contrasenya"
+
+msgid "Delete Everything"
+msgstr "Esborrar-ho tot"
+
+msgid "Confirm Delete"
+msgstr "Confirmar eliminació"
+
+msgid "Are you absolutely sure?"
+msgstr "Esteu absolutament segur?"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "Manteniment de la base de dades"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "Restaura comptes, missatges i configuració des d'un fitxer de còpia de seguretat"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr "Suprimeix tots els missatges, fitxers i claus OMEMO. Els teus comptes es mantindran."
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr "Suprimeix TOTES les dades, inclosos els comptes. Això no es pot desfer!"

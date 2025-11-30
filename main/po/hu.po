@@ -1974,3 +1974,95 @@ msgstr "Becenév (opcionális)"
 
 #~ msgid "Search"
 #~ msgstr "Keresés"
+
+# DinoX v0.7.7 - Database Maintenance & Backup/Restore
+msgid "Clean Database"
+msgstr "Adatbázis tisztítása"
+
+msgid "Reset Database"
+msgstr "Adatbázis visszaállítása"
+
+msgid "Restore Complete!"
+msgstr "Visszaállítás kész!"
+
+msgid "Restore Failed"
+msgstr "Visszaállítás sikertelen"
+
+msgid "Decrypting Backup..."
+msgstr "Biztonsági mentés visszafejtése..."
+
+msgid "Restoring Backup..."
+msgstr "Biztonsági mentés visszaállítása..."
+
+msgid "Set Backup Password"
+msgstr "Mentés jelszavának beállítása"
+
+msgid "Confirm Password"
+msgstr "Jelszó megerősítése"
+
+msgid "Create Encrypted Backup"
+msgstr "Titkosított mentés létrehozása"
+
+msgid "Password too short"
+msgstr "A jelszó túl rövid"
+
+msgid "Passwords do not match"
+msgstr "A jelszavak nem egyeznek"
+
+msgid "✓ Passwords match"
+msgstr "✓ A jelszavak egyeznek"
+
+msgid "Encrypting Backup..."
+msgstr "Biztonsági mentés titkosítása..."
+
+msgid "Factory Reset"
+msgstr "Gyári beállítások visszaállítása"
+
+msgid "Restore from Backup"
+msgstr "Visszaállítás mentésből"
+
+msgid "Restore Backup"
+msgstr "Mentés visszaállítása"
+
+msgid "Select Backup File"
+msgstr "Mentési fájl kiválasztása"
+
+msgid "Enter Backup Password"
+msgstr "Adja meg a mentés jelszavát"
+
+msgid "Decrypt & Restore"
+msgstr "Visszafejtés és visszaállítás"
+
+msgid "Create Backup First"
+msgstr "Először hozzon létre mentést"
+
+msgid "No Encryption"
+msgstr "Nincs titkosítás"
+
+msgid "Encrypt with Password"
+msgstr "Titkosítás jelszóval"
+
+msgid "Delete Everything"
+msgstr "Minden törlése"
+
+msgid "Confirm Delete"
+msgstr "Törlés megerősítése"
+
+msgid "Are you absolutely sure?"
+msgstr "Teljesen biztos benne?"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "Adatbázis karbantartás"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "Fiókok, üzenetek és beállítások visszaállítása biztonsági mentésből"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr "Az összes üzenet, fájl és OMEMO kulcs törlése. A fiókjai megmaradnak."
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr "Az ÖSSZES adat törlése, beleértve a fiókokat is. Ez nem vonható vissza!"

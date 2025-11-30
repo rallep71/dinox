@@ -1970,3 +1970,95 @@ msgstr "Alias (valfritt)"
 
 #~ msgid "Join Conference"
 #~ msgstr "Anslut till gruppchatt"
+
+# DinoX v0.7.7 - Database Maintenance & Backup/Restore
+msgid "Clean Database"
+msgstr "Rensa databas"
+
+msgid "Reset Database"
+msgstr "Återställ databas"
+
+msgid "Restore Complete!"
+msgstr "Återställning klar!"
+
+msgid "Restore Failed"
+msgstr "Återställning misslyckades"
+
+msgid "Decrypting Backup..."
+msgstr "Dekrypterar säkerhetskopia..."
+
+msgid "Restoring Backup..."
+msgstr "Återställer säkerhetskopia..."
+
+msgid "Set Backup Password"
+msgstr "Ange lösenord för säkerhetskopia"
+
+msgid "Confirm Password"
+msgstr "Bekräfta lösenord"
+
+msgid "Create Encrypted Backup"
+msgstr "Skapa krypterad säkerhetskopia"
+
+msgid "Password too short"
+msgstr "Lösenordet är för kort"
+
+msgid "Passwords do not match"
+msgstr "Lösenorden matchar inte"
+
+msgid "✓ Passwords match"
+msgstr "✓ Lösenorden matchar"
+
+msgid "Encrypting Backup..."
+msgstr "Krypterar säkerhetskopia..."
+
+msgid "Factory Reset"
+msgstr "Fabriksåterställning"
+
+msgid "Restore from Backup"
+msgstr "Återställ från säkerhetskopia"
+
+msgid "Restore Backup"
+msgstr "Återställ säkerhetskopia"
+
+msgid "Select Backup File"
+msgstr "Välj säkerhetskopia"
+
+msgid "Enter Backup Password"
+msgstr "Ange lösenord för säkerhetskopia"
+
+msgid "Decrypt & Restore"
+msgstr "Dekryptera och återställ"
+
+msgid "Create Backup First"
+msgstr "Skapa säkerhetskopia först"
+
+msgid "No Encryption"
+msgstr "Ingen kryptering"
+
+msgid "Encrypt with Password"
+msgstr "Kryptera med lösenord"
+
+msgid "Delete Everything"
+msgstr "Ta bort allt"
+
+msgid "Confirm Delete"
+msgstr "Bekräfta borttagning"
+
+msgid "Are you absolutely sure?"
+msgstr "Är du helt säker?"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "Databasunderhåll"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "Återställ konton, meddelanden och inställningar från en säkerhetskopia"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr "Ta bort alla meddelanden, filer och OMEMO-nycklar. Dina konton kommer att finnas kvar."
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr "Ta bort ALLA data inklusive konton. Detta kan inte ångras!"

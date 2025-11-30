@@ -1961,3 +1961,95 @@ msgstr "Alias (valinnainen)"
 
 #~ msgid "Start Chat"
 #~ msgstr "Aloita keskustelu"
+
+# DinoX v0.7.7 - Database Maintenance & Backup/Restore
+msgid "Clean Database"
+msgstr "Puhdista tietokanta"
+
+msgid "Reset Database"
+msgstr "Nollaa tietokanta"
+
+msgid "Restore Complete!"
+msgstr "Palautus valmis!"
+
+msgid "Restore Failed"
+msgstr "Palautus epäonnistui"
+
+msgid "Decrypting Backup..."
+msgstr "Puretaan varmuuskopion salausta..."
+
+msgid "Restoring Backup..."
+msgstr "Palautetaan varmuuskopiota..."
+
+msgid "Set Backup Password"
+msgstr "Aseta varmuuskopion salasana"
+
+msgid "Confirm Password"
+msgstr "Vahvista salasana"
+
+msgid "Create Encrypted Backup"
+msgstr "Luo salattu varmuuskopio"
+
+msgid "Password too short"
+msgstr "Salasana on liian lyhyt"
+
+msgid "Passwords do not match"
+msgstr "Salasanat eivät täsmää"
+
+msgid "✓ Passwords match"
+msgstr "✓ Salasanat täsmäävät"
+
+msgid "Encrypting Backup..."
+msgstr "Salataan varmuuskopiota..."
+
+msgid "Factory Reset"
+msgstr "Tehdasasetusten palautus"
+
+msgid "Restore from Backup"
+msgstr "Palauta varmuuskopiosta"
+
+msgid "Restore Backup"
+msgstr "Palauta varmuuskopio"
+
+msgid "Select Backup File"
+msgstr "Valitse varmuuskopiotiedosto"
+
+msgid "Enter Backup Password"
+msgstr "Anna varmuuskopion salasana"
+
+msgid "Decrypt & Restore"
+msgstr "Pura salaus ja palauta"
+
+msgid "Create Backup First"
+msgstr "Luo ensin varmuuskopio"
+
+msgid "No Encryption"
+msgstr "Ei salausta"
+
+msgid "Encrypt with Password"
+msgstr "Salaa salasanalla"
+
+msgid "Delete Everything"
+msgstr "Poista kaikki"
+
+msgid "Confirm Delete"
+msgstr "Vahvista poisto"
+
+msgid "Are you absolutely sure?"
+msgstr "Oletko aivan varma?"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "Tietokannan ylläpito"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "Palauta tilit, viestit ja asetukset varmuuskopiosta"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr "Poista kaikki viestit, tiedostot ja OMEMO-avaimet. Tilisi säilyvät."
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr "Poista KAIKKI tiedot mukaan lukien tilit. Tätä ei voi perua!"

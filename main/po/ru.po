@@ -1974,3 +1974,95 @@ msgstr "Псевдоним (необязательно)"
 
 #~ msgid "Optional: Custom server connection"
 #~ msgstr "Необязательно: Пользовательское подключение к серверу"
+
+# DinoX v0.7.7 - Database Maintenance & Backup/Restore
+msgid "Clean Database"
+msgstr "Очистить базу данных"
+
+msgid "Reset Database"
+msgstr "Сбросить базу данных"
+
+msgid "Restore Complete!"
+msgstr "Восстановление завершено!"
+
+msgid "Restore Failed"
+msgstr "Ошибка восстановления"
+
+msgid "Decrypting Backup..."
+msgstr "Расшифровка резервной копии..."
+
+msgid "Restoring Backup..."
+msgstr "Восстановление резервной копии..."
+
+msgid "Set Backup Password"
+msgstr "Установить пароль резервной копии"
+
+msgid "Confirm Password"
+msgstr "Подтвердить пароль"
+
+msgid "Create Encrypted Backup"
+msgstr "Создать зашифрованную копию"
+
+msgid "Password too short"
+msgstr "Пароль слишком короткий"
+
+msgid "Passwords do not match"
+msgstr "Пароли не совпадают"
+
+msgid "✓ Passwords match"
+msgstr "✓ Пароли совпадают"
+
+msgid "Encrypting Backup..."
+msgstr "Шифрование резервной копии..."
+
+msgid "Factory Reset"
+msgstr "Сброс к заводским настройкам"
+
+msgid "Restore from Backup"
+msgstr "Восстановить из копии"
+
+msgid "Restore Backup"
+msgstr "Восстановить копию"
+
+msgid "Select Backup File"
+msgstr "Выбрать файл резервной копии"
+
+msgid "Enter Backup Password"
+msgstr "Введите пароль резервной копии"
+
+msgid "Decrypt & Restore"
+msgstr "Расшифровать и восстановить"
+
+msgid "Create Backup First"
+msgstr "Сначала создайте резервную копию"
+
+msgid "No Encryption"
+msgstr "Без шифрования"
+
+msgid "Encrypt with Password"
+msgstr "Зашифровать паролем"
+
+msgid "Delete Everything"
+msgstr "Удалить всё"
+
+msgid "Confirm Delete"
+msgstr "Подтвердить удаление"
+
+msgid "Are you absolutely sure?"
+msgstr "Вы абсолютно уверены?"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "Обслуживание базы данных"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "Восстановить учётные записи, сообщения и настройки из файла резервной копии"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr "Удалить все сообщения, файлы и ключи OMEMO. Ваши учётные записи сохранятся."
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr "Удалить ВСЕ данные, включая учётные записи. Это действие нельзя отменить!"

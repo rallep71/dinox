@@ -1983,3 +1983,95 @@ msgstr "Alias (opțional)"
 
 #~ msgid "Start Chat"
 #~ msgstr "Pornește o discuție"
+
+# DinoX v0.7.7 - Database Maintenance & Backup/Restore
+msgid "Clean Database"
+msgstr "Curățare bază de date"
+
+msgid "Reset Database"
+msgstr "Resetare bază de date"
+
+msgid "Restore Complete!"
+msgstr "Restaurare completă!"
+
+msgid "Restore Failed"
+msgstr "Restaurare eșuată"
+
+msgid "Decrypting Backup..."
+msgstr "Decriptare copie de rezervă..."
+
+msgid "Restoring Backup..."
+msgstr "Restaurare copie de rezervă..."
+
+msgid "Set Backup Password"
+msgstr "Setare parolă copie de rezervă"
+
+msgid "Confirm Password"
+msgstr "Confirmare parolă"
+
+msgid "Create Encrypted Backup"
+msgstr "Creare copie de rezervă criptată"
+
+msgid "Password too short"
+msgstr "Parola este prea scurtă"
+
+msgid "Passwords do not match"
+msgstr "Parolele nu coincid"
+
+msgid "✓ Passwords match"
+msgstr "✓ Parolele coincid"
+
+msgid "Encrypting Backup..."
+msgstr "Criptare copie de rezervă..."
+
+msgid "Factory Reset"
+msgstr "Resetare la setările din fabrică"
+
+msgid "Restore from Backup"
+msgstr "Restaurare din copie de rezervă"
+
+msgid "Restore Backup"
+msgstr "Restaurare copie de rezervă"
+
+msgid "Select Backup File"
+msgstr "Selectare fișier copie de rezervă"
+
+msgid "Enter Backup Password"
+msgstr "Introduceți parola copiei de rezervă"
+
+msgid "Decrypt & Restore"
+msgstr "Decriptare și restaurare"
+
+msgid "Create Backup First"
+msgstr "Creați mai întâi o copie de rezervă"
+
+msgid "No Encryption"
+msgstr "Fără criptare"
+
+msgid "Encrypt with Password"
+msgstr "Criptare cu parolă"
+
+msgid "Delete Everything"
+msgstr "Ștergere totală"
+
+msgid "Confirm Delete"
+msgstr "Confirmare ștergere"
+
+msgid "Are you absolutely sure?"
+msgstr "Sunteți absolut sigur?"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "Întreținere bază de date"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "Restaurați conturile, mesajele și setările dintr-un fișier de rezervă"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr "Ștergeți toate mesajele, fișierele și cheile OMEMO. Conturile dvs. vor rămâne."
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr "Ștergeți TOATE datele, inclusiv conturile. Aceasta nu poate fi anulată!"

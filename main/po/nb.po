@@ -1974,3 +1974,95 @@ msgstr "Alias (valgfritt)"
 
 #~ msgid "Join on startup"
 #~ msgstr "Ta del ved oppstart"
+
+# DinoX v0.7.7 - Database Maintenance & Backup/Restore
+msgid "Clean Database"
+msgstr "Rens database"
+
+msgid "Reset Database"
+msgstr "Tilbakestill database"
+
+msgid "Restore Complete!"
+msgstr "Gjenoppretting fullført!"
+
+msgid "Restore Failed"
+msgstr "Gjenoppretting mislyktes"
+
+msgid "Decrypting Backup..."
+msgstr "Dekrypterer sikkerhetskopi..."
+
+msgid "Restoring Backup..."
+msgstr "Gjenoppretter sikkerhetskopi..."
+
+msgid "Set Backup Password"
+msgstr "Angi passord for sikkerhetskopi"
+
+msgid "Confirm Password"
+msgstr "Bekreft passord"
+
+msgid "Create Encrypted Backup"
+msgstr "Opprett kryptert sikkerhetskopi"
+
+msgid "Password too short"
+msgstr "Passordet er for kort"
+
+msgid "Passwords do not match"
+msgstr "Passordene samsvarer ikke"
+
+msgid "✓ Passwords match"
+msgstr "✓ Passordene samsvarer"
+
+msgid "Encrypting Backup..."
+msgstr "Krypterer sikkerhetskopi..."
+
+msgid "Factory Reset"
+msgstr "Fabrikkinnstillinger"
+
+msgid "Restore from Backup"
+msgstr "Gjenopprett fra sikkerhetskopi"
+
+msgid "Restore Backup"
+msgstr "Gjenopprett sikkerhetskopi"
+
+msgid "Select Backup File"
+msgstr "Velg sikkerhetskopifil"
+
+msgid "Enter Backup Password"
+msgstr "Skriv inn passord for sikkerhetskopi"
+
+msgid "Decrypt & Restore"
+msgstr "Dekrypter og gjenopprett"
+
+msgid "Create Backup First"
+msgstr "Opprett sikkerhetskopi først"
+
+msgid "No Encryption"
+msgstr "Ingen kryptering"
+
+msgid "Encrypt with Password"
+msgstr "Krypter med passord"
+
+msgid "Delete Everything"
+msgstr "Slett alt"
+
+msgid "Confirm Delete"
+msgstr "Bekreft sletting"
+
+msgid "Are you absolutely sure?"
+msgstr "Er du helt sikker?"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "Databasevedlikehold"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "Gjenopprett kontoer, meldinger og innstillinger fra sikkerhetskopi"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr "Slett alle meldinger, filer og OMEMO-nøkler. Kontoene dine beholdes."
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr "Slett ALLE data inkludert kontoer. Dette kan ikke angres!"

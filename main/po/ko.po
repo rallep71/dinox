@@ -1881,3 +1881,95 @@ msgstr "별칭 (선택사항)"
 
 #~ msgid "Click here to start a conversation or join a channel."
 #~ msgstr "대화를 시작하거나 채널에 들어가려면 여기를 누르세요."
+
+# DinoX v0.7.7 - Database Maintenance & Backup/Restore
+msgid "Clean Database"
+msgstr "데이터베이스 정리"
+
+msgid "Reset Database"
+msgstr "데이터베이스 초기화"
+
+msgid "Restore Complete!"
+msgstr "복원 완료!"
+
+msgid "Restore Failed"
+msgstr "복원 실패"
+
+msgid "Decrypting Backup..."
+msgstr "백업 복호화 중..."
+
+msgid "Restoring Backup..."
+msgstr "백업 복원 중..."
+
+msgid "Set Backup Password"
+msgstr "백업 비밀번호 설정"
+
+msgid "Confirm Password"
+msgstr "비밀번호 확인"
+
+msgid "Create Encrypted Backup"
+msgstr "암호화된 백업 생성"
+
+msgid "Password too short"
+msgstr "비밀번호가 너무 짧습니다"
+
+msgid "Passwords do not match"
+msgstr "비밀번호가 일치하지 않습니다"
+
+msgid "✓ Passwords match"
+msgstr "✓ 비밀번호가 일치합니다"
+
+msgid "Encrypting Backup..."
+msgstr "백업 암호화 중..."
+
+msgid "Factory Reset"
+msgstr "공장 초기화"
+
+msgid "Restore from Backup"
+msgstr "백업에서 복원"
+
+msgid "Restore Backup"
+msgstr "백업 복원"
+
+msgid "Select Backup File"
+msgstr "백업 파일 선택"
+
+msgid "Enter Backup Password"
+msgstr "백업 비밀번호 입력"
+
+msgid "Decrypt & Restore"
+msgstr "복호화 및 복원"
+
+msgid "Create Backup First"
+msgstr "먼저 백업 생성"
+
+msgid "No Encryption"
+msgstr "암호화 없음"
+
+msgid "Encrypt with Password"
+msgstr "비밀번호로 암호화"
+
+msgid "Delete Everything"
+msgstr "모두 삭제"
+
+msgid "Confirm Delete"
+msgstr "삭제 확인"
+
+msgid "Are you absolutely sure?"
+msgstr "정말 확실합니까?"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "데이터베이스 유지보수"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "백업 파일에서 계정, 메시지 및 설정 복원"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr "모든 메시지, 파일 및 OMEMO 키를 삭제합니다. 계정은 유지됩니다."
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr "계정을 포함한 모든 데이터를 삭제합니다. 이 작업은 취소할 수 없습니다!"

@@ -1969,3 +1969,95 @@ msgstr "别名（可选）"
 
 #~ msgid "Join on startup"
 #~ msgstr "启动时加入"
+
+# DinoX v0.7.7 - Database Maintenance & Backup/Restore
+msgid "Clean Database"
+msgstr "清理数据库"
+
+msgid "Reset Database"
+msgstr "重置数据库"
+
+msgid "Restore Complete!"
+msgstr "恢复完成！"
+
+msgid "Restore Failed"
+msgstr "恢复失败"
+
+msgid "Decrypting Backup..."
+msgstr "正在解密备份..."
+
+msgid "Restoring Backup..."
+msgstr "正在恢复备份..."
+
+msgid "Set Backup Password"
+msgstr "设置备份密码"
+
+msgid "Confirm Password"
+msgstr "确认密码"
+
+msgid "Create Encrypted Backup"
+msgstr "创建加密备份"
+
+msgid "Password too short"
+msgstr "密码太短"
+
+msgid "Passwords do not match"
+msgstr "密码不匹配"
+
+msgid "✓ Passwords match"
+msgstr "✓ 密码匹配"
+
+msgid "Encrypting Backup..."
+msgstr "正在加密备份..."
+
+msgid "Factory Reset"
+msgstr "恢复出厂设置"
+
+msgid "Restore from Backup"
+msgstr "从备份恢复"
+
+msgid "Restore Backup"
+msgstr "恢复备份"
+
+msgid "Select Backup File"
+msgstr "选择备份文件"
+
+msgid "Enter Backup Password"
+msgstr "输入备份密码"
+
+msgid "Decrypt & Restore"
+msgstr "解密并恢复"
+
+msgid "Create Backup First"
+msgstr "请先创建备份"
+
+msgid "No Encryption"
+msgstr "不加密"
+
+msgid "Encrypt with Password"
+msgstr "使用密码加密"
+
+msgid "Delete Everything"
+msgstr "删除全部"
+
+msgid "Confirm Delete"
+msgstr "确认删除"
+
+msgid "Are you absolutely sure?"
+msgstr "您确定吗？"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "数据库维护"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "从备份文件恢复账户、消息和设置"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr "删除所有消息、文件和OMEMO密钥。您的账户将保留。"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr "删除所有数据，包括账户。此操作无法撤销！"

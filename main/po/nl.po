@@ -2005,3 +2005,95 @@ msgstr "Alias (optioneel)"
 
 #~ msgid "Optional: Custom server connection"
 #~ msgstr "Optioneel: Aangepaste serververbinding"
+
+# DinoX v0.7.7 - Database Maintenance & Backup/Restore
+msgid "Clean Database"
+msgstr "Database opschonen"
+
+msgid "Reset Database"
+msgstr "Database resetten"
+
+msgid "Restore Complete!"
+msgstr "Herstel voltooid!"
+
+msgid "Restore Failed"
+msgstr "Herstel mislukt"
+
+msgid "Decrypting Backup..."
+msgstr "Back-up ontsleutelen..."
+
+msgid "Restoring Backup..."
+msgstr "Back-up herstellen..."
+
+msgid "Set Backup Password"
+msgstr "Back-upwachtwoord instellen"
+
+msgid "Confirm Password"
+msgstr "Wachtwoord bevestigen"
+
+msgid "Create Encrypted Backup"
+msgstr "Versleutelde back-up maken"
+
+msgid "Password too short"
+msgstr "Wachtwoord te kort"
+
+msgid "Passwords do not match"
+msgstr "Wachtwoorden komen niet overeen"
+
+msgid "✓ Passwords match"
+msgstr "✓ Wachtwoorden komen overeen"
+
+msgid "Encrypting Backup..."
+msgstr "Back-up versleutelen..."
+
+msgid "Factory Reset"
+msgstr "Fabrieksinstellingen"
+
+msgid "Restore from Backup"
+msgstr "Herstellen van back-up"
+
+msgid "Restore Backup"
+msgstr "Back-up herstellen"
+
+msgid "Select Backup File"
+msgstr "Back-upbestand selecteren"
+
+msgid "Enter Backup Password"
+msgstr "Voer back-upwachtwoord in"
+
+msgid "Decrypt & Restore"
+msgstr "Ontsleutelen en herstellen"
+
+msgid "Create Backup First"
+msgstr "Maak eerst een back-up"
+
+msgid "No Encryption"
+msgstr "Geen versleuteling"
+
+msgid "Encrypt with Password"
+msgstr "Versleutelen met wachtwoord"
+
+msgid "Delete Everything"
+msgstr "Alles verwijderen"
+
+msgid "Confirm Delete"
+msgstr "Verwijderen bevestigen"
+
+msgid "Are you absolutely sure?"
+msgstr "Weet u het absoluut zeker?"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "Databaseonderhoud"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "Accounts, berichten en instellingen herstellen uit een back-upbestand"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr "Verwijder alle berichten, bestanden en OMEMO-sleutels. Je accounts blijven behouden."
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr "Verwijder ALLE gegevens inclusief accounts. Dit kan niet ongedaan worden gemaakt!"

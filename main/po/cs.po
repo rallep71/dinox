@@ -1903,3 +1903,95 @@ msgstr "Přezdívka (volitelné)"
 
 #~ msgid "Click here to start a conversation or join a channel."
 #~ msgstr "Kliknutím sem zahájíte konverzaci nebo se připojíte ke kanálu."
+
+# DinoX v0.7.7 - Database Maintenance & Backup/Restore
+msgid "Clean Database"
+msgstr "Vyčistit databázi"
+
+msgid "Reset Database"
+msgstr "Resetovat databázi"
+
+msgid "Restore Complete!"
+msgstr "Obnova dokončena!"
+
+msgid "Restore Failed"
+msgstr "Obnova selhala"
+
+msgid "Decrypting Backup..."
+msgstr "Dešifrování zálohy..."
+
+msgid "Restoring Backup..."
+msgstr "Obnovování zálohy..."
+
+msgid "Set Backup Password"
+msgstr "Nastavit heslo zálohy"
+
+msgid "Confirm Password"
+msgstr "Potvrdit heslo"
+
+msgid "Create Encrypted Backup"
+msgstr "Vytvořit šifrovanou zálohu"
+
+msgid "Password too short"
+msgstr "Heslo je příliš krátké"
+
+msgid "Passwords do not match"
+msgstr "Hesla se neshodují"
+
+msgid "✓ Passwords match"
+msgstr "✓ Hesla se shodují"
+
+msgid "Encrypting Backup..."
+msgstr "Šifrování zálohy..."
+
+msgid "Factory Reset"
+msgstr "Obnovení továrního nastavení"
+
+msgid "Restore from Backup"
+msgstr "Obnovit ze zálohy"
+
+msgid "Restore Backup"
+msgstr "Obnovit zálohu"
+
+msgid "Select Backup File"
+msgstr "Vybrat soubor zálohy"
+
+msgid "Enter Backup Password"
+msgstr "Zadejte heslo zálohy"
+
+msgid "Decrypt & Restore"
+msgstr "Dešifrovat a obnovit"
+
+msgid "Create Backup First"
+msgstr "Nejprve vytvořte zálohu"
+
+msgid "No Encryption"
+msgstr "Bez šifrování"
+
+msgid "Encrypt with Password"
+msgstr "Šifrovat heslem"
+
+msgid "Delete Everything"
+msgstr "Smazat vše"
+
+msgid "Confirm Delete"
+msgstr "Potvrdit smazání"
+
+msgid "Are you absolutely sure?"
+msgstr "Jste si naprosto jisti?"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "Údržba databáze"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "Obnovit účty, zprávy a nastavení ze záložního souboru"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr "Smazat všechny zprávy, soubory a klíče OMEMO. Vaše účty zůstanou zachovány."
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr "Smazat VŠECHNA data včetně účtů. Toto nelze vrátit zpět!"

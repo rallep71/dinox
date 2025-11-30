@@ -2060,3 +2060,199 @@ msgstr "Alias (optional)"
 
 #~ msgid "Optional: Custom server connection"
 #~ msgstr "Optional: Benutzerdefinierte Serververbindung"
+
+
+# DinoX v0.7.7 - Database Maintenance & Backup/Restore - NEW STRINGS
+#: main/src/ui/application.vala
+msgid "Clean Database"
+msgstr "Datenbank bereinigen"
+
+#: main/src/ui/application.vala
+msgid "Reset Database"
+msgstr "Datenbank zurücksetzen"
+
+#: main/src/ui/application.vala
+msgid "Restore Complete!"
+msgstr "Wiederherstellung abgeschlossen!"
+
+#: main/src/ui/application.vala
+msgid "Restore Failed"
+msgstr "Wiederherstellung fehlgeschlagen"
+
+#: main/src/ui/application.vala
+msgid "Decrypting Backup..."
+msgstr "Backup wird entschlüsselt..."
+
+#: main/src/ui/application.vala
+msgid "Restoring Backup..."
+msgstr "Backup wird wiederhergestellt..."
+
+#: main/src/ui/application.vala
+msgid "Set Backup Password"
+msgstr "Backup-Passwort festlegen"
+
+#: main/src/ui/application.vala
+msgid "Confirm Password"
+msgstr "Passwort bestätigen"
+
+#: main/src/ui/application.vala
+msgid "Create Encrypted Backup"
+msgstr "Verschlüsseltes Backup erstellen"
+
+#: main/src/ui/application.vala
+msgid "Password too short"
+msgstr "Passwort zu kurz"
+
+#: main/src/ui/application.vala
+msgid "Passwords do not match"
+msgstr "Passwörter stimmen nicht überein"
+
+#: main/src/ui/application.vala
+msgid "✓ Passwords match"
+msgstr "✓ Passwörter stimmen überein"
+
+#: main/src/ui/application.vala
+msgid "Encrypting Backup..."
+msgstr "Backup wird verschlüsselt..."
+
+#: main/src/ui/application.vala
+msgid "Factory Reset"
+msgstr "Werkseinstellungen"
+
+#: main/src/ui/application.vala
+msgid "Restore from Backup"
+msgstr "Aus Backup wiederherstellen"
+
+#: main/src/ui/application.vala
+msgid "Restore Backup"
+msgstr "Backup wiederherstellen"
+
+#: main/src/ui/application.vala
+msgid "Select Backup File"
+msgstr "Backup-Datei auswählen"
+
+#: main/src/ui/application.vala
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "Backup-Dateien (*.tar.gz, *.tar.gz.gpg)"
+
+#: main/src/ui/application.vala
+msgid "Enter Backup Password"
+msgstr "Backup-Passwort eingeben"
+
+#: main/src/ui/application.vala
+msgid "Decrypt & Restore"
+msgstr "Entschlüsseln & Wiederherstellen"
+
+#: main/src/ui/application.vala
+msgid "Create Backup First"
+msgstr "Zuerst Backup erstellen"
+
+#: main/src/ui/application.vala
+msgid "No Encryption"
+msgstr "Keine Verschlüsselung"
+
+#: main/src/ui/application.vala
+msgid "Encrypt with Password"
+msgstr "Mit Passwort verschlüsseln"
+
+#: main/src/ui/application.vala
+msgid "Password (minimum 4 characters)"
+msgstr "Passwort (mindestens 4 Zeichen)"
+
+#: main/src/ui/application.vala
+
+#: main/src/ui/application.vala
+msgid "Creating encrypted backup..."
+msgstr "Verschlüsseltes Backup wird erstellt..."
+
+#: main/src/ui/application.vala
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "Dieses Backup ist verschlüsselt. Bitte geben Sie das Passwort ein, um es zu entschlüsseln."
+
+#: main/src/ui/application.vala
+msgid "Decrypting encrypted backup file..."
+msgstr "Verschlüsselte Backup-Datei wird entschlüsselt..."
+
+#: main/src/ui/application.vala
+msgid "Extracting files from backup..."
+msgstr "Dateien werden aus Backup extrahiert..."
+
+#: main/src/ui/application.vala
+msgid "Decryption Failed"
+msgstr "Entschlüsselung fehlgeschlagen"
+
+#: main/src/ui/application.vala
+msgid "Could not decrypt the backup file.\n\nPlease check if the password is correct."
+msgstr "Backup-Datei konnte nicht entschlüsselt werden.\n\nBitte prüfen Sie, ob das Passwort korrekt ist."
+
+#: main/src/ui/application.vala
+msgid "Could not restore the backup file.\n\nError: %s"
+msgstr "Backup-Datei konnte nicht wiederhergestellt werden.\n\nFehler: %s"
+
+#: main/src/ui/application.vala
+msgid "DinoX will now restart..."
+msgstr "DinoX wird jetzt neu gestartet..."
+
+#: main/src/ui/application.vala
+msgid "Resetting database... DinoX will restart."
+msgstr "Datenbank wird zurückgesetzt... DinoX wird neu gestartet."
+
+#: main/src/ui/application.vala
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "Werksreset wird durchgeführt... DinoX wird neu gestartet."
+
+#: main/src/ui/application.vala
+msgid "Enter a password to encrypt the backup.\n\n<b>Important:</b> Remember this password! Without it, the backup cannot be restored."
+msgstr "Geben Sie ein Passwort ein, um das Backup zu verschlüsseln.\n\n<b>Wichtig:</b> Merken Sie sich dieses Passwort! Ohne es kann das Backup nicht wiederhergestellt werden."
+
+#: main/src/ui/application.vala
+msgid "Encrypted backup created (%s)"
+msgstr "Verschlüsseltes Backup erstellt (%s)"
+
+#: main/src/ui/application.vala
+msgid "Encrypted backup created successfully"
+msgstr "Verschlüsseltes Backup erfolgreich erstellt"
+
+#: main/src/ui/application.vala
+msgid "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
+msgstr "Dies ersetzt alle aktuellen Daten durch das Backup.\n\n<b>Aktuelle Konten, Nachrichten und Einstellungen werden überschrieben!</b>\n\nDinoX wird nach der Wiederherstellung neu gestartet."
+
+#: main/src/ui/application.vala
+msgid "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
+msgstr "Dies löscht alle Nachrichten, Dateien und OMEMO-Verschlüsselungsschlüssel.\n\n<b>Ihre Konten bleiben erhalten, aber Sie verlieren den gesamten Chatverlauf und müssen die Verschlüsselung mit Ihren Kontakten erneut verifizieren.</b>\n\nDiese Aktion kann nicht rückgängig gemacht werden!"
+
+#: main/src/ui/application.vala
+msgid "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"
+msgstr "<b>⚠️ WARNUNG: Dies löscht ALLE Daten!</b>\n\n• Alle Konten\n• Alle Nachrichten und Dateien\n• Alle Verschlüsselungsschlüssel\n• Alle Einstellungen\n\nDies ist unwiderruflich. Erstellen Sie vorher unbedingt ein Backup!"
+
+#: main/src/ui/application.vala
+msgid "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
+msgstr "Geben Sie 'DELETE' ein, um den Werksreset zu bestätigen.\n\nDies entfernt dauerhaft alle Ihre DinoX-Daten."
+
+#: main/src/ui/application.vala
+msgid "Delete Everything"
+msgstr "Alles löschen"
+
+#: main/src/ui/application.vala
+msgid "Confirm Delete"
+msgstr "Löschen bestätigen"
+
+#: main/src/ui/application.vala
+msgid "Are you absolutely sure?"
+msgstr "Sind Sie absolut sicher?"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "Datenbank-Wartung"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "Konten, Nachrichten und Einstellungen aus einer Backup-Datei wiederherstellen"
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr "Alle Nachrichten, Dateien und OMEMO-Schlüssel löschen. Ihre Konten bleiben erhalten."
+
+#: main/data/preferences_window/general_preferences_page.ui
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr "ALLE Daten einschließlich Konten löschen. Dies kann nicht rückgängig gemacht werden!"
