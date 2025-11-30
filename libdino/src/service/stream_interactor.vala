@@ -19,7 +19,7 @@ public class StreamInteractor : Object {
 
     public StreamInteractor(Database db) {
         module_manager = new ModuleManager();
-        connection_manager = new ConnectionManager(module_manager);
+        connection_manager = new ConnectionManager(module_manager, db);
 
         connection_manager.stream_opened.connect(on_stream_opened);
         connection_manager.stream_attached_modules.connect((account, stream) => {

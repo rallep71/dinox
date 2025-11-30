@@ -16,7 +16,7 @@ using Dino.Entities;
 namespace Dino {
 
 public class Database : Qlite.Database {
-    private const int VERSION = 32;
+    private const int VERSION = 33;
 
     public class AccountTable : Table {
         public Column<int> id = new Column.Integer("id") { primary_key = true, auto_increment = true };
@@ -460,6 +460,41 @@ public class Database : Qlite.Database {
         }
     }
 
+    public class PinnedCertificateTable : Table {
+        public Column<int> id = new Column.Integer("id") { primary_key = true, auto_increment = true };
+        public Column<string> domain = new Column.Text("domain") { not_null = true };
+        public Column<string> fingerprint_sha256 = new Column.Text("fingerprint_sha256") { not_null = true };
+        public Column<string> issuer = new Column.Text("issuer");
+        public Column<long> not_valid_before = new Column.Long("not_valid_before");
+        public Column<long> not_valid_after = new Column.Long("not_valid_after");
+        public Column<long> pinned_at = new Column.Long("pinned_at") { not_null = true };
+        public Column<int> tls_flags = new Column.Integer("tls_flags");
+
+        internal PinnedCertificateTable(Database db) {
+            base(db, "pinned_certificate");
+            init({id, domain, fingerprint_sha256, issuer, not_valid_before, not_valid_after, pinned_at, tls_flags});
+            unique({domain}, "REPLACE");
+        }
+
+        public bool is_pinned(string domain, string fingerprint) {
+            var row_opt = select({fingerprint_sha256})
+                .with(this.domain, "=", domain)
+                .with(this.fingerprint_sha256, "=", fingerprint)
+                .single()
+                .row();
+            return row_opt.is_present();
+        }
+
+        public string? get_pinned_fingerprint(string domain) {
+            var row_opt = select({fingerprint_sha256})
+                .with(this.domain, "=", domain)
+                .single()
+                .row();
+            if (row_opt.is_present()) return row_opt[fingerprint_sha256];
+            return null;
+        }
+    }
+
     public AccountTable account { get; private set; }
     public JidTable jid { get; private set; }
     public EntityTable entity { get; private set; }
@@ -487,6 +522,7 @@ public class Database : Qlite.Database {
     public SettingsTable settings { get; private set; }
     public AccountSettingsTable account_settings { get; private set; }
     public ConversationSettingsTable conversation_settings { get; private set; }
+    public PinnedCertificateTable pinned_certificate { get; private set; }
 
     public Map<int, Jid> jid_table_cache = new HashMap<int, Jid>();
     public Map<Jid, int> jid_table_reverse = new HashMap<Jid, int>(Jid.hash_func, Jid.equals_func);
@@ -521,7 +557,8 @@ public class Database : Qlite.Database {
         settings = new SettingsTable(this);
         account_settings = new AccountSettingsTable(this);
         conversation_settings = new ConversationSettingsTable(this);
-        init({ account, jid, entity, content_item, message, message_occupant_id, body_meta, message_correction, reply, real_jid, occupantid, file_transfer, file_hashes, file_thumbnails, sfs_sources, call, call_counterpart, conversation, avatar, entity_identity, entity_feature, roster, mam_catchup, reaction, settings, account_settings, conversation_settings });
+        pinned_certificate = new PinnedCertificateTable(this);
+        init({ account, jid, entity, content_item, message, message_occupant_id, body_meta, message_correction, reply, real_jid, occupantid, file_transfer, file_hashes, file_thumbnails, sfs_sources, call, call_counterpart, conversation, avatar, entity_identity, entity_feature, roster, mam_catchup, reaction, settings, account_settings, conversation_settings, pinned_certificate });
 
         try {
             exec("PRAGMA journal_mode = WAL");

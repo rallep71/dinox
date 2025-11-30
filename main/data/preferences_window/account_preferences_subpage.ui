@@ -112,6 +112,13 @@
                                 <property name="visible">False</property>
                               </object>
                             </child>
+                            <child type="suffix">
+                              <object class="GtkButton" id="trust_certificate_button">
+                                <property name="label" translatable="yes">View Certificate</property>
+                                <property name="valign">center</property>
+                                <property name="visible">False</property>
+                              </object>
+                            </child>
                           </object>
                         </child>
                       </object>

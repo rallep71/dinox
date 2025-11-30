@@ -20,6 +20,11 @@ public class ConnectionManager : Object {
     public signal void stream_attached_modules(Account account, XmppStream stream);
     public signal void connection_state_changed(Account account, ConnectionState state);
     public signal void connection_error(Account account, ConnectionError error);
+    public signal void certificate_validation_required(
+        Account account,
+        TlsCertificate peer_cert,
+        TlsCertificateFlags errors
+    );
 
     public enum ConnectionState {
         CONNECTED,
@@ -37,6 +42,7 @@ public class ConnectionManager : Object {
     private Login1Manager? login1;
     private ModuleManager module_manager;
     public string? log_options;
+    private Database? db;
 
     public class ConnectionError {
 
@@ -56,6 +62,11 @@ public class ConnectionManager : Object {
         public Source source;
         public string? identifier;
         public Reconnect reconnect_recomendation { get; set; default=Reconnect.NOW; }
+        
+        // TLS certificate information for certificate pinning
+        public TlsCertificate? tls_certificate { get; set; }
+        public TlsCertificateFlags tls_flags { get; set; }
+        public string? tls_domain { get; set; }
 
         public ConnectionError(Source source, string? identifier) {
             this.source = source;
@@ -106,8 +117,9 @@ public class ConnectionManager : Object {
         }
     }
 
-    public ConnectionManager(ModuleManager module_manager) {
+    public ConnectionManager(ModuleManager module_manager, Database? db = null) {
         this.module_manager = module_manager;
+        this.db = db;
         network_monitor = GLib.NetworkMonitor.get_default();
         if (network_monitor != null) {
             network_monitor.network_changed.connect(on_network_changed);
@@ -213,7 +225,7 @@ public class ConnectionManager : Object {
             // Pass custom host/port if configured
             uint16 custom_port = (account.custom_port > 0 && account.custom_port <= 65535) ? (uint16) account.custom_port : 0;
             stream_result = yield Xmpp.establish_stream(account.bare_jid, module_manager.get_modules(account), log_options,
-                    (peer_cert, errors) => { return on_invalid_certificate(account.domainpart, peer_cert, errors); },
+                    (peer_cert, errors) => { return on_invalid_certificate_for_account(account, peer_cert, errors); },
                     account.custom_host, custom_port
             );
             connections[account].stream = stream_result.stream;
@@ -223,7 +235,13 @@ public class ConnectionManager : Object {
 
         if (stream_result.stream == null) {
             if (stream_result.tls_errors != null) {
-                set_connection_error(account, new ConnectionError(ConnectionError.Source.TLS, null) { reconnect_recomendation=ConnectionError.Reconnect.NEVER});
+                var error = new ConnectionError(ConnectionError.Source.TLS, null) { 
+                    reconnect_recomendation = ConnectionError.Reconnect.NEVER,
+                    tls_flags = stream_result.tls_errors,
+                    tls_certificate = stream_result.tls_certificate,
+                    tls_domain = account.domainpart
+                };
+                set_connection_error(account, error);
                 return;
             }
 
@@ -395,6 +413,37 @@ public class ConnectionManager : Object {
         connection_error(account, error);
     }
 
+    /**
+     * Validates a TLS certificate. Returns true if the certificate should be accepted.
+     * This method checks for pinned certificates and special cases like .onion domains.
+     */
+    public bool on_invalid_certificate_for_account(Account account, TlsCertificate peer_cert, TlsCertificateFlags errors) {
+        string domain = account.domainpart;
+        
+        // .onion domains get special treatment - accept unknown CA
+        if (domain.has_suffix(".onion") && errors == TlsCertificateFlags.UNKNOWN_CA) {
+            warning("Accepting TLS certificate from unknown CA from .onion address %s", domain);
+            return true;
+        }
+
+        // Check if certificate is already pinned
+        if (db != null) {
+            string cert_fp = CertificateManager.get_certificate_fingerprint(peer_cert);
+            string? pinned_fp = db.pinned_certificate.get_pinned_fingerprint(domain);
+
+            if (pinned_fp != null && pinned_fp == cert_fp) {
+                // Certificate matches pinned fingerprint - accept it
+                debug("Certificate for %s matches pinned fingerprint, accepting", domain);
+                return true;
+            }
+        }
+
+        // Certificate not trusted - will trigger connection error with cert info
+        // The UI can then show a dialog to pin the certificate
+        warning("TLS certificate for %s not trusted (flags: %s)", domain, errors.to_string());
+        return false;
+    }
+
     public static bool on_invalid_certificate(string domain, TlsCertificate peer_cert, TlsCertificateFlags errors) {
         if (domain.has_suffix(".onion") && errors == TlsCertificateFlags.UNKNOWN_CA) {
             // It's barely possible for .onion servers to provide a non-self-signed cert.
@@ -403,6 +452,42 @@ public class ConnectionManager : Object {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Pin a certificate for the given domain. Call this when user accepts an untrusted certificate.
+     */
+    public void pin_certificate(string domain, TlsCertificate cert, TlsCertificateFlags flags) {
+        if (db == null) return;
+
+        string fingerprint = CertificateManager.get_certificate_fingerprint(cert);
+        string? issuer = CertificateManager.get_certificate_issuer(cert);
+        DateTime? not_before = CertificateManager.get_certificate_not_before(cert);
+        DateTime? not_after = CertificateManager.get_certificate_not_after(cert);
+
+        db.pinned_certificate.upsert()
+            .value(db.pinned_certificate.domain, domain)
+            .value(db.pinned_certificate.fingerprint_sha256, fingerprint)
+            .value(db.pinned_certificate.issuer, issuer)
+            .value(db.pinned_certificate.not_valid_before, not_before != null ? (long) not_before.to_unix() : -1)
+            .value(db.pinned_certificate.not_valid_after, not_after != null ? (long) not_after.to_unix() : -1)
+            .value(db.pinned_certificate.pinned_at, (long) new DateTime.now_utc().to_unix())
+            .value(db.pinned_certificate.tls_flags, (int) flags)
+            .perform();
+
+        debug("Certificate pinned for domain %s with fingerprint %s", domain, fingerprint);
+    }
+
+    /**
+     * Remove a pinned certificate for the given domain.
+     */
+    public void unpin_certificate(string domain) {
+        if (db == null) return;
+        
+        db.pinned_certificate.delete()
+            .with(db.pinned_certificate.domain, "=", domain)
+            .perform();
+        debug("Certificate unpinned for domain %s", domain);
     }
 }
 

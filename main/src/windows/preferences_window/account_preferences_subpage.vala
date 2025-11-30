@@ -15,6 +15,7 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
     [GtkChild] public unowned Adw.ActionRow password_change;
     [GtkChild] public unowned Adw.ActionRow connection_status;
     [GtkChild] public unowned Button enter_password_button;
+    [GtkChild] public unowned Button trust_certificate_button;
     [GtkChild] public unowned Box avatar_menu_box;
     [GtkChild] public unowned Button edit_avatar_button;
     [GtkChild] public unowned Button remove_avatar_button;
@@ -68,6 +69,10 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
             dialog.add_response("connect", _("Connect"));
 
             dialog.present();
+        });
+        
+        trust_certificate_button.clicked.connect(() => {
+            show_certificate_dialog();
         });
 
         this.notify["model"].connect(() => {
@@ -131,19 +136,42 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
                 remove_avatar_button.visible = avatar_model.image_file != null;
 
                 model.selected_account.notify["connection-error"].connect(() => {
-                    if (model.selected_account.connection_error != null) {
-                        connection_status.add_css_class("error");
-                    } else {
-                        connection_status.remove_css_class("error");
-                    }
+                    update_connection_error_ui();
                 });
-                if (model.selected_account.connection_error != null) {
-                    connection_status.add_css_class("error");
-                } else {
-                    connection_status.remove_css_class("error");
-                }
+                update_connection_error_ui();
             });
         });
+    }
+
+    private void update_connection_error_ui() {
+        var error = model.selected_account.connection_error;
+        if (error != null) {
+            connection_status.add_css_class("error");
+            // Show trust certificate button for TLS errors with certificate info
+            if (error.source == ConnectionManager.ConnectionError.Source.TLS && 
+                error.tls_certificate != null) {
+                trust_certificate_button.visible = true;
+            } else {
+                trust_certificate_button.visible = false;
+            }
+        } else {
+            connection_status.remove_css_class("error");
+            trust_certificate_button.visible = false;
+        }
+    }
+
+    private void show_certificate_dialog() {
+        var error = model.selected_account.connection_error;
+        if (error == null || error.tls_certificate == null) return;
+
+        var dialog = new CertificateWarningDialog(
+            account,
+            error.tls_certificate,
+            error.tls_flags,
+            error.tls_domain ?? account.domainpart,
+            model.stream_interactor
+        );
+        dialog.present((Window)this.get_root());
     }
 
     private void show_select_avatar() {
