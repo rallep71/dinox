@@ -191,6 +191,18 @@
   <url type="translate">https://hosted.weblate.org/projects/dino/</url>
   <launchable type="desktop-id">im.github.rallep71.DinoX.desktop</launchable>
   <releases>
+    <release date="2025-11-30" version="0.7.7">
+      <description>
+        <p>Database maintenance and encrypted backup/restore.</p>
+        <ul>
+          <li>New "Clean Database" option removes orphaned records and optimizes storage</li>
+          <li>Full backup/restore with optional GPG encryption (AES-256)</li>
+          <li>Automatic detection of encrypted backups</li>
+          <li>All settings correctly preserved after restore</li>
+          <li>Improved password dialog UX</li>
+        </ul>
+      </description>
+    </release>
     <release date="2025-11-29" version="0.7.6">
       <description>
         <p>Call stability and audio quality improvements.</p>

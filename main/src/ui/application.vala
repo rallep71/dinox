@@ -44,6 +44,9 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         init();
         Environment.set_application_name("DinoX");
         Gtk.Window.set_default_icon_name("im.github.rallep71.DinoX");
+        
+        // Apply color scheme immediately after init, before any UI is shown
+        apply_color_scheme(settings.color_scheme);
 
         create_actions();
         add_main_option_entries(options);
@@ -305,7 +308,11 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             string config_dir = Path.build_filename(Environment.get_user_config_dir(), "dino");
             create_backup(data_dir, config_dir);
         });
+        dialog.restore_backup_requested.connect(() => restore_from_backup());
         dialog.show_data_location.connect(() => show_data_location_dialog());
+        dialog.clear_cache_requested.connect(() => clear_cache());
+        dialog.reset_database_requested.connect(() => reset_database());
+        dialog.factory_reset_requested.connect(() => factory_reset());
         dialog.present(window);
     }
 
@@ -376,6 +383,342 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         about_dialog.present(window);
     }
     
+    public void restore_from_backup() {
+        var file_chooser = new Gtk.FileDialog();
+        file_chooser.title = _("Select Backup File");
+        file_chooser.modal = true;
+        
+        // Filter for backup files (both encrypted and unencrypted)
+        var filter = new Gtk.FileFilter();
+        filter.add_pattern("*.tar.gz");
+        filter.add_pattern("*.tar.gz.gpg");
+        filter.add_pattern("*.tgz");
+        filter.set_filter_name(_("Backup Files (*.tar.gz, *.tar.gz.gpg)"));
+        
+        var filters = new GLib.ListStore(typeof(Gtk.FileFilter));
+        filters.append(filter);
+        file_chooser.filters = filters;
+        file_chooser.default_filter = filter;
+        
+        file_chooser.open.begin(window, null, (obj, res) => {
+            GLib.File? file = null;
+            try {
+                file = file_chooser.open.end(res);
+            } catch (Error err) {
+                // User cancelled
+                return;
+            }
+            
+            if (file != null) {
+                string path = file.get_path();
+                // Check if encrypted backup
+                if (path.has_suffix(".gpg")) {
+                    show_password_dialog_for_restore(path);
+                } else {
+                    confirm_restore_backup(path, null);
+                }
+            }
+        });
+    }
+    
+    private void show_password_dialog_for_restore(string backup_path) {
+        var dialog = new Adw.AlertDialog(
+            _("Enter Backup Password"),
+            _("This backup is encrypted. Please enter the password to decrypt it.")
+        );
+        
+        var box = new Gtk.Box(Gtk.Orientation.VERTICAL, 8);
+        box.margin_start = 24;
+        box.margin_end = 24;
+        
+        var password_entry = new Gtk.PasswordEntry();
+        password_entry.show_peek_icon = true;
+        password_entry.placeholder_text = _("Password");
+        password_entry.activates_default = true;
+        
+        box.append(password_entry);
+        dialog.set_extra_child(box);
+        
+        dialog.add_response("cancel", _("Cancel"));
+        dialog.add_response("ok", _("Decrypt & Restore"));
+        dialog.set_response_appearance("ok", Adw.ResponseAppearance.SUGGESTED);
+        dialog.set_default_response("ok");
+        dialog.set_close_response("cancel");
+        
+        // Enable OK button only when password is entered
+        dialog.set_response_enabled("ok", false);
+        password_entry.changed.connect(() => {
+            dialog.set_response_enabled("ok", password_entry.text.length > 0);
+        });
+        
+        dialog.response.connect((response) => {
+            if (response == "ok" && password_entry.text.length > 0) {
+                confirm_restore_backup(backup_path, password_entry.text);
+            }
+        });
+        
+        dialog.present(window);
+    }
+    
+    private void confirm_restore_backup(string backup_path, string? password) {
+        var dialog = new Adw.AlertDialog(
+            _("Restore from Backup"),
+            _("This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring.")
+        );
+        dialog.body_use_markup = true;
+        
+        dialog.add_response("cancel", _("Cancel"));
+        dialog.add_response("restore", _("Restore Backup"));
+        dialog.set_response_appearance("restore", Adw.ResponseAppearance.DESTRUCTIVE);
+        dialog.set_default_response("cancel");
+        dialog.set_close_response("cancel");
+        
+        dialog.response.connect((response) => {
+            if (response == "restore") {
+                perform_restore_backup(backup_path, password);
+            }
+        });
+        
+        dialog.present(window);
+    }
+    
+    private void perform_restore_backup(string backup_path, string? password = null) {
+        // Show progress dialog with spinner
+        var progress_dialog = new Adw.AlertDialog(
+            password != null ? _("Decrypting Backup...") : _("Restoring Backup..."),
+            _("Please wait, this may take a moment...")
+        );
+        
+        var spinner = new Gtk.Spinner();
+        spinner.spinning = true;
+        spinner.width_request = 48;
+        spinner.height_request = 48;
+        spinner.halign = Gtk.Align.CENTER;
+        spinner.margin_top = 12;
+        spinner.margin_bottom = 12;
+        
+        progress_dialog.set_extra_child(spinner);
+        progress_dialog.set_close_response("none"); // Prevent closing
+        progress_dialog.present(window);
+        
+        // Capture password for use in thread
+        string? restore_password = password;
+        string backup_file = backup_path;
+        
+        // Run in background thread
+        new Thread<void*>("restore-backup", () => {
+            string tar_path = backup_file;
+            bool decrypt_success = true;
+            string? error_message = null;
+            
+            // If encrypted, decrypt first
+            if (restore_password != null && backup_file.has_suffix(".gpg")) {
+                tar_path = Path.build_filename(Environment.get_tmp_dir(), "dinox-restore-temp.tar.gz");
+                
+                // Update dialog to show decryption progress
+                Idle.add(() => {
+                    progress_dialog.heading = _("Decrypting Backup...");
+                    progress_dialog.body = _("Decrypting encrypted backup file...");
+                    return false;
+                });
+                
+                // Use gpg with passphrase via command line
+                // Note: We need to use spawn_command_line_sync for proper argument handling
+                string gpg_command = "gpg --batch --yes --decrypt --pinentry-mode loopback --passphrase %s --output %s %s".printf(
+                    Shell.quote(restore_password),
+                    Shell.quote(tar_path),
+                    Shell.quote(backup_file)
+                );
+                
+                int exit_status = -1;
+                string? stdout_str = null;
+                string? stderr_str = null;
+                try {
+                    Process.spawn_command_line_sync(
+                        gpg_command,
+                        out stdout_str,
+                        out stderr_str,
+                        out exit_status
+                    );
+                    decrypt_success = (exit_status == 0);
+                    if (!decrypt_success) {
+                        error_message = stderr_str ?? "GPG decryption failed";
+                        warning("GPG decrypt failed (exit %d): %s", exit_status, error_message);
+                    }
+                } catch (Error err) {
+                    decrypt_success = false;
+                    error_message = err.message;
+                    warning("Failed to run GPG decrypt: %s", err.message);
+                }
+                
+                if (!decrypt_success) {
+                    Idle.add(() => {
+                        progress_dialog.force_close();
+                        
+                        var error_dialog = new Adw.AlertDialog(
+                            _("Decryption Failed"),
+                            _("Could not decrypt the backup file.\n\nPlease check if the password is correct.")
+                        );
+                        error_dialog.add_response("ok", _("OK"));
+                        error_dialog.present(window);
+                        return false;
+                    });
+                    return null;
+                }
+            }
+            
+            // Update dialog to show extraction progress
+            Idle.add(() => {
+                progress_dialog.heading = _("Restoring Backup...");
+                progress_dialog.body = _("Extracting files from backup...");
+                return false;
+            });
+            
+            // Extract backup to user directories
+            string[] argv = {
+                "tar",
+                "-xzf",
+                tar_path,
+                "-C", Environment.get_user_data_dir(),
+                "--overwrite"
+            };
+            
+            string? stderr_str = null;
+            int exit_status = -1;
+            bool success = false;
+            
+            try {
+                Process.spawn_sync(
+                    null,
+                    argv,
+                    null,
+                    SpawnFlags.SEARCH_PATH,
+                    null,
+                    null,
+                    out stderr_str,
+                    out exit_status
+                );
+                success = (exit_status == 0);
+                if (!success && stderr_str != null) {
+                    error_message = stderr_str;
+                }
+            } catch (Error err) {
+                error_message = err.message;
+                warning("Failed to restore backup: %s", err.message);
+            }
+            
+            // Also extract config if it exists in the backup
+            if (success) {
+                string[] argv_config = {
+                    "tar",
+                    "-xzf",
+                    tar_path,
+                    "-C", Environment.get_user_config_dir(),
+                    "--overwrite",
+                    "--strip-components=0"
+                };
+                
+                try {
+                    Process.spawn_sync(
+                        null,
+                        argv_config,
+                        null,
+                        SpawnFlags.SEARCH_PATH,
+                        null,
+                        null,
+                        null,
+                        null
+                    );
+                } catch (Error err) {
+                    // Config extraction might fail if backup doesn't have config, that's ok
+                }
+            }
+            
+            // Clean up temporary decrypted file if we created one
+            if (restore_password != null && tar_path != backup_file) {
+                FileUtils.unlink(tar_path);
+            }
+            
+            if (success) {
+                // Sync filesystem to ensure all files are written
+                try {
+                    Process.spawn_command_line_sync("sync", null, null, null);
+                } catch (Error err) {
+                    // Ignore sync errors
+                }
+                
+                // Clear OMEMO sessions to force re-negotiation after restore
+                clear_omemo_sessions_after_restore();
+                
+                Idle.add(() => {
+                    progress_dialog.heading = _("Restore Complete!");
+                    progress_dialog.body = _("DinoX will now restart...");
+                    
+                    // Restart after a short delay to ensure files are synced
+                    Timeout.add(2000, () => {
+                        restart_application();
+                        return false;
+                    });
+                    return false;
+                });
+            } else {
+                Idle.add(() => {
+                    progress_dialog.force_close();
+                    
+                    var error_dialog = new Adw.AlertDialog(
+                        _("Restore Failed"),
+                        _("Could not restore the backup file.\n\nError: %s").printf(error_message ?? _("Unknown error"))
+                    );
+                    error_dialog.add_response("ok", _("OK"));
+                    error_dialog.present(window);
+                    return false;
+                });
+            }
+            
+            return null;
+        });
+    }
+    
+    private void clear_omemo_sessions_after_restore() {
+        // After restoring from backup, OMEMO sessions may be stale.
+        // The backup contains old session data that doesn't match the current
+        // server state. We need to clear all sessions to force re-negotiation.
+        
+        // Try both possible locations for omemo.db
+        string[] possible_paths = {
+            Path.build_filename(Environment.get_user_data_dir(), "dino", "omemo.db"),
+            Path.build_filename(Environment.get_user_config_dir(), "dino", "omemo.db")
+        };
+        
+        foreach (string omemo_db_path in possible_paths) {
+            if (FileUtils.test(omemo_db_path, FileTest.EXISTS)) {
+                try {
+                    // Use sqlite3 command to clear sessions table
+                    string[] argv = {
+                        "sqlite3",
+                        omemo_db_path,
+                        "DELETE FROM session;"
+                    };
+                    
+                    Process.spawn_sync(
+                        null,
+                        argv,
+                        null,
+                        SpawnFlags.SEARCH_PATH,
+                        null,
+                        null,
+                        null,
+                        null
+                    );
+                    
+                    debug("Cleared OMEMO sessions from %s after backup restore", omemo_db_path);
+                } catch (Error err) {
+                    warning("Failed to clear OMEMO sessions: %s", err.message);
+                }
+            }
+        }
+    }
+    
     private void show_data_location_dialog() {
         string config_dir = Path.build_filename(Environment.get_user_config_dir(), "dino");
         string data_dir = Path.build_filename(Environment.get_user_data_dir(), "dino");
@@ -412,13 +755,395 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         dialog.present(window);
     }
     
+    private void clear_cache() {
+        string cache_dir = Path.build_filename(Environment.get_user_cache_dir(), "dino");
+        
+        var dialog = new Adw.AlertDialog(
+            _("Clear Cache"),
+            _("This will delete cached files, avatars and previews.\n\nThey will be re-downloaded when needed.")
+        );
+        
+        dialog.add_response("cancel", _("Cancel"));
+        dialog.add_response("clear", _("Clear Cache"));
+        dialog.set_response_appearance("clear", Adw.ResponseAppearance.DESTRUCTIVE);
+        dialog.set_default_response("cancel");
+        dialog.set_close_response("cancel");
+        
+        dialog.response.connect((response) => {
+            if (response == "clear") {
+                perform_clear_cache(cache_dir);
+            }
+        });
+        
+        dialog.present(window);
+    }
+    
+    private void perform_clear_cache(string cache_dir) {
+        var toast_overlay = window.get_first_child() as Adw.ToastOverlay;
+        
+        new Thread<void*>("clear-cache", () => {
+            int64 freed_bytes = 0;
+            bool success = true;
+            
+            try {
+                freed_bytes = delete_directory_contents(cache_dir);
+            } catch (Error err) {
+                success = false;
+                warning("Failed to clear cache: %s", err.message);
+            }
+            
+            Idle.add(() => {
+                if (toast_overlay != null) {
+                    Adw.Toast toast;
+                    if (success) {
+                        string size_str = format_size(freed_bytes);
+                        toast = new Adw.Toast(_("Cache cleared (%s freed)").printf(size_str));
+                        toast.timeout = 3;
+                    } else {
+                        toast = new Adw.Toast(_("Failed to clear cache"));
+                        toast.timeout = 3;
+                    }
+                    toast_overlay.add_toast(toast);
+                }
+                return false;
+            });
+            
+            return null;
+        });
+    }
+    
+    private int64 delete_directory_contents(string path) throws Error {
+        int64 total_size = 0;
+        var dir = Dir.open(path);
+        string? name;
+        while ((name = dir.read_name()) != null) {
+            string full_path = Path.build_filename(path, name);
+            FileInfo info = File.new_for_path(full_path).query_info(
+                FileAttribute.STANDARD_TYPE + "," + FileAttribute.STANDARD_SIZE, 
+                FileQueryInfoFlags.NOFOLLOW_SYMLINKS
+            );
+            
+            if (info.get_file_type() == FileType.DIRECTORY) {
+                total_size += delete_directory_contents(full_path);
+                DirUtils.remove(full_path);
+            } else {
+                total_size += info.get_size();
+                FileUtils.unlink(full_path);
+            }
+        }
+        return total_size;
+    }
+    
+    private void reset_database() {
+        var dialog = new Adw.AlertDialog(
+            _("Reset Database"),
+            _("This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!")
+        );
+        dialog.body_use_markup = true;
+        
+        dialog.add_response("cancel", _("Cancel"));
+        dialog.add_response("reset", _("Reset Database"));
+        dialog.set_response_appearance("reset", Adw.ResponseAppearance.DESTRUCTIVE);
+        dialog.set_default_response("cancel");
+        dialog.set_close_response("cancel");
+        
+        dialog.response.connect((response) => {
+            if (response == "reset") {
+                perform_reset_database();
+            }
+        });
+        
+        dialog.present(window);
+    }
+    
+    private void perform_reset_database() {
+        string data_dir = Path.build_filename(Environment.get_user_data_dir(), "dino");
+        string db_path = Path.build_filename(data_dir, "dino.db");
+        
+        // Close the database before deleting
+        // We need to restart the app after this
+        
+        var toast_overlay = window.get_first_child() as Adw.ToastOverlay;
+        if (toast_overlay != null) {
+            var toast = new Adw.Toast(_("Resetting database... DinoX will restart."));
+            toast.timeout = 2;
+            toast_overlay.add_toast(toast);
+        }
+        
+        // Delay the actual reset to let the toast show
+        Timeout.add(2000, () => {
+            // Delete the database file
+            FileUtils.unlink(db_path);
+            FileUtils.unlink(db_path + "-shm");
+            FileUtils.unlink(db_path + "-wal");
+            
+            // Also delete OMEMO data
+            string omemo_dir = Path.build_filename(data_dir, "omemo");
+            try {
+                delete_directory_contents(omemo_dir);
+                DirUtils.remove(omemo_dir);
+            } catch (Error err) {
+                // Ignore if doesn't exist
+            }
+            
+            // Restart the application
+            restart_application();
+            return false;
+        });
+    }
+    
+    private void factory_reset() {
+        var dialog = new Adw.AlertDialog(
+            _("Factory Reset"),
+            _("<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!")
+        );
+        dialog.body_use_markup = true;
+        
+        dialog.add_response("cancel", _("Cancel"));
+        dialog.add_response("backup", _("Create Backup First"));
+        dialog.add_response("reset", _("Delete Everything"));
+        dialog.set_response_appearance("reset", Adw.ResponseAppearance.DESTRUCTIVE);
+        dialog.set_default_response("cancel");
+        dialog.set_close_response("cancel");
+        
+        dialog.response.connect((response) => {
+            if (response == "reset") {
+                // Show second confirmation
+                confirm_factory_reset();
+            } else if (response == "backup") {
+                string data_dir = Path.build_filename(Environment.get_user_data_dir(), "dino");
+                string config_dir = Path.build_filename(Environment.get_user_config_dir(), "dino");
+                create_backup(data_dir, config_dir);
+            }
+        });
+        
+        dialog.present(window);
+    }
+    
+    private void confirm_factory_reset() {
+        var dialog = new Adw.AlertDialog(
+            _("Are you absolutely sure?"),
+            _("Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data.")
+        );
+        
+        var entry = new Gtk.Entry();
+        entry.placeholder_text = "DELETE";
+        entry.margin_start = 24;
+        entry.margin_end = 24;
+        dialog.set_extra_child(entry);
+        
+        dialog.add_response("cancel", _("Cancel"));
+        dialog.add_response("confirm", _("Confirm Delete"));
+        dialog.set_response_appearance("confirm", Adw.ResponseAppearance.DESTRUCTIVE);
+        dialog.set_default_response("cancel");
+        dialog.set_close_response("cancel");
+        
+        // Disable confirm button until correct text is entered
+        dialog.set_response_enabled("confirm", false);
+        entry.changed.connect(() => {
+            dialog.set_response_enabled("confirm", entry.text == "DELETE");
+        });
+        
+        dialog.response.connect((response) => {
+            if (response == "confirm" && entry.text == "DELETE") {
+                perform_factory_reset();
+            }
+        });
+        
+        dialog.present(window);
+    }
+    
+    private void perform_factory_reset() {
+        string data_dir = Path.build_filename(Environment.get_user_data_dir(), "dino");
+        string config_dir = Path.build_filename(Environment.get_user_config_dir(), "dino");
+        string cache_dir = Path.build_filename(Environment.get_user_cache_dir(), "dino");
+        
+        var toast_overlay = window.get_first_child() as Adw.ToastOverlay;
+        if (toast_overlay != null) {
+            var toast = new Adw.Toast(_("Factory reset in progress... DinoX will restart."));
+            toast.timeout = 2;
+            toast_overlay.add_toast(toast);
+        }
+        
+        Timeout.add(2000, () => {
+            // Delete everything
+            try {
+                delete_directory_contents(data_dir);
+                DirUtils.remove(data_dir);
+            } catch (Error err) {
+                warning("Failed to delete data dir: %s", err.message);
+            }
+            
+            try {
+                delete_directory_contents(config_dir);
+                DirUtils.remove(config_dir);
+            } catch (Error err) {
+                warning("Failed to delete config dir: %s", err.message);
+            }
+            
+            try {
+                delete_directory_contents(cache_dir);
+                DirUtils.remove(cache_dir);
+            } catch (Error err) {
+                warning("Failed to delete cache dir: %s", err.message);
+            }
+            
+            // Restart the application
+            restart_application();
+            return false;
+        });
+    }
+    
+    private void restart_application() {
+        // Get the executable path
+        string? exe_path = null;
+        try {
+            exe_path = FileUtils.read_link("/proc/self/exe");
+        } catch (Error err) {
+            // Fallback to argv[0]
+            warning("Could not read /proc/self/exe: %s", err.message);
+        }
+        
+        // First quit the current instance completely, then spawn new one
+        // We use a small delay script to ensure the old process is gone
+        if (exe_path != null) {
+            try {
+                // Use bash to delay the restart slightly to ensure clean shutdown
+                string restart_cmd = "sleep 0.5 && %s &".printf(Shell.quote(exe_path));
+                string[] spawn_args = { "bash", "-c", restart_cmd };
+                Process.spawn_async(null, spawn_args, null, SpawnFlags.SEARCH_PATH, null, null);
+            } catch (Error err) {
+                warning("Failed to restart: %s", err.message);
+            }
+        }
+        
+        // Hard exit to prevent any cleanup that might overwrite restored data
+        // This is intentional after backup restore to preserve the restored database
+        Process.exit(0);
+    }
+    
     private void create_backup(string data_dir, string config_dir) {
+        // First ask if user wants to encrypt the backup
+        var encrypt_dialog = new Adw.AlertDialog(
+            _("Backup Encryption"),
+            _("Do you want to encrypt the backup with a password?\n\nEncrypted backups are more secure but require the password to restore.")
+        );
+        
+        encrypt_dialog.add_response("no", _("No Encryption"));
+        encrypt_dialog.add_response("yes", _("Encrypt with Password"));
+        encrypt_dialog.set_response_appearance("yes", Adw.ResponseAppearance.SUGGESTED);
+        encrypt_dialog.set_default_response("no");
+        encrypt_dialog.set_close_response("no");
+        
+        encrypt_dialog.response.connect((response) => {
+            if (response == "yes") {
+                show_password_dialog_for_backup(data_dir, config_dir);
+            } else {
+                show_backup_file_chooser(data_dir, config_dir, null);
+            }
+        });
+        
+        encrypt_dialog.present(window);
+    }
+    
+    private void show_password_dialog_for_backup(string data_dir, string config_dir) {
+        var dialog = new Adw.AlertDialog(
+            _("Set Backup Password"),
+            _("Enter a password to encrypt the backup.\n\n<b>Important:</b> Remember this password! Without it, the backup cannot be restored.")
+        );
+        dialog.body_use_markup = true;
+        
+        var box = new Gtk.Box(Gtk.Orientation.VERTICAL, 12);
+        box.margin_start = 24;
+        box.margin_end = 24;
+        
+        var password_label = new Gtk.Label(_("Password (minimum 4 characters)"));
+        password_label.halign = Gtk.Align.START;
+        password_label.add_css_class("dim-label");
+        
+        var password_entry = new Gtk.PasswordEntry();
+        password_entry.show_peek_icon = true;
+        password_entry.placeholder_text = _("Password");
+        
+        var confirm_label = new Gtk.Label(_("Confirm Password"));
+        confirm_label.halign = Gtk.Align.START;
+        confirm_label.add_css_class("dim-label");
+        confirm_label.margin_top = 8;
+        
+        var confirm_entry = new Gtk.PasswordEntry();
+        confirm_entry.show_peek_icon = true;
+        confirm_entry.placeholder_text = _("Confirm Password");
+        confirm_entry.activates_default = true;
+        
+        var status_label = new Gtk.Label("");
+        status_label.halign = Gtk.Align.START;
+        status_label.add_css_class("dim-label");
+        status_label.margin_top = 8;
+        
+        box.append(password_label);
+        box.append(password_entry);
+        box.append(confirm_label);
+        box.append(confirm_entry);
+        box.append(status_label);
+        
+        dialog.set_extra_child(box);
+        
+        dialog.add_response("cancel", _("Cancel"));
+        dialog.add_response("ok", _("Create Encrypted Backup"));
+        dialog.set_response_appearance("ok", Adw.ResponseAppearance.SUGGESTED);
+        dialog.set_default_response("ok");
+        dialog.set_close_response("cancel");
+        
+        // Disable OK until passwords match
+        dialog.set_response_enabled("ok", false);
+        
+        password_entry.changed.connect(() => {
+            string pw1 = password_entry.text;
+            string pw2 = confirm_entry.text;
+            if (pw1.length < 4) {
+                status_label.label = _("Password too short");
+            } else if (pw2.length > 0 && pw1 != pw2) {
+                status_label.label = _("Passwords do not match");
+            } else if (pw1.length >= 4 && pw1 == pw2) {
+                status_label.label = _("✓ Passwords match");
+            } else {
+                status_label.label = "";
+            }
+            dialog.set_response_enabled("ok", pw1.length >= 4 && pw1 == pw2);
+        });
+        
+        confirm_entry.changed.connect(() => {
+            string pw1 = password_entry.text;
+            string pw2 = confirm_entry.text;
+            if (pw1.length < 4) {
+                status_label.label = _("Password too short");
+            } else if (pw2.length > 0 && pw1 != pw2) {
+                status_label.label = _("Passwords do not match");
+            } else if (pw1.length >= 4 && pw1 == pw2) {
+                status_label.label = _("✓ Passwords match");
+            } else {
+                status_label.label = "";
+            }
+            dialog.set_response_enabled("ok", pw1.length >= 4 && pw1 == pw2);
+        });
+        
+        dialog.response.connect((response) => {
+            if (response == "ok") {
+                show_backup_file_chooser(data_dir, config_dir, password_entry.text);
+            }
+        });
+        
+        dialog.present(window);
+    }
+    
+    private void show_backup_file_chooser(string data_dir, string config_dir, string? password) {
         var file_chooser = new Gtk.FileDialog();
         file_chooser.title = _("Select Backup Location");
         file_chooser.modal = true;
         
         var now = new DateTime.now_local();
-        string default_name = "dinox-backup-%s.tar.gz".printf(now.format("%Y%m%d-%H%M%S"));
+        string extension = password != null ? ".tar.gz.gpg" : ".tar.gz";
+        string default_name = "dinox-backup-%s%s".printf(now.format("%Y%m%d-%H%M%S"), extension);
         file_chooser.initial_name = default_name;
         
         file_chooser.save.begin(window, null, (obj, res) => {
@@ -432,36 +1157,48 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             
             if (file != null) {
                 string backup_path = file.get_path();
-                perform_backup(data_dir, config_dir, backup_path);
+                perform_backup(data_dir, config_dir, backup_path, password);
             }
         });
     }
     
-    private void perform_backup(string data_dir, string config_dir, string backup_path) {
+    private void perform_backup(string data_dir, string config_dir, string backup_path, string? password = null) {
         var toast_overlay = window.get_first_child() as Adw.ToastOverlay;
         
         // Show starting toast
         if (toast_overlay != null) {
-            var toast = new Adw.Toast(_("Creating backup..."));
+            string msg = password != null ? _("Creating encrypted backup...") : _("Creating backup...");
+            var toast = new Adw.Toast(msg);
             toast.timeout = 2;
             toast_overlay.add_toast(toast);
         }
         
+        // Capture password for use in thread
+        string? backup_password = password;
+        
         // Run backup in background
         new Thread<void*>("backup", () => {
+            bool success = false;
+            string? stderr_str = null;
+            string temp_tar_path = backup_path;
+            
+            // If encrypting, create tar.gz first in temp dir, then encrypt to final path
+            if (backup_password != null) {
+                // Create temp tar.gz file (without .gpg extension)
+                temp_tar_path = Path.build_filename(Environment.get_tmp_dir(), "dinox-backup-temp.tar.gz");
+            }
+            
             // Create tar.gz backup
             string[] argv = {
                 "tar",
                 "-czf",
-                backup_path,
+                temp_tar_path,
                 "-C", Environment.get_user_data_dir(), "dino",
                 "-C", Environment.get_user_config_dir(), "dino"
             };
             
             string? stdout_str = null;
-            string? stderr_str = null;
             int exit_status = -1;
-            bool success = false;
             
             try {
                 Process.spawn_sync(
@@ -477,6 +1214,39 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
                 success = (exit_status == 0);
             } catch (Error err) {
                 stderr_str = err.message;
+            }
+            
+            // If password provided, encrypt with GPG
+            if (success && backup_password != null) {
+                // Use spawn_command_line_sync for proper argument handling with quoted password
+                string gpg_command = "gpg --batch --yes --symmetric --cipher-algo AES256 --pinentry-mode loopback --passphrase %s --output %s %s".printf(
+                    Shell.quote(backup_password),
+                    Shell.quote(backup_path),
+                    Shell.quote(temp_tar_path)
+                );
+                
+                string? gpg_stdout = null;
+                string? gpg_stderr = null;
+                try {
+                    Process.spawn_command_line_sync(
+                        gpg_command,
+                        out gpg_stdout,
+                        out gpg_stderr,
+                        out exit_status
+                    );
+                    success = (exit_status == 0);
+                    if (!success) {
+                        stderr_str = gpg_stderr ?? "GPG encryption failed";
+                        warning("GPG encrypt failed (exit %d): %s", exit_status, stderr_str);
+                    }
+                    
+                    // Delete temporary unencrypted file
+                    FileUtils.unlink(temp_tar_path);
+                } catch (Error err) {
+                    stderr_str = err.message;
+                    success = false;
+                    warning("Failed to run GPG encrypt: %s", err.message);
+                }
             }
             
             // Get file size if successful
@@ -495,15 +1265,22 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             // Show result toast on main thread
             string final_stderr = stderr_str;
             string final_size = size_str;
+            bool was_encrypted = backup_password != null;
             Idle.add(() => {
                 if (toast_overlay != null) {
                     Adw.Toast toast;
                     if (success) {
-                        if (final_size.length > 0) {
-                            toast = new Adw.Toast(_("Backup created successfully (%s)").printf(final_size));
+                        string msg;
+                        if (was_encrypted) {
+                            msg = final_size.length > 0 ? 
+                                _("Encrypted backup created (%s)").printf(final_size) :
+                                _("Encrypted backup created successfully");
                         } else {
-                            toast = new Adw.Toast(_("Backup created successfully"));
+                            msg = final_size.length > 0 ? 
+                                _("Backup created successfully (%s)").printf(final_size) :
+                                _("Backup created successfully");
                         }
+                        toast = new Adw.Toast(msg);
                         toast.timeout = 3;
                     } else {
                         string msg = final_stderr != null && final_stderr.length > 0 ? 

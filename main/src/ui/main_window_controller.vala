@@ -68,6 +68,9 @@ public class MainWindowController : Object {
             ManageAccounts.AddAccountDialog dialog = new ManageAccounts.AddAccountDialog(stream_interactor, db);
             dialog.present(app.get_active_window());
         });
+        window.welcome_placeholder.secondary_button.clicked.connect(() => {
+            ((Dino.Ui.Application) app).restore_from_backup();
+        });
         window.accounts_placeholder.primary_button.clicked.connect(() => { app.activate_action("preferences", null); });
         window.conversation_selector.conversation_selected.connect((conversation) => select_conversation(conversation));
 

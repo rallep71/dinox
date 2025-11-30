@@ -74,6 +74,18 @@
           </object>
         </child>
         <child>
+          <object class="AdwActionRow" id="restore_backup_row">
+            <property name="title" translatable="yes">Restore from Backup</property>
+            <property name="subtitle" translatable="yes">Restore accounts, messages and settings from a backup file</property>
+            <property name="activatable">True</property>
+            <child>
+              <object class="GtkImage">
+                <property name="icon-name">document-open-symbolic</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
           <object class="AdwActionRow" id="data_location_row">
             <property name="title" translatable="yes">Data Location</property>
             <property name="subtitle" translatable="yes">View where your data is stored</property>
@@ -81,6 +93,50 @@
             <child>
               <object class="GtkImage">
                 <property name="icon-name">folder-symbolic</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="AdwPreferencesGroup">
+        <property name="title" translatable="yes">Database Maintenance</property>
+        <child>
+          <object class="AdwActionRow" id="clear_cache_row">
+            <property name="title" translatable="yes">Clear Cache</property>
+            <property name="subtitle" translatable="yes">Clear cached files, avatars and previews</property>
+            <property name="activatable">True</property>
+            <child>
+              <object class="GtkImage">
+                <property name="icon-name">edit-clear-symbolic</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwActionRow" id="reset_database_row">
+            <property name="title" translatable="yes">Reset Database</property>
+            <property name="subtitle" translatable="yes">Delete all messages, files and OMEMO keys. Your accounts will remain.</property>
+            <property name="activatable">True</property>
+            <child>
+              <object class="GtkImage">
+                <property name="icon-name">user-trash-symbolic</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwActionRow" id="factory_reset_row">
+            <property name="title" translatable="yes">Factory Reset</property>
+            <property name="subtitle" translatable="yes">Delete ALL data including accounts. This cannot be undone!</property>
+            <property name="activatable">True</property>
+            <child>
+              <object class="GtkImage">
+                <property name="icon-name">edit-delete-symbolic</property>
+                <style>
+                  <class name="error"/>
+                </style>
               </object>
             </child>
           </object>
