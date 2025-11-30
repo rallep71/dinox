@@ -1,7 +1,7 @@
 # DinoX - Development Plan
 
-> **Last Updated**: November 29, 2025  
-> **Version**: 0.7.6
+> **Last Updated**: November 30, 2025  
+> **Version**: 0.7.7
 
 ---
 
@@ -9,15 +9,15 @@
 
 | Metric | Status |
 |--------|--------|
-| **Version** | v0.7.6 |
+| **Version** | v0.7.7 |
 | **XEPs Implemented** | 67 |
-| **Languages** | 45 (100% translated) |
+| **Languages** | 47 (100% translated) |
 | **Build Status** | Clean (0 warnings) |
 | **GTK/libadwaita** | GTK4 4.14, libadwaita 1.5 |
 
 ---
 
-## Completed Features (v0.6.0 - v0.7.4)
+## Completed Features (v0.6.0 - v0.7.7)
 
 ### Core Features
 - System Tray with background mode toggle
@@ -25,8 +25,16 @@
 - Delete conversation history
 - Contact management (block, mute, remove)
 - Dark mode toggle (light/dark/system)
-- Backup user data
 - Volume controls for calls (microphone & speaker)
+
+### Database & Backup (NEW in v0.7.7)
+- **Encrypted Backup**: Password-protected backups with GPG encryption
+- **Encrypted Restore**: Restore backups with password decryption
+- **Unencrypted Backup**: Quick backup without encryption
+- **Unencrypted Restore**: Restore unencrypted backups
+- **Database Maintenance**: VACUUM, REINDEX, integrity check
+- **Data Location Info**: View where user data is stored
+- **Progress Dialogs**: Visual feedback during backup/restore operations
 
 ### Messaging
 - Voice messages (AAC/m4a format)
