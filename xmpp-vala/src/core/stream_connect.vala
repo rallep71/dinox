@@ -19,6 +19,7 @@ namespace Xmpp {
     public class XmppStreamResult {
         public TlsXmppStream? stream { get; set; }
         public TlsCertificateFlags? tls_errors { get; set; }
+        public TlsCertificate? tls_certificate { get; set; }
         public IOError? io_error { get; set; }
     }
 
@@ -72,6 +73,7 @@ namespace Xmpp {
         // Try all connection options from lowest to highest priority
         TlsXmppStream? stream = null;
         TlsCertificateFlags? tls_errors = null;
+        TlsCertificate? tls_certificate = null;
         IOError? io_error = null;
         uint connection_timeout_id = 0;
         foreach (SrvTargetInfo target in targets) {
@@ -109,6 +111,7 @@ namespace Xmpp {
                     }
                     if (stream.errors != null) {
                         tls_errors = stream.errors;
+                        tls_certificate = stream.peer_certificate;
                     }
                     io_error = e;
                     stream.detach_modules();
@@ -116,6 +119,6 @@ namespace Xmpp {
             }
         }
 
-        return new XmppStreamResult() { io_error=io_error, tls_errors=tls_errors };
+        return new XmppStreamResult() { io_error=io_error, tls_errors=tls_errors, tls_certificate=tls_certificate };
     }
 }

@@ -1,6 +1,7 @@
 public abstract class Xmpp.TlsXmppStream : IoXmppStream {
 
     public TlsCertificateFlags? errors;
+    public TlsCertificate? peer_certificate;
 
     public delegate bool OnInvalidCert(GLib.TlsCertificate peer_cert, GLib.TlsCertificateFlags errors);
     public class OnInvalidCertWrapper {
@@ -16,6 +17,7 @@ public abstract class Xmpp.TlsXmppStream : IoXmppStream {
 
     protected bool on_invalid_certificate(TlsCertificate peer_cert, TlsCertificateFlags errors) {
         this.errors = errors;
+        this.peer_certificate = peer_cert;
 
         string error_str = "";
         foreach (var f in new TlsCertificateFlags[]{TlsCertificateFlags.UNKNOWN_CA, TlsCertificateFlags.BAD_IDENTITY,

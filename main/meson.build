@@ -114,6 +114,7 @@ sources = files(
     'src/windows/preferences_window/account_preferences_subpage.vala',
     'src/windows/preferences_window/accounts_preferences_page.vala',
     'src/windows/preferences_window/add_account_dialog.vala',
+    'src/windows/preferences_window/certificate_warning_dialog.vala',
     'src/windows/preferences_window/change_password_dialog.vala',
     'src/windows/preferences_window/contacts_preferences_page.vala',
     'src/windows/preferences_window/encryption_preferences_page.vala',
