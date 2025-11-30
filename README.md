@@ -32,6 +32,7 @@ DinoX features System Tray support, MUJI group video calls, voice messages, mess
 | **MUJI Group Calls** | Multi-party audio/video conferences (mesh-based) |
 | **1:1 Voice & Video** | High-quality Jingle calls with ICE/STUN/TURN |
 | **Voice Messages** | Record and send audio messages (AAC format) |
+| **Inline Video Player** | Play videos directly in chat (no external player) |
 | **Group Chats (MUC)** | Full support with moderation, roles, private rooms |
 | **System Tray** | Background mode with StatusNotifierItem |
 | **Message Retraction** | Delete messages for everyone (XEP-0424) |
