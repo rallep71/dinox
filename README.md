@@ -38,7 +38,8 @@ DinoX features System Tray support, MUJI group video calls, voice messages, mess
 | **Emoji Reactions** | React to messages (XEP-0444) |
 | **Message Replies** | Quote and reply to messages (XEP-0461) |
 | **MUC Moderation** | Kick, ban (timed), manage roles (XEP-0425) |
-| **Data Backup** | Export all user data |
+| **Backup & Restore** | Full data backup with optional GPG encryption (AES-256) |
+| **Database Maintenance** | Clean orphaned records, optimize storage |
 | **45 Languages** | 100% translated |
 | **Dark Mode** | System theme or manual toggle |
 
