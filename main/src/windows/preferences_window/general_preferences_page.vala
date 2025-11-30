@@ -27,13 +27,21 @@ public class Dino.Ui.GeneralPreferencesPage : Adw.PreferencesPage {
     [GtkChild] private unowned Adw.SwitchRow emoji_row;
     [GtkChild] private unowned Adw.ComboRow color_scheme_row;
     [GtkChild] private unowned Adw.ActionRow backup_row;
+    [GtkChild] private unowned Adw.ActionRow restore_backup_row;
     [GtkChild] private unowned Adw.ActionRow data_location_row;
+    [GtkChild] private unowned Adw.ActionRow clear_cache_row;
+    [GtkChild] private unowned Adw.ActionRow reset_database_row;
+    [GtkChild] private unowned Adw.ActionRow factory_reset_row;
 
     public ViewModel.GeneralPreferencesPage model { get; set; default = new ViewModel.GeneralPreferencesPage(); }
     private Binding[] model_bindings = new Binding[0];
     
     public signal void backup_requested();
+    public signal void restore_backup_requested();
     public signal void show_data_location();
+    public signal void clear_cache_requested();
+    public signal void reset_database_requested();
+    public signal void factory_reset_requested();
 
     construct {
         this.notify["model"].connect(on_model_changed);
@@ -47,7 +55,13 @@ public class Dino.Ui.GeneralPreferencesPage : Adw.PreferencesPage {
         
         // Connect backup and data location rows
         backup_row.activated.connect(() => backup_requested());
+        restore_backup_row.activated.connect(() => restore_backup_requested());
         data_location_row.activated.connect(() => show_data_location());
+        
+        // Connect database maintenance rows
+        clear_cache_row.activated.connect(() => clear_cache_requested());
+        reset_database_row.activated.connect(() => reset_database_requested());
+        factory_reset_row.activated.connect(() => factory_reset_requested());
     }
 
     private void on_model_changed() {

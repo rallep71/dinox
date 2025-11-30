@@ -7,6 +7,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.7.7] - 2025-11-30
+
+### Added
+- **Database Maintenance** - New "Clean Database" option in hamburger menu
+  - Removes orphaned records (messages without conversation, etc.)
+  - VACUUM optimization for smaller database files
+  - Shows count of cleaned entries
+
+- **Backup & Restore** - Complete data backup functionality
+  - Full backup of `~/.local/share/dino/` and `~/.config/dino/`
+  - Optional **GPG encryption** with AES-256 (password-protected)
+  - Restore from unencrypted (`.tar.gz`) or encrypted (`.tar.gz.gpg`) backups
+  - Automatic detection of encrypted backups
+  - All settings (Dark/Light mode, etc.) correctly restored
+  - Automatic app restart after restore
+
+### Fixed
+- **Backup Restore** - Settings no longer overwritten on shutdown after restore
+  - Uses `Process.exit(0)` instead of `quit()` to preserve restored data
+  
+- **Password Dialogs** - Improved UX for backup password entry
+  - Enter key now works properly (no double-click needed)
+  - Uses `Gtk.PasswordEntry` for better focus handling
+
+### Technical
+- GPG integration with `--pinentry-mode loopback` for headless password handling
+- Secure password handling with `Shell.quote()`
+- Progress spinner during backup/restore operations
+
 ## [0.7.6] - 2025-11-29
 
 ### Fixed

@@ -27,6 +27,7 @@
                             <object class="GtkButton" id="primary_button">
                                 <property name="halign">center</property>
                                 <property name="visible">False</property>
+                                <property name="margin-bottom">12</property>
                                 <style>
                                     <class name="text-button"/>
                                     <class name="suggested-action"/>
@@ -38,6 +39,7 @@
                                 <property name="visible">0</property>
                                 <property name="halign">center</property>
                                 <property name="visible">False</property>
+                                <property name="margin-top">6</property>
                                 <style>
                                     <class name="text-button"/>
                                 </style>

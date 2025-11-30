@@ -207,6 +207,8 @@ public class WelcomePlaceholder : MainWindowPlaceholder {
         status_page.description = _("Sign in or create an account to get started.");
         primary_button.label = _("Set up account");
         primary_button.visible = true;
+        secondary_button.label = _("Restore from Backup");
+        secondary_button.visible = true;
     }
 }
 
