@@ -2000,103 +2000,78 @@ msgstr "Alcume (opcional)"
 #~ msgstr "Escoller todo"
 
 # DinoX v0.7.7 - Database Maintenance & Backup/Restore
-#, fuzzy
 msgid "Clean Database"
 msgstr "Clean Database"
 
-#, fuzzy
 msgid "Reset Database"
 msgstr "Reset Database"
 
-#, fuzzy
 msgid "Restore Complete!"
 msgstr "Restore Complete!"
 
-#, fuzzy
 msgid "Restore Failed"
 msgstr "Restore Failed"
 
-#, fuzzy
 msgid "Decrypting Backup..."
 msgstr "Decrypting Backup..."
 
-#, fuzzy
 msgid "Restoring Backup..."
 msgstr "Restoring Backup..."
 
-#, fuzzy
 msgid "Set Backup Password"
 msgstr "Set Backup Password"
 
-#, fuzzy
 msgid "Confirm Password"
 msgstr "Confirm Password"
 
-#, fuzzy
 msgid "Create Encrypted Backup"
 msgstr "Create Encrypted Backup"
 
-#, fuzzy
 msgid "Password too short"
 msgstr "Password too short"
 
-#, fuzzy
 msgid "Passwords do not match"
 msgstr "Passwords do not match"
 
-#, fuzzy
 msgid "✓ Passwords match"
 msgstr "✓ Passwords match"
 
-#, fuzzy
 msgid "Encrypting Backup..."
 msgstr "Encrypting Backup..."
 
-#, fuzzy
 msgid "Factory Reset"
 msgstr "Factory Reset"
 
-#, fuzzy
 msgid "Restore from Backup"
 msgstr "Restore from Backup"
 
-#, fuzzy
 msgid "Restore Backup"
 msgstr "Restore Backup"
 
-#, fuzzy
 msgid "Select Backup File"
 msgstr "Select Backup File"
 
-#, fuzzy
 msgid "Enter Backup Password"
 msgstr "Enter Backup Password"
 
-#, fuzzy
 msgid "Decrypt & Restore"
 msgstr "Decrypt & Restore"
 
-#, fuzzy
 msgid "Create Backup First"
 msgstr "Create Backup First"
 
-#, fuzzy
 msgid "No Encryption"
 msgstr "No Encryption"
 
-#, fuzzy
 msgid "Encrypt with Password"
 msgstr "Encrypt with Password"
 
-#, fuzzy
 msgid "Delete Everything"
 msgstr "Delete Everything"
 
-#, fuzzy
 msgid "Confirm Delete"
 msgstr "Confirm Delete"
 
-#, fuzzy
 msgid "Are you absolutely sure?"
 msgstr "Are you absolutely sure?"
 

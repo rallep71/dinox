@@ -1821,11 +1821,9 @@ msgstr "별칭 (선택사항)"
 #~ "devices."
 #~ msgstr "Dino는 서버와 타 장치와의 메세지 동기화로부터 기록을 불러옵니다."
 
-#, fuzzy
 #~ msgid "No active search"
 #~ msgstr "검색 결과가 없음"
 
-#, fuzzy
 #~ msgid "Type to start a search"
 #~ msgstr "검색하려면 입력하세요"
 
@@ -1851,7 +1849,6 @@ msgstr "별칭 (선택사항)"
 #~ msgid "Pick another server"
 #~ msgstr "다른 서버 선택"
 
-#, fuzzy
 #~ msgid "Local Settings"
 #~ msgstr "일부 설정"
 
