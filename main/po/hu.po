@@ -2066,3 +2066,62 @@ msgstr "Az összes üzenet, fájl és OMEMO kulcs törlése. A fiókjai megmarad
 #: main/data/preferences_window/general_preferences_page.ui
 msgid "Delete ALL data including accounts. This cannot be undone!"
 msgstr "Az ÖSSZES adat törlése, beleértve a fiókokat is. Ez nem vonható vissza!"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "Biztonsági mentés fájlok (*.tar.gz, *.tar.gz.gpg)"
+
+msgid "Creating encrypted backup..."
+msgstr "Titkosított biztonsági mentés létrehozása..."
+
+msgid "Decryption Failed"
+msgstr "A visszafejtés sikertelen"
+
+msgid "DinoX will now restart..."
+msgstr "A DinoX most újraindul..."
+
+msgid "Encrypted backup created successfully"
+msgstr "Titkosított biztonsági mentés sikeresen létrehozva"
+
+msgid "Password (minimum 4 characters)"
+msgstr "Jelszó (legalább 4 karakter)"
+
+msgid "Decrypting encrypted backup file..."
+msgstr "Biztonsági mentés fájl visszafejtése..."
+
+msgid "Extracting files from backup..."
+msgstr "Fájlok kibontása a biztonsági mentésből..."
+
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "Gyári visszaállítás folyamatban... A DinoX újraindul."
+
+msgid "Resetting database... DinoX will restart."
+msgstr "Adatbázis visszaállítása... A DinoX újraindul."
+
+msgid "Encrypted backup created (%s)"
+msgstr "Titkosított biztonsági mentés létrehozva (%s)"
+
+msgid "Could not decrypt the backup file.\n\nPlease check if the password is correct."
+msgstr "Nem sikerült visszafejteni a fájlt.\n\nEllenőrizze, hogy helyes-e a jelszó."
+
+msgid "Could not restore the backup file.\n\nError: %s"
+msgstr "Nem sikerült visszaállítani a fájlt.\n\nHiba: %s"
+
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "Ez a mentés titkosított. Adja meg a jelszót a visszafejtéshez."
+
+msgid "Enter a password to encrypt the backup.\n\n<b>Important:</b> Remember this password! Without it, the backup cannot be restored."
+msgstr "Adjon meg jelszót a mentés titkosításához.\n\n<b>Fontos:</b> Jegyezze meg ezt a jelszót! Nélküle a mentés nem állítható vissza."
+
+msgid "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
+msgstr "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
+
+msgid "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
+msgstr "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
+
+msgid "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
+msgstr "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
+
+msgid "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"
+msgstr "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"

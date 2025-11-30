@@ -1974,3 +1974,62 @@ msgstr "Hapus semua pesan, file, dan kunci OMEMO. Akun Anda akan tetap ada."
 #: main/data/preferences_window/general_preferences_page.ui
 msgid "Delete ALL data including accounts. This cannot be undone!"
 msgstr "Hapus SEMUA data termasuk akun. Ini tidak dapat dibatalkan!"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "File cadangan (*.tar.gz, *.tar.gz.gpg)"
+
+msgid "Creating encrypted backup..."
+msgstr "Membuat cadangan terenkripsi..."
+
+msgid "Decryption Failed"
+msgstr "Dekripsi gagal"
+
+msgid "DinoX will now restart..."
+msgstr "DinoX akan memulai ulang sekarang..."
+
+msgid "Encrypted backup created successfully"
+msgstr "Cadangan terenkripsi berhasil dibuat"
+
+msgid "Password (minimum 4 characters)"
+msgstr "Kata sandi (minimal 4 karakter)"
+
+msgid "Decrypting encrypted backup file..."
+msgstr "Mendekripsi file cadangan..."
+
+msgid "Extracting files from backup..."
+msgstr "Mengekstrak file dari cadangan..."
+
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "Reset pabrik sedang berlangsung... DinoX akan dimulai ulang."
+
+msgid "Resetting database... DinoX will restart."
+msgstr "Mereset database... DinoX akan dimulai ulang."
+
+msgid "Encrypted backup created (%s)"
+msgstr "Cadangan terenkripsi dibuat (%s)"
+
+msgid "Could not decrypt the backup file.\n\nPlease check if the password is correct."
+msgstr "Tidak dapat mendekripsi file cadangan.\n\nPeriksa apakah kata sandi benar."
+
+msgid "Could not restore the backup file.\n\nError: %s"
+msgstr "Tidak dapat memulihkan file cadangan.\n\nKesalahan: %s"
+
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "Cadangan ini dienkripsi. Masukkan kata sandi untuk mendekripsi."
+
+msgid "Enter a password to encrypt the backup.\n\n<b>Important:</b> Remember this password! Without it, the backup cannot be restored."
+msgstr "Masukkan kata sandi untuk mengenkripsi cadangan.\n\n<b>Penting:</b> Ingat kata sandi ini! Tanpanya, cadangan tidak dapat dipulihkan."
+
+msgid "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
+msgstr "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
+
+msgid "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
+msgstr "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
+
+msgid "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
+msgstr "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
+
+msgid "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"
+msgstr "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"

@@ -1992,3 +1992,62 @@ msgstr "刪除所有訊息、檔案和OMEMO金鑰。您的帳戶將保留。"
 #: main/data/preferences_window/general_preferences_page.ui
 msgid "Delete ALL data including accounts. This cannot be undone!"
 msgstr "刪除所有資料，包括帳戶。此操作無法復原！"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "備份檔案 (*.tar.gz, *.tar.gz.gpg)"
+
+msgid "Creating encrypted backup..."
+msgstr "正在建立加密備份..."
+
+msgid "Decryption Failed"
+msgstr "解密失敗"
+
+msgid "DinoX will now restart..."
+msgstr "DinoX 現在將重新啟動..."
+
+msgid "Encrypted backup created successfully"
+msgstr "加密備份建立成功"
+
+msgid "Password (minimum 4 characters)"
+msgstr "密碼（至少4個字元）"
+
+msgid "Decrypting encrypted backup file..."
+msgstr "正在解密備份檔案..."
+
+msgid "Extracting files from backup..."
+msgstr "正在從備份中擷取檔案..."
+
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "正在恢復原廠設定... DinoX 將重新啟動。"
+
+msgid "Resetting database... DinoX will restart."
+msgstr "正在重設資料庫... DinoX 將重新啟動。"
+
+msgid "Encrypted backup created (%s)"
+msgstr "加密備份已建立 (%s)"
+
+msgid "Could not decrypt the backup file.\n\nPlease check if the password is correct."
+msgstr "無法解密備份檔案。\n\n請檢查密碼是否正確。"
+
+msgid "Could not restore the backup file.\n\nError: %s"
+msgstr "無法還原備份檔案。\n\n錯誤: %s"
+
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "此備份已加密。請輸入密碼進行解密。"
+
+msgid "Enter a password to encrypt the backup.\n\n<b>Important:</b> Remember this password! Without it, the backup cannot be restored."
+msgstr "輸入密碼以加密備份。\n\n<b>重要:</b> 請記住此密碼！沒有它，備份將無法還原。"
+
+msgid "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
+msgstr "這將刪除所有訊息、檔案和 OMEMO 加密金鑰。\n\n<b>您的帳戶將保留，但您將丟失所有聊天記錄，並需要與聯絡人重新驗證加密。</b>\n\n此操作無法復原！"
+
+msgid "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
+msgstr "這將用備份替換所有當前資料。\n\n<b>當前帳戶、訊息和設定將被覆蓋！</b>\n\nDinoX 將在還原後重新啟動。"
+
+msgid "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
+msgstr "輸入 'DELETE' 確認恢復原廠設定。\n\n這將永久刪除您的所有 DinoX 資料。"
+
+msgid "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"
+msgstr "<b>⚠️ 警告：這將刪除所有資料！</b>\n\n• 所有帳戶\n• 所有訊息和檔案\n• 所有加密金鑰\n• 所有設定\n\n此操作無法復原。請先建立備份！"

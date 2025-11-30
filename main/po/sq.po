@@ -2005,3 +2005,62 @@ msgstr "Fshi të gjitha mesazhet, skedarët dhe çelësat OMEMO. Llogaritë tuaj
 #: main/data/preferences_window/general_preferences_page.ui
 msgid "Delete ALL data including accounts. This cannot be undone!"
 msgstr "Fshi TË GJITHA të dhënat duke përfshirë llogaritë. Kjo nuk mund të zhbëhet!"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "Skedarë kopjeruajtjeje (*.tar.gz, *.tar.gz.gpg)"
+
+msgid "Creating encrypted backup..."
+msgstr "Po krijohet kopja rezervë e kriptuar..."
+
+msgid "Decryption Failed"
+msgstr "Dekriptimi dështoi"
+
+msgid "DinoX will now restart..."
+msgstr "DinoX do të riniset tani..."
+
+msgid "Encrypted backup created successfully"
+msgstr "Kopja rezervë e kriptuar u krijua me sukses"
+
+msgid "Password (minimum 4 characters)"
+msgstr "Fjalëkalimi (minimumi 4 karaktere)"
+
+msgid "Decrypting encrypted backup file..."
+msgstr "Po dekriptohet skedari i kopjes rezervë..."
+
+msgid "Extracting files from backup..."
+msgstr "Po nxirren skedarët nga kopja rezervë..."
+
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "Rivendosja në gjendjen e fabrikës në vazhdim... DinoX do të riniset."
+
+msgid "Resetting database... DinoX will restart."
+msgstr "Po rivendoset baza e të dhënave... DinoX do të riniset."
+
+msgid "Encrypted backup created (%s)"
+msgstr "Kopja rezervë e kriptuar u krijua (%s)"
+
+msgid "Could not decrypt the backup file.\n\nPlease check if the password is correct."
+msgstr "Nuk u arrit të dekriptohet skedari.\n\nKontrolloni nëse fjalëkalimi është i saktë."
+
+msgid "Could not restore the backup file.\n\nError: %s"
+msgstr "Nuk u arrit të rikthehet skedari.\n\nGabim: %s"
+
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "Kjo kopje është e kriptuar. Vendosni fjalëkalimin."
+
+msgid "Enter a password to encrypt the backup.\n\n<b>Important:</b> Remember this password! Without it, the backup cannot be restored."
+msgstr "Vendosni fjalëkalimin për kriptimin.\n\n<b>E rëndësishme:</b> Mbani mend këtë fjalëkalim! Pa të, kopja nuk mund të rikthehet."
+
+msgid "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
+msgstr "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
+
+msgid "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
+msgstr "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
+
+msgid "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
+msgstr "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
+
+msgid "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"
+msgstr "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"

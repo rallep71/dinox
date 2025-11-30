@@ -2000,3 +2000,62 @@ msgstr "Eliminar todas as mensagens, ficheiros e chaves OMEMO. As suas contas pe
 #: main/data/preferences_window/general_preferences_page.ui
 msgid "Delete ALL data including accounts. This cannot be undone!"
 msgstr "Eliminar TODOS os dados, incluindo contas. Esta ação não pode ser desfeita!"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "Ficheiros de cópia de segurança (*.tar.gz, *.tar.gz.gpg)"
+
+msgid "Creating encrypted backup..."
+msgstr "A criar cópia de segurança encriptada..."
+
+msgid "Decryption Failed"
+msgstr "Falha na desencriptação"
+
+msgid "DinoX will now restart..."
+msgstr "O DinoX vai reiniciar agora..."
+
+msgid "Encrypted backup created successfully"
+msgstr "Cópia de segurança encriptada criada com sucesso"
+
+msgid "Password (minimum 4 characters)"
+msgstr "Palavra-passe (mínimo 4 caracteres)"
+
+msgid "Decrypting encrypted backup file..."
+msgstr "A desencriptar ficheiro de cópia de segurança..."
+
+msgid "Extracting files from backup..."
+msgstr "A extrair ficheiros da cópia de segurança..."
+
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "Reposição de fábrica em curso... O DinoX vai reiniciar."
+
+msgid "Resetting database... DinoX will restart."
+msgstr "A repor base de dados... O DinoX vai reiniciar."
+
+msgid "Encrypted backup created (%s)"
+msgstr "Cópia de segurança encriptada criada (%s)"
+
+msgid "Could not decrypt the backup file.\n\nPlease check if the password is correct."
+msgstr "Não foi possível desencriptar o ficheiro.\n\nVerifique se a palavra-passe está correta."
+
+msgid "Could not restore the backup file.\n\nError: %s"
+msgstr "Não foi possível restaurar o ficheiro.\n\nErro: %s"
+
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "Esta cópia está encriptada. Introduza a palavra-passe."
+
+msgid "Enter a password to encrypt the backup.\n\n<b>Important:</b> Remember this password! Without it, the backup cannot be restored."
+msgstr "Introduza uma palavra-passe para encriptar a cópia.\n\n<b>Importante:</b> Lembre-se desta palavra-passe! Sem ela, a cópia não pode ser restaurada."
+
+msgid "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
+msgstr "Isto apagará todas as mensagens, ficheiros e chaves de encriptação OMEMO.\n\n<b>As suas contas permanecerão, mas perderá todo o histórico de conversas e terá de reverificar a encriptação com os seus contactos.</b>\n\nEsta ação não pode ser desfeita!"
+
+msgid "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
+msgstr "Isto substituirá todos os dados atuais pela cópia de segurança.\n\n<b>As contas, mensagens e definições atuais serão substituídas!</b>\n\nO DinoX reiniciará após restaurar."
+
+msgid "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
+msgstr "Digite 'DELETE' para confirmar a reposição de fábrica.\n\nIsto removerá permanentemente todos os seus dados DinoX."
+
+msgid "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"
+msgstr "<b>⚠️ AVISO: Isto apagará TODOS os dados!</b>\n\n• Todas as contas\n• Todas as mensagens e ficheiros\n• Todas as chaves de encriptação\n• Todas as definições\n\nIsto é irreversível. Crie uma cópia de segurança primeiro!"

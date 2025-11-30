@@ -1970,3 +1970,62 @@ msgstr "모든 메시지, 파일 및 OMEMO 키를 삭제합니다. 계정은 유
 #: main/data/preferences_window/general_preferences_page.ui
 msgid "Delete ALL data including accounts. This cannot be undone!"
 msgstr "계정을 포함한 모든 데이터를 삭제합니다. 이 작업은 취소할 수 없습니다!"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "백업 파일 (*.tar.gz, *.tar.gz.gpg)"
+
+msgid "Creating encrypted backup..."
+msgstr "암호화된 백업 생성 중..."
+
+msgid "Decryption Failed"
+msgstr "복호화 실패"
+
+msgid "DinoX will now restart..."
+msgstr "DinoX가 지금 다시 시작됩니다..."
+
+msgid "Encrypted backup created successfully"
+msgstr "암호화된 백업이 성공적으로 생성되었습니다"
+
+msgid "Password (minimum 4 characters)"
+msgstr "비밀번호 (최소 4자)"
+
+msgid "Decrypting encrypted backup file..."
+msgstr "백업 파일 복호화 중..."
+
+msgid "Extracting files from backup..."
+msgstr "백업에서 파일 추출 중..."
+
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "공장 초기화 진행 중... DinoX가 다시 시작됩니다."
+
+msgid "Resetting database... DinoX will restart."
+msgstr "데이터베이스 재설정 중... DinoX가 다시 시작됩니다."
+
+msgid "Encrypted backup created (%s)"
+msgstr "암호화된 백업이 생성되었습니다 (%s)"
+
+msgid "Could not decrypt the backup file.\n\nPlease check if the password is correct."
+msgstr "백업 파일을 복호화할 수 없습니다.\n\n비밀번호가 올바른지 확인하세요."
+
+msgid "Could not restore the backup file.\n\nError: %s"
+msgstr "백업 파일을 복원할 수 없습니다.\n\n오류: %s"
+
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "이 백업은 암호화되어 있습니다. 비밀번호를 입력하세요."
+
+msgid "Enter a password to encrypt the backup.\n\n<b>Important:</b> Remember this password! Without it, the backup cannot be restored."
+msgstr "백업을 암호화할 비밀번호를 입력하세요.\n\n<b>중요:</b> 이 비밀번호를 기억하세요! 없으면 백업을 복원할 수 없습니다."
+
+msgid "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
+msgstr "이것은 모든 메시지, 파일 및 OMEMO 암호화 키를 삭제합니다.\n\n<b>계정은 유지되지만 모든 채팅 기록이 삭제되고 연락처와 암호화를 다시 확인해야 합니다.</b>\n\n이 작업은 취소할 수 없습니다!"
+
+msgid "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
+msgstr "이것은 모든 현재 데이터를 백업으로 대체합니다.\n\n<b>현재 계정, 메시지 및 설정이 덮어쓰기됩니다!</b>\n\n복원 후 DinoX가 다시 시작됩니다."
+
+msgid "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
+msgstr "'DELETE'를 입력하여 공장 초기화를 확인하세요.\n\n이것은 모든 DinoX 데이터를 영구적으로 삭제합니다."
+
+msgid "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"
+msgstr "<b>⚠️ 경고: 모든 데이터가 삭제됩니다!</b>\n\n• 모든 계정\n• 모든 메시지와 파일\n• 모든 암호화 키\n• 모든 설정\n\n이것은 되돌릴 수 없습니다. 먼저 백업을 만드세요!"

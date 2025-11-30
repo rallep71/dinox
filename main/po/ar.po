@@ -2076,3 +2076,62 @@ msgstr "حذف جميع الرسائل والملفات ومفاتيح OMEMO. س
 #: main/data/preferences_window/general_preferences_page.ui
 msgid "Delete ALL data including accounts. This cannot be undone!"
 msgstr "حذف جميع البيانات بما في ذلك الحسابات. لا يمكن التراجع عن هذا!"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "ملفات النسخ الاحتياطي (*.tar.gz, *.tar.gz.gpg)"
+
+msgid "Creating encrypted backup..."
+msgstr "جارٍ إنشاء نسخة احتياطية مشفرة..."
+
+msgid "Decryption Failed"
+msgstr "فشل فك التشفير"
+
+msgid "DinoX will now restart..."
+msgstr "سيتم إعادة تشغيل DinoX الآن..."
+
+msgid "Encrypted backup created successfully"
+msgstr "تم إنشاء النسخة الاحتياطية المشفرة بنجاح"
+
+msgid "Password (minimum 4 characters)"
+msgstr "كلمة المرور (4 أحرف على الأقل)"
+
+msgid "Decrypting encrypted backup file..."
+msgstr "جارٍ فك تشفير ملف النسخة الاحتياطية..."
+
+msgid "Extracting files from backup..."
+msgstr "جارٍ استخراج الملفات من النسخة الاحتياطية..."
+
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "جارٍ إعادة ضبط المصنع... سيتم إعادة تشغيل DinoX."
+
+msgid "Resetting database... DinoX will restart."
+msgstr "جارٍ إعادة تعيين قاعدة البيانات... سيتم إعادة تشغيل DinoX."
+
+msgid "Encrypted backup created (%s)"
+msgstr "تم إنشاء نسخة احتياطية مشفرة (%s)"
+
+msgid "Could not decrypt the backup file.\n\nPlease check if the password is correct."
+msgstr "تعذر فك تشفير ملف النسخة الاحتياطية.\n\nيرجى التحقق من صحة كلمة المرور."
+
+msgid "Could not restore the backup file.\n\nError: %s"
+msgstr "تعذر استعادة ملف النسخة الاحتياطية.\n\nخطأ: %s"
+
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "هذه النسخة الاحتياطية مشفرة. يرجى إدخال كلمة المرور لفك تشفيرها."
+
+msgid "Enter a password to encrypt the backup.\n\n<b>Important:</b> Remember this password! Without it, the backup cannot be restored."
+msgstr "أدخل كلمة مرور لتشفير النسخة الاحتياطية.\n\n<b>مهم:</b> تذكر كلمة المرور هذه! بدونها، لا يمكن استعادة النسخة الاحتياطية."
+
+msgid "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
+msgstr "سيؤدي هذا إلى حذف جميع الرسائل والملفات ومفاتيح تشفير OMEMO.\n\n<b>ستبقى حساباتك، لكنك ستفقد جميع سجلات المحادثات وستحتاج إلى إعادة التحقق من التشفير مع جهات اتصالك.</b>\n\nلا يمكن التراجع عن هذا الإجراء!"
+
+msgid "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
+msgstr "سيؤدي هذا إلى استبدال جميع البيانات الحالية بالنسخة الاحتياطية.\n\n<b>سيتم الكتابة فوق الحسابات والرسائل والإعدادات الحالية!</b>\n\nسيتم إعادة تشغيل DinoX بعد الاستعادة."
+
+msgid "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
+msgstr "اكتب 'DELETE' لتأكيد إعادة ضبط المصنع.\n\nسيؤدي هذا إلى إزالة جميع بيانات DinoX بشكل دائم."
+
+msgid "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"
+msgstr "<b>⚠️ تحذير: سيؤدي هذا إلى حذف جميع البيانات!</b>\n\n• جميع الحسابات\n• جميع الرسائل والملفات\n• جميع مفاتيح التشفير\n• جميع الإعدادات\n\nهذا لا رجعة فيه. تأكد من إنشاء نسخة احتياطية أولاً!"

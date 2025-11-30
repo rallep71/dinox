@@ -2048,3 +2048,62 @@ msgstr "すべてのメッセージ、ファイル、OMEMOキーを削除しま�
 #: main/data/preferences_window/general_preferences_page.ui
 msgid "Delete ALL data including accounts. This cannot be undone!"
 msgstr "アカウントを含むすべてのデータを削除します。この操作は元に戻せません！"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "バックアップファイル (*.tar.gz, *.tar.gz.gpg)"
+
+msgid "Creating encrypted backup..."
+msgstr "暗号化バックアップを作成中..."
+
+msgid "Decryption Failed"
+msgstr "復号化に失敗しました"
+
+msgid "DinoX will now restart..."
+msgstr "DinoXを再起動します..."
+
+msgid "Encrypted backup created successfully"
+msgstr "暗号化バックアップが正常に作成されました"
+
+msgid "Password (minimum 4 characters)"
+msgstr "パスワード（4文字以上）"
+
+msgid "Decrypting encrypted backup file..."
+msgstr "バックアップファイルを復号化中..."
+
+msgid "Extracting files from backup..."
+msgstr "バックアップからファイルを抽出中..."
+
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "工場出荷時リセット中... DinoXが再起動します。"
+
+msgid "Resetting database... DinoX will restart."
+msgstr "データベースをリセット中... DinoXが再起動します。"
+
+msgid "Encrypted backup created (%s)"
+msgstr "暗号化バックアップが作成されました (%s)"
+
+msgid "Could not decrypt the backup file.\n\nPlease check if the password is correct."
+msgstr "バックアップファイルを復号化できませんでした。\n\nパスワードが正しいか確認してください。"
+
+msgid "Could not restore the backup file.\n\nError: %s"
+msgstr "バックアップファイルを復元できませんでした。\n\nエラー: %s"
+
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "このバックアップは暗号化されています。パスワードを入力してください。"
+
+msgid "Enter a password to encrypt the backup.\n\n<b>Important:</b> Remember this password! Without it, the backup cannot be restored."
+msgstr "バックアップを暗号化するパスワードを入力してください。\n\n<b>重要:</b> このパスワードを覚えておいてください！これがないとバックアップを復元できません。"
+
+msgid "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
+msgstr "これにより、すべてのメッセージ、ファイル、OMEMO暗号化キーが削除されます。\n\n<b>アカウントは残りますが、すべてのチャット履歴が失われ、連絡先と暗号化を再確認する必要があります。</b>\n\nこの操作は元に戻せません！"
+
+msgid "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
+msgstr "これにより、すべての現在のデータがバックアップで置き換えられます。\n\n<b>現在のアカウント、メッセージ、設定は上書きされます！</b>\n\n復元後、DinoXは再起動します。"
+
+msgid "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
+msgstr "'DELETE'と入力して工場出荷時リセットを確認してください。\n\nこれによりすべてのDinoXデータが完全に削除されます。"
+
+msgid "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"
+msgstr "<b>⚠️ 警告：すべてのデータが削除されます！</b>\n\n• すべてのアカウント\n• すべてのメッセージとファイル\n• すべての暗号化キー\n• すべての設定\n\nこれは元に戻せません。先にバックアップを作成してください！"

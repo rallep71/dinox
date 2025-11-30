@@ -1947,3 +1947,62 @@ msgstr "அனைத்து செய்திகள், கோப்புக
 #: main/data/preferences_window/general_preferences_page.ui
 msgid "Delete ALL data including accounts. This cannot be undone!"
 msgstr "கணக்குகள் உட்பட அனைத்து தரவையும் நீக்கு. இதை செயல்தவிர்க்க முடியாது!"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "காப்புப்பிரதி கோப்புகள் (*.tar.gz, *.tar.gz.gpg)"
+
+msgid "Creating encrypted backup..."
+msgstr "மறையாக்கப்பட்ட காப்புப்பிரதி உருவாக்குகிறது..."
+
+msgid "Decryption Failed"
+msgstr "மறைவிலக்கம் தோல்வியடைந்தது"
+
+msgid "DinoX will now restart..."
+msgstr "DinoX இப்போது மீண்டும் தொடங்கும்..."
+
+msgid "Encrypted backup created successfully"
+msgstr "மறையாக்கப்பட்ட காப்புப்பிரதி வெற்றிகரமாக உருவாக்கப்பட்டது"
+
+msgid "Password (minimum 4 characters)"
+msgstr "கடவுச்சொல் (குறைந்தபட்சம் 4 எழுத்துகள்)"
+
+msgid "Decrypting encrypted backup file..."
+msgstr "காப்புப்பிரதி கோப்பை மறைவிலக்குகிறது..."
+
+msgid "Extracting files from backup..."
+msgstr "காப்புப்பிரதியிலிருந்து கோப்புகளை பிரித்தெடுக்கிறது..."
+
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "தொழிற்சாலை மீட்டமைப்பு நடைபெறுகிறது... DinoX மீண்டும் தொடங்கும்."
+
+msgid "Resetting database... DinoX will restart."
+msgstr "தரவுத்தளம் மீட்டமைக்கப்படுகிறது... DinoX மீண்டும் தொடங்கும்."
+
+msgid "Encrypted backup created (%s)"
+msgstr "மறையாக்கப்பட்ட காப்புப்பிரதி உருவாக்கப்பட்டது (%s)"
+
+msgid "Could not decrypt the backup file.\n\nPlease check if the password is correct."
+msgstr "கோப்பை மறைவிலக்க முடியவில்லை.\n\nகடவுச்சொல் சரியானதா என சரிபார்க்கவும்."
+
+msgid "Could not restore the backup file.\n\nError: %s"
+msgstr "கோப்பை மீட்டெடுக்க முடியவில்லை.\n\nபிழை: %s"
+
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "இந்த காப்புப்பிரதி மறையாக்கப்பட்டுள்ளது. கடவுச்சொல்லை உள்ளிடவும்."
+
+msgid "Enter a password to encrypt the backup.\n\n<b>Important:</b> Remember this password! Without it, the backup cannot be restored."
+msgstr "காப்புப்பிரதியை மறையாக்க கடவுச்சொல்லை உள்ளிடவும்.\n\n<b>முக்கியம்:</b> இந்த கடவுச்சொல்லை நினைவில் கொள்ளுங்கள்! இது இல்லாமல், காப்புப்பிரதியை மீட்டெடுக்க முடியாது."
+
+msgid "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
+msgstr "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
+
+msgid "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
+msgstr "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
+
+msgid "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
+msgstr "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
+
+msgid "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"
+msgstr "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"

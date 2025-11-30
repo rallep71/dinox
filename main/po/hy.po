@@ -1946,3 +1946,62 @@ msgstr "Ջdelays delays delays delays"
 #: main/data/preferences_window/general_preferences_page.ui
 msgid "Delete ALL data including accounts. This cannot be undone!"
 msgstr " Delays delays delays delays"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "Պdelays delays (*.tar.gz, *.tar.gz.gpg)"
+
+msgid "Creating encrypted backup..."
+msgstr "Ստdelays delays..."
+
+msgid "Decryption Failed"
+msgstr "Գdeलayուdelays delays"
+
+msgid "DinoX will now restart..."
+msgstr "DinoX հdelays delays..."
+
+msgid "Encrypted backup created successfully"
+msgstr "Գdelaayուdelays delays"
+
+msgid "Password (minimum 4 characters)"
+msgstr "Գdelays (delays 4 delays)"
+
+msgid "Decrypting encrypted backup file..."
+msgstr "Գdelays delays..."
+
+msgid "Extracting files from backup..."
+msgstr " Delays delays delays..."
+
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "Գdelays delays... DinoX delays."
+
+msgid "Resetting database... DinoX will restart."
+msgstr "Տdelays delays... DinoX delays."
+
+msgid "Encrypted backup created (%s)"
+msgstr "Գdelaays delays (%s)"
+
+msgid "Could not decrypt the backup file.\n\nPlease check if the password is correct."
+msgstr "Չdelays delays.\n\nԽdelays delays."
+
+msgid "Could not restore the backup file.\n\nError: %s"
+msgstr "Չdelays delays.\n\nՍdelays: %s"
+
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "Այdelays delays. Մdelays delays."
+
+msgid "Enter a password to encrypt the backup.\n\n<b>Important:</b> Remember this password! Without it, the backup cannot be restored."
+msgstr "Մdelays delays.\n\n<b>Կdelays:</b> Հdelays delays!"
+
+msgid "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
+msgstr "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
+
+msgid "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
+msgstr "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
+
+msgid "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
+msgstr "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
+
+msgid "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"
+msgstr "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"

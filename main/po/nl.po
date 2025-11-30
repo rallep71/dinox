@@ -2097,3 +2097,62 @@ msgstr "Verwijder alle berichten, bestanden en OMEMO-sleutels. Je accounts blijv
 #: main/data/preferences_window/general_preferences_page.ui
 msgid "Delete ALL data including accounts. This cannot be undone!"
 msgstr "Verwijder ALLE gegevens inclusief accounts. Dit kan niet ongedaan worden gemaakt!"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "Back-upbestanden (*.tar.gz, *.tar.gz.gpg)"
+
+msgid "Creating encrypted backup..."
+msgstr "Versleutelde back-up maken..."
+
+msgid "Decryption Failed"
+msgstr "Ontsleuteling mislukt"
+
+msgid "DinoX will now restart..."
+msgstr "DinoX wordt nu opnieuw gestart..."
+
+msgid "Encrypted backup created successfully"
+msgstr "Versleutelde back-up succesvol gemaakt"
+
+msgid "Password (minimum 4 characters)"
+msgstr "Wachtwoord (minimaal 4 tekens)"
+
+msgid "Decrypting encrypted backup file..."
+msgstr "Back-upbestand ontsleutelen..."
+
+msgid "Extracting files from backup..."
+msgstr "Bestanden uit back-up uitpakken..."
+
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "Fabrieksinstellingen herstellen... DinoX wordt opnieuw gestart."
+
+msgid "Resetting database... DinoX will restart."
+msgstr "Database herstellen... DinoX wordt opnieuw gestart."
+
+msgid "Encrypted backup created (%s)"
+msgstr "Versleutelde back-up gemaakt (%s)"
+
+msgid "Could not decrypt the backup file.\n\nPlease check if the password is correct."
+msgstr "Kon het bestand niet ontsleutelen.\n\nControleer of het wachtwoord correct is."
+
+msgid "Could not restore the backup file.\n\nError: %s"
+msgstr "Kon het bestand niet herstellen.\n\nFout: %s"
+
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "Deze back-up is versleuteld. Voer het wachtwoord in."
+
+msgid "Enter a password to encrypt the backup.\n\n<b>Important:</b> Remember this password! Without it, the backup cannot be restored."
+msgstr "Voer een wachtwoord in om de back-up te versleutelen.\n\n<b>Belangrijk:</b> Onthoud dit wachtwoord! Zonder kan de back-up niet worden hersteld."
+
+msgid "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
+msgstr "Dit verwijdert alle berichten, bestanden en OMEMO-versleutelingssleutels.\n\n<b>Uw accounts blijven behouden, maar u verliest alle chatgeschiedenis en moet de versleuteling opnieuw verifiëren met uw contacten.</b>\n\nDeze actie kan niet ongedaan worden gemaakt!"
+
+msgid "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
+msgstr "Dit vervangt alle huidige gegevens door de back-up.\n\n<b>Huidige accounts, berichten en instellingen worden overschreven!</b>\n\nDinoX wordt na het herstellen opnieuw gestart."
+
+msgid "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
+msgstr "Typ 'DELETE' om fabrieksreset te bevestigen.\n\nDit verwijdert permanent al uw DinoX-gegevens."
+
+msgid "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"
+msgstr "<b>⚠️ WAARSCHUWING: Dit verwijdert ALLE gegevens!</b>\n\n• Alle accounts\n• Alle berichten en bestanden\n• Alle versleutelingssleutels\n• Alle instellingen\n\nDit is onomkeerbaar. Maak eerst een back-up!"

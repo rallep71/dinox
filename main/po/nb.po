@@ -2066,3 +2066,62 @@ msgstr "Slett alle meldinger, filer og OMEMO-nøkler. Kontoene dine beholdes."
 #: main/data/preferences_window/general_preferences_page.ui
 msgid "Delete ALL data including accounts. This cannot be undone!"
 msgstr "Slett ALLE data inkludert kontoer. Dette kan ikke angres!"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "Sikkerhetskopifiler (*.tar.gz, *.tar.gz.gpg)"
+
+msgid "Creating encrypted backup..."
+msgstr "Oppretter kryptert sikkerhetskopi..."
+
+msgid "Decryption Failed"
+msgstr "Dekryptering mislyktes"
+
+msgid "DinoX will now restart..."
+msgstr "DinoX starter på nytt nå..."
+
+msgid "Encrypted backup created successfully"
+msgstr "Kryptert sikkerhetskopi opprettet"
+
+msgid "Password (minimum 4 characters)"
+msgstr "Passord (minst 4 tegn)"
+
+msgid "Decrypting encrypted backup file..."
+msgstr "Dekrypterer sikkerhetskopifil..."
+
+msgid "Extracting files from backup..."
+msgstr "Pakker ut filer fra sikkerhetskopi..."
+
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "Tilbakestilling til fabrikkinnstillinger... DinoX starter på nytt."
+
+msgid "Resetting database... DinoX will restart."
+msgstr "Tilbakestiller database... DinoX starter på nytt."
+
+msgid "Encrypted backup created (%s)"
+msgstr "Kryptert sikkerhetskopi opprettet (%s)"
+
+msgid "Could not decrypt the backup file.\n\nPlease check if the password is correct."
+msgstr "Kunne ikke dekryptere filen.\n\nSjekk om passordet er riktig."
+
+msgid "Could not restore the backup file.\n\nError: %s"
+msgstr "Kunne ikke gjenopprette filen.\n\nFeil: %s"
+
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "Denne sikkerhetskopien er kryptert. Skriv inn passordet."
+
+msgid "Enter a password to encrypt the backup.\n\n<b>Important:</b> Remember this password! Without it, the backup cannot be restored."
+msgstr "Skriv inn et passord for å kryptere sikkerhetskopien.\n\n<b>Viktig:</b> Husk dette passordet! Uten det kan ikke sikkerhetskopien gjenopprettes."
+
+msgid "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
+msgstr "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
+
+msgid "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
+msgstr "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
+
+msgid "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
+msgstr "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
+
+msgid "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"
+msgstr "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"

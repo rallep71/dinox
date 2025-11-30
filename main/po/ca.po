@@ -2063,3 +2063,62 @@ msgstr "Suprimeix tots els missatges, fitxers i claus OMEMO. Els teus comptes es
 #: main/data/preferences_window/general_preferences_page.ui
 msgid "Delete ALL data including accounts. This cannot be undone!"
 msgstr "Suprimeix TOTES les dades, inclosos els comptes. Això no es pot desfer!"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "Fitxers de còpia de seguretat (*.tar.gz, *.tar.gz.gpg)"
+
+msgid "Creating encrypted backup..."
+msgstr "Creant còpia de seguretat xifrada..."
+
+msgid "Decryption Failed"
+msgstr "Error de desxifratge"
+
+msgid "DinoX will now restart..."
+msgstr "DinoX es reiniciarà ara..."
+
+msgid "Encrypted backup created successfully"
+msgstr "S'ha creat la còpia de seguretat xifrada correctament"
+
+msgid "Password (minimum 4 characters)"
+msgstr "Contrasenya (mínim 4 caràcters)"
+
+msgid "Decrypting encrypted backup file..."
+msgstr "Desxifrant el fitxer de còpia de seguretat..."
+
+msgid "Extracting files from backup..."
+msgstr "S'estan extraient els fitxers de la còpia de seguretat..."
+
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "S'està fent el restabliment de fàbrica... DinoX es reiniciarà."
+
+msgid "Resetting database... DinoX will restart."
+msgstr "S'està restablint la base de dades... DinoX es reiniciarà."
+
+msgid "Encrypted backup created (%s)"
+msgstr "S'ha creat còpia de seguretat xifrada (%s)"
+
+msgid "Could not decrypt the backup file.\n\nPlease check if the password is correct."
+msgstr "No s'ha pogut desxifrar el fitxer. Comproveu la contrasenya."
+
+msgid "Could not restore the backup file.\n\nError: %s"
+msgstr "No s'ha pogut restaurar el fitxer.\n\nError: %s"
+
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "Aquesta còpia està xifrada. Introduïu la contrasenya per desxifrar-la."
+
+msgid "Enter a password to encrypt the backup.\n\n<b>Important:</b> Remember this password! Without it, the backup cannot be restored."
+msgstr "Introduïu una contrasenya per xifrar la còpia.\n\n<b>Important:</b> Recordeu aquesta contrasenya! Sense ella, no es pot restaurar."
+
+msgid "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
+msgstr "Això suprimirà tots els missatges, fitxers i claus de xifratge OMEMO.\n\n<b>Els vostres comptes romandran, però perdreu tot l'historial de xats i haureu de tornar a verificar el xifratge amb els vostres contactes.</b>\n\nAquesta acció no es pot desfer!"
+
+msgid "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
+msgstr "Això substituirà totes les dades actuals per la còpia de seguretat.\n\n<b>Els comptes, missatges i configuracions actuals se sobreescriuran!</b>\n\nDinoX es reiniciarà després de restaurar."
+
+msgid "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
+msgstr "Escriviu 'DELETE' per confirmar el restabliment de fàbrica.\n\nAixò eliminarà permanentment totes les dades de DinoX."
+
+msgid "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"
+msgstr "<b>⚠️ AVÍS: Això suprimirà TOTES les dades!</b>\n\n• Tots els comptes\n• Tots els missatges i fitxers\n• Totes les claus de xifratge\n• Tots els paràmetres\n\nAixò és irreversible. Creeu una còpia de seguretat primer!"

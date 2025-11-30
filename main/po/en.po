@@ -1820,3 +1820,62 @@ msgstr "Delete all messages, files and OMEMO keys. Your accounts will remain."
 #: main/data/preferences_window/general_preferences_page.ui
 msgid "Delete ALL data including accounts. This cannot be undone!"
 msgstr "Delete ALL data including accounts. This cannot be undone!"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+
+msgid "Creating encrypted backup..."
+msgstr "Creating encrypted backup..."
+
+msgid "Decryption Failed"
+msgstr "Decryption Failed"
+
+msgid "DinoX will now restart..."
+msgstr "DinoX will now restart..."
+
+msgid "Encrypted backup created successfully"
+msgstr "Encrypted backup created successfully"
+
+msgid "Password (minimum 4 characters)"
+msgstr "Password (minimum 4 characters)"
+
+msgid "Decrypting encrypted backup file..."
+msgstr "Decrypting encrypted backup file..."
+
+msgid "Extracting files from backup..."
+msgstr "Extracting files from backup..."
+
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "Factory reset in progress... DinoX will restart."
+
+msgid "Resetting database... DinoX will restart."
+msgstr "Resetting database... DinoX will restart."
+
+msgid "Encrypted backup created (%s)"
+msgstr "Encrypted backup created (%s)"
+
+msgid "Could not decrypt the backup file.\n\nPlease check if the password is correct."
+msgstr "Could not decrypt the backup file.\n\nPlease check if the password is correct."
+
+msgid "Could not restore the backup file.\n\nError: %s"
+msgstr "Could not restore the backup file.\n\nError: %s"
+
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "This backup is encrypted. Please enter the password to decrypt it."
+
+msgid "Enter a password to encrypt the backup.\n\n<b>Important:</b> Remember this password! Without it, the backup cannot be restored."
+msgstr "Enter a password to encrypt the backup.\n\n<b>Important:</b> Remember this password! Without it, the backup cannot be restored."
+
+msgid "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
+msgstr "This will delete all messages, files and OMEMO encryption keys.\n\n<b>Your accounts will remain, but you will lose all chat history and need to re-verify encryption with your contacts.</b>\n\nThis action cannot be undone!"
+
+msgid "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
+msgstr "This will replace all current data with the backup.\n\n<b>Current accounts, messages and settings will be overwritten!</b>\n\nDinoX will restart after restoring."
+
+msgid "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
+msgstr "Type 'DELETE' to confirm factory reset.\n\nThis will permanently remove all your DinoX data."
+
+msgid "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"
+msgstr "<b>⚠️ WARNING: This will delete ALL data!</b>\n\n• All accounts\n• All messages and files\n• All encryption keys\n• All settings\n\nThis is irreversible. Make sure to create a backup first!"
