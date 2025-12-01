@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-28 12:18+0100\n"
+"POT-Creation-Date: 2025-12-01 10:28+0100\n"
 "PO-Revision-Date: 2023-05-19 07:48+0000\n"
 "Language-Team: none\n"
 "Language: cs\n"
@@ -99,14 +99,14 @@ msgstr "Obecné"
 #: main/data/gtk/help-overlay.ui:14 main/data/main_window.ui:38
 #: main/data/menu_add.ui:7
 #: main/src/ui/add_conversation/select_contact_dialog.vala:106
-#: main/src/ui/main_window.vala:141
+#: main/src/ui/main_window.vala:154
 msgid "Start Conversation"
 msgstr "Začít konverzaci"
 
 #: main/data/gtk/help-overlay.ui:20 main/data/main_window.ui:51
 #: main/data/menu_add.ui:11
 #: main/src/ui/add_conversation/add_conference_dialog.vala:24
-#: main/src/ui/application.vala:527 main/src/ui/main_window.vala:142
+#: main/src/ui/application.vala:1359 main/src/ui/main_window.vala:155
 msgid "Join Channel"
 msgstr "Připojit se ke kanálu"
 
@@ -147,7 +147,7 @@ msgstr "Přejít na další konverzaci"
 msgid "Jump to previous conversation"
 msgstr "Přejít na předchozí konverzaci"
 
-#: main/data/main_window.ui:64 main/src/ui/main_window.vala:144
+#: main/data/main_window.ui:64 main/src/ui/main_window.vala:157
 msgid "Help: How to join channels"
 msgstr "Nápověda: Jak se připojit ke kanálům"
 
@@ -165,28 +165,28 @@ msgstr "Stav"
 
 #: main/data/menu_app.ui:11
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:427
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Online"
 msgstr "Online"
 
 #: main/data/menu_app.ui:16
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:421
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Away"
 msgstr "Pryč"
 
 #: main/data/menu_app.ui:21
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:425
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Busy"
 msgstr "Zaneprázdněn"
 
 #: main/data/menu_app.ui:26
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:423
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Not Available"
 msgstr "Nedostupný"
@@ -199,7 +199,7 @@ msgstr "Předvolby"
 msgid "Keyboard Shortcuts"
 msgstr "Klávesové zkratky"
 
-#: main/data/menu_app.ui:42 main/src/ui/application.vala:334
+#: main/data/menu_app.ui:42 main/src/ui/application.vala:340
 msgid "About DinoX"
 msgstr "O DinoX"
 
@@ -218,7 +218,10 @@ msgstr "Smazat historii konverzace"
 #: main/data/preferences_window/change_password_dialog.ui:18
 #: main/src/ui/add_conversation/add_conference_dialog.vala:41
 #: main/src/ui/add_conversation/select_contact_dialog.vala:40
-#: main/src/ui/application.vala:537
+#: main/src/ui/application.vala:441 main/src/ui/application.vala:469
+#: main/src/ui/application.vala:765 main/src/ui/application.vala:843
+#: main/src/ui/application.vala:901 main/src/ui/application.vala:933
+#: main/src/ui/application.vala:1089 main/src/ui/application.vala:1369
 #: main/src/ui/conversation_content_view/file_default_widget.vala:90
 #: main/src/ui/conversation_content_view/item_actions.vala:165
 #: main/src/ui/conversation_content_view/item_actions.vala:168
@@ -233,7 +236,7 @@ msgstr "Smazat historii konverzace"
 #: main/src/ui/conversation_titlebar/call_entry.vala:83
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
 #: main/src/windows/conversation_details.vala:60
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:67
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:68
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:205
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:225
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:249
@@ -257,6 +260,7 @@ msgid "Local alias"
 msgstr "Místní alias"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:82
+#: main/src/ui/application.vala:435 main/src/ui/application.vala:1064
 #: main/src/ui/util/data_forms.vala:63
 msgid "Password"
 msgstr "Heslo"
@@ -265,20 +269,24 @@ msgstr "Heslo"
 msgid "Connection status"
 msgstr "Stav připojení"
 
+#: main/data/preferences_window/account_preferences_subpage.ui:117
+msgid "View Certificate"
+msgstr "Zobrazit certifikát"
+
 # Custom host/port feature (Issue #115)
-#: main/data/preferences_window/account_preferences_subpage.ui:121
+#: main/data/preferences_window/account_preferences_subpage.ui:128
 msgid "Advanced Settings"
 msgstr "Pokročilá nastavení"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:122
+#: main/data/preferences_window/account_preferences_subpage.ui:129
 msgid "Custom server connection (leave empty for automatic)"
 msgstr "Vlastní připojení k serveru (ponechte prázdné pro automatické)"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:125
+#: main/data/preferences_window/account_preferences_subpage.ui:132
 msgid "Server Hostname"
 msgstr "Název hostitele serveru"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:130
+#: main/data/preferences_window/account_preferences_subpage.ui:137
 msgid "Port"
 msgstr "Port"
 
@@ -350,12 +358,53 @@ msgid "Create a backup of your accounts, messages and settings"
 msgstr "Vytvořit zálohu účtů, zpráv a nastavení"
 
 #: main/data/preferences_window/general_preferences_page.ui:78
-msgid "Data Location"
-msgstr "Umístění dat"
+#: main/src/ui/application.vala:464 main/src/ui/main_window.vala:223
+msgid "Restore from Backup"
+msgstr "Obnovit ze zálohy"
 
 #: main/data/preferences_window/general_preferences_page.ui:79
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "Obnovit účty, zprávy a nastavení ze záložního souboru"
+
+#: main/data/preferences_window/general_preferences_page.ui:90
+msgid "Data Storage Location"
+msgstr "Umístění úložiště dat"
+
+#: main/data/preferences_window/general_preferences_page.ui:91
 msgid "View where your data is stored"
 msgstr "Zobrazit kde jsou uložena vaše data"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "Údržba databáze"
+
+#: main/data/preferences_window/general_preferences_page.ui:107
+#: main/src/ui/application.vala:761 main/src/ui/application.vala:766
+msgid "Clear Cache"
+msgstr "Vymazat mezipaměť"
+
+#: main/data/preferences_window/general_preferences_page.ui:108
+msgid "Clear cached files, avatars and previews"
+msgstr "Vymazat soubory, avatary a náhledy v mezipaměti"
+
+#: main/data/preferences_window/general_preferences_page.ui:119
+#: main/src/ui/application.vala:838 main/src/ui/application.vala:844
+msgid "Reset Database"
+msgstr "Resetovat databázi"
+
+#: main/data/preferences_window/general_preferences_page.ui:120
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr ""
+"Smazat všechny zprávy, soubory a klíče OMEMO. Vaše účty zůstanou zachovány."
+
+#: main/data/preferences_window/general_preferences_page.ui:131
+#: main/src/ui/application.vala:896
+msgid "Factory Reset"
+msgstr "Obnovení továrního nastavení"
+
+#: main/data/preferences_window/general_preferences_page.ui:132
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr "Smazat VŠECHNA data včetně účtů. Toto nelze vrátit zpět!"
 
 #: main/data/preferences_window/preferences_dialog.ui:11
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:15
@@ -380,7 +429,7 @@ msgstr "Další"
 
 #: main/src/ui/add_conversation/add_conference_dialog.vala:59
 #: main/src/ui/add_conversation/conference_details_fragment.vala:151
-#: main/src/ui/application.vala:541
+#: main/src/ui/application.vala:1373
 msgid "Join"
 msgstr "Připojit"
 
@@ -466,46 +515,150 @@ msgstr "Smazat kontakt"
 msgid "Leave Group"
 msgstr "Opustit skupinu"
 
-#: main/src/ui/application.vala:339
+#: main/src/ui/application.vala:345
 msgid "Modern XMPP client with extended features"
 msgstr "Moderní XMPP klient s rozšířenými funkcemi"
 
-#: main/src/ui/application.vala:346 main/src/ui/application.vala:385
+#: main/src/ui/application.vala:352 main/src/ui/application.vala:727
 msgid "User Data Locations"
 msgstr "Umístění uživatelských dat"
 
-#: main/src/ui/application.vala:349 main/src/ui/application.vala:399
+#: main/src/ui/application.vala:355 main/src/ui/application.vala:741
 msgid "Configuration:"
 msgstr "Konfigurace:"
 
-#: main/src/ui/application.vala:352 main/src/ui/application.vala:401
+#: main/src/ui/application.vala:358 main/src/ui/application.vala:743
 msgid "Data & Database:"
 msgstr "Data a databáze:"
 
-#: main/src/ui/application.vala:355 main/src/ui/application.vala:403
+#: main/src/ui/application.vala:361 main/src/ui/application.vala:745
 msgid "Cache:"
-msgstr "Cache:"
+msgstr "Mezipaměť:"
 
-#: main/src/ui/application.vala:358
+#: main/src/ui/application.vala:364
 msgid "Info:"
 msgstr "Info:"
 
-#: main/src/ui/application.vala:359
+#: main/src/ui/application.vala:365
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
 msgstr ""
 "Vaše osobní údaje (účty, zprávy, soubory) jsou uloženy odděleně od aplikace."
 
-#: main/src/ui/application.vala:361
+#: main/src/ui/application.vala:367
 msgid "When you update DinoX, your data remains intact."
 msgstr "Při aktualizaci DinoX zůstanou vaše data nedotčena."
 
-#: main/src/ui/application.vala:363
+#: main/src/ui/application.vala:369
 msgid "Use Settings → General → Backup User Data to create a backup."
 msgstr "Použijte Nastavení → Obecné → Záloha pro vytvoření zálohy."
 
-#: main/src/ui/application.vala:405
+#: main/src/ui/application.vala:387
+msgid "Select Backup File"
+msgstr "Vybrat soubor zálohy"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+#: main/src/ui/application.vala:395
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "Záložní soubory (*.tar.gz, *.tar.gz.gpg)"
+
+#: main/src/ui/application.vala:425
+msgid "Enter Backup Password"
+msgstr "Zadejte heslo zálohy"
+
+#: main/src/ui/application.vala:426
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "Tato záloha je zašifrovaná. Zadejte heslo pro dešifrování."
+
+#: main/src/ui/application.vala:442
+msgid "Decrypt & Restore"
+msgstr "Dešifrovat a obnovit"
+
+#: main/src/ui/application.vala:465
+msgid ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+msgstr ""
+"Toto nahradí všechna aktuální data zálohou.\n"
+"\n"
+"<b>Stávající účty, zprávy a nastavení budou přepsány!</b>\n"
+"\n"
+"DinoX se po obnovení restartuje."
+
+#: main/src/ui/application.vala:470
+msgid "Restore Backup"
+msgstr "Obnovit zálohu"
+
+#: main/src/ui/application.vala:487 main/src/ui/application.vala:519
+msgid "Decrypting Backup..."
+msgstr "Dešifrování zálohy..."
+
+#: main/src/ui/application.vala:487 main/src/ui/application.vala:571
+msgid "Restoring Backup..."
+msgstr "Obnovování zálohy..."
+
+#: main/src/ui/application.vala:488
+msgid "Please wait, this may take a moment..."
+msgstr "Čekejte prosím, může to chvíli trvat..."
+
+#: main/src/ui/application.vala:520
+msgid "Decrypting encrypted backup file..."
+msgstr "Dešifrování záložního souboru..."
+
+#: main/src/ui/application.vala:558
+msgid "Decryption Failed"
+msgstr "Dešifrování selhalo"
+
+#: main/src/ui/application.vala:559
+msgid ""
+"Could not decrypt the backup file.\n"
+"\n"
+"Please check if the password is correct."
+msgstr ""
+"Nepodařilo se dešifrovat záložní soubor.\n"
+"\n"
+"Zkontrolujte, zda je heslo správné."
+
+#: main/src/ui/application.vala:561 main/src/ui/application.vala:671
+msgid "OK"
+msgstr "OK"
+
+#: main/src/ui/application.vala:572
+msgid "Extracting files from backup..."
+msgstr "Extrahování souborů ze zálohy..."
+
+#: main/src/ui/application.vala:653
+msgid "Restore Complete!"
+msgstr "Obnova dokončena!"
+
+#: main/src/ui/application.vala:654
+msgid "DinoX will now restart..."
+msgstr "DinoX se nyní restartuje..."
+
+#: main/src/ui/application.vala:668
+msgid "Restore Failed"
+msgstr "Obnova selhala"
+
+#: main/src/ui/application.vala:669
+#, c-format
+msgid ""
+"Could not restore the backup file.\n"
+"\n"
+"Error: %s"
+msgstr ""
+"Nepodařilo se obnovit záložní soubor.\n"
+"\n"
+"Chyba: %s"
+
+#: main/src/ui/application.vala:669 main/src/ui/application.vala:1345
+msgid "Unknown error"
+msgstr "Neznámá chyba"
+
+#: main/src/ui/application.vala:747
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
@@ -515,96 +668,242 @@ msgstr ""
 "(účty, zprávy, soubory) jsou uloženy odděleně od aplikace. Při aktualizaci "
 "DinoX zůstanou vaše data nedotčena."
 
-#: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
-#: main/src/ui/main_window.vala:159
+#: main/src/ui/application.vala:752 main/src/ui/application.vala:1240
+#: main/src/ui/application.vala:1324 main/src/ui/conversation_details.vala:272
+#: main/src/ui/main_window.vala:172
 msgid "Close"
 msgstr "Zavřít"
 
-#: main/src/ui/application.vala:417
+#: main/src/ui/application.vala:762
+msgid ""
+"This will delete cached files, avatars and previews.\n"
+"\n"
+"They will be re-downloaded when needed."
+msgstr ""
+"Tímto se vymažou soubory, avatary a náhledy z mezipaměti.\n"
+"\n"
+"V případě potřeby budou znovu staženy."
+
+#: main/src/ui/application.vala:799
+#, c-format
+msgid "Cache cleared (%s freed)"
+msgstr "Mezipaměť vymazána (uvolněno %s)"
+
+#: main/src/ui/application.vala:802
+msgid "Failed to clear cache"
+msgstr "Nepodařilo se vymazat mezipaměť"
+
+#: main/src/ui/application.vala:839
+msgid ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+msgstr ""
+"Toto smaže všechny zprávy, soubory a šifrovací klíče OMEMO.\n"
+"\n"
+"<b>Vaše účty zůstanou, ale ztratíte veškerou historii chatů a budete muset "
+"znovu ověřit šifrování s kontakty.</b>\n"
+"\n"
+"Tuto akci nelze vrátit!"
+
+#: main/src/ui/application.vala:867
+msgid "Resetting database... DinoX will restart."
+msgstr "Resetování databáze... DinoX se restartuje."
+
+#: main/src/ui/application.vala:897
+msgid ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+msgstr ""
+"<b>⚠️ VAROVÁNÍ: Tímto smažete VŠECHNA data!</b>\n"
+"\n"
+"• Všechny účty\n"
+"• Všechny zprávy a soubory\n"
+"• Všechny šifrovací klíče\n"
+"• Všechna nastavení\n"
+"\n"
+"Toto je nevratné. Nejprve si vytvořte zálohu!"
+
+#: main/src/ui/application.vala:902
+msgid "Create Backup First"
+msgstr "Nejprve vytvořte zálohu"
+
+#: main/src/ui/application.vala:903
+msgid "Delete Everything"
+msgstr "Smazat vše"
+
+#: main/src/ui/application.vala:923
+msgid "Are you absolutely sure?"
+msgstr "Jste si naprosto jisti?"
+
+#: main/src/ui/application.vala:924
+msgid ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+msgstr ""
+"Zadejte 'DELETE' pro potvrzení obnovení továrního nastavení.\n"
+"\n"
+"Toto trvale odstraní všechna vaše data DinoX."
+
+#: main/src/ui/application.vala:934
+msgid "Confirm Delete"
+msgstr "Potvrdit smazání"
+
+#: main/src/ui/application.vala:961
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "Probíhá obnovení továrního nastavení... DinoX se restartuje."
+
+#: main/src/ui/application.vala:1026
+msgid "Backup Encryption"
+msgstr "Šifrování zálohy"
+
+#: main/src/ui/application.vala:1027
+msgid ""
+"Do you want to encrypt the backup with a password?\n"
+"\n"
+"Encrypted backups are more secure but require the password to restore."
+msgstr ""
+"Chcete zálohu zašifrovat heslem?\n"
+"\n"
+"Zašifrované zálohy jsou bezpečnější, ale k obnovení vyžadují heslo."
+
+#: main/src/ui/application.vala:1030
+msgid "No Encryption"
+msgstr "Bez šifrování"
+
+#: main/src/ui/application.vala:1031
+msgid "Encrypt with Password"
+msgstr "Šifrovat heslem"
+
+#: main/src/ui/application.vala:1049
+msgid "Set Backup Password"
+msgstr "Nastavit heslo zálohy"
+
+#: main/src/ui/application.vala:1050
+msgid ""
+"Enter a password to encrypt the backup.\n"
+"\n"
+"<b>Important:</b> Remember this password! Without it, the backup cannot be "
+"restored."
+msgstr ""
+"Zadejte heslo pro zašifrování zálohy.\n"
+"\n"
+"<b>Důležité:</b> Zapamatujte si toto heslo! Bez něj nelze zálohu obnovit."
+
+#: main/src/ui/application.vala:1058
+msgid "Password (minimum 4 characters)"
+msgstr "Heslo (minimálně 4 znaky)"
+
+#: main/src/ui/application.vala:1066 main/src/ui/application.vala:1073
+msgid "Confirm Password"
+msgstr "Potvrdit heslo"
+
+#: main/src/ui/application.vala:1090
+msgid "Create Encrypted Backup"
+msgstr "Vytvořit šifrovanou zálohu"
+
+#: main/src/ui/application.vala:1102 main/src/ui/application.vala:1117
+msgid "Password too short"
+msgstr "Heslo je příliš krátké"
+
+#: main/src/ui/application.vala:1104 main/src/ui/application.vala:1119
+msgid "Passwords do not match"
+msgstr "Hesla se neshodují"
+
+#: main/src/ui/application.vala:1106 main/src/ui/application.vala:1121
+msgid "✓ Passwords match"
+msgstr "✓ Hesla se shodují"
+
+#: main/src/ui/application.vala:1139
 msgid "Select Backup Location"
 msgstr "Vybrat umístění zálohy"
 
-#: main/src/ui/application.vala
-msgid "Creating Backup..."
-msgstr "Creating Backup..."
-
-#: main/src/ui/application.vala
+#: main/src/ui/application.vala:1194
 msgid "Creating Encrypted Backup..."
-msgstr "Creating Encrypted Backup..."
+msgstr "Vytváření šifrované zálohy..."
 
-#: main/src/ui/application.vala
-msgid "Please wait while your data is being backed up."
-msgstr "Please wait while your data is being backed up."
-
-#: main/src/ui/application.vala
-msgid "No data directories found to backup"
-msgstr "No data directories found to backup"
-
-#: main/src/ui/application.vala
-msgid "Backup Created"
-msgstr "Backup Created"
-
-#: main/src/ui/application.vala
-msgid "Encrypted Backup Created"
-msgstr "Encrypted Backup Created"
-
-#: main/src/ui/application.vala
-#, c-format
-msgid "Your backup was created successfully.\\n\\nSize: %s"
-msgstr "Your backup was created successfully.\\n\\nSize: %s"
-
-#: main/src/ui/application.vala
-msgid "Your backup was created successfully."
-msgstr "Your backup was created successfully."
-
-#: main/src/ui/application.vala
-#, c-format
-msgid "Your encrypted backup was created successfully.\\n\\nSize: %s"
-msgstr "Your encrypted backup was created successfully.\\n\\nSize: %s"
-
-#: main/src/ui/application.vala
-msgid "Your encrypted backup was created successfully."
-msgstr "Your encrypted backup was created successfully."
-
-#: main/src/ui/application.vala
-msgid "Backup Failed"
-msgstr "Backup Failed"
-
-#: main/src/ui/application.vala:445
-msgid "Creating backup..."
+#: main/src/ui/application.vala:1194
+msgid "Creating Backup..."
 msgstr "Vytváření zálohy..."
 
-#: main/src/ui/application.vala:503
+#: main/src/ui/application.vala:1195
+msgid "Please wait while your data is being backed up."
+msgstr "Čekejte prosím, než se data zazálohují."
+
+#: main/src/ui/application.vala:1234
+msgid "No data directory found to backup"
+msgstr "Nebyl nalezen žádný datový adresář pro zálohování"
+
+#: main/src/ui/application.vala:1237 main/src/ui/application.vala:1343
+msgid "Backup Failed"
+msgstr "Zálohování selhalo"
+
+#: main/src/ui/application.vala:1331
+msgid "Encrypted Backup Created"
+msgstr "Šifrovaná záloha vytvořena"
+
+#: main/src/ui/application.vala:1333
 #, c-format
-msgid "Backup created successfully (%s)"
-msgstr "Záloha úspěšně vytvořena (%s)"
+msgid ""
+"Your encrypted backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"Vaše šifrovaná záloha byla úspěšně vytvořena.\n"
+"\n"
+"Velikost: %s"
 
-#: main/src/ui/application.vala:505
-msgid "Backup created successfully"
-msgstr "Záloha úspěšně vytvořena"
+#: main/src/ui/application.vala:1334
+msgid "Your encrypted backup was created successfully."
+msgstr "Vaše šifrovaná záloha byla úspěšně vytvořena."
 
-#: main/src/ui/application.vala:510
-msgid "Unknown error"
-msgstr "Neznámá chyba"
+#: main/src/ui/application.vala:1336
+msgid "Backup Created"
+msgstr "Záloha vytvořena"
 
-#: main/src/ui/application.vala:511
+#: main/src/ui/application.vala:1338
+#, c-format
+msgid ""
+"Your backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"Vaše záloha byla úspěšně vytvořena.\n"
+"\n"
+"Velikost: %s"
+
+#: main/src/ui/application.vala:1339
+msgid "Your backup was created successfully."
+msgstr "Vaše záloha byla úspěšně vytvořena."
+
+#: main/src/ui/application.vala:1346
 #, c-format
 msgid "Backup failed: %s"
 msgstr "Záloha selhala: %s"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:29
+#: main/src/ui/call_window/audio_settings_popover.vala:46
 msgid "Microphones"
 msgstr "Mikrofony"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:32
+#: main/src/ui/call_window/audio_settings_popover.vala:49
 msgid "No microphone found."
 msgstr "Nebyly nalezeny žádné mikrofony."
 
-#: main/src/ui/call_window/audio_settings_popover.vala:85
+#: main/src/ui/call_window/audio_settings_popover.vala:116
 msgid "Speakers"
 msgstr "Reproduktory"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:88
+#: main/src/ui/call_window/audio_settings_popover.vala:119
 msgid "No speaker found."
 msgstr "Nebyl nalezen žádný reproduktor."
 
@@ -620,7 +919,7 @@ msgstr "Pozvat do hovoru"
 msgid "Invite"
 msgstr "Pozvat"
 
-#: main/src/ui/call_window/call_window_controller.vala:405
+#: main/src/ui/call_window/call_window_controller.vala:453
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:240
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:270
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:285
@@ -639,21 +938,21 @@ msgstr "%s ukončil hovor"
 msgid "%s declined the call"
 msgstr "%s odmítl(a) hovor"
 
-#: main/src/ui/call_window/participant_widget.vala:115
+#: main/src/ui/call_window/participant_widget.vala:140
 msgid "Debug information"
 msgstr "Informace pro ladění"
 
-#: main/src/ui/call_window/participant_widget.vala:124
+#: main/src/ui/call_window/participant_widget.vala:149
 #: main/src/ui/conversation_content_view/call_widget.vala:152
 msgid "Calling…"
 msgstr "Volám…"
 
-#: main/src/ui/call_window/participant_widget.vala:126
+#: main/src/ui/call_window/participant_widget.vala:151
 msgid "Ringing…"
 msgstr "Vyzvánění…"
 
-#: main/src/ui/call_window/participant_widget.vala:128
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:216
+#: main/src/ui/call_window/participant_widget.vala:153
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:244
 msgid "Connecting…"
 msgstr "Připojování…"
 
@@ -887,7 +1186,7 @@ msgstr "%a, %l∶%M %p"
 msgid "Just now"
 msgstr "Nyní"
 
-#: main/src/ui/conversation_content_view/conversation_view.vala:105
+#: main/src/ui/conversation_content_view/conversation_view.vala:106
 msgid "More actions"
 msgstr "Více akcí"
 
@@ -1106,6 +1405,38 @@ msgstr "Zničit"
 msgid "Failed to destroy room"
 msgstr "Nepodařilo se zničit místnost"
 
+#: main/src/ui/conversation_details.vala:286
+msgid "Auto-delete messages"
+msgstr "Automaticky mazat zprávy"
+
+#: main/src/ui/conversation_details.vala:287
+msgid "Never"
+msgstr "Nikdy"
+
+#: main/src/ui/conversation_details.vala:288
+msgid "After 15 minutes"
+msgstr "Po 15 minutách"
+
+#: main/src/ui/conversation_details.vala:289
+msgid "After 30 minutes"
+msgstr "Po 30 minutách"
+
+#: main/src/ui/conversation_details.vala:290
+msgid "After 1 hour"
+msgstr "Po 1 hodině"
+
+#: main/src/ui/conversation_details.vala:291
+msgid "After 24 hours"
+msgstr "Po 24 hodinách"
+
+#: main/src/ui/conversation_details.vala:292
+msgid "After 7 days"
+msgstr "Po 7 dnech"
+
+#: main/src/ui/conversation_details.vala:293
+msgid "After 30 days"
+msgstr "Po 30 dnech"
+
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:276
 #: main/src/ui/notifier_freedesktop.vala:71
 #: main/src/ui/notifier_gnotifications.vala:36
@@ -1251,6 +1582,7 @@ msgstr "Odblokovat kontakt?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:702
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:247
+#, c-format
 msgid "This will allow %s to send you messages again."
 msgstr "Toto umožní uživateli %s znovu vám zasílat zprávy."
 
@@ -1353,7 +1685,7 @@ msgid "Select file"
 msgstr "Vybrat soubor"
 
 #: main/src/ui/conversation_view_controller.vala:225
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:152
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:180
 msgid "Select"
 msgstr "Vybrat"
 
@@ -1371,11 +1703,11 @@ msgstr "V %s"
 msgid "With %s"
 msgstr "S %s"
 
-#: main/src/ui/main_window.vala:156
+#: main/src/ui/main_window.vala:169
 msgid "Join Channel Help"
 msgstr "Nápověda k připojení ke kanálu"
 
-#: main/src/ui/main_window.vala:157
+#: main/src/ui/main_window.vala:170
 msgid ""
 "To join a channel, click the \"Join Channel\" button and enter the channel "
 "JID (example: room@conference.example.org).\n"
@@ -1389,25 +1721,25 @@ msgstr ""
 "Pokud potřebujete heslo nebo přezdívku, zadejte je v dialogu. Pro nalezení "
 "veřejných místností použijte funkce zjišťování serveru."
 
-#: main/src/ui/main_window.vala:206
+#: main/src/ui/main_window.vala:219
 msgid "Welcome to DinoX!"
 msgstr "Vítejte v DinoX!"
 
-#: main/src/ui/main_window.vala:207
+#: main/src/ui/main_window.vala:220
 msgid "Sign in or create an account to get started."
 msgstr "Chcete-li začít, přihlaste se nebo si vytvořte účet."
 
-#: main/src/ui/main_window.vala:208
+#: main/src/ui/main_window.vala:221
 msgid "Set up account"
 msgstr "Nastavit účet"
 
-#: main/src/ui/main_window.vala:215
+#: main/src/ui/main_window.vala:230
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:71
 #: main/src/windows/preferences_window/encryption_preferences_page.vala:49
 msgid "No active accounts"
 msgstr "Žádné aktivní účty"
 
-#: main/src/ui/main_window.vala:216
+#: main/src/ui/main_window.vala:231
 msgid "Manage accounts"
 msgstr "Správa účtů"
 
@@ -1417,12 +1749,12 @@ msgid "Subscription request"
 msgstr "Požadavek na odběr"
 
 #: main/src/ui/notifier_freedesktop.vala:192
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:231
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:259
 msgid "Wrong password"
 msgstr "Nesprávné heslo"
 
 #: main/src/ui/notifier_freedesktop.vala:195
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:233
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:261
 msgid "Invalid TLS certificate"
 msgstr "Neplatný TLS certifikát"
 
@@ -1457,7 +1789,7 @@ msgstr "Vlastník"
 #: main/src/ui/occupant_menu/list.vala:120
 #: main/src/view_model/conversation_details.vala:135
 msgid "Admin"
-msgstr "Admin"
+msgstr "Správce"
 
 #: main/src/ui/occupant_menu/list.vala:122
 #: main/src/view_model/conversation_details.vala:136
@@ -1496,15 +1828,15 @@ msgstr "Ban (Trvalý)"
 
 #: main/src/ui/occupant_menu/view.vala:140
 msgid "Ban (10 min)"
-msgstr "Ban (10 min)"
+msgstr "Zákaz (10 min)"
 
 #: main/src/ui/occupant_menu/view.vala:141
 msgid "Ban (15 min)"
-msgstr "Ban (15 min)"
+msgstr "Zákaz (15 min)"
 
 #: main/src/ui/occupant_menu/view.vala:142
 msgid "Ban (30 min)"
-msgstr "Ban (30 min)"
+msgstr "Zákaz (30 min)"
 
 #: main/src/ui/occupant_menu/view.vala:146
 msgid "Administration"
@@ -1617,6 +1949,7 @@ msgid "Today"
 msgstr "Dnes"
 
 #: main/src/ui/widgets/date_separator.vala:35
+#, no-c-format
 msgid "%a, %b %d"
 msgstr "%a, %b %d"
 
@@ -1668,45 +2001,45 @@ msgstr "Nastavení"
 msgid "Room Configuration"
 msgstr "Nastavení místnosti"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:68
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:69
 msgid "Connect"
 msgstr "Připojit"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:106
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
 msgid "Disable account"
 msgstr "Zakázat účet"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:106
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
 msgid "Enable account"
 msgstr "Povolit účet"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:151
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:179
 msgid "Select avatar"
 msgstr "Vybrat avatar"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:162
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:190
 msgid "Images"
 msgstr "Obrázky"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:166
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:194
 msgid "All files"
 msgstr "Všechny soubory"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:184
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:212
 #, c-format
 msgid "Remove account %s?"
 msgstr "Odstranit účet %s?"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:218
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:246
 msgid "Connected"
 msgstr "Připojeno"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:220
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:248
 msgid "Disconnected"
 msgstr "Odpojeno"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:240
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:242
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:268
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:270
 msgid "Error"
 msgstr "Chyba"
 
@@ -1818,386 +2151,189 @@ msgstr "Změnit zobrazované jméno pro %s"
 msgid "Alias (optional)"
 msgstr "Přezdívka (volitelné)"
 
+#~ msgid "Creating backup..."
+#~ msgstr "Vytváření zálohy..."
+
+#, c-format
+#~ msgid "Backup created successfully (%s)"
+#~ msgstr "Záloha úspěšně vytvořena (%s)"
+
+#~ msgid "Backup created successfully"
+#~ msgstr "Záloha úspěšně vytvořena"
+
 # DinoX v0.7.7 - Database Maintenance & Backup/Restore
-msgid "Clean Database"
-msgstr "Vyčistit databázi"
+#~ msgid "Clean Database"
+#~ msgstr "Vyčistit databázi"
 
-msgid "Reset Database"
-msgstr "Resetovat databázi"
+#~ msgid "Encrypting Backup..."
+#~ msgstr "Šifrování zálohy..."
 
-msgid "Restore Complete!"
-msgstr "Obnova dokončena!"
+#~ msgid "Creating encrypted backup..."
+#~ msgstr "Vytváření šifrované zálohy..."
 
-msgid "Restore Failed"
-msgstr "Obnova selhala"
+#~ msgid "Encrypted backup created successfully"
+#~ msgstr "Šifrovaná záloha byla úspěšně vytvořena"
 
-msgid "Decrypting Backup..."
-msgstr "Dešifrování zálohy..."
-
-msgid "Restoring Backup..."
-msgstr "Obnovování zálohy..."
-
-msgid "Set Backup Password"
-msgstr "Nastavit heslo zálohy"
-
-msgid "Confirm Password"
-msgstr "Potvrdit heslo"
-
-msgid "Create Encrypted Backup"
-msgstr "Vytvořit šifrovanou zálohu"
-
-msgid "Password too short"
-msgstr "Heslo je příliš krátké"
-
-msgid "Passwords do not match"
-msgstr "Hesla se neshodují"
-
-msgid "✓ Passwords match"
-msgstr "✓ Hesla se shodují"
-
-msgid "Encrypting Backup..."
-msgstr "Šifrování zálohy..."
-
-msgid "Factory Reset"
-msgstr "Obnovení továrního nastavení"
-
-msgid "Restore from Backup"
-msgstr "Obnovit ze zálohy"
-
-msgid "Restore Backup"
-msgstr "Obnovit zálohu"
-
-msgid "Select Backup File"
-msgstr "Vybrat soubor zálohy"
-
-msgid "Enter Backup Password"
-msgstr "Zadejte heslo zálohy"
-
-msgid "Decrypt & Restore"
-msgstr "Dešifrovat a obnovit"
-
-msgid "Create Backup First"
-msgstr "Nejprve vytvořte zálohu"
-
-msgid "No Encryption"
-msgstr "Bez šifrování"
-
-msgid "Encrypt with Password"
-msgstr "Šifrovat heslem"
-
-msgid "Delete Everything"
-msgstr "Smazat vše"
-
-msgid "Confirm Delete"
-msgstr "Potvrdit smazání"
-
-msgid "Are you absolutely sure?"
-msgstr "Jste si naprosto jisti?"
-
-#: main/data/preferences_window/general_preferences_page.ui:104
-msgid "Database Maintenance"
-msgstr "Údržba databáze"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Restore accounts, messages and settings from a backup file"
-msgstr "Obnovit účty, zprávy a nastavení ze záložního souboru"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
-msgstr ""
-"Smazat všechny zprávy, soubory a klíče OMEMO. Vaše účty zůstanou zachovány."
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete ALL data including accounts. This cannot be undone!"
-msgstr "Smazat VŠECHNA data včetně účtů. Toto nelze vrátit zpět!"
-
-# DinoX v0.7.7 - Additional Backup/Restore strings
-msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
-msgstr "Záložní soubory (*.tar.gz, *.tar.gz.gpg)"
-
-msgid "Creating encrypted backup..."
-msgstr "Vytváření šifrované zálohy..."
-
-msgid "Decryption Failed"
-msgstr "Dešifrování selhalo"
-
-msgid "DinoX will now restart..."
-msgstr "DinoX se nyní restartuje..."
-
-msgid "Encrypted backup created successfully"
-msgstr "Šifrovaná záloha byla úspěšně vytvořena"
-
-msgid "Password (minimum 4 characters)"
-msgstr "Heslo (minimálně 4 znaky)"
-
-msgid "Decrypting encrypted backup file..."
-msgstr "Dešifrování záložního souboru..."
-
-msgid "Extracting files from backup..."
-msgstr "Extrahování souborů ze zálohy..."
-
-msgid "Factory reset in progress... DinoX will restart."
-msgstr "Probíhá obnovení továrního nastavení... DinoX se restartuje."
-
-msgid "Resetting database... DinoX will restart."
-msgstr "Resetování databáze... DinoX se restartuje."
-
-msgid "Encrypted backup created (%s)"
-msgstr "Šifrovaná záloha vytvořena (%s)"
-
-msgid ""
-"Could not decrypt the backup file.\n"
-"\n"
-"Please check if the password is correct."
-msgstr ""
-"Nepodařilo se dešifrovat záložní soubor.\n"
-"\n"
-"Zkontrolujte, zda je heslo správné."
-
-msgid ""
-"Could not restore the backup file.\n"
-"\n"
-"Error: %s"
-msgstr ""
-"Nepodařilo se obnovit záložní soubor.\n"
-"\n"
-"Chyba: %s"
-
-msgid "This backup is encrypted. Please enter the password to decrypt it."
-msgstr "Tato záloha je zašifrovaná. Zadejte heslo pro dešifrování."
-
-msgid ""
-"Enter a password to encrypt the backup.\n"
-"\n"
-"<b>Important:</b> Remember this password! Without it, the backup cannot be "
-"restored."
-msgstr ""
-"Zadejte heslo pro zašifrování zálohy.\n"
-"\n"
-"<b>Důležité:</b> Zapamatujte si toto heslo! Bez něj nelze zálohu obnovit."
-
-msgid ""
-"This will delete all messages, files and OMEMO encryption keys.\n"
-"\n"
-"<b>Your accounts will remain, but you will lose all chat history and need to "
-"re-verify encryption with your contacts.</b>\n"
-"\n"
-"This action cannot be undone!"
-msgstr ""
-"Toto smaže všechny zprávy, soubory a šifrovací klíče OMEMO.\n"
-"\n"
-"<b>Vaše účty zůstanou, ale ztratíte veškerou historii chatů a budete muset "
-"znovu ověřit šifrování s kontakty.</b>\n"
-"\n"
-"Tuto akci nelze vrátit!"
-
-msgid ""
-"This will replace all current data with the backup.\n"
-"\n"
-"<b>Current accounts, messages and settings will be overwritten!</b>\n"
-"\n"
-"DinoX will restart after restoring."
-msgstr ""
-"Toto nahradí všechna aktuální data zálohou.\n"
-"\n"
-"<b>Stávající účty, zprávy a nastavení budou přepsány!</b>\n"
-"\n"
-"DinoX se po obnovení restartuje."
-
-msgid ""
-"Type 'DELETE' to confirm factory reset.\n"
-"\n"
-"This will permanently remove all your DinoX data."
-msgstr ""
-"Zadejte 'DELETE' pro potvrzení obnovení továrního nastavení.\n"
-"\n"
-"Toto trvale odstraní všechna vaše data DinoX."
-
-msgid ""
-"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
-"\n"
-"• All accounts\n"
-"• All messages and files\n"
-"• All encryption keys\n"
-"• All settings\n"
-"\n"
-"This is irreversible. Make sure to create a backup first!"
-msgstr ""
-"<b>⚠️ VAROVÁNÍ: Tímto smažete VŠECHNA data!</b>\n"
-"\n"
-"• Všechny účty\n"
-"• Všechny zprávy a soubory\n"
-"• Všechny šifrovací klíče\n"
-"• Všechna nastavení\n"
-"\n"
-"Toto je nevratné. Nejprve si vytvořte zálohu!"
+#~ msgid "Encrypted backup created (%s)"
+#~ msgstr "Šifrovaná záloha vytvořena (%s)"
 
 # OpenPGP Key Management translations
-msgid "OpenPGP Key Management"
-msgstr "Správa klíčů OpenPGP"
+#~ msgid "OpenPGP Key Management"
+#~ msgstr "Správa klíčů OpenPGP"
 
-msgid "Actions"
-msgstr "Akce"
+#~ msgid "Actions"
+#~ msgstr "Akce"
 
-msgid "Generate New Key"
-msgstr "Vytvořit nový klíč"
+#~ msgid "Generate New Key"
+#~ msgstr "Vytvořit nový klíč"
 
-msgid "Create a new OpenPGP key pair"
-msgstr "Vytvořit nový pár klíčů OpenPGP"
+#~ msgid "Create a new OpenPGP key pair"
+#~ msgstr "Vytvořit nový pár klíčů OpenPGP"
 
-msgid "Import Key"
-msgstr "Importovat klíč"
+#~ msgid "Import Key"
+#~ msgstr "Importovat klíč"
 
-msgid "Import a key from file (.asc, .gpg)"
-msgstr "Importovat klíč ze souboru (.asc, .gpg)"
+#~ msgid "Import a key from file (.asc, .gpg)"
+#~ msgstr "Importovat klíč ze souboru (.asc, .gpg)"
 
-msgid "Your Keys"
-msgstr "Vaše klíče"
+#~ msgid "Your Keys"
+#~ msgstr "Vaše klíče"
 
-msgid "Private keys available for signing and decryption"
-msgstr "Soukromé klíče pro podepisování a dešifrování"
+#~ msgid "Private keys available for signing and decryption"
+#~ msgstr "Soukromé klíče pro podepisování a dešifrování"
 
-msgid "No private keys found"
-msgstr "Nebyly nalezeny žádné soukromé klíče"
+#~ msgid "No private keys found"
+#~ msgstr "Nebyly nalezeny žádné soukromé klíče"
 
-msgid "Generate or import a key to get started"
-msgstr "Pro začátek vytvořte nebo importujte klíč"
+#~ msgid "Generate or import a key to get started"
+#~ msgstr "Pro začátek vytvořte nebo importujte klíč"
 
-msgid "Fingerprint"
-msgstr "Otisk"
+#~ msgid "Fingerprint"
+#~ msgstr "Otisk"
 
-msgid "Export Public Key"
-msgstr "Exportovat veřejný klíč"
+#~ msgid "Export Public Key"
+#~ msgstr "Exportovat veřejný klíč"
 
-msgid "Delete Key"
-msgstr "Smazat klíč"
+#~ msgid "Delete Key"
+#~ msgstr "Smazat klíč"
 
-msgid "Generate New OpenPGP Key"
-msgstr "Vytvořit nový klíč OpenPGP"
+#~ msgid "Generate New OpenPGP Key"
+#~ msgstr "Vytvořit nový klíč OpenPGP"
 
-msgid "Enter your details to create a new key pair."
-msgstr "Zadejte své údaje pro vytvoření nového páru klíčů."
+#~ msgid "Enter your details to create a new key pair."
+#~ msgstr "Zadejte své údaje pro vytvoření nového páru klíčů."
 
-msgid "Name"
-msgstr "Jméno"
+#~ msgid "Name"
+#~ msgstr "Jméno"
 
-msgid "Your Name"
-msgstr "Vaše jméno"
+#~ msgid "Your Name"
+#~ msgstr "Vaše jméno"
 
-msgid "Email"
-msgstr "E-mail"
+#~ msgid "Email"
+#~ msgstr "E-mail"
 
-msgid "you@example.com"
-msgstr "vy@priklad.cz"
+#~ msgid "you@example.com"
+#~ msgstr "vy@priklad.cz"
 
-msgid "Passphrase (optional)"
-msgstr "Heslo (volitelné)"
+#~ msgid "Passphrase (optional)"
+#~ msgstr "Heslo (volitelné)"
 
-msgid "Passphrase"
-msgstr "Heslo"
+#~ msgid "Passphrase"
+#~ msgstr "Heslo"
 
-msgid "4096-bit RSA key, valid for 2 years."
-msgstr "4096-bitový RSA klíč, platný 2 roky."
+#~ msgid "4096-bit RSA key, valid for 2 years."
+#~ msgstr "4096-bitový RSA klíč, platný 2 roky."
 
-msgid "Generate"
-msgstr "Vytvořit"
+#~ msgid "Generate"
+#~ msgstr "Vytvořit"
 
-msgid "Name must be at least 2 characters"
-msgstr "Jméno musí mít alespoň 2 znaky"
+#~ msgid "Name must be at least 2 characters"
+#~ msgstr "Jméno musí mít alespoň 2 znaky"
 
-msgid "Please enter a valid email address"
-msgstr "Zadejte prosím platnou e-mailovou adresu"
+#~ msgid "Please enter a valid email address"
+#~ msgstr "Zadejte prosím platnou e-mailovou adresu"
 
-msgid "Generating Key..."
-msgstr "Vytváření klíče..."
+#~ msgid "Generating Key..."
+#~ msgstr "Vytváření klíče..."
 
-msgid "Please wait while your key is being generated. This may take a moment."
-msgstr "Počkejte prosím, klíč se vytváří. Může to chvíli trvat."
+#~ msgid "Key generated successfully!"
+#~ msgstr "Klíč byl úspěšně vytvořen!"
 
-msgid "Key generated successfully!"
-msgstr "Klíč byl úspěšně vytvořen!"
+#~ msgid "Import OpenPGP Key"
+#~ msgstr "Importovat klíč OpenPGP"
 
-msgid "Failed to generate key."
-msgstr "Vytvoření klíče se nezdařilo."
+#~ msgid "OpenPGP Keys (*.asc, *.gpg)"
+#~ msgstr "Klíče OpenPGP (*.asc, *.gpg)"
 
-msgid "Import OpenPGP Key"
-msgstr "Importovat klíč OpenPGP"
+#~ msgid "All Files"
+#~ msgstr "Všechny soubory"
 
-msgid "OpenPGP Keys (*.asc, *.gpg)"
-msgstr "Klíče OpenPGP (*.asc, *.gpg)"
+#~ msgid "Key imported! Re-open Key Management to see it."
+#~ msgstr "Klíč importován! Pro zobrazení znovu otevřete Správu klíčů."
 
-msgid "All Files"
-msgstr "Všechny soubory"
+#~ msgid "Import failed: "
+#~ msgstr "Import se nezdařil: "
 
-msgid "Key imported! Re-open Key Management to see it."
-msgstr "Klíč importován! Pro zobrazení znovu otevřete Správu klíčů."
+#~ msgid "Key exported to: "
+#~ msgstr "Klíč exportován do: "
 
-msgid "Import failed: "
-msgstr "Import se nezdařil: "
+#~ msgid "Export failed."
+#~ msgstr "Export se nezdařil."
 
-msgid "Key exported to: "
-msgstr "Klíč exportován do: "
+#~ msgid "Delete Key?"
+#~ msgstr "Smazat klíč?"
 
-msgid "Export failed."
-msgstr "Export se nezdařil."
+#~ msgid ""
+#~ "Delete this key?\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "This cannot be undone!"
+#~ msgstr ""
+#~ "Smazat tento klíč?\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "Toto nelze vrátit zpět!"
 
-msgid "Delete Key?"
-msgstr "Smazat klíč?"
+#~ msgid "Key deleted."
+#~ msgstr "Klíč smazán."
 
-msgid ""
-"Delete this key?\n"
-"\n"
-"%s\n"
-"\n"
-"This cannot be undone!"
-msgstr ""
-"Smazat tento klíč?\n"
-"\n"
-"%s\n"
-"\n"
-"Toto nelze vrátit zpět!"
+#~ msgid "Delete failed: "
+#~ msgstr "Smazání se nezdařilo: "
 
-msgid "Key deleted."
-msgstr "Klíč smazán."
+#~ msgid "Select OpenPGP Key"
+#~ msgstr "Vybrat klíč OpenPGP"
 
-msgid "Delete failed: "
-msgstr "Smazání se nezdařilo: "
+#~ msgid "Choose a key to announce to your contacts."
+#~ msgstr "Vyberte klíč k oznámení vašim kontaktům."
 
-msgid "Select OpenPGP Key"
-msgstr "Vybrat klíč OpenPGP"
+#~ msgid "Enter GPG passphrase to confirm:"
+#~ msgstr "Zadejte heslo GPG pro potvrzení:"
 
-msgid "Choose a key to announce to your contacts."
-msgstr "Vyberte klíč k oznámení vašim kontaktům."
+#~ msgid "Wrong passphrase"
+#~ msgstr "Nesprávné heslo"
 
-msgid "Enter GPG passphrase to confirm:"
-msgstr "Zadejte heslo GPG pro potvrzení:"
+#~ msgid "Manage Keys"
+#~ msgstr "Spravovat klíče"
 
-msgid "Wrong passphrase"
-msgstr "Nesprávné heslo"
+#~ msgid "Generate, import, export, or delete keys"
+#~ msgstr "Vytvářet, importovat, exportovat nebo mazat klíče"
 
-msgid "Manage Keys"
-msgstr "Spravovat klíče"
+#~ msgid "No keys available. Generate or import one!"
+#~ msgstr "Žádné klíče nejsou k dispozici. Vytvořte nebo importujte!"
 
-msgid "Generate, import, export, or delete keys"
-msgstr "Vytvářet, importovat, exportovat nebo mazat klíče"
+#~ msgid "Announce key"
+#~ msgstr "Oznámit klíč"
 
-msgid "No keys available. Generate or import one!"
-msgstr "Žádné klíče nejsou k dispozici. Vytvořte nebo importujte!"
+#~ msgid "Disabled"
+#~ msgstr "Vypnuto"
 
-msgid "Announce key"
-msgstr "Oznámit klíč"
+#~ msgid "Error in GnuPG"
+#~ msgstr "Chyba v GnuPG"
 
-msgid "Disabled"
-msgstr "Vypnuto"
-
-msgid "Error in GnuPG"
-msgstr "Chyba v GnuPG"
-
-msgid "Success"
-msgstr "Úspěch"
-
-msgid "OK"
-msgstr "OK"
+#~ msgid "Success"
+#~ msgstr "Úspěch"
 
 #~ msgid "Message too long"
 #~ msgstr "Zpráva je příliš dlouhá"

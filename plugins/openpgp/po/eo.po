@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-13 21:57+0200\n"
+"POT-Creation-Date: 2025-12-01 15:51+0100\n"
 "PO-Revision-Date: 2024-09-18 10:09+0000\n"
 "Language-Team: none\n"
 "Language: eo\n"
@@ -17,35 +17,261 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.8-dev\n"
 
-#: plugins/openpgp/src/encryption_preferences_entry.vala:18
-msgid "Querying GnuPG"
-msgstr "Pridemandante GnuPG"
-
-#: plugins/openpgp/src/encryption_preferences_entry.vala:32
-#: plugins/openpgp/src/encryption_preferences_entry.vala:36
-#: plugins/openpgp/src/encryption_preferences_entry.vala:41
-msgid "Announce key"
-msgstr ""
-
-#: plugins/openpgp/src/encryption_preferences_entry.vala:32
-msgid "Error in GnuPG"
-msgstr "Eraro pri GnuPG"
-
-#: plugins/openpgp/src/encryption_preferences_entry.vala:36
-msgid "No keys available. Generate one!"
-msgstr "Neniu ŝlosilo estas havebla. Faru ŝlosilon!"
-
-#: plugins/openpgp/src/encryption_preferences_entry.vala:45
-msgid "Disabled"
-msgstr ""
-
 #: plugins/openpgp/src/contact_details_provider.vala:36
 msgid "Key not in keychain"
 msgstr "Ŝlosilo ne en ŝlosilaro"
 
 #: plugins/openpgp/src/contact_details_provider.vala:40
+#: plugins/openpgp/src/key_management_dialog.vala:220
 msgid "Fingerprint"
+msgstr "Fingrospuro"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:50
+#: plugins/openpgp/src/encryption_preferences_entry.vala:56
+#: plugins/openpgp/src/encryption_preferences_entry.vala:62
+msgid "Announce key"
+msgstr "Anonci ŝlosilon"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:50
+msgid "Error in GnuPG"
+msgstr "Eraro pri GnuPG"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:56
+#, fuzzy
+msgid "No keys available. Generate or import one!"
+msgstr "Neniu ŝlosilo estas havebla. Faru ŝlosilon!"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:68
+#: plugins/openpgp/src/encryption_preferences_entry.vala:110
+msgid "Disabled"
+msgstr "Malŝaltita"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:97
+#, fuzzy
+msgid "Select OpenPGP Key"
+msgstr "Elekti ŝlosilon"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:97
+msgid "Choose a key to announce to your contacts."
+msgstr "Elektu ŝlosilon por anonci al viaj kontaktoj."
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:98
+#: plugins/openpgp/src/key_management_dialog.vala:307
+#: plugins/openpgp/src/key_management_dialog.vala:509
+msgid "Cancel"
+msgstr "Nuligi"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:99
+#: plugins/openpgp/src/key_management_dialog.vala:547
+msgid "OK"
+msgstr "Bone"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:148
+msgid "Enter GPG passphrase to confirm:"
+msgstr "Enigu GPG-pasfrazon por konfirmi:"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:155
+msgid "Passphrase"
+msgstr "Pasfrazo"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:215
+msgid "Wrong passphrase"
+msgstr "Malĝusta pasfrazo"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:228
+msgid "Manage Keys"
+msgstr "Administri Ŝlosilojn"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:229
+msgid "Generate, import, export, or delete keys"
+msgstr "Generi, importi, eksporti aŭ forigi ŝlosilojn"
+
+#: plugins/openpgp/src/key_management_dialog.vala:61
+msgid "OpenPGP Key Management"
+msgstr "Administrado de OpenPGP-Ŝlosiloj"
+
+#: plugins/openpgp/src/key_management_dialog.vala:74
+msgid "Actions"
+msgstr "Agoj"
+
+#: plugins/openpgp/src/key_management_dialog.vala:78
+msgid "Generate New Key"
+msgstr "Generi Novan Ŝlosilon"
+
+#: plugins/openpgp/src/key_management_dialog.vala:79
+msgid "Create a new OpenPGP key pair"
+msgstr "Krei novan OpenPGP-ŝlosilparon"
+
+#: plugins/openpgp/src/key_management_dialog.vala:96
+msgid "Import Key"
+msgstr "Importi Ŝlosilon"
+
+#: plugins/openpgp/src/key_management_dialog.vala:97
+msgid "Import a key from file (.asc, .gpg)"
+msgstr "Importi ŝlosilon el dosiero (.asc, .gpg)"
+
+#: plugins/openpgp/src/key_management_dialog.vala:116
+msgid "Your Keys"
+msgstr "Viaj Ŝlosiloj"
+
+#: plugins/openpgp/src/key_management_dialog.vala:117
+msgid "Private keys available for signing and decryption"
+msgstr "Privataj ŝlosiloj disponeblaj por subskribo kaj malĉifrado"
+
+#: plugins/openpgp/src/key_management_dialog.vala:151
+msgid "No private keys found"
+msgstr "Neniuj privataj ŝlosiloj trovitaj"
+
+#: plugins/openpgp/src/key_management_dialog.vala:152
+msgid "Generate or import a key to get started"
+msgstr "Generu aŭ importu ŝlosilon por komenci"
+
+#: plugins/openpgp/src/key_management_dialog.vala:232
+#: plugins/openpgp/src/key_management_dialog.vala:470
+msgid "Export Public Key"
+msgstr "Eksporti Publikan Ŝlosilon"
+
+#: plugins/openpgp/src/key_management_dialog.vala:240
+msgid "Delete Key"
+msgstr "Forigi Ŝlosilon"
+
+#: plugins/openpgp/src/key_management_dialog.vala:263
+msgid "Generate New OpenPGP Key"
+msgstr "Generi Novan OpenPGP-Ŝlosilon"
+
+#: plugins/openpgp/src/key_management_dialog.vala:264
+msgid "Enter your details to create a new key pair."
+msgstr "Enigu viajn detalojn por krei novan ŝlosilparon."
+
+#: plugins/openpgp/src/key_management_dialog.vala:272
+msgid "Name"
+msgstr "Nomo"
+
+#: plugins/openpgp/src/key_management_dialog.vala:277
+msgid "Your Name"
+msgstr "Via Nomo"
+
+#: plugins/openpgp/src/key_management_dialog.vala:281
+msgid "Email"
+msgstr "Retpoŝto"
+
+#: plugins/openpgp/src/key_management_dialog.vala:287
+msgid "you@example.com"
+msgstr "vi@ekzemplo.com"
+
+#: plugins/openpgp/src/key_management_dialog.vala:291
+msgid "Passphrase (optional)"
+msgstr "Pasfrazo (laŭvola)"
+
+#: plugins/openpgp/src/key_management_dialog.vala:300
+msgid "4096-bit RSA key, valid for 2 years."
+msgstr "4096-bita RSA-ŝlosilo, valida dum 2 jaroj."
+
+#: plugins/openpgp/src/key_management_dialog.vala:308
+msgid "Generate"
+msgstr "Generi"
+
+#: plugins/openpgp/src/key_management_dialog.vala:320
+#: plugins/openpgp/src/key_management_dialog.vala:324
+#: plugins/openpgp/src/key_management_dialog.vala:395
+#: plugins/openpgp/src/key_management_dialog.vala:402
+#: plugins/openpgp/src/key_management_dialog.vala:410
+#: plugins/openpgp/src/key_management_dialog.vala:461
+#: plugins/openpgp/src/key_management_dialog.vala:464
+#: plugins/openpgp/src/key_management_dialog.vala:498
+#: plugins/openpgp/src/key_management_dialog.vala:501
+#: plugins/openpgp/src/key_management_dialog.vala:538
+#: plugins/openpgp/src/key_management_dialog.vala:541
+msgid "Error"
+msgstr "Eraro"
+
+#: plugins/openpgp/src/key_management_dialog.vala:320
+msgid "Name must be at least 2 characters"
+msgstr "Nomo devas havi almenaŭ 2 signojn"
+
+#: plugins/openpgp/src/key_management_dialog.vala:324
+msgid "Please enter a valid email address"
 msgstr ""
+
+#: plugins/openpgp/src/key_management_dialog.vala:340
+msgid "Generating Key..."
+msgstr "Generante Ŝlosilon..."
+
+#: plugins/openpgp/src/key_management_dialog.vala:341
+msgid "Please wait while your key is being generated. This may take a moment."
+msgstr "Bonvolu atendi dum via ŝlosilo estas generata. Ĉi tio povas daŭri momenton."
+
+#: plugins/openpgp/src/key_management_dialog.vala:393
+#: plugins/openpgp/src/key_management_dialog.vala:459
+#: plugins/openpgp/src/key_management_dialog.vala:496
+#: plugins/openpgp/src/key_management_dialog.vala:536
+msgid "Success"
+msgstr "Sukceso"
+
+#: plugins/openpgp/src/key_management_dialog.vala:393
+msgid "Key generated successfully!"
+msgstr "Ŝlosilo generita sukcese!"
+
+#: plugins/openpgp/src/key_management_dialog.vala:395
+msgid "Failed to generate key."
+msgstr "Malsukcesis generi ŝlosilon."
+
+#: plugins/openpgp/src/key_management_dialog.vala:416
+msgid "Import OpenPGP Key"
+msgstr "Importi OpenPGP-Ŝlosilon"
+
+#: plugins/openpgp/src/key_management_dialog.vala:421
+msgid "OpenPGP Keys (*.asc, *.gpg)"
+msgstr "OpenPGP-Ŝlosiloj (*.asc, *.gpg)"
+
+#: plugins/openpgp/src/key_management_dialog.vala:428
+msgid "All Files"
+msgstr "Ĉiuj Dosieroj"
+
+#: plugins/openpgp/src/key_management_dialog.vala:459
+msgid "Key imported! Re-open Key Management to see it."
+msgstr "Ŝlosilo importita! Remalfermu Ŝlosil-Administradon por vidi ĝin."
+
+#: plugins/openpgp/src/key_management_dialog.vala:461
+msgid "Import failed: "
+msgstr "Importado malsukcesis: "
+
+#: plugins/openpgp/src/key_management_dialog.vala:496
+msgid "Key exported to: "
+msgstr "Ŝlosilo eksportita al: "
+
+#: plugins/openpgp/src/key_management_dialog.vala:498
+msgid "Export failed."
+msgstr "Eksportado malsukcesis."
+
+#: plugins/openpgp/src/key_management_dialog.vala:506
+msgid "Delete Key?"
+msgstr "Ĉu forigi Ŝlosilon?"
+
+#: plugins/openpgp/src/key_management_dialog.vala:507
+#, c-format
+msgid ""
+"Delete this key?\n"
+"\n"
+"%s\n"
+"\n"
+"This cannot be undone!"
+msgstr ""
+
+#: plugins/openpgp/src/key_management_dialog.vala:510
+msgid "Delete"
+msgstr "Forigi"
+
+#: plugins/openpgp/src/key_management_dialog.vala:536
+msgid "Key deleted."
+msgstr "Ŝlosilo forigita."
+
+#: plugins/openpgp/src/key_management_dialog.vala:538
+msgid "Delete failed: "
+msgstr "Forigo malsukcesis: "
+
+#~ msgid "Querying GnuPG"
+#~ msgstr "Pridemandante GnuPG"
 
 #, fuzzy
 #~ msgid "Encryption"
@@ -53,9 +279,6 @@ msgstr ""
 
 #~ msgid "Key publishing disabled"
 #~ msgstr "Eldonado de ŝlosilo estas malŝaltita"
-
-#~ msgid "Select key"
-#~ msgstr "Elekti ŝlosilon"
 
 #~ msgid "Loading…"
 #~ msgstr "Ŝargante…"

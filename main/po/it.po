@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-28 12:18+0100\n"
+"POT-Creation-Date: 2025-12-01 10:28+0100\n"
 "PO-Revision-Date: 2025-03-13 08:50+0000\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/dino/"
 "translations/it/>\n"
@@ -100,14 +100,14 @@ msgstr "Generali"
 #: main/data/gtk/help-overlay.ui:14 main/data/main_window.ui:38
 #: main/data/menu_add.ui:7
 #: main/src/ui/add_conversation/select_contact_dialog.vala:106
-#: main/src/ui/main_window.vala:141
+#: main/src/ui/main_window.vala:154
 msgid "Start Conversation"
 msgstr "Inizia una conversazione"
 
 #: main/data/gtk/help-overlay.ui:20 main/data/main_window.ui:51
 #: main/data/menu_add.ui:11
 #: main/src/ui/add_conversation/add_conference_dialog.vala:24
-#: main/src/ui/application.vala:527 main/src/ui/main_window.vala:142
+#: main/src/ui/application.vala:1359 main/src/ui/main_window.vala:155
 msgid "Join Channel"
 msgstr "Entra nel canale"
 
@@ -148,7 +148,7 @@ msgstr "Passa alla conversazione successiva"
 msgid "Jump to previous conversation"
 msgstr "Passa alla conversazione precedente"
 
-#: main/data/main_window.ui:64 main/src/ui/main_window.vala:144
+#: main/data/main_window.ui:64 main/src/ui/main_window.vala:157
 msgid "Help: How to join channels"
 msgstr "Aiuto: Come unirsi ai canali"
 
@@ -166,28 +166,28 @@ msgstr "Stato"
 
 #: main/data/menu_app.ui:11
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:427
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Online"
 msgstr "Online"
 
 #: main/data/menu_app.ui:16
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:421
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Away"
 msgstr "Assente"
 
 #: main/data/menu_app.ui:21
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:425
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Busy"
 msgstr "Occupato"
 
 #: main/data/menu_app.ui:26
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:423
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Not Available"
 msgstr "Non disponibile"
@@ -200,7 +200,7 @@ msgstr "Preferenze"
 msgid "Keyboard Shortcuts"
 msgstr "Scorciatoie da tastiera"
 
-#: main/data/menu_app.ui:42 main/src/ui/application.vala:334
+#: main/data/menu_app.ui:42 main/src/ui/application.vala:340
 msgid "About DinoX"
 msgstr "Informazioni su DinoX"
 
@@ -219,7 +219,10 @@ msgstr "Elimina cronologia conversazione"
 #: main/data/preferences_window/change_password_dialog.ui:18
 #: main/src/ui/add_conversation/add_conference_dialog.vala:41
 #: main/src/ui/add_conversation/select_contact_dialog.vala:40
-#: main/src/ui/application.vala:537
+#: main/src/ui/application.vala:441 main/src/ui/application.vala:469
+#: main/src/ui/application.vala:765 main/src/ui/application.vala:843
+#: main/src/ui/application.vala:901 main/src/ui/application.vala:933
+#: main/src/ui/application.vala:1089 main/src/ui/application.vala:1369
 #: main/src/ui/conversation_content_view/file_default_widget.vala:90
 #: main/src/ui/conversation_content_view/item_actions.vala:165
 #: main/src/ui/conversation_content_view/item_actions.vala:168
@@ -234,7 +237,7 @@ msgstr "Elimina cronologia conversazione"
 #: main/src/ui/conversation_titlebar/call_entry.vala:83
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
 #: main/src/windows/conversation_details.vala:60
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:67
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:68
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:205
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:225
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:249
@@ -258,6 +261,7 @@ msgid "Local alias"
 msgstr "Alias locale"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:82
+#: main/src/ui/application.vala:435 main/src/ui/application.vala:1064
 #: main/src/ui/util/data_forms.vala:63
 msgid "Password"
 msgstr "Password"
@@ -266,20 +270,24 @@ msgstr "Password"
 msgid "Connection status"
 msgstr "Stato della connessione"
 
+#: main/data/preferences_window/account_preferences_subpage.ui:117
+msgid "View Certificate"
+msgstr "Visualizza certificato"
+
 # Custom host/port feature (Issue #115)
-#: main/data/preferences_window/account_preferences_subpage.ui:121
+#: main/data/preferences_window/account_preferences_subpage.ui:128
 msgid "Advanced Settings"
 msgstr "Impostazioni avanzate"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:122
+#: main/data/preferences_window/account_preferences_subpage.ui:129
 msgid "Custom server connection (leave empty for automatic)"
 msgstr "Connessione server personalizzata (lasciare vuoto per automatico)"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:125
+#: main/data/preferences_window/account_preferences_subpage.ui:132
 msgid "Server Hostname"
 msgstr "Nome host del server"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:130
+#: main/data/preferences_window/account_preferences_subpage.ui:137
 msgid "Port"
 msgstr "Porta"
 
@@ -352,12 +360,55 @@ msgid "Create a backup of your accounts, messages and settings"
 msgstr "Crea un backup di account, messaggi e impostazioni"
 
 #: main/data/preferences_window/general_preferences_page.ui:78
-msgid "Data Location"
-msgstr "Posizione dati"
+#: main/src/ui/application.vala:464 main/src/ui/main_window.vala:223
+msgid "Restore from Backup"
+msgstr "Ripristina da backup"
 
 #: main/data/preferences_window/general_preferences_page.ui:79
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "Ripristina account, messaggi e impostazioni da un file di backup"
+
+#: main/data/preferences_window/general_preferences_page.ui:90
+msgid "Data Storage Location"
+msgstr "Posizione archiviazione dati"
+
+#: main/data/preferences_window/general_preferences_page.ui:91
 msgid "View where your data is stored"
 msgstr "Visualizza dove sono archiviati i dati"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "Manutenzione database"
+
+#: main/data/preferences_window/general_preferences_page.ui:107
+#: main/src/ui/application.vala:761 main/src/ui/application.vala:766
+msgid "Clear Cache"
+msgstr "Svuota cache"
+
+#: main/data/preferences_window/general_preferences_page.ui:108
+msgid "Clear cached files, avatars and previews"
+msgstr "Svuota file, avatar e anteprime nella cache"
+
+#: main/data/preferences_window/general_preferences_page.ui:119
+#: main/src/ui/application.vala:838 main/src/ui/application.vala:844
+msgid "Reset Database"
+msgstr "Reimposta database"
+
+#: main/data/preferences_window/general_preferences_page.ui:120
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr ""
+"Elimina tutti i messaggi, file e chiavi OMEMO. I tuoi account rimarranno."
+
+#: main/data/preferences_window/general_preferences_page.ui:131
+#: main/src/ui/application.vala:896
+msgid "Factory Reset"
+msgstr "Ripristino di fabbrica"
+
+#: main/data/preferences_window/general_preferences_page.ui:132
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr ""
+"Elimina TUTTI i dati inclusi gli account. Questa azione non può essere "
+"annullata!"
 
 #: main/data/preferences_window/preferences_dialog.ui:11
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:15
@@ -382,7 +433,7 @@ msgstr "Avanti"
 
 #: main/src/ui/add_conversation/add_conference_dialog.vala:59
 #: main/src/ui/add_conversation/conference_details_fragment.vala:151
-#: main/src/ui/application.vala:541
+#: main/src/ui/application.vala:1373
 msgid "Join"
 msgstr "Partecipa"
 
@@ -468,31 +519,31 @@ msgstr "Elimina contatto"
 msgid "Leave Group"
 msgstr "Lascia gruppo"
 
-#: main/src/ui/application.vala:339
+#: main/src/ui/application.vala:345
 msgid "Modern XMPP client with extended features"
 msgstr "Client XMPP moderno con funzionalità estese"
 
-#: main/src/ui/application.vala:346 main/src/ui/application.vala:385
+#: main/src/ui/application.vala:352 main/src/ui/application.vala:727
 msgid "User Data Locations"
 msgstr "Posizioni dati utente"
 
-#: main/src/ui/application.vala:349 main/src/ui/application.vala:399
+#: main/src/ui/application.vala:355 main/src/ui/application.vala:741
 msgid "Configuration:"
 msgstr "Configurazione:"
 
-#: main/src/ui/application.vala:352 main/src/ui/application.vala:401
+#: main/src/ui/application.vala:358 main/src/ui/application.vala:743
 msgid "Data & Database:"
 msgstr "Dati e database:"
 
-#: main/src/ui/application.vala:355 main/src/ui/application.vala:403
+#: main/src/ui/application.vala:361 main/src/ui/application.vala:745
 msgid "Cache:"
 msgstr "Cache:"
 
-#: main/src/ui/application.vala:358
+#: main/src/ui/application.vala:364
 msgid "Info:"
 msgstr "Info:"
 
-#: main/src/ui/application.vala:359
+#: main/src/ui/application.vala:365
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
@@ -500,15 +551,119 @@ msgstr ""
 "I tuoi dati personali (account, messaggi, file) sono archiviati "
 "separatamente dall'applicazione."
 
-#: main/src/ui/application.vala:361
+#: main/src/ui/application.vala:367
 msgid "When you update DinoX, your data remains intact."
 msgstr "Quando aggiorni DinoX, i tuoi dati rimangono intatti."
 
-#: main/src/ui/application.vala:363
+#: main/src/ui/application.vala:369
 msgid "Use Settings → General → Backup User Data to create a backup."
 msgstr "Usa Impostazioni → Generale → Backup dati utente per creare un backup."
 
-#: main/src/ui/application.vala:405
+#: main/src/ui/application.vala:387
+msgid "Select Backup File"
+msgstr "Seleziona file backup"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+#: main/src/ui/application.vala:395
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "File di backup (*.tar.gz, *.tar.gz.gpg)"
+
+#: main/src/ui/application.vala:425
+msgid "Enter Backup Password"
+msgstr "Inserisci password backup"
+
+#: main/src/ui/application.vala:426
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "Questo backup è crittografato. Inserisci la password."
+
+#: main/src/ui/application.vala:442
+msgid "Decrypt & Restore"
+msgstr "Decritta e ripristina"
+
+#: main/src/ui/application.vala:465
+msgid ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+msgstr ""
+"Questo sostituirà tutti i dati attuali con il backup.\n"
+"\n"
+"<b>Account, messaggi e impostazioni attuali verranno sovrascritti!</b>\n"
+"\n"
+"DinoX si riavvierà dopo il ripristino."
+
+#: main/src/ui/application.vala:470
+msgid "Restore Backup"
+msgstr "Ripristina backup"
+
+#: main/src/ui/application.vala:487 main/src/ui/application.vala:519
+msgid "Decrypting Backup..."
+msgstr "Decrittografia backup..."
+
+#: main/src/ui/application.vala:487 main/src/ui/application.vala:571
+msgid "Restoring Backup..."
+msgstr "Ripristino backup..."
+
+#: main/src/ui/application.vala:488
+msgid "Please wait, this may take a moment..."
+msgstr "Attendi, potrebbe richiedere un momento..."
+
+#: main/src/ui/application.vala:520
+msgid "Decrypting encrypted backup file..."
+msgstr "Decrittazione del file di backup..."
+
+#: main/src/ui/application.vala:558
+msgid "Decryption Failed"
+msgstr "Decrittazione fallita"
+
+#: main/src/ui/application.vala:559
+msgid ""
+"Could not decrypt the backup file.\n"
+"\n"
+"Please check if the password is correct."
+msgstr ""
+"Impossibile decrittografare il file.\n"
+"\n"
+"Verificare se la password è corretta."
+
+#: main/src/ui/application.vala:561 main/src/ui/application.vala:671
+msgid "OK"
+msgstr "OK"
+
+#: main/src/ui/application.vala:572
+msgid "Extracting files from backup..."
+msgstr "Estrazione file dal backup..."
+
+#: main/src/ui/application.vala:653
+msgid "Restore Complete!"
+msgstr "Ripristino completato!"
+
+#: main/src/ui/application.vala:654
+msgid "DinoX will now restart..."
+msgstr "DinoX si riavvierà ora..."
+
+#: main/src/ui/application.vala:668
+msgid "Restore Failed"
+msgstr "Ripristino fallito"
+
+#: main/src/ui/application.vala:669
+#, c-format
+msgid ""
+"Could not restore the backup file.\n"
+"\n"
+"Error: %s"
+msgstr ""
+"Impossibile ripristinare il file.\n"
+"\n"
+"Errore: %s"
+
+#: main/src/ui/application.vala:669 main/src/ui/application.vala:1345
+msgid "Unknown error"
+msgstr "Errore sconosciuto"
+
+#: main/src/ui/application.vala:747
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
@@ -519,96 +674,244 @@ msgstr ""
 "archiviati separatamente dall'applicazione. Quando aggiorni DinoX, i tuoi "
 "dati rimangono intatti."
 
-#: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
-#: main/src/ui/main_window.vala:159
+#: main/src/ui/application.vala:752 main/src/ui/application.vala:1240
+#: main/src/ui/application.vala:1324 main/src/ui/conversation_details.vala:272
+#: main/src/ui/main_window.vala:172
 msgid "Close"
 msgstr "Chiudi"
 
-#: main/src/ui/application.vala:417
+#: main/src/ui/application.vala:762
+msgid ""
+"This will delete cached files, avatars and previews.\n"
+"\n"
+"They will be re-downloaded when needed."
+msgstr ""
+"Questo eliminerà file, avatar e anteprime nella cache.\n"
+"\n"
+"Verranno scaricati nuovamente quando necessario."
+
+#: main/src/ui/application.vala:799
+#, c-format
+msgid "Cache cleared (%s freed)"
+msgstr "Cache svuotata (%s liberati)"
+
+#: main/src/ui/application.vala:802
+msgid "Failed to clear cache"
+msgstr "Impossibile svuotare la cache"
+
+#: main/src/ui/application.vala:839
+msgid ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+msgstr ""
+"Questo eliminerà tutti i messaggi, file e chiavi di crittografia OMEMO.\n"
+"\n"
+"<b>I tuoi account rimarranno, ma perderai tutta la cronologia delle chat e "
+"dovrai riverificare la crittografia con i tuoi contatti.</b>\n"
+"\n"
+"Questa azione non può essere annullata!"
+
+#: main/src/ui/application.vala:867
+msgid "Resetting database... DinoX will restart."
+msgstr "Ripristino database... DinoX si riavvierà."
+
+#: main/src/ui/application.vala:897
+msgid ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+msgstr ""
+"<b>⚠️ ATTENZIONE: Questo eliminerà TUTTI i dati!</b>\n"
+"\n"
+"• Tutti gli account\n"
+"• Tutti i messaggi e file\n"
+"• Tutte le chiavi di crittografia\n"
+"• Tutte le impostazioni\n"
+"\n"
+"Questo è irreversibile. Assicurati di creare un backup prima!"
+
+#: main/src/ui/application.vala:902
+msgid "Create Backup First"
+msgstr "Crea prima un backup"
+
+#: main/src/ui/application.vala:903
+msgid "Delete Everything"
+msgstr "Elimina tutto"
+
+#: main/src/ui/application.vala:923
+msgid "Are you absolutely sure?"
+msgstr "Sei assolutamente sicuro?"
+
+#: main/src/ui/application.vala:924
+msgid ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+msgstr ""
+"Digita 'DELETE' per confermare il ripristino di fabbrica.\n"
+"\n"
+"Questo rimuoverà permanentemente tutti i tuoi dati DinoX."
+
+#: main/src/ui/application.vala:934
+msgid "Confirm Delete"
+msgstr "Conferma eliminazione"
+
+#: main/src/ui/application.vala:961
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "Ripristino di fabbrica in corso... DinoX si riavvierà."
+
+#: main/src/ui/application.vala:1026
+msgid "Backup Encryption"
+msgstr "Crittografia backup"
+
+#: main/src/ui/application.vala:1027
+msgid ""
+"Do you want to encrypt the backup with a password?\n"
+"\n"
+"Encrypted backups are more secure but require the password to restore."
+msgstr ""
+"Vuoi crittografare il backup con una password?\n"
+"\n"
+"I backup crittografati sono più sicuri ma richiedono la password per il "
+"ripristino."
+
+#: main/src/ui/application.vala:1030
+msgid "No Encryption"
+msgstr "Nessuna crittografia"
+
+#: main/src/ui/application.vala:1031
+msgid "Encrypt with Password"
+msgstr "Cripta con password"
+
+#: main/src/ui/application.vala:1049
+msgid "Set Backup Password"
+msgstr "Imposta password backup"
+
+#: main/src/ui/application.vala:1050
+msgid ""
+"Enter a password to encrypt the backup.\n"
+"\n"
+"<b>Important:</b> Remember this password! Without it, the backup cannot be "
+"restored."
+msgstr ""
+"Inserisci una password per crittografare il backup.\n"
+"\n"
+"<b>Importante:</b> Ricorda questa password! Senza di essa, il backup non può "
+"essere ripristinato."
+
+#: main/src/ui/application.vala:1058
+msgid "Password (minimum 4 characters)"
+msgstr "Password (minimo 4 caratteri)"
+
+#: main/src/ui/application.vala:1066 main/src/ui/application.vala:1073
+msgid "Confirm Password"
+msgstr "Conferma password"
+
+#: main/src/ui/application.vala:1090
+msgid "Create Encrypted Backup"
+msgstr "Crea backup crittografato"
+
+#: main/src/ui/application.vala:1102 main/src/ui/application.vala:1117
+msgid "Password too short"
+msgstr "Password troppo corta"
+
+#: main/src/ui/application.vala:1104 main/src/ui/application.vala:1119
+msgid "Passwords do not match"
+msgstr "Le password non corrispondono"
+
+#: main/src/ui/application.vala:1106 main/src/ui/application.vala:1121
+msgid "✓ Passwords match"
+msgstr "✓ Le password corrispondono"
+
+#: main/src/ui/application.vala:1139
 msgid "Select Backup Location"
 msgstr "Seleziona posizione backup"
 
-#: main/src/ui/application.vala
-msgid "Creating Backup..."
-msgstr "Creating Backup..."
-
-#: main/src/ui/application.vala
+#: main/src/ui/application.vala:1194
 msgid "Creating Encrypted Backup..."
-msgstr "Creating Encrypted Backup..."
+msgstr "Creazione backup cifrato..."
 
-#: main/src/ui/application.vala
-msgid "Please wait while your data is being backed up."
-msgstr "Please wait while your data is being backed up."
-
-#: main/src/ui/application.vala
-msgid "No data directories found to backup"
-msgstr "No data directories found to backup"
-
-#: main/src/ui/application.vala
-msgid "Backup Created"
-msgstr "Backup Created"
-
-#: main/src/ui/application.vala
-msgid "Encrypted Backup Created"
-msgstr "Encrypted Backup Created"
-
-#: main/src/ui/application.vala
-#, c-format
-msgid "Your backup was created successfully.\\n\\nSize: %s"
-msgstr "Your backup was created successfully.\\n\\nSize: %s"
-
-#: main/src/ui/application.vala
-msgid "Your backup was created successfully."
-msgstr "Your backup was created successfully."
-
-#: main/src/ui/application.vala
-#, c-format
-msgid "Your encrypted backup was created successfully.\\n\\nSize: %s"
-msgstr "Your encrypted backup was created successfully.\\n\\nSize: %s"
-
-#: main/src/ui/application.vala
-msgid "Your encrypted backup was created successfully."
-msgstr "Your encrypted backup was created successfully."
-
-#: main/src/ui/application.vala
-msgid "Backup Failed"
-msgstr "Backup Failed"
-
-#: main/src/ui/application.vala:445
-msgid "Creating backup..."
+#: main/src/ui/application.vala:1194
+msgid "Creating Backup..."
 msgstr "Creazione backup..."
 
-#: main/src/ui/application.vala:503
+#: main/src/ui/application.vala:1195
+msgid "Please wait while your data is being backed up."
+msgstr "Attendere prego, backup dei dati in corso."
+
+#: main/src/ui/application.vala:1234
+msgid "No data directory found to backup"
+msgstr "Nessuna directory dati trovata per il backup"
+
+#: main/src/ui/application.vala:1237 main/src/ui/application.vala:1343
+msgid "Backup Failed"
+msgstr "Backup fallito"
+
+#: main/src/ui/application.vala:1331
+msgid "Encrypted Backup Created"
+msgstr "Backup cifrato creato"
+
+#: main/src/ui/application.vala:1333
 #, c-format
-msgid "Backup created successfully (%s)"
-msgstr "Backup creato con successo (%s)"
+msgid ""
+"Your encrypted backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"Il backup crittografato è stato creato con successo.\n"
+"\n"
+"Dimensione: %s"
 
-#: main/src/ui/application.vala:505
-msgid "Backup created successfully"
-msgstr "Backup creato con successo"
+#: main/src/ui/application.vala:1334
+msgid "Your encrypted backup was created successfully."
+msgstr "Il tuo backup cifrato è stato creato con successo."
 
-#: main/src/ui/application.vala:510
-msgid "Unknown error"
-msgstr "Errore sconosciuto"
+#: main/src/ui/application.vala:1336
+msgid "Backup Created"
+msgstr "Backup creato"
 
-#: main/src/ui/application.vala:511
+#: main/src/ui/application.vala:1338
+#, c-format
+msgid ""
+"Your backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"Il backup è stato creato con successo.\n"
+"\n"
+"Dimensione: %s"
+
+#: main/src/ui/application.vala:1339
+msgid "Your backup was created successfully."
+msgstr "Il tuo backup è stato creato con successo."
+
+#: main/src/ui/application.vala:1346
 #, c-format
 msgid "Backup failed: %s"
 msgstr "Backup fallito: %s"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:29
+#: main/src/ui/call_window/audio_settings_popover.vala:46
 msgid "Microphones"
 msgstr "Microfoni"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:32
+#: main/src/ui/call_window/audio_settings_popover.vala:49
 msgid "No microphone found."
 msgstr "Nessun microfono trovato."
 
-#: main/src/ui/call_window/audio_settings_popover.vala:85
+#: main/src/ui/call_window/audio_settings_popover.vala:116
 msgid "Speakers"
 msgstr "Altoparlanti"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:88
+#: main/src/ui/call_window/audio_settings_popover.vala:119
 msgid "No speaker found."
 msgstr "Nessun altoparlante trovato."
 
@@ -624,7 +927,7 @@ msgstr "Invita alla chiamata"
 msgid "Invite"
 msgstr "Invita"
 
-#: main/src/ui/call_window/call_window_controller.vala:405
+#: main/src/ui/call_window/call_window_controller.vala:453
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:240
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:270
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:285
@@ -643,21 +946,21 @@ msgstr "%s ha terminato la chiamata"
 msgid "%s declined the call"
 msgstr "%s ha rifiutato la chiamata"
 
-#: main/src/ui/call_window/participant_widget.vala:115
+#: main/src/ui/call_window/participant_widget.vala:140
 msgid "Debug information"
 msgstr "Informazioni di debug"
 
-#: main/src/ui/call_window/participant_widget.vala:124
+#: main/src/ui/call_window/participant_widget.vala:149
 #: main/src/ui/conversation_content_view/call_widget.vala:152
 msgid "Calling…"
 msgstr "Chiamando…"
 
-#: main/src/ui/call_window/participant_widget.vala:126
+#: main/src/ui/call_window/participant_widget.vala:151
 msgid "Ringing…"
 msgstr "Sta squillando…"
 
-#: main/src/ui/call_window/participant_widget.vala:128
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:216
+#: main/src/ui/call_window/participant_widget.vala:153
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:244
 msgid "Connecting…"
 msgstr "Connessione…"
 
@@ -891,7 +1194,7 @@ msgstr "%a, %l:%M %p"
 msgid "Just now"
 msgstr "Adesso"
 
-#: main/src/ui/conversation_content_view/conversation_view.vala:105
+#: main/src/ui/conversation_content_view/conversation_view.vala:106
 msgid "More actions"
 msgstr "Altre azioni"
 
@@ -1111,6 +1414,38 @@ msgstr "Distruggi"
 msgid "Failed to destroy room"
 msgstr "Impossibile distruggere la stanza"
 
+#: main/src/ui/conversation_details.vala:286
+msgid "Auto-delete messages"
+msgstr "Eliminazione automatica messaggi"
+
+#: main/src/ui/conversation_details.vala:287
+msgid "Never"
+msgstr "Mai"
+
+#: main/src/ui/conversation_details.vala:288
+msgid "After 15 minutes"
+msgstr "Dopo 15 minuti"
+
+#: main/src/ui/conversation_details.vala:289
+msgid "After 30 minutes"
+msgstr "Dopo 30 minuti"
+
+#: main/src/ui/conversation_details.vala:290
+msgid "After 1 hour"
+msgstr "Dopo 1 ora"
+
+#: main/src/ui/conversation_details.vala:291
+msgid "After 24 hours"
+msgstr "Dopo 24 ore"
+
+#: main/src/ui/conversation_details.vala:292
+msgid "After 7 days"
+msgstr "Dopo 7 giorni"
+
+#: main/src/ui/conversation_details.vala:293
+msgid "After 30 days"
+msgstr "Dopo 30 giorni"
+
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:276
 #: main/src/ui/notifier_freedesktop.vala:71
 #: main/src/ui/notifier_gnotifications.vala:36
@@ -1256,6 +1591,7 @@ msgstr "Sbloccare il contatto?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:702
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:247
+#, c-format
 msgid "This will allow %s to send you messages again."
 msgstr "Questo permetterà a %s di inviarti di nuovo messaggi."
 
@@ -1360,7 +1696,7 @@ msgid "Select file"
 msgstr "Seleziona un file"
 
 #: main/src/ui/conversation_view_controller.vala:225
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:152
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:180
 msgid "Select"
 msgstr "Seleziona"
 
@@ -1378,11 +1714,11 @@ msgstr "In %s"
 msgid "With %s"
 msgstr "Con %s"
 
-#: main/src/ui/main_window.vala:156
+#: main/src/ui/main_window.vala:169
 msgid "Join Channel Help"
 msgstr "Aiuto per unirsi al canale"
 
-#: main/src/ui/main_window.vala:157
+#: main/src/ui/main_window.vala:170
 msgid ""
 "To join a channel, click the \"Join Channel\" button and enter the channel "
 "JID (example: room@conference.example.org).\n"
@@ -1397,25 +1733,25 @@ msgstr ""
 "dialogo. Usa le funzionalità di ricerca del server per trovare le stanze "
 "pubbliche."
 
-#: main/src/ui/main_window.vala:206
+#: main/src/ui/main_window.vala:219
 msgid "Welcome to DinoX!"
 msgstr "Benvenuto in DinoX!"
 
-#: main/src/ui/main_window.vala:207
+#: main/src/ui/main_window.vala:220
 msgid "Sign in or create an account to get started."
 msgstr "Accedi o crea un account per iniziare."
 
-#: main/src/ui/main_window.vala:208
+#: main/src/ui/main_window.vala:221
 msgid "Set up account"
 msgstr "Configura account"
 
-#: main/src/ui/main_window.vala:215
+#: main/src/ui/main_window.vala:230
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:71
 #: main/src/windows/preferences_window/encryption_preferences_page.vala:49
 msgid "No active accounts"
 msgstr "Nessun account attivo"
 
-#: main/src/ui/main_window.vala:216
+#: main/src/ui/main_window.vala:231
 msgid "Manage accounts"
 msgstr "Gestisci account"
 
@@ -1425,12 +1761,12 @@ msgid "Subscription request"
 msgstr "Richiesta di iscrizione"
 
 #: main/src/ui/notifier_freedesktop.vala:192
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:231
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:259
 msgid "Wrong password"
 msgstr "Password sbagliata"
 
 #: main/src/ui/notifier_freedesktop.vala:195
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:233
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:261
 msgid "Invalid TLS certificate"
 msgstr "Il certificato TLS non è valido"
 
@@ -1680,45 +2016,45 @@ msgstr "Impostazioni"
 msgid "Room Configuration"
 msgstr "Configurazione della stanza"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:68
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:69
 msgid "Connect"
 msgstr "Connetti"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:106
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
 msgid "Disable account"
 msgstr "Disabilita l'account"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:106
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
 msgid "Enable account"
 msgstr "Abilita l'account"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:151
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:179
 msgid "Select avatar"
 msgstr "Scegli una foto profilo"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:162
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:190
 msgid "Images"
 msgstr "Immagini"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:166
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:194
 msgid "All files"
 msgstr "Tutti i documenti"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:184
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:212
 #, c-format
 msgid "Remove account %s?"
 msgstr "Rimuovere l'account %s?"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:218
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:246
 msgid "Connected"
 msgstr "Connesso"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:220
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:248
 msgid "Disconnected"
 msgstr "Disconnesso"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:240
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:242
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:268
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:270
 msgid "Error"
 msgstr "Errore"
 
@@ -1829,390 +2165,189 @@ msgstr "Cambia il nome visualizzato per %s"
 msgid "Alias (optional)"
 msgstr "Alias (opzionale)"
 
+#~ msgid "Creating backup..."
+#~ msgstr "Creazione backup..."
+
+#, c-format
+#~ msgid "Backup created successfully (%s)"
+#~ msgstr "Backup creato con successo (%s)"
+
+#~ msgid "Backup created successfully"
+#~ msgstr "Backup creato con successo"
+
 # DinoX v0.7.7 - Database Maintenance & Backup/Restore
-msgid "Clean Database"
-msgstr "Pulisci database"
+#~ msgid "Clean Database"
+#~ msgstr "Pulisci database"
 
-msgid "Reset Database"
-msgstr "Reimposta database"
+#~ msgid "Encrypting Backup..."
+#~ msgstr "Crittografia backup..."
 
-msgid "Restore Complete!"
-msgstr "Ripristino completato!"
+#~ msgid "Creating encrypted backup..."
+#~ msgstr "Creazione backup crittografato..."
 
-msgid "Restore Failed"
-msgstr "Ripristino fallito"
+#~ msgid "Encrypted backup created successfully"
+#~ msgstr "Backup crittografato creato con successo"
 
-msgid "Decrypting Backup..."
-msgstr "Decrittografia backup..."
-
-msgid "Restoring Backup..."
-msgstr "Ripristino backup..."
-
-msgid "Set Backup Password"
-msgstr "Imposta password backup"
-
-msgid "Confirm Password"
-msgstr "Conferma password"
-
-msgid "Create Encrypted Backup"
-msgstr "Crea backup crittografato"
-
-msgid "Password too short"
-msgstr "Password troppo corta"
-
-msgid "Passwords do not match"
-msgstr "Le password non corrispondono"
-
-msgid "✓ Passwords match"
-msgstr "✓ Le password corrispondono"
-
-msgid "Encrypting Backup..."
-msgstr "Crittografia backup..."
-
-msgid "Factory Reset"
-msgstr "Ripristino di fabbrica"
-
-msgid "Restore from Backup"
-msgstr "Ripristina da backup"
-
-msgid "Restore Backup"
-msgstr "Ripristina backup"
-
-msgid "Select Backup File"
-msgstr "Seleziona file backup"
-
-msgid "Enter Backup Password"
-msgstr "Inserisci password backup"
-
-msgid "Decrypt & Restore"
-msgstr "Decritta e ripristina"
-
-msgid "Create Backup First"
-msgstr "Crea prima un backup"
-
-msgid "No Encryption"
-msgstr "Nessuna crittografia"
-
-msgid "Encrypt with Password"
-msgstr "Cripta con password"
-
-msgid "Delete Everything"
-msgstr "Elimina tutto"
-
-msgid "Confirm Delete"
-msgstr "Conferma eliminazione"
-
-msgid "Are you absolutely sure?"
-msgstr "Sei assolutamente sicuro?"
-
-#: main/data/preferences_window/general_preferences_page.ui:104
-msgid "Database Maintenance"
-msgstr "Manutenzione database"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Restore accounts, messages and settings from a backup file"
-msgstr "Ripristina account, messaggi e impostazioni da un file di backup"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
-msgstr ""
-"Elimina tutti i messaggi, file e chiavi OMEMO. I tuoi account rimarranno."
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete ALL data including accounts. This cannot be undone!"
-msgstr ""
-"Elimina TUTTI i dati inclusi gli account. Questa azione non può essere "
-"annullata!"
-
-# DinoX v0.7.7 - Additional Backup/Restore strings
-msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
-msgstr "File di backup (*.tar.gz, *.tar.gz.gpg)"
-
-msgid "Creating encrypted backup..."
-msgstr "Creazione backup crittografato..."
-
-msgid "Decryption Failed"
-msgstr "Decrittazione fallita"
-
-msgid "DinoX will now restart..."
-msgstr "DinoX si riavvierà ora..."
-
-msgid "Encrypted backup created successfully"
-msgstr "Backup crittografato creato con successo"
-
-msgid "Password (minimum 4 characters)"
-msgstr "Password (minimo 4 caratteri)"
-
-msgid "Decrypting encrypted backup file..."
-msgstr "Decrittazione del file di backup..."
-
-msgid "Extracting files from backup..."
-msgstr "Estrazione file dal backup..."
-
-msgid "Factory reset in progress... DinoX will restart."
-msgstr "Ripristino di fabbrica in corso... DinoX si riavvierà."
-
-msgid "Resetting database... DinoX will restart."
-msgstr "Ripristino database... DinoX si riavvierà."
-
-msgid "Encrypted backup created (%s)"
-msgstr "Backup crittografato creato (%s)"
-
-msgid ""
-"Could not decrypt the backup file.\n"
-"\n"
-"Please check if the password is correct."
-msgstr ""
-"Impossibile decrittografare il file.\n"
-"\n"
-"Verificare se la password è corretta."
-
-msgid ""
-"Could not restore the backup file.\n"
-"\n"
-"Error: %s"
-msgstr ""
-"Impossibile ripristinare il file.\n"
-"\n"
-"Errore: %s"
-
-msgid "This backup is encrypted. Please enter the password to decrypt it."
-msgstr "Questo backup è crittografato. Inserisci la password."
-
-msgid ""
-"Enter a password to encrypt the backup.\n"
-"\n"
-"<b>Important:</b> Remember this password! Without it, the backup cannot be "
-"restored."
-msgstr ""
-"Inserisci una password per crittografare il backup.\n"
-"\n"
-"<b>Importante:</b> Ricorda questa password! Senza di essa, il backup non può "
-"essere ripristinato."
-
-msgid ""
-"This will delete all messages, files and OMEMO encryption keys.\n"
-"\n"
-"<b>Your accounts will remain, but you will lose all chat history and need to "
-"re-verify encryption with your contacts.</b>\n"
-"\n"
-"This action cannot be undone!"
-msgstr ""
-"Questo eliminerà tutti i messaggi, file e chiavi di crittografia OMEMO.\n"
-"\n"
-"<b>I tuoi account rimarranno, ma perderai tutta la cronologia delle chat e "
-"dovrai riverificare la crittografia con i tuoi contatti.</b>\n"
-"\n"
-"Questa azione non può essere annullata!"
-
-msgid ""
-"This will replace all current data with the backup.\n"
-"\n"
-"<b>Current accounts, messages and settings will be overwritten!</b>\n"
-"\n"
-"DinoX will restart after restoring."
-msgstr ""
-"Questo sostituirà tutti i dati attuali con il backup.\n"
-"\n"
-"<b>Account, messaggi e impostazioni attuali verranno sovrascritti!</b>\n"
-"\n"
-"DinoX si riavvierà dopo il ripristino."
-
-msgid ""
-"Type 'DELETE' to confirm factory reset.\n"
-"\n"
-"This will permanently remove all your DinoX data."
-msgstr ""
-"Digita 'DELETE' per confermare il ripristino di fabbrica.\n"
-"\n"
-"Questo rimuoverà permanentemente tutti i tuoi dati DinoX."
-
-msgid ""
-"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
-"\n"
-"• All accounts\n"
-"• All messages and files\n"
-"• All encryption keys\n"
-"• All settings\n"
-"\n"
-"This is irreversible. Make sure to create a backup first!"
-msgstr ""
-"<b>⚠️ ATTENZIONE: Questo eliminerà TUTTI i dati!</b>\n"
-"\n"
-"• Tutti gli account\n"
-"• Tutti i messaggi e file\n"
-"• Tutte le chiavi di crittografia\n"
-"• Tutte le impostazioni\n"
-"\n"
-"Questo è irreversibile. Assicurati di creare un backup prima!"
+#~ msgid "Encrypted backup created (%s)"
+#~ msgstr "Backup crittografato creato (%s)"
 
 # OpenPGP Key Management translations
-msgid "OpenPGP Key Management"
-msgstr "Gestione chiavi OpenPGP"
+#~ msgid "OpenPGP Key Management"
+#~ msgstr "Gestione chiavi OpenPGP"
 
-msgid "Actions"
-msgstr "Azioni"
+#~ msgid "Actions"
+#~ msgstr "Azioni"
 
-msgid "Generate New Key"
-msgstr "Genera nuova chiave"
+#~ msgid "Generate New Key"
+#~ msgstr "Genera nuova chiave"
 
-msgid "Create a new OpenPGP key pair"
-msgstr "Crea una nuova coppia di chiavi OpenPGP"
+#~ msgid "Create a new OpenPGP key pair"
+#~ msgstr "Crea una nuova coppia di chiavi OpenPGP"
 
-msgid "Import Key"
-msgstr "Importa chiave"
+#~ msgid "Import Key"
+#~ msgstr "Importa chiave"
 
-msgid "Import a key from file (.asc, .gpg)"
-msgstr "Importa una chiave da file (.asc, .gpg)"
+#~ msgid "Import a key from file (.asc, .gpg)"
+#~ msgstr "Importa una chiave da file (.asc, .gpg)"
 
-msgid "Your Keys"
-msgstr "Le tue chiavi"
+#~ msgid "Your Keys"
+#~ msgstr "Le tue chiavi"
 
-msgid "Private keys available for signing and decryption"
-msgstr "Chiavi private disponibili per firma e decrittazione"
+#~ msgid "Private keys available for signing and decryption"
+#~ msgstr "Chiavi private disponibili per firma e decrittazione"
 
-msgid "No private keys found"
-msgstr "Nessuna chiave privata trovata"
+#~ msgid "No private keys found"
+#~ msgstr "Nessuna chiave privata trovata"
 
-msgid "Generate or import a key to get started"
-msgstr "Genera o importa una chiave per iniziare"
+#~ msgid "Generate or import a key to get started"
+#~ msgstr "Genera o importa una chiave per iniziare"
 
-msgid "Fingerprint"
-msgstr "Impronta digitale"
+#~ msgid "Fingerprint"
+#~ msgstr "Impronta digitale"
 
-msgid "Export Public Key"
-msgstr "Esporta chiave pubblica"
+#~ msgid "Export Public Key"
+#~ msgstr "Esporta chiave pubblica"
 
-msgid "Delete Key"
-msgstr "Elimina chiave"
+#~ msgid "Delete Key"
+#~ msgstr "Elimina chiave"
 
-msgid "Generate New OpenPGP Key"
-msgstr "Genera nuova chiave OpenPGP"
+#~ msgid "Generate New OpenPGP Key"
+#~ msgstr "Genera nuova chiave OpenPGP"
 
-msgid "Enter your details to create a new key pair."
-msgstr "Inserisci i tuoi dati per creare una nuova coppia di chiavi."
+#~ msgid "Enter your details to create a new key pair."
+#~ msgstr "Inserisci i tuoi dati per creare una nuova coppia di chiavi."
 
-msgid "Name"
-msgstr "Nome"
+#~ msgid "Name"
+#~ msgstr "Nome"
 
-msgid "Your Name"
-msgstr "Il tuo nome"
+#~ msgid "Your Name"
+#~ msgstr "Il tuo nome"
 
-msgid "Email"
-msgstr "Email"
+#~ msgid "Email"
+#~ msgstr "Email"
 
-msgid "you@example.com"
-msgstr "tu@esempio.com"
+#~ msgid "you@example.com"
+#~ msgstr "tu@esempio.com"
 
-msgid "Passphrase (optional)"
-msgstr "Passphrase (opzionale)"
+#~ msgid "Passphrase (optional)"
+#~ msgstr "Passphrase (opzionale)"
 
-msgid "Passphrase"
-msgstr "Passphrase"
+#~ msgid "Passphrase"
+#~ msgstr "Passphrase"
 
-msgid "4096-bit RSA key, valid for 2 years."
-msgstr "Chiave RSA 4096 bit, valida per 2 anni."
+#~ msgid "4096-bit RSA key, valid for 2 years."
+#~ msgstr "Chiave RSA 4096 bit, valida per 2 anni."
 
-msgid "Generate"
-msgstr "Genera"
+#~ msgid "Generate"
+#~ msgstr "Genera"
 
-msgid "Name must be at least 2 characters"
-msgstr "Il nome deve avere almeno 2 caratteri"
+#~ msgid "Name must be at least 2 characters"
+#~ msgstr "Il nome deve avere almeno 2 caratteri"
 
-msgid "Please enter a valid email address"
-msgstr "Inserisci un indirizzo email valido"
+#~ msgid "Please enter a valid email address"
+#~ msgstr "Inserisci un indirizzo email valido"
 
-msgid "Generating Key..."
-msgstr "Generazione chiave..."
+#~ msgid "Generating Key..."
+#~ msgstr "Generazione chiave..."
 
-msgid "Please wait while your key is being generated. This may take a moment."
-msgstr ""
-"Attendi mentre la chiave viene generata. Potrebbe richiedere un momento."
+#~ msgid "Key generated successfully!"
+#~ msgstr "Chiave generata con successo!"
 
-msgid "Key generated successfully!"
-msgstr "Chiave generata con successo!"
+#~ msgid "Import OpenPGP Key"
+#~ msgstr "Importa chiave OpenPGP"
 
-msgid "Failed to generate key."
-msgstr "Generazione chiave fallita."
+#~ msgid "OpenPGP Keys (*.asc, *.gpg)"
+#~ msgstr "Chiavi OpenPGP (*.asc, *.gpg)"
 
-msgid "Import OpenPGP Key"
-msgstr "Importa chiave OpenPGP"
+#~ msgid "All Files"
+#~ msgstr "Tutti i file"
 
-msgid "OpenPGP Keys (*.asc, *.gpg)"
-msgstr "Chiavi OpenPGP (*.asc, *.gpg)"
+#~ msgid "Key imported! Re-open Key Management to see it."
+#~ msgstr "Chiave importata! Riapri la Gestione chiavi per vederla."
 
-msgid "All Files"
-msgstr "Tutti i file"
+#~ msgid "Import failed: "
+#~ msgstr "Importazione fallita: "
 
-msgid "Key imported! Re-open Key Management to see it."
-msgstr "Chiave importata! Riapri la Gestione chiavi per vederla."
+#~ msgid "Key exported to: "
+#~ msgstr "Chiave esportata in: "
 
-msgid "Import failed: "
-msgstr "Importazione fallita: "
+#~ msgid "Export failed."
+#~ msgstr "Esportazione fallita."
 
-msgid "Key exported to: "
-msgstr "Chiave esportata in: "
+#~ msgid "Delete Key?"
+#~ msgstr "Eliminare la chiave?"
 
-msgid "Export failed."
-msgstr "Esportazione fallita."
+#~ msgid ""
+#~ "Delete this key?\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "This cannot be undone!"
+#~ msgstr ""
+#~ "Eliminare questa chiave?\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "Questa azione non può essere annullata!"
 
-msgid "Delete Key?"
-msgstr "Eliminare la chiave?"
+#~ msgid "Key deleted."
+#~ msgstr "Chiave eliminata."
 
-msgid ""
-"Delete this key?\n"
-"\n"
-"%s\n"
-"\n"
-"This cannot be undone!"
-msgstr ""
-"Eliminare questa chiave?\n"
-"\n"
-"%s\n"
-"\n"
-"Questa azione non può essere annullata!"
+#~ msgid "Delete failed: "
+#~ msgstr "Eliminazione fallita: "
 
-msgid "Key deleted."
-msgstr "Chiave eliminata."
+#~ msgid "Select OpenPGP Key"
+#~ msgstr "Seleziona chiave OpenPGP"
 
-msgid "Delete failed: "
-msgstr "Eliminazione fallita: "
+#~ msgid "Choose a key to announce to your contacts."
+#~ msgstr "Scegli una chiave da annunciare ai tuoi contatti."
 
-msgid "Select OpenPGP Key"
-msgstr "Seleziona chiave OpenPGP"
+#~ msgid "Enter GPG passphrase to confirm:"
+#~ msgstr "Inserisci la passphrase GPG per confermare:"
 
-msgid "Choose a key to announce to your contacts."
-msgstr "Scegli una chiave da annunciare ai tuoi contatti."
+#~ msgid "Wrong passphrase"
+#~ msgstr "Passphrase errata"
 
-msgid "Enter GPG passphrase to confirm:"
-msgstr "Inserisci la passphrase GPG per confermare:"
+#~ msgid "Manage Keys"
+#~ msgstr "Gestisci chiavi"
 
-msgid "Wrong passphrase"
-msgstr "Passphrase errata"
+#~ msgid "Generate, import, export, or delete keys"
+#~ msgstr "Genera, importa, esporta o elimina chiavi"
 
-msgid "Manage Keys"
-msgstr "Gestisci chiavi"
+#~ msgid "No keys available. Generate or import one!"
+#~ msgstr "Nessuna chiave disponibile. Genera o importane una!"
 
-msgid "Generate, import, export, or delete keys"
-msgstr "Genera, importa, esporta o elimina chiavi"
+#~ msgid "Announce key"
+#~ msgstr "Annuncia chiave"
 
-msgid "No keys available. Generate or import one!"
-msgstr "Nessuna chiave disponibile. Genera o importane una!"
+#~ msgid "Disabled"
+#~ msgstr "Disabilitato"
 
-msgid "Announce key"
-msgstr "Annuncia chiave"
+#~ msgid "Error in GnuPG"
+#~ msgstr "Errore in GnuPG"
 
-msgid "Disabled"
-msgstr "Disabilitato"
-
-msgid "Error in GnuPG"
-msgstr "Errore in GnuPG"
-
-msgid "Success"
-msgstr "Successo"
-
-msgid "OK"
-msgstr "OK"
+#~ msgid "Success"
+#~ msgstr "Successo"
 
 #~ msgid "Message too long"
 #~ msgstr "Messaggio troppo lungo"

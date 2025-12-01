@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-13 21:57+0200\n"
+"POT-Creation-Date: 2025-12-01 15:51+0100\n"
 "PO-Revision-Date: 2022-10-17 00:56+0000\n"
 "Language-Team: none\n"
 "Language: is\n"
@@ -17,44 +17,267 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n % 10 != 1 || n % 100 == 11;\n"
 "X-Generator: Weblate 4.15-dev\n"
 
-#: plugins/openpgp/src/encryption_preferences_entry.vala:18
-msgid "Querying GnuPG"
-msgstr "Að spyrja GnuPG"
-
-#: plugins/openpgp/src/encryption_preferences_entry.vala:32
-#: plugins/openpgp/src/encryption_preferences_entry.vala:36
-#: plugins/openpgp/src/encryption_preferences_entry.vala:41
-msgid "Announce key"
-msgstr ""
-
-#: plugins/openpgp/src/encryption_preferences_entry.vala:32
-msgid "Error in GnuPG"
-msgstr "Villa hjá GnuPG"
-
-#: plugins/openpgp/src/encryption_preferences_entry.vala:36
-msgid "No keys available. Generate one!"
-msgstr "Engir lyklar í boði. Búðu einn til!"
-
-#: plugins/openpgp/src/encryption_preferences_entry.vala:45
-msgid "Disabled"
-msgstr ""
-
 #: plugins/openpgp/src/contact_details_provider.vala:36
 msgid "Key not in keychain"
 msgstr "Lykill ekki í lyklakippu"
 
 #: plugins/openpgp/src/contact_details_provider.vala:40
+#: plugins/openpgp/src/key_management_dialog.vala:220
 msgid "Fingerprint"
+msgstr "Fingrafar"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:50
+#: plugins/openpgp/src/encryption_preferences_entry.vala:56
+#: plugins/openpgp/src/encryption_preferences_entry.vala:62
+msgid "Announce key"
+msgstr "Tilkynna lykil"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:50
+msgid "Error in GnuPG"
+msgstr "Villa hjá GnuPG"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:56
+#, fuzzy
+msgid "No keys available. Generate or import one!"
+msgstr "Engir lyklar í boði. Búðu einn til!"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:68
+#: plugins/openpgp/src/encryption_preferences_entry.vala:110
+msgid "Disabled"
+msgstr "Óvirkt"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:97
+#, fuzzy
+msgid "Select OpenPGP Key"
+msgstr "Veldu lykil"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:97
+msgid "Choose a key to announce to your contacts."
+msgstr "Veldu lykil til að tilkynna tengiliðum þínum."
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:98
+#: plugins/openpgp/src/key_management_dialog.vala:307
+#: plugins/openpgp/src/key_management_dialog.vala:509
+msgid "Cancel"
+msgstr "Hætta við"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:99
+#: plugins/openpgp/src/key_management_dialog.vala:547
+msgid "OK"
+msgstr "Í lagi"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:148
+msgid "Enter GPG passphrase to confirm:"
+msgstr "Sláðu inn GPG lykilorð til að staðfesta:"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:155
+msgid "Passphrase"
+msgstr "Lykilorð"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:215
+msgid "Wrong passphrase"
+msgstr "Rangt lykilorð"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:228
+msgid "Manage Keys"
+msgstr "Stjórna lyklum"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:229
+msgid "Generate, import, export, or delete keys"
+msgstr "Búa til, flytja inn, flytja út eða eyða lyklum"
+
+#: plugins/openpgp/src/key_management_dialog.vala:61
+msgid "OpenPGP Key Management"
+msgstr "OpenPGP lyklastjórnun"
+
+#: plugins/openpgp/src/key_management_dialog.vala:74
+msgid "Actions"
+msgstr "Aðgerðir"
+
+#: plugins/openpgp/src/key_management_dialog.vala:78
+msgid "Generate New Key"
+msgstr "Búa til nýjan lykil"
+
+#: plugins/openpgp/src/key_management_dialog.vala:79
+msgid "Create a new OpenPGP key pair"
+msgstr "Búa til nýtt OpenPGP lyklapar"
+
+#: plugins/openpgp/src/key_management_dialog.vala:96
+msgid "Import Key"
+msgstr "Flytja inn lykil"
+
+#: plugins/openpgp/src/key_management_dialog.vala:97
+msgid "Import a key from file (.asc, .gpg)"
+msgstr "Flytja inn lykil úr skrá (.asc, .gpg)"
+
+#: plugins/openpgp/src/key_management_dialog.vala:116
+msgid "Your Keys"
+msgstr "Lyklar þínir"
+
+#: plugins/openpgp/src/key_management_dialog.vala:117
+msgid "Private keys available for signing and decryption"
+msgstr "Einkalyklar tiltækir fyrir undirritun og afkóðun"
+
+#: plugins/openpgp/src/key_management_dialog.vala:151
+msgid "No private keys found"
+msgstr "Engir einkalyklar fundust"
+
+#: plugins/openpgp/src/key_management_dialog.vala:152
+msgid "Generate or import a key to get started"
+msgstr "Búðu til eða fluttu inn lykil til að byrja"
+
+#: plugins/openpgp/src/key_management_dialog.vala:232
+#: plugins/openpgp/src/key_management_dialog.vala:470
+msgid "Export Public Key"
+msgstr "Flytja út opinberan lykil"
+
+#: plugins/openpgp/src/key_management_dialog.vala:240
+msgid "Delete Key"
+msgstr "Eyða lykli"
+
+#: plugins/openpgp/src/key_management_dialog.vala:263
+msgid "Generate New OpenPGP Key"
+msgstr "Búa til nýjan OpenPGP lykil"
+
+#: plugins/openpgp/src/key_management_dialog.vala:264
+msgid "Enter your details to create a new key pair."
+msgstr "Sláðu inn upplýsingar þínar til að búa til nýtt lyklapar."
+
+#: plugins/openpgp/src/key_management_dialog.vala:272
+msgid "Name"
+msgstr "Nafn"
+
+#: plugins/openpgp/src/key_management_dialog.vala:277
+msgid "Your Name"
+msgstr "Nafn þitt"
+
+#: plugins/openpgp/src/key_management_dialog.vala:281
+msgid "Email"
+msgstr "Netfang"
+
+#: plugins/openpgp/src/key_management_dialog.vala:287
+msgid "you@example.com"
+msgstr "þú@dæmi.is"
+
+#: plugins/openpgp/src/key_management_dialog.vala:291
+msgid "Passphrase (optional)"
+msgstr "Lykilorð (valfrjálst)"
+
+#: plugins/openpgp/src/key_management_dialog.vala:300
+msgid "4096-bit RSA key, valid for 2 years."
+msgstr "4096-bita RSA lykill, gildur í 2 ár."
+
+#: plugins/openpgp/src/key_management_dialog.vala:308
+msgid "Generate"
+msgstr "Búa til"
+
+#: plugins/openpgp/src/key_management_dialog.vala:320
+#: plugins/openpgp/src/key_management_dialog.vala:324
+#: plugins/openpgp/src/key_management_dialog.vala:395
+#: plugins/openpgp/src/key_management_dialog.vala:402
+#: plugins/openpgp/src/key_management_dialog.vala:410
+#: plugins/openpgp/src/key_management_dialog.vala:461
+#: plugins/openpgp/src/key_management_dialog.vala:464
+#: plugins/openpgp/src/key_management_dialog.vala:498
+#: plugins/openpgp/src/key_management_dialog.vala:501
+#: plugins/openpgp/src/key_management_dialog.vala:538
+#: plugins/openpgp/src/key_management_dialog.vala:541
+msgid "Error"
+msgstr "Villa"
+
+#: plugins/openpgp/src/key_management_dialog.vala:320
+msgid "Name must be at least 2 characters"
+msgstr "Nafn verður að vera að minnsta kosti 2 stafir"
+
+#: plugins/openpgp/src/key_management_dialog.vala:324
+msgid "Please enter a valid email address"
+msgstr "Vinsamlegast sláðu inn gilt netfang"
+
+#: plugins/openpgp/src/key_management_dialog.vala:340
+msgid "Generating Key..."
+msgstr "Býr til lykil..."
+
+#: plugins/openpgp/src/key_management_dialog.vala:341
+msgid "Please wait while your key is being generated. This may take a moment."
+msgstr "Vinsamlegast bíddu á meðan lykillinn þinn er búinn til. Þetta gæti tekið smá stund."
+
+#: plugins/openpgp/src/key_management_dialog.vala:393
+#: plugins/openpgp/src/key_management_dialog.vala:459
+#: plugins/openpgp/src/key_management_dialog.vala:496
+#: plugins/openpgp/src/key_management_dialog.vala:536
+msgid "Success"
+msgstr "Tókst"
+
+#: plugins/openpgp/src/key_management_dialog.vala:393
+msgid "Key generated successfully!"
+msgstr "Lykill búinn til!"
+
+#: plugins/openpgp/src/key_management_dialog.vala:395
+msgid "Failed to generate key."
+msgstr "Mistókst að búa til lykil."
+
+#: plugins/openpgp/src/key_management_dialog.vala:416
+msgid "Import OpenPGP Key"
+msgstr "Flytja inn OpenPGP lykil"
+
+#: plugins/openpgp/src/key_management_dialog.vala:421
+msgid "OpenPGP Keys (*.asc, *.gpg)"
+msgstr "OpenPGP lyklar (*.asc, *.gpg)"
+
+#: plugins/openpgp/src/key_management_dialog.vala:428
+msgid "All Files"
+msgstr "Allar skrár"
+
+#: plugins/openpgp/src/key_management_dialog.vala:459
+msgid "Key imported! Re-open Key Management to see it."
+msgstr "Lykill fluttur inn! Opnaðu lyklastjórnun aftur til að sjá hann."
+
+#: plugins/openpgp/src/key_management_dialog.vala:461
+msgid "Import failed: "
+msgstr "Innflutningur mistókst: "
+
+#: plugins/openpgp/src/key_management_dialog.vala:496
+msgid "Key exported to: "
+msgstr "Lykill fluttur út í: "
+
+#: plugins/openpgp/src/key_management_dialog.vala:498
+msgid "Export failed."
+msgstr "Útflutningur mistókst."
+
+#: plugins/openpgp/src/key_management_dialog.vala:506
+msgid "Delete Key?"
+msgstr "Eyða lykli?"
+
+#: plugins/openpgp/src/key_management_dialog.vala:507
+#, c-format
+msgid ""
+"Delete this key?\n"
+"\n"
+"%s\n"
+"\n"
+"This cannot be undone!"
 msgstr ""
+
+#: plugins/openpgp/src/key_management_dialog.vala:510
+msgid "Delete"
+msgstr "Eyða"
+
+#: plugins/openpgp/src/key_management_dialog.vala:536
+msgid "Key deleted."
+msgstr "Lykli eytt."
+
+#: plugins/openpgp/src/key_management_dialog.vala:538
+msgid "Delete failed: "
+msgstr "Eyðing mistókst: "
+
+#~ msgid "Querying GnuPG"
+#~ msgstr "Að spyrja GnuPG"
 
 #~ msgid "Encryption"
 #~ msgstr "Dulritun"
 
 #~ msgid "Key publishing disabled"
 #~ msgstr "Deiling lykla óvirkt"
-
-#~ msgid "Select key"
-#~ msgstr "Veldu lykil"
 
 #~ msgid "Loading…"
 #~ msgstr "Hleður…"

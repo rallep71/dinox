@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dino-openpgp-0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-13 21:57+0200\n"
+"POT-Creation-Date: 2025-12-01 15:51+0100\n"
 "PO-Revision-Date: 2025-02-25 04:41+0000\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/dino/plugin-"
 "openpgp/nl/>\n"
@@ -13,44 +13,267 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.10.2-dev\n"
 
-#: plugins/openpgp/src/encryption_preferences_entry.vala:18
-msgid "Querying GnuPG"
-msgstr "Bezig met aanroepen van GnuPG"
-
-#: plugins/openpgp/src/encryption_preferences_entry.vala:32
-#: plugins/openpgp/src/encryption_preferences_entry.vala:36
-#: plugins/openpgp/src/encryption_preferences_entry.vala:41
-msgid "Announce key"
-msgstr ""
-
-#: plugins/openpgp/src/encryption_preferences_entry.vala:32
-msgid "Error in GnuPG"
-msgstr "Fout in GnuPG"
-
-#: plugins/openpgp/src/encryption_preferences_entry.vala:36
-msgid "No keys available. Generate one!"
-msgstr "Geen sleutels beschikbaar. Genereer een sleutel!"
-
-#: plugins/openpgp/src/encryption_preferences_entry.vala:45
-msgid "Disabled"
-msgstr "Uitgeschakeld"
-
 #: plugins/openpgp/src/contact_details_provider.vala:36
 msgid "Key not in keychain"
 msgstr "Sleutel niet in sleutelbos"
 
 #: plugins/openpgp/src/contact_details_provider.vala:40
+#: plugins/openpgp/src/key_management_dialog.vala:220
 msgid "Fingerprint"
+msgstr "Vingerafdruk"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:50
+#: plugins/openpgp/src/encryption_preferences_entry.vala:56
+#: plugins/openpgp/src/encryption_preferences_entry.vala:62
+msgid "Announce key"
+msgstr "Sleutel aankondigen"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:50
+msgid "Error in GnuPG"
+msgstr "Fout in GnuPG"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:56
+#, fuzzy
+msgid "No keys available. Generate or import one!"
+msgstr "Geen sleutels beschikbaar. Genereer een sleutel!"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:68
+#: plugins/openpgp/src/encryption_preferences_entry.vala:110
+msgid "Disabled"
+msgstr "Uitgeschakeld"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:97
+#, fuzzy
+msgid "Select OpenPGP Key"
+msgstr "Kies een sleutel"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:97
+msgid "Choose a key to announce to your contacts."
+msgstr "Kies een sleutel om aan uw contacten aan te kondigen."
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:98
+#: plugins/openpgp/src/key_management_dialog.vala:307
+#: plugins/openpgp/src/key_management_dialog.vala:509
+msgid "Cancel"
+msgstr "Annuleren"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:99
+#: plugins/openpgp/src/key_management_dialog.vala:547
+msgid "OK"
+msgstr "OK"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:148
+msgid "Enter GPG passphrase to confirm:"
+msgstr "Voer GPG-wachtwoordzin in ter bevestiging:"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:155
+msgid "Passphrase"
+msgstr "Wachtwoordzin"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:215
+msgid "Wrong passphrase"
+msgstr "Verkeerde wachtwoordzin"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:228
+msgid "Manage Keys"
+msgstr "Sleutels beheren"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:229
+msgid "Generate, import, export, or delete keys"
+msgstr "Sleutels genereren, importeren, exporteren of verwijderen"
+
+#: plugins/openpgp/src/key_management_dialog.vala:61
+msgid "OpenPGP Key Management"
+msgstr "OpenPGP-sleutelbeheer"
+
+#: plugins/openpgp/src/key_management_dialog.vala:74
+msgid "Actions"
+msgstr "Acties"
+
+#: plugins/openpgp/src/key_management_dialog.vala:78
+msgid "Generate New Key"
+msgstr "Nieuwe sleutel genereren"
+
+#: plugins/openpgp/src/key_management_dialog.vala:79
+msgid "Create a new OpenPGP key pair"
+msgstr "Maak een nieuw OpenPGP-sleutelpaar"
+
+#: plugins/openpgp/src/key_management_dialog.vala:96
+msgid "Import Key"
+msgstr "Sleutel importeren"
+
+#: plugins/openpgp/src/key_management_dialog.vala:97
+msgid "Import a key from file (.asc, .gpg)"
+msgstr "Importeer een sleutel uit bestand (.asc, .gpg)"
+
+#: plugins/openpgp/src/key_management_dialog.vala:116
+msgid "Your Keys"
+msgstr "Uw sleutels"
+
+#: plugins/openpgp/src/key_management_dialog.vala:117
+msgid "Private keys available for signing and decryption"
+msgstr "Privésleutels beschikbaar voor ondertekening en ontsleuteling"
+
+#: plugins/openpgp/src/key_management_dialog.vala:151
+msgid "No private keys found"
+msgstr "Geen privésleutels gevonden"
+
+#: plugins/openpgp/src/key_management_dialog.vala:152
+msgid "Generate or import a key to get started"
+msgstr "Genereer of importeer een sleutel om te beginnen"
+
+#: plugins/openpgp/src/key_management_dialog.vala:232
+#: plugins/openpgp/src/key_management_dialog.vala:470
+msgid "Export Public Key"
+msgstr "Publieke sleutel exporteren"
+
+#: plugins/openpgp/src/key_management_dialog.vala:240
+msgid "Delete Key"
+msgstr "Sleutel verwijderen"
+
+#: plugins/openpgp/src/key_management_dialog.vala:263
+msgid "Generate New OpenPGP Key"
+msgstr "Nieuwe OpenPGP-sleutel genereren"
+
+#: plugins/openpgp/src/key_management_dialog.vala:264
+msgid "Enter your details to create a new key pair."
+msgstr "Voer uw gegevens in om een nieuw sleutelpaar te maken."
+
+#: plugins/openpgp/src/key_management_dialog.vala:272
+msgid "Name"
+msgstr "Naam"
+
+#: plugins/openpgp/src/key_management_dialog.vala:277
+msgid "Your Name"
+msgstr "Uw naam"
+
+#: plugins/openpgp/src/key_management_dialog.vala:281
+msgid "Email"
+msgstr "E-mail"
+
+#: plugins/openpgp/src/key_management_dialog.vala:287
+msgid "you@example.com"
+msgstr "u@voorbeeld.com"
+
+#: plugins/openpgp/src/key_management_dialog.vala:291
+msgid "Passphrase (optional)"
+msgstr "Wachtwoordzin (optioneel)"
+
+#: plugins/openpgp/src/key_management_dialog.vala:300
+msgid "4096-bit RSA key, valid for 2 years."
+msgstr "4096-bits RSA-sleutel, 2 jaar geldig."
+
+#: plugins/openpgp/src/key_management_dialog.vala:308
+msgid "Generate"
+msgstr "Genereren"
+
+#: plugins/openpgp/src/key_management_dialog.vala:320
+#: plugins/openpgp/src/key_management_dialog.vala:324
+#: plugins/openpgp/src/key_management_dialog.vala:395
+#: plugins/openpgp/src/key_management_dialog.vala:402
+#: plugins/openpgp/src/key_management_dialog.vala:410
+#: plugins/openpgp/src/key_management_dialog.vala:461
+#: plugins/openpgp/src/key_management_dialog.vala:464
+#: plugins/openpgp/src/key_management_dialog.vala:498
+#: plugins/openpgp/src/key_management_dialog.vala:501
+#: plugins/openpgp/src/key_management_dialog.vala:538
+#: plugins/openpgp/src/key_management_dialog.vala:541
+msgid "Error"
+msgstr "Fout"
+
+#: plugins/openpgp/src/key_management_dialog.vala:320
+msgid "Name must be at least 2 characters"
+msgstr "Naam moet minimaal 2 tekens bevatten"
+
+#: plugins/openpgp/src/key_management_dialog.vala:324
+msgid "Please enter a valid email address"
+msgstr "Voer een geldig e-mailadres in"
+
+#: plugins/openpgp/src/key_management_dialog.vala:340
+msgid "Generating Key..."
+msgstr "Sleutel genereren..."
+
+#: plugins/openpgp/src/key_management_dialog.vala:341
+msgid "Please wait while your key is being generated. This may take a moment."
+msgstr "Even geduld terwijl uw sleutel wordt gegenereerd. Dit kan even duren."
+
+#: plugins/openpgp/src/key_management_dialog.vala:393
+#: plugins/openpgp/src/key_management_dialog.vala:459
+#: plugins/openpgp/src/key_management_dialog.vala:496
+#: plugins/openpgp/src/key_management_dialog.vala:536
+msgid "Success"
+msgstr "Succes"
+
+#: plugins/openpgp/src/key_management_dialog.vala:393
+msgid "Key generated successfully!"
+msgstr "Sleutel succesvol gegenereerd!"
+
+#: plugins/openpgp/src/key_management_dialog.vala:395
+msgid "Failed to generate key."
+msgstr "Sleutel genereren mislukt."
+
+#: plugins/openpgp/src/key_management_dialog.vala:416
+msgid "Import OpenPGP Key"
+msgstr "OpenPGP-sleutel importeren"
+
+#: plugins/openpgp/src/key_management_dialog.vala:421
+msgid "OpenPGP Keys (*.asc, *.gpg)"
+msgstr "OpenPGP-sleutels (*.asc, *.gpg)"
+
+#: plugins/openpgp/src/key_management_dialog.vala:428
+msgid "All Files"
+msgstr "Alle bestanden"
+
+#: plugins/openpgp/src/key_management_dialog.vala:459
+msgid "Key imported! Re-open Key Management to see it."
+msgstr "Sleutel geïmporteerd! Heropen Sleutelbeheer om deze te zien."
+
+#: plugins/openpgp/src/key_management_dialog.vala:461
+msgid "Import failed: "
+msgstr "Importeren mislukt: "
+
+#: plugins/openpgp/src/key_management_dialog.vala:496
+msgid "Key exported to: "
+msgstr "Sleutel geëxporteerd naar: "
+
+#: plugins/openpgp/src/key_management_dialog.vala:498
+msgid "Export failed."
+msgstr "Exporteren mislukt."
+
+#: plugins/openpgp/src/key_management_dialog.vala:506
+msgid "Delete Key?"
+msgstr "Sleutel verwijderen?"
+
+#: plugins/openpgp/src/key_management_dialog.vala:507
+#, c-format
+msgid ""
+"Delete this key?\n"
+"\n"
+"%s\n"
+"\n"
+"This cannot be undone!"
 msgstr ""
+
+#: plugins/openpgp/src/key_management_dialog.vala:510
+msgid "Delete"
+msgstr "Verwijderen"
+
+#: plugins/openpgp/src/key_management_dialog.vala:536
+msgid "Key deleted."
+msgstr "Sleutel verwijderd."
+
+#: plugins/openpgp/src/key_management_dialog.vala:538
+msgid "Delete failed: "
+msgstr "Verwijderen mislukt: "
+
+#~ msgid "Querying GnuPG"
+#~ msgstr "Bezig met aanroepen van GnuPG"
 
 #~ msgid "Encryption"
 #~ msgstr "Encryptie"
 
 #~ msgid "Key publishing disabled"
 #~ msgstr "Sleutelpublicatie uitgeschakeld"
-
-#~ msgid "Select key"
-#~ msgstr "Kies een sleutel"
 
 #~ msgid "Loading…"
 #~ msgstr "Bezig met laden…"

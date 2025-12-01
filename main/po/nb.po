@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-28 12:18+0100\n"
+"POT-Creation-Date: 2025-12-01 10:28+0100\n"
 "PO-Revision-Date: 2024-01-24 00:10+0000\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/dino/"
 "translations/nb_NO/>\n"
@@ -100,14 +100,14 @@ msgstr "Generelt"
 #: main/data/gtk/help-overlay.ui:14 main/data/main_window.ui:38
 #: main/data/menu_add.ui:7
 #: main/src/ui/add_conversation/select_contact_dialog.vala:106
-#: main/src/ui/main_window.vala:141
+#: main/src/ui/main_window.vala:154
 msgid "Start Conversation"
 msgstr "Start samtale"
 
 #: main/data/gtk/help-overlay.ui:20 main/data/main_window.ui:51
 #: main/data/menu_add.ui:11
 #: main/src/ui/add_conversation/add_conference_dialog.vala:24
-#: main/src/ui/application.vala:527 main/src/ui/main_window.vala:142
+#: main/src/ui/application.vala:1359 main/src/ui/main_window.vala:155
 msgid "Join Channel"
 msgstr "Ta del i kanal"
 
@@ -148,7 +148,7 @@ msgstr "Hopp til neste samtale"
 msgid "Jump to previous conversation"
 msgstr "Hopp til forrige samtale"
 
-#: main/data/main_window.ui:64 main/src/ui/main_window.vala:144
+#: main/data/main_window.ui:64 main/src/ui/main_window.vala:157
 msgid "Help: How to join channels"
 msgstr "Hjelp: Hvordan bli med i kanaler"
 
@@ -166,28 +166,28 @@ msgstr "Status"
 
 #: main/data/menu_app.ui:11
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:427
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Online"
 msgstr "Pålogget"
 
 #: main/data/menu_app.ui:16
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:421
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Away"
 msgstr "Borte"
 
 #: main/data/menu_app.ui:21
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:425
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Busy"
 msgstr "Opptatt"
 
 #: main/data/menu_app.ui:26
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:423
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Not Available"
 msgstr "Ikke tilgjengelig"
@@ -200,7 +200,7 @@ msgstr "Innstillinger"
 msgid "Keyboard Shortcuts"
 msgstr "Tastatursnarveier"
 
-#: main/data/menu_app.ui:42 main/src/ui/application.vala:334
+#: main/data/menu_app.ui:42 main/src/ui/application.vala:340
 msgid "About DinoX"
 msgstr "Om DinoX"
 
@@ -219,7 +219,10 @@ msgstr "Slett samtalehistorikk"
 #: main/data/preferences_window/change_password_dialog.ui:18
 #: main/src/ui/add_conversation/add_conference_dialog.vala:41
 #: main/src/ui/add_conversation/select_contact_dialog.vala:40
-#: main/src/ui/application.vala:537
+#: main/src/ui/application.vala:441 main/src/ui/application.vala:469
+#: main/src/ui/application.vala:765 main/src/ui/application.vala:843
+#: main/src/ui/application.vala:901 main/src/ui/application.vala:933
+#: main/src/ui/application.vala:1089 main/src/ui/application.vala:1369
 #: main/src/ui/conversation_content_view/file_default_widget.vala:90
 #: main/src/ui/conversation_content_view/item_actions.vala:165
 #: main/src/ui/conversation_content_view/item_actions.vala:168
@@ -234,7 +237,7 @@ msgstr "Slett samtalehistorikk"
 #: main/src/ui/conversation_titlebar/call_entry.vala:83
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
 #: main/src/windows/conversation_details.vala:60
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:67
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:68
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:205
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:225
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:249
@@ -258,6 +261,7 @@ msgid "Local alias"
 msgstr "Lokalt alias"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:82
+#: main/src/ui/application.vala:435 main/src/ui/application.vala:1064
 #: main/src/ui/util/data_forms.vala:63
 msgid "Password"
 msgstr "Passord"
@@ -266,20 +270,24 @@ msgstr "Passord"
 msgid "Connection status"
 msgstr "Tilkoblingsstatus"
 
+#: main/data/preferences_window/account_preferences_subpage.ui:117
+msgid "View Certificate"
+msgstr "Vis sertifikat"
+
 # Custom host/port feature (Issue #115)
-#: main/data/preferences_window/account_preferences_subpage.ui:121
+#: main/data/preferences_window/account_preferences_subpage.ui:128
 msgid "Advanced Settings"
 msgstr "Avanserte innstillinger"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:122
+#: main/data/preferences_window/account_preferences_subpage.ui:129
 msgid "Custom server connection (leave empty for automatic)"
 msgstr "Tilpasset servertilkobling (la stå tomt for automatisk)"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:125
+#: main/data/preferences_window/account_preferences_subpage.ui:132
 msgid "Server Hostname"
 msgstr "Serververtsnavn"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:130
+#: main/data/preferences_window/account_preferences_subpage.ui:137
 msgid "Port"
 msgstr "Port"
 
@@ -352,12 +360,52 @@ msgid "Create a backup of your accounts, messages and settings"
 msgstr "Lag en sikkerhetskopi av kontoer, meldinger og innstillinger"
 
 #: main/data/preferences_window/general_preferences_page.ui:78
-msgid "Data Location"
-msgstr "Dataplassering"
+#: main/src/ui/application.vala:464 main/src/ui/main_window.vala:223
+msgid "Restore from Backup"
+msgstr "Gjenopprett fra sikkerhetskopi"
 
 #: main/data/preferences_window/general_preferences_page.ui:79
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "Gjenopprett kontoer, meldinger og innstillinger fra sikkerhetskopi"
+
+#: main/data/preferences_window/general_preferences_page.ui:90
+msgid "Data Storage Location"
+msgstr "Datalagringsplassering"
+
+#: main/data/preferences_window/general_preferences_page.ui:91
 msgid "View where your data is stored"
 msgstr "Se hvor dataene dine er lagret"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "Databasevedlikehold"
+
+#: main/data/preferences_window/general_preferences_page.ui:107
+#: main/src/ui/application.vala:761 main/src/ui/application.vala:766
+msgid "Clear Cache"
+msgstr "Tøm hurtigbuffer"
+
+#: main/data/preferences_window/general_preferences_page.ui:108
+msgid "Clear cached files, avatars and previews"
+msgstr "Slett hurtigbufrede filer, avatarer og forhåndsvisninger"
+
+#: main/data/preferences_window/general_preferences_page.ui:119
+#: main/src/ui/application.vala:838 main/src/ui/application.vala:844
+msgid "Reset Database"
+msgstr "Tilbakestill database"
+
+#: main/data/preferences_window/general_preferences_page.ui:120
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr "Slett alle meldinger, filer og OMEMO-nøkler. Kontoene dine beholdes."
+
+#: main/data/preferences_window/general_preferences_page.ui:131
+#: main/src/ui/application.vala:896
+msgid "Factory Reset"
+msgstr "Fabrikkinnstillinger"
+
+#: main/data/preferences_window/general_preferences_page.ui:132
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr "Slett ALLE data inkludert kontoer. Dette kan ikke angres!"
 
 #: main/data/preferences_window/preferences_dialog.ui:11
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:15
@@ -382,7 +430,7 @@ msgstr "Neste"
 
 #: main/src/ui/add_conversation/add_conference_dialog.vala:59
 #: main/src/ui/add_conversation/conference_details_fragment.vala:151
-#: main/src/ui/application.vala:541
+#: main/src/ui/application.vala:1373
 msgid "Join"
 msgstr "Ta del"
 
@@ -468,31 +516,31 @@ msgstr "Slett kontakt"
 msgid "Leave Group"
 msgstr "Forlat gruppe"
 
-#: main/src/ui/application.vala:339
+#: main/src/ui/application.vala:345
 msgid "Modern XMPP client with extended features"
 msgstr "Moderne XMPP-klient med utvidede funksjoner"
 
-#: main/src/ui/application.vala:346 main/src/ui/application.vala:385
+#: main/src/ui/application.vala:352 main/src/ui/application.vala:727
 msgid "User Data Locations"
 msgstr "Dataplasseringer"
 
-#: main/src/ui/application.vala:349 main/src/ui/application.vala:399
+#: main/src/ui/application.vala:355 main/src/ui/application.vala:741
 msgid "Configuration:"
 msgstr "Konfigurasjon:"
 
-#: main/src/ui/application.vala:352 main/src/ui/application.vala:401
+#: main/src/ui/application.vala:358 main/src/ui/application.vala:743
 msgid "Data & Database:"
 msgstr "Data og database:"
 
-#: main/src/ui/application.vala:355 main/src/ui/application.vala:403
+#: main/src/ui/application.vala:361 main/src/ui/application.vala:745
 msgid "Cache:"
 msgstr "Hurtigbuffer:"
 
-#: main/src/ui/application.vala:358
+#: main/src/ui/application.vala:364
 msgid "Info:"
 msgstr "Info:"
 
-#: main/src/ui/application.vala:359
+#: main/src/ui/application.vala:365
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
@@ -500,17 +548,121 @@ msgstr ""
 "Dine personlige data (kontoer, meldinger, filer) lagres separat fra "
 "applikasjonen."
 
-#: main/src/ui/application.vala:361
+#: main/src/ui/application.vala:367
 msgid "When you update DinoX, your data remains intact."
 msgstr "Når du oppdaterer DinoX, forblir dataene dine intakte."
 
-#: main/src/ui/application.vala:363
+#: main/src/ui/application.vala:369
 msgid "Use Settings → General → Backup User Data to create a backup."
 msgstr ""
 "Bruk Innstillinger → Generelt → Sikkerhetskopier brukerdata for å opprette "
 "en sikkerhetskopi."
 
-#: main/src/ui/application.vala:405
+#: main/src/ui/application.vala:387
+msgid "Select Backup File"
+msgstr "Velg sikkerhetskopifil"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+#: main/src/ui/application.vala:395
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "Sikkerhetskopifiler (*.tar.gz, *.tar.gz.gpg)"
+
+#: main/src/ui/application.vala:425
+msgid "Enter Backup Password"
+msgstr "Skriv inn passord for sikkerhetskopi"
+
+#: main/src/ui/application.vala:426
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "Denne sikkerhetskopien er kryptert. Skriv inn passordet."
+
+#: main/src/ui/application.vala:442
+msgid "Decrypt & Restore"
+msgstr "Dekrypter og gjenopprett"
+
+#: main/src/ui/application.vala:465
+msgid ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+msgstr ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+
+#: main/src/ui/application.vala:470
+msgid "Restore Backup"
+msgstr "Gjenopprett sikkerhetskopi"
+
+#: main/src/ui/application.vala:487 main/src/ui/application.vala:519
+msgid "Decrypting Backup..."
+msgstr "Dekrypterer sikkerhetskopi..."
+
+#: main/src/ui/application.vala:487 main/src/ui/application.vala:571
+msgid "Restoring Backup..."
+msgstr "Gjenoppretter sikkerhetskopi..."
+
+#: main/src/ui/application.vala:488
+msgid "Please wait, this may take a moment..."
+msgstr "Vennligst vent, dette kan ta et øyeblikk..."
+
+#: main/src/ui/application.vala:520
+msgid "Decrypting encrypted backup file..."
+msgstr "Dekrypterer sikkerhetskopifil..."
+
+#: main/src/ui/application.vala:558
+msgid "Decryption Failed"
+msgstr "Dekryptering mislyktes"
+
+#: main/src/ui/application.vala:559
+msgid ""
+"Could not decrypt the backup file.\n"
+"\n"
+"Please check if the password is correct."
+msgstr ""
+"Kunne ikke dekryptere filen.\n"
+"\n"
+"Sjekk om passordet er riktig."
+
+#: main/src/ui/application.vala:561 main/src/ui/application.vala:671
+msgid "OK"
+msgstr "OK"
+
+#: main/src/ui/application.vala:572
+msgid "Extracting files from backup..."
+msgstr "Pakker ut filer fra sikkerhetskopi..."
+
+#: main/src/ui/application.vala:653
+msgid "Restore Complete!"
+msgstr "Gjenoppretting fullført!"
+
+#: main/src/ui/application.vala:654
+msgid "DinoX will now restart..."
+msgstr "DinoX starter på nytt nå..."
+
+#: main/src/ui/application.vala:668
+msgid "Restore Failed"
+msgstr "Gjenoppretting mislyktes"
+
+#: main/src/ui/application.vala:669
+#, c-format
+msgid ""
+"Could not restore the backup file.\n"
+"\n"
+"Error: %s"
+msgstr ""
+"Kunne ikke gjenopprette filen.\n"
+"\n"
+"Feil: %s"
+
+#: main/src/ui/application.vala:669 main/src/ui/application.vala:1345
+msgid "Unknown error"
+msgstr "Ukjent feil"
+
+#: main/src/ui/application.vala:747
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
@@ -520,96 +672,244 @@ msgstr ""
 "personlige data (kontoer, meldinger, filer) lagres separat fra "
 "applikasjonen. Når du oppdaterer DinoX, forblir dataene dine intakte."
 
-#: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
-#: main/src/ui/main_window.vala:159
+#: main/src/ui/application.vala:752 main/src/ui/application.vala:1240
+#: main/src/ui/application.vala:1324 main/src/ui/conversation_details.vala:272
+#: main/src/ui/main_window.vala:172
 msgid "Close"
 msgstr "Lukk"
 
-#: main/src/ui/application.vala:417
+#: main/src/ui/application.vala:762
+msgid ""
+"This will delete cached files, avatars and previews.\n"
+"\n"
+"They will be re-downloaded when needed."
+msgstr ""
+"Dette vil slette hurtigbufrede filer, avatarer og forhåndsvisninger.\n"
+"\n"
+"De vil bli lastet ned på nytt ved behov."
+
+#: main/src/ui/application.vala:799
+#, c-format
+msgid "Cache cleared (%s freed)"
+msgstr "Hurtigbuffer tømt (%s frigjort)"
+
+#: main/src/ui/application.vala:802
+msgid "Failed to clear cache"
+msgstr "Kunne ikke tømme hurtigbuffer"
+
+#: main/src/ui/application.vala:839
+msgid ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+msgstr ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+
+#: main/src/ui/application.vala:867
+msgid "Resetting database... DinoX will restart."
+msgstr "Tilbakestiller database... DinoX starter på nytt."
+
+#: main/src/ui/application.vala:897
+msgid ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+msgstr ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+
+#: main/src/ui/application.vala:902
+msgid "Create Backup First"
+msgstr "Opprett sikkerhetskopi først"
+
+#: main/src/ui/application.vala:903
+msgid "Delete Everything"
+msgstr "Slett alt"
+
+#: main/src/ui/application.vala:923
+msgid "Are you absolutely sure?"
+msgstr "Er du helt sikker?"
+
+#: main/src/ui/application.vala:924
+msgid ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+msgstr ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+
+#: main/src/ui/application.vala:934
+msgid "Confirm Delete"
+msgstr "Bekreft sletting"
+
+#: main/src/ui/application.vala:961
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "Tilbakestilling til fabrikkinnstillinger... DinoX starter på nytt."
+
+#: main/src/ui/application.vala:1026
+msgid "Backup Encryption"
+msgstr "Sikkerhetskopikryptering"
+
+#: main/src/ui/application.vala:1027
+msgid ""
+"Do you want to encrypt the backup with a password?\n"
+"\n"
+"Encrypted backups are more secure but require the password to restore."
+msgstr ""
+"Vil du kryptere sikkerhetskopien med et passord?\n"
+"\n"
+"Krypterte sikkerhetskopier er sikrere, men krever passordet for å "
+"gjenopprettes."
+
+#: main/src/ui/application.vala:1030
+msgid "No Encryption"
+msgstr "Ingen kryptering"
+
+#: main/src/ui/application.vala:1031
+msgid "Encrypt with Password"
+msgstr "Krypter med passord"
+
+#: main/src/ui/application.vala:1049
+msgid "Set Backup Password"
+msgstr "Angi passord for sikkerhetskopi"
+
+#: main/src/ui/application.vala:1050
+msgid ""
+"Enter a password to encrypt the backup.\n"
+"\n"
+"<b>Important:</b> Remember this password! Without it, the backup cannot be "
+"restored."
+msgstr ""
+"Skriv inn et passord for å kryptere sikkerhetskopien.\n"
+"\n"
+"<b>Viktig:</b> Husk dette passordet! Uten det kan ikke sikkerhetskopien "
+"gjenopprettes."
+
+#: main/src/ui/application.vala:1058
+msgid "Password (minimum 4 characters)"
+msgstr "Passord (minst 4 tegn)"
+
+#: main/src/ui/application.vala:1066 main/src/ui/application.vala:1073
+msgid "Confirm Password"
+msgstr "Bekreft passord"
+
+#: main/src/ui/application.vala:1090
+msgid "Create Encrypted Backup"
+msgstr "Opprett kryptert sikkerhetskopi"
+
+#: main/src/ui/application.vala:1102 main/src/ui/application.vala:1117
+msgid "Password too short"
+msgstr "Passordet er for kort"
+
+#: main/src/ui/application.vala:1104 main/src/ui/application.vala:1119
+msgid "Passwords do not match"
+msgstr "Passordene samsvarer ikke"
+
+#: main/src/ui/application.vala:1106 main/src/ui/application.vala:1121
+msgid "✓ Passwords match"
+msgstr "✓ Passordene samsvarer"
+
+#: main/src/ui/application.vala:1139
 msgid "Select Backup Location"
 msgstr "Velg plassering for sikkerhetskopi"
 
-#: main/src/ui/application.vala
-msgid "Creating Backup..."
-msgstr "Creating Backup..."
-
-#: main/src/ui/application.vala
+#: main/src/ui/application.vala:1194
 msgid "Creating Encrypted Backup..."
-msgstr "Creating Encrypted Backup..."
+msgstr "Oppretter kryptert sikkerhetskopi..."
 
-#: main/src/ui/application.vala
-msgid "Please wait while your data is being backed up."
-msgstr "Please wait while your data is being backed up."
-
-#: main/src/ui/application.vala
-msgid "No data directories found to backup"
-msgstr "No data directories found to backup"
-
-#: main/src/ui/application.vala
-msgid "Backup Created"
-msgstr "Backup Created"
-
-#: main/src/ui/application.vala
-msgid "Encrypted Backup Created"
-msgstr "Encrypted Backup Created"
-
-#: main/src/ui/application.vala
-#, c-format
-msgid "Your backup was created successfully.\\n\\nSize: %s"
-msgstr "Your backup was created successfully.\\n\\nSize: %s"
-
-#: main/src/ui/application.vala
-msgid "Your backup was created successfully."
-msgstr "Your backup was created successfully."
-
-#: main/src/ui/application.vala
-#, c-format
-msgid "Your encrypted backup was created successfully.\\n\\nSize: %s"
-msgstr "Your encrypted backup was created successfully.\\n\\nSize: %s"
-
-#: main/src/ui/application.vala
-msgid "Your encrypted backup was created successfully."
-msgstr "Your encrypted backup was created successfully."
-
-#: main/src/ui/application.vala
-msgid "Backup Failed"
-msgstr "Backup Failed"
-
-#: main/src/ui/application.vala:445
-msgid "Creating backup..."
+#: main/src/ui/application.vala:1194
+msgid "Creating Backup..."
 msgstr "Oppretter sikkerhetskopi..."
 
-#: main/src/ui/application.vala:503
-#, c-format
-msgid "Backup created successfully (%s)"
-msgstr "Sikkerhetskopi opprettet (%s)"
+#: main/src/ui/application.vala:1195
+msgid "Please wait while your data is being backed up."
+msgstr "Vennligst vent mens dataene dine sikkerhetskopieres."
 
-#: main/src/ui/application.vala:505
-msgid "Backup created successfully"
+#: main/src/ui/application.vala:1234
+msgid "No data directory found to backup"
+msgstr "Ingen datakatalog funnet for sikkerhetskopiering"
+
+#: main/src/ui/application.vala:1237 main/src/ui/application.vala:1343
+msgid "Backup Failed"
+msgstr "Sikkerhetskopiering mislyktes"
+
+#: main/src/ui/application.vala:1331
+msgid "Encrypted Backup Created"
+msgstr "Kryptert sikkerhetskopi opprettet"
+
+#: main/src/ui/application.vala:1333
+#, c-format
+msgid ""
+"Your encrypted backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"Din krypterte sikkerhetskopi ble opprettet.\n"
+"\n"
+"Størrelse: %s"
+
+#: main/src/ui/application.vala:1334
+msgid "Your encrypted backup was created successfully."
+msgstr "Din krypterte sikkerhetskopi ble opprettet."
+
+#: main/src/ui/application.vala:1336
+msgid "Backup Created"
 msgstr "Sikkerhetskopi opprettet"
 
-#: main/src/ui/application.vala:510
-msgid "Unknown error"
-msgstr "Ukjent feil"
+#: main/src/ui/application.vala:1338
+#, c-format
+msgid ""
+"Your backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"Din sikkerhetskopi ble opprettet.\n"
+"\n"
+"Størrelse: %s"
 
-#: main/src/ui/application.vala:511
+#: main/src/ui/application.vala:1339
+msgid "Your backup was created successfully."
+msgstr "Din sikkerhetskopi ble opprettet."
+
+#: main/src/ui/application.vala:1346
 #, c-format
 msgid "Backup failed: %s"
 msgstr "Sikkerhetskopiering mislyktes: %s"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:29
+#: main/src/ui/call_window/audio_settings_popover.vala:46
 msgid "Microphones"
 msgstr "Mikrofoner"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:32
+#: main/src/ui/call_window/audio_settings_popover.vala:49
 msgid "No microphone found."
 msgstr "Ingen mikrofon funnet."
 
-#: main/src/ui/call_window/audio_settings_popover.vala:85
+#: main/src/ui/call_window/audio_settings_popover.vala:116
 msgid "Speakers"
 msgstr "Høyttalere"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:88
+#: main/src/ui/call_window/audio_settings_popover.vala:119
 msgid "No speaker found."
 msgstr "Ingen høytaler funnet."
 
@@ -625,7 +925,7 @@ msgstr "Inviter til samtale"
 msgid "Invite"
 msgstr "Inviter"
 
-#: main/src/ui/call_window/call_window_controller.vala:405
+#: main/src/ui/call_window/call_window_controller.vala:453
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:240
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:270
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:285
@@ -644,21 +944,21 @@ msgstr "%s avsluttet samtalen"
 msgid "%s declined the call"
 msgstr "%s avslo samtalen"
 
-#: main/src/ui/call_window/participant_widget.vala:115
+#: main/src/ui/call_window/participant_widget.vala:140
 msgid "Debug information"
 msgstr "Feilsøkingsinformasjon"
 
-#: main/src/ui/call_window/participant_widget.vala:124
+#: main/src/ui/call_window/participant_widget.vala:149
 #: main/src/ui/conversation_content_view/call_widget.vala:152
 msgid "Calling…"
 msgstr "Ringer …"
 
-#: main/src/ui/call_window/participant_widget.vala:126
+#: main/src/ui/call_window/participant_widget.vala:151
 msgid "Ringing…"
 msgstr "Ringer …"
 
-#: main/src/ui/call_window/participant_widget.vala:128
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:216
+#: main/src/ui/call_window/participant_widget.vala:153
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:244
 msgid "Connecting…"
 msgstr "Kobler til…"
 
@@ -892,7 +1192,7 @@ msgstr "%a, %l∶%M %p"
 msgid "Just now"
 msgstr "Akkurat nå"
 
-#: main/src/ui/conversation_content_view/conversation_view.vala:105
+#: main/src/ui/conversation_content_view/conversation_view.vala:106
 msgid "More actions"
 msgstr "Flere handlinger"
 
@@ -1109,7 +1409,39 @@ msgstr "Ødelegg"
 
 #: main/src/ui/conversation_details.vala:271
 msgid "Failed to destroy room"
-msgstr "Kunne ikke ødelegge rommet"
+msgstr "Klarte ikke å ødelegge rommet"
+
+#: main/src/ui/conversation_details.vala:286
+msgid "Auto-delete messages"
+msgstr "Slett meldinger automatisk"
+
+#: main/src/ui/conversation_details.vala:287
+msgid "Never"
+msgstr "Aldri"
+
+#: main/src/ui/conversation_details.vala:288
+msgid "After 15 minutes"
+msgstr "Etter 15 minutter"
+
+#: main/src/ui/conversation_details.vala:289
+msgid "After 30 minutes"
+msgstr "Etter 30 minutter"
+
+#: main/src/ui/conversation_details.vala:290
+msgid "After 1 hour"
+msgstr "Etter 1 time"
+
+#: main/src/ui/conversation_details.vala:291
+msgid "After 24 hours"
+msgstr "Etter 24 timer"
+
+#: main/src/ui/conversation_details.vala:292
+msgid "After 7 days"
+msgstr "Etter 7 dager"
+
+#: main/src/ui/conversation_details.vala:293
+msgid "After 30 days"
+msgstr "Etter 30 dager"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:276
 #: main/src/ui/notifier_freedesktop.vala:71
@@ -1257,6 +1589,7 @@ msgstr "Fjern blokkering av kontakt?"
 # c-format
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:702
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:247
+#, c-format
 msgid "This will allow %s to send you messages again."
 msgstr "Dette vil tillate %s å sende deg meldinger igjen."
 
@@ -1359,7 +1692,7 @@ msgid "Select file"
 msgstr "Velg fil"
 
 #: main/src/ui/conversation_view_controller.vala:225
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:152
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:180
 msgid "Select"
 msgstr "Velg"
 
@@ -1377,11 +1710,11 @@ msgstr "I %s"
 msgid "With %s"
 msgstr "Med %s"
 
-#: main/src/ui/main_window.vala:156
+#: main/src/ui/main_window.vala:169
 msgid "Join Channel Help"
 msgstr "Hjelp for å bli med i kanal"
 
-#: main/src/ui/main_window.vala:157
+#: main/src/ui/main_window.vala:170
 msgid ""
 "To join a channel, click the \"Join Channel\" button and enter the channel "
 "JID (example: room@conference.example.org).\n"
@@ -1395,25 +1728,25 @@ msgstr ""
 "Hvis du trenger et passord eller kallenavn, oppgi dem i dialogen. Bruk "
 "serverens oppdagelsesfunksjoner for å finne offentlige rom."
 
-#: main/src/ui/main_window.vala:206
+#: main/src/ui/main_window.vala:219
 msgid "Welcome to DinoX!"
 msgstr "Velkommen til DinoX!"
 
-#: main/src/ui/main_window.vala:207
+#: main/src/ui/main_window.vala:220
 msgid "Sign in or create an account to get started."
 msgstr "Logg inn eller opprett en konto for å starte."
 
-#: main/src/ui/main_window.vala:208
+#: main/src/ui/main_window.vala:221
 msgid "Set up account"
 msgstr "Sett opp konto"
 
-#: main/src/ui/main_window.vala:215
+#: main/src/ui/main_window.vala:230
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:71
 #: main/src/windows/preferences_window/encryption_preferences_page.vala:49
 msgid "No active accounts"
 msgstr "Ingen kontoer aktive"
 
-#: main/src/ui/main_window.vala:216
+#: main/src/ui/main_window.vala:231
 msgid "Manage accounts"
 msgstr "Behandle kontoer"
 
@@ -1423,12 +1756,12 @@ msgid "Subscription request"
 msgstr "Abonnementsforespørsel"
 
 #: main/src/ui/notifier_freedesktop.vala:192
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:231
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:259
 msgid "Wrong password"
 msgstr "Feil passord"
 
 #: main/src/ui/notifier_freedesktop.vala:195
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:233
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:261
 msgid "Invalid TLS certificate"
 msgstr "Ugyldig TLS-sertifikat"
 
@@ -1463,7 +1796,7 @@ msgstr "Eier"
 #: main/src/ui/occupant_menu/list.vala:120
 #: main/src/view_model/conversation_details.vala:135
 msgid "Admin"
-msgstr "Admin"
+msgstr "Administrator"
 
 #: main/src/ui/occupant_menu/list.vala:122
 #: main/src/view_model/conversation_details.vala:136
@@ -1621,6 +1954,7 @@ msgid "Today"
 msgstr "I dag"
 
 #: main/src/ui/widgets/date_separator.vala:35
+#, no-c-format
 msgid "%a, %b %d"
 msgstr "%a, %b %d"
 
@@ -1672,45 +2006,45 @@ msgstr "Innstillinger"
 msgid "Room Configuration"
 msgstr "Rom-oppsett"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:68
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:69
 msgid "Connect"
 msgstr "Koble til"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:106
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
 msgid "Disable account"
 msgstr "Deaktiver konto"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:106
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
 msgid "Enable account"
 msgstr "Aktiver konto"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:151
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:179
 msgid "Select avatar"
 msgstr "Velg avatar"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:162
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:190
 msgid "Images"
 msgstr "Bilder"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:166
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:194
 msgid "All files"
 msgstr "Alle filer"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:184
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:212
 #, c-format
 msgid "Remove account %s?"
 msgstr "Fjern konto %s?"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:218
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:246
 msgid "Connected"
 msgstr "Tilkoblet"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:220
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:248
 msgid "Disconnected"
 msgstr "Frakoblet"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:240
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:242
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:268
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:270
 msgid "Error"
 msgstr "Feil"
 
@@ -1822,386 +2156,189 @@ msgstr "Endre visningsnavnet for %s"
 msgid "Alias (optional)"
 msgstr "Alias (valgfritt)"
 
+#~ msgid "Creating backup..."
+#~ msgstr "Oppretter sikkerhetskopi..."
+
+#, c-format
+#~ msgid "Backup created successfully (%s)"
+#~ msgstr "Sikkerhetskopi opprettet (%s)"
+
+#~ msgid "Backup created successfully"
+#~ msgstr "Sikkerhetskopi opprettet"
+
 # DinoX v0.7.7 - Database Maintenance & Backup/Restore
-msgid "Clean Database"
-msgstr "Rens database"
+#~ msgid "Clean Database"
+#~ msgstr "Rens database"
 
-msgid "Reset Database"
-msgstr "Tilbakestill database"
+#~ msgid "Encrypting Backup..."
+#~ msgstr "Krypterer sikkerhetskopi..."
 
-msgid "Restore Complete!"
-msgstr "Gjenoppretting fullført!"
+#~ msgid "Creating encrypted backup..."
+#~ msgstr "Oppretter kryptert sikkerhetskopi..."
 
-msgid "Restore Failed"
-msgstr "Gjenoppretting mislyktes"
+#~ msgid "Encrypted backup created successfully"
+#~ msgstr "Kryptert sikkerhetskopi opprettet"
 
-msgid "Decrypting Backup..."
-msgstr "Dekrypterer sikkerhetskopi..."
-
-msgid "Restoring Backup..."
-msgstr "Gjenoppretter sikkerhetskopi..."
-
-msgid "Set Backup Password"
-msgstr "Angi passord for sikkerhetskopi"
-
-msgid "Confirm Password"
-msgstr "Bekreft passord"
-
-msgid "Create Encrypted Backup"
-msgstr "Opprett kryptert sikkerhetskopi"
-
-msgid "Password too short"
-msgstr "Passordet er for kort"
-
-msgid "Passwords do not match"
-msgstr "Passordene samsvarer ikke"
-
-msgid "✓ Passwords match"
-msgstr "✓ Passordene samsvarer"
-
-msgid "Encrypting Backup..."
-msgstr "Krypterer sikkerhetskopi..."
-
-msgid "Factory Reset"
-msgstr "Fabrikkinnstillinger"
-
-msgid "Restore from Backup"
-msgstr "Gjenopprett fra sikkerhetskopi"
-
-msgid "Restore Backup"
-msgstr "Gjenopprett sikkerhetskopi"
-
-msgid "Select Backup File"
-msgstr "Velg sikkerhetskopifil"
-
-msgid "Enter Backup Password"
-msgstr "Skriv inn passord for sikkerhetskopi"
-
-msgid "Decrypt & Restore"
-msgstr "Dekrypter og gjenopprett"
-
-msgid "Create Backup First"
-msgstr "Opprett sikkerhetskopi først"
-
-msgid "No Encryption"
-msgstr "Ingen kryptering"
-
-msgid "Encrypt with Password"
-msgstr "Krypter med passord"
-
-msgid "Delete Everything"
-msgstr "Slett alt"
-
-msgid "Confirm Delete"
-msgstr "Bekreft sletting"
-
-msgid "Are you absolutely sure?"
-msgstr "Er du helt sikker?"
-
-#: main/data/preferences_window/general_preferences_page.ui:104
-msgid "Database Maintenance"
-msgstr "Databasevedlikehold"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Restore accounts, messages and settings from a backup file"
-msgstr "Gjenopprett kontoer, meldinger og innstillinger fra sikkerhetskopi"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
-msgstr "Slett alle meldinger, filer og OMEMO-nøkler. Kontoene dine beholdes."
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete ALL data including accounts. This cannot be undone!"
-msgstr "Slett ALLE data inkludert kontoer. Dette kan ikke angres!"
-
-# DinoX v0.7.7 - Additional Backup/Restore strings
-msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
-msgstr "Sikkerhetskopifiler (*.tar.gz, *.tar.gz.gpg)"
-
-msgid "Creating encrypted backup..."
-msgstr "Oppretter kryptert sikkerhetskopi..."
-
-msgid "Decryption Failed"
-msgstr "Dekryptering mislyktes"
-
-msgid "DinoX will now restart..."
-msgstr "DinoX starter på nytt nå..."
-
-msgid "Encrypted backup created successfully"
-msgstr "Kryptert sikkerhetskopi opprettet"
-
-msgid "Password (minimum 4 characters)"
-msgstr "Passord (minst 4 tegn)"
-
-msgid "Decrypting encrypted backup file..."
-msgstr "Dekrypterer sikkerhetskopifil..."
-
-msgid "Extracting files from backup..."
-msgstr "Pakker ut filer fra sikkerhetskopi..."
-
-msgid "Factory reset in progress... DinoX will restart."
-msgstr "Tilbakestilling til fabrikkinnstillinger... DinoX starter på nytt."
-
-msgid "Resetting database... DinoX will restart."
-msgstr "Tilbakestiller database... DinoX starter på nytt."
-
-msgid "Encrypted backup created (%s)"
-msgstr "Kryptert sikkerhetskopi opprettet (%s)"
-
-msgid ""
-"Could not decrypt the backup file.\n"
-"\n"
-"Please check if the password is correct."
-msgstr ""
-"Kunne ikke dekryptere filen.\n"
-"\n"
-"Sjekk om passordet er riktig."
-
-msgid ""
-"Could not restore the backup file.\n"
-"\n"
-"Error: %s"
-msgstr ""
-"Kunne ikke gjenopprette filen.\n"
-"\n"
-"Feil: %s"
-
-msgid "This backup is encrypted. Please enter the password to decrypt it."
-msgstr "Denne sikkerhetskopien er kryptert. Skriv inn passordet."
-
-msgid ""
-"Enter a password to encrypt the backup.\n"
-"\n"
-"<b>Important:</b> Remember this password! Without it, the backup cannot be "
-"restored."
-msgstr ""
-"Skriv inn et passord for å kryptere sikkerhetskopien.\n"
-"\n"
-"<b>Viktig:</b> Husk dette passordet! Uten det kan ikke sikkerhetskopien "
-"gjenopprettes."
-
-msgid ""
-"This will delete all messages, files and OMEMO encryption keys.\n"
-"\n"
-"<b>Your accounts will remain, but you will lose all chat history and need to "
-"re-verify encryption with your contacts.</b>\n"
-"\n"
-"This action cannot be undone!"
-msgstr ""
-"This will delete all messages, files and OMEMO encryption keys.\n"
-"\n"
-"<b>Your accounts will remain, but you will lose all chat history and need to "
-"re-verify encryption with your contacts.</b>\n"
-"\n"
-"This action cannot be undone!"
-
-msgid ""
-"This will replace all current data with the backup.\n"
-"\n"
-"<b>Current accounts, messages and settings will be overwritten!</b>\n"
-"\n"
-"DinoX will restart after restoring."
-msgstr ""
-"This will replace all current data with the backup.\n"
-"\n"
-"<b>Current accounts, messages and settings will be overwritten!</b>\n"
-"\n"
-"DinoX will restart after restoring."
-
-msgid ""
-"Type 'DELETE' to confirm factory reset.\n"
-"\n"
-"This will permanently remove all your DinoX data."
-msgstr ""
-"Type 'DELETE' to confirm factory reset.\n"
-"\n"
-"This will permanently remove all your DinoX data."
-
-msgid ""
-"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
-"\n"
-"• All accounts\n"
-"• All messages and files\n"
-"• All encryption keys\n"
-"• All settings\n"
-"\n"
-"This is irreversible. Make sure to create a backup first!"
-msgstr ""
-"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
-"\n"
-"• All accounts\n"
-"• All messages and files\n"
-"• All encryption keys\n"
-"• All settings\n"
-"\n"
-"This is irreversible. Make sure to create a backup first!"
+#~ msgid "Encrypted backup created (%s)"
+#~ msgstr "Kryptert sikkerhetskopi opprettet (%s)"
 
 # OpenPGP Key Management translations
-msgid "OpenPGP Key Management"
-msgstr "OpenPGP-nøglehåndtering"
+#~ msgid "OpenPGP Key Management"
+#~ msgstr "OpenPGP-nøglehåndtering"
 
-msgid "Actions"
-msgstr "Handlinger"
+#~ msgid "Actions"
+#~ msgstr "Handlinger"
 
-msgid "Generate New Key"
-msgstr "Generer ny nøgle"
+#~ msgid "Generate New Key"
+#~ msgstr "Generer ny nøgle"
 
-msgid "Create a new OpenPGP key pair"
-msgstr "Opret et nyt OpenPGP-nøglepar"
+#~ msgid "Create a new OpenPGP key pair"
+#~ msgstr "Opret et nyt OpenPGP-nøglepar"
 
-msgid "Import Key"
-msgstr "Importér nøgle"
+#~ msgid "Import Key"
+#~ msgstr "Importér nøgle"
 
-msgid "Import a key from file (.asc, .gpg)"
-msgstr "Importér en nøgle fra fil (.asc, .gpg)"
+#~ msgid "Import a key from file (.asc, .gpg)"
+#~ msgstr "Importér en nøgle fra fil (.asc, .gpg)"
 
-msgid "Your Keys"
-msgstr "Dine nøgler"
+#~ msgid "Your Keys"
+#~ msgstr "Dine nøgler"
 
-msgid "Private keys available for signing and decryption"
-msgstr "Private nøgler tilgængelige til signering og dekryptering"
+#~ msgid "Private keys available for signing and decryption"
+#~ msgstr "Private nøgler tilgængelige til signering og dekryptering"
 
-msgid "No private keys found"
-msgstr "Ingen private nøgler fundet"
+#~ msgid "No private keys found"
+#~ msgstr "Ingen private nøgler fundet"
 
-msgid "Generate or import a key to get started"
-msgstr "Generér eller importér en nøgle for at komme i gang"
+#~ msgid "Generate or import a key to get started"
+#~ msgstr "Generér eller importér en nøgle for at komme i gang"
 
-msgid "Fingerprint"
-msgstr "Fingeraftryk"
+#~ msgid "Fingerprint"
+#~ msgstr "Fingeraftryk"
 
-msgid "Export Public Key"
-msgstr "Eksportér offentlig nøgle"
+#~ msgid "Export Public Key"
+#~ msgstr "Eksportér offentlig nøgle"
 
-msgid "Delete Key"
-msgstr "Slet nøgle"
+#~ msgid "Delete Key"
+#~ msgstr "Slet nøgle"
 
-msgid "Generate New OpenPGP Key"
-msgstr "Generér ny OpenPGP-nøgle"
+#~ msgid "Generate New OpenPGP Key"
+#~ msgstr "Generér ny OpenPGP-nøgle"
 
-msgid "Enter your details to create a new key pair."
-msgstr "Indtast dine oplysninger for at oprette et nyt nøglepar."
+#~ msgid "Enter your details to create a new key pair."
+#~ msgstr "Indtast dine oplysninger for at oprette et nyt nøglepar."
 
-msgid "Name"
-msgstr "Navn"
+#~ msgid "Name"
+#~ msgstr "Navn"
 
-msgid "Your Name"
-msgstr "Dit navn"
+#~ msgid "Your Name"
+#~ msgstr "Dit navn"
 
-msgid "Email"
-msgstr "E-mail"
+#~ msgid "Email"
+#~ msgstr "E-mail"
 
-msgid "you@example.com"
-msgstr "dig@eksempel.dk"
+#~ msgid "you@example.com"
+#~ msgstr "dig@eksempel.dk"
 
-msgid "Passphrase (optional)"
-msgstr "Adgangssætning (valgfrit)"
+#~ msgid "Passphrase (optional)"
+#~ msgstr "Adgangssætning (valgfrit)"
 
-msgid "Passphrase"
-msgstr "Adgangssætning"
+#~ msgid "Passphrase"
+#~ msgstr "Adgangssætning"
 
-msgid "4096-bit RSA key, valid for 2 years."
-msgstr "4096-bit RSA-nøgle, gyldig i 2 år."
+#~ msgid "4096-bit RSA key, valid for 2 years."
+#~ msgstr "4096-bit RSA-nøgle, gyldig i 2 år."
 
-msgid "Generate"
-msgstr "Generér"
+#~ msgid "Generate"
+#~ msgstr "Generér"
 
-msgid "Name must be at least 2 characters"
-msgstr "Navn skal være mindst 2 tegn"
+#~ msgid "Name must be at least 2 characters"
+#~ msgstr "Navn skal være mindst 2 tegn"
 
-msgid "Please enter a valid email address"
-msgstr "Indtast venligst en gyldig e-mailadresse"
+#~ msgid "Please enter a valid email address"
+#~ msgstr "Indtast venligst en gyldig e-mailadresse"
 
-msgid "Generating Key..."
-msgstr "Genererer nøgle..."
+#~ msgid "Generating Key..."
+#~ msgstr "Genererer nøgle..."
 
-msgid "Please wait while your key is being generated. This may take a moment."
-msgstr "Vent venligst mens din nøgle genereres. Dette kan tage et øjeblik."
+#~ msgid "Key generated successfully!"
+#~ msgstr "Nøgle genereret!"
 
-msgid "Key generated successfully!"
-msgstr "Nøgle genereret!"
+#~ msgid "Import OpenPGP Key"
+#~ msgstr "Importér OpenPGP-nøgle"
 
-msgid "Failed to generate key."
-msgstr "Kunne ikke generere nøgle."
+#~ msgid "OpenPGP Keys (*.asc, *.gpg)"
+#~ msgstr "OpenPGP-nøgler (*.asc, *.gpg)"
 
-msgid "Import OpenPGP Key"
-msgstr "Importér OpenPGP-nøgle"
+#~ msgid "All Files"
+#~ msgstr "Alle filer"
 
-msgid "OpenPGP Keys (*.asc, *.gpg)"
-msgstr "OpenPGP-nøgler (*.asc, *.gpg)"
+#~ msgid "Key imported! Re-open Key Management to see it."
+#~ msgstr "Nøgle importeret! Genåbn nøglehåndtering for at se den."
 
-msgid "All Files"
-msgstr "Alle filer"
+#~ msgid "Import failed: "
+#~ msgstr "Import mislykkedes: "
 
-msgid "Key imported! Re-open Key Management to see it."
-msgstr "Nøgle importeret! Genåbn nøglehåndtering for at se den."
+#~ msgid "Key exported to: "
+#~ msgstr "Nøgle eksporteret til: "
 
-msgid "Import failed: "
-msgstr "Import mislykkedes: "
+#~ msgid "Export failed."
+#~ msgstr "Eksport mislykkedes."
 
-msgid "Key exported to: "
-msgstr "Nøgle eksporteret til: "
+#~ msgid "Delete Key?"
+#~ msgstr "Slet nøgle?"
 
-msgid "Export failed."
-msgstr "Eksport mislykkedes."
+#~ msgid ""
+#~ "Delete this key?\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "This cannot be undone!"
+#~ msgstr ""
+#~ "Slet denne nøgle?\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "Dette kan ikke fortrydes!"
 
-msgid "Delete Key?"
-msgstr "Slet nøgle?"
+#~ msgid "Key deleted."
+#~ msgstr "Nøgle slettet."
 
-msgid ""
-"Delete this key?\n"
-"\n"
-"%s\n"
-"\n"
-"This cannot be undone!"
-msgstr ""
-"Slet denne nøgle?\n"
-"\n"
-"%s\n"
-"\n"
-"Dette kan ikke fortrydes!"
+#~ msgid "Delete failed: "
+#~ msgstr "Sletning mislykkedes: "
 
-msgid "Key deleted."
-msgstr "Nøgle slettet."
+#~ msgid "Select OpenPGP Key"
+#~ msgstr "Vælg OpenPGP-nøgle"
 
-msgid "Delete failed: "
-msgstr "Sletning mislykkedes: "
+#~ msgid "Choose a key to announce to your contacts."
+#~ msgstr "Vælg en nøgle at annoncere til dine kontakter."
 
-msgid "Select OpenPGP Key"
-msgstr "Vælg OpenPGP-nøgle"
+#~ msgid "Enter GPG passphrase to confirm:"
+#~ msgstr "Indtast GPG-adgangssætning for at bekræfte:"
 
-msgid "Choose a key to announce to your contacts."
-msgstr "Vælg en nøgle at annoncere til dine kontakter."
+#~ msgid "Wrong passphrase"
+#~ msgstr "Forkert adgangssætning"
 
-msgid "Enter GPG passphrase to confirm:"
-msgstr "Indtast GPG-adgangssætning for at bekræfte:"
+#~ msgid "Manage Keys"
+#~ msgstr "Administrer nøgler"
 
-msgid "Wrong passphrase"
-msgstr "Forkert adgangssætning"
+#~ msgid "Generate, import, export, or delete keys"
+#~ msgstr "Generér, importér, eksportér eller slet nøgler"
 
-msgid "Manage Keys"
-msgstr "Administrer nøgler"
+#~ msgid "No keys available. Generate or import one!"
+#~ msgstr "Ingen nøgler tilgængelige. Generér eller importér en!"
 
-msgid "Generate, import, export, or delete keys"
-msgstr "Generér, importér, eksportér eller slet nøgler"
+#~ msgid "Announce key"
+#~ msgstr "Annoncér nøgle"
 
-msgid "No keys available. Generate or import one!"
-msgstr "Ingen nøgler tilgængelige. Generér eller importér en!"
+#~ msgid "Disabled"
+#~ msgstr "Deaktiveret"
 
-msgid "Announce key"
-msgstr "Annoncér nøgle"
+#~ msgid "Error in GnuPG"
+#~ msgstr "Fejl i GnuPG"
 
-msgid "Disabled"
-msgstr "Deaktiveret"
-
-msgid "Error in GnuPG"
-msgstr "Fejl i GnuPG"
-
-msgid "Success"
-msgstr "Succes"
-
-msgid "OK"
-msgstr "OK"
+#~ msgid "Success"
+#~ msgstr "Succes"
 
 #~ msgid "Message too long"
 #~ msgstr "Meldingen er for lang"

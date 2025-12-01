@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-13 21:57+0200\n"
+"POT-Creation-Date: 2025-12-01 15:51+0100\n"
 "PO-Revision-Date: 2025-10-11 15:07+0000\n"
 "Language-Team: none\n"
 "Language: tr\n"
@@ -17,44 +17,267 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.14-dev\n"
 
-#: plugins/openpgp/src/encryption_preferences_entry.vala:18
-msgid "Querying GnuPG"
-msgstr "GnuPG sorgu"
-
-#: plugins/openpgp/src/encryption_preferences_entry.vala:32
-#: plugins/openpgp/src/encryption_preferences_entry.vala:36
-#: plugins/openpgp/src/encryption_preferences_entry.vala:41
-msgid "Announce key"
-msgstr "Anahtarı yayınla"
-
-#: plugins/openpgp/src/encryption_preferences_entry.vala:32
-msgid "Error in GnuPG"
-msgstr "GnuPG'de Hata"
-
-#: plugins/openpgp/src/encryption_preferences_entry.vala:36
-msgid "No keys available. Generate one!"
-msgstr "Anahtar yok. Bir tane oluşturun!"
-
-#: plugins/openpgp/src/encryption_preferences_entry.vala:45
-msgid "Disabled"
-msgstr "Devre dışı"
-
 #: plugins/openpgp/src/contact_details_provider.vala:36
 msgid "Key not in keychain"
 msgstr "Anahtar anahtarlıkta değil"
 
 #: plugins/openpgp/src/contact_details_provider.vala:40
+#: plugins/openpgp/src/key_management_dialog.vala:220
 msgid "Fingerprint"
 msgstr "Parmak izi"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:50
+#: plugins/openpgp/src/encryption_preferences_entry.vala:56
+#: plugins/openpgp/src/encryption_preferences_entry.vala:62
+msgid "Announce key"
+msgstr "Anahtarı yayınla"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:50
+msgid "Error in GnuPG"
+msgstr "GnuPG'de Hata"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:56
+#, fuzzy
+msgid "No keys available. Generate or import one!"
+msgstr "Anahtar yok. Bir tane oluşturun!"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:68
+#: plugins/openpgp/src/encryption_preferences_entry.vala:110
+msgid "Disabled"
+msgstr "Devre dışı"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:97
+#, fuzzy
+msgid "Select OpenPGP Key"
+msgstr "Anahtar seçin"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:97
+msgid "Choose a key to announce to your contacts."
+msgstr "Kişilerinize duyurmak için bir anahtar seçin."
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:98
+#: plugins/openpgp/src/key_management_dialog.vala:307
+#: plugins/openpgp/src/key_management_dialog.vala:509
+msgid "Cancel"
+msgstr "İptal"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:99
+#: plugins/openpgp/src/key_management_dialog.vala:547
+msgid "OK"
+msgstr "Tamam"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:148
+msgid "Enter GPG passphrase to confirm:"
+msgstr "Onaylamak için GPG parolasını girin:"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:155
+msgid "Passphrase"
+msgstr "Parola"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:215
+msgid "Wrong passphrase"
+msgstr "Yanlış parola"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:228
+msgid "Manage Keys"
+msgstr "Anahtarları Yönet"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:229
+msgid "Generate, import, export, or delete keys"
+msgstr "Anahtar oluştur, içe aktar, dışa aktar veya sil"
+
+#: plugins/openpgp/src/key_management_dialog.vala:61
+msgid "OpenPGP Key Management"
+msgstr "OpenPGP Anahtar Yönetimi"
+
+#: plugins/openpgp/src/key_management_dialog.vala:74
+msgid "Actions"
+msgstr "Eylemler"
+
+#: plugins/openpgp/src/key_management_dialog.vala:78
+msgid "Generate New Key"
+msgstr "Yeni Anahtar Oluştur"
+
+#: plugins/openpgp/src/key_management_dialog.vala:79
+msgid "Create a new OpenPGP key pair"
+msgstr "Yeni bir OpenPGP anahtar çifti oluştur"
+
+#: plugins/openpgp/src/key_management_dialog.vala:96
+msgid "Import Key"
+msgstr "Anahtarı İçe Aktar"
+
+#: plugins/openpgp/src/key_management_dialog.vala:97
+msgid "Import a key from file (.asc, .gpg)"
+msgstr "Dosyadan anahtar içe aktar (.asc, .gpg)"
+
+#: plugins/openpgp/src/key_management_dialog.vala:116
+msgid "Your Keys"
+msgstr "Anahtarlarınız"
+
+#: plugins/openpgp/src/key_management_dialog.vala:117
+msgid "Private keys available for signing and decryption"
+msgstr "İmzalama ve şifre çözme için kullanılabilir özel anahtarlar"
+
+#: plugins/openpgp/src/key_management_dialog.vala:151
+msgid "No private keys found"
+msgstr "Özel anahtar bulunamadı"
+
+#: plugins/openpgp/src/key_management_dialog.vala:152
+msgid "Generate or import a key to get started"
+msgstr "Başlamak için bir anahtar oluşturun veya içe aktarın"
+
+#: plugins/openpgp/src/key_management_dialog.vala:232
+#: plugins/openpgp/src/key_management_dialog.vala:470
+msgid "Export Public Key"
+msgstr "Genel Anahtarı Dışa Aktar"
+
+#: plugins/openpgp/src/key_management_dialog.vala:240
+msgid "Delete Key"
+msgstr "Anahtarı Sil"
+
+#: plugins/openpgp/src/key_management_dialog.vala:263
+msgid "Generate New OpenPGP Key"
+msgstr "Yeni OpenPGP Anahtarı Oluştur"
+
+#: plugins/openpgp/src/key_management_dialog.vala:264
+msgid "Enter your details to create a new key pair."
+msgstr "Yeni bir anahtar çifti oluşturmak için bilgilerinizi girin."
+
+#: plugins/openpgp/src/key_management_dialog.vala:272
+msgid "Name"
+msgstr "İsim"
+
+#: plugins/openpgp/src/key_management_dialog.vala:277
+msgid "Your Name"
+msgstr "İsminiz"
+
+#: plugins/openpgp/src/key_management_dialog.vala:281
+msgid "Email"
+msgstr "E-posta"
+
+#: plugins/openpgp/src/key_management_dialog.vala:287
+msgid "you@example.com"
+msgstr "siz@ornek.com"
+
+#: plugins/openpgp/src/key_management_dialog.vala:291
+msgid "Passphrase (optional)"
+msgstr "Parola (isteğe bağlı)"
+
+#: plugins/openpgp/src/key_management_dialog.vala:300
+msgid "4096-bit RSA key, valid for 2 years."
+msgstr "4096-bit RSA anahtarı, 2 yıl geçerli."
+
+#: plugins/openpgp/src/key_management_dialog.vala:308
+msgid "Generate"
+msgstr "Oluştur"
+
+#: plugins/openpgp/src/key_management_dialog.vala:320
+#: plugins/openpgp/src/key_management_dialog.vala:324
+#: plugins/openpgp/src/key_management_dialog.vala:395
+#: plugins/openpgp/src/key_management_dialog.vala:402
+#: plugins/openpgp/src/key_management_dialog.vala:410
+#: plugins/openpgp/src/key_management_dialog.vala:461
+#: plugins/openpgp/src/key_management_dialog.vala:464
+#: plugins/openpgp/src/key_management_dialog.vala:498
+#: plugins/openpgp/src/key_management_dialog.vala:501
+#: plugins/openpgp/src/key_management_dialog.vala:538
+#: plugins/openpgp/src/key_management_dialog.vala:541
+msgid "Error"
+msgstr "Hata"
+
+#: plugins/openpgp/src/key_management_dialog.vala:320
+msgid "Name must be at least 2 characters"
+msgstr "İsim en az 2 karakter olmalıdır"
+
+#: plugins/openpgp/src/key_management_dialog.vala:324
+msgid "Please enter a valid email address"
+msgstr "Lütfen geçerli bir e-posta adresi girin"
+
+#: plugins/openpgp/src/key_management_dialog.vala:340
+msgid "Generating Key..."
+msgstr "Anahtar Oluşturuluyor..."
+
+#: plugins/openpgp/src/key_management_dialog.vala:341
+msgid "Please wait while your key is being generated. This may take a moment."
+msgstr "Lütfen anahtarınız oluşturulurken bekleyin. Bu biraz zaman alabilir."
+
+#: plugins/openpgp/src/key_management_dialog.vala:393
+#: plugins/openpgp/src/key_management_dialog.vala:459
+#: plugins/openpgp/src/key_management_dialog.vala:496
+#: plugins/openpgp/src/key_management_dialog.vala:536
+msgid "Success"
+msgstr "Başarılı"
+
+#: plugins/openpgp/src/key_management_dialog.vala:393
+msgid "Key generated successfully!"
+msgstr "Anahtar başarıyla oluşturuldu!"
+
+#: plugins/openpgp/src/key_management_dialog.vala:395
+msgid "Failed to generate key."
+msgstr "Anahtar oluşturulamadı."
+
+#: plugins/openpgp/src/key_management_dialog.vala:416
+msgid "Import OpenPGP Key"
+msgstr "OpenPGP Anahtarını İçe Aktar"
+
+#: plugins/openpgp/src/key_management_dialog.vala:421
+msgid "OpenPGP Keys (*.asc, *.gpg)"
+msgstr "OpenPGP Anahtarları (*.asc, *.gpg)"
+
+#: plugins/openpgp/src/key_management_dialog.vala:428
+msgid "All Files"
+msgstr "Tüm Dosyalar"
+
+#: plugins/openpgp/src/key_management_dialog.vala:459
+msgid "Key imported! Re-open Key Management to see it."
+msgstr "Anahtar içe aktarıldı! Görmek için Anahtar Yönetimi'ni yeniden açın."
+
+#: plugins/openpgp/src/key_management_dialog.vala:461
+msgid "Import failed: "
+msgstr "İçe aktarma başarısız: "
+
+#: plugins/openpgp/src/key_management_dialog.vala:496
+msgid "Key exported to: "
+msgstr "Anahtar şuraya dışa aktarıldı: "
+
+#: plugins/openpgp/src/key_management_dialog.vala:498
+msgid "Export failed."
+msgstr "Dışa aktarma başarısız."
+
+#: plugins/openpgp/src/key_management_dialog.vala:506
+msgid "Delete Key?"
+msgstr "Anahtar Silinsin mi?"
+
+#: plugins/openpgp/src/key_management_dialog.vala:507
+#, c-format
+msgid ""
+"Delete this key?\n"
+"\n"
+"%s\n"
+"\n"
+"This cannot be undone!"
+msgstr ""
+
+#: plugins/openpgp/src/key_management_dialog.vala:510
+msgid "Delete"
+msgstr "Sil"
+
+#: plugins/openpgp/src/key_management_dialog.vala:536
+msgid "Key deleted."
+msgstr "Anahtar silindi."
+
+#: plugins/openpgp/src/key_management_dialog.vala:538
+msgid "Delete failed: "
+msgstr "Silme başarısız: "
+
+#~ msgid "Querying GnuPG"
+#~ msgstr "GnuPG sorgu"
 
 #~ msgid "Encryption"
 #~ msgstr "Şifreleme"
 
 #~ msgid "Key publishing disabled"
 #~ msgstr "Anahtar yayınlama devre dışı"
-
-#~ msgid "Select key"
-#~ msgstr "Anahtar seçin"
 
 #~ msgid "Loading…"
 #~ msgstr "Yükleniyor…"

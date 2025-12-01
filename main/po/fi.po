@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-28 12:18+0100\n"
+"POT-Creation-Date: 2025-12-01 10:28+0100\n"
 "PO-Revision-Date: 2025-03-12 18:09+0000\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/dino/"
 "translations/fi/>\n"
@@ -100,14 +100,14 @@ msgstr "Yleinen"
 #: main/data/gtk/help-overlay.ui:14 main/data/main_window.ui:38
 #: main/data/menu_add.ui:7
 #: main/src/ui/add_conversation/select_contact_dialog.vala:106
-#: main/src/ui/main_window.vala:141
+#: main/src/ui/main_window.vala:154
 msgid "Start Conversation"
 msgstr "Aloita keskustelu"
 
 #: main/data/gtk/help-overlay.ui:20 main/data/main_window.ui:51
 #: main/data/menu_add.ui:11
 #: main/src/ui/add_conversation/add_conference_dialog.vala:24
-#: main/src/ui/application.vala:527 main/src/ui/main_window.vala:142
+#: main/src/ui/application.vala:1359 main/src/ui/main_window.vala:155
 msgid "Join Channel"
 msgstr "Liity kanavalle"
 
@@ -148,7 +148,7 @@ msgstr "Siirry seuraavaan keskusteluun"
 msgid "Jump to previous conversation"
 msgstr "Siirry edelliseen keskusteluun"
 
-#: main/data/main_window.ui:64 main/src/ui/main_window.vala:144
+#: main/data/main_window.ui:64 main/src/ui/main_window.vala:157
 msgid "Help: How to join channels"
 msgstr "Ohje: Kuinka liittyä kanaviin"
 
@@ -166,28 +166,28 @@ msgstr "Tila"
 
 #: main/data/menu_app.ui:11
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:427
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Online"
 msgstr "Paikalla"
 
 #: main/data/menu_app.ui:16
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:421
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Away"
 msgstr "Poissa"
 
 #: main/data/menu_app.ui:21
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:425
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Busy"
 msgstr "Varattu"
 
 #: main/data/menu_app.ui:26
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:423
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Not Available"
 msgstr "Ei tavoitettavissa"
@@ -200,7 +200,7 @@ msgstr "Asetukset"
 msgid "Keyboard Shortcuts"
 msgstr "Pikanäppäimet"
 
-#: main/data/menu_app.ui:42 main/src/ui/application.vala:334
+#: main/data/menu_app.ui:42 main/src/ui/application.vala:340
 msgid "About DinoX"
 msgstr "Tietoja DinoX:stä"
 
@@ -219,7 +219,10 @@ msgstr "Poista keskusteluhistoria"
 #: main/data/preferences_window/change_password_dialog.ui:18
 #: main/src/ui/add_conversation/add_conference_dialog.vala:41
 #: main/src/ui/add_conversation/select_contact_dialog.vala:40
-#: main/src/ui/application.vala:537
+#: main/src/ui/application.vala:441 main/src/ui/application.vala:469
+#: main/src/ui/application.vala:765 main/src/ui/application.vala:843
+#: main/src/ui/application.vala:901 main/src/ui/application.vala:933
+#: main/src/ui/application.vala:1089 main/src/ui/application.vala:1369
 #: main/src/ui/conversation_content_view/file_default_widget.vala:90
 #: main/src/ui/conversation_content_view/item_actions.vala:165
 #: main/src/ui/conversation_content_view/item_actions.vala:168
@@ -234,7 +237,7 @@ msgstr "Poista keskusteluhistoria"
 #: main/src/ui/conversation_titlebar/call_entry.vala:83
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
 #: main/src/windows/conversation_details.vala:60
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:67
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:68
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:205
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:225
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:249
@@ -258,6 +261,7 @@ msgid "Local alias"
 msgstr "Paikallinen alias"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:82
+#: main/src/ui/application.vala:435 main/src/ui/application.vala:1064
 #: main/src/ui/util/data_forms.vala:63
 msgid "Password"
 msgstr "Salasana"
@@ -266,20 +270,24 @@ msgstr "Salasana"
 msgid "Connection status"
 msgstr "Yhteyden tila"
 
+#: main/data/preferences_window/account_preferences_subpage.ui:117
+msgid "View Certificate"
+msgstr "Näytä varmenne"
+
 # Custom host/port feature (Issue #115)
-#: main/data/preferences_window/account_preferences_subpage.ui:121
+#: main/data/preferences_window/account_preferences_subpage.ui:128
 msgid "Advanced Settings"
 msgstr "Lisäasetukset"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:122
+#: main/data/preferences_window/account_preferences_subpage.ui:129
 msgid "Custom server connection (leave empty for automatic)"
 msgstr "Mukautettu palvelinyhteys (jätä tyhjäksi automaattiselle)"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:125
+#: main/data/preferences_window/account_preferences_subpage.ui:132
 msgid "Server Hostname"
 msgstr "Palvelimen isäntänimi"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:130
+#: main/data/preferences_window/account_preferences_subpage.ui:137
 msgid "Port"
 msgstr "Portti"
 
@@ -352,12 +360,52 @@ msgid "Create a backup of your accounts, messages and settings"
 msgstr "Luo varmuuskopio tileistä, viesteistä ja asetuksista"
 
 #: main/data/preferences_window/general_preferences_page.ui:78
-msgid "Data Location"
-msgstr "Tietojen sijainti"
+#: main/src/ui/application.vala:464 main/src/ui/main_window.vala:223
+msgid "Restore from Backup"
+msgstr "Palauta varmuuskopiosta"
 
 #: main/data/preferences_window/general_preferences_page.ui:79
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "Palauta tilit, viestit ja asetukset varmuuskopiosta"
+
+#: main/data/preferences_window/general_preferences_page.ui:90
+msgid "Data Storage Location"
+msgstr "Tietojen tallennussijainti"
+
+#: main/data/preferences_window/general_preferences_page.ui:91
 msgid "View where your data is stored"
 msgstr "Näytä missä tietosi on tallennettu"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "Tietokannan ylläpito"
+
+#: main/data/preferences_window/general_preferences_page.ui:107
+#: main/src/ui/application.vala:761 main/src/ui/application.vala:766
+msgid "Clear Cache"
+msgstr "Tyhjennä välimuisti"
+
+#: main/data/preferences_window/general_preferences_page.ui:108
+msgid "Clear cached files, avatars and previews"
+msgstr "Tyhjennä välimuistissa olevat tiedostot, avatarit ja esikatselut"
+
+#: main/data/preferences_window/general_preferences_page.ui:119
+#: main/src/ui/application.vala:838 main/src/ui/application.vala:844
+msgid "Reset Database"
+msgstr "Nollaa tietokanta"
+
+#: main/data/preferences_window/general_preferences_page.ui:120
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr "Poista kaikki viestit, tiedostot ja OMEMO-avaimet. Tilisi säilyvät."
+
+#: main/data/preferences_window/general_preferences_page.ui:131
+#: main/src/ui/application.vala:896
+msgid "Factory Reset"
+msgstr "Tehdasasetusten palautus"
+
+#: main/data/preferences_window/general_preferences_page.ui:132
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr "Poista KAIKKI tiedot mukaan lukien tilit. Tätä ei voi perua!"
 
 #: main/data/preferences_window/preferences_dialog.ui:11
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:15
@@ -382,7 +430,7 @@ msgstr "Seuraava"
 
 #: main/src/ui/add_conversation/add_conference_dialog.vala:59
 #: main/src/ui/add_conversation/conference_details_fragment.vala:151
-#: main/src/ui/application.vala:541
+#: main/src/ui/application.vala:1373
 msgid "Join"
 msgstr "Liity"
 
@@ -468,31 +516,31 @@ msgstr "Poista yhteystieto"
 msgid "Leave Group"
 msgstr "Poistu ryhmästä"
 
-#: main/src/ui/application.vala:339
+#: main/src/ui/application.vala:345
 msgid "Modern XMPP client with extended features"
 msgstr "Moderni XMPP-asiakas laajennetuilla ominaisuuksilla"
 
-#: main/src/ui/application.vala:346 main/src/ui/application.vala:385
+#: main/src/ui/application.vala:352 main/src/ui/application.vala:727
 msgid "User Data Locations"
 msgstr "Käyttäjätietojen sijainnit"
 
-#: main/src/ui/application.vala:349 main/src/ui/application.vala:399
+#: main/src/ui/application.vala:355 main/src/ui/application.vala:741
 msgid "Configuration:"
 msgstr "Määritys:"
 
-#: main/src/ui/application.vala:352 main/src/ui/application.vala:401
+#: main/src/ui/application.vala:358 main/src/ui/application.vala:743
 msgid "Data & Database:"
 msgstr "Tiedot ja tietokanta:"
 
-#: main/src/ui/application.vala:355 main/src/ui/application.vala:403
+#: main/src/ui/application.vala:361 main/src/ui/application.vala:745
 msgid "Cache:"
 msgstr "Välimuisti:"
 
-#: main/src/ui/application.vala:358
+#: main/src/ui/application.vala:364
 msgid "Info:"
 msgstr "Tiedot:"
 
-#: main/src/ui/application.vala:359
+#: main/src/ui/application.vala:365
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
@@ -500,17 +548,121 @@ msgstr ""
 "Henkilökohtaiset tietosi (tilit, viestit, tiedostot) tallennetaan erillään "
 "sovelluksesta."
 
-#: main/src/ui/application.vala:361
+#: main/src/ui/application.vala:367
 msgid "When you update DinoX, your data remains intact."
 msgstr "Kun päivität DinoX:n, tietosi säilyvät koskemattomina."
 
-#: main/src/ui/application.vala:363
+#: main/src/ui/application.vala:369
 msgid "Use Settings → General → Backup User Data to create a backup."
 msgstr ""
 "Käytä Asetukset → Yleiset → Varmuuskopioi käyttäjätiedot luodaksesi "
 "varmuuskopion."
 
-#: main/src/ui/application.vala:405
+#: main/src/ui/application.vala:387
+msgid "Select Backup File"
+msgstr "Valitse varmuuskopiotiedosto"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+#: main/src/ui/application.vala:395
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "Varmuuskopiotiedostot (*.tar.gz, *.tar.gz.gpg)"
+
+#: main/src/ui/application.vala:425
+msgid "Enter Backup Password"
+msgstr "Anna varmuuskopion salasana"
+
+#: main/src/ui/application.vala:426
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "Tämä varmuuskopio on salattu. Anna salasana purkamiseen."
+
+#: main/src/ui/application.vala:442
+msgid "Decrypt & Restore"
+msgstr "Pura salaus ja palauta"
+
+#: main/src/ui/application.vala:465
+msgid ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+msgstr ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+
+#: main/src/ui/application.vala:470
+msgid "Restore Backup"
+msgstr "Palauta varmuuskopio"
+
+#: main/src/ui/application.vala:487 main/src/ui/application.vala:519
+msgid "Decrypting Backup..."
+msgstr "Puretaan varmuuskopion salausta..."
+
+#: main/src/ui/application.vala:487 main/src/ui/application.vala:571
+msgid "Restoring Backup..."
+msgstr "Palautetaan varmuuskopiota..."
+
+#: main/src/ui/application.vala:488
+msgid "Please wait, this may take a moment..."
+msgstr "Odota hetki, tämä voi kestää hetken..."
+
+#: main/src/ui/application.vala:520
+msgid "Decrypting encrypted backup file..."
+msgstr "Puretaan varmuuskopiotiedoston salausta..."
+
+#: main/src/ui/application.vala:558
+msgid "Decryption Failed"
+msgstr "Salauksen purku epäonnistui"
+
+#: main/src/ui/application.vala:559
+msgid ""
+"Could not decrypt the backup file.\n"
+"\n"
+"Please check if the password is correct."
+msgstr ""
+"Varmuuskopiotiedostoa ei voitu purkaa.\n"
+"\n"
+"Tarkista, onko salasana oikein."
+
+#: main/src/ui/application.vala:561 main/src/ui/application.vala:671
+msgid "OK"
+msgstr "OK"
+
+#: main/src/ui/application.vala:572
+msgid "Extracting files from backup..."
+msgstr "Puretaan tiedostoja varmuuskopiosta..."
+
+#: main/src/ui/application.vala:653
+msgid "Restore Complete!"
+msgstr "Palautus valmis!"
+
+#: main/src/ui/application.vala:654
+msgid "DinoX will now restart..."
+msgstr "DinoX käynnistyy nyt uudelleen..."
+
+#: main/src/ui/application.vala:668
+msgid "Restore Failed"
+msgstr "Palautus epäonnistui"
+
+#: main/src/ui/application.vala:669
+#, c-format
+msgid ""
+"Could not restore the backup file.\n"
+"\n"
+"Error: %s"
+msgstr ""
+"Varmuuskopiotiedostoa ei voitu palauttaa.\n"
+"\n"
+"Virhe: %s"
+
+#: main/src/ui/application.vala:669 main/src/ui/application.vala:1345
+msgid "Unknown error"
+msgstr "Tuntematon virhe"
+
+#: main/src/ui/application.vala:747
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
@@ -520,96 +672,243 @@ msgstr ""
 "Henkilökohtaiset tietosi (tilit, viestit, tiedostot) tallennetaan erillään "
 "sovelluksesta. Kun päivität DinoX:n, tietosi säilyvät ehjinä."
 
-#: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
-#: main/src/ui/main_window.vala:159
+#: main/src/ui/application.vala:752 main/src/ui/application.vala:1240
+#: main/src/ui/application.vala:1324 main/src/ui/conversation_details.vala:272
+#: main/src/ui/main_window.vala:172
 msgid "Close"
 msgstr "Sulje"
 
-#: main/src/ui/application.vala:417
+#: main/src/ui/application.vala:762
+msgid ""
+"This will delete cached files, avatars and previews.\n"
+"\n"
+"They will be re-downloaded when needed."
+msgstr ""
+"Tämä poistaa välimuistissa olevat tiedostot, avatarit ja esikatselut.\n"
+"\n"
+"Ne ladataan uudelleen tarvittaessa."
+
+#: main/src/ui/application.vala:799
+#, c-format
+msgid "Cache cleared (%s freed)"
+msgstr "Välimuisti tyhjennetty (%s vapautettu)"
+
+#: main/src/ui/application.vala:802
+msgid "Failed to clear cache"
+msgstr "Välimuistin tyhjennys epäonnistui"
+
+#: main/src/ui/application.vala:839
+msgid ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+msgstr ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+
+#: main/src/ui/application.vala:867
+msgid "Resetting database... DinoX will restart."
+msgstr "Tietokannan nollaus... DinoX käynnistyy uudelleen."
+
+#: main/src/ui/application.vala:897
+msgid ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+msgstr ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+
+#: main/src/ui/application.vala:902
+msgid "Create Backup First"
+msgstr "Luo ensin varmuuskopio"
+
+#: main/src/ui/application.vala:903
+msgid "Delete Everything"
+msgstr "Poista kaikki"
+
+#: main/src/ui/application.vala:923
+msgid "Are you absolutely sure?"
+msgstr "Oletko aivan varma?"
+
+#: main/src/ui/application.vala:924
+msgid ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+msgstr ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+
+#: main/src/ui/application.vala:934
+msgid "Confirm Delete"
+msgstr "Vahvista poisto"
+
+#: main/src/ui/application.vala:961
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "Tehdasasetusten palautus käynnissä... DinoX käynnistyy uudelleen."
+
+#: main/src/ui/application.vala:1026
+msgid "Backup Encryption"
+msgstr "Varmuuskopion salaus"
+
+#: main/src/ui/application.vala:1027
+msgid ""
+"Do you want to encrypt the backup with a password?\n"
+"\n"
+"Encrypted backups are more secure but require the password to restore."
+msgstr ""
+"Haluatko salata varmuuskopion salasanalla?\n"
+"\n"
+"Salatut varmuuskopiot ovat turvallisempia, mutta vaativat salasanan palauttamiseen."
+
+#: main/src/ui/application.vala:1030
+msgid "No Encryption"
+msgstr "Ei salausta"
+
+#: main/src/ui/application.vala:1031
+msgid "Encrypt with Password"
+msgstr "Salaa salasanalla"
+
+#: main/src/ui/application.vala:1049
+msgid "Set Backup Password"
+msgstr "Aseta varmuuskopion salasana"
+
+#: main/src/ui/application.vala:1050
+msgid ""
+"Enter a password to encrypt the backup.\n"
+"\n"
+"<b>Important:</b> Remember this password! Without it, the backup cannot be "
+"restored."
+msgstr ""
+"Anna salasana varmuuskopion salaamiseen.\n"
+"\n"
+"<b>Tärkeää:</b> Muista tämä salasana! Ilman sitä varmuuskopiota ei voi "
+"palauttaa."
+
+#: main/src/ui/application.vala:1058
+msgid "Password (minimum 4 characters)"
+msgstr "Salasana (vähintään 4 merkkiä)"
+
+#: main/src/ui/application.vala:1066 main/src/ui/application.vala:1073
+msgid "Confirm Password"
+msgstr "Vahvista salasana"
+
+#: main/src/ui/application.vala:1090
+msgid "Create Encrypted Backup"
+msgstr "Luo salattu varmuuskopio"
+
+#: main/src/ui/application.vala:1102 main/src/ui/application.vala:1117
+msgid "Password too short"
+msgstr "Salasana on liian lyhyt"
+
+#: main/src/ui/application.vala:1104 main/src/ui/application.vala:1119
+msgid "Passwords do not match"
+msgstr "Salasanat eivät täsmää"
+
+#: main/src/ui/application.vala:1106 main/src/ui/application.vala:1121
+msgid "✓ Passwords match"
+msgstr "✓ Salasanat täsmäävät"
+
+#: main/src/ui/application.vala:1139
 msgid "Select Backup Location"
 msgstr "Valitse varmuuskopion sijainti"
 
-#: main/src/ui/application.vala
-msgid "Creating Backup..."
-msgstr "Creating Backup..."
-
-#: main/src/ui/application.vala
+#: main/src/ui/application.vala:1194
 msgid "Creating Encrypted Backup..."
-msgstr "Creating Encrypted Backup..."
+msgstr "Luodaan salattua varmuuskopiota..."
 
-#: main/src/ui/application.vala
-msgid "Please wait while your data is being backed up."
-msgstr "Please wait while your data is being backed up."
-
-#: main/src/ui/application.vala
-msgid "No data directories found to backup"
-msgstr "No data directories found to backup"
-
-#: main/src/ui/application.vala
-msgid "Backup Created"
-msgstr "Backup Created"
-
-#: main/src/ui/application.vala
-msgid "Encrypted Backup Created"
-msgstr "Encrypted Backup Created"
-
-#: main/src/ui/application.vala
-#, c-format
-msgid "Your backup was created successfully.\\n\\nSize: %s"
-msgstr "Your backup was created successfully.\\n\\nSize: %s"
-
-#: main/src/ui/application.vala
-msgid "Your backup was created successfully."
-msgstr "Your backup was created successfully."
-
-#: main/src/ui/application.vala
-#, c-format
-msgid "Your encrypted backup was created successfully.\\n\\nSize: %s"
-msgstr "Your encrypted backup was created successfully.\\n\\nSize: %s"
-
-#: main/src/ui/application.vala
-msgid "Your encrypted backup was created successfully."
-msgstr "Your encrypted backup was created successfully."
-
-#: main/src/ui/application.vala
-msgid "Backup Failed"
-msgstr "Backup Failed"
-
-#: main/src/ui/application.vala:445
-msgid "Creating backup..."
+#: main/src/ui/application.vala:1194
+msgid "Creating Backup..."
 msgstr "Luodaan varmuuskopiota..."
 
-#: main/src/ui/application.vala:503
-#, c-format
-msgid "Backup created successfully (%s)"
-msgstr "Varmuuskopio luotu (%s)"
+#: main/src/ui/application.vala:1195
+msgid "Please wait while your data is being backed up."
+msgstr "Odota, kunnes tietosi on varmuuskopioitu."
 
-#: main/src/ui/application.vala:505
-msgid "Backup created successfully"
+#: main/src/ui/application.vala:1234
+msgid "No data directory found to backup"
+msgstr "Varmuuskopioitavaa tietokansiota ei löytynyt"
+
+#: main/src/ui/application.vala:1237 main/src/ui/application.vala:1343
+msgid "Backup Failed"
+msgstr "Varmuuskopiointi epäonnistui"
+
+#: main/src/ui/application.vala:1331
+msgid "Encrypted Backup Created"
+msgstr "Salattu varmuuskopio luotu"
+
+#: main/src/ui/application.vala:1333
+#, c-format
+msgid ""
+"Your encrypted backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"Salattu varmuuskopio luotiin onnistuneesti.\n"
+"\n"
+"Koko: %s"
+
+#: main/src/ui/application.vala:1334
+msgid "Your encrypted backup was created successfully."
+msgstr "Salattu varmuuskopiosi luotiin onnistuneesti."
+
+#: main/src/ui/application.vala:1336
+msgid "Backup Created"
 msgstr "Varmuuskopio luotu"
 
-#: main/src/ui/application.vala:510
-msgid "Unknown error"
-msgstr "Tuntematon virhe"
+#: main/src/ui/application.vala:1338
+#, c-format
+msgid ""
+"Your backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"Varmuuskopio luotiin onnistuneesti.\n"
+"\n"
+"Koko: %s"
 
-#: main/src/ui/application.vala:511
+#: main/src/ui/application.vala:1339
+msgid "Your backup was created successfully."
+msgstr "Varmuuskopiosi luotiin onnistuneesti."
+
+#: main/src/ui/application.vala:1346
 #, c-format
 msgid "Backup failed: %s"
 msgstr "Varmuuskopiointi epäonnistui: %s"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:29
+#: main/src/ui/call_window/audio_settings_popover.vala:46
 msgid "Microphones"
 msgstr "Mikrofonit"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:32
+#: main/src/ui/call_window/audio_settings_popover.vala:49
 msgid "No microphone found."
 msgstr "Mikrofonia ei löytynyt."
 
-#: main/src/ui/call_window/audio_settings_popover.vala:85
+#: main/src/ui/call_window/audio_settings_popover.vala:116
 msgid "Speakers"
 msgstr "Kaiuttimet"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:88
+#: main/src/ui/call_window/audio_settings_popover.vala:119
 msgid "No speaker found."
 msgstr "Kaiuttimia ei löytynyt."
 
@@ -625,7 +924,7 @@ msgstr "Kutsu puheluun"
 msgid "Invite"
 msgstr "Kutsu"
 
-#: main/src/ui/call_window/call_window_controller.vala:405
+#: main/src/ui/call_window/call_window_controller.vala:453
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:240
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:270
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:285
@@ -644,21 +943,21 @@ msgstr "%s lopetti puhelun"
 msgid "%s declined the call"
 msgstr "%s kieltäytyi puhelusta"
 
-#: main/src/ui/call_window/participant_widget.vala:115
+#: main/src/ui/call_window/participant_widget.vala:140
 msgid "Debug information"
 msgstr "Vianjäljitystiedot"
 
-#: main/src/ui/call_window/participant_widget.vala:124
+#: main/src/ui/call_window/participant_widget.vala:149
 #: main/src/ui/conversation_content_view/call_widget.vala:152
 msgid "Calling…"
 msgstr "Soitetaan…"
 
-#: main/src/ui/call_window/participant_widget.vala:126
+#: main/src/ui/call_window/participant_widget.vala:151
 msgid "Ringing…"
 msgstr "Hälytetään…"
 
-#: main/src/ui/call_window/participant_widget.vala:128
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:216
+#: main/src/ui/call_window/participant_widget.vala:153
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:244
 msgid "Connecting…"
 msgstr "Yhdistää…"
 
@@ -892,7 +1191,7 @@ msgstr "%a, %l∶%M %p"
 msgid "Just now"
 msgstr "Juuri nyt"
 
-#: main/src/ui/conversation_content_view/conversation_view.vala:105
+#: main/src/ui/conversation_content_view/conversation_view.vala:106
 msgid "More actions"
 msgstr "Lisää toimintoja"
 
@@ -1111,6 +1410,38 @@ msgstr "Tuhoa"
 msgid "Failed to destroy room"
 msgstr "Huoneen tuhoaminen epäonnistui"
 
+#: main/src/ui/conversation_details.vala:286
+msgid "Auto-delete messages"
+msgstr "Poista viestit automaattisesti"
+
+#: main/src/ui/conversation_details.vala:287
+msgid "Never"
+msgstr "Ei koskaan"
+
+#: main/src/ui/conversation_details.vala:288
+msgid "After 15 minutes"
+msgstr "15 minuutin kuluttua"
+
+#: main/src/ui/conversation_details.vala:289
+msgid "After 30 minutes"
+msgstr "30 minuutin kuluttua"
+
+#: main/src/ui/conversation_details.vala:290
+msgid "After 1 hour"
+msgstr "1 tunnin kuluttua"
+
+#: main/src/ui/conversation_details.vala:291
+msgid "After 24 hours"
+msgstr "24 tunnin kuluttua"
+
+#: main/src/ui/conversation_details.vala:292
+msgid "After 7 days"
+msgstr "7 päivän kuluttua"
+
+#: main/src/ui/conversation_details.vala:293
+msgid "After 30 days"
+msgstr "30 päivän kuluttua"
+
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:276
 #: main/src/ui/notifier_freedesktop.vala:71
 #: main/src/ui/notifier_gnotifications.vala:36
@@ -1257,6 +1588,7 @@ msgstr "Poista yhteystiedon esto?"
 # c-format
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:702
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:247
+#, c-format
 msgid "This will allow %s to send you messages again."
 msgstr "Tämä sallii %s lähettää sinulle viestejä uudelleen."
 
@@ -1359,7 +1691,7 @@ msgid "Select file"
 msgstr "Valitse tiedosto"
 
 #: main/src/ui/conversation_view_controller.vala:225
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:152
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:180
 msgid "Select"
 msgstr "Valitse"
 
@@ -1377,11 +1709,11 @@ msgstr "Kanavalla %s"
 msgid "With %s"
 msgstr "%s:n kanssa"
 
-#: main/src/ui/main_window.vala:156
+#: main/src/ui/main_window.vala:169
 msgid "Join Channel Help"
 msgstr "Kanavalle liittymisen ohje"
 
-#: main/src/ui/main_window.vala:157
+#: main/src/ui/main_window.vala:170
 msgid ""
 "To join a channel, click the \"Join Channel\" button and enter the channel "
 "JID (example: room@conference.example.org).\n"
@@ -1395,25 +1727,25 @@ msgstr ""
 "Jos tarvitset salasanan tai lempinimen, anna ne valintaikkunassa. Käytä "
 "palvelimen etsintäominaisuuksia julkisten huoneiden löytämiseen."
 
-#: main/src/ui/main_window.vala:206
+#: main/src/ui/main_window.vala:219
 msgid "Welcome to DinoX!"
 msgstr "Tervetuloa DinoX:ään!"
 
-#: main/src/ui/main_window.vala:207
+#: main/src/ui/main_window.vala:220
 msgid "Sign in or create an account to get started."
 msgstr "Kirjaudu sisään tai luo tili päästäksesi alkuun."
 
-#: main/src/ui/main_window.vala:208
+#: main/src/ui/main_window.vala:221
 msgid "Set up account"
 msgstr "Määritä tili"
 
-#: main/src/ui/main_window.vala:215
+#: main/src/ui/main_window.vala:230
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:71
 #: main/src/windows/preferences_window/encryption_preferences_page.vala:49
 msgid "No active accounts"
 msgstr "Ei aktiivisia tilejä"
 
-#: main/src/ui/main_window.vala:216
+#: main/src/ui/main_window.vala:231
 msgid "Manage accounts"
 msgstr "Hallitse tilejä"
 
@@ -1423,12 +1755,12 @@ msgid "Subscription request"
 msgstr "Yhteyspyyntö"
 
 #: main/src/ui/notifier_freedesktop.vala:192
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:231
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:259
 msgid "Wrong password"
 msgstr "Väärä salasana"
 
 #: main/src/ui/notifier_freedesktop.vala:195
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:233
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:261
 msgid "Invalid TLS certificate"
 msgstr "TLS-varmenne ei kelpaa"
 
@@ -1674,45 +2006,45 @@ msgstr "Asetukset"
 msgid "Room Configuration"
 msgstr "Huoneen asetukset"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:68
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:69
 msgid "Connect"
 msgstr "Yhdistä"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:106
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
 msgid "Disable account"
 msgstr "Poista tili käytöstä"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:106
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
 msgid "Enable account"
 msgstr "Ota tili käyttöön"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:151
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:179
 msgid "Select avatar"
 msgstr "Valitse keskustelukuvake"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:162
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:190
 msgid "Images"
 msgstr "Kuvat"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:166
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:194
 msgid "All files"
 msgstr "Kaikki tiedostot"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:184
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:212
 #, c-format
 msgid "Remove account %s?"
 msgstr "Poistetaanko tili %s?"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:218
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:246
 msgid "Connected"
 msgstr "Yhdistetty"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:220
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:248
 msgid "Disconnected"
 msgstr "Ei yhdistetty"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:240
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:242
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:268
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:270
 msgid "Error"
 msgstr "Virhe"
 
@@ -1823,386 +2155,189 @@ msgstr "Muuta näyttönimeä käyttäjälle %s"
 msgid "Alias (optional)"
 msgstr "Alias (valinnainen)"
 
+#~ msgid "Creating backup..."
+#~ msgstr "Luodaan varmuuskopiota..."
+
+#, c-format
+#~ msgid "Backup created successfully (%s)"
+#~ msgstr "Varmuuskopio luotu (%s)"
+
+#~ msgid "Backup created successfully"
+#~ msgstr "Varmuuskopio luotu"
+
 # DinoX v0.7.7 - Database Maintenance & Backup/Restore
-msgid "Clean Database"
-msgstr "Puhdista tietokanta"
+#~ msgid "Clean Database"
+#~ msgstr "Puhdista tietokanta"
 
-msgid "Reset Database"
-msgstr "Nollaa tietokanta"
+#~ msgid "Encrypting Backup..."
+#~ msgstr "Salataan varmuuskopiota..."
 
-msgid "Restore Complete!"
-msgstr "Palautus valmis!"
+#~ msgid "Creating encrypted backup..."
+#~ msgstr "Luodaan salattua varmuuskopiota..."
 
-msgid "Restore Failed"
-msgstr "Palautus epäonnistui"
+#~ msgid "Encrypted backup created successfully"
+#~ msgstr "Salattu varmuuskopio luotu onnistuneesti"
 
-msgid "Decrypting Backup..."
-msgstr "Puretaan varmuuskopion salausta..."
-
-msgid "Restoring Backup..."
-msgstr "Palautetaan varmuuskopiota..."
-
-msgid "Set Backup Password"
-msgstr "Aseta varmuuskopion salasana"
-
-msgid "Confirm Password"
-msgstr "Vahvista salasana"
-
-msgid "Create Encrypted Backup"
-msgstr "Luo salattu varmuuskopio"
-
-msgid "Password too short"
-msgstr "Salasana on liian lyhyt"
-
-msgid "Passwords do not match"
-msgstr "Salasanat eivät täsmää"
-
-msgid "✓ Passwords match"
-msgstr "✓ Salasanat täsmäävät"
-
-msgid "Encrypting Backup..."
-msgstr "Salataan varmuuskopiota..."
-
-msgid "Factory Reset"
-msgstr "Tehdasasetusten palautus"
-
-msgid "Restore from Backup"
-msgstr "Palauta varmuuskopiosta"
-
-msgid "Restore Backup"
-msgstr "Palauta varmuuskopio"
-
-msgid "Select Backup File"
-msgstr "Valitse varmuuskopiotiedosto"
-
-msgid "Enter Backup Password"
-msgstr "Anna varmuuskopion salasana"
-
-msgid "Decrypt & Restore"
-msgstr "Pura salaus ja palauta"
-
-msgid "Create Backup First"
-msgstr "Luo ensin varmuuskopio"
-
-msgid "No Encryption"
-msgstr "Ei salausta"
-
-msgid "Encrypt with Password"
-msgstr "Salaa salasanalla"
-
-msgid "Delete Everything"
-msgstr "Poista kaikki"
-
-msgid "Confirm Delete"
-msgstr "Vahvista poisto"
-
-msgid "Are you absolutely sure?"
-msgstr "Oletko aivan varma?"
-
-#: main/data/preferences_window/general_preferences_page.ui:104
-msgid "Database Maintenance"
-msgstr "Tietokannan ylläpito"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Restore accounts, messages and settings from a backup file"
-msgstr "Palauta tilit, viestit ja asetukset varmuuskopiosta"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
-msgstr "Poista kaikki viestit, tiedostot ja OMEMO-avaimet. Tilisi säilyvät."
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete ALL data including accounts. This cannot be undone!"
-msgstr "Poista KAIKKI tiedot mukaan lukien tilit. Tätä ei voi perua!"
-
-# DinoX v0.7.7 - Additional Backup/Restore strings
-msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
-msgstr "Varmuuskopiotiedostot (*.tar.gz, *.tar.gz.gpg)"
-
-msgid "Creating encrypted backup..."
-msgstr "Luodaan salattua varmuuskopiota..."
-
-msgid "Decryption Failed"
-msgstr "Salauksen purku epäonnistui"
-
-msgid "DinoX will now restart..."
-msgstr "DinoX käynnistyy nyt uudelleen..."
-
-msgid "Encrypted backup created successfully"
-msgstr "Salattu varmuuskopio luotu onnistuneesti"
-
-msgid "Password (minimum 4 characters)"
-msgstr "Salasana (vähintään 4 merkkiä)"
-
-msgid "Decrypting encrypted backup file..."
-msgstr "Puretaan varmuuskopiotiedoston salausta..."
-
-msgid "Extracting files from backup..."
-msgstr "Puretaan tiedostoja varmuuskopiosta..."
-
-msgid "Factory reset in progress... DinoX will restart."
-msgstr "Tehdasasetusten palautus käynnissä... DinoX käynnistyy uudelleen."
-
-msgid "Resetting database... DinoX will restart."
-msgstr "Tietokannan nollaus... DinoX käynnistyy uudelleen."
-
-msgid "Encrypted backup created (%s)"
-msgstr "Salattu varmuuskopio luotu (%s)"
-
-msgid ""
-"Could not decrypt the backup file.\n"
-"\n"
-"Please check if the password is correct."
-msgstr ""
-"Varmuuskopiotiedostoa ei voitu purkaa.\n"
-"\n"
-"Tarkista, onko salasana oikein."
-
-msgid ""
-"Could not restore the backup file.\n"
-"\n"
-"Error: %s"
-msgstr ""
-"Varmuuskopiotiedostoa ei voitu palauttaa.\n"
-"\n"
-"Virhe: %s"
-
-msgid "This backup is encrypted. Please enter the password to decrypt it."
-msgstr "Tämä varmuuskopio on salattu. Anna salasana purkamiseen."
-
-msgid ""
-"Enter a password to encrypt the backup.\n"
-"\n"
-"<b>Important:</b> Remember this password! Without it, the backup cannot be "
-"restored."
-msgstr ""
-"Anna salasana varmuuskopion salaamiseen.\n"
-"\n"
-"<b>Tärkeää:</b> Muista tämä salasana! Ilman sitä varmuuskopiota ei voi "
-"palauttaa."
-
-msgid ""
-"This will delete all messages, files and OMEMO encryption keys.\n"
-"\n"
-"<b>Your accounts will remain, but you will lose all chat history and need to "
-"re-verify encryption with your contacts.</b>\n"
-"\n"
-"This action cannot be undone!"
-msgstr ""
-"This will delete all messages, files and OMEMO encryption keys.\n"
-"\n"
-"<b>Your accounts will remain, but you will lose all chat history and need to "
-"re-verify encryption with your contacts.</b>\n"
-"\n"
-"This action cannot be undone!"
-
-msgid ""
-"This will replace all current data with the backup.\n"
-"\n"
-"<b>Current accounts, messages and settings will be overwritten!</b>\n"
-"\n"
-"DinoX will restart after restoring."
-msgstr ""
-"This will replace all current data with the backup.\n"
-"\n"
-"<b>Current accounts, messages and settings will be overwritten!</b>\n"
-"\n"
-"DinoX will restart after restoring."
-
-msgid ""
-"Type 'DELETE' to confirm factory reset.\n"
-"\n"
-"This will permanently remove all your DinoX data."
-msgstr ""
-"Type 'DELETE' to confirm factory reset.\n"
-"\n"
-"This will permanently remove all your DinoX data."
-
-msgid ""
-"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
-"\n"
-"• All accounts\n"
-"• All messages and files\n"
-"• All encryption keys\n"
-"• All settings\n"
-"\n"
-"This is irreversible. Make sure to create a backup first!"
-msgstr ""
-"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
-"\n"
-"• All accounts\n"
-"• All messages and files\n"
-"• All encryption keys\n"
-"• All settings\n"
-"\n"
-"This is irreversible. Make sure to create a backup first!"
+#~ msgid "Encrypted backup created (%s)"
+#~ msgstr "Salattu varmuuskopio luotu (%s)"
 
 # OpenPGP Key Management translations
-msgid "OpenPGP Key Management"
-msgstr "OpenPGP-nøglehåndtering"
+#~ msgid "OpenPGP Key Management"
+#~ msgstr "OpenPGP-nøglehåndtering"
 
-msgid "Actions"
-msgstr "Handlinger"
+#~ msgid "Actions"
+#~ msgstr "Handlinger"
 
-msgid "Generate New Key"
-msgstr "Generer ny nøgle"
+#~ msgid "Generate New Key"
+#~ msgstr "Generer ny nøgle"
 
-msgid "Create a new OpenPGP key pair"
-msgstr "Opret et nyt OpenPGP-nøglepar"
+#~ msgid "Create a new OpenPGP key pair"
+#~ msgstr "Opret et nyt OpenPGP-nøglepar"
 
-msgid "Import Key"
-msgstr "Importér nøgle"
+#~ msgid "Import Key"
+#~ msgstr "Importér nøgle"
 
-msgid "Import a key from file (.asc, .gpg)"
-msgstr "Importér en nøgle fra fil (.asc, .gpg)"
+#~ msgid "Import a key from file (.asc, .gpg)"
+#~ msgstr "Importér en nøgle fra fil (.asc, .gpg)"
 
-msgid "Your Keys"
-msgstr "Dine nøgler"
+#~ msgid "Your Keys"
+#~ msgstr "Dine nøgler"
 
-msgid "Private keys available for signing and decryption"
-msgstr "Private nøgler tilgængelige til signering og dekryptering"
+#~ msgid "Private keys available for signing and decryption"
+#~ msgstr "Private nøgler tilgængelige til signering og dekryptering"
 
-msgid "No private keys found"
-msgstr "Ingen private nøgler fundet"
+#~ msgid "No private keys found"
+#~ msgstr "Ingen private nøgler fundet"
 
-msgid "Generate or import a key to get started"
-msgstr "Generér eller importér en nøgle for at komme i gang"
+#~ msgid "Generate or import a key to get started"
+#~ msgstr "Generér eller importér en nøgle for at komme i gang"
 
-msgid "Fingerprint"
-msgstr "Fingeraftryk"
+#~ msgid "Fingerprint"
+#~ msgstr "Fingeraftryk"
 
-msgid "Export Public Key"
-msgstr "Eksportér offentlig nøgle"
+#~ msgid "Export Public Key"
+#~ msgstr "Eksportér offentlig nøgle"
 
-msgid "Delete Key"
-msgstr "Slet nøgle"
+#~ msgid "Delete Key"
+#~ msgstr "Slet nøgle"
 
-msgid "Generate New OpenPGP Key"
-msgstr "Generér ny OpenPGP-nøgle"
+#~ msgid "Generate New OpenPGP Key"
+#~ msgstr "Generér ny OpenPGP-nøgle"
 
-msgid "Enter your details to create a new key pair."
-msgstr "Indtast dine oplysninger for at oprette et nyt nøglepar."
+#~ msgid "Enter your details to create a new key pair."
+#~ msgstr "Indtast dine oplysninger for at oprette et nyt nøglepar."
 
-msgid "Name"
-msgstr "Navn"
+#~ msgid "Name"
+#~ msgstr "Navn"
 
-msgid "Your Name"
-msgstr "Dit navn"
+#~ msgid "Your Name"
+#~ msgstr "Dit navn"
 
-msgid "Email"
-msgstr "E-mail"
+#~ msgid "Email"
+#~ msgstr "E-mail"
 
-msgid "you@example.com"
-msgstr "dig@eksempel.dk"
+#~ msgid "you@example.com"
+#~ msgstr "dig@eksempel.dk"
 
-msgid "Passphrase (optional)"
-msgstr "Adgangssætning (valgfrit)"
+#~ msgid "Passphrase (optional)"
+#~ msgstr "Adgangssætning (valgfrit)"
 
-msgid "Passphrase"
-msgstr "Adgangssætning"
+#~ msgid "Passphrase"
+#~ msgstr "Adgangssætning"
 
-msgid "4096-bit RSA key, valid for 2 years."
-msgstr "4096-bit RSA-nøgle, gyldig i 2 år."
+#~ msgid "4096-bit RSA key, valid for 2 years."
+#~ msgstr "4096-bit RSA-nøgle, gyldig i 2 år."
 
-msgid "Generate"
-msgstr "Generér"
+#~ msgid "Generate"
+#~ msgstr "Generér"
 
-msgid "Name must be at least 2 characters"
-msgstr "Navn skal være mindst 2 tegn"
+#~ msgid "Name must be at least 2 characters"
+#~ msgstr "Navn skal være mindst 2 tegn"
 
-msgid "Please enter a valid email address"
-msgstr "Indtast venligst en gyldig e-mailadresse"
+#~ msgid "Please enter a valid email address"
+#~ msgstr "Indtast venligst en gyldig e-mailadresse"
 
-msgid "Generating Key..."
-msgstr "Genererer nøgle..."
+#~ msgid "Generating Key..."
+#~ msgstr "Genererer nøgle..."
 
-msgid "Please wait while your key is being generated. This may take a moment."
-msgstr "Vent venligst mens din nøgle genereres. Dette kan tage et øjeblik."
+#~ msgid "Key generated successfully!"
+#~ msgstr "Nøgle genereret!"
 
-msgid "Key generated successfully!"
-msgstr "Nøgle genereret!"
+#~ msgid "Import OpenPGP Key"
+#~ msgstr "Importér OpenPGP-nøgle"
 
-msgid "Failed to generate key."
-msgstr "Kunne ikke generere nøgle."
+#~ msgid "OpenPGP Keys (*.asc, *.gpg)"
+#~ msgstr "OpenPGP-nøgler (*.asc, *.gpg)"
 
-msgid "Import OpenPGP Key"
-msgstr "Importér OpenPGP-nøgle"
+#~ msgid "All Files"
+#~ msgstr "Alle filer"
 
-msgid "OpenPGP Keys (*.asc, *.gpg)"
-msgstr "OpenPGP-nøgler (*.asc, *.gpg)"
+#~ msgid "Key imported! Re-open Key Management to see it."
+#~ msgstr "Nøgle importeret! Genåbn nøglehåndtering for at se den."
 
-msgid "All Files"
-msgstr "Alle filer"
+#~ msgid "Import failed: "
+#~ msgstr "Import mislykkedes: "
 
-msgid "Key imported! Re-open Key Management to see it."
-msgstr "Nøgle importeret! Genåbn nøglehåndtering for at se den."
+#~ msgid "Key exported to: "
+#~ msgstr "Nøgle eksporteret til: "
 
-msgid "Import failed: "
-msgstr "Import mislykkedes: "
+#~ msgid "Export failed."
+#~ msgstr "Eksport mislykkedes."
 
-msgid "Key exported to: "
-msgstr "Nøgle eksporteret til: "
+#~ msgid "Delete Key?"
+#~ msgstr "Slet nøgle?"
 
-msgid "Export failed."
-msgstr "Eksport mislykkedes."
+#~ msgid ""
+#~ "Delete this key?\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "This cannot be undone!"
+#~ msgstr ""
+#~ "Slet denne nøgle?\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "Dette kan ikke fortrydes!"
 
-msgid "Delete Key?"
-msgstr "Slet nøgle?"
+#~ msgid "Key deleted."
+#~ msgstr "Nøgle slettet."
 
-msgid ""
-"Delete this key?\n"
-"\n"
-"%s\n"
-"\n"
-"This cannot be undone!"
-msgstr ""
-"Slet denne nøgle?\n"
-"\n"
-"%s\n"
-"\n"
-"Dette kan ikke fortrydes!"
+#~ msgid "Delete failed: "
+#~ msgstr "Sletning mislykkedes: "
 
-msgid "Key deleted."
-msgstr "Nøgle slettet."
+#~ msgid "Select OpenPGP Key"
+#~ msgstr "Vælg OpenPGP-nøgle"
 
-msgid "Delete failed: "
-msgstr "Sletning mislykkedes: "
+#~ msgid "Choose a key to announce to your contacts."
+#~ msgstr "Vælg en nøgle at annoncere til dine kontakter."
 
-msgid "Select OpenPGP Key"
-msgstr "Vælg OpenPGP-nøgle"
+#~ msgid "Enter GPG passphrase to confirm:"
+#~ msgstr "Indtast GPG-adgangssætning for at bekræfte:"
 
-msgid "Choose a key to announce to your contacts."
-msgstr "Vælg en nøgle at annoncere til dine kontakter."
+#~ msgid "Wrong passphrase"
+#~ msgstr "Forkert adgangssætning"
 
-msgid "Enter GPG passphrase to confirm:"
-msgstr "Indtast GPG-adgangssætning for at bekræfte:"
+#~ msgid "Manage Keys"
+#~ msgstr "Administrer nøgler"
 
-msgid "Wrong passphrase"
-msgstr "Forkert adgangssætning"
+#~ msgid "Generate, import, export, or delete keys"
+#~ msgstr "Generér, importér, eksportér eller slet nøgler"
 
-msgid "Manage Keys"
-msgstr "Administrer nøgler"
+#~ msgid "No keys available. Generate or import one!"
+#~ msgstr "Ingen nøgler tilgængelige. Generér eller importér en!"
 
-msgid "Generate, import, export, or delete keys"
-msgstr "Generér, importér, eksportér eller slet nøgler"
+#~ msgid "Announce key"
+#~ msgstr "Annoncér nøgle"
 
-msgid "No keys available. Generate or import one!"
-msgstr "Ingen nøgler tilgængelige. Generér eller importér en!"
+#~ msgid "Disabled"
+#~ msgstr "Deaktiveret"
 
-msgid "Announce key"
-msgstr "Annoncér nøgle"
+#~ msgid "Error in GnuPG"
+#~ msgstr "Fejl i GnuPG"
 
-msgid "Disabled"
-msgstr "Deaktiveret"
-
-msgid "Error in GnuPG"
-msgstr "Fejl i GnuPG"
-
-msgid "Success"
-msgstr "Succes"
-
-msgid "OK"
-msgstr "OK"
+#~ msgid "Success"
+#~ msgstr "Succes"
 
 #~ msgid "Message too long"
 #~ msgstr "Viesti liian pitkä"

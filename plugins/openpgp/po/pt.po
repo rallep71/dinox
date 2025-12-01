@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-13 21:57+0200\n"
+"POT-Creation-Date: 2025-12-01 15:51+0100\n"
 "PO-Revision-Date: 2025-08-04 20:01+0000\n"
 "Language-Team: none\n"
 "Language: pt\n"
@@ -17,44 +17,267 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Generator: Weblate 5.13-dev\n"
 
-#: plugins/openpgp/src/encryption_preferences_entry.vala:18
-msgid "Querying GnuPG"
-msgstr "Consultando GnuPG"
-
-#: plugins/openpgp/src/encryption_preferences_entry.vala:32
-#: plugins/openpgp/src/encryption_preferences_entry.vala:36
-#: plugins/openpgp/src/encryption_preferences_entry.vala:41
-msgid "Announce key"
-msgstr "Anunciar chave"
-
-#: plugins/openpgp/src/encryption_preferences_entry.vala:32
-msgid "Error in GnuPG"
-msgstr "Erro no GnuPG"
-
-#: plugins/openpgp/src/encryption_preferences_entry.vala:36
-msgid "No keys available. Generate one!"
-msgstr "Nenhuma chave disponível. Gere uma!"
-
-#: plugins/openpgp/src/encryption_preferences_entry.vala:45
-msgid "Disabled"
-msgstr "Desativado"
-
 #: plugins/openpgp/src/contact_details_provider.vala:36
 msgid "Key not in keychain"
 msgstr "A chave não está no chaveiro"
 
 #: plugins/openpgp/src/contact_details_provider.vala:40
+#: plugins/openpgp/src/key_management_dialog.vala:220
 msgid "Fingerprint"
 msgstr "Impressão digital"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:50
+#: plugins/openpgp/src/encryption_preferences_entry.vala:56
+#: plugins/openpgp/src/encryption_preferences_entry.vala:62
+msgid "Announce key"
+msgstr "Anunciar chave"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:50
+msgid "Error in GnuPG"
+msgstr "Erro no GnuPG"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:56
+#, fuzzy
+msgid "No keys available. Generate or import one!"
+msgstr "Nenhuma chave disponível. Gere uma!"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:68
+#: plugins/openpgp/src/encryption_preferences_entry.vala:110
+msgid "Disabled"
+msgstr "Desativado"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:97
+#, fuzzy
+msgid "Select OpenPGP Key"
+msgstr "Selecionar chave"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:97
+msgid "Choose a key to announce to your contacts."
+msgstr "Escolha uma chave para anunciar aos seus contactos."
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:98
+#: plugins/openpgp/src/key_management_dialog.vala:307
+#: plugins/openpgp/src/key_management_dialog.vala:509
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:99
+#: plugins/openpgp/src/key_management_dialog.vala:547
+msgid "OK"
+msgstr "OK"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:148
+msgid "Enter GPG passphrase to confirm:"
+msgstr "Introduza a frase de acesso GPG para confirmar:"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:155
+msgid "Passphrase"
+msgstr "Frase de acesso"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:215
+msgid "Wrong passphrase"
+msgstr "Frase de acesso incorreta"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:228
+msgid "Manage Keys"
+msgstr "Gerir Chaves"
+
+#: plugins/openpgp/src/encryption_preferences_entry.vala:229
+msgid "Generate, import, export, or delete keys"
+msgstr "Gerar, importar, exportar ou eliminar chaves"
+
+#: plugins/openpgp/src/key_management_dialog.vala:61
+msgid "OpenPGP Key Management"
+msgstr "Gestão de Chaves OpenPGP"
+
+#: plugins/openpgp/src/key_management_dialog.vala:74
+msgid "Actions"
+msgstr "Ações"
+
+#: plugins/openpgp/src/key_management_dialog.vala:78
+msgid "Generate New Key"
+msgstr "Gerar Nova Chave"
+
+#: plugins/openpgp/src/key_management_dialog.vala:79
+msgid "Create a new OpenPGP key pair"
+msgstr "Criar um novo par de chaves OpenPGP"
+
+#: plugins/openpgp/src/key_management_dialog.vala:96
+msgid "Import Key"
+msgstr "Importar Chave"
+
+#: plugins/openpgp/src/key_management_dialog.vala:97
+msgid "Import a key from file (.asc, .gpg)"
+msgstr "Importar uma chave de ficheiro (.asc, .gpg)"
+
+#: plugins/openpgp/src/key_management_dialog.vala:116
+msgid "Your Keys"
+msgstr "As Suas Chaves"
+
+#: plugins/openpgp/src/key_management_dialog.vala:117
+msgid "Private keys available for signing and decryption"
+msgstr "Chaves privadas disponíveis para assinatura e desencriptação"
+
+#: plugins/openpgp/src/key_management_dialog.vala:151
+msgid "No private keys found"
+msgstr "Nenhuma chave privada encontrada"
+
+#: plugins/openpgp/src/key_management_dialog.vala:152
+msgid "Generate or import a key to get started"
+msgstr "Gere ou importe uma chave para começar"
+
+#: plugins/openpgp/src/key_management_dialog.vala:232
+#: plugins/openpgp/src/key_management_dialog.vala:470
+msgid "Export Public Key"
+msgstr "Exportar Chave Pública"
+
+#: plugins/openpgp/src/key_management_dialog.vala:240
+msgid "Delete Key"
+msgstr "Eliminar Chave"
+
+#: plugins/openpgp/src/key_management_dialog.vala:263
+msgid "Generate New OpenPGP Key"
+msgstr "Gerar Nova Chave OpenPGP"
+
+#: plugins/openpgp/src/key_management_dialog.vala:264
+msgid "Enter your details to create a new key pair."
+msgstr "Introduza os seus detalhes para criar um novo par de chaves."
+
+#: plugins/openpgp/src/key_management_dialog.vala:272
+msgid "Name"
+msgstr "Nome"
+
+#: plugins/openpgp/src/key_management_dialog.vala:277
+msgid "Your Name"
+msgstr "O Seu Nome"
+
+#: plugins/openpgp/src/key_management_dialog.vala:281
+msgid "Email"
+msgstr "Email"
+
+#: plugins/openpgp/src/key_management_dialog.vala:287
+msgid "you@example.com"
+msgstr "voce@exemplo.com"
+
+#: plugins/openpgp/src/key_management_dialog.vala:291
+msgid "Passphrase (optional)"
+msgstr "Frase de acesso (opcional)"
+
+#: plugins/openpgp/src/key_management_dialog.vala:300
+msgid "4096-bit RSA key, valid for 2 years."
+msgstr "Chave RSA de 4096 bits, válida por 2 anos."
+
+#: plugins/openpgp/src/key_management_dialog.vala:308
+msgid "Generate"
+msgstr "Gerar"
+
+#: plugins/openpgp/src/key_management_dialog.vala:320
+#: plugins/openpgp/src/key_management_dialog.vala:324
+#: plugins/openpgp/src/key_management_dialog.vala:395
+#: plugins/openpgp/src/key_management_dialog.vala:402
+#: plugins/openpgp/src/key_management_dialog.vala:410
+#: plugins/openpgp/src/key_management_dialog.vala:461
+#: plugins/openpgp/src/key_management_dialog.vala:464
+#: plugins/openpgp/src/key_management_dialog.vala:498
+#: plugins/openpgp/src/key_management_dialog.vala:501
+#: plugins/openpgp/src/key_management_dialog.vala:538
+#: plugins/openpgp/src/key_management_dialog.vala:541
+msgid "Error"
+msgstr "Erro"
+
+#: plugins/openpgp/src/key_management_dialog.vala:320
+msgid "Name must be at least 2 characters"
+msgstr "O nome deve ter pelo menos 2 caracteres"
+
+#: plugins/openpgp/src/key_management_dialog.vala:324
+msgid "Please enter a valid email address"
+msgstr "Por favor, introduza um endereço de email válido"
+
+#: plugins/openpgp/src/key_management_dialog.vala:340
+msgid "Generating Key..."
+msgstr "A Gerar Chave..."
+
+#: plugins/openpgp/src/key_management_dialog.vala:341
+msgid "Please wait while your key is being generated. This may take a moment."
+msgstr "Por favor aguarde enquanto a sua chave está a ser gerada. Isto pode demorar um momento."
+
+#: plugins/openpgp/src/key_management_dialog.vala:393
+#: plugins/openpgp/src/key_management_dialog.vala:459
+#: plugins/openpgp/src/key_management_dialog.vala:496
+#: plugins/openpgp/src/key_management_dialog.vala:536
+msgid "Success"
+msgstr "Sucesso"
+
+#: plugins/openpgp/src/key_management_dialog.vala:393
+msgid "Key generated successfully!"
+msgstr "Chave gerada com sucesso!"
+
+#: plugins/openpgp/src/key_management_dialog.vala:395
+msgid "Failed to generate key."
+msgstr "Falha ao gerar chave."
+
+#: plugins/openpgp/src/key_management_dialog.vala:416
+msgid "Import OpenPGP Key"
+msgstr "Importar Chave OpenPGP"
+
+#: plugins/openpgp/src/key_management_dialog.vala:421
+msgid "OpenPGP Keys (*.asc, *.gpg)"
+msgstr "Chaves OpenPGP (*.asc, *.gpg)"
+
+#: plugins/openpgp/src/key_management_dialog.vala:428
+msgid "All Files"
+msgstr "Todos os Ficheiros"
+
+#: plugins/openpgp/src/key_management_dialog.vala:459
+msgid "Key imported! Re-open Key Management to see it."
+msgstr "Chave importada! Reabra a Gestão de Chaves para a ver."
+
+#: plugins/openpgp/src/key_management_dialog.vala:461
+msgid "Import failed: "
+msgstr "Falha na importação: "
+
+#: plugins/openpgp/src/key_management_dialog.vala:496
+msgid "Key exported to: "
+msgstr "Chave exportada para: "
+
+#: plugins/openpgp/src/key_management_dialog.vala:498
+msgid "Export failed."
+msgstr "Falha na exportação."
+
+#: plugins/openpgp/src/key_management_dialog.vala:506
+msgid "Delete Key?"
+msgstr "Eliminar Chave?"
+
+#: plugins/openpgp/src/key_management_dialog.vala:507
+#, c-format
+msgid ""
+"Delete this key?\n"
+"\n"
+"%s\n"
+"\n"
+"This cannot be undone!"
+msgstr ""
+
+#: plugins/openpgp/src/key_management_dialog.vala:510
+msgid "Delete"
+msgstr "Eliminar"
+
+#: plugins/openpgp/src/key_management_dialog.vala:536
+msgid "Key deleted."
+msgstr "Chave eliminada."
+
+#: plugins/openpgp/src/key_management_dialog.vala:538
+msgid "Delete failed: "
+msgstr "Falha ao eliminar: "
+
+#~ msgid "Querying GnuPG"
+#~ msgstr "Consultando GnuPG"
 
 #~ msgid "Encryption"
 #~ msgstr "Criptografia"
 
 #~ msgid "Key publishing disabled"
 #~ msgstr "Publicação da chave desativada"
-
-#~ msgid "Select key"
-#~ msgstr "Selecionar chave"
 
 #~ msgid "Loading…"
 #~ msgstr "Carregando…"

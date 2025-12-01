@@ -196,19 +196,19 @@ msgstr "您是否有爲帳號 %s 增加新裝置？"
 
 #: plugins/omemo/src/ui/encryption_preferences_entry.vala:52
 msgid "OMEMO by default"
-msgstr ""
+msgstr "預設使用 OMEMO"
 
 #: plugins/omemo/src/ui/encryption_preferences_entry.vala:53
 msgid "Enable OMEMO encryption for new conversations"
-msgstr ""
+msgstr "為新對話啟用 OMEMO 加密"
 
 #: plugins/omemo/src/ui/encryption_preferences_entry.vala:54
 msgid "Encrypt to new devices"
-msgstr ""
+msgstr "加密至新裝置"
 
 #: plugins/omemo/src/ui/encryption_preferences_entry.vala:55
 msgid "Automatically encrypt to new devices from this contact."
-msgstr ""
+msgstr "自動加密至此聯絡人的新裝置。"
 
 #: plugins/omemo/src/ui/encryption_preferences_entry.vala:56
 msgid "New keys"
@@ -221,15 +221,15 @@ msgstr "來自您其它裝置的新加密金鑰將會被自動接收。"
 
 #: plugins/omemo/src/ui/encryption_preferences_entry.vala:160
 msgid "This device"
-msgstr ""
+msgstr "此裝置"
 
 #: plugins/omemo/src/ui/encryption_preferences_entry.vala:220
 msgid "Other device"
-msgstr ""
+msgstr "其他裝置"
 
 #: plugins/omemo/src/ui/encryption_preferences_entry.vala:220
 msgid "Device"
-msgstr ""
+msgstr "裝置"
 
 #: plugins/omemo/src/ui/encryption_preferences_entry.vala:222
 msgid "Accepted"
@@ -245,7 +245,7 @@ msgstr "已核驗"
 
 #: plugins/omemo/src/ui/encryption_preferences_entry.vala:277
 msgid "New device"
-msgstr ""
+msgstr "新裝置"
 
 #: plugins/omemo/data/encryption_preferences_entry.ui:8
 msgid ""
@@ -253,6 +253,8 @@ msgid ""
 "device if they are encrypted to its key. Messages are only encrypted to "
 "accepted devices."
 msgstr ""
+"每個裝置都有自己的 OMEMO 金鑰。訊息只有在加密給該裝置的金鑰時，才能被該裝置解"
+"密。訊息只會加密給已接受的裝置。"
 
 #~ msgid "OMEMO Key Management"
 #~ msgstr "OMEMO 金鑰管理"

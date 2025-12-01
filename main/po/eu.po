@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-28 12:18+0100\n"
+"POT-Creation-Date: 2025-12-01 10:28+0100\n"
 "PO-Revision-Date: 2022-12-09 11:48+0000\n"
 "Language-Team: Basque <https://hosted.weblate.org/projects/dino/translations/"
 "eu/>\n"
@@ -100,14 +100,14 @@ msgstr "Orokorra"
 #: main/data/gtk/help-overlay.ui:14 main/data/main_window.ui:38
 #: main/data/menu_add.ui:7
 #: main/src/ui/add_conversation/select_contact_dialog.vala:106
-#: main/src/ui/main_window.vala:141
+#: main/src/ui/main_window.vala:154
 msgid "Start Conversation"
 msgstr "Elkarrizketa hasi"
 
 #: main/data/gtk/help-overlay.ui:20 main/data/main_window.ui:51
 #: main/data/menu_add.ui:11
 #: main/src/ui/add_conversation/add_conference_dialog.vala:24
-#: main/src/ui/application.vala:527 main/src/ui/main_window.vala:142
+#: main/src/ui/application.vala:1359 main/src/ui/main_window.vala:155
 msgid "Join Channel"
 msgstr "Kanalera gehitu"
 
@@ -148,7 +148,7 @@ msgstr "Jauzi hurrengo elkarrizketara"
 msgid "Jump to previous conversation"
 msgstr "Jauzi aurreko elkarrizketara"
 
-#: main/data/main_window.ui:64 main/src/ui/main_window.vala:144
+#: main/data/main_window.ui:64 main/src/ui/main_window.vala:157
 msgid "Help: How to join channels"
 msgstr "Laguntza: Nola batu kanaletara"
 
@@ -166,28 +166,28 @@ msgstr "Egoera"
 
 #: main/data/menu_app.ui:11
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:427
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Online"
 msgstr "Linean"
 
 #: main/data/menu_app.ui:16
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:421
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Away"
 msgstr "Kanpoan"
 
 #: main/data/menu_app.ui:21
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:425
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Busy"
 msgstr "Lanpetuta"
 
 #: main/data/menu_app.ui:26
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:423
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Not Available"
 msgstr "Ez dago eskuragarri"
@@ -200,7 +200,7 @@ msgstr "Hobespenak"
 msgid "Keyboard Shortcuts"
 msgstr "Laster-teklak"
 
-#: main/data/menu_app.ui:42 main/src/ui/application.vala:334
+#: main/data/menu_app.ui:42 main/src/ui/application.vala:340
 msgid "About DinoX"
 msgstr "DinoX-ri buruz"
 
@@ -219,7 +219,10 @@ msgstr "Elkarrizketa historia ezabatu"
 #: main/data/preferences_window/change_password_dialog.ui:18
 #: main/src/ui/add_conversation/add_conference_dialog.vala:41
 #: main/src/ui/add_conversation/select_contact_dialog.vala:40
-#: main/src/ui/application.vala:537
+#: main/src/ui/application.vala:441 main/src/ui/application.vala:469
+#: main/src/ui/application.vala:765 main/src/ui/application.vala:843
+#: main/src/ui/application.vala:901 main/src/ui/application.vala:933
+#: main/src/ui/application.vala:1089 main/src/ui/application.vala:1369
 #: main/src/ui/conversation_content_view/file_default_widget.vala:90
 #: main/src/ui/conversation_content_view/item_actions.vala:165
 #: main/src/ui/conversation_content_view/item_actions.vala:168
@@ -234,7 +237,7 @@ msgstr "Elkarrizketa historia ezabatu"
 #: main/src/ui/conversation_titlebar/call_entry.vala:83
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
 #: main/src/windows/conversation_details.vala:60
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:67
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:68
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:205
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:225
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:249
@@ -258,6 +261,7 @@ msgid "Local alias"
 msgstr "Bertako ezizena"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:82
+#: main/src/ui/application.vala:435 main/src/ui/application.vala:1064
 #: main/src/ui/util/data_forms.vala:63
 msgid "Password"
 msgstr "Pasahitza"
@@ -266,20 +270,24 @@ msgstr "Pasahitza"
 msgid "Connection status"
 msgstr "Konexio egoera"
 
+#: main/data/preferences_window/account_preferences_subpage.ui:117
+msgid "View Certificate"
+msgstr "Ikusi ziurtagiria"
+
 # Custom host/port feature (Issue #115)
-#: main/data/preferences_window/account_preferences_subpage.ui:121
+#: main/data/preferences_window/account_preferences_subpage.ui:128
 msgid "Advanced Settings"
 msgstr "Ezarpen aurreratuak"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:122
+#: main/data/preferences_window/account_preferences_subpage.ui:129
 msgid "Custom server connection (leave empty for automatic)"
 msgstr "Zerbitzari konexio pertsonalizatua (utzi hutsik automatikorako)"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:125
+#: main/data/preferences_window/account_preferences_subpage.ui:132
 msgid "Server Hostname"
 msgstr "Zerbitzariaren ostalari izena"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:130
+#: main/data/preferences_window/account_preferences_subpage.ui:137
 msgid "Port"
 msgstr "Ataka"
 
@@ -352,12 +360,53 @@ msgid "Create a backup of your accounts, messages and settings"
 msgstr "Sortu kontuen, mezuen eta ezarpenen babeskopia"
 
 #: main/data/preferences_window/general_preferences_page.ui:78
-msgid "Data Location"
-msgstr "Datuen kokapena"
+#: main/src/ui/application.vala:464 main/src/ui/main_window.vala:223
+msgid "Restore from Backup"
+msgstr "Leheneratu babeskopiatik"
 
 #: main/data/preferences_window/general_preferences_page.ui:79
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "Berrezarri kontuak, mezuak eta ezarpenak babeskopia-fitxategi batetik"
+
+#: main/data/preferences_window/general_preferences_page.ui:90
+msgid "Data Storage Location"
+msgstr "Datuen biltegiratze kokapena"
+
+#: main/data/preferences_window/general_preferences_page.ui:91
 msgid "View where your data is stored"
 msgstr "Ikusi non gordetzen diren zure datuak"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "Datu-basearen mantentze-lanak"
+
+#: main/data/preferences_window/general_preferences_page.ui:107
+#: main/src/ui/application.vala:761 main/src/ui/application.vala:766
+msgid "Clear Cache"
+msgstr "Garbitu cachea"
+
+#: main/data/preferences_window/general_preferences_page.ui:108
+msgid "Clear cached files, avatars and previews"
+msgstr "Garbitu cachean gordetako fitxategiak, avatarrak eta aurrebistak"
+
+#: main/data/preferences_window/general_preferences_page.ui:119
+#: main/src/ui/application.vala:838 main/src/ui/application.vala:844
+msgid "Reset Database"
+msgstr "Berrezarri datu-basea"
+
+#: main/data/preferences_window/general_preferences_page.ui:120
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr ""
+"Ezabatu mezu, fitxategi eta OMEMO gako guztiak. Zure kontuak mantenduko dira."
+
+#: main/data/preferences_window/general_preferences_page.ui:131
+#: main/src/ui/application.vala:896
+msgid "Factory Reset"
+msgstr "Fabrika berrezarpena"
+
+#: main/data/preferences_window/general_preferences_page.ui:132
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr "Ezabatu datu GUZTIAK, kontuak barne. Hau ezin da desegin!"
 
 #: main/data/preferences_window/preferences_dialog.ui:11
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:15
@@ -382,7 +431,7 @@ msgstr "Hurrengoa"
 
 #: main/src/ui/add_conversation/add_conference_dialog.vala:59
 #: main/src/ui/add_conversation/conference_details_fragment.vala:151
-#: main/src/ui/application.vala:541
+#: main/src/ui/application.vala:1373
 msgid "Join"
 msgstr "Batu"
 
@@ -468,31 +517,31 @@ msgstr "Kontaktua ezabatu"
 msgid "Leave Group"
 msgstr "Utzi taldea"
 
-#: main/src/ui/application.vala:339
+#: main/src/ui/application.vala:345
 msgid "Modern XMPP client with extended features"
 msgstr "XMPP bezero modernoa funtzio hedatuekin"
 
-#: main/src/ui/application.vala:346 main/src/ui/application.vala:385
+#: main/src/ui/application.vala:352 main/src/ui/application.vala:727
 msgid "User Data Locations"
 msgstr "Datuen kokapena"
 
-#: main/src/ui/application.vala:349 main/src/ui/application.vala:399
+#: main/src/ui/application.vala:355 main/src/ui/application.vala:741
 msgid "Configuration:"
 msgstr "Konfigurazioa:"
 
-#: main/src/ui/application.vala:352 main/src/ui/application.vala:401
+#: main/src/ui/application.vala:358 main/src/ui/application.vala:743
 msgid "Data & Database:"
 msgstr "Datuak eta datu-basea:"
 
-#: main/src/ui/application.vala:355 main/src/ui/application.vala:403
+#: main/src/ui/application.vala:361 main/src/ui/application.vala:745
 msgid "Cache:"
 msgstr "Cache:"
 
-#: main/src/ui/application.vala:358
+#: main/src/ui/application.vala:364
 msgid "Info:"
 msgstr "Informazioa:"
 
-#: main/src/ui/application.vala:359
+#: main/src/ui/application.vala:365
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
@@ -500,16 +549,120 @@ msgstr ""
 "Zure datu pertsonalak (kontuak, mezuak, fitxategiak) aplikaziotik bereizita "
 "gordetzen dira."
 
-#: main/src/ui/application.vala:361
+#: main/src/ui/application.vala:367
 msgid "When you update DinoX, your data remains intact."
 msgstr "DinoX eguneratzean, zure datuak osorik geratzen dira."
 
-#: main/src/ui/application.vala:363
+#: main/src/ui/application.vala:369
 msgid "Use Settings → General → Backup User Data to create a backup."
 msgstr ""
 "Erabili Ezarpenak → Orokorra → Erabiltzaile datuen babeskopia sortzeko."
 
-#: main/src/ui/application.vala:405
+#: main/src/ui/application.vala:387
+msgid "Select Backup File"
+msgstr "Hautatu babeskopia fitxategia"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+#: main/src/ui/application.vala:395
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "Babeskopia fitxategiak (*.tar.gz, *.tar.gz.gpg)"
+
+#: main/src/ui/application.vala:425
+msgid "Enter Backup Password"
+msgstr "Sartu babeskopiaren pasahitza"
+
+#: main/src/ui/application.vala:426
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "Babeskopia hau enkriptatuta dago. Sartu pasahitza deszifratzeko."
+
+#: main/src/ui/application.vala:442
+msgid "Decrypt & Restore"
+msgstr "Deszifratu eta leheneratu"
+
+#: main/src/ui/application.vala:465
+msgid ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+msgstr ""
+"Honek uneko datu guztiak babeskopiarekin ordezkatuko ditu.\n"
+"\n"
+"<b>Uneko kontuak, mezuak eta ezarpenak gainidatziko dira!</b>\n"
+"\n"
+"DinoX berrabiaraziko da leheneratu ondoren."
+
+#: main/src/ui/application.vala:470
+msgid "Restore Backup"
+msgstr "Leheneratu babeskopia"
+
+#: main/src/ui/application.vala:487 main/src/ui/application.vala:519
+msgid "Decrypting Backup..."
+msgstr "Babeskopia deszifratzen..."
+
+#: main/src/ui/application.vala:487 main/src/ui/application.vala:571
+msgid "Restoring Backup..."
+msgstr "Babeskopia leheneratzen..."
+
+#: main/src/ui/application.vala:488
+msgid "Please wait, this may take a moment..."
+msgstr "Itxaron mesedez, honek une bat har dezake..."
+
+#: main/src/ui/application.vala:520
+msgid "Decrypting encrypted backup file..."
+msgstr "Babeskopia fitxategia deszifratzean..."
+
+#: main/src/ui/application.vala:558
+msgid "Decryption Failed"
+msgstr "Deszifraketa huts egin du"
+
+#: main/src/ui/application.vala:559
+msgid ""
+"Could not decrypt the backup file.\n"
+"\n"
+"Please check if the password is correct."
+msgstr ""
+"Ezin izan da fitxategia deszifratu.\n"
+"\n"
+"Egiaztatu pasahitza zuzena den."
+
+#: main/src/ui/application.vala:561 main/src/ui/application.vala:671
+msgid "OK"
+msgstr "OK"
+
+#: main/src/ui/application.vala:572
+msgid "Extracting files from backup..."
+msgstr "Fitxategiak babeskopiatik ateratzen..."
+
+#: main/src/ui/application.vala:653
+msgid "Restore Complete!"
+msgstr "Leheneratzea osatu da!"
+
+#: main/src/ui/application.vala:654
+msgid "DinoX will now restart..."
+msgstr "DinoX orain berrabiaraziko da..."
+
+#: main/src/ui/application.vala:668
+msgid "Restore Failed"
+msgstr "Leheneratzeak huts egin du"
+
+#: main/src/ui/application.vala:669
+#, c-format
+msgid ""
+"Could not restore the backup file.\n"
+"\n"
+"Error: %s"
+msgstr ""
+"Ezin izan da fitxategia leheneratu.\n"
+"\n"
+"Errorea: %s"
+
+#: main/src/ui/application.vala:669 main/src/ui/application.vala:1345
+msgid "Unknown error"
+msgstr "Errore ezezaguna"
+
+#: main/src/ui/application.vala:747
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
@@ -520,96 +673,243 @@ msgstr ""
 "bereizita gordetzen dira. DinoX eguneratzen duzunean, zure datuak ukitu gabe "
 "geratzen dira."
 
-#: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
-#: main/src/ui/main_window.vala:159
+#: main/src/ui/application.vala:752 main/src/ui/application.vala:1240
+#: main/src/ui/application.vala:1324 main/src/ui/conversation_details.vala:272
+#: main/src/ui/main_window.vala:172
 msgid "Close"
 msgstr "Itxi"
 
-#: main/src/ui/application.vala:417
+#: main/src/ui/application.vala:762
+msgid ""
+"This will delete cached files, avatars and previews.\n"
+"\n"
+"They will be re-downloaded when needed."
+msgstr ""
+"Honek cachean gordetako fitxategiak, avatarrak eta aurrebistak ezabatuko ditu.\n"
+"\n"
+"Beharrezkoa denean berriro deskargatuko dira."
+
+#: main/src/ui/application.vala:799
+#, c-format
+msgid "Cache cleared (%s freed)"
+msgstr "Cachea garbitu da (%s askatu da)"
+
+#: main/src/ui/application.vala:802
+msgid "Failed to clear cache"
+msgstr "Huts egin du cachea garbitzean"
+
+#: main/src/ui/application.vala:839
+msgid ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+msgstr ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+
+#: main/src/ui/application.vala:867
+msgid "Resetting database... DinoX will restart."
+msgstr "Datu-basea berrezartzen... DinoX berrabiaraziko da."
+
+#: main/src/ui/application.vala:897
+msgid ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+msgstr ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+
+#: main/src/ui/application.vala:902
+msgid "Create Backup First"
+msgstr "Sortu babeskopia lehenik"
+
+#: main/src/ui/application.vala:903
+msgid "Delete Everything"
+msgstr "Ezabatu dena"
+
+#: main/src/ui/application.vala:923
+msgid "Are you absolutely sure?"
+msgstr "Erabat ziur zaude?"
+
+#: main/src/ui/application.vala:924
+msgid ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+msgstr ""
+"Idatzi 'DELETE' fabrika berrezarpena berresteko.\n"
+"\n"
+"Honek zure DinoX datu guztiak betiko ezabatuko ditu."
+
+#: main/src/ui/application.vala:934
+msgid "Confirm Delete"
+msgstr "Berretsi ezabaketa"
+
+#: main/src/ui/application.vala:961
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "Fabrikako berrezarpena abian... DinoX berrabiaraziko da."
+
+#: main/src/ui/application.vala:1026
+msgid "Backup Encryption"
+msgstr "Babeskopiaren zifratzea"
+
+#: main/src/ui/application.vala:1027
+msgid ""
+"Do you want to encrypt the backup with a password?\n"
+"\n"
+"Encrypted backups are more secure but require the password to restore."
+msgstr ""
+"Babeskopia pasahitz batekin enkriptatu nahi duzu?\n"
+"\n"
+"Enkriptatutako babeskopiak seguruagoak dira, baina pasahitza behar dute leheneratzeko."
+
+#: main/src/ui/application.vala:1030
+msgid "No Encryption"
+msgstr "Zifratzerik ez"
+
+#: main/src/ui/application.vala:1031
+msgid "Encrypt with Password"
+msgstr "Zifratu pasahitzarekin"
+
+#: main/src/ui/application.vala:1049
+msgid "Set Backup Password"
+msgstr "Ezarri babeskopiaren pasahitza"
+
+#: main/src/ui/application.vala:1050
+msgid ""
+"Enter a password to encrypt the backup.\n"
+"\n"
+"<b>Important:</b> Remember this password! Without it, the backup cannot be "
+"restored."
+msgstr ""
+"Sartu pasahitz bat babeskopia enkriptatzeko.\n"
+"\n"
+"<b>Garrantzitsua:</b> Gogoratu pasahitz hau! Hura gabe, ezin da babeskopia "
+"leheneratu."
+
+#: main/src/ui/application.vala:1058
+msgid "Password (minimum 4 characters)"
+msgstr "Pasahitza (gutxienez 4 karaktere)"
+
+#: main/src/ui/application.vala:1066 main/src/ui/application.vala:1073
+msgid "Confirm Password"
+msgstr "Berretsi pasahitza"
+
+#: main/src/ui/application.vala:1090
+msgid "Create Encrypted Backup"
+msgstr "Sortu zifratutako babeskopia"
+
+#: main/src/ui/application.vala:1102 main/src/ui/application.vala:1117
+msgid "Password too short"
+msgstr "Pasahitza laburregia da"
+
+#: main/src/ui/application.vala:1104 main/src/ui/application.vala:1119
+msgid "Passwords do not match"
+msgstr "Pasahitzak ez datoz bat"
+
+#: main/src/ui/application.vala:1106 main/src/ui/application.vala:1121
+msgid "✓ Passwords match"
+msgstr "✓ Pasahitzak bat datoz"
+
+#: main/src/ui/application.vala:1139
 msgid "Select Backup Location"
 msgstr "Hautatu babeskopia kokapena"
 
-#: main/src/ui/application.vala
-msgid "Creating Backup..."
-msgstr "Creating Backup..."
-
-#: main/src/ui/application.vala
+#: main/src/ui/application.vala:1194
 msgid "Creating Encrypted Backup..."
-msgstr "Creating Encrypted Backup..."
+msgstr "Zifratutako babeskopia sortzen..."
 
-#: main/src/ui/application.vala
-msgid "Please wait while your data is being backed up."
-msgstr "Please wait while your data is being backed up."
-
-#: main/src/ui/application.vala
-msgid "No data directories found to backup"
-msgstr "No data directories found to backup"
-
-#: main/src/ui/application.vala
-msgid "Backup Created"
-msgstr "Backup Created"
-
-#: main/src/ui/application.vala
-msgid "Encrypted Backup Created"
-msgstr "Encrypted Backup Created"
-
-#: main/src/ui/application.vala
-#, c-format
-msgid "Your backup was created successfully.\\n\\nSize: %s"
-msgstr "Your backup was created successfully.\\n\\nSize: %s"
-
-#: main/src/ui/application.vala
-msgid "Your backup was created successfully."
-msgstr "Your backup was created successfully."
-
-#: main/src/ui/application.vala
-#, c-format
-msgid "Your encrypted backup was created successfully.\\n\\nSize: %s"
-msgstr "Your encrypted backup was created successfully.\\n\\nSize: %s"
-
-#: main/src/ui/application.vala
-msgid "Your encrypted backup was created successfully."
-msgstr "Your encrypted backup was created successfully."
-
-#: main/src/ui/application.vala
-msgid "Backup Failed"
-msgstr "Backup Failed"
-
-#: main/src/ui/application.vala:445
-msgid "Creating backup..."
+#: main/src/ui/application.vala:1194
+msgid "Creating Backup..."
 msgstr "Babeskopia sortzen..."
 
-#: main/src/ui/application.vala:503
+#: main/src/ui/application.vala:1195
+msgid "Please wait while your data is being backed up."
+msgstr "Itxaron zure datuen babeskopia egiten den bitartean."
+
+#: main/src/ui/application.vala:1234
+msgid "No data directory found to backup"
+msgstr "Ez da datu-direktoriorik aurkitu babeskopia egiteko"
+
+#: main/src/ui/application.vala:1237 main/src/ui/application.vala:1343
+msgid "Backup Failed"
+msgstr "Babeskopiak huts egin du"
+
+#: main/src/ui/application.vala:1331
+msgid "Encrypted Backup Created"
+msgstr "Zifratutako babeskopia sortu da"
+
+#: main/src/ui/application.vala:1333
 #, c-format
-msgid "Backup created successfully (%s)"
-msgstr "Babeskopia sortuta (%s)"
+msgid ""
+"Your encrypted backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"Zure enkriptatutako babeskopia ondo sortu da.\n"
+"\n"
+"Tamaina: %s"
 
-#: main/src/ui/application.vala:505
-msgid "Backup created successfully"
-msgstr "Babeskopia sortuta"
+#: main/src/ui/application.vala:1334
+msgid "Your encrypted backup was created successfully."
+msgstr "Zure zifratutako babeskopia ondo sortu da."
 
-#: main/src/ui/application.vala:510
-msgid "Unknown error"
-msgstr "Errore ezezaguna"
+#: main/src/ui/application.vala:1336
+msgid "Backup Created"
+msgstr "Babeskopia sortu da"
 
-#: main/src/ui/application.vala:511
+#: main/src/ui/application.vala:1338
+#, c-format
+msgid ""
+"Your backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"Zure babeskopia ondo sortu da.\n"
+"\n"
+"Tamaina: %s"
+
+#: main/src/ui/application.vala:1339
+msgid "Your backup was created successfully."
+msgstr "Zure babeskopia ondo sortu da."
+
+#: main/src/ui/application.vala:1346
 #, c-format
 msgid "Backup failed: %s"
 msgstr "Babeskopia huts egin du: %s"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:29
+#: main/src/ui/call_window/audio_settings_popover.vala:46
 msgid "Microphones"
 msgstr "Mikrofonoak"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:32
+#: main/src/ui/call_window/audio_settings_popover.vala:49
 msgid "No microphone found."
 msgstr "Ez da mikrofonorik aurkitu."
 
-#: main/src/ui/call_window/audio_settings_popover.vala:85
+#: main/src/ui/call_window/audio_settings_popover.vala:116
 msgid "Speakers"
 msgstr "Bozgorailuak"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:88
+#: main/src/ui/call_window/audio_settings_popover.vala:119
 msgid "No speaker found."
 msgstr "Ez da bozgorailurik aurkitu."
 
@@ -625,7 +925,7 @@ msgstr "Dei batera gonbidatu"
 msgid "Invite"
 msgstr "Gonbidatu"
 
-#: main/src/ui/call_window/call_window_controller.vala:405
+#: main/src/ui/call_window/call_window_controller.vala:453
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:240
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:270
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:285
@@ -644,21 +944,21 @@ msgstr "%s(e)k deia amaitu zuen"
 msgid "%s declined the call"
 msgstr "%s(e)k uko egin dio deiari"
 
-#: main/src/ui/call_window/participant_widget.vala:115
+#: main/src/ui/call_window/participant_widget.vala:140
 msgid "Debug information"
 msgstr "Arazte informazioa"
 
-#: main/src/ui/call_window/participant_widget.vala:124
+#: main/src/ui/call_window/participant_widget.vala:149
 #: main/src/ui/conversation_content_view/call_widget.vala:152
 msgid "Calling…"
 msgstr "Deika…"
 
-#: main/src/ui/call_window/participant_widget.vala:126
+#: main/src/ui/call_window/participant_widget.vala:151
 msgid "Ringing…"
 msgstr "Soinua jotzen…"
 
-#: main/src/ui/call_window/participant_widget.vala:128
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:216
+#: main/src/ui/call_window/participant_widget.vala:153
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:244
 msgid "Connecting…"
 msgstr "Konektatzen…"
 
@@ -892,7 +1192,7 @@ msgstr "%a, %l∶%M %p"
 msgid "Just now"
 msgstr "Orain"
 
-#: main/src/ui/conversation_content_view/conversation_view.vala:105
+#: main/src/ui/conversation_content_view/conversation_view.vala:106
 msgid "More actions"
 msgstr "Ekintza gehiago"
 
@@ -1111,6 +1411,38 @@ msgstr "Suntsitu"
 msgid "Failed to destroy room"
 msgstr "Ezin izan da gela suntsitu"
 
+#: main/src/ui/conversation_details.vala:286
+msgid "Auto-delete messages"
+msgstr "Ezabatu mezuak automatikoki"
+
+#: main/src/ui/conversation_details.vala:287
+msgid "Never"
+msgstr "Inoiz ez"
+
+#: main/src/ui/conversation_details.vala:288
+msgid "After 15 minutes"
+msgstr "15 minutu ondoren"
+
+#: main/src/ui/conversation_details.vala:289
+msgid "After 30 minutes"
+msgstr "30 minutu ondoren"
+
+#: main/src/ui/conversation_details.vala:290
+msgid "After 1 hour"
+msgstr "Ordu 1 ondoren"
+
+#: main/src/ui/conversation_details.vala:291
+msgid "After 24 hours"
+msgstr "24 ordu ondoren"
+
+#: main/src/ui/conversation_details.vala:292
+msgid "After 7 days"
+msgstr "7 egun ondoren"
+
+#: main/src/ui/conversation_details.vala:293
+msgid "After 30 days"
+msgstr "30 egun ondoren"
+
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:276
 #: main/src/ui/notifier_freedesktop.vala:71
 #: main/src/ui/notifier_gnotifications.vala:36
@@ -1256,6 +1588,7 @@ msgstr "Kontaktua desblokeatu?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:702
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:247
+#, c-format
 msgid "This will allow %s to send you messages again."
 msgstr "Honek %s-ri berriro mezuak bidaltzea baimentzen dio."
 
@@ -1358,7 +1691,7 @@ msgid "Select file"
 msgstr "Fitxategia hautatu"
 
 #: main/src/ui/conversation_view_controller.vala:225
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:152
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:180
 msgid "Select"
 msgstr "Hautatu"
 
@@ -1378,11 +1711,11 @@ msgstr "hemen %s"
 msgid "With %s"
 msgstr "%s(r)ekin"
 
-#: main/src/ui/main_window.vala:156
+#: main/src/ui/main_window.vala:169
 msgid "Join Channel Help"
 msgstr "Kanalera batzeko laguntza"
 
-#: main/src/ui/main_window.vala:157
+#: main/src/ui/main_window.vala:170
 msgid ""
 "To join a channel, click the \"Join Channel\" button and enter the channel "
 "JID (example: room@conference.example.org).\n"
@@ -1396,25 +1729,25 @@ msgstr ""
 "Pasahitz edo goitizen bat behar baduzu, eman elkarrizketa-koadroan. Erabili "
 "zerbitzariaren aurkikuntza-ezaugarriak gela publikoak aurkitzeko."
 
-#: main/src/ui/main_window.vala:206
+#: main/src/ui/main_window.vala:219
 msgid "Welcome to DinoX!"
 msgstr "Ongi etorri DinoX-era!"
 
-#: main/src/ui/main_window.vala:207
+#: main/src/ui/main_window.vala:220
 msgid "Sign in or create an account to get started."
 msgstr "Saioa hasi edo kontu bat sortu hasteko."
 
-#: main/src/ui/main_window.vala:208
+#: main/src/ui/main_window.vala:221
 msgid "Set up account"
 msgstr "Kontu bat ezarri"
 
-#: main/src/ui/main_window.vala:215
+#: main/src/ui/main_window.vala:230
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:71
 #: main/src/windows/preferences_window/encryption_preferences_page.vala:49
 msgid "No active accounts"
 msgstr "Ez dago kontu aktiborik"
 
-#: main/src/ui/main_window.vala:216
+#: main/src/ui/main_window.vala:231
 msgid "Manage accounts"
 msgstr "Kontuak kudeatu"
 
@@ -1424,12 +1757,12 @@ msgid "Subscription request"
 msgstr "Harpidetzaren eskaera"
 
 #: main/src/ui/notifier_freedesktop.vala:192
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:231
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:259
 msgid "Wrong password"
 msgstr "Pasahitz okerra"
 
 #: main/src/ui/notifier_freedesktop.vala:195
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:233
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:261
 msgid "Invalid TLS certificate"
 msgstr "TLS ziurtagiri ez balidouna"
 
@@ -1676,45 +2009,45 @@ msgstr "Ezarpenak"
 msgid "Room Configuration"
 msgstr "Gelaren konfigurazioa"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:68
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:69
 msgid "Connect"
 msgstr "Konektatu"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:106
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
 msgid "Disable account"
 msgstr "Desgaitu kontua"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:106
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
 msgid "Enable account"
 msgstr "Gaitu kontua"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:151
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:179
 msgid "Select avatar"
 msgstr "Irudia hautatu"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:162
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:190
 msgid "Images"
 msgstr "Irudiak"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:166
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:194
 msgid "All files"
 msgstr "Fitxategi guztiak"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:184
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:212
 #, c-format
 msgid "Remove account %s?"
 msgstr "%s kontua kendu?"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:218
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:246
 msgid "Connected"
 msgstr "Konektatuta"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:220
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:248
 msgid "Disconnected"
 msgstr "Ez konektatuta"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:240
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:242
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:268
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:270
 msgid "Error"
 msgstr "Akatsa"
 
@@ -1826,387 +2159,189 @@ msgstr "Aldatu %s(r)en bistaratze-izena"
 msgid "Alias (optional)"
 msgstr "Ezizena (aukerakoa)"
 
+#~ msgid "Creating backup..."
+#~ msgstr "Babeskopia sortzen..."
+
+#, c-format
+#~ msgid "Backup created successfully (%s)"
+#~ msgstr "Babeskopia sortuta (%s)"
+
+#~ msgid "Backup created successfully"
+#~ msgstr "Babeskopia sortuta"
+
 # DinoX v0.7.7 - Database Maintenance & Backup/Restore
-msgid "Clean Database"
-msgstr "Clean Database"
+#~ msgid "Clean Database"
+#~ msgstr "Clean Database"
 
-msgid "Reset Database"
-msgstr "Reset Database"
+#~ msgid "Encrypting Backup..."
+#~ msgstr "Encrypting Backup..."
 
-msgid "Restore Complete!"
-msgstr "Restore Complete!"
+#~ msgid "Creating encrypted backup..."
+#~ msgstr "Enkriptatutako babeskopia sortzen..."
 
-msgid "Restore Failed"
-msgstr "Restore Failed"
+#~ msgid "Encrypted backup created successfully"
+#~ msgstr "Enkriptatutako babeskopia ongi sortu da"
 
-msgid "Decrypting Backup..."
-msgstr "Decrypting Backup..."
-
-msgid "Restoring Backup..."
-msgstr "Restoring Backup..."
-
-msgid "Set Backup Password"
-msgstr "Set Backup Password"
-
-msgid "Confirm Password"
-msgstr "Confirm Password"
-
-msgid "Create Encrypted Backup"
-msgstr "Create Encrypted Backup"
-
-msgid "Password too short"
-msgstr "Password too short"
-
-msgid "Passwords do not match"
-msgstr "Passwords do not match"
-
-msgid "✓ Passwords match"
-msgstr "✓ Passwords match"
-
-msgid "Encrypting Backup..."
-msgstr "Encrypting Backup..."
-
-msgid "Factory Reset"
-msgstr "Factory Reset"
-
-msgid "Restore from Backup"
-msgstr "Restore from Backup"
-
-msgid "Restore Backup"
-msgstr "Restore Backup"
-
-msgid "Select Backup File"
-msgstr "Select Backup File"
-
-msgid "Enter Backup Password"
-msgstr "Enter Backup Password"
-
-msgid "Decrypt & Restore"
-msgstr "Decrypt & Restore"
-
-msgid "Create Backup First"
-msgstr "Create Backup First"
-
-msgid "No Encryption"
-msgstr "No Encryption"
-
-msgid "Encrypt with Password"
-msgstr "Encrypt with Password"
-
-msgid "Delete Everything"
-msgstr "Delete Everything"
-
-msgid "Confirm Delete"
-msgstr "Confirm Delete"
-
-msgid "Are you absolutely sure?"
-msgstr "Are you absolutely sure?"
-
-#: main/data/preferences_window/general_preferences_page.ui:104
-msgid "Database Maintenance"
-msgstr "Datu-basearen mantentze-lanak"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Restore accounts, messages and settings from a backup file"
-msgstr "Berrezarri kontuak, mezuak eta ezarpenak babeskopia-fitxategi batetik"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
-msgstr ""
-"Ezabatu mezu, fitxategi eta OMEMO gako guztiak. Zure kontuak mantenduko dira."
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete ALL data including accounts. This cannot be undone!"
-msgstr "Ezabatu datu GUZTIAK, kontuak barne. Hau ezin da desegin!"
-
-# DinoX v0.7.7 - Additional Backup/Restore strings
-msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
-msgstr "Babeskopia fitxategiak (*.tar.gz, *.tar.gz.gpg)"
-
-msgid "Creating encrypted backup..."
-msgstr "Enkriptatutako babeskopia sortzen..."
-
-msgid "Decryption Failed"
-msgstr "Deszifraketa huts egin du"
-
-msgid "DinoX will now restart..."
-msgstr "DinoX orain berrabiaraziko da..."
-
-msgid "Encrypted backup created successfully"
-msgstr "Enkriptatutako babeskopia ongi sortu da"
-
-msgid "Password (minimum 4 characters)"
-msgstr "Pasahitza (gutxienez 4 karaktere)"
-
-msgid "Decrypting encrypted backup file..."
-msgstr "Babeskopia fitxategia deszifratzean..."
-
-msgid "Extracting files from backup..."
-msgstr "Fitxategiak babeskopiatik ateratzen..."
-
-msgid "Factory reset in progress... DinoX will restart."
-msgstr "Fabrikako berrezarpena abian... DinoX berrabiaraziko da."
-
-msgid "Resetting database... DinoX will restart."
-msgstr "Datu-basea berrezartzen... DinoX berrabiaraziko da."
-
-msgid "Encrypted backup created (%s)"
-msgstr "Enkriptatutako babeskopia sortu da (%s)"
-
-msgid ""
-"Could not decrypt the backup file.\n"
-"\n"
-"Please check if the password is correct."
-msgstr ""
-"Ezin izan da fitxategia deszifratu.\n"
-"\n"
-"Egiaztatu pasahitza zuzena den."
-
-msgid ""
-"Could not restore the backup file.\n"
-"\n"
-"Error: %s"
-msgstr ""
-"Ezin izan da fitxategia leheneratu.\n"
-"\n"
-"Errorea: %s"
-
-msgid "This backup is encrypted. Please enter the password to decrypt it."
-msgstr "Babeskopia hau enkriptatuta dago. Sartu pasahitza deszifratzeko."
-
-msgid ""
-"Enter a password to encrypt the backup.\n"
-"\n"
-"<b>Important:</b> Remember this password! Without it, the backup cannot be "
-"restored."
-msgstr ""
-"Sartu pasahitz bat babeskopia enkriptatzeko.\n"
-"\n"
-"<b>Garrantzitsua:</b> Gogoratu pasahitz hau! Hura gabe, ezin da babeskopia "
-"leheneratu."
-
-msgid ""
-"This will delete all messages, files and OMEMO encryption keys.\n"
-"\n"
-"<b>Your accounts will remain, but you will lose all chat history and need to "
-"re-verify encryption with your contacts.</b>\n"
-"\n"
-"This action cannot be undone!"
-msgstr ""
-"This will delete all messages, files and OMEMO encryption keys.\n"
-"\n"
-"<b>Your accounts will remain, but you will lose all chat history and need to "
-"re-verify encryption with your contacts.</b>\n"
-"\n"
-"This action cannot be undone!"
-
-msgid ""
-"This will replace all current data with the backup.\n"
-"\n"
-"<b>Current accounts, messages and settings will be overwritten!</b>\n"
-"\n"
-"DinoX will restart after restoring."
-msgstr ""
-"This will replace all current data with the backup.\n"
-"\n"
-"<b>Current accounts, messages and settings will be overwritten!</b>\n"
-"\n"
-"DinoX will restart after restoring."
-
-msgid ""
-"Type 'DELETE' to confirm factory reset.\n"
-"\n"
-"This will permanently remove all your DinoX data."
-msgstr ""
-"Type 'DELETE' to confirm factory reset.\n"
-"\n"
-"This will permanently remove all your DinoX data."
-
-msgid ""
-"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
-"\n"
-"• All accounts\n"
-"• All messages and files\n"
-"• All encryption keys\n"
-"• All settings\n"
-"\n"
-"This is irreversible. Make sure to create a backup first!"
-msgstr ""
-"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
-"\n"
-"• All accounts\n"
-"• All messages and files\n"
-"• All encryption keys\n"
-"• All settings\n"
-"\n"
-"This is irreversible. Make sure to create a backup first!"
+#~ msgid "Encrypted backup created (%s)"
+#~ msgstr "Enkriptatutako babeskopia sortu da (%s)"
 
 # OpenPGP Key Management
-msgid "OpenPGP Key Management"
-msgstr "OpenPGP Key Management"
+#~ msgid "OpenPGP Key Management"
+#~ msgstr "OpenPGP Key Management"
 
-msgid "Actions"
-msgstr "Actions"
+#~ msgid "Actions"
+#~ msgstr "Actions"
 
-msgid "Generate New Key"
-msgstr "Generate New Key"
+#~ msgid "Generate New Key"
+#~ msgstr "Generate New Key"
 
-msgid "Import Key"
-msgstr "Import Key"
+#~ msgid "Import Key"
+#~ msgstr "Import Key"
 
-msgid "Your Keys"
-msgstr "Your Keys"
+#~ msgid "Your Keys"
+#~ msgstr "Your Keys"
 
-msgid "Fingerprint"
-msgstr "Fingerprint"
+#~ msgid "Fingerprint"
+#~ msgstr "Fingerprint"
 
-msgid "Export Public Key"
-msgstr "Export Public Key"
+#~ msgid "Export Public Key"
+#~ msgstr "Export Public Key"
 
-msgid "Delete Key"
-msgstr "Delete Key"
+#~ msgid "Delete Key"
+#~ msgstr "Delete Key"
 
-msgid "Name"
-msgstr "Name"
+#~ msgid "Name"
+#~ msgstr "Name"
 
-msgid "Email"
-msgstr "Email"
+#~ msgid "Email"
+#~ msgstr "Email"
 
-msgid "Passphrase"
-msgstr "Passphrase"
+#~ msgid "Passphrase"
+#~ msgstr "Passphrase"
 
-msgid "Generate"
-msgstr "Generate"
+#~ msgid "Generate"
+#~ msgstr "Generate"
 
-msgid "Select OpenPGP Key"
-msgstr "Select OpenPGP Key"
+#~ msgid "Select OpenPGP Key"
+#~ msgstr "Select OpenPGP Key"
 
-msgid "Wrong passphrase"
-msgstr "Wrong passphrase"
+#~ msgid "Wrong passphrase"
+#~ msgstr "Wrong passphrase"
 
-msgid "Manage Keys"
-msgstr "Manage Keys"
+#~ msgid "Manage Keys"
+#~ msgstr "Manage Keys"
 
-msgid "Announce key"
-msgstr "Announce key"
+#~ msgid "Announce key"
+#~ msgstr "Announce key"
 
-msgid "Disabled"
-msgstr "Disabled"
+#~ msgid "Disabled"
+#~ msgstr "Disabled"
 
-msgid "Success"
-msgstr "Success"
+#~ msgid "Success"
+#~ msgstr "Success"
 
-msgid "OK"
-msgstr "OK"
+#~ msgid "Create a new OpenPGP key pair"
+#~ msgstr "Sortu OpenPGP gako-pare berria"
 
-msgid "Create a new OpenPGP key pair"
-msgstr "Sortu OpenPGP gako-pare berria"
+#~ msgid "Import a key from file (.asc, .gpg)"
+#~ msgstr "Inportatu gakoa fitxategitik (.asc, .gpg)"
 
-msgid "Import a key from file (.asc, .gpg)"
-msgstr "Inportatu gakoa fitxategitik (.asc, .gpg)"
+#~ msgid "Private keys available for signing and decryption"
+#~ msgstr "Sinatzeko eta deszifratzeko eskuragarri dauden gako pribatuak"
 
-msgid "Private keys available for signing and decryption"
-msgstr "Sinatzeko eta deszifratzeko eskuragarri dauden gako pribatuak"
+#~ msgid "No private keys found"
+#~ msgstr "Ez da gako pribaturik aurkitu"
 
-msgid "No private keys found"
-msgstr "Ez da gako pribaturik aurkitu"
+#~ msgid "Generate or import a key to get started"
+#~ msgstr "Sortu edo inportatu gako bat hasteko"
 
-msgid "Generate or import a key to get started"
-msgstr "Sortu edo inportatu gako bat hasteko"
+#~ msgid "Generate New OpenPGP Key"
+#~ msgstr "Sortu OpenPGP gako berria"
 
-msgid "Generate New OpenPGP Key"
-msgstr "Sortu OpenPGP gako berria"
+#~ msgid "Enter your details to create a new key pair."
+#~ msgstr "Sartu zure datuak gako-pare berria sortzeko."
 
-msgid "Enter your details to create a new key pair."
-msgstr "Sartu zure datuak gako-pare berria sortzeko."
+#~ msgid "Your Name"
+#~ msgstr "Zure izena"
 
-msgid "Your Name"
-msgstr "Zure izena"
+#~ msgid "you@example.com"
+#~ msgstr "zu@adibidea.eus"
 
-msgid "you@example.com"
-msgstr "zu@adibidea.eus"
+#~ msgid "Passphrase (optional)"
+#~ msgstr "Pasaesaldia (aukerakoa)"
 
-msgid "Passphrase (optional)"
-msgstr "Pasaesaldia (aukerakoa)"
+#~ msgid "4096-bit RSA key, valid for 2 years."
+#~ msgstr "4096 biteko RSA gakoa, 2 urterako baliogarria."
 
-msgid "4096-bit RSA key, valid for 2 years."
-msgstr "4096 biteko RSA gakoa, 2 urterako baliogarria."
+#~ msgid "Name must be at least 2 characters"
+#~ msgstr "Izenak gutxienez 2 karaktere izan behar ditu"
 
-msgid "Name must be at least 2 characters"
-msgstr "Izenak gutxienez 2 karaktere izan behar ditu"
+#~ msgid "Please enter a valid email address"
+#~ msgstr "Mesedez, sartu baliozko helbide elektronikoa"
 
-msgid "Please enter a valid email address"
-msgstr "Mesedez, sartu baliozko helbide elektronikoa"
+#~ msgid "Generating Key..."
+#~ msgstr "Gakoa sortzen..."
 
-msgid "Generating Key..."
-msgstr "Gakoa sortzen..."
+#~ msgid "Key generated successfully!"
+#~ msgstr "Gakoa ondo sortu da!"
 
-msgid "Please wait while your key is being generated. This may take a moment."
-msgstr "Itxaron gakoa sortzen den bitartean. Une bat behar izan dezake."
+#~ msgid "Import OpenPGP Key"
+#~ msgstr "Inportatu OpenPGP gakoa"
 
-msgid "Key generated successfully!"
-msgstr "Gakoa ondo sortu da!"
+#~ msgid "OpenPGP Keys (*.asc, *.gpg)"
+#~ msgstr "OpenPGP gakoak (*.asc, *.gpg)"
 
-msgid "Failed to generate key."
-msgstr "Gakoa sortzeak huts egin du."
+#~ msgid "All Files"
+#~ msgstr "Fitxategi guztiak"
 
-msgid "Import OpenPGP Key"
-msgstr "Inportatu OpenPGP gakoa"
+#~ msgid "Key imported! Re-open Key Management to see it."
+#~ msgstr "Gakoa inportatu da! Ireki berriro Gako kudeaketa ikusteko."
 
-msgid "OpenPGP Keys (*.asc, *.gpg)"
-msgstr "OpenPGP gakoak (*.asc, *.gpg)"
+#~ msgid "Import failed: "
+#~ msgstr "Inportazioak huts egin du: "
 
-msgid "All Files"
-msgstr "Fitxategi guztiak"
+#~ msgid "Key exported to: "
+#~ msgstr "Gakoa esportatu da: "
 
-msgid "Key imported! Re-open Key Management to see it."
-msgstr "Gakoa inportatu da! Ireki berriro Gako kudeaketa ikusteko."
+#~ msgid "Export failed."
+#~ msgstr "Esportazioak huts egin du."
 
-msgid "Import failed: "
-msgstr "Inportazioak huts egin du: "
+#~ msgid "Delete Key?"
+#~ msgstr "Ezabatu gakoa?"
 
-msgid "Key exported to: "
-msgstr "Gakoa esportatu da: "
+#~ msgid ""
+#~ "Delete this key?\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "This cannot be undone!"
+#~ msgstr ""
+#~ "Gako hau ezabatu?\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "Hau ezin da desegin!"
 
-msgid "Export failed."
-msgstr "Esportazioak huts egin du."
+#~ msgid "Key deleted."
+#~ msgstr "Gakoa ezabatu da."
 
-msgid "Delete Key?"
-msgstr "Ezabatu gakoa?"
+#~ msgid "Delete failed: "
+#~ msgstr "Ezabatzeak huts egin du: "
 
-msgid ""
-"Delete this key?\n"
-"\n"
-"%s\n"
-"\n"
-"This cannot be undone!"
-msgstr ""
-"Gako hau ezabatu?\n"
-"\n"
-"%s\n"
-"\n"
-"Hau ezin da desegin!"
+#~ msgid "Choose a key to announce to your contacts."
+#~ msgstr "Hautatu gako bat zure kontaktuei jakinarazteko."
 
-msgid "Key deleted."
-msgstr "Gakoa ezabatu da."
+#~ msgid "Enter GPG passphrase to confirm:"
+#~ msgstr "Sartu GPG pasaesaldia berresteko:"
 
-msgid "Delete failed: "
-msgstr "Ezabatzeak huts egin du: "
+#~ msgid "Generate, import, export, or delete keys"
+#~ msgstr "Sortu, inportatu, esportatu edo ezabatu gakoak"
 
-msgid "Choose a key to announce to your contacts."
-msgstr "Hautatu gako bat zure kontaktuei jakinarazteko."
+#~ msgid "No keys available. Generate or import one!"
+#~ msgstr "Ez dago gakorik eskuragarri. Sortu edo inportatu bat!"
 
-msgid "Enter GPG passphrase to confirm:"
-msgstr "Sartu GPG pasaesaldia berresteko:"
-
-msgid "Generate, import, export, or delete keys"
-msgstr "Sortu, inportatu, esportatu edo ezabatu gakoak"
-
-msgid "No keys available. Generate or import one!"
-msgstr "Ez dago gakorik eskuragarri. Sortu edo inportatu bat!"
-
-msgid "Error in GnuPG"
-msgstr "Errorea GnuPG-n"
+#~ msgid "Error in GnuPG"
+#~ msgstr "Errorea GnuPG-n"
 
 #~ msgid "Message too long"
 #~ msgstr "Mezu luzeegia"

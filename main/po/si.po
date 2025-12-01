@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-28 12:18+0100\n"
+"POT-Creation-Date: 2025-12-01 10:28+0100\n"
 "PO-Revision-Date: 2023-10-04 02:12+0000\n"
 "Language-Team: none\n"
 "Language: si\n"
@@ -100,14 +100,14 @@ msgstr "සාමාන්‍ය"
 #: main/data/gtk/help-overlay.ui:14 main/data/main_window.ui:38
 #: main/data/menu_add.ui:7
 #: main/src/ui/add_conversation/select_contact_dialog.vala:106
-#: main/src/ui/main_window.vala:141
+#: main/src/ui/main_window.vala:154
 msgid "Start Conversation"
 msgstr "සංවාදයක් අරඹන්න"
 
 #: main/data/gtk/help-overlay.ui:20 main/data/main_window.ui:51
 #: main/data/menu_add.ui:11
 #: main/src/ui/add_conversation/add_conference_dialog.vala:24
-#: main/src/ui/application.vala:527 main/src/ui/main_window.vala:142
+#: main/src/ui/application.vala:1359 main/src/ui/main_window.vala:155
 msgid "Join Channel"
 msgstr "නාලිකාවකට සම්බන්ධ වන්න"
 
@@ -148,7 +148,7 @@ msgstr "ඊළඟ සංවාදයට පනින්න"
 msgid "Jump to previous conversation"
 msgstr "පෙර සංවාදයට පනින්න"
 
-#: main/data/main_window.ui:64 main/src/ui/main_window.vala:144
+#: main/data/main_window.ui:64 main/src/ui/main_window.vala:157
 msgid "Help: How to join channels"
 msgstr "උදව්: නාලිකා වලට සම්බන්ධ වන ආකාරය"
 
@@ -166,28 +166,28 @@ msgstr "තත්වය"
 
 #: main/data/menu_app.ui:11
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:427
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Online"
 msgstr "සබැඳි"
 
 #: main/data/menu_app.ui:16
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:421
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Away"
 msgstr "ඈතින්"
 
 #: main/data/menu_app.ui:21
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:425
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Busy"
 msgstr "කාර්යබහුල"
 
 #: main/data/menu_app.ui:26
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:423
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Not Available"
 msgstr "නොතිබේ"
@@ -200,7 +200,7 @@ msgstr "මනාප"
 msgid "Keyboard Shortcuts"
 msgstr "යතුරුපුවරු කෙටිමං"
 
-#: main/data/menu_app.ui:42 main/src/ui/application.vala:334
+#: main/data/menu_app.ui:42 main/src/ui/application.vala:340
 msgid "About DinoX"
 msgstr "DinoX ගැන"
 
@@ -219,7 +219,10 @@ msgstr "සංවාද ඉතිහාසය මකන්න"
 #: main/data/preferences_window/change_password_dialog.ui:18
 #: main/src/ui/add_conversation/add_conference_dialog.vala:41
 #: main/src/ui/add_conversation/select_contact_dialog.vala:40
-#: main/src/ui/application.vala:537
+#: main/src/ui/application.vala:441 main/src/ui/application.vala:469
+#: main/src/ui/application.vala:765 main/src/ui/application.vala:843
+#: main/src/ui/application.vala:901 main/src/ui/application.vala:933
+#: main/src/ui/application.vala:1089 main/src/ui/application.vala:1369
 #: main/src/ui/conversation_content_view/file_default_widget.vala:90
 #: main/src/ui/conversation_content_view/item_actions.vala:165
 #: main/src/ui/conversation_content_view/item_actions.vala:168
@@ -234,7 +237,7 @@ msgstr "සංවාද ඉතිහාසය මකන්න"
 #: main/src/ui/conversation_titlebar/call_entry.vala:83
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
 #: main/src/windows/conversation_details.vala:60
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:67
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:68
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:205
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:225
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:249
@@ -258,6 +261,7 @@ msgid "Local alias"
 msgstr "ප්‍රාදේශීය අන්වර්ථ නාමය"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:82
+#: main/src/ui/application.vala:435 main/src/ui/application.vala:1064
 #: main/src/ui/util/data_forms.vala:63
 msgid "Password"
 msgstr "මුරපදය"
@@ -266,20 +270,24 @@ msgstr "මුරපදය"
 msgid "Connection status"
 msgstr "සම්බන්ධතා තත්ත්වය"
 
+#: main/data/preferences_window/account_preferences_subpage.ui:117
+msgid "View Certificate"
+msgstr "සහතිකය බලන්න"
+
 # Custom host/port feature (Issue #115)
-#: main/data/preferences_window/account_preferences_subpage.ui:121
+#: main/data/preferences_window/account_preferences_subpage.ui:128
 msgid "Advanced Settings"
 msgstr "උසස් සැකසුම්"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:122
+#: main/data/preferences_window/account_preferences_subpage.ui:129
 msgid "Custom server connection (leave empty for automatic)"
 msgstr "අභිරුචි සේවාදායක සම්බන්ධතාවය (ස්වයංක්‍රීය සඳහා හිස්ව තබන්න)"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:125
+#: main/data/preferences_window/account_preferences_subpage.ui:132
 msgid "Server Hostname"
 msgstr "සේවාදායක ධාරක නාමය"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:130
+#: main/data/preferences_window/account_preferences_subpage.ui:137
 msgid "Port"
 msgstr "පෝට්ටුව"
 
@@ -349,12 +357,52 @@ msgid "Create a backup of your accounts, messages and settings"
 msgstr "ඔබේ ගිණුම්, පණිවිඩ සහ සැකසුම් වල උපස්ථයක් සාදන්න"
 
 #: main/data/preferences_window/general_preferences_page.ui:78
-msgid "Data Location"
-msgstr "දත්ත ස්ථානය"
+#: main/src/ui/application.vala:464 main/src/ui/main_window.vala:223
+msgid "Restore from Backup"
+msgstr "උපස්ථයෙන් ප්‍රතිසාධනය කරන්න"
 
 #: main/data/preferences_window/general_preferences_page.ui:79
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "උපස්ථ ගොනුවකින් ගිණුම්, පණිවිඩ සහ සැකසුම් ප්‍රතිසාධනය කරන්න"
+
+#: main/data/preferences_window/general_preferences_page.ui:90
+msgid "Data Storage Location"
+msgstr "දත්ත ගබඩා ස්ථානය"
+
+#: main/data/preferences_window/general_preferences_page.ui:91
 msgid "View where your data is stored"
 msgstr "ඔබේ දත්ත ගබඩා කර ඇති ස්ථානය බලන්න"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "දත්ත සමුදාය නඩත්තුව"
+
+#: main/data/preferences_window/general_preferences_page.ui:107
+#: main/src/ui/application.vala:761 main/src/ui/application.vala:766
+msgid "Clear Cache"
+msgstr "හැඹිලිය හිස් කරන්න"
+
+#: main/data/preferences_window/general_preferences_page.ui:108
+msgid "Clear cached files, avatars and previews"
+msgstr "හැඹිලිගත ගොනු, අවතාර සහ පෙරදසුන් හිස් කරන්න"
+
+#: main/data/preferences_window/general_preferences_page.ui:119
+#: main/src/ui/application.vala:838 main/src/ui/application.vala:844
+msgid "Reset Database"
+msgstr "දත්ත සමුදාය යළි පිහිටුවන්න"
+
+#: main/data/preferences_window/general_preferences_page.ui:120
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr "සියලුම පණිවිඩ, ගොනු සහ OMEMO යතුරු මකන්න. ඔබේ ගිණුම් පවතිනු ඇත."
+
+#: main/data/preferences_window/general_preferences_page.ui:131
+#: main/src/ui/application.vala:896
+msgid "Factory Reset"
+msgstr "කර්මාන්තශාලා යළි පිහිටුවීම"
+
+#: main/data/preferences_window/general_preferences_page.ui:132
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr "ගිණුම් ඇතුළු සියලුම දත්ත මකන්න. මෙය අහෝසි කළ නොහැක!"
 
 #: main/data/preferences_window/preferences_dialog.ui:11
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:15
@@ -379,7 +427,7 @@ msgstr "ඊළඟ"
 
 #: main/src/ui/add_conversation/add_conference_dialog.vala:59
 #: main/src/ui/add_conversation/conference_details_fragment.vala:151
-#: main/src/ui/application.vala:541
+#: main/src/ui/application.vala:1373
 msgid "Join"
 msgstr "සම්බන්ධ වන්න"
 
@@ -465,45 +513,149 @@ msgstr "සම්බන්ධතාවක් මකන්න"
 msgid "Leave Group"
 msgstr "කණ්ඩායම හැරයන්න"
 
-#: main/src/ui/application.vala:339
+#: main/src/ui/application.vala:345
 msgid "Modern XMPP client with extended features"
 msgstr "දිගු විශේෂාංග සහිත නවීන XMPP සේවාදායකයා"
 
-#: main/src/ui/application.vala:346 main/src/ui/application.vala:385
+#: main/src/ui/application.vala:352 main/src/ui/application.vala:727
 msgid "User Data Locations"
 msgstr "පරිශීලක දත්ත ස්ථාන"
 
-#: main/src/ui/application.vala:349 main/src/ui/application.vala:399
+#: main/src/ui/application.vala:355 main/src/ui/application.vala:741
 msgid "Configuration:"
 msgstr "වින්‍යාසය:"
 
-#: main/src/ui/application.vala:352 main/src/ui/application.vala:401
+#: main/src/ui/application.vala:358 main/src/ui/application.vala:743
 msgid "Data & Database:"
 msgstr "දත්ත සහ දත්ත සමුදාය:"
 
-#: main/src/ui/application.vala:355 main/src/ui/application.vala:403
+#: main/src/ui/application.vala:361 main/src/ui/application.vala:745
 msgid "Cache:"
 msgstr "හැඹිලිය:"
 
-#: main/src/ui/application.vala:358
+#: main/src/ui/application.vala:364
 msgid "Info:"
 msgstr "තොරතුරු:"
 
-#: main/src/ui/application.vala:359
+#: main/src/ui/application.vala:365
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
 msgstr "ඔබේ පුද්ගලික දත්ත (ගිණුම්, පණිවිඩ, ගොනු) යෙදුමෙන් වෙන්ව ගබඩා කර ඇත."
 
-#: main/src/ui/application.vala:361
+#: main/src/ui/application.vala:367
 msgid "When you update DinoX, your data remains intact."
 msgstr "ඔබ DinoX යාවත්කාලීන කරන විට, ඔබේ දත්ත නොවෙනස්ව පවතී."
 
-#: main/src/ui/application.vala:363
+#: main/src/ui/application.vala:369
 msgid "Use Settings → General → Backup User Data to create a backup."
 msgstr "උපස්ථයක් සෑදීමට සැකසුම් → සාමාන්‍ය → පරිශීලක දත්ත උපස්ථ කරන්න භාවිතා කරන්න."
 
-#: main/src/ui/application.vala:405
+#: main/src/ui/application.vala:387
+msgid "Select Backup File"
+msgstr "උපස්ථ ගොනුව තෝරන්න"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+#: main/src/ui/application.vala:395
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "උපස්ථ ගොනු (*.tar.gz, *.tar.gz.gpg)"
+
+#: main/src/ui/application.vala:425
+msgid "Enter Backup Password"
+msgstr "උපස්ථ මුරපදය ඇතුළත් කරන්න"
+
+#: main/src/ui/application.vala:426
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "මෙම උපස්ථය සංකේතනය කර ඇත. මුරපදය ඇතුළත් කරන්න."
+
+#: main/src/ui/application.vala:442
+msgid "Decrypt & Restore"
+msgstr "විකේතනය කර ප්‍රතිසාධනය කරන්න"
+
+#: main/src/ui/application.vala:465
+msgid ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+msgstr ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+
+#: main/src/ui/application.vala:470
+msgid "Restore Backup"
+msgstr "උපස්ථය ප්‍රතිසාධනය කරන්න"
+
+#: main/src/ui/application.vala:487 main/src/ui/application.vala:519
+msgid "Decrypting Backup..."
+msgstr "උපස්ථය විකේතනය කරමින්..."
+
+#: main/src/ui/application.vala:487 main/src/ui/application.vala:571
+msgid "Restoring Backup..."
+msgstr "උපස්ථය ප්‍රතිසාධනය කරමින්..."
+
+#: main/src/ui/application.vala:488
+msgid "Please wait, this may take a moment..."
+msgstr "කරුණාකර රැඳී සිටින්න, මෙයට මොහොතක් ගත විය හැක..."
+
+#: main/src/ui/application.vala:520
+msgid "Decrypting encrypted backup file..."
+msgstr "උපස්ථ ගොනුව විකේතනය කරමින්..."
+
+#: main/src/ui/application.vala:558
+msgid "Decryption Failed"
+msgstr "විකේතනය අසාර්ථක විය"
+
+#: main/src/ui/application.vala:559
+msgid ""
+"Could not decrypt the backup file.\n"
+"\n"
+"Please check if the password is correct."
+msgstr ""
+"උපස්ථ ගොනුව විකේතනය කළ නොහැක.\n"
+"\n"
+"මුරපදය නිවැරදිදැයි පරීක්ෂා කරන්න."
+
+#: main/src/ui/application.vala:561 main/src/ui/application.vala:671
+msgid "OK"
+msgstr "OK"
+
+#: main/src/ui/application.vala:572
+msgid "Extracting files from backup..."
+msgstr "උපස්ථයෙන් ගොනු උපුටා ගනිමින්..."
+
+#: main/src/ui/application.vala:653
+msgid "Restore Complete!"
+msgstr "ප්‍රතිසාධනය සම්පූර්ණයි!"
+
+#: main/src/ui/application.vala:654
+msgid "DinoX will now restart..."
+msgstr "DinoX දැන් නැවත ආරම්භ වේ..."
+
+#: main/src/ui/application.vala:668
+msgid "Restore Failed"
+msgstr "ප්‍රතිසාධනය අසාර්ථක විය"
+
+#: main/src/ui/application.vala:669
+#, c-format
+msgid ""
+"Could not restore the backup file.\n"
+"\n"
+"Error: %s"
+msgstr ""
+"උපස්ථ ගොනුව ප්‍රතිස්ථාපනය කළ නොහැක.\n"
+"\n"
+"දෝෂය: %s"
+
+#: main/src/ui/application.vala:669 main/src/ui/application.vala:1345
+msgid "Unknown error"
+msgstr "නොදන්නා දෝෂය"
+
+#: main/src/ui/application.vala:747
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
@@ -511,96 +663,242 @@ msgstr ""
 "ඔබේ පුද්ගලික දත්ත (ගිණුම්, පණිවිඩ, ගොනු) යෙදුමෙන් වෙන්ව ගබඩා කර ඇත. ඔබ DinoX යාවත්කාලීන කරන "
 "විට, ඔබේ දත්ත නොවෙනස්ව පවතී."
 
-#: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
-#: main/src/ui/main_window.vala:159
+#: main/src/ui/application.vala:752 main/src/ui/application.vala:1240
+#: main/src/ui/application.vala:1324 main/src/ui/conversation_details.vala:272
+#: main/src/ui/main_window.vala:172
 msgid "Close"
 msgstr "වසන්න"
 
-#: main/src/ui/application.vala:417
+#: main/src/ui/application.vala:762
+msgid ""
+"This will delete cached files, avatars and previews.\n"
+"\n"
+"They will be re-downloaded when needed."
+msgstr ""
+"මෙය හැඹිලිගත ගොනු, අවතාර සහ පෙරදසුන් මකා දමනු ඇත.\n"
+"\n"
+"අවශ්‍ය වූ විට ඒවා නැවත බාගත කරනු ලැබේ."
+
+#: main/src/ui/application.vala:799
+#, c-format
+msgid "Cache cleared (%s freed)"
+msgstr "හැඹිලිය හිස් කරන ලදී (%s නිදහස් විය)"
+
+#: main/src/ui/application.vala:802
+msgid "Failed to clear cache"
+msgstr "හැඹිලිය හිස් කිරීමට අසමත් විය"
+
+#: main/src/ui/application.vala:839
+msgid ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+msgstr ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+
+#: main/src/ui/application.vala:867
+msgid "Resetting database... DinoX will restart."
+msgstr "දත්ත සමුදාය යළි පිහිටුවමින්... DinoX නැවත ආරම්භ වේ."
+
+#: main/src/ui/application.vala:897
+msgid ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+msgstr ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+
+#: main/src/ui/application.vala:902
+msgid "Create Backup First"
+msgstr "පළමුව උපස්ථයක් සාදන්න"
+
+#: main/src/ui/application.vala:903
+msgid "Delete Everything"
+msgstr "සියල්ල මකන්න"
+
+#: main/src/ui/application.vala:923
+msgid "Are you absolutely sure?"
+msgstr "ඔබට විශ්වාසද?"
+
+#: main/src/ui/application.vala:924
+msgid ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+msgstr ""
+"කර්මාන්තශාලා යළි පිහිටුවීම තහවුරු කිරීමට 'DELETE' ටයිප් කරන්න.\n"
+"\n"
+"මෙය ඔබගේ සියලුම DinoX දත්ත ස්ථිරවම ඉවත් කරනු ඇත."
+
+#: main/src/ui/application.vala:934
+msgid "Confirm Delete"
+msgstr "මකා දැමීම තහවුරු කරන්න"
+
+#: main/src/ui/application.vala:961
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "කර්මාන්තශාලා යළි පිහිටුවීම සිදු වෙමින්... DinoX නැවත ආරම්භ වේ."
+
+#: main/src/ui/application.vala:1026
+msgid "Backup Encryption"
+msgstr "උපස්ථ සංකේතනය"
+
+#: main/src/ui/application.vala:1027
+msgid ""
+"Do you want to encrypt the backup with a password?\n"
+"\n"
+"Encrypted backups are more secure but require the password to restore."
+msgstr ""
+"ඔබට මුරපදයක් සමඟ උපස්ථය සංකේතනය කිරීමට අවශ්‍යද?\n"
+"\n"
+"සංකේතනය කළ උපස්ථ වඩාත් ආරක්ෂිත නමුත් ප්‍රතිසාධනය කිරීමට මුරපදය අවශ්‍ය වේ."
+
+#: main/src/ui/application.vala:1030
+msgid "No Encryption"
+msgstr "සංකේතනයක් නැත"
+
+#: main/src/ui/application.vala:1031
+msgid "Encrypt with Password"
+msgstr "මුරපදයකින් සංකේතනය කරන්න"
+
+#: main/src/ui/application.vala:1049
+msgid "Set Backup Password"
+msgstr "උපස්ථ මුරපදය සකසන්න"
+
+#: main/src/ui/application.vala:1050
+msgid ""
+"Enter a password to encrypt the backup.\n"
+"\n"
+"<b>Important:</b> Remember this password! Without it, the backup cannot be "
+"restored."
+msgstr ""
+"උපස්ථය සංකේතනය කිරීමට මුරපදයක් ඇතුළත් කරන්න.\n"
+"\n"
+"<b>වැදගත්:</b> මෙම මුරපදය මතක තබා ගන්න! එය නොමැතිව, උපස්ථය ප්‍රතිස්ථාපනය කළ නොහැක."
+
+#: main/src/ui/application.vala:1058
+msgid "Password (minimum 4 characters)"
+msgstr "මුරපදය (අවම අක්ෂර 4ක්)"
+
+#: main/src/ui/application.vala:1066 main/src/ui/application.vala:1073
+msgid "Confirm Password"
+msgstr "මුරපදය තහවුරු කරන්න"
+
+#: main/src/ui/application.vala:1090
+msgid "Create Encrypted Backup"
+msgstr "සංකේතනය කළ උපස්ථයක් සාදන්න"
+
+#: main/src/ui/application.vala:1102 main/src/ui/application.vala:1117
+msgid "Password too short"
+msgstr "මුරපදය කෙටි වැඩිය"
+
+#: main/src/ui/application.vala:1104 main/src/ui/application.vala:1119
+msgid "Passwords do not match"
+msgstr "මුරපද නොගැලපේ"
+
+#: main/src/ui/application.vala:1106 main/src/ui/application.vala:1121
+msgid "✓ Passwords match"
+msgstr "✓ මුරපද ගැලපේ"
+
+#: main/src/ui/application.vala:1139
 msgid "Select Backup Location"
 msgstr "උපස්ථ ස්ථානය තෝරන්න"
 
-#: main/src/ui/application.vala
-msgid "Creating Backup..."
-msgstr "Creating Backup..."
-
-#: main/src/ui/application.vala
+#: main/src/ui/application.vala:1194
 msgid "Creating Encrypted Backup..."
-msgstr "Creating Encrypted Backup..."
+msgstr "සංකේතනය කළ උපස්ථයක් සාදමින්..."
 
-#: main/src/ui/application.vala
+#: main/src/ui/application.vala:1194
+msgid "Creating Backup..."
+msgstr "උපස්ථයක් සාදමින්..."
+
+#: main/src/ui/application.vala:1195
 msgid "Please wait while your data is being backed up."
-msgstr "Please wait while your data is being backed up."
+msgstr "ඔබගේ දත්ත උපස්ථ කරන අතරතුර කරුණාකර රැඳී සිටින්න."
 
-#: main/src/ui/application.vala
-msgid "No data directories found to backup"
-msgstr "No data directories found to backup"
+#: main/src/ui/application.vala:1234
+msgid "No data directory found to backup"
+msgstr "උපස්ථ කිරීමට දත්ත නාමාවලියක් හමු නොවීය"
 
-#: main/src/ui/application.vala
-msgid "Backup Created"
-msgstr "Backup Created"
-
-#: main/src/ui/application.vala
-msgid "Encrypted Backup Created"
-msgstr "Encrypted Backup Created"
-
-#: main/src/ui/application.vala
-#, c-format
-msgid "Your backup was created successfully.\\n\\nSize: %s"
-msgstr "Your backup was created successfully.\\n\\nSize: %s"
-
-#: main/src/ui/application.vala
-msgid "Your backup was created successfully."
-msgstr "Your backup was created successfully."
-
-#: main/src/ui/application.vala
-#, c-format
-msgid "Your encrypted backup was created successfully.\\n\\nSize: %s"
-msgstr "Your encrypted backup was created successfully.\\n\\nSize: %s"
-
-#: main/src/ui/application.vala
-msgid "Your encrypted backup was created successfully."
-msgstr "Your encrypted backup was created successfully."
-
-#: main/src/ui/application.vala
+#: main/src/ui/application.vala:1237 main/src/ui/application.vala:1343
 msgid "Backup Failed"
-msgstr "Backup Failed"
+msgstr "උපස්ථය අසාර්ථක විය"
 
-#: main/src/ui/application.vala:445
-msgid "Creating backup..."
-msgstr "උපස්ථය නිර්මාණය කරමින්..."
+#: main/src/ui/application.vala:1331
+msgid "Encrypted Backup Created"
+msgstr "සංකේතනය කළ උපස්ථය නිර්මාණය කරන ලදී"
 
-#: main/src/ui/application.vala:503
+#: main/src/ui/application.vala:1333
 #, c-format
-msgid "Backup created successfully (%s)"
-msgstr "උපස්ථය සාර්ථකව නිර්මාණය කරන ලදී (%s)"
+msgid ""
+"Your encrypted backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"ඔබගේ සංකේතනය කළ උපස්ථය සාර්ථකව නිර්මාණය කරන ලදී.\n"
+"\n"
+"ප්‍රමාණය: %s"
 
-#: main/src/ui/application.vala:505
-msgid "Backup created successfully"
-msgstr "උපස්ථය සාර්ථකව නිර්මාණය කරන ලදී"
+#: main/src/ui/application.vala:1334
+msgid "Your encrypted backup was created successfully."
+msgstr "ඔබගේ සංකේතනය කළ උපස්ථය සාර්ථකව නිර්මාණය කරන ලදී."
 
-#: main/src/ui/application.vala:510
-msgid "Unknown error"
-msgstr "නොදන්නා දෝෂය"
+#: main/src/ui/application.vala:1336
+msgid "Backup Created"
+msgstr "උපස්ථය නිර්මාණය කරන ලදී"
 
-#: main/src/ui/application.vala:511
+#: main/src/ui/application.vala:1338
+#, c-format
+msgid ""
+"Your backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"ඔබගේ උපස්ථය සාර්ථකව නිර්මාණය කරන ලදී.\n"
+"\n"
+"ප්‍රමාණය: %s"
+
+#: main/src/ui/application.vala:1339
+msgid "Your backup was created successfully."
+msgstr "ඔබගේ උපස්ථය සාර්ථකව නිර්මාණය කරන ලදී."
+
+#: main/src/ui/application.vala:1346
 #, c-format
 msgid "Backup failed: %s"
 msgstr "උපස්ථය අසාර්ථකයි: %s"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:29
+#: main/src/ui/call_window/audio_settings_popover.vala:46
 msgid "Microphones"
 msgstr "මයික්‍රෝෆෝන"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:32
+#: main/src/ui/call_window/audio_settings_popover.vala:49
 msgid "No microphone found."
 msgstr "මයික්‍රෝෆෝනයක් හමු නොවීය."
 
-#: main/src/ui/call_window/audio_settings_popover.vala:85
+#: main/src/ui/call_window/audio_settings_popover.vala:116
 msgid "Speakers"
 msgstr "ස්පීකර්"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:88
+#: main/src/ui/call_window/audio_settings_popover.vala:119
 msgid "No speaker found."
 msgstr "ස්පීකරයක් හමු නොවීය."
 
@@ -616,7 +914,7 @@ msgstr "ඇමතුමට ආරාධනා කරන්න"
 msgid "Invite"
 msgstr "ආරාධනා කරන්න"
 
-#: main/src/ui/call_window/call_window_controller.vala:405
+#: main/src/ui/call_window/call_window_controller.vala:453
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:240
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:270
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:285
@@ -635,21 +933,21 @@ msgstr "%s විසින් ඇමතුම අවසන් කරන ලද�
 msgid "%s declined the call"
 msgstr "%s විසින් ඇමතුම ප්‍රතික්ෂේප කරන ලදි"
 
-#: main/src/ui/call_window/participant_widget.vala:115
+#: main/src/ui/call_window/participant_widget.vala:140
 msgid "Debug information"
 msgstr "දෝෂ නිරාකරණ තොරතුරු"
 
-#: main/src/ui/call_window/participant_widget.vala:124
+#: main/src/ui/call_window/participant_widget.vala:149
 #: main/src/ui/conversation_content_view/call_widget.vala:152
 msgid "Calling…"
 msgstr "අමතමින්…"
 
-#: main/src/ui/call_window/participant_widget.vala:126
+#: main/src/ui/call_window/participant_widget.vala:151
 msgid "Ringing…"
 msgstr "නාදවෙමින්…"
 
-#: main/src/ui/call_window/participant_widget.vala:128
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:216
+#: main/src/ui/call_window/participant_widget.vala:153
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:244
 msgid "Connecting…"
 msgstr "සම්බන්ධවෙමින්…"
 
@@ -883,7 +1181,7 @@ msgstr "%a, %l∶%M %p"
 msgid "Just now"
 msgstr "මේ දැන්"
 
-#: main/src/ui/conversation_content_view/conversation_view.vala:105
+#: main/src/ui/conversation_content_view/conversation_view.vala:106
 msgid "More actions"
 msgstr "තවත් ක්‍රියාවන්"
 
@@ -1099,6 +1397,38 @@ msgstr "විනාශ කරන්න"
 #: main/src/ui/conversation_details.vala:271
 msgid "Failed to destroy room"
 msgstr "කාමරය විනාශ කිරීමට අසමත් විය"
+
+#: main/src/ui/conversation_details.vala:286
+msgid "Auto-delete messages"
+msgstr "පණිවිඩ ස්වයංක්‍රීයව මකන්න"
+
+#: main/src/ui/conversation_details.vala:287
+msgid "Never"
+msgstr "කවදාවත් නැහැ"
+
+#: main/src/ui/conversation_details.vala:288
+msgid "After 15 minutes"
+msgstr "විනාඩි 15 කට පසු"
+
+#: main/src/ui/conversation_details.vala:289
+msgid "After 30 minutes"
+msgstr "විනාඩි 30 කට පසු"
+
+#: main/src/ui/conversation_details.vala:290
+msgid "After 1 hour"
+msgstr "පැය 1 කට පසු"
+
+#: main/src/ui/conversation_details.vala:291
+msgid "After 24 hours"
+msgstr "පැය 24 කට පසු"
+
+#: main/src/ui/conversation_details.vala:292
+msgid "After 7 days"
+msgstr "දින 7 කට පසු"
+
+#: main/src/ui/conversation_details.vala:293
+msgid "After 30 days"
+msgstr "දින 30 කට පසු"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:276
 #: main/src/ui/notifier_freedesktop.vala:71
@@ -1345,7 +1675,7 @@ msgid "Select file"
 msgstr "ගොනුව තෝරන්න"
 
 #: main/src/ui/conversation_view_controller.vala:225
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:152
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:180
 msgid "Select"
 msgstr "තෝරන්න"
 
@@ -1363,11 +1693,11 @@ msgstr "%s තුළ"
 msgid "With %s"
 msgstr "%s සමග"
 
-#: main/src/ui/main_window.vala:156
+#: main/src/ui/main_window.vala:169
 msgid "Join Channel Help"
 msgstr "නාලිකාවට එකතුවීම සඳහා උදව්"
 
-#: main/src/ui/main_window.vala:157
+#: main/src/ui/main_window.vala:170
 msgid ""
 "To join a channel, click the \"Join Channel\" button and enter the channel "
 "JID (example: room@conference.example.org).\n"
@@ -1381,25 +1711,25 @@ msgstr ""
 "ඔබට මුරපදයක් හෝ අන්වර්ථ නාමයක් අවශ්‍ය නම්, සංවාදයේ ඒවා සපයන්න. පොදු කාමර සොයා ගැනීමට "
 "සේවාදායකයේ සොයා ගැනීමේ විශේෂාංග භාවිතා කරන්න."
 
-#: main/src/ui/main_window.vala:206
+#: main/src/ui/main_window.vala:219
 msgid "Welcome to DinoX!"
 msgstr "DinoX වෙත සාදරයෙන් පිළිගනිමු!"
 
-#: main/src/ui/main_window.vala:207
+#: main/src/ui/main_window.vala:220
 msgid "Sign in or create an account to get started."
 msgstr "ආරම්භ කිරීමට පුරනය වන්න හෝ ගිණුමක් සාදන්න."
 
-#: main/src/ui/main_window.vala:208
+#: main/src/ui/main_window.vala:221
 msgid "Set up account"
 msgstr "ගිණුමක් පිහිටුවන්න"
 
-#: main/src/ui/main_window.vala:215
+#: main/src/ui/main_window.vala:230
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:71
 #: main/src/windows/preferences_window/encryption_preferences_page.vala:49
 msgid "No active accounts"
 msgstr "සක්‍රිය කළ ගිණුම් නැත"
 
-#: main/src/ui/main_window.vala:216
+#: main/src/ui/main_window.vala:231
 msgid "Manage accounts"
 msgstr "ගිණුම් කලමනාකරණය කරන්න"
 
@@ -1409,12 +1739,12 @@ msgid "Subscription request"
 msgstr "දායකත්ව ඉල්ලීම"
 
 #: main/src/ui/notifier_freedesktop.vala:192
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:231
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:259
 msgid "Wrong password"
 msgstr "මුරපදය වැරදියි"
 
 #: main/src/ui/notifier_freedesktop.vala:195
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:233
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:261
 msgid "Invalid TLS certificate"
 msgstr "අවලංගු TLS සහතිකය"
 
@@ -1610,6 +1940,7 @@ msgid "Today"
 msgstr "අද"
 
 #: main/src/ui/widgets/date_separator.vala:35
+#, no-c-format
 msgid "%a, %b %d"
 msgstr "%a, %b %d"
 
@@ -1661,45 +1992,45 @@ msgstr "සැකසුම්"
 msgid "Room Configuration"
 msgstr "කාමර වින්‍යාසය"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:68
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:69
 msgid "Connect"
 msgstr "සම්බන්ධ වන්න"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:106
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
 msgid "Disable account"
 msgstr "ගිණුම අක්‍රීය කරන්න"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:106
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
 msgid "Enable account"
 msgstr "ගිණුම සක්‍රීය කරන්න"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:151
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:179
 msgid "Select avatar"
 msgstr "අවතාරය තෝරන්න"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:162
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:190
 msgid "Images"
 msgstr "පින්තූර"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:166
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:194
 msgid "All files"
 msgstr "සියලු ගොනු"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:184
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:212
 #, c-format
 msgid "Remove account %s?"
 msgstr "%s ගිණුම ඉවත් කරන්න ද?"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:218
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:246
 msgid "Connected"
 msgstr "සම්බන්ධ වී ඇත"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:220
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:248
 msgid "Disconnected"
 msgstr "සම්බන්ධ වී නැත"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:240
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:242
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:268
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:270
 msgid "Error"
 msgstr "දෝෂයක්"
 
@@ -1808,385 +2139,189 @@ msgstr "%s සඳහා ප්‍රදර්ශන නාමය වෙනස්
 msgid "Alias (optional)"
 msgstr "අන්වර්ථ නාමය (විකල්ප)"
 
+#~ msgid "Creating backup..."
+#~ msgstr "උපස්ථය නිර්මාණය කරමින්..."
+
+#, c-format
+#~ msgid "Backup created successfully (%s)"
+#~ msgstr "උපස්ථය සාර්ථකව නිර්මාණය කරන ලදී (%s)"
+
+#~ msgid "Backup created successfully"
+#~ msgstr "උපස්ථය සාර්ථකව නිර්මාණය කරන ලදී"
+
 # DinoX v0.7.7 - Database Maintenance & Backup/Restore
-msgid "Clean Database"
-msgstr "Clean Database"
+#~ msgid "Clean Database"
+#~ msgstr "Clean Database"
 
-msgid "Reset Database"
-msgstr "Reset Database"
+#~ msgid "Encrypting Backup..."
+#~ msgstr "Encrypting Backup..."
 
-msgid "Restore Complete!"
-msgstr "Restore Complete!"
+#~ msgid "Creating encrypted backup..."
+#~ msgstr "සංකේතනය කළ උපස්ථයක් සාදමින්..."
 
-msgid "Restore Failed"
-msgstr "Restore Failed"
+#~ msgid "Encrypted backup created successfully"
+#~ msgstr "සංකේතනය කළ උපස්ථය සාර්ථකව නිර්මාණය විය"
 
-msgid "Decrypting Backup..."
-msgstr "Decrypting Backup..."
-
-msgid "Restoring Backup..."
-msgstr "Restoring Backup..."
-
-msgid "Set Backup Password"
-msgstr "Set Backup Password"
-
-msgid "Confirm Password"
-msgstr "Confirm Password"
-
-msgid "Create Encrypted Backup"
-msgstr "Create Encrypted Backup"
-
-msgid "Password too short"
-msgstr "Password too short"
-
-msgid "Passwords do not match"
-msgstr "Passwords do not match"
-
-msgid "✓ Passwords match"
-msgstr "✓ Passwords match"
-
-msgid "Encrypting Backup..."
-msgstr "Encrypting Backup..."
-
-msgid "Factory Reset"
-msgstr "Factory Reset"
-
-msgid "Restore from Backup"
-msgstr "Restore from Backup"
-
-msgid "Restore Backup"
-msgstr "Restore Backup"
-
-msgid "Select Backup File"
-msgstr "Select Backup File"
-
-msgid "Enter Backup Password"
-msgstr "Enter Backup Password"
-
-msgid "Decrypt & Restore"
-msgstr "Decrypt & Restore"
-
-msgid "Create Backup First"
-msgstr "Create Backup First"
-
-msgid "No Encryption"
-msgstr "No Encryption"
-
-msgid "Encrypt with Password"
-msgstr "Encrypt with Password"
-
-msgid "Delete Everything"
-msgstr "Delete Everything"
-
-msgid "Confirm Delete"
-msgstr "Confirm Delete"
-
-msgid "Are you absolutely sure?"
-msgstr "Are you absolutely sure?"
-
-#: main/data/preferences_window/general_preferences_page.ui:104
-msgid "Database Maintenance"
-msgstr "දත්ත සමුදාය නඩත්තුව"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Restore accounts, messages and settings from a backup file"
-msgstr "උපස්ථ ගොනුවකින් ගිණුම්, පණිවිඩ සහ සැකසුම් ප්‍රතිසාධනය කරන්න"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
-msgstr "සියලුම පණිවිඩ, ගොනු සහ OMEMO යතුරු මකන්න. ඔබේ ගිණුම් පවතිනු ඇත."
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete ALL data including accounts. This cannot be undone!"
-msgstr "ගිණුම් ඇතුළු සියලුම දත්ත මකන්න. මෙය අහෝසි කළ නොහැක!"
-
-# DinoX v0.7.7 - Additional Backup/Restore strings
-msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
-msgstr "උපස්ථ ගොනු (*.tar.gz, *.tar.gz.gpg)"
-
-msgid "Creating encrypted backup..."
-msgstr "සංකේතනය කළ උපස්ථයක් සාදමින්..."
-
-msgid "Decryption Failed"
-msgstr "විකේතනය අසාර්ථක විය"
-
-msgid "DinoX will now restart..."
-msgstr "DinoX දැන් නැවත ආරම්භ වේ..."
-
-msgid "Encrypted backup created successfully"
-msgstr "සංකේතනය කළ උපස්ථය සාර්ථකව නිර්මාණය විය"
-
-msgid "Password (minimum 4 characters)"
-msgstr "මුරපදය (අවම අක්ෂර 4ක්)"
-
-msgid "Decrypting encrypted backup file..."
-msgstr "උපස්ථ ගොනුව විකේතනය කරමින්..."
-
-msgid "Extracting files from backup..."
-msgstr "උපස්ථයෙන් ගොනු උපුටා ගනිමින්..."
-
-msgid "Factory reset in progress... DinoX will restart."
-msgstr "කර්මාන්තශාලා යළි පිහිටුවීම සිදු වෙමින්... DinoX නැවත ආරම්භ වේ."
-
-msgid "Resetting database... DinoX will restart."
-msgstr "දත්ත සමුදාය යළි පිහිටුවමින්... DinoX නැවත ආරම්භ වේ."
-
-msgid "Encrypted backup created (%s)"
-msgstr "සංකේතනය කළ උපස්ථය නිර්මාණය විය (%s)"
-
-msgid ""
-"Could not decrypt the backup file.\n"
-"\n"
-"Please check if the password is correct."
-msgstr ""
-"උපස්ථ ගොනුව විකේතනය කළ නොහැක.\n"
-"\n"
-"මුරපදය නිවැරදිදැයි පරීක්ෂා කරන්න."
-
-msgid ""
-"Could not restore the backup file.\n"
-"\n"
-"Error: %s"
-msgstr ""
-"උපස්ථ ගොනුව ප්‍රතිස්ථාපනය කළ නොහැක.\n"
-"\n"
-"දෝෂය: %s"
-
-msgid "This backup is encrypted. Please enter the password to decrypt it."
-msgstr "මෙම උපස්ථය සංකේතනය කර ඇත. මුරපදය ඇතුළත් කරන්න."
-
-msgid ""
-"Enter a password to encrypt the backup.\n"
-"\n"
-"<b>Important:</b> Remember this password! Without it, the backup cannot be "
-"restored."
-msgstr ""
-"උපස්ථය සංකේතනය කිරීමට මුරපදයක් ඇතුළත් කරන්න.\n"
-"\n"
-"<b>වැදගත්:</b> මෙම මුරපදය මතක තබා ගන්න! එය නොමැතිව, උපස්ථය ප්‍රතිස්ථාපනය කළ නොහැක."
-
-msgid ""
-"This will delete all messages, files and OMEMO encryption keys.\n"
-"\n"
-"<b>Your accounts will remain, but you will lose all chat history and need to "
-"re-verify encryption with your contacts.</b>\n"
-"\n"
-"This action cannot be undone!"
-msgstr ""
-"This will delete all messages, files and OMEMO encryption keys.\n"
-"\n"
-"<b>Your accounts will remain, but you will lose all chat history and need to "
-"re-verify encryption with your contacts.</b>\n"
-"\n"
-"This action cannot be undone!"
-
-msgid ""
-"This will replace all current data with the backup.\n"
-"\n"
-"<b>Current accounts, messages and settings will be overwritten!</b>\n"
-"\n"
-"DinoX will restart after restoring."
-msgstr ""
-"This will replace all current data with the backup.\n"
-"\n"
-"<b>Current accounts, messages and settings will be overwritten!</b>\n"
-"\n"
-"DinoX will restart after restoring."
-
-msgid ""
-"Type 'DELETE' to confirm factory reset.\n"
-"\n"
-"This will permanently remove all your DinoX data."
-msgstr ""
-"Type 'DELETE' to confirm factory reset.\n"
-"\n"
-"This will permanently remove all your DinoX data."
-
-msgid ""
-"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
-"\n"
-"• All accounts\n"
-"• All messages and files\n"
-"• All encryption keys\n"
-"• All settings\n"
-"\n"
-"This is irreversible. Make sure to create a backup first!"
-msgstr ""
-"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
-"\n"
-"• All accounts\n"
-"• All messages and files\n"
-"• All encryption keys\n"
-"• All settings\n"
-"\n"
-"This is irreversible. Make sure to create a backup first!"
+#~ msgid "Encrypted backup created (%s)"
+#~ msgstr "සංකේතනය කළ උපස්ථය නිර්මාණය විය (%s)"
 
 # OpenPGP Key Management
-msgid "OpenPGP Key Management"
-msgstr "OpenPGP Key Management"
+#~ msgid "OpenPGP Key Management"
+#~ msgstr "OpenPGP Key Management"
 
-msgid "Actions"
-msgstr "Actions"
+#~ msgid "Actions"
+#~ msgstr "Actions"
 
-msgid "Generate New Key"
-msgstr "Generate New Key"
+#~ msgid "Generate New Key"
+#~ msgstr "Generate New Key"
 
-msgid "Import Key"
-msgstr "Import Key"
+#~ msgid "Import Key"
+#~ msgstr "Import Key"
 
-msgid "Your Keys"
-msgstr "Your Keys"
+#~ msgid "Your Keys"
+#~ msgstr "Your Keys"
 
-msgid "Fingerprint"
-msgstr "Fingerprint"
+#~ msgid "Fingerprint"
+#~ msgstr "Fingerprint"
 
-msgid "Export Public Key"
-msgstr "Export Public Key"
+#~ msgid "Export Public Key"
+#~ msgstr "Export Public Key"
 
-msgid "Delete Key"
-msgstr "Delete Key"
+#~ msgid "Delete Key"
+#~ msgstr "Delete Key"
 
-msgid "Name"
-msgstr "Name"
+#~ msgid "Name"
+#~ msgstr "Name"
 
-msgid "Email"
-msgstr "Email"
+#~ msgid "Email"
+#~ msgstr "Email"
 
-msgid "Passphrase"
-msgstr "Passphrase"
+#~ msgid "Passphrase"
+#~ msgstr "Passphrase"
 
-msgid "Generate"
-msgstr "Generate"
+#~ msgid "Generate"
+#~ msgstr "Generate"
 
-msgid "Select OpenPGP Key"
-msgstr "Select OpenPGP Key"
+#~ msgid "Select OpenPGP Key"
+#~ msgstr "Select OpenPGP Key"
 
-msgid "Wrong passphrase"
-msgstr "Wrong passphrase"
+#~ msgid "Wrong passphrase"
+#~ msgstr "Wrong passphrase"
 
-msgid "Manage Keys"
-msgstr "Manage Keys"
+#~ msgid "Manage Keys"
+#~ msgstr "Manage Keys"
 
-msgid "Announce key"
-msgstr "Announce key"
+#~ msgid "Announce key"
+#~ msgstr "Announce key"
 
-msgid "Disabled"
-msgstr "Disabled"
+#~ msgid "Disabled"
+#~ msgstr "Disabled"
 
-msgid "Success"
-msgstr "Success"
+#~ msgid "Success"
+#~ msgstr "Success"
 
-msgid "OK"
-msgstr "OK"
+#~ msgid "Create a new OpenPGP key pair"
+#~ msgstr "නව OpenPGP යතුරු යුගලයක් සාදන්න"
 
-msgid "Create a new OpenPGP key pair"
-msgstr "නව OpenPGP යතුරු යුගලයක් සාදන්න"
+#~ msgid "Import a key from file (.asc, .gpg)"
+#~ msgstr "ගොනුවකින් යතුරක් ආයාත කරන්න (.asc, .gpg)"
 
-msgid "Import a key from file (.asc, .gpg)"
-msgstr "ගොනුවකින් යතුරක් ආයාත කරන්න (.asc, .gpg)"
+#~ msgid "Private keys available for signing and decryption"
+#~ msgstr "අත්සන් කිරීම සහ විකේතනය සඳහා පෞද්ගලික යතුරු"
 
-msgid "Private keys available for signing and decryption"
-msgstr "අත්සන් කිරීම සහ විකේතනය සඳහා පෞද්ගලික යතුරු"
+#~ msgid "No private keys found"
+#~ msgstr "පෞද්ගලික යතුරු හමු නොවීය"
 
-msgid "No private keys found"
-msgstr "පෞද්ගලික යතුරු හමු නොවීය"
+#~ msgid "Generate or import a key to get started"
+#~ msgstr "ආරම්භ කිරීමට යතුරක් සාදන්න හෝ ආයාත කරන්න"
 
-msgid "Generate or import a key to get started"
-msgstr "ආරම්භ කිරීමට යතුරක් සාදන්න හෝ ආයාත කරන්න"
+#~ msgid "Generate New OpenPGP Key"
+#~ msgstr "නව OpenPGP යතුරක් සාදන්න"
 
-msgid "Generate New OpenPGP Key"
-msgstr "නව OpenPGP යතුරක් සාදන්න"
+#~ msgid "Enter your details to create a new key pair."
+#~ msgstr "නව යතුරු යුගලයක් සෑදීමට ඔබේ විස්තර ඇතුළත් කරන්න."
 
-msgid "Enter your details to create a new key pair."
-msgstr "නව යතුරු යුගලයක් සෑදීමට ඔබේ විස්තර ඇතුළත් කරන්න."
+#~ msgid "Your Name"
+#~ msgstr "ඔබේ නම"
 
-msgid "Your Name"
-msgstr "ඔබේ නම"
+#~ msgid "you@example.com"
+#~ msgstr "you@example.com"
 
-msgid "you@example.com"
-msgstr "you@example.com"
+#~ msgid "Passphrase (optional)"
+#~ msgstr "මුරවදන (විකල්ප)"
 
-msgid "Passphrase (optional)"
-msgstr "මුරවදන (විකල්ප)"
+#~ msgid "4096-bit RSA key, valid for 2 years."
+#~ msgstr "4096-bit RSA යතුර, වසර 2ක් වලංගු."
 
-msgid "4096-bit RSA key, valid for 2 years."
-msgstr "4096-bit RSA යතුර, වසර 2ක් වලංගු."
+#~ msgid "Name must be at least 2 characters"
+#~ msgstr "නම අවම වශයෙන් අකුරු 2ක් විය යුතුය"
 
-msgid "Name must be at least 2 characters"
-msgstr "නම අවම වශයෙන් අකුරු 2ක් විය යුතුය"
+#~ msgid "Please enter a valid email address"
+#~ msgstr "කරුණාකර වලංගු ඊමේල් ලිපිනයක් ඇතුළත් කරන්න"
 
-msgid "Please enter a valid email address"
-msgstr "කරුණාකර වලංගු ඊමේල් ලිපිනයක් ඇතුළත් කරන්න"
+#~ msgid "Generating Key..."
+#~ msgstr "යතුර සාදමින්..."
 
-msgid "Generating Key..."
-msgstr "යතුර සාදමින්..."
+#~ msgid "Key generated successfully!"
+#~ msgstr "යතුර සාර්ථකව සාදන ලදි!"
 
-msgid "Please wait while your key is being generated. This may take a moment."
-msgstr "ඔබේ යතුර සාදමින් සිටින අතරතුර කරුණාකර රැඳී සිටින්න. මෙයට මොහොතක් ගත විය හැකිය."
+#~ msgid "Import OpenPGP Key"
+#~ msgstr "OpenPGP යතුර ආයාත කරන්න"
 
-msgid "Key generated successfully!"
-msgstr "යතුර සාර්ථකව සාදන ලදි!"
+#~ msgid "OpenPGP Keys (*.asc, *.gpg)"
+#~ msgstr "OpenPGP යතුරු (*.asc, *.gpg)"
 
-msgid "Failed to generate key."
-msgstr "යතුර සෑදීමට අසමත් විය."
+#~ msgid "All Files"
+#~ msgstr "සියලු ගොනු"
 
-msgid "Import OpenPGP Key"
-msgstr "OpenPGP යතුර ආයාත කරන්න"
+#~ msgid "Key imported! Re-open Key Management to see it."
+#~ msgstr "යතුර ආයාත කරන ලදි! එය බැලීමට යතුරු කළමනාකරණය නැවත විවෘත කරන්න."
 
-msgid "OpenPGP Keys (*.asc, *.gpg)"
-msgstr "OpenPGP යතුරු (*.asc, *.gpg)"
+#~ msgid "Import failed: "
+#~ msgstr "ආයාතය අසාර්ථකයි: "
 
-msgid "All Files"
-msgstr "සියලු ගොනු"
+#~ msgid "Key exported to: "
+#~ msgstr "යතුර අපනයනය කළේ: "
 
-msgid "Key imported! Re-open Key Management to see it."
-msgstr "යතුර ආයාත කරන ලදි! එය බැලීමට යතුරු කළමනාකරණය නැවත විවෘත කරන්න."
+#~ msgid "Export failed."
+#~ msgstr "අපනයනය අසාර්ථකයි."
 
-msgid "Import failed: "
-msgstr "ආයාතය අසාර්ථකයි: "
+#~ msgid "Delete Key?"
+#~ msgstr "යතුර මකන්නද?"
 
-msgid "Key exported to: "
-msgstr "යතුර අපනයනය කළේ: "
+#~ msgid ""
+#~ "Delete this key?\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "This cannot be undone!"
+#~ msgstr ""
+#~ "මෙම යතුර මකන්නද?\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "මෙය අහෝසි කළ නොහැක!"
 
-msgid "Export failed."
-msgstr "අපනයනය අසාර්ථකයි."
+#~ msgid "Key deleted."
+#~ msgstr "යතුර මකා දමන ලදි."
 
-msgid "Delete Key?"
-msgstr "යතුර මකන්නද?"
+#~ msgid "Delete failed: "
+#~ msgstr "මැකීම අසාර්ථකයි: "
 
-msgid ""
-"Delete this key?\n"
-"\n"
-"%s\n"
-"\n"
-"This cannot be undone!"
-msgstr ""
-"මෙම යතුර මකන්නද?\n"
-"\n"
-"%s\n"
-"\n"
-"මෙය අහෝසි කළ නොහැක!"
+#~ msgid "Choose a key to announce to your contacts."
+#~ msgstr "ඔබේ සම්බන්ධතාවලට නිවේදනය කිරීමට යතුරක් තෝරන්න."
 
-msgid "Key deleted."
-msgstr "යතුර මකා දමන ලදි."
+#~ msgid "Enter GPG passphrase to confirm:"
+#~ msgstr "තහවුරු කිරීමට GPG මුරවදන ඇතුළත් කරන්න:"
 
-msgid "Delete failed: "
-msgstr "මැකීම අසාර්ථකයි: "
+#~ msgid "Generate, import, export, or delete keys"
+#~ msgstr "යතුරු සාදන්න, ආයාත කරන්න, අපනයනය කරන්න හෝ මකන්න"
 
-msgid "Choose a key to announce to your contacts."
-msgstr "ඔබේ සම්බන්ධතාවලට නිවේදනය කිරීමට යතුරක් තෝරන්න."
+#~ msgid "No keys available. Generate or import one!"
+#~ msgstr "යතුරු නැත. එකක් සාදන්න හෝ ආයාත කරන්න!"
 
-msgid "Enter GPG passphrase to confirm:"
-msgstr "තහවුරු කිරීමට GPG මුරවදන ඇතුළත් කරන්න:"
-
-msgid "Generate, import, export, or delete keys"
-msgstr "යතුරු සාදන්න, ආයාත කරන්න, අපනයනය කරන්න හෝ මකන්න"
-
-msgid "No keys available. Generate or import one!"
-msgstr "යතුරු නැත. එකක් සාදන්න හෝ ආයාත කරන්න!"
-
-msgid "Error in GnuPG"
-msgstr "GnuPG හි දෝෂයක්"
+#~ msgid "Error in GnuPG"
+#~ msgstr "GnuPG හි දෝෂයක්"
 
 #~ msgid "Message too long"
 #~ msgstr "පණිවිඩය දිග වැඩියි"

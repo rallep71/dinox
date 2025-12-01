@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-28 12:18+0100\n"
+"POT-Creation-Date: 2025-12-01 10:28+0100\n"
 "PO-Revision-Date: 2025-10-11 15:07+0000\n"
 "Language-Team: none\n"
 "Language: tr\n"
@@ -99,14 +99,14 @@ msgstr "Genel"
 #: main/data/gtk/help-overlay.ui:14 main/data/main_window.ui:38
 #: main/data/menu_add.ui:7
 #: main/src/ui/add_conversation/select_contact_dialog.vala:106
-#: main/src/ui/main_window.vala:141
+#: main/src/ui/main_window.vala:154
 msgid "Start Conversation"
 msgstr "Sohbet Başlat"
 
 #: main/data/gtk/help-overlay.ui:20 main/data/main_window.ui:51
 #: main/data/menu_add.ui:11
 #: main/src/ui/add_conversation/add_conference_dialog.vala:24
-#: main/src/ui/application.vala:527 main/src/ui/main_window.vala:142
+#: main/src/ui/application.vala:1359 main/src/ui/main_window.vala:155
 msgid "Join Channel"
 msgstr "Kanala katıl"
 
@@ -147,7 +147,7 @@ msgstr "Bir sonraki sohbete geç"
 msgid "Jump to previous conversation"
 msgstr "Bir önceki sohbete geç"
 
-#: main/data/main_window.ui:64 main/src/ui/main_window.vala:144
+#: main/data/main_window.ui:64 main/src/ui/main_window.vala:157
 msgid "Help: How to join channels"
 msgstr "Yardım: Kanallara nasıl katılınır"
 
@@ -165,28 +165,28 @@ msgstr "Durum"
 
 #: main/data/menu_app.ui:11
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:427
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Online"
 msgstr "Çevrimiçi"
 
 #: main/data/menu_app.ui:16
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:421
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Away"
 msgstr "Uzakta"
 
 #: main/data/menu_app.ui:21
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:425
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Busy"
 msgstr "Meşgul"
 
 #: main/data/menu_app.ui:26
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:423
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Not Available"
 msgstr "Müsait Değil"
@@ -199,7 +199,7 @@ msgstr "Tercihler"
 msgid "Keyboard Shortcuts"
 msgstr "Klavye Kısayolları"
 
-#: main/data/menu_app.ui:42 main/src/ui/application.vala:334
+#: main/data/menu_app.ui:42 main/src/ui/application.vala:340
 msgid "About DinoX"
 msgstr "DinoX Hakkında"
 
@@ -218,7 +218,10 @@ msgstr "Konuşma Geçmişini Sil"
 #: main/data/preferences_window/change_password_dialog.ui:18
 #: main/src/ui/add_conversation/add_conference_dialog.vala:41
 #: main/src/ui/add_conversation/select_contact_dialog.vala:40
-#: main/src/ui/application.vala:537
+#: main/src/ui/application.vala:441 main/src/ui/application.vala:469
+#: main/src/ui/application.vala:765 main/src/ui/application.vala:843
+#: main/src/ui/application.vala:901 main/src/ui/application.vala:933
+#: main/src/ui/application.vala:1089 main/src/ui/application.vala:1369
 #: main/src/ui/conversation_content_view/file_default_widget.vala:90
 #: main/src/ui/conversation_content_view/item_actions.vala:165
 #: main/src/ui/conversation_content_view/item_actions.vala:168
@@ -233,7 +236,7 @@ msgstr "Konuşma Geçmişini Sil"
 #: main/src/ui/conversation_titlebar/call_entry.vala:83
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
 #: main/src/windows/conversation_details.vala:60
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:67
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:68
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:205
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:225
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:249
@@ -257,6 +260,7 @@ msgid "Local alias"
 msgstr "Yerel mahlas"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:82
+#: main/src/ui/application.vala:435 main/src/ui/application.vala:1064
 #: main/src/ui/util/data_forms.vala:63
 msgid "Password"
 msgstr "Parola"
@@ -265,20 +269,24 @@ msgstr "Parola"
 msgid "Connection status"
 msgstr "Bağlantı durumu"
 
+#: main/data/preferences_window/account_preferences_subpage.ui:117
+msgid "View Certificate"
+msgstr "Sertifikayı Görüntüle"
+
 # Custom host/port feature (Issue #115)
-#: main/data/preferences_window/account_preferences_subpage.ui:121
+#: main/data/preferences_window/account_preferences_subpage.ui:128
 msgid "Advanced Settings"
 msgstr "Gelişmiş Ayarlar"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:122
+#: main/data/preferences_window/account_preferences_subpage.ui:129
 msgid "Custom server connection (leave empty for automatic)"
 msgstr "Özel sunucu bağlantısı (otomatik için boş bırakın)"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:125
+#: main/data/preferences_window/account_preferences_subpage.ui:132
 msgid "Server Hostname"
 msgstr "Sunucu Ana Bilgisayar Adı"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:130
+#: main/data/preferences_window/account_preferences_subpage.ui:137
 msgid "Port"
 msgstr "Port"
 
@@ -351,12 +359,53 @@ msgid "Create a backup of your accounts, messages and settings"
 msgstr "Hesaplarınızın, mesajlarınızın ve ayarlarınızın yedeğini oluşturun"
 
 #: main/data/preferences_window/general_preferences_page.ui:78
-msgid "Data Location"
-msgstr "Veri Konumu"
+#: main/src/ui/application.vala:464 main/src/ui/main_window.vala:223
+msgid "Restore from Backup"
+msgstr "Yedekten geri yükle"
 
 #: main/data/preferences_window/general_preferences_page.ui:79
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "Hesapları, mesajları ve ayarları yedek dosyasından geri yükle"
+
+#: main/data/preferences_window/general_preferences_page.ui:90
+msgid "Data Storage Location"
+msgstr "Veri Depolama Konumu"
+
+#: main/data/preferences_window/general_preferences_page.ui:91
 msgid "View where your data is stored"
 msgstr "Verilerinizin nerede depolandığını görün"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "Veritabanı Bakımı"
+
+#: main/data/preferences_window/general_preferences_page.ui:107
+#: main/src/ui/application.vala:761 main/src/ui/application.vala:766
+msgid "Clear Cache"
+msgstr "Önbelleği Temizle"
+
+#: main/data/preferences_window/general_preferences_page.ui:108
+msgid "Clear cached files, avatars and previews"
+msgstr "Önbelleğe alınmış dosyaları, avatarları ve önizlemeleri temizle"
+
+#: main/data/preferences_window/general_preferences_page.ui:119
+#: main/src/ui/application.vala:838 main/src/ui/application.vala:844
+msgid "Reset Database"
+msgstr "Veritabanını sıfırla"
+
+#: main/data/preferences_window/general_preferences_page.ui:120
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr ""
+"Tüm mesajları, dosyaları ve OMEMO anahtarlarını sil. Hesaplarınız kalacak."
+
+#: main/data/preferences_window/general_preferences_page.ui:131
+#: main/src/ui/application.vala:896
+msgid "Factory Reset"
+msgstr "Fabrika ayarlarına sıfırla"
+
+#: main/data/preferences_window/general_preferences_page.ui:132
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr "Hesaplar dahil TÜM verileri sil. Bu geri alınamaz!"
 
 #: main/data/preferences_window/preferences_dialog.ui:11
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:15
@@ -381,7 +430,7 @@ msgstr "İleri"
 
 #: main/src/ui/add_conversation/add_conference_dialog.vala:59
 #: main/src/ui/add_conversation/conference_details_fragment.vala:151
-#: main/src/ui/application.vala:541
+#: main/src/ui/application.vala:1373
 msgid "Join"
 msgstr "Katıl"
 
@@ -467,31 +516,31 @@ msgstr "Kişiyi Sil"
 msgid "Leave Group"
 msgstr "Gruptan Ayrıl"
 
-#: main/src/ui/application.vala:339
+#: main/src/ui/application.vala:345
 msgid "Modern XMPP client with extended features"
 msgstr "Gelişmiş özelliklere sahip modern XMPP istemcisi"
 
-#: main/src/ui/application.vala:346 main/src/ui/application.vala:385
+#: main/src/ui/application.vala:352 main/src/ui/application.vala:727
 msgid "User Data Locations"
 msgstr "Veri Konumları"
 
-#: main/src/ui/application.vala:349 main/src/ui/application.vala:399
+#: main/src/ui/application.vala:355 main/src/ui/application.vala:741
 msgid "Configuration:"
 msgstr "Yapılandırma:"
 
-#: main/src/ui/application.vala:352 main/src/ui/application.vala:401
+#: main/src/ui/application.vala:358 main/src/ui/application.vala:743
 msgid "Data & Database:"
 msgstr "Veri ve Veritabanı:"
 
-#: main/src/ui/application.vala:355 main/src/ui/application.vala:403
+#: main/src/ui/application.vala:361 main/src/ui/application.vala:745
 msgid "Cache:"
 msgstr "Önbellek:"
 
-#: main/src/ui/application.vala:358
+#: main/src/ui/application.vala:364
 msgid "Info:"
 msgstr "Bilgi:"
 
-#: main/src/ui/application.vala:359
+#: main/src/ui/application.vala:365
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
@@ -499,15 +548,119 @@ msgstr ""
 "Kişisel verileriniz (hesaplar, mesajlar, dosyalar) uygulamadan ayrı olarak "
 "saklanır."
 
-#: main/src/ui/application.vala:361
+#: main/src/ui/application.vala:367
 msgid "When you update DinoX, your data remains intact."
 msgstr "DinoX'u güncellediğinizde verileriniz korunur."
 
-#: main/src/ui/application.vala:363
+#: main/src/ui/application.vala:369
 msgid "Use Settings → General → Backup User Data to create a backup."
 msgstr "Yedek oluşturmak için Ayarlar → Genel → Yedekle'yi kullanın."
 
-#: main/src/ui/application.vala:405
+#: main/src/ui/application.vala:387
+msgid "Select Backup File"
+msgstr "Yedek dosyasını seç"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+#: main/src/ui/application.vala:395
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "Yedekleme dosyaları (*.tar.gz, *.tar.gz.gpg)"
+
+#: main/src/ui/application.vala:425
+msgid "Enter Backup Password"
+msgstr "Yedek şifresini girin"
+
+#: main/src/ui/application.vala:426
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "Bu yedekleme şifrelenmiş. Şifresini çözmek için parolayı girin."
+
+#: main/src/ui/application.vala:442
+msgid "Decrypt & Restore"
+msgstr "Şifreyi çöz ve geri yükle"
+
+#: main/src/ui/application.vala:465
+msgid ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+msgstr ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+
+#: main/src/ui/application.vala:470
+msgid "Restore Backup"
+msgstr "Yedeği geri yükle"
+
+#: main/src/ui/application.vala:487 main/src/ui/application.vala:519
+msgid "Decrypting Backup..."
+msgstr "Yedek şifresi çözülüyor..."
+
+#: main/src/ui/application.vala:487 main/src/ui/application.vala:571
+msgid "Restoring Backup..."
+msgstr "Yedek geri yükleniyor..."
+
+#: main/src/ui/application.vala:488
+msgid "Please wait, this may take a moment..."
+msgstr "Lütfen bekleyin, bu biraz zaman alabilir..."
+
+#: main/src/ui/application.vala:520
+msgid "Decrypting encrypted backup file..."
+msgstr "Yedekleme dosyasının şifresi çözülüyor..."
+
+#: main/src/ui/application.vala:558
+msgid "Decryption Failed"
+msgstr "Şifre çözme başarısız"
+
+#: main/src/ui/application.vala:559
+msgid ""
+"Could not decrypt the backup file.\n"
+"\n"
+"Please check if the password is correct."
+msgstr ""
+"Dosyanın şifresi çözülemedi.\n"
+"\n"
+"Şifrenin doğru olup olmadığını kontrol edin."
+
+#: main/src/ui/application.vala:561 main/src/ui/application.vala:671
+msgid "OK"
+msgstr "Tamam"
+
+#: main/src/ui/application.vala:572
+msgid "Extracting files from backup..."
+msgstr "Yedeklemeden dosyalar çıkarılıyor..."
+
+#: main/src/ui/application.vala:653
+msgid "Restore Complete!"
+msgstr "Geri yükleme tamamlandı!"
+
+#: main/src/ui/application.vala:654
+msgid "DinoX will now restart..."
+msgstr "DinoX şimdi yeniden başlatılacak..."
+
+#: main/src/ui/application.vala:668
+msgid "Restore Failed"
+msgstr "Geri yükleme başarısız"
+
+#: main/src/ui/application.vala:669
+#, c-format
+msgid ""
+"Could not restore the backup file.\n"
+"\n"
+"Error: %s"
+msgstr ""
+"Dosya geri yüklenemedi.\n"
+"\n"
+"Hata: %s"
+
+#: main/src/ui/application.vala:669 main/src/ui/application.vala:1345
+msgid "Unknown error"
+msgstr "Bilinmeyen hata"
+
+#: main/src/ui/application.vala:747
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
@@ -517,96 +670,241 @@ msgstr ""
 "verileriniz (hesaplar, mesajlar, dosyalar) uygulamadan ayrı olarak saklanır. "
 "DinoX'u güncellediğinizde verileriniz korunur."
 
-#: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
-#: main/src/ui/main_window.vala:159
+#: main/src/ui/application.vala:752 main/src/ui/application.vala:1240
+#: main/src/ui/application.vala:1324 main/src/ui/conversation_details.vala:272
+#: main/src/ui/main_window.vala:172
 msgid "Close"
 msgstr "Kapat"
 
-#: main/src/ui/application.vala:417
+#: main/src/ui/application.vala:762
+msgid ""
+"This will delete cached files, avatars and previews.\n"
+"\n"
+"They will be re-downloaded when needed."
+msgstr ""
+"Bu işlem önbelleğe alınmış dosyaları, avatarları ve önizlemeleri silecektir.\n"
+"\n"
+"Gerektiğinde tekrar indirileceklerdir."
+#: main/src/ui/application.vala:799
+#, c-format
+msgid "Cache cleared (%s freed)"
+msgstr "Önbellek temizlendi (%s boşaltıldı)"
+
+#: main/src/ui/application.vala:802
+msgid "Failed to clear cache"
+msgstr "Önbellek temizlenemedi"
+
+#: main/src/ui/application.vala:839
+msgid ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+msgstr ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+
+#: main/src/ui/application.vala:867
+msgid "Resetting database... DinoX will restart."
+msgstr "Veritabanı sıfırlanıyor... DinoX yeniden başlatılacak."
+
+#: main/src/ui/application.vala:897
+msgid ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+msgstr ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+
+#: main/src/ui/application.vala:902
+msgid "Create Backup First"
+msgstr "Önce yedek oluştur"
+
+#: main/src/ui/application.vala:903
+msgid "Delete Everything"
+msgstr "Her şeyi sil"
+
+#: main/src/ui/application.vala:923
+msgid "Are you absolutely sure?"
+msgstr "Kesinlikle emin misiniz?"
+
+#: main/src/ui/application.vala:924
+msgid ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+msgstr ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+
+#: main/src/ui/application.vala:934
+msgid "Confirm Delete"
+msgstr "Silmeyi onayla"
+
+#: main/src/ui/application.vala:961
+msgid "Factory reset in progress... DinoX will restart."
+msgstr ""
+"Fabrika ayarlarına sıfırlama devam ediyor... DinoX yeniden başlatılacak."
+
+#: main/src/ui/application.vala:1026
+msgid "Backup Encryption"
+msgstr "Yedekleme Şifrelemesi"
+
+#: main/src/ui/application.vala:1027
+msgid ""
+"Do you want to encrypt the backup with a password?\n"
+"\n"
+"Encrypted backups are more secure but require the password to restore."
+msgstr ""
+"Yedeği bir parola ile şifrelemek istiyor musunuz?\n"
+"\n"
+"Şifreli yedekler daha güvenlidir ancak geri yüklemek için parola gerektirir."
+
+#: main/src/ui/application.vala:1030
+msgid "No Encryption"
+msgstr "Şifreleme yok"
+
+#: main/src/ui/application.vala:1031
+msgid "Encrypt with Password"
+msgstr "Şifreyle şifrele"
+
+#: main/src/ui/application.vala:1049
+msgid "Set Backup Password"
+msgstr "Yedek şifresini ayarla"
+
+#: main/src/ui/application.vala:1050
+msgid ""
+"Enter a password to encrypt the backup.\n"
+"\n"
+"<b>Important:</b> Remember this password! Without it, the backup cannot be "
+"restored."
+msgstr ""
+"Yedeklemeyi şifrelemek için bir parola girin.\n"
+"\n"
+"<b>Önemli:</b> Bu parolayı unutmayın! Onsuz yedekleme geri yüklenemez."
+
+#: main/src/ui/application.vala:1058
+msgid "Password (minimum 4 characters)"
+msgstr "Şifre (en az 4 karakter)"
+
+#: main/src/ui/application.vala:1066 main/src/ui/application.vala:1073
+msgid "Confirm Password"
+msgstr "Şifreyi onayla"
+
+#: main/src/ui/application.vala:1090
+msgid "Create Encrypted Backup"
+msgstr "Şifreli yedek oluştur"
+
+#: main/src/ui/application.vala:1102 main/src/ui/application.vala:1117
+msgid "Password too short"
+msgstr "Şifre çok kısa"
+
+#: main/src/ui/application.vala:1104 main/src/ui/application.vala:1119
+msgid "Passwords do not match"
+msgstr "Şifreler eşleşmiyor"
+
+#: main/src/ui/application.vala:1106 main/src/ui/application.vala:1121
+msgid "✓ Passwords match"
+msgstr "✓ Şifreler eşleşiyor"
+
+#: main/src/ui/application.vala:1139
 msgid "Select Backup Location"
 msgstr "Yedekleme Konumu Seçin"
 
-#: main/src/ui/application.vala
-msgid "Creating Backup..."
-msgstr "Creating Backup..."
-
-#: main/src/ui/application.vala
+#: main/src/ui/application.vala:1194
 msgid "Creating Encrypted Backup..."
-msgstr "Creating Encrypted Backup..."
+msgstr "Şifreli Yedek Oluşturuluyor..."
 
-#: main/src/ui/application.vala
+#: main/src/ui/application.vala:1194
+msgid "Creating Backup..."
+msgstr "Yedek Oluşturuluyor..."
+
+#: main/src/ui/application.vala:1195
 msgid "Please wait while your data is being backed up."
-msgstr "Please wait while your data is being backed up."
+msgstr "Verileriniz yedeklenirken lütfen bekleyin."
+#: main/src/ui/application.vala:1234
+msgid "No data directory found to backup"
+msgstr "Yedeklenecek veri dizini bulunamadı"
 
-#: main/src/ui/application.vala
-msgid "No data directories found to backup"
-msgstr "No data directories found to backup"
-
-#: main/src/ui/application.vala
-msgid "Backup Created"
-msgstr "Backup Created"
-
-#: main/src/ui/application.vala
-msgid "Encrypted Backup Created"
-msgstr "Encrypted Backup Created"
-
-#: main/src/ui/application.vala
-#, c-format
-msgid "Your backup was created successfully.\\n\\nSize: %s"
-msgstr "Your backup was created successfully.\\n\\nSize: %s"
-
-#: main/src/ui/application.vala
-msgid "Your backup was created successfully."
-msgstr "Your backup was created successfully."
-
-#: main/src/ui/application.vala
-#, c-format
-msgid "Your encrypted backup was created successfully.\\n\\nSize: %s"
-msgstr "Your encrypted backup was created successfully.\\n\\nSize: %s"
-
-#: main/src/ui/application.vala
-msgid "Your encrypted backup was created successfully."
-msgstr "Your encrypted backup was created successfully."
-
-#: main/src/ui/application.vala
+#: main/src/ui/application.vala:1237 main/src/ui/application.vala:1343
 msgid "Backup Failed"
-msgstr "Backup Failed"
+msgstr "Yedekleme Başarısız"
 
-#: main/src/ui/application.vala:445
-msgid "Creating backup..."
-msgstr "Yedek oluşturuluyor..."
+#: main/src/ui/application.vala:1331
+msgid "Encrypted Backup Created"
+msgstr "Şifreli Yedek Oluşturuldu"
 
-#: main/src/ui/application.vala:503
+#: main/src/ui/application.vala:1333
+#: main/src/ui/application.vala:1333
 #, c-format
-msgid "Backup created successfully (%s)"
-msgstr "Yedek başarıyla oluşturuldu (%s)"
+msgid ""
+"Your encrypted backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"Şifreli yedeğiniz başarıyla oluşturuldu.\n"
+"\n"
+"Boyut: %s"
 
-#: main/src/ui/application.vala:505
-msgid "Backup created successfully"
-msgstr "Yedek başarıyla oluşturuldu"
+#: main/src/ui/application.vala:1334
+msgid "Your encrypted backup was created successfully."
+msgstr "Şifreli yedeğiniz başarıyla oluşturuldu."
 
-#: main/src/ui/application.vala:510
-msgid "Unknown error"
-msgstr "Bilinmeyen hata"
+#: main/src/ui/application.vala:1336
+msgid "Backup Created"
+msgstr "Yedek Oluşturuldu"
 
-#: main/src/ui/application.vala:511
+#: main/src/ui/application.vala:1338
+#, c-format
+msgid ""
+"Your backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"Yedeğiniz başarıyla oluşturuldu.\n"
+"\n"
+"Boyut: %s"
+#: main/src/ui/application.vala:1339
+msgid "Your backup was created successfully."
+msgstr "Yedeğiniz başarıyla oluşturuldu."
+
+#: main/src/ui/application.vala:1346
 #, c-format
 msgid "Backup failed: %s"
 msgstr "Yedekleme başarısız: %s"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:29
+#: main/src/ui/call_window/audio_settings_popover.vala:46
 msgid "Microphones"
 msgstr "Mikrofonlar"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:32
+#: main/src/ui/call_window/audio_settings_popover.vala:49
 msgid "No microphone found."
 msgstr "Mikrofon bulunamadı."
 
-#: main/src/ui/call_window/audio_settings_popover.vala:85
+#: main/src/ui/call_window/audio_settings_popover.vala:116
 msgid "Speakers"
 msgstr "Hoparlörler"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:88
+#: main/src/ui/call_window/audio_settings_popover.vala:119
 msgid "No speaker found."
 msgstr "Hoparlör bulunamadı."
 
@@ -622,7 +920,7 @@ msgstr "Aramaya Davet Et"
 msgid "Invite"
 msgstr "Davet et"
 
-#: main/src/ui/call_window/call_window_controller.vala:405
+#: main/src/ui/call_window/call_window_controller.vala:453
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:240
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:270
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:285
@@ -641,21 +939,21 @@ msgstr "%s aramayı sonlandırdı"
 msgid "%s declined the call"
 msgstr "%s aramayı reddetti"
 
-#: main/src/ui/call_window/participant_widget.vala:115
+#: main/src/ui/call_window/participant_widget.vala:140
 msgid "Debug information"
 msgstr "Hata ayıklama bilgileri"
 
-#: main/src/ui/call_window/participant_widget.vala:124
+#: main/src/ui/call_window/participant_widget.vala:149
 #: main/src/ui/conversation_content_view/call_widget.vala:152
 msgid "Calling…"
 msgstr "Aranıyor…"
 
-#: main/src/ui/call_window/participant_widget.vala:126
+#: main/src/ui/call_window/participant_widget.vala:151
 msgid "Ringing…"
 msgstr "Çalıyor…"
 
-#: main/src/ui/call_window/participant_widget.vala:128
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:216
+#: main/src/ui/call_window/participant_widget.vala:153
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:244
 msgid "Connecting…"
 msgstr "Bağlanıyor…"
 
@@ -889,7 +1187,7 @@ msgstr "%a, %l∶%M %p"
 msgid "Just now"
 msgstr "Şu an"
 
-#: main/src/ui/conversation_content_view/conversation_view.vala:105
+#: main/src/ui/conversation_content_view/conversation_view.vala:106
 msgid "More actions"
 msgstr "Daha fazla eylem"
 
@@ -1109,6 +1407,38 @@ msgstr "Yok Et"
 msgid "Failed to destroy room"
 msgstr "Oda yok edilemedi"
 
+#: main/src/ui/conversation_details.vala:286
+msgid "Auto-delete messages"
+msgstr "Mesajları otomatik sil"
+
+#: main/src/ui/conversation_details.vala:287
+msgid "Never"
+msgstr "Asla"
+
+#: main/src/ui/conversation_details.vala:288
+msgid "After 15 minutes"
+msgstr "15 dakika sonra"
+
+#: main/src/ui/conversation_details.vala:289
+msgid "After 30 minutes"
+msgstr "30 dakika sonra"
+
+#: main/src/ui/conversation_details.vala:290
+msgid "After 1 hour"
+msgstr "1 saat sonra"
+
+#: main/src/ui/conversation_details.vala:291
+msgid "After 24 hours"
+msgstr "24 saat sonra"
+
+#: main/src/ui/conversation_details.vala:292
+msgid "After 7 days"
+msgstr "7 gün sonra"
+
+#: main/src/ui/conversation_details.vala:293
+msgid "After 30 days"
+msgstr "30 gün sonra"
+
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:276
 #: main/src/ui/notifier_freedesktop.vala:71
 #: main/src/ui/notifier_gnotifications.vala:36
@@ -1254,6 +1584,7 @@ msgstr "Kişi engelini kaldır?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:702
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:247
+#, c-format
 msgid "This will allow %s to send you messages again."
 msgstr "Bu, %s adlı kişinin size tekrar mesaj göndermesine izin verecek."
 
@@ -1356,7 +1687,7 @@ msgid "Select file"
 msgstr "Dosya seç"
 
 #: main/src/ui/conversation_view_controller.vala:225
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:152
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:180
 msgid "Select"
 msgstr "Seç"
 
@@ -1374,11 +1705,11 @@ msgstr "%s içinden"
 msgid "With %s"
 msgstr "%s ile"
 
-#: main/src/ui/main_window.vala:156
+#: main/src/ui/main_window.vala:169
 msgid "Join Channel Help"
 msgstr "Kanala Katılma Yardımı"
 
-#: main/src/ui/main_window.vala:157
+#: main/src/ui/main_window.vala:170
 msgid ""
 "To join a channel, click the \"Join Channel\" button and enter the channel "
 "JID (example: room@conference.example.org).\n"
@@ -1393,25 +1724,25 @@ msgstr ""
 "belirtin. Herkese açık odaları bulmak için sunucunun keşif özelliklerini "
 "kullanın."
 
-#: main/src/ui/main_window.vala:206
+#: main/src/ui/main_window.vala:219
 msgid "Welcome to DinoX!"
 msgstr "DinoX'a Hoş Geldiniz!"
 
-#: main/src/ui/main_window.vala:207
+#: main/src/ui/main_window.vala:220
 msgid "Sign in or create an account to get started."
 msgstr "Başlamak için oturum açın veya bir hesap oluşturun."
 
-#: main/src/ui/main_window.vala:208
+#: main/src/ui/main_window.vala:221
 msgid "Set up account"
 msgstr "Hesap ayarla"
 
-#: main/src/ui/main_window.vala:215
+#: main/src/ui/main_window.vala:230
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:71
 #: main/src/windows/preferences_window/encryption_preferences_page.vala:49
 msgid "No active accounts"
 msgstr "Etkin hesap yok"
 
-#: main/src/ui/main_window.vala:216
+#: main/src/ui/main_window.vala:231
 msgid "Manage accounts"
 msgstr "Hesapları yönet"
 
@@ -1421,12 +1752,12 @@ msgid "Subscription request"
 msgstr "Abonelik isteği"
 
 #: main/src/ui/notifier_freedesktop.vala:192
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:231
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:259
 msgid "Wrong password"
 msgstr "Yanlış parola"
 
 #: main/src/ui/notifier_freedesktop.vala:195
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:233
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:261
 msgid "Invalid TLS certificate"
 msgstr "Geçersiz TLS Sertifikası"
 
@@ -1671,45 +2002,45 @@ msgstr "Ayarlar"
 msgid "Room Configuration"
 msgstr "Oda Ayarları"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:68
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:69
 msgid "Connect"
 msgstr "Bağlan"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:106
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
 msgid "Disable account"
 msgstr "Hesabı devre dışı bırak"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:106
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
 msgid "Enable account"
 msgstr "Hesabı etkinleştir"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:151
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:179
 msgid "Select avatar"
 msgstr "Avatar seç"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:162
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:190
 msgid "Images"
 msgstr "Görseller"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:166
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:194
 msgid "All files"
 msgstr "Tüm dosyalar"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:184
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:212
 #, c-format
 msgid "Remove account %s?"
 msgstr "Hesabı sil %s?"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:218
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:246
 msgid "Connected"
 msgstr "Bağlandı"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:220
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:248
 msgid "Disconnected"
 msgstr "Bağlantı koptu"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:240
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:242
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:268
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:270
 msgid "Error"
 msgstr "Hata"
 
@@ -1820,387 +2151,189 @@ msgstr "%s için görünen adı değiştir"
 msgid "Alias (optional)"
 msgstr "Takma ad (isteğe bağlı)"
 
+#~ msgid "Creating backup..."
+#~ msgstr "Yedek oluşturuluyor..."
+
+#, c-format
+#~ msgid "Backup created successfully (%s)"
+#~ msgstr "Yedek başarıyla oluşturuldu (%s)"
+
+#~ msgid "Backup created successfully"
+#~ msgstr "Yedek başarıyla oluşturuldu"
+
 # DinoX v0.7.7 - Database Maintenance & Backup/Restore
-msgid "Clean Database"
-msgstr "Veritabanını temizle"
+#~ msgid "Clean Database"
+#~ msgstr "Veritabanını temizle"
 
-msgid "Reset Database"
-msgstr "Veritabanını sıfırla"
+#~ msgid "Encrypting Backup..."
+#~ msgstr "Yedek şifreleniyor..."
 
-msgid "Restore Complete!"
-msgstr "Geri yükleme tamamlandı!"
+#~ msgid "Creating encrypted backup..."
+#~ msgstr "Şifreli yedekleme oluşturuluyor..."
 
-msgid "Restore Failed"
-msgstr "Geri yükleme başarısız"
+#~ msgid "Encrypted backup created successfully"
+#~ msgstr "Şifreli yedekleme başarıyla oluşturuldu"
 
-msgid "Decrypting Backup..."
-msgstr "Yedek şifresi çözülüyor..."
-
-msgid "Restoring Backup..."
-msgstr "Yedek geri yükleniyor..."
-
-msgid "Set Backup Password"
-msgstr "Yedek şifresini ayarla"
-
-msgid "Confirm Password"
-msgstr "Şifreyi onayla"
-
-msgid "Create Encrypted Backup"
-msgstr "Şifreli yedek oluştur"
-
-msgid "Password too short"
-msgstr "Şifre çok kısa"
-
-msgid "Passwords do not match"
-msgstr "Şifreler eşleşmiyor"
-
-msgid "✓ Passwords match"
-msgstr "✓ Şifreler eşleşiyor"
-
-msgid "Encrypting Backup..."
-msgstr "Yedek şifreleniyor..."
-
-msgid "Factory Reset"
-msgstr "Fabrika ayarlarına sıfırla"
-
-msgid "Restore from Backup"
-msgstr "Yedekten geri yükle"
-
-msgid "Restore Backup"
-msgstr "Yedeği geri yükle"
-
-msgid "Select Backup File"
-msgstr "Yedek dosyasını seç"
-
-msgid "Enter Backup Password"
-msgstr "Yedek şifresini girin"
-
-msgid "Decrypt & Restore"
-msgstr "Şifreyi çöz ve geri yükle"
-
-msgid "Create Backup First"
-msgstr "Önce yedek oluştur"
-
-msgid "No Encryption"
-msgstr "Şifreleme yok"
-
-msgid "Encrypt with Password"
-msgstr "Şifreyle şifrele"
-
-msgid "Delete Everything"
-msgstr "Her şeyi sil"
-
-msgid "Confirm Delete"
-msgstr "Silmeyi onayla"
-
-msgid "Are you absolutely sure?"
-msgstr "Kesinlikle emin misiniz?"
-
-#: main/data/preferences_window/general_preferences_page.ui:104
-msgid "Database Maintenance"
-msgstr "Veritabanı Bakımı"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Restore accounts, messages and settings from a backup file"
-msgstr "Hesapları, mesajları ve ayarları yedek dosyasından geri yükle"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
-msgstr ""
-"Tüm mesajları, dosyaları ve OMEMO anahtarlarını sil. Hesaplarınız kalacak."
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete ALL data including accounts. This cannot be undone!"
-msgstr "Hesaplar dahil TÜM verileri sil. Bu geri alınamaz!"
-
-# DinoX v0.7.7 - Additional Backup/Restore strings
-msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
-msgstr "Yedekleme dosyaları (*.tar.gz, *.tar.gz.gpg)"
-
-msgid "Creating encrypted backup..."
-msgstr "Şifreli yedekleme oluşturuluyor..."
-
-msgid "Decryption Failed"
-msgstr "Şifre çözme başarısız"
-
-msgid "DinoX will now restart..."
-msgstr "DinoX şimdi yeniden başlatılacak..."
-
-msgid "Encrypted backup created successfully"
-msgstr "Şifreli yedekleme başarıyla oluşturuldu"
-
-msgid "Password (minimum 4 characters)"
-msgstr "Şifre (en az 4 karakter)"
-
-msgid "Decrypting encrypted backup file..."
-msgstr "Yedekleme dosyasının şifresi çözülüyor..."
-
-msgid "Extracting files from backup..."
-msgstr "Yedeklemeden dosyalar çıkarılıyor..."
-
-msgid "Factory reset in progress... DinoX will restart."
-msgstr ""
-"Fabrika ayarlarına sıfırlama devam ediyor... DinoX yeniden başlatılacak."
-
-msgid "Resetting database... DinoX will restart."
-msgstr "Veritabanı sıfırlanıyor... DinoX yeniden başlatılacak."
-
-msgid "Encrypted backup created (%s)"
-msgstr "Şifreli yedekleme oluşturuldu (%s)"
-
-msgid ""
-"Could not decrypt the backup file.\n"
-"\n"
-"Please check if the password is correct."
-msgstr ""
-"Dosyanın şifresi çözülemedi.\n"
-"\n"
-"Şifrenin doğru olup olmadığını kontrol edin."
-
-msgid ""
-"Could not restore the backup file.\n"
-"\n"
-"Error: %s"
-msgstr ""
-"Dosya geri yüklenemedi.\n"
-"\n"
-"Hata: %s"
-
-msgid "This backup is encrypted. Please enter the password to decrypt it."
-msgstr "Bu yedekleme şifrelenmiş. Şifresini çözmek için parolayı girin."
-
-msgid ""
-"Enter a password to encrypt the backup.\n"
-"\n"
-"<b>Important:</b> Remember this password! Without it, the backup cannot be "
-"restored."
-msgstr ""
-"Yedeklemeyi şifrelemek için bir parola girin.\n"
-"\n"
-"<b>Önemli:</b> Bu parolayı unutmayın! Onsuz yedekleme geri yüklenemez."
-
-msgid ""
-"This will delete all messages, files and OMEMO encryption keys.\n"
-"\n"
-"<b>Your accounts will remain, but you will lose all chat history and need to "
-"re-verify encryption with your contacts.</b>\n"
-"\n"
-"This action cannot be undone!"
-msgstr ""
-"This will delete all messages, files and OMEMO encryption keys.\n"
-"\n"
-"<b>Your accounts will remain, but you will lose all chat history and need to "
-"re-verify encryption with your contacts.</b>\n"
-"\n"
-"This action cannot be undone!"
-
-msgid ""
-"This will replace all current data with the backup.\n"
-"\n"
-"<b>Current accounts, messages and settings will be overwritten!</b>\n"
-"\n"
-"DinoX will restart after restoring."
-msgstr ""
-"This will replace all current data with the backup.\n"
-"\n"
-"<b>Current accounts, messages and settings will be overwritten!</b>\n"
-"\n"
-"DinoX will restart after restoring."
-
-msgid ""
-"Type 'DELETE' to confirm factory reset.\n"
-"\n"
-"This will permanently remove all your DinoX data."
-msgstr ""
-"Type 'DELETE' to confirm factory reset.\n"
-"\n"
-"This will permanently remove all your DinoX data."
-
-msgid ""
-"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
-"\n"
-"• All accounts\n"
-"• All messages and files\n"
-"• All encryption keys\n"
-"• All settings\n"
-"\n"
-"This is irreversible. Make sure to create a backup first!"
-msgstr ""
-"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
-"\n"
-"• All accounts\n"
-"• All messages and files\n"
-"• All encryption keys\n"
-"• All settings\n"
-"\n"
-"This is irreversible. Make sure to create a backup first!"
+#~ msgid "Encrypted backup created (%s)"
+#~ msgstr "Şifreli yedekleme oluşturuldu (%s)"
 
 # OpenPGP Key Management translations
-msgid "OpenPGP Key Management"
-msgstr "OpenPGP Anahtar Yönetimi"
+#~ msgid "OpenPGP Key Management"
+#~ msgstr "OpenPGP Anahtar Yönetimi"
 
-msgid "Actions"
-msgstr "Eylemler"
+#~ msgid "Actions"
+#~ msgstr "Eylemler"
 
-msgid "Generate New Key"
-msgstr "Yeni anahtar oluştur"
+#~ msgid "Generate New Key"
+#~ msgstr "Yeni anahtar oluştur"
 
-msgid "Create a new OpenPGP key pair"
-msgstr "Yeni bir OpenPGP anahtar çifti oluştur"
+#~ msgid "Create a new OpenPGP key pair"
+#~ msgstr "Yeni bir OpenPGP anahtar çifti oluştur"
 
-msgid "Import Key"
-msgstr "Anahtar içe aktar"
+#~ msgid "Import Key"
+#~ msgstr "Anahtar içe aktar"
 
-msgid "Import a key from file (.asc, .gpg)"
-msgstr "Dosyadan anahtar içe aktar (.asc, .gpg)"
+#~ msgid "Import a key from file (.asc, .gpg)"
+#~ msgstr "Dosyadan anahtar içe aktar (.asc, .gpg)"
 
-msgid "Your Keys"
-msgstr "Anahtarlarınız"
+#~ msgid "Your Keys"
+#~ msgstr "Anahtarlarınız"
 
-msgid "Private keys available for signing and decryption"
-msgstr "İmzalama ve şifre çözme için kullanılabilir özel anahtarlar"
+#~ msgid "Private keys available for signing and decryption"
+#~ msgstr "İmzalama ve şifre çözme için kullanılabilir özel anahtarlar"
 
-msgid "No private keys found"
-msgstr "Özel anahtar bulunamadı"
+#~ msgid "No private keys found"
+#~ msgstr "Özel anahtar bulunamadı"
 
-msgid "Generate or import a key to get started"
-msgstr "Başlamak için bir anahtar oluşturun veya içe aktarın"
+#~ msgid "Generate or import a key to get started"
+#~ msgstr "Başlamak için bir anahtar oluşturun veya içe aktarın"
 
-msgid "Fingerprint"
-msgstr "Parmak izi"
+#~ msgid "Fingerprint"
+#~ msgstr "Parmak izi"
 
-msgid "Export Public Key"
-msgstr "Genel anahtarı dışa aktar"
+#~ msgid "Export Public Key"
+#~ msgstr "Genel anahtarı dışa aktar"
 
-msgid "Delete Key"
-msgstr "Anahtarı sil"
+#~ msgid "Delete Key"
+#~ msgstr "Anahtarı sil"
 
-msgid "Generate New OpenPGP Key"
-msgstr "Yeni OpenPGP anahtarı oluştur"
+#~ msgid "Generate New OpenPGP Key"
+#~ msgstr "Yeni OpenPGP anahtarı oluştur"
 
-msgid "Enter your details to create a new key pair."
-msgstr "Yeni bir anahtar çifti oluşturmak için bilgilerinizi girin."
+#~ msgid "Enter your details to create a new key pair."
+#~ msgstr "Yeni bir anahtar çifti oluşturmak için bilgilerinizi girin."
 
-msgid "Name"
-msgstr "Ad"
+#~ msgid "Name"
+#~ msgstr "Ad"
 
-msgid "Your Name"
-msgstr "Adınız"
+#~ msgid "Your Name"
+#~ msgstr "Adınız"
 
-msgid "Email"
-msgstr "E-posta"
+#~ msgid "Email"
+#~ msgstr "E-posta"
 
-msgid "you@example.com"
-msgstr "siz@ornek.com"
+#~ msgid "you@example.com"
+#~ msgstr "siz@ornek.com"
 
-msgid "Passphrase (optional)"
-msgstr "Parola (isteğe bağlı)"
+#~ msgid "Passphrase (optional)"
+#~ msgstr "Parola (isteğe bağlı)"
 
-msgid "Passphrase"
-msgstr "Parola"
+#~ msgid "Passphrase"
+#~ msgstr "Parola"
 
-msgid "4096-bit RSA key, valid for 2 years."
-msgstr "4096-bit RSA anahtarı, 2 yıl geçerli."
+#~ msgid "4096-bit RSA key, valid for 2 years."
+#~ msgstr "4096-bit RSA anahtarı, 2 yıl geçerli."
 
-msgid "Generate"
-msgstr "Oluştur"
+#~ msgid "Generate"
+#~ msgstr "Oluştur"
 
-msgid "Name must be at least 2 characters"
-msgstr "Ad en az 2 karakter olmalıdır"
+#~ msgid "Name must be at least 2 characters"
+#~ msgstr "Ad en az 2 karakter olmalıdır"
 
-msgid "Please enter a valid email address"
-msgstr "Lütfen geçerli bir e-posta adresi girin"
+#~ msgid "Please enter a valid email address"
+#~ msgstr "Lütfen geçerli bir e-posta adresi girin"
 
-msgid "Generating Key..."
-msgstr "Anahtar oluşturuluyor..."
+#~ msgid "Generating Key..."
+#~ msgstr "Anahtar oluşturuluyor..."
 
-msgid "Please wait while your key is being generated. This may take a moment."
-msgstr "Anahtarınız oluşturulurken lütfen bekleyin. Bu biraz zaman alabilir."
+#~ msgid "Key generated successfully!"
+#~ msgstr "Anahtar başarıyla oluşturuldu!"
 
-msgid "Key generated successfully!"
-msgstr "Anahtar başarıyla oluşturuldu!"
+#~ msgid "Import OpenPGP Key"
+#~ msgstr "OpenPGP anahtarı içe aktar"
 
-msgid "Failed to generate key."
-msgstr "Anahtar oluşturulamadı."
+#~ msgid "OpenPGP Keys (*.asc, *.gpg)"
+#~ msgstr "OpenPGP Anahtarları (*.asc, *.gpg)"
 
-msgid "Import OpenPGP Key"
-msgstr "OpenPGP anahtarı içe aktar"
+#~ msgid "All Files"
+#~ msgstr "Tüm Dosyalar"
 
-msgid "OpenPGP Keys (*.asc, *.gpg)"
-msgstr "OpenPGP Anahtarları (*.asc, *.gpg)"
+#~ msgid "Key imported! Re-open Key Management to see it."
+#~ msgstr "Anahtar içe aktarıldı! Görmek için Anahtar Yönetimini yeniden açın."
 
-msgid "All Files"
-msgstr "Tüm Dosyalar"
+#~ msgid "Import failed: "
+#~ msgstr "İçe aktarma başarısız: "
 
-msgid "Key imported! Re-open Key Management to see it."
-msgstr "Anahtar içe aktarıldı! Görmek için Anahtar Yönetimini yeniden açın."
+#~ msgid "Key exported to: "
+#~ msgstr "Anahtar dışa aktarıldı: "
 
-msgid "Import failed: "
-msgstr "İçe aktarma başarısız: "
+#~ msgid "Export failed."
+#~ msgstr "Dışa aktarma başarısız."
 
-msgid "Key exported to: "
-msgstr "Anahtar dışa aktarıldı: "
+#~ msgid "Delete Key?"
+#~ msgstr "Anahtar silinsin mi?"
 
-msgid "Export failed."
-msgstr "Dışa aktarma başarısız."
+#~ msgid ""
+#~ "Delete this key?\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "This cannot be undone!"
+#~ msgstr ""
+#~ "Bu anahtar silinsin mi?\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "Bu işlem geri alınamaz!"
 
-msgid "Delete Key?"
-msgstr "Anahtar silinsin mi?"
+#~ msgid "Key deleted."
+#~ msgstr "Anahtar silindi."
 
-msgid ""
-"Delete this key?\n"
-"\n"
-"%s\n"
-"\n"
-"This cannot be undone!"
-msgstr ""
-"Bu anahtar silinsin mi?\n"
-"\n"
-"%s\n"
-"\n"
-"Bu işlem geri alınamaz!"
+#~ msgid "Delete failed: "
+#~ msgstr "Silme başarısız: "
 
-msgid "Key deleted."
-msgstr "Anahtar silindi."
+#~ msgid "Select OpenPGP Key"
+#~ msgstr "OpenPGP anahtarı seç"
 
-msgid "Delete failed: "
-msgstr "Silme başarısız: "
+#~ msgid "Choose a key to announce to your contacts."
+#~ msgstr "Kişilerinize duyurmak için bir anahtar seçin."
 
-msgid "Select OpenPGP Key"
-msgstr "OpenPGP anahtarı seç"
+#~ msgid "Enter GPG passphrase to confirm:"
+#~ msgstr "Onaylamak için GPG parolasını girin:"
 
-msgid "Choose a key to announce to your contacts."
-msgstr "Kişilerinize duyurmak için bir anahtar seçin."
+#~ msgid "Wrong passphrase"
+#~ msgstr "Yanlış parola"
 
-msgid "Enter GPG passphrase to confirm:"
-msgstr "Onaylamak için GPG parolasını girin:"
+#~ msgid "Manage Keys"
+#~ msgstr "Anahtarları yönet"
 
-msgid "Wrong passphrase"
-msgstr "Yanlış parola"
+#~ msgid "Generate, import, export, or delete keys"
+#~ msgstr "Anahtar oluştur, içe/dışa aktar veya sil"
 
-msgid "Manage Keys"
-msgstr "Anahtarları yönet"
+#~ msgid "No keys available. Generate or import one!"
+#~ msgstr "Kullanılabilir anahtar yok. Bir tane oluşturun veya içe aktarın!"
 
-msgid "Generate, import, export, or delete keys"
-msgstr "Anahtar oluştur, içe/dışa aktar veya sil"
+#~ msgid "Announce key"
+#~ msgstr "Anahtarı duyur"
 
-msgid "No keys available. Generate or import one!"
-msgstr "Kullanılabilir anahtar yok. Bir tane oluşturun veya içe aktarın!"
+#~ msgid "Disabled"
+#~ msgstr "Devre dışı"
 
-msgid "Announce key"
-msgstr "Anahtarı duyur"
+#~ msgid "Error in GnuPG"
+#~ msgstr "GnuPG hatası"
 
-msgid "Disabled"
-msgstr "Devre dışı"
-
-msgid "Error in GnuPG"
-msgstr "GnuPG hatası"
-
-msgid "Success"
-msgstr "Başarılı"
-
-msgid "OK"
-msgstr "Tamam"
+#~ msgid "Success"
+#~ msgstr "Başarılı"
 
 #~ msgid "Message too long"
 #~ msgstr "Mesaj çok uzun"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-28 12:18+0100\n"
+"POT-Creation-Date: 2025-12-01 10:28+0100\n"
 "PO-Revision-Date: 2025-03-12 18:09+0000\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/dino/"
 "translations/ja/>\n"
@@ -100,14 +100,14 @@ msgstr "一般"
 #: main/data/gtk/help-overlay.ui:14 main/data/main_window.ui:38
 #: main/data/menu_add.ui:7
 #: main/src/ui/add_conversation/select_contact_dialog.vala:106
-#: main/src/ui/main_window.vala:141
+#: main/src/ui/main_window.vala:154
 msgid "Start Conversation"
 msgstr "会話を開始"
 
 #: main/data/gtk/help-overlay.ui:20 main/data/main_window.ui:51
 #: main/data/menu_add.ui:11
 #: main/src/ui/add_conversation/add_conference_dialog.vala:24
-#: main/src/ui/application.vala:527 main/src/ui/main_window.vala:142
+#: main/src/ui/application.vala:1359 main/src/ui/main_window.vala:155
 msgid "Join Channel"
 msgstr "チャンネルに参加"
 
@@ -148,7 +148,7 @@ msgstr "次のトークへ移動"
 msgid "Jump to previous conversation"
 msgstr "前のトークへ移動"
 
-#: main/data/main_window.ui:64 main/src/ui/main_window.vala:144
+#: main/data/main_window.ui:64 main/src/ui/main_window.vala:157
 msgid "Help: How to join channels"
 msgstr "ヘルプ: チャンネルへの参加方法"
 
@@ -166,28 +166,28 @@ msgstr "ステータス"
 
 #: main/data/menu_app.ui:11
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:427
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Online"
 msgstr "オンライン"
 
 #: main/data/menu_app.ui:16
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:421
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Away"
 msgstr "離席中"
 
 #: main/data/menu_app.ui:21
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:425
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Busy"
 msgstr "取り込み中"
 
 #: main/data/menu_app.ui:26
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:423
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Not Available"
 msgstr "応答不可"
@@ -200,7 +200,7 @@ msgstr "設定"
 msgid "Keyboard Shortcuts"
 msgstr "キーボードショートカット"
 
-#: main/data/menu_app.ui:42 main/src/ui/application.vala:334
+#: main/data/menu_app.ui:42 main/src/ui/application.vala:340
 msgid "About DinoX"
 msgstr "DinoXについて"
 
@@ -219,7 +219,10 @@ msgstr "会話履歴を削除"
 #: main/data/preferences_window/change_password_dialog.ui:18
 #: main/src/ui/add_conversation/add_conference_dialog.vala:41
 #: main/src/ui/add_conversation/select_contact_dialog.vala:40
-#: main/src/ui/application.vala:537
+#: main/src/ui/application.vala:441 main/src/ui/application.vala:469
+#: main/src/ui/application.vala:765 main/src/ui/application.vala:843
+#: main/src/ui/application.vala:901 main/src/ui/application.vala:933
+#: main/src/ui/application.vala:1089 main/src/ui/application.vala:1369
 #: main/src/ui/conversation_content_view/file_default_widget.vala:90
 #: main/src/ui/conversation_content_view/item_actions.vala:165
 #: main/src/ui/conversation_content_view/item_actions.vala:168
@@ -234,7 +237,7 @@ msgstr "会話履歴を削除"
 #: main/src/ui/conversation_titlebar/call_entry.vala:83
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
 #: main/src/windows/conversation_details.vala:60
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:67
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:68
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:205
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:225
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:249
@@ -258,6 +261,7 @@ msgid "Local alias"
 msgstr "ローカルでの別名"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:82
+#: main/src/ui/application.vala:435 main/src/ui/application.vala:1064
 #: main/src/ui/util/data_forms.vala:63
 msgid "Password"
 msgstr "パスワード"
@@ -266,20 +270,24 @@ msgstr "パスワード"
 msgid "Connection status"
 msgstr "接続ステータス"
 
+#: main/data/preferences_window/account_preferences_subpage.ui:117
+msgid "View Certificate"
+msgstr "証明書を表示"
+
 # Custom host/port feature (Issue #115)
-#: main/data/preferences_window/account_preferences_subpage.ui:121
+#: main/data/preferences_window/account_preferences_subpage.ui:128
 msgid "Advanced Settings"
 msgstr "詳細設定"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:122
+#: main/data/preferences_window/account_preferences_subpage.ui:129
 msgid "Custom server connection (leave empty for automatic)"
 msgstr "カスタムサーバー接続（自動の場合は空白）"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:125
+#: main/data/preferences_window/account_preferences_subpage.ui:132
 msgid "Server Hostname"
 msgstr "サーバーホスト名"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:130
+#: main/data/preferences_window/account_preferences_subpage.ui:137
 msgid "Port"
 msgstr "ポート"
 
@@ -351,12 +359,53 @@ msgid "Create a backup of your accounts, messages and settings"
 msgstr "アカウント、メッセージ、設定のバックアップを作成"
 
 #: main/data/preferences_window/general_preferences_page.ui:78
-msgid "Data Location"
-msgstr "データの場所"
+#: main/src/ui/application.vala:464 main/src/ui/main_window.vala:223
+msgid "Restore from Backup"
+msgstr "バックアップから復元"
 
 #: main/data/preferences_window/general_preferences_page.ui:79
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "バックアップファイルからアカウント、メッセージ、設定を復元"
+
+#: main/data/preferences_window/general_preferences_page.ui:90
+msgid "Data Storage Location"
+msgstr "データ保存場所"
+
+#: main/data/preferences_window/general_preferences_page.ui:91
 msgid "View where your data is stored"
 msgstr "データの保存場所を表示"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "データベースメンテナンス"
+
+#: main/data/preferences_window/general_preferences_page.ui:107
+#: main/src/ui/application.vala:761 main/src/ui/application.vala:766
+msgid "Clear Cache"
+msgstr "キャッシュを消去"
+
+#: main/data/preferences_window/general_preferences_page.ui:108
+msgid "Clear cached files, avatars and previews"
+msgstr "キャッシュされたファイル、アバター、プレビューを消去"
+
+#: main/data/preferences_window/general_preferences_page.ui:119
+#: main/src/ui/application.vala:838 main/src/ui/application.vala:844
+msgid "Reset Database"
+msgstr "データベースをリセット"
+
+#: main/data/preferences_window/general_preferences_page.ui:120
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr ""
+"すべてのメッセージ、ファイル、OMEMOキーを削除します。アカウントは残ります。"
+
+#: main/data/preferences_window/general_preferences_page.ui:131
+#: main/src/ui/application.vala:896
+msgid "Factory Reset"
+msgstr "工場出荷時設定にリセット"
+
+#: main/data/preferences_window/general_preferences_page.ui:132
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr "アカウントを含むすべてのデータを削除します。この操作は元に戻せません！"
 
 #: main/data/preferences_window/preferences_dialog.ui:11
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:15
@@ -381,7 +430,7 @@ msgstr "次へ"
 
 #: main/src/ui/add_conversation/add_conference_dialog.vala:59
 #: main/src/ui/add_conversation/conference_details_fragment.vala:151
-#: main/src/ui/application.vala:541
+#: main/src/ui/application.vala:1373
 msgid "Join"
 msgstr "参加"
 
@@ -467,31 +516,31 @@ msgstr "連絡先を削除"
 msgid "Leave Group"
 msgstr "グループを退出"
 
-#: main/src/ui/application.vala:339
+#: main/src/ui/application.vala:345
 msgid "Modern XMPP client with extended features"
 msgstr "拡張機能を備えた最新のXMPPクライアント"
 
-#: main/src/ui/application.vala:346 main/src/ui/application.vala:385
+#: main/src/ui/application.vala:352 main/src/ui/application.vala:727
 msgid "User Data Locations"
 msgstr "ユーザーデータの場所"
 
-#: main/src/ui/application.vala:349 main/src/ui/application.vala:399
+#: main/src/ui/application.vala:355 main/src/ui/application.vala:741
 msgid "Configuration:"
 msgstr "設定："
 
-#: main/src/ui/application.vala:352 main/src/ui/application.vala:401
+#: main/src/ui/application.vala:358 main/src/ui/application.vala:743
 msgid "Data & Database:"
 msgstr "データとデータベース:"
 
-#: main/src/ui/application.vala:355 main/src/ui/application.vala:403
+#: main/src/ui/application.vala:361 main/src/ui/application.vala:745
 msgid "Cache:"
 msgstr "キャッシュ:"
 
-#: main/src/ui/application.vala:358
+#: main/src/ui/application.vala:364
 msgid "Info:"
 msgstr "情報:"
 
-#: main/src/ui/application.vala:359
+#: main/src/ui/application.vala:365
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
@@ -499,15 +548,119 @@ msgstr ""
 "個人データ（アカウント、メッセージ、ファイル）はアプリケーションとは別に保存"
 "されます。"
 
-#: main/src/ui/application.vala:361
+#: main/src/ui/application.vala:367
 msgid "When you update DinoX, your data remains intact."
 msgstr "DinoXを更新してもデータは保持されます。"
 
-#: main/src/ui/application.vala:363
+#: main/src/ui/application.vala:369
 msgid "Use Settings → General → Backup User Data to create a backup."
 msgstr "設定 → 一般 → ユーザーデータをバックアップでバックアップを作成。"
 
-#: main/src/ui/application.vala:405
+#: main/src/ui/application.vala:387
+msgid "Select Backup File"
+msgstr "バックアップファイルを選択"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+#: main/src/ui/application.vala:395
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "バックアップファイル (*.tar.gz, *.tar.gz.gpg)"
+
+#: main/src/ui/application.vala:425
+msgid "Enter Backup Password"
+msgstr "バックアップパスワードを入力"
+
+#: main/src/ui/application.vala:426
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "このバックアップは暗号化されています。パスワードを入力してください。"
+
+#: main/src/ui/application.vala:442
+msgid "Decrypt & Restore"
+msgstr "復号化して復元"
+
+#: main/src/ui/application.vala:465
+msgid ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+msgstr ""
+"これにより、すべての現在のデータがバックアップで置き換えられます。\n"
+"\n"
+"<b>現在のアカウント、メッセージ、設定は上書きされます！</b>\n"
+"\n"
+"復元後、DinoXは再起動します。"
+
+#: main/src/ui/application.vala:470
+msgid "Restore Backup"
+msgstr "バックアップを復元"
+
+#: main/src/ui/application.vala:487 main/src/ui/application.vala:519
+msgid "Decrypting Backup..."
+msgstr "バックアップを復号化中..."
+
+#: main/src/ui/application.vala:487 main/src/ui/application.vala:571
+msgid "Restoring Backup..."
+msgstr "バックアップを復元中..."
+
+#: main/src/ui/application.vala:488
+msgid "Please wait, this may take a moment..."
+msgstr "お待ちください、これには少し時間がかかる場合があります..."
+
+#: main/src/ui/application.vala:520
+msgid "Decrypting encrypted backup file..."
+msgstr "バックアップファイルを復号化中..."
+
+#: main/src/ui/application.vala:558
+msgid "Decryption Failed"
+msgstr "復号化に失敗しました"
+
+#: main/src/ui/application.vala:559
+msgid ""
+"Could not decrypt the backup file.\n"
+"\n"
+"Please check if the password is correct."
+msgstr ""
+"バックアップファイルを復号化できませんでした。\n"
+"\n"
+"パスワードが正しいか確認してください。"
+
+#: main/src/ui/application.vala:561 main/src/ui/application.vala:671
+msgid "OK"
+msgstr "OK"
+
+#: main/src/ui/application.vala:572
+msgid "Extracting files from backup..."
+msgstr "バックアップからファイルを抽出中..."
+
+#: main/src/ui/application.vala:653
+msgid "Restore Complete!"
+msgstr "復元が完了しました！"
+
+#: main/src/ui/application.vala:654
+msgid "DinoX will now restart..."
+msgstr "DinoXを再起動します..."
+
+#: main/src/ui/application.vala:668
+msgid "Restore Failed"
+msgstr "復元に失敗しました"
+
+#: main/src/ui/application.vala:669
+#, c-format
+msgid ""
+"Could not restore the backup file.\n"
+"\n"
+"Error: %s"
+msgstr ""
+"バックアップファイルを復元できませんでした。\n"
+"\n"
+"エラー: %s"
+
+#: main/src/ui/application.vala:669 main/src/ui/application.vala:1345
+msgid "Unknown error"
+msgstr "不明なエラー"
+
+#: main/src/ui/application.vala:747
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
@@ -517,96 +670,243 @@ msgstr ""
 "ト、メッセージ、ファイル）はアプリケーションとは別に保存されます。DinoXを更新"
 "しても、データはそのまま保持されます。"
 
-#: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
-#: main/src/ui/main_window.vala:159
+#: main/src/ui/application.vala:752 main/src/ui/application.vala:1240
+#: main/src/ui/application.vala:1324 main/src/ui/conversation_details.vala:272
+#: main/src/ui/main_window.vala:172
 msgid "Close"
 msgstr "閉じる"
 
-#: main/src/ui/application.vala:417
+#: main/src/ui/application.vala:762
+msgid ""
+"This will delete cached files, avatars and previews.\n"
+"\n"
+"They will be re-downloaded when needed."
+msgstr ""
+"これにより、キャッシュされたファイル、アバター、プレビューが削除されます。\n"
+"\n"
+"必要に応じて再ダウンロードされます。"
+
+#: main/src/ui/application.vala:799
+#, c-format
+msgid "Cache cleared (%s freed)"
+msgstr "キャッシュを消去しました (%s 解放)"
+
+#: main/src/ui/application.vala:802
+msgid "Failed to clear cache"
+msgstr "キャッシュの消去に失敗しました"
+
+#: main/src/ui/application.vala:839
+msgid ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+msgstr ""
+"これにより、すべてのメッセージ、ファイル、OMEMO暗号化キーが削除されます。\n"
+"\n"
+"<b>アカウントは残りますが、すべてのチャット履歴が失われ、連絡先と暗号化を再確"
+"認する必要があります。</b>\n"
+"\n"
+"この操作は元に戻せません！"
+
+#: main/src/ui/application.vala:867
+msgid "Resetting database... DinoX will restart."
+msgstr "データベースをリセット中... DinoXが再起動します。"
+
+#: main/src/ui/application.vala:897
+msgid ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+msgstr ""
+"<b>⚠️ 警告：すべてのデータが削除されます！</b>\n"
+"\n"
+"• すべてのアカウント\n"
+"• すべてのメッセージとファイル\n"
+"• すべての暗号化キー\n"
+"• すべての設定\n"
+"\n"
+"これは元に戻せません。先にバックアップを作成してください！"
+
+#: main/src/ui/application.vala:902
+msgid "Create Backup First"
+msgstr "先にバックアップを作成"
+
+#: main/src/ui/application.vala:903
+msgid "Delete Everything"
+msgstr "すべて削除"
+
+#: main/src/ui/application.vala:923
+msgid "Are you absolutely sure?"
+msgstr "本当によろしいですか？"
+
+#: main/src/ui/application.vala:924
+msgid ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+msgstr ""
+"'DELETE'と入力して工場出荷時リセットを確認してください。\n"
+"\n"
+"これによりすべてのDinoXデータが完全に削除されます。"
+
+#: main/src/ui/application.vala:934
+msgid "Confirm Delete"
+msgstr "削除を確認"
+
+#: main/src/ui/application.vala:961
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "工場出荷時リセット中... DinoXが再起動します。"
+
+#: main/src/ui/application.vala:1026
+msgid "Backup Encryption"
+msgstr "バックアップの暗号化"
+
+#: main/src/ui/application.vala:1027
+msgid ""
+"Do you want to encrypt the backup with a password?\n"
+"\n"
+"Encrypted backups are more secure but require the password to restore."
+msgstr ""
+"バックアップをパスワードで暗号化しますか？\n"
+"\n"
+"暗号化されたバックアップはより安全ですが、復元するにはパスワードが必要です。"
+
+#: main/src/ui/application.vala:1030
+msgid "No Encryption"
+msgstr "暗号化なし"
+
+#: main/src/ui/application.vala:1031
+msgid "Encrypt with Password"
+msgstr "パスワードで暗号化"
+
+#: main/src/ui/application.vala:1049
+msgid "Set Backup Password"
+msgstr "バックアップパスワードを設定"
+
+#: main/src/ui/application.vala:1050
+msgid ""
+"Enter a password to encrypt the backup.\n"
+"\n"
+"<b>Important:</b> Remember this password! Without it, the backup cannot be "
+"restored."
+msgstr ""
+"バックアップを暗号化するパスワードを入力してください。\n"
+"\n"
+"<b>重要:</b> このパスワードを覚えておいてください！これがないとバックアップを"
+"復元できません。"
+
+#: main/src/ui/application.vala:1058
+msgid "Password (minimum 4 characters)"
+msgstr "パスワード（4文字以上）"
+
+#: main/src/ui/application.vala:1066 main/src/ui/application.vala:1073
+msgid "Confirm Password"
+msgstr "パスワードを確認"
+
+#: main/src/ui/application.vala:1090
+msgid "Create Encrypted Backup"
+msgstr "暗号化バックアップを作成"
+
+#: main/src/ui/application.vala:1102 main/src/ui/application.vala:1117
+msgid "Password too short"
+msgstr "パスワードが短すぎます"
+
+#: main/src/ui/application.vala:1104 main/src/ui/application.vala:1119
+msgid "Passwords do not match"
+msgstr "パスワードが一致しません"
+
+#: main/src/ui/application.vala:1106 main/src/ui/application.vala:1121
+msgid "✓ Passwords match"
+msgstr "✓ パスワードが一致しました"
+
+#: main/src/ui/application.vala:1139
 msgid "Select Backup Location"
 msgstr "バックアップ場所を選択"
 
-#: main/src/ui/application.vala
-msgid "Creating Backup..."
-msgstr "Creating Backup..."
-
-#: main/src/ui/application.vala
+#: main/src/ui/application.vala:1194
 msgid "Creating Encrypted Backup..."
-msgstr "Creating Encrypted Backup..."
+msgstr "暗号化バックアップを作成中..."
 
-#: main/src/ui/application.vala
-msgid "Please wait while your data is being backed up."
-msgstr "Please wait while your data is being backed up."
-
-#: main/src/ui/application.vala
-msgid "No data directories found to backup"
-msgstr "No data directories found to backup"
-
-#: main/src/ui/application.vala
-msgid "Backup Created"
-msgstr "Backup Created"
-
-#: main/src/ui/application.vala
-msgid "Encrypted Backup Created"
-msgstr "Encrypted Backup Created"
-
-#: main/src/ui/application.vala
-#, c-format
-msgid "Your backup was created successfully.\\n\\nSize: %s"
-msgstr "Your backup was created successfully.\\n\\nSize: %s"
-
-#: main/src/ui/application.vala
-msgid "Your backup was created successfully."
-msgstr "Your backup was created successfully."
-
-#: main/src/ui/application.vala
-#, c-format
-msgid "Your encrypted backup was created successfully.\\n\\nSize: %s"
-msgstr "Your encrypted backup was created successfully.\\n\\nSize: %s"
-
-#: main/src/ui/application.vala
-msgid "Your encrypted backup was created successfully."
-msgstr "Your encrypted backup was created successfully."
-
-#: main/src/ui/application.vala
-msgid "Backup Failed"
-msgstr "Backup Failed"
-
-#: main/src/ui/application.vala:445
-msgid "Creating backup..."
+#: main/src/ui/application.vala:1194
+msgid "Creating Backup..."
 msgstr "バックアップを作成中..."
 
-#: main/src/ui/application.vala:503
+#: main/src/ui/application.vala:1195
+msgid "Please wait while your data is being backed up."
+msgstr "データのバックアップ中です。お待ちください。"
+
+#: main/src/ui/application.vala:1234
+msgid "No data directory found to backup"
+msgstr "バックアップするデータディレクトリが見つかりません"
+
+#: main/src/ui/application.vala:1237 main/src/ui/application.vala:1343
+msgid "Backup Failed"
+msgstr "バックアップに失敗しました"
+
+#: main/src/ui/application.vala:1331
+msgid "Encrypted Backup Created"
+msgstr "暗号化バックアップが作成されました"
+
+#: main/src/ui/application.vala:1333
 #, c-format
-msgid "Backup created successfully (%s)"
-msgstr "バックアップ作成成功 (%s)"
+msgid ""
+"Your encrypted backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"暗号化されたバックアップが正常に作成されました。\n"
+"\n"
+"サイズ: %s"
 
-#: main/src/ui/application.vala:505
-msgid "Backup created successfully"
-msgstr "バックアップ作成成功"
+#: main/src/ui/application.vala:1334
+msgid "Your encrypted backup was created successfully."
+msgstr "暗号化バックアップが正常に作成されました。"
 
-#: main/src/ui/application.vala:510
-msgid "Unknown error"
-msgstr "不明なエラー"
+#: main/src/ui/application.vala:1336
+msgid "Backup Created"
+msgstr "バックアップが作成されました"
 
-#: main/src/ui/application.vala:511
+#: main/src/ui/application.vala:1338
+#, c-format
+msgid ""
+"Your backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"バックアップが正常に作成されました。\n"
+"\n"
+"サイズ: %s"
+
+#: main/src/ui/application.vala:1339
+msgid "Your backup was created successfully."
+msgstr "バックアップが正常に作成されました。"
+
+#: main/src/ui/application.vala:1346
 #, c-format
 msgid "Backup failed: %s"
 msgstr "バックアップ失敗: %s"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:29
+#: main/src/ui/call_window/audio_settings_popover.vala:46
 msgid "Microphones"
 msgstr "マイク"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:32
+#: main/src/ui/call_window/audio_settings_popover.vala:49
 msgid "No microphone found."
 msgstr "マイクが見つかりません。"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:85
+#: main/src/ui/call_window/audio_settings_popover.vala:116
 msgid "Speakers"
 msgstr "スピーカー"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:88
+#: main/src/ui/call_window/audio_settings_popover.vala:119
 msgid "No speaker found."
 msgstr "スピーカーが見つかりません。"
 
@@ -622,7 +922,7 @@ msgstr "通話に招待"
 msgid "Invite"
 msgstr "招待"
 
-#: main/src/ui/call_window/call_window_controller.vala:405
+#: main/src/ui/call_window/call_window_controller.vala:453
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:240
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:270
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:285
@@ -641,21 +941,21 @@ msgstr "%sは通話を終了しました"
 msgid "%s declined the call"
 msgstr "%s は通話を拒否しました"
 
-#: main/src/ui/call_window/participant_widget.vala:115
+#: main/src/ui/call_window/participant_widget.vala:140
 msgid "Debug information"
 msgstr "デバッグ情報"
 
-#: main/src/ui/call_window/participant_widget.vala:124
+#: main/src/ui/call_window/participant_widget.vala:149
 #: main/src/ui/conversation_content_view/call_widget.vala:152
 msgid "Calling…"
 msgstr "呼び出し中…"
 
-#: main/src/ui/call_window/participant_widget.vala:126
+#: main/src/ui/call_window/participant_widget.vala:151
 msgid "Ringing…"
 msgstr "鳴っている…"
 
-#: main/src/ui/call_window/participant_widget.vala:128
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:216
+#: main/src/ui/call_window/participant_widget.vala:153
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:244
 msgid "Connecting…"
 msgstr "接続試行中…"
 
@@ -889,7 +1189,7 @@ msgstr "%a曜日、%p %l∶%M"
 msgid "Just now"
 msgstr "たった今"
 
-#: main/src/ui/conversation_content_view/conversation_view.vala:105
+#: main/src/ui/conversation_content_view/conversation_view.vala:106
 msgid "More actions"
 msgstr "その他の操作"
 
@@ -1107,6 +1407,38 @@ msgstr "破棄"
 msgid "Failed to destroy room"
 msgstr "ルームの削除に失敗"
 
+#: main/src/ui/conversation_details.vala:286
+msgid "Auto-delete messages"
+msgstr "メッセージを自動削除"
+
+#: main/src/ui/conversation_details.vala:287
+msgid "Never"
+msgstr "しない"
+
+#: main/src/ui/conversation_details.vala:288
+msgid "After 15 minutes"
+msgstr "15分後"
+
+#: main/src/ui/conversation_details.vala:289
+msgid "After 30 minutes"
+msgstr "30分後"
+
+#: main/src/ui/conversation_details.vala:290
+msgid "After 1 hour"
+msgstr "1時間後"
+
+#: main/src/ui/conversation_details.vala:291
+msgid "After 24 hours"
+msgstr "24時間後"
+
+#: main/src/ui/conversation_details.vala:292
+msgid "After 7 days"
+msgstr "7日後"
+
+#: main/src/ui/conversation_details.vala:293
+msgid "After 30 days"
+msgstr "30日後"
+
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:276
 #: main/src/ui/notifier_freedesktop.vala:71
 #: main/src/ui/notifier_gnotifications.vala:36
@@ -1252,6 +1584,7 @@ msgstr "連絡先のブロックを解除？"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:702
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:247
+#, c-format
 msgid "This will allow %s to send you messages again."
 msgstr "これにより %s があなたにメッセージを再び送れるようになります。"
 
@@ -1354,7 +1687,7 @@ msgid "Select file"
 msgstr "ファイルを選択"
 
 #: main/src/ui/conversation_view_controller.vala:225
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:152
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:180
 msgid "Select"
 msgstr "選択"
 
@@ -1374,11 +1707,11 @@ msgstr "%s での検索結果"
 msgid "With %s"
 msgstr "%s との会話での検索結果"
 
-#: main/src/ui/main_window.vala:156
+#: main/src/ui/main_window.vala:169
 msgid "Join Channel Help"
 msgstr "チャンネル参加ヘルプ"
 
-#: main/src/ui/main_window.vala:157
+#: main/src/ui/main_window.vala:170
 msgid ""
 "To join a channel, click the \"Join Channel\" button and enter the channel "
 "JID (example: room@conference.example.org).\n"
@@ -1392,25 +1725,25 @@ msgstr ""
 "パスワードやニックネームが必要な場合は、ダイアログで入力してください。サー"
 "バーの検出機能を使用して公開ルームを見つけてください。"
 
-#: main/src/ui/main_window.vala:206
+#: main/src/ui/main_window.vala:219
 msgid "Welcome to DinoX!"
 msgstr "DinoXへようこそ！"
 
-#: main/src/ui/main_window.vala:207
+#: main/src/ui/main_window.vala:220
 msgid "Sign in or create an account to get started."
 msgstr "サインインまたはアカウント登録をしてください。"
 
-#: main/src/ui/main_window.vala:208
+#: main/src/ui/main_window.vala:221
 msgid "Set up account"
 msgstr "アカウントをセットアップ"
 
-#: main/src/ui/main_window.vala:215
+#: main/src/ui/main_window.vala:230
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:71
 #: main/src/windows/preferences_window/encryption_preferences_page.vala:49
 msgid "No active accounts"
 msgstr "アクティブなアカウントがありません"
 
-#: main/src/ui/main_window.vala:216
+#: main/src/ui/main_window.vala:231
 msgid "Manage accounts"
 msgstr "アカウントを管理"
 
@@ -1420,12 +1753,12 @@ msgid "Subscription request"
 msgstr "在席通知の申込"
 
 #: main/src/ui/notifier_freedesktop.vala:192
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:231
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:259
 msgid "Wrong password"
 msgstr "パスワードが違います"
 
 #: main/src/ui/notifier_freedesktop.vala:195
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:233
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:261
 msgid "Invalid TLS certificate"
 msgstr "TLS 証明書が不正です"
 
@@ -1609,6 +1942,7 @@ msgstr ""
 "す！"
 
 #: main/src/ui/util/helper.vala:65
+#, c-format
 msgid "%s from %s"
 msgstr "%s から %s"
 
@@ -1668,45 +2002,45 @@ msgstr "設定"
 msgid "Room Configuration"
 msgstr "ルームの設定"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:68
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:69
 msgid "Connect"
 msgstr "接続"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:106
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
 msgid "Disable account"
 msgstr "アカウントを無効にする"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:106
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
 msgid "Enable account"
 msgstr "アカウントを有効にする"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:151
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:179
 msgid "Select avatar"
 msgstr "アバターを選択"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:162
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:190
 msgid "Images"
 msgstr "画像"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:166
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:194
 msgid "All files"
 msgstr "すべてのファイル"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:184
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:212
 #, c-format
 msgid "Remove account %s?"
 msgstr "アカウント %s を削除しますか？"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:218
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:246
 msgid "Connected"
 msgstr "接続済み"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:220
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:248
 msgid "Disconnected"
 msgstr "切断"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:240
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:242
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:268
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:270
 msgid "Error"
 msgstr "エラー"
 
@@ -1817,387 +2151,189 @@ msgstr "%s の表示名を変更"
 msgid "Alias (optional)"
 msgstr "エイリアス（任意）"
 
+#~ msgid "Creating backup..."
+#~ msgstr "バックアップを作成中..."
+
+#, c-format
+#~ msgid "Backup created successfully (%s)"
+#~ msgstr "バックアップ作成成功 (%s)"
+
+#~ msgid "Backup created successfully"
+#~ msgstr "バックアップ作成成功"
+
 # DinoX v0.7.7 - Database Maintenance & Backup/Restore
-msgid "Clean Database"
-msgstr "データベースをクリーンアップ"
+#~ msgid "Clean Database"
+#~ msgstr "データベースをクリーンアップ"
 
-msgid "Reset Database"
-msgstr "データベースをリセット"
+#~ msgid "Encrypting Backup..."
+#~ msgstr "バックアップを暗号化中..."
 
-msgid "Restore Complete!"
-msgstr "復元が完了しました！"
+#~ msgid "Creating encrypted backup..."
+#~ msgstr "暗号化バックアップを作成中..."
 
-msgid "Restore Failed"
-msgstr "復元に失敗しました"
+#~ msgid "Encrypted backup created successfully"
+#~ msgstr "暗号化バックアップが正常に作成されました"
 
-msgid "Decrypting Backup..."
-msgstr "バックアップを復号化中..."
-
-msgid "Restoring Backup..."
-msgstr "バックアップを復元中..."
-
-msgid "Set Backup Password"
-msgstr "バックアップパスワードを設定"
-
-msgid "Confirm Password"
-msgstr "パスワードを確認"
-
-msgid "Create Encrypted Backup"
-msgstr "暗号化バックアップを作成"
-
-msgid "Password too short"
-msgstr "パスワードが短すぎます"
-
-msgid "Passwords do not match"
-msgstr "パスワードが一致しません"
-
-msgid "✓ Passwords match"
-msgstr "✓ パスワードが一致しました"
-
-msgid "Encrypting Backup..."
-msgstr "バックアップを暗号化中..."
-
-msgid "Factory Reset"
-msgstr "工場出荷時設定にリセット"
-
-msgid "Restore from Backup"
-msgstr "バックアップから復元"
-
-msgid "Restore Backup"
-msgstr "バックアップを復元"
-
-msgid "Select Backup File"
-msgstr "バックアップファイルを選択"
-
-msgid "Enter Backup Password"
-msgstr "バックアップパスワードを入力"
-
-msgid "Decrypt & Restore"
-msgstr "復号化して復元"
-
-msgid "Create Backup First"
-msgstr "先にバックアップを作成"
-
-msgid "No Encryption"
-msgstr "暗号化なし"
-
-msgid "Encrypt with Password"
-msgstr "パスワードで暗号化"
-
-msgid "Delete Everything"
-msgstr "すべて削除"
-
-msgid "Confirm Delete"
-msgstr "削除を確認"
-
-msgid "Are you absolutely sure?"
-msgstr "本当によろしいですか？"
-
-#: main/data/preferences_window/general_preferences_page.ui:104
-msgid "Database Maintenance"
-msgstr "データベースメンテナンス"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Restore accounts, messages and settings from a backup file"
-msgstr "バックアップファイルからアカウント、メッセージ、設定を復元"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
-msgstr ""
-"すべてのメッセージ、ファイル、OMEMOキーを削除します。アカウントは残ります。"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete ALL data including accounts. This cannot be undone!"
-msgstr "アカウントを含むすべてのデータを削除します。この操作は元に戻せません！"
-
-# DinoX v0.7.7 - Additional Backup/Restore strings
-msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
-msgstr "バックアップファイル (*.tar.gz, *.tar.gz.gpg)"
-
-msgid "Creating encrypted backup..."
-msgstr "暗号化バックアップを作成中..."
-
-msgid "Decryption Failed"
-msgstr "復号化に失敗しました"
-
-msgid "DinoX will now restart..."
-msgstr "DinoXを再起動します..."
-
-msgid "Encrypted backup created successfully"
-msgstr "暗号化バックアップが正常に作成されました"
-
-msgid "Password (minimum 4 characters)"
-msgstr "パスワード（4文字以上）"
-
-msgid "Decrypting encrypted backup file..."
-msgstr "バックアップファイルを復号化中..."
-
-msgid "Extracting files from backup..."
-msgstr "バックアップからファイルを抽出中..."
-
-msgid "Factory reset in progress... DinoX will restart."
-msgstr "工場出荷時リセット中... DinoXが再起動します。"
-
-msgid "Resetting database... DinoX will restart."
-msgstr "データベースをリセット中... DinoXが再起動します。"
-
-msgid "Encrypted backup created (%s)"
-msgstr "暗号化バックアップが作成されました (%s)"
-
-msgid ""
-"Could not decrypt the backup file.\n"
-"\n"
-"Please check if the password is correct."
-msgstr ""
-"バックアップファイルを復号化できませんでした。\n"
-"\n"
-"パスワードが正しいか確認してください。"
-
-msgid ""
-"Could not restore the backup file.\n"
-"\n"
-"Error: %s"
-msgstr ""
-"バックアップファイルを復元できませんでした。\n"
-"\n"
-"エラー: %s"
-
-msgid "This backup is encrypted. Please enter the password to decrypt it."
-msgstr "このバックアップは暗号化されています。パスワードを入力してください。"
-
-msgid ""
-"Enter a password to encrypt the backup.\n"
-"\n"
-"<b>Important:</b> Remember this password! Without it, the backup cannot be "
-"restored."
-msgstr ""
-"バックアップを暗号化するパスワードを入力してください。\n"
-"\n"
-"<b>重要:</b> このパスワードを覚えておいてください！これがないとバックアップを"
-"復元できません。"
-
-msgid ""
-"This will delete all messages, files and OMEMO encryption keys.\n"
-"\n"
-"<b>Your accounts will remain, but you will lose all chat history and need to "
-"re-verify encryption with your contacts.</b>\n"
-"\n"
-"This action cannot be undone!"
-msgstr ""
-"これにより、すべてのメッセージ、ファイル、OMEMO暗号化キーが削除されます。\n"
-"\n"
-"<b>アカウントは残りますが、すべてのチャット履歴が失われ、連絡先と暗号化を再確"
-"認する必要があります。</b>\n"
-"\n"
-"この操作は元に戻せません！"
-
-msgid ""
-"This will replace all current data with the backup.\n"
-"\n"
-"<b>Current accounts, messages and settings will be overwritten!</b>\n"
-"\n"
-"DinoX will restart after restoring."
-msgstr ""
-"これにより、すべての現在のデータがバックアップで置き換えられます。\n"
-"\n"
-"<b>現在のアカウント、メッセージ、設定は上書きされます！</b>\n"
-"\n"
-"復元後、DinoXは再起動します。"
-
-msgid ""
-"Type 'DELETE' to confirm factory reset.\n"
-"\n"
-"This will permanently remove all your DinoX data."
-msgstr ""
-"'DELETE'と入力して工場出荷時リセットを確認してください。\n"
-"\n"
-"これによりすべてのDinoXデータが完全に削除されます。"
-
-msgid ""
-"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
-"\n"
-"• All accounts\n"
-"• All messages and files\n"
-"• All encryption keys\n"
-"• All settings\n"
-"\n"
-"This is irreversible. Make sure to create a backup first!"
-msgstr ""
-"<b>⚠️ 警告：すべてのデータが削除されます！</b>\n"
-"\n"
-"• すべてのアカウント\n"
-"• すべてのメッセージとファイル\n"
-"• すべての暗号化キー\n"
-"• すべての設定\n"
-"\n"
-"これは元に戻せません。先にバックアップを作成してください！"
+#~ msgid "Encrypted backup created (%s)"
+#~ msgstr "暗号化バックアップが作成されました (%s)"
 
 # OpenPGP Key Management translations
-msgid "OpenPGP Key Management"
-msgstr "OpenPGP鍵の管理"
+#~ msgid "OpenPGP Key Management"
+#~ msgstr "OpenPGP鍵の管理"
 
-msgid "Actions"
-msgstr "アクション"
+#~ msgid "Actions"
+#~ msgstr "アクション"
 
-msgid "Generate New Key"
-msgstr "新しい鍵を生成"
+#~ msgid "Generate New Key"
+#~ msgstr "新しい鍵を生成"
 
-msgid "Create a new OpenPGP key pair"
-msgstr "新しいOpenPGP鍵ペアを作成"
+#~ msgid "Create a new OpenPGP key pair"
+#~ msgstr "新しいOpenPGP鍵ペアを作成"
 
-msgid "Import Key"
-msgstr "鍵をインポート"
+#~ msgid "Import Key"
+#~ msgstr "鍵をインポート"
 
-msgid "Import a key from file (.asc, .gpg)"
-msgstr "ファイルから鍵をインポート (.asc, .gpg)"
+#~ msgid "Import a key from file (.asc, .gpg)"
+#~ msgstr "ファイルから鍵をインポート (.asc, .gpg)"
 
-msgid "Your Keys"
-msgstr "あなたの鍵"
+#~ msgid "Your Keys"
+#~ msgstr "あなたの鍵"
 
-msgid "Private keys available for signing and decryption"
-msgstr "署名と復号に利用可能な秘密鍵"
+#~ msgid "Private keys available for signing and decryption"
+#~ msgstr "署名と復号に利用可能な秘密鍵"
 
-msgid "No private keys found"
-msgstr "秘密鍵が見つかりません"
+#~ msgid "No private keys found"
+#~ msgstr "秘密鍵が見つかりません"
 
-msgid "Generate or import a key to get started"
-msgstr "開始するには鍵を生成またはインポートしてください"
+#~ msgid "Generate or import a key to get started"
+#~ msgstr "開始するには鍵を生成またはインポートしてください"
 
-msgid "Fingerprint"
-msgstr "フィンガープリント"
+#~ msgid "Fingerprint"
+#~ msgstr "フィンガープリント"
 
-msgid "Export Public Key"
-msgstr "公開鍵をエクスポート"
+#~ msgid "Export Public Key"
+#~ msgstr "公開鍵をエクスポート"
 
-msgid "Delete Key"
-msgstr "鍵を削除"
+#~ msgid "Delete Key"
+#~ msgstr "鍵を削除"
 
-msgid "Generate New OpenPGP Key"
-msgstr "新しいOpenPGP鍵を生成"
+#~ msgid "Generate New OpenPGP Key"
+#~ msgstr "新しいOpenPGP鍵を生成"
 
-msgid "Enter your details to create a new key pair."
-msgstr "新しい鍵ペアを作成するために情報を入力してください。"
+#~ msgid "Enter your details to create a new key pair."
+#~ msgstr "新しい鍵ペアを作成するために情報を入力してください。"
 
-msgid "Name"
-msgstr "名前"
+#~ msgid "Name"
+#~ msgstr "名前"
 
-msgid "Your Name"
-msgstr "あなたの名前"
+#~ msgid "Your Name"
+#~ msgstr "あなたの名前"
 
-msgid "Email"
-msgstr "メール"
+#~ msgid "Email"
+#~ msgstr "メール"
 
-msgid "you@example.com"
-msgstr "you@example.com"
+#~ msgid "you@example.com"
+#~ msgstr "you@example.com"
 
-msgid "Passphrase (optional)"
-msgstr "パスフレーズ（オプション）"
+#~ msgid "Passphrase (optional)"
+#~ msgstr "パスフレーズ（オプション）"
 
-msgid "Passphrase"
-msgstr "パスフレーズ"
+#~ msgid "Passphrase"
+#~ msgstr "パスフレーズ"
 
-msgid "4096-bit RSA key, valid for 2 years."
-msgstr "4096ビットRSA鍵、2年間有効。"
+#~ msgid "4096-bit RSA key, valid for 2 years."
+#~ msgstr "4096ビットRSA鍵、2年間有効。"
 
-msgid "Generate"
-msgstr "生成"
+#~ msgid "Generate"
+#~ msgstr "生成"
 
-msgid "Name must be at least 2 characters"
-msgstr "名前は2文字以上必要です"
+#~ msgid "Name must be at least 2 characters"
+#~ msgstr "名前は2文字以上必要です"
 
-msgid "Please enter a valid email address"
-msgstr "有効なメールアドレスを入力してください"
+#~ msgid "Please enter a valid email address"
+#~ msgstr "有効なメールアドレスを入力してください"
 
-msgid "Generating Key..."
-msgstr "鍵を生成中..."
+#~ msgid "Generating Key..."
+#~ msgstr "鍵を生成中..."
 
-msgid "Please wait while your key is being generated. This may take a moment."
-msgstr "鍵を生成中です。しばらくお待ちください。"
+#~ msgid "Key generated successfully!"
+#~ msgstr "鍵が正常に生成されました！"
 
-msgid "Key generated successfully!"
-msgstr "鍵が正常に生成されました！"
+#~ msgid "Import OpenPGP Key"
+#~ msgstr "OpenPGP鍵をインポート"
 
-msgid "Failed to generate key."
-msgstr "鍵の生成に失敗しました。"
+#~ msgid "OpenPGP Keys (*.asc, *.gpg)"
+#~ msgstr "OpenPGP鍵 (*.asc, *.gpg)"
 
-msgid "Import OpenPGP Key"
-msgstr "OpenPGP鍵をインポート"
+#~ msgid "All Files"
+#~ msgstr "すべてのファイル"
 
-msgid "OpenPGP Keys (*.asc, *.gpg)"
-msgstr "OpenPGP鍵 (*.asc, *.gpg)"
+#~ msgid "Key imported! Re-open Key Management to see it."
+#~ msgstr "鍵がインポートされました！確認するには鍵管理を再度開いてください。"
 
-msgid "All Files"
-msgstr "すべてのファイル"
+#~ msgid "Import failed: "
+#~ msgstr "インポート失敗："
 
-msgid "Key imported! Re-open Key Management to see it."
-msgstr "鍵がインポートされました！確認するには鍵管理を再度開いてください。"
+#~ msgid "Key exported to: "
+#~ msgstr "鍵をエクスポート先："
 
-msgid "Import failed: "
-msgstr "インポート失敗："
+#~ msgid "Export failed."
+#~ msgstr "エクスポート失敗。"
 
-msgid "Key exported to: "
-msgstr "鍵をエクスポート先："
+#~ msgid "Delete Key?"
+#~ msgstr "鍵を削除しますか？"
 
-msgid "Export failed."
-msgstr "エクスポート失敗。"
+#~ msgid ""
+#~ "Delete this key?\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "This cannot be undone!"
+#~ msgstr ""
+#~ "この鍵を削除しますか？\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "この操作は元に戻せません！"
 
-msgid "Delete Key?"
-msgstr "鍵を削除しますか？"
+#~ msgid "Key deleted."
+#~ msgstr "鍵が削除されました。"
 
-msgid ""
-"Delete this key?\n"
-"\n"
-"%s\n"
-"\n"
-"This cannot be undone!"
-msgstr ""
-"この鍵を削除しますか？\n"
-"\n"
-"%s\n"
-"\n"
-"この操作は元に戻せません！"
+#~ msgid "Delete failed: "
+#~ msgstr "削除失敗："
 
-msgid "Key deleted."
-msgstr "鍵が削除されました。"
+#~ msgid "Select OpenPGP Key"
+#~ msgstr "OpenPGP鍵を選択"
 
-msgid "Delete failed: "
-msgstr "削除失敗："
+#~ msgid "Choose a key to announce to your contacts."
+#~ msgstr "連絡先に公開する鍵を選択してください。"
 
-msgid "Select OpenPGP Key"
-msgstr "OpenPGP鍵を選択"
+#~ msgid "Enter GPG passphrase to confirm:"
+#~ msgstr "確認のためGPGパスフレーズを入力："
 
-msgid "Choose a key to announce to your contacts."
-msgstr "連絡先に公開する鍵を選択してください。"
+#~ msgid "Wrong passphrase"
+#~ msgstr "パスフレーズが間違っています"
 
-msgid "Enter GPG passphrase to confirm:"
-msgstr "確認のためGPGパスフレーズを入力："
+#~ msgid "Manage Keys"
+#~ msgstr "鍵を管理"
 
-msgid "Wrong passphrase"
-msgstr "パスフレーズが間違っています"
+#~ msgid "Generate, import, export, or delete keys"
+#~ msgstr "鍵の生成、インポート、エクスポート、削除"
 
-msgid "Manage Keys"
-msgstr "鍵を管理"
+#~ msgid "No keys available. Generate or import one!"
+#~ msgstr "利用可能な鍵がありません。生成またはインポートしてください！"
 
-msgid "Generate, import, export, or delete keys"
-msgstr "鍵の生成、インポート、エクスポート、削除"
+#~ msgid "Announce key"
+#~ msgstr "鍵を公開"
 
-msgid "No keys available. Generate or import one!"
-msgstr "利用可能な鍵がありません。生成またはインポートしてください！"
+#~ msgid "Disabled"
+#~ msgstr "無効"
 
-msgid "Announce key"
-msgstr "鍵を公開"
+#~ msgid "Error in GnuPG"
+#~ msgstr "GnuPGエラー"
 
-msgid "Disabled"
-msgstr "無効"
-
-msgid "Error in GnuPG"
-msgstr "GnuPGエラー"
-
-msgid "Success"
-msgstr "成功"
-
-msgid "OK"
-msgstr "OK"
+#~ msgid "Success"
+#~ msgstr "成功"
 
 #~ msgid "Message too long"
 #~ msgstr "メッセージが長すぎます"

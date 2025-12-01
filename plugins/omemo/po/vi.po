@@ -267,7 +267,6 @@ msgid "New device"
 msgstr "Thiết bị mới"
 
 #: plugins/omemo/data/encryption_preferences_entry.ui:8
-#, fuzzy
 msgid ""
 "Each device has its own OMEMO key. Messages can only be decrypted by a "
 "device if they are encrypted to its key. Messages are only encrypted to "
@@ -275,7 +274,7 @@ msgid ""
 msgstr ""
 "Mỗi thiết bị có một khoá mã hoá OMEMO riêng. Tin nhắn chỉ có thể được giải "
 "mã bởi một thiết bị nếu chúng được mã hóa bằng khóa của thiết bị đó. Tin "
-"nhắn chỉ được mã hóa bởi các thiết bị được chấp nhận."
+"nhắn chỉ được mã hóa cho các thiết bị được chấp nhận."
 
 #~ msgid "OMEMO Key Management"
 #~ msgstr "Quản lý khóa OMEMO"

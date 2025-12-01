@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-28 12:18+0100\n"
+"POT-Creation-Date: 2025-12-01 10:28+0100\n"
 "PO-Revision-Date: 2023-05-19 07:48+0000\n"
 "Language-Team: none\n"
 "Language: el\n"
@@ -99,14 +99,14 @@ msgstr "Γενικά"
 #: main/data/gtk/help-overlay.ui:14 main/data/main_window.ui:38
 #: main/data/menu_add.ui:7
 #: main/src/ui/add_conversation/select_contact_dialog.vala:106
-#: main/src/ui/main_window.vala:141
+#: main/src/ui/main_window.vala:154
 msgid "Start Conversation"
 msgstr "Έναρξη Συνομιλίας"
 
 #: main/data/gtk/help-overlay.ui:20 main/data/main_window.ui:51
 #: main/data/menu_add.ui:11
 #: main/src/ui/add_conversation/add_conference_dialog.vala:24
-#: main/src/ui/application.vala:527 main/src/ui/main_window.vala:142
+#: main/src/ui/application.vala:1359 main/src/ui/main_window.vala:155
 msgid "Join Channel"
 msgstr "Συμμετοχή σε Ομαδική συνομιλία"
 
@@ -147,7 +147,7 @@ msgstr "Μετάβαση στην επόμενη συνομιλία"
 msgid "Jump to previous conversation"
 msgstr "Μετάβαση στην προηγούμενη συνομιλία"
 
-#: main/data/main_window.ui:64 main/src/ui/main_window.vala:144
+#: main/data/main_window.ui:64 main/src/ui/main_window.vala:157
 msgid "Help: How to join channels"
 msgstr "Βοήθεια: Πώς να συμμετάσχετε σε κανάλια"
 
@@ -165,28 +165,28 @@ msgstr "Κατάσταση"
 
 #: main/data/menu_app.ui:11
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:427
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Online"
 msgstr "Συνδεδεμένος"
 
 #: main/data/menu_app.ui:16
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:421
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Away"
 msgstr "Απών"
 
 #: main/data/menu_app.ui:21
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:425
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Busy"
 msgstr "Απασχολημένος"
 
 #: main/data/menu_app.ui:26
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:423
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Not Available"
 msgstr "Μη διαθέσιμος"
@@ -199,7 +199,7 @@ msgstr "Προτιμήσεις"
 msgid "Keyboard Shortcuts"
 msgstr "Συντομεύσεις πληκτρολογίου"
 
-#: main/data/menu_app.ui:42 main/src/ui/application.vala:334
+#: main/data/menu_app.ui:42 main/src/ui/application.vala:340
 msgid "About DinoX"
 msgstr "Σχετικά με το DinoX"
 
@@ -218,7 +218,10 @@ msgstr "Διαγραφή ιστορικού συνομιλίας"
 #: main/data/preferences_window/change_password_dialog.ui:18
 #: main/src/ui/add_conversation/add_conference_dialog.vala:41
 #: main/src/ui/add_conversation/select_contact_dialog.vala:40
-#: main/src/ui/application.vala:537
+#: main/src/ui/application.vala:441 main/src/ui/application.vala:469
+#: main/src/ui/application.vala:765 main/src/ui/application.vala:843
+#: main/src/ui/application.vala:901 main/src/ui/application.vala:933
+#: main/src/ui/application.vala:1089 main/src/ui/application.vala:1369
 #: main/src/ui/conversation_content_view/file_default_widget.vala:90
 #: main/src/ui/conversation_content_view/item_actions.vala:165
 #: main/src/ui/conversation_content_view/item_actions.vala:168
@@ -233,7 +236,7 @@ msgstr "Διαγραφή ιστορικού συνομιλίας"
 #: main/src/ui/conversation_titlebar/call_entry.vala:83
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
 #: main/src/windows/conversation_details.vala:60
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:67
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:68
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:205
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:225
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:249
@@ -257,6 +260,7 @@ msgid "Local alias"
 msgstr "Τοπικό ψευδώνυμο"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:82
+#: main/src/ui/application.vala:435 main/src/ui/application.vala:1064
 #: main/src/ui/util/data_forms.vala:63
 msgid "Password"
 msgstr "Κωδικός πρόσβασης"
@@ -265,20 +269,24 @@ msgstr "Κωδικός πρόσβασης"
 msgid "Connection status"
 msgstr "Κατάσταση σύνδεσης"
 
+#: main/data/preferences_window/account_preferences_subpage.ui:117
+msgid "View Certificate"
+msgstr "Προβολή πιστοποιητικού"
+
 # Custom host/port feature (Issue #115)
-#: main/data/preferences_window/account_preferences_subpage.ui:121
+#: main/data/preferences_window/account_preferences_subpage.ui:128
 msgid "Advanced Settings"
 msgstr "Προηγμένες ρυθμίσεις"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:122
+#: main/data/preferences_window/account_preferences_subpage.ui:129
 msgid "Custom server connection (leave empty for automatic)"
 msgstr "Προσαρμοσμένη σύνδεση διακομιστή (αφήστε κενό για αυτόματη)"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:125
+#: main/data/preferences_window/account_preferences_subpage.ui:132
 msgid "Server Hostname"
 msgstr "Όνομα διακομιστή"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:130
+#: main/data/preferences_window/account_preferences_subpage.ui:137
 msgid "Port"
 msgstr "Θύρα"
 
@@ -351,12 +359,58 @@ msgid "Create a backup of your accounts, messages and settings"
 msgstr "Δημιουργία αντιγράφου ασφαλείας λογαριασμών, μηνυμάτων και ρυθμίσεων"
 
 #: main/data/preferences_window/general_preferences_page.ui:78
-msgid "Data Location"
-msgstr "Τοποθεσία δεδομένων"
+#: main/src/ui/application.vala:464 main/src/ui/main_window.vala:223
+msgid "Restore from Backup"
+msgstr "Επαναφορά από αντίγραφο"
 
 #: main/data/preferences_window/general_preferences_page.ui:79
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr ""
+"Επαναφορά λογαριασμών, μηνυμάτων και ρυθμίσεων από αρχείο αντιγράφου "
+"ασφαλείας"
+
+#: main/data/preferences_window/general_preferences_page.ui:90
+msgid "Data Storage Location"
+msgstr "Τοποθεσία αποθήκευσης δεδομένων"
+
+#: main/data/preferences_window/general_preferences_page.ui:91
 msgid "View where your data is stored"
 msgstr "Δείτε πού αποθηκεύονται τα δεδομένα σας"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "Συντήρηση βάσης δεδομένων"
+
+#: main/data/preferences_window/general_preferences_page.ui:107
+#: main/src/ui/application.vala:761 main/src/ui/application.vala:766
+msgid "Clear Cache"
+msgstr "Εκκαθάριση προσωρινής μνήμης"
+
+#: main/data/preferences_window/general_preferences_page.ui:108
+msgid "Clear cached files, avatars and previews"
+msgstr "Εκκαθάριση αποθηκευμένων αρχείων, ειδώλων και προεπισκοπήσεων"
+
+#: main/data/preferences_window/general_preferences_page.ui:119
+#: main/src/ui/application.vala:838 main/src/ui/application.vala:844
+msgid "Reset Database"
+msgstr "Επαναφορά βάσης δεδομένων"
+
+#: main/data/preferences_window/general_preferences_page.ui:120
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr ""
+"Διαγραφή όλων των μηνυμάτων, αρχείων και κλειδιών OMEMO. Οι λογαριασμοί σας "
+"θα παραμείνουν."
+
+#: main/data/preferences_window/general_preferences_page.ui:131
+#: main/src/ui/application.vala:896
+msgid "Factory Reset"
+msgstr "Επαναφορά εργοστασιακών"
+
+#: main/data/preferences_window/general_preferences_page.ui:132
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr ""
+"Διαγραφή ΟΛΩΝ των δεδομένων συμπεριλαμβανομένων των λογαριασμών. Αυτό δεν "
+"μπορεί να αναιρεθεί!"
 
 #: main/data/preferences_window/preferences_dialog.ui:11
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:15
@@ -381,7 +435,7 @@ msgstr "Επόμενο"
 
 #: main/src/ui/add_conversation/add_conference_dialog.vala:59
 #: main/src/ui/add_conversation/conference_details_fragment.vala:151
-#: main/src/ui/application.vala:541
+#: main/src/ui/application.vala:1373
 msgid "Join"
 msgstr "Συμμετοχή"
 
@@ -467,31 +521,31 @@ msgstr "Διαγραφή επαφής"
 msgid "Leave Group"
 msgstr "Αποχώρηση από ομάδα"
 
-#: main/src/ui/application.vala:339
+#: main/src/ui/application.vala:345
 msgid "Modern XMPP client with extended features"
 msgstr "Σύγχρονος XMPP πελάτης με εκτεταμένες δυνατότητες"
 
-#: main/src/ui/application.vala:346 main/src/ui/application.vala:385
+#: main/src/ui/application.vala:352 main/src/ui/application.vala:727
 msgid "User Data Locations"
 msgstr "Τοποθεσίες δεδομένων"
 
-#: main/src/ui/application.vala:349 main/src/ui/application.vala:399
+#: main/src/ui/application.vala:355 main/src/ui/application.vala:741
 msgid "Configuration:"
 msgstr "Διαμόρφωση:"
 
-#: main/src/ui/application.vala:352 main/src/ui/application.vala:401
+#: main/src/ui/application.vala:358 main/src/ui/application.vala:743
 msgid "Data & Database:"
 msgstr "Δεδομένα & Βάση δεδομένων:"
 
-#: main/src/ui/application.vala:355 main/src/ui/application.vala:403
+#: main/src/ui/application.vala:361 main/src/ui/application.vala:745
 msgid "Cache:"
 msgstr "Προσωρινή μνήμη:"
 
-#: main/src/ui/application.vala:358
+#: main/src/ui/application.vala:364
 msgid "Info:"
 msgstr "Πληροφορίες:"
 
-#: main/src/ui/application.vala:359
+#: main/src/ui/application.vala:365
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
@@ -499,17 +553,121 @@ msgstr ""
 "Τα προσωπικά σας δεδομένα (λογαριασμοί, μηνύματα, αρχεία) αποθηκεύονται "
 "χωριστά από την εφαρμογή."
 
-#: main/src/ui/application.vala:361
+#: main/src/ui/application.vala:367
 msgid "When you update DinoX, your data remains intact."
 msgstr "Όταν ενημερώνετε το DinoX, τα δεδομένα σας παραμένουν ανέπαφα."
 
-#: main/src/ui/application.vala:363
+#: main/src/ui/application.vala:369
 msgid "Use Settings → General → Backup User Data to create a backup."
 msgstr ""
 "Χρησιμοποιήστε Ρυθμίσεις → Γενικά → Δημιουργία αντιγράφου ασφαλείας για να "
 "δημιουργήσετε αντίγραφο."
 
-#: main/src/ui/application.vala:405
+#: main/src/ui/application.vala:387
+msgid "Select Backup File"
+msgstr "Επιλογή αρχείου αντιγράφου"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+#: main/src/ui/application.vala:395
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "Αρχεία αντιγράφων ασφαλείας (*.tar.gz, *.tar.gz.gpg)"
+
+#: main/src/ui/application.vala:425
+msgid "Enter Backup Password"
+msgstr "Εισάγετε κωδικό αντιγράφου"
+
+#: main/src/ui/application.vala:426
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "Αυτό το αντίγραφο είναι κρυπτογραφημένο. Εισάγετε τον κωδικό."
+
+#: main/src/ui/application.vala:442
+msgid "Decrypt & Restore"
+msgstr "Αποκρυπτογράφηση και επαναφορά"
+
+#: main/src/ui/application.vala:465
+msgid ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+msgstr ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+
+#: main/src/ui/application.vala:470
+msgid "Restore Backup"
+msgstr "Επαναφορά αντιγράφου"
+
+#: main/src/ui/application.vala:487 main/src/ui/application.vala:519
+msgid "Decrypting Backup..."
+msgstr "Αποκρυπτογράφηση αντιγράφου..."
+
+#: main/src/ui/application.vala:487 main/src/ui/application.vala:571
+msgid "Restoring Backup..."
+msgstr "Επαναφορά αντιγράφου..."
+
+#: main/src/ui/application.vala:488
+msgid "Please wait, this may take a moment..."
+msgstr "Παρακαλώ περιμένετε, αυτό μπορεί να πάρει λίγο χρόνο..."
+
+#: main/src/ui/application.vala:520
+msgid "Decrypting encrypted backup file..."
+msgstr "Αποκρυπτογράφηση αρχείου αντιγράφου..."
+
+#: main/src/ui/application.vala:558
+msgid "Decryption Failed"
+msgstr "Η αποκρυπτογράφηση απέτυχε"
+
+#: main/src/ui/application.vala:559
+msgid ""
+"Could not decrypt the backup file.\n"
+"\n"
+"Please check if the password is correct."
+msgstr ""
+"Δεν ήταν δυνατή η αποκρυπτογράφηση.\n"
+"\n"
+"Ελέγξτε αν ο κωδικός είναι σωστός."
+
+#: main/src/ui/application.vala:561 main/src/ui/application.vala:671
+msgid "OK"
+msgstr "OK"
+
+#: main/src/ui/application.vala:572
+msgid "Extracting files from backup..."
+msgstr "Εξαγωγή αρχείων από το αντίγραφο..."
+
+#: main/src/ui/application.vala:653
+msgid "Restore Complete!"
+msgstr "Η επαναφορά ολοκληρώθηκε!"
+
+#: main/src/ui/application.vala:654
+msgid "DinoX will now restart..."
+msgstr "Το DinoX θα επανεκκινήσει τώρα..."
+
+#: main/src/ui/application.vala:668
+msgid "Restore Failed"
+msgstr "Η επαναφορά απέτυχε"
+
+#: main/src/ui/application.vala:669
+#, c-format
+msgid ""
+"Could not restore the backup file.\n"
+"\n"
+"Error: %s"
+msgstr ""
+"Δεν ήταν δυνατή η επαναφορά.\n"
+"\n"
+"Σφάλμα: %s"
+
+#: main/src/ui/application.vala:669 main/src/ui/application.vala:1345
+msgid "Unknown error"
+msgstr "Άγνωστο σφάλμα"
+
+#: main/src/ui/application.vala:747
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
@@ -520,96 +678,243 @@ msgstr ""
 "αποθηκεύονται ξεχωριστά από την εφαρμογή. Όταν ενημερώνετε το DinoX, τα "
 "δεδομένα σας παραμένουν ανέπαφα."
 
-#: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
-#: main/src/ui/main_window.vala:159
+#: main/src/ui/application.vala:752 main/src/ui/application.vala:1240
+#: main/src/ui/application.vala:1324 main/src/ui/conversation_details.vala:272
+#: main/src/ui/main_window.vala:172
 msgid "Close"
 msgstr "Κλείσιμο"
 
-#: main/src/ui/application.vala:417
+#: main/src/ui/application.vala:762
+msgid ""
+"This will delete cached files, avatars and previews.\n"
+"\n"
+"They will be re-downloaded when needed."
+msgstr ""
+"Αυτό θα διαγράψει τα αποθηκευμένα αρχεία, τα είδωλα και τις προεπισκοπήσεις.\n"
+"\n"
+"Θα ληφθούν ξανά όταν χρειαστεί."
+
+#: main/src/ui/application.vala:799
+#, c-format
+msgid "Cache cleared (%s freed)"
+msgstr "Η προσωρινή μνήμη εκκαθαρίστηκε (%s ελευθερώθηκαν)"
+
+#: main/src/ui/application.vala:802
+msgid "Failed to clear cache"
+msgstr "Αποτυχία εκκαθάρισης προσωρινής μνήμης"
+
+#: main/src/ui/application.vala:839
+msgid ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+msgstr ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+
+#: main/src/ui/application.vala:867
+msgid "Resetting database... DinoX will restart."
+msgstr "Επαναφορά βάσης δεδομένων... Το DinoX θα επανεκκινήσει."
+
+#: main/src/ui/application.vala:897
+msgid ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+msgstr ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+
+#: main/src/ui/application.vala:902
+msgid "Create Backup First"
+msgstr "Δημιουργήστε πρώτα αντίγραφο"
+
+#: main/src/ui/application.vala:903
+msgid "Delete Everything"
+msgstr "Διαγραφή όλων"
+
+#: main/src/ui/application.vala:923
+msgid "Are you absolutely sure?"
+msgstr "Είστε απολύτως σίγουροι;"
+
+#: main/src/ui/application.vala:924
+msgid ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+msgstr ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+
+#: main/src/ui/application.vala:934
+msgid "Confirm Delete"
+msgstr "Επιβεβαίωση διαγραφής"
+
+#: main/src/ui/application.vala:961
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "Επαναφορά εργοστασιακών ρυθμίσεων... Το DinoX θα επανεκκινήσει."
+
+#: main/src/ui/application.vala:1026
+msgid "Backup Encryption"
+msgstr "Κρυπτογράφηση αντιγράφου ασφαλείας"
+
+#: main/src/ui/application.vala:1027
+msgid ""
+"Do you want to encrypt the backup with a password?\n"
+"\n"
+"Encrypted backups are more secure but require the password to restore."
+msgstr ""
+"Θέλετε να κρυπτογραφήσετε το αντίγραφο ασφαλείας με κωδικό πρόσβασης;\n"
+"\n"
+"Τα κρυπτογραφημένα αντίγραφα ασφαλείας είναι πιο ασφαλή αλλά απαιτούν τον "
+"κωδικό πρόσβασης για επαναφορά."
+
+#: main/src/ui/application.vala:1030
+msgid "No Encryption"
+msgstr "Χωρίς κρυπτογράφηση"
+
+#: main/src/ui/application.vala:1031
+msgid "Encrypt with Password"
+msgstr "Κρυπτογράφηση με κωδικό"
+
+#: main/src/ui/application.vala:1049
+msgid "Set Backup Password"
+msgstr "Ορισμός κωδικού αντιγράφου"
+
+#: main/src/ui/application.vala:1050
+msgid ""
+"Enter a password to encrypt the backup.\n"
+"\n"
+"<b>Important:</b> Remember this password! Without it, the backup cannot be "
+"restored."
+msgstr ""
+"Εισάγετε κωδικό για κρυπτογράφηση.\n"
+"\n"
+"<b>Σημαντικό:</b> Θυμηθείτε αυτόν τον κωδικό!"
+
+#: main/src/ui/application.vala:1058
+msgid "Password (minimum 4 characters)"
+msgstr "Κωδικός (τουλάχιστον 4 χαρακτήρες)"
+
+#: main/src/ui/application.vala:1066 main/src/ui/application.vala:1073
+msgid "Confirm Password"
+msgstr "Επιβεβαίωση κωδικού"
+
+#: main/src/ui/application.vala:1090
+msgid "Create Encrypted Backup"
+msgstr "Δημιουργία κρυπτογραφημένου αντιγράφου"
+
+#: main/src/ui/application.vala:1102 main/src/ui/application.vala:1117
+msgid "Password too short"
+msgstr "Ο κωδικός είναι πολύ μικρός"
+
+#: main/src/ui/application.vala:1104 main/src/ui/application.vala:1119
+msgid "Passwords do not match"
+msgstr "Οι κωδικοί δεν ταιριάζουν"
+
+#: main/src/ui/application.vala:1106 main/src/ui/application.vala:1121
+msgid "✓ Passwords match"
+msgstr "✓ Οι κωδικοί ταιριάζουν"
+
+#: main/src/ui/application.vala:1139
 msgid "Select Backup Location"
 msgstr "Επιλογή τοποθεσίας αντιγράφου"
 
-#: main/src/ui/application.vala
-msgid "Creating Backup..."
-msgstr "Creating Backup..."
-
-#: main/src/ui/application.vala
+#: main/src/ui/application.vala:1194
 msgid "Creating Encrypted Backup..."
-msgstr "Creating Encrypted Backup..."
+msgstr "Δημιουργία κρυπτογραφημένου αντιγράφου ασφαλείας..."
 
-#: main/src/ui/application.vala
+#: main/src/ui/application.vala:1194
+msgid "Creating Backup..."
+msgstr "Δημιουργία αντιγράφου ασφαλείας..."
+
+#: main/src/ui/application.vala:1195
 msgid "Please wait while your data is being backed up."
-msgstr "Please wait while your data is being backed up."
+msgstr "Παρακαλώ περιμένετε ενώ δημιουργείται αντίγραφο ασφαλείας των δεδομένων σας."
 
-#: main/src/ui/application.vala
-msgid "No data directories found to backup"
-msgstr "No data directories found to backup"
+#: main/src/ui/application.vala:1234
+msgid "No data directory found to backup"
+msgstr "Δεν βρέθηκε κατάλογος δεδομένων για δημιουργία αντιγράφου ασφαλείας"
 
-#: main/src/ui/application.vala
-msgid "Backup Created"
-msgstr "Backup Created"
-
-#: main/src/ui/application.vala
-msgid "Encrypted Backup Created"
-msgstr "Encrypted Backup Created"
-
-#: main/src/ui/application.vala
-#, c-format
-msgid "Your backup was created successfully.\\n\\nSize: %s"
-msgstr "Your backup was created successfully.\\n\\nSize: %s"
-
-#: main/src/ui/application.vala
-msgid "Your backup was created successfully."
-msgstr "Your backup was created successfully."
-
-#: main/src/ui/application.vala
-#, c-format
-msgid "Your encrypted backup was created successfully.\\n\\nSize: %s"
-msgstr "Your encrypted backup was created successfully.\\n\\nSize: %s"
-
-#: main/src/ui/application.vala
-msgid "Your encrypted backup was created successfully."
-msgstr "Your encrypted backup was created successfully."
-
-#: main/src/ui/application.vala
+#: main/src/ui/application.vala:1237 main/src/ui/application.vala:1343
 msgid "Backup Failed"
-msgstr "Backup Failed"
+msgstr "Η δημιουργία αντιγράφου ασφαλείας απέτυχε"
 
-#: main/src/ui/application.vala:445
-msgid "Creating backup..."
-msgstr "Δημιουργία αντιγράφου..."
+#: main/src/ui/application.vala:1331
+msgid "Encrypted Backup Created"
+msgstr "Το κρυπτογραφημένο αντίγραφο ασφαλείας δημιουργήθηκε"
 
-#: main/src/ui/application.vala:503
+#: main/src/ui/application.vala:1333
 #, c-format
-msgid "Backup created successfully (%s)"
-msgstr "Αντίγραφο δημιουργήθηκε (%s)"
+msgid ""
+"Your encrypted backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"Το κρυπτογραφημένο αντίγραφο ασφαλείας δημιουργήθηκε με επιτυχία.\n"
+"\n"
+"Μέγεθος: %s"
 
-#: main/src/ui/application.vala:505
-msgid "Backup created successfully"
-msgstr "Αντίγραφο δημιουργήθηκε"
+#: main/src/ui/application.vala:1334
+msgid "Your encrypted backup was created successfully."
+msgstr "Το κρυπτογραφημένο αντίγραφο ασφαλείας σας δημιουργήθηκε με επιτυχία."
 
-#: main/src/ui/application.vala:510
-msgid "Unknown error"
-msgstr "Άγνωστο σφάλμα"
+#: main/src/ui/application.vala:1336
+msgid "Backup Created"
+msgstr "Το αντίγραφο ασφαλείας δημιουργήθηκε"
 
-#: main/src/ui/application.vala:511
+#: main/src/ui/application.vala:1338
+#, c-format
+msgid ""
+"Your backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"Το αντίγραφο ασφαλείας δημιουργήθηκε με επιτυχία.\n"
+"\n"
+"Μέγεθος: %s"
+
+#: main/src/ui/application.vala:1339
+msgid "Your backup was created successfully."
+msgstr "Το αντίγραφο ασφαλείας σας δημιουργήθηκε με επιτυχία."
+
+#: main/src/ui/application.vala:1346
 #, c-format
 msgid "Backup failed: %s"
 msgstr "Αποτυχία αντιγράφου: %s"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:29
+#: main/src/ui/call_window/audio_settings_popover.vala:46
 msgid "Microphones"
 msgstr "Μικρόφωνα"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:32
+#: main/src/ui/call_window/audio_settings_popover.vala:49
 msgid "No microphone found."
 msgstr "Δε βρέθηκε μικρόφωνο."
 
-#: main/src/ui/call_window/audio_settings_popover.vala:85
+#: main/src/ui/call_window/audio_settings_popover.vala:116
 msgid "Speakers"
 msgstr "Ηχεία"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:88
+#: main/src/ui/call_window/audio_settings_popover.vala:119
 msgid "No speaker found."
 msgstr "Δε βρέθηκε ηχείο."
 
@@ -625,7 +930,7 @@ msgstr "Πρόσκληση σε Κλήση"
 msgid "Invite"
 msgstr "Πρόσκληση"
 
-#: main/src/ui/call_window/call_window_controller.vala:405
+#: main/src/ui/call_window/call_window_controller.vala:453
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:240
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:270
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:285
@@ -644,21 +949,21 @@ msgstr "%s τερμάτισε την κλήση"
 msgid "%s declined the call"
 msgstr "%s απέρριψε την κλήση"
 
-#: main/src/ui/call_window/participant_widget.vala:115
+#: main/src/ui/call_window/participant_widget.vala:140
 msgid "Debug information"
 msgstr "Πληροφορίες εντοπισμού σφαλμάτων"
 
-#: main/src/ui/call_window/participant_widget.vala:124
+#: main/src/ui/call_window/participant_widget.vala:149
 #: main/src/ui/conversation_content_view/call_widget.vala:152
 msgid "Calling…"
 msgstr "Κλήση…"
 
-#: main/src/ui/call_window/participant_widget.vala:126
+#: main/src/ui/call_window/participant_widget.vala:151
 msgid "Ringing…"
 msgstr "Κουδούνισμα…"
 
-#: main/src/ui/call_window/participant_widget.vala:128
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:216
+#: main/src/ui/call_window/participant_widget.vala:153
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:244
 msgid "Connecting…"
 msgstr "Σύνδεση…"
 
@@ -892,7 +1197,7 @@ msgstr "%a, %l∶%M %p"
 msgid "Just now"
 msgstr "Μόλις τώρα"
 
-#: main/src/ui/conversation_content_view/conversation_view.vala:105
+#: main/src/ui/conversation_content_view/conversation_view.vala:106
 msgid "More actions"
 msgstr "Περισσότερες ενέργειες"
 
@@ -1112,6 +1417,38 @@ msgstr "Καταστροφή"
 msgid "Failed to destroy room"
 msgstr "Αποτυχία διαγραφής δωματίου"
 
+#: main/src/ui/conversation_details.vala:286
+msgid "Auto-delete messages"
+msgstr "Αυτόματη διαγραφή μηνυμάτων"
+
+#: main/src/ui/conversation_details.vala:287
+msgid "Never"
+msgstr "Ποτέ"
+
+#: main/src/ui/conversation_details.vala:288
+msgid "After 15 minutes"
+msgstr "Μετά από 15 λεπτά"
+
+#: main/src/ui/conversation_details.vala:289
+msgid "After 30 minutes"
+msgstr "Μετά από 30 λεπτά"
+
+#: main/src/ui/conversation_details.vala:290
+msgid "After 1 hour"
+msgstr "Μετά από 1 ώρα"
+
+#: main/src/ui/conversation_details.vala:291
+msgid "After 24 hours"
+msgstr "Μετά από 24 ώρες"
+
+#: main/src/ui/conversation_details.vala:292
+msgid "After 7 days"
+msgstr "Μετά από 7 ημέρες"
+
+#: main/src/ui/conversation_details.vala:293
+msgid "After 30 days"
+msgstr "Μετά από 30 ημέρες"
+
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:276
 #: main/src/ui/notifier_freedesktop.vala:71
 #: main/src/ui/notifier_gnotifications.vala:36
@@ -1257,6 +1594,7 @@ msgstr "Άρση αποκλεισμού επαφής;"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:702
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:247
+#, c-format
 msgid "This will allow %s to send you messages again."
 msgstr "Αυτό θα επιτρέψει στον %s να σας στείλει μηνύματα ξανά."
 
@@ -1359,7 +1697,7 @@ msgid "Select file"
 msgstr "Επιλέξτε αρχείο"
 
 #: main/src/ui/conversation_view_controller.vala:225
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:152
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:180
 msgid "Select"
 msgstr "Επιλογή"
 
@@ -1377,11 +1715,11 @@ msgstr "Στο %s"
 msgid "With %s"
 msgstr "Με %s"
 
-#: main/src/ui/main_window.vala:156
+#: main/src/ui/main_window.vala:169
 msgid "Join Channel Help"
 msgstr "Βοήθεια συμμετοχής σε κανάλι"
 
-#: main/src/ui/main_window.vala:157
+#: main/src/ui/main_window.vala:170
 msgid ""
 "To join a channel, click the \"Join Channel\" button and enter the channel "
 "JID (example: room@conference.example.org).\n"
@@ -1396,25 +1734,25 @@ msgstr ""
 "Αν χρειάζεστε κωδικό ή ψευδώνυμο, παρέχετέ τα στο διάλογο. Χρησιμοποιήστε "
 "τις δυνατότητες ανακάλυψης του διακομιστή για να βρείτε δημόσια δωμάτια."
 
-#: main/src/ui/main_window.vala:206
+#: main/src/ui/main_window.vala:219
 msgid "Welcome to DinoX!"
 msgstr "Καλώς ήρθατε στο DinoX!"
 
-#: main/src/ui/main_window.vala:207
+#: main/src/ui/main_window.vala:220
 msgid "Sign in or create an account to get started."
 msgstr "Συνδεθείτε ή δημιουργήστε έναν λογαριασμό για να ξεκινήσετε."
 
-#: main/src/ui/main_window.vala:208
+#: main/src/ui/main_window.vala:221
 msgid "Set up account"
 msgstr "Ρύθμιση λογαριασμού"
 
-#: main/src/ui/main_window.vala:215
+#: main/src/ui/main_window.vala:230
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:71
 #: main/src/windows/preferences_window/encryption_preferences_page.vala:49
 msgid "No active accounts"
 msgstr "Δεν υπάρχουν ενεργοί λογαριασμοί"
 
-#: main/src/ui/main_window.vala:216
+#: main/src/ui/main_window.vala:231
 msgid "Manage accounts"
 msgstr "Διαχείριση λογαριασμών"
 
@@ -1424,12 +1762,12 @@ msgid "Subscription request"
 msgstr "Αίτημα συνδρομής"
 
 #: main/src/ui/notifier_freedesktop.vala:192
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:231
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:259
 msgid "Wrong password"
 msgstr "Λάθος κωδικός"
 
 #: main/src/ui/notifier_freedesktop.vala:195
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:233
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:261
 msgid "Invalid TLS certificate"
 msgstr "Μη έγκυρο πιστοποιητικό TLS"
 
@@ -1624,6 +1962,7 @@ msgid "Today"
 msgstr "Σήμερα"
 
 #: main/src/ui/widgets/date_separator.vala:35
+#, no-c-format
 msgid "%a, %b %d"
 msgstr "%a, %b %d"
 
@@ -1675,45 +2014,45 @@ msgstr "Ρυθμίσεις"
 msgid "Room Configuration"
 msgstr "Διαμόρφωση δωματίου συνομιλίας"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:68
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:69
 msgid "Connect"
 msgstr "Σύνδεση"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:106
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
 msgid "Disable account"
 msgstr "Απενεργοποίηση λογαριασμού"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:106
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
 msgid "Enable account"
 msgstr "Ενεργοποίηση λογαριασμού"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:151
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:179
 msgid "Select avatar"
 msgstr "Επιλογή avatar"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:162
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:190
 msgid "Images"
 msgstr "Εικόνες"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:166
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:194
 msgid "All files"
 msgstr "Όλα τα αρχεία"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:184
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:212
 #, c-format
 msgid "Remove account %s?"
 msgstr "Αφαίρεση λογαριασμού %s;"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:218
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:246
 msgid "Connected"
 msgstr "Συνδεδεμένο"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:220
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:248
 msgid "Disconnected"
 msgstr "Ασύνδετο"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:240
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:242
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:268
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:270
 msgid "Error"
 msgstr "Λάθος"
 
@@ -1827,394 +2166,191 @@ msgstr "Αλλαγή του εμφανιζόμενου ονόματος για %
 msgid "Alias (optional)"
 msgstr "Ψευδώνυμο (προαιρετικό)"
 
+#~ msgid "Creating backup..."
+#~ msgstr "Δημιουργία αντιγράφου..."
+
+#, c-format
+#~ msgid "Backup created successfully (%s)"
+#~ msgstr "Αντίγραφο δημιουργήθηκε (%s)"
+
+#~ msgid "Backup created successfully"
+#~ msgstr "Αντίγραφο δημιουργήθηκε"
+
 # DinoX v0.7.7 - Database Maintenance & Backup/Restore
-msgid "Clean Database"
-msgstr "Καθαρισμός βάσης δεδομένων"
+#~ msgid "Clean Database"
+#~ msgstr "Καθαρισμός βάσης δεδομένων"
 
-msgid "Reset Database"
-msgstr "Επαναφορά βάσης δεδομένων"
+#~ msgid "Encrypting Backup..."
+#~ msgstr "Κρυπτογράφηση αντιγράφου..."
 
-msgid "Restore Complete!"
-msgstr "Η επαναφορά ολοκληρώθηκε!"
+#~ msgid "Creating encrypted backup..."
+#~ msgstr "Δημιουργία κρυπτογραφημένου αντιγράφου..."
 
-msgid "Restore Failed"
-msgstr "Η επαναφορά απέτυχε"
+#~ msgid "Encrypted backup created successfully"
+#~ msgstr "Το κρυπτογραφημένο αντίγραφο δημιουργήθηκε επιτυχώς"
 
-msgid "Decrypting Backup..."
-msgstr "Αποκρυπτογράφηση αντιγράφου..."
-
-msgid "Restoring Backup..."
-msgstr "Επαναφορά αντιγράφου..."
-
-msgid "Set Backup Password"
-msgstr "Ορισμός κωδικού αντιγράφου"
-
-msgid "Confirm Password"
-msgstr "Επιβεβαίωση κωδικού"
-
-msgid "Create Encrypted Backup"
-msgstr "Δημιουργία κρυπτογραφημένου αντιγράφου"
-
-msgid "Password too short"
-msgstr "Ο κωδικός είναι πολύ μικρός"
-
-msgid "Passwords do not match"
-msgstr "Οι κωδικοί δεν ταιριάζουν"
-
-msgid "✓ Passwords match"
-msgstr "✓ Οι κωδικοί ταιριάζουν"
-
-msgid "Encrypting Backup..."
-msgstr "Κρυπτογράφηση αντιγράφου..."
-
-msgid "Factory Reset"
-msgstr "Επαναφορά εργοστασιακών"
-
-msgid "Restore from Backup"
-msgstr "Επαναφορά από αντίγραφο"
-
-msgid "Restore Backup"
-msgstr "Επαναφορά αντιγράφου"
-
-msgid "Select Backup File"
-msgstr "Επιλογή αρχείου αντιγράφου"
-
-msgid "Enter Backup Password"
-msgstr "Εισάγετε κωδικό αντιγράφου"
-
-msgid "Decrypt & Restore"
-msgstr "Αποκρυπτογράφηση και επαναφορά"
-
-msgid "Create Backup First"
-msgstr "Δημιουργήστε πρώτα αντίγραφο"
-
-msgid "No Encryption"
-msgstr "Χωρίς κρυπτογράφηση"
-
-msgid "Encrypt with Password"
-msgstr "Κρυπτογράφηση με κωδικό"
-
-msgid "Delete Everything"
-msgstr "Διαγραφή όλων"
-
-msgid "Confirm Delete"
-msgstr "Επιβεβαίωση διαγραφής"
-
-msgid "Are you absolutely sure?"
-msgstr "Είστε απολύτως σίγουροι;"
-
-#: main/data/preferences_window/general_preferences_page.ui:104
-msgid "Database Maintenance"
-msgstr "Συντήρηση βάσης δεδομένων"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Restore accounts, messages and settings from a backup file"
-msgstr ""
-"Επαναφορά λογαριασμών, μηνυμάτων και ρυθμίσεων από αρχείο αντιγράφου "
-"ασφαλείας"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
-msgstr ""
-"Διαγραφή όλων των μηνυμάτων, αρχείων και κλειδιών OMEMO. Οι λογαριασμοί σας "
-"θα παραμείνουν."
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete ALL data including accounts. This cannot be undone!"
-msgstr ""
-"Διαγραφή ΟΛΩΝ των δεδομένων συμπεριλαμβανομένων των λογαριασμών. Αυτό δεν "
-"μπορεί να αναιρεθεί!"
-
-# DinoX v0.7.7 - Additional Backup/Restore strings
-msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
-msgstr "Αρχεία αντιγράφων ασφαλείας (*.tar.gz, *.tar.gz.gpg)"
-
-msgid "Creating encrypted backup..."
-msgstr "Δημιουργία κρυπτογραφημένου αντιγράφου..."
-
-msgid "Decryption Failed"
-msgstr "Η αποκρυπτογράφηση απέτυχε"
-
-msgid "DinoX will now restart..."
-msgstr "Το DinoX θα επανεκκινήσει τώρα..."
-
-msgid "Encrypted backup created successfully"
-msgstr "Το κρυπτογραφημένο αντίγραφο δημιουργήθηκε επιτυχώς"
-
-msgid "Password (minimum 4 characters)"
-msgstr "Κωδικός (τουλάχιστον 4 χαρακτήρες)"
-
-msgid "Decrypting encrypted backup file..."
-msgstr "Αποκρυπτογράφηση αρχείου αντιγράφου..."
-
-msgid "Extracting files from backup..."
-msgstr "Εξαγωγή αρχείων από το αντίγραφο..."
-
-msgid "Factory reset in progress... DinoX will restart."
-msgstr "Επαναφορά εργοστασιακών ρυθμίσεων... Το DinoX θα επανεκκινήσει."
-
-msgid "Resetting database... DinoX will restart."
-msgstr "Επαναφορά βάσης δεδομένων... Το DinoX θα επανεκκινήσει."
-
-msgid "Encrypted backup created (%s)"
-msgstr "Κρυπτογραφημένο αντίγραφο δημιουργήθηκε (%s)"
-
-msgid ""
-"Could not decrypt the backup file.\n"
-"\n"
-"Please check if the password is correct."
-msgstr ""
-"Δεν ήταν δυνατή η αποκρυπτογράφηση.\n"
-"\n"
-"Ελέγξτε αν ο κωδικός είναι σωστός."
-
-msgid ""
-"Could not restore the backup file.\n"
-"\n"
-"Error: %s"
-msgstr ""
-"Δεν ήταν δυνατή η επαναφορά.\n"
-"\n"
-"Σφάλμα: %s"
-
-msgid "This backup is encrypted. Please enter the password to decrypt it."
-msgstr "Αυτό το αντίγραφο είναι κρυπτογραφημένο. Εισάγετε τον κωδικό."
-
-msgid ""
-"Enter a password to encrypt the backup.\n"
-"\n"
-"<b>Important:</b> Remember this password! Without it, the backup cannot be "
-"restored."
-msgstr ""
-"Εισάγετε κωδικό για κρυπτογράφηση.\n"
-"\n"
-"<b>Σημαντικό:</b> Θυμηθείτε αυτόν τον κωδικό!"
-
-msgid ""
-"This will delete all messages, files and OMEMO encryption keys.\n"
-"\n"
-"<b>Your accounts will remain, but you will lose all chat history and need to "
-"re-verify encryption with your contacts.</b>\n"
-"\n"
-"This action cannot be undone!"
-msgstr ""
-"This will delete all messages, files and OMEMO encryption keys.\n"
-"\n"
-"<b>Your accounts will remain, but you will lose all chat history and need to "
-"re-verify encryption with your contacts.</b>\n"
-"\n"
-"This action cannot be undone!"
-
-msgid ""
-"This will replace all current data with the backup.\n"
-"\n"
-"<b>Current accounts, messages and settings will be overwritten!</b>\n"
-"\n"
-"DinoX will restart after restoring."
-msgstr ""
-"This will replace all current data with the backup.\n"
-"\n"
-"<b>Current accounts, messages and settings will be overwritten!</b>\n"
-"\n"
-"DinoX will restart after restoring."
-
-msgid ""
-"Type 'DELETE' to confirm factory reset.\n"
-"\n"
-"This will permanently remove all your DinoX data."
-msgstr ""
-"Type 'DELETE' to confirm factory reset.\n"
-"\n"
-"This will permanently remove all your DinoX data."
-
-msgid ""
-"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
-"\n"
-"• All accounts\n"
-"• All messages and files\n"
-"• All encryption keys\n"
-"• All settings\n"
-"\n"
-"This is irreversible. Make sure to create a backup first!"
-msgstr ""
-"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
-"\n"
-"• All accounts\n"
-"• All messages and files\n"
-"• All encryption keys\n"
-"• All settings\n"
-"\n"
-"This is irreversible. Make sure to create a backup first!"
+#~ msgid "Encrypted backup created (%s)"
+#~ msgstr "Κρυπτογραφημένο αντίγραφο δημιουργήθηκε (%s)"
 
 # OpenPGP Key Management translations
-msgid "OpenPGP Key Management"
-msgstr "Διαχείριση κλειδιών OpenPGP"
+#~ msgid "OpenPGP Key Management"
+#~ msgstr "Διαχείριση κλειδιών OpenPGP"
 
-msgid "Actions"
-msgstr "Ενέργειες"
+#~ msgid "Actions"
+#~ msgstr "Ενέργειες"
 
-msgid "Generate New Key"
-msgstr "Δημιουργία νέου κλειδιού"
+#~ msgid "Generate New Key"
+#~ msgstr "Δημιουργία νέου κλειδιού"
 
-msgid "Create a new OpenPGP key pair"
-msgstr "Δημιουργία νέου ζεύγους κλειδιών OpenPGP"
+#~ msgid "Create a new OpenPGP key pair"
+#~ msgstr "Δημιουργία νέου ζεύγους κλειδιών OpenPGP"
 
-msgid "Import Key"
-msgstr "Εισαγωγή κλειδιού"
+#~ msgid "Import Key"
+#~ msgstr "Εισαγωγή κλειδιού"
 
-msgid "Import a key from file (.asc, .gpg)"
-msgstr "Εισαγωγή κλειδιού από αρχείο (.asc, .gpg)"
+#~ msgid "Import a key from file (.asc, .gpg)"
+#~ msgstr "Εισαγωγή κλειδιού από αρχείο (.asc, .gpg)"
 
-msgid "Your Keys"
-msgstr "Τα κλειδιά σας"
+#~ msgid "Your Keys"
+#~ msgstr "Τα κλειδιά σας"
 
-msgid "Private keys available for signing and decryption"
-msgstr "Διαθέσιμα ιδιωτικά κλειδιά για υπογραφή και αποκρυπτογράφηση"
+#~ msgid "Private keys available for signing and decryption"
+#~ msgstr "Διαθέσιμα ιδιωτικά κλειδιά για υπογραφή και αποκρυπτογράφηση"
 
-msgid "No private keys found"
-msgstr "Δεν βρέθηκαν ιδιωτικά κλειδιά"
+#~ msgid "No private keys found"
+#~ msgstr "Δεν βρέθηκαν ιδιωτικά κλειδιά"
 
-msgid "Generate or import a key to get started"
-msgstr "Δημιουργήστε ή εισάγετε ένα κλειδί για να ξεκινήσετε"
+#~ msgid "Generate or import a key to get started"
+#~ msgstr "Δημιουργήστε ή εισάγετε ένα κλειδί για να ξεκινήσετε"
 
-msgid "Fingerprint"
-msgstr "Αποτύπωμα"
+#~ msgid "Fingerprint"
+#~ msgstr "Αποτύπωμα"
 
-msgid "Export Public Key"
-msgstr "Εξαγωγή δημόσιου κλειδιού"
+#~ msgid "Export Public Key"
+#~ msgstr "Εξαγωγή δημόσιου κλειδιού"
 
-msgid "Delete Key"
-msgstr "Διαγραφή κλειδιού"
+#~ msgid "Delete Key"
+#~ msgstr "Διαγραφή κλειδιού"
 
-msgid "Generate New OpenPGP Key"
-msgstr "Δημιουργία νέου κλειδιού OpenPGP"
+#~ msgid "Generate New OpenPGP Key"
+#~ msgstr "Δημιουργία νέου κλειδιού OpenPGP"
 
-msgid "Enter your details to create a new key pair."
-msgstr "Εισάγετε τα στοιχεία σας για να δημιουργήσετε ένα νέο ζεύγος κλειδιών."
+#~ msgid "Enter your details to create a new key pair."
+#~ msgstr ""
+#~ "Εισάγετε τα στοιχεία σας για να δημιουργήσετε ένα νέο ζεύγος κλειδιών."
 
-msgid "Name"
-msgstr "Όνομα"
+#~ msgid "Name"
+#~ msgstr "Όνομα"
 
-msgid "Your Name"
-msgstr "Το όνομά σας"
+#~ msgid "Your Name"
+#~ msgstr "Το όνομά σας"
 
-msgid "Email"
-msgstr "Email"
+#~ msgid "Email"
+#~ msgstr "Email"
 
-msgid "you@example.com"
-msgstr "εσείς@παράδειγμα.gr"
+#~ msgid "you@example.com"
+#~ msgstr "εσείς@παράδειγμα.gr"
 
-msgid "Passphrase (optional)"
-msgstr "Φράση πρόσβασης (προαιρετική)"
+#~ msgid "Passphrase (optional)"
+#~ msgstr "Φράση πρόσβασης (προαιρετική)"
 
-msgid "Passphrase"
-msgstr "Φράση πρόσβασης"
+#~ msgid "Passphrase"
+#~ msgstr "Φράση πρόσβασης"
 
-msgid "4096-bit RSA key, valid for 2 years."
-msgstr "Κλειδί RSA 4096-bit, ισχύει για 2 χρόνια."
+#~ msgid "4096-bit RSA key, valid for 2 years."
+#~ msgstr "Κλειδί RSA 4096-bit, ισχύει για 2 χρόνια."
 
-msgid "Generate"
-msgstr "Δημιουργία"
+#~ msgid "Generate"
+#~ msgstr "Δημιουργία"
 
-msgid "Name must be at least 2 characters"
-msgstr "Το όνομα πρέπει να έχει τουλάχιστον 2 χαρακτήρες"
+#~ msgid "Name must be at least 2 characters"
+#~ msgstr "Το όνομα πρέπει να έχει τουλάχιστον 2 χαρακτήρες"
 
-msgid "Please enter a valid email address"
-msgstr "Παρακαλώ εισάγετε έγκυρη διεύθυνση email"
+#~ msgid "Please enter a valid email address"
+#~ msgstr "Παρακαλώ εισάγετε έγκυρη διεύθυνση email"
 
-msgid "Generating Key..."
-msgstr "Δημιουργία κλειδιού..."
+#~ msgid "Generating Key..."
+#~ msgstr "Δημιουργία κλειδιού..."
 
-msgid "Please wait while your key is being generated. This may take a moment."
-msgstr ""
-"Παρακαλώ περιμένετε καθώς δημιουργείται το κλειδί σας. Αυτό μπορεί να πάρει "
-"λίγο χρόνο."
+#~ msgid "Key generated successfully!"
+#~ msgstr "Το κλειδί δημιουργήθηκε επιτυχώς!"
 
-msgid "Key generated successfully!"
-msgstr "Το κλειδί δημιουργήθηκε επιτυχώς!"
+#~ msgid "Import OpenPGP Key"
+#~ msgstr "Εισαγωγή κλειδιού OpenPGP"
 
-msgid "Failed to generate key."
-msgstr "Αποτυχία δημιουργίας κλειδιού."
+#~ msgid "OpenPGP Keys (*.asc, *.gpg)"
+#~ msgstr "Κλειδιά OpenPGP (*.asc, *.gpg)"
 
-msgid "Import OpenPGP Key"
-msgstr "Εισαγωγή κλειδιού OpenPGP"
+#~ msgid "All Files"
+#~ msgstr "Όλα τα αρχεία"
 
-msgid "OpenPGP Keys (*.asc, *.gpg)"
-msgstr "Κλειδιά OpenPGP (*.asc, *.gpg)"
+#~ msgid "Key imported! Re-open Key Management to see it."
+#~ msgstr ""
+#~ "Το κλειδί εισήχθη! Ανοίξτε ξανά τη Διαχείριση κλειδιών για να το δείτε."
 
-msgid "All Files"
-msgstr "Όλα τα αρχεία"
+#~ msgid "Import failed: "
+#~ msgstr "Αποτυχία εισαγωγής: "
 
-msgid "Key imported! Re-open Key Management to see it."
-msgstr ""
-"Το κλειδί εισήχθη! Ανοίξτε ξανά τη Διαχείριση κλειδιών για να το δείτε."
+#~ msgid "Key exported to: "
+#~ msgstr "Το κλειδί εξήχθη σε: "
 
-msgid "Import failed: "
-msgstr "Αποτυχία εισαγωγής: "
+#~ msgid "Export failed."
+#~ msgstr "Αποτυχία εξαγωγής."
 
-msgid "Key exported to: "
-msgstr "Το κλειδί εξήχθη σε: "
+#~ msgid "Delete Key?"
+#~ msgstr "Διαγραφή κλειδιού;"
 
-msgid "Export failed."
-msgstr "Αποτυχία εξαγωγής."
+#~ msgid ""
+#~ "Delete this key?\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "This cannot be undone!"
+#~ msgstr ""
+#~ "Διαγραφή αυτού του κλειδιού;\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "Αυτό δεν μπορεί να αναιρεθεί!"
 
-msgid "Delete Key?"
-msgstr "Διαγραφή κλειδιού;"
+#~ msgid "Key deleted."
+#~ msgstr "Το κλειδί διαγράφηκε."
 
-msgid ""
-"Delete this key?\n"
-"\n"
-"%s\n"
-"\n"
-"This cannot be undone!"
-msgstr ""
-"Διαγραφή αυτού του κλειδιού;\n"
-"\n"
-"%s\n"
-"\n"
-"Αυτό δεν μπορεί να αναιρεθεί!"
+#~ msgid "Delete failed: "
+#~ msgstr "Αποτυχία διαγραφής: "
 
-msgid "Key deleted."
-msgstr "Το κλειδί διαγράφηκε."
+#~ msgid "Select OpenPGP Key"
+#~ msgstr "Επιλογή κλειδιού OpenPGP"
 
-msgid "Delete failed: "
-msgstr "Αποτυχία διαγραφής: "
+#~ msgid "Choose a key to announce to your contacts."
+#~ msgstr "Επιλέξτε ένα κλειδί για ανακοίνωση στις επαφές σας."
 
-msgid "Select OpenPGP Key"
-msgstr "Επιλογή κλειδιού OpenPGP"
+#~ msgid "Enter GPG passphrase to confirm:"
+#~ msgstr "Εισάγετε τη φράση πρόσβασης GPG για επιβεβαίωση:"
 
-msgid "Choose a key to announce to your contacts."
-msgstr "Επιλέξτε ένα κλειδί για ανακοίνωση στις επαφές σας."
+#~ msgid "Wrong passphrase"
+#~ msgstr "Λάθος φράση πρόσβασης"
 
-msgid "Enter GPG passphrase to confirm:"
-msgstr "Εισάγετε τη φράση πρόσβασης GPG για επιβεβαίωση:"
+#~ msgid "Manage Keys"
+#~ msgstr "Διαχείριση κλειδιών"
 
-msgid "Wrong passphrase"
-msgstr "Λάθος φράση πρόσβασης"
+#~ msgid "Generate, import, export, or delete keys"
+#~ msgstr "Δημιουργία, εισαγωγή, εξαγωγή ή διαγραφή κλειδιών"
 
-msgid "Manage Keys"
-msgstr "Διαχείριση κλειδιών"
+#~ msgid "No keys available. Generate or import one!"
+#~ msgstr "Δεν υπάρχουν διαθέσιμα κλειδιά. Δημιουργήστε ή εισάγετε ένα!"
 
-msgid "Generate, import, export, or delete keys"
-msgstr "Δημιουργία, εισαγωγή, εξαγωγή ή διαγραφή κλειδιών"
+#~ msgid "Announce key"
+#~ msgstr "Ανακοίνωση κλειδιού"
 
-msgid "No keys available. Generate or import one!"
-msgstr "Δεν υπάρχουν διαθέσιμα κλειδιά. Δημιουργήστε ή εισάγετε ένα!"
+#~ msgid "Disabled"
+#~ msgstr "Απενεργοποιημένο"
 
-msgid "Announce key"
-msgstr "Ανακοίνωση κλειδιού"
+#~ msgid "Error in GnuPG"
+#~ msgstr "Σφάλμα στο GnuPG"
 
-msgid "Disabled"
-msgstr "Απενεργοποιημένο"
-
-msgid "Error in GnuPG"
-msgstr "Σφάλμα στο GnuPG"
-
-msgid "Success"
-msgstr "Επιτυχία"
-
-msgid "OK"
-msgstr "OK"
+#~ msgid "Success"
+#~ msgstr "Επιτυχία"
 
 #~ msgid "Message too long"
 #~ msgstr "Το μήνυμα είναι πολύ μεγάλο"

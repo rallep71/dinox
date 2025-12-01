@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-28 12:18+0100\n"
+"POT-Creation-Date: 2025-12-01 10:28+0100\n"
 "PO-Revision-Date: 2023-02-10 18:35+0000\n"
 "Language-Team: none\n"
 "Language: lv\n"
@@ -100,14 +100,14 @@ msgstr "Vispārīgi"
 #: main/data/gtk/help-overlay.ui:14 main/data/main_window.ui:38
 #: main/data/menu_add.ui:7
 #: main/src/ui/add_conversation/select_contact_dialog.vala:106
-#: main/src/ui/main_window.vala:141
+#: main/src/ui/main_window.vala:154
 msgid "Start Conversation"
 msgstr "Sākt sarunu"
 
 #: main/data/gtk/help-overlay.ui:20 main/data/main_window.ui:51
 #: main/data/menu_add.ui:11
 #: main/src/ui/add_conversation/add_conference_dialog.vala:24
-#: main/src/ui/application.vala:527 main/src/ui/main_window.vala:142
+#: main/src/ui/application.vala:1359 main/src/ui/main_window.vala:155
 msgid "Join Channel"
 msgstr "Pievienoties kanālam"
 
@@ -148,7 +148,7 @@ msgstr "Pāriet uz nākamo sarunu"
 msgid "Jump to previous conversation"
 msgstr "Pāriet uz iepriekšējo sarunu"
 
-#: main/data/main_window.ui:64 main/src/ui/main_window.vala:144
+#: main/data/main_window.ui:64 main/src/ui/main_window.vala:157
 msgid "Help: How to join channels"
 msgstr "Palīdzība: Kā pievienoties kanāliem"
 
@@ -166,28 +166,28 @@ msgstr "Statuss"
 
 #: main/data/menu_app.ui:11
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:427
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Online"
 msgstr "Tiešsaistē"
 
 #: main/data/menu_app.ui:16
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:421
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Away"
 msgstr "Projām"
 
 #: main/data/menu_app.ui:21
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:425
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Busy"
 msgstr "Aizņemts"
 
 #: main/data/menu_app.ui:26
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:423
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Not Available"
 msgstr "Nav pieejams"
@@ -200,7 +200,7 @@ msgstr "Iestatījumi"
 msgid "Keyboard Shortcuts"
 msgstr "Tastatūras saīsnes"
 
-#: main/data/menu_app.ui:42 main/src/ui/application.vala:334
+#: main/data/menu_app.ui:42 main/src/ui/application.vala:340
 msgid "About DinoX"
 msgstr "Par DinoX"
 
@@ -219,7 +219,10 @@ msgstr "Dzēst sarunu vēsturi"
 #: main/data/preferences_window/change_password_dialog.ui:18
 #: main/src/ui/add_conversation/add_conference_dialog.vala:41
 #: main/src/ui/add_conversation/select_contact_dialog.vala:40
-#: main/src/ui/application.vala:537
+#: main/src/ui/application.vala:441 main/src/ui/application.vala:469
+#: main/src/ui/application.vala:765 main/src/ui/application.vala:843
+#: main/src/ui/application.vala:901 main/src/ui/application.vala:933
+#: main/src/ui/application.vala:1089 main/src/ui/application.vala:1369
 #: main/src/ui/conversation_content_view/file_default_widget.vala:90
 #: main/src/ui/conversation_content_view/item_actions.vala:165
 #: main/src/ui/conversation_content_view/item_actions.vala:168
@@ -234,7 +237,7 @@ msgstr "Dzēst sarunu vēsturi"
 #: main/src/ui/conversation_titlebar/call_entry.vala:83
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
 #: main/src/windows/conversation_details.vala:60
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:67
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:68
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:205
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:225
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:249
@@ -258,6 +261,7 @@ msgid "Local alias"
 msgstr "Vietējais aizstājvārds"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:82
+#: main/src/ui/application.vala:435 main/src/ui/application.vala:1064
 #: main/src/ui/util/data_forms.vala:63
 msgid "Password"
 msgstr "Parole"
@@ -266,20 +270,24 @@ msgstr "Parole"
 msgid "Connection status"
 msgstr "Savienojuma statuss"
 
+#: main/data/preferences_window/account_preferences_subpage.ui:117
+msgid "View Certificate"
+msgstr "Skatīt sertifikātu"
+
 # Custom host/port feature (Issue #115)
-#: main/data/preferences_window/account_preferences_subpage.ui:121
+#: main/data/preferences_window/account_preferences_subpage.ui:128
 msgid "Advanced Settings"
 msgstr "Papildu iestatījumi"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:122
+#: main/data/preferences_window/account_preferences_subpage.ui:129
 msgid "Custom server connection (leave empty for automatic)"
 msgstr "Pielāgots servera savienojums (atstājiet tukšu automātiskam)"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:125
+#: main/data/preferences_window/account_preferences_subpage.ui:132
 msgid "Server Hostname"
 msgstr "Servera resursdatora nosaukums"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:130
+#: main/data/preferences_window/account_preferences_subpage.ui:137
 msgid "Port"
 msgstr "Ports"
 
@@ -350,12 +358,52 @@ msgid "Create a backup of your accounts, messages and settings"
 msgstr "Izveidot kontu, ziņojumu un iestatījumu dublējumu"
 
 #: main/data/preferences_window/general_preferences_page.ui:78
-msgid "Data Location"
-msgstr "Datu atrašanās vieta"
+#: main/src/ui/application.vala:464 main/src/ui/main_window.vala:223
+msgid "Restore from Backup"
+msgstr "Atjaunot no dublējuma"
 
 #: main/data/preferences_window/general_preferences_page.ui:79
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "Atjaunot kontus, ziņas un iestatījumus no rezerves kopijas"
+
+#: main/data/preferences_window/general_preferences_page.ui:90
+msgid "Data Storage Location"
+msgstr "Datu glabāšanas vieta"
+
+#: main/data/preferences_window/general_preferences_page.ui:91
 msgid "View where your data is stored"
 msgstr "Skatīt, kur glabājas jūsu dati"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "Datu bāzes uzturēšana"
+
+#: main/data/preferences_window/general_preferences_page.ui:107
+#: main/src/ui/application.vala:761 main/src/ui/application.vala:766
+msgid "Clear Cache"
+msgstr "Notīrīt kešatmiņu"
+
+#: main/data/preferences_window/general_preferences_page.ui:108
+msgid "Clear cached files, avatars and previews"
+msgstr "Notīrīt kešatmiņā saglabātos failus, iemiesojumus un priekšskatījumus"
+
+#: main/data/preferences_window/general_preferences_page.ui:119
+#: main/src/ui/application.vala:838 main/src/ui/application.vala:844
+msgid "Reset Database"
+msgstr "Atiestatīt datubāzi"
+
+#: main/data/preferences_window/general_preferences_page.ui:120
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr "Dzēst visas ziņas, failus un OMEMO atslēgas. Jūsu konti paliks."
+
+#: main/data/preferences_window/general_preferences_page.ui:131
+#: main/src/ui/application.vala:896
+msgid "Factory Reset"
+msgstr "Rūpnīcas atiestatīšana"
+
+#: main/data/preferences_window/general_preferences_page.ui:132
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr "Dzēst VISUS datus, ieskaitot kontus. Šo darbību nevar atsaukt!"
 
 #: main/data/preferences_window/preferences_dialog.ui:11
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:15
@@ -380,7 +428,7 @@ msgstr "Tālāk"
 
 #: main/src/ui/add_conversation/add_conference_dialog.vala:59
 #: main/src/ui/add_conversation/conference_details_fragment.vala:151
-#: main/src/ui/application.vala:541
+#: main/src/ui/application.vala:1373
 msgid "Join"
 msgstr "Pievienoties"
 
@@ -466,31 +514,31 @@ msgstr "Dzēst kontaktu"
 msgid "Leave Group"
 msgstr "Pamest grupu"
 
-#: main/src/ui/application.vala:339
+#: main/src/ui/application.vala:345
 msgid "Modern XMPP client with extended features"
 msgstr "Mūsdienīgs XMPP klients ar paplašinātām funkcijām"
 
-#: main/src/ui/application.vala:346 main/src/ui/application.vala:385
+#: main/src/ui/application.vala:352 main/src/ui/application.vala:727
 msgid "User Data Locations"
 msgstr "Datu atrašanās vietas"
 
-#: main/src/ui/application.vala:349 main/src/ui/application.vala:399
+#: main/src/ui/application.vala:355 main/src/ui/application.vala:741
 msgid "Configuration:"
 msgstr "Konfigurācija:"
 
-#: main/src/ui/application.vala:352 main/src/ui/application.vala:401
+#: main/src/ui/application.vala:358 main/src/ui/application.vala:743
 msgid "Data & Database:"
 msgstr "Dati un datubāze:"
 
-#: main/src/ui/application.vala:355 main/src/ui/application.vala:403
+#: main/src/ui/application.vala:361 main/src/ui/application.vala:745
 msgid "Cache:"
 msgstr "Kešatmiņa:"
 
-#: main/src/ui/application.vala:358
+#: main/src/ui/application.vala:364
 msgid "Info:"
-msgstr "Info:"
+msgstr "Informācija:"
 
-#: main/src/ui/application.vala:359
+#: main/src/ui/application.vala:365
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
@@ -498,17 +546,121 @@ msgstr ""
 "Jūsu personas dati (konti, ziņojumi, faili) tiek glabāti atsevišķi no "
 "lietojumprogrammas."
 
-#: main/src/ui/application.vala:361
+#: main/src/ui/application.vala:367
 msgid "When you update DinoX, your data remains intact."
 msgstr "Atjauninot DinoX, jūsu dati paliek neskarti."
 
-#: main/src/ui/application.vala:363
+#: main/src/ui/application.vala:369
 msgid "Use Settings → General → Backup User Data to create a backup."
 msgstr ""
 "Izmantojiet Iestatījumi → Vispārīgi → Dublēt lietotāja datus, lai izveidotu "
 "dublējumu."
 
-#: main/src/ui/application.vala:405
+#: main/src/ui/application.vala:387
+msgid "Select Backup File"
+msgstr "Izvēlēties dublējuma failu"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+#: main/src/ui/application.vala:395
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "Rezerves kopiju faili (*.tar.gz, *.tar.gz.gpg)"
+
+#: main/src/ui/application.vala:425
+msgid "Enter Backup Password"
+msgstr "Ievadīt dublējuma paroli"
+
+#: main/src/ui/application.vala:426
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "Šis dublējums ir šifrēts. Ievadiet paroli atšifrēšanai."
+
+#: main/src/ui/application.vala:442
+msgid "Decrypt & Restore"
+msgstr "Atšifrēt un atjaunot"
+
+#: main/src/ui/application.vala:465
+msgid ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+msgstr ""
+"Tas aizstās visus pašreizējos datus ar dublējumu.\n"
+"\n"
+"<b>Pašreizējie konti, ziņojumi un iestatījumi tiks pārrakstīti!</b>\n"
+"\n"
+"DinoX tiks restartēts pēc atjaunošanas."
+
+#: main/src/ui/application.vala:470
+msgid "Restore Backup"
+msgstr "Atjaunot dublējumu"
+
+#: main/src/ui/application.vala:487 main/src/ui/application.vala:519
+msgid "Decrypting Backup..."
+msgstr "Atšifrē dublējumu..."
+
+#: main/src/ui/application.vala:487 main/src/ui/application.vala:571
+msgid "Restoring Backup..."
+msgstr "Atjauno dublējumu..."
+
+#: main/src/ui/application.vala:488
+msgid "Please wait, this may take a moment..."
+msgstr "Lūdzu, uzgaidiet, tas var aizņemt brīdi..."
+
+#: main/src/ui/application.vala:520
+msgid "Decrypting encrypted backup file..."
+msgstr "Atšifrē dublējuma failu..."
+
+#: main/src/ui/application.vala:558
+msgid "Decryption Failed"
+msgstr "Atšifrēšana neizdevās"
+
+#: main/src/ui/application.vala:559
+msgid ""
+"Could not decrypt the backup file.\n"
+"\n"
+"Please check if the password is correct."
+msgstr ""
+"Nevarēja atšifrēt failu.\n"
+"\n"
+"Lūdzu pārbaudiet, vai parole ir pareiza."
+
+#: main/src/ui/application.vala:561 main/src/ui/application.vala:671
+msgid "OK"
+msgstr "OK"
+
+#: main/src/ui/application.vala:572
+msgid "Extracting files from backup..."
+msgstr "Izvelk failus no dublējuma..."
+
+#: main/src/ui/application.vala:653
+msgid "Restore Complete!"
+msgstr "Atjaunošana pabeigta!"
+
+#: main/src/ui/application.vala:654
+msgid "DinoX will now restart..."
+msgstr "DinoX tagad tiks restartēts..."
+
+#: main/src/ui/application.vala:668
+msgid "Restore Failed"
+msgstr "Atjaunošana neizdevās"
+
+#: main/src/ui/application.vala:669
+#, c-format
+msgid ""
+"Could not restore the backup file.\n"
+"\n"
+"Error: %s"
+msgstr ""
+"Nevarēja atjaunot failu.\n"
+"\n"
+"Kļūda: %s"
+
+#: main/src/ui/application.vala:669 main/src/ui/application.vala:1345
+msgid "Unknown error"
+msgstr "Nezināma kļūda"
+
+#: main/src/ui/application.vala:747
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
@@ -516,96 +668,242 @@ msgstr ""
 "Jūsu personas dati (konti, ziņojumi, faili) tiek glabāti atsevišķi no "
 "lietojumprogrammas. Atjauninot DinoX, jūsu dati paliek neskarti."
 
-#: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
-#: main/src/ui/main_window.vala:159
+#: main/src/ui/application.vala:752 main/src/ui/application.vala:1240
+#: main/src/ui/application.vala:1324 main/src/ui/conversation_details.vala:272
+#: main/src/ui/main_window.vala:172
 msgid "Close"
 msgstr "Aizvērt"
 
-#: main/src/ui/application.vala:417
+#: main/src/ui/application.vala:762
+msgid ""
+"This will delete cached files, avatars and previews.\n"
+"\n"
+"They will be re-downloaded when needed."
+msgstr ""
+"Tas izdzēsīs kešatmiņā saglabātos failus, iemiesojumus un priekšskatījumus.\n"
+"\n"
+"Vajadzības gadījumā tie tiks lejupielādēti no jauna."
+
+#: main/src/ui/application.vala:799
+#, c-format
+msgid "Cache cleared (%s freed)"
+msgstr "Kešatmiņa notīrīta (%s atbrīvots)"
+
+#: main/src/ui/application.vala:802
+msgid "Failed to clear cache"
+msgstr "Neizdevās notīrīt kešatmiņu"
+
+#: main/src/ui/application.vala:839
+msgid ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+msgstr ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+
+#: main/src/ui/application.vala:867
+msgid "Resetting database... DinoX will restart."
+msgstr "Datubāzes atiestatīšana... DinoX tiks restartēts."
+
+#: main/src/ui/application.vala:897
+msgid ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+msgstr ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+
+#: main/src/ui/application.vala:902
+msgid "Create Backup First"
+msgstr "Vispirms izveidot dublējumu"
+
+#: main/src/ui/application.vala:903
+msgid "Delete Everything"
+msgstr "Dzēst visu"
+
+#: main/src/ui/application.vala:923
+msgid "Are you absolutely sure?"
+msgstr "Vai esat pilnīgi pārliecināts?"
+
+#: main/src/ui/application.vala:924
+msgid ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+msgstr ""
+"Ierakstiet 'DELETE', lai apstiprinātu rūpnīcas atiestatīšanu.\n"
+"\n"
+"Tas neatgriezeniski noņems visus jūsu DinoX datus."
+
+#: main/src/ui/application.vala:934
+msgid "Confirm Delete"
+msgstr "Apstiprināt dzēšanu"
+
+#: main/src/ui/application.vala:961
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "Rūpnīcas atiestatīšana notiek... DinoX tiks restartēts."
+
+#: main/src/ui/application.vala:1026
+msgid "Backup Encryption"
+msgstr "Dublējuma šifrēšana"
+
+#: main/src/ui/application.vala:1027
+msgid ""
+"Do you want to encrypt the backup with a password?\n"
+"\n"
+"Encrypted backups are more secure but require the password to restore."
+msgstr ""
+"Vai vēlaties šifrēt dublējumu ar paroli?\n"
+"\n"
+"Šifrēti dublējumi ir drošāki, taču to atjaunošanai ir nepieciešama parole."
+
+#: main/src/ui/application.vala:1030
+msgid "No Encryption"
+msgstr "Bez šifrēšanas"
+
+#: main/src/ui/application.vala:1031
+msgid "Encrypt with Password"
+msgstr "Šifrēt ar paroli"
+
+#: main/src/ui/application.vala:1049
+msgid "Set Backup Password"
+msgstr "Iestatīt dublējuma paroli"
+
+#: main/src/ui/application.vala:1050
+msgid ""
+"Enter a password to encrypt the backup.\n"
+"\n"
+"<b>Important:</b> Remember this password! Without it, the backup cannot be "
+"restored."
+msgstr ""
+"Ievadiet paroli dublējuma šifrēšanai.\n"
+"\n"
+"<b>Svarīgi:</b> Atcerieties šo paroli! Bez tās dublējumu nevar atjaunot."
+
+#: main/src/ui/application.vala:1058
+msgid "Password (minimum 4 characters)"
+msgstr "Parole (vismaz 4 rakstzīmes)"
+
+#: main/src/ui/application.vala:1066 main/src/ui/application.vala:1073
+msgid "Confirm Password"
+msgstr "Apstiprināt paroli"
+
+#: main/src/ui/application.vala:1090
+msgid "Create Encrypted Backup"
+msgstr "Izveidot šifrētu dublējumu"
+
+#: main/src/ui/application.vala:1102 main/src/ui/application.vala:1117
+msgid "Password too short"
+msgstr "Parole pārāk īsa"
+
+#: main/src/ui/application.vala:1104 main/src/ui/application.vala:1119
+msgid "Passwords do not match"
+msgstr "Paroles nesakrīt"
+
+#: main/src/ui/application.vala:1106 main/src/ui/application.vala:1121
+msgid "✓ Passwords match"
+msgstr "✓ Paroles sakrīt"
+
+#: main/src/ui/application.vala:1139
 msgid "Select Backup Location"
-msgstr "Izvēlieties dublējuma vietu"
+msgstr "Izvēlēties dublējuma atrašanās vietu"
 
-#: main/src/ui/application.vala
-msgid "Creating Backup..."
-msgstr "Creating Backup..."
-
-#: main/src/ui/application.vala
+#: main/src/ui/application.vala:1194
 msgid "Creating Encrypted Backup..."
-msgstr "Creating Encrypted Backup..."
+msgstr "Veido šifrētu dublējumu..."
 
-#: main/src/ui/application.vala
-msgid "Please wait while your data is being backed up."
-msgstr "Please wait while your data is being backed up."
-
-#: main/src/ui/application.vala
-msgid "No data directories found to backup"
-msgstr "No data directories found to backup"
-
-#: main/src/ui/application.vala
-msgid "Backup Created"
-msgstr "Backup Created"
-
-#: main/src/ui/application.vala
-msgid "Encrypted Backup Created"
-msgstr "Encrypted Backup Created"
-
-#: main/src/ui/application.vala
-#, c-format
-msgid "Your backup was created successfully.\\n\\nSize: %s"
-msgstr "Your backup was created successfully.\\n\\nSize: %s"
-
-#: main/src/ui/application.vala
-msgid "Your backup was created successfully."
-msgstr "Your backup was created successfully."
-
-#: main/src/ui/application.vala
-#, c-format
-msgid "Your encrypted backup was created successfully.\\n\\nSize: %s"
-msgstr "Your encrypted backup was created successfully.\\n\\nSize: %s"
-
-#: main/src/ui/application.vala
-msgid "Your encrypted backup was created successfully."
-msgstr "Your encrypted backup was created successfully."
-
-#: main/src/ui/application.vala
-msgid "Backup Failed"
-msgstr "Backup Failed"
-
-#: main/src/ui/application.vala:445
-msgid "Creating backup..."
+#: main/src/ui/application.vala:1194
+msgid "Creating Backup..."
 msgstr "Veido dublējumu..."
 
-#: main/src/ui/application.vala:503
-#, c-format
-msgid "Backup created successfully (%s)"
-msgstr "Dublējums izveidots (%s)"
+#: main/src/ui/application.vala:1195
+msgid "Please wait while your data is being backed up."
+msgstr "Lūdzu, uzgaidiet, kamēr tiek dublēti jūsu dati."
 
-#: main/src/ui/application.vala:505
-msgid "Backup created successfully"
+#: main/src/ui/application.vala:1234
+msgid "No data directory found to backup"
+msgstr "Nav atrasts datu direktorijs dublēšanai"
+
+#: main/src/ui/application.vala:1237 main/src/ui/application.vala:1343
+msgid "Backup Failed"
+msgstr "Dublēšana neizdevās"
+
+#: main/src/ui/application.vala:1331
+msgid "Encrypted Backup Created"
+msgstr "Šifrēts dublējums izveidots"
+
+#: main/src/ui/application.vala:1333
+#, c-format
+msgid ""
+"Your encrypted backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"Jūsu šifrētais dublējums tika veiksmīgi izveidots.\n"
+"\n"
+"Izmērs: %s"
+
+#: main/src/ui/application.vala:1334
+msgid "Your encrypted backup was created successfully."
+msgstr "Jūsu šifrētais dublējums tika veiksmīgi izveidots."
+
+#: main/src/ui/application.vala:1336
+msgid "Backup Created"
 msgstr "Dublējums izveidots"
 
-#: main/src/ui/application.vala:510
-msgid "Unknown error"
-msgstr "Nezināma kļūda"
+#: main/src/ui/application.vala:1338
+#, c-format
+msgid ""
+"Your backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"Jūsu dublējums tika veiksmīgi izveidots.\n"
+"\n"
+"Izmērs: %s"
 
-#: main/src/ui/application.vala:511
+#: main/src/ui/application.vala:1339
+msgid "Your backup was created successfully."
+msgstr "Jūsu dublējums tika veiksmīgi izveidots."
+
+#: main/src/ui/application.vala:1346
 #, c-format
 msgid "Backup failed: %s"
 msgstr "Dublējums neizdevās: %s"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:29
+#: main/src/ui/call_window/audio_settings_popover.vala:46
 msgid "Microphones"
 msgstr "Mikrofoni"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:32
+#: main/src/ui/call_window/audio_settings_popover.vala:49
 msgid "No microphone found."
 msgstr "Mikrofons nav atrasts."
 
-#: main/src/ui/call_window/audio_settings_popover.vala:85
+#: main/src/ui/call_window/audio_settings_popover.vala:116
 msgid "Speakers"
 msgstr "Skaļruņi"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:88
+#: main/src/ui/call_window/audio_settings_popover.vala:119
 msgid "No speaker found."
 msgstr "Skaļrunis nav atrasts."
 
@@ -621,7 +919,7 @@ msgstr "Uzaicināt uz zvanu"
 msgid "Invite"
 msgstr "Uzaicināt"
 
-#: main/src/ui/call_window/call_window_controller.vala:405
+#: main/src/ui/call_window/call_window_controller.vala:453
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:240
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:270
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:285
@@ -640,21 +938,21 @@ msgstr "%s pabeidza zvanu"
 msgid "%s declined the call"
 msgstr "%s noraidīja zvanu"
 
-#: main/src/ui/call_window/participant_widget.vala:115
+#: main/src/ui/call_window/participant_widget.vala:140
 msgid "Debug information"
 msgstr "Atkļūdošanas informācija"
 
-#: main/src/ui/call_window/participant_widget.vala:124
+#: main/src/ui/call_window/participant_widget.vala:149
 #: main/src/ui/conversation_content_view/call_widget.vala:152
 msgid "Calling…"
 msgstr "Zvana…"
 
-#: main/src/ui/call_window/participant_widget.vala:126
+#: main/src/ui/call_window/participant_widget.vala:151
 msgid "Ringing…"
 msgstr "Zvana signāls…"
 
-#: main/src/ui/call_window/participant_widget.vala:128
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:216
+#: main/src/ui/call_window/participant_widget.vala:153
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:244
 msgid "Connecting…"
 msgstr "Savienojas…"
 
@@ -888,7 +1186,7 @@ msgstr "%a, %H∶%M"
 msgid "Just now"
 msgstr "Tikko"
 
-#: main/src/ui/conversation_content_view/conversation_view.vala:105
+#: main/src/ui/conversation_content_view/conversation_view.vala:106
 msgid "More actions"
 msgstr "Vairāk darbību"
 
@@ -1104,6 +1402,38 @@ msgstr "Iznīcināt"
 #: main/src/ui/conversation_details.vala:271
 msgid "Failed to destroy room"
 msgstr "Neizdevās iznīcināt istabu"
+
+#: main/src/ui/conversation_details.vala:286
+msgid "Auto-delete messages"
+msgstr "Automātiski dzēst ziņojumus"
+
+#: main/src/ui/conversation_details.vala:287
+msgid "Never"
+msgstr "Nekad"
+
+#: main/src/ui/conversation_details.vala:288
+msgid "After 15 minutes"
+msgstr "Pēc 15 minūtēm"
+
+#: main/src/ui/conversation_details.vala:289
+msgid "After 30 minutes"
+msgstr "Pēc 30 minūtēm"
+
+#: main/src/ui/conversation_details.vala:290
+msgid "After 1 hour"
+msgstr "Pēc 1 stundas"
+
+#: main/src/ui/conversation_details.vala:291
+msgid "After 24 hours"
+msgstr "Pēc 24 stundām"
+
+#: main/src/ui/conversation_details.vala:292
+msgid "After 7 days"
+msgstr "Pēc 7 dienām"
+
+#: main/src/ui/conversation_details.vala:293
+msgid "After 30 days"
+msgstr "Pēc 30 dienām"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:276
 #: main/src/ui/notifier_freedesktop.vala:71
@@ -1353,7 +1683,7 @@ msgid "Select file"
 msgstr "Izvēlieties failu"
 
 #: main/src/ui/conversation_view_controller.vala:225
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:152
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:180
 msgid "Select"
 msgstr "Izvēlēties"
 
@@ -1371,11 +1701,11 @@ msgstr "Iekš %s"
 msgid "With %s"
 msgstr "Ar %s"
 
-#: main/src/ui/main_window.vala:156
+#: main/src/ui/main_window.vala:169
 msgid "Join Channel Help"
 msgstr "Palīdzība pievienoties kanālam"
 
-#: main/src/ui/main_window.vala:157
+#: main/src/ui/main_window.vala:170
 msgid ""
 "To join a channel, click the \"Join Channel\" button and enter the channel "
 "JID (example: room@conference.example.org).\n"
@@ -1389,25 +1719,25 @@ msgstr ""
 "Ja nepieciešama parole vai segvārds, norādiet tos dialogā. Izmantojiet "
 "servera atklāšanas funkcijas, lai atrastu publiskas istabas."
 
-#: main/src/ui/main_window.vala:206
+#: main/src/ui/main_window.vala:219
 msgid "Welcome to DinoX!"
 msgstr "Laipni lūdzam DinoX!"
 
-#: main/src/ui/main_window.vala:207
+#: main/src/ui/main_window.vala:220
 msgid "Sign in or create an account to get started."
 msgstr "Pierakstieties vai izveidojiet kontu, lai sāktu."
 
-#: main/src/ui/main_window.vala:208
+#: main/src/ui/main_window.vala:221
 msgid "Set up account"
 msgstr "Iestatīt kontu"
 
-#: main/src/ui/main_window.vala:215
+#: main/src/ui/main_window.vala:230
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:71
 #: main/src/windows/preferences_window/encryption_preferences_page.vala:49
 msgid "No active accounts"
 msgstr "Nav aktīvu kontu"
 
-#: main/src/ui/main_window.vala:216
+#: main/src/ui/main_window.vala:231
 msgid "Manage accounts"
 msgstr "Pārvaldīt kontus"
 
@@ -1417,12 +1747,12 @@ msgid "Subscription request"
 msgstr "Abonementa pieprasījums"
 
 #: main/src/ui/notifier_freedesktop.vala:192
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:231
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:259
 msgid "Wrong password"
 msgstr "Nepareiza parole"
 
 #: main/src/ui/notifier_freedesktop.vala:195
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:233
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:261
 msgid "Invalid TLS certificate"
 msgstr "Nederīgs TLS sertifikāts"
 
@@ -1667,45 +1997,45 @@ msgstr "Iestatījumi"
 msgid "Room Configuration"
 msgstr "Istabas konfigurācija"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:68
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:69
 msgid "Connect"
 msgstr "Savienot"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:106
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
 msgid "Disable account"
 msgstr "Atspējot kontu"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:106
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
 msgid "Enable account"
 msgstr "Iespējot kontu"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:151
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:179
 msgid "Select avatar"
 msgstr "Izvēlēties avatāru"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:162
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:190
 msgid "Images"
 msgstr "Attēli"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:166
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:194
 msgid "All files"
 msgstr "Visi faili"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:184
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:212
 #, c-format
 msgid "Remove account %s?"
 msgstr "Noņemt kontu %s?"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:218
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:246
 msgid "Connected"
 msgstr "Savienots"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:220
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:248
 msgid "Disconnected"
 msgstr "Atvienots"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:240
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:242
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:268
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:270
 msgid "Error"
 msgstr "Kļūda"
 
@@ -1815,387 +2145,190 @@ msgstr "Mainīt attēlojamo vārdu lietotājam %s"
 msgid "Alias (optional)"
 msgstr "Aizstājvārds (neobligāti)"
 
+#~ msgid "Creating backup..."
+#~ msgstr "Veido dublējumu..."
+
+#, c-format
+#~ msgid "Backup created successfully (%s)"
+#~ msgstr "Dublējums izveidots (%s)"
+
+#~ msgid "Backup created successfully"
+#~ msgstr "Dublējums izveidots"
+
 # DinoX v0.7.7 - Database Maintenance & Backup/Restore
-msgid "Clean Database"
-msgstr "Clean Database"
+#~ msgid "Clean Database"
+#~ msgstr "Clean Database"
 
-msgid "Reset Database"
-msgstr "Reset Database"
+#~ msgid "Encrypting Backup..."
+#~ msgstr "Encrypting Backup..."
 
-msgid "Restore Complete!"
-msgstr "Restore Complete!"
+#~ msgid "Creating encrypted backup..."
+#~ msgstr "Veido šifrētu dublējumu..."
 
-msgid "Restore Failed"
-msgstr "Restore Failed"
+#~ msgid "Encrypted backup created successfully"
+#~ msgstr "Šifrēts dublējums veiksmīgi izveidots"
 
-msgid "Decrypting Backup..."
-msgstr "Decrypting Backup..."
-
-msgid "Restoring Backup..."
-msgstr "Restoring Backup..."
-
-msgid "Set Backup Password"
-msgstr "Set Backup Password"
-
-msgid "Confirm Password"
-msgstr "Confirm Password"
-
-msgid "Create Encrypted Backup"
-msgstr "Create Encrypted Backup"
-
-msgid "Password too short"
-msgstr "Password too short"
-
-msgid "Passwords do not match"
-msgstr "Passwords do not match"
-
-msgid "✓ Passwords match"
-msgstr "✓ Passwords match"
-
-msgid "Encrypting Backup..."
-msgstr "Encrypting Backup..."
-
-msgid "Factory Reset"
-msgstr "Factory Reset"
-
-msgid "Restore from Backup"
-msgstr "Restore from Backup"
-
-msgid "Restore Backup"
-msgstr "Restore Backup"
-
-msgid "Select Backup File"
-msgstr "Select Backup File"
-
-msgid "Enter Backup Password"
-msgstr "Enter Backup Password"
-
-msgid "Decrypt & Restore"
-msgstr "Decrypt & Restore"
-
-msgid "Create Backup First"
-msgstr "Create Backup First"
-
-msgid "No Encryption"
-msgstr "No Encryption"
-
-msgid "Encrypt with Password"
-msgstr "Encrypt with Password"
-
-msgid "Delete Everything"
-msgstr "Delete Everything"
-
-msgid "Confirm Delete"
-msgstr "Confirm Delete"
-
-msgid "Are you absolutely sure?"
-msgstr "Are you absolutely sure?"
-
-#: main/data/preferences_window/general_preferences_page.ui:104
-msgid "Database Maintenance"
-msgstr "Datu bāzes uzturēšana"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Restore accounts, messages and settings from a backup file"
-msgstr "Atjaunot kontus, ziņas un iestatījumus no rezerves kopijas"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
-msgstr "Dzēst visas ziņas, failus un OMEMO atslēgas. Jūsu konti paliks."
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete ALL data including accounts. This cannot be undone!"
-msgstr "Dzēst VISUS datus, ieskaitot kontus. Šo darbību nevar atsaukt!"
-
-# DinoX v0.7.7 - Additional Backup/Restore strings
-msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
-msgstr "Rezerves kopiju faili (*.tar.gz, *.tar.gz.gpg)"
-
-msgid "Creating encrypted backup..."
-msgstr "Veido šifrētu dublējumu..."
-
-msgid "Decryption Failed"
-msgstr "Atšifrēšana neizdevās"
-
-msgid "DinoX will now restart..."
-msgstr "DinoX tagad tiks restartēts..."
-
-msgid "Encrypted backup created successfully"
-msgstr "Šifrēts dublējums veiksmīgi izveidots"
-
-msgid "Password (minimum 4 characters)"
-msgstr "Parole (vismaz 4 rakstzīmes)"
-
-msgid "Decrypting encrypted backup file..."
-msgstr "Atšifrē dublējuma failu..."
-
-msgid "Extracting files from backup..."
-msgstr "Izvelk failus no dublējuma..."
-
-msgid "Factory reset in progress... DinoX will restart."
-msgstr "Notiek rūpnīcas atiestatīšana... DinoX tiks restartēts."
-
-msgid "Resetting database... DinoX will restart."
-msgstr "Datubāzes atiestatīšana... DinoX tiks restartēts."
-
-msgid "Encrypted backup created (%s)"
-msgstr "Šifrēts dublējums izveidots (%s)"
-
-msgid ""
-"Could not decrypt the backup file.\n"
-"\n"
-"Please check if the password is correct."
-msgstr ""
-"Nevarēja atšifrēt failu.\n"
-"\n"
-"Lūdzu pārbaudiet, vai parole ir pareiza."
-
-msgid ""
-"Could not restore the backup file.\n"
-"\n"
-"Error: %s"
-msgstr ""
-"Nevarēja atjaunot failu.\n"
-"\n"
-"Kļūda: %s"
-
-msgid "This backup is encrypted. Please enter the password to decrypt it."
-msgstr "Šis dublējums ir šifrēts. Ievadiet paroli atšifrēšanai."
-
-msgid ""
-"Enter a password to encrypt the backup.\n"
-"\n"
-"<b>Important:</b> Remember this password! Without it, the backup cannot be "
-"restored."
-msgstr ""
-"Ievadiet paroli dublējuma šifrēšanai.\n"
-"\n"
-"<b>Svarīgi:</b> Atcerieties šo paroli! Bez tās dublējumu nevar atjaunot."
-
-msgid ""
-"This will delete all messages, files and OMEMO encryption keys.\n"
-"\n"
-"<b>Your accounts will remain, but you will lose all chat history and need to "
-"re-verify encryption with your contacts.</b>\n"
-"\n"
-"This action cannot be undone!"
-msgstr ""
-"This will delete all messages, files and OMEMO encryption keys.\n"
-"\n"
-"<b>Your accounts will remain, but you will lose all chat history and need to "
-"re-verify encryption with your contacts.</b>\n"
-"\n"
-"This action cannot be undone!"
-
-msgid ""
-"This will replace all current data with the backup.\n"
-"\n"
-"<b>Current accounts, messages and settings will be overwritten!</b>\n"
-"\n"
-"DinoX will restart after restoring."
-msgstr ""
-"This will replace all current data with the backup.\n"
-"\n"
-"<b>Current accounts, messages and settings will be overwritten!</b>\n"
-"\n"
-"DinoX will restart after restoring."
-
-msgid ""
-"Type 'DELETE' to confirm factory reset.\n"
-"\n"
-"This will permanently remove all your DinoX data."
-msgstr ""
-"Type 'DELETE' to confirm factory reset.\n"
-"\n"
-"This will permanently remove all your DinoX data."
-
-msgid ""
-"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
-"\n"
-"• All accounts\n"
-"• All messages and files\n"
-"• All encryption keys\n"
-"• All settings\n"
-"\n"
-"This is irreversible. Make sure to create a backup first!"
-msgstr ""
-"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
-"\n"
-"• All accounts\n"
-"• All messages and files\n"
-"• All encryption keys\n"
-"• All settings\n"
-"\n"
-"This is irreversible. Make sure to create a backup first!"
+#~ msgid "Encrypted backup created (%s)"
+#~ msgstr "Šifrēts dublējums izveidots (%s)"
 
 # OpenPGP Key Management
-msgid "OpenPGP Key Management"
-msgstr "OpenPGP Key Management"
+#~ msgid "OpenPGP Key Management"
+#~ msgstr "OpenPGP Key Management"
 
-msgid "Actions"
-msgstr "Actions"
+#~ msgid "Actions"
+#~ msgstr "Actions"
 
-msgid "Generate New Key"
-msgstr "Generate New Key"
+#~ msgid "Generate New Key"
+#~ msgstr "Generate New Key"
 
-msgid "Import Key"
-msgstr "Import Key"
+#~ msgid "Import Key"
+#~ msgstr "Import Key"
 
-msgid "Your Keys"
-msgstr "Your Keys"
+#~ msgid "Your Keys"
+#~ msgstr "Your Keys"
 
-msgid "Fingerprint"
-msgstr "Fingerprint"
+#~ msgid "Fingerprint"
+#~ msgstr "Fingerprint"
 
-msgid "Export Public Key"
-msgstr "Export Public Key"
+#~ msgid "Export Public Key"
+#~ msgstr "Export Public Key"
 
-msgid "Delete Key"
-msgstr "Delete Key"
+#~ msgid "Delete Key"
+#~ msgstr "Delete Key"
 
-msgid "Name"
-msgstr "Name"
+#~ msgid "Name"
+#~ msgstr "Name"
 
-msgid "Email"
-msgstr "Email"
+#~ msgid "Email"
+#~ msgstr "Email"
 
-msgid "Passphrase"
-msgstr "Passphrase"
+#~ msgid "Passphrase"
+#~ msgstr "Passphrase"
 
-msgid "Generate"
-msgstr "Generate"
+#~ msgid "Generate"
+#~ msgstr "Generate"
 
-msgid "Select OpenPGP Key"
-msgstr "Select OpenPGP Key"
+#~ msgid "Select OpenPGP Key"
+#~ msgstr "Select OpenPGP Key"
 
-msgid "Wrong passphrase"
-msgstr "Wrong passphrase"
+#~ msgid "Wrong passphrase"
+#~ msgstr "Wrong passphrase"
 
-msgid "Manage Keys"
-msgstr "Manage Keys"
+#~ msgid "Manage Keys"
+#~ msgstr "Manage Keys"
 
-msgid "Announce key"
-msgstr "Announce key"
+#~ msgid "Announce key"
+#~ msgstr "Announce key"
 
-msgid "Disabled"
-msgstr "Disabled"
+#~ msgid "Disabled"
+#~ msgstr "Disabled"
 
-msgid "Success"
-msgstr "Success"
+#~ msgid "Success"
+#~ msgstr "Success"
 
-msgid "OK"
-msgstr "OK"
+#~ msgid "Create a new OpenPGP key pair"
+#~ msgstr "Izveidot jaunu OpenPGP atslēgu pāri"
 
-msgid "Create a new OpenPGP key pair"
-msgstr "Izveidot jaunu OpenPGP atslēgu pāri"
+#~ msgid "Import a key from file (.asc, .gpg)"
+#~ msgstr "Importēt atslēgu no faila (.asc, .gpg)"
 
-msgid "Import a key from file (.asc, .gpg)"
-msgstr "Importēt atslēgu no faila (.asc, .gpg)"
+#~ msgid "Private keys available for signing and decryption"
+#~ msgstr "Privātās atslēgas parakstīšanai un atšifrēšanai"
 
-msgid "Private keys available for signing and decryption"
-msgstr "Privātās atslēgas parakstīšanai un atšifrēšanai"
+#~ msgid "No private keys found"
+#~ msgstr "Privātās atslēgas nav atrastas"
 
-msgid "No private keys found"
-msgstr "Privātās atslēgas nav atrastas"
+#~ msgid "Generate or import a key to get started"
+#~ msgstr "Ģenerējiet vai importējiet atslēgu, lai sāktu"
 
-msgid "Generate or import a key to get started"
-msgstr "Ģenerējiet vai importējiet atslēgu, lai sāktu"
+#~ msgid "Generate New OpenPGP Key"
+#~ msgstr "Ģenerēt jaunu OpenPGP atslēgu"
 
-msgid "Generate New OpenPGP Key"
-msgstr "Ģenerēt jaunu OpenPGP atslēgu"
+#~ msgid "Enter your details to create a new key pair."
+#~ msgstr "Ievadiet savus datus, lai izveidotu jaunu atslēgu pāri."
 
-msgid "Enter your details to create a new key pair."
-msgstr "Ievadiet savus datus, lai izveidotu jaunu atslēgu pāri."
+#~ msgid "Your Name"
+#~ msgstr "Jūsu vārds"
 
-msgid "Your Name"
-msgstr "Jūsu vārds"
+#~ msgid "you@example.com"
+#~ msgstr "jus@piemers.lv"
 
-msgid "you@example.com"
-msgstr "jus@piemers.lv"
+#~ msgid "Passphrase (optional)"
+#~ msgstr "Paroles frāze (neobligāta)"
 
-msgid "Passphrase (optional)"
-msgstr "Paroles frāze (neobligāta)"
+#~ msgid "4096-bit RSA key, valid for 2 years."
+#~ msgstr "4096 bitu RSA atslēga, derīga 2 gadus."
 
-msgid "4096-bit RSA key, valid for 2 years."
-msgstr "4096 bitu RSA atslēga, derīga 2 gadus."
+#~ msgid "Name must be at least 2 characters"
+#~ msgstr "Vārdam jābūt vismaz 2 rakstzīmēm"
 
-msgid "Name must be at least 2 characters"
-msgstr "Vārdam jābūt vismaz 2 rakstzīmēm"
+#~ msgid "Please enter a valid email address"
+#~ msgstr "Lūdzu, ievadiet derīgu e-pasta adresi"
 
-msgid "Please enter a valid email address"
-msgstr "Lūdzu, ievadiet derīgu e-pasta adresi"
+#~ msgid "Generating Key..."
+#~ msgstr "Ģenerē atslēgu..."
 
-msgid "Generating Key..."
-msgstr "Ģenerē atslēgu..."
+#~ msgid "Key generated successfully!"
+#~ msgstr "Atslēga veiksmīgi ģenerēta!"
 
-msgid "Please wait while your key is being generated. This may take a moment."
-msgstr ""
-"Lūdzu, uzgaidiet, kamēr tiek ģenerēta jūsu atslēga. Tas var aizņemt brīdi."
+#~ msgid "Import OpenPGP Key"
+#~ msgstr "Importēt OpenPGP atslēgu"
 
-msgid "Key generated successfully!"
-msgstr "Atslēga veiksmīgi ģenerēta!"
+#~ msgid "OpenPGP Keys (*.asc, *.gpg)"
+#~ msgstr "OpenPGP atslēgas (*.asc, *.gpg)"
 
-msgid "Failed to generate key."
-msgstr "Neizdevās ģenerēt atslēgu."
+#~ msgid "All Files"
+#~ msgstr "Visi faili"
 
-msgid "Import OpenPGP Key"
-msgstr "Importēt OpenPGP atslēgu"
+#~ msgid "Key imported! Re-open Key Management to see it."
+#~ msgstr ""
+#~ "Atslēga importēta! Atkārtoti atveriet Atslēgu pārvaldību, lai to redzētu."
 
-msgid "OpenPGP Keys (*.asc, *.gpg)"
-msgstr "OpenPGP atslēgas (*.asc, *.gpg)"
+#~ msgid "Import failed: "
+#~ msgstr "Importēšana neizdevās: "
 
-msgid "All Files"
-msgstr "Visi faili"
+#~ msgid "Key exported to: "
+#~ msgstr "Atslēga eksportēta uz: "
 
-msgid "Key imported! Re-open Key Management to see it."
-msgstr ""
-"Atslēga importēta! Atkārtoti atveriet Atslēgu pārvaldību, lai to redzētu."
+#~ msgid "Export failed."
+#~ msgstr "Eksportēšana neizdevās."
 
-msgid "Import failed: "
-msgstr "Importēšana neizdevās: "
+#~ msgid "Delete Key?"
+#~ msgstr "Dzēst atslēgu?"
 
-msgid "Key exported to: "
-msgstr "Atslēga eksportēta uz: "
+#~ msgid ""
+#~ "Delete this key?\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "This cannot be undone!"
+#~ msgstr ""
+#~ "Dzēst šo atslēgu?\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "To nevar atsaukt!"
 
-msgid "Export failed."
-msgstr "Eksportēšana neizdevās."
+#~ msgid "Key deleted."
+#~ msgstr "Atslēga dzēsta."
 
-msgid "Delete Key?"
-msgstr "Dzēst atslēgu?"
+#~ msgid "Delete failed: "
+#~ msgstr "Dzēšana neizdevās: "
 
-msgid ""
-"Delete this key?\n"
-"\n"
-"%s\n"
-"\n"
-"This cannot be undone!"
-msgstr ""
-"Dzēst šo atslēgu?\n"
-"\n"
-"%s\n"
-"\n"
-"To nevar atsaukt!"
+#~ msgid "Choose a key to announce to your contacts."
+#~ msgstr "Izvēlieties atslēgu, ko paziņot kontaktpersonām."
 
-msgid "Key deleted."
-msgstr "Atslēga dzēsta."
+#~ msgid "Enter GPG passphrase to confirm:"
+#~ msgstr "Ievadiet GPG paroles frāzi, lai apstiprinātu:"
 
-msgid "Delete failed: "
-msgstr "Dzēšana neizdevās: "
+#~ msgid "Generate, import, export, or delete keys"
+#~ msgstr "Ģenerēt, importēt, eksportēt vai dzēst atslēgas"
 
-msgid "Choose a key to announce to your contacts."
-msgstr "Izvēlieties atslēgu, ko paziņot kontaktpersonām."
+#~ msgid "No keys available. Generate or import one!"
+#~ msgstr "Nav atslēgu. Ģenerējiet vai importējiet vienu!"
 
-msgid "Enter GPG passphrase to confirm:"
-msgstr "Ievadiet GPG paroles frāzi, lai apstiprinātu:"
-
-msgid "Generate, import, export, or delete keys"
-msgstr "Ģenerēt, importēt, eksportēt vai dzēst atslēgas"
-
-msgid "No keys available. Generate or import one!"
-msgstr "Nav atslēgu. Ģenerējiet vai importējiet vienu!"
-
-msgid "Error in GnuPG"
-msgstr "Kļūda GnuPG"
+#~ msgid "Error in GnuPG"
+#~ msgstr "Kļūda GnuPG"
 
 #~ msgid "Message too long"
 #~ msgstr "Ziņojums ir pārāk garš"

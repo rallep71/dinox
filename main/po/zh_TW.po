@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-28 12:18+0100\n"
+"POT-Creation-Date: 2025-12-01 10:28+0100\n"
 "PO-Revision-Date: 2025-10-13 08:07+0000\n"
 "Language-Team: none\n"
 "Language: zh_TW\n"
@@ -99,14 +99,14 @@ msgstr "一般"
 #: main/data/gtk/help-overlay.ui:14 main/data/main_window.ui:38
 #: main/data/menu_add.ui:7
 #: main/src/ui/add_conversation/select_contact_dialog.vala:106
-#: main/src/ui/main_window.vala:141
+#: main/src/ui/main_window.vala:154
 msgid "Start Conversation"
 msgstr "開始對話"
 
 #: main/data/gtk/help-overlay.ui:20 main/data/main_window.ui:51
 #: main/data/menu_add.ui:11
 #: main/src/ui/add_conversation/add_conference_dialog.vala:24
-#: main/src/ui/application.vala:527 main/src/ui/main_window.vala:142
+#: main/src/ui/application.vala:1359 main/src/ui/main_window.vala:155
 msgid "Join Channel"
 msgstr "加入聊天室"
 
@@ -147,7 +147,7 @@ msgstr "跳到下一個對話"
 msgid "Jump to previous conversation"
 msgstr "跳到上一個對話"
 
-#: main/data/main_window.ui:64 main/src/ui/main_window.vala:144
+#: main/data/main_window.ui:64 main/src/ui/main_window.vala:157
 msgid "Help: How to join channels"
 msgstr "說明：如何加入頻道"
 
@@ -165,28 +165,28 @@ msgstr "狀態"
 
 #: main/data/menu_app.ui:11
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:427
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Online"
 msgstr "線上"
 
 #: main/data/menu_app.ui:16
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:421
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Away"
 msgstr "離開"
 
 #: main/data/menu_app.ui:21
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:425
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Busy"
 msgstr "忙碌"
 
 #: main/data/menu_app.ui:26
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:423
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Not Available"
 msgstr "不可用"
@@ -199,7 +199,7 @@ msgstr "偏好設定"
 msgid "Keyboard Shortcuts"
 msgstr "鍵盤快捷鍵"
 
-#: main/data/menu_app.ui:42 main/src/ui/application.vala:334
+#: main/data/menu_app.ui:42 main/src/ui/application.vala:340
 msgid "About DinoX"
 msgstr "關於 DinoX"
 
@@ -218,7 +218,10 @@ msgstr "刪除對話記錄"
 #: main/data/preferences_window/change_password_dialog.ui:18
 #: main/src/ui/add_conversation/add_conference_dialog.vala:41
 #: main/src/ui/add_conversation/select_contact_dialog.vala:40
-#: main/src/ui/application.vala:537
+#: main/src/ui/application.vala:441 main/src/ui/application.vala:469
+#: main/src/ui/application.vala:765 main/src/ui/application.vala:843
+#: main/src/ui/application.vala:901 main/src/ui/application.vala:933
+#: main/src/ui/application.vala:1089 main/src/ui/application.vala:1369
 #: main/src/ui/conversation_content_view/file_default_widget.vala:90
 #: main/src/ui/conversation_content_view/item_actions.vala:165
 #: main/src/ui/conversation_content_view/item_actions.vala:168
@@ -233,7 +236,7 @@ msgstr "刪除對話記錄"
 #: main/src/ui/conversation_titlebar/call_entry.vala:83
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
 #: main/src/windows/conversation_details.vala:60
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:67
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:68
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:205
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:225
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:249
@@ -257,6 +260,7 @@ msgid "Local alias"
 msgstr "本地別名"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:82
+#: main/src/ui/application.vala:435 main/src/ui/application.vala:1064
 #: main/src/ui/util/data_forms.vala:63
 msgid "Password"
 msgstr "密碼"
@@ -265,20 +269,24 @@ msgstr "密碼"
 msgid "Connection status"
 msgstr "連線狀態"
 
+#: main/data/preferences_window/account_preferences_subpage.ui:117
+msgid "View Certificate"
+msgstr "檢視憑證"
+
 # Custom host/port feature (Issue #115)
-#: main/data/preferences_window/account_preferences_subpage.ui:121
+#: main/data/preferences_window/account_preferences_subpage.ui:128
 msgid "Advanced Settings"
 msgstr "進階設定"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:122
+#: main/data/preferences_window/account_preferences_subpage.ui:129
 msgid "Custom server connection (leave empty for automatic)"
 msgstr "自訂伺服器連線（留空則自動）"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:125
+#: main/data/preferences_window/account_preferences_subpage.ui:132
 msgid "Server Hostname"
 msgstr "伺服器主機名稱"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:130
+#: main/data/preferences_window/account_preferences_subpage.ui:137
 msgid "Port"
 msgstr "連接埠"
 
@@ -348,12 +356,52 @@ msgid "Create a backup of your accounts, messages and settings"
 msgstr "建立帳戶、訊息和設定的備份"
 
 #: main/data/preferences_window/general_preferences_page.ui:78
-msgid "Data Location"
-msgstr "資料位置"
+#: main/src/ui/application.vala:464 main/src/ui/main_window.vala:223
+msgid "Restore from Backup"
+msgstr "從備份還原"
 
 #: main/data/preferences_window/general_preferences_page.ui:79
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "從備份檔案還原帳戶、訊息和設定"
+
+#: main/data/preferences_window/general_preferences_page.ui:90
+msgid "Data Storage Location"
+msgstr "資料儲存位置"
+
+#: main/data/preferences_window/general_preferences_page.ui:91
 msgid "View where your data is stored"
 msgstr "查看資料儲存位置"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "資料庫維護"
+
+#: main/data/preferences_window/general_preferences_page.ui:107
+#: main/src/ui/application.vala:761 main/src/ui/application.vala:766
+msgid "Clear Cache"
+msgstr "清除快取"
+
+#: main/data/preferences_window/general_preferences_page.ui:108
+msgid "Clear cached files, avatars and previews"
+msgstr "清除快取檔案、頭像和預覽"
+
+#: main/data/preferences_window/general_preferences_page.ui:119
+#: main/src/ui/application.vala:838 main/src/ui/application.vala:844
+msgid "Reset Database"
+msgstr "重置資料庫"
+
+#: main/data/preferences_window/general_preferences_page.ui:120
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr "刪除所有訊息、檔案和OMEMO金鑰。您的帳戶將保留。"
+
+#: main/data/preferences_window/general_preferences_page.ui:131
+#: main/src/ui/application.vala:896
+msgid "Factory Reset"
+msgstr "恢復原廠設定"
+
+#: main/data/preferences_window/general_preferences_page.ui:132
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr "刪除所有資料，包括帳戶。此操作無法復原！"
 
 #: main/data/preferences_window/preferences_dialog.ui:11
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:15
@@ -378,7 +426,7 @@ msgstr "下一個"
 
 #: main/src/ui/add_conversation/add_conference_dialog.vala:59
 #: main/src/ui/add_conversation/conference_details_fragment.vala:151
-#: main/src/ui/application.vala:541
+#: main/src/ui/application.vala:1373
 msgid "Join"
 msgstr "加入"
 
@@ -464,45 +512,149 @@ msgstr "刪除聯絡人"
 msgid "Leave Group"
 msgstr "離開群組"
 
-#: main/src/ui/application.vala:339
+#: main/src/ui/application.vala:345
 msgid "Modern XMPP client with extended features"
 msgstr "具有擴展功能的現代 XMPP 用戶端"
 
-#: main/src/ui/application.vala:346 main/src/ui/application.vala:385
+#: main/src/ui/application.vala:352 main/src/ui/application.vala:727
 msgid "User Data Locations"
 msgstr "使用者資料位置"
 
-#: main/src/ui/application.vala:349 main/src/ui/application.vala:399
+#: main/src/ui/application.vala:355 main/src/ui/application.vala:741
 msgid "Configuration:"
 msgstr "設定："
 
-#: main/src/ui/application.vala:352 main/src/ui/application.vala:401
+#: main/src/ui/application.vala:358 main/src/ui/application.vala:743
 msgid "Data & Database:"
 msgstr "資料與資料庫："
 
-#: main/src/ui/application.vala:355 main/src/ui/application.vala:403
+#: main/src/ui/application.vala:361 main/src/ui/application.vala:745
 msgid "Cache:"
 msgstr "快取："
 
-#: main/src/ui/application.vala:358
+#: main/src/ui/application.vala:364
 msgid "Info:"
 msgstr "資訊："
 
-#: main/src/ui/application.vala:359
+#: main/src/ui/application.vala:365
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
 msgstr "您的個人資料（帳戶、訊息、檔案）與應用程式分開儲存。"
 
-#: main/src/ui/application.vala:361
+#: main/src/ui/application.vala:367
 msgid "When you update DinoX, your data remains intact."
 msgstr "更新 DinoX 時，您的資料會保持完整。"
 
-#: main/src/ui/application.vala:363
+#: main/src/ui/application.vala:369
 msgid "Use Settings → General → Backup User Data to create a backup."
 msgstr "使用設定 → 一般 → 備份使用者資料來建立備份。"
 
-#: main/src/ui/application.vala:405
+#: main/src/ui/application.vala:387
+msgid "Select Backup File"
+msgstr "選擇備份檔案"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+#: main/src/ui/application.vala:395
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "備份檔案 (*.tar.gz, *.tar.gz.gpg)"
+
+#: main/src/ui/application.vala:425
+msgid "Enter Backup Password"
+msgstr "輸入備份密碼"
+
+#: main/src/ui/application.vala:426
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "此備份已加密。請輸入密碼進行解密。"
+
+#: main/src/ui/application.vala:442
+msgid "Decrypt & Restore"
+msgstr "解密並還原"
+
+#: main/src/ui/application.vala:465
+msgid ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+msgstr ""
+"這將用備份替換所有當前資料。\n"
+"\n"
+"<b>當前帳戶、訊息和設定將被覆蓋！</b>\n"
+"\n"
+"DinoX 將在還原後重新啟動。"
+
+#: main/src/ui/application.vala:470
+msgid "Restore Backup"
+msgstr "還原備份"
+
+#: main/src/ui/application.vala:487 main/src/ui/application.vala:519
+msgid "Decrypting Backup..."
+msgstr "正在解密備份..."
+
+#: main/src/ui/application.vala:487 main/src/ui/application.vala:571
+msgid "Restoring Backup..."
+msgstr "正在還原備份..."
+
+#: main/src/ui/application.vala:488
+msgid "Please wait, this may take a moment..."
+msgstr "請稍候，這可能需要一些時間..."
+
+#: main/src/ui/application.vala:520
+msgid "Decrypting encrypted backup file..."
+msgstr "正在解密備份檔案..."
+
+#: main/src/ui/application.vala:558
+msgid "Decryption Failed"
+msgstr "解密失敗"
+
+#: main/src/ui/application.vala:559
+msgid ""
+"Could not decrypt the backup file.\n"
+"\n"
+"Please check if the password is correct."
+msgstr ""
+"無法解密備份檔案。\n"
+"\n"
+"請檢查密碼是否正確。"
+
+#: main/src/ui/application.vala:561 main/src/ui/application.vala:671
+msgid "OK"
+msgstr "確定"
+
+#: main/src/ui/application.vala:572
+msgid "Extracting files from backup..."
+msgstr "正在從備份中擷取檔案..."
+
+#: main/src/ui/application.vala:653
+msgid "Restore Complete!"
+msgstr "還原完成！"
+
+#: main/src/ui/application.vala:654
+msgid "DinoX will now restart..."
+msgstr "DinoX 現在將重新啟動..."
+
+#: main/src/ui/application.vala:668
+msgid "Restore Failed"
+msgstr "還原失敗"
+
+#: main/src/ui/application.vala:669
+#, c-format
+msgid ""
+"Could not restore the backup file.\n"
+"\n"
+"Error: %s"
+msgstr ""
+"無法還原備份檔案。\n"
+"\n"
+"錯誤: %s"
+
+#: main/src/ui/application.vala:669 main/src/ui/application.vala:1345
+msgid "Unknown error"
+msgstr "未知錯誤"
+
+#: main/src/ui/application.vala:747
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
@@ -510,96 +662,241 @@ msgstr ""
 "您的個人資料（帳戶、訊息、檔案）與應用程式分開儲存。當您更新 DinoX 時，您的資"
 "料保持完整。"
 
-#: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
-#: main/src/ui/main_window.vala:159
+#: main/src/ui/application.vala:752 main/src/ui/application.vala:1240
+#: main/src/ui/application.vala:1324 main/src/ui/conversation_details.vala:272
+#: main/src/ui/main_window.vala:172
 msgid "Close"
 msgstr "關閉"
 
-#: main/src/ui/application.vala:417
+#: main/src/ui/application.vala:762
+msgid ""
+"This will delete cached files, avatars and previews.\n"
+"\n"
+"They will be re-downloaded when needed."
+msgstr ""
+"這將刪除快取的檔案、頭像和預覽。\n"
+"\n"
+"需要時它們將被重新下載。"
+
+#: main/src/ui/application.vala:799
+#, c-format
+msgid "Cache cleared (%s freed)"
+msgstr "快取已清除（釋放了 %s）"
+
+#: main/src/ui/application.vala:802
+msgid "Failed to clear cache"
+msgstr "清除快取失敗"
+
+#: main/src/ui/application.vala:839
+msgid ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+msgstr ""
+"這將刪除所有訊息、檔案和 OMEMO 加密金鑰。\n"
+"\n"
+"<b>您的帳戶將保留，但您將丟失所有聊天記錄，並需要與聯絡人重新驗證加密。</b>\n"
+"\n"
+"此操作無法復原！"
+
+#: main/src/ui/application.vala:867
+msgid "Resetting database... DinoX will restart."
+msgstr "正在重設資料庫... DinoX 將重新啟動。"
+
+#: main/src/ui/application.vala:897
+msgid ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+msgstr ""
+"<b>⚠️ 警告：這將刪除所有資料！</b>\n"
+"\n"
+"• 所有帳戶\n"
+"• 所有訊息和檔案\n"
+"• 所有加密金鑰\n"
+"• 所有設定\n"
+"\n"
+"此操作無法復原。請先建立備份！"
+
+#: main/src/ui/application.vala:902
+msgid "Create Backup First"
+msgstr "請先建立備份"
+
+#: main/src/ui/application.vala:903
+msgid "Delete Everything"
+msgstr "刪除全部"
+
+#: main/src/ui/application.vala:923
+msgid "Are you absolutely sure?"
+msgstr "您確定嗎？"
+
+#: main/src/ui/application.vala:924
+msgid ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+msgstr ""
+"輸入 'DELETE' 確認恢復原廠設定。\n"
+"\n"
+"這將永久刪除您的所有 DinoX 資料。"
+
+#: main/src/ui/application.vala:934
+msgid "Confirm Delete"
+msgstr "確認刪除"
+
+#: main/src/ui/application.vala:961
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "正在恢復原廠設定... DinoX 將重新啟動。"
+
+#: main/src/ui/application.vala:1026
+msgid "Backup Encryption"
+msgstr "備份加密"
+
+#: main/src/ui/application.vala:1027
+msgid ""
+"Do you want to encrypt the backup with a password?\n"
+"\n"
+"Encrypted backups are more secure but require the password to restore."
+msgstr ""
+"您想用密碼加密備份嗎？\n"
+"\n"
+"加密備份更安全，但需要密碼才能還原。"
+
+#: main/src/ui/application.vala:1030
+msgid "No Encryption"
+msgstr "不加密"
+
+#: main/src/ui/application.vala:1031
+msgid "Encrypt with Password"
+msgstr "使用密碼加密"
+
+#: main/src/ui/application.vala:1049
+msgid "Set Backup Password"
+msgstr "設定備份密碼"
+
+#: main/src/ui/application.vala:1050
+msgid ""
+"Enter a password to encrypt the backup.\n"
+"\n"
+"<b>Important:</b> Remember this password! Without it, the backup cannot be "
+"restored."
+msgstr ""
+"輸入密碼以加密備份。\n"
+"\n"
+"<b>重要:</b> 請記住此密碼！沒有它，備份將無法還原。"
+
+#: main/src/ui/application.vala:1058
+msgid "Password (minimum 4 characters)"
+msgstr "密碼（至少4個字元）"
+
+#: main/src/ui/application.vala:1066 main/src/ui/application.vala:1073
+msgid "Confirm Password"
+msgstr "確認密碼"
+
+#: main/src/ui/application.vala:1090
+msgid "Create Encrypted Backup"
+msgstr "建立加密備份"
+
+#: main/src/ui/application.vala:1102 main/src/ui/application.vala:1117
+msgid "Password too short"
+msgstr "密碼太短"
+
+#: main/src/ui/application.vala:1104 main/src/ui/application.vala:1119
+msgid "Passwords do not match"
+msgstr "密碼不相符"
+
+#: main/src/ui/application.vala:1106 main/src/ui/application.vala:1121
+msgid "✓ Passwords match"
+msgstr "✓ 密碼相符"
+
+#: main/src/ui/application.vala:1139
 msgid "Select Backup Location"
 msgstr "選擇備份位置"
 
-#: main/src/ui/application.vala
-msgid "Creating Backup..."
-msgstr "Creating Backup..."
-
-#: main/src/ui/application.vala
+#: main/src/ui/application.vala:1194
 msgid "Creating Encrypted Backup..."
-msgstr "Creating Encrypted Backup..."
+msgstr "正在建立加密備份..."
 
-#: main/src/ui/application.vala
-msgid "Please wait while your data is being backed up."
-msgstr "Please wait while your data is being backed up."
-
-#: main/src/ui/application.vala
-msgid "No data directories found to backup"
-msgstr "No data directories found to backup"
-
-#: main/src/ui/application.vala
-msgid "Backup Created"
-msgstr "Backup Created"
-
-#: main/src/ui/application.vala
-msgid "Encrypted Backup Created"
-msgstr "Encrypted Backup Created"
-
-#: main/src/ui/application.vala
-#, c-format
-msgid "Your backup was created successfully.\\n\\nSize: %s"
-msgstr "Your backup was created successfully.\\n\\nSize: %s"
-
-#: main/src/ui/application.vala
-msgid "Your backup was created successfully."
-msgstr "Your backup was created successfully."
-
-#: main/src/ui/application.vala
-#, c-format
-msgid "Your encrypted backup was created successfully.\\n\\nSize: %s"
-msgstr "Your encrypted backup was created successfully.\\n\\nSize: %s"
-
-#: main/src/ui/application.vala
-msgid "Your encrypted backup was created successfully."
-msgstr "Your encrypted backup was created successfully."
-
-#: main/src/ui/application.vala
-msgid "Backup Failed"
-msgstr "Backup Failed"
-
-#: main/src/ui/application.vala:445
-msgid "Creating backup..."
+#: main/src/ui/application.vala:1194
+msgid "Creating Backup..."
 msgstr "正在建立備份..."
 
-#: main/src/ui/application.vala:503
+#: main/src/ui/application.vala:1195
+msgid "Please wait while your data is being backed up."
+msgstr "正在備份您的資料，請稍候。"
+
+#: main/src/ui/application.vala:1234
+msgid "No data directory found to backup"
+msgstr "找不到要備份的資料目錄"
+
+#: main/src/ui/application.vala:1237 main/src/ui/application.vala:1343
+msgid "Backup Failed"
+msgstr "備份失敗"
+
+#: main/src/ui/application.vala:1331
+msgid "Encrypted Backup Created"
+msgstr "加密備份已建立"
+
+#: main/src/ui/application.vala:1333
 #, c-format
-msgid "Backup created successfully (%s)"
-msgstr "備份建立成功 (%s)"
+msgid ""
+"Your encrypted backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"您的加密備份已成功建立。\n"
+"\n"
+"大小：%s"
 
-#: main/src/ui/application.vala:505
-msgid "Backup created successfully"
-msgstr "備份建立成功"
+#: main/src/ui/application.vala:1334
+msgid "Your encrypted backup was created successfully."
+msgstr "您的加密備份已成功建立。"
 
-#: main/src/ui/application.vala:510
-msgid "Unknown error"
-msgstr "未知錯誤"
+#: main/src/ui/application.vala:1336
+msgid "Backup Created"
+msgstr "備份已建立"
 
-#: main/src/ui/application.vala:511
+#: main/src/ui/application.vala:1338
+#, c-format
+msgid ""
+"Your backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"您的備份已成功建立。\n"
+"\n"
+"大小：%s"
+
+#: main/src/ui/application.vala:1339
+msgid "Your backup was created successfully."
+msgstr "您的備份已成功建立。"
+
+#: main/src/ui/application.vala:1346
 #, c-format
 msgid "Backup failed: %s"
 msgstr "備份失敗：%s"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:29
+#: main/src/ui/call_window/audio_settings_popover.vala:46
 msgid "Microphones"
 msgstr "音訊麥克"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:32
+#: main/src/ui/call_window/audio_settings_popover.vala:49
 msgid "No microphone found."
 msgstr "找不到音訊麥克。"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:85
+#: main/src/ui/call_window/audio_settings_popover.vala:116
 msgid "Speakers"
 msgstr "音訊喇叭"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:88
+#: main/src/ui/call_window/audio_settings_popover.vala:119
 msgid "No speaker found."
 msgstr "找不到音訊喇叭。"
 
@@ -615,7 +912,7 @@ msgstr "邀請通話"
 msgid "Invite"
 msgstr "邀請"
 
-#: main/src/ui/call_window/call_window_controller.vala:405
+#: main/src/ui/call_window/call_window_controller.vala:453
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:240
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:270
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:285
@@ -634,21 +931,21 @@ msgstr "%s 結束了通話"
 msgid "%s declined the call"
 msgstr "%s 拒絕了通話"
 
-#: main/src/ui/call_window/participant_widget.vala:115
+#: main/src/ui/call_window/participant_widget.vala:140
 msgid "Debug information"
 msgstr "調試訊息"
 
-#: main/src/ui/call_window/participant_widget.vala:124
+#: main/src/ui/call_window/participant_widget.vala:149
 #: main/src/ui/conversation_content_view/call_widget.vala:152
 msgid "Calling…"
 msgstr "撥打中…"
 
-#: main/src/ui/call_window/participant_widget.vala:126
+#: main/src/ui/call_window/participant_widget.vala:151
 msgid "Ringing…"
 msgstr "響鈴中…"
 
-#: main/src/ui/call_window/participant_widget.vala:128
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:216
+#: main/src/ui/call_window/participant_widget.vala:153
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:244
 msgid "Connecting…"
 msgstr "正在連線…"
 
@@ -882,7 +1179,7 @@ msgstr "%A，%p%l∶%M"
 msgid "Just now"
 msgstr "剛才"
 
-#: main/src/ui/conversation_content_view/conversation_view.vala:105
+#: main/src/ui/conversation_content_view/conversation_view.vala:106
 msgid "More actions"
 msgstr "更多動作"
 
@@ -1098,6 +1395,38 @@ msgstr "銷毀"
 msgid "Failed to destroy room"
 msgstr "銷毀聊天室失敗"
 
+#: main/src/ui/conversation_details.vala:286
+msgid "Auto-delete messages"
+msgstr "自動刪除訊息"
+
+#: main/src/ui/conversation_details.vala:287
+msgid "Never"
+msgstr "從不"
+
+#: main/src/ui/conversation_details.vala:288
+msgid "After 15 minutes"
+msgstr "15分鐘後"
+
+#: main/src/ui/conversation_details.vala:289
+msgid "After 30 minutes"
+msgstr "30分鐘後"
+
+#: main/src/ui/conversation_details.vala:290
+msgid "After 1 hour"
+msgstr "1小時後"
+
+#: main/src/ui/conversation_details.vala:291
+msgid "After 24 hours"
+msgstr "24小時後"
+
+#: main/src/ui/conversation_details.vala:292
+msgid "After 7 days"
+msgstr "7天後"
+
+#: main/src/ui/conversation_details.vala:293
+msgid "After 30 days"
+msgstr "30天後"
+
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:276
 #: main/src/ui/notifier_freedesktop.vala:71
 #: main/src/ui/notifier_gnotifications.vala:36
@@ -1243,6 +1572,7 @@ msgstr "取消封鎖聯絡人？"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:702
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:247
+#, c-format
 msgid "This will allow %s to send you messages again."
 msgstr "這將允許 %s 再次向您發送訊息。"
 
@@ -1341,7 +1671,7 @@ msgid "Select file"
 msgstr "選取檔案"
 
 #: main/src/ui/conversation_view_controller.vala:225
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:152
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:180
 msgid "Select"
 msgstr "選擇"
 
@@ -1359,11 +1689,11 @@ msgstr "在 %s"
 msgid "With %s"
 msgstr "和 %s"
 
-#: main/src/ui/main_window.vala:156
+#: main/src/ui/main_window.vala:169
 msgid "Join Channel Help"
 msgstr "加入頻道幫助"
 
-#: main/src/ui/main_window.vala:157
+#: main/src/ui/main_window.vala:170
 msgid ""
 "To join a channel, click the \"Join Channel\" button and enter the channel "
 "JID (example: room@conference.example.org).\n"
@@ -1376,25 +1706,25 @@ msgstr ""
 "\n"
 "如果您需要密碼或暱稱，請在對話框中提供。使用伺服器的探索功能來尋找公開房間。"
 
-#: main/src/ui/main_window.vala:206
+#: main/src/ui/main_window.vala:219
 msgid "Welcome to DinoX!"
 msgstr "歡迎使用 DinoX！"
 
-#: main/src/ui/main_window.vala:207
+#: main/src/ui/main_window.vala:220
 msgid "Sign in or create an account to get started."
 msgstr "開始前請先登入或建立一個帳號。"
 
-#: main/src/ui/main_window.vala:208
+#: main/src/ui/main_window.vala:221
 msgid "Set up account"
 msgstr "設定帳號"
 
-#: main/src/ui/main_window.vala:215
+#: main/src/ui/main_window.vala:230
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:71
 #: main/src/windows/preferences_window/encryption_preferences_page.vala:49
 msgid "No active accounts"
 msgstr "没有啓用的帳號"
 
-#: main/src/ui/main_window.vala:216
+#: main/src/ui/main_window.vala:231
 msgid "Manage accounts"
 msgstr "管理帳號"
 
@@ -1404,12 +1734,12 @@ msgid "Subscription request"
 msgstr "線上狀態訂閱請求"
 
 #: main/src/ui/notifier_freedesktop.vala:192
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:231
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:259
 msgid "Wrong password"
 msgstr "密碼錯誤"
 
 #: main/src/ui/notifier_freedesktop.vala:195
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:233
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:261
 msgid "Invalid TLS certificate"
 msgstr "無效的 TLS 憑證"
 
@@ -1598,6 +1928,7 @@ msgid "Today"
 msgstr "今天"
 
 #: main/src/ui/widgets/date_separator.vala:35
+#, no-c-format
 msgid "%a, %b %d"
 msgstr "%a, %b %d"
 
@@ -1647,45 +1978,45 @@ msgstr "設定"
 msgid "Room Configuration"
 msgstr "聊天室設定"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:68
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:69
 msgid "Connect"
 msgstr "連線"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:106
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
 msgid "Disable account"
 msgstr "禁用帳戶"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:106
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
 msgid "Enable account"
 msgstr "啟用帳戶"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:151
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:179
 msgid "Select avatar"
 msgstr "選取頭像"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:162
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:190
 msgid "Images"
 msgstr "影像"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:166
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:194
 msgid "All files"
 msgstr "所有檔案"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:184
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:212
 #, c-format
 msgid "Remove account %s?"
 msgstr "移除帳號 %s ？"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:218
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:246
 msgid "Connected"
 msgstr "已連線"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:220
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:248
 msgid "Disconnected"
 msgstr "連線已斷開"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:240
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:242
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:268
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:270
 msgid "Error"
 msgstr "錯誤"
 
@@ -1794,384 +2125,189 @@ msgstr "更改 %s 的顯示名稱"
 msgid "Alias (optional)"
 msgstr "別名（選填）"
 
+#~ msgid "Creating backup..."
+#~ msgstr "正在建立備份..."
+
+#, c-format
+#~ msgid "Backup created successfully (%s)"
+#~ msgstr "備份建立成功 (%s)"
+
+#~ msgid "Backup created successfully"
+#~ msgstr "備份建立成功"
+
 # DinoX v0.7.7 - Database Maintenance & Backup/Restore
-msgid "Clean Database"
-msgstr "清理資料庫"
+#~ msgid "Clean Database"
+#~ msgstr "清理資料庫"
 
-msgid "Reset Database"
-msgstr "重置資料庫"
+#~ msgid "Encrypting Backup..."
+#~ msgstr "正在加密備份..."
 
-msgid "Restore Complete!"
-msgstr "還原完成！"
+#~ msgid "Creating encrypted backup..."
+#~ msgstr "正在建立加密備份..."
 
-msgid "Restore Failed"
-msgstr "還原失敗"
+#~ msgid "Encrypted backup created successfully"
+#~ msgstr "加密備份建立成功"
 
-msgid "Decrypting Backup..."
-msgstr "正在解密備份..."
-
-msgid "Restoring Backup..."
-msgstr "正在還原備份..."
-
-msgid "Set Backup Password"
-msgstr "設定備份密碼"
-
-msgid "Confirm Password"
-msgstr "確認密碼"
-
-msgid "Create Encrypted Backup"
-msgstr "建立加密備份"
-
-msgid "Password too short"
-msgstr "密碼太短"
-
-msgid "Passwords do not match"
-msgstr "密碼不相符"
-
-msgid "✓ Passwords match"
-msgstr "✓ 密碼相符"
-
-msgid "Encrypting Backup..."
-msgstr "正在加密備份..."
-
-msgid "Factory Reset"
-msgstr "恢復原廠設定"
-
-msgid "Restore from Backup"
-msgstr "從備份還原"
-
-msgid "Restore Backup"
-msgstr "還原備份"
-
-msgid "Select Backup File"
-msgstr "選擇備份檔案"
-
-msgid "Enter Backup Password"
-msgstr "輸入備份密碼"
-
-msgid "Decrypt & Restore"
-msgstr "解密並還原"
-
-msgid "Create Backup First"
-msgstr "請先建立備份"
-
-msgid "No Encryption"
-msgstr "不加密"
-
-msgid "Encrypt with Password"
-msgstr "使用密碼加密"
-
-msgid "Delete Everything"
-msgstr "刪除全部"
-
-msgid "Confirm Delete"
-msgstr "確認刪除"
-
-msgid "Are you absolutely sure?"
-msgstr "您確定嗎？"
-
-#: main/data/preferences_window/general_preferences_page.ui:104
-msgid "Database Maintenance"
-msgstr "資料庫維護"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Restore accounts, messages and settings from a backup file"
-msgstr "從備份檔案還原帳戶、訊息和設定"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
-msgstr "刪除所有訊息、檔案和OMEMO金鑰。您的帳戶將保留。"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete ALL data including accounts. This cannot be undone!"
-msgstr "刪除所有資料，包括帳戶。此操作無法復原！"
-
-# DinoX v0.7.7 - Additional Backup/Restore strings
-msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
-msgstr "備份檔案 (*.tar.gz, *.tar.gz.gpg)"
-
-msgid "Creating encrypted backup..."
-msgstr "正在建立加密備份..."
-
-msgid "Decryption Failed"
-msgstr "解密失敗"
-
-msgid "DinoX will now restart..."
-msgstr "DinoX 現在將重新啟動..."
-
-msgid "Encrypted backup created successfully"
-msgstr "加密備份建立成功"
-
-msgid "Password (minimum 4 characters)"
-msgstr "密碼（至少4個字元）"
-
-msgid "Decrypting encrypted backup file..."
-msgstr "正在解密備份檔案..."
-
-msgid "Extracting files from backup..."
-msgstr "正在從備份中擷取檔案..."
-
-msgid "Factory reset in progress... DinoX will restart."
-msgstr "正在恢復原廠設定... DinoX 將重新啟動。"
-
-msgid "Resetting database... DinoX will restart."
-msgstr "正在重設資料庫... DinoX 將重新啟動。"
-
-msgid "Encrypted backup created (%s)"
-msgstr "加密備份已建立 (%s)"
-
-msgid ""
-"Could not decrypt the backup file.\n"
-"\n"
-"Please check if the password is correct."
-msgstr ""
-"無法解密備份檔案。\n"
-"\n"
-"請檢查密碼是否正確。"
-
-msgid ""
-"Could not restore the backup file.\n"
-"\n"
-"Error: %s"
-msgstr ""
-"無法還原備份檔案。\n"
-"\n"
-"錯誤: %s"
-
-msgid "This backup is encrypted. Please enter the password to decrypt it."
-msgstr "此備份已加密。請輸入密碼進行解密。"
-
-msgid ""
-"Enter a password to encrypt the backup.\n"
-"\n"
-"<b>Important:</b> Remember this password! Without it, the backup cannot be "
-"restored."
-msgstr ""
-"輸入密碼以加密備份。\n"
-"\n"
-"<b>重要:</b> 請記住此密碼！沒有它，備份將無法還原。"
-
-msgid ""
-"This will delete all messages, files and OMEMO encryption keys.\n"
-"\n"
-"<b>Your accounts will remain, but you will lose all chat history and need to "
-"re-verify encryption with your contacts.</b>\n"
-"\n"
-"This action cannot be undone!"
-msgstr ""
-"這將刪除所有訊息、檔案和 OMEMO 加密金鑰。\n"
-"\n"
-"<b>您的帳戶將保留，但您將丟失所有聊天記錄，並需要與聯絡人重新驗證加密。</b>\n"
-"\n"
-"此操作無法復原！"
-
-msgid ""
-"This will replace all current data with the backup.\n"
-"\n"
-"<b>Current accounts, messages and settings will be overwritten!</b>\n"
-"\n"
-"DinoX will restart after restoring."
-msgstr ""
-"這將用備份替換所有當前資料。\n"
-"\n"
-"<b>當前帳戶、訊息和設定將被覆蓋！</b>\n"
-"\n"
-"DinoX 將在還原後重新啟動。"
-
-msgid ""
-"Type 'DELETE' to confirm factory reset.\n"
-"\n"
-"This will permanently remove all your DinoX data."
-msgstr ""
-"輸入 'DELETE' 確認恢復原廠設定。\n"
-"\n"
-"這將永久刪除您的所有 DinoX 資料。"
-
-msgid ""
-"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
-"\n"
-"• All accounts\n"
-"• All messages and files\n"
-"• All encryption keys\n"
-"• All settings\n"
-"\n"
-"This is irreversible. Make sure to create a backup first!"
-msgstr ""
-"<b>⚠️ 警告：這將刪除所有資料！</b>\n"
-"\n"
-"• 所有帳戶\n"
-"• 所有訊息和檔案\n"
-"• 所有加密金鑰\n"
-"• 所有設定\n"
-"\n"
-"此操作無法復原。請先建立備份！"
+#~ msgid "Encrypted backup created (%s)"
+#~ msgstr "加密備份已建立 (%s)"
 
 # OpenPGP Key Management translations
-msgid "OpenPGP Key Management"
-msgstr "OpenPGP金鑰管理"
+#~ msgid "OpenPGP Key Management"
+#~ msgstr "OpenPGP金鑰管理"
 
-msgid "Actions"
-msgstr "操作"
+#~ msgid "Actions"
+#~ msgstr "操作"
 
-msgid "Generate New Key"
-msgstr "產生新金鑰"
+#~ msgid "Generate New Key"
+#~ msgstr "產生新金鑰"
 
-msgid "Create a new OpenPGP key pair"
-msgstr "建立新的OpenPGP金鑰對"
+#~ msgid "Create a new OpenPGP key pair"
+#~ msgstr "建立新的OpenPGP金鑰對"
 
-msgid "Import Key"
-msgstr "匯入金鑰"
+#~ msgid "Import Key"
+#~ msgstr "匯入金鑰"
 
-msgid "Import a key from file (.asc, .gpg)"
-msgstr "從檔案匯入金鑰 (.asc, .gpg)"
+#~ msgid "Import a key from file (.asc, .gpg)"
+#~ msgstr "從檔案匯入金鑰 (.asc, .gpg)"
 
-msgid "Your Keys"
-msgstr "您的金鑰"
+#~ msgid "Your Keys"
+#~ msgstr "您的金鑰"
 
-msgid "Private keys available for signing and decryption"
-msgstr "可用於簽署和解密的私鑰"
+#~ msgid "Private keys available for signing and decryption"
+#~ msgstr "可用於簽署和解密的私鑰"
 
-msgid "No private keys found"
-msgstr "找不到私鑰"
+#~ msgid "No private keys found"
+#~ msgstr "找不到私鑰"
 
-msgid "Generate or import a key to get started"
-msgstr "產生或匯入金鑰以開始"
+#~ msgid "Generate or import a key to get started"
+#~ msgstr "產生或匯入金鑰以開始"
 
-msgid "Fingerprint"
-msgstr "指紋"
+#~ msgid "Fingerprint"
+#~ msgstr "指紋"
 
-msgid "Export Public Key"
-msgstr "匯出公鑰"
+#~ msgid "Export Public Key"
+#~ msgstr "匯出公鑰"
 
-msgid "Delete Key"
-msgstr "刪除金鑰"
+#~ msgid "Delete Key"
+#~ msgstr "刪除金鑰"
 
-msgid "Generate New OpenPGP Key"
-msgstr "產生新的OpenPGP金鑰"
+#~ msgid "Generate New OpenPGP Key"
+#~ msgstr "產生新的OpenPGP金鑰"
 
-msgid "Enter your details to create a new key pair."
-msgstr "輸入您的資訊以建立新的金鑰對。"
+#~ msgid "Enter your details to create a new key pair."
+#~ msgstr "輸入您的資訊以建立新的金鑰對。"
 
-msgid "Name"
-msgstr "姓名"
+#~ msgid "Name"
+#~ msgstr "姓名"
 
-msgid "Your Name"
-msgstr "您的姓名"
+#~ msgid "Your Name"
+#~ msgstr "您的姓名"
 
-msgid "Email"
-msgstr "電子郵件"
+#~ msgid "Email"
+#~ msgstr "電子郵件"
 
-msgid "you@example.com"
-msgstr "you@example.com"
+#~ msgid "you@example.com"
+#~ msgstr "you@example.com"
 
-msgid "Passphrase (optional)"
-msgstr "密碼短語（選填）"
+#~ msgid "Passphrase (optional)"
+#~ msgstr "密碼短語（選填）"
 
-msgid "Passphrase"
-msgstr "密碼短語"
+#~ msgid "Passphrase"
+#~ msgstr "密碼短語"
 
-msgid "4096-bit RSA key, valid for 2 years."
-msgstr "4096位元RSA金鑰，有效期2年。"
+#~ msgid "4096-bit RSA key, valid for 2 years."
+#~ msgstr "4096位元RSA金鑰，有效期2年。"
 
-msgid "Generate"
-msgstr "產生"
+#~ msgid "Generate"
+#~ msgstr "產生"
 
-msgid "Name must be at least 2 characters"
-msgstr "姓名至少需要2個字元"
+#~ msgid "Name must be at least 2 characters"
+#~ msgstr "姓名至少需要2個字元"
 
-msgid "Please enter a valid email address"
-msgstr "請輸入有效的電子郵件地址"
+#~ msgid "Please enter a valid email address"
+#~ msgstr "請輸入有效的電子郵件地址"
 
-msgid "Generating Key..."
-msgstr "正在產生金鑰..."
+#~ msgid "Generating Key..."
+#~ msgstr "正在產生金鑰..."
 
-msgid "Please wait while your key is being generated. This may take a moment."
-msgstr "請稍候，正在產生您的金鑰。這可能需要一些時間。"
+#~ msgid "Key generated successfully!"
+#~ msgstr "金鑰產生成功！"
 
-msgid "Key generated successfully!"
-msgstr "金鑰產生成功！"
+#~ msgid "Import OpenPGP Key"
+#~ msgstr "匯入OpenPGP金鑰"
 
-msgid "Failed to generate key."
-msgstr "金鑰產生失敗。"
+#~ msgid "OpenPGP Keys (*.asc, *.gpg)"
+#~ msgstr "OpenPGP金鑰 (*.asc, *.gpg)"
 
-msgid "Import OpenPGP Key"
-msgstr "匯入OpenPGP金鑰"
+#~ msgid "All Files"
+#~ msgstr "所有檔案"
 
-msgid "OpenPGP Keys (*.asc, *.gpg)"
-msgstr "OpenPGP金鑰 (*.asc, *.gpg)"
+#~ msgid "Key imported! Re-open Key Management to see it."
+#~ msgstr "金鑰已匯入！重新開啟金鑰管理以檢視。"
 
-msgid "All Files"
-msgstr "所有檔案"
+#~ msgid "Import failed: "
+#~ msgstr "匯入失敗："
 
-msgid "Key imported! Re-open Key Management to see it."
-msgstr "金鑰已匯入！重新開啟金鑰管理以檢視。"
+#~ msgid "Key exported to: "
+#~ msgstr "金鑰已匯出到："
 
-msgid "Import failed: "
-msgstr "匯入失敗："
+#~ msgid "Export failed."
+#~ msgstr "匯出失敗。"
 
-msgid "Key exported to: "
-msgstr "金鑰已匯出到："
+#~ msgid "Delete Key?"
+#~ msgstr "刪除金鑰？"
 
-msgid "Export failed."
-msgstr "匯出失敗。"
+#~ msgid ""
+#~ "Delete this key?\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "This cannot be undone!"
+#~ msgstr ""
+#~ "刪除此金鑰？\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "此操作無法復原！"
 
-msgid "Delete Key?"
-msgstr "刪除金鑰？"
+#~ msgid "Key deleted."
+#~ msgstr "金鑰已刪除。"
 
-msgid ""
-"Delete this key?\n"
-"\n"
-"%s\n"
-"\n"
-"This cannot be undone!"
-msgstr ""
-"刪除此金鑰？\n"
-"\n"
-"%s\n"
-"\n"
-"此操作無法復原！"
+#~ msgid "Delete failed: "
+#~ msgstr "刪除失敗："
 
-msgid "Key deleted."
-msgstr "金鑰已刪除。"
+#~ msgid "Select OpenPGP Key"
+#~ msgstr "選擇OpenPGP金鑰"
 
-msgid "Delete failed: "
-msgstr "刪除失敗："
+#~ msgid "Choose a key to announce to your contacts."
+#~ msgstr "選擇要向聯絡人公布的金鑰。"
 
-msgid "Select OpenPGP Key"
-msgstr "選擇OpenPGP金鑰"
+#~ msgid "Enter GPG passphrase to confirm:"
+#~ msgstr "輸入GPG密碼短語以確認："
 
-msgid "Choose a key to announce to your contacts."
-msgstr "選擇要向聯絡人公布的金鑰。"
+#~ msgid "Wrong passphrase"
+#~ msgstr "密碼短語錯誤"
 
-msgid "Enter GPG passphrase to confirm:"
-msgstr "輸入GPG密碼短語以確認："
+#~ msgid "Manage Keys"
+#~ msgstr "管理金鑰"
 
-msgid "Wrong passphrase"
-msgstr "密碼短語錯誤"
+#~ msgid "Generate, import, export, or delete keys"
+#~ msgstr "產生、匯入、匯出或刪除金鑰"
 
-msgid "Manage Keys"
-msgstr "管理金鑰"
+#~ msgid "No keys available. Generate or import one!"
+#~ msgstr "沒有可用的金鑰。請產生或匯入一個！"
 
-msgid "Generate, import, export, or delete keys"
-msgstr "產生、匯入、匯出或刪除金鑰"
+#~ msgid "Announce key"
+#~ msgstr "公布金鑰"
 
-msgid "No keys available. Generate or import one!"
-msgstr "沒有可用的金鑰。請產生或匯入一個！"
+#~ msgid "Disabled"
+#~ msgstr "已停用"
 
-msgid "Announce key"
-msgstr "公布金鑰"
+#~ msgid "Error in GnuPG"
+#~ msgstr "GnuPG錯誤"
 
-msgid "Disabled"
-msgstr "已停用"
-
-msgid "Error in GnuPG"
-msgstr "GnuPG錯誤"
-
-msgid "Success"
-msgstr "成功"
-
-msgid "OK"
-msgstr "確定"
+#~ msgid "Success"
+#~ msgstr "成功"
 
 #~ msgid "Message too long"
 #~ msgstr "訊息太長"

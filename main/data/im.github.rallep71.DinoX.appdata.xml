@@ -191,6 +191,15 @@
   <url type="translate">https://hosted.weblate.org/projects/dino/</url>
   <launchable type="desktop-id">im.github.rallep71.DinoX.desktop</launchable>
   <releases>
+    <release date="2025-12-01" version="0.8.1">
+      <description>
+        <p>Full OpenPGP Localization.</p>
+        <ul>
+          <li>Completed translations for all 47 supported languages</li>
+          <li>Added missing translations for OpenPGP key management and preferences</li>
+        </ul>
+      </description>
+    </release>
     <release date="2025-12-01" version="0.8.0">
       <description>
         <p>Disappearing Messages and MUC improvements.</p>

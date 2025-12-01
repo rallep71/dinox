@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-28 12:18+0100\n"
+"POT-Creation-Date: 2025-12-01 10:28+0100\n"
 "PO-Revision-Date: 2024-09-10 14:09+0000\n"
 "Language-Team: none\n"
 "Language: lt\n"
@@ -100,14 +100,14 @@ msgstr "Bendri"
 #: main/data/gtk/help-overlay.ui:14 main/data/main_window.ui:38
 #: main/data/menu_add.ui:7
 #: main/src/ui/add_conversation/select_contact_dialog.vala:106
-#: main/src/ui/main_window.vala:141
+#: main/src/ui/main_window.vala:154
 msgid "Start Conversation"
 msgstr "Pradėti pokalbį"
 
 #: main/data/gtk/help-overlay.ui:20 main/data/main_window.ui:51
 #: main/data/menu_add.ui:11
 #: main/src/ui/add_conversation/add_conference_dialog.vala:24
-#: main/src/ui/application.vala:527 main/src/ui/main_window.vala:142
+#: main/src/ui/application.vala:1359 main/src/ui/main_window.vala:155
 msgid "Join Channel"
 msgstr "Prisijungti prie kanalo"
 
@@ -148,7 +148,7 @@ msgstr "Peršokti prie kito pokalbio"
 msgid "Jump to previous conversation"
 msgstr "Peršokti prie ankstesnio pokalbio"
 
-#: main/data/main_window.ui:64 main/src/ui/main_window.vala:144
+#: main/data/main_window.ui:64 main/src/ui/main_window.vala:157
 msgid "Help: How to join channels"
 msgstr "Pagalba: Kaip prisijungti prie kanalų"
 
@@ -166,28 +166,28 @@ msgstr "Būsena"
 
 #: main/data/menu_app.ui:11
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:427
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Online"
 msgstr "Prisijungęs"
 
 #: main/data/menu_app.ui:16
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:421
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Away"
 msgstr "Pasišalinęs"
 
 #: main/data/menu_app.ui:21
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:425
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Busy"
 msgstr "Užsiėmęs"
 
 #: main/data/menu_app.ui:26
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:423
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Not Available"
 msgstr "Nepasiekiamas"
@@ -200,7 +200,7 @@ msgstr "Nuostatos"
 msgid "Keyboard Shortcuts"
 msgstr "Trumpiniai"
 
-#: main/data/menu_app.ui:42 main/src/ui/application.vala:334
+#: main/data/menu_app.ui:42 main/src/ui/application.vala:340
 msgid "About DinoX"
 msgstr "Apie DinoX"
 
@@ -219,7 +219,10 @@ msgstr "Ištrinti pokalbių istoriją"
 #: main/data/preferences_window/change_password_dialog.ui:18
 #: main/src/ui/add_conversation/add_conference_dialog.vala:41
 #: main/src/ui/add_conversation/select_contact_dialog.vala:40
-#: main/src/ui/application.vala:537
+#: main/src/ui/application.vala:441 main/src/ui/application.vala:469
+#: main/src/ui/application.vala:765 main/src/ui/application.vala:843
+#: main/src/ui/application.vala:901 main/src/ui/application.vala:933
+#: main/src/ui/application.vala:1089 main/src/ui/application.vala:1369
 #: main/src/ui/conversation_content_view/file_default_widget.vala:90
 #: main/src/ui/conversation_content_view/item_actions.vala:165
 #: main/src/ui/conversation_content_view/item_actions.vala:168
@@ -234,7 +237,7 @@ msgstr "Ištrinti pokalbių istoriją"
 #: main/src/ui/conversation_titlebar/call_entry.vala:83
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
 #: main/src/windows/conversation_details.vala:60
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:67
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:68
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:205
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:225
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:249
@@ -258,6 +261,7 @@ msgid "Local alias"
 msgstr "Vietinis pseudonimas"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:82
+#: main/src/ui/application.vala:435 main/src/ui/application.vala:1064
 #: main/src/ui/util/data_forms.vala:63
 msgid "Password"
 msgstr "Slaptažodis"
@@ -266,20 +270,24 @@ msgstr "Slaptažodis"
 msgid "Connection status"
 msgstr "Ryšio būsena"
 
+#: main/data/preferences_window/account_preferences_subpage.ui:117
+msgid "View Certificate"
+msgstr "Peržiūrėti sertifikatą"
+
 # Custom host/port feature (Issue #115)
-#: main/data/preferences_window/account_preferences_subpage.ui:121
+#: main/data/preferences_window/account_preferences_subpage.ui:128
 msgid "Advanced Settings"
 msgstr "Išplėstiniai nustatymai"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:122
+#: main/data/preferences_window/account_preferences_subpage.ui:129
 msgid "Custom server connection (leave empty for automatic)"
 msgstr "Pasirinktinis serverio ryšys (palikite tuščią automatiniam)"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:125
+#: main/data/preferences_window/account_preferences_subpage.ui:132
 msgid "Server Hostname"
 msgstr "Serverio prieglobos vardas"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:130
+#: main/data/preferences_window/account_preferences_subpage.ui:137
 msgid "Port"
 msgstr "Prievadas"
 
@@ -351,12 +359,53 @@ msgid "Create a backup of your accounts, messages and settings"
 msgstr "Sukurti paskyrų, žinučių ir nustatymų atsarginę kopiją"
 
 #: main/data/preferences_window/general_preferences_page.ui:78
-msgid "Data Location"
-msgstr "Duomenų vieta"
+#: main/src/ui/application.vala:464 main/src/ui/main_window.vala:223
+msgid "Restore from Backup"
+msgstr "Atkurti iš atsarginės kopijos"
 
 #: main/data/preferences_window/general_preferences_page.ui:79
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "Atkurti paskyras, žinutes ir nustatymus iš atsarginės kopijos"
+
+#: main/data/preferences_window/general_preferences_page.ui:90
+msgid "Data Storage Location"
+msgstr "Duomenų saugojimo vieta"
+
+#: main/data/preferences_window/general_preferences_page.ui:91
 msgid "View where your data is stored"
 msgstr "Peržiūrėkite, kur saugomi jūsų duomenys"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "Duomenų bazės priežiūra"
+
+#: main/data/preferences_window/general_preferences_page.ui:107
+#: main/src/ui/application.vala:761 main/src/ui/application.vala:766
+msgid "Clear Cache"
+msgstr "Išvalyti talpyklą"
+
+#: main/data/preferences_window/general_preferences_page.ui:108
+msgid "Clear cached files, avatars and previews"
+msgstr "Išvalyti talpykloje esančius failus, avatarus ir peržiūras"
+
+#: main/data/preferences_window/general_preferences_page.ui:119
+#: main/src/ui/application.vala:838 main/src/ui/application.vala:844
+msgid "Reset Database"
+msgstr "Iš naujo nustatyti duomenų bazę"
+
+#: main/data/preferences_window/general_preferences_page.ui:120
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr "Ištrinti visas žinutes, failus ir OMEMO raktus. Jūsų paskyros liks."
+
+#: main/data/preferences_window/general_preferences_page.ui:131
+#: main/src/ui/application.vala:896
+msgid "Factory Reset"
+msgstr "Gamyklinių nustatymų atkūrimas"
+
+#: main/data/preferences_window/general_preferences_page.ui:132
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr ""
+"Ištrinti VISUS duomenis, įskaitant paskyras. Šio veiksmo negalima atšaukti!"
 
 #: main/data/preferences_window/preferences_dialog.ui:11
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:15
@@ -381,7 +430,7 @@ msgstr "Kitas"
 
 #: main/src/ui/add_conversation/add_conference_dialog.vala:59
 #: main/src/ui/add_conversation/conference_details_fragment.vala:151
-#: main/src/ui/application.vala:541
+#: main/src/ui/application.vala:1373
 msgid "Join"
 msgstr "Prisijungti"
 
@@ -467,31 +516,31 @@ msgstr "Ištrinti kontaktą"
 msgid "Leave Group"
 msgstr "Palikti grupę"
 
-#: main/src/ui/application.vala:339
+#: main/src/ui/application.vala:345
 msgid "Modern XMPP client with extended features"
 msgstr "Modernus XMPP klientas su išplėstinėmis funkcijomis"
 
-#: main/src/ui/application.vala:346 main/src/ui/application.vala:385
+#: main/src/ui/application.vala:352 main/src/ui/application.vala:727
 msgid "User Data Locations"
 msgstr "Duomenų vietos"
 
-#: main/src/ui/application.vala:349 main/src/ui/application.vala:399
+#: main/src/ui/application.vala:355 main/src/ui/application.vala:741
 msgid "Configuration:"
 msgstr "Konfigūracija:"
 
-#: main/src/ui/application.vala:352 main/src/ui/application.vala:401
+#: main/src/ui/application.vala:358 main/src/ui/application.vala:743
 msgid "Data & Database:"
 msgstr "Duomenys ir duomenų bazė:"
 
-#: main/src/ui/application.vala:355 main/src/ui/application.vala:403
+#: main/src/ui/application.vala:361 main/src/ui/application.vala:745
 msgid "Cache:"
 msgstr "Podėlis:"
 
-#: main/src/ui/application.vala:358
+#: main/src/ui/application.vala:364
 msgid "Info:"
 msgstr "Informacija:"
 
-#: main/src/ui/application.vala:359
+#: main/src/ui/application.vala:365
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
@@ -499,17 +548,121 @@ msgstr ""
 "Jūsų asmeniniai duomenys (paskyros, žinutės, failai) saugomi atskirai nuo "
 "programos."
 
-#: main/src/ui/application.vala:361
+#: main/src/ui/application.vala:367
 msgid "When you update DinoX, your data remains intact."
 msgstr "Kai atnaujinate DinoX, jūsų duomenys išlieka nepažeisti."
 
-#: main/src/ui/application.vala:363
+#: main/src/ui/application.vala:369
 msgid "Use Settings → General → Backup User Data to create a backup."
 msgstr ""
 "Naudokite Nustatymai → Bendra → Vartotojo duomenų atsarginė kopija, kad "
 "sukurtumėte atsarginę kopiją."
 
-#: main/src/ui/application.vala:405
+#: main/src/ui/application.vala:387
+msgid "Select Backup File"
+msgstr "Pasirinkti atsarginės kopijos failą"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+#: main/src/ui/application.vala:395
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "Atsarginės kopijos failai (*.tar.gz, *.tar.gz.gpg)"
+
+#: main/src/ui/application.vala:425
+msgid "Enter Backup Password"
+msgstr "Įveskite atsarginės kopijos slaptažodį"
+
+#: main/src/ui/application.vala:426
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "Ši atsarginė kopija užšifruota. Įveskite slaptažodį."
+
+#: main/src/ui/application.vala:442
+msgid "Decrypt & Restore"
+msgstr "Iššifruoti ir atkurti"
+
+#: main/src/ui/application.vala:465
+msgid ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+msgstr ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+
+#: main/src/ui/application.vala:470
+msgid "Restore Backup"
+msgstr "Atkurti atsarginę kopiją"
+
+#: main/src/ui/application.vala:487 main/src/ui/application.vala:519
+msgid "Decrypting Backup..."
+msgstr "Iššifruojama atsarginė kopija..."
+
+#: main/src/ui/application.vala:487 main/src/ui/application.vala:571
+msgid "Restoring Backup..."
+msgstr "Atkuriama atsarginė kopija..."
+
+#: main/src/ui/application.vala:488
+msgid "Please wait, this may take a moment..."
+msgstr "Prašome palaukti, tai gali užtrukti..."
+
+#: main/src/ui/application.vala:520
+msgid "Decrypting encrypted backup file..."
+msgstr "Iššifruojamas atsarginės kopijos failas..."
+
+#: main/src/ui/application.vala:558
+msgid "Decryption Failed"
+msgstr "Iššifravimas nepavyko"
+
+#: main/src/ui/application.vala:559
+msgid ""
+"Could not decrypt the backup file.\n"
+"\n"
+"Please check if the password is correct."
+msgstr ""
+"Nepavyko iššifruoti failo.\n"
+"\n"
+"Patikrinkite, ar slaptažodis teisingas."
+
+#: main/src/ui/application.vala:561 main/src/ui/application.vala:671
+msgid "OK"
+msgstr "OK"
+
+#: main/src/ui/application.vala:572
+msgid "Extracting files from backup..."
+msgstr "Ištraukiami failai iš atsarginės kopijos..."
+
+#: main/src/ui/application.vala:653
+msgid "Restore Complete!"
+msgstr "Atkūrimas baigtas!"
+
+#: main/src/ui/application.vala:654
+msgid "DinoX will now restart..."
+msgstr "DinoX dabar bus paleistas iš naujo..."
+
+#: main/src/ui/application.vala:668
+msgid "Restore Failed"
+msgstr "Atkūrimas nepavyko"
+
+#: main/src/ui/application.vala:669
+#, c-format
+msgid ""
+"Could not restore the backup file.\n"
+"\n"
+"Error: %s"
+msgstr ""
+"Nepavyko atkurti failo.\n"
+"\n"
+"Klaida: %s"
+
+#: main/src/ui/application.vala:669 main/src/ui/application.vala:1345
+msgid "Unknown error"
+msgstr "Nežinoma klaida"
+
+#: main/src/ui/application.vala:747
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
@@ -519,96 +672,244 @@ msgstr ""
 "asmeniniai duomenys (paskyros, žinutės, failai) saugomi atskirai nuo "
 "programos. Atnaujinus DinoX, jūsų duomenys išlieka nepakitę."
 
-#: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
-#: main/src/ui/main_window.vala:159
+#: main/src/ui/application.vala:752 main/src/ui/application.vala:1240
+#: main/src/ui/application.vala:1324 main/src/ui/conversation_details.vala:272
+#: main/src/ui/main_window.vala:172
 msgid "Close"
 msgstr "Uždaryti"
 
-#: main/src/ui/application.vala:417
+#: main/src/ui/application.vala:762
+msgid ""
+"This will delete cached files, avatars and previews.\n"
+"\n"
+"They will be re-downloaded when needed."
+msgstr ""
+"Tai ištrins talpykloje esančius failus, avatarus ir peržiūras.\n"
+"\n"
+"Prireikus jie bus atsisiųsti iš naujo."
+
+#: main/src/ui/application.vala:799
+#, c-format
+msgid "Cache cleared (%s freed)"
+msgstr "Talpykla išvalyta (%s atlaisvinta)"
+
+#: main/src/ui/application.vala:802
+msgid "Failed to clear cache"
+msgstr "Nepavyko išvalyti talpyklos"
+
+#: main/src/ui/application.vala:839
+msgid ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+msgstr ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+
+#: main/src/ui/application.vala:867
+msgid "Resetting database... DinoX will restart."
+msgstr "Duomenų bazės atkūrimas... DinoX bus paleistas iš naujo."
+
+#: main/src/ui/application.vala:897
+msgid ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+msgstr ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+
+#: main/src/ui/application.vala:902
+msgid "Create Backup First"
+msgstr "Pirmiausia sukurkite atsarginę kopiją"
+
+#: main/src/ui/application.vala:903
+msgid "Delete Everything"
+msgstr "Ištrinti viską"
+
+#: main/src/ui/application.vala:923
+msgid "Are you absolutely sure?"
+msgstr "Ar esate visiškai tikri?"
+
+#: main/src/ui/application.vala:924
+msgid ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+msgstr ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+
+#: main/src/ui/application.vala:934
+msgid "Confirm Delete"
+msgstr "Patvirtinti trynimą"
+
+#: main/src/ui/application.vala:961
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "Vyksta gamyklinių nustatymų atkūrimas... DinoX bus paleistas iš naujo."
+
+#: main/src/ui/application.vala:1026
+msgid "Backup Encryption"
+msgstr "Atsarginės kopijos šifravimas"
+
+#: main/src/ui/application.vala:1027
+msgid ""
+"Do you want to encrypt the backup with a password?\n"
+"\n"
+"Encrypted backups are more secure but require the password to restore."
+msgstr ""
+"Ar norite užšifruoti atsarginę kopiją slaptažodžiu?\n"
+"\n"
+"Užšifruotos atsarginės kopijos yra saugesnės, tačiau norint jas atkurti, "
+"reikalingas slaptažodis."
+
+#: main/src/ui/application.vala:1030
+msgid "No Encryption"
+msgstr "Be šifravimo"
+
+#: main/src/ui/application.vala:1031
+msgid "Encrypt with Password"
+msgstr "Šifruoti slaptažodžiu"
+
+#: main/src/ui/application.vala:1049
+msgid "Set Backup Password"
+msgstr "Nustatyti atsarginės kopijos slaptažodį"
+
+#: main/src/ui/application.vala:1050
+msgid ""
+"Enter a password to encrypt the backup.\n"
+"\n"
+"<b>Important:</b> Remember this password! Without it, the backup cannot be "
+"restored."
+msgstr ""
+"Įveskite slaptažodį šifravimui.\n"
+"\n"
+"<b>Svarbu:</b> Prisiminkite šį slaptažodį! Be jo atsarginė kopija negali "
+"būti atkurta."
+
+#: main/src/ui/application.vala:1058
+msgid "Password (minimum 4 characters)"
+msgstr "Slaptažodis (mažiausiai 4 simboliai)"
+
+#: main/src/ui/application.vala:1066 main/src/ui/application.vala:1073
+msgid "Confirm Password"
+msgstr "Patvirtinti slaptažodį"
+
+#: main/src/ui/application.vala:1090
+msgid "Create Encrypted Backup"
+msgstr "Sukurti šifruotą atsarginę kopiją"
+
+#: main/src/ui/application.vala:1102 main/src/ui/application.vala:1117
+msgid "Password too short"
+msgstr "Slaptažodis per trumpas"
+
+#: main/src/ui/application.vala:1104 main/src/ui/application.vala:1119
+msgid "Passwords do not match"
+msgstr "Slaptažodžiai nesutampa"
+
+#: main/src/ui/application.vala:1106 main/src/ui/application.vala:1121
+msgid "✓ Passwords match"
+msgstr "✓ Slaptažodžiai sutampa"
+
+#: main/src/ui/application.vala:1139
 msgid "Select Backup Location"
 msgstr "Pasirinkite atsarginės kopijos vietą"
 
-#: main/src/ui/application.vala
-msgid "Creating Backup..."
-msgstr "Creating Backup..."
-
-#: main/src/ui/application.vala
+#: main/src/ui/application.vala:1194
 msgid "Creating Encrypted Backup..."
-msgstr "Creating Encrypted Backup..."
+msgstr "Kuriama šifruota atsarginė kopija..."
 
-#: main/src/ui/application.vala
-msgid "Please wait while your data is being backed up."
-msgstr "Please wait while your data is being backed up."
-
-#: main/src/ui/application.vala
-msgid "No data directories found to backup"
-msgstr "No data directories found to backup"
-
-#: main/src/ui/application.vala
-msgid "Backup Created"
-msgstr "Backup Created"
-
-#: main/src/ui/application.vala
-msgid "Encrypted Backup Created"
-msgstr "Encrypted Backup Created"
-
-#: main/src/ui/application.vala
-#, c-format
-msgid "Your backup was created successfully.\\n\\nSize: %s"
-msgstr "Your backup was created successfully.\\n\\nSize: %s"
-
-#: main/src/ui/application.vala
-msgid "Your backup was created successfully."
-msgstr "Your backup was created successfully."
-
-#: main/src/ui/application.vala
-#, c-format
-msgid "Your encrypted backup was created successfully.\\n\\nSize: %s"
-msgstr "Your encrypted backup was created successfully.\\n\\nSize: %s"
-
-#: main/src/ui/application.vala
-msgid "Your encrypted backup was created successfully."
-msgstr "Your encrypted backup was created successfully."
-
-#: main/src/ui/application.vala
-msgid "Backup Failed"
-msgstr "Backup Failed"
-
-#: main/src/ui/application.vala:445
-msgid "Creating backup..."
+#: main/src/ui/application.vala:1194
+msgid "Creating Backup..."
 msgstr "Kuriama atsarginė kopija..."
 
-#: main/src/ui/application.vala:503
-#, c-format
-msgid "Backup created successfully (%s)"
-msgstr "Atsarginė kopija sukurta (%s)"
+#: main/src/ui/application.vala:1195
+msgid "Please wait while your data is being backed up."
+msgstr "Prašome palaukti, kol bus sukurtos atsarginės duomenų kopijos."
 
-#: main/src/ui/application.vala:505
-msgid "Backup created successfully"
+#: main/src/ui/application.vala:1234
+msgid "No data directory found to backup"
+msgstr "Nerastas duomenų katalogas atsarginei kopijai"
+
+#: main/src/ui/application.vala:1237 main/src/ui/application.vala:1343
+msgid "Backup Failed"
+msgstr "Atsarginė kopija nepavyko"
+
+#: main/src/ui/application.vala:1331
+msgid "Encrypted Backup Created"
+msgstr "Šifruota atsarginė kopija sukurta"
+
+#: main/src/ui/application.vala:1333
+#, c-format
+msgid ""
+"Your encrypted backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"Jūsų užšifruota atsarginė kopija sėkmingai sukurta.\n"
+"\n"
+"Dydis: %s"
+
+#: main/src/ui/application.vala:1334
+msgid "Your encrypted backup was created successfully."
+msgstr "Jūsų šifruota atsarginė kopija sėkmingai sukurta."
+
+#: main/src/ui/application.vala:1336
+msgid "Backup Created"
 msgstr "Atsarginė kopija sukurta"
 
-#: main/src/ui/application.vala:510
-msgid "Unknown error"
-msgstr "Nežinoma klaida"
+#: main/src/ui/application.vala:1338
+#, c-format
+msgid ""
+"Your backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"Jūsų atsarginė kopija sėkmingai sukurta.\n"
+"\n"
+"Dydis: %s"
 
-#: main/src/ui/application.vala:511
+#: main/src/ui/application.vala:1339
+msgid "Your backup was created successfully."
+msgstr "Jūsų atsarginė kopija sėkmingai sukurta."
+
+#: main/src/ui/application.vala:1346
 #, c-format
 msgid "Backup failed: %s"
 msgstr "Atsarginė kopija nepavyko: %s"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:29
+#: main/src/ui/call_window/audio_settings_popover.vala:46
 msgid "Microphones"
 msgstr "Mikrofonai"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:32
+#: main/src/ui/call_window/audio_settings_popover.vala:49
 msgid "No microphone found."
 msgstr "Nerasta jokio mikrofono."
 
-#: main/src/ui/call_window/audio_settings_popover.vala:85
+#: main/src/ui/call_window/audio_settings_popover.vala:116
 msgid "Speakers"
 msgstr "Garsiakalbiai"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:88
+#: main/src/ui/call_window/audio_settings_popover.vala:119
 msgid "No speaker found."
 msgstr "Nerasta jokių garsiakalbių."
 
@@ -624,7 +925,7 @@ msgstr "Pakviesti į skambutį"
 msgid "Invite"
 msgstr "Pakviesti"
 
-#: main/src/ui/call_window/call_window_controller.vala:405
+#: main/src/ui/call_window/call_window_controller.vala:453
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:240
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:270
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:285
@@ -643,21 +944,21 @@ msgstr "%s baigė pokalbį"
 msgid "%s declined the call"
 msgstr "%s atmetė skambutį"
 
-#: main/src/ui/call_window/participant_widget.vala:115
+#: main/src/ui/call_window/participant_widget.vala:140
 msgid "Debug information"
 msgstr "Derinimo informacija"
 
-#: main/src/ui/call_window/participant_widget.vala:124
+#: main/src/ui/call_window/participant_widget.vala:149
 #: main/src/ui/conversation_content_view/call_widget.vala:152
 msgid "Calling…"
 msgstr "Skambinama…"
 
-#: main/src/ui/call_window/participant_widget.vala:126
+#: main/src/ui/call_window/participant_widget.vala:151
 msgid "Ringing…"
 msgstr "Skamba…"
 
-#: main/src/ui/call_window/participant_widget.vala:128
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:216
+#: main/src/ui/call_window/participant_widget.vala:153
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:244
 msgid "Connecting…"
 msgstr "Jungiamasi…"
 
@@ -891,7 +1192,7 @@ msgstr "%a, %l∶%M %p"
 msgid "Just now"
 msgstr "Ką tik"
 
-#: main/src/ui/conversation_content_view/conversation_view.vala:105
+#: main/src/ui/conversation_content_view/conversation_view.vala:106
 msgid "More actions"
 msgstr "Daugiau veiksmų"
 
@@ -1110,6 +1411,38 @@ msgstr "Sunaikinti"
 msgid "Failed to destroy room"
 msgstr "Nepavyko sunaikinti kambario"
 
+#: main/src/ui/conversation_details.vala:286
+msgid "Auto-delete messages"
+msgstr "Automatiškai trinti žinutes"
+
+#: main/src/ui/conversation_details.vala:287
+msgid "Never"
+msgstr "Niekada"
+
+#: main/src/ui/conversation_details.vala:288
+msgid "After 15 minutes"
+msgstr "Po 15 minučių"
+
+#: main/src/ui/conversation_details.vala:289
+msgid "After 30 minutes"
+msgstr "Po 30 minučių"
+
+#: main/src/ui/conversation_details.vala:290
+msgid "After 1 hour"
+msgstr "Po 1 valandos"
+
+#: main/src/ui/conversation_details.vala:291
+msgid "After 24 hours"
+msgstr "Po 24 valandų"
+
+#: main/src/ui/conversation_details.vala:292
+msgid "After 7 days"
+msgstr "Po 7 dienų"
+
+#: main/src/ui/conversation_details.vala:293
+msgid "After 30 days"
+msgstr "Po 30 dienų"
+
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:276
 #: main/src/ui/notifier_freedesktop.vala:71
 #: main/src/ui/notifier_gnotifications.vala:36
@@ -1256,6 +1589,7 @@ msgstr "Atblokuoti kontaktą?"
 # c-format
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:702
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:247
+#, c-format
 msgid "This will allow %s to send you messages again."
 msgstr "Tai leis %s vėl siųsti jums žinutes."
 
@@ -1358,7 +1692,7 @@ msgid "Select file"
 msgstr "Pasirinkti failą"
 
 #: main/src/ui/conversation_view_controller.vala:225
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:152
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:180
 msgid "Select"
 msgstr "Pasirinkti"
 
@@ -1376,11 +1710,11 @@ msgstr "Ties %s"
 msgid "With %s"
 msgstr "Su %s"
 
-#: main/src/ui/main_window.vala:156
+#: main/src/ui/main_window.vala:169
 msgid "Join Channel Help"
 msgstr "Pagalba prisijungiant prie kanalo"
 
-#: main/src/ui/main_window.vala:157
+#: main/src/ui/main_window.vala:170
 msgid ""
 "To join a channel, click the \"Join Channel\" button and enter the channel "
 "JID (example: room@conference.example.org).\n"
@@ -1394,25 +1728,25 @@ msgstr ""
 "Jei jums reikia slaptažodžio arba slapyvardžio, pateikite juos dialoge. "
 "Naudokite serverio aptikimo funkcijas viešiems kambariams rasti."
 
-#: main/src/ui/main_window.vala:206
+#: main/src/ui/main_window.vala:219
 msgid "Welcome to DinoX!"
 msgstr "Sveiki atvykę į DinoX!"
 
-#: main/src/ui/main_window.vala:207
+#: main/src/ui/main_window.vala:220
 msgid "Sign in or create an account to get started."
 msgstr "Norėdami pradėti, prisijunkite arba susikurkite paskyrą."
 
-#: main/src/ui/main_window.vala:208
+#: main/src/ui/main_window.vala:221
 msgid "Set up account"
 msgstr "Nusistatyti paskyrą"
 
-#: main/src/ui/main_window.vala:215
+#: main/src/ui/main_window.vala:230
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:71
 #: main/src/windows/preferences_window/encryption_preferences_page.vala:49
 msgid "No active accounts"
 msgstr "Aktyvių paskyrų nėra"
 
-#: main/src/ui/main_window.vala:216
+#: main/src/ui/main_window.vala:231
 msgid "Manage accounts"
 msgstr "Tvarkyti paskyras"
 
@@ -1422,12 +1756,12 @@ msgid "Subscription request"
 msgstr "Prenumeratos užklausa"
 
 #: main/src/ui/notifier_freedesktop.vala:192
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:231
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:259
 msgid "Wrong password"
 msgstr "Neteisingas slaptažodis"
 
 #: main/src/ui/notifier_freedesktop.vala:195
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:233
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:261
 msgid "Invalid TLS certificate"
 msgstr "Negaliojantis TLS liudijimas"
 
@@ -1674,45 +2008,45 @@ msgstr "Nustatymai"
 msgid "Room Configuration"
 msgstr "Kambario konfigūracija"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:68
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:69
 msgid "Connect"
 msgstr "Prisijungti"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:106
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
 msgid "Disable account"
 msgstr "Išjungti paskyrą"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:106
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
 msgid "Enable account"
 msgstr "Įjungti paskyrą"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:151
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:179
 msgid "Select avatar"
 msgstr "Pasirinkti avatarą"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:162
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:190
 msgid "Images"
 msgstr "Paveikslai"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:166
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:194
 msgid "All files"
 msgstr "Visi failai"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:184
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:212
 #, c-format
 msgid "Remove account %s?"
 msgstr "Šalinti paskyrą %s?"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:218
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:246
 msgid "Connected"
 msgstr "Prisijungta"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:220
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:248
 msgid "Disconnected"
 msgstr "Atsijungta"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:240
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:242
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:268
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:270
 msgid "Error"
 msgstr "Klaida"
 
@@ -1824,388 +2158,191 @@ msgstr "Pakeisti %s rodomą vardą"
 msgid "Alias (optional)"
 msgstr "Slapyvardis (neprivaloma)"
 
+#~ msgid "Creating backup..."
+#~ msgstr "Kuriama atsarginė kopija..."
+
+#, c-format
+#~ msgid "Backup created successfully (%s)"
+#~ msgstr "Atsarginė kopija sukurta (%s)"
+
+#~ msgid "Backup created successfully"
+#~ msgstr "Atsarginė kopija sukurta"
+
 # DinoX v0.7.7 - Database Maintenance & Backup/Restore
-msgid "Clean Database"
-msgstr "Clean Database"
+#~ msgid "Clean Database"
+#~ msgstr "Clean Database"
 
-msgid "Reset Database"
-msgstr "Reset Database"
+#~ msgid "Encrypting Backup..."
+#~ msgstr "Encrypting Backup..."
 
-msgid "Restore Complete!"
-msgstr "Restore Complete!"
+#~ msgid "Creating encrypted backup..."
+#~ msgstr "Kuriama šifruota atsarginė kopija..."
 
-msgid "Restore Failed"
-msgstr "Restore Failed"
+#~ msgid "Encrypted backup created successfully"
+#~ msgstr "Šifruota atsarginė kopija sėkmingai sukurta"
 
-msgid "Decrypting Backup..."
-msgstr "Decrypting Backup..."
-
-msgid "Restoring Backup..."
-msgstr "Restoring Backup..."
-
-msgid "Set Backup Password"
-msgstr "Set Backup Password"
-
-msgid "Confirm Password"
-msgstr "Confirm Password"
-
-msgid "Create Encrypted Backup"
-msgstr "Create Encrypted Backup"
-
-msgid "Password too short"
-msgstr "Password too short"
-
-msgid "Passwords do not match"
-msgstr "Passwords do not match"
-
-msgid "✓ Passwords match"
-msgstr "✓ Passwords match"
-
-msgid "Encrypting Backup..."
-msgstr "Encrypting Backup..."
-
-msgid "Factory Reset"
-msgstr "Factory Reset"
-
-msgid "Restore from Backup"
-msgstr "Restore from Backup"
-
-msgid "Restore Backup"
-msgstr "Restore Backup"
-
-msgid "Select Backup File"
-msgstr "Select Backup File"
-
-msgid "Enter Backup Password"
-msgstr "Enter Backup Password"
-
-msgid "Decrypt & Restore"
-msgstr "Decrypt & Restore"
-
-msgid "Create Backup First"
-msgstr "Create Backup First"
-
-msgid "No Encryption"
-msgstr "No Encryption"
-
-msgid "Encrypt with Password"
-msgstr "Encrypt with Password"
-
-msgid "Delete Everything"
-msgstr "Delete Everything"
-
-msgid "Confirm Delete"
-msgstr "Confirm Delete"
-
-msgid "Are you absolutely sure?"
-msgstr "Are you absolutely sure?"
-
-#: main/data/preferences_window/general_preferences_page.ui:104
-msgid "Database Maintenance"
-msgstr "Duomenų bazės priežiūra"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Restore accounts, messages and settings from a backup file"
-msgstr "Atkurti paskyras, žinutes ir nustatymus iš atsarginės kopijos"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
-msgstr "Ištrinti visas žinutes, failus ir OMEMO raktus. Jūsų paskyros liks."
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete ALL data including accounts. This cannot be undone!"
-msgstr ""
-"Ištrinti VISUS duomenis, įskaitant paskyras. Šio veiksmo negalima atšaukti!"
-
-# DinoX v0.7.7 - Additional Backup/Restore strings
-msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
-msgstr "Atsarginės kopijos failai (*.tar.gz, *.tar.gz.gpg)"
-
-msgid "Creating encrypted backup..."
-msgstr "Kuriama šifruota atsarginė kopija..."
-
-msgid "Decryption Failed"
-msgstr "Iššifravimas nepavyko"
-
-msgid "DinoX will now restart..."
-msgstr "DinoX dabar bus paleistas iš naujo..."
-
-msgid "Encrypted backup created successfully"
-msgstr "Šifruota atsarginė kopija sėkmingai sukurta"
-
-msgid "Password (minimum 4 characters)"
-msgstr "Slaptažodis (mažiausiai 4 simboliai)"
-
-msgid "Decrypting encrypted backup file..."
-msgstr "Iššifruojamas atsarginės kopijos failas..."
-
-msgid "Extracting files from backup..."
-msgstr "Ištraukiami failai iš atsarginės kopijos..."
-
-msgid "Factory reset in progress... DinoX will restart."
-msgstr "Vyksta gamyklinių nustatymų atkūrimas... DinoX bus paleistas iš naujo."
-
-msgid "Resetting database... DinoX will restart."
-msgstr "Duomenų bazės atkūrimas... DinoX bus paleistas iš naujo."
-
-msgid "Encrypted backup created (%s)"
-msgstr "Šifruota atsarginė kopija sukurta (%s)"
-
-msgid ""
-"Could not decrypt the backup file.\n"
-"\n"
-"Please check if the password is correct."
-msgstr ""
-"Nepavyko iššifruoti failo.\n"
-"\n"
-"Patikrinkite, ar slaptažodis teisingas."
-
-msgid ""
-"Could not restore the backup file.\n"
-"\n"
-"Error: %s"
-msgstr ""
-"Nepavyko atkurti failo.\n"
-"\n"
-"Klaida: %s"
-
-msgid "This backup is encrypted. Please enter the password to decrypt it."
-msgstr "Ši atsarginė kopija užšifruota. Įveskite slaptažodį."
-
-msgid ""
-"Enter a password to encrypt the backup.\n"
-"\n"
-"<b>Important:</b> Remember this password! Without it, the backup cannot be "
-"restored."
-msgstr ""
-"Įveskite slaptažodį šifravimui.\n"
-"\n"
-"<b>Svarbu:</b> Prisiminkite šį slaptažodį! Be jo atsarginė kopija negali "
-"būti atkurta."
-
-msgid ""
-"This will delete all messages, files and OMEMO encryption keys.\n"
-"\n"
-"<b>Your accounts will remain, but you will lose all chat history and need to "
-"re-verify encryption with your contacts.</b>\n"
-"\n"
-"This action cannot be undone!"
-msgstr ""
-"This will delete all messages, files and OMEMO encryption keys.\n"
-"\n"
-"<b>Your accounts will remain, but you will lose all chat history and need to "
-"re-verify encryption with your contacts.</b>\n"
-"\n"
-"This action cannot be undone!"
-
-msgid ""
-"This will replace all current data with the backup.\n"
-"\n"
-"<b>Current accounts, messages and settings will be overwritten!</b>\n"
-"\n"
-"DinoX will restart after restoring."
-msgstr ""
-"This will replace all current data with the backup.\n"
-"\n"
-"<b>Current accounts, messages and settings will be overwritten!</b>\n"
-"\n"
-"DinoX will restart after restoring."
-
-msgid ""
-"Type 'DELETE' to confirm factory reset.\n"
-"\n"
-"This will permanently remove all your DinoX data."
-msgstr ""
-"Type 'DELETE' to confirm factory reset.\n"
-"\n"
-"This will permanently remove all your DinoX data."
-
-msgid ""
-"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
-"\n"
-"• All accounts\n"
-"• All messages and files\n"
-"• All encryption keys\n"
-"• All settings\n"
-"\n"
-"This is irreversible. Make sure to create a backup first!"
-msgstr ""
-"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
-"\n"
-"• All accounts\n"
-"• All messages and files\n"
-"• All encryption keys\n"
-"• All settings\n"
-"\n"
-"This is irreversible. Make sure to create a backup first!"
+#~ msgid "Encrypted backup created (%s)"
+#~ msgstr "Šifruota atsarginė kopija sukurta (%s)"
 
 # OpenPGP Key Management
-msgid "OpenPGP Key Management"
-msgstr "OpenPGP Key Management"
+#~ msgid "OpenPGP Key Management"
+#~ msgstr "OpenPGP Key Management"
 
-msgid "Actions"
-msgstr "Actions"
+#~ msgid "Actions"
+#~ msgstr "Actions"
 
-msgid "Generate New Key"
-msgstr "Generate New Key"
+#~ msgid "Generate New Key"
+#~ msgstr "Generate New Key"
 
-msgid "Import Key"
-msgstr "Import Key"
+#~ msgid "Import Key"
+#~ msgstr "Import Key"
 
-msgid "Your Keys"
-msgstr "Your Keys"
+#~ msgid "Your Keys"
+#~ msgstr "Your Keys"
 
-msgid "Fingerprint"
-msgstr "Fingerprint"
+#~ msgid "Fingerprint"
+#~ msgstr "Fingerprint"
 
-msgid "Export Public Key"
-msgstr "Export Public Key"
+#~ msgid "Export Public Key"
+#~ msgstr "Export Public Key"
 
-msgid "Delete Key"
-msgstr "Delete Key"
+#~ msgid "Delete Key"
+#~ msgstr "Delete Key"
 
-msgid "Name"
-msgstr "Name"
+#~ msgid "Name"
+#~ msgstr "Name"
 
-msgid "Email"
-msgstr "Email"
+#~ msgid "Email"
+#~ msgstr "Email"
 
-msgid "Passphrase"
-msgstr "Passphrase"
+#~ msgid "Passphrase"
+#~ msgstr "Passphrase"
 
-msgid "Generate"
-msgstr "Generate"
+#~ msgid "Generate"
+#~ msgstr "Generate"
 
-msgid "Select OpenPGP Key"
-msgstr "Select OpenPGP Key"
+#~ msgid "Select OpenPGP Key"
+#~ msgstr "Select OpenPGP Key"
 
-msgid "Wrong passphrase"
-msgstr "Wrong passphrase"
+#~ msgid "Wrong passphrase"
+#~ msgstr "Wrong passphrase"
 
-msgid "Manage Keys"
-msgstr "Manage Keys"
+#~ msgid "Manage Keys"
+#~ msgstr "Manage Keys"
 
-msgid "Announce key"
-msgstr "Announce key"
+#~ msgid "Announce key"
+#~ msgstr "Announce key"
 
-msgid "Disabled"
-msgstr "Disabled"
+#~ msgid "Disabled"
+#~ msgstr "Disabled"
 
-msgid "Success"
-msgstr "Success"
+#~ msgid "Success"
+#~ msgstr "Success"
 
-msgid "OK"
-msgstr "OK"
+#~ msgid "Create a new OpenPGP key pair"
+#~ msgstr "Sukurti naują OpenPGP raktų porą"
 
-msgid "Create a new OpenPGP key pair"
-msgstr "Sukurti naują OpenPGP raktų porą"
+#~ msgid "Import a key from file (.asc, .gpg)"
+#~ msgstr "Importuoti raktą iš failo (.asc, .gpg)"
 
-msgid "Import a key from file (.asc, .gpg)"
-msgstr "Importuoti raktą iš failo (.asc, .gpg)"
+#~ msgid "Private keys available for signing and decryption"
+#~ msgstr "Privatūs raktai pasirašymui ir iššifravimui"
 
-msgid "Private keys available for signing and decryption"
-msgstr "Privatūs raktai pasirašymui ir iššifravimui"
+#~ msgid "No private keys found"
+#~ msgstr "Privatų raktų nerasta"
 
-msgid "No private keys found"
-msgstr "Privatų raktų nerasta"
+#~ msgid "Generate or import a key to get started"
+#~ msgstr "Generuokite arba importuokite raktą, kad pradėtumėte"
 
-msgid "Generate or import a key to get started"
-msgstr "Generuokite arba importuokite raktą, kad pradėtumėte"
+#~ msgid "Generate New OpenPGP Key"
+#~ msgstr "Generuoti naują OpenPGP raktą"
 
-msgid "Generate New OpenPGP Key"
-msgstr "Generuoti naują OpenPGP raktą"
+#~ msgid "Enter your details to create a new key pair."
+#~ msgstr "Įveskite savo duomenis, kad sukurtumėte naują raktų porą."
 
-msgid "Enter your details to create a new key pair."
-msgstr "Įveskite savo duomenis, kad sukurtumėte naują raktų porą."
+#~ msgid "Your Name"
+#~ msgstr "Jūsų vardas"
 
-msgid "Your Name"
-msgstr "Jūsų vardas"
+#~ msgid "you@example.com"
+#~ msgstr "jus@pavyzdys.lt"
 
-msgid "you@example.com"
-msgstr "jus@pavyzdys.lt"
+#~ msgid "Passphrase (optional)"
+#~ msgstr "Slaptafrazė (neprivaloma)"
 
-msgid "Passphrase (optional)"
-msgstr "Slaptafrazė (neprivaloma)"
+#~ msgid "4096-bit RSA key, valid for 2 years."
+#~ msgstr "4096 bitų RSA raktas, galioja 2 metus."
 
-msgid "4096-bit RSA key, valid for 2 years."
-msgstr "4096 bitų RSA raktas, galioja 2 metus."
+#~ msgid "Name must be at least 2 characters"
+#~ msgstr "Vardas turi būti bent 2 simboliai"
 
-msgid "Name must be at least 2 characters"
-msgstr "Vardas turi būti bent 2 simboliai"
+#~ msgid "Please enter a valid email address"
+#~ msgstr "Įveskite galiojantį el. pašto adresą"
 
-msgid "Please enter a valid email address"
-msgstr "Įveskite galiojantį el. pašto adresą"
+#~ msgid "Generating Key..."
+#~ msgstr "Generuojamas raktas..."
 
-msgid "Generating Key..."
-msgstr "Generuojamas raktas..."
+#~ msgid "Key generated successfully!"
+#~ msgstr "Raktas sėkmingai sugeneruotas!"
 
-msgid "Please wait while your key is being generated. This may take a moment."
-msgstr "Palaukite, kol generuojamas jūsų raktas. Tai gali užtrukti."
+#~ msgid "Import OpenPGP Key"
+#~ msgstr "Importuoti OpenPGP raktą"
 
-msgid "Key generated successfully!"
-msgstr "Raktas sėkmingai sugeneruotas!"
+#~ msgid "OpenPGP Keys (*.asc, *.gpg)"
+#~ msgstr "OpenPGP raktai (*.asc, *.gpg)"
 
-msgid "Failed to generate key."
-msgstr "Nepavyko sugeneruoti rakto."
+#~ msgid "All Files"
+#~ msgstr "Visi failai"
 
-msgid "Import OpenPGP Key"
-msgstr "Importuoti OpenPGP raktą"
+#~ msgid "Key imported! Re-open Key Management to see it."
+#~ msgstr ""
+#~ "Raktas importuotas! Iš naujo atidarykite Raktų valdymą, kad jį "
+#~ "pamatytumėte."
 
-msgid "OpenPGP Keys (*.asc, *.gpg)"
-msgstr "OpenPGP raktai (*.asc, *.gpg)"
+#~ msgid "Import failed: "
+#~ msgstr "Importavimas nepavyko: "
 
-msgid "All Files"
-msgstr "Visi failai"
+#~ msgid "Key exported to: "
+#~ msgstr "Raktas eksportuotas į: "
 
-msgid "Key imported! Re-open Key Management to see it."
-msgstr ""
-"Raktas importuotas! Iš naujo atidarykite Raktų valdymą, kad jį pamatytumėte."
+#~ msgid "Export failed."
+#~ msgstr "Eksportavimas nepavyko."
 
-msgid "Import failed: "
-msgstr "Importavimas nepavyko: "
+#~ msgid "Delete Key?"
+#~ msgstr "Ištrinti raktą?"
 
-msgid "Key exported to: "
-msgstr "Raktas eksportuotas į: "
+#~ msgid ""
+#~ "Delete this key?\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "This cannot be undone!"
+#~ msgstr ""
+#~ "Ištrinti šį raktą?\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "To negalima atšaukti!"
 
-msgid "Export failed."
-msgstr "Eksportavimas nepavyko."
+#~ msgid "Key deleted."
+#~ msgstr "Raktas ištrintas."
 
-msgid "Delete Key?"
-msgstr "Ištrinti raktą?"
+#~ msgid "Delete failed: "
+#~ msgstr "Ištrynimas nepavyko: "
 
-msgid ""
-"Delete this key?\n"
-"\n"
-"%s\n"
-"\n"
-"This cannot be undone!"
-msgstr ""
-"Ištrinti šį raktą?\n"
-"\n"
-"%s\n"
-"\n"
-"To negalima atšaukti!"
+#~ msgid "Choose a key to announce to your contacts."
+#~ msgstr "Pasirinkite raktą, kurį pranešite savo kontaktams."
 
-msgid "Key deleted."
-msgstr "Raktas ištrintas."
+#~ msgid "Enter GPG passphrase to confirm:"
+#~ msgstr "Įveskite GPG slaptafrazę patvirtinimui:"
 
-msgid "Delete failed: "
-msgstr "Ištrynimas nepavyko: "
+#~ msgid "Generate, import, export, or delete keys"
+#~ msgstr "Generuoti, importuoti, eksportuoti arba ištrinti raktus"
 
-msgid "Choose a key to announce to your contacts."
-msgstr "Pasirinkite raktą, kurį pranešite savo kontaktams."
+#~ msgid "No keys available. Generate or import one!"
+#~ msgstr "Raktų nėra. Sugeneruokite arba importuokite!"
 
-msgid "Enter GPG passphrase to confirm:"
-msgstr "Įveskite GPG slaptafrazę patvirtinimui:"
-
-msgid "Generate, import, export, or delete keys"
-msgstr "Generuoti, importuoti, eksportuoti arba ištrinti raktus"
-
-msgid "No keys available. Generate or import one!"
-msgstr "Raktų nėra. Sugeneruokite arba importuokite!"
-
-msgid "Error in GnuPG"
-msgstr "Klaida GnuPG"
+#~ msgid "Error in GnuPG"
+#~ msgstr "Klaida GnuPG"
 
 #~ msgid "Message too long"
 #~ msgstr "Žinutė per ilga"

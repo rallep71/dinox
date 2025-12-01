@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-28 12:18+0100\n"
+"POT-Creation-Date: 2025-12-01 10:28+0100\n"
 "PO-Revision-Date: 2025-03-14 17:31+0000\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/dino/"
 "translations/ro/>\n"
@@ -101,14 +101,14 @@ msgstr "General"
 #: main/data/gtk/help-overlay.ui:14 main/data/main_window.ui:38
 #: main/data/menu_add.ui:7
 #: main/src/ui/add_conversation/select_contact_dialog.vala:106
-#: main/src/ui/main_window.vala:141
+#: main/src/ui/main_window.vala:154
 msgid "Start Conversation"
 msgstr "Pornește o conversație"
 
 #: main/data/gtk/help-overlay.ui:20 main/data/main_window.ui:51
 #: main/data/menu_add.ui:11
 #: main/src/ui/add_conversation/add_conference_dialog.vala:24
-#: main/src/ui/application.vala:527 main/src/ui/main_window.vala:142
+#: main/src/ui/application.vala:1359 main/src/ui/main_window.vala:155
 msgid "Join Channel"
 msgstr "Alăturați-vă canalului"
 
@@ -149,7 +149,7 @@ msgstr "Salt la următoarea conversație"
 msgid "Jump to previous conversation"
 msgstr "Salt la conversația anterioară"
 
-#: main/data/main_window.ui:64 main/src/ui/main_window.vala:144
+#: main/data/main_window.ui:64 main/src/ui/main_window.vala:157
 msgid "Help: How to join channels"
 msgstr "Ajutor: Cum să vă alăturați canalelor"
 
@@ -167,28 +167,28 @@ msgstr "Stare"
 
 #: main/data/menu_app.ui:11
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:427
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Online"
 msgstr "Online"
 
 #: main/data/menu_app.ui:16
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:421
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Away"
 msgstr "Plecat"
 
 #: main/data/menu_app.ui:21
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:425
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Busy"
 msgstr "Ocupat"
 
 #: main/data/menu_app.ui:26
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:423
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Not Available"
 msgstr "Indisponibil"
@@ -201,7 +201,7 @@ msgstr "Preferințe"
 msgid "Keyboard Shortcuts"
 msgstr "Scurtături de tastatură"
 
-#: main/data/menu_app.ui:42 main/src/ui/application.vala:334
+#: main/data/menu_app.ui:42 main/src/ui/application.vala:340
 msgid "About DinoX"
 msgstr "Despre DinoX"
 
@@ -220,7 +220,10 @@ msgstr "Șterge istoricul conversațiilor"
 #: main/data/preferences_window/change_password_dialog.ui:18
 #: main/src/ui/add_conversation/add_conference_dialog.vala:41
 #: main/src/ui/add_conversation/select_contact_dialog.vala:40
-#: main/src/ui/application.vala:537
+#: main/src/ui/application.vala:441 main/src/ui/application.vala:469
+#: main/src/ui/application.vala:765 main/src/ui/application.vala:843
+#: main/src/ui/application.vala:901 main/src/ui/application.vala:933
+#: main/src/ui/application.vala:1089 main/src/ui/application.vala:1369
 #: main/src/ui/conversation_content_view/file_default_widget.vala:90
 #: main/src/ui/conversation_content_view/item_actions.vala:165
 #: main/src/ui/conversation_content_view/item_actions.vala:168
@@ -235,7 +238,7 @@ msgstr "Șterge istoricul conversațiilor"
 #: main/src/ui/conversation_titlebar/call_entry.vala:83
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
 #: main/src/windows/conversation_details.vala:60
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:67
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:68
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:205
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:225
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:249
@@ -259,6 +262,7 @@ msgid "Local alias"
 msgstr "Alias local"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:82
+#: main/src/ui/application.vala:435 main/src/ui/application.vala:1064
 #: main/src/ui/util/data_forms.vala:63
 msgid "Password"
 msgstr "Parolă"
@@ -267,20 +271,24 @@ msgstr "Parolă"
 msgid "Connection status"
 msgstr "Stare conexiune"
 
+#: main/data/preferences_window/account_preferences_subpage.ui:117
+msgid "View Certificate"
+msgstr "Vizualizare certificat"
+
 # Custom host/port feature (Issue #115)
-#: main/data/preferences_window/account_preferences_subpage.ui:121
+#: main/data/preferences_window/account_preferences_subpage.ui:128
 msgid "Advanced Settings"
 msgstr "Setări avansate"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:122
+#: main/data/preferences_window/account_preferences_subpage.ui:129
 msgid "Custom server connection (leave empty for automatic)"
 msgstr "Conexiune personalizată la server (lăsați gol pentru automat)"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:125
+#: main/data/preferences_window/account_preferences_subpage.ui:132
 msgid "Server Hostname"
 msgstr "Numele gazdei serverului"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:130
+#: main/data/preferences_window/account_preferences_subpage.ui:137
 msgid "Port"
 msgstr "Port"
 
@@ -353,12 +361,55 @@ msgid "Create a backup of your accounts, messages and settings"
 msgstr "Creați o copie de siguranță a conturilor, mesajelor și setărilor"
 
 #: main/data/preferences_window/general_preferences_page.ui:78
-msgid "Data Location"
-msgstr "Locația datelor"
+#: main/src/ui/application.vala:464 main/src/ui/main_window.vala:223
+msgid "Restore from Backup"
+msgstr "Restaurare din copie de rezervă"
 
 #: main/data/preferences_window/general_preferences_page.ui:79
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "Restaurați conturile, mesajele și setările dintr-un fișier de rezervă"
+
+#: main/data/preferences_window/general_preferences_page.ui:90
+msgid "Data Storage Location"
+msgstr "Locația de stocare a datelor"
+
+#: main/data/preferences_window/general_preferences_page.ui:91
 msgid "View where your data is stored"
 msgstr "Vedeți unde sunt stocate datele"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "Întreținere bază de date"
+
+#: main/data/preferences_window/general_preferences_page.ui:107
+#: main/src/ui/application.vala:761 main/src/ui/application.vala:766
+msgid "Clear Cache"
+msgstr "Golește memoria cache"
+
+#: main/data/preferences_window/general_preferences_page.ui:108
+msgid "Clear cached files, avatars and previews"
+msgstr "Șterge fișierele, avatarele și previzualizările din cache"
+
+#: main/data/preferences_window/general_preferences_page.ui:119
+#: main/src/ui/application.vala:838 main/src/ui/application.vala:844
+msgid "Reset Database"
+msgstr "Resetare bază de date"
+
+#: main/data/preferences_window/general_preferences_page.ui:120
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr ""
+"Ștergeți toate mesajele, fișierele și cheile OMEMO. Conturile dvs. vor "
+"rămâne."
+
+#: main/data/preferences_window/general_preferences_page.ui:131
+#: main/src/ui/application.vala:896
+msgid "Factory Reset"
+msgstr "Resetare la setările din fabrică"
+
+#: main/data/preferences_window/general_preferences_page.ui:132
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr ""
+"Ștergeți TOATE datele, inclusiv conturile. Aceasta nu poate fi anulată!"
 
 #: main/data/preferences_window/preferences_dialog.ui:11
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:15
@@ -383,7 +434,7 @@ msgstr "Următorul"
 
 #: main/src/ui/add_conversation/add_conference_dialog.vala:59
 #: main/src/ui/add_conversation/conference_details_fragment.vala:151
-#: main/src/ui/application.vala:541
+#: main/src/ui/application.vala:1373
 msgid "Join"
 msgstr "Alăturați-vă"
 
@@ -469,31 +520,31 @@ msgstr "Șterge contactul"
 msgid "Leave Group"
 msgstr "Părăsește grupul"
 
-#: main/src/ui/application.vala:339
+#: main/src/ui/application.vala:345
 msgid "Modern XMPP client with extended features"
 msgstr "Client XMPP modern cu funcții extinse"
 
-#: main/src/ui/application.vala:346 main/src/ui/application.vala:385
+#: main/src/ui/application.vala:352 main/src/ui/application.vala:727
 msgid "User Data Locations"
 msgstr "Locații date"
 
-#: main/src/ui/application.vala:349 main/src/ui/application.vala:399
+#: main/src/ui/application.vala:355 main/src/ui/application.vala:741
 msgid "Configuration:"
 msgstr "Configurație:"
 
-#: main/src/ui/application.vala:352 main/src/ui/application.vala:401
+#: main/src/ui/application.vala:358 main/src/ui/application.vala:743
 msgid "Data & Database:"
 msgstr "Date și bază de date:"
 
-#: main/src/ui/application.vala:355 main/src/ui/application.vala:403
+#: main/src/ui/application.vala:361 main/src/ui/application.vala:745
 msgid "Cache:"
 msgstr "Cache:"
 
-#: main/src/ui/application.vala:358
+#: main/src/ui/application.vala:364
 msgid "Info:"
 msgstr "Info:"
 
-#: main/src/ui/application.vala:359
+#: main/src/ui/application.vala:365
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
@@ -501,116 +552,366 @@ msgstr ""
 "Datele dvs. personale (conturi, mesaje, fișiere) sunt stocate separat de "
 "aplicație."
 
-#: main/src/ui/application.vala:361
+#: main/src/ui/application.vala:367
 msgid "When you update DinoX, your data remains intact."
 msgstr "Când actualizați DinoX, datele rămân intacte."
 
-#: main/src/ui/application.vala:363
+#: main/src/ui/application.vala:369
 msgid "Use Settings → General → Backup User Data to create a backup."
 msgstr ""
 "Folosiți Setări → General → Backup date utilizator pentru a crea o copie de "
 "rezervă."
 
-#: main/src/ui/application.vala:405
+#: main/src/ui/application.vala:387
+msgid "Select Backup File"
+msgstr "Selectare fișier copie de rezervă"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+#: main/src/ui/application.vala:395
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "Fișiere de rezervă (*.tar.gz, *.tar.gz.gpg)"
+
+#: main/src/ui/application.vala:425
+msgid "Enter Backup Password"
+msgstr "Introduceți parola copiei de rezervă"
+
+#: main/src/ui/application.vala:426
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "Această copie este criptată. Introduceți parola."
+
+#: main/src/ui/application.vala:442
+msgid "Decrypt & Restore"
+msgstr "Decriptare și restaurare"
+
+#: main/src/ui/application.vala:465
+msgid ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+msgstr ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+
+#: main/src/ui/application.vala:470
+msgid "Restore Backup"
+msgstr "Restaurare copie de rezervă"
+
+#: main/src/ui/application.vala:487 main/src/ui/application.vala:519
+msgid "Decrypting Backup..."
+msgstr "Decriptare copie de rezervă..."
+
+#: main/src/ui/application.vala:487 main/src/ui/application.vala:571
+msgid "Restoring Backup..."
+msgstr "Restaurare copie de rezervă..."
+
+#: main/src/ui/application.vala:488
+msgid "Please wait, this may take a moment..."
+msgstr "Vă rugăm să așteptați, acest lucru poate dura un moment..."
+
+#: main/src/ui/application.vala:520
+msgid "Decrypting encrypted backup file..."
+msgstr "Se decriptează fișierul de rezervă..."
+
+#: main/src/ui/application.vala:558
+msgid "Decryption Failed"
+msgstr "Decriptarea a eșuat"
+
+#: main/src/ui/application.vala:559
+msgid ""
+"Could not decrypt the backup file.\n"
+"\n"
+"Please check if the password is correct."
+msgstr ""
+"Nu s-a putut decripta fișierul.\n"
+"\n"
+"Verificați dacă parola este corectă."
+
+#: main/src/ui/application.vala:561 main/src/ui/application.vala:671
+msgid "OK"
+msgstr "OK"
+
+#: main/src/ui/application.vala:572
+msgid "Extracting files from backup..."
+msgstr "Se extrag fișierele din copia de rezervă..."
+
+#: main/src/ui/application.vala:653
+msgid "Restore Complete!"
+msgstr "Restaurare completă!"
+
+#: main/src/ui/application.vala:654
+msgid "DinoX will now restart..."
+msgstr "DinoX se va reporni acum..."
+
+#: main/src/ui/application.vala:668
+msgid "Restore Failed"
+msgstr "Restaurare eșuată"
+
+#: main/src/ui/application.vala:669
+#, c-format
+msgid ""
+"Could not restore the backup file.\n"
+"\n"
+"Error: %s"
+msgstr ""
+"Nu s-a putut restaura fișierul.\n"
+"\n"
+"Eroare: %s"
+
+#: main/src/ui/application.vala:669 main/src/ui/application.vala:1345
+msgid "Unknown error"
+msgstr "Eroare necunoscută"
+
+#: main/src/ui/application.vala:747
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
 msgstr ""
 "Datele dvs. personale (conturi, mesaje, fișiere) sunt stocate separat de "
-"aplicație. Când actualizați DinoX, datele dvs. rămân intacte.Datele tale "
-"personale (conturi, mesaje, fișiere) sunt stocate separat de aplicație. Când "
-"actualizezi DinoX, datele tale rămân intacte."
+"aplicație. Când actualizați DinoX, datele dvs. rămân intacte."
 
-#: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
-#: main/src/ui/main_window.vala:159
+#: main/src/ui/application.vala:752 main/src/ui/application.vala:1240
+#: main/src/ui/application.vala:1324 main/src/ui/conversation_details.vala:272
+#: main/src/ui/main_window.vala:172
 msgid "Close"
 msgstr "Închide"
 
-#: main/src/ui/application.vala:417
+#: main/src/ui/application.vala:762
+msgid ""
+"This will delete cached files, avatars and previews.\n"
+"\n"
+"They will be re-downloaded when needed."
+msgstr ""
+"Aceasta va șterge fișierele, avatarele și previzualizările din cache.\n"
+"\n"
+"Ele vor fi descărcate din nou la nevoie."
+
+#: main/src/ui/application.vala:799
+#, c-format
+msgid "Cache cleared (%s freed)"
+msgstr "Cache golit (%s eliberat)"
+
+#: main/src/ui/application.vala:802
+msgid "Failed to clear cache"
+msgstr "Nu s-a putut goli memoria cache"
+
+#: main/src/ui/application.vala:839
+msgid ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+msgstr ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+
+#: main/src/ui/application.vala:867
+msgid "Resetting database... DinoX will restart."
+msgstr "Se resetează baza de date... DinoX se va reporni."
+
+#: main/src/ui/application.vala:897
+msgid ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+msgstr ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+
+#: main/src/ui/application.vala:902
+msgid "Create Backup First"
+msgstr "Creați mai întâi o copie de rezervă"
+
+#: main/src/ui/application.vala:903
+msgid "Delete Everything"
+msgstr "Ștergere totală"
+
+#: main/src/ui/application.vala:923
+msgid "Are you absolutely sure?"
+msgstr "Sunteți absolut sigur?"
+
+#: main/src/ui/application.vala:924
+msgid ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+msgstr ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+
+#: main/src/ui/application.vala:934
+msgid "Confirm Delete"
+msgstr "Confirmare ștergere"
+
+#: main/src/ui/application.vala:961
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "Resetare la setările din fabrică în curs... DinoX se va reporni."
+
+#: main/src/ui/application.vala:1026
+msgid "Backup Encryption"
+msgstr "Criptare copie de rezervă"
+
+#: main/src/ui/application.vala:1027
+msgid ""
+"Do you want to encrypt the backup with a password?\n"
+"\n"
+"Encrypted backups are more secure but require the password to restore."
+msgstr ""
+"Doriți să criptați copia de rezervă cu o parolă?\n"
+"\n"
+"Copiile de rezervă criptate sunt mai sigure, dar necesită parola pentru "
+"restaurare."
+
+#: main/src/ui/application.vala:1030
+msgid "No Encryption"
+msgstr "Fără criptare"
+
+#: main/src/ui/application.vala:1031
+msgid "Encrypt with Password"
+msgstr "Criptare cu parolă"
+
+#: main/src/ui/application.vala:1049
+msgid "Set Backup Password"
+msgstr "Setare parolă copie de rezervă"
+
+#: main/src/ui/application.vala:1050
+msgid ""
+"Enter a password to encrypt the backup.\n"
+"\n"
+"<b>Important:</b> Remember this password! Without it, the backup cannot be "
+"restored."
+msgstr ""
+"Introduceți o parolă pentru criptare.\n"
+"\n"
+"<b>Important:</b> Țineți minte această parolă! Fără ea, copia nu poate fi "
+"restaurată."
+
+#: main/src/ui/application.vala:1058
+msgid "Password (minimum 4 characters)"
+msgstr "Parolă (minim 4 caractere)"
+
+#: main/src/ui/application.vala:1066 main/src/ui/application.vala:1073
+msgid "Confirm Password"
+msgstr "Confirmare parolă"
+
+#: main/src/ui/application.vala:1090
+msgid "Create Encrypted Backup"
+msgstr "Creare copie de rezervă criptată"
+
+#: main/src/ui/application.vala:1102 main/src/ui/application.vala:1117
+msgid "Password too short"
+msgstr "Parola este prea scurtă"
+
+#: main/src/ui/application.vala:1104 main/src/ui/application.vala:1119
+msgid "Passwords do not match"
+msgstr "Parolele nu coincid"
+
+#: main/src/ui/application.vala:1106 main/src/ui/application.vala:1121
+msgid "✓ Passwords match"
+msgstr "✓ Parolele coincid"
+
+#: main/src/ui/application.vala:1139
 msgid "Select Backup Location"
-msgstr "Selectați locația copiei"
+msgstr "Selectați locația copiei de rezervă"
 
-#: main/src/ui/application.vala
-msgid "Creating Backup..."
-msgstr "Creating Backup..."
-
-#: main/src/ui/application.vala
+#: main/src/ui/application.vala:1194
 msgid "Creating Encrypted Backup..."
-msgstr "Creating Encrypted Backup..."
+msgstr "Se creează copia de rezervă criptată..."
 
-#: main/src/ui/application.vala
+#: main/src/ui/application.vala:1194
+msgid "Creating Backup..."
+msgstr "Se creează copia de rezervă..."
+
+#: main/src/ui/application.vala:1195
 msgid "Please wait while your data is being backed up."
-msgstr "Please wait while your data is being backed up."
+msgstr "Vă rugăm să așteptați în timp ce se face copia de rezervă a datelor."
 
-#: main/src/ui/application.vala
-msgid "No data directories found to backup"
-msgstr "No data directories found to backup"
+#: main/src/ui/application.vala:1234
+msgid "No data directory found to backup"
+msgstr "Nu s-a găsit niciun director de date pentru backup"
 
-#: main/src/ui/application.vala
-msgid "Backup Created"
-msgstr "Backup Created"
-
-#: main/src/ui/application.vala
-msgid "Encrypted Backup Created"
-msgstr "Encrypted Backup Created"
-
-#: main/src/ui/application.vala
-#, c-format
-msgid "Your backup was created successfully.\\n\\nSize: %s"
-msgstr "Your backup was created successfully.\\n\\nSize: %s"
-
-#: main/src/ui/application.vala
-msgid "Your backup was created successfully."
-msgstr "Your backup was created successfully."
-
-#: main/src/ui/application.vala
-#, c-format
-msgid "Your encrypted backup was created successfully.\\n\\nSize: %s"
-msgstr "Your encrypted backup was created successfully.\\n\\nSize: %s"
-
-#: main/src/ui/application.vala
-msgid "Your encrypted backup was created successfully."
-msgstr "Your encrypted backup was created successfully."
-
-#: main/src/ui/application.vala
+#: main/src/ui/application.vala:1237 main/src/ui/application.vala:1343
 msgid "Backup Failed"
-msgstr "Backup Failed"
+msgstr "Copierea de rezervă a eșuat"
 
-#: main/src/ui/application.vala:445
-msgid "Creating backup..."
-msgstr "Se creează copia..."
+#: main/src/ui/application.vala:1331
+msgid "Encrypted Backup Created"
+msgstr "Copie de rezervă criptată creată"
 
-#: main/src/ui/application.vala:503
+#: main/src/ui/application.vala:1333
 #, c-format
-msgid "Backup created successfully (%s)"
-msgstr "Copie creată cu succes (%s)"
+msgid ""
+"Your encrypted backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"Copia de rezervă criptată a fost creată cu succes.\n"
+"\n"
+"Dimensiune: %s"
 
-#: main/src/ui/application.vala:505
-msgid "Backup created successfully"
-msgstr "Copie creată cu succes"
+#: main/src/ui/application.vala:1334
+msgid "Your encrypted backup was created successfully."
+msgstr "Copia de rezervă criptată a fost creată cu succes."
 
-#: main/src/ui/application.vala:510
-msgid "Unknown error"
-msgstr "Eroare necunoscută"
+#: main/src/ui/application.vala:1336
+msgid "Backup Created"
+msgstr "Copie de rezervă creată"
 
-#: main/src/ui/application.vala:511
+#: main/src/ui/application.vala:1338
+#, c-format
+msgid ""
+"Your backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"Copia de rezervă a fost creată cu succes.\n"
+"\n"
+"Dimensiune: %s"
+
+#: main/src/ui/application.vala:1339
+msgid "Your backup was created successfully."
+msgstr "Copia de rezervă a fost creată cu succes."
+
+#: main/src/ui/application.vala:1346
 #, c-format
 msgid "Backup failed: %s"
 msgstr "Copiere eșuată: %s"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:29
+#: main/src/ui/call_window/audio_settings_popover.vala:46
 msgid "Microphones"
 msgstr "Microfoane"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:32
+#: main/src/ui/call_window/audio_settings_popover.vala:49
 msgid "No microphone found."
 msgstr "Nici un microfon găsit."
 
-#: main/src/ui/call_window/audio_settings_popover.vala:85
+#: main/src/ui/call_window/audio_settings_popover.vala:116
 msgid "Speakers"
 msgstr "Difuzoare"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:88
+#: main/src/ui/call_window/audio_settings_popover.vala:119
 msgid "No speaker found."
 msgstr "Nici un difuzor găsit."
 
@@ -626,7 +927,7 @@ msgstr "Invitați la apel"
 msgid "Invite"
 msgstr "Invită"
 
-#: main/src/ui/call_window/call_window_controller.vala:405
+#: main/src/ui/call_window/call_window_controller.vala:453
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:240
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:270
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:285
@@ -645,21 +946,21 @@ msgstr "%s a încheiat apelul"
 msgid "%s declined the call"
 msgstr "%s a refuzat apelul"
 
-#: main/src/ui/call_window/participant_widget.vala:115
+#: main/src/ui/call_window/participant_widget.vala:140
 msgid "Debug information"
 msgstr "Informații de depanare"
 
-#: main/src/ui/call_window/participant_widget.vala:124
+#: main/src/ui/call_window/participant_widget.vala:149
 #: main/src/ui/conversation_content_view/call_widget.vala:152
 msgid "Calling…"
 msgstr "Se apelează…"
 
-#: main/src/ui/call_window/participant_widget.vala:126
+#: main/src/ui/call_window/participant_widget.vala:151
 msgid "Ringing…"
 msgstr "Sună…"
 
-#: main/src/ui/call_window/participant_widget.vala:128
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:216
+#: main/src/ui/call_window/participant_widget.vala:153
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:244
 msgid "Connecting…"
 msgstr "Conectare…"
 
@@ -893,7 +1194,7 @@ msgstr "%a, %l∶%M %p"
 msgid "Just now"
 msgstr "Chiar acum"
 
-#: main/src/ui/conversation_content_view/conversation_view.vala:105
+#: main/src/ui/conversation_content_view/conversation_view.vala:106
 msgid "More actions"
 msgstr "Mai multe acțiuni"
 
@@ -1101,9 +1402,7 @@ msgid ""
 msgstr ""
 "Sunteți sigur că doriți să distrugeți permanent această cameră? Această "
 "acțiune nu poate fi anulată și tot istoricul va fi pierdut pentru toți "
-"participanții.Ești sigur că vrei să distrugi permanent această cameră? "
-"Această acțiune nu poate fi anulată și tot istoricul va fi pierdut pentru "
-"toți participanții."
+"participanții."
 
 #: main/src/ui/conversation_details.vala:250
 msgid "Destroy"
@@ -1112,6 +1411,38 @@ msgstr "Distruge"
 #: main/src/ui/conversation_details.vala:271
 msgid "Failed to destroy room"
 msgstr "Nu s-a putut distruge camera"
+
+#: main/src/ui/conversation_details.vala:286
+msgid "Auto-delete messages"
+msgstr "Ștergere automată a mesajelor"
+
+#: main/src/ui/conversation_details.vala:287
+msgid "Never"
+msgstr "Niciodată"
+
+#: main/src/ui/conversation_details.vala:288
+msgid "After 15 minutes"
+msgstr "După 15 minute"
+
+#: main/src/ui/conversation_details.vala:289
+msgid "After 30 minutes"
+msgstr "După 30 de minute"
+
+#: main/src/ui/conversation_details.vala:290
+msgid "After 1 hour"
+msgstr "După 1 oră"
+
+#: main/src/ui/conversation_details.vala:291
+msgid "After 24 hours"
+msgstr "După 24 de ore"
+
+#: main/src/ui/conversation_details.vala:292
+msgid "After 7 days"
+msgstr "După 7 zile"
+
+#: main/src/ui/conversation_details.vala:293
+msgid "After 30 days"
+msgstr "După 30 de zile"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:276
 #: main/src/ui/notifier_freedesktop.vala:71
@@ -1259,6 +1590,7 @@ msgstr "Deblochează contactul?"
 # c-format
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:702
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:247
+#, c-format
 msgid "This will allow %s to send you messages again."
 msgstr "Aceasta va permite %s să vă trimită mesaje din nou."
 
@@ -1361,7 +1693,7 @@ msgid "Select file"
 msgstr "Selectare fișier"
 
 #: main/src/ui/conversation_view_controller.vala:225
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:152
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:180
 msgid "Select"
 msgstr "Selectare"
 
@@ -1379,11 +1711,11 @@ msgstr "În %s"
 msgid "With %s"
 msgstr "Cu %s"
 
-#: main/src/ui/main_window.vala:156
+#: main/src/ui/main_window.vala:169
 msgid "Join Channel Help"
 msgstr "Ajutor pentru alăturarea la canal"
 
-#: main/src/ui/main_window.vala:157
+#: main/src/ui/main_window.vala:170
 msgid ""
 "To join a channel, click the \"Join Channel\" button and enter the channel "
 "JID (example: room@conference.example.org).\n"
@@ -1397,25 +1729,25 @@ msgstr ""
 "Dacă ai nevoie de o parolă sau un pseudonim, oferă-le în dialog. Folosește "
 "funcțiile de descoperire ale serverului pentru a găsi camere publice."
 
-#: main/src/ui/main_window.vala:206
+#: main/src/ui/main_window.vala:219
 msgid "Welcome to DinoX!"
 msgstr "Bine ați venit la DinoX!"
 
-#: main/src/ui/main_window.vala:207
+#: main/src/ui/main_window.vala:220
 msgid "Sign in or create an account to get started."
 msgstr "Autentificați-vă sau creați un cont pentru a începe."
 
-#: main/src/ui/main_window.vala:208
+#: main/src/ui/main_window.vala:221
 msgid "Set up account"
 msgstr "Configurare cont"
 
-#: main/src/ui/main_window.vala:215
+#: main/src/ui/main_window.vala:230
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:71
 #: main/src/windows/preferences_window/encryption_preferences_page.vala:49
 msgid "No active accounts"
 msgstr "Nici un cont activ"
 
-#: main/src/ui/main_window.vala:216
+#: main/src/ui/main_window.vala:231
 msgid "Manage accounts"
 msgstr "Administrare conturi"
 
@@ -1425,12 +1757,12 @@ msgid "Subscription request"
 msgstr "Cerere de abonare"
 
 #: main/src/ui/notifier_freedesktop.vala:192
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:231
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:259
 msgid "Wrong password"
 msgstr "Parolă greșită"
 
 #: main/src/ui/notifier_freedesktop.vala:195
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:233
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:261
 msgid "Invalid TLS certificate"
 msgstr "Certificat TLS invalid"
 
@@ -1676,45 +2008,45 @@ msgstr "Setări"
 msgid "Room Configuration"
 msgstr "Configurare discuție"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:68
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:69
 msgid "Connect"
 msgstr "Conectare"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:106
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
 msgid "Disable account"
 msgstr "Dezactivare cont"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:106
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
 msgid "Enable account"
 msgstr "Activare cont"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:151
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:179
 msgid "Select avatar"
 msgstr "Selectare avatar"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:162
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:190
 msgid "Images"
 msgstr "Imagini"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:166
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:194
 msgid "All files"
 msgstr "Toate fișierele"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:184
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:212
 #, c-format
 msgid "Remove account %s?"
 msgstr "Se șterge contul %s?"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:218
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:246
 msgid "Connected"
 msgstr "Conectat"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:220
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:248
 msgid "Disconnected"
 msgstr "Deconectat"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:240
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:242
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:268
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:270
 msgid "Error"
 msgstr "Eroare"
 
@@ -1828,389 +2160,189 @@ msgstr "Schimbă numele afișat pentru %s"
 msgid "Alias (optional)"
 msgstr "Alias (opțional)"
 
+#~ msgid "Creating backup..."
+#~ msgstr "Se creează copia..."
+
+#, c-format
+#~ msgid "Backup created successfully (%s)"
+#~ msgstr "Copie creată cu succes (%s)"
+
+#~ msgid "Backup created successfully"
+#~ msgstr "Copie creată cu succes"
+
 # DinoX v0.7.7 - Database Maintenance & Backup/Restore
-msgid "Clean Database"
-msgstr "Curățare bază de date"
+#~ msgid "Clean Database"
+#~ msgstr "Curățare bază de date"
 
-msgid "Reset Database"
-msgstr "Resetare bază de date"
+#~ msgid "Encrypting Backup..."
+#~ msgstr "Criptare copie de rezervă..."
 
-msgid "Restore Complete!"
-msgstr "Restaurare completă!"
+#~ msgid "Creating encrypted backup..."
+#~ msgstr "Se creează copia de rezervă criptată..."
 
-msgid "Restore Failed"
-msgstr "Restaurare eșuată"
+#~ msgid "Encrypted backup created successfully"
+#~ msgstr "Copie de rezervă criptată creată cu succes"
 
-msgid "Decrypting Backup..."
-msgstr "Decriptare copie de rezervă..."
-
-msgid "Restoring Backup..."
-msgstr "Restaurare copie de rezervă..."
-
-msgid "Set Backup Password"
-msgstr "Setare parolă copie de rezervă"
-
-msgid "Confirm Password"
-msgstr "Confirmare parolă"
-
-msgid "Create Encrypted Backup"
-msgstr "Creare copie de rezervă criptată"
-
-msgid "Password too short"
-msgstr "Parola este prea scurtă"
-
-msgid "Passwords do not match"
-msgstr "Parolele nu coincid"
-
-msgid "✓ Passwords match"
-msgstr "✓ Parolele coincid"
-
-msgid "Encrypting Backup..."
-msgstr "Criptare copie de rezervă..."
-
-msgid "Factory Reset"
-msgstr "Resetare la setările din fabrică"
-
-msgid "Restore from Backup"
-msgstr "Restaurare din copie de rezervă"
-
-msgid "Restore Backup"
-msgstr "Restaurare copie de rezervă"
-
-msgid "Select Backup File"
-msgstr "Selectare fișier copie de rezervă"
-
-msgid "Enter Backup Password"
-msgstr "Introduceți parola copiei de rezervă"
-
-msgid "Decrypt & Restore"
-msgstr "Decriptare și restaurare"
-
-msgid "Create Backup First"
-msgstr "Creați mai întâi o copie de rezervă"
-
-msgid "No Encryption"
-msgstr "Fără criptare"
-
-msgid "Encrypt with Password"
-msgstr "Criptare cu parolă"
-
-msgid "Delete Everything"
-msgstr "Ștergere totală"
-
-msgid "Confirm Delete"
-msgstr "Confirmare ștergere"
-
-msgid "Are you absolutely sure?"
-msgstr "Sunteți absolut sigur?"
-
-#: main/data/preferences_window/general_preferences_page.ui:104
-msgid "Database Maintenance"
-msgstr "Întreținere bază de date"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Restore accounts, messages and settings from a backup file"
-msgstr "Restaurați conturile, mesajele și setările dintr-un fișier de rezervă"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
-msgstr ""
-"Ștergeți toate mesajele, fișierele și cheile OMEMO. Conturile dvs. vor "
-"rămâne."
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete ALL data including accounts. This cannot be undone!"
-msgstr ""
-"Ștergeți TOATE datele, inclusiv conturile. Aceasta nu poate fi anulată!"
-
-# DinoX v0.7.7 - Additional Backup/Restore strings
-msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
-msgstr "Fișiere de rezervă (*.tar.gz, *.tar.gz.gpg)"
-
-msgid "Creating encrypted backup..."
-msgstr "Se creează copia de rezervă criptată..."
-
-msgid "Decryption Failed"
-msgstr "Decriptarea a eșuat"
-
-msgid "DinoX will now restart..."
-msgstr "DinoX se va reporni acum..."
-
-msgid "Encrypted backup created successfully"
-msgstr "Copie de rezervă criptată creată cu succes"
-
-msgid "Password (minimum 4 characters)"
-msgstr "Parolă (minim 4 caractere)"
-
-msgid "Decrypting encrypted backup file..."
-msgstr "Se decriptează fișierul de rezervă..."
-
-msgid "Extracting files from backup..."
-msgstr "Se extrag fișierele din copia de rezervă..."
-
-msgid "Factory reset in progress... DinoX will restart."
-msgstr "Resetare la setările din fabrică în curs... DinoX se va reporni."
-
-msgid "Resetting database... DinoX will restart."
-msgstr "Se resetează baza de date... DinoX se va reporni."
-
-msgid "Encrypted backup created (%s)"
-msgstr "Copie de rezervă criptată creată (%s)"
-
-msgid ""
-"Could not decrypt the backup file.\n"
-"\n"
-"Please check if the password is correct."
-msgstr ""
-"Nu s-a putut decripta fișierul.\n"
-"\n"
-"Verificați dacă parola este corectă."
-
-msgid ""
-"Could not restore the backup file.\n"
-"\n"
-"Error: %s"
-msgstr ""
-"Nu s-a putut restaura fișierul.\n"
-"\n"
-"Eroare: %s"
-
-msgid "This backup is encrypted. Please enter the password to decrypt it."
-msgstr "Această copie este criptată. Introduceți parola."
-
-msgid ""
-"Enter a password to encrypt the backup.\n"
-"\n"
-"<b>Important:</b> Remember this password! Without it, the backup cannot be "
-"restored."
-msgstr ""
-"Introduceți o parolă pentru criptare.\n"
-"\n"
-"<b>Important:</b> Țineți minte această parolă! Fără ea, copia nu poate fi "
-"restaurată."
-
-msgid ""
-"This will delete all messages, files and OMEMO encryption keys.\n"
-"\n"
-"<b>Your accounts will remain, but you will lose all chat history and need to "
-"re-verify encryption with your contacts.</b>\n"
-"\n"
-"This action cannot be undone!"
-msgstr ""
-"This will delete all messages, files and OMEMO encryption keys.\n"
-"\n"
-"<b>Your accounts will remain, but you will lose all chat history and need to "
-"re-verify encryption with your contacts.</b>\n"
-"\n"
-"This action cannot be undone!"
-
-msgid ""
-"This will replace all current data with the backup.\n"
-"\n"
-"<b>Current accounts, messages and settings will be overwritten!</b>\n"
-"\n"
-"DinoX will restart after restoring."
-msgstr ""
-"This will replace all current data with the backup.\n"
-"\n"
-"<b>Current accounts, messages and settings will be overwritten!</b>\n"
-"\n"
-"DinoX will restart after restoring."
-
-msgid ""
-"Type 'DELETE' to confirm factory reset.\n"
-"\n"
-"This will permanently remove all your DinoX data."
-msgstr ""
-"Type 'DELETE' to confirm factory reset.\n"
-"\n"
-"This will permanently remove all your DinoX data."
-
-msgid ""
-"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
-"\n"
-"• All accounts\n"
-"• All messages and files\n"
-"• All encryption keys\n"
-"• All settings\n"
-"\n"
-"This is irreversible. Make sure to create a backup first!"
-msgstr ""
-"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
-"\n"
-"• All accounts\n"
-"• All messages and files\n"
-"• All encryption keys\n"
-"• All settings\n"
-"\n"
-"This is irreversible. Make sure to create a backup first!"
+#~ msgid "Encrypted backup created (%s)"
+#~ msgstr "Copie de rezervă criptată creată (%s)"
 
 # OpenPGP Key Management
-msgid "OpenPGP Key Management"
-msgstr "OpenPGP Key Management"
+#~ msgid "OpenPGP Key Management"
+#~ msgstr "OpenPGP Key Management"
 
-msgid "Actions"
-msgstr "Actions"
+#~ msgid "Actions"
+#~ msgstr "Actions"
 
-msgid "Generate New Key"
-msgstr "Generate New Key"
+#~ msgid "Generate New Key"
+#~ msgstr "Generate New Key"
 
-msgid "Import Key"
-msgstr "Import Key"
+#~ msgid "Import Key"
+#~ msgstr "Import Key"
 
-msgid "Your Keys"
-msgstr "Your Keys"
+#~ msgid "Your Keys"
+#~ msgstr "Your Keys"
 
-msgid "Fingerprint"
-msgstr "Fingerprint"
+#~ msgid "Fingerprint"
+#~ msgstr "Fingerprint"
 
-msgid "Export Public Key"
-msgstr "Export Public Key"
+#~ msgid "Export Public Key"
+#~ msgstr "Export Public Key"
 
-msgid "Delete Key"
-msgstr "Delete Key"
+#~ msgid "Delete Key"
+#~ msgstr "Delete Key"
 
-msgid "Name"
-msgstr "Name"
+#~ msgid "Name"
+#~ msgstr "Name"
 
-msgid "Email"
-msgstr "Email"
+#~ msgid "Email"
+#~ msgstr "Email"
 
-msgid "Passphrase"
-msgstr "Passphrase"
+#~ msgid "Passphrase"
+#~ msgstr "Passphrase"
 
-msgid "Generate"
-msgstr "Generate"
+#~ msgid "Generate"
+#~ msgstr "Generate"
 
-msgid "Select OpenPGP Key"
-msgstr "Select OpenPGP Key"
+#~ msgid "Select OpenPGP Key"
+#~ msgstr "Select OpenPGP Key"
 
-msgid "Wrong passphrase"
-msgstr "Wrong passphrase"
+#~ msgid "Wrong passphrase"
+#~ msgstr "Wrong passphrase"
 
-msgid "Manage Keys"
-msgstr "Manage Keys"
+#~ msgid "Manage Keys"
+#~ msgstr "Manage Keys"
 
-msgid "Announce key"
-msgstr "Announce key"
+#~ msgid "Announce key"
+#~ msgstr "Announce key"
 
-msgid "Disabled"
-msgstr "Disabled"
+#~ msgid "Disabled"
+#~ msgstr "Disabled"
 
-msgid "Success"
-msgstr "Success"
+#~ msgid "Success"
+#~ msgstr "Success"
 
-msgid "OK"
-msgstr "OK"
+#~ msgid "Create a new OpenPGP key pair"
+#~ msgstr "Creează o nouă pereche de chei OpenPGP"
 
-msgid "Create a new OpenPGP key pair"
-msgstr "Creează o nouă pereche de chei OpenPGP"
+#~ msgid "Import a key from file (.asc, .gpg)"
+#~ msgstr "Importă o cheie din fișier (.asc, .gpg)"
 
-msgid "Import a key from file (.asc, .gpg)"
-msgstr "Importă o cheie din fișier (.asc, .gpg)"
+#~ msgid "Private keys available for signing and decryption"
+#~ msgstr "Chei private disponibile pentru semnare și decriptare"
 
-msgid "Private keys available for signing and decryption"
-msgstr "Chei private disponibile pentru semnare și decriptare"
+#~ msgid "No private keys found"
+#~ msgstr "Nu s-au găsit chei private"
 
-msgid "No private keys found"
-msgstr "Nu s-au găsit chei private"
+#~ msgid "Generate or import a key to get started"
+#~ msgstr "Generează sau importă o cheie pentru a începe"
 
-msgid "Generate or import a key to get started"
-msgstr "Generează sau importă o cheie pentru a începe"
+#~ msgid "Generate New OpenPGP Key"
+#~ msgstr "Generează cheie OpenPGP nouă"
 
-msgid "Generate New OpenPGP Key"
-msgstr "Generează cheie OpenPGP nouă"
+#~ msgid "Enter your details to create a new key pair."
+#~ msgstr "Introdu detaliile tale pentru a crea o nouă pereche de chei."
 
-msgid "Enter your details to create a new key pair."
-msgstr "Introdu detaliile tale pentru a crea o nouă pereche de chei."
+#~ msgid "Your Name"
+#~ msgstr "Numele tău"
 
-msgid "Your Name"
-msgstr "Numele tău"
+#~ msgid "you@example.com"
+#~ msgstr "tu@exemplu.com"
 
-msgid "you@example.com"
-msgstr "tu@exemplu.com"
+#~ msgid "Passphrase (optional)"
+#~ msgstr "Fraza de acces (opțional)"
 
-msgid "Passphrase (optional)"
-msgstr "Fraza de acces (opțional)"
+#~ msgid "4096-bit RSA key, valid for 2 years."
+#~ msgstr "Cheie RSA 4096-biți, validă 2 ani."
 
-msgid "4096-bit RSA key, valid for 2 years."
-msgstr "Cheie RSA 4096-biți, validă 2 ani."
+#~ msgid "Name must be at least 2 characters"
+#~ msgstr "Numele trebuie să aibă cel puțin 2 caractere"
 
-msgid "Name must be at least 2 characters"
-msgstr "Numele trebuie să aibă cel puțin 2 caractere"
+#~ msgid "Please enter a valid email address"
+#~ msgstr "Introdu o adresă de email validă"
 
-msgid "Please enter a valid email address"
-msgstr "Introdu o adresă de email validă"
+#~ msgid "Generating Key..."
+#~ msgstr "Se generează cheia..."
 
-msgid "Generating Key..."
-msgstr "Se generează cheia..."
+#~ msgid "Key generated successfully!"
+#~ msgstr "Cheie generată cu succes!"
 
-msgid "Please wait while your key is being generated. This may take a moment."
-msgstr "Așteaptă în timp ce cheia ta este generată. Poate dura un moment."
+#~ msgid "Import OpenPGP Key"
+#~ msgstr "Importă cheie OpenPGP"
 
-msgid "Key generated successfully!"
-msgstr "Cheie generată cu succes!"
+#~ msgid "OpenPGP Keys (*.asc, *.gpg)"
+#~ msgstr "Chei OpenPGP (*.asc, *.gpg)"
 
-msgid "Failed to generate key."
-msgstr "Generarea cheii a eșuat."
+#~ msgid "All Files"
+#~ msgstr "Toate fișierele"
 
-msgid "Import OpenPGP Key"
-msgstr "Importă cheie OpenPGP"
+#~ msgid "Key imported! Re-open Key Management to see it."
+#~ msgstr "Cheie importată! Redeschide Gestionarea Cheilor pentru a o vedea."
 
-msgid "OpenPGP Keys (*.asc, *.gpg)"
-msgstr "Chei OpenPGP (*.asc, *.gpg)"
+#~ msgid "Import failed: "
+#~ msgstr "Importul a eșuat: "
 
-msgid "All Files"
-msgstr "Toate fișierele"
+#~ msgid "Key exported to: "
+#~ msgstr "Cheie exportată în: "
 
-msgid "Key imported! Re-open Key Management to see it."
-msgstr "Cheie importată! Redeschide Gestionarea Cheilor pentru a o vedea."
+#~ msgid "Export failed."
+#~ msgstr "Exportul a eșuat."
 
-msgid "Import failed: "
-msgstr "Importul a eșuat: "
+#~ msgid "Delete Key?"
+#~ msgstr "Ștergi cheia?"
 
-msgid "Key exported to: "
-msgstr "Cheie exportată în: "
+#~ msgid ""
+#~ "Delete this key?\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "This cannot be undone!"
+#~ msgstr ""
+#~ "Ștergi această cheie?\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "Aceasta nu poate fi anulată!"
 
-msgid "Export failed."
-msgstr "Exportul a eșuat."
+#~ msgid "Key deleted."
+#~ msgstr "Cheie ștearsă."
 
-msgid "Delete Key?"
-msgstr "Ștergi cheia?"
+#~ msgid "Delete failed: "
+#~ msgstr "Ștergerea a eșuat: "
 
-msgid ""
-"Delete this key?\n"
-"\n"
-"%s\n"
-"\n"
-"This cannot be undone!"
-msgstr ""
-"Ștergi această cheie?\n"
-"\n"
-"%s\n"
-"\n"
-"Aceasta nu poate fi anulată!"
+#~ msgid "Choose a key to announce to your contacts."
+#~ msgstr "Alege o cheie pentru a o anunța contactelor tale."
 
-msgid "Key deleted."
-msgstr "Cheie ștearsă."
+#~ msgid "Enter GPG passphrase to confirm:"
+#~ msgstr "Introdu fraza de acces GPG pentru a confirma:"
 
-msgid "Delete failed: "
-msgstr "Ștergerea a eșuat: "
+#~ msgid "Generate, import, export, or delete keys"
+#~ msgstr "Generează, importă, exportă sau șterge chei"
 
-msgid "Choose a key to announce to your contacts."
-msgstr "Alege o cheie pentru a o anunța contactelor tale."
+#~ msgid "No keys available. Generate or import one!"
+#~ msgstr "Nu există chei. Generează sau importă una!"
 
-msgid "Enter GPG passphrase to confirm:"
-msgstr "Introdu fraza de acces GPG pentru a confirma:"
-
-msgid "Generate, import, export, or delete keys"
-msgstr "Generează, importă, exportă sau șterge chei"
-
-msgid "No keys available. Generate or import one!"
-msgstr "Nu există chei. Generează sau importă una!"
-
-msgid "Error in GnuPG"
-msgstr "Eroare în GnuPG"
+#~ msgid "Error in GnuPG"
+#~ msgstr "Eroare în GnuPG"
 
 #~ msgid "Message too long"
 #~ msgstr "Mesaj prea lung"

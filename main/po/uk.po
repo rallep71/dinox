@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-28 12:18+0100\n"
+"POT-Creation-Date: 2025-12-01 10:28+0100\n"
 "PO-Revision-Date: 2025-10-05 07:01+0000\n"
 "Language-Team: none\n"
 "Language: uk\n"
@@ -100,14 +100,14 @@ msgstr "Загальні"
 #: main/data/gtk/help-overlay.ui:14 main/data/main_window.ui:38
 #: main/data/menu_add.ui:7
 #: main/src/ui/add_conversation/select_contact_dialog.vala:106
-#: main/src/ui/main_window.vala:141
+#: main/src/ui/main_window.vala:154
 msgid "Start Conversation"
 msgstr "Почати розмову"
 
 #: main/data/gtk/help-overlay.ui:20 main/data/main_window.ui:51
 #: main/data/menu_add.ui:11
 #: main/src/ui/add_conversation/add_conference_dialog.vala:24
-#: main/src/ui/application.vala:527 main/src/ui/main_window.vala:142
+#: main/src/ui/application.vala:1359 main/src/ui/main_window.vala:155
 msgid "Join Channel"
 msgstr "Приєднатись до каналу"
 
@@ -148,7 +148,7 @@ msgstr "Перейти до наступної бесіди"
 msgid "Jump to previous conversation"
 msgstr "Перейти до попередньої бесіди"
 
-#: main/data/main_window.ui:64 main/src/ui/main_window.vala:144
+#: main/data/main_window.ui:64 main/src/ui/main_window.vala:157
 msgid "Help: How to join channels"
 msgstr "Довідка: Як приєднатися до каналів"
 
@@ -166,28 +166,28 @@ msgstr "Статус"
 
 #: main/data/menu_app.ui:11
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:427
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Online"
 msgstr "В мережі"
 
 #: main/data/menu_app.ui:16
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:421
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Away"
 msgstr "Відійшов"
 
 #: main/data/menu_app.ui:21
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:425
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Busy"
 msgstr "Зайнятий"
 
 #: main/data/menu_app.ui:26
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:423
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Not Available"
 msgstr "Недоступний"
@@ -200,7 +200,7 @@ msgstr "Уподобання"
 msgid "Keyboard Shortcuts"
 msgstr "Гарячі клавіши"
 
-#: main/data/menu_app.ui:42 main/src/ui/application.vala:334
+#: main/data/menu_app.ui:42 main/src/ui/application.vala:340
 msgid "About DinoX"
 msgstr "Про DinoX"
 
@@ -219,7 +219,10 @@ msgstr "Видалити історію розмов"
 #: main/data/preferences_window/change_password_dialog.ui:18
 #: main/src/ui/add_conversation/add_conference_dialog.vala:41
 #: main/src/ui/add_conversation/select_contact_dialog.vala:40
-#: main/src/ui/application.vala:537
+#: main/src/ui/application.vala:441 main/src/ui/application.vala:469
+#: main/src/ui/application.vala:765 main/src/ui/application.vala:843
+#: main/src/ui/application.vala:901 main/src/ui/application.vala:933
+#: main/src/ui/application.vala:1089 main/src/ui/application.vala:1369
 #: main/src/ui/conversation_content_view/file_default_widget.vala:90
 #: main/src/ui/conversation_content_view/item_actions.vala:165
 #: main/src/ui/conversation_content_view/item_actions.vala:168
@@ -234,7 +237,7 @@ msgstr "Видалити історію розмов"
 #: main/src/ui/conversation_titlebar/call_entry.vala:83
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
 #: main/src/windows/conversation_details.vala:60
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:67
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:68
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:205
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:225
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:249
@@ -258,6 +261,7 @@ msgid "Local alias"
 msgstr "Місцевий псевдонім"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:82
+#: main/src/ui/application.vala:435 main/src/ui/application.vala:1064
 #: main/src/ui/util/data_forms.vala:63
 msgid "Password"
 msgstr "Пароль"
@@ -266,20 +270,24 @@ msgstr "Пароль"
 msgid "Connection status"
 msgstr "Стан під'єднання"
 
+#: main/data/preferences_window/account_preferences_subpage.ui:117
+msgid "View Certificate"
+msgstr "Переглянути сертифікат"
+
 # Custom host/port feature (Issue #115)
-#: main/data/preferences_window/account_preferences_subpage.ui:121
+#: main/data/preferences_window/account_preferences_subpage.ui:128
 msgid "Advanced Settings"
 msgstr "Розширені налаштування"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:122
+#: main/data/preferences_window/account_preferences_subpage.ui:129
 msgid "Custom server connection (leave empty for automatic)"
 msgstr "Власне підключення до сервера (залиште порожнім для автоматичного)"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:125
+#: main/data/preferences_window/account_preferences_subpage.ui:132
 msgid "Server Hostname"
 msgstr "Ім'я хоста сервера"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:130
+#: main/data/preferences_window/account_preferences_subpage.ui:137
 msgid "Port"
 msgstr "Порт"
 
@@ -351,12 +359,57 @@ msgid "Create a backup of your accounts, messages and settings"
 msgstr "Створити резервну копію облікових записів, повідомлень та налаштувань"
 
 #: main/data/preferences_window/general_preferences_page.ui:78
-msgid "Data Location"
-msgstr "Розташування даних"
+#: main/src/ui/application.vala:464 main/src/ui/main_window.vala:223
+msgid "Restore from Backup"
+msgstr "Відновити з копії"
 
 #: main/data/preferences_window/general_preferences_page.ui:79
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr ""
+"Відновити облікові записи, повідомлення та налаштування з файлу резервної "
+"копії"
+
+#: main/data/preferences_window/general_preferences_page.ui:90
+msgid "Data Storage Location"
+msgstr "Місце зберігання даних"
+
+#: main/data/preferences_window/general_preferences_page.ui:91
 msgid "View where your data is stored"
 msgstr "Показати де зберігаються ваші дані"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "Обслуговування бази даних"
+
+#: main/data/preferences_window/general_preferences_page.ui:107
+#: main/src/ui/application.vala:761 main/src/ui/application.vala:766
+msgid "Clear Cache"
+msgstr "Очистити кеш"
+
+#: main/data/preferences_window/general_preferences_page.ui:108
+msgid "Clear cached files, avatars and previews"
+msgstr "Очистити кешовані файли, аватари та попередній перегляд"
+
+#: main/data/preferences_window/general_preferences_page.ui:119
+#: main/src/ui/application.vala:838 main/src/ui/application.vala:844
+msgid "Reset Database"
+msgstr "Скинути базу даних"
+
+#: main/data/preferences_window/general_preferences_page.ui:120
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr ""
+"Видалити всі повідомлення, файли та ключі OMEMO. Ваші облікові записи "
+"залишаться."
+
+#: main/data/preferences_window/general_preferences_page.ui:131
+#: main/src/ui/application.vala:896
+msgid "Factory Reset"
+msgstr "Скидання до заводських налаштувань"
+
+#: main/data/preferences_window/general_preferences_page.ui:132
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr ""
+"Видалити ВСІ дані, включаючи облікові записи. Цю дію не можна скасувати!"
 
 #: main/data/preferences_window/preferences_dialog.ui:11
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:15
@@ -381,7 +434,7 @@ msgstr "Далі"
 
 #: main/src/ui/add_conversation/add_conference_dialog.vala:59
 #: main/src/ui/add_conversation/conference_details_fragment.vala:151
-#: main/src/ui/application.vala:541
+#: main/src/ui/application.vala:1373
 msgid "Join"
 msgstr "Приєднатися"
 
@@ -467,31 +520,31 @@ msgstr "Видалити контакт"
 msgid "Leave Group"
 msgstr "Покинути групу"
 
-#: main/src/ui/application.vala:339
+#: main/src/ui/application.vala:345
 msgid "Modern XMPP client with extended features"
 msgstr "Сучасний XMPP-клієнт з розширеними функціями"
 
-#: main/src/ui/application.vala:346 main/src/ui/application.vala:385
+#: main/src/ui/application.vala:352 main/src/ui/application.vala:727
 msgid "User Data Locations"
 msgstr "Розташування даних користувача"
 
-#: main/src/ui/application.vala:349 main/src/ui/application.vala:399
+#: main/src/ui/application.vala:355 main/src/ui/application.vala:741
 msgid "Configuration:"
 msgstr "Налаштування:"
 
-#: main/src/ui/application.vala:352 main/src/ui/application.vala:401
+#: main/src/ui/application.vala:358 main/src/ui/application.vala:743
 msgid "Data & Database:"
 msgstr "Дані та база даних:"
 
-#: main/src/ui/application.vala:355 main/src/ui/application.vala:403
+#: main/src/ui/application.vala:361 main/src/ui/application.vala:745
 msgid "Cache:"
 msgstr "Кеш:"
 
-#: main/src/ui/application.vala:358
+#: main/src/ui/application.vala:364
 msgid "Info:"
 msgstr "Інфо:"
 
-#: main/src/ui/application.vala:359
+#: main/src/ui/application.vala:365
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
@@ -499,16 +552,121 @@ msgstr ""
 "Ваші особисті дані (облікові записи, повідомлення, файли) зберігаються "
 "окремо від програми."
 
-#: main/src/ui/application.vala:361
+#: main/src/ui/application.vala:367
 msgid "When you update DinoX, your data remains intact."
 msgstr "При оновленні DinoX ваші дані зберігаються."
 
-#: main/src/ui/application.vala:363
+#: main/src/ui/application.vala:369
 msgid "Use Settings → General → Backup User Data to create a backup."
 msgstr ""
 "Використовуйте Налаштування → Загальні → Резервна копія для створення бекапу."
 
-#: main/src/ui/application.vala:405
+#: main/src/ui/application.vala:387
+msgid "Select Backup File"
+msgstr "Вибрати файл резервної копії"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+#: main/src/ui/application.vala:395
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "Файли резервних копій (*.tar.gz, *.tar.gz.gpg)"
+
+#: main/src/ui/application.vala:425
+msgid "Enter Backup Password"
+msgstr "Введіть пароль резервної копії"
+
+#: main/src/ui/application.vala:426
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "Ця резервна копія зашифрована. Введіть пароль."
+
+#: main/src/ui/application.vala:442
+msgid "Decrypt & Restore"
+msgstr "Розшифрувати і відновити"
+
+#: main/src/ui/application.vala:465
+msgid ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+msgstr ""
+"Це замінить усі поточні дані резервною копією.\n"
+"\n"
+"<b>Поточні облікові записи, повідомлення та налаштування будуть перезаписані!"
+"</b>\n"
+"\n"
+"DinoX перезапуститься після відновлення."
+
+#: main/src/ui/application.vala:470
+msgid "Restore Backup"
+msgstr "Відновити копію"
+
+#: main/src/ui/application.vala:487 main/src/ui/application.vala:519
+msgid "Decrypting Backup..."
+msgstr "Розшифрування резервної копії..."
+
+#: main/src/ui/application.vala:487 main/src/ui/application.vala:571
+msgid "Restoring Backup..."
+msgstr "Відновлення резервної копії..."
+
+#: main/src/ui/application.vala:488
+msgid "Please wait, this may take a moment..."
+msgstr "Будь ласка, зачекайте, це може зайняти деякий час..."
+
+#: main/src/ui/application.vala:520
+msgid "Decrypting encrypted backup file..."
+msgstr "Розшифрування файлу резервної копії..."
+
+#: main/src/ui/application.vala:558
+msgid "Decryption Failed"
+msgstr "Помилка розшифрування"
+
+#: main/src/ui/application.vala:559
+msgid ""
+"Could not decrypt the backup file.\n"
+"\n"
+"Please check if the password is correct."
+msgstr ""
+"Не вдалося розшифрувати файл.\n"
+"\n"
+"Перевірте правильність пароля."
+
+#: main/src/ui/application.vala:561 main/src/ui/application.vala:671
+msgid "OK"
+msgstr "OK"
+
+#: main/src/ui/application.vala:572
+msgid "Extracting files from backup..."
+msgstr "Вилучення файлів з резервної копії..."
+
+#: main/src/ui/application.vala:653
+msgid "Restore Complete!"
+msgstr "Відновлення завершено!"
+
+#: main/src/ui/application.vala:654
+msgid "DinoX will now restart..."
+msgstr "DinoX зараз перезапуститься..."
+
+#: main/src/ui/application.vala:668
+msgid "Restore Failed"
+msgstr "Помилка відновлення"
+
+#: main/src/ui/application.vala:669
+#, c-format
+msgid ""
+"Could not restore the backup file.\n"
+"\n"
+"Error: %s"
+msgstr ""
+"Не вдалося відновити файл.\n"
+"\n"
+"Помилка: %s"
+
+#: main/src/ui/application.vala:669 main/src/ui/application.vala:1345
+msgid "Unknown error"
+msgstr "Невідома помилка"
+
+#: main/src/ui/application.vala:747
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
@@ -519,96 +677,244 @@ msgstr ""
 "зберігаються окремо від програми. При оновленні DinoX ваші дані залишаються "
 "недоторканими."
 
-#: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
-#: main/src/ui/main_window.vala:159
+#: main/src/ui/application.vala:752 main/src/ui/application.vala:1240
+#: main/src/ui/application.vala:1324 main/src/ui/conversation_details.vala:272
+#: main/src/ui/main_window.vala:172
 msgid "Close"
 msgstr "Закрити"
 
-#: main/src/ui/application.vala:417
+#: main/src/ui/application.vala:762
+msgid ""
+"This will delete cached files, avatars and previews.\n"
+"\n"
+"They will be re-downloaded when needed."
+msgstr ""
+"Це видалить кешовані файли, аватари та попередній перегляд.\n"
+"\n"
+"Вони будуть завантажені знову за потреби."
+
+#: main/src/ui/application.vala:799
+#, c-format
+msgid "Cache cleared (%s freed)"
+msgstr "Кеш очищено (%s звільнено)"
+
+#: main/src/ui/application.vala:802
+msgid "Failed to clear cache"
+msgstr "Не вдалося очистити кеш"
+
+#: main/src/ui/application.vala:839
+msgid ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+msgstr ""
+"Це видалить усі повідомлення, файли та ключі шифрування OMEMO.\n"
+"\n"
+"<b>Ваші облікові записи залишаться, але ви втратите всю історію чатів і вам "
+"потрібно буде повторно верифікувати шифрування з контактами.</b>\n"
+"\n"
+"Цю дію не можна скасувати!"
+
+#: main/src/ui/application.vala:867
+msgid "Resetting database... DinoX will restart."
+msgstr "Скидання бази даних... DinoX перезапуститься."
+
+#: main/src/ui/application.vala:897
+msgid ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+msgstr ""
+"<b>⚠️ УВАГА: Це видалить ВСІ дані!</b>\n"
+"\n"
+"• Усі облікові записи\n"
+"• Усі повідомлення та файли\n"
+"• Усі ключі шифрування\n"
+"• Усі налаштування\n"
+"\n"
+"Це незворотно. Спочатку створіть резервну копію!"
+
+#: main/src/ui/application.vala:902
+msgid "Create Backup First"
+msgstr "Спочатку створіть резервну копію"
+
+#: main/src/ui/application.vala:903
+msgid "Delete Everything"
+msgstr "Видалити все"
+
+#: main/src/ui/application.vala:923
+msgid "Are you absolutely sure?"
+msgstr "Ви абсолютно впевнені?"
+
+#: main/src/ui/application.vala:924
+msgid ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+msgstr ""
+"Введіть 'DELETE' для підтвердження скидання.\n"
+"\n"
+"Це назавжди видалить усі ваші дані DinoX."
+
+#: main/src/ui/application.vala:934
+msgid "Confirm Delete"
+msgstr "Підтвердити видалення"
+
+#: main/src/ui/application.vala:961
+msgid "Factory reset in progress... DinoX will restart."
+msgstr ""
+"Виконується скидання до заводських налаштувань... DinoX перезавантажиться."
+
+#: main/src/ui/application.vala:1026
+msgid "Backup Encryption"
+msgstr "Шифрування резервної копії"
+
+#: main/src/ui/application.vala:1027
+msgid ""
+"Do you want to encrypt the backup with a password?\n"
+"\n"
+"Encrypted backups are more secure but require the password to restore."
+msgstr ""
+"Ви хочете зашифрувати резервну копію паролем?\n"
+"\n"
+"Зашифровані резервні копії безпечніші, але вимагають пароль для відновлення."
+
+#: main/src/ui/application.vala:1030
+msgid "No Encryption"
+msgstr "Без шифрування"
+
+#: main/src/ui/application.vala:1031
+msgid "Encrypt with Password"
+msgstr "Зашифрувати паролем"
+
+#: main/src/ui/application.vala:1049
+msgid "Set Backup Password"
+msgstr "Встановити пароль резервної копії"
+
+#: main/src/ui/application.vala:1050
+msgid ""
+"Enter a password to encrypt the backup.\n"
+"\n"
+"<b>Important:</b> Remember this password! Without it, the backup cannot be "
+"restored."
+msgstr ""
+"Введіть пароль для шифрування резервної копії.\n"
+"\n"
+"<b>Важливо:</b> Запам'ятайте цей пароль! Без нього резервну копію не можна "
+"відновити."
+
+#: main/src/ui/application.vala:1058
+msgid "Password (minimum 4 characters)"
+msgstr "Пароль (мінімум 4 символи)"
+
+#: main/src/ui/application.vala:1066 main/src/ui/application.vala:1073
+msgid "Confirm Password"
+msgstr "Підтвердити пароль"
+
+#: main/src/ui/application.vala:1090
+msgid "Create Encrypted Backup"
+msgstr "Створити зашифровану копію"
+
+#: main/src/ui/application.vala:1102 main/src/ui/application.vala:1117
+msgid "Password too short"
+msgstr "Пароль занадто короткий"
+
+#: main/src/ui/application.vala:1104 main/src/ui/application.vala:1119
+msgid "Passwords do not match"
+msgstr "Паролі не збігаються"
+
+#: main/src/ui/application.vala:1106 main/src/ui/application.vala:1121
+msgid "✓ Passwords match"
+msgstr "✓ Паролі збігаються"
+
+#: main/src/ui/application.vala:1139
 msgid "Select Backup Location"
 msgstr "Вибрати місце для бекапу"
 
-#: main/src/ui/application.vala
-msgid "Creating Backup..."
-msgstr "Creating Backup..."
-
-#: main/src/ui/application.vala
+#: main/src/ui/application.vala:1194
 msgid "Creating Encrypted Backup..."
-msgstr "Creating Encrypted Backup..."
+msgstr "Створення зашифрованої резервної копії..."
 
-#: main/src/ui/application.vala
-msgid "Please wait while your data is being backed up."
-msgstr "Please wait while your data is being backed up."
-
-#: main/src/ui/application.vala
-msgid "No data directories found to backup"
-msgstr "No data directories found to backup"
-
-#: main/src/ui/application.vala
-msgid "Backup Created"
-msgstr "Backup Created"
-
-#: main/src/ui/application.vala
-msgid "Encrypted Backup Created"
-msgstr "Encrypted Backup Created"
-
-#: main/src/ui/application.vala
-#, c-format
-msgid "Your backup was created successfully.\\n\\nSize: %s"
-msgstr "Your backup was created successfully.\\n\\nSize: %s"
-
-#: main/src/ui/application.vala
-msgid "Your backup was created successfully."
-msgstr "Your backup was created successfully."
-
-#: main/src/ui/application.vala
-#, c-format
-msgid "Your encrypted backup was created successfully.\\n\\nSize: %s"
-msgstr "Your encrypted backup was created successfully.\\n\\nSize: %s"
-
-#: main/src/ui/application.vala
-msgid "Your encrypted backup was created successfully."
-msgstr "Your encrypted backup was created successfully."
-
-#: main/src/ui/application.vala
-msgid "Backup Failed"
-msgstr "Backup Failed"
-
-#: main/src/ui/application.vala:445
-msgid "Creating backup..."
+#: main/src/ui/application.vala:1194
+msgid "Creating Backup..."
 msgstr "Створення резервної копії..."
 
-#: main/src/ui/application.vala:503
-#, c-format
-msgid "Backup created successfully (%s)"
-msgstr "Резервну копію створено (%s)"
+#: main/src/ui/application.vala:1195
+msgid "Please wait while your data is being backed up."
+msgstr "Будь ласка, зачекайте, поки ваші дані резервуються."
 
-#: main/src/ui/application.vala:505
-msgid "Backup created successfully"
+#: main/src/ui/application.vala:1234
+msgid "No data directory found to backup"
+msgstr "Не знайдено каталог даних для резервного копіювання"
+
+#: main/src/ui/application.vala:1237 main/src/ui/application.vala:1343
+msgid "Backup Failed"
+msgstr "Резервне копіювання не вдалося"
+
+#: main/src/ui/application.vala:1331
+msgid "Encrypted Backup Created"
+msgstr "Створено зашифровану резервну копію"
+
+#: main/src/ui/application.vala:1333
+#, c-format
+msgid ""
+"Your encrypted backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"Вашу зашифровану резервну копію успішно створено.\n"
+"\n"
+"Розмір: %s"
+
+#: main/src/ui/application.vala:1334
+msgid "Your encrypted backup was created successfully."
+msgstr "Вашу зашифровану резервну копію успішно створено."
+
+#: main/src/ui/application.vala:1336
+msgid "Backup Created"
 msgstr "Резервну копію створено"
 
-#: main/src/ui/application.vala:510
-msgid "Unknown error"
-msgstr "Невідома помилка"
+#: main/src/ui/application.vala:1338
+#, c-format
+msgid ""
+"Your backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"Вашу резервну копію успішно створено.\n"
+"\n"
+"Розмір: %s"
 
-#: main/src/ui/application.vala:511
+#: main/src/ui/application.vala:1339
+msgid "Your backup was created successfully."
+msgstr "Вашу резервну копію успішно створено."
+
+#: main/src/ui/application.vala:1346
 #, c-format
 msgid "Backup failed: %s"
 msgstr "Помилка резервного копіювання: %s"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:29
+#: main/src/ui/call_window/audio_settings_popover.vala:46
 msgid "Microphones"
 msgstr "Мікрофони"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:32
+#: main/src/ui/call_window/audio_settings_popover.vala:49
 msgid "No microphone found."
 msgstr "Мікрофонів не знайдено."
 
-#: main/src/ui/call_window/audio_settings_popover.vala:85
+#: main/src/ui/call_window/audio_settings_popover.vala:116
 msgid "Speakers"
 msgstr "Колонки"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:88
+#: main/src/ui/call_window/audio_settings_popover.vala:119
 msgid "No speaker found."
 msgstr "Колонок не знайдено."
 
@@ -624,7 +930,7 @@ msgstr "Викликати"
 msgid "Invite"
 msgstr "Запросити"
 
-#: main/src/ui/call_window/call_window_controller.vala:405
+#: main/src/ui/call_window/call_window_controller.vala:453
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:240
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:270
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:285
@@ -643,21 +949,21 @@ msgstr "%s заверши(в|ла) виклик"
 msgid "%s declined the call"
 msgstr "%s відхилив виклик"
 
-#: main/src/ui/call_window/participant_widget.vala:115
+#: main/src/ui/call_window/participant_widget.vala:140
 msgid "Debug information"
 msgstr "Налагоджувальна інформація"
 
-#: main/src/ui/call_window/participant_widget.vala:124
+#: main/src/ui/call_window/participant_widget.vala:149
 #: main/src/ui/conversation_content_view/call_widget.vala:152
 msgid "Calling…"
 msgstr "Йде виклик…"
 
-#: main/src/ui/call_window/participant_widget.vala:126
+#: main/src/ui/call_window/participant_widget.vala:151
 msgid "Ringing…"
 msgstr "Йде дзвінок…"
 
-#: main/src/ui/call_window/participant_widget.vala:128
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:216
+#: main/src/ui/call_window/participant_widget.vala:153
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:244
 msgid "Connecting…"
 msgstr "З'єднання…"
 
@@ -891,7 +1197,7 @@ msgstr "%a, %l∶%M %p"
 msgid "Just now"
 msgstr "Щойно"
 
-#: main/src/ui/conversation_content_view/conversation_view.vala:105
+#: main/src/ui/conversation_content_view/conversation_view.vala:106
 msgid "More actions"
 msgstr "Більше дій"
 
@@ -1108,7 +1414,39 @@ msgstr "Знищити"
 
 #: main/src/ui/conversation_details.vala:271
 msgid "Failed to destroy room"
-msgstr "Не вдалося видалити кімнату"
+msgstr "Не вдалося знищити кімнату"
+
+#: main/src/ui/conversation_details.vala:286
+msgid "Auto-delete messages"
+msgstr "Автоматичне видалення повідомлень"
+
+#: main/src/ui/conversation_details.vala:287
+msgid "Never"
+msgstr "Ніколи"
+
+#: main/src/ui/conversation_details.vala:288
+msgid "After 15 minutes"
+msgstr "Через 15 хвилин"
+
+#: main/src/ui/conversation_details.vala:289
+msgid "After 30 minutes"
+msgstr "Через 30 хвилин"
+
+#: main/src/ui/conversation_details.vala:290
+msgid "After 1 hour"
+msgstr "Через 1 годину"
+
+#: main/src/ui/conversation_details.vala:291
+msgid "After 24 hours"
+msgstr "Через 24 години"
+
+#: main/src/ui/conversation_details.vala:292
+msgid "After 7 days"
+msgstr "Через 7 днів"
+
+#: main/src/ui/conversation_details.vala:293
+msgid "After 30 days"
+msgstr "Через 30 днів"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:276
 #: main/src/ui/notifier_freedesktop.vala:71
@@ -1255,6 +1593,7 @@ msgstr "Розблокувати контакт?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:702
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:247
+#, c-format
 msgid "This will allow %s to send you messages again."
 msgstr "Це дозволить %s знову надсилати вам повідомлення."
 
@@ -1357,7 +1696,7 @@ msgid "Select file"
 msgstr "Виберіть файл"
 
 #: main/src/ui/conversation_view_controller.vala:225
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:152
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:180
 msgid "Select"
 msgstr "Вибрати"
 
@@ -1375,11 +1714,11 @@ msgstr "В %s"
 msgid "With %s"
 msgstr "З %s"
 
-#: main/src/ui/main_window.vala:156
+#: main/src/ui/main_window.vala:169
 msgid "Join Channel Help"
 msgstr "Довідка з приєднання до каналу"
 
-#: main/src/ui/main_window.vala:157
+#: main/src/ui/main_window.vala:170
 msgid ""
 "To join a channel, click the \"Join Channel\" button and enter the channel "
 "JID (example: room@conference.example.org).\n"
@@ -1393,25 +1732,25 @@ msgstr ""
 "Якщо вам потрібен пароль або псевдонім, вкажіть їх у діалозі. Використовуйте "
 "функції виявлення сервера для пошуку публічних кімнат."
 
-#: main/src/ui/main_window.vala:206
+#: main/src/ui/main_window.vala:219
 msgid "Welcome to DinoX!"
 msgstr "Ласкаво просимо до DinoX!"
 
-#: main/src/ui/main_window.vala:207
+#: main/src/ui/main_window.vala:220
 msgid "Sign in or create an account to get started."
 msgstr "Увійдіть в систему або створіть обліковий запис, щоб почати."
 
-#: main/src/ui/main_window.vala:208
+#: main/src/ui/main_window.vala:221
 msgid "Set up account"
 msgstr "Налаштування облікового запису"
 
-#: main/src/ui/main_window.vala:215
+#: main/src/ui/main_window.vala:230
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:71
 #: main/src/windows/preferences_window/encryption_preferences_page.vala:49
 msgid "No active accounts"
 msgstr "Немає активних облікових записів"
 
-#: main/src/ui/main_window.vala:216
+#: main/src/ui/main_window.vala:231
 msgid "Manage accounts"
 msgstr "Керування обліковими записами"
 
@@ -1421,12 +1760,12 @@ msgid "Subscription request"
 msgstr "Необхідна авторизація"
 
 #: main/src/ui/notifier_freedesktop.vala:192
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:231
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:259
 msgid "Wrong password"
 msgstr "Хибний пароль"
 
 #: main/src/ui/notifier_freedesktop.vala:195
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:233
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:261
 msgid "Invalid TLS certificate"
 msgstr "Недійсний сертифікат TLS"
 
@@ -1672,45 +2011,45 @@ msgstr "Налаштування"
 msgid "Room Configuration"
 msgstr "Налаштування кімнати"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:68
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:69
 msgid "Connect"
 msgstr "Приєднатися"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:106
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
 msgid "Disable account"
 msgstr "Вимкнути обліковий запис"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:106
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
 msgid "Enable account"
 msgstr "Увімкнути обліковий запис"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:151
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:179
 msgid "Select avatar"
 msgstr "Вибрати аватар"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:162
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:190
 msgid "Images"
 msgstr "Зображення"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:166
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:194
 msgid "All files"
 msgstr "Усі файли"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:184
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:212
 #, c-format
 msgid "Remove account %s?"
 msgstr "Видалити обліковий запис %s?"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:218
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:246
 msgid "Connected"
 msgstr "Під’єднано"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:220
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:248
 msgid "Disconnected"
 msgstr "Роз'єднано"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:240
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:242
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:268
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:270
 msgid "Error"
 msgstr "Помилка"
 
@@ -1821,394 +2160,190 @@ msgstr "Змінити відображуване ім'я для %s"
 msgid "Alias (optional)"
 msgstr "Псевдонім (необов'язково)"
 
+#~ msgid "Creating backup..."
+#~ msgstr "Створення резервної копії..."
+
+#, c-format
+#~ msgid "Backup created successfully (%s)"
+#~ msgstr "Резервну копію створено (%s)"
+
+#~ msgid "Backup created successfully"
+#~ msgstr "Резервну копію створено"
+
 # DinoX v0.7.7 - Database Maintenance & Backup/Restore
-msgid "Clean Database"
-msgstr "Очистити базу даних"
+#~ msgid "Clean Database"
+#~ msgstr "Очистити базу даних"
 
-msgid "Reset Database"
-msgstr "Скинути базу даних"
+#~ msgid "Encrypting Backup..."
+#~ msgstr "Шифрування резервної копії..."
 
-msgid "Restore Complete!"
-msgstr "Відновлення завершено!"
+#~ msgid "Creating encrypted backup..."
+#~ msgstr "Створення зашифрованої резервної копії..."
 
-msgid "Restore Failed"
-msgstr "Помилка відновлення"
+#~ msgid "Encrypted backup created successfully"
+#~ msgstr "Зашифровану резервну копію успішно створено"
 
-msgid "Decrypting Backup..."
-msgstr "Розшифрування резервної копії..."
-
-msgid "Restoring Backup..."
-msgstr "Відновлення резервної копії..."
-
-msgid "Set Backup Password"
-msgstr "Встановити пароль резервної копії"
-
-msgid "Confirm Password"
-msgstr "Підтвердити пароль"
-
-msgid "Create Encrypted Backup"
-msgstr "Створити зашифровану копію"
-
-msgid "Password too short"
-msgstr "Пароль занадто короткий"
-
-msgid "Passwords do not match"
-msgstr "Паролі не збігаються"
-
-msgid "✓ Passwords match"
-msgstr "✓ Паролі збігаються"
-
-msgid "Encrypting Backup..."
-msgstr "Шифрування резервної копії..."
-
-msgid "Factory Reset"
-msgstr "Скидання до заводських налаштувань"
-
-msgid "Restore from Backup"
-msgstr "Відновити з копії"
-
-msgid "Restore Backup"
-msgstr "Відновити копію"
-
-msgid "Select Backup File"
-msgstr "Вибрати файл резервної копії"
-
-msgid "Enter Backup Password"
-msgstr "Введіть пароль резервної копії"
-
-msgid "Decrypt & Restore"
-msgstr "Розшифрувати і відновити"
-
-msgid "Create Backup First"
-msgstr "Спочатку створіть резервну копію"
-
-msgid "No Encryption"
-msgstr "Без шифрування"
-
-msgid "Encrypt with Password"
-msgstr "Зашифрувати паролем"
-
-msgid "Delete Everything"
-msgstr "Видалити все"
-
-msgid "Confirm Delete"
-msgstr "Підтвердити видалення"
-
-msgid "Are you absolutely sure?"
-msgstr "Ви абсолютно впевнені?"
-
-#: main/data/preferences_window/general_preferences_page.ui:104
-msgid "Database Maintenance"
-msgstr "Обслуговування бази даних"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Restore accounts, messages and settings from a backup file"
-msgstr ""
-"Відновити облікові записи, повідомлення та налаштування з файлу резервної "
-"копії"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
-msgstr ""
-"Видалити всі повідомлення, файли та ключі OMEMO. Ваші облікові записи "
-"залишаться."
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete ALL data including accounts. This cannot be undone!"
-msgstr ""
-"Видалити ВСІ дані, включаючи облікові записи. Цю дію не можна скасувати!"
-
-# DinoX v0.7.7 - Additional Backup/Restore strings
-msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
-msgstr "Файли резервних копій (*.tar.gz, *.tar.gz.gpg)"
-
-msgid "Creating encrypted backup..."
-msgstr "Створення зашифрованої резервної копії..."
-
-msgid "Decryption Failed"
-msgstr "Помилка розшифрування"
-
-msgid "DinoX will now restart..."
-msgstr "DinoX зараз перезапуститься..."
-
-msgid "Encrypted backup created successfully"
-msgstr "Зашифровану резервну копію успішно створено"
-
-msgid "Password (minimum 4 characters)"
-msgstr "Пароль (мінімум 4 символи)"
-
-msgid "Decrypting encrypted backup file..."
-msgstr "Розшифрування файлу резервної копії..."
-
-msgid "Extracting files from backup..."
-msgstr "Вилучення файлів з резервної копії..."
-
-msgid "Factory reset in progress... DinoX will restart."
-msgstr "Скидання до заводських налаштувань... DinoX перезапуститься."
-
-msgid "Resetting database... DinoX will restart."
-msgstr "Скидання бази даних... DinoX перезапуститься."
-
-msgid "Encrypted backup created (%s)"
-msgstr "Зашифровану резервну копію створено (%s)"
-
-msgid ""
-"Could not decrypt the backup file.\n"
-"\n"
-"Please check if the password is correct."
-msgstr ""
-"Не вдалося розшифрувати файл.\n"
-"\n"
-"Перевірте правильність пароля."
-
-msgid ""
-"Could not restore the backup file.\n"
-"\n"
-"Error: %s"
-msgstr ""
-"Не вдалося відновити файл.\n"
-"\n"
-"Помилка: %s"
-
-msgid "This backup is encrypted. Please enter the password to decrypt it."
-msgstr "Ця резервна копія зашифрована. Введіть пароль."
-
-msgid ""
-"Enter a password to encrypt the backup.\n"
-"\n"
-"<b>Important:</b> Remember this password! Without it, the backup cannot be "
-"restored."
-msgstr ""
-"Введіть пароль для шифрування резервної копії.\n"
-"\n"
-"<b>Важливо:</b> Запам'ятайте цей пароль! Без нього резервну копію не можна "
-"відновити."
-
-msgid ""
-"This will delete all messages, files and OMEMO encryption keys.\n"
-"\n"
-"<b>Your accounts will remain, but you will lose all chat history and need to "
-"re-verify encryption with your contacts.</b>\n"
-"\n"
-"This action cannot be undone!"
-msgstr ""
-"Це видалить усі повідомлення, файли та ключі шифрування OMEMO.\n"
-"\n"
-"<b>Ваші облікові записи залишаться, але ви втратите всю історію чатів і вам "
-"потрібно буде повторно верифікувати шифрування з контактами.</b>\n"
-"\n"
-"Цю дію не можна скасувати!"
-
-msgid ""
-"This will replace all current data with the backup.\n"
-"\n"
-"<b>Current accounts, messages and settings will be overwritten!</b>\n"
-"\n"
-"DinoX will restart after restoring."
-msgstr ""
-"Це замінить усі поточні дані резервною копією.\n"
-"\n"
-"<b>Поточні облікові записи, повідомлення та налаштування будуть перезаписані!"
-"</b>\n"
-"\n"
-"DinoX перезапуститься після відновлення."
-
-msgid ""
-"Type 'DELETE' to confirm factory reset.\n"
-"\n"
-"This will permanently remove all your DinoX data."
-msgstr ""
-"Введіть 'DELETE' для підтвердження скидання.\n"
-"\n"
-"Це назавжди видалить усі ваші дані DinoX."
-
-msgid ""
-"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
-"\n"
-"• All accounts\n"
-"• All messages and files\n"
-"• All encryption keys\n"
-"• All settings\n"
-"\n"
-"This is irreversible. Make sure to create a backup first!"
-msgstr ""
-"<b>⚠️ УВАГА: Це видалить ВСІ дані!</b>\n"
-"\n"
-"• Усі облікові записи\n"
-"• Усі повідомлення та файли\n"
-"• Усі ключі шифрування\n"
-"• Усі налаштування\n"
-"\n"
-"Це незворотно. Спочатку створіть резервну копію!"
+#~ msgid "Encrypted backup created (%s)"
+#~ msgstr "Зашифровану резервну копію створено (%s)"
 
 # OpenPGP Key Management translations
-msgid "OpenPGP Key Management"
-msgstr "Керування ключами OpenPGP"
+#~ msgid "OpenPGP Key Management"
+#~ msgstr "Керування ключами OpenPGP"
 
-msgid "Actions"
-msgstr "Дії"
+#~ msgid "Actions"
+#~ msgstr "Дії"
 
-msgid "Generate New Key"
-msgstr "Створити новий ключ"
+#~ msgid "Generate New Key"
+#~ msgstr "Створити новий ключ"
 
-msgid "Create a new OpenPGP key pair"
-msgstr "Створити нову пару ключів OpenPGP"
+#~ msgid "Create a new OpenPGP key pair"
+#~ msgstr "Створити нову пару ключів OpenPGP"
 
-msgid "Import Key"
-msgstr "Імпортувати ключ"
+#~ msgid "Import Key"
+#~ msgstr "Імпортувати ключ"
 
-msgid "Import a key from file (.asc, .gpg)"
-msgstr "Імпортувати ключ з файлу (.asc, .gpg)"
+#~ msgid "Import a key from file (.asc, .gpg)"
+#~ msgstr "Імпортувати ключ з файлу (.asc, .gpg)"
 
-msgid "Your Keys"
-msgstr "Ваші ключі"
+#~ msgid "Your Keys"
+#~ msgstr "Ваші ключі"
 
-msgid "Private keys available for signing and decryption"
-msgstr "Приватні ключі для підпису та розшифрування"
+#~ msgid "Private keys available for signing and decryption"
+#~ msgstr "Приватні ключі для підпису та розшифрування"
 
-msgid "No private keys found"
-msgstr "Приватні ключі не знайдено"
+#~ msgid "No private keys found"
+#~ msgstr "Приватні ключі не знайдено"
 
-msgid "Generate or import a key to get started"
-msgstr "Створіть або імпортуйте ключ для початку"
+#~ msgid "Generate or import a key to get started"
+#~ msgstr "Створіть або імпортуйте ключ для початку"
 
-msgid "Fingerprint"
-msgstr "Відбиток"
+#~ msgid "Fingerprint"
+#~ msgstr "Відбиток"
 
-msgid "Export Public Key"
-msgstr "Експортувати публічний ключ"
+#~ msgid "Export Public Key"
+#~ msgstr "Експортувати публічний ключ"
 
-msgid "Delete Key"
-msgstr "Видалити ключ"
+#~ msgid "Delete Key"
+#~ msgstr "Видалити ключ"
 
-msgid "Generate New OpenPGP Key"
-msgstr "Створити новий ключ OpenPGP"
+#~ msgid "Generate New OpenPGP Key"
+#~ msgstr "Створити новий ключ OpenPGP"
 
-msgid "Enter your details to create a new key pair."
-msgstr "Введіть свої дані для створення нової пари ключів."
+#~ msgid "Enter your details to create a new key pair."
+#~ msgstr "Введіть свої дані для створення нової пари ключів."
 
-msgid "Name"
-msgstr "Ім'я"
+#~ msgid "Name"
+#~ msgstr "Ім'я"
 
-msgid "Your Name"
-msgstr "Ваше ім'я"
+#~ msgid "Your Name"
+#~ msgstr "Ваше ім'я"
 
-msgid "Email"
-msgstr "Email"
+#~ msgid "Email"
+#~ msgstr "Email"
 
-msgid "you@example.com"
-msgstr "ви@приклад.com"
+#~ msgid "you@example.com"
+#~ msgstr "ви@приклад.com"
 
-msgid "Passphrase (optional)"
-msgstr "Парольна фраза (необов'язково)"
+#~ msgid "Passphrase (optional)"
+#~ msgstr "Парольна фраза (необов'язково)"
 
-msgid "Passphrase"
-msgstr "Парольна фраза"
+#~ msgid "Passphrase"
+#~ msgstr "Парольна фраза"
 
-msgid "4096-bit RSA key, valid for 2 years."
-msgstr "4096-бітний RSA ключ, дійсний 2 роки."
+#~ msgid "4096-bit RSA key, valid for 2 years."
+#~ msgstr "4096-бітний RSA ключ, дійсний 2 роки."
 
-msgid "Generate"
-msgstr "Створити"
+#~ msgid "Generate"
+#~ msgstr "Створити"
 
-msgid "Name must be at least 2 characters"
-msgstr "Ім'я повинно містити щонайменше 2 символи"
+#~ msgid "Name must be at least 2 characters"
+#~ msgstr "Ім'я повинно містити щонайменше 2 символи"
 
-msgid "Please enter a valid email address"
-msgstr "Будь ласка, введіть дійсну адресу email"
+#~ msgid "Please enter a valid email address"
+#~ msgstr "Будь ласка, введіть дійсну адресу email"
 
-msgid "Generating Key..."
-msgstr "Створення ключа..."
+#~ msgid "Generating Key..."
+#~ msgstr "Створення ключа..."
 
-msgid "Please wait while your key is being generated. This may take a moment."
-msgstr ""
-"Будь ласка, зачекайте, поки створюється ваш ключ. Це може зайняти деякий час."
+#~ msgid "Key generated successfully!"
+#~ msgstr "Ключ успішно створено!"
 
-msgid "Key generated successfully!"
-msgstr "Ключ успішно створено!"
+#~ msgid "Import OpenPGP Key"
+#~ msgstr "Імпортувати ключ OpenPGP"
 
-msgid "Failed to generate key."
-msgstr "Не вдалося створити ключ."
+#~ msgid "OpenPGP Keys (*.asc, *.gpg)"
+#~ msgstr "Ключі OpenPGP (*.asc, *.gpg)"
 
-msgid "Import OpenPGP Key"
-msgstr "Імпортувати ключ OpenPGP"
+#~ msgid "All Files"
+#~ msgstr "Усі файли"
 
-msgid "OpenPGP Keys (*.asc, *.gpg)"
-msgstr "Ключі OpenPGP (*.asc, *.gpg)"
+#~ msgid "Key imported! Re-open Key Management to see it."
+#~ msgstr ""
+#~ "Ключ імпортовано! Відкрийте Керування ключами знову, щоб побачити його."
 
-msgid "All Files"
-msgstr "Усі файли"
+#~ msgid "Import failed: "
+#~ msgstr "Помилка імпорту: "
 
-msgid "Key imported! Re-open Key Management to see it."
-msgstr ""
-"Ключ імпортовано! Відкрийте Керування ключами знову, щоб побачити його."
+#~ msgid "Key exported to: "
+#~ msgstr "Ключ експортовано до: "
 
-msgid "Import failed: "
-msgstr "Помилка імпорту: "
+#~ msgid "Export failed."
+#~ msgstr "Помилка експорту."
 
-msgid "Key exported to: "
-msgstr "Ключ експортовано до: "
+#~ msgid "Delete Key?"
+#~ msgstr "Видалити ключ?"
 
-msgid "Export failed."
-msgstr "Помилка експорту."
+#~ msgid ""
+#~ "Delete this key?\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "This cannot be undone!"
+#~ msgstr ""
+#~ "Видалити цей ключ?\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "Цю дію неможливо скасувати!"
 
-msgid "Delete Key?"
-msgstr "Видалити ключ?"
+#~ msgid "Key deleted."
+#~ msgstr "Ключ видалено."
 
-msgid ""
-"Delete this key?\n"
-"\n"
-"%s\n"
-"\n"
-"This cannot be undone!"
-msgstr ""
-"Видалити цей ключ?\n"
-"\n"
-"%s\n"
-"\n"
-"Цю дію неможливо скасувати!"
+#~ msgid "Delete failed: "
+#~ msgstr "Помилка видалення: "
 
-msgid "Key deleted."
-msgstr "Ключ видалено."
+#~ msgid "Select OpenPGP Key"
+#~ msgstr "Вибрати ключ OpenPGP"
 
-msgid "Delete failed: "
-msgstr "Помилка видалення: "
+#~ msgid "Choose a key to announce to your contacts."
+#~ msgstr "Виберіть ключ для оголошення вашим контактам."
 
-msgid "Select OpenPGP Key"
-msgstr "Вибрати ключ OpenPGP"
+#~ msgid "Enter GPG passphrase to confirm:"
+#~ msgstr "Введіть парольну фразу GPG для підтвердження:"
 
-msgid "Choose a key to announce to your contacts."
-msgstr "Виберіть ключ для оголошення вашим контактам."
+#~ msgid "Wrong passphrase"
+#~ msgstr "Неправильна парольна фраза"
 
-msgid "Enter GPG passphrase to confirm:"
-msgstr "Введіть парольну фразу GPG для підтвердження:"
+#~ msgid "Manage Keys"
+#~ msgstr "Керування ключами"
 
-msgid "Wrong passphrase"
-msgstr "Неправильна парольна фраза"
+#~ msgid "Generate, import, export, or delete keys"
+#~ msgstr "Створювати, імпортувати, експортувати або видаляти ключі"
 
-msgid "Manage Keys"
-msgstr "Керування ключами"
+#~ msgid "No keys available. Generate or import one!"
+#~ msgstr "Немає доступних ключів. Створіть або імпортуйте!"
 
-msgid "Generate, import, export, or delete keys"
-msgstr "Створювати, імпортувати, експортувати або видаляти ключі"
+#~ msgid "Announce key"
+#~ msgstr "Оголосити ключ"
 
-msgid "No keys available. Generate or import one!"
-msgstr "Немає доступних ключів. Створіть або імпортуйте!"
+#~ msgid "Disabled"
+#~ msgstr "Вимкнено"
 
-msgid "Announce key"
-msgstr "Оголосити ключ"
+#~ msgid "Error in GnuPG"
+#~ msgstr "Помилка в GnuPG"
 
-msgid "Disabled"
-msgstr "Вимкнено"
-
-msgid "Error in GnuPG"
-msgstr "Помилка в GnuPG"
-
-msgid "Success"
-msgstr "Успіх"
-
-msgid "OK"
-msgstr "OK"
+#~ msgid "Success"
+#~ msgstr "Успіх"
 
 #~ msgid "Message too long"
 #~ msgstr "Повідомлення задовге"

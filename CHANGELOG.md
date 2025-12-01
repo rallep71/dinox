@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.8.1] - 2025-12-01
+
+### Added
+- **Full OpenPGP Localization** - Completed translations for all 47 supported languages
+  - Added missing translations for OpenPGP key management and preferences
+  - Languages updated: ar, bg, ca, cs, da, de, el, en, eo, es, et, eu, fa, fi, fr, gl, he, hi, hr, hu, ia, id, ie, is, it, ja, kab, ko, lb, lt, lv, nb, nl, oc, pl, pt, pt_BR, ro, ru, sq, sv, ta, th, tr, uk, vi, zh_CN, zh_TW
+
 ## [0.8.0] - 2025-12-01
 
 ### Added

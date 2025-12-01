@@ -4,7 +4,8 @@
 
 Automatisches Löschen von Nachrichten nach einer vom Benutzer gewählten Zeitspanne - ähnlich wie bei WhatsApp.
 
-**Server-Löschung:** DinoX nutzt **XEP-0424 Message Retraction** - eigene Nachrichten werden auch auf dem Server gelöscht (wenn unterstützt)!
+**Server-Löschung:** ✅ 
+DinoX nutzt **XEP-0424 Message Retraction** - eigene Nachrichten werden auch auf dem Server gelöscht (wenn unterstützt)!
 
 ---
 

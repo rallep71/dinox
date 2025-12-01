@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-28 12:18+0100\n"
+"POT-Creation-Date: 2025-12-01 10:28+0100\n"
 "PO-Revision-Date: 2025-04-27 18:47+0000\n"
 "Language-Team: none\n"
 "Language: ta\n"
@@ -99,14 +99,14 @@ msgstr "பொது"
 #: main/data/gtk/help-overlay.ui:14 main/data/main_window.ui:38
 #: main/data/menu_add.ui:7
 #: main/src/ui/add_conversation/select_contact_dialog.vala:106
-#: main/src/ui/main_window.vala:141
+#: main/src/ui/main_window.vala:154
 msgid "Start Conversation"
 msgstr "உரையாடலைத் தொடங்குங்கள்"
 
 #: main/data/gtk/help-overlay.ui:20 main/data/main_window.ui:51
 #: main/data/menu_add.ui:11
 #: main/src/ui/add_conversation/add_conference_dialog.vala:24
-#: main/src/ui/application.vala:527 main/src/ui/main_window.vala:142
+#: main/src/ui/application.vala:1359 main/src/ui/main_window.vala:155
 msgid "Join Channel"
 msgstr "சேனலில் சேரவும்"
 
@@ -147,7 +147,7 @@ msgstr "அடுத்த உரையாடலுக்கு செல்ல�
 msgid "Jump to previous conversation"
 msgstr "முந்தைய உரையாடலுக்கு செல்லவும்"
 
-#: main/data/main_window.ui:64 main/src/ui/main_window.vala:144
+#: main/data/main_window.ui:64 main/src/ui/main_window.vala:157
 msgid "Help: How to join channels"
 msgstr "உதவி: சேனல்களில் எப்படி சேர்வது"
 
@@ -165,28 +165,28 @@ msgstr "நிலை"
 
 #: main/data/menu_app.ui:11
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:427
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Online"
 msgstr "ஆன்லைன்"
 
 #: main/data/menu_app.ui:16
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:421
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Away"
 msgstr "விலகியுள்ளேன்"
 
 #: main/data/menu_app.ui:21
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:425
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Busy"
 msgstr "பிஸி"
 
 #: main/data/menu_app.ui:26
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:423
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Not Available"
 msgstr "கிடைக்கவில்லை"
@@ -199,7 +199,7 @@ msgstr "விருப்பத்தேர்வுகள்"
 msgid "Keyboard Shortcuts"
 msgstr "விசைப்பலகை குறுக்குவழிகள்"
 
-#: main/data/menu_app.ui:42 main/src/ui/application.vala:334
+#: main/data/menu_app.ui:42 main/src/ui/application.vala:340
 msgid "About DinoX"
 msgstr "DinoX பற்றி"
 
@@ -218,7 +218,10 @@ msgstr "உரையாடல் வரலாற்றை நீக்கு"
 #: main/data/preferences_window/change_password_dialog.ui:18
 #: main/src/ui/add_conversation/add_conference_dialog.vala:41
 #: main/src/ui/add_conversation/select_contact_dialog.vala:40
-#: main/src/ui/application.vala:537
+#: main/src/ui/application.vala:441 main/src/ui/application.vala:469
+#: main/src/ui/application.vala:765 main/src/ui/application.vala:843
+#: main/src/ui/application.vala:901 main/src/ui/application.vala:933
+#: main/src/ui/application.vala:1089 main/src/ui/application.vala:1369
 #: main/src/ui/conversation_content_view/file_default_widget.vala:90
 #: main/src/ui/conversation_content_view/item_actions.vala:165
 #: main/src/ui/conversation_content_view/item_actions.vala:168
@@ -233,7 +236,7 @@ msgstr "உரையாடல் வரலாற்றை நீக்கு"
 #: main/src/ui/conversation_titlebar/call_entry.vala:83
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
 #: main/src/windows/conversation_details.vala:60
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:67
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:68
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:205
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:225
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:249
@@ -257,6 +260,7 @@ msgid "Local alias"
 msgstr "உள்ளக மாற்றுப்பெயர்"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:82
+#: main/src/ui/application.vala:435 main/src/ui/application.vala:1064
 #: main/src/ui/util/data_forms.vala:63
 msgid "Password"
 msgstr "கடவுச்சொல்"
@@ -265,20 +269,24 @@ msgstr "கடவுச்சொல்"
 msgid "Connection status"
 msgstr "இணைப்பு நிலை"
 
+#: main/data/preferences_window/account_preferences_subpage.ui:117
+msgid "View Certificate"
+msgstr "சான்றிதழைப் பார்க்கவும்"
+
 # Custom host/port feature (Issue #115)
-#: main/data/preferences_window/account_preferences_subpage.ui:121
+#: main/data/preferences_window/account_preferences_subpage.ui:128
 msgid "Advanced Settings"
 msgstr "மேம்பட்ட அமைப்புகள்"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:122
+#: main/data/preferences_window/account_preferences_subpage.ui:129
 msgid "Custom server connection (leave empty for automatic)"
 msgstr "தனிப்பயன் சேவையக இணைப்பு (தானியங்கிக்கு காலியாக விடவும்)"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:125
+#: main/data/preferences_window/account_preferences_subpage.ui:132
 msgid "Server Hostname"
 msgstr "சேவையக ஹோஸ்ட்பெயர்"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:130
+#: main/data/preferences_window/account_preferences_subpage.ui:137
 msgid "Port"
 msgstr "போர்ட்"
 
@@ -348,12 +356,53 @@ msgid "Create a backup of your accounts, messages and settings"
 msgstr "உங்கள் கணக்குகள், செய்திகள் மற்றும் அமைப்புகளின் காப்புப்பிரதியை உருவாக்கு"
 
 #: main/data/preferences_window/general_preferences_page.ui:78
-msgid "Data Location"
-msgstr "தரவு இருப்பிடம்"
+#: main/src/ui/application.vala:464 main/src/ui/main_window.vala:223
+msgid "Restore from Backup"
+msgstr "காப்புப்பிரதியிலிருந்து மீட்டமை"
 
 #: main/data/preferences_window/general_preferences_page.ui:79
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "காப்பு கோப்பிலிருந்து கணக்குகள், செய்திகள் மற்றும் அமைப்புகளை மீட்டமைக்கவும்"
+
+#: main/data/preferences_window/general_preferences_page.ui:90
+msgid "Data Storage Location"
+msgstr "தரவு சேமிப்பு இடம்"
+
+#: main/data/preferences_window/general_preferences_page.ui:91
 msgid "View where your data is stored"
 msgstr "உங்கள் தரவு எங்கே சேமிக்கப்பட்டுள்ளது என்பதைப் பார்க்கவும்"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "தரவுத்தள பராமரிப்பு"
+
+#: main/data/preferences_window/general_preferences_page.ui:107
+#: main/src/ui/application.vala:761 main/src/ui/application.vala:766
+msgid "Clear Cache"
+msgstr "தற்காலிக சேமிப்பை அழி"
+
+#: main/data/preferences_window/general_preferences_page.ui:108
+msgid "Clear cached files, avatars and previews"
+msgstr "தற்காலிக சேமிப்பு கோப்புகள், அவதாரங்கள் மற்றும் முன்னோட்டங்களை அழிக்கவும்"
+
+#: main/data/preferences_window/general_preferences_page.ui:119
+#: main/src/ui/application.vala:838 main/src/ui/application.vala:844
+msgid "Reset Database"
+msgstr "தரவுத்தளத்தை மீட்டமை"
+
+#: main/data/preferences_window/general_preferences_page.ui:120
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr ""
+"அனைத்து செய்திகள், கோப்புகள் மற்றும் OMEMO விசைகளை நீக்கு. உங்கள் கணக்குகள் இருக்கும்."
+
+#: main/data/preferences_window/general_preferences_page.ui:131
+#: main/src/ui/application.vala:896
+msgid "Factory Reset"
+msgstr "தொழிற்சாலை மீட்டமைப்பு"
+
+#: main/data/preferences_window/general_preferences_page.ui:132
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr "கணக்குகள் உட்பட அனைத்து தரவையும் நீக்கு. இதை செயல்தவிர்க்க முடியாது!"
 
 #: main/data/preferences_window/preferences_dialog.ui:11
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:15
@@ -378,7 +427,7 @@ msgstr "அடுத்தது"
 
 #: main/src/ui/add_conversation/add_conference_dialog.vala:59
 #: main/src/ui/add_conversation/conference_details_fragment.vala:151
-#: main/src/ui/application.vala:541
+#: main/src/ui/application.vala:1373
 msgid "Join"
 msgstr "சேர"
 
@@ -464,31 +513,31 @@ msgstr "தொடர்பை நீக்கு"
 msgid "Leave Group"
 msgstr "குழுவை விடு"
 
-#: main/src/ui/application.vala:339
+#: main/src/ui/application.vala:345
 msgid "Modern XMPP client with extended features"
 msgstr "விரிவாக்கப்பட்ட அம்சங்களுடன் நவீன XMPP கிளையன்ட்"
 
-#: main/src/ui/application.vala:346 main/src/ui/application.vala:385
+#: main/src/ui/application.vala:352 main/src/ui/application.vala:727
 msgid "User Data Locations"
 msgstr "பயனர் தரவு இருப்பிடங்கள்"
 
-#: main/src/ui/application.vala:349 main/src/ui/application.vala:399
+#: main/src/ui/application.vala:355 main/src/ui/application.vala:741
 msgid "Configuration:"
 msgstr "உள்ளமைவு:"
 
-#: main/src/ui/application.vala:352 main/src/ui/application.vala:401
+#: main/src/ui/application.vala:358 main/src/ui/application.vala:743
 msgid "Data & Database:"
 msgstr "தரவு & தரவுத்தளம்:"
 
-#: main/src/ui/application.vala:355 main/src/ui/application.vala:403
+#: main/src/ui/application.vala:361 main/src/ui/application.vala:745
 msgid "Cache:"
 msgstr "தற்காலிக சேமிப்பு:"
 
-#: main/src/ui/application.vala:358
+#: main/src/ui/application.vala:364
 msgid "Info:"
 msgstr "தகவல்:"
 
-#: main/src/ui/application.vala:359
+#: main/src/ui/application.vala:365
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
@@ -496,16 +545,120 @@ msgstr ""
 "உங்கள் தனிப்பட்ட தரவு (கணக்குகள், செய்திகள், கோப்புகள்) பயன்பாட்டிலிருந்து தனியாக "
 "சேமிக்கப்படுகிறது."
 
-#: main/src/ui/application.vala:361
+#: main/src/ui/application.vala:367
 msgid "When you update DinoX, your data remains intact."
 msgstr "நீங்கள் DinoX-ஐ புதுப்பிக்கும்போது, உங்கள் தரவு அப்படியே இருக்கும்."
 
-#: main/src/ui/application.vala:363
+#: main/src/ui/application.vala:369
 msgid "Use Settings → General → Backup User Data to create a backup."
 msgstr ""
 "காப்புப்பிரதி உருவாக்க அமைப்புகள் → பொது → பயனர் தரவை காப்புப்பிரதி எடு பயன்படுத்தவும்."
 
-#: main/src/ui/application.vala:405
+#: main/src/ui/application.vala:387
+msgid "Select Backup File"
+msgstr "காப்புப்பிரதி கோப்பைத் தேர்ந்தெடுக்கவும்"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+#: main/src/ui/application.vala:395
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "காப்புப்பிரதி கோப்புகள் (*.tar.gz, *.tar.gz.gpg)"
+
+#: main/src/ui/application.vala:425
+msgid "Enter Backup Password"
+msgstr "காப்புப்பிரதி கடவுச்சொல்லை உள்ளிடவும்"
+
+#: main/src/ui/application.vala:426
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "இந்த காப்புப்பிரதி மறையாக்கப்பட்டுள்ளது. கடவுச்சொல்லை உள்ளிடவும்."
+
+#: main/src/ui/application.vala:442
+msgid "Decrypt & Restore"
+msgstr "மறைவிலக்கி மீட்டமை"
+
+#: main/src/ui/application.vala:465
+msgid ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+msgstr ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+
+#: main/src/ui/application.vala:470
+msgid "Restore Backup"
+msgstr "காப்புப்பிரதியை மீட்டமை"
+
+#: main/src/ui/application.vala:487 main/src/ui/application.vala:519
+msgid "Decrypting Backup..."
+msgstr "காப்புப்பிரதியை மறைவிலக்குகிறது..."
+
+#: main/src/ui/application.vala:487 main/src/ui/application.vala:571
+msgid "Restoring Backup..."
+msgstr "காப்புப்பிரதியை மீட்டமைக்கிறது..."
+
+#: main/src/ui/application.vala:488
+msgid "Please wait, this may take a moment..."
+msgstr "தயவுசெய்து காத்திருங்கள், இதற்கு சிறிது நேரம் ஆகலாம்..."
+
+#: main/src/ui/application.vala:520
+msgid "Decrypting encrypted backup file..."
+msgstr "காப்புப்பிரதி கோப்பை மறைவிலக்குகிறது..."
+
+#: main/src/ui/application.vala:558
+msgid "Decryption Failed"
+msgstr "மறைவிலக்கம் தோல்வியடைந்தது"
+
+#: main/src/ui/application.vala:559
+msgid ""
+"Could not decrypt the backup file.\n"
+"\n"
+"Please check if the password is correct."
+msgstr ""
+"கோப்பை மறைவிலக்க முடியவில்லை.\n"
+"\n"
+"கடவுச்சொல் சரியானதா என சரிபார்க்கவும்."
+
+#: main/src/ui/application.vala:561 main/src/ui/application.vala:671
+msgid "OK"
+msgstr "OK"
+
+#: main/src/ui/application.vala:572
+msgid "Extracting files from backup..."
+msgstr "காப்புப்பிரதியிலிருந்து கோப்புகளை பிரித்தெடுக்கிறது..."
+
+#: main/src/ui/application.vala:653
+msgid "Restore Complete!"
+msgstr "மீட்டமைப்பு முடிந்தது!"
+
+#: main/src/ui/application.vala:654
+msgid "DinoX will now restart..."
+msgstr "DinoX இப்போது மீண்டும் தொடங்கும்..."
+
+#: main/src/ui/application.vala:668
+msgid "Restore Failed"
+msgstr "மீட்டமைப்பு தோல்வியடைந்தது"
+
+#: main/src/ui/application.vala:669
+#, c-format
+msgid ""
+"Could not restore the backup file.\n"
+"\n"
+"Error: %s"
+msgstr ""
+"கோப்பை மீட்டெடுக்க முடியவில்லை.\n"
+"\n"
+"பிழை: %s"
+
+#: main/src/ui/application.vala:669 main/src/ui/application.vala:1345
+msgid "Unknown error"
+msgstr "அறியப்படாத பிழை"
+
+#: main/src/ui/application.vala:747
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
@@ -513,96 +666,244 @@ msgstr ""
 "உங்கள் தனிப்பட்ட தரவு (கணக்குகள், செய்திகள், கோப்புகள்) பயன்பாட்டிலிருந்து தனியாக "
 "சேமிக்கப்படுகிறது. நீங்கள் DinoX ஐ புதுப்பிக்கும்போது, உங்கள் தரவு அப்படியே இருக்கும்."
 
-#: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
-#: main/src/ui/main_window.vala:159
+#: main/src/ui/application.vala:752 main/src/ui/application.vala:1240
+#: main/src/ui/application.vala:1324 main/src/ui/conversation_details.vala:272
+#: main/src/ui/main_window.vala:172
 msgid "Close"
 msgstr "மூடு"
 
-#: main/src/ui/application.vala:417
+#: main/src/ui/application.vala:762
+msgid ""
+"This will delete cached files, avatars and previews.\n"
+"\n"
+"They will be re-downloaded when needed."
+msgstr ""
+"இது தற்காலிக சேமிப்பு கோப்புகள், அவதாரங்கள் மற்றும் முன்னோட்டங்களை நீக்கும்.\n"
+"\n"
+"தேவைப்படும்போது அவை மீண்டும் பதிவிறக்கப்படும்."
+
+#: main/src/ui/application.vala:799
+#, c-format
+msgid "Cache cleared (%s freed)"
+msgstr "தற்காலிக சேமிப்பு அழிக்கப்பட்டது (%s விடுவிக்கப்பட்டது)"
+
+#: main/src/ui/application.vala:802
+msgid "Failed to clear cache"
+msgstr "தற்காலிக சேமிப்பை அழிக்க முடியவில்லை"
+
+#: main/src/ui/application.vala:839
+msgid ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+msgstr ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+
+#: main/src/ui/application.vala:867
+msgid "Resetting database... DinoX will restart."
+msgstr "தரவுத்தளம் மீட்டமைக்கப்படுகிறது... DinoX மீண்டும் தொடங்கும்."
+
+#: main/src/ui/application.vala:897
+msgid ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+msgstr ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+
+#: main/src/ui/application.vala:902
+msgid "Create Backup First"
+msgstr "முதலில் காப்புப்பிரதியை உருவாக்கவும்"
+
+#: main/src/ui/application.vala:903
+msgid "Delete Everything"
+msgstr "எல்லாவற்றையும் நீக்கு"
+
+#: main/src/ui/application.vala:923
+msgid "Are you absolutely sure?"
+msgstr "நீங்கள் நிச்சயமாக உறுதியாக இருக்கிறீர்களா?"
+
+#: main/src/ui/application.vala:924
+msgid ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+msgstr ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+
+#: main/src/ui/application.vala:934
+msgid "Confirm Delete"
+msgstr "நீக்குதலை உறுதிப்படுத்தவும்"
+
+#: main/src/ui/application.vala:961
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "தொழிற்சாலை மீட்டமைப்பு நடைபெறுகிறது... DinoX மீண்டும் தொடங்கும்."
+
+#: main/src/ui/application.vala:1026
+msgid "Backup Encryption"
+msgstr "காப்புப்பிரதி குறியாக்கம்"
+
+#: main/src/ui/application.vala:1027
+msgid ""
+"Do you want to encrypt the backup with a password?\n"
+"\n"
+"Encrypted backups are more secure but require the password to restore."
+msgstr ""
+"காப்புப்பிரதியை கடவுச்சொல் மூலம் குறியாக்கம் செய்ய விரும்புகிறீர்களா?\n"
+"\n"
+"குறியாக்கம் செய்யப்பட்ட காப்புப்பிரதிகள் மிகவும் பாதுகாப்பானவை ஆனால் மீட்டமைக்க கடவுச்சொல் "
+"தேவை."
+
+#: main/src/ui/application.vala:1030
+msgid "No Encryption"
+msgstr "குறியாக்கம் இல்லை"
+
+#: main/src/ui/application.vala:1031
+msgid "Encrypt with Password"
+msgstr "கடவுச்சொல் மூலம் குறியாக்கம் செய்"
+
+#: main/src/ui/application.vala:1049
+msgid "Set Backup Password"
+msgstr "காப்புப்பிரதி கடவுச்சொல்லை அமைக்கவும்"
+
+#: main/src/ui/application.vala:1050
+msgid ""
+"Enter a password to encrypt the backup.\n"
+"\n"
+"<b>Important:</b> Remember this password! Without it, the backup cannot be "
+"restored."
+msgstr ""
+"காப்புப்பிரதியை மறையாக்க கடவுச்சொல்லை உள்ளிடவும்.\n"
+"\n"
+"<b>முக்கியம்:</b> இந்த கடவுச்சொல்லை நினைவில் கொள்ளுங்கள்! இது இல்லாமல், காப்புப்பிரதியை "
+"மீட்டெடுக்க முடியாது."
+
+#: main/src/ui/application.vala:1058
+msgid "Password (minimum 4 characters)"
+msgstr "கடவுச்சொல் (குறைந்தபட்சம் 4 எழுத்துகள்)"
+
+#: main/src/ui/application.vala:1066 main/src/ui/application.vala:1073
+msgid "Confirm Password"
+msgstr "கடவுச்சொல்லை உறுதிப்படுத்தவும்"
+
+#: main/src/ui/application.vala:1090
+msgid "Create Encrypted Backup"
+msgstr "குறியாக்கம் செய்யப்பட்ட காப்புப்பிரதியை உருவாக்கு"
+
+#: main/src/ui/application.vala:1102 main/src/ui/application.vala:1117
+msgid "Password too short"
+msgstr "கடவுச்சொல் மிகவும் சிறியது"
+
+#: main/src/ui/application.vala:1104 main/src/ui/application.vala:1119
+msgid "Passwords do not match"
+msgstr "கடவுச்சொற்கள் பொருந்தவில்லை"
+
+#: main/src/ui/application.vala:1106 main/src/ui/application.vala:1121
+msgid "✓ Passwords match"
+msgstr "✓ கடவுச்சொற்கள் பொருந்துகின்றன"
+
+#: main/src/ui/application.vala:1139
 msgid "Select Backup Location"
 msgstr "காப்புப்பிரதி இருப்பிடத்தைத் தேர்ந்தெடுக்கவும்"
 
-#: main/src/ui/application.vala
-msgid "Creating Backup..."
-msgstr "Creating Backup..."
-
-#: main/src/ui/application.vala
+#: main/src/ui/application.vala:1194
 msgid "Creating Encrypted Backup..."
-msgstr "Creating Encrypted Backup..."
+msgstr "குறியாக்கம் செய்யப்பட்ட காப்புப்பிரதியை உருவாக்குகிறது..."
 
-#: main/src/ui/application.vala
+#: main/src/ui/application.vala:1194
+msgid "Creating Backup..."
+msgstr "காப்புப்பிரதியை உருவாக்குகிறது..."
+
+#: main/src/ui/application.vala:1195
 msgid "Please wait while your data is being backed up."
-msgstr "Please wait while your data is being backed up."
+msgstr "உங்கள் தரவு காப்புப்பிரதி எடுக்கப்படும் வரை காத்திருக்கவும்."
 
-#: main/src/ui/application.vala
-msgid "No data directories found to backup"
-msgstr "No data directories found to backup"
+#: main/src/ui/application.vala:1234
+msgid "No data directory found to backup"
+msgstr "காப்புப்பிரதி எடுக்க தரவு அடைவு எதுவும் காணப்படவில்லை"
 
-#: main/src/ui/application.vala
-msgid "Backup Created"
-msgstr "Backup Created"
-
-#: main/src/ui/application.vala
-msgid "Encrypted Backup Created"
-msgstr "Encrypted Backup Created"
-
-#: main/src/ui/application.vala
-#, c-format
-msgid "Your backup was created successfully.\\n\\nSize: %s"
-msgstr "Your backup was created successfully.\\n\\nSize: %s"
-
-#: main/src/ui/application.vala
-msgid "Your backup was created successfully."
-msgstr "Your backup was created successfully."
-
-#: main/src/ui/application.vala
-#, c-format
-msgid "Your encrypted backup was created successfully.\\n\\nSize: %s"
-msgstr "Your encrypted backup was created successfully.\\n\\nSize: %s"
-
-#: main/src/ui/application.vala
-msgid "Your encrypted backup was created successfully."
-msgstr "Your encrypted backup was created successfully."
-
-#: main/src/ui/application.vala
+#: main/src/ui/application.vala:1237 main/src/ui/application.vala:1343
 msgid "Backup Failed"
-msgstr "Backup Failed"
+msgstr "காப்புப்பிரதி தோல்வியடைந்தது"
 
-#: main/src/ui/application.vala:445
-msgid "Creating backup..."
-msgstr "காப்புப்பிரதி உருவாக்குகிறது..."
+#: main/src/ui/application.vala:1331
+msgid "Encrypted Backup Created"
+msgstr "குறியாக்கம் செய்யப்பட்ட காப்புப்பிரதி உருவாக்கப்பட்டது"
 
-#: main/src/ui/application.vala:503
+#: main/src/ui/application.vala:1333
 #, c-format
-msgid "Backup created successfully (%s)"
-msgstr "காப்புப்பிரதி வெற்றிகரமாக உருவாக்கப்பட்டது (%s)"
+msgid ""
+"Your encrypted backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"உங்கள் குறியாக்கம் செய்யப்பட்ட காப்புப்பிரதி வெற்றிகரமாக உருவாக்கப்பட்டது.\n"
+"\n"
+"அளவு: %s"
 
-#: main/src/ui/application.vala:505
-msgid "Backup created successfully"
-msgstr "காப்புப்பிரதி வெற்றிகரமாக உருவாக்கப்பட்டது"
+#: main/src/ui/application.vala:1334
+msgid "Your encrypted backup was created successfully."
+msgstr "உங்கள் குறியாக்கம் செய்யப்பட்ட காப்புப்பிரதி வெற்றிகரமாக உருவாக்கப்பட்டது."
 
-#: main/src/ui/application.vala:510
-msgid "Unknown error"
-msgstr "அறியப்படாத பிழை"
+#: main/src/ui/application.vala:1336
+msgid "Backup Created"
+msgstr "காப்புப்பிரதி உருவாக்கப்பட்டது"
 
-#: main/src/ui/application.vala:511
+#: main/src/ui/application.vala:1338
+#, c-format
+msgid ""
+"Your backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"உங்கள் காப்புப்பிரதி வெற்றிகரமாக உருவாக்கப்பட்டது.\n"
+"\n"
+"அளவு: %s"
+
+#: main/src/ui/application.vala:1339
+msgid "Your backup was created successfully."
+msgstr "உங்கள் காப்புப்பிரதி வெற்றிகரமாக உருவாக்கப்பட்டது."
+
+#: main/src/ui/application.vala:1346
 #, c-format
 msgid "Backup failed: %s"
 msgstr "காப்புப்பிரதி தோல்வியடைந்தது: %s"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:29
+#: main/src/ui/call_window/audio_settings_popover.vala:46
 msgid "Microphones"
 msgstr "மைக்ரோஃபோன்கள்"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:32
+#: main/src/ui/call_window/audio_settings_popover.vala:49
 msgid "No microphone found."
 msgstr "மைக்ரோஃபோன் இல்லை."
 
-#: main/src/ui/call_window/audio_settings_popover.vala:85
+#: main/src/ui/call_window/audio_settings_popover.vala:116
 msgid "Speakers"
 msgstr "பேச்சாளர்கள்"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:88
+#: main/src/ui/call_window/audio_settings_popover.vala:119
 msgid "No speaker found."
 msgstr "பேச்சாளர் எதுவும் கிடைக்கவில்லை."
 
@@ -618,7 +919,7 @@ msgstr "அழைக்க அழைக்கவும்"
 msgid "Invite"
 msgstr "அழைக்கவும்"
 
-#: main/src/ui/call_window/call_window_controller.vala:405
+#: main/src/ui/call_window/call_window_controller.vala:453
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:240
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:270
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:285
@@ -637,21 +938,21 @@ msgstr "%s அழைப்பை முடித்தன"
 msgid "%s declined the call"
 msgstr "%s அழைப்பை மறுத்துவிட்டது"
 
-#: main/src/ui/call_window/participant_widget.vala:115
+#: main/src/ui/call_window/participant_widget.vala:140
 msgid "Debug information"
 msgstr "பிழைத்திருத்த செய்தி"
 
-#: main/src/ui/call_window/participant_widget.vala:124
+#: main/src/ui/call_window/participant_widget.vala:149
 #: main/src/ui/conversation_content_view/call_widget.vala:152
 msgid "Calling…"
 msgstr "அழைப்பு…"
 
-#: main/src/ui/call_window/participant_widget.vala:126
+#: main/src/ui/call_window/participant_widget.vala:151
 msgid "Ringing…"
 msgstr "ரிங்கிங்…"
 
-#: main/src/ui/call_window/participant_widget.vala:128
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:216
+#: main/src/ui/call_window/participant_widget.vala:153
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:244
 msgid "Connecting…"
 msgstr "இணைத்தல்…"
 
@@ -885,7 +1186,7 @@ msgstr "%a, %l∶ %m %p"
 msgid "Just now"
 msgstr "இப்போது"
 
-#: main/src/ui/conversation_content_view/conversation_view.vala:105
+#: main/src/ui/conversation_content_view/conversation_view.vala:106
 msgid "More actions"
 msgstr "மேலும் செயல்கள்"
 
@@ -1102,6 +1403,38 @@ msgstr "அழி"
 msgid "Failed to destroy room"
 msgstr "அறையை அழிக்க முடியவில்லை"
 
+#: main/src/ui/conversation_details.vala:286
+msgid "Auto-delete messages"
+msgstr "செய்திகளை தானாக நீக்கு"
+
+#: main/src/ui/conversation_details.vala:287
+msgid "Never"
+msgstr "ஒருபோதும் இல்லை"
+
+#: main/src/ui/conversation_details.vala:288
+msgid "After 15 minutes"
+msgstr "15 நிமிடங்களுக்குப் பிறகு"
+
+#: main/src/ui/conversation_details.vala:289
+msgid "After 30 minutes"
+msgstr "30 நிமிடங்களுக்குப் பிறகு"
+
+#: main/src/ui/conversation_details.vala:290
+msgid "After 1 hour"
+msgstr "1 மணிநேரத்திற்குப் பிறகு"
+
+#: main/src/ui/conversation_details.vala:291
+msgid "After 24 hours"
+msgstr "24 மணிநேரத்திற்குப் பிறகு"
+
+#: main/src/ui/conversation_details.vala:292
+msgid "After 7 days"
+msgstr "7 நாட்களுக்குப் பிறகு"
+
+#: main/src/ui/conversation_details.vala:293
+msgid "After 30 days"
+msgstr "30 நாட்களுக்குப் பிறகு"
+
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:276
 #: main/src/ui/notifier_freedesktop.vala:71
 #: main/src/ui/notifier_gnotifications.vala:36
@@ -1247,6 +1580,7 @@ msgstr "தொடர்பு தடையை நீக்கவா?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:702
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:247
+#, c-format
 msgid "This will allow %s to send you messages again."
 msgstr "இது %s மீண்டும் உங்களுக்கு செய்திகள் அனுப்ப அனுமதிக்கும்."
 
@@ -1349,7 +1683,7 @@ msgid "Select file"
 msgstr "கோப்பைத் தேர்ந்தெடு"
 
 #: main/src/ui/conversation_view_controller.vala:225
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:152
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:180
 msgid "Select"
 msgstr "தேர்ந்தெடு"
 
@@ -1367,11 +1701,11 @@ msgstr "%s இல்"
 msgid "With %s"
 msgstr "%s உடன்"
 
-#: main/src/ui/main_window.vala:156
+#: main/src/ui/main_window.vala:169
 msgid "Join Channel Help"
 msgstr "சேனல் சேர் உதவி"
 
-#: main/src/ui/main_window.vala:157
+#: main/src/ui/main_window.vala:170
 msgid ""
 "To join a channel, click the \"Join Channel\" button and enter the channel "
 "JID (example: room@conference.example.org).\n"
@@ -1385,25 +1719,25 @@ msgstr ""
 "கடவுச்சொல் அல்லது புனைப்பெயர் தேவைப்பட்டால், உரையாடலில் வழங்கவும். பொது அறைகளைக் கண்டறிய "
 "சேவையகத்தின் கண்டுபிடிப்பு அம்சங்களைப் பயன்படுத்தவும்."
 
-#: main/src/ui/main_window.vala:206
+#: main/src/ui/main_window.vala:219
 msgid "Welcome to DinoX!"
 msgstr "DinoX க்கு வரவேற்கிறோம்!"
 
-#: main/src/ui/main_window.vala:207
+#: main/src/ui/main_window.vala:220
 msgid "Sign in or create an account to get started."
 msgstr "தொடங்குவதற்கு உள்நுழைக அல்லது ஒரு கணக்கை உருவாக்கவும்."
 
-#: main/src/ui/main_window.vala:208
+#: main/src/ui/main_window.vala:221
 msgid "Set up account"
 msgstr "கணக்கை அமைக்கவும்"
 
-#: main/src/ui/main_window.vala:215
+#: main/src/ui/main_window.vala:230
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:71
 #: main/src/windows/preferences_window/encryption_preferences_page.vala:49
 msgid "No active accounts"
 msgstr "செயலில் கணக்குகள் இல்லை"
 
-#: main/src/ui/main_window.vala:216
+#: main/src/ui/main_window.vala:231
 msgid "Manage accounts"
 msgstr "கணக்குகளை நிர்வகிக்கவும்"
 
@@ -1413,12 +1747,12 @@ msgid "Subscription request"
 msgstr "சந்தா கோரிக்கை"
 
 #: main/src/ui/notifier_freedesktop.vala:192
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:231
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:259
 msgid "Wrong password"
 msgstr "தவறான கடவுச்சொல்"
 
 #: main/src/ui/notifier_freedesktop.vala:195
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:233
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:261
 msgid "Invalid TLS certificate"
 msgstr "தவறான TLS சான்றிதழ்"
 
@@ -1661,45 +1995,45 @@ msgstr "அமைப்புகள்"
 msgid "Room Configuration"
 msgstr "அறை உள்ளமைவு"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:68
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:69
 msgid "Connect"
 msgstr "இணை"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:106
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
 msgid "Disable account"
 msgstr "கணக்கை முடக்கு"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:106
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
 msgid "Enable account"
 msgstr "கணக்கை இயக்கவும்"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:151
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:179
 msgid "Select avatar"
 msgstr "அவதாரத்தைத் தேர்ந்தெடுக்கவும்"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:162
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:190
 msgid "Images"
 msgstr "படங்கள்"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:166
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:194
 msgid "All files"
 msgstr "அனைத்து கோப்புகள்"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:184
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:212
 #, c-format
 msgid "Remove account %s?"
 msgstr "கணக்கு %s ஐ அகற்றவா?"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:218
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:246
 msgid "Connected"
 msgstr "இணைக்கப்பட்டுள்ளது"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:220
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:248
 msgid "Disconnected"
 msgstr "துண்டிக்கப்பட்டது"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:240
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:242
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:268
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:270
 msgid "Error"
 msgstr "பிழை"
 
@@ -1809,387 +2143,189 @@ msgstr "%s க்கான காட்சி பெயரை மாற்று
 msgid "Alias (optional)"
 msgstr "புனைப்பெயர் (விரும்பினால்)"
 
+#~ msgid "Creating backup..."
+#~ msgstr "காப்புப்பிரதி உருவாக்குகிறது..."
+
+#, c-format
+#~ msgid "Backup created successfully (%s)"
+#~ msgstr "காப்புப்பிரதி வெற்றிகரமாக உருவாக்கப்பட்டது (%s)"
+
+#~ msgid "Backup created successfully"
+#~ msgstr "காப்புப்பிரதி வெற்றிகரமாக உருவாக்கப்பட்டது"
+
 # DinoX v0.7.7 - Database Maintenance & Backup/Restore
-msgid "Clean Database"
-msgstr "Clean Database"
+#~ msgid "Clean Database"
+#~ msgstr "Clean Database"
 
-msgid "Reset Database"
-msgstr "Reset Database"
+#~ msgid "Encrypting Backup..."
+#~ msgstr "Encrypting Backup..."
 
-msgid "Restore Complete!"
-msgstr "Restore Complete!"
+#~ msgid "Creating encrypted backup..."
+#~ msgstr "மறையாக்கப்பட்ட காப்புப்பிரதி உருவாக்குகிறது..."
 
-msgid "Restore Failed"
-msgstr "Restore Failed"
+#~ msgid "Encrypted backup created successfully"
+#~ msgstr "மறையாக்கப்பட்ட காப்புப்பிரதி வெற்றிகரமாக உருவாக்கப்பட்டது"
 
-msgid "Decrypting Backup..."
-msgstr "Decrypting Backup..."
-
-msgid "Restoring Backup..."
-msgstr "Restoring Backup..."
-
-msgid "Set Backup Password"
-msgstr "Set Backup Password"
-
-msgid "Confirm Password"
-msgstr "Confirm Password"
-
-msgid "Create Encrypted Backup"
-msgstr "Create Encrypted Backup"
-
-msgid "Password too short"
-msgstr "Password too short"
-
-msgid "Passwords do not match"
-msgstr "Passwords do not match"
-
-msgid "✓ Passwords match"
-msgstr "✓ Passwords match"
-
-msgid "Encrypting Backup..."
-msgstr "Encrypting Backup..."
-
-msgid "Factory Reset"
-msgstr "Factory Reset"
-
-msgid "Restore from Backup"
-msgstr "Restore from Backup"
-
-msgid "Restore Backup"
-msgstr "Restore Backup"
-
-msgid "Select Backup File"
-msgstr "Select Backup File"
-
-msgid "Enter Backup Password"
-msgstr "Enter Backup Password"
-
-msgid "Decrypt & Restore"
-msgstr "Decrypt & Restore"
-
-msgid "Create Backup First"
-msgstr "Create Backup First"
-
-msgid "No Encryption"
-msgstr "No Encryption"
-
-msgid "Encrypt with Password"
-msgstr "Encrypt with Password"
-
-msgid "Delete Everything"
-msgstr "Delete Everything"
-
-msgid "Confirm Delete"
-msgstr "Confirm Delete"
-
-msgid "Are you absolutely sure?"
-msgstr "Are you absolutely sure?"
-
-#: main/data/preferences_window/general_preferences_page.ui:104
-msgid "Database Maintenance"
-msgstr "தரவுத்தள பராமரிப்பு"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Restore accounts, messages and settings from a backup file"
-msgstr "காப்பு கோப்பிலிருந்து கணக்குகள், செய்திகள் மற்றும் அமைப்புகளை மீட்டமைக்கவும்"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
-msgstr ""
-"அனைத்து செய்திகள், கோப்புகள் மற்றும் OMEMO விசைகளை நீக்கு. உங்கள் கணக்குகள் இருக்கும்."
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete ALL data including accounts. This cannot be undone!"
-msgstr "கணக்குகள் உட்பட அனைத்து தரவையும் நீக்கு. இதை செயல்தவிர்க்க முடியாது!"
-
-# DinoX v0.7.7 - Additional Backup/Restore strings
-msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
-msgstr "காப்புப்பிரதி கோப்புகள் (*.tar.gz, *.tar.gz.gpg)"
-
-msgid "Creating encrypted backup..."
-msgstr "மறையாக்கப்பட்ட காப்புப்பிரதி உருவாக்குகிறது..."
-
-msgid "Decryption Failed"
-msgstr "மறைவிலக்கம் தோல்வியடைந்தது"
-
-msgid "DinoX will now restart..."
-msgstr "DinoX இப்போது மீண்டும் தொடங்கும்..."
-
-msgid "Encrypted backup created successfully"
-msgstr "மறையாக்கப்பட்ட காப்புப்பிரதி வெற்றிகரமாக உருவாக்கப்பட்டது"
-
-msgid "Password (minimum 4 characters)"
-msgstr "கடவுச்சொல் (குறைந்தபட்சம் 4 எழுத்துகள்)"
-
-msgid "Decrypting encrypted backup file..."
-msgstr "காப்புப்பிரதி கோப்பை மறைவிலக்குகிறது..."
-
-msgid "Extracting files from backup..."
-msgstr "காப்புப்பிரதியிலிருந்து கோப்புகளை பிரித்தெடுக்கிறது..."
-
-msgid "Factory reset in progress... DinoX will restart."
-msgstr "தொழிற்சாலை மீட்டமைப்பு நடைபெறுகிறது... DinoX மீண்டும் தொடங்கும்."
-
-msgid "Resetting database... DinoX will restart."
-msgstr "தரவுத்தளம் மீட்டமைக்கப்படுகிறது... DinoX மீண்டும் தொடங்கும்."
-
-msgid "Encrypted backup created (%s)"
-msgstr "மறையாக்கப்பட்ட காப்புப்பிரதி உருவாக்கப்பட்டது (%s)"
-
-msgid ""
-"Could not decrypt the backup file.\n"
-"\n"
-"Please check if the password is correct."
-msgstr ""
-"கோப்பை மறைவிலக்க முடியவில்லை.\n"
-"\n"
-"கடவுச்சொல் சரியானதா என சரிபார்க்கவும்."
-
-msgid ""
-"Could not restore the backup file.\n"
-"\n"
-"Error: %s"
-msgstr ""
-"கோப்பை மீட்டெடுக்க முடியவில்லை.\n"
-"\n"
-"பிழை: %s"
-
-msgid "This backup is encrypted. Please enter the password to decrypt it."
-msgstr "இந்த காப்புப்பிரதி மறையாக்கப்பட்டுள்ளது. கடவுச்சொல்லை உள்ளிடவும்."
-
-msgid ""
-"Enter a password to encrypt the backup.\n"
-"\n"
-"<b>Important:</b> Remember this password! Without it, the backup cannot be "
-"restored."
-msgstr ""
-"காப்புப்பிரதியை மறையாக்க கடவுச்சொல்லை உள்ளிடவும்.\n"
-"\n"
-"<b>முக்கியம்:</b> இந்த கடவுச்சொல்லை நினைவில் கொள்ளுங்கள்! இது இல்லாமல், காப்புப்பிரதியை "
-"மீட்டெடுக்க முடியாது."
-
-msgid ""
-"This will delete all messages, files and OMEMO encryption keys.\n"
-"\n"
-"<b>Your accounts will remain, but you will lose all chat history and need to "
-"re-verify encryption with your contacts.</b>\n"
-"\n"
-"This action cannot be undone!"
-msgstr ""
-"This will delete all messages, files and OMEMO encryption keys.\n"
-"\n"
-"<b>Your accounts will remain, but you will lose all chat history and need to "
-"re-verify encryption with your contacts.</b>\n"
-"\n"
-"This action cannot be undone!"
-
-msgid ""
-"This will replace all current data with the backup.\n"
-"\n"
-"<b>Current accounts, messages and settings will be overwritten!</b>\n"
-"\n"
-"DinoX will restart after restoring."
-msgstr ""
-"This will replace all current data with the backup.\n"
-"\n"
-"<b>Current accounts, messages and settings will be overwritten!</b>\n"
-"\n"
-"DinoX will restart after restoring."
-
-msgid ""
-"Type 'DELETE' to confirm factory reset.\n"
-"\n"
-"This will permanently remove all your DinoX data."
-msgstr ""
-"Type 'DELETE' to confirm factory reset.\n"
-"\n"
-"This will permanently remove all your DinoX data."
-
-msgid ""
-"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
-"\n"
-"• All accounts\n"
-"• All messages and files\n"
-"• All encryption keys\n"
-"• All settings\n"
-"\n"
-"This is irreversible. Make sure to create a backup first!"
-msgstr ""
-"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
-"\n"
-"• All accounts\n"
-"• All messages and files\n"
-"• All encryption keys\n"
-"• All settings\n"
-"\n"
-"This is irreversible. Make sure to create a backup first!"
+#~ msgid "Encrypted backup created (%s)"
+#~ msgstr "மறையாக்கப்பட்ட காப்புப்பிரதி உருவாக்கப்பட்டது (%s)"
 
 # OpenPGP Key Management
-msgid "OpenPGP Key Management"
-msgstr "OpenPGP Key Management"
+#~ msgid "OpenPGP Key Management"
+#~ msgstr "OpenPGP Key Management"
 
-msgid "Actions"
-msgstr "Actions"
+#~ msgid "Actions"
+#~ msgstr "Actions"
 
-msgid "Generate New Key"
-msgstr "Generate New Key"
+#~ msgid "Generate New Key"
+#~ msgstr "Generate New Key"
 
-msgid "Import Key"
-msgstr "Import Key"
+#~ msgid "Import Key"
+#~ msgstr "Import Key"
 
-msgid "Your Keys"
-msgstr "Your Keys"
+#~ msgid "Your Keys"
+#~ msgstr "Your Keys"
 
-msgid "Fingerprint"
-msgstr "Fingerprint"
+#~ msgid "Fingerprint"
+#~ msgstr "Fingerprint"
 
-msgid "Export Public Key"
-msgstr "Export Public Key"
+#~ msgid "Export Public Key"
+#~ msgstr "Export Public Key"
 
-msgid "Delete Key"
-msgstr "Delete Key"
+#~ msgid "Delete Key"
+#~ msgstr "Delete Key"
 
-msgid "Name"
-msgstr "Name"
+#~ msgid "Name"
+#~ msgstr "Name"
 
-msgid "Email"
-msgstr "Email"
+#~ msgid "Email"
+#~ msgstr "Email"
 
-msgid "Passphrase"
-msgstr "Passphrase"
+#~ msgid "Passphrase"
+#~ msgstr "Passphrase"
 
-msgid "Generate"
-msgstr "Generate"
+#~ msgid "Generate"
+#~ msgstr "Generate"
 
-msgid "Select OpenPGP Key"
-msgstr "Select OpenPGP Key"
+#~ msgid "Select OpenPGP Key"
+#~ msgstr "Select OpenPGP Key"
 
-msgid "Wrong passphrase"
-msgstr "Wrong passphrase"
+#~ msgid "Wrong passphrase"
+#~ msgstr "Wrong passphrase"
 
-msgid "Manage Keys"
-msgstr "Manage Keys"
+#~ msgid "Manage Keys"
+#~ msgstr "Manage Keys"
 
-msgid "Announce key"
-msgstr "Announce key"
+#~ msgid "Announce key"
+#~ msgstr "Announce key"
 
-msgid "Disabled"
-msgstr "Disabled"
+#~ msgid "Disabled"
+#~ msgstr "Disabled"
 
-msgid "Success"
-msgstr "Success"
+#~ msgid "Success"
+#~ msgstr "Success"
 
-msgid "OK"
-msgstr "OK"
+#~ msgid "Create a new OpenPGP key pair"
+#~ msgstr "புதிய OpenPGP விசை ஜோடி உருவாக்கு"
 
-msgid "Create a new OpenPGP key pair"
-msgstr "புதிய OpenPGP விசை ஜோடி உருவாக்கு"
+#~ msgid "Import a key from file (.asc, .gpg)"
+#~ msgstr "கோப்பிலிருந்து விசை இறக்கு (.asc, .gpg)"
 
-msgid "Import a key from file (.asc, .gpg)"
-msgstr "கோப்பிலிருந்து விசை இறக்கு (.asc, .gpg)"
+#~ msgid "Private keys available for signing and decryption"
+#~ msgstr "கையொப்பமிடல் மற்றும் மறைகுறியீட்டுக்கு கிடைக்கும் தனிப்பட்ட விசைகள்"
 
-msgid "Private keys available for signing and decryption"
-msgstr "கையொப்பமிடல் மற்றும் மறைகுறியீட்டுக்கு கிடைக்கும் தனிப்பட்ட விசைகள்"
+#~ msgid "No private keys found"
+#~ msgstr "தனிப்பட்ட விசைகள் கிடைக்கவில்லை"
 
-msgid "No private keys found"
-msgstr "தனிப்பட்ட விசைகள் கிடைக்கவில்லை"
+#~ msgid "Generate or import a key to get started"
+#~ msgstr "தொடங்க ஒரு விசை உருவாக்கவும் அல்லது இறக்கவும்"
 
-msgid "Generate or import a key to get started"
-msgstr "தொடங்க ஒரு விசை உருவாக்கவும் அல்லது இறக்கவும்"
+#~ msgid "Generate New OpenPGP Key"
+#~ msgstr "புதிய OpenPGP விசை உருவாக்கு"
 
-msgid "Generate New OpenPGP Key"
-msgstr "புதிய OpenPGP விசை உருவாக்கு"
+#~ msgid "Enter your details to create a new key pair."
+#~ msgstr "புதிய விசை ஜோடி உருவாக்க உங்கள் விவரங்களை உள்ளிடவும்."
 
-msgid "Enter your details to create a new key pair."
-msgstr "புதிய விசை ஜோடி உருவாக்க உங்கள் விவரங்களை உள்ளிடவும்."
+#~ msgid "Your Name"
+#~ msgstr "உங்கள் பெயர்"
 
-msgid "Your Name"
-msgstr "உங்கள் பெயர்"
+#~ msgid "you@example.com"
+#~ msgstr "you@example.com"
 
-msgid "you@example.com"
-msgstr "you@example.com"
+#~ msgid "Passphrase (optional)"
+#~ msgstr "கடவுச்சொற்றொடர் (விருப்பமானது)"
 
-msgid "Passphrase (optional)"
-msgstr "கடவுச்சொற்றொடர் (விருப்பமானது)"
+#~ msgid "4096-bit RSA key, valid for 2 years."
+#~ msgstr "4096-பிட் RSA விசை, 2 ஆண்டுகள் செல்லுபடியாகும்."
 
-msgid "4096-bit RSA key, valid for 2 years."
-msgstr "4096-பிட் RSA விசை, 2 ஆண்டுகள் செல்லுபடியாகும்."
+#~ msgid "Name must be at least 2 characters"
+#~ msgstr "பெயர் குறைந்தது 2 எழுத்துக்கள் இருக்க வேண்டும்"
 
-msgid "Name must be at least 2 characters"
-msgstr "பெயர் குறைந்தது 2 எழுத்துக்கள் இருக்க வேண்டும்"
+#~ msgid "Please enter a valid email address"
+#~ msgstr "சரியான மின்னஞ்சல் முகவரியை உள்ளிடவும்"
 
-msgid "Please enter a valid email address"
-msgstr "சரியான மின்னஞ்சல் முகவரியை உள்ளிடவும்"
+#~ msgid "Generating Key..."
+#~ msgstr "விசை உருவாக்குகிறது..."
 
-msgid "Generating Key..."
-msgstr "விசை உருவாக்குகிறது..."
+#~ msgid "Key generated successfully!"
+#~ msgstr "விசை வெற்றிகரமாக உருவாக்கப்பட்டது!"
 
-msgid "Please wait while your key is being generated. This may take a moment."
-msgstr "உங்கள் விசை உருவாக்கப்படும் வரை காத்திருக்கவும். இது சிறிது நேரம் ஆகலாம்."
+#~ msgid "Import OpenPGP Key"
+#~ msgstr "OpenPGP விசை இறக்கு"
 
-msgid "Key generated successfully!"
-msgstr "விசை வெற்றிகரமாக உருவாக்கப்பட்டது!"
+#~ msgid "OpenPGP Keys (*.asc, *.gpg)"
+#~ msgstr "OpenPGP விசைகள் (*.asc, *.gpg)"
 
-msgid "Failed to generate key."
-msgstr "விசை உருவாக்க முடியவில்லை."
+#~ msgid "All Files"
+#~ msgstr "எல்லா கோப்புகளும்"
 
-msgid "Import OpenPGP Key"
-msgstr "OpenPGP விசை இறக்கு"
+#~ msgid "Key imported! Re-open Key Management to see it."
+#~ msgstr "விசை இறக்கப்பட்டது! பார்க்க விசை நிர்வாகத்தை மீண்டும் திறக்கவும்."
 
-msgid "OpenPGP Keys (*.asc, *.gpg)"
-msgstr "OpenPGP விசைகள் (*.asc, *.gpg)"
+#~ msgid "Import failed: "
+#~ msgstr "இறக்குமதி தோல்வி: "
 
-msgid "All Files"
-msgstr "எல்லா கோப்புகளும்"
+#~ msgid "Key exported to: "
+#~ msgstr "விசை ஏற்றுமதி செய்யப்பட்டது: "
 
-msgid "Key imported! Re-open Key Management to see it."
-msgstr "விசை இறக்கப்பட்டது! பார்க்க விசை நிர்வாகத்தை மீண்டும் திறக்கவும்."
+#~ msgid "Export failed."
+#~ msgstr "ஏற்றுமதி தோல்வி."
 
-msgid "Import failed: "
-msgstr "இறக்குமதி தோல்வி: "
+#~ msgid "Delete Key?"
+#~ msgstr "விசை நீக்கவா?"
 
-msgid "Key exported to: "
-msgstr "விசை ஏற்றுமதி செய்யப்பட்டது: "
+#~ msgid ""
+#~ "Delete this key?\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "This cannot be undone!"
+#~ msgstr ""
+#~ "இந்த விசையை நீக்கவா?\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "இதை மாற்ற முடியாது!"
 
-msgid "Export failed."
-msgstr "ஏற்றுமதி தோல்வி."
+#~ msgid "Key deleted."
+#~ msgstr "விசை நீக்கப்பட்டது."
 
-msgid "Delete Key?"
-msgstr "விசை நீக்கவா?"
+#~ msgid "Delete failed: "
+#~ msgstr "நீக்குதல் தோல்வி: "
 
-msgid ""
-"Delete this key?\n"
-"\n"
-"%s\n"
-"\n"
-"This cannot be undone!"
-msgstr ""
-"இந்த விசையை நீக்கவா?\n"
-"\n"
-"%s\n"
-"\n"
-"இதை மாற்ற முடியாது!"
+#~ msgid "Choose a key to announce to your contacts."
+#~ msgstr "உங்கள் தொடர்புகளுக்கு அறிவிக்க ஒரு விசை தேர்வு செய்யவும்."
 
-msgid "Key deleted."
-msgstr "விசை நீக்கப்பட்டது."
+#~ msgid "Enter GPG passphrase to confirm:"
+#~ msgstr "உறுதிப்படுத்த GPG கடவுச்சொற்றொடர் உள்ளிடவும்:"
 
-msgid "Delete failed: "
-msgstr "நீக்குதல் தோல்வி: "
+#~ msgid "Generate, import, export, or delete keys"
+#~ msgstr "விசைகளை உருவாக்கு, இறக்கு, ஏற்றுமதி செய் அல்லது நீக்கு"
 
-msgid "Choose a key to announce to your contacts."
-msgstr "உங்கள் தொடர்புகளுக்கு அறிவிக்க ஒரு விசை தேர்வு செய்யவும்."
+#~ msgid "No keys available. Generate or import one!"
+#~ msgstr "விசைகள் கிடைக்கவில்லை. ஒன்று உருவாக்கவும் அல்லது இறக்கவும்!"
 
-msgid "Enter GPG passphrase to confirm:"
-msgstr "உறுதிப்படுத்த GPG கடவுச்சொற்றொடர் உள்ளிடவும்:"
-
-msgid "Generate, import, export, or delete keys"
-msgstr "விசைகளை உருவாக்கு, இறக்கு, ஏற்றுமதி செய் அல்லது நீக்கு"
-
-msgid "No keys available. Generate or import one!"
-msgstr "விசைகள் கிடைக்கவில்லை. ஒன்று உருவாக்கவும் அல்லது இறக்கவும்!"
-
-msgid "Error in GnuPG"
-msgstr "GnuPG-ல் பிழை"
+#~ msgid "Error in GnuPG"
+#~ msgstr "GnuPG-ல் பிழை"
 
 #~ msgid "Message too long"
 #~ msgstr "செய்தி மிக நீளமானது"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-28 12:18+0100\n"
+"POT-Creation-Date: 2025-12-01 10:28+0100\n"
 "PO-Revision-Date: 2025-03-12 18:09+0000\n"
 "Language-Team: none\n"
 "Language: hi\n"
@@ -99,14 +99,14 @@ msgstr "सामान्य"
 #: main/data/gtk/help-overlay.ui:14 main/data/main_window.ui:38
 #: main/data/menu_add.ui:7
 #: main/src/ui/add_conversation/select_contact_dialog.vala:106
-#: main/src/ui/main_window.vala:141
+#: main/src/ui/main_window.vala:154
 msgid "Start Conversation"
 msgstr "बातचीत प्रारंभ करें"
 
 #: main/data/gtk/help-overlay.ui:20 main/data/main_window.ui:51
 #: main/data/menu_add.ui:11
 #: main/src/ui/add_conversation/add_conference_dialog.vala:24
-#: main/src/ui/application.vala:527 main/src/ui/main_window.vala:142
+#: main/src/ui/application.vala:1359 main/src/ui/main_window.vala:155
 msgid "Join Channel"
 msgstr "चैनल से जुड़ें"
 
@@ -147,7 +147,7 @@ msgstr "अगली बातचीत पर जाएं"
 msgid "Jump to previous conversation"
 msgstr "पिछली बातचीत पर जाएं"
 
-#: main/data/main_window.ui:64 main/src/ui/main_window.vala:144
+#: main/data/main_window.ui:64 main/src/ui/main_window.vala:157
 msgid "Help: How to join channels"
 msgstr "सहायता: चैनलों में कैसे शामिल हों"
 
@@ -165,28 +165,28 @@ msgstr "स्थिति"
 
 #: main/data/menu_app.ui:11
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:427
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Online"
 msgstr "ऑनलाइन"
 
 #: main/data/menu_app.ui:16
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:421
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Away"
 msgstr "दूर"
 
 #: main/data/menu_app.ui:21
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:425
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Busy"
 msgstr "व्यस्त"
 
 #: main/data/menu_app.ui:26
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:423
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Not Available"
 msgstr "उपलब्ध नहीं"
@@ -199,7 +199,7 @@ msgstr "प्राथमिकताएं"
 msgid "Keyboard Shortcuts"
 msgstr "कीबोर्ड शॉर्टकट"
 
-#: main/data/menu_app.ui:42 main/src/ui/application.vala:334
+#: main/data/menu_app.ui:42 main/src/ui/application.vala:340
 msgid "About DinoX"
 msgstr "DinoX के बारे में"
 
@@ -218,7 +218,10 @@ msgstr "बातचीत का इतिहास हटाएं"
 #: main/data/preferences_window/change_password_dialog.ui:18
 #: main/src/ui/add_conversation/add_conference_dialog.vala:41
 #: main/src/ui/add_conversation/select_contact_dialog.vala:40
-#: main/src/ui/application.vala:537
+#: main/src/ui/application.vala:441 main/src/ui/application.vala:469
+#: main/src/ui/application.vala:765 main/src/ui/application.vala:843
+#: main/src/ui/application.vala:901 main/src/ui/application.vala:933
+#: main/src/ui/application.vala:1089 main/src/ui/application.vala:1369
 #: main/src/ui/conversation_content_view/file_default_widget.vala:90
 #: main/src/ui/conversation_content_view/item_actions.vala:165
 #: main/src/ui/conversation_content_view/item_actions.vala:168
@@ -233,7 +236,7 @@ msgstr "बातचीत का इतिहास हटाएं"
 #: main/src/ui/conversation_titlebar/call_entry.vala:83
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
 #: main/src/windows/conversation_details.vala:60
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:67
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:68
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:205
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:225
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:249
@@ -257,6 +260,7 @@ msgid "Local alias"
 msgstr "स्थानीय उपनाम"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:82
+#: main/src/ui/application.vala:435 main/src/ui/application.vala:1064
 #: main/src/ui/util/data_forms.vala:63
 msgid "Password"
 msgstr "पासवर्ड"
@@ -265,20 +269,24 @@ msgstr "पासवर्ड"
 msgid "Connection status"
 msgstr "कनेक्शन स्थिति"
 
+#: main/data/preferences_window/account_preferences_subpage.ui:117
+msgid "View Certificate"
+msgstr "प्रमाणपत्र देखें"
+
 # Custom host/port feature (Issue #115)
-#: main/data/preferences_window/account_preferences_subpage.ui:121
+#: main/data/preferences_window/account_preferences_subpage.ui:128
 msgid "Advanced Settings"
 msgstr "उन्नत सेटिंग्स"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:122
+#: main/data/preferences_window/account_preferences_subpage.ui:129
 msgid "Custom server connection (leave empty for automatic)"
 msgstr "कस्टम सर्वर कनेक्शन (स्वचालित के लिए खाली छोड़ें)"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:125
+#: main/data/preferences_window/account_preferences_subpage.ui:132
 msgid "Server Hostname"
 msgstr "सर्वर होस्टनाम"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:130
+#: main/data/preferences_window/account_preferences_subpage.ui:137
 msgid "Port"
 msgstr "पोर्ट"
 
@@ -348,12 +356,52 @@ msgid "Create a backup of your accounts, messages and settings"
 msgstr "अपने खातों, संदेशों और सेटिंग्स का बैकअप बनाएं"
 
 #: main/data/preferences_window/general_preferences_page.ui:78
-msgid "Data Location"
-msgstr "डेटा स्थान"
+#: main/src/ui/application.vala:464 main/src/ui/main_window.vala:223
+msgid "Restore from Backup"
+msgstr "बैकअप से पुनर्स्थापित करें"
 
 #: main/data/preferences_window/general_preferences_page.ui:79
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "बैकअप फ़ाइल से खाते, संदेश और सेटिंग्स पुनर्स्थापित करें"
+
+#: main/data/preferences_window/general_preferences_page.ui:90
+msgid "Data Storage Location"
+msgstr "डेटा संग्रहण स्थान"
+
+#: main/data/preferences_window/general_preferences_page.ui:91
 msgid "View where your data is stored"
 msgstr "देखें कि आपका डेटा कहां संग्रहीत है"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "डेटाबेस रखरखाव"
+
+#: main/data/preferences_window/general_preferences_page.ui:107
+#: main/src/ui/application.vala:761 main/src/ui/application.vala:766
+msgid "Clear Cache"
+msgstr "कैश साफ़ करें"
+
+#: main/data/preferences_window/general_preferences_page.ui:108
+msgid "Clear cached files, avatars and previews"
+msgstr "कैश की गई फ़ाइलें, अवतार और पूर्वावलोकन साफ़ करें"
+
+#: main/data/preferences_window/general_preferences_page.ui:119
+#: main/src/ui/application.vala:838 main/src/ui/application.vala:844
+msgid "Reset Database"
+msgstr "डेटाबेस रीसेट करें"
+
+#: main/data/preferences_window/general_preferences_page.ui:120
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr "सभी संदेश, फ़ाइलें और OMEMO कुंजियाँ हटाएं। आपके खाते बने रहेंगे।"
+
+#: main/data/preferences_window/general_preferences_page.ui:131
+#: main/src/ui/application.vala:896
+msgid "Factory Reset"
+msgstr "फ़ैक्टरी रीसेट"
+
+#: main/data/preferences_window/general_preferences_page.ui:132
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr "खातों सहित सभी डेटा हटाएं। इसे पूर्ववत नहीं किया जा सकता!"
 
 #: main/data/preferences_window/preferences_dialog.ui:11
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:15
@@ -378,7 +426,7 @@ msgstr "अगला"
 
 #: main/src/ui/add_conversation/add_conference_dialog.vala:59
 #: main/src/ui/add_conversation/conference_details_fragment.vala:151
-#: main/src/ui/application.vala:541
+#: main/src/ui/application.vala:1373
 msgid "Join"
 msgstr "जुड़ें"
 
@@ -464,45 +512,149 @@ msgstr "संपर्क हटाएं"
 msgid "Leave Group"
 msgstr "समूह छोड़ें"
 
-#: main/src/ui/application.vala:339
+#: main/src/ui/application.vala:345
 msgid "Modern XMPP client with extended features"
 msgstr "विस्तारित सुविधाओं वाला आधुनिक XMPP क्लाइंट"
 
-#: main/src/ui/application.vala:346 main/src/ui/application.vala:385
+#: main/src/ui/application.vala:352 main/src/ui/application.vala:727
 msgid "User Data Locations"
 msgstr "उपयोगकर्ता डेटा स्थान"
 
-#: main/src/ui/application.vala:349 main/src/ui/application.vala:399
+#: main/src/ui/application.vala:355 main/src/ui/application.vala:741
 msgid "Configuration:"
 msgstr "विन्यास:"
 
-#: main/src/ui/application.vala:352 main/src/ui/application.vala:401
+#: main/src/ui/application.vala:358 main/src/ui/application.vala:743
 msgid "Data & Database:"
 msgstr "डेटा और डेटाबेस:"
 
-#: main/src/ui/application.vala:355 main/src/ui/application.vala:403
+#: main/src/ui/application.vala:361 main/src/ui/application.vala:745
 msgid "Cache:"
 msgstr "कैश:"
 
-#: main/src/ui/application.vala:358
+#: main/src/ui/application.vala:364
 msgid "Info:"
 msgstr "जानकारी:"
 
-#: main/src/ui/application.vala:359
+#: main/src/ui/application.vala:365
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
 msgstr "आपका व्यक्तिगत डेटा (खाते, संदेश, फ़ाइलें) एप्लिकेशन से अलग संग्रहीत किया जाता है।"
 
-#: main/src/ui/application.vala:361
+#: main/src/ui/application.vala:367
 msgid "When you update DinoX, your data remains intact."
 msgstr "जब आप DinoX अपडेट करते हैं, तो आपका डेटा सुरक्षित रहता है।"
 
-#: main/src/ui/application.vala:363
+#: main/src/ui/application.vala:369
 msgid "Use Settings → General → Backup User Data to create a backup."
 msgstr "बैकअप बनाने के लिए सेटिंग्स → सामान्य → उपयोगकर्ता डेटा बैकअप का उपयोग करें।"
 
-#: main/src/ui/application.vala:405
+#: main/src/ui/application.vala:387
+msgid "Select Backup File"
+msgstr "बैकअप फ़ाइल चुनें"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+#: main/src/ui/application.vala:395
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "बैकअप फ़ाइलें (*.tar.gz, *.tar.gz.gpg)"
+
+#: main/src/ui/application.vala:425
+msgid "Enter Backup Password"
+msgstr "बैकअप पासवर्ड दर्ज करें"
+
+#: main/src/ui/application.vala:426
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "यह बैकअप एन्क्रिप्टेड है। डिक्रिप्ट करने के लिए पासवर्ड दर्ज करें।"
+
+#: main/src/ui/application.vala:442
+msgid "Decrypt & Restore"
+msgstr "डिक्रिप्ट और पुनर्स्थापित करें"
+
+#: main/src/ui/application.vala:465
+msgid ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+msgstr ""
+"यह बैकअप के साथ सभी मौजूदा डेटा को बदल देगा।\n"
+"\n"
+"<b>मौजूदा खाते, संदेश और सेटिंग्स अधिलेखित हो जाएंगे!</b>\n"
+"\n"
+"पुनर्स्थापना के बाद DinoX पुनरारंभ होगा।"
+
+#: main/src/ui/application.vala:470
+msgid "Restore Backup"
+msgstr "बैकअप पुनर्स्थापित करें"
+
+#: main/src/ui/application.vala:487 main/src/ui/application.vala:519
+msgid "Decrypting Backup..."
+msgstr "बैकअप डिक्रिप्ट किया जा रहा है..."
+
+#: main/src/ui/application.vala:487 main/src/ui/application.vala:571
+msgid "Restoring Backup..."
+msgstr "बैकअप पुनर्स्थापित किया जा रहा है..."
+
+#: main/src/ui/application.vala:488
+msgid "Please wait, this may take a moment..."
+msgstr "कृपया प्रतीक्षा करें, इसमें कुछ समय लग सकता है..."
+
+#: main/src/ui/application.vala:520
+msgid "Decrypting encrypted backup file..."
+msgstr "बैकअप फ़ाइल डिक्रिप्ट कर रहा है..."
+
+#: main/src/ui/application.vala:558
+msgid "Decryption Failed"
+msgstr "डिक्रिप्शन विफल"
+
+#: main/src/ui/application.vala:559
+msgid ""
+"Could not decrypt the backup file.\n"
+"\n"
+"Please check if the password is correct."
+msgstr ""
+"बैकअप फ़ाइल को डिक्रिप्ट नहीं किया जा सका.\n"
+"\n"
+"कृपया जांचें कि पासवर्ड सही है।"
+
+#: main/src/ui/application.vala:561 main/src/ui/application.vala:671
+msgid "OK"
+msgstr "OK"
+
+#: main/src/ui/application.vala:572
+msgid "Extracting files from backup..."
+msgstr "बैकअप से फ़ाइलें निकाल रहा है..."
+
+#: main/src/ui/application.vala:653
+msgid "Restore Complete!"
+msgstr "पुनर्स्थापना पूर्ण!"
+
+#: main/src/ui/application.vala:654
+msgid "DinoX will now restart..."
+msgstr "DinoX अब पुनः आरंभ होगा..."
+
+#: main/src/ui/application.vala:668
+msgid "Restore Failed"
+msgstr "पुनर्स्थापना विफल"
+
+#: main/src/ui/application.vala:669
+#, c-format
+msgid ""
+"Could not restore the backup file.\n"
+"\n"
+"Error: %s"
+msgstr ""
+"बैकअप फ़ाइल को पुनर्स्थापित नहीं किया जा सका.\n"
+"\n"
+"त्रुटि: %s"
+
+#: main/src/ui/application.vala:669 main/src/ui/application.vala:1345
+msgid "Unknown error"
+msgstr "अज्ञात त्रुटि"
+
+#: main/src/ui/application.vala:747
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
@@ -510,96 +662,243 @@ msgstr ""
 "आपका व्यक्तिगत डेटा (खाते, संदेश, फ़ाइलें) एप्लिकेशन से अलग संग्रहीत किया जाता है। जब आप "
 "DinoX को अपडेट करते हैं, तो आपका डेटा बरकरार रहता है।"
 
-#: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
-#: main/src/ui/main_window.vala:159
+#: main/src/ui/application.vala:752 main/src/ui/application.vala:1240
+#: main/src/ui/application.vala:1324 main/src/ui/conversation_details.vala:272
+#: main/src/ui/main_window.vala:172
 msgid "Close"
 msgstr "बंद करें"
 
-#: main/src/ui/application.vala:417
+#: main/src/ui/application.vala:762
+msgid ""
+"This will delete cached files, avatars and previews.\n"
+"\n"
+"They will be re-downloaded when needed."
+msgstr ""
+"यह कैश की गई फ़ाइलों, अवतारों और पूर्वावलोकनों को हटा देगा।\n"
+"\n"
+"आवश्यकता होने पर उन्हें फिर से डाउनलोड किया जाएगा।"
+
+#: main/src/ui/application.vala:799
+#, c-format
+msgid "Cache cleared (%s freed)"
+msgstr "कैश साफ़ किया गया (%s मुक्त)"
+
+#: main/src/ui/application.vala:802
+msgid "Failed to clear cache"
+msgstr "कैश साफ़ करने में विफल"
+
+#: main/src/ui/application.vala:839
+msgid ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+msgstr ""
+"यह सभी संदेशों, फ़ाइलों और OMEMO एन्क्रिप्शन कुंजियों को हटा देगा।\n"
+"\n"
+"<b>आपके खाते बने रहेंगे, लेकिन आप सभी चैट इतिहास खो देंगे और आपको अपने संपर्कों के साथ "
+"एन्क्रिप्शन को फिर से सत्यापित करने की आवश्यकता होगी।</b>\n"
+"\n"
+"यह क्रिया पूर्ववत नहीं की जा सकती!"
+
+#: main/src/ui/application.vala:867
+msgid "Resetting database... DinoX will restart."
+msgstr "डेटाबेस रीसेट हो रहा है... DinoX पुनः आरंभ होगा।"
+
+#: main/src/ui/application.vala:897
+msgid ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+msgstr ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+
+#: main/src/ui/application.vala:902
+msgid "Create Backup First"
+msgstr "पहले बैकअप बनाएँ"
+
+#: main/src/ui/application.vala:903
+msgid "Delete Everything"
+msgstr "सब कुछ हटाएँ"
+
+#: main/src/ui/application.vala:923
+msgid "Are you absolutely sure?"
+msgstr "क्या आप पूरी तरह सुनिश्चित हैं?"
+
+#: main/src/ui/application.vala:924
+msgid ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+msgstr ""
+"फ़ैक्टरी रीसेट की पुष्टि करने के लिए 'DELETE' टाइप करें।\n"
+"\n"
+"यह आपके सभी DinoX डेटा को स्थायी रूप से हटा देगा।"
+
+#: main/src/ui/application.vala:934
+msgid "Confirm Delete"
+msgstr "हटाने की पुष्टि करें"
+
+#: main/src/ui/application.vala:961
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "फ़ैक्टरी रीसेट प्रगति पर है... DinoX पुनः आरंभ होगा।"
+
+#: main/src/ui/application.vala:1026
+msgid "Backup Encryption"
+msgstr "बैकअप एन्क्रिप्शन"
+
+#: main/src/ui/application.vala:1027
+msgid ""
+"Do you want to encrypt the backup with a password?\n"
+"\n"
+"Encrypted backups are more secure but require the password to restore."
+msgstr ""
+"क्या आप बैकअप को पासवर्ड से एन्क्रिप्ट करना चाहते हैं?\n"
+"\n"
+"एन्क्रिप्टेड बैकअप अधिक सुरक्षित होते हैं लेकिन पुनर्स्थापित करने के लिए पासवर्ड की आवश्यकता होती है।"
+
+#: main/src/ui/application.vala:1030
+msgid "No Encryption"
+msgstr "कोई एन्क्रिप्शन नहीं"
+
+#: main/src/ui/application.vala:1031
+msgid "Encrypt with Password"
+msgstr "पासवर्ड के साथ एन्क्रिप्ट करें"
+
+#: main/src/ui/application.vala:1049
+msgid "Set Backup Password"
+msgstr "बैकअप पासवर्ड सेट करें"
+
+#: main/src/ui/application.vala:1050
+msgid ""
+"Enter a password to encrypt the backup.\n"
+"\n"
+"<b>Important:</b> Remember this password! Without it, the backup cannot be "
+"restored."
+msgstr ""
+"बैकअप को एन्क्रिप्ट करने के लिए पासवर्ड दर्ज करें।\n"
+"\n"
+"<b>महत्वपूर्ण:</b> यह पासवर्ड याद रखें! इसके बिना, बैकअप को पुनर्स्थापित नहीं किया जा "
+"सकता।"
+
+#: main/src/ui/application.vala:1058
+msgid "Password (minimum 4 characters)"
+msgstr "पासवर्ड (न्यूनतम 4 अक्षर)"
+
+#: main/src/ui/application.vala:1066 main/src/ui/application.vala:1073
+msgid "Confirm Password"
+msgstr "पासवर्ड की पुष्टि करें"
+
+#: main/src/ui/application.vala:1090
+msgid "Create Encrypted Backup"
+msgstr "एन्क्रिप्टेड बैकअप बनाएँ"
+
+#: main/src/ui/application.vala:1102 main/src/ui/application.vala:1117
+msgid "Password too short"
+msgstr "पासवर्ड बहुत छोटा है"
+
+#: main/src/ui/application.vala:1104 main/src/ui/application.vala:1119
+msgid "Passwords do not match"
+msgstr "पासवर्ड मेल नहीं खाते"
+
+#: main/src/ui/application.vala:1106 main/src/ui/application.vala:1121
+msgid "✓ Passwords match"
+msgstr "✓ पासवर्ड मेल खाते हैं"
+
+#: main/src/ui/application.vala:1139
 msgid "Select Backup Location"
 msgstr "बैकअप स्थान चुनें"
 
-#: main/src/ui/application.vala
-msgid "Creating Backup..."
-msgstr "Creating Backup..."
-
-#: main/src/ui/application.vala
+#: main/src/ui/application.vala:1194
 msgid "Creating Encrypted Backup..."
-msgstr "Creating Encrypted Backup..."
+msgstr "एन्क्रिप्टेड बैकअप बनाया जा रहा है..."
 
-#: main/src/ui/application.vala
+#: main/src/ui/application.vala:1194
+msgid "Creating Backup..."
+msgstr "बैकअप बनाया जा रहा है..."
+
+#: main/src/ui/application.vala:1195
 msgid "Please wait while your data is being backed up."
-msgstr "Please wait while your data is being backed up."
+msgstr "कृपया प्रतीक्षा करें, आपके डेटा का बैकअप लिया जा रहा है।"
 
-#: main/src/ui/application.vala
-msgid "No data directories found to backup"
-msgstr "No data directories found to backup"
+#: main/src/ui/application.vala:1234
+msgid "No data directory found to backup"
+msgstr "बैकअप के लिए कोई डेटा निर्देशिका नहीं मिली"
 
-#: main/src/ui/application.vala
-msgid "Backup Created"
-msgstr "Backup Created"
-
-#: main/src/ui/application.vala
-msgid "Encrypted Backup Created"
-msgstr "Encrypted Backup Created"
-
-#: main/src/ui/application.vala
-#, c-format
-msgid "Your backup was created successfully.\\n\\nSize: %s"
-msgstr "Your backup was created successfully.\\n\\nSize: %s"
-
-#: main/src/ui/application.vala
-msgid "Your backup was created successfully."
-msgstr "Your backup was created successfully."
-
-#: main/src/ui/application.vala
-#, c-format
-msgid "Your encrypted backup was created successfully.\\n\\nSize: %s"
-msgstr "Your encrypted backup was created successfully.\\n\\nSize: %s"
-
-#: main/src/ui/application.vala
-msgid "Your encrypted backup was created successfully."
-msgstr "Your encrypted backup was created successfully."
-
-#: main/src/ui/application.vala
+#: main/src/ui/application.vala:1237 main/src/ui/application.vala:1343
 msgid "Backup Failed"
-msgstr "Backup Failed"
+msgstr "बैकअप विफल"
 
-#: main/src/ui/application.vala:445
-msgid "Creating backup..."
-msgstr "बैकअप बना रहा है..."
+#: main/src/ui/application.vala:1331
+msgid "Encrypted Backup Created"
+msgstr "एन्क्रिप्टेड बैकअप बनाया गया"
 
-#: main/src/ui/application.vala:503
+#: main/src/ui/application.vala:1333
 #, c-format
-msgid "Backup created successfully (%s)"
-msgstr "बैकअप सफलतापूर्वक बनाया गया (%s)"
+msgid ""
+"Your encrypted backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"आपका एन्क्रिप्टेड बैकअप सफलतापूर्वक बनाया गया।\n"
+"\n"
+"आकार: %s"
 
-#: main/src/ui/application.vala:505
-msgid "Backup created successfully"
-msgstr "बैकअप सफलतापूर्वक बनाया गया"
+#: main/src/ui/application.vala:1334
+msgid "Your encrypted backup was created successfully."
+msgstr "आपका एन्क्रिप्टेड बैकअप सफलतापूर्वक बनाया गया।"
 
-#: main/src/ui/application.vala:510
-msgid "Unknown error"
-msgstr "अज्ञात त्रुटि"
+#: main/src/ui/application.vala:1336
+msgid "Backup Created"
+msgstr "बैकअप बनाया गया"
 
-#: main/src/ui/application.vala:511
+#: main/src/ui/application.vala:1338
+#, c-format
+msgid ""
+"Your backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"आपका बैकअप सफलतापूर्वक बनाया गया।\n"
+"\n"
+"आकार: %s"
+
+#: main/src/ui/application.vala:1339
+msgid "Your backup was created successfully."
+msgstr "आपका बैकअप सफलतापूर्वक बनाया गया।"
+
+#: main/src/ui/application.vala:1346
 #, c-format
 msgid "Backup failed: %s"
 msgstr "बैकअप विफल: %s"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:29
+#: main/src/ui/call_window/audio_settings_popover.vala:46
 msgid "Microphones"
 msgstr "माइक्रोफोन"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:32
+#: main/src/ui/call_window/audio_settings_popover.vala:49
 msgid "No microphone found."
 msgstr "कोई माइक्रोफोन नहीं मिला।"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:85
+#: main/src/ui/call_window/audio_settings_popover.vala:116
 msgid "Speakers"
 msgstr "स्पीकर"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:88
+#: main/src/ui/call_window/audio_settings_popover.vala:119
 msgid "No speaker found."
 msgstr "कोई स्पीकर नहीं मिला।"
 
@@ -615,7 +914,7 @@ msgstr "कॉल हेतु आमंत्रित करें"
 msgid "Invite"
 msgstr "आमंत्रित करें"
 
-#: main/src/ui/call_window/call_window_controller.vala:405
+#: main/src/ui/call_window/call_window_controller.vala:453
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:240
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:270
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:285
@@ -634,21 +933,21 @@ msgstr "%s ने कॉल समाप्त कर दी"
 msgid "%s declined the call"
 msgstr "%s ने कॉल को काट दिया"
 
-#: main/src/ui/call_window/participant_widget.vala:115
+#: main/src/ui/call_window/participant_widget.vala:140
 msgid "Debug information"
 msgstr "डिबग जानकारी"
 
-#: main/src/ui/call_window/participant_widget.vala:124
+#: main/src/ui/call_window/participant_widget.vala:149
 #: main/src/ui/conversation_content_view/call_widget.vala:152
 msgid "Calling…"
 msgstr "कॉलिंग…"
 
-#: main/src/ui/call_window/participant_widget.vala:126
+#: main/src/ui/call_window/participant_widget.vala:151
 msgid "Ringing…"
 msgstr "घंटी बज रही है…"
 
-#: main/src/ui/call_window/participant_widget.vala:128
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:216
+#: main/src/ui/call_window/participant_widget.vala:153
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:244
 msgid "Connecting…"
 msgstr "कनेक्ट हो रहा है…"
 
@@ -882,7 +1181,7 @@ msgstr "%a, %l∶%M %p"
 msgid "Just now"
 msgstr "बस अभी"
 
-#: main/src/ui/conversation_content_view/conversation_view.vala:105
+#: main/src/ui/conversation_content_view/conversation_view.vala:106
 msgid "More actions"
 msgstr "अधिक क्रियाएं"
 
@@ -1099,6 +1398,38 @@ msgstr "नष्ट करें"
 msgid "Failed to destroy room"
 msgstr "कमरा नष्ट करने में विफल"
 
+#: main/src/ui/conversation_details.vala:286
+msgid "Auto-delete messages"
+msgstr "संदेशों को स्वचालित रूप से हटाएं"
+
+#: main/src/ui/conversation_details.vala:287
+msgid "Never"
+msgstr "कभी नहीं"
+
+#: main/src/ui/conversation_details.vala:288
+msgid "After 15 minutes"
+msgstr "15 मिनट बाद"
+
+#: main/src/ui/conversation_details.vala:289
+msgid "After 30 minutes"
+msgstr "30 मिनट बाद"
+
+#: main/src/ui/conversation_details.vala:290
+msgid "After 1 hour"
+msgstr "1 घंटे बाद"
+
+#: main/src/ui/conversation_details.vala:291
+msgid "After 24 hours"
+msgstr "24 घंटे बाद"
+
+#: main/src/ui/conversation_details.vala:292
+msgid "After 7 days"
+msgstr "7 दिन बाद"
+
+#: main/src/ui/conversation_details.vala:293
+msgid "After 30 days"
+msgstr "30 दिन बाद"
+
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:276
 #: main/src/ui/notifier_freedesktop.vala:71
 #: main/src/ui/notifier_gnotifications.vala:36
@@ -1244,6 +1575,7 @@ msgstr "संपर्क अनब्लॉक करें?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:702
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:247
+#, c-format
 msgid "This will allow %s to send you messages again."
 msgstr "यह %s को आपको फिर से संदेश भेजने की अनुमति देगा।"
 
@@ -1346,7 +1678,7 @@ msgid "Select file"
 msgstr "फाइल चुनें"
 
 #: main/src/ui/conversation_view_controller.vala:225
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:152
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:180
 msgid "Select"
 msgstr "चुनें"
 
@@ -1364,11 +1696,11 @@ msgstr "%s में"
 msgid "With %s"
 msgstr "%s के साथ"
 
-#: main/src/ui/main_window.vala:156
+#: main/src/ui/main_window.vala:169
 msgid "Join Channel Help"
 msgstr "चैनल जुड़ने में सहायता"
 
-#: main/src/ui/main_window.vala:157
+#: main/src/ui/main_window.vala:170
 msgid ""
 "To join a channel, click the \"Join Channel\" button and enter the channel "
 "JID (example: room@conference.example.org).\n"
@@ -1382,25 +1714,25 @@ msgstr ""
 "यदि आपको पासवर्ड या उपनाम की आवश्यकता है, तो उन्हें संवाद में प्रदान करें। सार्वजनिक कमरे "
 "खोजने के लिए सर्वर की खोज सुविधाओं का उपयोग करें।"
 
-#: main/src/ui/main_window.vala:206
+#: main/src/ui/main_window.vala:219
 msgid "Welcome to DinoX!"
 msgstr "DinoX में आपका स्वागत है!"
 
-#: main/src/ui/main_window.vala:207
+#: main/src/ui/main_window.vala:220
 msgid "Sign in or create an account to get started."
 msgstr "आरंभ करने के लिए साइन इन करें या खाता बनाएं।"
 
-#: main/src/ui/main_window.vala:208
+#: main/src/ui/main_window.vala:221
 msgid "Set up account"
 msgstr "खाता स्थापित करें"
 
-#: main/src/ui/main_window.vala:215
+#: main/src/ui/main_window.vala:230
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:71
 #: main/src/windows/preferences_window/encryption_preferences_page.vala:49
 msgid "No active accounts"
 msgstr "कोई सक्रिय खाता नहीं"
 
-#: main/src/ui/main_window.vala:216
+#: main/src/ui/main_window.vala:231
 msgid "Manage accounts"
 msgstr "खाते प्रबंधित करें"
 
@@ -1410,12 +1742,12 @@ msgid "Subscription request"
 msgstr "सदस्यता अनुरोध"
 
 #: main/src/ui/notifier_freedesktop.vala:192
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:231
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:259
 msgid "Wrong password"
 msgstr "गलत पासवर्ड"
 
 #: main/src/ui/notifier_freedesktop.vala:195
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:233
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:261
 msgid "Invalid TLS certificate"
 msgstr "अमान्य TLS प्रमाणपत्र"
 
@@ -1438,6 +1770,7 @@ msgstr "अनुमति अनुरोध"
 
 #: main/src/ui/notifier_freedesktop.vala:255
 #: main/src/ui/notifier_gnotifications.vala:142
+#, c-format
 msgid "%s requests the permission to write in %s"
 msgstr "%s को %s में लिखने की अनुमति चाहिए"
 
@@ -1605,6 +1938,7 @@ msgid "Today"
 msgstr "आज"
 
 #: main/src/ui/widgets/date_separator.vala:35
+#, no-c-format
 msgid "%a, %b %d"
 msgstr "%a, %b %d"
 
@@ -1656,45 +1990,45 @@ msgstr "सेटिंग"
 msgid "Room Configuration"
 msgstr "कक्ष विन्यास"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:68
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:69
 msgid "Connect"
 msgstr "जुड़ें"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:106
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
 msgid "Disable account"
 msgstr "खाता अक्षम करें"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:106
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
 msgid "Enable account"
 msgstr "खाता सक्षम करें"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:151
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:179
 msgid "Select avatar"
 msgstr "अवतार चुनें"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:162
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:190
 msgid "Images"
 msgstr "छवियां"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:166
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:194
 msgid "All files"
 msgstr "सभी फाइलें"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:184
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:212
 #, c-format
 msgid "Remove account %s?"
 msgstr "खाता %s हटाएं?"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:218
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:246
 msgid "Connected"
 msgstr "कनेक्टेड"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:220
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:248
 msgid "Disconnected"
 msgstr "डिस्कनेक्टेड"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:240
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:242
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:268
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:270
 msgid "Error"
 msgstr "त्रुटि"
 
@@ -1803,386 +2137,189 @@ msgstr "%s के लिए प्रदर्शन नाम बदलें"
 msgid "Alias (optional)"
 msgstr "उपनाम (वैकल्पिक)"
 
+#~ msgid "Creating backup..."
+#~ msgstr "बैकअप बना रहा है..."
+
+#, c-format
+#~ msgid "Backup created successfully (%s)"
+#~ msgstr "बैकअप सफलतापूर्वक बनाया गया (%s)"
+
+#~ msgid "Backup created successfully"
+#~ msgstr "बैकअप सफलतापूर्वक बनाया गया"
+
 # DinoX v0.7.7 - Database Maintenance & Backup/Restore
-msgid "Clean Database"
-msgstr "Clean Database"
+#~ msgid "Clean Database"
+#~ msgstr "Clean Database"
 
-msgid "Reset Database"
-msgstr "Reset Database"
+#~ msgid "Encrypting Backup..."
+#~ msgstr "Encrypting Backup..."
 
-msgid "Restore Complete!"
-msgstr "Restore Complete!"
+#~ msgid "Creating encrypted backup..."
+#~ msgstr "एन्क्रिप्टेड बैकअप बना रहा है..."
 
-msgid "Restore Failed"
-msgstr "Restore Failed"
+#~ msgid "Encrypted backup created successfully"
+#~ msgstr "एन्क्रिप्टेड बैकअप सफलतापूर्वक बनाया गया"
 
-msgid "Decrypting Backup..."
-msgstr "Decrypting Backup..."
-
-msgid "Restoring Backup..."
-msgstr "Restoring Backup..."
-
-msgid "Set Backup Password"
-msgstr "Set Backup Password"
-
-msgid "Confirm Password"
-msgstr "Confirm Password"
-
-msgid "Create Encrypted Backup"
-msgstr "Create Encrypted Backup"
-
-msgid "Password too short"
-msgstr "Password too short"
-
-msgid "Passwords do not match"
-msgstr "Passwords do not match"
-
-msgid "✓ Passwords match"
-msgstr "✓ Passwords match"
-
-msgid "Encrypting Backup..."
-msgstr "Encrypting Backup..."
-
-msgid "Factory Reset"
-msgstr "Factory Reset"
-
-msgid "Restore from Backup"
-msgstr "Restore from Backup"
-
-msgid "Restore Backup"
-msgstr "Restore Backup"
-
-msgid "Select Backup File"
-msgstr "Select Backup File"
-
-msgid "Enter Backup Password"
-msgstr "Enter Backup Password"
-
-msgid "Decrypt & Restore"
-msgstr "Decrypt & Restore"
-
-msgid "Create Backup First"
-msgstr "Create Backup First"
-
-msgid "No Encryption"
-msgstr "No Encryption"
-
-msgid "Encrypt with Password"
-msgstr "Encrypt with Password"
-
-msgid "Delete Everything"
-msgstr "Delete Everything"
-
-msgid "Confirm Delete"
-msgstr "Confirm Delete"
-
-msgid "Are you absolutely sure?"
-msgstr "Are you absolutely sure?"
-
-#: main/data/preferences_window/general_preferences_page.ui:104
-msgid "Database Maintenance"
-msgstr "डेटाबेस रखरखाव"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Restore accounts, messages and settings from a backup file"
-msgstr "बैकअप फ़ाइल से खाते, संदेश और सेटिंग्स पुनर्स्थापित करें"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
-msgstr "सभी संदेश, फ़ाइलें और OMEMO कुंजियाँ हटाएं। आपके खाते बने रहेंगे।"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete ALL data including accounts. This cannot be undone!"
-msgstr "खातों सहित सभी डेटा हटाएं। इसे पूर्ववत नहीं किया जा सकता!"
-
-# DinoX v0.7.7 - Additional Backup/Restore strings
-msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
-msgstr "बैकअप फ़ाइलें (*.tar.gz, *.tar.gz.gpg)"
-
-msgid "Creating encrypted backup..."
-msgstr "एन्क्रिप्टेड बैकअप बना रहा है..."
-
-msgid "Decryption Failed"
-msgstr "डिक्रिप्शन विफल"
-
-msgid "DinoX will now restart..."
-msgstr "DinoX अब पुनः आरंभ होगा..."
-
-msgid "Encrypted backup created successfully"
-msgstr "एन्क्रिप्टेड बैकअप सफलतापूर्वक बनाया गया"
-
-msgid "Password (minimum 4 characters)"
-msgstr "पासवर्ड (न्यूनतम 4 अक्षर)"
-
-msgid "Decrypting encrypted backup file..."
-msgstr "बैकअप फ़ाइल डिक्रिप्ट कर रहा है..."
-
-msgid "Extracting files from backup..."
-msgstr "बैकअप से फ़ाइलें निकाल रहा है..."
-
-msgid "Factory reset in progress... DinoX will restart."
-msgstr "फ़ैक्टरी रीसेट प्रगति पर है... DinoX पुनः आरंभ होगा।"
-
-msgid "Resetting database... DinoX will restart."
-msgstr "डेटाबेस रीसेट हो रहा है... DinoX पुनः आरंभ होगा।"
-
-msgid "Encrypted backup created (%s)"
-msgstr "एन्क्रिप्टेड बैकअप बनाया गया (%s)"
-
-msgid ""
-"Could not decrypt the backup file.\n"
-"\n"
-"Please check if the password is correct."
-msgstr ""
-"बैकअप फ़ाइल को डिक्रिप्ट नहीं किया जा सका.\n"
-"\n"
-"कृपया जांचें कि पासवर्ड सही है।"
-
-msgid ""
-"Could not restore the backup file.\n"
-"\n"
-"Error: %s"
-msgstr ""
-"बैकअप फ़ाइल को पुनर्स्थापित नहीं किया जा सका.\n"
-"\n"
-"त्रुटि: %s"
-
-msgid "This backup is encrypted. Please enter the password to decrypt it."
-msgstr "यह बैकअप एन्क्रिप्टेड है। डिक्रिप्ट करने के लिए पासवर्ड दर्ज करें।"
-
-msgid ""
-"Enter a password to encrypt the backup.\n"
-"\n"
-"<b>Important:</b> Remember this password! Without it, the backup cannot be "
-"restored."
-msgstr ""
-"बैकअप को एन्क्रिप्ट करने के लिए पासवर्ड दर्ज करें।\n"
-"\n"
-"<b>महत्वपूर्ण:</b> यह पासवर्ड याद रखें! इसके बिना, बैकअप को पुनर्स्थापित नहीं किया जा "
-"सकता।"
-
-msgid ""
-"This will delete all messages, files and OMEMO encryption keys.\n"
-"\n"
-"<b>Your accounts will remain, but you will lose all chat history and need to "
-"re-verify encryption with your contacts.</b>\n"
-"\n"
-"This action cannot be undone!"
-msgstr ""
-"This will delete all messages, files and OMEMO encryption keys.\n"
-"\n"
-"<b>Your accounts will remain, but you will lose all chat history and need to "
-"re-verify encryption with your contacts.</b>\n"
-"\n"
-"This action cannot be undone!"
-
-msgid ""
-"This will replace all current data with the backup.\n"
-"\n"
-"<b>Current accounts, messages and settings will be overwritten!</b>\n"
-"\n"
-"DinoX will restart after restoring."
-msgstr ""
-"This will replace all current data with the backup.\n"
-"\n"
-"<b>Current accounts, messages and settings will be overwritten!</b>\n"
-"\n"
-"DinoX will restart after restoring."
-
-msgid ""
-"Type 'DELETE' to confirm factory reset.\n"
-"\n"
-"This will permanently remove all your DinoX data."
-msgstr ""
-"Type 'DELETE' to confirm factory reset.\n"
-"\n"
-"This will permanently remove all your DinoX data."
-
-msgid ""
-"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
-"\n"
-"• All accounts\n"
-"• All messages and files\n"
-"• All encryption keys\n"
-"• All settings\n"
-"\n"
-"This is irreversible. Make sure to create a backup first!"
-msgstr ""
-"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
-"\n"
-"• All accounts\n"
-"• All messages and files\n"
-"• All encryption keys\n"
-"• All settings\n"
-"\n"
-"This is irreversible. Make sure to create a backup first!"
+#~ msgid "Encrypted backup created (%s)"
+#~ msgstr "एन्क्रिप्टेड बैकअप बनाया गया (%s)"
 
 # OpenPGP Key Management
-msgid "OpenPGP Key Management"
-msgstr "OpenPGP Key Management"
+#~ msgid "OpenPGP Key Management"
+#~ msgstr "OpenPGP Key Management"
 
-msgid "Actions"
-msgstr "Actions"
+#~ msgid "Actions"
+#~ msgstr "Actions"
 
-msgid "Generate New Key"
-msgstr "Generate New Key"
+#~ msgid "Generate New Key"
+#~ msgstr "Generate New Key"
 
-msgid "Import Key"
-msgstr "Import Key"
+#~ msgid "Import Key"
+#~ msgstr "Import Key"
 
-msgid "Your Keys"
-msgstr "Your Keys"
+#~ msgid "Your Keys"
+#~ msgstr "Your Keys"
 
-msgid "Fingerprint"
-msgstr "Fingerprint"
+#~ msgid "Fingerprint"
+#~ msgstr "Fingerprint"
 
-msgid "Export Public Key"
-msgstr "Export Public Key"
+#~ msgid "Export Public Key"
+#~ msgstr "Export Public Key"
 
-msgid "Delete Key"
-msgstr "Delete Key"
+#~ msgid "Delete Key"
+#~ msgstr "Delete Key"
 
-msgid "Name"
-msgstr "Name"
+#~ msgid "Name"
+#~ msgstr "Name"
 
-msgid "Email"
-msgstr "Email"
+#~ msgid "Email"
+#~ msgstr "Email"
 
-msgid "Passphrase"
-msgstr "Passphrase"
+#~ msgid "Passphrase"
+#~ msgstr "Passphrase"
 
-msgid "Generate"
-msgstr "Generate"
+#~ msgid "Generate"
+#~ msgstr "Generate"
 
-msgid "Select OpenPGP Key"
-msgstr "Select OpenPGP Key"
+#~ msgid "Select OpenPGP Key"
+#~ msgstr "Select OpenPGP Key"
 
-msgid "Wrong passphrase"
-msgstr "Wrong passphrase"
+#~ msgid "Wrong passphrase"
+#~ msgstr "Wrong passphrase"
 
-msgid "Manage Keys"
-msgstr "Manage Keys"
+#~ msgid "Manage Keys"
+#~ msgstr "Manage Keys"
 
-msgid "Announce key"
-msgstr "Announce key"
+#~ msgid "Announce key"
+#~ msgstr "Announce key"
 
-msgid "Disabled"
-msgstr "Disabled"
+#~ msgid "Disabled"
+#~ msgstr "Disabled"
 
-msgid "Success"
-msgstr "Success"
+#~ msgid "Success"
+#~ msgstr "Success"
 
-msgid "OK"
-msgstr "OK"
+#~ msgid "Create a new OpenPGP key pair"
+#~ msgstr "नया OpenPGP कुंजी जोड़ी बनाएं"
 
-msgid "Create a new OpenPGP key pair"
-msgstr "नया OpenPGP कुंजी जोड़ी बनाएं"
+#~ msgid "Import a key from file (.asc, .gpg)"
+#~ msgstr "फ़ाइल से कुंजी आयात करें (.asc, .gpg)"
 
-msgid "Import a key from file (.asc, .gpg)"
-msgstr "फ़ाइल से कुंजी आयात करें (.asc, .gpg)"
+#~ msgid "Private keys available for signing and decryption"
+#~ msgstr "हस्ताक्षर और डिक्रिप्शन के लिए उपलब्ध निजी कुंजियाँ"
 
-msgid "Private keys available for signing and decryption"
-msgstr "हस्ताक्षर और डिक्रिप्शन के लिए उपलब्ध निजी कुंजियाँ"
+#~ msgid "No private keys found"
+#~ msgstr "कोई निजी कुंजी नहीं मिली"
 
-msgid "No private keys found"
-msgstr "कोई निजी कुंजी नहीं मिली"
+#~ msgid "Generate or import a key to get started"
+#~ msgstr "शुरू करने के लिए कुंजी बनाएं या आयात करें"
 
-msgid "Generate or import a key to get started"
-msgstr "शुरू करने के लिए कुंजी बनाएं या आयात करें"
+#~ msgid "Generate New OpenPGP Key"
+#~ msgstr "नई OpenPGP कुंजी बनाएं"
 
-msgid "Generate New OpenPGP Key"
-msgstr "नई OpenPGP कुंजी बनाएं"
+#~ msgid "Enter your details to create a new key pair."
+#~ msgstr "नया कुंजी जोड़ी बनाने के लिए अपना विवरण दर्ज करें।"
 
-msgid "Enter your details to create a new key pair."
-msgstr "नया कुंजी जोड़ी बनाने के लिए अपना विवरण दर्ज करें।"
+#~ msgid "Your Name"
+#~ msgstr "आपका नाम"
 
-msgid "Your Name"
-msgstr "आपका नाम"
+#~ msgid "you@example.com"
+#~ msgstr "you@example.com"
 
-msgid "you@example.com"
-msgstr "you@example.com"
+#~ msgid "Passphrase (optional)"
+#~ msgstr "पासफ़्रेज़ (वैकल्पिक)"
 
-msgid "Passphrase (optional)"
-msgstr "पासफ़्रेज़ (वैकल्पिक)"
+#~ msgid "4096-bit RSA key, valid for 2 years."
+#~ msgstr "4096-बिट RSA कुंजी, 2 साल के लिए वैध।"
 
-msgid "4096-bit RSA key, valid for 2 years."
-msgstr "4096-बिट RSA कुंजी, 2 साल के लिए वैध।"
+#~ msgid "Name must be at least 2 characters"
+#~ msgstr "नाम कम से कम 2 अक्षर का होना चाहिए"
 
-msgid "Name must be at least 2 characters"
-msgstr "नाम कम से कम 2 अक्षर का होना चाहिए"
+#~ msgid "Please enter a valid email address"
+#~ msgstr "कृपया एक वैध ईमेल पता दर्ज करें"
 
-msgid "Please enter a valid email address"
-msgstr "कृपया एक वैध ईमेल पता दर्ज करें"
+#~ msgid "Generating Key..."
+#~ msgstr "कुंजी बना रहे हैं..."
 
-msgid "Generating Key..."
-msgstr "कुंजी बना रहे हैं..."
+#~ msgid "Key generated successfully!"
+#~ msgstr "कुंजी सफलतापूर्वक बनाई गई!"
 
-msgid "Please wait while your key is being generated. This may take a moment."
-msgstr "कृपया प्रतीक्षा करें जब तक आपकी कुंजी बनाई जा रही है। इसमें कुछ समय लग सकता है।"
+#~ msgid "Import OpenPGP Key"
+#~ msgstr "OpenPGP कुंजी आयात करें"
 
-msgid "Key generated successfully!"
-msgstr "कुंजी सफलतापूर्वक बनाई गई!"
+#~ msgid "OpenPGP Keys (*.asc, *.gpg)"
+#~ msgstr "OpenPGP कुंजियाँ (*.asc, *.gpg)"
 
-msgid "Failed to generate key."
-msgstr "कुंजी बनाने में विफल।"
+#~ msgid "All Files"
+#~ msgstr "सभी फ़ाइलें"
 
-msgid "Import OpenPGP Key"
-msgstr "OpenPGP कुंजी आयात करें"
+#~ msgid "Key imported! Re-open Key Management to see it."
+#~ msgstr "कुंजी आयात हो गई! इसे देखने के लिए कुंजी प्रबंधन फिर से खोलें।"
 
-msgid "OpenPGP Keys (*.asc, *.gpg)"
-msgstr "OpenPGP कुंजियाँ (*.asc, *.gpg)"
+#~ msgid "Import failed: "
+#~ msgstr "आयात विफल: "
 
-msgid "All Files"
-msgstr "सभी फ़ाइलें"
+#~ msgid "Key exported to: "
+#~ msgstr "कुंजी निर्यात की गई: "
 
-msgid "Key imported! Re-open Key Management to see it."
-msgstr "कुंजी आयात हो गई! इसे देखने के लिए कुंजी प्रबंधन फिर से खोलें।"
+#~ msgid "Export failed."
+#~ msgstr "निर्यात विफल।"
 
-msgid "Import failed: "
-msgstr "आयात विफल: "
+#~ msgid "Delete Key?"
+#~ msgstr "कुंजी हटाएं?"
 
-msgid "Key exported to: "
-msgstr "कुंजी निर्यात की गई: "
+#~ msgid ""
+#~ "Delete this key?\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "This cannot be undone!"
+#~ msgstr ""
+#~ "यह कुंजी हटाएं?\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "इसे पूर्ववत नहीं किया जा सकता!"
 
-msgid "Export failed."
-msgstr "निर्यात विफल।"
+#~ msgid "Key deleted."
+#~ msgstr "कुंजी हटा दी गई।"
 
-msgid "Delete Key?"
-msgstr "कुंजी हटाएं?"
+#~ msgid "Delete failed: "
+#~ msgstr "हटाना विफल: "
 
-msgid ""
-"Delete this key?\n"
-"\n"
-"%s\n"
-"\n"
-"This cannot be undone!"
-msgstr ""
-"यह कुंजी हटाएं?\n"
-"\n"
-"%s\n"
-"\n"
-"इसे पूर्ववत नहीं किया जा सकता!"
+#~ msgid "Choose a key to announce to your contacts."
+#~ msgstr "अपने संपर्कों को घोषित करने के लिए एक कुंजी चुनें।"
 
-msgid "Key deleted."
-msgstr "कुंजी हटा दी गई।"
+#~ msgid "Enter GPG passphrase to confirm:"
+#~ msgstr "पुष्टि के लिए GPG पासफ़्रेज़ दर्ज करें:"
 
-msgid "Delete failed: "
-msgstr "हटाना विफल: "
+#~ msgid "Generate, import, export, or delete keys"
+#~ msgstr "कुंजियाँ बनाएं, आयात करें, निर्यात करें या हटाएं"
 
-msgid "Choose a key to announce to your contacts."
-msgstr "अपने संपर्कों को घोषित करने के लिए एक कुंजी चुनें।"
+#~ msgid "No keys available. Generate or import one!"
+#~ msgstr "कोई कुंजी उपलब्ध नहीं। एक बनाएं या आयात करें!"
 
-msgid "Enter GPG passphrase to confirm:"
-msgstr "पुष्टि के लिए GPG पासफ़्रेज़ दर्ज करें:"
-
-msgid "Generate, import, export, or delete keys"
-msgstr "कुंजियाँ बनाएं, आयात करें, निर्यात करें या हटाएं"
-
-msgid "No keys available. Generate or import one!"
-msgstr "कोई कुंजी उपलब्ध नहीं। एक बनाएं या आयात करें!"
-
-msgid "Error in GnuPG"
-msgstr "GnuPG में त्रुटि"
+#~ msgid "Error in GnuPG"
+#~ msgstr "GnuPG में त्रुटि"
 
 #~ msgid "Message too long"
 #~ msgstr "संदेश बहुत लंबा है"

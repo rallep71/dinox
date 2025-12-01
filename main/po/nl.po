@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-28 12:18+0100\n"
+"POT-Creation-Date: 2025-12-01 10:28+0100\n"
 "PO-Revision-Date: 2025-02-25 04:41+0000\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/dino/translations/"
 "nl/>\n"
@@ -100,14 +100,14 @@ msgstr "Algemeen"
 #: main/data/gtk/help-overlay.ui:14 main/data/main_window.ui:38
 #: main/data/menu_add.ui:7
 #: main/src/ui/add_conversation/select_contact_dialog.vala:106
-#: main/src/ui/main_window.vala:141
+#: main/src/ui/main_window.vala:154
 msgid "Start Conversation"
 msgstr "Gesprek starten"
 
 #: main/data/gtk/help-overlay.ui:20 main/data/main_window.ui:51
 #: main/data/menu_add.ui:11
 #: main/src/ui/add_conversation/add_conference_dialog.vala:24
-#: main/src/ui/application.vala:527 main/src/ui/main_window.vala:142
+#: main/src/ui/application.vala:1359 main/src/ui/main_window.vala:155
 msgid "Join Channel"
 msgstr "Deelnemen aan kanaal"
 
@@ -148,7 +148,7 @@ msgstr "Ga naar volgend gesprek"
 msgid "Jump to previous conversation"
 msgstr "Ga naar vorig gesprek"
 
-#: main/data/main_window.ui:64 main/src/ui/main_window.vala:144
+#: main/data/main_window.ui:64 main/src/ui/main_window.vala:157
 msgid "Help: How to join channels"
 msgstr "Help: Hoe kanalen te joinen"
 
@@ -166,28 +166,28 @@ msgstr "Status"
 
 #: main/data/menu_app.ui:11
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:427
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Online"
 msgstr "Online"
 
 #: main/data/menu_app.ui:16
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:421
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Away"
 msgstr "Afwezig"
 
 #: main/data/menu_app.ui:21
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:425
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Busy"
 msgstr "Bezig"
 
 #: main/data/menu_app.ui:26
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:423
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Not Available"
 msgstr "Niet beschikbaar"
@@ -200,7 +200,7 @@ msgstr "Voorkeuren"
 msgid "Keyboard Shortcuts"
 msgstr "Sneltoetsen"
 
-#: main/data/menu_app.ui:42 main/src/ui/application.vala:334
+#: main/data/menu_app.ui:42 main/src/ui/application.vala:340
 msgid "About DinoX"
 msgstr "Over DinoX"
 
@@ -219,7 +219,10 @@ msgstr "Gespreksgeschiedenis verwijderen"
 #: main/data/preferences_window/change_password_dialog.ui:18
 #: main/src/ui/add_conversation/add_conference_dialog.vala:41
 #: main/src/ui/add_conversation/select_contact_dialog.vala:40
-#: main/src/ui/application.vala:537
+#: main/src/ui/application.vala:441 main/src/ui/application.vala:469
+#: main/src/ui/application.vala:765 main/src/ui/application.vala:843
+#: main/src/ui/application.vala:901 main/src/ui/application.vala:933
+#: main/src/ui/application.vala:1089 main/src/ui/application.vala:1369
 #: main/src/ui/conversation_content_view/file_default_widget.vala:90
 #: main/src/ui/conversation_content_view/item_actions.vala:165
 #: main/src/ui/conversation_content_view/item_actions.vala:168
@@ -234,7 +237,7 @@ msgstr "Gespreksgeschiedenis verwijderen"
 #: main/src/ui/conversation_titlebar/call_entry.vala:83
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
 #: main/src/windows/conversation_details.vala:60
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:67
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:68
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:205
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:225
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:249
@@ -258,6 +261,7 @@ msgid "Local alias"
 msgstr "Lokale alias"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:82
+#: main/src/ui/application.vala:435 main/src/ui/application.vala:1064
 #: main/src/ui/util/data_forms.vala:63
 msgid "Password"
 msgstr "Wachtwoord"
@@ -266,20 +270,24 @@ msgstr "Wachtwoord"
 msgid "Connection status"
 msgstr "Verbinding status"
 
+#: main/data/preferences_window/account_preferences_subpage.ui:117
+msgid "View Certificate"
+msgstr "Certificaat bekijken"
+
 # Custom host/port feature (Issue #115)
-#: main/data/preferences_window/account_preferences_subpage.ui:121
+#: main/data/preferences_window/account_preferences_subpage.ui:128
 msgid "Advanced Settings"
 msgstr "Geavanceerde instellingen"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:122
+#: main/data/preferences_window/account_preferences_subpage.ui:129
 msgid "Custom server connection (leave empty for automatic)"
 msgstr "Aangepaste serververbinding (leeg laten voor automatisch)"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:125
+#: main/data/preferences_window/account_preferences_subpage.ui:132
 msgid "Server Hostname"
 msgstr "Server hostnaam"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:130
+#: main/data/preferences_window/account_preferences_subpage.ui:137
 msgid "Port"
 msgstr "Poort"
 
@@ -352,12 +360,56 @@ msgid "Create a backup of your accounts, messages and settings"
 msgstr "Maak een back-up van uw accounts, berichten en instellingen"
 
 #: main/data/preferences_window/general_preferences_page.ui:78
-msgid "Data Location"
-msgstr "Gegevenslocatie"
+#: main/src/ui/application.vala:464 main/src/ui/main_window.vala:223
+msgid "Restore from Backup"
+msgstr "Herstellen van back-up"
 
 #: main/data/preferences_window/general_preferences_page.ui:79
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "Accounts, berichten en instellingen herstellen uit een back-upbestand"
+
+#: main/data/preferences_window/general_preferences_page.ui:90
+msgid "Data Storage Location"
+msgstr "Opslaglocatie gegevens"
+
+#: main/data/preferences_window/general_preferences_page.ui:91
 msgid "View where your data is stored"
 msgstr "Bekijk waar uw gegevens zijn opgeslagen"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "Databaseonderhoud"
+
+#: main/data/preferences_window/general_preferences_page.ui:107
+#: main/src/ui/application.vala:761 main/src/ui/application.vala:766
+msgid "Clear Cache"
+msgstr "Cache wissen"
+
+#: main/data/preferences_window/general_preferences_page.ui:108
+msgid "Clear cached files, avatars and previews"
+msgstr "Gecachte bestanden, avatars en voorbeelden wissen"
+
+#: main/data/preferences_window/general_preferences_page.ui:119
+#: main/src/ui/application.vala:838 main/src/ui/application.vala:844
+msgid "Reset Database"
+msgstr "Database resetten"
+
+#: main/data/preferences_window/general_preferences_page.ui:120
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr ""
+"Verwijder alle berichten, bestanden en OMEMO-sleutels. Je accounts blijven "
+"behouden."
+
+#: main/data/preferences_window/general_preferences_page.ui:131
+#: main/src/ui/application.vala:896
+msgid "Factory Reset"
+msgstr "Fabrieksinstellingen"
+
+#: main/data/preferences_window/general_preferences_page.ui:132
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr ""
+"Verwijder ALLE gegevens inclusief accounts. Dit kan niet ongedaan worden "
+"gemaakt!"
 
 #: main/data/preferences_window/preferences_dialog.ui:11
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:15
@@ -382,7 +434,7 @@ msgstr "Volgende"
 
 #: main/src/ui/add_conversation/add_conference_dialog.vala:59
 #: main/src/ui/add_conversation/conference_details_fragment.vala:151
-#: main/src/ui/application.vala:541
+#: main/src/ui/application.vala:1373
 msgid "Join"
 msgstr "Deelnemen"
 
@@ -468,31 +520,31 @@ msgstr "Contact verwijderen"
 msgid "Leave Group"
 msgstr "Groep verlaten"
 
-#: main/src/ui/application.vala:339
+#: main/src/ui/application.vala:345
 msgid "Modern XMPP client with extended features"
 msgstr "Moderne XMPP-client met uitgebreide functies"
 
-#: main/src/ui/application.vala:346 main/src/ui/application.vala:385
+#: main/src/ui/application.vala:352 main/src/ui/application.vala:727
 msgid "User Data Locations"
 msgstr "Gegevenslocaties"
 
-#: main/src/ui/application.vala:349 main/src/ui/application.vala:399
+#: main/src/ui/application.vala:355 main/src/ui/application.vala:741
 msgid "Configuration:"
 msgstr "Configuratie:"
 
-#: main/src/ui/application.vala:352 main/src/ui/application.vala:401
+#: main/src/ui/application.vala:358 main/src/ui/application.vala:743
 msgid "Data & Database:"
 msgstr "Gegevens & database:"
 
-#: main/src/ui/application.vala:355 main/src/ui/application.vala:403
+#: main/src/ui/application.vala:361 main/src/ui/application.vala:745
 msgid "Cache:"
 msgstr "Cache:"
 
-#: main/src/ui/application.vala:358
+#: main/src/ui/application.vala:364
 msgid "Info:"
 msgstr "Info:"
 
-#: main/src/ui/application.vala:359
+#: main/src/ui/application.vala:365
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
@@ -500,15 +552,119 @@ msgstr ""
 "Uw persoonlijke gegevens (accounts, berichten, bestanden) worden apart van "
 "de applicatie opgeslagen."
 
-#: main/src/ui/application.vala:361
+#: main/src/ui/application.vala:367
 msgid "When you update DinoX, your data remains intact."
 msgstr "Wanneer u DinoX bijwerkt, blijven uw gegevens intact."
 
-#: main/src/ui/application.vala:363
+#: main/src/ui/application.vala:369
 msgid "Use Settings → General → Backup User Data to create a backup."
 msgstr "Gebruik Instellingen → Algemeen → Back-up om een back-up te maken."
 
-#: main/src/ui/application.vala:405
+#: main/src/ui/application.vala:387
+msgid "Select Backup File"
+msgstr "Back-upbestand selecteren"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+#: main/src/ui/application.vala:395
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "Back-upbestanden (*.tar.gz, *.tar.gz.gpg)"
+
+#: main/src/ui/application.vala:425
+msgid "Enter Backup Password"
+msgstr "Voer back-upwachtwoord in"
+
+#: main/src/ui/application.vala:426
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "Deze back-up is versleuteld. Voer het wachtwoord in."
+
+#: main/src/ui/application.vala:442
+msgid "Decrypt & Restore"
+msgstr "Ontsleutelen en herstellen"
+
+#: main/src/ui/application.vala:465
+msgid ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+msgstr ""
+"Dit vervangt alle huidige gegevens door de back-up.\n"
+"\n"
+"<b>Huidige accounts, berichten en instellingen worden overschreven!</b>\n"
+"\n"
+"DinoX wordt na het herstellen opnieuw gestart."
+
+#: main/src/ui/application.vala:470
+msgid "Restore Backup"
+msgstr "Back-up herstellen"
+
+#: main/src/ui/application.vala:487 main/src/ui/application.vala:519
+msgid "Decrypting Backup..."
+msgstr "Back-up ontsleutelen..."
+
+#: main/src/ui/application.vala:487 main/src/ui/application.vala:571
+msgid "Restoring Backup..."
+msgstr "Back-up herstellen..."
+
+#: main/src/ui/application.vala:488
+msgid "Please wait, this may take a moment..."
+msgstr "Even geduld, dit kan even duren..."
+
+#: main/src/ui/application.vala:520
+msgid "Decrypting encrypted backup file..."
+msgstr "Back-upbestand ontsleutelen..."
+
+#: main/src/ui/application.vala:558
+msgid "Decryption Failed"
+msgstr "Ontsleuteling mislukt"
+
+#: main/src/ui/application.vala:559
+msgid ""
+"Could not decrypt the backup file.\n"
+"\n"
+"Please check if the password is correct."
+msgstr ""
+"Kon het bestand niet ontsleutelen.\n"
+"\n"
+"Controleer of het wachtwoord correct is."
+
+#: main/src/ui/application.vala:561 main/src/ui/application.vala:671
+msgid "OK"
+msgstr "OK"
+
+#: main/src/ui/application.vala:572
+msgid "Extracting files from backup..."
+msgstr "Bestanden uit back-up uitpakken..."
+
+#: main/src/ui/application.vala:653
+msgid "Restore Complete!"
+msgstr "Herstel voltooid!"
+
+#: main/src/ui/application.vala:654
+msgid "DinoX will now restart..."
+msgstr "DinoX wordt nu opnieuw gestart..."
+
+#: main/src/ui/application.vala:668
+msgid "Restore Failed"
+msgstr "Herstel mislukt"
+
+#: main/src/ui/application.vala:669
+#, c-format
+msgid ""
+"Could not restore the backup file.\n"
+"\n"
+"Error: %s"
+msgstr ""
+"Kon het bestand niet herstellen.\n"
+"\n"
+"Fout: %s"
+
+#: main/src/ui/application.vala:669 main/src/ui/application.vala:1345
+msgid "Unknown error"
+msgstr "Onbekende fout"
+
+#: main/src/ui/application.vala:747
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
@@ -519,96 +675,244 @@ msgstr ""
 "apart van de applicatie opgeslagen. Wanneer u DinoX bijwerkt, blijven uw "
 "gegevens intact."
 
-#: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
-#: main/src/ui/main_window.vala:159
+#: main/src/ui/application.vala:752 main/src/ui/application.vala:1240
+#: main/src/ui/application.vala:1324 main/src/ui/conversation_details.vala:272
+#: main/src/ui/main_window.vala:172
 msgid "Close"
 msgstr "Sluiten"
 
-#: main/src/ui/application.vala:417
+#: main/src/ui/application.vala:762
+msgid ""
+"This will delete cached files, avatars and previews.\n"
+"\n"
+"They will be re-downloaded when needed."
+msgstr ""
+"Dit verwijdert gecachte bestanden, avatars en voorbeelden.\n"
+"\n"
+"Ze worden opnieuw gedownload wanneer nodig."
+
+#: main/src/ui/application.vala:799
+#, c-format
+msgid "Cache cleared (%s freed)"
+msgstr "Cache gewist (%s vrijgemaakt)"
+
+#: main/src/ui/application.vala:802
+#: main/src/ui/application.vala:802
+msgid "Failed to clear cache"
+msgstr "Cache wissen mislukt"
+#: main/src/ui/application.vala:839
+msgid ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+msgstr ""
+"Dit verwijdert alle berichten, bestanden en OMEMO-versleutelingssleutels.\n"
+"\n"
+"<b>Uw accounts blijven behouden, maar u verliest alle chatgeschiedenis en "
+"moet de versleuteling opnieuw verifiëren met uw contacten.</b>\n"
+"\n"
+"Deze actie kan niet ongedaan worden gemaakt!"
+
+#: main/src/ui/application.vala:867
+msgid "Resetting database... DinoX will restart."
+msgstr "Database herstellen... DinoX wordt opnieuw gestart."
+
+#: main/src/ui/application.vala:897
+msgid ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+msgstr ""
+"<b>⚠️ WAARSCHUWING: Dit verwijdert ALLE gegevens!</b>\n"
+"\n"
+"• Alle accounts\n"
+"• Alle berichten en bestanden\n"
+"• Alle versleutelingssleutels\n"
+"• Alle instellingen\n"
+"\n"
+"Dit is onomkeerbaar. Maak eerst een back-up!"
+
+#: main/src/ui/application.vala:902
+msgid "Create Backup First"
+msgstr "Maak eerst een back-up"
+
+#: main/src/ui/application.vala:903
+msgid "Delete Everything"
+msgstr "Alles verwijderen"
+
+#: main/src/ui/application.vala:923
+msgid "Are you absolutely sure?"
+msgstr "Weet u het absoluut zeker?"
+
+#: main/src/ui/application.vala:924
+msgid ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+msgstr ""
+"Typ 'DELETE' om fabrieksreset te bevestigen.\n"
+"\n"
+"Dit verwijdert permanent al uw DinoX-gegevens."
+
+#: main/src/ui/application.vala:934
+msgid "Confirm Delete"
+msgstr "Verwijderen bevestigen"
+
+#: main/src/ui/application.vala:961
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "Fabrieksinstellingen herstellen... DinoX wordt opnieuw gestart."
+
+#: main/src/ui/application.vala:1026
+#: main/src/ui/application.vala:1026
+msgid "Backup Encryption"
+msgstr "Back-upversleuteling"
+#: main/src/ui/application.vala:1027
+msgid ""
+"Do you want to encrypt the backup with a password?\n"
+"\n"
+"Encrypted backups are more secure but require the password to restore."
+msgstr ""
+"Wilt u de back-up versleutelen met een wachtwoord?\n"
+"\n"
+"Versleutelde back-ups zijn veiliger, maar vereisen het wachtwoord om te "
+"herstellen."
+
+#: main/src/ui/application.vala:1030
+msgid "No Encryption"
+msgstr "Geen versleuteling"
+
+#: main/src/ui/application.vala:1031
+msgid "Encrypt with Password"
+msgstr "Versleutelen met wachtwoord"
+
+#: main/src/ui/application.vala:1049
+msgid "Set Backup Password"
+msgstr "Back-upwachtwoord instellen"
+
+#: main/src/ui/application.vala:1050
+msgid ""
+"Enter a password to encrypt the backup.\n"
+"\n"
+"<b>Important:</b> Remember this password! Without it, the backup cannot be "
+"restored."
+msgstr ""
+"Voer een wachtwoord in om de back-up te versleutelen.\n"
+"\n"
+"<b>Belangrijk:</b> Onthoud dit wachtwoord! Zonder kan de back-up niet worden "
+"hersteld."
+
+#: main/src/ui/application.vala:1058
+msgid "Password (minimum 4 characters)"
+msgstr "Wachtwoord (minimaal 4 tekens)"
+
+#: main/src/ui/application.vala:1066 main/src/ui/application.vala:1073
+msgid "Confirm Password"
+msgstr "Wachtwoord bevestigen"
+
+#: main/src/ui/application.vala:1090
+msgid "Create Encrypted Backup"
+msgstr "Versleutelde back-up maken"
+
+#: main/src/ui/application.vala:1102 main/src/ui/application.vala:1117
+msgid "Password too short"
+msgstr "Wachtwoord te kort"
+
+#: main/src/ui/application.vala:1104 main/src/ui/application.vala:1119
+msgid "Passwords do not match"
+msgstr "Wachtwoorden komen niet overeen"
+
+#: main/src/ui/application.vala:1106 main/src/ui/application.vala:1121
+msgid "✓ Passwords match"
+msgstr "✓ Wachtwoorden komen overeen"
+
+#: main/src/ui/application.vala:1139
 msgid "Select Backup Location"
 msgstr "Back-uplocatie selecteren"
 
-#: main/src/ui/application.vala
-msgid "Creating Backup..."
-msgstr "Creating Backup..."
-
-#: main/src/ui/application.vala
+#: main/src/ui/application.vala:1194
 msgid "Creating Encrypted Backup..."
-msgstr "Creating Encrypted Backup..."
+msgstr "Versleutelde back-up maken..."
 
-#: main/src/ui/application.vala
-msgid "Please wait while your data is being backed up."
-msgstr "Please wait while your data is being backed up."
-
-#: main/src/ui/application.vala
-msgid "No data directories found to backup"
-msgstr "No data directories found to backup"
-
-#: main/src/ui/application.vala
-msgid "Backup Created"
-msgstr "Backup Created"
-
-#: main/src/ui/application.vala
-msgid "Encrypted Backup Created"
-msgstr "Encrypted Backup Created"
-
-#: main/src/ui/application.vala
-#, c-format
-msgid "Your backup was created successfully.\\n\\nSize: %s"
-msgstr "Your backup was created successfully.\\n\\nSize: %s"
-
-#: main/src/ui/application.vala
-msgid "Your backup was created successfully."
-msgstr "Your backup was created successfully."
-
-#: main/src/ui/application.vala
-#, c-format
-msgid "Your encrypted backup was created successfully.\\n\\nSize: %s"
-msgstr "Your encrypted backup was created successfully.\\n\\nSize: %s"
-
-#: main/src/ui/application.vala
-msgid "Your encrypted backup was created successfully."
-msgstr "Your encrypted backup was created successfully."
-
-#: main/src/ui/application.vala
-msgid "Backup Failed"
-msgstr "Backup Failed"
-
-#: main/src/ui/application.vala:445
-msgid "Creating backup..."
+#: main/src/ui/application.vala:1194
+msgid "Creating Backup..."
 msgstr "Back-up maken..."
 
-#: main/src/ui/application.vala:503
+#: main/src/ui/application.vala:1195
+msgid "Please wait while your data is being backed up."
+msgstr "Een ogenblik geduld terwijl uw gegevens worden geback-upt."
+
+#: main/src/ui/application.vala:1234
+#: main/src/ui/application.vala:1234
+msgid "No data directory found to backup"
+msgstr "Geen gegevensmap gevonden om te back-uppen"
+#: main/src/ui/application.vala:1237 main/src/ui/application.vala:1343
+msgid "Backup Failed"
+msgstr "Back-up mislukt"
+
+#: main/src/ui/application.vala:1331
+msgid "Encrypted Backup Created"
+msgstr "Versleutelde back-up gemaakt"
+
+#: main/src/ui/application.vala:1333
 #, c-format
-msgid "Backup created successfully (%s)"
-msgstr "Back-up succesvol aangemaakt (%s)"
+msgid ""
+"Your encrypted backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"Uw versleutelde back-up is succesvol aangemaakt.\n"
+"\n"
+"Grootte: %s"
 
-#: main/src/ui/application.vala:505
-msgid "Backup created successfully"
-msgstr "Back-up succesvol aangemaakt"
+#: main/src/ui/application.vala:1334
+msgid "Your encrypted backup was created successfully."
+msgstr "Uw versleutelde back-up is succesvol aangemaakt."
 
-#: main/src/ui/application.vala:510
-msgid "Unknown error"
-msgstr "Onbekende fout"
+#: main/src/ui/application.vala:1336
+msgid "Backup Created"
+msgstr "Back-up aangemaakt"
 
-#: main/src/ui/application.vala:511
+#: main/src/ui/application.vala:1338
+#, c-format
+msgid ""
+"Your backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"Uw back-up is succesvol aangemaakt.\n"
+"\n"
+"Grootte: %s"
+
+#: main/src/ui/application.vala:1339
+msgid "Your backup was created successfully."
+msgstr "Uw back-up is succesvol aangemaakt."
+
+#: main/src/ui/application.vala:1346
 #, c-format
 msgid "Backup failed: %s"
 msgstr "Back-up mislukt: %s"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:29
+#: main/src/ui/call_window/audio_settings_popover.vala:46
 msgid "Microphones"
 msgstr "Microfoons"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:32
+#: main/src/ui/call_window/audio_settings_popover.vala:49
 msgid "No microphone found."
 msgstr "Geen microfoon aangetroffen."
 
-#: main/src/ui/call_window/audio_settings_popover.vala:85
+#: main/src/ui/call_window/audio_settings_popover.vala:116
 msgid "Speakers"
 msgstr "Luidsprekers"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:88
+#: main/src/ui/call_window/audio_settings_popover.vala:119
 msgid "No speaker found."
 msgstr "Geen luidspreker aangetroffen."
 
@@ -624,7 +928,7 @@ msgstr "Uitnodigen voor gesprek"
 msgid "Invite"
 msgstr "Uitnodigen"
 
-#: main/src/ui/call_window/call_window_controller.vala:405
+#: main/src/ui/call_window/call_window_controller.vala:453
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:240
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:270
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:285
@@ -643,21 +947,21 @@ msgstr "%s heeft de oproep beëindigd"
 msgid "%s declined the call"
 msgstr "%s hebt/heeft de oproep geweigerd"
 
-#: main/src/ui/call_window/participant_widget.vala:115
+#: main/src/ui/call_window/participant_widget.vala:140
 msgid "Debug information"
 msgstr "Foutopsporingsinformatie"
 
-#: main/src/ui/call_window/participant_widget.vala:124
+#: main/src/ui/call_window/participant_widget.vala:149
 #: main/src/ui/conversation_content_view/call_widget.vala:152
 msgid "Calling…"
 msgstr "Bezig met bellen…"
 
-#: main/src/ui/call_window/participant_widget.vala:126
+#: main/src/ui/call_window/participant_widget.vala:151
 msgid "Ringing…"
 msgstr "Bezig met overgaan…"
 
-#: main/src/ui/call_window/participant_widget.vala:128
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:216
+#: main/src/ui/call_window/participant_widget.vala:153
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:244
 msgid "Connecting…"
 msgstr "Bezig met verbinden…"
 
@@ -891,7 +1195,7 @@ msgstr "%a, %l∶%M %p"
 msgid "Just now"
 msgstr "Zojuist"
 
-#: main/src/ui/conversation_content_view/conversation_view.vala:105
+#: main/src/ui/conversation_content_view/conversation_view.vala:106
 msgid "More actions"
 msgstr "Meer acties"
 
@@ -1111,6 +1415,38 @@ msgstr "Vernietigen"
 msgid "Failed to destroy room"
 msgstr "Kon kamer niet vernietigen"
 
+#: main/src/ui/conversation_details.vala:286
+msgid "Auto-delete messages"
+msgstr "Berichten automatisch verwijderen"
+
+#: main/src/ui/conversation_details.vala:287
+msgid "Never"
+msgstr "Nooit"
+
+#: main/src/ui/conversation_details.vala:288
+msgid "After 15 minutes"
+msgstr "Na 15 minuten"
+
+#: main/src/ui/conversation_details.vala:289
+msgid "After 30 minutes"
+msgstr "Na 30 minuten"
+
+#: main/src/ui/conversation_details.vala:290
+msgid "After 1 hour"
+msgstr "Na 1 uur"
+
+#: main/src/ui/conversation_details.vala:291
+msgid "After 24 hours"
+msgstr "Na 24 uur"
+
+#: main/src/ui/conversation_details.vala:292
+msgid "After 7 days"
+msgstr "Na 7 dagen"
+
+#: main/src/ui/conversation_details.vala:293
+msgid "After 30 days"
+msgstr "Na 30 dagen"
+
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:276
 #: main/src/ui/notifier_freedesktop.vala:71
 #: main/src/ui/notifier_gnotifications.vala:36
@@ -1256,6 +1592,7 @@ msgstr "Contact deblokkeren?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:702
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:247
+#, c-format
 msgid "This will allow %s to send you messages again."
 msgstr "Dit zal %s toestaan je weer berichten te sturen."
 
@@ -1358,7 +1695,7 @@ msgid "Select file"
 msgstr "Kies een bestand"
 
 #: main/src/ui/conversation_view_controller.vala:225
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:152
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:180
 msgid "Select"
 msgstr "Kiezen"
 
@@ -1376,11 +1713,11 @@ msgstr "Op %s"
 msgid "With %s"
 msgstr "Met %s"
 
-#: main/src/ui/main_window.vala:156
+#: main/src/ui/main_window.vala:169
 msgid "Join Channel Help"
 msgstr "Hulp bij kanaal deelnemen"
 
-#: main/src/ui/main_window.vala:157
+#: main/src/ui/main_window.vala:170
 msgid ""
 "To join a channel, click the \"Join Channel\" button and enter the channel "
 "JID (example: room@conference.example.org).\n"
@@ -1395,25 +1732,25 @@ msgstr ""
 "dialoogvenster. Gebruik de ontdekkingsfuncties van de server om openbare "
 "kamers te vinden."
 
-#: main/src/ui/main_window.vala:206
+#: main/src/ui/main_window.vala:219
 msgid "Welcome to DinoX!"
 msgstr "Welkom bij DinoX!"
 
-#: main/src/ui/main_window.vala:207
+#: main/src/ui/main_window.vala:220
 msgid "Sign in or create an account to get started."
 msgstr "Log in of maak een account om aan de slag te gaan."
 
-#: main/src/ui/main_window.vala:208
+#: main/src/ui/main_window.vala:221
 msgid "Set up account"
 msgstr "Account instellen"
 
-#: main/src/ui/main_window.vala:215
+#: main/src/ui/main_window.vala:230
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:71
 #: main/src/windows/preferences_window/encryption_preferences_page.vala:49
 msgid "No active accounts"
 msgstr "Geen actieve accounts"
 
-#: main/src/ui/main_window.vala:216
+#: main/src/ui/main_window.vala:231
 msgid "Manage accounts"
 msgstr "Accounts beheren"
 
@@ -1423,12 +1760,12 @@ msgid "Subscription request"
 msgstr "Abonneerverzoek"
 
 #: main/src/ui/notifier_freedesktop.vala:192
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:231
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:259
 msgid "Wrong password"
 msgstr "Onjuist wachtwoord"
 
 #: main/src/ui/notifier_freedesktop.vala:195
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:233
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:261
 msgid "Invalid TLS certificate"
 msgstr "Ongeldig TLS-certificaat"
 
@@ -1674,45 +2011,45 @@ msgstr "Instellingen"
 msgid "Room Configuration"
 msgstr "Ruimte instellingen"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:68
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:69
 msgid "Connect"
 msgstr "Verbinden"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:106
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
 msgid "Disable account"
 msgstr "Account uitschakelen"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:106
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
 msgid "Enable account"
 msgstr "Account inschakelen"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:151
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:179
 msgid "Select avatar"
 msgstr "Kies een profielfoto"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:162
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:190
 msgid "Images"
 msgstr "Afbeeldingen"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:166
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:194
 msgid "All files"
 msgstr "Alle bestanden"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:184
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:212
 #, c-format
 msgid "Remove account %s?"
 msgstr "Wil je '%s' verwijderen?"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:218
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:246
 msgid "Connected"
 msgstr "Verbonden"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:220
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:248
 msgid "Disconnected"
 msgstr "Verbinding verbroken"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:240
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:242
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:268
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:270
 msgid "Error"
 msgstr "Fout"
 
@@ -1823,390 +2160,189 @@ msgstr "Weergavenaam wijzigen voor %s"
 msgid "Alias (optional)"
 msgstr "Alias (optioneel)"
 
+#~ msgid "Creating backup..."
+#~ msgstr "Back-up maken..."
+
+#, c-format
+#~ msgid "Backup created successfully (%s)"
+#~ msgstr "Back-up succesvol aangemaakt (%s)"
+
+#~ msgid "Backup created successfully"
+#~ msgstr "Back-up succesvol aangemaakt"
+
 # DinoX v0.7.7 - Database Maintenance & Backup/Restore
-msgid "Clean Database"
-msgstr "Database opschonen"
+#~ msgid "Clean Database"
+#~ msgstr "Database opschonen"
 
-msgid "Reset Database"
-msgstr "Database resetten"
+#~ msgid "Encrypting Backup..."
+#~ msgstr "Back-up versleutelen..."
 
-msgid "Restore Complete!"
-msgstr "Herstel voltooid!"
+#~ msgid "Creating encrypted backup..."
+#~ msgstr "Versleutelde back-up maken..."
 
-msgid "Restore Failed"
-msgstr "Herstel mislukt"
+#~ msgid "Encrypted backup created successfully"
+#~ msgstr "Versleutelde back-up succesvol gemaakt"
 
-msgid "Decrypting Backup..."
-msgstr "Back-up ontsleutelen..."
-
-msgid "Restoring Backup..."
-msgstr "Back-up herstellen..."
-
-msgid "Set Backup Password"
-msgstr "Back-upwachtwoord instellen"
-
-msgid "Confirm Password"
-msgstr "Wachtwoord bevestigen"
-
-msgid "Create Encrypted Backup"
-msgstr "Versleutelde back-up maken"
-
-msgid "Password too short"
-msgstr "Wachtwoord te kort"
-
-msgid "Passwords do not match"
-msgstr "Wachtwoorden komen niet overeen"
-
-msgid "✓ Passwords match"
-msgstr "✓ Wachtwoorden komen overeen"
-
-msgid "Encrypting Backup..."
-msgstr "Back-up versleutelen..."
-
-msgid "Factory Reset"
-msgstr "Fabrieksinstellingen"
-
-msgid "Restore from Backup"
-msgstr "Herstellen van back-up"
-
-msgid "Restore Backup"
-msgstr "Back-up herstellen"
-
-msgid "Select Backup File"
-msgstr "Back-upbestand selecteren"
-
-msgid "Enter Backup Password"
-msgstr "Voer back-upwachtwoord in"
-
-msgid "Decrypt & Restore"
-msgstr "Ontsleutelen en herstellen"
-
-msgid "Create Backup First"
-msgstr "Maak eerst een back-up"
-
-msgid "No Encryption"
-msgstr "Geen versleuteling"
-
-msgid "Encrypt with Password"
-msgstr "Versleutelen met wachtwoord"
-
-msgid "Delete Everything"
-msgstr "Alles verwijderen"
-
-msgid "Confirm Delete"
-msgstr "Verwijderen bevestigen"
-
-msgid "Are you absolutely sure?"
-msgstr "Weet u het absoluut zeker?"
-
-#: main/data/preferences_window/general_preferences_page.ui:104
-msgid "Database Maintenance"
-msgstr "Databaseonderhoud"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Restore accounts, messages and settings from a backup file"
-msgstr "Accounts, berichten en instellingen herstellen uit een back-upbestand"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
-msgstr ""
-"Verwijder alle berichten, bestanden en OMEMO-sleutels. Je accounts blijven "
-"behouden."
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete ALL data including accounts. This cannot be undone!"
-msgstr ""
-"Verwijder ALLE gegevens inclusief accounts. Dit kan niet ongedaan worden "
-"gemaakt!"
-
-# DinoX v0.7.7 - Additional Backup/Restore strings
-msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
-msgstr "Back-upbestanden (*.tar.gz, *.tar.gz.gpg)"
-
-msgid "Creating encrypted backup..."
-msgstr "Versleutelde back-up maken..."
-
-msgid "Decryption Failed"
-msgstr "Ontsleuteling mislukt"
-
-msgid "DinoX will now restart..."
-msgstr "DinoX wordt nu opnieuw gestart..."
-
-msgid "Encrypted backup created successfully"
-msgstr "Versleutelde back-up succesvol gemaakt"
-
-msgid "Password (minimum 4 characters)"
-msgstr "Wachtwoord (minimaal 4 tekens)"
-
-msgid "Decrypting encrypted backup file..."
-msgstr "Back-upbestand ontsleutelen..."
-
-msgid "Extracting files from backup..."
-msgstr "Bestanden uit back-up uitpakken..."
-
-msgid "Factory reset in progress... DinoX will restart."
-msgstr "Fabrieksinstellingen herstellen... DinoX wordt opnieuw gestart."
-
-msgid "Resetting database... DinoX will restart."
-msgstr "Database herstellen... DinoX wordt opnieuw gestart."
-
-msgid "Encrypted backup created (%s)"
-msgstr "Versleutelde back-up gemaakt (%s)"
-
-msgid ""
-"Could not decrypt the backup file.\n"
-"\n"
-"Please check if the password is correct."
-msgstr ""
-"Kon het bestand niet ontsleutelen.\n"
-"\n"
-"Controleer of het wachtwoord correct is."
-
-msgid ""
-"Could not restore the backup file.\n"
-"\n"
-"Error: %s"
-msgstr ""
-"Kon het bestand niet herstellen.\n"
-"\n"
-"Fout: %s"
-
-msgid "This backup is encrypted. Please enter the password to decrypt it."
-msgstr "Deze back-up is versleuteld. Voer het wachtwoord in."
-
-msgid ""
-"Enter a password to encrypt the backup.\n"
-"\n"
-"<b>Important:</b> Remember this password! Without it, the backup cannot be "
-"restored."
-msgstr ""
-"Voer een wachtwoord in om de back-up te versleutelen.\n"
-"\n"
-"<b>Belangrijk:</b> Onthoud dit wachtwoord! Zonder kan de back-up niet worden "
-"hersteld."
-
-msgid ""
-"This will delete all messages, files and OMEMO encryption keys.\n"
-"\n"
-"<b>Your accounts will remain, but you will lose all chat history and need to "
-"re-verify encryption with your contacts.</b>\n"
-"\n"
-"This action cannot be undone!"
-msgstr ""
-"Dit verwijdert alle berichten, bestanden en OMEMO-versleutelingssleutels.\n"
-"\n"
-"<b>Uw accounts blijven behouden, maar u verliest alle chatgeschiedenis en "
-"moet de versleuteling opnieuw verifiëren met uw contacten.</b>\n"
-"\n"
-"Deze actie kan niet ongedaan worden gemaakt!"
-
-msgid ""
-"This will replace all current data with the backup.\n"
-"\n"
-"<b>Current accounts, messages and settings will be overwritten!</b>\n"
-"\n"
-"DinoX will restart after restoring."
-msgstr ""
-"Dit vervangt alle huidige gegevens door de back-up.\n"
-"\n"
-"<b>Huidige accounts, berichten en instellingen worden overschreven!</b>\n"
-"\n"
-"DinoX wordt na het herstellen opnieuw gestart."
-
-msgid ""
-"Type 'DELETE' to confirm factory reset.\n"
-"\n"
-"This will permanently remove all your DinoX data."
-msgstr ""
-"Typ 'DELETE' om fabrieksreset te bevestigen.\n"
-"\n"
-"Dit verwijdert permanent al uw DinoX-gegevens."
-
-msgid ""
-"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
-"\n"
-"• All accounts\n"
-"• All messages and files\n"
-"• All encryption keys\n"
-"• All settings\n"
-"\n"
-"This is irreversible. Make sure to create a backup first!"
-msgstr ""
-"<b>⚠️ WAARSCHUWING: Dit verwijdert ALLE gegevens!</b>\n"
-"\n"
-"• Alle accounts\n"
-"• Alle berichten en bestanden\n"
-"• Alle versleutelingssleutels\n"
-"• Alle instellingen\n"
-"\n"
-"Dit is onomkeerbaar. Maak eerst een back-up!"
+#~ msgid "Encrypted backup created (%s)"
+#~ msgstr "Versleutelde back-up gemaakt (%s)"
 
 # OpenPGP Key Management translations
-msgid "OpenPGP Key Management"
-msgstr "OpenPGP sleutelbeheer"
+#~ msgid "OpenPGP Key Management"
+#~ msgstr "OpenPGP sleutelbeheer"
 
-msgid "Actions"
-msgstr "Acties"
+#~ msgid "Actions"
+#~ msgstr "Acties"
 
-msgid "Generate New Key"
-msgstr "Nieuwe sleutel genereren"
+#~ msgid "Generate New Key"
+#~ msgstr "Nieuwe sleutel genereren"
 
-msgid "Create a new OpenPGP key pair"
-msgstr "Een nieuw OpenPGP sleutelpaar aanmaken"
+#~ msgid "Create a new OpenPGP key pair"
+#~ msgstr "Een nieuw OpenPGP sleutelpaar aanmaken"
 
-msgid "Import Key"
-msgstr "Sleutel importeren"
+#~ msgid "Import Key"
+#~ msgstr "Sleutel importeren"
 
-msgid "Import a key from file (.asc, .gpg)"
-msgstr "Een sleutel importeren uit bestand (.asc, .gpg)"
+#~ msgid "Import a key from file (.asc, .gpg)"
+#~ msgstr "Een sleutel importeren uit bestand (.asc, .gpg)"
 
-msgid "Your Keys"
-msgstr "Uw sleutels"
+#~ msgid "Your Keys"
+#~ msgstr "Uw sleutels"
 
-msgid "Private keys available for signing and decryption"
-msgstr "Privésleutels beschikbaar voor ondertekening en ontsleuteling"
+#~ msgid "Private keys available for signing and decryption"
+#~ msgstr "Privésleutels beschikbaar voor ondertekening en ontsleuteling"
 
-msgid "No private keys found"
-msgstr "Geen privésleutels gevonden"
+#~ msgid "No private keys found"
+#~ msgstr "Geen privésleutels gevonden"
 
-msgid "Generate or import a key to get started"
-msgstr "Genereer of importeer een sleutel om te beginnen"
+#~ msgid "Generate or import a key to get started"
+#~ msgstr "Genereer of importeer een sleutel om te beginnen"
 
-msgid "Fingerprint"
-msgstr "Vingerafdruk"
+#~ msgid "Fingerprint"
+#~ msgstr "Vingerafdruk"
 
-msgid "Export Public Key"
-msgstr "Publieke sleutel exporteren"
+#~ msgid "Export Public Key"
+#~ msgstr "Publieke sleutel exporteren"
 
-msgid "Delete Key"
-msgstr "Sleutel verwijderen"
+#~ msgid "Delete Key"
+#~ msgstr "Sleutel verwijderen"
 
-msgid "Generate New OpenPGP Key"
-msgstr "Nieuwe OpenPGP sleutel genereren"
+#~ msgid "Generate New OpenPGP Key"
+#~ msgstr "Nieuwe OpenPGP sleutel genereren"
 
-msgid "Enter your details to create a new key pair."
-msgstr "Voer uw gegevens in om een nieuw sleutelpaar aan te maken."
+#~ msgid "Enter your details to create a new key pair."
+#~ msgstr "Voer uw gegevens in om een nieuw sleutelpaar aan te maken."
 
-msgid "Name"
-msgstr "Naam"
+#~ msgid "Name"
+#~ msgstr "Naam"
 
-msgid "Your Name"
-msgstr "Uw naam"
+#~ msgid "Your Name"
+#~ msgstr "Uw naam"
 
-msgid "Email"
-msgstr "E-mail"
+#~ msgid "Email"
+#~ msgstr "E-mail"
 
-msgid "you@example.com"
-msgstr "u@voorbeeld.nl"
+#~ msgid "you@example.com"
+#~ msgstr "u@voorbeeld.nl"
 
-msgid "Passphrase (optional)"
-msgstr "Wachtwoordzin (optioneel)"
+#~ msgid "Passphrase (optional)"
+#~ msgstr "Wachtwoordzin (optioneel)"
 
-msgid "Passphrase"
-msgstr "Wachtwoordzin"
+#~ msgid "Passphrase"
+#~ msgstr "Wachtwoordzin"
 
-msgid "4096-bit RSA key, valid for 2 years."
-msgstr "4096-bit RSA sleutel, 2 jaar geldig."
+#~ msgid "4096-bit RSA key, valid for 2 years."
+#~ msgstr "4096-bit RSA sleutel, 2 jaar geldig."
 
-msgid "Generate"
-msgstr "Genereren"
+#~ msgid "Generate"
+#~ msgstr "Genereren"
 
-msgid "Name must be at least 2 characters"
-msgstr "Naam moet minimaal 2 tekens bevatten"
+#~ msgid "Name must be at least 2 characters"
+#~ msgstr "Naam moet minimaal 2 tekens bevatten"
 
-msgid "Please enter a valid email address"
-msgstr "Voer een geldig e-mailadres in"
+#~ msgid "Please enter a valid email address"
+#~ msgstr "Voer een geldig e-mailadres in"
 
-msgid "Generating Key..."
-msgstr "Sleutel genereren..."
+#~ msgid "Generating Key..."
+#~ msgstr "Sleutel genereren..."
 
-msgid "Please wait while your key is being generated. This may take a moment."
-msgstr "Even geduld terwijl uw sleutel wordt gegenereerd. Dit kan even duren."
+#~ msgid "Key generated successfully!"
+#~ msgstr "Sleutel succesvol gegenereerd!"
 
-msgid "Key generated successfully!"
-msgstr "Sleutel succesvol gegenereerd!"
+#~ msgid "Import OpenPGP Key"
+#~ msgstr "OpenPGP sleutel importeren"
 
-msgid "Failed to generate key."
-msgstr "Sleutel genereren mislukt."
+#~ msgid "OpenPGP Keys (*.asc, *.gpg)"
+#~ msgstr "OpenPGP sleutels (*.asc, *.gpg)"
 
-msgid "Import OpenPGP Key"
-msgstr "OpenPGP sleutel importeren"
+#~ msgid "All Files"
+#~ msgstr "Alle bestanden"
 
-msgid "OpenPGP Keys (*.asc, *.gpg)"
-msgstr "OpenPGP sleutels (*.asc, *.gpg)"
+#~ msgid "Key imported! Re-open Key Management to see it."
+#~ msgstr "Sleutel geïmporteerd! Heropen Sleutelbeheer om te bekijken."
 
-msgid "All Files"
-msgstr "Alle bestanden"
+#~ msgid "Import failed: "
+#~ msgstr "Importeren mislukt: "
 
-msgid "Key imported! Re-open Key Management to see it."
-msgstr "Sleutel geïmporteerd! Heropen Sleutelbeheer om te bekijken."
+#~ msgid "Key exported to: "
+#~ msgstr "Sleutel geëxporteerd naar: "
 
-msgid "Import failed: "
-msgstr "Importeren mislukt: "
+#~ msgid "Export failed."
+#~ msgstr "Exporteren mislukt."
 
-msgid "Key exported to: "
-msgstr "Sleutel geëxporteerd naar: "
+#~ msgid "Delete Key?"
+#~ msgstr "Sleutel verwijderen?"
 
-msgid "Export failed."
-msgstr "Exporteren mislukt."
+#~ msgid ""
+#~ "Delete this key?\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "This cannot be undone!"
+#~ msgstr ""
+#~ "Deze sleutel verwijderen?\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "Dit kan niet ongedaan worden gemaakt!"
 
-msgid "Delete Key?"
-msgstr "Sleutel verwijderen?"
+#~ msgid "Key deleted."
+#~ msgstr "Sleutel verwijderd."
 
-msgid ""
-"Delete this key?\n"
-"\n"
-"%s\n"
-"\n"
-"This cannot be undone!"
-msgstr ""
-"Deze sleutel verwijderen?\n"
-"\n"
-"%s\n"
-"\n"
-"Dit kan niet ongedaan worden gemaakt!"
+#~ msgid "Delete failed: "
+#~ msgstr "Verwijderen mislukt: "
 
-msgid "Key deleted."
-msgstr "Sleutel verwijderd."
+#~ msgid "Select OpenPGP Key"
+#~ msgstr "OpenPGP sleutel selecteren"
 
-msgid "Delete failed: "
-msgstr "Verwijderen mislukt: "
+#~ msgid "Choose a key to announce to your contacts."
+#~ msgstr "Kies een sleutel om aan uw contacten aan te kondigen."
 
-msgid "Select OpenPGP Key"
-msgstr "OpenPGP sleutel selecteren"
+#~ msgid "Enter GPG passphrase to confirm:"
+#~ msgstr "Voer GPG wachtwoordzin in ter bevestiging:"
 
-msgid "Choose a key to announce to your contacts."
-msgstr "Kies een sleutel om aan uw contacten aan te kondigen."
+#~ msgid "Wrong passphrase"
+#~ msgstr "Verkeerde wachtwoordzin"
 
-msgid "Enter GPG passphrase to confirm:"
-msgstr "Voer GPG wachtwoordzin in ter bevestiging:"
+#~ msgid "Manage Keys"
+#~ msgstr "Sleutels beheren"
 
-msgid "Wrong passphrase"
-msgstr "Verkeerde wachtwoordzin"
+#~ msgid "Generate, import, export, or delete keys"
+#~ msgstr "Sleutels genereren, importeren, exporteren of verwijderen"
 
-msgid "Manage Keys"
-msgstr "Sleutels beheren"
+#~ msgid "No keys available. Generate or import one!"
+#~ msgstr "Geen sleutels beschikbaar. Genereer of importeer er een!"
 
-msgid "Generate, import, export, or delete keys"
-msgstr "Sleutels genereren, importeren, exporteren of verwijderen"
+#~ msgid "Announce key"
+#~ msgstr "Sleutel aankondigen"
 
-msgid "No keys available. Generate or import one!"
-msgstr "Geen sleutels beschikbaar. Genereer of importeer er een!"
+#~ msgid "Disabled"
+#~ msgstr "Uitgeschakeld"
 
-msgid "Announce key"
-msgstr "Sleutel aankondigen"
+#~ msgid "Error in GnuPG"
+#~ msgstr "Fout in GnuPG"
 
-msgid "Disabled"
-msgstr "Uitgeschakeld"
-
-msgid "Error in GnuPG"
-msgstr "Fout in GnuPG"
-
-msgid "Success"
-msgstr "Succes"
-
-msgid "OK"
-msgstr "OK"
+#~ msgid "Success"
+#~ msgstr "Succes"
 
 #~ msgid "Message too long"
 #~ msgstr "Het bericht is te lang"

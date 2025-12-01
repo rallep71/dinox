@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-28 12:18+0100\n"
+"POT-Creation-Date: 2025-12-01 10:28+0100\n"
 "PO-Revision-Date: 2022-08-23 18:21+0000\n"
 "Language-Team: none\n"
 "Language: is\n"
@@ -99,14 +99,14 @@ msgstr "Almennt"
 #: main/data/gtk/help-overlay.ui:14 main/data/main_window.ui:38
 #: main/data/menu_add.ui:7
 #: main/src/ui/add_conversation/select_contact_dialog.vala:106
-#: main/src/ui/main_window.vala:141
+#: main/src/ui/main_window.vala:154
 msgid "Start Conversation"
 msgstr "Byrja samtal"
 
 #: main/data/gtk/help-overlay.ui:20 main/data/main_window.ui:51
 #: main/data/menu_add.ui:11
 #: main/src/ui/add_conversation/add_conference_dialog.vala:24
-#: main/src/ui/application.vala:527 main/src/ui/main_window.vala:142
+#: main/src/ui/application.vala:1359 main/src/ui/main_window.vala:155
 msgid "Join Channel"
 msgstr "Tengjast rás"
 
@@ -147,7 +147,7 @@ msgstr "Fara í næsta spjall"
 msgid "Jump to previous conversation"
 msgstr "Fara í fyrra spjall"
 
-#: main/data/main_window.ui:64 main/src/ui/main_window.vala:144
+#: main/data/main_window.ui:64 main/src/ui/main_window.vala:157
 msgid "Help: How to join channels"
 msgstr "Hjálp: Hvernig á að taka þátt í rásum"
 
@@ -165,28 +165,28 @@ msgstr "Staða"
 
 #: main/data/menu_app.ui:11
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:427
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Online"
 msgstr "Á netinu"
 
 #: main/data/menu_app.ui:16
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:421
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Away"
 msgstr "Í burtu"
 
 #: main/data/menu_app.ui:21
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:425
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Busy"
 msgstr "Upptekin/n"
 
 #: main/data/menu_app.ui:26
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:423
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Not Available"
 msgstr "Ekki tiltæk/ur"
@@ -199,7 +199,7 @@ msgstr "Stillingar"
 msgid "Keyboard Shortcuts"
 msgstr "Flýtilyklar"
 
-#: main/data/menu_app.ui:42 main/src/ui/application.vala:334
+#: main/data/menu_app.ui:42 main/src/ui/application.vala:340
 msgid "About DinoX"
 msgstr "Um DinoX"
 
@@ -218,7 +218,10 @@ msgstr "Eyða samtalsferli"
 #: main/data/preferences_window/change_password_dialog.ui:18
 #: main/src/ui/add_conversation/add_conference_dialog.vala:41
 #: main/src/ui/add_conversation/select_contact_dialog.vala:40
-#: main/src/ui/application.vala:537
+#: main/src/ui/application.vala:441 main/src/ui/application.vala:469
+#: main/src/ui/application.vala:765 main/src/ui/application.vala:843
+#: main/src/ui/application.vala:901 main/src/ui/application.vala:933
+#: main/src/ui/application.vala:1089 main/src/ui/application.vala:1369
 #: main/src/ui/conversation_content_view/file_default_widget.vala:90
 #: main/src/ui/conversation_content_view/item_actions.vala:165
 #: main/src/ui/conversation_content_view/item_actions.vala:168
@@ -233,7 +236,7 @@ msgstr "Eyða samtalsferli"
 #: main/src/ui/conversation_titlebar/call_entry.vala:83
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
 #: main/src/windows/conversation_details.vala:60
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:67
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:68
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:205
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:225
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:249
@@ -257,6 +260,7 @@ msgid "Local alias"
 msgstr "Staðbundið samnefni"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:82
+#: main/src/ui/application.vala:435 main/src/ui/application.vala:1064
 #: main/src/ui/util/data_forms.vala:63
 msgid "Password"
 msgstr "Lykilorð"
@@ -265,20 +269,24 @@ msgstr "Lykilorð"
 msgid "Connection status"
 msgstr "Tengistaða"
 
+#: main/data/preferences_window/account_preferences_subpage.ui:117
+msgid "View Certificate"
+msgstr "Skoða vottorð"
+
 # Custom host/port feature (Issue #115)
-#: main/data/preferences_window/account_preferences_subpage.ui:121
+#: main/data/preferences_window/account_preferences_subpage.ui:128
 msgid "Advanced Settings"
 msgstr "Ítarlegar stillingar"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:122
+#: main/data/preferences_window/account_preferences_subpage.ui:129
 msgid "Custom server connection (leave empty for automatic)"
 msgstr "Sérsniðin þjónstenging (skildu eftir autt fyrir sjálfvirkt)"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:125
+#: main/data/preferences_window/account_preferences_subpage.ui:132
 msgid "Server Hostname"
 msgstr "Þjónsnafn"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:130
+#: main/data/preferences_window/account_preferences_subpage.ui:137
 msgid "Port"
 msgstr "Tengi"
 
@@ -350,12 +358,55 @@ msgid "Create a backup of your accounts, messages and settings"
 msgstr "Búa til öryggisafrit af reikningum, skilaboðum og stillingum"
 
 #: main/data/preferences_window/general_preferences_page.ui:78
-msgid "Data Location"
-msgstr "Staðsetning gagna"
+#: main/src/ui/application.vala:464 main/src/ui/main_window.vala:223
+msgid "Restore from Backup"
+msgstr "Endurheimta úr öryggisafriti"
 
 #: main/data/preferences_window/general_preferences_page.ui:79
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "Endurheimta reikninga, skilaboð og stillingar úr öryggisafriti"
+
+#: main/data/preferences_window/general_preferences_page.ui:90
+msgid "Data Storage Location"
+msgstr "Geymslustaðsetning gagna"
+
+#: main/data/preferences_window/general_preferences_page.ui:91
 msgid "View where your data is stored"
 msgstr "Skoða hvar gögnin þín eru geymd"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "Gagnagrunnsviðhald"
+
+#: main/data/preferences_window/general_preferences_page.ui:107
+#: main/src/ui/application.vala:761 main/src/ui/application.vala:766
+msgid "Clear Cache"
+msgstr "Hreinsa skyndiminni"
+
+#: main/data/preferences_window/general_preferences_page.ui:108
+msgid "Clear cached files, avatars and previews"
+msgstr "Hreinsa skrár, notendamyndir og forskoðanir úr skyndiminni"
+
+#: main/data/preferences_window/general_preferences_page.ui:119
+#: main/src/ui/application.vala:838 main/src/ui/application.vala:844
+msgid "Reset Database"
+msgstr "Endurstilla gagnagrunn"
+
+#: main/data/preferences_window/general_preferences_page.ui:120
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr ""
+"Eyða öllum skilaboðum, skrám og OMEMO lyklum. Reikningarnir þínir verða "
+"áfram."
+
+#: main/data/preferences_window/general_preferences_page.ui:131
+#: main/src/ui/application.vala:896
+msgid "Factory Reset"
+msgstr "Verksmiðjustilling"
+
+#: main/data/preferences_window/general_preferences_page.ui:132
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr ""
+"Eyða ÖLLUM gögnum þar með talið reikningum. Þetta er ekki hægt að afturkalla!"
 
 #: main/data/preferences_window/preferences_dialog.ui:11
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:15
@@ -380,7 +431,7 @@ msgstr "Áfram"
 
 #: main/src/ui/add_conversation/add_conference_dialog.vala:59
 #: main/src/ui/add_conversation/conference_details_fragment.vala:151
-#: main/src/ui/application.vala:541
+#: main/src/ui/application.vala:1373
 msgid "Join"
 msgstr "Tengjast"
 
@@ -466,31 +517,31 @@ msgstr "Eyða tengilið"
 msgid "Leave Group"
 msgstr "Yfirgefa hóp"
 
-#: main/src/ui/application.vala:339
+#: main/src/ui/application.vala:345
 msgid "Modern XMPP client with extended features"
 msgstr "Nútíma XMPP viðskiptavinur með auknar aðgerðir"
 
-#: main/src/ui/application.vala:346 main/src/ui/application.vala:385
+#: main/src/ui/application.vala:352 main/src/ui/application.vala:727
 msgid "User Data Locations"
 msgstr "Staðsetningar gagna"
 
-#: main/src/ui/application.vala:349 main/src/ui/application.vala:399
+#: main/src/ui/application.vala:355 main/src/ui/application.vala:741
 msgid "Configuration:"
 msgstr "Stillingar:"
 
-#: main/src/ui/application.vala:352 main/src/ui/application.vala:401
+#: main/src/ui/application.vala:358 main/src/ui/application.vala:743
 msgid "Data & Database:"
 msgstr "Gögn og gagnagrunnur:"
 
-#: main/src/ui/application.vala:355 main/src/ui/application.vala:403
+#: main/src/ui/application.vala:361 main/src/ui/application.vala:745
 msgid "Cache:"
 msgstr "Skyndiminni:"
 
-#: main/src/ui/application.vala:358
+#: main/src/ui/application.vala:364
 msgid "Info:"
 msgstr "Upplýsingar:"
 
-#: main/src/ui/application.vala:359
+#: main/src/ui/application.vala:365
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
@@ -498,16 +549,120 @@ msgstr ""
 "Persónuleg gögn þín (reikningar, skilaboð, skrár) eru geymd aðskilið frá "
 "forritinu."
 
-#: main/src/ui/application.vala:361
+#: main/src/ui/application.vala:367
 msgid "When you update DinoX, your data remains intact."
 msgstr "Þegar þú uppfærir DinoX helst gögnin þín ósnortin."
 
-#: main/src/ui/application.vala:363
+#: main/src/ui/application.vala:369
 msgid "Use Settings → General → Backup User Data to create a backup."
 msgstr ""
 "Notaðu Stillingar → Almennt → Afritun notandagagna til að búa til afrit."
 
-#: main/src/ui/application.vala:405
+#: main/src/ui/application.vala:387
+msgid "Select Backup File"
+msgstr "Veldu öryggisafritsskrá"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+#: main/src/ui/application.vala:395
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "Öryggisafritsskrár (*.tar.gz, *.tar.gz.gpg)"
+
+#: main/src/ui/application.vala:425
+msgid "Enter Backup Password"
+msgstr "Sláðu inn lykilorð öryggisafrits"
+
+#: main/src/ui/application.vala:426
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "Þetta öryggisafrit er dulkóðað. Sláðu inn lykilorðið."
+
+#: main/src/ui/application.vala:442
+msgid "Decrypt & Restore"
+msgstr "Afkóða og endurheimta"
+
+#: main/src/ui/application.vala:465
+msgid ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+msgstr ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+
+#: main/src/ui/application.vala:470
+msgid "Restore Backup"
+msgstr "Endurheimta öryggisafrit"
+
+#: main/src/ui/application.vala:487 main/src/ui/application.vala:519
+msgid "Decrypting Backup..."
+msgstr "Afkóða öryggisafrit..."
+
+#: main/src/ui/application.vala:487 main/src/ui/application.vala:571
+msgid "Restoring Backup..."
+msgstr "Endurheimti öryggisafrit..."
+
+#: main/src/ui/application.vala:488
+msgid "Please wait, this may take a moment..."
+msgstr "Vinsamlegast bíddu, þetta gæti tekið smá stund..."
+
+#: main/src/ui/application.vala:520
+msgid "Decrypting encrypted backup file..."
+msgstr "Afkóða öryggisafritsskrá..."
+
+#: main/src/ui/application.vala:558
+msgid "Decryption Failed"
+msgstr "Afkóðun mistókst"
+
+#: main/src/ui/application.vala:559
+msgid ""
+"Could not decrypt the backup file.\n"
+"\n"
+"Please check if the password is correct."
+msgstr ""
+"Gat ekki afkóðað skrána.\n"
+"\n"
+"Athugaðu hvort lykilorðið sé rétt."
+
+#: main/src/ui/application.vala:561 main/src/ui/application.vala:671
+msgid "OK"
+msgstr "OK"
+
+#: main/src/ui/application.vala:572
+msgid "Extracting files from backup..."
+msgstr "Dreg út skrár úr öryggisafriti..."
+
+#: main/src/ui/application.vala:653
+msgid "Restore Complete!"
+msgstr "Endurheimt lokið!"
+
+#: main/src/ui/application.vala:654
+msgid "DinoX will now restart..."
+msgstr "DinoX mun endurræsast núna..."
+
+#: main/src/ui/application.vala:668
+msgid "Restore Failed"
+msgstr "Endurheimt mistókst"
+
+#: main/src/ui/application.vala:669
+#, c-format
+msgid ""
+"Could not restore the backup file.\n"
+"\n"
+"Error: %s"
+msgstr ""
+"Gat ekki endurheimt skrána.\n"
+"\n"
+"Villa: %s"
+
+#: main/src/ui/application.vala:669 main/src/ui/application.vala:1345
+msgid "Unknown error"
+msgstr "Óþekkt villa"
+
+#: main/src/ui/application.vala:747
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
@@ -517,96 +672,243 @@ msgstr ""
 "gögn þín (reikningar, skilaboð, skrár) eru geymd aðskilið frá forritinu. "
 "Þegar þú uppfærir DinoX haldast gögnin þín óbreytt."
 
-#: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
-#: main/src/ui/main_window.vala:159
+#: main/src/ui/application.vala:752 main/src/ui/application.vala:1240
+#: main/src/ui/application.vala:1324 main/src/ui/conversation_details.vala:272
+#: main/src/ui/main_window.vala:172
 msgid "Close"
 msgstr "Loka"
 
-#: main/src/ui/application.vala:417
+#: main/src/ui/application.vala:762
+msgid ""
+"This will delete cached files, avatars and previews.\n"
+"\n"
+"They will be re-downloaded when needed."
+msgstr ""
+"Þetta mun eyða skrám, notendamyndum og forskoðunum úr skyndiminni.\n"
+"\n"
+"Þeim verður hlaðið niður aftur þegar þörf krefur."
+
+#: main/src/ui/application.vala:799
+#, c-format
+msgid "Cache cleared (%s freed)"
+msgstr "Skyndiminni hreinsað (%s losnaði)"
+
+#: main/src/ui/application.vala:802
+msgid "Failed to clear cache"
+msgstr "Mistókst að hreinsa skyndiminni"
+
+#: main/src/ui/application.vala:839
+msgid ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+msgstr ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+
+#: main/src/ui/application.vala:867
+msgid "Resetting database... DinoX will restart."
+msgstr "Endurstilli gagnagrunn... DinoX mun endurræsast."
+
+#: main/src/ui/application.vala:897
+msgid ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+msgstr ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+
+#: main/src/ui/application.vala:902
+msgid "Create Backup First"
+msgstr "Búa til öryggisafrit fyrst"
+
+#: main/src/ui/application.vala:903
+msgid "Delete Everything"
+msgstr "Eyða öllu"
+
+#: main/src/ui/application.vala:923
+msgid "Are you absolutely sure?"
+msgstr "Ertu alveg viss?"
+
+#: main/src/ui/application.vala:924
+msgid ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+msgstr ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+
+#: main/src/ui/application.vala:934
+msgid "Confirm Delete"
+msgstr "Staðfesta eyðingu"
+
+#: main/src/ui/application.vala:961
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "Endurstilling í gangi... DinoX mun endurræsast."
+
+#: main/src/ui/application.vala:1026
+msgid "Backup Encryption"
+msgstr "Dulkóðun öryggisafrits"
+
+#: main/src/ui/application.vala:1027
+msgid ""
+"Do you want to encrypt the backup with a password?\n"
+"\n"
+"Encrypted backups are more secure but require the password to restore."
+msgstr ""
+"Viltu dulkóða öryggisafritið með lykilorði?\n"
+"\n"
+"Dulkóðuð öryggisafrit eru öruggari en krefjast lykilorðsins til að "
+"endurheimta."
+
+#: main/src/ui/application.vala:1030
+msgid "No Encryption"
+msgstr "Engin dulkóðun"
+
+#: main/src/ui/application.vala:1031
+msgid "Encrypt with Password"
+msgstr "Dulkóða með lykilorði"
+
+#: main/src/ui/application.vala:1049
+msgid "Set Backup Password"
+msgstr "Setja lykilorð öryggisafrits"
+
+#: main/src/ui/application.vala:1050
+msgid ""
+"Enter a password to encrypt the backup.\n"
+"\n"
+"<b>Important:</b> Remember this password! Without it, the backup cannot be "
+"restored."
+msgstr ""
+"Sláðu inn lykilorð til að dulkóða öryggisafritið.\n"
+"\n"
+"<b>Mikilvægt:</b> Mundu þetta lykilorð! Án þess er ekki hægt að endurheimta."
+
+#: main/src/ui/application.vala:1058
+msgid "Password (minimum 4 characters)"
+msgstr "Lykilorð (að lágmarki 4 stafir)"
+
+#: main/src/ui/application.vala:1066 main/src/ui/application.vala:1073
+msgid "Confirm Password"
+msgstr "Staðfesta lykilorð"
+
+#: main/src/ui/application.vala:1090
+msgid "Create Encrypted Backup"
+msgstr "Búa til dulkóðað öryggisafrit"
+
+#: main/src/ui/application.vala:1102 main/src/ui/application.vala:1117
+msgid "Password too short"
+msgstr "Lykilorð of stutt"
+
+#: main/src/ui/application.vala:1104 main/src/ui/application.vala:1119
+msgid "Passwords do not match"
+msgstr "Lykilorðin passa ekki saman"
+
+#: main/src/ui/application.vala:1106 main/src/ui/application.vala:1121
+msgid "✓ Passwords match"
+msgstr "✓ Lykilorðin passa saman"
+
+#: main/src/ui/application.vala:1139
 msgid "Select Backup Location"
 msgstr "Veldu staðsetningu öryggisafrits"
 
-#: main/src/ui/application.vala
-msgid "Creating Backup..."
-msgstr "Creating Backup..."
-
-#: main/src/ui/application.vala
+#: main/src/ui/application.vala:1194
 msgid "Creating Encrypted Backup..."
-msgstr "Creating Encrypted Backup..."
+msgstr "Bý til dulkóðað öryggisafrit..."
 
-#: main/src/ui/application.vala
-msgid "Please wait while your data is being backed up."
-msgstr "Please wait while your data is being backed up."
-
-#: main/src/ui/application.vala
-msgid "No data directories found to backup"
-msgstr "No data directories found to backup"
-
-#: main/src/ui/application.vala
-msgid "Backup Created"
-msgstr "Backup Created"
-
-#: main/src/ui/application.vala
-msgid "Encrypted Backup Created"
-msgstr "Encrypted Backup Created"
-
-#: main/src/ui/application.vala
-#, c-format
-msgid "Your backup was created successfully.\\n\\nSize: %s"
-msgstr "Your backup was created successfully.\\n\\nSize: %s"
-
-#: main/src/ui/application.vala
-msgid "Your backup was created successfully."
-msgstr "Your backup was created successfully."
-
-#: main/src/ui/application.vala
-#, c-format
-msgid "Your encrypted backup was created successfully.\\n\\nSize: %s"
-msgstr "Your encrypted backup was created successfully.\\n\\nSize: %s"
-
-#: main/src/ui/application.vala
-msgid "Your encrypted backup was created successfully."
-msgstr "Your encrypted backup was created successfully."
-
-#: main/src/ui/application.vala
-msgid "Backup Failed"
-msgstr "Backup Failed"
-
-#: main/src/ui/application.vala:445
-msgid "Creating backup..."
+#: main/src/ui/application.vala:1194
+msgid "Creating Backup..."
 msgstr "Bý til öryggisafrit..."
 
-#: main/src/ui/application.vala:503
-#, c-format
-msgid "Backup created successfully (%s)"
-msgstr "Öryggisafrit búið til (%s)"
+#: main/src/ui/application.vala:1195
+msgid "Please wait while your data is being backed up."
+msgstr "Vinsamlegast bíddu á meðan gögnin þín eru afrituð."
 
-#: main/src/ui/application.vala:505
-msgid "Backup created successfully"
+#: main/src/ui/application.vala:1234
+msgid "No data directory found to backup"
+msgstr "Engin gagnamappa fannst til að taka öryggisafrit af"
+
+#: main/src/ui/application.vala:1237 main/src/ui/application.vala:1343
+msgid "Backup Failed"
+msgstr "Öryggisafritun mistókst"
+
+#: main/src/ui/application.vala:1331
+msgid "Encrypted Backup Created"
+msgstr "Dulkóðað öryggisafrit búið til"
+
+#: main/src/ui/application.vala:1333
+#, c-format
+msgid ""
+"Your encrypted backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"Dulkóðaða öryggisafritið þitt var búið til.\n"
+"\n"
+"Stærð: %s"
+
+#: main/src/ui/application.vala:1334
+msgid "Your encrypted backup was created successfully."
+msgstr "Dulkóðaða öryggisafritið þitt var búið til."
+
+#: main/src/ui/application.vala:1336
+msgid "Backup Created"
 msgstr "Öryggisafrit búið til"
 
-#: main/src/ui/application.vala:510
-msgid "Unknown error"
-msgstr "Óþekkt villa"
+#: main/src/ui/application.vala:1338
+#, c-format
+msgid ""
+"Your backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"Öryggisafritið þitt var búið til.\n"
+"\n"
+"Stærð: %s"
 
-#: main/src/ui/application.vala:511
+#: main/src/ui/application.vala:1339
+msgid "Your backup was created successfully."
+msgstr "Öryggisafritið þitt var búið til."
+
+#: main/src/ui/application.vala:1346
 #, c-format
 msgid "Backup failed: %s"
 msgstr "Öryggisafrit mistókst: %s"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:29
+#: main/src/ui/call_window/audio_settings_popover.vala:46
 msgid "Microphones"
 msgstr "Hljóðnemar"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:32
+#: main/src/ui/call_window/audio_settings_popover.vala:49
 msgid "No microphone found."
 msgstr "Hljóðnemi fannst ekki."
 
-#: main/src/ui/call_window/audio_settings_popover.vala:85
+#: main/src/ui/call_window/audio_settings_popover.vala:116
 msgid "Speakers"
 msgstr "Hátalarar"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:88
+#: main/src/ui/call_window/audio_settings_popover.vala:119
 msgid "No speaker found."
 msgstr "Hátalari fannst ekki."
 
@@ -622,7 +924,7 @@ msgstr "Bjóða í símtal"
 msgid "Invite"
 msgstr "Bjóða"
 
-#: main/src/ui/call_window/call_window_controller.vala:405
+#: main/src/ui/call_window/call_window_controller.vala:453
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:240
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:270
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:285
@@ -641,21 +943,21 @@ msgstr "%s lauk símtali"
 msgid "%s declined the call"
 msgstr "%s afþakkaði símtalið"
 
-#: main/src/ui/call_window/participant_widget.vala:115
+#: main/src/ui/call_window/participant_widget.vala:140
 msgid "Debug information"
 msgstr "Villuleitarupplýsingar"
 
-#: main/src/ui/call_window/participant_widget.vala:124
+#: main/src/ui/call_window/participant_widget.vala:149
 #: main/src/ui/conversation_content_view/call_widget.vala:152
 msgid "Calling…"
 msgstr "Hringir…"
 
-#: main/src/ui/call_window/participant_widget.vala:126
+#: main/src/ui/call_window/participant_widget.vala:151
 msgid "Ringing…"
 msgstr "Hringir…"
 
-#: main/src/ui/call_window/participant_widget.vala:128
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:216
+#: main/src/ui/call_window/participant_widget.vala:153
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:244
 msgid "Connecting…"
 msgstr "Tengist…"
 
@@ -889,7 +1191,7 @@ msgstr "%a %l∶%M %p"
 msgid "Just now"
 msgstr "Núna"
 
-#: main/src/ui/conversation_content_view/conversation_view.vala:105
+#: main/src/ui/conversation_content_view/conversation_view.vala:106
 msgid "More actions"
 msgstr "Fleiri aðgerðir"
 
@@ -1108,6 +1410,38 @@ msgstr "Eyðileggja"
 msgid "Failed to destroy room"
 msgstr "Mistókst að eyða rými"
 
+#: main/src/ui/conversation_details.vala:286
+msgid "Auto-delete messages"
+msgstr "Eyða skilaboðum sjálfkrafa"
+
+#: main/src/ui/conversation_details.vala:287
+msgid "Never"
+msgstr "Aldrei"
+
+#: main/src/ui/conversation_details.vala:288
+msgid "After 15 minutes"
+msgstr "Eftir 15 mínútur"
+
+#: main/src/ui/conversation_details.vala:289
+msgid "After 30 minutes"
+msgstr "Eftir 30 mínútur"
+
+#: main/src/ui/conversation_details.vala:290
+msgid "After 1 hour"
+msgstr "Eftir 1 klukkustund"
+
+#: main/src/ui/conversation_details.vala:291
+msgid "After 24 hours"
+msgstr "Eftir 24 klukkustundir"
+
+#: main/src/ui/conversation_details.vala:292
+msgid "After 7 days"
+msgstr "Eftir 7 daga"
+
+#: main/src/ui/conversation_details.vala:293
+msgid "After 30 days"
+msgstr "Eftir 30 daga"
+
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:276
 #: main/src/ui/notifier_freedesktop.vala:71
 #: main/src/ui/notifier_gnotifications.vala:36
@@ -1253,6 +1587,7 @@ msgstr "Opna fyrir tengilið?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:702
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:247
+#, c-format
 msgid "This will allow %s to send you messages again."
 msgstr "Þetta mun leyfa %s að senda þér skilaboð aftur."
 
@@ -1355,7 +1690,7 @@ msgid "Select file"
 msgstr "Veldu skrá"
 
 #: main/src/ui/conversation_view_controller.vala:225
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:152
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:180
 msgid "Select"
 msgstr "Velja"
 
@@ -1373,11 +1708,11 @@ msgstr "Í %s"
 msgid "With %s"
 msgstr "Með %s"
 
-#: main/src/ui/main_window.vala:156
+#: main/src/ui/main_window.vala:169
 msgid "Join Channel Help"
 msgstr "Hjálp við að taka þátt í rás"
 
-#: main/src/ui/main_window.vala:157
+#: main/src/ui/main_window.vala:170
 msgid ""
 "To join a channel, click the \"Join Channel\" button and enter the channel "
 "JID (example: room@conference.example.org).\n"
@@ -1391,25 +1726,25 @@ msgstr ""
 "Ef þú þarft lykilorð eða gælunafn skaltu gefa þau upp í glugganum. Notaðu "
 "uppgötvunareiginleika þjónsins til að finna opinber herbergi."
 
-#: main/src/ui/main_window.vala:206
+#: main/src/ui/main_window.vala:219
 msgid "Welcome to DinoX!"
 msgstr "Velkomin í DinoX!"
 
-#: main/src/ui/main_window.vala:207
+#: main/src/ui/main_window.vala:220
 msgid "Sign in or create an account to get started."
 msgstr "Skráðu þig inn eða búðu til reikning til að byrja."
 
-#: main/src/ui/main_window.vala:208
+#: main/src/ui/main_window.vala:221
 msgid "Set up account"
 msgstr "Stofna reikning"
 
-#: main/src/ui/main_window.vala:215
+#: main/src/ui/main_window.vala:230
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:71
 #: main/src/windows/preferences_window/encryption_preferences_page.vala:49
 msgid "No active accounts"
 msgstr "Engir virkir reikningar"
 
-#: main/src/ui/main_window.vala:216
+#: main/src/ui/main_window.vala:231
 msgid "Manage accounts"
 msgstr "Stjórna reikningum"
 
@@ -1419,12 +1754,12 @@ msgid "Subscription request"
 msgstr "Áskriftarbeiðni"
 
 #: main/src/ui/notifier_freedesktop.vala:192
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:231
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:259
 msgid "Wrong password"
 msgstr "Rangt lykilorð"
 
 #: main/src/ui/notifier_freedesktop.vala:195
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:233
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:261
 msgid "Invalid TLS certificate"
 msgstr "Ógilt TLS vottorð"
 
@@ -1671,45 +2006,45 @@ msgstr "Stillingar"
 msgid "Room Configuration"
 msgstr "Herbergisstilling"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:68
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:69
 msgid "Connect"
 msgstr "Tengjast"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:106
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
 msgid "Disable account"
 msgstr "Óvirkja reikning"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:106
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
 msgid "Enable account"
 msgstr "Virkja reikning"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:151
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:179
 msgid "Select avatar"
 msgstr "Velja notandamynd"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:162
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:190
 msgid "Images"
 msgstr "Myndir"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:166
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:194
 msgid "All files"
 msgstr "Allar skrár"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:184
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:212
 #, c-format
 msgid "Remove account %s?"
 msgstr "Fjarlægja reikning %s?"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:218
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:246
 msgid "Connected"
 msgstr "Tengdur"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:220
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:248
 msgid "Disconnected"
 msgstr "Ótengdur"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:240
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:242
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:268
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:270
 msgid "Error"
 msgstr "Villa"
 
@@ -1819,390 +2154,189 @@ msgstr "Breyta birtingarnafni fyrir %s"
 msgid "Alias (optional)"
 msgstr "Samnefni (valfrjálst)"
 
+#~ msgid "Creating backup..."
+#~ msgstr "Bý til öryggisafrit..."
+
+#, c-format
+#~ msgid "Backup created successfully (%s)"
+#~ msgstr "Öryggisafrit búið til (%s)"
+
+#~ msgid "Backup created successfully"
+#~ msgstr "Öryggisafrit búið til"
+
 # DinoX v0.7.7 - Database Maintenance & Backup/Restore
-msgid "Clean Database"
-msgstr "Clean Database"
+#~ msgid "Clean Database"
+#~ msgstr "Clean Database"
 
-msgid "Reset Database"
-msgstr "Reset Database"
+#~ msgid "Encrypting Backup..."
+#~ msgstr "Encrypting Backup..."
 
-msgid "Restore Complete!"
-msgstr "Restore Complete!"
+#~ msgid "Creating encrypted backup..."
+#~ msgstr "Bý til dulkóðað öryggisafrit..."
 
-msgid "Restore Failed"
-msgstr "Restore Failed"
+#~ msgid "Encrypted backup created successfully"
+#~ msgstr "Dulkóðað öryggisafrit búið til"
 
-msgid "Decrypting Backup..."
-msgstr "Decrypting Backup..."
-
-msgid "Restoring Backup..."
-msgstr "Restoring Backup..."
-
-msgid "Set Backup Password"
-msgstr "Set Backup Password"
-
-msgid "Confirm Password"
-msgstr "Confirm Password"
-
-msgid "Create Encrypted Backup"
-msgstr "Create Encrypted Backup"
-
-msgid "Password too short"
-msgstr "Password too short"
-
-msgid "Passwords do not match"
-msgstr "Passwords do not match"
-
-msgid "✓ Passwords match"
-msgstr "✓ Passwords match"
-
-msgid "Encrypting Backup..."
-msgstr "Encrypting Backup..."
-
-msgid "Factory Reset"
-msgstr "Factory Reset"
-
-msgid "Restore from Backup"
-msgstr "Restore from Backup"
-
-msgid "Restore Backup"
-msgstr "Restore Backup"
-
-msgid "Select Backup File"
-msgstr "Select Backup File"
-
-msgid "Enter Backup Password"
-msgstr "Enter Backup Password"
-
-msgid "Decrypt & Restore"
-msgstr "Decrypt & Restore"
-
-msgid "Create Backup First"
-msgstr "Create Backup First"
-
-msgid "No Encryption"
-msgstr "No Encryption"
-
-msgid "Encrypt with Password"
-msgstr "Encrypt with Password"
-
-msgid "Delete Everything"
-msgstr "Delete Everything"
-
-msgid "Confirm Delete"
-msgstr "Confirm Delete"
-
-msgid "Are you absolutely sure?"
-msgstr "Are you absolutely sure?"
-
-#: main/data/preferences_window/general_preferences_page.ui:104
-msgid "Database Maintenance"
-msgstr "Gagnagrunnsviðhald"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Restore accounts, messages and settings from a backup file"
-msgstr "Endurheimta reikninga, skilaboð og stillingar úr öryggisafriti"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
-msgstr ""
-"Eyða öllum skilaboðum, skrám og OMEMO lyklum. Reikningarnir þínir verða "
-"áfram."
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete ALL data including accounts. This cannot be undone!"
-msgstr ""
-"Eyða ÖLLUM gögnum þar með talið reikningum. Þetta er ekki hægt að afturkalla!"
-
-# DinoX v0.7.7 - Additional Backup/Restore strings
-msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
-msgstr "Öryggisafritsskrár (*.tar.gz, *.tar.gz.gpg)"
-
-msgid "Creating encrypted backup..."
-msgstr "Bý til dulkóðað öryggisafrit..."
-
-msgid "Decryption Failed"
-msgstr "Afkóðun mistókst"
-
-msgid "DinoX will now restart..."
-msgstr "DinoX mun endurræsast núna..."
-
-msgid "Encrypted backup created successfully"
-msgstr "Dulkóðað öryggisafrit búið til"
-
-msgid "Password (minimum 4 characters)"
-msgstr "Lykilorð (að lágmarki 4 stafir)"
-
-msgid "Decrypting encrypted backup file..."
-msgstr "Afkóða öryggisafritsskrá..."
-
-msgid "Extracting files from backup..."
-msgstr "Dreg út skrár úr öryggisafriti..."
-
-msgid "Factory reset in progress... DinoX will restart."
-msgstr "Endurstilling í gangi... DinoX mun endurræsast."
-
-msgid "Resetting database... DinoX will restart."
-msgstr "Endurstilli gagnagrunn... DinoX mun endurræsast."
-
-msgid "Encrypted backup created (%s)"
-msgstr "Dulkóðað öryggisafrit búið til (%s)"
-
-msgid ""
-"Could not decrypt the backup file.\n"
-"\n"
-"Please check if the password is correct."
-msgstr ""
-"Gat ekki afkóðað skrána.\n"
-"\n"
-"Athugaðu hvort lykilorðið sé rétt."
-
-msgid ""
-"Could not restore the backup file.\n"
-"\n"
-"Error: %s"
-msgstr ""
-"Gat ekki endurheimt skrána.\n"
-"\n"
-"Villa: %s"
-
-msgid "This backup is encrypted. Please enter the password to decrypt it."
-msgstr "Þetta öryggisafrit er dulkóðað. Sláðu inn lykilorðið."
-
-msgid ""
-"Enter a password to encrypt the backup.\n"
-"\n"
-"<b>Important:</b> Remember this password! Without it, the backup cannot be "
-"restored."
-msgstr ""
-"Sláðu inn lykilorð til að dulkóða öryggisafritið.\n"
-"\n"
-"<b>Mikilvægt:</b> Mundu þetta lykilorð! Án þess er ekki hægt að endurheimta."
-
-msgid ""
-"This will delete all messages, files and OMEMO encryption keys.\n"
-"\n"
-"<b>Your accounts will remain, but you will lose all chat history and need to "
-"re-verify encryption with your contacts.</b>\n"
-"\n"
-"This action cannot be undone!"
-msgstr ""
-"This will delete all messages, files and OMEMO encryption keys.\n"
-"\n"
-"<b>Your accounts will remain, but you will lose all chat history and need to "
-"re-verify encryption with your contacts.</b>\n"
-"\n"
-"This action cannot be undone!"
-
-msgid ""
-"This will replace all current data with the backup.\n"
-"\n"
-"<b>Current accounts, messages and settings will be overwritten!</b>\n"
-"\n"
-"DinoX will restart after restoring."
-msgstr ""
-"This will replace all current data with the backup.\n"
-"\n"
-"<b>Current accounts, messages and settings will be overwritten!</b>\n"
-"\n"
-"DinoX will restart after restoring."
-
-msgid ""
-"Type 'DELETE' to confirm factory reset.\n"
-"\n"
-"This will permanently remove all your DinoX data."
-msgstr ""
-"Type 'DELETE' to confirm factory reset.\n"
-"\n"
-"This will permanently remove all your DinoX data."
-
-msgid ""
-"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
-"\n"
-"• All accounts\n"
-"• All messages and files\n"
-"• All encryption keys\n"
-"• All settings\n"
-"\n"
-"This is irreversible. Make sure to create a backup first!"
-msgstr ""
-"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
-"\n"
-"• All accounts\n"
-"• All messages and files\n"
-"• All encryption keys\n"
-"• All settings\n"
-"\n"
-"This is irreversible. Make sure to create a backup first!"
+#~ msgid "Encrypted backup created (%s)"
+#~ msgstr "Dulkóðað öryggisafrit búið til (%s)"
 
 # OpenPGP Key Management
-msgid "OpenPGP Key Management"
-msgstr "OpenPGP Key Management"
+#~ msgid "OpenPGP Key Management"
+#~ msgstr "OpenPGP Key Management"
 
-msgid "Actions"
-msgstr "Actions"
+#~ msgid "Actions"
+#~ msgstr "Actions"
 
-msgid "Generate New Key"
-msgstr "Generate New Key"
+#~ msgid "Generate New Key"
+#~ msgstr "Generate New Key"
 
-msgid "Import Key"
-msgstr "Import Key"
+#~ msgid "Import Key"
+#~ msgstr "Import Key"
 
-msgid "Your Keys"
-msgstr "Your Keys"
+#~ msgid "Your Keys"
+#~ msgstr "Your Keys"
 
-msgid "Fingerprint"
-msgstr "Fingerprint"
+#~ msgid "Fingerprint"
+#~ msgstr "Fingerprint"
 
-msgid "Export Public Key"
-msgstr "Export Public Key"
+#~ msgid "Export Public Key"
+#~ msgstr "Export Public Key"
 
-msgid "Delete Key"
-msgstr "Delete Key"
+#~ msgid "Delete Key"
+#~ msgstr "Delete Key"
 
-msgid "Name"
-msgstr "Name"
+#~ msgid "Name"
+#~ msgstr "Name"
 
-msgid "Email"
-msgstr "Email"
+#~ msgid "Email"
+#~ msgstr "Email"
 
-msgid "Passphrase"
-msgstr "Passphrase"
+#~ msgid "Passphrase"
+#~ msgstr "Passphrase"
 
-msgid "Generate"
-msgstr "Generate"
+#~ msgid "Generate"
+#~ msgstr "Generate"
 
-msgid "Select OpenPGP Key"
-msgstr "Select OpenPGP Key"
+#~ msgid "Select OpenPGP Key"
+#~ msgstr "Select OpenPGP Key"
 
-msgid "Wrong passphrase"
-msgstr "Wrong passphrase"
+#~ msgid "Wrong passphrase"
+#~ msgstr "Wrong passphrase"
 
-msgid "Manage Keys"
-msgstr "Manage Keys"
+#~ msgid "Manage Keys"
+#~ msgstr "Manage Keys"
 
-msgid "Announce key"
-msgstr "Announce key"
+#~ msgid "Announce key"
+#~ msgstr "Announce key"
 
-msgid "Disabled"
-msgstr "Disabled"
+#~ msgid "Disabled"
+#~ msgstr "Disabled"
 
-msgid "Success"
-msgstr "Success"
+#~ msgid "Success"
+#~ msgstr "Success"
 
-msgid "OK"
-msgstr "OK"
+#~ msgid "Create a new OpenPGP key pair"
+#~ msgstr "Búa til nýtt OpenPGP lykilpar"
 
-msgid "Create a new OpenPGP key pair"
-msgstr "Búa til nýtt OpenPGP lykilpar"
+#~ msgid "Import a key from file (.asc, .gpg)"
+#~ msgstr "Flytja inn lykil úr skrá (.asc, .gpg)"
 
-msgid "Import a key from file (.asc, .gpg)"
-msgstr "Flytja inn lykil úr skrá (.asc, .gpg)"
+#~ msgid "Private keys available for signing and decryption"
+#~ msgstr "Einkalyklar tiltækir til undirritunar og afkóðunar"
 
-msgid "Private keys available for signing and decryption"
-msgstr "Einkalyklar tiltækir til undirritunar og afkóðunar"
+#~ msgid "No private keys found"
+#~ msgstr "Engir einkalyklar fundust"
 
-msgid "No private keys found"
-msgstr "Engir einkalyklar fundust"
+#~ msgid "Generate or import a key to get started"
+#~ msgstr "Búðu til eða flyttu inn lykil til að byrja"
 
-msgid "Generate or import a key to get started"
-msgstr "Búðu til eða flyttu inn lykil til að byrja"
+#~ msgid "Generate New OpenPGP Key"
+#~ msgstr "Búa til nýjan OpenPGP lykil"
 
-msgid "Generate New OpenPGP Key"
-msgstr "Búa til nýjan OpenPGP lykil"
+#~ msgid "Enter your details to create a new key pair."
+#~ msgstr "Sláðu inn upplýsingarnar þínar til að búa til nýtt lykilpar."
 
-msgid "Enter your details to create a new key pair."
-msgstr "Sláðu inn upplýsingarnar þínar til að búa til nýtt lykilpar."
+#~ msgid "Your Name"
+#~ msgstr "Nafnið þitt"
 
-msgid "Your Name"
-msgstr "Nafnið þitt"
+#~ msgid "you@example.com"
+#~ msgstr "thu@daemi.is"
 
-msgid "you@example.com"
-msgstr "thu@daemi.is"
+#~ msgid "Passphrase (optional)"
+#~ msgstr "Lykilorð (valfrjálst)"
 
-msgid "Passphrase (optional)"
-msgstr "Lykilorð (valfrjálst)"
+#~ msgid "4096-bit RSA key, valid for 2 years."
+#~ msgstr "4096-bita RSA lykill, gildur í 2 ár."
 
-msgid "4096-bit RSA key, valid for 2 years."
-msgstr "4096-bita RSA lykill, gildur í 2 ár."
+#~ msgid "Name must be at least 2 characters"
+#~ msgstr "Nafn verður að vera að minnsta kosti 2 stafir"
 
-msgid "Name must be at least 2 characters"
-msgstr "Nafn verður að vera að minnsta kosti 2 stafir"
+#~ msgid "Please enter a valid email address"
+#~ msgstr "Vinsamlegast sláðu inn gilt netfang"
 
-msgid "Please enter a valid email address"
-msgstr "Vinsamlegast sláðu inn gilt netfang"
+#~ msgid "Generating Key..."
+#~ msgstr "Bý til lykil..."
 
-msgid "Generating Key..."
-msgstr "Bý til lykil..."
+#~ msgid "Key generated successfully!"
+#~ msgstr "Lykill búinn til!"
 
-msgid "Please wait while your key is being generated. This may take a moment."
-msgstr ""
-"Vinsamlegast bíddu meðan lykillinn þinn er búinn til. Þetta getur tekið smá "
-"stund."
+#~ msgid "Import OpenPGP Key"
+#~ msgstr "Flytja inn OpenPGP lykil"
 
-msgid "Key generated successfully!"
-msgstr "Lykill búinn til!"
+#~ msgid "OpenPGP Keys (*.asc, *.gpg)"
+#~ msgstr "OpenPGP lyklar (*.asc, *.gpg)"
 
-msgid "Failed to generate key."
-msgstr "Mistókst að búa til lykil."
+#~ msgid "All Files"
+#~ msgstr "Allar skrár"
 
-msgid "Import OpenPGP Key"
-msgstr "Flytja inn OpenPGP lykil"
+#~ msgid "Key imported! Re-open Key Management to see it."
+#~ msgstr "Lykill fluttur inn! Opnaðu lyklastjórnun aftur til að sjá hann."
 
-msgid "OpenPGP Keys (*.asc, *.gpg)"
-msgstr "OpenPGP lyklar (*.asc, *.gpg)"
+#~ msgid "Import failed: "
+#~ msgstr "Innflutningur mistókst: "
 
-msgid "All Files"
-msgstr "Allar skrár"
+#~ msgid "Key exported to: "
+#~ msgstr "Lykill fluttur út til: "
 
-msgid "Key imported! Re-open Key Management to see it."
-msgstr "Lykill fluttur inn! Opnaðu lyklastjórnun aftur til að sjá hann."
+#~ msgid "Export failed."
+#~ msgstr "Útflutningur mistókst."
 
-msgid "Import failed: "
-msgstr "Innflutningur mistókst: "
+#~ msgid "Delete Key?"
+#~ msgstr "Eyða lykli?"
 
-msgid "Key exported to: "
-msgstr "Lykill fluttur út til: "
+#~ msgid ""
+#~ "Delete this key?\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "This cannot be undone!"
+#~ msgstr ""
+#~ "Eyða þessum lykli?\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "Þetta er ekki afturkræft!"
 
-msgid "Export failed."
-msgstr "Útflutningur mistókst."
+#~ msgid "Key deleted."
+#~ msgstr "Lykli eytt."
 
-msgid "Delete Key?"
-msgstr "Eyða lykli?"
+#~ msgid "Delete failed: "
+#~ msgstr "Eyðing mistókst: "
 
-msgid ""
-"Delete this key?\n"
-"\n"
-"%s\n"
-"\n"
-"This cannot be undone!"
-msgstr ""
-"Eyða þessum lykli?\n"
-"\n"
-"%s\n"
-"\n"
-"Þetta er ekki afturkræft!"
+#~ msgid "Choose a key to announce to your contacts."
+#~ msgstr "Veldu lykil til að tilkynna tengiliðum þínum."
 
-msgid "Key deleted."
-msgstr "Lykli eytt."
+#~ msgid "Enter GPG passphrase to confirm:"
+#~ msgstr "Sláðu inn GPG lykilorð til að staðfesta:"
 
-msgid "Delete failed: "
-msgstr "Eyðing mistókst: "
+#~ msgid "Generate, import, export, or delete keys"
+#~ msgstr "Búa til, flytja inn, flytja út eða eyða lyklum"
 
-msgid "Choose a key to announce to your contacts."
-msgstr "Veldu lykil til að tilkynna tengiliðum þínum."
+#~ msgid "No keys available. Generate or import one!"
+#~ msgstr "Engir lyklar til staðar. Búðu til eða flyttu inn einn!"
 
-msgid "Enter GPG passphrase to confirm:"
-msgstr "Sláðu inn GPG lykilorð til að staðfesta:"
-
-msgid "Generate, import, export, or delete keys"
-msgstr "Búa til, flytja inn, flytja út eða eyða lyklum"
-
-msgid "No keys available. Generate or import one!"
-msgstr "Engir lyklar til staðar. Búðu til eða flyttu inn einn!"
-
-msgid "Error in GnuPG"
-msgstr "Villa í GnuPG"
+#~ msgid "Error in GnuPG"
+#~ msgstr "Villa í GnuPG"
 
 #~ msgid "Message too long"
 #~ msgstr "Skilaboð of langt"

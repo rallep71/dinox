@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-28 12:18+0100\n"
+"POT-Creation-Date: 2025-12-01 10:28+0100\n"
 "PO-Revision-Date: 2025-07-29 03:02+0000\n"
 "Language-Team: none\n"
 "Language: fa\n"
@@ -99,14 +99,14 @@ msgstr "فراگیر"
 #: main/data/gtk/help-overlay.ui:14 main/data/main_window.ui:38
 #: main/data/menu_add.ui:7
 #: main/src/ui/add_conversation/select_contact_dialog.vala:106
-#: main/src/ui/main_window.vala:141
+#: main/src/ui/main_window.vala:154
 msgid "Start Conversation"
 msgstr "آغاز گفتگو"
 
 #: main/data/gtk/help-overlay.ui:20 main/data/main_window.ui:51
 #: main/data/menu_add.ui:11
 #: main/src/ui/add_conversation/add_conference_dialog.vala:24
-#: main/src/ui/application.vala:527 main/src/ui/main_window.vala:142
+#: main/src/ui/application.vala:1359 main/src/ui/main_window.vala:155
 msgid "Join Channel"
 msgstr "پیوستن به کانال"
 
@@ -147,7 +147,7 @@ msgstr "رفتن به گفت‌گوی بعدی"
 msgid "Jump to previous conversation"
 msgstr "رفتن به گفت‌گوی قبلی"
 
-#: main/data/main_window.ui:64 main/src/ui/main_window.vala:144
+#: main/data/main_window.ui:64 main/src/ui/main_window.vala:157
 msgid "Help: How to join channels"
 msgstr "راهنما: چگونه به کانال‌ها بپیوندید"
 
@@ -165,28 +165,28 @@ msgstr "وضعیت"
 
 #: main/data/menu_app.ui:11
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:427
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Online"
 msgstr "آنلاین"
 
 #: main/data/menu_app.ui:16
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:421
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Away"
 msgstr "دور"
 
 #: main/data/menu_app.ui:21
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:425
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Busy"
 msgstr "مشغول"
 
 #: main/data/menu_app.ui:26
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:423
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Not Available"
 msgstr "در دسترس نیست"
@@ -199,7 +199,7 @@ msgstr "ترجیحات"
 msgid "Keyboard Shortcuts"
 msgstr "میانبر های صفحه کلید"
 
-#: main/data/menu_app.ui:42 main/src/ui/application.vala:334
+#: main/data/menu_app.ui:42 main/src/ui/application.vala:340
 msgid "About DinoX"
 msgstr "درباره DinoX"
 
@@ -218,7 +218,10 @@ msgstr "حذف تاریخچه مکالمات"
 #: main/data/preferences_window/change_password_dialog.ui:18
 #: main/src/ui/add_conversation/add_conference_dialog.vala:41
 #: main/src/ui/add_conversation/select_contact_dialog.vala:40
-#: main/src/ui/application.vala:537
+#: main/src/ui/application.vala:441 main/src/ui/application.vala:469
+#: main/src/ui/application.vala:765 main/src/ui/application.vala:843
+#: main/src/ui/application.vala:901 main/src/ui/application.vala:933
+#: main/src/ui/application.vala:1089 main/src/ui/application.vala:1369
 #: main/src/ui/conversation_content_view/file_default_widget.vala:90
 #: main/src/ui/conversation_content_view/item_actions.vala:165
 #: main/src/ui/conversation_content_view/item_actions.vala:168
@@ -233,7 +236,7 @@ msgstr "حذف تاریخچه مکالمات"
 #: main/src/ui/conversation_titlebar/call_entry.vala:83
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
 #: main/src/windows/conversation_details.vala:60
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:67
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:68
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:205
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:225
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:249
@@ -257,6 +260,7 @@ msgid "Local alias"
 msgstr "نام مستعار محلی"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:82
+#: main/src/ui/application.vala:435 main/src/ui/application.vala:1064
 #: main/src/ui/util/data_forms.vala:63
 msgid "Password"
 msgstr "رمز"
@@ -265,20 +269,24 @@ msgstr "رمز"
 msgid "Connection status"
 msgstr "وضعیت اتصال"
 
+#: main/data/preferences_window/account_preferences_subpage.ui:117
+msgid "View Certificate"
+msgstr "مشاهده گواهی"
+
 # Custom host/port feature (Issue #115)
-#: main/data/preferences_window/account_preferences_subpage.ui:121
+#: main/data/preferences_window/account_preferences_subpage.ui:128
 msgid "Advanced Settings"
 msgstr "تنظیمات پیشرفته"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:122
+#: main/data/preferences_window/account_preferences_subpage.ui:129
 msgid "Custom server connection (leave empty for automatic)"
 msgstr "اتصال سرور سفارشی (برای خودکار خالی بگذارید)"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:125
+#: main/data/preferences_window/account_preferences_subpage.ui:132
 msgid "Server Hostname"
 msgstr "نام میزبان سرور"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:130
+#: main/data/preferences_window/account_preferences_subpage.ui:137
 msgid "Port"
 msgstr "پورت"
 
@@ -348,12 +356,52 @@ msgid "Create a backup of your accounts, messages and settings"
 msgstr "یک پشتیبان از حساب‌ها، پیام‌ها و تنظیمات خود ایجاد کنید"
 
 #: main/data/preferences_window/general_preferences_page.ui:78
-msgid "Data Location"
-msgstr "محل داده"
+#: main/src/ui/application.vala:464 main/src/ui/main_window.vala:223
+msgid "Restore from Backup"
+msgstr "بازیابی از پشتیبان"
 
 #: main/data/preferences_window/general_preferences_page.ui:79
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "بازیابی حساب‌ها، پیام‌ها و تنظیمات از فایل پشتیبان"
+
+#: main/data/preferences_window/general_preferences_page.ui:90
+msgid "Data Storage Location"
+msgstr "محل ذخیره‌سازی داده‌ها"
+
+#: main/data/preferences_window/general_preferences_page.ui:91
 msgid "View where your data is stored"
 msgstr "مشاهده محل ذخیره داده‌های شما"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "نگهداری پایگاه داده"
+
+#: main/data/preferences_window/general_preferences_page.ui:107
+#: main/src/ui/application.vala:761 main/src/ui/application.vala:766
+msgid "Clear Cache"
+msgstr "پاک کردن حافظه پنهان"
+
+#: main/data/preferences_window/general_preferences_page.ui:108
+msgid "Clear cached files, avatars and previews"
+msgstr "پاک کردن فایل‌ها، آواتارها و پیش‌نمایش‌های ذخیره شده"
+
+#: main/data/preferences_window/general_preferences_page.ui:119
+#: main/src/ui/application.vala:838 main/src/ui/application.vala:844
+msgid "Reset Database"
+msgstr "بازنشانی پایگاه داده"
+
+#: main/data/preferences_window/general_preferences_page.ui:120
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr "حذف تمام پیام‌ها، فایل‌ها و کلیدهای OMEMO. حساب‌های شما باقی می‌مانند."
+
+#: main/data/preferences_window/general_preferences_page.ui:131
+#: main/src/ui/application.vala:896
+msgid "Factory Reset"
+msgstr "بازنشانی به تنظیمات کارخانه"
+
+#: main/data/preferences_window/general_preferences_page.ui:132
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr "حذف تمام داده‌ها از جمله حساب‌ها. این قابل بازگشت نیست!"
 
 #: main/data/preferences_window/preferences_dialog.ui:11
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:15
@@ -378,7 +426,7 @@ msgstr "بعدی"
 
 #: main/src/ui/add_conversation/add_conference_dialog.vala:59
 #: main/src/ui/add_conversation/conference_details_fragment.vala:151
-#: main/src/ui/application.vala:541
+#: main/src/ui/application.vala:1373
 msgid "Join"
 msgstr "پیوستن"
 
@@ -464,45 +512,149 @@ msgstr "حذف مخاطب"
 msgid "Leave Group"
 msgstr "ترک گروه"
 
-#: main/src/ui/application.vala:339
+#: main/src/ui/application.vala:345
 msgid "Modern XMPP client with extended features"
 msgstr "کلاینت XMPP مدرن با ویژگی‌های گسترده"
 
-#: main/src/ui/application.vala:346 main/src/ui/application.vala:385
+#: main/src/ui/application.vala:352 main/src/ui/application.vala:727
 msgid "User Data Locations"
 msgstr "مکان‌های داده کاربر"
 
-#: main/src/ui/application.vala:349 main/src/ui/application.vala:399
+#: main/src/ui/application.vala:355 main/src/ui/application.vala:741
 msgid "Configuration:"
 msgstr "پیکربندی:"
 
-#: main/src/ui/application.vala:352 main/src/ui/application.vala:401
+#: main/src/ui/application.vala:358 main/src/ui/application.vala:743
 msgid "Data & Database:"
 msgstr "داده و پایگاه داده:"
 
-#: main/src/ui/application.vala:355 main/src/ui/application.vala:403
+#: main/src/ui/application.vala:361 main/src/ui/application.vala:745
 msgid "Cache:"
 msgstr "حافظه پنهان:"
 
-#: main/src/ui/application.vala:358
+#: main/src/ui/application.vala:364
 msgid "Info:"
 msgstr "اطلاعات:"
 
-#: main/src/ui/application.vala:359
+#: main/src/ui/application.vala:365
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
 msgstr "داده‌های شخصی شما (حساب‌ها، پیام‌ها، فایل‌ها) جدا از برنامه ذخیره می‌شوند."
 
-#: main/src/ui/application.vala:361
+#: main/src/ui/application.vala:367
 msgid "When you update DinoX, your data remains intact."
 msgstr "هنگام به‌روزرسانی DinoX، داده‌های شما دست‌نخورده باقی می‌مانند."
 
-#: main/src/ui/application.vala:363
+#: main/src/ui/application.vala:369
 msgid "Use Settings → General → Backup User Data to create a backup."
 msgstr "از تنظیمات → عمومی → پشتیبان‌گیری داده‌های کاربر استفاده کنید."
 
-#: main/src/ui/application.vala:405
+#: main/src/ui/application.vala:387
+msgid "Select Backup File"
+msgstr "انتخاب فایل پشتیبان"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+#: main/src/ui/application.vala:395
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "فایل‌های پشتیبان (*.tar.gz, *.tar.gz.gpg)"
+
+#: main/src/ui/application.vala:425
+msgid "Enter Backup Password"
+msgstr "رمز عبور پشتیبان را وارد کنید"
+
+#: main/src/ui/application.vala:426
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "این پشتیبان رمزنگاری شده است. رمز عبور را وارد کنید."
+
+#: main/src/ui/application.vala:442
+msgid "Decrypt & Restore"
+msgstr "رمزگشایی و بازیابی"
+
+#: main/src/ui/application.vala:465
+msgid ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+msgstr ""
+"این تمام داده‌های فعلی را با پشتیبان جایگزین می‌کند.\n"
+"\n"
+"<b>حساب‌ها، پیام‌ها و تنظیمات فعلی بازنویسی خواهند شد!</b>\n"
+"\n"
+"DinoX پس از بازیابی مجدداً راه‌اندازی می‌شود."
+
+#: main/src/ui/application.vala:470
+msgid "Restore Backup"
+msgstr "بازیابی پشتیبان"
+
+#: main/src/ui/application.vala:487 main/src/ui/application.vala:519
+msgid "Decrypting Backup..."
+msgstr "در حال رمزگشایی پشتیبان..."
+
+#: main/src/ui/application.vala:487 main/src/ui/application.vala:571
+msgid "Restoring Backup..."
+msgstr "در حال بازیابی پشتیبان..."
+
+#: main/src/ui/application.vala:488
+msgid "Please wait, this may take a moment..."
+msgstr "لطفاً صبر کنید، این ممکن است کمی طول بکشد..."
+
+#: main/src/ui/application.vala:520
+msgid "Decrypting encrypted backup file..."
+msgstr "در حال رمزگشایی فایل پشتیبان..."
+
+#: main/src/ui/application.vala:558
+msgid "Decryption Failed"
+msgstr "رمزگشایی ناموفق بود"
+
+#: main/src/ui/application.vala:559
+msgid ""
+"Could not decrypt the backup file.\n"
+"\n"
+"Please check if the password is correct."
+msgstr ""
+"رمزگشایی فایل پشتیبان ممکن نبود.\n"
+"\n"
+"لطفاً بررسی کنید رمز عبور صحیح است."
+
+#: main/src/ui/application.vala:561 main/src/ui/application.vala:671
+msgid "OK"
+msgstr "OK"
+
+#: main/src/ui/application.vala:572
+msgid "Extracting files from backup..."
+msgstr "در حال استخراج فایل‌ها از پشتیبان..."
+
+#: main/src/ui/application.vala:653
+msgid "Restore Complete!"
+msgstr "بازیابی کامل شد!"
+
+#: main/src/ui/application.vala:654
+msgid "DinoX will now restart..."
+msgstr "DinoX اکنون راه‌اندازی مجدد می‌شود..."
+
+#: main/src/ui/application.vala:668
+msgid "Restore Failed"
+msgstr "بازیابی ناموفق بود"
+
+#: main/src/ui/application.vala:669
+#, c-format
+msgid ""
+"Could not restore the backup file.\n"
+"\n"
+"Error: %s"
+msgstr ""
+"بازیابی فایل پشتیبان ممکن نبود.\n"
+"\n"
+"خطا: %s"
+
+#: main/src/ui/application.vala:669 main/src/ui/application.vala:1345
+msgid "Unknown error"
+msgstr "خطای ناشناخته"
+
+#: main/src/ui/application.vala:747
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
@@ -510,96 +662,243 @@ msgstr ""
 "داده‌های شخصی شما (حساب‌ها، پیام‌ها، فایل‌ها) جدا از برنامه ذخیره می‌شوند. وقتی "
 "DinoX را به‌روزرسانی می‌کنید، داده‌های شما دست‌نخورده باقی می‌مانند."
 
-#: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
-#: main/src/ui/main_window.vala:159
+#: main/src/ui/application.vala:752 main/src/ui/application.vala:1240
+#: main/src/ui/application.vala:1324 main/src/ui/conversation_details.vala:272
+#: main/src/ui/main_window.vala:172
 msgid "Close"
 msgstr "بستن"
 
-#: main/src/ui/application.vala:417
+#: main/src/ui/application.vala:762
+msgid ""
+"This will delete cached files, avatars and previews.\n"
+"\n"
+"They will be re-downloaded when needed."
+msgstr ""
+"این کار فایل‌ها، آواتارها و پیش‌نمایش‌های ذخیره شده را حذف می‌کند.\n"
+"\n"
+"در صورت نیاز دوباره دانلود خواهند شد."
+
+#: main/src/ui/application.vala:799
+#, c-format
+msgid "Cache cleared (%s freed)"
+msgstr "حافظه پنهان پاک شد (%s آزاد شد)"
+
+#: main/src/ui/application.vala:802
+msgid "Failed to clear cache"
+msgstr "پاک کردن حافظه پنهان ناموفق بود"
+
+#: main/src/ui/application.vala:839
+msgid ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+msgstr ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+
+#: main/src/ui/application.vala:867
+msgid "Resetting database... DinoX will restart."
+msgstr "بازنشانی پایگاه داده... DinoX راه‌اندازی مجدد می‌شود."
+
+#: main/src/ui/application.vala:897
+msgid ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+msgstr ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+
+#: main/src/ui/application.vala:902
+msgid "Create Backup First"
+msgstr "ابتدا پشتیبان تهیه کنید"
+
+#: main/src/ui/application.vala:903
+msgid "Delete Everything"
+msgstr "حذف همه چیز"
+
+#: main/src/ui/application.vala:923
+msgid "Are you absolutely sure?"
+msgstr "آیا کاملاً مطمئن هستید؟"
+
+#: main/src/ui/application.vala:924
+msgid ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+msgstr ""
+"برای تایید بازنشانی کارخانه 'DELETE' را تایپ کنید.\n"
+"\n"
+"این کار تمام داده‌های DinoX شما را برای همیشه حذف می‌کند."
+
+#: main/src/ui/application.vala:934
+msgid "Confirm Delete"
+msgstr "تایید حذف"
+
+#: main/src/ui/application.vala:961
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "بازنشانی کارخانه در حال انجام... DinoX راه‌اندازی مجدد می‌شود."
+
+#: main/src/ui/application.vala:1026
+msgid "Backup Encryption"
+msgstr "رمزگذاری نسخه پشتیبان"
+
+#: main/src/ui/application.vala:1027
+msgid ""
+"Do you want to encrypt the backup with a password?\n"
+"\n"
+"Encrypted backups are more secure but require the password to restore."
+msgstr ""
+"آیا می‌خواهید نسخه پشتیبان را با رمز عبور رمزگذاری کنید؟\n"
+"\n"
+"نسخه‌های پشتیبان رمزگذاری شده امن‌تر هستند اما برای بازیابی به رمز عبور نیاز دارند."
+
+#: main/src/ui/application.vala:1030
+msgid "No Encryption"
+msgstr "بدون رمزگذاری"
+
+#: main/src/ui/application.vala:1031
+msgid "Encrypt with Password"
+msgstr "رمزگذاری با رمز عبور"
+
+#: main/src/ui/application.vala:1049
+msgid "Set Backup Password"
+msgstr "تنظیم رمز عبور پشتیبان"
+
+#: main/src/ui/application.vala:1050
+msgid ""
+"Enter a password to encrypt the backup.\n"
+"\n"
+"<b>Important:</b> Remember this password! Without it, the backup cannot be "
+"restored."
+msgstr ""
+"یک رمز عبور برای رمزنگاری پشتیبان وارد کنید.\n"
+"\n"
+"<b>مهم:</b> این رمز عبور را به خاطر بسپارید! بدون آن، پشتیبان قابل بازیابی "
+"نیست."
+
+#: main/src/ui/application.vala:1058
+msgid "Password (minimum 4 characters)"
+msgstr "رمز عبور (حداقل ۴ کاراکتر)"
+
+#: main/src/ui/application.vala:1066 main/src/ui/application.vala:1073
+msgid "Confirm Password"
+msgstr "تایید رمز عبور"
+
+#: main/src/ui/application.vala:1090
+msgid "Create Encrypted Backup"
+msgstr "ایجاد پشتیبان رمزگذاری شده"
+
+#: main/src/ui/application.vala:1102 main/src/ui/application.vala:1117
+msgid "Password too short"
+msgstr "رمز عبور خیلی کوتاه است"
+
+#: main/src/ui/application.vala:1104 main/src/ui/application.vala:1119
+msgid "Passwords do not match"
+msgstr "رمزهای عبور مطابقت ندارند"
+
+#: main/src/ui/application.vala:1106 main/src/ui/application.vala:1121
+msgid "✓ Passwords match"
+msgstr "✓ رمزهای عبور مطابقت دارند"
+
+#: main/src/ui/application.vala:1139
 msgid "Select Backup Location"
 msgstr "انتخاب مکان پشتیبان‌گیری"
 
-#: main/src/ui/application.vala
-msgid "Creating Backup..."
-msgstr "Creating Backup..."
-
-#: main/src/ui/application.vala
+#: main/src/ui/application.vala:1194
 msgid "Creating Encrypted Backup..."
-msgstr "Creating Encrypted Backup..."
+msgstr "در حال ایجاد پشتیبان رمزگذاری شده..."
 
-#: main/src/ui/application.vala
-msgid "Please wait while your data is being backed up."
-msgstr "Please wait while your data is being backed up."
-
-#: main/src/ui/application.vala
-msgid "No data directories found to backup"
-msgstr "No data directories found to backup"
-
-#: main/src/ui/application.vala
-msgid "Backup Created"
-msgstr "Backup Created"
-
-#: main/src/ui/application.vala
-msgid "Encrypted Backup Created"
-msgstr "Encrypted Backup Created"
-
-#: main/src/ui/application.vala
-#, c-format
-msgid "Your backup was created successfully.\\n\\nSize: %s"
-msgstr "Your backup was created successfully.\\n\\nSize: %s"
-
-#: main/src/ui/application.vala
-msgid "Your backup was created successfully."
-msgstr "Your backup was created successfully."
-
-#: main/src/ui/application.vala
-#, c-format
-msgid "Your encrypted backup was created successfully.\\n\\nSize: %s"
-msgstr "Your encrypted backup was created successfully.\\n\\nSize: %s"
-
-#: main/src/ui/application.vala
-msgid "Your encrypted backup was created successfully."
-msgstr "Your encrypted backup was created successfully."
-
-#: main/src/ui/application.vala
-msgid "Backup Failed"
-msgstr "Backup Failed"
-
-#: main/src/ui/application.vala:445
-msgid "Creating backup..."
+#: main/src/ui/application.vala:1194
+msgid "Creating Backup..."
 msgstr "در حال ایجاد پشتیبان..."
 
-#: main/src/ui/application.vala:503
+#: main/src/ui/application.vala:1195
+msgid "Please wait while your data is being backed up."
+msgstr "لطفاً صبر کنید تا از داده‌های شما پشتیبان‌گیری شود."
+
+#: main/src/ui/application.vala:1234
+msgid "No data directory found to backup"
+msgstr "هیچ پوشه داده‌ای برای پشتیبان‌گیری یافت نشد"
+
+#: main/src/ui/application.vala:1237 main/src/ui/application.vala:1343
+msgid "Backup Failed"
+msgstr "پشتیبان‌گیری ناموفق بود"
+
+#: main/src/ui/application.vala:1331
+msgid "Encrypted Backup Created"
+msgstr "پشتیبان رمزگذاری شده ایجاد شد"
+
+#: main/src/ui/application.vala:1333
 #, c-format
-msgid "Backup created successfully (%s)"
-msgstr "پشتیبان با موفقیت ایجاد شد (%s)"
+msgid ""
+"Your encrypted backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"نسخه پشتیبان رمزگذاری شده شما با موفقیت ایجاد شد.\n"
+"\n"
+"حجم: %s"
 
-#: main/src/ui/application.vala:505
-msgid "Backup created successfully"
-msgstr "پشتیبان با موفقیت ایجاد شد"
+#: main/src/ui/application.vala:1334
+msgid "Your encrypted backup was created successfully."
+msgstr "پشتیبان رمزگذاری شده شما با موفقیت ایجاد شد."
 
-#: main/src/ui/application.vala:510
-msgid "Unknown error"
-msgstr "خطای ناشناخته"
+#: main/src/ui/application.vala:1336
+msgid "Backup Created"
+msgstr "پشتیبان ایجاد شد"
 
-#: main/src/ui/application.vala:511
+#: main/src/ui/application.vala:1338
+#, c-format
+msgid ""
+"Your backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"نسخه پشتیبان شما با موفقیت ایجاد شد.\n"
+"\n"
+"حجم: %s"
+
+#: main/src/ui/application.vala:1339
+msgid "Your backup was created successfully."
+msgstr "پشتیبان شما با موفقیت ایجاد شد."
+
+#: main/src/ui/application.vala:1346
 #, c-format
 msgid "Backup failed: %s"
 msgstr "پشتیبان‌گیری ناموفق: %s"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:29
+#: main/src/ui/call_window/audio_settings_popover.vala:46
 msgid "Microphones"
 msgstr "میکروفون‌ها"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:32
+#: main/src/ui/call_window/audio_settings_popover.vala:49
 msgid "No microphone found."
 msgstr "میکروفونی یافت نشد."
 
-#: main/src/ui/call_window/audio_settings_popover.vala:85
+#: main/src/ui/call_window/audio_settings_popover.vala:116
 msgid "Speakers"
 msgstr "بلندگوها"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:88
+#: main/src/ui/call_window/audio_settings_popover.vala:119
 msgid "No speaker found."
 msgstr "بلندگویی یافت نشد."
 
@@ -615,7 +914,7 @@ msgstr "دعوت به تماس"
 msgid "Invite"
 msgstr "دعوت"
 
-#: main/src/ui/call_window/call_window_controller.vala:405
+#: main/src/ui/call_window/call_window_controller.vala:453
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:240
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:270
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:285
@@ -634,21 +933,21 @@ msgstr "%s تماس را پایان داد"
 msgid "%s declined the call"
 msgstr "%s تماس را رد کرد"
 
-#: main/src/ui/call_window/participant_widget.vala:115
+#: main/src/ui/call_window/participant_widget.vala:140
 msgid "Debug information"
 msgstr "اطلاعات اشکال‌زدایی"
 
-#: main/src/ui/call_window/participant_widget.vala:124
+#: main/src/ui/call_window/participant_widget.vala:149
 #: main/src/ui/conversation_content_view/call_widget.vala:152
 msgid "Calling…"
 msgstr "در حال تماس…"
 
-#: main/src/ui/call_window/participant_widget.vala:126
+#: main/src/ui/call_window/participant_widget.vala:151
 msgid "Ringing…"
 msgstr "در حال زنگ زدن…"
 
-#: main/src/ui/call_window/participant_widget.vala:128
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:216
+#: main/src/ui/call_window/participant_widget.vala:153
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:244
 msgid "Connecting…"
 msgstr "در حال اتصال…"
 
@@ -882,7 +1181,7 @@ msgstr "%a, %l∶%M %p"
 msgid "Just now"
 msgstr "همین الان"
 
-#: main/src/ui/conversation_content_view/conversation_view.vala:105
+#: main/src/ui/conversation_content_view/conversation_view.vala:106
 msgid "More actions"
 msgstr "اقدامات بیشتر"
 
@@ -1099,6 +1398,38 @@ msgstr "نابودی"
 msgid "Failed to destroy room"
 msgstr "حذف اتاق ناموفق بود"
 
+#: main/src/ui/conversation_details.vala:286
+msgid "Auto-delete messages"
+msgstr "حذف خودکار پیام‌ها"
+
+#: main/src/ui/conversation_details.vala:287
+msgid "Never"
+msgstr "هرگز"
+
+#: main/src/ui/conversation_details.vala:288
+msgid "After 15 minutes"
+msgstr "بعد از ۱۵ دقیقه"
+
+#: main/src/ui/conversation_details.vala:289
+msgid "After 30 minutes"
+msgstr "بعد از ۳۰ دقیقه"
+
+#: main/src/ui/conversation_details.vala:290
+msgid "After 1 hour"
+msgstr "بعد از ۱ ساعت"
+
+#: main/src/ui/conversation_details.vala:291
+msgid "After 24 hours"
+msgstr "بعد از ۲۴ ساعت"
+
+#: main/src/ui/conversation_details.vala:292
+msgid "After 7 days"
+msgstr "بعد از ۷ روز"
+
+#: main/src/ui/conversation_details.vala:293
+msgid "After 30 days"
+msgstr "بعد از ۳۰ روز"
+
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:276
 #: main/src/ui/notifier_freedesktop.vala:71
 #: main/src/ui/notifier_gnotifications.vala:36
@@ -1244,6 +1575,7 @@ msgstr "مخاطب آزاد شود؟"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:702
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:247
+#, c-format
 msgid "This will allow %s to send you messages again."
 msgstr "این به %s اجازه می‌دهد دوباره برای شما پیام ارسال کند."
 
@@ -1346,7 +1678,7 @@ msgid "Select file"
 msgstr "انتخاب فایل"
 
 #: main/src/ui/conversation_view_controller.vala:225
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:152
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:180
 msgid "Select"
 msgstr "انتخاب"
 
@@ -1364,11 +1696,11 @@ msgstr "در %s"
 msgid "With %s"
 msgstr "با %s"
 
-#: main/src/ui/main_window.vala:156
+#: main/src/ui/main_window.vala:169
 msgid "Join Channel Help"
 msgstr "راهنمای پیوستن به کانال"
 
-#: main/src/ui/main_window.vala:157
+#: main/src/ui/main_window.vala:170
 msgid ""
 "To join a channel, click the \"Join Channel\" button and enter the channel "
 "JID (example: room@conference.example.org).\n"
@@ -1382,25 +1714,25 @@ msgstr ""
 "اگر به رمز عبور یا نام مستعار نیاز دارید، آنها را در گفتگو وارد کنید. از "
 "ویژگی‌های کشف سرور برای یافتن اتاق‌های عمومی استفاده کنید."
 
-#: main/src/ui/main_window.vala:206
+#: main/src/ui/main_window.vala:219
 msgid "Welcome to DinoX!"
 msgstr "به DinoX خوش آمدید!"
 
-#: main/src/ui/main_window.vala:207
+#: main/src/ui/main_window.vala:220
 msgid "Sign in or create an account to get started."
 msgstr "برای شروع یک حساب بسازید یا وارد شوید."
 
-#: main/src/ui/main_window.vala:208
+#: main/src/ui/main_window.vala:221
 msgid "Set up account"
 msgstr "حساب تنظیم کنید"
 
-#: main/src/ui/main_window.vala:215
+#: main/src/ui/main_window.vala:230
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:71
 #: main/src/windows/preferences_window/encryption_preferences_page.vala:49
 msgid "No active accounts"
 msgstr "حساب فعالی وجود ندارد"
 
-#: main/src/ui/main_window.vala:216
+#: main/src/ui/main_window.vala:231
 msgid "Manage accounts"
 msgstr "مدیریت حساب‌ها"
 
@@ -1410,12 +1742,12 @@ msgid "Subscription request"
 msgstr "درخواست اشتراک"
 
 #: main/src/ui/notifier_freedesktop.vala:192
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:231
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:259
 msgid "Wrong password"
 msgstr "رمز اشتباه است"
 
 #: main/src/ui/notifier_freedesktop.vala:195
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:233
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:261
 msgid "Invalid TLS certificate"
 msgstr "گواهی تی‌ال‌اس نامعتبر است"
 
@@ -1658,45 +1990,45 @@ msgstr "تنظیمات"
 msgid "Room Configuration"
 msgstr "پیکربندی اتاق"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:68
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:69
 msgid "Connect"
 msgstr "اتصال"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:106
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
 msgid "Disable account"
 msgstr "غیرفعال کردن حساب"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:106
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
 msgid "Enable account"
 msgstr "فعال کردن حساب"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:151
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:179
 msgid "Select avatar"
 msgstr "انتخاب آواتار"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:162
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:190
 msgid "Images"
 msgstr "تصاویر"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:166
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:194
 msgid "All files"
 msgstr "تمامی فایل‌ها"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:184
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:212
 #, c-format
 msgid "Remove account %s?"
 msgstr "حساب %s حذف شود؟"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:218
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:246
 msgid "Connected"
 msgstr "متصل"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:220
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:248
 msgid "Disconnected"
 msgstr "قطع شده"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:240
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:242
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:268
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:270
 msgid "Error"
 msgstr "خطا"
 
@@ -1807,387 +2139,189 @@ msgstr "تغییر نام نمایشی برای %s"
 msgid "Alias (optional)"
 msgstr "نام مستعار (اختیاری)"
 
+#~ msgid "Creating backup..."
+#~ msgstr "در حال ایجاد پشتیبان..."
+
+#, c-format
+#~ msgid "Backup created successfully (%s)"
+#~ msgstr "پشتیبان با موفقیت ایجاد شد (%s)"
+
+#~ msgid "Backup created successfully"
+#~ msgstr "پشتیبان با موفقیت ایجاد شد"
+
 # DinoX v0.7.7 - Database Maintenance & Backup/Restore
-msgid "Clean Database"
-msgstr "Clean Database"
+#~ msgid "Clean Database"
+#~ msgstr "Clean Database"
 
-msgid "Reset Database"
-msgstr "Reset Database"
+#~ msgid "Encrypting Backup..."
+#~ msgstr "Encrypting Backup..."
 
-msgid "Restore Complete!"
-msgstr "Restore Complete!"
+#~ msgid "Creating encrypted backup..."
+#~ msgstr "در حال ایجاد پشتیبان رمزنگاری شده..."
 
-msgid "Restore Failed"
-msgstr "Restore Failed"
+#~ msgid "Encrypted backup created successfully"
+#~ msgstr "پشتیبان رمزنگاری شده با موفقیت ایجاد شد"
 
-msgid "Decrypting Backup..."
-msgstr "Decrypting Backup..."
-
-msgid "Restoring Backup..."
-msgstr "Restoring Backup..."
-
-msgid "Set Backup Password"
-msgstr "Set Backup Password"
-
-msgid "Confirm Password"
-msgstr "Confirm Password"
-
-msgid "Create Encrypted Backup"
-msgstr "Create Encrypted Backup"
-
-msgid "Password too short"
-msgstr "Password too short"
-
-msgid "Passwords do not match"
-msgstr "Passwords do not match"
-
-msgid "✓ Passwords match"
-msgstr "✓ Passwords match"
-
-msgid "Encrypting Backup..."
-msgstr "Encrypting Backup..."
-
-msgid "Factory Reset"
-msgstr "Factory Reset"
-
-msgid "Restore from Backup"
-msgstr "Restore from Backup"
-
-msgid "Restore Backup"
-msgstr "Restore Backup"
-
-msgid "Select Backup File"
-msgstr "Select Backup File"
-
-msgid "Enter Backup Password"
-msgstr "Enter Backup Password"
-
-msgid "Decrypt & Restore"
-msgstr "Decrypt & Restore"
-
-msgid "Create Backup First"
-msgstr "Create Backup First"
-
-msgid "No Encryption"
-msgstr "No Encryption"
-
-msgid "Encrypt with Password"
-msgstr "Encrypt with Password"
-
-msgid "Delete Everything"
-msgstr "Delete Everything"
-
-msgid "Confirm Delete"
-msgstr "Confirm Delete"
-
-msgid "Are you absolutely sure?"
-msgstr "Are you absolutely sure?"
-
-#: main/data/preferences_window/general_preferences_page.ui:104
-msgid "Database Maintenance"
-msgstr "نگهداری پایگاه داده"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Restore accounts, messages and settings from a backup file"
-msgstr "بازیابی حساب‌ها، پیام‌ها و تنظیمات از فایل پشتیبان"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
-msgstr "حذف تمام پیام‌ها، فایل‌ها و کلیدهای OMEMO. حساب‌های شما باقی می‌مانند."
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete ALL data including accounts. This cannot be undone!"
-msgstr "حذف تمام داده‌ها از جمله حساب‌ها. این قابل بازگشت نیست!"
-
-# DinoX v0.7.7 - Additional Backup/Restore strings
-msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
-msgstr "فایل‌های پشتیبان (*.tar.gz, *.tar.gz.gpg)"
-
-msgid "Creating encrypted backup..."
-msgstr "در حال ایجاد پشتیبان رمزنگاری شده..."
-
-msgid "Decryption Failed"
-msgstr "رمزگشایی ناموفق بود"
-
-msgid "DinoX will now restart..."
-msgstr "DinoX اکنون راه‌اندازی مجدد می‌شود..."
-
-msgid "Encrypted backup created successfully"
-msgstr "پشتیبان رمزنگاری شده با موفقیت ایجاد شد"
-
-msgid "Password (minimum 4 characters)"
-msgstr "رمز عبور (حداقل ۴ کاراکتر)"
-
-msgid "Decrypting encrypted backup file..."
-msgstr "در حال رمزگشایی فایل پشتیبان..."
-
-msgid "Extracting files from backup..."
-msgstr "در حال استخراج فایل‌ها از پشتیبان..."
-
-msgid "Factory reset in progress... DinoX will restart."
-msgstr "بازنشانی کارخانه در حال انجام... DinoX راه‌اندازی مجدد می‌شود."
-
-msgid "Resetting database... DinoX will restart."
-msgstr "بازنشانی پایگاه داده... DinoX راه‌اندازی مجدد می‌شود."
-
-msgid "Encrypted backup created (%s)"
-msgstr "پشتیبان رمزنگاری شده ایجاد شد (%s)"
-
-msgid ""
-"Could not decrypt the backup file.\n"
-"\n"
-"Please check if the password is correct."
-msgstr ""
-"رمزگشایی فایل پشتیبان ممکن نبود.\n"
-"\n"
-"لطفاً بررسی کنید رمز عبور صحیح است."
-
-msgid ""
-"Could not restore the backup file.\n"
-"\n"
-"Error: %s"
-msgstr ""
-"بازیابی فایل پشتیبان ممکن نبود.\n"
-"\n"
-"خطا: %s"
-
-msgid "This backup is encrypted. Please enter the password to decrypt it."
-msgstr "این پشتیبان رمزنگاری شده است. رمز عبور را وارد کنید."
-
-msgid ""
-"Enter a password to encrypt the backup.\n"
-"\n"
-"<b>Important:</b> Remember this password! Without it, the backup cannot be "
-"restored."
-msgstr ""
-"یک رمز عبور برای رمزنگاری پشتیبان وارد کنید.\n"
-"\n"
-"<b>مهم:</b> این رمز عبور را به خاطر بسپارید! بدون آن، پشتیبان قابل بازیابی "
-"نیست."
-
-msgid ""
-"This will delete all messages, files and OMEMO encryption keys.\n"
-"\n"
-"<b>Your accounts will remain, but you will lose all chat history and need to "
-"re-verify encryption with your contacts.</b>\n"
-"\n"
-"This action cannot be undone!"
-msgstr ""
-"This will delete all messages, files and OMEMO encryption keys.\n"
-"\n"
-"<b>Your accounts will remain, but you will lose all chat history and need to "
-"re-verify encryption with your contacts.</b>\n"
-"\n"
-"This action cannot be undone!"
-
-msgid ""
-"This will replace all current data with the backup.\n"
-"\n"
-"<b>Current accounts, messages and settings will be overwritten!</b>\n"
-"\n"
-"DinoX will restart after restoring."
-msgstr ""
-"This will replace all current data with the backup.\n"
-"\n"
-"<b>Current accounts, messages and settings will be overwritten!</b>\n"
-"\n"
-"DinoX will restart after restoring."
-
-msgid ""
-"Type 'DELETE' to confirm factory reset.\n"
-"\n"
-"This will permanently remove all your DinoX data."
-msgstr ""
-"Type 'DELETE' to confirm factory reset.\n"
-"\n"
-"This will permanently remove all your DinoX data."
-
-msgid ""
-"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
-"\n"
-"• All accounts\n"
-"• All messages and files\n"
-"• All encryption keys\n"
-"• All settings\n"
-"\n"
-"This is irreversible. Make sure to create a backup first!"
-msgstr ""
-"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
-"\n"
-"• All accounts\n"
-"• All messages and files\n"
-"• All encryption keys\n"
-"• All settings\n"
-"\n"
-"This is irreversible. Make sure to create a backup first!"
+#~ msgid "Encrypted backup created (%s)"
+#~ msgstr "پشتیبان رمزنگاری شده ایجاد شد (%s)"
 
 # OpenPGP Key Management
-msgid "OpenPGP Key Management"
-msgstr "OpenPGP Key Management"
+#~ msgid "OpenPGP Key Management"
+#~ msgstr "OpenPGP Key Management"
 
-msgid "Actions"
-msgstr "Actions"
+#~ msgid "Actions"
+#~ msgstr "Actions"
 
-msgid "Generate New Key"
-msgstr "Generate New Key"
+#~ msgid "Generate New Key"
+#~ msgstr "Generate New Key"
 
-msgid "Import Key"
-msgstr "Import Key"
+#~ msgid "Import Key"
+#~ msgstr "Import Key"
 
-msgid "Your Keys"
-msgstr "Your Keys"
+#~ msgid "Your Keys"
+#~ msgstr "Your Keys"
 
-msgid "Fingerprint"
-msgstr "Fingerprint"
+#~ msgid "Fingerprint"
+#~ msgstr "Fingerprint"
 
-msgid "Export Public Key"
-msgstr "Export Public Key"
+#~ msgid "Export Public Key"
+#~ msgstr "Export Public Key"
 
-msgid "Delete Key"
-msgstr "Delete Key"
+#~ msgid "Delete Key"
+#~ msgstr "Delete Key"
 
-msgid "Name"
-msgstr "Name"
+#~ msgid "Name"
+#~ msgstr "Name"
 
-msgid "Email"
-msgstr "Email"
+#~ msgid "Email"
+#~ msgstr "Email"
 
-msgid "Passphrase"
-msgstr "Passphrase"
+#~ msgid "Passphrase"
+#~ msgstr "Passphrase"
 
-msgid "Generate"
-msgstr "Generate"
+#~ msgid "Generate"
+#~ msgstr "Generate"
 
-msgid "Select OpenPGP Key"
-msgstr "Select OpenPGP Key"
+#~ msgid "Select OpenPGP Key"
+#~ msgstr "Select OpenPGP Key"
 
-msgid "Wrong passphrase"
-msgstr "Wrong passphrase"
+#~ msgid "Wrong passphrase"
+#~ msgstr "Wrong passphrase"
 
-msgid "Manage Keys"
-msgstr "Manage Keys"
+#~ msgid "Manage Keys"
+#~ msgstr "Manage Keys"
 
-msgid "Announce key"
-msgstr "Announce key"
+#~ msgid "Announce key"
+#~ msgstr "Announce key"
 
-msgid "Disabled"
-msgstr "Disabled"
+#~ msgid "Disabled"
+#~ msgstr "Disabled"
 
-msgid "Success"
-msgstr "Success"
+#~ msgid "Success"
+#~ msgstr "Success"
 
-msgid "OK"
-msgstr "OK"
+#~ msgid "Create a new OpenPGP key pair"
+#~ msgstr "ایجاد یک جفت کلید OpenPGP جدید"
 
-msgid "Create a new OpenPGP key pair"
-msgstr "ایجاد یک جفت کلید OpenPGP جدید"
+#~ msgid "Import a key from file (.asc, .gpg)"
+#~ msgstr "وارد کردن کلید از فایل (.asc, .gpg)"
 
-msgid "Import a key from file (.asc, .gpg)"
-msgstr "وارد کردن کلید از فایل (.asc, .gpg)"
+#~ msgid "Private keys available for signing and decryption"
+#~ msgstr "کلیدهای خصوصی موجود برای امضا و رمزگشایی"
 
-msgid "Private keys available for signing and decryption"
-msgstr "کلیدهای خصوصی موجود برای امضا و رمزگشایی"
+#~ msgid "No private keys found"
+#~ msgstr "کلید خصوصی یافت نشد"
 
-msgid "No private keys found"
-msgstr "کلید خصوصی یافت نشد"
+#~ msgid "Generate or import a key to get started"
+#~ msgstr "برای شروع یک کلید ایجاد یا وارد کنید"
 
-msgid "Generate or import a key to get started"
-msgstr "برای شروع یک کلید ایجاد یا وارد کنید"
+#~ msgid "Generate New OpenPGP Key"
+#~ msgstr "ایجاد کلید OpenPGP جدید"
 
-msgid "Generate New OpenPGP Key"
-msgstr "ایجاد کلید OpenPGP جدید"
+#~ msgid "Enter your details to create a new key pair."
+#~ msgstr "اطلاعات خود را برای ایجاد جفت کلید جدید وارد کنید."
 
-msgid "Enter your details to create a new key pair."
-msgstr "اطلاعات خود را برای ایجاد جفت کلید جدید وارد کنید."
+#~ msgid "Your Name"
+#~ msgstr "نام شما"
 
-msgid "Your Name"
-msgstr "نام شما"
+#~ msgid "you@example.com"
+#~ msgstr "you@example.com"
 
-msgid "you@example.com"
-msgstr "you@example.com"
+#~ msgid "Passphrase (optional)"
+#~ msgstr "عبارت عبور (اختیاری)"
 
-msgid "Passphrase (optional)"
-msgstr "عبارت عبور (اختیاری)"
+#~ msgid "4096-bit RSA key, valid for 2 years."
+#~ msgstr "کلید RSA با ۴۰۹۶ بیت، معتبر برای ۲ سال."
 
-msgid "4096-bit RSA key, valid for 2 years."
-msgstr "کلید RSA با ۴۰۹۶ بیت، معتبر برای ۲ سال."
+#~ msgid "Name must be at least 2 characters"
+#~ msgstr "نام باید حداقل ۲ کاراکتر باشد"
 
-msgid "Name must be at least 2 characters"
-msgstr "نام باید حداقل ۲ کاراکتر باشد"
+#~ msgid "Please enter a valid email address"
+#~ msgstr "لطفاً یک آدرس ایمیل معتبر وارد کنید"
 
-msgid "Please enter a valid email address"
-msgstr "لطفاً یک آدرس ایمیل معتبر وارد کنید"
+#~ msgid "Generating Key..."
+#~ msgstr "در حال ایجاد کلید..."
 
-msgid "Generating Key..."
-msgstr "در حال ایجاد کلید..."
+#~ msgid "Key generated successfully!"
+#~ msgstr "کلید با موفقیت ایجاد شد!"
 
-msgid "Please wait while your key is being generated. This may take a moment."
-msgstr ""
-"لطفاً صبر کنید در حالی که کلید شما ایجاد می‌شود. این ممکن است کمی طول بکشد."
+#~ msgid "Import OpenPGP Key"
+#~ msgstr "وارد کردن کلید OpenPGP"
 
-msgid "Key generated successfully!"
-msgstr "کلید با موفقیت ایجاد شد!"
+#~ msgid "OpenPGP Keys (*.asc, *.gpg)"
+#~ msgstr "کلیدهای OpenPGP (*.asc, *.gpg)"
 
-msgid "Failed to generate key."
-msgstr "ایجاد کلید ناموفق بود."
+#~ msgid "All Files"
+#~ msgstr "همه فایل‌ها"
 
-msgid "Import OpenPGP Key"
-msgstr "وارد کردن کلید OpenPGP"
+#~ msgid "Key imported! Re-open Key Management to see it."
+#~ msgstr "کلید وارد شد! مدیریت کلید را دوباره باز کنید تا ببینید."
 
-msgid "OpenPGP Keys (*.asc, *.gpg)"
-msgstr "کلیدهای OpenPGP (*.asc, *.gpg)"
+#~ msgid "Import failed: "
+#~ msgstr "وارد کردن ناموفق: "
 
-msgid "All Files"
-msgstr "همه فایل‌ها"
+#~ msgid "Key exported to: "
+#~ msgstr "کلید صادر شد به: "
 
-msgid "Key imported! Re-open Key Management to see it."
-msgstr "کلید وارد شد! مدیریت کلید را دوباره باز کنید تا ببینید."
+#~ msgid "Export failed."
+#~ msgstr "صادر کردن ناموفق."
 
-msgid "Import failed: "
-msgstr "وارد کردن ناموفق: "
+#~ msgid "Delete Key?"
+#~ msgstr "حذف کلید؟"
 
-msgid "Key exported to: "
-msgstr "کلید صادر شد به: "
+#~ msgid ""
+#~ "Delete this key?\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "This cannot be undone!"
+#~ msgstr ""
+#~ "این کلید حذف شود؟\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "این قابل بازگشت نیست!"
 
-msgid "Export failed."
-msgstr "صادر کردن ناموفق."
+#~ msgid "Key deleted."
+#~ msgstr "کلید حذف شد."
 
-msgid "Delete Key?"
-msgstr "حذف کلید؟"
+#~ msgid "Delete failed: "
+#~ msgstr "حذف ناموفق: "
 
-msgid ""
-"Delete this key?\n"
-"\n"
-"%s\n"
-"\n"
-"This cannot be undone!"
-msgstr ""
-"این کلید حذف شود؟\n"
-"\n"
-"%s\n"
-"\n"
-"این قابل بازگشت نیست!"
+#~ msgid "Choose a key to announce to your contacts."
+#~ msgstr "یک کلید برای اعلام به مخاطبین خود انتخاب کنید."
 
-msgid "Key deleted."
-msgstr "کلید حذف شد."
+#~ msgid "Enter GPG passphrase to confirm:"
+#~ msgstr "عبارت عبور GPG را برای تأیید وارد کنید:"
 
-msgid "Delete failed: "
-msgstr "حذف ناموفق: "
+#~ msgid "Generate, import, export, or delete keys"
+#~ msgstr "ایجاد، وارد کردن، صادر کردن یا حذف کلیدها"
 
-msgid "Choose a key to announce to your contacts."
-msgstr "یک کلید برای اعلام به مخاطبین خود انتخاب کنید."
+#~ msgid "No keys available. Generate or import one!"
+#~ msgstr "کلیدی موجود نیست. یکی ایجاد یا وارد کنید!"
 
-msgid "Enter GPG passphrase to confirm:"
-msgstr "عبارت عبور GPG را برای تأیید وارد کنید:"
-
-msgid "Generate, import, export, or delete keys"
-msgstr "ایجاد، وارد کردن، صادر کردن یا حذف کلیدها"
-
-msgid "No keys available. Generate or import one!"
-msgstr "کلیدی موجود نیست. یکی ایجاد یا وارد کنید!"
-
-msgid "Error in GnuPG"
-msgstr "خطا در GnuPG"
+#~ msgid "Error in GnuPG"
+#~ msgstr "خطا در GnuPG"
 
 #~ msgid "Message too long"
 #~ msgstr "پیام خیلی طولانی است"

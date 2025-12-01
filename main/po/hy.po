@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-28 12:18+0100\n"
+"POT-Creation-Date: 2025-12-01 10:28+0100\n"
 "PO-Revision-Date: 2025-08-15 12:01+0000\n"
 "Language-Team: none\n"
 "Language: hy\n"
@@ -19,24 +19,24 @@ msgstr ""
 
 #: main/data/add_conversation/add_groupchat_dialog.ui:80
 msgid "Add MUC"
-msgstr " Delays MUC"
+msgstr "Ավելացնել MUC"
 
 #: main/data/add_conversation/add_groupchat_dialog.ui:90
 msgid "Insert a Name for MUC..."
-msgstr "Մdelays-delays MUC-delays..."
+msgstr "Մուտքագրեք MUC-ի անունը..."
 
 #: main/data/add_conversation/select_jid_fragment.ui:20
 msgid "Search or enter channel address..."
-msgstr "Որdelays delays delays..."
+msgstr "Որոնել կամ մուտքագրել ալիքի հասցեն..."
 
 #: main/data/add_conversation/select_jid_fragment.ui:67
 #: main/src/ui/add_conversation/select_jid_fragment.vala:205
 msgid "Add Group"
-msgstr " Delays խdelays"
+msgstr "Ավելացնել խումբ"
 
 #: main/data/add_conversation/select_jid_fragment.ui:88
 msgid "Delete Group"
-msgstr " Delays"
+msgstr "Ջնջել խումբը"
 
 #: main/data/call_widget.ui:73 main/src/ui/notifier_freedesktop.vala:125
 #: main/src/ui/notifier_freedesktop.vala:230
@@ -59,17 +59,17 @@ msgstr "Ընդունել"
 
 #: main/data/chat_input.ui:63
 msgid "Record voice message"
-msgstr " Delays delays delays"
+msgstr "Ձայնագրել ձայնային հաղորդագրություն"
 
 #: main/data/chat_input.ui:77
 msgid "Send message"
-msgstr " Delays delays"
+msgstr "Ուղարկել հաղորդագրություն"
 
 #: main/data/conversation_details.ui:145
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:566
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:175
 msgid "Remove Contact"
-msgstr "Ձայdelays delays"
+msgstr "Հեռացնել կոնտակտը"
 
 #: main/data/conversation_details.ui:171
 #: main/src/windows/conversation_details.vala:231
@@ -78,7 +78,7 @@ msgstr "Ծրագրի մասին"
 
 #: main/data/conversation_row.ui:56
 msgid "Private room (supports group calls)"
-msgstr "Մասdelays"
+msgstr "Անձնական սենյակ (աջակցում է խմբային զանգեր)"
 
 #: main/data/conversation_row.ui:135
 #: main/src/windows/conversation_details.vala:171
@@ -99,14 +99,14 @@ msgstr "Ընդհանուր"
 #: main/data/gtk/help-overlay.ui:14 main/data/main_window.ui:38
 #: main/data/menu_add.ui:7
 #: main/src/ui/add_conversation/select_contact_dialog.vala:106
-#: main/src/ui/main_window.vala:141
+#: main/src/ui/main_window.vala:154
 msgid "Start Conversation"
 msgstr "Սկսել զրոյց"
 
 #: main/data/gtk/help-overlay.ui:20 main/data/main_window.ui:51
 #: main/data/menu_add.ui:11
 #: main/src/ui/add_conversation/add_conference_dialog.vala:24
-#: main/src/ui/application.vala:527 main/src/ui/main_window.vala:142
+#: main/src/ui/application.vala:1359 main/src/ui/main_window.vala:155
 msgid "Join Channel"
 msgstr "Միանալ սենեակին"
 
@@ -133,7 +133,7 @@ msgstr "Ուղարկել նիշք"
 
 #: main/data/gtk/help-overlay.ui:55
 msgid "Close conversation"
-msgstr "Փdelays"
+msgstr "Փակել զրույցը"
 
 #: main/data/gtk/help-overlay.ui:62
 msgid "Navigation"
@@ -147,9 +147,9 @@ msgstr "Անցնել յաջորդ զրոյցին"
 msgid "Jump to previous conversation"
 msgstr "Անցնել նախորդ զրոյցին"
 
-#: main/data/main_window.ui:64 main/src/ui/main_window.vala:144
+#: main/data/main_window.ui:64 main/src/ui/main_window.vala:157
 msgid "Help: How to join channels"
-msgstr "Delays: Delays delays delays"
+msgstr "Օգնություն. Ինչպես միանալ ալիքներին"
 
 #: main/data/main_window.ui:118
 msgid "You have no open chats"
@@ -161,35 +161,35 @@ msgstr "Սեղմիր + զրոյց սկսելու կամ սենեակ մտնել�
 
 #: main/data/menu_app.ui:6
 msgid "Status"
-msgstr "Կարdelays"
+msgstr "Կարգավիճակ"
 
 #: main/data/menu_app.ui:11
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:427
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Online"
-msgstr "Առdelays"
+msgstr "Առցանց"
 
 #: main/data/menu_app.ui:16
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:421
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Away"
-msgstr "Հdelays"
+msgstr "Բացակայում է"
 
 #: main/data/menu_app.ui:21
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:425
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Busy"
 msgstr "Զbaghված"
 
 #: main/data/menu_app.ui:26
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:423
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Not Available"
-msgstr "Հdelays"
+msgstr "Անհասանելի"
 
 #: main/data/menu_app.ui:34
 msgid "Preferences"
@@ -199,9 +199,9 @@ msgstr "Կարգաւորումներ"
 msgid "Keyboard Shortcuts"
 msgstr "Ստեղնաշարի կարճատներ"
 
-#: main/data/menu_app.ui:42 main/src/ui/application.vala:334
+#: main/data/menu_app.ui:42 main/src/ui/application.vala:340
 msgid "About DinoX"
-msgstr "DinoX- delays մdelays"
+msgstr "DinoX-ի մասին"
 
 #: main/data/menu_conversation.ui:7
 msgid "Contact Details"
@@ -212,13 +212,16 @@ msgstr "Կոնտակտի մանրամասներ"
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:565
 #: main/src/ui/conversation_titlebar/menu_entry.vala:84
 msgid "Delete Conversation History"
-msgstr "Delaysdelays delays delays"
+msgstr "Ջնջել զրույցի պատմությունը"
 
 #: main/data/message_item_widget_edit_mode.ui:46
 #: main/data/preferences_window/change_password_dialog.ui:18
 #: main/src/ui/add_conversation/add_conference_dialog.vala:41
 #: main/src/ui/add_conversation/select_contact_dialog.vala:40
-#: main/src/ui/application.vala:537
+#: main/src/ui/application.vala:441 main/src/ui/application.vala:469
+#: main/src/ui/application.vala:765 main/src/ui/application.vala:843
+#: main/src/ui/application.vala:901 main/src/ui/application.vala:933
+#: main/src/ui/application.vala:1089 main/src/ui/application.vala:1369
 #: main/src/ui/conversation_content_view/file_default_widget.vala:90
 #: main/src/ui/conversation_content_view/item_actions.vala:165
 #: main/src/ui/conversation_content_view/item_actions.vala:168
@@ -233,7 +236,7 @@ msgstr "Delaysdelays delays delays"
 #: main/src/ui/conversation_titlebar/call_entry.vala:83
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
 #: main/src/windows/conversation_details.vala:60
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:67
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:68
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:205
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:225
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:249
@@ -257,6 +260,7 @@ msgid "Local alias"
 msgstr "Տեղական այլանուն"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:82
+#: main/src/ui/application.vala:435 main/src/ui/application.vala:1064
 #: main/src/ui/util/data_forms.vala:63
 msgid "Password"
 msgstr "Ծածկագիր"
@@ -265,22 +269,26 @@ msgstr "Ծածկագիր"
 msgid "Connection status"
 msgstr "Կապի վիճակ"
 
+#: main/data/preferences_window/account_preferences_subpage.ui:117
+msgid "View Certificate"
+msgstr "Դիտել վկայականը"
+
 # Custom host/port feature (Issue #115)
-#: main/data/preferences_window/account_preferences_subpage.ui:121
+#: main/data/preferences_window/account_preferences_subpage.ui:128
 msgid "Advanced Settings"
-msgstr " Delays-delays կdelays"
+msgstr "Ընդլայնված կարգավորումներ"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:122
+#: main/data/preferences_window/account_preferences_subpage.ui:129
 msgid "Custom server connection (leave empty for automatic)"
-msgstr "Delays delays (delays delays)"
+msgstr "Սերվերի հատուկ միացում (թողնել դատարկ՝ ավտոմատի համար)"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:125
+#: main/data/preferences_window/account_preferences_subpage.ui:132
 msgid "Server Hostname"
-msgstr "Delays delays"
+msgstr "Սերվերի հոսթի անունը"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:130
+#: main/data/preferences_window/account_preferences_subpage.ui:137
 msgid "Port"
-msgstr "Delays"
+msgstr "Պորտ"
 
 #: main/data/preferences_window/change_password_dialog.ui:61
 msgid "Current password"
@@ -312,24 +320,25 @@ msgstr "Ծանուցել երբ նոր գրութիւն է եկել"
 
 #: main/data/preferences_window/general_preferences_page.ui:32
 msgid "_Keep Running in Background"
-msgstr "_Delays delays"
+msgstr "_Շարունակել աշխատել ֆոնային ռեժիմում"
 
 #: main/data/preferences_window/general_preferences_page.ui:33
 msgid ""
 "Continue running after closing window to receive notifications immediately"
-msgstr "Շdelays delays delays delays delays delays delays delays delays"
+msgstr ""
+"Շարունակել աշխատել պատուհանը փակելուց հետո՝ ծանուցումներն անմիջապես ստանալու համար"
 
 #: main/data/preferences_window/general_preferences_page.ui:41
 msgid "Appearance"
-msgstr "Delays"
+msgstr "Արտաքին տեսք"
 
 #: main/data/preferences_window/general_preferences_page.ui:44
 msgid "_Color Scheme"
-msgstr "_Delays"
+msgstr "_Գունային սխեմա"
 
 #: main/data/preferences_window/general_preferences_page.ui:45
 msgid "Choose between light and dark appearance"
-msgstr "Delays delays delays"
+msgstr "Ընտրեք լուսավոր և մութ արտաքին տեսքի միջև"
 
 #: main/data/preferences_window/general_preferences_page.ui:55
 msgid "_Convert Smileys to Emoji"
@@ -337,23 +346,63 @@ msgstr "_Փոխարկել զմայլիկներն՝ էմոջիների"
 
 #: main/data/preferences_window/general_preferences_page.ui:63
 msgid "User Data"
-msgstr "Օdelay delays"
+msgstr "Օգտատիրոջ տվյալներ"
 
 #: main/data/preferences_window/general_preferences_page.ui:66
 msgid "Backup User Data"
-msgstr "Delays delays"
+msgstr "Պահուստավորել օգտատիրոջ տվյալները"
 
 #: main/data/preferences_window/general_preferences_page.ui:67
 msgid "Create a backup of your accounts, messages and settings"
-msgstr "Delays delays delays delays"
+msgstr "Ստեղծել ձեր հաշիվների, հաղորդագրությունների և կարգավորումների պահուստային պատճենը"
 
 #: main/data/preferences_window/general_preferences_page.ui:78
-msgid "Data Location"
-msgstr "Delays delays"
+#: main/src/ui/application.vala:464 main/src/ui/main_window.vala:223
+msgid "Restore from Backup"
+msgstr "Վերականգնել պահուստից"
 
 #: main/data/preferences_window/general_preferences_page.ui:79
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "Վերականգնել հաշիվները, հաղորդագրությունները և կարգավորումները պահուստային ֆայլից"
+
+#: main/data/preferences_window/general_preferences_page.ui:90
+msgid "Data Storage Location"
+msgstr "Տվյալների պահպանման վայրը"
+
+#: main/data/preferences_window/general_preferences_page.ui:91
 msgid "View where your data is stored"
-msgstr "Delays delays delays delays"
+msgstr "Դիտել, թե որտեղ են պահվում ձեր տվյալները"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "Տվյալների բազայի սպասարկում"
+
+#: main/data/preferences_window/general_preferences_page.ui:107
+#: main/src/ui/application.vala:761 main/src/ui/application.vala:766
+msgid "Clear Cache"
+msgstr "Մաքրել քեշը"
+
+#: main/data/preferences_window/general_preferences_page.ui:108
+msgid "Clear cached files, avatars and previews"
+msgstr "Մաքրել քեշավորված ֆայլերը, ավատարները և նախադիտումները"
+
+#: main/data/preferences_window/general_preferences_page.ui:119
+#: main/src/ui/application.vala:838 main/src/ui/application.vala:844
+msgid "Reset Database"
+msgstr "Վերակայել տվյալների բազան"
+
+#: main/data/preferences_window/general_preferences_page.ui:120
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr "Ջնջել բոլոր հաղորդագրությունները, ֆայլերը և OMEMO բանալիները: Ձեր հաշիվները կմնան:"
+
+#: main/data/preferences_window/general_preferences_page.ui:131
+#: main/src/ui/application.vala:896
+msgid "Factory Reset"
+msgstr "Գործարանային վերակայում"
+
+#: main/data/preferences_window/general_preferences_page.ui:132
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr "Ջնջել ԲՈԼՈՐ տվյալները, ներառյալ հաշիվները: Սա հնարավոր չէ հետարկել:"
 
 #: main/data/preferences_window/preferences_dialog.ui:11
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:15
@@ -365,7 +414,7 @@ msgstr "Հաշիւներ"
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:17
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:67
 msgid "Contacts"
-msgstr "Delays"
+msgstr "Կոնտակտներ"
 
 #: main/data/preferences_window/preferences_dialog.ui:25
 #: main/src/windows/conversation_details.vala:281
@@ -378,7 +427,7 @@ msgstr "Յաջորդ"
 
 #: main/src/ui/add_conversation/add_conference_dialog.vala:59
 #: main/src/ui/add_conversation/conference_details_fragment.vala:151
-#: main/src/ui/application.vala:541
+#: main/src/ui/application.vala:1373
 msgid "Join"
 msgstr "Միանալ"
 
@@ -436,7 +485,7 @@ msgstr "Անուաւեր հասցէ"
 
 #: main/src/ui/add_conversation/select_contact_dialog.vala:70
 msgid "Search or enter contact address..."
-msgstr "Որbacks delays delays..."
+msgstr "Որոնել կամ մուտքագրել կոնտակտի հասցեն..."
 
 #: main/src/ui/add_conversation/select_contact_dialog.vala:107
 msgid "Start"
@@ -444,11 +493,11 @@ msgstr "Սկսել"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:154
 msgid "Browse Rooms"
-msgstr "Delays"
+msgstr "Դիտել սենյակները"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:157
 msgid "Browse Contacts"
-msgstr "Delays delays"
+msgstr "Դիտել կոնտակտները"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:202
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:70
@@ -457,150 +506,387 @@ msgstr "Աւելացնել կոնտակտ"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:203
 msgid "Delete Contact"
-msgstr "Delays delays"
+msgstr "Ջնջել կոնտակտը"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:206
 #: main/src/ui/add_conversation/select_jid_fragment.vala:216
 msgid "Leave Group"
-msgstr "Delays"
+msgstr "Լքել խումբը"
 
-#: main/src/ui/application.vala:339
+#: main/src/ui/application.vala:345
 msgid "Modern XMPP client with extended features"
-msgstr "Delays XMPP delays delays"
+msgstr "Ժամանակակից XMPP հաճախորդ ընդլայնված հնարավորություններով"
 
-#: main/src/ui/application.vala:346 main/src/ui/application.vala:385
+#: main/src/ui/application.vala:352 main/src/ui/application.vala:727
 msgid "User Data Locations"
-msgstr "Delays delays delays"
+msgstr "Օգտատիրոջ տվյալների գտնվելու վայրերը"
 
-#: main/src/ui/application.vala:349 main/src/ui/application.vala:399
+#: main/src/ui/application.vala:355 main/src/ui/application.vala:741
 msgid "Configuration:"
-msgstr "Delays:"
+msgstr "Կարգավորումներ:"
 
-#: main/src/ui/application.vala:352 main/src/ui/application.vala:401
+#: main/src/ui/application.vala:358 main/src/ui/application.vala:743
 msgid "Data & Database:"
-msgstr "Delays delays:"
+msgstr "Տվյալներ և տվյալների բազա:"
 
-#: main/src/ui/application.vala:355 main/src/ui/application.vala:403
+#: main/src/ui/application.vala:361 main/src/ui/application.vala:745
 msgid "Cache:"
-msgstr "Delays:"
+msgstr "Քեշ:"
 
-#: main/src/ui/application.vala:358
+#: main/src/ui/application.vala:364
 msgid "Info:"
-msgstr "Delays:"
+msgstr "Տեղեկություն:"
 
-#: main/src/ui/application.vala:359
+#: main/src/ui/application.vala:365
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
 msgstr ""
-" Delays delays delays delays delays delays delays delays delays delays."
-
-#: main/src/ui/application.vala:361
+"Ձեր անձնական տվյալները (հաշիվներ, հաղորդագրություններ, ֆայլեր) պահվում են հավելվածից առանձին:"
 msgid "When you update DinoX, your data remains intact."
-msgstr "Delays DinoX delays delays."
+msgstr "Երբ թարմացնում եք DinoX-ը, ձեր տվյալները մնում են անփոփոխ:"
 
-#: main/src/ui/application.vala:363
+#: main/src/ui/application.vala:369
 msgid "Use Settings → General → Backup User Data to create a backup."
-msgstr "Delays → Delays → Delays"
+msgstr "Օգտագործեք Կարգավորումներ → Ընդհանուր → Պահուստավորել օգտատիրոջ տվյալները՝ պահուստ ստեղծելու համար:"
 
-#: main/src/ui/application.vala:405
+#: main/src/ui/application.vala:387
+msgid "Select Backup File"
+msgstr "Ընտրել պահուստային ֆայլը"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+#: main/src/ui/application.vala:395
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "Պահուստային ֆայլեր (*.tar.gz, *.tar.gz.gpg)"
+
+#: main/src/ui/application.vala:425
+msgid "Enter Backup Password"
+msgstr "Մուտքագրեք պահուստի գաղտնաբառը"
+
+#: main/src/ui/application.vala:426
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "Այս պահուստը գաղտնագրված է: Խնդրում ենք մուտքագրել գաղտնաբառը այն վերծանելու համար:"
+
+#: main/src/ui/application.vala:442
+msgid "Decrypt & Restore"
+msgstr "Վերծանել և վերականգնել"
+
+#: main/src/ui/application.vala:465
+msgid ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+msgstr ""
+"Սա կփոխարինի բոլոր ընթացիկ տվյալները պահուստով:\n"
+"\n"
+"<b>Ընթացիկ հաշիվները, հաղորդագրությունները և կարգավորումները կվերագրվեն:</b>\n"
+"\n"
+"DinoX-ը կվերագործարկվի վերականգնումից հետո:"
+
+#: main/src/ui/application.vala:470
+msgid "Restore Backup"
+msgstr "Վերականգնել պահուստը"
+
+#: main/src/ui/application.vala:487 main/src/ui/application.vala:519
+msgid "Decrypting Backup..."
+msgstr "Պահուստի վերծանում..."
+
+#: main/src/ui/application.vala:487 main/src/ui/application.vala:571
+msgid "Restoring Backup..."
+msgstr "Պահուստի վերականգնում..."
+
+#: main/src/ui/application.vala:488
+msgid "Please wait, this may take a moment..."
+msgstr "Խնդրում ենք սպասել, սա կարող է որոշ ժամանակ տևել..."
+
+#: main/src/ui/application.vala:520
+msgid "Decrypting encrypted backup file..."
+msgstr "Գաղտնագրված պահուստային ֆայլի վերծանում..."
+
+#: main/src/ui/application.vala:558
+msgid "Decryption Failed"
+msgstr "Վերծանումը ձախողվեց"
+
+#: main/src/ui/application.vala:559
+msgid ""
+"Could not decrypt the backup file.\n"
+"\n"
+"Please check if the password is correct."
+msgstr ""
+"Չհաջողվեց վերծանել պահուստային ֆայլը:\n"
+"\n"
+"Խնդրում ենք ստուգել, արդյոք գաղտնաբառը ճիշտ է:"
+msgid "OK"
+msgstr "OK"
+
+#: main/src/ui/application.vala:572
+msgid "Extracting files from backup..."
+msgstr "Ֆայլերի դուրսբերում պահուստից..."
+
+#: main/src/ui/application.vala:653
+msgid "Restore Complete!"
+msgstr "Վերականգնումն ավարտված է:"
+
+#: main/src/ui/application.vala:654
+msgid "DinoX will now restart..."
+msgstr "DinoX-ը հիմա կվերագործարկվի..."
+
+#: main/src/ui/application.vala:668
+msgid "Restore Failed"
+msgstr "Վերականգնումը ձախողվեց"
+
+#: main/src/ui/application.vala:669
+#, c-format
+msgid ""
+"Could not restore the backup file.\n"
+"\n"
+"Error: %s"
+msgstr ""
+"Չհաջողվեց վերականգնել պահուստային ֆայլը:\n"
+"\n"
+"Սխալ՝ %s"
+msgid "Unknown error"
+msgstr "Անհայտ սխալ"
+
+#: main/src/ui/application.vala:747
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
 msgstr ""
-"Delays delays delays delays delays delays delays delays delays. Delays DinoX "
-"delays delays delays delays delays."
-
-#: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
-#: main/src/ui/main_window.vala:159
+"Ձեր անձնական տվյալները (հաշիվներ, հաղորդագրություններ, ֆայլեր) պահվում են հավելվածից առանձին: Երբ թարմացնում եք DinoX-ը, ձեր տվյալները մնում են անփոփոխ:"
 msgid "Close"
-msgstr "Փdelays"
+msgstr "Փակել"
 
-#: main/src/ui/application.vala:417
+#: main/src/ui/application.vala:762
+msgid ""
+"This will delete cached files, avatars and previews.\n"
+"\n"
+"They will be re-downloaded when needed."
+msgstr ""
+"Սա կջնջի քեշավորված ֆայլերը, ավատարները և նախադիտումները:\n"
+"\n"
+"Դրանք կրկին կներբեռնվեն, երբ անհրաժեշտ լինի:"
+
+#: main/src/ui/application.vala:799
+#, c-format
+msgid "Cache cleared (%s freed)"
+msgstr "Քեշը մաքրված է (%s ազատված)"
+
+#: main/src/ui/application.vala:802
+msgid "Failed to clear cache"
+msgstr "Չհաջողվեց մաքրել քեշը"
+
+#: main/src/ui/application.vala:839
+msgid ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+msgstr ""
+"Սա կջնջի բոլոր հաղորդագրությունները, ֆայլերը և OMEMO գաղտնագրման բանալիները:\n"
+"\n"
+"<b>Ձեր հաշիվները կմնան, բայց դուք կկորցնեք զրույցի ամբողջ պատմությունը և ստիպված կլինեք "
+"վերստուգել գաղտնագրումը ձեր կոնտակտների հետ:</b>\n"
+"\n"
+"Այս գործողությունը հնարավոր չէ հետարկել:"
+
+#: main/src/ui/application.vala:867
+msgid "Resetting database... DinoX will restart."
+msgstr "Տվյալների բազայի վերակայում... DinoX-ը կվերագործարկվի:"
+
+#: main/src/ui/application.vala:897
+msgid ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+msgstr ""
+"<b>⚠️ ԶԳՈՒՇԱՑՈՒՄ. Սա կջնջի ԲՈԼՈՐ տվյալները:</b>\n"
+"\n"
+"• Բոլոր հաշիվները\n"
+"• Բոլոր հաղորդագրությունները և ֆայլերը\n"
+"• Բոլոր գաղտնագրման բանալիները\n"
+"• Բոլոր կարգավորումները\n"
+"\n"
+"Սա անդառնալի է: Համոզվեք, որ նախապես ստեղծել եք պահուստ:"
+
+#: main/src/ui/application.vala:902
+msgid "Create Backup First"
+msgstr "Նախ ստեղծեք պահուստ"
+
+#: main/src/ui/application.vala:903
+msgid "Delete Everything"
+msgstr "Ջնջել ամեն ինչ"
+
+#: main/src/ui/application.vala:923
+msgid "Are you absolutely sure?"
+msgstr "Դուք լիովին համոզվա՞ծ եք:"
+
+#: main/src/ui/application.vala:924
+msgid ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+msgstr ""
+"Մուտքագրեք 'DELETE'՝ գործարանային վերակայումը հաստատելու համար:\n"
+"\n"
+"Սա ընդմիշտ կջնջի ձեր բոլոր DinoX տվյալները:"
+
+#: main/src/ui/application.vala:934
+msgid "Confirm Delete"
+msgstr "Հաստատել ջնջումը"
+
+#: main/src/ui/application.vala:961
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "Գործարանային վերակայում ընթացքի մեջ է... DinoX-ը կվերագործարկվի:"
+
+#: main/src/ui/application.vala:1026
+msgid "Backup Encryption"
+msgstr "Պահուստային պատճենի գաղտնագրում"
+
+#: main/src/ui/application.vala:1027
+msgid ""
+"Do you want to encrypt the backup with a password?\n"
+"\n"
+"Encrypted backups are more secure but require the password to restore."
+msgstr ""
+"Ցանկանու՞մ եք գաղտնագրել պահուստային պատճենը գաղտնաբառով:\n"
+"\n"
+"Գաղտնագրված պահուստային պատճեններն ավելի անվտանգ են, բայց վերականգնելու համար պահանջում են գաղտնաբառ:"
+
+#: main/src/ui/application.vala:1030
+msgid "No Encryption"
+msgstr "Առանց գաղտնագրման"
+
+#: main/src/ui/application.vala:1031
+msgid "Encrypt with Password"
+msgstr "Գաղտնագրել գաղտնաբառով"
+
+#: main/src/ui/application.vala:1049
+msgid "Set Backup Password"
+msgstr "Սահմանել պահուստի գաղտնաբառ"
+
+#: main/src/ui/application.vala:1050
+msgid ""
+"Enter a password to encrypt the backup.\n"
+"\n"
+"<b>Important:</b> Remember this password! Without it, the backup cannot be "
+"restored."
+msgstr ""
+"Մուտքագրեք գաղտնաբառ՝ պահուստը գաղտնագրելու համար:\n"
+"\n"
+"<b>Կարևոր է.</b> Հիշեք այս գաղտնաբառը: Առանց դրա պահուստը հնարավոր չէ վերականգնել:"
+msgid "Password (minimum 4 characters)"
+msgstr "Գաղտնաբառ (առնվազն 4 նիշ)"
+
+#: main/src/ui/application.vala:1066 main/src/ui/application.vala:1073
+msgid "Confirm Password"
+msgstr "Հաստատել գաղտնաբառը"
+
+#: main/src/ui/application.vala:1090
+msgid "Create Encrypted Backup"
+msgstr "Ստեղծել գաղտնագրված պահուստ"
+
+#: main/src/ui/application.vala:1102 main/src/ui/application.vala:1117
+msgid "Password too short"
+msgstr "Գաղտնաբառը շատ կարճ է"
+
+#: main/src/ui/application.vala:1104 main/src/ui/application.vala:1119
+msgid "Passwords do not match"
+msgstr "Գաղտնաբառերը չեն համընկնում"
+
+#: main/src/ui/application.vala:1106 main/src/ui/application.vala:1121
+msgid "✓ Passwords match"
+msgstr "✓ Գաղտնաբառերը համընկնում են"
+
+#: main/src/ui/application.vala:1139
 msgid "Select Backup Location"
-msgstr "Delays delays delays"
+msgstr "Ընտրել պահուստի գտնվելու վայրը"
 
-#: main/src/ui/application.vala
-msgid "Creating Backup..."
-msgstr "Creating Backup..."
-
-#: main/src/ui/application.vala
+#: main/src/ui/application.vala:1194
 msgid "Creating Encrypted Backup..."
-msgstr "Creating Encrypted Backup..."
+msgstr "Ստեղծվում է գաղտնագրված պահուստ..."
 
-#: main/src/ui/application.vala
+#: main/src/ui/application.vala:1194
+msgid "Creating Backup..."
+msgstr "Ստեղծվում է պահուստ..."
+
+#: main/src/ui/application.vala:1195
 msgid "Please wait while your data is being backed up."
-msgstr "Please wait while your data is being backed up."
+msgstr "Խնդրում ենք սպասել, մինչ ձեր տվյալները պահուստավորվում են:"
 
-#: main/src/ui/application.vala
-msgid "No data directories found to backup"
-msgstr "No data directories found to backup"
+#: main/src/ui/application.vala:1234
+msgid "No data directory found to backup"
+msgstr "Պահուստավորման համար տվյալների պանակ չի գտնվել"
 
-#: main/src/ui/application.vala
-msgid "Backup Created"
-msgstr "Backup Created"
-
-#: main/src/ui/application.vala
-msgid "Encrypted Backup Created"
-msgstr "Encrypted Backup Created"
-
-#: main/src/ui/application.vala
-#, c-format
-msgid "Your backup was created successfully.\\n\\nSize: %s"
-msgstr "Your backup was created successfully.\\n\\nSize: %s"
-
-#: main/src/ui/application.vala
-msgid "Your backup was created successfully."
-msgstr "Your backup was created successfully."
-
-#: main/src/ui/application.vala
-#, c-format
-msgid "Your encrypted backup was created successfully.\\n\\nSize: %s"
-msgstr "Your encrypted backup was created successfully.\\n\\nSize: %s"
-
-#: main/src/ui/application.vala
-msgid "Your encrypted backup was created successfully."
-msgstr "Your encrypted backup was created successfully."
-
-#: main/src/ui/application.vala
+#: main/src/ui/application.vala:1237 main/src/ui/application.vala:1343
 msgid "Backup Failed"
-msgstr "Backup Failed"
+msgstr "Պահուստավորումը ձախողվեց"
 
-#: main/src/ui/application.vala:445
-msgid "Creating backup..."
-msgstr "Delays delays..."
+#: main/src/ui/application.vala:1331
+msgid "Encrypted Backup Created"
+msgstr "Գաղտնագրված պահուստը ստեղծվեց"
 
-#: main/src/ui/application.vala:503
+#: main/src/ui/application.vala:1333
 #, c-format
-msgid "Backup created successfully (%s)"
-msgstr "Delays delays (%s)"
+msgid ""
+"Your encrypted backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"Ձեր գաղտնագրված պահուստային պատճենը հաջողությամբ ստեղծվել է:\n"
+"\n"
+"Չափը՝ %s"
 
-#: main/src/ui/application.vala:505
-msgid "Backup created successfully"
-msgstr "Delays delays"
+#: main/src/ui/application.vala:1334
+msgid "Your encrypted backup was created successfully."
+msgstr "Ձեր գաղտնագրված պահուստը հաջողությամբ ստեղծվեց:"
 
-#: main/src/ui/application.vala:510
-msgid "Unknown error"
-msgstr "Delays delays"
+#: main/src/ui/application.vala:1336
+msgid "Backup Created"
+msgstr "Պահուստը ստեղծվեց"
 
-#: main/src/ui/application.vala:511
+#: main/src/ui/application.vala:1338
+#, c-format
+msgid ""
+"Your backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"Ձեր պահուստային պատճենը հաջողությամբ ստեղծվել է:\n"
+"\n"
+"Չափը՝ %s"
+
+#: main/src/ui/application.vala:1339
+msgid "Your backup was created successfully."
+msgstr "Ձեր պահուստը հաջողությամբ ստեղծվեց:"
+
+#: main/src/ui/application.vala:1346
 #, c-format
 msgid "Backup failed: %s"
-msgstr "Delays delays: %s"
+msgstr "Պահուստավորումը ձախողվեց. %s"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:29
+#: main/src/ui/call_window/audio_settings_popover.vala:46
 msgid "Microphones"
 msgstr "Խօսափողներ"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:32
+#: main/src/ui/call_window/audio_settings_popover.vala:49
 msgid "No microphone found."
 msgstr "Խօսափող չի գտնուել։"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:85
+#: main/src/ui/call_window/audio_settings_popover.vala:116
 msgid "Speakers"
 msgstr "Բարձրախօսներ"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:88
+#: main/src/ui/call_window/audio_settings_popover.vala:119
 msgid "No speaker found."
 msgstr "Բարձրախօս չի գտնուել։"
 
@@ -616,7 +902,7 @@ msgstr "Հրաւիրել զանգի"
 msgid "Invite"
 msgstr "Հրաւիրել"
 
-#: main/src/ui/call_window/call_window_controller.vala:405
+#: main/src/ui/call_window/call_window_controller.vala:453
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:240
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:270
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:285
@@ -635,21 +921,21 @@ msgstr "%s֊ն աւարտեց զանգը"
 msgid "%s declined the call"
 msgstr "%s֊ը չընդունեց զանգը"
 
-#: main/src/ui/call_window/participant_widget.vala:115
+#: main/src/ui/call_window/participant_widget.vala:140
 msgid "Debug information"
 msgstr "Տեղեկութիւններ վրիպազերծման համար"
 
-#: main/src/ui/call_window/participant_widget.vala:124
+#: main/src/ui/call_window/participant_widget.vala:149
 #: main/src/ui/conversation_content_view/call_widget.vala:152
 msgid "Calling…"
 msgstr "Զանգ է գնում…"
 
-#: main/src/ui/call_window/participant_widget.vala:126
+#: main/src/ui/call_window/participant_widget.vala:151
 msgid "Ringing…"
 msgstr "Զանգ…"
 
-#: main/src/ui/call_window/participant_widget.vala:128
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:216
+#: main/src/ui/call_window/participant_widget.vala:153
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:244
 msgid "Connecting…"
 msgstr "Միացում…"
 
@@ -883,9 +1169,9 @@ msgstr "%a, %H∶%M"
 msgid "Just now"
 msgstr "Հէնց նոր"
 
-#: main/src/ui/conversation_content_view/conversation_view.vala:105
+#: main/src/ui/conversation_content_view/conversation_view.vala:106
 msgid "More actions"
-msgstr "Delays delays"
+msgstr "Այլ գործողություններ"
 
 #: main/src/ui/conversation_content_view/file_default_widget.vala:67
 #: main/src/ui/conversation_content_view/file_image_widget.vala:42
@@ -933,11 +1219,11 @@ msgstr "Նիշքի փոխանցումը խափանուեց"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:36
 msgid "Kick user"
-msgstr "Delays delays"
+msgstr "Հեռացնել օգտատիրոջը"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:69
 msgid "Ban user"
-msgstr "Delays delays"
+msgstr "Արգելափակել օգտատիրոջը"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:82
 #: main/src/ui/conversation_content_view/reactions_widget.vala:128
@@ -958,48 +1244,48 @@ msgstr "Այս զրոյցը չի սատարում պատասխանների։"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:146
 msgid "Moderate message..."
-msgstr "Delays delays…"
+msgstr "Կարգավորել հաղորդագրությունը..."
 
 #: main/src/ui/conversation_content_view/item_actions.vala:148
 msgid "Delete..."
-msgstr "Delays"
+msgstr "Ջնջել..."
 
 #: main/src/ui/conversation_content_view/item_actions.vala:150
 #: main/src/ui/conversation_content_view/item_actions.vala:168
 msgid "Delete locally"
-msgstr "Delays"
+msgstr "Ջնջել տեղային"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:160
 msgid "Moderate message"
-msgstr "Delays delays"
+msgstr "Կարգավորել հաղորդագրությունը"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:160
 msgid "Delete message"
-msgstr "Delays delays"
+msgstr "Ջնջել հաղորդագրությունը"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:164
 msgid "Do you want to remove this message from the channel?"
-msgstr "Delays delays delays?"
+msgstr "Ցանկանու՞մ եք հեռացնել այս հաղորդագրությունը ալիքից:"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:165
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:745
 #: main/src/windows/conversation_details.vala:61
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:292
 msgid "Remove"
-msgstr "Հdelays"
+msgstr "Հեռացնել"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:167
 msgid "Do you want to delete this message just for yourself or for everyone?"
-msgstr "Delays delays delays delays?"
+msgstr "Ցանկանու՞մ եք ջնջել այս հաղորդագրությունը միայն ձեզ համար, թե՞ բոլորի:"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:168
 msgid "Delete for everyone"
-msgstr "Delays"
+msgstr "Ջնջել բոլորի համար"
 
 #: main/src/ui/conversation_content_view/message_widget.vala:174
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:255
 msgid "Message deleted"
-msgstr "Delays delays"
+msgstr "Հաղորդագրությունը ջնջված է"
 
 #: main/src/ui/conversation_content_view/message_widget.vala:178
 msgid "edited"
@@ -1007,7 +1293,7 @@ msgstr "խմբագրուած է"
 
 #: main/src/ui/conversation_content_view/message_widget.vala:182
 msgid "Message truncated - exceeds 100,000 characters"
-msgstr "Delays - delays 100,000 delays"
+msgstr "Հաղորդագրությունը կրճատված է - գերազանցում է 100,000 նիշը"
 
 #: main/src/ui/conversation_content_view/message_widget.vala:191
 msgid "pending…"
@@ -1066,39 +1352,68 @@ msgstr "Թեմա"
 
 #: main/src/ui/conversation_details.vala:222
 msgid "Permissions"
-msgstr "Delays"
+msgstr "Թույլտվություններ"
 
 #: main/src/ui/conversation_details.vala:223
 msgid "Manage Affiliations"
-msgstr "Delays delays"
+msgstr "Կառավարել անդամակցությունները"
 
 #: main/src/ui/conversation_details.vala:239
 msgid "Danger Zone"
-msgstr "Delays"
+msgstr "Վտանգավոր գոտի"
 
 #: main/src/ui/conversation_details.vala:240
 msgid "Destroy Room"
-msgstr "Delays"
+msgstr "Ոչնչացնել սենյակը"
 
 #: main/src/ui/conversation_details.vala:246
 msgid "Destroy Room?"
-msgstr "Delays delays?"
+msgstr "Ոչնչացնե՞լ սենյակը:"
 
 #: main/src/ui/conversation_details.vala:247
 msgid ""
 "Are you sure you want to permanently destroy this room? This action cannot "
 "be undone and all history will be lost for all participants."
 msgstr ""
-"Delays delays delays delays delays delays? Delays delays delays delays "
-"delays delays delays delays delays delays."
-
-#: main/src/ui/conversation_details.vala:250
+"Դուք համոզվա՞ծ եք, որ ցանկանում եք ընդմիշտ ոչնչացնել այս սենյակը: Այս գործողությունը հնարավոր չէ հետարկել, և ամբողջ պատմությունը կկորչի բոլոր մասնակիցների համար:"
 msgid "Destroy"
-msgstr "Delays"
+msgstr "Ոչնչացնել"
 
 #: main/src/ui/conversation_details.vala:271
 msgid "Failed to destroy room"
-msgstr "Delays delays delays"
+msgstr "Չհաջողվեց ոչնչացնել սենյակը"
+
+#: main/src/ui/conversation_details.vala:286
+msgid "Auto-delete messages"
+msgstr "Հաղորդագրությունների ավտոմատ ջնջում"
+
+#: main/src/ui/conversation_details.vala:287
+msgid "Never"
+msgstr "Երբեք"
+
+#: main/src/ui/conversation_details.vala:288
+msgid "After 15 minutes"
+msgstr "15 րոպե անց"
+
+#: main/src/ui/conversation_details.vala:289
+msgid "After 30 minutes"
+msgstr "30 րոպե անց"
+
+#: main/src/ui/conversation_details.vala:290
+msgid "After 1 hour"
+msgstr "1 ժամ անց"
+
+#: main/src/ui/conversation_details.vala:291
+msgid "After 24 hours"
+msgstr "24 ժամ անց"
+
+#: main/src/ui/conversation_details.vala:292
+msgid "After 7 days"
+msgstr "7 օր անց"
+
+#: main/src/ui/conversation_details.vala:293
+msgid "After 30 days"
+msgstr "30 օր անց"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:276
 #: main/src/ui/notifier_freedesktop.vala:71
@@ -1126,19 +1441,19 @@ msgstr "Նիշքը ստացուած է"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:361
 msgid "Thema:"
-msgstr "Delays:"
+msgstr "Թեմա:"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:381
 msgid "Privat"
-msgstr "Delays"
+msgstr "Մասնավոր"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:383
 msgid "Öffentlich"
-msgstr "Delays"
+msgstr "Հանրային"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:387
 msgid "Typ:"
-msgstr "Delays:"
+msgstr "Տիպ:"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:483
 #: main/src/ui/widgets/date_separator.vala:37
@@ -1161,7 +1476,7 @@ msgstr "Զրոյցի մանրամասներ"
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:771
 #: main/src/ui/conversation_titlebar/menu_entry.vala:98
 msgid "Invite Contact"
-msgstr "Delays delays"
+msgstr "Հրավիրել կոնտակտ"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:511
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:559
@@ -1170,7 +1485,7 @@ msgstr "Delays delays"
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:140
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:206
 msgid "Unmute"
-msgstr "Delays"
+msgstr "Միացնել ձայնը"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:511
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:559
@@ -1185,13 +1500,13 @@ msgstr "Լռեցնել"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:514
 msgid "Leave and Close"
-msgstr "Delays"
+msgstr "Լքել և փակել"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:555
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:623
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:126
 msgid "Edit Alias"
-msgstr "Delays delays"
+msgstr "Խմբագրել այլանունը"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:563
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:705
@@ -1214,57 +1529,58 @@ msgstr "Այլանուն"
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:634
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:333
 msgid "Save"
-msgstr "Delays"
+msgstr "Պահպանել"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:657
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:202
 msgid "Unmute contact?"
-msgstr "Delays delays?"
+msgstr "Միացնե՞լ կոնտակտի ձայնը:"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:658
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:203
 #, c-format
 msgid "This will enable notifications from %s."
-msgstr "Delays delays %s."
+msgstr "Սա կմիացնի ծանուցումները %s-ից:"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:676
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:222
 msgid "Mute contact?"
-msgstr "Delays delays?"
+msgstr "Լռեցնե՞լ կոնտակտին:"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:677
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:223
 #, c-format
 msgid "This will disable notifications from %s."
-msgstr "Սա կdelays delays %s- delays delays delays."
+msgstr "Սա կանջատի ծանուցումները %s-ից:"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:701
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:246
 msgid "Unblock contact?"
-msgstr "Delays delays?"
+msgstr "Ապաարգելափակե՞լ կոնտակտին:"
 
 # c-format
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:702
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:247
+#, c-format
 msgid "This will allow %s to send you messages again."
-msgstr "%s- delays delays delays delay."
+msgstr "Սա թույլ կտա %s-ին կրկին հաղորդագրություններ ուղարկել ձեզ:"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:720
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:266
 msgid "Block contact?"
-msgstr "Արdelays delays delays?"
+msgstr "Արգելափակե՞լ կոնտակտին:"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:721
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:267
 #, c-format
 msgid "This will prevent %s from sending you messages."
-msgstr "Սdelays %s-delays delays delays delays delays."
+msgstr "Սա կկանխի %s-ի կողմից ձեզ հաղորդագրություններ ուղարկելը:"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:741
 #: main/src/windows/conversation_details.vala:57
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:288
 msgid "Remove contact?"
-msgstr "Delays delays?"
+msgstr "Հեռացնե՞լ կոնտակտը:"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:742
 #, c-format
@@ -1275,28 +1591,22 @@ msgid ""
 "\n"
 "This action cannot be undone."
 msgstr ""
-"Սա կdelays\n"
-"• Կdelays բոdelays զdelays delays delays\n"
-"• Կdelays %s delaysdelays delays delays delays\n"
+"Սա կկատարի հետևյալը.\n"
+"• Կջնջի զրույցի ամբողջ պատմությունը\n"
+"• Կհեռացնի %s-ին ձեր կոնտակտների ցանկից\n"
 "\n"
-"delay delay delays delays delays."
-
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:787
+"Այս գործողությունը հնարավոր չէ հետարկել:"
 msgid "Delete all message history?"
-msgstr "Delays delays delays delays?"
+msgstr "Ջնջե՞լ հաղորդագրությունների ամբողջ պատմությունը:"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:788
 msgid ""
 "This will permanently delete all messages in this conversation. This action "
 "cannot be undone."
 msgstr ""
-"Delays delays delays delays delays delays delays delays. Delays delays "
-"delays delays delays."
-
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:791
-#: main/src/ui/conversation_titlebar/menu_entry.vala:51
+"Սա ընդմիշտ կջնջի այս զրույցի բոլոր հաղորդագրությունները: Այս գործողությունը հնարավոր չէ հետարկել:"
 msgid "Delete"
-msgstr " Delays"
+msgstr "Ջնջել"
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:14
 msgid "Start call"
@@ -1312,27 +1622,24 @@ msgstr "Վիդեօ զանգ"
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:79
 msgid "Conference Server Required"
-msgstr "Delays delays delays δηλαδή delays"
+msgstr "Պահանջվում է կոնֆերանսի սերվեր"
 
 #: main/src/ui/conversation_titlebar/call_entry.vala:80
 msgid ""
 "To start a group call, you need to configure a default conference server in "
 "your account settings."
 msgstr ""
-"Delays delays delays delays delays delays delays delays delays delays delays "
-"delays delays."
-
-#: main/src/ui/conversation_titlebar/call_entry.vala:84
+"Խմբային զանգ սկսելու համար անհրաժեշտ է կարգավորել լռելյայն կոնֆերանսի սերվեր ձեր հաշվի կարգավորումներում:"
 msgid "Open Settings"
-msgstr "Delays delays"
+msgstr "Բացել կարգավորումները"
 
 #: main/src/ui/conversation_titlebar/menu_entry.vala:47
 msgid "Delete all message history for this conversation?"
-msgstr "Delays delays delays δηλαδή delays delays?"
+msgstr "Ջնջե՞լ այս զրույցի հաղորդագրությունների ամբողջ պատմությունը:"
 
 #: main/src/ui/conversation_titlebar/menu_entry.vala:49
 msgid "This action cannot be undone."
-msgstr "Այdelays delays delays delays delays."
+msgstr "Այս գործողությունը հնարավոր չէ հետարկել:"
 
 #: main/src/ui/conversation_titlebar/menu_entry.vala:85
 msgid "Close Conversation"
@@ -1348,7 +1655,7 @@ msgid "Select file"
 msgstr "Ընտել նիշք"
 
 #: main/src/ui/conversation_view_controller.vala:225
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:152
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:180
 msgid "Select"
 msgstr "Ընտրել"
 
@@ -1366,11 +1673,11 @@ msgstr "%s֊ում"
 msgid "With %s"
 msgstr "%s֊ի հետ"
 
-#: main/src/ui/main_window.vala:156
+#: main/src/ui/main_window.vala:169
 msgid "Join Channel Help"
-msgstr "Delays delays delays"
+msgstr "Ալիքին միանալու օգնություն"
 
-#: main/src/ui/main_window.vala:157
+#: main/src/ui/main_window.vala:170
 msgid ""
 "To join a channel, click the \"Join Channel\" button and enter the channel "
 "JID (example: room@conference.example.org).\n"
@@ -1378,31 +1685,27 @@ msgid ""
 "If you need a password or a nickname, provide them in the dialog. Use the "
 "discovery features in the server to find public rooms."
 msgstr ""
-"Ալdelays delay delay, delays \"delay delay\" delays delay delay JID- delays "
-"(delays: room@conference.example.org).\n"
+"Ալիքին միանալու համար սեղմեք «Միանալ ալիքին» կոճակը և մուտքագրեք ալիքի JID-ը (օրինակ՝ room@conference.example.org):\n"
 "\n"
-"delay delays delays delay delays, delays delays delay. Delay delays delays "
-"delay delays delays delay delay."
-
-#: main/src/ui/main_window.vala:206
+"Եթե ձեզ անհրաժեշտ է գաղտնաբառ կամ մականուն, տրամադրեք դրանք երկխոսության պատուհանում: Օգտագործեք սերվերի հայտնաբերման հնարավորությունները հանրային սենյակներ գտնելու համար:"
 msgid "Welcome to DinoX!"
-msgstr "DinoX-ին delays delays!"
+msgstr "Բարի գալուստ DinoX!"
 
-#: main/src/ui/main_window.vala:207
+#: main/src/ui/main_window.vala:220
 msgid "Sign in or create an account to get started."
 msgstr "Մուտք գործիր կամ ստեղծիր հաշիւ։"
 
-#: main/src/ui/main_window.vala:208
+#: main/src/ui/main_window.vala:221
 msgid "Set up account"
 msgstr "Կարգաւորել հաշիւ"
 
-#: main/src/ui/main_window.vala:215
+#: main/src/ui/main_window.vala:230
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:71
 #: main/src/windows/preferences_window/encryption_preferences_page.vala:49
 msgid "No active accounts"
 msgstr "Ակտիւ հաշիւներ չկան"
 
-#: main/src/ui/main_window.vala:216
+#: main/src/ui/main_window.vala:231
 msgid "Manage accounts"
 msgstr "Ակտիւ հաշիւներ չկան"
 
@@ -1412,12 +1715,12 @@ msgid "Subscription request"
 msgstr "Հետեւելու դիմում"
 
 #: main/src/ui/notifier_freedesktop.vala:192
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:231
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:259
 msgid "Wrong password"
 msgstr "Սխալ ծածկագիր"
 
 #: main/src/ui/notifier_freedesktop.vala:195
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:233
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:261
 msgid "Invalid TLS certificate"
 msgstr "Անուաւեր TLS վկայական"
 
@@ -1470,16 +1773,16 @@ msgstr "Սկսել անձնական զրոյց"
 #: main/src/ui/occupant_menu/view.vala:125
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:157
 msgid "Unblock Contact"
-msgstr "Delays delays"
+msgstr "Ապաարգելափակել կոնտակտին"
 
 #: main/src/ui/occupant_menu/view.vala:127
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:157
 msgid "Block Contact"
-msgstr "Delays delays"
+msgstr "Արգելափակել կոնտակտին"
 
 #: main/src/ui/occupant_menu/view.vala:133
 msgid "Moderation"
-msgstr "Delays"
+msgstr "Մոդերացիա"
 
 #: main/src/ui/occupant_menu/view.vala:135
 msgid "Kick"
@@ -1487,47 +1790,47 @@ msgstr "Տշել"
 
 #: main/src/ui/occupant_menu/view.vala:139
 msgid "Ban (Permanent)"
-msgstr "Արdelays delays"
+msgstr "Արգելափակել (Ընդմիշտ)"
 
 #: main/src/ui/occupant_menu/view.vala:140
 msgid "Ban (10 min)"
-msgstr "Արdelays delays (10 delays)"
+msgstr "Արգելափակել (10 րոպե)"
 
 #: main/src/ui/occupant_menu/view.vala:141
 msgid "Ban (15 min)"
-msgstr "Delays (15 delays)"
+msgstr "Արգելափակել (15 րոպե)"
 
 #: main/src/ui/occupant_menu/view.vala:142
 msgid "Ban (30 min)"
-msgstr "Delays (30 delays)"
+msgstr "Արգելափակել (30 րոպե)"
 
 #: main/src/ui/occupant_menu/view.vala:146
 msgid "Administration"
-msgstr "Delays"
+msgstr "Ադմինիստրացիա"
 
 #: main/src/ui/occupant_menu/view.vala:150
 msgid "Make Admin"
-msgstr "Delays delays"
+msgstr "Դարձնել ադմին"
 
 #: main/src/ui/occupant_menu/view.vala:152
 msgid "Revoke Admin"
-msgstr "Delays delays delays"
+msgstr "Հեռացնել ադմինից"
 
 #: main/src/ui/occupant_menu/view.vala:156
 msgid "Make Owner"
-msgstr "Delays delays"
+msgstr "Դարձնել սեփականատեր"
 
 #: main/src/ui/occupant_menu/view.vala:161
 msgid "Make Member"
-msgstr "Delays delays"
+msgstr "Դարձնել անդամ"
 
 #: main/src/ui/occupant_menu/view.vala:163
 msgid "Revoke Membership"
-msgstr "Delays delays"
+msgstr "Հեռացնել անդամակցությունից"
 
 #: main/src/ui/occupant_menu/view.vala:228
 msgid "Kicked by moderator"
-msgstr "Delays delays delays delays"
+msgstr "Հեռացվել է մոդերատորի կողմից"
 
 #: main/src/ui/occupant_menu/view.vala:275
 msgid "Invite to Conference"
@@ -1535,20 +1838,21 @@ msgstr "Հրաւիրել սենեակ"
 
 #: main/src/ui/systray.vala:178
 msgid "Quit"
-msgstr "Delays"
+msgstr "Դուրս գալ"
 
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
 "A friendly name shown in room listings (does not change the room address)"
-msgstr "Delay delay delays delay delay delay (delay delay delay delay)"
+msgstr ""
+"Սենյակների ցուցակներում ցուցադրվող անուն (չի փոխում սենյակի հասցեն)"
 
 #: main/src/ui/util/data_forms.vala:44
 msgid "Description"
-msgstr "Delays"
+msgstr "Նկարագրություն"
 
 #: main/src/ui/util/data_forms.vala:45
 msgid "A description of the room shown in room listings"
-msgstr "Delays delays delays delays"
+msgstr "Սենյակի նկարագրությունը, որը ցուցադրվում է սենյակների ցուցակներում"
 
 #: main/src/ui/util/data_forms.vala:48
 msgid "Persistent"
@@ -1564,7 +1868,7 @@ msgstr "Հանրային եւ փնտրելի"
 
 #: main/src/ui/util/data_forms.vala:53
 msgid "The room will appear in public room listings"
-msgstr "Delays delays delays δηλαδή delays delays delays"
+msgstr "Սենյակը կհայտնվի հանրային սենյակների ցուցակներում"
 
 #: main/src/ui/util/data_forms.vala:56
 msgid "Occupants may change the subject"
@@ -1584,11 +1888,7 @@ msgstr "Խօսքի կարգաւորումներ են առկայ"
 
 #: main/src/ui/util/data_forms.vala:68
 msgid "Only occupants with voice may send messages"
-msgstr ""
-"Delays delays delays delays delays delays delays delaysՄիայն խօսքի "
-"թոյլտւութիւն ունեցող մասնակիցներն են ունակ յղել գրութիւններ"
-
-#: main/src/ui/util/data_forms.vala:71
+msgstr "Միայն ձայնի իրավունք ունեցող մասնակիցները կարող են հաղորդագրություններ ուղարկել"
 msgid "Members only"
 msgstr "Միայն անդամների համար"
 
@@ -1597,11 +1897,7 @@ msgid ""
 "Only members may enter the room. Warning: Non-members will be removed when "
 "enabled!"
 msgstr ""
-"Միdelays delay delay delay delay. delay: delay-delay delay delay delay delay "
-"delay!"
-
-#: main/src/ui/util/helper.vala:65
-#, c-format
+"Միայն անդամները կարող են մուտք գործել սենյակ: Զգուշացում. Ոչ անդամները կհեռացվեն, երբ միացված է!"
 msgid "%s from %s"
 msgstr "%s֊ը %s֊ից"
 
@@ -1619,9 +1915,7 @@ msgid ""
 "This contact will be removed from your contact list and all conversation "
 "history will be permanently deleted."
 msgstr ""
-"delays delay delays delays delay delays delay delay delay delay delay delays."
-
-#: main/src/windows/conversation_details.vala:108
+"Այս կոնտակտը կհեռացվի ձեր կոնտակտների ցանկից, և զրույցի ամբողջ պատմությունը ընդմիշտ կջնջվի:"
 msgid "Block user"
 msgstr "Արգելափակել օգտատիրոջը"
 
@@ -1661,45 +1955,45 @@ msgstr "Կարգաւորումներ"
 msgid "Room Configuration"
 msgstr "Սենեակի կարգաւորումներ"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:68
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:69
 msgid "Connect"
 msgstr "Կպնել"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:106
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
 msgid "Disable account"
 msgstr "Անջատել հաշիւը"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:106
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
 msgid "Enable account"
 msgstr "Միացնել հաշիւը"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:151
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:179
 msgid "Select avatar"
 msgstr "Ընտրել աւատար"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:162
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:190
 msgid "Images"
 msgstr "Նկարներ"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:166
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:194
 msgid "All files"
 msgstr "Բոլոր նիշքերը"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:184
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:212
 #, c-format
 msgid "Remove account %s?"
 msgstr "Հեռացնե՞լ %s հաշիւը"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:218
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:246
 msgid "Connected"
 msgstr "Միացուած է"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:220
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:248
 msgid "Disconnected"
 msgstr "Անջատուած է"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:240
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:242
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:268
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:270
 msgid "Error"
 msgstr "Սխալ"
 
@@ -1723,12 +2017,7 @@ msgstr "Սպասարկիչը չի ապացուցել որ այն %s֊ն է։"
 
 #: main/src/windows/preferences_window/add_account_dialog.vala:158
 msgid "Its security certificate is not trusted by your operating system."
-msgstr ""
-"Նրա անվdelays վdelays այdelays delays delays ձdelays delays delays delays "
-"delays delays delays delays delays delays delays delays delays delays .Ձեր "
-"օպերացիոն համակարգը չի վստահում սպասարկչի անվտանգ միացման վկայականին։"
-
-#: main/src/windows/preferences_window/add_account_dialog.vala:160
+msgstr "Դրա անվտանգության վկայականը վստահելի չէ ձեր օպերացիոն համակարգի կողմից:"
 msgid "Its security certificate is issued to another domain."
 msgstr "Անվտանգութեան վկայականը թողարկուած է այլ տիրոյթի համար։"
 
@@ -1785,411 +2074,216 @@ msgstr "Նշել %s՝ գրանցուելու մասին տեղեկանալու �
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:192
 msgid "No contacts"
-msgstr "Delays delays"
+msgstr "Կոնտակտներ չկան"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:193
 msgid "Add contacts to start chatting"
-msgstr "Delays delays delays delays"
+msgstr "Ավելացրեք կոնտակտներ զրուցելու համար"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:289
 #, c-format
 msgid ""
 "This will remove %s from your contact list and delete all conversation "
 "history."
-msgstr "Սdelays delays %s delays delays delays delay delay delay delays."
+msgstr ""
+"Սա կհեռացնի %s-ին ձեր կոնտակտների ցանկից և կջնջի զրույցի ամբողջ պատմությունը:"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:318
 msgid "Edit Contact Alias"
-msgstr "Delays delays delays"
+msgstr "Խմբագրել կոնտակտի այլանունը"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:319
 #, c-format
 msgid "Change the display name for %s"
-msgstr "Delays delays delays delays %s"
+msgstr "Փոխել %s-ի ցուցադրվող անունը"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:325
 msgid "Alias (optional)"
-msgstr "Delays (delays)"
+msgstr "Այլանուն (կամընտիր)"
+
+#~ msgid "Creating backup..."
+#~ msgstr ""
+
+#, c-format
+#~ msgid "Backup created successfully (%s)"
+#~ msgstr ""
+
+#~ msgid "Backup created successfully"
+#~ msgstr ""
 
 # DinoX v0.7.7 - Database Maintenance & Backup/Restore
-msgid "Clean Database"
-msgstr "Clean Database"
+#~ msgid "Clean Database"
+#~ msgstr "Clean Database"
 
-msgid "Reset Database"
-msgstr "Reset Database"
+#~ msgid "Encrypting Backup..."
+#~ msgstr "Encrypting Backup..."
 
-msgid "Restore Complete!"
-msgstr "Restore Complete!"
+#~ msgid "Creating encrypted backup..."
+#~ msgstr ""
 
-msgid "Restore Failed"
-msgstr "Restore Failed"
+#~ msgid "Encrypted backup created successfully"
+#~ msgstr ""
 
-msgid "Decrypting Backup..."
-msgstr "Decrypting Backup..."
-
-msgid "Restoring Backup..."
-msgstr "Restoring Backup..."
-
-msgid "Set Backup Password"
-msgstr "Set Backup Password"
-
-msgid "Confirm Password"
-msgstr "Confirm Password"
-
-msgid "Create Encrypted Backup"
-msgstr "Create Encrypted Backup"
-
-msgid "Password too short"
-msgstr "Password too short"
-
-msgid "Passwords do not match"
-msgstr "Passwords do not match"
-
-msgid "✓ Passwords match"
-msgstr "✓ Passwords match"
-
-msgid "Encrypting Backup..."
-msgstr "Encrypting Backup..."
-
-msgid "Factory Reset"
-msgstr "Factory Reset"
-
-msgid "Restore from Backup"
-msgstr "Restore from Backup"
-
-msgid "Restore Backup"
-msgstr "Restore Backup"
-
-msgid "Select Backup File"
-msgstr "Select Backup File"
-
-msgid "Enter Backup Password"
-msgstr "Enter Backup Password"
-
-msgid "Decrypt & Restore"
-msgstr "Decrypt & Restore"
-
-msgid "Create Backup First"
-msgstr "Create Backup First"
-
-msgid "No Encryption"
-msgstr "No Encryption"
-
-msgid "Encrypt with Password"
-msgstr "Encrypt with Password"
-
-msgid "Delete Everything"
-msgstr "Delete Everything"
-
-msgid "Confirm Delete"
-msgstr "Confirm Delete"
-
-msgid "Are you absolutely sure?"
-msgstr "Are you absolutely sure?"
-
-#: main/data/preferences_window/general_preferences_page.ui:104
-msgid "Database Maintenance"
-msgstr "Տdelays բdelays delays delaysdelays"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Restore accounts, messages and settings from a backup file"
-msgstr "Վdelays delays delays delays delays"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
-msgstr "Ջdelays delays delays delays"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete ALL data including accounts. This cannot be undone!"
-msgstr " Delays delays delays delays"
-
-# DinoX v0.7.7 - Additional Backup/Restore strings
-msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
-msgstr "Պdelays delays (*.tar.gz, *.tar.gz.gpg)"
-
-msgid "Creating encrypted backup..."
-msgstr "Ստdelays delays..."
-
-msgid "Decryption Failed"
-msgstr "Գdeलayուdelays delays"
-
-msgid "DinoX will now restart..."
-msgstr "DinoX հdelays delays..."
-
-msgid "Encrypted backup created successfully"
-msgstr "Գdelaayուdelays delays"
-
-msgid "Password (minimum 4 characters)"
-msgstr "Գdelays (delays 4 delays)"
-
-msgid "Decrypting encrypted backup file..."
-msgstr "Գdelays delays..."
-
-msgid "Extracting files from backup..."
-msgstr " Delays delays delays..."
-
-msgid "Factory reset in progress... DinoX will restart."
-msgstr "Գdelays delays... DinoX delays."
-
-msgid "Resetting database... DinoX will restart."
-msgstr "Տdelays delays... DinoX delays."
-
-msgid "Encrypted backup created (%s)"
-msgstr "Գdelaays delays (%s)"
-
-msgid ""
-"Could not decrypt the backup file.\n"
-"\n"
-"Please check if the password is correct."
-msgstr ""
-"Չdelays delays.\n"
-"\n"
-"Խdelays delays."
-
-msgid ""
-"Could not restore the backup file.\n"
-"\n"
-"Error: %s"
-msgstr ""
-"Չdelays delays.\n"
-"\n"
-"Սdelays: %s"
-
-msgid "This backup is encrypted. Please enter the password to decrypt it."
-msgstr "Այdelays delays. Մdelays delays."
-
-msgid ""
-"Enter a password to encrypt the backup.\n"
-"\n"
-"<b>Important:</b> Remember this password! Without it, the backup cannot be "
-"restored."
-msgstr ""
-"Մdelays delays.\n"
-"\n"
-"<b>Կdelays:</b> Հdelays delays!"
-
-msgid ""
-"This will delete all messages, files and OMEMO encryption keys.\n"
-"\n"
-"<b>Your accounts will remain, but you will lose all chat history and need to "
-"re-verify encryption with your contacts.</b>\n"
-"\n"
-"This action cannot be undone!"
-msgstr ""
-"This will delete all messages, files and OMEMO encryption keys.\n"
-"\n"
-"<b>Your accounts will remain, but you will lose all chat history and need to "
-"re-verify encryption with your contacts.</b>\n"
-"\n"
-"This action cannot be undone!"
-
-msgid ""
-"This will replace all current data with the backup.\n"
-"\n"
-"<b>Current accounts, messages and settings will be overwritten!</b>\n"
-"\n"
-"DinoX will restart after restoring."
-msgstr ""
-"This will replace all current data with the backup.\n"
-"\n"
-"<b>Current accounts, messages and settings will be overwritten!</b>\n"
-"\n"
-"DinoX will restart after restoring."
-
-msgid ""
-"Type 'DELETE' to confirm factory reset.\n"
-"\n"
-"This will permanently remove all your DinoX data."
-msgstr ""
-"Type 'DELETE' to confirm factory reset.\n"
-"\n"
-"This will permanently remove all your DinoX data."
-
-msgid ""
-"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
-"\n"
-"• All accounts\n"
-"• All messages and files\n"
-"• All encryption keys\n"
-"• All settings\n"
-"\n"
-"This is irreversible. Make sure to create a backup first!"
-msgstr ""
-"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
-"\n"
-"• All accounts\n"
-"• All messages and files\n"
-"• All encryption keys\n"
-"• All settings\n"
-"\n"
-"This is irreversible. Make sure to create a backup first!"
+#~ msgid "Encrypted backup created (%s)"
+#~ msgstr ""
 
 # OpenPGP Key Management - English fallback (Armenian script not available)
-msgid "OpenPGP Key Management"
-msgstr "OpenPGP Key Management"
+#~ msgid "OpenPGP Key Management"
+#~ msgstr "OpenPGP Key Management"
 
-msgid "Actions"
-msgstr "Actions"
+#~ msgid "Actions"
+#~ msgstr "Actions"
 
-msgid "Generate New Key"
-msgstr "Generate New Key"
+#~ msgid "Generate New Key"
+#~ msgstr "Generate New Key"
 
-msgid "Create a new OpenPGP key pair"
-msgstr "Create a new OpenPGP key pair"
+#~ msgid "Create a new OpenPGP key pair"
+#~ msgstr "Create a new OpenPGP key pair"
 
-msgid "Import Key"
-msgstr "Import Key"
+#~ msgid "Import Key"
+#~ msgstr "Import Key"
 
-msgid "Import a key from file (.asc, .gpg)"
-msgstr "Import a key from file (.asc, .gpg)"
+#~ msgid "Import a key from file (.asc, .gpg)"
+#~ msgstr "Import a key from file (.asc, .gpg)"
 
-msgid "Your Keys"
-msgstr "Your Keys"
+#~ msgid "Your Keys"
+#~ msgstr "Your Keys"
 
-msgid "Private keys available for signing and decryption"
-msgstr "Private keys available for signing and decryption"
+#~ msgid "Private keys available for signing and decryption"
+#~ msgstr "Private keys available for signing and decryption"
 
-msgid "No private keys found"
-msgstr "No private keys found"
+#~ msgid "No private keys found"
+#~ msgstr "No private keys found"
 
-msgid "Generate or import a key to get started"
-msgstr "Generate or import a key to get started"
+#~ msgid "Generate or import a key to get started"
+#~ msgstr "Generate or import a key to get started"
 
-msgid "Fingerprint"
-msgstr "Fingerprint"
+#~ msgid "Fingerprint"
+#~ msgstr "Fingerprint"
 
-msgid "Export Public Key"
-msgstr "Export Public Key"
+#~ msgid "Export Public Key"
+#~ msgstr "Export Public Key"
 
-msgid "Delete Key"
-msgstr "Delete Key"
+#~ msgid "Delete Key"
+#~ msgstr "Delete Key"
 
-msgid "Generate New OpenPGP Key"
-msgstr "Generate New OpenPGP Key"
+#~ msgid "Generate New OpenPGP Key"
+#~ msgstr "Generate New OpenPGP Key"
 
-msgid "Enter your details to create a new key pair."
-msgstr "Enter your details to create a new key pair."
+#~ msgid "Enter your details to create a new key pair."
+#~ msgstr "Enter your details to create a new key pair."
 
-msgid "Name"
-msgstr "Name"
+#~ msgid "Name"
+#~ msgstr "Name"
 
-msgid "Your Name"
-msgstr "Your Name"
+#~ msgid "Your Name"
+#~ msgstr "Your Name"
 
-msgid "Email"
-msgstr "Email"
+#~ msgid "Email"
+#~ msgstr "Email"
 
-msgid "you@example.com"
-msgstr "you@example.com"
+#~ msgid "you@example.com"
+#~ msgstr "you@example.com"
 
-msgid "Passphrase (optional)"
-msgstr "Passphrase (optional)"
+#~ msgid "Passphrase (optional)"
+#~ msgstr "Passphrase (optional)"
 
-msgid "Passphrase"
-msgstr "Passphrase"
+#~ msgid "Passphrase"
+#~ msgstr "Passphrase"
 
-msgid "4096-bit RSA key, valid for 2 years."
-msgstr "4096-bit RSA key, valid for 2 years."
+#~ msgid "4096-bit RSA key, valid for 2 years."
+#~ msgstr "4096-bit RSA key, valid for 2 years."
 
-msgid "Generate"
-msgstr "Generate"
+#~ msgid "Generate"
+#~ msgstr "Generate"
 
-msgid "Name must be at least 2 characters"
-msgstr "Name must be at least 2 characters"
+#~ msgid "Name must be at least 2 characters"
+#~ msgstr "Name must be at least 2 characters"
 
-msgid "Please enter a valid email address"
-msgstr "Please enter a valid email address"
+#~ msgid "Please enter a valid email address"
+#~ msgstr "Please enter a valid email address"
 
-msgid "Generating Key..."
-msgstr "Generating Key..."
+#~ msgid "Generating Key..."
+#~ msgstr "Generating Key..."
 
-msgid "Please wait while your key is being generated. This may take a moment."
-msgstr "Please wait while your key is being generated. This may take a moment."
+#~ msgid "Key generated successfully!"
+#~ msgstr "Key generated successfully!"
 
-msgid "Key generated successfully!"
-msgstr "Key generated successfully!"
+#~ msgid "Import OpenPGP Key"
+#~ msgstr "Import OpenPGP Key"
 
-msgid "Failed to generate key."
-msgstr "Failed to generate key."
+#~ msgid "OpenPGP Keys (*.asc, *.gpg)"
+#~ msgstr "OpenPGP Keys (*.asc, *.gpg)"
 
-msgid "Import OpenPGP Key"
-msgstr "Import OpenPGP Key"
+#~ msgid "All Files"
+#~ msgstr "All Files"
 
-msgid "OpenPGP Keys (*.asc, *.gpg)"
-msgstr "OpenPGP Keys (*.asc, *.gpg)"
+#~ msgid "Key imported! Re-open Key Management to see it."
+#~ msgstr "Key imported! Re-open Key Management to see it."
 
-msgid "All Files"
-msgstr "All Files"
+#~ msgid "Import failed: "
+#~ msgstr "Import failed: "
 
-msgid "Key imported! Re-open Key Management to see it."
-msgstr "Key imported! Re-open Key Management to see it."
+#~ msgid "Key exported to: "
+#~ msgstr "Key exported to: "
 
-msgid "Import failed: "
-msgstr "Import failed: "
+#~ msgid "Export failed."
+#~ msgstr "Export failed."
 
-msgid "Key exported to: "
-msgstr "Key exported to: "
+#~ msgid "Delete Key?"
+#~ msgstr "Delete Key?"
 
-msgid "Export failed."
-msgstr "Export failed."
+#~ msgid ""
+#~ "Delete this key?\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "This cannot be undone!"
+#~ msgstr ""
+#~ "Delete this key?\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "This cannot be undone!"
 
-msgid "Delete Key?"
-msgstr "Delete Key?"
+#~ msgid "Key deleted."
+#~ msgstr "Key deleted."
 
-msgid ""
-"Delete this key?\n"
-"\n"
-"%s\n"
-"\n"
-"This cannot be undone!"
-msgstr ""
-"Delete this key?\n"
-"\n"
-"%s\n"
-"\n"
-"This cannot be undone!"
+#~ msgid "Delete failed: "
+#~ msgstr "Delete failed: "
 
-msgid "Key deleted."
-msgstr "Key deleted."
+#~ msgid "Select OpenPGP Key"
+#~ msgstr "Select OpenPGP Key"
 
-msgid "Delete failed: "
-msgstr "Delete failed: "
+#~ msgid "Choose a key to announce to your contacts."
+#~ msgstr "Choose a key to announce to your contacts."
 
-msgid "Select OpenPGP Key"
-msgstr "Select OpenPGP Key"
+#~ msgid "Enter GPG passphrase to confirm:"
+#~ msgstr "Enter GPG passphrase to confirm:"
 
-msgid "Choose a key to announce to your contacts."
-msgstr "Choose a key to announce to your contacts."
+#~ msgid "Wrong passphrase"
+#~ msgstr "Wrong passphrase"
 
-msgid "Enter GPG passphrase to confirm:"
-msgstr "Enter GPG passphrase to confirm:"
+#~ msgid "Manage Keys"
+#~ msgstr "Manage Keys"
 
-msgid "Wrong passphrase"
-msgstr "Wrong passphrase"
+#~ msgid "Generate, import, export, or delete keys"
+#~ msgstr "Generate, import, export, or delete keys"
 
-msgid "Manage Keys"
-msgstr "Manage Keys"
+#~ msgid "No keys available. Generate or import one!"
+#~ msgstr "No keys available. Generate or import one!"
 
-msgid "Generate, import, export, or delete keys"
-msgstr "Generate, import, export, or delete keys"
+#~ msgid "Announce key"
+#~ msgstr "Announce key"
 
-msgid "No keys available. Generate or import one!"
-msgstr "No keys available. Generate or import one!"
+#~ msgid "Disabled"
+#~ msgstr "Disabled"
 
-msgid "Announce key"
-msgstr "Announce key"
+#~ msgid "Error in GnuPG"
+#~ msgstr "Error in GnuPG"
 
-msgid "Disabled"
-msgstr "Disabled"
-
-msgid "Error in GnuPG"
-msgstr "Error in GnuPG"
-
-msgid "Success"
-msgstr "Success"
-
-msgid "OK"
-msgstr "OK"
+#~ msgid "Success"
+#~ msgstr "Success"
 
 #~ msgid "Message too long"
 #~ msgstr "Հաղորդագրութիւնը չափից շատ երկար է"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-28 12:18+0100\n"
+"POT-Creation-Date: 2025-12-01 10:28+0100\n"
 "PO-Revision-Date: 2025-08-02 17:02+0000\n"
 "Language-Team: none\n"
 "Language: vi\n"
@@ -99,14 +99,14 @@ msgstr "Chung"
 #: main/data/gtk/help-overlay.ui:14 main/data/main_window.ui:38
 #: main/data/menu_add.ui:7
 #: main/src/ui/add_conversation/select_contact_dialog.vala:106
-#: main/src/ui/main_window.vala:141
+#: main/src/ui/main_window.vala:154
 msgid "Start Conversation"
 msgstr "Bắt đầu cuộc trò chuyện"
 
 #: main/data/gtk/help-overlay.ui:20 main/data/main_window.ui:51
 #: main/data/menu_add.ui:11
 #: main/src/ui/add_conversation/add_conference_dialog.vala:24
-#: main/src/ui/application.vala:527 main/src/ui/main_window.vala:142
+#: main/src/ui/application.vala:1359 main/src/ui/main_window.vala:155
 msgid "Join Channel"
 msgstr "Tham gia kênh"
 
@@ -147,7 +147,7 @@ msgstr "Chuyển sang cuộc hội thoại tiếp theo"
 msgid "Jump to previous conversation"
 msgstr "Chuyển đến cuộc hội thoại trước đó"
 
-#: main/data/main_window.ui:64 main/src/ui/main_window.vala:144
+#: main/data/main_window.ui:64 main/src/ui/main_window.vala:157
 msgid "Help: How to join channels"
 msgstr "Trợ giúp: Cách tham gia kênh"
 
@@ -165,28 +165,28 @@ msgstr "Trạng thái"
 
 #: main/data/menu_app.ui:11
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:427
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Online"
 msgstr "Trực tuyến"
 
 #: main/data/menu_app.ui:16
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:421
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Away"
 msgstr "Vắng mặt"
 
 #: main/data/menu_app.ui:21
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:425
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Busy"
 msgstr "Bận"
 
 #: main/data/menu_app.ui:26
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:423
-#: main/src/ui/main_window.vala:189 main/src/ui/systray.vala:147
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
 #: main/src/ui/systray.vala:279
 msgid "Not Available"
 msgstr "Không khả dụng"
@@ -199,7 +199,7 @@ msgstr "Tuỳ chỉnh"
 msgid "Keyboard Shortcuts"
 msgstr "Phím tắt"
 
-#: main/data/menu_app.ui:42 main/src/ui/application.vala:334
+#: main/data/menu_app.ui:42 main/src/ui/application.vala:340
 msgid "About DinoX"
 msgstr "Giới thiệu DinoX"
 
@@ -218,7 +218,10 @@ msgstr "Xóa lịch sử trò chuyện"
 #: main/data/preferences_window/change_password_dialog.ui:18
 #: main/src/ui/add_conversation/add_conference_dialog.vala:41
 #: main/src/ui/add_conversation/select_contact_dialog.vala:40
-#: main/src/ui/application.vala:537
+#: main/src/ui/application.vala:441 main/src/ui/application.vala:469
+#: main/src/ui/application.vala:765 main/src/ui/application.vala:843
+#: main/src/ui/application.vala:901 main/src/ui/application.vala:933
+#: main/src/ui/application.vala:1089 main/src/ui/application.vala:1369
 #: main/src/ui/conversation_content_view/file_default_widget.vala:90
 #: main/src/ui/conversation_content_view/item_actions.vala:165
 #: main/src/ui/conversation_content_view/item_actions.vala:168
@@ -233,7 +236,7 @@ msgstr "Xóa lịch sử trò chuyện"
 #: main/src/ui/conversation_titlebar/call_entry.vala:83
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
 #: main/src/windows/conversation_details.vala:60
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:67
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:68
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:205
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:225
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:249
@@ -257,6 +260,7 @@ msgid "Local alias"
 msgstr "Bí danh cục bộ"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:82
+#: main/src/ui/application.vala:435 main/src/ui/application.vala:1064
 #: main/src/ui/util/data_forms.vala:63
 msgid "Password"
 msgstr "Mật khẩu phòng"
@@ -265,20 +269,24 @@ msgstr "Mật khẩu phòng"
 msgid "Connection status"
 msgstr "Trạng thái kết nối"
 
+#: main/data/preferences_window/account_preferences_subpage.ui:117
+msgid "View Certificate"
+msgstr "Xem chứng chỉ"
+
 # Custom host/port feature (Issue #115)
-#: main/data/preferences_window/account_preferences_subpage.ui:121
+#: main/data/preferences_window/account_preferences_subpage.ui:128
 msgid "Advanced Settings"
 msgstr "Cài đặt nâng cao"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:122
+#: main/data/preferences_window/account_preferences_subpage.ui:129
 msgid "Custom server connection (leave empty for automatic)"
 msgstr "Kết nối máy chủ tùy chỉnh (để trống cho tự động)"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:125
+#: main/data/preferences_window/account_preferences_subpage.ui:132
 msgid "Server Hostname"
 msgstr "Tên máy chủ"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:130
+#: main/data/preferences_window/account_preferences_subpage.ui:137
 msgid "Port"
 msgstr "Cổng"
 
@@ -348,12 +356,54 @@ msgid "Create a backup of your accounts, messages and settings"
 msgstr "Tạo bản sao lưu tài khoản, tin nhắn và cài đặt"
 
 #: main/data/preferences_window/general_preferences_page.ui:78
-msgid "Data Location"
-msgstr "Vị trí dữ liệu"
+#: main/src/ui/application.vala:464 main/src/ui/main_window.vala:223
+msgid "Restore from Backup"
+msgstr "Khôi phục từ sao lưu"
 
 #: main/data/preferences_window/general_preferences_page.ui:79
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "Khôi phục tài khoản, tin nhắn và cài đặt từ tệp sao lưu"
+
+#: main/data/preferences_window/general_preferences_page.ui:90
+msgid "Data Storage Location"
+msgstr "Vị trí lưu trữ dữ liệu"
+
+#: main/data/preferences_window/general_preferences_page.ui:91
 msgid "View where your data is stored"
 msgstr "Xem nơi lưu trữ dữ liệu"
+
+#: main/data/preferences_window/general_preferences_page.ui:104
+msgid "Database Maintenance"
+msgstr "Bảo trì cơ sở dữ liệu"
+
+#: main/data/preferences_window/general_preferences_page.ui:107
+#: main/src/ui/application.vala:761 main/src/ui/application.vala:766
+msgid "Clear Cache"
+msgstr "Xóa bộ nhớ đệm"
+
+#: main/data/preferences_window/general_preferences_page.ui:108
+msgid "Clear cached files, avatars and previews"
+msgstr "Xóa các tệp, ảnh đại diện và bản xem trước đã lưu trong bộ nhớ đệm"
+
+#: main/data/preferences_window/general_preferences_page.ui:119
+#: main/src/ui/application.vala:838 main/src/ui/application.vala:844
+msgid "Reset Database"
+msgstr "Đặt lại cơ sở dữ liệu"
+
+#: main/data/preferences_window/general_preferences_page.ui:120
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr ""
+"Xóa tất cả tin nhắn, tệp và khóa OMEMO. Tài khoản của bạn sẽ được giữ lại."
+
+#: main/data/preferences_window/general_preferences_page.ui:131
+#: main/src/ui/application.vala:896
+msgid "Factory Reset"
+msgstr "Khôi phục cài đặt gốc"
+
+#: main/data/preferences_window/general_preferences_page.ui:132
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr ""
+"Xóa TẤT CẢ dữ liệu bao gồm tài khoản. Hành động này không thể hoàn tác!"
 
 #: main/data/preferences_window/preferences_dialog.ui:11
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:15
@@ -378,7 +428,7 @@ msgstr "Tiếp tục"
 
 #: main/src/ui/add_conversation/add_conference_dialog.vala:59
 #: main/src/ui/add_conversation/conference_details_fragment.vala:151
-#: main/src/ui/application.vala:541
+#: main/src/ui/application.vala:1373
 msgid "Join"
 msgstr "Tham gia"
 
@@ -464,31 +514,31 @@ msgstr "Xóa liên hệ"
 msgid "Leave Group"
 msgstr "Rời nhóm"
 
-#: main/src/ui/application.vala:339
+#: main/src/ui/application.vala:345
 msgid "Modern XMPP client with extended features"
 msgstr "Ứng dụng XMPP hiện đại với tính năng mở rộng"
 
-#: main/src/ui/application.vala:346 main/src/ui/application.vala:385
+#: main/src/ui/application.vala:352 main/src/ui/application.vala:727
 msgid "User Data Locations"
 msgstr "Vị trí dữ liệu người dùng"
 
-#: main/src/ui/application.vala:349 main/src/ui/application.vala:399
+#: main/src/ui/application.vala:355 main/src/ui/application.vala:741
 msgid "Configuration:"
 msgstr "Cấu hình:"
 
-#: main/src/ui/application.vala:352 main/src/ui/application.vala:401
+#: main/src/ui/application.vala:358 main/src/ui/application.vala:743
 msgid "Data & Database:"
 msgstr "Dữ liệu & Cơ sở dữ liệu:"
 
-#: main/src/ui/application.vala:355 main/src/ui/application.vala:403
+#: main/src/ui/application.vala:361 main/src/ui/application.vala:745
 msgid "Cache:"
 msgstr "Bộ nhớ đệm:"
 
-#: main/src/ui/application.vala:358
+#: main/src/ui/application.vala:364
 msgid "Info:"
 msgstr "Thông tin:"
 
-#: main/src/ui/application.vala:359
+#: main/src/ui/application.vala:365
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
@@ -496,16 +546,120 @@ msgstr ""
 "Dữ liệu cá nhân của bạn (tài khoản, tin nhắn, tệp) được lưu trữ riêng biệt "
 "khỏi ứng dụng."
 
-#: main/src/ui/application.vala:361
+#: main/src/ui/application.vala:367
 msgid "When you update DinoX, your data remains intact."
 msgstr "Khi bạn cập nhật DinoX, dữ liệu của bạn vẫn được giữ nguyên."
 
-#: main/src/ui/application.vala:363
+#: main/src/ui/application.vala:369
 msgid "Use Settings → General → Backup User Data to create a backup."
 msgstr ""
 "Sử dụng Cài đặt → Chung → Sao lưu dữ liệu người dùng để tạo bản sao lưu."
 
-#: main/src/ui/application.vala:405
+#: main/src/ui/application.vala:387
+msgid "Select Backup File"
+msgstr "Chọn tệp sao lưu"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+#: main/src/ui/application.vala:395
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "Tệp sao lưu (*.tar.gz, *.tar.gz.gpg)"
+
+#: main/src/ui/application.vala:425
+msgid "Enter Backup Password"
+msgstr "Nhập mật khẩu sao lưu"
+
+#: main/src/ui/application.vala:426
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "Bản sao lưu này được mã hóa. Vui lòng nhập mật khẩu."
+
+#: main/src/ui/application.vala:442
+msgid "Decrypt & Restore"
+msgstr "Giải mã & Khôi phục"
+
+#: main/src/ui/application.vala:465
+msgid ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+msgstr ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+
+#: main/src/ui/application.vala:470
+msgid "Restore Backup"
+msgstr "Khôi phục sao lưu"
+
+#: main/src/ui/application.vala:487 main/src/ui/application.vala:519
+msgid "Decrypting Backup..."
+msgstr "Đang giải mã sao lưu..."
+
+#: main/src/ui/application.vala:487 main/src/ui/application.vala:571
+msgid "Restoring Backup..."
+msgstr "Đang khôi phục sao lưu..."
+
+#: main/src/ui/application.vala:488
+msgid "Please wait, this may take a moment..."
+msgstr "Vui lòng đợi, việc này có thể mất một chút thời gian..."
+
+#: main/src/ui/application.vala:520
+msgid "Decrypting encrypted backup file..."
+msgstr "Đang giải mã tệp sao lưu..."
+
+#: main/src/ui/application.vala:558
+msgid "Decryption Failed"
+msgstr "Giải mã thất bại"
+
+#: main/src/ui/application.vala:559
+msgid ""
+"Could not decrypt the backup file.\n"
+"\n"
+"Please check if the password is correct."
+msgstr ""
+"Không thể giải mã tệp sao lưu.\n"
+"\n"
+"Vui lòng kiểm tra xem mật khẩu có đúng không."
+
+#: main/src/ui/application.vala:561 main/src/ui/application.vala:671
+msgid "OK"
+msgstr "OK"
+
+#: main/src/ui/application.vala:572
+msgid "Extracting files from backup..."
+msgstr "Đang giải nén tệp từ bản sao lưu..."
+
+#: main/src/ui/application.vala:653
+msgid "Restore Complete!"
+msgstr "Khôi phục hoàn tất!"
+
+#: main/src/ui/application.vala:654
+msgid "DinoX will now restart..."
+msgstr "DinoX sẽ khởi động lại ngay bây giờ..."
+
+#: main/src/ui/application.vala:668
+msgid "Restore Failed"
+msgstr "Khôi phục thất bại"
+
+#: main/src/ui/application.vala:669
+#, c-format
+msgid ""
+"Could not restore the backup file.\n"
+"\n"
+"Error: %s"
+msgstr ""
+"Không thể khôi phục tệp sao lưu.\n"
+"\n"
+"Lỗi: %s"
+
+#: main/src/ui/application.vala:669 main/src/ui/application.vala:1345
+msgid "Unknown error"
+msgstr "Lỗi không xác định"
+
+#: main/src/ui/application.vala:747
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
@@ -513,96 +667,244 @@ msgstr ""
 "Dữ liệu cá nhân của bạn (tài khoản, tin nhắn, tệp) được lưu trữ riêng biệt. "
 "Khi bạn cập nhật DinoX, dữ liệu của bạn vẫn được giữ nguyên."
 
-#: main/src/ui/application.vala:410 main/src/ui/conversation_details.vala:272
-#: main/src/ui/main_window.vala:159
+#: main/src/ui/application.vala:752 main/src/ui/application.vala:1240
+#: main/src/ui/application.vala:1324 main/src/ui/conversation_details.vala:272
+#: main/src/ui/main_window.vala:172
 msgid "Close"
 msgstr "Đóng"
 
-#: main/src/ui/application.vala:417
+#: main/src/ui/application.vala:762
+msgid ""
+"This will delete cached files, avatars and previews.\n"
+"\n"
+"They will be re-downloaded when needed."
+msgstr ""
+"Thao tác này sẽ xóa các tệp, ảnh đại diện và bản xem trước đã lưu trong bộ "
+"nhớ đệm.\n"
+"\n"
+"Chúng sẽ được tải lại khi cần thiết."
+
+#: main/src/ui/application.vala:799
+#, c-format
+msgid "Cache cleared (%s freed)"
+msgstr "Đã xóa bộ nhớ đệm (giải phóng %s)"
+
+#: main/src/ui/application.vala:802
+msgid "Failed to clear cache"
+msgstr "Không thể xóa bộ nhớ đệm"
+
+#: main/src/ui/application.vala:839
+msgid ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+msgstr ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+
+#: main/src/ui/application.vala:867
+msgid "Resetting database... DinoX will restart."
+msgstr "Đang đặt lại cơ sở dữ liệu... DinoX sẽ khởi động lại."
+
+#: main/src/ui/application.vala:897
+msgid ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+msgstr ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+
+#: main/src/ui/application.vala:902
+msgid "Create Backup First"
+msgstr "Tạo sao lưu trước"
+
+#: main/src/ui/application.vala:903
+msgid "Delete Everything"
+msgstr "Xóa mọi thứ"
+
+#: main/src/ui/application.vala:923
+msgid "Are you absolutely sure?"
+msgstr "Bạn có chắc chắn không?"
+
+#: main/src/ui/application.vala:924
+msgid ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+msgstr ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+
+#: main/src/ui/application.vala:934
+msgid "Confirm Delete"
+msgstr "Xác nhận xóa"
+
+#: main/src/ui/application.vala:961
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "Đang khôi phục cài đặt gốc... DinoX sẽ khởi động lại."
+
+#: main/src/ui/application.vala:1026
+msgid "Backup Encryption"
+msgstr "Mã hóa sao lưu"
+
+#: main/src/ui/application.vala:1027
+msgid ""
+"Do you want to encrypt the backup with a password?\n"
+"\n"
+"Encrypted backups are more secure but require the password to restore."
+msgstr ""
+"Bạn có muốn mã hóa bản sao lưu bằng mật khẩu không?\n"
+"\n"
+"Bản sao lưu được mã hóa an toàn hơn nhưng cần mật khẩu để khôi phục."
+
+#: main/src/ui/application.vala:1030
+msgid "No Encryption"
+msgstr "Không mã hóa"
+
+#: main/src/ui/application.vala:1031
+msgid "Encrypt with Password"
+msgstr "Mã hóa bằng mật khẩu"
+
+#: main/src/ui/application.vala:1049
+msgid "Set Backup Password"
+msgstr "Đặt mật khẩu sao lưu"
+
+#: main/src/ui/application.vala:1050
+msgid ""
+"Enter a password to encrypt the backup.\n"
+"\n"
+"<b>Important:</b> Remember this password! Without it, the backup cannot be "
+"restored."
+msgstr ""
+"Nhập mật khẩu để mã hóa bản sao lưu.\n"
+"\n"
+"<b>Quan trọng:</b> Hãy nhớ mật khẩu này! Không có nó, bản sao lưu không thể "
+"khôi phục."
+
+#: main/src/ui/application.vala:1058
+msgid "Password (minimum 4 characters)"
+msgstr "Mật khẩu (tối thiểu 4 ký tự)"
+
+#: main/src/ui/application.vala:1066 main/src/ui/application.vala:1073
+msgid "Confirm Password"
+msgstr "Xác nhận mật khẩu"
+
+#: main/src/ui/application.vala:1090
+msgid "Create Encrypted Backup"
+msgstr "Tạo sao lưu được mã hóa"
+
+#: main/src/ui/application.vala:1102 main/src/ui/application.vala:1117
+msgid "Password too short"
+msgstr "Mật khẩu quá ngắn"
+
+#: main/src/ui/application.vala:1104 main/src/ui/application.vala:1119
+msgid "Passwords do not match"
+msgstr "Mật khẩu không khớp"
+
+#: main/src/ui/application.vala:1106 main/src/ui/application.vala:1121
+msgid "✓ Passwords match"
+msgstr "✓ Mật khẩu khớp"
+
+#: main/src/ui/application.vala:1139
 msgid "Select Backup Location"
 msgstr "Chọn vị trí sao lưu"
 
-#: main/src/ui/application.vala
-msgid "Creating Backup..."
-msgstr "Creating Backup..."
-
-#: main/src/ui/application.vala
+#: main/src/ui/application.vala:1194
 msgid "Creating Encrypted Backup..."
-msgstr "Creating Encrypted Backup..."
+msgstr "Đang tạo sao lưu được mã hóa..."
 
-#: main/src/ui/application.vala
+#: main/src/ui/application.vala:1194
+msgid "Creating Backup..."
+msgstr "Đang tạo sao lưu..."
+
+#: main/src/ui/application.vala:1195
 msgid "Please wait while your data is being backed up."
-msgstr "Please wait while your data is being backed up."
+msgstr "Vui lòng đợi trong khi dữ liệu của bạn đang được sao lưu."
 
-#: main/src/ui/application.vala
-msgid "No data directories found to backup"
-msgstr "No data directories found to backup"
+#: main/src/ui/application.vala:1234
+msgid "No data directory found to backup"
+msgstr "Không tìm thấy thư mục dữ liệu để sao lưu"
 
-#: main/src/ui/application.vala
-msgid "Backup Created"
-msgstr "Backup Created"
-
-#: main/src/ui/application.vala
-msgid "Encrypted Backup Created"
-msgstr "Encrypted Backup Created"
-
-#: main/src/ui/application.vala
-#, c-format
-msgid "Your backup was created successfully.\\n\\nSize: %s"
-msgstr "Your backup was created successfully.\\n\\nSize: %s"
-
-#: main/src/ui/application.vala
-msgid "Your backup was created successfully."
-msgstr "Your backup was created successfully."
-
-#: main/src/ui/application.vala
-#, c-format
-msgid "Your encrypted backup was created successfully.\\n\\nSize: %s"
-msgstr "Your encrypted backup was created successfully.\\n\\nSize: %s"
-
-#: main/src/ui/application.vala
-msgid "Your encrypted backup was created successfully."
-msgstr "Your encrypted backup was created successfully."
-
-#: main/src/ui/application.vala
+#: main/src/ui/application.vala:1237 main/src/ui/application.vala:1343
 msgid "Backup Failed"
-msgstr "Backup Failed"
+msgstr "Sao lưu thất bại"
 
-#: main/src/ui/application.vala:445
-msgid "Creating backup..."
-msgstr "Đang tạo bản sao lưu..."
+#: main/src/ui/application.vala:1331
+msgid "Encrypted Backup Created"
+msgstr "Đã tạo sao lưu được mã hóa"
 
-#: main/src/ui/application.vala:503
+#: main/src/ui/application.vala:1333
 #, c-format
-msgid "Backup created successfully (%s)"
-msgstr "Sao lưu thành công (%s)"
+msgid ""
+"Your encrypted backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"Bản sao lưu được mã hóa của bạn đã được tạo thành công.\n"
+"\n"
+"Kích thước: %s"
 
-#: main/src/ui/application.vala:505
-msgid "Backup created successfully"
-msgstr "Sao lưu thành công"
+#: main/src/ui/application.vala:1334
+msgid "Your encrypted backup was created successfully."
+msgstr "Bản sao lưu được mã hóa của bạn đã được tạo thành công."
 
-#: main/src/ui/application.vala:510
-msgid "Unknown error"
-msgstr "Lỗi không xác định"
+#: main/src/ui/application.vala:1336
+msgid "Backup Created"
+msgstr "Đã tạo bản sao lưu"
 
-#: main/src/ui/application.vala:511
+#: main/src/ui/application.vala:1338
+#, c-format
+msgid ""
+"Your backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"Bản sao lưu của bạn đã được tạo thành công.\n"
+"\n"
+"Kích thước: %s"
+
+#: main/src/ui/application.vala:1339
+msgid "Your backup was created successfully."
+msgstr "Bản sao lưu của bạn đã được tạo thành công."
+
+#: main/src/ui/application.vala:1346
 #, c-format
 msgid "Backup failed: %s"
 msgstr "Sao lưu thất bại: %s"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:29
+#: main/src/ui/call_window/audio_settings_popover.vala:46
 msgid "Microphones"
 msgstr "Microphone"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:32
+#: main/src/ui/call_window/audio_settings_popover.vala:49
 msgid "No microphone found."
 msgstr "Không tìm thấy microphone."
 
-#: main/src/ui/call_window/audio_settings_popover.vala:85
+#: main/src/ui/call_window/audio_settings_popover.vala:116
 msgid "Speakers"
 msgstr "Loa"
 
-#: main/src/ui/call_window/audio_settings_popover.vala:88
+#: main/src/ui/call_window/audio_settings_popover.vala:119
 msgid "No speaker found."
 msgstr "Không tìm thấy loa."
 
@@ -618,7 +920,7 @@ msgstr "Mời tham gia Cuộc gọi"
 msgid "Invite"
 msgstr "Mời"
 
-#: main/src/ui/call_window/call_window_controller.vala:405
+#: main/src/ui/call_window/call_window_controller.vala:453
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:240
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:270
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:285
@@ -637,21 +939,21 @@ msgstr "%s đã kết thúc cuộc gọi"
 msgid "%s declined the call"
 msgstr "%s đã từ chối cuộc gọi"
 
-#: main/src/ui/call_window/participant_widget.vala:115
+#: main/src/ui/call_window/participant_widget.vala:140
 msgid "Debug information"
 msgstr "Thông tin gỡ lỗi"
 
-#: main/src/ui/call_window/participant_widget.vala:124
+#: main/src/ui/call_window/participant_widget.vala:149
 #: main/src/ui/conversation_content_view/call_widget.vala:152
 msgid "Calling…"
 msgstr "Đang gọi…"
 
-#: main/src/ui/call_window/participant_widget.vala:126
+#: main/src/ui/call_window/participant_widget.vala:151
 msgid "Ringing…"
 msgstr "Đang đổ chuông…"
 
-#: main/src/ui/call_window/participant_widget.vala:128
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:216
+#: main/src/ui/call_window/participant_widget.vala:153
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:244
 msgid "Connecting…"
 msgstr "Đang kết nối…"
 
@@ -885,7 +1187,7 @@ msgstr "%a, %l∶%M %p"
 msgid "Just now"
 msgstr "Ngay bây giờ"
 
-#: main/src/ui/conversation_content_view/conversation_view.vala:105
+#: main/src/ui/conversation_content_view/conversation_view.vala:106
 msgid "More actions"
 msgstr "Thêm hành động"
 
@@ -1102,6 +1404,38 @@ msgstr "Hủy"
 msgid "Failed to destroy room"
 msgstr "Không thể xóa phòng"
 
+#: main/src/ui/conversation_details.vala:286
+msgid "Auto-delete messages"
+msgstr "Tự động xóa tin nhắn"
+
+#: main/src/ui/conversation_details.vala:287
+msgid "Never"
+msgstr "Không bao giờ"
+
+#: main/src/ui/conversation_details.vala:288
+msgid "After 15 minutes"
+msgstr "Sau 15 phút"
+
+#: main/src/ui/conversation_details.vala:289
+msgid "After 30 minutes"
+msgstr "Sau 30 phút"
+
+#: main/src/ui/conversation_details.vala:290
+msgid "After 1 hour"
+msgstr "Sau 1 giờ"
+
+#: main/src/ui/conversation_details.vala:291
+msgid "After 24 hours"
+msgstr "Sau 24 giờ"
+
+#: main/src/ui/conversation_details.vala:292
+msgid "After 7 days"
+msgstr "Sau 7 ngày"
+
+#: main/src/ui/conversation_details.vala:293
+msgid "After 30 days"
+msgstr "Sau 30 ngày"
+
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:276
 #: main/src/ui/notifier_freedesktop.vala:71
 #: main/src/ui/notifier_gnotifications.vala:36
@@ -1112,7 +1446,7 @@ msgstr "Đã gửi ảnh"
 #: main/src/ui/notifier_freedesktop.vala:71
 #: main/src/ui/notifier_gnotifications.vala:36
 msgid "File sent"
-msgstr "Đã gửi file"
+msgstr "Đã gửi tệp"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:278
 #: main/src/ui/notifier_freedesktop.vala:73
@@ -1247,6 +1581,7 @@ msgstr "Bỏ chặn liên hệ?"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:702
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:247
+#, c-format
 msgid "This will allow %s to send you messages again."
 msgstr "Điều này sẽ cho phép %s gửi tin nhắn cho bạn một lần nữa."
 
@@ -1349,7 +1684,7 @@ msgid "Select file"
 msgstr "Chọn tệp tin"
 
 #: main/src/ui/conversation_view_controller.vala:225
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:152
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:180
 msgid "Select"
 msgstr "Chọn"
 
@@ -1367,11 +1702,11 @@ msgstr "Trong %s"
 msgid "With %s"
 msgstr "Với %s"
 
-#: main/src/ui/main_window.vala:156
+#: main/src/ui/main_window.vala:169
 msgid "Join Channel Help"
 msgstr "Trợ giúp tham gia kênh"
 
-#: main/src/ui/main_window.vala:157
+#: main/src/ui/main_window.vala:170
 msgid ""
 "To join a channel, click the \"Join Channel\" button and enter the channel "
 "JID (example: room@conference.example.org).\n"
@@ -1385,25 +1720,25 @@ msgstr ""
 "Nếu bạn cần mật khẩu hoặc biệt danh, hãy cung cấp chúng trong hộp thoại. Sử "
 "dụng tính năng khám phá của máy chủ để tìm các phòng công cộng."
 
-#: main/src/ui/main_window.vala:206
+#: main/src/ui/main_window.vala:219
 msgid "Welcome to DinoX!"
 msgstr "Chào mừng đến DinoX!"
 
-#: main/src/ui/main_window.vala:207
+#: main/src/ui/main_window.vala:220
 msgid "Sign in or create an account to get started."
 msgstr "Đăng nhập hoặc tạo một tài khoản để bắt đầu."
 
-#: main/src/ui/main_window.vala:208
+#: main/src/ui/main_window.vala:221
 msgid "Set up account"
 msgstr "Tạo tài khoản"
 
-#: main/src/ui/main_window.vala:215
+#: main/src/ui/main_window.vala:230
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:71
 #: main/src/windows/preferences_window/encryption_preferences_page.vala:49
 msgid "No active accounts"
 msgstr "Không có tài khoản nào hoạt động"
 
-#: main/src/ui/main_window.vala:216
+#: main/src/ui/main_window.vala:231
 msgid "Manage accounts"
 msgstr "Quản lý các tài khoản"
 
@@ -1413,12 +1748,12 @@ msgid "Subscription request"
 msgstr "Yêu cầu theo dõi"
 
 #: main/src/ui/notifier_freedesktop.vala:192
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:231
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:259
 msgid "Wrong password"
 msgstr "Sai mật khẩu"
 
 #: main/src/ui/notifier_freedesktop.vala:195
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:233
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:261
 msgid "Invalid TLS certificate"
 msgstr "Chứng thực TLS không hợp lệ"
 
@@ -1610,6 +1945,7 @@ msgid "Today"
 msgstr "Hôm nay"
 
 #: main/src/ui/widgets/date_separator.vala:35
+#, no-c-format
 msgid "%a, %b %d"
 msgstr "%a, %b %d"
 
@@ -1661,45 +1997,45 @@ msgstr "Cài đặt"
 msgid "Room Configuration"
 msgstr "Cấu hình phòng"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:68
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:69
 msgid "Connect"
 msgstr "Kết nối"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:106
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
 msgid "Disable account"
 msgstr "Vô hiệu hoá tài khoản"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:106
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
 msgid "Enable account"
 msgstr "Kích hoạt tài khoản"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:151
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:179
 msgid "Select avatar"
 msgstr "Chọn ảnh đại diện"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:162
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:190
 msgid "Images"
 msgstr "Hình ảnh"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:166
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:194
 msgid "All files"
 msgstr "Toàn bộ tệp tin"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:184
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:212
 #, c-format
 msgid "Remove account %s?"
 msgstr "Gỡ bỏ tài khoản %s?"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:218
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:246
 msgid "Connected"
 msgstr "Đã kết nối"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:220
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:248
 msgid "Disconnected"
 msgstr "Đã ngắt kết nối"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:240
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:242
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:268
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:270
 msgid "Error"
 msgstr "Lỗi"
 
@@ -1812,390 +2148,189 @@ msgstr "Thay đổi tên hiển thị cho %s"
 msgid "Alias (optional)"
 msgstr "Bí danh (tùy chọn)"
 
+#~ msgid "Creating backup..."
+#~ msgstr "Đang tạo bản sao lưu..."
+
+#, c-format
+#~ msgid "Backup created successfully (%s)"
+#~ msgstr "Sao lưu thành công (%s)"
+
+#~ msgid "Backup created successfully"
+#~ msgstr "Sao lưu thành công"
+
 # DinoX v0.7.7 - Database Maintenance & Backup/Restore
-msgid "Clean Database"
-msgstr "Clean Database"
+#~ msgid "Clean Database"
+#~ msgstr "Clean Database"
 
-msgid "Reset Database"
-msgstr "Reset Database"
+#~ msgid "Encrypting Backup..."
+#~ msgstr "Encrypting Backup..."
 
-msgid "Restore Complete!"
-msgstr "Restore Complete!"
+#~ msgid "Creating encrypted backup..."
+#~ msgstr "Đang tạo bản sao lưu được mã hóa..."
 
-msgid "Restore Failed"
-msgstr "Restore Failed"
+#~ msgid "Encrypted backup created successfully"
+#~ msgstr "Đã tạo bản sao lưu được mã hóa thành công"
 
-msgid "Decrypting Backup..."
-msgstr "Decrypting Backup..."
-
-msgid "Restoring Backup..."
-msgstr "Restoring Backup..."
-
-msgid "Set Backup Password"
-msgstr "Set Backup Password"
-
-msgid "Confirm Password"
-msgstr "Confirm Password"
-
-msgid "Create Encrypted Backup"
-msgstr "Create Encrypted Backup"
-
-msgid "Password too short"
-msgstr "Password too short"
-
-msgid "Passwords do not match"
-msgstr "Passwords do not match"
-
-msgid "✓ Passwords match"
-msgstr "✓ Passwords match"
-
-msgid "Encrypting Backup..."
-msgstr "Encrypting Backup..."
-
-msgid "Factory Reset"
-msgstr "Factory Reset"
-
-msgid "Restore from Backup"
-msgstr "Restore from Backup"
-
-msgid "Restore Backup"
-msgstr "Restore Backup"
-
-msgid "Select Backup File"
-msgstr "Select Backup File"
-
-msgid "Enter Backup Password"
-msgstr "Enter Backup Password"
-
-msgid "Decrypt & Restore"
-msgstr "Decrypt & Restore"
-
-msgid "Create Backup First"
-msgstr "Create Backup First"
-
-msgid "No Encryption"
-msgstr "No Encryption"
-
-msgid "Encrypt with Password"
-msgstr "Encrypt with Password"
-
-msgid "Delete Everything"
-msgstr "Delete Everything"
-
-msgid "Confirm Delete"
-msgstr "Confirm Delete"
-
-msgid "Are you absolutely sure?"
-msgstr "Are you absolutely sure?"
-
-#: main/data/preferences_window/general_preferences_page.ui:104
-msgid "Database Maintenance"
-msgstr "Bảo trì cơ sở dữ liệu"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Restore accounts, messages and settings from a backup file"
-msgstr "Khôi phục tài khoản, tin nhắn và cài đặt từ tệp sao lưu"
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
-msgstr ""
-"Xóa tất cả tin nhắn, tệp và khóa OMEMO. Tài khoản của bạn sẽ được giữ lại."
-
-#: main/data/preferences_window/general_preferences_page.ui
-msgid "Delete ALL data including accounts. This cannot be undone!"
-msgstr ""
-"Xóa TẤT CẢ dữ liệu bao gồm tài khoản. Hành động này không thể hoàn tác!"
-
-# DinoX v0.7.7 - Additional Backup/Restore strings
-msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
-msgstr "Tệp sao lưu (*.tar.gz, *.tar.gz.gpg)"
-
-msgid "Creating encrypted backup..."
-msgstr "Đang tạo bản sao lưu được mã hóa..."
-
-msgid "Decryption Failed"
-msgstr "Giải mã thất bại"
-
-msgid "DinoX will now restart..."
-msgstr "DinoX sẽ khởi động lại ngay bây giờ..."
-
-msgid "Encrypted backup created successfully"
-msgstr "Đã tạo bản sao lưu được mã hóa thành công"
-
-msgid "Password (minimum 4 characters)"
-msgstr "Mật khẩu (tối thiểu 4 ký tự)"
-
-msgid "Decrypting encrypted backup file..."
-msgstr "Đang giải mã tệp sao lưu..."
-
-msgid "Extracting files from backup..."
-msgstr "Đang giải nén tệp từ bản sao lưu..."
-
-msgid "Factory reset in progress... DinoX will restart."
-msgstr "Đang khôi phục cài đặt gốc... DinoX sẽ khởi động lại."
-
-msgid "Resetting database... DinoX will restart."
-msgstr "Đang đặt lại cơ sở dữ liệu... DinoX sẽ khởi động lại."
-
-msgid "Encrypted backup created (%s)"
-msgstr "Đã tạo bản sao lưu được mã hóa (%s)"
-
-msgid ""
-"Could not decrypt the backup file.\n"
-"\n"
-"Please check if the password is correct."
-msgstr ""
-"Không thể giải mã tệp sao lưu.\n"
-"\n"
-"Vui lòng kiểm tra xem mật khẩu có đúng không."
-
-msgid ""
-"Could not restore the backup file.\n"
-"\n"
-"Error: %s"
-msgstr ""
-"Không thể khôi phục tệp sao lưu.\n"
-"\n"
-"Lỗi: %s"
-
-msgid "This backup is encrypted. Please enter the password to decrypt it."
-msgstr "Bản sao lưu này được mã hóa. Vui lòng nhập mật khẩu."
-
-msgid ""
-"Enter a password to encrypt the backup.\n"
-"\n"
-"<b>Important:</b> Remember this password! Without it, the backup cannot be "
-"restored."
-msgstr ""
-"Nhập mật khẩu để mã hóa bản sao lưu.\n"
-"\n"
-"<b>Quan trọng:</b> Hãy nhớ mật khẩu này! Không có nó, bản sao lưu không thể "
-"khôi phục."
-
-msgid ""
-"This will delete all messages, files and OMEMO encryption keys.\n"
-"\n"
-"<b>Your accounts will remain, but you will lose all chat history and need to "
-"re-verify encryption with your contacts.</b>\n"
-"\n"
-"This action cannot be undone!"
-msgstr ""
-"This will delete all messages, files and OMEMO encryption keys.\n"
-"\n"
-"<b>Your accounts will remain, but you will lose all chat history and need to "
-"re-verify encryption with your contacts.</b>\n"
-"\n"
-"This action cannot be undone!"
-
-msgid ""
-"This will replace all current data with the backup.\n"
-"\n"
-"<b>Current accounts, messages and settings will be overwritten!</b>\n"
-"\n"
-"DinoX will restart after restoring."
-msgstr ""
-"This will replace all current data with the backup.\n"
-"\n"
-"<b>Current accounts, messages and settings will be overwritten!</b>\n"
-"\n"
-"DinoX will restart after restoring."
-
-msgid ""
-"Type 'DELETE' to confirm factory reset.\n"
-"\n"
-"This will permanently remove all your DinoX data."
-msgstr ""
-"Type 'DELETE' to confirm factory reset.\n"
-"\n"
-"This will permanently remove all your DinoX data."
-
-msgid ""
-"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
-"\n"
-"• All accounts\n"
-"• All messages and files\n"
-"• All encryption keys\n"
-"• All settings\n"
-"\n"
-"This is irreversible. Make sure to create a backup first!"
-msgstr ""
-"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
-"\n"
-"• All accounts\n"
-"• All messages and files\n"
-"• All encryption keys\n"
-"• All settings\n"
-"\n"
-"This is irreversible. Make sure to create a backup first!"
+#~ msgid "Encrypted backup created (%s)"
+#~ msgstr "Đã tạo bản sao lưu được mã hóa (%s)"
 
 # OpenPGP Key Management
-msgid "OpenPGP Key Management"
-msgstr "OpenPGP Key Management"
+#~ msgid "OpenPGP Key Management"
+#~ msgstr "OpenPGP Key Management"
 
-msgid "Actions"
-msgstr "Actions"
+#~ msgid "Actions"
+#~ msgstr "Actions"
 
-msgid "Generate New Key"
-msgstr "Generate New Key"
+#~ msgid "Generate New Key"
+#~ msgstr "Generate New Key"
 
-msgid "Import Key"
-msgstr "Import Key"
+#~ msgid "Import Key"
+#~ msgstr "Import Key"
 
-msgid "Your Keys"
-msgstr "Your Keys"
+#~ msgid "Your Keys"
+#~ msgstr "Your Keys"
 
-msgid "Fingerprint"
-msgstr "Fingerprint"
+#~ msgid "Fingerprint"
+#~ msgstr "Fingerprint"
 
-msgid "Export Public Key"
-msgstr "Export Public Key"
+#~ msgid "Export Public Key"
+#~ msgstr "Export Public Key"
 
-msgid "Delete Key"
-msgstr "Delete Key"
+#~ msgid "Delete Key"
+#~ msgstr "Delete Key"
 
-msgid "Name"
-msgstr "Name"
+#~ msgid "Name"
+#~ msgstr "Name"
 
-msgid "Email"
-msgstr "Email"
+#~ msgid "Email"
+#~ msgstr "Email"
 
-msgid "Passphrase"
-msgstr "Passphrase"
+#~ msgid "Passphrase"
+#~ msgstr "Passphrase"
 
-msgid "Generate"
-msgstr "Generate"
+#~ msgid "Generate"
+#~ msgstr "Generate"
 
-msgid "Select OpenPGP Key"
-msgstr "Select OpenPGP Key"
+#~ msgid "Select OpenPGP Key"
+#~ msgstr "Select OpenPGP Key"
 
-msgid "Wrong passphrase"
-msgstr "Wrong passphrase"
+#~ msgid "Wrong passphrase"
+#~ msgstr "Wrong passphrase"
 
-msgid "Manage Keys"
-msgstr "Manage Keys"
+#~ msgid "Manage Keys"
+#~ msgstr "Manage Keys"
 
-msgid "Announce key"
-msgstr "Announce key"
+#~ msgid "Announce key"
+#~ msgstr "Announce key"
 
-msgid "Disabled"
-msgstr "Disabled"
+#~ msgid "Disabled"
+#~ msgstr "Disabled"
 
-msgid "Success"
-msgstr "Success"
+#~ msgid "Success"
+#~ msgstr "Success"
 
-msgid "OK"
-msgstr "OK"
+#~ msgid "Create a new OpenPGP key pair"
+#~ msgstr "Tạo cặp khóa OpenPGP mới"
 
-msgid "Create a new OpenPGP key pair"
-msgstr "Tạo cặp khóa OpenPGP mới"
+#~ msgid "Import a key from file (.asc, .gpg)"
+#~ msgstr "Nhập khóa từ tệp (.asc, .gpg)"
 
-msgid "Import a key from file (.asc, .gpg)"
-msgstr "Nhập khóa từ tệp (.asc, .gpg)"
+#~ msgid "Private keys available for signing and decryption"
+#~ msgstr "Khóa riêng tư có sẵn để ký và giải mã"
 
-msgid "Private keys available for signing and decryption"
-msgstr "Khóa riêng tư có sẵn để ký và giải mã"
+#~ msgid "No private keys found"
+#~ msgstr "Không tìm thấy khóa riêng tư"
 
-msgid "No private keys found"
-msgstr "Không tìm thấy khóa riêng tư"
+#~ msgid "Generate or import a key to get started"
+#~ msgstr "Tạo hoặc nhập khóa để bắt đầu"
 
-msgid "Generate or import a key to get started"
-msgstr "Tạo hoặc nhập khóa để bắt đầu"
+#~ msgid "Generate New OpenPGP Key"
+#~ msgstr "Tạo khóa OpenPGP mới"
 
-msgid "Generate New OpenPGP Key"
-msgstr "Tạo khóa OpenPGP mới"
+#~ msgid "Enter your details to create a new key pair."
+#~ msgstr "Nhập thông tin của bạn để tạo cặp khóa mới."
 
-msgid "Enter your details to create a new key pair."
-msgstr "Nhập thông tin của bạn để tạo cặp khóa mới."
+#~ msgid "Your Name"
+#~ msgstr "Tên của bạn"
 
-msgid "Your Name"
-msgstr "Tên của bạn"
+#~ msgid "you@example.com"
+#~ msgstr "ban@vidu.com"
 
-msgid "you@example.com"
-msgstr "ban@vidu.com"
+#~ msgid "Passphrase (optional)"
+#~ msgstr "Cụm mật khẩu (tùy chọn)"
 
-msgid "Passphrase (optional)"
-msgstr "Cụm mật khẩu (tùy chọn)"
+#~ msgid "4096-bit RSA key, valid for 2 years."
+#~ msgstr "Khóa RSA 4096-bit, có hiệu lực trong 2 năm."
 
-msgid "4096-bit RSA key, valid for 2 years."
-msgstr "Khóa RSA 4096-bit, có hiệu lực trong 2 năm."
+#~ msgid "Name must be at least 2 characters"
+#~ msgstr "Tên phải có ít nhất 2 ký tự"
 
-msgid "Name must be at least 2 characters"
-msgstr "Tên phải có ít nhất 2 ký tự"
+#~ msgid "Please enter a valid email address"
+#~ msgstr "Vui lòng nhập địa chỉ email hợp lệ"
 
-msgid "Please enter a valid email address"
-msgstr "Vui lòng nhập địa chỉ email hợp lệ"
+#~ msgid "Generating Key..."
+#~ msgstr "Đang tạo khóa..."
 
-msgid "Generating Key..."
-msgstr "Đang tạo khóa..."
+#~ msgid "Key generated successfully!"
+#~ msgstr "Tạo khóa thành công!"
 
-msgid "Please wait while your key is being generated. This may take a moment."
-msgstr ""
-"Vui lòng đợi trong khi khóa của bạn đang được tạo. Việc này có thể mất một "
-"lát."
+#~ msgid "Import OpenPGP Key"
+#~ msgstr "Nhập khóa OpenPGP"
 
-msgid "Key generated successfully!"
-msgstr "Tạo khóa thành công!"
+#~ msgid "OpenPGP Keys (*.asc, *.gpg)"
+#~ msgstr "Khóa OpenPGP (*.asc, *.gpg)"
 
-msgid "Failed to generate key."
-msgstr "Không tạo được khóa."
+#~ msgid "All Files"
+#~ msgstr "Tất cả tệp"
 
-msgid "Import OpenPGP Key"
-msgstr "Nhập khóa OpenPGP"
+#~ msgid "Key imported! Re-open Key Management to see it."
+#~ msgstr "Đã nhập khóa! Mở lại Quản lý khóa để xem."
 
-msgid "OpenPGP Keys (*.asc, *.gpg)"
-msgstr "Khóa OpenPGP (*.asc, *.gpg)"
+#~ msgid "Import failed: "
+#~ msgstr "Nhập thất bại: "
 
-msgid "All Files"
-msgstr "Tất cả tệp"
+#~ msgid "Key exported to: "
+#~ msgstr "Khóa đã xuất tới: "
 
-msgid "Key imported! Re-open Key Management to see it."
-msgstr "Đã nhập khóa! Mở lại Quản lý khóa để xem."
+#~ msgid "Export failed."
+#~ msgstr "Xuất thất bại."
 
-msgid "Import failed: "
-msgstr "Nhập thất bại: "
+#~ msgid "Delete Key?"
+#~ msgstr "Xóa khóa?"
 
-msgid "Key exported to: "
-msgstr "Khóa đã xuất tới: "
+#~ msgid ""
+#~ "Delete this key?\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "This cannot be undone!"
+#~ msgstr ""
+#~ "Xóa khóa này?\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "Không thể hoàn tác!"
 
-msgid "Export failed."
-msgstr "Xuất thất bại."
+#~ msgid "Key deleted."
+#~ msgstr "Đã xóa khóa."
 
-msgid "Delete Key?"
-msgstr "Xóa khóa?"
+#~ msgid "Delete failed: "
+#~ msgstr "Xóa thất bại: "
 
-msgid ""
-"Delete this key?\n"
-"\n"
-"%s\n"
-"\n"
-"This cannot be undone!"
-msgstr ""
-"Xóa khóa này?\n"
-"\n"
-"%s\n"
-"\n"
-"Không thể hoàn tác!"
+#~ msgid "Choose a key to announce to your contacts."
+#~ msgstr "Chọn khóa để thông báo cho danh bạ của bạn."
 
-msgid "Key deleted."
-msgstr "Đã xóa khóa."
+#~ msgid "Enter GPG passphrase to confirm:"
+#~ msgstr "Nhập cụm mật khẩu GPG để xác nhận:"
 
-msgid "Delete failed: "
-msgstr "Xóa thất bại: "
+#~ msgid "Generate, import, export, or delete keys"
+#~ msgstr "Tạo, nhập, xuất hoặc xóa khóa"
 
-msgid "Choose a key to announce to your contacts."
-msgstr "Chọn khóa để thông báo cho danh bạ của bạn."
+#~ msgid "No keys available. Generate or import one!"
+#~ msgstr "Không có khóa nào. Tạo hoặc nhập một khóa!"
 
-msgid "Enter GPG passphrase to confirm:"
-msgstr "Nhập cụm mật khẩu GPG để xác nhận:"
-
-msgid "Generate, import, export, or delete keys"
-msgstr "Tạo, nhập, xuất hoặc xóa khóa"
-
-msgid "No keys available. Generate or import one!"
-msgstr "Không có khóa nào. Tạo hoặc nhập một khóa!"
-
-msgid "Error in GnuPG"
-msgstr "Lỗi trong GnuPG"
+#~ msgid "Error in GnuPG"
+#~ msgstr "Lỗi trong GnuPG"
 
 #~ msgid "Message too long"
 #~ msgstr "Tin nhắn quá dài"
