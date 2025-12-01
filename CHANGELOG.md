@@ -5,7 +5,12 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.8.2] - 2025-12-01
+
+### Changed
+- **Code Cleanup** - Removed internal development artifacts and AI-generated planning files from release builds
+- **Logging Improvements** - Replaced raw print statements with proper GLib structured logging (debug/warning) for better system integration
+- **UI** - Updated copyright information in About dialog
 
 ## [0.8.1] - 2025-12-01
 

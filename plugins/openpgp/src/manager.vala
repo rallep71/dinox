@@ -58,7 +58,9 @@ public class Manager : StreamInteractionModule, Object {
             try {
                 GPG.Key key = GPGHelper.get_public_key(keys[i]);
                 if (key != null) gpgkeys[i] = key;
-            } catch (Error e)  {}
+            } catch (Error e) {
+                warning("OpenPGP: Failed to get public key for %s: %s", keys[i], e.message);
+            }
         }
 
         return gpgkeys;
@@ -75,6 +77,7 @@ public class Manager : StreamInteractionModule, Object {
                 }
             }
         } catch (Error e) {
+            warning("OpenPGP: Encryption failed: %s", e.message);
             message.marked = Entities.Message.Marked.WONTSEND;
         }
     }

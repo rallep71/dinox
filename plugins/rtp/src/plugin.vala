@@ -489,7 +489,7 @@ public class Dino.Plugins.Rtp.Plugin : RootInterface, VideoCallPlugin, Object {
         if (pipe == null) return;
         string name = @"pipe-$(pipe.clock.get_time())-$(pipe.current_state)";
         Gst.Debug.bin_to_dot_file(pipe, Gst.DebugGraphDetails.ALL, name);
-        print(@"Stored pipe details as $name\n");
+        debug(@"Stored pipe details as $name");
     }
 
     public void set_pause(Xmpp.Xep.JingleRtp.Stream? stream, bool pause) {

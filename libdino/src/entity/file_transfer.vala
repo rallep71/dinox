@@ -39,7 +39,9 @@ public class FileTransfer : Object {
                 File file = File.new_for_path(Path.build_filename(storage_dir, path ?? file_name));
                 try {
                     input_stream_ = file.read();
-                } catch (Error e) { }
+                } catch (Error e) {
+                    warning("FileTransfer: Failed to read file %s: %s", file.get_path(), e.message);
+                }
             }
             return input_stream_;
         }

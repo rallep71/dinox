@@ -41,7 +41,9 @@ public class FileSendOverlay : Adw.Dialog {
             try {
                 yield image_widget.load_from_file(file, file_name);
                 widget = image_widget;
-            } catch (Error e) { }
+            } catch (Error e) {
+                warning("FileSendOverlay: Failed to load image preview for %s: %s", file_name, e.message);
+            }
         }
 
         if (widget == null) {

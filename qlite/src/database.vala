@@ -22,15 +22,36 @@ public class Database {
         meta_table.init({meta_name, meta_int_val, meta_text_val});
     }
 
-    public void init(Table[] tables) {
+    public void init(Table[] tables, string? key = null) {
         Sqlite.config(Config.SERIALIZED);
         int ec = Sqlite.Database.open_v2(file_name, out db, OPEN_READWRITE | OPEN_CREATE | 0x00010000);
         if (ec != Sqlite.OK) {
             error(@"SQLite error: %d - %s", db.errcode(), db.errmsg());
         }
+
+        if (key != null) {
+            string key_pragma = "PRAGMA key = '%s';".printf(key);
+            db.exec(key_pragma, null, null);
+            
+            // Verify encryption
+            if (db.exec("SELECT count(*) FROM sqlite_master;", null, null) != Sqlite.OK) {
+                warning("Qlite: Failed to access database with key. Attempting plain text fallback...");
+                db = null;
+                ec = Sqlite.Database.open_v2(file_name, out db, OPEN_READWRITE | OPEN_CREATE | 0x00010000);
+                if (db.exec("SELECT count(*) FROM sqlite_master;", null, null) == Sqlite.OK) {
+                    warning("Qlite: Database is plain text. Encryption skipped (Migration required).");
+                } else {
+                    error("Qlite: Failed to open database (Invalid key or corrupted).");
+                }
+            }
+        }
+
         this.tables = tables;
-        if (debug) db.trace((message) => print(@"Qlite trace: $message\n"));
+        if (debug) db.trace((message) => GLib.debug(@"Qlite trace: $message"));
         start_migration();
+    }
+
+    public void close() {
     }
 
     public void ensure_init() {

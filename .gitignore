@@ -47,7 +47,19 @@ repo/
 RELEASE_CHECKLIST.md
 *.flatpak
 *.AppImage
+CODE_SECURITY_AUDIT.md
+PHASE_3_IMPLEMENTATION_PLAN.md
+PHASE_3_DEPENDENCY_GUIDE.md
+TRANSLATION.md
 
 # Ignore local website directory (managed outside of repo)
 website-new/
 website/
+
+# Internal Documentation (AI/Agent Artifacts)
+CODE_SECURITY_AUDIT.md
+DEVELOPMENT_PLAN.md
+DISAPPEARING_MESSAGES_PLAN.md
+OMEMO_BUG_FIX.md
+DEBUG.md
+RELEASE_CHECKLIST.md

@@ -49,7 +49,7 @@ public class StatusNotifierItem : Object {
     
     [DBus (name = "ContextMenu")]
     public void context_menu(int x, int y) throws Error {
-        print("Systray: ContextMenu called at (%d, %d) - Cinnamon should show DBusMenu\n", x, y);
+        debug("Systray: ContextMenu called at (%d, %d) - Cinnamon should show DBusMenu", x, y);
         // Menu is supposed to be handled via DBusMenu by the StatusNotifierHost
         // But Cinnamon has a bug and shows empty white field
     }
@@ -105,24 +105,24 @@ public class SystrayManager : Object {
     }
     
     public void quit_application() {
-        print("Systray: quit_application() called\n");
+        debug("Systray: quit_application() called");
         
         // Cleanup systray first
         cleanup();
         
         // Disconnect XMPP accounts - fire and forget
         var accounts = application.stream_interactor.get_accounts();
-        print("Systray: Disconnecting %d accounts...\n", accounts.size);
+        debug("Systray: Disconnecting %d accounts...", accounts.size);
         foreach (var account in accounts) {
             application.stream_interactor.disconnect_account.begin(account);
         }
         
         // Try graceful GTK quit
-        print("Systray: Calling application.quit()\n");
+        debug("Systray: Calling application.quit()");
         application.quit();
         
         // Force exit immediately - Flatpak doesn't quit cleanly otherwise
-        print("Systray: Force exit - Process.exit(0)\n");
+        debug("Systray: Force exit - Process.exit(0)");
         Process.exit(0);
     }
     
@@ -188,16 +188,16 @@ public class SystrayManager : Object {
             });
             root.child_append(item_quit);
             
-            print("Systray: Dbusmenu.Server initialized on /MenuBar\n");
+            debug("Systray: Dbusmenu.Server initialized on /MenuBar");
             
             dbus_id = connection.register_object("/StatusNotifierItem", status_notifier);
             
-            print("Systray: StatusNotifierItem registered on D-Bus\n");
+            debug("Systray: StatusNotifierItem registered on D-Bus");
             
             yield register_with_watcher();
             
         } catch (Error e) {
-            print("Systray: Failed to initialize D-Bus: %s\n", e.message);
+            warning("Systray: Failed to initialize D-Bus: %s", e.message);
         }
     }
     
@@ -223,7 +223,7 @@ public class SystrayManager : Object {
                 string service_name = connection.unique_name;
                 yield watcher.register_status_notifier_item(service_name);
                 
-                print("Systray: Successfully registered with %s as %s\n", watcher_name, service_name);
+                debug("Systray: Successfully registered with %s as %s", watcher_name, service_name);
                 registered = true;
                 break;
                 
@@ -233,7 +233,7 @@ public class SystrayManager : Object {
         }
         
         if (!registered) {
-            print("Systray: No StatusNotifierWatcher available\n");
+            warning("Systray: No StatusNotifierWatcher available");
         }
     }
     

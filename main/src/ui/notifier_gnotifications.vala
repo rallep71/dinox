@@ -56,7 +56,9 @@ namespace Dino.Ui {
             notification.set_body(body);
             try {
                 notification.set_icon(yield get_conversation_icon(conversation));
-            } catch (Error e) { }
+            } catch (Error e) {
+                warning("NotifierGNotifications: Failed to get icon for conversation: %s", e.message);
+            }
 
             GLib.Application.get_default().send_notification(conversation.id.to_string(), notifications[conversation]);
 
@@ -92,7 +94,9 @@ namespace Dino.Ui {
             notification.set_body(conversation.counterpart.to_string());
             try {
                 notification.set_icon(yield get_conversation_icon(conversation));
-            } catch (Error e) { }
+            } catch (Error e) {
+                warning("NotifierGNotifications: Failed to get icon for subscription request: %s", e.message);
+            }
             notification.set_default_action_and_target_value("app.open-conversation", new Variant.int32(conversation.id));
             notification.add_button_with_target_value(_("Accept"), "app.accept-subscription", conversation.id);
             notification.add_button_with_target_value(_("Deny"), "app.deny-subscription", conversation.id);
@@ -126,7 +130,9 @@ namespace Dino.Ui {
 
             try {
                 notification.set_icon(yield get_conversation_icon(direct_conversation));
-            } catch (Error e) { }
+            } catch (Error e) {
+                warning("NotifierGNotifications: Failed to get icon for MUC invite: %s", e.message);
+            }
 
             Conversation group_conversation = stream_interactor.get_module(ConversationManager.IDENTITY).create_conversation(room_jid, account, Conversation.Type.GROUPCHAT);
             notification.set_default_action_and_target_value("app.open-muc-join", new Variant.int32(group_conversation.id));
@@ -144,7 +150,9 @@ namespace Dino.Ui {
 
             try {
                 notification.set_icon(yield get_conversation_icon(conversation));
-            } catch (Error e) { }
+            } catch (Error e) {
+                warning("NotifierGNotifications: Failed to get icon for voice request: %s", e.message);
+            }
 
             notification.add_button_with_target_value(_("Deny"), "app.deny-voice-request", conversation.id);
             notification.add_button_with_target_value(_("Accept"), "app.accept-voice-request", conversation.id);

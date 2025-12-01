@@ -25,7 +25,9 @@ namespace Dino.Plugins.OpenPgp {
                 try {
                     own_key = GPGHelper.get_private_key(own_key_id);
                     if (own_key == null) warning("Can't get PGP private key");
-                } catch (Error e) { }
+                } catch (Error e) {
+                    warning("OpenPGP: Failed to get private key: %s", e.message);
+                }
                 if (own_key != null) {
                     signed_status = gpg_sign("", own_key);
                 }
@@ -93,6 +95,7 @@ namespace Dino.Plugins.OpenPgp {
             try {
                 encr = GPGHelper.encrypt_armor(plain, keys, GPG.EncryptFlags.ALWAYS_TRUST);
             } catch (Error e) {
+                warning("OpenPGP: Encryption failed: %s", e.message);
                 return null;
             }
             int encryption_start = encr.index_of("\n\n") + 2;
@@ -104,7 +107,9 @@ namespace Dino.Plugins.OpenPgp {
             string? sign_key = null;
             try {
                 sign_key = GPGHelper.get_sign_key(armor, signed_text);
-            } catch (Error e) { }
+            } catch (Error e) {
+                warning("OpenPGP: Failed to get sign key: %s", e.message);
+            }
             return sign_key;
         }
 
@@ -113,6 +118,7 @@ namespace Dino.Plugins.OpenPgp {
             try {
                 signed = GPGHelper.sign(str, GPG.SigMode.CLEAR, key);
             } catch (Error e) {
+                warning("OpenPGP: Signing failed: %s", e.message);
                 return null;
             }
             int signature_start = signed.index_of("-----BEGIN PGP SIGNATURE-----");

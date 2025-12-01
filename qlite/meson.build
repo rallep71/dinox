@@ -1,7 +1,7 @@
 dependencies = [
     dep_gee,
     dep_glib,
-    dep_sqlite3,
+    dep_sqlcipher,
 ]
 sources = files(
     'src/column.vala',

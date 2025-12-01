@@ -133,7 +133,9 @@ public abstract class Xmpp.XmppStream : Object {
             debug("[%p] Server closed stream", this);
             try {
                 yield disconnect();
-            } catch (Error e) {}
+            } catch (Error e) {
+                warning("XmppStream: Error during disconnect: %s", e.message);
+            }
             return;
         } else if (node.ns_uri == JABBER_URI) {
             if (node.name == "message") {

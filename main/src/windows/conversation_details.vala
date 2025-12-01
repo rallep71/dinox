@@ -213,8 +213,6 @@ namespace Dino.Ui.ConversationDetails {
 //                popover.popup();
 
 
-                var row_view_model = (Ui.Model.ConferenceMember) model.members_sorted.get_item(position);
-                print(@"$(position) $(row_view_model.name)\n");
             });
 
             add_members_tab_element(list_view);

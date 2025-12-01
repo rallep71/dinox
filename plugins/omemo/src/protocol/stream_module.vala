@@ -107,7 +107,7 @@ public class StreamModule : XmppStreamModule {
                 }
             }
         }
-        address.device_id = 0; // TODO: Hack to have address obj live longer
+        address.device_id = 0; // Hack: Keeps 'address' alive until function exit, preventing premature free during loop.
     }
 
     public void fetch_bundle(XmppStream stream, Jid jid, int device_id, bool ignore_if_non_present = true) {
@@ -194,7 +194,7 @@ public class StreamModule : XmppStreamModule {
                     debug("Can't create session with %s/%d: %s", jid.bare_jid.to_string(), device_id, e.message);
                     fail = true;
                 }
-                address.device_id = 0; // TODO: Hack to have address obj live longer
+                address.device_id = 0; // Hack: Keeps 'address' alive while 'builder' is using it (SessionBuilder likely holds a reference to Address).
             }
         }
         if (fail) {

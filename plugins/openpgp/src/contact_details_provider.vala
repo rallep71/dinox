@@ -27,7 +27,9 @@ public class ContactDetailsProvider : Plugins.ContactDetailsProvider, Object {
         Gee.List<GPG.Key>? keys = null;
         try {
             keys = GPGHelper.get_keylist(key_id);
-        } catch (Error e) { }
+        } catch (Error e) {
+            warning("ContactDetailsProvider: Failed to get keylist for %s: %s", key_id, e.message);
+        }
 
         var str = "";
         if (keys != null && keys.size > 0) {

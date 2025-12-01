@@ -42,6 +42,22 @@
     ],
     "modules": [
         {
+            "name": "sqlcipher",
+            "buildsystem": "autotools",
+            "config-opts": [
+                "--enable-tempstore=yes",
+                "--disable-tcl",
+                "CFLAGS=-DSQLITE_HAS_CODEC -DSQLITE_ENABLE_COLUMN_METADATA"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/sqlcipher/sqlcipher/archive/v4.5.5.tar.gz",
+                    "sha256": "014ef9d4f5b5f4e7af4d93ad399667947bb55e31860e671f0def1b8ae6f05de0"
+                }
+            ]
+        },
+        {
             "name": "protobuf",
             "buildsystem": "cmake-ninja",
             "config-opts": [

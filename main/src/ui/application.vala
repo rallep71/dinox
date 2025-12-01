@@ -340,7 +340,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         about_dialog.title = _("About DinoX");
         about_dialog.version = version;
         about_dialog.website = "https://github.com/rallep71/dinox";
-        about_dialog.copyright = "Copyright © 2016-2025 - Dino Team\nCopyright © 2025 - Ralf Peter";
+        about_dialog.copyright = "Copyright © 2025 - Ralf Peter\nCopyright © 2016-2025 - Dino Team";
         about_dialog.license_type = License.GPL_3_0;
         about_dialog.comments = _("Modern XMPP client with extended features");
         

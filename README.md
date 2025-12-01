@@ -82,7 +82,7 @@ ninja -C build
 ```bash
 sudo apt install build-essential meson ninja-build valac \
   libgtk-4-dev libadwaita-1-dev libglib2.0-dev libgee-0.8-dev \
-  libsqlite3-dev libicu-dev libdbusmenu-glib-dev libgcrypt20-dev \
+  libsqlcipher-dev libsecret-1-dev libicu-dev libdbusmenu-glib-dev libgcrypt20-dev \
   libgpgme-dev libqrencode-dev libsoup-3.0-dev libgstreamer1.0-dev \
   libgstreamer-plugins-base1.0-dev libwebrtc-audio-processing-dev \
   libnice-dev libsrtp2-dev
