@@ -21,10 +21,12 @@ dependencies = [
     dep_glib,
     dep_gmodule,
     dep_qlite,
-    dep_xmpp_vala
+    dep_xmpp_vala,
+    dep_libsecret
 ]
 sources = files(
     'src/application.vala',
+    'src/security/key_manager.vala',
     'src/dbus/login1.vala',
     'src/dbus/notifications.vala',
     'src/dbus/upower.vala',

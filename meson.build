@@ -1,5 +1,19 @@
 project('Dino', 'c', 'cpp', 'vala', license: 'GPL-3.0', meson_version: '>=1.3.0')
 
+# Security Hardening Flags
+add_project_arguments(
+  '-fstack-protector-strong',
+  '-D_FORTIFY_SOURCE=2',
+  '-Wformat',
+  '-Werror=format-security',
+  language: 'c'
+)
+
+add_project_arguments(
+  '--vapidir=' + meson.current_source_dir() / 'qlite/vapi',
+  language: 'vala'
+)
+
 fs = import('fs')
 gnome = import('gnome')
 i18n = import('i18n')
@@ -41,7 +55,9 @@ dep_libomemo_c = dependency('libomemo-c', disabler: true, required: get_option('
 dep_libsoup = dependency('libsoup-3.0', disabler: true, required: get_option('plugin-http-files'))
 dep_nice = dependency('nice', version: '>=0.1.15', disabler: true, required: get_option('plugin-ice'))
 dep_m = meson.get_compiler('c').find_library('m', required: false)
-dep_sqlite3 = dependency('sqlite3', version: '>=3.24')
+# dep_sqlite3 = dependency('sqlite3', version: '>=3.24')
+dep_sqlcipher = dependency('sqlcipher', version: '>=3.4')
+dep_libsecret = dependency('libsecret-1')
 
 dep_webrtc_audio_processing = dependency('webrtc-audio-processing-1', required: false)
 if not dep_webrtc_audio_processing.found()

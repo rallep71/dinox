@@ -356,7 +356,7 @@ public class FileManager : StreamInteractionModule, Object {
 
             file_transfer.state = FileTransfer.State.COMPLETE;
         } catch (IOError.CANCELLED e) {
-            print("cancelled\n");
+            debug("cancelled");
         } catch (Error e) {
             warning("Error downloading file: %s", e.message);
             if (file_transfer.provider == 0 || file_transfer.provider == FileManager.SFS_PROVIDER_ID) {

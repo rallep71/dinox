@@ -37,7 +37,9 @@ public class Dino.Reactions : StreamInteractionModule, Object {
         try {
             send_reactions(conversation, content_item, reactions);
             reaction_added(conversation.account, content_item.id, conversation.account.bare_jid, reaction);
-        } catch (IOError e) {}
+        } catch (IOError e) {
+            warning("Reactions: Failed to add reaction: %s", e.message);
+        }
     }
 
     public void remove_reaction(Conversation conversation, ContentItem content_item, string reaction) {
@@ -46,7 +48,9 @@ public class Dino.Reactions : StreamInteractionModule, Object {
         try {
             send_reactions(conversation, content_item, reactions);
             reaction_removed(conversation.account, content_item.id, conversation.account.bare_jid, reaction);
-        } catch (IOError e) {}
+        } catch (IOError e) {
+            warning("Reactions: Failed to remove reaction: %s", e.message);
+        }
     }
 
     public Gee.List<ReactionUsers> get_item_reactions(Conversation conversation, ContentItem content_item) {
@@ -93,7 +97,9 @@ public class Dino.Reactions : StreamInteractionModule, Object {
                 try {
                     reactions_module.send_reaction.end(res);
                     save_chat_reactions(conversation.account, conversation.account.bare_jid, content_item.id, now_millis, reactions);
-                } catch (IOError e) {}
+                } catch (IOError e) {
+                    warning("Reactions: Failed to send reaction: %s", e.message);
+                }
             });
         }
     }

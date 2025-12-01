@@ -26,14 +26,18 @@ public class BlockingManager : StreamInteractionModule, Object {
                 foreach (string jid_str in jids) {
                     try {
                         block_changed(account, new Jid(jid_str));
-                    } catch (Error e) { }
+                    } catch (Error e) {
+                        warning("BlockingManager: Failed to process block push for %s: %s", jid_str, e.message);
+                    }
                 }
             });
             stream.get_module(Xmpp.Xep.BlockingCommand.Module.IDENTITY).unblock_push_received.connect((stream, jids) => {
                 foreach (string jid_str in jids) {
                     try {
                         block_changed(account, new Jid(jid_str));
-                    } catch (Error e) { }
+                    } catch (Error e) {
+                        warning("BlockingManager: Failed to process unblock push for %s: %s", jid_str, e.message);
+                    }
                 }
             });
         });

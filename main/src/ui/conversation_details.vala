@@ -331,8 +331,6 @@ namespace Dino.Ui.ConversationDetails {
             // Only send the config form if something was changed
             if (model.data_form != null && model.data_form_bak != null) {
                 string current = model.data_form.stanza_node.to_string();
-                debug("Config form check - bak length: %d, current length: %d", model.data_form_bak.length, current.length);
-                debug("Config changed: %s", (model.data_form_bak != current).to_string());
                 if (model.data_form_bak != current) {
                     debug("Saving config form for %s", conversation.counterpart.to_string());
                     stream_interactor.get_module(MucManager.IDENTITY).set_config_form.begin(conversation.account, conversation.counterpart, model.data_form);

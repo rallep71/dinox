@@ -363,7 +363,9 @@ public class AddAccountDialog : Adw.Dialog {
         if (form.oob != null) {
             try {
                 AppInfo.launch_default_for_uri(form.oob, null);
-            } catch (Error e) { }
+            } catch (Error e) {
+                warning("AddAccountDialog: Failed to launch registration URI %s: %s", form.oob, e.message);
+            }
             show_sign_in();
             return;
         }

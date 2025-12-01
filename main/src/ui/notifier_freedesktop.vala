@@ -150,7 +150,9 @@ public class Dino.Ui.FreeDesktopNotifier : NotificationProvider, Object {
             yield dbus_notifications.close_notification(notification_id);
             action_listeners.unset(notification_id);
             call_notifications.unset(call);
-        } catch (Error e) { }
+        } catch (Error e) {
+            warning("NotifierFreedesktop: Failed to retract call notification: %s", e.message);
+        }
     }
 
     public async void notify_subscription_request(Conversation conversation) {

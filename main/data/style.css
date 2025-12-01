@@ -413,17 +413,20 @@ box.dino-input-error .chat-input-status.input-status-highlight-once {
 /* Video Player Widget */
 
 window.dino-main .video-player-widget {
+    border-radius: 6px;
+    overflow: hidden;
+}
     border: 1px solid alpha(@theme_fg_color, 0.1);
     border-radius: 6px;
 }
 
 window.dino-main .video-player-widget box {
-    max-width: 400px;
+    /* max-width: 400px; - Not supported in GTK4 CSS for boxes directly */
 }
 
 window.dino-main .video-player-widget picture {
     border-radius: 6px 6px 0 0;
-    max-width: 400px;
+    /* max-width: 400px; - Not supported in GTK4 CSS for pictures directly */
 }
 
 window.dino-main .video-player-widget .compact-card-toolbar {

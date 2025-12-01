@@ -84,7 +84,7 @@ public class KeyManagementDialog : Object {
         gen_btn.child = new Gtk.Image.from_icon_name("go-next-symbolic");
         gen_btn.valign = Gtk.Align.CENTER;
         gen_btn.clicked.connect(() => {
-            print("Generate clicked!\n");
+            debug("Generate clicked!");
             show_generate_dialog();
         });
         generate_row.add_suffix(gen_btn);
@@ -102,7 +102,7 @@ public class KeyManagementDialog : Object {
         imp_btn.child = new Gtk.Image.from_icon_name("go-next-symbolic");
         imp_btn.valign = Gtk.Align.CENTER;
         imp_btn.clicked.connect(() => {
-            print("Import clicked!\n");
+            debug("Import clicked!");
             show_import_dialog();
         });
         import_row.add_suffix(imp_btn);

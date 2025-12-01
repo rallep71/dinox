@@ -197,7 +197,7 @@ public class OmemoPreferencesWidget : Adw.PreferencesGroup {
                     }
                 }
             } catch (Error e) {
-                print("Error while reading session store: %s", e.message);
+                warning("Error while reading session store: %s", e.message);
             }
         }
 

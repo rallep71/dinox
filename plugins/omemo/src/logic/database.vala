@@ -2,6 +2,7 @@ using Gee;
 using Qlite;
 
 using Dino.Entities;
+using Dino.Security;
 
 namespace Dino.Plugins.Omemo {
 
@@ -255,7 +256,15 @@ public class Database : Qlite.Database {
         pre_key = new PreKeyTable(this);
         session = new SessionTable(this);
         content_item_meta = new ContentItemMetaTable(this);
-        init({identity_meta, trust, identity, signed_pre_key, pre_key, session, content_item_meta});
+        
+        string? key = null;
+        try {
+            key = KeyManager.get_or_create_db_key();
+        } catch (Error e) {
+            warning("OmemoDatabase: Failed to get encryption key: %s", e.message);
+        }
+        
+        init({identity_meta, trust, identity, signed_pre_key, pre_key, session, content_item_meta}, key);
 
         try {
             exec("PRAGMA journal_mode = WAL");

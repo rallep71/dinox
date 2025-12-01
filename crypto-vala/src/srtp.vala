@@ -18,7 +18,7 @@ public class Session {
     }
 
     private static void log(LogLevel level, string msg) {
-        print(@"SRTP[$level]: $msg\n");
+        debug(@"SRTP[$level]: $msg");
     }
 
     public Session() {

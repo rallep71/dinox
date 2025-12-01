@@ -67,7 +67,9 @@ public class Register : StreamInteractionModule, Object{
 
         try {
             yield stream_result.stream.disconnect();
-        } catch (Error e) {}
+        } catch (Error e) {
+            debug("Registration: Failed to disconnect stream: %s", e.message);
+        }
         return ret;
     }
 
@@ -126,7 +128,9 @@ public class Register : StreamInteractionModule, Object{
 
         try {
             yield stream.disconnect();
-        } catch (Error e) {}
+        } catch (Error e) {
+            debug("Registration: Failed to disconnect stream (check_server_availability): %s", e.message);
+        }
         return ret;
     }
 
@@ -184,7 +188,9 @@ public class Register : StreamInteractionModule, Object{
         }
         try {
             yield stream.disconnect();
-        } catch (Error e) {}
+        } catch (Error e) {
+            debug("Registration: Failed to disconnect stream (get_registration_form): %s", e.message);
+        }
 
         return ret;
     }
@@ -230,7 +236,9 @@ public class Register : StreamInteractionModule, Object{
         }
         try {
             yield stream.disconnect();
-        } catch (Error e) {}
+        } catch (Error e) {
+            debug("Registration: Failed to disconnect stream (submit_form): %s", e.message);
+        }
         return ret;
     }
 }

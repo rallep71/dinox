@@ -55,11 +55,15 @@ public class AvatarManager : StreamInteractionModule, Object {
                 // Move old avatars folder (~/.local/share/dino) to new location (~/.cache/dino)
                 try {
                     new_avatars.get_parent().make_directory_with_parents();
-                } catch (Error e) { }
+                } catch (Error e) {
+                    warning("AvatarManager: Failed to create parent directory for avatars: %s", e.message);
+                }
                 try {
                     old_avatars.move(new_avatars, FileCopyFlags.NONE);
                     debug("Avatars directory %s moved to %s", old_avatars.get_path(), new_avatars.get_path());
-                } catch (Error e) { }
+                } catch (Error e) {
+                    warning("AvatarManager: Failed to move old avatars directory: %s", e.message);
+                }
             } else {
                 // If both old and new folders exist, remove the old one
                 try {
@@ -69,14 +73,18 @@ public class AvatarManager : StreamInteractionModule, Object {
                         FileUtils.remove(old_avatars.get_path() + "/" + info.get_name());
                     }
                     DirUtils.remove(old_avatars.get_path());
-                } catch (Error e) { }
+                } catch (Error e) {
+                    warning("AvatarManager: Failed to remove old avatars directory: %s", e.message);
+                }
             }
         }
 
         // Create avatar folder
         try {
             new_avatars.make_directory_with_parents();
-        } catch (Error e) { }
+        } catch (Error e) {
+            warning("AvatarManager: Failed to create avatars directory: %s", e.message);
+        }
 
         stream_interactor.account_added.connect(on_account_added);
         stream_interactor.module_manager.initialize_account_modules.connect((_, modules) => {

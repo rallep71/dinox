@@ -189,7 +189,8 @@ copy_dependencies() {
     log_info "Copying audio libraries..."
     for lib in libpulse.so* libpulse-simple.so* libpulsecommon-*.so libasound.so* \
                libpipewire-0.3.so* libspa-0.2.so* libsndfile.so* libFLAC.so* \
-               libvorbis.so* libvorbisenc.so* libogg.so*; do
+               libvorbis.so* libvorbisenc.so* libogg.so* \
+               libsqlcipher.so* libsecret-1.so* libgcrypt.so*; do
         find /usr/lib/x86_64-linux-gnu -maxdepth 1 -name "$lib" -exec cp -L {} "$APPDIR/usr/lib/" \; 2>/dev/null || true
     done
     
