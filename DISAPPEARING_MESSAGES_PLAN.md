@@ -1,6 +1,6 @@
 # Disappearing Messages (Selbst-löschende Nachrichten)
 
-## 📋 Feature-Übersicht
+## Feature-Übersicht
 
 Automatisches Löschen von Nachrichten nach einer vom Benutzer gewählten Zeitspanne - ähnlich wie bei WhatsApp.
 
@@ -8,11 +8,7 @@ Automatisches Löschen von Nachrichten nach einer vom Benutzer gewählten Zeitsp
 
 ---
 
-## 🔍 Tiefgründige Code-Analyse
-
-### Existierende Lösch-Infrastruktur
-
-#### 1. MessageDeletion Service (`libdino/src/service/message_deletion.vala`)
+1. MessageDeletion Service (`libdino/src/service/message_deletion.vala`)
 
 ```
 delete_globally(conversation, content_item)
@@ -127,7 +123,7 @@ Banner werden automatisch mit Animation eingeblendet (Zeile 509-515).
 
 ---
 
-## ✅ Server-Löschung wird unterstützt!
+##Server-Löschung wird unterstützt!
 
 DinoX nutzt bereits **XEP-0424 (Message Retraction)** und **XEP-0425 (Message Moderation)**:
 
@@ -470,10 +466,4 @@ In der `sources` Liste nach `subscription_notification.vala`:
 2. **Empfangene Nachrichten** - Werden NUR lokal gelöscht (XEP-0424 nur für eigene Nachrichten)
 3. **Timer-Intervall** - Nachrichten werden alle 5 Minuten geprüft, nicht sekundengenau
 4. **Offline-Nachrichten** - Werden erst bei nächstem App-Start geprüft
-
----
-
-
-
-ir Bescheid wenn ich beginnen soll!**
 
