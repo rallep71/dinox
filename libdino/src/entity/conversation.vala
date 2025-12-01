@@ -56,6 +56,8 @@ public class Conversation : Object {
     public int pinned { get; set; default = 0; }
     
     public DateTime? history_cleared_at { get; set; default = null; }
+    
+    public int message_expiry_seconds { get; set; default = 0; }
 
     private Database? db;
 
@@ -91,6 +93,7 @@ public class Conversation : Object {
         if (history_cleared != null && history_cleared > 0) {
             this.history_cleared_at = new DateTime.from_unix_utc(history_cleared);
         }
+        message_expiry_seconds = row[db.conversation.message_expiry_seconds];
 
         notify.connect(on_update);
     }
@@ -128,6 +131,7 @@ public class Conversation : Object {
         if (history_cleared_at != null) {
             insert.value(db.conversation.history_cleared_at, (long) history_cleared_at.to_unix());
         }
+        insert.value(db.conversation.message_expiry_seconds, message_expiry_seconds);
         id = (int) insert.perform();
         notify.connect(on_update);
     }
@@ -228,6 +232,8 @@ public class Conversation : Object {
                     update.set_null(db.conversation.history_cleared_at);
                 }
                 break;
+            case "message-expiry-seconds":
+                update.set(db.conversation.message_expiry_seconds, message_expiry_seconds); break;
         }
         update.perform();
     }

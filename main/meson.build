@@ -73,6 +73,7 @@ sources = files(
     'src/ui/conversation_content_view/quote_widget.vala',
     'src/ui/conversation_content_view/reactions_widget.vala',
     'src/ui/conversation_content_view/subscription_notification.vala',
+    'src/ui/conversation_content_view/expiry_notification.vala',
     'src/ui/conversation_content_view/unread_indicator_populator.vala',
     'src/ui/conversation_content_view/status_populator.vala',
     'src/ui/conversation_details.vala',

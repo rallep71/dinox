@@ -7,6 +7,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.8.0] - 2025-12-01
+
+### Added
+- **Disappearing Messages** - Auto-delete messages after configurable time periods
+  - Timer options: 15 minutes, 30 minutes, 1 hour, 24 hours, 7 days, 30 days
+  - Per-conversation setting in conversation details
+  - Visual banner in chat showing current auto-delete setting
+  - Own messages deleted globally via XEP-0424 (server + local)
+  - Received messages deleted locally only
+  - Background timer checks every 5 minutes for expired messages
+  - Database schema updated (version 34) with `message_expiry_seconds` column
+
+- **MUC Password Bookmark Sync** - Room passwords now saved to bookmarks
+  - When changing room password in settings, bookmark is automatically updated
+  - Fixes issue where room password changes prevented auto-join on restart
+
+### Technical
+- New `expiry_notification.vala` for chat banner display
+- Extended `ContentItemStore` with `get_items_older_than()` method
+- Extended `MessageDeletion` with timer and expiry checking
+- Extended `Conversation` entity with `message_expiry_seconds` property
+- Extended `muc_manager.vala` to sync password changes to bookmarks
+
 ## [0.7.9] - 2025-11-30
 
 ### Added

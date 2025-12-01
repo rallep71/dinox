@@ -287,6 +287,17 @@ public class ContentItemStore : StreamInteractionModule, Object {
         return get_items_from_query(select, conversation);
     }
 
+    public Gee.List<ContentItem> get_items_older_than(Conversation conversation, DateTime cutoff_time) {
+        long cutoff_unix = (long) cutoff_time.to_unix();
+        QueryBuilder select = db.content_item.select()
+            .where("time < ?", { cutoff_unix.to_string() })
+            .with(db.content_item.conversation_id, "=", conversation.id)
+            .with(db.content_item.hide, "=", false)
+            .order_by(db.content_item.time, "ASC");
+
+        return get_items_from_query(select, conversation);
+    }
+
     public void insert_message(Message message, Conversation conversation, bool hide = false) {
         MessageItem item = new MessageItem(message, conversation, -1);
         item.id = db.add_content_item(conversation, message.time, message.local_time, 1, message.id, hide);

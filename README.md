@@ -30,6 +30,7 @@ DinoX features System Tray support, MUJI group video calls, voice messages, mess
 |---------|-------------|
 | **OMEMO Encryption** | End-to-end encryption for all messages and files |
 | **OpenPGP Encryption** | XEP-0373 with key management, generation & deletion |
+| **Disappearing Messages** | Auto-delete messages after 15min, 30min, 1h, 24h, 7d or 30d |
 | **MUJI Group Calls** | Multi-party audio/video conferences (mesh-based) |
 | **1:1 Voice & Video** | High-quality Jingle calls with ICE/STUN/TURN |
 | **Voice Messages** | Record and send audio messages (AAC format) |

@@ -280,6 +280,43 @@ namespace Dino.Ui.ConversationDetails {
                 }
             }
         }
+        
+        // Disappearing Messages - available for all conversation types
+        var expiry_row = new ViewModel.PreferencesRow.ComboBox();
+        expiry_row.title = _("Auto-delete messages");
+        expiry_row.items.add(_("Never"));
+        expiry_row.items.add(_("After 15 minutes"));
+        expiry_row.items.add(_("After 30 minutes"));
+        expiry_row.items.add(_("After 1 hour"));
+        expiry_row.items.add(_("After 24 hours"));
+        expiry_row.items.add(_("After 7 days"));
+        expiry_row.items.add(_("After 30 days"));
+
+        // Set current value
+        switch (model.conversation.message_expiry_seconds) {
+            case 900: expiry_row.active_item = 1; break;    // 15 min
+            case 1800: expiry_row.active_item = 2; break;   // 30 min
+            case 3600: expiry_row.active_item = 3; break;   // 1 hour
+            case 86400: expiry_row.active_item = 4; break;  // 24 hours
+            case 604800: expiry_row.active_item = 5; break; // 7 days
+            case 2592000: expiry_row.active_item = 6; break; // 30 days
+            default: expiry_row.active_item = 0; break;
+        }
+
+        // Save on change
+        expiry_row.notify["active-item"].connect(() => {
+            switch (expiry_row.active_item) {
+                case 1: model.conversation.message_expiry_seconds = 900; break;    // 15 min
+                case 2: model.conversation.message_expiry_seconds = 1800; break;   // 30 min
+                case 3: model.conversation.message_expiry_seconds = 3600; break;   // 1 hour
+                case 4: model.conversation.message_expiry_seconds = 86400; break;  // 24 hours
+                case 5: model.conversation.message_expiry_seconds = 604800; break; // 7 days
+                case 6: model.conversation.message_expiry_seconds = 2592000; break; // 30 days
+                default: model.conversation.message_expiry_seconds = 0; break;
+            }
+        });
+
+        view_model.settings_rows.append(expiry_row);
     }
 
     public Dialog setup_dialog(Conversation conversation, StreamInteractor stream_interactor) {

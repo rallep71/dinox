@@ -28,6 +28,16 @@
   <url type="translate">https://hosted.weblate.org/projects/dino/</url>
   <launchable type="desktop-id">im.github.rallep71.DinoX.desktop</launchable>
   <releases>
+    <release date="2025-12-01" version="0.8.0">
+      <description>
+        <p>Disappearing Messages - Auto-delete messages after 15min, 30min, 1h, 24h, 7d, or 30d. Visual banner in chat. MUC password sync to bookmarks.</p>
+      </description>
+    </release>
+    <release date="2025-11-30" version="0.7.9">
+      <description>
+        <p>OpenPGP Key Management Dialog - Generate, select, and delete PGP keys. Window size bug fix.</p>
+      </description>
+    </release>
     <release date="2025-11-30" version="0.7.8">
       <description>
         <p>TLS certificate pinning for self-hosted XMPP servers with self-signed certificates. Trust/pin dialog like Conversations Android.</p>

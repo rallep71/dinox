@@ -191,6 +191,17 @@
   <url type="translate">https://hosted.weblate.org/projects/dino/</url>
   <launchable type="desktop-id">im.github.rallep71.DinoX.desktop</launchable>
   <releases>
+    <release date="2025-12-01" version="0.8.0">
+      <description>
+        <p>Disappearing Messages and MUC improvements.</p>
+        <ul>
+          <li>Auto-delete messages after 15min, 30min, 1h, 24h, 7d, or 30d</li>
+          <li>Visual banner in chat showing current auto-delete setting</li>
+          <li>Own messages deleted globally via XEP-0424</li>
+          <li>MUC password changes now sync to bookmarks automatically</li>
+        </ul>
+      </description>
+    </release>
     <release date="2025-11-30" version="0.7.9">
       <description>
         <p>OpenPGP key management and bug fixes.</p>

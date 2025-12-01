@@ -195,9 +195,11 @@ public class MucManager : StreamInteractionModule, Object {
         XmppStream? stream = stream_interactor.get_stream(account);
         if (stream == null) return;
         
-        // Extract room name and check for membersonly change
+        // Extract room name, password and check for membersonly change
         string? new_room_name = null;
+        string? new_password = null;
         bool room_name_field_found = false;
+        bool password_field_found = false;
         bool enabling_members_only = false;
         bool disabling_members_only = false;
         bool was_private = is_private_room(account, jid);
@@ -209,6 +211,14 @@ public class MucManager : StreamInteractionModule, Object {
                 // Treat empty string as null (no custom name)
                 if (new_room_name != null && new_room_name.strip() == "") {
                     new_room_name = null;
+                }
+            } else if (field.var == "muc#roomconfig_roomsecret") {
+                password_field_found = true;
+                new_password = field.get_value_string();
+                debug("MUC config: Found password field, value length = %d", new_password != null ? new_password.length : 0);
+                // Treat empty string as null (no password)
+                if (new_password != null && new_password.strip() == "") {
+                    new_password = null;
                 }
             } else if (field.var == "muc#roomconfig_membersonly") {
                 // Check if members-only is being changed
@@ -246,38 +256,53 @@ public class MucManager : StreamInteractionModule, Object {
             send_room_notification(account, jid, notification);
         }
         
-        // Update bookmark with new room name if changed
-        if (room_name_field_found && bookmarks_provider.has_key(account)) {
+        // Update bookmark with new room name or password if changed
+        if ((room_name_field_found || password_field_found) && bookmarks_provider.has_key(account)) {
             Set<Conference>? conferences = yield bookmarks_provider[account].get_conferences(stream);
             if (conferences != null) {
                 foreach (Conference conference in conferences) {
                     if (conference.jid.equals(jid)) {
                         // Check if name actually changed (treat null and empty as equivalent)
                         string? old_name = (conference.name != null && conference.name.strip() != "") ? conference.name : null;
-                        if (old_name != new_room_name) {
+                        string? old_password = (conference.password != null && conference.password.strip() != "") ? conference.password : null;
+                        
+                        // Use new values if field was found, otherwise keep old values
+                        string? final_name = room_name_field_found ? new_room_name : old_name;
+                        string? final_password = password_field_found ? new_password : old_password;
+                        
+                        bool name_changed = (old_name != final_name);
+                        bool password_changed = (old_password != final_password);
+                        
+                        if (name_changed || password_changed) {
                             Conference new_conference = new Conference() { 
                                 jid=jid, 
                                 nick=conference.nick, 
-                                name=new_room_name,  // null means no custom name, will use JID
-                                password=conference.password, 
+                                name=final_name,
+                                password=final_password, 
                                 autojoin=conference.autojoin 
                             };
                             
-                            // Update local cache FIRST before server roundtrip can override it
-                            if (!bookmark_names.has_key(account)) {
-                                bookmark_names[account] = new HashMap<Jid, string>(Jid.hash_bare_func, Jid.equals_bare_func);
-                            }
-                            if (new_room_name != null) {
-                                bookmark_names[account][jid] = new_room_name;
-                            } else {
-                                // Remove from cache if name is cleared
-                                bookmark_names[account].unset(jid);
+                            // Update local name cache FIRST before server roundtrip can override it
+                            if (name_changed) {
+                                if (!bookmark_names.has_key(account)) {
+                                    bookmark_names[account] = new HashMap<Jid, string>(Jid.hash_bare_func, Jid.equals_bare_func);
+                                }
+                                if (final_name != null) {
+                                    bookmark_names[account][jid] = final_name;
+                                } else {
+                                    // Remove from cache if name is cleared
+                                    bookmark_names[account].unset(jid);
+                                }
                             }
                             
                             yield bookmarks_provider[account].replace_conference(stream, jid, new_conference);
                             
                             // Trigger room_info_updated to refresh UI with new bookmark name
                             room_info_updated(account, jid);
+                            
+                            if (password_changed) {
+                                debug("MUC password updated in bookmark for %s", jid.to_string());
+                            }
                         }
                         break;
                     }

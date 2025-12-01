@@ -35,6 +35,9 @@ namespace Dino {
             this.db = db;
 
             stream_interactor.get_module(MessageProcessor.IDENTITY).received_pipeline.connect(this);
+            
+            // Start timer for auto-deleting expired messages (every 5 minutes)
+            Timeout.add_seconds(60 * 5, check_expired_messages);
         }
 
         public bool is_deletable(Conversation conversation, ContentItem content_item) {
@@ -151,6 +154,49 @@ namespace Dino {
             }
 
             return false;
+        }
+
+        // Timer callback for auto-deleting expired messages
+        private bool check_expired_messages() {
+            var now = new DateTime.now_utc();
+            var content_item_store = stream_interactor.get_module(ContentItemStore.IDENTITY);
+            
+            foreach (Account account in stream_interactor.get_accounts()) {
+                foreach (Conversation conversation in db.get_conversations(account)) {
+                    if (conversation.message_expiry_seconds > 0) {
+                        delete_expired_messages(conversation, now, content_item_store);
+                    }
+                }
+            }
+            return true;  // Keep timer running
+        }
+
+        private void delete_expired_messages(Conversation conversation, DateTime now, ContentItemStore content_item_store) {
+            var cutoff_time = now.add_seconds(-conversation.message_expiry_seconds);
+            var items = content_item_store.get_items_older_than(conversation, cutoff_time);
+            
+            if (items.size > 0) {
+                debug("Auto-deleting %d expired messages for %s (older than %s)", 
+                      items.size, conversation.counterpart.to_string(), cutoff_time.to_string());
+            }
+            
+            foreach (ContentItem item in items) {
+                // Check if it's our own message
+                bool is_own = false;
+                if (item is MessageItem) {
+                    is_own = ((MessageItem) item).message.direction == Message.DIRECTION_SENT;
+                } else if (item is FileItem) {
+                    is_own = ((FileItem) item).file_transfer.direction == FileTransfer.DIRECTION_SENT;
+                }
+                
+                if (is_own && can_delete_for_everyone(conversation, item)) {
+                    // Own message: Delete globally (server + local)
+                    delete_globally(conversation, item);
+                } else {
+                    // Received message: Delete locally only
+                    delete_locally(conversation, item, conversation.account.bare_jid);
+                }
+            }
         }
     }
 
