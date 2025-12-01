@@ -4,7 +4,7 @@
 
 Automatisches Löschen von Nachrichten nach einer vom Benutzer gewählten Zeitspanne - ähnlich wie bei WhatsApp.
 
-**Server-Löschung:** ✅ DinoX nutzt **XEP-0424 Message Retraction** - eigene Nachrichten werden auch auf dem Server gelöscht (wenn unterstützt)!
+**Server-Löschung:** DinoX nutzt **XEP-0424 Message Retraction** - eigene Nachrichten werden auch auf dem Server gelöscht (wenn unterstützt)!
 
 ---
 
@@ -25,9 +25,9 @@ delete_globally(conversation, content_item)
 ```
 
 **Wichtige Erkenntnis:** `delete_globally()` funktioniert nur für:
-- ✅ Eigene Nachrichten → XEP-0424 Retraction
-- ✅ Fremde Nachrichten in MUC (als Moderator) → XEP-0425 Moderation
-- ❌ Fremde Nachrichten in 1:1 Chat → NUR lokal möglich!
+-  Eigene Nachrichten → XEP-0424 Retraction
+-  Fremde Nachrichten in MUC (als Moderator) → XEP-0425 Moderation
+-  Fremde Nachrichten in 1:1 Chat → NUR lokal möglich!
 
 #### 2. ContentItemStore (`libdino/src/service/content_item_store.vala`)
 
@@ -141,10 +141,10 @@ stream.get_module(MessageModule.IDENTITY).send_message.begin(stream, stanza);
 
 | Nachrichten-Typ | Lösch-Methode | Server-Löschung |
 |-----------------|---------------|-----------------|
-| Eigene (1:1 Chat) | `delete_globally()` → XEP-0424 | ✅ Ja |
-| Eigene (MUC) | `delete_globally()` → XEP-0424 | ✅ Ja |
-| Empfangene (1:1 Chat) | `delete_locally()` | ❌ Nur lokal |
-| Empfangene (MUC als Mod) | `delete_globally()` → XEP-0425 | ✅ Ja |
+| Eigene (1:1 Chat) | `delete_globally()` → XEP-0424 | Ja |
+| Eigene (MUC) | `delete_globally()` → XEP-0424 | Ja |
+| Empfangene (1:1 Chat) | `delete_locally()` | Nur lokal |
+| Empfangene (MUC als Mod) | `delete_globally()` → XEP-0425 | Ja |
 
 ### Voraussetzung:
 - Server muss XEP-0424/0425 unterstützen
@@ -153,7 +153,7 @@ stream.get_module(MessageModule.IDENTITY).send_message.begin(stream, stanza);
 
 ---
 
-## 🎯 Geplante Funktionen
+## Geplante Funktionen
 
 1. **Pro-Conversation Einstellung** - Jeder Chat kann unterschiedliche Ablaufzeiten haben
 2. **Flexible Timer-Optionen** - 1h, 24h, 7 Tage, 30 Tage, Nie
@@ -164,7 +164,7 @@ stream.get_module(MessageModule.IDENTITY).send_message.begin(stream, stanza);
 
 ---
 
-## 📁 Detaillierter Implementierungsplan
+## Detaillierter Implementierungsplan
 
 ### Schritt 1: Datenbank-Schema (`database.vala`)
 
@@ -464,7 +464,7 @@ In der `sources` Liste nach `subscription_notification.vala`:
 
 ---
 
-## ⚠️ Bekannte Einschränkungen
+## Bekannte Einschränkungen
 
 1. **Server-Abhängig** - Globale Löschung nur wenn Server XEP-0424/0425 unterstützt
 2. **Empfangene Nachrichten** - Werden NUR lokal gelöscht (XEP-0424 nur für eigene Nachrichten)
@@ -475,8 +475,5 @@ In der `sources` Liste nach `subscription_notification.vala`:
 
 
 
-Der Plan ist vollständig analysiert und dokumentiert. 
-Geschätzte Implementierungszeit: ~1-2 Stunden
-
-**Sag mir Bescheid wenn ich beginnen soll!**
+ir Bescheid wenn ich beginnen soll!**
 
