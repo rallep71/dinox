@@ -174,7 +174,6 @@ img, svg {
 /* Prevent horizontal overflow from any element */
 .container, section, main, footer, header {
     max-width: 100%;
-    overflow-x: hidden;
 }
 
 /* Navbar needs overflow visible for mobile menu dropdown */
@@ -909,33 +908,7 @@ section {
     font-weight: 500;
 }
 
-.screenshot-item {
-    border-radius: var(--radius-xl);
-    overflow: hidden;
-    box-shadow: var(--shadow-lg);
-    transition: all var(--transition-base);
-    cursor: pointer;
-    background: var(--bg-card);
-}
 
-.screenshot-item:hover {
-    transform: scale(1.03);
-    box-shadow: var(--shadow-xl);
-}
-
-.screenshot-item img {
-    width: 100%;
-    aspect-ratio: 16/10;
-    object-fit: cover;
-}
-
-.screenshot-item .caption {
-    padding: var(--space-md);
-    text-align: center;
-    font-size: 0.875rem;
-    color: var(--text-secondary);
-    font-weight: 500;
-}
 
 /* ===== Download Section ===== */
 .download {
