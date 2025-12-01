@@ -1003,13 +1003,13 @@ section {
     background: var(--bg-code);
     padding: var(--space-md);
     border-radius: var(--radius-md);
-    overflow-x: hidden;
+    overflow-x: auto;
     margin-bottom: var(--space-lg);
     font-family: var(--font-mono);
     font-size: 0.7rem;
     color: var(--text-primary);
     border: 1px solid var(--border-subtle);
-    word-break: break-all;
+    overflow-wrap: break-word;
     white-space: pre-wrap;
     max-width: 100%;
 }
