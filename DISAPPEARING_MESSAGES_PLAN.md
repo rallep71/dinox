@@ -473,7 +473,7 @@ In der `sources` Liste nach `subscription_notification.vala`:
 
 ---
 
-## 🚀 Bereit zur Implementierung?
+
 
 Der Plan ist vollständig analysiert und dokumentiert. 
 Geschätzte Implementierungszeit: ~1-2 Stunden
