@@ -7,7 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.8.2] - 2025-12-01
 
+### Security
+- **Database Encryption** - Implemented full database encryption using SQLCipher to protect local user data
+- **System Hardening** - Improved overall system security and data protection
+
 ### Changed
+- **Build Process** - Hardened build process and improved dependency management
 - **Code Cleanup** - Removed internal development artifacts and AI-generated planning files from release builds
 - **Logging Improvements** - Replaced raw print statements with proper GLib structured logging (debug/warning) for better system integration
 - **UI** - Updated copyright information in About dialog
