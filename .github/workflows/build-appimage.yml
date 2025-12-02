@@ -426,6 +426,28 @@ jobs:
             DinoX-*.AppImage.zsync
             DinoX-*.AppImage.sha256
       
+      - name: Prepare Release Body
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          VERSION=$(cat VERSION | grep RELEASE | awk '{print $2}')
+          
+          echo "## DinoX v$VERSION" > RELEASE_BODY.md
+          echo "" >> RELEASE_BODY.md
+          
+          # Extract changelog for this version
+          awk -v ver="[$VERSION]" '
+            /^## / { if (p) { exit }; if ($2 == ver) { p=1; next } }
+            p { print }
+          ' CHANGELOG.md >> RELEASE_BODY.md
+          
+          echo "" >> RELEASE_BODY.md
+          echo "### Installation (AppImage)" >> RELEASE_BODY.md
+          echo "" >> RELEASE_BODY.md
+          echo "\`\`\`bash" >> RELEASE_BODY.md
+          echo "chmod +x DinoX-*.AppImage" >> RELEASE_BODY.md
+          echo "./DinoX-*.AppImage" >> RELEASE_BODY.md
+          echo "\`\`\`" >> RELEASE_BODY.md
+
       - name: Create Release
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v1
@@ -434,35 +456,6 @@ jobs:
             DinoX-*.AppImage
             DinoX-*.AppImage.zsync
             DinoX-*.AppImage.sha256
-          body: |
-            ## DinoX AppImage Release
-            
-            ### Download
-            Download the AppImage file below, make it executable, and run it:
-            ```bash
-            chmod +x DinoX-*.AppImage
-            ./DinoX-*.AppImage
-            ```
-            
-            ### Features
-            - Portable single-file application
-            - No installation required
-            - Includes all dependencies
-            - Works on Ubuntu 22.04+ and compatible distributions
-            
-            ### Legal Notice
-            This AppImage includes FFmpeg libraries (via gst-libav) for video/audio codec support.
-            FFmpeg is licensed under LGPL 2.1+. The H.264/HEVC codec implementations may be 
-            subject to patent restrictions in some jurisdictions.
-            
-            **This software is provided for personal, non-commercial use only.**
-            
-            For commercial use, please ensure compliance with applicable patent licenses.
-            See README.md for full legal information.
-            
-            ### Verify Download
-            ```bash
-            sha256sum -c DinoX-*.AppImage.sha256
-            ```
+          body_path: RELEASE_BODY.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
