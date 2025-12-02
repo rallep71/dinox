@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - **Build Process** - Hardened build process and improved dependency management
-- **Code Cleanup** - Removed internal development artifacts and AI-generated planning files from release builds
+- **Code Cleanup** - Removed internal development artifacts
 - **Logging Improvements** - Replaced raw print statements with proper GLib structured logging (debug/warning) for better system integration
 - **UI** - Updated copyright information in About dialog
 
