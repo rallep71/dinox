@@ -52,6 +52,8 @@ jobs:
             libgdk-pixbuf-2.0-dev \
             libsignal-protocol-c-dev \
             libprotobuf-c-dev \
+            libsqlcipher-dev \
+            libsecret-1-dev \
             protobuf-c-compiler \
             cmake \
             patchelf \
