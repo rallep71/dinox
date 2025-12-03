@@ -365,9 +365,9 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
             int best_height = 0;
             for (int i = 0; i < device.caps.get_size(); i++) {
                 unowned Gst.Structure? that = device.caps.get_structure(i);
-                unowned Gst.CapsFeatures? features = device.caps.get_features(i);
+                // unowned Gst.CapsFeatures? features = device.caps.get_features(i);
                 Value? best_fraction_now = null;
-                if (!that.has_name("video/x-raw") || !features.contains("memory:SystemMemory")) continue;
+                if (!that.has_name("video/x-raw")) continue;
                 int num = 0, den = 0, width = 0, height = 0;
                 if (!that.has_field("framerate")) continue;
                 Value framerate = that.get_value("framerate");
@@ -447,6 +447,10 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
                     }
                 }
             }
+            if (best_index == -1) {
+                warning("No suitable caps found, falling back to first cap");
+                best_index = 0;
+            }
             Gst.Caps res = caps_copy_nth(device.caps, best_index);
             unowned Gst.Structure? that = res.get_structure(0);
             Value? framerate = that.get_value("framerate");
@@ -484,39 +488,49 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
             element.@set("sync", false);
         }
         pipe.add(element);
+        // element.sync_state_with_parent(); // Moved to after linking
         device_caps = get_best_caps();
         if (is_source) {
             element.@set("do-timestamp", true);
             filter = Gst.ElementFactory.make("capsfilter", @"caps_filter_$id");
             filter.@set("caps", device_caps);
             pipe.add(filter);
+            filter.sync_state_with_parent();
             element.link(filter);
+            element.sync_state_with_parent();
 #if WITH_VOICE_PROCESSOR
             if (media == "audio" && plugin.echoprobe != null) {
                 dsp = new VoiceProcessor(plugin.echoprobe as EchoProbe, element as Gst.Audio.StreamVolume);
                 dsp.name = @"dsp_$id";
                 pipe.add(dsp);
+                dsp.sync_state_with_parent();
                 filter.link(dsp);
             }
 #endif
             tee = Gst.ElementFactory.make("tee", @"tee_$id");
             tee.@set("allow-not-linked", true);
             pipe.add(tee);
+            tee.sync_state_with_parent();
             (dsp ?? filter).link(tee);
         }
-        if (is_sink && media == "audio") {
-            mixer = (Gst.Base.Aggregator) Gst.ElementFactory.make("audiomixer", @"mixer_$id");
-            pipe.add(mixer);
-            if (plugin.echoprobe != null && !plugin.echoprobe.get_static_pad("src").is_linked()) {
-                mixer.link(plugin.echoprobe);
-                plugin.echoprobe.link(element);
-            } else {
-                filter = Gst.ElementFactory.make("capsfilter", @"caps_filter_$id");
-                filter.@set("caps", device_caps);
-                pipe.add(filter);
-                mixer.link(filter);
-                filter.link(element);
+        if (is_sink) {
+            if (media == "audio") {
+                mixer = (Gst.Base.Aggregator) Gst.ElementFactory.make("audiomixer", @"mixer_$id");
+                pipe.add(mixer);
+                mixer.sync_state_with_parent();
+                if (plugin.echoprobe != null && !plugin.echoprobe.get_static_pad("src").is_linked()) {
+                    mixer.link(plugin.echoprobe);
+                    plugin.echoprobe.link(element);
+                } else {
+                    filter = Gst.ElementFactory.make("capsfilter", @"caps_filter_$id");
+                    filter.@set("caps", device_caps);
+                    pipe.add(filter);
+                    filter.sync_state_with_parent();
+                    mixer.link(filter);
+                    filter.link(element);
+                }
             }
+            element.sync_state_with_parent();
         }
         plugin.unpause();
     }

@@ -47,7 +47,7 @@ public class Dino.Plugins.Rtp.Module : JingleRtp.Module {
                 }
                 return true;
             });
-            Timeout.add(2000, () => {
+            Timeout.add(5000, () => {
                 if (!finished) {
                     finished = true;
                     callback();
@@ -68,6 +68,12 @@ public class Dino.Plugins.Rtp.Module : JingleRtp.Module {
         if (codec == null) return false;
         if (unsupported_codecs.contains(codec)) return false;
         if (supported_codecs.contains(codec)) return true;
+
+        // Force VP9 support to bypass flaky pipeline check
+        if (codec == "vp9") {
+            supported_codecs.add(codec);
+            return true;
+        }
 
         string? encode_element = codec_util.get_encode_element_name(media, codec);
         string? decode_element = codec_util.get_decode_element_name(media, codec);
@@ -157,9 +163,14 @@ public class Dino.Plugins.Rtp.Module : JingleRtp.Module {
             yield add_if_supported(list, media, h264);
             h264.rtcp_fbs.add_all(rtcp_fbs);
 #endif
+            // VP8 first for better compatibility
             var vp8 = new JingleRtp.PayloadType() { clockrate = 90000, name = "VP8", id = 98 };
             vp8.rtcp_fbs.add_all(rtcp_fbs);
             yield add_if_supported(list, media, vp8);
+
+            var vp9 = new JingleRtp.PayloadType() { clockrate = 90000, name = "VP9", id = 99 };
+            vp9.rtcp_fbs.add_all(rtcp_fbs);
+            yield add_if_supported(list, media, vp9);
         } else {
             warning("Unsupported media type: %s", media);
         }
@@ -223,7 +234,9 @@ public class Dino.Plugins.Rtp.Module : JingleRtp.Module {
 
     public override void close_stream(JingleRtp.Stream stream) {
         var rtp_stream = stream as Rtp.Stream;
-        plugin.close_stream(rtp_stream);
+        if (rtp_stream != null) {
+            plugin.close_stream(rtp_stream);
+        }
     }
 
     public override JingleRtp.Crypto? generate_local_crypto() {

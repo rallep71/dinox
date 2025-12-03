@@ -14,6 +14,24 @@ dependencies = [
     dep_qlite,
     dep_xmpp_vala,
 ]
+
+c_args = [
+    '-DG_LOG_DOMAIN="rtp"',
+]
+vala_args = []
+
+# WebRTC-based stream (optional, requires gstreamer-webrtc-1.0)
+webrtc_sources = []
+if dep_gstreamer_webrtc.found() and dep_gstreamer_sdp.found()
+    dependencies += [dep_gstreamer_webrtc, dep_gstreamer_sdp]
+    # Full WebRTC implementation with webrtcbin
+    webrtc_sources = files(
+        'src/sdp_jingle_converter.vala',
+        'src/webrtc_module.vala',
+    )
+    vala_args += ['-D', 'WITH_WEBRTCBIN']
+endif
+
 sources = files(
     'src/codec_util.vala',
     'src/device.vala',
@@ -24,10 +42,8 @@ sources = files(
     'src/stream.vala',
     'src/video_widget.vala',
 )
-c_args = [
-    '-DG_LOG_DOMAIN="rtp"',
-]
-vala_args = []
+sources += webrtc_sources
+
 if dep_webrtc_audio_processing.found() and get_option('plugin-rtp-webrtc-audio-processing').allowed()
     voice_dependencies = [
         dep_gstreamer_audio,

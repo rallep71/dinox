@@ -117,6 +117,10 @@ public class Dino.Plugins.Rtp.CodecUtil {
 #endif
                         "vp8enc"
                     };
+                case "vp9":
+                    return new string[] {
+                        "vp9enc"
+                    };
             }
         }
         return new string[0];
@@ -171,6 +175,10 @@ public class Dino.Plugins.Rtp.CodecUtil {
 #endif
                         "vp8dec"
                     };
+                case "vp9":
+                    return new string[] {
+                        "vp9dec"
+                    };
             }
         }
         return new string[0];
@@ -183,14 +191,20 @@ public class Dino.Plugins.Rtp.CodecUtil {
     }
 
     public static string? get_encode_args(string media, string codec, string encode, JingleRtp.PayloadType? payload_type) {
-        // H264
-        if (encode == "msdkh264enc") return @" rate-control=vbr";
-        if (encode == "vah264lpenc" || encode == "vah264enc") return @" rate-control=vbr";
-        if (encode == "x264enc") return @" byte-stream=1 speed-preset=faster tune=zerolatency bframes=0 cabac=false dct8x8=false";
+        // H264 - key-int-max=30 ensures keyframe every ~1 second at 30fps
+        if (encode == "msdkh264enc") return @" rate-control=vbr key-int-max=30";
+        if (encode == "vah264lpenc" || encode == "vah264enc") return @" rate-control=vbr key-int-max=30";
+        if (encode == "x264enc") return @" byte-stream=1 speed-preset=faster tune=zerolatency bframes=0 cabac=false dct8x8=false key-int-max=30";
 
-        // VP8
-        if (encode == "vavp8enc" || encode == "msdkvp8enc") return " rate-control=vbr target-percentage=90";
-        if (encode == "vp8enc") return " deadline=1 error-resilient=3 lag-in-frames=0 resize-allowed=true threads=8 dropframe-threshold=30 end-usage=vbr cpu-used=4";
+        // VP8 - keyframe-max-dist=30 ensures keyframe every ~1 second at 30fps (critical for WebRTC)
+        // Higher bitrate (1.5Mbps), lower min-quantizer for better quality
+        if (encode == "vavp8enc" || encode == "msdkvp8enc") return " rate-control=vbr target-percentage=90 keyframe-max-dist=30";
+        if (encode == "vp8enc") return " deadline=1 error-resilient=3 lag-in-frames=0 resize-allowed=true threads=8 dropframe-threshold=30 end-usage=vbr cpu-used=4 keyframe-max-dist=30 target-bitrate=1500000 min-quantizer=4";
+
+        // VP9 - keyframe-max-dist=30 ensures keyframe every ~1 second at 30fps
+        // target-bitrate is critical for WebRTC, row-mt for better encoding performance
+        // error-resilient=1 enables error resilient mode for packet loss tolerance
+        if (encode == "vp9enc") return " deadline=1 lag-in-frames=0 resize-allowed=false keyframe-max-dist=30 error-resilient=1 end-usage=vbr cpu-used=4 target-bitrate=1500000 row-mt=true";
 
         // OPUS
         if (encode == "opusenc") {
@@ -204,7 +218,9 @@ public class Dino.Plugins.Rtp.CodecUtil {
     public static string? get_encode_suffix(string media, string codec, string encode, JingleRtp.PayloadType? payload_type) {
         // H264
         if (media == "video" && codec == "h264") return " ! capsfilter caps=video/x-h264,profile=constrained-baseline ! h264parse";
-        if (media == "video" && codec == "vp8" && encode == "vp8enc") return " ! capsfilter caps=video/x-vp8,profile=(string)1";
+        // VP8 - no profile filter needed, vp8enc handles it automatically
+        // VP9 - removed profile capsfilter as it causes "Invalid vpx profile" errors with some video sources
+        // The vp9enc element will negotiate the profile automatically
         return null;
     }
 
@@ -227,6 +243,7 @@ public class Dino.Plugins.Rtp.CodecUtil {
                 encode.set("bitrate", bitrate);
                 return bitrate;
             case "vp8enc":
+            case "vp9enc":
                 bitrate = uint.min(2147483, bitrate);
                 encode.set("target-bitrate", bitrate * 1024);
                 return bitrate;
@@ -253,6 +270,7 @@ public class Dino.Plugins.Rtp.CodecUtil {
 
     public static string? get_decode_prefix(string media, string codec, string decode, JingleRtp.PayloadType? payload_type) {
         if (decode == "vah264dec" || decode == "v4l2h264dec" || decode == "v4l2slh264dec" || decode == "avdec_h264") return "h264parse ! ";
+        if (codec == "vp9") return "vp9parse ! ";
         return null;
     }
 
@@ -260,6 +278,7 @@ public class Dino.Plugins.Rtp.CodecUtil {
         if (decode == "opusdec" && payload_type != null && payload_type.parameters.has("useinbandfec", "1")) return " use-inband-fec=true";
         if (decode == "vavp8dec" || decode == "v4l2vp8dec" || decode == "v4l2slvp8dec" || decode == "vah264dec" || decode == "v4l2h264dec" || decode == "v4l2slh264dec") return " max-errors=100";
         if (decode == "vp8dec") return " threads=8";
+        if (decode == "vp9dec") return " threads=8";
         return null;
     }
 
@@ -269,7 +288,8 @@ public class Dino.Plugins.Rtp.CodecUtil {
 
     public static string? get_depay_args(string media, string codec, string encode, JingleRtp.PayloadType? payload_type) {
 #if GST_1_18
-        if (codec == "vp8") return " wait-for-keyframe=true";
+        // VP8 and VP9 both need wait-for-keyframe for proper decoding
+        if (codec == "vp8" || codec == "vp9") return " wait-for-keyframe=true";
 #endif
         return null;
     }
@@ -362,7 +382,12 @@ public class Dino.Plugins.Rtp.CodecUtil {
         string base_name = name ?? @"encode_$(codec)_$(Random.next_int())";
         string? pay = get_pay_element_name(media, codec);
         if (pay == null) return null;
-        return @"$pay pt=$(payload_type != null ? payload_type.id : 96) name=$(base_name)_rtp_pay";
+        // VP9/VP8 payloaders need picture-id-mode for WebRTC compatibility
+        string pay_args = "";
+        if (codec == "vp9" || codec == "vp8") {
+            pay_args = " picture-id-mode=15-bit";
+        }
+        return @"$pay pt=$(payload_type != null ? payload_type.id : 96)$pay_args name=$(base_name)_rtp_pay";
     }
 
     public string? get_encode_bin_without_payloader_description(string media, string? codec, JingleRtp.PayloadType? payload_type, string? element_name = null, string? name = null) {

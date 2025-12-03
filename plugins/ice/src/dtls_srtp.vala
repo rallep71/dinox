@@ -29,6 +29,9 @@ public class Handler {
     private bool running = false;
     private bool stop = false;
     private bool restart = false;
+    
+    // Track if we've sent the first video keyframe - drop all video inter-frames until then
+    private bool sent_first_video_keyframe = false;
 
     private Crypto.Srtp.Session srtp_session = new Crypto.Srtp.Session();
 
@@ -63,11 +66,109 @@ public class Handler {
         if (srtp_session.has_encrypt) {
             if (component_id == 1) {
                 if (data.length >= 2 && data[1] >= 192 && data[1] < 224) {
+                    debug("DTLS-SRTP: Encrypting RTCP for component %u, %d bytes", component_id, data.length);
                     return srtp_session.encrypt_rtcp(data);
+                }
+                // Log RTP header info including SSRC and keyframe detection
+                if (data.length >= 12) {
+                    uint8 pt = data[1] & 0x7F;
+                    bool marker = (data[1] & 0x80) != 0;  // Marker bit
+                    uint16 seq = (data[2] << 8) | data[3];
+                    uint32 ssrc = ((uint32)data[8] << 24) | ((uint32)data[9] << 16) | ((uint32)data[10] << 8) | data[11];
+                    
+                    // Check for header extension
+                    bool has_extension = (data[0] & 0x10) != 0;
+                    int payload_offset = 12;
+                    if (has_extension && data.length > 16) {
+                        uint16 ext_len = ((uint16)data[14] << 8) | data[15];
+                        payload_offset = 16 + ext_len * 4;
+                    }
+                    
+                    string frame_info = "";
+                    bool is_video = (pt == 96 || pt == 97 || pt == 98 || pt == 102);  // VP8, VP9, H264
+                    bool is_keyframe = false;
+                    
+                    // H.264 (pt=102) keyframe detection - RFC 6184
+                    if (pt == 102 && data.length > payload_offset) {
+                        uint8 nal_header = data[payload_offset];
+                        uint8 nal_type = nal_header & 0x1F;
+                        // NAL unit types: 5 = IDR (keyframe), 7 = SPS, 8 = PPS
+                        // STAP-A (24) or FU-A (28) may contain IDR
+                        if (nal_type == 5 || nal_type == 7 || nal_type == 8) {
+                            is_keyframe = true;
+                        } else if (nal_type == 24 && data.length > payload_offset + 3) {
+                            // STAP-A: check first NAL unit inside
+                            uint8 inner_nal = data[payload_offset + 3] & 0x1F;
+                            is_keyframe = (inner_nal == 5 || inner_nal == 7 || inner_nal == 8);
+                        } else if (nal_type == 28 && data.length > payload_offset + 1) {
+                            // FU-A: check FU header
+                            uint8 fu_header = data[payload_offset + 1];
+                            bool is_start = (fu_header & 0x80) != 0;
+                            uint8 inner_type = fu_header & 0x1F;
+                            if (is_start && inner_type == 5) is_keyframe = true;
+                        }
+                        frame_info = is_keyframe ? " KEY" : " inter";
+                        if (marker) frame_info += "-M";
+                    }
+                    // VP9 (pt=98) keyframe detection
+                    else if (pt == 98 && data.length > payload_offset) {
+                        uint8 vp9_desc = data[payload_offset];
+                        // VP9 payload descriptor: I=0x80, P=0x40, L=0x20, F=0x10, B=0x08, E=0x04, V=0x02
+                        is_keyframe = (vp9_desc & 0x40) == 0; // P=0 means keyframe
+                        bool is_start = (vp9_desc & 0x08) != 0; // B=1 means start of frame
+                        bool is_end = (vp9_desc & 0x04) != 0;   // E=1 means end of frame
+                        frame_info = is_keyframe ? " KEY" : " inter";
+                        if (is_start) frame_info += "-B";
+                        if (is_end) frame_info += "-E";
+                        if (marker) frame_info += "-M";
+                    }
+                    // VP8 (pt=96 or 97) keyframe detection
+                    else if ((pt == 96 || pt == 97) && data.length > payload_offset) {
+                        uint8 vp8_desc = data[payload_offset];
+                        // VP8 payload descriptor: X=0x80, R=0x40, N=0x20, S=0x10, PID=0x0F
+                        bool is_start = (vp8_desc & 0x10) != 0; // S=1 means start of partition
+                        int vp8_payload_start = payload_offset + 1;
+                        // Check for X extension
+                        if ((vp8_desc & 0x80) != 0 && data.length > vp8_payload_start) {
+                            uint8 x_byte = data[vp8_payload_start];
+                            vp8_payload_start++;
+                            if ((x_byte & 0x80) != 0 && data.length > vp8_payload_start) vp8_payload_start += ((data[vp8_payload_start] & 0x80) != 0) ? 2 : 1; // I extension
+                            if ((x_byte & 0x40) != 0 && data.length > vp8_payload_start) vp8_payload_start++; // L extension  
+                            if ((x_byte & 0x20) != 0 && data.length > vp8_payload_start) vp8_payload_start++; // T/K extension
+                        }
+                        // For keyframe detection in VP8, check VP8 bitstream header
+                        // First 3 bytes of VP8 frame: frame_tag (bit 0 = keyframe if 0)
+                        if (is_start && data.length > vp8_payload_start) {
+                            uint8 frame_tag = data[vp8_payload_start];
+                            is_keyframe = (frame_tag & 0x01) == 0; // bit 0 = 0 means keyframe
+                        }
+                        frame_info = is_keyframe ? " KEY" : " inter";
+                        if (is_start) frame_info += "-S";
+                        if (marker) frame_info += "-M";
+                    }
+                    
+                    // CRITICAL: Drop video inter-frames until first keyframe is sent
+                    // This ensures the remote can decode from the very first packet
+                    if (is_video && !sent_first_video_keyframe) {
+                        if (is_keyframe) {
+                            sent_first_video_keyframe = true;
+                            debug("DTLS-SRTP: FIRST KEYFRAME - RTP pt=%u seq=%u ssrc=%u, %d bytes%s", pt, seq, ssrc, data.length, frame_info);
+                        } else {
+                            debug("DTLS-SRTP: DROPPING pre-keyframe inter-frame pt=%u seq=%u ssrc=%u", pt, seq, ssrc);
+                            return null; // Drop this packet!
+                        }
+                    } else {
+                        debug("DTLS-SRTP: RTP pt=%u seq=%u ssrc=%u, %d bytes%s", pt, seq, ssrc, data.length, frame_info);
+                    }
                 }
                 return srtp_session.encrypt_rtp(data);
             }
-            if (component_id == 2) return srtp_session.encrypt_rtcp(data);
+            if (component_id == 2) {
+                debug("DTLS-SRTP: Encrypting RTCP for component 2, %d bytes", data.length);
+                return srtp_session.encrypt_rtcp(data);
+            }
+        } else {
+            debug("DTLS-SRTP: has_encrypt=false, cannot encrypt %d bytes for component %u", data.length, component_id);
         }
         return null;
     }
@@ -223,6 +324,11 @@ public class Handler {
         }
 
         debug("Finished DTLS connection. We're %s", mode.to_string());
+        debug("DTLS: Setting SRTP keys. client_key present=%s, client_salt present=%s, server_key present=%s, server_salt present=%s",
+              (client_key != null).to_string(),
+              (client_salt != null).to_string(),
+              (server_key != null).to_string(),
+              (server_salt != null).to_string());
         if (mode == Mode.SERVER) {
             srtp_session.set_encryption_key(Crypto.Srtp.AES_CM_128_HMAC_SHA1_80, server_key.extract(), server_salt.extract());
             srtp_session.set_decryption_key(Crypto.Srtp.AES_CM_128_HMAC_SHA1_80, client_key.extract(), client_salt.extract());
@@ -230,6 +336,7 @@ public class Handler {
             srtp_session.set_encryption_key(Crypto.Srtp.AES_CM_128_HMAC_SHA1_80, client_key.extract(), client_salt.extract());
             srtp_session.set_decryption_key(Crypto.Srtp.AES_CM_128_HMAC_SHA1_80, server_key.extract(), server_salt.extract());
         }
+        debug("DTLS: After setting keys: has_encrypt=%s, has_decrypt=%s", srtp_session.has_encrypt.to_string(), srtp_session.has_decrypt.to_string());
         return new Xmpp.Xep.Jingle.ContentEncryption(Xmpp.Xep.JingleIceUdp.DTLS_NS_URI, "DTLS-SRTP", credentials.own_fingerprint, peer_fingerprint);
     }
 

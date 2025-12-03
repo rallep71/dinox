@@ -109,6 +109,7 @@ public class Dino.Plugins.Rtp.Stream : Xmpp.Xep.JingleRtp.Stream {
 #endif
         send_rtp.connect("signal::eos", on_eos_static, this);
         pipe.add(send_rtp);
+        send_rtp.sync_state_with_parent();
 
         send_rtcp = Gst.ElementFactory.make("appsink", @"rtcp_sink_$rtpid") as Gst.App.Sink;
         send_rtcp.async = false;
@@ -120,6 +121,7 @@ public class Dino.Plugins.Rtp.Stream : Xmpp.Xep.JingleRtp.Stream {
         send_rtcp.new_sample.connect(on_new_sample);
         send_rtcp.connect("signal::eos", on_eos_static, this);
         pipe.add(send_rtcp);
+        send_rtcp.sync_state_with_parent();
 
         recv_rtp = Gst.ElementFactory.make("appsrc", @"rtp_src_$rtpid") as Gst.App.Src;
         recv_rtp.caps = CodecUtil.get_caps(media, payload_type, true);
@@ -127,14 +129,16 @@ public class Dino.Plugins.Rtp.Stream : Xmpp.Xep.JingleRtp.Stream {
         recv_rtp.format = Gst.Format.TIME;
         recv_rtp.is_live = true;
         pipe.add(recv_rtp);
+        recv_rtp.sync_state_with_parent();
 
         recv_rtcp = Gst.ElementFactory.make("appsrc", @"rtcp_src_$rtpid") as Gst.App.Src;
-        recv_rtcp.caps = new Gst.Caps.empty_simple("application/x-rtcp");
         recv_rtcp.do_timestamp = true;
         recv_rtcp.format = Gst.Format.TIME;
         recv_rtcp.is_live = true;
         pipe.add(recv_rtcp);
+        recv_rtcp.sync_state_with_parent();
 
+        // Connect RTCP
         // Connect RTCP
         send_rtcp_src_pad = rtpbin.request_pad_simple(@"send_rtcp_src_$rtpid");
         send_rtcp_src_pad.link(send_rtcp.get_static_pad("sink"));
@@ -148,10 +152,10 @@ public class Dino.Plugins.Rtp.Stream : Xmpp.Xep.JingleRtp.Stream {
             input_pad.link(send_rtp_sink_pad);
         }
 
-        // Connect output
         decode = codec_util.get_decode_bin(media, payload_type, @"decode_$rtpid");
         decode_depay = (Gst.RTP.BaseDepayload)((Gst.Bin)decode).get_by_name(@"decode_$(rtpid)_rtp_depay");
         pipe.add(decode);
+        decode.sync_state_with_parent();
         if (output != null) {
             decode.link(output);
         }

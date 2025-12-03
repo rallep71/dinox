@@ -20,8 +20,19 @@ public class Dino.Plugins.Ice.Module : JingleIceUdp.Module {
                 agent.stun_server = stun_ip;
                 agent.stun_server_port = stun_port;
             }
-            agent.ice_tcp = false;
+            // agent.ice_tcp = false; // Removed to allow override below
             agent.set_software("Dino");
+            
+            // Standard ICE settings
+            agent.upnp = false;                   // Disable UPnP to avoid timeouts/delays
+            // agent.upnp_timeout = 500;
+            agent.stun_max_retransmissions = 7;   // Default is usually sufficient
+            agent.stun_initial_timeout = 500;     // Default 500ms
+            // agent.stun_reliable_timeout = 7000;
+            agent.keepalive_conncheck = true;
+            agent.ice_trickle = true;
+            agent.ice_tcp = true;                 // Enable ICE-TCP for better stability
+            
             agent.weak_ref(agent_unweak);
             this.agent = agent;
             debug("STUN server for libnice %s %u", agent.stun_server, agent.stun_server_port);

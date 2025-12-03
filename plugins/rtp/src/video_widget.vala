@@ -226,11 +226,22 @@ public class Dino.Plugins.Rtp.VideoWidget : Gtk.Widget, Dino.Plugins.VideoCallWi
     }
 
     public void display_stream(Xmpp.Xep.JingleRtp.Stream? stream, Xmpp.Jid jid) {
-        if (sink == null) return;
+        debug("display_stream called for jid %s, stream media=%s", jid.to_string(), stream?.media ?? "null");
+        if (sink == null) {
+            warning("display_stream: sink is null");
+            return;
+        }
         detach();
-        if (stream.media != "video") return;
+        if (stream.media != "video") {
+            debug("display_stream: not video, returning");
+            return;
+        }
         connected_stream = stream as Stream?;
-        if (connected_stream == null) return;
+        if (connected_stream == null) {
+            warning("display_stream: stream cast to Stream failed - stream type is %s", stream.get_type().name());
+            return;
+        }
+        debug("display_stream: connecting stream to video widget");
         plugin.pause();
         pipe.add(sink);
         try {

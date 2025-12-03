@@ -1,0 +1,3 @@
+plugins/openpgp/src/contact_details_provider.vala
+plugins/openpgp/src/encryption_preferences_entry.vala
+plugins/openpgp/src/key_management_dialog.vala
