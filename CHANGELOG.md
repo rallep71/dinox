@@ -5,6 +5,17 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.4] - 2025-12-03
+
+### Added
+- **WebRTC Video Calls** - Complete implementation of video calls
+  - Added support for VP8, VP9, and H.264 codecs
+  - Implemented ICE-TCP candidate support (RFC 6544) for better connectivity in restrictive networks
+  - Improved codec negotiation logic
+- **Security Hardening**
+  - Fixed a Path Traversal vulnerability in file transfer (sanitizing filenames)
+  - Verified and documented SQLCipher database encryption
+
 ## [0.8.3] - 2025-12-02
 
 ### Added
