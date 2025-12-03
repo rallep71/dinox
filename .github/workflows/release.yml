@@ -92,7 +92,6 @@ jobs:
           echo "### Links" >> RELEASE_BODY.md
           echo "" >> RELEASE_BODY.md
           echo "- [Documentation](https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}/docs)" >> RELEASE_BODY.md
-          echo "- [Development Plan](https://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/DEVELOPMENT_PLAN.md)" >> RELEASE_BODY.md
           echo "- [Report Issues](https://github.com/${{ github.repository }}/issues)" >> RELEASE_BODY.md
 
       - name: "Upload Release Assets"
