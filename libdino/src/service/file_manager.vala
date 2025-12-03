@@ -308,7 +308,9 @@ public class FileManager : StreamInteractionModule, Object {
             }
 
             // Save file
-            string filename = Random.next_int().to_string("%x") + "_" + file_transfer.file_name;
+            // Sanitize filename to prevent path traversal attacks
+            string safe_basename = Path.get_basename(file_transfer.file_name);
+            string filename = Random.next_int().to_string("%x") + "_" + safe_basename;
             File file = File.new_for_path(Path.build_filename(get_storage_dir(), filename));
 
             // libsoup doesn't properly support splicing

@@ -8,7 +8,7 @@ public class Xmpp.Xep.JingleRtp.Parameters : Jingle.ContentParameters, Object {
     public signal void connection_ready();
 
     public string media { get; private set; }
-    public string? ssrc { get; private set; }
+    public string? ssrc { get; set; }  // Made public for setting from Stream
     public bool rtcp_mux { get; private set; }
 
     public string? bandwidth { get; private set; }
@@ -37,7 +37,8 @@ public class Xmpp.Xep.JingleRtp.Parameters : Jingle.ContentParameters, Object {
     ) {
         this.parent = parent;
         this.media = media;
-        this.ssrc = ssrc;
+        // Generate random SSRC if not provided (needed for WebRTC compatibility)
+        this.ssrc = ssrc ?? Random.next_int().to_string();
         this.rtcp_mux = true;
         this.bandwidth = bandwidth;
         this.bandwidth_type = bandwidth_type;
@@ -49,7 +50,9 @@ public class Xmpp.Xep.JingleRtp.Parameters : Jingle.ContentParameters, Object {
     public Parameters.from_node(Module parent, StanzaNode node) throws Jingle.IqError {
         this.parent = parent;
         this.media = node.get_attribute("media");
-        this.ssrc = node.get_attribute("ssrc");
+        // For incoming calls, generate our own SSRC for sending
+        // (the remote SSRC is theirs, we need our own for sending)
+        this.ssrc = Random.next_int().to_string();
         this.rtcp_mux = node.get_subnode("rtcp-mux") != null;
         StanzaNode? encryption = node.get_subnode("encryption");
         if (encryption != null) {
@@ -191,6 +194,11 @@ public class Xmpp.Xep.JingleRtp.Parameters : Jingle.ContentParameters, Object {
         StanzaNode ret = new StanzaNode.build("description", NS_URI)
                 .add_self_xmlns()
                 .put_attribute("media", media);
+        
+        // Add SSRC if available
+        if (ssrc != null) {
+            ret.put_attribute("ssrc", ssrc);
+        }
 
         if (agreed_payload_type != null) {
             ret.put_node(agreed_payload_type.to_xml());

@@ -36,12 +36,39 @@ public class Dino.Plugins.Ice.TransportParameters : JingleIceUdp.IceUdpTransport
             dtls_srtp_handler = null;
         }
 
+        private Gee.LinkedList<Bytes>? pending_packets = null;
+        private bool dtls_ready_notified = false;
+
         public override void send_datagram(Bytes datagram) {
             if (this.agent != null && is_component_ready(agent, stream_id, component_id)) {
                 try {
                     if (dtls_srtp_handler != null) {
+                        // If DTLS is not ready yet, buffer the packets
+                        if (!dtls_srtp_handler.ready) {
+                            if (pending_packets == null) {
+                                pending_packets = new Gee.LinkedList<Bytes>();
+                            }
+                            // Limit buffer size to avoid memory issues
+                            if (pending_packets.size < 100) {
+                                pending_packets.add(datagram);
+                                debug("send_datagram: DTLS not ready, buffering packet (%d pending)", pending_packets.size);
+                            } else {
+                                debug("send_datagram: DTLS not ready, buffer full, dropping packet");
+                            }
+                            
+                            // Set up a one-time notification for when DTLS becomes ready
+                            if (!dtls_ready_notified) {
+                                dtls_ready_notified = true;
+                                check_dtls_ready.begin();
+                            }
+                            return;
+                        }
+                        
                         uint8[] encrypted_data = dtls_srtp_handler.process_outgoing_data(component_id, datagram.get_data());
-                        if (encrypted_data == null) return;
+                        if (encrypted_data == null) {
+                            debug("send_datagram: encrypted_data is null, dropping packet");
+                            return;
+                        }
                         GLib.OutputVector vector = { encrypted_data, encrypted_data.length };
                         GLib.OutputVector[] vectors = { vector };
                         Nice.OutputMessage message = { vectors };
@@ -58,6 +85,29 @@ public class Dino.Plugins.Ice.TransportParameters : JingleIceUdp.IceUdpTransport
                 } catch (GLib.Error e) {
                     warning("%s while send_datagram stream %u component %u", e.message, stream_id, component_id);
                 }
+            }
+        }
+        
+        private async void check_dtls_ready() {
+            // Poll until DTLS is ready, then send buffered packets
+            while (dtls_srtp_handler != null && !dtls_srtp_handler.ready) {
+                Timeout.add(10, check_dtls_ready.callback);
+                yield;
+            }
+            
+            if (dtls_srtp_handler != null && pending_packets != null) {
+                debug("DTLS now ready, discarding %d buffered packets (waiting for new keyframe)", pending_packets.size);
+                // Don't send old packets - they're likely outdated video frames
+                // Instead, clear the buffer and let new keyframes come through
+                pending_packets.clear();
+                pending_packets = null;
+            }
+            
+            // Mark this connection as ready now that DTLS is complete
+            // This will trigger on_rtp_ready() which requests a keyframe
+            if (agent != null && is_component_ready(agent, stream_id, component_id) && !this.ready) {
+                debug("DTLS ready, marking connection as ready for stream %u component %u", stream_id, component_id);
+                this.ready = true;
             }
         }
     }
@@ -105,9 +155,16 @@ public class Dino.Plugins.Ice.TransportParameters : JingleIceUdp.IceUdpTransport
         });
 
         if (turn_ip != null) {
+            Nice.RelayType relay_type = Nice.RelayType.UDP;
+            if (turn_service.transport == "tcp") {
+                relay_type = Nice.RelayType.TCP;
+            } else if (turn_service.transport == "tls") {
+                relay_type = Nice.RelayType.TLS;
+            }
+
             for (uint8 component_id = 1; component_id <= components; component_id++) {
-                agent.set_relay_info(stream_id, component_id, turn_ip, turn_service.port, turn_service.username, turn_service.password, Nice.RelayType.UDP);
-                debug("TURN info (component %i) %s:%u", component_id, turn_ip, turn_service.port);
+                agent.set_relay_info(stream_id, component_id, turn_ip, turn_service.port, turn_service.username, turn_service.password, relay_type);
+                debug("TURN info (component %i) %s:%u transport:%s", component_id, turn_ip, turn_service.port, turn_service.transport);
             }
         }
         string ufrag;
@@ -178,7 +235,9 @@ public class Dino.Plugins.Ice.TransportParameters : JingleIceUdp.IceUdpTransport
                 dtls_srtp_handler.peer_fingerprint = peer_fingerprint;
                 dtls_srtp_handler.peer_fp_algo = peer_fp_algo;
             }
+            debug("DTLS: peer_setup='%s', our own_setup='%s'", peer_setup ?? "null", own_setup ?? "null");
             if (peer_setup == "passive") {
+                debug("DTLS: Switching to CLIENT mode because peer is passive");
                 dtls_srtp_handler.mode = DtlsSrtp.Mode.CLIENT;
                 dtls_srtp_handler.stop_dtls_connection();
                 dtls_srtp_handler.setup_dtls_connection.begin((_, res) => {
@@ -187,6 +246,14 @@ public class Dino.Plugins.Ice.TransportParameters : JingleIceUdp.IceUdpTransport
                         this.content.encryptions[content_encryption.encryption_ns] = content_encryption;
                     }
                 });
+            } else if (peer_setup == "active") {
+                debug("DTLS: Staying as SERVER mode because peer is active");
+            } else if (peer_setup == "actpass") {
+                debug("DTLS: Peer is actpass - we decide. We're %s", own_setup ?? "null");
+                // If peer is actpass and we're actpass (initiator), we stay server
+                // If peer is actpass and we're active, we're client
+            } else {
+                debug("DTLS: Unknown or null peer_setup, staying as current mode");
             }
         } else {
             dtls_srtp_handler = null;

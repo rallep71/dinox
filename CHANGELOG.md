@@ -5,6 +5,17 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.3] - 2025-12-02
+
+### Added
+- **Video Codec Improvements** - Enhanced video call quality and compatibility
+  - Enabled H.264 codec by default for better compatibility
+  - Enabled VA-API hardware acceleration by default for GStreamer >= 1.26
+  - Replaced deprecated VA-API elements with modern alternatives
+  - Optimized x264 encoding speed preset (faster instead of ultrafast)
+  - Added fallback to H.264 software decoder from ffmpeg/libav if hardware decoding fails
+  - Removed VP9 support to streamline codec negotiation
+
 ## [0.8.2] - 2025-12-01
 
 ### Security

@@ -29,7 +29,14 @@ public class Dino.Plugins.Rtp.Plugin : RootInterface, VideoCallPlugin, Object {
         this.codec_util = new CodecUtil();
         app.add_option_group(Gst.init_get_option_group());
         app.stream_interactor.module_manager.initialize_account_modules.connect((account, list) => {
+#if WITH_WEBRTCBIN
+            // Always use WebRTCModule for better VP9 codec negotiation
+            // WebRTCModule uses the standard Stream/VideoStream classes for the pipeline
+            debug("Using WebRTC module for RTP (VP9 support)");
+            list.add(new WebRTCModule(this));
+#else
             list.add(new Module(this));
+#endif
         });
         app.plugin_registry.video_call_plugin = this;
     }
@@ -95,7 +102,7 @@ public class Dino.Plugins.Rtp.Plugin : RootInterface, VideoCallPlugin, Object {
         device_monitor = null;
     }
 
-    private void init_call_pipe() {
+    public void init_call_pipe() {
         if (pipe != null) return;
         debug("Creating call pipe.");
         start_device_monitor();
@@ -150,8 +157,62 @@ public class Dino.Plugins.Rtp.Plugin : RootInterface, VideoCallPlugin, Object {
     }
 
     private static Gst.Caps? request_pt_map(Gst.Element rtpbin, uint session, uint pt, Plugin plugin) {
-        debug("request-pt-map");
-        return null;
+        debug("request-pt-map: session=%u, pt=%u", session, pt);
+        
+        // Find the stream for this session and return the appropriate caps
+        foreach (Stream stream in plugin.streams) {
+            if (stream.rtpid == session) {
+                var content_params = stream.content.content_params as Xmpp.Xep.JingleRtp.Parameters;
+                if (content_params != null) {
+                    // Find the payload type that matches
+                    foreach (var payload_type in content_params.payload_types) {
+                        if (payload_type.id == pt) {
+                            string caps_str;
+                            if (content_params.media == "audio") {
+                                // Audio caps
+                                uint32 clockrate = payload_type.clockrate > 0 ? payload_type.clockrate : 48000;
+                                caps_str = @"application/x-rtp,media=audio,encoding-name=$(payload_type.name.up()),clock-rate=$clockrate,payload=$pt";
+                            } else {
+                                // Video caps
+                                uint32 clockrate = payload_type.clockrate > 0 ? payload_type.clockrate : 90000;
+                                caps_str = @"application/x-rtp,media=video,encoding-name=$(payload_type.name.up()),clock-rate=$clockrate,payload=$pt";
+                            }
+                            debug("request-pt-map: returning caps: %s", caps_str);
+                            return Gst.Caps.from_string(caps_str);
+                        }
+                    }
+                    // Also check agreed_payload_type
+                    if (content_params.agreed_payload_type != null && content_params.agreed_payload_type.id == pt) {
+                        var payload_type = content_params.agreed_payload_type;
+                        string caps_str;
+                        if (content_params.media == "audio") {
+                            uint32 clockrate = payload_type.clockrate > 0 ? payload_type.clockrate : 48000;
+                            caps_str = @"application/x-rtp,media=audio,encoding-name=$(payload_type.name.up()),clock-rate=$clockrate,payload=$pt";
+                        } else {
+                            uint32 clockrate = payload_type.clockrate > 0 ? payload_type.clockrate : 90000;
+                            caps_str = @"application/x-rtp,media=video,encoding-name=$(payload_type.name.up()),clock-rate=$clockrate,payload=$pt";
+                        }
+                        debug("request-pt-map: returning agreed caps: %s", caps_str);
+                        return Gst.Caps.from_string(caps_str);
+                    }
+                }
+            }
+        }
+        
+        // Fallback: return generic caps based on common payload types
+        debug("request-pt-map: no matching stream found, using fallback for pt=%u", pt);
+        switch (pt) {
+            case 96:
+                return Gst.Caps.from_string("application/x-rtp,media=video,encoding-name=VP8,clock-rate=90000,payload=96");
+            case 98:
+                return Gst.Caps.from_string("application/x-rtp,media=video,encoding-name=VP9,clock-rate=90000,payload=98");
+            case 100:
+                return Gst.Caps.from_string("application/x-rtp,media=video,encoding-name=H264,clock-rate=90000,payload=100");
+            case 111:
+                return Gst.Caps.from_string("application/x-rtp,media=audio,encoding-name=OPUS,clock-rate=48000,payload=111");
+            default:
+                return null;
+        }
     }
 
     private void on_rtp_pad_added(Gst.Pad pad) {
@@ -297,10 +358,13 @@ public class Dino.Plugins.Rtp.Plugin : RootInterface, VideoCallPlugin, Object {
 //        return participant;
 //    }
 
-    public Stream? open_stream(Xmpp.Xep.Jingle.Content content) {
+    public Xmpp.Xep.JingleRtp.Stream? open_stream(Xmpp.Xep.Jingle.Content content) {
         init_call_pipe();
         var content_params = content.content_params as Xmpp.Xep.JingleRtp.Parameters;
         if (content_params == null) return null;
+        
+        // Always use standard Stream/VideoStream classes
+        // WebRTCModule handles codec negotiation, but uses these classes for the pipeline
         Stream stream;
         if (content_params.media == "video") {
             stream = new VideoStream(this, content);

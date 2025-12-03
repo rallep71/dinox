@@ -33,7 +33,7 @@ public class Dino.Plugins.Ice.Plugin : RootInterface, Object {
 
         Gee.List<Xep.ExternalServiceDiscovery.Service> services = yield ExternalServiceDiscovery.request_services(stream);
         foreach (Xep.ExternalServiceDiscovery.Service service in services) {
-            if (service.transport == "udp" && (service.ty == "stun" || service.ty == "turn")) {
+            if ((service.transport == "udp" || service.transport == "tcp") && (service.ty == "stun" || service.ty == "turn")) {
                 InetAddress? ip = yield lookup_ipv4_addess(service.host);
                 if (ip == null) continue;
 
