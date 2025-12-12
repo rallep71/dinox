@@ -65,13 +65,25 @@ public class Dino.Plugins.Rtp.Stream : Xmpp.Xep.JingleRtp.Stream {
     private Gst.Pad send_rtp_src_pad;
 
     private Crypto.Srtp.Session? crypto_session = new Crypto.Srtp.Session();
+    
+    // Signal handler IDs for proper cleanup
+    private ulong senders_changed_handler_id;
+    private ulong feedback_rtcp_handler_id;
+    private ulong send_rtp_eos_handler_id;
+    private ulong send_rtcp_eos_handler_id;
+    private ulong send_rtp_new_sample_handler_id;
+    private ulong send_rtcp_new_sample_handler_id;
+#if GST_1_20
+    private ulong send_rtp_event_handler_id;
+#endif
+    private Object? internal_session;
 
     public Stream(Plugin plugin, Xmpp.Xep.Jingle.Content content) {
         base(content);
         this.plugin = plugin;
         this.rtpid = plugin.next_free_id();
 
-        content.notify["senders"].connect_after(on_senders_changed);
+        senders_changed_handler_id = content.notify["senders"].connect_after(on_senders_changed);
     }
 
     public void on_senders_changed() {
@@ -103,11 +115,11 @@ public class Dino.Plugins.Rtp.Stream : Xmpp.Xep.JingleRtp.Stream {
         send_rtp.sync = true;
         send_rtp.drop = true;
         send_rtp.wait_on_eos = false;
-        send_rtp.new_sample.connect(on_new_sample);
+        send_rtp_new_sample_handler_id = send_rtp.new_sample.connect(on_new_sample);
 #if GST_1_20
-        send_rtp.new_serialized_event.connect(on_new_event);
+        send_rtp_event_handler_id = send_rtp.new_serialized_event.connect(on_new_event);
 #endif
-        send_rtp.connect("signal::eos", on_eos_static, this);
+        send_rtp_eos_handler_id = GLib.Signal.connect(send_rtp, "eos", (GLib.Callback)on_eos_static, this);
         pipe.add(send_rtp);
         send_rtp.sync_state_with_parent();
 
@@ -118,8 +130,8 @@ public class Dino.Plugins.Rtp.Stream : Xmpp.Xep.JingleRtp.Stream {
         send_rtcp.sync = true;
         send_rtcp.drop = true;
         send_rtcp.wait_on_eos = false;
-        send_rtcp.new_sample.connect(on_new_sample);
-        send_rtcp.connect("signal::eos", on_eos_static, this);
+        send_rtcp_new_sample_handler_id = send_rtcp.new_sample.connect(on_new_sample);
+        send_rtcp_eos_handler_id = GLib.Signal.connect(send_rtcp, "eos", (GLib.Callback)on_eos_static, this);
         pipe.add(send_rtcp);
         send_rtcp.sync_state_with_parent();
 
@@ -128,6 +140,7 @@ public class Dino.Plugins.Rtp.Stream : Xmpp.Xep.JingleRtp.Stream {
         recv_rtp.do_timestamp = true;
         recv_rtp.format = Gst.Format.TIME;
         recv_rtp.is_live = true;
+        recv_rtp.stream_type = Gst.App.StreamType.STREAM;
         pipe.add(recv_rtp);
         recv_rtp.sync_state_with_parent();
 
@@ -135,6 +148,7 @@ public class Dino.Plugins.Rtp.Stream : Xmpp.Xep.JingleRtp.Stream {
         recv_rtcp.do_timestamp = true;
         recv_rtcp.format = Gst.Format.TIME;
         recv_rtcp.is_live = true;
+        recv_rtcp.stream_type = Gst.App.StreamType.STREAM;
         pipe.add(recv_rtcp);
         recv_rtcp.sync_state_with_parent();
 
@@ -170,10 +184,9 @@ public class Dino.Plugins.Rtp.Stream : Xmpp.Xep.JingleRtp.Stream {
 
         GLib.Signal.emit_by_name(rtpbin, "get-session", rtpid, out session);
         if (session != null && remb_enabled) {
-            Object internal_session;
             session.@get("internal-session", out internal_session);
             if (internal_session != null) {
-                internal_session.connect("signal::on-feedback-rtcp", on_feedback_rtcp, this);
+                feedback_rtcp_handler_id = GLib.Signal.connect(internal_session, "on-feedback-rtcp", (GLib.Callback)on_feedback_rtcp, this);
             }
             Timeout.add(1000, () => remb_adjust());
         }
@@ -484,12 +497,49 @@ public class Dino.Plugins.Rtp.Stream : Xmpp.Xep.JingleRtp.Stream {
     }
 
     public override void destroy() {
+        // Disconnect signal handlers first
+        if (senders_changed_handler_id != 0 && content != null) {
+            content.disconnect(senders_changed_handler_id);
+            senders_changed_handler_id = 0;
+        }
+        if (feedback_rtcp_handler_id != 0 && internal_session != null) {
+            SignalHandler.disconnect(internal_session, feedback_rtcp_handler_id);
+            feedback_rtcp_handler_id = 0;
+        }
+        internal_session = null;
+        
         // Stop network communication
         push_recv_data = false;
         if (recv_rtp != null) recv_rtp.end_of_stream();
         if (recv_rtcp != null) recv_rtcp.end_of_stream();
-        if (send_rtp != null) send_rtp.new_sample.disconnect(on_new_sample);
-        if (send_rtcp != null) send_rtcp.new_sample.disconnect(on_new_sample);
+        
+        // Disconnect all appsink signals before destroying elements
+        if (send_rtp != null) {
+            if (send_rtp_new_sample_handler_id != 0 && SignalHandler.is_connected(send_rtp, send_rtp_new_sample_handler_id)) {
+                SignalHandler.disconnect(send_rtp, send_rtp_new_sample_handler_id);
+                send_rtp_new_sample_handler_id = 0;
+            }
+            if (send_rtp_eos_handler_id != 0 && SignalHandler.is_connected(send_rtp, send_rtp_eos_handler_id)) {
+                SignalHandler.disconnect(send_rtp, send_rtp_eos_handler_id);
+                send_rtp_eos_handler_id = 0;
+            }
+#if GST_1_20
+            if (send_rtp_event_handler_id != 0 && SignalHandler.is_connected(send_rtp, send_rtp_event_handler_id)) {
+                SignalHandler.disconnect(send_rtp, send_rtp_event_handler_id);
+                send_rtp_event_handler_id = 0;
+            }
+#endif
+        }
+        if (send_rtcp != null) {
+            if (send_rtcp_new_sample_handler_id != 0 && SignalHandler.is_connected(send_rtcp, send_rtcp_new_sample_handler_id)) {
+                SignalHandler.disconnect(send_rtcp, send_rtcp_new_sample_handler_id);
+                send_rtcp_new_sample_handler_id = 0;
+            }
+            if (send_rtcp_eos_handler_id != 0 && SignalHandler.is_connected(send_rtcp, send_rtcp_eos_handler_id)) {
+                SignalHandler.disconnect(send_rtcp, send_rtcp_eos_handler_id);
+                send_rtcp_eos_handler_id = 0;
+            }
+        }
 
         // Disconnect input device
         if (input != null) {

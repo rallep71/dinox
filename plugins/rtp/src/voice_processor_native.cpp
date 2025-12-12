@@ -53,10 +53,12 @@ extern "C" void *dino_plugins_rtp_voice_processor_init_native(gint stream_delay)
     apm->Initialize(pconfig);
     apm->high_pass_filter()->Enable(true);
     apm->echo_cancellation()->enable_drift_compensation(false);
-    apm->echo_cancellation()->set_suppression_level(webrtc::EchoCancellation::kModerateSuppression);
+    // Use HIGH suppression for aggressive echo cancellation
+    apm->echo_cancellation()->set_suppression_level(webrtc::EchoCancellation::kHighSuppression);
     apm->echo_cancellation()->enable_delay_logging(true);
     apm->echo_cancellation()->Enable(true);
-    apm->noise_suppression()->set_level(webrtc::NoiseSuppression::kModerate);
+    // Use HIGH noise suppression
+    apm->noise_suppression()->set_level(webrtc::NoiseSuppression::kHigh);
     apm->noise_suppression()->Enable(true);
     apm->gain_control()->set_analog_level_limits(0, 255);
     apm->gain_control()->set_mode(webrtc::GainControl::kAdaptiveAnalog);
@@ -72,7 +74,8 @@ extern "C" void *dino_plugins_rtp_voice_processor_init_native(gint stream_delay)
     native->apm = apm;
     config.high_pass_filter.enabled = true;
     config.echo_canceller.enabled = true;
-    config.noise_suppression.level = webrtc::AudioProcessing::Config::NoiseSuppression::Level::kModerate;
+    // Use HIGH noise suppression for aggressive echo/noise removal
+    config.noise_suppression.level = webrtc::AudioProcessing::Config::NoiseSuppression::Level::kHigh;
     config.noise_suppression.enabled = true;
     config.gain_controller1.target_level_dbfs = 3;
     config.gain_controller1.compression_gain_db = 9;
@@ -236,6 +239,9 @@ dino_plugins_rtp_voice_processor_process_stream(void *native_ptr, GstAudioInfo *
         return;
     }
 
+    // Set stream delay for echo cancellation (also needed for WEBRTC1/2!)
+    apm->set_stream_delay_ms(native->stream_delay);
+    
     auto * const data = (int16_t * const) abuf.planes[0];
     err = apm->ProcessStream (data, config, config, data);
 

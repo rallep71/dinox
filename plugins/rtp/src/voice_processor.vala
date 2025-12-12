@@ -12,7 +12,8 @@ public class Dino.Plugins.Rtp.EchoProbe : Audio.Filter {
     public signal void on_new_delay(int delay);
     private uint period_samples;
     private uint period_size;
-    public int delay { get; private set; }
+    // Default delay of 150ms for typical audio path latency (speakers -> mic)
+    public int delay { get; private set; default = 150; }
     private Base.Adapter adapter = new Base.Adapter();
 
     static construct {
@@ -44,7 +45,7 @@ public class Dino.Plugins.Rtp.EchoProbe : Audio.Filter {
                 delay = 0;
             }
             if (delay != this.delay) {
-                debug("Delay adjusted from %ms to %dms", this.delay, delay);
+                debug("Delay adjusted from %dms to %dms", this.delay, delay);
                 this.delay = delay;
                 on_new_delay(delay);
             }

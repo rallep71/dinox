@@ -62,6 +62,13 @@ public class WebRTCCallManager : Object {
     private Device? audio_input_device;
     private Device? video_input_device;
     
+    // Signal handler IDs for proper cleanup
+    private ulong on_ice_candidate_handler_id;
+    private ulong on_connection_state_handler_id;
+    private ulong on_ice_connection_state_handler_id;
+    private ulong on_negotiation_needed_handler_id;
+    private ulong pad_added_handler_id;
+    
     private class PendingIceCandidate {
         public uint mline_index;
         public string? mid;
@@ -148,23 +155,23 @@ public class WebRTCCallManager : Object {
      */
     private void connect_signals() {
         // ICE candidate generation
-        webrtcbin.connect("signal::on-ice-candidate", 
+        on_ice_candidate_handler_id = webrtcbin.connect("signal::on-ice-candidate", 
             (Callback) on_local_ice_candidate, this);
         
         // Connection state changes  
-        webrtcbin.connect("signal::notify::connection-state",
+        on_connection_state_handler_id = webrtcbin.connect("signal::notify::connection-state",
             (Callback) on_connection_state_changed, this);
         
         // ICE connection state
-        webrtcbin.connect("signal::notify::ice-connection-state",
+        on_ice_connection_state_handler_id = webrtcbin.connect("signal::notify::ice-connection-state",
             (Callback) on_ice_connection_state_changed, this);
         
         // Negotiation needed (for offers)
-        webrtcbin.connect("signal::on-negotiation-needed",
+        on_negotiation_needed_handler_id = webrtcbin.connect("signal::on-negotiation-needed",
             (Callback) on_negotiation_needed, this);
         
         // Incoming media pads
-        webrtcbin.pad_added.connect(on_incoming_pad);
+        pad_added_handler_id = webrtcbin.pad_added.connect(on_incoming_pad);
     }
     
     /**
@@ -378,6 +385,35 @@ public class WebRTCCallManager : Object {
         if (!pipeline_started) return;
         
         debug("Stopping WebRTC pipeline");
+        
+        // Disconnect signal handlers before stopping pipeline
+        if (webrtcbin != null) {
+            if (on_ice_candidate_handler_id != 0 && SignalHandler.is_connected(webrtcbin, on_ice_candidate_handler_id)) {
+                SignalHandler.disconnect(webrtcbin, on_ice_candidate_handler_id);
+            }
+            on_ice_candidate_handler_id = 0;
+            
+            if (on_connection_state_handler_id != 0 && SignalHandler.is_connected(webrtcbin, on_connection_state_handler_id)) {
+                SignalHandler.disconnect(webrtcbin, on_connection_state_handler_id);
+            }
+            on_connection_state_handler_id = 0;
+            
+            if (on_ice_connection_state_handler_id != 0 && SignalHandler.is_connected(webrtcbin, on_ice_connection_state_handler_id)) {
+                SignalHandler.disconnect(webrtcbin, on_ice_connection_state_handler_id);
+            }
+            on_ice_connection_state_handler_id = 0;
+            
+            if (on_negotiation_needed_handler_id != 0 && SignalHandler.is_connected(webrtcbin, on_negotiation_needed_handler_id)) {
+                SignalHandler.disconnect(webrtcbin, on_negotiation_needed_handler_id);
+            }
+            on_negotiation_needed_handler_id = 0;
+            
+            if (pad_added_handler_id != 0 && SignalHandler.is_connected(webrtcbin, pad_added_handler_id)) {
+                SignalHandler.disconnect(webrtcbin, pad_added_handler_id);
+            }
+            pad_added_handler_id = 0;
+        }
+        
         pipeline.set_state(Gst.State.NULL);
         pipeline_started = false;
     }

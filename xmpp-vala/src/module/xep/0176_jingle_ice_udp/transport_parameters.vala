@@ -182,4 +182,10 @@ public abstract class Xmpp.Xep.JingleIceUdp.IceUdpTransportParameters : Jingle.T
         }
         return bin;
     }
+
+    // Cleanup method to be called before termination to release resources
+    // Subclasses should override this to release ICE/TURN allocations
+    public virtual void cleanup() {
+        debug("IceUdpTransportParameters cleanup (base)");
+    }
 }

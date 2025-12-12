@@ -117,6 +117,12 @@ public class Xmpp.Xep.Jingle.Content : Object {
             return;
         }
         content_params.terminate(we_terminated, reason_name, reason_text);
+        
+        // Call cleanup on ICE transport to release TURN allocations before dispose
+        var ice_transport = transport_params as Xep.JingleIceUdp.IceUdpTransportParameters;
+        if (ice_transport != null) {
+            ice_transport.cleanup();
+        }
         transport_params.dispose();
 
         foreach (ComponentConnection connection in component_connections.values) {

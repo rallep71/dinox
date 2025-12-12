@@ -29,14 +29,10 @@ public class Dino.Plugins.Rtp.Plugin : RootInterface, VideoCallPlugin, Object {
         this.codec_util = new CodecUtil();
         app.add_option_group(Gst.init_get_option_group());
         app.stream_interactor.module_manager.initialize_account_modules.connect((account, list) => {
-#if WITH_WEBRTCBIN
-            // Always use WebRTCModule for better VP9 codec negotiation
-            // WebRTCModule uses the standard Stream/VideoStream classes for the pipeline
-            debug("Using WebRTC module for RTP (VP9 support)");
-            list.add(new WebRTCModule(this));
-#else
+            // Use standard Module for better compatibility with Monal and other clients
+            // WebRTCModule had codec negotiation issues causing "preferred content type doesn't match" errors
+            debug("Using standard RTP module (better Monal compatibility)");
             list.add(new Module(this));
-#endif
         });
         app.plugin_registry.video_call_plugin = this;
     }

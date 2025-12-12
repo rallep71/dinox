@@ -12,6 +12,13 @@ public class Dino.Plugins.Ice.TransportParameters : JingleIceUdp.IceUdpTransport
     private DtlsSrtp.Handler? dtls_srtp_handler;
     private MainContext thread_context;
     private MainLoop thread_loop;
+    
+    // Signal handler IDs for proper cleanup
+    private ulong candidate_gathering_done_id;
+    private ulong initial_binding_request_received_id;
+    private ulong component_state_changed_id;
+    private ulong new_selected_pair_full_id;
+    private ulong new_candidate_full_id;
 
     private class DatagramConnection : Jingle.DatagramConnection {
         private Nice.Agent agent;
@@ -38,6 +45,8 @@ public class Dino.Plugins.Ice.TransportParameters : JingleIceUdp.IceUdpTransport
 
         private Gee.LinkedList<Bytes>? pending_packets = null;
         private bool dtls_ready_notified = false;
+        private int64 last_eagain_warning = 0;
+        private int eagain_count = 0;
 
         public override void send_datagram(Bytes datagram) {
             if (this.agent != null && is_component_ready(agent, stream_id, component_id)) {
@@ -82,8 +91,25 @@ public class Dino.Plugins.Ice.TransportParameters : JingleIceUdp.IceUdpTransport
                         agent.send_messages_nonblocking(stream_id, component_id, messages);
                     }
                     bytes_sent += datagram.length;
+                    // Reset EAGAIN counter on successful send
+                    eagain_count = 0;
                 } catch (GLib.Error e) {
-                    warning("%s while send_datagram stream %u component %u", e.message, stream_id, component_id);
+                    // EAGAIN (Resource temporarily unavailable) is common during connection setup
+                    // Don't spam the log, just count them and log periodically
+                    if (e.message.contains("nicht verfügbar") || e.message.contains("unavailable") || e.code == 11) {
+                        eagain_count++;
+                        int64 now = GLib.get_monotonic_time();
+                        // Log only once per second maximum
+                        if (now - last_eagain_warning > 1000000) {
+                            if (eagain_count > 1) {
+                                debug("ICE send_datagram: %d packets dropped (resource unavailable) stream %u component %u", eagain_count, stream_id, component_id);
+                            }
+                            last_eagain_warning = now;
+                            eagain_count = 0;
+                        }
+                    } else {
+                        warning("%s while send_datagram stream %u component %u", e.message, stream_id, component_id);
+                    }
                 }
             }
         }
@@ -137,11 +163,11 @@ public class Dino.Plugins.Ice.TransportParameters : JingleIceUdp.IceUdpTransport
             }
         }
 
-        agent.candidate_gathering_done.connect(on_candidate_gathering_done);
-        agent.initial_binding_request_received.connect(on_initial_binding_request_received);
-        agent.component_state_changed.connect(on_component_state_changed);
-        agent.new_selected_pair_full.connect(on_new_selected_pair_full);
-        agent.new_candidate_full.connect(on_new_candidate);
+        candidate_gathering_done_id = agent.candidate_gathering_done.connect(on_candidate_gathering_done);
+        initial_binding_request_received_id = agent.initial_binding_request_received.connect(on_initial_binding_request_received);
+        component_state_changed_id = agent.component_state_changed.connect(on_component_state_changed);
+        new_selected_pair_full_id = agent.new_selected_pair_full.connect(on_new_selected_pair_full);
+        new_candidate_full_id = agent.new_candidate_full.connect(on_new_candidate);
 
         agent.controlling_mode = !incoming;
         stream_id = agent.add_stream(components);
@@ -443,13 +469,70 @@ public class Dino.Plugins.Ice.TransportParameters : JingleIceUdp.IceUdpTransport
         return candidate;
     }
 
+    // Cleanup method called explicitly before termination
+    // This releases TURN allocations BEFORE the agent is destroyed
+    public override void cleanup() {
+        debug("TransportParameters cleanup: cleaning up agent and stream %u", stream_id);
+        if (agent != null) {
+            // Disconnect signal handlers BEFORE removing the stream or releasing the agent
+            // Use SignalHandler.is_connected() to avoid "has no handler" warnings
+            if (candidate_gathering_done_id != 0 && SignalHandler.is_connected(agent, candidate_gathering_done_id)) {
+                agent.disconnect(candidate_gathering_done_id);
+            }
+            candidate_gathering_done_id = 0;
+            
+            if (initial_binding_request_received_id != 0 && SignalHandler.is_connected(agent, initial_binding_request_received_id)) {
+                agent.disconnect(initial_binding_request_received_id);
+            }
+            initial_binding_request_received_id = 0;
+            
+            if (component_state_changed_id != 0 && SignalHandler.is_connected(agent, component_state_changed_id)) {
+                agent.disconnect(component_state_changed_id);
+            }
+            component_state_changed_id = 0;
+            
+            if (new_selected_pair_full_id != 0 && SignalHandler.is_connected(agent, new_selected_pair_full_id)) {
+                agent.disconnect(new_selected_pair_full_id);
+            }
+            new_selected_pair_full_id = 0;
+            
+            if (new_candidate_full_id != 0 && SignalHandler.is_connected(agent, new_candidate_full_id)) {
+                agent.disconnect(new_candidate_full_id);
+            }
+            new_candidate_full_id = 0;
+            
+            // Remove the stream to stop ICE processing
+            if (stream_id != 0) {
+                agent.remove_stream(stream_id);
+                stream_id = 0;
+            }
+            
+            // Stop the thread loop to release the agent
+            if (thread_loop != null) {
+                thread_loop.quit();
+                thread_loop = null;
+            }
+            
+            // Clear connections
+            foreach (var conn in connections.values) {
+                conn.terminate.begin(true, null, null);
+            }
+            connections.clear();
+            
+            // Release the agent - since we create one per call, it can be freed
+            agent = null;
+            dtls_srtp_handler = null;
+            
+            debug("TransportParameters cleanup: agent released");
+        }
+    }
+
     public override void dispose() {
         base.dispose();
-        agent = null;
-        dtls_srtp_handler = null;
-        connections.clear();
-        if (thread_loop != null) {
-            thread_loop.quit();
+        // Cleanup should have been called already, but ensure resources are released
+        if (agent != null) {
+            debug("dispose: agent not cleaned up, doing it now for stream %u", stream_id);
+            cleanup();
         }
     }
 }

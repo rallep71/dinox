@@ -156,6 +156,12 @@ public class Xmpp.Xep.JingleRtp.Parameters : Jingle.ContentParameters, Object {
         this.stream.create();
     }
 
+    // Check if codec matches (only name and clockrate, not ID or RTCP-FB)
+    private bool codec_matches(PayloadType a, PayloadType b) {
+        if (a.name == null || b.name == null) return false;
+        return a.name.down() == b.name.down() && a.clockrate == b.clockrate;
+    }
+
     public void handle_accept(XmppStream stream, Jingle.Session session, Jingle.Content content, StanzaNode description_node) {
         rtcp_mux = description_node.get_subnode("rtcp-mux") != null;
         Gee.List<StanzaNode> payload_type_nodes = description_node.get_subnodes("payload-type");
@@ -164,8 +170,21 @@ public class Xmpp.Xep.JingleRtp.Parameters : Jingle.ContentParameters, Object {
             return;
         }
         PayloadType preferred_payload_type = PayloadType.parse(payload_type_nodes[0]);
-        if (!payload_types.contains(preferred_payload_type)) {
-            warning("Counterpart's preferred content type doesn't match any of our sent ones");
+        
+        // Check if this codec matches any of our supported codecs (by name and clockrate, not by exact match)
+        bool found_matching_codec = false;
+        foreach (PayloadType our_pt in payload_types) {
+            if (codec_matches(our_pt, preferred_payload_type)) {
+                found_matching_codec = true;
+                debug("Codec match found: %s at %u Hz (their id=%u, our id=%u)", 
+                      preferred_payload_type.name, preferred_payload_type.clockrate,
+                      preferred_payload_type.id, our_pt.id);
+                break;
+            }
+        }
+        if (!found_matching_codec) {
+            warning("Counterpart's preferred codec '%s' doesn't match any of our supported codecs", 
+                    preferred_payload_type.name ?? "null");
         }
         agreed_payload_type = preferred_payload_type;
 

@@ -44,7 +44,7 @@ Focus on polishing the new video call features and general app stability.
 
 | Feature | Description | Status |
 |---------|-------------|--------|
-| **Call Quality UI** | Display packet loss, jitter, and resolution during calls | TODO |
+| **Call Quality UI** | Display packet loss, jitter, and resolution during calls | IN PROGRESS (Backend Ready) |
 | **Echo Cancellation** | Fine-tune WebRTC AEC settings for Linux audio subsystems | IN PROGRESS |
 | **Spell Checking** | Re-enable spell checking (waiting for GTK4 GtkTextView support) | BLOCKED |
 | **Performance** | Optimize memory usage for long-running sessions | TODO |

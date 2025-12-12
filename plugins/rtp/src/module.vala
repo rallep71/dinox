@@ -179,10 +179,10 @@ public class Dino.Plugins.Rtp.Module : JingleRtp.Module {
 
     public override async JingleRtp.PayloadType? pick_payload_type(string media, Gee.List<JingleRtp.PayloadType> payloads) {
         if (media == "audio" || media == "video") {
-            // Prefer our codec priority order for better quality
-            // Check for high-quality codecs first, even if not first in remote list
+            // Prefer VP8 first for better Monal/Conversations compatibility
+            // VP8 is the mandatory WebRTC codec and has best cross-client support
             string[] preferred_audio = {"opus", "speex", "g722", "pcmu", "pcma"};
-            string[] preferred_video = {"h264", "vp9", "vp8"};
+            string[] preferred_video = {"vp8", "vp9", "h264"};  // VP8 first for compatibility!
             string[] preferred = media == "audio" ? preferred_audio : preferred_video;
             
             foreach (string codec_name in preferred) {

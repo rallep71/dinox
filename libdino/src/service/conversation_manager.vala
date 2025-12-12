@@ -234,9 +234,13 @@ public class ConversationManager : StreamInteractionModule, Object {
             
             foreach (ContentItem item in items) {
                 if (message_deletion.is_deletable(conversation, item)) {
-                    // Send XEP-0425 retraction to server and delete locally
+                    // Send XEP-0425 retraction to server
                     message_deletion.delete_globally(conversation, item);
                 }
+                // Always delete locally to prevent infinite loop
+                // For MUC, delete_globally doesn't delete locally (waits for server confirmation)
+                // but we need to proceed regardless
+                message_deletion.delete_locally(conversation, item, conversation.account.bare_jid);
             }
             
             if (items.size < batch_size) break;
