@@ -42,6 +42,28 @@
     ],
     "modules": [
         {
+            "name": "libnice",
+            "buildsystem": "meson",
+            "builddir": true,
+            "config-opts": [
+                "-Dtests=false",
+                "-Dgtk_doc=disabled"
+            ],
+            "cleanup": [
+                "/include",
+                "/lib/pkgconfig",
+                "*.la",
+                "*.a"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://gitlab.freedesktop.org/libnice/libnice/-/archive/0.1.23/libnice-0.1.23.tar.gz",
+                    "sha256": "cd69da89d70b529e2eac955de006503a318123d36196482b14005a83e7cb2c21"
+                }
+            ]
+        },
+        {
             "name": "sqlcipher",
             "buildsystem": "autotools",
             "config-opts": [

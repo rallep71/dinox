@@ -62,12 +62,28 @@ jobs:
           echo "### What's New" >> RELEASE_BODY.md
           echo "" >> RELEASE_BODY.md
           
-          # Extract changelog for this version
-          # Matches "## [version]" and prints until the next "## "
-          awk -v ver="[$version]" '
-            /^## / { if (p) { exit }; if ($2 == ver) { p=1; next } }
-            p { print }
-          ' CHANGELOG.md >> RELEASE_BODY.md
+          # Extract changelog for this version.
+          # If the exact version (e.g. 0.8.5.2) has no section, fall back to the base release notes (e.g. 0.8.5).
+          extract_changelog() {
+            local ver="$1"
+            awk -v ver="[$ver]" '
+              /^## / { if (p) { exit }; if ($2 == ver) { p=1; next } }
+              p { print }
+            ' CHANGELOG.md
+          }
+
+          notes="$(extract_changelog "$version")"
+          if [ -z "${notes//[[:space:]]/}" ]; then
+            if echo "$version" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$'; then
+              base_version="$(echo "$version" | sed -E 's/\.[0-9]+$//')"
+              notes="$(extract_changelog "$base_version")"
+              if [ -n "${notes//[[:space:]]/}" ]; then
+                echo "(Release notes from v$base_version)" >> RELEASE_BODY.md
+                echo "" >> RELEASE_BODY.md
+              fi
+            fi
+          fi
+          echo "$notes" >> RELEASE_BODY.md
           
           echo "" >> RELEASE_BODY.md
           echo "See [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/CHANGELOG.md) for full details." >> RELEASE_BODY.md
