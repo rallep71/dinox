@@ -69,7 +69,7 @@
             "config-opts": [
                 "--enable-tempstore=yes",
                 "--disable-tcl",
-                "CFLAGS=-DSQLITE_HAS_CODEC -DSQLITE_ENABLE_COLUMN_METADATA"
+                "CFLAGS=-DSQLITE_HAS_CODEC -DSQLITE_ENABLE_COLUMN_METADATA -DSQLITE_ENABLE_FTS3 -DSQLITE_ENABLE_FTS3_PARENTHESIS -DSQLITE_ENABLE_FTS4"
             ],
             "sources": [
                 {

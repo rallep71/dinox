@@ -600,7 +600,7 @@ This release significantly improves 1:1 Jingle audio/video call interoperability
 - libdbusmenu integration for StatusNotifierItem/AppIndicator support
 - Meson build system with automated translations (50+ languages)
 
-[Unreleased]: https://github.com/rallep71/dinox/compare/v0.8.5.3...HEAD
+[Unreleased]: https://github.com/rallep71/dinox/compare/v0.8.5.4...HEAD
 [0.8.5]: https://github.com/rallep71/dinox/releases/tag/v0.8.5
 [0.7.3]: https://github.com/rallep71/dinox/releases/tag/v0.7.3
 [0.7.2]: https://github.com/rallep71/dinox/releases/tag/v0.7.2
