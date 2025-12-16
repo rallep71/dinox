@@ -24,6 +24,7 @@ jobs:
             build-essential \
             python3-pip \
             ninja-build \
+            pkg-config \
             valac \
             gettext \
             libgtk-4-dev \
@@ -66,6 +67,20 @@ jobs:
           # Install newer Meson from PyPI (Ubuntu 22.04 has 0.61, we need 1.3+)
           sudo pip3 install meson>=1.3.0
 
+      - name: Build libnice (0.1.23)
+        run: |
+          set -euo pipefail
+
+          LIBNICE_VER=0.1.23
+          wget -O "libnice-${LIBNICE_VER}.tar.gz" "https://gitlab.freedesktop.org/libnice/libnice/-/archive/${LIBNICE_VER}/libnice-${LIBNICE_VER}.tar.gz"
+          tar xf "libnice-${LIBNICE_VER}.tar.gz"
+          cd "libnice-${LIBNICE_VER}"
+
+          meson setup build --prefix=/usr -Dtests=false
+          ninja -C build
+          sudo ninja -C build install
+          sudo ldconfig
+
       - name: Check A/V dependency versions
         run: |
           set -euo pipefail
@@ -101,8 +116,8 @@ jobs:
             apm_ver="0"
           fi
 
-          # Ubuntu 24.04 ships libnice 0.1.21; require at least that.
-          dpkg --compare-versions "$nice_ver" ge 0.1.21
+          # DinoX calls are known to have issues with libnice 0.1.21; require a newer libnice.
+          dpkg --compare-versions "$nice_ver" ge 0.1.23
           dpkg --compare-versions "$gst_ver" ge 1.24.0
           if [ "$apm_ver" != "0" ]; then
             dpkg --compare-versions "$apm_ver" ge 0.3.0
@@ -526,11 +541,28 @@ jobs:
           echo "## DinoX v$VERSION" > RELEASE_BODY.md
           echo "" >> RELEASE_BODY.md
           
-          # Extract changelog for this version
-          awk -v ver="[$VERSION]" '
-            /^## / { if (p) { exit }; if ($2 == ver) { p=1; next } }
-            p { print }
-          ' CHANGELOG.md >> RELEASE_BODY.md
+          # Extract changelog for this version.
+          # If the exact version (e.g. 0.8.5.2) has no section, fall back to the base release notes (e.g. 0.8.5).
+          extract_changelog() {
+            local ver="$1"
+            awk -v ver="[$ver]" '
+              /^## / { if (p) { exit }; if ($2 == ver) { p=1; next } }
+              p { print }
+            ' CHANGELOG.md
+          }
+
+          notes="$(extract_changelog "$VERSION")"
+          if [ -z "${notes//[[:space:]]/}" ]; then
+            if echo "$VERSION" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$'; then
+              base_version="$(echo "$VERSION" | sed -E 's/\.[0-9]+$//')"
+              notes="$(extract_changelog "$base_version")"
+              if [ -n "${notes//[[:space:]]/}" ]; then
+                echo "(Release notes from v$base_version)" >> RELEASE_BODY.md
+                echo "" >> RELEASE_BODY.md
+              fi
+            fi
+          fi
+          echo "$notes" >> RELEASE_BODY.md
           
           echo "" >> RELEASE_BODY.md
           echo "### Installation (AppImage)" >> RELEASE_BODY.md
