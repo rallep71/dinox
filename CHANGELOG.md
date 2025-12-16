@@ -51,6 +51,14 @@ This release significantly improves 1:1 Jingle audio/video call interoperability
   this is currently treated as a warning (no observed crash in follow-up runs).
 - Thanks to sponsor **@jacquescomeaux** for supporting DinoX.
 
+## [0.8.5.1] - 2025-12-16
+
+### Fixed
+- **CI/AppImage release reliability**
+  - GitHub AppImage build: avoid failing the build on optional pkg-config checks.
+  - Ensure the AppImage build environment installs the required audio-processing dependency when available.
+  - Keep deterministic, bundled-only GStreamer plugin loading and verify the bundled call stack headlessly during CI.
+
 ## [0.8.4] - 2025-12-03
 
 ### Added
@@ -600,7 +608,8 @@ This release significantly improves 1:1 Jingle audio/video call interoperability
 - libdbusmenu integration for StatusNotifierItem/AppIndicator support
 - Meson build system with automated translations (50+ languages)
 
-[Unreleased]: https://github.com/rallep71/dinox/compare/v0.8.5...HEAD
+[Unreleased]: https://github.com/rallep71/dinox/compare/v0.8.5.1...HEAD
+[0.8.5.1]: https://github.com/rallep71/dinox/releases/tag/v0.8.5.1
 [0.8.5]: https://github.com/rallep71/dinox/releases/tag/v0.8.5
 [0.7.3]: https://github.com/rallep71/dinox/releases/tag/v0.7.3
 [0.7.2]: https://github.com/rallep71/dinox/releases/tag/v0.7.2
