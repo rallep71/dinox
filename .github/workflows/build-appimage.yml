@@ -76,7 +76,7 @@ jobs:
           tar xf "libnice-${LIBNICE_VER}.tar.gz"
           cd "libnice-${LIBNICE_VER}"
 
-          meson setup build --prefix=/usr -Dtests=false
+          meson setup build --prefix=/usr -Dtests=disabled -Dgtk_doc=disabled
           ninja -C build
           sudo ninja -C build install
           sudo ldconfig

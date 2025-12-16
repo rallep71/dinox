@@ -191,6 +191,14 @@
   <url type="translate">https://hosted.weblate.org/projects/dino/</url>
   <launchable type="desktop-id">im.github.rallep71.DinoX.desktop</launchable>
   <releases>
+    <release date="2025-12-16" version="0.8.5.3">
+      <description>
+        <p>Release engineering hotfix.</p>
+        <ul>
+          <li>Fixes Flatpak/AppImage CI build for bundled libnice 0.1.23</li>
+        </ul>
+      </description>
+    </release>
     <release date="2025-12-16" version="0.8.5.2">
       <description>
         <p>Release engineering hotfix.</p>

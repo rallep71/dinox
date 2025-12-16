@@ -46,7 +46,7 @@
             "buildsystem": "meson",
             "builddir": true,
             "config-opts": [
-                "-Dtests=false",
+                "-Dtests=disabled",
                 "-Dgtk_doc=disabled"
             ],
             "cleanup": [
