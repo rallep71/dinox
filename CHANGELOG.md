@@ -5,6 +5,52 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.5] - 2025-12-16
+
+This release significantly improves 1:1 Jingle audio/video call interoperability with
+**Conversations (Android)** and **Monal (iOS)** while keeping DinoX’s existing media stack
+(GStreamer RTP/rtpbin + libnice ICE + DTLS-SRTP).
+
+### Changed
+- **Interop profile (WebRTC-compatible Jingle subset)**
+  - Prefer **ICE-UDP** + **DTLS-SRTP** only (no SDES-SRTP) to match modern WebRTC clients.
+  - Streamlined codec negotiation to a minimal baseline for better cross-client compatibility.
+- **RTP jitter handling (Monal startup)**
+  - Increased rtpbin latency and disabled aggressive startup dropping to eliminate initial “knacken”
+    (audio crackle) reported with Monal.
+
+### Fixed
+- **Startup artifacts (DTLS/SRTP timing)**
+  - Reduced audible pops/crackle at call start by handling packets that arrive before DTLS-SRTP is
+    fully ready, instead of dropping them outright.
+- **Call teardown robustness**
+  - Addressed GLib signal disconnect warnings during cleanup (double-disconnect / stale handler IDs).
+  - Adjusted ICE teardown ordering to avoid a libnice-related crash observed during TURN refresh
+    cleanup paths.
+
+### Technical
+- **Codecs / negotiation**
+  - Narrowed baseline call codecs to **Opus (audio)** and **VP8 (video)** for reliable interop.
+  - Disabled legacy/optional paths that caused negotiation or compatibility issues (e.g. SDES-SRTP,
+    Speex).
+- **Audio processing (webrtc-audio-processing)**
+  - Improved EchoProbe reverse-stream feeding stability (consistent 10ms chunking).
+  - Stabilized delay estimation / stream delay adjustments to improve AEC convergence and reduce echo.
+
+### Documentation
+- **Debugging calls (reproducible logs)**
+  - Added helper scripts for starting/stopping full-debug runs with reliable PID + log tracking:
+    `scripts/run-dinox-debug.sh`, `scripts/stop-dinox.sh`, `scripts/scan-dinox-latest-log.sh`.
+  - Extended `DEBUG.md` with a detailed, copy/paste workflow for collecting and scanning call logs.
+
+### Notes
+- DinoX now diverges more clearly from upstream Dino in the A/V call pipeline and interoperability
+  focus. The goal is stable cross-client calling (Conversations/Monal) using the existing
+  GStreamer/libnice/DTLS-SRTP stack rather than switching to a full Google/libwebrtc-based stack.
+- Known noise: libnice may still emit “alive TURN refreshes” warnings on teardown in some setups;
+  this is currently treated as a warning (no observed crash in follow-up runs).
+- Thanks to sponsor **@jacquescomeaux** for supporting DinoX.
+
 ## [0.8.4] - 2025-12-03
 
 ### Added
@@ -554,7 +600,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - libdbusmenu integration for StatusNotifierItem/AppIndicator support
 - Meson build system with automated translations (50+ languages)
 
-[Unreleased]: https://github.com/rallep71/dinox/compare/v0.7.3...HEAD
+[Unreleased]: https://github.com/rallep71/dinox/compare/v0.8.5...HEAD
+[0.8.5]: https://github.com/rallep71/dinox/releases/tag/v0.8.5
 [0.7.3]: https://github.com/rallep71/dinox/releases/tag/v0.7.3
 [0.7.2]: https://github.com/rallep71/dinox/releases/tag/v0.7.2
 [0.7.1]: https://github.com/rallep71/dinox/releases/tag/v0.7.1

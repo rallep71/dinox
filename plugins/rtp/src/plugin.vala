@@ -112,10 +112,10 @@ public class Dino.Plugins.Rtp.Plugin : RootInterface, VideoCallPlugin, Object {
             return;
         }
         rtpbin.pad_added.connect(on_rtp_pad_added);
-        rtpbin.@set("latency", 100);
+        rtpbin.@set("latency", 200);
         rtpbin.@set("do-lost", true);
 //        rtpbin.@set("do-sync-event", true);
-        rtpbin.@set("drop-on-latency", true);
+        rtpbin.@set("drop-on-latency", false);
         rtpbin.connect("signal::request-pt-map", request_pt_map, this);
         pipe.add(rtpbin);
 
@@ -152,6 +152,31 @@ public class Dino.Plugins.Rtp.Plugin : RootInterface, VideoCallPlugin, Object {
         debug("Call pipe destroyed");
     }
 
+    private static uint32 infer_audio_clockrate(string? name, uint pt) {
+        if (name != null) {
+            switch (name.up()) {
+                case "OPUS":
+                    return 48000;
+                case "PCMA":
+                case "PCMU":
+                case "G722":
+                case "TELEPHONE-EVENT":
+                    return 8000;
+            }
+        }
+        // Fallback on well-known static payload types.
+        switch (pt) {
+            case 0: // PCMU
+            case 8: // PCMA
+            case 9: // G722
+                return 8000;
+            case 111: // OPUS
+                return 48000;
+        }
+        // Keep previous behavior for unknown codecs.
+        return 48000;
+    }
+
     private static Gst.Caps? request_pt_map(Gst.Element rtpbin, uint session, uint pt, Plugin plugin) {
         debug("request-pt-map: session=%u, pt=%u", session, pt);
         
@@ -166,7 +191,10 @@ public class Dino.Plugins.Rtp.Plugin : RootInterface, VideoCallPlugin, Object {
                             string caps_str;
                             if (content_params.media == "audio") {
                                 // Audio caps
-                                uint32 clockrate = payload_type.clockrate > 0 ? payload_type.clockrate : 48000;
+                                uint32 clockrate = payload_type.clockrate > 0 ? payload_type.clockrate : infer_audio_clockrate(payload_type.name, pt);
+                                if (payload_type.clockrate == 0) {
+                                    debug("request-pt-map: audio pt=%u (%s) missing clockrate, inferred %u", pt, payload_type.name ?? "?", clockrate);
+                                }
                                 caps_str = @"application/x-rtp,media=audio,encoding-name=$(payload_type.name.up()),clock-rate=$clockrate,payload=$pt";
                             } else {
                                 // Video caps
@@ -182,7 +210,10 @@ public class Dino.Plugins.Rtp.Plugin : RootInterface, VideoCallPlugin, Object {
                         var payload_type = content_params.agreed_payload_type;
                         string caps_str;
                         if (content_params.media == "audio") {
-                            uint32 clockrate = payload_type.clockrate > 0 ? payload_type.clockrate : 48000;
+                            uint32 clockrate = payload_type.clockrate > 0 ? payload_type.clockrate : infer_audio_clockrate(payload_type.name, pt);
+                            if (payload_type.clockrate == 0) {
+                                debug("request-pt-map: agreed audio pt=%u (%s) missing clockrate, inferred %u", pt, payload_type.name ?? "?", clockrate);
+                            }
                             caps_str = @"application/x-rtp,media=audio,encoding-name=$(payload_type.name.up()),clock-rate=$clockrate,payload=$pt";
                         } else {
                             uint32 clockrate = payload_type.clockrate > 0 ? payload_type.clockrate : 90000;
@@ -206,6 +237,12 @@ public class Dino.Plugins.Rtp.Plugin : RootInterface, VideoCallPlugin, Object {
                 return Gst.Caps.from_string("application/x-rtp,media=video,encoding-name=H264,clock-rate=90000,payload=100");
             case 111:
                 return Gst.Caps.from_string("application/x-rtp,media=audio,encoding-name=OPUS,clock-rate=48000,payload=111");
+            case 0:
+                return Gst.Caps.from_string("application/x-rtp,media=audio,encoding-name=PCMU,clock-rate=8000,payload=0");
+            case 8:
+                return Gst.Caps.from_string("application/x-rtp,media=audio,encoding-name=PCMA,clock-rate=8000,payload=8");
+            case 9:
+                return Gst.Caps.from_string("application/x-rtp,media=audio,encoding-name=G722,clock-rate=8000,payload=9");
             default:
                 return null;
         }

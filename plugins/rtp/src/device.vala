@@ -64,6 +64,9 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
     private Gst.Element dsp;
     private Gst.Base.Aggregator mixer;
     private Gst.Element filter;
+    private Gst.Element? echo_convert;
+    private Gst.Element? echo_resample;
+    private Gst.Element? echo_filter;
     private int links;
 
     // Codecs
@@ -519,8 +522,29 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
                 pipe.add(mixer);
                 mixer.sync_state_with_parent();
                 if (plugin.echoprobe != null && !plugin.echoprobe.get_static_pad("src").is_linked()) {
-                    mixer.link(plugin.echoprobe);
-                    plugin.echoprobe.link(element);
+                    // Ensure the echo reference matches VoiceProcessor's expected format (48kHz/mono/S16LE)
+                    // to avoid caps mismatches (e.g. stereo from some peers/devices) degrading AEC.
+                    echo_convert = Gst.ElementFactory.make("audioconvert", @"echo_convert_$id");
+                    echo_resample = Gst.ElementFactory.make("audioresample", @"echo_resample_$id");
+                    echo_filter = Gst.ElementFactory.make("capsfilter", @"echo_caps_$id");
+                    if (echo_convert != null && echo_resample != null && echo_filter != null) {
+                        echo_filter.@set("caps", Gst.Caps.from_string("audio/x-raw,rate=48000,channels=1,layout=interleaved,format=S16LE"));
+                        pipe.add(echo_convert);
+                        pipe.add(echo_resample);
+                        pipe.add(echo_filter);
+                        echo_convert.sync_state_with_parent();
+                        echo_resample.sync_state_with_parent();
+                        echo_filter.sync_state_with_parent();
+
+                        mixer.link(echo_convert);
+                        echo_convert.link(echo_resample);
+                        echo_resample.link(echo_filter);
+                        echo_filter.link(plugin.echoprobe);
+                        plugin.echoprobe.link(element);
+                    } else {
+                        mixer.link(plugin.echoprobe);
+                        plugin.echoprobe.link(element);
+                    }
                 } else {
                     filter = Gst.ElementFactory.make("capsfilter", @"caps_filter_$id");
                     filter.@set("caps", device_caps);
@@ -547,10 +571,32 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
                     warning("%s-mixer still has %i sink pads while being destroyed", id, linked_sink_pads);
                 }
                 if (plugin.echoprobe != null) {
-                    mixer.unlink(plugin.echoprobe);
+                    if (echo_filter != null) echo_filter.unlink(plugin.echoprobe);
+                    if (echo_resample != null && echo_filter != null) echo_resample.unlink(echo_filter);
+                    if (echo_convert != null && echo_resample != null) echo_convert.unlink(echo_resample);
+                    if (echo_convert != null) mixer.unlink(echo_convert);
+                    else mixer.unlink(plugin.echoprobe);
                 } else if (element != null) {
                     mixer.unlink(element);
                 }
+            }
+            if (echo_filter != null) {
+                echo_filter.set_locked_state(true);
+                echo_filter.set_state(Gst.State.NULL);
+                pipe.remove(echo_filter);
+                echo_filter = null;
+            }
+            if (echo_resample != null) {
+                echo_resample.set_locked_state(true);
+                echo_resample.set_state(Gst.State.NULL);
+                pipe.remove(echo_resample);
+                echo_resample = null;
+            }
+            if (echo_convert != null) {
+                echo_convert.set_locked_state(true);
+                echo_convert.set_state(Gst.State.NULL);
+                pipe.remove(echo_convert);
+                echo_convert = null;
             }
             if (filter != null && element != null) {
                 filter.set_locked_state(true);

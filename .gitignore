@@ -42,6 +42,7 @@ repo/
 
 # Logs
 *.log
+logs/
 
 # Local documentation (not for GitHub)
 RELEASE_CHECKLIST.md
@@ -58,8 +59,5 @@ website/
 
 # Internal Documentation (AI/Agent Artifacts)
 CODE_SECURITY_AUDIT.md
-DEVELOPMENT_PLAN.md
 DISAPPEARING_MESSAGES_PLAN.md
 OMEMO_BUG_FIX.md
-DEBUG.md
-RELEASE_CHECKLIST.md

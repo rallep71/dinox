@@ -213,15 +213,18 @@ export LD_LIBRARY_PATH="$APPDIR/usr/lib:$LD_LIBRARY_PATH"
 # Set plugin path
 export DINO_PLUGIN_DIR="$APPDIR/usr/lib/dino/plugins"
 
-# Set GStreamer plugin paths - include both bundled and system plugins
-export GST_PLUGIN_PATH="$APPDIR/usr/lib/gstreamer-1.0:/usr/lib/x86_64-linux-gnu/gstreamer-1.0"
-export GST_PLUGIN_SYSTEM_PATH="$APPDIR/usr/lib/gstreamer-1.0:/usr/lib/x86_64-linux-gnu/gstreamer-1.0"
+# Set GStreamer plugin paths
+# IMPORTANT: For AppImage portability we prefer bundled plugins only.
+# Mixing system + bundled plugins can cause version mismatches on user machines.
+export GST_PLUGIN_PATH="$APPDIR/usr/lib/gstreamer-1.0"
+export GST_PLUGIN_SYSTEM_PATH="$APPDIR/usr/lib/gstreamer-1.0"
 
 # Don't fork for plugin scanning - avoids issues with bundled scanner
 export GST_REGISTRY_FORK=no
 
-# Use system gst-plugin-scanner (we don't bundle it anymore)
+# Prefer a bundled gst-plugin-scanner (if present), fall back to system.
 for scanner in \
+    "$APPDIR/usr/lib/gstreamer-1.0/gst-plugin-scanner" \
     "/usr/libexec/gstreamer-1.0/gst-plugin-scanner" \
     "/usr/lib/x86_64-linux-gnu/gstreamer1.0/gstreamer-1.0/gst-plugin-scanner" \
     "/usr/lib/gstreamer-1.0/gst-plugin-scanner"; do
@@ -366,9 +369,8 @@ create_appimage() {
         find "$APPDIR/usr/lib" -name "$pattern" -delete 2>/dev/null || true
     done
     
-    # Also remove gst-plugin-scanner - it won't work without libc anyway
-    # GStreamer works fine without it (uses host scanner or no scanning)
-    rm -f "$APPDIR/usr/lib/gstreamer-1.0/gst-plugin-scanner" 2>/dev/null || true
+    # Keep gst-plugin-scanner if present.
+    # We prefer using a bundled scanner for portability; it will use host glibc.
     
     log_info "Blacklisted libraries removed!"
     

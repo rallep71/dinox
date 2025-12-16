@@ -9,7 +9,44 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get remove libunwind-14-dev
-          sudo apt-get install -y build-essential gettext libadwaita-1-dev libcanberra-dev libgcrypt20-dev libgee-0.8-dev libgpgme-dev libgstreamer-plugins-base1.0-dev libgstreamer1.0-dev libgtk-4-dev libnice-dev libnotify-dev libqrencode-dev libomemo-c-dev libsoup-3.0-dev libsqlite3-dev libsqlcipher-dev libsecret-1-dev libsrtp2-dev libwebrtc-audio-processing-dev libdbusmenu-glib-dev meson valac
+          sudo apt-get install -y build-essential gettext libadwaita-1-dev libcanberra-dev libgcrypt20-dev libgee-0.8-dev libgpgme-dev libgstreamer-plugins-base1.0-dev libgstreamer-plugins-bad1.0-dev libgstreamer1.0-dev libgtk-4-dev libnice-dev libnotify-dev libqrencode-dev libomemo-c-dev libsoup-3.0-dev libsqlite3-dev libsqlcipher-dev libsecret-1-dev libsrtp2-dev libgnutls28-dev libwebrtc-audio-processing-dev libdbusmenu-glib-dev meson valac pkg-config
+      - name: "Check A/V dependency versions"
+        run: |
+          set -euo pipefail
+
+          echo "pkg-config versions:"
+          echo "- nice: $(pkg-config --modversion nice)"
+          echo "- gstreamer-1.0: $(pkg-config --modversion gstreamer-1.0)"
+
+          if pkg-config --exists gstreamer-webrtc-1.0; then
+            echo "- gstreamer-webrtc-1.0: $(pkg-config --modversion gstreamer-webrtc-1.0)"
+          else
+            echo "::error::Missing gstreamer-webrtc-1.0 (expected from libgstreamer-plugins-bad1.0-dev)"
+            exit 1
+          fi
+
+          apm_pc=""
+          for pc in webrtc-audio-processing webrtc-audio-processing-2 webrtc-audio-processing-1; do
+            if pkg-config --exists "$pc"; then
+              apm_pc="$pc"
+              break
+            fi
+          done
+          if [ -z "$apm_pc" ]; then
+            echo "::error::Missing webrtc-audio-processing pkg-config (expected from libwebrtc-audio-processing-dev or webrtc-audio-processing-2)"
+            exit 1
+          fi
+          echo "- $apm_pc: $(pkg-config --modversion "$apm_pc")"
+
+          nice_ver="$(pkg-config --modversion nice)"
+          gst_ver="$(pkg-config --modversion gstreamer-1.0)"
+          gst_webrtc_ver="$(pkg-config --modversion gstreamer-webrtc-1.0)"
+          apm_ver="$(pkg-config --modversion "$apm_pc")"
+
+          dpkg --compare-versions "$nice_ver" ge 0.1.23
+          dpkg --compare-versions "$gst_ver" ge 1.24.0
+          dpkg --compare-versions "$gst_webrtc_ver" ge 1.24.0
+          dpkg --compare-versions "$apm_ver" ge 0.3.0
       - name: "Checkout sources"
         uses: actions/checkout@v4
         with:
@@ -33,7 +70,44 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get remove libunwind-14-dev
-          sudo apt-get install -y build-essential gettext libadwaita-1-dev libcanberra-dev libgcrypt20-dev libgee-0.8-dev libgpgme-dev libgstreamer-plugins-base1.0-dev libgstreamer1.0-dev libgtk-4-dev libnice-dev libnotify-dev libqrencode-dev libomemo-c-dev libsoup-3.0-dev libsqlite3-dev libsqlcipher-dev libsecret-1-dev libsrtp2-dev libwebrtc-audio-processing-dev libdbusmenu-glib-dev meson valac
+          sudo apt-get install -y build-essential gettext libadwaita-1-dev libcanberra-dev libgcrypt20-dev libgee-0.8-dev libgpgme-dev libgstreamer-plugins-base1.0-dev libgstreamer-plugins-bad1.0-dev libgstreamer1.0-dev libgtk-4-dev libnice-dev libnotify-dev libqrencode-dev libomemo-c-dev libsoup-3.0-dev libsqlite3-dev libsqlcipher-dev libsecret-1-dev libsrtp2-dev libgnutls28-dev libwebrtc-audio-processing-dev libdbusmenu-glib-dev meson valac pkg-config
+      - name: "Check A/V dependency versions"
+        run: |
+          set -euo pipefail
+
+          echo "pkg-config versions:"
+          echo "- nice: $(pkg-config --modversion nice)"
+          echo "- gstreamer-1.0: $(pkg-config --modversion gstreamer-1.0)"
+
+          if pkg-config --exists gstreamer-webrtc-1.0; then
+            echo "- gstreamer-webrtc-1.0: $(pkg-config --modversion gstreamer-webrtc-1.0)"
+          else
+            echo "::error::Missing gstreamer-webrtc-1.0 (expected from libgstreamer-plugins-bad1.0-dev)"
+            exit 1
+          fi
+
+          apm_pc=""
+          for pc in webrtc-audio-processing webrtc-audio-processing-2 webrtc-audio-processing-1; do
+            if pkg-config --exists "$pc"; then
+              apm_pc="$pc"
+              break
+            fi
+          done
+          if [ -z "$apm_pc" ]; then
+            echo "::error::Missing webrtc-audio-processing pkg-config (expected from libwebrtc-audio-processing-dev or webrtc-audio-processing-2)"
+            exit 1
+          fi
+          echo "- $apm_pc: $(pkg-config --modversion "$apm_pc")"
+
+          nice_ver="$(pkg-config --modversion nice)"
+          gst_ver="$(pkg-config --modversion gstreamer-1.0)"
+          gst_webrtc_ver="$(pkg-config --modversion gstreamer-webrtc-1.0)"
+          apm_ver="$(pkg-config --modversion "$apm_pc")"
+
+          dpkg --compare-versions "$nice_ver" ge 0.1.23
+          dpkg --compare-versions "$gst_ver" ge 1.24.0
+          dpkg --compare-versions "$gst_webrtc_ver" ge 1.24.0
+          dpkg --compare-versions "$apm_ver" ge 0.3.0
       - name: "Install Vala Nightly"
         run: |
           sudo apt-get install -y autoconf-archive gobject-introspection libgraphviz-dev
@@ -66,7 +140,7 @@ jobs:
     name: "Build Flatpak"
     runs-on: ubuntu-24.04
     container:
-      image: ghcr.io/flathub-infra/flatpak-github-actions:gnome-49
+      image: ghcr.io/flathub-infra/flatpak-github-actions:gnome-48
       options: --privileged
     steps:
       - name: "Checkout sources"

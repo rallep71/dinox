@@ -8,6 +8,60 @@
 DINO_LOG_LEVEL=debug ./build/main/dinox
 ```
 
+### Full-Debug Call Logs (Recommended)
+
+For reproducible audio/video call debugging, use the helper scripts in `scripts/`.
+They make sure we always:
+
+- write a unique log file under `logs/`
+- store the correct DinoX PID (so stopping works reliably)
+- keep a pointer to the latest log
+
+#### Start full-debug logging
+
+```bash
+scripts/run-dinox-debug.sh
+```
+
+This prints (and writes):
+
+- `logs/dinox.pid` → PID of `./build/main/dinox`
+- `logs/dinox-runinfo-latest.txt` → path to the newest log file
+
+Optional overrides:
+
+```bash
+GST_DEBUG=5 scripts/run-dinox-debug.sh
+G_MESSAGES_DEBUG=all scripts/run-dinox-debug.sh
+```
+
+If DinoX is already running and you want to restart it:
+
+```bash
+scripts/run-dinox-debug.sh --restart
+```
+
+#### Stop full-debug logging
+
+```bash
+scripts/stop-dinox.sh
+```
+
+This sends `SIGINT` first (clean shutdown) and falls back to `SIGTERM` if needed.
+
+#### Quick scan of the latest log
+
+```bash
+scripts/scan-dinox-latest-log.sh
+```
+
+This searches the latest log for:
+
+- warnings/errors
+- audio underflows / discontinuities
+- ICE/DTLS startup buffering
+- libnice TURN refresh warnings
+
 ### Flatpak
 
 ```bash

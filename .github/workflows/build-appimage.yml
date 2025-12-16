@@ -43,6 +43,7 @@ jobs:
             gstreamer1.0-plugins-bad \
             gstreamer1.0-plugins-ugly \
             gstreamer1.0-libav \
+            gstreamer1.0-tools \
             gstreamer1.0-nice \
             libnice-dev \
             libsrtp2-dev \
@@ -63,6 +64,38 @@ jobs:
           
           # Install newer Meson from PyPI (Ubuntu 22.04 has 0.61, we need 1.3+)
           sudo pip3 install meson>=1.3.0
+
+      - name: Check A/V dependency versions
+        run: |
+          set -euo pipefail
+
+          echo "pkg-config versions:"
+          echo "- nice: $(pkg-config --modversion nice)"
+          echo "- gstreamer-1.0: $(pkg-config --modversion gstreamer-1.0)"
+          echo "- gstreamer-webrtc-1.0: $(pkg-config --modversion gstreamer-webrtc-1.0)"
+
+          apm_pc=""
+          for pc in webrtc-audio-processing webrtc-audio-processing-2 webrtc-audio-processing-1; do
+            if pkg-config --exists "$pc"; then
+              apm_pc="$pc"
+              break
+            fi
+          done
+          if [ -z "$apm_pc" ]; then
+            echo "::error::Missing webrtc-audio-processing pkg-config (install libwebrtc-audio-processing-dev or provide webrtc-audio-processing-2)"
+            exit 1
+          fi
+          echo "- $apm_pc: $(pkg-config --modversion "$apm_pc")"
+
+          nice_ver="$(pkg-config --modversion nice)"
+          gst_ver="$(pkg-config --modversion gstreamer-1.0)"
+          gst_webrtc_ver="$(pkg-config --modversion gstreamer-webrtc-1.0)"
+          apm_ver="$(pkg-config --modversion "$apm_pc")"
+
+          dpkg --compare-versions "$nice_ver" ge 0.1.23
+          dpkg --compare-versions "$gst_ver" ge 1.24.0
+          dpkg --compare-versions "$gst_webrtc_ver" ge 1.24.0
+          dpkg --compare-versions "$apm_ver" ge 0.3.0
 
       - name: Checkout libomemo-c
         uses: actions/checkout@v4
@@ -172,6 +205,19 @@ jobs:
           
           echo "Copied GStreamer plugins:"
           ls -lh "$APPDIR/usr/lib/gstreamer-1.0/"
+
+      - name: Copy GStreamer plugin scanner
+        run: |
+          set -euo pipefail
+          APPDIR="${GITHUB_WORKSPACE}/AppDir"
+
+          if [ -x "/usr/lib/x86_64-linux-gnu/gstreamer1.0/gstreamer-1.0/gst-plugin-scanner" ]; then
+            cp "/usr/lib/x86_64-linux-gnu/gstreamer1.0/gstreamer-1.0/gst-plugin-scanner" "$APPDIR/usr/lib/gstreamer-1.0/"
+          elif [ -x "/usr/libexec/gstreamer-1.0/gst-plugin-scanner" ]; then
+            cp "/usr/libexec/gstreamer-1.0/gst-plugin-scanner" "$APPDIR/usr/lib/gstreamer-1.0/"
+          else
+            echo "::warning::gst-plugin-scanner not found on build host"
+          fi
       
       - name: Copy required system libraries
         run: |
@@ -246,16 +292,18 @@ jobs:
           # Set library paths
           export LD_LIBRARY_PATH="$APPDIR/usr/lib:$LD_LIBRARY_PATH"
           
-          # Set GStreamer paths - include both bundled and system plugins
-          export GST_PLUGIN_PATH="$APPDIR/usr/lib/gstreamer-1.0:/usr/lib/x86_64-linux-gnu/gstreamer-1.0"
-          export GST_PLUGIN_SYSTEM_PATH="$APPDIR/usr/lib/gstreamer-1.0:/usr/lib/x86_64-linux-gnu/gstreamer-1.0"
+          # Set GStreamer paths
+          # IMPORTANT: For AppImage portability we prefer bundled plugins only.
+          # Mixing system + bundled plugins can cause version mismatches on user machines.
+          export GST_PLUGIN_PATH="$APPDIR/usr/lib/gstreamer-1.0"
+          export GST_PLUGIN_SYSTEM_PATH="$APPDIR/usr/lib/gstreamer-1.0"
           
           # Don't fork for plugin scanning - avoids issues with bundled scanner
           export GST_REGISTRY_FORK=no
           
-          # Use system gst-plugin-scanner (we don't bundle it anymore)
-          # Try common locations for the scanner
+          # Prefer a bundled gst-plugin-scanner (if present), fall back to system.
           for scanner in \
+            "$APPDIR/usr/lib/gstreamer-1.0/gst-plugin-scanner" \
             "/usr/libexec/gstreamer-1.0/gst-plugin-scanner" \
             "/usr/lib/x86_64-linux-gnu/gstreamer1.0/gstreamer-1.0/gst-plugin-scanner" \
             "/usr/lib/gstreamer-1.0/gst-plugin-scanner"; do
@@ -387,13 +435,46 @@ jobs:
             find "$APPDIR/usr/lib" -name "$pattern" -delete 2>/dev/null || true
           done
           
-          # Also remove gst-plugin-scanner - it won't work without libc anyway
-          # GStreamer works fine without it (uses host scanner or no scanning)
-          rm -f "$APPDIR/usr/lib/gstreamer-1.0/gst-plugin-scanner" 2>/dev/null || true
-          
           echo "Blacklisted libraries removed!"
           echo "Remaining libraries:"
           ls "$APPDIR/usr/lib" | head -20
+
+      - name: Self-check GStreamer stack (headless)
+        run: |
+          set -euo pipefail
+          APPDIR="${GITHUB_WORKSPACE}/AppDir"
+
+          echo "Checking required bundled plugins exist..."
+          test -f "$APPDIR/usr/lib/gstreamer-1.0/libgstnice.so"
+          test -f "$APPDIR/usr/lib/gstreamer-1.0/libgstwebrtc.so"
+          test -f "$APPDIR/usr/lib/gstreamer-1.0/libgstdtls.so"
+          test -f "$APPDIR/usr/lib/gstreamer-1.0/libgstsrtp.so"
+
+          export LD_LIBRARY_PATH="$APPDIR/usr/lib"
+          export GST_PLUGIN_PATH="$APPDIR/usr/lib/gstreamer-1.0"
+          export GST_PLUGIN_SYSTEM_PATH="$APPDIR/usr/lib/gstreamer-1.0"
+          export GST_REGISTRY="${RUNNER_TEMP}/gst-registry-appdir.bin"
+          export GST_REGISTRY_FORK=no
+          if [ -x "$APPDIR/usr/lib/gstreamer-1.0/gst-plugin-scanner" ]; then
+            export GST_PLUGIN_SCANNER="$APPDIR/usr/lib/gstreamer-1.0/gst-plugin-scanner"
+          fi
+
+          echo "Ensuring plugin shared libraries have no missing deps..."
+          if ldd "$APPDIR/usr/lib/gstreamer-1.0/libgstnice.so" | grep -q "not found"; then
+            ldd "$APPDIR/usr/lib/gstreamer-1.0/libgstnice.so" || true
+            echo "::error::Missing shared library dependency for libgstnice.so"
+            exit 1
+          fi
+          if ldd "$APPDIR/usr/lib/gstreamer-1.0/libgstwebrtc.so" | grep -q "not found"; then
+            ldd "$APPDIR/usr/lib/gstreamer-1.0/libgstwebrtc.so" || true
+            echo "::error::Missing shared library dependency for libgstwebrtc.so"
+            exit 1
+          fi
+
+          echo "Running gst-inspect against bundled plugins..."
+          gst-inspect-1.0 --version
+          gst-inspect-1.0 nicesrc >/dev/null
+          gst-inspect-1.0 webrtcbin >/dev/null
 
       - name: Create AppImage
         run: |

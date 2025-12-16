@@ -66,6 +66,14 @@ public class Dino.Plugins.Rtp.Module : JingleRtp.Module {
     public override async bool is_payload_supported(string media, JingleRtp.PayloadType payload_type) {
         string? codec = CodecUtil.get_codec_from_payload(media, payload_type);
         if (codec == null) return false;
+
+        // Speex is deprecated/unreliable in our pipeline checks (and not needed for interop).
+        // Avoid probing/negotiating it entirely.
+        if (codec.down() == "speex") {
+            unsupported_codecs.add(codec);
+            return false;
+        }
+
         if (unsupported_codecs.contains(codec)) return false;
         if (supported_codecs.contains(codec)) return true;
 
@@ -139,38 +147,17 @@ public class Dino.Plugins.Rtp.Module : JingleRtp.Module {
         if (media == "audio") {
             var opus = new JingleRtp.PayloadType() { channels = 1, clockrate = 48000, name = "opus", id = 111, channels = 2 };
             opus.parameters["useinbandfec"] = "1";
-            var speex32 = new JingleRtp.PayloadType() { channels = 1, clockrate = 32000, name = "speex", id = 112 };
-            var speex16 = new JingleRtp.PayloadType() { channels = 1, clockrate = 16000, name = "speex", id = 113 };
-            var speex8 = new JingleRtp.PayloadType() { channels = 1, clockrate = 8000, name = "speex", id = 114 };
-            var g722 = new JingleRtp.PayloadType() { channels = 1, clockrate = 8000, name = "G722", id = 9 };
-            var pcmu = new JingleRtp.PayloadType() { channels = 1, clockrate = 8000, name = "PCMU", id = 0 };
-            var pcma = new JingleRtp.PayloadType() { channels = 1, clockrate = 8000, name = "PCMA", id = 8 };
             yield add_if_supported(list, media, opus);
-            yield add_if_supported(list, media, speex32);
-            yield add_if_supported(list, media, speex16);
-            yield add_if_supported(list, media, speex8);
-            yield add_if_supported(list, media, g722);
-            yield add_if_supported(list, media, pcmu);
-            yield add_if_supported(list, media, pcma);
         } else if (media == "video") {
             var rtcp_fbs = new ArrayList<JingleRtp.RtcpFeedback>();
             rtcp_fbs.add(new JingleRtp.RtcpFeedback("goog-remb"));
             rtcp_fbs.add(new JingleRtp.RtcpFeedback("ccm", "fir"));
             rtcp_fbs.add(new JingleRtp.RtcpFeedback("nack"));
             rtcp_fbs.add(new JingleRtp.RtcpFeedback("nack", "pli"));
-#if ENABLE_H264
-            var h264 = new JingleRtp.PayloadType() { clockrate = 90000, name = "H264", id = 96 };
-            yield add_if_supported(list, media, h264);
-            h264.rtcp_fbs.add_all(rtcp_fbs);
-#endif
             // VP8 first for better compatibility
             var vp8 = new JingleRtp.PayloadType() { clockrate = 90000, name = "VP8", id = 98 };
             vp8.rtcp_fbs.add_all(rtcp_fbs);
             yield add_if_supported(list, media, vp8);
-
-            var vp9 = new JingleRtp.PayloadType() { clockrate = 90000, name = "VP9", id = 99 };
-            vp9.rtcp_fbs.add_all(rtcp_fbs);
-            yield add_if_supported(list, media, vp9);
         } else {
             warning("Unsupported media type: %s", media);
         }
@@ -181,8 +168,8 @@ public class Dino.Plugins.Rtp.Module : JingleRtp.Module {
         if (media == "audio" || media == "video") {
             // Prefer VP8 first for better Monal/Conversations compatibility
             // VP8 is the mandatory WebRTC codec and has best cross-client support
-            string[] preferred_audio = {"opus", "speex", "g722", "pcmu", "pcma"};
-            string[] preferred_video = {"vp8", "vp9", "h264"};  // VP8 first for compatibility!
+            string[] preferred_audio = {"opus"};
+            string[] preferred_video = {"vp8"};  // VP8 first for compatibility!
             string[] preferred = media == "audio" ? preferred_audio : preferred_video;
             
             foreach (string codec_name in preferred) {
@@ -240,22 +227,19 @@ public class Dino.Plugins.Rtp.Module : JingleRtp.Module {
     }
 
     public override JingleRtp.Crypto? generate_local_crypto() {
-        uint8[] key_and_salt = new uint8[30];
-        Crypto.randomize(key_and_salt);
-        return JingleRtp.Crypto.create(JingleRtp.Crypto.AES_CM_128_HMAC_SHA1_80, key_and_salt);
+        // WebRTC clients (Conversations/Monal) expect DTLS-SRTP (fingerprint in ICE-UDP transport)
+        // and generally do not support SDP/Jingle SDES-SRTP crypto attributes.
+        // We negotiate DTLS-SRTP via the ICE transport plugin; therefore do not advertise SDES.
+        return null;
     }
 
     public override JingleRtp.Crypto? pick_remote_crypto(Gee.List<JingleRtp.Crypto> cryptos) {
-        foreach (JingleRtp.Crypto crypto in cryptos) {
-            if (crypto.is_valid) return crypto;
-        }
+        // DTLS-SRTP is handled at the transport layer; ignore any offered SDES crypto.
         return null;
     }
 
     public override JingleRtp.Crypto? pick_local_crypto(JingleRtp.Crypto? remote) {
-        if (remote == null || !remote.is_valid) return null;
-        uint8[] key_and_salt = new uint8[30];
-        Crypto.randomize(key_and_salt);
-        return remote.rekey(key_and_salt);
+        // DTLS-SRTP is handled at the transport layer; do not derive SDES keys.
+        return null;
     }
 }

@@ -38,7 +38,10 @@ public class Dino.Plugins.Ice.TransportParameters : JingleIceUdp.IceUdpTransport
 
         public override async void terminate(bool we_terminated, string? reason_string = null, string? reason_text = null) {
             yield base.terminate(we_terminated, reason_string, reason_text);
-            this.disconnect(datagram_received_id);
+            if (datagram_received_id != 0 && SignalHandler.is_connected(this, datagram_received_id)) {
+                this.disconnect(datagram_received_id);
+            }
+            datagram_received_id = 0;
             agent = null;
             dtls_srtp_handler = null;
         }
@@ -138,6 +141,16 @@ public class Dino.Plugins.Ice.TransportParameters : JingleIceUdp.IceUdpTransport
         }
     }
 
+    private static string? format_fingerprint(uint8[]? fingerprint) {
+        if (fingerprint == null) return null;
+        var sb = new StringBuilder();
+        for (int i = 0; i < fingerprint.length; i++) {
+            sb.append("%02X".printf(fingerprint[i]));
+            if (i < fingerprint.length - 1) sb.append(":");
+        }
+        return sb.str;
+    }
+
     public TransportParameters(Nice.Agent agent, DtlsSrtp.CredentialsCapsule? credentials, Xep.ExternalServiceDiscovery.Service? turn_service, string? turn_ip, uint8 components, Jid local_full_jid, Jid peer_full_jid, StanzaNode? node = null) {
         base(components, local_full_jid, peer_full_jid, node);
         this.we_want_connection = (node == null);
@@ -161,6 +174,10 @@ public class Dino.Plugins.Ice.TransportParameters : JingleIceUdp.IceUdpTransport
                     }
                 });
             }
+
+            debug("DTLS local: setup='%s' fingerprint(sha-256)=%s", own_setup ?? "null", format_fingerprint(own_fingerprint) ?? "null");
+            debug("DTLS peer (initial): setup='%s' hash='%s' fingerprint=%s",
+                peer_setup ?? "null", peer_fp_algo ?? "null", format_fingerprint(peer_fingerprint) ?? "null");
         }
 
         candidate_gathering_done_id = agent.candidate_gathering_done.connect(on_candidate_gathering_done);
@@ -261,6 +278,7 @@ public class Dino.Plugins.Ice.TransportParameters : JingleIceUdp.IceUdpTransport
                 dtls_srtp_handler.peer_fingerprint = peer_fingerprint;
                 dtls_srtp_handler.peer_fp_algo = peer_fp_algo;
             }
+            debug("DTLS peer accept: hash='%s' fingerprint=%s", peer_fp_algo ?? "null", format_fingerprint(peer_fingerprint) ?? "null");
             debug("DTLS: peer_setup='%s', our own_setup='%s'", peer_setup ?? "null", own_setup ?? "null");
             if (peer_setup == "passive") {
                 debug("DTLS: Switching to CLIENT mode because peer is passive");
@@ -301,6 +319,7 @@ public class Dino.Plugins.Ice.TransportParameters : JingleIceUdp.IceUdpTransport
                 dtls_srtp_handler.peer_fingerprint = peer_fingerprint;
                 dtls_srtp_handler.peer_fp_algo = peer_fp_algo;
             }
+            debug("DTLS peer info: hash='%s' setup='%s' fingerprint=%s", peer_fp_algo ?? "null", peer_setup ?? "null", format_fingerprint(peer_fingerprint) ?? "null");
         }
 
         if (!we_want_connection) return;
@@ -311,13 +330,17 @@ public class Dino.Plugins.Ice.TransportParameters : JingleIceUdp.IceUdpTransport
         }
         for (uint8 i = 1; i <= components; i++) {
             SList<Nice.Candidate> candidates = new SList<Nice.Candidate>();
+            int skipped_non_udp = 0;
             foreach (JingleIceUdp.Candidate candidate in remote_candidates) {
+                // Conversations/Monal WebRTC stacks do not use TCP candidates.
+                // Do not feed non-UDP candidates into libnice.
+                if (candidate.protocol != null && candidate.protocol.down() != "udp") { skipped_non_udp++; continue; }
                 if (candidate.component == i) {
                     candidates.append(candidate_to_nice(candidate));
                 }
             }
             int new_candidates = agent.set_remote_candidates(stream_id, i, candidates);
-            debug("Updated to %i remote candidates for candidate %u via transport info", new_candidates, i);
+            debug("Updated to %i remote candidates for component %u via transport info (skipped_non_udp=%d)", new_candidates, i, skipped_non_udp);
         }
     }
 
@@ -336,7 +359,9 @@ public class Dino.Plugins.Ice.TransportParameters : JingleIceUdp.IceUdpTransport
         }
         for (uint8 i = 1; i <= components; i++) {
             SList<Nice.Candidate> candidates = new SList<Nice.Candidate>();
+            int skipped_non_udp = 0;
             foreach (JingleIceUdp.Candidate candidate in remote_candidates) {
+                if (candidate.protocol != null && candidate.protocol.down() != "udp") { skipped_non_udp++; continue; }
                 if (candidate.ip.has_prefix("fe80::")) continue;
                 if (candidate.component == i) {
                     candidates.append(candidate_to_nice(candidate));
@@ -344,7 +369,7 @@ public class Dino.Plugins.Ice.TransportParameters : JingleIceUdp.IceUdpTransport
                 }
             }
             int new_candidates = agent.set_remote_candidates(stream_id, i, candidates);
-            debug("Initiated component %u with %i remote candidates", i, new_candidates);
+            debug("Initiated component %u with %i remote candidates (skipped_non_udp=%d)", i, new_candidates, skipped_non_udp);
 
             connections[i] = new DatagramConnection(agent, dtls_srtp_handler, stream_id, i);
             content.set_transport_connection(connections[i], i);
@@ -507,7 +532,7 @@ public class Dino.Plugins.Ice.TransportParameters : JingleIceUdp.IceUdpTransport
                 stream_id = 0;
             }
             
-            // Stop the thread loop to release the agent
+            // Stop the thread loop (used for attach_recv) now that the stream is removed.
             if (thread_loop != null) {
                 thread_loop.quit();
                 thread_loop = null;

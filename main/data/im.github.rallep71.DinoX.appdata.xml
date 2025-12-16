@@ -191,6 +191,16 @@
   <url type="translate">https://hosted.weblate.org/projects/dino/</url>
   <launchable type="desktop-id">im.github.rallep71.DinoX.desktop</launchable>
   <releases>
+    <release date="2025-12-16" version="0.8.5">
+      <description>
+        <p>Major improvements to 1:1 Jingle audio/video call interoperability.</p>
+        <ul>
+          <li>Better compatibility with Conversations (Android) and Monal (iOS)</li>
+          <li>Reduced startup artifacts and improved call stability</li>
+          <li>More reliable debug tooling for call issue reports</li>
+        </ul>
+      </description>
+    </release>
     <release date="2025-12-01" version="0.8.1">
       <description>
         <p>Full OpenPGP Localization.</p>

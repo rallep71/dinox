@@ -53,6 +53,8 @@ extern "C" void *dino_plugins_rtp_voice_processor_init_native(gint stream_delay)
     apm->Initialize(pconfig);
     apm->high_pass_filter()->Enable(true);
     apm->echo_cancellation()->enable_drift_compensation(false);
+    // WebRTC AEC can crash internally if drift samples are left uninitialized.
+    apm->echo_cancellation()->set_stream_drift_samples(0);
     // Use HIGH suppression for aggressive echo cancellation
     apm->echo_cancellation()->set_suppression_level(webrtc::EchoCancellation::kHighSuppression);
     apm->echo_cancellation()->enable_delay_logging(true);
@@ -196,12 +198,13 @@ extern "C" void dino_plugins_rtp_voice_processor_adjust_stream_delay(void *nativ
     g_debug("voice_processor_native.cpp: Stream delay metrics: median=%i std=%i poor_delays=%i%%", median, std, poor_delays);
     native->last_median = median;
     native->last_poor_delays = poor_delays;
-#if defined(WEBRTC0)
-    if (poor_delays > 90) {
-        native->stream_delay = std::min(std::max(0, native->stream_delay + std::min(48, std::max(median, -48))), 384);
+    if (poor_delays > 90 && median >= 0 - 384 && median <= 384) {
+        // Adjust the configured stream delay slowly to help the AEC converge.
+        // Clamp each step to +/-48ms and keep the delay within [0ms, 384ms].
+        int delta = std::min(48, std::max(median, -48));
+        native->stream_delay = std::min(std::max(0, native->stream_delay + delta), 384);
         g_debug("voice_processor_native.cpp: set stream_delay=%i", native->stream_delay);
     }
-#endif
 }
 
 extern "C" void

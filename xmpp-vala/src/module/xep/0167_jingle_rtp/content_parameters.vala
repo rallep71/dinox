@@ -29,6 +29,17 @@ public class Xmpp.Xep.JingleRtp.Parameters : Jingle.ContentParameters, Object {
 
     private Module parent;
 
+    private string payload_list_to_string(Gee.Iterable<PayloadType> pts) {
+        var sb = new StringBuilder();
+        bool first = true;
+        foreach (PayloadType pt in pts) {
+            if (!first) sb.append(", ");
+            first = false;
+            sb.append("%s/%u id=%u".printf(pt.name ?? "?", pt.clockrate, pt.id));
+        }
+        return sb.str;
+    }
+
     public Parameters(Module parent,
                       string media, Gee.List<PayloadType> payload_types,
                       string? ssrc = null, bool rtcp_mux = false,
@@ -76,6 +87,8 @@ public class Xmpp.Xep.JingleRtp.Parameters : Jingle.ContentParameters, Object {
             content.reject();
             return;
         }
+        debug("Jingle RTP proposed(%s): offered=[%s] selected=%s/%u id=%u", media, payload_list_to_string(payload_types),
+            agreed_payload_type.name ?? "?", agreed_payload_type.clockrate, agreed_payload_type.id);
         // Drop unsupported header extensions
         var iter = header_extensions.iterator();
         while(iter.next()) {
@@ -187,6 +200,8 @@ public class Xmpp.Xep.JingleRtp.Parameters : Jingle.ContentParameters, Object {
                     preferred_payload_type.name ?? "null");
         }
         agreed_payload_type = preferred_payload_type;
+        debug("Jingle RTP accept(%s): peer selected=%s/%u id=%u", media,
+            preferred_payload_type.name ?? "?", preferred_payload_type.clockrate, preferred_payload_type.id);
 
         Gee.List<StanzaNode> crypto_nodes = description_node.get_deep_subnodes("encryption", "crypto");
         if (crypto_nodes.size == 0) {

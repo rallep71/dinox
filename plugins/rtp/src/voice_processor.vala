@@ -38,16 +38,20 @@ public class Dino.Plugins.Rtp.EchoProbe : Audio.Filter {
         if (event.type == EventType.LATENCY && srcpad != null && srcpad.query(query)) {
             ClockTime upstream_latency;
             query.parse_latency(null, out upstream_latency, null);
-            int delay = this.delay;
             if (upstream_latency != CLOCK_TIME_NONE) {
-                delay = (int) (upstream_latency / MSECOND);
-            } else {
-                delay = 0;
-            }
-            if (delay != this.delay) {
-                debug("Delay adjusted from %dms to %dms", this.delay, delay);
-                this.delay = delay;
-                on_new_delay(delay);
+                int measured_delay = (int) (upstream_latency / MSECOND);
+                // Für AEC ist ein Delay von 0ms praktisch immer falsch.
+                // Wenn die Query nichts Sinnvolles liefert, behalten wir den bisherigen Wert.
+                // In der Praxis liefern manche Stacks gelegentlich viel zu kleine Werte (z.B. 10ms),
+                // was das AEC-Delay "thrashen" lässt und die Konvergenz verhindert.
+                if (measured_delay >= 150 && measured_delay < 2000) {
+                    int new_delay = int.min(measured_delay, 384);
+                    if (new_delay != this.delay) {
+                        debug("Delay adjusted from %dms to %dms", this.delay, new_delay);
+                        this.delay = new_delay;
+                        on_new_delay(new_delay);
+                    }
+                }
             }
         }
         return base.src_event((owned) event);
@@ -56,7 +60,7 @@ public class Dino.Plugins.Rtp.EchoProbe : Audio.Filter {
     public override FlowReturn transform_ip(Buffer buf) {
         lock (adapter) {
             adapter.push(adjust_to_running_time(this, buf));
-            while (adapter.available() > period_size) {
+            while (adapter.available() >= period_size) {
                 on_new_buffer(adapter.take_buffer(period_size));
             }
         }
@@ -197,6 +201,10 @@ public class Dino.Plugins.Rtp.VoiceProcessor : Audio.Filter {
         if (process_outgoing_buffer_handler_id != 0) {
             echo_probe.disconnect(process_outgoing_buffer_handler_id);
             process_outgoing_buffer_handler_id = 0;
+        }
+        if (process_stream_delay_handler_id != 0) {
+            echo_probe.disconnect(process_stream_delay_handler_id);
+            process_stream_delay_handler_id = 0;
         }
         if (adjust_delay_timeout_id != 0) {
             Source.remove(adjust_delay_timeout_id);

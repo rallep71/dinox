@@ -26,6 +26,23 @@ public class Handler {
     private Mutex buffer_mutex = Mutex();
     private Gee.LinkedList<Bytes> buffer_queue = new Gee.LinkedList<Bytes>();
 
+    private class PreSrtpPacket {
+        public uint component_id;
+        public uint8[] data;
+
+        public PreSrtpPacket(uint component_id, owned uint8[] data) {
+            this.component_id = component_id;
+            this.data = (owned) data;
+        }
+    }
+
+    // libwebrtc peers can start sending SRTP packets as soon as their DTLS finishes.
+    // If our DTLS handshake is still in progress, buffer a small amount to avoid audible pops/"knacken".
+    private Gee.LinkedList<PreSrtpPacket> pre_srtp_queue = new Gee.LinkedList<PreSrtpPacket>();
+    private const int MAX_PRE_SRTP_PACKETS = 256;
+    private uint pre_srtp_buffered = 0;
+    private uint pre_srtp_dropped = 0;
+
     private bool running = false;
     private bool stop = false;
     private bool restart = false;
@@ -40,19 +57,54 @@ public class Handler {
         this.own_fingerprint = creds.own_fingerprint;
     }
 
+    private static uint8[] copy_u8(uint8[] src) {
+        var dst = new uint8[src.length];
+        for (int i = 0; i < src.length; i++) dst[i] = src[i];
+        return dst;
+    }
+
+    private void buffer_pre_srtp(uint component_id, uint8[] data) {
+        // Keep only a bounded queue to avoid unbounded memory usage.
+        if (pre_srtp_queue.size >= MAX_PRE_SRTP_PACKETS) {
+            pre_srtp_queue.remove_at(0);
+            pre_srtp_dropped++;
+        }
+        pre_srtp_queue.add(new PreSrtpPacket(component_id, copy_u8(data)));
+        pre_srtp_buffered++;
+
+        // Avoid spamming logs; print first few, then periodic.
+        if (pre_srtp_buffered <= 5 || (pre_srtp_buffered % 50) == 0) {
+            debug("DTLS-SRTP: buffering pre-ready SRTP packet (component=%u, bytes=%d, buffered=%u, dropped=%u)",
+                component_id, data.length, pre_srtp_buffered, pre_srtp_dropped);
+        }
+    }
+
     public uint8[]? process_incoming_data(uint component_id, uint8[] data) throws Crypto.Error {
         if (data[0] >= 128) {
             if (!srtp_session.has_decrypt) {
-                debug("Received data before SRTP session is ready, dropping.");
+                buffer_pre_srtp(component_id, data);
                 return null;
             }
-            if (component_id == 1) {
-                if (data.length >= 2 && data[1] >= 192 && data[1] < 224) {
-                    return srtp_session.decrypt_rtcp(data);
-                }
-                return srtp_session.decrypt_rtp(data);
+
+            uint decrypt_component_id = component_id;
+            uint8[] decrypt_data = data;
+
+            // Drain buffered packets first once SRTP becomes available.
+            if (pre_srtp_queue.size > 0) {
+                buffer_pre_srtp(component_id, data);
+                var pkt = pre_srtp_queue.get(0);
+                pre_srtp_queue.remove_at(0);
+                decrypt_component_id = pkt.component_id;
+                decrypt_data = pkt.data;
             }
-            if (component_id == 2) return srtp_session.decrypt_rtcp(data);
+
+            if (decrypt_component_id == 1) {
+                if (decrypt_data.length >= 2 && decrypt_data[1] >= 192 && decrypt_data[1] < 224) {
+                    return srtp_session.decrypt_rtcp(decrypt_data);
+                }
+                return srtp_session.decrypt_rtp(decrypt_data);
+            }
+            if (decrypt_component_id == 2) return srtp_session.decrypt_rtcp(decrypt_data);
         }
         if (component_id == 1 && data.length >= 1 && (data[0] >= 20 && data[0] < 64)) {
             on_data_rec(data);
