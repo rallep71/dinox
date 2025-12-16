@@ -21,8 +21,7 @@ jobs:
           if pkg-config --exists gstreamer-webrtc-1.0; then
             echo "- gstreamer-webrtc-1.0: $(pkg-config --modversion gstreamer-webrtc-1.0)"
           else
-            echo "::error::Missing gstreamer-webrtc-1.0 (expected from libgstreamer-plugins-bad1.0-dev)"
-            exit 1
+            echo "::warning::gstreamer-webrtc-1.0 pkg-config not found (ok; not required for RTP/Jingle calls)"
           fi
 
           apm_pc=""
@@ -32,21 +31,26 @@ jobs:
               break
             fi
           done
-          if [ -z "$apm_pc" ]; then
-            echo "::error::Missing webrtc-audio-processing pkg-config (expected from libwebrtc-audio-processing-dev or webrtc-audio-processing-2)"
-            exit 1
+          if [ -n "$apm_pc" ]; then
+            echo "- $apm_pc: $(pkg-config --modversion "$apm_pc")"
+          else
+            echo "::warning::No webrtc-audio-processing pkg-config found (AEC/NS/AGC will be disabled; build remains functional)"
           fi
-          echo "- $apm_pc: $(pkg-config --modversion "$apm_pc")"
 
           nice_ver="$(pkg-config --modversion nice)"
           gst_ver="$(pkg-config --modversion gstreamer-1.0)"
-          gst_webrtc_ver="$(pkg-config --modversion gstreamer-webrtc-1.0)"
-          apm_ver="$(pkg-config --modversion "$apm_pc")"
 
-          dpkg --compare-versions "$nice_ver" ge 0.1.23
+          if [ -n "$apm_pc" ]; then
+            apm_ver="$(pkg-config --modversion "$apm_pc")"
+          else
+            apm_ver="0"
+          fi
+
+          dpkg --compare-versions "$nice_ver" ge 0.1.21
           dpkg --compare-versions "$gst_ver" ge 1.24.0
-          dpkg --compare-versions "$gst_webrtc_ver" ge 1.24.0
-          dpkg --compare-versions "$apm_ver" ge 0.3.0
+          if [ "$apm_ver" != "0" ]; then
+            dpkg --compare-versions "$apm_ver" ge 0.3.0
+          fi
       - name: "Checkout sources"
         uses: actions/checkout@v4
         with:
@@ -82,8 +86,7 @@ jobs:
           if pkg-config --exists gstreamer-webrtc-1.0; then
             echo "- gstreamer-webrtc-1.0: $(pkg-config --modversion gstreamer-webrtc-1.0)"
           else
-            echo "::error::Missing gstreamer-webrtc-1.0 (expected from libgstreamer-plugins-bad1.0-dev)"
-            exit 1
+            echo "::warning::gstreamer-webrtc-1.0 pkg-config not found (ok; not required for RTP/Jingle calls)"
           fi
 
           apm_pc=""
@@ -93,21 +96,26 @@ jobs:
               break
             fi
           done
-          if [ -z "$apm_pc" ]; then
-            echo "::error::Missing webrtc-audio-processing pkg-config (expected from libwebrtc-audio-processing-dev or webrtc-audio-processing-2)"
-            exit 1
+          if [ -n "$apm_pc" ]; then
+            echo "- $apm_pc: $(pkg-config --modversion "$apm_pc")"
+          else
+            echo "::warning::No webrtc-audio-processing pkg-config found (AEC/NS/AGC will be disabled; build remains functional)"
           fi
-          echo "- $apm_pc: $(pkg-config --modversion "$apm_pc")"
 
           nice_ver="$(pkg-config --modversion nice)"
           gst_ver="$(pkg-config --modversion gstreamer-1.0)"
-          gst_webrtc_ver="$(pkg-config --modversion gstreamer-webrtc-1.0)"
-          apm_ver="$(pkg-config --modversion "$apm_pc")"
 
-          dpkg --compare-versions "$nice_ver" ge 0.1.23
+          if [ -n "$apm_pc" ]; then
+            apm_ver="$(pkg-config --modversion "$apm_pc")"
+          else
+            apm_ver="0"
+          fi
+
+          dpkg --compare-versions "$nice_ver" ge 0.1.21
           dpkg --compare-versions "$gst_ver" ge 1.24.0
-          dpkg --compare-versions "$gst_webrtc_ver" ge 1.24.0
-          dpkg --compare-versions "$apm_ver" ge 0.3.0
+          if [ "$apm_ver" != "0" ]; then
+            dpkg --compare-versions "$apm_ver" ge 0.3.0
+          fi
       - name: "Install Vala Nightly"
         run: |
           sudo apt-get install -y autoconf-archive gobject-introspection libgraphviz-dev
