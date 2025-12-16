@@ -10,7 +10,7 @@
 
 **Modern XMPP Messenger for Linux**
 
-Featuring MUJI group video calls, voice messages, OMEMO encryption and 45 languages
+Featuring MUJI group video calls, voice messages, OMEMO encryption and 47 languages
 
 [Website](https://dinox.handwerker.jetzt) • [Download](#installation) • [Features](#key-features) • [XEP Support](#xep-support) • [Contributing](CONTRIBUTING.md)
 
@@ -32,7 +32,7 @@ DinoX features System Tray support, MUJI group video calls, voice messages, mess
 | **OpenPGP Encryption** | XEP-0373 with key management, generation & deletion |
 | **Disappearing Messages** | Auto-delete messages after 15min, 30min, 1h, 24h, 7d or 30d |
 | **MUJI Group Calls** | Multi-party audio/video conferences (mesh-based) |
-| **1:1 Voice & Video** | High-quality Jingle calls with ICE/STUN/TURN |
+| **1:1 Voice & Video** | Interoperable Jingle calls (ICE-UDP + DTLS-SRTP, Opus/VP8 baseline) |
 | **Voice Messages** | Record and send audio messages (AAC format) |
 | **Inline Video Player** | Play videos directly in chat (no external player) |
 | **Group Chats (MUC)** | Full support with moderation, roles, private rooms |
@@ -84,9 +84,22 @@ sudo apt install build-essential meson ninja-build valac \
   libgtk-4-dev libadwaita-1-dev libglib2.0-dev libgee-0.8-dev \
   libsqlcipher-dev libsecret-1-dev libicu-dev libdbusmenu-glib-dev libgcrypt20-dev \
   libgpgme-dev libqrencode-dev libsoup-3.0-dev libgstreamer1.0-dev \
-  libgstreamer-plugins-base1.0-dev libwebrtc-audio-processing-dev \
-  libnice-dev libsrtp2-dev
+  libgstreamer-plugins-base1.0-dev libgstreamer-plugins-bad1.0-dev \
+  libwebrtc-audio-processing-dev libnice-dev libgnutls28-dev libsrtp2-dev
 ```
+
+For a complete, up-to-date build guide (including Fedora/Arch and call stack notes), see [BUILD.md](BUILD.md).
+
+## Audio/Video calling notes
+
+DinoX 1:1 calling focuses on cross-client interoperability (notably with **Conversations (Android)** and **Monal (iOS)**) while keeping the existing media stack:
+
+- **Media stack:** GStreamer (RTP/rtpbin + WebRTC elements), `libnice` (ICE), `gnutls` (DTLS), `libsrtp2` (SRTP).
+- **Security profile:** **DTLS-SRTP only** (no SDES-SRTP).
+- **Baseline codecs:** **Opus** (audio) and **VP8** (video) for reliable interop.
+- **Optional audio quality:** `webrtc-audio-processing` enables AEC/NS/AGC if present.
+
+If you are building from source using distro packages, ensure you are on a sufficiently new `libnice` (recommended: `>= 0.1.23`). For collecting reproducible call logs, see [DEBUG.md](DEBUG.md).
 
 ## XEP Support
 

@@ -16,6 +16,33 @@ Notes:
 - DinoX uses Meson `dependency()` / pkg-config for most third-party libraries. That means it links against whatever is installed in your build environment (including `/usr/local` if present).
 - Audio/video calling support (RTP/Jingle) needs additional GStreamer + ICE/DTLS/SRTP dependencies; see “Audio/Video calling stack” below.
 
+### Version notes (calls / RTP plugin)
+
+For a plain “build from source” on a Linux distro, DinoX will use the versions available in your system packages. For **releases**, the effective versions are controlled by the packaging:
+
+- **Flatpak:** pinned/built as defined in [im.github.rallep71.DinoX.json](im.github.rallep71.DinoX.json).
+- **AppImage:** a curated set of runtime libs/plugins is bundled; versions depend on what the AppImage build environment provides and what the build workflow bundles.
+
+In particular:
+
+- **libnice (ICE):** DinoX call support is known to have issues with older libnice versions. The release builds bundle/build **libnice 0.1.23**; for distro/source builds you should use **libnice >= 0.1.23**.
+- **“webrtc” in DinoX does NOT mean Google/libwebrtc:** DinoX uses **GStreamer** (not the full Google WebRTC stack). The relevant pieces are the GStreamer plugins from `gst-plugins-bad` (DTLS/SRTP/WebRTC elements) plus `libnice` for ICE.
+- **webrtc-audio-processing (optional):** If present, it enables echo cancellation / noise suppression / AGC. DinoX builds and runs without it.
+
+#### Quick checks (distro/source builds)
+
+```bash
+pkg-config --modversion nice
+pkg-config --modversion gstreamer-1.0
+pkg-config --modversion gstreamer-plugins-bad-1.0
+pkg-config --modversion webrtc-audio-processing || true
+
+# Elements provided by gst-plugins-bad (names may vary by distro build options)
+gst-inspect-1.0 webrtcbin >/dev/null
+gst-inspect-1.0 dtlsenc  >/dev/null
+gst-inspect-1.0 srtpenc  >/dev/null
+```
+
 ### Debian / Ubuntu / Linux Mint
 
 ```bash
@@ -103,6 +130,8 @@ sudo pacman -S \
     gnutls \
     libsrtp
 
+```
+
 ### Audio/Video calling stack
 
 - **Required for A/V calls (RTP/Jingle):** GStreamer core + `gst-plugins-bad` (DTLS/SRTP/WebRTC libs), `libnice` (ICE), `libsrtp2` (SRTP), `gnutls` (DTLS).
@@ -150,5 +179,47 @@ If Meson complains about a missing dependency, check the error message. It usual
 
 ### Flatpak vs AppImage dependency sourcing
 
+
 - **Flatpak** ([im.github.rallep71.DinoX.json](im.github.rallep71.DinoX.json)) uses `org.gnome.Platform` as runtime. GStreamer/libnice/etc come from the Flatpak runtime, not your host system.
 - **AppImage** ([scripts/build-appimage.sh](scripts/build-appimage.sh)) bundles a selection of runtime libraries and GStreamer plugins from the build machine into the AppDir. The effective versions therefore depend on what’s installed on the build host. For best results, build the AppImage in a controlled environment.
+
+### How to check exact versions (Flatpak / AppImage)
+
+#### Flatpak
+
+Check the installed app metadata and query versions from *inside the sandbox*:
+
+```bash
+# Shows DinoX version and runtime
+flatpak info im.github.rallep71.DinoX
+
+# Library versions inside the sandbox
+flatpak run --command=sh im.github.rallep71.DinoX -c "pkg-config --modversion nice"
+flatpak run --command=sh im.github.rallep71.DinoX -c "pkg-config --modversion gstreamer-1.0"
+flatpak run --command=sh im.github.rallep71.DinoX -c "pkg-config --modversion gstreamer-plugins-bad-1.0"
+flatpak run --command=sh im.github.rallep71.DinoX -c "pkg-config --modversion webrtc-audio-processing || true"
+
+# Verify SQLCipher compile flags (FTS support)
+flatpak run --command=sh im.github.rallep71.DinoX -c "printf '%s\\n' '.mode list' 'pragma compile_options;' | sqlcipher :memory: 2>/dev/null | grep -E 'FTS3|FTS4|FTS5' || true"
+```
+
+Release Flatpaks may also pin/build specific dependency versions directly in the manifest (for example `libnice`) in [im.github.rallep71.DinoX.json](im.github.rallep71.DinoX.json).
+
+#### AppImage
+
+The official AppImage release bundles key runtime libraries and GStreamer plugins. To inspect what your downloaded AppImage contains:
+
+```bash
+chmod +x DinoX-*.AppImage
+
+# Extract into ./squashfs-root/
+./DinoX-*.AppImage --appimage-extract
+
+# Check for the key call-related GStreamer plugins
+ls -la squashfs-root/usr/lib/gstreamer-1.0 | grep -E 'libgst(nice|dtls|srtp|webrtc)\\.so' || true
+
+# Locate a bundled libnice shared library (path can vary)
+find squashfs-root -maxdepth 5 -type f -name 'libnice*.so*' -print
+```
+
+If you want deterministic AppImage dependency versions, build in a clean/controlled environment (container/VM) and avoid mixing host system GStreamer plugins with the bundled set.

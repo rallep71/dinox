@@ -1,7 +1,7 @@
 # DinoX - Development Plan
 
 > **Last Updated**: December 16, 2025
-> **Version**: 0.8.5
+> **Version**: 0.8.5.4
 
 ---
 
@@ -9,7 +9,7 @@
 
 | Metric | Status |
 |--------|--------|
-| **Version** | v0.8.5 |
+| **Version** | v0.8.5.4 |
 | **XEPs Implemented** | ~70 |
 | **Languages** | 47 (100% translated) |
 | **Build Status** | Clean |
@@ -17,12 +17,28 @@
 
 ---
 
-## Recently Completed (v0.8.0 - v0.8.4)
+## Recently Completed (v0.8.0 - v0.8.5.4)
 
 ### Video & Audio (v0.8.4)
 - **WebRTC Video Calls**: Full support for VP8, VP9, and H.264 codecs.
 - **ICE-TCP**: Fallback connectivity for restrictive firewalls (RFC 6544).
 - **Hardware Acceleration**: VA-API support for video encoding/decoding.
+
+### Audio/Video call interoperability (v0.8.5)
+
+Goal: stable cross-client 1:1 calling with **Conversations (Android)** and **Monal (iOS)** while keeping DinoX’s media stack (GStreamer + libnice + DTLS-SRTP).
+
+- **Interop profile**: prefer **ICE-UDP** + **DTLS-SRTP** only (no SDES-SRTP).
+- **Codec baseline**: focus on **Opus** (audio) + **VP8** (video) for reliable negotiation.
+- **Startup/teardown stability**: reduced startup artifacts and improved cleanup ordering.
+
+### Release engineering / packaging hotfixes (v0.8.5.x)
+
+Focus: make GitHub release assets reliable for end users (Flatpak/AppImage).
+
+- **AppImage/Flatpak: libnice 0.1.23** bundled/built deterministically (avoids known issues with older libnice such as 0.1.21).
+- **Flatpak: SQLCipher FTS4 enabled** to fix startup failure `no such module: fts4`.
+- **Release notes**: hotfix tags reuse the base release notes (0.8.5) to keep the changelog readable.
 
 ### Security & Privacy (v0.8.2 - v0.8.3)
 - **Database Encryption**: Full SQLCipher integration protecting local data.
@@ -40,12 +56,12 @@
 
 ### Phase 9: Refinement & Quality (Q1 2026)
 
-Focus on polishing the new video call features and general app stability.
+Focus on polishing call interoperability and general app stability.
 
 | Feature | Description | Status |
 |---------|-------------|--------|
 | **Call Quality UI** | Display packet loss, jitter, and resolution during calls | IN PROGRESS (Backend Ready) |
-| **Echo Cancellation** | Fine-tune WebRTC AEC settings for Linux audio subsystems | IN PROGRESS |
+| **Echo Cancellation** | Fine-tune `webrtc-audio-processing` AEC settings for Linux audio subsystems | IN PROGRESS |
 | **Spell Checking** | Re-enable spell checking (waiting for GTK4 GtkTextView support) | BLOCKED |
 | **Performance** | Optimize memory usage for long-running sessions | TODO |
 
@@ -62,12 +78,12 @@ Adding features that make chatting more expressive and mobile-friendly.
 
 ### Phase 11: Advanced Media & Collaboration (Q3 2026)
 
-Expanding WebRTC capabilities beyond 1:1 calls.
+Expanding calling capabilities beyond 1:1 calls.
 
 | Feature | Description | Status |
 |---------|-------------|--------|
 | **Screen Sharing** | Share desktop or specific windows during calls | TODO |
-| **Group Calls** | MUJI (XEP-0272) support for 3+ participants | PLANNED |
+| **Group Calls** | MUJI (XEP-0272) support for 3+ participants | IMPLEMENTED |
 | **Whiteboard** | Collaborative drawing (XEP-0284 or similar) | CONCEPT |
 
 ### Phase 12: 1.0 Release (Q4 2026)
