@@ -123,17 +123,24 @@ public class MainWindowController : Object {
     }
 
     public void select_conversation(Conversation? conversation, bool do_reset_search = true, bool default_initialize_conversation = true) {
+        int64 t0_us = Dino.Ui.UiTiming.now_us();
         this.conversation = conversation;
 
         conversation_view_controller.select_conversation(conversation, default_initialize_conversation);
+
+        Dino.Ui.UiTiming.log_ms("MainWindowController.select_conversation: view_controller", t0_us);
 
         stream_interactor.get_module(ChatInteraction.IDENTITY).on_conversation_selected(conversation);
         conversation.active = true; // only for conversation_selected
         window.conversation_selector.on_conversation_selected(conversation); // In case selection was not via ConversationSelector
 
+        Dino.Ui.UiTiming.log_ms("MainWindowController.select_conversation: post_select_hooks", t0_us);
+
         if (do_reset_search) {
             reset_search_entry();
         }
+
+        Dino.Ui.UiTiming.log_ms("MainWindowController.select_conversation: total", t0_us);
     }
 
     private void check_unset_conversation() {

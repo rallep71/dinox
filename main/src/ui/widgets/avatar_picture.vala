@@ -82,6 +82,7 @@ public class Dino.Ui.ViewModel.CompatAvatarPictureModel : AvatarPictureModel {
     private PresenceManager? presence_manager { owned get { return stream_interactor == null ? null : stream_interactor.get_module(PresenceManager.IDENTITY); } }
     private ConnectionManager? connection_manager { owned get { return stream_interactor == null ? null : stream_interactor.connection_manager; } }
     private Conversation? conversation;
+    private uint conversation_generation = 0;
 
     construct {
         tiles = new GLib.ListStore(typeof(ViewModel.AvatarPictureTileModel));
@@ -157,6 +158,8 @@ public class Dino.Ui.ViewModel.CompatAvatarPictureModel : AvatarPictureModel {
     }
 
     public CompatAvatarPictureModel set_conversation(Conversation conversation) {
+        int64 t0_us = Dino.Ui.UiTiming.now_us();
+        uint gen = ++conversation_generation;
         if (stream_interactor == null) {
             critical("set_conversation() used on CompatAvatarPictureModel without stream_interactor");
             return this;
@@ -166,22 +169,38 @@ public class Dino.Ui.ViewModel.CompatAvatarPictureModel : AvatarPictureModel {
             if (avatar_manager.has_avatar(conversation.account, conversation.counterpart)) {
                 add_internal("#", conversation.counterpart.to_string(), avatar_manager.get_avatar_file(conversation.account, conversation.counterpart));
             } else {
-                Gee.List<Jid>? occupants = muc_manager.get_other_offline_members(conversation.counterpart, conversation.account);
-                if (occupants != null && !occupants.is_empty && muc_manager.is_private_room(conversation.account, conversation.counterpart)) {
-                    int count = occupants.size > 4 ? 3 : occupants.size;
-                    for (int i = 0; i < count; i++) {
-                        add_participant(conversation, occupants[i]);
-                    }
-                    if (occupants.size > 4) {
-                        add_internal("+");
-                    }
-                } else {
-                    add_internal("#", conversation.counterpart.to_string());
+                // Fast placeholder first; private-room occupant avatar composition can be expensive.
+                add_internal("#", conversation.counterpart.to_string());
+
+                // Defer private-room avatar composition to keep chat switching responsive.
+                if (muc_manager.is_private_room(conversation.account, conversation.counterpart)) {
+                    Idle.add(() => {
+                        // Conversation changed since scheduling?
+                        if (this.conversation_generation != gen || this.conversation == null) return false;
+
+                        int64 t_occ_us = Dino.Ui.UiTiming.now_us();
+                        Gee.List<Jid>? occupants = muc_manager.get_other_offline_members(conversation.counterpart, conversation.account);
+                        Dino.Ui.UiTiming.log_ms("CompatAvatarPictureModel.set_conversation: get_other_offline_members", t_occ_us);
+
+                        if (occupants != null && !occupants.is_empty) {
+                            reset();
+                            int count = occupants.size > 4 ? 3 : occupants.size;
+                            for (int i = 0; i < count; i++) {
+                                add_participant(conversation, occupants[i]);
+                            }
+                            if (occupants.size > 4) {
+                                add_internal("+");
+                            }
+                        }
+                        return false;
+                    });
                 }
             }
         } else {
             add_participant(conversation, conversation.counterpart);
         }
+
+        Dino.Ui.UiTiming.log_ms("CompatAvatarPictureModel.set_conversation: total", t0_us);
         return this;
     }
 

@@ -60,6 +60,7 @@ main/src/ui/chat_input/chat_text_view.vala
 main/src/ui/chat_input/encryption_button.vala
 main/src/ui/chat_input/occupants_tab_completer.vala
 main/src/ui/chat_input/smiley_converter.vala
+main/src/ui/chat_input/sticker_chooser.vala
 main/src/ui/chat_input/view.vala
 main/src/ui/contact_details/permissions_provider.vala
 main/src/ui/contact_details/settings_provider.vala
@@ -98,6 +99,7 @@ main/src/ui/occupant_menu/list_row.vala
 main/src/ui/occupant_menu/list.vala
 main/src/ui/occupant_menu/view.vala
 main/src/ui/systray.vala
+main/src/ui/sticker_pack_import_dialog.vala
 main/src/ui/util/accounts_combo_box.vala
 main/src/ui/util/config.vala
 main/src/ui/util/data_forms.vala

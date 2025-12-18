@@ -24,12 +24,14 @@ public class View : Box {
     [GtkChild] public unowned Button file_button;
     [GtkChild] public unowned Button record_button;
     [GtkChild] public unowned MenuButton emoji_button;
+    [GtkChild] public unowned MenuButton sticker_button;
     [GtkChild] public unowned MenuButton encryption_button;
     [GtkChild] public unowned Button send_button;
     [GtkChild] public unowned Separator file_separator;
     [GtkChild] public unowned Label chat_input_status;
 
     public EncryptionButton encryption_widget;
+    private StickerChooser? sticker_chooser;
 
     public View init(StreamInteractor stream_interactor) {
         this.stream_interactor = stream_interactor;
@@ -44,6 +46,16 @@ public class View : Box {
 
         emoji_button.set_popover(chooser);
 
+        sticker_chooser = new StickerChooser(stream_interactor);
+        sticker_button.set_popover(sticker_chooser);
+        sticker_button.tooltip_text = Util.string_if_tooltips_active(_("Stickers"));
+
+        // Defensive: keep MenuButton state in sync when the popover is dismissed programmatically
+        // (e.g. by selecting a sticker) or by outside clicks.
+        sticker_chooser.closed.connect(() => {
+            if (sticker_button.active) sticker_button.active = false;
+        });
+
         file_button.tooltip_text = Util.string_if_tooltips_active(_("Send a file"));
 
         return this;
@@ -55,15 +67,37 @@ public class View : Box {
     }
 
     public void initialize_for_conversation(Conversation conversation) {
-        if (this.conversation != null) entry_cache[this.conversation] = chat_text_view.text_view.buffer.text;
-        this.conversation = conversation;
+        int64 t0_us = Dino.Ui.UiTiming.now_us();
 
+        int64 t_cache_prev_us = Dino.Ui.UiTiming.now_us();
+        if (this.conversation != null) entry_cache[this.conversation] = chat_text_view.text_view.buffer.text;
+        Dino.Ui.UiTiming.log_ms("ChatInput.View.initialize_for_conversation: cache_prev", t_cache_prev_us);
+
+        int64 t_set_conv_us = Dino.Ui.UiTiming.now_us();
+        this.conversation = conversation;
+        Dino.Ui.UiTiming.log_ms("ChatInput.View.initialize_for_conversation: set_conversation", t_set_conv_us);
+
+        int64 t_clear_us = Dino.Ui.UiTiming.now_us();
         chat_text_view.text_view.buffer.text = "";
+        Dino.Ui.UiTiming.log_ms("ChatInput.View.initialize_for_conversation: clear_buffer", t_clear_us);
+
+        int64 t_restore_us = Dino.Ui.UiTiming.now_us();
         if (entry_cache.has_key(conversation)) {
             chat_text_view.text_view.buffer.text = entry_cache[conversation];
         }
+        Dino.Ui.UiTiming.log_ms("ChatInput.View.initialize_for_conversation: restore_draft", t_restore_us);
 
+        int64 t_focus_us = Dino.Ui.UiTiming.now_us();
         do_focus();
+        Dino.Ui.UiTiming.log_ms("ChatInput.View.initialize_for_conversation: focus", t_focus_us);
+
+        int64 t_sticker_us = Dino.Ui.UiTiming.now_us();
+        if (sticker_chooser != null) {
+            sticker_chooser.set_conversation(conversation);
+        }
+        Dino.Ui.UiTiming.log_ms("ChatInput.View.initialize_for_conversation: sticker_chooser", t_sticker_us);
+
+        Dino.Ui.UiTiming.log_ms("ChatInput.View.initialize_for_conversation: total", t0_us);
     }
 
     public void set_input_state(Plugins.InputFieldStatus.MessageType message_type) {

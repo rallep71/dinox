@@ -14,6 +14,9 @@ public class Settings : Object {
         check_spelling = col_to_bool_or_default("check_spelling", true);
         keep_background_ = col_to_bool_or_default("keep_background", true);
         color_scheme_ = col_to_string_or_default("color_scheme", "dark");
+
+        stickers_enabled_ = col_to_bool_or_default("stickers_enabled", true);
+        sticker_animations_enabled_ = col_to_bool_or_default("sticker_animations_enabled", true);
     }
 
     private bool col_to_bool_or_default(string key, bool def) {
@@ -108,6 +111,30 @@ public class Settings : Object {
                 .value(db.settings.value, value)
                 .perform();
             color_scheme_ = value;
+        }
+    }
+
+    private bool stickers_enabled_;
+    public bool stickers_enabled {
+        get { return stickers_enabled_; }
+        set {
+            db.settings.upsert()
+                .value(db.settings.key, "stickers_enabled", true)
+                .value(db.settings.value, value.to_string())
+                .perform();
+            stickers_enabled_ = value;
+        }
+    }
+
+    private bool sticker_animations_enabled_;
+    public bool sticker_animations_enabled {
+        get { return sticker_animations_enabled_; }
+        set {
+            db.settings.upsert()
+                .value(db.settings.key, "sticker_animations_enabled", true)
+                .value(db.settings.value, value.to_string())
+                .perform();
+            sticker_animations_enabled_ = value;
         }
     }
 

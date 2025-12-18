@@ -34,19 +34,28 @@ public class ConversationItemSkeleton : Plugins.ConversationItemWidgetInterface,
     public Widget? widget = null;
     private ReactionsController? reactions_controller = null;
 
+    private bool defer_heavy_work = false;
+    private bool header_initialized = false;
+    private bool content_initialized = false;
+    private uint deferred_header_source_id = 0;
+    private uint deferred_content_source_id = 0;
+
     private uint time_update_timeout = 0;
     private ulong updated_roster_handler_id = 0;
 
-    public ConversationItemSkeleton(StreamInteractor stream_interactor, Conversation conversation, Plugins.MetaConversationItem item) {
+    public ConversationItemSkeleton(StreamInteractor stream_interactor, Conversation conversation, Plugins.MetaConversationItem item, bool defer_heavy_work = false) {
         this.stream_interactor = stream_interactor;
         this.conversation = conversation;
         this.item = item;
         this.content_meta_item = item as ContentMetaItem;
+        this.defer_heavy_work = defer_heavy_work;
 
         item.bind_property("in-edit-mode", this, "item-in-edit-mode");
         this.notify["item-in-edit-mode"].connect(update_edit_mode);
 
+        int64 t_builder_us = Dino.Ui.UiTiming.now_us();
         Builder builder = new Builder.from_resource("/im/github/rallep71/DinoX/conversation_item_widget.ui");
+        Dino.Ui.UiTiming.log_ms("ConversationItemSkeleton.constructor: builder", t_builder_us);
         main_grid = (Grid) builder.get_object("main_grid");
         main_grid.add_css_class("message-box");
         name_label = (Label) builder.get_object("name_label");
@@ -55,10 +64,17 @@ public class ConversationItemSkeleton : Plugins.ConversationItemWidgetInterface,
         encryption_image = (Image) builder.get_object("encrypted_image");
         received_image = (Image) builder.get_object("marked_image");
 
-        widget = item.get_widget(this, Plugins.WidgetType.GTK4) as Widget;
-        if (widget != null) {
-            widget.valign = Align.END;
-            set_widget(widget, Plugins.WidgetType.GTK4, 2);
+        if (defer_heavy_work) {
+            deferred_content_source_id = Idle.add(() => {
+                deferred_content_source_id = 0;
+                if (main_grid.parent == null) {
+                    return false;
+                }
+                ensure_content_initialized();
+                return false;
+            });
+        } else {
+            ensure_content_initialized();
         }
 
         if (item.requires_header) {
@@ -74,14 +90,29 @@ public class ConversationItemSkeleton : Plugins.ConversationItemWidgetInterface,
         this.notify["show-skeleton"].connect(update_margin);
         this.notify["show-skeleton"].connect(set_header);
 
+        update_margin();
+    }
+
+    private void ensure_content_initialized() {
+        if (content_initialized) return;
+        content_initialized = true;
+
+        int64 t_widget_us = Dino.Ui.UiTiming.now_us();
+        widget = item.get_widget(this, Plugins.WidgetType.GTK4) as Widget;
+        Dino.Ui.UiTiming.log_ms("ConversationItemSkeleton.ensure_content_initialized: item.get_widget", t_widget_us);
+        if (widget != null) {
+            widget.valign = Align.END;
+            set_widget(widget, Plugins.WidgetType.GTK4, 2);
+        }
+
         ContentMetaItem? content_meta_item = item as ContentMetaItem;
         if (content_meta_item != null) {
+            int64 t_react_us = Dino.Ui.UiTiming.now_us();
             reactions_controller = new ReactionsController(conversation, content_meta_item.content_item, stream_interactor);
             reactions_controller.box_activated.connect(on_reaction_box_activated);
             reactions_controller.init();
+            Dino.Ui.UiTiming.log_ms("ConversationItemSkeleton.ensure_content_initialized: reactions_controller.init", t_react_us);
         }
-
-        update_margin();
     }
 
     private void on_avatar_clicked(GestureClick controller, int n_press, double x, double y) {
@@ -97,10 +128,29 @@ public class ConversationItemSkeleton : Plugins.ConversationItemWidgetInterface,
 
     private void set_header() {
         if (!show_skeleton) return;
+        if (header_initialized) return;
+        header_initialized = true;
+
+        if (defer_heavy_work) {
+            deferred_header_source_id = Idle.add(() => {
+                deferred_header_source_id = 0;
+                if (main_grid.parent == null || !show_skeleton) {
+                    return false;
+                }
+                init_header();
+                return false;
+            });
+            return;
+        }
+
+        init_header();
+    }
+
+    private void init_header() {
+        int64 t0_us = Dino.Ui.UiTiming.now_us();
 
         update_name_label();
-//            name_label.style_updated.connect(update_name_label);
-            updated_roster_handler_id = stream_interactor.get_module(RosterManager.IDENTITY).updated_roster_item.connect((account, jid, roster_item) => {
+        updated_roster_handler_id = stream_interactor.get_module(RosterManager.IDENTITY).updated_roster_item.connect((account, jid, roster_item) => {
             if (this.conversation.account.equals(account) && this.conversation.counterpart.equals(jid)) {
                 update_name_label();
             }
@@ -116,6 +166,8 @@ public class ConversationItemSkeleton : Plugins.ConversationItemWidgetInterface,
         item.bind_property("mark", this, "item-mark", BindingFlags.SYNC_CREATE);
         this.notify["item-mark"].connect_after(update_received_mark);
         update_received_mark();
+
+        Dino.Ui.UiTiming.log_ms("ConversationItemSkeleton.init_header: total", t0_us);
     }
 
     public void set_widget(Object object, Plugins.WidgetType type, int priority) {
@@ -276,6 +328,14 @@ public class ConversationItemSkeleton : Plugins.ConversationItemWidgetInterface,
     }
 
     public override void dispose() {
+        if (deferred_header_source_id != 0) {
+            Source.remove(deferred_header_source_id);
+            deferred_header_source_id = 0;
+        }
+        if (deferred_content_source_id != 0) {
+            Source.remove(deferred_content_source_id);
+            deferred_content_source_id = 0;
+        }
         if (time_update_timeout != 0) {
             Source.remove(time_update_timeout);
             time_update_timeout = 0;

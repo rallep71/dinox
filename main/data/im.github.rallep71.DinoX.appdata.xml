@@ -191,6 +191,16 @@
   <url type="translate">https://hosted.weblate.org/projects/dino/</url>
   <launchable type="desktop-id">im.github.rallep71.DinoX.desktop</launchable>
   <releases>
+    <release date="2025-12-18" version="0.8.6">
+      <description>
+        <p>Stickers and packaging robustness improvements.</p>
+        <ul>
+          <li>Adds sticker support (XEP-0449) including sticker packs and sending</li>
+          <li>New preferences for enabling stickers and sticker animations</li>
+          <li>Improves GitHub AppImage media/audio reliability (GStreamer plugin discovery/deps)</li>
+        </ul>
+      </description>
+    </release>
     <release date="2025-12-16" version="0.8.5.4">
       <description>
         <p>Release engineering hotfix.</p>

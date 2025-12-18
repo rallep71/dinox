@@ -74,14 +74,23 @@ public class Database {
             meta_table.insert().value(meta_name, "version").value(meta_int_val, expected_version).perform();
         } else if (expected_version != old_version) {
             foreach (Table t in tables) {
-                t.create_table_at_version(old_version);
+                if (t.has_any_column_for_version(old_version)) {
+                    t.create_table_at_version(old_version);
+                } else {
+                    // Table introduced after old_version; create it directly at the new schema version.
+                    t.create_table_at_version(expected_version);
+                }
             }
             foreach (Table t in tables) {
-                t.add_columns_for_version(old_version, expected_version);
+                if (t.has_any_column_for_version(old_version)) {
+                    t.add_columns_for_version(old_version, expected_version);
+                }
             }
             migrate(old_version);
             foreach (Table t in tables) {
-                t.delete_columns_for_version(old_version, expected_version);
+                if (t.has_any_column_for_version(old_version)) {
+                    t.delete_columns_for_version(old_version, expected_version);
+                }
             }
             if (old_version == -1) {
                 meta_table.insert().value(meta_name, "version").value(meta_int_val, expected_version).perform();

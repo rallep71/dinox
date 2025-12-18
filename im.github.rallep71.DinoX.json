@@ -34,13 +34,38 @@
         "--socket=gpg-agent",
         "--filesystem=xdg-run/pipewire-0",
         "--share=network",
-        "--device=dri",
+        "--device=all",
+        "--talk-name=org.freedesktop.portal.Desktop",
         "--talk-name=org.freedesktop.Notifications",
         "--talk-name=org.kde.StatusNotifierWatcher",
         "--talk-name=org.freedesktop.ScreenSaver",
         "--own-name=org.mpris.MediaPlayer2.Dino"
     ],
     "modules": [
+        {
+            "name": "libcanberra",
+            "buildsystem": "autotools",
+            "config-opts": [
+                "--disable-oss",
+                "--disable-alsa",
+                "--enable-pulse",
+                "--disable-gtk",
+                "--disable-gtk3"
+            ],
+            "cleanup": [
+                "/include",
+                "/lib/pkgconfig",
+                "*.la",
+                "*.a"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://0pointer.de/lennart/projects/libcanberra/libcanberra-0.30.tar.xz",
+                    "sha256": "c2b671e67e0c288a69fc33dc1b6f1b534d07882c2aceed37004bf48c601afa72"
+                }
+            ]
+        },
         {
             "name": "libnice",
             "buildsystem": "meson",
@@ -201,7 +226,8 @@
             "buildsystem": "meson",
             "builddir": true,
             "config-opts": [
-                "--libdir=lib"
+                "--libdir=lib",
+                "-Dplugin-notification-sound=enabled"
             ],
             "cleanup": [
                 "/include",

@@ -137,6 +137,20 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
                     dialog.present();
                 }
                 break;
+            case "pubsub":
+                // Example: xmpp:romeo@montague.lit?pubsub;action=retrieve;node=urn:xmpp:stickers:0;item=EpRv...
+                if (!options.has_key("action") || options["action"] != "retrieve") return;
+                if (!options.has_key("node") || options["node"] != Xmpp.Xep.Stickers.NS_URI) return;
+                if (!options.has_key("item") || options["item"] == "") return;
+                try {
+                    var src = new Xmpp.Jid(jid);
+                    var dialog = new Dino.Ui.StickerPackImportDialog(stream_interactor, src, options["node"], options["item"]);
+                    dialog.set_transient_for(window);
+                    dialog.present();
+                } catch (Xmpp.InvalidJidError e) {
+                    warning("Invalid JID in pubsub URI: %s", e.message);
+                }
+                break;
         }
     }
 

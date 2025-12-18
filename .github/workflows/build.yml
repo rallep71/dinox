@@ -161,3 +161,10 @@ jobs:
           manifest-path: im.github.rallep71.DinoX.json
           bundle: im.github.rallep71.DinoX.flatpak
           arch: x86_64
+
+      - name: "Upload Flatpak bundle"
+        uses: actions/upload-artifact@v4
+        with:
+          name: im.github.rallep71.DinoX-flatpak-x86_64
+          path: im.github.rallep71.DinoX.flatpak
+          if-no-files-found: error

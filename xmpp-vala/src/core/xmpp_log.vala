@@ -69,6 +69,27 @@ public class XmppLog {
     private string desc;
     private Gee.List<NodeLogDesc> descs = new ArrayList<NodeLogDesc>();
 
+    private static string sanitize_payload_for_log(string s) {
+        // Prevent leaking secrets via URL fragments (OMEMO aesgcm:// carries key+iv in #...) or query strings.
+        // This is only for logging; it does not affect any transmitted data.
+        string sanitized = s;
+        try {
+            var fragment_re = new GLib.Regex("([A-Za-z][A-Za-z0-9+.-]*://[^\\s<\"']+)#([^\\s<\"']+)");
+            sanitized = fragment_re.replace(sanitized, -1, 0, "\\1#…");
+
+            var query_re = new GLib.Regex("([A-Za-z][A-Za-z0-9+.-]*://[^\\s<\"']+)\\?([^\\s<\"']+)");
+            sanitized = query_re.replace(sanitized, -1, 0, "\\1?…");
+        } catch (Error e) {
+            // Best-effort redaction; logging must never crash.
+        }
+
+        // Avoid gigantic payloads in logs.
+        if (sanitized.length > 100000) {
+            sanitized = sanitized.substring(0, 100000) + "…";
+        }
+        return sanitized;
+    }
+
     public XmppLog(string? ident = null, string? desc = null) {
         this.ident = ident ?? "";
         this.desc = desc ?? "";
@@ -110,13 +131,16 @@ public class XmppLog {
 
     public void node(string what, StanzaNode node, XmppStream stream) {
         if (should_log_node(node)) {
-            stderr.printf("%sXMPP %s [%s stream:%p thread:%p %s]%s\n%s\n", use_ansi ? ANSI_COLOR_WHITE : "", what, ident, stream, Thread.self<Thread>(), new DateTime.now_local().to_string(), use_ansi ? ANSI_COLOR_END : "", use_ansi ? node.to_ansi_string(hide_ns) : node.to_string());
+            string payload = use_ansi ? node.to_ansi_string(hide_ns) : node.to_string();
+            payload = sanitize_payload_for_log(payload);
+            stderr.printf("%sXMPP %s [%s stream:%p thread:%p %s]%s\n%s\n", use_ansi ? ANSI_COLOR_WHITE : "", what, ident, stream, Thread.self<Thread>(), new DateTime.now_local().to_string(), use_ansi ? ANSI_COLOR_END : "", payload);
         }
     }
 
     public void str(string what, string str, XmppStream stream) {
         if (should_log_str(str)) {
-            stderr.printf("%sXMPP %s [%s stream:%p thread:%p %s]%s\n%s\n", use_ansi ? ANSI_COLOR_WHITE : "", what, ident, stream, Thread.self<Thread>(), new DateTime.now_local().to_string(), use_ansi ? ANSI_COLOR_END : "", str);
+            string payload = sanitize_payload_for_log(str);
+            stderr.printf("%sXMPP %s [%s stream:%p thread:%p %s]%s\n%s\n", use_ansi ? ANSI_COLOR_WHITE : "", what, ident, stream, Thread.self<Thread>(), new DateTime.now_local().to_string(), use_ansi ? ANSI_COLOR_END : "", payload);
         }
     }
 

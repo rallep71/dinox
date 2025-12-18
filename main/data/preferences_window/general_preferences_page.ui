@@ -60,6 +60,22 @@
     </child>
     <child>
       <object class="AdwPreferencesGroup">
+        <property name="title" translatable="yes">Stickers</property>
+        <child>
+          <object class="AdwSwitchRow" id="stickers_enabled_row">
+            <property name="title" translatable="yes">Enable Stickers</property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwSwitchRow" id="sticker_animations_row">
+            <property name="title" translatable="yes">Enable Sticker Animations</property>
+            <property name="subtitle" translatable="yes">Disable to reduce flashing/flickering</property>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="AdwPreferencesGroup">
         <property name="title" translatable="yes">User Data</property>
         <child>
           <object class="AdwActionRow" id="backup_row">

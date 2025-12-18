@@ -11,7 +11,21 @@ public class FileProvider : Dino.FileProvider, Object {
     private Dino.Database dino_db;
     private Soup.Session session;
     private static Regex http_url_regex = /^https?:\/\/([^\s#]*)$/; // Spaces are invalid in URLs and we can't use fragments for downloads
-    private static Regex omemo_url_regex = /^aesgcm:\/\/(.*)#(([A-Fa-f0-9]{2}){48}|([A-Fa-f0-9]{2}){44})$/;
+    // OMEMO aesgcm:// links carry the secret (iv+key) in the fragment. Different clients may
+    // encode the fragment differently (hex, base64, urlsafe base64), so only validate the
+    // rough structure here and let the OMEMO decryptor parse the secret.
+    private static Regex omemo_url_regex = /^aesgcm:\/\/([^\s#]+)#([^\s]+)$/;
+
+    private static string sanitize_for_log(string? s) {
+        if (s == null) return "(null)";
+        string out = s;
+        // Never log secrets in fragments.
+        int hash = out.index_of("#");
+        if (hash >= 0) out = out.substring(0, hash) + "#…";
+        // Keep logs small.
+        if (out.length > 200) out = out.substring(0, 200) + "…";
+        return out;
+    }
 
     public FileProvider(StreamInteractor stream_interactor, Dino.Database dino_db) {
         this.stream_interactor = stream_interactor;
@@ -42,24 +56,42 @@ public class FileProvider : Dino.FileProvider, Object {
             }
 
             string? oob_url = Xmpp.Xep.OutOfBandData.get_url_from_message(stanza);
-            bool normal_file = oob_url != null && oob_url == message.body && FileProvider.http_url_regex.match(message.body);
-            bool omemo_file = FileProvider.omemo_url_regex.match(message.body);
+            // Some clients (notably Conversations) may include the URL only in the OOB element
+            // and keep the body as a human-readable fallback text.
+            string? url_candidate = oob_url ?? message.body;
+
+            bool normal_file = url_candidate != null && FileProvider.http_url_regex.match(url_candidate);
+            bool omemo_file = url_candidate != null && FileProvider.omemo_url_regex.match(url_candidate);
             if (normal_file || omemo_file) {
-                outer.on_file_message(message, stanza, conversation);
+                debug("http-files: incoming legacy file message normal=%s omemo=%s url_from=%s url=%s body='%s'",
+                      normal_file.to_string(),
+                      omemo_file.to_string(),
+                      oob_url != null ? "oob" : "body",
+                      FileProvider.sanitize_for_log(url_candidate),
+                      FileProvider.sanitize_for_log(message.body));
+                outer.on_file_message(message, stanza, conversation, url_candidate);
                 return true;
             }
             return false;
         }
     }
 
-    private void on_file_message(Entities.Message message, Xmpp.MessageStanza stanza, Conversation conversation) {
-        var additional_info = message.id.to_string();
+    private void on_file_message(Entities.Message message, Xmpp.MessageStanza stanza, Conversation conversation, string url) {
+        // Persist only plain http(s) URLs; never persist aesgcm:// secrets (fragment carries key).
+        // For OMEMO URLs, keep referencing the original message by id.
+        string additional_info;
+        if (url.has_prefix("aesgcm://") || url.index_of("#") >= 0) {
+            additional_info = message.id.to_string();
+        } else {
+            // This is safe to persist; used when clients put the URL only in the OOB element.
+            additional_info = "url:" + url;
+        }
 
         var receive_data = new HttpFileReceiveData();
-        receive_data.url = message.body;
+        receive_data.url = url;
 
         var file_meta = new HttpFileMeta();
-        file_meta.file_name = extract_file_name_from_url(message.body);
+        file_meta.file_name = extract_file_name_from_url(url);
         file_meta.message = message;
         
         // Try to get metadata from SFS element
@@ -164,6 +196,17 @@ public class FileProvider : Dino.FileProvider, Object {
             return file_meta;
         }
 
+        // Legacy HTTP file transfers may persist the URL in info.
+        if (file_transfer.info != null && file_transfer.info.has_prefix("url:")) {
+            string url = file_transfer.info.substring("url:".length);
+            var file_meta = new HttpFileMeta();
+            file_meta.size = file_transfer.size;
+            file_meta.mime_type = file_transfer.mime_type;
+            file_meta.file_name = extract_file_name_from_url(url);
+            file_meta.message = null;
+            return file_meta;
+        }
+
         Conversation? conversation = stream_interactor.get_module(ConversationManager.IDENTITY).get_conversation(file_transfer.counterpart.bare_jid, file_transfer.account);
         if (conversation == null) throw new FileReceiveError.GET_METADATA_FAILED("No conversation");
 
@@ -192,6 +235,12 @@ public class FileProvider : Dino.FileProvider, Object {
                 }
             }
             return null;
+        }
+
+        if (file_transfer.info != null && file_transfer.info.has_prefix("url:")) {
+            var receive_data = new HttpFileReceiveData();
+            receive_data.url = file_transfer.info.substring("url:".length);
+            return receive_data;
         }
 
         Conversation? conversation = stream_interactor.get_module(ConversationManager.IDENTITY).get_conversation(file_transfer.counterpart.bare_jid, file_transfer.account);

@@ -10,6 +10,7 @@
 using Gee;
 using Gdk;
 using Gtk;
+using Graphene;
 using Gst;
 using Xmpp;
 
@@ -75,6 +76,11 @@ public class VideoPlayerWidget : Widget {
     private Gtk.Widget? video_container = null;
     private FixedRatioPicture? preview_image = null;
 
+    private Gtk.ScrolledWindow? watched_scrolled = null;
+    private Gtk.Adjustment? watched_vadjustment = null;
+    private ulong watched_vadjustment_handler_id = 0;
+    private bool paused_by_visibility = false;
+
     private FileTransmissionProgress transmission_progress = new FileTransmissionProgress() { halign=Align.CENTER, valign=Align.CENTER, visible=false };
 
     construct {
@@ -90,6 +96,15 @@ public class VideoPlayerWidget : Widget {
         this.add_css_class("video-player-widget");
 
         this.file_transfer = file_transfer;
+
+        this.notify["mapped"].connect(() => {
+            if (!this.get_mapped()) {
+                pause_for_visibility();
+                disconnect_scroll_watch();
+            } else {
+                update_playback_visibility();
+            }
+        });
         
         install_action("file.open", null, (widget, action_name) => { ((VideoPlayerWidget) widget).open_file(); });
         install_action("file.save_as", null, (widget, action_name) => { ((VideoPlayerWidget) widget).save_file(); });
@@ -253,6 +268,7 @@ public class VideoPlayerWidget : Widget {
         }
         
         media_file = Gtk.MediaFile.for_file(file);
+        ensure_scroll_watch();
         media_file.notify["error"].connect(() => {
             if (media_file.error != null) {
                 warning("VideoPlayerWidget: Media file error for %s: %s", file.get_basename(), media_file.error.message);
@@ -285,6 +301,8 @@ public class VideoPlayerWidget : Widget {
         }
         
         debug("VideoPlayerWidget: set_paintable done");
+
+        update_playback_visibility();
 
         // Show the container
         if (video_container != null) {
@@ -324,6 +342,7 @@ public class VideoPlayerWidget : Widget {
     }
 
     public override void dispose() {
+        disconnect_scroll_watch();
         if (media_file != null) {
             media_file.set_playing(false);
             media_file = null;
@@ -332,6 +351,84 @@ public class VideoPlayerWidget : Widget {
             video_picture.set_paintable(null);
         }
         base.dispose();
+    }
+
+    private void disconnect_scroll_watch() {
+        if (watched_vadjustment != null && watched_vadjustment_handler_id != 0) {
+            watched_vadjustment.disconnect(watched_vadjustment_handler_id);
+            watched_vadjustment_handler_id = 0;
+        }
+        watched_vadjustment = null;
+        watched_scrolled = null;
+    }
+
+    private Gtk.ScrolledWindow? find_scrolled_window() {
+        Gtk.Widget? w = this;
+        while (w != null) {
+            if (w is Gtk.ScrolledWindow) {
+                return (Gtk.ScrolledWindow) w;
+            }
+            w = w.get_parent();
+        }
+        return null;
+    }
+
+    private void ensure_scroll_watch() {
+        if (watched_scrolled != null) return;
+
+        watched_scrolled = find_scrolled_window();
+        if (watched_scrolled == null) return;
+
+        watched_vadjustment = watched_scrolled.vadjustment;
+        if (watched_vadjustment == null) return;
+
+        watched_vadjustment_handler_id = watched_vadjustment.value_changed.connect(() => {
+            update_playback_visibility();
+        });
+    }
+
+    private bool is_in_viewport() {
+        if (watched_scrolled == null || watched_vadjustment == null) return true;
+
+        Gtk.Widget? content = watched_scrolled.get_child();
+        if (content == null) return true;
+
+        Graphene.Rect bounds;
+        if (!this.compute_bounds(content, out bounds)) return true;
+
+        double top = watched_vadjustment.value;
+        double bottom = top + watched_vadjustment.page_size;
+        double y1 = bounds.origin.y;
+        double y2 = y1 + bounds.size.height;
+
+        const double margin = 64.0;
+        return (y2 >= (top - margin)) && (y1 <= (bottom + margin));
+    }
+
+    private void pause_for_visibility() {
+        if (media_file == null) return;
+
+        if (media_file.playing) {
+            paused_by_visibility = true;
+            media_file.playing = false;
+        }
+    }
+
+    private void update_playback_visibility() {
+        if (media_file == null) return;
+
+        ensure_scroll_watch();
+
+        bool should_be_active = this.visible && this.get_mapped() && is_in_viewport();
+        if (!should_be_active) {
+            pause_for_visibility();
+            return;
+        }
+
+        if (paused_by_visibility) {
+            paused_by_visibility = false;
+            media_file.playing = true;
+        }
     }
 }
 

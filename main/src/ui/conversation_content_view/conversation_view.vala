@@ -19,6 +19,7 @@ namespace Dino.Ui.ConversationSummary {
 [GtkTemplate (ui = "/im/github/rallep71/DinoX/conversation_content_view/view.ui")]
 public class ConversationView : Widget, Plugins.ConversationItemCollection, Plugins.NotificationCollection {
     private const int MESSAGE_MENU_BOX_OFFSET = 0;
+    private const int DISPLAY_LATEST_BATCH_BUDGET_US = 2000;
 
     public Conversation? conversation { get; private set; }
 
@@ -53,6 +54,13 @@ public class ConversationView : Widget, Plugins.ConversationItemCollection, Plug
     Widget currently_highlighted = null;
     ContentMetaItem? current_meta_item = null;
     double last_y = -1;
+
+    private uint conversation_load_generation = 0;
+    private uint display_latest_source_id = 0;
+    private int64 pending_init_clear_work_us = 0;
+    private int64 pending_init_init_work_us = 0;
+
+    private bool bulk_inserting_latest = false;
 
     construct {
         this.layout_manager = new BinLayout();
@@ -318,6 +326,7 @@ public class ConversationView : Widget, Plugins.ConversationItemCollection, Plug
     }
 
     public void initialize_for_conversation(Conversation? conversation, bool force_reload = false) {
+        int64 t0_us = Dino.Ui.UiTiming.now_us();
         // Workaround for rendering issues
         if (firstLoad) {
             main.visible = false;
@@ -334,12 +343,25 @@ public class ConversationView : Widget, Plugins.ConversationItemCollection, Plug
             }
             return;
         }
+        int64 t_clear_us = Dino.Ui.UiTiming.now_us();
         clear();
+        pending_init_clear_work_us = Dino.Ui.UiTiming.now_us() - t_clear_us;
+        Dino.Ui.UiTiming.log_ms("ConversationView.initialize_for_conversation: clear", t_clear_us);
+
+        int64 t_init_us = Dino.Ui.UiTiming.now_us();
         initialize_for_conversation_(conversation);
-        display_latest();
-        at_current_content = true;
-        // Scroll to end
-        scrolled.vadjustment.value = scrolled.vadjustment.upper;
+        pending_init_init_work_us = Dino.Ui.UiTiming.now_us() - t_init_us;
+        Dino.Ui.UiTiming.log_ms("ConversationView.initialize_for_conversation: initialize_for_conversation_", t_init_us);
+
+        // Cancel any pending display_latest work and start a new generation.
+        conversation_load_generation++;
+        if (display_latest_source_id != 0) {
+            Source.remove(display_latest_source_id);
+            display_latest_source_id = 0;
+        }
+
+        int64 t_display_us = Dino.Ui.UiTiming.now_us();
+        display_latest(conversation_load_generation, t0_us, t_display_us);
     }
 
     private void scroll_and_highlight_item(Plugins.MetaConversationItem target, uint duration = 500) {
@@ -439,17 +461,102 @@ public class ConversationView : Widget, Plugins.ConversationItemCollection, Plug
         expiry_notification.init(conversation, this);
     }
 
-    private void display_latest() {
+    private void display_latest(uint generation, int64 init_t0_us, int64 init_t_display_us) {
+        int64 t_pop_us = Dino.Ui.UiTiming.now_us();
         Gee.List<ContentMetaItem> items = content_populator.populate_latest(conversation, 40);
-        foreach (ContentMetaItem item in items) {
-            do_insert_item(item);
-        }
+        int64 populate_work_us = Dino.Ui.UiTiming.now_us() - t_pop_us;
+        Dino.Ui.UiTiming.log_ms("ConversationView.display_latest: populate_latest", t_pop_us);
 
-        Application app = GLib.Application.get_default() as Application;
-        foreach (Plugins.NotificationPopulator populator in app.plugin_registry.notification_populators) {
-            populator.init(conversation, this, Plugins.WidgetType.GTK4);
-        }
-        Idle.add(() => { on_value_notify(); return false; });
+        Gee.Iterator<ContentMetaItem> iter = items.iterator();
+        int64 insert_work_us = 0;
+        int64 max_batch_work_us = 0;
+        int batches = 0;
+
+        int64 slowest_item_work_us = 0;
+
+        display_latest_source_id = Idle.add(() => {
+            if (generation != conversation_load_generation) {
+                display_latest_source_id = 0;
+                return false;
+            }
+
+            bulk_inserting_latest = true;
+
+            int64 batch_start_us = Dino.Ui.UiTiming.now_us();
+            int inserted = 0;
+
+            while (iter.has_next()) {
+                // Prevent overshooting the budget by inserting a cheap item
+                // after we're already over the time budget.
+                if (inserted > 0 && Dino.Ui.UiTiming.now_us() - batch_start_us >= DISPLAY_LATEST_BATCH_BUDGET_US) {
+                    break;
+                }
+
+                if (!iter.next()) {
+                    break;
+                }
+
+                int64 item_start_us = Dino.Ui.UiTiming.now_us();
+                do_insert_item(iter.get());
+                int64 item_work_us = Dino.Ui.UiTiming.now_us() - item_start_us;
+                if (item_work_us > slowest_item_work_us) {
+                    slowest_item_work_us = item_work_us;
+                }
+                inserted++;
+            }
+
+            int64 batch_work_us = Dino.Ui.UiTiming.now_us() - batch_start_us;
+            if (inserted > 0) {
+                batches++;
+                insert_work_us += batch_work_us;
+                if (batch_work_us > max_batch_work_us) {
+                    max_batch_work_us = batch_work_us;
+                }
+            }
+
+            if (iter.has_next()) {
+                return true;
+            }
+
+            bulk_inserting_latest = false;
+
+            // Finished inserting.
+            display_latest_source_id = 0;
+            Dino.Ui.UiTiming.log_ms("ConversationView.display_latest: insert_items", Dino.Ui.UiTiming.now_us() - insert_work_us);
+            Dino.Ui.UiTiming.log_ms("ConversationView.display_latest: insert_items.max_batch", Dino.Ui.UiTiming.now_us() - max_batch_work_us);
+            Dino.Ui.UiTiming.log_ms("ConversationView.display_latest: insert_items.slowest_item", Dino.Ui.UiTiming.now_us() - slowest_item_work_us);
+            if (batches > 0) {
+                int64 avg_batch_us = insert_work_us / batches;
+                Dino.Ui.UiTiming.log_ms("ConversationView.display_latest: insert_items.avg_batch", Dino.Ui.UiTiming.now_us() - avg_batch_us);
+            }
+
+            Application app = GLib.Application.get_default() as Application;
+            int64 t_notif_us = Dino.Ui.UiTiming.now_us();
+            foreach (Plugins.NotificationPopulator populator in app.plugin_registry.notification_populators) {
+                populator.init(conversation, this, Plugins.WidgetType.GTK4);
+            }
+            int64 notif_work_us = Dino.Ui.UiTiming.now_us() - t_notif_us;
+            Dino.Ui.UiTiming.log_ms("ConversationView.display_latest: notification_populators.init", t_notif_us);
+            Idle.add(() => { on_value_notify(); return false; });
+
+            int64 total_work_us = populate_work_us + insert_work_us + notif_work_us;
+            Dino.Ui.UiTiming.log_ms("ConversationView.display_latest: total", Dino.Ui.UiTiming.now_us() - total_work_us);
+
+            // Mirror previous behaviour: we're at current content and scrolled to end once the content is inserted.
+            at_current_content = true;
+            Idle.add(() => {
+                if (generation != conversation_load_generation) {
+                    return false;
+                }
+                scrolled.vadjustment.value = scrolled.vadjustment.upper;
+                return false;
+            });
+
+            Dino.Ui.UiTiming.log_ms("ConversationView.initialize_for_conversation: display_latest", Dino.Ui.UiTiming.now_us() - total_work_us);
+            Dino.Ui.UiTiming.log_ms("ConversationView.initialize_for_conversation: total", Dino.Ui.UiTiming.now_us() - (pending_init_clear_work_us + pending_init_init_work_us + total_work_us));
+
+            return false;
+        });
     }
 
     public void insert_item(Plugins.MetaConversationItem item) {
@@ -524,10 +631,13 @@ public class ConversationView : Widget, Plugins.ConversationItemCollection, Plug
     }
 
     private Widget insert_new(Plugins.MetaConversationItem item) {
+        int64 t0_us = Dino.Ui.UiTiming.now_us();
         Plugins.MetaConversationItem? lower_item = meta_items.lower(item);
 
         // Fill datastructure
-        ConversationItemSkeleton item_skeleton = new ConversationItemSkeleton(stream_interactor, conversation, item);
+        int64 t_skel_us = Dino.Ui.UiTiming.now_us();
+        ConversationItemSkeleton item_skeleton = new ConversationItemSkeleton(stream_interactor, conversation, item, bulk_inserting_latest);
+        Dino.Ui.UiTiming.log_ms("ConversationView.insert_new: ConversationItemSkeleton", t_skel_us);
         item_item_skeletons[item] = item_skeleton;
         int index = lower_item != null ? widget_order.index_of(item_item_skeletons[lower_item].get_widget()) + 1 : 0;
         widget_order.insert(index, item_skeleton.get_widget());
@@ -557,6 +667,7 @@ public class ConversationView : Widget, Plugins.ConversationItemCollection, Plug
         // If an item from the past was added, add everything between that item and the (post-)first present item
         if (index == 0) {
             Dino.Application app = Dino.Application.get_default();
+            int64 t_span_us = Dino.Ui.UiTiming.now_us();
             if (widget_order.size == 1) {
                 foreach (Plugins.ConversationAdditionPopulator populator in app.plugin_registry.conversation_addition_populators) {
                     populator.populate_timespan(conversation, item.time, new DateTime.now_utc());
@@ -566,7 +677,10 @@ public class ConversationView : Widget, Plugins.ConversationItemCollection, Plug
                     populator.populate_timespan(conversation, item.time, meta_items.higher(item).time);
                 }
             }
+            Dino.Ui.UiTiming.log_ms("ConversationView.insert_new: conversation_addition_populators.populate_timespan", t_span_us);
         }
+
+        Dino.Ui.UiTiming.log_ms("ConversationView.insert_new: total", t0_us);
         return item_skeleton.get_widget();
     }
 
@@ -658,6 +772,11 @@ public class ConversationView : Widget, Plugins.ConversationItemCollection, Plug
     }
 
     private void clear() {
+        conversation_load_generation++;
+        if (display_latest_source_id != 0) {
+            Source.remove(display_latest_source_id);
+            display_latest_source_id = 0;
+        }
         was_upper = null;
         was_page_size = null;
         foreach (var item in content_items) {

@@ -267,43 +267,53 @@ public class WebRTCCallManager : Object {
         var raw = Gst.Caps.from_string("video/x-raw,width=1280,height=720,framerate=30/1");
         rawcaps.set_property("caps", raw);
         
-        // Choose encoder: VP9 > VP8 > H264
+        // Choose encoder: VP8 first for maximum cross-client compatibility.
+        // Note: payload type IDs must match what we advertise/accept in our signaling.
         Gst.Element? encoder = null;
         Gst.Element? payloader = null;
-        string encoding_name = "VP9";
+        string encoding_name = "VP8";
         int pt = 98;
-        
-        // Try VP9 first
-        encoder = Gst.ElementFactory.make("vp9enc", "video-encoder");
+
+        // Try VP8 first
+        encoder = Gst.ElementFactory.make("vp8enc", "video-encoder");
         if (encoder != null) {
-            configure_vp9_encoder(encoder);
-            payloader = Gst.ElementFactory.make("rtpvp9pay", "video-pay");
-            encoding_name = "VP9";
+            configure_vp8_encoder(encoder);
+            payloader = Gst.ElementFactory.make("rtpvp8pay", "video-pay");
+            encoding_name = "VP8";
             pt = 98;
-            debug("Using VP9 encoder");
+            debug("Using VP8 encoder");
         }
-        
-        // Fallback to VP8
+
+        // Fallback to VP9 only if VP8 isn't available
         if (encoder == null) {
-            encoder = Gst.ElementFactory.make("vp8enc", "video-encoder");
+            encoder = Gst.ElementFactory.make("vp9enc", "video-encoder");
             if (encoder != null) {
-                configure_vp8_encoder(encoder);
-                payloader = Gst.ElementFactory.make("rtpvp8pay", "video-pay");
-                encoding_name = "VP8";
-                pt = 97;
-                debug("Using VP8 encoder");
+                configure_vp9_encoder(encoder);
+                payloader = Gst.ElementFactory.make("rtpvp9pay", "video-pay");
+                encoding_name = "VP9";
+                pt = 99;
+                debug("Using VP9 encoder");
             }
         }
         
         // Fallback to H264
         if (encoder == null) {
-            encoder = Gst.ElementFactory.make("x264enc", "video-encoder");
+            encoder = Gst.ElementFactory.make("openh264enc", "video-encoder");
             if (encoder != null) {
-                configure_h264_encoder(encoder);
+                configure_openh264_encoder(encoder);
                 payloader = Gst.ElementFactory.make("rtph264pay", "video-pay");
                 encoding_name = "H264";
                 pt = 102;
-                debug("Using H264 encoder");
+                debug("Using H264 encoder (openh264enc)");
+            } else {
+                encoder = Gst.ElementFactory.make("x264enc", "video-encoder");
+                if (encoder != null) {
+                    configure_x264_encoder(encoder);
+                    payloader = Gst.ElementFactory.make("rtph264pay", "video-pay");
+                    encoding_name = "H264";
+                    pt = 102;
+                    debug("Using H264 encoder (x264enc)");
+                }
             }
         }
         
@@ -316,6 +326,10 @@ public class WebRTCCallManager : Object {
         // Set picture-id-mode for WebRTC compatibility (VP9/VP8)
         if (encoding_name == "VP9" || encoding_name == "VP8") {
             payloader.set_property("picture-id-mode", 2); // 15-bit mode
+        }
+        // For H264, ensure SPS/PPS are sent regularly for late joiners / robustness.
+        if (encoding_name == "H264") {
+            payloader.set_property("config-interval", 1);
         }
         
         // RTP caps
@@ -360,11 +374,17 @@ public class WebRTCCallManager : Object {
         enc.set_property("error-resilient", 3);     // VP8 partitions: 0x01 | 0x02
     }
     
-    private void configure_h264_encoder(Gst.Element enc) {
+    private void configure_x264_encoder(Gst.Element enc) {
         enc.set_property("tune", 4); // zerolatency
         enc.set_property("speed-preset", 2); // superfast
-        enc.set_property("bitrate", 1000);
+        enc.set_property("bitrate", 1000); // kbit/s
         enc.set_property("key-int-max", 60);
+    }
+
+    private void configure_openh264_encoder(Gst.Element enc) {
+        // openh264enc bitrate is in bits per second
+        enc.set_property("bitrate", 1000000u);
+        enc.set_property("gop-size", 60u);
     }
     
     /**
@@ -540,24 +560,40 @@ public class WebRTCCallManager : Object {
      * Map mline index to Jingle content name
      */
     private string? get_content_name_for_mline(uint mline_index) {
-        // In standard WebRTC, mline 0 is audio, mline 1 is video
-        // But this depends on the order in the SDP
-        
+        // In WebRTC SDP, mline 0 is typically audio and mline 1 video.
+        // Mapping by media type avoids relying on session.contents iteration order,
+        // which can differ between peers and may be non-deterministic.
+
+        if (mline_index == 0) {
+            foreach (var content in session.contents) {
+                var params = content.content_params as JingleRtp.Parameters;
+                if (params == null) continue;
+                if (params.media == "audio") return content.content_name;
+            }
+        }
+
+        if (mline_index == 1) {
+            foreach (var content in session.contents) {
+                var params = content.content_params as JingleRtp.Parameters;
+                if (params == null) continue;
+                if (params.media == "video") return content.content_name;
+            }
+        }
+
+        // Fallback: preserve previous behavior (order-based) for unusual cases.
         int idx = 0;
         foreach (var content in session.contents) {
             var params = content.content_params as JingleRtp.Parameters;
             if (params == null) continue;
-            
-            if (idx == mline_index) {
-                return content.content_name;
-            }
+
+            if (idx == mline_index) return content.content_name;
             idx++;
         }
-        
-        // Fallback: try common content names
+
+        // Final fallback: try common content names
         if (mline_index == 0) return "audio";
         if (mline_index == 1) return "video";
-        
+
         return null;
     }
     
@@ -586,18 +622,29 @@ public class WebRTCCallManager : Object {
      * Map content name to mline index
      */
     private uint get_mline_for_content(string content_name) {
+        // Prefer a stable mapping based on media type.
+        foreach (var content in session.contents) {
+            if (content.content_name != content_name) continue;
+
+            var params = content.content_params as JingleRtp.Parameters;
+            if (params == null) break;
+
+            if (params.media == "audio") return 0;
+            if (params.media == "video") return 1;
+            break;
+        }
+
+        // Fallback to previous behavior (order-based)
         int idx = 0;
         foreach (var content in session.contents) {
-            if (content.content_name == content_name) {
-                return idx;
-            }
+            if (content.content_name == content_name) return idx;
             idx++;
         }
-        
-        // Fallback
+
+        // Final fallback
         if (content_name == "audio") return 0;
         if (content_name == "video") return 1;
-        
+
         return 0;
     }
     

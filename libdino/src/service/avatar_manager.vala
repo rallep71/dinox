@@ -82,6 +82,11 @@ public class AvatarManager : StreamInteractionModule, Object {
         // Create avatar folder
         try {
             new_avatars.make_directory_with_parents();
+        } catch (IOError e) {
+            // Directory might already exist; that's fine.
+            if (e.code != IOError.EXISTS) {
+                warning("AvatarManager: Failed to create avatars directory: %s", e.message);
+            }
         } catch (Error e) {
             warning("AvatarManager: Failed to create avatars directory: %s", e.message);
         }

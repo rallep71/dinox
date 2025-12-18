@@ -38,7 +38,7 @@ public class Dino.StatelessFileSharing : StreamInteractionModule, Object {
         stream_interactor.add_module(m);
     }
 
-    public async void create_file_transfer(Conversation conversation, Message message, string? file_sharing_id, Xep.FileMetadataElement.FileMetadata metadata, Gee.List<Xep.StatelessFileSharing.Source>? sources) {
+    public async void create_file_transfer(Conversation conversation, Message message, string? file_sharing_id, Xep.FileMetadataElement.FileMetadata metadata, Gee.List<Xep.StatelessFileSharing.Source>? sources, Xmpp.Xep.Stickers.StickerReference? sticker) {
         FileTransfer file_transfer = new FileTransfer();
         file_transfer.file_sharing_id = file_sharing_id;
         file_transfer.account = message.account;
@@ -54,10 +54,24 @@ public class Dino.StatelessFileSharing : StreamInteractionModule, Object {
             file_transfer.sfs_sources = sources;
         }
 
+        if (sticker != null) {
+            file_transfer.is_sticker = true;
+            file_transfer.sticker_pack_id = sticker.pack_id;
+            file_transfer.sticker_pack_jid = sticker.jid;
+            file_transfer.sticker_pack_node = sticker.node;
+        }
+
         stream_interactor.get_module(FileTransferStorage.IDENTITY).add_file(file_transfer);
 
         conversation.last_active = file_transfer.time;
         file_manager.received_file(file_transfer, conversation);
+
+        // Stickers should appear inline; best-effort auto-download for small, trustworthy stickers.
+        if (file_transfer.is_sticker && file_transfer.direction == FileTransfer.DIRECTION_RECEIVED && file_transfer.state == FileTransfer.State.NOT_STARTED && !file_transfer.sfs_sources.is_empty) {
+            if (file_manager.is_sender_trustworthy(file_transfer, conversation) && file_transfer.size >= 0 && file_transfer.size < 5000000) {
+                file_manager.download_file.begin(file_transfer);
+            }
+        }
     }
 
     public void on_received_sources(Jid from, Conversation conversation, string attach_to_message_id, string? attach_to_file_id, Gee.List<Xep.StatelessFileSharing.Source> sources) {
@@ -74,9 +88,9 @@ public class Dino.StatelessFileSharing : StreamInteractionModule, Object {
 
         // "If no <hash/> is provided or the <hash/> elements provided use unsupported algorithms, receiving clients MUST ignore
         // any attached sources from other senders and only obtain the file from the sources announced by the original sender."
-        // For now we only allow the original sender
-        if (from.equals(file_transfer.from) && Xep.CryptographicHashes.get_supported_hashes(file_transfer.hashes).is_empty) {
-            warning("Ignoring sfs source: Not from original sender or no known file hashes");
+        // For now, we only allow the original sender for attached sources.
+        if (!from.equals(file_transfer.from)) {
+            warning("Ignoring sfs source: Not from original sender");
             return;
         }
 
@@ -137,14 +151,14 @@ public class Dino.StatelessFileSharing : StreamInteractionModule, Object {
         public override async bool run(Entities.Message message, Xmpp.MessageStanza stanza, Conversation conversation) {
             Gee.List<Xep.StatelessFileSharing.FileShare> file_shares = Xep.StatelessFileSharing.get_file_shares(stanza);
             if (file_shares != null) {
-                // For now, only accept file shares that have at least one supported hash
+                Xmpp.Xep.Stickers.StickerReference? sticker = Xmpp.Xep.Stickers.get_sticker(stanza);
+
+                // Interop: accept file shares even if hashes are missing/unsupported.
+                // Hashes are used for verification and for accepting third-party sources,
+                // but the file share itself is still useful to display and download from
+                // the original sender.
                 foreach (Xep.StatelessFileSharing.FileShare file_share in file_shares) {
-                    if (!Xep.CryptographicHashes.has_supported_hashes(file_share.metadata.hashes)) {
-                        return false;
-                    }
-                }
-                foreach (Xep.StatelessFileSharing.FileShare file_share in file_shares) {
-                    outer.create_file_transfer.begin(conversation, message, file_share.id, file_share.metadata, file_share.sources);
+                    outer.create_file_transfer.begin(conversation, message, file_share.id, file_share.metadata, file_share.sources, sticker);
                 }
                 return true;
             }

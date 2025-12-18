@@ -68,10 +68,49 @@ This searches the latest log for:
 flatpak run --env=DINO_LOG_LEVEL=debug im.github.rallep71.DinoX
 ```
 
+#### Flatpak: Audio debugging (GStreamer + sandbox)
+
+If audio is missing (playback or microphone) in Flatpak builds, collect logs that show which GStreamer elements are chosen and whether PulseAudio/PipeWire is reachable.
+
+```bash
+flatpak run \
+   --env=DINO_LOG_LEVEL=debug \
+   --env=G_MESSAGES_DEBUG=all \
+   --env=GST_DEBUG=2,pulse*:5,pipewire*:5,audiobasesink:5,audiobasesrc:5,webrtc*:4,rtp*:4 \
+   im.github.rallep71.DinoX 2>&1 | tee /tmp/dinox-flatpak-audio.log
+```
+
+Quick checks inside the sandbox:
+
+```bash
+flatpak run --command=sh --devel im.github.rallep71.DinoX
+# inside shell:
+gst-inspect-1.0 autoaudiosink pulsesink pipewiresink 2>/dev/null | head -n 30
+env | grep -E 'PULSE|PIPEWIRE|GST_'
+```
+
 ### AppImage
 
 ```bash
 DINO_LOG_LEVEL=debug ./DinoX-*.AppImage
+```
+
+#### AppImage: Audio debugging (GStreamer plugin discovery)
+
+If AppImage builds have no sound, the most common causes are missing/broken GStreamer plugin discovery (sinks/sources not found) or missing runtime access to PulseAudio/PipeWire.
+
+```bash
+G_MESSAGES_DEBUG=all \
+GST_DEBUG=2,pulse*:5,pipewire*:5,audiobasesink:5,audiobasesrc:5,webrtc*:4,rtp*:4 \
+DINO_LOG_LEVEL=debug \
+./DinoX-*.AppImage 2>&1 | tee /tmp/dinox-appimage-audio.log
+```
+
+Optional: verify what the AppImage bundles and which plugins are visible:
+
+```bash
+./DinoX-*.AppImage --appimage-extract >/dev/null
+./squashfs-root/usr/bin/gst-inspect-1.0 autoaudiosink pulsesink pipewiresink 2>/dev/null | head -n 30
 ```
 
 ## Log Levels

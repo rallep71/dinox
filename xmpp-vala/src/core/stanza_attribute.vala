@@ -28,13 +28,15 @@ public class StanzaAttribute : StanzaEntry {
     }
 
     internal string printf(string fmt, bool no_ns = false, string? ns_name = null) {
+        string? enc = encoded_val;
+        if (enc == null) return "";
         if (no_ns) {
-            return fmt.printf(name, (!)encoded_val);
+            return fmt.printf(name, enc);
         } else {
             if (ns_name == null) {
-                return fmt.printf((!)ns_uri, name, (!)encoded_val);
+                return fmt.printf((!)ns_uri, name, enc);
             } else {
-                return fmt.printf((!)ns_name, name, (!)encoded_val);
+                return fmt.printf((!)ns_name, name, enc);
             }
         }
     }

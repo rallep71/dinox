@@ -25,7 +25,9 @@ public class ChatTextViewController : Object {
     }
 
     public void initialize_for_conversation(Conversation conversation) {
+        int64 t0_us = Dino.Ui.UiTiming.now_us();
         occupants_tab_completor.initialize_for_conversation(conversation);
+        Dino.Ui.UiTiming.log_ms("ChatTextViewController.initialize_for_conversation: occupants_tab_completor", t0_us);
     }
 }
 
