@@ -114,6 +114,10 @@ public class FileTransfer : Object {
     public Gee.List<Xep.CryptographicHashes.Hash> hashes = new Gee.ArrayList<Xep.CryptographicHashes.Hash>();
     public Gee.List<Xep.StatelessFileSharing.Source> sfs_sources = new Gee.ArrayList<Xep.StatelessFileSharing.Source>(Xep.StatelessFileSharing.Source.equals_func);
     public Gee.List<Xep.JingleContentThumbnails.Thumbnail> thumbnails = new Gee.ArrayList<Xep.JingleContentThumbnails.Thumbnail>();
+        public bool is_sticker { get; set; default=false; }
+        public string? sticker_pack_id { get; set; }
+        public string? sticker_pack_jid { get; set; }
+        public string? sticker_pack_node { get; set; }
 
     private Database? db;
     private string storage_dir;
@@ -125,6 +129,12 @@ public class FileTransfer : Object {
         id = row[db.file_transfer.id];
         file_sharing_id = row[db.file_transfer.file_sharing_id];
         account = db.get_account_by_id(row[db.file_transfer.account_id]); // TODO don’t have to generate acc new
+
+            // Sticker fields (optional)
+            is_sticker = row[db.file_transfer.is_sticker];
+            sticker_pack_id = row[db.file_transfer.sticker_pack_id];
+            sticker_pack_jid = row[db.file_transfer.sticker_pack_jid];
+            sticker_pack_node = row[db.file_transfer.sticker_pack_node];
 
         counterpart = db.get_jid_by_id(row[db.file_transfer.counterpart_id]);
         string counterpart_resource = row[db.file_transfer.counterpart_resource];
@@ -196,6 +206,11 @@ public class FileTransfer : Object {
             .value(db.file_transfer.state, state)
             .value(db.file_transfer.provider, provider)
             .value(db.file_transfer.info, info);
+
+            builder.value(db.file_transfer.is_sticker, is_sticker);
+            if (sticker_pack_id != null) builder.value(db.file_transfer.sticker_pack_id, sticker_pack_id);
+            if (sticker_pack_jid != null) builder.value(db.file_transfer.sticker_pack_jid, sticker_pack_jid);
+            if (sticker_pack_node != null) builder.value(db.file_transfer.sticker_pack_node, sticker_pack_node);
 
         if (file_sharing_id != null) builder.value(db.file_transfer.file_sharing_id, file_sharing_id);
         if (path != null) builder.value(db.file_transfer.path, path);
@@ -301,6 +316,15 @@ public class FileTransfer : Object {
                 update_builder.set(db.file_transfer.height, height); break;
             case "length":
                 update_builder.set(db.file_transfer.length, (long) length); break;
+
+                case "is-sticker":
+                    update_builder.set(db.file_transfer.is_sticker, is_sticker); break;
+                case "sticker-pack-id":
+                    update_builder.set(db.file_transfer.sticker_pack_id, sticker_pack_id); break;
+                case "sticker-pack-jid":
+                    update_builder.set(db.file_transfer.sticker_pack_jid, sticker_pack_jid); break;
+                case "sticker-pack-node":
+                    update_builder.set(db.file_transfer.sticker_pack_node, sticker_pack_node); break;
         }
         update_builder.perform();
     }

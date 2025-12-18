@@ -30,6 +30,7 @@ public class ChatInputController : Object {
     public string? conversation_topic { get; set; }
 
     private Conversation? conversation;
+    private bool suppress_chat_state_on_text_change = false;
     private ChatInput.View chat_input;
     private Label status_description_label;
 
@@ -101,18 +102,33 @@ public class ChatInputController : Object {
     }
 
     public void set_conversation(Conversation conversation) {
+        int64 t0_us = Dino.Ui.UiTiming.now_us();
+        suppress_chat_state_on_text_change = true;
         reset_input_field_status();
         this.quoted_content_item = null;
         chat_input.unset_quoted_message();
 
         this.conversation = conversation;
 
+        int64 t_enc_us = Dino.Ui.UiTiming.now_us();
         chat_input.encryption_widget.set_conversation(conversation);
+        Dino.Ui.UiTiming.log_ms("ChatInputController.set_conversation: encryption_widget.set_conversation", t_enc_us);
 
+        int64 t_view_us = Dino.Ui.UiTiming.now_us();
         chat_input.initialize_for_conversation(conversation);
-        chat_text_view_controller.initialize_for_conversation(conversation);
+        Dino.Ui.UiTiming.log_ms("ChatInputController.set_conversation: chat_input.initialize_for_conversation", t_view_us);
 
+        int64 t_text_us = Dino.Ui.UiTiming.now_us();
+        chat_text_view_controller.initialize_for_conversation(conversation);
+        Dino.Ui.UiTiming.log_ms("ChatInputController.set_conversation: chat_text_view_controller.initialize_for_conversation", t_text_us);
+
+        int64 t_mod_us = Dino.Ui.UiTiming.now_us();
         update_moderated_input_status(conversation.account);
+        Dino.Ui.UiTiming.log_ms("ChatInputController.set_conversation: update_moderated_input_status", t_mod_us);
+
+        suppress_chat_state_on_text_change = false;
+
+        Dino.Ui.UiTiming.log_ms("ChatInputController.set_conversation: total", t0_us);
     }
 
     public void set_file_upload_active(bool active) {
@@ -222,6 +238,10 @@ public class ChatInputController : Object {
     private void on_text_input_changed() {
         bool has_text = chat_input.chat_text_view.text_view.buffer.text.strip() != "";
         chat_input.send_button.sensitive = has_text;
+
+        if (suppress_chat_state_on_text_change || conversation == null) {
+            return;
+        }
         
         if (has_text) {
             stream_interactor.get_module(ChatInteraction.IDENTITY).on_message_entered(conversation);

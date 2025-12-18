@@ -61,6 +61,33 @@ namespace Xmpp.Xep.Pubsub {
             return items_node.get_subnodes("item", NS_URI);
         }
 
+        public async StanzaNode? request_item(XmppStream stream, Jid jid, string node, string item_id) {
+            StanzaNode pubsub = new StanzaNode.build("pubsub", NS_URI).add_self_xmlns();
+            StanzaNode items = new StanzaNode.build("items", NS_URI).put_attribute("node", node);
+            items.put_node(new StanzaNode.build("item", NS_URI).put_attribute("id", item_id));
+            pubsub.put_node(items);
+
+            Iq.Stanza request_iq = new Iq.Stanza.get(pubsub);
+            request_iq.to = jid;
+
+            Iq.Stanza iq_res;
+            try {
+                iq_res = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, request_iq);
+            } catch (GLib.Error e) {
+                warning("Failed to request pubsub item %s/%s: %s", node, item_id, e.message);
+                return null;
+            }
+
+            StanzaNode event_node = iq_res.stanza.get_subnode("pubsub", NS_URI);
+            if (event_node == null) return null;
+            StanzaNode items_node = event_node.get_subnode("items", NS_URI);
+            if (items_node == null) return null;
+            StanzaNode item_node = items_node.get_subnode("item", NS_URI);
+            if (item_node == null) return null;
+            if (item_node.sub_nodes.size == 0) return null;
+            return item_node.sub_nodes[0];
+        }
+
         public delegate void OnResult(XmppStream stream, Jid jid, string? id, StanzaNode? node);
         public void request(XmppStream stream, Jid jid, string node, owned OnResult listener) { // TODO multiple nodes gehen auch
             Iq.Stanza request_iq = new Iq.Stanza.get(new StanzaNode.build("pubsub", NS_URI).add_self_xmlns().put_node(new StanzaNode.build("items", NS_URI).put_attribute("node", node)));
@@ -106,6 +133,9 @@ namespace Xmpp.Xep.Pubsub {
             }
 
             Iq.Stanza iq = new Iq.Stanza.set(pubsub_node);
+            if (jid != null) {
+                iq.to = jid;
+            }
 
             // If the node was configured differently before, reconfigure it to meet our requirements and try again
             Iq.Stanza iq_result;
@@ -134,6 +164,9 @@ namespace Xmpp.Xep.Pubsub {
                     .put_node(new StanzaNode.build("item", NS_URI).put_attribute("id", item_id)));
 
             Iq.Stanza iq = new Iq.Stanza.set(pubsub_node);
+            if (jid != null) {
+                iq.to = jid;
+            }
             bool ok = true;
             stream.get_module(Iq.Module.IDENTITY).send_iq(stream, iq, (stream, result_iq) => {
                 ok = !result_iq.is_error();
@@ -150,6 +183,9 @@ namespace Xmpp.Xep.Pubsub {
             pubsub_node.put_node(publish_node);
 
             Iq.Stanza iq = new Iq.Stanza.set(pubsub_node);
+            if (jid != null) {
+                iq.to = jid;
+            }
             stream.get_module(Iq.Module.IDENTITY).send_iq(stream, iq, null);
         }
 
@@ -159,6 +195,9 @@ namespace Xmpp.Xep.Pubsub {
             pubsub_node.put_node(publish_node);
 
             Iq.Stanza iq = new Iq.Stanza.get(pubsub_node);
+            if (jid != null) {
+                iq.to = jid;
+            }
             Iq.Stanza result_iq;
             try {
                 result_iq = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
@@ -181,6 +220,7 @@ namespace Xmpp.Xep.Pubsub {
 
 
             Iq.Stanza iq = new Iq.Stanza.set(pubsub_node);
+            // node config is addressed to the pubsub service; keep default addressing
             Iq.Stanza iq_result;
             try {
                 iq_result = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);

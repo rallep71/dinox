@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-01 10:28+0100\n"
+"POT-Creation-Date: 2025-12-18 18:28+0100\n"
 "PO-Revision-Date: 2022-08-23 18:21+0000\n"
 "Language-Team: none\n"
 "Language: is\n"
@@ -39,21 +39,21 @@ msgid "Delete Group"
 msgstr "Eyða hóp"
 
 #: main/data/call_widget.ui:73 main/src/ui/notifier_freedesktop.vala:125
-#: main/src/ui/notifier_freedesktop.vala:230
-#: main/src/ui/notifier_gnotifications.vala:80
+#: main/src/ui/notifier_freedesktop.vala:232
+#: main/src/ui/notifier_gnotifications.vala:82
 msgid "Reject"
 msgstr "Hafna"
 
 #: main/data/call_widget.ui:81
 #: main/src/ui/conversation_content_view/subscription_notification.vala:67
 #: main/src/ui/notifier_freedesktop.vala:125
-#: main/src/ui/notifier_freedesktop.vala:164
-#: main/src/ui/notifier_freedesktop.vala:230
-#: main/src/ui/notifier_freedesktop.vala:264
-#: main/src/ui/notifier_gnotifications.vala:81
-#: main/src/ui/notifier_gnotifications.vala:97
-#: main/src/ui/notifier_gnotifications.vala:134
-#: main/src/ui/notifier_gnotifications.vala:150
+#: main/src/ui/notifier_freedesktop.vala:166
+#: main/src/ui/notifier_freedesktop.vala:232
+#: main/src/ui/notifier_freedesktop.vala:266
+#: main/src/ui/notifier_gnotifications.vala:83
+#: main/src/ui/notifier_gnotifications.vala:101
+#: main/src/ui/notifier_gnotifications.vala:140
+#: main/src/ui/notifier_gnotifications.vala:158
 msgid "Accept"
 msgstr "Samþykkja"
 
@@ -72,7 +72,7 @@ msgid "Remove Contact"
 msgstr "Fjarlægja tengilið"
 
 #: main/data/conversation_details.ui:171
-#: main/src/windows/conversation_details.vala:231
+#: main/src/windows/conversation_details.vala:229
 msgid "About"
 msgstr "Um"
 
@@ -106,7 +106,7 @@ msgstr "Byrja samtal"
 #: main/data/gtk/help-overlay.ui:20 main/data/main_window.ui:51
 #: main/data/menu_add.ui:11
 #: main/src/ui/add_conversation/add_conference_dialog.vala:24
-#: main/src/ui/application.vala:1359 main/src/ui/main_window.vala:155
+#: main/src/ui/application.vala:1373 main/src/ui/main_window.vala:155
 msgid "Join Channel"
 msgstr "Tengjast rás"
 
@@ -127,7 +127,7 @@ msgstr "Samtal"
 msgid "Search messages"
 msgstr "Leita að skilaboðum"
 
-#: main/data/gtk/help-overlay.ui:49 main/src/ui/chat_input/view.vala:47
+#: main/data/gtk/help-overlay.ui:49 main/src/ui/chat_input/view.vala:59
 msgid "Send a file"
 msgstr "Senda skrá"
 
@@ -199,7 +199,7 @@ msgstr "Stillingar"
 msgid "Keyboard Shortcuts"
 msgstr "Flýtilyklar"
 
-#: main/data/menu_app.ui:42 main/src/ui/application.vala:340
+#: main/data/menu_app.ui:42 main/src/ui/application.vala:354
 msgid "About DinoX"
 msgstr "Um DinoX"
 
@@ -218,10 +218,12 @@ msgstr "Eyða samtalsferli"
 #: main/data/preferences_window/change_password_dialog.ui:18
 #: main/src/ui/add_conversation/add_conference_dialog.vala:41
 #: main/src/ui/add_conversation/select_contact_dialog.vala:40
-#: main/src/ui/application.vala:441 main/src/ui/application.vala:469
-#: main/src/ui/application.vala:765 main/src/ui/application.vala:843
-#: main/src/ui/application.vala:901 main/src/ui/application.vala:933
-#: main/src/ui/application.vala:1089 main/src/ui/application.vala:1369
+#: main/src/ui/application.vala:455 main/src/ui/application.vala:483
+#: main/src/ui/application.vala:779 main/src/ui/application.vala:857
+#: main/src/ui/application.vala:915 main/src/ui/application.vala:947
+#: main/src/ui/application.vala:1103 main/src/ui/application.vala:1383
+#: main/src/ui/chat_input/sticker_chooser.vala:547
+#: main/src/ui/chat_input/sticker_chooser.vala:869
 #: main/src/ui/conversation_content_view/file_default_widget.vala:90
 #: main/src/ui/conversation_content_view/item_actions.vala:165
 #: main/src/ui/conversation_content_view/item_actions.vala:168
@@ -260,7 +262,7 @@ msgid "Local alias"
 msgstr "Staðbundið samnefni"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:82
-#: main/src/ui/application.vala:435 main/src/ui/application.vala:1064
+#: main/src/ui/application.vala:449 main/src/ui/application.vala:1078
 #: main/src/ui/util/data_forms.vala:63
 msgid "Password"
 msgstr "Lykilorð"
@@ -346,64 +348,82 @@ msgid "_Convert Smileys to Emoji"
 msgstr "_Umbreyta bros í Emoji"
 
 #: main/data/preferences_window/general_preferences_page.ui:63
+#: main/src/ui/chat_input/view.vala:51
+#, fuzzy
+msgid "Stickers"
+msgstr "Hátalarar"
+
+#: main/data/preferences_window/general_preferences_page.ui:66
+msgid "Enable Stickers"
+msgstr ""
+
+#: main/data/preferences_window/general_preferences_page.ui:71
+msgid "Enable Sticker Animations"
+msgstr ""
+
+#: main/data/preferences_window/general_preferences_page.ui:72
+msgid "Disable to reduce flashing/flickering"
+msgstr ""
+
+#: main/data/preferences_window/general_preferences_page.ui:79
 msgid "User Data"
 msgstr "Notandagögn"
 
-#: main/data/preferences_window/general_preferences_page.ui:66
+#: main/data/preferences_window/general_preferences_page.ui:82
 msgid "Backup User Data"
 msgstr "Afrita gögn"
 
-#: main/data/preferences_window/general_preferences_page.ui:67
+#: main/data/preferences_window/general_preferences_page.ui:83
 msgid "Create a backup of your accounts, messages and settings"
 msgstr "Búa til öryggisafrit af reikningum, skilaboðum og stillingum"
 
-#: main/data/preferences_window/general_preferences_page.ui:78
-#: main/src/ui/application.vala:464 main/src/ui/main_window.vala:223
+#: main/data/preferences_window/general_preferences_page.ui:94
+#: main/src/ui/application.vala:478 main/src/ui/main_window.vala:223
 msgid "Restore from Backup"
 msgstr "Endurheimta úr öryggisafriti"
 
-#: main/data/preferences_window/general_preferences_page.ui:79
+#: main/data/preferences_window/general_preferences_page.ui:95
 msgid "Restore accounts, messages and settings from a backup file"
 msgstr "Endurheimta reikninga, skilaboð og stillingar úr öryggisafriti"
 
-#: main/data/preferences_window/general_preferences_page.ui:90
+#: main/data/preferences_window/general_preferences_page.ui:106
 msgid "Data Storage Location"
 msgstr "Geymslustaðsetning gagna"
 
-#: main/data/preferences_window/general_preferences_page.ui:91
+#: main/data/preferences_window/general_preferences_page.ui:107
 msgid "View where your data is stored"
 msgstr "Skoða hvar gögnin þín eru geymd"
 
-#: main/data/preferences_window/general_preferences_page.ui:104
+#: main/data/preferences_window/general_preferences_page.ui:120
 msgid "Database Maintenance"
 msgstr "Gagnagrunnsviðhald"
 
-#: main/data/preferences_window/general_preferences_page.ui:107
-#: main/src/ui/application.vala:761 main/src/ui/application.vala:766
+#: main/data/preferences_window/general_preferences_page.ui:123
+#: main/src/ui/application.vala:775 main/src/ui/application.vala:780
 msgid "Clear Cache"
 msgstr "Hreinsa skyndiminni"
 
-#: main/data/preferences_window/general_preferences_page.ui:108
+#: main/data/preferences_window/general_preferences_page.ui:124
 msgid "Clear cached files, avatars and previews"
 msgstr "Hreinsa skrár, notendamyndir og forskoðanir úr skyndiminni"
 
-#: main/data/preferences_window/general_preferences_page.ui:119
-#: main/src/ui/application.vala:838 main/src/ui/application.vala:844
+#: main/data/preferences_window/general_preferences_page.ui:135
+#: main/src/ui/application.vala:852 main/src/ui/application.vala:858
 msgid "Reset Database"
 msgstr "Endurstilla gagnagrunn"
 
-#: main/data/preferences_window/general_preferences_page.ui:120
+#: main/data/preferences_window/general_preferences_page.ui:136
 msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
 msgstr ""
 "Eyða öllum skilaboðum, skrám og OMEMO lyklum. Reikningarnir þínir verða "
 "áfram."
 
-#: main/data/preferences_window/general_preferences_page.ui:131
-#: main/src/ui/application.vala:896
+#: main/data/preferences_window/general_preferences_page.ui:147
+#: main/src/ui/application.vala:910
 msgid "Factory Reset"
 msgstr "Verksmiðjustilling"
 
-#: main/data/preferences_window/general_preferences_page.ui:132
+#: main/data/preferences_window/general_preferences_page.ui:148
 msgid "Delete ALL data including accounts. This cannot be undone!"
 msgstr ""
 "Eyða ÖLLUM gögnum þar með talið reikningum. Þetta er ekki hægt að afturkalla!"
@@ -421,7 +441,7 @@ msgid "Contacts"
 msgstr "Tengiliðir"
 
 #: main/data/preferences_window/preferences_dialog.ui:25
-#: main/src/windows/conversation_details.vala:281
+#: main/src/windows/conversation_details.vala:279
 msgid "Encryption"
 msgstr "Dulkóðun"
 
@@ -431,7 +451,7 @@ msgstr "Áfram"
 
 #: main/src/ui/add_conversation/add_conference_dialog.vala:59
 #: main/src/ui/add_conversation/conference_details_fragment.vala:151
-#: main/src/ui/application.vala:1373
+#: main/src/ui/application.vala:1387
 msgid "Join"
 msgstr "Tengjast"
 
@@ -472,8 +492,8 @@ msgid "Too many occupants in room"
 msgstr "Það eru of margir í herberginu"
 
 #: main/src/ui/add_conversation/conference_details_fragment.vala:183
-#: main/src/ui/notifier_freedesktop.vala:188
-#: main/src/ui/notifier_gnotifications.vala:104
+#: main/src/ui/notifier_freedesktop.vala:190
+#: main/src/ui/notifier_gnotifications.vala:108
 #: main/src/windows/preferences_window/add_account_dialog.vala:271
 #, c-format
 msgid "Could not connect to %s"
@@ -483,7 +503,7 @@ msgstr "Gat ekki tengst %s"
 #: main/src/windows/preferences_window/add_account_dialog.vala:287
 #: main/src/windows/preferences_window/add_account_dialog.vala:297
 #: main/src/windows/preferences_window/add_account_dialog.vala:307
-#: main/src/windows/preferences_window/add_account_dialog.vala:391
+#: main/src/windows/preferences_window/add_account_dialog.vala:393
 msgid "Invalid address"
 msgstr "Ógilt netfang"
 
@@ -517,31 +537,31 @@ msgstr "Eyða tengilið"
 msgid "Leave Group"
 msgstr "Yfirgefa hóp"
 
-#: main/src/ui/application.vala:345
+#: main/src/ui/application.vala:359
 msgid "Modern XMPP client with extended features"
 msgstr "Nútíma XMPP viðskiptavinur með auknar aðgerðir"
 
-#: main/src/ui/application.vala:352 main/src/ui/application.vala:727
+#: main/src/ui/application.vala:366 main/src/ui/application.vala:741
 msgid "User Data Locations"
 msgstr "Staðsetningar gagna"
 
-#: main/src/ui/application.vala:355 main/src/ui/application.vala:741
+#: main/src/ui/application.vala:369 main/src/ui/application.vala:755
 msgid "Configuration:"
 msgstr "Stillingar:"
 
-#: main/src/ui/application.vala:358 main/src/ui/application.vala:743
+#: main/src/ui/application.vala:372 main/src/ui/application.vala:757
 msgid "Data & Database:"
 msgstr "Gögn og gagnagrunnur:"
 
-#: main/src/ui/application.vala:361 main/src/ui/application.vala:745
+#: main/src/ui/application.vala:375 main/src/ui/application.vala:759
 msgid "Cache:"
 msgstr "Skyndiminni:"
 
-#: main/src/ui/application.vala:364
+#: main/src/ui/application.vala:378
 msgid "Info:"
 msgstr "Upplýsingar:"
 
-#: main/src/ui/application.vala:365
+#: main/src/ui/application.vala:379
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
@@ -549,37 +569,37 @@ msgstr ""
 "Persónuleg gögn þín (reikningar, skilaboð, skrár) eru geymd aðskilið frá "
 "forritinu."
 
-#: main/src/ui/application.vala:367
+#: main/src/ui/application.vala:381
 msgid "When you update DinoX, your data remains intact."
 msgstr "Þegar þú uppfærir DinoX helst gögnin þín ósnortin."
 
-#: main/src/ui/application.vala:369
+#: main/src/ui/application.vala:383
 msgid "Use Settings → General → Backup User Data to create a backup."
 msgstr ""
 "Notaðu Stillingar → Almennt → Afritun notandagagna til að búa til afrit."
 
-#: main/src/ui/application.vala:387
+#: main/src/ui/application.vala:401
 msgid "Select Backup File"
 msgstr "Veldu öryggisafritsskrá"
 
 # DinoX v0.7.7 - Additional Backup/Restore strings
-#: main/src/ui/application.vala:395
+#: main/src/ui/application.vala:409
 msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
 msgstr "Öryggisafritsskrár (*.tar.gz, *.tar.gz.gpg)"
 
-#: main/src/ui/application.vala:425
+#: main/src/ui/application.vala:439
 msgid "Enter Backup Password"
 msgstr "Sláðu inn lykilorð öryggisafrits"
 
-#: main/src/ui/application.vala:426
+#: main/src/ui/application.vala:440
 msgid "This backup is encrypted. Please enter the password to decrypt it."
 msgstr "Þetta öryggisafrit er dulkóðað. Sláðu inn lykilorðið."
 
-#: main/src/ui/application.vala:442
+#: main/src/ui/application.vala:456
 msgid "Decrypt & Restore"
 msgstr "Afkóða og endurheimta"
 
-#: main/src/ui/application.vala:465
+#: main/src/ui/application.vala:479
 msgid ""
 "This will replace all current data with the backup.\n"
 "\n"
@@ -593,31 +613,31 @@ msgstr ""
 "\n"
 "DinoX will restart after restoring."
 
-#: main/src/ui/application.vala:470
+#: main/src/ui/application.vala:484
 msgid "Restore Backup"
 msgstr "Endurheimta öryggisafrit"
 
-#: main/src/ui/application.vala:487 main/src/ui/application.vala:519
+#: main/src/ui/application.vala:501 main/src/ui/application.vala:533
 msgid "Decrypting Backup..."
 msgstr "Afkóða öryggisafrit..."
 
-#: main/src/ui/application.vala:487 main/src/ui/application.vala:571
+#: main/src/ui/application.vala:501 main/src/ui/application.vala:585
 msgid "Restoring Backup..."
 msgstr "Endurheimti öryggisafrit..."
 
-#: main/src/ui/application.vala:488
+#: main/src/ui/application.vala:502
 msgid "Please wait, this may take a moment..."
 msgstr "Vinsamlegast bíddu, þetta gæti tekið smá stund..."
 
-#: main/src/ui/application.vala:520
+#: main/src/ui/application.vala:534
 msgid "Decrypting encrypted backup file..."
 msgstr "Afkóða öryggisafritsskrá..."
 
-#: main/src/ui/application.vala:558
+#: main/src/ui/application.vala:572
 msgid "Decryption Failed"
 msgstr "Afkóðun mistókst"
 
-#: main/src/ui/application.vala:559
+#: main/src/ui/application.vala:573
 msgid ""
 "Could not decrypt the backup file.\n"
 "\n"
@@ -627,27 +647,34 @@ msgstr ""
 "\n"
 "Athugaðu hvort lykilorðið sé rétt."
 
-#: main/src/ui/application.vala:561 main/src/ui/application.vala:671
+#: main/src/ui/application.vala:575 main/src/ui/application.vala:685
+#: main/src/ui/chat_input/sticker_chooser.vala:575
+#: main/src/ui/chat_input/sticker_chooser.vala:594
+#: main/src/ui/chat_input/sticker_chooser.vala:602
+#: main/src/ui/chat_input/sticker_chooser.vala:817
+#: main/src/ui/chat_input/sticker_chooser.vala:835
+#: main/src/ui/chat_input/sticker_chooser.vala:843
+#: main/src/ui/chat_input/sticker_chooser.vala:883
 msgid "OK"
 msgstr "OK"
 
-#: main/src/ui/application.vala:572
+#: main/src/ui/application.vala:586
 msgid "Extracting files from backup..."
 msgstr "Dreg út skrár úr öryggisafriti..."
 
-#: main/src/ui/application.vala:653
+#: main/src/ui/application.vala:667
 msgid "Restore Complete!"
 msgstr "Endurheimt lokið!"
 
-#: main/src/ui/application.vala:654
+#: main/src/ui/application.vala:668
 msgid "DinoX will now restart..."
 msgstr "DinoX mun endurræsast núna..."
 
-#: main/src/ui/application.vala:668
+#: main/src/ui/application.vala:682
 msgid "Restore Failed"
 msgstr "Endurheimt mistókst"
 
-#: main/src/ui/application.vala:669
+#: main/src/ui/application.vala:683
 #, c-format
 msgid ""
 "Could not restore the backup file.\n"
@@ -658,11 +685,11 @@ msgstr ""
 "\n"
 "Villa: %s"
 
-#: main/src/ui/application.vala:669 main/src/ui/application.vala:1345
+#: main/src/ui/application.vala:683 main/src/ui/application.vala:1359
 msgid "Unknown error"
 msgstr "Óþekkt villa"
 
-#: main/src/ui/application.vala:747
+#: main/src/ui/application.vala:761
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
@@ -672,13 +699,14 @@ msgstr ""
 "gögn þín (reikningar, skilaboð, skrár) eru geymd aðskilið frá forritinu. "
 "Þegar þú uppfærir DinoX haldast gögnin þín óbreytt."
 
-#: main/src/ui/application.vala:752 main/src/ui/application.vala:1240
-#: main/src/ui/application.vala:1324 main/src/ui/conversation_details.vala:272
-#: main/src/ui/main_window.vala:172
+#: main/src/ui/application.vala:766 main/src/ui/application.vala:1254
+#: main/src/ui/application.vala:1338
+#: main/src/ui/chat_input/sticker_chooser.vala:174
+#: main/src/ui/conversation_details.vala:272 main/src/ui/main_window.vala:172
 msgid "Close"
 msgstr "Loka"
 
-#: main/src/ui/application.vala:762
+#: main/src/ui/application.vala:776
 msgid ""
 "This will delete cached files, avatars and previews.\n"
 "\n"
@@ -688,16 +716,16 @@ msgstr ""
 "\n"
 "Þeim verður hlaðið niður aftur þegar þörf krefur."
 
-#: main/src/ui/application.vala:799
+#: main/src/ui/application.vala:813
 #, c-format
 msgid "Cache cleared (%s freed)"
 msgstr "Skyndiminni hreinsað (%s losnaði)"
 
-#: main/src/ui/application.vala:802
+#: main/src/ui/application.vala:816
 msgid "Failed to clear cache"
 msgstr "Mistókst að hreinsa skyndiminni"
 
-#: main/src/ui/application.vala:839
+#: main/src/ui/application.vala:853
 msgid ""
 "This will delete all messages, files and OMEMO encryption keys.\n"
 "\n"
@@ -713,11 +741,11 @@ msgstr ""
 "\n"
 "This action cannot be undone!"
 
-#: main/src/ui/application.vala:867
+#: main/src/ui/application.vala:881
 msgid "Resetting database... DinoX will restart."
 msgstr "Endurstilli gagnagrunn... DinoX mun endurræsast."
 
-#: main/src/ui/application.vala:897
+#: main/src/ui/application.vala:911
 msgid ""
 "<b>⚠️ WARNING: This will delete ALL data!</b>\n"
 "\n"
@@ -737,19 +765,19 @@ msgstr ""
 "\n"
 "This is irreversible. Make sure to create a backup first!"
 
-#: main/src/ui/application.vala:902
+#: main/src/ui/application.vala:916
 msgid "Create Backup First"
 msgstr "Búa til öryggisafrit fyrst"
 
-#: main/src/ui/application.vala:903
+#: main/src/ui/application.vala:917
 msgid "Delete Everything"
 msgstr "Eyða öllu"
 
-#: main/src/ui/application.vala:923
+#: main/src/ui/application.vala:937
 msgid "Are you absolutely sure?"
 msgstr "Ertu alveg viss?"
 
-#: main/src/ui/application.vala:924
+#: main/src/ui/application.vala:938
 msgid ""
 "Type 'DELETE' to confirm factory reset.\n"
 "\n"
@@ -759,19 +787,19 @@ msgstr ""
 "\n"
 "This will permanently remove all your DinoX data."
 
-#: main/src/ui/application.vala:934
+#: main/src/ui/application.vala:948
 msgid "Confirm Delete"
 msgstr "Staðfesta eyðingu"
 
-#: main/src/ui/application.vala:961
+#: main/src/ui/application.vala:975
 msgid "Factory reset in progress... DinoX will restart."
 msgstr "Endurstilling í gangi... DinoX mun endurræsast."
 
-#: main/src/ui/application.vala:1026
+#: main/src/ui/application.vala:1040
 msgid "Backup Encryption"
 msgstr "Dulkóðun öryggisafrits"
 
-#: main/src/ui/application.vala:1027
+#: main/src/ui/application.vala:1041
 msgid ""
 "Do you want to encrypt the backup with a password?\n"
 "\n"
@@ -782,19 +810,19 @@ msgstr ""
 "Dulkóðuð öryggisafrit eru öruggari en krefjast lykilorðsins til að "
 "endurheimta."
 
-#: main/src/ui/application.vala:1030
+#: main/src/ui/application.vala:1044
 msgid "No Encryption"
 msgstr "Engin dulkóðun"
 
-#: main/src/ui/application.vala:1031
+#: main/src/ui/application.vala:1045
 msgid "Encrypt with Password"
 msgstr "Dulkóða með lykilorði"
 
-#: main/src/ui/application.vala:1049
+#: main/src/ui/application.vala:1063
 msgid "Set Backup Password"
 msgstr "Setja lykilorð öryggisafrits"
 
-#: main/src/ui/application.vala:1050
+#: main/src/ui/application.vala:1064
 msgid ""
 "Enter a password to encrypt the backup.\n"
 "\n"
@@ -805,59 +833,59 @@ msgstr ""
 "\n"
 "<b>Mikilvægt:</b> Mundu þetta lykilorð! Án þess er ekki hægt að endurheimta."
 
-#: main/src/ui/application.vala:1058
+#: main/src/ui/application.vala:1072
 msgid "Password (minimum 4 characters)"
 msgstr "Lykilorð (að lágmarki 4 stafir)"
 
-#: main/src/ui/application.vala:1066 main/src/ui/application.vala:1073
+#: main/src/ui/application.vala:1080 main/src/ui/application.vala:1087
 msgid "Confirm Password"
 msgstr "Staðfesta lykilorð"
 
-#: main/src/ui/application.vala:1090
+#: main/src/ui/application.vala:1104
 msgid "Create Encrypted Backup"
 msgstr "Búa til dulkóðað öryggisafrit"
 
-#: main/src/ui/application.vala:1102 main/src/ui/application.vala:1117
+#: main/src/ui/application.vala:1116 main/src/ui/application.vala:1131
 msgid "Password too short"
 msgstr "Lykilorð of stutt"
 
-#: main/src/ui/application.vala:1104 main/src/ui/application.vala:1119
+#: main/src/ui/application.vala:1118 main/src/ui/application.vala:1133
 msgid "Passwords do not match"
 msgstr "Lykilorðin passa ekki saman"
 
-#: main/src/ui/application.vala:1106 main/src/ui/application.vala:1121
+#: main/src/ui/application.vala:1120 main/src/ui/application.vala:1135
 msgid "✓ Passwords match"
 msgstr "✓ Lykilorðin passa saman"
 
-#: main/src/ui/application.vala:1139
+#: main/src/ui/application.vala:1153
 msgid "Select Backup Location"
 msgstr "Veldu staðsetningu öryggisafrits"
 
-#: main/src/ui/application.vala:1194
+#: main/src/ui/application.vala:1208
 msgid "Creating Encrypted Backup..."
 msgstr "Bý til dulkóðað öryggisafrit..."
 
-#: main/src/ui/application.vala:1194
+#: main/src/ui/application.vala:1208
 msgid "Creating Backup..."
 msgstr "Bý til öryggisafrit..."
 
-#: main/src/ui/application.vala:1195
+#: main/src/ui/application.vala:1209
 msgid "Please wait while your data is being backed up."
 msgstr "Vinsamlegast bíddu á meðan gögnin þín eru afrituð."
 
-#: main/src/ui/application.vala:1234
+#: main/src/ui/application.vala:1248
 msgid "No data directory found to backup"
 msgstr "Engin gagnamappa fannst til að taka öryggisafrit af"
 
-#: main/src/ui/application.vala:1237 main/src/ui/application.vala:1343
+#: main/src/ui/application.vala:1251 main/src/ui/application.vala:1357
 msgid "Backup Failed"
 msgstr "Öryggisafritun mistókst"
 
-#: main/src/ui/application.vala:1331
+#: main/src/ui/application.vala:1345
 msgid "Encrypted Backup Created"
 msgstr "Dulkóðað öryggisafrit búið til"
 
-#: main/src/ui/application.vala:1333
+#: main/src/ui/application.vala:1347
 #, c-format
 msgid ""
 "Your encrypted backup was created successfully.\n"
@@ -868,15 +896,15 @@ msgstr ""
 "\n"
 "Stærð: %s"
 
-#: main/src/ui/application.vala:1334
+#: main/src/ui/application.vala:1348
 msgid "Your encrypted backup was created successfully."
 msgstr "Dulkóðaða öryggisafritið þitt var búið til."
 
-#: main/src/ui/application.vala:1336
+#: main/src/ui/application.vala:1350
 msgid "Backup Created"
 msgstr "Öryggisafrit búið til"
 
-#: main/src/ui/application.vala:1338
+#: main/src/ui/application.vala:1352
 #, c-format
 msgid ""
 "Your backup was created successfully.\n"
@@ -887,11 +915,11 @@ msgstr ""
 "\n"
 "Stærð: %s"
 
-#: main/src/ui/application.vala:1339
+#: main/src/ui/application.vala:1353
 msgid "Your backup was created successfully."
 msgstr "Öryggisafritið þitt var búið til."
 
-#: main/src/ui/application.vala:1346
+#: main/src/ui/application.vala:1360
 #, c-format
 msgid "Backup failed: %s"
 msgstr "Öryggisafrit mistókst: %s"
@@ -969,18 +997,159 @@ msgstr "Myndavélar"
 msgid "No camera found."
 msgstr "Myndavél fannst ekki."
 
-#: main/src/ui/chat_input/chat_input_controller.vala:247
+#: main/src/ui/chat_input/chat_input_controller.vala:267
 msgid "This conference does not allow you to send messages."
 msgstr "Þér hefur ekki verið leyft að senda skilaboð í þessu samtali."
 
-#: main/src/ui/chat_input/chat_input_controller.vala:247
+#: main/src/ui/chat_input/chat_input_controller.vala:267
 msgid "Request permission"
 msgstr "Óska eftir leyfi"
 
 #: main/src/ui/chat_input/encryption_button.vala:35
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:172
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:224
 msgid "Unencrypted"
 msgstr "Ódulkóðað"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:25
+#, fuzzy
+msgid "Import…"
+msgstr "Import Key"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:26
+msgid "Folder…"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:27
+#: main/src/ui/chat_input/sticker_chooser.vala:822
+#: main/src/ui/chat_input/sticker_chooser.vala:849
+msgid "Publish"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:28
+#: main/src/ui/chat_input/sticker_chooser.vala:870
+#: main/src/ui/conversation_content_view/item_actions.vala:165
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:745
+#: main/src/windows/conversation_details.vala:61
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:292
+msgid "Remove"
+msgstr "Fjarlægja"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:237
+msgid "Paste an xmpp: sticker pack link and press Enter."
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:241
+msgid "xmpp:…"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:413
+#: main/src/ui/chat_input/sticker_chooser.vala:574
+#: main/src/ui/chat_input/sticker_chooser.vala:816
+msgid "Stickers are unavailable"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:420
+#: main/src/ui/chat_input/sticker_chooser.vala:497
+#: main/src/ui/chat_input/sticker_chooser.vala:502
+msgid "None"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:450
+msgid "No sticker packs yet. Use Import… to add one."
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:452
+#: main/src/ui/chat_input/sticker_chooser.vala:735
+msgid "No stickers selected"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:534
+#, fuzzy
+msgid "Select sticker folder"
+msgstr "Veldu skrá"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:535
+#: main/src/ui/conversation_view_controller.vala:238
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:180
+msgid "Select"
+msgstr "Velja"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:544
+#, fuzzy
+msgid "Create sticker pack"
+msgstr "Búa til dulkóðað öryggisafrit"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:545
+msgid ""
+"Do you want to keep this pack local, or also publish it so you can share an "
+"xmpp: link?"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:548
+#, fuzzy
+msgid "Local only"
+msgstr "Staðbundið samnefni"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:549
+msgid "Publish & copy link"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:574
+#: main/src/ui/chat_input/sticker_chooser.vala:816
+msgid "Stickers module unavailable"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:593
+#: main/src/ui/chat_input/sticker_chooser.vala:834
+msgid "Sticker pack published"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:593
+#: main/src/ui/chat_input/sticker_chooser.vala:834
+#, c-format
+msgid ""
+"Share link copied to clipboard:\n"
+"%s"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:601
+#, fuzzy
+msgid "Failed to create sticker pack"
+msgstr "Mistókst að hreinsa skyndiminni"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:698
+msgid "Invalid sticker pack link"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:755
+msgid "No stickers in this pack"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:811
+#, fuzzy
+msgid "Publishing…"
+msgstr "Tengist…"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:842
+#, fuzzy
+msgid "Failed to publish sticker pack"
+msgstr "Mistókst að hreinsa skyndiminni"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:866
+#, fuzzy
+msgid "Remove sticker pack?"
+msgstr "Fjarlægja tengilið?"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:867
+#, c-format
+msgid ""
+"This will delete the downloaded files and remove the pack from your list: %s"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:882
+#, fuzzy
+msgid "Failed to remove sticker pack"
+msgstr "Mistókst að hreinsa skyndiminni"
 
 #: main/src/ui/contact_details/permissions_provider.vala:23
 msgid "Request permission to send messages"
@@ -1020,7 +1189,7 @@ msgstr "Senda lestrarkvittanir"
 
 #: main/src/ui/conversation_content_view/call_widget.vala:137
 #: main/src/ui/notifier_freedesktop.vala:114
-#: main/src/ui/notifier_gnotifications.vala:70
+#: main/src/ui/notifier_gnotifications.vala:72
 msgid "Incoming video call"
 msgstr "Óskast eftir myndsímtali"
 
@@ -1028,19 +1197,19 @@ msgstr "Óskast eftir myndsímtali"
 #: main/src/ui/conversation_content_view/call_widget.vala:168
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:287
 #: main/src/ui/notifier_freedesktop.vala:114
-#: main/src/ui/notifier_gnotifications.vala:70
+#: main/src/ui/notifier_gnotifications.vala:72
 msgid "Incoming call"
 msgstr "Símtal í innleið"
 
 #: main/src/ui/conversation_content_view/call_widget.vala:139
 #: main/src/ui/notifier_freedesktop.vala:116
-#: main/src/ui/notifier_gnotifications.vala:72
+#: main/src/ui/notifier_gnotifications.vala:74
 msgid "Incoming video group call"
 msgstr "Óskast eftir hópmyndsímtali"
 
 #: main/src/ui/conversation_content_view/call_widget.vala:139
 #: main/src/ui/notifier_freedesktop.vala:116
-#: main/src/ui/notifier_gnotifications.vala:72
+#: main/src/ui/notifier_gnotifications.vala:74
 msgid "Incoming group call"
 msgstr "Óskast eftir hópsímtali"
 
@@ -1067,14 +1236,14 @@ msgid "Call ended"
 msgstr "Símtali lokið"
 
 #: main/src/ui/conversation_content_view/call_widget.vala:175
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:263
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:315
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:490
 #, no-c-format
 msgid "%H∶%M"
 msgstr "%H∶%M"
 
 #: main/src/ui/conversation_content_view/call_widget.vala:175
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:264
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:316
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:491
 #, no-c-format
 msgid "%l∶%M %p"
@@ -1144,64 +1313,64 @@ msgstr "%s og %s eru að skrifa…"
 msgid "%s is typing…"
 msgstr "%s er að skrifa…"
 
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:204
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:256
 msgid "Delivered"
 msgstr "Afhent"
 
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:208
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:260
 msgid "Read"
 msgstr "Lesið"
 
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:214
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:266
 msgid "Unable to send message"
 msgstr "Ekki er hægt að senda skilaboð"
 
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:251
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:303
 #, no-c-format
 msgid "%x, %H∶%M"
 msgstr "%x %H∶%M"
 
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:252
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:304
 #, no-c-format
 msgid "%x, %l∶%M %p"
 msgstr "%x %l∶%M %p"
 
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:255
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:307
 #, no-c-format
 msgid "%b %d, %H∶%M"
 msgstr "%b %d %H∶%M"
 
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:256
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:308
 #, no-c-format
 msgid "%b %d, %l∶%M %p"
 msgstr "%b %d %l∶%M %p"
 
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:259
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:311
 #, no-c-format
 msgid "%a, %H∶%M"
 msgstr "%a %H∶%M"
 
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:260
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:312
 #, no-c-format
 msgid "%a, %l∶%M %p"
 msgstr "%a %l∶%M %p"
 
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:270
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:322
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:496
 msgid "Just now"
 msgstr "Núna"
 
-#: main/src/ui/conversation_content_view/conversation_view.vala:106
+#: main/src/ui/conversation_content_view/conversation_view.vala:114
 msgid "More actions"
 msgstr "Fleiri aðgerðir"
 
 #: main/src/ui/conversation_content_view/file_default_widget.vala:67
-#: main/src/ui/conversation_content_view/file_image_widget.vala:42
+#: main/src/ui/conversation_content_view/file_image_widget.vala:201
 msgid "Open"
 msgstr "Opna"
 
 #: main/src/ui/conversation_content_view/file_default_widget.vala:68
-#: main/src/ui/conversation_content_view/file_image_widget.vala:43
+#: main/src/ui/conversation_content_view/file_image_widget.vala:202
 #: main/src/ui/conversation_content_view/file_widget.vala:174
 msgid "Save as…"
 msgstr "Vista sem…"
@@ -1289,13 +1458,6 @@ msgstr "Eyða skilaboðum"
 msgid "Do you want to remove this message from the channel?"
 msgstr "Viltu fjarlægja þessi skilaboð úr rásinni?"
 
-#: main/src/ui/conversation_content_view/item_actions.vala:165
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:745
-#: main/src/windows/conversation_details.vala:61
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:292
-msgid "Remove"
-msgstr "Fjarlægja"
-
 #: main/src/ui/conversation_content_view/item_actions.vala:167
 msgid "Do you want to delete this message just for yourself or for everyone?"
 msgstr "Viltu eyða þessum skilaboðum aðeins fyrir þig eða fyrir alla?"
@@ -1346,11 +1508,11 @@ msgid "You do not receive status updates from this contact yet."
 msgstr "Þú færð ekki enn stöðuuppfærslur frá þessum tengiliði."
 
 #: main/src/ui/conversation_content_view/subscription_notification.vala:68
-#: main/src/ui/notifier_freedesktop.vala:164
-#: main/src/ui/notifier_freedesktop.vala:264
-#: main/src/ui/notifier_gnotifications.vala:98
-#: main/src/ui/notifier_gnotifications.vala:133
-#: main/src/ui/notifier_gnotifications.vala:149
+#: main/src/ui/notifier_freedesktop.vala:166
+#: main/src/ui/notifier_freedesktop.vala:266
+#: main/src/ui/notifier_gnotifications.vala:102
+#: main/src/ui/notifier_gnotifications.vala:139
+#: main/src/ui/notifier_gnotifications.vala:157
 msgid "Deny"
 msgstr "Hafna"
 
@@ -1681,20 +1843,15 @@ msgid "Close Conversation"
 msgstr "Loka samtali"
 
 #: main/src/ui/conversation_titlebar/occupants_entry.vala:14
-#: main/src/windows/conversation_details.vala:291
+#: main/src/windows/conversation_details.vala:289
 msgid "Members"
 msgstr "Meðlimar"
 
-#: main/src/ui/conversation_view_controller.vala:224
+#: main/src/ui/conversation_view_controller.vala:237
 msgid "Select file"
 msgstr "Veldu skrá"
 
-#: main/src/ui/conversation_view_controller.vala:225
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:180
-msgid "Select"
-msgstr "Velja"
-
-#: main/src/ui/file_send_overlay.vala:58
+#: main/src/ui/file_send_overlay.vala:60
 msgid "The file exceeds the server's maximum upload size."
 msgstr "Skráin fer yfir hámarksupphleðslustærð þjónsins."
 
@@ -1748,40 +1905,40 @@ msgstr "Engir virkir reikningar"
 msgid "Manage accounts"
 msgstr "Stjórna reikningum"
 
-#: main/src/ui/notifier_freedesktop.vala:157
-#: main/src/ui/notifier_gnotifications.vala:91
+#: main/src/ui/notifier_freedesktop.vala:159
+#: main/src/ui/notifier_gnotifications.vala:93
 msgid "Subscription request"
 msgstr "Áskriftarbeiðni"
 
-#: main/src/ui/notifier_freedesktop.vala:192
+#: main/src/ui/notifier_freedesktop.vala:194
 #: main/src/windows/preferences_window/account_preferences_subpage.vala:259
 msgid "Wrong password"
 msgstr "Rangt lykilorð"
 
-#: main/src/ui/notifier_freedesktop.vala:195
+#: main/src/ui/notifier_freedesktop.vala:197
 #: main/src/windows/preferences_window/account_preferences_subpage.vala:261
 msgid "Invalid TLS certificate"
 msgstr "Ógilt TLS vottorð"
 
-#: main/src/ui/notifier_freedesktop.vala:220
-#: main/src/ui/notifier_gnotifications.vala:123
+#: main/src/ui/notifier_freedesktop.vala:222
+#: main/src/ui/notifier_gnotifications.vala:127
 #, c-format
 msgid "Invitation to %s"
 msgstr "Boð í %s"
 
-#: main/src/ui/notifier_freedesktop.vala:221
-#: main/src/ui/notifier_gnotifications.vala:124
+#: main/src/ui/notifier_freedesktop.vala:223
+#: main/src/ui/notifier_gnotifications.vala:128
 #, c-format
 msgid "%s invited you to %s"
 msgstr "%s bauð þér í %s"
 
-#: main/src/ui/notifier_freedesktop.vala:254
-#: main/src/ui/notifier_gnotifications.vala:141
+#: main/src/ui/notifier_freedesktop.vala:256
+#: main/src/ui/notifier_gnotifications.vala:147
 msgid "Permission request"
 msgstr "Beiðni um leyfi"
 
-#: main/src/ui/notifier_freedesktop.vala:255
-#: main/src/ui/notifier_gnotifications.vala:142
+#: main/src/ui/notifier_freedesktop.vala:257
+#: main/src/ui/notifier_gnotifications.vala:148
 #, c-format
 msgid "%s requests the permission to write in %s"
 msgstr "%s biður um leyfi til að skrifa í %s"
@@ -1878,6 +2035,40 @@ msgstr "Bjóða í spjall"
 #: main/src/ui/systray.vala:178
 msgid "Quit"
 msgstr "Hætta"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:14
+#, fuzzy
+msgid "Import"
+msgstr "Import Key"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:15
+msgid "Copy Share URI"
+msgstr ""
+
+#: main/src/ui/sticker_pack_import_dialog.vala:29
+msgid "Import Sticker Pack"
+msgstr ""
+
+#: main/src/ui/sticker_pack_import_dialog.vala:62
+#, fuzzy
+msgid "Loading…"
+msgstr "að senda…"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:70
+#, fuzzy
+msgid "No account available"
+msgstr "Ekki tiltæk/ur"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:84
+#: main/src/ui/sticker_pack_import_dialog.vala:107
+#, fuzzy
+msgid "Failed to import sticker pack"
+msgstr "Mistókst að hreinsa skyndiminni"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:98
+#, fuzzy
+msgid "Importing…"
+msgstr "Tengist…"
 
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
@@ -1998,11 +2189,11 @@ msgstr "Tilkynningar fyrir umtal"
 msgid "Notifications disabled"
 msgstr "Tilkynningar óvirkjar"
 
-#: main/src/windows/conversation_details.vala:234
+#: main/src/windows/conversation_details.vala:232
 msgid "Settings"
 msgstr "Stillingar"
 
-#: main/src/windows/conversation_details.vala:263
+#: main/src/windows/conversation_details.vala:261
 msgid "Room Configuration"
 msgstr "Herbergisstilling"
 
@@ -2189,9 +2380,6 @@ msgstr "Samnefni (valfrjálst)"
 
 #~ msgid "Generate New Key"
 #~ msgstr "Generate New Key"
-
-#~ msgid "Import Key"
-#~ msgstr "Import Key"
 
 #~ msgid "Your Keys"
 #~ msgstr "Your Keys"

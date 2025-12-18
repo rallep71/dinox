@@ -130,6 +130,7 @@ sources = files(
     'src/module/xep/0444_reactions.vala',
     'src/module/xep/0446_file_metadata_element.vala',
     'src/module/xep/0447_stateless_file_sharing.vala',
+    'src/module/xep/0449_stickers.vala',
     'src/module/xep/0461_replies.vala',
     'src/module/xep/0482_call_invites.vala',
     'src/util.vala',

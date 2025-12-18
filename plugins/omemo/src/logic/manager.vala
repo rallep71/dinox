@@ -300,12 +300,14 @@ public class Manager : StreamInteractionModule, Object {
         lock (message_states) {
             foreach (Entities.Message msg in message_states.keys) {
                 if (!msg.account.equals(account)) continue;
-                Gee.List<Jid> occupants = get_occupants(msg.counterpart.bare_jid, account);
                 MessageState state = message_states[msg];
                 if (account.bare_jid.equals(jid)) {
                     state.waiting_own_devicelist = false;
-                } else if (msg.counterpart != null && occupants.contains(jid)) {
-                    state.waiting_other_devicelists--;
+                } else if (msg.counterpart != null) {
+                    Gee.List<Jid> occupants = get_occupants(msg.counterpart.bare_jid, account);
+                    if (occupants.contains(jid)) {
+                        state.waiting_other_devicelists--;
+                    }
                 }
                 if (state.should_retry_now()) {
                     send_now.add(msg);
@@ -366,9 +368,14 @@ public class Manager : StreamInteractionModule, Object {
         lock (message_states) {
             foreach (Entities.Message msg in message_states.keys) {
                 if (!msg.account.equals(account)) continue;
-                Gee.List<Jid> occupants = get_occupants(msg.counterpart.bare_jid, account);
-                if (account.bare_jid.equals(jid) || (msg.counterpart != null && (msg.counterpart.equals_bare(jid) || occupants.contains(jid)))) {
+                if (account.bare_jid.equals(jid)) {
                     return true;
+                }
+                if (msg.counterpart != null) {
+                    Gee.List<Jid> occupants = get_occupants(msg.counterpart.bare_jid, account);
+                    if (msg.counterpart.equals_bare(jid) || occupants.contains(jid)) {
+                        return true;
+                    }
                 }
             }
         }
@@ -381,14 +388,15 @@ public class Manager : StreamInteractionModule, Object {
         lock (message_states) {
             foreach (Entities.Message msg in message_states.keys) {
                 if (!msg.account.equals(account)) continue;
-                Gee.List<Jid> occupants = get_occupants(msg.counterpart.bare_jid, account);
-
                 MessageState state = message_states[msg];
 
                 if (account.bare_jid.equals(jid)) {
                     state.waiting_own_sessions--;
-                } else if (msg.counterpart != null && (msg.counterpart.equals_bare(jid) || occupants.contains(jid))) {
-                    state.waiting_other_sessions--;
+                } else if (msg.counterpart != null) {
+                    Gee.List<Jid> occupants = get_occupants(msg.counterpart.bare_jid, account);
+                    if (msg.counterpart.equals_bare(jid) || occupants.contains(jid)) {
+                        state.waiting_other_sessions--;
+                    }
                 }
                 if (state.should_retry_now()){
                     send_now.add(msg);

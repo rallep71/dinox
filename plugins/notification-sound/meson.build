@@ -1,6 +1,7 @@
 dependencies = [
     dep_dino,
     dep_gee,
+    dep_gio,
     dep_glib,
     dep_gmodule,
     dep_libcanberra,

@@ -150,7 +150,7 @@ public class Module : XmppStreamModule, Iq.Handler {
 public class Flag : XmppStreamFlag {
     public static FlagIdentity<Flag> IDENTITY = new FlagIdentity<Flag>(NS_URI, "blocking_command");
 
-    public Gee.List<string> blocklist;
+    public Gee.List<string> blocklist = new ArrayList<string>();
 
     public override string get_ns() { return NS_URI; }
     public override string get_id() { return IDENTITY.id; }

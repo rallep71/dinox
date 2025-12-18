@@ -63,8 +63,18 @@ public class OmemoFileEncryptor : Dino.FileEncryptor, Object {
         foreach (uint8 byte in omemo_http_file_meta.iv) iv_and_key += byte.to_string("%02x");
         foreach (uint8 byte in omemo_http_file_meta.key) iv_and_key += byte.to_string("%02x");
 
-        string aesgcm_link = send_data.url_down + "#" + iv_and_key;
-        aesgcm_link = "aesgcm://" + aesgcm_link.substring(8); // replace https:// by aesgcm://
+        // Convert transport URL into an aesgcm:// URL.
+        // Do this robustly (server slots may be http:// or https://).
+        string url_down_no_scheme = send_data.url_down;
+        if (url_down_no_scheme.has_prefix("https://")) {
+            url_down_no_scheme = url_down_no_scheme.substring("https://".length);
+        } else if (url_down_no_scheme.has_prefix("http://")) {
+            url_down_no_scheme = url_down_no_scheme.substring("http://".length);
+        } else if (url_down_no_scheme.has_prefix("aesgcm://")) {
+            url_down_no_scheme = url_down_no_scheme.substring("aesgcm://".length);
+        }
+
+        string aesgcm_link = "aesgcm://" + url_down_no_scheme + "#" + iv_and_key;
 
         send_data.url_down = aesgcm_link;
         send_data.encrypt_message = true;

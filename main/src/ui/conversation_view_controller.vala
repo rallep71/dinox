@@ -125,6 +125,7 @@ public class ConversationViewController : Object {
     }
 
     public void select_conversation(Conversation? conversation, bool default_initialize_conversation) {
+        int64 t0_us = Dino.Ui.UiTiming.now_us();
         if (this.conversation != null) {
             conversation.notify["encryption"].disconnect(update_file_upload_status);
         }
@@ -140,23 +141,35 @@ public class ConversationViewController : Object {
 
         conversation.notify["encryption"].connect(update_file_upload_status);
 
+        int64 t_input_us = Dino.Ui.UiTiming.now_us();
         chat_input_controller.set_conversation(conversation);
+        Dino.Ui.UiTiming.log_ms("ConversationViewController.select_conversation: chat_input_controller.set_conversation", t_input_us);
 
         if (display_name_binding != null) display_name_binding.unbind();
+        int64 t_title_us = Dino.Ui.UiTiming.now_us();
         var display_name_model = stream_interactor.get_module(ContactModels.IDENTITY).get_display_name_model(conversation);
         display_name_binding = display_name_model.bind_property("display-name", main_window.conversation_window_title, "title", BindingFlags.SYNC_CREATE);
+        Dino.Ui.UiTiming.log_ms("ConversationViewController.select_conversation: display_name_model+bind", t_title_us);
 
+        int64 t_topic_us = Dino.Ui.UiTiming.now_us();
         update_conversation_topic();
+        Dino.Ui.UiTiming.log_ms("ConversationViewController.select_conversation: update_conversation_topic", t_topic_us);
 
+        int64 t_plugins_us = Dino.Ui.UiTiming.now_us();
         foreach(Plugins.ConversationTitlebarEntry e in this.app.plugin_registry.conversation_titlebar_entries) {
             e.set_conversation(conversation);
         }
+        Dino.Ui.UiTiming.log_ms("ConversationViewController.select_conversation: titlebar_entries.set_conversation", t_plugins_us);
 
         if (default_initialize_conversation) {
+            int64 t_view_us = Dino.Ui.UiTiming.now_us();
             view.conversation_frame.initialize_for_conversation(conversation);
+            Dino.Ui.UiTiming.log_ms("ConversationViewController.select_conversation: conversation_frame.initialize_for_conversation", t_view_us);
         }
 
         update_file_upload_status.begin();
+
+        Dino.Ui.UiTiming.log_ms("ConversationViewController.select_conversation: total", t0_us);
     }
 
     public void unset_conversation() {

@@ -90,6 +90,14 @@ public class Table {
         if (columns == null) error("Table %s was not initialized, call init()", name);
     }
 
+    public bool has_any_column_for_version(long version) {
+        ensure_init();
+        foreach (Column c in columns) {
+            if (c.min_version <= version && c.max_version >= version) return true;
+        }
+        return false;
+    }
+
     public QueryBuilder select(Column[]? columns = null) {
         ensure_init();
         return db.select(columns).from(this);

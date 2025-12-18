@@ -28,10 +28,15 @@ public class HttpFileSender : FileSender, Object {
         if (stream == null) return null;
 
         try {
+            debug("http-files: requesting upload slot name='%s' size=%lld mime=%s",
+                  file_transfer.server_file_name,
+                  (long) file_meta.size,
+                  file_meta.mime_type ?? "(null)");
             var slot_result = yield stream_interactor.module_manager.get_module(file_transfer.account, Xmpp.Xep.HttpFileUpload.Module.IDENTITY).request_slot(stream, file_transfer.server_file_name, file_meta.size, file_meta.mime_type);
             send_data.url_down = slot_result.url_get;
             send_data.url_up = slot_result.url_put;
             send_data.headers = slot_result.headers;
+            debug("http-files: got slot url_get=%s url_put=%s", sanitize_url_for_log(send_data.url_down), sanitize_url_for_log(send_data.url_up));
         } catch (Xep.HttpFileUpload.HttpFileTransferError e) {
             throw new FileSendError.UPLOAD_FAILED("Http file upload XMPP error: %s".printf(e.message));
         }
@@ -43,6 +48,8 @@ public class HttpFileSender : FileSender, Object {
         HttpFileSendData? send_data = file_send_data as HttpFileSendData;
         if (send_data == null) return;
 
+        debug("http-files: send_file start encryption=%d conv_encryption=%d can_reference? computing...", (int) file_transfer.encryption, (int) conversation.encryption);
+
         bool can_reference_element = conversation.type_ == Conversation.Type.CHAT || 
                                       conversation.type_ == Conversation.Type.GROUPCHAT_PM || (
                 // The stable stanza ID XEP is not clear about an announcing MUC having to attach stanza-ids, thus we also check for MAM, which requires this.
@@ -52,6 +59,7 @@ public class HttpFileSender : FileSender, Object {
 
         // Share unencrypted files via SFS (only if we'll be able to reference messages)
         if (conversation.encryption == Encryption.NONE && can_reference_element) {
+            debug("http-files: sending as SFS+attachment (unencrypted), url=%s", sanitize_url_for_log(send_data.url_down));
             // Announce the file share
             Entities.Message file_share_message = stream_interactor.get_module(MessageProcessor.IDENTITY).create_out_message(null, conversation);
             file_transfer.info = file_share_message.id.to_string();
@@ -90,12 +98,34 @@ public class HttpFileSender : FileSender, Object {
         }
         // Share encrypted files without SFS
         else {
+            debug("http-files: sending encrypted or non-referenceable; uploading first url=%s", sanitize_url_for_log(send_data.url_down));
             yield upload(file_transfer, send_data, file_meta);
+
+            // For encrypted sends, include SFS metadata in the (encrypted) message stanza.
+            // This improves interoperability with clients that expect SFS + sticker references.
+            if (file_transfer.file_sharing_id == null || file_transfer.file_sharing_id == "") {
+                file_transfer.file_sharing_id = Xmpp.random_uuid();
+            }
+
+            // IMPORTANT: Do not leak OMEMO file keys in cleartext.
+            // `send_data.url_down` is an aesgcm:// URL that contains iv+key in the fragment.
+            // Publish only the transport URL (https://, without fragment) via SFS.
+            string sfs_url = send_data.url_down;
+            if (sfs_url.has_prefix("aesgcm://")) {
+                sfs_url = "https://" + sfs_url.substring("aesgcm://".length);
+            }
+            int fragment_index = sfs_url.index_of("#");
+            if (fragment_index >= 0) {
+                sfs_url = sfs_url.substring(0, fragment_index);
+            }
+            debug("http-files: derived transport url for SFS sources=%s", sanitize_url_for_log(sfs_url));
+            file_transfer.add_sfs_source(new Xep.StatelessFileSharing.HttpSource() { url = sfs_url });
 
             Entities.Message message = stream_interactor.get_module(MessageProcessor.IDENTITY).create_out_message(send_data.url_down, conversation);
             file_transfer.info = message.id.to_string();
 
             message.encryption = send_data.encrypt_message ? conversation.encryption : Encryption.NONE;
+            debug("http-files: sending message body url=%s message.encryption=%d", sanitize_url_for_log(send_data.url_down), (int) message.encryption);
             stream_interactor.get_module(MessageProcessor.IDENTITY).send_xmpp_message(message, conversation);
         }
     }
@@ -164,6 +194,7 @@ public class HttpFileSender : FileSender, Object {
             put_message.request_headers.append(entry.key, entry.value);
         }
         try {
+            debug("http-files: uploading via PUT %s (%lld bytes)", sanitize_url_for_log(file_send_data.url_up), (long) file_meta.size);
 #if SOUP_3_0
             yield session.send_async(put_message, GLib.Priority.LOW, file_transfer.cancellable);
 #else
@@ -172,9 +203,23 @@ public class HttpFileSender : FileSender, Object {
             if (put_message.status_code < 200 || put_message.status_code >= 300) {
                 throw new FileSendError.UPLOAD_FAILED("HTTP status code %s".printf(put_message.status_code.to_string()));
             }
+            debug("http-files: upload finished status=%u", put_message.status_code);
         } catch (Error e) {
             throw new FileSendError.UPLOAD_FAILED("HTTP upload error: %s".printf(e.message));
         }
+    }
+
+    private static string sanitize_url_for_log(string? url) {
+        if (url == null) return "(null)";
+        string s = url;
+        int hash = s.index_of("#");
+        if (hash >= 0) s = s.substring(0, hash) + "#…";
+        // Avoid spewing huge query strings in logs.
+        int q = s.index_of("?");
+        if (q >= 0 && q < s.length) {
+            s = s.substring(0, q) + "?…";
+        }
+        return s;
     }
 
     private void on_stream_negotiated(Account account, XmppStream stream) {
@@ -187,12 +232,24 @@ public class HttpFileSender : FileSender, Object {
     }
 
     private void check_add_sfs_element(Entities.Message message, Xmpp.MessageStanza message_stanza, Conversation conversation) {
-        if (message.encryption != Encryption.NONE) return;
-
         FileTransfer? file_transfer = stream_interactor.get_module(FileTransferStorage.IDENTITY).get_file_by_message_id(message.id, conversation);
         if (file_transfer == null) return;
 
-        Xep.StatelessFileSharing.set_sfs_element(message_stanza, file_transfer.file_sharing_id, file_transfer.file_metadata, file_transfer.sfs_sources);
+        // NOTE: Our OMEMO implementation only encrypts the body and leaves other stanza nodes in cleartext.
+        // Adding SFS elements to OMEMO messages can therefore leak metadata and/or break interoperability
+        // (hash verification vs encrypted payload, missing key material, etc.).
+        if (message.encryption == Encryption.NONE) {
+            Xep.StatelessFileSharing.set_sfs_element(message_stanza, file_transfer.file_sharing_id, file_transfer.file_metadata, file_transfer.sfs_sources);
+        }
+
+        if (file_transfer.is_sticker && file_transfer.sticker_pack_id != null) {
+            var sticker = new Xmpp.Xep.Stickers.StickerReference();
+            sticker.pack_id = file_transfer.sticker_pack_id;
+            // Only include jid/node if this sticker pack is not from our own PEP node
+            if (file_transfer.sticker_pack_jid != null) sticker.jid = file_transfer.sticker_pack_jid;
+            if (file_transfer.sticker_pack_node != null) sticker.node = file_transfer.sticker_pack_node;
+            Xmpp.Xep.Stickers.set_sticker(message_stanza, sticker);
+        }
 
         Xep.MessageProcessingHints.set_message_hint(message_stanza, Xep.MessageProcessingHints.HINT_STORE);
     }

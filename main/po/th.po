@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-01 10:28+0100\n"
+"POT-Creation-Date: 2025-12-18 18:28+0100\n"
 "PO-Revision-Date: 2025-10-05 07:02+0000\n"
 "Language-Team: none\n"
 "Language: th\n"
@@ -39,21 +39,21 @@ msgid "Delete Group"
 msgstr "ลบกลุ่ม"
 
 #: main/data/call_widget.ui:73 main/src/ui/notifier_freedesktop.vala:125
-#: main/src/ui/notifier_freedesktop.vala:230
-#: main/src/ui/notifier_gnotifications.vala:80
+#: main/src/ui/notifier_freedesktop.vala:232
+#: main/src/ui/notifier_gnotifications.vala:82
 msgid "Reject"
 msgstr "ปฏิเสธ"
 
 #: main/data/call_widget.ui:81
 #: main/src/ui/conversation_content_view/subscription_notification.vala:67
 #: main/src/ui/notifier_freedesktop.vala:125
-#: main/src/ui/notifier_freedesktop.vala:164
-#: main/src/ui/notifier_freedesktop.vala:230
-#: main/src/ui/notifier_freedesktop.vala:264
-#: main/src/ui/notifier_gnotifications.vala:81
-#: main/src/ui/notifier_gnotifications.vala:97
-#: main/src/ui/notifier_gnotifications.vala:134
-#: main/src/ui/notifier_gnotifications.vala:150
+#: main/src/ui/notifier_freedesktop.vala:166
+#: main/src/ui/notifier_freedesktop.vala:232
+#: main/src/ui/notifier_freedesktop.vala:266
+#: main/src/ui/notifier_gnotifications.vala:83
+#: main/src/ui/notifier_gnotifications.vala:101
+#: main/src/ui/notifier_gnotifications.vala:140
+#: main/src/ui/notifier_gnotifications.vala:158
 msgid "Accept"
 msgstr "ยอมรับ"
 
@@ -72,7 +72,7 @@ msgid "Remove Contact"
 msgstr "ลบผู้ติดต่อ"
 
 #: main/data/conversation_details.ui:171
-#: main/src/windows/conversation_details.vala:231
+#: main/src/windows/conversation_details.vala:229
 msgid "About"
 msgstr "เกี่ยวกับ"
 
@@ -106,7 +106,7 @@ msgstr "เริ่มการสนทนา"
 #: main/data/gtk/help-overlay.ui:20 main/data/main_window.ui:51
 #: main/data/menu_add.ui:11
 #: main/src/ui/add_conversation/add_conference_dialog.vala:24
-#: main/src/ui/application.vala:1359 main/src/ui/main_window.vala:155
+#: main/src/ui/application.vala:1373 main/src/ui/main_window.vala:155
 msgid "Join Channel"
 msgstr "เข้าร่วมช่อง"
 
@@ -127,7 +127,7 @@ msgstr "การสนทนา"
 msgid "Search messages"
 msgstr "ค้นหาข้อความ"
 
-#: main/data/gtk/help-overlay.ui:49 main/src/ui/chat_input/view.vala:47
+#: main/data/gtk/help-overlay.ui:49 main/src/ui/chat_input/view.vala:59
 msgid "Send a file"
 msgstr "ส่งไฟล์"
 
@@ -199,7 +199,7 @@ msgstr "การตั้งค่า"
 msgid "Keyboard Shortcuts"
 msgstr "ปุ่มลัดบนแป้นพิมพ์"
 
-#: main/data/menu_app.ui:42 main/src/ui/application.vala:340
+#: main/data/menu_app.ui:42 main/src/ui/application.vala:354
 msgid "About DinoX"
 msgstr "เกี่ยวกับ DinoX"
 
@@ -218,10 +218,12 @@ msgstr "ลบประวัติการสนทนา"
 #: main/data/preferences_window/change_password_dialog.ui:18
 #: main/src/ui/add_conversation/add_conference_dialog.vala:41
 #: main/src/ui/add_conversation/select_contact_dialog.vala:40
-#: main/src/ui/application.vala:441 main/src/ui/application.vala:469
-#: main/src/ui/application.vala:765 main/src/ui/application.vala:843
-#: main/src/ui/application.vala:901 main/src/ui/application.vala:933
-#: main/src/ui/application.vala:1089 main/src/ui/application.vala:1369
+#: main/src/ui/application.vala:455 main/src/ui/application.vala:483
+#: main/src/ui/application.vala:779 main/src/ui/application.vala:857
+#: main/src/ui/application.vala:915 main/src/ui/application.vala:947
+#: main/src/ui/application.vala:1103 main/src/ui/application.vala:1383
+#: main/src/ui/chat_input/sticker_chooser.vala:547
+#: main/src/ui/chat_input/sticker_chooser.vala:869
 #: main/src/ui/conversation_content_view/file_default_widget.vala:90
 #: main/src/ui/conversation_content_view/item_actions.vala:165
 #: main/src/ui/conversation_content_view/item_actions.vala:168
@@ -260,7 +262,7 @@ msgid "Local alias"
 msgstr "ชื่อเล่นในเครื่อง"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:82
-#: main/src/ui/application.vala:435 main/src/ui/application.vala:1064
+#: main/src/ui/application.vala:449 main/src/ui/application.vala:1078
 #: main/src/ui/util/data_forms.vala:63
 msgid "Password"
 msgstr "รหัสผ่าน"
@@ -344,62 +346,80 @@ msgid "_Convert Smileys to Emoji"
 msgstr "_แปลงหน้ายิ้มเป็น Emoji"
 
 #: main/data/preferences_window/general_preferences_page.ui:63
+#: main/src/ui/chat_input/view.vala:51
+#, fuzzy
+msgid "Stickers"
+msgstr "ลำโพง"
+
+#: main/data/preferences_window/general_preferences_page.ui:66
+msgid "Enable Stickers"
+msgstr ""
+
+#: main/data/preferences_window/general_preferences_page.ui:71
+msgid "Enable Sticker Animations"
+msgstr ""
+
+#: main/data/preferences_window/general_preferences_page.ui:72
+msgid "Disable to reduce flashing/flickering"
+msgstr ""
+
+#: main/data/preferences_window/general_preferences_page.ui:79
 msgid "User Data"
 msgstr "ข้อมูลผู้ใช้"
 
-#: main/data/preferences_window/general_preferences_page.ui:66
+#: main/data/preferences_window/general_preferences_page.ui:82
 msgid "Backup User Data"
 msgstr "สำรองข้อมูลผู้ใช้"
 
-#: main/data/preferences_window/general_preferences_page.ui:67
+#: main/data/preferences_window/general_preferences_page.ui:83
 msgid "Create a backup of your accounts, messages and settings"
 msgstr "สร้างการสำรองข้อมูลบัญชี ข้อความ และการตั้งค่าของคุณ"
 
-#: main/data/preferences_window/general_preferences_page.ui:78
-#: main/src/ui/application.vala:464 main/src/ui/main_window.vala:223
+#: main/data/preferences_window/general_preferences_page.ui:94
+#: main/src/ui/application.vala:478 main/src/ui/main_window.vala:223
 msgid "Restore from Backup"
 msgstr "กู้คืนจากข้อมูลสำรอง"
 
-#: main/data/preferences_window/general_preferences_page.ui:79
+#: main/data/preferences_window/general_preferences_page.ui:95
 msgid "Restore accounts, messages and settings from a backup file"
 msgstr "กู้คืนบัญชี ข้อความ และการตั้งค่าจากไฟล์สำรอง"
 
-#: main/data/preferences_window/general_preferences_page.ui:90
+#: main/data/preferences_window/general_preferences_page.ui:106
 msgid "Data Storage Location"
 msgstr "ตำแหน่งจัดเก็บข้อมูล"
 
-#: main/data/preferences_window/general_preferences_page.ui:91
+#: main/data/preferences_window/general_preferences_page.ui:107
 msgid "View where your data is stored"
 msgstr "ดูว่าข้อมูลของคุณถูกเก็บไว้ที่ไหน"
 
-#: main/data/preferences_window/general_preferences_page.ui:104
+#: main/data/preferences_window/general_preferences_page.ui:120
 msgid "Database Maintenance"
 msgstr "การบำรุงรักษาฐานข้อมูล"
 
-#: main/data/preferences_window/general_preferences_page.ui:107
-#: main/src/ui/application.vala:761 main/src/ui/application.vala:766
+#: main/data/preferences_window/general_preferences_page.ui:123
+#: main/src/ui/application.vala:775 main/src/ui/application.vala:780
 msgid "Clear Cache"
 msgstr "ล้างแคช"
 
-#: main/data/preferences_window/general_preferences_page.ui:108
+#: main/data/preferences_window/general_preferences_page.ui:124
 msgid "Clear cached files, avatars and previews"
 msgstr "ล้างไฟล์แคช รูปประจำตัว และตัวอย่าง"
 
-#: main/data/preferences_window/general_preferences_page.ui:119
-#: main/src/ui/application.vala:838 main/src/ui/application.vala:844
+#: main/data/preferences_window/general_preferences_page.ui:135
+#: main/src/ui/application.vala:852 main/src/ui/application.vala:858
 msgid "Reset Database"
 msgstr "รีเซ็ตฐานข้อมูล"
 
-#: main/data/preferences_window/general_preferences_page.ui:120
+#: main/data/preferences_window/general_preferences_page.ui:136
 msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
 msgstr "ลบข้อความ ไฟล์ และคีย์ OMEMO ทั้งหมด บัญชีของคุณจะยังคงอยู่"
 
-#: main/data/preferences_window/general_preferences_page.ui:131
-#: main/src/ui/application.vala:896
+#: main/data/preferences_window/general_preferences_page.ui:147
+#: main/src/ui/application.vala:910
 msgid "Factory Reset"
 msgstr "รีเซ็ตเป็นค่าเริ่มต้นจากโรงงาน"
 
-#: main/data/preferences_window/general_preferences_page.ui:132
+#: main/data/preferences_window/general_preferences_page.ui:148
 msgid "Delete ALL data including accounts. This cannot be undone!"
 msgstr "ลบข้อมูลทั้งหมดรวมถึงบัญชี การดำเนินการนี้ไม่สามารถยกเลิกได้!"
 
@@ -416,7 +436,7 @@ msgid "Contacts"
 msgstr "รายชื่อ"
 
 #: main/data/preferences_window/preferences_dialog.ui:25
-#: main/src/windows/conversation_details.vala:281
+#: main/src/windows/conversation_details.vala:279
 msgid "Encryption"
 msgstr "การเข้ารหัส"
 
@@ -426,7 +446,7 @@ msgstr "ต่อไป"
 
 #: main/src/ui/add_conversation/add_conference_dialog.vala:59
 #: main/src/ui/add_conversation/conference_details_fragment.vala:151
-#: main/src/ui/application.vala:1373
+#: main/src/ui/application.vala:1387
 msgid "Join"
 msgstr "เข้าร่วม"
 
@@ -467,8 +487,8 @@ msgid "Too many occupants in room"
 msgstr "มีคนอยู่ในห้องมากเกินไป"
 
 #: main/src/ui/add_conversation/conference_details_fragment.vala:183
-#: main/src/ui/notifier_freedesktop.vala:188
-#: main/src/ui/notifier_gnotifications.vala:104
+#: main/src/ui/notifier_freedesktop.vala:190
+#: main/src/ui/notifier_gnotifications.vala:108
 #: main/src/windows/preferences_window/add_account_dialog.vala:271
 #, c-format
 msgid "Could not connect to %s"
@@ -478,7 +498,7 @@ msgstr "ไม่สามารถเชื่อมต่อกับ %s ไ�
 #: main/src/windows/preferences_window/add_account_dialog.vala:287
 #: main/src/windows/preferences_window/add_account_dialog.vala:297
 #: main/src/windows/preferences_window/add_account_dialog.vala:307
-#: main/src/windows/preferences_window/add_account_dialog.vala:391
+#: main/src/windows/preferences_window/add_account_dialog.vala:393
 msgid "Invalid address"
 msgstr "ที่อยู่ไม่ถูกต้อง"
 
@@ -512,66 +532,66 @@ msgstr "ลบรายชื่อ"
 msgid "Leave Group"
 msgstr "ออกจากกลุ่ม"
 
-#: main/src/ui/application.vala:345
+#: main/src/ui/application.vala:359
 msgid "Modern XMPP client with extended features"
 msgstr "ไคลเอนต์ XMPP สมัยใหม่พร้อมคุณสมบัติขยาย"
 
-#: main/src/ui/application.vala:352 main/src/ui/application.vala:727
+#: main/src/ui/application.vala:366 main/src/ui/application.vala:741
 msgid "User Data Locations"
 msgstr "ตำแหน่งข้อมูลผู้ใช้"
 
-#: main/src/ui/application.vala:355 main/src/ui/application.vala:741
+#: main/src/ui/application.vala:369 main/src/ui/application.vala:755
 msgid "Configuration:"
 msgstr "การกำหนดค่า:"
 
-#: main/src/ui/application.vala:358 main/src/ui/application.vala:743
+#: main/src/ui/application.vala:372 main/src/ui/application.vala:757
 msgid "Data & Database:"
 msgstr "ข้อมูลและฐานข้อมูล:"
 
-#: main/src/ui/application.vala:361 main/src/ui/application.vala:745
+#: main/src/ui/application.vala:375 main/src/ui/application.vala:759
 msgid "Cache:"
 msgstr "แคช:"
 
-#: main/src/ui/application.vala:364
+#: main/src/ui/application.vala:378
 msgid "Info:"
 msgstr "ข้อมูล:"
 
-#: main/src/ui/application.vala:365
+#: main/src/ui/application.vala:379
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
 msgstr "ข้อมูลส่วนบุคคลของคุณ (บัญชี ข้อความ ไฟล์) ถูกจัดเก็บแยกต่างหากจากแอปพลิเคชัน"
 
-#: main/src/ui/application.vala:367
+#: main/src/ui/application.vala:381
 msgid "When you update DinoX, your data remains intact."
 msgstr "เมื่อคุณอัปเดต DinoX ข้อมูลของคุณจะยังคงอยู่"
 
-#: main/src/ui/application.vala:369
+#: main/src/ui/application.vala:383
 msgid "Use Settings → General → Backup User Data to create a backup."
 msgstr "ใช้การตั้งค่า → ทั่วไป → สำรองข้อมูลผู้ใช้เพื่อสร้างการสำรองข้อมูล"
 
-#: main/src/ui/application.vala:387
+#: main/src/ui/application.vala:401
 msgid "Select Backup File"
 msgstr "เลือกไฟล์สำรองข้อมูล"
 
 # DinoX v0.7.7 - Additional Backup/Restore strings
-#: main/src/ui/application.vala:395
+#: main/src/ui/application.vala:409
 msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
 msgstr "ไฟล์สำรองข้อมูล (*.tar.gz, *.tar.gz.gpg)"
 
-#: main/src/ui/application.vala:425
+#: main/src/ui/application.vala:439
 msgid "Enter Backup Password"
 msgstr "ป้อนรหัสผ่านสำรองข้อมูล"
 
-#: main/src/ui/application.vala:426
+#: main/src/ui/application.vala:440
 msgid "This backup is encrypted. Please enter the password to decrypt it."
 msgstr "สำเนาสำรองนี้ถูกเข้ารหัส กรุณาใส่รหัสผ่าน"
 
-#: main/src/ui/application.vala:442
+#: main/src/ui/application.vala:456
 msgid "Decrypt & Restore"
 msgstr "ถอดรหัสและกู้คืน"
 
-#: main/src/ui/application.vala:465
+#: main/src/ui/application.vala:479
 msgid ""
 "This will replace all current data with the backup.\n"
 "\n"
@@ -585,31 +605,31 @@ msgstr ""
 "\n"
 "DinoX will restart after restoring."
 
-#: main/src/ui/application.vala:470
+#: main/src/ui/application.vala:484
 msgid "Restore Backup"
 msgstr "กู้คืนข้อมูลสำรอง"
 
-#: main/src/ui/application.vala:487 main/src/ui/application.vala:519
+#: main/src/ui/application.vala:501 main/src/ui/application.vala:533
 msgid "Decrypting Backup..."
 msgstr "กำลังถอดรหัสข้อมูลสำรอง..."
 
-#: main/src/ui/application.vala:487 main/src/ui/application.vala:571
+#: main/src/ui/application.vala:501 main/src/ui/application.vala:585
 msgid "Restoring Backup..."
 msgstr "กำลังกู้คืนข้อมูลสำรอง..."
 
-#: main/src/ui/application.vala:488
+#: main/src/ui/application.vala:502
 msgid "Please wait, this may take a moment..."
 msgstr "กรุณารอ สักครู่..."
 
-#: main/src/ui/application.vala:520
+#: main/src/ui/application.vala:534
 msgid "Decrypting encrypted backup file..."
 msgstr "กำลังถอดรหัสไฟล์สำรอง..."
 
-#: main/src/ui/application.vala:558
+#: main/src/ui/application.vala:572
 msgid "Decryption Failed"
 msgstr "การถอดรหัสล้มเหลว"
 
-#: main/src/ui/application.vala:559
+#: main/src/ui/application.vala:573
 msgid ""
 "Could not decrypt the backup file.\n"
 "\n"
@@ -619,27 +639,34 @@ msgstr ""
 "\n"
 "โปรดตรวจสอบว่ารหัสผ่านถูกต้อง"
 
-#: main/src/ui/application.vala:561 main/src/ui/application.vala:671
+#: main/src/ui/application.vala:575 main/src/ui/application.vala:685
+#: main/src/ui/chat_input/sticker_chooser.vala:575
+#: main/src/ui/chat_input/sticker_chooser.vala:594
+#: main/src/ui/chat_input/sticker_chooser.vala:602
+#: main/src/ui/chat_input/sticker_chooser.vala:817
+#: main/src/ui/chat_input/sticker_chooser.vala:835
+#: main/src/ui/chat_input/sticker_chooser.vala:843
+#: main/src/ui/chat_input/sticker_chooser.vala:883
 msgid "OK"
 msgstr "OK"
 
-#: main/src/ui/application.vala:572
+#: main/src/ui/application.vala:586
 msgid "Extracting files from backup..."
 msgstr "กำลังแตกไฟล์จากสำเนาสำรอง..."
 
-#: main/src/ui/application.vala:653
+#: main/src/ui/application.vala:667
 msgid "Restore Complete!"
 msgstr "กู้คืนเสร็จสมบูรณ์!"
 
-#: main/src/ui/application.vala:654
+#: main/src/ui/application.vala:668
 msgid "DinoX will now restart..."
 msgstr "DinoX จะรีสตาร์ทในตอนนี้..."
 
-#: main/src/ui/application.vala:668
+#: main/src/ui/application.vala:682
 msgid "Restore Failed"
 msgstr "การกู้คืนล้มเหลว"
 
-#: main/src/ui/application.vala:669
+#: main/src/ui/application.vala:683
 #, c-format
 msgid ""
 "Could not restore the backup file.\n"
@@ -650,11 +677,11 @@ msgstr ""
 "\n"
 "ข้อผิดพลาด: %s"
 
-#: main/src/ui/application.vala:669 main/src/ui/application.vala:1345
+#: main/src/ui/application.vala:683 main/src/ui/application.vala:1359
 msgid "Unknown error"
 msgstr "ข้อผิดพลาดไม่ทราบสาเหตุ"
 
-#: main/src/ui/application.vala:747
+#: main/src/ui/application.vala:761
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
@@ -662,13 +689,14 @@ msgstr ""
 "ข้อมูลส่วนบุคคลของคุณ (บัญชี ข้อความ ไฟล์) ถูกจัดเก็บแยกต่างหากจากแอปพลิเคชัน เมื่อคุณอัปเดต "
 "DinoX ข้อมูลของคุณจะยังคงสมบูรณ์"
 
-#: main/src/ui/application.vala:752 main/src/ui/application.vala:1240
-#: main/src/ui/application.vala:1324 main/src/ui/conversation_details.vala:272
-#: main/src/ui/main_window.vala:172
+#: main/src/ui/application.vala:766 main/src/ui/application.vala:1254
+#: main/src/ui/application.vala:1338
+#: main/src/ui/chat_input/sticker_chooser.vala:174
+#: main/src/ui/conversation_details.vala:272 main/src/ui/main_window.vala:172
 msgid "Close"
 msgstr "ปิด"
 
-#: main/src/ui/application.vala:762
+#: main/src/ui/application.vala:776
 msgid ""
 "This will delete cached files, avatars and previews.\n"
 "\n"
@@ -677,15 +705,17 @@ msgstr ""
 "การดำเนินการนี้จะลบไฟล์แคช รูปประจำตัว และตัวอย่าง\n"
 "\n"
 "ข้อมูลเหล่านี้จะถูกดาวน์โหลดใหม่เมื่อจำเป็น"
-#: main/src/ui/application.vala:799
+
+#: main/src/ui/application.vala:813
 #, c-format
 msgid "Cache cleared (%s freed)"
 msgstr "ล้างแคชแล้ว (คืนพื้นที่ %s)"
 
-#: main/src/ui/application.vala:802
+#: main/src/ui/application.vala:816
 msgid "Failed to clear cache"
 msgstr "ล้างแคชล้มเหลว"
-#: main/src/ui/application.vala:839
+
+#: main/src/ui/application.vala:853
 msgid ""
 "This will delete all messages, files and OMEMO encryption keys.\n"
 "\n"
@@ -701,11 +731,11 @@ msgstr ""
 "\n"
 "This action cannot be undone!"
 
-#: main/src/ui/application.vala:867
+#: main/src/ui/application.vala:881
 msgid "Resetting database... DinoX will restart."
 msgstr "กำลังรีเซ็ตฐานข้อมูล... DinoX จะรีสตาร์ท"
 
-#: main/src/ui/application.vala:897
+#: main/src/ui/application.vala:911
 msgid ""
 "<b>⚠️ WARNING: This will delete ALL data!</b>\n"
 "\n"
@@ -725,19 +755,19 @@ msgstr ""
 "\n"
 "This is irreversible. Make sure to create a backup first!"
 
-#: main/src/ui/application.vala:902
+#: main/src/ui/application.vala:916
 msgid "Create Backup First"
 msgstr "สร้างข้อมูลสำรองก่อน"
 
-#: main/src/ui/application.vala:903
+#: main/src/ui/application.vala:917
 msgid "Delete Everything"
 msgstr "ลบทุกอย่าง"
 
-#: main/src/ui/application.vala:923
+#: main/src/ui/application.vala:937
 msgid "Are you absolutely sure?"
 msgstr "คุณแน่ใจหรือไม่?"
 
-#: main/src/ui/application.vala:924
+#: main/src/ui/application.vala:938
 msgid ""
 "Type 'DELETE' to confirm factory reset.\n"
 "\n"
@@ -747,18 +777,19 @@ msgstr ""
 "\n"
 "This will permanently remove all your DinoX data."
 
-#: main/src/ui/application.vala:934
+#: main/src/ui/application.vala:948
 msgid "Confirm Delete"
 msgstr "ยืนยันการลบ"
 
-#: main/src/ui/application.vala:961
+#: main/src/ui/application.vala:975
 msgid "Factory reset in progress... DinoX will restart."
 msgstr "กำลังรีเซ็ตเป็นค่าเริ่มต้น... DinoX จะรีสตาร์ท"
 
-#: main/src/ui/application.vala:1026
+#: main/src/ui/application.vala:1040
 msgid "Backup Encryption"
 msgstr "การเข้ารหัสสำรองข้อมูล"
-#: main/src/ui/application.vala:1027
+
+#: main/src/ui/application.vala:1041
 msgid ""
 "Do you want to encrypt the backup with a password?\n"
 "\n"
@@ -768,19 +799,19 @@ msgstr ""
 "\n"
 "การสำรองข้อมูลที่เข้ารหัสมีความปลอดภัยมากกว่า แต่ต้องใช้รหัสผ่านในการกู้คืน"
 
-#: main/src/ui/application.vala:1030
+#: main/src/ui/application.vala:1044
 msgid "No Encryption"
 msgstr "ไม่มีการเข้ารหัส"
 
-#: main/src/ui/application.vala:1031
+#: main/src/ui/application.vala:1045
 msgid "Encrypt with Password"
 msgstr "เข้ารหัสด้วยรหัสผ่าน"
 
-#: main/src/ui/application.vala:1049
+#: main/src/ui/application.vala:1063
 msgid "Set Backup Password"
 msgstr "ตั้งรหัสผ่านสำรองข้อมูล"
 
-#: main/src/ui/application.vala:1050
+#: main/src/ui/application.vala:1064
 msgid ""
 "Enter a password to encrypt the backup.\n"
 "\n"
@@ -791,60 +822,59 @@ msgstr ""
 "\n"
 "<b>สำคัญ:</b> จำรหัสผ่านนี้ไว้! หากไม่มีจะไม่สามารถกู้คืนได้"
 
-#: main/src/ui/application.vala:1058
+#: main/src/ui/application.vala:1072
 msgid "Password (minimum 4 characters)"
 msgstr "รหัสผ่าน (อย่างน้อย 4 ตัวอักษร)"
 
-#: main/src/ui/application.vala:1066 main/src/ui/application.vala:1073
+#: main/src/ui/application.vala:1080 main/src/ui/application.vala:1087
 msgid "Confirm Password"
 msgstr "ยืนยันรหัสผ่าน"
 
-#: main/src/ui/application.vala:1090
+#: main/src/ui/application.vala:1104
 msgid "Create Encrypted Backup"
 msgstr "สร้างข้อมูลสำรองที่เข้ารหัส"
 
-#: main/src/ui/application.vala:1102 main/src/ui/application.vala:1117
+#: main/src/ui/application.vala:1116 main/src/ui/application.vala:1131
 msgid "Password too short"
 msgstr "รหัสผ่านสั้นเกินไป"
 
-#: main/src/ui/application.vala:1104 main/src/ui/application.vala:1119
+#: main/src/ui/application.vala:1118 main/src/ui/application.vala:1133
 msgid "Passwords do not match"
 msgstr "รหัสผ่านไม่ตรงกัน"
 
-#: main/src/ui/application.vala:1106 main/src/ui/application.vala:1121
+#: main/src/ui/application.vala:1120 main/src/ui/application.vala:1135
 msgid "✓ Passwords match"
 msgstr "✓ รหัสผ่านตรงกัน"
 
-#: main/src/ui/application.vala:1139
+#: main/src/ui/application.vala:1153
 msgid "Select Backup Location"
 msgstr "เลือกตำแหน่งสำรองข้อมูล"
 
-#: main/src/ui/application.vala:1194
+#: main/src/ui/application.vala:1208
 msgid "Creating Encrypted Backup..."
 msgstr "กำลังสร้างข้อมูลสำรองที่เข้ารหัส..."
 
-#: main/src/ui/application.vala:1194
+#: main/src/ui/application.vala:1208
 msgid "Creating Backup..."
 msgstr "กำลังสร้างข้อมูลสำรอง..."
 
-#: main/src/ui/application.vala:1195
+#: main/src/ui/application.vala:1209
 msgid "Please wait while your data is being backed up."
 msgstr "โปรดรอสักครู่ขณะกำลังสำรองข้อมูลของคุณ"
 
-#: main/src/ui/application.vala:1234
-#: main/src/ui/application.vala:1234
+#: main/src/ui/application.vala:1248
 msgid "No data directory found to backup"
 msgstr "ไม่พบไดเรกทอรีข้อมูลที่จะสำรอง"
-#: main/src/ui/application.vala:1237 main/src/ui/application.vala:1343
+
+#: main/src/ui/application.vala:1251 main/src/ui/application.vala:1357
 msgid "Backup Failed"
 msgstr "การสำรองข้อมูลล้มเหลว"
 
-#: main/src/ui/application.vala:1331
+#: main/src/ui/application.vala:1345
 msgid "Encrypted Backup Created"
 msgstr "สร้างข้อมูลสำรองที่เข้ารหัสแล้ว"
 
-#: main/src/ui/application.vala:1333
-#: main/src/ui/application.vala:1333
+#: main/src/ui/application.vala:1347
 #, c-format
 msgid ""
 "Your encrypted backup was created successfully.\n"
@@ -854,15 +884,16 @@ msgstr ""
 "สร้างการสำรองข้อมูลที่เข้ารหัสของคุณสำเร็จแล้ว\n"
 "\n"
 "ขนาด: %s"
-#: main/src/ui/application.vala:1334
+
+#: main/src/ui/application.vala:1348
 msgid "Your encrypted backup was created successfully."
 msgstr "สร้างข้อมูลสำรองที่เข้ารหัสของคุณสำเร็จแล้ว"
 
-#: main/src/ui/application.vala:1336
+#: main/src/ui/application.vala:1350
 msgid "Backup Created"
 msgstr "สร้างการสำรองข้อมูลแล้ว"
 
-#: main/src/ui/application.vala:1338
+#: main/src/ui/application.vala:1352
 #, c-format
 msgid ""
 "Your backup was created successfully.\n"
@@ -873,11 +904,11 @@ msgstr ""
 "\n"
 "ขนาด: %s"
 
-#: main/src/ui/application.vala:1339
+#: main/src/ui/application.vala:1353
 msgid "Your backup was created successfully."
 msgstr "สร้างข้อมูลสำรองของคุณสำเร็จแล้ว"
 
-#: main/src/ui/application.vala:1346
+#: main/src/ui/application.vala:1360
 #, c-format
 msgid "Backup failed: %s"
 msgstr "การสำรองข้อมูลล้มเหลว: %s"
@@ -955,18 +986,159 @@ msgstr "กล้องถ่ายรูป"
 msgid "No camera found."
 msgstr "ไม่พบกล้อง"
 
-#: main/src/ui/chat_input/chat_input_controller.vala:247
+#: main/src/ui/chat_input/chat_input_controller.vala:267
 msgid "This conference does not allow you to send messages."
 msgstr "การประชุมนี้ไม่อนุญาตให้คุณส่งข้อความ"
 
-#: main/src/ui/chat_input/chat_input_controller.vala:247
+#: main/src/ui/chat_input/chat_input_controller.vala:267
 msgid "Request permission"
 msgstr "ขออนุญาต"
 
 #: main/src/ui/chat_input/encryption_button.vala:35
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:172
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:224
 msgid "Unencrypted"
 msgstr "ไม่เข้ารหัส"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:25
+#, fuzzy
+msgid "Import…"
+msgstr "Import Key"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:26
+msgid "Folder…"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:27
+#: main/src/ui/chat_input/sticker_chooser.vala:822
+#: main/src/ui/chat_input/sticker_chooser.vala:849
+msgid "Publish"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:28
+#: main/src/ui/chat_input/sticker_chooser.vala:870
+#: main/src/ui/conversation_content_view/item_actions.vala:165
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:745
+#: main/src/windows/conversation_details.vala:61
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:292
+msgid "Remove"
+msgstr "ลบ"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:237
+msgid "Paste an xmpp: sticker pack link and press Enter."
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:241
+msgid "xmpp:…"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:413
+#: main/src/ui/chat_input/sticker_chooser.vala:574
+#: main/src/ui/chat_input/sticker_chooser.vala:816
+msgid "Stickers are unavailable"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:420
+#: main/src/ui/chat_input/sticker_chooser.vala:497
+#: main/src/ui/chat_input/sticker_chooser.vala:502
+msgid "None"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:450
+msgid "No sticker packs yet. Use Import… to add one."
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:452
+#: main/src/ui/chat_input/sticker_chooser.vala:735
+msgid "No stickers selected"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:534
+#, fuzzy
+msgid "Select sticker folder"
+msgstr "เลือกไฟล์"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:535
+#: main/src/ui/conversation_view_controller.vala:238
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:180
+msgid "Select"
+msgstr "เลือก"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:544
+#, fuzzy
+msgid "Create sticker pack"
+msgstr "สร้างข้อมูลสำรองที่เข้ารหัส"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:545
+msgid ""
+"Do you want to keep this pack local, or also publish it so you can share an "
+"xmpp: link?"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:548
+#, fuzzy
+msgid "Local only"
+msgstr "ชื่อเล่นในเครื่อง"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:549
+msgid "Publish & copy link"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:574
+#: main/src/ui/chat_input/sticker_chooser.vala:816
+msgid "Stickers module unavailable"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:593
+#: main/src/ui/chat_input/sticker_chooser.vala:834
+msgid "Sticker pack published"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:593
+#: main/src/ui/chat_input/sticker_chooser.vala:834
+#, c-format
+msgid ""
+"Share link copied to clipboard:\n"
+"%s"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:601
+#, fuzzy
+msgid "Failed to create sticker pack"
+msgstr "ล้างแคชล้มเหลว"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:698
+msgid "Invalid sticker pack link"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:755
+msgid "No stickers in this pack"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:811
+#, fuzzy
+msgid "Publishing…"
+msgstr "เข้าร่วม…"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:842
+#, fuzzy
+msgid "Failed to publish sticker pack"
+msgstr "ล้างแคชล้มเหลว"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:866
+#, fuzzy
+msgid "Remove sticker pack?"
+msgstr "ลบผู้ติดต่อ?"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:867
+#, c-format
+msgid ""
+"This will delete the downloaded files and remove the pack from your list: %s"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:882
+#, fuzzy
+msgid "Failed to remove sticker pack"
+msgstr "ล้างแคชล้มเหลว"
 
 #: main/src/ui/contact_details/permissions_provider.vala:23
 msgid "Request permission to send messages"
@@ -1006,7 +1178,7 @@ msgstr "ส่งใบตอบรับการอ่าน"
 
 #: main/src/ui/conversation_content_view/call_widget.vala:137
 #: main/src/ui/notifier_freedesktop.vala:114
-#: main/src/ui/notifier_gnotifications.vala:70
+#: main/src/ui/notifier_gnotifications.vala:72
 msgid "Incoming video call"
 msgstr "สายวิดีโอเข้า"
 
@@ -1014,19 +1186,19 @@ msgstr "สายวิดีโอเข้า"
 #: main/src/ui/conversation_content_view/call_widget.vala:168
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:287
 #: main/src/ui/notifier_freedesktop.vala:114
-#: main/src/ui/notifier_gnotifications.vala:70
+#: main/src/ui/notifier_gnotifications.vala:72
 msgid "Incoming call"
 msgstr "สายเรียกเข้า"
 
 #: main/src/ui/conversation_content_view/call_widget.vala:139
 #: main/src/ui/notifier_freedesktop.vala:116
-#: main/src/ui/notifier_gnotifications.vala:72
+#: main/src/ui/notifier_gnotifications.vala:74
 msgid "Incoming video group call"
 msgstr "สายวิดีโอกลุ่มเข้า"
 
 #: main/src/ui/conversation_content_view/call_widget.vala:139
 #: main/src/ui/notifier_freedesktop.vala:116
-#: main/src/ui/notifier_gnotifications.vala:72
+#: main/src/ui/notifier_gnotifications.vala:74
 msgid "Incoming group call"
 msgstr "สายกลุ่มเข้า"
 
@@ -1053,14 +1225,14 @@ msgid "Call ended"
 msgstr "สิ้นสุดการโทร"
 
 #: main/src/ui/conversation_content_view/call_widget.vala:175
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:263
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:315
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:490
 #, no-c-format
 msgid "%H∶%M"
 msgstr "%H∶%M"
 
 #: main/src/ui/conversation_content_view/call_widget.vala:175
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:264
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:316
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:491
 #, no-c-format
 msgid "%l∶%M %p"
@@ -1130,64 +1302,64 @@ msgstr "%s และ %s กำลังพิมพ์…"
 msgid "%s is typing…"
 msgstr "%s กำลังพิมพ์…"
 
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:204
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:256
 msgid "Delivered"
 msgstr "ส่งแล้ว"
 
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:208
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:260
 msgid "Read"
 msgstr "อ่านแล้ว"
 
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:214
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:266
 msgid "Unable to send message"
 msgstr "ไม่สามารถส่งข้อความได้"
 
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:251
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:303
 #, no-c-format
 msgid "%x, %H∶%M"
 msgstr "%x, %H∶%M"
 
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:252
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:304
 #, no-c-format
 msgid "%x, %l∶%M %p"
 msgstr "%x, %l∶%M %p"
 
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:255
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:307
 #, no-c-format
 msgid "%b %d, %H∶%M"
 msgstr "%b %d, %H∶%M"
 
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:256
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:308
 #, no-c-format
 msgid "%b %d, %l∶%M %p"
 msgstr "%b %d, %l∶%M %p"
 
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:259
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:311
 #, no-c-format
 msgid "%a, %H∶%M"
 msgstr "%a, %H∶%M"
 
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:260
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:312
 #, no-c-format
 msgid "%a, %l∶%M %p"
 msgstr "%a, %l∶%M %p"
 
-#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:270
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:322
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:496
 msgid "Just now"
 msgstr "เมื่อกี้นี้"
 
-#: main/src/ui/conversation_content_view/conversation_view.vala:106
+#: main/src/ui/conversation_content_view/conversation_view.vala:114
 msgid "More actions"
 msgstr "การดำเนินการเพิ่มเติม"
 
 #: main/src/ui/conversation_content_view/file_default_widget.vala:67
-#: main/src/ui/conversation_content_view/file_image_widget.vala:42
+#: main/src/ui/conversation_content_view/file_image_widget.vala:201
 msgid "Open"
 msgstr "เปิด"
 
 #: main/src/ui/conversation_content_view/file_default_widget.vala:68
-#: main/src/ui/conversation_content_view/file_image_widget.vala:43
+#: main/src/ui/conversation_content_view/file_image_widget.vala:202
 #: main/src/ui/conversation_content_view/file_widget.vala:174
 msgid "Save as…"
 msgstr "บันทึกเป็น…"
@@ -1275,13 +1447,6 @@ msgstr "ลบข้อความ"
 msgid "Do you want to remove this message from the channel?"
 msgstr "คุณต้องการลบข้อความนี้จากช่องหรือไม่?"
 
-#: main/src/ui/conversation_content_view/item_actions.vala:165
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:745
-#: main/src/windows/conversation_details.vala:61
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:292
-msgid "Remove"
-msgstr "ลบ"
-
 #: main/src/ui/conversation_content_view/item_actions.vala:167
 msgid "Do you want to delete this message just for yourself or for everyone?"
 msgstr "คุณต้องการลบข้อความนี้สำหรับตัวเองหรือสำหรับทุกคน?"
@@ -1332,11 +1497,11 @@ msgid "You do not receive status updates from this contact yet."
 msgstr "คุณยังไม่ได้รับการอัปเดตสถานะจากผู้ติดต่อนี้"
 
 #: main/src/ui/conversation_content_view/subscription_notification.vala:68
-#: main/src/ui/notifier_freedesktop.vala:164
-#: main/src/ui/notifier_freedesktop.vala:264
-#: main/src/ui/notifier_gnotifications.vala:98
-#: main/src/ui/notifier_gnotifications.vala:133
-#: main/src/ui/notifier_gnotifications.vala:149
+#: main/src/ui/notifier_freedesktop.vala:166
+#: main/src/ui/notifier_freedesktop.vala:266
+#: main/src/ui/notifier_gnotifications.vala:102
+#: main/src/ui/notifier_gnotifications.vala:139
+#: main/src/ui/notifier_gnotifications.vala:157
 msgid "Deny"
 msgstr "ปฏิเสธ"
 
@@ -1663,20 +1828,15 @@ msgid "Close Conversation"
 msgstr "ปิดการสนทนา"
 
 #: main/src/ui/conversation_titlebar/occupants_entry.vala:14
-#: main/src/windows/conversation_details.vala:291
+#: main/src/windows/conversation_details.vala:289
 msgid "Members"
 msgstr "สมาชิก"
 
-#: main/src/ui/conversation_view_controller.vala:224
+#: main/src/ui/conversation_view_controller.vala:237
 msgid "Select file"
 msgstr "เลือกไฟล์"
 
-#: main/src/ui/conversation_view_controller.vala:225
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:180
-msgid "Select"
-msgstr "เลือก"
-
-#: main/src/ui/file_send_overlay.vala:58
+#: main/src/ui/file_send_overlay.vala:60
 msgid "The file exceeds the server's maximum upload size."
 msgstr "ไฟล์เกินขนาดอัพโหลดสูงสุดของเซิร์ฟเวอร์"
 
@@ -1730,40 +1890,40 @@ msgstr "ไม่มีบัญชีที่ใช้งานอยู่"
 msgid "Manage accounts"
 msgstr "จัดการบัญชี"
 
-#: main/src/ui/notifier_freedesktop.vala:157
-#: main/src/ui/notifier_gnotifications.vala:91
+#: main/src/ui/notifier_freedesktop.vala:159
+#: main/src/ui/notifier_gnotifications.vala:93
 msgid "Subscription request"
 msgstr "คำขอสมัครสมาชิก"
 
-#: main/src/ui/notifier_freedesktop.vala:192
+#: main/src/ui/notifier_freedesktop.vala:194
 #: main/src/windows/preferences_window/account_preferences_subpage.vala:259
 msgid "Wrong password"
 msgstr "รหัสผ่านผิด"
 
-#: main/src/ui/notifier_freedesktop.vala:195
+#: main/src/ui/notifier_freedesktop.vala:197
 #: main/src/windows/preferences_window/account_preferences_subpage.vala:261
 msgid "Invalid TLS certificate"
 msgstr "ใบรับรอง TLS ไม่ถูกต้อง"
 
-#: main/src/ui/notifier_freedesktop.vala:220
-#: main/src/ui/notifier_gnotifications.vala:123
+#: main/src/ui/notifier_freedesktop.vala:222
+#: main/src/ui/notifier_gnotifications.vala:127
 #, c-format
 msgid "Invitation to %s"
 msgstr "คำเชิญไปยัง %s"
 
-#: main/src/ui/notifier_freedesktop.vala:221
-#: main/src/ui/notifier_gnotifications.vala:124
+#: main/src/ui/notifier_freedesktop.vala:223
+#: main/src/ui/notifier_gnotifications.vala:128
 #, c-format
 msgid "%s invited you to %s"
 msgstr "%s เชิญคุณไปยัง %s"
 
-#: main/src/ui/notifier_freedesktop.vala:254
-#: main/src/ui/notifier_gnotifications.vala:141
+#: main/src/ui/notifier_freedesktop.vala:256
+#: main/src/ui/notifier_gnotifications.vala:147
 msgid "Permission request"
 msgstr "คำขออนุญาต"
 
-#: main/src/ui/notifier_freedesktop.vala:255
-#: main/src/ui/notifier_gnotifications.vala:142
+#: main/src/ui/notifier_freedesktop.vala:257
+#: main/src/ui/notifier_gnotifications.vala:148
 #, c-format
 msgid "%s requests the permission to write in %s"
 msgstr "%s ขออนุญาตเขียนใน %s"
@@ -1860,6 +2020,40 @@ msgstr "เชิญเข้าร่วมการประชุม"
 #: main/src/ui/systray.vala:178
 msgid "Quit"
 msgstr "ออก"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:14
+#, fuzzy
+msgid "Import"
+msgstr "Import Key"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:15
+msgid "Copy Share URI"
+msgstr ""
+
+#: main/src/ui/sticker_pack_import_dialog.vala:29
+msgid "Import Sticker Pack"
+msgstr ""
+
+#: main/src/ui/sticker_pack_import_dialog.vala:62
+#, fuzzy
+msgid "Loading…"
+msgstr "รอดำเนินการ…"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:70
+#, fuzzy
+msgid "No account available"
+msgstr "ไม่พร้อมใช้งาน"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:84
+#: main/src/ui/sticker_pack_import_dialog.vala:107
+#, fuzzy
+msgid "Failed to import sticker pack"
+msgstr "ล้างแคชล้มเหลว"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:98
+#, fuzzy
+msgid "Importing…"
+msgstr "กำลังเชื่อมต่อ…"
 
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
@@ -1977,11 +2171,11 @@ msgstr "การแจ้งเตือนสำหรับการกล่
 msgid "Notifications disabled"
 msgstr "การแจ้งเตือนถูกปิดใช้งาน"
 
-#: main/src/windows/conversation_details.vala:234
+#: main/src/windows/conversation_details.vala:232
 msgid "Settings"
 msgstr "การตั้งค่า"
 
-#: main/src/windows/conversation_details.vala:263
+#: main/src/windows/conversation_details.vala:261
 msgid "Room Configuration"
 msgstr "การกำหนดค่าห้อง"
 
@@ -2167,9 +2361,6 @@ msgstr "นามแฝง (ไม่บังคับ)"
 
 #~ msgid "Generate New Key"
 #~ msgstr "Generate New Key"
-
-#~ msgid "Import Key"
-#~ msgstr "Import Key"
 
 #~ msgid "Your Keys"
 #~ msgstr "Your Keys"

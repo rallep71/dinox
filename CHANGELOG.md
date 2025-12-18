@@ -5,6 +5,43 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+## [0.8.6] - 2025-12-18
+
+### Added
+- **Stickers (XEP-0449)**
+  - End-to-end support for sending and receiving stickers (`urn:xmpp:stickers:0`).
+  - Sticker packs: import via `xmpp:` PubSub links, publish packs to PEP, and share pack URIs.
+  - New preferences: **Enable Stickers** and **Enable Sticker Animations**.
+
+### Fixed
+- **GitHub AppImage: missing audio / media capabilities**
+  - Bundled `gst-plugin-scanner` and resolved/copy shared-library dependencies recursively.
+  - Improved GStreamer plugin discovery behavior to avoid silently missing WebRTC/audio/video elements.
+- **Sticker chooser stability & performance**
+  - Avoided reload spikes on chat switch by deferring heavy reloads until the popover is opened.
+  - Fixed a thumbnail update use-after-free by using `WeakRef`-based lifetime checks.
+- **GTK4 build compatibility**
+  - Replaced deprecated `mapped` property usage with `get_mapped()`.
+
+### Documentation / Translations
+- Updated gettext extraction for sticker UI and refreshed translations (incl. German fixes for the new sticker settings).
+
+### Changed
+- **Media rendering / performance**
+  - Animated sticker playback and inline video playback now react to visibility (mapped + in-viewport) to reduce CPU/battery usage.
+  - Added a small first-frame cache for animated stickers to improve perceived performance.
+  - File/image loads are cancellable to avoid blocking chat switching.
+- **UI timing logs**
+  - Added optional UI timing instrumentation via `DINOX_UI_TIMING`.
+- **Release engineering (GitHub Actions)**
+  - AppImage/Flatpak artifacts are versioned from tags and attached to the GitHub Release.
+  - Release body generation now includes Flatpak bundle install instructions.
+
+### Notes
+- `webrtc-audio-processing` (AEC/NS/AGC) remains supported when present; builds remain functional without it.
+
 ## [0.8.5] - 2025-12-16
 
 This release significantly improves 1:1 Jingle audio/video call interoperability with
@@ -600,7 +637,8 @@ This release significantly improves 1:1 Jingle audio/video call interoperability
 - libdbusmenu integration for StatusNotifierItem/AppIndicator support
 - Meson build system with automated translations (50+ languages)
 
-[Unreleased]: https://github.com/rallep71/dinox/compare/v0.8.5.4...HEAD
+[Unreleased]: https://github.com/rallep71/dinox/compare/v0.8.6...HEAD
+[0.8.6]: https://github.com/rallep71/dinox/releases/tag/v0.8.6
 [0.8.5]: https://github.com/rallep71/dinox/releases/tag/v0.8.5
 [0.7.3]: https://github.com/rallep71/dinox/releases/tag/v0.7.3
 [0.7.2]: https://github.com/rallep71/dinox/releases/tag/v0.7.2

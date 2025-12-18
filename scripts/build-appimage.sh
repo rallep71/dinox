@@ -27,6 +27,54 @@ log_error() {
     echo -e "${RED}[ERROR]${NC} $1"
 }
 
+# Copy ELF dependencies recursively into AppDir.
+# This is critical for GStreamer: plugins are discovered by filename, but if
+# their dependent shared libraries are missing, GStreamer will silently skip
+# loading them (resulting in missing audio/video/webrtc capabilities).
+copy_elf_deps_recursive() {
+    local file="$1"
+    local dest_lib_dir="$2"
+
+    if [ -z "$file" ] || [ ! -e "$file" ]; then
+        return 0
+    fi
+    if [ -z "$dest_lib_dir" ]; then
+        return 1
+    fi
+    mkdir -p "$dest_lib_dir"
+
+    # Track processed binaries by basename in the destination.
+    # (Good enough for AppDir bundling and avoids infinite recursion.)
+    if [ -z "${__DINOX_DEPS_SEEN_INIT}" ]; then
+        declare -gA __DINOX_DEPS_SEEN
+        __DINOX_DEPS_SEEN_INIT=1
+    fi
+
+    # ldd output contains absolute paths in different columns; extract any token
+    # that begins with '/' and strip trailing punctuation.
+    local dep
+    while IFS= read -r dep; do
+        dep="${dep%)}"
+        dep="${dep%(}"
+        [ -e "$dep" ] || continue
+
+        local base
+        base="$(basename "$dep")"
+        if [ -n "${__DINOX_DEPS_SEEN[$base]}" ]; then
+            continue
+        fi
+        __DINOX_DEPS_SEEN[$base]=1
+
+        # Copy the dependency into AppDir.
+        cp -L "$dep" "$dest_lib_dir/" 2>/dev/null || true
+
+        # Recurse into the copied file (if present).
+        if [ -e "$dest_lib_dir/$base" ]; then
+            copy_elf_deps_recursive "$dest_lib_dir/$base" "$dest_lib_dir"
+        fi
+    done < <(ldd "$file" 2>/dev/null | awk '{for(i=1;i<=NF;i++) if ($i ~ /^\//) print $i}')
+}
+
 # Check prerequisites
 check_prerequisites() {
     log_info "Checking prerequisites..."
@@ -70,7 +118,10 @@ build_dinox() {
     
     if [ ! -d "$BUILD_DIR" ]; then
         log_info "Setting up build directory..."
-        meson setup "$BUILD_DIR" --prefix=/usr
+        meson setup "$BUILD_DIR" --prefix=/usr -Dplugin-notification-sound=enabled
+    else
+        # Ensure release AppImages include notification sounds
+        meson configure "$BUILD_DIR" -Dplugin-notification-sound=enabled
     fi
     
     log_info "Compiling..."
@@ -134,10 +185,36 @@ copy_dependencies() {
     # Copy GStreamer plugins
     log_info "Copying GStreamer plugins..."
     mkdir -p "$APPDIR/usr/lib/gstreamer-1.0"
+
+    # Try to detect the host GStreamer plugin directory (portable across distros/CI).
+    GST_PLUGIN_DIR=""
+    if command -v pkg-config &>/dev/null; then
+        GST_PLUGIN_DIR="$(pkg-config --variable=pluginsdir gstreamer-1.0 2>/dev/null || true)"
+    fi
+    if [ -z "$GST_PLUGIN_DIR" ]; then
+        GST_PLUGIN_DIR="/usr/lib/x86_64-linux-gnu/gstreamer-1.0"
+    fi
+
+    # Copy gst-plugin-scanner.
+    # Without a working scanner, GStreamer may fail to scan bundled plugins,
+    # resulting in missing webrtc/audio/video capabilities at runtime.
+    GST_SCANNER_DIR=""
+    if command -v pkg-config &>/dev/null; then
+        GST_SCANNER_DIR="$(pkg-config --variable=pluginscannerdir gstreamer-1.0 2>/dev/null || true)"
+    fi
+    if [ -z "$GST_SCANNER_DIR" ]; then
+        GST_SCANNER_DIR="/usr/lib/x86_64-linux-gnu/gstreamer1.0/gstreamer-1.0"
+    fi
+    if [ -x "$GST_SCANNER_DIR/gst-plugin-scanner" ]; then
+        cp -L "$GST_SCANNER_DIR/gst-plugin-scanner" "$APPDIR/usr/lib/gstreamer-1.0/" 2>/dev/null || true
+    else
+        log_warn "Could not find executable gst-plugin-scanner at: $GST_SCANNER_DIR/gst-plugin-scanner"
+    fi
     
     for plugin in \
         libgstcoreelements.so \
         libgstplayback.so \
+        libgstaudiorate.so \
         libgsttypefindfunctions.so \
         libgstvideoconvertscale.so \
         libgstaudioconvert.so \
@@ -148,6 +225,7 @@ copy_dependencies() {
         libgstvideofilter.so \
         libgstgtk4.so \
         libgstlibav.so \
+        libgstopenh264.so \
         libgstnice.so \
         libgstrtp.so \
         libgstrtpmanager.so \
@@ -175,7 +253,7 @@ copy_dependencies() {
         libgstinterleave.so \
         libgstlevel.so
     do
-        find /usr/lib/x86_64-linux-gnu/gstreamer-1.0 -name "$plugin" -exec cp {} "$APPDIR/usr/lib/gstreamer-1.0/" \; 2>/dev/null || true
+        find "$GST_PLUGIN_DIR" -name "$plugin" -exec cp {} "$APPDIR/usr/lib/gstreamer-1.0/" \; 2>/dev/null || true
     done
     
     # Copy GStreamer plugin scanner
@@ -184,15 +262,44 @@ copy_dependencies() {
     elif [ -f "/usr/libexec/gstreamer-1.0/gst-plugin-scanner" ]; then
         cp /usr/libexec/gstreamer-1.0/gst-plugin-scanner "$APPDIR/usr/lib/gstreamer-1.0/"
     fi
+
+    # Copy shared-library dependencies for DinoX, Dino plugins, and bundled GStreamer plugins.
+    # Without this, GitHub-built AppImages often miss webrtc/opus/vpx/libsrtp/etc at runtime.
+    log_info "Resolving and copying shared library dependencies (this may take a moment)..."
+    unset __DINOX_DEPS_SEEN_INIT
+    unset __DINOX_DEPS_SEEN
+
+    if [ -x "$APPDIR/usr/bin/dinox" ]; then
+        copy_elf_deps_recursive "$APPDIR/usr/bin/dinox" "$APPDIR/usr/lib"
+    fi
+    if [ -d "$APPDIR/usr/lib/dino/plugins" ]; then
+        for f in "$APPDIR/usr/lib/dino/plugins"/*.so*; do
+            [ -e "$f" ] || continue
+            copy_elf_deps_recursive "$f" "$APPDIR/usr/lib"
+        done
+    fi
+    if [ -d "$APPDIR/usr/lib/gstreamer-1.0" ]; then
+        for f in "$APPDIR/usr/lib/gstreamer-1.0"/*.so* "$APPDIR/usr/lib/gstreamer-1.0/gst-plugin-scanner"; do
+            [ -e "$f" ] || continue
+            copy_elf_deps_recursive "$f" "$APPDIR/usr/lib"
+        done
+    fi
     
     # Copy PulseAudio and audio libraries
     log_info "Copying audio libraries..."
     for lib in libpulse.so* libpulse-simple.so* libpulsecommon-*.so libasound.so* \
                libpipewire-0.3.so* libspa-0.2.so* libsndfile.so* libFLAC.so* \
                libvorbis.so* libvorbisenc.so* libogg.so* \
+               libcanberra.so* libcanberra-gtk3.so* \
                libsqlcipher.so* libsecret-1.so* libgcrypt.so*; do
         find /usr/lib/x86_64-linux-gnu -maxdepth 1 -name "$lib" -exec cp -L {} "$APPDIR/usr/lib/" \; 2>/dev/null || true
     done
+
+    # Copy libcanberra driver modules (pulse/alsa)
+    if [ -d "/usr/lib/x86_64-linux-gnu/libcanberra-0.30" ]; then
+        mkdir -p "$APPDIR/usr/lib/libcanberra-0.30"
+        cp -L /usr/lib/x86_64-linux-gnu/libcanberra-0.30/*.so "$APPDIR/usr/lib/libcanberra-0.30/" 2>/dev/null || true
+    fi
     
     log_info "Dependencies copied!"
 }
@@ -214,10 +321,18 @@ export LD_LIBRARY_PATH="$APPDIR/usr/lib:$LD_LIBRARY_PATH"
 export DINO_PLUGIN_DIR="$APPDIR/usr/lib/dino/plugins"
 
 # Set GStreamer plugin paths
-# IMPORTANT: For AppImage portability we prefer bundled plugins only.
-# Mixing system + bundled plugins can cause version mismatches on user machines.
-export GST_PLUGIN_PATH="$APPDIR/usr/lib/gstreamer-1.0"
-export GST_PLUGIN_SYSTEM_PATH="$APPDIR/usr/lib/gstreamer-1.0"
+# Make sure bundled plugins are discoverable, but do not block system plugins.
+# (Hard-overriding system plugin paths can silently remove capabilities like
+# video codecs/webrtc elements depending on what's bundled.)
+export GST_PLUGIN_PATH="$APPDIR/usr/lib/gstreamer-1.0${GST_PLUGIN_PATH:+:$GST_PLUGIN_PATH}"
+export GST_PLUGIN_PATH_1_0="$APPDIR/usr/lib/gstreamer-1.0${GST_PLUGIN_PATH_1_0:+:$GST_PLUGIN_PATH_1_0}"
+
+# libcanberra loads backend drivers (pulse/alsa/...) via dlopen from a module dir.
+# When libcanberra is bundled, the compiled-in module path may point to the host
+# filesystem, so set it explicitly to the bundled directory.
+if [ -d "$APPDIR/usr/lib/libcanberra-0.30" ]; then
+    export CANBERRA_MODULE_PATH="$APPDIR/usr/lib/libcanberra-0.30${CANBERRA_MODULE_PATH:+:$CANBERRA_MODULE_PATH}"
+fi
 
 # Don't fork for plugin scanning - avoids issues with bundled scanner
 export GST_REGISTRY_FORK=no
@@ -243,6 +358,12 @@ if [ -z "$PULSE_SERVER" ]; then
     if [ -S "$XDG_RUNTIME_DIR/pulse/native" ]; then
         export PULSE_SERVER="unix:$XDG_RUNTIME_DIR/pulse/native"
     fi
+fi
+
+# Prefer PulseAudio for libcanberra notification sounds when available.
+# (libcanberra loads its backend drivers via dlopen; forcing pulse avoids silent fallbacks.)
+if [ -S "$XDG_RUNTIME_DIR/pulse/native" ]; then
+    export CANBERRA_DRIVER=pulse
 fi
 
 # Allow PipeWire access

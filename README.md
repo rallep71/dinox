@@ -10,7 +10,7 @@
 
 **Modern XMPP Messenger for Linux**
 
-Featuring MUJI group video calls, voice messages, OMEMO encryption and 47 languages
+Featuring MUJI group video calls, voice messages, OMEMO encryption, stickers and 47 languages
 
 [Website](https://dinox.handwerker.jetzt) • [Download](#installation) • [Features](#key-features) • [XEP Support](#xep-support) • [Contributing](CONTRIBUTING.md)
 
@@ -39,6 +39,7 @@ DinoX features System Tray support, MUJI group video calls, voice messages, mess
 | **System Tray** | Background mode with StatusNotifierItem |
 | **Message Retraction** | Delete messages for everyone (XEP-0424) |
 | **Emoji Reactions** | React to messages (XEP-0444) |
+| **Stickers** | Send & receive sticker packs (XEP-0449) |
 | **Message Replies** | Quote and reply to messages (XEP-0461) |
 | **MUC Moderation** | Kick, ban (timed), manage roles (XEP-0425) |
 | **TLS Certificate Pinning** | Trust self-signed certs for self-hosted servers |
@@ -103,7 +104,7 @@ If you are building from source using distro packages, ensure you are on a suffi
 
 ## XEP Support
 
-DinoX implements **67 XMPP Extension Protocols**. Here are the key ones with full UI support:
+DinoX implements **~70 XMPP Extension Protocols**. Here are the key ones with full UI support:
 
 ### Messaging
 | XEP | Name | Status |
@@ -115,6 +116,7 @@ DinoX implements **67 XMPP Extension Protocols**. Here are the key ones with ful
 | XEP-0333 | Chat Markers | Full |
 | XEP-0424 | Message Retraction | Full |
 | XEP-0444 | Message Reactions | Full |
+| XEP-0449 | Stickers | Full |
 | XEP-0461 | Message Replies | Full |
 
 ### Security

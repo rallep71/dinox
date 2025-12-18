@@ -159,7 +159,10 @@ public class StreamModule : XmppStreamModule {
         } else {
             Bundle bundle = new Bundle(node);
             stream.get_module(IDENTITY).unignore_device(jid, device_id);
-            debug("Received bundle for %s/%d: %s", jid.bare_jid.to_string(), device_id, Base64.encode(bundle.identity_key.serialize()));
+            debug("Received bundle for %s/%d (identity_key_present=%s)",
+                jid.bare_jid.to_string(),
+                device_id,
+                (bundle.identity_key != null).to_string());
             bundle_fetched(jid, device_id, bundle);
         }
         stream.get_module(IDENTITY).active_bundle_requests.remove(jid.bare_jid.to_string() + @":$device_id");

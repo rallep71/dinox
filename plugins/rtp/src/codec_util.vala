@@ -105,6 +105,7 @@ public class Dino.Plugins.Rtp.CodecUtil {
                         "vah264lpenc",
                         "vah264enc",
 #endif
+                        "openh264enc",
                         "x264enc"
                     };
                 case "vp8":
@@ -157,6 +158,7 @@ public class Dino.Plugins.Rtp.CodecUtil {
 #if ENABLE_V4L2SL
                         "v4l2slh264dec",
 #endif
+                        "openh264dec",
                         "avdec_h264"
                     };
                 case "vp8":
@@ -187,6 +189,7 @@ public class Dino.Plugins.Rtp.CodecUtil {
     public static string? get_encode_prefix(string media, string codec, string encode, JingleRtp.PayloadType? payload_type) {
         if (encode == "msdkh264enc") return "capsfilter caps=video/x-raw,format=NV12 ! ";
         if (encode == "vah264lpenc" || encode == "vah264enc") return "capsfilter caps=video/x-raw,format=NV12 ! ";
+        if (encode == "openh264enc") return "capsfilter caps=video/x-raw,format=I420 ! ";
         return null;
     }
 
@@ -194,6 +197,8 @@ public class Dino.Plugins.Rtp.CodecUtil {
         // H264 - key-int-max=30 ensures keyframe every ~1 second at 30fps
         if (encode == "msdkh264enc") return @" rate-control=vbr key-int-max=30";
         if (encode == "vah264lpenc" || encode == "vah264enc") return @" rate-control=vbr key-int-max=30";
+        // openh264enc uses bitrate in bits/sec and gop-size for keyframe interval
+        if (encode == "openh264enc") return " bitrate=1500000 gop-size=30";
         if (encode == "x264enc") return @" byte-stream=1 speed-preset=faster tune=zerolatency bframes=0 cabac=false dct8x8=false key-int-max=30";
 
         // VP8 - keyframe-max-dist=30 ensures keyframe every ~1 second at 30fps (critical for WebRTC)
@@ -241,6 +246,11 @@ public class Dino.Plugins.Rtp.CodecUtil {
             case "vavp8enc":
                 bitrate = uint.min(2048000, bitrate);
                 encode.set("bitrate", bitrate);
+                return bitrate;
+            case "openh264enc":
+                bitrate = uint.min(2048000, bitrate);
+                // bitrate is expressed in kbit/s elsewhere; openh264enc expects bits/s.
+                encode.set("bitrate", (uint) ((uint64) bitrate * 1024));
                 return bitrate;
             case "vp8enc":
             case "vp9enc":

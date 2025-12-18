@@ -28,6 +28,12 @@ test_issue_*.sh
 # Temporary Assets
 create-a-minimalist-logo-*.jpeg
 
+# Local perf / scratch
+perf.data
+perf.data.old
+.worktrees/
+Sticker/
+
 # OS specific
 .DS_Store
 Thumbs.db

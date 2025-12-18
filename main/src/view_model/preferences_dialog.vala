@@ -113,6 +113,9 @@ public class Dino.Ui.ViewModel.PreferencesDialog : Object {
         settings.bind_property("keep-background", general_page, "keep-background", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
         settings.bind_property("convert-utf8-smileys", general_page, "convert-emojis", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
         settings.bind_property("color-scheme", general_page, "color-scheme", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
+
+        settings.bind_property("stickers-enabled", general_page, "stickers-enabled", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
+        settings.bind_property("sticker-animations-enabled", general_page, "sticker-animations-enabled", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
     }
 }
 

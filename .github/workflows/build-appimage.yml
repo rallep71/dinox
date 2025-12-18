@@ -16,6 +16,17 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Get version
+        id: version
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "${GITHUB_REF}" == refs/tags/v* ]]; then
+            echo "version=${GITHUB_REF#refs/tags/v}" >> "$GITHUB_OUTPUT"
+          else
+            echo "version=$(awk '/RELEASE/{print $2}' VERSION)" >> "$GITHUB_OUTPUT"
+          fi
       
       - name: Install dependencies
         run: |
@@ -504,7 +515,7 @@ jobs:
 
       - name: Create AppImage
         run: |
-          VERSION=$(cat VERSION | grep RELEASE | awk '{print $2}')
+          VERSION="${{ steps.version.outputs.version }}"
           APPIMAGE_NAME="DinoX-$VERSION-x86_64.AppImage"
           
           # Update information for automatic updates via GitHub Releases
@@ -527,22 +538,86 @@ jobs:
       - name: Upload AppImage as artifact
         uses: actions/upload-artifact@v4
         with:
-          name: DinoX-AppImage
+          name: DinoX-AppImage-${{ steps.version.outputs.version }}
           path: |
             DinoX-*.AppImage
             DinoX-*.AppImage.zsync
             DinoX-*.AppImage.sha256
-      
-      - name: Prepare Release Body
-        if: startsWith(github.ref, 'refs/tags/')
+
+  build-flatpak:
+    if: startsWith(github.ref, 'refs/tags/')
+    name: Build Flatpak
+    runs-on: ubuntu-24.04
+    container:
+      image: ghcr.io/flathub-infra/flatpak-github-actions:gnome-48
+      options: --privileged
+    steps:
+      - name: Get version from tag
+        id: version
+        shell: bash
         run: |
-          VERSION=$(cat VERSION | grep RELEASE | awk '{print $2}')
-          
-          echo "## DinoX v$VERSION" > RELEASE_BODY.md
+          echo "version=${GITHUB_REF#refs/tags/v}" >> "$GITHUB_OUTPUT"
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Fix git safe directory
+        run: git config --global --add safe.directory '*'
+      - name: Build Flatpak
+        uses: flatpak/flatpak-github-actions/flatpak-builder@v6
+        with:
+          manifest-path: im.github.rallep71.DinoX.json
+          bundle: im.github.rallep71.DinoX-x86_64.flatpak
+          arch: x86_64
+      - name: Rename Flatpak bundle
+        shell: bash
+        run: |
+          mv im.github.rallep71.DinoX-x86_64.flatpak "dinox-${{ steps.version.outputs.version }}-x86_64.flatpak"
+      - name: Upload Flatpak as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: DinoX-Flatpak-${{ steps.version.outputs.version }}
+          path: dinox-*-x86_64.flatpak
+          if-no-files-found: error
+
+  create-release:
+    if: startsWith(github.ref, 'refs/tags/')
+    name: Create GitHub Release
+    runs-on: ubuntu-24.04
+    needs:
+      - build-appimage
+      - build-flatpak
+    steps:
+      - name: Get version from tag
+        id: version
+        shell: bash
+        run: |
+          echo "version=${GITHUB_REF#refs/tags/v}" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download AppImage artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: DinoX-AppImage-${{ steps.version.outputs.version }}
+
+      - name: Download Flatpak artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: DinoX-Flatpak-${{ steps.version.outputs.version }}
+
+      - name: Prepare Release Body
+        shell: bash
+        run: |
+          set -euo pipefail
+          version="${{ steps.version.outputs.version }}"
+
+          echo "## DinoX v$version" > RELEASE_BODY.md
           echo "" >> RELEASE_BODY.md
-          
-          # Extract changelog for this version.
-          # If the exact version (e.g. 0.8.5.2) has no section, fall back to the base release notes (e.g. 0.8.5).
+
           extract_changelog() {
             local ver="$1"
             awk -v ver="[$ver]" '
@@ -551,10 +626,10 @@ jobs:
             ' CHANGELOG.md
           }
 
-          notes="$(extract_changelog "$VERSION")"
+          notes="$(extract_changelog "$version")"
           if [ -z "${notes//[[:space:]]/}" ]; then
-            if echo "$VERSION" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$'; then
-              base_version="$(echo "$VERSION" | sed -E 's/\.[0-9]+$//')"
+            if echo "$version" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$'; then
+              base_version="$(echo "$version" | sed -E 's/\.[0-9]+$//')"
               notes="$(extract_changelog "$base_version")"
               if [ -n "${notes//[[:space:]]/}" ]; then
                 echo "(Release notes from v$base_version)" >> RELEASE_BODY.md
@@ -563,23 +638,32 @@ jobs:
             fi
           fi
           echo "$notes" >> RELEASE_BODY.md
-          
+
           echo "" >> RELEASE_BODY.md
           echo "### Installation (AppImage)" >> RELEASE_BODY.md
           echo "" >> RELEASE_BODY.md
           echo "\`\`\`bash" >> RELEASE_BODY.md
-          echo "chmod +x DinoX-*.AppImage" >> RELEASE_BODY.md
-          echo "./DinoX-*.AppImage" >> RELEASE_BODY.md
+          echo "chmod +x DinoX-$version-x86_64.AppImage" >> RELEASE_BODY.md
+          echo "./DinoX-$version-x86_64.AppImage" >> RELEASE_BODY.md
+          echo "\`\`\`" >> RELEASE_BODY.md
+          echo "" >> RELEASE_BODY.md
+
+          echo "### Installation (Flatpak bundle)" >> RELEASE_BODY.md
+          echo "" >> RELEASE_BODY.md
+          echo "\`\`\`bash" >> RELEASE_BODY.md
+          echo "flatpak install --user ./dinox-$version-x86_64.flatpak" >> RELEASE_BODY.md
           echo "\`\`\`" >> RELEASE_BODY.md
 
-      - name: Create Release
-        if: startsWith(github.ref, 'refs/tags/')
-        uses: softprops/action-gh-release@v1
+      - name: Create Release (upload assets)
+        uses: softprops/action-gh-release@v2
         with:
+          name: DinoX v${{ steps.version.outputs.version }}
+          body_path: RELEASE_BODY.md
+          draft: false
+          prerelease: false
           files: |
             DinoX-*.AppImage
             DinoX-*.AppImage.zsync
             DinoX-*.AppImage.sha256
-          body_path: RELEASE_BODY.md
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            dinox-*-x86_64.flatpak
+          fail_on_unmatched_files: true

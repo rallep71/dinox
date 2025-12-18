@@ -14,8 +14,9 @@ public abstract class StanzaEntry {
 
     public string? encoded_val {
         owned get {
-            if (val == null) return null;
-            return ((!)val).replace("&", "&amp;").replace("\"", "&quot;").replace("'", "&apos;").replace("<", "&lt;").replace(">", "&gt;");
+            unowned string? current_val = val;
+            if (current_val == null) return null;
+            return GLib.Markup.escape_text(current_val, -1);
         }
         set {
             if (value == null) {
@@ -411,7 +412,10 @@ public class StanzaNode : StanzaEntry {
         }
         var attr_ns_state = new NamespaceState.with_current(my_state, (!)ns_uri);
         foreach (StanzaAttribute attr in attributes) {
-            sb.append_printf(" %s", attr.to_xml(attr_ns_state));
+            string attr_xml = attr.to_xml(attr_ns_state);
+            if (attr_xml != "") {
+                sb.append_printf(" %s", attr_xml);
+            }
         }
         if (!has_nodes && sub_nodes.size == 0) {
             sb.append("/>");

@@ -16,7 +16,7 @@ using Dino.Entities;
 namespace Dino {
 
 public class Database : Qlite.Database {
-    private const int VERSION = 34;
+    private const int VERSION = 35;
 
     public class AccountTable : Table {
         public Column<int> id = new Column.Integer("id") { primary_key = true, auto_increment = true };
@@ -225,11 +225,53 @@ public class Database : Qlite.Database {
         public Column<int> height = new Column.Integer("height") { default = "-1", min_version=28 };
         public Column<long> length = new Column.Integer("length") { default = "-1", min_version=28 };
 
+        public Column<bool> is_sticker = new Column.BoolInt("is_sticker") { default = "0", not_null = true, min_version = 35 };
+        public Column<string> sticker_pack_id = new Column.Text("sticker_pack_id") { min_version = 35 };
+        public Column<string> sticker_pack_jid = new Column.Text("sticker_pack_jid") { min_version = 35 };
+        public Column<string> sticker_pack_node = new Column.Text("sticker_pack_node") { min_version = 35 };
+
         internal FileTransferTable(Database db) {
             base(db, "file_transfer");
             init({id, file_sharing_id, account_id, counterpart_id, counterpart_resource, our_resource, direction,
                 time, local_time, encryption, file_name, path, mime_type, size, state, provider, info, modification_date,
-                width, height, length});
+                width, height, length, is_sticker, sticker_pack_id, sticker_pack_jid, sticker_pack_node});
+        }
+    }
+
+    public class StickerPackTable : Table {
+        public Column<int> id = new Column.Integer("id") { primary_key = true, auto_increment = true, min_version = 35 };
+        public Column<int> account_id = new Column.Integer("account_id") { not_null = true, min_version = 35 };
+        public Column<string> pack_id = new Column.Text("pack_id") { not_null = true, min_version = 35 };
+        public Column<string> source_jid = new Column.Text("source_jid") { min_version = 35 };
+        public Column<string> source_node = new Column.Text("source_node") { min_version = 35 };
+        public new Column<string> name = new Column.Text("name") { min_version = 35 };
+        public Column<string> summary = new Column.Text("summary") { min_version = 35 };
+        public Column<bool> restricted = new Column.BoolInt("restricted") { default = "0", not_null = true, min_version = 35 };
+
+        internal StickerPackTable(Database db) {
+            base(db, "sticker_pack");
+            init({id, account_id, pack_id, source_jid, source_node, name, summary, restricted});
+            unique({account_id, pack_id}, "REPLACE");
+            index("sticker_pack_account_pack_idx", {account_id, pack_id});
+        }
+    }
+
+    public class StickerItemTable : Table {
+        public Column<int> id = new Column.Integer("id") { primary_key = true, auto_increment = true, min_version = 35 };
+        public Column<int> account_id = new Column.Integer("account_id") { not_null = true, min_version = 35 };
+        public Column<string> pack_id = new Column.Text("pack_id") { not_null = true, min_version = 35 };
+        public Column<int> position = new Column.Integer("position") { not_null = true, min_version = 35 };
+        public Column<string> desc = new Column.Text("desc") { min_version = 35 };
+        public Column<string> media_type = new Column.Text("media_type") { min_version = 35 };
+        public Column<string> hash_algo = new Column.Text("hash_algo") { min_version = 35 };
+        public Column<string> hash_value = new Column.Text("hash_value") { min_version = 35 };
+        public Column<string> source_url = new Column.Text("source_url") { min_version = 35 };
+        public Column<string> local_path = new Column.Text("local_path") { min_version = 35 };
+
+        internal StickerItemTable(Database db) {
+            base(db, "sticker_item");
+            init({id, account_id, pack_id, position, desc, media_type, hash_algo, hash_value, source_url, local_path});
+            index("sticker_item_account_pack_pos_idx", {account_id, pack_id, position});
         }
     }
 
@@ -524,6 +566,8 @@ public class Database : Qlite.Database {
     public AccountSettingsTable account_settings { get; private set; }
     public ConversationSettingsTable conversation_settings { get; private set; }
     public PinnedCertificateTable pinned_certificate { get; private set; }
+    public StickerPackTable sticker_pack { get; private set; }
+    public StickerItemTable sticker_item { get; private set; }
 
     public Map<int, Jid> jid_table_cache = new HashMap<int, Jid>();
     public Map<Jid, int> jid_table_reverse = new HashMap<Jid, int>(Jid.hash_func, Jid.equals_func);
@@ -559,7 +603,9 @@ public class Database : Qlite.Database {
         account_settings = new AccountSettingsTable(this);
         conversation_settings = new ConversationSettingsTable(this);
         pinned_certificate = new PinnedCertificateTable(this);
-        init({ account, jid, entity, content_item, message, message_occupant_id, body_meta, message_correction, reply, real_jid, occupantid, file_transfer, file_hashes, file_thumbnails, sfs_sources, call, call_counterpart, conversation, avatar, entity_identity, entity_feature, roster, mam_catchup, reaction, settings, account_settings, conversation_settings, pinned_certificate });
+        sticker_pack = new StickerPackTable(this);
+        sticker_item = new StickerItemTable(this);
+        init({ account, jid, entity, content_item, message, message_occupant_id, body_meta, message_correction, reply, real_jid, occupantid, file_transfer, file_hashes, file_thumbnails, sfs_sources, call, call_counterpart, conversation, avatar, entity_identity, entity_feature, roster, mam_catchup, reaction, settings, account_settings, conversation_settings, pinned_certificate, sticker_pack, sticker_item });
 
         try {
             exec("PRAGMA journal_mode = WAL");

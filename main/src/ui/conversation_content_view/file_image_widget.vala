@@ -1,6 +1,7 @@
 using Gee;
 using Gdk;
 using Gtk;
+using Graphene;
 using Xmpp;
 
 using Dino.Entities;
@@ -24,10 +25,168 @@ public class FileImageWidget : Widget {
 
     private FileTransfer file_transfer;
 
+    private uint animation_timeout_id = 0;
+    private Gdk.PixbufAnimationIter? sticker_anim_iter = null;
+    private FixedRatioPicture? sticker_anim_picture = null;
+
+    private Gtk.ScrolledWindow? watched_scrolled = null;
+    private Gtk.Adjustment? watched_vadjustment = null;
+    private ulong watched_vadjustment_handler_id = 0;
+
+    private const int FIRST_FRAME_CACHE_MAX_ENTRIES = 128;
+    private static Gee.HashMap<string, Gdk.Texture> first_frame_cache = new Gee.HashMap<string, Gdk.Texture>();
+    private static Gee.LinkedList<string> first_frame_lru = new Gee.LinkedList<string>();
+
+    private uint load_generation = 0;
+    private Cancellable? load_cancellable = null;
+
     private FileTransmissionProgress transmission_progress = new FileTransmissionProgress() { halign=Align.CENTER, valign=Align.CENTER, visible=false };
 
     construct {
         layout_manager = new BinLayout();
+    }
+
+    private static void cache_first_frame(string key, Gdk.Texture texture) {
+        if (key == "") return;
+
+        if (first_frame_cache.has_key(key)) {
+            first_frame_lru.remove(key);
+        }
+
+        first_frame_cache[key] = texture;
+        first_frame_lru.add(key);
+
+        while (first_frame_lru.size > FIRST_FRAME_CACHE_MAX_ENTRIES) {
+            string oldest = first_frame_lru.get(0);
+            first_frame_lru.remove_at(0);
+            first_frame_cache.unset(oldest);
+        }
+    }
+
+    private static Gdk.Texture? get_cached_first_frame(string key) {
+        if (key == "") return null;
+        if (!first_frame_cache.has_key(key)) return null;
+
+        // Touch LRU
+        first_frame_lru.remove(key);
+        first_frame_lru.add(key);
+
+        return first_frame_cache[key];
+    }
+
+    private void disconnect_scroll_watch() {
+        if (watched_vadjustment != null && watched_vadjustment_handler_id != 0) {
+            watched_vadjustment.disconnect(watched_vadjustment_handler_id);
+            watched_vadjustment_handler_id = 0;
+        }
+        watched_vadjustment = null;
+        watched_scrolled = null;
+    }
+
+    private void pause_animation() {
+        if (animation_timeout_id != 0) {
+            Source.remove(animation_timeout_id);
+            animation_timeout_id = 0;
+        }
+    }
+
+    private void reset_loading_and_animation() {
+        pause_animation();
+        sticker_anim_iter = null;
+        sticker_anim_picture = null;
+
+        if (load_cancellable != null) {
+            load_cancellable.cancel();
+            load_cancellable = null;
+        }
+    }
+
+    private Gtk.ScrolledWindow? find_scrolled_window() {
+        Widget? w = this;
+        while (w != null) {
+            if (w is Gtk.ScrolledWindow) {
+                return (Gtk.ScrolledWindow) w;
+            }
+            w = w.get_parent();
+        }
+        return null;
+    }
+
+    private void ensure_scroll_watch() {
+        if (watched_scrolled != null) return;
+
+        watched_scrolled = find_scrolled_window();
+        if (watched_scrolled == null) return;
+
+        watched_vadjustment = watched_scrolled.vadjustment;
+        if (watched_vadjustment == null) return;
+
+        watched_vadjustment_handler_id = watched_vadjustment.value_changed.connect(() => {
+            update_animation_state();
+        });
+    }
+
+    private bool is_in_viewport() {
+        if (watched_scrolled == null || watched_vadjustment == null) return true;
+
+        Widget? content = watched_scrolled.get_child();
+        if (content == null) return true;
+
+        Graphene.Rect bounds;
+        if (!this.compute_bounds(content, out bounds)) return true;
+
+        double top = watched_vadjustment.value;
+        double bottom = top + watched_vadjustment.page_size;
+
+        double y1 = bounds.origin.y;
+        double y2 = y1 + bounds.size.height;
+
+        // Small margin to avoid rapid toggling near edges.
+        const double margin = 64.0;
+        return (y2 >= (top - margin)) && (y1 <= (bottom + margin));
+    }
+
+    private void update_animation_state() {
+        if (sticker_anim_iter == null || sticker_anim_picture == null) return;
+
+        ensure_scroll_watch();
+
+        bool should_animate = this.visible && this.get_mapped() && is_in_viewport();
+        if (should_animate) {
+            if (animation_timeout_id == 0) {
+                schedule_next_sticker_frame();
+            }
+        } else {
+            pause_animation();
+        }
+    }
+
+    private class LoadResult : Object {
+        public Gdk.Pixbuf? pixbuf;
+        public Gdk.PixbufAnimation? animation;
+    }
+
+    private void schedule_next_sticker_frame() {
+        if (sticker_anim_iter == null || sticker_anim_picture == null) return;
+
+        int delay_ms = sticker_anim_iter.get_delay_time();
+        if (delay_ms < 20) delay_ms = 100;
+
+        animation_timeout_id = Timeout.add((uint) delay_ms, () => {
+            if (sticker_anim_iter == null || sticker_anim_picture == null) return false;
+
+            // Only animate while visible (mapped + within viewport).
+            if (!this.visible || !this.get_mapped() || !is_in_viewport()) {
+                animation_timeout_id = 0;
+                return false;
+            }
+
+            sticker_anim_iter.advance(null);
+            sticker_anim_picture.paintable = Texture.for_pixbuf(sticker_anim_iter.get_pixbuf());
+
+            schedule_next_sticker_frame();
+            return false;
+        });
     }
 
     public FileImageWidget(int MAX_WIDTH=600, int MAX_HEIGHT=300) {
@@ -74,6 +233,15 @@ public class FileImageWidget : Widget {
             }
         });
         attach_on_motion_event_leave(this_motion_events, button);
+
+        this.notify["mapped"].connect(() => {
+            if (!this.get_mapped()) {
+                pause_animation();
+                disconnect_scroll_watch();
+            } else {
+                update_animation_state();
+            }
+        });
     }
 
     private static void attach_on_motion_event_leave(EventControllerMotion this_motion_events, MenuButton button) {
@@ -158,25 +326,97 @@ public class FileImageWidget : Widget {
     }
 
     public async void load_from_file(File file, string file_name) throws GLib.Error {
+        reset_loading_and_animation();
         FixedRatioPicture image = new FixedRatioPicture() { min_width=100, min_height=100, max_width=600, max_height=300 };
 
-        FileInputStream file_stream = null;
-        try {
-            file_stream = file.read();
-            // Work-around because Gtk.Picture does not apply the orientation itself
-            Gdk.Pixbuf? pixbuf = new Pixbuf.from_stream(file_stream);
-            pixbuf = pixbuf.apply_embedded_orientation();
-            image.paintable = Texture.for_pixbuf(pixbuf);
-        } finally {
-            try {
-                if (file_stream != null) file_stream.close();
-            } catch (Error e) {
-                // Ignore
+        // Show placeholder immediately to avoid blocking chat switching.
+        stack.add_child(image);
+        stack.set_visible_child(image);
+
+        uint gen = ++load_generation;
+        var cancellable = new Cancellable();
+        load_cancellable = cancellable;
+
+        bool is_sticker = this.file_transfer != null && this.file_transfer.is_sticker;
+        bool animations_enabled = true;
+        if (is_sticker) {
+            animations_enabled = Dino.Application.get_default().settings.sticker_animations_enabled;
+        }
+
+        string? local_path = file.get_path();
+
+        // If we have a cached first frame for an animated sticker, show it immediately.
+        if (is_sticker && animations_enabled && local_path != null && local_path != "") {
+            var cached = get_cached_first_frame(local_path);
+            if (cached != null) {
+                image.paintable = cached;
             }
         }
 
-        stack.add_child(image);
-        stack.set_visible_child(image);
+        // Background decode for static images and non-webp stickers.
+        new Thread<void*>("dinox-image-decode", () => {
+                var out = new LoadResult();
+                if (cancellable.is_cancelled()) {
+                    return null;
+                }
+
+                try {
+                    if (is_sticker && animations_enabled) {
+                        Gdk.PixbufAnimation anim;
+                        if (local_path != null && local_path != "") {
+                            anim = new Gdk.PixbufAnimation.from_file(local_path);
+                        } else {
+                            FileInputStream s = file.read();
+                            anim = new Gdk.PixbufAnimation.from_stream(s);
+                            try { s.close(); } catch (Error e) { }
+                        }
+                        out.animation = anim;
+                    } else {
+                        if (local_path != null && local_path != "") {
+                            out.pixbuf = new Pixbuf.from_file(local_path);
+                        } else {
+                            FileInputStream s = file.read();
+                            out.pixbuf = new Pixbuf.from_stream(s);
+                            try { s.close(); } catch (Error e) { }
+                        }
+                    }
+                } catch (Error e) {
+                    // Keep out empty.
+                }
+
+                Idle.add(() => {
+                    if (this.load_generation != gen) return false;
+                    if (cancellable.is_cancelled()) return false;
+
+                    if (out.animation != null && is_sticker && animations_enabled && !out.animation.is_static_image()) {
+                        var iter = out.animation.get_iter(null);
+                        var first_tex = Texture.for_pixbuf(iter.get_pixbuf());
+                        image.paintable = first_tex;
+                        if (local_path != null && local_path != "") {
+                            cache_first_frame(local_path, first_tex);
+                        }
+                        sticker_anim_iter = iter;
+                        sticker_anim_picture = image;
+                        update_animation_state();
+                        return false;
+                    }
+
+                    if (out.animation != null && out.animation.is_static_image()) {
+                        var pb = out.animation.get_static_image();
+                        pb = pb.apply_embedded_orientation();
+                        image.paintable = Texture.for_pixbuf(pb);
+                        return false;
+                    }
+
+                    if (out.pixbuf != null) {
+                        var pb = out.pixbuf.apply_embedded_orientation();
+                        image.paintable = Texture.for_pixbuf(pb);
+                    }
+                    return false;
+                });
+
+                return null;
+            });
     }
 
     public async void load_from_thumbnail(FileTransfer file_transfer) throws GLib.Error {
@@ -243,11 +483,18 @@ public class FileImageWidget : Widget {
     }
 
     public static bool can_display(FileTransfer file_transfer) {
+        var app = Dino.Application.get_default();
+        if (file_transfer.is_sticker && !app.settings.stickers_enabled) {
+            return false;
+        }
+
         return file_transfer.mime_type != null && Dino.Util.is_pixbuf_supported_mime_type(file_transfer.mime_type) &&
                 (file_transfer.state == FileTransfer.State.COMPLETE || file_transfer.thumbnails.size > 0);
     }
 
     public override void dispose() {
+        reset_loading_and_animation();
+        disconnect_scroll_watch();
         if (overlay != null && overlay.parent != null) overlay.unparent();
         base.dispose();
     }
