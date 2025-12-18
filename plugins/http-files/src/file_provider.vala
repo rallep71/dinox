@@ -10,6 +10,7 @@ public class FileProvider : Dino.FileProvider, Object {
     private StreamInteractor stream_interactor;
     private Dino.Database dino_db;
     private Soup.Session session;
+    private GLib.MainContext soup_context;
     private static Regex http_url_regex = /^https?:\/\/([^\s#]*)$/; // Spaces are invalid in URLs and we can't use fragments for downloads
     // OMEMO aesgcm:// links carry the secret (iv+key) in the fragment. Different clients may
     // encode the fragment differently (hex, base64, urlsafe base64), so only validate the
@@ -30,10 +31,23 @@ public class FileProvider : Dino.FileProvider, Object {
     public FileProvider(StreamInteractor stream_interactor, Dino.Database dino_db) {
         this.stream_interactor = stream_interactor;
         this.dino_db = dino_db;
+
+        // libsoup is bound to the thread-default main context at creation time.
+        // We may be called from non-UI contexts, so always hop back before using the session.
+        this.soup_context = GLib.MainContext.ref_thread_default();
         this.session = new Soup.Session();
 
         session.user_agent = @"Dino/$(Dino.get_short_version()) ";
         stream_interactor.get_module(MessageProcessor.IDENTITY).received_pipeline.connect(new ReceivedMessageListener(this));
+    }
+
+    private async void ensure_soup_context() {
+        if (GLib.MainContext.get_thread_default() == soup_context) return;
+        soup_context.invoke(() => {
+            ensure_soup_context.callback();
+            return false;
+        });
+        yield;
     }
 
     private class ReceivedMessageListener : MessageListener {
@@ -112,6 +126,8 @@ public class FileProvider : Dino.FileProvider, Object {
         HttpFileReceiveData? http_receive_data = receive_data as HttpFileReceiveData;
         if (http_receive_data == null) return file_meta;
 
+        yield ensure_soup_context();
+
         var head_message = new Soup.Message("HEAD", http_receive_data.url);
         head_message.request_headers.append("Accept-Encoding", "identity");
 
@@ -156,6 +172,8 @@ public class FileProvider : Dino.FileProvider, Object {
     public async InputStream download(FileTransfer file_transfer, FileReceiveData receive_data, FileMeta file_meta) throws IOError {
         HttpFileReceiveData? http_receive_data = receive_data as HttpFileReceiveData;
         if (http_receive_data == null) assert(false);
+
+        yield ensure_soup_context();
 
         var get_message = new Soup.Message("GET", http_receive_data.url);
 

@@ -191,6 +191,16 @@
   <url type="translate">https://hosted.weblate.org/projects/dino/</url>
   <launchable type="desktop-id">im.github.rallep71.DinoX.desktop</launchable>
   <releases>
+    <release date="2025-12-18" version="0.8.6.1">
+      <description>
+        <p>Hotfix for packaging/runtime stability.</p>
+        <ul>
+          <li>Fixes Flatpak startup crash (libsoup main context assertion)</li>
+          <li>Removes GTK4 popover criticals in sticker chooser</li>
+          <li>Improves Qlite/SQLCipher plaintext fallback handling (best-effort migration)</li>
+        </ul>
+      </description>
+    </release>
     <release date="2025-12-18" version="0.8.6">
       <description>
         <p>Stickers and packaging robustness improvements.</p>

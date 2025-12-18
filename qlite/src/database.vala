@@ -8,6 +8,9 @@ public class Database {
     private long expected_version;
     private Table[]? tables;
 
+    private static bool logged_plaintext_fallback = false;
+    private static bool logged_plaintext_migration = false;
+
     private Column<string?> meta_name = new Column.Text("name") { primary_key = true };
     private Column<long> meta_int_val = new Column.Long("int_val");
     private Column<string?> meta_text_val = new Column.Text("text_val");
@@ -30,17 +33,49 @@ public class Database {
         }
 
         if (key != null) {
-            string key_pragma = "PRAGMA key = '%s';".printf(key);
+            // Escape single quotes for SQL string literal.
+            string escaped_key = ((!)key).replace("'", "''");
+            string key_pragma = "PRAGMA key = '%s';".printf(escaped_key);
             db.exec(key_pragma, null, null);
             
             // Verify encryption
             if (db.exec("SELECT count(*) FROM sqlite_master;", null, null) != Sqlite.OK) {
-                warning("Qlite: Failed to access database with key. Attempting plain text fallback...");
+                // If the DB is plaintext, trying to open it with a key will fail.
+                // Fall back and, if possible, migrate plaintext -> encrypted automatically.
+
+                // Re-open without a key to see if it's plaintext.
                 db = null;
                 ec = Sqlite.Database.open_v2(file_name, out db, OPEN_READWRITE | OPEN_CREATE | 0x00010000);
                 if (db.exec("SELECT count(*) FROM sqlite_master;", null, null) == Sqlite.OK) {
-                    warning("Qlite: Database is plain text. Encryption skipped (Migration required).");
+                    // Plaintext database detected.
+                    bool migrated = false;
+                    try {
+                        migrated = try_migrate_plaintext_to_encrypted(((!)key));
+                    } catch (Error e) {
+                        migrated = false;
+                    }
+
+                    if (migrated) {
+                        if (!logged_plaintext_migration) {
+                            message("Qlite: Migrated plain text database to encrypted storage.");
+                            logged_plaintext_migration = true;
+                        }
+                        // Re-open encrypted.
+                        db = null;
+                        ec = Sqlite.Database.open_v2(file_name, out db, OPEN_READWRITE | OPEN_CREATE | 0x00010000);
+                        db.exec(key_pragma, null, null);
+                        if (db.exec("SELECT count(*) FROM sqlite_master;", null, null) != Sqlite.OK) {
+                            error("Qlite: Database migration succeeded but encrypted reopen failed (Invalid key or corrupted).");
+                        }
+                    } else {
+                        if (!logged_plaintext_fallback) {
+                            // Not a warning: this can happen on upgrades from versions that stored plaintext.
+                            message("Qlite: Plain text database detected; running without encryption because migration failed.");
+                            logged_plaintext_fallback = true;
+                        }
+                    }
                 } else {
+                    // Encrypted DB but wrong key, or corrupted DB.
                     error("Qlite: Failed to open database (Invalid key or corrupted).");
                 }
             }
@@ -52,6 +87,55 @@ public class Database {
     }
 
     public void close() {
+    }
+
+    private bool try_migrate_plaintext_to_encrypted(string key) throws Error {
+        // We currently have an *opened plaintext* database connection in `db`.
+        // Create a new encrypted database file, export everything, then atomically replace.
+        string tmp_path = file_name + ".enc-tmp";
+
+        // Best-effort cleanup of old tmp.
+        try { FileUtils.remove(tmp_path); } catch (Error e) { }
+
+        // Escape key for SQL literal.
+        string escaped_key = key.replace("'", "''");
+
+        // Attach a fresh encrypted database and export.
+        // sqlcipher_export is provided by SQLCipher.
+        string attach = "ATTACH DATABASE '%s' AS encrypted KEY '%s';".printf(tmp_path.replace("'", "''"), escaped_key);
+        if (db.exec(attach, null, null) != Sqlite.OK) {
+            return false;
+        }
+        if (db.exec("SELECT sqlcipher_export('encrypted');", null, null) != Sqlite.OK) {
+            db.exec("DETACH DATABASE encrypted;", null, null);
+            return false;
+        }
+        db.exec("DETACH DATABASE encrypted;", null, null);
+
+        // Replace original database file.
+        // Note: keep the original if replacement fails.
+        string backup_path = file_name + ".bak";
+        try { FileUtils.remove(backup_path); } catch (Error e) { }
+
+        // Release the current handle before replacing on disk (best-effort).
+        // In Vala, clearing the reference drops the underlying handle.
+        db = null;
+
+        if (FileUtils.test(file_name, FileTest.EXISTS)) {
+            // Rename original away, then move tmp into place.
+            if (FileUtils.rename(file_name, backup_path) != 0) {
+                // Couldn't move original aside.
+                return false;
+            }
+        }
+        if (FileUtils.rename(tmp_path, file_name) != 0) {
+            // Restore backup.
+            try { FileUtils.rename(backup_path, file_name); } catch (Error e) { }
+            return false;
+        }
+        // Remove backup after successful replace.
+        try { FileUtils.remove(backup_path); } catch (Error e) { }
+        return true;
     }
 
     public void ensure_init() {

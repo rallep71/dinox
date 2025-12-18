@@ -75,11 +75,6 @@ public class StickerChooser : Popover {
         // Chat input sits at the bottom; prefer opening upwards.
         this.position = Gtk.PositionType.TOP;
 
-        // Our gtk4.vapi doesn't expose Gtk.Popover:modal, but the runtime property exists.
-        // Keep it modal so GTK captures outside clicks and (with autohide) dismisses it.
-        this.set("modal", true);
-
-
         // Allow dismissing by clicking outside of the popover.
         // User-reported: only Escape worked.
         this.autohide = true;
@@ -137,8 +132,6 @@ public class StickerChooser : Popover {
         // Configure pack popover.
         pack_popover.has_arrow = true;
         pack_popover.autohide = true;
-        // Keep it modal so outside clicks close it reliably.
-        pack_popover.set("modal", true);
 
         pack_list.selection_mode = Gtk.SelectionMode.SINGLE;
         pack_list.activate_on_single_click = true;

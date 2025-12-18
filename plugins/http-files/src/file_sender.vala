@@ -8,16 +8,30 @@ public class HttpFileSender : FileSender, Object {
     private StreamInteractor stream_interactor;
     private Database db;
     private Soup.Session session;
+    private GLib.MainContext soup_context;
     private HashMap<Account, long> max_file_sizes = new HashMap<Account, long>(Account.hash_func, Account.equals_func);
 
     public HttpFileSender(StreamInteractor stream_interactor, Database db) {
         this.stream_interactor = stream_interactor;
         this.db = db;
+
+        // libsoup is bound to the thread-default main context at creation time.
+        // Ensure we always use this session from the same context.
+        this.soup_context = GLib.MainContext.ref_thread_default();
         this.session = new Soup.Session();
 
         session.user_agent = @"Dino/$(Dino.get_short_version()) ";
         stream_interactor.stream_negotiated.connect(on_stream_negotiated);
         stream_interactor.get_module(MessageProcessor.IDENTITY).build_message_stanza.connect(check_add_sfs_element);
+    }
+
+    private async void ensure_soup_context() {
+        if (GLib.MainContext.get_thread_default() == soup_context) return;
+        soup_context.invoke(() => {
+            ensure_soup_context.callback();
+            return false;
+        });
+        yield;
     }
 
     public async FileSendData? prepare_send_file(Conversation conversation, FileTransfer file_transfer, FileMeta file_meta) throws FileSendError {
@@ -170,6 +184,8 @@ public class HttpFileSender : FileSender, Object {
     private async void upload(FileTransfer file_transfer, HttpFileSendData file_send_data, FileMeta file_meta) throws FileSendError {
         Xmpp.XmppStream? stream = stream_interactor.get_stream(file_transfer.account);
         if (stream == null) return;
+
+        yield ensure_soup_context();
 
         var put_message = new Soup.Message("PUT", file_send_data.url_up);
 

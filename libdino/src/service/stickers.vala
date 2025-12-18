@@ -24,6 +24,7 @@ public class Stickers : StreamInteractionModule, Object {
     private StreamInteractor stream_interactor;
     private Database db;
     private Soup.Session http;
+    private GLib.MainContext http_context;
 
     private const string STICKERS_NODE = Xmpp.Xep.Stickers.NS_URI;
     private const int THUMB_SIZE = 48;
@@ -36,10 +37,23 @@ public class Stickers : StreamInteractionModule, Object {
     private Stickers(StreamInteractor stream_interactor, Database db) {
         this.stream_interactor = stream_interactor;
         this.db = db;
+
+        // libsoup binds to the thread-default main context at creation time.
+        // Make sure we always use it from that same context.
+        this.http_context = GLib.MainContext.ref_thread_default();
         this.http = new Soup.Session();
         this.http.user_agent = @"Dino/$(Dino.get_short_version()) ";
 
         DirUtils.create_with_parents(get_stickers_dir(), 0700);
+    }
+
+    private async void ensure_http_context() {
+        if (GLib.MainContext.get_thread_default() == http_context) return;
+        http_context.invoke(() => {
+            ensure_http_context.callback();
+            return false;
+        });
+        yield;
     }
 
     public static string get_stickers_dir() {
@@ -295,6 +309,7 @@ public class Stickers : StreamInteractionModule, Object {
     }
 
     private async void download_to_file(string url, string dest_path) throws Error {
+        yield ensure_http_context();
         var msg = new Soup.Message("GET", url);
         var bytes = yield http.send_and_read_async(msg, GLib.Priority.LOW, null);
         if (msg.status_code < 200 || msg.status_code >= 300) {
@@ -497,6 +512,7 @@ public class Stickers : StreamInteractionModule, Object {
     }
 
     private async void upload_file_to_slot(string url_put, Gee.Map<string, string>? headers, File file, string? content_type, int64 size, string cert_domain) throws Error {
+        yield ensure_http_context();
         var put_message = new Soup.Message("PUT", url_put);
 #if SOUP_3_0
         put_message.accept_certificate.connect((peer_cert, errors) => { return ConnectionManager.on_invalid_certificate(cert_domain, peer_cert, errors); });

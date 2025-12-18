@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.8.6.1] - 2025-12-18
+
+### Fixed
+- **Flatpak startup stability**
+  - Fixed libsoup assertion crash by ensuring HTTP sessions are used on their creating `GLib.MainContext`.
+- **Sticker chooser (GTK4)**
+  - Removed invalid `modal` popover property usage to avoid runtime GObject criticals.
+- **Database (Qlite/SQLCipher)**
+  - Reduced log noise for plaintext fallback and added best-effort automatic plaintextencrypted migration when a key is provided.
+
 ## [0.8.6] - 2025-12-18
 
 ### Added
@@ -637,7 +647,8 @@ This release significantly improves 1:1 Jingle audio/video call interoperability
 - libdbusmenu integration for StatusNotifierItem/AppIndicator support
 - Meson build system with automated translations (50+ languages)
 
-[Unreleased]: https://github.com/rallep71/dinox/compare/v0.8.6...HEAD
+[Unreleased]: https://github.com/rallep71/dinox/compare/v0.8.6.1...HEAD
+[0.8.6.1]: https://github.com/rallep71/dinox/releases/tag/v0.8.6.1
 [0.8.6]: https://github.com/rallep71/dinox/releases/tag/v0.8.6
 [0.8.5]: https://github.com/rallep71/dinox/releases/tag/v0.8.5
 [0.7.3]: https://github.com/rallep71/dinox/releases/tag/v0.7.3

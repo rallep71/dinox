@@ -45,6 +45,8 @@ plugins/rtp/src/failed.pl
 # Flatpak builder
 .flatpak-builder/
 repo/
+flatpak-local-repo/
+flatpak-local-build/
 
 # Logs
 *.log
