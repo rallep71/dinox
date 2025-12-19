@@ -87,9 +87,35 @@ public class StickerChooser : Popover {
 
     private bool popover_open = false;
 
+    private bool busy = false;
+
     private string? current_pack_id;
 
     private string? pending_select_pack_name;
+
+    private void set_busy_state(bool busy, string? publish_label = null, string? remove_label = null, string? folder_label = null) {
+        this.busy = busy;
+
+        pack_button.sensitive = !busy;
+        import_button.sensitive = !busy;
+        folder_button.sensitive = !busy;
+        publish_button.sensitive = !busy;
+        remove_button.sensitive = !busy;
+        close_button.sensitive = !busy;
+
+        if (busy) {
+            if (publish_label != null) publish_button.label = publish_label;
+            if (remove_label != null) remove_button.label = remove_label;
+            if (folder_label != null) folder_button.label = folder_label;
+        } else {
+            publish_button.label = _("Publish");
+            remove_button.label = _("Remove");
+            folder_button.label = _("Folder…");
+            import_button.label = _("Import…");
+            update_publish_button_state();
+            update_remove_button_state();
+        }
+    }
 
     public StickerChooser(StreamInteractor stream_interactor) {
         this.stream_interactor = stream_interactor;
@@ -587,6 +613,8 @@ public class StickerChooser : Popover {
 
     private async void create_pack_from_folder(string folder_path, bool publish) {
         if (conversation == null) return;
+        if (busy) return;
+        set_busy_state(true, null, null, _("Creating…"));
         var stickers = stream_interactor.get_module(Dino.Stickers.IDENTITY);
         if (stickers == null) {
             Gtk.Window? parent = this.get_root() as Gtk.Window;
@@ -595,6 +623,7 @@ public class StickerChooser : Popover {
             err.default_response = "ok";
             err.close_response = "ok";
             if (parent != null) err.present(parent);
+            set_busy_state(false);
             return;
         }
 
@@ -622,6 +651,8 @@ public class StickerChooser : Popover {
             err.default_response = "ok";
             err.close_response = "ok";
             if (parent != null) err.present(parent);
+        } finally {
+            set_busy_state(false);
         }
     }
 
@@ -819,6 +850,7 @@ public class StickerChooser : Popover {
 
     private void on_publish_clicked() {
         if (conversation == null) return;
+        if (busy) return;
 
         if (selected_pack == 0) return;
         uint pack_index = selected_pack - 1;
@@ -826,8 +858,7 @@ public class StickerChooser : Popover {
 
         string pack_id = packs[(int) pack_index].pack_id;
 
-        publish_button.sensitive = false;
-        publish_button.label = _("Publishing…");
+        set_busy_state(true, _("Publishing…"));
 
         var stickers = stream_interactor.get_module(Dino.Stickers.IDENTITY);
         if (stickers == null) {
@@ -838,8 +869,7 @@ public class StickerChooser : Popover {
             err.close_response = "ok";
             if (parent != null) err.present(parent);
 
-            publish_button.label = _("Publish");
-            update_publish_button_state();
+            set_busy_state(false);
             return;
         }
 
@@ -865,13 +895,13 @@ public class StickerChooser : Popover {
                 if (parent != null) err.present(parent);
             }
 
-            publish_button.label = _("Publish");
-            update_publish_button_state();
+            set_busy_state(false);
         });
     }
 
     private void on_remove_clicked() {
         if (conversation == null) return;
+        if (busy) return;
 
         if (selected_pack == 0) return;
         uint pack_index = selected_pack - 1;
@@ -895,17 +925,38 @@ public class StickerChooser : Popover {
             if (response != "remove") return;
             var stickers = stream_interactor.get_module(Dino.Stickers.IDENTITY);
             if (stickers == null) return;
-            try {
-                stickers.remove_pack(conversation.account, pack_id);
-            } catch (Error e) {
-                var err = new Adw.AlertDialog(_("Failed to remove sticker pack"), e.message);
-                err.add_response("ok", _("OK"));
-                err.default_response = "ok";
-                err.close_response = "ok";
-                if (parent != null) err.present(parent);
-                return;
-            }
-            reload();
+
+            // Removing can be slow (recursive delete); run it off the UI thread so we can show feedback.
+            set_busy_state(true, null, _("Removing…"));
+            weak StickerChooser weak_self = this;
+            new Thread<void*>("remove-sticker-pack", () => {
+                string? error_message = null;
+                try {
+                    stickers.remove_pack(conversation.account, pack_id);
+                } catch (Error e) {
+                    error_message = e.message;
+                }
+
+                Idle.add(() => {
+                    StickerChooser? self = weak_self;
+                    if (self == null) return false;
+                    self.set_busy_state(false);
+
+                    if (error_message != null) {
+                        Gtk.Window? p = self.get_root() as Gtk.Window;
+                        var err = new Adw.AlertDialog(_("Failed to remove sticker pack"), error_message);
+                        err.add_response("ok", _("OK"));
+                        err.default_response = "ok";
+                        err.close_response = "ok";
+                        if (p != null) err.present(p);
+                    }
+
+                    self.reload();
+                    return false;
+                });
+
+                return null;
+            });
         });
 
         if (parent != null) {

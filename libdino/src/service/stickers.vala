@@ -29,6 +29,62 @@ public class Stickers : StreamInteractionModule, Object {
     private const string STICKERS_NODE = Xmpp.Xep.Stickers.NS_URI;
     private const int THUMB_SIZE = 48;
 
+    private static bool bytes_contains_ascii_ci(uint8[] data, string needle) {
+        if (needle == null || needle == "") return false;
+        int nlen = needle.length;
+        if (nlen <= 0) return false;
+        if (data.length < (size_t) nlen) return false;
+
+        for (int i = 0; i <= (int) data.length - nlen; i++) {
+            bool match = true;
+            for (int j = 0; j < nlen; j++) {
+                uint8 b = data[i + j];
+                char c = (char) b;
+                char nc = needle[j];
+                // ASCII case-insensitive compare.
+                if (c >= 'A' && c <= 'Z') c = (char) (c - 'A' + 'a');
+                if (nc >= 'A' && nc <= 'Z') nc = (char) (nc - 'A' + 'a');
+                if (c != nc) {
+                    match = false;
+                    break;
+                }
+            }
+            if (match) return true;
+        }
+        return false;
+    }
+
+    private static bool looks_like_svg_file(string path) {
+        if (path == null || path == "") return false;
+
+        string lower_path = path.down();
+        if (lower_path.has_suffix(".svg") || lower_path.has_suffix(".svgz")) {
+            return true;
+        }
+
+        try {
+            File f = File.new_for_path(path);
+            FileInputStream s = f.read();
+            // Read only a small prefix; enough for XML/SVG headers.
+            uint8[] buf = new uint8[8192];
+            ssize_t n = s.read(buf, null);
+            try { s.close(); } catch (Error e) { }
+            if (n <= 0) return false;
+
+            // Slice to actual read length.
+            uint8[] head = buf[0:(int) n];
+
+            // Common SVG signatures.
+            if (bytes_contains_ascii_ci(head, "<svg")) return true;
+            if (bytes_contains_ascii_ci(head, "<!doctype svg")) return true;
+            if (bytes_contains_ascii_ci(head, "http://www.w3.org/2000/svg")) return true;
+        } catch (Error e) {
+            // If we can't read it, don't assume SVG.
+        }
+
+        return false;
+    }
+
     public static void start(StreamInteractor stream_interactor, Database db) {
         var m = new Stickers(stream_interactor, db);
         stream_interactor.add_module(m);
@@ -102,6 +158,13 @@ public class Stickers : StreamInteractionModule, Object {
                     return;
             }
         } else {
+            return;
+        }
+
+        // Do not trust the declared mime-type fully: some packs contain SVG data mislabeled as
+        // image/png or similar. Loading SVG via gdk-pixbuf/librsvg has been observed to crash in
+        // Flatpak runtimes.
+        if (looks_like_svg_file(item.local_path)) {
             return;
         }
 
@@ -639,6 +702,7 @@ public class Stickers : StreamInteractionModule, Object {
             case "image/gif": return ".gif";
             case "image/webp": return ".webp";
             case "image/jpeg": return ".jpg";
+            case "image/svg+xml": return ".svg";
             default: return "";
         }
     }

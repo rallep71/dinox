@@ -13,6 +13,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Sticker SVG crash (Flatpak)**
   - Avoid decoding/displaying SVG stickers in the UI (sticker chooser thumbnails + inline sticker rendering) to prevent gdk-pixbuf SVG loader crashes.
 
+## [0.8.6.4] - 2025-12-20
+
+- Prevent crashes on sticker pack import/publish caused by SVG data mislabeled as raster images by sniffing file contents and skipping SVG thumbnail generation.
+- Improve feedback for long-running sticker pack actions by disabling controls while operations are running.
+
 ## [0.8.6.2] - 2025-12-18
 
 ### Fixed
@@ -661,7 +666,8 @@ This release significantly improves 1:1 Jingle audio/video call interoperability
 - libdbusmenu integration for StatusNotifierItem/AppIndicator support
 - Meson build system with automated translations (50+ languages)
 
-[Unreleased]: https://github.com/rallep71/dinox/compare/v0.8.6.3...HEAD
+[Unreleased]: https://github.com/rallep71/dinox/compare/v0.8.6.4...HEAD
+[0.8.6.4]: https://github.com/rallep71/dinox/releases/tag/v0.8.6.4
 [0.8.6.3]: https://github.com/rallep71/dinox/releases/tag/v0.8.6.3
 [0.8.6.2]: https://github.com/rallep71/dinox/releases/tag/v0.8.6.2
 [0.8.6.1]: https://github.com/rallep71/dinox/releases/tag/v0.8.6.1
