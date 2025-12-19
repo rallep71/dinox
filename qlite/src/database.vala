@@ -98,7 +98,7 @@ public class Database {
         string tmp_path = file_name + ".enc-tmp";
 
         // Best-effort cleanup of old tmp.
-        try { FileUtils.remove(tmp_path); } catch (Error e) { }
+        FileUtils.remove(tmp_path);
 
         // Escape key for SQL literal.
         string escaped_key = escape_single_quotes(key);
@@ -118,7 +118,7 @@ public class Database {
         // Replace original database file.
         // Note: keep the original if replacement fails.
         string backup_path = file_name + ".bak";
-        try { FileUtils.remove(backup_path); } catch (Error e) { }
+        FileUtils.remove(backup_path);
 
         // Release the current handle before replacing on disk (best-effort).
         // In Vala, clearing the reference drops the underlying handle.
@@ -133,11 +133,11 @@ public class Database {
         }
         if (FileUtils.rename(tmp_path, file_name) != 0) {
             // Restore backup.
-            try { FileUtils.rename(backup_path, file_name); } catch (Error e) { }
+            FileUtils.rename(backup_path, file_name);
             return false;
         }
         // Remove backup after successful replace.
-        try { FileUtils.remove(backup_path); } catch (Error e) { }
+        FileUtils.remove(backup_path);
         return true;
     }
 
