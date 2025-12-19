@@ -44,17 +44,40 @@ public class StickerChooser : Popover {
     private const int THUMB_SIZE = 48;
     private const int THUMB_CACHE_LIMIT = 256;
 
+    private static bool is_supported_raster_sticker_source(string source_path, string? media_type) {
+        string lower_path = source_path.down();
+        if (lower_path.has_suffix(".svg") || lower_path.has_suffix(".svgz")) {
+            return false;
+        }
+
+        if (media_type != null && media_type != "") {
+            string mt = media_type.down();
+            // Be conservative: avoid SVG and only allow common raster formats.
+            if (mt == "image/png" || mt == "image/jpeg" || mt == "image/jpg" || mt == "image/webp" || mt == "image/gif") {
+                return true;
+            }
+            if (mt.has_prefix("image/svg")) {
+                return false;
+            }
+        }
+
+        // Best-effort fallback when mime-type is missing/incorrect.
+        return lower_path.has_suffix(".png") || lower_path.has_suffix(".jpg") || lower_path.has_suffix(".jpeg") || lower_path.has_suffix(".webp") || lower_path.has_suffix(".gif");
+    }
+
     private class ThumbJob {
         public WeakRef picture_weak;
         public string source_path;
         public string? thumb_path;
         public uint generation;
+        public bool allow_decode;
 
-        public ThumbJob(Gtk.Picture picture, string source_path, string? thumb_path, uint generation) {
+        public ThumbJob(Gtk.Picture picture, string source_path, string? thumb_path, uint generation, bool allow_decode) {
             this.picture_weak = WeakRef(picture);
             this.source_path = source_path;
             this.thumb_path = thumb_path;
             this.generation = generation;
+            this.allow_decode = allow_decode;
         }
     }
 
@@ -323,17 +346,19 @@ public class StickerChooser : Popover {
                 // Decode/scaling can be expensive (especially animated WebP). Do it off the UI thread.
                 Pixbuf? pixbuf = null;
                 try {
-                    if (job.thumb_path != null && job.thumb_path != "" && FileUtils.test(job.thumb_path, FileTest.EXISTS)) {
-                        pixbuf = new Pixbuf.from_file(job.thumb_path);
-                    } else {
-                        pixbuf = new Pixbuf.from_file_at_scale(job.source_path, THUMB_SIZE, THUMB_SIZE, true);
-                        pixbuf = pixbuf.apply_embedded_orientation();
-                        if (job.thumb_path != null && job.thumb_path != "") {
-                            try {
-                                DirUtils.create_with_parents(Path.get_dirname(job.thumb_path), 0700);
-                                pixbuf.save(job.thumb_path, "png");
-                            } catch (Error e) {
-                                // best effort
+                    if (job.allow_decode) {
+                        if (job.thumb_path != null && job.thumb_path != "" && FileUtils.test(job.thumb_path, FileTest.EXISTS)) {
+                            pixbuf = new Pixbuf.from_file(job.thumb_path);
+                        } else {
+                            pixbuf = new Pixbuf.from_file_at_scale(job.source_path, THUMB_SIZE, THUMB_SIZE, true);
+                            pixbuf = pixbuf.apply_embedded_orientation();
+                            if (job.thumb_path != null && job.thumb_path != "") {
+                                try {
+                                    DirUtils.create_with_parents(Path.get_dirname(job.thumb_path), 0700);
+                                    pixbuf.save(job.thumb_path, "png");
+                                } catch (Error e) {
+                                    // best effort
+                                }
                             }
                         }
                     }
@@ -370,8 +395,9 @@ public class StickerChooser : Popover {
                         }
                         picture.paintable = tex;
                     } else {
-                        // Best-effort fallback.
-                        picture.file = File.new_for_path(job.thumb_path != null && job.thumb_path != "" ? job.thumb_path : job.source_path);
+                        // Avoid triggering a second decode on the UI thread.
+                        picture.paintable = null;
+                        picture.file = null;
                     }
                     return false;
                 });
@@ -953,7 +979,12 @@ public class StickerChooser : Popover {
                 disk_thumb = null;
             }
 
-            chooser.thumb_queue.push(new ThumbJob(picture, it.local_path, Dino.Stickers.get_thumbnail_path_for_item(it), generation));
+            // Avoid decoding SVG/non-raster stickers (gdk-pixbuf SVG loader is unstable in some runtimes).
+            if (!StickerChooser.is_supported_raster_sticker_source(it.local_path, it.media_type)) {
+                return;
+            }
+
+            chooser.thumb_queue.push(new ThumbJob(picture, it.local_path, Dino.Stickers.get_thumbnail_path_for_item(it), generation, true));
         }
 
         public void unbind_item() {
