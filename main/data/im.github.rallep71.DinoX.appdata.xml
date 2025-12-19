@@ -191,6 +191,15 @@
   <url type="translate">https://hosted.weblate.org/projects/dino/</url>
   <launchable type="desktop-id">im.github.rallep71.DinoX.desktop</launchable>
   <releases>
+    <release date="2025-12-18" version="0.8.6.2">
+      <description>
+        <p>Hotfix for sticker import crashes and Flatpak localization.</p>
+        <ul>
+          <li>Prevents crashes during sticker pack import by skipping thumbnail generation for non-raster images (e.g. SVG).</li>
+          <li>Ships translations in the main Flatpak app (no separate Locale extension required for GitHub bundle installs).</li>
+        </ul>
+      </description>
+    </release>
     <release date="2025-12-18" version="0.8.6.1">
       <description>
         <p>Hotfix for packaging/runtime stability.</p>

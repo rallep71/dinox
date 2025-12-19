@@ -33,6 +33,7 @@ perf.data
 perf.data.old
 .worktrees/
 Sticker/
+downloads/
 
 # OS specific
 .DS_Store

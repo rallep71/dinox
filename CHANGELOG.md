@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.8.6.2] - 2025-12-18
+
+### Fixed
+- **Sticker pack import stability**
+  - Avoid generating thumbnails for non-raster sticker types (e.g. SVG) during import to prevent Flatpak crashes.
+- **Flatpak translations (GitHub bundle installs)**
+  - Ship translations in the main app by disabling `separate-locales` in the Flatpak manifest.
+
 ## [0.8.6.1] - 2025-12-18
 
 ### Fixed
@@ -647,7 +655,8 @@ This release significantly improves 1:1 Jingle audio/video call interoperability
 - libdbusmenu integration for StatusNotifierItem/AppIndicator support
 - Meson build system with automated translations (50+ languages)
 
-[Unreleased]: https://github.com/rallep71/dinox/compare/v0.8.6.1...HEAD
+[Unreleased]: https://github.com/rallep71/dinox/compare/v0.8.6.2...HEAD
+[0.8.6.2]: https://github.com/rallep71/dinox/releases/tag/v0.8.6.2
 [0.8.6.1]: https://github.com/rallep71/dinox/releases/tag/v0.8.6.1
 [0.8.6]: https://github.com/rallep71/dinox/releases/tag/v0.8.6
 [0.8.5]: https://github.com/rallep71/dinox/releases/tag/v0.8.5

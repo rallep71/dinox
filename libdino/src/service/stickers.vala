@@ -86,6 +86,25 @@ public class Stickers : StreamInteractionModule, Object {
     private static void maybe_generate_thumbnail(string pack_id, StickerItem item) {
         if (item.local_path == null || item.local_path == "") return;
 
+        // Thumbnail generation is best-effort. Some loaders (notably SVG via librsvg)
+        // have caused crashes in the Flatpak runtime when importing sticker packs.
+        // Skip thumbnailing for non-raster/unknown types; the UI can still generate
+        // thumbnails lazily when needed.
+        if (item.media_type != null && item.media_type != "") {
+            switch (item.media_type) {
+                case "image/png":
+                case "image/jpeg":
+                case "image/jpg":
+                case "image/webp":
+                case "image/gif":
+                    break;
+                default:
+                    return;
+            }
+        } else {
+            return;
+        }
+
         string? thumb_path = get_thumbnail_path_for_item(item);
         if (thumb_path == null || thumb_path == "") return;
         if (FileUtils.test(thumb_path, FileTest.EXISTS)) return;

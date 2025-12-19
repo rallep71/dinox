@@ -4,6 +4,7 @@
     "runtime-version": "48",
     "sdk": "org.gnome.Sdk",
     "command": "dinox",
+    "separate-locales": false,
     "add-extensions": {
         "org.freedesktop.Platform.ffmpeg-full": {
             "directory": "lib/ffmpeg",
