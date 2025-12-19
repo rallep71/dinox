@@ -5,7 +5,6 @@
   <name translate="no">Dino</name>
   <summary>Modern XMPP chat client</summary>
   <icon type="stock">im.github.rallep71.DinoX</icon>
-  <icon type="remote" width="128" height="128">https://dino.im/img/appdata/icon-dino-0.4-128x128.png</icon>
   <description>
     <p>Dino is a modern open-source chat client for the desktop. It focuses on providing a clean and reliable Jabber/XMPP experience while having your privacy in mind.</p>
     <p>It supports end-to-end encryption with OMEMO and OpenPGP and allows configuring privacy-related features such as read receipts and typing notifications.</p>

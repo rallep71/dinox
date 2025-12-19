@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.8.6.9] - 2025-12-19
+
+### Changed
+- **Branding**
+  - Replaced the DinoX logo/icon across the app (bundled icons), README, and website assets.
+
+### Fixed
+- **UI markup helper**
+  - Avoid `string_slice` CRITICALs by guarding against invalid fallback slice ranges.
+
+### Added
+- **Calls (debug only)**
+  - Extra VoiceProcessor init debug logging (AEC/NS/AGC/VAD flags) when debug logging is enabled.
+
 ## [0.8.6.8] - 2025-12-19
 
 ### Fixed
@@ -706,7 +720,8 @@ This release significantly improves 1:1 Jingle audio/video call interoperability
 - libdbusmenu integration for StatusNotifierItem/AppIndicator support
 - Meson build system with automated translations (50+ languages)
 
-[Unreleased]: https://github.com/rallep71/dinox/compare/v0.8.6.8...HEAD
+[Unreleased]: https://github.com/rallep71/dinox/compare/v0.8.6.9...HEAD
+[0.8.6.9]: https://github.com/rallep71/dinox/releases/tag/v0.8.6.9
 [0.8.6.8]: https://github.com/rallep71/dinox/releases/tag/v0.8.6.8
 [0.8.6.7]: https://github.com/rallep71/dinox/releases/tag/v0.8.6.7
 [0.8.6.6]: https://github.com/rallep71/dinox/releases/tag/v0.8.6.6

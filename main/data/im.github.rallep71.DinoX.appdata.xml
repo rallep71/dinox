@@ -45,7 +45,6 @@
   <summary xml:lang="ca">Client de xat XMPP modern</summary>
   <summary xml:lang="ar">عميل دردشة XMPP عصري</summary>
   <icon type="stock">im.github.rallep71.DinoX</icon>
-  <icon type="remote" width="128" height="128">https://dino.im/img/appdata/icon-dino-0.4-128x128.png</icon>
   <description>
     <p>Dino is a modern open-source chat client for the desktop. It focuses on providing a clean and reliable Jabber/XMPP experience while having your privacy in mind.</p>
     <p xml:lang="zh-Hant-TW">Dino 是一個爲桌面打造的現代化開放原始碼用戶端聊天軟件。它致力於提供一份簡洁而可靠的 Jabber/XMPP 體驗，同時亦尊重您的私隱。</p>
@@ -191,6 +190,16 @@
   <url type="translate">https://hosted.weblate.org/projects/dino/</url>
   <launchable type="desktop-id">im.github.rallep71.DinoX.desktop</launchable>
   <releases>
+    <release version="0.8.6.9" date="2025-12-19">
+      <description>
+        <p>Branding and stability update.</p>
+        <ul>
+          <li>Update the DinoX logo/icon across bundled icons and website assets.</li>
+          <li>Fix occasional string slicing CRITICALs when adjusting fallback markup ranges.</li>
+          <li>Add extra (debug-only) VoiceProcessor init logging to help analyze echo behavior.</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.8.6.8" date="2025-12-19">
       <description>
         <p>Hotfix.</p>

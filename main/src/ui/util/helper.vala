@@ -368,8 +368,17 @@ public static string parse_add_markup_theme(string s_, string? highlight_word, b
         foreach (var fallback in fallbacks) {
             if (fallback.ns_uri == Xep.Replies.NS_URI && contains_quote) {
                 foreach (var fallback_location in fallback.locations) {
-                    processed_text = processed_text[0:processed_text.index_of_nth_char(fallback_location.from_char)] +
-                            processed_text[processed_text.index_of_nth_char(fallback_location.to_char):processed_text.length];
+                    if (fallback_location.from_char < 0 || fallback_location.to_char < 0 || fallback_location.from_char > fallback_location.to_char) {
+                        continue;
+                    }
+
+                    int from_index = processed_text.index_of_nth_char(fallback_location.from_char);
+                    int to_index = processed_text.index_of_nth_char(fallback_location.to_char);
+                    if (from_index < 0 || to_index < 0 || from_index > to_index || to_index > processed_text.length) {
+                        continue;
+                    }
+
+                    processed_text = processed_text[0:from_index] + processed_text[to_index:processed_text.length];
 
                     int length = fallback_location.to_char - fallback_location.from_char;
                     foreach (Xep.MessageMarkup.Span span in markups) {

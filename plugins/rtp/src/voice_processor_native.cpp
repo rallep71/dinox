@@ -1,6 +1,10 @@
 #include <algorithm>
 #include <gst/gst.h>
 #include <gst/audio/audio.h>
+
+#ifndef G_LOG_DOMAIN
+#define G_LOG_DOMAIN "rtp"
+#endif
 #if defined(WEBRTC0)
 #include <webrtc/modules/audio_processing/include/audio_processing.h>
 #include <webrtc/modules/interface/module_common_types.h>
@@ -70,6 +74,16 @@ extern "C" void *dino_plugins_rtp_voice_processor_init_native(gint stream_delay)
     apm->gain_control()->Enable(true);
     apm->voice_detection()->set_likelihood(webrtc::VoiceDetection::Likelihood::kLowLikelihood);
     apm->voice_detection()->Enable(true);
+
+    g_debug("voice_processor_native.cpp: init (WEBRTC0): rate=%d channels=%d stream_delay=%dms aec=%d ns=%d agc=%d vad=%d highpass=%d", \
+            SAMPLE_RATE,
+            SAMPLE_CHANNELS,
+            native->stream_delay,
+            apm->echo_cancellation()->is_enabled(),
+            apm->noise_suppression()->is_enabled(),
+            apm->gain_control()->is_enabled(),
+            apm->voice_detection()->is_enabled(),
+            apm->high_pass_filter()->is_enabled());
 #elif defined(WEBRTC1) || defined(WEBRTC2)
     webrtc::AudioProcessing::Config config;
     rtc::scoped_refptr<webrtc::AudioProcessing> apm = webrtc::AudioProcessingBuilder().Create();
@@ -88,6 +102,24 @@ extern "C" void *dino_plugins_rtp_voice_processor_init_native(gint stream_delay)
     config.voice_detection.enabled = true;
 #endif
     apm->ApplyConfig(config);
+
+    g_debug("voice_processor_native.cpp: init (WEBRTC1/2): rate=%d channels=%d stream_delay=%dms aec=%d ns=%d(ns_level=%d) agc=%d(target_dbfs=%d comp_gain_db=%d limiter=%d) vad=%d highpass=%d", \
+            SAMPLE_RATE,
+            SAMPLE_CHANNELS,
+            native->stream_delay,
+            (int) config.echo_canceller.enabled,
+            (int) config.noise_suppression.enabled,
+            (int) config.noise_suppression.level,
+            (int) config.gain_controller1.enabled,
+            (int) config.gain_controller1.target_level_dbfs,
+            (int) config.gain_controller1.compression_gain_db,
+            (int) config.gain_controller1.enable_limiter,
+#ifdef WEBRTC1
+            (int) config.voice_detection.enabled,
+#else
+            -1,
+#endif
+            (int) config.high_pass_filter.enabled);
 #endif
     return native;
 }

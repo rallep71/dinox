@@ -23,7 +23,7 @@
     <category rdf:resource="http://api.gnome.org/doap-extensions#apps" />
     <license rdf:resource="http://usefulinc.com/doap/licenses/gplv3" />
 
-    <schema:logo rdf:resource="https://dino.im/img/logo.svg" />
+    <schema:logo rdf:resource="https://dinox.handwerker.jetzt/assets/icon.svg" />
     <schema:screenshot rdf:resource="https://dino.im/img/screenshot1.png" />
     <schema:screenshot rdf:resource="https://dino.im/img/screenshot3.png" />
     <schema:screenshot rdf:resource="https://dino.im/img/screenshot2.png" />
