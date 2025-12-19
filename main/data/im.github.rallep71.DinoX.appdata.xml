@@ -199,6 +199,14 @@
         </ul>
       </description>
     </release>
+      <release version="0.8.6.8" date="2025-12-19">
+        <description>
+          <p>Hotfix.</p>
+          <ul>
+            <li>Fix a Flatpak startup crash triggered by re-entrant recursion in the HTTP file upload plugin.</li>
+          </ul>
+        </description>
+      </release>
     <release date="2025-12-19" version="0.8.6.6">
       <description>
         <p>Security and stability update: encrypted local data is now mandatory.</p>

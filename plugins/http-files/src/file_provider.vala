@@ -43,13 +43,17 @@ public class FileProvider : Dino.FileProvider, Object {
 
     private async void ensure_soup_context() {
         // `get_thread_default()` may be null even while running on the default main
-        // context. `invoke()` executes callbacks immediately if the context is already
-        // owned by the current thread; using `is_owner()` avoids re-entrant recursion.
+        // context. `MainContext.invoke()` may execute callbacks immediately in some
+        // situations; if that happens before we reach `yield`, it can cause re-entrant
+        // recursion in Vala async state machines. Use an explicit Source attached to
+        // the desired context to guarantee asynchronous resumption.
         if (soup_context.is_owner()) return;
-        soup_context.invoke(() => {
+        var idle = new GLib.IdleSource();
+        idle.set_callback(() => {
             ensure_soup_context.callback();
-            return false;
+            return GLib.Source.REMOVE;
         });
+        idle.attach(soup_context);
         yield;
     }
 
