@@ -30,6 +30,10 @@ DinoX features System Tray support, MUJI group video calls, voice messages, mess
 |---------|-------------|
 | **OMEMO Encryption** | End-to-end encryption for all messages and files |
 | **OpenPGP Encryption** | XEP-0373 with key management, generation & deletion |
+| **Encrypted Local Database** | Local data is stored in an encrypted SQLCipher database (password required at startup) |
+| **Change Database Password** | Change the local database password via Preferences (SQLCipher rekey) |
+| **Panic Wipe** | Quickly wipe local DinoX data (`Ctrl+Shift+Alt+P`) and exit (also triggered after 3 failed unlock attempts) |
+| **OpenPGP Keyring Isolation** | Uses an app-scoped `GNUPGHOME` so Panic Wipe removes OpenPGP material |
 | **Disappearing Messages** | Auto-delete messages after 15min, 30min, 1h, 24h, 7d or 30d |
 | **MUJI Group Calls** | Multi-party audio/video conferences (mesh-based) |
 | **1:1 Voice & Video** | Interoperable Jingle calls (ICE-UDP + DTLS-SRTP, Opus/VP8 baseline) |
@@ -90,6 +94,14 @@ sudo apt install build-essential meson ninja-build valac \
 ```
 
 For a complete, up-to-date build guide (including Fedora/Arch and call stack notes), see [BUILD.md](BUILD.md).
+
+## Local data encryption
+
+DinoX stores your local data (accounts, messages, settings, cached metadata) in an **encrypted SQLCipher database**.
+
+- You will be prompted for a **password on startup**.
+- If you forget the password, the database cannot be recovered.
+- A **Panic Wipe** action is available via the app menu and the shortcut `Ctrl+Shift+Alt+P`.
 
 ## Audio/Video calling notes
 
