@@ -191,6 +191,14 @@
   <url type="translate">https://hosted.weblate.org/projects/dino/</url>
   <launchable type="desktop-id">im.github.rallep71.DinoX.desktop</launchable>
   <releases>
+    <release version="0.8.6.8" date="2025-12-19">
+      <description>
+        <p>Hotfix.</p>
+        <ul>
+          <li>Fix a Flatpak startup crash triggered by re-entrant recursion in the HTTP file upload plugin.</li>
+        </ul>
+      </description>
+    </release>
     <release date="2025-12-19" version="0.8.6.7">
       <description>
         <p>Hotfix for build stability.</p>
@@ -199,14 +207,6 @@
         </ul>
       </description>
     </release>
-      <release version="0.8.6.8" date="2025-12-19">
-        <description>
-          <p>Hotfix.</p>
-          <ul>
-            <li>Fix a Flatpak startup crash triggered by re-entrant recursion in the HTTP file upload plugin.</li>
-          </ul>
-        </description>
-      </release>
     <release date="2025-12-19" version="0.8.6.6">
       <description>
         <p>Security and stability update: encrypted local data is now mandatory.</p>
@@ -553,8 +553,6 @@
     <name>Dino Development Team</name>
     <url>https://dino.im/</url>
   </developer>
-  <!-- Deprecated: -->
-  <developer_name>Dino Development Team</developer_name>
   <screenshots>
     <screenshot type="default">
       <image type="source" width="2244" height="1644" scale="2">https://dino.im/img/appdata/screenshot-dino-0.4-main-2244x1644@2.png</image>
