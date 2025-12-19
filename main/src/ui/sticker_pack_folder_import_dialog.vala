@@ -14,7 +14,7 @@ public class StickerPackFolderImportDialog : Adw.Window {
 
     private Label title_label = new Label("") { xalign = 0.0f, wrap = true };
     private Label summary_label = new Label("") { xalign = 0.0f, wrap = true, selectable = true };
-    private Spinner spinner = new Spinner() { spinning = false, visible = false };
+    private Gtk.Spinner spinner = new Gtk.Spinner() { spinning = false, visible = false };
 
     private Button cancel_button = new Button.with_label(_("Cancel"));
     private Button local_button = new Button.with_label(_("Local only"));

@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.8.6.7] - 2025-12-19
+
+### Fixed
+- **Build (Flatpak/AppImage)**
+  - Fix Vala compile error by disambiguating `Spinner` between `Gtk.Spinner` and `Adw.Spinner`.
+
 ## [0.8.6.6] - 2025-12-19
 
 ### Security
@@ -694,7 +700,8 @@ This release significantly improves 1:1 Jingle audio/video call interoperability
 - libdbusmenu integration for StatusNotifierItem/AppIndicator support
 - Meson build system with automated translations (50+ languages)
 
-[Unreleased]: https://github.com/rallep71/dinox/compare/v0.8.6.6...HEAD
+[Unreleased]: https://github.com/rallep71/dinox/compare/v0.8.6.7...HEAD
+[0.8.6.7]: https://github.com/rallep71/dinox/releases/tag/v0.8.6.7
 [0.8.6.6]: https://github.com/rallep71/dinox/releases/tag/v0.8.6.6
 [0.8.6.4]: https://github.com/rallep71/dinox/releases/tag/v0.8.6.4
 [0.8.6.3]: https://github.com/rallep71/dinox/releases/tag/v0.8.6.3

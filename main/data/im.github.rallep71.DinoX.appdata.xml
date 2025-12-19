@@ -191,6 +191,14 @@
   <url type="translate">https://hosted.weblate.org/projects/dino/</url>
   <launchable type="desktop-id">im.github.rallep71.DinoX.desktop</launchable>
   <releases>
+    <release date="2025-12-19" version="0.8.6.7">
+      <description>
+        <p>Hotfix for build stability.</p>
+        <ul>
+          <li>Fix Vala build failure in Flatpak/AppImage caused by ambiguous Spinner reference (Gtk vs libadwaita).</li>
+        </ul>
+      </description>
+    </release>
     <release date="2025-12-19" version="0.8.6.6">
       <description>
         <p>Security and stability update: encrypted local data is now mandatory.</p>

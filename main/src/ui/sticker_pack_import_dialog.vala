@@ -22,7 +22,7 @@ public class StickerPackImportDialog : Adw.Window {
     private AccountComboBox account_combo = new AccountComboBox();
     private Label title_label = new Label("") { xalign = 0.0f, wrap = true };
     private Label summary_label = new Label("") { xalign = 0.0f, wrap = true };
-    private Spinner spinner = new Spinner() { spinning = false, visible = true };
+    private Gtk.Spinner spinner = new Gtk.Spinner() { spinning = false, visible = true };
     private Button import_button = new Button.with_label(_("Import")) { sensitive = false };
     private Button copy_uri_button = new Button.with_label(_("Copy Share URI")) { sensitive = false };
 
