@@ -22,6 +22,11 @@ dependencies = [
     meson.get_compiler('vala').find_library('posix'),
 ]
 
+have_x11 = dep_gtk4_x11.found() and dep_x11.found()
+if have_x11
+    dependencies += [dep_gtk4_x11, dep_x11]
+endif
+
 # Systray uses StatusNotifierItem via D-Bus (no external dependencies needed)
 sources = files(
     'src/main.vala',
@@ -107,6 +112,7 @@ sources = files(
     'src/ui/util/sizing_bin.vala',
     'src/ui/systray.vala',
     'src/ui/sticker_pack_import_dialog.vala',
+    'src/ui/sticker_pack_folder_import_dialog.vala',
     'src/ui/widgets/avatar_picture.vala',
     'src/ui/widgets/date_separator.vala',
     'src/ui/widgets/fixed_ratio_picture.vala',
@@ -141,6 +147,9 @@ vala_args = [
     '--vapidir=' + (meson.current_source_dir() / 'vapi'),
 ]
 message('VAPI DIR: ' + (meson.current_source_dir() / 'vapi'))
+if have_x11
+    vala_args += ['-D', 'HAVE_X11']
+endif
 if dep_gtk4.version() == 'unknown' or dep_gtk4.version().version_compare('>=4.6')
     vala_args += ['-D', 'GTK_4_6']
 endif

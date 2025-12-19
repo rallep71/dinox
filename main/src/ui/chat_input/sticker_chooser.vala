@@ -26,6 +26,7 @@ public class StickerChooser : Popover {
     private Gtk.Button folder_button = new Gtk.Button.with_label(_("Folder…"));
     private Gtk.Button publish_button = new Gtk.Button.with_label(_("Publish"));
     private Gtk.Button remove_button = new Gtk.Button.with_label(_("Remove"));
+    private Gtk.Spinner busy_spinner = new Gtk.Spinner() { spinning = false, visible = false };
     private GLib.ListStore sticker_store = new GLib.ListStore(typeof(Dino.Stickers.StickerItem));
     private Gtk.GridView grid;
     private Gtk.ScrolledWindow scroller = new Gtk.ScrolledWindow();
@@ -96,12 +97,16 @@ public class StickerChooser : Popover {
     private void set_busy_state(bool busy, string? publish_label = null, string? remove_label = null, string? folder_label = null) {
         this.busy = busy;
 
+        busy_spinner.visible = busy;
+        busy_spinner.spinning = busy;
+
         pack_button.sensitive = !busy;
         import_button.sensitive = !busy;
         folder_button.sensitive = !busy;
         publish_button.sensitive = !busy;
         remove_button.sensitive = !busy;
-        close_button.sensitive = !busy;
+        // Allow closing the popover while background operations run.
+        close_button.sensitive = true;
 
         if (busy) {
             if (publish_label != null) publish_button.label = publish_label;
@@ -224,6 +229,7 @@ public class StickerChooser : Popover {
         header_box.append(folder_button);
         header_box.append(publish_button);
         header_box.append(remove_button);
+        header_box.append(busy_spinner);
         header_box.append(close_button);
 
         var factory = new Gtk.SignalListItemFactory();
@@ -268,13 +274,20 @@ public class StickerChooser : Popover {
 
         content_stack.hexpand = true;
         content_stack.vexpand = true;
+        // Important for UX: when switching to the xmpp: import view, don't keep
+        // the large grid height; size to the visible child instead.
+        content_stack.hhomogeneous = false;
+        content_stack.vhomogeneous = false;
         content_stack.add_named(scroller, "grid");
         content_stack.add_named(empty_label, "empty");
 
+        // Compact import view: minimal vertical padding around the entry.
         import_box.hexpand = true;
-        import_box.vexpand = true;
-        import_box.halign = Align.CENTER;
-        import_box.valign = Align.CENTER;
+        import_box.vexpand = false;
+        import_box.halign = Align.FILL;
+        import_box.valign = Align.START;
+        import_box.margin_top = 12;
+        import_box.margin_bottom = 12;
 
         import_hint_label.label = _("Paste an xmpp: sticker pack link and press Enter.");
         import_hint_label.wrap = true;
@@ -575,6 +588,8 @@ public class StickerChooser : Popover {
         if (conversation == null) return;
 
         Gtk.Window? parent = this.get_root() as Gtk.Window;
+        // Close the popover before opening dialogs; otherwise it keeps an input grab.
+        this.popdown();
         var chooser = new Gtk.FileDialog();
         chooser.title = _("Select sticker folder");
         chooser.accept_label = _("Select");
@@ -585,75 +600,26 @@ public class StickerChooser : Popover {
                 string? path = folder.get_path();
                 if (path == null || path == "") return;
 
-                var dialog = new Adw.AlertDialog(
-                    _("Create sticker pack"),
-                    _("Do you want to keep this pack local, or also publish it so you can share an xmpp: link?")
-                );
-                dialog.add_response("cancel", _("Cancel"));
-                dialog.add_response("local", _("Local only"));
-                dialog.add_response("publish", _("Publish & copy link"));
-                dialog.set_response_appearance("publish", Adw.ResponseAppearance.SUGGESTED);
-                dialog.default_response = "publish";
-                dialog.close_response = "cancel";
-
-                dialog.response.connect((response) => {
-                    if (response == "local") {
-                        create_pack_from_folder.begin(path, false);
-                    } else if (response == "publish") {
-                        create_pack_from_folder.begin(path, true);
-                    }
+                var dialog = new Dino.Ui.StickerPackFolderImportDialog(stream_interactor, conversation.account, path);
+                if (parent != null) dialog.set_transient_for(parent);
+                dialog.hide_on_close = false;
+                dialog.pack_created.connect((pack_name) => {
+                    pending_select_pack_name = pack_name;
+                });
+                dialog.close_request.connect(() => {
+                    dialog.destroy();
+                    reload();
+                    return true;
                 });
 
-                if (parent != null) dialog.present(parent);
+                Idle.add(() => {
+                    dialog.present();
+                    return false;
+                });
             } catch (Error e) {
                 // ignore cancel
             }
         });
-    }
-
-    private async void create_pack_from_folder(string folder_path, bool publish) {
-        if (conversation == null) return;
-        if (busy) return;
-        set_busy_state(true, null, null, _("Creating…"));
-        var stickers = stream_interactor.get_module(Dino.Stickers.IDENTITY);
-        if (stickers == null) {
-            Gtk.Window? parent = this.get_root() as Gtk.Window;
-            var err = new Adw.AlertDialog(_("Stickers are unavailable"), _("Stickers module unavailable"));
-            err.add_response("ok", _("OK"));
-            err.default_response = "ok";
-            err.close_response = "ok";
-            if (parent != null) err.present(parent);
-            set_busy_state(false);
-            return;
-        }
-
-        try {
-            string uri = yield stickers.create_pack_from_folder(conversation.account, folder_path, publish);
-            // Reload and try selecting newly created pack by folder basename match (best effort)
-            pending_select_pack_name = Path.get_basename(folder_path);
-            reload();
-
-            if (uri != null && uri != "") {
-                var clipboard = this.get_display().get_clipboard();
-                clipboard.set_text(uri);
-
-                Gtk.Window? parent = this.get_root() as Gtk.Window;
-                var ok = new Adw.AlertDialog(_("Sticker pack published"), _("Share link copied to clipboard:\n%s").printf(uri));
-                ok.add_response("ok", _("OK"));
-                ok.default_response = "ok";
-                ok.close_response = "ok";
-                if (parent != null) ok.present(parent);
-            }
-        } catch (Error e) {
-            Gtk.Window? parent = this.get_root() as Gtk.Window;
-            var err = new Adw.AlertDialog(_("Failed to create sticker pack"), e.message);
-            err.add_response("ok", _("OK"));
-            err.default_response = "ok";
-            err.close_response = "ok";
-            if (parent != null) err.present(parent);
-        } finally {
-            set_busy_state(false);
-        }
     }
 
     private bool try_parse_sticker_pack_uri(string uri, out Xmpp.Jid source_jid, out string node, out string item) {
@@ -750,6 +716,10 @@ public class StickerChooser : Popover {
             return;
         }
 
+        // Close the popover before presenting the window; Gtk.Popover grabs input
+        // and would otherwise block interaction with the import window.
+        this.popdown();
+
         var dialog = new Dino.Ui.StickerPackImportDialog(stream_interactor, src, node, item);
         if (parent != null) dialog.set_transient_for(parent);
         dialog.hide_on_close = false;
@@ -758,10 +728,11 @@ public class StickerChooser : Popover {
             reload();
             return true;
         });
-        dialog.present();
 
-        // Close the popover to avoid overlapping UI.
-        this.popdown();
+        Idle.add(() => {
+            dialog.present();
+            return false;
+        });
     }
 
     private void refresh_grid() {
@@ -858,11 +829,14 @@ public class StickerChooser : Popover {
 
         string pack_id = packs[(int) pack_index].pack_id;
 
+        Gtk.Window? parent = this.get_root() as Gtk.Window;
+        // Close the popover so it doesn't block the result dialogs.
+        this.popdown();
+
         set_busy_state(true, _("Publishing…"));
 
         var stickers = stream_interactor.get_module(Dino.Stickers.IDENTITY);
         if (stickers == null) {
-            Gtk.Window? parent = this.get_root() as Gtk.Window;
             var err = new Adw.AlertDialog(_("Stickers are unavailable"), _("Stickers module unavailable"));
             err.add_response("ok", _("OK"));
             err.default_response = "ok";
@@ -874,7 +848,6 @@ public class StickerChooser : Popover {
         }
 
         stickers.publish_pack.begin(conversation.account, pack_id, (obj, res) => {
-            Gtk.Window? parent = this.get_root() as Gtk.Window;
             try {
                 string uri = stickers.publish_pack.end(res);
                 var clipboard = this.get_display().get_clipboard();
@@ -911,6 +884,8 @@ public class StickerChooser : Popover {
         string title = packs[(int) pack_index].name != null && packs[(int) pack_index].name != "" ? packs[(int) pack_index].name : pack_id;
 
         Gtk.Window? parent = this.get_root() as Gtk.Window;
+        // Close the popover so the confirmation dialog is clickable.
+        this.popdown();
         var dialog = new Adw.AlertDialog(
             _("Remove sticker pack?"),
             _("This will delete the downloaded files and remove the pack from your list: %s").printf(title)

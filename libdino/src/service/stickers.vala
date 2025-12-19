@@ -74,6 +74,11 @@ public class Stickers : StreamInteractionModule, Object {
             // Slice to actual read length.
             uint8[] head = buf[0:(int) n];
 
+            // SVGZ is gzip-compressed; if a pack mislabeled SVGZ as a raster type we must avoid decoding.
+            if (head.length >= 2 && head[0] == 0x1f && head[1] == 0x8b) {
+                return true;
+            }
+
             // Common SVG signatures.
             if (bytes_contains_ascii_ci(head, "<svg")) return true;
             if (bytes_contains_ascii_ci(head, "<!doctype svg")) return true;
@@ -104,7 +109,10 @@ public class Stickers : StreamInteractionModule, Object {
     }
 
     private async void ensure_http_context() {
-        if (GLib.MainContext.get_thread_default() == http_context) return;
+        // `get_thread_default()` may be null even while running on the default main
+        // context. `invoke()` executes callbacks immediately if the context is already
+        // owned by the current thread; using `is_owner()` avoids re-entrant recursion.
+        if (http_context.is_owner()) return;
         http_context.invoke(() => {
             ensure_http_context.callback();
             return false;
@@ -122,6 +130,46 @@ public class Stickers : StreamInteractionModule, Object {
 
     private static string get_pack_thumbs_dir(string pack_id) {
         return Path.build_filename(get_pack_dir(pack_id), "thumbs");
+    }
+
+    private class ThumbJob : Object {
+        public string source_path;
+        public string thumb_path;
+
+        public ThumbJob(string source_path, string thumb_path) {
+            this.source_path = source_path;
+            this.thumb_path = thumb_path;
+        }
+    }
+
+    private static AsyncQueue<ThumbJob>? thumb_queue;
+    private static bool thumb_worker_started = false;
+
+    private static void ensure_thumb_worker() {
+        if (thumb_worker_started) return;
+        thumb_worker_started = true;
+        thumb_queue = new AsyncQueue<ThumbJob>();
+
+        new Thread<void*>("stickers-thumbgen", () => {
+            while (true) {
+                ThumbJob job = thumb_queue.pop();
+
+                // Best-effort: if something else created it already, skip.
+                if (FileUtils.test(job.thumb_path, FileTest.EXISTS)) continue;
+
+                DirUtils.create_with_parents(Path.get_dirname(job.thumb_path), 0700);
+
+                try {
+                    var pixbuf = new Pixbuf.from_file_at_scale(job.source_path, THUMB_SIZE, THUMB_SIZE, true);
+                    pixbuf = pixbuf.apply_embedded_orientation();
+                    pixbuf.save(job.thumb_path, "png");
+                } catch (Error e) {
+                    // best-effort
+                }
+            }
+            // unreachable
+            // return null;
+        });
     }
 
     public static string? get_thumbnail_path_for_item(StickerItem item) {
@@ -172,14 +220,11 @@ public class Stickers : StreamInteractionModule, Object {
         if (thumb_path == null || thumb_path == "") return;
         if (FileUtils.test(thumb_path, FileTest.EXISTS)) return;
 
-        DirUtils.create_with_parents(get_pack_thumbs_dir(pack_id), 0700);
-
-        try {
-            var pixbuf = new Pixbuf.from_file_at_scale(item.local_path, THUMB_SIZE, THUMB_SIZE, true);
-            pixbuf = pixbuf.apply_embedded_orientation();
-            pixbuf.save(thumb_path, "png");
-        } catch (Error e) {
-            // best-effort: the UI can still generate thumbnails lazily.
+        // Generating thumbnails can be expensive (decode/scale). Do it off the
+        // main thread to avoid UI stalls; the UI can still lazy-generate on demand.
+        ensure_thumb_worker();
+        if (thumb_queue != null) {
+            thumb_queue.push(new ThumbJob(item.local_path, thumb_path));
         }
     }
 

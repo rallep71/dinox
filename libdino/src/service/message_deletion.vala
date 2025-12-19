@@ -72,11 +72,17 @@ namespace Dino {
             var stream = stream_interactor.get_stream(conversation.account);
             if (stream == null) return;
 
-            string message_id_to_delete = stream_interactor.get_module(ContentItemStore.IDENTITY).get_message_id_for_content_item(conversation, content_item);
+            string? message_id_to_delete = stream_interactor.get_module(ContentItemStore.IDENTITY).get_message_id_for_content_item(conversation, content_item);
+            if (message_id_to_delete == null || message_id_to_delete.strip().length == 0) {
+                warning("Can't delete globally: missing message reference id (content_item=%i)", content_item.id);
+                // Fall back to local deletion (still satisfies user intent to remove from the UI).
+                delete_locally(conversation, content_item, conversation.account.bare_jid);
+                return;
+            }
 
             if (conversation.type_ == Conversation.Type.CHAT) {
                 MessageStanza stanza = new MessageStanza() { to = conversation.counterpart };
-                Xmpp.Xep.MessageRetraction.set_retract_id(stanza, message_id_to_delete);
+                Xmpp.Xep.MessageRetraction.set_retract_id(stanza, (!)message_id_to_delete);
                 stream.get_module(MessageModule.IDENTITY).send_message.begin(stream, stanza);
                 delete_locally(conversation, content_item, conversation.account.bare_jid);
             } else if (conversation.type_.is_muc_semantic()) {
@@ -90,10 +96,10 @@ namespace Dino {
                 if (is_own_message) {
                     MessageStanza stanza = new MessageStanza() { to = conversation.counterpart };
                     stanza.type_ = MessageStanza.TYPE_GROUPCHAT;
-                    Xmpp.Xep.MessageRetraction.set_retract_id(stanza, message_id_to_delete);
+                    Xmpp.Xep.MessageRetraction.set_retract_id(stanza, (!)message_id_to_delete);
                     stream.get_module(MessageModule.IDENTITY).send_message.begin(stream, stanza);
                 } else {
-                    Xmpp.Xep.MessageModeration.moderate.begin(stream, conversation.counterpart, message_id_to_delete);
+                    Xmpp.Xep.MessageModeration.moderate.begin(stream, conversation.counterpart, (!)message_id_to_delete);
                 }
                 // Message will be deleted locally when the MUC server sends out a moderation/retraction message
             }

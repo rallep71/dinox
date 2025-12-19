@@ -33,6 +33,13 @@ public class Util {
     public static bool is_pixbuf_supported_mime_type(string mime_type) {
         if (mime_type == null) return false;
 
+        // Flatpak runtime crashes have been observed when the SVG loader is invoked.
+        // Treat SVG as unsupported to avoid pulling in the loader.
+        string lower = mime_type.down();
+        if (lower == "image/svg+xml" || lower == "image/svg" || lower == "application/svg+xml") {
+            return false;
+        }
+
         foreach (Gdk.PixbufFormat pixbuf_format in Gdk.Pixbuf.get_formats()) {
             foreach (string pixbuf_mime in pixbuf_format.get_mime_types()) {
                 if (pixbuf_mime == mime_type) return true;

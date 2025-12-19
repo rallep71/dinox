@@ -17,7 +17,22 @@ public class Plugin : Plugins.RootInterface, Object {
 
     public void registered(Dino.Application app) {
         this.app = app;
-        this.db = new Database(Path.build_filename(Application.get_storage_dir(), "pgp.db"));
+
+        // Use an app-scoped GnuPG keyring so that Panic-Wipe can safely destroy all OpenPGP material
+        // without touching the user's global ~/.gnupg keyring.
+        string openpgp_gnupg_home = Path.build_filename(Application.get_storage_dir(), "openpgp", "gnupg");
+        if (DirUtils.create_with_parents(openpgp_gnupg_home, 0700) == -1) {
+            warning("OpenPGP plugin disabled: could not create keyring dir '%s'", openpgp_gnupg_home);
+            return;
+        }
+        Environment.set_variable("GNUPGHOME", openpgp_gnupg_home, true);
+
+        try {
+            this.db = new Database(Path.build_filename(Application.get_storage_dir(), "pgp.db"));
+        } catch (Error e) {
+            warning("OpenPGP plugin disabled: %s", e.message);
+            return;
+        }
         this.list_entry = new EncryptionListEntry(app.stream_interactor, db);
         this.contact_details_provider = new ContactDetailsProvider(app.stream_interactor);
 

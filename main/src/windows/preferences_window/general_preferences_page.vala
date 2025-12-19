@@ -34,6 +34,7 @@ public class Dino.Ui.GeneralPreferencesPage : Adw.PreferencesPage {
     [GtkChild] private unowned Adw.ActionRow backup_row;
     [GtkChild] private unowned Adw.ActionRow restore_backup_row;
     [GtkChild] private unowned Adw.ActionRow data_location_row;
+    [GtkChild] private unowned Adw.ActionRow change_db_password_row;
     [GtkChild] private unowned Adw.ActionRow clear_cache_row;
     [GtkChild] private unowned Adw.ActionRow reset_database_row;
     [GtkChild] private unowned Adw.ActionRow factory_reset_row;
@@ -44,6 +45,7 @@ public class Dino.Ui.GeneralPreferencesPage : Adw.PreferencesPage {
     public signal void backup_requested();
     public signal void restore_backup_requested();
     public signal void show_data_location();
+    public signal void change_db_password_requested();
     public signal void clear_cache_requested();
     public signal void reset_database_requested();
     public signal void factory_reset_requested();
@@ -62,6 +64,8 @@ public class Dino.Ui.GeneralPreferencesPage : Adw.PreferencesPage {
         backup_row.activated.connect(() => backup_requested());
         restore_backup_row.activated.connect(() => restore_backup_requested());
         data_location_row.activated.connect(() => show_data_location());
+
+        change_db_password_row.activated.connect(() => change_db_password_requested());
         
         // Connect database maintenance rows
         clear_cache_row.activated.connect(() => clear_cache_requested());

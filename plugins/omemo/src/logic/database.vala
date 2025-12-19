@@ -247,7 +247,7 @@ public class Database : Qlite.Database {
     public SessionTable session { get; private set; }
     public ContentItemMetaTable content_item_meta { get; private set; }
 
-    public Database(string fileName) {
+    public Database(string fileName) throws Error {
         base(fileName, VERSION);
         identity_meta = new IdentityMetaTable(this);
         trust = new TrustTable(this);
@@ -262,6 +262,11 @@ public class Database : Qlite.Database {
             key = KeyManager.get_or_create_db_key();
         } catch (Error e) {
             warning("OmemoDatabase: Failed to get encryption key: %s", e.message);
+        }
+
+        if (key == null) {
+            // Without a key we cannot safely open or create the OMEMO database.
+            throw new Error(-1, 0, "OMEMO database key unavailable; cannot open \"%s\"", fileName);
         }
         
         init({identity_meta, trust, identity, signed_pre_key, pre_key, session, content_item_meta}, key);

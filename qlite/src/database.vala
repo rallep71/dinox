@@ -25,16 +25,16 @@ public class Database {
         meta_table.init({meta_name, meta_int_val, meta_text_val});
     }
 
-    public void init(Table[] tables, string? key = null) {
+    public void init(Table[] tables, string? key = null, bool allow_plaintext_fallback = true) throws Error {
         Sqlite.config(Config.SERIALIZED);
         int ec = Sqlite.Database.open_v2(file_name, out db, OPEN_READWRITE | OPEN_CREATE | 0x00010000);
         if (ec != Sqlite.OK) {
-            error(@"SQLite error: %d - %s", db.errcode(), db.errmsg());
+            throw new Error(-1, 0, "SQLite open error for \"%s\": %d - %s", file_name, db.errcode(), db.errmsg());
         }
 
         if (key != null) {
             // Escape single quotes for SQL string literal.
-            string escaped_key = ((!)key).replace("'", "''");
+            string escaped_key = escape_single_quotes((!)key);
             string key_pragma = "PRAGMA key = '%s';".printf(escaped_key);
             db.exec(key_pragma, null, null);
             
@@ -65,9 +65,12 @@ public class Database {
                         ec = Sqlite.Database.open_v2(file_name, out db, OPEN_READWRITE | OPEN_CREATE | 0x00010000);
                         db.exec(key_pragma, null, null);
                         if (db.exec("SELECT count(*) FROM sqlite_master;", null, null) != Sqlite.OK) {
-                            error("Qlite: Database migration succeeded but encrypted reopen failed (Invalid key or corrupted).");
+                            throw new Error(-1, 0, "Qlite: Database migration succeeded but encrypted reopen failed for \"%s\" (Invalid key or corrupted).", file_name);
                         }
                     } else {
+                        if (!allow_plaintext_fallback) {
+                            throw new Error(-1, 0, "Qlite: Plain text database detected for \"%s\" but encryption migration failed; refusing to run without encryption.", file_name);
+                        }
                         if (!logged_plaintext_fallback) {
                             // Not a warning: this can happen on upgrades from versions that stored plaintext.
                             message("Qlite: Plain text database detected; running without encryption because migration failed.");
@@ -76,7 +79,7 @@ public class Database {
                     }
                 } else {
                     // Encrypted DB but wrong key, or corrupted DB.
-                    error("Qlite: Failed to open database (Invalid key or corrupted).");
+                    throw new Error(-1, 0, "Qlite: Failed to open database \"%s\" (Invalid key or corrupted).", file_name);
                 }
             }
         }
@@ -98,11 +101,11 @@ public class Database {
         try { FileUtils.remove(tmp_path); } catch (Error e) { }
 
         // Escape key for SQL literal.
-        string escaped_key = key.replace("'", "''");
+        string escaped_key = escape_single_quotes(key);
 
         // Attach a fresh encrypted database and export.
         // sqlcipher_export is provided by SQLCipher.
-        string attach = "ATTACH DATABASE '%s' AS encrypted KEY '%s';".printf(tmp_path.replace("'", "''"), escaped_key);
+        string attach = "ATTACH DATABASE '%s' AS encrypted KEY '%s';".printf(escape_single_quotes(tmp_path), escaped_key);
         if (db.exec(attach, null, null) != Sqlite.OK) {
             return false;
         }
@@ -136,6 +139,21 @@ public class Database {
         // Remove backup after successful replace.
         try { FileUtils.remove(backup_path); } catch (Error e) { }
         return true;
+    }
+
+    private static string escape_single_quotes(string s) {
+        if (s.index_of("'") < 0) return s;
+
+        var b = new GLib.StringBuilder();
+        for (int i = 0; i < s.length; i++) {
+            char c = s[i];
+            if (c == '\'') {
+                b.append("''");
+            } else {
+                b.append_c(c);
+            }
+        }
+        return b.str;
     }
 
     public void ensure_init() {
@@ -262,6 +280,23 @@ public class Database {
         ensure_init();
         if (db.exec(sql) != OK) {
             throw new Error(-1, 0, "SQLite error: %d - %s", db.errcode(), db.errmsg());
+        }
+    }
+
+    public void rekey(string new_key) throws Error {
+        ensure_init();
+        if (new_key.strip().length == 0) {
+            throw new Error(-1, 0, "New database key must not be empty.");
+        }
+
+        // SQLCipher: PRAGMA rekey changes the encryption key for the entire database.
+        // Escape single quotes for SQL string literal.
+        string escaped_key = escape_single_quotes(new_key);
+        exec("PRAGMA rekey = '%s';".printf(escaped_key));
+
+        // Verify DB is still readable.
+        if (db.exec("SELECT count(*) FROM sqlite_master;", null, null) != Sqlite.OK) {
+            throw new Error(-1, 0, "Database rekey failed (Invalid key or corrupted).");
         }
     }
 

@@ -119,6 +119,18 @@
       <object class="AdwPreferencesGroup">
         <property name="title" translatable="yes">Database Maintenance</property>
         <child>
+          <object class="AdwActionRow" id="change_db_password_row">
+            <property name="title" translatable="yes">Change Database Password</property>
+            <property name="subtitle" translatable="yes">Change the password used to encrypt your local data</property>
+            <property name="activatable">True</property>
+            <child>
+              <object class="GtkImage">
+                <property name="icon-name">dialog-password-symbolic</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
           <object class="AdwActionRow" id="clear_cache_row">
             <property name="title" translatable="yes">Clear Cache</property>
             <property name="subtitle" translatable="yes">Clear cached files, avatars and previews</property>

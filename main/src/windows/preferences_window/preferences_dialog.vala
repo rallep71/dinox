@@ -18,6 +18,7 @@ public class Dino.Ui.PreferencesDialog : Adw.PreferencesDialog {
     public signal void backup_requested();
     public signal void restore_backup_requested();
     public signal void show_data_location();
+    public signal void change_db_password_requested();
     public signal void clear_cache_requested();
     public signal void reset_database_requested();
     public signal void factory_reset_requested();
@@ -36,6 +37,7 @@ public class Dino.Ui.PreferencesDialog : Adw.PreferencesDialog {
         general_page.backup_requested.connect(() => backup_requested());
         general_page.restore_backup_requested.connect(() => restore_backup_requested());
         general_page.show_data_location.connect(() => show_data_location());
+        general_page.change_db_password_requested.connect(() => change_db_password_requested());
         general_page.clear_cache_requested.connect(() => clear_cache_requested());
         general_page.reset_database_requested.connect(() => reset_database_requested());
         general_page.factory_reset_requested.connect(() => factory_reset_requested());

@@ -7,16 +7,48 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.8.6.6] - 2025-12-19
+
+### Security
+- **Encrypted local data is now mandatory**
+  - DinoX requires a password at startup to open the encrypted SQLCipher database (no plaintext fallback).
+- **Panic wipe**
+  - Added a Panic Wipe action (menu + shortcut `Ctrl+Shift+Alt+P`).
+  - After 3 failed unlock attempts, DinoX wipes local data and exits.
+
+### Added
+- **Change database password**
+  - Preferences → Database Maintenance → Change Database Password (SQLCipher `PRAGMA rekey`).
+- **OpenPGP keyring isolation**
+  - OpenPGP plugin uses an app-scoped `GNUPGHOME` so Panic Wipe removes OpenPGP material.
+
+### Fixed
+- **Guards against log spam / CRITICALs**
+  - Avoid CRITICAL errors when message retraction is requested without a message reference ID.
+  - Validate reply fallback ranges before slicing strings.
+- **Stickers import responsiveness**
+  - Generate sticker thumbnails off the main thread to avoid UI stalls.
+- **HTTP MainContext handling (libsoup)**
+  - Avoid re-entrant recursion by using `GLib.MainContext.is_owner()` checks.
+- **Unlock window placement (X11)**
+  - Center the unlock window on X11 (best-effort; helps Cinnamon/Muffin).
+
+## [0.8.6.5] - 2025-12-19
+
+### Fixed
+- **Flatpak SVG loader crash (stickers)**
+  - Avoid triggering the gdk-pixbuf SVG loader from background metadata/thumbnail generation by blacklisting SVG mime types and skipping files that look like SVG/SVGZ (gzip).
+
+## [0.8.6.4] - 2025-12-19
+
+- Prevent crashes on sticker pack import/publish caused by SVG data mislabeled as raster images by sniffing file contents and skipping SVG thumbnail generation.
+- Improve feedback for long-running sticker pack actions by disabling controls while operations are running.
+
 ## [0.8.6.3] - 2025-12-19
 
 ### Fixed
 - **Sticker SVG crash (Flatpak)**
   - Avoid decoding/displaying SVG stickers in the UI (sticker chooser thumbnails + inline sticker rendering) to prevent gdk-pixbuf SVG loader crashes.
-
-## [0.8.6.4] - 2025-12-20
-
-- Prevent crashes on sticker pack import/publish caused by SVG data mislabeled as raster images by sniffing file contents and skipping SVG thumbnail generation.
-- Improve feedback for long-running sticker pack actions by disabling controls while operations are running.
 
 ## [0.8.6.2] - 2025-12-18
 
@@ -666,7 +698,9 @@ This release significantly improves 1:1 Jingle audio/video call interoperability
 - libdbusmenu integration for StatusNotifierItem/AppIndicator support
 - Meson build system with automated translations (50+ languages)
 
-[Unreleased]: https://github.com/rallep71/dinox/compare/v0.8.6.4...HEAD
+[Unreleased]: https://github.com/rallep71/dinox/compare/v0.8.6.6...HEAD
+[0.8.6.6]: https://github.com/rallep71/dinox/releases/tag/v0.8.6.6
+[0.8.6.5]: https://github.com/rallep71/dinox/releases/tag/v0.8.6.5
 [0.8.6.4]: https://github.com/rallep71/dinox/releases/tag/v0.8.6.4
 [0.8.6.3]: https://github.com/rallep71/dinox/releases/tag/v0.8.6.3
 [0.8.6.2]: https://github.com/rallep71/dinox/releases/tag/v0.8.6.2

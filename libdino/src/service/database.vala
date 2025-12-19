@@ -573,7 +573,7 @@ public class Database : Qlite.Database {
     public Map<Jid, int> jid_table_reverse = new HashMap<Jid, int>(Jid.hash_func, Jid.equals_func);
     public Map<int, Account> account_table_cache = new HashMap<int, Account>();
 
-    public Database(string fileName) {
+    public Database(string fileName, string key) throws Error {
         base(fileName, VERSION);
         account = new AccountTable(this);
         jid = new JidTable(this);
@@ -605,7 +605,7 @@ public class Database : Qlite.Database {
         pinned_certificate = new PinnedCertificateTable(this);
         sticker_pack = new StickerPackTable(this);
         sticker_item = new StickerItemTable(this);
-        init({ account, jid, entity, content_item, message, message_occupant_id, body_meta, message_correction, reply, real_jid, occupantid, file_transfer, file_hashes, file_thumbnails, sfs_sources, call, call_counterpart, conversation, avatar, entity_identity, entity_feature, roster, mam_catchup, reaction, settings, account_settings, conversation_settings, pinned_certificate, sticker_pack, sticker_item });
+        init({ account, jid, entity, content_item, message, message_occupant_id, body_meta, message_correction, reply, real_jid, occupantid, file_transfer, file_hashes, file_thumbnails, sfs_sources, call, call_counterpart, conversation, avatar, entity_identity, entity_feature, roster, mam_catchup, reaction, settings, account_settings, conversation_settings, pinned_certificate, sticker_pack, sticker_item }, key, false);
 
         try {
             exec("PRAGMA journal_mode = WAL");

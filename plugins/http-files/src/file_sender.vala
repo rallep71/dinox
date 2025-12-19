@@ -26,7 +26,10 @@ public class HttpFileSender : FileSender, Object {
     }
 
     private async void ensure_soup_context() {
-        if (GLib.MainContext.get_thread_default() == soup_context) return;
+        // `get_thread_default()` may be null even while running on the default main
+        // context. `invoke()` executes callbacks immediately if the context is already
+        // owned by the current thread; using `is_owner()` avoids re-entrant recursion.
+        if (soup_context.is_owner()) return;
         soup_context.invoke(() => {
             ensure_soup_context.callback();
             return false;

@@ -1,6 +1,6 @@
 # DinoX - Development Plan
 
-> **Last Updated**: December 18, 2025
+> **Last Updated**: December 19, 2025
 > **Version**: 0.8.6
 
 ---
@@ -78,6 +78,7 @@ Focus on polishing call interoperability and general app stability.
 | **Echo Cancellation** | Fine-tune `webrtc-audio-processing` AEC settings for Linux audio subsystems | IN PROGRESS |
 | **Spell Checking** | Re-enable spell checking (waiting for GTK4 GtkTextView support) | BLOCKED |
 | **Performance** | Optimize memory usage for long-running sessions | TODO |
+| **Encrypted Local Attachments (Optional)** | Optionally store cached/downloaded attachments encrypted at rest (separate from SQLCipher DB encryption) | TODO |
 
 ### Phase 10: Modern XEPs & Engagement (Q2 2026)
 

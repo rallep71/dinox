@@ -7,10 +7,22 @@ namespace Dino.Ui {
 public class StickerPackImportDialog : Adw.Window {
     private StreamInteractor stream_interactor;
 
+    private bool preview_started = false;
+    private bool accounts_initialized = false;
+
+    private void run_after_next_frame(owned GLib.SourceFunc fn) {
+        uint tick_id = 0;
+        tick_id = this.add_tick_callback((widget, frame_clock) => {
+            widget.remove_tick_callback(tick_id);
+            fn();
+            return Source.REMOVE;
+        });
+    }
+
     private AccountComboBox account_combo = new AccountComboBox();
     private Label title_label = new Label("") { xalign = 0.0f, wrap = true };
     private Label summary_label = new Label("") { xalign = 0.0f, wrap = true };
-    private Spinner spinner = new Spinner() { spinning = true };
+    private Spinner spinner = new Spinner() { spinning = false, visible = true };
     private Button import_button = new Button.with_label(_("Import")) { sensitive = false };
     private Button copy_uri_button = new Button.with_label(_("Copy Share URI")) { sensitive = false };
 
@@ -36,7 +48,10 @@ public class StickerPackImportDialog : Adw.Window {
         box.margin_start = 12;
         box.margin_end = 12;
 
-        account_combo.initialize(stream_interactor);
+        // Important for UX: do NOT initialize accounts here.
+        // `stream_interactor.get_accounts()` can be slow and would delay showing
+        // the window (including the spinner) by several seconds.
+        account_combo.sensitive = false;
         box.append(account_combo);
 
         box.append(spinner);
@@ -50,25 +65,89 @@ public class StickerPackImportDialog : Adw.Window {
 
         this.content = box;
 
-        import_button.clicked.connect(() => do_import.begin());
+        import_button.clicked.connect(start_import);
         copy_uri_button.clicked.connect(copy_share_uri);
 
-        // Load preview (best-effort)
-        preview.begin();
+        // Load preview (best-effort). Start only after the window is mapped so
+        // the UI (spinner + window) can actually render before any synchronous
+        // work in the async call chain blocks the main loop.
+        this.map.connect(() => {
+            if (preview_started) return;
+            preview_started = true;
+
+            // Show busy UI immediately and wait for the next frame so it is
+            // actually rendered before any potentially blocking work starts.
+            spinner.spinning = true;
+            title_label.label = _("Loading…");
+            summary_label.label = "";
+
+            run_after_next_frame(() => {
+                initial_load.begin();
+                return Source.REMOVE;
+            });
+        });
+    }
+
+    private async void initial_load() {
+        if (!accounts_initialized) {
+            account_combo.initialize(stream_interactor);
+            accounts_initialized = true;
+            account_combo.sensitive = true;
+        }
+
+        // Let the combobox render its content before starting network preview.
+        run_after_next_frame(() => {
+            preview.begin();
+            return Source.REMOVE;
+        });
+    }
+
+    private async void yield_to_mainloop() {
+        Idle.add(() => {
+            yield_to_mainloop.callback();
+            return Source.REMOVE;
+        });
+        yield;
+    }
+
+    private void start_import() {
+        // Make the busy UI visible first, then start the async work on the next
+        // main-loop iteration so the spinner can render immediately.
+        spinner.spinning = true;
+        import_button.sensitive = false;
+        copy_uri_button.sensitive = false;
+        title_label.label = _("Importing…");
+        summary_label.label = "";
+
+        // Wait for a rendered frame so the spinner is visible before starting
+        // any potentially blocking work.
+        run_after_next_frame(() => {
+            var account = account_combo.active_account;
+            if (account == null) {
+                title_label.label = _("No account available");
+                spinner.spinning = false;
+                return Source.REMOVE;
+            }
+            do_import.begin(account);
+            return Source.REMOVE;
+        });
     }
 
     private async void preview() {
-        spinner.visible = true;
+        spinner.spinning = true;
         title_label.label = _("Loading…");
         summary_label.label = "";
 
         import_button.sensitive = false;
         copy_uri_button.sensitive = false;
 
+        // Ensure the busy UI is rendered before doing anything that might block.
+        yield yield_to_mainloop();
+
         var account = account_combo.active_account;
         if (account == null) {
             title_label.label = _("No account available");
-            spinner.visible = false;
+            spinner.spinning = false;
             return;
         }
 
@@ -84,19 +163,13 @@ public class StickerPackImportDialog : Adw.Window {
             title_label.label = _("Failed to import sticker pack");
             summary_label.label = e.message;
         } finally {
-            spinner.visible = false;
+            spinner.spinning = false;
         }
     }
 
-    private async void do_import() {
-        var account = account_combo.active_account;
-        if (account == null) return;
-
-        spinner.visible = true;
-        import_button.sensitive = false;
-        copy_uri_button.sensitive = false;
-        title_label.label = _("Importing…");
-        summary_label.label = "";
+    private async void do_import(Account account) {
+        // Ensure the busy UI is rendered before doing anything that might block.
+        yield yield_to_mainloop();
 
         try {
             var stickers = stream_interactor.get_module(Dino.Stickers.IDENTITY);
@@ -109,7 +182,7 @@ public class StickerPackImportDialog : Adw.Window {
             import_button.sensitive = true;
             copy_uri_button.sensitive = pack != null;
         } finally {
-            spinner.visible = false;
+            spinner.spinning = false;
         }
     }
 

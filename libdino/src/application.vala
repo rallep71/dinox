@@ -11,12 +11,14 @@ public string get_short_version() {
 public interface Application : GLib.Application {
 
     public abstract Database db { get; set; }
+    public abstract string? db_key { get; set; }
     public abstract Dino.Entities.Settings settings { get; set; }
     public abstract StreamInteractor stream_interactor { get; set; }
     public abstract Plugins.Registry plugin_registry { get; set; }
     public abstract SearchPathGenerator? search_path_generator { get; set; }
 
     internal static string print_xmpp;
+    private static bool core_options_registered = false;
 
     private const OptionEntry[] options = {
         { "print-xmpp", 0, 0, OptionArg.STRING, ref print_xmpp, "Print XMPP stanzas identified by DESC to stderr", "DESC" },
@@ -25,12 +27,24 @@ public interface Application : GLib.Application {
 
     public abstract void handle_uri(string jid, string query, Gee.Map<string, string> options);
 
+    public void ensure_core_options_registered() {
+        if (core_options_registered) return;
+        add_main_option_entries(options);
+        core_options_registered = true;
+    }
+
     public void init() throws Error {
+        ensure_core_options_registered();
+
         if (DirUtils.create_with_parents(get_storage_dir(), 0700) == -1) {
             throw new Error(-1, 0, "Could not create storage dir \"%s\": %s", get_storage_dir(), FileUtils.error_from_errno(errno).to_string());
         }
 
-        this.db = new Database(Path.build_filename(get_storage_dir(), "dino.db"));
+        if (this.db_key == null) {
+            throw new Error(-1, 0, "Database key missing: DinoX requires a password to open the encrypted database.");
+        }
+
+        this.db = new Database(Path.build_filename(get_storage_dir(), "dino.db"), (!)this.db_key);
         this.settings = new Dino.Entities.Settings.from_db(db);
         this.stream_interactor = new StreamInteractor(db);
 
@@ -65,10 +79,13 @@ public interface Application : GLib.Application {
 
         create_actions();
 
-        startup.connect(() => {
-            stream_interactor.connection_manager.log_options = print_xmpp;
+        // Apply debug log options and restore account connections once the main loop is running.
+        stream_interactor.connection_manager.log_options = print_xmpp;
+        Idle.add(() => {
             restore();
+            return false;
         });
+
         shutdown.connect(() => {
             stream_interactor.connection_manager.make_offline_all();
         });
@@ -112,7 +129,6 @@ public interface Application : GLib.Application {
             activate();
             handle_uri(jid, query, options);
         });
-        add_main_option_entries(options);
     }
 
     public static string get_storage_dir() {

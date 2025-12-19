@@ -21,17 +21,22 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
     private const string[] KEY_COMBINATION_LOOP_CONVERSATIONS = {"<Ctrl>Tab", null};
     private const string[] KEY_COMBINATION_LOOP_CONVERSATIONS_REV = {"<Ctrl><Shift>Tab", null};
     private const string[] KEY_COMBINATION_SHOW_SETTINGS = {"<Ctrl>comma", null};
+    private const string[] KEY_COMBINATION_PANIC_WIPE = {"<Ctrl><Shift><Alt>P", null};
 
     public MainWindow window;
     public MainWindowController controller;
     private SystrayManager? systray_manager = null;
 
     public Database db { get; set; }
+    public string? db_key { get; set; }
     public Dino.Entities.Settings settings { get; set; }
     private Config config { get; set; }
     public StreamInteractor stream_interactor { get; set; }
     public Plugins.Registry plugin_registry { get; set; default = new Plugins.Registry(); }
     public SearchPathGenerator? search_path_generator { get; set; }
+
+    // Plugins are loaded after the encrypted DB has been unlocked.
+    public Plugins.Loader? plugin_loader { get; set; }
 
     internal static bool print_version = false;
     private const OptionEntry[] options = {
@@ -39,60 +44,190 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         { null }
     };
 
+    private bool core_ready = false;
+    private bool pending_activate = false;
+    private string? pending_xmpp_uri = null;
+
+    private const int MAX_UNLOCK_TRIES = 3;
+    private int unlock_failures = 0;
+    private Adw.ApplicationWindow? unlock_parent = null;
+    private bool unlock_window_centered_once = false;
+
+    private bool is_first_run_no_db() {
+        string db_path = Path.build_filename(Dino.Application.get_storage_dir(), "dino.db");
+        return !FileUtils.test(db_path, FileTest.EXISTS);
+    }
+
+    private Adw.ApplicationWindow ensure_unlock_window() {
+        if (unlock_parent == null) {
+            unlock_parent = new Adw.ApplicationWindow(this);
+            unlock_parent.title = "DinoX";
+            unlock_parent.default_width = 460;
+            unlock_parent.default_height = 260;
+            unlock_parent.resizable = false;
+            unlock_parent.modal = true;
+
+            // Until the encrypted database is unlocked we don't have access to the user's
+            // persisted color scheme preference. Use a consistent dark unlock screen.
+            Adw.StyleManager.get_default().color_scheme = Adw.ColorScheme.FORCE_DARK;
+
+            // Cinnamon/Muffin often places small modal windows at (0,0). Center it once on map.
+            ((Gtk.Widget)unlock_parent).map.connect(() => {
+                if (unlock_parent == null) return;
+                if (unlock_window_centered_once) return;
+                if (this.active_window != null) return;
+
+                if (try_center_unlock_window_on_monitor((!)unlock_parent)) {
+                    unlock_window_centered_once = true;
+                }
+            });
+        }
+
+        // Center the unlock window over the main window when available.
+        if (this.active_window != null && this.active_window != unlock_parent) {
+            unlock_parent.transient_for = this.active_window;
+        }
+        unlock_parent.present();
+        return (!)unlock_parent;
+    }
+
+    private bool try_center_unlock_window_on_monitor(Adw.ApplicationWindow win) {
+#if HAVE_X11
+        // GTK4 has no generic "center on screen" API. On X11 we can move the window explicitly.
+        Gdk.Display? gdk_display = win.get_display();
+        Gdk.Surface? gdk_surface = win.get_surface();
+        if (gdk_display == null || gdk_surface == null) return false;
+
+        var x11_display = gdk_display as Gdk.X11.Display;
+        var x11_surface = gdk_surface as Gdk.X11.Surface;
+        if (x11_display == null || x11_surface == null) return false;
+
+        Gdk.Monitor? monitor = gdk_display.get_monitor_at_surface(gdk_surface);
+        if (monitor == null) return false;
+
+        Gdk.Rectangle area = monitor.geometry;
+        var x11_monitor = monitor as Gdk.X11.Monitor;
+        if (x11_monitor != null) {
+            area = x11_monitor.get_workarea();
+        }
+
+        int w = win.default_width > 0 ? win.default_width : 460;
+        int h = win.default_height > 0 ? win.default_height : 260;
+
+        int x = area.x + (area.width - w) / 2;
+        int y = area.y + (area.height - h) / 2;
+        if (x < area.x) x = area.x;
+        if (y < area.y) y = area.y;
+
+        unowned X.Display xdisplay = x11_display.get_xdisplay();
+        xdisplay.move_window(x11_surface.get_xid(), x, y);
+        xdisplay.flush();
+        return true;
+#else
+        return false;
+#endif
+    }
+
+    private void set_unlock_window_content(Gtk.Widget child) {
+        var win = ensure_unlock_window();
+        win.set_content(child);
+    }
+
+    private delegate void UnlockFormAction();
+
+    private Gtk.Widget build_unlock_form(string heading, string body, Gtk.Widget form, string primary_label, UnlockFormAction primary_action) {
+        var outer = new Gtk.Box(Gtk.Orientation.VERTICAL, 12);
+        outer.margin_top = 18;
+        outer.margin_bottom = 18;
+        outer.margin_start = 18;
+        outer.margin_end = 18;
+
+        var title = new Gtk.Label(heading);
+        title.halign = Gtk.Align.START;
+        title.wrap = true;
+        title.add_css_class("title-2");
+
+        var subtitle = new Gtk.Label(body);
+        subtitle.halign = Gtk.Align.START;
+        subtitle.wrap = true;
+
+        outer.append(title);
+        outer.append(subtitle);
+        outer.append(form);
+
+        var buttons = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 12);
+        buttons.halign = Gtk.Align.END;
+
+        var cancel_btn = new Gtk.Button.with_label(_("Beenden"));
+        cancel_btn.clicked.connect(() => {
+            Process.exit(0);
+        });
+
+        var primary_btn = new Gtk.Button.with_label(primary_label);
+        primary_btn.add_css_class("suggested-action");
+        primary_btn.clicked.connect(() => {
+            primary_action();
+        });
+
+        buttons.append(cancel_btn);
+        buttons.append(primary_btn);
+        outer.append(buttons);
+
+        var clamp = new Adw.Clamp() {
+            maximum_size = 520,
+            tightening_threshold = 520,
+            child = outer,
+            halign = Align.FILL,
+            valign = Align.CENTER
+        };
+
+        return clamp;
+    }
+
     public Application() throws Error {
         Object(application_id: "im.github.rallep71.DinoX", flags: ApplicationFlags.HANDLES_OPEN);
-        init();
         Environment.set_application_name("DinoX");
         Gtk.Window.set_default_icon_name("im.github.rallep71.DinoX");
-        
-        // Apply color scheme immediately after init, before any UI is shown
-        apply_color_scheme(settings.color_scheme);
-
-        create_actions();
         add_main_option_entries(options);
+
+        // Register core (libdino) option entries early (before command line parsing).
+        ((Dino.Application)this).ensure_core_options_registered();
+
+        // Panic wipe should be available even before unlocking.
+        create_pre_unlock_actions();
+
+        // Capture xmpp: URIs only while locked (avoid duplicate handling once core is ready).
+        open.connect((files, hint) => {
+            if (core_ready) return;
+            if (files.length != 1) {
+                warning("Can't handle more than one URI at once.");
+                return;
+            }
+            File file = files[0];
+            if (!file.has_uri_scheme("xmpp")) {
+                warning("xmpp:-URI expected");
+                return;
+            }
+            pending_xmpp_uri = file.get_uri();
+            activate();
+        });
 
         startup.connect(() => {
             if (print_version) {
-                print(@"Dino $(Dino.get_version())\n");
+                stdout.printf("Dino %s\n", Dino.get_version());
+                stdout.flush();
                 Process.exit(0);
             }
 
-            NotificationEvents notification_events = stream_interactor.get_module(NotificationEvents.IDENTITY);
-            get_notifications_dbus.begin((_, res) => {
-                DBusNotifications? dbus_notifications = get_notifications_dbus.end(res);
-                if (dbus_notifications != null) {
-                    FreeDesktopNotifier free_desktop_notifier = new FreeDesktopNotifier(stream_interactor, dbus_notifications);
-                    notification_events.register_notification_provider.begin(free_desktop_notifier);
-                } else {
-                    notification_events.register_notification_provider.begin(new GNotificationsNotifier(stream_interactor));
-                }
-            });
-
-            notification_events.notify_content_item.connect((content_item, conversation) => {
-                // Set urgency hint also if (normal) notifications are disabled
-                // Don't set urgency hint in GNOME, produces "Window is active" notification
-                var desktop_env = Environment.get_variable("XDG_CURRENT_DESKTOP");
-                if (desktop_env == null || !desktop_env.down().contains("gnome")) {
-                    if (this.active_window != null) {
-//                        this.active_window.urgency_hint = true;
-                    }
-                }
-            });
-            stream_interactor.get_module(FileManager.IDENTITY).add_metadata_provider(new Util.AudioVideoFileMetadataProvider());
-            
-            // Apply saved color scheme at startup
-            apply_color_scheme(settings.color_scheme);
-            
-            // Watch for color scheme changes
-            settings.notify["color-scheme"].connect(() => {
-                apply_color_scheme(settings.color_scheme);
-            });
-            
-            // Initialize systray
-            systray_manager = new SystrayManager(this);
+            // Require unlock before initializing the core.
+            prompt_unlock();
         });
 
         activate.connect(() => {
+            if (!core_ready) {
+                pending_activate = true;
+                return;
+            }
             if (window == null) {
                 controller = new MainWindowController(this, stream_interactor, db);
                 config = new Config(db);
@@ -107,7 +242,287 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
                 }
             }
             window.present();
+
+            if (pending_xmpp_uri != null) {
+                handle_pending_xmpp_uri((!)pending_xmpp_uri);
+                pending_xmpp_uri = null;
+            }
         });
+    }
+
+    private void prompt_unlock() {
+        if (core_ready) return;
+
+        if (is_first_run_no_db()) {
+            prompt_set_password();
+            return;
+        }
+
+        var password_entry = new Gtk.PasswordEntry();
+        password_entry.hexpand = true;
+        password_entry.show_peek_icon = true;
+
+        var form = new Gtk.Box(Gtk.Orientation.VERTICAL, 6);
+        var label = new Gtk.Label(_("Passwort"));
+        label.halign = Gtk.Align.START;
+        form.append(label);
+        form.append(password_entry);
+
+        string heading = _("DinoX entsperren");
+        string body = _("Bitte Passwort eingeben, um die verschlüsselte Datenbank zu öffnen.");
+        if (unlock_failures > 0) {
+            body = _("Falsches Passwort. Versuch %d/%d").printf(unlock_failures + 1, MAX_UNLOCK_TRIES);
+        }
+
+        UnlockFormAction do_unlock = () => {
+            string password = password_entry.text ?? "";
+            if (password.strip().length == 0) {
+                unlock_failures++;
+                warning("Unlock failed: empty password");
+                if (unlock_failures >= MAX_UNLOCK_TRIES) {
+                    panic_wipe_and_exit();
+                }
+                prompt_unlock();
+                return;
+            }
+            try {
+                this.db_key = password;
+                ((Dino.Application)this).init();
+
+                if (plugin_loader != null) {
+                    plugin_loader.load_all();
+                }
+                create_ui_actions();
+                core_ready = true;
+
+                apply_color_scheme(settings.color_scheme);
+                settings.notify["color-scheme"].connect(() => {
+                    apply_color_scheme(settings.color_scheme);
+                });
+
+                NotificationEvents notification_events = stream_interactor.get_module(NotificationEvents.IDENTITY);
+                get_notifications_dbus.begin((_, res) => {
+                    DBusNotifications? dbus_notifications = get_notifications_dbus.end(res);
+                    if (dbus_notifications != null) {
+                        FreeDesktopNotifier free_desktop_notifier = new FreeDesktopNotifier(stream_interactor, dbus_notifications);
+                        notification_events.register_notification_provider.begin(free_desktop_notifier);
+                    } else {
+                        notification_events.register_notification_provider.begin(new GNotificationsNotifier(stream_interactor));
+                    }
+                });
+
+                notification_events.notify_content_item.connect((content_item, conversation) => {
+                    var desktop_env = Environment.get_variable("XDG_CURRENT_DESKTOP");
+                    if (desktop_env == null || !desktop_env.down().contains("gnome")) {
+                        if (this.active_window != null) {
+//                            this.active_window.urgency_hint = true;
+                        }
+                    }
+                });
+                stream_interactor.get_module(FileManager.IDENTITY).add_metadata_provider(new Util.AudioVideoFileMetadataProvider());
+
+                systray_manager = new SystrayManager(this);
+
+                if (unlock_parent != null) {
+                    unlock_parent.close();
+                    unlock_parent = null;
+                }
+
+                if (pending_activate) {
+                    pending_activate = false;
+                    activate();
+                }
+            } catch (Error e) {
+                unlock_failures++;
+                warning("Unlock failed: %s", e.message);
+                if (unlock_failures >= MAX_UNLOCK_TRIES) {
+                    panic_wipe_and_exit();
+                }
+                prompt_unlock();
+            }
+        };
+
+        password_entry.activate.connect(() => do_unlock());
+        set_unlock_window_content(build_unlock_form(heading, body, form, _("Entsperren"), do_unlock));
+    }
+
+    private void prompt_set_password() {
+        if (core_ready) return;
+
+        var password_entry = new Gtk.PasswordEntry();
+        password_entry.hexpand = true;
+        password_entry.show_peek_icon = true;
+
+        var password_entry_confirm = new Gtk.PasswordEntry();
+        password_entry_confirm.hexpand = true;
+        password_entry_confirm.show_peek_icon = true;
+
+        var form = new Gtk.Box(Gtk.Orientation.VERTICAL, 6);
+        var l1 = new Gtk.Label(_("Passwort"));
+        l1.halign = Gtk.Align.START;
+        var l2 = new Gtk.Label(_("Passwort bestätigen"));
+        l2.halign = Gtk.Align.START;
+        form.append(l1);
+        form.append(password_entry);
+        form.append(l2);
+        form.append(password_entry_confirm);
+
+        string heading = _("Passwort festlegen");
+        string body = _("Bei der ersten Nutzung musst du ein Passwort setzen. Ohne Passwort kann DinoX die verschlüsselte Datenbank nicht öffnen.");
+        if (unlock_failures > 0) {
+            body = _("Ungültiges Passwort. Versuch %d/%d").printf(unlock_failures + 1, MAX_UNLOCK_TRIES);
+        }
+
+        UnlockFormAction do_set = () => {
+            string password = password_entry.text ?? "";
+            string password2 = password_entry_confirm.text ?? "";
+
+            if (password.strip().length == 0) {
+                unlock_failures++;
+                warning("Set password failed: empty password");
+            } else if (password != password2) {
+                unlock_failures++;
+                warning("Set password failed: mismatch");
+            } else {
+                try {
+                    this.db_key = password;
+                    ((Dino.Application)this).init();
+
+                    if (plugin_loader != null) {
+                        plugin_loader.load_all();
+                    }
+                    create_ui_actions();
+                    core_ready = true;
+
+                    apply_color_scheme(settings.color_scheme);
+                    settings.notify["color-scheme"].connect(() => {
+                        apply_color_scheme(settings.color_scheme);
+                    });
+
+                    NotificationEvents notification_events = stream_interactor.get_module(NotificationEvents.IDENTITY);
+                    get_notifications_dbus.begin((_, res) => {
+                        DBusNotifications? dbus_notifications = get_notifications_dbus.end(res);
+                        if (dbus_notifications != null) {
+                            FreeDesktopNotifier free_desktop_notifier = new FreeDesktopNotifier(stream_interactor, dbus_notifications);
+                            notification_events.register_notification_provider.begin(free_desktop_notifier);
+                        } else {
+                            notification_events.register_notification_provider.begin(new GNotificationsNotifier(stream_interactor));
+                        }
+                    });
+
+                    notification_events.notify_content_item.connect((content_item, conversation) => {
+                        var desktop_env = Environment.get_variable("XDG_CURRENT_DESKTOP");
+                        if (desktop_env == null || !desktop_env.down().contains("gnome")) {
+                            if (this.active_window != null) {
+//                            this.active_window.urgency_hint = true;
+                            }
+                        }
+                    });
+                    stream_interactor.get_module(FileManager.IDENTITY).add_metadata_provider(new Util.AudioVideoFileMetadataProvider());
+
+                    systray_manager = new SystrayManager(this);
+
+                    if (unlock_parent != null) {
+                        unlock_parent.close();
+                        unlock_parent = null;
+                    }
+                    if (pending_activate) {
+                        pending_activate = false;
+                        activate();
+                    }
+                    return;
+                } catch (Error e) {
+                    unlock_failures++;
+                    warning("Set password failed: %s", e.message);
+                }
+            }
+
+            if (unlock_failures >= MAX_UNLOCK_TRIES) {
+                panic_wipe_and_exit();
+            }
+
+            prompt_set_password();
+        };
+
+        password_entry_confirm.activate.connect(() => do_set());
+        set_unlock_window_content(build_unlock_form(heading, body, form, _("Passwort setzen"), do_set));
+    }
+
+    private void create_pre_unlock_actions() {
+        SimpleAction panic_wipe_action = new SimpleAction("panic-wipe", null);
+        panic_wipe_action.activate.connect((variant) => {
+            panic_wipe_and_exit();
+        });
+        add_action(panic_wipe_action);
+        set_accels_for_action("app.panic-wipe", KEY_COMBINATION_PANIC_WIPE);
+    }
+
+    private void handle_pending_xmpp_uri(string uri) {
+        if (!uri.contains(":")) {
+            warning("Invalid URI");
+            return;
+        }
+        string r = uri.split(":", 2)[1];
+        string[] m = r.split("?", 2);
+        string jid = m[0];
+        while (jid.length > 0 && jid[0] == '/') {
+            jid = jid.substring(1);
+        }
+        jid = Uri.unescape_string(jid);
+        try {
+            jid = new Xmpp.Jid(jid).to_string();
+        } catch (Xmpp.InvalidJidError e) {
+            warning("Received invalid jid in xmpp:-URI: %s", e.message);
+        }
+        string query = "message";
+        Gee.Map<string, string> options = new Gee.HashMap<string, string>();
+        if (m.length == 2) {
+            string[] cmds = m[1].split(";");
+            query = cmds[0];
+            for (int i = 1; i < cmds.length; ++i) {
+                string[] opt = cmds[i].split("=", 2);
+                options[Uri.unescape_string(opt[0])] = opt.length == 2 ? Uri.unescape_string(opt[1]) : "";
+            }
+        }
+        handle_uri(jid, query, options);
+    }
+
+    private void panic_wipe_and_exit() {
+        try {
+            wipe_dir(Path.build_filename(Environment.get_user_data_dir(), "dinox"));
+            wipe_dir(Path.build_filename(Environment.get_user_config_dir(), "dinox"));
+            wipe_dir(Path.build_filename(Environment.get_user_cache_dir(), "dinox"));
+        } catch (Error e) {
+            warning("Panic wipe failed: %s", e.message);
+        }
+        Process.exit(0);
+    }
+
+    private void wipe_dir(string path) throws Error {
+        if (!FileUtils.test(path, FileTest.EXISTS)) return;
+        File root = File.new_for_path(path);
+        wipe_file_recursive(root);
+    }
+
+    private void wipe_file_recursive(File f) throws Error {
+        FileType t = f.query_file_type(FileQueryInfoFlags.NONE, null);
+
+        if (t == FileType.DIRECTORY) {
+            FileEnumerator? en = null;
+            try {
+                en = f.enumerate_children("standard::name,standard::type", FileQueryInfoFlags.NONE, null);
+                FileInfo? info;
+                while ((info = en.next_file(null)) != null) {
+                    File child = f.get_child(info.get_name());
+                    wipe_file_recursive(child);
+                }
+            } catch (Error e) {
+                // Best effort.
+            }
+            try { f.delete(null); } catch (Error e) { }
+        } else {
+            try { f.delete(null); } catch (Error e) { }
+        }
     }
 
     public void handle_uri(string jid, string query, Gee.Map<string, string> options) {
@@ -154,7 +569,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         }
     }
 
-    private void create_actions() {
+    private void create_ui_actions() {
         SimpleAction preferences_action = new SimpleAction("preferences", null);
         preferences_action.activate.connect(show_preferences_window);
         add_action(preferences_action);
@@ -323,9 +738,96 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         });
         dialog.restore_backup_requested.connect(() => restore_from_backup());
         dialog.show_data_location.connect(() => show_data_location_dialog());
+        dialog.change_db_password_requested.connect(() => show_change_db_password_dialog());
         dialog.clear_cache_requested.connect(() => clear_cache());
         dialog.reset_database_requested.connect(() => reset_database());
         dialog.factory_reset_requested.connect(() => factory_reset());
+        dialog.present(window);
+    }
+
+    private void show_change_db_password_dialog() {
+        if (this.db_key == null) {
+            warning("Cannot change database password: db_key is not set");
+            return;
+        }
+
+        var old_entry = new Gtk.PasswordEntry();
+        old_entry.hexpand = true;
+        old_entry.show_peek_icon = true;
+
+        var new_entry = new Gtk.PasswordEntry();
+        new_entry.hexpand = true;
+        new_entry.show_peek_icon = true;
+
+        var new_entry_confirm = new Gtk.PasswordEntry();
+        new_entry_confirm.hexpand = true;
+        new_entry_confirm.show_peek_icon = true;
+
+        var grid = new Gtk.Grid();
+        grid.row_spacing = 12;
+        grid.column_spacing = 12;
+        grid.margin_top = 6;
+        grid.margin_bottom = 6;
+        grid.margin_start = 6;
+        grid.margin_end = 6;
+
+        var l_old = new Gtk.Label(_("Aktuelles Passwort"));
+        l_old.halign = Gtk.Align.START;
+        var l_new = new Gtk.Label(_("Neues Passwort"));
+        l_new.halign = Gtk.Align.START;
+        var l_new2 = new Gtk.Label(_("Neues Passwort bestätigen"));
+        l_new2.halign = Gtk.Align.START;
+
+        grid.attach(l_old, 0, 0, 1, 1);
+        grid.attach(old_entry, 0, 1, 1, 1);
+        grid.attach(l_new, 0, 2, 1, 1);
+        grid.attach(new_entry, 0, 3, 1, 1);
+        grid.attach(l_new2, 0, 4, 1, 1);
+        grid.attach(new_entry_confirm, 0, 5, 1, 1);
+
+        var dialog = new Adw.AlertDialog(
+            _("Datenbank-Passwort ändern"),
+            _("Dieses Passwort wird verwendet, um deine lokalen DinoX-Daten zu verschlüsseln.")
+        );
+        dialog.extra_child = grid;
+        dialog.add_response("cancel", _("Abbrechen"));
+        dialog.add_response("change", _("Ändern"));
+        dialog.default_response = "change";
+        dialog.close_response = "cancel";
+
+        dialog.response.connect((response) => {
+            if (response != "change") return;
+
+            string old_pw = old_entry.text ?? "";
+            string new_pw = new_entry.text ?? "";
+            string new_pw2 = new_entry_confirm.text ?? "";
+
+            if (old_pw != (!)this.db_key) {
+                warning("Change DB password failed: wrong current password");
+                Idle.add(() => { show_change_db_password_dialog(); return false; });
+                return;
+            }
+            if (new_pw.strip().length == 0) {
+                warning("Change DB password failed: empty new password");
+                Idle.add(() => { show_change_db_password_dialog(); return false; });
+                return;
+            }
+            if (new_pw != new_pw2) {
+                warning("Change DB password failed: mismatch");
+                Idle.add(() => { show_change_db_password_dialog(); return false; });
+                return;
+            }
+
+            try {
+                db.rekey(new_pw);
+                this.db_key = new_pw;
+            } catch (Error e) {
+                warning("Change DB password failed: %s", e.message);
+                Idle.add(() => { show_change_db_password_dialog(); return false; });
+                return;
+            }
+        });
+
         dialog.present(window);
     }
 

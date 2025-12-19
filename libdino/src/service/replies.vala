@@ -93,8 +93,23 @@ namespace Dino {
         string body = message.body;
         foreach (var fallback in message.get_fallbacks()) {
             if (fallback.ns_uri == Xep.Replies.NS_URI && message.quoted_item_id > 0) {
-                body = body[0:body.index_of_nth_char(fallback.locations[0].from_char)] +
-                        body[body.index_of_nth_char(fallback.locations[0].to_char):body.length];
+                if (fallback.locations.size == 0) {
+                    continue;
+                }
+
+                int from_char = fallback.locations[0].from_char;
+                int to_char = fallback.locations[0].to_char;
+                if (from_char < 0 || to_char < 0 || to_char < from_char) {
+                    continue;
+                }
+
+                int from_idx = body.index_of_nth_char(from_char);
+                int to_idx = body.index_of_nth_char(to_char);
+                if (from_idx < 0 || to_idx < 0 || from_idx > body.length || to_idx > body.length) {
+                    continue;
+                }
+
+                body = body[0:from_idx] + body[to_idx:body.length];
             }
         }
         return body;

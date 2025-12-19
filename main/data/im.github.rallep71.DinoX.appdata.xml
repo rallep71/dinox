@@ -191,7 +191,26 @@
   <url type="translate">https://hosted.weblate.org/projects/dino/</url>
   <launchable type="desktop-id">im.github.rallep71.DinoX.desktop</launchable>
   <releases>
-    <release date="2025-12-20" version="0.8.6.4">
+    <release date="2025-12-19" version="0.8.6.6">
+      <description>
+        <p>Security and stability update: encrypted local data is now mandatory.</p>
+        <ul>
+          <li>Password unlock on startup for the encrypted database.</li>
+          <li>Panic Wipe action and 3-tries wipe-on-failure behavior.</li>
+          <li>Change database password (SQLCipher rekey).</li>
+          <li>OpenPGP keyring is app-scoped so Panic Wipe removes keys.</li>
+        </ul>
+      </description>
+    </release>
+    <release date="2025-12-19" version="0.8.6.5">
+      <description>
+        <p>Hotfix for Flatpak crashes caused by the gdk-pixbuf SVG loader.</p>
+        <ul>
+          <li>Avoids invoking the SVG loader from background metadata/thumbnail generation by blacklisting SVG mime types and skipping files that look like SVG/SVGZ (gzip).</li>
+        </ul>
+      </description>
+    </release>
+    <release date="2025-12-19" version="0.8.6.4">
       <description>
         <p>Hotfix for sticker pack stability and UX feedback.</p>
         <ul>

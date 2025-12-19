@@ -41,7 +41,12 @@ public class Plugin : RootInterface, Object {
     public void registered(Dino.Application app) {
         ensure_context();
         this.app = app;
-        this.db = new Database(Path.build_filename(Application.get_storage_dir(), "omemo.db"));
+        try {
+            this.db = new Database(Path.build_filename(Application.get_storage_dir(), "omemo.db"));
+        } catch (Error e) {
+            warning("OMEMO plugin disabled: %s", e.message);
+            return;
+        }
         this.list_entry = new EncryptionListEntry(this);
         this.contact_details_provider = new ContactDetailsProvider(this);
         this.device_notification_populator = new DeviceNotificationPopulator(this, this.app.stream_interactor);
