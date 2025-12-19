@@ -26,18 +26,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Guards against log spam / CRITICALs**
   - Avoid CRITICAL errors when message retraction is requested without a message reference ID.
   - Validate reply fallback ranges before slicing strings.
+- **Flatpak SVG loader crash (stickers)**
+  - Avoid triggering the gdk-pixbuf SVG loader from background metadata/thumbnail generation by blacklisting SVG mime types and skipping files that look like SVG/SVGZ (gzip).
 - **Stickers import responsiveness**
   - Generate sticker thumbnails off the main thread to avoid UI stalls.
 - **HTTP MainContext handling (libsoup)**
   - Avoid re-entrant recursion by using `GLib.MainContext.is_owner()` checks.
 - **Unlock window placement (X11)**
   - Center the unlock window on X11 (best-effort; helps Cinnamon/Muffin).
-
-## [0.8.6.5] - 2025-12-19
-
-### Fixed
-- **Flatpak SVG loader crash (stickers)**
-  - Avoid triggering the gdk-pixbuf SVG loader from background metadata/thumbnail generation by blacklisting SVG mime types and skipping files that look like SVG/SVGZ (gzip).
 
 ## [0.8.6.4] - 2025-12-19
 
@@ -700,7 +696,6 @@ This release significantly improves 1:1 Jingle audio/video call interoperability
 
 [Unreleased]: https://github.com/rallep71/dinox/compare/v0.8.6.6...HEAD
 [0.8.6.6]: https://github.com/rallep71/dinox/releases/tag/v0.8.6.6
-[0.8.6.5]: https://github.com/rallep71/dinox/releases/tag/v0.8.6.5
 [0.8.6.4]: https://github.com/rallep71/dinox/releases/tag/v0.8.6.4
 [0.8.6.3]: https://github.com/rallep71/dinox/releases/tag/v0.8.6.3
 [0.8.6.2]: https://github.com/rallep71/dinox/releases/tag/v0.8.6.2
