@@ -345,6 +345,20 @@ public class FileImageWidget : Widget {
 
         string? local_path = file.get_path();
 
+        // Avoid SVG stickers: gdk-pixbuf SVG loader can crash in some Flatpak runtimes.
+        if (is_sticker) {
+            string? mt = this.file_transfer.mime_type;
+            if (mt != null && mt != "" && mt.down().has_prefix("image/svg")) {
+                return;
+            }
+            if (local_path != null && local_path != "") {
+                string lower_path = local_path.down();
+                if (lower_path.has_suffix(".svg") || lower_path.has_suffix(".svgz")) {
+                    return;
+                }
+            }
+        }
+
         // If we have a cached first frame for an animated sticker, show it immediately.
         if (is_sticker && animations_enabled && local_path != null && local_path != "") {
             var cached = get_cached_first_frame(local_path);
@@ -485,6 +499,10 @@ public class FileImageWidget : Widget {
     public static bool can_display(FileTransfer file_transfer) {
         var app = Dino.Application.get_default();
         if (file_transfer.is_sticker && !app.settings.stickers_enabled) {
+            return false;
+        }
+
+        if (file_transfer.is_sticker && file_transfer.mime_type != null && file_transfer.mime_type != "" && file_transfer.mime_type.down().has_prefix("image/svg")) {
             return false;
         }
 

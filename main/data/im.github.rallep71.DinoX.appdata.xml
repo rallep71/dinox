@@ -191,6 +191,14 @@
   <url type="translate">https://hosted.weblate.org/projects/dino/</url>
   <launchable type="desktop-id">im.github.rallep71.DinoX.desktop</launchable>
   <releases>
+    <release date="2025-12-19" version="0.8.6.3">
+      <description>
+        <p>Hotfix for Flatpak crashes caused by SVG stickers.</p>
+        <ul>
+          <li>Avoids decoding/displaying SVG stickers in the UI (sticker chooser thumbnails and inline sticker rendering) to prevent gdk-pixbuf SVG loader crashes.</li>
+        </ul>
+      </description>
+    </release>
     <release date="2025-12-18" version="0.8.6.2">
       <description>
         <p>Hotfix for sticker import crashes and Flatpak localization.</p>
