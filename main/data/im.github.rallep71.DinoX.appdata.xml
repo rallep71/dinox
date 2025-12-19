@@ -202,14 +202,6 @@
         </ul>
       </description>
     </release>
-    <release date="2025-12-19" version="0.8.6.5">
-      <description>
-        <p>Hotfix for Flatpak crashes caused by the gdk-pixbuf SVG loader.</p>
-        <ul>
-          <li>Avoids invoking the SVG loader from background metadata/thumbnail generation by blacklisting SVG mime types and skipping files that look like SVG/SVGZ (gzip).</li>
-        </ul>
-      </description>
-    </release>
     <release date="2025-12-19" version="0.8.6.4">
       <description>
         <p>Hotfix for sticker pack stability and UX feedback.</p>
