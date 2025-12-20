@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spenden &amp; Transparenz - DinoX</title>
+    <meta name="robots" content="noindex, follow">
+    <link rel="icon" type="image/svg+xml" href="assets/icon.svg">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <a class="skip-link" href="#main">Zum Inhalt springen</a>
+
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+        <div class="container">
+            <a href="./" class="nav-brand">
+                <img src="assets/icon.svg" alt="" class="logo" width="36" height="36">
+                <span class="brand-name">DinoX</span>
+            </a>
+
+            <ul class="nav-menu">
+                <li><a href="./#features">Features</a></li>
+                <li><a href="./#download">Download</a></li>
+                <li><a href="./#xep">XEP Support</a></li>
+                <li><a href="./#donate">Support</a></li>
+                <li><a href="https://github.com/rallep71/dinox">GitHub</a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle" aria-label="Theme umschalten" title="Theme umschalten">
+                    <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"/>
+                        <line x1="12" y1="1" x2="12" y2="3"/>
+                        <line x1="12" y1="21" x2="12" y2="23"/>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                        <line x1="1" y1="12" x2="3" y2="12"/>
+                        <line x1="21" y1="12" x2="23" y2="12"/>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                    </svg>
+                    <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                    </svg>
+                </button>
+
+                <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Menü" aria-expanded="false" aria-controls="mobileMenu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="./#features">Features</a>
+            <a href="./#download">Download</a>
+            <a href="./#xep">XEP Support</a>
+            <a href="./#donate">Support</a>
+            <a href="https://github.com/rallep71/dinox">GitHub</a>
+        </div>
+    </nav>
+
+    <main id="main">
+        <section class="features">
+            <div class="container">
+                <div class="section-header">
+                    <h1 class="section-title">Spenden &amp; Transparenz</h1>
+                    <p class="section-subtitle">Unterstützung, Zahlungsabwicklung und Hinweise</p>
+                </div>
+
+                <div class="feature-card">
+                    <h2>Worum es geht</h2>
+                    <p>
+                        DinoX ist ein Open-Source-Projekt. Wenn Sie die Entwicklung unterstützen möchten, können Sie freiwillig spenden.
+                        Spenden sind freiwillige Unterstützungen und beinhalten keinen Anspruch auf Support, Features oder Gegenleistungen.
+                    </p>
+
+                    <h2>Spendenwege</h2>
+                    <ul>
+                        <li><strong>Ko-fi</strong>: <a href="https://ko-fi.com/rallep" rel="noopener noreferrer">ko-fi.com/rallep</a></li>
+                        <li><strong>GitHub Sponsors</strong>: <a href="https://github.com/sponsors/rallep71" rel="noopener noreferrer">github.com/sponsors/rallep71</a></li>
+                    </ul>
+
+                    <h2>Zahlungsabwicklung / Daten</h2>
+                    <p>
+                        Die Zahlungsabwicklung erfolgt über die jeweiligen Plattformen (Ko-fi bzw. GitHub). Dabei werden personenbezogene Daten (z. B. Name, Zahlungsdaten, E-Mail)
+                        durch den Plattformanbieter nach dessen Bedingungen verarbeitet. DinoX selbst verarbeitet Zahlungsdaten nicht direkt.
+                    </p>
+
+                    <h2>Transparenz (optional)</h2>
+                    <p>
+                        <!-- TODO: Optional ergänzen: wofür Spenden verwendet werden (z. B. Domains/Hosting, Testgeräte, Zeitbudget) -->
+                        <em>[Optional: kurze Auflistung, wofür Spenden verwendet werden]</em>
+                    </p>
+
+                    <p>
+                        <a class="btn btn-secondary" href="./#donate">Zur Support-Sektion</a>
+                        <a class="btn btn-secondary" href="datenschutz.html">Datenschutz</a>
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer" role="contentinfo">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>
+                    © 2025 Ralf Peter. Licensed under <a href="https://github.com/rallep71/dinox/blob/master/LICENSE">GPLv3</a>.
+                    · <a href="impressum.html">Impressum</a>
+                    · <a href="datenschutz.html">Datenschutz</a>
+                    · <a href="spenden.html">Spenden &amp; Transparenz</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

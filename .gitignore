@@ -19,6 +19,7 @@ Makefile
 .sqlite3
 *.db
 *.log
+*.pid
 debug_log*.txt
 
 # Test Artifacts

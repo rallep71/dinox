@@ -1737,11 +1737,44 @@ section {
 
 /* ===== Utility Classes ===== */
 .text-center { text-align: center; }
+.mt-xl { margin-top: var(--space-xl); }
 .text-gradient {
     background: var(--gradient-primary);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+}
+
+/* ===== Legal / long-form content (privacy, imprint) ===== */
+.index {
+    list-style: none;
+    padding-left: 0;
+    margin: var(--space-md) 0 var(--space-xl);
+    display: grid;
+    gap: var(--space-sm);
+}
+
+.index-link {
+    display: inline-block;
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-subtle);
+    background: var(--bg-code);
+}
+
+.m-elements {
+    margin: var(--space-md) 0 var(--space-xl);
+}
+
+.m-elements li,
+.glossary li {
+    margin-bottom: var(--space-sm);
+}
+
+.seal {
+    margin-top: var(--space-xl);
+    color: var(--text-secondary);
+    font-size: 0.95rem;
 }
 
 /* ===== Mobile-First Responsive Fixes ===== */

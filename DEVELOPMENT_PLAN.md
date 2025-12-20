@@ -1,15 +1,17 @@
 # DinoX - Development Plan
 
 > **Last Updated**: December 19, 2025
-> **Version**: 0.8.6
+> **Current Release Line**: 0.8.6.x
+
+This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
 
 ---
 
-## Current Status
+## Project Snapshot
 
 | Metric | Status |
 |--------|--------|
-| **Version** | v0.8.6 |
+| **Release Line** | 0.8.6.x |
 | **XEPs Implemented** | ~70 |
 | **Languages** | 47 (100% translated) |
 | **Build Status** | Clean |
@@ -17,14 +19,20 @@
 
 ---
 
-## Recently Completed (v0.8.0 - v0.8.6)
+## Timeline (Recent Releases)
 
-### Video & Audio (v0.8.4)
-- **WebRTC Video Calls**: Full support for VP8, VP9, and H.264 codecs.
-- **ICE-TCP**: Fallback connectivity for restrictive firewalls (RFC 6544).
-- **Hardware Acceleration**: VA-API support for video encoding/decoding.
+### v0.8.6 (Messaging / expressiveness + packaging)
 
-### Audio/Video call interoperability (v0.8.5)
+- **XEP-0449 Stickers**: end-to-end sticker support (`urn:xmpp:stickers:0`).
+  - Receive/display, send, import packs via `xmpp:` PubSub links, publish packs to PEP, share URIs.
+  - Preferences toggles for stickers and sticker animations.
+  - Sticker chooser UX hardened (deferred reloads + explicit close button).
+- **GitHub AppImage: media/audio reliability**
+  - Bundle `gst-plugin-scanner` and recursively copy missing shared-library dependencies.
+  - Avoid silently missing GStreamer capabilities (WebRTC/audio/video) due to incomplete bundling.
+- **Notifications**: ensure notification sound plugin is enabled in release builds.
+
+### v0.8.5 (Audio/Video call interoperability)
 
 Goal: stable cross-client 1:1 calling with **Conversations (Android)** and **Monal (iOS)** while keeping DinoX’s media stack (GStreamer + libnice + DTLS-SRTP).
 
@@ -32,7 +40,7 @@ Goal: stable cross-client 1:1 calling with **Conversations (Android)** and **Mon
 - **Codec baseline**: focus on **Opus** (audio) + **VP8** (video) for reliable negotiation.
 - **Startup/teardown stability**: reduced startup artifacts and improved cleanup ordering.
 
-### Release engineering / packaging hotfixes (v0.8.5.x)
+### v0.8.5.x (Release engineering / packaging hotfixes)
 
 Focus: make GitHub release assets reliable for end users (Flatpak/AppImage).
 
@@ -40,72 +48,58 @@ Focus: make GitHub release assets reliable for end users (Flatpak/AppImage).
 - **Flatpak: SQLCipher FTS4 enabled** to fix startup failure `no such module: fts4`.
 - **Release notes**: hotfix tags reuse the base release notes (0.8.5) to keep the changelog readable.
 
-### Messaging / expressiveness (v0.8.6)
+### v0.8.4 (Video & audio)
 
-- **XEP-0449 Stickers**: end-to-end sticker support (`urn:xmpp:stickers:0`).
-	- Receive/display, send, import packs via `xmpp:` PubSub links, publish packs to PEP, share URIs.
-	- Preferences toggles for stickers and sticker animations.
-	- Sticker chooser UX hardened (deferred reloads + explicit close button).
+- **WebRTC Video Calls**: support for VP8, VP9, and H.264 codecs.
+- **ICE-TCP**: fallback connectivity for restrictive firewalls (RFC 6544).
+- **Hardware Acceleration**: VA-API support for video encoding/decoding.
 
-### Packaging robustness (v0.8.6)
+### v0.8.0 - v0.8.3 (Security, privacy, usability)
 
-- **GitHub AppImage: media/audio reliability**
-	- Bundle `gst-plugin-scanner` and recursively copy missing shared-library dependencies.
-	- Avoid silently missing GStreamer capabilities (WebRTC/audio/video) due to incomplete bundling.
-- **Notifications**: ensure notification sound plugin is enabled in release builds.
-
-### Security & Privacy (v0.8.2 - v0.8.3)
-- **Database Encryption**: Full SQLCipher integration protecting local data.
-- **Disappearing Messages**: Auto-deletion timers (XEP-0424).
-- **Path Traversal Fix**: Hardened file transfer handling.
-- **TLS Pinning**: Trust management for self-signed certificates.
-
-### Usability (v0.8.0 - v0.8.1)
-- **OpenPGP Management**: New UI for key generation and management.
-- **MUC Improvements**: Password sync with bookmarks.
+- **Database Encryption**: SQLCipher integration protecting local data.
+- **Disappearing Messages**: auto-deletion timers (XEP-0424).
+- **Path Traversal Fix**: hardened file transfer handling.
+- **TLS Pinning**: trust management for self-signed certificates.
+- **OpenPGP Management**: UI for key generation and management.
+- **MUC Improvements**: password sync with bookmarks.
 
 ---
 
-## Roadmap
+## Roadmap (Next Work)
 
-### Phase 9: Refinement & Quality (Q1 2026)
+### Q1 2026: Refinement & quality
 
-Focus on polishing call interoperability and general app stability.
+Focus: polish call interoperability and general stability.
 
-| Feature | Description | Status |
-|---------|-------------|--------|
-| **Call Quality UI** | Display packet loss, jitter, and resolution during calls | IN PROGRESS (Backend Ready) |
-| **Echo Cancellation** | Fine-tune `webrtc-audio-processing` AEC settings for Linux audio subsystems | IN PROGRESS |
+| Item | Description | Status |
+|------|-------------|--------|
+| **Call Quality UI** | Display packet loss, jitter, and resolution during calls | IN PROGRESS (backend ready) |
+| **Echo Cancellation** | Fine-tune `webrtc-audio-processing` AEC settings across Linux audio setups | IN PROGRESS |
 | **Spell Checking** | Re-enable spell checking (waiting for GTK4 GtkTextView support) | BLOCKED |
 | **Performance** | Optimize memory usage for long-running sessions | TODO |
-| **Encrypted Local Attachments (Optional)** | Optionally store cached/downloaded attachments encrypted at rest (separate from SQLCipher DB encryption) | TODO |
+| **Encrypted Local Attachments (Optional)** | Optionally encrypt cached/downloaded attachments at rest (separate from SQLCipher DB encryption) | TODO |
 
-### Phase 10: Modern XEPs & Engagement (Q2 2026)
+### Q2 2026: Modern XEPs (explicit TODOs)
 
-Adding features that make chatting more expressive and mobile-friendly.
+| XEP | Feature | Implementation TODO |
+|-----|---------|---------------------|
+| **XEP-0357** | Push Notifications | Add/verify push enable/disable flow per account, server capability discovery, and end-to-end testing with common push components. |
+| **XEP-0388** | SASL2 / FAST | Implement SASL2 negotiation and FAST token handling; ensure interaction with XEP-0198 stream management and session resumption remains correct. |
+| **XEP-0386** | Bind 2 | Implement Bind2 negotiation and integrate with session establishment; verify multi-device and reconnection behavior. |
 
-| XEP | Feature | Status |
-|-----|---------|--------|
-| **XEP-0357** | **Push Notifications**: Better integration for mobile/sleep states | TODO |
-| **XEP-0388** | **SASL2 / FAST**: Faster authentication and stream resumption | TODO |
-| **XEP-0386** | **Bind 2**: Improved multi-device handling | TODO |
+### Q3 2026: Advanced media
 
-### Phase 11: Advanced Media & Collaboration (Q3 2026)
+| Item | Description | Status |
+|------|-------------|--------|
+| **Screen Sharing** | Share desktop or windows during calls | TODO |
+| **Whiteboard** | Collaborative drawing (protocol TBD) | CONCEPT |
 
-Expanding calling capabilities beyond 1:1 calls.
+### Q4 2026: 1.0 milestone
 
-| Feature | Description | Status |
-|---------|-------------|--------|
-| **Screen Sharing** | Share desktop or specific windows during calls | TODO |
-| **Group Calls** | MUJI (XEP-0272) support for 3+ participants | IMPLEMENTED |
-| **Whiteboard** | Collaborative drawing (XEP-0284 or similar) | CONCEPT |
-
-### Phase 12: 1.0 Release (Q4 2026)
-
-The milestone for a "Feature Complete" and rock-solid release.
+The milestone for a "feature complete" and rock-solid release.
 
 **Requirements**:
-- Zero P1 (Crash) bugs.
+- Zero P1 (crash) bugs.
 - Memory usage < 200MB for 7-day sessions.
 - Comprehensive security audit.
 - 3+ months of beta testing without major regressions.
@@ -114,10 +108,9 @@ The milestone for a "Feature Complete" and rock-solid release.
 
 ## Contributing
 
-We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details on how to set up your development environment and submit Pull Requests.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for how to set up your development environment and submit Pull Requests.
 
 ```bash
-# Quick Start
 meson setup build
 ninja -C build
 ./build/main/dinox
