@@ -568,54 +568,31 @@
         button.type = 'button';
         button.className = 'copy-btn';
         button.innerHTML = `
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false">
                 <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
                 <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
             </svg>
         `;
         button.title = 'Copy to clipboard';
         button.setAttribute('aria-label', 'Copy to clipboard');
-        button.style.cssText = `
-            position: absolute;
-            top: 4px;
-            right: 4px;
-            padding: 4px;
-            background: var(--bg-card);
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-sm);
-            cursor: pointer;
-            opacity: 0;
-            transition: opacity 0.2s;
-            color: var(--text-secondary);
-        `;
+        // Styling is handled in CSS to ensure consistent visibility and sizing.
         
         pre.style.position = 'relative';
         pre.appendChild(button);
-
-        // Make sure the button is visible for keyboard users.
-        pre.addEventListener('focusin', () => {
-            button.style.opacity = '1';
-        });
-        pre.addEventListener('focusout', () => {
-            button.style.opacity = '0';
-        });
-
-        pre.addEventListener('mouseenter', () => button.style.opacity = '1');
-        pre.addEventListener('mouseleave', () => button.style.opacity = '0');
 
         button.addEventListener('click', async () => {
             const code = pre.querySelector('code').textContent;
             try {
                 await navigator.clipboard.writeText(code);
                 button.innerHTML = `
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false">
                         <polyline points="20 6 9 17 4 12"/>
                     </svg>
                 `;
                 button.style.color = 'var(--color-primary)';
                 setTimeout(() => {
                     button.innerHTML = `
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false">
                             <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
                             <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
                         </svg>

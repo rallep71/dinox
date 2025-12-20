@@ -1045,6 +1045,42 @@ section {
     word-break: break-all;
     white-space: pre-wrap;
     max-width: 100%;
+    position: relative;
+}
+
+.copy-btn {
+    position: absolute;
+    top: var(--space-xs);
+    right: var(--space-xs);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.5rem;
+    min-height: 2.5rem;
+    padding: var(--space-xs);
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    color: var(--text-secondary);
+    cursor: pointer;
+    opacity: 0.9;
+    transition: opacity 0.2s;
+}
+
+.copy-btn:hover {
+    opacity: 1;
+}
+
+.copy-btn:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+    opacity: 1;
+}
+
+@media (pointer: coarse) {
+    .copy-btn {
+        opacity: 1;
+    }
 }
 
 .download-card pre:hover .copy-btn,
