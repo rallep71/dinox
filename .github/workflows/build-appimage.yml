@@ -200,6 +200,7 @@ jobs:
           for plugin in \
             libgstcoreelements.so \
             libgstplayback.so \
+            libgstaudiorate.so \
             libgsttypefindfunctions.so \
             libgstvideoconvertscale.so \
             libgstaudioconvert.so \
