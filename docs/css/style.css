@@ -196,8 +196,17 @@ a {
     transition: color var(--transition-fast);
 }
 
+/* Dark theme: ensure link text meets contrast on dark surfaces */
+[data-theme="dark"] a {
+    color: var(--color-primary-light);
+}
+
 a:hover {
     color: var(--color-primary-dark);
+}
+
+[data-theme="dark"] a:hover {
+    color: var(--color-primary);
 }
 
 /* ===== Accessibility Focus Styles ===== */
@@ -355,7 +364,8 @@ ul, ol {
     transition: all var(--transition-fast);
 }
 
-.nav-menu a:hover {
+.nav-menu a:hover,
+.nav-menu a:focus-visible {
     color: var(--text-primary);
     background: var(--bg-section);
 }
@@ -380,7 +390,8 @@ ul, ol {
     transition: all var(--transition-fast);
 }
 
-.theme-toggle:hover {
+.theme-toggle:hover,
+.theme-toggle:focus-visible {
     background: var(--bg-section);
     color: var(--text-primary);
     border-color: var(--color-primary);
@@ -466,7 +477,8 @@ ul, ol {
     transition: all var(--transition-fast);
 }
 
-.mobile-menu a:hover {
+.mobile-menu a:hover,
+.mobile-menu a:focus-visible {
     background: var(--bg-section);
     color: var(--text-primary);
 }
@@ -593,6 +605,10 @@ ul, ol {
     margin-bottom: var(--space-lg);
 }
 
+[data-theme="dark"] .hero-badge {
+    color: var(--color-primary-light);
+}
+
 .hero-badge::before {
     content: '';
     width: 8px;
@@ -600,6 +616,10 @@ ul, ol {
     background: var(--color-primary);
     border-radius: 50%;
     animation: pulse 2s ease-in-out infinite;
+}
+
+[data-theme="dark"] .hero-badge::before {
+    background: var(--color-primary-light);
 }
 
 @keyframes pulse {
@@ -747,7 +767,8 @@ ul, ol {
     transition: all var(--transition-fast);
 }
 
-.hero-slider-dot:hover {
+.hero-slider-dot:hover,
+.hero-slider-dot:focus-visible {
     border-color: var(--text-secondary);
 }
 
@@ -1134,15 +1155,23 @@ section {
 
 .btn-donate-light {
     background: #ffffff;
-    color: var(--color-donate-dark);
+    color: var(--text-primary);
     font-weight: 700;
     box-shadow: var(--shadow-lg);
+}
+
+[data-theme="dark"] .btn-donate-light {
+    color: var(--bg-body);
 }
 
 .btn-donate-light:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-xl);
-    color: var(--color-donate-dark);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .btn-donate-light:hover {
+    color: var(--bg-body);
 }
 
 .btn-donate-outline {
@@ -1299,6 +1328,10 @@ section {
     font-size: 0.875rem;
     color: var(--text-muted);
     margin-bottom: var(--space-md);
+}
+
+[data-theme="dark"] .changelog-date {
+    color: var(--text-secondary);
 }
 
 .changelog-content h4 {
@@ -1537,8 +1570,16 @@ section {
     font-size: 0.875rem;
 }
 
+[data-theme="dark"] .footer-bottom p {
+    color: var(--text-secondary);
+}
+
 .footer-bottom a {
     color: var(--text-muted);
+}
+
+[data-theme="dark"] .footer-bottom a {
+    color: var(--text-secondary);
 }
 
 .footer-bottom a:hover {
@@ -1568,7 +1609,8 @@ section {
     z-index: 100;
 }
 
-.back-to-top:hover {
+.back-to-top:hover,
+.back-to-top:focus-visible {
     transform: translateY(-2px);
     box-shadow: var(--shadow-xl);
 }
@@ -1634,7 +1676,8 @@ section {
     cursor: pointer;
 }
 
-.lightbox-close:hover {
+.lightbox-close:hover,
+.lightbox-close:focus-visible {
     background: rgba(0, 0, 0, 0.35);
 }
 

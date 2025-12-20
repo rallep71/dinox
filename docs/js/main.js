@@ -23,9 +23,16 @@
         }
         
         try {
-            const response = await fetch(GITHUB_API);
+            // Prevent long hangs on slow/blocked networks.
+            const controller = ('AbortController' in window) ? new AbortController() : null;
+            const timeoutId = controller ? window.setTimeout(() => controller.abort(), 5000) : null;
+
+            const fetchOptions = controller ? { signal: controller.signal } : undefined;
+            const response = await fetch(GITHUB_API, fetchOptions);
             if (!response.ok) throw new Error('GitHub API error');
             const data = await response.json();
+
+            if (timeoutId) window.clearTimeout(timeoutId);
             
             // Cache the result
             localStorage.setItem(VERSION_CACHE_KEY, JSON.stringify({
@@ -161,6 +168,11 @@
     function setTheme(theme) {
         document.documentElement.setAttribute('data-theme', theme);
         localStorage.setItem(THEME_KEY, theme);
+
+        // Expose state to assistive technology.
+        if (themeToggle) {
+            themeToggle.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
+        }
     }
 
     function toggleTheme() {
@@ -174,6 +186,7 @@
 
     // Theme toggle click handler
     if (themeToggle) {
+        themeToggle.setAttribute('aria-pressed', getPreferredTheme() === 'dark' ? 'true' : 'false');
         themeToggle.addEventListener('click', toggleTheme);
     }
 
@@ -244,6 +257,49 @@
                 closeMobileMenu({ restoreFocus: true });
             }
         });
+
+        // Trap Tab focus inside the mobile menu while it's open.
+        document.addEventListener('keydown', (e) => {
+            if (e.key !== 'Tab') return;
+            if (!mobileMenu.classList.contains('active')) return;
+
+            const focusables = [mobileMenuToggle, ...Array.from(mobileMenu.querySelectorAll('a, button'))]
+                .filter(Boolean);
+            if (focusables.length === 0) return;
+
+            const first = focusables[0];
+            const last = focusables[focusables.length - 1];
+            const active = document.activeElement;
+
+            // If focus is outside the menu/toggle, bring it back in.
+            if (!mobileMenu.contains(active) && active !== mobileMenuToggle) {
+                e.preventDefault();
+                (e.shiftKey ? last : first).focus();
+                return;
+            }
+
+            if (e.shiftKey) {
+                if (active === first) {
+                    e.preventDefault();
+                    last.focus();
+                }
+            } else {
+                if (active === last) {
+                    e.preventDefault();
+                    first.focus();
+                }
+            }
+        });
+
+        // Also guard against programmatic focus leaving the menu while open.
+        document.addEventListener('focusin', (e) => {
+            if (!mobileMenu.classList.contains('active')) return;
+            const target = e.target;
+            if (mobileMenu.contains(target) || target === mobileMenuToggle) return;
+
+            const firstLink = mobileMenu.querySelector('a');
+            if (firstLink) firstLink.focus();
+        });
     }
 
     // ===== Smooth Scroll =====
@@ -257,10 +313,13 @@
                 e.preventDefault();
                 const navHeight = navbar ? navbar.offsetHeight : 0;
                 const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - navHeight - 20;
+
+                const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                const isSkipLink = this.classList && this.classList.contains('skip-link');
                 
                 window.scrollTo({
                     top: targetPosition,
-                    behavior: 'smooth'
+                    behavior: (prefersReducedMotion || isSkipLink) ? 'auto' : 'smooth'
                 });
 
                 // Move focus to the target for keyboard/screen reader users.
@@ -296,9 +355,10 @@
 
     if (backToTopBtn) {
         backToTopBtn.addEventListener('click', () => {
+            const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
             window.scrollTo({
                 top: 0,
-                behavior: 'smooth'
+                behavior: prefersReducedMotion ? 'auto' : 'smooth'
             });
         });
     }
@@ -337,20 +397,48 @@
         threshold: 0.1
     };
 
-    const fadeObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('fade-in-up');
-                fadeObserver.unobserve(entry.target);
+    const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const fadeTargets = document.querySelectorAll('.feature-card, .download-card, .xep-category, .stat-card');
+
+    if (!prefersReducedMotion && ('IntersectionObserver' in window)) {
+        const fadeObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in-up');
+                    fadeObserver.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for fade-in animation.
+        // Avoid hiding content that is already in the initial viewport.
+        fadeTargets.forEach(el => {
+            const rect = el.getBoundingClientRect();
+            const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+            const inViewport = rect.top < viewportHeight && rect.bottom > 0;
+
+            if (!inViewport) {
+                el.style.opacity = '0';
+                fadeObserver.observe(el);
             }
         });
-    }, observerOptions);
 
-    // Observe elements for fade-in animation
-    document.querySelectorAll('.feature-card, .download-card, .xep-category, .stat-card').forEach(el => {
-        el.style.opacity = '0';
-        fadeObserver.observe(el);
-    });
+        // If a user tabs into a target before it becomes visible, ensure it's shown.
+        document.addEventListener('focusin', (e) => {
+            const container = e.target.closest('.feature-card, .download-card, .xep-category, .stat-card');
+            if (!container) return;
+            if (container.style.opacity === '0') {
+                container.style.opacity = '1';
+                container.classList.add('fade-in-up');
+                fadeObserver.unobserve(container);
+            }
+        });
+    } else {
+        // Reduced motion (or no observer support): keep content visible.
+        fadeTargets.forEach(el => {
+            el.style.opacity = '1';
+        });
+    }
 
     // ===== Copy Code to Clipboard =====
     document.querySelectorAll('.download-card pre').forEach(pre => {
