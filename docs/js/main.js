@@ -8,17 +8,23 @@
     'use strict';
 
     // ===== GitHub Release Auto-Update =====
-    const GITHUB_API = 'https://api.github.com/repos/rallep71/dinox/releases/latest';
+    const GITHUB_LATEST_API = 'https://api.github.com/repos/rallep71/dinox/releases/latest';
+    const GITHUB_RELEASES_API = 'https://api.github.com/repos/rallep71/dinox/releases?per_page=100';
     const VERSION_CACHE_KEY = 'dinox-release-cache';
+    const RELEASES_CACHE_KEY = 'dinox-releases-cache';
     const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
     
     async function fetchLatestRelease() {
         // Check cache first
         const cached = localStorage.getItem(VERSION_CACHE_KEY);
         if (cached) {
-            const { data, timestamp } = JSON.parse(cached);
-            if (Date.now() - timestamp < CACHE_DURATION) {
-                return data;
+            try {
+                const { data, timestamp } = JSON.parse(cached);
+                if (Date.now() - timestamp < CACHE_DURATION) {
+                    return data;
+                }
+            } catch (e) {
+                // Ignore invalid cache
             }
         }
         
@@ -28,7 +34,7 @@
             const timeoutId = controller ? window.setTimeout(() => controller.abort(), 5000) : null;
 
             const fetchOptions = controller ? { signal: controller.signal } : undefined;
-            const response = await fetch(GITHUB_API, fetchOptions);
+            const response = await fetch(GITHUB_LATEST_API, fetchOptions);
             if (!response.ok) throw new Error('GitHub API error');
             const data = await response.json();
 
@@ -43,6 +49,48 @@
             return data;
         } catch (error) {
             console.warn('Could not fetch latest release:', error);
+            return null;
+        }
+    }
+
+    async function fetchReleases() {
+        // Check cache first
+        const cached = localStorage.getItem(RELEASES_CACHE_KEY);
+        if (cached) {
+            try {
+                const { data, timestamp } = JSON.parse(cached);
+                if (Date.now() - timestamp < CACHE_DURATION) {
+                    return data;
+                }
+            } catch (e) {
+                // Ignore invalid cache
+            }
+        }
+
+        try {
+            // Prevent long hangs on slow/blocked networks.
+            const controller = ('AbortController' in window) ? new AbortController() : null;
+            const timeoutId = controller ? window.setTimeout(() => controller.abort(), 5000) : null;
+
+            const fetchOptions = controller ? { signal: controller.signal } : undefined;
+            const response = await fetch(GITHUB_RELEASES_API, fetchOptions);
+            if (!response.ok) throw new Error('GitHub API error');
+            const data = await response.json();
+
+            if (timeoutId) window.clearTimeout(timeoutId);
+
+            // Filter out drafts; keep prereleases (they're still legitimate releases for some users)
+            const releases = Array.isArray(data) ? data.filter(r => r && !r.draft) : [];
+
+            // Cache the result
+            localStorage.setItem(RELEASES_CACHE_KEY, JSON.stringify({
+                data: releases,
+                timestamp: Date.now()
+            }));
+
+            return releases;
+        } catch (error) {
+            console.warn('Could not fetch releases list:', error);
             return null;
         }
     }
@@ -88,7 +136,18 @@
             }
         }
         
-        return { title, items: items.slice(0, 4) }; // Limit to 4 items
+        // De-duplicate while preserving order (GitHub release notes sometimes contain repeated bullets)
+        const seen = new Set();
+        const uniqueItems = [];
+        for (const item of items) {
+            const key = String(item).trim();
+            if (!key) continue;
+            if (seen.has(key)) continue;
+            seen.add(key);
+            uniqueItems.push(item);
+        }
+
+        return { title, items: uniqueItems.slice(0, 4) }; // Limit to 4 items
     }
     
     function updateVersionDisplay(release) {
@@ -120,7 +179,8 @@
             if (versionNumber) versionNumber.textContent = `v${version}`;
         }
         
-        // Update first changelog entry (latest version) with content from release body
+        // Fallback: update first changelog entry (latest version) with content from release body.
+        // If the full releases list loads, it will replace the whole changelog section.
         const firstChangelog = document.querySelector('.changelog-item:first-child');
         if (firstChangelog) {
             const versionSpan = firstChangelog.querySelector('.changelog-version');
@@ -143,9 +203,71 @@
             }
         }
     }
+
+    function renderChangelogFromReleases(releases) {
+        if (!Array.isArray(releases) || releases.length === 0) return;
+
+        const changelogList = document.querySelector('.changelog-list');
+        if (!changelogList) return;
+
+        // Replace static placeholder/hardcoded entries with GitHub releases.
+        changelogList.textContent = '';
+
+        for (const release of releases) {
+            if (!release || !release.tag_name) continue;
+
+            const version = release.tag_name;
+            const date = release.published_at ? formatDate(release.published_at) : '';
+
+            const item = document.createElement('div');
+            item.className = 'changelog-item';
+
+            const versionSpan = document.createElement('span');
+            versionSpan.className = 'changelog-version';
+            versionSpan.textContent = version;
+
+            const dateDiv = document.createElement('div');
+            dateDiv.className = 'changelog-date';
+            dateDiv.textContent = date;
+
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'changelog-content';
+
+            const { title, items } = release.body ? parseReleaseBody(release.body) : { title: 'Changes', items: [] };
+
+            const h4 = document.createElement('h4');
+            h4.textContent = title || 'Changes';
+
+            const ul = document.createElement('ul');
+            const listItems = (items && items.length > 0) ? items.slice(0, 4) : ['See GitHub release notes for details.'];
+            for (const entry of listItems) {
+                const li = document.createElement('li');
+                li.textContent = String(entry);
+                ul.appendChild(li);
+            }
+
+            contentDiv.appendChild(h4);
+            contentDiv.appendChild(ul);
+
+            item.appendChild(versionSpan);
+            item.appendChild(dateDiv);
+            item.appendChild(contentDiv);
+
+            changelogList.appendChild(item);
+        }
+    }
     
     // Fetch and update on page load
-    fetchLatestRelease().then(updateVersionDisplay);
+    fetchReleases().then((releases) => {
+        if (releases && releases[0]) {
+            updateVersionDisplay(releases[0]);
+            renderChangelogFromReleases(releases);
+            return;
+        }
+
+        // Fallback for blocked GitHub API / CORS / privacy tools
+        fetchLatestRelease().then(updateVersionDisplay);
+    });
 
     // ===== DOM Elements =====
     const themeToggle = document.getElementById('themeToggle');
