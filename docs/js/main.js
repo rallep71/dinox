@@ -407,8 +407,23 @@
     // ===== External Links =====
     document.querySelectorAll('a[href^="http"]').forEach(link => {
         if (!link.href.includes(window.location.hostname)) {
-            link.setAttribute('target', '_blank');
-            link.setAttribute('rel', 'noopener noreferrer');
+            // Do NOT force opening in a new tab/window (WCAG: avoid unexpected context changes).
+            // If the author explicitly uses target="_blank", ensure it is safe and announced.
+            if ((link.getAttribute('target') || '').toLowerCase() === '_blank') {
+                const existingRel = link.getAttribute('rel') || '';
+                const relParts = new Set(existingRel.split(/\s+/).filter(Boolean));
+                relParts.add('noopener');
+                relParts.add('noreferrer');
+                link.setAttribute('rel', Array.from(relParts).join(' '));
+
+                // Add a screen-reader hint once.
+                if (!link.querySelector('.sr-only')) {
+                    const hint = document.createElement('span');
+                    hint.className = 'sr-only';
+                    hint.textContent = ' (opens in a new tab)';
+                    link.appendChild(hint);
+                }
+            }
         }
     });
 
