@@ -316,6 +316,7 @@
     // ===== Copy Code to Clipboard =====
     document.querySelectorAll('.download-card pre').forEach(pre => {
         const button = document.createElement('button');
+        button.type = 'button';
         button.className = 'copy-btn';
         button.innerHTML = `
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -323,7 +324,8 @@
                 <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
             </svg>
         `;
-        button.title = 'In Zwischenablage kopieren';
+        button.title = 'Copy to clipboard';
+        button.setAttribute('aria-label', 'Copy to clipboard');
         button.style.cssText = `
             position: absolute;
             top: 4px;
@@ -340,6 +342,14 @@
         
         pre.style.position = 'relative';
         pre.appendChild(button);
+
+        // Make sure the button is visible for keyboard users.
+        pre.addEventListener('focusin', () => {
+            button.style.opacity = '1';
+        });
+        pre.addEventListener('focusout', () => {
+            button.style.opacity = '0';
+        });
 
         pre.addEventListener('mouseenter', () => button.style.opacity = '1');
         pre.addEventListener('mouseleave', () => button.style.opacity = '0');
@@ -391,8 +401,10 @@
         // Create dots
         heroSlides.forEach((_, i) => {
             const dot = document.createElement('button');
+            dot.type = 'button';
             dot.classList.add('hero-slider-dot');
             if (i === 0) dot.classList.add('active');
+            dot.setAttribute('aria-label', `Go to slide ${i + 1} of ${heroSlides.length}`);
             dot.addEventListener('click', () => goToSlide(i));
             heroDotsContainer.appendChild(dot);
         });
@@ -401,18 +413,19 @@
         
         function goToSlide(index) {
             heroSlides[currentSlide].classList.remove('active');
+            heroSlides[currentSlide].setAttribute('aria-hidden', 'true');
             heroDots[currentSlide].classList.remove('active');
+            heroDots[currentSlide].removeAttribute('aria-current');
             currentSlide = index;
             heroSlides[currentSlide].classList.add('active');
+            heroSlides[currentSlide].setAttribute('aria-hidden', 'false');
             heroDots[currentSlide].classList.add('active');
+            heroDots[currentSlide].setAttribute('aria-current', 'true');
         }
-        
-        function nextSlide() {
-            goToSlide((currentSlide + 1) % heroSlides.length);
-        }
-        
-        // Auto-advance every 4 seconds
-        setInterval(nextSlide, 4000);
+
+        // For accessibility (pause/stop requirement), do not auto-advance.
+        heroSlides.forEach((slide, i) => slide.setAttribute('aria-hidden', i === 0 ? 'false' : 'true'));
+        heroDots[0].setAttribute('aria-current', 'true');
     }
 
     // ===== Lightbox for Screenshots =====
@@ -422,17 +435,35 @@
     const lightboxClose = document.querySelector('.lightbox-close');
     
     if (lightbox && lightboxImg) {
+        let lastFocusedElement = null;
+
+        function getLightboxFocusableElements() {
+            return Array.from(lightbox.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'))
+                .filter(el => !el.hasAttribute('disabled') && el.getAttribute('aria-hidden') !== 'true');
+        }
+
         // Open lightbox on screenshot click
-        document.querySelectorAll('.screenshot-item').forEach(item => {
-            item.addEventListener('click', () => {
-                const img = item.querySelector('img');
-                const caption = item.querySelector('.caption');
-                
+        document.querySelectorAll('.screenshot-trigger').forEach(trigger => {
+            trigger.addEventListener('click', () => {
+                const item = trigger.closest('.screenshot-item');
+                const img = item ? item.querySelector('img') : null;
+                const caption = item ? item.querySelector('.caption') : null;
+
+                if (!img) return;
+
+                lastFocusedElement = document.activeElement;
                 lightboxImg.src = img.src;
                 lightboxImg.alt = img.alt;
                 lightboxCaption.textContent = caption ? caption.textContent : '';
                 lightbox.classList.add('active');
                 document.body.style.overflow = 'hidden';
+
+                // Focus the close button for a predictable keyboard starting point.
+                if (lightboxClose) {
+                    lightboxClose.focus();
+                } else {
+                    lightbox.focus();
+                }
             });
         });
         
@@ -440,14 +471,52 @@
         function closeLightbox() {
             lightbox.classList.remove('active');
             document.body.style.overflow = '';
+
+            // Restore focus to the element that opened the dialog.
+            if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
+                lastFocusedElement.focus();
+            }
         }
-        
-        // Click anywhere (including image) closes lightbox
-        lightbox.addEventListener('click', closeLightbox);
-        
+
+        if (lightboxClose) {
+            lightboxClose.addEventListener('click', closeLightbox);
+        }
+
+        // Backdrop click closes; clicks inside content should not.
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) closeLightbox();
+        });
+
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+            if (!lightbox.classList.contains('active')) return;
+
+            if (e.key === 'Escape') {
                 closeLightbox();
+                return;
+            }
+
+            if (e.key === 'Tab') {
+                const focusable = getLightboxFocusableElements();
+                if (focusable.length === 0) {
+                    e.preventDefault();
+                    return;
+                }
+
+                const first = focusable[0];
+                const last = focusable[focusable.length - 1];
+                const active = document.activeElement;
+
+                if (e.shiftKey) {
+                    if (active === first || active === lightbox) {
+                        e.preventDefault();
+                        last.focus();
+                    }
+                } else {
+                    if (active === last) {
+                        e.preventDefault();
+                        first.focus();
+                    }
+                }
             }
         });
     }

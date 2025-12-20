@@ -286,7 +286,7 @@
                             <img src="assets/emoji.png" alt="DinoX emoji picker with categorized emoji selection" loading="lazy" width="800" height="600">
                         </div>
                     </div>
-                    <div class="hero-slider-dots" role="tablist" aria-label="Slide navigation"></div>
+                    <div class="hero-slider-dots" aria-label="Slide navigation"></div>
                 </div>
             </div>
         </section>
@@ -416,36 +416,52 @@
                 
                 <div class="screenshots-grid" role="list">
                     <figure class="screenshot-item" role="listitem">
-                        <img src="assets/mucji.png" alt="DinoX MUJI group video call with multiple participants connected via mesh network" loading="lazy" width="800" height="600">
-                        <figcaption class="caption">MUJI Group Calls</figcaption>
+                        <button type="button" class="screenshot-trigger" aria-haspopup="dialog" aria-describedby="screenshot-caption-1">
+                            <img src="assets/mucji.png" alt="DinoX MUJI group video call with multiple participants connected via mesh network" loading="lazy" width="800" height="600">
+                        </button>
+                        <figcaption class="caption" id="screenshot-caption-1">MUJI Group Calls</figcaption>
                     </figure>
                     <figure class="screenshot-item" role="listitem">
-                        <img src="assets/voicecal.png" alt="DinoX one-on-one video and audio call interface with mute and camera controls" loading="lazy" width="800" height="600">
-                        <figcaption class="caption">Audio & Video</figcaption>
+                        <button type="button" class="screenshot-trigger" aria-haspopup="dialog" aria-describedby="screenshot-caption-2">
+                            <img src="assets/voicecal.png" alt="DinoX one-on-one video and audio call interface with mute and camera controls" loading="lazy" width="800" height="600">
+                        </button>
+                        <figcaption class="caption" id="screenshot-caption-2">Audio &amp; Video</figcaption>
                     </figure>
                     <figure class="screenshot-item" role="listitem">
-                        <img src="assets/volumcontolaudiocal.png" alt="DinoX audio call with volume control sliders for microphone and speaker" loading="lazy" width="800" height="600">
-                        <figcaption class="caption">Volume Controls</figcaption>
+                        <button type="button" class="screenshot-trigger" aria-haspopup="dialog" aria-describedby="screenshot-caption-3">
+                            <img src="assets/volumcontolaudiocal.png" alt="DinoX audio call with volume control sliders for microphone and speaker" loading="lazy" width="800" height="600">
+                        </button>
+                        <figcaption class="caption" id="screenshot-caption-3">Volume Controls</figcaption>
                     </figure>
                     <figure class="screenshot-item" role="listitem">
-                        <img src="assets/voise.png" alt="DinoX voice message recording and playback feature in chat window" loading="lazy" width="800" height="600">
-                        <figcaption class="caption">Voice Messages</figcaption>
+                        <button type="button" class="screenshot-trigger" aria-haspopup="dialog" aria-describedby="screenshot-caption-4">
+                            <img src="assets/voise.png" alt="DinoX voice message recording and playback feature in chat window" loading="lazy" width="800" height="600">
+                        </button>
+                        <figcaption class="caption" id="screenshot-caption-4">Voice Messages</figcaption>
                     </figure>
                     <figure class="screenshot-item" role="listitem">
-                        <img src="assets/privt.png" alt="DinoX private MUC room with lock icon indicating encrypted group chat" loading="lazy" width="800" height="600">
-                        <figcaption class="caption">Private MUC Rooms</figcaption>
+                        <button type="button" class="screenshot-trigger" aria-haspopup="dialog" aria-describedby="screenshot-caption-5">
+                            <img src="assets/privt.png" alt="DinoX private MUC room with lock icon indicating encrypted group chat" loading="lazy" width="800" height="600">
+                        </button>
+                        <figcaption class="caption" id="screenshot-caption-5">Private MUC Rooms</figcaption>
                     </figure>
                     <figure class="screenshot-item" role="listitem">
-                        <img src="assets/backup.png" alt="DinoX settings showing backup and export options for user data" loading="lazy" width="800" height="600">
-                        <figcaption class="caption">Data Backup</figcaption>
+                        <button type="button" class="screenshot-trigger" aria-haspopup="dialog" aria-describedby="screenshot-caption-6">
+                            <img src="assets/backup.png" alt="DinoX settings showing backup and export options for user data" loading="lazy" width="800" height="600">
+                        </button>
+                        <figcaption class="caption" id="screenshot-caption-6">Data Backup</figcaption>
                     </figure>
                     <figure class="screenshot-item" role="listitem">
-                        <img src="assets/emoji.png" alt="DinoX emoji picker dialog with search and category tabs" loading="lazy" width="800" height="600">
-                        <figcaption class="caption">Emoji Picker</figcaption>
+                        <button type="button" class="screenshot-trigger" aria-haspopup="dialog" aria-describedby="screenshot-caption-7">
+                            <img src="assets/emoji.png" alt="DinoX emoji picker dialog with search and category tabs" loading="lazy" width="800" height="600">
+                        </button>
+                        <figcaption class="caption" id="screenshot-caption-7">Emoji Picker</figcaption>
                     </figure>
                     <figure class="screenshot-item" role="listitem">
-                        <img src="assets/autodeletmessage.png" alt="DinoX auto-delete messages feature with timer options for disappearing messages" loading="lazy" width="800" height="600">
-                        <figcaption class="caption">Disappearing Messages</figcaption>
+                        <button type="button" class="screenshot-trigger" aria-haspopup="dialog" aria-describedby="screenshot-caption-8">
+                            <img src="assets/autodeletmessage.png" alt="DinoX auto-delete messages feature with timer options for disappearing messages" loading="lazy" width="800" height="600">
+                        </button>
+                        <figcaption class="caption" id="screenshot-caption-8">Disappearing Messages</figcaption>
                     </figure>
                 </div>
             </div>
@@ -948,6 +964,7 @@ ninja -C build && sudo ninja -C build install</code></pre>
 
     <!-- Lightbox -->
     <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image preview" tabindex="-1">
+        <button type="button" class="lightbox-close" aria-label="Close image preview">×</button>
         <img class="lightbox-img" id="lightboxImg" src="" alt="Enlarged screenshot preview">
         <div class="lightbox-caption" id="lightboxCaption" aria-live="polite"></div>
     </div>
