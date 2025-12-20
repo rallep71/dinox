@@ -436,6 +436,55 @@
     
     if (lightbox && lightboxImg) {
         let lastFocusedElement = null;
+        let backgroundElements = [];
+
+        function setBackgroundInert(isInert) {
+            if (isInert) {
+                backgroundElements = Array.from(document.body.children)
+                    .filter(el => el !== lightbox && el.tagName !== 'SCRIPT');
+
+                backgroundElements.forEach(el => {
+                    if (!el.hasAttribute('data-prev-aria-hidden')) {
+                        const prev = el.getAttribute('aria-hidden');
+                        el.setAttribute('data-prev-aria-hidden', prev === null ? '' : prev);
+                    }
+                    if (!el.hasAttribute('data-prev-pointer-events')) {
+                        el.setAttribute('data-prev-pointer-events', el.style.pointerEvents || '');
+                    }
+
+                    el.setAttribute('aria-hidden', 'true');
+                    // Best effort: supported browsers will prevent all interaction.
+                    // Fallback: also block pointer interactions.
+                    try {
+                        el.inert = true;
+                    } catch (_) {
+                        // Ignore if inert isn't supported.
+                    }
+                    el.style.pointerEvents = 'none';
+                });
+            } else {
+                backgroundElements.forEach(el => {
+                    const prevAriaHidden = el.getAttribute('data-prev-aria-hidden');
+                    if (prevAriaHidden === '') {
+                        el.removeAttribute('aria-hidden');
+                    } else if (prevAriaHidden !== null) {
+                        el.setAttribute('aria-hidden', prevAriaHidden);
+                    }
+                    el.removeAttribute('data-prev-aria-hidden');
+
+                    const prevPointerEvents = el.getAttribute('data-prev-pointer-events');
+                    el.style.pointerEvents = prevPointerEvents || '';
+                    el.removeAttribute('data-prev-pointer-events');
+
+                    try {
+                        el.inert = false;
+                    } catch (_) {
+                        // Ignore if inert isn't supported.
+                    }
+                });
+                backgroundElements = [];
+            }
+        }
 
         function getLightboxFocusableElements() {
             return Array.from(lightbox.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'))
@@ -457,6 +506,7 @@
                 lightboxCaption.textContent = caption ? caption.textContent : '';
                 lightbox.classList.add('active');
                 document.body.style.overflow = 'hidden';
+                setBackgroundInert(true);
 
                 // Focus the close button for a predictable keyboard starting point.
                 if (lightboxClose) {
@@ -471,6 +521,7 @@
         function closeLightbox() {
             lightbox.classList.remove('active');
             document.body.style.overflow = '';
+            setBackgroundInert(false);
 
             // Restore focus to the element that opened the dialog.
             if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
