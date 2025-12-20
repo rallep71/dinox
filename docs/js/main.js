@@ -185,38 +185,63 @@
     });
 
     // ===== Mobile Menu =====
-    function toggleMobileMenu() {
-        const isOpen = mobileMenu.classList.contains('active');
-        mobileMenu.classList.toggle('active');
-        mobileMenuToggle.classList.toggle('active');
-        mobileMenuToggle.setAttribute('aria-expanded', !isOpen);
+    function openMobileMenu() {
+        mobileMenu.classList.add('active');
+        mobileMenuToggle.classList.add('active');
+        mobileMenuToggle.setAttribute('aria-expanded', 'true');
+        mobileMenuToggle.setAttribute('aria-label', 'Close menu');
+        mobileMenu.setAttribute('aria-hidden', 'false');
+
+        const firstLink = mobileMenu.querySelector('a');
+        if (firstLink) firstLink.focus();
     }
 
-    function closeMobileMenu() {
+    function closeMobileMenu({ restoreFocus = false } = {}) {
+        const wasOpen = mobileMenu.classList.contains('active');
         mobileMenu.classList.remove('active');
         mobileMenuToggle.classList.remove('active');
         mobileMenuToggle.setAttribute('aria-expanded', 'false');
+        mobileMenuToggle.setAttribute('aria-label', 'Open menu');
+        mobileMenu.setAttribute('aria-hidden', 'true');
+
+        if (restoreFocus && wasOpen && mobileMenuToggle) {
+            mobileMenuToggle.focus();
+        }
+    }
+
+    function toggleMobileMenu() {
+        const isOpen = mobileMenu.classList.contains('active');
+        if (isOpen) {
+            closeMobileMenu({ restoreFocus: true });
+        } else {
+            openMobileMenu();
+        }
     }
 
     if (mobileMenuToggle && mobileMenu) {
+        // Provide a consistent baseline state for assistive tech.
+        mobileMenuToggle.setAttribute('aria-expanded', 'false');
+        mobileMenuToggle.setAttribute('aria-label', 'Open menu');
+        mobileMenu.setAttribute('aria-hidden', 'true');
+
         mobileMenuToggle.addEventListener('click', toggleMobileMenu);
 
         // Close menu when clicking a link
         mobileMenu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', closeMobileMenu);
+            link.addEventListener('click', () => closeMobileMenu());
         });
 
         // Close menu when clicking outside
         document.addEventListener('click', (e) => {
             if (!mobileMenu.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
-                closeMobileMenu();
+                closeMobileMenu({ restoreFocus: false });
             }
         });
 
         // Close menu on escape key
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                closeMobileMenu();
+            if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
+                closeMobileMenu({ restoreFocus: true });
             }
         });
     }
