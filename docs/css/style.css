@@ -741,14 +741,14 @@ ul, ol {
     height: 24px;
     border-radius: var(--radius-full);
     background: transparent;
-    border: 2px solid var(--border-color);
+    border: 2px solid var(--text-muted);
     padding: 0;
     cursor: pointer;
     transition: all var(--transition-fast);
 }
 
 .hero-slider-dot:hover {
-    border-color: var(--color-primary-light);
+    border-color: var(--text-secondary);
 }
 
 .hero-slider-dot.active {
