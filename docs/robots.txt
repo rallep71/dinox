@@ -4,6 +4,9 @@
 User-agent: *
 Allow: /
 
+# Do not crawl the imprint page
+Disallow: /impressum.html
+
 # Sitemap
 Sitemap: https://dinox.handwerker.jetzt/sitemap.xml
 
