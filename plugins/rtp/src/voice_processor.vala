@@ -16,6 +16,9 @@ public class Dino.Plugins.Rtp.EchoProbe : Audio.Filter {
     public int delay { get; private set; default = 150; }
     private Base.Adapter adapter = new Base.Adapter();
 
+    private uint buffers_since_log = 0;
+    private int64 last_log_us = 0;
+
     static construct {
         add_static_pad_template(sink_template);
         add_static_pad_template(src_template);
@@ -47,7 +50,7 @@ public class Dino.Plugins.Rtp.EchoProbe : Audio.Filter {
                 if (measured_delay >= 150 && measured_delay < 2000) {
                     int new_delay = int.min(measured_delay, 384);
                     if (new_delay != this.delay) {
-                        debug("Delay adjusted from %dms to %dms", this.delay, new_delay);
+                        message("Delay adjusted from %dms to %dms", this.delay, new_delay);
                         this.delay = new_delay;
                         on_new_delay(new_delay);
                     }
@@ -60,8 +63,23 @@ public class Dino.Plugins.Rtp.EchoProbe : Audio.Filter {
     public override FlowReturn transform_ip(Buffer buf) {
         lock (adapter) {
             adapter.push(adjust_to_running_time(this, buf));
+            uint emitted = 0;
             while (adapter.available() >= period_size) {
+                emitted++;
                 on_new_buffer(adapter.take_buffer(period_size));
+            }
+
+            if (emitted > 0) {
+                buffers_since_log += emitted;
+                int64 now_us = GLib.get_monotonic_time();
+                if (last_log_us == 0) {
+                    last_log_us = now_us;
+                }
+                if (now_us - last_log_us >= 2 * 1000 * 1000) {
+                    message("EchoProbe: emitted %u buffers (delay=%dms)", buffers_since_log, delay);
+                    buffers_since_log = 0;
+                    last_log_us = now_us;
+                }
             }
         }
         return FlowReturn.OK;
@@ -88,6 +106,9 @@ public class Dino.Plugins.Rtp.VoiceProcessor : Audio.Filter {
     private ClockTime last_reverse;
     private void* native;
 
+    private uint reverse_buffers_since_log = 0;
+    private int64 last_reverse_log_us = 0;
+
     static construct {
         add_static_pad_template(sink_template);
         add_static_pad_template(src_template);
@@ -113,7 +134,7 @@ public class Dino.Plugins.Rtp.VoiceProcessor : Audio.Filter {
     private static extern int get_suggested_gain_level(void* native);
 
     public override bool setup(Audio.Info info) {
-        debug("VoiceProcessor.setup(%s)", info.to_caps().to_string());
+        message("VoiceProcessor.setup(%s)", info.to_caps().to_string());
         audio_info = info;
         period_samples = info.rate / 100; // 10ms buffers
         period_size = period_samples * info.bpf;
@@ -122,6 +143,7 @@ public class Dino.Plugins.Rtp.VoiceProcessor : Audio.Filter {
     }
 
     public override bool start() {
+        message("VoiceProcessor.start(echo_probe=%s, initial_delay=%dms)", echo_probe != null ? "yes" : "no", echo_probe != null ? echo_probe.delay : -1);
         native = init_native(echo_probe.delay);
         if (process_outgoing_buffer_handler_id == 0 && echo_probe != null) {
             process_outgoing_buffer_handler_id = echo_probe.on_new_buffer.connect(process_outgoing_buffer);
@@ -146,6 +168,12 @@ public class Dino.Plugins.Rtp.VoiceProcessor : Audio.Filter {
     }
 
     private void process_outgoing_buffer(owned Buffer buffer) {
+        reverse_buffers_since_log++;
+        int64 now_us = GLib.get_monotonic_time();
+        if (last_reverse_log_us == 0) {
+            last_reverse_log_us = now_us;
+        }
+
         if (buffer.pts != uint64.MAX) {
             last_reverse = buffer.pts;
         }
@@ -155,6 +183,12 @@ public class Dino.Plugins.Rtp.VoiceProcessor : Audio.Filter {
         }
         if (adjust_delay_timeout_id == 0 && echo_probe != null) {
             adjust_delay_timeout_id = Timeout.add(1000, adjust_delay);
+        }
+
+        if (now_us - last_reverse_log_us >= 2 * 1000 * 1000) {
+            message("VoiceProcessor: reverse feed %u buffers/2s (last_pts=%" + uint64.FORMAT + ")", reverse_buffers_since_log, (uint64) last_reverse);
+            reverse_buffers_since_log = 0;
+            last_reverse_log_us = now_us;
         }
     }
 

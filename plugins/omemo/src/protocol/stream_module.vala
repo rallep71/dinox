@@ -159,6 +159,7 @@ public class StreamModule : XmppStreamModule {
         } else {
             Bundle bundle = new Bundle(node);
             stream.get_module(IDENTITY).unignore_device(jid, device_id);
+            // Never log key material (even public keys) in full; keep logs metadata-only.
             debug("Received bundle for %s/%d (identity_key_present=%s)",
                 jid.bare_jid.to_string(),
                 device_id,

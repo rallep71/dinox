@@ -310,10 +310,7 @@ public class Dino.Plugins.Rtp.Stream : Xmpp.Xep.JingleRtp.Stream {
     private void prepare_local_crypto() {
         if (local_crypto != null && local_crypto.is_valid && !crypto_session.has_encrypt) {
             crypto_session.set_encryption_key(local_crypto.crypto_suite, local_crypto.key, local_crypto.salt);
-            debug("Setting up encryption (crypto_suite=%s key_bytes=%u salt_bytes=%u)",
-                local_crypto.crypto_suite,
-                local_crypto.key != null ? local_crypto.key.length : 0,
-                local_crypto.salt != null ? local_crypto.salt.length : 0);
+            debug("Setting up encryption (sdes_key_params_present=%s)", (local_crypto.key_params != null && local_crypto.key_params.length > 0).to_string());
         }
     }
 
@@ -629,10 +626,7 @@ public class Dino.Plugins.Rtp.Stream : Xmpp.Xep.JingleRtp.Stream {
     private void prepare_remote_crypto() {
         if (remote_crypto != null && remote_crypto.is_valid && !crypto_session.has_decrypt) {
             crypto_session.set_decryption_key(remote_crypto.crypto_suite, remote_crypto.key, remote_crypto.salt);
-            debug("Setting up decryption (crypto_suite=%s key_bytes=%u salt_bytes=%u)",
-                remote_crypto.crypto_suite,
-                remote_crypto.key != null ? remote_crypto.key.length : 0,
-                remote_crypto.salt != null ? remote_crypto.salt.length : 0);
+            debug("Setting up decryption (sdes_key_params_present=%s)", (remote_crypto.key_params != null && remote_crypto.key_params.length > 0).to_string());
         }
     }
 
