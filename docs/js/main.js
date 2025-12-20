@@ -263,6 +263,20 @@
                     behavior: 'smooth'
                 });
 
+                // Move focus to the target for keyboard/screen reader users.
+                // If the target isn't normally focusable (e.g. <section>), make it programmatically focusable.
+                if (!target.hasAttribute('tabindex')) {
+                    target.setAttribute('tabindex', '-1');
+                }
+                // PreventScroll avoids fighting the smooth scrolling.
+                setTimeout(() => {
+                    try {
+                        target.focus({ preventScroll: true });
+                    } catch (_) {
+                        target.focus();
+                    }
+                }, 0);
+
                 // Update URL without jumping
                 history.pushState(null, null, targetId);
             }
