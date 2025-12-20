@@ -190,6 +190,14 @@
   <url type="translate">https://hosted.weblate.org/projects/dino/</url>
   <launchable type="desktop-id">im.github.rallep71.DinoX.desktop</launchable>
   <releases>
+    <release version="0.8.6.10" date="2025-12-20">
+      <description>
+        <p>Packaging hotfix (GitHub AppImage).</p>
+        <ul>
+          <li>Fix missing call audio by bundling the GStreamer audiorate plugin in the AppImage build.</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.8.6.9" date="2025-12-19">
       <description>
         <p>Branding and stability update.</p>

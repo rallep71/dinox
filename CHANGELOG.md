@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.8.6.10] - 2025-12-20
+
+### Fixed
+- **Calls (AppImage / GitHub Releases)**
+  - Bundle the missing GStreamer `audiorate` plugin (`libgstaudiorate.so`) so 1:1 call audio works reliably (e.g., Monal interop).
+
 ## [0.8.6.9] - 2025-12-19
 
 ### Changed
@@ -720,7 +726,8 @@ This release significantly improves 1:1 Jingle audio/video call interoperability
 - libdbusmenu integration for StatusNotifierItem/AppIndicator support
 - Meson build system with automated translations (50+ languages)
 
-[Unreleased]: https://github.com/rallep71/dinox/compare/v0.8.6.9...HEAD
+[Unreleased]: https://github.com/rallep71/dinox/compare/v0.8.6.10...HEAD
+[0.8.6.10]: https://github.com/rallep71/dinox/releases/tag/v0.8.6.10
 [0.8.6.9]: https://github.com/rallep71/dinox/releases/tag/v0.8.6.9
 [0.8.6.8]: https://github.com/rallep71/dinox/releases/tag/v0.8.6.8
 [0.8.6.7]: https://github.com/rallep71/dinox/releases/tag/v0.8.6.7
