@@ -31,6 +31,29 @@ In particular:
     - Without it, calls may have echo or background noise.
     - DinoX detects it at build time. If found, it is used automatically.
 
+#### Building webrtc-audio-processing 2.1 (Manual)
+
+If your distribution does not provide `webrtc-audio-processing` or has an older version (check with `pkg-config --modversion webrtc-audio-processing`), you should build version 2.1 from source to ensure the best audio quality.
+
+```bash
+# 1. Download and extract
+wget https://freedesktop.org/software/pulseaudio/webrtc-audio-processing/webrtc-audio-processing-2.1.tar.xz
+tar xf webrtc-audio-processing-2.1.tar.xz
+cd webrtc-audio-processing-2.1
+
+# 2. Build and install
+meson setup build --prefix=/usr/local
+ninja -C build
+sudo ninja -C build install
+
+# 3. Update library cache
+sudo ldconfig
+
+# 4. Verify installation
+pkg-config --modversion webrtc-audio-processing
+# Should output: 2.1
+```
+
 #### Quick checks (distro/source builds)
 
 ```bash
