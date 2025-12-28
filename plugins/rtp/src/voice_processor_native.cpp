@@ -54,10 +54,11 @@ extern "C" void *dino_plugins_rtp_voice_processor_init_native(gint stream_delay)
     config.gain_controller1.enabled = true;
     config.gain_controller1.mode = webrtc::AudioProcessing::Config::GainController1::kAdaptiveDigital;
     config.gain_controller1.target_level_dbfs = 3;
-    config.gain_controller1.compression_gain_db = 9;
+    config.gain_controller1.compression_gain_db = 6;
     config.gain_controller1.enable_limiter = true;
     
     config.high_pass_filter.enabled = true;
+    config.transient_suppression.enabled = true;
     
 #ifdef WEBRTC1
     config.level_estimation.enabled = true;
@@ -67,7 +68,7 @@ extern "C" void *dino_plugins_rtp_voice_processor_init_native(gint stream_delay)
     apm->ApplyConfig(config);
     native->apm = apm;
 
-    g_debug("voice_processor_native.cpp: init (WEBRTC1/2): rate=%d channels=%d stream_delay=%dms aec=%d(mobile=%d) ns=%d(level=%d) agc=%d(mode=%d target=%d comp=%d) highpass=%d", \
+    g_debug("voice_processor_native.cpp: init (WEBRTC1/2): rate=%d channels=%d stream_delay=%dms aec=%d(mobile=%d) ns=%d(level=%d) agc=%d(mode=%d target=%d comp=%d) highpass=%d ts=%d", \
             SAMPLE_RATE,
             SAMPLE_CHANNELS,
             native->stream_delay,
@@ -79,7 +80,8 @@ extern "C" void *dino_plugins_rtp_voice_processor_init_native(gint stream_delay)
             (int) config.gain_controller1.mode,
             (int) config.gain_controller1.target_level_dbfs,
             (int) config.gain_controller1.compression_gain_db,
-            (int) config.high_pass_filter.enabled);
+            (int) config.high_pass_filter.enabled,
+            (int) config.transient_suppression.enabled);
 
     return native;
 }

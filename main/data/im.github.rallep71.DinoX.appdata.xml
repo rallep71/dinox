@@ -190,7 +190,16 @@
   <url type="translate">https://hosted.weblate.org/projects/dino/</url>
   <launchable type="desktop-id">im.github.rallep71.DinoX.desktop</launchable>
   <releases>
-    <release version="0.8.6.10" date="2025-12-20">
+    <release version="0.8.6.12" date="2025-12-28">
+      <description>
+        <p>Audio quality tuning.</p>
+        <ul>
+          <li>Reduced AGC compression gain (9dB -> 6dB) to minimize residual echo amplification.</li>
+          <li>Enabled Transient Suppression to filter out impulsive noises (clicks).</li>
+        </ul>
+      </description>
+    </release>
+    <release version="0.8.6.11" date="2025-12-28">
       <description>
         <p>Packaging hotfix (GitHub AppImage).</p>
         <ul>

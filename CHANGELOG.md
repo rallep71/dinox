@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.8.6.12] - 2025-12-28
+
+### Changed
+- **Audio Tuning**
+  - Reduced AGC compression gain from 9dB to 6dB to prevent amplification of residual echo.
+  - Enabled WebRTC Transient Suppression to filter out impulsive noises (keyboard clicks, etc.).
+
 ## [0.8.6.11] - 2025-12-28
 
 ### Fixed
@@ -738,7 +745,8 @@ This release significantly improves 1:1 Jingle audio/video call interoperability
 - libdbusmenu integration for StatusNotifierItem/AppIndicator support
 - Meson build system with automated translations (50+ languages)
 
-[Unreleased]: https://github.com/rallep71/dinox/compare/v0.8.6.11...HEAD
+[Unreleased]: https://github.com/rallep71/dinox/compare/v0.8.6.12...HEAD
+[0.8.6.12]: https://github.com/rallep71/dinox/releases/tag/v0.8.6.12
 [0.8.6.11]: https://github.com/rallep71/dinox/releases/tag/v0.8.6.11
 [0.8.6.10]: https://github.com/rallep71/dinox/releases/tag/v0.8.6.10
 [0.8.6.9]: https://github.com/rallep71/dinox/releases/tag/v0.8.6.9
