@@ -83,7 +83,8 @@ jobs:
             
             # Build
             # Note: We disable rofiles-fuse because it often fails in emulated containers
-            flatpak-builder --user --disable-rofiles-fuse --install-deps-from=flathub --force-clean --default-branch=master --repo=repo build-dir im.github.rallep71.DinoX.json
+            # Also disable sandbox to avoid nested container issues (bwrap)
+            flatpak-builder --user --disable-rofiles-fuse --nosandbox --install-deps-from=flathub --force-clean --default-branch=master --repo=repo build-dir im.github.rallep71.DinoX.json
             
             # Bundle
             flatpak build-bundle repo dinox-aarch64.flatpak im.github.rallep71.DinoX master
