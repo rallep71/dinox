@@ -74,13 +74,7 @@ public class Dino.Ui.PreferencesWindowContacts : Adw.PreferencesPage {
 
         add_contact_button.clicked.connect(() => {
             AddContactDialog add_contact_dialog = new AddContactDialog(model.stream_interactor);
-            add_contact_dialog.set_transient_for((Window)this.get_root());
-            add_contact_dialog.hide_on_close = false;  // Destroy instead of hide
-            add_contact_dialog.close_request.connect(() => {
-                add_contact_dialog.destroy();
-                return false;
-            });
-            add_contact_dialog.present();
+            add_contact_dialog.present((Widget)this.get_root());
         });
 
         contact_rows.clear();

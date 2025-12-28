@@ -5,7 +5,7 @@ using Xmpp;
 
 namespace Dino.Ui {
 
-public class MucAdminDialog : Gtk.Window {
+public class MucAdminDialog : Adw.Dialog {
 
     private StreamInteractor stream_interactor;
     private Account account;
@@ -26,18 +26,21 @@ public class MucAdminDialog : Gtk.Window {
         this.muc_jid = muc_jid;
 
         this.title = _("Room Administration");
-        this.modal = true;
-        this.default_width = 400;
-        this.default_height = 500;
+        this.content_width = 400;
+        this.content_height = 500;
 
         setup_ui();
         load_list.begin();
     }
 
     private void setup_ui() {
-        Box main_box = new Box(Orientation.VERTICAL, 0);
-        this.set_child(main_box);
+        var toolbar_view = new Adw.ToolbarView();
+        
+        var header_bar = new Adw.HeaderBar();
+        toolbar_view.add_top_bar(header_bar);
 
+        Box main_box = new Box(Orientation.VERTICAL, 0);
+        
         // Header / Toolbar
         Box header_box = new Box(Orientation.HORIZONTAL, 6);
         header_box.margin_top = 6;
@@ -85,6 +88,9 @@ public class MucAdminDialog : Gtk.Window {
         action_box.append(remove_button);
 
         main_box.append(action_box);
+        
+        toolbar_view.content = main_box;
+        this.child = toolbar_view;
     }
 
     private async void load_list() {
@@ -128,8 +134,6 @@ public class MucAdminDialog : Gtk.Window {
         dialog.title = _("Add Member");
         dialog.ok_button.label = _("Add");
         
-        dialog.transient_for = this;
-
         dialog.selected.connect((account, jid) => {
             stream_interactor.get_module(MucManager.IDENTITY).set_affiliation(account, muc_jid, jid, current_affiliation);
             dialog.close();
@@ -137,7 +141,7 @@ public class MucAdminDialog : Gtk.Window {
             Timeout.add(500, () => { load_list.begin(); return false; });
         });
         
-        dialog.present();
+        dialog.present(this);
     }
 
     private void on_remove() {

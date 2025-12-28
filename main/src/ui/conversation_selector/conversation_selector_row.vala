@@ -772,14 +772,13 @@ public class ConversationSelectorRow : ListBoxRow {
         dialog.ok_button.label = _("Invite");
         
         var root = this.get_root() as Gtk.Window;
-        if (root != null) dialog.transient_for = root;
 
         dialog.selected.connect((account, jid) => {
             stream_interactor.get_module(MucManager.IDENTITY).invite(conversation.account, conversation.counterpart, jid);
             dialog.close();
         });
         
-        dialog.present();
+        dialog.present(root);
     }
 
     private void show_clear_history_dialog() {

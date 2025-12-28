@@ -545,11 +545,10 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
                 } else {
                     AddChatDialog dialog = new AddChatDialog(stream_interactor, stream_interactor.get_accounts());
                     dialog.set_filter(jid);
-                    dialog.set_transient_for(window);
                     dialog.added.connect((conversation) => {
                         controller.select_conversation(conversation);
                     });
-                    dialog.present();
+                    dialog.present(window);
                 }
                 break;
             case "pubsub":
@@ -642,9 +641,8 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         SimpleAction contacts_action = new SimpleAction("add_chat", null);
         contacts_action.activate.connect(() => {
             AddChatDialog add_chat_dialog = new AddChatDialog(stream_interactor, stream_interactor.get_accounts());
-            add_chat_dialog.set_transient_for(window);
             add_chat_dialog.added.connect((conversation) => controller.select_conversation(conversation));
-            add_chat_dialog.present();
+            add_chat_dialog.present(window);
         });
         add_action(contacts_action);
         set_accels_for_action("app.add_chat", KEY_COMBINATION_ADD_CHAT);
@@ -652,8 +650,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         SimpleAction conference_action = new SimpleAction("add_conference", null);
         conference_action.activate.connect(() => {
             AddConferenceDialog add_conference_dialog = new AddConferenceDialog(stream_interactor);
-            add_conference_dialog.set_transient_for(window);
-            add_conference_dialog.present();
+            add_conference_dialog.present(window);
         });
         add_action(conference_action);
         set_accels_for_action("app.add_conference", KEY_COMBINATION_ADD_CONFERENCE);
@@ -1869,21 +1866,19 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
     }
 
     private void show_join_muc_dialog(Account? account, string jid) {
-        var window = new Gtk.Window();
-        window.transient_for = this.window;
-        window.modal = true;
-        window.title = _("Join Channel");
-        window.default_width = 400;
-        window.default_height = 300;
+        var dialog = new Adw.Dialog();
+        dialog.title = _("Join Channel");
+        dialog.content_width = 400;
+        dialog.content_height = 300;
 
-        var box = new Gtk.Box(Gtk.Orientation.VERTICAL, 0);
-        window.child = box;
+        var toolbar_view = new Adw.ToolbarView();
+        dialog.child = toolbar_view;
 
         var header = new Adw.HeaderBar();
-        box.append(header);
+        toolbar_view.add_top_bar(header);
 
         var cancel_button = new Gtk.Button.with_label(_("Cancel"));
-        cancel_button.clicked.connect(() => window.destroy());
+        cancel_button.clicked.connect(() => dialog.close());
         header.pack_start(cancel_button);
 
         var ok_button = new Gtk.Button.with_label(_("Join"));
@@ -1895,13 +1890,13 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         if (account != null)  {
             conference_fragment.account = account;
         }
-        box.append(conference_fragment);
+        toolbar_view.content = conference_fragment;
 
         conference_fragment.joined.connect(() => {
-            window.destroy();
+            dialog.close();
         });
 
-        window.present();
+        dialog.present(window);
     }
 
     private void apply_color_scheme(string scheme) {

@@ -2,14 +2,13 @@
 <interface>
   <requires lib="gtk" version="4.0"/>
   <object class="DinoUiViewModelConversationDetails" id="model"/>
-  <template class="DinoUiConversationDetailsDialog">
+  <template class="DinoUiConversationDetailsDialog" parent="AdwDialog">
     <property name="content-width">600</property>
     <property name="content-height">600</property>
     <property name="follows-content-size">False</property>
     <child>
-      <object class="GtkBox">
-        <property name="orientation">vertical</property>
-        <child>
+      <object class="AdwToolbarView">
+        <child type="top">
           <object class="AdwHeaderBar">
             <style>
               <class name="flat"/>
@@ -20,7 +19,7 @@
             </property>
           </object>
         </child>
-        <child>
+        <property name="content">
           <object class="GtkBox">
             <property name="orientation">vertical</property>
             <child>
@@ -194,7 +193,7 @@
               </object>
             </child>
           </object>
-        </child>
+        </property>
       </object>
     </child>
   </template>

@@ -7,7 +7,7 @@ using Xmpp.Xep;
 namespace Dino.Ui {
 
 [GtkTemplate (ui = "/im/github/rallep71/DinoX/add_conversation/room_browser_dialog.ui")]
-public class RoomBrowserDialog : Gtk.Window {
+public class RoomBrowserDialog : Adw.Dialog {
 
     [GtkChild] private unowned Button cancel_button;
     [GtkChild] private unowned Button join_button;

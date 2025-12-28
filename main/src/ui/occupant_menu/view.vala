@@ -271,13 +271,12 @@ public class View : Popover {
         Gee.List<Account> acc_list = new ArrayList<Account>(Account.equals_func);
         acc_list.add(conversation.account);
         SelectContactDialog add_chat_dialog = new SelectContactDialog(stream_interactor, acc_list);
-        add_chat_dialog.set_transient_for((Window) get_root());
         add_chat_dialog.title = _("Invite to Conference");
         add_chat_dialog.ok_button.label = _("Invite");
         add_chat_dialog.selected.connect((account, jid) => {
             stream_interactor.get_module(MucManager.IDENTITY).invite(conversation.account, conversation.counterpart, jid);
         });
-        add_chat_dialog.present();
+        add_chat_dialog.present((Window) get_root());
     }
 
     private void ban_timed_button_clicked(int minutes) {
