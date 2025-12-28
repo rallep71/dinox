@@ -28,6 +28,13 @@ jobs:
         if: matrix.arch == 'aarch64'
         uses: docker/setup-qemu-action@v3
 
+      - name: "Install Flatpak Builder"
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y flatpak flatpak-builder elfutils
+          # Add Flathub repo
+          flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+
       - name: "Get version from tag"
         id: get_version
         run: echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
@@ -44,12 +51,14 @@ jobs:
           sha256sum dinox-$version.tar.gz > dinox-$version.tar.gz.sha256
 
       - name: "Build Flatpak"
-        uses: flatpak/flatpak-github-actions/flatpak-builder@v6
-        with:
-          manifest-path: im.github.rallep71.DinoX.json
-          bundle: im.github.rallep71.DinoX-${{ matrix.arch }}.flatpak
-          arch: ${{ matrix.arch }}
-          cache-key: flatpak-builder-${{ matrix.arch }}-${{ hashFiles('im.github.rallep71.DinoX.json') }}
+        # We use the installed flatpak-builder directly instead of the action
+        # to avoid issues with QEMU/Docker on aarch64
+        run: |
+          # Install runtime/sdk dependencies
+          flatpak-builder --user --install-deps-from=flathub --force-clean --default-branch=master --arch=${{ matrix.arch }} --repo=repo build-dir im.github.rallep71.DinoX.json
+          
+          # Build the bundle
+          flatpak build-bundle --arch=${{ matrix.arch }} repo im.github.rallep71.DinoX-${{ matrix.arch }}.flatpak im.github.rallep71.DinoX master
 
       - name: "Rename Flatpak bundle"
         run: |
