@@ -113,6 +113,7 @@ sources = files(
     'src/ui/systray.vala',
     'src/ui/sticker_pack_import_dialog.vala',
     'src/ui/sticker_pack_folder_import_dialog.vala',
+    'src/ui/sticker_manager.vala',
     'src/ui/widgets/avatar_picture.vala',
     'src/ui/widgets/date_separator.vala',
     'src/ui/widgets/fixed_ratio_picture.vala',

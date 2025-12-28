@@ -30,22 +30,12 @@ public class StickerChooser : Popover {
     private Gtk.ListBox pack_list = new Gtk.ListBox();
     // 0 = None, 1..N map to packs[0..N-1]
     private uint selected_pack = 0;
-    private Gtk.Button close_button;
-    private Gtk.Button import_button = new Gtk.Button.with_label(_("Import…"));
-    private Gtk.Button folder_button = new Gtk.Button.with_label(_("Folder…"));
-    private Gtk.Button publish_button = new Gtk.Button.with_label(_("Publish"));
-    private Gtk.Button remove_button = new Gtk.Button.with_label(_("Remove"));
-    private Gtk.Spinner busy_spinner = new Gtk.Spinner() { spinning = false, visible = false };
+    private Gtk.Button manage_button;
     private GLib.ListStore sticker_store = new GLib.ListStore(typeof(Dino.Stickers.StickerItem));
     private Gtk.GridView grid;
     private Gtk.ScrolledWindow scroller = new Gtk.ScrolledWindow();
     private Gtk.Stack content_stack = new Gtk.Stack();
     private Gtk.Label empty_label = new Gtk.Label("");
-
-    private Gtk.Box import_box = new Gtk.Box(Orientation.VERTICAL, 8);
-    private Gtk.Label import_hint_label = new Gtk.Label("");
-    private Gtk.Entry import_entry = new Gtk.Entry();
-    private Gtk.Label import_error_label = new Gtk.Label("");
 
     private Gee.List<Dino.Stickers.StickerPack> packs = new ArrayList<Dino.Stickers.StickerPack>();
 
@@ -63,7 +53,7 @@ public class StickerChooser : Popover {
         if (media_type != null && media_type != "") {
             string mt = media_type.down();
             // Be conservative: avoid SVG and only allow common raster formats.
-            if (mt == "image/png" || mt == "image/jpeg" || mt == "image/jpg" || mt == "image/webp" || mt == "image/gif") {
+            if (mt == "image/png" || mt == "image/apng" || mt == "image/jpeg" || mt == "image/jpg" || mt == "image/webp" || mt == "image/gif") {
                 return true;
             }
             if (mt.has_prefix("image/svg")) {
@@ -72,7 +62,7 @@ public class StickerChooser : Popover {
         }
 
         // Best-effort fallback when mime-type is missing/incorrect.
-        return lower_path.has_suffix(".png") || lower_path.has_suffix(".jpg") || lower_path.has_suffix(".jpeg") || lower_path.has_suffix(".webp") || lower_path.has_suffix(".gif");
+        return lower_path.has_suffix(".png") || lower_path.has_suffix(".apng") || lower_path.has_suffix(".jpg") || lower_path.has_suffix(".jpeg") || lower_path.has_suffix(".webp") || lower_path.has_suffix(".gif");
     }
 
     private class ThumbJob {
@@ -97,39 +87,7 @@ public class StickerChooser : Popover {
 
     private bool popover_open = false;
 
-    private bool busy = false;
-
     private string? current_pack_id;
-
-    private string? pending_select_pack_name;
-
-    private void set_busy_state(bool busy, string? publish_label = null, string? remove_label = null, string? folder_label = null) {
-        this.busy = busy;
-
-        busy_spinner.visible = busy;
-        busy_spinner.spinning = busy;
-
-        pack_button.sensitive = !busy;
-        import_button.sensitive = !busy;
-        folder_button.sensitive = !busy;
-        publish_button.sensitive = !busy;
-        remove_button.sensitive = !busy;
-        // Allow closing the popover while background operations run.
-        close_button.sensitive = true;
-
-        if (busy) {
-            if (publish_label != null) publish_button.label = publish_label;
-            if (remove_label != null) remove_button.label = remove_label;
-            if (folder_label != null) folder_button.label = folder_label;
-        } else {
-            publish_button.label = _("Publish");
-            remove_button.label = _("Remove");
-            folder_button.label = _("Folder…");
-            import_button.label = _("Import…");
-            update_publish_button_state();
-            update_remove_button_state();
-        }
-    }
 
     public StickerChooser(StreamInteractor stream_interactor) {
         this.stream_interactor = stream_interactor;
@@ -139,13 +97,12 @@ public class StickerChooser : Popover {
         this.position = Gtk.PositionType.TOP;
 
         // Allow dismissing by clicking outside of the popover.
-        // User-reported: only Escape worked.
         this.autohide = true;
+        this.focusable = true;
 
         this.closed.connect(() => {
             popover_open = false;
             cancel_population();
-            reset_inline_import_ui();
         });
 
         // Track real visibility (MenuButton drives popup/popdown).
@@ -153,7 +110,6 @@ public class StickerChooser : Popover {
             popover_open = this.visible;
             if (!popover_open) {
                 cancel_population();
-                reset_inline_import_ui();
                 return;
             }
 
@@ -165,6 +121,12 @@ public class StickerChooser : Popover {
                     refresh_grid();
                 }
             }
+            
+            // Ensure the popover has focus so it can capture outside clicks for autohide.
+            Idle.add(() => {
+                if (this.visible) this.grab_focus();
+                return false;
+            });
         });
 
         // `set_open(true)` can be triggered before the popover is actually attached to a root
@@ -182,8 +144,6 @@ public class StickerChooser : Popover {
         ensure_thumb_worker();
 
         // Pack selector: use a MenuButton+Popover+ListBox instead of Gtk.DropDown.
-        // Gtk.DropDown uses an internal popover/grab that (in this app) breaks first-time
-        // outside-click dismissal of the parent StickerChooser popover.
         pack_label.xalign = 0.0f;
         pack_label.ellipsize = Pango.EllipsizeMode.END;
 
@@ -211,34 +171,19 @@ public class StickerChooser : Popover {
 
         pack_button.set_popover(pack_popover);
 
-        import_button.add_css_class("flat");
-        import_button.clicked.connect(show_inline_import_ui);
+        manage_button = new Gtk.Button.from_icon_name("emblem-system-symbolic");
+        manage_button.add_css_class("flat");
+        manage_button.tooltip_text = _("Manage Sticker Packs");
+        manage_button.clicked.connect(open_manager);
 
-        folder_button.add_css_class("flat");
-        folder_button.clicked.connect(open_folder_import);
-
-        publish_button.add_css_class("flat");
-        publish_button.sensitive = false;
-        publish_button.clicked.connect(on_publish_clicked);
-
-        remove_button.add_css_class("flat");
-        remove_button.sensitive = false;
-        remove_button.clicked.connect(on_remove_clicked);
-
-        close_button = new Gtk.Button.from_icon_name("window-close-symbolic");
+        var close_button = new Gtk.Button.from_icon_name("window-close-symbolic");
         close_button.add_css_class("flat");
         close_button.tooltip_text = _("Close");
-        close_button.clicked.connect(() => {
-            this.popdown();
-        });
+        close_button.clicked.connect(() => this.popdown());
 
         header_box.hexpand = true;
         header_box.append(pack_button);
-        header_box.append(import_button);
-        header_box.append(folder_button);
-        header_box.append(publish_button);
-        header_box.append(remove_button);
-        header_box.append(busy_spinner);
+        header_box.append(manage_button);
         header_box.append(close_button);
 
         var factory = new Gtk.SignalListItemFactory();
@@ -283,39 +228,10 @@ public class StickerChooser : Popover {
 
         content_stack.hexpand = true;
         content_stack.vexpand = true;
-        // Important for UX: when switching to the xmpp: import view, don't keep
-        // the large grid height; size to the visible child instead.
         content_stack.hhomogeneous = false;
         content_stack.vhomogeneous = false;
         content_stack.add_named(scroller, "grid");
         content_stack.add_named(empty_label, "empty");
-
-        // Compact import view: minimal vertical padding around the entry.
-        import_box.hexpand = true;
-        import_box.vexpand = false;
-        import_box.halign = Align.FILL;
-        import_box.valign = Align.START;
-        import_box.margin_top = 12;
-        import_box.margin_bottom = 12;
-
-        import_hint_label.label = _("Paste an xmpp: sticker pack link and press Enter.");
-        import_hint_label.wrap = true;
-        import_hint_label.justify = Gtk.Justification.CENTER;
-
-        import_entry.placeholder_text = _("xmpp:…");
-        import_entry.width_chars = 40;
-        import_entry.activates_default = true;
-
-        import_error_label.wrap = true;
-        import_error_label.justify = Gtk.Justification.CENTER;
-        import_error_label.visible = false;
-
-        import_box.append(import_hint_label);
-        import_box.append(import_entry);
-        import_box.append(import_error_label);
-
-        content_stack.add_named(import_box, "import");
-        content_stack.visible_child_name = "empty";
 
         root_box.margin_top = 8;
         root_box.margin_bottom = 8;
@@ -326,10 +242,6 @@ public class StickerChooser : Popover {
         root_box.append(content_stack);
 
         this.set_child(root_box);
-
-        import_entry.activate.connect(() => {
-            start_import_from_inline_entry();
-        });
     }
 
     public void set_conversation(Conversation? conversation) {
@@ -350,8 +262,6 @@ public class StickerChooser : Popover {
             update_pack_label();
             select_pack_row(selected_pack);
             current_pack_id = null;
-            update_remove_button_state();
-            update_publish_button_state();
         }
     }
 
@@ -490,22 +400,7 @@ public class StickerChooser : Popover {
             append_pack_row(label, p.pack_id);
         }
 
-        update_remove_button_state();
-        update_publish_button_state();
 
-        if (pending_select_pack_name != null) {
-            for (int i = 0; i < packs.size; i++) {
-                if (packs[i].name != null && packs[i].name == pending_select_pack_name) {
-                    selected_pack = (uint) (i + 1);
-                    pending_select_pack_name = null;
-                    update_pack_label();
-                    select_pack_row(selected_pack);
-                    refresh_grid();
-                    return;
-                }
-            }
-            pending_select_pack_name = null;
-        }
 
         // Default to "None" on startup/reload (avoid showing stale pack selection).
         selected_pack = 0;
@@ -514,7 +409,7 @@ public class StickerChooser : Popover {
         select_pack_row(selected_pack);
 
         if (packs.size == 0) {
-            empty_label.label = _("No sticker packs yet. Use Import… to add one.");
+            empty_label.label = _("No sticker packs yet.");
         } else {
             empty_label.label = _("No stickers selected");
         }
@@ -593,154 +488,21 @@ public class StickerChooser : Popover {
         });
     }
 
-    private void open_folder_import() {
+    private void open_manager() {
         if (conversation == null) return;
 
         Gtk.Window? parent = this.get_root() as Gtk.Window;
-        // Close the popover before opening dialogs; otherwise it keeps an input grab.
-        this.popdown();
-        var chooser = new Gtk.FileDialog();
-        chooser.title = _("Select sticker folder");
-        chooser.accept_label = _("Select");
-
-        chooser.select_folder.begin(parent, null, (obj, res) => {
-            try {
-                File folder = chooser.select_folder.end(res);
-                string? path = folder.get_path();
-                if (path == null || path == "") return;
-
-                var dialog = new Dino.Ui.StickerPackFolderImportDialog(stream_interactor, conversation.account, path);
-                if (parent != null) dialog.set_transient_for(parent);
-                dialog.hide_on_close = false;
-                dialog.pack_created.connect((pack_name) => {
-                    pending_select_pack_name = pack_name;
-                });
-                dialog.close_request.connect(() => {
-                    dialog.destroy();
-                    reload();
-                    return true;
-                });
-
-                Idle.add(() => {
-                    dialog.present();
-                    return false;
-                });
-            } catch (Error e) {
-                // ignore cancel
-            }
-        });
-    }
-
-    private bool try_parse_sticker_pack_uri(string uri, out Xmpp.Jid source_jid, out string node, out string item) {
-        source_jid = null;
-        node = "";
-        item = "";
-
-        string trimmed = uri.strip();
-        if (!trimmed.has_prefix("xmpp:")) return false;
-
-        string rest = trimmed.substring("xmpp:".length);
-        int qpos = rest.index_of("?");
-        if (qpos < 0) return false;
-
-        string jid_str = rest.substring(0, qpos);
-        string query_str = rest.substring(qpos + 1);
-        if (jid_str == "" || query_str == "") return false;
-
-        try {
-            source_jid = new Xmpp.Jid(jid_str);
-        } catch (Xmpp.InvalidJidError e) {
-            return false;
-        }
-
-        string[] parts = query_str.split(";");
-        if (parts.length < 2) return false;
-        if (parts[0] != "pubsub") return false;
-
-        var options = new HashMap<string, string>();
-        for (int i = 1; i < parts.length; i++) {
-            string p = parts[i];
-            int eq = p.index_of("=");
-            if (eq <= 0) continue;
-            string k = p.substring(0, eq);
-            string v = p.substring(eq + 1);
-            options[k] = Uri.unescape_string(v);
-        }
-
-        if (!options.has_key("action") || options["action"] != "retrieve") return false;
-        if (!options.has_key("node") || options["node"] != Xmpp.Xep.Stickers.NS_URI) return false;
-        if (!options.has_key("item") || options["item"] == "") return false;
-
-        node = options["node"];
-        item = options["item"];
-        return true;
-    }
-
-    private void reset_inline_import_ui() {
-        set_inline_import_mode(false);
-        import_error_label.visible = false;
-        import_error_label.label = "";
-        import_entry.text = "";
-        if (content_stack.visible_child_name == "import") {
-            content_stack.visible_child_name = "empty";
-        }
-    }
-
-    private void set_inline_import_mode(bool enabled) {
-        // Keep the close button available for mouse-only users.
-        header_box.visible = true;
-        pack_button.visible = !enabled;
-        import_button.visible = !enabled;
-        folder_button.visible = !enabled;
-        publish_button.visible = !enabled;
-        remove_button.visible = !enabled;
-        close_button.visible = true;
-    }
-
-    private void show_inline_import_ui() {
-        cancel_population();
-        clear_sticker_store();
-
-        set_inline_import_mode(true);
-        import_error_label.visible = false;
-        import_error_label.label = "";
-        content_stack.visible_child_name = "import";
-
-        // Focus the entry as soon as the popover has switched content.
-        Idle.add(() => {
-            import_entry.grab_focus();
-            return false;
-        });
-    }
-
-    private void start_import_from_inline_entry() {
-        Gtk.Window? parent = this.get_root() as Gtk.Window;
-
-        Xmpp.Jid src;
-        string node;
-        string item;
-        if (!try_parse_sticker_pack_uri(import_entry.text, out src, out node, out item)) {
-            import_error_label.label = _("Invalid sticker pack link");
-            import_error_label.visible = true;
-            return;
-        }
-
-        // Close the popover before presenting the window; Gtk.Popover grabs input
-        // and would otherwise block interaction with the import window.
         this.popdown();
 
-        var dialog = new Dino.Ui.StickerPackImportDialog(stream_interactor, src, node, item);
+        var dialog = new Dino.Ui.StickerManagerDialog(stream_interactor, conversation);
         if (parent != null) dialog.set_transient_for(parent);
-        dialog.hide_on_close = false;
+        dialog.present();
+
+        // Reload when the manager is closed, in case packs were added/removed.
         dialog.close_request.connect(() => {
             dialog.destroy();
             reload();
             return true;
-        });
-
-        Idle.add(() => {
-            dialog.present();
-            return false;
         });
     }
 
@@ -764,8 +526,6 @@ public class StickerChooser : Popover {
         if (selected_pack == 0) {
             empty_label.label = _("No stickers selected");
             current_pack_id = null;
-            update_remove_button_state();
-            update_publish_button_state();
             return;
         }
 
@@ -774,8 +534,6 @@ public class StickerChooser : Popover {
 
         string pack_id = packs[(int) pack_index].pack_id;
         current_pack_id = pack_id;
-        update_remove_button_state();
-        update_publish_button_state();
 
         var stickers = stream_interactor.get_module(Dino.Stickers.IDENTITY);
         if (stickers == null) return;
@@ -794,159 +552,7 @@ public class StickerChooser : Popover {
         }
     }
 
-    private void update_remove_button_state() {
-        if (conversation == null) {
-            remove_button.sensitive = false;
-            return;
-        }
-        if (pack_list.get_first_child() == null) {
-            remove_button.sensitive = false;
-            return;
-        }
-        if (selected_pack == 0) {
-            remove_button.sensitive = false;
-            return;
-        }
-        uint pack_index = selected_pack - 1;
-        remove_button.sensitive = pack_index < packs.size;
-    }
 
-    private void update_publish_button_state() {
-        if (conversation == null) {
-            publish_button.sensitive = false;
-            return;
-        }
-        if (pack_list.get_first_child() == null) {
-            publish_button.sensitive = false;
-            return;
-        }
-        if (selected_pack == 0) {
-            publish_button.sensitive = false;
-            return;
-        }
-        uint pack_index = selected_pack - 1;
-        publish_button.sensitive = pack_index < packs.size;
-    }
-
-    private void on_publish_clicked() {
-        if (conversation == null) return;
-        if (busy) return;
-
-        if (selected_pack == 0) return;
-        uint pack_index = selected_pack - 1;
-        if (pack_index >= packs.size) return;
-
-        string pack_id = packs[(int) pack_index].pack_id;
-
-        Gtk.Window? parent = this.get_root() as Gtk.Window;
-        // Close the popover so it doesn't block the result dialogs.
-        this.popdown();
-
-        set_busy_state(true, _("Publishing…"));
-
-        var stickers = stream_interactor.get_module(Dino.Stickers.IDENTITY);
-        if (stickers == null) {
-            var err = new Adw.AlertDialog(_("Stickers are unavailable"), _("Stickers module unavailable"));
-            err.add_response("ok", _("OK"));
-            err.default_response = "ok";
-            err.close_response = "ok";
-            if (parent != null) err.present(parent);
-
-            set_busy_state(false);
-            return;
-        }
-
-        stickers.publish_pack.begin(conversation.account, pack_id, (obj, res) => {
-            try {
-                string uri = stickers.publish_pack.end(res);
-                var clipboard = this.get_display().get_clipboard();
-                clipboard.set_text(uri);
-
-                var ok = new Adw.AlertDialog(_("Sticker pack published"), _("Share link copied to clipboard:\n%s").printf(uri));
-                ok.add_response("ok", _("OK"));
-                ok.default_response = "ok";
-                ok.close_response = "ok";
-                if (parent != null) ok.present(parent);
-
-                reload();
-            } catch (Error e) {
-                var err = new Adw.AlertDialog(_("Failed to publish sticker pack"), e.message);
-                err.add_response("ok", _("OK"));
-                err.default_response = "ok";
-                err.close_response = "ok";
-                if (parent != null) err.present(parent);
-            }
-
-            set_busy_state(false);
-        });
-    }
-
-    private void on_remove_clicked() {
-        if (conversation == null) return;
-        if (busy) return;
-
-        if (selected_pack == 0) return;
-        uint pack_index = selected_pack - 1;
-        if (pack_index >= packs.size) return;
-
-        string pack_id = packs[(int) pack_index].pack_id;
-        string title = packs[(int) pack_index].name != null && packs[(int) pack_index].name != "" ? packs[(int) pack_index].name : pack_id;
-
-        Gtk.Window? parent = this.get_root() as Gtk.Window;
-        // Close the popover so the confirmation dialog is clickable.
-        this.popdown();
-        var dialog = new Adw.AlertDialog(
-            _("Remove sticker pack?"),
-            _("This will delete the downloaded files and remove the pack from your list: %s").printf(title)
-        );
-        dialog.add_response("cancel", _("Cancel"));
-        dialog.add_response("remove", _("Remove"));
-        dialog.set_response_appearance("remove", Adw.ResponseAppearance.DESTRUCTIVE);
-        dialog.default_response = "cancel";
-        dialog.close_response = "cancel";
-
-        dialog.response.connect((response) => {
-            if (response != "remove") return;
-            var stickers = stream_interactor.get_module(Dino.Stickers.IDENTITY);
-            if (stickers == null) return;
-
-            // Removing can be slow (recursive delete); run it off the UI thread so we can show feedback.
-            set_busy_state(true, null, _("Removing…"));
-            weak StickerChooser weak_self = this;
-            new Thread<void*>("remove-sticker-pack", () => {
-                string? error_message = null;
-                try {
-                    stickers.remove_pack(conversation.account, pack_id);
-                } catch (Error e) {
-                    error_message = e.message;
-                }
-
-                Idle.add(() => {
-                    StickerChooser? self = weak_self;
-                    if (self == null) return false;
-                    self.set_busy_state(false);
-
-                    if (error_message != null) {
-                        Gtk.Window? p = self.get_root() as Gtk.Window;
-                        var err = new Adw.AlertDialog(_("Failed to remove sticker pack"), error_message);
-                        err.add_response("ok", _("OK"));
-                        err.default_response = "ok";
-                        err.close_response = "ok";
-                        if (p != null) err.present(p);
-                    }
-
-                    self.reload();
-                    return false;
-                });
-
-                return null;
-            });
-        });
-
-        if (parent != null) {
-            dialog.present(parent);
-        }
-    }
 
     private void on_sticker_clicked(Dino.Stickers.StickerItem? item) {
         if (item == null) return;
