@@ -7,7 +7,7 @@ using Xmpp.Xep;
 
 namespace Dino.Ui {
 
-public class AddConferenceDialog : Gtk.Window {
+public class AddConferenceDialog : Adw.Dialog {
 
     private Stack stack = new Stack();
     private Button cancel_button = new Button();
@@ -19,19 +19,22 @@ public class AddConferenceDialog : Gtk.Window {
     private ListBox conference_list_box;
 
     private StreamInteractor stream_interactor;
+    private Adw.HeaderBar header_bar;
 
     public AddConferenceDialog(StreamInteractor stream_interactor) {
         this.title = _("Join Channel");
-        this.modal = true;
-        this.default_width = 460;
-        this.default_height = 550;
+        this.content_width = 460;
+        this.content_height = 550;
         this.stream_interactor = stream_interactor;
+
+        var toolbar_view = new Adw.ToolbarView();
+        this.child = toolbar_view;
 
         stack.visible = true;
         stack.vhomogeneous = false;
-        this.child = stack;
+        toolbar_view.content = stack;
 
-        setup_headerbar();
+        setup_headerbar(toolbar_view);
         setup_jid_add_view();
         setup_conference_details_view();
         show_jid_add_view();
@@ -68,17 +71,20 @@ public class AddConferenceDialog : Gtk.Window {
         animate_window_resize(details_fragment);
     }
 
-    private void setup_headerbar() {
+    private void setup_headerbar(Adw.ToolbarView toolbar_view) {
         ok_button = new Button() { can_focus=true };
         ok_button.add_css_class("suggested-action");
 
-        HeaderBar header_bar = new HeaderBar();
-        header_bar.show_title_buttons = false;
+        header_bar = new Adw.HeaderBar();
 
         header_bar.pack_start(cancel_button);
         header_bar.pack_end(ok_button);
         
-        this.titlebar = header_bar;
+        var window_title = new Adw.WindowTitle("", "");
+        this.bind_property("title", window_title, "title", BindingFlags.SYNC_CREATE);
+        header_bar.title_widget = window_title;
+        
+        toolbar_view.add_top_bar(header_bar);
     }
 
     private void setup_jid_add_view() {
@@ -92,8 +98,7 @@ public class AddConferenceDialog : Gtk.Window {
         select_fragment.show_button_labels = true;
         select_fragment.add_jid.connect(() => {
             AddGroupchatDialog dialog = new AddGroupchatDialog(stream_interactor);
-            dialog.set_transient_for(this);
-            dialog.present();
+            dialog.present(this);
         });
         select_fragment.remove_jid.connect((row) => {
             ConferenceListRow conference_row = row as ConferenceListRow;
@@ -149,7 +154,7 @@ public class AddConferenceDialog : Gtk.Window {
     }
 
     private void animate_window_resize(Widget widget) {
-        int curr_height = get_size(Orientation.VERTICAL);
+        int curr_height = content_height;
         var natural_size = Requisition();
         widget.get_preferred_size(null, out natural_size);
         int difference = natural_size.height - curr_height;
@@ -159,7 +164,7 @@ public class AddConferenceDialog : Gtk.Window {
             timer.elapsed(out microsec);
             ulong millisec = microsec / 1000;
             double partial = double.min(1, (double) millisec / stack.transition_duration);
-            default_height = (int) (curr_height + difference * partial);
+            content_height = (int) (curr_height + difference * partial);
             return millisec < stack.transition_duration;
         });
     }

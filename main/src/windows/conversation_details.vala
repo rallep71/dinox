@@ -103,6 +103,15 @@ namespace Dino.Ui.ConversationDetails {
             block_action_group.add_action(block_action);
             this.insert_action_group("block", block_action_group);
 
+            // Create contact action group
+            SimpleActionGroup contact_action_group = new SimpleActionGroup();
+            SimpleAction remove_action = new SimpleAction("remove", null);
+            remove_action.activate.connect(() => {
+                on_remove_contact();
+            });
+            contact_action_group.add_action(remove_action);
+            this.insert_action_group("contact", contact_action_group);
+
             // Create block menu model
             Menu block_menu_model = new Menu();
             string[] menu_labels = new string[] { _("Block user"), _("Block entire domain"), _("Unblock") };

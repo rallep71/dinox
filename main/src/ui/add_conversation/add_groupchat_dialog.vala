@@ -7,7 +7,7 @@ using Xmpp;
 namespace Dino.Ui {
 
 [GtkTemplate (ui = "/im/github/rallep71/DinoX/add_conversation/add_groupchat_dialog.ui")]
-protected class AddGroupchatDialog : Gtk.Window {
+protected class AddGroupchatDialog : Adw.Dialog {
 
     [GtkChild] private unowned Stack accounts_stack;
     [GtkChild] private unowned AccountComboBox account_combobox;

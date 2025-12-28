@@ -7,7 +7,7 @@ using Xmpp;
 
 namespace Dino.Ui {
 
-public class SelectContactDialog : Gtk.Window {
+public class SelectContactDialog : Adw.Dialog {
 
     public signal void selected(Account account, Jid jid);
 
@@ -18,24 +18,27 @@ public class SelectContactDialog : Gtk.Window {
     private SelectJidFragment select_jid_fragment;
     private StreamInteractor stream_interactor;
     private Gee.List<Account> accounts;
+    private Adw.HeaderBar header_bar;
 
     public SelectContactDialog(StreamInteractor stream_interactor, Gee.List<Account> accounts) {
-        modal = true;
-        this.default_width = 460;
-        this.default_height = 550;
+        this.content_width = 460;
+        this.content_height = 550;
 
         this.stream_interactor = stream_interactor;
         this.accounts = accounts;
 
-        setup_view();
-        setup_headerbar();
+        var toolbar_view = new Adw.ToolbarView();
+        this.child = toolbar_view;
+
+        setup_headerbar(toolbar_view);
+        setup_view(toolbar_view);
     }
 
     public void set_filter(string str) {
         select_jid_fragment.set_filter(str);
     }
 
-    private void setup_headerbar() {
+    private void setup_headerbar(Adw.ToolbarView toolbar_view) {
         Button cancel_button = new Button();
         cancel_button.set_label(_("Cancel"));
         cancel_button.visible = true;
@@ -45,12 +48,15 @@ public class SelectContactDialog : Gtk.Window {
         ok_button.sensitive = false;
         ok_button.visible = true;
 
-        HeaderBar header_bar = new HeaderBar();
-        header_bar.show_title_buttons = false;
+        header_bar = new Adw.HeaderBar();
         header_bar.pack_start(cancel_button);
         header_bar.pack_end(ok_button);
         
-        this.titlebar = header_bar;
+        var window_title = new Adw.WindowTitle("", "");
+        this.bind_property("title", window_title, "title", BindingFlags.SYNC_CREATE);
+        header_bar.title_widget = window_title;
+        
+        toolbar_view.add_top_bar(header_bar);
 
         cancel_button.clicked.connect(() => { close(); });
         ok_button.clicked.connect(() => {
@@ -60,7 +66,7 @@ public class SelectContactDialog : Gtk.Window {
         });
     }
 
-    private void setup_view() {
+    private void setup_view(Adw.ToolbarView toolbar_view) {
         roster_list = new RosterList(stream_interactor, accounts);
         roster_list_box = roster_list.get_list_box();
         roster_list_box.row_activated.connect(() => { ok_button.clicked(); });
@@ -72,8 +78,7 @@ public class SelectContactDialog : Gtk.Window {
         select_jid_fragment.browse_contacts_clicked.connect(open_contact_browser);
         select_jid_fragment.add_jid.connect((row) => {
             AddContactDialog add_contact_dialog = new AddContactDialog(stream_interactor);
-            add_contact_dialog.set_transient_for(this);
-            add_contact_dialog.present();
+            add_contact_dialog.present(this);
         });
         select_jid_fragment.remove_jid.connect((row) => {
             ListRow list_row = roster_list_box.get_selected_row().child as ListRow;
@@ -82,18 +87,17 @@ public class SelectContactDialog : Gtk.Window {
         select_jid_fragment.notify["done"].connect(() => {
             ok_button.sensitive = select_jid_fragment.done;
         });
-        this.child = select_jid_fragment;
+        toolbar_view.content = select_jid_fragment;
     }
     
     private void open_contact_browser() {
         var dialog = new ContactBrowserDialog(stream_interactor, accounts);
-        dialog.transient_for = this;
         dialog.contact_selected.connect((account, jid) => {
             // Trigger selection as if user typed the JID
             selected(account, jid);
             close();
         });
-        dialog.present();
+        dialog.present(this);
     }
 }
 

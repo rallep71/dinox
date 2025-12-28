@@ -2,7 +2,7 @@ using Gtk;
 
 namespace Dino.Ui {
 
-    public class CallConnectionDetailsWindow : Gtk.Window {
+    public class CallConnectionDetailsWindow : Adw.Dialog {
 
         public Box box = new Box(Orientation.VERTICAL, 15) { halign=Align.CENTER, valign=Align.CENTER };
 
@@ -11,9 +11,18 @@ namespace Dino.Ui {
         private CallContentDetails video_details = new CallContentDetails("Video");
 
         public CallConnectionDetailsWindow() {
+            var toolbar_view = new Adw.ToolbarView();
+            var header_bar = new Adw.HeaderBar();
+            toolbar_view.add_top_bar(header_bar);
+            
             box.append(audio_details);
             box.append(video_details);
-            set_child(box);
+            
+            toolbar_view.content = box;
+            this.child = toolbar_view;
+            
+            this.content_width = 400;
+            this.content_height = 300;
         }
 
         public void update_content(PeerInfo peer_info) {

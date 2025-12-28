@@ -99,14 +99,13 @@ class MenuEntry : Plugins.ConversationTitlebarEntry, Object {
         dialog.ok_button.label = _("Invite");
         
         var root = button.get_root() as Gtk.Window;
-        if (root != null) dialog.transient_for = root;
 
         dialog.selected.connect((account, jid) => {
             stream_interactor.get_module(MucManager.IDENTITY).invite(conversation.account, conversation.counterpart, jid);
             dialog.close();
         });
         
-        dialog.present();
+        dialog.present(root);
     }
 
     public new void unset_conversation() {

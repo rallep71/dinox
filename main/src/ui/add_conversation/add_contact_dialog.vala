@@ -7,7 +7,7 @@ using Xmpp;
 namespace Dino.Ui {
 
 [GtkTemplate (ui = "/im/github/rallep71/DinoX/add_conversation/add_contact_dialog.ui")]
-protected class AddContactDialog : Gtk.Window {
+protected class AddContactDialog : Adw.Dialog {
 
     public Account? account {
         get { return account_combobox.active_account; }

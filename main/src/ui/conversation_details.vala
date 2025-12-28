@@ -227,9 +227,13 @@ namespace Dino.Ui.ConversationDetails {
                         // Try to find a window to be transient for
                         if (parent != null) {
                             var window = parent.get_root() as Gtk.Window;
-                            if (window != null) admin_dialog.transient_for = window;
+                            admin_dialog.present(window);
+                        } else {
+                            // Fallback if no parent found, though present() requires one.
+                            // We might need to find the active window from application
+                            var app = GLib.Application.get_default() as Gtk.Application;
+                            admin_dialog.present(app.active_window);
                         }
-                        admin_dialog.present();
                     });
                     view_model.settings_rows.append(admin_button);
                 }

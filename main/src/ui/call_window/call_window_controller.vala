@@ -149,13 +149,12 @@ public class Dino.Ui.CallWindowController : Object {
         Gee.List<Account> acc_list = new ArrayList<Account>(Account.equals_func);
         acc_list.add(call.account);
         SelectContactDialog add_chat_dialog = new SelectContactDialog(stream_interactor, acc_list);
-        add_chat_dialog.set_transient_for((Window) call_window.get_root());
         add_chat_dialog.title = _("Invite to Call");
         add_chat_dialog.ok_button.label = _("Invite");
         add_chat_dialog.selected.connect((account, jid) => {
             call_state.invite_to_call.begin(jid);
         });
-        add_chat_dialog.present();
+        add_chat_dialog.present(call_window);
     }
 
     private void connect_peer_signals(PeerState peer_state) {
@@ -274,9 +273,8 @@ public class Dino.Ui.CallWindowController : Object {
                 conn_details_window.update_content(peer_states[participant_id].get_info());
                 return true;
             });
-            conn_details_window.set_transient_for(call_window);
-            conn_details_window.close_request.connect(() => { Source.remove(timeout_handle_id); return false; });
-            conn_details_window.present();
+            conn_details_window.closed.connect(() => { Source.remove(timeout_handle_id); });
+            conn_details_window.present(call_window);
             this.call_window.close_request.connect(() => { conn_details_window.close(); return false; });
         });
         invite_handler_ids[participant_id] += participant_widget.invite_button_clicked.connect(() => invite_button_clicked());

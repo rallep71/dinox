@@ -183,12 +183,11 @@ public class SelectJidFragment : Gtk.Box {
         if (account != null) {
             var dialog = new RoomBrowserDialog(stream_interactor, account);
             var root = this.get_root() as Gtk.Window;
-            if (root != null) dialog.transient_for = root;
             
             dialog.room_selected.connect((jid) => {
                 entry.text = jid.to_string();
             });
-            dialog.present();
+            dialog.present(root);
         }
     }
     

@@ -5,7 +5,7 @@ using Xmpp;
 
 namespace Dino.Ui {
 
-public class ContactBrowserDialog : Gtk.Window {
+public class ContactBrowserDialog : Adw.Dialog {
 
     private Button cancel_button;
     private Button start_button;
@@ -24,20 +24,19 @@ public class ContactBrowserDialog : Gtk.Window {
         this.accounts = accounts;
         
         this.title = _("Browse Contacts");
-        this.modal = true;
-        this.default_width = 460;
-        this.default_height = 550;
+        this.content_width = 460;
+        this.content_height = 550;
 
         setup_ui();
         load_contacts();
     }
 
     private void setup_ui() {
+        var toolbar_view = new Adw.ToolbarView();
         var main_box = new Box(Orientation.VERTICAL, 0);
         
         // Header
-        var header_bar = new HeaderBar();
-        header_bar.show_title_buttons = false;
+        var header_bar = new Adw.HeaderBar();
         
         cancel_button = new Button.with_label(_("Cancel"));
         start_button = new Button.with_label(_("Start"));
@@ -46,7 +45,7 @@ public class ContactBrowserDialog : Gtk.Window {
         
         header_bar.pack_start(cancel_button);
         header_bar.pack_end(start_button);
-        this.titlebar = header_bar;
+        toolbar_view.add_top_bar(header_bar);
         
         cancel_button.clicked.connect(() => { close(); });
         start_button.clicked.connect(on_start_clicked);
@@ -86,7 +85,8 @@ public class ContactBrowserDialog : Gtk.Window {
         status_label.margin_bottom = 12;
         main_box.append(status_label);
         
-        this.child = main_box;
+        toolbar_view.content = main_box;
+        this.child = toolbar_view;
     }
 
     private void load_contacts() {
