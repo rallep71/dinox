@@ -111,6 +111,7 @@ DinoX 1:1 calling focuses on cross-client interoperability (notably with **Conve
 - **Security profile:** **DTLS-SRTP only** (no SDES-SRTP).
 - **Baseline codecs:** **Opus** (audio) and **VP8** (video) for reliable interop.
 - **Optional audio quality:** `webrtc-audio-processing` enables AEC/NS/AGC if present.
+  > **Note:** Many distributions ship outdated versions. For best quality (Echo Cancellation), we strongly recommend building **version 2.1+** from source. See [BUILD.md](BUILD.md#building-webrtc-audio-processing-21-manual).
 
 If you are building from source using distro packages, ensure you are on a sufficiently new `libnice` (recommended: `>= 0.1.23`). For collecting reproducible call logs, see [DEBUG.md](DEBUG.md).
 
