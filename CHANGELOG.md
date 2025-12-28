@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.8.6.13] - 2025-12-28
+
+### Fixed
+- **UI/Dialogs**
+  - Fixed "Leave Conversation" button in conversation details dialog not working.
+  - Fixed responsiveness issues when opening conversation details from chat input (e.g., "You are not a member of this room").
+  - Fixed empty dialogs by removing `show-title-buttons` property from UI files (Libadwaita 1.5+ compatibility).
+
 ## [0.8.6.12] - 2025-12-28
 
 ### Changed
