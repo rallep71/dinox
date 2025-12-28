@@ -7,7 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.8.6.13] - 2025-12-28
+## [0.8.6.14] - 2025-12-28
+
+### Added
+- **Sticker UI Refactor**
+  - Redesigned Sticker Manager with modern UI.
+  - Added support for APNG (Animated PNG) stickers.
+  - Added "Share" and "Publish" buttons for sticker packs.
+  - Added a "Close" button to the sticker chooser popover.
 
 ## [0.8.6.13] - 2025-12-28
 

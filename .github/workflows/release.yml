@@ -10,60 +10,119 @@ permissions:
   contents: write
 
 jobs:
-  build-and-release:
-    name: "Build and Release (${{ matrix.arch }})"
+  build-x86_64:
+    name: "Build (x86_64)"
     runs-on: ubuntu-24.04
-    strategy:
-      fail-fast: false
-      matrix:
-        arch: [x86_64, aarch64]
-    
+    outputs:
+      version: ${{ steps.get_version.outputs.version }}
     steps:
       - name: "Checkout sources"
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: "Set up QEMU"
-        if: matrix.arch == 'aarch64'
-        uses: docker/setup-qemu-action@v3
+      - name: "Get version"
+        id: get_version
+        run: echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
 
       - name: "Install Flatpak Builder"
         run: |
           sudo apt-get update
           sudo apt-get install -y flatpak flatpak-builder elfutils
-          # Add Flathub repo
           flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
-      - name: "Get version from tag"
-        id: get_version
-        run: echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
-
-      - name: "Fix git safe directory"
-        run: git config --global --add safe.directory '*'
-
-      - name: "Create source tarball"
-        if: matrix.arch == 'x86_64'
+      - name: "Build Flatpak"
         run: |
-          git config --global --add safe.directory '*'
+          # Install dependencies and build
+          flatpak-builder --user --install-deps-from=flathub --force-clean --default-branch=master --repo=repo build-dir im.github.rallep71.DinoX.json
+          
+          # Create bundle
+          flatpak build-bundle repo dinox-x86_64.flatpak im.github.rallep71.DinoX master
+
+      - name: "Create Source Tarball"
+        run: |
           version="${{ steps.get_version.outputs.version }}"
+          git config --global --add safe.directory '*'
           git archive --format=tar.gz --output=dinox-$version.tar.gz --prefix=dinox-$version/ HEAD
           sha256sum dinox-$version.tar.gz > dinox-$version.tar.gz.sha256
 
-      - name: "Build Flatpak"
-        # We use the installed flatpak-builder directly instead of the action
-        # to avoid issues with QEMU/Docker on aarch64
-        run: |
-          # Install runtime/sdk dependencies
-          flatpak-builder --user --install-deps-from=flathub --force-clean --default-branch=master --arch=${{ matrix.arch }} --repo=repo build-dir im.github.rallep71.DinoX.json
-          
-          # Build the bundle
-          flatpak build-bundle --arch=${{ matrix.arch }} repo im.github.rallep71.DinoX-${{ matrix.arch }}.flatpak im.github.rallep71.DinoX master
+      - name: "Upload Artifacts"
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts-x86_64
+          path: |
+            dinox-x86_64.flatpak
+            dinox-*.tar.gz
+            dinox-*.tar.gz.sha256
 
-      - name: "Rename Flatpak bundle"
+  build-aarch64:
+    name: "Build (aarch64)"
+    runs-on: ubuntu-24.04
+    steps:
+      - name: "Checkout sources"
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: "Build in ARM Container"
+        uses: uraimo/run-on-arch-action@v2
+        with:
+          arch: aarch64
+          distro: ubuntu22.04
+          githubToken: ${{ github.token }}
+          # Install dependencies inside the emulated container
+          install: |
+            apt-get update
+            apt-get install -y flatpak flatpak-builder elfutils git curl
+          # Run the build inside the emulated container
+          run: |
+            # Add Flathub
+            flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+            
+            # Build
+            # Note: We disable rofiles-fuse because it often fails in emulated containers
+            flatpak-builder --user --disable-rofiles-fuse --install-deps-from=flathub --force-clean --default-branch=master --repo=repo build-dir im.github.rallep71.DinoX.json
+            
+            # Bundle
+            flatpak build-bundle repo dinox-aarch64.flatpak im.github.rallep71.DinoX master
+
+      - name: "Upload Artifacts"
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts-aarch64
+          path: dinox-aarch64.flatpak
+
+  create-release:
+    name: "Create Release"
+    needs: [build-x86_64, build-aarch64]
+    runs-on: ubuntu-24.04
+    steps:
+      - name: "Checkout sources"
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: "Get version"
+        id: get_version
+        run: echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
+      - name: "Download x86_64 Artifacts"
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts-x86_64
+          path: ./
+
+      - name: "Download aarch64 Artifacts"
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts-aarch64
+          path: ./
+
+      - name: "Rename Artifacts"
         run: |
-          mv im.github.rallep71.DinoX-${{ matrix.arch }}.flatpak \
-             dinox-${{ steps.get_version.outputs.version }}-${{ matrix.arch }}.flatpak
+          version="${{ steps.get_version.outputs.version }}"
+          mv dinox-x86_64.flatpak dinox-${version}-x86_64.flatpak
+          mv dinox-aarch64.flatpak dinox-${version}-aarch64.flatpak
 
       - name: "Prepare Release Body"
         run: |
@@ -76,8 +135,7 @@ jobs:
           echo "### What's New" >> RELEASE_BODY.md
           echo "" >> RELEASE_BODY.md
           
-          # Extract changelog for this version.
-          # If the exact version (e.g. 0.8.5.2) has no section, fall back to the base release notes (e.g. 0.8.5).
+          # Extract changelog helper
           extract_changelog() {
             local ver="$1"
             awk -v ver="[$ver]" '
@@ -87,6 +145,7 @@ jobs:
           }
 
           notes="$(extract_changelog "$version")"
+          # Fallback logic for point releases
           if [ -z "${notes//[[:space:]]/}" ]; then
             if echo "$version" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$'; then
               base_version="$(echo "$version" | sed -E 's/\.[0-9]+$//')"
@@ -98,41 +157,13 @@ jobs:
             fi
           fi
           echo "$notes" >> RELEASE_BODY.md
-          
-          echo "" >> RELEASE_BODY.md
-          echo "See [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/CHANGELOG.md) for full details." >> RELEASE_BODY.md
-          echo "" >> RELEASE_BODY.md
-          echo "### Installation" >> RELEASE_BODY.md
-          echo "" >> RELEASE_BODY.md
-          echo "**Flatpak** (Recommended):" >> RELEASE_BODY.md
-          echo "\`\`\`bash" >> RELEASE_BODY.md
-          echo "# x86_64 systems" >> RELEASE_BODY.md
-          echo "flatpak install dinox-$version-x86_64.flatpak" >> RELEASE_BODY.md
-          echo "\`\`\`" >> RELEASE_BODY.md
-          echo "" >> RELEASE_BODY.md
-          echo "**From Source**:" >> RELEASE_BODY.md
-          echo "See [BUILD.md](https://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/docs/BUILD.md)" >> RELEASE_BODY.md
-          echo "" >> RELEASE_BODY.md
-          echo "### Requirements" >> RELEASE_BODY.md
-          echo "" >> RELEASE_BODY.md
-          echo "- GTK4 4.0+" >> RELEASE_BODY.md
-          echo "- libadwaita 1.5+" >> RELEASE_BODY.md
-          echo "- libdbusmenu-glib 0.4+ (for systray support)" >> RELEASE_BODY.md
-          echo "" >> RELEASE_BODY.md
-          echo "### Links" >> RELEASE_BODY.md
-          echo "" >> RELEASE_BODY.md
-          echo "- [Documentation](https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}/docs)" >> RELEASE_BODY.md
-          echo "- [Report Issues](https://github.com/${{ github.repository }}/issues)" >> RELEASE_BODY.md
 
-      - name: "Upload Release Assets"
-        uses: softprops/action-gh-release@v2
+      - name: "Create Release"
+        uses: softprops/action-gh-release@v1
         with:
-          name: DinoX v${{ steps.get_version.outputs.version }}
           body_path: RELEASE_BODY.md
-          draft: false
-          prerelease: false
           files: |
-            dinox-${{ steps.get_version.outputs.version }}-${{ matrix.arch }}.flatpak
-            dinox-${{ steps.get_version.outputs.version }}.tar.gz
-            dinox-${{ steps.get_version.outputs.version }}.tar.gz.sha256
-          fail_on_unmatched_files: false
+            dinox-*-x86_64.flatpak
+            dinox-*-aarch64.flatpak
+            dinox-*.tar.gz
+            dinox-*.tar.gz.sha256
