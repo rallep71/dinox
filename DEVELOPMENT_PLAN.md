@@ -1,6 +1,6 @@
 # DinoX - Development Plan
 
-> **Last Updated**: December 19, 2025
+> **Last Updated**: December 28, 2025
 > **Current Release Line**: 0.8.6.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.

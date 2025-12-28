@@ -291,7 +291,8 @@ copy_dependencies() {
                libpipewire-0.3.so* libspa-0.2.so* libsndfile.so* libFLAC.so* \
                libvorbis.so* libvorbisenc.so* libogg.so* \
                libcanberra.so* libcanberra-gtk3.so* \
-               libsqlcipher.so* libsecret-1.so* libgcrypt.so*; do
+               libsqlcipher.so* libsecret-1.so* libgcrypt.so* \
+               libwebrtc-audio-processing.so*; do
         find /usr/lib/x86_64-linux-gnu -maxdepth 1 -name "$lib" -exec cp -L {} "$APPDIR/usr/lib/" \; 2>/dev/null || true
     done
 

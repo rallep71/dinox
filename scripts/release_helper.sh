@@ -31,7 +31,7 @@ sed -i "s/## \[Unreleased\]/## [Unreleased]\n\n## [$VERSION] - $DATE/" CHANGELOG
 # Update the links at the bottom of CHANGELOG.md
 # This is a bit complex with sed, so we'll append the new link and update the Unreleased link
 # Assuming the last line is the previous version link
-PREV_VERSION=$(grep -oP "\[\d+\.\d+\.\d+\]:.*tag/v\K.*" CHANGELOG.md | head -1)
+PREV_VERSION=$(grep -oP "\[\d+\.\d+\.\d+(\.\d+)?\]:.*tag/v\K.*" CHANGELOG.md | head -1)
 if [ ! -z "$PREV_VERSION" ]; then
     # Update Unreleased link to compare VERSION...HEAD
     sed -i "s/\[Unreleased\]:.*compare\/v.*HEAD/[Unreleased]: https:\/\/github.com\/rallep71\/dinox\/compare\/v$VERSION...HEAD/" CHANGELOG.md
