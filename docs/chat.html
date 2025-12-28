@@ -54,28 +54,23 @@
     <script src="https://cdn.conversejs.org/12.0.0/dist/converse.min.js" charset="utf-8"></script>
     
     <script>
+        if (typeof converse === 'undefined') {
+            alert("Fehler: Converse.js konnte nicht geladen werden. Bitte prüfe deine Internetverbindung oder Adblocker.");
+        }
+
         converse.initialize({
             // WICHTIG: Hier muss die BOSH oder WebSocket URL deines XMPP Servers rein!
-            // Beispiel für jabber.de (nur zum Testen, CORS muss erlaubt sein):
             bosh_service_url: 'https://chat.handwerker.jetzt:5443/bosh', 
             websocket_url: 'wss://chat.handwerker.jetzt:5443/ws',
             
-            // Wenn du keinen eigenen BOSH Service hast, kannst du zum Testen 
-            // oft den vom Provider nutzen, wo du deinen Account hast.
-            // Für diese Demo lassen wir es leer, dann fragt Converse.js nach der URL oder nutzt Auto-Discovery.
+            view_mode: 'overlay', 
             
-            view_mode: 'overlay', // Das ist der Schlüssel! 'fullscreen' wäre das andere.
+            show_controlbox_by_default: true,
+            authentication: 'login',
+            debug: true, // Zeigt Fehler in der Browser-Konsole (F12)
             
-            show_controlbox_by_default: true, // Zeigt Login/Register Box direkt an
-            theme: 'concord',
-            
-            // OMEMO Verschlüsselung aktivieren
-            whitelisted_plugins: ['converse-omemo'],
-            
-            // Optional: Anonymen Login erlauben (wenn Server es unterstützt)
-            // authentication: 'anonymous',
-            // auto_login: true,
-            // jid: 'jabber.de', // Server für anonymen Login
+            // OMEMO vorerst deaktiviert zum Testen
+            // whitelisted_plugins: ['converse-omemo'],
         });
     </script>
 
