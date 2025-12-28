@@ -70,6 +70,8 @@ jobs:
           arch: aarch64
           distro: ubuntu22.04
           githubToken: ${{ github.token }}
+          dockerRunArgs: |
+            --privileged
           # Install dependencies inside the emulated container
           install: |
             apt-get update
