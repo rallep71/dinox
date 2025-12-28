@@ -27,7 +27,9 @@ In particular:
 
 - **libnice (ICE):** DinoX call support is known to have issues with older libnice versions. The release builds bundle/build **libnice 0.1.23**; for distro/source builds you should use **libnice >= 0.1.23**.
 - **“webrtc” in DinoX does NOT mean Google/libwebrtc:** DinoX uses **GStreamer** (not the full Google WebRTC stack). The relevant pieces are the GStreamer plugins from `gst-plugins-bad` (DTLS/SRTP/WebRTC elements) plus `libnice` for ICE.
-- **webrtc-audio-processing (optional):** If present, it enables echo cancellation / noise suppression / AGC. DinoX builds and runs without it.
+- **webrtc-audio-processing (Highly Recommended):** This library provides professional-grade Echo Cancellation (AEC), Noise Suppression (NS), and Automatic Gain Control (AGC).
+    - Without it, calls may have echo or background noise.
+    - DinoX detects it at build time. If found, it is used automatically.
 
 #### Quick checks (distro/source builds)
 
@@ -49,6 +51,7 @@ gst-inspect-1.0 srtpenc  >/dev/null
 sudo apt update
 sudo apt install \
     build-essential \
+    git \
     meson \
     ninja-build \
     valac \
@@ -78,6 +81,7 @@ sudo apt install \
 ```bash
 sudo dnf install \
     gcc \
+    git \
     meson \
     ninja-build \
     vala \

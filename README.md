@@ -36,7 +36,7 @@ DinoX features System Tray support, MUJI group video calls, voice messages, mess
 | **OpenPGP Keyring Isolation** | Uses an app-scoped `GNUPGHOME` so Panic Wipe removes OpenPGP material |
 | **Disappearing Messages** | Auto-delete messages after 15min, 30min, 1h, 24h, 7d or 30d |
 | **MUJI Group Calls** | Multi-party audio/video conferences (mesh-based) |
-| **1:1 Voice & Video** | Interoperable Jingle calls (ICE-UDP + DTLS-SRTP, Opus/VP8 baseline) |
+| **1:1 Voice & Video** | Crystal clear calls with Echo Cancellation, Noise Suppression, AGC & Transient Suppression |
 | **Voice Messages** | Record and send audio messages (AAC format) |
 | **Inline Video Player** | Play videos directly in chat (no external player) |
 | **Group Chats (MUC)** | Full support with moderation, roles, private rooms |

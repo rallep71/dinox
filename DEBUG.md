@@ -80,6 +80,20 @@ flatpak run \
    im.github.rallep71.DinoX 2>&1 | tee /tmp/dinox-flatpak-audio.log
 ```
 
+#### Verifying Audio Processing (AEC, AGC, Noise Suppression)
+
+To confirm that the `webrtc-audio-processing` library is active and configured correctly (e.g. AGC enabled), look for `VoiceProcessor` messages in the debug log:
+
+```bash
+grep "VoiceProcessor" /tmp/dinox-flatpak-audio.log
+```
+
+You should see lines indicating the setup, for example:
+`rtp-Message: ... VoiceProcessor.setup(...)`
+`rtp-Message: ... VoiceProcessor.start(echo_probe=yes, ...)`
+
+If these are missing, DinoX might be falling back to raw audio capture without processing.
+
 Quick checks inside the sandbox:
 
 ```bash
