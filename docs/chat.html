@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DinoX - Chat Demo</title>
+    
+    <!-- Original CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Converse.js CSS -->
+    <link rel="stylesheet" type="text/css" media="screen" href="https://cdn.conversejs.org/12.0.0/dist/converse.css">
+    
+    <style>
+        /* Anpassungen damit es gut zu DinoX passt */
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: #1e1e1e;
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        /* Converse.js Overrides für Dark Mode Integration */
+        #conversejs {
+            bottom: 0;
+            right: 0;
+            position: fixed;
+            z-index: 1030;
+        }
+        
+        #conversejs .converse-brand-heading {
+            background-color: #3584e4 !important; /* DinoX Blue */
+        }
+        
+        #conversejs .chatbox .box-flyout {
+            background-color: #2d2d2d !important;
+            border: 1px solid #444;
+        }
+    </style>
+</head>
+<body>
+
+    <div style="max-width: 800px; margin: 0 auto; text-align: center; padding-top: 100px;">
+        <img src="assets/logo.svg" alt="DinoX Logo" style="width: 128px; margin-bottom: 20px;">
+        <h1>DinoX Web Chat Demo</h1>
+        <p>Dies ist eine Demo für den Overlay-Modus.</p>
+        <p>Schaue unten rechts in die Ecke!</p>
+        <br>
+        <a href="index.html" style="color: #3584e4; text-decoration: none;">&larr; Zurück zur Hauptseite</a>
+    </div>
+
+    <!-- Converse.js Script -->
+    <script src="https://cdn.conversejs.org/12.0.0/dist/converse.min.js" charset="utf-8"></script>
+    
+    <script>
+        converse.initialize({
+            // WICHTIG: Hier muss die BOSH oder WebSocket URL deines XMPP Servers rein!
+            // Beispiel für jabber.de (nur zum Testen, CORS muss erlaubt sein):
+            bosh_service_url: 'https://chat.handwerker.jetzt:5443/bosh', 
+            websocket_url: 'wss://chat.handwerker.jetzt:5443/ws',
+            
+            // Wenn du keinen eigenen BOSH Service hast, kannst du zum Testen 
+            // oft den vom Provider nutzen, wo du deinen Account hast.
+            // Für diese Demo lassen wir es leer, dann fragt Converse.js nach der URL oder nutzt Auto-Discovery.
+            
+            view_mode: 'overlay', // Das ist der Schlüssel! 'fullscreen' wäre das andere.
+            
+            show_controlbox_by_default: true, // Zeigt Login/Register Box direkt an
+            theme: 'concord',
+            
+            // OMEMO Verschlüsselung aktivieren
+            whitelisted_plugins: ['converse-omemo'],
+            
+            // Optional: Anonymen Login erlauben (wenn Server es unterstützt)
+            // authentication: 'anonymous',
+            // auto_login: true,
+            // jid: 'jabber.de', // Server für anonymen Login
+        });
+    </script>
+
+</body>
+</html>
