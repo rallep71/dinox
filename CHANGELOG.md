@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.8.6.11] - 2025-12-28
+
+### Fixed
+- **Calls (Echo Cancellation)**
+  - Fixed a critical issue where AEC was not wired into the pipeline, causing severe echo for remote parties.
+  - Enabled "Mobile Mode" and "Adaptive Digital" AGC for better audio quality on Linux devices.
+
+### Changed
+- **Build / Dependencies**
+  - Removed support for the obsolete `webrtc-audio-processing` v0.3 library to prevent build regressions.
+  - Flatpak and AppImage builds now strictly use `webrtc-audio-processing` v2.1 (Jan 2025).
+
 ## [0.8.6.10] - 2025-12-20
 
 ### Fixed
@@ -726,7 +738,8 @@ This release significantly improves 1:1 Jingle audio/video call interoperability
 - libdbusmenu integration for StatusNotifierItem/AppIndicator support
 - Meson build system with automated translations (50+ languages)
 
-[Unreleased]: https://github.com/rallep71/dinox/compare/v0.8.6.10...HEAD
+[Unreleased]: https://github.com/rallep71/dinox/compare/v0.8.6.11...HEAD
+[0.8.6.11]: https://github.com/rallep71/dinox/releases/tag/v0.8.6.11
 [0.8.6.10]: https://github.com/rallep71/dinox/releases/tag/v0.8.6.10
 [0.8.6.9]: https://github.com/rallep71/dinox/releases/tag/v0.8.6.9
 [0.8.6.8]: https://github.com/rallep71/dinox/releases/tag/v0.8.6.8

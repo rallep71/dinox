@@ -62,6 +62,10 @@ public class WebRTCCallManager : Object {
     private Device? audio_input_device;
     private Device? video_input_device;
     
+    // AEC elements
+    private VoiceProcessor voice_processor;
+    private EchoProbe echo_probe;
+
     // Signal handler IDs for proper cleanup
     private ulong on_ice_candidate_handler_id;
     private ulong on_connection_state_handler_id;
@@ -89,6 +93,9 @@ public class WebRTCCallManager : Object {
         this.converter = new SdpJingleConverter();
         this.pending_remote_candidates = new ArrayList<PendingIceCandidate>();
         
+        this.echo_probe = new EchoProbe();
+        this.voice_processor = new VoiceProcessor(this.echo_probe);
+
         debug("WebRTCCallManager created for session %s (initiator: %s)", 
               session.sid, is_initiator.to_string());
     }
@@ -220,12 +227,13 @@ public class WebRTCCallManager : Object {
         capsfilter.set_property("caps", caps);
         
         // Add and link
-        pipeline.add_many(source, queue, audioconvert, audioresample, opusenc, rtpopuspay, capsfilter);
+        pipeline.add_many(source, queue, audioconvert, audioresample, voice_processor, opusenc, rtpopuspay, capsfilter);
         
         source.link(queue);
         queue.link(audioconvert);
         audioconvert.link(audioresample);
-        audioresample.link(opusenc);
+        audioresample.link(voice_processor);
+        voice_processor.link(opusenc);
         opusenc.link(rtpopuspay);
         rtpopuspay.link(capsfilter);
         
@@ -1055,14 +1063,16 @@ public class WebRTCCallManager : Object {
             var audioresample = Gst.ElementFactory.make("audioresample", null);
             var audiosink = Gst.ElementFactory.make("autoaudiosink", null);
             
-            pipeline.add_many(audioconvert, audioresample, audiosink);
+            pipeline.add_many(audioconvert, audioresample, echo_probe, audiosink);
             audioconvert.sync_state_with_parent();
             audioresample.sync_state_with_parent();
+            echo_probe.sync_state_with_parent();
             audiosink.sync_state_with_parent();
             
             pad.link(audioconvert.get_static_pad("sink"));
             audioconvert.link(audioresample);
-            audioresample.link(audiosink);
+            audioresample.link(echo_probe);
+            echo_probe.link(audiosink);
             
             remote_audio_ready(audiosink);
             

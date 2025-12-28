@@ -57,8 +57,6 @@ if dep_webrtc_audio_processing.found() and get_option('plugin-rtp-webrtc-audio-p
         voice_c_args += ['-DWEBRTC2']
     elif dep_webrtc_audio_processing.version().version_compare('>=1.0')
         voice_c_args += ['-DWEBRTC1']
-    else
-        voice_c_args += ['-DWEBRTC0']
     endif
     lib_rtp_voice_processor = static_library('rtp-voice-processor', voice_sources, c_args: voice_c_args, cpp_args: voice_c_args, dependencies: voice_dependencies, install: false)
     dep_rtp_voice_processor = declare_dependency(link_with: lib_rtp_voice_processor)

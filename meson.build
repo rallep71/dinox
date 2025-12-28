@@ -63,12 +63,9 @@ dep_m = meson.get_compiler('c').find_library('m', required: false)
 dep_sqlcipher = dependency('sqlcipher', version: '>=3.4')
 dep_libsecret = dependency('libsecret-1')
 
-dep_webrtc_audio_processing = dependency('webrtc-audio-processing-1', required: false)
+dep_webrtc_audio_processing = dependency('webrtc-audio-processing-2', required: false)
 if not dep_webrtc_audio_processing.found()
-    dep_webrtc_audio_processing = dependency('webrtc-audio-processing', version: ['>=0.2'], required: false)
-endif
-if not dep_webrtc_audio_processing.found()
-    dep_webrtc_audio_processing = dependency('webrtc-audio-processing-2', required: false)
+    dep_webrtc_audio_processing = dependency('webrtc-audio-processing-1', required: false)
 endif
 if not dep_webrtc_audio_processing.found()
     dep_webrtc_audio_processing = disabler()

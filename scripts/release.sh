@@ -26,9 +26,9 @@ fi
 VERSION="$1"
 
 # Validate version format
-if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(\.[0-9]+)?$ ]]; then
     echo -e "${RED}ERROR: Invalid version format: $VERSION${NC}"
-    echo "Version must be in format: X.Y.Z (e.g., 0.6.0)"
+    echo "Version must be in format: X.Y.Z or X.Y.Z.W (e.g., 0.6.0 or 0.8.6.10)"
     exit 1
 fi
 
