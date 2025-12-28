@@ -1,78 +1,31 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DinoX - Chat Demo</title>
-    
-    <!-- Original CSS -->
-    <link rel="stylesheet" href="css/style.css">
-    
-    <!-- Converse.js CSS -->
-    <link rel="stylesheet" type="text/css" media="screen" href="https://cdn.conversejs.org/9.1.1/dist/converse.min.css">
-    
-    <style>
-        /* Anpassungen damit es gut zu DinoX passt */
-        body {
-            font-family: system-ui, -apple-system, sans-serif;
-            background-color: #1e1e1e;
-            color: #fff;
-            margin: 0;
-            padding: 20px;
-        }
-        
-        /* Converse.js Overrides für Dark Mode Integration */
-        #conversejs {
-            bottom: 0;
-            right: 0;
-            position: fixed;
-            z-index: 1030;
-        }
-        
-        #conversejs .converse-brand-heading {
-            background-color: #3584e4 !important; /* DinoX Blue */
-        }
-        
-        #conversejs .chatbox .box-flyout {
-            background-color: #2d2d2d !important;
-            border: 1px solid #444;
-        }
-    </style>
+    <title>Dino Support Chat</title>
+    <link rel="stylesheet" type="text/css" media="screen" href="https://cdn.conversejs.org/12.0.0/dist/converse.css">
+    <script src="https://cdn.conversejs.org/12.0.0/dist/converse.js" charset="utf-8"></script>
 </head>
 <body>
-
-    <div style="max-width: 800px; margin: 0 auto; text-align: center; padding-top: 100px;">
-        <img src="assets/logo.svg" alt="DinoX Logo" style="width: 128px; margin-bottom: 20px;">
-        <h1>DinoX Web Chat Demo</h1>
-        <p>Dies ist eine Demo für den Overlay-Modus.</p>
-        <p>Schaue unten rechts in die Ecke!</p>
-        <br>
-        <a href="index.html" style="color: #3584e4; text-decoration: none;">&larr; Zurück zur Hauptseite</a>
-    </div>
-
-    <!-- Converse.js Script -->
-    <script src="https://cdn.conversejs.org/9.1.1/dist/converse.min.js" charset="utf-8"></script>
+    <h1>Dino Support Chat</h1>
+    <p>Click the "Toggle Chat" button below to open the chat.</p>
     
-    <script>
-        if (typeof converse === 'undefined') {
-            alert("Fehler: Converse.js konnte nicht geladen werden. Bitte prüfe deine Internetverbindung oder Adblocker.");
-        }
+    <!-- Converse.js container -->
+    <div id="conversejs"></div>
 
+    <script>
         converse.initialize({
-            // WICHTIG: Hier muss die BOSH oder WebSocket URL deines XMPP Servers rein!
-            bosh_service_url: 'https://chat.handwerker.jetzt:5443/bosh', 
+            bosh_service_url: 'https://chat.handwerker.jetzt:5443/http-bind',
             websocket_url: 'wss://chat.handwerker.jetzt:5443/ws',
-            
-            view_mode: 'overlay', 
-            
             show_controlbox_by_default: true,
-            authentication: 'login',
-            debug: true, // Zeigt Fehler in der Browser-Konsole (F12)
-            
-            // OMEMO vorerst deaktiviert zum Testen
-            // whitelisted_plugins: ['converse-omemo'],
+            view_mode: 'overlayed',
+            domain: 'chat.handwerker.jetzt',
+            authentication: 'anonymous',
+            auto_login: true,
+            jid: 'chat.handwerker.jetzt',
+            loglevel: 'debug'
         });
     </script>
-
 </body>
 </html>
