@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.8.6.13] - 2025-12-28
 
+## [0.8.6.13] - 2025-12-28
+
 ### Fixed
 - **UI/Dialogs**
   - Fixed "Leave Conversation" button in conversation details dialog not working.
