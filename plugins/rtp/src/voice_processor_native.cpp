@@ -127,9 +127,9 @@ extern "C" gint dino_plugins_rtp_voice_processor_get_suggested_gain_level(void *
 }
 
 extern "C" bool dino_plugins_rtp_voice_processor_get_stream_has_voice(void *native_ptr) {
-    auto *native = (_DinoPluginsRtpVoiceProcessorNative *) native_ptr;
     bool has_voice = false;
 #if defined(WEBRTC1)
+    auto *native = (_DinoPluginsRtpVoiceProcessorNative *) native_ptr;
     rtc::scoped_refptr<webrtc::AudioProcessing> apm = native->apm;
     webrtc::AudioProcessingStats stats = apm->GetStatistics ();
     has_voice = stats.voice_detected.value_or(false);
