@@ -56,7 +56,7 @@ public class AudioPlayerWidget : Box {
         this.margin_end = 8;
         this.halign = Align.FILL;
         this.hexpand = true;
-        // this.set_size_request(250, -1);
+        this.set_size_request(250, -1);
         
         // Listen for file download completion
         file_transfer.notify["path"].connect(() => {

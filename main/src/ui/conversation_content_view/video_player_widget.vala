@@ -93,6 +93,7 @@ public class VideoPlayerWidget : Widget {
         this.valign = Align.START;
         this.hexpand = false;
         this.vexpand = false;
+        this.set_size_request(320, 180);
         this.add_css_class("video-player-widget");
 
         this.file_transfer = file_transfer;
@@ -239,12 +240,12 @@ public class VideoPlayerWidget : Widget {
             video_picture = new Gtk.Picture();
             video_picture.content_fit = ContentFit.SCALE_DOWN;  // Scale down large videos
             video_picture.can_shrink = true;
-            video_picture.halign = Align.FILL;
-            video_picture.valign = Align.FILL;
-            video_picture.hexpand = true;
-            video_picture.vexpand = true;
+            video_picture.halign = Align.START;
+            video_picture.valign = Align.START;
+            video_picture.hexpand = false;
+            video_picture.vexpand = false;
             // Set max size but allow scaling down
-            // video_picture.set_size_request(400, 225);  // Minimum 400x225 (16:9)
+            video_picture.set_size_request(320, 180);  // Minimum 320x180 (16:9)
             
             // Create aspect frame to maintain ratio
             var aspect_frame = new Gtk.AspectFrame(0.0f, 0.0f, 16.0f/9.0f, false);

@@ -250,13 +250,13 @@ public class MessageMetaItem : ContentMetaItem {
         box.hexpand = false;
         
         Overlay overlay = new Overlay();
-        overlay.set_size_request(300, 200);
+        overlay.set_size_request(256, 256);
         overlay.halign = Align.START;
         overlay.hexpand = false;
 
         Picture picture = new Picture();
         picture.content_fit = ContentFit.COVER;
-        picture.can_shrink = false;
+        picture.can_shrink = true;
         
         // Fetch image
         var session = new Soup.Session();
