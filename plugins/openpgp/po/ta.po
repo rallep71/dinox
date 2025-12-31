@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-01 15:51+0100\n"
+"POT-Creation-Date: 2025-12-31 14:13+0100\n"
 "PO-Revision-Date: 2024-12-21 08:00+0000\n"
 "Language-Team: none\n"
 "Language: ta\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.10-dev\n"
 
-#: plugins/openpgp/src/contact_details_provider.vala:36
+#: plugins/openpgp/src/contact_details_provider.vala:38
 msgid "Key not in keychain"
 msgstr "விசை கீச்சினில் இல்லை"
 
-#: plugins/openpgp/src/contact_details_provider.vala:40
+#: plugins/openpgp/src/contact_details_provider.vala:42
 #: plugins/openpgp/src/key_management_dialog.vala:220
 msgid "Fingerprint"
 msgstr "கைரேகை"
@@ -254,7 +254,7 @@ msgid ""
 "%s\n"
 "\n"
 "This cannot be undone!"
-msgstr ""
+msgstr "இந்தத் திறவுகோலை நீக்கவா?\n\n%s\n\nஇதை மீளமைக்க முடியாது!"
 
 #: plugins/openpgp/src/key_management_dialog.vala:510
 msgid "Delete"

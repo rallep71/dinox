@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dino\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-18 18:28+0100\n"
+"POT-Creation-Date: 2025-12-31 14:00+0100\n"
 "PO-Revision-Date: 2025-04-09 17:18+0000\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "dino/translations/zh_Hans/>\n"
@@ -18,11 +18,11 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 5.11-dev\n"
 
-#: main/data/add_conversation/add_groupchat_dialog.ui:80
+#: main/data/add_conversation/add_groupchat_dialog.ui:81
 msgid "Add MUC"
 msgstr "添加群聊"
 
-#: main/data/add_conversation/add_groupchat_dialog.ui:90
+#: main/data/add_conversation/add_groupchat_dialog.ui:91
 msgid "Insert a Name for MUC..."
 msgstr "输入群组名称..."
 
@@ -31,7 +31,7 @@ msgid "Search or enter channel address..."
 msgstr "搜索或输入频道地址..."
 
 #: main/data/add_conversation/select_jid_fragment.ui:67
-#: main/src/ui/add_conversation/select_jid_fragment.vala:205
+#: main/src/ui/add_conversation/select_jid_fragment.vala:204
 msgid "Add Group"
 msgstr "添加群组"
 
@@ -58,22 +58,32 @@ msgstr "拒绝"
 msgid "Accept"
 msgstr "接受"
 
-#: main/data/chat_input.ui:63
+#: main/data/chat_input.ui:15
+#, fuzzy
+msgid "Send File…"
+msgstr "发送文件"
+
+#: main/data/chat_input.ui:25
+#, fuzzy
+msgid "Send Location"
+msgstr "数据存储位置"
+
+#: main/data/chat_input.ui:96
 msgid "Record voice message"
 msgstr "录制语音消息"
 
-#: main/data/chat_input.ui:77
+#: main/data/chat_input.ui:110
 msgid "Send message"
 msgstr "发送消息"
 
-#: main/data/conversation_details.ui:145
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:566
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:175
+#: main/data/conversation_details.ui:162
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:567
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:169
 msgid "Remove Contact"
 msgstr "移除联系人"
 
-#: main/data/conversation_details.ui:171
-#: main/src/windows/conversation_details.vala:229
+#: main/data/conversation_details.ui:192
+#: main/src/windows/conversation_details.vala:238
 msgid "About"
 msgstr "关于"
 
@@ -82,13 +92,13 @@ msgid "Private room (supports group calls)"
 msgstr "私密房间（支持群组通话）"
 
 #: main/data/conversation_row.ui:135
-#: main/src/windows/conversation_details.vala:171
-#: main/src/windows/conversation_details.vala:172
+#: main/src/windows/conversation_details.vala:180
+#: main/src/windows/conversation_details.vala:181
 msgid "Muted"
 msgstr "已静音"
 
 #: main/data/conversation_row.ui:146
-#: main/src/windows/conversation_details.vala:136
+#: main/src/windows/conversation_details.vala:145
 msgid "Blocked"
 msgstr "已屏蔽"
 
@@ -99,15 +109,15 @@ msgstr "常规"
 
 #: main/data/gtk/help-overlay.ui:14 main/data/main_window.ui:38
 #: main/data/menu_add.ui:7
-#: main/src/ui/add_conversation/select_contact_dialog.vala:106
+#: main/src/ui/add_conversation/select_contact_dialog.vala:110
 #: main/src/ui/main_window.vala:154
 msgid "Start Conversation"
 msgstr "开始对话"
 
 #: main/data/gtk/help-overlay.ui:20 main/data/main_window.ui:51
 #: main/data/menu_add.ui:11
-#: main/src/ui/add_conversation/add_conference_dialog.vala:24
-#: main/src/ui/application.vala:1373 main/src/ui/main_window.vala:155
+#: main/src/ui/add_conversation/add_conference_dialog.vala:25
+#: main/src/ui/application.vala:1908 main/src/ui/main_window.vala:155
 msgid "Join Channel"
 msgstr "加入频道"
 
@@ -128,7 +138,7 @@ msgstr "对话"
 msgid "Search messages"
 msgstr "搜索消息"
 
-#: main/data/gtk/help-overlay.ui:49 main/src/ui/chat_input/view.vala:59
+#: main/data/gtk/help-overlay.ui:49 main/src/ui/chat_input/view.vala:62
 msgid "Send a file"
 msgstr "发送文件"
 
@@ -192,15 +202,23 @@ msgstr "忙碌"
 msgid "Not Available"
 msgstr "不可用"
 
-#: main/data/menu_app.ui:34
+#: main/data/menu_app.ui:30 main/src/ui/main_window.vala:215
+msgid "Set Status Message…"
+msgstr "设置状态消息…"
+
+#: main/data/menu_app.ui:38
 msgid "Preferences"
 msgstr "首选项"
 
-#: main/data/menu_app.ui:38
+#: main/data/menu_app.ui:42
+msgid "Panic Wipe"
+msgstr "紧急擦除"
+
+#: main/data/menu_app.ui:46
 msgid "Keyboard Shortcuts"
 msgstr "键盘快捷键"
 
-#: main/data/menu_app.ui:42 main/src/ui/application.vala:354
+#: main/data/menu_app.ui:50 main/src/ui/application.vala:891
 msgid "About DinoX"
 msgstr "关于 DinoX"
 
@@ -217,35 +235,34 @@ msgstr "删除对话历史"
 
 #: main/data/message_item_widget_edit_mode.ui:46
 #: main/data/preferences_window/change_password_dialog.ui:18
-#: main/src/ui/add_conversation/add_conference_dialog.vala:41
-#: main/src/ui/add_conversation/select_contact_dialog.vala:40
-#: main/src/ui/application.vala:455 main/src/ui/application.vala:483
-#: main/src/ui/application.vala:779 main/src/ui/application.vala:857
-#: main/src/ui/application.vala:915 main/src/ui/application.vala:947
-#: main/src/ui/application.vala:1103 main/src/ui/application.vala:1383
-#: main/src/ui/chat_input/sticker_chooser.vala:547
-#: main/src/ui/chat_input/sticker_chooser.vala:869
+#: main/src/ui/add_conversation/add_conference_dialog.vala:44
+#: main/src/ui/add_conversation/select_contact_dialog.vala:43
+#: main/src/ui/application.vala:754 main/src/ui/application.vala:992
+#: main/src/ui/application.vala:1020 main/src/ui/application.vala:1316
+#: main/src/ui/application.vala:1394 main/src/ui/application.vala:1452
+#: main/src/ui/application.vala:1484 main/src/ui/application.vala:1640
+#: main/src/ui/application.vala:1918
 #: main/src/ui/conversation_content_view/file_default_widget.vala:90
 #: main/src/ui/conversation_content_view/item_actions.vala:165
 #: main/src/ui/conversation_content_view/item_actions.vala:168
-#: main/src/ui/conversation_details.vala:249
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:633
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:660
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:679
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:704
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:723
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:744
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:790
+#: main/src/ui/conversation_details.vala:253
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:641
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:668
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:687
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:712
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:731
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:752
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:797
 #: main/src/ui/conversation_titlebar/call_entry.vala:83
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
 #: main/src/windows/conversation_details.vala:60
 #: main/src/windows/preferences_window/account_preferences_subpage.vala:68
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:205
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:225
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:249
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:269
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:291
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:332
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:199
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:219
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:243
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:263
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:285
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:326
 msgid "Cancel"
 msgstr "取消"
 
@@ -263,7 +280,7 @@ msgid "Local alias"
 msgstr "本地别名"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:82
-#: main/src/ui/application.vala:449 main/src/ui/application.vala:1078
+#: main/src/ui/application.vala:986 main/src/ui/application.vala:1615
 #: main/src/ui/util/data_forms.vala:63
 msgid "Password"
 msgstr "密码"
@@ -313,114 +330,131 @@ msgstr "发送输入通知(_T)"
 msgid "Send _Read Receipts"
 msgstr "发送已读回执(_R)"
 
-#: main/data/preferences_window/general_preferences_page.ui:25
+#: main/data/preferences_window/general_preferences_page.ui:21
+msgid "Allow Location Sharing"
+msgstr "允许位置共享"
+
+#: main/data/preferences_window/general_preferences_page.ui:22
+msgid "Allow sending your current location in chats"
+msgstr "允许在聊天中发送您的当前位置"
+
+#: main/data/preferences_window/general_preferences_page.ui:32
 msgid "_Notifications"
 msgstr "通知(_N)"
 
-#: main/data/preferences_window/general_preferences_page.ui:26
+#: main/data/preferences_window/general_preferences_page.ui:33
 msgid "Notify when a new message arrives"
 msgstr "收到新消息时通知"
 
-#: main/data/preferences_window/general_preferences_page.ui:32
+#: main/data/preferences_window/general_preferences_page.ui:39
 msgid "_Keep Running in Background"
 msgstr "_后台运行"
 
-#: main/data/preferences_window/general_preferences_page.ui:33
+#: main/data/preferences_window/general_preferences_page.ui:40
 msgid ""
 "Continue running after closing window to receive notifications immediately"
 msgstr "关闭窗口后继续运行以立即接收通知关闭窗口后继续运行以立即接收通知"
 
-#: main/data/preferences_window/general_preferences_page.ui:41
+#: main/data/preferences_window/general_preferences_page.ui:48
 msgid "Appearance"
 msgstr "外观"
 
-#: main/data/preferences_window/general_preferences_page.ui:44
+#: main/data/preferences_window/general_preferences_page.ui:51
 msgid "_Color Scheme"
 msgstr "_配色方案"
 
-#: main/data/preferences_window/general_preferences_page.ui:45
+#: main/data/preferences_window/general_preferences_page.ui:52
 msgid "Choose between light and dark appearance"
 msgstr "选择浅色或深色外观"
 
-#: main/data/preferences_window/general_preferences_page.ui:55
+#: main/data/preferences_window/general_preferences_page.ui:62
 msgid "_Convert Smileys to Emoji"
 msgstr "将微笑符号转换为表情符号(_C)"
 
-#: main/data/preferences_window/general_preferences_page.ui:63
-#: main/src/ui/chat_input/view.vala:51
+#: main/data/preferences_window/general_preferences_page.ui:70
+#: main/src/ui/chat_input/view.vala:54
 #, fuzzy
 msgid "Stickers"
 msgstr "扬声器"
 
-#: main/data/preferences_window/general_preferences_page.ui:66
+#: main/data/preferences_window/general_preferences_page.ui:73
 msgid "Enable Stickers"
-msgstr ""
+msgstr "启用表情包"
 
-#: main/data/preferences_window/general_preferences_page.ui:71
+#: main/data/preferences_window/general_preferences_page.ui:78
 msgid "Enable Sticker Animations"
-msgstr ""
-
-#: main/data/preferences_window/general_preferences_page.ui:72
-msgid "Disable to reduce flashing/flickering"
-msgstr ""
+msgstr "启用表情包动画"
 
 #: main/data/preferences_window/general_preferences_page.ui:79
+msgid "Disable to reduce flashing/flickering"
+msgstr "禁用以减少闪烁"
+
+#: main/data/preferences_window/general_preferences_page.ui:86
 msgid "User Data"
 msgstr "用户数据"
 
-#: main/data/preferences_window/general_preferences_page.ui:82
+#: main/data/preferences_window/general_preferences_page.ui:89
 msgid "Backup User Data"
 msgstr "备份用户数据"
 
-#: main/data/preferences_window/general_preferences_page.ui:83
+#: main/data/preferences_window/general_preferences_page.ui:90
 msgid "Create a backup of your accounts, messages and settings"
 msgstr "创建账户、消息和设置的备份"
 
-#: main/data/preferences_window/general_preferences_page.ui:94
-#: main/src/ui/application.vala:478 main/src/ui/main_window.vala:223
+#: main/data/preferences_window/general_preferences_page.ui:101
+#: main/src/ui/application.vala:1015 main/src/ui/main_window.vala:226
 msgid "Restore from Backup"
 msgstr "从备份恢复"
 
-#: main/data/preferences_window/general_preferences_page.ui:95
+#: main/data/preferences_window/general_preferences_page.ui:102
 msgid "Restore accounts, messages and settings from a backup file"
 msgstr "从备份文件恢复账户、消息和设置"
 
-#: main/data/preferences_window/general_preferences_page.ui:106
+#: main/data/preferences_window/general_preferences_page.ui:113
 msgid "Data Storage Location"
 msgstr "数据存储位置"
 
-#: main/data/preferences_window/general_preferences_page.ui:107
+#: main/data/preferences_window/general_preferences_page.ui:114
 msgid "View where your data is stored"
 msgstr "查看数据存储位置"
 
-#: main/data/preferences_window/general_preferences_page.ui:120
+#: main/data/preferences_window/general_preferences_page.ui:127
 msgid "Database Maintenance"
 msgstr "数据库维护"
 
-#: main/data/preferences_window/general_preferences_page.ui:123
-#: main/src/ui/application.vala:775 main/src/ui/application.vala:780
+#: main/data/preferences_window/general_preferences_page.ui:130
+#, fuzzy
+msgid "Change Database Password"
+msgstr "更改密码"
+
+#: main/data/preferences_window/general_preferences_page.ui:131
+msgid "Change the password used to encrypt your local data"
+msgstr "更改用于加密本地数据的密码"
+
+#: main/data/preferences_window/general_preferences_page.ui:142
+#: main/src/ui/application.vala:1312 main/src/ui/application.vala:1317
 msgid "Clear Cache"
 msgstr "清除缓存"
 
-#: main/data/preferences_window/general_preferences_page.ui:124
+#: main/data/preferences_window/general_preferences_page.ui:143
 msgid "Clear cached files, avatars and previews"
 msgstr "清除缓存的文件、头像和预览"
 
-#: main/data/preferences_window/general_preferences_page.ui:135
-#: main/src/ui/application.vala:852 main/src/ui/application.vala:858
+#: main/data/preferences_window/general_preferences_page.ui:154
+#: main/src/ui/application.vala:1389 main/src/ui/application.vala:1395
 msgid "Reset Database"
 msgstr "重置数据库"
 
-#: main/data/preferences_window/general_preferences_page.ui:136
+#: main/data/preferences_window/general_preferences_page.ui:155
 msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
 msgstr "删除所有消息、文件和OMEMO密钥。您的账户将保留。"
 
-#: main/data/preferences_window/general_preferences_page.ui:147
-#: main/src/ui/application.vala:910
+#: main/data/preferences_window/general_preferences_page.ui:166
+#: main/src/ui/application.vala:1447
 msgid "Factory Reset"
 msgstr "恢复出厂设置"
 
-#: main/data/preferences_window/general_preferences_page.ui:148
+#: main/data/preferences_window/general_preferences_page.ui:167
 msgid "Delete ALL data including accounts. This cannot be undone!"
 msgstr "删除所有数据，包括账户。此操作无法撤销！"
 
@@ -437,17 +471,17 @@ msgid "Contacts"
 msgstr "联系人"
 
 #: main/data/preferences_window/preferences_dialog.ui:25
-#: main/src/windows/conversation_details.vala:279
+#: main/src/windows/conversation_details.vala:288
 msgid "Encryption"
 msgstr "加密方式"
 
-#: main/src/ui/add_conversation/add_conference_dialog.vala:44
+#: main/src/ui/add_conversation/add_conference_dialog.vala:47
 msgid "Next"
 msgstr "下一步"
 
-#: main/src/ui/add_conversation/add_conference_dialog.vala:59
+#: main/src/ui/add_conversation/add_conference_dialog.vala:62
 #: main/src/ui/add_conversation/conference_details_fragment.vala:151
-#: main/src/ui/application.vala:1387
+#: main/src/ui/application.vala:1922
 msgid "Join"
 msgstr "加入"
 
@@ -503,11 +537,11 @@ msgstr "无法连接到 %s"
 msgid "Invalid address"
 msgstr "地址无效"
 
-#: main/src/ui/add_conversation/select_contact_dialog.vala:70
+#: main/src/ui/add_conversation/select_contact_dialog.vala:76
 msgid "Search or enter contact address..."
 msgstr "搜索或输入联系人地址..."
 
-#: main/src/ui/add_conversation/select_contact_dialog.vala:107
+#: main/src/ui/add_conversation/select_contact_dialog.vala:111
 msgid "Start"
 msgstr "开始"
 
@@ -519,80 +553,172 @@ msgstr "浏览房间"
 msgid "Browse Contacts"
 msgstr "浏览联系人"
 
-#: main/src/ui/add_conversation/select_jid_fragment.vala:202
+#: main/src/ui/add_conversation/select_jid_fragment.vala:201
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:70
 msgid "Add Contact"
 msgstr "添加联系人"
 
-#: main/src/ui/add_conversation/select_jid_fragment.vala:203
+#: main/src/ui/add_conversation/select_jid_fragment.vala:202
 msgid "Delete Contact"
 msgstr "删除联系人"
 
-#: main/src/ui/add_conversation/select_jid_fragment.vala:206
-#: main/src/ui/add_conversation/select_jid_fragment.vala:216
+#: main/src/ui/add_conversation/select_jid_fragment.vala:205
+#: main/src/ui/add_conversation/select_jid_fragment.vala:215
 msgid "Leave Group"
 msgstr "离开群组"
 
-#: main/src/ui/application.vala:359
+#: main/src/ui/application.vala:161
+msgid "Beenden"
+msgstr "退出"
+
+#: main/src/ui/application.vala:266 main/src/ui/application.vala:361
+#, fuzzy
+msgid "Passwort"
+msgstr "密码"
+
+#: main/src/ui/application.vala:271
+msgid "DinoX entsperren"
+msgstr "解锁 DinoX"
+
+#: main/src/ui/application.vala:272
+msgid "Bitte Passwort eingeben, um die verschlüsselte Datenbank zu öffnen."
+msgstr "请输入密码以打开加密数据库。"
+
+#: main/src/ui/application.vala:274
+#, c-format
+msgid "Falsches Passwort. Versuch %d/%d"
+msgstr "密码错误。尝试 %d/%d"
+
+#: main/src/ui/application.vala:346
+msgid "Entsperren"
+msgstr "解锁"
+
+#: main/src/ui/application.vala:363
+msgid "Passwort bestätigen"
+msgstr "确认密码"
+
+#: main/src/ui/application.vala:370
+#, fuzzy
+msgid "Passwort festlegen"
+msgstr "密码太短"
+
+#: main/src/ui/application.vala:371
+msgid ""
+"Bei der ersten Nutzung musst du ein Passwort setzen. Ohne Passwort kann "
+"DinoX die verschlüsselte Datenbank nicht öffnen."
+msgstr "首次使用时必须设置密码。没有密码，DinoX 无法打开加密数据库。"
+
+#: main/src/ui/application.vala:373
+#, c-format
+msgid "Ungültiges Passwort. Versuch %d/%d"
+msgstr "无效密码。尝试 %d/%d"
+
+#: main/src/ui/application.vala:448
+#, fuzzy
+msgid "Passwort setzen"
+msgstr "密码太短"
+
+#: main/src/ui/application.vala:746
+#, fuzzy
+msgid "Set Status Message"
+msgstr "搜索消息"
+
+#: main/src/ui/application.vala:755
+#, fuzzy
+msgid "Set"
+msgstr "选择"
+
+#: main/src/ui/application.vala:809
+msgid "Aktuelles Passwort"
+msgstr "当前密码"
+
+#: main/src/ui/application.vala:811
+#, fuzzy
+msgid "Neues Passwort"
+msgstr "新密码"
+
+#: main/src/ui/application.vala:813
+msgid "Neues Passwort bestätigen"
+msgstr "确认新密码"
+
+#: main/src/ui/application.vala:824
+msgid "Datenbank-Passwort ändern"
+msgstr "更改数据库密码"
+
+#: main/src/ui/application.vala:825
+msgid ""
+"Dieses Passwort wird verwendet, um deine lokalen DinoX-Daten zu "
+"verschlüsseln."
+msgstr "此密码用于加密您的本地 DinoX 数据。"
+
+#: main/src/ui/application.vala:828
+msgid "Abbrechen"
+msgstr "取消"
+
+#: main/src/ui/application.vala:829
+msgid "Ändern"
+msgstr "更改"
+
+#: main/src/ui/application.vala:896
 msgid "Modern XMPP client with extended features"
 msgstr "具有扩展功能的现代XMPP客户端"
 
-#: main/src/ui/application.vala:366 main/src/ui/application.vala:741
+#: main/src/ui/application.vala:903 main/src/ui/application.vala:1278
 msgid "User Data Locations"
 msgstr "用户数据位置"
 
-#: main/src/ui/application.vala:369 main/src/ui/application.vala:755
+#: main/src/ui/application.vala:906 main/src/ui/application.vala:1292
 msgid "Configuration:"
 msgstr "配置："
 
-#: main/src/ui/application.vala:372 main/src/ui/application.vala:757
+#: main/src/ui/application.vala:909 main/src/ui/application.vala:1294
 msgid "Data & Database:"
 msgstr "数据和数据库："
 
-#: main/src/ui/application.vala:375 main/src/ui/application.vala:759
+#: main/src/ui/application.vala:912 main/src/ui/application.vala:1296
 msgid "Cache:"
 msgstr "缓存："
 
-#: main/src/ui/application.vala:378
+#: main/src/ui/application.vala:915
 msgid "Info:"
 msgstr "信息："
 
-#: main/src/ui/application.vala:379
+#: main/src/ui/application.vala:916
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
 msgstr "您的个人数据（账户、消息、文件）与应用程序分开存储。"
 
-#: main/src/ui/application.vala:381
+#: main/src/ui/application.vala:918
 msgid "When you update DinoX, your data remains intact."
 msgstr "更新DinoX时，您的数据保持完整。"
 
-#: main/src/ui/application.vala:383
+#: main/src/ui/application.vala:920
 msgid "Use Settings → General → Backup User Data to create a backup."
 msgstr "使用设置 → 常规 → 备份用户数据来创建备份。"
 
-#: main/src/ui/application.vala:401
+#: main/src/ui/application.vala:938
 msgid "Select Backup File"
 msgstr "选择备份文件"
 
 # DinoX v0.7.7 - Additional Backup/Restore strings
-#: main/src/ui/application.vala:409
+#: main/src/ui/application.vala:946
 msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
 msgstr "备份文件 (*.tar.gz, *.tar.gz.gpg)"
 
-#: main/src/ui/application.vala:439
+#: main/src/ui/application.vala:976
 msgid "Enter Backup Password"
 msgstr "输入备份密码"
 
-#: main/src/ui/application.vala:440
+#: main/src/ui/application.vala:977
 msgid "This backup is encrypted. Please enter the password to decrypt it."
 msgstr "此备份已加密。请输入密码进行解密。"
 
-#: main/src/ui/application.vala:456
+#: main/src/ui/application.vala:993
 msgid "Decrypt & Restore"
 msgstr "解密并恢复"
 
-#: main/src/ui/application.vala:479
+#: main/src/ui/application.vala:1016
 msgid ""
 "This will replace all current data with the backup.\n"
 "\n"
@@ -606,31 +732,31 @@ msgstr ""
 "\n"
 "DinoX 将在恢复后重新启动。"
 
-#: main/src/ui/application.vala:484
+#: main/src/ui/application.vala:1021
 msgid "Restore Backup"
 msgstr "恢复备份"
 
-#: main/src/ui/application.vala:501 main/src/ui/application.vala:533
+#: main/src/ui/application.vala:1038 main/src/ui/application.vala:1070
 msgid "Decrypting Backup..."
 msgstr "正在解密备份..."
 
-#: main/src/ui/application.vala:501 main/src/ui/application.vala:585
+#: main/src/ui/application.vala:1038 main/src/ui/application.vala:1122
 msgid "Restoring Backup..."
 msgstr "正在恢复备份..."
 
-#: main/src/ui/application.vala:502
+#: main/src/ui/application.vala:1039
 msgid "Please wait, this may take a moment..."
 msgstr "请稍候，这可能需要一点时间..."
 
-#: main/src/ui/application.vala:534
+#: main/src/ui/application.vala:1071
 msgid "Decrypting encrypted backup file..."
 msgstr "正在解密备份文件..."
 
-#: main/src/ui/application.vala:572
+#: main/src/ui/application.vala:1109
 msgid "Decryption Failed"
 msgstr "解密失败"
 
-#: main/src/ui/application.vala:573
+#: main/src/ui/application.vala:1110
 msgid ""
 "Could not decrypt the backup file.\n"
 "\n"
@@ -640,34 +766,27 @@ msgstr ""
 "\n"
 "请检查密码是否正确。"
 
-#: main/src/ui/application.vala:575 main/src/ui/application.vala:685
-#: main/src/ui/chat_input/sticker_chooser.vala:575
-#: main/src/ui/chat_input/sticker_chooser.vala:594
-#: main/src/ui/chat_input/sticker_chooser.vala:602
-#: main/src/ui/chat_input/sticker_chooser.vala:817
-#: main/src/ui/chat_input/sticker_chooser.vala:835
-#: main/src/ui/chat_input/sticker_chooser.vala:843
-#: main/src/ui/chat_input/sticker_chooser.vala:883
+#: main/src/ui/application.vala:1112 main/src/ui/application.vala:1222
 msgid "OK"
 msgstr "确定"
 
-#: main/src/ui/application.vala:586
+#: main/src/ui/application.vala:1123
 msgid "Extracting files from backup..."
 msgstr "正在从备份中提取文件..."
 
-#: main/src/ui/application.vala:667
+#: main/src/ui/application.vala:1204
 msgid "Restore Complete!"
 msgstr "恢复完成！"
 
-#: main/src/ui/application.vala:668
+#: main/src/ui/application.vala:1205
 msgid "DinoX will now restart..."
 msgstr "DinoX 现在将重新启动..."
 
-#: main/src/ui/application.vala:682
+#: main/src/ui/application.vala:1219
 msgid "Restore Failed"
 msgstr "恢复失败"
 
-#: main/src/ui/application.vala:683
+#: main/src/ui/application.vala:1220
 #, c-format
 msgid ""
 "Could not restore the backup file.\n"
@@ -678,11 +797,11 @@ msgstr ""
 "\n"
 "错误: %s"
 
-#: main/src/ui/application.vala:683 main/src/ui/application.vala:1359
+#: main/src/ui/application.vala:1220 main/src/ui/application.vala:1896
 msgid "Unknown error"
 msgstr "未知错误"
 
-#: main/src/ui/application.vala:761
+#: main/src/ui/application.vala:1298
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
@@ -691,14 +810,17 @@ msgstr ""
 "据保持完整。您的个人数据（账户、消息、文件）与应用程序分开存储。当您更新DinoX"
 "时，您的数据保持完整。"
 
-#: main/src/ui/application.vala:766 main/src/ui/application.vala:1254
-#: main/src/ui/application.vala:1338
-#: main/src/ui/chat_input/sticker_chooser.vala:174
-#: main/src/ui/conversation_details.vala:272 main/src/ui/main_window.vala:172
+#: main/src/ui/application.vala:1303 main/src/ui/application.vala:1791
+#: main/src/ui/application.vala:1875
+#: main/src/ui/chat_input/sticker_chooser.vala:181
+#: main/src/ui/conversation_details.vala:276
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:566
+#: main/src/ui/conversation_view_controller.vala:333
+#: main/src/ui/main_window.vala:172
 msgid "Close"
 msgstr "关闭"
 
-#: main/src/ui/application.vala:776
+#: main/src/ui/application.vala:1313
 msgid ""
 "This will delete cached files, avatars and previews.\n"
 "\n"
@@ -708,16 +830,16 @@ msgstr ""
 "\n"
 "需要时它们将被重新下载。"
 
-#: main/src/ui/application.vala:813
+#: main/src/ui/application.vala:1350
 #, c-format
 msgid "Cache cleared (%s freed)"
 msgstr "缓存已清除（释放了 %s）"
 
-#: main/src/ui/application.vala:816
+#: main/src/ui/application.vala:1353
 msgid "Failed to clear cache"
 msgstr "清除缓存失败"
 
-#: main/src/ui/application.vala:853
+#: main/src/ui/application.vala:1390
 msgid ""
 "This will delete all messages, files and OMEMO encryption keys.\n"
 "\n"
@@ -732,11 +854,11 @@ msgstr ""
 "\n"
 "此操作无法撤销！"
 
-#: main/src/ui/application.vala:881
+#: main/src/ui/application.vala:1418
 msgid "Resetting database... DinoX will restart."
 msgstr "正在重置数据库... DinoX 将重新启动。"
 
-#: main/src/ui/application.vala:911
+#: main/src/ui/application.vala:1448
 msgid ""
 "<b>⚠️ WARNING: This will delete ALL data!</b>\n"
 "\n"
@@ -756,19 +878,19 @@ msgstr ""
 "\n"
 "此操作不可逆。请先创建备份！"
 
-#: main/src/ui/application.vala:916
+#: main/src/ui/application.vala:1453
 msgid "Create Backup First"
 msgstr "请先创建备份"
 
-#: main/src/ui/application.vala:917
+#: main/src/ui/application.vala:1454
 msgid "Delete Everything"
 msgstr "删除全部"
 
-#: main/src/ui/application.vala:937
+#: main/src/ui/application.vala:1474
 msgid "Are you absolutely sure?"
 msgstr "您确定吗？"
 
-#: main/src/ui/application.vala:938
+#: main/src/ui/application.vala:1475
 msgid ""
 "Type 'DELETE' to confirm factory reset.\n"
 "\n"
@@ -778,19 +900,19 @@ msgstr ""
 "\n"
 "这将永久删除您的所有 DinoX 数据。"
 
-#: main/src/ui/application.vala:948
+#: main/src/ui/application.vala:1485
 msgid "Confirm Delete"
 msgstr "确认删除"
 
-#: main/src/ui/application.vala:975
+#: main/src/ui/application.vala:1512
 msgid "Factory reset in progress... DinoX will restart."
 msgstr "正在恢复出厂设置... DinoX 将重新启动。"
 
-#: main/src/ui/application.vala:1040
+#: main/src/ui/application.vala:1577
 msgid "Backup Encryption"
 msgstr "备份加密"
 
-#: main/src/ui/application.vala:1041
+#: main/src/ui/application.vala:1578
 msgid ""
 "Do you want to encrypt the backup with a password?\n"
 "\n"
@@ -800,19 +922,19 @@ msgstr ""
 "\n"
 "加密备份更安全，但需要密码才能恢复。"
 
-#: main/src/ui/application.vala:1044
+#: main/src/ui/application.vala:1581
 msgid "No Encryption"
 msgstr "不加密"
 
-#: main/src/ui/application.vala:1045
+#: main/src/ui/application.vala:1582
 msgid "Encrypt with Password"
 msgstr "使用密码加密"
 
-#: main/src/ui/application.vala:1063
+#: main/src/ui/application.vala:1600
 msgid "Set Backup Password"
 msgstr "设置备份密码"
 
-#: main/src/ui/application.vala:1064
+#: main/src/ui/application.vala:1601
 msgid ""
 "Enter a password to encrypt the backup.\n"
 "\n"
@@ -823,59 +945,59 @@ msgstr ""
 "\n"
 "<b>重要:</b> 请记住此密码！没有它，备份将无法恢复。"
 
-#: main/src/ui/application.vala:1072
+#: main/src/ui/application.vala:1609
 msgid "Password (minimum 4 characters)"
 msgstr "密码（至少4个字符）"
 
-#: main/src/ui/application.vala:1080 main/src/ui/application.vala:1087
+#: main/src/ui/application.vala:1617 main/src/ui/application.vala:1624
 msgid "Confirm Password"
 msgstr "确认密码"
 
-#: main/src/ui/application.vala:1104
+#: main/src/ui/application.vala:1641
 msgid "Create Encrypted Backup"
 msgstr "创建加密备份"
 
-#: main/src/ui/application.vala:1116 main/src/ui/application.vala:1131
+#: main/src/ui/application.vala:1653 main/src/ui/application.vala:1668
 msgid "Password too short"
 msgstr "密码太短"
 
-#: main/src/ui/application.vala:1118 main/src/ui/application.vala:1133
+#: main/src/ui/application.vala:1655 main/src/ui/application.vala:1670
 msgid "Passwords do not match"
 msgstr "密码不匹配"
 
-#: main/src/ui/application.vala:1120 main/src/ui/application.vala:1135
+#: main/src/ui/application.vala:1657 main/src/ui/application.vala:1672
 msgid "✓ Passwords match"
 msgstr "✓ 密码匹配"
 
-#: main/src/ui/application.vala:1153
+#: main/src/ui/application.vala:1690
 msgid "Select Backup Location"
 msgstr "选择备份位置"
 
-#: main/src/ui/application.vala:1208
+#: main/src/ui/application.vala:1745
 msgid "Creating Encrypted Backup..."
 msgstr "正在创建加密备份..."
 
-#: main/src/ui/application.vala:1208
+#: main/src/ui/application.vala:1745
 msgid "Creating Backup..."
 msgstr "正在创建备份..."
 
-#: main/src/ui/application.vala:1209
+#: main/src/ui/application.vala:1746
 msgid "Please wait while your data is being backed up."
 msgstr "正在备份您的数据，请稍候。"
 
-#: main/src/ui/application.vala:1248
+#: main/src/ui/application.vala:1785
 msgid "No data directory found to backup"
 msgstr "未找到要备份的数据目录"
 
-#: main/src/ui/application.vala:1251 main/src/ui/application.vala:1357
+#: main/src/ui/application.vala:1788 main/src/ui/application.vala:1894
 msgid "Backup Failed"
 msgstr "备份失败"
 
-#: main/src/ui/application.vala:1345
+#: main/src/ui/application.vala:1882
 msgid "Encrypted Backup Created"
 msgstr "已创建加密备份"
 
-#: main/src/ui/application.vala:1347
+#: main/src/ui/application.vala:1884
 #, c-format
 msgid ""
 "Your encrypted backup was created successfully.\n"
@@ -886,15 +1008,15 @@ msgstr ""
 "\n"
 "大小：%s"
 
-#: main/src/ui/application.vala:1348
+#: main/src/ui/application.vala:1885
 msgid "Your encrypted backup was created successfully."
 msgstr "您的加密备份已成功创建。"
 
-#: main/src/ui/application.vala:1350
+#: main/src/ui/application.vala:1887
 msgid "Backup Created"
 msgstr "备份已创建"
 
-#: main/src/ui/application.vala:1352
+#: main/src/ui/application.vala:1889
 #, c-format
 msgid ""
 "Your backup was created successfully.\n"
@@ -905,11 +1027,11 @@ msgstr ""
 "\n"
 "大小：%s"
 
-#: main/src/ui/application.vala:1353
+#: main/src/ui/application.vala:1890
 msgid "Your backup was created successfully."
 msgstr "您的备份已成功创建。"
 
-#: main/src/ui/application.vala:1360
+#: main/src/ui/application.vala:1897
 #, c-format
 msgid "Backup failed: %s"
 msgstr "备份失败：%s"
@@ -930,24 +1052,24 @@ msgstr "扬声器"
 msgid "No speaker found."
 msgstr "未找到扬声器。"
 
-#: main/src/ui/call_window/call_window_controller.vala:153
+#: main/src/ui/call_window/call_window_controller.vala:152
 msgid "Invite to Call"
 msgstr "邀请加入通话"
 
-#: main/src/ui/call_window/call_window_controller.vala:154
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:772
+#: main/src/ui/call_window/call_window_controller.vala:153
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:780
 #: main/src/ui/conversation_titlebar/menu_entry.vala:99
 #: main/src/ui/occupant_menu/view.vala:27
-#: main/src/ui/occupant_menu/view.vala:276
+#: main/src/ui/occupant_menu/view.vala:275
 msgid "Invite"
 msgstr "邀请"
 
-#: main/src/ui/call_window/call_window_controller.vala:453
+#: main/src/ui/call_window/call_window_controller.vala:451
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:240
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:270
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:285
-#: main/src/ui/util/helper.vala:69 main/src/ui/util/helper.vala:73
-#: main/src/ui/util/helper.vala:81
+#: main/src/ui/util/helper.vala:79 main/src/ui/util/helper.vala:83
+#: main/src/ui/util/helper.vala:91
 msgid "Me"
 msgstr "我"
 
@@ -1000,146 +1122,34 @@ msgstr "请求权限"
 msgid "Unencrypted"
 msgstr "未加密"
 
-#: main/src/ui/chat_input/sticker_chooser.vala:25
+#: main/src/ui/chat_input/sticker_chooser.vala:176
 #, fuzzy
-msgid "Import…"
-msgstr "导入密钥"
-
-#: main/src/ui/chat_input/sticker_chooser.vala:26
-msgid "Folder…"
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:27
-#: main/src/ui/chat_input/sticker_chooser.vala:822
-#: main/src/ui/chat_input/sticker_chooser.vala:849
-msgid "Publish"
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:28
-#: main/src/ui/chat_input/sticker_chooser.vala:870
-#: main/src/ui/conversation_content_view/item_actions.vala:165
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:745
-#: main/src/windows/conversation_details.vala:61
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:292
-msgid "Remove"
-msgstr "移除"
-
-#: main/src/ui/chat_input/sticker_chooser.vala:237
-msgid "Paste an xmpp: sticker pack link and press Enter."
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:241
-msgid "xmpp:…"
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:413
-#: main/src/ui/chat_input/sticker_chooser.vala:574
-#: main/src/ui/chat_input/sticker_chooser.vala:816
-msgid "Stickers are unavailable"
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:420
-#: main/src/ui/chat_input/sticker_chooser.vala:497
-#: main/src/ui/chat_input/sticker_chooser.vala:502
-msgid "None"
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:450
-msgid "No sticker packs yet. Use Import… to add one."
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:452
-#: main/src/ui/chat_input/sticker_chooser.vala:735
-msgid "No stickers selected"
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:534
-#, fuzzy
-msgid "Select sticker folder"
-msgstr "选择文件"
-
-#: main/src/ui/chat_input/sticker_chooser.vala:535
-#: main/src/ui/conversation_view_controller.vala:238
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:180
-msgid "Select"
-msgstr "选择"
-
-#: main/src/ui/chat_input/sticker_chooser.vala:544
-#, fuzzy
-msgid "Create sticker pack"
+msgid "Manage Sticker Packs"
 msgstr "创建加密备份"
 
-#: main/src/ui/chat_input/sticker_chooser.vala:545
-msgid ""
-"Do you want to keep this pack local, or also publish it so you can share an "
-"xmpp: link?"
-msgstr ""
+#: main/src/ui/chat_input/sticker_chooser.vala:390
+msgid "Stickers are unavailable"
+msgstr "表情包不可用"
 
-#: main/src/ui/chat_input/sticker_chooser.vala:548
+#: main/src/ui/chat_input/sticker_chooser.vala:397
+#: main/src/ui/chat_input/sticker_chooser.vala:459
+#: main/src/ui/chat_input/sticker_chooser.vala:464
+msgid "None"
+msgstr "无"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:412
 #, fuzzy
-msgid "Local only"
-msgstr "本地别名"
-
-#: main/src/ui/chat_input/sticker_chooser.vala:549
-msgid "Publish & copy link"
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:574
-#: main/src/ui/chat_input/sticker_chooser.vala:816
-msgid "Stickers module unavailable"
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:593
-#: main/src/ui/chat_input/sticker_chooser.vala:834
-msgid "Sticker pack published"
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:593
-#: main/src/ui/chat_input/sticker_chooser.vala:834
-#, c-format
-msgid ""
-"Share link copied to clipboard:\n"
-"%s"
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:601
-#, fuzzy
-msgid "Failed to create sticker pack"
-msgstr "清除缓存失败"
-
-#: main/src/ui/chat_input/sticker_chooser.vala:698
-msgid "Invalid sticker pack link"
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:755
-msgid "No stickers in this pack"
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:811
-#, fuzzy
-msgid "Publishing…"
-msgstr "正在输入…"
-
-#: main/src/ui/chat_input/sticker_chooser.vala:842
-#, fuzzy
-msgid "Failed to publish sticker pack"
-msgstr "清除缓存失败"
-
-#: main/src/ui/chat_input/sticker_chooser.vala:866
-#, fuzzy
-msgid "Remove sticker pack?"
+msgid "No sticker packs yet."
 msgstr "移除联系人？"
 
-#: main/src/ui/chat_input/sticker_chooser.vala:867
-#, c-format
-msgid ""
-"This will delete the downloaded files and remove the pack from your list: %s"
-msgstr ""
+#: main/src/ui/chat_input/sticker_chooser.vala:414
+#: main/src/ui/chat_input/sticker_chooser.vala:527
+msgid "No stickers selected"
+msgstr "未选择表情包"
 
-#: main/src/ui/chat_input/sticker_chooser.vala:882
-#, fuzzy
-msgid "Failed to remove sticker pack"
-msgstr "清除缓存失败"
+#: main/src/ui/chat_input/sticker_chooser.vala:543
+msgid "No stickers in this pack"
+msgstr "此包中没有表情"
 
 #: main/src/ui/contact_details/permissions_provider.vala:23
 msgid "Request permission to send messages"
@@ -1448,6 +1458,13 @@ msgstr "删除消息"
 msgid "Do you want to remove this message from the channel?"
 msgstr "您想从频道中删除这条消息吗？"
 
+#: main/src/ui/conversation_content_view/item_actions.vala:165
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:753
+#: main/src/windows/conversation_details.vala:61
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:286
+msgid "Remove"
+msgstr "移除"
+
 #: main/src/ui/conversation_content_view/item_actions.vala:167
 msgid "Do you want to delete this message just for yourself or for everyone?"
 msgstr "您想只为自己删除还是为所有人删除此消息？"
@@ -1477,7 +1494,7 @@ msgstr "正在发送…"
 msgid "delivery failed"
 msgstr "发送失败"
 
-#: main/src/ui/conversation_content_view/message_widget.vala:254
+#: main/src/ui/conversation_content_view/message_widget.vala:362
 msgid "Edit message"
 msgstr "编辑消息"
 
@@ -1532,19 +1549,19 @@ msgstr "权限"
 msgid "Manage Affiliations"
 msgstr "管理成员关系"
 
-#: main/src/ui/conversation_details.vala:239
+#: main/src/ui/conversation_details.vala:243
 msgid "Danger Zone"
 msgstr "危险区域"
 
-#: main/src/ui/conversation_details.vala:240
+#: main/src/ui/conversation_details.vala:244
 msgid "Destroy Room"
 msgstr "销毁房间"
 
-#: main/src/ui/conversation_details.vala:246
+#: main/src/ui/conversation_details.vala:250
 msgid "Destroy Room?"
 msgstr "销毁房间？"
 
-#: main/src/ui/conversation_details.vala:247
+#: main/src/ui/conversation_details.vala:251
 msgid ""
 "Are you sure you want to permanently destroy this room? This action cannot "
 "be undone and all history will be lost for all participants."
@@ -1552,43 +1569,43 @@ msgstr ""
 "您确定要永久销毁此房间吗？此操作无法撤销，所有参与者的所有历史记录都将丢失。"
 "您确定要永久销毁这个房间吗？此操作无法撤消，所有参与者的历史记录都将丢失。"
 
-#: main/src/ui/conversation_details.vala:250
+#: main/src/ui/conversation_details.vala:254
 msgid "Destroy"
 msgstr "销毁"
 
-#: main/src/ui/conversation_details.vala:271
+#: main/src/ui/conversation_details.vala:275
 msgid "Failed to destroy room"
 msgstr "销毁群聊失败"
 
-#: main/src/ui/conversation_details.vala:286
+#: main/src/ui/conversation_details.vala:290
 msgid "Auto-delete messages"
 msgstr "自动删除消息"
 
-#: main/src/ui/conversation_details.vala:287
+#: main/src/ui/conversation_details.vala:291
 msgid "Never"
 msgstr "从不"
 
-#: main/src/ui/conversation_details.vala:288
+#: main/src/ui/conversation_details.vala:292
 msgid "After 15 minutes"
 msgstr "15分钟后"
 
-#: main/src/ui/conversation_details.vala:289
+#: main/src/ui/conversation_details.vala:293
 msgid "After 30 minutes"
 msgstr "30分钟后"
 
-#: main/src/ui/conversation_details.vala:290
+#: main/src/ui/conversation_details.vala:294
 msgid "After 1 hour"
 msgstr "1小时后"
 
-#: main/src/ui/conversation_details.vala:291
+#: main/src/ui/conversation_details.vala:295
 msgid "After 24 hours"
 msgstr "24小时后"
 
-#: main/src/ui/conversation_details.vala:292
+#: main/src/ui/conversation_details.vala:296
 msgid "After 7 days"
 msgstr "7天后"
 
-#: main/src/ui/conversation_details.vala:293
+#: main/src/ui/conversation_details.vala:297
 msgid "After 30 days"
 msgstr "30天后"
 
@@ -1650,28 +1667,28 @@ msgid "Conversation Details"
 msgstr "对话详情"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:507
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:771
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:779
 #: main/src/ui/conversation_titlebar/menu_entry.vala:98
 msgid "Invite Contact"
 msgstr "邀请联系人"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:511
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:559
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:661
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:669
 #: main/src/ui/occupant_menu/view.vala:173
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:140
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:206
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:134
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:200
 msgid "Unmute"
 msgstr "取消静音"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:511
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:559
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:680
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:688
 #: main/src/ui/occupant_menu/view.vala:177
-#: main/src/windows/conversation_details.vala:163
-#: main/src/windows/conversation_details.vala:164
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:140
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:226
+#: main/src/windows/conversation_details.vala:172
+#: main/src/windows/conversation_details.vala:173
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:134
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:220
 msgid "Mute"
 msgstr "静音"
 
@@ -1680,85 +1697,85 @@ msgid "Leave and Close"
 msgstr "离开并关闭"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:555
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:623
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:126
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:631
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:120
 msgid "Edit Alias"
 msgstr "编辑别名"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:563
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:705
-#: main/src/windows/conversation_details.vala:108
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:250
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:713
+#: main/src/windows/conversation_details.vala:117
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:244
 msgid "Unblock"
 msgstr "取消屏蔽"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:563
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:724
-#: main/src/windows/conversation_details.vala:144
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:270
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:732
+#: main/src/windows/conversation_details.vala:153
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:264
 msgid "Block"
 msgstr "屏蔽"
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:628
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:636
 msgid "Alias"
 msgstr "别名"
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:634
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:333
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:642
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:327
 msgid "Save"
 msgstr "保存"
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:657
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:202
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:665
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:196
 msgid "Unmute contact?"
 msgstr "取消联系人静音？"
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:658
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:203
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:666
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:197
 #, c-format
 msgid "This will enable notifications from %s."
 msgstr "这将启用来自 %s 的通知。"
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:676
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:222
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:684
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:216
 msgid "Mute contact?"
 msgstr "静音联系人？"
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:677
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:223
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:685
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:217
 #, c-format
 msgid "This will disable notifications from %s."
 msgstr "这将禁用来自 %s 的通知。"
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:701
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:246
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:709
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:240
 msgid "Unblock contact?"
 msgstr "取消屏蔽联系人？"
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:702
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:247
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:710
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:241
 #, c-format
 msgid "This will allow %s to send you messages again."
 msgstr "这将允许 %s 再次向您发送消息。"
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:720
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:266
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:728
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:260
 msgid "Block contact?"
 msgstr "屏蔽联系人？"
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:721
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:267
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:729
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:261
 #, c-format
 msgid "This will prevent %s from sending you messages."
 msgstr "这将阻止 %s 向您发送消息。"
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:741
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:749
 #: main/src/windows/conversation_details.vala:57
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:288
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:282
 msgid "Remove contact?"
 msgstr "移除联系人？"
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:742
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:750
 #, c-format
 msgid ""
 "This will:\n"
@@ -1773,17 +1790,17 @@ msgstr ""
 "\n"
 "此操作无法撤销。"
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:787
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:794
 msgid "Delete all message history?"
 msgstr "删除所有消息历史？"
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:788
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:795
 msgid ""
 "This will permanently delete all messages in this conversation. This action "
 "cannot be undone."
 msgstr "这将永久删除此对话中的所有消息。此操作无法撤销。"
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:791
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:798
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
 msgid "Delete"
 msgstr "删除"
@@ -1827,13 +1844,23 @@ msgid "Close Conversation"
 msgstr "关闭对话"
 
 #: main/src/ui/conversation_titlebar/occupants_entry.vala:14
-#: main/src/windows/conversation_details.vala:289
+#: main/src/windows/conversation_details.vala:298
 msgid "Members"
 msgstr "参与者"
 
-#: main/src/ui/conversation_view_controller.vala:237
+#: main/src/ui/conversation_view_controller.vala:249
 msgid "Select file"
 msgstr "选择文件"
+
+#: main/src/ui/conversation_view_controller.vala:250
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:180
+msgid "Select"
+msgstr "选择"
+
+#: main/src/ui/conversation_view_controller.vala:332
+#, fuzzy
+msgid "Failed to get location"
+msgstr "销毁群聊失败"
 
 #: main/src/ui/file_send_overlay.vala:60
 msgid "The file exceeds the server's maximum upload size."
@@ -1866,25 +1893,25 @@ msgstr ""
 "\n"
 "如果您需要密码或昵称，请在对话框中提供。使用服务器的发现功能来查找公共房间。"
 
-#: main/src/ui/main_window.vala:219
+#: main/src/ui/main_window.vala:222
 msgid "Welcome to DinoX!"
 msgstr "欢迎使用 DinoX！"
 
-#: main/src/ui/main_window.vala:220
+#: main/src/ui/main_window.vala:223
 msgid "Sign in or create an account to get started."
 msgstr "登录或创建账号即可开始。"
 
-#: main/src/ui/main_window.vala:221
+#: main/src/ui/main_window.vala:224
 msgid "Set up account"
 msgstr "设置账号"
 
-#: main/src/ui/main_window.vala:230
+#: main/src/ui/main_window.vala:233
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:71
 #: main/src/windows/preferences_window/encryption_preferences_page.vala:49
 msgid "No active accounts"
 msgstr "无活动账号"
 
-#: main/src/ui/main_window.vala:231
+#: main/src/ui/main_window.vala:234
 msgid "Manage accounts"
 msgstr "管理账号"
 
@@ -1950,12 +1977,12 @@ msgid "Start private conversation"
 msgstr "开始私聊"
 
 #: main/src/ui/occupant_menu/view.vala:125
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:157
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:151
 msgid "Unblock Contact"
 msgstr "取消屏蔽联系人"
 
 #: main/src/ui/occupant_menu/view.vala:127
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:157
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:151
 msgid "Block Contact"
 msgstr "屏蔽联系人"
 
@@ -2011,7 +2038,7 @@ msgstr "撤销成员资格"
 msgid "Kicked by moderator"
 msgstr "被管理员踢出"
 
-#: main/src/ui/occupant_menu/view.vala:275
+#: main/src/ui/occupant_menu/view.vala:274
 msgid "Invite to Conference"
 msgstr "邀请加入群聊"
 
@@ -2019,39 +2046,41 @@ msgstr "邀请加入群聊"
 msgid "Quit"
 msgstr "退出"
 
-#: main/src/ui/sticker_pack_import_dialog.vala:14
+#: main/src/ui/sticker_pack_import_dialog.vala:35
 #, fuzzy
 msgid "Import"
 msgstr "导入密钥"
 
-#: main/src/ui/sticker_pack_import_dialog.vala:15
+#: main/src/ui/sticker_pack_import_dialog.vala:36
 msgid "Copy Share URI"
-msgstr ""
+msgstr "复制分享 URI"
 
-#: main/src/ui/sticker_pack_import_dialog.vala:29
+#: main/src/ui/sticker_pack_import_dialog.vala:50
 msgid "Import Sticker Pack"
-msgstr ""
+msgstr "导入表情包"
 
-#: main/src/ui/sticker_pack_import_dialog.vala:62
+#: main/src/ui/sticker_pack_import_dialog.vala:90
+#: main/src/ui/sticker_pack_import_dialog.vala:147
 #, fuzzy
 msgid "Loading…"
 msgstr "正在发送…"
 
-#: main/src/ui/sticker_pack_import_dialog.vala:70
+#: main/src/ui/sticker_pack_import_dialog.vala:128
+#, fuzzy
+msgid "Importing…"
+msgstr "正在连接…"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:136
+#: main/src/ui/sticker_pack_import_dialog.vala:158
 #, fuzzy
 msgid "No account available"
 msgstr "不可用"
 
-#: main/src/ui/sticker_pack_import_dialog.vala:84
-#: main/src/ui/sticker_pack_import_dialog.vala:107
+#: main/src/ui/sticker_pack_import_dialog.vala:172
+#: main/src/ui/sticker_pack_import_dialog.vala:189
 #, fuzzy
 msgid "Failed to import sticker pack"
 msgstr "清除缓存失败"
-
-#: main/src/ui/sticker_pack_import_dialog.vala:98
-#, fuzzy
-msgid "Importing…"
-msgstr "正在连接…"
 
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
@@ -2114,7 +2143,7 @@ msgid ""
 "enabled!"
 msgstr "只有成员可以进入房间。警告：启用时非成员将被移除！"
 
-#: main/src/ui/util/helper.vala:65
+#: main/src/ui/util/helper.vala:75
 #, c-format
 msgid "%s from %s"
 msgstr "%s 来自 %s"
@@ -2134,43 +2163,43 @@ msgid ""
 "history will be permanently deleted."
 msgstr "此联系人将从您的联系人列表中移除，所有对话记录将被永久删除。"
 
-#: main/src/windows/conversation_details.vala:108
+#: main/src/windows/conversation_details.vala:117
 msgid "Block user"
 msgstr "屏蔽用户"
 
-#: main/src/windows/conversation_details.vala:108
+#: main/src/windows/conversation_details.vala:117
 msgid "Block entire domain"
 msgstr "屏蔽整个域"
 
-#: main/src/windows/conversation_details.vala:125
+#: main/src/windows/conversation_details.vala:134
 msgid "Pinned"
 msgstr "已固定"
 
-#: main/src/windows/conversation_details.vala:125
+#: main/src/windows/conversation_details.vala:134
 msgid "Pin"
 msgstr "固定"
 
-#: main/src/windows/conversation_details.vala:140
+#: main/src/windows/conversation_details.vala:149
 msgid "Domain blocked"
 msgstr "域已屏蔽"
 
-#: main/src/windows/conversation_details.vala:165
+#: main/src/windows/conversation_details.vala:174
 msgid "Notifications enabled"
 msgstr "通知已启用"
 
-#: main/src/windows/conversation_details.vala:168
+#: main/src/windows/conversation_details.vala:177
 msgid "Notifications for mentions"
 msgstr "提及通知"
 
-#: main/src/windows/conversation_details.vala:173
+#: main/src/windows/conversation_details.vala:182
 msgid "Notifications disabled"
 msgstr "通知已禁用"
 
-#: main/src/windows/conversation_details.vala:232
+#: main/src/windows/conversation_details.vala:241
 msgid "Settings"
 msgstr "设置"
 
-#: main/src/windows/conversation_details.vala:261
+#: main/src/windows/conversation_details.vala:270
 msgid "Room Configuration"
 msgstr "群聊配置"
 
@@ -2293,33 +2322,61 @@ msgstr "注册"
 msgid "Check %s for information on how to sign up"
 msgstr "查看 %s 以获取有关如何注册的信息"
 
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:192
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:186
 msgid "No contacts"
 msgstr "无联系人"
 
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:193
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:187
 msgid "Add contacts to start chatting"
 msgstr "添加联系人开始聊天"
 
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:289
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:283
 #, c-format
 msgid ""
 "This will remove %s from your contact list and delete all conversation "
 "history."
 msgstr "这将从您的联系人列表中移除 %s 并删除所有对话历史。"
 
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:318
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:312
 msgid "Edit Contact Alias"
 msgstr "编辑联系人别名"
 
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:319
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:313
 #, c-format
 msgid "Change the display name for %s"
 msgstr "更改 %s 的显示名称"
 
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:325
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:319
 msgid "Alias (optional)"
 msgstr "别名（可选）"
+
+#, fuzzy
+#~ msgid "Import…"
+#~ msgstr "导入密钥"
+
+#, fuzzy
+#~ msgid "Select sticker folder"
+#~ msgstr "选择文件"
+
+#, fuzzy
+#~ msgid "Local only"
+#~ msgstr "本地别名"
+
+#, fuzzy
+#~ msgid "Failed to create sticker pack"
+#~ msgstr "清除缓存失败"
+
+#, fuzzy
+#~ msgid "Publishing…"
+#~ msgstr "正在输入…"
+
+#, fuzzy
+#~ msgid "Failed to publish sticker pack"
+#~ msgstr "清除缓存失败"
+
+#, fuzzy
+#~ msgid "Failed to remove sticker pack"
+#~ msgstr "清除缓存失败"
 
 #~ msgid "Creating backup..."
 #~ msgstr "正在创建备份..."
@@ -2557,9 +2614,6 @@ msgstr "别名（可选）"
 
 #~ msgid "Finish"
 #~ msgstr "完成"
-
-#~ msgid "Change password"
-#~ msgstr "更改密码"
 
 #~ msgid "Change"
 #~ msgstr "更改"

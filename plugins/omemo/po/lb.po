@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dino-omemo-0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-13 21:57+0200\n"
+"POT-Creation-Date: 2025-12-31 14:10+0100\n"
 "PO-Revision-Date: 2020-04-12 20:01+0000\n"
 "Language-Team: Luxembourgish <https://hosted.weblate.org/projects/dino/"
 "plugin-omemo/lb/>\n"
@@ -13,52 +13,40 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 4.0-dev\n"
 
-#: plugins/omemo/src/ui/bad_messages_populator.vala:168
-#, c-format
+#: plugins/omemo/data/encryption_preferences_entry.ui:8
 msgid ""
-"%s has been using an untrusted device. You won't see messages from devices "
-"that you do not trust."
-msgstr ""
+"Each device has its own OMEMO key. Messages can only be decrypted by a "
+"device if they are encrypted to its key. Messages are only encrypted to "
+"accepted devices."
+msgstr "All Apparat huet säin eegenen OMEMO-Schlëssel. Messagen kënnen nëmme vun engem Apparat dechiffréiert ginn, wa se op säi Schlëssel verschlësselt sinn. Messagen ginn nëmmen op akzeptéiert Apparater verschlësselt."
 
-#: plugins/omemo/src/ui/bad_messages_populator.vala:169
-msgid "Manage devices"
-msgstr "Geräter managen"
-
-#: plugins/omemo/src/ui/bad_messages_populator.vala:171
-#, c-format
-msgid ""
-"%s does not trust this device. That means, you might be missing messages."
-msgstr ""
-
-#: plugins/omemo/src/ui/manage_key_dialog.vala:34
+#: plugins/omemo/src/ui/manage_key_dialog.vala:36
 msgid "Manage Key"
 msgstr "Schlëssel verwalten"
 
-#: plugins/omemo/src/ui/manage_key_dialog.vala:35
+#: plugins/omemo/src/ui/manage_key_dialog.vala:37
 msgid ""
 "Compare the fingerprint, character by character, with the one shown on your "
 "contact's device."
-msgstr ""
-"Vergläich de Fangerofdrock, Zeeche fir Zeechen, mat dem den um Gerät vum "
-"Kontakt ugewise gëtt."
-
-#: plugins/omemo/src/ui/manage_key_dialog.vala:36
-msgid "Fingerprints differ"
-msgstr "Fangerofdréck stemmen net iwwerteneen"
-
-#: plugins/omemo/src/ui/manage_key_dialog.vala:37
-msgid "Fingerprints match"
-msgstr "Fangerofdréck stemmen iwwerteneen"
+msgstr "Vergläicht de Fangerofdrock, Zeechen fir Zeechen, mat deem deen um Apparat vun Ärem Kontakt ugewise gëtt."
 
 #: plugins/omemo/src/ui/manage_key_dialog.vala:38
+msgid "Fingerprints differ"
+msgstr "Fangerofdréck ënnerscheeden sech"
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:39
+msgid "Fingerprints match"
+msgstr "Fangerofdréck stëmmen iwwer"
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:40
 #: plugins/omemo/src/ui/manage_key_dialog.vala:81
 #: plugins/omemo/src/ui/manage_key_dialog.vala:87
 msgid "Cancel"
 msgstr "Ofbriechen"
 
-#: plugins/omemo/src/ui/manage_key_dialog.vala:39
+#: plugins/omemo/src/ui/manage_key_dialog.vala:41
 msgid "Confirm"
-msgstr "Confirméieren"
+msgstr "Bestätegen"
 
 #: plugins/omemo/src/ui/manage_key_dialog.vala:59
 msgid "Verify key"
@@ -69,13 +57,11 @@ msgstr "Schlëssel verifizéieren"
 msgid ""
 "Future messages sent by %s from the device that uses this key will be "
 "highlighted accordingly in the chat window."
-msgstr ""
-"Zukünfteg Noriichten, déi vum Apparat vum %s, den dëse Schlëssel benotzt, "
-"geschéckt ginn, wäerten deementspriechend am Chatfenster ervirgehuewen ginn."
+msgstr "Zukünfteg Messagen, déi vum %s vum Apparat geschéckt ginn, deen dëse Schlëssel benotzt, ginn an der Chat-Fënster deementspriechend ervirgehuewen."
 
 #: plugins/omemo/src/ui/manage_key_dialog.vala:70
 msgid "Fingerprints do not match"
-msgstr "Fangerofdréck stëmmen net iwwerteneen"
+msgstr "Fangerofdréck stëmmen net iwwer"
 
 #: plugins/omemo/src/ui/manage_key_dialog.vala:71
 #, c-format
@@ -83,26 +69,20 @@ msgid ""
 "Please verify that you are comparing the correct fingerprint. If "
 "fingerprints do not match, %s's account may be compromised and you should "
 "consider rejecting this key."
-msgstr ""
-"Wann ech gelift iwwerpréif, ob's du mat dem "
-"korrekte Fangerofdrock vergläichs. Wann Fangerofdréck net iwwerteneestëmmen, "
-"dann ass dem %s säi Konto villäicht kompromettéiert an du solls dëse "
-"Schlëssel verweigeren."
+msgstr "W.e.g. verifizéiert datt Dir de richtege Fangerofdrock vergläicht. Wann d'Fangerofdréck net iwwereneestëmmen, kann de Kont vum %s kompromittéiert sinn an Dir sollt iwwerleeën dëse Schlëssel ofzulehnen."
 
 #: plugins/omemo/src/ui/manage_key_dialog.vala:123
 msgid "Verify key fingerprint"
-msgstr "Iwwerpréif Schlëssel Fangerofdrock"
+msgstr "Schlëssel-Fangerofdrock verifizéieren"
 
 #: plugins/omemo/src/ui/manage_key_dialog.vala:123
 msgid ""
 "Compare this key's fingerprint with the fingerprint displayed on the "
 "contact's device."
-msgstr ""
-"Vergläich de Fangerofdrock vun dësem Schlëssel mam Fangerofdrock den um "
-"Gerät vun dësem Kontakt steet."
+msgstr "Vergläicht de Fangerofdrock vun dësem Schlëssel mat deem deen um Apparat vum Kontakt ugewise gëtt."
 
 #: plugins/omemo/src/ui/manage_key_dialog.vala:125
-#: plugins/omemo/src/ui/manage_key_dialog.vala:151
+#: plugins/omemo/src/ui/manage_key_dialog.vala:153
 #: plugins/omemo/src/ui/encryption_preferences_entry.vala:288
 msgid "Reject key"
 msgstr "Schlëssel ofleenen"
@@ -110,29 +90,25 @@ msgstr "Schlëssel ofleenen"
 #: plugins/omemo/src/ui/manage_key_dialog.vala:125
 msgid ""
 "Block encrypted communication with the contact's device that uses this key."
-msgstr ""
-"Blockéiert verschlësselt Kommunikatioun mam Apparat vum Kontakt deen dëse "
-"Schlëssel benotzt."
+msgstr "Verschlësselt Kommunikatioun mam Apparat vum Kontakt blockéieren, deen dëse Schlëssel benotzt."
 
 #: plugins/omemo/src/ui/manage_key_dialog.vala:127
-#: plugins/omemo/src/ui/manage_key_dialog.vala:159
+#: plugins/omemo/src/ui/manage_key_dialog.vala:161
 #: plugins/omemo/src/ui/encryption_preferences_entry.vala:283
 msgid "Accept key"
-msgstr "Schlëssel acceptéieren"
+msgstr "Schlëssel akzeptéieren"
 
 #: plugins/omemo/src/ui/manage_key_dialog.vala:127
 msgid ""
 "Allow encrypted communication with the contact's device that uses this key."
-msgstr ""
-"Erlaabt verschlësselt Kommunikatioun mam Apparat vum Kontakt, deen dëse "
-"Schlëssel benotzt."
+msgstr "Verschlësselt Kommunikatioun mam Apparat vum Kontakt erlaben, deen dëse Schlëssel benotzt."
 
 #: plugins/omemo/src/ui/manage_key_dialog.vala:131
 #: plugins/omemo/src/ui/manage_key_dialog.vala:136
 #: plugins/omemo/src/ui/manage_key_dialog.vala:140
 #, c-format
 msgid "This key is currently %s."
-msgstr "Den aktuelle Schlëssel ass %s."
+msgstr "Dëse Schlëssel ass momentan %s."
 
 #: plugins/omemo/src/ui/manage_key_dialog.vala:131
 msgid "accepted"
@@ -142,9 +118,7 @@ msgstr "akzeptéiert"
 #: plugins/omemo/src/ui/manage_key_dialog.vala:136
 #, c-format
 msgid "This means it can be used by %s to receive and send encrypted messages."
-msgstr ""
-"Dat bedeit, dass et vum %s ka benotzt gi fir Messagen ze empfänken an ze "
-"verschécken."
+msgstr "Dat heescht, e ka vum %s benotzt ginn fir verschlësselt Messagen ze kréien an ze schécken."
 
 #: plugins/omemo/src/ui/manage_key_dialog.vala:136
 msgid "verified"
@@ -153,9 +127,7 @@ msgstr "verifizéiert"
 #: plugins/omemo/src/ui/manage_key_dialog.vala:136
 msgid ""
 "Additionally it has been verified to match the key on the contact's device."
-msgstr ""
-"De Schlëssel ass zousätzlech iwwerpréift gi mam Schlëssel um Gerät vum "
-"Kontakt iwwerteneen ze stëmmen."
+msgstr "Zousätzlech gouf verifizéiert datt en mam Schlëssel um Apparat vum Kontakt iwwereneestëmmt."
 
 #: plugins/omemo/src/ui/manage_key_dialog.vala:140
 msgid "rejected"
@@ -166,31 +138,25 @@ msgstr "ofgeleent"
 msgid ""
 "This means it cannot be used by %s to decipher your messages, and you won't "
 "see messages encrypted with it."
-msgstr ""
-"Dëst bedeit datt et net vum %s ka benotzt ginn fir är Messagen ze "
-"entschlësselen, an Dir gesitt keng Messagen déi mat dësem verschlësselt sinn."
+msgstr "Dat heescht, e kann net vum %s benotzt ginn fir Är Messagen ze dechiffréieren, an Dir wäert keng Messagen gesinn, déi domat verschlësselt sinn."
 
-#: plugins/omemo/src/ui/manage_key_dialog.vala:152
+#: plugins/omemo/src/ui/manage_key_dialog.vala:154
 #, c-format
 msgid ""
 "You won't see encrypted messages from the device of %s that uses this key. "
 "Conversely, that device won't be able to decipher your messages anymore."
-msgstr ""
-"Dir gesitt net verschlësselt Message vum Apparat vum %s deen dëse Schlëssel "
-"benotzt. Ëmgekéiert kann dëse Apparat net méi Är Messagen entschlësselen."
+msgstr "Dir wäert keng verschlësselt Messagen vum Apparat vum %s gesinn, deen dëse Schlëssel benotzt. Ëmgedréit wäert deen Apparat Är Messagen net méi dechiffréiere kënnen."
 
-#: plugins/omemo/src/ui/manage_key_dialog.vala:160
+#: plugins/omemo/src/ui/manage_key_dialog.vala:162
 #, c-format
 msgid ""
 "You will be able to exchange encrypted messages with the device of %s that "
 "uses this key."
-msgstr ""
-"Dir kënnt verschlësselte Messagen austausche mat dem Apparat vum %s deen "
-"dësen Schlëssel benotzt."
+msgstr "Dir kënnt verschlësselt Messagen mam Apparat vum %s austauschen, deen dëse Schlëssel benotzt."
 
-#: plugins/omemo/src/ui/manage_key_dialog.vala:166
+#: plugins/omemo/src/ui/manage_key_dialog.vala:168
 msgid "Back"
-msgstr "Zeréck"
+msgstr "Zréck"
 
 #: plugins/omemo/src/ui/device_notification_populator.vala:73
 msgid "Manage"
@@ -198,90 +164,123 @@ msgstr "Verwalten"
 
 #: plugins/omemo/src/ui/device_notification_populator.vala:80
 msgid "This contact has new devices"
-msgstr "Dëse Kontakt huet nei Geräter"
+msgstr "Dëse Kontakt huet nei Apparater"
 
-#: plugins/omemo/src/ui/own_notifications.vala:29
-msgid "OMEMO trust decision required"
-msgstr "OMEMO Vertrauens Entscheedung noutwenneg"
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:50
+msgid "OMEMO by default"
+msgstr "OMEMO als Standard"
 
-#: plugins/omemo/src/ui/own_notifications.vala:31
-#, c-format
-msgid "Did you add a new device for account %s?"
-msgstr "Hues du een neit Gerät fir %s dobäi gemaach?"
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:51
+msgid "Enable OMEMO encryption for new conversations"
+msgstr "OMEMO-Verschlësselung fir nei Gespréicher aktivéieren"
 
 #: plugins/omemo/src/ui/encryption_preferences_entry.vala:52
-msgid "OMEMO by default"
-msgstr ""
+msgid "Encrypt to new devices"
+msgstr "Op nei Apparater verschlësselen"
 
 #: plugins/omemo/src/ui/encryption_preferences_entry.vala:53
-msgid "Enable OMEMO encryption for new conversations"
-msgstr ""
+msgid "Automatically encrypt to new devices from this contact."
+msgstr "Automatesch op nei Apparater vun dësem Kontakt verschlësselen."
 
 #: plugins/omemo/src/ui/encryption_preferences_entry.vala:54
-msgid "Encrypt to new devices"
-msgstr ""
-
-#: plugins/omemo/src/ui/encryption_preferences_entry.vala:55
-msgid "Automatically encrypt to new devices from this contact."
-msgstr ""
-
-#: plugins/omemo/src/ui/encryption_preferences_entry.vala:56
 msgid "New keys"
 msgstr "Nei Schlësselen"
 
-#: plugins/omemo/src/ui/encryption_preferences_entry.vala:100
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:98
 msgid ""
 "New encryption keys from your other devices will be accepted automatically."
-msgstr ""
-"Nei Verschlësslungs Schlëssele vun ären aneren Apparater ginn automatesch "
-"akzeptéiert."
+msgstr "Nei Verschlësselungsschlësselen vun Ären aneren Apparater ginn automatesch akzeptéiert."
 
-#: plugins/omemo/src/ui/encryption_preferences_entry.vala:160
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:158
 msgid "This device"
-msgstr ""
+msgstr "Dësen Apparat"
 
-#: plugins/omemo/src/ui/encryption_preferences_entry.vala:220
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:217
 msgid "Other device"
-msgstr ""
+msgstr "Aneren Apparat"
 
-#: plugins/omemo/src/ui/encryption_preferences_entry.vala:220
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:217
 msgid "Device"
-msgstr ""
+msgstr "Apparat"
 
-#: plugins/omemo/src/ui/encryption_preferences_entry.vala:222
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:219
 msgid "Accepted"
 msgstr "Akzeptéiert"
 
-#: plugins/omemo/src/ui/encryption_preferences_entry.vala:225
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:222
 msgid "Rejected"
 msgstr "Ofgeleent"
 
-#: plugins/omemo/src/ui/encryption_preferences_entry.vala:228
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:225
+#: plugins/omemo/src/ui/contact_details_provider.vala:136
 msgid "Verified"
 msgstr "Verifizéiert"
 
 #: plugins/omemo/src/ui/encryption_preferences_entry.vala:277
 msgid "New device"
-msgstr ""
+msgstr "Neien Apparat"
 
-#: plugins/omemo/data/encryption_preferences_entry.ui:8
+#: plugins/omemo/src/ui/contact_details_provider.vala:46
+#: plugins/omemo/src/ui/contact_details_provider.vala:53
+#, fuzzy
+msgid "OMEMO Encryption"
+msgstr "OMEMO-Verschlësselung"
+
+#: plugins/omemo/src/ui/contact_details_provider.vala:47
+msgid "No member JIDs available. This may be an anonymous room."
+msgstr "Keng Member-JIDs verfügbar. Dat kann en anonyme Raum sinn."
+
+#: plugins/omemo/src/ui/contact_details_provider.vala:54
+msgid "Encryption keys for room members"
+msgstr "Verschlësselungsschlësselen fir Raummemberen"
+
+#: plugins/omemo/src/ui/contact_details_provider.vala:76
+#, fuzzy, c-format
+msgid "%d device"
+msgid_plural "%d devices"
+msgstr[0] "%d OMEMO Gerät"
+msgstr[1] "%d OMEMO Geräter"
+
+#: plugins/omemo/src/ui/contact_details_provider.vala:138
+msgid "Trusted"
+msgstr "Vertraut"
+
+#: plugins/omemo/src/ui/contact_details_provider.vala:140
+msgid "Untrusted"
+msgstr "Net vertraut"
+
+#: plugins/omemo/src/ui/contact_details_provider.vala:142
+msgid "Unknown"
+msgstr "Onbekannt"
+
+#: plugins/omemo/src/ui/own_notifications.vala:29
+msgid "OMEMO trust decision required"
+msgstr "OMEMO-Vertrauensentscheedung erfuerderlech"
+
+#: plugins/omemo/src/ui/own_notifications.vala:31
+#, c-format
+msgid "Did you add a new device for account %s?"
+msgstr "Hutt Dir en neien Apparat fir de Kont %s bäigefüügt?"
+
+#: plugins/omemo/src/ui/bad_messages_populator.vala:185
+#, c-format
 msgid ""
-"Each device has its own OMEMO key. Messages can only be decrypted by a "
-"device if they are encrypted to its key. Messages are only encrypted to "
-"accepted devices."
-msgstr ""
+"%s has been using an untrusted device. You won't see messages from devices "
+"that you do not trust."
+msgstr "%s huet en net vertrauenswürdegen Apparat benotzt. Dir wäert keng Messagen vun Apparater gesinn, deenen Dir net vertraut."
+
+#: plugins/omemo/src/ui/bad_messages_populator.vala:186
+msgid "Manage devices"
+msgstr "Apparater verwalten"
+
+#: plugins/omemo/src/ui/bad_messages_populator.vala:188
+#, c-format
+msgid ""
+"%s does not trust this device. That means, you might be missing messages."
+msgstr "%s vertraut dësem Apparat net. Dat heescht, Dir kënnt Messagen verpassen."
 
 #~ msgid "OMEMO Key Management"
 #~ msgstr "OMEMO Schlësselenverwaltung"
-
-#~ msgid "Encryption"
-#~ msgstr "Verschlësselung"
-
-#, c-format
-#~ msgid "%d OMEMO device"
-#~ msgid_plural "%d OMEMO devices"
-#~ msgstr[0] "%d OMEMO Gerät"
-#~ msgstr[1] "%d OMEMO Geräter"
 
 #~ msgid "Automatically accept new keys"
 #~ msgstr "Automatesch nei Schlësselen akzeptéieren"

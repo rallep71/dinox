@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-13 21:57+0200\n"
+"POT-Creation-Date: 2025-12-31 14:10+0100\n"
 "PO-Revision-Date: 2021-01-10 15:32+0000\n"
 "Language-Team: none\n"
 "Language: id\n"
@@ -17,31 +17,18 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 4.4.1-dev\n"
 
-#: plugins/omemo/src/ui/bad_messages_populator.vala:168
-#, c-format
+#: plugins/omemo/data/encryption_preferences_entry.ui:8
 msgid ""
-"%s has been using an untrusted device. You won't see messages from devices "
-"that you do not trust."
-msgstr ""
-"%s telah menggunakan perangkat tidak dikenal. Anda tidak akan melihat pesan "
-"dari perangkat yang tidak Anda kenal."
+"Each device has its own OMEMO key. Messages can only be decrypted by a "
+"device if they are encrypted to its key. Messages are only encrypted to "
+"accepted devices."
+msgstr "Setiap perangkat memiliki kunci OMEMO sendiri. Pesan hanya dapat didekripsi oleh perangkat jika dienkripsi ke kuncinya. Pesan hanya dienkripsi ke perangkat yang diterima."
 
-#: plugins/omemo/src/ui/bad_messages_populator.vala:169
-msgid "Manage devices"
-msgstr "Atur perangkat"
-
-#: plugins/omemo/src/ui/bad_messages_populator.vala:171
-#, c-format
-msgid ""
-"%s does not trust this device. That means, you might be missing messages."
-msgstr ""
-"%s tidak mengenali perangkat ini. Artinya, Anda mungkin kehilangan pesan."
-
-#: plugins/omemo/src/ui/manage_key_dialog.vala:34
+#: plugins/omemo/src/ui/manage_key_dialog.vala:36
 msgid "Manage Key"
 msgstr "Atur kunci"
 
-#: plugins/omemo/src/ui/manage_key_dialog.vala:35
+#: plugins/omemo/src/ui/manage_key_dialog.vala:37
 msgid ""
 "Compare the fingerprint, character by character, with the one shown on your "
 "contact's device."
@@ -49,21 +36,21 @@ msgstr ""
 "Bandingkan sidik jari karakter demi karakter, dengan yang tampil di "
 "perangkat kontak Anda."
 
-#: plugins/omemo/src/ui/manage_key_dialog.vala:36
+#: plugins/omemo/src/ui/manage_key_dialog.vala:38
 msgid "Fingerprints differ"
 msgstr "Sidik jari berbeda"
 
-#: plugins/omemo/src/ui/manage_key_dialog.vala:37
+#: plugins/omemo/src/ui/manage_key_dialog.vala:39
 msgid "Fingerprints match"
 msgstr "Sidik jari cocok"
 
-#: plugins/omemo/src/ui/manage_key_dialog.vala:38
+#: plugins/omemo/src/ui/manage_key_dialog.vala:40
 #: plugins/omemo/src/ui/manage_key_dialog.vala:81
 #: plugins/omemo/src/ui/manage_key_dialog.vala:87
 msgid "Cancel"
 msgstr "Batal"
 
-#: plugins/omemo/src/ui/manage_key_dialog.vala:39
+#: plugins/omemo/src/ui/manage_key_dialog.vala:41
 msgid "Confirm"
 msgstr "Konfirmasi"
 
@@ -108,7 +95,7 @@ msgstr ""
 "kontak."
 
 #: plugins/omemo/src/ui/manage_key_dialog.vala:125
-#: plugins/omemo/src/ui/manage_key_dialog.vala:151
+#: plugins/omemo/src/ui/manage_key_dialog.vala:153
 #: plugins/omemo/src/ui/encryption_preferences_entry.vala:288
 msgid "Reject key"
 msgstr "Tolak kunci"
@@ -121,7 +108,7 @@ msgstr ""
 "ini."
 
 #: plugins/omemo/src/ui/manage_key_dialog.vala:127
-#: plugins/omemo/src/ui/manage_key_dialog.vala:159
+#: plugins/omemo/src/ui/manage_key_dialog.vala:161
 #: plugins/omemo/src/ui/encryption_preferences_entry.vala:283
 msgid "Accept key"
 msgstr "Terima kunci"
@@ -174,7 +161,7 @@ msgstr ""
 "Artinya tidak dapat digunakan oleh %s untuk menguraikan pesan Anda, dan Anda "
 "tidak akan melihat pesan dienkripsi dengannya."
 
-#: plugins/omemo/src/ui/manage_key_dialog.vala:152
+#: plugins/omemo/src/ui/manage_key_dialog.vala:154
 #, c-format
 msgid ""
 "You won't see encrypted messages from the device of %s that uses this key. "
@@ -183,7 +170,7 @@ msgstr ""
 "Anda tidak akan melihat pesan terenkripsi dari perangkat %s yang menggunakan "
 "kunci ini. Sebaliknya, perangkat itu tidak dapat lagi menguraikan pesan Anda."
 
-#: plugins/omemo/src/ui/manage_key_dialog.vala:160
+#: plugins/omemo/src/ui/manage_key_dialog.vala:162
 #, c-format
 msgid ""
 "You will be able to exchange encrypted messages with the device of %s that "
@@ -192,7 +179,7 @@ msgstr ""
 "Anda dapat bertukar pesan terenkripsi dengan perangkat %s yang menggunakan "
 "kunci ini."
 
-#: plugins/omemo/src/ui/manage_key_dialog.vala:166
+#: plugins/omemo/src/ui/manage_key_dialog.vala:168
 msgid "Back"
 msgstr "Kembali"
 
@@ -204,6 +191,94 @@ msgstr "Pengaturan"
 msgid "This contact has new devices"
 msgstr "Kontak memiliki perangkat baru"
 
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:50
+msgid "OMEMO by default"
+msgstr "OMEMO secara default"
+
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:51
+msgid "Enable OMEMO encryption for new conversations"
+msgstr "Aktifkan enkripsi OMEMO untuk percakapan baru"
+
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:52
+msgid "Encrypt to new devices"
+msgstr "Enkripsi ke perangkat baru"
+
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:53
+msgid "Automatically encrypt to new devices from this contact."
+msgstr "Secara otomatis mengenkripsi ke perangkat baru dari kontak ini."
+
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:54
+msgid "New keys"
+msgstr "Kunci baru"
+
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:98
+msgid ""
+"New encryption keys from your other devices will be accepted automatically."
+msgstr ""
+"Kunci enkripsi baru dari perangkat Anda yang lain akan diterima secara "
+"otomatis."
+
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:158
+msgid "This device"
+msgstr "Perangkat ini"
+
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:217
+msgid "Other device"
+msgstr "Perangkat lain"
+
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:217
+msgid "Device"
+msgstr "Perangkat"
+
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:219
+msgid "Accepted"
+msgstr "Diterima"
+
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:222
+msgid "Rejected"
+msgstr "Ditolak"
+
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:225
+#: plugins/omemo/src/ui/contact_details_provider.vala:136
+msgid "Verified"
+msgstr "Terverifikasi"
+
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:277
+msgid "New device"
+msgstr "Perangkat baru"
+
+#: plugins/omemo/src/ui/contact_details_provider.vala:46
+#: plugins/omemo/src/ui/contact_details_provider.vala:53
+#, fuzzy
+msgid "OMEMO Encryption"
+msgstr "Enkripsi"
+
+#: plugins/omemo/src/ui/contact_details_provider.vala:47
+msgid "No member JIDs available. This may be an anonymous room."
+msgstr "Tidak ada JID anggota yang tersedia. Ini mungkin ruang anonim."
+
+#: plugins/omemo/src/ui/contact_details_provider.vala:54
+msgid "Encryption keys for room members"
+msgstr "Kunci enkripsi untuk anggota ruang"
+
+#: plugins/omemo/src/ui/contact_details_provider.vala:76
+#, fuzzy, c-format
+msgid "%d device"
+msgid_plural "%d devices"
+msgstr[0] "%d OMEMO perangkat"
+
+#: plugins/omemo/src/ui/contact_details_provider.vala:138
+msgid "Trusted"
+msgstr "Tepercaya"
+
+#: plugins/omemo/src/ui/contact_details_provider.vala:140
+msgid "Untrusted"
+msgstr "Tidak tepercaya"
+
+#: plugins/omemo/src/ui/contact_details_provider.vala:142
+msgid "Unknown"
+msgstr "Tidak diketahui"
+
 #: plugins/omemo/src/ui/own_notifications.vala:29
 msgid "OMEMO trust decision required"
 msgstr "Memerlukan persetujuan atas OMEMO"
@@ -213,78 +288,28 @@ msgstr "Memerlukan persetujuan atas OMEMO"
 msgid "Did you add a new device for account %s?"
 msgstr "Apakah Anda menambahkan perangkat baru untuk akun %s?"
 
-#: plugins/omemo/src/ui/encryption_preferences_entry.vala:52
-msgid "OMEMO by default"
-msgstr ""
-
-#: plugins/omemo/src/ui/encryption_preferences_entry.vala:53
-msgid "Enable OMEMO encryption for new conversations"
-msgstr ""
-
-#: plugins/omemo/src/ui/encryption_preferences_entry.vala:54
-msgid "Encrypt to new devices"
-msgstr ""
-
-#: plugins/omemo/src/ui/encryption_preferences_entry.vala:55
-msgid "Automatically encrypt to new devices from this contact."
-msgstr ""
-
-#: plugins/omemo/src/ui/encryption_preferences_entry.vala:56
-msgid "New keys"
-msgstr "Kunci baru"
-
-#: plugins/omemo/src/ui/encryption_preferences_entry.vala:100
+#: plugins/omemo/src/ui/bad_messages_populator.vala:185
+#, c-format
 msgid ""
-"New encryption keys from your other devices will be accepted automatically."
+"%s has been using an untrusted device. You won't see messages from devices "
+"that you do not trust."
 msgstr ""
-"Kunci enkripsi baru dari perangkat Anda yang lain akan diterima secara "
-"otomatis."
+"%s telah menggunakan perangkat tidak dikenal. Anda tidak akan melihat pesan "
+"dari perangkat yang tidak Anda kenal."
 
-#: plugins/omemo/src/ui/encryption_preferences_entry.vala:160
-msgid "This device"
-msgstr ""
+#: plugins/omemo/src/ui/bad_messages_populator.vala:186
+msgid "Manage devices"
+msgstr "Atur perangkat"
 
-#: plugins/omemo/src/ui/encryption_preferences_entry.vala:220
-msgid "Other device"
-msgstr ""
-
-#: plugins/omemo/src/ui/encryption_preferences_entry.vala:220
-msgid "Device"
-msgstr ""
-
-#: plugins/omemo/src/ui/encryption_preferences_entry.vala:222
-msgid "Accepted"
-msgstr "Diterima"
-
-#: plugins/omemo/src/ui/encryption_preferences_entry.vala:225
-msgid "Rejected"
-msgstr "Ditolak"
-
-#: plugins/omemo/src/ui/encryption_preferences_entry.vala:228
-msgid "Verified"
-msgstr "Terverifikasi"
-
-#: plugins/omemo/src/ui/encryption_preferences_entry.vala:277
-msgid "New device"
-msgstr ""
-
-#: plugins/omemo/data/encryption_preferences_entry.ui:8
+#: plugins/omemo/src/ui/bad_messages_populator.vala:188
+#, c-format
 msgid ""
-"Each device has its own OMEMO key. Messages can only be decrypted by a "
-"device if they are encrypted to its key. Messages are only encrypted to "
-"accepted devices."
+"%s does not trust this device. That means, you might be missing messages."
 msgstr ""
+"%s tidak mengenali perangkat ini. Artinya, Anda mungkin kehilangan pesan."
 
 #~ msgid "OMEMO Key Management"
 #~ msgstr "Pengaturan kunci OMEMO"
-
-#~ msgid "Encryption"
-#~ msgstr "Enkripsi"
-
-#, c-format
-#~ msgid "%d OMEMO device"
-#~ msgid_plural "%d OMEMO devices"
-#~ msgstr[0] "%d OMEMO perangkat"
 
 #~ msgid "Automatically accept new keys"
 #~ msgstr "Otomatis mengkonfirmasi kunci baru"

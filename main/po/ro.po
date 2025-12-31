@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-18 18:28+0100\n"
+"POT-Creation-Date: 2025-12-31 14:00+0100\n"
 "PO-Revision-Date: 2025-03-14 17:31+0000\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/dino/"
 "translations/ro/>\n"
@@ -19,11 +19,11 @@ msgstr ""
 "20)) ? 1 : 2;\n"
 "X-Generator: Weblate 5.11-dev\n"
 
-#: main/data/add_conversation/add_groupchat_dialog.ui:80
+#: main/data/add_conversation/add_groupchat_dialog.ui:81
 msgid "Add MUC"
 msgstr "Adaugă MUC"
 
-#: main/data/add_conversation/add_groupchat_dialog.ui:90
+#: main/data/add_conversation/add_groupchat_dialog.ui:91
 msgid "Insert a Name for MUC..."
 msgstr "Introduceți un nume pentru cameră..."
 
@@ -32,7 +32,7 @@ msgid "Search or enter channel address..."
 msgstr "Căutați sau introduceți adresa canalului..."
 
 #: main/data/add_conversation/select_jid_fragment.ui:67
-#: main/src/ui/add_conversation/select_jid_fragment.vala:205
+#: main/src/ui/add_conversation/select_jid_fragment.vala:204
 msgid "Add Group"
 msgstr "Adaugă grup"
 
@@ -59,22 +59,32 @@ msgstr "Respinge"
 msgid "Accept"
 msgstr "Acceptă"
 
-#: main/data/chat_input.ui:63
+#: main/data/chat_input.ui:15
+#, fuzzy
+msgid "Send File…"
+msgstr "Trimite fișier"
+
+#: main/data/chat_input.ui:25
+#, fuzzy
+msgid "Send Location"
+msgstr "Locația de stocare a datelor"
+
+#: main/data/chat_input.ui:96
 msgid "Record voice message"
 msgstr "Înregistrează mesaj vocal"
 
-#: main/data/chat_input.ui:77
+#: main/data/chat_input.ui:110
 msgid "Send message"
 msgstr "Trimite mesaj"
 
-#: main/data/conversation_details.ui:145
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:566
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:175
+#: main/data/conversation_details.ui:162
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:567
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:169
 msgid "Remove Contact"
 msgstr "Elimină contactul"
 
-#: main/data/conversation_details.ui:171
-#: main/src/windows/conversation_details.vala:229
+#: main/data/conversation_details.ui:192
+#: main/src/windows/conversation_details.vala:238
 msgid "About"
 msgstr "Despre"
 
@@ -83,13 +93,13 @@ msgid "Private room (supports group calls)"
 msgstr "Cameră privată (suportă apeluri de grup)"
 
 #: main/data/conversation_row.ui:135
-#: main/src/windows/conversation_details.vala:171
-#: main/src/windows/conversation_details.vala:172
+#: main/src/windows/conversation_details.vala:180
+#: main/src/windows/conversation_details.vala:181
 msgid "Muted"
 msgstr "Silențios"
 
 #: main/data/conversation_row.ui:146
-#: main/src/windows/conversation_details.vala:136
+#: main/src/windows/conversation_details.vala:145
 msgid "Blocked"
 msgstr "Blocat"
 
@@ -100,15 +110,15 @@ msgstr "General"
 
 #: main/data/gtk/help-overlay.ui:14 main/data/main_window.ui:38
 #: main/data/menu_add.ui:7
-#: main/src/ui/add_conversation/select_contact_dialog.vala:106
+#: main/src/ui/add_conversation/select_contact_dialog.vala:110
 #: main/src/ui/main_window.vala:154
 msgid "Start Conversation"
 msgstr "Pornește o conversație"
 
 #: main/data/gtk/help-overlay.ui:20 main/data/main_window.ui:51
 #: main/data/menu_add.ui:11
-#: main/src/ui/add_conversation/add_conference_dialog.vala:24
-#: main/src/ui/application.vala:1373 main/src/ui/main_window.vala:155
+#: main/src/ui/add_conversation/add_conference_dialog.vala:25
+#: main/src/ui/application.vala:1908 main/src/ui/main_window.vala:155
 msgid "Join Channel"
 msgstr "Alăturați-vă canalului"
 
@@ -129,7 +139,7 @@ msgstr "Discuție"
 msgid "Search messages"
 msgstr "Caută mesaje"
 
-#: main/data/gtk/help-overlay.ui:49 main/src/ui/chat_input/view.vala:59
+#: main/data/gtk/help-overlay.ui:49 main/src/ui/chat_input/view.vala:62
 msgid "Send a file"
 msgstr "Trimite fișier"
 
@@ -193,15 +203,23 @@ msgstr "Ocupat"
 msgid "Not Available"
 msgstr "Indisponibil"
 
-#: main/data/menu_app.ui:34
+#: main/data/menu_app.ui:30 main/src/ui/main_window.vala:215
+msgid "Set Status Message…"
+msgstr "Setează mesajul de stare…"
+
+#: main/data/menu_app.ui:38
 msgid "Preferences"
 msgstr "Preferințe"
 
-#: main/data/menu_app.ui:38
+#: main/data/menu_app.ui:42
+msgid "Panic Wipe"
+msgstr "Ștergere de panică"
+
+#: main/data/menu_app.ui:46
 msgid "Keyboard Shortcuts"
 msgstr "Scurtături de tastatură"
 
-#: main/data/menu_app.ui:42 main/src/ui/application.vala:354
+#: main/data/menu_app.ui:50 main/src/ui/application.vala:891
 msgid "About DinoX"
 msgstr "Despre DinoX"
 
@@ -218,35 +236,34 @@ msgstr "Șterge istoricul conversațiilor"
 
 #: main/data/message_item_widget_edit_mode.ui:46
 #: main/data/preferences_window/change_password_dialog.ui:18
-#: main/src/ui/add_conversation/add_conference_dialog.vala:41
-#: main/src/ui/add_conversation/select_contact_dialog.vala:40
-#: main/src/ui/application.vala:455 main/src/ui/application.vala:483
-#: main/src/ui/application.vala:779 main/src/ui/application.vala:857
-#: main/src/ui/application.vala:915 main/src/ui/application.vala:947
-#: main/src/ui/application.vala:1103 main/src/ui/application.vala:1383
-#: main/src/ui/chat_input/sticker_chooser.vala:547
-#: main/src/ui/chat_input/sticker_chooser.vala:869
+#: main/src/ui/add_conversation/add_conference_dialog.vala:44
+#: main/src/ui/add_conversation/select_contact_dialog.vala:43
+#: main/src/ui/application.vala:754 main/src/ui/application.vala:992
+#: main/src/ui/application.vala:1020 main/src/ui/application.vala:1316
+#: main/src/ui/application.vala:1394 main/src/ui/application.vala:1452
+#: main/src/ui/application.vala:1484 main/src/ui/application.vala:1640
+#: main/src/ui/application.vala:1918
 #: main/src/ui/conversation_content_view/file_default_widget.vala:90
 #: main/src/ui/conversation_content_view/item_actions.vala:165
 #: main/src/ui/conversation_content_view/item_actions.vala:168
-#: main/src/ui/conversation_details.vala:249
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:633
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:660
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:679
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:704
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:723
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:744
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:790
+#: main/src/ui/conversation_details.vala:253
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:641
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:668
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:687
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:712
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:731
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:752
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:797
 #: main/src/ui/conversation_titlebar/call_entry.vala:83
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
 #: main/src/windows/conversation_details.vala:60
 #: main/src/windows/preferences_window/account_preferences_subpage.vala:68
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:205
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:225
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:249
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:269
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:291
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:332
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:199
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:219
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:243
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:263
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:285
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:326
 msgid "Cancel"
 msgstr "Anulare"
 
@@ -264,7 +281,7 @@ msgid "Local alias"
 msgstr "Alias local"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:82
-#: main/src/ui/application.vala:449 main/src/ui/application.vala:1078
+#: main/src/ui/application.vala:986 main/src/ui/application.vala:1615
 #: main/src/ui/util/data_forms.vala:63
 msgid "Password"
 msgstr "Parolă"
@@ -314,19 +331,27 @@ msgstr "Trimite notificare la _tastare"
 msgid "Send _Read Receipts"
 msgstr "Trimite notificare la _citire"
 
-#: main/data/preferences_window/general_preferences_page.ui:25
+#: main/data/preferences_window/general_preferences_page.ui:21
+msgid "Allow Location Sharing"
+msgstr "Permite partajarea locației"
+
+#: main/data/preferences_window/general_preferences_page.ui:22
+msgid "Allow sending your current location in chats"
+msgstr "Permite trimiterea locației curente în conversații"
+
+#: main/data/preferences_window/general_preferences_page.ui:32
 msgid "_Notifications"
 msgstr "_Notificări"
 
-#: main/data/preferences_window/general_preferences_page.ui:26
+#: main/data/preferences_window/general_preferences_page.ui:33
 msgid "Notify when a new message arrives"
 msgstr "Notifică atunci când este primit un mesaj nou"
 
-#: main/data/preferences_window/general_preferences_page.ui:32
+#: main/data/preferences_window/general_preferences_page.ui:39
 msgid "_Keep Running in Background"
 msgstr "_Rulează în fundal"
 
-#: main/data/preferences_window/general_preferences_page.ui:33
+#: main/data/preferences_window/general_preferences_page.ui:40
 msgid ""
 "Continue running after closing window to receive notifications immediately"
 msgstr ""
@@ -334,99 +359,108 @@ msgstr ""
 "imediatContinuă să ruleze după închiderea ferestrei pentru a primi "
 "notificări imediat"
 
-#: main/data/preferences_window/general_preferences_page.ui:41
+#: main/data/preferences_window/general_preferences_page.ui:48
 msgid "Appearance"
 msgstr "Aspect"
 
-#: main/data/preferences_window/general_preferences_page.ui:44
+#: main/data/preferences_window/general_preferences_page.ui:51
 msgid "_Color Scheme"
 msgstr "_Schemă de culori"
 
-#: main/data/preferences_window/general_preferences_page.ui:45
+#: main/data/preferences_window/general_preferences_page.ui:52
 msgid "Choose between light and dark appearance"
 msgstr "Alegeți între aspectul luminos și întunecat"
 
-#: main/data/preferences_window/general_preferences_page.ui:55
+#: main/data/preferences_window/general_preferences_page.ui:62
 msgid "_Convert Smileys to Emoji"
 msgstr "Convertește zâmbilicii în _emoji"
 
-#: main/data/preferences_window/general_preferences_page.ui:63
-#: main/src/ui/chat_input/view.vala:51
+#: main/data/preferences_window/general_preferences_page.ui:70
+#: main/src/ui/chat_input/view.vala:54
 #, fuzzy
 msgid "Stickers"
 msgstr "Difuzoare"
 
-#: main/data/preferences_window/general_preferences_page.ui:66
+#: main/data/preferences_window/general_preferences_page.ui:73
 msgid "Enable Stickers"
-msgstr ""
+msgstr "Activează abțibildurile"
 
-#: main/data/preferences_window/general_preferences_page.ui:71
+#: main/data/preferences_window/general_preferences_page.ui:78
 msgid "Enable Sticker Animations"
-msgstr ""
-
-#: main/data/preferences_window/general_preferences_page.ui:72
-msgid "Disable to reduce flashing/flickering"
-msgstr ""
+msgstr "Activează animațiile abțibildurilor"
 
 #: main/data/preferences_window/general_preferences_page.ui:79
+msgid "Disable to reduce flashing/flickering"
+msgstr "Dezactivează pentru a reduce pâlpâirea"
+
+#: main/data/preferences_window/general_preferences_page.ui:86
 msgid "User Data"
 msgstr "Date utilizator"
 
-#: main/data/preferences_window/general_preferences_page.ui:82
+#: main/data/preferences_window/general_preferences_page.ui:89
 msgid "Backup User Data"
 msgstr "Copie de siguranță"
 
-#: main/data/preferences_window/general_preferences_page.ui:83
+#: main/data/preferences_window/general_preferences_page.ui:90
 msgid "Create a backup of your accounts, messages and settings"
 msgstr "Creați o copie de siguranță a conturilor, mesajelor și setărilor"
 
-#: main/data/preferences_window/general_preferences_page.ui:94
-#: main/src/ui/application.vala:478 main/src/ui/main_window.vala:223
+#: main/data/preferences_window/general_preferences_page.ui:101
+#: main/src/ui/application.vala:1015 main/src/ui/main_window.vala:226
 msgid "Restore from Backup"
 msgstr "Restaurare din copie de rezervă"
 
-#: main/data/preferences_window/general_preferences_page.ui:95
+#: main/data/preferences_window/general_preferences_page.ui:102
 msgid "Restore accounts, messages and settings from a backup file"
 msgstr "Restaurați conturile, mesajele și setările dintr-un fișier de rezervă"
 
-#: main/data/preferences_window/general_preferences_page.ui:106
+#: main/data/preferences_window/general_preferences_page.ui:113
 msgid "Data Storage Location"
 msgstr "Locația de stocare a datelor"
 
-#: main/data/preferences_window/general_preferences_page.ui:107
+#: main/data/preferences_window/general_preferences_page.ui:114
 msgid "View where your data is stored"
 msgstr "Vedeți unde sunt stocate datele"
 
-#: main/data/preferences_window/general_preferences_page.ui:120
+#: main/data/preferences_window/general_preferences_page.ui:127
 msgid "Database Maintenance"
 msgstr "Întreținere bază de date"
 
-#: main/data/preferences_window/general_preferences_page.ui:123
-#: main/src/ui/application.vala:775 main/src/ui/application.vala:780
+#: main/data/preferences_window/general_preferences_page.ui:130
+#, fuzzy
+msgid "Change Database Password"
+msgstr "Schimbare parolă"
+
+#: main/data/preferences_window/general_preferences_page.ui:131
+msgid "Change the password used to encrypt your local data"
+msgstr "Schimbă parola folosită pentru criptarea datelor locale"
+
+#: main/data/preferences_window/general_preferences_page.ui:142
+#: main/src/ui/application.vala:1312 main/src/ui/application.vala:1317
 msgid "Clear Cache"
 msgstr "Golește memoria cache"
 
-#: main/data/preferences_window/general_preferences_page.ui:124
+#: main/data/preferences_window/general_preferences_page.ui:143
 msgid "Clear cached files, avatars and previews"
 msgstr "Șterge fișierele, avatarele și previzualizările din cache"
 
-#: main/data/preferences_window/general_preferences_page.ui:135
-#: main/src/ui/application.vala:852 main/src/ui/application.vala:858
+#: main/data/preferences_window/general_preferences_page.ui:154
+#: main/src/ui/application.vala:1389 main/src/ui/application.vala:1395
 msgid "Reset Database"
 msgstr "Resetare bază de date"
 
-#: main/data/preferences_window/general_preferences_page.ui:136
+#: main/data/preferences_window/general_preferences_page.ui:155
 msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
 msgstr ""
 "Ștergeți toate mesajele, fișierele și cheile OMEMO. Conturile dvs. vor "
 "rămâne."
 
-#: main/data/preferences_window/general_preferences_page.ui:147
-#: main/src/ui/application.vala:910
+#: main/data/preferences_window/general_preferences_page.ui:166
+#: main/src/ui/application.vala:1447
 msgid "Factory Reset"
 msgstr "Resetare la setările din fabrică"
 
-#: main/data/preferences_window/general_preferences_page.ui:148
+#: main/data/preferences_window/general_preferences_page.ui:167
 msgid "Delete ALL data including accounts. This cannot be undone!"
 msgstr ""
 "Ștergeți TOATE datele, inclusiv conturile. Aceasta nu poate fi anulată!"
@@ -444,17 +478,17 @@ msgid "Contacts"
 msgstr "Contacte"
 
 #: main/data/preferences_window/preferences_dialog.ui:25
-#: main/src/windows/conversation_details.vala:279
+#: main/src/windows/conversation_details.vala:288
 msgid "Encryption"
 msgstr "Criptare"
 
-#: main/src/ui/add_conversation/add_conference_dialog.vala:44
+#: main/src/ui/add_conversation/add_conference_dialog.vala:47
 msgid "Next"
 msgstr "Următorul"
 
-#: main/src/ui/add_conversation/add_conference_dialog.vala:59
+#: main/src/ui/add_conversation/add_conference_dialog.vala:62
 #: main/src/ui/add_conversation/conference_details_fragment.vala:151
-#: main/src/ui/application.vala:1387
+#: main/src/ui/application.vala:1922
 msgid "Join"
 msgstr "Alăturați-vă"
 
@@ -510,11 +544,11 @@ msgstr "Nu s-a putut face conectarea la %s"
 msgid "Invalid address"
 msgstr "Adresă invalidă"
 
-#: main/src/ui/add_conversation/select_contact_dialog.vala:70
+#: main/src/ui/add_conversation/select_contact_dialog.vala:76
 msgid "Search or enter contact address..."
 msgstr "Căutați sau introduceți adresa contactului..."
 
-#: main/src/ui/add_conversation/select_contact_dialog.vala:107
+#: main/src/ui/add_conversation/select_contact_dialog.vala:111
 msgid "Start"
 msgstr "Pornire"
 
@@ -526,45 +560,137 @@ msgstr "Răsfoiți camerele"
 msgid "Browse Contacts"
 msgstr "Răsfoiește contactele"
 
-#: main/src/ui/add_conversation/select_jid_fragment.vala:202
+#: main/src/ui/add_conversation/select_jid_fragment.vala:201
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:70
 msgid "Add Contact"
 msgstr "Adaugă contact"
 
-#: main/src/ui/add_conversation/select_jid_fragment.vala:203
+#: main/src/ui/add_conversation/select_jid_fragment.vala:202
 msgid "Delete Contact"
 msgstr "Șterge contactul"
 
-#: main/src/ui/add_conversation/select_jid_fragment.vala:206
-#: main/src/ui/add_conversation/select_jid_fragment.vala:216
+#: main/src/ui/add_conversation/select_jid_fragment.vala:205
+#: main/src/ui/add_conversation/select_jid_fragment.vala:215
 msgid "Leave Group"
 msgstr "Părăsește grupul"
 
-#: main/src/ui/application.vala:359
+#: main/src/ui/application.vala:161
+msgid "Beenden"
+msgstr "Ieșire"
+
+#: main/src/ui/application.vala:266 main/src/ui/application.vala:361
+#, fuzzy
+msgid "Passwort"
+msgstr "Parolă"
+
+#: main/src/ui/application.vala:271
+msgid "DinoX entsperren"
+msgstr "Deblochează DinoX"
+
+#: main/src/ui/application.vala:272
+msgid "Bitte Passwort eingeben, um die verschlüsselte Datenbank zu öffnen."
+msgstr "Vă rugăm să introduceți parola pentru a deschide baza de date criptată."
+
+#: main/src/ui/application.vala:274
+#, c-format
+msgid "Falsches Passwort. Versuch %d/%d"
+msgstr "Parolă greșită. Încercare %d/%d"
+
+#: main/src/ui/application.vala:346
+msgid "Entsperren"
+msgstr "Deblochează"
+
+#: main/src/ui/application.vala:363
+msgid "Passwort bestätigen"
+msgstr "Confirmă parola"
+
+#: main/src/ui/application.vala:370
+#, fuzzy
+msgid "Passwort festlegen"
+msgstr "Parola este prea scurtă"
+
+#: main/src/ui/application.vala:371
+msgid ""
+"Bei der ersten Nutzung musst du ein Passwort setzen. Ohne Passwort kann "
+"DinoX die verschlüsselte Datenbank nicht öffnen."
+msgstr "Trebuie să setați o parolă la prima utilizare. Fără parolă, DinoX nu poate deschide baza de date criptată."
+
+#: main/src/ui/application.vala:373
+#, c-format
+msgid "Ungültiges Passwort. Versuch %d/%d"
+msgstr "Parolă nevalidă. Încercare %d/%d"
+
+#: main/src/ui/application.vala:448
+#, fuzzy
+msgid "Passwort setzen"
+msgstr "Parola este prea scurtă"
+
+#: main/src/ui/application.vala:746
+#, fuzzy
+msgid "Set Status Message"
+msgstr "Caută mesaje"
+
+#: main/src/ui/application.vala:755
+#, fuzzy
+msgid "Set"
+msgstr "Selectare"
+
+#: main/src/ui/application.vala:809
+msgid "Aktuelles Passwort"
+msgstr "Parola actuală"
+
+#: main/src/ui/application.vala:811
+#, fuzzy
+msgid "Neues Passwort"
+msgstr "Parolă nouă"
+
+#: main/src/ui/application.vala:813
+msgid "Neues Passwort bestätigen"
+msgstr "Confirmă noua parolă"
+
+#: main/src/ui/application.vala:824
+msgid "Datenbank-Passwort ändern"
+msgstr "Schimbă parola bazei de date"
+
+#: main/src/ui/application.vala:825
+msgid ""
+"Dieses Passwort wird verwendet, um deine lokalen DinoX-Daten zu "
+"verschlüsseln."
+msgstr "Această parolă este folosită pentru a cripta datele locale DinoX."
+
+#: main/src/ui/application.vala:828
+msgid "Abbrechen"
+msgstr "Anulează"
+
+#: main/src/ui/application.vala:829
+msgid "Ändern"
+msgstr "Schimbă"
+
+#: main/src/ui/application.vala:896
 msgid "Modern XMPP client with extended features"
 msgstr "Client XMPP modern cu funcții extinse"
 
-#: main/src/ui/application.vala:366 main/src/ui/application.vala:741
+#: main/src/ui/application.vala:903 main/src/ui/application.vala:1278
 msgid "User Data Locations"
 msgstr "Locații date"
 
-#: main/src/ui/application.vala:369 main/src/ui/application.vala:755
+#: main/src/ui/application.vala:906 main/src/ui/application.vala:1292
 msgid "Configuration:"
 msgstr "Configurație:"
 
-#: main/src/ui/application.vala:372 main/src/ui/application.vala:757
+#: main/src/ui/application.vala:909 main/src/ui/application.vala:1294
 msgid "Data & Database:"
 msgstr "Date și bază de date:"
 
-#: main/src/ui/application.vala:375 main/src/ui/application.vala:759
+#: main/src/ui/application.vala:912 main/src/ui/application.vala:1296
 msgid "Cache:"
 msgstr "Cache:"
 
-#: main/src/ui/application.vala:378
+#: main/src/ui/application.vala:915
 msgid "Info:"
 msgstr "Info:"
 
-#: main/src/ui/application.vala:379
+#: main/src/ui/application.vala:916
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
@@ -572,38 +698,38 @@ msgstr ""
 "Datele dvs. personale (conturi, mesaje, fișiere) sunt stocate separat de "
 "aplicație."
 
-#: main/src/ui/application.vala:381
+#: main/src/ui/application.vala:918
 msgid "When you update DinoX, your data remains intact."
 msgstr "Când actualizați DinoX, datele rămân intacte."
 
-#: main/src/ui/application.vala:383
+#: main/src/ui/application.vala:920
 msgid "Use Settings → General → Backup User Data to create a backup."
 msgstr ""
 "Folosiți Setări → General → Backup date utilizator pentru a crea o copie de "
 "rezervă."
 
-#: main/src/ui/application.vala:401
+#: main/src/ui/application.vala:938
 msgid "Select Backup File"
 msgstr "Selectare fișier copie de rezervă"
 
 # DinoX v0.7.7 - Additional Backup/Restore strings
-#: main/src/ui/application.vala:409
+#: main/src/ui/application.vala:946
 msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
 msgstr "Fișiere de rezervă (*.tar.gz, *.tar.gz.gpg)"
 
-#: main/src/ui/application.vala:439
+#: main/src/ui/application.vala:976
 msgid "Enter Backup Password"
 msgstr "Introduceți parola copiei de rezervă"
 
-#: main/src/ui/application.vala:440
+#: main/src/ui/application.vala:977
 msgid "This backup is encrypted. Please enter the password to decrypt it."
 msgstr "Această copie este criptată. Introduceți parola."
 
-#: main/src/ui/application.vala:456
+#: main/src/ui/application.vala:993
 msgid "Decrypt & Restore"
 msgstr "Decriptare și restaurare"
 
-#: main/src/ui/application.vala:479
+#: main/src/ui/application.vala:1016
 msgid ""
 "This will replace all current data with the backup.\n"
 "\n"
@@ -617,31 +743,31 @@ msgstr ""
 "\n"
 "DinoX will restart after restoring."
 
-#: main/src/ui/application.vala:484
+#: main/src/ui/application.vala:1021
 msgid "Restore Backup"
 msgstr "Restaurare copie de rezervă"
 
-#: main/src/ui/application.vala:501 main/src/ui/application.vala:533
+#: main/src/ui/application.vala:1038 main/src/ui/application.vala:1070
 msgid "Decrypting Backup..."
 msgstr "Decriptare copie de rezervă..."
 
-#: main/src/ui/application.vala:501 main/src/ui/application.vala:585
+#: main/src/ui/application.vala:1038 main/src/ui/application.vala:1122
 msgid "Restoring Backup..."
 msgstr "Restaurare copie de rezervă..."
 
-#: main/src/ui/application.vala:502
+#: main/src/ui/application.vala:1039
 msgid "Please wait, this may take a moment..."
 msgstr "Vă rugăm să așteptați, acest lucru poate dura un moment..."
 
-#: main/src/ui/application.vala:534
+#: main/src/ui/application.vala:1071
 msgid "Decrypting encrypted backup file..."
 msgstr "Se decriptează fișierul de rezervă..."
 
-#: main/src/ui/application.vala:572
+#: main/src/ui/application.vala:1109
 msgid "Decryption Failed"
 msgstr "Decriptarea a eșuat"
 
-#: main/src/ui/application.vala:573
+#: main/src/ui/application.vala:1110
 msgid ""
 "Could not decrypt the backup file.\n"
 "\n"
@@ -651,34 +777,27 @@ msgstr ""
 "\n"
 "Verificați dacă parola este corectă."
 
-#: main/src/ui/application.vala:575 main/src/ui/application.vala:685
-#: main/src/ui/chat_input/sticker_chooser.vala:575
-#: main/src/ui/chat_input/sticker_chooser.vala:594
-#: main/src/ui/chat_input/sticker_chooser.vala:602
-#: main/src/ui/chat_input/sticker_chooser.vala:817
-#: main/src/ui/chat_input/sticker_chooser.vala:835
-#: main/src/ui/chat_input/sticker_chooser.vala:843
-#: main/src/ui/chat_input/sticker_chooser.vala:883
+#: main/src/ui/application.vala:1112 main/src/ui/application.vala:1222
 msgid "OK"
 msgstr "OK"
 
-#: main/src/ui/application.vala:586
+#: main/src/ui/application.vala:1123
 msgid "Extracting files from backup..."
 msgstr "Se extrag fișierele din copia de rezervă..."
 
-#: main/src/ui/application.vala:667
+#: main/src/ui/application.vala:1204
 msgid "Restore Complete!"
 msgstr "Restaurare completă!"
 
-#: main/src/ui/application.vala:668
+#: main/src/ui/application.vala:1205
 msgid "DinoX will now restart..."
 msgstr "DinoX se va reporni acum..."
 
-#: main/src/ui/application.vala:682
+#: main/src/ui/application.vala:1219
 msgid "Restore Failed"
 msgstr "Restaurare eșuată"
 
-#: main/src/ui/application.vala:683
+#: main/src/ui/application.vala:1220
 #, c-format
 msgid ""
 "Could not restore the backup file.\n"
@@ -689,11 +808,11 @@ msgstr ""
 "\n"
 "Eroare: %s"
 
-#: main/src/ui/application.vala:683 main/src/ui/application.vala:1359
+#: main/src/ui/application.vala:1220 main/src/ui/application.vala:1896
 msgid "Unknown error"
 msgstr "Eroare necunoscută"
 
-#: main/src/ui/application.vala:761
+#: main/src/ui/application.vala:1298
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
@@ -701,14 +820,17 @@ msgstr ""
 "Datele dvs. personale (conturi, mesaje, fișiere) sunt stocate separat de "
 "aplicație. Când actualizați DinoX, datele dvs. rămân intacte."
 
-#: main/src/ui/application.vala:766 main/src/ui/application.vala:1254
-#: main/src/ui/application.vala:1338
-#: main/src/ui/chat_input/sticker_chooser.vala:174
-#: main/src/ui/conversation_details.vala:272 main/src/ui/main_window.vala:172
+#: main/src/ui/application.vala:1303 main/src/ui/application.vala:1791
+#: main/src/ui/application.vala:1875
+#: main/src/ui/chat_input/sticker_chooser.vala:181
+#: main/src/ui/conversation_details.vala:276
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:566
+#: main/src/ui/conversation_view_controller.vala:333
+#: main/src/ui/main_window.vala:172
 msgid "Close"
 msgstr "Închide"
 
-#: main/src/ui/application.vala:776
+#: main/src/ui/application.vala:1313
 msgid ""
 "This will delete cached files, avatars and previews.\n"
 "\n"
@@ -718,16 +840,16 @@ msgstr ""
 "\n"
 "Ele vor fi descărcate din nou la nevoie."
 
-#: main/src/ui/application.vala:813
+#: main/src/ui/application.vala:1350
 #, c-format
 msgid "Cache cleared (%s freed)"
 msgstr "Cache golit (%s eliberat)"
 
-#: main/src/ui/application.vala:816
+#: main/src/ui/application.vala:1353
 msgid "Failed to clear cache"
 msgstr "Nu s-a putut goli memoria cache"
 
-#: main/src/ui/application.vala:853
+#: main/src/ui/application.vala:1390
 msgid ""
 "This will delete all messages, files and OMEMO encryption keys.\n"
 "\n"
@@ -743,11 +865,11 @@ msgstr ""
 "\n"
 "This action cannot be undone!"
 
-#: main/src/ui/application.vala:881
+#: main/src/ui/application.vala:1418
 msgid "Resetting database... DinoX will restart."
 msgstr "Se resetează baza de date... DinoX se va reporni."
 
-#: main/src/ui/application.vala:911
+#: main/src/ui/application.vala:1448
 msgid ""
 "<b>⚠️ WARNING: This will delete ALL data!</b>\n"
 "\n"
@@ -767,19 +889,19 @@ msgstr ""
 "\n"
 "This is irreversible. Make sure to create a backup first!"
 
-#: main/src/ui/application.vala:916
+#: main/src/ui/application.vala:1453
 msgid "Create Backup First"
 msgstr "Creați mai întâi o copie de rezervă"
 
-#: main/src/ui/application.vala:917
+#: main/src/ui/application.vala:1454
 msgid "Delete Everything"
 msgstr "Ștergere totală"
 
-#: main/src/ui/application.vala:937
+#: main/src/ui/application.vala:1474
 msgid "Are you absolutely sure?"
 msgstr "Sunteți absolut sigur?"
 
-#: main/src/ui/application.vala:938
+#: main/src/ui/application.vala:1475
 msgid ""
 "Type 'DELETE' to confirm factory reset.\n"
 "\n"
@@ -789,19 +911,19 @@ msgstr ""
 "\n"
 "This will permanently remove all your DinoX data."
 
-#: main/src/ui/application.vala:948
+#: main/src/ui/application.vala:1485
 msgid "Confirm Delete"
 msgstr "Confirmare ștergere"
 
-#: main/src/ui/application.vala:975
+#: main/src/ui/application.vala:1512
 msgid "Factory reset in progress... DinoX will restart."
 msgstr "Resetare la setările din fabrică în curs... DinoX se va reporni."
 
-#: main/src/ui/application.vala:1040
+#: main/src/ui/application.vala:1577
 msgid "Backup Encryption"
 msgstr "Criptare copie de rezervă"
 
-#: main/src/ui/application.vala:1041
+#: main/src/ui/application.vala:1578
 msgid ""
 "Do you want to encrypt the backup with a password?\n"
 "\n"
@@ -812,19 +934,19 @@ msgstr ""
 "Copiile de rezervă criptate sunt mai sigure, dar necesită parola pentru "
 "restaurare."
 
-#: main/src/ui/application.vala:1044
+#: main/src/ui/application.vala:1581
 msgid "No Encryption"
 msgstr "Fără criptare"
 
-#: main/src/ui/application.vala:1045
+#: main/src/ui/application.vala:1582
 msgid "Encrypt with Password"
 msgstr "Criptare cu parolă"
 
-#: main/src/ui/application.vala:1063
+#: main/src/ui/application.vala:1600
 msgid "Set Backup Password"
 msgstr "Setare parolă copie de rezervă"
 
-#: main/src/ui/application.vala:1064
+#: main/src/ui/application.vala:1601
 msgid ""
 "Enter a password to encrypt the backup.\n"
 "\n"
@@ -836,59 +958,59 @@ msgstr ""
 "<b>Important:</b> Țineți minte această parolă! Fără ea, copia nu poate fi "
 "restaurată."
 
-#: main/src/ui/application.vala:1072
+#: main/src/ui/application.vala:1609
 msgid "Password (minimum 4 characters)"
 msgstr "Parolă (minim 4 caractere)"
 
-#: main/src/ui/application.vala:1080 main/src/ui/application.vala:1087
+#: main/src/ui/application.vala:1617 main/src/ui/application.vala:1624
 msgid "Confirm Password"
 msgstr "Confirmare parolă"
 
-#: main/src/ui/application.vala:1104
+#: main/src/ui/application.vala:1641
 msgid "Create Encrypted Backup"
 msgstr "Creare copie de rezervă criptată"
 
-#: main/src/ui/application.vala:1116 main/src/ui/application.vala:1131
+#: main/src/ui/application.vala:1653 main/src/ui/application.vala:1668
 msgid "Password too short"
 msgstr "Parola este prea scurtă"
 
-#: main/src/ui/application.vala:1118 main/src/ui/application.vala:1133
+#: main/src/ui/application.vala:1655 main/src/ui/application.vala:1670
 msgid "Passwords do not match"
 msgstr "Parolele nu coincid"
 
-#: main/src/ui/application.vala:1120 main/src/ui/application.vala:1135
+#: main/src/ui/application.vala:1657 main/src/ui/application.vala:1672
 msgid "✓ Passwords match"
 msgstr "✓ Parolele coincid"
 
-#: main/src/ui/application.vala:1153
+#: main/src/ui/application.vala:1690
 msgid "Select Backup Location"
 msgstr "Selectați locația copiei de rezervă"
 
-#: main/src/ui/application.vala:1208
+#: main/src/ui/application.vala:1745
 msgid "Creating Encrypted Backup..."
 msgstr "Se creează copia de rezervă criptată..."
 
-#: main/src/ui/application.vala:1208
+#: main/src/ui/application.vala:1745
 msgid "Creating Backup..."
 msgstr "Se creează copia de rezervă..."
 
-#: main/src/ui/application.vala:1209
+#: main/src/ui/application.vala:1746
 msgid "Please wait while your data is being backed up."
 msgstr "Vă rugăm să așteptați în timp ce se face copia de rezervă a datelor."
 
-#: main/src/ui/application.vala:1248
+#: main/src/ui/application.vala:1785
 msgid "No data directory found to backup"
 msgstr "Nu s-a găsit niciun director de date pentru backup"
 
-#: main/src/ui/application.vala:1251 main/src/ui/application.vala:1357
+#: main/src/ui/application.vala:1788 main/src/ui/application.vala:1894
 msgid "Backup Failed"
 msgstr "Copierea de rezervă a eșuat"
 
-#: main/src/ui/application.vala:1345
+#: main/src/ui/application.vala:1882
 msgid "Encrypted Backup Created"
 msgstr "Copie de rezervă criptată creată"
 
-#: main/src/ui/application.vala:1347
+#: main/src/ui/application.vala:1884
 #, c-format
 msgid ""
 "Your encrypted backup was created successfully.\n"
@@ -899,15 +1021,15 @@ msgstr ""
 "\n"
 "Dimensiune: %s"
 
-#: main/src/ui/application.vala:1348
+#: main/src/ui/application.vala:1885
 msgid "Your encrypted backup was created successfully."
 msgstr "Copia de rezervă criptată a fost creată cu succes."
 
-#: main/src/ui/application.vala:1350
+#: main/src/ui/application.vala:1887
 msgid "Backup Created"
 msgstr "Copie de rezervă creată"
 
-#: main/src/ui/application.vala:1352
+#: main/src/ui/application.vala:1889
 #, c-format
 msgid ""
 "Your backup was created successfully.\n"
@@ -918,11 +1040,11 @@ msgstr ""
 "\n"
 "Dimensiune: %s"
 
-#: main/src/ui/application.vala:1353
+#: main/src/ui/application.vala:1890
 msgid "Your backup was created successfully."
 msgstr "Copia de rezervă a fost creată cu succes."
 
-#: main/src/ui/application.vala:1360
+#: main/src/ui/application.vala:1897
 #, c-format
 msgid "Backup failed: %s"
 msgstr "Copiere eșuată: %s"
@@ -943,24 +1065,24 @@ msgstr "Difuzoare"
 msgid "No speaker found."
 msgstr "Nici un difuzor găsit."
 
-#: main/src/ui/call_window/call_window_controller.vala:153
+#: main/src/ui/call_window/call_window_controller.vala:152
 msgid "Invite to Call"
 msgstr "Invitați la apel"
 
-#: main/src/ui/call_window/call_window_controller.vala:154
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:772
+#: main/src/ui/call_window/call_window_controller.vala:153
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:780
 #: main/src/ui/conversation_titlebar/menu_entry.vala:99
 #: main/src/ui/occupant_menu/view.vala:27
-#: main/src/ui/occupant_menu/view.vala:276
+#: main/src/ui/occupant_menu/view.vala:275
 msgid "Invite"
 msgstr "Invită"
 
-#: main/src/ui/call_window/call_window_controller.vala:453
+#: main/src/ui/call_window/call_window_controller.vala:451
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:240
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:270
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:285
-#: main/src/ui/util/helper.vala:69 main/src/ui/util/helper.vala:73
-#: main/src/ui/util/helper.vala:81
+#: main/src/ui/util/helper.vala:79 main/src/ui/util/helper.vala:83
+#: main/src/ui/util/helper.vala:91
 msgid "Me"
 msgstr "Eu"
 
@@ -1013,146 +1135,34 @@ msgstr "Solicitare permisiune"
 msgid "Unencrypted"
 msgstr "Necriptat"
 
-#: main/src/ui/chat_input/sticker_chooser.vala:25
+#: main/src/ui/chat_input/sticker_chooser.vala:176
 #, fuzzy
-msgid "Import…"
-msgstr "Import Key"
-
-#: main/src/ui/chat_input/sticker_chooser.vala:26
-msgid "Folder…"
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:27
-#: main/src/ui/chat_input/sticker_chooser.vala:822
-#: main/src/ui/chat_input/sticker_chooser.vala:849
-msgid "Publish"
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:28
-#: main/src/ui/chat_input/sticker_chooser.vala:870
-#: main/src/ui/conversation_content_view/item_actions.vala:165
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:745
-#: main/src/windows/conversation_details.vala:61
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:292
-msgid "Remove"
-msgstr "Șterge"
-
-#: main/src/ui/chat_input/sticker_chooser.vala:237
-msgid "Paste an xmpp: sticker pack link and press Enter."
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:241
-msgid "xmpp:…"
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:413
-#: main/src/ui/chat_input/sticker_chooser.vala:574
-#: main/src/ui/chat_input/sticker_chooser.vala:816
-msgid "Stickers are unavailable"
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:420
-#: main/src/ui/chat_input/sticker_chooser.vala:497
-#: main/src/ui/chat_input/sticker_chooser.vala:502
-msgid "None"
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:450
-msgid "No sticker packs yet. Use Import… to add one."
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:452
-#: main/src/ui/chat_input/sticker_chooser.vala:735
-msgid "No stickers selected"
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:534
-#, fuzzy
-msgid "Select sticker folder"
-msgstr "Selectare fișier"
-
-#: main/src/ui/chat_input/sticker_chooser.vala:535
-#: main/src/ui/conversation_view_controller.vala:238
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:180
-msgid "Select"
-msgstr "Selectare"
-
-#: main/src/ui/chat_input/sticker_chooser.vala:544
-#, fuzzy
-msgid "Create sticker pack"
+msgid "Manage Sticker Packs"
 msgstr "Creare copie de rezervă criptată"
 
-#: main/src/ui/chat_input/sticker_chooser.vala:545
-msgid ""
-"Do you want to keep this pack local, or also publish it so you can share an "
-"xmpp: link?"
-msgstr ""
+#: main/src/ui/chat_input/sticker_chooser.vala:390
+msgid "Stickers are unavailable"
+msgstr "Abțibildurile nu sunt disponibile"
 
-#: main/src/ui/chat_input/sticker_chooser.vala:548
+#: main/src/ui/chat_input/sticker_chooser.vala:397
+#: main/src/ui/chat_input/sticker_chooser.vala:459
+#: main/src/ui/chat_input/sticker_chooser.vala:464
+msgid "None"
+msgstr "Niciunul"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:412
 #, fuzzy
-msgid "Local only"
-msgstr "Alias local"
-
-#: main/src/ui/chat_input/sticker_chooser.vala:549
-msgid "Publish & copy link"
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:574
-#: main/src/ui/chat_input/sticker_chooser.vala:816
-msgid "Stickers module unavailable"
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:593
-#: main/src/ui/chat_input/sticker_chooser.vala:834
-msgid "Sticker pack published"
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:593
-#: main/src/ui/chat_input/sticker_chooser.vala:834
-#, c-format
-msgid ""
-"Share link copied to clipboard:\n"
-"%s"
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:601
-#, fuzzy
-msgid "Failed to create sticker pack"
-msgstr "Nu s-a putut goli memoria cache"
-
-#: main/src/ui/chat_input/sticker_chooser.vala:698
-msgid "Invalid sticker pack link"
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:755
-msgid "No stickers in this pack"
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:811
-#, fuzzy
-msgid "Publishing…"
-msgstr "tastează…"
-
-#: main/src/ui/chat_input/sticker_chooser.vala:842
-#, fuzzy
-msgid "Failed to publish sticker pack"
-msgstr "Nu s-a putut goli memoria cache"
-
-#: main/src/ui/chat_input/sticker_chooser.vala:866
-#, fuzzy
-msgid "Remove sticker pack?"
+msgid "No sticker packs yet."
 msgstr "Elimină contactul?"
 
-#: main/src/ui/chat_input/sticker_chooser.vala:867
-#, c-format
-msgid ""
-"This will delete the downloaded files and remove the pack from your list: %s"
-msgstr ""
+#: main/src/ui/chat_input/sticker_chooser.vala:414
+#: main/src/ui/chat_input/sticker_chooser.vala:527
+msgid "No stickers selected"
+msgstr "Niciun abțibild selectat"
 
-#: main/src/ui/chat_input/sticker_chooser.vala:882
-#, fuzzy
-msgid "Failed to remove sticker pack"
-msgstr "Nu s-a putut goli memoria cache"
+#: main/src/ui/chat_input/sticker_chooser.vala:543
+msgid "No stickers in this pack"
+msgstr "Niciun abțibild în acest pachet"
 
 #: main/src/ui/contact_details/permissions_provider.vala:23
 msgid "Request permission to send messages"
@@ -1461,6 +1471,13 @@ msgstr "Șterge mesajul"
 msgid "Do you want to remove this message from the channel?"
 msgstr "Doriți să eliminați acest mesaj din canal?"
 
+#: main/src/ui/conversation_content_view/item_actions.vala:165
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:753
+#: main/src/windows/conversation_details.vala:61
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:286
+msgid "Remove"
+msgstr "Șterge"
+
 #: main/src/ui/conversation_content_view/item_actions.vala:167
 msgid "Do you want to delete this message just for yourself or for everyone?"
 msgstr "Doriți să ștergeți acest mesaj doar pentru dvs. sau pentru toți?"
@@ -1490,7 +1507,7 @@ msgstr "în așteptare…"
 msgid "delivery failed"
 msgstr "livrare eșuată"
 
-#: main/src/ui/conversation_content_view/message_widget.vala:254
+#: main/src/ui/conversation_content_view/message_widget.vala:362
 msgid "Edit message"
 msgstr "Editare mesaj"
 
@@ -1545,19 +1562,19 @@ msgstr "Permisiuni"
 msgid "Manage Affiliations"
 msgstr "Gestionează afilierile"
 
-#: main/src/ui/conversation_details.vala:239
+#: main/src/ui/conversation_details.vala:243
 msgid "Danger Zone"
 msgstr "Zonă periculoasă"
 
-#: main/src/ui/conversation_details.vala:240
+#: main/src/ui/conversation_details.vala:244
 msgid "Destroy Room"
 msgstr "Distruge camera"
 
-#: main/src/ui/conversation_details.vala:246
+#: main/src/ui/conversation_details.vala:250
 msgid "Destroy Room?"
 msgstr "Distrugi camera?"
 
-#: main/src/ui/conversation_details.vala:247
+#: main/src/ui/conversation_details.vala:251
 msgid ""
 "Are you sure you want to permanently destroy this room? This action cannot "
 "be undone and all history will be lost for all participants."
@@ -1566,43 +1583,43 @@ msgstr ""
 "acțiune nu poate fi anulată și tot istoricul va fi pierdut pentru toți "
 "participanții."
 
-#: main/src/ui/conversation_details.vala:250
+#: main/src/ui/conversation_details.vala:254
 msgid "Destroy"
 msgstr "Distruge"
 
-#: main/src/ui/conversation_details.vala:271
+#: main/src/ui/conversation_details.vala:275
 msgid "Failed to destroy room"
 msgstr "Nu s-a putut distruge camera"
 
-#: main/src/ui/conversation_details.vala:286
+#: main/src/ui/conversation_details.vala:290
 msgid "Auto-delete messages"
 msgstr "Ștergere automată a mesajelor"
 
-#: main/src/ui/conversation_details.vala:287
+#: main/src/ui/conversation_details.vala:291
 msgid "Never"
 msgstr "Niciodată"
 
-#: main/src/ui/conversation_details.vala:288
+#: main/src/ui/conversation_details.vala:292
 msgid "After 15 minutes"
 msgstr "După 15 minute"
 
-#: main/src/ui/conversation_details.vala:289
+#: main/src/ui/conversation_details.vala:293
 msgid "After 30 minutes"
 msgstr "După 30 de minute"
 
-#: main/src/ui/conversation_details.vala:290
+#: main/src/ui/conversation_details.vala:294
 msgid "After 1 hour"
 msgstr "După 1 oră"
 
-#: main/src/ui/conversation_details.vala:291
+#: main/src/ui/conversation_details.vala:295
 msgid "After 24 hours"
 msgstr "După 24 de ore"
 
-#: main/src/ui/conversation_details.vala:292
+#: main/src/ui/conversation_details.vala:296
 msgid "After 7 days"
 msgstr "După 7 zile"
 
-#: main/src/ui/conversation_details.vala:293
+#: main/src/ui/conversation_details.vala:297
 msgid "After 30 days"
 msgstr "După 30 de zile"
 
@@ -1664,28 +1681,28 @@ msgid "Conversation Details"
 msgstr "Detalii conversație"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:507
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:771
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:779
 #: main/src/ui/conversation_titlebar/menu_entry.vala:98
 msgid "Invite Contact"
 msgstr "Invită contact"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:511
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:559
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:661
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:669
 #: main/src/ui/occupant_menu/view.vala:173
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:140
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:206
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:134
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:200
 msgid "Unmute"
 msgstr "Activează sunetul"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:511
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:559
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:680
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:688
 #: main/src/ui/occupant_menu/view.vala:177
-#: main/src/windows/conversation_details.vala:163
-#: main/src/windows/conversation_details.vala:164
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:140
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:226
+#: main/src/windows/conversation_details.vala:172
+#: main/src/windows/conversation_details.vala:173
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:134
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:220
 msgid "Mute"
 msgstr "Suprimă"
 
@@ -1694,86 +1711,86 @@ msgid "Leave and Close"
 msgstr "Părăsește și închide"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:555
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:623
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:126
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:631
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:120
 msgid "Edit Alias"
 msgstr "Editează alias"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:563
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:705
-#: main/src/windows/conversation_details.vala:108
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:250
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:713
+#: main/src/windows/conversation_details.vala:117
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:244
 msgid "Unblock"
 msgstr "Deblochează"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:563
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:724
-#: main/src/windows/conversation_details.vala:144
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:270
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:732
+#: main/src/windows/conversation_details.vala:153
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:264
 msgid "Block"
 msgstr "Blochează"
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:628
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:636
 msgid "Alias"
 msgstr "Alias"
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:634
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:333
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:642
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:327
 msgid "Save"
 msgstr "Salvare"
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:657
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:202
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:665
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:196
 msgid "Unmute contact?"
 msgstr "Activezi sunetul contactului?"
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:658
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:203
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:666
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:197
 #, c-format
 msgid "This will enable notifications from %s."
 msgstr "Aceasta va activa notificările de la %s."
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:676
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:222
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:684
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:216
 msgid "Mute contact?"
 msgstr "Dezactivezi sunetul contactului?"
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:677
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:223
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:685
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:217
 #, c-format
 msgid "This will disable notifications from %s."
 msgstr "Aceasta va dezactiva notificările de la %s."
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:701
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:246
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:709
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:240
 msgid "Unblock contact?"
 msgstr "Deblochează contactul?"
 
 # c-format
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:702
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:247
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:710
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:241
 #, c-format
 msgid "This will allow %s to send you messages again."
 msgstr "Aceasta va permite %s să vă trimită mesaje din nou."
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:720
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:266
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:728
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:260
 msgid "Block contact?"
 msgstr "Blochezi contactul?"
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:721
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:267
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:729
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:261
 #, c-format
 msgid "This will prevent %s from sending you messages."
 msgstr "Aceasta îl va împiedica pe %s să vă trimită mesaje."
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:741
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:749
 #: main/src/windows/conversation_details.vala:57
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:288
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:282
 msgid "Remove contact?"
 msgstr "Elimină contactul?"
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:742
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:750
 #, c-format
 msgid ""
 "This will:\n"
@@ -1788,11 +1805,11 @@ msgstr ""
 "\n"
 "Această acțiune nu poate fi anulată."
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:787
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:794
 msgid "Delete all message history?"
 msgstr "Ștergi tot istoricul mesajelor?"
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:788
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:795
 msgid ""
 "This will permanently delete all messages in this conversation. This action "
 "cannot be undone."
@@ -1800,7 +1817,7 @@ msgstr ""
 "Aceasta va șterge permanent toate mesajele din această conversație. Această "
 "acțiune nu poate fi anulată."
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:791
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:798
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
 msgid "Delete"
 msgstr "Șterge"
@@ -1846,13 +1863,23 @@ msgid "Close Conversation"
 msgstr "Închide conversație"
 
 #: main/src/ui/conversation_titlebar/occupants_entry.vala:14
-#: main/src/windows/conversation_details.vala:289
+#: main/src/windows/conversation_details.vala:298
 msgid "Members"
 msgstr "Membri"
 
-#: main/src/ui/conversation_view_controller.vala:237
+#: main/src/ui/conversation_view_controller.vala:249
 msgid "Select file"
 msgstr "Selectare fișier"
+
+#: main/src/ui/conversation_view_controller.vala:250
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:180
+msgid "Select"
+msgstr "Selectare"
+
+#: main/src/ui/conversation_view_controller.vala:332
+#, fuzzy
+msgid "Failed to get location"
+msgstr "Nu s-a putut distruge camera"
 
 #: main/src/ui/file_send_overlay.vala:60
 msgid "The file exceeds the server's maximum upload size."
@@ -1886,25 +1913,25 @@ msgstr ""
 "Dacă ai nevoie de o parolă sau un pseudonim, oferă-le în dialog. Folosește "
 "funcțiile de descoperire ale serverului pentru a găsi camere publice."
 
-#: main/src/ui/main_window.vala:219
+#: main/src/ui/main_window.vala:222
 msgid "Welcome to DinoX!"
 msgstr "Bine ați venit la DinoX!"
 
-#: main/src/ui/main_window.vala:220
+#: main/src/ui/main_window.vala:223
 msgid "Sign in or create an account to get started."
 msgstr "Autentificați-vă sau creați un cont pentru a începe."
 
-#: main/src/ui/main_window.vala:221
+#: main/src/ui/main_window.vala:224
 msgid "Set up account"
 msgstr "Configurare cont"
 
-#: main/src/ui/main_window.vala:230
+#: main/src/ui/main_window.vala:233
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:71
 #: main/src/windows/preferences_window/encryption_preferences_page.vala:49
 msgid "No active accounts"
 msgstr "Nici un cont activ"
 
-#: main/src/ui/main_window.vala:231
+#: main/src/ui/main_window.vala:234
 msgid "Manage accounts"
 msgstr "Administrare conturi"
 
@@ -1970,12 +1997,12 @@ msgid "Start private conversation"
 msgstr "Pornește o conversație privată"
 
 #: main/src/ui/occupant_menu/view.vala:125
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:157
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:151
 msgid "Unblock Contact"
 msgstr "Deblochează contact"
 
 #: main/src/ui/occupant_menu/view.vala:127
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:157
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:151
 msgid "Block Contact"
 msgstr "Blochează contact"
 
@@ -2031,7 +2058,7 @@ msgstr "Revocă calitatea de membru"
 msgid "Kicked by moderator"
 msgstr "Dat afară de moderator"
 
-#: main/src/ui/occupant_menu/view.vala:275
+#: main/src/ui/occupant_menu/view.vala:274
 msgid "Invite to Conference"
 msgstr "Invită la o conferință"
 
@@ -2039,39 +2066,41 @@ msgstr "Invită la o conferință"
 msgid "Quit"
 msgstr "Ieșire"
 
-#: main/src/ui/sticker_pack_import_dialog.vala:14
+#: main/src/ui/sticker_pack_import_dialog.vala:35
 #, fuzzy
 msgid "Import"
 msgstr "Import Key"
 
-#: main/src/ui/sticker_pack_import_dialog.vala:15
+#: main/src/ui/sticker_pack_import_dialog.vala:36
 msgid "Copy Share URI"
-msgstr ""
+msgstr "Copiază URI-ul de partajare"
 
-#: main/src/ui/sticker_pack_import_dialog.vala:29
+#: main/src/ui/sticker_pack_import_dialog.vala:50
 msgid "Import Sticker Pack"
-msgstr ""
+msgstr "Importă pachet de abțibilduri"
 
-#: main/src/ui/sticker_pack_import_dialog.vala:62
+#: main/src/ui/sticker_pack_import_dialog.vala:90
+#: main/src/ui/sticker_pack_import_dialog.vala:147
 #, fuzzy
 msgid "Loading…"
 msgstr "în așteptare…"
 
-#: main/src/ui/sticker_pack_import_dialog.vala:70
+#: main/src/ui/sticker_pack_import_dialog.vala:128
+#, fuzzy
+msgid "Importing…"
+msgstr "Conectare…"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:136
+#: main/src/ui/sticker_pack_import_dialog.vala:158
 #, fuzzy
 msgid "No account available"
 msgstr "Indisponibil"
 
-#: main/src/ui/sticker_pack_import_dialog.vala:84
-#: main/src/ui/sticker_pack_import_dialog.vala:107
+#: main/src/ui/sticker_pack_import_dialog.vala:172
+#: main/src/ui/sticker_pack_import_dialog.vala:189
 #, fuzzy
 msgid "Failed to import sticker pack"
 msgstr "Nu s-a putut goli memoria cache"
-
-#: main/src/ui/sticker_pack_import_dialog.vala:98
-#, fuzzy
-msgid "Importing…"
-msgstr "Conectare…"
 
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
@@ -2137,7 +2166,7 @@ msgstr ""
 "Doar membrii pot intra în cameră. Avertisment: Non-membrii vor fi eliminați "
 "când este activat!"
 
-#: main/src/ui/util/helper.vala:65
+#: main/src/ui/util/helper.vala:75
 #, c-format
 msgid "%s from %s"
 msgstr "%s de la %s"
@@ -2159,43 +2188,43 @@ msgstr ""
 "Acest contact va fi eliminat din lista ta de contacte și tot istoricul "
 "conversațiilor va fi șters permanent."
 
-#: main/src/windows/conversation_details.vala:108
+#: main/src/windows/conversation_details.vala:117
 msgid "Block user"
 msgstr "Blochează utilizator"
 
-#: main/src/windows/conversation_details.vala:108
+#: main/src/windows/conversation_details.vala:117
 msgid "Block entire domain"
 msgstr "Blochează întregul domeniu"
 
-#: main/src/windows/conversation_details.vala:125
+#: main/src/windows/conversation_details.vala:134
 msgid "Pinned"
 msgstr "Fixat"
 
-#: main/src/windows/conversation_details.vala:125
+#: main/src/windows/conversation_details.vala:134
 msgid "Pin"
 msgstr "Fixare"
 
-#: main/src/windows/conversation_details.vala:140
+#: main/src/windows/conversation_details.vala:149
 msgid "Domain blocked"
 msgstr "Domeniu blocat"
 
-#: main/src/windows/conversation_details.vala:165
+#: main/src/windows/conversation_details.vala:174
 msgid "Notifications enabled"
 msgstr "Notificări activate"
 
-#: main/src/windows/conversation_details.vala:168
+#: main/src/windows/conversation_details.vala:177
 msgid "Notifications for mentions"
 msgstr "Notificări pentru mențiuni"
 
-#: main/src/windows/conversation_details.vala:173
+#: main/src/windows/conversation_details.vala:182
 msgid "Notifications disabled"
 msgstr "Notificări dezactivate"
 
-#: main/src/windows/conversation_details.vala:232
+#: main/src/windows/conversation_details.vala:241
 msgid "Settings"
 msgstr "Setări"
 
-#: main/src/windows/conversation_details.vala:261
+#: main/src/windows/conversation_details.vala:270
 msgid "Room Configuration"
 msgstr "Configurare discuție"
 
@@ -2321,15 +2350,15 @@ msgstr "Înregistrează-te"
 msgid "Check %s for information on how to sign up"
 msgstr "Aflați pe %s informații despre cum se face înregistrarea"
 
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:192
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:186
 msgid "No contacts"
 msgstr "Niciun contact"
 
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:193
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:187
 msgid "Add contacts to start chatting"
 msgstr "Adăugați contacte pentru a începe să discutați"
 
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:289
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:283
 #, c-format
 msgid ""
 "This will remove %s from your contact list and delete all conversation "
@@ -2338,18 +2367,46 @@ msgstr ""
 "%s va fi eliminat din lista ta de contacte și tot istoricul conversațiilor "
 "va fi șters."
 
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:318
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:312
 msgid "Edit Contact Alias"
 msgstr "Editează alias contact"
 
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:319
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:313
 #, c-format
 msgid "Change the display name for %s"
 msgstr "Schimbă numele afișat pentru %s"
 
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:325
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:319
 msgid "Alias (optional)"
 msgstr "Alias (opțional)"
+
+#, fuzzy
+#~ msgid "Import…"
+#~ msgstr "Import Key"
+
+#, fuzzy
+#~ msgid "Select sticker folder"
+#~ msgstr "Selectare fișier"
+
+#, fuzzy
+#~ msgid "Local only"
+#~ msgstr "Alias local"
+
+#, fuzzy
+#~ msgid "Failed to create sticker pack"
+#~ msgstr "Nu s-a putut goli memoria cache"
+
+#, fuzzy
+#~ msgid "Publishing…"
+#~ msgstr "tastează…"
+
+#, fuzzy
+#~ msgid "Failed to publish sticker pack"
+#~ msgstr "Nu s-a putut goli memoria cache"
+
+#, fuzzy
+#~ msgid "Failed to remove sticker pack"
+#~ msgstr "Nu s-a putut goli memoria cache"
 
 #~ msgid "Creating backup..."
 #~ msgstr "Se creează copia..."
@@ -2595,9 +2652,6 @@ msgstr "Alias (opțional)"
 
 #~ msgid "Finish"
 #~ msgstr "Finalizare"
-
-#~ msgid "Change password"
-#~ msgstr "Schimbare parolă"
 
 #~ msgid "Change"
 #~ msgstr "Schimbă"

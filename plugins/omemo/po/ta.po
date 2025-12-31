@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-13 21:57+0200\n"
+"POT-Creation-Date: 2025-12-31 14:10+0100\n"
 "PO-Revision-Date: 2025-07-02 08:01+0000\n"
 "Language-Team: none\n"
 "Language: ta\n"
@@ -17,51 +17,42 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.13-dev\n"
 
-#: plugins/omemo/src/ui/bad_messages_populator.vala:168
-#, c-format
+#: plugins/omemo/data/encryption_preferences_entry.ui:8
 msgid ""
-"%s has been using an untrusted device. You won't see messages from devices "
-"that you do not trust."
+"Each device has its own OMEMO key. Messages can only be decrypted by a "
+"device if they are encrypted to its key. Messages are only encrypted to "
+"accepted devices."
 msgstr ""
-"%s நம்பத்தகாத சாதனத்தைப் பயன்படுத்துகின்றன. நீங்கள் நம்பாத சாதனங்களிலிருந்து செய்திகளை "
-"நீங்கள் காண மாட்டீர்கள்."
+"ஒவ்வொரு சாதனத்திற்கும் அதன் சொந்த ஓமமோ விசை உள்ளது. செய்திகளை அதன் விசைக்குக் குறியாக்கம் "
+"செய்தால் மட்டுமே அவை மறைகுறியாக்கப்படும். செய்திகள் ஏற்றுக்கொள்ளப்பட்ட சாதனங்களுக்கு மட்டுமே "
+"குறியாக்கம் செய்யப்படுகின்றன."
 
-#: plugins/omemo/src/ui/bad_messages_populator.vala:169
-msgid "Manage devices"
-msgstr "சாதனங்களை நிர்வகிக்கவும்"
-
-#: plugins/omemo/src/ui/bad_messages_populator.vala:171
-#, c-format
-msgid ""
-"%s does not trust this device. That means, you might be missing messages."
-msgstr "இந்த சாதனத்தை %s நம்பவில்லை. அதாவது, நீங்கள் செய்திகளைக் காணவில்லை."
-
-#: plugins/omemo/src/ui/manage_key_dialog.vala:34
+#: plugins/omemo/src/ui/manage_key_dialog.vala:36
 msgid "Manage Key"
 msgstr "விசையை நிர்வகிக்கவும்"
 
-#: plugins/omemo/src/ui/manage_key_dialog.vala:35
+#: plugins/omemo/src/ui/manage_key_dialog.vala:37
 msgid ""
 "Compare the fingerprint, character by character, with the one shown on your "
 "contact's device."
 msgstr ""
 "உங்கள் தொடர்பின் சாதனத்தில் காட்டப்பட்டுள்ள கைரேகை, எழுத்துக்குறி எழுத்துக்குறியை ஒப்பிடுக."
 
-#: plugins/omemo/src/ui/manage_key_dialog.vala:36
+#: plugins/omemo/src/ui/manage_key_dialog.vala:38
 msgid "Fingerprints differ"
 msgstr "கைரேகைகள் வேறுபடுகின்றன"
 
-#: plugins/omemo/src/ui/manage_key_dialog.vala:37
+#: plugins/omemo/src/ui/manage_key_dialog.vala:39
 msgid "Fingerprints match"
 msgstr "கைரேகைகள் பொருந்துகின்றன"
 
-#: plugins/omemo/src/ui/manage_key_dialog.vala:38
+#: plugins/omemo/src/ui/manage_key_dialog.vala:40
 #: plugins/omemo/src/ui/manage_key_dialog.vala:81
 #: plugins/omemo/src/ui/manage_key_dialog.vala:87
 msgid "Cancel"
 msgstr "ரத்துசெய்"
 
-#: plugins/omemo/src/ui/manage_key_dialog.vala:39
+#: plugins/omemo/src/ui/manage_key_dialog.vala:41
 msgid "Confirm"
 msgstr "உறுதிப்படுத்தவும்"
 
@@ -104,7 +95,7 @@ msgid ""
 msgstr "இந்த விசையின் கைரேகையை தொடர்பின் சாதனத்தில் காட்டப்படும் கைரேகையுடன் ஒப்பிடுக."
 
 #: plugins/omemo/src/ui/manage_key_dialog.vala:125
-#: plugins/omemo/src/ui/manage_key_dialog.vala:151
+#: plugins/omemo/src/ui/manage_key_dialog.vala:153
 #: plugins/omemo/src/ui/encryption_preferences_entry.vala:288
 msgid "Reject key"
 msgstr "விசையை நிராகரிக்கவும்"
@@ -117,7 +108,7 @@ msgstr ""
 "தடுக்கவும்."
 
 #: plugins/omemo/src/ui/manage_key_dialog.vala:127
-#: plugins/omemo/src/ui/manage_key_dialog.vala:159
+#: plugins/omemo/src/ui/manage_key_dialog.vala:161
 #: plugins/omemo/src/ui/encryption_preferences_entry.vala:283
 msgid "Accept key"
 msgstr "சாவியை ஏற்றுக்கொள்"
@@ -170,7 +161,7 @@ msgstr ""
 "இதன் பொருள் உங்கள் செய்திகளைப் புரிந்துகொள்ள %s ஆல் பயன்படுத்த முடியாது, மேலும் அதனுடன் "
 "குறியாக்கம் செய்யப்பட்ட செய்திகளை நீங்கள் காண மாட்டீர்கள்."
 
-#: plugins/omemo/src/ui/manage_key_dialog.vala:152
+#: plugins/omemo/src/ui/manage_key_dialog.vala:154
 #, c-format
 msgid ""
 "You won't see encrypted messages from the device of %s that uses this key. "
@@ -179,7 +170,7 @@ msgstr ""
 "இந்த விசையைப் பயன்படுத்தும் %s சாதனத்திலிருந்து மறைகுறியாக்கப்பட்ட செய்திகளை நீங்கள் காண "
 "மாட்டீர்கள். மாறாக, அந்த சாதனம் உங்கள் செய்திகளை இனி புரிந்துகொள்ள முடியாது."
 
-#: plugins/omemo/src/ui/manage_key_dialog.vala:160
+#: plugins/omemo/src/ui/manage_key_dialog.vala:162
 #, c-format
 msgid ""
 "You will be able to exchange encrypted messages with the device of %s that "
@@ -188,7 +179,7 @@ msgstr ""
 "இந்த விசையைப் பயன்படுத்தும் %s சாதனத்துடன் மறைகுறியாக்கப்பட்ட செய்திகளை நீங்கள் "
 "பரிமாறிக்கொள்ள முடியும்."
 
-#: plugins/omemo/src/ui/manage_key_dialog.vala:166
+#: plugins/omemo/src/ui/manage_key_dialog.vala:168
 msgid "Back"
 msgstr "பின்"
 
@@ -200,6 +191,93 @@ msgstr "நிர்வகிக்கவும்"
 msgid "This contact has new devices"
 msgstr "இந்த தொடர்புக்கு புதிய சாதனங்கள் உள்ளன"
 
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:50
+msgid "OMEMO by default"
+msgstr "இயல்பாக ஓம்மோ"
+
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:51
+msgid "Enable OMEMO encryption for new conversations"
+msgstr "புதிய உரையாடல்களுக்கான ஓமமோ குறியாக்கத்தை இயக்கவும்"
+
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:52
+msgid "Encrypt to new devices"
+msgstr "புதிய சாதனங்களுக்கு குறியாக்கம்"
+
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:53
+msgid "Automatically encrypt to new devices from this contact."
+msgstr "இந்த தொடர்பிலிருந்து புதிய சாதனங்களுக்கு தானாக குறியாக்கம் செய்யுங்கள்."
+
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:54
+msgid "New keys"
+msgstr "புதிய விசைகள்"
+
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:98
+msgid ""
+"New encryption keys from your other devices will be accepted automatically."
+msgstr "உங்கள் பிற சாதனங்களிலிருந்து புதிய குறியாக்க விசைகள் தானாக ஏற்றுக்கொள்ளப்படும்."
+
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:158
+msgid "This device"
+msgstr "இந்தக் கருவி"
+
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:217
+msgid "Other device"
+msgstr "பிற கருவி"
+
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:217
+msgid "Device"
+msgstr "கருவி"
+
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:219
+msgid "Accepted"
+msgstr "ஏற்றுக்கொள்ளப்பட்டது"
+
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:222
+msgid "Rejected"
+msgstr "நிராகரிக்கப்பட்டது"
+
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:225
+#: plugins/omemo/src/ui/contact_details_provider.vala:136
+msgid "Verified"
+msgstr "சரிபார்க்கப்பட்டது"
+
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:277
+msgid "New device"
+msgstr "புதிய சாதனம்"
+
+#: plugins/omemo/src/ui/contact_details_provider.vala:46
+#: plugins/omemo/src/ui/contact_details_provider.vala:53
+#, fuzzy
+msgid "OMEMO Encryption"
+msgstr "குறியாக்கம்"
+
+#: plugins/omemo/src/ui/contact_details_provider.vala:47
+msgid "No member JIDs available. This may be an anonymous room."
+msgstr "உறுப்பினர் JIDகள் எதுவும் இல்லை. இது அநாமதேய அறையாக இருக்கலாம்."
+
+#: plugins/omemo/src/ui/contact_details_provider.vala:54
+msgid "Encryption keys for room members"
+msgstr "அறை உறுப்பினர்களுக்கான குறியாக்கத் திறவுகோல்கள்"
+
+#: plugins/omemo/src/ui/contact_details_provider.vala:76
+#, fuzzy, c-format
+msgid "%d device"
+msgid_plural "%d devices"
+msgstr[0] "%d OMEMO சாதனம்"
+msgstr[1] "%d OMEMO சாதனங்கள்"
+
+#: plugins/omemo/src/ui/contact_details_provider.vala:138
+msgid "Trusted"
+msgstr "நம்பகமானது"
+
+#: plugins/omemo/src/ui/contact_details_provider.vala:140
+msgid "Untrusted"
+msgstr "நம்பகமற்றது"
+
+#: plugins/omemo/src/ui/contact_details_provider.vala:142
+msgid "Unknown"
+msgstr "தெரியாதது"
+
 #: plugins/omemo/src/ui/own_notifications.vala:29
 msgid "OMEMO trust decision required"
 msgstr "ஓம்மோ நம்பிக்கை முடிவு தேவை"
@@ -209,80 +287,27 @@ msgstr "ஓம்மோ நம்பிக்கை முடிவு தேவ
 msgid "Did you add a new device for account %s?"
 msgstr "கணக்கு %s க்கு புதிய சாதனத்தைச் சேர்த்தீர்களா?"
 
-#: plugins/omemo/src/ui/encryption_preferences_entry.vala:52
-msgid "OMEMO by default"
-msgstr "இயல்பாக ஓம்மோ"
-
-#: plugins/omemo/src/ui/encryption_preferences_entry.vala:53
-msgid "Enable OMEMO encryption for new conversations"
-msgstr "புதிய உரையாடல்களுக்கான ஓமமோ குறியாக்கத்தை இயக்கவும்"
-
-#: plugins/omemo/src/ui/encryption_preferences_entry.vala:54
-msgid "Encrypt to new devices"
-msgstr "புதிய சாதனங்களுக்கு குறியாக்கம்"
-
-#: plugins/omemo/src/ui/encryption_preferences_entry.vala:55
-msgid "Automatically encrypt to new devices from this contact."
-msgstr "இந்த தொடர்பிலிருந்து புதிய சாதனங்களுக்கு தானாக குறியாக்கம் செய்யுங்கள்."
-
-#: plugins/omemo/src/ui/encryption_preferences_entry.vala:56
-msgid "New keys"
-msgstr "புதிய விசைகள்"
-
-#: plugins/omemo/src/ui/encryption_preferences_entry.vala:100
+#: plugins/omemo/src/ui/bad_messages_populator.vala:185
+#, c-format
 msgid ""
-"New encryption keys from your other devices will be accepted automatically."
-msgstr "உங்கள் பிற சாதனங்களிலிருந்து புதிய குறியாக்க விசைகள் தானாக ஏற்றுக்கொள்ளப்படும்."
-
-#: plugins/omemo/src/ui/encryption_preferences_entry.vala:160
-msgid "This device"
-msgstr "இந்தக் கருவி"
-
-#: plugins/omemo/src/ui/encryption_preferences_entry.vala:220
-msgid "Other device"
-msgstr "பிற கருவி"
-
-#: plugins/omemo/src/ui/encryption_preferences_entry.vala:220
-msgid "Device"
-msgstr "கருவி"
-
-#: plugins/omemo/src/ui/encryption_preferences_entry.vala:222
-msgid "Accepted"
-msgstr "ஏற்றுக்கொள்ளப்பட்டது"
-
-#: plugins/omemo/src/ui/encryption_preferences_entry.vala:225
-msgid "Rejected"
-msgstr "நிராகரிக்கப்பட்டது"
-
-#: plugins/omemo/src/ui/encryption_preferences_entry.vala:228
-msgid "Verified"
-msgstr "சரிபார்க்கப்பட்டது"
-
-#: plugins/omemo/src/ui/encryption_preferences_entry.vala:277
-msgid "New device"
-msgstr "புதிய சாதனம்"
-
-#: plugins/omemo/data/encryption_preferences_entry.ui:8
-msgid ""
-"Each device has its own OMEMO key. Messages can only be decrypted by a "
-"device if they are encrypted to its key. Messages are only encrypted to "
-"accepted devices."
+"%s has been using an untrusted device. You won't see messages from devices "
+"that you do not trust."
 msgstr ""
-"ஒவ்வொரு சாதனத்திற்கும் அதன் சொந்த ஓமமோ விசை உள்ளது. செய்திகளை அதன் விசைக்குக் குறியாக்கம் "
-"செய்தால் மட்டுமே அவை மறைகுறியாக்கப்படும். செய்திகள் ஏற்றுக்கொள்ளப்பட்ட சாதனங்களுக்கு மட்டுமே "
-"குறியாக்கம் செய்யப்படுகின்றன."
+"%s நம்பத்தகாத சாதனத்தைப் பயன்படுத்துகின்றன. நீங்கள் நம்பாத சாதனங்களிலிருந்து செய்திகளை "
+"நீங்கள் காண மாட்டீர்கள்."
+
+#: plugins/omemo/src/ui/bad_messages_populator.vala:186
+msgid "Manage devices"
+msgstr "சாதனங்களை நிர்வகிக்கவும்"
+
+#: plugins/omemo/src/ui/bad_messages_populator.vala:188
+#, c-format
+msgid ""
+"%s does not trust this device. That means, you might be missing messages."
+msgstr "இந்த சாதனத்தை %s நம்பவில்லை. அதாவது, நீங்கள் செய்திகளைக் காணவில்லை."
 
 #~ msgid "OMEMO Key Management"
 #~ msgstr "ஓமமோ முக்கிய மேலாண்மை"
-
-#~ msgid "Encryption"
-#~ msgstr "குறியாக்கம்"
-
-#, c-format
-#~ msgid "%d OMEMO device"
-#~ msgid_plural "%d OMEMO devices"
-#~ msgstr[0] "%d OMEMO சாதனம்"
-#~ msgstr[1] "%d OMEMO சாதனங்கள்"
 
 #~ msgid "Automatically accept new keys"
 #~ msgstr "புதிய விசைகளை தானாக ஏற்றுக்கொள்ளுங்கள்"

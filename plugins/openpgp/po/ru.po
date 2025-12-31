@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-01 15:51+0100\n"
+"POT-Creation-Date: 2025-12-31 14:13+0100\n"
 "PO-Revision-Date: 2025-05-06 13:05+0000\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/dino/plugin-"
 "openpgp/ru/>\n"
@@ -19,11 +19,11 @@ msgstr ""
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Weblate 5.12-dev\n"
 
-#: plugins/openpgp/src/contact_details_provider.vala:36
+#: plugins/openpgp/src/contact_details_provider.vala:38
 msgid "Key not in keychain"
 msgstr "Отсутствует ключ в связке"
 
-#: plugins/openpgp/src/contact_details_provider.vala:40
+#: plugins/openpgp/src/contact_details_provider.vala:42
 #: plugins/openpgp/src/key_management_dialog.vala:220
 msgid "Fingerprint"
 msgstr "Отпечаток"
@@ -201,7 +201,9 @@ msgstr "Создание ключа..."
 
 #: plugins/openpgp/src/key_management_dialog.vala:341
 msgid "Please wait while your key is being generated. This may take a moment."
-msgstr "Пожалуйста, подождите, пока ваш ключ создается. Это может занять некоторое время."
+msgstr ""
+"Пожалуйста, подождите, пока ваш ключ создается. Это может занять некоторое "
+"время."
 
 #: plugins/openpgp/src/key_management_dialog.vala:393
 #: plugins/openpgp/src/key_management_dialog.vala:459
@@ -232,7 +234,8 @@ msgstr "Все файлы"
 
 #: plugins/openpgp/src/key_management_dialog.vala:459
 msgid "Key imported! Re-open Key Management to see it."
-msgstr "Ключ импортирован! Откройте управление ключами заново, чтобы увидеть его."
+msgstr ""
+"Ключ импортирован! Откройте управление ключами заново, чтобы увидеть его."
 
 #: plugins/openpgp/src/key_management_dialog.vala:461
 msgid "Import failed: "
@@ -258,7 +261,7 @@ msgid ""
 "%s\n"
 "\n"
 "This cannot be undone!"
-msgstr ""
+msgstr "Удалить этот ключ?\n\n%s\n\nЭто действие нельзя отменить!"
 
 #: plugins/openpgp/src/key_management_dialog.vala:510
 msgid "Delete"

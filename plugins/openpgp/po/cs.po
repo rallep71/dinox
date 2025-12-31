@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-01 15:51+0100\n"
+"POT-Creation-Date: 2025-12-31 14:13+0100\n"
 "PO-Revision-Date: 2020-08-21 05:36+0000\n"
 "Language-Team: none\n"
 "Language: cs\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Weblate 4.2.1-dev\n"
 
-#: plugins/openpgp/src/contact_details_provider.vala:36
+#: plugins/openpgp/src/contact_details_provider.vala:38
 msgid "Key not in keychain"
 msgstr "Klíč není v klíčence"
 
-#: plugins/openpgp/src/contact_details_provider.vala:40
+#: plugins/openpgp/src/contact_details_provider.vala:42
 #: plugins/openpgp/src/key_management_dialog.vala:220
 msgid "Fingerprint"
 msgstr "Otisk"
@@ -256,7 +256,7 @@ msgid ""
 "%s\n"
 "\n"
 "This cannot be undone!"
-msgstr ""
+msgstr "Smazat tento klíč?\n\n%s\n\nTuto akci nelze vrátit zpět!"
 
 #: plugins/openpgp/src/key_management_dialog.vala:510
 msgid "Delete"

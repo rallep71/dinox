@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-01 15:51+0100\n"
+"POT-Creation-Date: 2025-12-31 14:13+0100\n"
 "PO-Revision-Date: 2022-02-04 09:55+0000\n"
 "Language-Team: none\n"
 "Language: el\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 4.11-dev\n"
 
-#: plugins/openpgp/src/contact_details_provider.vala:36
+#: plugins/openpgp/src/contact_details_provider.vala:38
 msgid "Key not in keychain"
 msgstr "Το κλειδί δεν είναι στο keychain"
 
-#: plugins/openpgp/src/contact_details_provider.vala:40
+#: plugins/openpgp/src/contact_details_provider.vala:42
 #: plugins/openpgp/src/key_management_dialog.vala:220
 msgid "Fingerprint"
 msgstr "Αποτύπωμα"
@@ -199,7 +199,7 @@ msgstr "Δημιουργία κλειδιού..."
 
 #: plugins/openpgp/src/key_management_dialog.vala:341
 msgid "Please wait while your key is being generated. This may take a moment."
-msgstr ""
+msgstr "Παρακαλώ περιμένετε ενώ δημιουργείται το κλειδί σας. Αυτό μπορεί να πάρει λίγο χρόνο."
 
 #: plugins/openpgp/src/key_management_dialog.vala:393
 #: plugins/openpgp/src/key_management_dialog.vala:459
@@ -230,7 +230,8 @@ msgstr "Όλα τα αρχεία"
 
 #: plugins/openpgp/src/key_management_dialog.vala:459
 msgid "Key imported! Re-open Key Management to see it."
-msgstr "Το κλειδί εισήχθη! Ανοίξτε ξανά τη Διαχείριση Κλειδιών για να το δείτε."
+msgstr ""
+"Το κλειδί εισήχθη! Ανοίξτε ξανά τη Διαχείριση Κλειδιών για να το δείτε."
 
 #: plugins/openpgp/src/key_management_dialog.vala:461
 msgid "Import failed: "
@@ -256,7 +257,7 @@ msgid ""
 "%s\n"
 "\n"
 "This cannot be undone!"
-msgstr ""
+msgstr "Διαγραφή αυτού του κλειδιού;\n\n%s\n\nΑυτό δεν μπορεί να αναιρεθεί!"
 
 #: plugins/openpgp/src/key_management_dialog.vala:510
 msgid "Delete"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-01 15:51+0100\n"
+"POT-Creation-Date: 2025-12-31 14:13+0100\n"
 "PO-Revision-Date: 2020-02-04 16:50+0000\n"
 "Language-Team: none\n"
 "Language: ie\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 3.11-dev\n"
 
-#: plugins/openpgp/src/contact_details_provider.vala:36
+#: plugins/openpgp/src/contact_details_provider.vala:38
 msgid "Key not in keychain"
 msgstr "Clave ne es in li porta-clave"
 
-#: plugins/openpgp/src/contact_details_provider.vala:40
+#: plugins/openpgp/src/contact_details_provider.vala:42
 #: plugins/openpgp/src/key_management_dialog.vala:220
 msgid "Fingerprint"
 msgstr "Digit-impression"
@@ -191,7 +191,7 @@ msgstr "Li nómine deve haver adminim 2 caracteres"
 
 #: plugins/openpgp/src/key_management_dialog.vala:324
 msgid "Please enter a valid email address"
-msgstr ""
+msgstr "Ples inserter un adresse de e-mail valid"
 
 #: plugins/openpgp/src/key_management_dialog.vala:340
 msgid "Generating Key..."
@@ -199,7 +199,7 @@ msgstr "Generante clave..."
 
 #: plugins/openpgp/src/key_management_dialog.vala:341
 msgid "Please wait while your key is being generated. This may take a moment."
-msgstr ""
+msgstr "Ples atende durant que tui clave es generat. To posse durar un moment."
 
 #: plugins/openpgp/src/key_management_dialog.vala:393
 #: plugins/openpgp/src/key_management_dialog.vala:459
@@ -256,7 +256,7 @@ msgid ""
 "%s\n"
 "\n"
 "This cannot be undone!"
-msgstr ""
+msgstr "Deleter ti clave?\n\n%s\n\nTo ne posse esser desfat!"
 
 #: plugins/openpgp/src/key_management_dialog.vala:510
 msgid "Delete"

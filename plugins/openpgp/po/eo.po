@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-01 15:51+0100\n"
+"POT-Creation-Date: 2025-12-31 14:13+0100\n"
 "PO-Revision-Date: 2024-09-18 10:09+0000\n"
 "Language-Team: none\n"
 "Language: eo\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.8-dev\n"
 
-#: plugins/openpgp/src/contact_details_provider.vala:36
+#: plugins/openpgp/src/contact_details_provider.vala:38
 msgid "Key not in keychain"
 msgstr "Ŝlosilo ne en ŝlosilaro"
 
-#: plugins/openpgp/src/contact_details_provider.vala:40
+#: plugins/openpgp/src/contact_details_provider.vala:42
 #: plugins/openpgp/src/key_management_dialog.vala:220
 msgid "Fingerprint"
 msgstr "Fingrospuro"
@@ -191,7 +191,7 @@ msgstr "Nomo devas havi almenaŭ 2 signojn"
 
 #: plugins/openpgp/src/key_management_dialog.vala:324
 msgid "Please enter a valid email address"
-msgstr ""
+msgstr "Bonvolu enigi validan retpoŝtadreson"
 
 #: plugins/openpgp/src/key_management_dialog.vala:340
 msgid "Generating Key..."
@@ -199,7 +199,8 @@ msgstr "Generante Ŝlosilon..."
 
 #: plugins/openpgp/src/key_management_dialog.vala:341
 msgid "Please wait while your key is being generated. This may take a moment."
-msgstr "Bonvolu atendi dum via ŝlosilo estas generata. Ĉi tio povas daŭri momenton."
+msgstr "Bonvolu atendi dum via ŝlosilo estas generata. Tio povas daŭri momenton."
+"Bonvolu atendi dum via ŝlosilo estas generata. Ĉi tio povas daŭri momenton."
 
 #: plugins/openpgp/src/key_management_dialog.vala:393
 #: plugins/openpgp/src/key_management_dialog.vala:459
@@ -256,7 +257,7 @@ msgid ""
 "%s\n"
 "\n"
 "This cannot be undone!"
-msgstr ""
+msgstr "Ĉu forigi ĉi tiun ŝlosilon?\n\n%s\n\nĈi tio ne povas esti malfarita!"
 
 #: plugins/openpgp/src/key_management_dialog.vala:510
 msgid "Delete"
