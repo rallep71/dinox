@@ -10,10 +10,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.8.6.15] - 2025-12-31
 
 ### Added
+- **Location Sharing (XEP-0080)**
+  - Added ability to send current location (requires GeoClue2).
+  - Added "Send Location" button to chat input menu.
+  - Added "Share Location" toggle in Preferences (Privacy section).
+  - Implemented XEP-0080 (User Location) for publishing location.
 - **Geo URI / Map Preview**
   - Added inline map preview for `geo:` URIs (XEP-0080).
   - Added "Open OpenStreetMap" link and click-to-open behavior.
   - Added location marker pin.
+- **Status & Presence**
+  - Added "Status" menu to application menu (Online, Away, Busy, Not Available).
+  - Added "Set Status Message..." dialog to set custom presence status.
+  - Added presence status indicator (emoji) to conversation list rows.
+- **Notifications**
+  - Added "Mute/Unmute" button to conversation details dialog.
+  - Added mute status indicator to conversation list rows.
 
 ## [0.8.6.14] - 2025-12-28
 

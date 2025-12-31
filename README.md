@@ -90,7 +90,8 @@ sudo apt install build-essential meson ninja-build valac \
   libsqlcipher-dev libsecret-1-dev libicu-dev libdbusmenu-glib-dev libgcrypt20-dev \
   libgpgme-dev libqrencode-dev libsoup-3.0-dev libgstreamer1.0-dev \
   libgstreamer-plugins-base1.0-dev libgstreamer-plugins-bad1.0-dev \
-  libwebrtc-audio-processing-dev libnice-dev libgnutls28-dev libsrtp2-dev
+  libwebrtc-audio-processing-dev libnice-dev libgnutls28-dev libsrtp2-dev \
+  libgeoclue-2-dev
 ```
 
 For a complete, up-to-date build guide (including Fedora/Arch and call stack notes), see [BUILD.md](BUILD.md).
@@ -122,7 +123,7 @@ DinoX implements **~70 XMPP Extension Protocols**. Here are the key ones with fu
 ### Messaging
 | XEP | Name | Status |
 |-----|------|--------|
-| XEP-0080 | User Location (Geo URI display) | Full |
+| XEP-0080 | User Location (Send & Receive) | Full |
 | XEP-0085 | Chat State Notifications | Full |
 | XEP-0184 | Message Delivery Receipts | Full |
 | XEP-0308 | Last Message Correction | Full |
