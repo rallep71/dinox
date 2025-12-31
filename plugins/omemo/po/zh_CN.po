@@ -240,7 +240,7 @@ msgid "Encryption keys for room members"
 msgstr "房间成员的加密密钥"
 
 #: plugins/omemo/src/ui/contact_details_provider.vala:76
-, c-format
+#, c-format
 msgid "%d device"
 msgid_plural "%d devices"
 msgstr[0] "%d 个 OMEMO 设备"
