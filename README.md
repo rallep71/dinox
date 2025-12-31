@@ -122,6 +122,7 @@ DinoX implements **~70 XMPP Extension Protocols**. Here are the key ones with fu
 ### Messaging
 | XEP | Name | Status |
 |-----|------|--------|
+| XEP-0080 | User Location (Geo URI display) | Full |
 | XEP-0085 | Chat State Notifications | Full |
 | XEP-0184 | Message Delivery Receipts | Full |
 | XEP-0308 | Last Message Correction | Full |

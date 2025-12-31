@@ -201,6 +201,12 @@ public class Message : Object {
     }
 
     private void fetch_body_meta() {
+        if (db == null) {
+            this.fallbacks = new ArrayList<Xep.FallbackIndication.Fallback>();
+            this.markups = new ArrayList<Xep.MessageMarkup.Span>();
+            return;
+        }
+
         var fallbacks_by_ns = new HashMap<string, ArrayList<Xep.FallbackIndication.FallbackLocation>>();
         var markups = new ArrayList<Xep.MessageMarkup.Span>();
 

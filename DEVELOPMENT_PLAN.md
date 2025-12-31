@@ -21,6 +21,10 @@ This document is organized as a **chronological release timeline** first, follow
 
 ## Timeline (Recent Releases)
 
+### v0.8.6.15 (Map Preview)
+
+- **Geo URI Support**: Inline map previews for `geo:` URIs with OpenStreetMap tiles and location markers.
+
 ### v0.8.6 (Messaging / expressiveness + packaging)
 
 - **XEP-0449 Stickers**: end-to-end sticker support (`urn:xmpp:stickers:0`).

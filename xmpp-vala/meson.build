@@ -62,6 +62,7 @@ sources = files(
     'src/module/xep/0065_socks5_bytestreams.vala',
     'src/module/xep/0066_out_of_band_data.vala',
     'src/module/xep/0077_in_band_registration.vala',
+    'src/module/xep/0080_user_location.vala',
     'src/module/xep/0082_date_time_profiles.vala',
     'src/module/xep/0084_user_avatars.vala',
     'src/module/xep/0085_chat_state_notifications.vala',

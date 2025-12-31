@@ -103,6 +103,8 @@ namespace Dino.Ui.Util {
                 subtitle = row_text.text,
                 subtitle_selectable = true
             };
+            view.title_lines = 0;
+            view.subtitle_lines = 0;
             view.add_css_class("property");
 
             Util.force_css(view, "row.property > box.header > box.title > .title { font-weight: 400; font-size: 9pt; opacity: 0.55; }");
@@ -113,6 +115,8 @@ namespace Dino.Ui.Util {
         var toggle_view_model = preferences_row as ViewModel.PreferencesRow.Toggle;
         if (toggle_view_model != null) {
             var view = new Adw.ActionRow() { title = toggle_view_model.title, subtitle = toggle_view_model.subtitle };
+            view.title_lines = 0;
+            view.subtitle_lines = 0;
             var toggle = new Switch() { valign = Align.CENTER };
             view.activatable_widget = toggle;
             view.add_suffix(toggle);
@@ -127,6 +131,7 @@ namespace Dino.Ui.Util {
                 string_list.append(text);
             }
             var view = new Adw.ComboRow() { title = combobox_view_model.title };
+            view.title_lines = 0;
             view.model = string_list;
             combobox_view_model.bind_property("active-item", view, "selected", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
             return view;
@@ -135,6 +140,7 @@ namespace Dino.Ui.Util {
         var button_view_model = preferences_row as ViewModel.PreferencesRow.Button;
         if (button_view_model != null) {
             var view = new Adw.ActionRow() { title = button_view_model.title };
+            view.title_lines = 0;
             var button = new Button.with_label(button_view_model.button_text) { valign = Align.CENTER };
             view.add_suffix(button);
             button.clicked.connect(() => button_view_model.clicked());

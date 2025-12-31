@@ -21,6 +21,14 @@ public class PresenceManager : StreamInteractionModule, Object {
     private string current_show = "online";
     private string? current_status_msg = null;
 
+    public string get_current_show() {
+        return current_show;
+    }
+
+    public string? get_current_status_msg() {
+        return current_status_msg;
+    }
+
     public static void start(StreamInteractor stream_interactor) {
         PresenceManager m = new PresenceManager(stream_interactor);
         stream_interactor.add_module(m);

@@ -574,6 +574,10 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         add_action(preferences_action);
         set_accels_for_action("app.preferences", KEY_COMBINATION_SHOW_SETTINGS);
 
+        SimpleAction set_status_message_action = new SimpleAction("set-status-message", null);
+        set_status_message_action.activate.connect(show_status_message_dialog);
+        add_action(set_status_message_action);
+
         SimpleAction preferences_account_action = new SimpleAction("preferences-account", VariantType.INT32);
         preferences_account_action.activate.connect((variant) => {
             Account? account = db.get_account_by_id(variant.get_int32());
@@ -615,6 +619,15 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             Util.present_window(window);
         });
         add_action(open_conversation_action);
+
+        SimpleAction close_conversation_action = new SimpleAction("close-conversation", VariantType.INT32);
+        close_conversation_action.activate.connect((variant) => {
+            Conversation? conversation = stream_interactor.get_module(ConversationManager.IDENTITY).get_conversation_by_id(variant.get_int32());
+            if (conversation != null) {
+                stream_interactor.get_module(ConversationManager.IDENTITY).close_conversation(conversation);
+            }
+        });
+        add_action(close_conversation_action);
 
         SimpleAction open_conversation_details_action = new SimpleAction("open-conversation-details", new VariantType.tuple(new VariantType[]{VariantType.INT32, VariantType.STRING}));
         open_conversation_details_action.activate.connect((variant) => {
@@ -724,6 +737,31 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             call_state.reject();
         });
         add_action(deny_call_action);
+    }
+
+    private void show_status_message_dialog() {
+        var presence_manager = stream_interactor.get_module(PresenceManager.IDENTITY);
+        string current_status = presence_manager.get_current_status_msg() ?? "";
+        
+        var dialog = new Adw.MessageDialog(window, _("Set Status Message"), null);
+        var entry = new Entry();
+        entry.text = current_status;
+        entry.activate.connect(() => {
+            dialog.response("set");
+        });
+        
+        dialog.set_extra_child(entry);
+        dialog.add_response("cancel", _("Cancel"));
+        dialog.add_response("set", _("Set"));
+        dialog.set_default_response("set");
+        
+        dialog.response.connect((response) => {
+            if (response == "set") {
+                presence_manager.set_status(presence_manager.get_current_show(), entry.text);
+            }
+        });
+        
+        dialog.present();
     }
 
     private void show_preferences_window() {

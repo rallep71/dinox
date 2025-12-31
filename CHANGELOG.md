@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.8.6.15] - 2025-12-31
+
+### Added
+- **Geo URI / Map Preview**
+  - Added inline map preview for `geo:` URIs (XEP-0080).
+  - Added "Open OpenStreetMap" link and click-to-open behavior.
+  - Added location marker pin.
+
 ## [0.8.6.14] - 2025-12-28
 
 ### Added

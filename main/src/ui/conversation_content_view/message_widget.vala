@@ -220,12 +220,120 @@ public class MessageMetaItem : ContentMetaItem {
         generate_markup_text(content_item, label);
     }
 
+    private Widget? create_map_widget(string geo_uri) {
+        debug("MessageMetaItem: Creating map widget for URI: %s", geo_uri);
+        // geo:lat,lon
+        string content = geo_uri.substring(4);
+        string[] parts = content.split(",");
+        if (parts.length < 2) {
+            debug("MessageMetaItem: Invalid geo URI format (split count: %d)", parts.length);
+            return null;
+        }
+
+        double lat = double.parse(parts[0].replace(",", "."));
+        double lon = double.parse(parts[1].replace(",", "."));
+        debug("MessageMetaItem: Parsed coordinates: %f, %f", lat, lon);
+
+        // Calculate OSM tile (Zoom 15)
+        int zoom = 15;
+        double lat_rad = lat * Math.PI / 180.0;
+        double n = Math.pow(2, zoom);
+        int xtile = (int)(n * ((lon + 180.0) / 360.0));
+        int ytile = (int)(n * (1.0 - (Math.log(Math.tan(lat_rad) + 1.0/Math.cos(lat_rad)) / Math.PI)) / 2.0);
+        
+        string tile_url = "https://tile.openstreetmap.org/%d/%d/%d.png".printf(zoom, xtile, ytile);
+        debug("MessageMetaItem: Tile URL: %s", tile_url);
+
+        Box box = new Box(Orientation.VERTICAL, 0);
+        box.add_css_class("message-content"); // Reuse message styling if possible
+        box.halign = Align.START;
+        box.hexpand = false;
+        
+        Overlay overlay = new Overlay();
+        overlay.set_size_request(300, 200);
+        overlay.halign = Align.START;
+        overlay.hexpand = false;
+
+        Picture picture = new Picture();
+        picture.content_fit = ContentFit.COVER;
+        picture.can_shrink = false;
+        
+        // Fetch image
+        var session = new Soup.Session();
+        session.user_agent = "DinoX/0.0"; // Identify nicely
+        var msg = new Soup.Message("GET", tile_url);
+        
+        session.send_and_read_async.begin(msg, Priority.DEFAULT, null, (obj, res) => {
+            try {
+                Bytes bytes = session.send_and_read_async.end(res);
+                if (bytes != null) {
+                    debug("MessageMetaItem: Map tile downloaded (%d bytes)", (int)bytes.get_size());
+                    // Use Pixbuf to decode the PNG data
+                    var stream = new MemoryInputStream.from_bytes(bytes);
+                    var pixbuf = new Gdk.Pixbuf.from_stream(stream);
+                    var texture = Gdk.Texture.for_pixbuf(pixbuf);
+                    picture.set_paintable(texture);
+                } else {
+                    debug("MessageMetaItem: Map tile download returned null bytes");
+                }
+            } catch (Error e) {
+                warning("Failed to load map tile: %s", e.message);
+            }
+        });
+
+        overlay.set_child(picture);
+
+        // Add Marker
+        Image marker = new Image.from_icon_name("mark-location-symbolic");
+        marker.pixel_size = 32;
+        marker.halign = Align.CENTER;
+        marker.valign = Align.CENTER;
+        marker.add_css_class("error"); // Use error color (usually red) for visibility
+        overlay.add_overlay(marker);
+
+        box.append(overlay);
+        
+        Label caption = new Label("Open OpenStreetMap");
+        caption.add_css_class("dim-label");
+        caption.margin_top = 5;
+        box.append(caption);
+
+        var gesture = new GestureClick();
+        gesture.pressed.connect(() => {
+            string link = "https://www.openstreetmap.org/?mlat=%s&mlon=%s#map=16/%s/%s".printf(parts[0], parts[1], parts[0], parts[1]);
+            var launcher = new Gtk.UriLauncher(link);
+            launcher.launch.begin(null, null, (obj, res) => {
+                try {
+                    launcher.launch.end(res);
+                } catch (Error e) {
+                    warning("Failed to open link: %s", e.message);
+                }
+            });
+        });
+        box.add_controller(gesture);
+        box.set_cursor(new Gdk.Cursor.from_name("pointer", null));
+
+        return box;
+    }
+
     public override Object? get_widget(Plugins.ConversationItemWidgetInterface outer, Plugins.WidgetType type) {
         this.outer = outer;
 
         this.notify["in-edit-mode"].connect(on_in_edit_mode_changed);
 
-        outer.set_widget(label, Plugins.WidgetType.GTK4, 2);
+        Widget? main_widget = label;
+
+        if (message_item.message.body != null && message_item.message.body.has_prefix("geo:")) {
+            var map_widget = create_map_widget(message_item.message.body);
+            if (map_widget != null) {
+                outer.set_widget(map_widget, Plugins.WidgetType.GTK4, 2);
+                main_widget = map_widget;
+            } else {
+                outer.set_widget(label, Plugins.WidgetType.GTK4, 2);
+            }
+        } else {
+            outer.set_widget(label, Plugins.WidgetType.GTK4, 2);
+        }
 
         if (message_item.message.quoted_item_id > 0) {
             var quoted_content_item = stream_interactor.get_module(ContentItemStore.IDENTITY).get_item_by_id(message_item.conversation, message_item.message.quoted_item_id);
@@ -238,7 +346,7 @@ public class MessageMetaItem : ContentMetaItem {
                 outer.set_widget(quote_widget, Plugins.WidgetType.GTK4, 1);
             }
         }
-        return label;
+        return main_widget;
     }
 
     public override Gee.List<Plugins.MessageAction>? get_item_actions(Plugins.WidgetType type) {

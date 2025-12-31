@@ -329,6 +329,14 @@
     </implements>
     <implements>
       <xmpp:SupportedXep>
+        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0080.html"/>
+        <xmpp:status>partial</xmpp:status>
+        <xmpp:version>1.9</xmpp:version>
+        <xmpp:note>Display only (Geo URI)</xmpp:note>
+      </xmpp:SupportedXep>
+    </implements>
+    <implements>
+      <xmpp:SupportedXep>
         <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0084.html"/>
         <xmpp:status>complete</xmpp:status>
         <xmpp:since>0.1</xmpp:since>

@@ -563,6 +563,7 @@ public class ConversationSelectorRow : ListBoxRow {
             menu.append(is_blocked ? _("Unblock") : _("Block"), "row.block");
             
             menu.append(_("Delete Conversation History"), "row.clear");
+            menu.append(_("Close"), "row.close");
             menu.append(_("Remove Contact"), "row.remove");
             
             // Details action
@@ -594,6 +595,13 @@ public class ConversationSelectorRow : ListBoxRow {
             });
             action_group.add_action(block_action);
             
+            // Close conversation action
+            var close_action = new SimpleAction("close", null);
+            close_action.activate.connect(() => {
+                GLib.Application.get_default().activate_action("close-conversation", new GLib.Variant.int32(conversation.id));
+            });
+            action_group.add_action(close_action);
+
             // Clear history action
             var clear_action = new SimpleAction("clear", null);
             clear_action.activate.connect(() => {

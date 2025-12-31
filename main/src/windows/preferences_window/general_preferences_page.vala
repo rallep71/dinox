@@ -19,6 +19,7 @@ public class Dino.Ui.ViewModel.GeneralPreferencesPage : Object {
 
     public bool stickers_enabled { get; set; }
     public bool sticker_animations_enabled { get; set; }
+    public bool location_sharing_enabled { get; set; }
 }
 
 [GtkTemplate (ui = "/im/github/rallep71/DinoX/preferences_window/general_preferences_page.ui")]
@@ -30,6 +31,7 @@ public class Dino.Ui.GeneralPreferencesPage : Adw.PreferencesPage {
     [GtkChild] private unowned Adw.SwitchRow emoji_row;
     [GtkChild] private unowned Adw.SwitchRow stickers_enabled_row;
     [GtkChild] private unowned Adw.SwitchRow sticker_animations_row;
+    [GtkChild] private unowned Adw.SwitchRow location_sharing_row;
     [GtkChild] private unowned Adw.ComboRow color_scheme_row;
     [GtkChild] private unowned Adw.ActionRow backup_row;
     [GtkChild] private unowned Adw.ActionRow restore_backup_row;
@@ -85,7 +87,8 @@ public class Dino.Ui.GeneralPreferencesPage : Adw.PreferencesPage {
                 model.bind_property("keep-background", keep_background_row, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL),
                 model.bind_property("convert-emojis", emoji_row, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL),
                 model.bind_property("stickers-enabled", stickers_enabled_row, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL),
-                model.bind_property("sticker-animations-enabled", sticker_animations_row, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL)
+                model.bind_property("sticker-animations-enabled", sticker_animations_row, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL),
+                model.bind_property("location-sharing-enabled", location_sharing_row, "active", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL)
             };
             
             // Bind color scheme with custom conversion

@@ -508,6 +508,7 @@ public class MessageProcessor : StreamInteractionModule, Object {
         stream.get_module(MessageModule.IDENTITY).send_message.begin(stream, new_message, (_, res) => {
             try {
                 stream.get_module(MessageModule.IDENTITY).send_message.end(res);
+                debug("MessageProcessor: Message sent successfully (stanza_id: %s)", message.stanza_id);
                 if (message.marked == Message.Marked.SENDING) {
                     message.marked = Message.Marked.SENT;
                 }
@@ -518,6 +519,7 @@ public class MessageProcessor : StreamInteractionModule, Object {
                     message.ourpart = current_own_jid;
                 }
             } catch (IOError e) {
+                warning("MessageProcessor: Failed to send message: %s", e.message);
                 message.marked = Entities.Message.Marked.UNSENT;
 
                 if (stream != stream_interactor.get_stream(conversation.account)) {

@@ -1,6 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
     <requires lib="gtk" version="4.0"/>
+    <object class="GtkPopover" id="attachment_popover">
+        <child>
+            <object class="GtkBox">
+                <property name="orientation">vertical</property>
+                <property name="spacing">0</property>
+                <property name="margin-top">6</property>
+                <property name="margin-bottom">6</property>
+                <property name="margin-start">6</property>
+                <property name="margin-end">6</property>
+                <child>
+                    <object class="GtkButton" id="send_file_button">
+                        <property name="label" translatable="yes">Send File…</property>
+                        <property name="halign">fill</property>
+                        <style>
+                            <class name="flat"/>
+                            <class name="dino-menu-button"/>
+                        </style>
+                    </object>
+                </child>
+                <child>
+                    <object class="GtkButton" id="send_location_button">
+                        <property name="label" translatable="yes">Send Location</property>
+                        <property name="halign">fill</property>
+                        <style>
+                            <class name="flat"/>
+                            <class name="dino-menu-button"/>
+                        </style>
+                    </object>
+                </child>
+            </object>
+        </child>
+    </object>
     <template class="DinoUiChatInputView">
         <property name="hexpand">True</property>
         <property name="orientation">vertical</property>
@@ -17,9 +49,10 @@
                             <class name="compact-card-toolbar"/>
                         </style>
                         <child>
-                            <object class="GtkButton" id="file_button">
+                            <object class="GtkMenuButton" id="file_button">
                                 <property name="icon-name">mail-attachment-symbolic</property>
                                 <property name="valign">start</property>
+                                <property name="popover">attachment_popover</property>
                                 <style>
                                     <class name="flat"/>
                                     <class name="dino-chatinput-button"/>

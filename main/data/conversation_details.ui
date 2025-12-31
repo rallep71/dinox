@@ -62,9 +62,11 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkBox">
-                        <property name="orientation">horizontal</property>
-                        <property name="spacing">12</property>
+                      <object class="GtkFlowBox">
+                        <property name="homogeneous">True</property>
+                        <property name="selection-mode">none</property>
+                        <property name="column-spacing">12</property>
+                        <property name="row-spacing">12</property>
                         <property name="margin-start">12</property>
                         <property name="margin-end">12</property>
                         <child>
@@ -78,44 +80,52 @@
                           </object>
                         </child>
                         <child>
-                          <object class="GtkButton" id="notification_button_toggle">
+                          <object class="GtkBox">
+                            <property name="orientation">horizontal</property>
                             <child>
-                              <object class="AdwButtonContent" id="notification_button_toggle_content">
-                                <property name="icon-name">notification-symbolic</property>
-                                <property name="label">Mute</property>
-                              </object>
-                            </child>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkMenuButton" id="notification_button_menu">
-                            <property name="menu_model">notification_menu_button_menu_model</property>
-                            <child>
-                              <object class="GtkBox">
-                                <property name="spacing">6</property>
-                                <property name="orientation">horizontal</property>
+                              <object class="GtkButton" id="notification_button_toggle">
+                                <property name="hexpand">True</property>
                                 <child>
-                                  <object class="AdwButtonContent" id="notification_button_menu_content">
+                                  <object class="AdwButtonContent" id="notification_button_toggle_content">
                                     <property name="icon-name">notification-symbolic</property>
                                     <property name="label">Mute</property>
                                   </object>
                                 </child>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkMenuButton" id="notification_button_menu">
+                                <property name="hexpand">True</property>
+                                <property name="menu_model">notification_menu_button_menu_model</property>
                                 <child>
-                                  <object class="GtkImage">
-                                    <property name="icon-name">pan-down-symbolic</property>
+                                  <object class="GtkBox">
+                                    <property name="spacing">6</property>
+                                    <property name="orientation">horizontal</property>
+                                    <child>
+                                      <object class="AdwButtonContent" id="notification_button_menu_content">
+                                        <property name="icon-name">notification-symbolic</property>
+                                        <property name="label">Mute</property>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="GtkImage">
+                                        <property name="icon-name">pan-down-symbolic</property>
+                                      </object>
+                                    </child>
                                   </object>
                                 </child>
                               </object>
                             </child>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="AdwSplitButton" id="notification_button_split">
-                            <property name="menu_model">notification_split_button_menu_model</property>
                             <child>
-                              <object class="AdwButtonContent" id="notification_button_split_content">
-                                <property name="icon-name">notification-symbolic</property>
-                                <property name="label">Mute</property>
+                              <object class="AdwSplitButton" id="notification_button_split">
+                                <property name="hexpand">True</property>
+                                <property name="menu_model">notification_split_button_menu_model</property>
+                                <child>
+                                  <object class="AdwButtonContent" id="notification_button_split_content">
+                                    <property name="icon-name">notification-symbolic</property>
+                                    <property name="label">Mute</property>
+                                  </object>
+                                </child>
                               </object>
                             </child>
                           </object>
@@ -139,9 +149,21 @@
                               <class name="destructive-action"/>
                             </style>
                             <child>
-                              <object class="AdwButtonContent">
-                                <property name="icon-name">user-trash-symbolic</property>
-                                <property name="label" translatable="yes">Remove Contact</property>
+                              <object class="GtkBox">
+                                <property name="spacing">6</property>
+                                <property name="halign">center</property>
+                                <child>
+                                  <object class="GtkImage">
+                                    <property name="icon-name">user-trash-symbolic</property>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel">
+                                    <property name="label" translatable="yes">Remove Contact</property>
+                                    <property name="ellipsize">end</property>
+                                    <property name="lines">1</property>
+                                  </object>
+                                </child>
                               </object>
                             </child>
                           </object>

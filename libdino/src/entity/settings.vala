@@ -17,6 +17,7 @@ public class Settings : Object {
 
         stickers_enabled_ = col_to_bool_or_default("stickers_enabled", true);
         sticker_animations_enabled_ = col_to_bool_or_default("sticker_animations_enabled", true);
+        location_sharing_enabled_ = col_to_bool_or_default("location_sharing_enabled", false);
     }
 
     private bool col_to_bool_or_default(string key, bool def) {
@@ -135,6 +136,18 @@ public class Settings : Object {
                 .value(db.settings.value, value.to_string())
                 .perform();
             sticker_animations_enabled_ = value;
+        }
+    }
+
+    private bool location_sharing_enabled_;
+    public bool location_sharing_enabled {
+        get { return location_sharing_enabled_; }
+        set {
+            db.settings.upsert()
+                .value(db.settings.key, "location_sharing_enabled", true)
+                .value(db.settings.value, value.to_string())
+                .perform();
+            location_sharing_enabled_ = value;
         }
     }
 

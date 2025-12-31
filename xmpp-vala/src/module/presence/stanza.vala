@@ -46,11 +46,19 @@ public class Stanza : Xmpp.Stanza {
         }
         set {
             StanzaNode? status_node = stanza.get_subnode(NODE_STATUS);
-            if (status_node == null) {
-                status_node = new StanzaNode.build(NODE_STATUS);
-                stanza.put_node(status_node);
+            if (value == null || value == "") {
+                if (status_node != null) {
+                    stanza.sub_nodes.remove(status_node);
+                }
+            } else {
+                if (status_node == null) {
+                    status_node = new StanzaNode.build(NODE_STATUS);
+                    stanza.put_node(status_node);
+                }
+                status_node.val = value;
+                status_node.sub_nodes.clear();
+                status_node.sub_nodes.add(new StanzaNode.text(value));
             }
-            status_node.val = value;
         }
     }
 

@@ -25,6 +25,10 @@
                         <attribute name="target">xa</attribute>
                         <attribute name="label" translatable="yes">Not Available</attribute>
                     </item>
+                    <item>
+                        <attribute name="action">app.set-status-message</attribute>
+                        <attribute name="label" translatable="yes">Set Status Message…</attribute>
+                    </item>
                 </section>
             </submenu>
         </section>

@@ -65,7 +65,7 @@ public class ChatInputController : Object {
 
         chat_input.encryption_widget.encryption_changed.connect(on_encryption_changed);
 
-        chat_input.file_button.clicked.connect(() => file_picker_selected());
+        // chat_input.file_button.clicked.connect(() => file_picker_selected());
         chat_input.record_button.clicked.connect(show_recorder_popover);
         chat_input.send_button.clicked.connect(send_text);
 

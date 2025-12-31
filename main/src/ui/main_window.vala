@@ -211,6 +211,9 @@ public class MainWindow : Adw.ApplicationWindow {
             item.set_attribute("target", "s", statuses[i]);
             status_menu.append_item(item);
         }
+
+        var status_msg_item = new MenuItem(_("Set Status Message…"), "app.set-status-message");
+        status_menu.append_item(status_msg_item);
     }
 }
 

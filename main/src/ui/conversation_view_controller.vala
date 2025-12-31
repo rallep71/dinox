@@ -46,6 +46,17 @@ public class ConversationViewController : Object {
             send_file(File.new_for_path(path));
         });
 
+        view.chat_input.send_file_button.clicked.connect(() => {
+            debug("ConversationViewController: send_file_button clicked");
+            view.chat_input.attachment_popover.popdown();
+            open_file_picker();
+        });
+        view.chat_input.send_location_button.clicked.connect(() => {
+            debug("ConversationViewController: send_location_button clicked");
+            view.chat_input.attachment_popover.popdown();
+            send_location();
+        });
+
         view.conversation_frame.init(stream_interactor);
 
         // drag 'n drop file upload
@@ -233,6 +244,7 @@ public class ConversationViewController : Object {
     }
 
     private void open_file_picker() {
+        debug("ConversationViewController: open_file_picker called");
         var chooser = new Gtk.FileDialog();
         chooser.title = _("Select file");
         chooser.accept_label = _("Select");
@@ -240,8 +252,10 @@ public class ConversationViewController : Object {
         chooser.open.begin(view.get_root() as Gtk.Window, null, (obj, res) => {
             try {
                 File file = chooser.open.end(res);
+                debug("ConversationViewController: File selected: %s", file.get_path());
                 open_send_file_overlay(file);
             } catch (Error e) {
+                warning("ConversationViewController: File picker error: %s", e.message);
             }
         });
     }
@@ -303,6 +317,57 @@ public class ConversationViewController : Object {
         }
 
         return key_controller.forward(view.chat_input.chat_text_view.text_view);
+    }
+
+    private void send_location() {
+        debug("ConversationViewController: send_location called");
+        LocationManager.get_default().get_location.begin(null, (obj, res) => {
+            try {
+                double lat, lon, accuracy;
+                LocationManager.get_default().get_location.end(res, out lat, out lon, out accuracy);
+                debug("ConversationViewController: Location retrieved successfully");
+                send_location_message(lat, lon, accuracy);
+            } catch (Error e) {
+                warning("ConversationViewController: Failed to get location: %s", e.message);
+                var dialog = new Adw.MessageDialog(main_window, _("Failed to get location"), e.message);
+                dialog.add_response("close", _("Close"));
+                dialog.present();
+            }
+        });
+    }
+
+    private void send_location_message(double lat, double lon, double accuracy) {
+        debug("ConversationViewController: Sending location message: %f, %f", lat, lon);
+        if (conversation == null) {
+            warning("ConversationViewController: Conversation is null!");
+            return;
+        }
+        
+        string lat_str = "%.6f".printf(lat).replace(",", ".");
+        string lon_str = "%.6f".printf(lon).replace(",", ".");
+        string body = "geo:%s,%s".printf(lat_str, lon_str);
+        
+        // Use MessageProcessor to create the message. This ensures it's saved to the DB and has correct IDs/timestamps.
+        Entities.Message message = stream_interactor.get_module(MessageProcessor.IDENTITY).create_out_message(body, conversation);
+        
+        var user_loc = new Xmpp.Xep.UserLocation.UserLocation.create();
+        user_loc.lat = lat;
+        user_loc.lon = lon;
+        user_loc.accuracy = accuracy;
+        
+        ulong signal_id = 0;
+        signal_id = stream_interactor.get_module(MessageProcessor.IDENTITY).pre_message_send.connect((msg, stanza, conv) => {
+            if (msg == message) {
+                stanza.stanza.put_node(user_loc.node);
+                debug("ConversationViewController: Injected location node: %s", user_loc.node.to_string());
+                stream_interactor.get_module(MessageProcessor.IDENTITY).disconnect(signal_id);
+            }
+        });
+        
+        stream_interactor.get_module(ContentItemStore.IDENTITY).insert_message(message, conversation);
+        stream_interactor.get_module(MessageProcessor.IDENTITY).send_xmpp_message(message, conversation);
+        stream_interactor.get_module(MessageProcessor.IDENTITY).message_sent(message, conversation);
+        debug("ConversationViewController: send_xmpp_message called");
     }
 }
 }

@@ -16,6 +16,13 @@
             <property name="use-underline">True</property>
           </object>
         </child>
+        <child>
+          <object class="AdwSwitchRow" id="location_sharing_row">
+            <property name="title" translatable="yes">Allow Location Sharing</property>
+            <property name="subtitle" translatable="yes">Allow sending your current location in chats</property>
+            <property name="use-underline">True</property>
+          </object>
+        </child>
       </object>
     </child>
     <child>
