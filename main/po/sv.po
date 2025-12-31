@@ -58,14 +58,12 @@ msgid "Accept"
 msgstr "Godkänn"
 
 #: main/data/chat_input.ui:15
-#, fuzzy
 msgid "Send File…"
-msgstr "Skicka en fil"
+msgstr "Skicka fil…"
 
 #: main/data/chat_input.ui:25
-#, fuzzy
 msgid "Send Location"
-msgstr "Datalagringsplats"
+msgstr "Skicka plats"
 
 #: main/data/chat_input.ui:96
 msgid "Record voice message"
@@ -375,9 +373,8 @@ msgstr "_Konvertera Smileys till Emoji"
 
 #: main/data/preferences_window/general_preferences_page.ui:70
 #: main/src/ui/chat_input/view.vala:54
-#, fuzzy
 msgid "Stickers"
-msgstr "Högtalare"
+msgstr "Dekaler"
 
 #: main/data/preferences_window/general_preferences_page.ui:73
 msgid "Enable Stickers"
@@ -426,9 +423,8 @@ msgstr "Databasunderhåll"
 
 # DinoX v0.7.7 - Database Maintenance & Backup/Restore
 #: main/data/preferences_window/general_preferences_page.ui:130
-#, fuzzy
 msgid "Change Database Password"
-msgstr "Rensa databas"
+msgstr "Ändra databaslösenord"
 
 #: main/data/preferences_window/general_preferences_page.ui:131
 msgid "Change the password used to encrypt your local data"
@@ -577,7 +573,6 @@ msgid "Beenden"
 msgstr "Avsluta"
 
 #: main/src/ui/application.vala:266 main/src/ui/application.vala:361
-#, fuzzy
 msgid "Passwort"
 msgstr "Lösenord"
 
@@ -603,9 +598,8 @@ msgid "Passwort bestätigen"
 msgstr "Bekräfta lösenord"
 
 #: main/src/ui/application.vala:370
-#, fuzzy
 msgid "Passwort festlegen"
-msgstr "Lösenordet är för kort"
+msgstr "Ange lösenord"
 
 #: main/src/ui/application.vala:371
 msgid ""
@@ -619,26 +613,22 @@ msgid "Ungültiges Passwort. Versuch %d/%d"
 msgstr "Ogiltigt lösenord. Försök %d/%d"
 
 #: main/src/ui/application.vala:448
-#, fuzzy
 msgid "Passwort setzen"
-msgstr "Lösenordet är för kort"
+msgstr "Ange lösenord"
 
 #: main/src/ui/application.vala:746
-#, fuzzy
 msgid "Set Status Message"
-msgstr "Sök meddelanden"
+msgstr "Ange statusmeddelande"
 
 #: main/src/ui/application.vala:755
-#, fuzzy
 msgid "Set"
-msgstr "Välj"
+msgstr "Ange"
 
 #: main/src/ui/application.vala:809
 msgid "Aktuelles Passwort"
 msgstr "Nuvarande lösenord"
 
 #: main/src/ui/application.vala:811
-#, fuzzy
 msgid "Neues Passwort"
 msgstr "Nytt lösenord"
 
@@ -1135,9 +1125,8 @@ msgid "Unencrypted"
 msgstr "Okrypterat"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:176
-#, fuzzy
 msgid "Manage Sticker Packs"
-msgstr "Skapa krypterad säkerhetskopia"
+msgstr "Hantera dekalpaket"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:390
 msgid "Stickers are unavailable"
@@ -1150,9 +1139,8 @@ msgid "None"
 msgstr "Inga"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:412
-#, fuzzy
 msgid "No sticker packs yet."
-msgstr "Ta bort kontakt?"
+msgstr "Inga dekalpaket ännu."
 
 #: main/src/ui/chat_input/sticker_chooser.vala:414
 #: main/src/ui/chat_input/sticker_chooser.vala:527
@@ -1876,9 +1864,8 @@ msgid "Select"
 msgstr "Välj"
 
 #: main/src/ui/conversation_view_controller.vala:332
-#, fuzzy
 msgid "Failed to get location"
-msgstr "Misslyckades med att förstöra rummet"
+msgstr "Misslyckades med att hämta plats"
 
 #: main/src/ui/file_send_overlay.vala:60
 msgid "The file exceeds the server's maximum upload size."
@@ -2066,9 +2053,8 @@ msgid "Quit"
 msgstr "Avsluta"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:35
-#, fuzzy
 msgid "Import"
-msgstr "Importér nøgle"
+msgstr "Importera"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:36
 msgid "Copy Share URI"
@@ -2080,26 +2066,22 @@ msgstr "Importera dekalpaket"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:90
 #: main/src/ui/sticker_pack_import_dialog.vala:147
-#, fuzzy
 msgid "Loading…"
-msgstr "väntar…"
+msgstr "Läser in…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:128
-#, fuzzy
 msgid "Importing…"
-msgstr "Ansluter…"
+msgstr "Importerar…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:136
 #: main/src/ui/sticker_pack_import_dialog.vala:158
-#, fuzzy
 msgid "No account available"
-msgstr "Inte tillgänglig"
+msgstr "Inget konto tillgängligt"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:172
 #: main/src/ui/sticker_pack_import_dialog.vala:189
-#, fuzzy
 msgid "Failed to import sticker pack"
-msgstr "Misslyckades med att rensa cache"
+msgstr "Misslyckades med att importera dekalpaket"
 
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
@@ -2379,33 +2361,26 @@ msgstr "Ändra visningsnamn för %s"
 msgid "Alias (optional)"
 msgstr "Alias (valfritt)"
 
-#, fuzzy
 #~ msgid "Import…"
-#~ msgstr "Importér nøgle"
+#~ msgstr "Importera…"
 
-#, fuzzy
 #~ msgid "Select sticker folder"
-#~ msgstr "Välj fil"
+#~ msgstr "Välj dekalmapp"
 
-#, fuzzy
 #~ msgid "Local only"
-#~ msgstr "Lokalt alias"
+#~ msgstr "Endast lokalt"
 
-#, fuzzy
 #~ msgid "Failed to create sticker pack"
-#~ msgstr "Misslyckades med att rensa cache"
+#~ msgstr "Misslyckades med att skapa dekalpaket"
 
-#, fuzzy
 #~ msgid "Publishing…"
-#~ msgstr "skriver…"
+#~ msgstr "Publicerar…"
 
-#, fuzzy
 #~ msgid "Failed to publish sticker pack"
-#~ msgstr "Misslyckades med att rensa cache"
+#~ msgstr "Misslyckades med att publicera dekalpaket"
 
-#, fuzzy
 #~ msgid "Failed to remove sticker pack"
-#~ msgstr "Misslyckades med att rensa cache"
+#~ msgstr "Misslyckades med att ta bort dekalpaket"
 
 #~ msgid "Creating backup..."
 #~ msgstr "Skapar säkerhetskopia..."

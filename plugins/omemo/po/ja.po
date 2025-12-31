@@ -243,9 +243,8 @@ msgstr "新しいデバイス"
 
 #: plugins/omemo/src/ui/contact_details_provider.vala:46
 #: plugins/omemo/src/ui/contact_details_provider.vala:53
-#, fuzzy
 msgid "OMEMO Encryption"
-msgstr "暗号化"
+msgstr "OMEMO 暗号化"
 
 #: plugins/omemo/src/ui/contact_details_provider.vala:47
 msgid "No member JIDs available. This may be an anonymous room."
@@ -256,7 +255,7 @@ msgid "Encryption keys for room members"
 msgstr "ルームメンバーの暗号化キー"
 
 #: plugins/omemo/src/ui/contact_details_provider.vala:76
-#, fuzzy, c-format
+, c-format
 msgid "%d device"
 msgid_plural "%d devices"
 msgstr[0] "%d 台の OMEMO デバイス"

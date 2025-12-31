@@ -58,14 +58,12 @@ msgid "Accept"
 msgstr "Αποδοχή"
 
 #: main/data/chat_input.ui:15
-#, fuzzy
 msgid "Send File…"
-msgstr "Αποστολή αρχείου"
+msgstr "Αποστολή αρχείου…"
 
 #: main/data/chat_input.ui:25
-#, fuzzy
 msgid "Send Location"
-msgstr "Τοποθεσία αποθήκευσης δεδομένων"
+msgstr "Αποστολή τοποθεσίας"
 
 #: main/data/chat_input.ui:96
 msgid "Record voice message"
@@ -375,9 +373,8 @@ msgstr "_Μετατροπή χαμόγελων σε Emoji"
 
 #: main/data/preferences_window/general_preferences_page.ui:70
 #: main/src/ui/chat_input/view.vala:54
-#, fuzzy
 msgid "Stickers"
-msgstr "Ηχεία"
+msgstr "Αυτοκόλλητα"
 
 #: main/data/preferences_window/general_preferences_page.ui:73
 msgid "Enable Stickers"
@@ -428,9 +425,8 @@ msgstr "Συντήρηση βάσης δεδομένων"
 
 # DinoX v0.7.7 - Database Maintenance & Backup/Restore
 #: main/data/preferences_window/general_preferences_page.ui:130
-#, fuzzy
 msgid "Change Database Password"
-msgstr "Καθαρισμός βάσης δεδομένων"
+msgstr "Αλλαγή κωδικού πρόσβασης βάσης δεδομένων"
 
 #: main/data/preferences_window/general_preferences_page.ui:131
 msgid "Change the password used to encrypt your local data"
@@ -581,7 +577,6 @@ msgid "Beenden"
 msgstr "Έξοδος"
 
 #: main/src/ui/application.vala:266 main/src/ui/application.vala:361
-#, fuzzy
 msgid "Passwort"
 msgstr "Κωδικός πρόσβασης"
 
@@ -607,9 +602,8 @@ msgid "Passwort bestätigen"
 msgstr "Επιβεβαίωση κωδικού πρόσβασης"
 
 #: main/src/ui/application.vala:370
-#, fuzzy
 msgid "Passwort festlegen"
-msgstr "Ο κωδικός είναι πολύ μικρός"
+msgstr "Ορισμός κωδικού πρόσβασης"
 
 #: main/src/ui/application.vala:371
 msgid ""
@@ -623,26 +617,22 @@ msgid "Ungültiges Passwort. Versuch %d/%d"
 msgstr "Μη έγκυρος κωδικός πρόσβασης. Προσπάθεια %d/%d"
 
 #: main/src/ui/application.vala:448
-#, fuzzy
 msgid "Passwort setzen"
-msgstr "Ο κωδικός είναι πολύ μικρός"
+msgstr "Ορισμός κωδικού πρόσβασης"
 
 #: main/src/ui/application.vala:746
-#, fuzzy
 msgid "Set Status Message"
-msgstr "Αναζήτηση μηνυμάτων"
+msgstr "Ορισμός μηνύματος κατάστασης"
 
 #: main/src/ui/application.vala:755
-#, fuzzy
 msgid "Set"
-msgstr "Επιλογή"
+msgstr "Ορισμός"
 
 #: main/src/ui/application.vala:809
 msgid "Aktuelles Passwort"
 msgstr "Τρέχων κωδικός πρόσβασης"
 
 #: main/src/ui/application.vala:811
-#, fuzzy
 msgid "Neues Passwort"
 msgstr "Νέος κωδικός πρόσβασης"
 
@@ -1142,9 +1132,8 @@ msgid "Unencrypted"
 msgstr "Μη κρυπτογραφημένο"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:176
-#, fuzzy
 msgid "Manage Sticker Packs"
-msgstr "Δημιουργία κρυπτογραφημένου αντιγράφου"
+msgstr "Διαχείριση πακέτων αυτοκόλλητων"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:390
 msgid "Stickers are unavailable"
@@ -1157,9 +1146,8 @@ msgid "None"
 msgstr "Κανένα"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:412
-#, fuzzy
 msgid "No sticker packs yet."
-msgstr "Αφαίρεση επαφής;"
+msgstr "Δεν υπάρχουν πακέτα αυτοκόλλητων ακόμα."
 
 #: main/src/ui/chat_input/sticker_chooser.vala:414
 #: main/src/ui/chat_input/sticker_chooser.vala:527
@@ -1884,9 +1872,8 @@ msgid "Select"
 msgstr "Επιλογή"
 
 #: main/src/ui/conversation_view_controller.vala:332
-#, fuzzy
 msgid "Failed to get location"
-msgstr "Αποτυχία διαγραφής δωματίου"
+msgstr "Αποτυχία λήψης τοποθεσίας"
 
 #: main/src/ui/file_send_overlay.vala:60
 msgid "The file exceeds the server's maximum upload size."
@@ -2075,9 +2062,8 @@ msgid "Quit"
 msgstr "Έξοδος"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:35
-#, fuzzy
 msgid "Import"
-msgstr "Εισαγωγή κλειδιού"
+msgstr "Εισαγωγή"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:36
 msgid "Copy Share URI"
@@ -2089,26 +2075,22 @@ msgstr "Εισαγωγή πακέτου αυτοκόλλητων"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:90
 #: main/src/ui/sticker_pack_import_dialog.vala:147
-#, fuzzy
 msgid "Loading…"
-msgstr "εκκρεμεί…"
+msgstr "Φόρτωση…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:128
-#, fuzzy
 msgid "Importing…"
-msgstr "Σύνδεση…"
+msgstr "Εισαγωγή…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:136
 #: main/src/ui/sticker_pack_import_dialog.vala:158
-#, fuzzy
 msgid "No account available"
-msgstr "Μη διαθέσιμος"
+msgstr "Δεν υπάρχει διαθέσιμος λογαριασμός"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:172
 #: main/src/ui/sticker_pack_import_dialog.vala:189
-#, fuzzy
 msgid "Failed to import sticker pack"
-msgstr "Αποτυχία εκκαθάρισης προσωρινής μνήμης"
+msgstr "Αποτυχία εισαγωγής πακέτου αυτοκόλλητων"
 
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
@@ -2389,33 +2371,26 @@ msgstr "Αλλαγή του εμφανιζόμενου ονόματος για %
 msgid "Alias (optional)"
 msgstr "Ψευδώνυμο (προαιρετικό)"
 
-#, fuzzy
 #~ msgid "Import…"
-#~ msgstr "Εισαγωγή κλειδιού"
+#~ msgstr "Εισαγωγή…"
 
-#, fuzzy
 #~ msgid "Select sticker folder"
-#~ msgstr "Επιλέξτε αρχείο"
+#~ msgstr "Επιλογή φακέλου αυτοκόλλητων"
 
-#, fuzzy
 #~ msgid "Local only"
-#~ msgstr "Τοπικό ψευδώνυμο"
+#~ msgstr "Μόνο τοπικά"
 
-#, fuzzy
 #~ msgid "Failed to create sticker pack"
-#~ msgstr "Αποτυχία εκκαθάρισης προσωρινής μνήμης"
+#~ msgstr "Αποτυχία δημιουργίας πακέτου αυτοκόλλητων"
 
-#, fuzzy
 #~ msgid "Publishing…"
-#~ msgstr "Είσοδος…"
+#~ msgstr "Δημοσίευση…"
 
-#, fuzzy
 #~ msgid "Failed to publish sticker pack"
-#~ msgstr "Αποτυχία εκκαθάρισης προσωρινής μνήμης"
+#~ msgstr "Αποτυχία δημοσίευσης πακέτου αυτοκόλλητων"
 
-#, fuzzy
 #~ msgid "Failed to remove sticker pack"
-#~ msgstr "Αποτυχία εκκαθάρισης προσωρινής μνήμης"
+#~ msgstr "Αποτυχία αφαίρεσης πακέτου αυτοκόλλητων"
 
 #~ msgid "Creating backup..."
 #~ msgstr "Δημιουργία αντιγράφου..."

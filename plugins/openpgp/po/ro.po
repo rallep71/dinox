@@ -39,9 +39,8 @@ msgid "Error in GnuPG"
 msgstr "Eroare în GnuPG"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:56
-#, fuzzy
 msgid "No keys available. Generate or import one!"
-msgstr "Nici o cheie disponibilă. Generați una!"
+msgstr "Nicio cheie disponibilă. Generați sau importați una!"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:68
 #: plugins/openpgp/src/encryption_preferences_entry.vala:110
@@ -49,9 +48,8 @@ msgid "Disabled"
 msgstr "Dezactivat"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:97
-#, fuzzy
 msgid "Select OpenPGP Key"
-msgstr "Selectați cheia"
+msgstr "Selectează cheia OpenPGP"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:97
 msgid "Choose a key to announce to your contacts."

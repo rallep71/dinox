@@ -59,14 +59,12 @@ msgid "Accept"
 msgstr "Akcepti"
 
 #: main/data/chat_input.ui:15
-#, fuzzy
 msgid "Send File…"
-msgstr "Sendi dosieron"
+msgstr "Sendi dosieron…"
 
 #: main/data/chat_input.ui:25
-#, fuzzy
 msgid "Send Location"
-msgstr "Loko de datumstokado"
+msgstr "Sendi lokon"
 
 #: main/data/chat_input.ui:96
 msgid "Record voice message"
@@ -375,9 +373,8 @@ msgstr "_Konverti ridetojn al Emoji"
 
 #: main/data/preferences_window/general_preferences_page.ui:70
 #: main/src/ui/chat_input/view.vala:54
-#, fuzzy
 msgid "Stickers"
-msgstr "Laŭtparoliloj"
+msgstr "Glumarkoj"
 
 #: main/data/preferences_window/general_preferences_page.ui:73
 msgid "Enable Stickers"
@@ -426,9 +423,8 @@ msgstr "Datumbaza Prizorgado"
 
 # DinoX v0.7.7 - Database Maintenance & Backup/Restore
 #: main/data/preferences_window/general_preferences_page.ui:130
-#, fuzzy
 msgid "Change Database Password"
-msgstr "Clean Database"
+msgstr "Ŝanĝi datumbazan pasvorton"
 
 #: main/data/preferences_window/general_preferences_page.ui:131
 msgid "Change the password used to encrypt your local data"
@@ -577,7 +573,6 @@ msgid "Beenden"
 msgstr "Ĉesi"
 
 #: main/src/ui/application.vala:266 main/src/ui/application.vala:361
-#, fuzzy
 msgid "Passwort"
 msgstr "Pasvorto"
 
@@ -603,9 +598,8 @@ msgid "Passwort bestätigen"
 msgstr "Konfirmi pasvorton"
 
 #: main/src/ui/application.vala:370
-#, fuzzy
 msgid "Passwort festlegen"
-msgstr "Pasvorto tro mallonga"
+msgstr "Agordi pasvorton"
 
 #: main/src/ui/application.vala:371
 msgid ""
@@ -619,26 +613,22 @@ msgid "Ungültiges Passwort. Versuch %d/%d"
 msgstr "Nevalida pasvorto. Provo %d/%d"
 
 #: main/src/ui/application.vala:448
-#, fuzzy
 msgid "Passwort setzen"
-msgstr "Pasvorto tro mallonga"
+msgstr "Agordi pasvorton"
 
 #: main/src/ui/application.vala:746
-#, fuzzy
 msgid "Set Status Message"
-msgstr "Serĉi mesaĝojn"
+msgstr "Agordi statmesaĝon"
 
 #: main/src/ui/application.vala:755
-#, fuzzy
 msgid "Set"
-msgstr "Elekti"
+msgstr "Agordi"
 
 #: main/src/ui/application.vala:809
 msgid "Aktuelles Passwort"
 msgstr "Nuna pasvorto"
 
 #: main/src/ui/application.vala:811
-#, fuzzy
 msgid "Neues Passwort"
 msgstr "Nova pasvorto"
 
@@ -1135,9 +1125,8 @@ msgid "Unencrypted"
 msgstr "Neĉifrita"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:176
-#, fuzzy
 msgid "Manage Sticker Packs"
-msgstr "Krei ĉifritan sekurkopion"
+msgstr "Mastrumi glumarkarojn"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:390
 msgid "Stickers are unavailable"
@@ -1150,9 +1139,8 @@ msgid "None"
 msgstr "Neniu"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:412
-#, fuzzy
 msgid "No sticker packs yet."
-msgstr "Forigi kontakton?"
+msgstr "Ankoraŭ neniuj glumarkaroj."
 
 #: main/src/ui/chat_input/sticker_chooser.vala:414
 #: main/src/ui/chat_input/sticker_chooser.vala:527
@@ -1877,9 +1865,8 @@ msgid "Select"
 msgstr "Elekti"
 
 #: main/src/ui/conversation_view_controller.vala:332
-#, fuzzy
 msgid "Failed to get location"
-msgstr "Malsukcesis neniigi ĉambron"
+msgstr "Malsukcesis akiri lokon"
 
 #: main/src/ui/file_send_overlay.vala:60
 msgid "The file exceeds the server's maximum upload size."
@@ -2067,9 +2054,8 @@ msgid "Quit"
 msgstr "Ĉesi"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:35
-#, fuzzy
 msgid "Import"
-msgstr "Import Key"
+msgstr "Importi"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:36
 msgid "Copy Share URI"
@@ -2081,26 +2067,22 @@ msgstr "Importi glumarkan pakon"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:90
 #: main/src/ui/sticker_pack_import_dialog.vala:147
-#, fuzzy
 msgid "Loading…"
-msgstr "sendata…"
+msgstr "Ŝargado…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:128
-#, fuzzy
 msgid "Importing…"
-msgstr "Konektado…"
+msgstr "Importado…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:136
 #: main/src/ui/sticker_pack_import_dialog.vala:158
-#, fuzzy
 msgid "No account available"
-msgstr "Nedisponebla"
+msgstr "Neniu konto disponebla"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:172
 #: main/src/ui/sticker_pack_import_dialog.vala:189
-#, fuzzy
 msgid "Failed to import sticker pack"
-msgstr "Malsukcesis vakigi la kaŝmemoron"
+msgstr "Malsukcesis importi glumarkaron"
 
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
@@ -2376,33 +2358,26 @@ msgstr "Ŝanĝi la vidnomon por %s"
 msgid "Alias (optional)"
 msgstr "Kaŝnomo (nedeviga)"
 
-#, fuzzy
 #~ msgid "Import…"
-#~ msgstr "Import Key"
+#~ msgstr "Importi…"
 
-#, fuzzy
 #~ msgid "Select sticker folder"
-#~ msgstr "Elekti dosieron"
+#~ msgstr "Elekti glumarkan dosierujon"
 
-#, fuzzy
 #~ msgid "Local only"
-#~ msgstr "Loka kaŝnomo"
+#~ msgstr "Nur loka"
 
-#, fuzzy
 #~ msgid "Failed to create sticker pack"
-#~ msgstr "Malsukcesis vakigi la kaŝmemoron"
+#~ msgstr "Malsukcesis krei glumarkaron"
 
-#, fuzzy
 #~ msgid "Publishing…"
-#~ msgstr "tajpas…"
+#~ msgstr "Publikigado…"
 
-#, fuzzy
 #~ msgid "Failed to publish sticker pack"
-#~ msgstr "Malsukcesis vakigi la kaŝmemoron"
+#~ msgstr "Malsukcesis publikigi glumarkaron"
 
-#, fuzzy
 #~ msgid "Failed to remove sticker pack"
-#~ msgstr "Malsukcesis vakigi la kaŝmemoron"
+#~ msgstr "Malsukcesis forigi glumarkaron"
 
 #~ msgid "Creating backup..."
 #~ msgstr "Kreas sekurkopion..."

@@ -37,9 +37,8 @@ msgid "Error in GnuPG"
 msgstr "Σφάλμα στο GnuPG"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:56
-#, fuzzy
 msgid "No keys available. Generate or import one!"
-msgstr "Δεν υπάρχουν διαθέσιμα κλειδιά. Δημιουργήστε ένα!"
+msgstr "Δεν υπάρχουν διαθέσιμα κλειδιά. Δημιουργήστε ή εισάγετε ένα!"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:68
 #: plugins/openpgp/src/encryption_preferences_entry.vala:110
@@ -47,9 +46,8 @@ msgid "Disabled"
 msgstr "Απενεργοποιημένο"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:97
-#, fuzzy
 msgid "Select OpenPGP Key"
-msgstr "Επιλέξτε κλειδί"
+msgstr "Επιλογή κλειδιού OpenPGP"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:97
 msgid "Choose a key to announce to your contacts."

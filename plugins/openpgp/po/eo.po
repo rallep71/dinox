@@ -37,9 +37,8 @@ msgid "Error in GnuPG"
 msgstr "Eraro pri GnuPG"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:56
-#, fuzzy
 msgid "No keys available. Generate or import one!"
-msgstr "Neniu ŝlosilo estas havebla. Faru ŝlosilon!"
+msgstr "Neniuj ŝlosiloj disponeblaj. Kreu aŭ importu unu!"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:68
 #: plugins/openpgp/src/encryption_preferences_entry.vala:110
@@ -47,9 +46,8 @@ msgid "Disabled"
 msgstr "Malŝaltita"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:97
-#, fuzzy
 msgid "Select OpenPGP Key"
-msgstr "Elekti ŝlosilon"
+msgstr "Elekti OpenPGP-ŝlosilon"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:97
 msgid "Choose a key to announce to your contacts."
@@ -274,9 +272,8 @@ msgstr "Forigo malsukcesis: "
 #~ msgid "Querying GnuPG"
 #~ msgstr "Pridemandante GnuPG"
 
-#, fuzzy
 #~ msgid "Encryption"
-#~ msgstr "Kodo"
+#~ msgstr "Ĉifrado"
 
 #~ msgid "Key publishing disabled"
 #~ msgstr "Eldonado de ŝlosilo estas malŝaltita"

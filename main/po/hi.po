@@ -58,14 +58,12 @@ msgid "Accept"
 msgstr "स्वीकारें"
 
 #: main/data/chat_input.ui:15
-#, fuzzy
 msgid "Send File…"
-msgstr "फाइल भेजें"
+msgstr "फ़ाइल भेजें…"
 
 #: main/data/chat_input.ui:25
-#, fuzzy
 msgid "Send Location"
-msgstr "डेटा संग्रहण स्थान"
+msgstr "स्थान भेजें"
 
 #: main/data/chat_input.ui:96
 msgid "Record voice message"
@@ -372,9 +370,8 @@ msgstr "स्माइलीज को इमोजी में बदले�
 
 #: main/data/preferences_window/general_preferences_page.ui:70
 #: main/src/ui/chat_input/view.vala:54
-#, fuzzy
 msgid "Stickers"
-msgstr "स्पीकर"
+msgstr "स्टिकर"
 
 #: main/data/preferences_window/general_preferences_page.ui:73
 msgid "Enable Stickers"
@@ -423,9 +420,8 @@ msgstr "डेटाबेस रखरखाव"
 
 # DinoX v0.7.7 - Database Maintenance & Backup/Restore
 #: main/data/preferences_window/general_preferences_page.ui:130
-#, fuzzy
 msgid "Change Database Password"
-msgstr "Clean Database"
+msgstr "डेटाबेस पासवर्ड बदलें"
 
 #: main/data/preferences_window/general_preferences_page.ui:131
 msgid "Change the password used to encrypt your local data"
@@ -572,7 +568,6 @@ msgid "Beenden"
 msgstr "बाहर निकलें"
 
 #: main/src/ui/application.vala:266 main/src/ui/application.vala:361
-#, fuzzy
 msgid "Passwort"
 msgstr "पासवर्ड"
 
@@ -598,9 +593,8 @@ msgid "Passwort bestätigen"
 msgstr "पासवर्ड की पुष्टि करें"
 
 #: main/src/ui/application.vala:370
-#, fuzzy
 msgid "Passwort festlegen"
-msgstr "पासवर्ड बहुत छोटा है"
+msgstr "पासवर्ड सेट करें"
 
 #: main/src/ui/application.vala:371
 msgid ""
@@ -614,26 +608,22 @@ msgid "Ungültiges Passwort. Versuch %d/%d"
 msgstr "अमान्य पासवर्ड। प्रयास %d/%d"
 
 #: main/src/ui/application.vala:448
-#, fuzzy
 msgid "Passwort setzen"
-msgstr "पासवर्ड बहुत छोटा है"
+msgstr "पासवर्ड सेट करें"
 
 #: main/src/ui/application.vala:746
-#, fuzzy
 msgid "Set Status Message"
-msgstr "संदेश खोजें"
+msgstr "स्थिति संदेश सेट करें"
 
 #: main/src/ui/application.vala:755
-#, fuzzy
 msgid "Set"
-msgstr "चुनें"
+msgstr "सेट करें"
 
 #: main/src/ui/application.vala:809
 msgid "Aktuelles Passwort"
 msgstr "वर्तमान पासवर्ड"
 
 #: main/src/ui/application.vala:811
-#, fuzzy
 msgid "Neues Passwort"
 msgstr "नया पासवर्ड"
 
@@ -1125,9 +1115,8 @@ msgid "Unencrypted"
 msgstr "अकूटलेखित"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:176
-#, fuzzy
 msgid "Manage Sticker Packs"
-msgstr "एन्क्रिप्टेड बैकअप बनाएँ"
+msgstr "स्टिकर पैक प्रबंधित करें"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:390
 msgid "Stickers are unavailable"
@@ -1140,9 +1129,8 @@ msgid "None"
 msgstr "कोई नहीं"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:412
-#, fuzzy
 msgid "No sticker packs yet."
-msgstr "संपर्क हटाएं?"
+msgstr "अभी तक कोई स्टिकर पैक नहीं है।"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:414
 #: main/src/ui/chat_input/sticker_chooser.vala:527
@@ -1864,9 +1852,8 @@ msgid "Select"
 msgstr "चुनें"
 
 #: main/src/ui/conversation_view_controller.vala:332
-#, fuzzy
 msgid "Failed to get location"
-msgstr "कमरा नष्ट करने में विफल"
+msgstr "स्थान प्राप्त करने में विफल"
 
 #: main/src/ui/file_send_overlay.vala:60
 msgid "The file exceeds the server's maximum upload size."
@@ -2054,9 +2041,8 @@ msgid "Quit"
 msgstr "बाहर निकलें"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:35
-#, fuzzy
 msgid "Import"
-msgstr "Import Key"
+msgstr "आयात करें"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:36
 msgid "Copy Share URI"
@@ -2068,26 +2054,22 @@ msgstr "स्टिकर पैक आयात करें"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:90
 #: main/src/ui/sticker_pack_import_dialog.vala:147
-#, fuzzy
 msgid "Loading…"
-msgstr "लंबित…"
+msgstr "लोड हो रहा है…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:128
-#, fuzzy
 msgid "Importing…"
-msgstr "कनेक्ट हो रहा है…"
+msgstr "आयात किया जा रहा है…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:136
 #: main/src/ui/sticker_pack_import_dialog.vala:158
-#, fuzzy
 msgid "No account available"
-msgstr "उपलब्ध नहीं"
+msgstr "कोई खाता उपलब्ध नहीं है"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:172
 #: main/src/ui/sticker_pack_import_dialog.vala:189
-#, fuzzy
 msgid "Failed to import sticker pack"
-msgstr "कैश साफ़ करने में विफल"
+msgstr "स्टिकर पैक आयात करने में विफल"
 
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
@@ -2359,33 +2341,26 @@ msgstr "%s के लिए प्रदर्शन नाम बदलें"
 msgid "Alias (optional)"
 msgstr "उपनाम (वैकल्पिक)"
 
-#, fuzzy
 #~ msgid "Import…"
-#~ msgstr "Import Key"
+#~ msgstr "आयात करें…"
 
-#, fuzzy
 #~ msgid "Select sticker folder"
-#~ msgstr "फाइल चुनें"
+#~ msgstr "स्टिकर फ़ोल्डर चुनें"
 
-#, fuzzy
 #~ msgid "Local only"
-#~ msgstr "स्थानीय उपनाम"
+#~ msgstr "केवल स्थानीय"
 
-#, fuzzy
 #~ msgid "Failed to create sticker pack"
-#~ msgstr "कैश साफ़ करने में विफल"
+#~ msgstr "स्टिकर पैक बनाने में विफल"
 
-#, fuzzy
 #~ msgid "Publishing…"
-#~ msgstr "जुड़ रहे हैं…"
+#~ msgstr "प्रकाशित किया जा रहा है…"
 
-#, fuzzy
 #~ msgid "Failed to publish sticker pack"
-#~ msgstr "कैश साफ़ करने में विफल"
+#~ msgstr "स्टिकर पैक प्रकाशित करने में विफल"
 
-#, fuzzy
 #~ msgid "Failed to remove sticker pack"
-#~ msgstr "कैश साफ़ करने में विफल"
+#~ msgstr "स्टिकर पैक हटाने में विफल"
 
 #~ msgid "Creating backup..."
 #~ msgstr "बैकअप बना रहा है..."

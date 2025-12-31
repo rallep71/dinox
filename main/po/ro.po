@@ -60,14 +60,12 @@ msgid "Accept"
 msgstr "Acceptă"
 
 #: main/data/chat_input.ui:15
-#, fuzzy
 msgid "Send File…"
-msgstr "Trimite fișier"
+msgstr "Trimite fișier…"
 
 #: main/data/chat_input.ui:25
-#, fuzzy
 msgid "Send Location"
-msgstr "Locația de stocare a datelor"
+msgstr "Trimite locația"
 
 #: main/data/chat_input.ui:96
 msgid "Record voice message"
@@ -377,9 +375,8 @@ msgstr "Convertește zâmbilicii în _emoji"
 
 #: main/data/preferences_window/general_preferences_page.ui:70
 #: main/src/ui/chat_input/view.vala:54
-#, fuzzy
 msgid "Stickers"
-msgstr "Difuzoare"
+msgstr "Autocolante"
 
 #: main/data/preferences_window/general_preferences_page.ui:73
 msgid "Enable Stickers"
@@ -427,9 +424,8 @@ msgid "Database Maintenance"
 msgstr "Întreținere bază de date"
 
 #: main/data/preferences_window/general_preferences_page.ui:130
-#, fuzzy
 msgid "Change Database Password"
-msgstr "Schimbare parolă"
+msgstr "Schimbă parola bazei de date"
 
 #: main/data/preferences_window/general_preferences_page.ui:131
 msgid "Change the password used to encrypt your local data"
@@ -579,7 +575,6 @@ msgid "Beenden"
 msgstr "Ieșire"
 
 #: main/src/ui/application.vala:266 main/src/ui/application.vala:361
-#, fuzzy
 msgid "Passwort"
 msgstr "Parolă"
 
@@ -605,9 +600,8 @@ msgid "Passwort bestätigen"
 msgstr "Confirmă parola"
 
 #: main/src/ui/application.vala:370
-#, fuzzy
 msgid "Passwort festlegen"
-msgstr "Parola este prea scurtă"
+msgstr "Setează parola"
 
 #: main/src/ui/application.vala:371
 msgid ""
@@ -621,26 +615,22 @@ msgid "Ungültiges Passwort. Versuch %d/%d"
 msgstr "Parolă nevalidă. Încercare %d/%d"
 
 #: main/src/ui/application.vala:448
-#, fuzzy
 msgid "Passwort setzen"
-msgstr "Parola este prea scurtă"
+msgstr "Setează parola"
 
 #: main/src/ui/application.vala:746
-#, fuzzy
 msgid "Set Status Message"
-msgstr "Caută mesaje"
+msgstr "Setează mesajul de stare"
 
 #: main/src/ui/application.vala:755
-#, fuzzy
 msgid "Set"
-msgstr "Selectare"
+msgstr "Setează"
 
 #: main/src/ui/application.vala:809
 msgid "Aktuelles Passwort"
 msgstr "Parola actuală"
 
 #: main/src/ui/application.vala:811
-#, fuzzy
 msgid "Neues Passwort"
 msgstr "Parolă nouă"
 
@@ -1136,9 +1126,8 @@ msgid "Unencrypted"
 msgstr "Necriptat"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:176
-#, fuzzy
 msgid "Manage Sticker Packs"
-msgstr "Creare copie de rezervă criptată"
+msgstr "Gestionează pachetele de autocolante"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:390
 msgid "Stickers are unavailable"
@@ -1151,9 +1140,8 @@ msgid "None"
 msgstr "Niciunul"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:412
-#, fuzzy
 msgid "No sticker packs yet."
-msgstr "Elimină contactul?"
+msgstr "Încă nu există pachete de autocolante."
 
 #: main/src/ui/chat_input/sticker_chooser.vala:414
 #: main/src/ui/chat_input/sticker_chooser.vala:527
@@ -1877,9 +1865,8 @@ msgid "Select"
 msgstr "Selectare"
 
 #: main/src/ui/conversation_view_controller.vala:332
-#, fuzzy
 msgid "Failed to get location"
-msgstr "Nu s-a putut distruge camera"
+msgstr "Nu s-a putut obține locația"
 
 #: main/src/ui/file_send_overlay.vala:60
 msgid "The file exceeds the server's maximum upload size."
@@ -2067,9 +2054,8 @@ msgid "Quit"
 msgstr "Ieșire"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:35
-#, fuzzy
 msgid "Import"
-msgstr "Import Key"
+msgstr "Importă"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:36
 msgid "Copy Share URI"
@@ -2081,26 +2067,22 @@ msgstr "Importă pachet de abțibilduri"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:90
 #: main/src/ui/sticker_pack_import_dialog.vala:147
-#, fuzzy
 msgid "Loading…"
-msgstr "în așteptare…"
+msgstr "Se încarcă…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:128
-#, fuzzy
 msgid "Importing…"
-msgstr "Conectare…"
+msgstr "Se importă…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:136
 #: main/src/ui/sticker_pack_import_dialog.vala:158
-#, fuzzy
 msgid "No account available"
-msgstr "Indisponibil"
+msgstr "Niciun cont disponibil"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:172
 #: main/src/ui/sticker_pack_import_dialog.vala:189
-#, fuzzy
 msgid "Failed to import sticker pack"
-msgstr "Nu s-a putut goli memoria cache"
+msgstr "Nu s-a putut importa pachetul de autocolante"
 
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
@@ -2380,33 +2362,26 @@ msgstr "Schimbă numele afișat pentru %s"
 msgid "Alias (optional)"
 msgstr "Alias (opțional)"
 
-#, fuzzy
 #~ msgid "Import…"
-#~ msgstr "Import Key"
+#~ msgstr "Importă…"
 
-#, fuzzy
 #~ msgid "Select sticker folder"
-#~ msgstr "Selectare fișier"
+#~ msgstr "Selectează dosarul cu autocolante"
 
-#, fuzzy
 #~ msgid "Local only"
-#~ msgstr "Alias local"
+#~ msgstr "Doar local"
 
-#, fuzzy
 #~ msgid "Failed to create sticker pack"
-#~ msgstr "Nu s-a putut goli memoria cache"
+#~ msgstr "Nu s-a putut crea pachetul de autocolante"
 
-#, fuzzy
 #~ msgid "Publishing…"
-#~ msgstr "tastează…"
+#~ msgstr "Se publică…"
 
-#, fuzzy
 #~ msgid "Failed to publish sticker pack"
-#~ msgstr "Nu s-a putut goli memoria cache"
+#~ msgstr "Nu s-a putut publica pachetul de autocolante"
 
-#, fuzzy
 #~ msgid "Failed to remove sticker pack"
-#~ msgstr "Nu s-a putut goli memoria cache"
+#~ msgstr "Nu s-a putut elimina pachetul de autocolante"
 
 #~ msgid "Creating backup..."
 #~ msgstr "Se creează copia..."

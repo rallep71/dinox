@@ -58,14 +58,12 @@ msgid "Accept"
 msgstr "Qbel"
 
 #: main/data/chat_input.ui:15
-#, fuzzy
 msgid "Send File…"
-msgstr "Azen afaylu"
+msgstr "Azen afaylu…"
 
 #: main/data/chat_input.ui:25
-#, fuzzy
 msgid "Send Location"
-msgstr "Adig n usekles n yisefka"
+msgstr "Azen adig"
 
 #: main/data/chat_input.ui:96
 msgid "Record voice message"
@@ -372,9 +370,8 @@ msgstr "_Selket imijiyen ɣer yimujiten"
 
 #: main/data/preferences_window/general_preferences_page.ui:70
 #: main/src/ui/chat_input/view.vala:54
-#, fuzzy
 msgid "Stickers"
-msgstr "Imesmeɣren n yimesli"
+msgstr "Isignit"
 
 #: main/data/preferences_window/general_preferences_page.ui:73
 msgid "Enable Stickers"
@@ -422,9 +419,8 @@ msgid "Database Maintenance"
 msgstr "Asnefli n taffa n yisefka"
 
 #: main/data/preferences_window/general_preferences_page.ui:130
-#, fuzzy
 msgid "Change Database Password"
-msgstr "Asnifel n wawal n uɛeddi"
+msgstr "Beddel awal uffir n tbaḍa n isefka"
 
 #: main/data/preferences_window/general_preferences_page.ui:131
 msgid "Change the password used to encrypt your local data"
@@ -571,9 +567,8 @@ msgid "Beenden"
 msgstr "Ffeɣ"
 
 #: main/src/ui/application.vala:266 main/src/ui/application.vala:361
-#, fuzzy
 msgid "Passwort"
-msgstr "Awal n uɛeddi"
+msgstr "Awal uffir"
 
 #: main/src/ui/application.vala:271
 msgid "DinoX entsperren"
@@ -597,9 +592,8 @@ msgid "Passwort bestätigen"
 msgstr "Sentem awal uffir"
 
 #: main/src/ui/application.vala:370
-#, fuzzy
 msgid "Passwort festlegen"
-msgstr "Awal uffir d awezzlan aṭas"
+msgstr "Sbadu awal uffir"
 
 #: main/src/ui/application.vala:371
 msgid ""
@@ -613,28 +607,24 @@ msgid "Ungültiges Passwort. Versuch %d/%d"
 msgstr "Awal uffir mačči d ameɣtu. Aɛraḍ %d/%d"
 
 #: main/src/ui/application.vala:448
-#, fuzzy
 msgid "Passwort setzen"
-msgstr "Awal uffir d awezzlan aṭas"
+msgstr "Sbadu awal uffir"
 
 #: main/src/ui/application.vala:746
-#, fuzzy
 msgid "Set Status Message"
-msgstr "Nadi deg iznan"
+msgstr "Sbadu izen n waddad"
 
 #: main/src/ui/application.vala:755
-#, fuzzy
 msgid "Set"
-msgstr "Fren"
+msgstr "Sbadu"
 
 #: main/src/ui/application.vala:809
 msgid "Aktuelles Passwort"
 msgstr "Awal uffir amiran"
 
 #: main/src/ui/application.vala:811
-#, fuzzy
 msgid "Neues Passwort"
-msgstr "Awal n uɛeddi amaynut"
+msgstr "Awal uffir amaynut"
 
 #: main/src/ui/application.vala:813
 msgid "Neues Passwort bestätigen"
@@ -1125,9 +1115,8 @@ msgid "Unencrypted"
 msgstr "Ur yettwawgelhen ara"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:176
-#, fuzzy
 msgid "Manage Sticker Packs"
-msgstr "Snulfu-d aḥraz yettwawgelhnen"
+msgstr "Ssefrek tiqucctin n isignit"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:390
 msgid "Stickers are unavailable"
@@ -1140,9 +1129,8 @@ msgid "None"
 msgstr "Ulac"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:412
-#, fuzzy
 msgid "No sticker packs yet."
-msgstr "Kkes anermis?"
+msgstr "Ulac tiqucctin n isignit yakan."
 
 #: main/src/ui/chat_input/sticker_chooser.vala:414
 #: main/src/ui/chat_input/sticker_chooser.vala:527
@@ -1864,9 +1852,8 @@ msgid "Select"
 msgstr "Fren"
 
 #: main/src/ui/conversation_view_controller.vala:332
-#, fuzzy
 msgid "Failed to get location"
-msgstr "Tirga n texxamt ur teddi ara"
+msgstr "Ur yessaweḍ ara ad yawi adig"
 
 #: main/src/ui/file_send_overlay.vala:60
 msgid "The file exceeds the server's maximum upload size."
@@ -2054,9 +2041,8 @@ msgid "Quit"
 msgstr "Ffeɣ"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:35
-#, fuzzy
 msgid "Import"
-msgstr "Import Key"
+msgstr "Kter"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:36
 msgid "Copy Share URI"
@@ -2068,26 +2054,22 @@ msgstr "Kter aqecwal n tkebbaniyin"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:90
 #: main/src/ui/sticker_pack_import_dialog.vala:147
-#, fuzzy
 msgid "Loading…"
-msgstr "yettṛaǧu…"
+msgstr "Assali…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:128
-#, fuzzy
 msgid "Importing…"
-msgstr "Yetteqqen…"
+msgstr "Akter…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:136
 #: main/src/ui/sticker_pack_import_dialog.vala:158
-#, fuzzy
 msgid "No account available"
-msgstr "Ulac-it"
+msgstr "Ulac amiḍan"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:172
 #: main/src/ui/sticker_pack_import_dialog.vala:189
-#, fuzzy
 msgid "Failed to import sticker pack"
-msgstr "Asfaḍ n lkač ur yeddi ara"
+msgstr "Ur yessaweḍ ara ad yekter taquccet n isignit"
 
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
@@ -2366,33 +2348,26 @@ msgstr "Senfel isem n uskan i %s"
 msgid "Alias (optional)"
 msgstr "Meffer isem (d afrayan)"
 
-#, fuzzy
 #~ msgid "Import…"
-#~ msgstr "Import Key"
+#~ msgstr "Kter…"
 
-#, fuzzy
 #~ msgid "Select sticker folder"
-#~ msgstr "Fren afaylu"
+#~ msgstr "Fren akaram n isignit"
 
-#, fuzzy
 #~ msgid "Local only"
-#~ msgstr "Isem anida"
+#~ msgstr "Kan deg udig"
 
-#, fuzzy
 #~ msgid "Failed to create sticker pack"
-#~ msgstr "Asfaḍ n lkač ur yeddi ara"
+#~ msgstr "Ur yessaweḍ ara ad yesnulfu taquccet n isignit"
 
-#, fuzzy
 #~ msgid "Publishing…"
-#~ msgstr "Anekcum…"
+#~ msgstr "Azzray…"
 
-#, fuzzy
 #~ msgid "Failed to publish sticker pack"
-#~ msgstr "Asfaḍ n lkač ur yeddi ara"
+#~ msgstr "Ur yessaweḍ ara ad yezzri taquccet n isignit"
 
-#, fuzzy
 #~ msgid "Failed to remove sticker pack"
-#~ msgstr "Asfaḍ n lkač ur yeddi ara"
+#~ msgstr "Ur yessaweḍ ara ad yekkes taquccet n isignit"
 
 #~ msgid "Creating backup..."
 #~ msgstr "Asnulfu n uḥraz..."

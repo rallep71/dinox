@@ -59,14 +59,12 @@ msgid "Accept"
 msgstr "接受"
 
 #: main/data/chat_input.ui:15
-#, fuzzy
 msgid "Send File…"
-msgstr "发送文件"
+msgstr "发送文件…"
 
 #: main/data/chat_input.ui:25
-#, fuzzy
 msgid "Send Location"
-msgstr "数据存储位置"
+msgstr "发送位置"
 
 #: main/data/chat_input.ui:96
 msgid "Record voice message"
@@ -373,9 +371,8 @@ msgstr "将微笑符号转换为表情符号(_C)"
 
 #: main/data/preferences_window/general_preferences_page.ui:70
 #: main/src/ui/chat_input/view.vala:54
-#, fuzzy
 msgid "Stickers"
-msgstr "扬声器"
+msgstr "贴纸"
 
 #: main/data/preferences_window/general_preferences_page.ui:73
 msgid "Enable Stickers"
@@ -423,9 +420,8 @@ msgid "Database Maintenance"
 msgstr "数据库维护"
 
 #: main/data/preferences_window/general_preferences_page.ui:130
-#, fuzzy
 msgid "Change Database Password"
-msgstr "更改密码"
+msgstr "更改数据库密码"
 
 #: main/data/preferences_window/general_preferences_page.ui:131
 msgid "Change the password used to encrypt your local data"
@@ -572,7 +568,6 @@ msgid "Beenden"
 msgstr "退出"
 
 #: main/src/ui/application.vala:266 main/src/ui/application.vala:361
-#, fuzzy
 msgid "Passwort"
 msgstr "密码"
 
@@ -598,9 +593,8 @@ msgid "Passwort bestätigen"
 msgstr "确认密码"
 
 #: main/src/ui/application.vala:370
-#, fuzzy
 msgid "Passwort festlegen"
-msgstr "密码太短"
+msgstr "设置密码"
 
 #: main/src/ui/application.vala:371
 msgid ""
@@ -614,26 +608,22 @@ msgid "Ungültiges Passwort. Versuch %d/%d"
 msgstr "无效密码。尝试 %d/%d"
 
 #: main/src/ui/application.vala:448
-#, fuzzy
 msgid "Passwort setzen"
-msgstr "密码太短"
+msgstr "设置密码"
 
 #: main/src/ui/application.vala:746
-#, fuzzy
 msgid "Set Status Message"
-msgstr "搜索消息"
+msgstr "设置状态消息"
 
 #: main/src/ui/application.vala:755
-#, fuzzy
 msgid "Set"
-msgstr "选择"
+msgstr "设置"
 
 #: main/src/ui/application.vala:809
 msgid "Aktuelles Passwort"
 msgstr "当前密码"
 
 #: main/src/ui/application.vala:811
-#, fuzzy
 msgid "Neues Passwort"
 msgstr "新密码"
 
@@ -1123,9 +1113,8 @@ msgid "Unencrypted"
 msgstr "未加密"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:176
-#, fuzzy
 msgid "Manage Sticker Packs"
-msgstr "创建加密备份"
+msgstr "管理贴纸包"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:390
 msgid "Stickers are unavailable"
@@ -1138,9 +1127,8 @@ msgid "None"
 msgstr "无"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:412
-#, fuzzy
 msgid "No sticker packs yet."
-msgstr "移除联系人？"
+msgstr "暂无贴纸包。"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:414
 #: main/src/ui/chat_input/sticker_chooser.vala:527
@@ -1858,9 +1846,8 @@ msgid "Select"
 msgstr "选择"
 
 #: main/src/ui/conversation_view_controller.vala:332
-#, fuzzy
 msgid "Failed to get location"
-msgstr "销毁群聊失败"
+msgstr "获取位置失败"
 
 #: main/src/ui/file_send_overlay.vala:60
 msgid "The file exceeds the server's maximum upload size."
@@ -2047,9 +2034,8 @@ msgid "Quit"
 msgstr "退出"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:35
-#, fuzzy
 msgid "Import"
-msgstr "导入密钥"
+msgstr "导入"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:36
 msgid "Copy Share URI"
@@ -2061,26 +2047,22 @@ msgstr "导入表情包"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:90
 #: main/src/ui/sticker_pack_import_dialog.vala:147
-#, fuzzy
 msgid "Loading…"
-msgstr "正在发送…"
+msgstr "加载中…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:128
-#, fuzzy
 msgid "Importing…"
-msgstr "正在连接…"
+msgstr "导入中…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:136
 #: main/src/ui/sticker_pack_import_dialog.vala:158
-#, fuzzy
 msgid "No account available"
-msgstr "不可用"
+msgstr "无可用账户"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:172
 #: main/src/ui/sticker_pack_import_dialog.vala:189
-#, fuzzy
 msgid "Failed to import sticker pack"
-msgstr "清除缓存失败"
+msgstr "导入贴纸包失败"
 
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
@@ -2350,33 +2332,26 @@ msgstr "更改 %s 的显示名称"
 msgid "Alias (optional)"
 msgstr "别名（可选）"
 
-#, fuzzy
 #~ msgid "Import…"
-#~ msgstr "导入密钥"
+#~ msgstr "导入…"
 
-#, fuzzy
 #~ msgid "Select sticker folder"
-#~ msgstr "选择文件"
+#~ msgstr "选择贴纸文件夹"
 
-#, fuzzy
 #~ msgid "Local only"
-#~ msgstr "本地别名"
+#~ msgstr "仅本地"
 
-#, fuzzy
 #~ msgid "Failed to create sticker pack"
-#~ msgstr "清除缓存失败"
+#~ msgstr "创建贴纸包失败"
 
-#, fuzzy
 #~ msgid "Publishing…"
-#~ msgstr "正在输入…"
+#~ msgstr "发布中…"
 
-#, fuzzy
 #~ msgid "Failed to publish sticker pack"
-#~ msgstr "清除缓存失败"
+#~ msgstr "发布贴纸包失败"
 
-#, fuzzy
 #~ msgid "Failed to remove sticker pack"
-#~ msgstr "清除缓存失败"
+#~ msgstr "删除贴纸包失败"
 
 #~ msgid "Creating backup..."
 #~ msgstr "正在创建备份..."

@@ -25,25 +25,22 @@ msgstr "La clave no está en la cadena de claves"
 
 #: plugins/openpgp/src/contact_details_provider.vala:42
 #: plugins/openpgp/src/key_management_dialog.vala:220
-#, fuzzy
 msgid "Fingerprint"
-msgstr "Huella"
+msgstr "Huella digital"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:50
 #: plugins/openpgp/src/encryption_preferences_entry.vala:56
 #: plugins/openpgp/src/encryption_preferences_entry.vala:62
-#, fuzzy
 msgid "Announce key"
-msgstr "Anunciar la clave"
+msgstr "Anunciar clave"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:50
 msgid "Error in GnuPG"
 msgstr "Error en GnuPG"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:56
-#, fuzzy
 msgid "No keys available. Generate or import one!"
-msgstr "No hay claves disponibles. ¡Genera una!"
+msgstr "No hay claves disponibles. ¡Genere o importe una!"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:68
 #: plugins/openpgp/src/encryption_preferences_entry.vala:110
@@ -51,9 +48,8 @@ msgid "Disabled"
 msgstr "Desactivado"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:97
-#, fuzzy
 msgid "Select OpenPGP Key"
-msgstr "Seleccionar clave"
+msgstr "Seleccionar clave OpenPGP"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:97
 msgid "Choose a key to announce to your contacts."

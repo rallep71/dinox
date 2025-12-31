@@ -59,14 +59,12 @@ msgid "Accept"
 msgstr "Priimti"
 
 #: main/data/chat_input.ui:15
-#, fuzzy
 msgid "Send File…"
-msgstr "Siųsti failą"
+msgstr "Siųsti failą…"
 
 #: main/data/chat_input.ui:25
-#, fuzzy
 msgid "Send Location"
-msgstr "Duomenų saugojimo vieta"
+msgstr "Siųsti vietą"
 
 #: main/data/chat_input.ui:96
 msgid "Record voice message"
@@ -375,9 +373,8 @@ msgstr "_Konvertuoti šypsenėles į šypsniukus"
 
 #: main/data/preferences_window/general_preferences_page.ui:70
 #: main/src/ui/chat_input/view.vala:54
-#, fuzzy
 msgid "Stickers"
-msgstr "Garsiakalbiai"
+msgstr "Lipdukai"
 
 #: main/data/preferences_window/general_preferences_page.ui:73
 msgid "Enable Stickers"
@@ -426,9 +423,8 @@ msgstr "Duomenų bazės priežiūra"
 
 # DinoX v0.7.7 - Database Maintenance & Backup/Restore
 #: main/data/preferences_window/general_preferences_page.ui:130
-#, fuzzy
 msgid "Change Database Password"
-msgstr "Clean Database"
+msgstr "Pakeisti duomenų bazės slaptažodį"
 
 #: main/data/preferences_window/general_preferences_page.ui:131
 msgid "Change the password used to encrypt your local data"
@@ -576,7 +572,6 @@ msgid "Beenden"
 msgstr "Išeiti"
 
 #: main/src/ui/application.vala:266 main/src/ui/application.vala:361
-#, fuzzy
 msgid "Passwort"
 msgstr "Slaptažodis"
 
@@ -602,9 +597,8 @@ msgid "Passwort bestätigen"
 msgstr "Patvirtinti slaptažodį"
 
 #: main/src/ui/application.vala:370
-#, fuzzy
 msgid "Passwort festlegen"
-msgstr "Slaptažodis per trumpas"
+msgstr "Nustatyti slaptažodį"
 
 #: main/src/ui/application.vala:371
 msgid ""
@@ -618,26 +612,22 @@ msgid "Ungültiges Passwort. Versuch %d/%d"
 msgstr "Netinkamas slaptažodis. Bandymas %d/%d"
 
 #: main/src/ui/application.vala:448
-#, fuzzy
 msgid "Passwort setzen"
-msgstr "Slaptažodis per trumpas"
+msgstr "Nustatyti slaptažodį"
 
 #: main/src/ui/application.vala:746
-#, fuzzy
 msgid "Set Status Message"
-msgstr "Ieškoti žinučių"
+msgstr "Nustatyti būsenos žinutę"
 
 #: main/src/ui/application.vala:755
-#, fuzzy
 msgid "Set"
-msgstr "Pasirinkti"
+msgstr "Nustatyti"
 
 #: main/src/ui/application.vala:809
 msgid "Aktuelles Passwort"
 msgstr "Dabartinis slaptažodis"
 
 #: main/src/ui/application.vala:811
-#, fuzzy
 msgid "Neues Passwort"
 msgstr "Naujas slaptažodis"
 
@@ -1135,9 +1125,8 @@ msgid "Unencrypted"
 msgstr "Nešifruota"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:176
-#, fuzzy
 msgid "Manage Sticker Packs"
-msgstr "Sukurti šifruotą atsarginę kopiją"
+msgstr "Tvarkyti lipdukų paketus"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:390
 msgid "Stickers are unavailable"
@@ -1150,9 +1139,8 @@ msgid "None"
 msgstr "Nėra"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:412
-#, fuzzy
 msgid "No sticker packs yet."
-msgstr "Pašalinti kontaktą?"
+msgstr "Lipdukų paketų dar nėra."
 
 #: main/src/ui/chat_input/sticker_chooser.vala:414
 #: main/src/ui/chat_input/sticker_chooser.vala:527
@@ -1877,9 +1865,8 @@ msgid "Select"
 msgstr "Pasirinkti"
 
 #: main/src/ui/conversation_view_controller.vala:332
-#, fuzzy
 msgid "Failed to get location"
-msgstr "Nepavyko sunaikinti kambario"
+msgstr "Nepavyko gauti vietos"
 
 #: main/src/ui/file_send_overlay.vala:60
 msgid "The file exceeds the server's maximum upload size."
@@ -2067,9 +2054,8 @@ msgid "Quit"
 msgstr "Išeiti"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:35
-#, fuzzy
 msgid "Import"
-msgstr "Import Key"
+msgstr "Importuoti"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:36
 msgid "Copy Share URI"
@@ -2081,26 +2067,22 @@ msgstr "Importuoti lipdukų paketą"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:90
 #: main/src/ui/sticker_pack_import_dialog.vala:147
-#, fuzzy
 msgid "Loading…"
-msgstr "laukiama…"
+msgstr "Įkeliama…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:128
-#, fuzzy
 msgid "Importing…"
-msgstr "Jungiamasi…"
+msgstr "Importuojama…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:136
 #: main/src/ui/sticker_pack_import_dialog.vala:158
-#, fuzzy
 msgid "No account available"
-msgstr "Nepasiekiamas"
+msgstr "Nėra pasiekiamų paskyrų"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:172
 #: main/src/ui/sticker_pack_import_dialog.vala:189
-#, fuzzy
 msgid "Failed to import sticker pack"
-msgstr "Nepavyko išvalyti talpyklos"
+msgstr "Nepavyko importuoti lipdukų paketo"
 
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
@@ -2379,33 +2361,26 @@ msgstr "Pakeisti %s rodomą vardą"
 msgid "Alias (optional)"
 msgstr "Slapyvardis (neprivaloma)"
 
-#, fuzzy
 #~ msgid "Import…"
-#~ msgstr "Import Key"
+#~ msgstr "Importuoti…"
 
-#, fuzzy
 #~ msgid "Select sticker folder"
-#~ msgstr "Pasirinkti failą"
+#~ msgstr "Pasirinkti lipdukų aplanką"
 
-#, fuzzy
 #~ msgid "Local only"
-#~ msgstr "Vietinis pseudonimas"
+#~ msgstr "Tik vietiniai"
 
-#, fuzzy
 #~ msgid "Failed to create sticker pack"
-#~ msgstr "Nepavyko išvalyti talpyklos"
+#~ msgstr "Nepavyko sukurti lipdukų paketo"
 
-#, fuzzy
 #~ msgid "Publishing…"
-#~ msgstr "rašo…"
+#~ msgstr "Skelbiama…"
 
-#, fuzzy
 #~ msgid "Failed to publish sticker pack"
-#~ msgstr "Nepavyko išvalyti talpyklos"
+#~ msgstr "Nepavyko paskelbti lipdukų paketo"
 
-#, fuzzy
 #~ msgid "Failed to remove sticker pack"
-#~ msgstr "Nepavyko išvalyti talpyklos"
+#~ msgstr "Nepavyko pašalinti lipdukų paketo"
 
 #~ msgid "Creating backup..."
 #~ msgstr "Kuriama atsarginė kopija..."

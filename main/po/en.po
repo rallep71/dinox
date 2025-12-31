@@ -412,9 +412,8 @@ msgstr "Database Maintenance"
 
 # DinoX v0.7.7 - Database Maintenance & Backup/Restore
 #: main/data/preferences_window/general_preferences_page.ui:130
-#, fuzzy
 msgid "Change Database Password"
-msgstr "Clean Database"
+msgstr "Change Database Password"
 
 #: main/data/preferences_window/general_preferences_page.ui:131
 msgid "Change the password used to encrypt your local data"
@@ -561,9 +560,8 @@ msgid "Beenden"
 msgstr "Quit"
 
 #: main/src/ui/application.vala:266 main/src/ui/application.vala:361
-#, fuzzy
 msgid "Passwort"
-msgstr "Password too short"
+msgstr "Password"
 
 #: main/src/ui/application.vala:271
 msgid "DinoX entsperren"
@@ -587,9 +585,8 @@ msgid "Passwort bestätigen"
 msgstr "Confirm password"
 
 #: main/src/ui/application.vala:370
-#, fuzzy
 msgid "Passwort festlegen"
-msgstr "Password too short"
+msgstr "Set Password"
 
 #: main/src/ui/application.vala:371
 msgid ""
@@ -605,9 +602,8 @@ msgid "Ungültiges Passwort. Versuch %d/%d"
 msgstr "Invalid password. Attempt %d/%d"
 
 #: main/src/ui/application.vala:448
-#, fuzzy
 msgid "Passwort setzen"
-msgstr "Password too short"
+msgstr "Set Password"
 
 #: main/src/ui/application.vala:746
 msgid "Set Status Message"
@@ -622,9 +618,8 @@ msgid "Aktuelles Passwort"
 msgstr "Current password"
 
 #: main/src/ui/application.vala:811
-#, fuzzy
 msgid "Neues Passwort"
-msgstr "Set Backup Password"
+msgstr "New Password"
 
 #: main/src/ui/application.vala:813
 msgid "Neues Passwort bestätigen"
@@ -902,9 +897,8 @@ msgid "Factory reset in progress... DinoX will restart."
 msgstr "Factory reset in progress... DinoX will restart."
 
 #: main/src/ui/application.vala:1577
-#, fuzzy
 msgid "Backup Encryption"
-msgstr "No Encryption"
+msgstr "Backup Encryption"
 
 #: main/src/ui/application.vala:1578
 msgid ""
@@ -981,9 +975,8 @@ msgid "Please wait while your data is being backed up."
 msgstr "Please wait while your data is being backed up."
 
 #: main/src/ui/application.vala:1785
-#, fuzzy
 msgid "No data directory found to backup"
-msgstr "No data directories found to backup"
+msgstr "No data directory found to backup"
 
 #: main/src/ui/application.vala:1788 main/src/ui/application.vala:1894
 msgid "Backup Failed"
@@ -994,12 +987,15 @@ msgid "Encrypted Backup Created"
 msgstr "Encrypted Backup Created"
 
 #: main/src/ui/application.vala:1884
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Your encrypted backup was created successfully.\n"
 "\n"
 "Size: %s"
-msgstr "Your encrypted backup was created successfully.\\n\\nSize: %s"
+msgstr ""
+"Your encrypted backup was created successfully.\n"
+"\n"
+"Size: %s"
 
 #: main/src/ui/application.vala:1885
 msgid "Your encrypted backup was created successfully."
@@ -1010,12 +1006,15 @@ msgid "Backup Created"
 msgstr "Backup Created"
 
 #: main/src/ui/application.vala:1889
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Your backup was created successfully.\n"
 "\n"
 "Size: %s"
-msgstr "Your backup was created successfully.\\n\\nSize: %s"
+msgstr ""
+"Your backup was created successfully.\n"
+"\n"
+"Size: %s"
 
 #: main/src/ui/application.vala:1890
 msgid "Your backup was created successfully."
@@ -1113,9 +1112,8 @@ msgid "Unencrypted"
 msgstr "Unencrypted"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:176
-#, fuzzy
 msgid "Manage Sticker Packs"
-msgstr "Create Encrypted Backup"
+msgstr "Manage Sticker Packs"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:390
 msgid "Stickers are unavailable"
@@ -1128,9 +1126,8 @@ msgid "None"
 msgstr "None"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:412
-#, fuzzy
 msgid "No sticker packs yet."
-msgstr "Create Encrypted Backup"
+msgstr "No sticker packs yet."
 
 #: main/src/ui/chat_input/sticker_chooser.vala:414
 #: main/src/ui/chat_input/sticker_chooser.vala:527
@@ -2344,9 +2341,8 @@ msgstr "Change the display name for %s"
 msgid "Alias (optional)"
 msgstr "Alias (optional)"
 
-#, fuzzy
 #~ msgid "Select sticker folder"
-#~ msgstr "Select Backup File"
+#~ msgstr "Select sticker folder"
 
 #~ msgid "Encrypting Backup..."
 #~ msgstr "Encrypting Backup..."

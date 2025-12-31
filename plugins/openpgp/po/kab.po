@@ -37,9 +37,8 @@ msgid "Error in GnuPG"
 msgstr "Tuccḍa deg GnuPG"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:56
-#, fuzzy
 msgid "No keys available. Generate or import one!"
-msgstr "Ulac tisura. Sarew-d yiwet!"
+msgstr "Ulac tasarut. Snulfu-d neɣ kter-d yiwet!"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:68
 #: plugins/openpgp/src/encryption_preferences_entry.vala:110

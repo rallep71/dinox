@@ -58,14 +58,12 @@ msgid "Accept"
 msgstr "پذیرش"
 
 #: main/data/chat_input.ui:15
-#, fuzzy
 msgid "Send File…"
-msgstr "ارسال فایل"
+msgstr "ارسال فایل…"
 
 #: main/data/chat_input.ui:25
-#, fuzzy
 msgid "Send Location"
-msgstr "محل ذخیره‌سازی داده‌ها"
+msgstr "ارسال موقعیت"
 
 #: main/data/chat_input.ui:96
 msgid "Record voice message"
@@ -372,9 +370,8 @@ msgstr "_تبدیل لبخندها به اموجی"
 
 #: main/data/preferences_window/general_preferences_page.ui:70
 #: main/src/ui/chat_input/view.vala:54
-#, fuzzy
 msgid "Stickers"
-msgstr "بلندگوها"
+msgstr "استیکرها"
 
 #: main/data/preferences_window/general_preferences_page.ui:73
 msgid "Enable Stickers"
@@ -423,9 +420,8 @@ msgstr "نگهداری پایگاه داده"
 
 # DinoX v0.7.7 - Database Maintenance & Backup/Restore
 #: main/data/preferences_window/general_preferences_page.ui:130
-#, fuzzy
 msgid "Change Database Password"
-msgstr "Clean Database"
+msgstr "تغییر رمز عبور پایگاه داده"
 
 #: main/data/preferences_window/general_preferences_page.ui:131
 msgid "Change the password used to encrypt your local data"
@@ -572,9 +568,8 @@ msgid "Beenden"
 msgstr "خروج"
 
 #: main/src/ui/application.vala:266 main/src/ui/application.vala:361
-#, fuzzy
 msgid "Passwort"
-msgstr "رمز"
+msgstr "رمز عبور"
 
 #: main/src/ui/application.vala:271
 msgid "DinoX entsperren"
@@ -598,9 +593,8 @@ msgid "Passwort bestätigen"
 msgstr "تأیید رمز عبور"
 
 #: main/src/ui/application.vala:370
-#, fuzzy
 msgid "Passwort festlegen"
-msgstr "رمز عبور خیلی کوتاه است"
+msgstr "تنظیم رمز عبور"
 
 #: main/src/ui/application.vala:371
 msgid ""
@@ -614,26 +608,22 @@ msgid "Ungültiges Passwort. Versuch %d/%d"
 msgstr "رمز عبور نامعتبر است. تلاش %d/%d"
 
 #: main/src/ui/application.vala:448
-#, fuzzy
 msgid "Passwort setzen"
-msgstr "رمز عبور خیلی کوتاه است"
+msgstr "تنظیم رمز عبور"
 
 #: main/src/ui/application.vala:746
-#, fuzzy
 msgid "Set Status Message"
-msgstr "جست‌جوی پیام‌ها"
+msgstr "تنظیم پیام وضعیت"
 
 #: main/src/ui/application.vala:755
-#, fuzzy
 msgid "Set"
-msgstr "انتخاب"
+msgstr "تنظیم"
 
 #: main/src/ui/application.vala:809
 msgid "Aktuelles Passwort"
 msgstr "رمز عبور فعلی"
 
 #: main/src/ui/application.vala:811
-#, fuzzy
 msgid "Neues Passwort"
 msgstr "رمز عبور جدید"
 
@@ -1125,9 +1115,8 @@ msgid "Unencrypted"
 msgstr "رمزگذاری نشده"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:176
-#, fuzzy
 msgid "Manage Sticker Packs"
-msgstr "ایجاد پشتیبان رمزگذاری شده"
+msgstr "مدیریت بسته‌های استیکر"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:390
 msgid "Stickers are unavailable"
@@ -1140,9 +1129,8 @@ msgid "None"
 msgstr "هیچ"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:412
-#, fuzzy
 msgid "No sticker packs yet."
-msgstr "حذف مخاطب؟"
+msgstr "هنوز بسته استیکری وجود ندارد."
 
 #: main/src/ui/chat_input/sticker_chooser.vala:414
 #: main/src/ui/chat_input/sticker_chooser.vala:527
@@ -1864,9 +1852,8 @@ msgid "Select"
 msgstr "انتخاب"
 
 #: main/src/ui/conversation_view_controller.vala:332
-#, fuzzy
 msgid "Failed to get location"
-msgstr "حذف اتاق ناموفق بود"
+msgstr "دریافت موقعیت ناموفق بود"
 
 #: main/src/ui/file_send_overlay.vala:60
 msgid "The file exceeds the server's maximum upload size."
@@ -2054,9 +2041,8 @@ msgid "Quit"
 msgstr "خروج"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:35
-#, fuzzy
 msgid "Import"
-msgstr "Import Key"
+msgstr "وارد کردن"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:36
 msgid "Copy Share URI"
@@ -2068,26 +2054,22 @@ msgstr "وارد کردن بسته استیکر"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:90
 #: main/src/ui/sticker_pack_import_dialog.vala:147
-#, fuzzy
 msgid "Loading…"
-msgstr "در انتظار…"
+msgstr "در حال بارگذاری…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:128
-#, fuzzy
 msgid "Importing…"
-msgstr "در حال اتصال…"
+msgstr "در حال وارد کردن…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:136
 #: main/src/ui/sticker_pack_import_dialog.vala:158
-#, fuzzy
 msgid "No account available"
-msgstr "در دسترس نیست"
+msgstr "هیچ حسابی در دسترس نیست"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:172
 #: main/src/ui/sticker_pack_import_dialog.vala:189
-#, fuzzy
 msgid "Failed to import sticker pack"
-msgstr "پاک کردن حافظه پنهان ناموفق بود"
+msgstr "وارد کردن بسته استیکر ناموفق بود"
 
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
@@ -2361,33 +2343,26 @@ msgstr "تغییر نام نمایشی برای %s"
 msgid "Alias (optional)"
 msgstr "نام مستعار (اختیاری)"
 
-#, fuzzy
 #~ msgid "Import…"
-#~ msgstr "Import Key"
+#~ msgstr "وارد کردن…"
 
-#, fuzzy
 #~ msgid "Select sticker folder"
-#~ msgstr "انتخاب فایل"
+#~ msgstr "انتخاب پوشه استیکر"
 
-#, fuzzy
 #~ msgid "Local only"
-#~ msgstr "نام مستعار محلی"
+#~ msgstr "فقط محلی"
 
-#, fuzzy
 #~ msgid "Failed to create sticker pack"
-#~ msgstr "پاک کردن حافظه پنهان ناموفق بود"
+#~ msgstr "ایجاد بسته استیکر ناموفق بود"
 
-#, fuzzy
 #~ msgid "Publishing…"
-#~ msgstr "در حال پیوستن…"
+#~ msgstr "در حال انتشار…"
 
-#, fuzzy
 #~ msgid "Failed to publish sticker pack"
-#~ msgstr "پاک کردن حافظه پنهان ناموفق بود"
+#~ msgstr "انتشار بسته استیکر ناموفق بود"
 
-#, fuzzy
 #~ msgid "Failed to remove sticker pack"
-#~ msgstr "پاک کردن حافظه پنهان ناموفق بود"
+#~ msgstr "حذف بسته استیکر ناموفق بود"
 
 #~ msgid "Creating backup..."
 #~ msgstr "در حال ایجاد پشتیبان..."

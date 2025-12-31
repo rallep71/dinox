@@ -222,9 +222,8 @@ msgstr "Neien Apparat"
 
 #: plugins/omemo/src/ui/contact_details_provider.vala:46
 #: plugins/omemo/src/ui/contact_details_provider.vala:53
-#, fuzzy
 msgid "OMEMO Encryption"
-msgstr "OMEMO-Verschlësselung"
+msgstr "OMEMO Verschlësselung"
 
 #: plugins/omemo/src/ui/contact_details_provider.vala:47
 msgid "No member JIDs available. This may be an anonymous room."
@@ -235,11 +234,10 @@ msgid "Encryption keys for room members"
 msgstr "Verschlësselungsschlësselen fir Raummemberen"
 
 #: plugins/omemo/src/ui/contact_details_provider.vala:76
-#, fuzzy, c-format
 msgid "%d device"
 msgid_plural "%d devices"
-msgstr[0] "%d OMEMO Gerät"
-msgstr[1] "%d OMEMO Geräter"
+msgstr[0] "%d Apparat"
+msgstr[1] "%d Apparater"
 
 #: plugins/omemo/src/ui/contact_details_provider.vala:138
 msgid "Trusted"

@@ -37,9 +37,8 @@ msgid "Error in GnuPG"
 msgstr "Fel i GnuPG"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:56
-#, fuzzy
 msgid "No keys available. Generate or import one!"
-msgstr "Inga nycklar tillgängliga. Generera en!"
+msgstr "Inga nycklar tillgängliga. Generera eller importera en!"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:68
 #: plugins/openpgp/src/encryption_preferences_entry.vala:110
@@ -47,9 +46,8 @@ msgid "Disabled"
 msgstr "Inaktiverad"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:97
-#, fuzzy
 msgid "Select OpenPGP Key"
-msgstr "Välj nyckel"
+msgstr "Välj OpenPGP-nyckel"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:97
 msgid "Choose a key to announce to your contacts."

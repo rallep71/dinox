@@ -54,14 +54,12 @@ msgid "Accept"
 msgstr "Akzeptéieren"
 
 #: main/data/chat_input.ui:15
-#, fuzzy
 msgid "Send File…"
-msgstr "Fichier schécken"
+msgstr "Fichier schécken…"
 
 #: main/data/chat_input.ui:25
-#, fuzzy
 msgid "Send Location"
-msgstr "Datenspeicherort"
+msgstr "Standuert schécken"
 
 #: main/data/chat_input.ui:96
 msgid "Record voice message"
@@ -371,9 +369,8 @@ msgstr "_Smileys an Emoji ëmwandelen"
 
 #: main/data/preferences_window/general_preferences_page.ui:70
 #: main/src/ui/chat_input/view.vala:54
-#, fuzzy
 msgid "Stickers"
-msgstr "Lautspriecheren"
+msgstr "Stickeren"
 
 #: main/data/preferences_window/general_preferences_page.ui:73
 msgid "Enable Stickers"
@@ -422,9 +419,8 @@ msgstr "Datebank Ënnerhalt"
 
 # DinoX v0.7.7 - Database Maintenance & Backup/Restore
 #: main/data/preferences_window/general_preferences_page.ui:130
-#, fuzzy
 msgid "Change Database Password"
-msgstr "Clean Database"
+msgstr "Datebank-Passwuert änneren"
 
 #: main/data/preferences_window/general_preferences_page.ui:131
 msgid "Change the password used to encrypt your local data"
@@ -574,7 +570,6 @@ msgid "Beenden"
 msgstr "Ophalen"
 
 #: main/src/ui/application.vala:266 main/src/ui/application.vala:361
-#, fuzzy
 msgid "Passwort"
 msgstr "Passwuert"
 
@@ -600,9 +595,8 @@ msgid "Passwort bestätigen"
 msgstr "Passwuert bestätegen"
 
 #: main/src/ui/application.vala:370
-#, fuzzy
 msgid "Passwort festlegen"
-msgstr "Passwuert ze kuerz"
+msgstr "Passwuert festleeën"
 
 #: main/src/ui/application.vala:371
 msgid ""
@@ -616,26 +610,22 @@ msgid "Ungültiges Passwort. Versuch %d/%d"
 msgstr "Ongëltegt Passwuert. Versuch %d/%d"
 
 #: main/src/ui/application.vala:448
-#, fuzzy
 msgid "Passwort setzen"
-msgstr "Passwuert ze kuerz"
+msgstr "Passwuert setzen"
 
 #: main/src/ui/application.vala:746
-#, fuzzy
 msgid "Set Status Message"
-msgstr "Messagen duerchsichen"
+msgstr "Status-Message setzen"
 
 #: main/src/ui/application.vala:755
-#, fuzzy
 msgid "Set"
-msgstr "Auswielen"
+msgstr "Setzen"
 
 #: main/src/ui/application.vala:809
 msgid "Aktuelles Passwort"
 msgstr "Aktuellt Passwuert"
 
 #: main/src/ui/application.vala:811
-#, fuzzy
 msgid "Neues Passwort"
 msgstr "Neit Passwuert"
 
@@ -1134,9 +1124,8 @@ msgid "Unencrypted"
 msgstr "Onverschlësselt"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:176
-#, fuzzy
 msgid "Manage Sticker Packs"
-msgstr "Verschlësselte Backup erstellen"
+msgstr "Sticker-Päck verwalten"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:390
 msgid "Stickers are unavailable"
@@ -1149,9 +1138,8 @@ msgid "None"
 msgstr "Keng"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:412
-#, fuzzy
 msgid "No sticker packs yet."
-msgstr "Kontakt ewechhuelen?"
+msgstr "Nach keng Sticker-Päck."
 
 #: main/src/ui/chat_input/sticker_chooser.vala:414
 #: main/src/ui/chat_input/sticker_chooser.vala:527
@@ -1876,9 +1864,8 @@ msgid "Select"
 msgstr "Auswielen"
 
 #: main/src/ui/conversation_view_controller.vala:332
-#, fuzzy
 msgid "Failed to get location"
-msgstr "Room konnt net zerstéiert ginn"
+msgstr "Standuert konnt net ofgeruff ginn"
 
 #: main/src/ui/file_send_overlay.vala:60
 msgid "The file exceeds the server's maximum upload size."
@@ -2066,9 +2053,8 @@ msgid "Quit"
 msgstr "Zoumaachen"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:35
-#, fuzzy
 msgid "Import"
-msgstr "Import Key"
+msgstr "Importéieren"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:36
 msgid "Copy Share URI"
@@ -2080,26 +2066,22 @@ msgstr "Sticker-Pak importéieren"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:90
 #: main/src/ui/sticker_pack_import_dialog.vala:147
-#, fuzzy
 msgid "Loading…"
-msgstr "hängeg…"
+msgstr "Lueden…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:128
-#, fuzzy
 msgid "Importing…"
-msgstr "Verbannen…"
+msgstr "Importéieren…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:136
 #: main/src/ui/sticker_pack_import_dialog.vala:158
-#, fuzzy
 msgid "No account available"
-msgstr "Net disponibel"
+msgstr "Kee Kont verfügbar"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:172
 #: main/src/ui/sticker_pack_import_dialog.vala:189
-#, fuzzy
 msgid "Failed to import sticker pack"
-msgstr "Cache konnt net geläscht ginn"
+msgstr "Sticker-Pak konnt net importéiert ginn"
 
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
@@ -2376,33 +2358,26 @@ msgstr "Den ugezeechte Numm fir %s änneren"
 msgid "Alias (optional)"
 msgstr "Alias (optional)"
 
-#, fuzzy
 #~ msgid "Import…"
-#~ msgstr "Import Key"
+#~ msgstr "Importéieren…"
 
-#, fuzzy
 #~ msgid "Select sticker folder"
-#~ msgstr "Fichier auswielen"
+#~ msgstr "Sticker-Dossier wielen"
 
-#, fuzzy
 #~ msgid "Local only"
-#~ msgstr "Lokalen Pseudonym"
+#~ msgstr "Nëmme lokal"
 
-#, fuzzy
 #~ msgid "Failed to create sticker pack"
-#~ msgstr "Cache konnt net geläscht ginn"
+#~ msgstr "Sticker-Pak konnt net erstallt ginn"
 
-#, fuzzy
 #~ msgid "Publishing…"
-#~ msgstr "tippt grad…"
+#~ msgstr "Verëffentlechen…"
 
-#, fuzzy
 #~ msgid "Failed to publish sticker pack"
-#~ msgstr "Cache konnt net geläscht ginn"
+#~ msgstr "Sticker-Pak konnt net verëffentlecht ginn"
 
-#, fuzzy
 #~ msgid "Failed to remove sticker pack"
-#~ msgstr "Cache konnt net geläscht ginn"
+#~ msgstr "Sticker-Pak konnt net geläscht ginn"
 
 #~ msgid "Creating backup..."
 #~ msgstr "Backup gëtt erstallt..."

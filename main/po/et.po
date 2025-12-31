@@ -58,14 +58,12 @@ msgid "Accept"
 msgstr "Nõustu"
 
 #: main/data/chat_input.ui:15
-#, fuzzy
 msgid "Send File…"
-msgstr "Saada fail"
+msgstr "Saada fail…"
 
 #: main/data/chat_input.ui:25
-#, fuzzy
 msgid "Send Location"
-msgstr "Andmete salvestuskoht"
+msgstr "Saada asukoht"
 
 #: main/data/chat_input.ui:96
 msgid "Record voice message"
@@ -374,9 +372,8 @@ msgstr "_Muuda emotikonid emojideks"
 
 #: main/data/preferences_window/general_preferences_page.ui:70
 #: main/src/ui/chat_input/view.vala:54
-#, fuzzy
 msgid "Stickers"
-msgstr "Kõlarid"
+msgstr "Kleebised"
 
 #: main/data/preferences_window/general_preferences_page.ui:73
 msgid "Enable Stickers"
@@ -424,9 +421,8 @@ msgid "Database Maintenance"
 msgstr "Andmebaasi hooldus"
 
 #: main/data/preferences_window/general_preferences_page.ui:130
-#, fuzzy
 msgid "Change Database Password"
-msgstr "Salasõna muutmine"
+msgstr "Muuda andmebaasi parooli"
 
 #: main/data/preferences_window/general_preferences_page.ui:131
 msgid "Change the password used to encrypt your local data"
@@ -574,9 +570,8 @@ msgid "Beenden"
 msgstr "Välju"
 
 #: main/src/ui/application.vala:266 main/src/ui/application.vala:361
-#, fuzzy
 msgid "Passwort"
-msgstr "Salasõna"
+msgstr "Parool"
 
 #: main/src/ui/application.vala:271
 msgid "DinoX entsperren"
@@ -600,9 +595,8 @@ msgid "Passwort bestätigen"
 msgstr "Kinnita parool"
 
 #: main/src/ui/application.vala:370
-#, fuzzy
 msgid "Passwort festlegen"
-msgstr "Parool on liiga lühike"
+msgstr "Määra parool"
 
 #: main/src/ui/application.vala:371
 msgid ""
@@ -616,28 +610,24 @@ msgid "Ungültiges Passwort. Versuch %d/%d"
 msgstr "Vigane parool. Katse %d/%d"
 
 #: main/src/ui/application.vala:448
-#, fuzzy
 msgid "Passwort setzen"
-msgstr "Parool on liiga lühike"
+msgstr "Määra parool"
 
 #: main/src/ui/application.vala:746
-#, fuzzy
 msgid "Set Status Message"
-msgstr "Otsi sõnumeid"
+msgstr "Määra olekuteade"
 
 #: main/src/ui/application.vala:755
-#, fuzzy
 msgid "Set"
-msgstr "Vali"
+msgstr "Määra"
 
 #: main/src/ui/application.vala:809
 msgid "Aktuelles Passwort"
 msgstr "Praegune parool"
 
 #: main/src/ui/application.vala:811
-#, fuzzy
 msgid "Neues Passwort"
-msgstr "Uus salasõna"
+msgstr "Uus parool"
 
 #: main/src/ui/application.vala:813
 msgid "Neues Passwort bestätigen"
@@ -1130,9 +1120,8 @@ msgid "Unencrypted"
 msgstr "Krüptimata"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:176
-#, fuzzy
 msgid "Manage Sticker Packs"
-msgstr "Loo krüpteeritud varukoopia"
+msgstr "Halda kleebisepakke"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:390
 msgid "Stickers are unavailable"
@@ -1145,9 +1134,8 @@ msgid "None"
 msgstr "Puudub"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:412
-#, fuzzy
 msgid "No sticker packs yet."
-msgstr "Eemalda kontakt?"
+msgstr "Kleebisepakke pole veel."
 
 #: main/src/ui/chat_input/sticker_chooser.vala:414
 #: main/src/ui/chat_input/sticker_chooser.vala:527
@@ -1871,9 +1859,8 @@ msgid "Select"
 msgstr "Vali"
 
 #: main/src/ui/conversation_view_controller.vala:332
-#, fuzzy
 msgid "Failed to get location"
-msgstr "Ruumi kustutamine ebaõnnestus"
+msgstr "Asukoha hankimine ebaõnnestus"
 
 #: main/src/ui/file_send_overlay.vala:60
 msgid "The file exceeds the server's maximum upload size."
@@ -2061,9 +2048,8 @@ msgid "Quit"
 msgstr "Välju"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:35
-#, fuzzy
 msgid "Import"
-msgstr "Import Key"
+msgstr "Impordi"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:36
 msgid "Copy Share URI"
@@ -2075,26 +2061,22 @@ msgstr "Impordi kleebisepakk"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:90
 #: main/src/ui/sticker_pack_import_dialog.vala:147
-#, fuzzy
 msgid "Loading…"
-msgstr "ootel…"
+msgstr "Laadimine…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:128
-#, fuzzy
 msgid "Importing…"
-msgstr "Ühendame…"
+msgstr "Importimine…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:136
 #: main/src/ui/sticker_pack_import_dialog.vala:158
-#, fuzzy
 msgid "No account available"
-msgstr "Pole saadaval"
+msgstr "Kontot pole saadaval"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:172
 #: main/src/ui/sticker_pack_import_dialog.vala:189
-#, fuzzy
 msgid "Failed to import sticker pack"
-msgstr "Vahemälu tühjendamine ebaõnnestus"
+msgstr "Kleebisepaki importimine ebaõnnestus"
 
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
@@ -2372,33 +2354,26 @@ msgstr "Muuda %s kuvatavat nime"
 msgid "Alias (optional)"
 msgstr "Alias (valikuline)"
 
-#, fuzzy
 #~ msgid "Import…"
-#~ msgstr "Import Key"
+#~ msgstr "Impordi…"
 
-#, fuzzy
 #~ msgid "Select sticker folder"
-#~ msgstr "Vali fail"
+#~ msgstr "Vali kleebiste kaust"
 
-#, fuzzy
 #~ msgid "Local only"
-#~ msgstr "Kohalik varjunimi"
+#~ msgstr "Ainult kohalik"
 
-#, fuzzy
 #~ msgid "Failed to create sticker pack"
-#~ msgstr "Vahemälu tühjendamine ebaõnnestus"
+#~ msgstr "Kleebisepaki loomine ebaõnnestus"
 
-#, fuzzy
 #~ msgid "Publishing…"
-#~ msgstr "Liitume…"
+#~ msgstr "Avaldamine…"
 
-#, fuzzy
 #~ msgid "Failed to publish sticker pack"
-#~ msgstr "Vahemälu tühjendamine ebaõnnestus"
+#~ msgstr "Kleebisepaki avaldamine ebaõnnestus"
 
-#, fuzzy
 #~ msgid "Failed to remove sticker pack"
-#~ msgstr "Vahemälu tühjendamine ebaõnnestus"
+#~ msgstr "Kleebisepaki eemaldamine ebaõnnestus"
 
 #~ msgid "Creating backup..."
 #~ msgstr "Varukoopia loomine..."

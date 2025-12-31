@@ -58,14 +58,12 @@ msgid "Accept"
 msgstr "Accepter"
 
 #: main/data/chat_input.ui:15
-#, fuzzy
 msgid "Send File…"
-msgstr "Send en fil"
+msgstr "Send fil…"
 
 #: main/data/chat_input.ui:25
-#, fuzzy
 msgid "Send Location"
-msgstr "Datalagringsplacering"
+msgstr "Send placering"
 
 #: main/data/chat_input.ui:96
 msgid "Record voice message"
@@ -375,9 +373,8 @@ msgstr "_Konverter smileys til emoji"
 
 #: main/data/preferences_window/general_preferences_page.ui:70
 #: main/src/ui/chat_input/view.vala:54
-#, fuzzy
 msgid "Stickers"
-msgstr "Højtalere"
+msgstr "Klistermærker"
 
 #: main/data/preferences_window/general_preferences_page.ui:73
 msgid "Enable Stickers"
@@ -426,9 +423,8 @@ msgstr "Databasevedligeholdelse"
 
 # DinoX v0.7.7 - Database Maintenance & Backup/Restore
 #: main/data/preferences_window/general_preferences_page.ui:130
-#, fuzzy
 msgid "Change Database Password"
-msgstr "Ryd database"
+msgstr "Skift databaseadgangskode"
 
 #: main/data/preferences_window/general_preferences_page.ui:131
 msgid "Change the password used to encrypt your local data"
@@ -575,9 +571,8 @@ msgid "Beenden"
 msgstr "Afslut"
 
 #: main/src/ui/application.vala:266 main/src/ui/application.vala:361
-#, fuzzy
 msgid "Passwort"
-msgstr "Kodeord"
+msgstr "Adgangskode"
 
 #: main/src/ui/application.vala:271
 msgid "DinoX entsperren"
@@ -601,9 +596,8 @@ msgid "Passwort bestätigen"
 msgstr "Bekræft adgangskode"
 
 #: main/src/ui/application.vala:370
-#, fuzzy
 msgid "Passwort festlegen"
-msgstr "Adgangskode for kort"
+msgstr "Angiv adgangskode"
 
 #: main/src/ui/application.vala:371
 msgid ""
@@ -617,26 +611,22 @@ msgid "Ungültiges Passwort. Versuch %d/%d"
 msgstr "Ugyldig adgangskode. Forsøg %d/%d"
 
 #: main/src/ui/application.vala:448
-#, fuzzy
 msgid "Passwort setzen"
-msgstr "Adgangskode for kort"
+msgstr "Angiv adgangskode"
 
 #: main/src/ui/application.vala:746
-#, fuzzy
 msgid "Set Status Message"
-msgstr "Søg meddelelser"
+msgstr "Angiv statusbesked"
 
 #: main/src/ui/application.vala:755
-#, fuzzy
 msgid "Set"
-msgstr "Vælg"
+msgstr "Angiv"
 
 #: main/src/ui/application.vala:809
 msgid "Aktuelles Passwort"
 msgstr "Nuværende adgangskode"
 
 #: main/src/ui/application.vala:811
-#, fuzzy
 msgid "Neues Passwort"
 msgstr "Ny adgangskode"
 
@@ -1134,9 +1124,8 @@ msgid "Unencrypted"
 msgstr "Ukrypteret"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:176
-#, fuzzy
 msgid "Manage Sticker Packs"
-msgstr "Opret krypteret sikkerhedskopi"
+msgstr "Håndter klistermærkepakker"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:390
 msgid "Stickers are unavailable"
@@ -1149,9 +1138,8 @@ msgid "None"
 msgstr "Ingen"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:412
-#, fuzzy
 msgid "No sticker packs yet."
-msgstr "Fjern kontakt?"
+msgstr "Ingen klistermærkepakker endnu."
 
 #: main/src/ui/chat_input/sticker_chooser.vala:414
 #: main/src/ui/chat_input/sticker_chooser.vala:527
@@ -1875,9 +1863,8 @@ msgid "Select"
 msgstr "Vælg"
 
 #: main/src/ui/conversation_view_controller.vala:332
-#, fuzzy
 msgid "Failed to get location"
-msgstr "Kunne ikke slette rum"
+msgstr "Kunne ikke hente placering"
 
 #: main/src/ui/file_send_overlay.vala:60
 msgid "The file exceeds the server's maximum upload size."
@@ -2065,9 +2052,8 @@ msgid "Quit"
 msgstr "Afslut"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:35
-#, fuzzy
 msgid "Import"
-msgstr "Importér nøgle"
+msgstr "Importer"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:36
 msgid "Copy Share URI"
@@ -2079,26 +2065,22 @@ msgstr "Importer klistermærkepakke"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:90
 #: main/src/ui/sticker_pack_import_dialog.vala:147
-#, fuzzy
 msgid "Loading…"
-msgstr "afventer …"
+msgstr "Indlæser…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:128
-#, fuzzy
 msgid "Importing…"
-msgstr "Forbinder…"
+msgstr "Importerer…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:136
 #: main/src/ui/sticker_pack_import_dialog.vala:158
-#, fuzzy
 msgid "No account available"
-msgstr "Ikke tilgængelig"
+msgstr "Ingen konto tilgængelig"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:172
 #: main/src/ui/sticker_pack_import_dialog.vala:189
-#, fuzzy
 msgid "Failed to import sticker pack"
-msgstr "Kunne ikke rydde cache"
+msgstr "Kunne ikke importere klistermærkepakke"
 
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
@@ -2375,33 +2357,26 @@ msgstr "Skift visningsnavn for %s"
 msgid "Alias (optional)"
 msgstr "Alias (valgfrit)"
 
-#, fuzzy
 #~ msgid "Import…"
-#~ msgstr "Importér nøgle"
+#~ msgstr "Importer…"
 
-#, fuzzy
 #~ msgid "Select sticker folder"
-#~ msgstr "Vælg fil"
+#~ msgstr "Vælg klistermærkemappe"
 
-#, fuzzy
 #~ msgid "Local only"
-#~ msgstr "Lokalt alias"
+#~ msgstr "Kun lokalt"
 
-#, fuzzy
 #~ msgid "Failed to create sticker pack"
-#~ msgstr "Kunne ikke rydde cache"
+#~ msgstr "Kunne ikke oprette klistermærkepakke"
 
-#, fuzzy
 #~ msgid "Publishing…"
-#~ msgstr "Forbinder…"
+#~ msgstr "Udgiver…"
 
-#, fuzzy
 #~ msgid "Failed to publish sticker pack"
-#~ msgstr "Kunne ikke rydde cache"
+#~ msgstr "Kunne ikke udgive klistermærkepakke"
 
-#, fuzzy
 #~ msgid "Failed to remove sticker pack"
-#~ msgstr "Kunne ikke rydde cache"
+#~ msgstr "Kunne ikke fjerne klistermærkepakke"
 
 #~ msgid "Creating backup..."
 #~ msgstr "Opretter sikkerhedskopi..."

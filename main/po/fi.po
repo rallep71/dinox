@@ -59,14 +59,12 @@ msgid "Accept"
 msgstr "Hyväksy"
 
 #: main/data/chat_input.ui:15
-#, fuzzy
 msgid "Send File…"
-msgstr "Lähetä tiedosto"
+msgstr "Lähetä tiedosto…"
 
 #: main/data/chat_input.ui:25
-#, fuzzy
 msgid "Send Location"
-msgstr "Tietojen tallennussijainti"
+msgstr "Lähetä sijainti"
 
 #: main/data/chat_input.ui:96
 msgid "Record voice message"
@@ -376,9 +374,8 @@ msgstr "_Muunna hymiöt emojeiksi"
 
 #: main/data/preferences_window/general_preferences_page.ui:70
 #: main/src/ui/chat_input/view.vala:54
-#, fuzzy
 msgid "Stickers"
-msgstr "Kaiuttimet"
+msgstr "Tarrat"
 
 #: main/data/preferences_window/general_preferences_page.ui:73
 msgid "Enable Stickers"
@@ -426,9 +423,8 @@ msgid "Database Maintenance"
 msgstr "Tietokannan ylläpito"
 
 #: main/data/preferences_window/general_preferences_page.ui:130
-#, fuzzy
 msgid "Change Database Password"
-msgstr "Vaihda salasana"
+msgstr "Vaihda tietokannan salasana"
 
 #: main/data/preferences_window/general_preferences_page.ui:131
 msgid "Change the password used to encrypt your local data"
@@ -575,7 +571,6 @@ msgid "Beenden"
 msgstr "Lopeta"
 
 #: main/src/ui/application.vala:266 main/src/ui/application.vala:361
-#, fuzzy
 msgid "Passwort"
 msgstr "Salasana"
 
@@ -601,9 +596,8 @@ msgid "Passwort bestätigen"
 msgstr "Vahvista salasana"
 
 #: main/src/ui/application.vala:370
-#, fuzzy
 msgid "Passwort festlegen"
-msgstr "Salasana on liian lyhyt"
+msgstr "Aseta salasana"
 
 #: main/src/ui/application.vala:371
 msgid ""
@@ -617,26 +611,22 @@ msgid "Ungültiges Passwort. Versuch %d/%d"
 msgstr "Virheellinen salasana. Yritys %d/%d"
 
 #: main/src/ui/application.vala:448
-#, fuzzy
 msgid "Passwort setzen"
-msgstr "Salasana on liian lyhyt"
+msgstr "Aseta salasana"
 
 #: main/src/ui/application.vala:746
-#, fuzzy
 msgid "Set Status Message"
-msgstr "Etsi viestejä"
+msgstr "Aseta tilaviesti"
 
 #: main/src/ui/application.vala:755
-#, fuzzy
 msgid "Set"
-msgstr "Valitse"
+msgstr "Aseta"
 
 #: main/src/ui/application.vala:809
 msgid "Aktuelles Passwort"
 msgstr "Nykyinen salasana"
 
 #: main/src/ui/application.vala:811
-#, fuzzy
 msgid "Neues Passwort"
 msgstr "Uusi salasana"
 
@@ -1134,9 +1124,8 @@ msgid "Unencrypted"
 msgstr "Salaamaton"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:176
-#, fuzzy
 msgid "Manage Sticker Packs"
-msgstr "Luo salattu varmuuskopio"
+msgstr "Hallitse tarrapakkauksia"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:390
 msgid "Stickers are unavailable"
@@ -1149,9 +1138,8 @@ msgid "None"
 msgstr "Ei mitään"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:412
-#, fuzzy
 msgid "No sticker packs yet."
-msgstr "Poista yhteystieto?"
+msgstr "Ei vielä tarrapakkauksia."
 
 #: main/src/ui/chat_input/sticker_chooser.vala:414
 #: main/src/ui/chat_input/sticker_chooser.vala:527
@@ -1876,9 +1864,8 @@ msgid "Select"
 msgstr "Valitse"
 
 #: main/src/ui/conversation_view_controller.vala:332
-#, fuzzy
 msgid "Failed to get location"
-msgstr "Huoneen tuhoaminen epäonnistui"
+msgstr "Sijainnin haku epäonnistui"
 
 #: main/src/ui/file_send_overlay.vala:60
 msgid "The file exceeds the server's maximum upload size."
@@ -2066,9 +2053,8 @@ msgid "Quit"
 msgstr "Lopeta"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:35
-#, fuzzy
 msgid "Import"
-msgstr "Importér nøgle"
+msgstr "Tuo"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:36
 msgid "Copy Share URI"
@@ -2080,26 +2066,22 @@ msgstr "Tuo tarrapaketti"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:90
 #: main/src/ui/sticker_pack_import_dialog.vala:147
-#, fuzzy
 msgid "Loading…"
-msgstr "odottaa…"
+msgstr "Ladataan…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:128
-#, fuzzy
 msgid "Importing…"
-msgstr "Yhdistää…"
+msgstr "Tuodaan…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:136
 #: main/src/ui/sticker_pack_import_dialog.vala:158
-#, fuzzy
 msgid "No account available"
-msgstr "Ei tavoitettavissa"
+msgstr "Ei tiliä saatavilla"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:172
 #: main/src/ui/sticker_pack_import_dialog.vala:189
-#, fuzzy
 msgid "Failed to import sticker pack"
-msgstr "Välimuistin tyhjennys epäonnistui"
+msgstr "Tarrapakkauksen tuonti epäonnistui"
 
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
@@ -2376,33 +2358,26 @@ msgstr "Muuta näyttönimeä käyttäjälle %s"
 msgid "Alias (optional)"
 msgstr "Alias (valinnainen)"
 
-#, fuzzy
 #~ msgid "Import…"
-#~ msgstr "Importér nøgle"
+#~ msgstr "Tuo…"
 
-#, fuzzy
 #~ msgid "Select sticker folder"
-#~ msgstr "Valitse tiedosto"
+#~ msgstr "Valitse tarrakansio"
 
-#, fuzzy
 #~ msgid "Local only"
-#~ msgstr "Paikallinen alias"
+#~ msgstr "Vain paikallinen"
 
-#, fuzzy
 #~ msgid "Failed to create sticker pack"
-#~ msgstr "Välimuistin tyhjennys epäonnistui"
+#~ msgstr "Tarrapakkauksen luonti epäonnistui"
 
-#, fuzzy
 #~ msgid "Publishing…"
-#~ msgstr "kirjoittaa…"
+#~ msgstr "Julkaistaan…"
 
-#, fuzzy
 #~ msgid "Failed to publish sticker pack"
-#~ msgstr "Välimuistin tyhjennys epäonnistui"
+#~ msgstr "Tarrapakkauksen julkaisu epäonnistui"
 
-#, fuzzy
 #~ msgid "Failed to remove sticker pack"
-#~ msgstr "Välimuistin tyhjennys epäonnistui"
+#~ msgstr "Tarrapakkauksen poisto epäonnistui"
 
 #~ msgid "Creating backup..."
 #~ msgstr "Luodaan varmuuskopiota..."

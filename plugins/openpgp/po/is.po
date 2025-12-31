@@ -37,9 +37,8 @@ msgid "Error in GnuPG"
 msgstr "Villa hjá GnuPG"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:56
-#, fuzzy
 msgid "No keys available. Generate or import one!"
-msgstr "Engir lyklar í boði. Búðu einn til!"
+msgstr "Engir lyklar tiltækir. Búðu til eða fluttu inn einn!"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:68
 #: plugins/openpgp/src/encryption_preferences_entry.vala:110
@@ -47,9 +46,8 @@ msgid "Disabled"
 msgstr "Óvirkt"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:97
-#, fuzzy
 msgid "Select OpenPGP Key"
-msgstr "Veldu lykil"
+msgstr "Velja OpenPGP lykil"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:97
 msgid "Choose a key to announce to your contacts."

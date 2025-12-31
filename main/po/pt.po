@@ -58,14 +58,12 @@ msgid "Accept"
 msgstr "Aceitar"
 
 #: main/data/chat_input.ui:15
-#, fuzzy
 msgid "Send File…"
-msgstr "Enviar um ficheiro"
+msgstr "Enviar ficheiro…"
 
 #: main/data/chat_input.ui:25
-#, fuzzy
 msgid "Send Location"
-msgstr "Localização de armazenamento de dados"
+msgstr "Enviar localização"
 
 #: main/data/chat_input.ui:96
 msgid "Record voice message"
@@ -375,9 +373,8 @@ msgstr "_Converter Emoticons em Emojis"
 
 #: main/data/preferences_window/general_preferences_page.ui:70
 #: main/src/ui/chat_input/view.vala:54
-#, fuzzy
 msgid "Stickers"
-msgstr "Autofalantes"
+msgstr "Adesivos"
 
 #: main/data/preferences_window/general_preferences_page.ui:73
 msgid "Enable Stickers"
@@ -426,9 +423,8 @@ msgid "Database Maintenance"
 msgstr "Manutenção da base de dados"
 
 #: main/data/preferences_window/general_preferences_page.ui:130
-#, fuzzy
 msgid "Change Database Password"
-msgstr "Alterar a palavra-passe"
+msgstr "Alterar palavra-passe da base de dados"
 
 #: main/data/preferences_window/general_preferences_page.ui:131
 msgid "Change the password used to encrypt your local data"
@@ -578,7 +574,6 @@ msgid "Beenden"
 msgstr "Sair"
 
 #: main/src/ui/application.vala:266 main/src/ui/application.vala:361
-#, fuzzy
 msgid "Passwort"
 msgstr "Palavra-passe"
 
@@ -604,9 +599,8 @@ msgid "Passwort bestätigen"
 msgstr "Confirmar palavra-passe"
 
 #: main/src/ui/application.vala:370
-#, fuzzy
 msgid "Passwort festlegen"
-msgstr "Palavra-passe demasiado curta"
+msgstr "Definir palavra-passe"
 
 #: main/src/ui/application.vala:371
 msgid ""
@@ -620,28 +614,24 @@ msgid "Ungültiges Passwort. Versuch %d/%d"
 msgstr "Palavra-passe inválida. Tentativa %d/%d"
 
 #: main/src/ui/application.vala:448
-#, fuzzy
 msgid "Passwort setzen"
-msgstr "Palavra-passe demasiado curta"
+msgstr "Definir palavra-passe"
 
 #: main/src/ui/application.vala:746
-#, fuzzy
 msgid "Set Status Message"
-msgstr "Procurar mensagens"
+msgstr "Definir mensagem de estado"
 
 #: main/src/ui/application.vala:755
-#, fuzzy
 msgid "Set"
-msgstr "Selecionar"
+msgstr "Definir"
 
 #: main/src/ui/application.vala:809
 msgid "Aktuelles Passwort"
 msgstr "Palavra-passe atual"
 
 #: main/src/ui/application.vala:811
-#, fuzzy
 msgid "Neues Passwort"
-msgstr "Palavra-passe nova"
+msgstr "Nova palavra-passe"
 
 #: main/src/ui/application.vala:813
 msgid "Neues Passwort bestätigen"
@@ -1138,9 +1128,8 @@ msgid "Unencrypted"
 msgstr "Não-criptografado"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:176
-#, fuzzy
 msgid "Manage Sticker Packs"
-msgstr "Criar cópia encriptada"
+msgstr "Gerir pacotes de adesivos"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:390
 msgid "Stickers are unavailable"
@@ -1153,9 +1142,8 @@ msgid "None"
 msgstr "Nenhum"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:412
-#, fuzzy
 msgid "No sticker packs yet."
-msgstr "Remover contacto?"
+msgstr "Ainda sem pacotes de adesivos."
 
 #: main/src/ui/chat_input/sticker_chooser.vala:414
 #: main/src/ui/chat_input/sticker_chooser.vala:527
@@ -1880,9 +1868,8 @@ msgid "Select"
 msgstr "Selecionar"
 
 #: main/src/ui/conversation_view_controller.vala:332
-#, fuzzy
 msgid "Failed to get location"
-msgstr "Falha ao destruir sala"
+msgstr "Falha ao obter localização"
 
 #: main/src/ui/file_send_overlay.vala:60
 msgid "The file exceeds the server's maximum upload size."
@@ -2071,9 +2058,8 @@ msgid "Quit"
 msgstr "Sair"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:35
-#, fuzzy
 msgid "Import"
-msgstr "Importar chave"
+msgstr "Importar"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:36
 msgid "Copy Share URI"
@@ -2085,26 +2071,22 @@ msgstr "Importar pacote de autocolantes"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:90
 #: main/src/ui/sticker_pack_import_dialog.vala:147
-#, fuzzy
 msgid "Loading…"
-msgstr "Pendente…"
+msgstr "A carregar…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:128
-#, fuzzy
 msgid "Importing…"
-msgstr "Conectando…"
+msgstr "A importar…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:136
 #: main/src/ui/sticker_pack_import_dialog.vala:158
-#, fuzzy
 msgid "No account available"
-msgstr "Não disponível"
+msgstr "Nenhuma conta disponível"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:172
 #: main/src/ui/sticker_pack_import_dialog.vala:189
-#, fuzzy
 msgid "Failed to import sticker pack"
-msgstr "Falha ao limpar a cache"
+msgstr "Falha ao importar pacote de adesivos"
 
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
@@ -2385,33 +2367,26 @@ msgstr "Alterar o nome de exibição para %s"
 msgid "Alias (optional)"
 msgstr "Alcunha (opcional)"
 
-#, fuzzy
 #~ msgid "Import…"
-#~ msgstr "Importar chave"
+#~ msgstr "Importar…"
 
-#, fuzzy
 #~ msgid "Select sticker folder"
-#~ msgstr "Selecionar ficheiro"
+#~ msgstr "Selecionar pasta de adesivos"
 
-#, fuzzy
 #~ msgid "Local only"
-#~ msgstr "Pseudônimo local"
+#~ msgstr "Apenas local"
 
-#, fuzzy
 #~ msgid "Failed to create sticker pack"
-#~ msgstr "Falha ao limpar a cache"
+#~ msgstr "Falha ao criar pacote de adesivos"
 
-#, fuzzy
 #~ msgid "Publishing…"
-#~ msgstr "Juntando-se…"
+#~ msgstr "A publicar…"
 
-#, fuzzy
 #~ msgid "Failed to publish sticker pack"
-#~ msgstr "Falha ao limpar a cache"
+#~ msgstr "Falha ao publicar pacote de adesivos"
 
-#, fuzzy
 #~ msgid "Failed to remove sticker pack"
-#~ msgstr "Falha ao limpar a cache"
+#~ msgstr "Falha ao remover pacote de adesivos"
 
 #~ msgid "Creating backup..."
 #~ msgstr "A criar cópia de segurança..."

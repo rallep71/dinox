@@ -38,9 +38,8 @@ msgid "Error in GnuPG"
 msgstr "GnuPG 錯誤"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:56
-#, fuzzy
 msgid "No keys available. Generate or import one!"
-msgstr "沒有可用的金鑰。生成一個!"
+msgstr "無可用金鑰。請產生或匯入一個！"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:68
 #: plugins/openpgp/src/encryption_preferences_entry.vala:110
@@ -48,9 +47,8 @@ msgid "Disabled"
 msgstr "已停用"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:97
-#, fuzzy
 msgid "Select OpenPGP Key"
-msgstr "選擇金鑰"
+msgstr "選擇 OpenPGP 金鑰"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:97
 msgid "Choose a key to announce to your contacts."

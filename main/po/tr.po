@@ -58,14 +58,12 @@ msgid "Accept"
 msgstr "Kabul et"
 
 #: main/data/chat_input.ui:15
-#, fuzzy
 msgid "Send File…"
-msgstr "Dosya gönder"
+msgstr "Dosya Gönder…"
 
 #: main/data/chat_input.ui:25
-#, fuzzy
 msgid "Send Location"
-msgstr "Veri Depolama Konumu"
+msgstr "Konum Gönder"
 
 #: main/data/chat_input.ui:96
 msgid "Record voice message"
@@ -375,9 +373,8 @@ msgstr "Gülen Yüzleri Emoji'ye _Dönüştür"
 
 #: main/data/preferences_window/general_preferences_page.ui:70
 #: main/src/ui/chat_input/view.vala:54
-#, fuzzy
 msgid "Stickers"
-msgstr "Hoparlörler"
+msgstr "Çıkartmalar"
 
 #: main/data/preferences_window/general_preferences_page.ui:73
 msgid "Enable Stickers"
@@ -425,9 +422,8 @@ msgid "Database Maintenance"
 msgstr "Veritabanı Bakımı"
 
 #: main/data/preferences_window/general_preferences_page.ui:130
-#, fuzzy
 msgid "Change Database Password"
-msgstr "Parola değiştir"
+msgstr "Veritabanı Parolasını Değiştir"
 
 #: main/data/preferences_window/general_preferences_page.ui:131
 msgid "Change the password used to encrypt your local data"
@@ -575,7 +571,6 @@ msgid "Beenden"
 msgstr "Çıkış"
 
 #: main/src/ui/application.vala:266 main/src/ui/application.vala:361
-#, fuzzy
 msgid "Passwort"
 msgstr "Parola"
 
@@ -601,9 +596,8 @@ msgid "Passwort bestätigen"
 msgstr "Parolayı onayla"
 
 #: main/src/ui/application.vala:370
-#, fuzzy
 msgid "Passwort festlegen"
-msgstr "Şifre çok kısa"
+msgstr "Parola Belirle"
 
 #: main/src/ui/application.vala:371
 msgid ""
@@ -617,28 +611,24 @@ msgid "Ungültiges Passwort. Versuch %d/%d"
 msgstr "Geçersiz parola. Deneme %d/%d"
 
 #: main/src/ui/application.vala:448
-#, fuzzy
 msgid "Passwort setzen"
-msgstr "Şifre çok kısa"
+msgstr "Parola Belirle"
 
 #: main/src/ui/application.vala:746
-#, fuzzy
 msgid "Set Status Message"
-msgstr "Mesajları ara"
+msgstr "Durum İletisi Belirle"
 
 #: main/src/ui/application.vala:755
-#, fuzzy
 msgid "Set"
-msgstr "Seç"
+msgstr "Belirle"
 
 #: main/src/ui/application.vala:809
 msgid "Aktuelles Passwort"
 msgstr "Mevcut parola"
 
 #: main/src/ui/application.vala:811
-#, fuzzy
 msgid "Neues Passwort"
-msgstr "Yeni parola"
+msgstr "Yeni Parola"
 
 #: main/src/ui/application.vala:813
 msgid "Neues Passwort bestätigen"
@@ -1132,9 +1122,8 @@ msgid "Unencrypted"
 msgstr "Şifrelenmemiş"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:176
-#, fuzzy
 msgid "Manage Sticker Packs"
-msgstr "Şifreli yedek oluştur"
+msgstr "Çıkartma Paketlerini Yönet"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:390
 msgid "Stickers are unavailable"
@@ -1147,9 +1136,8 @@ msgid "None"
 msgstr "Hiçbiri"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:412
-#, fuzzy
 msgid "No sticker packs yet."
-msgstr "Kişiyi kaldır?"
+msgstr "Henüz çıkartma paketi yok."
 
 #: main/src/ui/chat_input/sticker_chooser.vala:414
 #: main/src/ui/chat_input/sticker_chooser.vala:527
@@ -1874,9 +1862,8 @@ msgid "Select"
 msgstr "Seç"
 
 #: main/src/ui/conversation_view_controller.vala:332
-#, fuzzy
 msgid "Failed to get location"
-msgstr "Oda yok edilemedi"
+msgstr "Konum alınamadı"
 
 #: main/src/ui/file_send_overlay.vala:60
 msgid "The file exceeds the server's maximum upload size."
@@ -2065,9 +2052,8 @@ msgid "Quit"
 msgstr "Çık"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:35
-#, fuzzy
 msgid "Import"
-msgstr "Anahtar içe aktar"
+msgstr "İçe Aktar"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:36
 msgid "Copy Share URI"
@@ -2079,26 +2065,22 @@ msgstr "Çıkartma Paketini İçe Aktar"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:90
 #: main/src/ui/sticker_pack_import_dialog.vala:147
-#, fuzzy
 msgid "Loading…"
-msgstr "bekliyor…"
+msgstr "Yükleniyor…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:128
-#, fuzzy
 msgid "Importing…"
-msgstr "Bağlanıyor…"
+msgstr "İçe aktarılıyor…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:136
 #: main/src/ui/sticker_pack_import_dialog.vala:158
-#, fuzzy
 msgid "No account available"
-msgstr "Müsait Değil"
+msgstr "Kullanılabilir hesap yok"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:172
 #: main/src/ui/sticker_pack_import_dialog.vala:189
-#, fuzzy
 msgid "Failed to import sticker pack"
-msgstr "Önbellek temizlenemedi"
+msgstr "Çıkartma paketi içe aktarılamadı"
 
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
@@ -2374,33 +2356,26 @@ msgstr "%s için görünen adı değiştir"
 msgid "Alias (optional)"
 msgstr "Takma ad (isteğe bağlı)"
 
-#, fuzzy
 #~ msgid "Import…"
-#~ msgstr "Anahtar içe aktar"
+#~ msgstr "İçe Aktar…"
 
-#, fuzzy
 #~ msgid "Select sticker folder"
-#~ msgstr "Dosya seç"
+#~ msgstr "Çıkartma klasörünü seç"
 
-#, fuzzy
 #~ msgid "Local only"
-#~ msgstr "Yerel mahlas"
+#~ msgstr "Yalnızca yerel"
 
-#, fuzzy
 #~ msgid "Failed to create sticker pack"
-#~ msgstr "Önbellek temizlenemedi"
+#~ msgstr "Çıkartma paketi oluşturulamadı"
 
-#, fuzzy
 #~ msgid "Publishing…"
-#~ msgstr "yazıyor…"
+#~ msgstr "Yayımlanıyor…"
 
-#, fuzzy
 #~ msgid "Failed to publish sticker pack"
-#~ msgstr "Önbellek temizlenemedi"
+#~ msgstr "Çıkartma paketi yayımlanamadı"
 
-#, fuzzy
 #~ msgid "Failed to remove sticker pack"
-#~ msgstr "Önbellek temizlenemedi"
+#~ msgstr "Çıkartma paketi kaldırılamadı"
 
 #~ msgid "Creating backup..."
 #~ msgstr "Yedek oluşturuluyor..."

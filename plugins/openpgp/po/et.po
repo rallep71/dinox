@@ -37,9 +37,8 @@ msgid "Error in GnuPG"
 msgstr "GnuPG viga"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:56
-#, fuzzy
 msgid "No keys available. Generate or import one!"
-msgstr "Võtmeid ei leidu. Palun loo!"
+msgstr "Võtmeid pole saadaval. Genereeri või impordi üks!"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:68
 #: plugins/openpgp/src/encryption_preferences_entry.vala:110

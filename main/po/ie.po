@@ -58,14 +58,12 @@ msgid "Accept"
 msgstr "Acceptar"
 
 #: main/data/chat_input.ui:15
-#, fuzzy
 msgid "Send File…"
-msgstr "Inviar un file"
+msgstr "Inviar file…"
 
 #: main/data/chat_input.ui:25
-#, fuzzy
 msgid "Send Location"
-msgstr "Location de immagazinage de data"
+msgstr "Inviar localisation"
 
 #: main/data/chat_input.ui:96
 msgid "Record voice message"
@@ -374,9 +372,8 @@ msgstr "_Converter smileys a emoji"
 
 #: main/data/preferences_window/general_preferences_page.ui:70
 #: main/src/ui/chat_input/view.vala:54
-#, fuzzy
 msgid "Stickers"
-msgstr "Altparlatores"
+msgstr "Adhesives"
 
 #: main/data/preferences_window/general_preferences_page.ui:73
 msgid "Enable Stickers"
@@ -425,9 +422,8 @@ msgstr "Mantenentie del base de datos"
 
 # DinoX v0.7.7 - Database Maintenance & Backup/Restore
 #: main/data/preferences_window/general_preferences_page.ui:130
-#, fuzzy
 msgid "Change Database Password"
-msgstr "Clean Database"
+msgstr "Cambiar contrasigne de base de data"
 
 #: main/data/preferences_window/general_preferences_page.ui:131
 msgid "Change the password used to encrypt your local data"
@@ -574,7 +570,6 @@ msgid "Beenden"
 msgstr "Quitar"
 
 #: main/src/ui/application.vala:266 main/src/ui/application.vala:361
-#, fuzzy
 msgid "Passwort"
 msgstr "Contrasigne"
 
@@ -600,9 +595,8 @@ msgid "Passwort bestätigen"
 msgstr "Confirmar contrasigne"
 
 #: main/src/ui/application.vala:370
-#, fuzzy
 msgid "Passwort festlegen"
-msgstr "Contrasigne tro curt"
+msgstr "Assignar contrasigne"
 
 #: main/src/ui/application.vala:371
 msgid ""
@@ -616,26 +610,22 @@ msgid "Ungültiges Passwort. Versuch %d/%d"
 msgstr "Invalid contrasigne. Tentative %d/%d"
 
 #: main/src/ui/application.vala:448
-#, fuzzy
 msgid "Passwort setzen"
-msgstr "Contrasigne tro curt"
+msgstr "Assignar contrasigne"
 
 #: main/src/ui/application.vala:746
-#, fuzzy
 msgid "Set Status Message"
-msgstr "Serchar missages"
+msgstr "Assignar missage de statu"
 
 #: main/src/ui/application.vala:755
-#, fuzzy
 msgid "Set"
-msgstr "Selecter"
+msgstr "Assignar"
 
 #: main/src/ui/application.vala:809
 msgid "Aktuelles Passwort"
 msgstr "Actual contrasigne"
 
 #: main/src/ui/application.vala:811
-#, fuzzy
 msgid "Neues Passwort"
 msgstr "Nov contrasigne"
 
@@ -1129,9 +1119,8 @@ msgid "Unencrypted"
 msgstr "Ínciffrat"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:176
-#, fuzzy
 msgid "Manage Sticker Packs"
-msgstr "Crear copia de securitá cryptat"
+msgstr "Gerer pachettes de adhesives"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:390
 msgid "Stickers are unavailable"
@@ -1144,9 +1133,8 @@ msgid "None"
 msgstr "Null"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:412
-#, fuzzy
 msgid "No sticker packs yet."
-msgstr "Remover contacte?"
+msgstr "Null pachettes de adhesives ancor."
 
 #: main/src/ui/chat_input/sticker_chooser.vala:414
 #: main/src/ui/chat_input/sticker_chooser.vala:527
@@ -1869,9 +1857,8 @@ msgid "Select"
 msgstr "Selecter"
 
 #: main/src/ui/conversation_view_controller.vala:332
-#, fuzzy
 msgid "Failed to get location"
-msgstr "Ne successat destructer li sala"
+msgstr "Ne successat obtener localisation"
 
 #: main/src/ui/file_send_overlay.vala:60
 msgid "The file exceeds the server's maximum upload size."
@@ -2059,9 +2046,8 @@ msgid "Quit"
 msgstr "Quitar"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:35
-#, fuzzy
 msgid "Import"
-msgstr "Import Key"
+msgstr "Importar"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:36
 msgid "Copy Share URI"
@@ -2073,26 +2059,22 @@ msgstr "Importar pachette de adhesivos"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:90
 #: main/src/ui/sticker_pack_import_dialog.vala:147
-#, fuzzy
 msgid "Loading…"
-msgstr "expectante…"
+msgstr "Cargante…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:128
-#, fuzzy
 msgid "Importing…"
-msgstr "Conexion…"
+msgstr "Importante…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:136
 #: main/src/ui/sticker_pack_import_dialog.vala:158
-#, fuzzy
 msgid "No account available"
-msgstr "Ne disponibil"
+msgstr "Null conto disponibil"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:172
 #: main/src/ui/sticker_pack_import_dialog.vala:189
-#, fuzzy
 msgid "Failed to import sticker pack"
-msgstr "Fallo vacuar cache"
+msgstr "Ne successat importar pachette de adhesives"
 
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
@@ -2368,33 +2350,26 @@ msgstr "Changear li nómine monstrat por %s"
 msgid "Alias (optional)"
 msgstr "Pseudonim (optional)"
 
-#, fuzzy
 #~ msgid "Import…"
-#~ msgstr "Import Key"
+#~ msgstr "Importar…"
 
-#, fuzzy
 #~ msgid "Select sticker folder"
-#~ msgstr "Selecter un file"
+#~ msgstr "Selecter dossier de adhesives"
 
-#, fuzzy
 #~ msgid "Local only"
-#~ msgstr "Local pseudonim"
+#~ msgstr "Solmen local"
 
-#, fuzzy
 #~ msgid "Failed to create sticker pack"
-#~ msgstr "Fallo vacuar cache"
+#~ msgstr "Ne successat crear pachette de adhesives"
 
-#, fuzzy
 #~ msgid "Publishing…"
-#~ msgstr "tippa…"
+#~ msgstr "Publicante…"
 
-#, fuzzy
 #~ msgid "Failed to publish sticker pack"
-#~ msgstr "Fallo vacuar cache"
+#~ msgstr "Ne successat publicar pachette de adhesives"
 
-#, fuzzy
 #~ msgid "Failed to remove sticker pack"
-#~ msgstr "Fallo vacuar cache"
+#~ msgstr "Ne successat remover pachette de adhesives"
 
 #~ msgid "Creating backup..."
 #~ msgstr "Creante copia de securitá..."

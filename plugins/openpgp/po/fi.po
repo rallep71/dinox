@@ -37,9 +37,8 @@ msgid "Error in GnuPG"
 msgstr "Virhe GnuPG:ssä"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:56
-#, fuzzy
 msgid "No keys available. Generate or import one!"
-msgstr "Ei avaimia saatavilla. Luo avain!"
+msgstr "Ei avaimia saatavilla. Luo tai tuo yksi!"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:68
 #: plugins/openpgp/src/encryption_preferences_entry.vala:110
@@ -47,9 +46,8 @@ msgid "Disabled"
 msgstr "Pois käytöstä"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:97
-#, fuzzy
 msgid "Select OpenPGP Key"
-msgstr "Valitse avain"
+msgstr "Valitse OpenPGP-avain"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:97
 msgid "Choose a key to announce to your contacts."

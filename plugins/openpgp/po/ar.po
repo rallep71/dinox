@@ -39,9 +39,8 @@ msgid "Error in GnuPG"
 msgstr "خطأ في GnuPG"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:56
-#, fuzzy
 msgid "No keys available. Generate or import one!"
-msgstr "لا مفتاح متوفر. ولِّد واحدًا!"
+msgstr "لا توجد مفاتيح متاحة. قم بإنشاء أو استيراد واحد!"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:68
 #: plugins/openpgp/src/encryption_preferences_entry.vala:110
@@ -49,9 +48,8 @@ msgid "Disabled"
 msgstr "مُعَطَّل"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:97
-#, fuzzy
 msgid "Select OpenPGP Key"
-msgstr "اختيار مفتاح"
+msgstr "تحديد مفتاح OpenPGP"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:97
 msgid "Choose a key to announce to your contacts."

@@ -37,9 +37,8 @@ msgid "Error in GnuPG"
 msgstr "Gabim në GnuPG"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:56
-#, fuzzy
 msgid "No keys available. Generate or import one!"
-msgstr "S’ka kyçe gati. Prodhoni një të tillë!"
+msgstr "Asnjë çelës i disponueshëm. Gjenero ose importo një!"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:68
 #: plugins/openpgp/src/encryption_preferences_entry.vala:110
@@ -47,9 +46,8 @@ msgid "Disabled"
 msgstr "I çaktivizuar"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:97
-#, fuzzy
 msgid "Select OpenPGP Key"
-msgstr "Përzgjidhni kyç"
+msgstr "Zgjidh çelësin OpenPGP"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:97
 msgid "Choose a key to announce to your contacts."

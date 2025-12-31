@@ -37,9 +37,8 @@ msgid "Error in GnuPG"
 msgstr "Lỗi trong GnuPG"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:56
-#, fuzzy
 msgid "No keys available. Generate or import one!"
-msgstr "Không có khoá khả dụng. Hãy tạo một khoá!"
+msgstr "Không có khóa nào. Hãy tạo hoặc nhập một khóa!"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:68
 #: plugins/openpgp/src/encryption_preferences_entry.vala:110
@@ -47,9 +46,8 @@ msgid "Disabled"
 msgstr "Đã vô hiệu hoá"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:97
-#, fuzzy
 msgid "Select OpenPGP Key"
-msgstr "Chọn khoá"
+msgstr "Chọn khóa OpenPGP"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:97
 msgid "Choose a key to announce to your contacts."

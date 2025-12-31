@@ -239,9 +239,8 @@ msgstr "جهاز جديد"
 
 #: plugins/omemo/src/ui/contact_details_provider.vala:46
 #: plugins/omemo/src/ui/contact_details_provider.vala:53
-#, fuzzy
 msgid "OMEMO Encryption"
-msgstr "التعمية"
+msgstr "تشفير OMEMO"
 
 #: plugins/omemo/src/ui/contact_details_provider.vala:47
 msgid "No member JIDs available. This may be an anonymous room."
@@ -252,7 +251,7 @@ msgid "Encryption keys for room members"
 msgstr "مفاتيح التشفير لأعضاء الغرفة"
 
 #: plugins/omemo/src/ui/contact_details_provider.vala:76
-#, fuzzy, c-format
+, c-format
 msgid "%d device"
 msgid_plural "%d devices"
 msgstr[0] "لا أجهزة OMEMO"

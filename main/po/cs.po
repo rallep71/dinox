@@ -58,14 +58,12 @@ msgid "Accept"
 msgstr "Přijmout"
 
 #: main/data/chat_input.ui:15
-#, fuzzy
 msgid "Send File…"
-msgstr "Odeslat soubor"
+msgstr "Odeslat soubor…"
 
 #: main/data/chat_input.ui:25
-#, fuzzy
 msgid "Send Location"
-msgstr "Umístění úložiště dat"
+msgstr "Odeslat polohu"
 
 #: main/data/chat_input.ui:96
 msgid "Record voice message"
@@ -374,9 +372,8 @@ msgstr "_Převést smajlíky na emoji"
 
 #: main/data/preferences_window/general_preferences_page.ui:70
 #: main/src/ui/chat_input/view.vala:54
-#, fuzzy
 msgid "Stickers"
-msgstr "Reproduktory"
+msgstr "Nálepky"
 
 #: main/data/preferences_window/general_preferences_page.ui:73
 msgid "Enable Stickers"
@@ -425,9 +422,8 @@ msgstr "Údržba databáze"
 
 # DinoX v0.7.7 - Database Maintenance & Backup/Restore
 #: main/data/preferences_window/general_preferences_page.ui:130
-#, fuzzy
 msgid "Change Database Password"
-msgstr "Vyčistit databázi"
+msgstr "Změnit heslo databáze"
 
 #: main/data/preferences_window/general_preferences_page.ui:131
 msgid "Change the password used to encrypt your local data"
@@ -575,7 +571,6 @@ msgid "Beenden"
 msgstr "Ukončit"
 
 #: main/src/ui/application.vala:266 main/src/ui/application.vala:361
-#, fuzzy
 msgid "Passwort"
 msgstr "Heslo"
 
@@ -601,9 +596,8 @@ msgid "Passwort bestätigen"
 msgstr "Potvrdit heslo"
 
 #: main/src/ui/application.vala:370
-#, fuzzy
 msgid "Passwort festlegen"
-msgstr "Heslo je příliš krátké"
+msgstr "Nastavit heslo"
 
 #: main/src/ui/application.vala:371
 msgid ""
@@ -617,26 +611,22 @@ msgid "Ungültiges Passwort. Versuch %d/%d"
 msgstr "Neplatné heslo. Pokus %d/%d"
 
 #: main/src/ui/application.vala:448
-#, fuzzy
 msgid "Passwort setzen"
-msgstr "Heslo je příliš krátké"
+msgstr "Nastavit heslo"
 
 #: main/src/ui/application.vala:746
-#, fuzzy
 msgid "Set Status Message"
-msgstr "Hledat zprávy"
+msgstr "Nastavit stavovou zprávu"
 
 #: main/src/ui/application.vala:755
-#, fuzzy
 msgid "Set"
-msgstr "Vybrat"
+msgstr "Nastavit"
 
 #: main/src/ui/application.vala:809
 msgid "Aktuelles Passwort"
 msgstr "Aktuální heslo"
 
 #: main/src/ui/application.vala:811
-#, fuzzy
 msgid "Neues Passwort"
 msgstr "Nové heslo"
 
@@ -1129,9 +1119,8 @@ msgid "Unencrypted"
 msgstr "Nešifrované"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:176
-#, fuzzy
 msgid "Manage Sticker Packs"
-msgstr "Vytvořit šifrovanou zálohu"
+msgstr "Spravovat sady nálepek"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:390
 msgid "Stickers are unavailable"
@@ -1144,9 +1133,8 @@ msgid "None"
 msgstr "Žádné"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:412
-#, fuzzy
 msgid "No sticker packs yet."
-msgstr "Odebrat kontakt?"
+msgstr "Zatím žádné sady nálepek."
 
 #: main/src/ui/chat_input/sticker_chooser.vala:414
 #: main/src/ui/chat_input/sticker_chooser.vala:527
@@ -1870,9 +1858,8 @@ msgid "Select"
 msgstr "Vybrat"
 
 #: main/src/ui/conversation_view_controller.vala:332
-#, fuzzy
 msgid "Failed to get location"
-msgstr "Nepodařilo se zničit místnost"
+msgstr "Nepodařilo se získat polohu"
 
 #: main/src/ui/file_send_overlay.vala:60
 msgid "The file exceeds the server's maximum upload size."
@@ -2060,9 +2047,8 @@ msgid "Quit"
 msgstr "Ukončit"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:35
-#, fuzzy
 msgid "Import"
-msgstr "Importovat klíč"
+msgstr "Importovat"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:36
 msgid "Copy Share URI"
@@ -2074,26 +2060,22 @@ msgstr "Importovat balíček nálepek"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:90
 #: main/src/ui/sticker_pack_import_dialog.vala:147
-#, fuzzy
 msgid "Loading…"
-msgstr "čeká na vyřízení…"
+msgstr "Načítání…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:128
-#, fuzzy
 msgid "Importing…"
-msgstr "Připojování…"
+msgstr "Importování…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:136
 #: main/src/ui/sticker_pack_import_dialog.vala:158
-#, fuzzy
 msgid "No account available"
-msgstr "Nedostupný"
+msgstr "Žádný účet není k dispozici"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:172
 #: main/src/ui/sticker_pack_import_dialog.vala:189
-#, fuzzy
 msgid "Failed to import sticker pack"
-msgstr "Nepodařilo se vymazat mezipaměť"
+msgstr "Nepodařilo se importovat sadu nálepek"
 
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
@@ -2372,33 +2354,26 @@ msgstr "Změnit zobrazované jméno pro %s"
 msgid "Alias (optional)"
 msgstr "Přezdívka (volitelné)"
 
-#, fuzzy
 #~ msgid "Import…"
-#~ msgstr "Importovat klíč"
+#~ msgstr "Importovat…"
 
-#, fuzzy
 #~ msgid "Select sticker folder"
-#~ msgstr "Vybrat soubor"
+#~ msgstr "Vybrat složku s nálepkami"
 
-#, fuzzy
 #~ msgid "Local only"
-#~ msgstr "Místní alias"
+#~ msgstr "Pouze místní"
 
-#, fuzzy
 #~ msgid "Failed to create sticker pack"
-#~ msgstr "Nepodařilo se vymazat mezipaměť"
+#~ msgstr "Nepodařilo se vytvořit sadu nálepek"
 
-#, fuzzy
 #~ msgid "Publishing…"
-#~ msgstr "Připojování…"
+#~ msgstr "Publikování…"
 
-#, fuzzy
 #~ msgid "Failed to publish sticker pack"
-#~ msgstr "Nepodařilo se vymazat mezipaměť"
+#~ msgstr "Nepodařilo se publikovat sadu nálepek"
 
-#, fuzzy
 #~ msgid "Failed to remove sticker pack"
-#~ msgstr "Nepodařilo se vymazat mezipaměť"
+#~ msgstr "Nepodařilo se odstranit sadu nálepek"
 
 #~ msgid "Creating backup..."
 #~ msgstr "Vytváření zálohy..."

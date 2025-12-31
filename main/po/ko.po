@@ -58,14 +58,12 @@ msgid "Accept"
 msgstr "허용"
 
 #: main/data/chat_input.ui:15
-#, fuzzy
 msgid "Send File…"
-msgstr "파일 전송"
+msgstr "파일 전송…"
 
 #: main/data/chat_input.ui:25
-#, fuzzy
 msgid "Send Location"
-msgstr "데이터 저장 위치"
+msgstr "위치 전송"
 
 #: main/data/chat_input.ui:96
 msgid "Record voice message"
@@ -372,9 +370,8 @@ msgstr "_이모티콘을 이모지로 변환"
 
 #: main/data/preferences_window/general_preferences_page.ui:70
 #: main/src/ui/chat_input/view.vala:54
-#, fuzzy
 msgid "Stickers"
-msgstr "스피커"
+msgstr "스티커"
 
 #: main/data/preferences_window/general_preferences_page.ui:73
 msgid "Enable Stickers"
@@ -423,9 +420,8 @@ msgstr "데이터베이스 유지보수"
 
 # DinoX v0.7.7 - Database Maintenance & Backup/Restore
 #: main/data/preferences_window/general_preferences_page.ui:130
-#, fuzzy
 msgid "Change Database Password"
-msgstr "데이터베이스 정리"
+msgstr "데이터베이스 비밀번호 변경"
 
 #: main/data/preferences_window/general_preferences_page.ui:131
 msgid "Change the password used to encrypt your local data"
@@ -572,7 +568,6 @@ msgid "Beenden"
 msgstr "종료"
 
 #: main/src/ui/application.vala:266 main/src/ui/application.vala:361
-#, fuzzy
 msgid "Passwort"
 msgstr "비밀번호"
 
@@ -598,9 +593,8 @@ msgid "Passwort bestätigen"
 msgstr "비밀번호 확인"
 
 #: main/src/ui/application.vala:370
-#, fuzzy
 msgid "Passwort festlegen"
-msgstr "비밀번호가 너무 짧습니다"
+msgstr "비밀번호 설정"
 
 #: main/src/ui/application.vala:371
 msgid ""
@@ -614,26 +608,22 @@ msgid "Ungültiges Passwort. Versuch %d/%d"
 msgstr "유효하지 않은 비밀번호입니다. 시도 %d/%d"
 
 #: main/src/ui/application.vala:448
-#, fuzzy
 msgid "Passwort setzen"
-msgstr "비밀번호가 너무 짧습니다"
+msgstr "비밀번호 설정"
 
 #: main/src/ui/application.vala:746
-#, fuzzy
 msgid "Set Status Message"
-msgstr "메세지 검색"
+msgstr "상태 메시지 설정"
 
 #: main/src/ui/application.vala:755
-#, fuzzy
 msgid "Set"
-msgstr "선택"
+msgstr "설정"
 
 #: main/src/ui/application.vala:809
 msgid "Aktuelles Passwort"
 msgstr "현재 비밀번호"
 
 #: main/src/ui/application.vala:811
-#, fuzzy
 msgid "Neues Passwort"
 msgstr "새 비밀번호"
 
@@ -1123,9 +1113,8 @@ msgid "Unencrypted"
 msgstr "비암호화"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:176
-#, fuzzy
 msgid "Manage Sticker Packs"
-msgstr "암호화된 백업 생성"
+msgstr "스티커 팩 관리"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:390
 msgid "Stickers are unavailable"
@@ -1138,9 +1127,8 @@ msgid "None"
 msgstr "없음"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:412
-#, fuzzy
 msgid "No sticker packs yet."
-msgstr "연락처 삭제?"
+msgstr "스티커 팩이 없습니다."
 
 #: main/src/ui/chat_input/sticker_chooser.vala:414
 #: main/src/ui/chat_input/sticker_chooser.vala:527
@@ -1859,9 +1847,8 @@ msgid "Select"
 msgstr "선택"
 
 #: main/src/ui/conversation_view_controller.vala:332
-#, fuzzy
 msgid "Failed to get location"
-msgstr "방 삭제 실패"
+msgstr "위치를 가져오지 못했습니다"
 
 #: main/src/ui/file_send_overlay.vala:60
 msgid "The file exceeds the server's maximum upload size."
@@ -2049,9 +2036,8 @@ msgid "Quit"
 msgstr "종료"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:35
-#, fuzzy
 msgid "Import"
-msgstr "키 가져오기"
+msgstr "가져오기"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:36
 msgid "Copy Share URI"
@@ -2063,26 +2049,22 @@ msgstr "스티커 팩 가져오기"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:90
 #: main/src/ui/sticker_pack_import_dialog.vala:147
-#, fuzzy
 msgid "Loading…"
-msgstr "대기중…"
+msgstr "로드 중…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:128
-#, fuzzy
 msgid "Importing…"
-msgstr "연결 중…"
+msgstr "가져오는 중…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:136
 #: main/src/ui/sticker_pack_import_dialog.vala:158
-#, fuzzy
 msgid "No account available"
-msgstr "접속 불가"
+msgstr "사용 가능한 계정이 없습니다"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:172
 #: main/src/ui/sticker_pack_import_dialog.vala:189
-#, fuzzy
 msgid "Failed to import sticker pack"
-msgstr "캐시를 지우지 못했습니다"
+msgstr "스티커 팩을 가져오지 못했습니다"
 
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
@@ -2352,33 +2334,26 @@ msgstr "%s의 표시 이름 변경"
 msgid "Alias (optional)"
 msgstr "별칭 (선택사항)"
 
-#, fuzzy
 #~ msgid "Import…"
-#~ msgstr "키 가져오기"
+#~ msgstr "가져오기…"
 
-#, fuzzy
 #~ msgid "Select sticker folder"
-#~ msgstr "파일 선택"
+#~ msgstr "스티커 폴더 선택"
 
-#, fuzzy
 #~ msgid "Local only"
-#~ msgstr "로컬 별명"
+#~ msgstr "로컬 전용"
 
-#, fuzzy
 #~ msgid "Failed to create sticker pack"
-#~ msgstr "캐시를 지우지 못했습니다"
+#~ msgstr "스티커 팩을 만들지 못했습니다"
 
-#, fuzzy
 #~ msgid "Publishing…"
-#~ msgstr "참가 중…"
+#~ msgstr "게시 중…"
 
-#, fuzzy
 #~ msgid "Failed to publish sticker pack"
-#~ msgstr "캐시를 지우지 못했습니다"
+#~ msgstr "스티커 팩을 게시하지 못했습니다"
 
-#, fuzzy
 #~ msgid "Failed to remove sticker pack"
-#~ msgstr "캐시를 지우지 못했습니다"
+#~ msgstr "스티커 팩을 제거하지 못했습니다"
 
 #~ msgid "Creating backup..."
 #~ msgstr "백업 생성 중..."

@@ -37,9 +37,8 @@ msgid "Error in GnuPG"
 msgstr "GnuPG'de Hata"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:56
-#, fuzzy
 msgid "No keys available. Generate or import one!"
-msgstr "Anahtar yok. Bir tane oluşturun!"
+msgstr "Kullanılabilir anahtar yok. Bir tane oluşturun veya içe aktarın!"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:68
 #: plugins/openpgp/src/encryption_preferences_entry.vala:110
@@ -47,9 +46,8 @@ msgid "Disabled"
 msgstr "Devre dışı"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:97
-#, fuzzy
 msgid "Select OpenPGP Key"
-msgstr "Anahtar seçin"
+msgstr "OpenPGP Anahtarını Seç"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:97
 msgid "Choose a key to announce to your contacts."

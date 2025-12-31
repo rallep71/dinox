@@ -37,9 +37,8 @@ msgid "Error in GnuPG"
 msgstr "GnuPG ผิดพลาด"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:56
-#, fuzzy
 msgid "No keys available. Generate or import one!"
-msgstr "ไม่มีคีย์ที่ใช้งานได้ สร้างอันใหม่สิ!"
+msgstr "ไม่มีคีย์ที่ใช้ได้ สร้างหรือนำเข้า!"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:68
 #: plugins/openpgp/src/encryption_preferences_entry.vala:110

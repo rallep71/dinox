@@ -247,7 +247,7 @@ msgid "Encryption keys for room members"
 msgstr "กุญแจเข้ารหัสสำหรับสมาชิกห้อง"
 
 #: plugins/omemo/src/ui/contact_details_provider.vala:76
-#, fuzzy, c-format
+, c-format
 msgid "%d device"
 msgid_plural "%d devices"
 msgstr[0] "อุปกรณ์ใหม่"

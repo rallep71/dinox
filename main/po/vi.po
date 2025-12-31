@@ -58,14 +58,12 @@ msgid "Accept"
 msgstr "Chấp nhận"
 
 #: main/data/chat_input.ui:15
-#, fuzzy
 msgid "Send File…"
-msgstr "Gửi một tệp tin"
+msgstr "Gửi tệp…"
 
 #: main/data/chat_input.ui:25
-#, fuzzy
 msgid "Send Location"
-msgstr "Vị trí lưu trữ dữ liệu"
+msgstr "Gửi vị trí"
 
 #: main/data/chat_input.ui:96
 msgid "Record voice message"
@@ -372,9 +370,8 @@ msgstr "_Chuyển đổi mặt cười thành Emoji"
 
 #: main/data/preferences_window/general_preferences_page.ui:70
 #: main/src/ui/chat_input/view.vala:54
-#, fuzzy
 msgid "Stickers"
-msgstr "Loa"
+msgstr "Nhãn dán"
 
 #: main/data/preferences_window/general_preferences_page.ui:73
 msgid "Enable Stickers"
@@ -422,9 +419,8 @@ msgid "Database Maintenance"
 msgstr "Bảo trì cơ sở dữ liệu"
 
 #: main/data/preferences_window/general_preferences_page.ui:130
-#, fuzzy
 msgid "Change Database Password"
-msgstr "Đổi mật khẩu"
+msgstr "Đổi mật khẩu cơ sở dữ liệu"
 
 #: main/data/preferences_window/general_preferences_page.ui:131
 msgid "Change the password used to encrypt your local data"
@@ -573,9 +569,8 @@ msgid "Beenden"
 msgstr "Thoát"
 
 #: main/src/ui/application.vala:266 main/src/ui/application.vala:361
-#, fuzzy
 msgid "Passwort"
-msgstr "Mật khẩu phòng"
+msgstr "Mật khẩu"
 
 #: main/src/ui/application.vala:271
 msgid "DinoX entsperren"
@@ -599,9 +594,8 @@ msgid "Passwort bestätigen"
 msgstr "Xác nhận mật khẩu"
 
 #: main/src/ui/application.vala:370
-#, fuzzy
 msgid "Passwort festlegen"
-msgstr "Mật khẩu quá ngắn"
+msgstr "Đặt mật khẩu"
 
 #: main/src/ui/application.vala:371
 msgid ""
@@ -615,26 +609,22 @@ msgid "Ungültiges Passwort. Versuch %d/%d"
 msgstr "Mật khẩu không hợp lệ. Thử %d/%d"
 
 #: main/src/ui/application.vala:448
-#, fuzzy
 msgid "Passwort setzen"
-msgstr "Mật khẩu quá ngắn"
+msgstr "Đặt mật khẩu"
 
 #: main/src/ui/application.vala:746
-#, fuzzy
 msgid "Set Status Message"
-msgstr "Tìm tin nhắn"
+msgstr "Đặt thông điệp trạng thái"
 
 #: main/src/ui/application.vala:755
-#, fuzzy
 msgid "Set"
-msgstr "Chọn"
+msgstr "Đặt"
 
 #: main/src/ui/application.vala:809
 msgid "Aktuelles Passwort"
 msgstr "Mật khẩu hiện tại"
 
 #: main/src/ui/application.vala:811
-#, fuzzy
 msgid "Neues Passwort"
 msgstr "Mật khẩu mới"
 
@@ -1129,9 +1119,8 @@ msgid "Unencrypted"
 msgstr "Không mã hoá"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:176
-#, fuzzy
 msgid "Manage Sticker Packs"
-msgstr "Tạo sao lưu được mã hóa"
+msgstr "Quản lý gói nhãn dán"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:390
 msgid "Stickers are unavailable"
@@ -1144,9 +1133,8 @@ msgid "None"
 msgstr "Không có"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:412
-#, fuzzy
 msgid "No sticker packs yet."
-msgstr "Xóa liên hệ?"
+msgstr "Chưa có gói nhãn dán nào."
 
 #: main/src/ui/chat_input/sticker_chooser.vala:414
 #: main/src/ui/chat_input/sticker_chooser.vala:527
@@ -1868,9 +1856,8 @@ msgid "Select"
 msgstr "Chọn"
 
 #: main/src/ui/conversation_view_controller.vala:332
-#, fuzzy
 msgid "Failed to get location"
-msgstr "Không thể xóa phòng"
+msgstr "Không thể lấy vị trí"
 
 #: main/src/ui/file_send_overlay.vala:60
 msgid "The file exceeds the server's maximum upload size."
@@ -2058,9 +2045,8 @@ msgid "Quit"
 msgstr "Thoát"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:35
-#, fuzzy
 msgid "Import"
-msgstr "Import Key"
+msgstr "Nhập"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:36
 msgid "Copy Share URI"
@@ -2072,26 +2058,22 @@ msgstr "Nhập gói nhãn dán"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:90
 #: main/src/ui/sticker_pack_import_dialog.vala:147
-#, fuzzy
 msgid "Loading…"
-msgstr "đang gửi…"
+msgstr "Đang tải…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:128
-#, fuzzy
 msgid "Importing…"
-msgstr "Đang kết nối…"
+msgstr "Đang nhập…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:136
 #: main/src/ui/sticker_pack_import_dialog.vala:158
-#, fuzzy
 msgid "No account available"
-msgstr "Không khả dụng"
+msgstr "Không có tài khoản nào"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:172
 #: main/src/ui/sticker_pack_import_dialog.vala:189
-#, fuzzy
 msgid "Failed to import sticker pack"
-msgstr "Không thể xóa bộ nhớ đệm"
+msgstr "Không thể nhập gói nhãn dán"
 
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
@@ -2368,33 +2350,26 @@ msgstr "Thay đổi tên hiển thị cho %s"
 msgid "Alias (optional)"
 msgstr "Bí danh (tùy chọn)"
 
-#, fuzzy
 #~ msgid "Import…"
-#~ msgstr "Import Key"
+#~ msgstr "Nhập…"
 
-#, fuzzy
 #~ msgid "Select sticker folder"
-#~ msgstr "Chọn tệp tin"
+#~ msgstr "Chọn thư mục nhãn dán"
 
-#, fuzzy
 #~ msgid "Local only"
-#~ msgstr "Bí danh cục bộ"
+#~ msgstr "Chỉ cục bộ"
 
-#, fuzzy
 #~ msgid "Failed to create sticker pack"
-#~ msgstr "Không thể xóa bộ nhớ đệm"
+#~ msgstr "Không thể tạo gói nhãn dán"
 
-#, fuzzy
 #~ msgid "Publishing…"
-#~ msgstr "Đang tham gia…"
+#~ msgstr "Đang xuất bản…"
 
-#, fuzzy
 #~ msgid "Failed to publish sticker pack"
-#~ msgstr "Không thể xóa bộ nhớ đệm"
+#~ msgstr "Không thể xuất bản gói nhãn dán"
 
-#, fuzzy
 #~ msgid "Failed to remove sticker pack"
-#~ msgstr "Không thể xóa bộ nhớ đệm"
+#~ msgstr "Không thể xóa gói nhãn dán"
 
 #~ msgid "Creating backup..."
 #~ msgstr "Đang tạo bản sao lưu..."

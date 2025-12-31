@@ -238,11 +238,10 @@ msgid "Encryption keys for room members"
 msgstr "Tisura n uchifru i yimsliten n texxamt"
 
 #: plugins/omemo/src/ui/contact_details_provider.vala:76
-#, fuzzy, c-format
 msgid "%d device"
 msgid_plural "%d devices"
-msgstr[0] "Ibenk amaynut"
-msgstr[1] "Ibenk amaynut"
+msgstr[0] "%d ibenk"
+msgstr[1] "%d ibenkan"
 
 #: plugins/omemo/src/ui/contact_details_provider.vala:138
 msgid "Trusted"

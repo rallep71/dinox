@@ -59,14 +59,12 @@ msgid "Accept"
 msgstr "Pieņemt"
 
 #: main/data/chat_input.ui:15
-#, fuzzy
 msgid "Send File…"
-msgstr "Sūtīt failu"
+msgstr "Sūtīt failu…"
 
 #: main/data/chat_input.ui:25
-#, fuzzy
 msgid "Send Location"
-msgstr "Datu glabāšanas vieta"
+msgstr "Sūtīt atrašanās vietu"
 
 #: main/data/chat_input.ui:96
 msgid "Record voice message"
@@ -374,9 +372,8 @@ msgstr "_Pārveidot smaidiņus par emocijzīmēm"
 
 #: main/data/preferences_window/general_preferences_page.ui:70
 #: main/src/ui/chat_input/view.vala:54
-#, fuzzy
 msgid "Stickers"
-msgstr "Skaļruņi"
+msgstr "Uzlīmes"
 
 #: main/data/preferences_window/general_preferences_page.ui:73
 msgid "Enable Stickers"
@@ -425,9 +422,8 @@ msgstr "Datu bāzes uzturēšana"
 
 # DinoX v0.7.7 - Database Maintenance & Backup/Restore
 #: main/data/preferences_window/general_preferences_page.ui:130
-#, fuzzy
 msgid "Change Database Password"
-msgstr "Clean Database"
+msgstr "Mainīt datubāzes paroli"
 
 #: main/data/preferences_window/general_preferences_page.ui:131
 msgid "Change the password used to encrypt your local data"
@@ -574,7 +570,6 @@ msgid "Beenden"
 msgstr "Iziet"
 
 #: main/src/ui/application.vala:266 main/src/ui/application.vala:361
-#, fuzzy
 msgid "Passwort"
 msgstr "Parole"
 
@@ -600,9 +595,8 @@ msgid "Passwort bestätigen"
 msgstr "Apstiprināt paroli"
 
 #: main/src/ui/application.vala:370
-#, fuzzy
 msgid "Passwort festlegen"
-msgstr "Parole pārāk īsa"
+msgstr "Iestatīt paroli"
 
 #: main/src/ui/application.vala:371
 msgid ""
@@ -616,28 +610,24 @@ msgid "Ungültiges Passwort. Versuch %d/%d"
 msgstr "Nederīga parole. Mēģinājums %d/%d"
 
 #: main/src/ui/application.vala:448
-#, fuzzy
 msgid "Passwort setzen"
-msgstr "Parole pārāk īsa"
+msgstr "Iestatīt paroli"
 
 #: main/src/ui/application.vala:746
-#, fuzzy
 msgid "Set Status Message"
-msgstr "Meklēt ziņas"
+msgstr "Iestatīt statusa ziņojumu"
 
 #: main/src/ui/application.vala:755
-#, fuzzy
 msgid "Set"
-msgstr "Izvēlēties"
+msgstr "Iestatīt"
 
 #: main/src/ui/application.vala:809
 msgid "Aktuelles Passwort"
 msgstr "Pašreizējā parole"
 
 #: main/src/ui/application.vala:811
-#, fuzzy
 msgid "Neues Passwort"
-msgstr "Jaunā parole"
+msgstr "Jauna parole"
 
 #: main/src/ui/application.vala:813
 msgid "Neues Passwort bestätigen"
@@ -1129,9 +1119,8 @@ msgid "Unencrypted"
 msgstr "Nešifrēts"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:176
-#, fuzzy
 msgid "Manage Sticker Packs"
-msgstr "Izveidot šifrētu dublējumu"
+msgstr "Pārvaldīt uzlīmju pakas"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:390
 msgid "Stickers are unavailable"
@@ -1144,9 +1133,8 @@ msgid "None"
 msgstr "Nav"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:412
-#, fuzzy
 msgid "No sticker packs yet."
-msgstr "Noņemt kontaktu?"
+msgstr "Vēl nav uzlīmju paku."
 
 #: main/src/ui/chat_input/sticker_chooser.vala:414
 #: main/src/ui/chat_input/sticker_chooser.vala:527
@@ -1868,9 +1856,8 @@ msgid "Select"
 msgstr "Izvēlēties"
 
 #: main/src/ui/conversation_view_controller.vala:332
-#, fuzzy
 msgid "Failed to get location"
-msgstr "Neizdevās iznīcināt istabu"
+msgstr "Neizdevās iegūt atrašanās vietu"
 
 #: main/src/ui/file_send_overlay.vala:60
 msgid "The file exceeds the server's maximum upload size."
@@ -2058,9 +2045,8 @@ msgid "Quit"
 msgstr "Iziet"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:35
-#, fuzzy
 msgid "Import"
-msgstr "Import Key"
+msgstr "Importēt"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:36
 msgid "Copy Share URI"
@@ -2072,26 +2058,22 @@ msgstr "Importēt uzlīmju paku"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:90
 #: main/src/ui/sticker_pack_import_dialog.vala:147
-#, fuzzy
 msgid "Loading…"
-msgstr "gaida…"
+msgstr "Ielādē…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:128
-#, fuzzy
 msgid "Importing…"
-msgstr "Savienojas…"
+msgstr "Importē…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:136
 #: main/src/ui/sticker_pack_import_dialog.vala:158
-#, fuzzy
 msgid "No account available"
-msgstr "Nav pieejams"
+msgstr "Nav pieejams neviens konts"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:172
 #: main/src/ui/sticker_pack_import_dialog.vala:189
-#, fuzzy
 msgid "Failed to import sticker pack"
-msgstr "Neizdevās notīrīt kešatmiņu"
+msgstr "Neizdevās importēt uzlīmju paku"
 
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
@@ -2366,33 +2348,26 @@ msgstr "Mainīt attēlojamo vārdu lietotājam %s"
 msgid "Alias (optional)"
 msgstr "Aizstājvārds (neobligāti)"
 
-#, fuzzy
 #~ msgid "Import…"
-#~ msgstr "Import Key"
+#~ msgstr "Importēt…"
 
-#, fuzzy
 #~ msgid "Select sticker folder"
-#~ msgstr "Izvēlieties failu"
+#~ msgstr "Izvēlēties uzlīmju mapi"
 
-#, fuzzy
 #~ msgid "Local only"
-#~ msgstr "Vietējais aizstājvārds"
+#~ msgstr "Tikai lokāli"
 
-#, fuzzy
 #~ msgid "Failed to create sticker pack"
-#~ msgstr "Neizdevās notīrīt kešatmiņu"
+#~ msgstr "Neizdevās izveidot uzlīmju paku"
 
-#, fuzzy
 #~ msgid "Publishing…"
-#~ msgstr "Pievienojas…"
+#~ msgstr "Publicē…"
 
-#, fuzzy
 #~ msgid "Failed to publish sticker pack"
-#~ msgstr "Neizdevās notīrīt kešatmiņu"
+#~ msgstr "Neizdevās publicēt uzlīmju paku"
 
-#, fuzzy
 #~ msgid "Failed to remove sticker pack"
-#~ msgstr "Neizdevās notīrīt kešatmiņu"
+#~ msgstr "Neizdevās noņemt uzlīmju paku"
 
 #~ msgid "Creating backup..."
 #~ msgstr "Veido dublējumu..."

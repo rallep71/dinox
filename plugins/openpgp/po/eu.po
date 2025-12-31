@@ -38,9 +38,8 @@ msgid "Error in GnuPG"
 msgstr "GnuPG akatsa"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:56
-#, fuzzy
 msgid "No keys available. Generate or import one!"
-msgstr "Ez dago gakorik eskuragarri. Sortu ezazu bat!"
+msgstr "Ez dago gakorik erabilgarri. Sortu edo inportatu bat!"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:68
 #: plugins/openpgp/src/encryption_preferences_entry.vala:110
@@ -48,9 +47,8 @@ msgid "Disabled"
 msgstr "Desgaituta"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:97
-#, fuzzy
 msgid "Select OpenPGP Key"
-msgstr "Gakoa hautatu"
+msgstr "Hautatu OpenPGP gakoa"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:97
 msgid "Choose a key to announce to your contacts."

@@ -59,14 +59,12 @@ msgid "Accept"
 msgstr "Elfogadás"
 
 #: main/data/chat_input.ui:15
-#, fuzzy
 msgid "Send File…"
-msgstr "Fájl küldése"
+msgstr "Fájl küldése…"
 
 #: main/data/chat_input.ui:25
-#, fuzzy
 msgid "Send Location"
-msgstr "Adattárolás helye"
+msgstr "Hely küldése"
 
 #: main/data/chat_input.ui:96
 msgid "Record voice message"
@@ -379,9 +377,8 @@ msgstr "Mosolyjelek át_alakítása emodzsivá"
 
 #: main/data/preferences_window/general_preferences_page.ui:70
 #: main/src/ui/chat_input/view.vala:54
-#, fuzzy
 msgid "Stickers"
-msgstr "Hangszórók"
+msgstr "Matricák"
 
 #: main/data/preferences_window/general_preferences_page.ui:73
 msgid "Enable Stickers"
@@ -429,9 +426,8 @@ msgid "Database Maintenance"
 msgstr "Adatbázis karbantartás"
 
 #: main/data/preferences_window/general_preferences_page.ui:130
-#, fuzzy
 msgid "Change Database Password"
-msgstr "Jelszó megváltoztatása"
+msgstr "Adatbázis jelszavának megváltoztatása"
 
 #: main/data/preferences_window/general_preferences_page.ui:131
 msgid "Change the password used to encrypt your local data"
@@ -581,7 +577,6 @@ msgid "Beenden"
 msgstr "Kilépés"
 
 #: main/src/ui/application.vala:266 main/src/ui/application.vala:361
-#, fuzzy
 msgid "Passwort"
 msgstr "Jelszó"
 
@@ -607,9 +602,8 @@ msgid "Passwort bestätigen"
 msgstr "Jelszó megerősítése"
 
 #: main/src/ui/application.vala:370
-#, fuzzy
 msgid "Passwort festlegen"
-msgstr "A jelszó túl rövid"
+msgstr "Jelszó beállítása"
 
 #: main/src/ui/application.vala:371
 msgid ""
@@ -623,26 +617,22 @@ msgid "Ungültiges Passwort. Versuch %d/%d"
 msgstr "Érvénytelen jelszó. Próbálkozás %d/%d"
 
 #: main/src/ui/application.vala:448
-#, fuzzy
 msgid "Passwort setzen"
-msgstr "A jelszó túl rövid"
+msgstr "Jelszó beállítása"
 
 #: main/src/ui/application.vala:746
-#, fuzzy
 msgid "Set Status Message"
-msgstr "Üzenetek keresése"
+msgstr "Állapotüzenet beállítása"
 
 #: main/src/ui/application.vala:755
-#, fuzzy
 msgid "Set"
-msgstr "Kiválasztás"
+msgstr "Beállítás"
 
 #: main/src/ui/application.vala:809
 msgid "Aktuelles Passwort"
 msgstr "Jelenlegi jelszó"
 
 #: main/src/ui/application.vala:811
-#, fuzzy
 msgid "Neues Passwort"
 msgstr "Új jelszó"
 
@@ -1139,9 +1129,8 @@ msgid "Unencrypted"
 msgstr "Titkosítatlan"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:176
-#, fuzzy
 msgid "Manage Sticker Packs"
-msgstr "Titkosított mentés létrehozása"
+msgstr "Matricacsomagok kezelése"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:390
 msgid "Stickers are unavailable"
@@ -1154,9 +1143,8 @@ msgid "None"
 msgstr "Nincs"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:412
-#, fuzzy
 msgid "No sticker packs yet."
-msgstr "Névjegy eltávolítása?"
+msgstr "Még nincsenek matricacsomagok."
 
 #: main/src/ui/chat_input/sticker_chooser.vala:414
 #: main/src/ui/chat_input/sticker_chooser.vala:527
@@ -1881,9 +1869,8 @@ msgid "Select"
 msgstr "Kiválasztás"
 
 #: main/src/ui/conversation_view_controller.vala:332
-#, fuzzy
 msgid "Failed to get location"
-msgstr "Nem sikerült megsemmisíteni a szobát"
+msgstr "Nem sikerült lekérni a helyet"
 
 #: main/src/ui/file_send_overlay.vala:60
 msgid "The file exceeds the server's maximum upload size."
@@ -2071,9 +2058,8 @@ msgid "Quit"
 msgstr "Kilépés"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:35
-#, fuzzy
 msgid "Import"
-msgstr "Kulcs importálása"
+msgstr "Importálás"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:36
 msgid "Copy Share URI"
@@ -2085,26 +2071,22 @@ msgstr "Matricacsomag importálása"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:90
 #: main/src/ui/sticker_pack_import_dialog.vala:147
-#, fuzzy
 msgid "Loading…"
-msgstr "függőben…"
+msgstr "Betöltés…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:128
-#, fuzzy
 msgid "Importing…"
-msgstr "Kapcsolódás…"
+msgstr "Importálás…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:136
 #: main/src/ui/sticker_pack_import_dialog.vala:158
-#, fuzzy
 msgid "No account available"
-msgstr "Nem elérhető"
+msgstr "Nincs elérhető fiók"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:172
 #: main/src/ui/sticker_pack_import_dialog.vala:189
-#, fuzzy
 msgid "Failed to import sticker pack"
-msgstr "Gyorsítótár törlése sikertelen"
+msgstr "Nem sikerült importálni a matricacsomagot"
 
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
@@ -2387,33 +2369,26 @@ msgstr "Megjelenített név módosítása %s számára"
 msgid "Alias (optional)"
 msgstr "Becenév (opcionális)"
 
-#, fuzzy
 #~ msgid "Import…"
-#~ msgstr "Kulcs importálása"
+#~ msgstr "Importálás…"
 
-#, fuzzy
 #~ msgid "Select sticker folder"
-#~ msgstr "Fájl kiválasztása"
+#~ msgstr "Matricamappa kiválasztása"
 
-#, fuzzy
 #~ msgid "Local only"
-#~ msgstr "Helyi álnév"
+#~ msgstr "Csak helyi"
 
-#, fuzzy
 #~ msgid "Failed to create sticker pack"
-#~ msgstr "Gyorsítótár törlése sikertelen"
+#~ msgstr "Nem sikerült létrehozni a matricacsomagot"
 
-#, fuzzy
 #~ msgid "Publishing…"
-#~ msgstr "gépel…"
+#~ msgstr "Közzététel…"
 
-#, fuzzy
 #~ msgid "Failed to publish sticker pack"
-#~ msgstr "Gyorsítótár törlése sikertelen"
+#~ msgstr "Nem sikerült közzétenni a matricacsomagot"
 
-#, fuzzy
 #~ msgid "Failed to remove sticker pack"
-#~ msgstr "Gyorsítótár törlése sikertelen"
+#~ msgstr "Nem sikerült eltávolítani a matricacsomagot"
 
 #~ msgid "Creating backup..."
 #~ msgstr "Biztonsági mentés készítése..."

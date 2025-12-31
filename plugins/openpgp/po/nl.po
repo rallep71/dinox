@@ -33,9 +33,8 @@ msgid "Error in GnuPG"
 msgstr "Fout in GnuPG"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:56
-#, fuzzy
 msgid "No keys available. Generate or import one!"
-msgstr "Geen sleutels beschikbaar. Genereer een sleutel!"
+msgstr "Geen sleutels beschikbaar. Genereer of importeer er een!"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:68
 #: plugins/openpgp/src/encryption_preferences_entry.vala:110
@@ -43,9 +42,8 @@ msgid "Disabled"
 msgstr "Uitgeschakeld"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:97
-#, fuzzy
 msgid "Select OpenPGP Key"
-msgstr "Kies een sleutel"
+msgstr "OpenPGP-sleutel selecteren"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:97
 msgid "Choose a key to announce to your contacts."

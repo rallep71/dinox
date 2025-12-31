@@ -59,14 +59,12 @@ msgid "Accept"
 msgstr "Прийняти"
 
 #: main/data/chat_input.ui:15
-#, fuzzy
 msgid "Send File…"
-msgstr "Відіслати файл"
+msgstr "Надіслати файл…"
 
 #: main/data/chat_input.ui:25
-#, fuzzy
 msgid "Send Location"
-msgstr "Місце зберігання даних"
+msgstr "Надіслати розташування"
 
 #: main/data/chat_input.ui:96
 msgid "Record voice message"
@@ -375,9 +373,8 @@ msgstr "_Перетворювати смайлики на емодзі"
 
 #: main/data/preferences_window/general_preferences_page.ui:70
 #: main/src/ui/chat_input/view.vala:54
-#, fuzzy
 msgid "Stickers"
-msgstr "Колонки"
+msgstr "Наліпки"
 
 #: main/data/preferences_window/general_preferences_page.ui:73
 msgid "Enable Stickers"
@@ -427,9 +424,8 @@ msgid "Database Maintenance"
 msgstr "Обслуговування бази даних"
 
 #: main/data/preferences_window/general_preferences_page.ui:130
-#, fuzzy
 msgid "Change Database Password"
-msgstr "Змінити пароль"
+msgstr "Змінити пароль бази даних"
 
 #: main/data/preferences_window/general_preferences_page.ui:131
 msgid "Change the password used to encrypt your local data"
@@ -579,7 +575,6 @@ msgid "Beenden"
 msgstr "Вийти"
 
 #: main/src/ui/application.vala:266 main/src/ui/application.vala:361
-#, fuzzy
 msgid "Passwort"
 msgstr "Пароль"
 
@@ -605,9 +600,8 @@ msgid "Passwort bestätigen"
 msgstr "Підтвердити пароль"
 
 #: main/src/ui/application.vala:370
-#, fuzzy
 msgid "Passwort festlegen"
-msgstr "Пароль занадто короткий"
+msgstr "Встановити пароль"
 
 #: main/src/ui/application.vala:371
 msgid ""
@@ -621,26 +615,22 @@ msgid "Ungültiges Passwort. Versuch %d/%d"
 msgstr "Недійсний пароль. Спроба %d/%d"
 
 #: main/src/ui/application.vala:448
-#, fuzzy
 msgid "Passwort setzen"
-msgstr "Пароль занадто короткий"
+msgstr "Встановити пароль"
 
 #: main/src/ui/application.vala:746
-#, fuzzy
 msgid "Set Status Message"
-msgstr "Пошук повідомлень"
+msgstr "Встановити повідомлення про стан"
 
 #: main/src/ui/application.vala:755
-#, fuzzy
 msgid "Set"
-msgstr "Вибрати"
+msgstr "Встановити"
 
 #: main/src/ui/application.vala:809
 msgid "Aktuelles Passwort"
 msgstr "Поточний пароль"
 
 #: main/src/ui/application.vala:811
-#, fuzzy
 msgid "Neues Passwort"
 msgstr "Новий пароль"
 
@@ -1139,9 +1129,8 @@ msgid "Unencrypted"
 msgstr "Нешифровано"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:176
-#, fuzzy
 msgid "Manage Sticker Packs"
-msgstr "Створити зашифровану копію"
+msgstr "Керування наборами наліпок"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:390
 msgid "Stickers are unavailable"
@@ -1154,9 +1143,8 @@ msgid "None"
 msgstr "Немає"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:412
-#, fuzzy
 msgid "No sticker packs yet."
-msgstr "Видалити контакт?"
+msgstr "Наборів наліпок поки немає."
 
 #: main/src/ui/chat_input/sticker_chooser.vala:414
 #: main/src/ui/chat_input/sticker_chooser.vala:527
@@ -1880,9 +1868,8 @@ msgid "Select"
 msgstr "Вибрати"
 
 #: main/src/ui/conversation_view_controller.vala:332
-#, fuzzy
 msgid "Failed to get location"
-msgstr "Не вдалося знищити кімнату"
+msgstr "Не вдалося отримати розташування"
 
 #: main/src/ui/file_send_overlay.vala:60
 msgid "The file exceeds the server's maximum upload size."
@@ -2070,9 +2057,8 @@ msgid "Quit"
 msgstr "Вийти"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:35
-#, fuzzy
 msgid "Import"
-msgstr "Імпортувати ключ"
+msgstr "Імпорт"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:36
 msgid "Copy Share URI"
@@ -2084,26 +2070,22 @@ msgstr "Імпортувати набір наліпок"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:90
 #: main/src/ui/sticker_pack_import_dialog.vala:147
-#, fuzzy
 msgid "Loading…"
-msgstr "очикування…"
+msgstr "Завантаження…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:128
-#, fuzzy
 msgid "Importing…"
-msgstr "З'єднання…"
+msgstr "Імпортування…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:136
 #: main/src/ui/sticker_pack_import_dialog.vala:158
-#, fuzzy
 msgid "No account available"
-msgstr "Недоступний"
+msgstr "Немає доступних облікових записів"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:172
 #: main/src/ui/sticker_pack_import_dialog.vala:189
-#, fuzzy
 msgid "Failed to import sticker pack"
-msgstr "Не вдалося очистити кеш"
+msgstr "Не вдалося імпортувати набір наліпок"
 
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
@@ -2380,33 +2362,26 @@ msgstr "Змінити відображуване ім'я для %s"
 msgid "Alias (optional)"
 msgstr "Псевдонім (необов'язково)"
 
-#, fuzzy
 #~ msgid "Import…"
-#~ msgstr "Імпортувати ключ"
+#~ msgstr "Імпортувати…"
 
-#, fuzzy
 #~ msgid "Select sticker folder"
-#~ msgstr "Виберіть файл"
+#~ msgstr "Вибрати папку з наліпками"
 
-#, fuzzy
 #~ msgid "Local only"
-#~ msgstr "Місцевий псевдонім"
+#~ msgstr "Тільки локально"
 
-#, fuzzy
 #~ msgid "Failed to create sticker pack"
-#~ msgstr "Не вдалося очистити кеш"
+#~ msgstr "Не вдалося створити набір наліпок"
 
-#, fuzzy
 #~ msgid "Publishing…"
-#~ msgstr "Приєднання…"
+#~ msgstr "Публікація…"
 
-#, fuzzy
 #~ msgid "Failed to publish sticker pack"
-#~ msgstr "Не вдалося очистити кеш"
+#~ msgstr "Не вдалося опублікувати набір наліпок"
 
-#, fuzzy
 #~ msgid "Failed to remove sticker pack"
-#~ msgstr "Не вдалося очистити кеш"
+#~ msgstr "Не вдалося видалити набір наліпок"
 
 #~ msgid "Creating backup..."
 #~ msgstr "Створення резервної копії..."

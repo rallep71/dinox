@@ -58,14 +58,12 @@ msgid "Accept"
 msgstr "Pranojeni"
 
 #: main/data/chat_input.ui:15
-#, fuzzy
 msgid "Send File…"
-msgstr "Dërgoni një kartelë"
+msgstr "Dërgo skedar…"
 
 #: main/data/chat_input.ui:25
-#, fuzzy
 msgid "Send Location"
-msgstr "Vendndodhja e të dhënave"
+msgstr "Dërgo vendndodhjen"
 
 #: main/data/chat_input.ui:96
 msgid "Record voice message"
@@ -375,9 +373,8 @@ msgstr "_Shndërroji Emotikonet në Emoxhi"
 
 #: main/data/preferences_window/general_preferences_page.ui:70
 #: main/src/ui/chat_input/view.vala:54
-#, fuzzy
 msgid "Stickers"
-msgstr "Altoparlantë"
+msgstr "Ngjitëse"
 
 #: main/data/preferences_window/general_preferences_page.ui:73
 msgid "Enable Stickers"
@@ -426,9 +423,8 @@ msgid "Database Maintenance"
 msgstr "Mirëmbajtja e bazës së të dhënave"
 
 #: main/data/preferences_window/general_preferences_page.ui:130
-#, fuzzy
 msgid "Change Database Password"
-msgstr "Ndryshoni fjalëkalimin"
+msgstr "Ndrysho fjalëkalimin e bazës së të dhënave"
 
 #: main/data/preferences_window/general_preferences_page.ui:131
 msgid "Change the password used to encrypt your local data"
@@ -578,9 +574,8 @@ msgid "Beenden"
 msgstr "Dil"
 
 #: main/src/ui/application.vala:266 main/src/ui/application.vala:361
-#, fuzzy
 msgid "Passwort"
-msgstr "Fjalëkalim"
+msgstr "Fjalëkalimi"
 
 #: main/src/ui/application.vala:271
 msgid "DinoX entsperren"
@@ -604,9 +599,8 @@ msgid "Passwort bestätigen"
 msgstr "Konfirmo fjalëkalimin"
 
 #: main/src/ui/application.vala:370
-#, fuzzy
 msgid "Passwort festlegen"
-msgstr "Fjalëkalimi shumë i shkurtër"
+msgstr "Cakto fjalëkalimin"
 
 #: main/src/ui/application.vala:371
 msgid ""
@@ -620,26 +614,22 @@ msgid "Ungültiges Passwort. Versuch %d/%d"
 msgstr "Fjalëkalim i pavlefshëm. Përpjekja %d/%d"
 
 #: main/src/ui/application.vala:448
-#, fuzzy
 msgid "Passwort setzen"
-msgstr "Fjalëkalimi shumë i shkurtër"
+msgstr "Cakto fjalëkalimin"
 
 #: main/src/ui/application.vala:746
-#, fuzzy
 msgid "Set Status Message"
-msgstr "Kërko te mesazhet"
+msgstr "Cakto mesazhin e statusit"
 
 #: main/src/ui/application.vala:755
-#, fuzzy
 msgid "Set"
-msgstr "Përzgjidhe"
+msgstr "Cakto"
 
 #: main/src/ui/application.vala:809
 msgid "Aktuelles Passwort"
 msgstr "Fjalëkalimi aktual"
 
 #: main/src/ui/application.vala:811
-#, fuzzy
 msgid "Neues Passwort"
 msgstr "Fjalëkalim i ri"
 
@@ -1137,9 +1127,8 @@ msgid "Unencrypted"
 msgstr "I pafshehtëzuar"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:176
-#, fuzzy
 msgid "Manage Sticker Packs"
-msgstr "Krijo kopje rezervë të fshehtëzuar"
+msgstr "Menaxho paketat e ngjitëseve"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:390
 msgid "Stickers are unavailable"
@@ -1152,9 +1141,8 @@ msgid "None"
 msgstr "Asnjë"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:412
-#, fuzzy
 msgid "No sticker packs yet."
-msgstr "Hiq kontaktin?"
+msgstr "Ende asnjë paketë ngjitësesh."
 
 #: main/src/ui/chat_input/sticker_chooser.vala:414
 #: main/src/ui/chat_input/sticker_chooser.vala:527
@@ -1881,9 +1869,8 @@ msgid "Select"
 msgstr "Përzgjidhe"
 
 #: main/src/ui/conversation_view_controller.vala:332
-#, fuzzy
 msgid "Failed to get location"
-msgstr "Dështoi shkatërrimi i dhomës"
+msgstr "Dështoi në marrjen e vendndodhjes"
 
 #: main/src/ui/file_send_overlay.vala:60
 msgid "The file exceeds the server's maximum upload size."
@@ -2071,9 +2058,8 @@ msgid "Quit"
 msgstr "Dil"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:35
-#, fuzzy
 msgid "Import"
-msgstr "Import Key"
+msgstr "Importo"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:36
 msgid "Copy Share URI"
@@ -2085,26 +2071,22 @@ msgstr "Importo paketën e ngjitësve"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:90
 #: main/src/ui/sticker_pack_import_dialog.vala:147
-#, fuzzy
 msgid "Loading…"
-msgstr "pezull…"
+msgstr "Duke ngarkuar…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:128
-#, fuzzy
 msgid "Importing…"
-msgstr "Po lidhet…"
+msgstr "Duke importuar…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:136
 #: main/src/ui/sticker_pack_import_dialog.vala:158
-#, fuzzy
 msgid "No account available"
-msgstr "I padisponueshëm"
+msgstr "Asnjë llogari e disponueshme"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:172
 #: main/src/ui/sticker_pack_import_dialog.vala:189
-#, fuzzy
 msgid "Failed to import sticker pack"
-msgstr "Dështoi pastrimi i fshehësisë"
+msgstr "Dështoi në importimin e paketës së ngjitëseve"
 
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
@@ -2383,33 +2365,26 @@ msgstr "Ndrysho emrin e shfaqjes për %s"
 msgid "Alias (optional)"
 msgstr "Pseudonim (opsionale)"
 
-#, fuzzy
 #~ msgid "Import…"
-#~ msgstr "Import Key"
+#~ msgstr "Importo…"
 
-#, fuzzy
 #~ msgid "Select sticker folder"
-#~ msgstr "Përzgjidhni kartelë"
+#~ msgstr "Zgjidh dosjen e ngjitëseve"
 
-#, fuzzy
 #~ msgid "Local only"
-#~ msgstr "Alias vendor"
+#~ msgstr "Vetëm lokale"
 
-#, fuzzy
 #~ msgid "Failed to create sticker pack"
-#~ msgstr "Dështoi pastrimi i fshehësisë"
+#~ msgstr "Dështoi në krijimin e paketës së ngjitëseve"
 
-#, fuzzy
 #~ msgid "Publishing…"
-#~ msgstr "Po hyhet…"
+#~ msgstr "Duke publikuar…"
 
-#, fuzzy
 #~ msgid "Failed to publish sticker pack"
-#~ msgstr "Dështoi pastrimi i fshehësisë"
+#~ msgstr "Dështoi në publikimin e paketës së ngjitëseve"
 
-#, fuzzy
 #~ msgid "Failed to remove sticker pack"
-#~ msgstr "Dështoi pastrimi i fshehësisë"
+#~ msgstr "Dështoi në heqjen e paketës së ngjitëseve"
 
 #~ msgid "Creating backup..."
 #~ msgstr "Duke krijuar kopje rezervë..."

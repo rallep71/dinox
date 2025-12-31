@@ -58,14 +58,12 @@ msgid "Accept"
 msgstr "Ընդունել"
 
 #: main/data/chat_input.ui:15
-#, fuzzy
 msgid "Send File…"
-msgstr "Ուղարկել նիշք"
+msgstr "Ուղարկել ֆայլ…"
 
 #: main/data/chat_input.ui:25
-#, fuzzy
 msgid "Send Location"
-msgstr "Տվյալների պահպանման վայրը"
+msgstr "Ուղարկել տեղադրությունը"
 
 #: main/data/chat_input.ui:96
 msgid "Record voice message"
@@ -374,9 +372,8 @@ msgstr "_Փոխարկել զմայլիկներն՝ էմոջիների"
 
 #: main/data/preferences_window/general_preferences_page.ui:70
 #: main/src/ui/chat_input/view.vala:54
-#, fuzzy
 msgid "Stickers"
-msgstr "Բարձրախօսներ"
+msgstr "Սթիքերներ"
 
 #: main/data/preferences_window/general_preferences_page.ui:73
 msgid "Enable Stickers"
@@ -428,9 +425,8 @@ msgid "Database Maintenance"
 msgstr "Տվյալների բազայի սպասարկում"
 
 #: main/data/preferences_window/general_preferences_page.ui:130
-#, fuzzy
 msgid "Change Database Password"
-msgstr "Փոխել ծածկագիրը"
+msgstr "Փոխել տվյալների բազայի գաղտնաբառը"
 
 #: main/data/preferences_window/general_preferences_page.ui:131
 msgid "Change the password used to encrypt your local data"
@@ -579,9 +575,8 @@ msgid "Beenden"
 msgstr "Ելք"
 
 #: main/src/ui/application.vala:266 main/src/ui/application.vala:361
-#, fuzzy
 msgid "Passwort"
-msgstr "Ծածկագիր"
+msgstr "Գաղտնաբառ"
 
 #: main/src/ui/application.vala:271
 msgid "DinoX entsperren"
@@ -605,9 +600,8 @@ msgid "Passwort bestätigen"
 msgstr "Հաստատել գաղտնաբառը"
 
 #: main/src/ui/application.vala:370
-#, fuzzy
 msgid "Passwort festlegen"
-msgstr "Գաղտնաբառը շատ կարճ է"
+msgstr "Սահմանել գաղտնաբառ"
 
 #: main/src/ui/application.vala:371
 msgid ""
@@ -621,28 +615,24 @@ msgid "Ungültiges Passwort. Versuch %d/%d"
 msgstr "Անվավեր գաղտնաբառ: Փորձ %d/%d"
 
 #: main/src/ui/application.vala:448
-#, fuzzy
 msgid "Passwort setzen"
-msgstr "Գաղտնաբառը շատ կարճ է"
+msgstr "Սահմանել գաղտնաբառ"
 
 #: main/src/ui/application.vala:746
-#, fuzzy
 msgid "Set Status Message"
-msgstr "Փնտրել գրութիւններ"
+msgstr "Սահմանել կարգավիճակի հաղորդագրություն"
 
 #: main/src/ui/application.vala:755
-#, fuzzy
 msgid "Set"
-msgstr "Ընտրել"
+msgstr "Սահմանել"
 
 #: main/src/ui/application.vala:809
 msgid "Aktuelles Passwort"
 msgstr "Ընթացիկ գաղտնաբառ"
 
 #: main/src/ui/application.vala:811
-#, fuzzy
 msgid "Neues Passwort"
-msgstr "Նոր ծածկագիր"
+msgstr "Նոր գաղտնաբառ"
 
 #: main/src/ui/application.vala:813
 msgid "Neues Passwort bestätigen"
@@ -1141,9 +1131,8 @@ msgid "Unencrypted"
 msgstr "Ոչ կրիպտաւորուած"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:176
-#, fuzzy
 msgid "Manage Sticker Packs"
-msgstr "Ստեղծել գաղտնագրված պահուստ"
+msgstr "Կառավարել սթիքերների փաթեթները"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:390
 msgid "Stickers are unavailable"
@@ -1156,9 +1145,8 @@ msgid "None"
 msgstr "Ոչ մեկը"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:412
-#, fuzzy
 msgid "No sticker packs yet."
-msgstr "Հեռացնե՞լ կոնտակտը:"
+msgstr "Դեռևս սթիքերների փաթեթներ չկան:"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:414
 #: main/src/ui/chat_input/sticker_chooser.vala:527
@@ -1882,9 +1870,8 @@ msgid "Select"
 msgstr "Ընտրել"
 
 #: main/src/ui/conversation_view_controller.vala:332
-#, fuzzy
 msgid "Failed to get location"
-msgstr "Չհաջողվեց ոչնչացնել սենյակը"
+msgstr "Չհաջողվեց ստանալ տեղադրությունը"
 
 #: main/src/ui/file_send_overlay.vala:60
 msgid "The file exceeds the server's maximum upload size."
@@ -2073,9 +2060,8 @@ msgid "Quit"
 msgstr "Դուրս գալ"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:35
-#, fuzzy
 msgid "Import"
-msgstr "Import Key"
+msgstr "Ներմուծել"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:36
 msgid "Copy Share URI"
@@ -2087,26 +2073,22 @@ msgstr "Ներմուծել ստիկերների փաթեթ"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:90
 #: main/src/ui/sticker_pack_import_dialog.vala:147
-#, fuzzy
 msgid "Loading…"
-msgstr "ուղարկւում է…"
+msgstr "Բեռնում…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:128
-#, fuzzy
 msgid "Importing…"
-msgstr "Միացում…"
+msgstr "Ներմուծում…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:136
 #: main/src/ui/sticker_pack_import_dialog.vala:158
-#, fuzzy
 msgid "No account available"
-msgstr "Անհասանելի"
+msgstr "Հաշիվը հասանելի չէ"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:172
 #: main/src/ui/sticker_pack_import_dialog.vala:189
-#, fuzzy
 msgid "Failed to import sticker pack"
-msgstr "Չհաջողվեց մաքրել քեշը"
+msgstr "Չհաջողվեց ներմուծել սթիքերների փաթեթը"
 
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
@@ -2382,33 +2364,26 @@ msgstr "Փոխել %s-ի ցուցադրվող անունը"
 msgid "Alias (optional)"
 msgstr "Այլանուն (կամընտիր)"
 
-#, fuzzy
 #~ msgid "Import…"
-#~ msgstr "Import Key"
+#~ msgstr "Ներմուծել…"
 
-#, fuzzy
 #~ msgid "Select sticker folder"
-#~ msgstr "Ընտել նիշք"
+#~ msgstr "Ընտրել սթիքերների պանակը"
 
-#, fuzzy
 #~ msgid "Local only"
-#~ msgstr "Տեղական այլանուն"
+#~ msgstr "Միայն տեղական"
 
-#, fuzzy
 #~ msgid "Failed to create sticker pack"
-#~ msgstr "Չհաջողվեց մաքրել քեշը"
+#~ msgstr "Չհաջողվեց ստեղծել սթիքերների փաթեթ"
 
-#, fuzzy
 #~ msgid "Publishing…"
-#~ msgstr "Մուտք…"
+#~ msgstr "Հրապարակում…"
 
-#, fuzzy
 #~ msgid "Failed to publish sticker pack"
-#~ msgstr "Չհաջողվեց մաքրել քեշը"
+#~ msgstr "Չհաջողվեց հրապարակել սթիքերների փաթեթը"
 
-#, fuzzy
 #~ msgid "Failed to remove sticker pack"
-#~ msgstr "Չհաջողվեց մաքրել քեշը"
+#~ msgstr "Չհաջողվեց հեռացնել սթիքերների փաթեթը"
 
 # DinoX v0.7.7 - Database Maintenance & Backup/Restore
 #~ msgid "Clean Database"

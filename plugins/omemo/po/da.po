@@ -226,7 +226,6 @@ msgstr "Ny enhed"
 
 #: plugins/omemo/src/ui/contact_details_provider.vala:46
 #: plugins/omemo/src/ui/contact_details_provider.vala:53
-#, fuzzy
 msgid "OMEMO Encryption"
 msgstr "OMEMO-kryptering"
 

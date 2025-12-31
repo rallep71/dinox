@@ -60,14 +60,12 @@ msgid "Accept"
 msgstr "Akceptuj"
 
 #: main/data/chat_input.ui:15
-#, fuzzy
 msgid "Send File…"
-msgstr "Wyślij plik"
+msgstr "Wyślij plik…"
 
 #: main/data/chat_input.ui:25
-#, fuzzy
 msgid "Send Location"
-msgstr "Lokalizacja przechowywania danych"
+msgstr "Wyślij lokalizację"
 
 #: main/data/chat_input.ui:96
 msgid "Record voice message"
@@ -379,9 +377,8 @@ msgstr "_Zamieniaj Smileys na Emoji"
 
 #: main/data/preferences_window/general_preferences_page.ui:70
 #: main/src/ui/chat_input/view.vala:54
-#, fuzzy
 msgid "Stickers"
-msgstr "Głośniki"
+msgstr "Naklejki"
 
 #: main/data/preferences_window/general_preferences_page.ui:73
 msgid "Enable Stickers"
@@ -430,9 +427,8 @@ msgstr "Konserwacja bazy danych"
 
 # DinoX v0.7.7 - Database Maintenance & Backup/Restore
 #: main/data/preferences_window/general_preferences_page.ui:130
-#, fuzzy
 msgid "Change Database Password"
-msgstr "Wyczyść bazę danych"
+msgstr "Zmień hasło bazy danych"
 
 #: main/data/preferences_window/general_preferences_page.ui:131
 msgid "Change the password used to encrypt your local data"
@@ -580,7 +576,6 @@ msgid "Beenden"
 msgstr "Wyjdź"
 
 #: main/src/ui/application.vala:266 main/src/ui/application.vala:361
-#, fuzzy
 msgid "Passwort"
 msgstr "Hasło"
 
@@ -606,9 +601,8 @@ msgid "Passwort bestätigen"
 msgstr "Potwierdź hasło"
 
 #: main/src/ui/application.vala:370
-#, fuzzy
 msgid "Passwort festlegen"
-msgstr "Hasło za krótkie"
+msgstr "Ustaw hasło"
 
 #: main/src/ui/application.vala:371
 msgid ""
@@ -622,26 +616,22 @@ msgid "Ungültiges Passwort. Versuch %d/%d"
 msgstr "Nieprawidłowe hasło. Próba %d/%d"
 
 #: main/src/ui/application.vala:448
-#, fuzzy
 msgid "Passwort setzen"
-msgstr "Hasło za krótkie"
+msgstr "Ustaw hasło"
 
 #: main/src/ui/application.vala:746
-#, fuzzy
 msgid "Set Status Message"
-msgstr "Wyszukaj wiadomości"
+msgstr "Ustaw opis"
 
 #: main/src/ui/application.vala:755
-#, fuzzy
 msgid "Set"
-msgstr "Wybierz"
+msgstr "Ustaw"
 
 #: main/src/ui/application.vala:809
 msgid "Aktuelles Passwort"
 msgstr "Bieżące hasło"
 
 #: main/src/ui/application.vala:811
-#, fuzzy
 msgid "Neues Passwort"
 msgstr "Nowe hasło"
 
@@ -1138,9 +1128,8 @@ msgid "Unencrypted"
 msgstr "Bez szyfrowania"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:176
-#, fuzzy
 msgid "Manage Sticker Packs"
-msgstr "Utwórz zaszyfrowaną kopię"
+msgstr "Zarządzaj pakietami naklejek"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:390
 msgid "Stickers are unavailable"
@@ -1153,9 +1142,8 @@ msgid "None"
 msgstr "Brak"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:412
-#, fuzzy
 msgid "No sticker packs yet."
-msgstr "Usunąć kontakt?"
+msgstr "Brak pakietów naklejek."
 
 #: main/src/ui/chat_input/sticker_chooser.vala:414
 #: main/src/ui/chat_input/sticker_chooser.vala:527
@@ -1879,9 +1867,8 @@ msgid "Select"
 msgstr "Wybierz"
 
 #: main/src/ui/conversation_view_controller.vala:332
-#, fuzzy
 msgid "Failed to get location"
-msgstr "Nie udało się usunąć pokoju"
+msgstr "Nie udało się pobrać lokalizacji"
 
 #: main/src/ui/file_send_overlay.vala:60
 msgid "The file exceeds the server's maximum upload size."
@@ -2069,9 +2056,8 @@ msgid "Quit"
 msgstr "Wyjdź"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:35
-#, fuzzy
 msgid "Import"
-msgstr "Importuj klucz"
+msgstr "Importuj"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:36
 msgid "Copy Share URI"
@@ -2083,26 +2069,22 @@ msgstr "Importuj pakiet naklejek"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:90
 #: main/src/ui/sticker_pack_import_dialog.vala:147
-#, fuzzy
 msgid "Loading…"
-msgstr "wysyłanie…"
+msgstr "Ładowanie…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:128
-#, fuzzy
 msgid "Importing…"
-msgstr "Łączenie…"
+msgstr "Importowanie…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:136
 #: main/src/ui/sticker_pack_import_dialog.vala:158
-#, fuzzy
 msgid "No account available"
-msgstr "Niedostępny"
+msgstr "Brak dostępnych kont"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:172
 #: main/src/ui/sticker_pack_import_dialog.vala:189
-#, fuzzy
 msgid "Failed to import sticker pack"
-msgstr "Nie udało się wyczyścić pamięci podręcznej"
+msgstr "Nie udało się zaimportować pakietu naklejek"
 
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
@@ -2383,33 +2365,26 @@ msgstr "Zmień wyświetlaną nazwę dla %s"
 msgid "Alias (optional)"
 msgstr "Alias (opcjonalnie)"
 
-#, fuzzy
 #~ msgid "Import…"
-#~ msgstr "Importuj klucz"
+#~ msgstr "Importuj…"
 
-#, fuzzy
 #~ msgid "Select sticker folder"
-#~ msgstr "Wybierz plik"
+#~ msgstr "Wybierz folder naklejek"
 
-#, fuzzy
 #~ msgid "Local only"
-#~ msgstr "Lokalny nick"
+#~ msgstr "Tylko lokalnie"
 
-#, fuzzy
 #~ msgid "Failed to create sticker pack"
-#~ msgstr "Nie udało się wyczyścić pamięci podręcznej"
+#~ msgstr "Nie udało się utworzyć pakietu naklejek"
 
-#, fuzzy
 #~ msgid "Publishing…"
-#~ msgstr "pisze…"
+#~ msgstr "Publikowanie…"
 
-#, fuzzy
 #~ msgid "Failed to publish sticker pack"
-#~ msgstr "Nie udało się wyczyścić pamięci podręcznej"
+#~ msgstr "Nie udało się opublikować pakietu naklejek"
 
-#, fuzzy
 #~ msgid "Failed to remove sticker pack"
-#~ msgstr "Nie udało się wyczyścić pamięci podręcznej"
+#~ msgstr "Nie udało się usunąć pakietu naklejek"
 
 #~ msgid "Creating backup..."
 #~ msgstr "Tworzenie kopii zapasowej..."

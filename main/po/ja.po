@@ -59,14 +59,12 @@ msgid "Accept"
 msgstr "承諾"
 
 #: main/data/chat_input.ui:15
-#, fuzzy
 msgid "Send File…"
-msgstr "ファイルを送信"
+msgstr "ファイルを送信…"
 
 #: main/data/chat_input.ui:25
-#, fuzzy
 msgid "Send Location"
-msgstr "データ保存場所"
+msgstr "位置情報を送信"
 
 #: main/data/chat_input.ui:96
 msgid "Record voice message"
@@ -375,9 +373,8 @@ msgstr "ASCIIの顔文字を絵文字に変換"
 
 #: main/data/preferences_window/general_preferences_page.ui:70
 #: main/src/ui/chat_input/view.vala:54
-#, fuzzy
 msgid "Stickers"
-msgstr "スピーカー"
+msgstr "ステッカー"
 
 #: main/data/preferences_window/general_preferences_page.ui:73
 msgid "Enable Stickers"
@@ -426,9 +423,8 @@ msgstr "データベースメンテナンス"
 
 # DinoX v0.7.7 - Database Maintenance & Backup/Restore
 #: main/data/preferences_window/general_preferences_page.ui:130
-#, fuzzy
 msgid "Change Database Password"
-msgstr "データベースをクリーンアップ"
+msgstr "データベースのパスワードを変更"
 
 #: main/data/preferences_window/general_preferences_page.ui:131
 msgid "Change the password used to encrypt your local data"
@@ -576,7 +572,6 @@ msgid "Beenden"
 msgstr "終了"
 
 #: main/src/ui/application.vala:266 main/src/ui/application.vala:361
-#, fuzzy
 msgid "Passwort"
 msgstr "パスワード"
 
@@ -602,9 +597,8 @@ msgid "Passwort bestätigen"
 msgstr "パスワードの確認"
 
 #: main/src/ui/application.vala:370
-#, fuzzy
 msgid "Passwort festlegen"
-msgstr "パスワードが短すぎます"
+msgstr "パスワードを設定"
 
 #: main/src/ui/application.vala:371
 msgid ""
@@ -618,26 +612,22 @@ msgid "Ungültiges Passwort. Versuch %d/%d"
 msgstr "無効なパスワードです。試行 %d/%d"
 
 #: main/src/ui/application.vala:448
-#, fuzzy
 msgid "Passwort setzen"
-msgstr "パスワードが短すぎます"
+msgstr "パスワードを設定"
 
 #: main/src/ui/application.vala:746
-#, fuzzy
 msgid "Set Status Message"
-msgstr "メッセージを検索"
+msgstr "ステータスメッセージを設定"
 
 #: main/src/ui/application.vala:755
-#, fuzzy
 msgid "Set"
-msgstr "選択"
+msgstr "設定"
 
 #: main/src/ui/application.vala:809
 msgid "Aktuelles Passwort"
 msgstr "現在のパスワード"
 
 #: main/src/ui/application.vala:811
-#, fuzzy
 msgid "Neues Passwort"
 msgstr "新しいパスワード"
 
@@ -1132,9 +1122,8 @@ msgid "Unencrypted"
 msgstr "非暗号化"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:176
-#, fuzzy
 msgid "Manage Sticker Packs"
-msgstr "暗号化バックアップを作成"
+msgstr "ステッカーパックを管理"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:390
 msgid "Stickers are unavailable"
@@ -1147,9 +1136,8 @@ msgid "None"
 msgstr "なし"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:412
-#, fuzzy
 msgid "No sticker packs yet."
-msgstr "連絡先を削除？"
+msgstr "ステッカーパックはまだありません。"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:414
 #: main/src/ui/chat_input/sticker_chooser.vala:527
@@ -1872,9 +1860,8 @@ msgid "Select"
 msgstr "選択"
 
 #: main/src/ui/conversation_view_controller.vala:332
-#, fuzzy
 msgid "Failed to get location"
-msgstr "ルームの削除に失敗"
+msgstr "位置情報の取得に失敗しました"
 
 #: main/src/ui/file_send_overlay.vala:60
 msgid "The file exceeds the server's maximum upload size."
@@ -2064,9 +2051,8 @@ msgid "Quit"
 msgstr "終了"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:35
-#, fuzzy
 msgid "Import"
-msgstr "鍵をインポート"
+msgstr "インポート"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:36
 msgid "Copy Share URI"
@@ -2078,26 +2064,22 @@ msgstr "ステッカーパックをインポート"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:90
 #: main/src/ui/sticker_pack_import_dialog.vala:147
-#, fuzzy
 msgid "Loading…"
-msgstr "待機中…"
+msgstr "読み込み中…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:128
-#, fuzzy
 msgid "Importing…"
-msgstr "接続試行中…"
+msgstr "インポート中…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:136
 #: main/src/ui/sticker_pack_import_dialog.vala:158
-#, fuzzy
 msgid "No account available"
-msgstr "応答不可"
+msgstr "利用可能なアカウントがありません"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:172
 #: main/src/ui/sticker_pack_import_dialog.vala:189
-#, fuzzy
 msgid "Failed to import sticker pack"
-msgstr "キャッシュの消去に失敗しました"
+msgstr "ステッカーパックのインポートに失敗しました"
 
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
@@ -2372,33 +2354,26 @@ msgstr "%s の表示名を変更"
 msgid "Alias (optional)"
 msgstr "エイリアス（任意）"
 
-#, fuzzy
 #~ msgid "Import…"
-#~ msgstr "鍵をインポート"
+#~ msgstr "インポート…"
 
-#, fuzzy
 #~ msgid "Select sticker folder"
-#~ msgstr "ファイルを選択"
+#~ msgstr "ステッカーフォルダを選択"
 
-#, fuzzy
 #~ msgid "Local only"
-#~ msgstr "ローカルでの別名"
+#~ msgstr "ローカルのみ"
 
-#, fuzzy
 #~ msgid "Failed to create sticker pack"
-#~ msgstr "キャッシュの消去に失敗しました"
+#~ msgstr "ステッカーパックの作成に失敗しました"
 
-#, fuzzy
 #~ msgid "Publishing…"
-#~ msgstr "が入力しています…"
+#~ msgstr "公開中…"
 
-#, fuzzy
 #~ msgid "Failed to publish sticker pack"
-#~ msgstr "キャッシュの消去に失敗しました"
+#~ msgstr "ステッカーパックの公開に失敗しました"
 
-#, fuzzy
 #~ msgid "Failed to remove sticker pack"
-#~ msgstr "キャッシュの消去に失敗しました"
+#~ msgstr "ステッカーパックの削除に失敗しました"
 
 #~ msgid "Creating backup..."
 #~ msgstr "バックアップを作成中..."

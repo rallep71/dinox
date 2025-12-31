@@ -58,14 +58,12 @@ msgid "Accept"
 msgstr "Samþykkja"
 
 #: main/data/chat_input.ui:15
-#, fuzzy
 msgid "Send File…"
-msgstr "Senda skrá"
+msgstr "Senda skrá…"
 
 #: main/data/chat_input.ui:25
-#, fuzzy
 msgid "Send Location"
-msgstr "Geymslustaðsetning gagna"
+msgstr "Senda staðsetningu"
 
 #: main/data/chat_input.ui:96
 msgid "Record voice message"
@@ -374,9 +372,8 @@ msgstr "_Umbreyta bros í Emoji"
 
 #: main/data/preferences_window/general_preferences_page.ui:70
 #: main/src/ui/chat_input/view.vala:54
-#, fuzzy
 msgid "Stickers"
-msgstr "Hátalarar"
+msgstr "Límmiðar"
 
 #: main/data/preferences_window/general_preferences_page.ui:73
 msgid "Enable Stickers"
@@ -425,9 +422,8 @@ msgstr "Gagnagrunnsviðhald"
 
 # DinoX v0.7.7 - Database Maintenance & Backup/Restore
 #: main/data/preferences_window/general_preferences_page.ui:130
-#, fuzzy
 msgid "Change Database Password"
-msgstr "Clean Database"
+msgstr "Breyta lykilorði gagnagrunns"
 
 #: main/data/preferences_window/general_preferences_page.ui:131
 msgid "Change the password used to encrypt your local data"
@@ -577,7 +573,6 @@ msgid "Beenden"
 msgstr "Hætta"
 
 #: main/src/ui/application.vala:266 main/src/ui/application.vala:361
-#, fuzzy
 msgid "Passwort"
 msgstr "Lykilorð"
 
@@ -603,9 +598,8 @@ msgid "Passwort bestätigen"
 msgstr "Staðfesta lykilorð"
 
 #: main/src/ui/application.vala:370
-#, fuzzy
 msgid "Passwort festlegen"
-msgstr "Lykilorð of stutt"
+msgstr "Setja lykilorð"
 
 #: main/src/ui/application.vala:371
 msgid ""
@@ -619,26 +613,22 @@ msgid "Ungültiges Passwort. Versuch %d/%d"
 msgstr "Ógilt lykilorð. Tilraun %d/%d"
 
 #: main/src/ui/application.vala:448
-#, fuzzy
 msgid "Passwort setzen"
-msgstr "Lykilorð of stutt"
+msgstr "Setja lykilorð"
 
 #: main/src/ui/application.vala:746
-#, fuzzy
 msgid "Set Status Message"
-msgstr "Leita að skilaboðum"
+msgstr "Setja stöðuskilaboð"
 
 #: main/src/ui/application.vala:755
-#, fuzzy
 msgid "Set"
-msgstr "Velja"
+msgstr "Setja"
 
 #: main/src/ui/application.vala:809
 msgid "Aktuelles Passwort"
 msgstr "Núverandi lykilorð"
 
 #: main/src/ui/application.vala:811
-#, fuzzy
 msgid "Neues Passwort"
 msgstr "Nýtt lykilorð"
 
@@ -1134,9 +1124,8 @@ msgid "Unencrypted"
 msgstr "Ódulkóðað"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:176
-#, fuzzy
 msgid "Manage Sticker Packs"
-msgstr "Búa til dulkóðað öryggisafrit"
+msgstr "Stjórna límmiðapökkum"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:390
 msgid "Stickers are unavailable"
@@ -1149,9 +1138,8 @@ msgid "None"
 msgstr "Enginn"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:412
-#, fuzzy
 msgid "No sticker packs yet."
-msgstr "Fjarlægja tengilið?"
+msgstr "Engir límmiðapakkar ennþá."
 
 #: main/src/ui/chat_input/sticker_chooser.vala:414
 #: main/src/ui/chat_input/sticker_chooser.vala:527
@@ -1875,9 +1863,8 @@ msgid "Select"
 msgstr "Velja"
 
 #: main/src/ui/conversation_view_controller.vala:332
-#, fuzzy
 msgid "Failed to get location"
-msgstr "Mistókst að eyða rými"
+msgstr "Mistókst að sækja staðsetningu"
 
 #: main/src/ui/file_send_overlay.vala:60
 msgid "The file exceeds the server's maximum upload size."
@@ -2065,9 +2052,8 @@ msgid "Quit"
 msgstr "Hætta"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:35
-#, fuzzy
 msgid "Import"
-msgstr "Import Key"
+msgstr "Flytja inn"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:36
 msgid "Copy Share URI"
@@ -2079,26 +2065,22 @@ msgstr "Flytja inn límmiðapakka"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:90
 #: main/src/ui/sticker_pack_import_dialog.vala:147
-#, fuzzy
 msgid "Loading…"
-msgstr "að senda…"
+msgstr "Hleður…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:128
-#, fuzzy
 msgid "Importing…"
-msgstr "Tengist…"
+msgstr "Flytja inn…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:136
 #: main/src/ui/sticker_pack_import_dialog.vala:158
-#, fuzzy
 msgid "No account available"
-msgstr "Ekki tiltæk/ur"
+msgstr "Enginn aðgangur tiltækur"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:172
 #: main/src/ui/sticker_pack_import_dialog.vala:189
-#, fuzzy
 msgid "Failed to import sticker pack"
-msgstr "Mistókst að hreinsa skyndiminni"
+msgstr "Mistókst að flytja inn límmiðapakka"
 
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
@@ -2375,33 +2357,26 @@ msgstr "Breyta birtingarnafni fyrir %s"
 msgid "Alias (optional)"
 msgstr "Samnefni (valfrjálst)"
 
-#, fuzzy
 #~ msgid "Import…"
-#~ msgstr "Import Key"
+#~ msgstr "Flytja inn…"
 
-#, fuzzy
 #~ msgid "Select sticker folder"
-#~ msgstr "Veldu skrá"
+#~ msgstr "Velja límmiðamöppu"
 
-#, fuzzy
 #~ msgid "Local only"
-#~ msgstr "Staðbundið samnefni"
+#~ msgstr "Aðeins staðbundið"
 
-#, fuzzy
 #~ msgid "Failed to create sticker pack"
-#~ msgstr "Mistókst að hreinsa skyndiminni"
+#~ msgstr "Mistókst að búa til límmiðapakka"
 
-#, fuzzy
 #~ msgid "Publishing…"
-#~ msgstr "Tengist…"
+#~ msgstr "Birtir…"
 
-#, fuzzy
 #~ msgid "Failed to publish sticker pack"
-#~ msgstr "Mistókst að hreinsa skyndiminni"
+#~ msgstr "Mistókst að birta límmiðapakka"
 
-#, fuzzy
 #~ msgid "Failed to remove sticker pack"
-#~ msgstr "Mistókst að hreinsa skyndiminni"
+#~ msgstr "Mistókst að fjarlægja límmiðapakka"
 
 #~ msgid "Creating backup..."
 #~ msgstr "Bý til öryggisafrit..."

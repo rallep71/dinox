@@ -59,14 +59,12 @@ msgid "Accept"
 msgstr "පිළිගන්න"
 
 #: main/data/chat_input.ui:15
-#, fuzzy
 msgid "Send File…"
-msgstr "ගොනුවක් යවන්න"
+msgstr "ගොනුව යවන්න…"
 
 #: main/data/chat_input.ui:25
-#, fuzzy
 msgid "Send Location"
-msgstr "දත්ත ගබඩා ස්ථානය"
+msgstr "ස්ථානය යවන්න"
 
 #: main/data/chat_input.ui:96
 msgid "Record voice message"
@@ -373,9 +371,8 @@ msgstr "_සිනහ මුහුණු ඉමෝජි බවට පරිව�
 
 #: main/data/preferences_window/general_preferences_page.ui:70
 #: main/src/ui/chat_input/view.vala:54
-#, fuzzy
 msgid "Stickers"
-msgstr "ස්පීකර්"
+msgstr "ස්ටිකර්"
 
 #: main/data/preferences_window/general_preferences_page.ui:73
 msgid "Enable Stickers"
@@ -424,9 +421,8 @@ msgstr "දත්ත සමුදාය නඩත්තුව"
 
 # DinoX v0.7.7 - Database Maintenance & Backup/Restore
 #: main/data/preferences_window/general_preferences_page.ui:130
-#, fuzzy
 msgid "Change Database Password"
-msgstr "Clean Database"
+msgstr "දත්ත සමුදා මුරපදය වෙනස් කරන්න"
 
 #: main/data/preferences_window/general_preferences_page.ui:131
 msgid "Change the password used to encrypt your local data"
@@ -573,7 +569,6 @@ msgid "Beenden"
 msgstr "පිටවන්න"
 
 #: main/src/ui/application.vala:266 main/src/ui/application.vala:361
-#, fuzzy
 msgid "Passwort"
 msgstr "මුරපදය"
 
@@ -599,9 +594,8 @@ msgid "Passwort bestätigen"
 msgstr "මුරපදය තහවුරු කරන්න"
 
 #: main/src/ui/application.vala:370
-#, fuzzy
 msgid "Passwort festlegen"
-msgstr "මුරපදය කෙටි වැඩිය"
+msgstr "මුරපදය සකසන්න"
 
 #: main/src/ui/application.vala:371
 msgid ""
@@ -615,26 +609,22 @@ msgid "Ungültiges Passwort. Versuch %d/%d"
 msgstr "වලංගු නොවන මුරපදයකි. උත්සාහය %d/%d"
 
 #: main/src/ui/application.vala:448
-#, fuzzy
 msgid "Passwort setzen"
-msgstr "මුරපදය කෙටි වැඩිය"
+msgstr "මුරපදය සකසන්න"
 
 #: main/src/ui/application.vala:746
-#, fuzzy
 msgid "Set Status Message"
-msgstr "පණිවිඩ සොයන්න"
+msgstr "තත්ව පණිවිඩය සකසන්න"
 
 #: main/src/ui/application.vala:755
-#, fuzzy
 msgid "Set"
-msgstr "තෝරන්න"
+msgstr "සකසන්න"
 
 #: main/src/ui/application.vala:809
 msgid "Aktuelles Passwort"
 msgstr "වත්මන් මුරපදය"
 
 #: main/src/ui/application.vala:811
-#, fuzzy
 msgid "Neues Passwort"
 msgstr "නව මුරපදය"
 
@@ -1124,9 +1114,8 @@ msgid "Unencrypted"
 msgstr "සංකේතනය නොකළ"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:176
-#, fuzzy
 msgid "Manage Sticker Packs"
-msgstr "සංකේතනය කළ උපස්ථයක් සාදන්න"
+msgstr "ස්ටිකර් පැකේජ කළමනාකරණය"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:390
 msgid "Stickers are unavailable"
@@ -1139,9 +1128,8 @@ msgid "None"
 msgstr "කිසිවක් නැත"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:412
-#, fuzzy
 msgid "No sticker packs yet."
-msgstr "සම්බන්ධතාවය ඉවත් කරන්නද?"
+msgstr "තවම ස්ටිකර් පැකේජ නැත."
 
 #: main/src/ui/chat_input/sticker_chooser.vala:414
 #: main/src/ui/chat_input/sticker_chooser.vala:527
@@ -1860,9 +1848,8 @@ msgid "Select"
 msgstr "තෝරන්න"
 
 #: main/src/ui/conversation_view_controller.vala:332
-#, fuzzy
 msgid "Failed to get location"
-msgstr "කාමරය විනාශ කිරීමට අසමත් විය"
+msgstr "ස්ථානය ලබා ගැනීම අසාර්ථක විය"
 
 #: main/src/ui/file_send_overlay.vala:60
 msgid "The file exceeds the server's maximum upload size."
@@ -2050,9 +2037,8 @@ msgid "Quit"
 msgstr "ඉවත්වන්න"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:35
-#, fuzzy
 msgid "Import"
-msgstr "Import Key"
+msgstr "ආයාත කරන්න"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:36
 msgid "Copy Share URI"
@@ -2064,26 +2050,22 @@ msgstr "ස්ටිකර් පැකේජය ආයාත කරන්න"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:90
 #: main/src/ui/sticker_pack_import_dialog.vala:147
-#, fuzzy
 msgid "Loading…"
-msgstr "පොරොත්තුවෙන්…"
+msgstr "පූරණය වෙමින්…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:128
-#, fuzzy
 msgid "Importing…"
-msgstr "සම්බන්ධවෙමින්…"
+msgstr "ආයාත කරමින්…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:136
 #: main/src/ui/sticker_pack_import_dialog.vala:158
-#, fuzzy
 msgid "No account available"
-msgstr "නොතිබේ"
+msgstr "ගිණුමක් නොමැත"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:172
 #: main/src/ui/sticker_pack_import_dialog.vala:189
-#, fuzzy
 msgid "Failed to import sticker pack"
-msgstr "හැඹිලිය හිස් කිරීමට අසමත් විය"
+msgstr "ස්ටිකර් පැකේජය ආයාත කිරීම අසාර්ථක විය"
 
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
@@ -2360,33 +2342,26 @@ msgstr "%s සඳහා ප්‍රදර්ශන නාමය වෙනස්
 msgid "Alias (optional)"
 msgstr "අන්වර්ථ නාමය (විකල්ප)"
 
-#, fuzzy
 #~ msgid "Import…"
-#~ msgstr "Import Key"
+#~ msgstr "ආයාත කරන්න…"
 
-#, fuzzy
 #~ msgid "Select sticker folder"
-#~ msgstr "ගොනුව තෝරන්න"
+#~ msgstr "ස්ටිකර් ෆෝල්ඩරය තෝරන්න"
 
-#, fuzzy
 #~ msgid "Local only"
-#~ msgstr "ප්‍රාදේශීය අන්වර්ථ නාමය"
+#~ msgstr "දේශීය පමණි"
 
-#, fuzzy
 #~ msgid "Failed to create sticker pack"
-#~ msgstr "හැඹිලිය හිස් කිරීමට අසමත් විය"
+#~ msgstr "ස්ටිකර් පැකේජය නිර්මාණය කිරීම අසාර්ථක විය"
 
-#, fuzzy
 #~ msgid "Publishing…"
-#~ msgstr "සම්බන්ධවෙමින්…"
+#~ msgstr "ප්‍රකාශයට පත් කරමින්…"
 
-#, fuzzy
 #~ msgid "Failed to publish sticker pack"
-#~ msgstr "හැඹිලිය හිස් කිරීමට අසමත් විය"
+#~ msgstr "ස්ටිකර් පැකේජය ප්‍රකාශයට පත් කිරීම අසාර්ථක විය"
 
-#, fuzzy
 #~ msgid "Failed to remove sticker pack"
-#~ msgstr "හැඹිලිය හිස් කිරීමට අසමත් විය"
+#~ msgstr "ස්ටිකර් පැකේජය ඉවත් කිරීම අසාර්ථක විය"
 
 #~ msgid "Creating backup..."
 #~ msgstr "උපස්ථය නිර්මාණය කරමින්..."

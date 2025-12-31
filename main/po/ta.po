@@ -58,14 +58,12 @@ msgid "Accept"
 msgstr "ஏற்றுக்கொள்"
 
 #: main/data/chat_input.ui:15
-#, fuzzy
 msgid "Send File…"
-msgstr "ஒரு கோப்பை அனுப்பவும்"
+msgstr "கோப்பை அனுப்பு…"
 
 #: main/data/chat_input.ui:25
-#, fuzzy
 msgid "Send Location"
-msgstr "தரவு சேமிப்பு இடம்"
+msgstr "இருப்பிடத்தை அனுப்பு"
 
 #: main/data/chat_input.ui:96
 msgid "Record voice message"
@@ -372,9 +370,8 @@ msgstr "_ ச்மைல்களை ஈமோசிக்கு மாற்�
 
 #: main/data/preferences_window/general_preferences_page.ui:70
 #: main/src/ui/chat_input/view.vala:54
-#, fuzzy
 msgid "Stickers"
-msgstr "பேச்சாளர்கள்"
+msgstr "ஸ்டிக்கர்கள்"
 
 #: main/data/preferences_window/general_preferences_page.ui:73
 msgid "Enable Stickers"
@@ -423,9 +420,8 @@ msgstr "தரவுத்தள பராமரிப்பு"
 
 # DinoX v0.7.7 - Database Maintenance & Backup/Restore
 #: main/data/preferences_window/general_preferences_page.ui:130
-#, fuzzy
 msgid "Change Database Password"
-msgstr "Clean Database"
+msgstr "தரவுத்தள கடவுச்சொல்லை மாற்றவும்"
 
 #: main/data/preferences_window/general_preferences_page.ui:131
 msgid "Change the password used to encrypt your local data"
@@ -573,7 +569,6 @@ msgid "Beenden"
 msgstr "வெளியேறு"
 
 #: main/src/ui/application.vala:266 main/src/ui/application.vala:361
-#, fuzzy
 msgid "Passwort"
 msgstr "கடவுச்சொல்"
 
@@ -599,9 +594,8 @@ msgid "Passwort bestätigen"
 msgstr "கடவுச்சொல்லை உறுதிப்படுத்தவும்"
 
 #: main/src/ui/application.vala:370
-#, fuzzy
 msgid "Passwort festlegen"
-msgstr "கடவுச்சொல் மிகவும் சிறியது"
+msgstr "கடவுச்சொல்லை அமைக்கவும்"
 
 #: main/src/ui/application.vala:371
 msgid ""
@@ -615,26 +609,22 @@ msgid "Ungültiges Passwort. Versuch %d/%d"
 msgstr "செல்லாத கடவுச்சொல். முயற்சி %d/%d"
 
 #: main/src/ui/application.vala:448
-#, fuzzy
 msgid "Passwort setzen"
-msgstr "கடவுச்சொல் மிகவும் சிறியது"
+msgstr "கடவுச்சொல்லை அமைக்கவும்"
 
 #: main/src/ui/application.vala:746
-#, fuzzy
 msgid "Set Status Message"
-msgstr "தேடல் செய்திகளைத் தேடுகிறது"
+msgstr "நிலை செய்தியை அமைக்கவும்"
 
 #: main/src/ui/application.vala:755
-#, fuzzy
 msgid "Set"
-msgstr "தேர்ந்தெடு"
+msgstr "அமை"
 
 #: main/src/ui/application.vala:809
 msgid "Aktuelles Passwort"
 msgstr "தற்போதைய கடவுச்சொல்"
 
 #: main/src/ui/application.vala:811
-#, fuzzy
 msgid "Neues Passwort"
 msgstr "புதிய கடவுச்சொல்"
 
@@ -1129,9 +1119,8 @@ msgid "Unencrypted"
 msgstr "மறைகுறியாக்கப்படாதது"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:176
-#, fuzzy
 msgid "Manage Sticker Packs"
-msgstr "குறியாக்கம் செய்யப்பட்ட காப்புப்பிரதியை உருவாக்கு"
+msgstr "ஸ்டிக்கர் பொதிகளை நிர்வகி"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:390
 msgid "Stickers are unavailable"
@@ -1144,9 +1133,8 @@ msgid "None"
 msgstr "ஏதுமில்லை"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:412
-#, fuzzy
 msgid "No sticker packs yet."
-msgstr "தொடர்பை நீக்கவா?"
+msgstr "இன்னும் ஸ்டிக்கர் பொதிகள் இல்லை."
 
 #: main/src/ui/chat_input/sticker_chooser.vala:414
 #: main/src/ui/chat_input/sticker_chooser.vala:527
@@ -1868,9 +1856,8 @@ msgid "Select"
 msgstr "தேர்ந்தெடு"
 
 #: main/src/ui/conversation_view_controller.vala:332
-#, fuzzy
 msgid "Failed to get location"
-msgstr "அறையை அழிக்க முடியவில்லை"
+msgstr "இருப்பிடத்தைப் பெற முடியவில்லை"
 
 #: main/src/ui/file_send_overlay.vala:60
 msgid "The file exceeds the server's maximum upload size."
@@ -2058,9 +2045,8 @@ msgid "Quit"
 msgstr "வெளியேறு"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:35
-#, fuzzy
 msgid "Import"
-msgstr "Import Key"
+msgstr "இறக்குமதி"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:36
 msgid "Copy Share URI"
@@ -2072,26 +2058,22 @@ msgstr "ஸ்டிக்கர் தொகுப்பை இறக்கு�
 
 #: main/src/ui/sticker_pack_import_dialog.vala:90
 #: main/src/ui/sticker_pack_import_dialog.vala:147
-#, fuzzy
 msgid "Loading…"
-msgstr "நிலுவையில் உள்ளது…"
+msgstr "ஏற்றுகிறது…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:128
-#, fuzzy
 msgid "Importing…"
-msgstr "இணைத்தல்…"
+msgstr "இறக்குமதி செய்கிறது…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:136
 #: main/src/ui/sticker_pack_import_dialog.vala:158
-#, fuzzy
 msgid "No account available"
-msgstr "கிடைக்கவில்லை"
+msgstr "கணக்கு எதுவும் இல்லை"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:172
 #: main/src/ui/sticker_pack_import_dialog.vala:189
-#, fuzzy
 msgid "Failed to import sticker pack"
-msgstr "தற்காலிக சேமிப்பை அழிக்க முடியவில்லை"
+msgstr "ஸ்டிக்கர் பொதியை இறக்குமதி செய்ய முடியவில்லை"
 
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
@@ -2364,33 +2346,26 @@ msgstr "%s க்கான காட்சி பெயரை மாற்று
 msgid "Alias (optional)"
 msgstr "புனைப்பெயர் (விரும்பினால்)"
 
-#, fuzzy
 #~ msgid "Import…"
-#~ msgstr "Import Key"
+#~ msgstr "இறக்குமதி…"
 
-#, fuzzy
 #~ msgid "Select sticker folder"
-#~ msgstr "கோப்பைத் தேர்ந்தெடு"
+#~ msgstr "ஸ்டிக்கர் கோப்புறையைத் தேர்ந்தெடுக்கவும்"
 
-#, fuzzy
 #~ msgid "Local only"
-#~ msgstr "உள்ளக மாற்றுப்பெயர்"
+#~ msgstr "உள்ளூர் மட்டும்"
 
-#, fuzzy
 #~ msgid "Failed to create sticker pack"
-#~ msgstr "தற்காலிக சேமிப்பை அழிக்க முடியவில்லை"
+#~ msgstr "ஸ்டிக்கர் பொதியை உருவாக்க முடியவில்லை"
 
-#, fuzzy
 #~ msgid "Publishing…"
-#~ msgstr "இணைத்தல்…"
+#~ msgstr "வெளியிடுகிறது…"
 
-#, fuzzy
 #~ msgid "Failed to publish sticker pack"
-#~ msgstr "தற்காலிக சேமிப்பை அழிக்க முடியவில்லை"
+#~ msgstr "ஸ்டிக்கர் பொதியை வெளியிட முடியவில்லை"
 
-#, fuzzy
 #~ msgid "Failed to remove sticker pack"
-#~ msgstr "தற்காலிக சேமிப்பை அழிக்க முடியவில்லை"
+#~ msgstr "ஸ்டிக்கர் பொதியை அகற்ற முடியவில்லை"
 
 #~ msgid "Creating backup..."
 #~ msgstr "காப்புப்பிரதி உருவாக்குகிறது..."

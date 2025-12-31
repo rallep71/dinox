@@ -57,14 +57,12 @@ msgid "Accept"
 msgstr "Accepta"
 
 #: main/data/chat_input.ui:15
-#, fuzzy
 msgid "Send File…"
-msgstr "Envia un fitxer"
+msgstr "Envia un fitxer…"
 
 #: main/data/chat_input.ui:25
-#, fuzzy
 msgid "Send Location"
-msgstr "Ubicació d'emmagatzematge de dades"
+msgstr "Envia la ubicació"
 
 #: main/data/chat_input.ui:96
 msgid "Record voice message"
@@ -374,9 +372,8 @@ msgstr "C_onverteix emoticones a emoji"
 
 #: main/data/preferences_window/general_preferences_page.ui:70
 #: main/src/ui/chat_input/view.vala:54
-#, fuzzy
 msgid "Stickers"
-msgstr "Altaveus"
+msgstr "Adhesius"
 
 #: main/data/preferences_window/general_preferences_page.ui:73
 msgid "Enable Stickers"
@@ -426,9 +423,8 @@ msgid "Database Maintenance"
 msgstr "Manteniment de la base de dades"
 
 #: main/data/preferences_window/general_preferences_page.ui:130
-#, fuzzy
 msgid "Change Database Password"
-msgstr "Canvi de contrasenya"
+msgstr "Canvia la contrasenya de la base de dades"
 
 #: main/data/preferences_window/general_preferences_page.ui:131
 msgid "Change the password used to encrypt your local data"
@@ -578,7 +574,6 @@ msgid "Beenden"
 msgstr "Surt"
 
 #: main/src/ui/application.vala:266 main/src/ui/application.vala:361
-#, fuzzy
 msgid "Passwort"
 msgstr "Contrasenya"
 
@@ -604,9 +599,8 @@ msgid "Passwort bestätigen"
 msgstr "Confirma la contrasenya"
 
 #: main/src/ui/application.vala:370
-#, fuzzy
 msgid "Passwort festlegen"
-msgstr "Contrasenya massa curta"
+msgstr "Estableix la contrasenya"
 
 #: main/src/ui/application.vala:371
 msgid ""
@@ -620,28 +614,24 @@ msgid "Ungültiges Passwort. Versuch %d/%d"
 msgstr "Contrasenya no vàlida. Intent %d/%d"
 
 #: main/src/ui/application.vala:448
-#, fuzzy
 msgid "Passwort setzen"
-msgstr "Contrasenya massa curta"
+msgstr "Estableix la contrasenya"
 
 #: main/src/ui/application.vala:746
-#, fuzzy
 msgid "Set Status Message"
-msgstr "Cerca els missatges"
+msgstr "Estableix el missatge d'estat"
 
 #: main/src/ui/application.vala:755
-#, fuzzy
 msgid "Set"
-msgstr "Selecciona"
+msgstr "Estableix"
 
 #: main/src/ui/application.vala:809
 msgid "Aktuelles Passwort"
 msgstr "Contrasenya actual"
 
 #: main/src/ui/application.vala:811
-#, fuzzy
 msgid "Neues Passwort"
-msgstr "Contrasenya nova"
+msgstr "Nova contrasenya"
 
 #: main/src/ui/application.vala:813
 msgid "Neues Passwort bestätigen"
@@ -1135,9 +1125,8 @@ msgid "Unencrypted"
 msgstr "Sense xifrar"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:176
-#, fuzzy
 msgid "Manage Sticker Packs"
-msgstr "Crear còpia xifrada"
+msgstr "Gestiona els paquets d'adhesius"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:390
 msgid "Stickers are unavailable"
@@ -1150,9 +1139,8 @@ msgid "None"
 msgstr "Cap"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:412
-#, fuzzy
 msgid "No sticker packs yet."
-msgstr "Eliminar contacte?"
+msgstr "Encara no hi ha paquets d'adhesius."
 
 #: main/src/ui/chat_input/sticker_chooser.vala:414
 #: main/src/ui/chat_input/sticker_chooser.vala:527
@@ -1877,9 +1865,8 @@ msgid "Select"
 msgstr "Selecciona"
 
 #: main/src/ui/conversation_view_controller.vala:332
-#, fuzzy
 msgid "Failed to get location"
-msgstr "Error en destruir la sala"
+msgstr "No s'ha pogut obtenir la ubicació"
 
 #: main/src/ui/file_send_overlay.vala:60
 msgid "The file exceeds the server's maximum upload size."
@@ -2068,9 +2055,8 @@ msgid "Quit"
 msgstr "Surt"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:35
-#, fuzzy
 msgid "Import"
-msgstr "Import Key"
+msgstr "Importa"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:36
 msgid "Copy Share URI"
@@ -2082,26 +2068,22 @@ msgstr "Importa el paquet d'adhesius"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:90
 #: main/src/ui/sticker_pack_import_dialog.vala:147
-#, fuzzy
 msgid "Loading…"
-msgstr "pendent…"
+msgstr "S'està carregant…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:128
-#, fuzzy
 msgid "Importing…"
-msgstr "S'està connectant…"
+msgstr "S'està important…"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:136
 #: main/src/ui/sticker_pack_import_dialog.vala:158
-#, fuzzy
 msgid "No account available"
-msgstr "No disponible"
+msgstr "No hi ha cap compte disponible"
 
 #: main/src/ui/sticker_pack_import_dialog.vala:172
 #: main/src/ui/sticker_pack_import_dialog.vala:189
-#, fuzzy
 msgid "Failed to import sticker pack"
-msgstr "No s'ha pogut netejar la memòria cau"
+msgstr "No s'ha pogut importar el paquet d'adhesius"
 
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
@@ -2382,33 +2364,26 @@ msgstr "Canvia el nom de visualització per a %s"
 msgid "Alias (optional)"
 msgstr "Àlies (opcional)"
 
-#, fuzzy
 #~ msgid "Import…"
-#~ msgstr "Import Key"
+#~ msgstr "Importa…"
 
-#, fuzzy
 #~ msgid "Select sticker folder"
-#~ msgstr "Selecciona el fitxer"
+#~ msgstr "Selecciona la carpeta d'adhesius"
 
-#, fuzzy
 #~ msgid "Local only"
-#~ msgstr "Àlias local"
+#~ msgstr "Només local"
 
-#, fuzzy
 #~ msgid "Failed to create sticker pack"
-#~ msgstr "No s'ha pogut netejar la memòria cau"
+#~ msgstr "No s'ha pogut crear el paquet d'adhesius"
 
-#, fuzzy
 #~ msgid "Publishing…"
-#~ msgstr "està escrivint…"
+#~ msgstr "S'està publicant…"
 
-#, fuzzy
 #~ msgid "Failed to publish sticker pack"
-#~ msgstr "No s'ha pogut netejar la memòria cau"
+#~ msgstr "No s'ha pogut publicar el paquet d'adhesius"
 
-#, fuzzy
 #~ msgid "Failed to remove sticker pack"
-#~ msgstr "No s'ha pogut netejar la memòria cau"
+#~ msgstr "No s'ha pogut eliminar el paquet d'adhesius"
 
 #~ msgid "Creating backup..."
 #~ msgstr "Creant còpia de seguretat..."
