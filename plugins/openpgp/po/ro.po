@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-01 15:51+0100\n"
+"POT-Creation-Date: 2025-12-31 14:13+0100\n"
 "PO-Revision-Date: 2025-04-10 11:50+0000\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/dino/plugin-"
 "openpgp/ro/>\n"
@@ -19,11 +19,11 @@ msgstr ""
 "20)) ? 1 : 2;\n"
 "X-Generator: Weblate 5.11-dev\n"
 
-#: plugins/openpgp/src/contact_details_provider.vala:36
+#: plugins/openpgp/src/contact_details_provider.vala:38
 msgid "Key not in keychain"
 msgstr "Cheia nu este în șirul de chei"
 
-#: plugins/openpgp/src/contact_details_provider.vala:40
+#: plugins/openpgp/src/contact_details_provider.vala:42
 #: plugins/openpgp/src/key_management_dialog.vala:220
 msgid "Fingerprint"
 msgstr "Amprentă"
@@ -55,123 +55,123 @@ msgstr "Selectați cheia"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:97
 msgid "Choose a key to announce to your contacts."
-msgstr ""
+msgstr "Alegeți o cheie pentru a o anunța contactelor dumneavoastră."
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:98
 #: plugins/openpgp/src/key_management_dialog.vala:307
 #: plugins/openpgp/src/key_management_dialog.vala:509
 msgid "Cancel"
-msgstr ""
+msgstr "Anulare"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:99
 #: plugins/openpgp/src/key_management_dialog.vala:547
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:148
 msgid "Enter GPG passphrase to confirm:"
-msgstr ""
+msgstr "Introduceți fraza de acces GPG pentru confirmare:"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:155
 msgid "Passphrase"
-msgstr ""
+msgstr "Frază de acces"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:215
 msgid "Wrong passphrase"
-msgstr ""
+msgstr "Frază de acces greșită"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:228
 msgid "Manage Keys"
-msgstr ""
+msgstr "Gestionare chei"
 
 #: plugins/openpgp/src/encryption_preferences_entry.vala:229
 msgid "Generate, import, export, or delete keys"
-msgstr ""
+msgstr "Generați, importați, exportați sau ștergeți chei"
 
 #: plugins/openpgp/src/key_management_dialog.vala:61
 msgid "OpenPGP Key Management"
-msgstr ""
+msgstr "Gestionare chei OpenPGP"
 
 #: plugins/openpgp/src/key_management_dialog.vala:74
 msgid "Actions"
-msgstr ""
+msgstr "Acțiuni"
 
 #: plugins/openpgp/src/key_management_dialog.vala:78
 msgid "Generate New Key"
-msgstr ""
+msgstr "Generare cheie nouă"
 
 #: plugins/openpgp/src/key_management_dialog.vala:79
 msgid "Create a new OpenPGP key pair"
-msgstr ""
+msgstr "Creați o nouă pereche de chei OpenPGP"
 
 #: plugins/openpgp/src/key_management_dialog.vala:96
 msgid "Import Key"
-msgstr ""
+msgstr "Importare cheie"
 
 #: plugins/openpgp/src/key_management_dialog.vala:97
 msgid "Import a key from file (.asc, .gpg)"
-msgstr ""
+msgstr "Importați o cheie din fișier (.asc, .gpg)"
 
 #: plugins/openpgp/src/key_management_dialog.vala:116
 msgid "Your Keys"
-msgstr ""
+msgstr "Cheile dumneavoastră"
 
 #: plugins/openpgp/src/key_management_dialog.vala:117
 msgid "Private keys available for signing and decryption"
-msgstr ""
+msgstr "Chei private disponibile pentru semnare și decriptare"
 
 #: plugins/openpgp/src/key_management_dialog.vala:151
 msgid "No private keys found"
-msgstr ""
+msgstr "Nu s-au găsit chei private"
 
 #: plugins/openpgp/src/key_management_dialog.vala:152
 msgid "Generate or import a key to get started"
-msgstr ""
+msgstr "Generați sau importați o cheie pentru a începe"
 
 #: plugins/openpgp/src/key_management_dialog.vala:232
 #: plugins/openpgp/src/key_management_dialog.vala:470
 msgid "Export Public Key"
-msgstr ""
+msgstr "Exportare cheie publică"
 
 #: plugins/openpgp/src/key_management_dialog.vala:240
 msgid "Delete Key"
-msgstr ""
+msgstr "Ștergere cheie"
 
 #: plugins/openpgp/src/key_management_dialog.vala:263
 msgid "Generate New OpenPGP Key"
-msgstr ""
+msgstr "Generare cheie OpenPGP nouă"
 
 #: plugins/openpgp/src/key_management_dialog.vala:264
 msgid "Enter your details to create a new key pair."
-msgstr ""
+msgstr "Introduceți detaliile pentru a crea o nouă pereche de chei."
 
 #: plugins/openpgp/src/key_management_dialog.vala:272
 msgid "Name"
-msgstr ""
+msgstr "Nume"
 
 #: plugins/openpgp/src/key_management_dialog.vala:277
 msgid "Your Name"
-msgstr ""
+msgstr "Numele dumneavoastră"
 
 #: plugins/openpgp/src/key_management_dialog.vala:281
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 #: plugins/openpgp/src/key_management_dialog.vala:287
 msgid "you@example.com"
-msgstr ""
+msgstr "tu@exemplu.com"
 
 #: plugins/openpgp/src/key_management_dialog.vala:291
 msgid "Passphrase (optional)"
-msgstr ""
+msgstr "Frază de acces (opțional)"
 
 #: plugins/openpgp/src/key_management_dialog.vala:300
 msgid "4096-bit RSA key, valid for 2 years."
-msgstr ""
+msgstr "Cheie RSA de 4096 biți, valabilă 2 ani."
 
 #: plugins/openpgp/src/key_management_dialog.vala:308
 msgid "Generate"
-msgstr ""
+msgstr "Generare"
 
 #: plugins/openpgp/src/key_management_dialog.vala:320
 #: plugins/openpgp/src/key_management_dialog.vala:324
@@ -185,70 +185,70 @@ msgstr ""
 #: plugins/openpgp/src/key_management_dialog.vala:538
 #: plugins/openpgp/src/key_management_dialog.vala:541
 msgid "Error"
-msgstr ""
+msgstr "Eroare"
 
 #: plugins/openpgp/src/key_management_dialog.vala:320
 msgid "Name must be at least 2 characters"
-msgstr ""
+msgstr "Numele trebuie să aibă cel puțin 2 caractere"
 
 #: plugins/openpgp/src/key_management_dialog.vala:324
 msgid "Please enter a valid email address"
-msgstr ""
+msgstr "Vă rugăm să introduceți o adresă de email validă"
 
 #: plugins/openpgp/src/key_management_dialog.vala:340
 msgid "Generating Key..."
-msgstr ""
+msgstr "Se generează cheia..."
 
 #: plugins/openpgp/src/key_management_dialog.vala:341
 msgid "Please wait while your key is being generated. This may take a moment."
-msgstr ""
+msgstr "Vă rugăm să așteptați în timp ce cheia dumneavoastră este generată. Acest lucru poate dura un moment."
 
 #: plugins/openpgp/src/key_management_dialog.vala:393
 #: plugins/openpgp/src/key_management_dialog.vala:459
 #: plugins/openpgp/src/key_management_dialog.vala:496
 #: plugins/openpgp/src/key_management_dialog.vala:536
 msgid "Success"
-msgstr ""
+msgstr "Succes"
 
 #: plugins/openpgp/src/key_management_dialog.vala:393
 msgid "Key generated successfully!"
-msgstr ""
+msgstr "Cheia a fost generată cu succes!"
 
 #: plugins/openpgp/src/key_management_dialog.vala:395
 msgid "Failed to generate key."
-msgstr ""
+msgstr "Generarea cheii a eșuat."
 
 #: plugins/openpgp/src/key_management_dialog.vala:416
 msgid "Import OpenPGP Key"
-msgstr ""
+msgstr "Importare cheie OpenPGP"
 
 #: plugins/openpgp/src/key_management_dialog.vala:421
 msgid "OpenPGP Keys (*.asc, *.gpg)"
-msgstr ""
+msgstr "Chei OpenPGP (*.asc, *.gpg)"
 
 #: plugins/openpgp/src/key_management_dialog.vala:428
 msgid "All Files"
-msgstr ""
+msgstr "Toate fișierele"
 
 #: plugins/openpgp/src/key_management_dialog.vala:459
 msgid "Key imported! Re-open Key Management to see it."
-msgstr ""
+msgstr "Cheie importată! Redeschideți Gestionarea cheilor pentru a o vedea."
 
 #: plugins/openpgp/src/key_management_dialog.vala:461
 msgid "Import failed: "
-msgstr ""
+msgstr "Importul a eșuat: "
 
 #: plugins/openpgp/src/key_management_dialog.vala:496
 msgid "Key exported to: "
-msgstr ""
+msgstr "Cheie exportată în: "
 
 #: plugins/openpgp/src/key_management_dialog.vala:498
 msgid "Export failed."
-msgstr ""
+msgstr "Exportul a eșuat."
 
 #: plugins/openpgp/src/key_management_dialog.vala:506
 msgid "Delete Key?"
-msgstr ""
+msgstr "Ștergeți cheia?"
 
 #: plugins/openpgp/src/key_management_dialog.vala:507
 #, c-format
@@ -258,19 +258,19 @@ msgid ""
 "%s\n"
 "\n"
 "This cannot be undone!"
-msgstr ""
+msgstr "Ștergeți această cheie?\n\n%s\n\nAceasta nu poate fi anulată!"
 
 #: plugins/openpgp/src/key_management_dialog.vala:510
 msgid "Delete"
-msgstr ""
+msgstr "Ștergere"
 
 #: plugins/openpgp/src/key_management_dialog.vala:536
 msgid "Key deleted."
-msgstr ""
+msgstr "Cheie ștearsă."
 
 #: plugins/openpgp/src/key_management_dialog.vala:538
 msgid "Delete failed: "
-msgstr ""
+msgstr "Ștergerea a eșuat: "
 
 #~ msgid "Querying GnuPG"
 #~ msgstr "Se interoghează GnuPG"

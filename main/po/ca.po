@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dino 20180510\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-18 18:28+0100\n"
+"POT-Creation-Date: 2025-12-31 14:00+0100\n"
 "PO-Revision-Date: 2025-08-22 20:14+0000\n"
 "Language-Team: Catalan; Valencian <tradgnome@softcatala.org>\n"
 "Language: ca\n"
@@ -16,11 +16,11 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.13\n"
 
-#: main/data/add_conversation/add_groupchat_dialog.ui:80
+#: main/data/add_conversation/add_groupchat_dialog.ui:81
 msgid "Add MUC"
 msgstr "Afegeix MUC"
 
-#: main/data/add_conversation/add_groupchat_dialog.ui:90
+#: main/data/add_conversation/add_groupchat_dialog.ui:91
 msgid "Insert a Name for MUC..."
 msgstr "Introduïu un nom per a la sala..."
 
@@ -29,7 +29,7 @@ msgid "Search or enter channel address..."
 msgstr "Cerqueu o introduïu l'adreça del canal..."
 
 #: main/data/add_conversation/select_jid_fragment.ui:67
-#: main/src/ui/add_conversation/select_jid_fragment.vala:205
+#: main/src/ui/add_conversation/select_jid_fragment.vala:204
 msgid "Add Group"
 msgstr "Afegir grup"
 
@@ -56,22 +56,32 @@ msgstr "Rebutja"
 msgid "Accept"
 msgstr "Accepta"
 
-#: main/data/chat_input.ui:63
+#: main/data/chat_input.ui:15
+#, fuzzy
+msgid "Send File…"
+msgstr "Envia un fitxer"
+
+#: main/data/chat_input.ui:25
+#, fuzzy
+msgid "Send Location"
+msgstr "Ubicació d'emmagatzematge de dades"
+
+#: main/data/chat_input.ui:96
 msgid "Record voice message"
 msgstr "Enregistrar missatge de veu"
 
-#: main/data/chat_input.ui:77
+#: main/data/chat_input.ui:110
 msgid "Send message"
 msgstr "Enviar missatge"
 
-#: main/data/conversation_details.ui:145
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:566
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:175
+#: main/data/conversation_details.ui:162
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:567
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:169
 msgid "Remove Contact"
 msgstr "Eliminar contacte"
 
-#: main/data/conversation_details.ui:171
-#: main/src/windows/conversation_details.vala:229
+#: main/data/conversation_details.ui:192
+#: main/src/windows/conversation_details.vala:238
 msgid "About"
 msgstr "Quant a"
 
@@ -80,13 +90,13 @@ msgid "Private room (supports group calls)"
 msgstr "Sala privada (admet trucades de grup)"
 
 #: main/data/conversation_row.ui:135
-#: main/src/windows/conversation_details.vala:171
-#: main/src/windows/conversation_details.vala:172
+#: main/src/windows/conversation_details.vala:180
+#: main/src/windows/conversation_details.vala:181
 msgid "Muted"
 msgstr "Silenciat"
 
 #: main/data/conversation_row.ui:146
-#: main/src/windows/conversation_details.vala:136
+#: main/src/windows/conversation_details.vala:145
 msgid "Blocked"
 msgstr "Bloqueja"
 
@@ -97,15 +107,15 @@ msgstr "General"
 
 #: main/data/gtk/help-overlay.ui:14 main/data/main_window.ui:38
 #: main/data/menu_add.ui:7
-#: main/src/ui/add_conversation/select_contact_dialog.vala:106
+#: main/src/ui/add_conversation/select_contact_dialog.vala:110
 #: main/src/ui/main_window.vala:154
 msgid "Start Conversation"
 msgstr "Inicia una conversa"
 
 #: main/data/gtk/help-overlay.ui:20 main/data/main_window.ui:51
 #: main/data/menu_add.ui:11
-#: main/src/ui/add_conversation/add_conference_dialog.vala:24
-#: main/src/ui/application.vala:1373 main/src/ui/main_window.vala:155
+#: main/src/ui/add_conversation/add_conference_dialog.vala:25
+#: main/src/ui/application.vala:1908 main/src/ui/main_window.vala:155
 msgid "Join Channel"
 msgstr "Uneix-m'hi al canal"
 
@@ -126,7 +136,7 @@ msgstr "Conversa"
 msgid "Search messages"
 msgstr "Cerca els missatges"
 
-#: main/data/gtk/help-overlay.ui:49 main/src/ui/chat_input/view.vala:59
+#: main/data/gtk/help-overlay.ui:49 main/src/ui/chat_input/view.vala:62
 msgid "Send a file"
 msgstr "Envia un fitxer"
 
@@ -190,15 +200,23 @@ msgstr "Ocupat"
 msgid "Not Available"
 msgstr "No disponible"
 
-#: main/data/menu_app.ui:34
+#: main/data/menu_app.ui:30 main/src/ui/main_window.vala:215
+msgid "Set Status Message…"
+msgstr "Defineix el missatge d'estat…"
+
+#: main/data/menu_app.ui:38
 msgid "Preferences"
 msgstr "Preferències"
 
-#: main/data/menu_app.ui:38
+#: main/data/menu_app.ui:42
+msgid "Panic Wipe"
+msgstr "Neteja de pànic"
+
+#: main/data/menu_app.ui:46
 msgid "Keyboard Shortcuts"
 msgstr "Dreceres de teclat"
 
-#: main/data/menu_app.ui:42 main/src/ui/application.vala:354
+#: main/data/menu_app.ui:50 main/src/ui/application.vala:891
 msgid "About DinoX"
 msgstr "Quant a DinoX"
 
@@ -215,35 +233,34 @@ msgstr "Esborrar l'historial de converses"
 
 #: main/data/message_item_widget_edit_mode.ui:46
 #: main/data/preferences_window/change_password_dialog.ui:18
-#: main/src/ui/add_conversation/add_conference_dialog.vala:41
-#: main/src/ui/add_conversation/select_contact_dialog.vala:40
-#: main/src/ui/application.vala:455 main/src/ui/application.vala:483
-#: main/src/ui/application.vala:779 main/src/ui/application.vala:857
-#: main/src/ui/application.vala:915 main/src/ui/application.vala:947
-#: main/src/ui/application.vala:1103 main/src/ui/application.vala:1383
-#: main/src/ui/chat_input/sticker_chooser.vala:547
-#: main/src/ui/chat_input/sticker_chooser.vala:869
+#: main/src/ui/add_conversation/add_conference_dialog.vala:44
+#: main/src/ui/add_conversation/select_contact_dialog.vala:43
+#: main/src/ui/application.vala:754 main/src/ui/application.vala:992
+#: main/src/ui/application.vala:1020 main/src/ui/application.vala:1316
+#: main/src/ui/application.vala:1394 main/src/ui/application.vala:1452
+#: main/src/ui/application.vala:1484 main/src/ui/application.vala:1640
+#: main/src/ui/application.vala:1918
 #: main/src/ui/conversation_content_view/file_default_widget.vala:90
 #: main/src/ui/conversation_content_view/item_actions.vala:165
 #: main/src/ui/conversation_content_view/item_actions.vala:168
-#: main/src/ui/conversation_details.vala:249
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:633
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:660
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:679
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:704
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:723
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:744
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:790
+#: main/src/ui/conversation_details.vala:253
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:641
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:668
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:687
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:712
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:731
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:752
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:797
 #: main/src/ui/conversation_titlebar/call_entry.vala:83
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
 #: main/src/windows/conversation_details.vala:60
 #: main/src/windows/preferences_window/account_preferences_subpage.vala:68
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:205
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:225
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:249
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:269
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:291
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:332
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:199
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:219
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:243
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:263
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:285
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:326
 msgid "Cancel"
 msgstr "Cancel·la"
 
@@ -261,7 +278,7 @@ msgid "Local alias"
 msgstr "Àlias local"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:82
-#: main/src/ui/application.vala:449 main/src/ui/application.vala:1078
+#: main/src/ui/application.vala:986 main/src/ui/application.vala:1615
 #: main/src/ui/util/data_forms.vala:63
 msgid "Password"
 msgstr "Contrasenya"
@@ -311,19 +328,27 @@ msgstr "_Envia notificacions d'escriptura"
 msgid "Send _Read Receipts"
 msgstr "Envia _confirmació de lectura"
 
-#: main/data/preferences_window/general_preferences_page.ui:25
+#: main/data/preferences_window/general_preferences_page.ui:21
+msgid "Allow Location Sharing"
+msgstr "Permet la compartició d'ubicació"
+
+#: main/data/preferences_window/general_preferences_page.ui:22
+msgid "Allow sending your current location in chats"
+msgstr "Permet enviar la teva ubicació actual als xats"
+
+#: main/data/preferences_window/general_preferences_page.ui:32
 msgid "_Notifications"
 msgstr "_Notificacions"
 
-#: main/data/preferences_window/general_preferences_page.ui:26
+#: main/data/preferences_window/general_preferences_page.ui:33
 msgid "Notify when a new message arrives"
 msgstr "Notifica'm quan arriba un missatge nou"
 
-#: main/data/preferences_window/general_preferences_page.ui:32
+#: main/data/preferences_window/general_preferences_page.ui:39
 msgid "_Keep Running in Background"
 msgstr "_Continua en segon pla"
 
-#: main/data/preferences_window/general_preferences_page.ui:33
+#: main/data/preferences_window/general_preferences_page.ui:40
 msgid ""
 "Continue running after closing window to receive notifications immediately"
 msgstr ""
@@ -331,101 +356,110 @@ msgstr ""
 "immediatamentContinua funcionant després de tancar la finestra per rebre "
 "notificacions immediatament"
 
-#: main/data/preferences_window/general_preferences_page.ui:41
+#: main/data/preferences_window/general_preferences_page.ui:48
 msgid "Appearance"
 msgstr "Aparença"
 
-#: main/data/preferences_window/general_preferences_page.ui:44
+#: main/data/preferences_window/general_preferences_page.ui:51
 msgid "_Color Scheme"
 msgstr "_Esquema de colors"
 
-#: main/data/preferences_window/general_preferences_page.ui:45
+#: main/data/preferences_window/general_preferences_page.ui:52
 msgid "Choose between light and dark appearance"
 msgstr "Trieu entre aparença clara i fosca"
 
-#: main/data/preferences_window/general_preferences_page.ui:55
+#: main/data/preferences_window/general_preferences_page.ui:62
 msgid "_Convert Smileys to Emoji"
 msgstr "C_onverteix emoticones a emoji"
 
-#: main/data/preferences_window/general_preferences_page.ui:63
-#: main/src/ui/chat_input/view.vala:51
+#: main/data/preferences_window/general_preferences_page.ui:70
+#: main/src/ui/chat_input/view.vala:54
 #, fuzzy
 msgid "Stickers"
 msgstr "Altaveus"
 
-#: main/data/preferences_window/general_preferences_page.ui:66
+#: main/data/preferences_window/general_preferences_page.ui:73
 msgid "Enable Stickers"
-msgstr ""
+msgstr "Habilita els adhesius"
 
-#: main/data/preferences_window/general_preferences_page.ui:71
+#: main/data/preferences_window/general_preferences_page.ui:78
 msgid "Enable Sticker Animations"
-msgstr ""
-
-#: main/data/preferences_window/general_preferences_page.ui:72
-msgid "Disable to reduce flashing/flickering"
-msgstr ""
+msgstr "Habilita les animacions dels adhesius"
 
 #: main/data/preferences_window/general_preferences_page.ui:79
+msgid "Disable to reduce flashing/flickering"
+msgstr "Deshabilita-ho per reduir el parpelleig"
+
+#: main/data/preferences_window/general_preferences_page.ui:86
 msgid "User Data"
 msgstr "Dades de l'usuari"
 
-#: main/data/preferences_window/general_preferences_page.ui:82
+#: main/data/preferences_window/general_preferences_page.ui:89
 msgid "Backup User Data"
 msgstr "Còpia de seguretat"
 
-#: main/data/preferences_window/general_preferences_page.ui:83
+#: main/data/preferences_window/general_preferences_page.ui:90
 msgid "Create a backup of your accounts, messages and settings"
 msgstr "Crea una còpia de seguretat dels comptes, missatges i configuració"
 
-#: main/data/preferences_window/general_preferences_page.ui:94
-#: main/src/ui/application.vala:478 main/src/ui/main_window.vala:223
+#: main/data/preferences_window/general_preferences_page.ui:101
+#: main/src/ui/application.vala:1015 main/src/ui/main_window.vala:226
 msgid "Restore from Backup"
 msgstr "Restaurar des de còpia"
 
-#: main/data/preferences_window/general_preferences_page.ui:95
+#: main/data/preferences_window/general_preferences_page.ui:102
 msgid "Restore accounts, messages and settings from a backup file"
 msgstr ""
 "Restaura comptes, missatges i configuració des d'un fitxer de còpia de "
 "seguretat"
 
-#: main/data/preferences_window/general_preferences_page.ui:106
+#: main/data/preferences_window/general_preferences_page.ui:113
 msgid "Data Storage Location"
 msgstr "Ubicació d'emmagatzematge de dades"
 
-#: main/data/preferences_window/general_preferences_page.ui:107
+#: main/data/preferences_window/general_preferences_page.ui:114
 msgid "View where your data is stored"
 msgstr "Mostra on s'emmagatzemen les dades"
 
-#: main/data/preferences_window/general_preferences_page.ui:120
+#: main/data/preferences_window/general_preferences_page.ui:127
 msgid "Database Maintenance"
 msgstr "Manteniment de la base de dades"
 
-#: main/data/preferences_window/general_preferences_page.ui:123
-#: main/src/ui/application.vala:775 main/src/ui/application.vala:780
+#: main/data/preferences_window/general_preferences_page.ui:130
+#, fuzzy
+msgid "Change Database Password"
+msgstr "Canvi de contrasenya"
+
+#: main/data/preferences_window/general_preferences_page.ui:131
+msgid "Change the password used to encrypt your local data"
+msgstr "Canvia la contrasenya utilitzada per xifrar les dades locals"
+
+#: main/data/preferences_window/general_preferences_page.ui:142
+#: main/src/ui/application.vala:1312 main/src/ui/application.vala:1317
 msgid "Clear Cache"
 msgstr "Neteja la memòria cau"
 
-#: main/data/preferences_window/general_preferences_page.ui:124
+#: main/data/preferences_window/general_preferences_page.ui:143
 msgid "Clear cached files, avatars and previews"
 msgstr "Neteja els fitxers, avatars i previsualitzacions de la memòria cau"
 
-#: main/data/preferences_window/general_preferences_page.ui:135
-#: main/src/ui/application.vala:852 main/src/ui/application.vala:858
+#: main/data/preferences_window/general_preferences_page.ui:154
+#: main/src/ui/application.vala:1389 main/src/ui/application.vala:1395
 msgid "Reset Database"
 msgstr "Reiniciar base de dades"
 
-#: main/data/preferences_window/general_preferences_page.ui:136
+#: main/data/preferences_window/general_preferences_page.ui:155
 msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
 msgstr ""
 "Suprimeix tots els missatges, fitxers i claus OMEMO. Els teus comptes es "
 "mantindran."
 
-#: main/data/preferences_window/general_preferences_page.ui:147
-#: main/src/ui/application.vala:910
+#: main/data/preferences_window/general_preferences_page.ui:166
+#: main/src/ui/application.vala:1447
 msgid "Factory Reset"
 msgstr "Restablir de fàbrica"
 
-#: main/data/preferences_window/general_preferences_page.ui:148
+#: main/data/preferences_window/general_preferences_page.ui:167
 msgid "Delete ALL data including accounts. This cannot be undone!"
 msgstr ""
 "Suprimeix TOTES les dades, inclosos els comptes. Això no es pot desfer!"
@@ -443,17 +477,17 @@ msgid "Contacts"
 msgstr "Contactes"
 
 #: main/data/preferences_window/preferences_dialog.ui:25
-#: main/src/windows/conversation_details.vala:279
+#: main/src/windows/conversation_details.vala:288
 msgid "Encryption"
 msgstr "Xifratge"
 
-#: main/src/ui/add_conversation/add_conference_dialog.vala:44
+#: main/src/ui/add_conversation/add_conference_dialog.vala:47
 msgid "Next"
 msgstr "Següent"
 
-#: main/src/ui/add_conversation/add_conference_dialog.vala:59
+#: main/src/ui/add_conversation/add_conference_dialog.vala:62
 #: main/src/ui/add_conversation/conference_details_fragment.vala:151
-#: main/src/ui/application.vala:1387
+#: main/src/ui/application.vala:1922
 msgid "Join"
 msgstr "Uneix-me"
 
@@ -509,11 +543,11 @@ msgstr "No s'ha pogut connectar a %s"
 msgid "Invalid address"
 msgstr "L'adreça no és vàlida"
 
-#: main/src/ui/add_conversation/select_contact_dialog.vala:70
+#: main/src/ui/add_conversation/select_contact_dialog.vala:76
 msgid "Search or enter contact address..."
 msgstr "Cerqueu o introduïu l'adreça del contacte..."
 
-#: main/src/ui/add_conversation/select_contact_dialog.vala:107
+#: main/src/ui/add_conversation/select_contact_dialog.vala:111
 msgid "Start"
 msgstr "Inicia"
 
@@ -525,45 +559,137 @@ msgstr "Navega per les sales"
 msgid "Browse Contacts"
 msgstr "Explorar contactes"
 
-#: main/src/ui/add_conversation/select_jid_fragment.vala:202
+#: main/src/ui/add_conversation/select_jid_fragment.vala:201
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:70
 msgid "Add Contact"
 msgstr "Afegeix el contacte"
 
-#: main/src/ui/add_conversation/select_jid_fragment.vala:203
+#: main/src/ui/add_conversation/select_jid_fragment.vala:202
 msgid "Delete Contact"
 msgstr "Eliminar contacte"
 
-#: main/src/ui/add_conversation/select_jid_fragment.vala:206
-#: main/src/ui/add_conversation/select_jid_fragment.vala:216
+#: main/src/ui/add_conversation/select_jid_fragment.vala:205
+#: main/src/ui/add_conversation/select_jid_fragment.vala:215
 msgid "Leave Group"
 msgstr "Surt del grup"
 
-#: main/src/ui/application.vala:359
+#: main/src/ui/application.vala:161
+msgid "Beenden"
+msgstr "Surt"
+
+#: main/src/ui/application.vala:266 main/src/ui/application.vala:361
+#, fuzzy
+msgid "Passwort"
+msgstr "Contrasenya"
+
+#: main/src/ui/application.vala:271
+msgid "DinoX entsperren"
+msgstr "Desbloqueja DinoX"
+
+#: main/src/ui/application.vala:272
+msgid "Bitte Passwort eingeben, um die verschlüsselte Datenbank zu öffnen."
+msgstr "Introduïu la contrasenya per obrir la base de dades xifrada."
+
+#: main/src/ui/application.vala:274
+#, c-format
+msgid "Falsches Passwort. Versuch %d/%d"
+msgstr "Contrasenya incorrecta. Intent %d/%d"
+
+#: main/src/ui/application.vala:346
+msgid "Entsperren"
+msgstr "Desbloqueja"
+
+#: main/src/ui/application.vala:363
+msgid "Passwort bestätigen"
+msgstr "Confirma la contrasenya"
+
+#: main/src/ui/application.vala:370
+#, fuzzy
+msgid "Passwort festlegen"
+msgstr "Contrasenya massa curta"
+
+#: main/src/ui/application.vala:371
+msgid ""
+"Bei der ersten Nutzung musst du ein Passwort setzen. Ohne Passwort kann "
+"DinoX die verschlüsselte Datenbank nicht öffnen."
+msgstr "Heu d'establir una contrasenya en el primer ús. Sense contrasenya, DinoX no pot obrir la base de dades xifrada."
+
+#: main/src/ui/application.vala:373
+#, c-format
+msgid "Ungültiges Passwort. Versuch %d/%d"
+msgstr "Contrasenya no vàlida. Intent %d/%d"
+
+#: main/src/ui/application.vala:448
+#, fuzzy
+msgid "Passwort setzen"
+msgstr "Contrasenya massa curta"
+
+#: main/src/ui/application.vala:746
+#, fuzzy
+msgid "Set Status Message"
+msgstr "Cerca els missatges"
+
+#: main/src/ui/application.vala:755
+#, fuzzy
+msgid "Set"
+msgstr "Selecciona"
+
+#: main/src/ui/application.vala:809
+msgid "Aktuelles Passwort"
+msgstr "Contrasenya actual"
+
+#: main/src/ui/application.vala:811
+#, fuzzy
+msgid "Neues Passwort"
+msgstr "Contrasenya nova"
+
+#: main/src/ui/application.vala:813
+msgid "Neues Passwort bestätigen"
+msgstr "Confirma la nova contrasenya"
+
+#: main/src/ui/application.vala:824
+msgid "Datenbank-Passwort ändern"
+msgstr "Canvia la contrasenya de la base de dades"
+
+#: main/src/ui/application.vala:825
+msgid ""
+"Dieses Passwort wird verwendet, um deine lokalen DinoX-Daten zu "
+"verschlüsseln."
+msgstr "Aquesta contrasenya s'utilitza per xifrar les vostres dades locals de DinoX."
+
+#: main/src/ui/application.vala:828
+msgid "Abbrechen"
+msgstr "Cancel·la"
+
+#: main/src/ui/application.vala:829
+msgid "Ändern"
+msgstr "Canvia"
+
+#: main/src/ui/application.vala:896
 msgid "Modern XMPP client with extended features"
 msgstr "Client XMPP modern amb funcions ampliades"
 
-#: main/src/ui/application.vala:366 main/src/ui/application.vala:741
+#: main/src/ui/application.vala:903 main/src/ui/application.vala:1278
 msgid "User Data Locations"
 msgstr "Ubicacions de les dades"
 
-#: main/src/ui/application.vala:369 main/src/ui/application.vala:755
+#: main/src/ui/application.vala:906 main/src/ui/application.vala:1292
 msgid "Configuration:"
 msgstr "Configuració:"
 
-#: main/src/ui/application.vala:372 main/src/ui/application.vala:757
+#: main/src/ui/application.vala:909 main/src/ui/application.vala:1294
 msgid "Data & Database:"
 msgstr "Dades i base de dades:"
 
-#: main/src/ui/application.vala:375 main/src/ui/application.vala:759
+#: main/src/ui/application.vala:912 main/src/ui/application.vala:1296
 msgid "Cache:"
 msgstr "Memòria cau:"
 
-#: main/src/ui/application.vala:378
+#: main/src/ui/application.vala:915
 msgid "Info:"
 msgstr "Informació:"
 
-#: main/src/ui/application.vala:379
+#: main/src/ui/application.vala:916
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
@@ -571,38 +697,38 @@ msgstr ""
 "Les vostres dades personals (comptes, missatges, fitxers) s'emmagatzemen per "
 "separat de l'aplicació."
 
-#: main/src/ui/application.vala:381
+#: main/src/ui/application.vala:918
 msgid "When you update DinoX, your data remains intact."
 msgstr "Quan actualitzeu DinoX, les vostres dades romanen intactes."
 
-#: main/src/ui/application.vala:383
+#: main/src/ui/application.vala:920
 msgid "Use Settings → General → Backup User Data to create a backup."
 msgstr ""
 "Utilitzeu Configuració → General → Còpia de seguretat de dades d'usuari per "
 "crear una còpia de seguretat."
 
-#: main/src/ui/application.vala:401
+#: main/src/ui/application.vala:938
 msgid "Select Backup File"
 msgstr "Seleccionar fitxer de còpia"
 
 # DinoX v0.7.7 - Additional Backup/Restore strings
-#: main/src/ui/application.vala:409
+#: main/src/ui/application.vala:946
 msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
 msgstr "Fitxers de còpia de seguretat (*.tar.gz, *.tar.gz.gpg)"
 
-#: main/src/ui/application.vala:439
+#: main/src/ui/application.vala:976
 msgid "Enter Backup Password"
 msgstr "Introduir contrasenya de còpia"
 
-#: main/src/ui/application.vala:440
+#: main/src/ui/application.vala:977
 msgid "This backup is encrypted. Please enter the password to decrypt it."
 msgstr "Aquesta còpia està xifrada. Introduïu la contrasenya per desxifrar-la."
 
-#: main/src/ui/application.vala:456
+#: main/src/ui/application.vala:993
 msgid "Decrypt & Restore"
 msgstr "Desxifrar i restaurar"
 
-#: main/src/ui/application.vala:479
+#: main/src/ui/application.vala:1016
 msgid ""
 "This will replace all current data with the backup.\n"
 "\n"
@@ -616,65 +742,58 @@ msgstr ""
 "\n"
 "DinoX es reiniciarà després de restaurar."
 
-#: main/src/ui/application.vala:484
+#: main/src/ui/application.vala:1021
 msgid "Restore Backup"
 msgstr "Restaurar còpia"
 
-#: main/src/ui/application.vala:501 main/src/ui/application.vala:533
+#: main/src/ui/application.vala:1038 main/src/ui/application.vala:1070
 msgid "Decrypting Backup..."
 msgstr "Desxifrant còpia de seguretat..."
 
-#: main/src/ui/application.vala:501 main/src/ui/application.vala:585
+#: main/src/ui/application.vala:1038 main/src/ui/application.vala:1122
 msgid "Restoring Backup..."
 msgstr "Restaurant còpia de seguretat..."
 
-#: main/src/ui/application.vala:502
+#: main/src/ui/application.vala:1039
 msgid "Please wait, this may take a moment..."
 msgstr "Si us plau, espereu, això pot trigar un moment..."
 
-#: main/src/ui/application.vala:534
+#: main/src/ui/application.vala:1071
 msgid "Decrypting encrypted backup file..."
 msgstr "Desxifrant el fitxer de còpia de seguretat..."
 
-#: main/src/ui/application.vala:572
+#: main/src/ui/application.vala:1109
 msgid "Decryption Failed"
 msgstr "Error de desxifratge"
 
-#: main/src/ui/application.vala:573
+#: main/src/ui/application.vala:1110
 msgid ""
 "Could not decrypt the backup file.\n"
 "\n"
 "Please check if the password is correct."
 msgstr "No s'ha pogut desxifrar el fitxer. Comproveu la contrasenya."
 
-#: main/src/ui/application.vala:575 main/src/ui/application.vala:685
-#: main/src/ui/chat_input/sticker_chooser.vala:575
-#: main/src/ui/chat_input/sticker_chooser.vala:594
-#: main/src/ui/chat_input/sticker_chooser.vala:602
-#: main/src/ui/chat_input/sticker_chooser.vala:817
-#: main/src/ui/chat_input/sticker_chooser.vala:835
-#: main/src/ui/chat_input/sticker_chooser.vala:843
-#: main/src/ui/chat_input/sticker_chooser.vala:883
+#: main/src/ui/application.vala:1112 main/src/ui/application.vala:1222
 msgid "OK"
 msgstr "OK"
 
-#: main/src/ui/application.vala:586
+#: main/src/ui/application.vala:1123
 msgid "Extracting files from backup..."
 msgstr "S'estan extraient els fitxers de la còpia de seguretat..."
 
-#: main/src/ui/application.vala:667
+#: main/src/ui/application.vala:1204
 msgid "Restore Complete!"
 msgstr "Restauració completada!"
 
-#: main/src/ui/application.vala:668
+#: main/src/ui/application.vala:1205
 msgid "DinoX will now restart..."
 msgstr "DinoX es reiniciarà ara..."
 
-#: main/src/ui/application.vala:682
+#: main/src/ui/application.vala:1219
 msgid "Restore Failed"
 msgstr "La restauració ha fallat"
 
-#: main/src/ui/application.vala:683
+#: main/src/ui/application.vala:1220
 #, c-format
 msgid ""
 "Could not restore the backup file.\n"
@@ -685,11 +804,11 @@ msgstr ""
 "\n"
 "Error: %s"
 
-#: main/src/ui/application.vala:683 main/src/ui/application.vala:1359
+#: main/src/ui/application.vala:1220 main/src/ui/application.vala:1896
 msgid "Unknown error"
 msgstr "Error desconegut"
 
-#: main/src/ui/application.vala:761
+#: main/src/ui/application.vala:1298
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
@@ -700,14 +819,17 @@ msgstr ""
 "s'emmagatzemen per separat de l'aplicació. Quan actualitzes DinoX, les teves "
 "dades es mantenen intactes."
 
-#: main/src/ui/application.vala:766 main/src/ui/application.vala:1254
-#: main/src/ui/application.vala:1338
-#: main/src/ui/chat_input/sticker_chooser.vala:174
-#: main/src/ui/conversation_details.vala:272 main/src/ui/main_window.vala:172
+#: main/src/ui/application.vala:1303 main/src/ui/application.vala:1791
+#: main/src/ui/application.vala:1875
+#: main/src/ui/chat_input/sticker_chooser.vala:181
+#: main/src/ui/conversation_details.vala:276
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:566
+#: main/src/ui/conversation_view_controller.vala:333
+#: main/src/ui/main_window.vala:172
 msgid "Close"
 msgstr "Tanca"
 
-#: main/src/ui/application.vala:776
+#: main/src/ui/application.vala:1313
 msgid ""
 "This will delete cached files, avatars and previews.\n"
 "\n"
@@ -717,16 +839,16 @@ msgstr ""
 "\n"
 "Es tornaran a baixar quan sigui necessari."
 
-#: main/src/ui/application.vala:813
+#: main/src/ui/application.vala:1350
 #, c-format
 msgid "Cache cleared (%s freed)"
 msgstr "S'ha netejat la memòria cau (%s alliberats)"
 
-#: main/src/ui/application.vala:816
+#: main/src/ui/application.vala:1353
 msgid "Failed to clear cache"
 msgstr "No s'ha pogut netejar la memòria cau"
 
-#: main/src/ui/application.vala:853
+#: main/src/ui/application.vala:1390
 msgid ""
 "This will delete all messages, files and OMEMO encryption keys.\n"
 "\n"
@@ -742,11 +864,11 @@ msgstr ""
 "\n"
 "Aquesta acció no es pot desfer!"
 
-#: main/src/ui/application.vala:881
+#: main/src/ui/application.vala:1418
 msgid "Resetting database... DinoX will restart."
 msgstr "S'està restablint la base de dades... DinoX es reiniciarà."
 
-#: main/src/ui/application.vala:911
+#: main/src/ui/application.vala:1448
 msgid ""
 "<b>⚠️ WARNING: This will delete ALL data!</b>\n"
 "\n"
@@ -766,19 +888,19 @@ msgstr ""
 "\n"
 "Això és irreversible. Creeu una còpia de seguretat primer!"
 
-#: main/src/ui/application.vala:916
+#: main/src/ui/application.vala:1453
 msgid "Create Backup First"
 msgstr "Crear còpia primer"
 
-#: main/src/ui/application.vala:917
+#: main/src/ui/application.vala:1454
 msgid "Delete Everything"
 msgstr "Esborrar-ho tot"
 
-#: main/src/ui/application.vala:937
+#: main/src/ui/application.vala:1474
 msgid "Are you absolutely sure?"
 msgstr "Esteu absolutament segur?"
 
-#: main/src/ui/application.vala:938
+#: main/src/ui/application.vala:1475
 msgid ""
 "Type 'DELETE' to confirm factory reset.\n"
 "\n"
@@ -788,19 +910,19 @@ msgstr ""
 "\n"
 "Això eliminarà permanentment totes les dades de DinoX."
 
-#: main/src/ui/application.vala:948
+#: main/src/ui/application.vala:1485
 msgid "Confirm Delete"
 msgstr "Confirmar eliminació"
 
-#: main/src/ui/application.vala:975
+#: main/src/ui/application.vala:1512
 msgid "Factory reset in progress... DinoX will restart."
 msgstr "S'està fent el restabliment de fàbrica... DinoX es reiniciarà."
 
-#: main/src/ui/application.vala:1040
+#: main/src/ui/application.vala:1577
 msgid "Backup Encryption"
 msgstr "Xifratge de la còpia de seguretat"
 
-#: main/src/ui/application.vala:1041
+#: main/src/ui/application.vala:1578
 msgid ""
 "Do you want to encrypt the backup with a password?\n"
 "\n"
@@ -811,19 +933,19 @@ msgstr ""
 "Les còpies de seguretat xifrades són més segures però requereixen la "
 "contrasenya per restaurar-les."
 
-#: main/src/ui/application.vala:1044
+#: main/src/ui/application.vala:1581
 msgid "No Encryption"
 msgstr "Sense xifratge"
 
-#: main/src/ui/application.vala:1045
+#: main/src/ui/application.vala:1582
 msgid "Encrypt with Password"
 msgstr "Xifrar amb contrasenya"
 
-#: main/src/ui/application.vala:1063
+#: main/src/ui/application.vala:1600
 msgid "Set Backup Password"
 msgstr "Establir contrasenya de còpia"
 
-#: main/src/ui/application.vala:1064
+#: main/src/ui/application.vala:1601
 msgid ""
 "Enter a password to encrypt the backup.\n"
 "\n"
@@ -835,59 +957,59 @@ msgstr ""
 "<b>Important:</b> Recordeu aquesta contrasenya! Sense ella, no es pot "
 "restaurar."
 
-#: main/src/ui/application.vala:1072
+#: main/src/ui/application.vala:1609
 msgid "Password (minimum 4 characters)"
 msgstr "Contrasenya (mínim 4 caràcters)"
 
-#: main/src/ui/application.vala:1080 main/src/ui/application.vala:1087
+#: main/src/ui/application.vala:1617 main/src/ui/application.vala:1624
 msgid "Confirm Password"
 msgstr "Confirmar contrasenya"
 
-#: main/src/ui/application.vala:1104
+#: main/src/ui/application.vala:1641
 msgid "Create Encrypted Backup"
 msgstr "Crear còpia xifrada"
 
-#: main/src/ui/application.vala:1116 main/src/ui/application.vala:1131
+#: main/src/ui/application.vala:1653 main/src/ui/application.vala:1668
 msgid "Password too short"
 msgstr "Contrasenya massa curta"
 
-#: main/src/ui/application.vala:1118 main/src/ui/application.vala:1133
+#: main/src/ui/application.vala:1655 main/src/ui/application.vala:1670
 msgid "Passwords do not match"
 msgstr "Les contrasenyes no coincideixen"
 
-#: main/src/ui/application.vala:1120 main/src/ui/application.vala:1135
+#: main/src/ui/application.vala:1657 main/src/ui/application.vala:1672
 msgid "✓ Passwords match"
 msgstr "✓ Les contrasenyes coincideixen"
 
-#: main/src/ui/application.vala:1153
+#: main/src/ui/application.vala:1690
 msgid "Select Backup Location"
 msgstr "Seleccioneu la ubicació de la còpia"
 
-#: main/src/ui/application.vala:1208
+#: main/src/ui/application.vala:1745
 msgid "Creating Encrypted Backup..."
 msgstr "S'està creant la còpia de seguretat xifrada..."
 
-#: main/src/ui/application.vala:1208
+#: main/src/ui/application.vala:1745
 msgid "Creating Backup..."
 msgstr "S'està creant la còpia de seguretat..."
 
-#: main/src/ui/application.vala:1209
+#: main/src/ui/application.vala:1746
 msgid "Please wait while your data is being backed up."
 msgstr "Espereu mentre es fa la còpia de seguretat de les dades."
 
-#: main/src/ui/application.vala:1248
+#: main/src/ui/application.vala:1785
 msgid "No data directory found to backup"
 msgstr "No s'ha trobat cap directori de dades per fer la còpia de seguretat"
 
-#: main/src/ui/application.vala:1251 main/src/ui/application.vala:1357
+#: main/src/ui/application.vala:1788 main/src/ui/application.vala:1894
 msgid "Backup Failed"
 msgstr "Ha fallat la còpia de seguretat"
 
-#: main/src/ui/application.vala:1345
+#: main/src/ui/application.vala:1882
 msgid "Encrypted Backup Created"
 msgstr "S'ha creat la còpia de seguretat xifrada"
 
-#: main/src/ui/application.vala:1347
+#: main/src/ui/application.vala:1884
 #, c-format
 msgid ""
 "Your encrypted backup was created successfully.\n"
@@ -898,15 +1020,15 @@ msgstr ""
 "\n"
 "Mida: %s"
 
-#: main/src/ui/application.vala:1348
+#: main/src/ui/application.vala:1885
 msgid "Your encrypted backup was created successfully."
 msgstr "La còpia de seguretat xifrada s'ha creat correctament."
 
-#: main/src/ui/application.vala:1350
+#: main/src/ui/application.vala:1887
 msgid "Backup Created"
 msgstr "S'ha creat la còpia de seguretat"
 
-#: main/src/ui/application.vala:1352
+#: main/src/ui/application.vala:1889
 #, c-format
 msgid ""
 "Your backup was created successfully.\n"
@@ -917,11 +1039,11 @@ msgstr ""
 "\n"
 "Mida: %s"
 
-#: main/src/ui/application.vala:1353
+#: main/src/ui/application.vala:1890
 msgid "Your backup was created successfully."
 msgstr "La còpia de seguretat s'ha creat correctament."
 
-#: main/src/ui/application.vala:1360
+#: main/src/ui/application.vala:1897
 #, c-format
 msgid "Backup failed: %s"
 msgstr "Error de còpia: %s"
@@ -942,24 +1064,24 @@ msgstr "Altaveus"
 msgid "No speaker found."
 msgstr "No s'ha trobat cap altaveu."
 
-#: main/src/ui/call_window/call_window_controller.vala:153
+#: main/src/ui/call_window/call_window_controller.vala:152
 msgid "Invite to Call"
 msgstr "Convida a la trucada"
 
-#: main/src/ui/call_window/call_window_controller.vala:154
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:772
+#: main/src/ui/call_window/call_window_controller.vala:153
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:780
 #: main/src/ui/conversation_titlebar/menu_entry.vala:99
 #: main/src/ui/occupant_menu/view.vala:27
-#: main/src/ui/occupant_menu/view.vala:276
+#: main/src/ui/occupant_menu/view.vala:275
 msgid "Invite"
 msgstr "Invita"
 
-#: main/src/ui/call_window/call_window_controller.vala:453
+#: main/src/ui/call_window/call_window_controller.vala:451
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:240
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:270
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:285
-#: main/src/ui/util/helper.vala:69 main/src/ui/util/helper.vala:73
-#: main/src/ui/util/helper.vala:81
+#: main/src/ui/util/helper.vala:79 main/src/ui/util/helper.vala:83
+#: main/src/ui/util/helper.vala:91
 msgid "Me"
 msgstr "Jo"
 
@@ -1012,146 +1134,34 @@ msgstr "Sol·licita el permís"
 msgid "Unencrypted"
 msgstr "Sense xifrar"
 
-#: main/src/ui/chat_input/sticker_chooser.vala:25
+#: main/src/ui/chat_input/sticker_chooser.vala:176
 #, fuzzy
-msgid "Import…"
-msgstr "Import Key"
-
-#: main/src/ui/chat_input/sticker_chooser.vala:26
-msgid "Folder…"
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:27
-#: main/src/ui/chat_input/sticker_chooser.vala:822
-#: main/src/ui/chat_input/sticker_chooser.vala:849
-msgid "Publish"
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:28
-#: main/src/ui/chat_input/sticker_chooser.vala:870
-#: main/src/ui/conversation_content_view/item_actions.vala:165
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:745
-#: main/src/windows/conversation_details.vala:61
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:292
-msgid "Remove"
-msgstr "Suprimeix"
-
-#: main/src/ui/chat_input/sticker_chooser.vala:237
-msgid "Paste an xmpp: sticker pack link and press Enter."
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:241
-msgid "xmpp:…"
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:413
-#: main/src/ui/chat_input/sticker_chooser.vala:574
-#: main/src/ui/chat_input/sticker_chooser.vala:816
-msgid "Stickers are unavailable"
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:420
-#: main/src/ui/chat_input/sticker_chooser.vala:497
-#: main/src/ui/chat_input/sticker_chooser.vala:502
-msgid "None"
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:450
-msgid "No sticker packs yet. Use Import… to add one."
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:452
-#: main/src/ui/chat_input/sticker_chooser.vala:735
-msgid "No stickers selected"
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:534
-#, fuzzy
-msgid "Select sticker folder"
-msgstr "Selecciona el fitxer"
-
-#: main/src/ui/chat_input/sticker_chooser.vala:535
-#: main/src/ui/conversation_view_controller.vala:238
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:180
-msgid "Select"
-msgstr "Selecciona"
-
-#: main/src/ui/chat_input/sticker_chooser.vala:544
-#, fuzzy
-msgid "Create sticker pack"
+msgid "Manage Sticker Packs"
 msgstr "Crear còpia xifrada"
 
-#: main/src/ui/chat_input/sticker_chooser.vala:545
-msgid ""
-"Do you want to keep this pack local, or also publish it so you can share an "
-"xmpp: link?"
-msgstr ""
+#: main/src/ui/chat_input/sticker_chooser.vala:390
+msgid "Stickers are unavailable"
+msgstr "Els adhesius no estan disponibles"
 
-#: main/src/ui/chat_input/sticker_chooser.vala:548
+#: main/src/ui/chat_input/sticker_chooser.vala:397
+#: main/src/ui/chat_input/sticker_chooser.vala:459
+#: main/src/ui/chat_input/sticker_chooser.vala:464
+msgid "None"
+msgstr "Cap"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:412
 #, fuzzy
-msgid "Local only"
-msgstr "Àlias local"
-
-#: main/src/ui/chat_input/sticker_chooser.vala:549
-msgid "Publish & copy link"
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:574
-#: main/src/ui/chat_input/sticker_chooser.vala:816
-msgid "Stickers module unavailable"
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:593
-#: main/src/ui/chat_input/sticker_chooser.vala:834
-msgid "Sticker pack published"
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:593
-#: main/src/ui/chat_input/sticker_chooser.vala:834
-#, c-format
-msgid ""
-"Share link copied to clipboard:\n"
-"%s"
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:601
-#, fuzzy
-msgid "Failed to create sticker pack"
-msgstr "No s'ha pogut netejar la memòria cau"
-
-#: main/src/ui/chat_input/sticker_chooser.vala:698
-msgid "Invalid sticker pack link"
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:755
-msgid "No stickers in this pack"
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:811
-#, fuzzy
-msgid "Publishing…"
-msgstr "està escrivint…"
-
-#: main/src/ui/chat_input/sticker_chooser.vala:842
-#, fuzzy
-msgid "Failed to publish sticker pack"
-msgstr "No s'ha pogut netejar la memòria cau"
-
-#: main/src/ui/chat_input/sticker_chooser.vala:866
-#, fuzzy
-msgid "Remove sticker pack?"
+msgid "No sticker packs yet."
 msgstr "Eliminar contacte?"
 
-#: main/src/ui/chat_input/sticker_chooser.vala:867
-#, c-format
-msgid ""
-"This will delete the downloaded files and remove the pack from your list: %s"
-msgstr ""
+#: main/src/ui/chat_input/sticker_chooser.vala:414
+#: main/src/ui/chat_input/sticker_chooser.vala:527
+msgid "No stickers selected"
+msgstr "No s'ha seleccionat cap adhesiu"
 
-#: main/src/ui/chat_input/sticker_chooser.vala:882
-#, fuzzy
-msgid "Failed to remove sticker pack"
-msgstr "No s'ha pogut netejar la memòria cau"
+#: main/src/ui/chat_input/sticker_chooser.vala:543
+msgid "No stickers in this pack"
+msgstr "No hi ha adhesius en aquest paquet"
 
 #: main/src/ui/contact_details/permissions_provider.vala:23
 msgid "Request permission to send messages"
@@ -1460,6 +1470,13 @@ msgstr "Eliminar missatge"
 msgid "Do you want to remove this message from the channel?"
 msgstr "Voleu eliminar aquest missatge del canal?"
 
+#: main/src/ui/conversation_content_view/item_actions.vala:165
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:753
+#: main/src/windows/conversation_details.vala:61
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:286
+msgid "Remove"
+msgstr "Suprimeix"
+
 #: main/src/ui/conversation_content_view/item_actions.vala:167
 msgid "Do you want to delete this message just for yourself or for everyone?"
 msgstr "Voleu suprimir aquest missatge només per a vos o per a tothom?"
@@ -1489,7 +1506,7 @@ msgstr "pendent…"
 msgid "delivery failed"
 msgstr "l'enviament ha fallat"
 
-#: main/src/ui/conversation_content_view/message_widget.vala:254
+#: main/src/ui/conversation_content_view/message_widget.vala:362
 msgid "Edit message"
 msgstr "Edita el missatge"
 
@@ -1544,19 +1561,19 @@ msgstr "Permisos"
 msgid "Manage Affiliations"
 msgstr "Gestionar afiliacions"
 
-#: main/src/ui/conversation_details.vala:239
+#: main/src/ui/conversation_details.vala:243
 msgid "Danger Zone"
 msgstr "Zona de perill"
 
-#: main/src/ui/conversation_details.vala:240
+#: main/src/ui/conversation_details.vala:244
 msgid "Destroy Room"
 msgstr "Destrueix la sala"
 
-#: main/src/ui/conversation_details.vala:246
+#: main/src/ui/conversation_details.vala:250
 msgid "Destroy Room?"
 msgstr "Destruir la sala?"
 
-#: main/src/ui/conversation_details.vala:247
+#: main/src/ui/conversation_details.vala:251
 msgid ""
 "Are you sure you want to permanently destroy this room? This action cannot "
 "be undone and all history will be lost for all participants."
@@ -1566,43 +1583,43 @@ msgstr ""
 "segur que voleu destruir permanentment aquesta sala? Aquesta acció no es pot "
 "desfer i tot l'historial es perdrà per a tots els participants."
 
-#: main/src/ui/conversation_details.vala:250
+#: main/src/ui/conversation_details.vala:254
 msgid "Destroy"
 msgstr "Destrueix"
 
-#: main/src/ui/conversation_details.vala:271
+#: main/src/ui/conversation_details.vala:275
 msgid "Failed to destroy room"
 msgstr "Error en destruir la sala"
 
-#: main/src/ui/conversation_details.vala:286
+#: main/src/ui/conversation_details.vala:290
 msgid "Auto-delete messages"
 msgstr "Suprimeix automàticament els missatges"
 
-#: main/src/ui/conversation_details.vala:287
+#: main/src/ui/conversation_details.vala:291
 msgid "Never"
 msgstr "Mai"
 
-#: main/src/ui/conversation_details.vala:288
+#: main/src/ui/conversation_details.vala:292
 msgid "After 15 minutes"
 msgstr "Després de 15 minuts"
 
-#: main/src/ui/conversation_details.vala:289
+#: main/src/ui/conversation_details.vala:293
 msgid "After 30 minutes"
 msgstr "Després de 30 minuts"
 
-#: main/src/ui/conversation_details.vala:290
+#: main/src/ui/conversation_details.vala:294
 msgid "After 1 hour"
 msgstr "Després d'1 hora"
 
-#: main/src/ui/conversation_details.vala:291
+#: main/src/ui/conversation_details.vala:295
 msgid "After 24 hours"
 msgstr "Després de 24 hores"
 
-#: main/src/ui/conversation_details.vala:292
+#: main/src/ui/conversation_details.vala:296
 msgid "After 7 days"
 msgstr "Després de 7 dies"
 
-#: main/src/ui/conversation_details.vala:293
+#: main/src/ui/conversation_details.vala:297
 msgid "After 30 days"
 msgstr "Després de 30 dies"
 
@@ -1664,28 +1681,28 @@ msgid "Conversation Details"
 msgstr "Detalls de la conversa"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:507
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:771
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:779
 #: main/src/ui/conversation_titlebar/menu_entry.vala:98
 msgid "Invite Contact"
 msgstr "Convidar contacte"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:511
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:559
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:661
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:669
 #: main/src/ui/occupant_menu/view.vala:173
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:140
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:206
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:134
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:200
 msgid "Unmute"
 msgstr "Activa el so"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:511
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:559
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:680
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:688
 #: main/src/ui/occupant_menu/view.vala:177
-#: main/src/windows/conversation_details.vala:163
-#: main/src/windows/conversation_details.vala:164
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:140
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:226
+#: main/src/windows/conversation_details.vala:172
+#: main/src/windows/conversation_details.vala:173
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:134
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:220
 msgid "Mute"
 msgstr "Silencia"
 
@@ -1694,86 +1711,86 @@ msgid "Leave and Close"
 msgstr "Surt i tanca"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:555
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:623
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:126
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:631
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:120
 msgid "Edit Alias"
 msgstr "Editar àlies"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:563
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:705
-#: main/src/windows/conversation_details.vala:108
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:250
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:713
+#: main/src/windows/conversation_details.vala:117
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:244
 msgid "Unblock"
 msgstr "Desbloqueja"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:563
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:724
-#: main/src/windows/conversation_details.vala:144
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:270
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:732
+#: main/src/windows/conversation_details.vala:153
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:264
 msgid "Block"
 msgstr "Bloca"
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:628
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:636
 msgid "Alias"
 msgstr "Àlias"
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:634
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:333
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:642
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:327
 msgid "Save"
 msgstr "Desa"
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:657
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:202
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:665
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:196
 msgid "Unmute contact?"
 msgstr "Activa el so del contacte?"
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:658
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:203
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:666
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:197
 #, c-format
 msgid "This will enable notifications from %s."
 msgstr "Això activarà les notificacions de %s."
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:676
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:222
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:684
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:216
 msgid "Mute contact?"
 msgstr "Silencia el contacte?"
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:677
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:223
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:685
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:217
 #, c-format
 msgid "This will disable notifications from %s."
 msgstr "Això desactivarà les notificacions de %s."
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:701
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:246
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:709
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:240
 msgid "Unblock contact?"
 msgstr "Desbloquejar contacte?"
 
 # c-format
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:702
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:247
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:710
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:241
 #, c-format
 msgid "This will allow %s to send you messages again."
 msgstr "Això permetrà a %s enviar-te missatges de nou."
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:720
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:266
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:728
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:260
 msgid "Block contact?"
 msgstr "Bloquejar contacte?"
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:721
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:267
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:729
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:261
 #, c-format
 msgid "This will prevent %s from sending you messages."
 msgstr "Això impedirà que %s us enviï missatges."
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:741
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:749
 #: main/src/windows/conversation_details.vala:57
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:288
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:282
 msgid "Remove contact?"
 msgstr "Eliminar contacte?"
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:742
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:750
 #, c-format
 msgid ""
 "This will:\n"
@@ -1788,11 +1805,11 @@ msgstr ""
 "\n"
 "Aquesta acció no es pot desfer."
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:787
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:794
 msgid "Delete all message history?"
 msgstr "Esborrar tot l'historial de missatges?"
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:788
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:795
 msgid ""
 "This will permanently delete all messages in this conversation. This action "
 "cannot be undone."
@@ -1800,7 +1817,7 @@ msgstr ""
 "Això eliminarà permanentment tots els missatges d'aquesta conversa. Aquesta "
 "acció no es pot desfer."
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:791
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:798
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
 msgid "Delete"
 msgstr "Elimina"
@@ -1846,13 +1863,23 @@ msgid "Close Conversation"
 msgstr "Tanca la conversa"
 
 #: main/src/ui/conversation_titlebar/occupants_entry.vala:14
-#: main/src/windows/conversation_details.vala:289
+#: main/src/windows/conversation_details.vala:298
 msgid "Members"
 msgstr "Membres"
 
-#: main/src/ui/conversation_view_controller.vala:237
+#: main/src/ui/conversation_view_controller.vala:249
 msgid "Select file"
 msgstr "Selecciona el fitxer"
+
+#: main/src/ui/conversation_view_controller.vala:250
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:180
+msgid "Select"
+msgstr "Selecciona"
+
+#: main/src/ui/conversation_view_controller.vala:332
+#, fuzzy
+msgid "Failed to get location"
+msgstr "Error en destruir la sala"
 
 #: main/src/ui/file_send_overlay.vala:60
 msgid "The file exceeds the server's maximum upload size."
@@ -1887,25 +1914,25 @@ msgstr ""
 "Utilitzeu les funcions de descobriment del servidor per trobar sales "
 "públiques."
 
-#: main/src/ui/main_window.vala:219
+#: main/src/ui/main_window.vala:222
 msgid "Welcome to DinoX!"
 msgstr "Benvingut a DinoX!"
 
-#: main/src/ui/main_window.vala:220
+#: main/src/ui/main_window.vala:223
 msgid "Sign in or create an account to get started."
 msgstr "Entreu o creeu un compte per a començar."
 
-#: main/src/ui/main_window.vala:221
+#: main/src/ui/main_window.vala:224
 msgid "Set up account"
 msgstr "Configureu un compte"
 
-#: main/src/ui/main_window.vala:230
+#: main/src/ui/main_window.vala:233
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:71
 #: main/src/windows/preferences_window/encryption_preferences_page.vala:49
 msgid "No active accounts"
 msgstr "No hi ha cap compte actiu"
 
-#: main/src/ui/main_window.vala:231
+#: main/src/ui/main_window.vala:234
 msgid "Manage accounts"
 msgstr "Gestiona els comptes"
 
@@ -1971,12 +1998,12 @@ msgid "Start private conversation"
 msgstr "Inicia una convesa privada"
 
 #: main/src/ui/occupant_menu/view.vala:125
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:157
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:151
 msgid "Unblock Contact"
 msgstr "Desbloquejar contacte"
 
 #: main/src/ui/occupant_menu/view.vala:127
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:157
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:151
 msgid "Block Contact"
 msgstr "Bloquejar contacte"
 
@@ -2032,7 +2059,7 @@ msgstr "Revocar la pertinença"
 msgid "Kicked by moderator"
 msgstr "Expulsat pel moderador"
 
-#: main/src/ui/occupant_menu/view.vala:275
+#: main/src/ui/occupant_menu/view.vala:274
 msgid "Invite to Conference"
 msgstr "Invita a la conferència"
 
@@ -2040,39 +2067,41 @@ msgstr "Invita a la conferència"
 msgid "Quit"
 msgstr "Surt"
 
-#: main/src/ui/sticker_pack_import_dialog.vala:14
+#: main/src/ui/sticker_pack_import_dialog.vala:35
 #, fuzzy
 msgid "Import"
 msgstr "Import Key"
 
-#: main/src/ui/sticker_pack_import_dialog.vala:15
+#: main/src/ui/sticker_pack_import_dialog.vala:36
 msgid "Copy Share URI"
-msgstr ""
+msgstr "Copia l'URI de compartició"
 
-#: main/src/ui/sticker_pack_import_dialog.vala:29
+#: main/src/ui/sticker_pack_import_dialog.vala:50
 msgid "Import Sticker Pack"
-msgstr ""
+msgstr "Importa el paquet d'adhesius"
 
-#: main/src/ui/sticker_pack_import_dialog.vala:62
+#: main/src/ui/sticker_pack_import_dialog.vala:90
+#: main/src/ui/sticker_pack_import_dialog.vala:147
 #, fuzzy
 msgid "Loading…"
 msgstr "pendent…"
 
-#: main/src/ui/sticker_pack_import_dialog.vala:70
+#: main/src/ui/sticker_pack_import_dialog.vala:128
+#, fuzzy
+msgid "Importing…"
+msgstr "S'està connectant…"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:136
+#: main/src/ui/sticker_pack_import_dialog.vala:158
 #, fuzzy
 msgid "No account available"
 msgstr "No disponible"
 
-#: main/src/ui/sticker_pack_import_dialog.vala:84
-#: main/src/ui/sticker_pack_import_dialog.vala:107
+#: main/src/ui/sticker_pack_import_dialog.vala:172
+#: main/src/ui/sticker_pack_import_dialog.vala:189
 #, fuzzy
 msgid "Failed to import sticker pack"
 msgstr "No s'ha pogut netejar la memòria cau"
-
-#: main/src/ui/sticker_pack_import_dialog.vala:98
-#, fuzzy
-msgid "Importing…"
-msgstr "S'està connectant…"
 
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
@@ -2139,7 +2168,7 @@ msgstr ""
 "Només els membres poden entrar a la sala. Avís: Els no membres seran "
 "eliminats quan s'activi!"
 
-#: main/src/ui/util/helper.vala:65
+#: main/src/ui/util/helper.vala:75
 #, c-format
 msgid "%s from %s"
 msgstr "%s de %s"
@@ -2161,43 +2190,43 @@ msgstr ""
 "Aquest contacte serà eliminat de la vostra llista de contactes i tot "
 "l'historial de converses serà esborrat permanentment."
 
-#: main/src/windows/conversation_details.vala:108
+#: main/src/windows/conversation_details.vala:117
 msgid "Block user"
 msgstr "Bloqueja l'usuari"
 
-#: main/src/windows/conversation_details.vala:108
+#: main/src/windows/conversation_details.vala:117
 msgid "Block entire domain"
 msgstr "Bloqueja tot el domini"
 
-#: main/src/windows/conversation_details.vala:125
+#: main/src/windows/conversation_details.vala:134
 msgid "Pinned"
 msgstr "Fixat"
 
-#: main/src/windows/conversation_details.vala:125
+#: main/src/windows/conversation_details.vala:134
 msgid "Pin"
 msgstr "Fixa"
 
-#: main/src/windows/conversation_details.vala:140
+#: main/src/windows/conversation_details.vala:149
 msgid "Domain blocked"
 msgstr "Domini bloquejat"
 
-#: main/src/windows/conversation_details.vala:165
+#: main/src/windows/conversation_details.vala:174
 msgid "Notifications enabled"
 msgstr "Notificacions activades"
 
-#: main/src/windows/conversation_details.vala:168
+#: main/src/windows/conversation_details.vala:177
 msgid "Notifications for mentions"
 msgstr "Notificacions de mencions"
 
-#: main/src/windows/conversation_details.vala:173
+#: main/src/windows/conversation_details.vala:182
 msgid "Notifications disabled"
 msgstr "Notificacions desactivades"
 
-#: main/src/windows/conversation_details.vala:232
+#: main/src/windows/conversation_details.vala:241
 msgid "Settings"
 msgstr "Preferències"
 
-#: main/src/windows/conversation_details.vala:261
+#: main/src/windows/conversation_details.vala:270
 msgid "Room Configuration"
 msgstr "Configuració de la sala"
 
@@ -2323,15 +2352,15 @@ msgstr "Registre"
 msgid "Check %s for information on how to sign up"
 msgstr "Mireu %s per obtenir informació sobre com registrar-vos"
 
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:192
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:186
 msgid "No contacts"
 msgstr "Sense contactes"
 
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:193
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:187
 msgid "Add contacts to start chatting"
 msgstr "Afegeix contactes per començar a xatejar"
 
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:289
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:283
 #, c-format
 msgid ""
 "This will remove %s from your contact list and delete all conversation "
@@ -2340,18 +2369,46 @@ msgstr ""
 "%s serà eliminat de la teva llista de contactes i tot l'historial de "
 "converses serà eliminat."
 
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:318
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:312
 msgid "Edit Contact Alias"
 msgstr "Editar àlies del contacte"
 
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:319
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:313
 #, c-format
 msgid "Change the display name for %s"
 msgstr "Canvia el nom de visualització per a %s"
 
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:325
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:319
 msgid "Alias (optional)"
 msgstr "Àlies (opcional)"
+
+#, fuzzy
+#~ msgid "Import…"
+#~ msgstr "Import Key"
+
+#, fuzzy
+#~ msgid "Select sticker folder"
+#~ msgstr "Selecciona el fitxer"
+
+#, fuzzy
+#~ msgid "Local only"
+#~ msgstr "Àlias local"
+
+#, fuzzy
+#~ msgid "Failed to create sticker pack"
+#~ msgstr "No s'ha pogut netejar la memòria cau"
+
+#, fuzzy
+#~ msgid "Publishing…"
+#~ msgstr "està escrivint…"
+
+#, fuzzy
+#~ msgid "Failed to publish sticker pack"
+#~ msgstr "No s'ha pogut netejar la memòria cau"
+
+#, fuzzy
+#~ msgid "Failed to remove sticker pack"
+#~ msgstr "No s'ha pogut netejar la memòria cau"
 
 #~ msgid "Creating backup..."
 #~ msgstr "Creant còpia de seguretat..."
@@ -2593,9 +2650,6 @@ msgstr "Àlies (opcional)"
 
 #~ msgid "Finish"
 #~ msgstr "Finalitza"
-
-#~ msgid "Change password"
-#~ msgstr "Canvi de contrasenya"
 
 #~ msgid "Change"
 #~ msgstr "Canvia-la"

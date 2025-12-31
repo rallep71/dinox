@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-01 15:51+0100\n"
+"POT-Creation-Date: 2025-12-31 14:13+0100\n"
 "PO-Revision-Date: 2024-09-03 22:09+0000\n"
 "Language-Team: none\n"
 "Language: lt\n"
@@ -18,11 +18,11 @@ msgstr ""
 "(n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Weblate 5.8-dev\n"
 
-#: plugins/openpgp/src/contact_details_provider.vala:36
+#: plugins/openpgp/src/contact_details_provider.vala:38
 msgid "Key not in keychain"
 msgstr "Rakto nėra raktinėje"
 
-#: plugins/openpgp/src/contact_details_provider.vala:40
+#: plugins/openpgp/src/contact_details_provider.vala:42
 #: plugins/openpgp/src/key_management_dialog.vala:220
 msgid "Fingerprint"
 msgstr "Piršto atspaudas"
@@ -231,7 +231,8 @@ msgstr "Visi failai"
 
 #: plugins/openpgp/src/key_management_dialog.vala:459
 msgid "Key imported! Re-open Key Management to see it."
-msgstr "Raktas importuotas! Atidarykite raktų valdymą iš naujo, kad jį pamatytumėte."
+msgstr ""
+"Raktas importuotas! Atidarykite raktų valdymą iš naujo, kad jį pamatytumėte."
 
 #: plugins/openpgp/src/key_management_dialog.vala:461
 msgid "Import failed: "
@@ -257,7 +258,7 @@ msgid ""
 "%s\n"
 "\n"
 "This cannot be undone!"
-msgstr ""
+msgstr "Ištrinti šį raktą?\n\n%s\n\nŠio veiksmo negalima atšaukti!"
 
 #: plugins/openpgp/src/key_management_dialog.vala:510
 msgid "Delete"

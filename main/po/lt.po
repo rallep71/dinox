@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-18 18:28+0100\n"
+"POT-Creation-Date: 2025-12-31 14:00+0100\n"
 "PO-Revision-Date: 2024-09-10 14:09+0000\n"
 "Language-Team: none\n"
 "Language: lt\n"
@@ -18,11 +18,11 @@ msgstr ""
 "(n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Weblate 5.8-dev\n"
 
-#: main/data/add_conversation/add_groupchat_dialog.ui:80
+#: main/data/add_conversation/add_groupchat_dialog.ui:81
 msgid "Add MUC"
 msgstr "Pridėti MUC"
 
-#: main/data/add_conversation/add_groupchat_dialog.ui:90
+#: main/data/add_conversation/add_groupchat_dialog.ui:91
 msgid "Insert a Name for MUC..."
 msgstr "Įveskite kambario pavadinimą..."
 
@@ -31,7 +31,7 @@ msgid "Search or enter channel address..."
 msgstr "Ieškoti arba įvesti kanalo adresą..."
 
 #: main/data/add_conversation/select_jid_fragment.ui:67
-#: main/src/ui/add_conversation/select_jid_fragment.vala:205
+#: main/src/ui/add_conversation/select_jid_fragment.vala:204
 msgid "Add Group"
 msgstr "Pridėti grupę"
 
@@ -58,22 +58,32 @@ msgstr "Atmesti"
 msgid "Accept"
 msgstr "Priimti"
 
-#: main/data/chat_input.ui:63
+#: main/data/chat_input.ui:15
+#, fuzzy
+msgid "Send File…"
+msgstr "Siųsti failą"
+
+#: main/data/chat_input.ui:25
+#, fuzzy
+msgid "Send Location"
+msgstr "Duomenų saugojimo vieta"
+
+#: main/data/chat_input.ui:96
 msgid "Record voice message"
 msgstr "Įrašyti balso žinutę"
 
-#: main/data/chat_input.ui:77
+#: main/data/chat_input.ui:110
 msgid "Send message"
 msgstr "Siųsti žinutę"
 
-#: main/data/conversation_details.ui:145
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:566
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:175
+#: main/data/conversation_details.ui:162
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:567
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:169
 msgid "Remove Contact"
 msgstr "Pašalinti kontaktą"
 
-#: main/data/conversation_details.ui:171
-#: main/src/windows/conversation_details.vala:229
+#: main/data/conversation_details.ui:192
+#: main/src/windows/conversation_details.vala:238
 msgid "About"
 msgstr "Apie"
 
@@ -82,13 +92,13 @@ msgid "Private room (supports group calls)"
 msgstr "Privatus kambarys (palaiko grupinius skambučius)"
 
 #: main/data/conversation_row.ui:135
-#: main/src/windows/conversation_details.vala:171
-#: main/src/windows/conversation_details.vala:172
+#: main/src/windows/conversation_details.vala:180
+#: main/src/windows/conversation_details.vala:181
 msgid "Muted"
 msgstr "Pranešimai nutildyti"
 
 #: main/data/conversation_row.ui:146
-#: main/src/windows/conversation_details.vala:136
+#: main/src/windows/conversation_details.vala:145
 msgid "Blocked"
 msgstr "Užblokuotas"
 
@@ -99,15 +109,15 @@ msgstr "Bendri"
 
 #: main/data/gtk/help-overlay.ui:14 main/data/main_window.ui:38
 #: main/data/menu_add.ui:7
-#: main/src/ui/add_conversation/select_contact_dialog.vala:106
+#: main/src/ui/add_conversation/select_contact_dialog.vala:110
 #: main/src/ui/main_window.vala:154
 msgid "Start Conversation"
 msgstr "Pradėti pokalbį"
 
 #: main/data/gtk/help-overlay.ui:20 main/data/main_window.ui:51
 #: main/data/menu_add.ui:11
-#: main/src/ui/add_conversation/add_conference_dialog.vala:24
-#: main/src/ui/application.vala:1373 main/src/ui/main_window.vala:155
+#: main/src/ui/add_conversation/add_conference_dialog.vala:25
+#: main/src/ui/application.vala:1908 main/src/ui/main_window.vala:155
 msgid "Join Channel"
 msgstr "Prisijungti prie kanalo"
 
@@ -128,7 +138,7 @@ msgstr "Pokalbis"
 msgid "Search messages"
 msgstr "Ieškoti žinučių"
 
-#: main/data/gtk/help-overlay.ui:49 main/src/ui/chat_input/view.vala:59
+#: main/data/gtk/help-overlay.ui:49 main/src/ui/chat_input/view.vala:62
 msgid "Send a file"
 msgstr "Siųsti failą"
 
@@ -192,15 +202,23 @@ msgstr "Užsiėmęs"
 msgid "Not Available"
 msgstr "Nepasiekiamas"
 
-#: main/data/menu_app.ui:34
+#: main/data/menu_app.ui:30 main/src/ui/main_window.vala:215
+msgid "Set Status Message…"
+msgstr "Nustatyti būsenos pranešimą…"
+
+#: main/data/menu_app.ui:38
 msgid "Preferences"
 msgstr "Nuostatos"
 
-#: main/data/menu_app.ui:38
+#: main/data/menu_app.ui:42
+msgid "Panic Wipe"
+msgstr "Panikos ištrynimas"
+
+#: main/data/menu_app.ui:46
 msgid "Keyboard Shortcuts"
 msgstr "Trumpiniai"
 
-#: main/data/menu_app.ui:42 main/src/ui/application.vala:354
+#: main/data/menu_app.ui:50 main/src/ui/application.vala:891
 msgid "About DinoX"
 msgstr "Apie DinoX"
 
@@ -217,35 +235,34 @@ msgstr "Ištrinti pokalbių istoriją"
 
 #: main/data/message_item_widget_edit_mode.ui:46
 #: main/data/preferences_window/change_password_dialog.ui:18
-#: main/src/ui/add_conversation/add_conference_dialog.vala:41
-#: main/src/ui/add_conversation/select_contact_dialog.vala:40
-#: main/src/ui/application.vala:455 main/src/ui/application.vala:483
-#: main/src/ui/application.vala:779 main/src/ui/application.vala:857
-#: main/src/ui/application.vala:915 main/src/ui/application.vala:947
-#: main/src/ui/application.vala:1103 main/src/ui/application.vala:1383
-#: main/src/ui/chat_input/sticker_chooser.vala:547
-#: main/src/ui/chat_input/sticker_chooser.vala:869
+#: main/src/ui/add_conversation/add_conference_dialog.vala:44
+#: main/src/ui/add_conversation/select_contact_dialog.vala:43
+#: main/src/ui/application.vala:754 main/src/ui/application.vala:992
+#: main/src/ui/application.vala:1020 main/src/ui/application.vala:1316
+#: main/src/ui/application.vala:1394 main/src/ui/application.vala:1452
+#: main/src/ui/application.vala:1484 main/src/ui/application.vala:1640
+#: main/src/ui/application.vala:1918
 #: main/src/ui/conversation_content_view/file_default_widget.vala:90
 #: main/src/ui/conversation_content_view/item_actions.vala:165
 #: main/src/ui/conversation_content_view/item_actions.vala:168
-#: main/src/ui/conversation_details.vala:249
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:633
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:660
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:679
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:704
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:723
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:744
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:790
+#: main/src/ui/conversation_details.vala:253
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:641
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:668
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:687
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:712
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:731
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:752
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:797
 #: main/src/ui/conversation_titlebar/call_entry.vala:83
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
 #: main/src/windows/conversation_details.vala:60
 #: main/src/windows/preferences_window/account_preferences_subpage.vala:68
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:205
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:225
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:249
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:269
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:291
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:332
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:199
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:219
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:243
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:263
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:285
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:326
 msgid "Cancel"
 msgstr "Atsisakyti"
 
@@ -263,7 +280,7 @@ msgid "Local alias"
 msgstr "Vietinis pseudonimas"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:82
-#: main/src/ui/application.vala:449 main/src/ui/application.vala:1078
+#: main/src/ui/application.vala:986 main/src/ui/application.vala:1615
 #: main/src/ui/util/data_forms.vala:63
 msgid "Password"
 msgstr "Slaptažodis"
@@ -313,116 +330,134 @@ msgstr "Siųsti pranešimus apie _rašymą"
 msgid "Send _Read Receipts"
 msgstr "Siųsti pranešimus apie _skaitymą"
 
-#: main/data/preferences_window/general_preferences_page.ui:25
+#: main/data/preferences_window/general_preferences_page.ui:21
+msgid "Allow Location Sharing"
+msgstr "Leisti dalytis vieta"
+
+#: main/data/preferences_window/general_preferences_page.ui:22
+msgid "Allow sending your current location in chats"
+msgstr "Leisti siųsti dabartinę vietą pokalbiuose"
+
+#: main/data/preferences_window/general_preferences_page.ui:32
 msgid "_Notifications"
 msgstr "Pra_nešimai"
 
-#: main/data/preferences_window/general_preferences_page.ui:26
+#: main/data/preferences_window/general_preferences_page.ui:33
 msgid "Notify when a new message arrives"
 msgstr "Pranešti, kai gaunama nauja žinutė"
 
-#: main/data/preferences_window/general_preferences_page.ui:32
+#: main/data/preferences_window/general_preferences_page.ui:39
 msgid "_Keep Running in Background"
 msgstr "_Veikti fone"
 
-#: main/data/preferences_window/general_preferences_page.ui:33
+#: main/data/preferences_window/general_preferences_page.ui:40
 msgid ""
 "Continue running after closing window to receive notifications immediately"
 msgstr ""
 "Tęsti veikimą uždarius langą, kad gautumėte pranešimus iš kartoTęsti veikimą "
 "uždarius langą, kad iš karto gautumėte pranešimus"
 
-#: main/data/preferences_window/general_preferences_page.ui:41
+#: main/data/preferences_window/general_preferences_page.ui:48
 msgid "Appearance"
 msgstr "Išvaizda"
 
-#: main/data/preferences_window/general_preferences_page.ui:44
+#: main/data/preferences_window/general_preferences_page.ui:51
 msgid "_Color Scheme"
 msgstr "_Spalvų schema"
 
-#: main/data/preferences_window/general_preferences_page.ui:45
+#: main/data/preferences_window/general_preferences_page.ui:52
 msgid "Choose between light and dark appearance"
 msgstr "Pasirinkite šviesią arba tamsią išvaizdą"
 
-#: main/data/preferences_window/general_preferences_page.ui:55
+#: main/data/preferences_window/general_preferences_page.ui:62
 msgid "_Convert Smileys to Emoji"
 msgstr "_Konvertuoti šypsenėles į šypsniukus"
 
-#: main/data/preferences_window/general_preferences_page.ui:63
-#: main/src/ui/chat_input/view.vala:51
+#: main/data/preferences_window/general_preferences_page.ui:70
+#: main/src/ui/chat_input/view.vala:54
 #, fuzzy
 msgid "Stickers"
 msgstr "Garsiakalbiai"
 
-#: main/data/preferences_window/general_preferences_page.ui:66
+#: main/data/preferences_window/general_preferences_page.ui:73
 msgid "Enable Stickers"
-msgstr ""
+msgstr "Įgalinti lipdukus"
 
-#: main/data/preferences_window/general_preferences_page.ui:71
+#: main/data/preferences_window/general_preferences_page.ui:78
 msgid "Enable Sticker Animations"
-msgstr ""
-
-#: main/data/preferences_window/general_preferences_page.ui:72
-msgid "Disable to reduce flashing/flickering"
-msgstr ""
+msgstr "Įgalinti lipdukų animacijas"
 
 #: main/data/preferences_window/general_preferences_page.ui:79
+msgid "Disable to reduce flashing/flickering"
+msgstr "Išjungti, kad sumažėtų mirgėjimas"
+
+#: main/data/preferences_window/general_preferences_page.ui:86
 msgid "User Data"
 msgstr "Naudotojo duomenys"
 
-#: main/data/preferences_window/general_preferences_page.ui:82
+#: main/data/preferences_window/general_preferences_page.ui:89
 msgid "Backup User Data"
 msgstr "Sukurti atsarginę kopiją"
 
-#: main/data/preferences_window/general_preferences_page.ui:83
+#: main/data/preferences_window/general_preferences_page.ui:90
 msgid "Create a backup of your accounts, messages and settings"
 msgstr "Sukurti paskyrų, žinučių ir nustatymų atsarginę kopiją"
 
-#: main/data/preferences_window/general_preferences_page.ui:94
-#: main/src/ui/application.vala:478 main/src/ui/main_window.vala:223
+#: main/data/preferences_window/general_preferences_page.ui:101
+#: main/src/ui/application.vala:1015 main/src/ui/main_window.vala:226
 msgid "Restore from Backup"
 msgstr "Atkurti iš atsarginės kopijos"
 
-#: main/data/preferences_window/general_preferences_page.ui:95
+#: main/data/preferences_window/general_preferences_page.ui:102
 msgid "Restore accounts, messages and settings from a backup file"
 msgstr "Atkurti paskyras, žinutes ir nustatymus iš atsarginės kopijos"
 
-#: main/data/preferences_window/general_preferences_page.ui:106
+#: main/data/preferences_window/general_preferences_page.ui:113
 msgid "Data Storage Location"
 msgstr "Duomenų saugojimo vieta"
 
-#: main/data/preferences_window/general_preferences_page.ui:107
+#: main/data/preferences_window/general_preferences_page.ui:114
 msgid "View where your data is stored"
 msgstr "Peržiūrėkite, kur saugomi jūsų duomenys"
 
-#: main/data/preferences_window/general_preferences_page.ui:120
+#: main/data/preferences_window/general_preferences_page.ui:127
 msgid "Database Maintenance"
 msgstr "Duomenų bazės priežiūra"
 
-#: main/data/preferences_window/general_preferences_page.ui:123
-#: main/src/ui/application.vala:775 main/src/ui/application.vala:780
+# DinoX v0.7.7 - Database Maintenance & Backup/Restore
+#: main/data/preferences_window/general_preferences_page.ui:130
+#, fuzzy
+msgid "Change Database Password"
+msgstr "Clean Database"
+
+#: main/data/preferences_window/general_preferences_page.ui:131
+msgid "Change the password used to encrypt your local data"
+msgstr "Pakeisti slaptažodį, naudojamą vietiniams duomenims šifruoti"
+
+#: main/data/preferences_window/general_preferences_page.ui:142
+#: main/src/ui/application.vala:1312 main/src/ui/application.vala:1317
 msgid "Clear Cache"
 msgstr "Išvalyti talpyklą"
 
-#: main/data/preferences_window/general_preferences_page.ui:124
+#: main/data/preferences_window/general_preferences_page.ui:143
 msgid "Clear cached files, avatars and previews"
 msgstr "Išvalyti talpykloje esančius failus, avatarus ir peržiūras"
 
-#: main/data/preferences_window/general_preferences_page.ui:135
-#: main/src/ui/application.vala:852 main/src/ui/application.vala:858
+#: main/data/preferences_window/general_preferences_page.ui:154
+#: main/src/ui/application.vala:1389 main/src/ui/application.vala:1395
 msgid "Reset Database"
 msgstr "Iš naujo nustatyti duomenų bazę"
 
-#: main/data/preferences_window/general_preferences_page.ui:136
+#: main/data/preferences_window/general_preferences_page.ui:155
 msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
 msgstr "Ištrinti visas žinutes, failus ir OMEMO raktus. Jūsų paskyros liks."
 
-#: main/data/preferences_window/general_preferences_page.ui:147
-#: main/src/ui/application.vala:910
+#: main/data/preferences_window/general_preferences_page.ui:166
+#: main/src/ui/application.vala:1447
 msgid "Factory Reset"
 msgstr "Gamyklinių nustatymų atkūrimas"
 
-#: main/data/preferences_window/general_preferences_page.ui:148
+#: main/data/preferences_window/general_preferences_page.ui:167
 msgid "Delete ALL data including accounts. This cannot be undone!"
 msgstr ""
 "Ištrinti VISUS duomenis, įskaitant paskyras. Šio veiksmo negalima atšaukti!"
@@ -440,17 +475,17 @@ msgid "Contacts"
 msgstr "Kontaktai"
 
 #: main/data/preferences_window/preferences_dialog.ui:25
-#: main/src/windows/conversation_details.vala:279
+#: main/src/windows/conversation_details.vala:288
 msgid "Encryption"
 msgstr "Šifravimas"
 
-#: main/src/ui/add_conversation/add_conference_dialog.vala:44
+#: main/src/ui/add_conversation/add_conference_dialog.vala:47
 msgid "Next"
 msgstr "Kitas"
 
-#: main/src/ui/add_conversation/add_conference_dialog.vala:59
+#: main/src/ui/add_conversation/add_conference_dialog.vala:62
 #: main/src/ui/add_conversation/conference_details_fragment.vala:151
-#: main/src/ui/application.vala:1387
+#: main/src/ui/application.vala:1922
 msgid "Join"
 msgstr "Prisijungti"
 
@@ -506,11 +541,11 @@ msgstr "Nepavyko prisijungti prie %s"
 msgid "Invalid address"
 msgstr "Neteisingas adresas"
 
-#: main/src/ui/add_conversation/select_contact_dialog.vala:70
+#: main/src/ui/add_conversation/select_contact_dialog.vala:76
 msgid "Search or enter contact address..."
 msgstr "Ieškoti arba įvesti kontakto adresą..."
 
-#: main/src/ui/add_conversation/select_contact_dialog.vala:107
+#: main/src/ui/add_conversation/select_contact_dialog.vala:111
 msgid "Start"
 msgstr "Pradėti"
 
@@ -522,45 +557,137 @@ msgstr "Naršyti kambarius"
 msgid "Browse Contacts"
 msgstr "Naršyti kontaktus"
 
-#: main/src/ui/add_conversation/select_jid_fragment.vala:202
+#: main/src/ui/add_conversation/select_jid_fragment.vala:201
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:70
 msgid "Add Contact"
 msgstr "Pridėti adresatą"
 
-#: main/src/ui/add_conversation/select_jid_fragment.vala:203
+#: main/src/ui/add_conversation/select_jid_fragment.vala:202
 msgid "Delete Contact"
 msgstr "Ištrinti kontaktą"
 
-#: main/src/ui/add_conversation/select_jid_fragment.vala:206
-#: main/src/ui/add_conversation/select_jid_fragment.vala:216
+#: main/src/ui/add_conversation/select_jid_fragment.vala:205
+#: main/src/ui/add_conversation/select_jid_fragment.vala:215
 msgid "Leave Group"
 msgstr "Palikti grupę"
 
-#: main/src/ui/application.vala:359
+#: main/src/ui/application.vala:161
+msgid "Beenden"
+msgstr "Išeiti"
+
+#: main/src/ui/application.vala:266 main/src/ui/application.vala:361
+#, fuzzy
+msgid "Passwort"
+msgstr "Slaptažodis"
+
+#: main/src/ui/application.vala:271
+msgid "DinoX entsperren"
+msgstr "Atrakinti DinoX"
+
+#: main/src/ui/application.vala:272
+msgid "Bitte Passwort eingeben, um die verschlüsselte Datenbank zu öffnen."
+msgstr "Įveskite slaptažodį, kad atidarytumėte užšifruotą duomenų bazę."
+
+#: main/src/ui/application.vala:274
+#, c-format
+msgid "Falsches Passwort. Versuch %d/%d"
+msgstr "Neteisingas slaptažodis. Bandymas %d/%d"
+
+#: main/src/ui/application.vala:346
+msgid "Entsperren"
+msgstr "Atrakinti"
+
+#: main/src/ui/application.vala:363
+msgid "Passwort bestätigen"
+msgstr "Patvirtinti slaptažodį"
+
+#: main/src/ui/application.vala:370
+#, fuzzy
+msgid "Passwort festlegen"
+msgstr "Slaptažodis per trumpas"
+
+#: main/src/ui/application.vala:371
+msgid ""
+"Bei der ersten Nutzung musst du ein Passwort setzen. Ohne Passwort kann "
+"DinoX die verschlüsselte Datenbank nicht öffnen."
+msgstr "Pirmą kartą naudodami turite nustatyti slaptažodį. Be slaptažodžio DinoX negali atidaryti užšifruotos duomenų bazės."
+
+#: main/src/ui/application.vala:373
+#, c-format
+msgid "Ungültiges Passwort. Versuch %d/%d"
+msgstr "Netinkamas slaptažodis. Bandymas %d/%d"
+
+#: main/src/ui/application.vala:448
+#, fuzzy
+msgid "Passwort setzen"
+msgstr "Slaptažodis per trumpas"
+
+#: main/src/ui/application.vala:746
+#, fuzzy
+msgid "Set Status Message"
+msgstr "Ieškoti žinučių"
+
+#: main/src/ui/application.vala:755
+#, fuzzy
+msgid "Set"
+msgstr "Pasirinkti"
+
+#: main/src/ui/application.vala:809
+msgid "Aktuelles Passwort"
+msgstr "Dabartinis slaptažodis"
+
+#: main/src/ui/application.vala:811
+#, fuzzy
+msgid "Neues Passwort"
+msgstr "Naujas slaptažodis"
+
+#: main/src/ui/application.vala:813
+msgid "Neues Passwort bestätigen"
+msgstr "Patvirtinti naują slaptažodį"
+
+#: main/src/ui/application.vala:824
+msgid "Datenbank-Passwort ändern"
+msgstr "Pakeisti duomenų bazės slaptažodį"
+
+#: main/src/ui/application.vala:825
+msgid ""
+"Dieses Passwort wird verwendet, um deine lokalen DinoX-Daten zu "
+"verschlüsseln."
+msgstr "Šis slaptažodis naudojamas jūsų vietiniams „DinoX“ duomenims užšifruoti."
+
+#: main/src/ui/application.vala:828
+msgid "Abbrechen"
+msgstr "Atšaukti"
+
+#: main/src/ui/application.vala:829
+msgid "Ändern"
+msgstr "Pakeisti"
+
+#: main/src/ui/application.vala:896
 msgid "Modern XMPP client with extended features"
 msgstr "Modernus XMPP klientas su išplėstinėmis funkcijomis"
 
-#: main/src/ui/application.vala:366 main/src/ui/application.vala:741
+#: main/src/ui/application.vala:903 main/src/ui/application.vala:1278
 msgid "User Data Locations"
 msgstr "Duomenų vietos"
 
-#: main/src/ui/application.vala:369 main/src/ui/application.vala:755
+#: main/src/ui/application.vala:906 main/src/ui/application.vala:1292
 msgid "Configuration:"
 msgstr "Konfigūracija:"
 
-#: main/src/ui/application.vala:372 main/src/ui/application.vala:757
+#: main/src/ui/application.vala:909 main/src/ui/application.vala:1294
 msgid "Data & Database:"
 msgstr "Duomenys ir duomenų bazė:"
 
-#: main/src/ui/application.vala:375 main/src/ui/application.vala:759
+#: main/src/ui/application.vala:912 main/src/ui/application.vala:1296
 msgid "Cache:"
 msgstr "Podėlis:"
 
-#: main/src/ui/application.vala:378
+#: main/src/ui/application.vala:915
 msgid "Info:"
 msgstr "Informacija:"
 
-#: main/src/ui/application.vala:379
+#: main/src/ui/application.vala:916
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application."
@@ -568,38 +695,38 @@ msgstr ""
 "Jūsų asmeniniai duomenys (paskyros, žinutės, failai) saugomi atskirai nuo "
 "programos."
 
-#: main/src/ui/application.vala:381
+#: main/src/ui/application.vala:918
 msgid "When you update DinoX, your data remains intact."
 msgstr "Kai atnaujinate DinoX, jūsų duomenys išlieka nepažeisti."
 
-#: main/src/ui/application.vala:383
+#: main/src/ui/application.vala:920
 msgid "Use Settings → General → Backup User Data to create a backup."
 msgstr ""
 "Naudokite Nustatymai → Bendra → Vartotojo duomenų atsarginė kopija, kad "
 "sukurtumėte atsarginę kopiją."
 
-#: main/src/ui/application.vala:401
+#: main/src/ui/application.vala:938
 msgid "Select Backup File"
 msgstr "Pasirinkti atsarginės kopijos failą"
 
 # DinoX v0.7.7 - Additional Backup/Restore strings
-#: main/src/ui/application.vala:409
+#: main/src/ui/application.vala:946
 msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
 msgstr "Atsarginės kopijos failai (*.tar.gz, *.tar.gz.gpg)"
 
-#: main/src/ui/application.vala:439
+#: main/src/ui/application.vala:976
 msgid "Enter Backup Password"
 msgstr "Įveskite atsarginės kopijos slaptažodį"
 
-#: main/src/ui/application.vala:440
+#: main/src/ui/application.vala:977
 msgid "This backup is encrypted. Please enter the password to decrypt it."
 msgstr "Ši atsarginė kopija užšifruota. Įveskite slaptažodį."
 
-#: main/src/ui/application.vala:456
+#: main/src/ui/application.vala:993
 msgid "Decrypt & Restore"
 msgstr "Iššifruoti ir atkurti"
 
-#: main/src/ui/application.vala:479
+#: main/src/ui/application.vala:1016
 msgid ""
 "This will replace all current data with the backup.\n"
 "\n"
@@ -613,31 +740,31 @@ msgstr ""
 "\n"
 "DinoX will restart after restoring."
 
-#: main/src/ui/application.vala:484
+#: main/src/ui/application.vala:1021
 msgid "Restore Backup"
 msgstr "Atkurti atsarginę kopiją"
 
-#: main/src/ui/application.vala:501 main/src/ui/application.vala:533
+#: main/src/ui/application.vala:1038 main/src/ui/application.vala:1070
 msgid "Decrypting Backup..."
 msgstr "Iššifruojama atsarginė kopija..."
 
-#: main/src/ui/application.vala:501 main/src/ui/application.vala:585
+#: main/src/ui/application.vala:1038 main/src/ui/application.vala:1122
 msgid "Restoring Backup..."
 msgstr "Atkuriama atsarginė kopija..."
 
-#: main/src/ui/application.vala:502
+#: main/src/ui/application.vala:1039
 msgid "Please wait, this may take a moment..."
 msgstr "Prašome palaukti, tai gali užtrukti..."
 
-#: main/src/ui/application.vala:534
+#: main/src/ui/application.vala:1071
 msgid "Decrypting encrypted backup file..."
 msgstr "Iššifruojamas atsarginės kopijos failas..."
 
-#: main/src/ui/application.vala:572
+#: main/src/ui/application.vala:1109
 msgid "Decryption Failed"
 msgstr "Iššifravimas nepavyko"
 
-#: main/src/ui/application.vala:573
+#: main/src/ui/application.vala:1110
 msgid ""
 "Could not decrypt the backup file.\n"
 "\n"
@@ -647,34 +774,27 @@ msgstr ""
 "\n"
 "Patikrinkite, ar slaptažodis teisingas."
 
-#: main/src/ui/application.vala:575 main/src/ui/application.vala:685
-#: main/src/ui/chat_input/sticker_chooser.vala:575
-#: main/src/ui/chat_input/sticker_chooser.vala:594
-#: main/src/ui/chat_input/sticker_chooser.vala:602
-#: main/src/ui/chat_input/sticker_chooser.vala:817
-#: main/src/ui/chat_input/sticker_chooser.vala:835
-#: main/src/ui/chat_input/sticker_chooser.vala:843
-#: main/src/ui/chat_input/sticker_chooser.vala:883
+#: main/src/ui/application.vala:1112 main/src/ui/application.vala:1222
 msgid "OK"
 msgstr "OK"
 
-#: main/src/ui/application.vala:586
+#: main/src/ui/application.vala:1123
 msgid "Extracting files from backup..."
 msgstr "Ištraukiami failai iš atsarginės kopijos..."
 
-#: main/src/ui/application.vala:667
+#: main/src/ui/application.vala:1204
 msgid "Restore Complete!"
 msgstr "Atkūrimas baigtas!"
 
-#: main/src/ui/application.vala:668
+#: main/src/ui/application.vala:1205
 msgid "DinoX will now restart..."
 msgstr "DinoX dabar bus paleistas iš naujo..."
 
-#: main/src/ui/application.vala:682
+#: main/src/ui/application.vala:1219
 msgid "Restore Failed"
 msgstr "Atkūrimas nepavyko"
 
-#: main/src/ui/application.vala:683
+#: main/src/ui/application.vala:1220
 #, c-format
 msgid ""
 "Could not restore the backup file.\n"
@@ -685,11 +805,11 @@ msgstr ""
 "\n"
 "Klaida: %s"
 
-#: main/src/ui/application.vala:683 main/src/ui/application.vala:1359
+#: main/src/ui/application.vala:1220 main/src/ui/application.vala:1896
 msgid "Unknown error"
 msgstr "Nežinoma klaida"
 
-#: main/src/ui/application.vala:761
+#: main/src/ui/application.vala:1298
 msgid ""
 "Your personal data (accounts, messages, files) is stored separately from the "
 "application. When you update DinoX, your data remains intact."
@@ -699,14 +819,17 @@ msgstr ""
 "asmeniniai duomenys (paskyros, žinutės, failai) saugomi atskirai nuo "
 "programos. Atnaujinus DinoX, jūsų duomenys išlieka nepakitę."
 
-#: main/src/ui/application.vala:766 main/src/ui/application.vala:1254
-#: main/src/ui/application.vala:1338
-#: main/src/ui/chat_input/sticker_chooser.vala:174
-#: main/src/ui/conversation_details.vala:272 main/src/ui/main_window.vala:172
+#: main/src/ui/application.vala:1303 main/src/ui/application.vala:1791
+#: main/src/ui/application.vala:1875
+#: main/src/ui/chat_input/sticker_chooser.vala:181
+#: main/src/ui/conversation_details.vala:276
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:566
+#: main/src/ui/conversation_view_controller.vala:333
+#: main/src/ui/main_window.vala:172
 msgid "Close"
 msgstr "Uždaryti"
 
-#: main/src/ui/application.vala:776
+#: main/src/ui/application.vala:1313
 msgid ""
 "This will delete cached files, avatars and previews.\n"
 "\n"
@@ -716,16 +839,16 @@ msgstr ""
 "\n"
 "Prireikus jie bus atsisiųsti iš naujo."
 
-#: main/src/ui/application.vala:813
+#: main/src/ui/application.vala:1350
 #, c-format
 msgid "Cache cleared (%s freed)"
 msgstr "Talpykla išvalyta (%s atlaisvinta)"
 
-#: main/src/ui/application.vala:816
+#: main/src/ui/application.vala:1353
 msgid "Failed to clear cache"
 msgstr "Nepavyko išvalyti talpyklos"
 
-#: main/src/ui/application.vala:853
+#: main/src/ui/application.vala:1390
 msgid ""
 "This will delete all messages, files and OMEMO encryption keys.\n"
 "\n"
@@ -741,11 +864,11 @@ msgstr ""
 "\n"
 "This action cannot be undone!"
 
-#: main/src/ui/application.vala:881
+#: main/src/ui/application.vala:1418
 msgid "Resetting database... DinoX will restart."
 msgstr "Duomenų bazės atkūrimas... DinoX bus paleistas iš naujo."
 
-#: main/src/ui/application.vala:911
+#: main/src/ui/application.vala:1448
 msgid ""
 "<b>⚠️ WARNING: This will delete ALL data!</b>\n"
 "\n"
@@ -765,19 +888,19 @@ msgstr ""
 "\n"
 "This is irreversible. Make sure to create a backup first!"
 
-#: main/src/ui/application.vala:916
+#: main/src/ui/application.vala:1453
 msgid "Create Backup First"
 msgstr "Pirmiausia sukurkite atsarginę kopiją"
 
-#: main/src/ui/application.vala:917
+#: main/src/ui/application.vala:1454
 msgid "Delete Everything"
 msgstr "Ištrinti viską"
 
-#: main/src/ui/application.vala:937
+#: main/src/ui/application.vala:1474
 msgid "Are you absolutely sure?"
 msgstr "Ar esate visiškai tikri?"
 
-#: main/src/ui/application.vala:938
+#: main/src/ui/application.vala:1475
 msgid ""
 "Type 'DELETE' to confirm factory reset.\n"
 "\n"
@@ -787,19 +910,19 @@ msgstr ""
 "\n"
 "This will permanently remove all your DinoX data."
 
-#: main/src/ui/application.vala:948
+#: main/src/ui/application.vala:1485
 msgid "Confirm Delete"
 msgstr "Patvirtinti trynimą"
 
-#: main/src/ui/application.vala:975
+#: main/src/ui/application.vala:1512
 msgid "Factory reset in progress... DinoX will restart."
 msgstr "Vyksta gamyklinių nustatymų atkūrimas... DinoX bus paleistas iš naujo."
 
-#: main/src/ui/application.vala:1040
+#: main/src/ui/application.vala:1577
 msgid "Backup Encryption"
 msgstr "Atsarginės kopijos šifravimas"
 
-#: main/src/ui/application.vala:1041
+#: main/src/ui/application.vala:1578
 msgid ""
 "Do you want to encrypt the backup with a password?\n"
 "\n"
@@ -810,19 +933,19 @@ msgstr ""
 "Užšifruotos atsarginės kopijos yra saugesnės, tačiau norint jas atkurti, "
 "reikalingas slaptažodis."
 
-#: main/src/ui/application.vala:1044
+#: main/src/ui/application.vala:1581
 msgid "No Encryption"
 msgstr "Be šifravimo"
 
-#: main/src/ui/application.vala:1045
+#: main/src/ui/application.vala:1582
 msgid "Encrypt with Password"
 msgstr "Šifruoti slaptažodžiu"
 
-#: main/src/ui/application.vala:1063
+#: main/src/ui/application.vala:1600
 msgid "Set Backup Password"
 msgstr "Nustatyti atsarginės kopijos slaptažodį"
 
-#: main/src/ui/application.vala:1064
+#: main/src/ui/application.vala:1601
 msgid ""
 "Enter a password to encrypt the backup.\n"
 "\n"
@@ -834,59 +957,59 @@ msgstr ""
 "<b>Svarbu:</b> Prisiminkite šį slaptažodį! Be jo atsarginė kopija negali "
 "būti atkurta."
 
-#: main/src/ui/application.vala:1072
+#: main/src/ui/application.vala:1609
 msgid "Password (minimum 4 characters)"
 msgstr "Slaptažodis (mažiausiai 4 simboliai)"
 
-#: main/src/ui/application.vala:1080 main/src/ui/application.vala:1087
+#: main/src/ui/application.vala:1617 main/src/ui/application.vala:1624
 msgid "Confirm Password"
 msgstr "Patvirtinti slaptažodį"
 
-#: main/src/ui/application.vala:1104
+#: main/src/ui/application.vala:1641
 msgid "Create Encrypted Backup"
 msgstr "Sukurti šifruotą atsarginę kopiją"
 
-#: main/src/ui/application.vala:1116 main/src/ui/application.vala:1131
+#: main/src/ui/application.vala:1653 main/src/ui/application.vala:1668
 msgid "Password too short"
 msgstr "Slaptažodis per trumpas"
 
-#: main/src/ui/application.vala:1118 main/src/ui/application.vala:1133
+#: main/src/ui/application.vala:1655 main/src/ui/application.vala:1670
 msgid "Passwords do not match"
 msgstr "Slaptažodžiai nesutampa"
 
-#: main/src/ui/application.vala:1120 main/src/ui/application.vala:1135
+#: main/src/ui/application.vala:1657 main/src/ui/application.vala:1672
 msgid "✓ Passwords match"
 msgstr "✓ Slaptažodžiai sutampa"
 
-#: main/src/ui/application.vala:1153
+#: main/src/ui/application.vala:1690
 msgid "Select Backup Location"
 msgstr "Pasirinkite atsarginės kopijos vietą"
 
-#: main/src/ui/application.vala:1208
+#: main/src/ui/application.vala:1745
 msgid "Creating Encrypted Backup..."
 msgstr "Kuriama šifruota atsarginė kopija..."
 
-#: main/src/ui/application.vala:1208
+#: main/src/ui/application.vala:1745
 msgid "Creating Backup..."
 msgstr "Kuriama atsarginė kopija..."
 
-#: main/src/ui/application.vala:1209
+#: main/src/ui/application.vala:1746
 msgid "Please wait while your data is being backed up."
 msgstr "Prašome palaukti, kol bus sukurtos atsarginės duomenų kopijos."
 
-#: main/src/ui/application.vala:1248
+#: main/src/ui/application.vala:1785
 msgid "No data directory found to backup"
 msgstr "Nerastas duomenų katalogas atsarginei kopijai"
 
-#: main/src/ui/application.vala:1251 main/src/ui/application.vala:1357
+#: main/src/ui/application.vala:1788 main/src/ui/application.vala:1894
 msgid "Backup Failed"
 msgstr "Atsarginė kopija nepavyko"
 
-#: main/src/ui/application.vala:1345
+#: main/src/ui/application.vala:1882
 msgid "Encrypted Backup Created"
 msgstr "Šifruota atsarginė kopija sukurta"
 
-#: main/src/ui/application.vala:1347
+#: main/src/ui/application.vala:1884
 #, c-format
 msgid ""
 "Your encrypted backup was created successfully.\n"
@@ -897,15 +1020,15 @@ msgstr ""
 "\n"
 "Dydis: %s"
 
-#: main/src/ui/application.vala:1348
+#: main/src/ui/application.vala:1885
 msgid "Your encrypted backup was created successfully."
 msgstr "Jūsų šifruota atsarginė kopija sėkmingai sukurta."
 
-#: main/src/ui/application.vala:1350
+#: main/src/ui/application.vala:1887
 msgid "Backup Created"
 msgstr "Atsarginė kopija sukurta"
 
-#: main/src/ui/application.vala:1352
+#: main/src/ui/application.vala:1889
 #, c-format
 msgid ""
 "Your backup was created successfully.\n"
@@ -916,11 +1039,11 @@ msgstr ""
 "\n"
 "Dydis: %s"
 
-#: main/src/ui/application.vala:1353
+#: main/src/ui/application.vala:1890
 msgid "Your backup was created successfully."
 msgstr "Jūsų atsarginė kopija sėkmingai sukurta."
 
-#: main/src/ui/application.vala:1360
+#: main/src/ui/application.vala:1897
 #, c-format
 msgid "Backup failed: %s"
 msgstr "Atsarginė kopija nepavyko: %s"
@@ -941,24 +1064,24 @@ msgstr "Garsiakalbiai"
 msgid "No speaker found."
 msgstr "Nerasta jokių garsiakalbių."
 
-#: main/src/ui/call_window/call_window_controller.vala:153
+#: main/src/ui/call_window/call_window_controller.vala:152
 msgid "Invite to Call"
 msgstr "Pakviesti į skambutį"
 
-#: main/src/ui/call_window/call_window_controller.vala:154
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:772
+#: main/src/ui/call_window/call_window_controller.vala:153
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:780
 #: main/src/ui/conversation_titlebar/menu_entry.vala:99
 #: main/src/ui/occupant_menu/view.vala:27
-#: main/src/ui/occupant_menu/view.vala:276
+#: main/src/ui/occupant_menu/view.vala:275
 msgid "Invite"
 msgstr "Pakviesti"
 
-#: main/src/ui/call_window/call_window_controller.vala:453
+#: main/src/ui/call_window/call_window_controller.vala:451
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:240
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:270
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:285
-#: main/src/ui/util/helper.vala:69 main/src/ui/util/helper.vala:73
-#: main/src/ui/util/helper.vala:81
+#: main/src/ui/util/helper.vala:79 main/src/ui/util/helper.vala:83
+#: main/src/ui/util/helper.vala:91
 msgid "Me"
 msgstr "Aš"
 
@@ -1011,146 +1134,34 @@ msgstr "Užklausti leidimo"
 msgid "Unencrypted"
 msgstr "Nešifruota"
 
-#: main/src/ui/chat_input/sticker_chooser.vala:25
+#: main/src/ui/chat_input/sticker_chooser.vala:176
 #, fuzzy
-msgid "Import…"
-msgstr "Import Key"
-
-#: main/src/ui/chat_input/sticker_chooser.vala:26
-msgid "Folder…"
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:27
-#: main/src/ui/chat_input/sticker_chooser.vala:822
-#: main/src/ui/chat_input/sticker_chooser.vala:849
-msgid "Publish"
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:28
-#: main/src/ui/chat_input/sticker_chooser.vala:870
-#: main/src/ui/conversation_content_view/item_actions.vala:165
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:745
-#: main/src/windows/conversation_details.vala:61
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:292
-msgid "Remove"
-msgstr "Šalinti"
-
-#: main/src/ui/chat_input/sticker_chooser.vala:237
-msgid "Paste an xmpp: sticker pack link and press Enter."
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:241
-msgid "xmpp:…"
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:413
-#: main/src/ui/chat_input/sticker_chooser.vala:574
-#: main/src/ui/chat_input/sticker_chooser.vala:816
-msgid "Stickers are unavailable"
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:420
-#: main/src/ui/chat_input/sticker_chooser.vala:497
-#: main/src/ui/chat_input/sticker_chooser.vala:502
-msgid "None"
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:450
-msgid "No sticker packs yet. Use Import… to add one."
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:452
-#: main/src/ui/chat_input/sticker_chooser.vala:735
-msgid "No stickers selected"
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:534
-#, fuzzy
-msgid "Select sticker folder"
-msgstr "Pasirinkti failą"
-
-#: main/src/ui/chat_input/sticker_chooser.vala:535
-#: main/src/ui/conversation_view_controller.vala:238
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:180
-msgid "Select"
-msgstr "Pasirinkti"
-
-#: main/src/ui/chat_input/sticker_chooser.vala:544
-#, fuzzy
-msgid "Create sticker pack"
+msgid "Manage Sticker Packs"
 msgstr "Sukurti šifruotą atsarginę kopiją"
 
-#: main/src/ui/chat_input/sticker_chooser.vala:545
-msgid ""
-"Do you want to keep this pack local, or also publish it so you can share an "
-"xmpp: link?"
-msgstr ""
+#: main/src/ui/chat_input/sticker_chooser.vala:390
+msgid "Stickers are unavailable"
+msgstr "Lipdukai nepasiekiami"
 
-#: main/src/ui/chat_input/sticker_chooser.vala:548
+#: main/src/ui/chat_input/sticker_chooser.vala:397
+#: main/src/ui/chat_input/sticker_chooser.vala:459
+#: main/src/ui/chat_input/sticker_chooser.vala:464
+msgid "None"
+msgstr "Nėra"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:412
 #, fuzzy
-msgid "Local only"
-msgstr "Vietinis pseudonimas"
-
-#: main/src/ui/chat_input/sticker_chooser.vala:549
-msgid "Publish & copy link"
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:574
-#: main/src/ui/chat_input/sticker_chooser.vala:816
-msgid "Stickers module unavailable"
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:593
-#: main/src/ui/chat_input/sticker_chooser.vala:834
-msgid "Sticker pack published"
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:593
-#: main/src/ui/chat_input/sticker_chooser.vala:834
-#, c-format
-msgid ""
-"Share link copied to clipboard:\n"
-"%s"
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:601
-#, fuzzy
-msgid "Failed to create sticker pack"
-msgstr "Nepavyko išvalyti talpyklos"
-
-#: main/src/ui/chat_input/sticker_chooser.vala:698
-msgid "Invalid sticker pack link"
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:755
-msgid "No stickers in this pack"
-msgstr ""
-
-#: main/src/ui/chat_input/sticker_chooser.vala:811
-#, fuzzy
-msgid "Publishing…"
-msgstr "rašo…"
-
-#: main/src/ui/chat_input/sticker_chooser.vala:842
-#, fuzzy
-msgid "Failed to publish sticker pack"
-msgstr "Nepavyko išvalyti talpyklos"
-
-#: main/src/ui/chat_input/sticker_chooser.vala:866
-#, fuzzy
-msgid "Remove sticker pack?"
+msgid "No sticker packs yet."
 msgstr "Pašalinti kontaktą?"
 
-#: main/src/ui/chat_input/sticker_chooser.vala:867
-#, c-format
-msgid ""
-"This will delete the downloaded files and remove the pack from your list: %s"
-msgstr ""
+#: main/src/ui/chat_input/sticker_chooser.vala:414
+#: main/src/ui/chat_input/sticker_chooser.vala:527
+msgid "No stickers selected"
+msgstr "Nepasirinkta jokių lipdukų"
 
-#: main/src/ui/chat_input/sticker_chooser.vala:882
-#, fuzzy
-msgid "Failed to remove sticker pack"
-msgstr "Nepavyko išvalyti talpyklos"
+#: main/src/ui/chat_input/sticker_chooser.vala:543
+msgid "No stickers in this pack"
+msgstr "Šiame pakete nėra lipdukų"
 
 #: main/src/ui/contact_details/permissions_provider.vala:23
 msgid "Request permission to send messages"
@@ -1459,6 +1470,13 @@ msgstr "Ištrinti žinutę"
 msgid "Do you want to remove this message from the channel?"
 msgstr "Ar norite pašalinti šią žinutę iš kanalo?"
 
+#: main/src/ui/conversation_content_view/item_actions.vala:165
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:753
+#: main/src/windows/conversation_details.vala:61
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:286
+msgid "Remove"
+msgstr "Šalinti"
+
 #: main/src/ui/conversation_content_view/item_actions.vala:167
 msgid "Do you want to delete this message just for yourself or for everyone?"
 msgstr "Ar norite ištrinti šią žinutę tik sau ar visiems?"
@@ -1488,7 +1506,7 @@ msgstr "laukiama…"
 msgid "delivery failed"
 msgstr "pristatymas nepavyko"
 
-#: main/src/ui/conversation_content_view/message_widget.vala:254
+#: main/src/ui/conversation_content_view/message_widget.vala:362
 msgid "Edit message"
 msgstr "Taisyti žinutę"
 
@@ -1543,19 +1561,19 @@ msgstr "Leidimai"
 msgid "Manage Affiliations"
 msgstr "Tvarkyti narystes"
 
-#: main/src/ui/conversation_details.vala:239
+#: main/src/ui/conversation_details.vala:243
 msgid "Danger Zone"
 msgstr "Pavojinga zona"
 
-#: main/src/ui/conversation_details.vala:240
+#: main/src/ui/conversation_details.vala:244
 msgid "Destroy Room"
 msgstr "Sunaikinti kambarį"
 
-#: main/src/ui/conversation_details.vala:246
+#: main/src/ui/conversation_details.vala:250
 msgid "Destroy Room?"
 msgstr "Sunaikinti kambarį?"
 
-#: main/src/ui/conversation_details.vala:247
+#: main/src/ui/conversation_details.vala:251
 msgid ""
 "Are you sure you want to permanently destroy this room? This action cannot "
 "be undone and all history will be lost for all participants."
@@ -1565,43 +1583,43 @@ msgstr ""
 "visam laikui sunaikinti šį kambarį? Šio veiksmo negalima atšaukti ir visa "
 "istorija bus prarasta visiems dalyviams."
 
-#: main/src/ui/conversation_details.vala:250
+#: main/src/ui/conversation_details.vala:254
 msgid "Destroy"
 msgstr "Sunaikinti"
 
-#: main/src/ui/conversation_details.vala:271
+#: main/src/ui/conversation_details.vala:275
 msgid "Failed to destroy room"
 msgstr "Nepavyko sunaikinti kambario"
 
-#: main/src/ui/conversation_details.vala:286
+#: main/src/ui/conversation_details.vala:290
 msgid "Auto-delete messages"
 msgstr "Automatiškai trinti žinutes"
 
-#: main/src/ui/conversation_details.vala:287
+#: main/src/ui/conversation_details.vala:291
 msgid "Never"
 msgstr "Niekada"
 
-#: main/src/ui/conversation_details.vala:288
+#: main/src/ui/conversation_details.vala:292
 msgid "After 15 minutes"
 msgstr "Po 15 minučių"
 
-#: main/src/ui/conversation_details.vala:289
+#: main/src/ui/conversation_details.vala:293
 msgid "After 30 minutes"
 msgstr "Po 30 minučių"
 
-#: main/src/ui/conversation_details.vala:290
+#: main/src/ui/conversation_details.vala:294
 msgid "After 1 hour"
 msgstr "Po 1 valandos"
 
-#: main/src/ui/conversation_details.vala:291
+#: main/src/ui/conversation_details.vala:295
 msgid "After 24 hours"
 msgstr "Po 24 valandų"
 
-#: main/src/ui/conversation_details.vala:292
+#: main/src/ui/conversation_details.vala:296
 msgid "After 7 days"
 msgstr "Po 7 dienų"
 
-#: main/src/ui/conversation_details.vala:293
+#: main/src/ui/conversation_details.vala:297
 msgid "After 30 days"
 msgstr "Po 30 dienų"
 
@@ -1663,28 +1681,28 @@ msgid "Conversation Details"
 msgstr "Išsamiau apie pokalbį"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:507
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:771
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:779
 #: main/src/ui/conversation_titlebar/menu_entry.vala:98
 msgid "Invite Contact"
 msgstr "Pakviesti kontaktą"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:511
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:559
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:661
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:669
 #: main/src/ui/occupant_menu/view.vala:173
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:140
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:206
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:134
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:200
 msgid "Unmute"
 msgstr "Įjungti garsą"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:511
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:559
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:680
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:688
 #: main/src/ui/occupant_menu/view.vala:177
-#: main/src/windows/conversation_details.vala:163
-#: main/src/windows/conversation_details.vala:164
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:140
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:226
+#: main/src/windows/conversation_details.vala:172
+#: main/src/windows/conversation_details.vala:173
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:134
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:220
 msgid "Mute"
 msgstr "Nutildyti pranešimus"
 
@@ -1693,86 +1711,86 @@ msgid "Leave and Close"
 msgstr "Palikti ir uždaryti"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:555
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:623
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:126
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:631
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:120
 msgid "Edit Alias"
 msgstr "Redaguoti slapyvardį"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:563
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:705
-#: main/src/windows/conversation_details.vala:108
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:250
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:713
+#: main/src/windows/conversation_details.vala:117
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:244
 msgid "Unblock"
 msgstr "Atblokuoti"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:563
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:724
-#: main/src/windows/conversation_details.vala:144
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:270
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:732
+#: main/src/windows/conversation_details.vala:153
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:264
 msgid "Block"
 msgstr "Blokuoti"
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:628
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:636
 msgid "Alias"
 msgstr "Pseudonimas"
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:634
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:333
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:642
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:327
 msgid "Save"
 msgstr "Įrašyti"
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:657
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:202
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:665
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:196
 msgid "Unmute contact?"
 msgstr "Įjungti kontakto garsą?"
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:658
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:203
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:666
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:197
 #, c-format
 msgid "This will enable notifications from %s."
 msgstr "Tai įjungs pranešimus iš %s."
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:676
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:222
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:684
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:216
 msgid "Mute contact?"
 msgstr "Nutildyti kontaktą?"
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:677
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:223
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:685
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:217
 #, c-format
 msgid "This will disable notifications from %s."
 msgstr "Tai išjungs pranešimus iš %s."
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:701
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:246
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:709
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:240
 msgid "Unblock contact?"
 msgstr "Atblokuoti kontaktą?"
 
 # c-format
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:702
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:247
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:710
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:241
 #, c-format
 msgid "This will allow %s to send you messages again."
 msgstr "Tai leis %s vėl siųsti jums žinutes."
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:720
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:266
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:728
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:260
 msgid "Block contact?"
 msgstr "Blokuoti kontaktą?"
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:721
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:267
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:729
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:261
 #, c-format
 msgid "This will prevent %s from sending you messages."
 msgstr "Tai neleis %s siųsti jums žinučių."
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:741
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:749
 #: main/src/windows/conversation_details.vala:57
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:288
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:282
 msgid "Remove contact?"
 msgstr "Pašalinti kontaktą?"
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:742
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:750
 #, c-format
 msgid ""
 "This will:\n"
@@ -1787,11 +1805,11 @@ msgstr ""
 "\n"
 "Šio veiksmo negalima atšaukti."
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:787
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:794
 msgid "Delete all message history?"
 msgstr "Ištrinti visą žinučių istoriją?"
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:788
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:795
 msgid ""
 "This will permanently delete all messages in this conversation. This action "
 "cannot be undone."
@@ -1799,7 +1817,7 @@ msgstr ""
 "Tai visam laikui ištrins visas žinutes šiame pokalbyje. Šio veiksmo negalima "
 "atšaukti."
 
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:791
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:798
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
 msgid "Delete"
 msgstr "Ištrinti"
@@ -1845,13 +1863,23 @@ msgid "Close Conversation"
 msgstr "Užverti pokalbį"
 
 #: main/src/ui/conversation_titlebar/occupants_entry.vala:14
-#: main/src/windows/conversation_details.vala:289
+#: main/src/windows/conversation_details.vala:298
 msgid "Members"
 msgstr "Nariai"
 
-#: main/src/ui/conversation_view_controller.vala:237
+#: main/src/ui/conversation_view_controller.vala:249
 msgid "Select file"
 msgstr "Pasirinkti failą"
+
+#: main/src/ui/conversation_view_controller.vala:250
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:180
+msgid "Select"
+msgstr "Pasirinkti"
+
+#: main/src/ui/conversation_view_controller.vala:332
+#, fuzzy
+msgid "Failed to get location"
+msgstr "Nepavyko sunaikinti kambario"
 
 #: main/src/ui/file_send_overlay.vala:60
 msgid "The file exceeds the server's maximum upload size."
@@ -1885,25 +1913,25 @@ msgstr ""
 "Jei jums reikia slaptažodžio arba slapyvardžio, pateikite juos dialoge. "
 "Naudokite serverio aptikimo funkcijas viešiems kambariams rasti."
 
-#: main/src/ui/main_window.vala:219
+#: main/src/ui/main_window.vala:222
 msgid "Welcome to DinoX!"
 msgstr "Sveiki atvykę į DinoX!"
 
-#: main/src/ui/main_window.vala:220
+#: main/src/ui/main_window.vala:223
 msgid "Sign in or create an account to get started."
 msgstr "Norėdami pradėti, prisijunkite arba susikurkite paskyrą."
 
-#: main/src/ui/main_window.vala:221
+#: main/src/ui/main_window.vala:224
 msgid "Set up account"
 msgstr "Nusistatyti paskyrą"
 
-#: main/src/ui/main_window.vala:230
+#: main/src/ui/main_window.vala:233
 #: main/src/windows/preferences_window/accounts_preferences_page.vala:71
 #: main/src/windows/preferences_window/encryption_preferences_page.vala:49
 msgid "No active accounts"
 msgstr "Aktyvių paskyrų nėra"
 
-#: main/src/ui/main_window.vala:231
+#: main/src/ui/main_window.vala:234
 msgid "Manage accounts"
 msgstr "Tvarkyti paskyras"
 
@@ -1969,12 +1997,12 @@ msgid "Start private conversation"
 msgstr "Pradėti privatų pokalbį"
 
 #: main/src/ui/occupant_menu/view.vala:125
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:157
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:151
 msgid "Unblock Contact"
 msgstr "Atblokuoti kontaktą"
 
 #: main/src/ui/occupant_menu/view.vala:127
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:157
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:151
 msgid "Block Contact"
 msgstr "Užblokuoti kontaktą"
 
@@ -2030,7 +2058,7 @@ msgstr "Atšaukti narystę"
 msgid "Kicked by moderator"
 msgstr "Pašalintas moderatoriaus"
 
-#: main/src/ui/occupant_menu/view.vala:275
+#: main/src/ui/occupant_menu/view.vala:274
 msgid "Invite to Conference"
 msgstr "Pakviesti į konferenciją"
 
@@ -2038,39 +2066,41 @@ msgstr "Pakviesti į konferenciją"
 msgid "Quit"
 msgstr "Išeiti"
 
-#: main/src/ui/sticker_pack_import_dialog.vala:14
+#: main/src/ui/sticker_pack_import_dialog.vala:35
 #, fuzzy
 msgid "Import"
 msgstr "Import Key"
 
-#: main/src/ui/sticker_pack_import_dialog.vala:15
+#: main/src/ui/sticker_pack_import_dialog.vala:36
 msgid "Copy Share URI"
-msgstr ""
+msgstr "Kopijuoti bendrinimo URI"
 
-#: main/src/ui/sticker_pack_import_dialog.vala:29
+#: main/src/ui/sticker_pack_import_dialog.vala:50
 msgid "Import Sticker Pack"
-msgstr ""
+msgstr "Importuoti lipdukų paketą"
 
-#: main/src/ui/sticker_pack_import_dialog.vala:62
+#: main/src/ui/sticker_pack_import_dialog.vala:90
+#: main/src/ui/sticker_pack_import_dialog.vala:147
 #, fuzzy
 msgid "Loading…"
 msgstr "laukiama…"
 
-#: main/src/ui/sticker_pack_import_dialog.vala:70
+#: main/src/ui/sticker_pack_import_dialog.vala:128
+#, fuzzy
+msgid "Importing…"
+msgstr "Jungiamasi…"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:136
+#: main/src/ui/sticker_pack_import_dialog.vala:158
 #, fuzzy
 msgid "No account available"
 msgstr "Nepasiekiamas"
 
-#: main/src/ui/sticker_pack_import_dialog.vala:84
-#: main/src/ui/sticker_pack_import_dialog.vala:107
+#: main/src/ui/sticker_pack_import_dialog.vala:172
+#: main/src/ui/sticker_pack_import_dialog.vala:189
 #, fuzzy
 msgid "Failed to import sticker pack"
 msgstr "Nepavyko išvalyti talpyklos"
-
-#: main/src/ui/sticker_pack_import_dialog.vala:98
-#, fuzzy
-msgid "Importing…"
-msgstr "Jungiamasi…"
 
 #: main/src/ui/util/data_forms.vala:41
 msgid ""
@@ -2137,7 +2167,7 @@ msgstr ""
 "Tik nariai gali įeiti į kambarį. Įspėjimas: Ne nariai bus pašalinti kai "
 "įjungta!"
 
-#: main/src/ui/util/helper.vala:65
+#: main/src/ui/util/helper.vala:75
 #, c-format
 msgid "%s from %s"
 msgstr "%s iš %s"
@@ -2159,43 +2189,43 @@ msgstr ""
 "Šis kontaktas bus pašalintas iš jūsų kontaktų sąrašo ir visa pokalbių "
 "istorija bus visam laikui ištrinta."
 
-#: main/src/windows/conversation_details.vala:108
+#: main/src/windows/conversation_details.vala:117
 msgid "Block user"
 msgstr "Užblokuoti naudotoją"
 
-#: main/src/windows/conversation_details.vala:108
+#: main/src/windows/conversation_details.vala:117
 msgid "Block entire domain"
 msgstr "Užblokuoti visą domeną"
 
-#: main/src/windows/conversation_details.vala:125
+#: main/src/windows/conversation_details.vala:134
 msgid "Pinned"
 msgstr "Prisegta"
 
-#: main/src/windows/conversation_details.vala:125
+#: main/src/windows/conversation_details.vala:134
 msgid "Pin"
 msgstr "Prisegti"
 
-#: main/src/windows/conversation_details.vala:140
+#: main/src/windows/conversation_details.vala:149
 msgid "Domain blocked"
 msgstr "Domenas užblokuotas"
 
-#: main/src/windows/conversation_details.vala:165
+#: main/src/windows/conversation_details.vala:174
 msgid "Notifications enabled"
 msgstr "Pranešimai įjungti"
 
-#: main/src/windows/conversation_details.vala:168
+#: main/src/windows/conversation_details.vala:177
 msgid "Notifications for mentions"
 msgstr "Pranešimai apie paminėjimus"
 
-#: main/src/windows/conversation_details.vala:173
+#: main/src/windows/conversation_details.vala:182
 msgid "Notifications disabled"
 msgstr "Pranešimai išjungti"
 
-#: main/src/windows/conversation_details.vala:232
+#: main/src/windows/conversation_details.vala:241
 msgid "Settings"
 msgstr "Nustatymai"
 
-#: main/src/windows/conversation_details.vala:261
+#: main/src/windows/conversation_details.vala:270
 msgid "Room Configuration"
 msgstr "Kambario konfigūracija"
 
@@ -2318,15 +2348,15 @@ msgstr "Registruotis"
 msgid "Check %s for information on how to sign up"
 msgstr "Išsamesnei informacijai apie registraciją, žiūrėkite %s"
 
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:192
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:186
 msgid "No contacts"
 msgstr "Nėra kontaktų"
 
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:193
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:187
 msgid "Add contacts to start chatting"
 msgstr "Pridėkite kontaktų, kad pradėtumėte kalbėtis"
 
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:289
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:283
 #, c-format
 msgid ""
 "This will remove %s from your contact list and delete all conversation "
@@ -2336,18 +2366,46 @@ msgstr ""
 "bus pašalintas iš jūsų kontaktų sąrašo ir visa pokalbių istorija bus "
 "ištrinta."
 
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:318
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:312
 msgid "Edit Contact Alias"
 msgstr "Redaguoti kontakto slapyvardį"
 
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:319
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:313
 #, c-format
 msgid "Change the display name for %s"
 msgstr "Pakeisti %s rodomą vardą"
 
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:325
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:319
 msgid "Alias (optional)"
 msgstr "Slapyvardis (neprivaloma)"
+
+#, fuzzy
+#~ msgid "Import…"
+#~ msgstr "Import Key"
+
+#, fuzzy
+#~ msgid "Select sticker folder"
+#~ msgstr "Pasirinkti failą"
+
+#, fuzzy
+#~ msgid "Local only"
+#~ msgstr "Vietinis pseudonimas"
+
+#, fuzzy
+#~ msgid "Failed to create sticker pack"
+#~ msgstr "Nepavyko išvalyti talpyklos"
+
+#, fuzzy
+#~ msgid "Publishing…"
+#~ msgstr "rašo…"
+
+#, fuzzy
+#~ msgid "Failed to publish sticker pack"
+#~ msgstr "Nepavyko išvalyti talpyklos"
+
+#, fuzzy
+#~ msgid "Failed to remove sticker pack"
+#~ msgstr "Nepavyko išvalyti talpyklos"
 
 #~ msgid "Creating backup..."
 #~ msgstr "Kuriama atsarginė kopija..."
@@ -2358,10 +2416,6 @@ msgstr "Slapyvardis (neprivaloma)"
 
 #~ msgid "Backup created successfully"
 #~ msgstr "Atsarginė kopija sukurta"
-
-# DinoX v0.7.7 - Database Maintenance & Backup/Restore
-#~ msgid "Clean Database"
-#~ msgstr "Clean Database"
 
 #~ msgid "Encrypting Backup..."
 #~ msgstr "Encrypting Backup..."

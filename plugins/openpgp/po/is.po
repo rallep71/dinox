@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-01 15:51+0100\n"
+"POT-Creation-Date: 2025-12-31 14:13+0100\n"
 "PO-Revision-Date: 2022-10-17 00:56+0000\n"
 "Language-Team: none\n"
 "Language: is\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n % 10 != 1 || n % 100 == 11;\n"
 "X-Generator: Weblate 4.15-dev\n"
 
-#: plugins/openpgp/src/contact_details_provider.vala:36
+#: plugins/openpgp/src/contact_details_provider.vala:38
 msgid "Key not in keychain"
 msgstr "Lykill ekki í lyklakippu"
 
-#: plugins/openpgp/src/contact_details_provider.vala:40
+#: plugins/openpgp/src/contact_details_provider.vala:42
 #: plugins/openpgp/src/key_management_dialog.vala:220
 msgid "Fingerprint"
 msgstr "Fingrafar"
@@ -199,7 +199,9 @@ msgstr "Býr til lykil..."
 
 #: plugins/openpgp/src/key_management_dialog.vala:341
 msgid "Please wait while your key is being generated. This may take a moment."
-msgstr "Vinsamlegast bíddu á meðan lykillinn þinn er búinn til. Þetta gæti tekið smá stund."
+msgstr ""
+"Vinsamlegast bíddu á meðan lykillinn þinn er búinn til. Þetta gæti tekið smá "
+"stund."
 
 #: plugins/openpgp/src/key_management_dialog.vala:393
 #: plugins/openpgp/src/key_management_dialog.vala:459
@@ -256,7 +258,7 @@ msgid ""
 "%s\n"
 "\n"
 "This cannot be undone!"
-msgstr ""
+msgstr "Eyða þessum lykli?\n\n%s\n\nÞessu er ekki hægt að afturkalla!"
 
 #: plugins/openpgp/src/key_management_dialog.vala:510
 msgid "Delete"

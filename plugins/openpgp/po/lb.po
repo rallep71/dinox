@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dino-openpgp-0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-01 15:51+0100\n"
+"POT-Creation-Date: 2025-12-31 14:13+0100\n"
 "PO-Revision-Date: 2018-01-24 12:20+0000\n"
 "Language-Team: Luxembourgish <https://hosted.weblate.org/projects/dino/"
 "plugin-openpgp/lb/>\n"
@@ -13,11 +13,11 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 2.19-dev\n"
 
-#: plugins/openpgp/src/contact_details_provider.vala:36
+#: plugins/openpgp/src/contact_details_provider.vala:38
 msgid "Key not in keychain"
 msgstr "Schlësselen net am Schlësselbond"
 
-#: plugins/openpgp/src/contact_details_provider.vala:40
+#: plugins/openpgp/src/contact_details_provider.vala:42
 #: plugins/openpgp/src/key_management_dialog.vala:220
 msgid "Fingerprint"
 msgstr "Fangerofdrock"
@@ -195,7 +195,8 @@ msgstr "Schlëssel gëtt generéiert..."
 
 #: plugins/openpgp/src/key_management_dialog.vala:341
 msgid "Please wait while your key is being generated. This may take a moment."
-msgstr "W.e.g. waart wärend däi Schlëssel generéiert gëtt. Dat kann e Moment daueren."
+msgstr "W.e.g. waart wärend Äre Schlëssel generéiert gëtt. Dat kann e Moment daueren."
+"W.e.g. waart wärend däi Schlëssel generéiert gëtt. Dat kann e Moment daueren."
 
 #: plugins/openpgp/src/key_management_dialog.vala:393
 #: plugins/openpgp/src/key_management_dialog.vala:459
@@ -226,7 +227,8 @@ msgstr "All Dateien"
 
 #: plugins/openpgp/src/key_management_dialog.vala:459
 msgid "Key imported! Re-open Key Management to see it."
-msgstr "Schlëssel importéiert! Maach d'Schlësselverwaltung nees op fir e ze gesinn."
+msgstr ""
+"Schlëssel importéiert! Maach d'Schlësselverwaltung nees op fir e ze gesinn."
 
 #: plugins/openpgp/src/key_management_dialog.vala:461
 msgid "Import failed: "
@@ -252,7 +254,7 @@ msgid ""
 "%s\n"
 "\n"
 "This cannot be undone!"
-msgstr ""
+msgstr "Dëse Schlëssel läschen?\n\n%s\n\nDat kann net réckgängeg gemaach ginn!"
 
 #: plugins/openpgp/src/key_management_dialog.vala:510
 msgid "Delete"

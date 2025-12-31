@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-01 15:51+0100\n"
+"POT-Creation-Date: 2025-12-31 14:13+0100\n"
 "PO-Revision-Date: 2024-07-04 00:09+0000\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/dino/plugin-"
 "openpgp/pl/>\n"
@@ -19,11 +19,11 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Weblate 5.7-dev\n"
 
-#: plugins/openpgp/src/contact_details_provider.vala:36
+#: plugins/openpgp/src/contact_details_provider.vala:38
 msgid "Key not in keychain"
 msgstr "Klucz nie znajduje się w pęku kluczy"
 
-#: plugins/openpgp/src/contact_details_provider.vala:40
+#: plugins/openpgp/src/contact_details_provider.vala:42
 #: plugins/openpgp/src/key_management_dialog.vala:220
 msgid "Fingerprint"
 msgstr "Odcisk palca"
@@ -232,7 +232,8 @@ msgstr "Wszystkie pliki"
 
 #: plugins/openpgp/src/key_management_dialog.vala:459
 msgid "Key imported! Re-open Key Management to see it."
-msgstr "Klucz zaimportowany! Otwórz ponownie zarządzanie kluczami, aby go zobaczyć."
+msgstr ""
+"Klucz zaimportowany! Otwórz ponownie zarządzanie kluczami, aby go zobaczyć."
 
 #: plugins/openpgp/src/key_management_dialog.vala:461
 msgid "Import failed: "
@@ -258,7 +259,7 @@ msgid ""
 "%s\n"
 "\n"
 "This cannot be undone!"
-msgstr ""
+msgstr "Usunąć ten klucz?\n\n%s\n\nTego nie można cofnąć!"
 
 #: plugins/openpgp/src/key_management_dialog.vala:510
 msgid "Delete"
