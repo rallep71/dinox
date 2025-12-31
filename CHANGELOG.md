@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.9.0.0] - 2025-12-31
+
+### Fixed
+- **UI/Layout**
+  - Fixed responsive layout for video player in chat (now scales correctly on smaller screens).
+  - Fixed responsive layout for map previews (OSM) in chat (prevented full-width stretching).
+  - Adjusted audio player layout for better responsiveness.
+- **Translations**
+  - Fixed syntax errors in translation files (PO) that caused build failures.
+  - Updated and corrected fuzzy translations across multiple languages.
+
 ## [0.8.6.15] - 2025-12-31
 
 ### Added
