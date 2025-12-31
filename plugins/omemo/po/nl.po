@@ -258,7 +258,7 @@ msgid "Encryption keys for room members"
 msgstr "Versleutelingssleutels voor leden van de ruimte"
 
 #: plugins/omemo/src/ui/contact_details_provider.vala:76
-, c-format
+#, c-format
 msgid "%d device"
 msgid_plural "%d devices"
 msgstr[0] "%d OMEMO-apparaat"
