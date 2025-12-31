@@ -118,7 +118,7 @@ If you are building from source using distro packages, ensure you are on a suffi
 
 ## XEP Support
 
-DinoX implements **~70 XMPP Extension Protocols**. Here are the key ones with full UI support:
+DinoX implements **77 XMPP Extension Protocols**. Here are the key ones with full UI support:
 
 ### Messaging
 | XEP | Name | Status |
