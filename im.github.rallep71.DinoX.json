@@ -229,8 +229,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://freedesktop.org/software/pulseaudio/webrtc-audio-processing/webrtc-audio-processing-2.1.tar.xz",
-                    "sha256": "ae9302824b2038d394f10213cab05312c564a038434269f11dbf68f511f9f9fe"
+                    "url": "https://gitlab.freedesktop.org/pulseaudio/webrtc-audio-processing/-/archive/v2.1/webrtc-audio-processing-v2.1.tar.gz",
+                    "sha256": "2358883a8551711f3b6169f6799c003dc1a6efd37bdb24a135a015cc9e3d7713"
                 }
             ]
         },
