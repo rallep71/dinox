@@ -266,6 +266,26 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
         var stream = model.stream_interactor.get_stream(account);
         if (stream == null) return;
 
+        // Try VCard4 (XEP-0292) first
+        var vcard4_module = stream.get_module(Xmpp.Xep.VCard4.Module.IDENTITY);
+        if (vcard4_module != null) {
+            var vcard4 = yield vcard4_module.request(stream, account.bare_jid);
+            if (vcard4 != null) {
+                vcard_fn.text = vcard4.full_name ?? "";
+                vcard_nickname.text = vcard4.nickname ?? "";
+                vcard_email.text = vcard4.email ?? "";
+                vcard_phone.text = vcard4.tel ?? "";
+                vcard_title.text = vcard4.title ?? "";
+                vcard_role.text = vcard4.role ?? "";
+                vcard_org.text = vcard4.org ?? "";
+                vcard_url.text = vcard4.url ?? "";
+                vcard_desc.text = vcard4.note ?? "";
+                save_vcard_button.sensitive = true;
+                return;
+            }
+        }
+
+        // Fallback to VCard-temp (XEP-0054)
         var vcard = yield Xmpp.Xep.VCard.fetch_vcard(stream);
         if (vcard != null) {
             vcard_fn.text = vcard.full_name ?? "";
@@ -286,6 +306,24 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
         var stream = model.stream_interactor.get_stream(account);
         if (stream == null) return;
 
+        // Save VCard4 (XEP-0292)
+        var vcard4_module = stream.get_module(Xmpp.Xep.VCard4.Module.IDENTITY);
+        if (vcard4_module != null) {
+            var vcard4 = new Xmpp.Xep.VCard4.VCard4.create();
+            vcard4.full_name = vcard_fn.text;
+            vcard4.nickname = vcard_nickname.text;
+            vcard4.email = vcard_email.text;
+            vcard4.tel = vcard_phone.text;
+            vcard4.title = vcard_title.text;
+            vcard4.role = vcard_role.text;
+            vcard4.org = vcard_org.text;
+            vcard4.url = vcard_url.text;
+            vcard4.note = vcard_desc.text;
+            
+            yield vcard4_module.publish(stream, vcard4);
+        }
+
+        // Save VCard-temp (XEP-0054)
         var vcard = new Xmpp.Xep.VCard.VCardInfo();
         vcard.full_name = vcard_fn.text;
         vcard.nickname = vcard_nickname.text;

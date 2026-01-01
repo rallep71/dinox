@@ -104,6 +104,7 @@ sources = files(
     'src/module/xep/0264_jingle_content_thumbnails.vala',
     'src/module/xep/0272_muji.vala',
     'src/module/xep/0280_message_carbons.vala',
+    'src/module/xep/0292_vcard4/module.vala',
     'src/module/xep/0297_stanza_forwarding.vala',
     'src/module/xep/0298_coin.vala',
     'src/module/xep/0300_cryptographic_hashes.vala',
@@ -159,6 +160,7 @@ test_sources = [
     'tests/stanza.vala',
     'tests/color.vala',
     'tests/util.vala',
+    'tests/vcard4.vala',
 ]
 exe_xmpp_vala_test = executable('xmpp-vala-test', test_sources, c_args: c_args, vala_args: vala_args, dependencies: dependencies + dep_xmpp_vala, install: false)
 test('Tests for xmpp-vala', exe_xmpp_vala_test)

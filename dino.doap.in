@@ -97,8 +97,7 @@
     <implements>
       <xmpp:SupportedXep>
         <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0054.html" />
-        <xmpp:status>partial</xmpp:status>
-        <xmpp:note>Only for viewing avatars</xmpp:note>
+        <xmpp:status>complete</xmpp:status>
         <xmpp:since>0.1</xmpp:since>
       </xmpp:SupportedXep>
     </implements>
@@ -328,6 +327,14 @@
         <xmpp:status>complete</xmpp:status>
         <xmpp:version>1.0.1</xmpp:version>
         <xmpp:since>0.1</xmpp:since>
+      </xmpp:SupportedXep>
+    </implements>
+    <implements>
+      <xmpp:SupportedXep>
+        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0292.html" />
+        <xmpp:status>partial</xmpp:status>
+        <xmpp:version>1.0</xmpp:version>
+        <xmpp:since>0.9.0.0</xmpp:since>
       </xmpp:SupportedXep>
     </implements>
     <implements>
