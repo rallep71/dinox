@@ -165,10 +165,9 @@ namespace Dino.Ui.ConversationDetails {
     }
 
     public void set_about_rows(Model.ConversationDetails model, ViewModel.ConversationDetails view_model, StreamInteractor stream_interactor, Gtk.Widget? parent) {
-        var xmpp_addr_row = new ViewModel.PreferencesRow.Text() {
-            title = _("XMPP Address"),
-            text = model.conversation.counterpart.to_string()
-        };
+        var xmpp_addr_row = new ViewModel.PreferencesRow.Text();
+        xmpp_addr_row.title = _("XMPP Address");
+        xmpp_addr_row.text = model.conversation.counterpart.to_string();
         view_model.about_rows.append(xmpp_addr_row);
 
         // Check if this is a MUC occupant and show Role/Affiliation
@@ -179,27 +178,24 @@ namespace Dino.Ui.ConversationDetails {
             var affiliation = muc_module.get_affiliation(room_jid, model.conversation.counterpart, model.conversation.account);
             
             if (role != null) {
-                var role_row = new ViewModel.PreferencesRow.Text() {
-                    title = _("Role"),
-                    text = role.to_string()
-                };
+                var role_row = new ViewModel.PreferencesRow.Text();
+                role_row.title = _("Role");
+                role_row.text = role.to_string();
                 view_model.about_rows.append(role_row);
             }
             if (affiliation != null && affiliation != Xmpp.Xep.Muc.Affiliation.NONE) {
-                var affiliation_row = new ViewModel.PreferencesRow.Text() {
-                    title = _("Affiliation"),
-                    text = affiliation.to_string()
-                };
+                var affiliation_row = new ViewModel.PreferencesRow.Text();
+                affiliation_row.title = _("Affiliation");
+                affiliation_row.text = affiliation.to_string();
                 view_model.about_rows.append(affiliation_row);
             }
             
             // Try to show Real JID if available and different from counterpart
             var real_jid = muc_module.get_real_jid(model.conversation.counterpart, model.conversation.account);
             if (real_jid != null && !real_jid.equals(model.conversation.counterpart)) {
-                var real_jid_row = new ViewModel.PreferencesRow.Text() {
-                    title = _("Real JID"),
-                    text = real_jid.to_string()
-                };
+                var real_jid_row = new ViewModel.PreferencesRow.Text();
+                real_jid_row.title = _("Real JID");
+                real_jid_row.text = real_jid.to_string();
                 view_model.about_rows.append(real_jid_row);
             }
         }
