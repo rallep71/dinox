@@ -10,6 +10,7 @@
 using Gtk;
 using Gee;
 using Dbusmenu;
+using GLib;
 
 namespace Dino.Ui {
 
@@ -79,6 +80,7 @@ public class SystrayManager : Object {
     private DBusConnection? connection;
     private Dbusmenu.Menuitem[] status_items;
     private ulong status_changed_id = 0;
+    private uint watcher_id = 0;
     
     public bool is_hidden = false;
     
@@ -194,11 +196,21 @@ public class SystrayManager : Object {
             
             debug("Systray: StatusNotifierItem registered on D-Bus");
             
-            yield register_with_watcher();
+            start_watching();
             
         } catch (Error e) {
             warning("Systray: Failed to initialize D-Bus: %s", e.message);
         }
+    }
+    
+    private void start_watching() {
+        // Watch for KDE/Freedesktop StatusNotifierWatcher
+        watcher_id = Bus.watch_name(BusType.SESSION, "org.kde.StatusNotifierWatcher", BusNameWatcherFlags.NONE, (conn, name, owner) => {
+            debug("Systray: StatusNotifierWatcher appeared owned by %s", owner);
+            register_with_watcher.begin();
+        }, (conn, name) => {
+            debug("Systray: StatusNotifierWatcher vanished");
+        });
     }
     
     private async void register_with_watcher() {
@@ -295,6 +307,11 @@ public class SystrayManager : Object {
             return;
         }
         disposed = true;
+        
+        if (watcher_id != 0) {
+            Bus.unwatch_name(watcher_id);
+            watcher_id = 0;
+        }
         
         if (status_changed_id != 0) {
             var pm = application.stream_interactor.get_module(PresenceManager.IDENTITY);

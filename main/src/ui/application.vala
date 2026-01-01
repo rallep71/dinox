@@ -591,7 +591,13 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         add_action(about_action);
 
         SimpleAction quit_action = new SimpleAction("quit", null);
-        quit_action.activate.connect(quit);
+        quit_action.activate.connect(() => {
+            if (systray_manager != null) {
+                systray_manager.quit_application();
+            } else {
+                quit();
+            }
+        });
         add_action(quit_action);
         set_accels_for_action("app.quit", KEY_COMBINATION_QUIT);
         

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-31 14:00+0100\n"
+"POT-Creation-Date: 2026-01-01 18:06+0100\n"
 "PO-Revision-Date: 2023-10-04 02:12+0000\n"
 "Language-Team: none\n"
 "Language: si\n"
@@ -81,7 +81,7 @@ msgid "Remove Contact"
 msgstr "සම්බන්ධතාවය ඉවත් කරන්න"
 
 #: main/data/conversation_details.ui:192
-#: main/src/windows/conversation_details.vala:238
+#: main/src/windows/conversation_details.vala:239
 msgid "About"
 msgstr "පිළිබඳව"
 
@@ -90,13 +90,13 @@ msgid "Private room (supports group calls)"
 msgstr "පෞද්ගලික කාමරය (සමූහ ඇමතුම් සහාය)"
 
 #: main/data/conversation_row.ui:135
-#: main/src/windows/conversation_details.vala:180
 #: main/src/windows/conversation_details.vala:181
+#: main/src/windows/conversation_details.vala:182
 msgid "Muted"
 msgstr "නිශ්ශබ්ද කළ"
 
 #: main/data/conversation_row.ui:146
-#: main/src/windows/conversation_details.vala:145
+#: main/src/windows/conversation_details.vala:146
 msgid "Blocked"
 msgstr "අවහිර කළ"
 
@@ -243,7 +243,7 @@ msgstr "සංවාද ඉතිහාසය මකන්න"
 #: main/src/ui/conversation_content_view/file_default_widget.vala:90
 #: main/src/ui/conversation_content_view/item_actions.vala:165
 #: main/src/ui/conversation_content_view/item_actions.vala:168
-#: main/src/ui/conversation_details.vala:253
+#: main/src/ui/conversation_details.vala:283
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:641
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:668
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:687
@@ -254,7 +254,7 @@ msgstr "සංවාද ඉතිහාසය මකන්න"
 #: main/src/ui/conversation_titlebar/call_entry.vala:83
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
 #: main/src/windows/conversation_details.vala:60
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:68
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:90
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:199
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:219
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:243
@@ -269,7 +269,7 @@ msgid "Update message"
 msgstr "පණිවිඩය යාවත්කාල කරන්න"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:68
-#: main/src/ui/conversation_details.vala:170
+#: main/src/ui/conversation_details.vala:169
 msgid "XMPP Address"
 msgstr "XMPP ලිපිනය"
 
@@ -291,20 +291,161 @@ msgstr "සම්බන්ධතා තත්ත්වය"
 msgid "View Certificate"
 msgstr "සහතිකය බලන්න"
 
-# Custom host/port feature (Issue #115)
 #: main/data/preferences_window/account_preferences_subpage.ui:128
+msgid "Public Profile"
+msgstr "පොදු පැතිකඩ"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:131
+msgid "Public Access"
+msgstr "පොදු ප්‍රවේශය"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:132
+msgid "Allow anyone to see your profile"
+msgstr "ඕනෑම කෙනෙකුට ඔබගේ පැතිකඩ බැලීමට ඉඩ දෙන්න"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:137
+msgid "Share with Contacts"
+msgstr "සම්බන්ධතා සමඟ බෙදා ගන්න"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:138
+msgid "Allow contacts to see your profile"
+msgstr "සම්බන්ධතා වලට ඔබගේ පැතිකඩ බැලීමට ඉඩ දෙන්න"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:143
+#: main/src/ui/conversation_details.vala:561
+msgid "Full Name"
+msgstr "සම්පූර්ණ නම"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:148
+#: main/src/ui/conversation_details.vala:562
+msgid "Nickname"
+msgstr "අන්වර්ථ නාමය"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:153
+#: main/src/ui/conversation_details.vala:575
+msgid "Gender"
+msgstr "ස්ත්‍රී පුරුෂ භාවය"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:157
+#: main/src/ui/conversation_details.vala:573
+msgid "Unknown"
+msgstr "නොදනී"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:158
+#: main/src/ui/conversation_details.vala:569
+msgid "Male"
+msgstr "පුරුෂ"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:159
+#: main/src/ui/conversation_details.vala:570
+msgid "Female"
+msgstr "ස්ත්‍රී"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:160
+#: main/src/ui/conversation_details.vala:571
+msgid "Other"
+msgstr "වෙනත්"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:161
+#: main/src/ui/chat_input/sticker_chooser.vala:397
+#: main/src/ui/chat_input/sticker_chooser.vala:459
+#: main/src/ui/chat_input/sticker_chooser.vala:464
+#: main/src/ui/conversation_details.vala:572
+msgid "None"
+msgstr "කිසිවක් නැත"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:169
+#: main/src/ui/conversation_details.vala:578
+msgid "Birthday"
+msgstr "උපන් දිනය"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:174
+#: main/src/ui/conversation_details.vala:580
+msgid "Address"
+msgstr "ලිපිනය"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:177
+msgid "Street"
+msgstr ""
+
+#: main/data/preferences_window/account_preferences_subpage.ui:182
+msgid "Postal Code"
+msgstr ""
+
+#: main/data/preferences_window/account_preferences_subpage.ui:187
+msgid "City"
+msgstr ""
+
+#: main/data/preferences_window/account_preferences_subpage.ui:192
+#, fuzzy
+msgid "Region"
+msgstr "%s හි ලියාපදිංචි වන්න"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:197
+msgid "Country"
+msgstr ""
+
+#: main/data/preferences_window/account_preferences_subpage.ui:204
+#: main/src/ui/conversation_details.vala:582
+msgid "Email"
+msgstr "විද්‍යුත් තැපෑල"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:209
+#: main/src/ui/conversation_details.vala:584
+msgid "IM Address"
+msgstr "IM ලිපිනය"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:214
+msgid "Phone Number"
+msgstr "දුරකථන අංකය"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:219
+#: main/src/ui/conversation_details.vala:588
+msgid "Organization"
+msgstr "සංවිධානය"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:224
+msgid "Job Title"
+msgstr "රැකියා තනතුර"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:229
+#: main/src/ui/conversation_details.vala:182
+#: main/src/ui/conversation_details.vala:592
+msgid "Role"
+msgstr "කාර්යභාරය"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:234
+#: main/src/ui/conversation_details.vala:594
+msgid "Timezone"
+msgstr "වේලා කලාපය"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:239
+msgid "Website"
+msgstr "වෙබ් අඩවිය"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:244
+#: main/src/ui/util/data_forms.vala:44
+msgid "Description"
+msgstr "විස්තරය"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:249
+msgid "Save Profile"
+msgstr "පැතිකඩ සුරකින්න"
+
+# Custom host/port feature (Issue #115)
+#: main/data/preferences_window/account_preferences_subpage.ui:261
 msgid "Advanced Settings"
 msgstr "උසස් සැකසුම්"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:129
+#: main/data/preferences_window/account_preferences_subpage.ui:262
 msgid "Custom server connection (leave empty for automatic)"
 msgstr "අභිරුචි සේවාදායක සම්බන්ධතාවය (ස්වයංක්‍රීය සඳහා හිස්ව තබන්න)"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:132
+#: main/data/preferences_window/account_preferences_subpage.ui:265
 msgid "Server Hostname"
 msgstr "සේවාදායක ධාරක නාමය"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:137
+#: main/data/preferences_window/account_preferences_subpage.ui:270
 msgid "Port"
 msgstr "පෝට්ටුව"
 
@@ -468,7 +609,7 @@ msgid "Contacts"
 msgstr "සම්බන්ධතා"
 
 #: main/data/preferences_window/preferences_dialog.ui:25
-#: main/src/windows/conversation_details.vala:288
+#: main/src/windows/conversation_details.vala:292
 msgid "Encryption"
 msgstr "සංකේතනය"
 
@@ -601,7 +742,9 @@ msgstr "මුරපදය සකසන්න"
 msgid ""
 "Bei der ersten Nutzung musst du ein Passwort setzen. Ohne Passwort kann "
 "DinoX die verschlüsselte Datenbank nicht öffnen."
-msgstr "පළමු භාවිතයේදී ඔබ මුරපදයක් සැකසිය යුතුය. මුරපදයක් නොමැතිව DinoX හට සංකේතනය කළ දත්ත ගබඩාව විවෘත කළ නොහැක."
+msgstr ""
+"පළමු භාවිතයේදී ඔබ මුරපදයක් සැකසිය යුතුය. මුරපදයක් නොමැතිව DinoX හට සංකේතනය කළ දත්ත ගබඩාව "
+"විවෘත කළ නොහැක."
 
 #: main/src/ui/application.vala:373
 #, c-format
@@ -758,6 +901,7 @@ msgstr ""
 "මුරපදය නිවැරදිදැයි පරීක්ෂා කරන්න."
 
 #: main/src/ui/application.vala:1112 main/src/ui/application.vala:1222
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:430
 msgid "OK"
 msgstr "OK"
 
@@ -803,9 +947,9 @@ msgstr ""
 #: main/src/ui/application.vala:1303 main/src/ui/application.vala:1791
 #: main/src/ui/application.vala:1875
 #: main/src/ui/chat_input/sticker_chooser.vala:181
-#: main/src/ui/conversation_details.vala:276
+#: main/src/ui/conversation_details.vala:306
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:566
-#: main/src/ui/conversation_view_controller.vala:333
+#: main/src/ui/conversation_view_controller.vala:340
 #: main/src/ui/main_window.vala:172
 msgid "Close"
 msgstr "වසන්න"
@@ -1051,7 +1195,7 @@ msgstr "ඇමතුමට ආරාධනා කරන්න"
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:780
 #: main/src/ui/conversation_titlebar/menu_entry.vala:99
 #: main/src/ui/occupant_menu/view.vala:27
-#: main/src/ui/occupant_menu/view.vala:275
+#: main/src/ui/occupant_menu/view.vala:283
 msgid "Invite"
 msgstr "ආරාධනා කරන්න"
 
@@ -1088,7 +1232,7 @@ msgid "Ringing…"
 msgstr "නාදවෙමින්…"
 
 #: main/src/ui/call_window/participant_widget.vala:153
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:244
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:532
 msgid "Connecting…"
 msgstr "සම්බන්ධවෙමින්…"
 
@@ -1120,12 +1264,6 @@ msgstr "ස්ටිකර් පැකේජ කළමනාකරණය"
 #: main/src/ui/chat_input/sticker_chooser.vala:390
 msgid "Stickers are unavailable"
 msgstr "ස්ටිකර් ලබා ගත නොහැක"
-
-#: main/src/ui/chat_input/sticker_chooser.vala:397
-#: main/src/ui/chat_input/sticker_chooser.vala:459
-#: main/src/ui/chat_input/sticker_chooser.vala:464
-msgid "None"
-msgstr "කිසිවක් නැත"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:412
 msgid "No sticker packs yet."
@@ -1520,37 +1658,46 @@ msgstr "මෙම සම්බන්ධතාවය ඔවුන්ගේ සම
 msgid "New"
 msgstr "අලුත්"
 
-#: main/src/ui/conversation_details.vala:175
+#: main/src/ui/conversation_details.vala:188
+#, fuzzy
+msgid "Affiliation"
+msgstr "සම්බන්ධතා කළමනාකරණය"
+
+#: main/src/ui/conversation_details.vala:197
+msgid "Real JID"
+msgstr "සැබෑ JID"
+
+#: main/src/ui/conversation_details.vala:205
 #: main/src/ui/util/data_forms.vala:40
 msgid "Display name"
 msgstr "සංදර්ශක නම"
 
-#: main/src/ui/conversation_details.vala:195
-#: main/src/ui/conversation_details.vala:209
+#: main/src/ui/conversation_details.vala:225
+#: main/src/ui/conversation_details.vala:239
 msgid "Topic"
 msgstr "මාතෘකාව"
 
-#: main/src/ui/conversation_details.vala:222
+#: main/src/ui/conversation_details.vala:252
 msgid "Permissions"
 msgstr "අවසර"
 
-#: main/src/ui/conversation_details.vala:223
+#: main/src/ui/conversation_details.vala:253
 msgid "Manage Affiliations"
 msgstr "සම්බන්ධතා කළමනාකරණය"
 
-#: main/src/ui/conversation_details.vala:243
+#: main/src/ui/conversation_details.vala:273
 msgid "Danger Zone"
 msgstr "අනතුරුදායක කලාපය"
 
-#: main/src/ui/conversation_details.vala:244
+#: main/src/ui/conversation_details.vala:274
 msgid "Destroy Room"
 msgstr "කාමරය විනාශ කරන්න"
 
-#: main/src/ui/conversation_details.vala:250
+#: main/src/ui/conversation_details.vala:280
 msgid "Destroy Room?"
 msgstr "කාමරය විනාශ කරන්නද?"
 
-#: main/src/ui/conversation_details.vala:251
+#: main/src/ui/conversation_details.vala:281
 msgid ""
 "Are you sure you want to permanently destroy this room? This action cannot "
 "be undone and all history will be lost for all participants."
@@ -1558,45 +1705,61 @@ msgstr ""
 "ඔබට මෙම කාමරය ස්ථිරවම විනාශ කිරීමට අවශ්‍ය බව විශ්වාසද? මෙම ක්‍රියාව අහෝසි කළ නොහැකි අතර "
 "සියලු සහභාගිවන්නන්ට සියලු ඉතිහාසය අහිමි වේ."
 
-#: main/src/ui/conversation_details.vala:254
+#: main/src/ui/conversation_details.vala:284
 msgid "Destroy"
 msgstr "විනාශ කරන්න"
 
-#: main/src/ui/conversation_details.vala:275
+#: main/src/ui/conversation_details.vala:305
 msgid "Failed to destroy room"
 msgstr "කාමරය විනාශ කිරීමට අසමත් විය"
 
-#: main/src/ui/conversation_details.vala:290
+#: main/src/ui/conversation_details.vala:320
 msgid "Auto-delete messages"
 msgstr "පණිවිඩ ස්වයංක්‍රීයව මකන්න"
 
-#: main/src/ui/conversation_details.vala:291
+#: main/src/ui/conversation_details.vala:321
 msgid "Never"
 msgstr "කවදාවත් නැහැ"
 
-#: main/src/ui/conversation_details.vala:292
+#: main/src/ui/conversation_details.vala:322
 msgid "After 15 minutes"
 msgstr "විනාඩි 15 කට පසු"
 
-#: main/src/ui/conversation_details.vala:293
+#: main/src/ui/conversation_details.vala:323
 msgid "After 30 minutes"
 msgstr "විනාඩි 30 කට පසු"
 
-#: main/src/ui/conversation_details.vala:294
+#: main/src/ui/conversation_details.vala:324
 msgid "After 1 hour"
 msgstr "පැය 1 කට පසු"
 
-#: main/src/ui/conversation_details.vala:295
+#: main/src/ui/conversation_details.vala:325
 msgid "After 24 hours"
 msgstr "පැය 24 කට පසු"
 
-#: main/src/ui/conversation_details.vala:296
+#: main/src/ui/conversation_details.vala:326
 msgid "After 7 days"
 msgstr "දින 7 කට පසු"
 
-#: main/src/ui/conversation_details.vala:297
+#: main/src/ui/conversation_details.vala:327
 msgid "After 30 days"
 msgstr "දින 30 කට පසු"
+
+#: main/src/ui/conversation_details.vala:586
+msgid "Phone"
+msgstr "දුරකථනය"
+
+#: main/src/ui/conversation_details.vala:590
+msgid "Title"
+msgstr "තනතුර"
+
+#: main/src/ui/conversation_details.vala:596
+msgid "URL"
+msgstr "URL"
+
+#: main/src/ui/conversation_details.vala:598
+msgid "Note"
+msgstr "සටහන"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:276
 #: main/src/ui/notifier_freedesktop.vala:71
@@ -1664,22 +1827,22 @@ msgstr "සම්බන්ධතාවය ආරාධනා කරන්න"
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:511
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:559
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:669
-#: main/src/ui/occupant_menu/view.vala:173
+#: main/src/ui/occupant_menu/view.vala:181
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:134
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:200
 msgid "Unmute"
-msgstr "නිශ්ශබ්දතාව ඉවත් කරන්න"
+msgstr "හඬ අවදි කරන්න"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:511
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:559
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:688
-#: main/src/ui/occupant_menu/view.vala:177
-#: main/src/windows/conversation_details.vala:172
+#: main/src/ui/occupant_menu/view.vala:185
 #: main/src/windows/conversation_details.vala:173
+#: main/src/windows/conversation_details.vala:174
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:134
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:220
 msgid "Mute"
-msgstr "නිහඬ"
+msgstr "නිහඬ කරන්න"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:514
 msgid "Leave and Close"
@@ -1693,14 +1856,14 @@ msgstr "අන්වර්ථ නාමය සංස්කරණය කරන්
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:563
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:713
-#: main/src/windows/conversation_details.vala:117
+#: main/src/windows/conversation_details.vala:118
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:244
 msgid "Unblock"
 msgstr "අවහිර කිරීම ඉවත් කරන්න"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:563
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:732
-#: main/src/windows/conversation_details.vala:153
+#: main/src/windows/conversation_details.vala:154
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:264
 msgid "Block"
 msgstr "අවහිර කරන්න"
@@ -1834,20 +1997,20 @@ msgid "Close Conversation"
 msgstr "සංවාදය වසන්න"
 
 #: main/src/ui/conversation_titlebar/occupants_entry.vala:14
-#: main/src/windows/conversation_details.vala:298
+#: main/src/windows/conversation_details.vala:302
 msgid "Members"
 msgstr "සාමාජිකයන්"
 
-#: main/src/ui/conversation_view_controller.vala:249
+#: main/src/ui/conversation_view_controller.vala:256
 msgid "Select file"
 msgstr "ගොනුව තෝරන්න"
 
-#: main/src/ui/conversation_view_controller.vala:250
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:180
+#: main/src/ui/conversation_view_controller.vala:257
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:215
 msgid "Select"
 msgstr "තෝරන්න"
 
-#: main/src/ui/conversation_view_controller.vala:332
+#: main/src/ui/conversation_view_controller.vala:339
 msgid "Failed to get location"
 msgstr "ස්ථානය ලබා ගැනීම අසාර්ථක විය"
 
@@ -1911,12 +2074,12 @@ msgid "Subscription request"
 msgstr "දායකත්ව ඉල්ලීම"
 
 #: main/src/ui/notifier_freedesktop.vala:194
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:259
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:547
 msgid "Wrong password"
 msgstr "මුරපදය වැරදියි"
 
 #: main/src/ui/notifier_freedesktop.vala:197
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:261
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:549
 msgid "Invalid TLS certificate"
 msgstr "අවලංගු TLS සහතිකය"
 
@@ -1944,17 +2107,17 @@ msgid "%s requests the permission to write in %s"
 msgstr "%s %s හි ලිවීමට අවසර ඉල්ලයි"
 
 #: main/src/ui/occupant_menu/list.vala:118
-#: main/src/view_model/conversation_details.vala:134
+#: main/src/view_model/conversation_details.vala:139
 msgid "Owner"
 msgstr "හිමිකරු"
 
 #: main/src/ui/occupant_menu/list.vala:120
-#: main/src/view_model/conversation_details.vala:135
+#: main/src/view_model/conversation_details.vala:140
 msgid "Admin"
 msgstr "පරිපාලක"
 
 #: main/src/ui/occupant_menu/list.vala:122
-#: main/src/view_model/conversation_details.vala:136
+#: main/src/view_model/conversation_details.vala:141
 msgid "Member"
 msgstr "සාමාජික"
 
@@ -1962,73 +2125,73 @@ msgstr "සාමාජික"
 msgid "User"
 msgstr "පරිශීලක"
 
-#: main/src/ui/occupant_menu/view.vala:89
+#: main/src/ui/occupant_menu/view.vala:100
 msgid "Start private conversation"
 msgstr "පෞද්ගලික සංවාදයක් අරඹන්න"
 
-#: main/src/ui/occupant_menu/view.vala:125
+#: main/src/ui/occupant_menu/view.vala:135
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:151
 msgid "Unblock Contact"
 msgstr "සම්බන්ධතාවයේ අවහිර කිරීම ඉවත් කරන්න"
 
-#: main/src/ui/occupant_menu/view.vala:127
+#: main/src/ui/occupant_menu/view.vala:137
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:151
 msgid "Block Contact"
 msgstr "සම්බන්ධතාවය අවහිර කරන්න"
 
-#: main/src/ui/occupant_menu/view.vala:133
+#: main/src/ui/occupant_menu/view.vala:143
 msgid "Moderation"
 msgstr "මධ්‍යස්ථභාවය"
 
-#: main/src/ui/occupant_menu/view.vala:135
+#: main/src/ui/occupant_menu/view.vala:145
 msgid "Kick"
 msgstr "ඉවත් කරන්න"
 
-#: main/src/ui/occupant_menu/view.vala:139
+#: main/src/ui/occupant_menu/view.vala:149
 msgid "Ban (Permanent)"
-msgstr "තහනම් කරන්න (ස්ථිර)"
+msgstr "තහනම් (ස්ථිර)"
 
-#: main/src/ui/occupant_menu/view.vala:140
+#: main/src/ui/occupant_menu/view.vala:150
 msgid "Ban (10 min)"
-msgstr "තහනම් කරන්න (මිනිත්තු 10)"
+msgstr "තහනම් (විනාඩි 10)"
 
-#: main/src/ui/occupant_menu/view.vala:141
+#: main/src/ui/occupant_menu/view.vala:151
 msgid "Ban (15 min)"
-msgstr "තහනම් කරන්න (මිනිත්තු 15)"
+msgstr "තහනම් (විනාඩි 15)"
 
-#: main/src/ui/occupant_menu/view.vala:142
+#: main/src/ui/occupant_menu/view.vala:152
 msgid "Ban (30 min)"
-msgstr "තහනම් කරන්න (මිනිත්තු 30)"
+msgstr "තහනම් (විනාඩි 30)"
 
-#: main/src/ui/occupant_menu/view.vala:146
+#: main/src/ui/occupant_menu/view.vala:156
 msgid "Administration"
 msgstr "පරිපාලනය"
 
-#: main/src/ui/occupant_menu/view.vala:150
+#: main/src/ui/occupant_menu/view.vala:160
 msgid "Make Admin"
 msgstr "පරිපාලක කරන්න"
 
-#: main/src/ui/occupant_menu/view.vala:152
+#: main/src/ui/occupant_menu/view.vala:162
 msgid "Revoke Admin"
-msgstr "පරිපාලක අවලංගු කරන්න"
+msgstr "පරිපාලක ඉවත් කරන්න"
 
-#: main/src/ui/occupant_menu/view.vala:156
+#: main/src/ui/occupant_menu/view.vala:166
 msgid "Make Owner"
 msgstr "හිමිකරු කරන්න"
 
-#: main/src/ui/occupant_menu/view.vala:161
+#: main/src/ui/occupant_menu/view.vala:171
 msgid "Make Member"
 msgstr "සාමාජික කරන්න"
 
-#: main/src/ui/occupant_menu/view.vala:163
+#: main/src/ui/occupant_menu/view.vala:173
 msgid "Revoke Membership"
-msgstr "සාමාජිකත්වය අවලංගු කරන්න"
+msgstr "සාමාජිකත්වය ඉවත් කරන්න"
 
-#: main/src/ui/occupant_menu/view.vala:228
+#: main/src/ui/occupant_menu/view.vala:236
 msgid "Kicked by moderator"
-msgstr "මධ්‍යස්ථයා විසින් ඉවත් කරන ලදී"
+msgstr "පරිපාලක විසින් ඉවත් කරන ලදී"
 
-#: main/src/ui/occupant_menu/view.vala:274
+#: main/src/ui/occupant_menu/view.vala:282
 msgid "Invite to Conference"
 msgstr "සම්මන්ත්‍රණයට ආරාධනා කරන්න"
 
@@ -2074,10 +2237,6 @@ msgstr ""
 "කාමර ලැයිස්තුවල පෙන්වන මිත්‍රශීලී නාමයක් (කාමර ලිපිනය වෙනස් නොකරයි)කාමර ලැයිස්තුවල පෙන්වන "
 "මිත්‍රශීලී නමක් (කාමර ලිපිනය වෙනස් නොකරයි)කාමර ලැයිස්තුවල පෙන්වන මිත්‍රශීලී නමක් (කාමර ලිපිනය වෙනස් "
 "නොකරයි)"
-
-#: main/src/ui/util/data_forms.vala:44
-msgid "Description"
-msgstr "විස්තරය"
 
 #: main/src/ui/util/data_forms.vala:45
 msgid "A description of the room shown in room listings"
@@ -2155,85 +2314,90 @@ msgstr ""
 "මෙම සම්බන්ධතාවය ඔබේ සම්බන්ධතා ලැයිස්තුවෙන් ඉවත් කෙරෙනු ඇති අතර සියලුම සංවාද ඉතිහාසය ස්ථිරවම "
 "මකා දැමෙනු ඇත."
 
-#: main/src/windows/conversation_details.vala:117
+#: main/src/windows/conversation_details.vala:118
 msgid "Block user"
 msgstr "පරිශීලකයා අවහිර කරන්න"
 
-#: main/src/windows/conversation_details.vala:117
+#: main/src/windows/conversation_details.vala:118
 msgid "Block entire domain"
 msgstr "සම්පූර්ණ වසම අවහිර කරන්න"
 
-#: main/src/windows/conversation_details.vala:134
+#: main/src/windows/conversation_details.vala:135
 msgid "Pinned"
 msgstr "පින් කළා"
 
-#: main/src/windows/conversation_details.vala:134
+#: main/src/windows/conversation_details.vala:135
 msgid "Pin"
 msgstr "පින් කරන්න"
 
-#: main/src/windows/conversation_details.vala:149
+#: main/src/windows/conversation_details.vala:150
 msgid "Domain blocked"
 msgstr "වසම අවහිර කර ඇත"
 
-#: main/src/windows/conversation_details.vala:174
+#: main/src/windows/conversation_details.vala:175
 msgid "Notifications enabled"
 msgstr "දැනුම්දීම් සක්‍රීයයි"
 
-#: main/src/windows/conversation_details.vala:177
+#: main/src/windows/conversation_details.vala:178
 msgid "Notifications for mentions"
 msgstr "සඳහන් කිරීම් සඳහා දැනුම්දීම්"
 
-#: main/src/windows/conversation_details.vala:182
+#: main/src/windows/conversation_details.vala:183
 msgid "Notifications disabled"
 msgstr "දැනුම්දීම් අක්‍රීයයි"
 
-#: main/src/windows/conversation_details.vala:241
+#: main/src/windows/conversation_details.vala:242
+#, fuzzy
+msgid "Profile"
+msgstr "පැතිකඩ සුරකින්න"
+
+#: main/src/windows/conversation_details.vala:245
 msgid "Settings"
 msgstr "සැකසුම්"
 
-#: main/src/windows/conversation_details.vala:270
+#: main/src/windows/conversation_details.vala:274
 msgid "Room Configuration"
 msgstr "කාමර වින්‍යාසය"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:69
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:91
 msgid "Connect"
 msgstr "සම්බන්ධ වන්න"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:146
 msgid "Disable account"
 msgstr "ගිණුම අක්‍රීය කරන්න"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:146
 msgid "Enable account"
 msgstr "ගිණුම සක්‍රීය කරන්න"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:179
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:214
 msgid "Select avatar"
 msgstr "අවතාරය තෝරන්න"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:190
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:225
 msgid "Images"
 msgstr "පින්තූර"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:194
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:229
 msgid "All files"
 msgstr "සියලු ගොනු"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:212
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:247
 #, c-format
 msgid "Remove account %s?"
 msgstr "%s ගිණුම ඉවත් කරන්න ද?"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:246
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:534
 msgid "Connected"
 msgstr "සම්බන්ධ වී ඇත"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:248
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:536
 msgid "Disconnected"
 msgstr "සම්බන්ධ වී නැත"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:268
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:270
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:556
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:558
 msgid "Error"
 msgstr "දෝෂයක්"
 
@@ -2410,9 +2574,6 @@ msgstr "අන්වර්ථ නාමය (විකල්ප)"
 #~ msgid "Name"
 #~ msgstr "Name"
 
-#~ msgid "Email"
-#~ msgstr "Email"
-
 #~ msgid "Passphrase"
 #~ msgstr "Passphrase"
 
@@ -2434,9 +2595,6 @@ msgstr "අන්වර්ථ නාමය (විකල්ප)"
 #~ msgid "Disabled"
 #~ msgstr "Disabled"
 
-#~ msgid "Success"
-#~ msgstr "Success"
-
 #~ msgid "Create a new OpenPGP key pair"
 #~ msgstr "නව OpenPGP යතුරු යුගලයක් සාදන්න"
 
@@ -2457,9 +2615,6 @@ msgstr "අන්වර්ථ නාමය (විකල්ප)"
 
 #~ msgid "Enter your details to create a new key pair."
 #~ msgstr "නව යතුරු යුගලයක් සෑදීමට ඔබේ විස්තර ඇතුළත් කරන්න."
-
-#~ msgid "Your Name"
-#~ msgstr "ඔබේ නම"
 
 #~ msgid "you@example.com"
 #~ msgstr "you@example.com"

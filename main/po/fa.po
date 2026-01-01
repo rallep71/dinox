@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-31 14:00+0100\n"
+"POT-Creation-Date: 2026-01-01 18:06+0100\n"
 "PO-Revision-Date: 2025-07-29 03:02+0000\n"
 "Language-Team: none\n"
 "Language: fa\n"
@@ -80,7 +80,7 @@ msgid "Remove Contact"
 msgstr "حذف مخاطب"
 
 #: main/data/conversation_details.ui:192
-#: main/src/windows/conversation_details.vala:238
+#: main/src/windows/conversation_details.vala:239
 msgid "About"
 msgstr "درباره"
 
@@ -89,13 +89,13 @@ msgid "Private room (supports group calls)"
 msgstr "اتاق خصوصی (پشتیبانی از تماس گروهی)"
 
 #: main/data/conversation_row.ui:135
-#: main/src/windows/conversation_details.vala:180
 #: main/src/windows/conversation_details.vala:181
+#: main/src/windows/conversation_details.vala:182
 msgid "Muted"
 msgstr "بی‌صدا شده"
 
 #: main/data/conversation_row.ui:146
-#: main/src/windows/conversation_details.vala:145
+#: main/src/windows/conversation_details.vala:146
 msgid "Blocked"
 msgstr "مسدود شده"
 
@@ -242,7 +242,7 @@ msgstr "حذف تاریخچه مکالمات"
 #: main/src/ui/conversation_content_view/file_default_widget.vala:90
 #: main/src/ui/conversation_content_view/item_actions.vala:165
 #: main/src/ui/conversation_content_view/item_actions.vala:168
-#: main/src/ui/conversation_details.vala:253
+#: main/src/ui/conversation_details.vala:283
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:641
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:668
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:687
@@ -253,7 +253,7 @@ msgstr "حذف تاریخچه مکالمات"
 #: main/src/ui/conversation_titlebar/call_entry.vala:83
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
 #: main/src/windows/conversation_details.vala:60
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:68
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:90
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:199
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:219
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:243
@@ -268,7 +268,7 @@ msgid "Update message"
 msgstr "به‌روز کردن پیام"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:68
-#: main/src/ui/conversation_details.vala:170
+#: main/src/ui/conversation_details.vala:169
 msgid "XMPP Address"
 msgstr "آدرس XMPP"
 
@@ -290,20 +290,161 @@ msgstr "وضعیت اتصال"
 msgid "View Certificate"
 msgstr "مشاهده گواهی"
 
-# Custom host/port feature (Issue #115)
 #: main/data/preferences_window/account_preferences_subpage.ui:128
+msgid "Public Profile"
+msgstr "نمایه عمومی"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:131
+msgid "Public Access"
+msgstr "دسترسی عمومی"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:132
+msgid "Allow anyone to see your profile"
+msgstr "اجازه به همه برای دیدن پروفایل شما"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:137
+msgid "Share with Contacts"
+msgstr "اشتراک با مخاطبین"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:138
+msgid "Allow contacts to see your profile"
+msgstr "اجازه به مخاطبین برای دیدن پروفایل شما"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:143
+#: main/src/ui/conversation_details.vala:561
+msgid "Full Name"
+msgstr "نام کامل"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:148
+#: main/src/ui/conversation_details.vala:562
+msgid "Nickname"
+msgstr "لقب"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:153
+#: main/src/ui/conversation_details.vala:575
+msgid "Gender"
+msgstr "جنسیت"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:157
+#: main/src/ui/conversation_details.vala:573
+msgid "Unknown"
+msgstr "ناشناخته"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:158
+#: main/src/ui/conversation_details.vala:569
+msgid "Male"
+msgstr "مرد"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:159
+#: main/src/ui/conversation_details.vala:570
+msgid "Female"
+msgstr "زن"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:160
+#: main/src/ui/conversation_details.vala:571
+msgid "Other"
+msgstr "دیگر"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:161
+#: main/src/ui/chat_input/sticker_chooser.vala:397
+#: main/src/ui/chat_input/sticker_chooser.vala:459
+#: main/src/ui/chat_input/sticker_chooser.vala:464
+#: main/src/ui/conversation_details.vala:572
+msgid "None"
+msgstr "هیچ"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:169
+#: main/src/ui/conversation_details.vala:578
+msgid "Birthday"
+msgstr "تاریخ تولد"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:174
+#: main/src/ui/conversation_details.vala:580
+msgid "Address"
+msgstr "آدرس"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:177
+msgid "Street"
+msgstr ""
+
+#: main/data/preferences_window/account_preferences_subpage.ui:182
+msgid "Postal Code"
+msgstr ""
+
+#: main/data/preferences_window/account_preferences_subpage.ui:187
+msgid "City"
+msgstr ""
+
+#: main/data/preferences_window/account_preferences_subpage.ui:192
+#, fuzzy
+msgid "Region"
+msgstr "ثبت نام در %s"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:197
+msgid "Country"
+msgstr ""
+
+#: main/data/preferences_window/account_preferences_subpage.ui:204
+#: main/src/ui/conversation_details.vala:582
+msgid "Email"
+msgstr "ایمیل"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:209
+#: main/src/ui/conversation_details.vala:584
+msgid "IM Address"
+msgstr "آدرس پیام‌رسان"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:214
+msgid "Phone Number"
+msgstr "شماره تلفن"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:219
+#: main/src/ui/conversation_details.vala:588
+msgid "Organization"
+msgstr "سازمان"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:224
+msgid "Job Title"
+msgstr "عنوان شغلی"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:229
+#: main/src/ui/conversation_details.vala:182
+#: main/src/ui/conversation_details.vala:592
+msgid "Role"
+msgstr "نقش"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:234
+#: main/src/ui/conversation_details.vala:594
+msgid "Timezone"
+msgstr "منطقه زمانی"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:239
+msgid "Website"
+msgstr "وب‌سایت"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:244
+#: main/src/ui/util/data_forms.vala:44
+msgid "Description"
+msgstr "توضیحات"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:249
+msgid "Save Profile"
+msgstr "ذخیره نمایه"
+
+# Custom host/port feature (Issue #115)
+#: main/data/preferences_window/account_preferences_subpage.ui:261
 msgid "Advanced Settings"
 msgstr "تنظیمات پیشرفته"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:129
+#: main/data/preferences_window/account_preferences_subpage.ui:262
 msgid "Custom server connection (leave empty for automatic)"
 msgstr "اتصال سرور سفارشی (برای خودکار خالی بگذارید)"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:132
+#: main/data/preferences_window/account_preferences_subpage.ui:265
 msgid "Server Hostname"
 msgstr "نام میزبان سرور"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:137
+#: main/data/preferences_window/account_preferences_subpage.ui:270
 msgid "Port"
 msgstr "پورت"
 
@@ -467,7 +608,7 @@ msgid "Contacts"
 msgstr "مخاطبین"
 
 #: main/data/preferences_window/preferences_dialog.ui:25
-#: main/src/windows/conversation_details.vala:288
+#: main/src/windows/conversation_details.vala:292
 msgid "Encryption"
 msgstr "رمزگذاری"
 
@@ -600,7 +741,9 @@ msgstr "تنظیم رمز عبور"
 msgid ""
 "Bei der ersten Nutzung musst du ein Passwort setzen. Ohne Passwort kann "
 "DinoX die verschlüsselte Datenbank nicht öffnen."
-msgstr "شما باید در اولین استفاده یک رمز عبور تنظیم کنید. بدون رمز عبور، DinoX نمی‌تواند پایگاه داده رمزگذاری شده را باز کند."
+msgstr ""
+"شما باید در اولین استفاده یک رمز عبور تنظیم کنید. بدون رمز عبور، DinoX "
+"نمی‌تواند پایگاه داده رمزگذاری شده را باز کند."
 
 #: main/src/ui/application.vala:373
 #, c-format
@@ -757,6 +900,7 @@ msgstr ""
 "لطفاً بررسی کنید رمز عبور صحیح است."
 
 #: main/src/ui/application.vala:1112 main/src/ui/application.vala:1222
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:430
 msgid "OK"
 msgstr "OK"
 
@@ -802,9 +946,9 @@ msgstr ""
 #: main/src/ui/application.vala:1303 main/src/ui/application.vala:1791
 #: main/src/ui/application.vala:1875
 #: main/src/ui/chat_input/sticker_chooser.vala:181
-#: main/src/ui/conversation_details.vala:276
+#: main/src/ui/conversation_details.vala:306
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:566
-#: main/src/ui/conversation_view_controller.vala:333
+#: main/src/ui/conversation_view_controller.vala:340
 #: main/src/ui/main_window.vala:172
 msgid "Close"
 msgstr "بستن"
@@ -1052,7 +1196,7 @@ msgstr "دعوت به تماس"
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:780
 #: main/src/ui/conversation_titlebar/menu_entry.vala:99
 #: main/src/ui/occupant_menu/view.vala:27
-#: main/src/ui/occupant_menu/view.vala:275
+#: main/src/ui/occupant_menu/view.vala:283
 msgid "Invite"
 msgstr "دعوت"
 
@@ -1089,7 +1233,7 @@ msgid "Ringing…"
 msgstr "در حال زنگ زدن…"
 
 #: main/src/ui/call_window/participant_widget.vala:153
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:244
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:532
 msgid "Connecting…"
 msgstr "در حال اتصال…"
 
@@ -1121,12 +1265,6 @@ msgstr "مدیریت بسته‌های استیکر"
 #: main/src/ui/chat_input/sticker_chooser.vala:390
 msgid "Stickers are unavailable"
 msgstr "استیکرها در دسترس نیستند"
-
-#: main/src/ui/chat_input/sticker_chooser.vala:397
-#: main/src/ui/chat_input/sticker_chooser.vala:459
-#: main/src/ui/chat_input/sticker_chooser.vala:464
-msgid "None"
-msgstr "هیچ"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:412
 msgid "No sticker packs yet."
@@ -1521,37 +1659,46 @@ msgstr "این مخاطب می‌خواهد شما را به لیست مخاطب
 msgid "New"
 msgstr "جدید"
 
-#: main/src/ui/conversation_details.vala:175
+#: main/src/ui/conversation_details.vala:188
+#, fuzzy
+msgid "Affiliation"
+msgstr "مدیریت عضویت‌ها"
+
+#: main/src/ui/conversation_details.vala:197
+msgid "Real JID"
+msgstr "JID واقعی"
+
+#: main/src/ui/conversation_details.vala:205
 #: main/src/ui/util/data_forms.vala:40
 msgid "Display name"
 msgstr "نام نمایشی"
 
-#: main/src/ui/conversation_details.vala:195
-#: main/src/ui/conversation_details.vala:209
+#: main/src/ui/conversation_details.vala:225
+#: main/src/ui/conversation_details.vala:239
 msgid "Topic"
 msgstr "موضوع"
 
-#: main/src/ui/conversation_details.vala:222
+#: main/src/ui/conversation_details.vala:252
 msgid "Permissions"
 msgstr "مجوزها"
 
-#: main/src/ui/conversation_details.vala:223
+#: main/src/ui/conversation_details.vala:253
 msgid "Manage Affiliations"
-msgstr "مدیریت عضویت‌ها"
+msgstr "مدیریت وابستگی‌ها"
 
-#: main/src/ui/conversation_details.vala:243
+#: main/src/ui/conversation_details.vala:273
 msgid "Danger Zone"
 msgstr "منطقه خطر"
 
-#: main/src/ui/conversation_details.vala:244
+#: main/src/ui/conversation_details.vala:274
 msgid "Destroy Room"
-msgstr "نابودی اتاق"
+msgstr "حذف اتاق"
 
-#: main/src/ui/conversation_details.vala:250
+#: main/src/ui/conversation_details.vala:280
 msgid "Destroy Room?"
-msgstr "اتاق نابود شود؟"
+msgstr "اتاق حذف شود؟"
 
-#: main/src/ui/conversation_details.vala:251
+#: main/src/ui/conversation_details.vala:281
 msgid ""
 "Are you sure you want to permanently destroy this room? This action cannot "
 "be undone and all history will be lost for all participants."
@@ -1559,45 +1706,61 @@ msgstr ""
 "آیا مطمئن هستید که می‌خواهید این اتاق را برای همیشه نابود کنید؟ این عمل قابل "
 "بازگشت نیست و تمام تاریخچه برای همه شرکت‌کنندگان از بین خواهد رفت."
 
-#: main/src/ui/conversation_details.vala:254
+#: main/src/ui/conversation_details.vala:284
 msgid "Destroy"
-msgstr "نابودی"
+msgstr "حذف"
 
-#: main/src/ui/conversation_details.vala:275
+#: main/src/ui/conversation_details.vala:305
 msgid "Failed to destroy room"
 msgstr "حذف اتاق ناموفق بود"
 
-#: main/src/ui/conversation_details.vala:290
+#: main/src/ui/conversation_details.vala:320
 msgid "Auto-delete messages"
 msgstr "حذف خودکار پیام‌ها"
 
-#: main/src/ui/conversation_details.vala:291
+#: main/src/ui/conversation_details.vala:321
 msgid "Never"
 msgstr "هرگز"
 
-#: main/src/ui/conversation_details.vala:292
+#: main/src/ui/conversation_details.vala:322
 msgid "After 15 minutes"
 msgstr "بعد از ۱۵ دقیقه"
 
-#: main/src/ui/conversation_details.vala:293
+#: main/src/ui/conversation_details.vala:323
 msgid "After 30 minutes"
 msgstr "بعد از ۳۰ دقیقه"
 
-#: main/src/ui/conversation_details.vala:294
+#: main/src/ui/conversation_details.vala:324
 msgid "After 1 hour"
 msgstr "بعد از ۱ ساعت"
 
-#: main/src/ui/conversation_details.vala:295
+#: main/src/ui/conversation_details.vala:325
 msgid "After 24 hours"
 msgstr "بعد از ۲۴ ساعت"
 
-#: main/src/ui/conversation_details.vala:296
+#: main/src/ui/conversation_details.vala:326
 msgid "After 7 days"
 msgstr "بعد از ۷ روز"
 
-#: main/src/ui/conversation_details.vala:297
+#: main/src/ui/conversation_details.vala:327
 msgid "After 30 days"
 msgstr "بعد از ۳۰ روز"
+
+#: main/src/ui/conversation_details.vala:586
+msgid "Phone"
+msgstr "تلفن"
+
+#: main/src/ui/conversation_details.vala:590
+msgid "Title"
+msgstr "عنوان"
+
+#: main/src/ui/conversation_details.vala:596
+msgid "URL"
+msgstr "آدرس اینترنتی"
+
+#: main/src/ui/conversation_details.vala:598
+msgid "Note"
+msgstr "یادداشت"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:276
 #: main/src/ui/notifier_freedesktop.vala:71
@@ -1665,22 +1828,22 @@ msgstr "دعوت مخاطب"
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:511
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:559
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:669
-#: main/src/ui/occupant_menu/view.vala:173
+#: main/src/ui/occupant_menu/view.vala:181
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:134
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:200
 msgid "Unmute"
-msgstr "با صدا"
+msgstr "لغو بیصدا"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:511
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:559
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:688
-#: main/src/ui/occupant_menu/view.vala:177
-#: main/src/windows/conversation_details.vala:172
+#: main/src/ui/occupant_menu/view.vala:185
 #: main/src/windows/conversation_details.vala:173
+#: main/src/windows/conversation_details.vala:174
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:134
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:220
 msgid "Mute"
-msgstr "بی‌صدا"
+msgstr "بیصدا"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:514
 msgid "Leave and Close"
@@ -1694,14 +1857,14 @@ msgstr "ویرایش نام مستعار"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:563
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:713
-#: main/src/windows/conversation_details.vala:117
+#: main/src/windows/conversation_details.vala:118
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:244
 msgid "Unblock"
 msgstr "رفع مسدودیت"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:563
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:732
-#: main/src/windows/conversation_details.vala:153
+#: main/src/windows/conversation_details.vala:154
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:264
 msgid "Block"
 msgstr "مسدود کردن"
@@ -1838,20 +2001,20 @@ msgid "Close Conversation"
 msgstr "بستن مکالمه"
 
 #: main/src/ui/conversation_titlebar/occupants_entry.vala:14
-#: main/src/windows/conversation_details.vala:298
+#: main/src/windows/conversation_details.vala:302
 msgid "Members"
 msgstr "اعضا"
 
-#: main/src/ui/conversation_view_controller.vala:249
+#: main/src/ui/conversation_view_controller.vala:256
 msgid "Select file"
 msgstr "انتخاب فایل"
 
-#: main/src/ui/conversation_view_controller.vala:250
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:180
+#: main/src/ui/conversation_view_controller.vala:257
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:215
 msgid "Select"
 msgstr "انتخاب"
 
-#: main/src/ui/conversation_view_controller.vala:332
+#: main/src/ui/conversation_view_controller.vala:339
 msgid "Failed to get location"
 msgstr "دریافت موقعیت ناموفق بود"
 
@@ -1915,12 +2078,12 @@ msgid "Subscription request"
 msgstr "درخواست اشتراک"
 
 #: main/src/ui/notifier_freedesktop.vala:194
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:259
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:547
 msgid "Wrong password"
 msgstr "رمز اشتباه است"
 
 #: main/src/ui/notifier_freedesktop.vala:197
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:261
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:549
 msgid "Invalid TLS certificate"
 msgstr "گواهی تی‌ال‌اس نامعتبر است"
 
@@ -1948,17 +2111,17 @@ msgid "%s requests the permission to write in %s"
 msgstr "%s درخواست نوشتن در %s را دارد"
 
 #: main/src/ui/occupant_menu/list.vala:118
-#: main/src/view_model/conversation_details.vala:134
+#: main/src/view_model/conversation_details.vala:139
 msgid "Owner"
 msgstr "مالک"
 
 #: main/src/ui/occupant_menu/list.vala:120
-#: main/src/view_model/conversation_details.vala:135
+#: main/src/view_model/conversation_details.vala:140
 msgid "Admin"
 msgstr "مدیر"
 
 #: main/src/ui/occupant_menu/list.vala:122
-#: main/src/view_model/conversation_details.vala:136
+#: main/src/view_model/conversation_details.vala:141
 msgid "Member"
 msgstr "عضو"
 
@@ -1966,75 +2129,75 @@ msgstr "عضو"
 msgid "User"
 msgstr "کاربر"
 
-#: main/src/ui/occupant_menu/view.vala:89
+#: main/src/ui/occupant_menu/view.vala:100
 msgid "Start private conversation"
 msgstr "گفتگوی خصوصی را شروع کنید"
 
-#: main/src/ui/occupant_menu/view.vala:125
+#: main/src/ui/occupant_menu/view.vala:135
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:151
 msgid "Unblock Contact"
 msgstr "رفع مسدودی مخاطب"
 
-#: main/src/ui/occupant_menu/view.vala:127
+#: main/src/ui/occupant_menu/view.vala:137
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:151
 msgid "Block Contact"
 msgstr "مسدود کردن مخاطب"
 
-#: main/src/ui/occupant_menu/view.vala:133
+#: main/src/ui/occupant_menu/view.vala:143
 msgid "Moderation"
 msgstr "نظارت"
 
-#: main/src/ui/occupant_menu/view.vala:135
+#: main/src/ui/occupant_menu/view.vala:145
 msgid "Kick"
 msgstr "بیرون کردن"
 
-#: main/src/ui/occupant_menu/view.vala:139
+#: main/src/ui/occupant_menu/view.vala:149
 msgid "Ban (Permanent)"
-msgstr "مسدود (دائمی)"
+msgstr "مسدود (دائم)"
 
-#: main/src/ui/occupant_menu/view.vala:140
+#: main/src/ui/occupant_menu/view.vala:150
 msgid "Ban (10 min)"
 msgstr "مسدود (۱۰ دقیقه)"
 
-#: main/src/ui/occupant_menu/view.vala:141
+#: main/src/ui/occupant_menu/view.vala:151
 msgid "Ban (15 min)"
 msgstr "مسدود (۱۵ دقیقه)"
 
-#: main/src/ui/occupant_menu/view.vala:142
+#: main/src/ui/occupant_menu/view.vala:152
 msgid "Ban (30 min)"
 msgstr "مسدود (۳۰ دقیقه)"
 
-#: main/src/ui/occupant_menu/view.vala:146
+#: main/src/ui/occupant_menu/view.vala:156
 msgid "Administration"
 msgstr "مدیریت"
 
-#: main/src/ui/occupant_menu/view.vala:150
+#: main/src/ui/occupant_menu/view.vala:160
 msgid "Make Admin"
 msgstr "مدیر کردن"
 
-#: main/src/ui/occupant_menu/view.vala:152
+#: main/src/ui/occupant_menu/view.vala:162
 msgid "Revoke Admin"
-msgstr "لغو مدیر"
+msgstr "لغو مدیریت"
 
-#: main/src/ui/occupant_menu/view.vala:156
+#: main/src/ui/occupant_menu/view.vala:166
 msgid "Make Owner"
 msgstr "مالک کردن"
 
-#: main/src/ui/occupant_menu/view.vala:161
+#: main/src/ui/occupant_menu/view.vala:171
 msgid "Make Member"
 msgstr "عضو کردن"
 
-#: main/src/ui/occupant_menu/view.vala:163
+#: main/src/ui/occupant_menu/view.vala:173
 msgid "Revoke Membership"
 msgstr "لغو عضویت"
 
-#: main/src/ui/occupant_menu/view.vala:228
+#: main/src/ui/occupant_menu/view.vala:236
 msgid "Kicked by moderator"
-msgstr "توسط ناظر اخراج شد"
+msgstr "توسط مدیر اخراج شد"
 
-#: main/src/ui/occupant_menu/view.vala:274
+#: main/src/ui/occupant_menu/view.vala:282
 msgid "Invite to Conference"
-msgstr "دعوت کردن به کنفرانس"
+msgstr "دعوت به کنفرانس"
 
 #: main/src/ui/systray.vala:178
 msgid "Quit"
@@ -2076,10 +2239,6 @@ msgid ""
 "A friendly name shown in room listings (does not change the room address)"
 msgstr ""
 "نام دوستانه‌ای که در لیست اتاق‌ها نمایش داده می‌شود (آدرس اتاق را تغییر نمی‌دهد)"
-
-#: main/src/ui/util/data_forms.vala:44
-msgid "Description"
-msgstr "توضیحات"
 
 #: main/src/ui/util/data_forms.vala:45
 msgid "A description of the room shown in room listings"
@@ -2154,85 +2313,90 @@ msgstr ""
 "این مخاطب از لیست مخاطبین شما حذف می‌شود و تمام تاریخچه گفتگو برای همیشه حذف "
 "می‌شود."
 
-#: main/src/windows/conversation_details.vala:117
+#: main/src/windows/conversation_details.vala:118
 msgid "Block user"
 msgstr "مسدود کردن کاربر"
 
-#: main/src/windows/conversation_details.vala:117
+#: main/src/windows/conversation_details.vala:118
 msgid "Block entire domain"
 msgstr "مسدود کردن کل دامنه"
 
-#: main/src/windows/conversation_details.vala:134
+#: main/src/windows/conversation_details.vala:135
 msgid "Pinned"
 msgstr "سنجاق شده"
 
-#: main/src/windows/conversation_details.vala:134
+#: main/src/windows/conversation_details.vala:135
 msgid "Pin"
 msgstr "سنجاق کردن"
 
-#: main/src/windows/conversation_details.vala:149
+#: main/src/windows/conversation_details.vala:150
 msgid "Domain blocked"
 msgstr "دامنه مسدود شد"
 
-#: main/src/windows/conversation_details.vala:174
+#: main/src/windows/conversation_details.vala:175
 msgid "Notifications enabled"
 msgstr "اعلان‌ها فعال شد"
 
-#: main/src/windows/conversation_details.vala:177
+#: main/src/windows/conversation_details.vala:178
 msgid "Notifications for mentions"
 msgstr "اعلان‌ها برای اشاره‌ها"
 
-#: main/src/windows/conversation_details.vala:182
+#: main/src/windows/conversation_details.vala:183
 msgid "Notifications disabled"
 msgstr "اعلان‌ها غیرفعال شد"
 
-#: main/src/windows/conversation_details.vala:241
+#: main/src/windows/conversation_details.vala:242
+#, fuzzy
+msgid "Profile"
+msgstr "ذخیره نمایه"
+
+#: main/src/windows/conversation_details.vala:245
 msgid "Settings"
 msgstr "تنظیمات"
 
-#: main/src/windows/conversation_details.vala:270
+#: main/src/windows/conversation_details.vala:274
 msgid "Room Configuration"
 msgstr "پیکربندی اتاق"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:69
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:91
 msgid "Connect"
 msgstr "اتصال"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:146
 msgid "Disable account"
 msgstr "غیرفعال کردن حساب"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:146
 msgid "Enable account"
 msgstr "فعال کردن حساب"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:179
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:214
 msgid "Select avatar"
 msgstr "انتخاب آواتار"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:190
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:225
 msgid "Images"
 msgstr "تصاویر"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:194
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:229
 msgid "All files"
 msgstr "تمامی فایل‌ها"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:212
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:247
 #, c-format
 msgid "Remove account %s?"
 msgstr "حساب %s حذف شود؟"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:246
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:534
 msgid "Connected"
 msgstr "متصل"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:248
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:536
 msgid "Disconnected"
 msgstr "قطع شده"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:268
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:270
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:556
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:558
 msgid "Error"
 msgstr "خطا"
 
@@ -2411,9 +2575,6 @@ msgstr "نام مستعار (اختیاری)"
 #~ msgid "Name"
 #~ msgstr "Name"
 
-#~ msgid "Email"
-#~ msgstr "Email"
-
 #~ msgid "Passphrase"
 #~ msgstr "Passphrase"
 
@@ -2435,9 +2596,6 @@ msgstr "نام مستعار (اختیاری)"
 #~ msgid "Disabled"
 #~ msgstr "Disabled"
 
-#~ msgid "Success"
-#~ msgstr "Success"
-
 #~ msgid "Create a new OpenPGP key pair"
 #~ msgstr "ایجاد یک جفت کلید OpenPGP جدید"
 
@@ -2458,9 +2616,6 @@ msgstr "نام مستعار (اختیاری)"
 
 #~ msgid "Enter your details to create a new key pair."
 #~ msgstr "اطلاعات خود را برای ایجاد جفت کلید جدید وارد کنید."
-
-#~ msgid "Your Name"
-#~ msgstr "نام شما"
 
 #~ msgid "you@example.com"
 #~ msgstr "you@example.com"
@@ -2588,9 +2743,6 @@ msgstr "نام مستعار (اختیاری)"
 
 #~ msgid "Account"
 #~ msgstr "حساب"
-
-#~ msgid "Nick"
-#~ msgstr "نام مستعار"
 
 #~ msgid "Modern XMPP chat client"
 #~ msgstr "کلاینت نوین گپ XMPP"

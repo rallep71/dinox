@@ -43,6 +43,7 @@ public class Dino.Ui.ViewModel.ConversationDetails : Object {
     public bool show_remove_contact { get; set; }
 
     public GLib.ListStore about_rows = new GLib.ListStore(typeof(PreferencesRow.Any));
+    public GLib.ListStore vcard_rows = new GLib.ListStore(typeof(PreferencesRow.Any));
     public string? account_jid { get; set; }
 
     public GLib.ListStore settings_rows = new GLib.ListStore(typeof(PreferencesRow.Any));
@@ -87,6 +88,10 @@ public class Dino.Ui.Model.ConversationDetails : Object {
     public string? data_form_bak;
     public bool blocked { get; set; }
     public bool domain_blocked { get; set; }
+
+    public Xmpp.Xep.VCard4.VCard4? vcard4 { get; set; }
+    public Xmpp.Xep.VCard.VCardInfo? vcard_temp { get; set; }
+    public string? pep_nickname { get; set; }
 
     public GLib.ListStore members = new GLib.ListStore(typeof(Ui.Model.ConferenceMember));
 

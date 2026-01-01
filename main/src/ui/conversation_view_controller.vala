@@ -47,12 +47,10 @@ public class ConversationViewController : Object {
         });
 
         view.chat_input.send_file_button.clicked.connect(() => {
-            debug("ConversationViewController: send_file_button clicked");
             view.chat_input.attachment_popover.popdown();
             open_file_picker();
         });
         view.chat_input.send_location_button.clicked.connect(() => {
-            debug("ConversationViewController: send_location_button clicked");
             view.chat_input.attachment_popover.popdown();
             send_location();
         });
@@ -74,6 +72,15 @@ public class ConversationViewController : Object {
         var key_controller3 = new EventControllerKey() { name = "dino-forward-to-input-key-events-3" };
         key_controller3.key_pressed.connect(forward_key_press_to_chat_input);
         main_window.conversation_headerbar.add_controller(key_controller3);
+
+        var title_click_controller = new GestureClick();
+        title_click_controller.pressed.connect((n_press, x, y) => {
+            if (this.conversation != null) {
+                var conversation_details = ConversationDetails.setup_dialog(this.conversation, this.stream_interactor);
+                conversation_details.present(main_window);
+            }
+        });
+        main_window.conversation_window_title.add_controller(title_click_controller);
 
 //      goto-end floating button
         var vadjustment = view.conversation_frame.scrolled.vadjustment;

@@ -1,7 +1,7 @@
 # DinoX - Development Plan
 
-> **Last Updated**: December 28, 2025
-> **Current Release Line**: 0.8.6.x
+> **Last Updated**: December 31, 2025
+> **Current Release Line**: 0.9.1.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
 
@@ -11,8 +11,8 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Release Line** | 0.8.6.x |
-| **XEPs Implemented** | ~70 |
+| **Release Line** | 0.9.1.x |
+| **XEPs Implemented** | ~73 |
 | **Languages** | 47 (100% translated) |
 | **Build Status** | Clean |
 | **GTK/libadwaita** | GTK4 4.14, libadwaita 1.5 |
@@ -20,6 +20,12 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v0.9.1.0 (Privacy & Standards)
+
+- **XEP Support**: vCard4 (XEP-0292), User Nickname (XEP-0172), vCard-temp (XEP-0054).
+- **Privacy**: Translated privacy settings in 47 languages.
+- **Fixes**: System tray icon persistence and clean shutdown.
 
 ### v0.8.6.15 (Map Preview)
 
@@ -71,12 +77,13 @@ Focus: make GitHub release assets reliable for end users (Flatpak/AppImage).
 
 ## Roadmap (Next Work)
 
-### Q1 2026: Refinement & quality
+### v0.9.2.0 (Q1 2026): Admin & Quality
 
-Focus: polish call interoperability and general stability.
+Focus: Admin features, call interoperability and general stability.
 
 | Item | Description | Status |
 |------|-------------|--------|
+| **Admin Backend** | Control ejabberd/prosody server via API/REST | TODO |
 | **Call Quality UI** | Display packet loss, jitter, and resolution during calls | IN PROGRESS (backend ready) |
 | **Echo Cancellation** | Fine-tune `webrtc-audio-processing` AEC settings across Linux audio setups | IN PROGRESS |
 | **Spell Checking** | Re-enable spell checking (waiting for GTK4 GtkTextView support) | BLOCKED |

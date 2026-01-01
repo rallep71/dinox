@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-31 14:00+0100\n"
+"POT-Creation-Date: 2026-01-01 18:06+0100\n"
 "PO-Revision-Date: 2025-10-05 07:02+0000\n"
 "Language-Team: none\n"
 "Language: th\n"
@@ -80,7 +80,7 @@ msgid "Remove Contact"
 msgstr "ลบผู้ติดต่อ"
 
 #: main/data/conversation_details.ui:192
-#: main/src/windows/conversation_details.vala:238
+#: main/src/windows/conversation_details.vala:239
 msgid "About"
 msgstr "เกี่ยวกับ"
 
@@ -89,13 +89,13 @@ msgid "Private room (supports group calls)"
 msgstr "ห้องส่วนตัว (รองรับการโทรกลุ่ม)"
 
 #: main/data/conversation_row.ui:135
-#: main/src/windows/conversation_details.vala:180
 #: main/src/windows/conversation_details.vala:181
+#: main/src/windows/conversation_details.vala:182
 msgid "Muted"
 msgstr "ปิดเสียง"
 
 #: main/data/conversation_row.ui:146
-#: main/src/windows/conversation_details.vala:145
+#: main/src/windows/conversation_details.vala:146
 msgid "Blocked"
 msgstr "ถูกบล็อค"
 
@@ -242,7 +242,7 @@ msgstr "ลบประวัติการสนทนา"
 #: main/src/ui/conversation_content_view/file_default_widget.vala:90
 #: main/src/ui/conversation_content_view/item_actions.vala:165
 #: main/src/ui/conversation_content_view/item_actions.vala:168
-#: main/src/ui/conversation_details.vala:253
+#: main/src/ui/conversation_details.vala:283
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:641
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:668
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:687
@@ -253,7 +253,7 @@ msgstr "ลบประวัติการสนทนา"
 #: main/src/ui/conversation_titlebar/call_entry.vala:83
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
 #: main/src/windows/conversation_details.vala:60
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:68
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:90
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:199
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:219
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:243
@@ -268,7 +268,7 @@ msgid "Update message"
 msgstr "อัปเดตข้อความ"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:68
-#: main/src/ui/conversation_details.vala:170
+#: main/src/ui/conversation_details.vala:169
 msgid "XMPP Address"
 msgstr "ที่อยู่ XMPP"
 
@@ -290,20 +290,161 @@ msgstr "สถานะการเชื่อมต่อ"
 msgid "View Certificate"
 msgstr "ดูใบรับรอง"
 
-# Custom host/port feature (Issue #115)
 #: main/data/preferences_window/account_preferences_subpage.ui:128
+msgid "Public Profile"
+msgstr "โปรไฟล์สาธารณะ"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:131
+msgid "Public Access"
+msgstr "การเข้าถึงสาธารณะ"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:132
+msgid "Allow anyone to see your profile"
+msgstr "อนุญาตให้ทุกคนเห็นโปรไฟล์ของคุณ"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:137
+msgid "Share with Contacts"
+msgstr "แชร์กับผู้ติดต่อ"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:138
+msgid "Allow contacts to see your profile"
+msgstr "อนุญาตให้ผู้ติดต่อเห็นโปรไฟล์ของคุณ"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:143
+#: main/src/ui/conversation_details.vala:561
+msgid "Full Name"
+msgstr "ชื่อเต็ม"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:148
+#: main/src/ui/conversation_details.vala:562
+msgid "Nickname"
+msgstr "ชื่อเล่น"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:153
+#: main/src/ui/conversation_details.vala:575
+msgid "Gender"
+msgstr "เพศ"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:157
+#: main/src/ui/conversation_details.vala:573
+msgid "Unknown"
+msgstr "ไม่ทราบ"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:158
+#: main/src/ui/conversation_details.vala:569
+msgid "Male"
+msgstr "ชาย"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:159
+#: main/src/ui/conversation_details.vala:570
+msgid "Female"
+msgstr "หญิง"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:160
+#: main/src/ui/conversation_details.vala:571
+msgid "Other"
+msgstr "อื่นๆ"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:161
+#: main/src/ui/chat_input/sticker_chooser.vala:397
+#: main/src/ui/chat_input/sticker_chooser.vala:459
+#: main/src/ui/chat_input/sticker_chooser.vala:464
+#: main/src/ui/conversation_details.vala:572
+msgid "None"
+msgstr "ไม่มี"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:169
+#: main/src/ui/conversation_details.vala:578
+msgid "Birthday"
+msgstr "วันเกิด"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:174
+#: main/src/ui/conversation_details.vala:580
+msgid "Address"
+msgstr "ที่อยู่"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:177
+msgid "Street"
+msgstr ""
+
+#: main/data/preferences_window/account_preferences_subpage.ui:182
+msgid "Postal Code"
+msgstr ""
+
+#: main/data/preferences_window/account_preferences_subpage.ui:187
+msgid "City"
+msgstr ""
+
+#: main/data/preferences_window/account_preferences_subpage.ui:192
+#, fuzzy
+msgid "Region"
+msgstr "ลงทะเบียนบน %s"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:197
+msgid "Country"
+msgstr ""
+
+#: main/data/preferences_window/account_preferences_subpage.ui:204
+#: main/src/ui/conversation_details.vala:582
+msgid "Email"
+msgstr "อีเมล"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:209
+#: main/src/ui/conversation_details.vala:584
+msgid "IM Address"
+msgstr "ที่อยู่ IM"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:214
+msgid "Phone Number"
+msgstr "หมายเลขโทรศัพท์"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:219
+#: main/src/ui/conversation_details.vala:588
+msgid "Organization"
+msgstr "องค์กร"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:224
+msgid "Job Title"
+msgstr "ตำแหน่งงาน"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:229
+#: main/src/ui/conversation_details.vala:182
+#: main/src/ui/conversation_details.vala:592
+msgid "Role"
+msgstr "บทบาท"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:234
+#: main/src/ui/conversation_details.vala:594
+msgid "Timezone"
+msgstr "เขตเวลา"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:239
+msgid "Website"
+msgstr "เว็บไซต์"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:244
+#: main/src/ui/util/data_forms.vala:44
+msgid "Description"
+msgstr "คำอธิบาย"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:249
+msgid "Save Profile"
+msgstr "บันทึกโปรไฟล์"
+
+# Custom host/port feature (Issue #115)
+#: main/data/preferences_window/account_preferences_subpage.ui:261
 msgid "Advanced Settings"
 msgstr "การตั้งค่าขั้นสูง"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:129
+#: main/data/preferences_window/account_preferences_subpage.ui:262
 msgid "Custom server connection (leave empty for automatic)"
 msgstr "การเชื่อมต่อเซิร์ฟเวอร์แบบกำหนดเอง (เว้นว่างสำหรับอัตโนมัติ)"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:132
+#: main/data/preferences_window/account_preferences_subpage.ui:265
 msgid "Server Hostname"
 msgstr "ชื่อโฮสต์เซิร์ฟเวอร์"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:137
+#: main/data/preferences_window/account_preferences_subpage.ui:270
 msgid "Port"
 msgstr "พอร์ต"
 
@@ -467,7 +608,7 @@ msgid "Contacts"
 msgstr "รายชื่อ"
 
 #: main/data/preferences_window/preferences_dialog.ui:25
-#: main/src/windows/conversation_details.vala:288
+#: main/src/windows/conversation_details.vala:292
 msgid "Encryption"
 msgstr "การเข้ารหัส"
 
@@ -600,7 +741,9 @@ msgstr "ตั้งรหัสผ่าน"
 msgid ""
 "Bei der ersten Nutzung musst du ein Passwort setzen. Ohne Passwort kann "
 "DinoX die verschlüsselte Datenbank nicht öffnen."
-msgstr "คุณต้องตั้งรหัสผ่านในการใช้งานครั้งแรก หากไม่มีรหัสผ่าน DinoX จะไม่สามารถเปิดฐานข้อมูลที่เข้ารหัสได้"
+msgstr ""
+"คุณต้องตั้งรหัสผ่านในการใช้งานครั้งแรก หากไม่มีรหัสผ่าน DinoX "
+"จะไม่สามารถเปิดฐานข้อมูลที่เข้ารหัสได้"
 
 #: main/src/ui/application.vala:373
 #, c-format
@@ -757,6 +900,7 @@ msgstr ""
 "โปรดตรวจสอบว่ารหัสผ่านถูกต้อง"
 
 #: main/src/ui/application.vala:1112 main/src/ui/application.vala:1222
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:430
 msgid "OK"
 msgstr "OK"
 
@@ -802,9 +946,9 @@ msgstr ""
 #: main/src/ui/application.vala:1303 main/src/ui/application.vala:1791
 #: main/src/ui/application.vala:1875
 #: main/src/ui/chat_input/sticker_chooser.vala:181
-#: main/src/ui/conversation_details.vala:276
+#: main/src/ui/conversation_details.vala:306
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:566
-#: main/src/ui/conversation_view_controller.vala:333
+#: main/src/ui/conversation_view_controller.vala:340
 #: main/src/ui/main_window.vala:172
 msgid "Close"
 msgstr "ปิด"
@@ -1050,7 +1194,7 @@ msgstr "เชิญโทร"
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:780
 #: main/src/ui/conversation_titlebar/menu_entry.vala:99
 #: main/src/ui/occupant_menu/view.vala:27
-#: main/src/ui/occupant_menu/view.vala:275
+#: main/src/ui/occupant_menu/view.vala:283
 msgid "Invite"
 msgstr "เชิญ"
 
@@ -1087,7 +1231,7 @@ msgid "Ringing…"
 msgstr "กำลังเรียก…"
 
 #: main/src/ui/call_window/participant_widget.vala:153
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:244
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:532
 msgid "Connecting…"
 msgstr "กำลังเชื่อมต่อ…"
 
@@ -1119,12 +1263,6 @@ msgstr "จัดการชุดสติ๊กเกอร์"
 #: main/src/ui/chat_input/sticker_chooser.vala:390
 msgid "Stickers are unavailable"
 msgstr "สติกเกอร์ไม่พร้อมใช้งาน"
-
-#: main/src/ui/chat_input/sticker_chooser.vala:397
-#: main/src/ui/chat_input/sticker_chooser.vala:459
-#: main/src/ui/chat_input/sticker_chooser.vala:464
-msgid "None"
-msgstr "ไม่มี"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:412
 msgid "No sticker packs yet."
@@ -1519,37 +1657,46 @@ msgstr "ผู้ติดต่อนี้ต้องการเพิ่ม
 msgid "New"
 msgstr "ใหม่"
 
-#: main/src/ui/conversation_details.vala:175
+#: main/src/ui/conversation_details.vala:188
+#, fuzzy
+msgid "Affiliation"
+msgstr "จัดการความสังกัด"
+
+#: main/src/ui/conversation_details.vala:197
+msgid "Real JID"
+msgstr "JID จริง"
+
+#: main/src/ui/conversation_details.vala:205
 #: main/src/ui/util/data_forms.vala:40
 msgid "Display name"
 msgstr "ชื่อที่แสดง"
 
-#: main/src/ui/conversation_details.vala:195
-#: main/src/ui/conversation_details.vala:209
+#: main/src/ui/conversation_details.vala:225
+#: main/src/ui/conversation_details.vala:239
 msgid "Topic"
 msgstr "หัวข้อ"
 
-#: main/src/ui/conversation_details.vala:222
+#: main/src/ui/conversation_details.vala:252
 msgid "Permissions"
 msgstr "สิทธิ์"
 
-#: main/src/ui/conversation_details.vala:223
+#: main/src/ui/conversation_details.vala:253
 msgid "Manage Affiliations"
-msgstr "จัดการความสังกัด"
+msgstr "จัดการการเป็นสมาชิก"
 
-#: main/src/ui/conversation_details.vala:243
+#: main/src/ui/conversation_details.vala:273
 msgid "Danger Zone"
-msgstr "โซนอันตราย"
+msgstr "เขตอันตราย"
 
-#: main/src/ui/conversation_details.vala:244
+#: main/src/ui/conversation_details.vala:274
 msgid "Destroy Room"
 msgstr "ทำลายห้อง"
 
-#: main/src/ui/conversation_details.vala:250
+#: main/src/ui/conversation_details.vala:280
 msgid "Destroy Room?"
 msgstr "ทำลายห้อง?"
 
-#: main/src/ui/conversation_details.vala:251
+#: main/src/ui/conversation_details.vala:281
 msgid ""
 "Are you sure you want to permanently destroy this room? This action cannot "
 "be undone and all history will be lost for all participants."
@@ -1557,45 +1704,61 @@ msgstr ""
 "คุณแน่ใจหรือไม่ว่าต้องการทำลายห้องนี้อย่างถาวร? "
 "การกระทำนี้ไม่สามารถย้อนกลับได้และประวัติทั้งหมดจะสูญหายสำหรับผู้เข้าร่วมทุกคน"
 
-#: main/src/ui/conversation_details.vala:254
+#: main/src/ui/conversation_details.vala:284
 msgid "Destroy"
 msgstr "ทำลาย"
 
-#: main/src/ui/conversation_details.vala:275
+#: main/src/ui/conversation_details.vala:305
 msgid "Failed to destroy room"
 msgstr "ลบห้องล้มเหลว"
 
-#: main/src/ui/conversation_details.vala:290
+#: main/src/ui/conversation_details.vala:320
 msgid "Auto-delete messages"
 msgstr "ลบข้อความอัตโนมัติ"
 
-#: main/src/ui/conversation_details.vala:291
+#: main/src/ui/conversation_details.vala:321
 msgid "Never"
 msgstr "ไม่เลย"
 
-#: main/src/ui/conversation_details.vala:292
+#: main/src/ui/conversation_details.vala:322
 msgid "After 15 minutes"
 msgstr "หลังจาก 15 นาที"
 
-#: main/src/ui/conversation_details.vala:293
+#: main/src/ui/conversation_details.vala:323
 msgid "After 30 minutes"
 msgstr "หลังจาก 30 นาที"
 
-#: main/src/ui/conversation_details.vala:294
+#: main/src/ui/conversation_details.vala:324
 msgid "After 1 hour"
 msgstr "หลังจาก 1 ชั่วโมง"
 
-#: main/src/ui/conversation_details.vala:295
+#: main/src/ui/conversation_details.vala:325
 msgid "After 24 hours"
 msgstr "หลังจาก 24 ชั่วโมง"
 
-#: main/src/ui/conversation_details.vala:296
+#: main/src/ui/conversation_details.vala:326
 msgid "After 7 days"
 msgstr "หลังจาก 7 วัน"
 
-#: main/src/ui/conversation_details.vala:297
+#: main/src/ui/conversation_details.vala:327
 msgid "After 30 days"
 msgstr "หลังจาก 30 วัน"
+
+#: main/src/ui/conversation_details.vala:586
+msgid "Phone"
+msgstr "โทรศัพท์"
+
+#: main/src/ui/conversation_details.vala:590
+msgid "Title"
+msgstr "ตำแหน่ง"
+
+#: main/src/ui/conversation_details.vala:596
+msgid "URL"
+msgstr "URL"
+
+#: main/src/ui/conversation_details.vala:598
+msgid "Note"
+msgstr "หมายเหตุ"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:276
 #: main/src/ui/notifier_freedesktop.vala:71
@@ -1663,7 +1826,7 @@ msgstr "เชิญผู้ติดต่อ"
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:511
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:559
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:669
-#: main/src/ui/occupant_menu/view.vala:173
+#: main/src/ui/occupant_menu/view.vala:181
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:134
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:200
 msgid "Unmute"
@@ -1672,9 +1835,9 @@ msgstr "เปิดเสียง"
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:511
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:559
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:688
-#: main/src/ui/occupant_menu/view.vala:177
-#: main/src/windows/conversation_details.vala:172
+#: main/src/ui/occupant_menu/view.vala:185
 #: main/src/windows/conversation_details.vala:173
+#: main/src/windows/conversation_details.vala:174
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:134
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:220
 msgid "Mute"
@@ -1692,14 +1855,14 @@ msgstr "แก้ไขชื่อเล่น"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:563
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:713
-#: main/src/windows/conversation_details.vala:117
+#: main/src/windows/conversation_details.vala:118
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:244
 msgid "Unblock"
 msgstr "ปลดบล็อค"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:563
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:732
-#: main/src/windows/conversation_details.vala:153
+#: main/src/windows/conversation_details.vala:154
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:264
 msgid "Block"
 msgstr "ปิดกั้น"
@@ -1834,20 +1997,20 @@ msgid "Close Conversation"
 msgstr "ปิดการสนทนา"
 
 #: main/src/ui/conversation_titlebar/occupants_entry.vala:14
-#: main/src/windows/conversation_details.vala:298
+#: main/src/windows/conversation_details.vala:302
 msgid "Members"
 msgstr "สมาชิก"
 
-#: main/src/ui/conversation_view_controller.vala:249
+#: main/src/ui/conversation_view_controller.vala:256
 msgid "Select file"
 msgstr "เลือกไฟล์"
 
-#: main/src/ui/conversation_view_controller.vala:250
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:180
+#: main/src/ui/conversation_view_controller.vala:257
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:215
 msgid "Select"
 msgstr "เลือก"
 
-#: main/src/ui/conversation_view_controller.vala:332
+#: main/src/ui/conversation_view_controller.vala:339
 msgid "Failed to get location"
 msgstr "ไม่สามารถรับตำแหน่ง"
 
@@ -1911,12 +2074,12 @@ msgid "Subscription request"
 msgstr "คำขอสมัครสมาชิก"
 
 #: main/src/ui/notifier_freedesktop.vala:194
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:259
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:547
 msgid "Wrong password"
 msgstr "รหัสผ่านผิด"
 
 #: main/src/ui/notifier_freedesktop.vala:197
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:261
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:549
 msgid "Invalid TLS certificate"
 msgstr "ใบรับรอง TLS ไม่ถูกต้อง"
 
@@ -1944,17 +2107,17 @@ msgid "%s requests the permission to write in %s"
 msgstr "%s ขออนุญาตเขียนใน %s"
 
 #: main/src/ui/occupant_menu/list.vala:118
-#: main/src/view_model/conversation_details.vala:134
+#: main/src/view_model/conversation_details.vala:139
 msgid "Owner"
 msgstr "เจ้าของ"
 
 #: main/src/ui/occupant_menu/list.vala:120
-#: main/src/view_model/conversation_details.vala:135
+#: main/src/view_model/conversation_details.vala:140
 msgid "Admin"
 msgstr "ผู้ดูแลระบบ"
 
 #: main/src/ui/occupant_menu/list.vala:122
-#: main/src/view_model/conversation_details.vala:136
+#: main/src/view_model/conversation_details.vala:141
 msgid "Member"
 msgstr "สมาชิก"
 
@@ -1962,73 +2125,73 @@ msgstr "สมาชิก"
 msgid "User"
 msgstr "ผู้ใช้"
 
-#: main/src/ui/occupant_menu/view.vala:89
+#: main/src/ui/occupant_menu/view.vala:100
 msgid "Start private conversation"
 msgstr "เริ่มการสนทนาส่วนตัว"
 
-#: main/src/ui/occupant_menu/view.vala:125
+#: main/src/ui/occupant_menu/view.vala:135
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:151
 msgid "Unblock Contact"
 msgstr "ปลดบล็อกผู้ติดต่อ"
 
-#: main/src/ui/occupant_menu/view.vala:127
+#: main/src/ui/occupant_menu/view.vala:137
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:151
 msgid "Block Contact"
 msgstr "บล็อกผู้ติดต่อ"
 
-#: main/src/ui/occupant_menu/view.vala:133
+#: main/src/ui/occupant_menu/view.vala:143
 msgid "Moderation"
 msgstr "การกลั่นกรอง"
 
-#: main/src/ui/occupant_menu/view.vala:135
+#: main/src/ui/occupant_menu/view.vala:145
 msgid "Kick"
 msgstr "เตะ"
 
-#: main/src/ui/occupant_menu/view.vala:139
+#: main/src/ui/occupant_menu/view.vala:149
 msgid "Ban (Permanent)"
 msgstr "แบน (ถาวร)"
 
-#: main/src/ui/occupant_menu/view.vala:140
+#: main/src/ui/occupant_menu/view.vala:150
 msgid "Ban (10 min)"
 msgstr "แบน (10 นาที)"
 
-#: main/src/ui/occupant_menu/view.vala:141
+#: main/src/ui/occupant_menu/view.vala:151
 msgid "Ban (15 min)"
 msgstr "แบน (15 นาที)"
 
-#: main/src/ui/occupant_menu/view.vala:142
+#: main/src/ui/occupant_menu/view.vala:152
 msgid "Ban (30 min)"
 msgstr "แบน (30 นาที)"
 
-#: main/src/ui/occupant_menu/view.vala:146
+#: main/src/ui/occupant_menu/view.vala:156
 msgid "Administration"
-msgstr "การดูแลระบบ"
+msgstr "การบริหาร"
 
-#: main/src/ui/occupant_menu/view.vala:150
+#: main/src/ui/occupant_menu/view.vala:160
 msgid "Make Admin"
 msgstr "แต่งตั้งเป็นผู้ดูแล"
 
-#: main/src/ui/occupant_menu/view.vala:152
+#: main/src/ui/occupant_menu/view.vala:162
 msgid "Revoke Admin"
-msgstr "เพิกถอนแอดมิน"
+msgstr "ถอนสิทธิ์ผู้ดูแล"
 
-#: main/src/ui/occupant_menu/view.vala:156
+#: main/src/ui/occupant_menu/view.vala:166
 msgid "Make Owner"
 msgstr "แต่งตั้งเป็นเจ้าของ"
 
-#: main/src/ui/occupant_menu/view.vala:161
+#: main/src/ui/occupant_menu/view.vala:171
 msgid "Make Member"
 msgstr "แต่งตั้งเป็นสมาชิก"
 
-#: main/src/ui/occupant_menu/view.vala:163
+#: main/src/ui/occupant_menu/view.vala:173
 msgid "Revoke Membership"
-msgstr "เพิกถอนสมาชิกภาพ"
+msgstr "ถอนสมาชิกภาพ"
 
-#: main/src/ui/occupant_menu/view.vala:228
+#: main/src/ui/occupant_menu/view.vala:236
 msgid "Kicked by moderator"
-msgstr "ถูกเตะออกโดยผู้ดูแล"
+msgstr "ถูกเตะโดยผู้ดูแล"
 
-#: main/src/ui/occupant_menu/view.vala:274
+#: main/src/ui/occupant_menu/view.vala:282
 msgid "Invite to Conference"
 msgstr "เชิญเข้าร่วมการประชุม"
 
@@ -2073,10 +2236,6 @@ msgid ""
 msgstr ""
 "ชื่อที่เป็นมิตรที่แสดงในรายการห้อง (ไม่เปลี่ยนที่อยู่ห้อง)ชื่อที่เป็นมิตรแสดงในรายการห้อง "
 "(ไม่เปลี่ยนที่อยู่ของห้อง)ชื่อที่เป็นมิตรแสดงในรายการห้อง (ไม่เปลี่ยนที่อยู่ของห้อง)"
-
-#: main/src/ui/util/data_forms.vala:44
-msgid "Description"
-msgstr "คำอธิบาย"
 
 #: main/src/ui/util/data_forms.vala:45
 msgid "A description of the room shown in room listings"
@@ -2151,85 +2310,90 @@ msgid ""
 "history will be permanently deleted."
 msgstr "ผู้ติดต่อนี้จะถูกลบออกจากรายชื่อผู้ติดต่อของคุณ และประวัติการสนทนาทั้งหมดจะถูกลบอย่างถาวร"
 
-#: main/src/windows/conversation_details.vala:117
+#: main/src/windows/conversation_details.vala:118
 msgid "Block user"
 msgstr "บล็อคผู้ใช้"
 
-#: main/src/windows/conversation_details.vala:117
+#: main/src/windows/conversation_details.vala:118
 msgid "Block entire domain"
 msgstr "บล็อกทั้งโดเมน"
 
-#: main/src/windows/conversation_details.vala:134
+#: main/src/windows/conversation_details.vala:135
 msgid "Pinned"
 msgstr "ปักหมุด"
 
-#: main/src/windows/conversation_details.vala:134
+#: main/src/windows/conversation_details.vala:135
 msgid "Pin"
 msgstr "ปักหมุด"
 
-#: main/src/windows/conversation_details.vala:149
+#: main/src/windows/conversation_details.vala:150
 msgid "Domain blocked"
 msgstr "โดเมนถูกบล็อค"
 
-#: main/src/windows/conversation_details.vala:174
+#: main/src/windows/conversation_details.vala:175
 msgid "Notifications enabled"
 msgstr "เปิดใช้งานการแจ้งเตือนแล้ว"
 
-#: main/src/windows/conversation_details.vala:177
+#: main/src/windows/conversation_details.vala:178
 msgid "Notifications for mentions"
 msgstr "การแจ้งเตือนสำหรับการกล่าวถึง"
 
-#: main/src/windows/conversation_details.vala:182
+#: main/src/windows/conversation_details.vala:183
 msgid "Notifications disabled"
 msgstr "การแจ้งเตือนถูกปิดใช้งาน"
 
-#: main/src/windows/conversation_details.vala:241
+#: main/src/windows/conversation_details.vala:242
+#, fuzzy
+msgid "Profile"
+msgstr "บันทึกโปรไฟล์"
+
+#: main/src/windows/conversation_details.vala:245
 msgid "Settings"
 msgstr "การตั้งค่า"
 
-#: main/src/windows/conversation_details.vala:270
+#: main/src/windows/conversation_details.vala:274
 msgid "Room Configuration"
 msgstr "การกำหนดค่าห้อง"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:69
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:91
 msgid "Connect"
 msgstr "เชื่อมต่อ"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:146
 msgid "Disable account"
 msgstr "ลบบัญชีผู้ใช้"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:146
 msgid "Enable account"
 msgstr "เปิดใช้งานบัญชี"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:179
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:214
 msgid "Select avatar"
 msgstr "เลือกอวาตาร์"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:190
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:225
 msgid "Images"
 msgstr "รูปภาพ"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:194
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:229
 msgid "All files"
 msgstr "ไฟล์ทั้งหมด"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:212
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:247
 #, c-format
 msgid "Remove account %s?"
 msgstr "ลบบัญชี %s?"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:246
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:534
 msgid "Connected"
 msgstr "เชื่อมต่อแล้ว"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:248
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:536
 msgid "Disconnected"
 msgstr "ตัดการเชื่อมต่อ"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:268
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:270
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:556
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:558
 msgid "Error"
 msgstr "ผิดพลาด"
 
@@ -2406,9 +2570,6 @@ msgstr "นามแฝง (ไม่บังคับ)"
 #~ msgid "Name"
 #~ msgstr "Name"
 
-#~ msgid "Email"
-#~ msgstr "Email"
-
 #~ msgid "Passphrase"
 #~ msgstr "Passphrase"
 
@@ -2430,9 +2591,6 @@ msgstr "นามแฝง (ไม่บังคับ)"
 #~ msgid "Disabled"
 #~ msgstr "Disabled"
 
-#~ msgid "Success"
-#~ msgstr "Success"
-
 #~ msgid "Create a new OpenPGP key pair"
 #~ msgstr "สร้างคู่คีย์ OpenPGP ใหม่"
 
@@ -2453,9 +2611,6 @@ msgstr "นามแฝง (ไม่บังคับ)"
 
 #~ msgid "Enter your details to create a new key pair."
 #~ msgstr "ใส่รายละเอียดของคุณเพื่อสร้างคู่คีย์ใหม่"
-
-#~ msgid "Your Name"
-#~ msgstr "ชื่อของคุณ"
 
 #~ msgid "you@example.com"
 #~ msgstr "you@example.com"

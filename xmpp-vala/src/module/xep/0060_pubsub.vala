@@ -53,6 +53,9 @@ namespace Xmpp.Xep.Pubsub {
                 return null;
             }
 
+            // Debug: Print PubSub IQ response
+            print("PubSub IQ response for node '%s': %s\n", node, iq_res.stanza.to_string());
+
             StanzaNode event_node = iq_res.stanza.get_subnode("pubsub", NS_URI);
             if (event_node == null) return null;
             StanzaNode items_node = event_node.get_subnode("items", NS_URI);
@@ -147,10 +150,22 @@ namespace Xmpp.Xep.Pubsub {
             }
             if (iq_result.is_error()) {
                 if (publish_options == null || !try_reconfiguring) return false;
-                bool precondition_not_met = iq_result.get_error().error_node.get_subnode("precondition-not-met", NS_URI_ERROR) != null;
-                if (precondition_not_met) {
+                
+                var error = iq_result.get_error();
+                if (error == null) return false;
+
+                // Check for conflict (409) or precondition-not-met
+                bool conflict = error.type_ == ErrorStanza.TYPE_CANCEL && error.condition == ErrorStanza.CONDITION_CONFLICT;
+                bool precondition_not_met = error.error_node.get_subnode("precondition-not-met", NS_URI_ERROR) != null;
+                
+                if (precondition_not_met || conflict) {
+                    warning("PubSub publish failed with conflict/precondition-not-met. Attempting to reconfigure node %s", node_id);
                     bool success = yield change_node_config(stream, jid, node_id, publish_options);
-                    if (!success) return false;
+                    if (!success) {
+                        warning("Failed to reconfigure node %s", node_id);
+                        return false;
+                    }
+                    warning("Successfully reconfigured node %s. Retrying publish...", node_id);
                     return yield publish(stream, jid, node_id, item_id, content, publish_options, false);
                 }
             }
@@ -210,7 +225,7 @@ namespace Xmpp.Xep.Pubsub {
             return DataForms.DataForm.create_from_node(data_form_node);
         }
 
-        public async bool submit_node_config(XmppStream stream, DataForms.DataForm data_form, string node_id) {
+        public async bool submit_node_config(XmppStream stream, Jid? jid, DataForms.DataForm data_form, string node_id) {
             StanzaNode submit_node = data_form.get_submit_node();
 
             StanzaNode pubsub_node = new StanzaNode.build("pubsub", Pubsub.NS_URI_OWNER).add_self_xmlns();
@@ -220,6 +235,9 @@ namespace Xmpp.Xep.Pubsub {
 
 
             Iq.Stanza iq = new Iq.Stanza.set(pubsub_node);
+            if (jid != null) {
+                iq.to = jid;
+            }
             // node config is addressed to the pubsub service; keep default addressing
             Iq.Stanza iq_result;
             try {
@@ -285,8 +303,8 @@ namespace Xmpp.Xep.Pubsub {
             }
         }
 
-        private async bool change_node_config(XmppStream stream, Jid jid, string node, PublishOptions publish_options) {
-            DataForms.DataForm? data_form = yield stream.get_module(Pubsub.Module.IDENTITY).request_node_config(stream, null, node);
+        private async bool change_node_config(XmppStream stream, Jid? jid, string node, PublishOptions publish_options) {
+            DataForms.DataForm? data_form = yield stream.get_module(Pubsub.Module.IDENTITY).request_node_config(stream, jid, node);
             if (data_form == null) return false;
 
             foreach (DataForms.DataForm.Field field in data_form.fields) {
@@ -294,7 +312,7 @@ namespace Xmpp.Xep.Pubsub {
                     field.set_value_string(publish_options.settings[field.var]);
                 }
             }
-            return yield stream.get_module(Pubsub.Module.IDENTITY).submit_node_config(stream, data_form, node);
+            return yield stream.get_module(Pubsub.Module.IDENTITY).submit_node_config(stream, jid, data_form, node);
         }
     }
 

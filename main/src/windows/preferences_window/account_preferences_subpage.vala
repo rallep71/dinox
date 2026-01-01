@@ -27,11 +27,22 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
 
     [GtkChild] public unowned Adw.EntryRow vcard_fn;
     [GtkChild] public unowned Adw.EntryRow vcard_nickname;
+    [GtkChild] public unowned Adw.ComboRow vcard_gender;
+    [GtkChild] public unowned Adw.EntryRow vcard_bday;
+    [GtkChild] public unowned Adw.EntryRow vcard_adr_street;
+    [GtkChild] public unowned Adw.EntryRow vcard_adr_pcode;
+    [GtkChild] public unowned Adw.EntryRow vcard_adr_city;
+    [GtkChild] public unowned Adw.EntryRow vcard_adr_region;
+    [GtkChild] public unowned Adw.EntryRow vcard_adr_country;
     [GtkChild] public unowned Adw.EntryRow vcard_email;
+    [GtkChild] public unowned Adw.EntryRow vcard_impp;
+    [GtkChild] public unowned Adw.SwitchRow vcard_public_access;
+    [GtkChild] public unowned Adw.SwitchRow vcard_share_with_contacts;
     [GtkChild] public unowned Adw.EntryRow vcard_phone;
     [GtkChild] public unowned Adw.EntryRow vcard_title;
     [GtkChild] public unowned Adw.EntryRow vcard_role;
     [GtkChild] public unowned Adw.EntryRow vcard_org;
+    [GtkChild] public unowned Adw.EntryRow vcard_tz;
     [GtkChild] public unowned Adw.EntryRow vcard_url;
     [GtkChild] public unowned Adw.EntryRow vcard_desc;
     [GtkChild] public unowned Button save_vcard_button;
@@ -88,6 +99,13 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
 
         save_vcard_button.clicked.connect(() => {
             save_vcard.begin();
+        });
+
+        vcard_public_access.notify["active"].connect(() => {
+            vcard_share_with_contacts.sensitive = !vcard_public_access.active;
+            if (vcard_public_access.active) {
+                vcard_share_with_contacts.active = true;
+            }
         });
 
         this.notify["model"].connect(() => {
@@ -254,13 +272,24 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
     private async void load_vcard() {
         vcard_fn.text = "";
         vcard_nickname.text = "";
+        vcard_gender.selected = 0; // Unknown
+        vcard_bday.text = "";
+        vcard_adr_street.text = "";
+        vcard_adr_pcode.text = "";
+        vcard_adr_city.text = "";
+        vcard_adr_region.text = "";
+        vcard_adr_country.text = "";
         vcard_email.text = "";
+        vcard_impp.text = "";
         vcard_phone.text = "";
         vcard_title.text = "";
         vcard_role.text = "";
         vcard_org.text = "";
+        vcard_tz.text = "";
         vcard_url.text = "";
         vcard_desc.text = "";
+        vcard_public_access.active = false;
+        vcard_share_with_contacts.active = false;
         save_vcard_button.sensitive = false;
 
         var stream = model.stream_interactor.get_stream(account);
@@ -273,13 +302,56 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
             if (vcard4 != null) {
                 vcard_fn.text = vcard4.full_name ?? "";
                 vcard_nickname.text = vcard4.nickname ?? "";
+                
+                if (vcard4.gender == "M") vcard_gender.selected = 1;
+                else if (vcard4.gender == "F") vcard_gender.selected = 2;
+                else if (vcard4.gender == "O") vcard_gender.selected = 3;
+                else if (vcard4.gender == "N") vcard_gender.selected = 4;
+                else vcard_gender.selected = 0;
+
+                vcard_bday.text = vcard4.bday ?? "";
                 vcard_email.text = vcard4.email ?? "";
                 vcard_phone.text = vcard4.tel ?? "";
                 vcard_title.text = vcard4.title ?? "";
                 vcard_role.text = vcard4.role ?? "";
                 vcard_org.text = vcard4.org ?? "";
+                vcard_tz.text = vcard4.tz ?? "";
                 vcard_url.text = vcard4.url ?? "";
                 vcard_desc.text = vcard4.note ?? "";
+                
+                if (vcard4.impp != null) {
+                    vcard_impp.text = vcard4.impp;
+                }
+                
+                if (vcard4.adr_street != null) vcard_adr_street.text = vcard4.adr_street;
+                if (vcard4.adr_locality != null) vcard_adr_city.text = vcard4.adr_locality;
+                if (vcard4.adr_region != null) vcard_adr_region.text = vcard4.adr_region;
+                if (vcard4.adr_pcode != null) vcard_adr_pcode.text = vcard4.adr_pcode;
+                if (vcard4.adr_country != null) vcard_adr_country.text = vcard4.adr_country;
+                
+                // Check access model
+                var pubsub_module = stream.get_module(Xmpp.Xep.Pubsub.Module.IDENTITY);
+                if (pubsub_module != null) {
+                    var config = yield pubsub_module.request_node_config(stream, null, "urn:ietf:params:xml:ns:vcard-4.0");
+                    if (config != null) {
+                        foreach (var field in config.fields) {
+                            if (field.var == "pubsub#access_model") {
+                                string val = field.get_value_string();
+                                vcard_public_access.active = (val == "open");
+                                
+                                if (val == "open") {
+                                    vcard_share_with_contacts.active = true;
+                                    vcard_share_with_contacts.sensitive = false;
+                                } else {
+                                    vcard_share_with_contacts.sensitive = true;
+                                    vcard_share_with_contacts.active = (val == "presence");
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+
                 save_vcard_button.sensitive = true;
                 return;
             }
@@ -297,33 +369,34 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
             vcard_org.text = vcard.organization ?? "";
             vcard_url.text = vcard.url ?? "";
             vcard_desc.text = vcard.description ?? "";
+            
+            // VCard-temp address handling
+            if (vcard.adr_street != null) vcard_adr_street.text = vcard.adr_street;
+            if (vcard.adr_locality != null) vcard_adr_city.text = vcard.adr_locality;
+            if (vcard.adr_region != null) vcard_adr_region.text = vcard.adr_region;
+            if (vcard.adr_pcode != null) vcard_adr_pcode.text = vcard.adr_pcode;
+            if (vcard.adr_country != null) vcard_adr_country.text = vcard.adr_country;
         }
         save_vcard_button.sensitive = true;
     }
 
     private async void save_vcard() {
+        print("AccountPreferences: Starting save_vcard...\n");
         save_vcard_button.sensitive = false;
         var stream = model.stream_interactor.get_stream(account);
-        if (stream == null) return;
-
-        // Save VCard4 (XEP-0292)
-        var vcard4_module = stream.get_module(Xmpp.Xep.VCard4.Module.IDENTITY);
-        if (vcard4_module != null) {
-            var vcard4 = new Xmpp.Xep.VCard4.VCard4.create();
-            vcard4.full_name = vcard_fn.text;
-            vcard4.nickname = vcard_nickname.text;
-            vcard4.email = vcard_email.text;
-            vcard4.tel = vcard_phone.text;
-            vcard4.title = vcard_title.text;
-            vcard4.role = vcard_role.text;
-            vcard4.org = vcard_org.text;
-            vcard4.url = vcard_url.text;
-            vcard4.note = vcard_desc.text;
-            
-            yield vcard4_module.publish(stream, vcard4);
+        if (stream == null) {
+            print("AccountPreferences: Stream is null!\n");
+            return;
         }
 
-        // Save VCard-temp (XEP-0054)
+        // 1. Save VCard-temp (XEP-0054)
+        print("AccountPreferences: Saving VCard-temp...\n");
+        print("DEBUG: Street: '%s'\n", vcard_adr_street.text);
+        print("DEBUG: City: '%s'\n", vcard_adr_city.text);
+        print("DEBUG: Region: '%s'\n", vcard_adr_region.text);
+        print("DEBUG: PCode: '%s'\n", vcard_adr_pcode.text);
+        print("DEBUG: Country: '%s'\n", vcard_adr_country.text);
+
         var vcard = new Xmpp.Xep.VCard.VCardInfo();
         vcard.full_name = vcard_fn.text;
         vcard.nickname = vcard_nickname.text;
@@ -335,6 +408,12 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
         vcard.url = vcard_url.text;
         vcard.description = vcard_desc.text;
         
+        if (vcard_adr_street.text != "") vcard.adr_street = vcard_adr_street.text;
+        if (vcard_adr_city.text != "") vcard.adr_locality = vcard_adr_city.text;
+        if (vcard_adr_region.text != "") vcard.adr_region = vcard_adr_region.text;
+        if (vcard_adr_pcode.text != "") vcard.adr_pcode = vcard_adr_pcode.text;
+        if (vcard_adr_country.text != "") vcard.adr_country = vcard_adr_country.text;
+        
         try {
             var current_vcard = yield Xmpp.Xep.VCard.fetch_vcard(stream);
             if (current_vcard != null) {
@@ -343,12 +422,103 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
             }
             
             yield Xmpp.Xep.VCard.publish_vcard(stream, vcard);
+            print("AccountPreferences: VCard-temp saved.\n");
         } catch (Error e) {
             warning("Failed to save vCard: %s", e.message);
+            print("AccountPreferences: Failed to save VCard-temp: %s\n", e.message);
             var dialog = new Adw.MessageDialog((Window)this.get_root(), "Failed to save profile", e.message);
             dialog.add_response("ok", _("OK"));
             dialog.present();
         }
+
+        // 2. Save VCard4 (XEP-0292)
+        var vcard4_module = stream.get_module(Xmpp.Xep.VCard4.Module.IDENTITY);
+        if (vcard4_module != null) {
+            print("AccountPreferences: Saving VCard4...\n");
+            var vcard4 = new Xmpp.Xep.VCard4.VCard4.create();
+            vcard4.full_name = vcard_fn.text;
+            vcard4.nickname = vcard_nickname.text;
+            
+            switch (vcard_gender.selected) {
+                case 1: vcard4.gender = "M"; break;
+                case 2: vcard4.gender = "F"; break;
+                case 3: vcard4.gender = "O"; break;
+                case 4: vcard4.gender = "N"; break;
+                case 5: vcard4.gender = "U"; break;
+                default: vcard4.gender = null; break;
+            }
+
+            vcard4.bday = vcard_bday.text;
+            vcard4.email = vcard_email.text;
+            vcard4.tel = vcard_phone.text;
+            vcard4.title = vcard_title.text;
+            vcard4.role = vcard_role.text;
+            vcard4.org = vcard_org.text;
+            vcard4.tz = vcard_tz.text;
+            vcard4.url = vcard_url.text;
+            vcard4.note = vcard_desc.text;
+            
+            if (vcard_impp.text != "") {
+                vcard4.impp = vcard_impp.text;
+            }
+            
+            if (vcard_adr_street.text != "" || vcard_adr_city.text != "" || vcard_adr_region.text != "" || vcard_adr_pcode.text != "" || vcard_adr_country.text != "") {
+                vcard4.adr_street = vcard_adr_street.text;
+                vcard4.adr_locality = vcard_adr_city.text;
+                vcard4.adr_region = vcard_adr_region.text;
+                vcard4.adr_pcode = vcard_adr_pcode.text;
+                vcard4.adr_country = vcard_adr_country.text;
+            }
+            
+            // Add a timeout to re-enable the button in case publish hangs
+            uint timeout_id = Timeout.add_seconds(10, () => {
+                if (!save_vcard_button.sensitive) {
+                    print("AccountPreferences: Save timed out, re-enabling button.\n");
+                    save_vcard_button.sensitive = true;
+                }
+                return false;
+            });
+
+            // Configure Access Model
+            var pubsub_options = new Xmpp.Xep.Pubsub.PublishOptions();
+            if (vcard_public_access.active) {
+                pubsub_options.set_access_model(Xmpp.Xep.Pubsub.ACCESS_MODEL_OPEN);
+            } else if (vcard_share_with_contacts.active) {
+                pubsub_options.set_access_model(Xmpp.Xep.Pubsub.ACCESS_MODEL_PRESENCE);
+            } else {
+                pubsub_options.set_access_model(Xmpp.Xep.Pubsub.ACCESS_MODEL_WHITELIST);
+            }
+
+            bool success = yield vcard4_module.publish(stream, vcard4, pubsub_options);
+            Source.remove(timeout_id);
+            
+            if (success) {
+                print("AccountPreferences: VCard4 saved successfully. Reloading...\n");
+                yield load_vcard();
+            } else {
+                print("AccountPreferences: VCard4 save failed (or partial failure).\n");
+                // Re-enable button so user can try again
+                save_vcard_button.sensitive = true;
+            }
+        } else {
+            print("AccountPreferences: VCard4 module not found!\n");
+        }
+
+        // 3. Publish PEP Nickname (XEP-0172) for compatibility (e.g. Gajim)
+        var pubsub_module = stream.get_module(Xmpp.Xep.Pubsub.Module.IDENTITY);
+        if (pubsub_module != null && vcard_nickname.text != "") {
+            print("AccountPreferences: Publishing PEP Nickname...\n");
+            var nick_node = new StanzaNode.build("nick", "http://jabber.org/protocol/nick");
+            nick_node.put_node(new StanzaNode.text(vcard_nickname.text));
+            
+            bool res = yield pubsub_module.publish(stream, null, "http://jabber.org/protocol/nick", "current", nick_node);
+            if (res) {
+                print("AccountPreferences: PEP Nickname published.\n");
+            } else {
+                print("AccountPreferences: Failed to publish PEP Nickname.\n");
+            }
+        }
+
         save_vcard_button.sensitive = true;
     }
 

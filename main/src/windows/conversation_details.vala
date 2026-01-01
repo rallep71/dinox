@@ -86,6 +86,7 @@ namespace Dino.Ui.ConversationDetails {
             model.notify["notification-is-default"].connect(update_notification_button_visibility);
 
             model.about_rows.items_changed.connect(populate_about_tab);
+            model.vcard_rows.items_changed.connect(populate_about_tab);
             model.settings_rows.items_changed.connect(populate_about_tab);
             // TODO add_room_configuration_tab_element gets called even after the window is closed
             model.notify["room-configuration-rows"].connect(add_room_configuration_tab_element);
@@ -236,6 +237,9 @@ namespace Dino.Ui.ConversationDetails {
 
             if (model.about_rows.get_n_items() > 0) {
                 about_box.append(Util.rows_to_preference_group(model.about_rows, _("About")));
+            }
+            if (model.vcard_rows.get_n_items() > 0) {
+                about_box.append(Util.rows_to_preference_group(model.vcard_rows, _("Profile")));
             }
             if (model.settings_rows.get_n_items() > 0) {
                 about_box.append(Util.rows_to_preference_group(model.settings_rows, _("Settings")));

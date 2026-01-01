@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-31 14:00+0100\n"
+"POT-Creation-Date: 2026-01-01 18:06+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Language-Team: none\n"
 "Language: ia\n"
@@ -79,7 +79,7 @@ msgid "Remove Contact"
 msgstr "Remover contacto"
 
 #: main/data/conversation_details.ui:192
-#: main/src/windows/conversation_details.vala:238
+#: main/src/windows/conversation_details.vala:239
 msgid "About"
 msgstr "A proposito"
 
@@ -88,13 +88,13 @@ msgid "Private room (supports group calls)"
 msgstr "Camera private (supporta appellos de gruppo)"
 
 #: main/data/conversation_row.ui:135
-#: main/src/windows/conversation_details.vala:180
 #: main/src/windows/conversation_details.vala:181
+#: main/src/windows/conversation_details.vala:182
 msgid "Muted"
 msgstr "Silentiate"
 
 #: main/data/conversation_row.ui:146
-#: main/src/windows/conversation_details.vala:145
+#: main/src/windows/conversation_details.vala:146
 msgid "Blocked"
 msgstr "Blocate"
 
@@ -241,7 +241,7 @@ msgstr "Deler historia del conversation"
 #: main/src/ui/conversation_content_view/file_default_widget.vala:90
 #: main/src/ui/conversation_content_view/item_actions.vala:165
 #: main/src/ui/conversation_content_view/item_actions.vala:168
-#: main/src/ui/conversation_details.vala:253
+#: main/src/ui/conversation_details.vala:283
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:641
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:668
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:687
@@ -252,7 +252,7 @@ msgstr "Deler historia del conversation"
 #: main/src/ui/conversation_titlebar/call_entry.vala:83
 #: main/src/ui/conversation_titlebar/menu_entry.vala:51
 #: main/src/windows/conversation_details.vala:60
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:68
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:90
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:199
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:219
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:243
@@ -267,7 +267,7 @@ msgid "Update message"
 msgstr "Actualisar message"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:68
-#: main/src/ui/conversation_details.vala:170
+#: main/src/ui/conversation_details.vala:169
 msgid "XMPP Address"
 msgstr "Adresse XMPP"
 
@@ -289,20 +289,161 @@ msgstr "Stato del connexion"
 msgid "View Certificate"
 msgstr "Vider certificato"
 
-# Custom host/port feature (Issue #115)
 #: main/data/preferences_window/account_preferences_subpage.ui:128
+msgid "Public Profile"
+msgstr "Profilo public"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:131
+msgid "Public Access"
+msgstr "Accesso public"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:132
+msgid "Allow anyone to see your profile"
+msgstr "Permitter a tote le mundo vider tu profilo"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:137
+msgid "Share with Contacts"
+msgstr "Compartir con contactos"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:138
+msgid "Allow contacts to see your profile"
+msgstr "Permitter a contactos vider tu profilo"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:143
+#: main/src/ui/conversation_details.vala:561
+msgid "Full Name"
+msgstr "Nomine complete"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:148
+#: main/src/ui/conversation_details.vala:562
+msgid "Nickname"
+msgstr "Pseudonymo"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:153
+#: main/src/ui/conversation_details.vala:575
+msgid "Gender"
+msgstr "Genere"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:157
+#: main/src/ui/conversation_details.vala:573
+msgid "Unknown"
+msgstr "Incognite"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:158
+#: main/src/ui/conversation_details.vala:569
+msgid "Male"
+msgstr "Masculo"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:159
+#: main/src/ui/conversation_details.vala:570
+msgid "Female"
+msgstr "Femina"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:160
+#: main/src/ui/conversation_details.vala:571
+msgid "Other"
+msgstr "Altere"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:161
+#: main/src/ui/chat_input/sticker_chooser.vala:397
+#: main/src/ui/chat_input/sticker_chooser.vala:459
+#: main/src/ui/chat_input/sticker_chooser.vala:464
+#: main/src/ui/conversation_details.vala:572
+msgid "None"
+msgstr "Nulle"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:169
+#: main/src/ui/conversation_details.vala:578
+msgid "Birthday"
+msgstr "Anniversario"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:174
+#: main/src/ui/conversation_details.vala:580
+msgid "Address"
+msgstr "Adresse"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:177
+msgid "Street"
+msgstr ""
+
+#: main/data/preferences_window/account_preferences_subpage.ui:182
+msgid "Postal Code"
+msgstr ""
+
+#: main/data/preferences_window/account_preferences_subpage.ui:187
+msgid "City"
+msgstr ""
+
+#: main/data/preferences_window/account_preferences_subpage.ui:192
+#, fuzzy
+msgid "Region"
+msgstr "Registrar se super %s"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:197
+msgid "Country"
+msgstr ""
+
+#: main/data/preferences_window/account_preferences_subpage.ui:204
+#: main/src/ui/conversation_details.vala:582
+msgid "Email"
+msgstr "E-mail"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:209
+#: main/src/ui/conversation_details.vala:584
+msgid "IM Address"
+msgstr "Adresse IM"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:214
+msgid "Phone Number"
+msgstr "Numero de telephono"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:219
+#: main/src/ui/conversation_details.vala:588
+msgid "Organization"
+msgstr "Organisation"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:224
+msgid "Job Title"
+msgstr "Titulo de empleo"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:229
+#: main/src/ui/conversation_details.vala:182
+#: main/src/ui/conversation_details.vala:592
+msgid "Role"
+msgstr "Rolo"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:234
+#: main/src/ui/conversation_details.vala:594
+msgid "Timezone"
+msgstr "Fuso horari"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:239
+msgid "Website"
+msgstr "Sito web"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:244
+#: main/src/ui/util/data_forms.vala:44
+msgid "Description"
+msgstr "Description"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:249
+msgid "Save Profile"
+msgstr "Salvar profilo"
+
+# Custom host/port feature (Issue #115)
+#: main/data/preferences_window/account_preferences_subpage.ui:261
 msgid "Advanced Settings"
 msgstr "Configurationes avantiate"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:129
+#: main/data/preferences_window/account_preferences_subpage.ui:262
 msgid "Custom server connection (leave empty for automatic)"
 msgstr "Connexion personalisate al servitor (lassar vacue pro automatic)"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:132
+#: main/data/preferences_window/account_preferences_subpage.ui:265
 msgid "Server Hostname"
 msgstr "Nomine del hoste del servitor"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:137
+#: main/data/preferences_window/account_preferences_subpage.ui:270
 msgid "Port"
 msgstr "Porto"
 
@@ -468,7 +609,7 @@ msgid "Contacts"
 msgstr "Contactos"
 
 #: main/data/preferences_window/preferences_dialog.ui:25
-#: main/src/windows/conversation_details.vala:288
+#: main/src/windows/conversation_details.vala:292
 msgid "Encryption"
 msgstr "Cryptation"
 
@@ -601,7 +742,9 @@ msgstr "Definir contrasigno"
 msgid ""
 "Bei der ersten Nutzung musst du ein Passwort setzen. Ohne Passwort kann "
 "DinoX die verschlüsselte Datenbank nicht öffnen."
-msgstr "Tu debe definir un contrasigno al prime uso. Sin contrasigno, DinoX non pote aperir le base de datos cryptate."
+msgstr ""
+"Tu debe definir un contrasigno al prime uso. Sin contrasigno, DinoX non pote "
+"aperir le base de datos cryptate."
 
 #: main/src/ui/application.vala:373
 #, c-format
@@ -761,6 +904,7 @@ msgstr ""
 "Verifica si le contrasigno es correcte."
 
 #: main/src/ui/application.vala:1112 main/src/ui/application.vala:1222
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:430
 msgid "OK"
 msgstr "OK"
 
@@ -806,9 +950,9 @@ msgstr ""
 #: main/src/ui/application.vala:1303 main/src/ui/application.vala:1791
 #: main/src/ui/application.vala:1875
 #: main/src/ui/chat_input/sticker_chooser.vala:181
-#: main/src/ui/conversation_details.vala:276
+#: main/src/ui/conversation_details.vala:306
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:566
-#: main/src/ui/conversation_view_controller.vala:333
+#: main/src/ui/conversation_view_controller.vala:340
 #: main/src/ui/main_window.vala:172
 msgid "Close"
 msgstr "Clauder"
@@ -1056,7 +1200,7 @@ msgstr "Invitar a appello"
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:780
 #: main/src/ui/conversation_titlebar/menu_entry.vala:99
 #: main/src/ui/occupant_menu/view.vala:27
-#: main/src/ui/occupant_menu/view.vala:275
+#: main/src/ui/occupant_menu/view.vala:283
 msgid "Invite"
 msgstr "Invitar"
 
@@ -1093,7 +1237,7 @@ msgid "Ringing…"
 msgstr "Sonante…"
 
 #: main/src/ui/call_window/participant_widget.vala:153
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:244
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:532
 msgid "Connecting…"
 msgstr "Connectente…"
 
@@ -1125,12 +1269,6 @@ msgstr "Gerer pacchettos de adhesivos"
 #: main/src/ui/chat_input/sticker_chooser.vala:390
 msgid "Stickers are unavailable"
 msgstr "Adhesivos non es disponibile"
-
-#: main/src/ui/chat_input/sticker_chooser.vala:397
-#: main/src/ui/chat_input/sticker_chooser.vala:459
-#: main/src/ui/chat_input/sticker_chooser.vala:464
-msgid "None"
-msgstr "Nulle"
 
 #: main/src/ui/chat_input/sticker_chooser.vala:412
 msgid "No sticker packs yet."
@@ -1525,37 +1663,46 @@ msgstr "Iste contacto vole adder te a lor lista de contactos"
 msgid "New"
 msgstr "Nove"
 
-#: main/src/ui/conversation_details.vala:175
+#: main/src/ui/conversation_details.vala:188
+#, fuzzy
+msgid "Affiliation"
+msgstr "Gerer affiliationes"
+
+#: main/src/ui/conversation_details.vala:197
+msgid "Real JID"
+msgstr "JID Real"
+
+#: main/src/ui/conversation_details.vala:205
 #: main/src/ui/util/data_forms.vala:40
 msgid "Display name"
 msgstr "Nomine de exhibition"
 
-#: main/src/ui/conversation_details.vala:195
-#: main/src/ui/conversation_details.vala:209
+#: main/src/ui/conversation_details.vala:225
+#: main/src/ui/conversation_details.vala:239
 msgid "Topic"
 msgstr "Thema"
 
-#: main/src/ui/conversation_details.vala:222
+#: main/src/ui/conversation_details.vala:252
 msgid "Permissions"
 msgstr "Permissiones"
 
-#: main/src/ui/conversation_details.vala:223
+#: main/src/ui/conversation_details.vala:253
 msgid "Manage Affiliations"
 msgstr "Gerer affiliationes"
 
-#: main/src/ui/conversation_details.vala:243
+#: main/src/ui/conversation_details.vala:273
 msgid "Danger Zone"
 msgstr "Zona de periculo"
 
-#: main/src/ui/conversation_details.vala:244
+#: main/src/ui/conversation_details.vala:274
 msgid "Destroy Room"
-msgstr "Destruer sala"
+msgstr "Destruer camera"
 
-#: main/src/ui/conversation_details.vala:250
+#: main/src/ui/conversation_details.vala:280
 msgid "Destroy Room?"
-msgstr "Destruer sala?"
+msgstr "Destruer camera?"
 
-#: main/src/ui/conversation_details.vala:251
+#: main/src/ui/conversation_details.vala:281
 msgid ""
 "Are you sure you want to permanently destroy this room? This action cannot "
 "be undone and all history will be lost for all participants."
@@ -1564,45 +1711,61 @@ msgstr ""
 "pote esser disfacite e tote le historia essera perdite pro tote le "
 "participantes."
 
-#: main/src/ui/conversation_details.vala:254
+#: main/src/ui/conversation_details.vala:284
 msgid "Destroy"
 msgstr "Destruer"
 
-#: main/src/ui/conversation_details.vala:275
+#: main/src/ui/conversation_details.vala:305
 msgid "Failed to destroy room"
 msgstr "Falleva destruer sala"
 
-#: main/src/ui/conversation_details.vala:290
+#: main/src/ui/conversation_details.vala:320
 msgid "Auto-delete messages"
 msgstr "Auto-deler messages"
 
-#: main/src/ui/conversation_details.vala:291
+#: main/src/ui/conversation_details.vala:321
 msgid "Never"
 msgstr "Jammais"
 
-#: main/src/ui/conversation_details.vala:292
+#: main/src/ui/conversation_details.vala:322
 msgid "After 15 minutes"
 msgstr "Post 15 minutas"
 
-#: main/src/ui/conversation_details.vala:293
+#: main/src/ui/conversation_details.vala:323
 msgid "After 30 minutes"
 msgstr "Post 30 minutas"
 
-#: main/src/ui/conversation_details.vala:294
+#: main/src/ui/conversation_details.vala:324
 msgid "After 1 hour"
 msgstr "Post 1 hora"
 
-#: main/src/ui/conversation_details.vala:295
+#: main/src/ui/conversation_details.vala:325
 msgid "After 24 hours"
 msgstr "Post 24 horas"
 
-#: main/src/ui/conversation_details.vala:296
+#: main/src/ui/conversation_details.vala:326
 msgid "After 7 days"
 msgstr "Post 7 dies"
 
-#: main/src/ui/conversation_details.vala:297
+#: main/src/ui/conversation_details.vala:327
 msgid "After 30 days"
 msgstr "Post 30 dies"
+
+#: main/src/ui/conversation_details.vala:586
+msgid "Phone"
+msgstr "Telephono"
+
+#: main/src/ui/conversation_details.vala:590
+msgid "Title"
+msgstr "Titulo"
+
+#: main/src/ui/conversation_details.vala:596
+msgid "URL"
+msgstr "URL"
+
+#: main/src/ui/conversation_details.vala:598
+msgid "Note"
+msgstr "Nota"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:276
 #: main/src/ui/notifier_freedesktop.vala:71
@@ -1670,22 +1833,22 @@ msgstr "Invitar contacto"
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:511
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:559
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:669
-#: main/src/ui/occupant_menu/view.vala:173
+#: main/src/ui/occupant_menu/view.vala:181
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:134
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:200
 msgid "Unmute"
-msgstr "Dissilentiar"
+msgstr "Dis-mutar"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:511
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:559
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:688
-#: main/src/ui/occupant_menu/view.vala:177
-#: main/src/windows/conversation_details.vala:172
+#: main/src/ui/occupant_menu/view.vala:185
 #: main/src/windows/conversation_details.vala:173
+#: main/src/windows/conversation_details.vala:174
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:134
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:220
 msgid "Mute"
-msgstr "Silentiar"
+msgstr "Mutar"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:514
 msgid "Leave and Close"
@@ -1699,14 +1862,14 @@ msgstr "Modificar alias"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:563
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:713
-#: main/src/windows/conversation_details.vala:117
+#: main/src/windows/conversation_details.vala:118
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:244
 msgid "Unblock"
 msgstr "Disblocar"
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:563
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:732
-#: main/src/windows/conversation_details.vala:153
+#: main/src/windows/conversation_details.vala:154
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:264
 msgid "Block"
 msgstr "Bloco"
@@ -1843,20 +2006,20 @@ msgid "Close Conversation"
 msgstr "Clauder conversation"
 
 #: main/src/ui/conversation_titlebar/occupants_entry.vala:14
-#: main/src/windows/conversation_details.vala:298
+#: main/src/windows/conversation_details.vala:302
 msgid "Members"
 msgstr "Membros"
 
-#: main/src/ui/conversation_view_controller.vala:249
+#: main/src/ui/conversation_view_controller.vala:256
 msgid "Select file"
 msgstr "Seliger file"
 
-#: main/src/ui/conversation_view_controller.vala:250
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:180
+#: main/src/ui/conversation_view_controller.vala:257
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:215
 msgid "Select"
 msgstr "Seliger"
 
-#: main/src/ui/conversation_view_controller.vala:332
+#: main/src/ui/conversation_view_controller.vala:339
 msgid "Failed to get location"
 msgstr "Falleva obtener location"
 
@@ -1920,12 +2083,12 @@ msgid "Subscription request"
 msgstr "Requesta de subscription"
 
 #: main/src/ui/notifier_freedesktop.vala:194
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:259
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:547
 msgid "Wrong password"
 msgstr "Contrasigno incorrecte"
 
 #: main/src/ui/notifier_freedesktop.vala:197
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:261
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:549
 msgid "Invalid TLS certificate"
 msgstr "Certificato TLS invalide"
 
@@ -1953,17 +2116,17 @@ msgid "%s requests the permission to write in %s"
 msgstr "%s requesta le permission de scriber in %s"
 
 #: main/src/ui/occupant_menu/list.vala:118
-#: main/src/view_model/conversation_details.vala:134
+#: main/src/view_model/conversation_details.vala:139
 msgid "Owner"
 msgstr "Proprietario"
 
 #: main/src/ui/occupant_menu/list.vala:120
-#: main/src/view_model/conversation_details.vala:135
+#: main/src/view_model/conversation_details.vala:140
 msgid "Admin"
 msgstr "Administrator"
 
 #: main/src/ui/occupant_menu/list.vala:122
-#: main/src/view_model/conversation_details.vala:136
+#: main/src/view_model/conversation_details.vala:141
 msgid "Member"
 msgstr "Membro"
 
@@ -1971,73 +2134,73 @@ msgstr "Membro"
 msgid "User"
 msgstr "Usator"
 
-#: main/src/ui/occupant_menu/view.vala:89
+#: main/src/ui/occupant_menu/view.vala:100
 msgid "Start private conversation"
 msgstr "Initiar conversation private"
 
-#: main/src/ui/occupant_menu/view.vala:125
+#: main/src/ui/occupant_menu/view.vala:135
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:151
 msgid "Unblock Contact"
 msgstr "Disblocar contacto"
 
-#: main/src/ui/occupant_menu/view.vala:127
+#: main/src/ui/occupant_menu/view.vala:137
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:151
 msgid "Block Contact"
 msgstr "Blocar contacto"
 
-#: main/src/ui/occupant_menu/view.vala:133
+#: main/src/ui/occupant_menu/view.vala:143
 msgid "Moderation"
 msgstr "Moderation"
 
-#: main/src/ui/occupant_menu/view.vala:135
+#: main/src/ui/occupant_menu/view.vala:145
 msgid "Kick"
 msgstr "Expulsar"
 
-#: main/src/ui/occupant_menu/view.vala:139
+#: main/src/ui/occupant_menu/view.vala:149
 msgid "Ban (Permanent)"
-msgstr "Bannir (permanente)"
+msgstr "Bannir (Permanente)"
 
-#: main/src/ui/occupant_menu/view.vala:140
+#: main/src/ui/occupant_menu/view.vala:150
 msgid "Ban (10 min)"
 msgstr "Bannir (10 min)"
 
-#: main/src/ui/occupant_menu/view.vala:141
+#: main/src/ui/occupant_menu/view.vala:151
 msgid "Ban (15 min)"
 msgstr "Bannir (15 min)"
 
-#: main/src/ui/occupant_menu/view.vala:142
+#: main/src/ui/occupant_menu/view.vala:152
 msgid "Ban (30 min)"
 msgstr "Bannir (30 min)"
 
-#: main/src/ui/occupant_menu/view.vala:146
+#: main/src/ui/occupant_menu/view.vala:156
 msgid "Administration"
 msgstr "Administration"
 
-#: main/src/ui/occupant_menu/view.vala:150
+#: main/src/ui/occupant_menu/view.vala:160
 msgid "Make Admin"
 msgstr "Facer administrator"
 
-#: main/src/ui/occupant_menu/view.vala:152
+#: main/src/ui/occupant_menu/view.vala:162
 msgid "Revoke Admin"
 msgstr "Revocar administrator"
 
-#: main/src/ui/occupant_menu/view.vala:156
+#: main/src/ui/occupant_menu/view.vala:166
 msgid "Make Owner"
 msgstr "Facer proprietario"
 
-#: main/src/ui/occupant_menu/view.vala:161
+#: main/src/ui/occupant_menu/view.vala:171
 msgid "Make Member"
 msgstr "Facer membro"
 
-#: main/src/ui/occupant_menu/view.vala:163
+#: main/src/ui/occupant_menu/view.vala:173
 msgid "Revoke Membership"
 msgstr "Revocar membrato"
 
-#: main/src/ui/occupant_menu/view.vala:228
+#: main/src/ui/occupant_menu/view.vala:236
 msgid "Kicked by moderator"
-msgstr "Expulsate per moderator"
+msgstr "Expellite per moderator"
 
-#: main/src/ui/occupant_menu/view.vala:274
+#: main/src/ui/occupant_menu/view.vala:282
 msgid "Invite to Conference"
 msgstr "Invitar a conferentia"
 
@@ -2082,10 +2245,6 @@ msgid ""
 msgstr ""
 "Un nomine amical monstrate in listas de salas (non cambia le adresse del "
 "sala)"
-
-#: main/src/ui/util/data_forms.vala:44
-msgid "Description"
-msgstr "Description"
 
 #: main/src/ui/util/data_forms.vala:45
 msgid "A description of the room shown in room listings"
@@ -2161,85 +2320,90 @@ msgstr ""
 "Iste contacto essera removite de tu lista de contactos e tote le historia "
 "del conversation essera delite permanentemente."
 
-#: main/src/windows/conversation_details.vala:117
+#: main/src/windows/conversation_details.vala:118
 msgid "Block user"
 msgstr "Blocar usator"
 
-#: main/src/windows/conversation_details.vala:117
+#: main/src/windows/conversation_details.vala:118
 msgid "Block entire domain"
 msgstr "Blocar tote le dominio"
 
-#: main/src/windows/conversation_details.vala:134
+#: main/src/windows/conversation_details.vala:135
 msgid "Pinned"
 msgstr "Fixate"
 
-#: main/src/windows/conversation_details.vala:134
+#: main/src/windows/conversation_details.vala:135
 msgid "Pin"
 msgstr "Fixar"
 
-#: main/src/windows/conversation_details.vala:149
+#: main/src/windows/conversation_details.vala:150
 msgid "Domain blocked"
 msgstr "Dominio blocate"
 
-#: main/src/windows/conversation_details.vala:174
+#: main/src/windows/conversation_details.vala:175
 msgid "Notifications enabled"
 msgstr "Notificationes activate"
 
-#: main/src/windows/conversation_details.vala:177
+#: main/src/windows/conversation_details.vala:178
 msgid "Notifications for mentions"
 msgstr "Notificationes pro mentiones"
 
-#: main/src/windows/conversation_details.vala:182
+#: main/src/windows/conversation_details.vala:183
 msgid "Notifications disabled"
 msgstr "Notificationes disactivate"
 
-#: main/src/windows/conversation_details.vala:241
+#: main/src/windows/conversation_details.vala:242
+#, fuzzy
+msgid "Profile"
+msgstr "Salvar profilo"
+
+#: main/src/windows/conversation_details.vala:245
 msgid "Settings"
 msgstr "Configurationes"
 
-#: main/src/windows/conversation_details.vala:270
+#: main/src/windows/conversation_details.vala:274
 msgid "Room Configuration"
 msgstr "Configuration del sala"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:69
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:91
 msgid "Connect"
 msgstr "Connecter"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:146
 msgid "Disable account"
 msgstr "Disactivar conto"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:146
 msgid "Enable account"
 msgstr "Activar conto"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:179
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:214
 msgid "Select avatar"
 msgstr "Seliger avatar"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:190
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:225
 msgid "Images"
 msgstr "Imagines"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:194
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:229
 msgid "All files"
 msgstr "Tote le files"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:212
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:247
 #, c-format
 msgid "Remove account %s?"
 msgstr "Remover conto %s?"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:246
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:534
 msgid "Connected"
 msgstr "Connectite"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:248
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:536
 msgid "Disconnected"
 msgstr "Disconnectite"
 
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:268
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:270
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:556
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:558
 msgid "Error"
 msgstr "Error"
 
@@ -2418,9 +2582,6 @@ msgstr "Alias (optional)"
 #~ msgid "Name"
 #~ msgstr "Name"
 
-#~ msgid "Email"
-#~ msgstr "Email"
-
 #~ msgid "Passphrase"
 #~ msgstr "Passphrase"
 
@@ -2442,9 +2603,6 @@ msgstr "Alias (optional)"
 #~ msgid "Disabled"
 #~ msgstr "Disabled"
 
-#~ msgid "Success"
-#~ msgstr "Success"
-
 #~ msgid "Create a new OpenPGP key pair"
 #~ msgstr "Crear un nove par de claves OpenPGP"
 
@@ -2465,9 +2623,6 @@ msgstr "Alias (optional)"
 
 #~ msgid "Enter your details to create a new key pair."
 #~ msgstr "Insere tu detalios pro crear un nove par de claves."
-
-#~ msgid "Your Name"
-#~ msgstr "Tu nomine"
 
 #~ msgid "you@example.com"
 #~ msgstr "tu@exemplo.com"

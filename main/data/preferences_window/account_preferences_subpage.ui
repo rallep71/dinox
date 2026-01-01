@@ -127,6 +127,18 @@
                       <object class="AdwPreferencesGroup">
                         <property name="title" translatable="yes">Public Profile</property>
                         <child>
+                          <object class="AdwSwitchRow" id="vcard_public_access">
+                            <property name="title" translatable="yes">Public Access</property>
+                            <property name="subtitle" translatable="yes">Allow anyone to see your profile</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwSwitchRow" id="vcard_share_with_contacts">
+                            <property name="title" translatable="yes">Share with Contacts</property>
+                            <property name="subtitle" translatable="yes">Allow contacts to see your profile</property>
+                          </object>
+                        </child>
+                        <child>
                           <object class="AdwEntryRow" id="vcard_fn">
                             <property name="title" translatable="yes">Full Name</property>
                           </object>
@@ -137,13 +149,74 @@
                           </object>
                         </child>
                         <child>
+                          <object class="AdwComboRow" id="vcard_gender">
+                            <property name="title" translatable="yes">Gender</property>
+                            <property name="model">
+                              <object class="GtkStringList">
+                                <items>
+                                  <item translatable="yes">Unknown</item>
+                                  <item translatable="yes">Male</item>
+                                  <item translatable="yes">Female</item>
+                                  <item translatable="yes">Other</item>
+                                  <item translatable="yes">None</item>
+                                </items>
+                              </object>
+                            </property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwEntryRow" id="vcard_bday">
+                            <property name="title" translatable="yes">Birthday</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwExpanderRow" id="vcard_address_expander">
+                            <property name="title" translatable="yes">Address</property>
+                            <child>
+                              <object class="AdwEntryRow" id="vcard_adr_street">
+                                <property name="title" translatable="yes">Street</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="AdwEntryRow" id="vcard_adr_pcode">
+                                <property name="title" translatable="yes">Postal Code</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="AdwEntryRow" id="vcard_adr_city">
+                                <property name="title" translatable="yes">City</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="AdwEntryRow" id="vcard_adr_region">
+                                <property name="title" translatable="yes">Region</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="AdwEntryRow" id="vcard_adr_country">
+                                <property name="title" translatable="yes">Country</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
                           <object class="AdwEntryRow" id="vcard_email">
                             <property name="title" translatable="yes">Email</property>
                           </object>
                         </child>
                         <child>
+                          <object class="AdwEntryRow" id="vcard_impp">
+                            <property name="title" translatable="yes">IM Address</property>
+                          </object>
+                        </child>
+                        <child>
                           <object class="AdwEntryRow" id="vcard_phone">
                             <property name="title" translatable="yes">Phone Number</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwEntryRow" id="vcard_org">
+                            <property name="title" translatable="yes">Organization</property>
                           </object>
                         </child>
                         <child>
@@ -157,8 +230,8 @@
                           </object>
                         </child>
                         <child>
-                          <object class="AdwEntryRow" id="vcard_org">
-                            <property name="title" translatable="yes">Organization</property>
+                          <object class="AdwEntryRow" id="vcard_tz">
+                            <property name="title" translatable="yes">Timezone</property>
                           </object>
                         </child>
                         <child>
