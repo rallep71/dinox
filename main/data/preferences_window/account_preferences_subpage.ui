@@ -125,6 +125,66 @@
                     </child>
                     <child>
                       <object class="AdwPreferencesGroup">
+                        <property name="title" translatable="yes">Public Profile</property>
+                        <child>
+                          <object class="AdwEntryRow" id="vcard_fn">
+                            <property name="title" translatable="yes">Full Name</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwEntryRow" id="vcard_nickname">
+                            <property name="title" translatable="yes">Nickname</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwEntryRow" id="vcard_email">
+                            <property name="title" translatable="yes">Email</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwEntryRow" id="vcard_phone">
+                            <property name="title" translatable="yes">Phone Number</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwEntryRow" id="vcard_title">
+                            <property name="title" translatable="yes">Job Title</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwEntryRow" id="vcard_role">
+                            <property name="title" translatable="yes">Role</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwEntryRow" id="vcard_org">
+                            <property name="title" translatable="yes">Organization</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwEntryRow" id="vcard_url">
+                            <property name="title" translatable="yes">Website</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwEntryRow" id="vcard_desc">
+                            <property name="title" translatable="yes">Description</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="save_vcard_button">
+                            <property name="label" translatable="yes">Save Profile</property>
+                            <property name="halign">end</property>
+                            <property name="margin-top">12</property>
+                            <style>
+                              <class name="suggested-action"/>
+                            </style>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="AdwPreferencesGroup">
                         <property name="title" translatable="yes">Advanced Settings</property>
                         <property name="description" translatable="yes">Custom server connection (leave empty for automatic)</property>
                         <child>

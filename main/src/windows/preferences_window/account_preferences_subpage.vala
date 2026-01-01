@@ -25,6 +25,17 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
     [GtkChild] public unowned Adw.EntryRow custom_host_entry;
     [GtkChild] public unowned Adw.EntryRow custom_port_entry;
 
+    [GtkChild] public unowned Adw.EntryRow vcard_fn;
+    [GtkChild] public unowned Adw.EntryRow vcard_nickname;
+    [GtkChild] public unowned Adw.EntryRow vcard_email;
+    [GtkChild] public unowned Adw.EntryRow vcard_phone;
+    [GtkChild] public unowned Adw.EntryRow vcard_title;
+    [GtkChild] public unowned Adw.EntryRow vcard_role;
+    [GtkChild] public unowned Adw.EntryRow vcard_org;
+    [GtkChild] public unowned Adw.EntryRow vcard_url;
+    [GtkChild] public unowned Adw.EntryRow vcard_desc;
+    [GtkChild] public unowned Button save_vcard_button;
+
     public Account account { get { return model.selected_account.account; } }
     public ViewModel.PreferencesDialog model { get; set; }
 
@@ -75,6 +86,10 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
             show_certificate_dialog();
         });
 
+        save_vcard_button.clicked.connect(() => {
+            save_vcard.begin();
+        });
+
         this.notify["model"].connect(() => {
             model.notify["selected-account"].connect(() => {
                 foreach (var binding in bindings) {
@@ -105,6 +120,8 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
                     int port = int.parse(custom_port_entry.text);
                     account.custom_port = (port > 0 && port <= 65535) ? port : 0;
                 });
+
+                load_vcard.begin();
 
                 bindings += account.bind_property("enabled", disable_account_button, "label", BindingFlags.SYNC_CREATE, (binding, from, ref to) => {
                     bool enabled_bool = (bool) from;
@@ -232,6 +249,69 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
             dialog.close();
         });
         dialog.present((Window)this.get_root());
+    }
+
+    private async void load_vcard() {
+        vcard_fn.text = "";
+        vcard_nickname.text = "";
+        vcard_email.text = "";
+        vcard_phone.text = "";
+        vcard_title.text = "";
+        vcard_role.text = "";
+        vcard_org.text = "";
+        vcard_url.text = "";
+        vcard_desc.text = "";
+        save_vcard_button.sensitive = false;
+
+        var stream = model.stream_interactor.get_stream(account);
+        if (stream == null) return;
+
+        var vcard = yield Xmpp.Xep.VCard.fetch_vcard(stream);
+        if (vcard != null) {
+            vcard_fn.text = vcard.full_name ?? "";
+            vcard_nickname.text = vcard.nickname ?? "";
+            vcard_email.text = vcard.email ?? "";
+            vcard_phone.text = vcard.phone ?? "";
+            vcard_title.text = vcard.title ?? "";
+            vcard_role.text = vcard.role ?? "";
+            vcard_org.text = vcard.organization ?? "";
+            vcard_url.text = vcard.url ?? "";
+            vcard_desc.text = vcard.description ?? "";
+        }
+        save_vcard_button.sensitive = true;
+    }
+
+    private async void save_vcard() {
+        save_vcard_button.sensitive = false;
+        var stream = model.stream_interactor.get_stream(account);
+        if (stream == null) return;
+
+        var vcard = new Xmpp.Xep.VCard.VCardInfo();
+        vcard.full_name = vcard_fn.text;
+        vcard.nickname = vcard_nickname.text;
+        vcard.email = vcard_email.text;
+        vcard.phone = vcard_phone.text;
+        vcard.title = vcard_title.text;
+        vcard.role = vcard_role.text;
+        vcard.organization = vcard_org.text;
+        vcard.url = vcard_url.text;
+        vcard.description = vcard_desc.text;
+        
+        try {
+            var current_vcard = yield Xmpp.Xep.VCard.fetch_vcard(stream);
+            if (current_vcard != null) {
+                vcard.photo = current_vcard.photo;
+                vcard.photo_type = current_vcard.photo_type;
+            }
+            
+            yield Xmpp.Xep.VCard.publish_vcard(stream, vcard);
+        } catch (Error e) {
+            warning("Failed to save vCard: %s", e.message);
+            var dialog = new Adw.MessageDialog((Window)this.get_root(), "Failed to save profile", e.message);
+            dialog.add_response("ok", _("OK"));
+            dialog.present();
+        }
+        save_vcard_button.sensitive = true;
     }
 
     private string get_status_label() {
