@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **XEP Support**
+  - Added support for vCard4 (XEP-0292).
+  - Added support for User Nickname (XEP-0172).
+  - Added fallback support for vCard-temp (XEP-0054).
+- **Translations**
+  - Added translations for Privacy settings in 47 languages.
+
+### Fixed
+- **System Tray**
+  - Fixed issue where tray icon would not reappear after shell restart.
+- **Application Lifecycle**
+  - Fixed clean shutdown when using Ctrl+Q (now properly routed through SystrayManager).
+
 ## [0.9.0.0] - 2025-12-31
 
 ### Fixed

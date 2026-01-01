@@ -317,7 +317,7 @@ public class StreamModule : XmppStreamModule {
         foreach (DataForms.DataForm.Field field in data_form.fields) {
             if (field.var == "pubsub#access_model" && field.get_value_string() != Pubsub.ACCESS_MODEL_OPEN) {
                 field.set_value_string(Pubsub.ACCESS_MODEL_OPEN);
-                yield stream.get_module(Pubsub.Module.IDENTITY).submit_node_config(stream, data_form, node_id);
+                yield stream.get_module(Pubsub.Module.IDENTITY).submit_node_config(stream, null, data_form, node_id);
                 break;
             }
         }

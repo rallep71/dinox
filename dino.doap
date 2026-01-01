@@ -808,5 +808,26 @@
         <xmpp:version>0.1.0</xmpp:version>
       </xmpp:SupportedXep>
     </implements>
+    <implements>
+      <xmpp:SupportedXep>
+        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0292.html"/>
+        <xmpp:status>complete</xmpp:status>
+        <xmpp:since>0.9.1.0</xmpp:since>
+      </xmpp:SupportedXep>
+    </implements>
+    <implements>
+      <xmpp:SupportedXep>
+        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0172.html"/>
+        <xmpp:status>complete</xmpp:status>
+        <xmpp:since>0.9.1.0</xmpp:since>
+      </xmpp:SupportedXep>
+    </implements>
+    <implements>
+      <xmpp:SupportedXep>
+        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0054.html"/>
+        <xmpp:status>complete</xmpp:status>
+        <xmpp:since>0.9.1.0</xmpp:since>
+      </xmpp:SupportedXep>
+    </implements>
   </Project>
 </rdf:RDF>

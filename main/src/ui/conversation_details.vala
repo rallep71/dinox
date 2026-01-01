@@ -22,20 +22,15 @@ namespace Dino.Ui.ConversationDetails {
         model.blocked = stream_interactor.get_module(BlockingManager.IDENTITY).is_blocked(model.conversation.account, model.conversation.counterpart);
         model.domain_blocked = stream_interactor.get_module(BlockingManager.IDENTITY).is_blocked(model.conversation.account, model.conversation.counterpart.domain_jid);
 
+        if (conversation.type_ == Conversation.Type.CHAT || conversation.type_ == Conversation.Type.GROUPCHAT_PM) {
+            fetch_vcard.begin(model, conversation, stream_interactor);
+        }
+
         if (conversation.type_ == Conversation.Type.GROUPCHAT) {
             stream_interactor.get_module(MucManager.IDENTITY).get_config_form.begin(conversation.account, conversation.counterpart, (_, res) => {
                 model.data_form = stream_interactor.get_module(MucManager.IDENTITY).get_config_form.end(res);
                 if (model.data_form == null) {
-                    debug("Room configuration: No config form received (you may not be owner/admin)");
                     return;
-                }
-                debug("Room configuration: Received config form with %d fields", model.data_form.fields.size);
-                // Debug: Print all field vars
-                foreach (var field in model.data_form.fields) {
-                    debug("  Config field: var='%s' label='%s' type='%s'", 
-                        field.var ?? "null", 
-                        field.label ?? "null",
-                        field.type_ != null ? field.type_.to_string() : "null");
                 }
                 model.data_form_bak = model.data_form.stanza_node.to_string();
             });
@@ -163,6 +158,10 @@ namespace Dino.Ui.ConversationDetails {
         view_model.notification_flipped.connect(() => {
             model.conversation.notify_setting = view_model.notification == ON ? Conversation.NotifySetting.OFF : Conversation.NotifySetting.ON;
         });
+
+        model.notify["vcard4"].connect(() => { update_vcard_rows(model, view_model); });
+        model.notify["vcard-temp"].connect(() => { update_vcard_rows(model, view_model); });
+        model.notify["pep-nickname"].connect(() => { update_vcard_rows(model, view_model); });
     }
 
     public void set_about_rows(Model.ConversationDetails model, ViewModel.ConversationDetails view_model, StreamInteractor stream_interactor, Gtk.Widget? parent) {
@@ -170,6 +169,37 @@ namespace Dino.Ui.ConversationDetails {
             title = _("XMPP Address"),
             text = model.conversation.counterpart.to_string()
         });
+
+        // Check if this is a MUC occupant and show Role/Affiliation
+        var muc_module = stream_interactor.get_module(MucManager.IDENTITY);
+        var room_jid = model.conversation.counterpart.bare_jid;
+        if (muc_module.is_joined(room_jid, model.conversation.account)) {
+            var role = muc_module.get_role(model.conversation.counterpart, model.conversation.account);
+            var affiliation = muc_module.get_affiliation(room_jid, model.conversation.counterpart, model.conversation.account);
+            
+            if (role != null) {
+                view_model.about_rows.append(new ViewModel.PreferencesRow.Text() {
+                    title = _("Role"),
+                    text = role.to_string()
+                });
+            }
+            if (affiliation != null && affiliation != Xmpp.Xep.Muc.Affiliation.NONE) {
+                view_model.about_rows.append(new ViewModel.PreferencesRow.Text() {
+                    title = _("Affiliation"),
+                    text = affiliation.to_string()
+                });
+            }
+            
+            // Try to show Real JID if available and different from counterpart
+            var real_jid = muc_module.get_real_jid(model.conversation.counterpart, model.conversation.account);
+            if (real_jid != null && !real_jid.equals(model.conversation.counterpart)) {
+                view_model.about_rows.append(new ViewModel.PreferencesRow.Text() {
+                    title = _("Real JID"),
+                    text = real_jid.to_string()
+                });
+            }
+        }
+
         if (model.conversation.type_ == Conversation.Type.CHAT) {
             var about_row = new ViewModel.PreferencesRow.Entry() {
                 title = _("Display name"),
@@ -336,13 +366,8 @@ namespace Dino.Ui.ConversationDetails {
             if (model.data_form != null && model.data_form_bak != null) {
                 string current = model.data_form.stanza_node.to_string();
                 if (model.data_form_bak != current) {
-                    debug("Saving config form for %s", conversation.counterpart.to_string());
                     stream_interactor.get_module(MucManager.IDENTITY).set_config_form.begin(conversation.account, conversation.counterpart, model.data_form);
                 }
-            } else {
-                debug("No data form available (data_form: %s, bak: %s)", 
-                    (model.data_form != null).to_string(), 
-                    (model.data_form_bak != null).to_string());
             }
         });
 
@@ -363,5 +388,213 @@ namespace Dino.Ui.ConversationDetails {
         }
 
         return dialog;
+    }
+
+    private async void fetch_vcard(Model.ConversationDetails model, Conversation conversation, StreamInteractor stream_interactor) {
+        Jid target_jid = conversation.counterpart;
+        bool is_muc_occupant = (conversation.type_ == Conversation.Type.GROUPCHAT_PM);
+
+        if (is_muc_occupant) {
+            var real_jid = stream_interactor.get_module(MucManager.IDENTITY).get_real_jid(conversation.counterpart, conversation.account);
+            if (real_jid != null) {
+                target_jid = real_jid;
+                is_muc_occupant = false; // It's now a real user JID
+            }
+        }
+
+        // For normal users (not MUC occupants), always use the bare JID for vCard requests
+        if (!is_muc_occupant) {
+            target_jid = target_jid.bare_jid;
+        }
+
+        var stream = stream_interactor.get_stream(conversation.account);
+        if (stream == null) {
+            return;
+        }
+
+        // Try XEP-0292
+        var vcard4_module = stream.get_module(Xmpp.Xep.VCard4.Module.IDENTITY);
+        if (vcard4_module != null) {
+            var vcard4 = yield vcard4_module.request(stream, target_jid);
+            if (vcard4 != null) {
+                model.vcard4 = vcard4;
+                // If we have vCard4, we might still want to check PEP nickname if vCard4 nickname is missing?
+                // But usually vCard4 is authoritative.
+            }
+        }
+
+        // Try PEP Nickname (XEP-0172)
+        var pubsub_module = stream.get_module(Xmpp.Xep.Pubsub.Module.IDENTITY);
+        if (pubsub_module != null) {
+            var items = yield pubsub_module.request_all(stream, target_jid, "http://jabber.org/protocol/nick");
+            if (items != null && items.size > 0) {
+                var item = items[0];
+                var nick_node = item.get_subnode("nick", "http://jabber.org/protocol/nick");
+                if (nick_node != null) {
+                    var nick = nick_node.get_string_content();
+                    if (nick != null) {
+                        model.pep_nickname = nick;
+                    }
+                }
+            }
+        }
+        
+        // Try XEP-0054
+        var vcard_temp = yield Xmpp.Xep.VCard.fetch_vcard(stream, target_jid);
+        if (vcard_temp != null) {
+            model.vcard_temp = vcard_temp;
+        }
+    }
+
+    private void update_vcard_rows(Model.ConversationDetails model, ViewModel.ConversationDetails view_model) {
+        view_model.vcard_rows.remove_all();
+        
+        string? fn = null;
+        string? nickname = null;
+        string? note = null;
+        string? bday = null;
+        string? address = null;
+        
+        Gee.List<string> emails = new Gee.ArrayList<string>();
+        Gee.List<string> phones = new Gee.ArrayList<string>();
+        Gee.List<string> urls = new Gee.ArrayList<string>();
+        Gee.List<string> roles = new Gee.ArrayList<string>();
+        Gee.List<string> titles = new Gee.ArrayList<string>();
+        Gee.List<string> orgs = new Gee.ArrayList<string>();
+
+        string? tz = null;
+        string? gender = null;
+
+        Gee.List<string> impps = new Gee.ArrayList<string>();
+
+        // 1. Try vCard4 first
+        if (model.vcard4 != null) {
+            fn = model.vcard4.full_name;
+            nickname = model.vcard4.nickname;
+            note = model.vcard4.note;
+            bday = model.vcard4.bday;
+            tz = model.vcard4.tz;
+            gender = model.vcard4.gender;
+            
+            emails.add_all(model.vcard4.emails);
+            phones.add_all(model.vcard4.tels);
+            urls.add_all(model.vcard4.urls);
+            roles.add_all(model.vcard4.roles);
+            titles.add_all(model.vcard4.titles);
+            orgs.add_all(model.vcard4.orgs);
+            
+            foreach (var impp in model.vcard4.impps) {
+                impps.add(impp);
+            }
+            
+            // Construct address string for vCard4
+            var parts = new ArrayList<string>();
+            if (model.vcard4.adr_street != null) parts.add(model.vcard4.adr_street);
+            
+            // Handle PCode and POBox
+            string? pcode = model.vcard4.adr_pcode;
+            if (pcode == null) pcode = model.vcard4.adr_pobox; // Fallback if Gajim puts zip in pobox
+            
+            if (pcode != null && model.vcard4.adr_locality != null) {
+                parts.add(pcode + " " + model.vcard4.adr_locality);
+            } else {
+                if (pcode != null) parts.add(pcode);
+                if (model.vcard4.adr_locality != null) parts.add(model.vcard4.adr_locality);
+            }
+            if (model.vcard4.adr_region != null) parts.add(model.vcard4.adr_region);
+            if (model.vcard4.adr_country != null) parts.add(model.vcard4.adr_country);
+            
+            if (parts.size > 0) {
+                address = string.joinv(", ", parts.to_array());
+            }
+        }
+
+        // 2. Fallback / Merge with vCard-temp
+        if (model.vcard_temp != null) {
+            if (fn == null || fn == "") fn = model.vcard_temp.full_name;
+            if (nickname == null || nickname == "") nickname = model.vcard_temp.nickname;
+            if (note == null || note == "") note = model.vcard_temp.description;
+            if (bday == null || bday == "") bday = model.vcard_temp.birthday;
+            
+            foreach (var email in model.vcard_temp.emails) {
+                if (!emails.contains(email)) emails.add(email);
+            }
+            foreach (var phone in model.vcard_temp.phones) {
+                if (!phones.contains(phone)) phones.add(phone);
+            }
+            foreach (var url in model.vcard_temp.urls) {
+                if (!urls.contains(url)) urls.add(url);
+            }
+            foreach (var role in model.vcard_temp.roles) {
+                if (!roles.contains(role)) roles.add(role);
+            }
+            foreach (var title in model.vcard_temp.titles) {
+                if (!titles.contains(title)) titles.add(title);
+            }
+            foreach (var org in model.vcard_temp.organizations) {
+                if (!orgs.contains(org)) orgs.add(org);
+            }
+
+            // If address is still missing, try vCard-temp
+            if (address == null || address == "") {
+                var parts = new ArrayList<string>();
+                if (model.vcard_temp.adr_street != null) parts.add(model.vcard_temp.adr_street);
+                if (model.vcard_temp.adr_pcode != null && model.vcard_temp.adr_locality != null) {
+                    parts.add(model.vcard_temp.adr_pcode + " " + model.vcard_temp.adr_locality);
+                } else {
+                    if (model.vcard_temp.adr_pcode != null) parts.add(model.vcard_temp.adr_pcode);
+                    if (model.vcard_temp.adr_locality != null) parts.add(model.vcard_temp.adr_locality);
+                }
+                if (model.vcard_temp.adr_region != null) parts.add(model.vcard_temp.adr_region);
+                if (model.vcard_temp.adr_country != null) parts.add(model.vcard_temp.adr_country);
+                
+                if (parts.size > 0) {
+                    address = string.joinv(", ", parts.to_array());
+                }
+            }
+        }
+
+        if (model.pep_nickname != null) {
+            nickname = model.pep_nickname;
+        }
+
+        if (fn != null && fn != "") view_model.vcard_rows.append(new ViewModel.PreferencesRow.Text() { title = _("Full Name"), text = fn });
+        if (nickname != null && nickname != "") view_model.vcard_rows.append(new ViewModel.PreferencesRow.Text() { title = _("Nickname"), text = nickname });
+        
+        // Requested Sort Order:
+        // Gender, Birthday, Address, Email, IM Address, Phone, Organization, Title, Role, Timezone, URL, Note
+
+        if (gender != null && gender != "") {
+            string display_gender = gender;
+            if (gender == "M") display_gender = _("Male");
+            else if (gender == "F") display_gender = _("Female");
+            else if (gender == "O") display_gender = _("Other");
+            else if (gender == "N") display_gender = _("None");
+            else if (gender == "U") display_gender = _("Unknown");
+            
+            view_model.vcard_rows.append(new ViewModel.PreferencesRow.Text() { title = _("Gender"), text = display_gender });
+        }
+
+        if (bday != null && bday != "") view_model.vcard_rows.append(new ViewModel.PreferencesRow.Text() { title = _("Birthday"), text = bday });
+        
+        if (address != null && address != "") view_model.vcard_rows.append(new ViewModel.PreferencesRow.Text() { title = _("Address"), text = address });
+        
+        foreach (var email in emails) if (email != "") view_model.vcard_rows.append(new ViewModel.PreferencesRow.Text() { title = _("Email"), text = email });
+        
+        foreach (var impp in impps) if (impp != "") view_model.vcard_rows.append(new ViewModel.PreferencesRow.Text() { title = _("IM Address"), text = impp });
+        
+        foreach (var phone in phones) if (phone != "") view_model.vcard_rows.append(new ViewModel.PreferencesRow.Text() { title = _("Phone"), text = phone });
+        
+        foreach (var org in orgs) if (org != "") view_model.vcard_rows.append(new ViewModel.PreferencesRow.Text() { title = _("Organization"), text = org });
+        
+        foreach (var title in titles) if (title != "") view_model.vcard_rows.append(new ViewModel.PreferencesRow.Text() { title = _("Title"), text = title });
+        
+        foreach (var role in roles) if (role != "") view_model.vcard_rows.append(new ViewModel.PreferencesRow.Text() { title = _("Role"), text = role });
+        
+        if (tz != null && tz != "") view_model.vcard_rows.append(new ViewModel.PreferencesRow.Text() { title = _("Timezone"), text = tz });
+        
+        foreach (var url in urls) if (url != "") view_model.vcard_rows.append(new ViewModel.PreferencesRow.Text() { title = _("URL"), text = url });
+        
+        if (note != null && note != "") view_model.vcard_rows.append(new ViewModel.PreferencesRow.Text() { title = _("Note"), text = note });
     }
 }

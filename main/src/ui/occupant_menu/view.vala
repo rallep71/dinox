@@ -44,7 +44,6 @@ public class View : Popover {
     }
 
     private void initialize_list() {
-        printerr("DEBUG: initialize_list called\n");
         if (list == null) {
             list = new List(stream_interactor, conversation);
             list_box.prepend(list);
@@ -63,7 +62,6 @@ public class View : Popover {
     }
 
     public void show_menu(Jid jid, string name_) {
-        printerr("DEBUG: Entering show_menu for %s\n", jid != null ? jid.to_string() : "null");
         selected_jid = jid;
         stack.transition_type = StackTransitionType.SLIDE_LEFT;
 
@@ -84,6 +82,19 @@ public class View : Popover {
         outer_box.append(header_button);
         if (list != null) {
             header_button.clicked.connect(show_list);
+        } else {
+            header_button.clicked.connect(() => {
+                hide();
+                if (selected_jid != null) {
+                    Jid? real_jid_inner = stream_interactor.get_module(MucManager.IDENTITY).get_real_jid(selected_jid, conversation.account);
+                    Jid target_jid = real_jid_inner ?? selected_jid;
+                    Conversation conversation = stream_interactor.get_module(ConversationManager.IDENTITY).create_conversation(target_jid, conversation.account, Conversation.Type.CHAT);
+                    
+                    Application app = GLib.Application.get_default() as Application;
+                    var conversation_details = ConversationDetails.setup_dialog(conversation, stream_interactor);
+                    conversation_details.present(app.window);
+                }
+            });
         }
 
         outer_box.append(create_menu_button(_("Start private conversation"), private_conversation_button_clicked));
@@ -100,7 +111,6 @@ public class View : Popover {
         }
         // Fallback: Check affiliation of the account JID if MUC JID affiliation is unknown
         if (my_affiliation == Xmpp.Xep.Muc.Affiliation.NONE || my_affiliation == null) {
-             printerr("DEBUG: Fallback to account bare JID: %s\n", conversation.account.bare_jid.to_string());
              my_affiliation = stream_interactor.get_module(MucManager.IDENTITY).get_affiliation(conversation.counterpart, conversation.account.bare_jid, conversation.account);
         }
         // Fallback: If we are Owner/Admin, we are effectively a Moderator
@@ -164,9 +174,7 @@ public class View : Popover {
             }
         }
 
-        bool is_moderated = stream_interactor.get_module(MucManager.IDENTITY).is_moderated_room(conversation.account, conversation.counterpart);
         Xmpp.Xep.Muc.Role? target_role = stream_interactor.get_module(MucManager.IDENTITY).get_role(selected_jid, conversation.account);
-        printerr("DEBUG: Is Moderated: %s, Target Role: %s\n", is_moderated.to_string(), target_role != null ? target_role.to_string() : "null");
 
         if (role == Xmpp.Xep.Muc.Role.MODERATOR) {
             if (target_role ==  Xmpp.Xep.Muc.Role.VISITOR) {
@@ -286,8 +294,6 @@ public class View : Popover {
         Account account = conversation.account;
         Jid room = conversation.counterpart;
 
-        printerr("DEBUG: ban_timed_button_clicked for %s, %d minutes\n", target.to_string(), minutes);
-
         // Get current affiliation to restore later
         Xmpp.Xep.Muc.Affiliation? current_aff = stream_interactor.get_module(MucManager.IDENTITY).get_affiliation(room, target, account);
         string restore_aff = "none";
@@ -300,13 +306,11 @@ public class View : Popover {
         Dino.send_message(conversation, msg, 0, null, new Gee.ArrayList<Xmpp.Xep.MessageMarkup.Span>());
 
         GLib.Timeout.add(500, () => {
-            printerr("DEBUG: Executing timed ban for %s\n", target.to_string());
             stream_interactor.get_module(MucManager.IDENTITY).ban(account, room, target, "Banned for %d minutes".printf(minutes));
             return false;
         });
 
         GLib.Timeout.add_seconds((uint)(minutes * 60), () => {
-            printerr("DEBUG: Restoring affiliation for %s to %s\n", target.to_string(), restore_aff);
             Jid? real_jid = stream_interactor.get_module(MucManager.IDENTITY).get_real_jid(target, account);
             if (real_jid != null) {
                 stream_interactor.get_module(MucManager.IDENTITY).set_affiliation(account, room, real_jid, restore_aff);
