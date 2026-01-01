@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.9.1.0] - 2026-01-01
+
 ### Added
 - **XEP Support**
   - Added support for vCard4 (XEP-0292).
