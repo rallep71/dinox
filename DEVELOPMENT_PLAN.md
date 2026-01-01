@@ -83,6 +83,7 @@ Focus: Admin features, call interoperability and general stability.
 
 | Item | Description | Status |
 |------|-------------|--------|
+| **XEP-0448** | Encryption for stateless file sharing (Note: Major clients like Conversations/Monal currently use legacy aesgcm) | TODO (Priority) |
 | **Admin Backend** | Control ejabberd/prosody server via API/REST | TODO |
 | **Call Quality UI** | Display packet loss, jitter, and resolution during calls | IN PROGRESS (backend ready) |
 | **Echo Cancellation** | Fine-tune `webrtc-audio-processing` AEC settings across Linux audio setups | IN PROGRESS |
