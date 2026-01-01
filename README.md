@@ -12,7 +12,7 @@
 
 Featuring MUJI group video calls, voice messages, OMEMO encryption, stickers and 47 languages
 
-[Website](https://dinox.handwerker.jetzt) • [Download](#installation) • [Features](#key-features) • [XEP Support](#xep-support) • [Contributing](CONTRIBUTING.md)
+[Website](https://dinox.handwerker.jetzt) • [Download](#installation) • [Features](#key-features) • [XEP Support](#xep-support) • [Changelog](CHANGELOG.md) • [Development Plan](DEVELOPMENT_PLAN.md) • [Contributing](CONTRIBUTING.md)
 
 </div>
 
