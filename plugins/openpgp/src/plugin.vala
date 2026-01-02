@@ -28,7 +28,7 @@ public class Plugin : Plugins.RootInterface, Object {
         Environment.set_variable("GNUPGHOME", openpgp_gnupg_home, true);
 
         try {
-            this.db = new Database(Path.build_filename(Application.get_storage_dir(), "pgp.db"));
+            this.db = new Database(Path.build_filename(Application.get_storage_dir(), "pgp.db"), app.db_key);
         } catch (Error e) {
             warning("OpenPGP plugin disabled: %s", e.message);
             return;

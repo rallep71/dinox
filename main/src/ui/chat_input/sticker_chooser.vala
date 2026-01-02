@@ -67,15 +67,13 @@ public class StickerChooser : Popover {
 
     private class ThumbJob {
         public WeakRef picture_weak;
-        public string source_path;
-        public string? thumb_path;
+        public Dino.Stickers.StickerItem item;
         public uint generation;
         public bool allow_decode;
 
-        public ThumbJob(Gtk.Picture picture, string source_path, string? thumb_path, uint generation, bool allow_decode) {
+        public ThumbJob(Gtk.Picture picture, Dino.Stickers.StickerItem item, uint generation, bool allow_decode) {
             this.picture_weak = WeakRef(picture);
-            this.source_path = source_path;
-            this.thumb_path = thumb_path;
+            this.item = item;
             this.generation = generation;
             this.allow_decode = allow_decode;
         }
@@ -300,23 +298,23 @@ public class StickerChooser : Popover {
         new Thread<void*>("sticker-thumb-worker", () => {
             while (true) {
                 ThumbJob job = thumb_queue.pop();
+                var stickers = stream_interactor.get_module(Dino.Stickers.IDENTITY);
 
                 // Decode/scaling can be expensive (especially animated WebP). Do it off the UI thread.
                 Pixbuf? pixbuf = null;
                 try {
                     if (job.allow_decode) {
-                        if (job.thumb_path != null && job.thumb_path != "" && FileUtils.test(job.thumb_path, FileTest.EXISTS)) {
-                            pixbuf = new Pixbuf.from_file(job.thumb_path);
+                        Bytes? bytes = stickers.get_thumbnail_bytes_for_item(job.item);
+                        if (bytes != null) {
+                            var stream = new MemoryInputStream.from_data(bytes.get_data(), null);
+                            pixbuf = new Pixbuf.from_stream(stream);
                         } else {
-                            pixbuf = new Pixbuf.from_file_at_scale(job.source_path, THUMB_SIZE, THUMB_SIZE, true);
-                            pixbuf = pixbuf.apply_embedded_orientation();
-                            if (job.thumb_path != null && job.thumb_path != "") {
-                                try {
-                                    DirUtils.create_with_parents(Path.get_dirname(job.thumb_path), 0700);
-                                    pixbuf.save(job.thumb_path, "png");
-                                } catch (Error e) {
-                                    // best effort
-                                }
+                            // Fallback to source if thumb not available (yet)
+                            bytes = stickers.get_sticker_bytes(job.item);
+                            if (bytes != null) {
+                                var stream = new MemoryInputStream.from_data(bytes.get_data(), null);
+                                pixbuf = new Pixbuf.from_stream_at_scale(stream, THUMB_SIZE, THUMB_SIZE, true);
+                                pixbuf = pixbuf.apply_embedded_orientation();
                             }
                         }
                     }
@@ -324,7 +322,7 @@ public class StickerChooser : Popover {
                     pixbuf = null;
                 }
 
-                var path = (job.thumb_path != null && job.thumb_path != "" && FileUtils.test(job.thumb_path, FileTest.EXISTS)) ? job.thumb_path : job.source_path;
+                var path = job.item.local_path; // Use local path as cache key
                 var gen = job.generation;
 
                 Idle.add(() => {
@@ -336,7 +334,7 @@ public class StickerChooser : Popover {
                     if (picture == null) return false;
 
                     var expected_source = picture.get_data<string>("thumb_source");
-                    if (expected_source == null || expected_source == "" || expected_source != job.source_path) {
+                    if (expected_source == null || expected_source == "" || expected_source != job.item.local_path) {
                         return false;
                     }
 
@@ -610,14 +608,9 @@ public class StickerChooser : Popover {
             // Track current requested path to avoid stale updates when GTK recycles list items.
             picture.set_data<string>("thumb_source", it.local_path);
 
-            string? disk_thumb = Dino.Stickers.get_thumbnail_path_for_item(it);
-            if (disk_thumb != null && disk_thumb != "" && FileUtils.test(disk_thumb, FileTest.EXISTS)) {
-                if (chooser.thumb_cache.has_key(disk_thumb)) {
-                    picture.paintable = chooser.thumb_cache[disk_thumb];
-                    return;
-                }
-            } else {
-                disk_thumb = null;
+            if (chooser.thumb_cache.has_key(it.local_path)) {
+                picture.paintable = chooser.thumb_cache[it.local_path];
+                return;
             }
 
             // Avoid decoding SVG/non-raster stickers (gdk-pixbuf SVG loader is unstable in some runtimes).
@@ -625,7 +618,7 @@ public class StickerChooser : Popover {
                 return;
             }
 
-            chooser.thumb_queue.push(new ThumbJob(picture, it.local_path, Dino.Stickers.get_thumbnail_path_for_item(it), generation, true));
+            chooser.thumb_queue.push(new ThumbJob(picture, it, generation, true));
         }
 
         public void unbind_item() {

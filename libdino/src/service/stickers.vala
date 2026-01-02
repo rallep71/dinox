@@ -12,6 +12,7 @@ using Gdk;
 using Soup;
 
 using Dino.Entities;
+using Dino.Security;
 using Xmpp;
 using Xmpp.Xep;
 
@@ -32,6 +33,7 @@ public class Stickers : StreamInteractionModule, Object {
 
     private StreamInteractor stream_interactor;
     private Database db;
+    private FileEncryption file_encryption;
     private Soup.Session http;
     private GLib.MainContext http_context;
 
@@ -99,14 +101,15 @@ public class Stickers : StreamInteractionModule, Object {
         return false;
     }
 
-    public static void start(StreamInteractor stream_interactor, Database db) {
-        var m = new Stickers(stream_interactor, db);
+    public static void start(StreamInteractor stream_interactor, Database db, FileEncryption file_encryption) {
+        var m = new Stickers(stream_interactor, db, file_encryption);
         stream_interactor.add_module(m);
     }
 
-    private Stickers(StreamInteractor stream_interactor, Database db) {
+    private Stickers(StreamInteractor stream_interactor, Database db, FileEncryption file_encryption) {
         this.stream_interactor = stream_interactor;
         this.db = db;
+        this.file_encryption = file_encryption;
 
         // libsoup binds to the thread-default main context at creation time.
         // Make sure we always use it from that same context.
@@ -151,10 +154,10 @@ public class Stickers : StreamInteractionModule, Object {
         }
     }
 
-    private static AsyncQueue<ThumbJob>? thumb_queue;
-    private static bool thumb_worker_started = false;
+    private AsyncQueue<ThumbJob>? thumb_queue;
+    private bool thumb_worker_started = false;
 
-    private static void ensure_thumb_worker() {
+    private void ensure_thumb_worker() {
         if (thumb_worker_started) return;
         thumb_worker_started = true;
         thumb_queue = new AsyncQueue<ThumbJob>();
@@ -169,9 +172,24 @@ public class Stickers : StreamInteractionModule, Object {
                 DirUtils.create_with_parents(Path.get_dirname(job.thumb_path), 0700);
 
                 try {
-                    var pixbuf = new Pixbuf.from_file_at_scale(job.source_path, THUMB_SIZE, THUMB_SIZE, true);
+                    // Decrypt source
+                    uint8[] source_data;
+                    if (!FileUtils.get_data(job.source_path, out source_data)) continue;
+                    uint8[] plaintext = file_encryption.decrypt_data(source_data);
+
+                    // Create stream from plaintext
+                    var stream = new MemoryInputStream.from_data(plaintext, null);
+
+                    var pixbuf = new Pixbuf.from_stream_at_scale(stream, THUMB_SIZE, THUMB_SIZE, true);
                     pixbuf = pixbuf.apply_embedded_orientation();
-                    pixbuf.save(job.thumb_path, "png");
+                    
+                    uint8[] thumb_data;
+                    pixbuf.save_to_buffer(out thumb_data, "png");
+                    
+                    // Encrypt thumb
+                    uint8[] thumb_enc = file_encryption.encrypt_data(thumb_data);
+                    
+                    FileUtils.set_data(job.thumb_path, thumb_enc);
                 } catch (Error e) {
                     // best-effort
                 }
@@ -196,7 +214,33 @@ public class Stickers : StreamInteractionModule, Object {
         return Path.build_filename(get_pack_thumbs_dir(item.pack_id), base_name + ".png");
     }
 
-    private static void maybe_generate_thumbnail(string pack_id, StickerItem item) {
+    public Bytes? get_thumbnail_bytes_for_item(StickerItem item) {
+        string? path = get_thumbnail_path_for_item(item);
+        if (path == null) return null;
+
+        try {
+            uint8[] data;
+            if (!FileUtils.get_data(path, out data)) return null;
+            uint8[] plaintext = file_encryption.decrypt_data(data);
+            return new Bytes(plaintext);
+        } catch (Error e) {
+            return null;
+        }
+    }
+
+    public Bytes? get_sticker_bytes(StickerItem item) {
+        if (item.local_path == null) return null;
+        try {
+            uint8[] data;
+            if (!FileUtils.get_data(item.local_path, out data)) return null;
+            uint8[] plaintext = file_encryption.decrypt_data(data);
+            return new Bytes(plaintext);
+        } catch (Error e) {
+            return null;
+        }
+    }
+
+    private void maybe_generate_thumbnail(string pack_id, StickerItem item) {
         if (item.local_path == null || item.local_path == "") return;
 
         // Thumbnail generation is best-effort. Some loaders (notably SVG via librsvg)
@@ -454,10 +498,14 @@ public class Stickers : StreamInteractionModule, Object {
 
         // Bytes may contain NULs; write as binary.
         unowned uint8[] data = bytes.get_data();
+        
+        // Encrypt
+        uint8[] ciphertext = file_encryption.encrypt_data(data);
+
         var file = File.new_for_path(dest_path);
         var out = file.replace(null, false, FileCreateFlags.REPLACE_DESTINATION);
         size_t written = 0;
-        out.write_all(data, out written);
+        out.write_all(ciphertext, out written);
         out.close();
     }
 
@@ -514,7 +562,14 @@ public class Stickers : StreamInteractionModule, Object {
             try {
                 // Only copy if missing; keep existing file if already present.
                 if (!FileUtils.test(local_path, FileTest.EXISTS)) {
-                    child.copy(File.new_for_path(local_path), FileCopyFlags.OVERWRITE, null, null);
+                    // Encrypt
+                    uint8[] ciphertext = file_encryption.encrypt_data(data);
+
+                    var dest_file = File.new_for_path(local_path);
+                    var out = dest_file.replace(null, false, FileCreateFlags.REPLACE_DESTINATION);
+                    size_t written = 0;
+                    out.write_all(ciphertext, out written);
+                    out.close();
                 }
             } catch (Error e) {
                 warning("Failed to copy sticker into cache: %s", e.message);

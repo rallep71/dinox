@@ -1,4 +1,5 @@
 using Dino.Entities;
+using Dino.Security;
 
 namespace Dino {
 
@@ -12,6 +13,7 @@ public interface Application : GLib.Application {
 
     public abstract Database db { get; set; }
     public abstract string? db_key { get; set; }
+    public abstract FileEncryption file_encryption { get; set; }
     public abstract Dino.Entities.Settings settings { get; set; }
     public abstract StreamInteractor stream_interactor { get; set; }
     public abstract Plugins.Registry plugin_registry { get; set; }
@@ -44,6 +46,8 @@ public interface Application : GLib.Application {
             throw new Error(-1, 0, "Database key missing: DinoX requires a password to open the encrypted database.");
         }
 
+        this.file_encryption = new FileEncryption((!)this.db_key);
+
         this.db = new Database(Path.build_filename(get_storage_dir(), "dino.db"), (!)this.db_key);
         this.settings = new Dino.Entities.Settings.from_db(db);
         this.stream_interactor = new StreamInteractor(db);
@@ -57,9 +61,9 @@ public interface Application : GLib.Application {
         ConversationManager.start(stream_interactor, db);
         OccupantIdStore.start(stream_interactor, db);
         MucManager.start(stream_interactor);
-        AvatarManager.start(stream_interactor, db);
+        AvatarManager.start(stream_interactor, db, file_encryption);
         RosterManager.start(stream_interactor, db);
-        FileManager.start(stream_interactor, db);
+        FileManager.start(stream_interactor, db, file_encryption);
         CallStore.start(stream_interactor, db);
         ContentItemStore.start(stream_interactor, db);
         ChatInteraction.start(stream_interactor);
@@ -75,7 +79,7 @@ public interface Application : GLib.Application {
         ContactModels.start(stream_interactor);
         MessageDeletion.start(stream_interactor, db);
         StatelessFileSharing.start(stream_interactor, db);
-        Stickers.start(stream_interactor, db);
+        Stickers.start(stream_interactor, db, file_encryption);
 
         create_actions();
 

@@ -10,6 +10,7 @@
 using Gtk;
 using Gst;
 using Dino.Entities;
+using Dino.Security;
 
 namespace Dino.Ui.ConversationSummary {
 
@@ -44,6 +45,7 @@ public class AudioPlayerWidget : Box {
     private uint update_id = 0;
     private uint bus_watch_id = 0;
     private double playback_rate = 1.0;
+    private File? temp_play_file = null;
 
     public AudioPlayerWidget(FileTransfer file_transfer) {
         GLib.Object(orientation: Orientation.HORIZONTAL, spacing: 8);
@@ -117,7 +119,8 @@ public class AudioPlayerWidget : Box {
     
     private void play() {
         if (pipeline == null) {
-            if (!setup_pipeline()) return;
+            setup_pipeline.begin();
+            return;
         }
         
         pipeline.set_state(State.PLAYING);
@@ -166,25 +169,58 @@ public class AudioPlayerWidget : Box {
         }
     }
     
-    private bool setup_pipeline() {
+    private async void setup_pipeline() {
         var file = file_transfer.get_file();
         if (file == null) {
             warning("Audio file not yet downloaded");
-            return false;
+            return;
         }
         
+        File file_to_play = file;
+        try {
+            var app = (Dino.Application) GLib.Application.get_default();
+            var enc = app.file_encryption;
+            
+            string temp_dir = Path.build_filename(Environment.get_user_cache_dir(), "dinox", "temp_audio");
+            DirUtils.create_with_parents(temp_dir, 0700);
+            
+            // Obfuscate filename to prevent leaking info via file listing
+            string ext = "";
+            if ("." in file_transfer.file_name) {
+                string[] parts = file_transfer.file_name.split(".");
+                ext = "." + parts[parts.length - 1];
+            }
+            string random_name = GLib.Uuid.string_random() + ext;
+            
+            string temp_path = Path.build_filename(temp_dir, random_name);
+            temp_play_file = File.new_for_path(temp_path);
+            
+            var source_stream = file.read();
+            var target_stream = temp_play_file.replace(null, false, GLib.FileCreateFlags.NONE);
+            
+            yield enc.decrypt_stream(source_stream, target_stream);
+            
+            try { source_stream.close(); } catch (Error e) {}
+            try { target_stream.close(); } catch (Error e) {}
+            
+            file_to_play = temp_play_file;
+        } catch (Error e) {
+            warning("AudioPlayerWidget: Failed to decrypt audio: %s", e.message);
+        }
+
         pipeline = ElementFactory.make("playbin", "playbin");
         if (pipeline == null) {
             warning("Could not create playbin");
-            return false;
+            return;
         }
         
-        pipeline.set("uri", file.get_uri());
+        pipeline.set("uri", file_to_play.get_uri());
         
         Gst.Bus bus = pipeline.get_bus();
         bus_watch_id = bus.add_watch(0, bus_callback);
         
-        return true;
+        // Start playing after setup
+        play();
     }
     
     private bool bus_callback(Gst.Bus bus, Gst.Message msg) {
@@ -249,6 +285,12 @@ public class AudioPlayerWidget : Box {
     
     public override void dispose() {
         stop();
+        if (temp_play_file != null) {
+            try {
+                temp_play_file.delete(null);
+            } catch (Error e) {}
+            temp_play_file = null;
+        }
         base.dispose();
     }
 }

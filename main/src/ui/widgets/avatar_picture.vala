@@ -5,7 +5,7 @@ using Xmpp;
 public class Dino.Ui.ViewModel.AvatarPictureTileModel : Object {
     public string display_text { get; set; }
     public Gdk.RGBA background_color { get; set; }
-    public File? image_file { get; set; }
+    public Bytes? image_bytes { get; set; }
 }
 
 public class Dino.Ui.ViewModel.AvatarPictureModel : Object {
@@ -48,22 +48,22 @@ public class Dino.Ui.ViewModel.ConversationParticipantAvatarPictureTileModel : A
         float[] rgbf = color_id != null ? Xep.ConsistentColor.string_to_rgbf(color_id) : new float[] {0.5f, 0.5f, 0.5f};
         background_color = Gdk.RGBA() { red = rgbf[0], green = rgbf[1], blue = rgbf[2], alpha = 1.0f};
 
-        update_image_file();
+        update_image_bytes();
         avatar_manager.received_avatar.connect(on_received_avatar);
         avatar_manager.fetched_avatar.connect(on_received_avatar);
     }
 
-    private void update_image_file() {
-        File? image_file = avatar_manager.get_avatar_file(conversation.account, primary_avatar_jid);
-        if (image_file == null && secondary_avatar_jid != null) {
-            image_file = avatar_manager.get_avatar_file(conversation.account, secondary_avatar_jid);
+    private void update_image_bytes() {
+        Bytes? image_bytes = avatar_manager.get_avatar_bytes(conversation.account, primary_avatar_jid);
+        if (image_bytes == null && secondary_avatar_jid != null) {
+            image_bytes = avatar_manager.get_avatar_bytes(conversation.account, secondary_avatar_jid);
         }
-        this.image_file = image_file;
+        this.image_bytes = image_bytes;
     }
 
     private void on_received_avatar(Jid jid, Account account) {
         if (account.equals(conversation.account) && (jid.equals(primary_avatar_jid) || jid.equals(secondary_avatar_jid))) {
-            update_image_file();
+            update_image_bytes();
         }
     }
 
@@ -167,7 +167,7 @@ public class Dino.Ui.ViewModel.CompatAvatarPictureModel : AvatarPictureModel {
         this.conversation = conversation;
         if (conversation.type_ == Conversation.Type.GROUPCHAT) {
             if (avatar_manager.has_avatar(conversation.account, conversation.counterpart)) {
-                add_internal("#", conversation.counterpart.to_string(), avatar_manager.get_avatar_file(conversation.account, conversation.counterpart));
+                add_internal("#", conversation.counterpart.to_string(), avatar_manager.get_avatar_bytes(conversation.account, conversation.counterpart));
             } else {
                 // Fast placeholder first; private-room occupant avatar composition can be expensive.
                 add_internal("#", conversation.counterpart.to_string());
@@ -216,18 +216,18 @@ public class Dino.Ui.ViewModel.CompatAvatarPictureModel : AvatarPictureModel {
         return this;
     }
 
-    public CompatAvatarPictureModel add(string display, string? color_id = null, File? image_file = null) {
-        add_internal(display, color_id, image_file);
+    public CompatAvatarPictureModel add(string display, string? color_id = null, Bytes? image_bytes = null) {
+        add_internal(display, color_id, image_bytes);
         return this;
     }
 
-    private AvatarPictureTileModel add_internal(string display, string? color_id = null, File? image_file = null) {
+    private AvatarPictureTileModel add_internal(string display, string? color_id = null, Bytes? image_bytes = null) {
         GLib.ListStore store = tiles as GLib.ListStore;
         float[] rgbf = color_id != null ? Xep.ConsistentColor.string_to_rgbf(color_id) : new float[] {0.5f, 0.5f, 0.5f};
         var model = new ViewModel.AvatarPictureTileModel() {
             display_text = display.get_char(0).toupper().to_string(),
             background_color = Gdk.RGBA() { red = rgbf[0], green = rgbf[1], blue = rgbf[2], alpha = 1.0f},
-            image_file = image_file
+            image_bytes = image_bytes
         };
         store.append(model);
         return model;
@@ -311,11 +311,12 @@ public class Dino.Ui.CompatAvatarDrawer {
     private Cairo.Surface sub_surface_idx(Cairo.Context ctx, int idx, int width, int height, int font_factor = 1) {
         ViewModel.AvatarPictureTileModel tile = (ViewModel.AvatarPictureTileModel) this.model.tiles.get_item(idx);
         Gdk.Pixbuf? avatar = null;
-        if (tile.image_file != null) {
+        if (tile.image_bytes != null) {
             try {
-                avatar = new Gdk.Pixbuf.from_file(tile.image_file.get_path());
+                var stream = new MemoryInputStream.from_data(tile.image_bytes.get_data(), null);
+                avatar = new Gdk.Pixbuf.from_stream(stream);
             } catch (Error e) {
-                warning("Failed to load avatar from file: %s", e.message);
+                warning("Failed to load avatar from bytes: %s", e.message);
             }
         }
         string? name = idx >= 0 ? tile.display_text : "";
@@ -473,11 +474,26 @@ public class Dino.Ui.AvatarPicture : Gtk.Widget {
         public ViewModel.AvatarPictureTileModel? model { get; set; }
         public Gdk.RGBA background_color { get; set; default = Gdk.RGBA(){ red = 1.0f, green = 1.0f, blue = 1.0f, alpha = 0.0f }; }
         public string display_text { get { return label.get_text(); } set { label.set_text(value); } }
-        public File? image_file { get { return picture.file; } set { picture.file = value; } }
+        public Bytes? image_bytes {
+            get { return _image_bytes; }
+            set {
+                _image_bytes = value;
+                if (value != null) {
+                    try {
+                        picture.paintable = Gdk.Texture.from_bytes(value);
+                    } catch (Error e) {
+                        picture.paintable = null;
+                    }
+                } else {
+                    picture.paintable = null;
+                }
+            }
+        }
+        private Bytes? _image_bytes;
 
         private Binding? background_color_binding;
         private Binding? display_text_binding;
-        private Binding? image_file_binding;
+        private Binding? image_bytes_binding;
 
         private Label label = new Label("");
         private Picture picture = new Picture();
@@ -499,25 +515,25 @@ public class Dino.Ui.AvatarPicture : Gtk.Widget {
         private void on_model_changed() {
             if (background_color_binding != null) background_color_binding.unbind();
             if (display_text_binding != null) display_text_binding.unbind();
-            if (image_file_binding != null) image_file_binding.unbind();
+            if (image_bytes_binding != null) image_bytes_binding.unbind();
             if (model != null) {
                 background_color_binding = model.bind_property("background-color", this, "background-color", BindingFlags.SYNC_CREATE);
                 display_text_binding = model.bind_property("display-text", this, "display-text", BindingFlags.SYNC_CREATE);
-                image_file_binding = model.bind_property("image-file", this, "image-file", BindingFlags.SYNC_CREATE);
+                image_bytes_binding = model.bind_property("image-bytes", this, "image-bytes", BindingFlags.SYNC_CREATE);
             } else {
                 background_color_binding = null;
                 display_text_binding = null;
-                image_file_binding = null;
+                image_bytes_binding = null;
             }
         }
 
         public override void dispose() {
             if (background_color_binding != null) background_color_binding.unbind();
             if (display_text_binding != null) display_text_binding.unbind();
-            if (image_file_binding != null) image_file_binding.unbind();
+            if (image_bytes_binding != null) image_bytes_binding.unbind();
             background_color_binding = null;
             display_text_binding = null;
-            image_file_binding = null;
+            image_bytes_binding = null;
             label.unparent();
             picture.unparent();
             base.dispose();

@@ -4,6 +4,7 @@ using Gtk;
 using Pango;
 
 using Dino.Entities;
+using Dino.Security;
 
 namespace Dino.Ui {
 
@@ -161,9 +162,38 @@ public class FileWidgetController : Object {
         widget.cancel_download.connect(cancel_download);
     }
 
-    private void open_file() {
+    private async void open_file() {
         try{
-            AppInfo.launch_default_for_uri(file_transfer.get_file().get_uri(), null);
+            var app = (Dino.Application) GLib.Application.get_default();
+            var enc = app.file_encryption;
+
+            var source_file = file_transfer.get_file();
+            if (!source_file.query_exists()) return;
+
+            string temp_dir = Path.build_filename(Environment.get_user_cache_dir(), "dinox", "temp_open");
+            DirUtils.create_with_parents(temp_dir, 0700);
+
+            // Obfuscate filename to prevent leaking info via file listing
+            string ext = "";
+            if ("." in file_transfer.file_name) {
+                string[] parts = file_transfer.file_name.split(".");
+                ext = "." + parts[parts.length - 1];
+            }
+            string random_name = GLib.Uuid.string_random() + ext;
+
+            string temp_path = Path.build_filename(temp_dir, random_name);
+            File temp_file = File.new_for_path(temp_path);
+
+            var source_stream = source_file.read();
+            var target_stream = temp_file.replace(null, false, GLib.FileCreateFlags.NONE);
+            
+            yield enc.decrypt_stream(source_stream, target_stream);
+            
+            // Close streams to ensure data is flushed
+            try { source_stream.close(); } catch (Error e) {}
+            try { target_stream.close(); } catch (Error e) {}
+
+            AppInfo.launch_default_for_uri(temp_file.get_uri(), null);
         } catch (Error err) {
             warning("Failed to open %s - %s", file_transfer.get_file().get_uri(), err.message);
         }
@@ -175,15 +205,31 @@ public class FileWidgetController : Object {
         save_dialog.initial_name = file_transfer.file_name;
 
         save_dialog.save.begin(widget.get_root() as Gtk.Window, null, (obj, res) => {
-            try {
-                File? target_file = save_dialog.save.end(res);
-                if (target_file != null) {
-                    file_transfer.get_file().copy(target_file, GLib.FileCopyFlags.OVERWRITE, null);
-                }
-            } catch (Error e) {
-                // Handle error
-            }
+            save_file_finish.begin(obj, res);
         });
+    }
+
+    private async void save_file_finish(Object? obj, AsyncResult res) {
+        var save_dialog = (Gtk.FileDialog) obj; // obj is the source object (save_dialog)
+        try {
+            File? target_file = save_dialog.save.end(res);
+            if (target_file != null) {
+                var app = (Dino.Application) GLib.Application.get_default();
+                var enc = app.file_encryption;
+
+                var source_file = file_transfer.get_file();
+                var source_stream = source_file.read();
+                var target_stream = target_file.replace(null, false, GLib.FileCreateFlags.NONE);
+
+                yield enc.decrypt_stream(source_stream, target_stream);
+                
+                try { source_stream.close(); } catch (Error e) {}
+                try { target_stream.close(); } catch (Error e) {}
+            }
+        } catch (Error e) {
+            // Handle error
+            warning("Failed to save file: %s", e.message);
+        }
     }
 
     private void start_download() {

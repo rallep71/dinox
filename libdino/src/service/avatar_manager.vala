@@ -13,6 +13,7 @@ using Qlite;
 
 using Xmpp;
 using Dino.Entities;
+using Dino.Security;
 
 namespace Dino {
 
@@ -30,6 +31,7 @@ public class AvatarManager : StreamInteractionModule, Object {
 
     private StreamInteractor stream_interactor;
     private Database db;
+    private FileEncryption file_encryption;
     private string folder = null;
     private HashMap<Jid, string> user_avatars = new HashMap<Jid, string>(Jid.hash_func, Jid.equals_func);
     private HashMap<Jid, string> vcard_avatars = new HashMap<Jid, string>(Jid.hash_func, Jid.equals_func);
@@ -87,14 +89,15 @@ public class AvatarManager : StreamInteractionModule, Object {
         return false;
     }
 
-    public static void start(StreamInteractor stream_interactor, Database db) {
-        AvatarManager m = new AvatarManager(stream_interactor, db);
+    public static void start(StreamInteractor stream_interactor, Database db, FileEncryption file_encryption) {
+        AvatarManager m = new AvatarManager(stream_interactor, db, file_encryption);
         stream_interactor.add_module(m);
     }
 
-    private AvatarManager(StreamInteractor stream_interactor, Database db) {
+    private AvatarManager(StreamInteractor stream_interactor, Database db, FileEncryption file_encryption) {
         this.stream_interactor = stream_interactor;
         this.db = db;
+        this.file_encryption = file_encryption;
 
         File old_avatars = File.new_build_filename(Dino.get_storage_dir(), "avatars");
         File new_avatars = File.new_build_filename(Dino.get_cache_dir(), "avatars");
@@ -149,7 +152,7 @@ public class AvatarManager : StreamInteractionModule, Object {
         });
     }
 
-    public File? get_avatar_file(Account account, Jid jid_) {
+    public Bytes? get_avatar_bytes(Account account, Jid jid_) {
         string? hash = get_avatar_hash(account, jid_);
         if (hash == null) return null;
         File file = File.new_for_path(Path.build_filename(folder, hash));
@@ -157,7 +160,22 @@ public class AvatarManager : StreamInteractionModule, Object {
             fetch_and_store_for_jid.begin(account, jid_);
             return null;
         } else {
-            return file;
+            try {
+                uint8[] data;
+                if (!FileUtils.get_data(file.get_path(), out data)) return null;
+                uint8[] plaintext = file_encryption.decrypt_data(data);
+                return new Bytes(plaintext);
+            } catch (Error e) {
+                warning("Failed to decrypt avatar: %s", e.message);
+                try {
+                    file.delete();
+                    debug("Deleted corrupt avatar file: %s", file.get_path());
+                    fetch_and_store_for_jid.begin(account, jid_);
+                } catch (Error e2) {
+                    warning("Failed to delete corrupted avatar: %s", e2.message);
+                }
+                return null;
+            }
         }
     }
 
@@ -415,9 +433,14 @@ public class AvatarManager : StreamInteractionModule, Object {
     private async void store_image(string id, Bytes data) {
         File file = File.new_for_path(Path.build_filename(folder, id));
         try {
-            if (file.query_exists()) file.delete(); //TODO y?
+            if (file.query_exists()) file.delete();
+
+            uint8[] plaintext = data.get_data();
+            uint8[] ciphertext = file_encryption.encrypt_data(plaintext);
+
             DataOutputStream fos = new DataOutputStream(file.create(FileCreateFlags.REPLACE_DESTINATION));
-            yield fos.write_bytes_async(data);
+            yield fos.write_async(ciphertext);
+            yield fos.close_async();
         } catch (Error e) {
             warning("Error writing avatar file: %s", e.message);
             // Ignore: we failed in storing, so we refuse to display later...

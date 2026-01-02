@@ -87,7 +87,7 @@ namespace Xmpp.Xep.StatelessFileSharing {
         public uint8[] iv;
 
         public StanzaNode to_stanza_node() {
-            var node = new StanzaNode.build("encryption", NS_URI);
+            var node = new StanzaNode.build("encryption", NS_URI).add_self_xmlns();
             var key_node = new StanzaNode.build("key", NS_URI);
             key_node.put_node(new StanzaNode.text(Base64.encode(key)));
             node.put_node(key_node);

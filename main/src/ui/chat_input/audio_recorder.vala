@@ -42,6 +42,7 @@ public class AudioRecorder : GLib.Object {
     }
 
     public void start_recording(string output_path) throws Error {
+        print("DEBUG: AudioRecorder.start_recording: output_path=%s\n".printf(output_path));
         if (is_recording) return;
 
         current_output_path = output_path;
@@ -75,7 +76,7 @@ public class AudioRecorder : GLib.Object {
         // Try to enable faststart for web/streaming compatibility (moves moov atom to beginning)
         // Note: faststart might not be available in older GStreamer versions, but it's standard in recent ones.
         // We just set it; if it doesn't exist, GStreamer will emit a warning but continue.
-        muxer.set("faststart", true);
+        // muxer.set("faststart", true);
 
         sink.set("location", output_path);
         level.set("interval", 100000000); // 100ms
@@ -137,24 +138,56 @@ public class AudioRecorder : GLib.Object {
         return true;
     }
 
-    public void stop_recording() {
+    public async void stop_recording_async() {
+        print("DEBUG: AudioRecorder.stop_recording_async: called\n");
         if (timeout_id != 0) {
             Source.remove(timeout_id);
             timeout_id = 0;
         }
         if (pipeline != null && is_recording) {
+            print("DEBUG: AudioRecorder.stop_recording_async: sending EOS\n");
             pipeline.send_event(new Event.eos());
-            // Wait for EOS to ensure file is properly finalized
-            if (bus != null) bus.timed_pop_filtered(1 * Gst.SECOND, MessageType.EOS | MessageType.ERROR);
             
+            // Wait for EOS or Error
+            ulong signal_id = 0;
+            SourceFunc callback = stop_recording_async.callback;
+            
+            signal_id = bus.message.connect((bus, msg) => {
+                if (msg.type == Gst.MessageType.EOS || msg.type == Gst.MessageType.ERROR) {
+                    print("DEBUG: AudioRecorder.stop_recording_async: Received %s\n".printf(msg.type.to_string()));
+                    // Defer callback to avoid re-entrancy issues if needed, though yield handles it
+                    Idle.add((owned) callback);
+                }
+            });
+            
+            // Safety timeout (2 seconds)
+            uint timeout_source = Timeout.add(2000, () => {
+                print("DEBUG: AudioRecorder.stop_recording_async: Timeout reached\n");
+                callback();
+                return false;
+            });
+            
+            yield;
+            print("DEBUG: AudioRecorder.stop_recording_async: finished yield\n");
+            
+            Source.remove(timeout_source);
             if (bus != null) {
+                bus.disconnect(signal_id);
+                // Important: Remove the signal watch to stop the bus from polling the main loop
                 bus.remove_signal_watch();
                 bus = null;
             }
-            pipeline.set_state(State.NULL);
-            pipeline = null;
+            
+            if (pipeline != null) {
+                pipeline.set_state(State.NULL);
+                pipeline = null;
+            }
             is_recording = false;
         }
+    }
+
+    public void stop_recording() {
+        stop_recording_async.begin();
     }
 
     public void cancel_recording() {
