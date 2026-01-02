@@ -83,19 +83,18 @@ Focus: make GitHub release assets reliable for end users (Flatpak/AppImage).
 
 ## Roadmap (Next Work)
 
-### v0.9.3.0 (Q1 2026): Security & Admin
+### v0.9.3.0 (Full Local Encryption)
 
-Focus: Encrypted Local Storage, Admin features, call interoperability.
+Focus: Complete encryption of all local data at rest.
 
 | Item | Description | Status |
 |------|-------------|--------|
-| **Encrypted Local Cache** | Ensure downloaded files are stored encrypted on disk and only decrypted for display or explicit save. | TODO (Priority) |
-| **Admin Backend** | Control ejabberd/prosody server via API/REST | TODO |
+| **Encrypted File Storage** | Transparent encryption for `files/`, `avatars/`, and `stickers/` directories. | TODO (Priority) |
+| **PGP Database Encryption** | Migrate `pgp.db` to SQLCipher (currently unencrypted). | TODO (Priority) |
 | **Call Quality UI** | Display packet loss, jitter, and resolution during calls | IN PROGRESS (backend ready) |
 | **Echo Cancellation** | Fine-tune `webrtc-audio-processing` AEC settings across Linux audio setups | IN PROGRESS |
 | **Spell Checking** | Re-enable spell checking (waiting for GTK4 GtkTextView support) | BLOCKED |
 | **Performance** | Optimize memory usage for long-running sessions | TODO |
-| **Encrypted Local Attachments (Optional)** | Optionally encrypt cached/downloaded attachments at rest (separate from SQLCipher DB encryption) | TODO |
 
 ### Q2 2026: Modern XEPs (explicit TODOs)
 
