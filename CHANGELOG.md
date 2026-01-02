@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.9.3.0] - 2026-01-02
+
+### Added
+- **Full Local Encryption**
+  - All local files (`files/`, `avatars/`, `stickers/`) are now transparently encrypted at rest using AES-256-GCM.
+  - Migrated `pgp.db` to SQLCipher (previously unencrypted).
+- **Secure Deletion**
+  - Added "Also delete for chat partner" option to "Clear History" dialog for 1:1 chats (triggers XEP-0424).
+  - Implemented **Smart Throttling** for message retraction (max 5 msgs/sec) to prevent server disconnects/bans during bulk deletion.
+  - Enforced zero-trace cleanup of decrypted cache files (`~/.cache/dinox`) on application exit (including Tray Quit).
+- **UI Improvements**
+  - Updated "About" dialog to correctly reflect data storage paths (`~/.local/share/dinox`).
+
 ## [0.9.2.0] - 2026-01-02
 
 ### Added

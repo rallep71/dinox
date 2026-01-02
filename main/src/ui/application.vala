@@ -30,7 +30,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
 
     public Database db { get; set; }
     public string? db_key { get; set; }
-    public FileEncryption file_encryption { get; set; }
+    public Dino.Security.FileEncryption file_encryption { get; set; }
     public Dino.Entities.Settings settings { get; set; }
     private Config config { get; set; }
     public StreamInteractor stream_interactor { get; set; }
