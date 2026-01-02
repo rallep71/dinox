@@ -66,7 +66,7 @@ namespace Xmpp.Xep.StatelessFileSharing {
         return sources;
     }
 
-    public static void set_sfs_element(MessageStanza message, string? file_sharing_id, FileMetadataElement.FileMetadata metadata, Gee.List<Xep.StatelessFileSharing.Source>? sources) {
+    public static void set_sfs_element(MessageStanza message, string? file_sharing_id, FileMetadataElement.FileMetadata metadata, Gee.List<Xep.StatelessFileSharing.Source>? sources, EncryptionData? encryption = null) {
         var file_sharing_node = new StanzaNode.build("file-sharing", NS_URI).add_self_xmlns()
                 .put_node(metadata.to_stanza_node());
         if (file_sharing_id != null) {
@@ -75,7 +75,28 @@ namespace Xmpp.Xep.StatelessFileSharing {
         if (sources != null && !sources.is_empty) {
             file_sharing_node.put_node(create_sources_node(file_sharing_id, sources));
         }
+        if (encryption != null) {
+            file_sharing_node.put_node(encryption.to_stanza_node());
+        }
         message.stanza.put_node(file_sharing_node);
+    }
+
+    public class EncryptionData : Object {
+        public const string NS_URI = "urn:xmpp:esfs:0";
+        public uint8[] key;
+        public uint8[] iv;
+
+        public StanzaNode to_stanza_node() {
+            var node = new StanzaNode.build("encryption", NS_URI);
+            var key_node = new StanzaNode.build("key", NS_URI);
+            key_node.put_node(new StanzaNode.text(Base64.encode(key)));
+            node.put_node(key_node);
+            
+            var iv_node = new StanzaNode.build("iv", NS_URI);
+            iv_node.put_node(new StanzaNode.text(Base64.encode(iv)));
+            node.put_node(iv_node);
+            return node;
+        }
     }
 
     public static void set_sfs_attachment(MessageStanza message, string attach_to_id, string attach_to_file_id, Gee.List<Xep.StatelessFileSharing.Source> sources) {

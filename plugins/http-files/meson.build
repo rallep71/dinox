@@ -6,6 +6,7 @@ dependencies = [
     dep_libsoup,
     dep_qlite,
     dep_xmpp_vala,
+    dep_crypto_vala,
 ]
 sources = files(
     'src/file_provider.vala',

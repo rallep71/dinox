@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.9.2.0] - 2026-01-02
+
+### Added
+- **Encrypted File Upload**
+  - Added support for encrypted file uploads in OMEMO-encrypted chats.
+  - Implemented **AES-GCM URI Scheme** (`aesgcm://`) for compatibility with Conversations, Monal, and Gajim.
+  - Implemented **XEP-0448** (Encryption for Stateless File Sharing) for future-proof, standard-compliant encryption.
+  - Files are encrypted on-the-fly during upload (AES-256-GCM).
+  - Keys are transmitted securely within the OMEMO-encrypted message.
+
 ## [0.9.1.0] - 2026-01-01
 
 ### Added

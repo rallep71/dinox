@@ -1,8 +1,14 @@
 using Dino.Entities;
 using Xmpp;
 using Gee;
+using Crypto;
 
 namespace Dino.Plugins.HttpFiles {
+
+class EncryptedHttpFileSendData : HttpFileSendData {
+    public uint8[] key;
+    public uint8[] iv;
+}
 
 public class HttpFileSender : FileSender, Object {
     private StreamInteractor stream_interactor;
@@ -42,7 +48,22 @@ public class HttpFileSender : FileSender, Object {
     }
 
     public async FileSendData? prepare_send_file(Conversation conversation, FileTransfer file_transfer, FileMeta file_meta) throws FileSendError {
-        HttpFileSendData send_data = new HttpFileSendData();
+        HttpFileSendData send_data;
+        int64 upload_size = file_meta.size;
+
+        if (file_transfer.encryption != Encryption.NONE) {
+            var enc_data = new EncryptedHttpFileSendData();
+            enc_data.key = new uint8[32];
+            enc_data.iv = new uint8[12];
+            Crypto.randomize(enc_data.key);
+            Crypto.randomize(enc_data.iv);
+            // AES-GCM adds 16 bytes auth tag
+            upload_size += 16;
+            send_data = enc_data;
+        } else {
+            send_data = new HttpFileSendData();
+        }
+
         if (send_data == null) return null;
 
         Xmpp.XmppStream? stream = stream_interactor.get_stream(file_transfer.account);
@@ -51,9 +72,9 @@ public class HttpFileSender : FileSender, Object {
         try {
             debug("http-files: requesting upload slot name='%s' size=%lld mime=%s",
                   file_transfer.server_file_name,
-                  (long) file_meta.size,
+                  upload_size,
                   file_meta.mime_type ?? "(null)");
-            var slot_result = yield stream_interactor.module_manager.get_module(file_transfer.account, Xmpp.Xep.HttpFileUpload.Module.IDENTITY).request_slot(stream, file_transfer.server_file_name, file_meta.size, file_meta.mime_type);
+            var slot_result = yield stream_interactor.module_manager.get_module(file_transfer.account, Xmpp.Xep.HttpFileUpload.Module.IDENTITY).request_slot(stream, file_transfer.server_file_name, upload_size, file_meta.mime_type);
             send_data.url_down = slot_result.url_get;
             send_data.url_up = slot_result.url_put;
             send_data.headers = slot_result.headers;
@@ -122,6 +143,23 @@ public class HttpFileSender : FileSender, Object {
             debug("http-files: sending encrypted or non-referenceable; uploading first url=%s", sanitize_url_for_log(send_data.url_down));
             yield upload(file_transfer, send_data, file_meta);
 
+            // Construct aesgcm URL if encrypted
+            if (send_data is EncryptedHttpFileSendData) {
+                var enc_data = (EncryptedHttpFileSendData) send_data;
+                string iv_hex = "";
+                foreach (uint8 b in enc_data.iv) iv_hex += "%02x".printf(b);
+                string key_hex = "";
+                foreach (uint8 b in enc_data.key) key_hex += "%02x".printf(b);
+                
+                // Format: aesgcm://host/path#iv_hex+key_hex
+                string http_url = send_data.url_down;
+                string path_part = http_url;
+                if (http_url.has_prefix("https://")) path_part = http_url.substring(8);
+                else if (http_url.has_prefix("http://")) path_part = http_url.substring(7);
+                
+                send_data.url_down = "aesgcm://%s#%s%s".printf(path_part, iv_hex, key_hex);
+            }
+
             // For encrypted sends, include SFS metadata in the (encrypted) message stanza.
             // This improves interoperability with clients that expect SFS + sticker references.
             if (file_transfer.file_sharing_id == null || file_transfer.file_sharing_id == "") {
@@ -145,6 +183,44 @@ public class HttpFileSender : FileSender, Object {
             Entities.Message message = stream_interactor.get_module(MessageProcessor.IDENTITY).create_out_message(send_data.url_down, conversation);
             file_transfer.info = message.id.to_string();
 
+            // Add XEP-0448 Encryption Data to the message stanza
+            if (send_data is EncryptedHttpFileSendData) {
+                var enc_data = (EncryptedHttpFileSendData) send_data;
+                var sfs_encryption = new Xep.StatelessFileSharing.EncryptionData();
+                sfs_encryption.key = enc_data.key;
+                sfs_encryption.iv = enc_data.iv;
+                
+                // We need to hook into the message building process to inject the SFS element.
+                // Since we don't have a direct way to modify the stanza here before it's sent by MessageProcessor,
+                // we can use the 'build_message_stanza' signal or similar, but that's global.
+                // Alternatively, we can manually construct the SFS element and attach it if MessageProcessor allows.
+                
+                // Better approach: The MessageProcessor emits 'build_message_stanza'. We can connect to it temporarily?
+                // Or, we can use the fact that we are in a plugin.
+                
+                // Actually, let's look at how SFS is usually attached.
+                // In 'send_file' above (unencrypted branch), it does:
+                // Xep.StatelessFileSharing.set_sfs_attachment(stanza, attach_to_id, file_transfer.file_sharing_id, sources);
+                // But that's for attaching to an existing message.
+                
+                // Here we are creating a new message.
+                // We can use a one-shot signal handler on the message processor for this specific message ID?
+                // Or we can just attach the SFS element to the message object if it supports it?
+                // The 'Entities.Message' object doesn't hold arbitrary stanza nodes.
+                
+                // Let's use a signal connection on the message processor for this specific send.
+                ulong signal_id = 0;
+                signal_id = stream_interactor.get_module(MessageProcessor.IDENTITY).build_message_stanza.connect((msg, stanza, conv) => {
+                    if (msg.id == message.id) {
+                        var sources = new ArrayList<Xep.StatelessFileSharing.Source>();
+                        sources.add(new Xep.StatelessFileSharing.HttpSource() { url = sfs_url });
+                        
+                        Xep.StatelessFileSharing.set_sfs_element(stanza, file_transfer.file_sharing_id, file_transfer.file_metadata, sources, sfs_encryption);
+                        stream_interactor.get_module(MessageProcessor.IDENTITY).disconnect(signal_id);
+                    }
+                });
+            }
+
             message.encryption = send_data.encrypt_message ? conversation.encryption : Encryption.NONE;
             debug("http-files: sending message body url=%s message.encryption=%d", sanitize_url_for_log(send_data.url_down), (int) message.encryption);
             stream_interactor.get_module(MessageProcessor.IDENTITY).send_xmpp_message(message, conversation);
@@ -166,7 +242,7 @@ public class HttpFileSender : FileSender, Object {
     }
 
     public async bool can_encrypt(Conversation conversation, FileTransfer file_transfer) {
-        return false;
+        return conversation.encryption != Encryption.NONE;
     }
 
     public async bool is_upload_available(Conversation conversation) {
@@ -195,29 +271,47 @@ public class HttpFileSender : FileSender, Object {
         yield ensure_soup_context();
 
         var put_message = new Soup.Message("PUT", file_send_data.url_up);
+        
+        InputStream upload_stream = file_transfer.input_stream;
+        int64 upload_size = file_meta.size;
+
+        if (file_send_data is EncryptedHttpFileSendData) {
+            var enc_data = (EncryptedHttpFileSendData) file_send_data;
+            try {
+                var cipher = new SymmetricCipher("AES256-GCM");
+                cipher.set_key(enc_data.key);
+                cipher.set_iv(enc_data.iv);
+                // GCM tag length is 16
+                var encrypter = new SymmetricCipherEncrypter((owned) cipher, 16);
+                upload_stream = new ConverterInputStream(upload_stream, encrypter);
+                upload_size += 16;
+            } catch (Crypto.Error e) {
+                throw new FileSendError.UPLOAD_FAILED("Encryption setup failed: %s".printf(e.message));
+            }
+        }
 
 #if SOUP_3_0
         string transfer_host = "";
         try {
             transfer_host = Uri.parse(file_send_data.url_up, UriFlags.NONE).get_host();
-        } catch (Error e) {
+        } catch (GLib.Error e) {
             warning("Failed to parse URI: %s", e.message);
         }
         put_message.accept_certificate.connect((peer_cert, errors) => { return ConnectionManager.on_invalid_certificate(transfer_host, peer_cert, errors); });
-        put_message.set_request_body(file_meta.mime_type, file_transfer.input_stream, (ssize_t) file_meta.size);
+        put_message.set_request_body(file_meta.mime_type, upload_stream, (ssize_t) upload_size);
 #else
 
         put_message.request_headers.set_content_type(file_meta.mime_type, null);
-        put_message.request_headers.set_content_length(file_meta.size);
+        put_message.request_headers.set_content_length(upload_size);
         put_message.request_body.set_accumulate(false);
-        put_message.wrote_headers.connect(() => transfer_more_bytes(file_transfer.input_stream, put_message.request_body));
-        put_message.wrote_chunk.connect(() => transfer_more_bytes(file_transfer.input_stream, put_message.request_body));
+        put_message.wrote_headers.connect(() => transfer_more_bytes(upload_stream, put_message.request_body));
+        put_message.wrote_chunk.connect(() => transfer_more_bytes(upload_stream, put_message.request_body));
 #endif
         foreach (var entry in file_send_data.headers.entries) {
             put_message.request_headers.append(entry.key, entry.value);
         }
         try {
-            debug("http-files: uploading via PUT %s (%lld bytes)", sanitize_url_for_log(file_send_data.url_up), (long) file_meta.size);
+            debug("http-files: uploading via PUT %s (%lld bytes)", sanitize_url_for_log(file_send_data.url_up), (long) upload_size);
 #if SOUP_3_0
             yield session.send_async(put_message, GLib.Priority.LOW, file_transfer.cancellable);
 #else
@@ -227,7 +321,7 @@ public class HttpFileSender : FileSender, Object {
                 throw new FileSendError.UPLOAD_FAILED("HTTP status code %s".printf(put_message.status_code.to_string()));
             }
             debug("http-files: upload finished status=%u", put_message.status_code);
-        } catch (Error e) {
+        } catch (GLib.Error e) {
             throw new FileSendError.UPLOAD_FAILED("HTTP upload error: %s".printf(e.message));
         }
     }
