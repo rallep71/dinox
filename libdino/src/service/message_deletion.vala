@@ -68,6 +68,33 @@ namespace Dino {
             }
         }
 
+        private class RetractionTask {
+            public XmppStream stream;
+            public MessageStanza stanza;
+        }
+
+        private Gee.Queue<RetractionTask> retraction_queue = new LinkedList<RetractionTask>();
+        private uint retraction_timer_id = 0;
+
+        public void enqueue_retraction(XmppStream stream, MessageStanza stanza) {
+            retraction_queue.offer(new RetractionTask() { stream = stream, stanza = stanza });
+            if (retraction_timer_id == 0) {
+                retraction_timer_id = Timeout.add(200, process_retraction_queue);
+            }
+        }
+
+        private bool process_retraction_queue() {
+            if (retraction_queue.is_empty) {
+                retraction_timer_id = 0;
+                return false;
+            }
+
+            var task = retraction_queue.poll();
+            task.stream.get_module(MessageModule.IDENTITY).send_message.begin(task.stream, task.stanza);
+
+            return true;
+        }
+
         public void delete_globally(Conversation conversation, ContentItem content_item) {
             var stream = stream_interactor.get_stream(conversation.account);
             if (stream == null) return;
@@ -83,7 +110,7 @@ namespace Dino {
             if (conversation.type_ == Conversation.Type.CHAT) {
                 MessageStanza stanza = new MessageStanza() { to = conversation.counterpart };
                 Xmpp.Xep.MessageRetraction.set_retract_id(stanza, (!)message_id_to_delete);
-                stream.get_module(MessageModule.IDENTITY).send_message.begin(stream, stanza);
+                enqueue_retraction(stream, stanza);
                 delete_locally(conversation, content_item, conversation.account.bare_jid);
             } else if (conversation.type_.is_muc_semantic()) {
                 bool is_own_message = false;
@@ -97,7 +124,7 @@ namespace Dino {
                     MessageStanza stanza = new MessageStanza() { to = conversation.counterpart };
                     stanza.type_ = MessageStanza.TYPE_GROUPCHAT;
                     Xmpp.Xep.MessageRetraction.set_retract_id(stanza, (!)message_id_to_delete);
-                    stream.get_module(MessageModule.IDENTITY).send_message.begin(stream, stanza);
+                    enqueue_retraction(stream, stanza);
                 } else {
                     Xmpp.Xep.MessageModeration.moderate.begin(stream, conversation.counterpart, (!)message_id_to_delete);
                 }

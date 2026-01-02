@@ -221,29 +221,31 @@ public class ConversationManager : StreamInteractionModule, Object {
         start_conversation(conversation);
     }
 
-    public void clear_conversation_history(Conversation conversation) {
+    public void clear_conversation_history(Conversation conversation, bool global = false) {
         // Delete all content items globally (server + local) in batches
         var content_item_store = stream_interactor.get_module(ContentItemStore.IDENTITY);
         var message_deletion = stream_interactor.get_module(MessageDeletion.IDENTITY);
         
-        // Get items in batches and delete them from server using XEP-0425 Message Retraction
-        int batch_size = 100;
-        while (true) {
-            var items = content_item_store.get_n_latest(conversation, batch_size);
-            if (items.size == 0) break;
-            
-            foreach (ContentItem item in items) {
-                if (message_deletion.is_deletable(conversation, item)) {
-                    // Send XEP-0425 retraction to server
-                    message_deletion.delete_globally(conversation, item);
+        if (global) {
+            // Get items in batches and delete them from server using XEP-0425 Message Retraction
+            int batch_size = 100;
+            while (true) {
+                var items = content_item_store.get_n_latest(conversation, batch_size);
+                if (items.size == 0) break;
+                
+                foreach (ContentItem item in items) {
+                    if (message_deletion.is_deletable(conversation, item)) {
+                        // Send XEP-0425 retraction to server
+                        message_deletion.delete_globally(conversation, item);
+                    }
+                    // Always delete locally to prevent infinite loop
+                    // For MUC, delete_globally doesn't delete locally (waits for server confirmation)
+                    // but we need to proceed regardless
+                    message_deletion.delete_locally(conversation, item, conversation.account.bare_jid);
                 }
-                // Always delete locally to prevent infinite loop
-                // For MUC, delete_globally doesn't delete locally (waits for server confirmation)
-                // but we need to proceed regardless
-                message_deletion.delete_locally(conversation, item, conversation.account.bare_jid);
+                
+                if (items.size < batch_size) break;
             }
-            
-            if (items.size < batch_size) break;
         }
         
         // Clear message storage caches
