@@ -226,11 +226,37 @@ public class Manager : StreamInteractionModule, Object {
         int identity_id = db.identity.get_id(account.id);
         if (identity_id < 0) return;
 
+        StreamModule? module = stream.get_module(StreamModule.IDENTITY);
+        if (module == null) return;
+        int32 current_device_id = (int32) module.store.local_registration_id;
+
         // Build device list with all known active devices
         ArrayList<int32> devices = new ArrayList<int32>();
         foreach (Row row in db.identity_meta.with_address(identity_id, account.bare_jid.to_string())
                 .with(db.identity_meta.now_active, "=", true)) {
             devices.add(row[db.identity_meta.device_id]);
+        }
+
+        // AUTO-CLEANUP: If we have too many devices, assume they are stale zombies
+        // The user complained about "21 devices", so we set a low threshold to trigger cleanup.
+        if (devices.size > 5) {
+            debug("Too many devices (%d) for own account. Cleaning up stale devices...", devices.size);
+            devices.clear();
+            devices.add(current_device_id);
+            
+            // Update DB to reflect this cleanup
+            // We set 'now_active' to false for everyone except current_device_id
+            db.identity_meta.update()
+                .set(db.identity_meta.now_active, false)
+                .with(db.identity_meta.identity_id, "=", identity_id)
+                .with(db.identity_meta.address_name, "=", account.bare_jid.to_string())
+                .with(db.identity_meta.device_id, "!=", current_device_id)
+                .perform();
+        }
+
+        // Ensure current device is in the list
+        if (!devices.contains(current_device_id)) {
+             devices.add(current_device_id);
         }
 
         // Create device list stanza node

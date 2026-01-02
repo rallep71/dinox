@@ -5,6 +5,7 @@ using Graphene;
 using Xmpp;
 
 using Dino.Entities;
+using Dino.Security;
 
 namespace Dino.Ui {
 
@@ -375,24 +376,31 @@ public class FileImageWidget : Widget {
                 }
 
                 try {
+                    var app = (Dino.Application) GLib.Application.get_default();
+                    var enc = app.file_encryption;
+                    
+                    uint8[] data;
+                    if (local_path != null && local_path != "") {
+                        FileUtils.get_data(local_path, out data);
+                    } else {
+                        return null;
+                    }
+                    
+                    MemoryInputStream stream = null;
+                    try {
+                        uint8[] plaintext = enc.decrypt_data(data);
+                        stream = new MemoryInputStream.from_data(plaintext, null);
+                    } catch (Error e) {
+                        // Decryption failed, assume plaintext
+                        stream = new MemoryInputStream.from_data(data, null);
+                    }
+
                     if (is_sticker && animations_enabled) {
                         Gdk.PixbufAnimation anim;
-                        if (local_path != null && local_path != "") {
-                            anim = new Gdk.PixbufAnimation.from_file(local_path);
-                        } else {
-                            FileInputStream s = file.read();
-                            anim = new Gdk.PixbufAnimation.from_stream(s);
-                            try { s.close(); } catch (Error e) { }
-                        }
+                        anim = new Gdk.PixbufAnimation.from_stream(stream);
                         out.animation = anim;
                     } else {
-                        if (local_path != null && local_path != "") {
-                            out.pixbuf = new Pixbuf.from_file(local_path);
-                        } else {
-                            FileInputStream s = file.read();
-                            out.pixbuf = new Pixbuf.from_stream(s);
-                            try { s.close(); } catch (Error e) { }
-                        }
+                        out.pixbuf = new Pixbuf.from_stream(stream);
                     }
                 } catch (Error e) {
                     // Keep out empty.

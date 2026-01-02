@@ -165,10 +165,10 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
 
                 // Only show avatar removal button if an avatar is set
                 var avatar_model = model.selected_account.avatar_model.tiles.get_item(0) as ViewModel.AvatarPictureTileModel;
-                avatar_model.notify["image-file"].connect(() => {
-                    remove_avatar_button.visible = avatar_model.image_file != null;
+                avatar_model.notify["image-bytes"].connect(() => {
+                    remove_avatar_button.visible = avatar_model.image_bytes != null;
                 });
-                remove_avatar_button.visible = avatar_model.image_file != null;
+                remove_avatar_button.visible = avatar_model.image_bytes != null;
 
                 model.selected_account.notify["connection-error"].connect(() => {
                     update_connection_error_ui();

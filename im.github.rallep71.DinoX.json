@@ -41,7 +41,9 @@
         "--talk-name=org.kde.StatusNotifierWatcher",
         "--talk-name=org.freedesktop.ScreenSaver",
         "--talk-name=org.freedesktop.GeoClue2",
-        "--own-name=org.mpris.MediaPlayer2.Dino"
+        "--own-name=org.mpris.MediaPlayer2.Dino",
+        "--filesystem=xdg-cache/dinox:create",
+        "--filesystem=xdg-run/dinox:create"
     ],
     "modules": [
         {

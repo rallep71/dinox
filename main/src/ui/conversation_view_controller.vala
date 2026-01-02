@@ -43,6 +43,9 @@ public class ConversationViewController : Object {
         chat_input_controller.file_picker_selected.connect(open_file_picker);
         chat_input_controller.clipboard_pasted.connect(on_clipboard_paste);
         chat_input_controller.voice_message_recorded.connect((path) => {
+            // The audio recorder saves to a temp file.
+            // FileManager.send_file will encrypt it to local storage and then upload it.
+            // We just need to make sure we pass the file object.
             send_file(File.new_for_path(path));
         });
 
@@ -268,6 +271,7 @@ public class ConversationViewController : Object {
     }
 
     private void open_send_file_overlay(File file) {
+        debug("ConversationViewController: open_send_file_overlay called for %s", file.get_path());
         FileInfo file_info;
         try {
             file_info = file.query_info("*", FileQueryInfoFlags.NONE);
@@ -300,11 +304,13 @@ public class ConversationViewController : Object {
         });
 
         file_send_overlay.present(view);
+        debug("ConversationViewController: file_send_overlay presented");
 
         update_file_upload_status.begin();
     }
 
     private void send_file(File file) {
+        debug("ConversationViewController: send_file called for %s", file.get_path());
         stream_interactor.get_module(FileManager.IDENTITY).send_file.begin(file, conversation);
     }
 

@@ -89,7 +89,7 @@ endif
 
 subdir('qlite')
 subdir('xmpp-vala')
+subdir('crypto-vala')
 subdir('libdino')
 subdir('main')
-subdir('crypto-vala')
 subdir('plugins')

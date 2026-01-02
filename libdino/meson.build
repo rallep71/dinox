@@ -23,10 +23,12 @@ dependencies = [
     dep_libsoup,
     dep_qlite,
     dep_xmpp_vala,
+    dep_crypto_vala,
     dep_libsecret
 ]
 sources = files(
     'src/application.vala',
+    'src/security/file_encryption.vala',
     'src/security/key_manager.vala',
     'src/dbus/login1.vala',
     'src/dbus/notifications.vala',
@@ -81,6 +83,7 @@ sources = files(
     'src/service/stickers.vala',
     'src/service/stream_interactor.vala',
     'src/service/util.vala',
+    'src/util/checksum_output_stream.vala',
     'src/util/display_name.vala',
     'src/util/limit_input_stream.vala',
     'src/util/send_message.vala',

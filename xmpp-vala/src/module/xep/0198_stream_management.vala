@@ -32,7 +32,10 @@ public class Module : XmppStreamNegotiationModule, WriteNodeFunc {
     }
 
     public async void write_stanza(XmppStream stream, StanzaNode node, int io_priority = Priority.DEFAULT, Cancellable? cancellable = null) throws IOError {
-        var future = enqueue_stanza(stream, node, io_priority, cancellable);
+        enqueue_stanza(stream, node, io_priority, cancellable);
+        /*
+        // DINOX-FIX: Do not wait for ACK. This causes massive latency on slow networks or with many stanzas.
+        // We trust StreamManagement to resend if needed.
         try {
             yield future.wait_async();
         } catch (FutureError e) {
@@ -48,6 +51,7 @@ public class Module : XmppStreamNegotiationModule, WriteNodeFunc {
                 throw new IOError.FAILED("Unknown future error: %s".printf(e.message));
             }
         }
+        */
     }
 
     private Future<void*> enqueue_stanza(XmppStream stream, StanzaNode node, int io_priority, Cancellable? cancellable) {

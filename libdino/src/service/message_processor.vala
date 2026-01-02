@@ -505,9 +505,11 @@ public class MessageProcessor : StreamInteractionModule, Object {
             ChatStateNotifications.add_state_to_message(new_message, ChatStateNotifications.STATE_ACTIVE);
         }
 
+        debug("DEBUG: MessageProcessor: calling send_message.begin");
         stream.get_module(MessageModule.IDENTITY).send_message.begin(stream, new_message, (_, res) => {
             try {
                 stream.get_module(MessageModule.IDENTITY).send_message.end(res);
+                debug("DEBUG: MessageProcessor: send_message.end returned");
                 debug("MessageProcessor: Message sent successfully (stanza_id: %s)", message.stanza_id);
                 if (message.marked == Message.Marked.SENDING) {
                     message.marked = Message.Marked.SENT;

@@ -15,6 +15,7 @@ using Gst;
 using Xmpp;
 
 using Dino.Entities;
+using Dino.Security;
 
 namespace Dino.Ui.ConversationSummary {
 
@@ -81,6 +82,8 @@ public class VideoPlayerWidget : Widget {
     private ulong watched_vadjustment_handler_id = 0;
     private bool paused_by_visibility = false;
 
+    private Button? start_play_button = null;
+
     private FileTransmissionProgress transmission_progress = new FileTransmissionProgress() { halign=Align.CENTER, valign=Align.CENTER, visible=false };
 
     construct {
@@ -98,6 +101,23 @@ public class VideoPlayerWidget : Widget {
 
         this.file_transfer = file_transfer;
 
+        start_play_button = new Button.from_icon_name("media-playback-start-symbolic");
+        start_play_button.add_css_class("osd");
+        start_play_button.add_css_class("circular");
+        start_play_button.valign = Align.CENTER;
+        start_play_button.halign = Align.CENTER;
+        start_play_button.width_request = 64;
+        start_play_button.height_request = 64;
+        start_play_button.visible = false;
+        start_play_button.clicked.connect(() => {
+            File? file = file_transfer.get_file();
+            if (file != null) {
+                start_play_button.visible = false;
+                setup_pipeline.begin(file);
+            }
+        });
+        overlay.add_overlay(start_play_button);
+
         this.notify["mapped"].connect(() => {
             if (!this.get_mapped()) {
                 pause_for_visibility();
@@ -107,7 +127,7 @@ public class VideoPlayerWidget : Widget {
             }
         });
         
-        install_action("file.open", null, (widget, action_name) => { ((VideoPlayerWidget) widget).open_file(); });
+        install_action("file.open", null, (widget, action_name) => { ((VideoPlayerWidget) widget).open_file.begin(); });
         install_action("file.save_as", null, (widget, action_name) => { ((VideoPlayerWidget) widget).save_file(); });
 
         // Setup menu button overlay
@@ -196,7 +216,7 @@ public class VideoPlayerWidget : Widget {
                 
                 File? file = file_transfer.get_file();
                 if (file != null) {
-                    setup_pipeline(file);
+                    if (start_play_button != null) start_play_button.visible = true;
                 }
             }
         } else {
@@ -234,8 +254,44 @@ public class VideoPlayerWidget : Widget {
         }
     }
 
-    private void setup_pipeline(File file) {
+    private File? temp_play_file = null;
+
+    private async void setup_pipeline(File file) {
         debug("VideoPlayerWidget: setup_pipeline for %s", file.get_uri());
+        
+        File file_to_play = file;
+        try {
+            var app = (Dino.Application) GLib.Application.get_default();
+            var enc = app.file_encryption;
+            
+            string temp_dir = Path.build_filename(Environment.get_user_cache_dir(), "dinox", "temp_video");
+            DirUtils.create_with_parents(temp_dir, 0700);
+            
+            // Obfuscate filename to prevent leaking info via file listing
+            string ext = "";
+            if ("." in file_transfer.file_name) {
+                string[] parts = file_transfer.file_name.split(".");
+                ext = "." + parts[parts.length - 1];
+            }
+            string random_name = GLib.Uuid.string_random() + ext;
+            
+            string temp_path = Path.build_filename(temp_dir, random_name);
+            temp_play_file = File.new_for_path(temp_path);
+            
+            var source_stream = file.read();
+            var target_stream = temp_play_file.replace(null, false, GLib.FileCreateFlags.NONE);
+            
+            yield enc.decrypt_stream(source_stream, target_stream);
+            
+            try { source_stream.close(); } catch (Error e) {}
+            try { target_stream.close(); } catch (Error e) {}
+            
+            file_to_play = temp_play_file;
+        } catch (Error e) {
+            warning("VideoPlayerWidget: Failed to decrypt video: %s", e.message);
+            // Fallback to original file (maybe it wasn't encrypted?)
+        }
+
         if (video_picture == null) {
             video_picture = new Gtk.Picture();
             video_picture.content_fit = ContentFit.SCALE_DOWN;  // Scale down large videos
@@ -268,7 +324,7 @@ public class VideoPlayerWidget : Widget {
             stack.add_child(video_container);
         }
         
-        media_file = Gtk.MediaFile.for_file(file);
+        media_file = Gtk.MediaFile.for_file(file_to_play);
         ensure_scroll_watch();
         media_file.notify["error"].connect(() => {
             if (media_file.error != null) {
@@ -311,11 +367,28 @@ public class VideoPlayerWidget : Widget {
         }
     }
 
-    private void open_file() {
+    private async void open_file() {
         try {
             File? file = file_transfer.get_file();
             if (file != null) {
-                AppInfo.launch_default_for_uri(file.get_uri(), null);
+                var app = (Dino.Application) GLib.Application.get_default();
+                var enc = app.file_encryption;
+
+                string temp_dir = Path.build_filename(Environment.get_user_cache_dir(), "dinox", "temp_open");
+                DirUtils.create_with_parents(temp_dir, 0700);
+
+                string temp_path = Path.build_filename(temp_dir, file_transfer.file_name);
+                File temp_file = File.new_for_path(temp_path);
+
+                var source_stream = file.read();
+                var target_stream = temp_file.replace(null, false, GLib.FileCreateFlags.NONE);
+                
+                yield enc.decrypt_stream(source_stream, target_stream);
+                
+                try { source_stream.close(); } catch (Error e) {}
+                try { target_stream.close(); } catch (Error e) {}
+
+                AppInfo.launch_default_for_uri(temp_file.get_uri(), null);
             }
         } catch (GLib.Error err) {
             warning("Failed to open file: %s", err.message);
@@ -328,18 +401,32 @@ public class VideoPlayerWidget : Widget {
         save_dialog.initial_name = file_transfer.file_name;
 
         save_dialog.save.begin(this.get_root() as Gtk.Window, null, (obj, res) => {
-            try {
-                File? target_file = save_dialog.save.end(res);
-                if (target_file != null) {
-                    File? source_file = file_transfer.get_file();
-                    if (source_file != null) {
-                        source_file.copy(target_file, GLib.FileCopyFlags.OVERWRITE, null);
-                    }
-                }
-            } catch (GLib.Error e) {
-                warning("Failed to save file: %s", e.message);
-            }
+            save_file_finish.begin(obj, res);
         });
+    }
+
+    private async void save_file_finish(GLib.Object? obj, AsyncResult res) {
+        var save_dialog = (Gtk.FileDialog) obj;
+        try {
+            File? target_file = save_dialog.save.end(res);
+            if (target_file != null) {
+                File? source_file = file_transfer.get_file();
+                if (source_file != null) {
+                    var app = (Dino.Application) GLib.Application.get_default();
+                    var enc = app.file_encryption;
+
+                    var source_stream = source_file.read();
+                    var target_stream = target_file.replace(null, false, GLib.FileCreateFlags.NONE);
+
+                    yield enc.decrypt_stream(source_stream, target_stream);
+                    
+                    try { source_stream.close(); } catch (Error e) {}
+                    try { target_stream.close(); } catch (Error e) {}
+                }
+            }
+        } catch (GLib.Error e) {
+            warning("Failed to save file: %s", e.message);
+        }
     }
 
     public override void dispose() {
@@ -347,6 +434,12 @@ public class VideoPlayerWidget : Widget {
         if (media_file != null) {
             media_file.set_playing(false);
             media_file = null;
+        }
+        if (temp_play_file != null) {
+            try {
+                temp_play_file.delete(null);
+            } catch (Error e) {}
+            temp_play_file = null;
         }
         if (video_picture != null) {
             video_picture.set_paintable(null);

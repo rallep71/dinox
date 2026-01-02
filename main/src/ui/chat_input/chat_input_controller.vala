@@ -288,18 +288,25 @@ public class ChatInputController : Object {
             recorder_popover.set_parent(chat_input.record_button);
             
             recorder_popover.send_clicked.connect(() => {
-                stop_recording();
+                if (is_recording) {
+                    is_recording = false;
+                    stop_recording.begin();
+                }
                 recorder_popover.popdown();
             });
             
             recorder_popover.cancel_clicked.connect(() => {
-                cancel_recording();
+                if (is_recording) {
+                    is_recording = false;
+                    cancel_recording.begin();
+                }
                 recorder_popover.popdown();
             });
             
             recorder_popover.closed.connect(() => {
                 if (is_recording) {
-                    cancel_recording();
+                    is_recording = false;
+                    cancel_recording.begin();
                 }
             });
         }
@@ -311,6 +318,7 @@ public class ChatInputController : Object {
     private void start_recording() {
         try {
             string path = Path.build_filename(Environment.get_tmp_dir(), "dino_voice_%s.m4a".printf(new DateTime.now_local().format("%Y%m%d%H%M%S")));
+            print("DEBUG: ChatInputController.start_recording: path=%s\n".printf(path));
             audio_recorder.start_recording(path);
             is_recording = true;
             chat_input.record_button.icon_name = "media-record-symbolic";
@@ -320,20 +328,41 @@ public class ChatInputController : Object {
         }
     }
 
-    private void stop_recording() {
-        audio_recorder.stop_recording();
-        is_recording = false;
+    private async void stop_recording() {
+        print("DEBUG: ChatInputController.stop_recording: called\n");
+        chat_input.record_button.sensitive = false;
+        yield audio_recorder.stop_recording_async();
+        print("DEBUG: ChatInputController.stop_recording: returned from async stop\n");
+        chat_input.record_button.sensitive = true;
+        
         chat_input.record_button.icon_name = "microphone-sensitivity-medium-symbolic";
         chat_input.record_button.remove_css_class("destructive-action");
 
         if (audio_recorder.current_output_path != null) {
-            voice_message_recorded(audio_recorder.current_output_path);
+            // Verify file exists and has content
+            File f = File.new_for_path(audio_recorder.current_output_path);
+            try {
+                FileInfo info = f.query_info(FileAttribute.STANDARD_SIZE, FileQueryInfoFlags.NONE);
+                print("DEBUG: ChatInputController.stop_recording: file size=%lld\n".printf(info.get_size()));
+                if (info.get_size() > 0) {
+                    print("DEBUG: ChatInputController.stop_recording: emitting voice_message_recorded\n");
+                    voice_message_recorded(audio_recorder.current_output_path);
+                } else {
+                    warning("Recorded audio file is empty, not sending.");
+                    FileUtils.unlink(audio_recorder.current_output_path);
+                }
+            } catch (Error e) {
+                print("DEBUG: ChatInputController.stop_recording: Error checking file: %s\n".printf(e.message));
+                warning("Failed to check recorded audio file: %s", e.message);
+            }
         }
     }
     
-    private void cancel_recording() {
-        audio_recorder.stop_recording();
-        is_recording = false;
+    private async void cancel_recording() {
+        chat_input.record_button.sensitive = false;
+        yield audio_recorder.stop_recording_async();
+        chat_input.record_button.sensitive = true;
+        
         chat_input.record_button.icon_name = "microphone-sensitivity-medium-symbolic";
         chat_input.record_button.remove_css_class("destructive-action");
         

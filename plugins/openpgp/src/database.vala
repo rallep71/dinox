@@ -31,11 +31,11 @@ public class Database : Qlite.Database {
     public AccountSetting account_setting_table { get; private set; }
     public ContactKey contact_key_table { get; private set; }
 
-    public Database(string filename) throws Error {
+    public Database(string filename, string? key) throws Error {
         base(filename, VERSION);
         this.account_setting_table = new AccountSetting(this);
         this.contact_key_table = new ContactKey(this);
-        init({account_setting_table, contact_key_table});
+        init({account_setting_table, contact_key_table}, key);
 
         try {
             exec("PRAGMA journal_mode = WAL");
