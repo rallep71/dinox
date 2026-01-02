@@ -12,6 +12,7 @@ using Adw;
 
 using Dino.Entities;
 using Dino.Ui;
+using Dino.Security;
 using Xmpp;
 
 public class Dino.Ui.Application : Adw.Application, Dino.Application {
@@ -29,6 +30,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
 
     public Database db { get; set; }
     public string? db_key { get; set; }
+    public FileEncryption file_encryption { get; set; }
     public Dino.Entities.Settings settings { get; set; }
     private Config config { get; set; }
     public StreamInteractor stream_interactor { get; set; }
@@ -56,6 +58,59 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
     private bool is_first_run_no_db() {
         string db_path = Path.build_filename(Dino.Application.get_storage_dir(), "dino.db");
         return !FileUtils.test(db_path, FileTest.EXISTS);
+    }
+
+    public void cleanup_temp_files() {
+        string[] temp_dirs = { "temp_audio", "temp_video", "temp_open", "avatars" };
+        string cache_root = Path.build_filename(Environment.get_user_cache_dir(), "dinox");
+        
+        foreach (string dir_name in temp_dirs) {
+            string full_path = Path.build_filename(cache_root, dir_name);
+            if (FileUtils.test(full_path, FileTest.EXISTS | FileTest.IS_DIR)) {
+                try {
+                    delete_directory_contents(full_path);
+                    DirUtils.remove(full_path);
+                } catch (Error e) {
+                    warning("Failed to cleanup temp dir %s: %s", full_path, e.message);
+                }
+            }
+        }
+
+        // Clean legacy tmp locations (if any exist from previous versions)
+        string tmp_root = Path.build_filename(Environment.get_tmp_dir(), "dinox-temp");
+        if (FileUtils.test(tmp_root, FileTest.EXISTS | FileTest.IS_DIR)) {
+            try {
+                delete_directory_contents(tmp_root);
+                DirUtils.remove(tmp_root);
+            } catch (Error e) {
+                // Ignore errors here
+            }
+        }
+
+        // Clean specific file patterns in /tmp (Voice recordings, forwarded files, backups)
+        try {
+            File tmp_dir = File.new_for_path(Environment.get_tmp_dir());
+            FileEnumerator enumerator = tmp_dir.enumerate_children("standard::name", FileQueryInfoFlags.NONE, null);
+            FileInfo info;
+            while ((info = enumerator.next_file(null)) != null) {
+                string name = info.get_name();
+                if (name.has_prefix("dinox-send-") || 
+                    name.has_prefix("dino_voice_") || 
+                    name == "dinox-restore-temp.tar.gz" || 
+                    name == "dinox-backup-temp.tar.gz" ||
+                    name == "dinox-gpg-batch") {
+                    
+                    try {
+                        File child = tmp_dir.get_child(name);
+                        child.delete(null);
+                    } catch (Error e) {
+                        // Ignore
+                    }
+                }
+            }
+        } catch (Error e) {
+            // Ignore
+        }
     }
 
     private Adw.ApplicationWindow ensure_unlock_window() {
@@ -213,6 +268,8 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         });
 
         startup.connect(() => {
+            cleanup_temp_files();
+
             if (print_version) {
                 stdout.printf("Dino %s\n", Dino.get_version());
                 stdout.flush();
@@ -902,17 +959,13 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         about_dialog.comments = _("Modern XMPP client with extended features");
         
         // Add debug info with data location
-        string config_dir = Path.build_filename(Environment.get_user_config_dir(), "dinox");
         string data_dir = Path.build_filename(Environment.get_user_data_dir(), "dinox");
         string cache_dir = Path.build_filename(Environment.get_user_cache_dir(), "dinox");
         
         string support_info = _("User Data Locations") + """
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-""" + _("Configuration:") + """
-%s
-
-""" + _("Data & Database:") + """
+""" + _("Data, Database & Configuration:") + """
 %s
 
 """ + _("Cache:") + """
@@ -924,7 +977,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
 """ + _("When you update DinoX, your data remains intact.") + """
 
 """ + _("Use Settings → General → Backup User Data to create a backup.");
-        support_info = support_info.printf(config_dir, data_dir, cache_dir);
+        support_info = support_info.printf(data_dir, cache_dir);
         
         about_dialog.debug_info = support_info;
         about_dialog.debug_info_filename = "dinox-data-locations.txt";
@@ -1370,22 +1423,32 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
     
     private int64 delete_directory_contents(string path) throws Error {
         int64 total_size = 0;
-        var dir = Dir.open(path);
-        string? name;
-        while ((name = dir.read_name()) != null) {
-            string full_path = Path.build_filename(path, name);
-            FileInfo info = File.new_for_path(full_path).query_info(
-                FileAttribute.STANDARD_TYPE + "," + FileAttribute.STANDARD_SIZE, 
-                FileQueryInfoFlags.NOFOLLOW_SYMLINKS
-            );
-            
-            if (info.get_file_type() == FileType.DIRECTORY) {
-                total_size += delete_directory_contents(full_path);
-                DirUtils.remove(full_path);
-            } else {
-                total_size += info.get_size();
-                FileUtils.unlink(full_path);
+        try {
+            var dir = Dir.open(path);
+            string? name;
+            while ((name = dir.read_name()) != null) {
+                string full_path = Path.build_filename(path, name);
+                try {
+                    FileInfo info = File.new_for_path(full_path).query_info(
+                        FileAttribute.STANDARD_TYPE + "," + FileAttribute.STANDARD_SIZE, 
+                        FileQueryInfoFlags.NOFOLLOW_SYMLINKS
+                    );
+                    
+                    if (info.get_file_type() == FileType.DIRECTORY) {
+                        total_size += delete_directory_contents(full_path);
+                        DirUtils.remove(full_path);
+                    } else {
+                        total_size += info.get_size();
+                        FileUtils.unlink(full_path);
+                    }
+                } catch (Error e) {
+                    // Ignore errors for individual files to ensure we try to delete the rest
+                    warning("Failed to delete %s: %s", full_path, e.message);
+                }
             }
+        } catch (Error e) {
+            // If we can't open the directory, rethrow or ignore
+            throw e;
         }
         return total_size;
     }
@@ -1578,27 +1641,8 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
     }
     
     private void create_backup(string data_dir) {
-        // First ask if user wants to encrypt the backup
-        var encrypt_dialog = new Adw.AlertDialog(
-            _("Backup Encryption"),
-            _("Do you want to encrypt the backup with a password?\n\nEncrypted backups are more secure but require the password to restore.")
-        );
-        
-        encrypt_dialog.add_response("no", _("No Encryption"));
-        encrypt_dialog.add_response("yes", _("Encrypt with Password"));
-        encrypt_dialog.set_response_appearance("yes", Adw.ResponseAppearance.SUGGESTED);
-        encrypt_dialog.set_default_response("no");
-        encrypt_dialog.set_close_response("no");
-        
-        encrypt_dialog.response.connect((response) => {
-            if (response == "yes") {
-                show_password_dialog_for_backup(data_dir);
-            } else {
-                show_backup_file_chooser(data_dir, null);
-            }
-        });
-        
-        encrypt_dialog.present(window);
+        // Always enforce encryption for backups
+        show_password_dialog_for_backup(data_dir);
     }
     
     private void show_password_dialog_for_backup(string data_dir) {
@@ -1959,6 +2003,8 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
     }
 
     public override void shutdown() {
+        cleanup_temp_files();
+
         if (systray_manager != null) {
             systray_manager.cleanup();
             systray_manager = null;

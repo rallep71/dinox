@@ -794,6 +794,14 @@ public class ConversationSelectorRow : ListBoxRow {
             _("Delete all message history?"),
             _("This will permanently delete all messages in this conversation. This action cannot be undone.")
         );
+
+        Gtk.CheckButton? global_check = null;
+        if (conversation.type_ == Conversation.Type.CHAT) {
+            global_check = new Gtk.CheckButton.with_label(_("Also delete for chat partner"));
+            global_check.halign = Gtk.Align.CENTER;
+            dialog.set_extra_child(global_check);
+        }
+
         dialog.add_response("cancel", _("Cancel"));
         dialog.add_response("delete", _("Delete"));
         dialog.set_response_appearance("delete", DESTRUCTIVE);
@@ -802,7 +810,8 @@ public class ConversationSelectorRow : ListBoxRow {
         
         dialog.response.connect((response) => {
             if (response == "delete") {
-                stream_interactor.get_module(ConversationManager.IDENTITY).clear_conversation_history(conversation);
+                bool global = global_check != null && global_check.active;
+                stream_interactor.get_module(ConversationManager.IDENTITY).clear_conversation_history(conversation, global);
             }
         });
         

@@ -123,6 +123,9 @@ public class SystrayManager : Object {
         debug("Systray: Calling application.quit()");
         application.quit();
         
+        // Ensure cache is cleaned up before force exit
+        application.cleanup_temp_files();
+        
         // Force exit immediately - Flatpak doesn't quit cleanly otherwise
         debug("Systray: Force exit - Process.exit(0)");
         Process.exit(0);

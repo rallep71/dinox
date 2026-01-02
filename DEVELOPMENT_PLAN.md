@@ -21,6 +21,15 @@ This document is organized as a **chronological release timeline** first, follow
 
 ## Timeline (Recent Releases)
 
+### v0.9.3.0 (Full Local Encryption)
+
+- **Full Local Encryption**: Transparent encryption for all local files (`files/`, `avatars/`, `stickers/`) using AES-256-GCM.
+- **Secure Deletion**:
+  - **Global History Deletion**: Option to delete conversation history for both parties (XEP-0424) in 1:1 chats.
+  - **Smart Throttling**: Rate-limited retraction queue (5 msgs/sec) to prevent server disconnects/bans.
+  - **Zero-Trace Shutdown**: Enforced cleanup of decrypted cache files (`~/.cache/dinox`) on application exit.
+- **PGP Database Encryption**: Migrated `pgp.db` to SQLCipher.
+
 ### v0.9.2.0 (Encrypted File Sharing)
 
 - **Encrypted File Upload**: Support for OMEMO-encrypted file sharing.
@@ -83,14 +92,12 @@ Focus: make GitHub release assets reliable for end users (Flatpak/AppImage).
 
 ## Roadmap (Next Work)
 
-### v0.9.3.0 (Full Local Encryption)
+### v0.9.4.0 (Call Quality & Performance)
 
-Focus: Complete encryption of all local data at rest.
+Focus: Audio/Video improvements and performance optimization.
 
 | Item | Description | Status |
 |------|-------------|--------|
-| **Encrypted File Storage** | Transparent encryption for `files/`, `avatars/`, and `stickers/` directories. | TODO (Priority) |
-| **PGP Database Encryption** | Migrate `pgp.db` to SQLCipher (currently unencrypted). | TODO (Priority) |
 | **Call Quality UI** | Display packet loss, jitter, and resolution during calls | IN PROGRESS (backend ready) |
 | **Echo Cancellation** | Fine-tune `webrtc-audio-processing` AEC settings across Linux audio setups | IN PROGRESS |
 | **Spell Checking** | Re-enable spell checking (waiting for GTK4 GtkTextView support) | BLOCKED |

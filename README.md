@@ -29,6 +29,8 @@ DinoX features System Tray support, MUJI group video calls, voice messages, mess
 | Feature | Description |
 |---------|-------------|
 | **Encrypted File Upload** | AES-GCM URI Scheme & XEP-0448 support for secure file sharing |
+| **Full Local Encryption** | All local files (avatars, stickers, transfers) are encrypted at rest (AES-256-GCM) |
+| **Secure Deletion** | Global history deletion (both sides) with smart throttling & zero-trace cache cleanup |
 | **OMEMO Encryption** | End-to-end encryption for all messages and files |
 | **OpenPGP Encryption** | XEP-0373 with key management, generation & deletion |
 | **Encrypted Local Database** | Local data is stored in an encrypted SQLCipher database (password required at startup) |
