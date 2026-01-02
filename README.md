@@ -147,6 +147,7 @@ DinoX implements **80 XMPP Extension Protocols**. Here are the key ones with ful
 |-----|------|--------|
 | XEP-0384 | OMEMO Encryption | Full |
 | XEP-0373 | OpenPGP for XMPP | Full |
+| XEP-0448 | Encryption for Stateless File Sharing | Full |
 | XEP-0454 | OMEMO Media Sharing | Full |
 
 ### Voice & Video
