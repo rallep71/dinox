@@ -169,6 +169,7 @@ DinoX implements **80 XMPP Extension Protocols**. Here are the key ones with ful
 | XEP-0249 | Direct MUC Invitations | Full |
 | XEP-0421 | Anonymous Unique IDs | Full |
 | XEP-0425 | Message Moderation | Full |
+| XEP-0486 | MUC Avatars | Full |
 
 ### File Transfer
 | XEP | Name | Status |

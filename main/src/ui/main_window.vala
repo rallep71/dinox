@@ -16,7 +16,8 @@ public class MainWindow : Adw.ApplicationWindow {
 
     [GtkChild] public unowned Button add_chat_button;
     [GtkChild] public unowned Button add_group_button;
-    [GtkChild] public unowned Button join_help_button;
+    [GtkChild] public unowned MenuButton status_button;
+    [GtkChild] public unowned Image status_image;
     [GtkChild] public unowned MenuButton menu_button;
 
     [GtkChild] public unowned Adw.HeaderBar conversation_headerbar;
@@ -153,42 +154,18 @@ public class MainWindow : Adw.ApplicationWindow {
     private void setup_header_bar() {
         add_chat_button.tooltip_text = Util.string_if_tooltips_active(_("Start Conversation"));
         add_group_button.tooltip_text = Util.string_if_tooltips_active(_("Join Channel"));
-        if (join_help_button != null) {
-            join_help_button.tooltip_text = Util.string_if_tooltips_active(_("Help: How to join channels"));
-            join_help_button.clicked.connect(() => show_join_channel_help());
-        }
+        status_button.tooltip_text = Util.string_if_tooltips_active(_("Set Status"));
 
         Builder menu_builder = new Builder.from_resource("/im/github/rallep71/DinoX/menu_app.ui");
         Menu menu_app = menu_builder.get_object("menu_app") as Menu;
         menu_button.set_menu_model(menu_app);
 
-        setup_status_menu(menu_app);
+        Menu status_menu = new Menu();
+        status_button.set_menu_model(status_menu);
+        setup_status_menu(status_menu);
     }
 
-    private void show_join_channel_help() {
-        var dialog = new Adw.AlertDialog(_("Join Channel Help"), null);
-        string body = _("To join a channel, click the \"Join Channel\" button and enter the channel JID (example: room@conference.example.org).\n\nIf you need a password or a nickname, provide them in the dialog. Use the discovery features in the server to find public rooms.");
-        dialog.body = body;
-        dialog.add_response("close", _("Close"));
-        dialog.present(this);
-    }
-
-    private void setup_status_menu(Menu menu_app) {
-        // Traverse to find the status section
-        // Structure: Menu -> Section -> Submenu (Status) -> Section -> Items
-        
-        MenuModel? section = menu_app.get_item_link(0, Menu.LINK_SECTION);
-        if (section == null) return;
-        
-        MenuModel? status_submenu = section.get_item_link(0, Menu.LINK_SUBMENU);
-        if (status_submenu == null) return;
-        
-        MenuModel? status_section = status_submenu.get_item_link(0, Menu.LINK_SECTION);
-        if (status_section == null) return;
-        
-        Menu? status_menu = status_section as Menu;
-        if (status_menu == null) return;
-        
+    private void setup_status_menu(Menu status_menu) {
         var pm = this.stream_interactor.get_module(PresenceManager.IDENTITY);
         pm.status_changed.connect((show, msg) => {
             update_status_menu(status_menu, show);
@@ -205,6 +182,8 @@ public class MainWindow : Adw.ApplicationWindow {
 
         status_menu.remove_all();
         
+        apply_status_color(current_status);
+
         for (int i = 0; i < statuses.length; i++) {
             string emoji = (statuses[i] == current_status) ? active_emojis[i] : inactive_emoji;
             var item = new MenuItem(emoji + "  " + labels[i], "app.set-status");
@@ -214,6 +193,31 @@ public class MainWindow : Adw.ApplicationWindow {
 
         var status_msg_item = new MenuItem(_("Set Status Message…"), "app.set-status-message");
         status_menu.append_item(status_msg_item);
+    }
+
+    private void apply_status_color(string status) {
+        status_image.remove_css_class("success");
+        status_image.remove_css_class("warning");
+        status_image.remove_css_class("error");
+        status_image.remove_css_class("dim-label");
+
+        switch (status) {
+            case "online":
+            case "chat":
+                status_image.add_css_class("success");
+                break;
+            case "away":
+            case "xa":
+                status_image.add_css_class("warning");
+                break;
+            case "dnd":
+                status_image.add_css_class("error");
+                break;
+            case "offline":
+            default:
+                status_image.add_css_class("dim-label");
+                break;
+        }
     }
 }
 

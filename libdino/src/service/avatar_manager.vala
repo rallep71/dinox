@@ -345,7 +345,7 @@ public class AvatarManager : StreamInteractionModule, Object {
         received_avatar(jid, account);
     }
 
-    private void on_vcard_avatar_received(Account account, Jid jid_, string id) {
+    public void on_vcard_avatar_received(Account account, Jid jid_, string id) {
         bool is_gc = stream_interactor.get_module(MucManager.IDENTITY).might_be_groupchat(jid_.bare_jid, account);
         Jid jid = is_gc ? jid_ : jid_.bare_jid;
 
@@ -430,7 +430,7 @@ public class AvatarManager : StreamInteractionModule, Object {
         return bytes != null;
     }
 
-    private async void store_image(string id, Bytes data) {
+    public async void store_image(string id, Bytes data) {
         File file = File.new_for_path(Path.build_filename(folder, id));
         try {
             if (file.query_exists()) file.delete();

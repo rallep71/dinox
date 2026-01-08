@@ -243,8 +243,9 @@ public async VCardInfo? fetch_vcard(XmppStream stream, Jid? jid = null) {
     return VCardInfo.from_node(vcard_node);
 }
 
-public async void publish_vcard(XmppStream stream, VCardInfo vcard) throws Error {
+public async void publish_vcard(XmppStream stream, VCardInfo vcard, Jid? to = null) throws Error {
     Iq.Stanza iq = new Iq.Stanza.set(vcard.to_node().add_self_xmlns());
+    if (to != null) iq.to = to;
     yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
 }
 

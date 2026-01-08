@@ -5,7 +5,20 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.9.5.0] - 2026-01-08
+
+### Added
+- **MUC Avatars (XEP-0486)**
+  - Full support for setting, updating, and displaying group chat avatars.
+  - Automatic resizing and conversion to PNG.
+  - Robust persistence via vCard support on MUC JIDs.
+- **Status UI**
+  - Moved status selection from hamburger menu to a dedicated button in the header bar.
+  - Status icon changes color based on reachability (Green/Orange/Red).
+
+### Removed
+- **Help Button**
+  - "Join Channel Help" button removed from header bar.
 
 ## [0.9.4.0] - 2026-01-08
 
@@ -15,7 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Integration with server-side User Directories (JUD).
   - Improved handling of XEP-0004 Data Forms (`<item>` parsing support), enabling robust search results.
 - **UI Tweaks**
-  - Removed Dino logo from empty chat placeholder for a cleaner look.
+  - Removed logo from empty chat placeholder for a cleaner look.
 
 ## [0.9.3.0] - 2026-01-02
 

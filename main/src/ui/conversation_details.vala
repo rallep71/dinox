@@ -22,7 +22,7 @@ namespace Dino.Ui.ConversationDetails {
         model.blocked = stream_interactor.get_module(BlockingManager.IDENTITY).is_blocked(model.conversation.account, model.conversation.counterpart);
         model.domain_blocked = stream_interactor.get_module(BlockingManager.IDENTITY).is_blocked(model.conversation.account, model.conversation.counterpart.domain_jid);
 
-        if (conversation.type_ == Conversation.Type.CHAT || conversation.type_ == Conversation.Type.GROUPCHAT_PM) {
+        if (conversation.type_ == Conversation.Type.CHAT || conversation.type_ == Conversation.Type.GROUPCHAT_PM || conversation.type_ == Conversation.Type.GROUPCHAT) {
             fetch_vcard.begin(model, conversation, stream_interactor);
         }
 
@@ -248,6 +248,15 @@ namespace Dino.Ui.ConversationDetails {
             if (own_muc_jid != null) {
                 Xep.Muc.Affiliation? own_affiliation = stream_interactor.get_module(MucManager.IDENTITY).get_affiliation(model.conversation.counterpart, own_muc_jid, model.conversation.account);
                 if (own_affiliation == OWNER || own_affiliation == ADMIN) {
+                    var change_avatar_button = new ViewModel.PreferencesRow.Button() {
+                        title = _("Avatar"),
+                        button_text = _("Change Avatar")
+                    };
+                    change_avatar_button.clicked.connect(() => {
+                        change_muc_avatar.begin(stream_interactor, model.conversation.account, model.conversation.counterpart, parent);
+                    });
+                    view_model.settings_rows.append(change_avatar_button);
+
                     var admin_button = new ViewModel.PreferencesRow.Button() {
                         title = _("Permissions"),
                         button_text = _("Manage Affiliations")
@@ -596,5 +605,65 @@ namespace Dino.Ui.ConversationDetails {
         foreach (var url in urls) if (url != "") view_model.vcard_rows.append(new ViewModel.PreferencesRow.Text() { title = _("URL"), text = url });
         
         if (note != null && note != "") view_model.vcard_rows.append(new ViewModel.PreferencesRow.Text() { title = _("Note"), text = note });
+    }
+
+    private async void change_muc_avatar(StreamInteractor stream_interactor, Account account, Jid room_jid, Gtk.Widget? parent) {
+        var dialog = new Gtk.FileDialog();
+        dialog.title = _("Select Avatar");
+        var filter = new Gtk.FileFilter();
+        filter.add_pixbuf_formats();
+        filter.name = _("Images");
+        
+        var filters = new GLib.ListStore(typeof(Gtk.FileFilter));
+        filters.append(filter);
+        dialog.filters = filters;
+        dialog.default_filter = filter;
+
+        Gtk.Window? window = null;
+        if (parent != null) {
+            window = parent.get_root() as Gtk.Window;
+        }
+
+        try {
+            File file = yield dialog.open(window, null);
+            if (file == null) return;
+            
+            // Resize image if necessary (limit to 192px)
+            const int MAX_PIXEL = 192;
+            var file_stream = yield file.read_async();
+            var pixbuf = yield new Gdk.Pixbuf.from_stream_async(file_stream);
+            yield file_stream.close_async();
+
+            if (pixbuf.width >= pixbuf.height && pixbuf.width > MAX_PIXEL) {
+                int dest_height = (int) ((float) MAX_PIXEL / pixbuf.width * pixbuf.height);
+                pixbuf = pixbuf.scale_simple(MAX_PIXEL, dest_height, Gdk.InterpType.BILINEAR);
+            } else if (pixbuf.height > pixbuf.width && pixbuf.width > MAX_PIXEL) {
+                int dest_width = (int) ((float) MAX_PIXEL / pixbuf.height * pixbuf.width);
+                pixbuf = pixbuf.scale_simple(dest_width, MAX_PIXEL, Gdk.InterpType.BILINEAR);
+            }
+
+            uint8[] buffer;
+            pixbuf.save_to_buffer(out buffer, "png");
+            Bytes bytes = new Bytes(buffer);
+            
+            var vcard = new Xmpp.Xep.VCard.VCardInfo();
+            vcard.photo = bytes;
+            vcard.photo_type = "image/png";
+            
+            var stream = stream_interactor.get_stream(account);
+            if (stream != null) {
+                debug("Updating MUC avatar for %s...", room_jid.to_string());
+                yield Xmpp.Xep.VCard.publish_vcard(stream, vcard, room_jid);
+                debug("MUC vCard published.");
+                
+                string hash = Checksum.compute_for_bytes(ChecksumType.SHA1, bytes);
+                var avatar_manager = stream_interactor.get_module(AvatarManager.IDENTITY);
+                yield avatar_manager.store_image(hash, bytes);
+                avatar_manager.on_vcard_avatar_received(account, room_jid, hash);
+                debug("MUC avatar updated locally.");
+            }
+        } catch (Error e) {
+            warning("Failed to select or upload avatar: %s", e.message);
+        }
     }
 }

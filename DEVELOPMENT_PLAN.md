@@ -1,7 +1,7 @@
 # DinoX - Development Plan
 
 > **Last Updated**: January 8, 2026
-> **Current Release Line**: 0.9.4.x
+> **Current Release Line**: 0.9.5.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
 
@@ -11,8 +11,8 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Release Line** | 0.9.4.x |
-| **XEPs Implemented** | ~75 |
+| **Release Line** | 0.9.5.x |
+| **XEPs Implemented** | ~76 |
 | **Languages** | 47 (100% translated) |
 | **Build Status** | Clean |
 | **GTK/libadwaita** | GTK4 4.14, libadwaita 1.5 |
@@ -20,6 +20,17 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v0.9.5.0 (UX & MUC Avatars)
+
+- **MUC Avatars**: Full XEP-0486 implementation including persistence, resizing (192px), and conversion.
+- **UI Refinements**: Redesigned header bar, Status Menu moved to dedicated button with dynamic reachability colors.
+- **Maintenance**: Deprecated "Help" button in favor of streamlined UI.
+
+### Next Big Step: In-Band Registration (XEP-0077)
+
+- **Registration**: Allow users to register new accounts directly from the client.
+- **Account Management**: Change password support.
 
 ### v0.9.4.0 (User Search Integration)
 

@@ -59,12 +59,12 @@
                                                             </object>
                                                         </child>
                                                         <child>
-                                                            <object class="GtkButton" id="join_help_button">
+                                                            <object class="GtkMenuButton" id="status_button">
                                                                 <property name="has-frame">False</property>
-                                                                <property name="tooltip-text" translatable="yes">Help: How to join channels</property>
+                                                                <property name="tooltip-text" translatable="yes">Set Status</property>
                                                                 <child>
-                                                                    <object class="GtkImage">
-                                                                        <property name="icon-name">dialog-question-symbolic</property>
+                                                                    <object class="GtkImage" id="status_image">
+                                                                        <property name="icon-name">user-available-symbolic</property>
                                                                         <property name="icon-size">normal</property>
                                                                     </object>
                                                                 </child>

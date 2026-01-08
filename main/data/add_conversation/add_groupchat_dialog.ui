@@ -150,6 +150,36 @@
                                         </layout>
                                     </object>
                                 </child>
+                                <child>
+                                    <object class="GtkLabel">
+                                        <property name="label" translatable="1">Avatar</property>
+                                        <property name="xalign">1</property>
+                                        <layout>
+                                            <property name="column">0</property>
+                                            <property name="row">5</property>
+                                        </layout>
+                                    </object>
+                                </child>
+                                <child>
+                                    <object class="GtkBox">
+                                        <property name="orientation">horizontal</property>
+                                        <property name="spacing">6</property>
+                                        <child>
+                                            <object class="GtkButton" id="avatar_button">
+                                                <property name="label" translatable="1">Select...</property>
+                                            </object>
+                                        </child>
+                                        <child>
+                                            <object class="GtkLabel" id="avatar_label">
+                                                <property name="ellipsize">end</property>
+                                            </object>
+                                        </child>
+                                        <layout>
+                                            <property name="column">1</property>
+                                            <property name="row">5</property>
+                                        </layout>
+                                    </object>
+                                </child>
                             </object>
                         </child>
                     </object>
