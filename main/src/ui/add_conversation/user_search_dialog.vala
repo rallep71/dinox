@@ -61,7 +61,7 @@ public class UserSearchDialog : Adw.Dialog {
         search_button.sensitive = false;
         content_box.append(search_button);
 
-        spinner = new Spinner();
+        spinner = new Gtk.Spinner();
         content_box.append(spinner);
 
         var scrolled = new ScrolledWindow();
