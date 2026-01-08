@@ -60,7 +60,6 @@ jobs:
             libnice-dev \
             libsrtp2-dev \
             libgnutls28-dev \
-            libwebrtc-audio-processing-dev \
             libcanberra-dev \
             libdbusmenu-glib-dev \
             libgdk-pixbuf-2.0-dev \
@@ -77,6 +76,20 @@ jobs:
           
           # Install newer Meson from PyPI (Ubuntu 22.04 has 0.61, we need 1.3+)
           sudo pip3 install meson>=1.3.0
+
+      - name: Build webrtc-audio-processing (2.1)
+        run: |
+          set -euo pipefail
+
+          WEBRTC_VER=v2.1
+          wget -O "webrtc-audio-processing-${WEBRTC_VER}.tar.gz" "https://gitlab.freedesktop.org/pulseaudio/webrtc-audio-processing/-/archive/${WEBRTC_VER}/webrtc-audio-processing-${WEBRTC_VER}.tar.gz"
+          tar xf "webrtc-audio-processing-${WEBRTC_VER}.tar.gz"
+          cd "webrtc-audio-processing-${WEBRTC_VER}"
+
+          meson setup build --prefix=/usr -Dtests=disabled
+          ninja -C build
+          sudo ninja -C build install
+          sudo ldconfig
 
       - name: Build libnice (0.1.23)
         run: |
@@ -98,6 +111,8 @@ jobs:
 
           echo "pkg-config versions:"
           echo "- nice: $(pkg-config --modversion nice)"
+          echo "- webrtc-audio-processing (1): $(pkg-config --modversion webrtc-audio-processing-1 || echo 'not found')"
+          echo "- webrtc-audio-processing (2): $(pkg-config --modversion webrtc-audio-processing-2 || echo 'not found')"
           echo "- gstreamer-1.0: $(pkg-config --modversion gstreamer-1.0)"
           if pkg-config --exists gstreamer-webrtc-1.0; then
             echo "- gstreamer-webrtc-1.0: $(pkg-config --modversion gstreamer-webrtc-1.0)"
