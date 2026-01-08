@@ -16,7 +16,7 @@ public class UserSearchDialog : Adw.Dialog {
     private Box form_box;
     private ListBox results_list;
     private Button search_button;
-    private Spinner spinner;
+    private Gtk.Spinner spinner;
     private Entry search_entry; // Simple fallback if no form
     private string? initial_query = null;
     private bool use_legacy_search = false;
