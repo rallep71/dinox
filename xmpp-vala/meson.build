@@ -57,6 +57,7 @@ sources = files(
     'src/module/xep/0394_message_markup.vala',
     'src/module/xep/0049_private_xml_storage.vala',
     'src/module/xep/0054_vcard/module.vala',
+    'src/module/xep/0055_search.vala',
     'src/module/xep/0059_result_set_management.vala',
     'src/module/xep/0060_pubsub.vala',
     'src/module/xep/0065_socks5_bytestreams.vala',

@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.9.4.0] - 2026-01-08
+
+### Added
+- **User Search Integration (XEP-0055)**
+  - Implemented direct "Search Directory" option in the "Start Conversation" dialog.
+  - Integration with server-side User Directories (JUD).
+  - Improved handling of XEP-0004 Data Forms (`<item>` parsing support), enabling robust search results.
+- **UI Tweaks**
+  - Removed Dino logo from empty chat placeholder for a cleaner look.
+
 ## [0.9.3.0] - 2026-01-02
 
 ### Added

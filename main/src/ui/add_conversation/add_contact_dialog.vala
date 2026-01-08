@@ -24,6 +24,7 @@ protected class AddContactDialog : Adw.Dialog {
     [GtkChild] private unowned Button cancel_button;
     [GtkChild] private unowned Entry jid_entry;
     [GtkChild] private unowned Entry alias_entry;
+    [GtkChild] private unowned Box content_area; // Need to add this ID to the UI file or find the box programmatically
 
     private StreamInteractor stream_interactor;
 
@@ -34,6 +35,22 @@ protected class AddContactDialog : Adw.Dialog {
         cancel_button.clicked.connect(() => { close(); });
         ok_button.clicked.connect(on_ok_button_clicked);
         jid_entry.changed.connect(on_jid_entry_changed);
+        
+        // Add Search Button
+        var search_btn = new Button.with_label(_("Search Directory"));
+        search_btn.margin_top = 0;
+        search_btn.margin_bottom = 20;
+        search_btn.halign = Align.CENTER;
+        search_btn.add_css_class("pill");
+        search_btn.clicked.connect(() => {
+            var search_dialog = new UserSearchDialog(stream_interactor, account);
+            search_dialog.contact_selected.connect((jid) => {
+                this.jid = jid.to_string();
+            });
+            search_dialog.present(this);
+        });
+        
+        content_area.append(search_btn);
     }
 
     private void on_ok_button_clicked() {

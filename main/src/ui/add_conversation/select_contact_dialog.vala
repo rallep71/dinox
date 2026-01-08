@@ -87,6 +87,20 @@ public class SelectContactDialog : Adw.Dialog {
         select_jid_fragment.notify["done"].connect(() => {
             ok_button.sensitive = select_jid_fragment.done;
         });
+        select_jid_fragment.search_directory_clicked.connect((query) => {
+            // Use the first enabled account for search (simplified)
+            Account? account = null;
+            foreach(var acc in accounts) { if (acc.enabled) { account = acc; break; } }
+            
+            if (account != null) {
+                var dialog = new UserSearchDialog(stream_interactor, account, query);
+                dialog.contact_selected.connect((jid) => {
+                    selected(account, jid);
+                    close();
+                });
+                dialog.present(this);
+            }
+        });
         toolbar_view.content = select_jid_fragment;
     }
     

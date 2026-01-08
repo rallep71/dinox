@@ -82,6 +82,7 @@ sources = files(
     'src/service/stateless_file_sharing.vala',
     'src/service/stickers.vala',
     'src/service/stream_interactor.vala',
+    'src/service/user_search.vala',
     'src/service/util.vala',
     'src/util/checksum_output_stream.vala',
     'src/util/display_name.vala',

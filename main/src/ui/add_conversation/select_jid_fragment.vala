@@ -84,6 +84,7 @@ public class SelectJidFragment : Gtk.Box {
     private bool _enable_contact_browse = false;
     
     public signal void browse_contacts_clicked();
+    public signal void search_directory_clicked(string query);
 
     private async void fetch_public_rooms() {
         var seen_jids = new Gee.HashSet<string>();
@@ -152,10 +153,8 @@ public class SelectJidFragment : Gtk.Box {
         if (enable_muc_search) {
             entry.secondary_icon_name = "system-search-symbolic";
             entry.secondary_icon_tooltip_text = _("Browse Rooms");
-        } else if (enable_contact_browse) {
-            entry.secondary_icon_name = "system-search-symbolic";
-            entry.secondary_icon_tooltip_text = _("Browse Contacts");
         } else {
+            // Disable the confusing "Browse Contacts" icon since we now have inline search
             entry.secondary_icon_name = null;
             entry.secondary_icon_tooltip_text = null;
         }
@@ -263,11 +262,19 @@ public class SelectJidFragment : Gtk.Box {
                 }
             }
         }
+        // 3. Add "Search Directory" option if not empty
+        if (str != "" && !enable_muc_search) {
+            var list_row = new Gtk.ListBoxRow();
+            var search_row = new SearchDirectoryRow(str);
+            list_row.set_child(search_row);
+            list.append(list_row);
+            added_rows.add(list_row);
+        }
     }
 
     private void check_buttons_active() {
         ListBoxRow? row = list.get_selected_row();
-        bool active = row != null && !row.get_type().is_a(typeof(AddListRow));
+        bool active = row != null && !row.get_type().is_a(typeof(AddListRow)) && !row.get_type().is_a(typeof(SearchDirectoryRow));
         remove_button.sensitive = active;
 
         foreach (Widget w in added_rows) {
@@ -281,10 +288,19 @@ public class SelectJidFragment : Gtk.Box {
         if (row != null) {
             var add_row = row.child as AddListRow;
             if (add_row != null) add_row.set_selected(true);
+            
+            var search_row = row.child as SearchDirectoryRow;
+            if (search_row != null) {
+                search_directory_clicked(search_row.query);
+            }
         }
     }
 
     private int sort(ListBoxRow row1, ListBoxRow row2) {
+        // SearchDirectoryRow always at the bottom
+        if (row1.child is SearchDirectoryRow) return 1;
+        if (row2.child is SearchDirectoryRow) return -1;
+
         AddListRow al1 = (row1.child as AddListRow);
         AddListRow al2 = (row2.child as AddListRow);
         if (al1 != null && al2 == null) {
@@ -351,6 +367,28 @@ public class SelectJidFragment : Gtk.Box {
                 }
             }
             picture.queue_draw();
+        }
+    }
+
+    private class SearchDirectoryRow : Box {
+        public string query { get; private set; }
+        
+        public SearchDirectoryRow(string query) {
+            this.query = query;
+            this.orientation = Orientation.HORIZONTAL;
+            this.spacing = 10;
+            this.margin_top = 10;
+            this.margin_bottom = 10;
+            this.margin_start = 10;
+            this.margin_end = 10;
+            
+            var icon = new Image.from_icon_name("system-search-symbolic");
+            this.append(icon);
+            
+            var label = new Label(_("Search directory for '%s'").printf(query));
+            label.ellipsize = Pango.EllipsizeMode.END;
+            label.xalign = 0;
+            this.append(label);
         }
     }
 }

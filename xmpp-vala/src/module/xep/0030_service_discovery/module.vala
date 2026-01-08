@@ -79,6 +79,7 @@ public class Module : XmppStreamModule, Iq.Handler {
 
         try {
             Iq.Stanza iq_result = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+            print("DEBUG: Disco Items Response from %s: %s\n", jid.to_string(), iq_result.stanza.to_string());
             ItemsResult? result = ItemsResult.create_from_iq(iq_result);
             return result;
         } catch (IOError e) {

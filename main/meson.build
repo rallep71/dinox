@@ -42,6 +42,7 @@ sources = files(
     'src/ui/add_conversation/roster_list.vala',
     'src/ui/add_conversation/select_contact_dialog.vala',
     'src/ui/add_conversation/select_jid_fragment.vala',
+    'src/ui/add_conversation/user_search_dialog.vala',
     'src/ui/application.vala',
     'src/ui/call_window/audio_settings_popover.vala',
     'src/ui/call_window/call_bottom_bar.vala',

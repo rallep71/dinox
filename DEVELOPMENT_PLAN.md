@@ -1,7 +1,7 @@
 # DinoX - Development Plan
 
-> **Last Updated**: January 2, 2026
-> **Current Release Line**: 0.9.2.x
+> **Last Updated**: January 8, 2026
+> **Current Release Line**: 0.9.4.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
 
@@ -11,8 +11,8 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Release Line** | 0.9.2.x |
-| **XEPs Implemented** | ~74 |
+| **Release Line** | 0.9.4.x |
+| **XEPs Implemented** | ~75 |
 | **Languages** | 47 (100% translated) |
 | **Build Status** | Clean |
 | **GTK/libadwaita** | GTK4 4.14, libadwaita 1.5 |
@@ -20,6 +20,12 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v0.9.4.0 (User Search Integration)
+
+- **User Search**: Integrated Jabber User Directory Search (XEP-0055).
+- **Backend**: Improved XEP-0004 Data Forms parser (support for `<item>`).
+- **UI**: Refined "Start Conversation" dialog and placeholder screens.
 
 ### v0.9.3.0 (Full Local Encryption)
 

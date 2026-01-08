@@ -58,7 +58,7 @@ public class DataForm {
             this.node = node;
         }
 
-        internal Gee.List<string> get_values() {
+        public Gee.List<string> get_values() {
             Gee.List<string> ret = new ArrayList<string>();
             Gee.List<StanzaNode> value_nodes = node.get_subnodes("value", NS_URI);
             foreach (StanzaNode node in value_nodes) {
@@ -182,35 +182,24 @@ public class DataForm {
 
     // TODO text-multi
 
+    public Gee.List<Gee.List<Field>> items = new ArrayList<Gee.List<Field>>();
+
     internal DataForm.from_node(StanzaNode node) {
         this.stanza_node = node;
 
         Gee.List<StanzaNode> field_nodes = node.get_subnodes("field", NS_URI);
         foreach (StanzaNode field_node in field_nodes) {
-            string? type = field_node.get_attribute("type", NS_URI);
-            switch (type) {
-                case "boolean":
-                    fields.add(new BooleanField(field_node)); break;
-                case "fixed":
-                    fields.add(new FixedField(field_node)); break;
-                case "hidden":
-                    HiddenField field = new HiddenField.from_node(field_node);
-                    if (field.var == "FORM_TYPE") {
-                        this.form_type = field.get_value_string();
-                        break;
-                    }
-                    fields.add(field); break;
-                case "jid-multi":
-                    fields.add(new JidMultiField(field_node)); break;
-                case "list-single":
-                    fields.add(new ListSingleField(field_node)); break;
-                case "list-multi":
-                    fields.add(new ListMultiField(field_node)); break;
-                case "text-private":
-                    fields.add(new TextPrivateField(field_node)); break;
-                case "text-single":
-                    fields.add(new TextSingleField(field_node)); break;
+            parse_field(field_node, fields);
+        }
+
+        Gee.List<StanzaNode> item_nodes = node.get_subnodes("item", NS_URI);
+        foreach (StanzaNode item_node in item_nodes) {
+            var item_fields = new ArrayList<Field>();
+            Gee.List<StanzaNode> item_field_nodes = item_node.get_subnodes("field", NS_URI);
+            foreach (StanzaNode field_node in item_field_nodes) {
+                parse_field(field_node, item_fields);
             }
+            items.add(item_fields);
         }
 
         StanzaNode? instructions_node = node.get_subnode("instructions", NS_URI);
@@ -224,8 +213,44 @@ public class DataForm {
         }
     }
 
-    internal DataForm() {
+    private void parse_field(StanzaNode field_node, Gee.List<Field> target_list) {
+        string? type = field_node.get_attribute("type", NS_URI);
+        // If type is missing, it's text-single by default usually, or we infer?
+        // For items, type might be missing.
+        if (type == null) type = "text-single"; 
+
+        switch (type) {
+            case "boolean":
+                target_list.add(new BooleanField(field_node)); break;
+            case "fixed":
+                target_list.add(new FixedField(field_node)); break;
+            case "hidden":
+                HiddenField field = new HiddenField.from_node(field_node);
+                if (field.var == "FORM_TYPE") {
+                    this.form_type = field.get_value_string();
+                    break;
+                }
+                target_list.add(field); break;
+            case "jid-multi":
+                target_list.add(new JidMultiField(field_node)); break;
+            case "list-single":
+                target_list.add(new ListSingleField(field_node)); break;
+            case "list-multi":
+                target_list.add(new ListMultiField(field_node)); break;
+            case "text-private":
+                target_list.add(new TextPrivateField(field_node)); break;
+            case "text-single":
+                target_list.add(new TextSingleField(field_node)); break;
+            case "jid-single": // Add jid-single support as it's common in search results
+                target_list.add(new TextSingleField(field_node)); break; 
+            default:
+                target_list.add(new TextSingleField(field_node)); break;
+        }
+    }
+
+    public DataForm(string type = "form") {
         this.stanza_node = new StanzaNode.build("x", NS_URI).add_self_xmlns();
+        this.stanza_node.set_attribute("type", type);
     }
 
     public static DataForm? create_from_node(StanzaNode node) {
