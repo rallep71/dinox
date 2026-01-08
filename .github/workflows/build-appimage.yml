@@ -86,7 +86,7 @@ jobs:
           tar xf "webrtc-audio-processing-${WEBRTC_VER}.tar.gz"
           cd "webrtc-audio-processing-${WEBRTC_VER}"
 
-          meson setup build --prefix=/usr -Dtests=disabled
+          meson setup build --prefix=/usr
           ninja -C build
           sudo ninja -C build install
           sudo ldconfig
