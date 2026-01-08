@@ -141,6 +141,7 @@ DinoX implements **80 XMPP Extension Protocols**. Here are the key ones with ful
 | XEP | Name | Status |
 |-----|------|--------|
 | XEP-0054 | vCard-temp | Full |
+| XEP-0055 | Jabber Search | Full |
 | XEP-0172 | User Nickname | Full |
 | XEP-0292 | vCard4 | Full |
 
