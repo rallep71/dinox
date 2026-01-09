@@ -29,6 +29,8 @@ public interface Application : GLib.Application {
 
     public abstract void handle_uri(string jid, string query, Gee.Map<string, string> options);
 
+    public signal void configure_preferences(Object dialog);
+
     public void ensure_core_options_registered() {
         if (core_options_registered) return;
         add_main_option_entries(options);

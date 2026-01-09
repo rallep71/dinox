@@ -32,6 +32,9 @@ public class Account : Object {
     public string? roster_version { get; set; }
     public string? custom_host { get; set; }
     public int custom_port { get; set; default = 0; }
+    public string proxy_type { get; set; default = "none"; }
+    public string? proxy_host { get; set; }
+    public int proxy_port { get; set; default = 0; }
 
     private Database? db;
 
@@ -55,6 +58,9 @@ public class Account : Object {
         roster_version = row[db.account.roster_version];
         custom_host = row[db.account.custom_host];
         custom_port = row[db.account.custom_port];
+        proxy_type = row[db.account.proxy_type];
+        proxy_host = row[db.account.proxy_host];
+        proxy_port = row[db.account.proxy_port];
 
         notify.connect(on_update);
     }
@@ -72,6 +78,9 @@ public class Account : Object {
                 .value(db.account.roster_version, roster_version)
                 .value(db.account.custom_host, custom_host)
                 .value(db.account.custom_port, custom_port)
+                .value(db.account.proxy_type, proxy_type)
+                .value(db.account.proxy_host, proxy_host)
+                .value(db.account.proxy_port, proxy_port)
                 .perform();
 
         notify.connect(on_update);
@@ -123,6 +132,12 @@ public class Account : Object {
                 update.set(db.account.custom_host, custom_host); break;
             case "custom-port":
                 update.set(db.account.custom_port, custom_port); break;
+            case "proxy-type":
+                update.set(db.account.proxy_type, proxy_type); break;
+            case "proxy-host":
+                update.set(db.account.proxy_host, proxy_host); break;
+            case "proxy-port":
+                update.set(db.account.proxy_port, proxy_port); break;
         }
         update.perform();
     }

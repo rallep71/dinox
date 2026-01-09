@@ -265,8 +265,32 @@
                             <property name="title" translatable="yes">Server Hostname</property>
                           </object>
                         </child>
+                        <child>                          <object class="AdwComboRow" id="proxy_type_row">
+                            <property name="title" translatable="yes">Proxy Type</property>
+                            <property name="model">
+                              <object class="GtkStringList">
+                                <items>
+                                  <item translatable="yes">None</item>
+                                  <item translatable="yes">Tor (Default)</item>
+                                  <item translatable="yes">SOCKS5</item>
+                                </items>
+                              </object>
+                            </property>
+                          </object>
+                        </child>
                         <child>
-                          <object class="AdwEntryRow" id="custom_port_entry">
+                          <object class="AdwEntryRow" id="proxy_host_entry">
+                            <property name="title" translatable="yes">Proxy Hostname</property>
+                            <property name="visible">False</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwEntryRow" id="proxy_port_entry">
+                            <property name="title" translatable="yes">Proxy Port</property>
+                            <property name="visible">False</property>
+                          </object>
+                        </child>
+                        <child>                          <object class="AdwEntryRow" id="custom_port_entry">
                             <property name="title" translatable="yes">Port</property>
                           </object>
                         </child>

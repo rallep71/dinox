@@ -35,7 +35,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 ### Next Big Step: Tor Support
 
-- **Network**: Implement Tor connection support (SOCKS5 proxy).
+- **Network**: Implement Tor connection support (SOCKS5 proxy) - **Implemented**
 - **Privacy**: Allow connecting via Tor for enhanced anonymity (similar to Gajim).
 
 ### v0.9.4.0 (User Search Integration)

@@ -237,6 +237,35 @@
             ]
         },
         {
+            "name": "libevent",
+            "buildsystem": "autotools",
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/libevent/libevent/releases/download/release-2.1.12-stable/libevent-2.1.12-stable.tar.gz",
+                    "sha256": "92e6de1be9ec176428fd2367677e61ecedc2fc1cb11bc87066738b030f585142"
+                }
+            ]
+        },
+        {
+            "name": "tor",
+            "buildsystem": "autotools",
+            "config-opts": [
+                "--disable-asciidoc",
+                "--disable-manpages",
+                "--disable-system-torrc",
+                "--disable-module-relay",
+                "--disable-unittests"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://dist.torproject.org/tor-0.4.8.10.tar.gz",
+                    "sha256": "77a87611a2a4b873afda3c224b7858c46522f77e3845c47796d443c68a44af72"
+                }
+            ]
+        },
+        {
             "name": "dino",
             "buildsystem": "meson",
             "builddir": true,
