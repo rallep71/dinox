@@ -32,8 +32,8 @@
                                 <property name="margin-end">20</property>
                                 <property name="margin-top">20</property>
                                 <property name="margin-bottom">20</property>
-                                <property name="margin-start">40</property>
-                                <property name="margin-end">40</property>
+                                <property name="margin-start">20</property>
+                                <property name="margin-end">20</property>
                                 <property name="row-spacing">7</property>
                                 <property name="column-spacing">10</property>
                                 <child>
@@ -91,7 +91,6 @@
                                         <property name="placeholder-text" translatable="yes">Insert a Name for MUC...</property>
                                         <property name="activates_default">1</property>
                                         <property name="hexpand">1</property>
-                                        <property name="width_request">200</property>
                                         <layout>
                                             <property name="column">1</property>
                                             <property name="row">1</property>

@@ -225,8 +225,10 @@ public class WelcomePlaceholder : MainWindowPlaceholder {
     public WelcomePlaceholder() {
         status_page.title = _("Welcome to DinoX!");
         status_page.description = _("Sign in or create an account to get started.");
-        primary_button.label = _("Set up account");
+        primary_button.label = _("Sign in");
         primary_button.visible = true;
+        register_button.label = _("Create account");
+        register_button.visible = true;
         secondary_button.label = _("Restore from Backup");
         secondary_button.visible = true;
     }
@@ -244,6 +246,7 @@ public class NoAccountsPlaceholder : MainWindowPlaceholder {
 public class MainWindowPlaceholder : Box {
     [GtkChild] public unowned Adw.StatusPage status_page;
     [GtkChild] public unowned Button primary_button;
+    [GtkChild] public unowned Button register_button;
     [GtkChild] public unowned Button secondary_button;
 }
 

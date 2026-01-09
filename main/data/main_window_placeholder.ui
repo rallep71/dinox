@@ -34,6 +34,16 @@
                             </object>
                         </child>
                         <child>
+                            <object class="GtkButton" id="register_button">
+                                <property name="halign">center</property>
+                                <property name="visible">False</property>
+                                <property name="margin-bottom">12</property>
+                                <style>
+                                    <class name="text-button"/>
+                                </style>
+                            </object>
+                        </child>
+                        <child>
                             <object class="GtkButton" id="secondary_button">
                                 <property name="visible">0</property>
                                 <property name="halign">center</property>

@@ -53,7 +53,9 @@ class AccountComboBox : Box {
 
         var list_store = new GLib.ListStore(typeof(Account));
         foreach (Account account in stream_interactor.get_accounts()) {
-            list_store.append(account);
+            if (account.enabled) {
+                list_store.append(account);
+            }
         }
         
         dropdown.model = list_store;

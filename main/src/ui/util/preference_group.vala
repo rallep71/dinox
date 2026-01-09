@@ -107,6 +107,18 @@ namespace Dino.Ui.Util {
             view.subtitle_lines = 0;
             view.add_css_class("property");
 
+            if (preferences_row.media_uri != null) {
+                var bytes = Xmpp.get_data_for_uri(preferences_row.media_uri);
+                try {
+                    Picture picture = new Picture.for_paintable(Texture.from_bytes(bytes));
+                    picture.vexpand = false;
+                    picture.valign = Align.CENTER;
+                    view.add_suffix(picture);
+                } catch (Error e) {
+                    warning("Failed to create texture from bytes: %s", e.message);
+                }
+            }
+
             Util.force_css(view, "row.property > box.header > box.title > .title { font-weight: 400; font-size: 9pt; opacity: 0.55; }");
             Util.force_css(view, "row.property > box.header > box.title > .subtitle { font-size: inherit; opacity: 1; }");
             return view;

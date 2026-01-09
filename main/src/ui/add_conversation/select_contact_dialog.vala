@@ -51,6 +51,12 @@ public class SelectContactDialog : Adw.Dialog {
         header_bar = new Adw.HeaderBar();
         header_bar.pack_start(cancel_button);
         header_bar.pack_end(ok_button);
+
+        /* Account Selector is now handled internally by SelectJidFragment in the content area
+        if (accounts.size > 1) {
+            ...
+        }
+        */
         
         var window_title = new Adw.WindowTitle("", "");
         this.bind_property("title", window_title, "title", BindingFlags.SYNC_CREATE);
@@ -88,9 +94,11 @@ public class SelectContactDialog : Adw.Dialog {
             ok_button.sensitive = select_jid_fragment.done;
         });
         select_jid_fragment.search_directory_clicked.connect((query) => {
-            // Use the first enabled account for search (simplified)
-            Account? account = null;
-            foreach(var acc in accounts) { if (acc.enabled) { account = acc; break; } }
+            // Use filter account or first enabled
+            Account? account = select_jid_fragment.filter_account;
+            if (account == null || !account.enabled) {
+                foreach(var acc in accounts) { if (acc.enabled) { account = acc; break; } }
+            }
             
             if (account != null) {
                 var dialog = new UserSearchDialog(stream_interactor, account, query);

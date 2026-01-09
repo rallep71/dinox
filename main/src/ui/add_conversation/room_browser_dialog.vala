@@ -205,6 +205,8 @@ public class RoomBrowserDialog : Adw.Dialog {
             var name_label = new Label(display_name);
             name_label.xalign = 0;
             name_label.add_css_class("heading");
+            name_label.ellipsize = Pango.EllipsizeMode.END;
+            name_label.max_width_chars = 30;
 
             // Show member count (if parsed) or jid as dim subtitle
             Label subtitle;
@@ -216,6 +218,7 @@ public class RoomBrowserDialog : Adw.Dialog {
             subtitle.xalign = 0;
             subtitle.add_css_class("dim-label");
             subtitle.ellipsize = Pango.EllipsizeMode.END;
+            subtitle.max_width_chars = 40;
 
             box.append(name_label);
             box.append(subtitle);

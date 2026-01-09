@@ -71,6 +71,20 @@ public static ViewModel.PreferencesRow.Any? get_data_form_field_view_model(DataF
                 label = _("Members only");
                 desc = _("Only members may enter the room. Warning: Non-members will be removed when enabled!");
                 break;
+            case "muc#roomconfig_allowinvites":
+                label = _("Allow invites");
+                desc = _("Allow occupants to invite others");
+                break;
+            case "muc#roomconfig_enablelogging":
+                label = _("Logging");
+                desc = _("Log conversation history");
+                break;
+            case "muc#roomconfig_lang":
+                label = _("Language");
+                break;
+            case "muc#roomconfig_passwordprotectedroom":
+                label = _("Password protected");
+                break;
 //            case "muc#roomconfig_historylength":
 //                label = _("Message history");
 //                desc = _("Maximum amount of backlog issued by the room");
