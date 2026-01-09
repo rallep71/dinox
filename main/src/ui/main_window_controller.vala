@@ -68,6 +68,10 @@ public class MainWindowController : Object {
             ManageAccounts.AddAccountDialog dialog = new ManageAccounts.AddAccountDialog(stream_interactor, db);
             dialog.present(app.get_active_window());
         });
+        window.welcome_placeholder.register_button.clicked.connect(() => {
+            ManageAccounts.AddAccountDialog dialog = new ManageAccounts.AddAccountDialog(stream_interactor, db, true);
+            dialog.present(app.get_active_window());
+        });
         window.welcome_placeholder.secondary_button.clicked.connect(() => {
             ((Dino.Ui.Application) app).restore_from_backup();
         });

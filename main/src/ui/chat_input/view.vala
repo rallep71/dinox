@@ -4,6 +4,7 @@ using Gtk;
 
 using Dino.Entities;
 using Xmpp;
+using Dino.Ui.ViewModel;
 
 namespace Dino.Ui.ChatInput {
 
@@ -20,6 +21,7 @@ public class View : Box {
     private HashMap<Conversation, string> entry_cache = new HashMap<Conversation, string>(Conversation.hash_func, Conversation.equals_func);
 
     [GtkChild] public unowned Box quote_box;
+    [GtkChild] public unowned AvatarPicture account_avatar;
     [GtkChild] public unowned ChatTextView chat_text_view;
     [GtkChild] public unowned MenuButton file_button;
     [GtkChild] public unowned Button send_file_button;
@@ -98,6 +100,8 @@ public class View : Box {
         if (sticker_chooser != null) {
             sticker_chooser.set_conversation(conversation);
         }
+        var self_conv = new Conversation(conversation.account.bare_jid, conversation.account, Conversation.Type.CHAT);
+        account_avatar.model = new ViewModel.CompatAvatarPictureModel(stream_interactor).set_conversation(self_conv);
         Dino.Ui.UiTiming.log_ms("ChatInput.View.initialize_for_conversation: sticker_chooser", t_sticker_us);
 
         Dino.Ui.UiTiming.log_ms("ChatInput.View.initialize_for_conversation: total", t0_us);

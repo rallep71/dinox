@@ -1,7 +1,7 @@
 # DinoX - Development Plan
 
-> **Last Updated**: January 8, 2026
-> **Current Release Line**: 0.9.5.x
+> **Last Updated**: January 9, 2026
+> **Current Release Line**: 0.9.6.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
 
@@ -11,8 +11,8 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Release Line** | 0.9.5.x |
-| **XEPs Implemented** | ~76 |
+| **Release Line** | 0.9.6.x |
+| **XEPs Implemented** | ~78 |
 | **Languages** | 47 (100% translated) |
 | **Build Status** | Clean |
 | **GTK/libadwaita** | GTK4 4.14, libadwaita 1.5 |
@@ -21,16 +21,22 @@ This document is organized as a **chronological release timeline** first, follow
 
 ## Timeline (Recent Releases)
 
+### v0.9.6.0 (Sender Identity & Registration)
+
+- **Sender Identity**: Explicit account selection for starting chats, joining/creating MUCs.
+- **Registration**: In-Band Registration (XEP-0077) with CAPTCHA support.
+- **UI**: Responsive MUC browser and creation dialogs.
+
 ### v0.9.5.0 (UX & MUC Avatars)
 
 - **MUC Avatars**: Full XEP-0486 implementation including persistence, resizing (192px), and conversion.
 - **UI Refinements**: Redesigned header bar, Status Menu moved to dedicated button with dynamic reachability colors.
 - **Maintenance**: Deprecated "Help" button in favor of streamlined UI.
 
-### Next Big Step: In-Band Registration (XEP-0077)
+### Next Big Step: Tor Support
 
-- **Registration**: Allow users to register new accounts directly from the client.
-- **Account Management**: Change password support.
+- **Network**: Implement Tor connection support (SOCKS5 proxy).
+- **Privacy**: Allow connecting via Tor for enhanced anonymity (similar to Gajim).
 
 ### v0.9.4.0 (User Search Integration)
 

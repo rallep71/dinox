@@ -3063,3 +3063,21 @@ msgstr "Alias (optional)"
 
 #~ msgid "Optional: Custom server connection"
 #~ msgstr "Optional: Benutzerdefinierte Serververbindung"
+
+msgid "Allow invites"
+msgstr "Einladungen erlauben"
+
+msgid "Allow occupants to invite others"
+msgstr "Erlaube Teilnehmern andere einzuladen"
+
+msgid "Logging"
+msgstr "Verlauf"
+
+msgid "Log conversation history"
+msgstr "Unterhaltungsverlauf protokollieren"
+
+msgid "Language"
+msgstr "Sprache"
+
+msgid "Password protected"
+msgstr "Passwortgeschützt"

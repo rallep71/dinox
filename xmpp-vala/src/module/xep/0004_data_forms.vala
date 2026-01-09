@@ -91,6 +91,17 @@ public class DataForm {
             }
             return ret;
         }
+
+        public string? get_media_uri() {
+            StanzaNode? media_node = node.get_subnode("media", "urn:xmpp:media-element");
+            if (media_node != null) {
+                StanzaNode? uri_node = media_node.get_subnode("uri", "urn:xmpp:media-element");
+                if (uri_node != null) {
+                    return uri_node.get_string_content();
+                }
+            }
+            return null;
+        }
     }
 
     public class BooleanField : Field {

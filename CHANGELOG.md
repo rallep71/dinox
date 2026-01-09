@@ -5,6 +5,26 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.6.0] - 2026-01-09
+
+### Added
+- **Sender Identity Selection**
+  - Select which account to use when starting a new chat (1:1).
+  - Select account when joining or creating a Group Chat (MUC).
+  - Chat Input displays the avatar of the currently selected sending account.
+  - Accounts can be engaged/disabled in backend, hiding them from the UI.
+- **In-Band Registration (XEP-0077)**
+  - Register new accounts directly from the client.
+  - Change password support.
+  - Support for CAPTCHA forms (XEP-0158) and Data Forms validation.
+- **UI Responsiveness**
+  - Improved responsiveness in Room Browser Dialog (ellipsized text).
+  - Fixed layout issues in "Create Group Chat" dialog for smaller screens.
+
+### Changed
+- Replaced deprecated `Gtk.ComboBoxText` with `Gtk.DropDown` for better GTK4 compliance.
+- Improved "Add Conversation" workflow with integrated account selection.
+
 ## [0.9.5.0] - 2026-01-08
 
 ### Added

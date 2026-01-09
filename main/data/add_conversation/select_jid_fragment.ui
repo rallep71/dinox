@@ -16,6 +16,24 @@
                         <property name="orientation">vertical</property>
                         <property name="spacing">10</property>
                         <child>
+                            <object class="GtkBox" id="account_selector_box">
+                                <property name="visible">False</property>
+                                <property name="orientation">horizontal</property>
+                                <property name="spacing">10</property>
+                                <child>
+                                    <object class="GtkLabel">
+                                        <property name="label" translatable="yes">Use account:</property>
+                                    </object>
+                                </child>
+                                <child>
+                                    <object class="GtkDropDown" id="account_dropdown">
+                                        <property name="hexpand">True</property>
+                                        <property name="margin-start">50</property>
+                                    </object>
+                                </child>
+                            </object>
+                        </child>
+                        <child>
                             <object class="GtkEntry" id="entry">
                                 <property name="placeholder-text" translatable="yes">Search or enter channel address...</property>
                                 <property name="activates-default">1</property>

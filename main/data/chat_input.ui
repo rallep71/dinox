@@ -49,6 +49,15 @@
                             <class name="compact-card-toolbar"/>
                         </style>
                         <child>
+                            <object class="DinoUiAvatarPicture" id="account_avatar">
+                                <property name="width-request">28</property>
+                                <property name="height-request">28</property>
+                                <property name="valign">center</property>
+                                <property name="margin-start">8</property>
+                                <property name="margin-end">2</property>
+                            </object>
+                        </child>
+                        <child>
                             <object class="GtkMenuButton" id="file_button">
                                 <property name="icon-name">mail-attachment-symbolic</property>
                                 <property name="valign">start</property>

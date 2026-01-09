@@ -80,6 +80,13 @@ public class AddConferenceDialog : Adw.Dialog {
         header_bar.pack_start(cancel_button);
         header_bar.pack_end(ok_button);
         
+        /* Account Selector is now handled internally by SelectJidFragment
+        var accounts = stream_interactor.get_accounts();
+        if (accounts.size > 1) {
+            ...
+        }
+        */
+        
         var window_title = new Adw.WindowTitle("", "");
         this.bind_property("title", window_title, "title", BindingFlags.SYNC_CREATE);
         header_bar.title_widget = window_title;

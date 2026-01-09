@@ -86,7 +86,7 @@ public class AddAccountDialog : Adw.Dialog {
     private Jid? login_jid = null;
     private Xep.InBandRegistration.Form? form = null;
 
-    public AddAccountDialog(StreamInteractor stream_interactor, Database db) {
+    public AddAccountDialog(StreamInteractor stream_interactor, Database db, bool start_registration = false) {
         this.stream_interactor = stream_interactor;
         this.db = db;
         this.title = _("Add Account");
@@ -128,7 +128,11 @@ public class AddAccountDialog : Adw.Dialog {
         // Success
         success_continue_button.clicked.connect(() => close());
 
-        show_sign_in();
+        if (start_registration) {
+            show_select_server();
+        } else {
+            show_sign_in();
+        }
     }
 
     private void show_sign_in(bool keep_jid = false) {
