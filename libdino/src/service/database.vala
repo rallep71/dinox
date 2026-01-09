@@ -16,7 +16,7 @@ using Dino.Entities;
 namespace Dino {
 
 public class Database : Qlite.Database {
-    private const int VERSION = 35;
+    private const int VERSION = 36;
 
     public class AccountTable : Table {
         public Column<int> id = new Column.Integer("id") { primary_key = true, auto_increment = true };
@@ -30,10 +30,13 @@ public class Database : Qlite.Database {
         public Column<long> mam_earliest_synced = new Column.Long("mam_earliest_synced") { min_version=4 };
         public Column<string> custom_host = new Column.Text("custom_host") { min_version=31 };
         public Column<int> custom_port = new Column.Integer("custom_port") { min_version=31 };
+        public Column<string> proxy_type = new Column.Text("proxy_type") { min_version=36, default="'none'" };
+        public Column<string> proxy_host = new Column.Text("proxy_host") { min_version=36 };
+        public Column<int> proxy_port = new Column.Integer("proxy_port") { min_version=36 };
 
         internal AccountTable(Database db) {
             base(db, "account");
-            init({id, bare_jid, resourcepart, password, alias, enabled, roster_version, mam_earliest_synced, custom_host, custom_port});
+            init({id, bare_jid, resourcepart, password, alias, enabled, roster_version, mam_earliest_synced, custom_host, custom_port, proxy_type, proxy_host, proxy_port});
         }
     }
 

@@ -23,7 +23,7 @@ namespace Xmpp {
         public IOError? io_error { get; set; }
     }
 
-    public async XmppStreamResult establish_stream(Jid bare_jid, Gee.List<XmppStreamModule> modules, string? log_options, owned TlsXmppStream.OnInvalidCert on_invalid_cert, string? custom_host = null, uint16 custom_port = 0) {
+    public async XmppStreamResult establish_stream(Jid bare_jid, Gee.List<XmppStreamModule> modules, string? log_options, owned TlsXmppStream.OnInvalidCert on_invalid_cert, string? custom_host = null, uint16 custom_port = 0, string proxy_type = "none", string? proxy_host = null, uint16 proxy_port = 0) {
         Jid remote = bare_jid.domain_jid;
         TlsXmppStream.OnInvalidCertWrapper on_invalid_cert_wrapper = new TlsXmppStream.OnInvalidCertWrapper((owned)on_invalid_cert);
 
@@ -79,9 +79,9 @@ namespace Xmpp {
         foreach (SrvTargetInfo target in targets) {
             try {
                 if (target.service == "xmpp-client") {
-                    stream = new StartTlsXmppStream(remote, target.host, target.port, on_invalid_cert_wrapper);
+                    stream = new StartTlsXmppStream(remote, target.host, target.port, on_invalid_cert_wrapper, proxy_type, proxy_host, proxy_port);
                 } else {
-                    stream = new DirectTlsXmppStream(remote, target.host, target.port, on_invalid_cert_wrapper);
+                    stream = new DirectTlsXmppStream(remote, target.host, target.port, on_invalid_cert_wrapper, proxy_type, proxy_host, proxy_port);
                 }
                 stream.log = new XmppLog(bare_jid.to_string(), log_options);
 
@@ -89,7 +89,7 @@ namespace Xmpp {
                     stream.add_module(module);
                 }
 
-                connection_timeout_id = Timeout.add_seconds(30, () => {
+                connection_timeout_id = Timeout.add_seconds(60, () => {
                     warning("Connection attempt timed out");
                     stream.disconnect.begin();
                     return Source.REMOVE;

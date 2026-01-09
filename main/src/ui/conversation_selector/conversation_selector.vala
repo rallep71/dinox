@@ -24,6 +24,8 @@ public class ConversationSelector : Widget {
 
         stream_interactor.get_module(ConversationManager.IDENTITY).conversation_activated.connect(add_conversation);
         stream_interactor.get_module(ConversationManager.IDENTITY).conversation_deactivated.connect(remove_conversation);
+        stream_interactor.account_added.connect(on_account_added);
+        stream_interactor.account_removed.connect(on_account_removed);
         stream_interactor.get_module(ContentItemStore.IDENTITY).new_item.connect(on_content_item_received);
         Timeout.add_seconds(60, () => {
             foreach (ConversationSelectorRow row in rows.values) row.update();
@@ -70,7 +72,28 @@ public class ConversationSelector : Widget {
         }
     }
 
+    private void on_account_added(Account account) {
+        foreach (Conversation conversation in stream_interactor.get_module(ConversationManager.IDENTITY).get_active_conversations()) {
+            if (conversation.account == account) {
+                add_conversation(conversation);
+            }
+        }
+    }
+
+    private void on_account_removed(Account account) {
+        ArrayList<Conversation> to_remove = new ArrayList<Conversation>();
+        foreach (Conversation conversation in rows.keys) {
+             if (conversation.account == account) {
+                 to_remove.add(conversation);
+             }
+        }
+        foreach (Conversation conversation in to_remove) {
+            remove_conversation.begin(conversation);
+        }
+    }
+
     private void add_conversation(Conversation conversation) {
+        if (!conversation.account.enabled) return;
         ConversationSelectorRow row;
         if (!rows.has_key(conversation)) {
             conversation.notify["pinned"].connect(list_box.invalidate_sort);

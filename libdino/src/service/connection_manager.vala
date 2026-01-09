@@ -224,9 +224,11 @@ public class ConnectionManager : Object {
             
             // Pass custom host/port if configured
             uint16 custom_port = (account.custom_port > 0 && account.custom_port <= 65535) ? (uint16) account.custom_port : 0;
+            uint16 proxy_port = (account.proxy_port > 0 && account.proxy_port <= 65535) ? (uint16) account.proxy_port : 0;
             stream_result = yield Xmpp.establish_stream(account.bare_jid, module_manager.get_modules(account), log_options,
                     (peer_cert, errors) => { return on_invalid_certificate_for_account(account, peer_cert, errors); },
-                    account.custom_host, custom_port
+                    account.custom_host, custom_port,
+                    account.proxy_type, account.proxy_host, proxy_port
             );
             connections[account].stream = stream_result.stream;
 

@@ -829,6 +829,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
 
     private void show_preferences_window() {
         Ui.PreferencesDialog dialog = new Ui.PreferencesDialog();
+        configure_preferences(dialog);
         dialog.model.populate(db, stream_interactor);
         dialog.backup_requested.connect(() => {
             string data_dir = Path.build_filename(Environment.get_user_data_dir(), "dinox");
