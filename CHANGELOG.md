@@ -5,6 +5,13 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.7.2] - 2026-01-10
+
+### Fixed
+- **Call Interoperability**: Fixed video calls failing when initiated from DinoX to certain iOS clients (Monal/Siskin). 
+  - Added support for **SHA-512**, **SHA-384**, and **SHA-1** DTLS fingerprints.
+  - Added case-insensitive handling of fingerprint algorithms.
+
 ## [0.9.7.1] - 2026-01-10
 
 ### Added

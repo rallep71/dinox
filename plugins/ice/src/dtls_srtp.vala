@@ -476,12 +476,26 @@ public class Handler {
         peer_cert.import(ref cert_datums[0], CertificateFormat.DER);
 
         DigestAlgorithm algo;
-        switch (peer_fp_algo) {
+        string algo_lower = peer_fp_algo.down();
+        switch (algo_lower) {
             case "sha-256":
+            case "sha256":
                 algo = DigestAlgorithm.SHA256;
                 break;
+            case "sha-512":
+            case "sha512":
+                algo = DigestAlgorithm.SHA512;
+                break;
+            case "sha-384":
+            case "sha384":
+                algo = DigestAlgorithm.SHA384;
+                break;
+            case "sha-1":
+            case "sha1":
+                algo = DigestAlgorithm.SHA1;
+                break;
             default:
-                warning("Unkown peer fingerprint algorithm: %s", peer_fp_algo);
+                warning("Unknown peer fingerprint algorithm: %s", peer_fp_algo);
                 return false;
         }
 
