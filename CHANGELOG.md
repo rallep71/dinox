@@ -5,6 +5,11 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.7.4] - 2026-01-10
+
+### Fixed
+- **Stability**: Added additional null-checks for peer fingerprints to preventing crashes if the Jingle negotiation is incomplete or malformed (further hardening against Monal interoperability issues).
+
 ## [0.9.7.3] - 2026-01-10
 
 ### Fixed

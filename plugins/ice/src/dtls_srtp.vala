@@ -475,6 +475,11 @@ public class Handler {
         X509.Certificate peer_cert = X509.Certificate.create();
         peer_cert.import(ref cert_datums[0], CertificateFormat.DER);
 
+        if (this.peer_fingerprint == null) {
+            warning("No peer fingerprint set");
+            return false;
+        }
+
         DigestAlgorithm algo;
         string? algo_str = peer_fp_algo;
         if (algo_str == null) {
