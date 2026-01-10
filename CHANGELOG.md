@@ -5,6 +5,12 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.7.5] - 2026-01-10
+
+### Fixed
+- **AppImage**: Bundled missing GStreamer plugins (`libgstisomp4`, `libgstvoaacenc`) to fix AppImage audio recording error "Could not create GStreamer elements".
+- **AppImage**: Bundled essential GStreamer audio conversion and playback elements (`audioconvert`, `playback`, `volume`) to ensure reliable audio I/O.
+
 ## [0.9.7.4] - 2026-01-10
 
 ### Fixed
