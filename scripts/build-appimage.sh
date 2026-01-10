@@ -586,7 +586,7 @@ create_appimage() {
     
     # Create AppImage with update information and zsync
     log_info "Running appimagetool with update support..."
-    ARCH=$ARCH "$APPIMAGETOOL" \
+    ARCH=$ARCH "$APPIMAGETOOL" --appimage-extract-and-run \
         --updateinformation "$UPDATE_INFO" \
         "$APPDIR" "$APPIMAGE_NAME"
     
