@@ -7,6 +7,17 @@ if [ "$(id -u)" != "0" ]; then
     SUDO="sudo"
 fi
 
+# Detect System Architecture for Parallelism Control
+ARCH="$(uname -m)"
+if [ "$ARCH" == "aarch64" ]; then
+    echo "Running on aarch64 - Limiting parallelism to avoid OOM/Segfaults"
+    NINJA_ARGS="-j 2"
+    MAKE_ARGS="-j 2"
+else
+    NINJA_ARGS=""
+    MAKE_ARGS="-j$(nproc)"
+fi
+
 echo "Building dependencies..."
 
 # 1. webrtc-audio-processing
@@ -16,7 +27,7 @@ wget -O "webrtc-audio-processing-${WEBRTC_VER}.tar.gz" "https://gitlab.freedeskt
 tar xf "webrtc-audio-processing-${WEBRTC_VER}.tar.gz"
 cd "webrtc-audio-processing-${WEBRTC_VER}"
 meson setup build --prefix=/usr
-ninja -C build
+ninja -C build $NINJA_ARGS
 $SUDO ninja -C build install
 $SUDO ldconfig
 cd ..
@@ -29,7 +40,7 @@ wget -O "libnice-${LIBNICE_VER}.tar.gz" "https://gitlab.freedesktop.org/libnice/
 tar xf "libnice-${LIBNICE_VER}.tar.gz"
 cd "libnice-${LIBNICE_VER}"
 meson setup build --prefix=/usr -Dtests=disabled -Dgtk_doc=disabled
-ninja -C build
+ninja -C build $NINJA_ARGS
 $SUDO ninja -C build install
 $SUDO ldconfig
 cd ..
@@ -43,7 +54,7 @@ cd libomemo-c
 mkdir build
 cd build
 cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_POSITION_INDEPENDENT_CODE=ON ..
-make -j$(nproc)
+make $MAKE_ARGS
 $SUDO make install
 $SUDO ldconfig
 cd ../..
