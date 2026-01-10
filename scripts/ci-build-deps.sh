@@ -15,7 +15,8 @@ if [ "$ARCH" == "aarch64" ]; then
     NINJA_ARGS="-j 1"
     MAKE_ARGS="-j 1"
     # Reduce optimization to save memory/prevent compiler crashes in QEMU
-    MESON_OPTS="-Doptimization=0"
+    # Also disable debug info (-g) to reduce memory usage during linking
+    MESON_OPTS="-Doptimization=0 -Ddebug=false"
 else
     NINJA_ARGS=""
     MAKE_ARGS="-j$(nproc)"
