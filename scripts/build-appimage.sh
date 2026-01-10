@@ -15,13 +15,17 @@ ARCH="$(uname -m)"
 if [ "$ARCH" == "x86_64" ]; then
     TRIPLET="x86_64-linux-gnu"
     NINJA_ARGS=""
+    MESON_ARGS=""
 elif [ "$ARCH" == "aarch64" ]; then
     TRIPLET="aarch64-linux-gnu"
     # Limit parallelism on QEMU/ARM to prevent OOM/Segfaults
     NINJA_ARGS="-j 1"
+    # Reduce optimization to save memory
+    MESON_ARGS="-Doptimization=0"
 else
     TRIPLET="x86_64-linux-gnu"
     NINJA_ARGS=""
+    MESON_ARGS=""
 fi
 
 # Colors for output
@@ -146,7 +150,7 @@ build_dinox() {
     
     if [ ! -d "$MESON_BUILD_DIR" ]; then
         log_info "Setting up build directory..."
-        meson setup "$MESON_BUILD_DIR" --prefix=/usr -Dplugin-notification-sound=enabled
+        meson setup "$MESON_BUILD_DIR" --prefix=/usr -Dplugin-notification-sound=enabled $MESON_ARGS
     else
         # Ensure release AppImages include notification sounds
         meson configure "$MESON_BUILD_DIR" -Dplugin-notification-sound=enabled

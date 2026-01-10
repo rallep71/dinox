@@ -93,9 +93,9 @@ jobs:
         with:
           name: DinoX-AppImage-${{ matrix.arch }}
           path: |
-            DinoX-*.AppImage
-            DinoX-*.AppImage.zsync
-            DinoX-*.AppImage.sha256
+            build/DinoX-*.AppImage
+            build/DinoX-*.AppImage.zsync
+            build/DinoX-*.AppImage.sha256
 
   create-release:
     if: startsWith(github.ref, 'refs/tags/')
