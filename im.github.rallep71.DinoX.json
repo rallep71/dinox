@@ -261,7 +261,7 @@
                 {
                     "type": "archive",
                     "url": "https://dist.torproject.org/tor-0.4.8.10.tar.gz",
-                    "sha256": "77a87611a2a4b873afda3c224b7858c46522f77e3845c47796d443c68a44af72"
+                    "sha256": "e628b4fab70edb4727715b23cf2931375a9f7685ac08f2c59ea498a178463a86"
                 }
             ]
         },
