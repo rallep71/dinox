@@ -12,6 +12,10 @@ ARCH="$(uname -m)"
 MESON_OPTS=""
 if [ "$ARCH" == "aarch64" ]; then
     echo "Running on aarch64 - Limiting parallelism and optimization to avoid OOM/Segfaults"
+    # Switch to Clang for better memory efficiency with templates
+    export CC=clang
+    export CXX=clang++
+    
     NINJA_ARGS="-j 1"
     MAKE_ARGS="-j 1"
     # Reduce optimization to save memory/prevent compiler crashes in QEMU

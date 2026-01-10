@@ -69,7 +69,7 @@ jobs:
               libgnutls28-dev libcanberra-dev libdbusmenu-glib-dev \
               libgdk-pixbuf-2.0-dev libsignal-protocol-c-dev libprotobuf-c-dev \
               libsqlcipher-dev libsecret-1-dev protobuf-c-compiler cmake patchelf \
-              file wget libfuse2 tor obfs4proxy git libjson-glib-dev
+              file wget libfuse2 tor obfs4proxy git libjson-glib-dev clang
             
             pip3 install meson>=1.3.0
           run: |
