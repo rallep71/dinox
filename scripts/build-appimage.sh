@@ -495,14 +495,20 @@ EOF
 copy_icon() {
     log_info "Copying application icon..."
     
-    ICON_SOURCE="$PROJECT_ROOT/main/data/icons/hicolor/scalable/apps/im.github.rallep71.DinoX.svg"
-    ICON_DEST="$APPDIR/usr/share/icons/hicolor/scalable/apps/im.github.rallep71.DinoX.svg"
+    # Use 256x256 PNG instead of SVG to avoid theming issues
+    ICON_SOURCE="$PROJECT_ROOT/main/data/icons/hicolor/256x256/apps/im.github.rallep71.DinoX.png"
+    # Destination in AppDir
+    ICON_DEST_DIR="$APPDIR/usr/share/icons/hicolor/256x256/apps"
+    mkdir -p "$ICON_DEST_DIR"
+    ICON_DEST="$ICON_DEST_DIR/im.github.rallep71.DinoX.png"
     
     if [ -f "$ICON_SOURCE" ]; then
         cp "$ICON_SOURCE" "$ICON_DEST"
-        # Also copy to AppDir root for AppImage
-        cp "$ICON_SOURCE" "$APPDIR/im.github.rallep71.DinoX.svg"
-        log_info "Icon copied!"
+        # Also copy to AppDir root for AppImage (as .png)
+        cp "$ICON_SOURCE" "$APPDIR/im.github.rallep71.DinoX.png"
+        # Create a .DirIcon symlink for some file managers
+        ln -sf "im.github.rallep71.DinoX.png" "$APPDIR/.DirIcon"
+        log_info "Icon copied! (PNG)"
     else
         log_warn "Icon not found at $ICON_SOURCE"
     fi
