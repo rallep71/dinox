@@ -261,6 +261,7 @@ copy_dependencies() {
         libgstlibav.so \
         libgstopenh264.so \
         libgstnice.so \
+        libgstvaapi.so \
         libgstrtp.so \
         libgstrtpmanager.so \
         libgstdtls.so \
