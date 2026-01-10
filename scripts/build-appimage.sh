@@ -20,8 +20,8 @@ elif [ "$ARCH" == "aarch64" ]; then
     TRIPLET="aarch64-linux-gnu"
     # Limit parallelism on QEMU/ARM to prevent OOM/Segfaults
     NINJA_ARGS="-j 1"
-    # Reduce optimization to save memory
-    MESON_ARGS="-Doptimization=0"
+    # Reduce optimization to save memory. Disable debug info (-g) to reduce memory usage.
+    MESON_ARGS="-Doptimization=0 -Ddebug=false"
 else
     TRIPLET="x86_64-linux-gnu"
     NINJA_ARGS=""
