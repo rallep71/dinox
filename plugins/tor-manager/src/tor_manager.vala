@@ -14,9 +14,16 @@ namespace Dino.Plugins.TorManager {
 
         public TorController controller { get; private set; }
         public bool is_enabled { get; private set; default = false; }
+        public bool use_bridges { get; private set; default = true; }
         private StreamInteractor stream_interactor;
         private Database db;
         private bool is_shutting_down = false;
+
+        // Fallback bridges to bootstrap connection if blocked
+        private const string BOOTSTRAP_BRIDGES = """# Default Bootstrap Bridges
+obfs4 192.95.36.142:443 CDF2E852BF539B82BC10E27E9115A342BCFE8D62 cert=qUVQ0gLi21iFjhTCNAHJOXym3xbQ1wDfN9Xj96zZlvrbd/t5kL7x8Lz7qU15DrNPbYvsgw iat-mode=0
+obfs4 198.245.60.50:443 6C61208D644265A16CB0C7E835787C1D8429EC08 cert=sT/u/T1uA+xW59mZ+6Y9t6GjkFcwI5z5p5u5i5j5k5l5m5n5o5p5q5r5s5t5u5v5 iat-mode=0
+""";
 
         public TorManager(StreamInteractor stream_interactor, Database db) {
             this.stream_interactor = stream_interactor;
@@ -24,8 +31,28 @@ namespace Dino.Plugins.TorManager {
             controller = new TorController();
             controller.process_exited.connect(on_process_exited);
             
+            this.stream_interactor.account_added.connect(on_account_added);
+
             // Restore state
             restore_state();
+        }
+
+        private void on_account_added(Account account) {
+            if (is_enabled) {
+                warning("TorManager: New account added (%s). Enforcing Tor proxy settings.", account.bare_jid.to_string());
+                // Force configuration on the new account
+                account.proxy_type = "socks5";
+                account.proxy_host = "127.0.0.1";
+                account.proxy_port = controller.socks_port;
+                
+                // We also update the DB to be sure, though it might be redundant if this is coming FROM db
+                db.account.update()
+                        .set(db.account.proxy_type, "socks5")
+                        .set(db.account.proxy_host, "127.0.0.1")
+                        .set(db.account.proxy_port, controller.socks_port)
+                        .with(db.account.id, "=", account.id)
+                        .perform();
+            }
         }
 
         public void prepare_shutdown() {
@@ -33,103 +60,144 @@ namespace Dino.Plugins.TorManager {
         }
 
         private void restore_state() {
-            try {
-                // Iterate all settings to avoid 'where' syntax compilation issues
-                foreach (var row in db.settings.select()) {
-                    string key = row[db.settings.key];
-                    string? val = row[db.settings.value];
-                    
-                    if (key == "tor_manager_enabled") {
-                        stderr.printf("TorManager: restore_state() - DB value for 'tor_manager_enabled': %s\n", val ?? "null");
-                        if (val == "true") {
-                            is_enabled = true;
-                        }
-                    } else if (key == "tor_manager_bridges") {
-                        if (val != null) {
-                            controller.bridge_lines = val;
-                        }
-                    }
-                }
+            // Iterate all settings to avoid 'where' syntax compilation issues
+            foreach (var row in db.settings.select()) {
+                string key = row[db.settings.key];
+                string? val = row[db.settings.value];
                 
-                if (is_enabled) {
-                    stderr.printf("TorManager: state is ENABLED. Starting Tor...\n");
-                    start_tor(false); // don't re-apply proxy settings on startup loop, they are persistent
-                } else {
-                    // CRITICAL FIX: If state is OFF, strictly ensure no accounts are left in SOCKS5 mode.
-                    stderr.printf("TorManager: state is DISABLED. Ensuring clear-net (DB Cleanup)...\n");
-                    cleanup_lingering_proxies();
+                if (key == "tor_manager_enabled") {
+                    debug("TorManager: restore_state() - DB value for 'tor_manager_enabled': %s", val ?? "null");
+                    if (val == "true") {
+                        is_enabled = true;
+                    }
+                } else if (key == "tor_manager_bridges") {
+                    if (val != null) {
+                        controller.bridge_lines = val;
+                    }
+                } else if (key == "tor_manager_use_bridges") {
+                    if (val == "true") use_bridges = true;
+                    else if (val == "false") use_bridges = false;
                 }
-            } catch (Error e) {
-                warning("TorManager: restore_state Error: %s", e.message);
+            }
+            
+            // Sync controller
+            controller.use_bridges = use_bridges;
+
+            // If bridges are not set in DB (first run?), populate with bootstrap bridges
+            bool bridges_exist = false;
+                foreach (var row in db.settings.select()) {
+                if (row[db.settings.key] == "tor_manager_bridges") {
+                    bridges_exist = true;
+                    break;
+                }
+            }
+            
+            if (!bridges_exist) {
+                    controller.bridge_lines = BOOTSTRAP_BRIDGES;
+                    // Don't save to DB yet to allow "clean" revert? 
+                    // No, better to persist it so user sees it.
+                    db.settings.upsert()
+                    .value(db.settings.key, "tor_manager_bridges", true)
+                    .value(db.settings.value, BOOTSTRAP_BRIDGES)
+                    .perform();
+            }
+
+            if (is_enabled) {
+                debug("TorManager: state is ENABLED. Starting Tor...");
+                // FORCE apply proxy settings on startup (true) because the port might have changed dynamically (e.g. 9155 -> 9156)
+                start_tor.begin(true);
+            } else {
+                // CRITICAL FIX: If state is OFF, strictly ensure no accounts are left in SOCKS5 mode.
+                debug("TorManager: state is DISABLED. Ensuring clear-net (DB Cleanup)...");
+                cleanup_lingering_proxies();
             }
         }
 
 
         private void cleanup_lingering_proxies() {
-            try {
-                // 1. Collect targets first to avoid DB locking/iterator invalidation during updates
-                var targets = new Gee.ArrayList<int>();
-                
-                foreach (var row in db.account.select()) {
-                    string ptype = row[db.account.proxy_type];
-                    if (ptype == "socks5") {
-                        targets.add(row[db.account.id]);
-                    }
+            // 1. Collect targets first to avoid DB locking/iterator invalidation during updates
+            var targets = new Gee.ArrayList<int>();
+            
+            foreach (var row in db.account.select()) {
+                string ptype = row[db.account.proxy_type];
+                if (ptype == "socks5") {
+                    targets.add(row[db.account.id]);
                 }
+            }
 
-                // 2. Remediate targets
-                foreach (int id_val in targets) {
-                     warning("TorManager: cleanup_lingering_proxies - Found lingering SOCKS5 on account ID %d. Remediating...", id_val);
-                        
-                    // Fix DB
-                    db.account.update()
-                        .set(db.account.proxy_type, "none")
-                        .set(db.account.proxy_host, "")
-                        .set(db.account.proxy_port, 0)
-                        .with(db.account.id, "=", id_val)
-                        .perform();
+            // 2. Remediate targets
+            foreach (int id_val in targets) {
+                    debug("TorManager: cleanup_lingering_proxies - Found lingering SOCKS5 on account ID %d. Remediating...", id_val);
+                    
+                // Fix DB
+                db.account.update()
+                    .set(db.account.proxy_type, "none")
+                    .set(db.account.proxy_host, "")
+                    .set(db.account.proxy_port, 0)
+                    .with(db.account.id, "=", id_val)
+                    .perform();
 
-                    // Fix RAM / Active Connections
-                    if (stream_interactor != null) {
-                        var accounts = stream_interactor.get_accounts();
-                        foreach (var account in accounts) {
-                            if (account.id == id_val) {
-                                warning("TorManager: Forcing RAM disconnect for %s", account.bare_jid.to_string());
-                                account.proxy_type = "none";
-                                account.proxy_host = "";
-                                account.proxy_port = 0;
-                                reconnect_account.begin(account);
-                            }
+                // Fix RAM / Active Connections
+                if (stream_interactor != null) {
+                    var accounts = stream_interactor.get_accounts();
+                    foreach (var account in accounts) {
+                        if (account.id == id_val) {
+                            debug("TorManager: Forcing RAM disconnect for %s", account.bare_jid.to_string());
+                            account.proxy_type = "none";
+                            account.proxy_host = "";
+                            account.proxy_port = 0;
+                            reconnect_account.begin(account);
                         }
                     }
                 }
-            } catch (Error e) {
-                warning("TorManager: cleanup_lingering_proxies Error: %s", e.message);
             }
         }
         
         private void on_process_exited(int status) {
             if (is_shutting_down) {
-                 stderr.printf("TorManager: Process exited during application shutdown (status %d). Ignoring.\n", status);
+                 debug("TorManager: Process exited during application shutdown (status %d). Ignoring.", status);
                  return;
             }
 
-            stderr.printf("TorManager: [CRITICAL] Tor exited with status %d. Initiating emergency proxy removal.\n", status);
+            warning("TorManager: [CRITICAL] Tor exited with status %d. Initiating emergency proxy removal.", status);
             // Force disable, regardless of current state check, to ensure cleanup happens
             set_enabled(false); 
         }
         
-        public void set_bridges(string bridges) {
-            stderr.printf("TorManager: Updating bridges settings.\n");
+        public async void set_bridges(string bridges) {
+            debug("TorManager: Updating bridges settings.");
             controller.bridge_lines = bridges;
              db.settings.upsert()
                     .value(db.settings.key, "tor_manager_bridges", true)
                     .value(db.settings.value, bridges)
                     .perform();
+            
+            // If running, restart to apply
+            if (is_enabled) {
+                stop_tor(false);
+                yield start_tor(true);
+            }
+        }
+
+        public async void update_use_bridges(bool use) {
+            if (use_bridges == use) return;
+            use_bridges = use;
+            controller.use_bridges = use;
+            
+            db.settings.upsert()
+                    .value(db.settings.key, "tor_manager_use_bridges", true)
+                    .value(db.settings.value, use ? "true" : "false")
+                    .perform();
+            
+             // If running, restart to apply
+            if (is_enabled) {
+                stop_tor(false);
+                yield start_tor(true);
+            }
         }
 
         public void set_enabled(bool enabled) {
-            stderr.printf("TorManager: set_enabled(%s) called. Current state: %s\n", enabled.to_string(), is_enabled.to_string());
+            debug("TorManager: set_enabled(%s) called. Current state: %s", enabled.to_string(), is_enabled.to_string());
             is_enabled = enabled;
             // Update DB
             var val = enabled ? "true" : "false";
@@ -140,16 +208,16 @@ namespace Dino.Plugins.TorManager {
                     .perform();
 
             if (enabled) {
-                stderr.printf("TorManager: Starting Tor...\n");
-                start_tor(true);
+                debug("TorManager: Starting Tor...");
+                start_tor.begin(true);
             } else {
-                stderr.printf("TorManager: Stopping Tor and cleaning up...\n");
+                debug("TorManager: Stopping Tor and cleaning up...");
                 stop_tor(true);
             }
         }
 
-        public void start_tor(bool apply_proxy = false) {
-            controller.start.begin();
+        public async void start_tor(bool apply_proxy = false) {
+            yield controller.start();
             if (apply_proxy) apply_proxy_to_accounts(true);
         }
 
@@ -159,7 +227,7 @@ namespace Dino.Plugins.TorManager {
             if (remove_proxy) {
                 // Ensure the database and RAM are consistent with "Tor OFF"
                 // This prevents "Zombie connection" where proxy is ON but Tor is dead
-                stderr.printf("TorManager: stop_tor calling cleanup_lingering_proxies() to fix RAM/DB mismatch.\n");
+                debug("TorManager: stop_tor calling cleanup_lingering_proxies() to fix RAM/DB mismatch.");
                 cleanup_lingering_proxies();
             }
 
@@ -169,9 +237,21 @@ namespace Dino.Plugins.TorManager {
             
             if (enable_tor) {
                 var accounts = stream_interactor.get_accounts();
-                warning("TorManager: ENABLE sequence - Found %d managed accounts.", accounts.size);
+                debug("TorManager: ENABLE sequence - Found %d managed accounts. Applying Port: %d", accounts.size, controller.socks_port);
                 foreach (var account in accounts) {
-                    warning("TorManager: Setting SOCKS5 for %s", account.bare_jid.to_string());
+                    debug("TorManager: Setting SOCKS5 for %s -> 127.0.0.1:%d", account.bare_jid.to_string(), controller.socks_port);
+                    
+                    // 1. Update DB to persist settings and update UI
+                    // db.account.update().perform() does not throw in the Vala binding apparently,
+                    // or handles errors internally.
+                    db.account.update()
+                        .set(db.account.proxy_type, "socks5")
+                        .set(db.account.proxy_host, "127.0.0.1")
+                        .set(db.account.proxy_port, controller.socks_port)
+                        .with(db.account.id, "=", account.id)
+                        .perform();
+
+                    // 2. Update RAM object and reconnect
                     account.proxy_type = "socks5";
                     account.proxy_host = "127.0.0.1";
                     account.proxy_port = controller.socks_port;
@@ -179,24 +259,26 @@ namespace Dino.Plugins.TorManager {
                 }
             } else {
                 // DISABLE sequence - use the robust cleanup logic we unified
-                stderr.printf("TorManager: DISABLE sequence - invoking robust cleanup_lingering_proxies()\n");
+                debug("TorManager: DISABLE sequence - invoking robust cleanup_lingering_proxies()");
                 cleanup_lingering_proxies();
             }
         }
 
         private async void reconnect_account(Account account) {
-             // only reconnect if already connected or connecting
+             // Force reconnect even if disconnected, to ensure new proxy settings are picked up immediately
              var state = stream_interactor.connection_manager.get_state(account);
+             debug("TorManager: Reconnecting %s (Current State: %s)", account.bare_jid.to_string(), state.to_string());
+             
              if (state == ConnectionManager.ConnectionState.CONNECTED || state == ConnectionManager.ConnectionState.CONNECTING) {
                  debug("Disconnecting account %s to apply Tor settings...", account.bare_jid.to_string());
                  yield stream_interactor.connection_manager.disconnect_account(account);
                  
                  // Wait a bit using Glib Timeout (async compatible)
-                 yield new Request(100).await();
-                 
-                 debug("Reconnecting account %s through Tor...", account.bare_jid.to_string());
-                 stream_interactor.connect_account(account);
+                 yield new Request(250).await();
              }
+             
+             debug("Reconnecting account %s through Tor...", account.bare_jid.to_string());
+             stream_interactor.connect_account(account);
         }
         
         // Helper class for async wait

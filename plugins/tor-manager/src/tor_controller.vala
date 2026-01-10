@@ -1,4 +1,5 @@
 using GLib;
+using Gee;
 
 namespace Dino.Plugins.TorManager {
 
@@ -9,8 +10,11 @@ namespace Dino.Plugins.TorManager {
         public bool is_running { get; private set; default = false; }
         public int socks_port { get; private set; default = 9155; }
         public string bridge_lines { get; set; default = ""; }
+        public bool use_bridges { get; set; default = true; }
         
         public signal void process_exited(int status);
+        public signal void bootstrap_status(int percent, string summary);
+
 
         public TorController() {
             // Check if Tor is available
@@ -38,8 +42,36 @@ namespace Dino.Plugins.TorManager {
             }
         }
 
+        private int find_free_port(int start_port) {
+            int port = start_port;
+            // Try up to 100 ports
+            for (int i = 0; i < 100; i++) {
+                try {
+                    // Try to bind a socket to this port
+                    Socket socket = new Socket(SocketFamily.IPV4, SocketType.STREAM, SocketProtocol.TCP);
+                    InetAddress address = new InetAddress.from_string("127.0.0.1");
+                    InetSocketAddress socket_address = new InetSocketAddress(address, (uint16)port);
+                    
+                    socket.bind(socket_address, false);
+                    socket.close();
+                    
+                    // If we get here, port is free
+                    return port;
+                } catch (Error e) {
+                    // Port likely in use, try next
+                    port++;
+                }
+            }
+            // Fallback to start_port if all fail (unlikely)
+            return start_port;
+        }
+
         public async void start() {
             if (is_running) return;
+
+            // Find a free port dynamically
+            socks_port = find_free_port(9155);
+            debug("TorController: Selected available port: %d", socks_port);
 
             string data_dir = Path.build_filename(Environment.get_user_data_dir(), "dino", "tor");
             DirUtils.create_with_parents(data_dir, 0700);
@@ -54,7 +86,7 @@ namespace Dino.Plugins.TorManager {
                 // Give the OS a moment to reclaim the port (9155)
                 Thread.usleep(300000); // 300ms
                 
-                warning("TorController: Zombie cleanup routine executed.");
+                debug("TorController: Zombie cleanup routine executed.");
             } catch (Error e) {
                 // Ignored: pkill might fail if no process exists, which is good.
                 message("TorController: No zombies found or pkill unavailable: %s", e.message);
@@ -89,14 +121,40 @@ namespace Dino.Plugins.TorManager {
                 }
             }
 
-            if (bridge_lines.strip() != "") {
+            if (use_bridges && bridge_lines.strip() != "") {
                 string? obfs4_path = Environment.find_program_in_path("obfs4proxy");
+                
+                // Fallback strategies for AppImage / Flatpak / Custom installs
                 if (obfs4_path == null) {
-                     // Check common locations if not in PATH
-                     string[] locs = {"/app/bin/obfs4proxy", "/usr/bin/obfs4proxy", "/usr/local/bin/obfs4proxy"};
-                     foreach(string l in locs) {
+                     var candidates = new Gee.ArrayList<string>();
+                     
+                     // 1. AppImage specific: $APPDIR/usr/bin or $APPDIR/bin
+                     string? appdir = Environment.get_variable("APPDIR");
+                     if (appdir != null) {
+                         candidates.add(Path.build_filename(appdir, "usr", "bin", "obfs4proxy"));
+                         candidates.add(Path.build_filename(appdir, "bin", "obfs4proxy"));
+                     }
+
+                     // 2. Flatpak specific
+                     candidates.add("/app/bin/obfs4proxy");
+
+                     // 3. System locations
+                     candidates.add("/usr/bin/obfs4proxy");
+                     candidates.add("/usr/local/bin/obfs4proxy");
+                     
+                     // 4. Relative to executable (Portable builds)
+                     try {
+                         string self_path = FileUtils.read_link("/proc/self/exe");
+                         string? self_dir = Path.get_dirname(self_path);
+                         if (self_dir != null) {
+                             candidates.add(Path.build_filename(self_dir, "obfs4proxy"));
+                         }
+                     } catch (Error e) { /* ignore */ }
+
+                     foreach(string l in candidates) {
                         if (FileUtils.test(l, FileTest.EXISTS)) {
                             obfs4_path = l;
+                            debug("[TOR] Found obfs4proxy at: %s", l);
                             break;
                         }
                      }
@@ -120,8 +178,8 @@ namespace Dino.Plugins.TorManager {
             try {
                 FileUtils.set_contents(torrc_path, torrc.str);
                 // DEBUG PRINT TORRC
-                warning("[TOR-DEBUG] Writing torrc to: %s", torrc_path);
-                warning("[TOR-DEBUG] Content:\n%s", torrc.str);
+                debug("[TOR-DEBUG] Writing torrc to: %s", torrc_path);
+                debug("[TOR-DEBUG] Content:\n%s", torrc.str);
             } catch (Error e) {
                 warning("Failed to write torrc: %s", e.message);
                 return;
@@ -132,14 +190,45 @@ namespace Dino.Plugins.TorManager {
             try {
                 tor_process = new Subprocess.newv(argv, SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_PIPE);
                 is_running = true;
-                warning("Tor process started with PID: %s", tor_process.get_identifier());
+                debug("Tor process started with PID: %s", tor_process.get_identifier());
                 
                 // Monitor the process
-                monitor_process.begin();
+                monitor_process.begin(tor_process);
+                
+                // Wait for port to be open
+                yield wait_until_port_open(socks_port);
+                
             } catch (Error e) {
                 warning("Failed to start Tor: %s", e.message);
                 is_running = false;
             }
+        }
+        
+        private async void wait_until_port_open(int port) {
+            debug("Waiting for Tor request port %d to open...", port);
+            for (int i = 0; i < 50; i++) { // Wait up to 5 seconds (50 * 100ms)
+                try {
+                    Socket socket = new Socket(SocketFamily.IPV4, SocketType.STREAM, SocketProtocol.TCP);
+                    InetAddress address = new InetAddress.from_string("127.0.0.1");
+                    InetSocketAddress socket_address = new InetSocketAddress(address, (uint16)port);
+                    
+                    if (socket.connect(socket_address)) {
+                        socket.close();
+                        debug("Tor request port %d is open!", port);
+                        return;
+                    }
+                } catch (Error e) {
+                    // Ignore connection refused, keep waiting
+                }
+                
+                // Yield to main loop properly so IO can happen
+                Timeout.add(100, () => {
+                    wait_until_port_open.callback();
+                    return false;
+                });
+                yield;
+            }
+            warning("Timed out waiting for Tor port %d to open.", port);
         }
 
         public void stop() {
@@ -150,18 +239,20 @@ namespace Dino.Plugins.TorManager {
             is_running = false;
         }
 
-        private async void monitor_process() {
+        private async void monitor_process(Subprocess proc) {
             try {
-                // Read stderr while waiting
-                var stderr_pipe = new DataInputStream(tor_process.get_stderr_pipe());
+                // Read stderr AND stdout while waiting
+                var stderr_pipe = new DataInputStream(proc.get_stderr_pipe());
+                var stdout_pipe = new DataInputStream(proc.get_stdout_pipe());
                 
-                // We create a background task to read stderr logs
-                read_logs.begin(stderr_pipe);
+                // We create a background task to read logs
+                read_logs.begin(stderr_pipe, "STDERR");
+                read_logs.begin(stdout_pipe, "STDOUT");
 
-                yield tor_process.wait_async();
+                yield proc.wait_async();
                 
-                if (tor_process != null) { // if not manually stopped
-                    int status = tor_process.get_exit_status();
+                if (this.tor_process == proc) { // if still the active process
+                    int status = proc.get_exit_status();
                     warning("Tor process exited unexpectedly with status: %d", status);
                     is_running = false;
                     tor_process = null;
@@ -172,19 +263,33 @@ namespace Dino.Plugins.TorManager {
             }
         }
 
-        private async void read_logs(DataInputStream pipe) {
+        private async void read_logs(DataInputStream pipe, string type) {
             try {
                 // Set the input stream to non-blocking to ensure we don't hang if there's no output initially?
                 // Actually, read_line_async is fine. But we need to make sure we catch everything.
                 string? line;
+                Regex? bootstrap_regex = null;
+                try {
+                     bootstrap_regex = new Regex("Bootstrapped (\\d+)% \\((.+?)\\): (.+)");
+                } catch (Error e) { warning("Regex error: %s", e.message); }
+
                 while ((line = yield pipe.read_line_async()) != null) {
-                    // PRINTING TO STDOUT/STDERR FORCEFULLY TO BYPASS LOG LEVEL FILTERING
-                    GLib.stderr.printf("[TOR-STDERR] %s\n", line);
-                    warning("[Tor Output] %s", line);
+                    
+                    if (bootstrap_regex != null && line.contains("Bootstrapped")) {
+                        MatchInfo info;
+                        if (bootstrap_regex.match(line, 0, out info)) {
+                            int percent = int.parse(info.fetch(1));
+                            string summary = info.fetch(3);
+                            bootstrap_status(percent, summary);
+                        }
+                    }
+
+                    debug("[Tor %s] %s", type, line);
                 }
             } catch (Error e) {
-                 GLib.stderr.printf("[TOR-READ-ERROR] %s\n", e.message);
+                 debug("[TOR-READ-ERROR-%s] %s", type, e.message);
             }
         }
+
     }
 }

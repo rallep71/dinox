@@ -5,6 +5,22 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.7.0] - 2026-01-10
+
+### Added
+- **Out-of-the-Box Tor & Privacy**
+  - **Integrated Tor & Obfs4proxy**: The application now comes with Tor and Obfs4proxy pre-bundled and pre-configured for instant use (AppImage & Flatpak). No manual installation of Tor is required.
+  - **Zero-Config Privacy**: Simply enable Tor in the account settings, and DinoX handles the process management, bridge configuration, and SOCKS5 proxy setup automatically.
+  - **Stable Connectivity**: Implemented smart connection handling to wait for Tor circuits to stabilize before connecting XMPP, preventing connection errors on startup.
+
+### Fixed
+- **Startup Sync**: Solved race conditions where the account would try to connect before the local Tor process was ready.
+- **Log Hygiene**: Reduced terminal noise by moving verbose connection logs to debug level, keeping the console clean for production use.
+
+### Infrastructure
+- **Universal Linux Support (Multi-Arch)**
+  - Full automated build support for **Aarch64 (ARM64)** and **x86_64**, ensuring the "Out of the Box" privacy experience works on standard PCs, Raspberry Pis, and ARM laptops.
+
 ## [0.9.6.0] - 2026-01-09
 
 ### Added
@@ -15,7 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Accounts can be engaged/disabled in backend, hiding them from the UI.
 - **In-Band Registration (XEP-0077)**
   - Register new accounts directly from the client.
-  - Change password support.
+    Portable Zip:   - Change password support.
   - Support for CAPTCHA forms (XEP-0158) and Data Forms validation.
 - **UI Responsiveness**
   - Improved responsiveness in Room Browser Dialog (ellipsized text).

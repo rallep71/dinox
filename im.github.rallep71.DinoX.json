@@ -266,6 +266,25 @@
             ]
         },
         {
+            "name": "obfs4proxy",
+            "buildsystem": "simple",
+            "build-commands": [
+                "mkdir -p /app/bin",
+                "ar x obfs4proxy.deb data.tar.xz",
+                "tar -xf data.tar.xz ./usr/bin/obfs4proxy",
+                "cp ./usr/bin/obfs4proxy /app/bin/obfs4proxy",
+                "chmod +x /app/bin/obfs4proxy"
+            ],
+            "sources": [
+                {
+                    "type": "file",
+                    "url": "http://ftp.de.debian.org/debian/pool/main/o/obfs4proxy/obfs4proxy_0.0.14-2+b5_amd64.deb",
+                    "sha256": "ed9b68429f2893502603c74a50dafeae502e6cd5e1c34efea9418bbd19c54e85",
+                    "dest-filename": "obfs4proxy.deb"
+                }
+            ]
+        },
+        {
             "name": "dino",
             "buildsystem": "meson",
             "builddir": true,
