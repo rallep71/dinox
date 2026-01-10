@@ -9,10 +9,13 @@ fi
 
 # Detect System Architecture for Parallelism Control
 ARCH="$(uname -m)"
+MESON_OPTS=""
 if [ "$ARCH" == "aarch64" ]; then
-    echo "Running on aarch64 - Limiting parallelism to avoid OOM/Segfaults"
+    echo "Running on aarch64 - Limiting parallelism and optimization to avoid OOM/Segfaults"
     NINJA_ARGS="-j 1"
     MAKE_ARGS="-j 1"
+    # Reduce optimization to save memory/prevent compiler crashes in QEMU
+    MESON_OPTS="-Doptimization=0"
 else
     NINJA_ARGS=""
     MAKE_ARGS="-j$(nproc)"
@@ -26,7 +29,7 @@ WEBRTC_VER=v2.1
 wget -O "webrtc-audio-processing-${WEBRTC_VER}.tar.gz" "https://gitlab.freedesktop.org/pulseaudio/webrtc-audio-processing/-/archive/${WEBRTC_VER}/webrtc-audio-processing-${WEBRTC_VER}.tar.gz"
 tar xf "webrtc-audio-processing-${WEBRTC_VER}.tar.gz"
 cd "webrtc-audio-processing-${WEBRTC_VER}"
-meson setup build --prefix=/usr
+meson setup build --prefix=/usr $MESON_OPTS
 ninja -C build $NINJA_ARGS
 $SUDO ninja -C build install
 $SUDO ldconfig
@@ -39,7 +42,7 @@ LIBNICE_VER=0.1.23
 wget -O "libnice-${LIBNICE_VER}.tar.gz" "https://gitlab.freedesktop.org/libnice/libnice/-/archive/${LIBNICE_VER}/libnice-${LIBNICE_VER}.tar.gz"
 tar xf "libnice-${LIBNICE_VER}.tar.gz"
 cd "libnice-${LIBNICE_VER}"
-meson setup build --prefix=/usr -Dtests=disabled -Dgtk_doc=disabled
+meson setup build --prefix=/usr -Dtests=disabled -Dgtk_doc=disabled $MESON_OPTS
 ninja -C build $NINJA_ARGS
 $SUDO ninja -C build install
 $SUDO ldconfig
