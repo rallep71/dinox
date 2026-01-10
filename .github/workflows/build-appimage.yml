@@ -80,6 +80,14 @@ jobs:
             # Build AppImage
             ./scripts/build-appimage.sh
 
+      - name: Upload Logs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-logs-${{ matrix.arch }}
+          path: |
+             build-meson/meson-logs/meson-log.txt
+
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
