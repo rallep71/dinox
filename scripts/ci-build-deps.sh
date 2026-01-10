@@ -11,8 +11,8 @@ fi
 ARCH="$(uname -m)"
 if [ "$ARCH" == "aarch64" ]; then
     echo "Running on aarch64 - Limiting parallelism to avoid OOM/Segfaults"
-    NINJA_ARGS="-j 2"
-    MAKE_ARGS="-j 2"
+    NINJA_ARGS="-j 1"
+    MAKE_ARGS="-j 1"
 else
     NINJA_ARGS=""
     MAKE_ARGS="-j$(nproc)"

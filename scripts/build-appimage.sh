@@ -18,7 +18,7 @@ if [ "$ARCH" == "x86_64" ]; then
 elif [ "$ARCH" == "aarch64" ]; then
     TRIPLET="aarch64-linux-gnu"
     # Limit parallelism on QEMU/ARM to prevent OOM/Segfaults
-    NINJA_ARGS="-j 2"
+    NINJA_ARGS="-j 1"
 else
     TRIPLET="x86_64-linux-gnu"
     NINJA_ARGS=""
