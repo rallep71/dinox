@@ -122,6 +122,8 @@ get_appimagetool() {
 
     APPIMAGETOOL="$BUILD_DIR/appimagetool-$TOOL_ARCH.AppImage"
     
+    mkdir -p "$BUILD_DIR"
+
     if [ ! -f "$APPIMAGETOOL" ]; then
         log_info "Downloading appimagetool for $TOOL_ARCH..."
         wget -O "$APPIMAGETOOL" "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-$TOOL_ARCH.AppImage"
