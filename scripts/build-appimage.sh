@@ -7,6 +7,7 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
 BUILD_DIR="$PROJECT_ROOT/build"
+MESON_BUILD_DIR="$BUILD_DIR/obj"
 APPDIR="$BUILD_DIR/AppDir"
 
 # Detect System Architecture and Multiarch Triplet
@@ -139,16 +140,16 @@ build_dinox() {
     
     cd "$PROJECT_ROOT"
     
-    if [ ! -d "$BUILD_DIR" ]; then
+    if [ ! -d "$MESON_BUILD_DIR" ]; then
         log_info "Setting up build directory..."
-        meson setup "$BUILD_DIR" --prefix=/usr -Dplugin-notification-sound=enabled
+        meson setup "$MESON_BUILD_DIR" --prefix=/usr -Dplugin-notification-sound=enabled
     else
         # Ensure release AppImages include notification sounds
-        meson configure "$BUILD_DIR" -Dplugin-notification-sound=enabled
+        meson configure "$MESON_BUILD_DIR" -Dplugin-notification-sound=enabled
     fi
     
     log_info "Compiling..."
-    ninja -C "$BUILD_DIR"
+    ninja -C "$MESON_BUILD_DIR"
     
     log_info "Build completed!"
 }
@@ -163,7 +164,7 @@ create_appdir() {
     
     # Install to AppDir
     log_info "Installing to AppDir..."
-    DESTDIR="$APPDIR" meson install -C "$BUILD_DIR"
+    DESTDIR="$APPDIR" meson install -C "$MESON_BUILD_DIR"
     
     # Create standard AppImage directories
     mkdir -p "$APPDIR/usr/bin"
@@ -203,7 +204,7 @@ copy_dependencies() {
     # Copy plugins
     log_info "Copying plugins..."
     mkdir -p "$APPDIR/usr/lib/dino/plugins"
-    cp -r "$BUILD_DIR"/plugins/*/*.so "$APPDIR/usr/lib/dino/plugins/" 2>/dev/null || true
+    cp -r "$MESON_BUILD_DIR"/plugins/*/*.so "$APPDIR/usr/lib/dino/plugins/" 2>/dev/null || true
     
     # Copy GStreamer plugins
     log_info "Copying GStreamer plugins..."
