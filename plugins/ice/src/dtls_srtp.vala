@@ -476,7 +476,12 @@ public class Handler {
         peer_cert.import(ref cert_datums[0], CertificateFormat.DER);
 
         DigestAlgorithm algo;
-        string algo_lower = peer_fp_algo.down();
+        string? algo_str = peer_fp_algo;
+        if (algo_str == null) {
+             debug("No peer fingerprint algorithm specified, defaulting to sha-256");
+             algo_str = "sha-256";
+        }
+        string algo_lower = algo_str.down();
         switch (algo_lower) {
             case "sha-256":
             case "sha256":

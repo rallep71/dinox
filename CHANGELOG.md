@@ -5,6 +5,11 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.7.3] - 2026-01-10
+
+### Fixed
+- **Stability**: Fixed a segmentation fault (crash) during video call setup when the remote client (e.g., Monal) does not specify a fingerprint hashing algorithm. Defaulting to SHA-256 in such cases.
+
 ## [0.9.7.2] - 2026-01-10
 
 ### Fixed
