@@ -586,9 +586,23 @@ create_appimage() {
     
     # Create AppImage with update information and zsync
     log_info "Running appimagetool with update support..."
-    APPIMAGE_EXTRACT_AND_RUN=1 ARCH=$ARCH "$APPIMAGETOOL" -v \
-        --updateinformation "$UPDATE_INFO" \
-        "$APPDIR" "$APPIMAGE_NAME"
+    
+    # Ensure tool is executable
+    chmod +x "$APPIMAGETOOL"
+
+    log_info "AppDir contents (summary):"
+    find "$APPDIR" -maxdepth 3 | sort | head -n 20
+    
+    log_info "Starting AppImageTool..."
+    export APPIMAGE_EXTRACT_AND_RUN=1 
+    export ARCH="$ARCH"
+    
+    "$APPIMAGETOOL" --version || true
+    
+    if ! "$APPIMAGETOOL" -v --updateinformation "$UPDATE_INFO" "$APPDIR" "$APPIMAGE_NAME"; then
+        log_error "AppImageTool failed!"
+        exit 1
+    fi
     
     if [ -f "$APPIMAGE_NAME" ]; then
         log_info "AppImage created successfully: $APPIMAGE_NAME"
