@@ -20,6 +20,7 @@ public class MainWindow : Adw.ApplicationWindow {
     [GtkChild] public unowned Image status_image;
     [GtkChild] public unowned MenuButton menu_button;
 
+    [GtkChild] public unowned Adw.HeaderBar header_bar;
     [GtkChild] public unowned Adw.HeaderBar conversation_headerbar;
     [GtkChild] public unowned Adw.WindowTitle conversation_window_title;
 

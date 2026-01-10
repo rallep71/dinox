@@ -6,10 +6,14 @@ namespace Dino.Plugins.TorManager {
 
     public class Plugin : RootInterface, Object {
         private TorManager? tor_manager;
+        private TorIndicator? indicator;
 
         public void registered(Dino.Application app) {
             tor_manager = new TorManager(app.stream_interactor, app.db);
             app.stream_interactor.add_module(tor_manager);
+            
+            // Initialize UI Indicator
+            indicator = new TorIndicator(tor_manager);
             
             app.configure_preferences.connect(on_preferences_configure);
         }
@@ -21,6 +25,7 @@ namespace Dino.Plugins.TorManager {
                 tor_manager.stop_tor();
                 tor_manager = null;
             }
+            indicator = null;
         }
         
         private void on_preferences_configure(Object object) {

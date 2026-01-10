@@ -4,7 +4,9 @@ plugin_sources = files(
     'src/register_plugin.vala',
     'src/tor_manager.vala',
     'src/tor_controller.vala',
-    'src/settings_page.vala'
+    'src/moat_client.vala',
+    'src/settings_page.vala',
+    'src/ui_indicator.vala'
 )
 
 shared_module(plugin_name,
@@ -15,6 +17,8 @@ shared_module(plugin_name,
         dep_gio,
         dependency('gtk4'),
         dependency('libadwaita-1'),
+        dependency('json-glib-1.0'),
+        dependency('libsoup-3.0'),
         dep_gee,
         dep_xmpp_vala,
         dep_qlite

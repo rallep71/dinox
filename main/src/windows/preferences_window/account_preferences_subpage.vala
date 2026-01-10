@@ -151,8 +151,7 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
                 if (proxy_port_entry_changed != 0) proxy_port_entry.disconnect(proxy_port_entry_changed);
 
                 int type_index = 0;
-                if (account.proxy_type == "tor") type_index = 1;
-                else if (account.proxy_type == "socks5") type_index = 2;
+                if (account.proxy_type == "socks5") type_index = 1;
                 proxy_type_row.selected = type_index;
 
                 proxy_host_entry.text = account.proxy_host ?? "";
@@ -162,8 +161,7 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
 
                 proxy_type_row_changed = proxy_type_row.notify["selected"].connect(() => {
                     if (proxy_type_row.selected == 0) account.proxy_type = "none";
-                    else if (proxy_type_row.selected == 1) account.proxy_type = "tor";
-                    else if (proxy_type_row.selected == 2) account.proxy_type = "socks5";
+                    else if (proxy_type_row.selected == 1) account.proxy_type = "socks5";
                     
                     update_proxy_visibility();
                     check_proxy_availability.begin();
@@ -225,7 +223,7 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
     }
 
     private void update_proxy_visibility() {
-        bool show_settings = proxy_type_row.selected == 2; // SOCKS5
+        bool show_settings = proxy_type_row.selected == 1; // SOCKS5
         proxy_host_entry.visible = show_settings;
         proxy_port_entry.visible = show_settings;
     }
@@ -241,13 +239,9 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
         string host;
         int port;
 
-        if (proxy_type_row.selected == 1) { // Tor
-            host = "127.0.0.1";
-            port = 9050;
-        } else { // SOCKS5
-            host = account.proxy_host ?? "";
-            port = account.proxy_port;
-        }
+        // SOCKS5 (index 1)
+        host = account.proxy_host ?? "";
+        port = account.proxy_port;
 
         if (host == "" || port <= 0) {
             proxy_type_row.subtitle = "";
@@ -265,11 +259,7 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
             proxy_type_row.add_css_class("success");
             proxy_type_row.remove_css_class("error");
         } catch (Error e) {
-            if (proxy_type_row.selected == 1) {
-                proxy_type_row.subtitle = _("Tor service not found on 127.0.0.1:9050. Is Tor installed?");
-            } else {
-                proxy_type_row.subtitle = _("Proxy unreachable");
-            }
+            proxy_type_row.subtitle = _("Proxy unreachable");
             proxy_type_row.add_css_class("error");
             proxy_type_row.remove_css_class("success");
         }

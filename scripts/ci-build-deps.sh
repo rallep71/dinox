@@ -1,0 +1,52 @@
+#!/bin/bash
+set -e
+
+# Checks if running as root, otherwise use sudo
+SUDO=""
+if [ "$(id -u)" != "0" ]; then
+    SUDO="sudo"
+fi
+
+echo "Building dependencies..."
+
+# 1. webrtc-audio-processing
+echo "Building webrtc-audio-processing..."
+WEBRTC_VER=v2.1
+wget -O "webrtc-audio-processing-${WEBRTC_VER}.tar.gz" "https://gitlab.freedesktop.org/pulseaudio/webrtc-audio-processing/-/archive/${WEBRTC_VER}/webrtc-audio-processing-${WEBRTC_VER}.tar.gz"
+tar xf "webrtc-audio-processing-${WEBRTC_VER}.tar.gz"
+cd "webrtc-audio-processing-${WEBRTC_VER}"
+meson setup build --prefix=/usr
+ninja -C build
+$SUDO ninja -C build install
+$SUDO ldconfig
+cd ..
+rm -rf "webrtc-audio-processing-${WEBRTC_VER}" "webrtc-audio-processing-${WEBRTC_VER}.tar.gz"
+
+# 2. libnice
+echo "Building libnice..."
+LIBNICE_VER=0.1.23
+wget -O "libnice-${LIBNICE_VER}.tar.gz" "https://gitlab.freedesktop.org/libnice/libnice/-/archive/${LIBNICE_VER}/libnice-${LIBNICE_VER}.tar.gz"
+tar xf "libnice-${LIBNICE_VER}.tar.gz"
+cd "libnice-${LIBNICE_VER}"
+meson setup build --prefix=/usr -Dtests=disabled -Dgtk_doc=disabled
+ninja -C build
+$SUDO ninja -C build install
+$SUDO ldconfig
+cd ..
+rm -rf "libnice-${LIBNICE_VER}" "libnice-${LIBNICE_VER}.tar.gz"
+
+# 3. libomemo-c
+echo "Building libomemo-c..."
+if [ -d "libomemo-c" ]; then rm -rf libomemo-c; fi
+git clone https://github.com/rallep71/libomemo-c.git
+cd libomemo-c
+mkdir build
+cd build
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_POSITION_INDEPENDENT_CODE=ON ..
+make -j$(nproc)
+$SUDO make install
+$SUDO ldconfig
+cd ../..
+rm -rf libomemo-c
+
+echo "Dependencies built and installed."

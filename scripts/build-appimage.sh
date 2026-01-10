@@ -9,6 +9,16 @@ PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
 BUILD_DIR="$PROJECT_ROOT/build"
 APPDIR="$BUILD_DIR/AppDir"
 
+# Detect System Architecture and Multiarch Triplet
+ARCH="$(uname -m)"
+if [ "$ARCH" == "x86_64" ]; then
+    TRIPLET="x86_64-linux-gnu"
+elif [ "$ARCH" == "aarch64" ]; then
+    TRIPLET="aarch64-linux-gnu"
+else
+    TRIPLET="x86_64-linux-gnu"
+fi
+
 # Colors for output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -99,11 +109,22 @@ check_prerequisites() {
 
 # Download appimagetool if not present
 get_appimagetool() {
-    APPIMAGETOOL="$BUILD_DIR/appimagetool-x86_64.AppImage"
+    # Detect architecture
+    ARCH="$(uname -m)"
+    if [ "$ARCH" == "x86_64" ]; then
+        TOOL_ARCH="x86_64"
+    elif [ "$ARCH" == "aarch64" ]; then
+        TOOL_ARCH="aarch64"
+    else
+        log_error "Unsupported architecture: $ARCH"
+        exit 1
+    fi
+
+    APPIMAGETOOL="$BUILD_DIR/appimagetool-$TOOL_ARCH.AppImage"
     
     if [ ! -f "$APPIMAGETOOL" ]; then
-        log_info "Downloading appimagetool..."
-        wget -O "$APPIMAGETOOL" https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
+        log_info "Downloading appimagetool for $TOOL_ARCH..."
+        wget -O "$APPIMAGETOOL" "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-$TOOL_ARCH.AppImage"
         chmod +x "$APPIMAGETOOL"
     else
         log_info "appimagetool already present"
@@ -167,13 +188,13 @@ copy_dependencies() {
     LIB_DIR="$APPDIR/usr/lib"
     
     # Copy/consolidate libraries from x86_64-linux-gnu to main lib dir
-    if [ -d "$LIB_DIR/x86_64-linux-gnu" ]; then
-        log_info "Consolidating libraries..."
-        cp -L "$LIB_DIR/x86_64-linux-gnu"/*.so* "$LIB_DIR/" 2>/dev/null || true
+    if [ -d "$LIB_DIR/${TRIPLET}" ]; then
+        log_info "Consolidating libraries for ${TRIPLET}..."
+        cp -L "$LIB_DIR/${TRIPLET}"/*.so* "$LIB_DIR/" 2>/dev/null || true
         # Also copy plugins
-        if [ -d "$LIB_DIR/x86_64-linux-gnu/dino" ]; then
+        if [ -d "$LIB_DIR/${TRIPLET}/dino" ]; then
             mkdir -p "$LIB_DIR/dino"
-            cp -r "$LIB_DIR/x86_64-linux-gnu/dino"/* "$LIB_DIR/dino/" 2>/dev/null || true
+            cp -r "$LIB_DIR/${TRIPLET}/dino"/* "$LIB_DIR/dino/" 2>/dev/null || true
         fi
     fi
     
@@ -192,7 +213,7 @@ copy_dependencies() {
         GST_PLUGIN_DIR="$(pkg-config --variable=pluginsdir gstreamer-1.0 2>/dev/null || true)"
     fi
     if [ -z "$GST_PLUGIN_DIR" ]; then
-        GST_PLUGIN_DIR="/usr/lib/x86_64-linux-gnu/gstreamer-1.0"
+        GST_PLUGIN_DIR="/usr/lib/${TRIPLET}/gstreamer-1.0"
     fi
 
     # Copy gst-plugin-scanner.
@@ -203,7 +224,7 @@ copy_dependencies() {
         GST_SCANNER_DIR="$(pkg-config --variable=pluginscannerdir gstreamer-1.0 2>/dev/null || true)"
     fi
     if [ -z "$GST_SCANNER_DIR" ]; then
-        GST_SCANNER_DIR="/usr/lib/x86_64-linux-gnu/gstreamer1.0/gstreamer-1.0"
+        GST_SCANNER_DIR="/usr/lib/${TRIPLET}/gstreamer1.0/gstreamer-1.0"
     fi
     if [ -x "$GST_SCANNER_DIR/gst-plugin-scanner" ]; then
         cp -L "$GST_SCANNER_DIR/gst-plugin-scanner" "$APPDIR/usr/lib/gstreamer-1.0/" 2>/dev/null || true
@@ -257,11 +278,51 @@ copy_dependencies() {
     done
     
     # Copy GStreamer plugin scanner
-    if [ -f "/usr/lib/x86_64-linux-gnu/gstreamer1.0/gstreamer-1.0/gst-plugin-scanner" ]; then
-        cp /usr/lib/x86_64-linux-gnu/gstreamer1.0/gstreamer-1.0/gst-plugin-scanner "$APPDIR/usr/lib/gstreamer-1.0/"
+    if [ -f "/usr/lib/${TRIPLET}/gstreamer1.0/gstreamer-1.0/gst-plugin-scanner" ]; then
+        cp "/usr/lib/${TRIPLET}/gstreamer1.0/gstreamer-1.0/gst-plugin-scanner" "$APPDIR/usr/lib/gstreamer-1.0/"
     elif [ -f "/usr/libexec/gstreamer-1.0/gst-plugin-scanner" ]; then
         cp /usr/libexec/gstreamer-1.0/gst-plugin-scanner "$APPDIR/usr/lib/gstreamer-1.0/"
     fi
+
+    # ---------------------------------------------------------
+    # Tor & Obfs4proxy Bundling for "Out of the Box" functionality
+    # ---------------------------------------------------------
+    log_info "Bundling Tor and obfs4proxy..."
+    
+    # 1. Tor
+    # Check if tor is available via 'command -v' or commonly known paths
+    TOR_BIN="$(command -v tor || true)"
+    if [ -n "$TOR_BIN" ] && [ -x "$TOR_BIN" ]; then
+        log_info "Found tor at $TOR_BIN. Copying..."
+        cp "$TOR_BIN" "$APPDIR/usr/bin/"
+        
+        # Copy GeoIP files (usually in /usr/share/tor)
+        if [ -d "/usr/share/tor" ]; then
+            log_info "Copying Tor GeoIP files..."
+            mkdir -p "$APPDIR/usr/share/tor"
+            cp -r /usr/share/tor/* "$APPDIR/usr/share/tor/" 2>/dev/null || true
+        fi
+    else
+        log_warn "Tor executable not found! AppImage will rely on host 'tor' (if available) or fail."
+    fi
+
+    # 2. Obfs4proxy
+    OBFS4_BIN="$(command -v obfs4proxy || true)"
+    if [ -n "$OBFS4_BIN" ] && [ -x "$OBFS4_BIN" ]; then
+        log_info "Found obfs4proxy at $OBFS4_BIN. Copying..."
+        cp "$OBFS4_BIN" "$APPDIR/usr/bin/"
+    else
+        # Try common fallback locations if not in PATH
+        if [ -x "/usr/bin/obfs4proxy" ]; then
+             log_info "Found obfs4proxy at /usr/bin/obfs4proxy. Copying..."
+             cp "/usr/bin/obfs4proxy" "$APPDIR/usr/bin/"
+        else
+             log_warn "obfs4proxy executable not found! Bridges will not work."
+        fi
+    fi
+
+    # Ensure permissions
+    chmod +x "$APPDIR/usr/bin/"*
 
     # Copy shared-library dependencies for DinoX, Dino plugins, and bundled GStreamer plugins.
     # Without this, GitHub-built AppImages often miss webrtc/opus/vpx/libsrtp/etc at runtime.
@@ -271,6 +332,12 @@ copy_dependencies() {
 
     if [ -x "$APPDIR/usr/bin/dinox" ]; then
         copy_elf_deps_recursive "$APPDIR/usr/bin/dinox" "$APPDIR/usr/lib"
+    fi
+    if [ -x "$APPDIR/usr/bin/tor" ]; then
+        copy_elf_deps_recursive "$APPDIR/usr/bin/tor" "$APPDIR/usr/lib"
+    fi
+    if [ -x "$APPDIR/usr/bin/obfs4proxy" ]; then
+        copy_elf_deps_recursive "$APPDIR/usr/bin/obfs4proxy" "$APPDIR/usr/lib"
     fi
     if [ -d "$APPDIR/usr/lib/dino/plugins" ]; then
         for f in "$APPDIR/usr/lib/dino/plugins"/*.so*; do
@@ -293,13 +360,13 @@ copy_dependencies() {
                libcanberra.so* libcanberra-gtk3.so* \
                libsqlcipher.so* libsecret-1.so* libgcrypt.so* \
                libwebrtc-audio-processing.so*; do
-        find /usr/lib/x86_64-linux-gnu -maxdepth 1 -name "$lib" -exec cp -L {} "$APPDIR/usr/lib/" \; 2>/dev/null || true
+        find "/usr/lib/${TRIPLET}" -maxdepth 1 -name "$lib" -exec cp -L {} "$APPDIR/usr/lib/" \; 2>/dev/null || true
     done
 
     # Copy libcanberra driver modules (pulse/alsa)
-    if [ -d "/usr/lib/x86_64-linux-gnu/libcanberra-0.30" ]; then
+    if [ -d "/usr/lib/${TRIPLET}/libcanberra-0.30" ]; then
         mkdir -p "$APPDIR/usr/lib/libcanberra-0.30"
-        cp -L /usr/lib/x86_64-linux-gnu/libcanberra-0.30/*.so "$APPDIR/usr/lib/libcanberra-0.30/" 2>/dev/null || true
+        cp -L "/usr/lib/${TRIPLET}/libcanberra-0.30"/*.so "$APPDIR/usr/lib/libcanberra-0.30/" 2>/dev/null || true
     fi
     
     log_info "Dependencies copied!"
@@ -342,7 +409,7 @@ export GST_REGISTRY_FORK=no
 for scanner in \
     "$APPDIR/usr/lib/gstreamer-1.0/gst-plugin-scanner" \
     "/usr/libexec/gstreamer-1.0/gst-plugin-scanner" \
-    "/usr/lib/x86_64-linux-gnu/gstreamer1.0/gstreamer-1.0/gst-plugin-scanner" \
+    "/usr/lib/${TRIPLET}/gstreamer1.0/gstreamer-1.0/gst-plugin-scanner" \
     "/usr/lib/gstreamer-1.0/gst-plugin-scanner"; do
     if [ -x "$scanner" ]; then
         export GST_PLUGIN_SCANNER="$scanner"
@@ -351,7 +418,7 @@ for scanner in \
 done
 
 # Set GStreamer registry (per-user cache)
-export GST_REGISTRY="$HOME/.cache/dinox/gstreamer-1.0/registry.x86_64.bin"
+export GST_REGISTRY="$HOME/.cache/dinox/gstreamer-1.0/registry.$(uname -m).bin"
 mkdir -p "$(dirname "$GST_REGISTRY")"
 
 # PulseAudio configuration - use system socket if available
@@ -436,7 +503,13 @@ create_appimage() {
     
     # Get version
     VERSION=$(cat "$PROJECT_ROOT/VERSION" | grep RELEASE | awk '{print $2}')
-    APPIMAGE_NAME="DinoX-$VERSION-x86_64.AppImage"
+    
+    # Detect architecture if not set
+    if [ -z "$ARCH" ]; then
+        ARCH="$(uname -m)"
+    fi
+    
+    APPIMAGE_NAME="DinoX-$VERSION-$ARCH.AppImage"
     
     # Remove old AppImage and zsync
     rm -f "$APPIMAGE_NAME"
@@ -497,11 +570,20 @@ create_appimage() {
     log_info "Blacklisted libraries removed!"
     
     # Update information for AppImageUpdate (GitHub Releases)
-    UPDATE_INFO="gh-releases-zsync|rallep71|dinox|latest|DinoX-*-x86_64.AppImage.zsync"
+    UPDATE_INFO="gh-releases-zsync|rallep71|dinox|latest|DinoX-*-$ARCH.AppImage.zsync"
+    
+    # Ensure APPIMAGETOOL is set
+    if [ -z "$APPIMAGETOOL" ] || [ ! -f "$APPIMAGETOOL" ]; then
+        if [ -f "$BUILD_DIR/appimagetool-$ARCH.AppImage" ]; then
+            APPIMAGETOOL="$BUILD_DIR/appimagetool-$ARCH.AppImage"
+        else
+            APPIMAGETOOL="appimagetool"
+        fi
+    fi
     
     # Create AppImage with update information and zsync
     log_info "Running appimagetool with update support..."
-    ARCH=x86_64 "$BUILD_DIR/appimagetool-x86_64.AppImage" \
+    ARCH=$ARCH "$APPIMAGETOOL" \
         --updateinformation "$UPDATE_INFO" \
         "$APPDIR" "$APPIMAGE_NAME"
     

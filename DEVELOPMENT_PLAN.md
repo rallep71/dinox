@@ -1,7 +1,7 @@
 # DinoX - Development Plan
 
-> **Last Updated**: January 9, 2026
-> **Current Release Line**: 0.9.6.x
+> **Last Updated**: January 10, 2026
+> **Current Release Line**: 0.9.7.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
 
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Release Line** | 0.9.6.x |
+| **Release Line** | 0.9.7.x |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (100% translated) |
 | **Build Status** | Clean |
@@ -20,6 +20,12 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v0.9.7.0 (Stable Tor & Multi-Arch)
+
+- **Network Reliability**: Fixed race conditions during Tor startup; implemented port waiting logic to prevent "Connection Refused".
+- **Bundling**: Explicitly bundled `tor` and `obfs4proxy` in AppImage/Flatpak for "Out of the Box" functionality.
+- **Infrastructure**: Added fully automated Aarch64 (ARM64) builds via QEMU CI pipelines.
 
 ### v0.9.6.0 (Sender Identity & Registration)
 

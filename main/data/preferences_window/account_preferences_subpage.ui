@@ -271,7 +271,6 @@
                               <object class="GtkStringList">
                                 <items>
                                   <item translatable="yes">None</item>
-                                  <item translatable="yes">Tor (Default)</item>
                                   <item translatable="yes">SOCKS5</item>
                                 </items>
                               </object>

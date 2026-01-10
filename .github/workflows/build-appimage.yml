@@ -10,676 +10,112 @@ permissions:
   contents: write
 
 jobs:
-  build-appimage:
+  build_appimage:
     runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        arch: [x86_64, aarch64]
+      fail-fast: false
     
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Get version
-        id: version
-        shell: bash
+      - name: Set up QEMU
+        if: matrix.arch == 'aarch64'
+        uses: docker/setup-qemu-action@v3
+
+      - name: Build and Package (x86_64)
+        if: matrix.arch == 'x86_64'
         run: |
-          set -euo pipefail
-          if [[ "${GITHUB_REF}" == refs/tags/v* ]]; then
-            echo "version=${GITHUB_REF#refs/tags/v}" >> "$GITHUB_OUTPUT"
-          else
-            echo "version=$(awk '/RELEASE/{print $2}' VERSION)" >> "$GITHUB_OUTPUT"
-          fi
-      
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            build-essential \
-            python3-pip \
-            ninja-build \
-            pkg-config \
-            valac \
-            gettext \
-            libgtk-4-dev \
-            libadwaita-1-dev \
-            libglib2.0-dev \
-            libgee-0.8-dev \
-            libsqlite3-dev \
-            libicu-dev \
-            libgcrypt20-dev \
-            libgpgme-dev \
-            libqrencode-dev \
-            libsoup-3.0-dev \
-            libunwind-dev \
-            libgstreamer1.0-dev \
-            libgstreamer-plugins-base1.0-dev \
-            gstreamer1.0-plugins-good \
-            gstreamer1.0-plugins-bad \
-            gstreamer1.0-plugins-ugly \
-            gstreamer1.0-libav \
-            gstreamer1.0-tools \
-            gstreamer1.0-nice \
-            libnice-dev \
-            libsrtp2-dev \
-            libgnutls28-dev \
-            libcanberra-dev \
-            libdbusmenu-glib-dev \
-            libgdk-pixbuf-2.0-dev \
-            libsignal-protocol-c-dev \
-            libprotobuf-c-dev \
-            libsqlcipher-dev \
-            libsecret-1-dev \
-            protobuf-c-compiler \
-            cmake \
-            patchelf \
-            file \
-            wget \
-            libfuse2
-          
-          # Install newer Meson from PyPI (Ubuntu 22.04 has 0.61, we need 1.3+)
-          sudo pip3 install meson>=1.3.0
-
-      - name: Build webrtc-audio-processing (2.1)
-        run: |
-          set -euo pipefail
-
-          WEBRTC_VER=v2.1
-          wget -O "webrtc-audio-processing-${WEBRTC_VER}.tar.gz" "https://gitlab.freedesktop.org/pulseaudio/webrtc-audio-processing/-/archive/${WEBRTC_VER}/webrtc-audio-processing-${WEBRTC_VER}.tar.gz"
-          tar xf "webrtc-audio-processing-${WEBRTC_VER}.tar.gz"
-          cd "webrtc-audio-processing-${WEBRTC_VER}"
-
-          meson setup build --prefix=/usr
-          ninja -C build
-          sudo ninja -C build install
-          sudo ldconfig
-
-      - name: Build libnice (0.1.23)
-        run: |
-          set -euo pipefail
-
-          LIBNICE_VER=0.1.23
-          wget -O "libnice-${LIBNICE_VER}.tar.gz" "https://gitlab.freedesktop.org/libnice/libnice/-/archive/${LIBNICE_VER}/libnice-${LIBNICE_VER}.tar.gz"
-          tar xf "libnice-${LIBNICE_VER}.tar.gz"
-          cd "libnice-${LIBNICE_VER}"
-
-          meson setup build --prefix=/usr -Dtests=disabled -Dgtk_doc=disabled
-          ninja -C build
-          sudo ninja -C build install
-          sudo ldconfig
-
-      - name: Check A/V dependency versions
-        run: |
-          set -euo pipefail
-
-          echo "pkg-config versions:"
-          echo "- nice: $(pkg-config --modversion nice)"
-          echo "- webrtc-audio-processing (1): $(pkg-config --modversion webrtc-audio-processing-1 || echo 'not found')"
-          echo "- webrtc-audio-processing (2): $(pkg-config --modversion webrtc-audio-processing-2 || echo 'not found')"
-          echo "- gstreamer-1.0: $(pkg-config --modversion gstreamer-1.0)"
-          if pkg-config --exists gstreamer-webrtc-1.0; then
-            echo "- gstreamer-webrtc-1.0: $(pkg-config --modversion gstreamer-webrtc-1.0)"
-          else
-            echo "::warning::gstreamer-webrtc-1.0 pkg-config not found (ok; DinoX does not require it for RTP/Jingle calls)"
-          fi
-
-          apm_pc=""
-          for pc in webrtc-audio-processing webrtc-audio-processing-2 webrtc-audio-processing-1; do
-            if pkg-config --exists "$pc"; then
-              apm_pc="$pc"
-              break
-            fi
-          done
-          if [ -n "$apm_pc" ]; then
-            echo "- $apm_pc: $(pkg-config --modversion "$apm_pc")"
-          else
-            echo "::warning::No webrtc-audio-processing pkg-config found (AEC/NS/AGC will be disabled; build remains functional)"
-          fi
-
-          nice_ver="$(pkg-config --modversion nice)"
-          gst_ver="$(pkg-config --modversion gstreamer-1.0)"
-
-          if [ -n "$apm_pc" ]; then
-            apm_ver="$(pkg-config --modversion "$apm_pc")"
-          else
-            apm_ver="0"
-          fi
-
-          # DinoX calls are known to have issues with libnice 0.1.21; require a newer libnice.
-          dpkg --compare-versions "$nice_ver" ge 0.1.23
-          dpkg --compare-versions "$gst_ver" ge 1.24.0
-          if [ "$apm_ver" != "0" ]; then
-            dpkg --compare-versions "$apm_ver" ge 0.3.0
-          fi
-
-      - name: Checkout libomemo-c
-        uses: actions/checkout@v4
-        with:
-          repository: rallep71/libomemo-c
-          path: libomemo-c
-      
-      - name: Build libomemo-c from source
-        run: |
-          cd libomemo-c
-          mkdir build
-          cd build
-          cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_POSITION_INDEPENDENT_CODE=ON ..
-          make -j$(nproc)
-          sudo make install
-          sudo ldconfig
-      
-      - name: Setup build directory
-        run: |
-          meson setup build --prefix=/usr
-      
-      - name: Build DinoX
-        run: |
-          ninja -C build
-      
-      - name: Create AppDir
-        run: |
-          APPDIR="${GITHUB_WORKSPACE}/AppDir"
-          mkdir -p "$APPDIR"
-          DESTDIR="$APPDIR" meson install -C build
-          
-          # Move from /usr/local to /usr for AppImage standard
-          if [ -d "$APPDIR/usr/local" ]; then
-            echo "Moving files from /usr/local to /usr..."
-            cp -r "$APPDIR/usr/local"/* "$APPDIR/usr/" 2>/dev/null || true
-            rm -rf "$APPDIR/usr/local"
-          fi
-          
-          # Consolidate libraries from x86_64-linux-gnu to main lib dir
-          if [ -d "$APPDIR/usr/lib/x86_64-linux-gnu" ]; then
-            echo "Consolidating libraries..."
-            cp -L "$APPDIR/usr/lib/x86_64-linux-gnu"/*.so* "$APPDIR/usr/lib/" 2>/dev/null || true
-            # Also copy plugins
-            if [ -d "$APPDIR/usr/lib/x86_64-linux-gnu/dino" ]; then
-              mkdir -p "$APPDIR/usr/lib/dino"
-              cp -r "$APPDIR/usr/lib/x86_64-linux-gnu/dino"/* "$APPDIR/usr/lib/dino/" 2>/dev/null || true
-            fi
-          fi
-          
-          # Create standard directories
-          mkdir -p "$APPDIR/usr/lib/gstreamer-1.0"
-          mkdir -p "$APPDIR/usr/share/glib-2.0/schemas"
-      
-      - name: Copy libomemo-c
-        run: |
-          APPDIR="${GITHUB_WORKSPACE}/AppDir"
-          # Copy libomemo-c (built from source)
-          cp -L /usr/lib/libomemo-c.so* "$APPDIR/usr/lib/" 2>/dev/null || true
-      
-      - name: Copy GStreamer plugins (including ffmpeg)
-        run: |
-          APPDIR="${GITHUB_WORKSPACE}/AppDir"
-          
-          # Copy essential GStreamer plugins
-          for plugin in \
-            libgstcoreelements.so \
-            libgstplayback.so \
-            libgstaudiorate.so \
-            libgsttypefindfunctions.so \
-            libgstvideoconvertscale.so \
-            libgstaudioconvert.so \
-            libgstaudioresample.so \
-            libgstvolume.so \
-            libgstapp.so \
-            libgstvideoparsersbad.so \
-            libgstvideofilter.so \
-            libgstgtk4.so \
-            libgstlibav.so \
-            libgstnice.so \
-            libgstrtp.so \
-            libgstrtpmanager.so \
-            libgstdtls.so \
-            libgstsrtp.so \
-            libgstaudiotestsrc.so \
-            libgstvideotestsrc.so \
-            libgstwebrtc.so \
-            libgstpulseaudio.so \
-            libgstalsa.so \
-            libgstautodetect.so \
-            libgstpipewire.so \
-            libgstv4l2.so \
-            libgstvideo4linux2.so \
-            libgstcamerabin.so \
-            libgstvideorate.so \
-            libgstaudiomixer.so \
-            libgstaudioparsers.so \
-            libgstopus.so \
-            libgstvpx.so \
-            libgstjpeg.so \
-            libgstpng.so \
-            libgstalaw.so \
-            libgstmulaw.so \
-            libgstinterleave.so \
-            libgstlevel.so
-          do
-            find /usr/lib/x86_64-linux-gnu/gstreamer-1.0 -name "$plugin" -exec cp {} "$APPDIR/usr/lib/gstreamer-1.0/" \; 2>/dev/null || true
-          done
-          
-          echo "Copied GStreamer plugins:"
-          ls -lh "$APPDIR/usr/lib/gstreamer-1.0/"
-
-      - name: Copy GStreamer plugin scanner
-        run: |
-          set -euo pipefail
-          APPDIR="${GITHUB_WORKSPACE}/AppDir"
-
-          if [ -x "/usr/lib/x86_64-linux-gnu/gstreamer1.0/gstreamer-1.0/gst-plugin-scanner" ]; then
-            cp "/usr/lib/x86_64-linux-gnu/gstreamer1.0/gstreamer-1.0/gst-plugin-scanner" "$APPDIR/usr/lib/gstreamer-1.0/"
-          elif [ -x "/usr/libexec/gstreamer-1.0/gst-plugin-scanner" ]; then
-            cp "/usr/libexec/gstreamer-1.0/gst-plugin-scanner" "$APPDIR/usr/lib/gstreamer-1.0/"
-          else
-            echo "::warning::gst-plugin-scanner not found on build host"
-          fi
-      
-      - name: Copy required system libraries
-        run: |
-          APPDIR="${GITHUB_WORKSPACE}/AppDir"
-          DINOX_BIN="$APPDIR/usr/bin/dinox"
-          
-          # Function to copy library and its dependencies
-          copy_lib_recursive() {
-            local lib=$1
-            local target_dir=$2
+            sudo apt-get update
+            sudo apt-get install -y build-essential python3-pip ninja-build pkg-config valac gettext \
+              libgtk-4-dev libadwaita-1-dev libglib2.0-dev libgee-0.8-dev \
+              libsqlite3-dev libicu-dev libgcrypt20-dev libgpgme-dev libqrencode-dev \
+              libsoup-3.0-dev libunwind-dev libgstreamer1.0-dev \
+              libgstreamer-plugins-base1.0-dev gstreamer1.0-plugins-good \
+              gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-libav \
+              gstreamer1.0-tools gstreamer1.0-nice libnice-dev libsrtp2-dev \
+              libgnutls28-dev libcanberra-dev libdbusmenu-glib-dev \
+              libgdk-pixbuf-2.0-dev libsignal-protocol-c-dev libprotobuf-c-dev \
+              libsqlcipher-dev libsecret-1-dev protobuf-c-compiler cmake patchelf \
+              file wget libfuse2 tor obfs4proxy
             
-            if [ ! -f "$target_dir/$(basename $lib)" ]; then
-              cp -L "$lib" "$target_dir/" 2>/dev/null || true
-              
-              # Copy dependencies
-              ldd "$lib" 2>/dev/null | grep "=> /" | awk '{print $3}' | while read dep; do
-                if [[ ! "$dep" =~ ^/(lib|lib64|usr/lib/x86_64-linux-gnu)/(libc|libm|libdl|libpthread|librt|ld-linux) ]]; then
-                  if [ ! -f "$target_dir/$(basename $dep)" ]; then
-                    cp -L "$dep" "$target_dir/" 2>/dev/null || true
-                  fi
-                fi
-              done
-            fi
-          }
-          
-          # Copy DinoX dependencies
-          ldd "$DINOX_BIN" | grep "=> /" | awk '{print $3}' | while read lib; do
-            # Skip system libraries that should be present everywhere
-            if [[ ! "$lib" =~ ^/(lib|lib64|usr/lib/x86_64-linux-gnu)/(libc|libm|libdl|libpthread|librt|libgcc|libstdc|ld-linux) ]]; then
-              copy_lib_recursive "$lib" "$APPDIR/usr/lib"
-            fi
-          done
-          
-          # Copy GStreamer plugin dependencies
-          for plugin in "$APPDIR/usr/lib/gstreamer-1.0"/*.so; do
-            if [ -f "$plugin" ]; then
-              ldd "$plugin" 2>/dev/null | grep "=> /" | awk '{print $3}' | while read lib; do
-                if [[ ! "$lib" =~ ^/(lib|lib64|usr/lib/x86_64-linux-gnu)/(libc|libm|libdl|libpthread|librt|libgcc|libstdc|ld-linux) ]]; then
-                  copy_lib_recursive "$lib" "$APPDIR/usr/lib"
-                fi
-              done
-            fi
-          done
-          
-          # Copy essential PulseAudio and audio libraries
-          for lib in libpulse.so libpulse.so.0 libpulse-simple.so libpulse-simple.so.0 \
-                     libpulsecore-*.so libpulsecommon-*.so \
-                     libasound.so libasound.so.2 \
-                     libpipewire-0.3.so libpipewire-0.3.so.0 \
-                     libspa-0.2.so libsndfile.so.1 libFLAC.so.12 libvorbis.so.0 libvorbisenc.so.2 libogg.so.0; do
-            find /usr/lib/x86_64-linux-gnu -maxdepth 1 -name "$lib" -exec cp -L {} "$APPDIR/usr/lib/" \; 2>/dev/null || true
-          done
-          
-          echo "Copied libraries:"
-          ls -lh "$APPDIR/usr/lib/" | head -20
-      
-      - name: Copy GLib schemas
-        run: |
-          APPDIR="${GITHUB_WORKSPACE}/AppDir"
-          cp /usr/share/glib-2.0/schemas/org.gtk.gtk4.Settings.* "$APPDIR/usr/share/glib-2.0/schemas/" 2>/dev/null || true
-          glib-compile-schemas "$APPDIR/usr/share/glib-2.0/schemas/" || true
-      
-      - name: Create AppRun
-        run: |
-          APPDIR="${GITHUB_WORKSPACE}/AppDir"
-          cat > "$APPDIR/AppRun" << 'EOF'
-          #!/bin/bash
-          # DinoX AppRun launcher
-          
-          APPDIR="$(dirname "$(readlink -f "$0")")"
-          
-          # Set library paths
-          export LD_LIBRARY_PATH="$APPDIR/usr/lib:$LD_LIBRARY_PATH"
-          
-          # Set GStreamer paths
-          # IMPORTANT: For AppImage portability we prefer bundled plugins only.
-          # Mixing system + bundled plugins can cause version mismatches on user machines.
-          export GST_PLUGIN_PATH="$APPDIR/usr/lib/gstreamer-1.0"
-          export GST_PLUGIN_SYSTEM_PATH="$APPDIR/usr/lib/gstreamer-1.0"
-          
-          # Don't fork for plugin scanning - avoids issues with bundled scanner
-          export GST_REGISTRY_FORK=no
-          
-          # Prefer a bundled gst-plugin-scanner (if present), fall back to system.
-          for scanner in \
-            "$APPDIR/usr/lib/gstreamer-1.0/gst-plugin-scanner" \
-            "/usr/libexec/gstreamer-1.0/gst-plugin-scanner" \
-            "/usr/lib/x86_64-linux-gnu/gstreamer1.0/gstreamer-1.0/gst-plugin-scanner" \
-            "/usr/lib/gstreamer-1.0/gst-plugin-scanner"; do
-            if [ -x "$scanner" ]; then
-              export GST_PLUGIN_SCANNER="$scanner"
-              break
-            fi
-          done
-          
-          # Set GStreamer registry
-          export GST_REGISTRY="$HOME/.cache/dinox/gstreamer-1.0/registry.x86_64.bin"
-          mkdir -p "$(dirname "$GST_REGISTRY")"
-          
-          # Enable GStreamer debug output for troubleshooting (optional)
-          # export GST_DEBUG=2
-          
-          # PulseAudio and ALSA configuration
-          # Use system PulseAudio socket if available
-          if [ -z "$PULSE_SERVER" ]; then
-            if [ -S "$XDG_RUNTIME_DIR/pulse/native" ]; then
-              export PULSE_SERVER="unix:$XDG_RUNTIME_DIR/pulse/native"
-            fi
-          fi
-          
-          # Allow PipeWire access through portal
-          export PIPEWIRE_RUNTIME_DIR="${PIPEWIRE_RUNTIME_DIR:-$XDG_RUNTIME_DIR}"
-          
-          # Set Dino plugin path
-          export DINO_PLUGIN_DIR="$APPDIR/usr/lib/dino/plugins"
-          
-          # Set GSettings schema path
-          export GSETTINGS_SCHEMA_DIR="$APPDIR/usr/share/glib-2.0/schemas:$GSETTINGS_SCHEMA_DIR"
-          
-          # Set locale - use bundled translations but keep system locale settings
-          export TEXTDOMAINDIR="$APPDIR/usr/share/locale"
-          
-          # Run DinoX
-          exec "$APPDIR/usr/bin/dinox" "$@"
-          EOF
-          chmod +x "$APPDIR/AppRun"
-      
-      - name: Create desktop file
-        run: |
-          APPDIR="${GITHUB_WORKSPACE}/AppDir"
-          cat > "$APPDIR/im.github.rallep71.DinoX.desktop" << 'EOF'
-          [Desktop Entry]
-          Name=DinoX
-          GenericName=Jabber/XMPP Client
-          Comment=Modern XMPP/Jabber chat client
-          Exec=dinox %U
-          Icon=im.github.rallep71.DinoX
-          Terminal=false
-          Type=Application
-          Categories=Network;InstantMessaging;Chat;
-          MimeType=x-scheme-handler/xmpp;
-          Keywords=chat;messaging;im;xmpp;jabber;
-          StartupNotify=true
-          StartupWMClass=dinox
-          EOF
-          
-          cp "$APPDIR/im.github.rallep71.DinoX.desktop" "$APPDIR/usr/share/applications/"
-      
-      - name: Copy icon
-        run: |
-          APPDIR="${GITHUB_WORKSPACE}/AppDir"
-          ICON_SOURCE="main/data/icons/hicolor/scalable/apps/im.github.rallep71.DinoX.svg"
-          
-          if [ -f "$ICON_SOURCE" ]; then
-            cp "$ICON_SOURCE" "$APPDIR/usr/share/icons/hicolor/scalable/apps/"
-            cp "$ICON_SOURCE" "$APPDIR/im.github.rallep71.DinoX.svg"
-          fi
-      
-      - name: Download appimagetool
-        run: |
-          wget -O appimagetool-x86_64.AppImage https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
-          chmod +x appimagetool-x86_64.AppImage
-      
-      - name: Remove blacklisted libraries
-        run: |
-          APPDIR="${GITHUB_WORKSPACE}/AppDir"
-          
-          # Remove libraries that must come from the host system
-          # These cause glibc incompatibility crashes when bundled
-          echo "Removing blacklisted system libraries..."
-          
-          BLACKLIST=(
-            "libc.so*"
-            "libm.so*"
-            "libdl.so*"
-            "librt.so*"
-            "libpthread.so*"
-            "libresolv.so*"
-            "libstdc++.so*"
-            "libgcc_s.so*"
-            "ld-linux*.so*"
-            "libnss_*.so*"
-            "libdrm.so*"
-            "libxcb.so*"
-            "libxcb-*.so*"
-            "libX11.so*"
-            "libX11-xcb.so*"
-            "libXext.so*"
-            "libXi.so*"
-            "libXfixes.so*"
-            "libXrender.so*"
-            "libXcursor.so*"
-            "libXdamage.so*"
-            "libXrandr.so*"
-            "libXcomposite.so*"
-            "libwayland-*.so*"
-            "libasound.so*"
-            "libfontconfig.so*"
-            "libfreetype.so*"
-            "libharfbuzz.so*"
-            "libcom_err.so*"
-            "libexpat.so*"
-            "libgpg-error.so*"
-            "libz.so*"
-            "libpipewire-0.3.so*"
-            "libfribidi.so*"
-            "libgmp.so*"
-            "libGL.so*"
-            "libGLX.so*"
-            "libGLdispatch.so*"
-            "libEGL.so*"
-          )
-          
-          for pattern in "${BLACKLIST[@]}"; do
-            find "$APPDIR/usr/lib" -name "$pattern" -delete 2>/dev/null || true
-          done
-          
-          echo "Blacklisted libraries removed!"
-          echo "Remaining libraries:"
-          ls "$APPDIR/usr/lib" | head -20
+            sudo pip3 install meson>=1.3.0
 
-      - name: Self-check GStreamer stack (headless)
-        run: |
-          set -euo pipefail
-          APPDIR="${GITHUB_WORKSPACE}/AppDir"
+            # Build custom dependencies
+            chmod +x scripts/ci-build-deps.sh
+            ./scripts/ci-build-deps.sh
 
-          echo "Checking required bundled plugins exist..."
-          test -f "$APPDIR/usr/lib/gstreamer-1.0/libgstnice.so"
-          test -f "$APPDIR/usr/lib/gstreamer-1.0/libgstwebrtc.so"
-          test -f "$APPDIR/usr/lib/gstreamer-1.0/libgstdtls.so"
-          test -f "$APPDIR/usr/lib/gstreamer-1.0/libgstsrtp.so"
+            # Build AppImage 
+            ./scripts/build-appimage.sh
 
-          export LD_LIBRARY_PATH="$APPDIR/usr/lib"
-          export GST_PLUGIN_PATH="$APPDIR/usr/lib/gstreamer-1.0"
-          export GST_PLUGIN_SYSTEM_PATH="$APPDIR/usr/lib/gstreamer-1.0"
-          export GST_REGISTRY="${RUNNER_TEMP}/gst-registry-appdir.bin"
-          export GST_REGISTRY_FORK=no
-          if [ -x "$APPDIR/usr/lib/gstreamer-1.0/gst-plugin-scanner" ]; then
-            export GST_PLUGIN_SCANNER="$APPDIR/usr/lib/gstreamer-1.0/gst-plugin-scanner"
-          fi
+      - name: Build and Package (aarch64)
+        if: matrix.arch == 'aarch64'
+        uses: uraimo/run-on-arch-action@v2
+        with:
+          arch: aarch64
+          distro: ubuntu24.04
+          githubToken: ${{ github.token }}
+          install: |
+            apt-get update
+            apt-get install -y build-essential python3-pip ninja-build pkg-config valac gettext \
+              libgtk-4-dev libadwaita-1-dev libglib2.0-dev libgee-0.8-dev \
+              libsqlite3-dev libicu-dev libgcrypt20-dev libgpgme-dev libqrencode-dev \
+              libsoup-3.0-dev libunwind-dev libgstreamer1.0-dev \
+              libgstreamer-plugins-base1.0-dev gstreamer1.0-plugins-good \
+              gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-libav \
+              gstreamer1.0-tools gstreamer1.0-nice libnice-dev libsrtp2-dev \
+              libgnutls28-dev libcanberra-dev libdbusmenu-glib-dev \
+              libgdk-pixbuf-2.0-dev libsignal-protocol-c-dev libprotobuf-c-dev \
+              libsqlcipher-dev libsecret-1-dev protobuf-c-compiler cmake patchelf \
+              file wget libfuse2 tor obfs4proxy git
+            
+            pip3 install meson>=1.3.0
+          run: |
+            # Build custom dependencies
+            chmod +x scripts/ci-build-deps.sh
+            ./scripts/ci-build-deps.sh
 
-          echo "Ensuring plugin shared libraries have no missing deps..."
-          if ldd "$APPDIR/usr/lib/gstreamer-1.0/libgstnice.so" | grep -q "not found"; then
-            ldd "$APPDIR/usr/lib/gstreamer-1.0/libgstnice.so" || true
-            echo "::error::Missing shared library dependency for libgstnice.so"
-            exit 1
-          fi
-          if ldd "$APPDIR/usr/lib/gstreamer-1.0/libgstwebrtc.so" | grep -q "not found"; then
-            ldd "$APPDIR/usr/lib/gstreamer-1.0/libgstwebrtc.so" || true
-            echo "::error::Missing shared library dependency for libgstwebrtc.so"
-            exit 1
-          fi
+            # Build AppImage
+            ./scripts/build-appimage.sh
 
-          echo "Running gst-inspect against bundled plugins..."
-          gst-inspect-1.0 --version
-          gst-inspect-1.0 nicesrc >/dev/null
-          gst-inspect-1.0 webrtcbin >/dev/null
-
-      - name: Create AppImage
-        run: |
-          VERSION="${{ steps.version.outputs.version }}"
-          APPIMAGE_NAME="DinoX-$VERSION-x86_64.AppImage"
-          
-          # Update information for automatic updates via GitHub Releases
-          UPDATE_INFO="gh-releases-zsync|rallep71|dinox|latest|DinoX-*-x86_64.AppImage.zsync"
-          
-          # Create AppImage with update support and zsync
-          ARCH=x86_64 ./appimagetool-x86_64.AppImage \
-            --updateinformation "$UPDATE_INFO" \
-            AppDir "$APPIMAGE_NAME"
-          
-          echo "AppImage created: $APPIMAGE_NAME"
-          ls -lh "$APPIMAGE_NAME"*
-          
-          # Create checksums
-          sha256sum "$APPIMAGE_NAME" > "$APPIMAGE_NAME.sha256"
-          
-          # Save for upload
-          echo "APPIMAGE_NAME=$APPIMAGE_NAME" >> $GITHUB_ENV
-      
-      - name: Upload AppImage as artifact
+      - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: DinoX-AppImage-${{ steps.version.outputs.version }}
+          name: DinoX-AppImage-${{ matrix.arch }}
           path: |
             DinoX-*.AppImage
             DinoX-*.AppImage.zsync
             DinoX-*.AppImage.sha256
 
-  build-flatpak:
-    if: startsWith(github.ref, 'refs/tags/')
-    name: Build Flatpak
-    runs-on: ubuntu-24.04
-    container:
-      image: ghcr.io/flathub-infra/flatpak-github-actions:gnome-48
-      options: --privileged
-    steps:
-      - name: Get version from tag
-        id: version
-        shell: bash
-        run: |
-          echo "version=${GITHUB_REF#refs/tags/v}" >> "$GITHUB_OUTPUT"
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Fix git safe directory
-        run: git config --global --add safe.directory '*'
-      - name: Build Flatpak
-        uses: flatpak/flatpak-github-actions/flatpak-builder@v6
-        with:
-          manifest-path: im.github.rallep71.DinoX.json
-          bundle: im.github.rallep71.DinoX-x86_64.flatpak
-          arch: x86_64
-      - name: Rename Flatpak bundle
-        shell: bash
-        run: |
-          mv im.github.rallep71.DinoX-x86_64.flatpak "dinox-${{ steps.version.outputs.version }}-x86_64.flatpak"
-      - name: Upload Flatpak as artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: DinoX-Flatpak-${{ steps.version.outputs.version }}
-          path: dinox-*-x86_64.flatpak
-          if-no-files-found: error
-
   create-release:
     if: startsWith(github.ref, 'refs/tags/')
     name: Create GitHub Release
     runs-on: ubuntu-24.04
-    needs:
-      - build-appimage
-      - build-flatpak
+    needs: [build_appimage]
     steps:
-      - name: Get version from tag
+      - name: Get version
         id: version
         shell: bash
-        run: |
-          echo "version=${GITHUB_REF#refs/tags/v}" >> "$GITHUB_OUTPUT"
+        run: echo "version=${GITHUB_REF#refs/tags/v}" >> "$GITHUB_OUTPUT"
 
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
-      - name: Download AppImage artifact
+      - name: Download Artifacts
         uses: actions/download-artifact@v4
-        with:
-          name: DinoX-AppImage-${{ steps.version.outputs.version }}
 
-      - name: Download Flatpak artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: DinoX-Flatpak-${{ steps.version.outputs.version }}
-
-      - name: Prepare Release Body
-        shell: bash
+      - name: Flatten Artifacts
         run: |
-          set -euo pipefail
-          version="${{ steps.version.outputs.version }}"
+          mkdir assets
+          find . -name "DinoX-*.AppImage*" -exec mv {} assets/ \;
+          ls -lh assets/
 
-          echo "## DinoX v$version" > RELEASE_BODY.md
-          echo "" >> RELEASE_BODY.md
-
-          extract_changelog() {
-            local ver="$1"
-            awk -v ver="[$ver]" '
-              /^## / { if (p) { exit }; if ($2 == ver) { p=1; next } }
-              p { print }
-            ' CHANGELOG.md
-          }
-
-          notes="$(extract_changelog "$version")"
-          if [ -z "${notes//[[:space:]]/}" ]; then
-            if echo "$version" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$'; then
-              base_version="$(echo "$version" | sed -E 's/\.[0-9]+$//')"
-              notes="$(extract_changelog "$base_version")"
-              if [ -n "${notes//[[:space:]]/}" ]; then
-                echo "(Release notes from v$base_version)" >> RELEASE_BODY.md
-                echo "" >> RELEASE_BODY.md
-              fi
-            fi
-          fi
-          echo "$notes" >> RELEASE_BODY.md
-
-          echo "" >> RELEASE_BODY.md
-          echo "### Installation (AppImage)" >> RELEASE_BODY.md
-          echo "" >> RELEASE_BODY.md
-          echo "\`\`\`bash" >> RELEASE_BODY.md
-          echo "chmod +x DinoX-$version-x86_64.AppImage" >> RELEASE_BODY.md
-          echo "./DinoX-$version-x86_64.AppImage" >> RELEASE_BODY.md
-          echo "\`\`\`" >> RELEASE_BODY.md
-          echo "" >> RELEASE_BODY.md
-
-          echo "### Installation (Flatpak bundle)" >> RELEASE_BODY.md
-          echo "" >> RELEASE_BODY.md
-          echo "\`\`\`bash" >> RELEASE_BODY.md
-          echo "flatpak install --user ./dinox-$version-x86_64.flatpak" >> RELEASE_BODY.md
-          echo "\`\`\`" >> RELEASE_BODY.md
-
-      - name: Create Release (upload assets)
+      - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
           name: DinoX v${{ steps.version.outputs.version }}
-          body_path: RELEASE_BODY.md
           draft: false
           prerelease: false
-          files: |
-            DinoX-*.AppImage
-            DinoX-*.AppImage.zsync
-            DinoX-*.AppImage.sha256
-            dinox-*-x86_64.flatpak
-          fail_on_unmatched_files: true
+          files: assets/*
