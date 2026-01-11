@@ -197,7 +197,7 @@ public class AvatarManager : StreamInteractionModule, Object {
         return get_avatar_hash(account, jid) != null;
     }
 
-    public void publish(Account account, File file) {
+    public async void publish(Account account, File file) {
         debug("Publish avatar from %s", file.get_uri());
         FileInputStream file_stream = null;
         try {
@@ -218,8 +218,27 @@ public class AvatarManager : StreamInteractionModule, Object {
             pixbuf.save_to_buffer(out buffer, "png");
             XmppStream stream = stream_interactor.get_stream(account);
             if (stream != null) {
+                // 1. Publish via PEP (XEP-0084)
                 Xmpp.Xep.UserAvatars.publish_png(stream, buffer, pixbuf.width, pixbuf.height);
                 debug("Publishing %u png bytes via user-avatars.", buffer.length);
+                
+                // 2. Publish via vCard-temp (XEP-0054) for compatibility (Conversations etc.)
+                try {
+                    var vcard = yield Xmpp.Xep.VCard.fetch_vcard(stream);
+                    if (vcard == null) vcard = new Xmpp.Xep.VCard.VCardInfo();
+                    
+                    vcard.photo = new Bytes(buffer);
+                    vcard.photo_type = "image/png";
+                    
+                    yield Xmpp.Xep.VCard.publish_vcard(stream, vcard);
+                    debug("Published avatar to vCard-temp (XEP-0054).");
+                    
+                    // Update local cache immediately
+                    string sha1 = Checksum.compute_for_data(ChecksumType.SHA1, buffer);
+                    set_avatar_hash(account, account.bare_jid, sha1, Source.VCARD);
+                } catch (Error e) {
+                    warning("Failed to publish vCard-temp avatar: %s", e.message);
+                }
             } else {
                 warning("No stream when trying to publish.");
             }
