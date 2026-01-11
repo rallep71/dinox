@@ -121,24 +121,25 @@ public class KeyManagementDialog : Object {
         dialog.child = toolbar_view;
         
         // Load keys
-        load_keys();
+        load_keys.begin();
         
         dialog.present(parent_window);
     }
 
-    private void load_keys() {
+    private async void load_keys() {
         current_keys.clear();
         
         // Use GPG command to get keys with proper info
         try {
             string[] argv = { "gpg", "--list-secret-keys", "--with-colons" };
-            string stdout_str, stderr_str;
-            int exit_status;
             
-            Process.spawn_sync(null, argv, null, SpawnFlags.SEARCH_PATH,
-                null, out stdout_str, out stderr_str, out exit_status);
+            var proc = new Subprocess.newv(argv, SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_PIPE);
+            string? stdout_str = null;
+            string? stderr_str = null;
             
-            if (exit_status == 0) {
+            yield proc.communicate_utf8_async(null, null, out stdout_str, out stderr_str);
+            
+            if (proc.get_exit_status() == 0 && stdout_str != null) {
                 parse_gpg_output(stdout_str);
             }
         } catch (Error e) {
@@ -436,7 +437,7 @@ public class KeyManagementDialog : Object {
             try {
                 var file = file_dialog.open.end(res);
                 if (file != null) {
-                    import_key_from_file(file.get_path());
+                    import_key_from_file.begin(file.get_path());
                 }
             } catch (Error e) {
                 // User cancelled
@@ -444,21 +445,22 @@ public class KeyManagementDialog : Object {
         });
     }
 
-    private void import_key_from_file(string path) {
+    private async void import_key_from_file(string path) {
         try {
             string[] argv = { "gpg", "--import", path };
-            string stdout_str, stderr_str;
-            int exit_status;
             
-            Process.spawn_sync(null, argv, null, SpawnFlags.SEARCH_PATH,
-                null, out stdout_str, out stderr_str, out exit_status);
+            var proc = new Subprocess.newv(argv, SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_PIPE);
+            string? stdout_str = null;
+            string? stderr_str = null;
             
-            if (exit_status == 0) {
+            yield proc.communicate_utf8_async(null, null, out stdout_str, out stderr_str);
+            
+            if (proc.get_exit_status() == 0) {
                 keys_changed();
                 dialog.force_close();
                 show_message(_("Success"), _("Key imported! Re-open Key Management to see it."));
             } else {
-                show_message(_("Error"), _("Import failed: ") + stderr_str);
+                show_message(_("Error"), _("Import failed: ") + (stderr_str ?? ""));
             }
         } catch (Error e) {
             show_message(_("Error"), e.message);
@@ -474,7 +476,7 @@ public class KeyManagementDialog : Object {
             try {
                 var file = file_dialog.save.end(res);
                 if (file != null) {
-                    export_key_to_file(key, file.get_path());
+                    export_key_to_file.begin(key, file.get_path());
                 }
             } catch (Error e) {
                 // User cancelled
@@ -482,18 +484,25 @@ public class KeyManagementDialog : Object {
         });
     }
 
-    private void export_key_to_file(GpgKeyInfo key, string path) {
+    private async void export_key_to_file(GpgKeyInfo key, string path) {
         try {
             string[] argv = { "gpg", "--armor", "--export", key.fingerprint };
-            string stdout_str, stderr_str;
-            int exit_status;
             
-            Process.spawn_sync(null, argv, null, SpawnFlags.SEARCH_PATH,
-                null, out stdout_str, out stderr_str, out exit_status);
+            var proc = new Subprocess.newv(argv, SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_PIPE);
+            string? stdout_str = null;
+            string? stderr_str = null;
             
-            if (exit_status == 0 && stdout_str.length > 0) {
-                FileUtils.set_contents(path, stdout_str);
-                show_message(_("Success"), _("Key exported to: ") + path);
+            yield proc.communicate_utf8_async(null, null, out stdout_str, out stderr_str);
+            
+            if (proc.get_exit_status() == 0 && stdout_str != null && stdout_str.length > 0) {
+                try {
+                    // Use File.replace_contents_async correctly
+                    File f = File.new_for_path(path);
+                    yield f.replace_contents_async(stdout_str.data, null, false, FileCreateFlags.NONE, null, null);
+                    show_message(_("Success"), _("Key exported to: ") + path);
+                } catch (Error e) {
+                    show_message(_("Error"), e.message);
+                }
             } else {
                 show_message(_("Error"), _("Export failed."));
             }
@@ -514,28 +523,29 @@ public class KeyManagementDialog : Object {
         
         confirm.response.connect((response) => {
             if (response == "delete") {
-                delete_key(key);
+                delete_key.begin(key);
             }
         });
         
         confirm.present(dialog);
     }
 
-    private void delete_key(GpgKeyInfo key) {
+    private async void delete_key(GpgKeyInfo key) {
         try {
             string[] argv = { "gpg", "--batch", "--yes", "--delete-secret-and-public-key", key.fingerprint };
-            string stdout_str, stderr_str;
-            int exit_status;
             
-            Process.spawn_sync(null, argv, null, SpawnFlags.SEARCH_PATH,
-                null, out stdout_str, out stderr_str, out exit_status);
+            var proc = new Subprocess.newv(argv, SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_PIPE);
+            string? stdout_str = null;
+            string? stderr_str = null;
+
+            yield proc.communicate_utf8_async(null, null, out stdout_str, out stderr_str);
             
-            if (exit_status == 0) {
+            if (proc.get_exit_status() == 0) {
                 keys_changed();
                 dialog.force_close();
                 show_message(_("Success"), _("Key deleted."));
             } else {
-                show_message(_("Error"), _("Delete failed: ") + stderr_str);
+                show_message(_("Error"), _("Delete failed: ") + (stderr_str ?? ""));
             }
         } catch (Error e) {
             show_message(_("Error"), e.message);
