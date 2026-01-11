@@ -105,7 +105,8 @@ namespace Dino.Ui {
         }
 
         public async void notify_connection_error(Account account, ConnectionManager.ConnectionError error) {
-            Notification notification = new Notification(_("Could not connect to %s").printf(account.bare_jid.domainpart));
+            // "Reconnecting..." sounds less alarming than "Could not connect" during temporary Tor startup glitches.
+            Notification notification = new Notification(_("Reconnecting to %s...").printf(account.bare_jid.domainpart));
             notification.set_default_action_and_target_value("app.preferences-account", new Variant.int32(account.id));
             switch (error.source) {
                 case ConnectionManager.ConnectionError.Source.SASL:

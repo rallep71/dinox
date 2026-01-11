@@ -1788,8 +1788,6 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
     }
     
     private void perform_backup(string data_dir, string backup_path, string? password = null) {
-        // Checkpoint all databases to ensure WAL data is written to main files
-        checkpoint_databases();
         
         // Create progress dialog with spinner
         var progress_dialog = new Adw.AlertDialog(
@@ -1819,6 +1817,10 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         
         // Run backup in background
         new Thread<void*>("backup", () => {
+            // Checkpoint all databases to ensure WAL data is written to main files
+            // Moved inside thread to avoid blocking main loop (AI Guideline 2.2)
+            checkpoint_databases();
+
             bool success = false;
             string? stderr_str = null;
             string temp_tar_path = backup_path;
