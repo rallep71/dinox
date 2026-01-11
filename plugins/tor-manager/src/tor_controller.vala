@@ -84,7 +84,11 @@ namespace Dino.Plugins.TorManager {
                 new Subprocess.newv(kill_cmd, SubprocessFlags.NONE).wait(null);
                 
                 // Give the OS a moment to reclaim the port (9155)
-                Thread.usleep(300000); // 300ms
+                Timeout.add(300, () => {
+                    start.callback();
+                    return false;
+                });
+                yield;
                 
                 debug("TorController: Zombie cleanup routine executed.");
             } catch (Error e) {
