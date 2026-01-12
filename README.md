@@ -194,7 +194,7 @@ DinoX implements **80 XMPP Extension Protocols**. Here are the key ones with ful
 ## Screenshots
 
 <p align="center">
-  <img src="docs/assets/voicecal.png" width="45%" alt="Voice and Video Calls">
+  <img src="docs/assets/chat.png" width="45%" alt="Voice and Video Calls">
   <img src="docs/assets/privt.png" width="45%" alt="Private MUC Rooms">
 </p>
 <p align="center">
