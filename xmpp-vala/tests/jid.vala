@@ -15,9 +15,9 @@ class JidTest : Gee.TestCase {
         add_test("jid_valid_emoji_resource", () => { test_jid_valid("test@example.com/😅"); });
         add_test("jid_valid_emoji_domain", () => { test_jid_valid("test@😅.com"); });
 
-        add_test("jid_invalid_bidi_local", () => { test_jid_invalid("te‏st@example.com"); });
-        add_test("jid_invalid_bidi_resource", () => { test_jid_invalid("test@example.com/te‏st"); });
-        add_test("jid_invalid_bidi_domain", () => { test_jid_invalid("test@exa‏mple.com"); });
+        add_test("jid_invalid_bidi_local", () => { test_jid_invalid("te\u200Fst@example.com"); });
+        add_test("jid_invalid_bidi_resource", () => { test_jid_invalid("test@example.com/te\u200Fst"); });
+        add_test("jid_invalid_bidi_domain", () => { test_jid_invalid("test@exa\u200Fmple.com"); });
         add_test("jid_invalid_overlong_idn", () => { test_jid_invalid("test@ççççççççççççççççççççççççççççççççççççççççççççççççççççççççççççç.com"); });
 
         add_test("jid_equal_end_domain", () => { test_jids_equal("test@example.com", "test@example.com."); });

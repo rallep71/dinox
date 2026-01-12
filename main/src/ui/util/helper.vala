@@ -219,14 +219,14 @@ public static string unbreak_space_around_non_spacing_mark(owned string s) {
         int replace_index = -1;
         if (is_non_spacing_mark && current_char == ' ') {
             replace_index = prev_index;
-            current_char = ' ';
+            current_char = (unichar) 0x00A0; // Non-breaking space
         }
         is_non_spacing_mark = ICU.get_int_property_value(current_char, ICU.Property.BIDI_CLASS) == ICU.CharDirection.DIR_NON_SPACING_MARK;
         if (prev_char == ' ' && is_non_spacing_mark) {
             replace_index = prev_index - 1;
         }
         if (replace_index != -1) {
-            s = s[0:replace_index] + " " + s[(replace_index + 1):s.length];
+            s = s[0:replace_index] + "\u00A0" + s[(replace_index + 1):s.length];
             current_index += 1;
         }
         prev_index = current_index;
