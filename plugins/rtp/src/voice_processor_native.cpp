@@ -54,7 +54,7 @@ extern "C" void *dino_plugins_rtp_voice_processor_init_native(gint stream_delay)
     config.gain_controller1.enabled = true;
     config.gain_controller1.mode = webrtc::AudioProcessing::Config::GainController1::kAdaptiveDigital;
     config.gain_controller1.target_level_dbfs = 3;
-    config.gain_controller1.compression_gain_db = 6;
+    config.gain_controller1.compression_gain_db = 6; // Restored to default 6dB
     config.gain_controller1.enable_limiter = true;
     
     config.high_pass_filter.enabled = true;

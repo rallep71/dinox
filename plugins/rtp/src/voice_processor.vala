@@ -61,25 +61,47 @@ public class Dino.Plugins.Rtp.EchoProbe : Audio.Filter {
     }
 
     public override FlowReturn transform_ip(Buffer buf) {
+        Gee.List<Buffer> emitted_buffers = null;
+        
         lock (adapter) {
-            adapter.push(adjust_to_running_time(this, buf));
-            uint emitted = 0;
-            while (adapter.available() >= period_size) {
-                emitted++;
-                on_new_buffer(adapter.take_buffer(period_size));
+            // Deep copy using get_all_memory + copy to ensure data is decoupled
+            Gst.Memory? mem = buf.get_all_memory();
+            if (mem != null) {
+                // mem.copy(0, -1) creates a writable copy of the memory
+                Gst.Memory deep_mem = mem.copy(0, -1);
+                
+                Buffer copy = new Buffer();
+                copy.append_memory(deep_mem);
+                
+                copy.pts = buf.pts;
+                copy.dts = buf.dts;
+                copy.duration = buf.duration;
+                
+                adapter.push(adjust_to_running_time(this, copy));
             }
+            
+            if (adapter.available() >= period_size) {
+                 emitted_buffers = new Gee.ArrayList<Buffer>();
+                 while (adapter.available() >= period_size) {
+                     emitted_buffers.add(adapter.take_buffer(period_size));
+                 }
+            }
+        }
 
-            if (emitted > 0) {
-                buffers_since_log += emitted;
-                int64 now_us = GLib.get_monotonic_time();
-                if (last_log_us == 0) {
-                    last_log_us = now_us;
-                }
-                if (now_us - last_log_us >= 2 * 1000 * 1000) {
-                    message("EchoProbe: emitted %u buffers (delay=%dms)", buffers_since_log, delay);
-                    buffers_since_log = 0;
-                    last_log_us = now_us;
-                }
+        if (emitted_buffers != null) {
+            foreach (var buffer in emitted_buffers) {
+                 on_new_buffer((owned) buffer);
+            }
+            
+            buffers_since_log += emitted_buffers.size;
+            int64 now_us = GLib.get_monotonic_time();
+            if (last_log_us == 0) {
+                last_log_us = now_us;
+            }
+            if (now_us - last_log_us >= 2 * 1000 * 1000) {
+                message("EchoProbe: emitted %u buffers (delay=%dms)", buffers_since_log, delay);
+                buffers_since_log = 0;
+                last_log_us = now_us;
             }
         }
         return FlowReturn.OK;
@@ -108,6 +130,9 @@ public class Dino.Plugins.Rtp.VoiceProcessor : Audio.Filter {
 
     private uint reverse_buffers_since_log = 0;
     private int64 last_reverse_log_us = 0;
+
+    private uint forward_buffers_since_log = 0;
+    private int64 last_forward_log_us = 0;
 
     static construct {
         add_static_pad_template(sink_template);
@@ -158,13 +183,14 @@ public class Dino.Plugins.Rtp.VoiceProcessor : Audio.Filter {
     }
 
     private bool adjust_delay() {
-        if (native != null) {
-            adjust_stream_delay(native);
-            return Source.CONTINUE;
-        } else {
-            adjust_delay_timeout_id = 0;
-            return Source.REMOVE;
+        lock (adapter) {
+            if (native != null) {
+                adjust_stream_delay(native);
+                return Source.CONTINUE;
+            }
         }
+        adjust_delay_timeout_id = 0;
+        return Source.REMOVE;
     }
 
     private void process_outgoing_buffer(owned Buffer buffer) {
@@ -177,10 +203,17 @@ public class Dino.Plugins.Rtp.VoiceProcessor : Audio.Filter {
         if (buffer.pts != uint64.MAX) {
             last_reverse = buffer.pts;
         }
-        if (native != null) {
-            buffer = (Buffer) buffer.make_writable();
-            analyze_reverse_stream(native, echo_probe.audio_info, buffer);
+        
+        lock (adapter) {
+            if (native != null) {
+                // Ensure we have a deep copy of the buffer to avoid refcount issues
+                // when passing to the C++ WebRTC thread/process.
+                // make_writable() is insufficient if the memory is shared/readonly further up.
+                Gst.Buffer copy = buffer.copy_deep();
+                analyze_reverse_stream(native, echo_probe.audio_info, copy);
+            }
         }
+        
         if (adjust_delay_timeout_id == 0 && echo_probe != null) {
             adjust_delay_timeout_id = Timeout.add(1000, adjust_delay);
         }
@@ -193,8 +226,10 @@ public class Dino.Plugins.Rtp.VoiceProcessor : Audio.Filter {
     }
 
     private void process_stream_delay(int stream_delay) {
-        if (native != null) {
-            set_stream_delay(native, stream_delay);
+        lock (adapter) {
+            if (native != null) {
+                set_stream_delay(native, stream_delay);
+            }
         }
     }
 
@@ -228,6 +263,20 @@ public class Dino.Plugins.Rtp.VoiceProcessor : Audio.Filter {
                 }
             }
         }
+        
+        if (output_buffer != null) {
+            forward_buffers_since_log++;
+            int64 now_us = GLib.get_monotonic_time();
+            if (last_forward_log_us == 0) {
+                last_forward_log_us = now_us;
+            }
+            if (now_us - last_forward_log_us >= 2 * 1000 * 1000) {
+                 message("VoiceProcessor: forward feed %u buffers/2s", forward_buffers_since_log);
+                 forward_buffers_since_log = 0;
+                 last_forward_log_us = now_us;
+            }
+        }
+
         return FlowReturn.OK;
     }
 
@@ -244,9 +293,11 @@ public class Dino.Plugins.Rtp.VoiceProcessor : Audio.Filter {
             Source.remove(adjust_delay_timeout_id);
             adjust_delay_timeout_id = 0;
         }
-        adapter.clear();
-        destroy_native(native);
-        native = null;
+        lock (adapter) {
+            adapter.clear();
+            destroy_native(native);
+            native = null;
+        }
         return true;
     }
 }
