@@ -43,6 +43,7 @@ DinoX features System Tray support, MUJI group video calls, voice messages, mess
 | **Voice Messages** | Record and send audio messages (AAC format) |
 | **Inline Video Player** | Play videos directly in chat (no external player) |
 | **Group Chats (MUC)** | Full support with moderation, roles, private rooms |
+| **Out-of-the-Box Tor** | Integrated Tor & Obfs4proxy (ZERO-Config) for instant privacy & anonymity |
 | **System Tray** | Background mode with StatusNotifierItem |
 | **Message Retraction** | Delete messages for everyone (XEP-0424) |
 | **Emoji Reactions** | React to messages (XEP-0444) |
