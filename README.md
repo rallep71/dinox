@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="dinox-512.png" width="200" alt="DinoX Logo">
+<img src="docs/assets/dinox-512.png" width="200" alt="DinoX Logo">
 
 # DinoX
 
