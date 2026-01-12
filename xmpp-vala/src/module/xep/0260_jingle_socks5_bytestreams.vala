@@ -76,7 +76,9 @@ public class Module : Jingle.Transport, XmppStreamModule {
     }
 
     public Jingle.TransportParameters create_transport_parameters(XmppStream stream, uint8 components, Jid local_full_jid, Jid peer_full_jid) {
-        assert(components == 1);
+        if (components != 1) {
+            warning("S5B supports only 1 component, requested: %u", components);
+        }
         Parameters result = new Parameters.create(local_full_jid, peer_full_jid, random_uuid());
         string dstaddr = calculate_dstaddr(result.sid, local_full_jid, peer_full_jid);
         select_candidates(stream, local_full_jid, dstaddr, result);
@@ -119,7 +121,8 @@ public enum CandidateType {
             case PROXY: return "proxy";
             case TUNNEL: return "tunnel";
         }
-        assert_not_reached();
+        warning("Unknown candidate type: %d", this);
+        return "unknown";
     }
 
     private int type_preference_impl() {
@@ -129,7 +132,7 @@ public enum CandidateType {
             case PROXY: return 10;
             case TUNNEL: return 110;
         }
-        assert_not_reached();
+        return 0;
     }
     public int type_preference() {
         return type_preference_impl() << 16;

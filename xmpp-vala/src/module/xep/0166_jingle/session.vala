@@ -526,7 +526,7 @@ public class Xmpp.Xep.Jingle.Session : Object {
             case Senders.RESPONDER:
                 return !we_initiated;
         }
-        assert_not_reached();
+        return false;
     }
 
     public bool senders_include_counterpart(Senders senders) {
@@ -540,6 +540,6 @@ public class Xmpp.Xep.Jingle.Session : Object {
             case Senders.RESPONDER:
                 return we_initiated;
         }
-        assert_not_reached();
+        return false;
     }
 }

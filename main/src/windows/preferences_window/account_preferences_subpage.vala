@@ -622,7 +622,7 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
             case ConnectionManager.ConnectionState.DISCONNECTED:
                 return _("Disconnected");
         }
-        assert_not_reached();
+        return _("Unknown Status");
     }
 
     private string? get_connection_error_description() {

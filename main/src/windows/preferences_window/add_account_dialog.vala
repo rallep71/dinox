@@ -436,8 +436,9 @@ public class AddAccountDialog : Adw.Dialog {
             case CREATE_ACCOUNT_SELECT_SERVER: return "server";
             case CREATE_ACCOUNT_REGISTER_FORM: return "form";
             case SUCCESS: return "success";
-            default: assert_not_reached();
         }
+        warning("Unknown Page: %d", page);
+        return "login_jid";
     }
 }
 

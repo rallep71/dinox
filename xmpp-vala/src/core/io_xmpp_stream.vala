@@ -52,6 +52,8 @@ public abstract class Xmpp.IoXmppStream : XmppStream {
         write_async.begin(node, io_priority, null, (obj, res) => {
             try {
                 write_async.end(res);
+            } catch (IOError.CANCELLED e) {
+                // Ignore cancellation
             } catch (Error e) {
                 warning("Error while writing: %s", e.message);
             }

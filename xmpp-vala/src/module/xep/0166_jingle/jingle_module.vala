@@ -241,7 +241,8 @@ namespace Xmpp.Xep.Jingle {
         } else if (iq_error is IqError.RESOURCE_CONSTRAINT) {
             error = new ErrorStanza.resource_constraint(iq_error.message);
         } else {
-            assert_not_reached();
+            warning("Unhandled Jingle IqError: %s", iq_error.message);
+            error = new ErrorStanza.build(ErrorStanza.TYPE_CANCEL, ErrorStanza.CONDITION_INTERNAL_SERVER_ERROR, iq_error.message, null);
         }
         stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq(stream, new Iq.Stanza.error(iq, error) { to=iq.from });
     }

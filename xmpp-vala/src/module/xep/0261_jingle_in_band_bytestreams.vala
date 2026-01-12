@@ -29,7 +29,9 @@ public class Module : Jingle.Transport, XmppStreamModule {
     public Jingle.TransportType type_ { get { return Jingle.TransportType.STREAMING; } }
     public int priority { get { return 0; } }
     public Jingle.TransportParameters create_transport_parameters(XmppStream stream, uint8 components, Jid local_full_jid, Jid peer_full_jid) {
-        assert(components == 1);
+        if (components != 1) {
+            warning("IBB supports only 1 component, requested: %u", components);
+        }
         return new Parameters.create(peer_full_jid, random_uuid());
     }
     public Jingle.TransportParameters parse_transport_parameters(XmppStream stream, uint8 components, Jid local_full_jid, Jid peer_full_jid, StanzaNode transport) throws Jingle.IqError {
