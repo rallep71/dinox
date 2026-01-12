@@ -178,7 +178,9 @@ public class FileProvider : Dino.FileProvider, Object {
 
     public async InputStream download(FileTransfer file_transfer, FileReceiveData receive_data, FileMeta file_meta) throws IOError {
         HttpFileReceiveData? http_receive_data = receive_data as HttpFileReceiveData;
-        if (http_receive_data == null) assert(false);
+        if (http_receive_data == null) {
+            throw new IOError.INVALID_ARGUMENT("Missing HTTP receive data");
+        }
 
         yield ensure_soup_context();
 

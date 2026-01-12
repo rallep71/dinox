@@ -38,7 +38,10 @@ namespace Xmpp.Xep.Jingle {
                 promise.set_exception(new IOError.FAILED("Jingle connection failed"));
                 return;
             }
-            assert(!this.stream.ready);
+            if (this.stream.ready) {
+                warning("Jingle stream already set!");
+                return;
+            }
             promise.set_value(stream);
             if (terminated != null) {
                 try {

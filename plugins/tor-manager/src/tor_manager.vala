@@ -18,6 +18,8 @@ namespace Dino.Plugins.TorManager {
         private StreamInteractor stream_interactor;
         private Database db;
         private bool is_shutting_down = false;
+        private int retry_count = 0;
+        private const int MAX_RETRIES = 2;
 
         // Fallback bridges to bootstrap connection if blocked
         private const string BOOTSTRAP_BRIDGES = """# Default Bootstrap Bridges
@@ -30,6 +32,10 @@ obfs4 198.245.60.50:443 6C61208D644265A16CB0C7E835787C1D8429EC08 cert=sT/u/T1uA+
             this.db = db;
             controller = new TorController();
             controller.process_exited.connect(on_process_exited);
+            controller.started.connect(() => { 
+                debug("TorManager: Tor started successfully. Resetting retry count.");
+                retry_count = 0; 
+            });
             
             this.stream_interactor.account_added.connect(on_account_added);
 
@@ -159,7 +165,19 @@ obfs4 198.245.60.50:443 6C61208D644265A16CB0C7E835787C1D8429EC08 cert=sT/u/T1uA+
                  return;
             }
 
-            warning("TorManager: [CRITICAL] Tor exited with status %d. Initiating emergency proxy removal.", status);
+            if (retry_count < MAX_RETRIES) {
+                retry_count++;
+                warning("TorManager: Tor exited unexpectedly with status %d so we are trying to fix it. Attempt %d/%d. Cleaning state...", status, retry_count, MAX_RETRIES);
+                
+                // Attempt to clean state which might be corrupted ("Acting on config options left us in a broken state")
+                controller.clean_state();
+                
+                // Restart
+                start_tor.begin(true);
+                return;
+            }
+
+            warning("TorManager: [CRITICAL] Tor exited with status %d. Retries exhausted. Initiating emergency proxy removal.", status);
             // Force disable, regardless of current state check, to ensure cleanup happens
             set_enabled(false); 
         }

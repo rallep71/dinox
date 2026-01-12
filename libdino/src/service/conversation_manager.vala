@@ -44,7 +44,12 @@ public class ConversationManager : StreamInteractionModule, Object {
     }
 
     public Conversation create_conversation(Jid jid, Account account, Conversation.Type? type = null) {
-        assert(conversations.has_key(account));
+        if (!conversations.has_key(account)) {
+            critical("Attempted to create conversation for untracked account: %s", account.id.to_string());
+            // Recover by initializing the map entry to avoid crash, though this indicates logic error elsewhere
+            conversations[account] = new HashMap<Jid, Gee.List<Conversation>>();
+        }
+        
         Jid store_jid = type == Conversation.Type.GROUPCHAT ? jid.bare_jid : jid;
 
         // Do we already have a conversation for this jid?

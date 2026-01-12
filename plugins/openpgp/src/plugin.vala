@@ -52,7 +52,26 @@ public class Plugin : Plugins.RootInterface, Object {
     public void shutdown() { }
 
     private void on_initialize_account_modules(Account account, ArrayList<Xmpp.XmppStreamModule> modules) {
-        Module module = new Module(db.get_account_key(account));
+        string? key_id = db.get_account_key(account);
+        if (key_id != null) {
+            try {
+                // Verify key existence before passing to module
+                var key = GPGHelper.get_private_key(key_id);
+                if (key == null) {
+                    warning("OpenPGP: Key %s returned null. Cleaning up database.", key_id);
+                    db.remove_account_key(account);
+                    key_id = null;
+                }
+            } catch (Error e) {
+                // If the key is missing from the keyring, GPGME throws an error.
+                // We should clean up our database reference to avoid persistent warnings.
+                warning("OpenPGP: Stale key detected (%s). Removing from database: %s", key_id, e.message);
+                db.remove_account_key(account);
+                key_id = null;
+            }
+        }
+
+        Module module = new Module(key_id);
         this.modules[account] = module;
         modules.add(module);
     }

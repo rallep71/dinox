@@ -35,7 +35,7 @@ namespace Xmpp.Xep.Jingle {
                 case NONE: return "none";
                 case RESPONDER: return "responder";
             }
-            assert_not_reached();
+            return "unknown";
         }
 
         public static Senders parse(string? senders) throws IqError {
@@ -58,7 +58,7 @@ namespace Xmpp.Xep.Jingle {
                 case INITIATOR: return "initiator";
                 case RESPONDER: return "responder";
             }
-            assert_not_reached();
+            return "unknown";
         }
 
         public static Role parse(string role) throws IqError {

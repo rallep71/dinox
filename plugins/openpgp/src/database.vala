@@ -70,6 +70,12 @@ public class Database : Qlite.Database {
             .with(account_setting_table.account_id, "=", account.id)[account_setting_table.key];
     }
 
+    public void remove_account_key(Account account) {
+        account_setting_table.delete()
+            .with(account_setting_table.account_id, "=", account.id)
+            .perform();
+    }
+
     public override void migrate(long oldVersion) { }
 }
 

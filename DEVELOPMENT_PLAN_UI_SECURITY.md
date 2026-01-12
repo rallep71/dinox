@@ -20,24 +20,38 @@ Hidden Unicode characters (Zero-width spaces, Bidi-overrides, etc.) can be used 
     *   **Action**: Integrate `scripts/scan_unicode.py` into the CI pipeline.
     *   **Goal**: Prevent any Pull Request from merging if it introduces unsuspecting dangerous characters.
 
-## Part 1.5: Deep Code Audit (Results & Todo)
+## Part 1.5: Deep Code Audit (Security & Stability)
 
-### Completed Tasks
-*   **Unicode Sanitization**: Removed dangerous invisible characters from source code.
-*   **Command Injection Fixes**: Replaced `Process.spawn_command_line_sync("sh -c ...")` with `GLib.Subprocess` (direct execution without shell) in `application.vala` and `encryption_preferences_entry.vala`.
-*   **Path Traversal Prevention**: Fixed manual string concatenation for paths in `avatar_manager.vala` (replaced with `Path.build_filename`).
-*   **Error Handling**: Replaced `stderr.printf` with `warning()` or `critical()` in D-Bus modules and TLS stream handling for proper system logging.
+### Phase 1: OMEMO Hardening & Style (✅ Completed)
+*   **Status**: Done.
+*   **Action**: Hardened the OMEMO module against crashes and weak random number generation.
+*   **Details**:
+    *   `plugins/omemo/src/protocol/stream_module.vala`: Fixed unsafe `assert`s, replaced `Random.int_range` with PRNG.
+    *   `plugins/omemo/src/file_transfer/file_decryptor.vala`: Removed crash-inducing `assert(false)` on missing metadata.
+    *   **Linting**: All modified OMEMO files (`simple_pks/spks`, `store`, `bundle`, `plugin`) are now compliant with `io.elementary.vala-lint`.
 
-### Pending Refactoring (Technical Debt)
-1.  **Asserts in Release Code**:
-    *   **Problem**: Found ~40 uses of `assert()` in production code. This causes hard crashes instead of error handling.
-    *   **Plan**: Replace critical `assert()` with `return_if_fail()` or exception throwing.
-2.  **OMEMO Key Generation**:
-    *   **Problem**: `plugins/omemo/src/protocol/stream_module.vala` uses `Random.int_range` for key IDs (Comment: "TODO: No random, use ordered number").
-    *   **Risk**: Low (Collision unlikely), but non-compliant with Signal spec.
-    *   **Plan**: Implement a persistent counter for key IDs.
+### Phase 2: General App Stability (Assert Elimination) (✅ Completed)
+*   **Goal**: Replace hard crashes (`assert()`, `assert_not_reached()`) with proper error handling across the entire application.
+*   **Target Files**:
+    1.  **Plugins**:
+        *   [x] `plugins/http-files/src/file_provider.vala` (Replaced `assert(false)` with `IOError.INVALID_ARGUMENT`)
+        *   [x] `plugins/ice/src/transport_parameters.vala` (Replaced `assert_not_reached` with graceful fallback/warning)
+    2.  **XMPP Core (Jingle/ByteStreams)**:
+        *   [x] `xmpp-vala/src/module/xep/0047_in_band_bytestreams.vala` (State assertions replaced with warnings/IOErrors)
+        *   [x] `xmpp-vala/src/module/xep/0261_jingle_in_band_bytestreams.vala` (Handled multi-component warning)
+        *   [x] `xmpp-vala/src/module/xep/0260_jingle_socks5_bytestreams.vala` (Handled enums and component count)
+        *   [x] `xmpp-vala/src/module/xep/0166_jingle/*` (Session, Component handling hardened against enum changes/state issues)
+    3.  **App Core / UI**:
+        *   [x] `main/src/ui/global_search.vala` (Replaced crash on regex error with warning/fallback)
+        *   [x] `libdino/src/service/conversation_manager.vala` (Recover gracefully if account is missing in conversation map)
+        *   [x] `main/src/windows/preferences_window/*` (Removed crash on unknown UI states)
 
-### Problem Analysis
+### Phase 3: Global Linting (📅 Deferred)
+*   **Goal**: Apply strict code style (spacing, naming conventions) to the entire legacy codebase.
+*   **Status**: Deferred to end of project.
+
+## Part 2: UI/UX Consistency (Libadwaita)
+
 While DinoX has successfully migrated core windows to GTK4 and Libadwaita (`Adw.Dialog`, `Adw.Window`), visual inconsistencies ("Inkontinenz") likely stem from:
 *   Legacy styling (custom CSS margins/padding) instead of Libadwaita style classes.
 *   Mixing of legacy icons (full color) and modern symbolic icons.

@@ -269,7 +269,8 @@ public class GlobalSearch {
             }
             markup_text += Markup.escape_text(text[last_end:text.length]);
         } catch (RegexError e) {
-            assert_not_reached();
+            warning("Failed to highlight search text: %s", e.message);
+            markup_text = Markup.escape_text(text);
         }
 
         label.label = markup_text;

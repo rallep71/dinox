@@ -11,6 +11,7 @@ namespace Dino.Plugins.TorManager {
         private Button fetch_button;
         private Adw.ActionRow main_switch_row;
         private uint debounce_timeout_id = 0;
+        private bool ignore_text_changes = false;
 
         public TorSettingsPage(TorManager manager) {
             this.manager = manager;
@@ -122,8 +123,11 @@ namespace Dino.Plugins.TorManager {
         }
 
         private void on_bridges_text_changed_debounced() {
+            if (ignore_text_changes) return;
+            
             if (debounce_timeout_id != 0) {
                 Source.remove(debounce_timeout_id);
+                debounce_timeout_id = 0;
             }
             debounce_timeout_id = Timeout.add(1500, () => {
                 commit_bridges_text.begin();
@@ -229,17 +233,60 @@ namespace Dino.Plugins.TorManager {
                 string[] bridges = yield client.check_solution(challenge_id, solution);
                 
                 if (bridges.length > 0) {
+                    // Sort bridges to prefer port 443/80
+                    int good_ports = 0;
+                    Gee.ArrayList<string> sorted_bridges = new Gee.ArrayList<string>();
+                    foreach(string b in bridges) {
+                         if (b.contains(":443 ") || b.contains(":80 ") || b.contains(":4433 ")) {
+                             sorted_bridges.insert(0, b);
+                             good_ports++;
+                         } else {
+                             sorted_bridges.add(b);
+                         }
+                    }
+
                     StringBuilder sb = new StringBuilder();
-                    foreach (string b in bridges) {
+                    foreach (string b in sorted_bridges) {
                         sb.append(b);
                         sb.append("\n");
                     }
                     
-                    // Update Text Area
-                    bridge_input_view.buffer.text = sb.str;
+                    string new_bridges_text = sb.str;
                     
-                    var success_dlg = new Adw.MessageDialog(this.get_root() as Gtk.Window, "Success", "Received %d fresh bridges.".printf(bridges.length));
+                    // Update Text Area
+                    debug("TorSettingsPage: Applying new bridges (sorted) to UI:\n%s", new_bridges_text);
+                    
+                    // Use flag to prevent double-save via debounce
+                    ignore_text_changes = true;
+                    // Force a delete-insert cycle to ensure GTK updates the view
+                    bridge_input_view.buffer.set_text(""); 
+                    while (MainContext.default().pending()) MainContext.default().iteration(false); // Force UI redraw for a split second
+                    bridge_input_view.buffer.set_text(new_bridges_text);
+                    ignore_text_changes = false;
+
+                    // Explicitly save and restart Tor immediately
+                    debug("TorSettingsPage: Explicitly saving new bridges...");
+                    yield manager.set_bridges(new_bridges_text);
+
+                    string msg = "Received %d fresh bridges.".printf(bridges.length);
+                    if (good_ports > 0) {
+                        msg += "\n\nGood news! We found %d bridges on common ports (443/80). These are prioritized.".printf(good_ports);
+                    } else {
+                        msg += "\n\nWarning: None of the bridges use standard ports (443/80). If you are behind a strict firewall, you might need to try again.";
+                    }
+
+                    var success_dlg = new Adw.MessageDialog(this.get_root() as Gtk.Window, "Success", msg);
                     success_dlg.add_response("ok", "OK");
+                    if (good_ports == 0) {
+                         success_dlg.add_response("retry", "Try Again");
+                    }
+
+                    success_dlg.response.connect((resp) => {
+                        if (resp == "retry") {
+                            on_fetch_clicked.begin(); 
+                        }
+                    });
+
                     success_dlg.present();
                 } else {
                      var fail_dlg = new Adw.MessageDialog(this.get_root() as Gtk.Window, "Failed", "No bridges received. Maybe the solution was wrong?");

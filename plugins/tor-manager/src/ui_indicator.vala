@@ -150,7 +150,10 @@ namespace Dino.Plugins.TorManager {
             manager.controller.notify["is-running"].connect(() => { update_icon(status_label); });
             manager.controller.bootstrap_status.connect((percent, summary) => {
                  // Update tooltip or status
-                 status_label.label = "Bootstrap: %d%% (%s)".printf(percent, summary);
+                 // Simplified status: Just show percentage to avoid UI flickering
+                 status_label.label = "Bootstrapping: %d%%".printf(percent);
+                 button.tooltip_text = "Tor Starting: %d%%\n%s".printf(percent, summary);
+                 
                  if (percent == 100) {
                      update_icon(status_label, true);
                  }

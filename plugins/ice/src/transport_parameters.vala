@@ -439,13 +439,15 @@ public class Dino.Plugins.Ice.TransportParameters : JingleIceUdp.IceUdpTransport
     }
 
     private static Nice.Candidate candidate_to_nice(JingleIceUdp.Candidate c) {
-        Nice.CandidateType type;
+        Nice.CandidateType type = Nice.CandidateType.HOST;
         switch (c.type_) {
             case JingleIceUdp.Candidate.Type.HOST: type = Nice.CandidateType.HOST; break;
             case JingleIceUdp.Candidate.Type.PRFLX: type = Nice.CandidateType.PEER_REFLEXIVE; break;
             case JingleIceUdp.Candidate.Type.RELAY: type = Nice.CandidateType.RELAYED; break;
             case JingleIceUdp.Candidate.Type.SRFLX: type = Nice.CandidateType.SERVER_REFLEXIVE; break;
-            default: assert_not_reached();
+            default:
+                warning("Unknown Jingle candidate type: %s", c.type_.to_string());
+                break;
         }
 
         Nice.Candidate candidate = new Nice.Candidate(type);
@@ -475,7 +477,9 @@ public class Dino.Plugins.Ice.TransportParameters : JingleIceUdp.IceUdpTransport
             case Nice.CandidateType.PEER_REFLEXIVE: candidate.type_ = JingleIceUdp.Candidate.Type.PRFLX; break;
             case Nice.CandidateType.RELAYED: candidate.type_ = JingleIceUdp.Candidate.Type.RELAY; break;
             case Nice.CandidateType.SERVER_REFLEXIVE: candidate.type_ = JingleIceUdp.Candidate.Type.SRFLX; break;
-            default: assert_not_reached();
+            default:
+                warning("Unknown Nice candidate type: %s", nc.type.to_string());
+                return null;
         }
         candidate.component = (uint8) nc.component_id;
         candidate.foundation = ((string)nc.foundation).dup();

@@ -5,6 +5,7 @@ namespace Dino.Plugins.TorManager {
 
     public class TorController : Object {
         private Subprocess? tor_process;
+        private LinkedList<string> last_log_lines = new LinkedList<string>();
         // private DataInputStream? control_stream;
 
         public bool is_running { get; private set; default = false; }
@@ -14,6 +15,7 @@ namespace Dino.Plugins.TorManager {
         
         public signal void process_exited(int status);
         public signal void bootstrap_status(int percent, string summary);
+        public signal void started();
 
 
         public TorController() {
@@ -66,25 +68,39 @@ namespace Dino.Plugins.TorManager {
             return start_port;
         }
 
+        public void clean_state() {
+            string data_dir = Path.build_filename(Environment.get_user_data_dir(), "dino", "tor");
+            warning("TorController: Cleaning Tor state in %s", data_dir);
+            
+            // Remove files that might contain corrupted state
+            string[] files_to_delete = {"cached-certs", "cached-microdescs", "cached-microdesc-consensus", "cached-descriptors", "cached-descriptors.new", "state", "tor.pid", "lock", "cached-extrainfo", "cached-extrainfo.new"};
+            
+            foreach (string fname in files_to_delete) {
+                string p = Path.build_filename(data_dir, fname);
+                if (FileUtils.test(p, FileTest.EXISTS)) {
+                    if (FileUtils.unlink(p) != 0) {
+                        // Just log warning, not critical
+                        warning("TorController: Failed to delete %s", p);
+                    }
+                }
+            }
+        }
+
         public async void start() {
             if (is_running) return;
 
-            // Find a free port dynamically
-            socks_port = find_free_port(9155);
-            debug("TorController: Selected available port: %d", socks_port);
-
             string data_dir = Path.build_filename(Environment.get_user_data_dir(), "dino", "tor");
-            DirUtils.create_with_parents(data_dir, 0700);
             
             // ROBUST ZOMBIE KILLER: Force kill any previous instance by pattern, not just PID file
+            // We do this BEFORE finding a free port to free up the default port (9155) if possible.
             try {
                 // We look for any process running with our specific config file path.
                 // "pkill -f" matches against the full command line.
                 string[] kill_cmd = {"pkill", "-9", "-f", "dino/tor/torrc"};
                 new Subprocess.newv(kill_cmd, SubprocessFlags.NONE).wait(null);
                 
-                // Give the OS a moment to reclaim the port (9155)
-                Timeout.add(300, () => {
+                // Give the OS a moment to reclaim the ports
+                Timeout.add(500, () => {
                     start.callback();
                     return false;
                 });
@@ -95,6 +111,12 @@ namespace Dino.Plugins.TorManager {
                 // Ignored: pkill might fail if no process exists, which is good.
                 message("TorController: No zombies found or pkill unavailable: %s", e.message);
             }
+
+            // Find a free port dynamically (after cleanup!)
+            socks_port = find_free_port(9155);
+            debug("TorController: Selected available port: %d", socks_port);
+
+            DirUtils.create_with_parents(data_dir, 0700);
 
             // Cleanup stale PID file if it exists, just to be clean
             string pid_file = Path.build_filename(data_dir, "tor.pid");
@@ -199,18 +221,26 @@ namespace Dino.Plugins.TorManager {
                 // Monitor the process
                 monitor_process.begin(tor_process);
                 
-                // Wait for port to be open
+                // Wait for port to be open (Increased timeout for bridges)
                 yield wait_until_port_open(socks_port);
+
+                started();
                 
             } catch (Error e) {
                 warning("Failed to start Tor: %s", e.message);
+                // CRITICAL FIX: Ensure we don't leave a zombie process if start fails (e.g. timeout)
+                if (tor_process != null) {
+                    tor_process.force_exit();
+                    tor_process = null;
+                }
                 is_running = false;
             }
         }
         
         private async void wait_until_port_open(int port) {
             debug("Waiting for Tor request port %d to open...", port);
-            for (int i = 0; i < 50; i++) { // Wait up to 5 seconds (50 * 100ms)
+            // Wait up to 20 seconds (200 * 100ms) - Bridges can be slow to initialize
+            for (int i = 0; i < 200; i++) { 
                 try {
                     Socket socket = new Socket(SocketFamily.IPV4, SocketType.STREAM, SocketProtocol.TCP);
                     InetAddress address = new InetAddress.from_string("127.0.0.1");
@@ -258,6 +288,13 @@ namespace Dino.Plugins.TorManager {
                 if (this.tor_process == proc) { // if still the active process
                     int status = proc.get_exit_status();
                     warning("Tor process exited unexpectedly with status: %d", status);
+                    if (status != 0) {
+                        warning("--- Last Tor Logs ---");
+                        foreach (string l in last_log_lines) {
+                            warning("%s", l);
+                        }
+                        warning("---------------------");
+                    }
                     is_running = false;
                     tor_process = null;
                     process_exited(status);
@@ -288,7 +325,10 @@ namespace Dino.Plugins.TorManager {
                         }
                     }
 
-                    debug("[Tor %s] %s", type, line);
+                    string log_entry = "[Tor %s] %s".printf(type, line);
+                    debug("%s", log_entry);
+                    last_log_lines.add(log_entry);
+                    if (last_log_lines.size > 20) last_log_lines.remove_at(0);
                 }
             } catch (Error e) {
                  debug("[TOR-READ-ERROR-%s] %s", type, e.message);

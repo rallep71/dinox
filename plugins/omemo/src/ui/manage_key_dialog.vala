@@ -57,7 +57,7 @@ public class ManageKeyDialog : Gtk.Window {
         verify_yes_button.clicked.connect(() => {
             confirm_image.set_from_icon_name("security-high-symbolic");
             confirm_title_label.label = _("Verify key");
-            confirm_desc_label.set_markup(_("Future messages sent by %s from the device that uses this key will be highlighted accordingly in the chat window.").printf(@"<b>$(device[db.identity_meta.address_name])</b>"));
+            confirm_desc_label.set_markup(_("Future messages sent by %s from the device that uses this key will be highlighted accordingly in the chat window.").printf(@"<b>$(Markup.escape_text(device[db.identity_meta.address_name]))</b>"));
             manage_stack.set_visible_child_name("confirm");
             ok_button.sensitive = true;
             return_to_main = false;
@@ -68,7 +68,7 @@ public class ManageKeyDialog : Gtk.Window {
             return_to_main = false;
             confirm_image.set_from_icon_name("dialog-warning-symbolic");
             confirm_title_label.label = _("Fingerprints do not match");
-            confirm_desc_label.set_markup(_("Please verify that you are comparing the correct fingerprint. If fingerprints do not match, %s's account may be compromised and you should consider rejecting this key.").printf(@"<b>$(device[db.identity_meta.address_name])</b>"));
+            confirm_desc_label.set_markup(_("Please verify that you are comparing the correct fingerprint. If fingerprints do not match, %s's account may be compromised and you should consider rejecting this key.").printf(@"<b>$(Markup.escape_text(device[db.identity_meta.address_name]))</b>"));
             manage_stack.set_visible_child_name("confirm");
         });
     }
@@ -128,16 +128,16 @@ public class ManageKeyDialog : Gtk.Window {
 
         switch((TrustLevel) device[db.identity_meta.trust_level]) {
             case TrustLevel.TRUSTED:
-                main_desc_label.set_markup(_("This key is currently %s.").printf("<span color='#1A63D9'>"+_("accepted")+"</span>")+" "+_("This means it can be used by %s to receive and send encrypted messages.").printf(@"<b>$(device[db.identity_meta.address_name])</b>"));
+                main_desc_label.set_markup(_("This key is currently %s.").printf("<span color='#1A63D9'>"+_("accepted")+"</span>")+" "+_("This means it can be used by %s to receive and send encrypted messages.").printf(@"<b>$(Markup.escape_text(device[db.identity_meta.address_name]))</b>"));
                 main_action_list.append(verify_row);
                 main_action_list.append(reject_row);
                 break;
             case TrustLevel.VERIFIED:
-                main_desc_label.set_markup(_("This key is currently %s.").printf("<span color='#1A63D9'>"+_("verified")+"</span>")+" "+_("This means it can be used by %s to receive and send encrypted messages.").printf(@"<b>$(device[db.identity_meta.address_name])</b>") + " " + _("Additionally it has been verified to match the key on the contact's device."));
+                main_desc_label.set_markup(_("This key is currently %s.").printf("<span color='#1A63D9'>"+_("verified")+"</span>")+" "+_("This means it can be used by %s to receive and send encrypted messages.").printf(@"<b>$(Markup.escape_text(device[db.identity_meta.address_name]))</b>") + " " + _("Additionally it has been verified to match the key on the contact's device."));
                 main_action_list.append(reject_row);
                 break;
             case TrustLevel.UNTRUSTED:
-                main_desc_label.set_markup(_("This key is currently %s.").printf("<span color='#D91900'>"+_("rejected")+"</span>")+" "+_("This means it cannot be used by %s to decipher your messages, and you won't see messages encrypted with it.").printf(@"<b>$(device[db.identity_meta.address_name])</b>"));
+                main_desc_label.set_markup(_("This key is currently %s.").printf("<span color='#D91900'>"+_("rejected")+"</span>")+" "+_("This means it cannot be used by %s to decipher your messages, and you won't see messages encrypted with it.").printf(@"<b>$(Markup.escape_text(device[db.identity_meta.address_name]))</b>"));
                 main_action_list.append(accept_row);
                 break;
             default:
@@ -151,7 +151,7 @@ public class ManageKeyDialog : Gtk.Window {
             } else if (row == reject_row) {
                 confirm_image.set_from_icon_name("action-unavailable-symbolic");
                 confirm_title_label.label = _("Reject key");
-                confirm_desc_label.set_markup(_("You won't see encrypted messages from the device of %s that uses this key. Conversely, that device won't be able to decipher your messages anymore.").printf(@"<b>$(device[db.identity_meta.address_name])</b>"));
+                confirm_desc_label.set_markup(_("You won't see encrypted messages from the device of %s that uses this key. Conversely, that device won't be able to decipher your messages anymore.").printf(@"<b>$(Markup.escape_text(device[db.identity_meta.address_name]))</b>"));
                 manage_stack.set_visible_child_name("confirm");
                 ok_button.sensitive = true;
                 return_to_main = true;
@@ -159,7 +159,7 @@ public class ManageKeyDialog : Gtk.Window {
             } else if (row == accept_row) {
                 confirm_image.set_from_icon_name("check-plain-symbolic");
                 confirm_title_label.label = _("Accept key");
-                confirm_desc_label.set_markup(_("You will be able to exchange encrypted messages with the device of %s that uses this key.").printf(@"<b>$(device[db.identity_meta.address_name])</b>"));
+                confirm_desc_label.set_markup(_("You will be able to exchange encrypted messages with the device of %s that uses this key.").printf(@"<b>$(Markup.escape_text(device[db.identity_meta.address_name]))</b>"));
                 manage_stack.set_visible_child_name("confirm");
                 ok_button.sensitive = true;
                 return_to_main = true;
