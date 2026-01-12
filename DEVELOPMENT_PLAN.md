@@ -121,6 +121,15 @@ Focus: make GitHub release assets reliable for end users (Flatpak/AppImage).
 
 ## Roadmap (Next Work)
 
+### v0.9.8.0 (Audio & Usability Polish)
+
+Focus: Refined audio control and user experience enhancements.
+
+| Item | Description | Status |
+|------|-------------|--------|
+| **Adjustable Audio Gain** | UI slider to control WebRTC digital gain (compression_gain_db) in real-time | TODO |
+| **Input Device Selection** | Explicit selection of audio input device (Microphone) in settings, independent of system defaults | TODO |
+
 ### v0.9.4.0 (Call Quality & Performance)
 
 Focus: Audio/Video improvements and performance optimization.
