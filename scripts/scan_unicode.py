@@ -21,7 +21,7 @@ suspicious_chars = {
     '\u00A0': 'Non-Breaking Space (NBSP)' # Kann in Code tödlich sein
 }
 
-extensions = ['.vala', '.c', '.h', '.py', '.sh', '.md', '.txt']
+extensions = ['.vala', '.c', '.h', '.py', '.sh', '.md', '.txt', '.ui', '.xml', '.json', '.css', '.build', '.in', '.yml', '.yaml']
 ignore_dirs = ['build', '.git', 'icon_backup']
 
 found_issues = []

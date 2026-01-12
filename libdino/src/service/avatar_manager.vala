@@ -124,7 +124,7 @@ public class AvatarManager : StreamInteractionModule, Object {
                     FileEnumerator enumerator = old_avatars.enumerate_children("standard::*", FileQueryInfoFlags.NOFOLLOW_SYMLINKS);
                     FileInfo info = null;
                     while ((info = enumerator.next_file()) != null) {
-                        FileUtils.remove(old_avatars.get_path() + "/" + info.get_name());
+                        FileUtils.remove(Path.build_filename(old_avatars.get_path(), info.get_name()));
                     }
                     DirUtils.remove(old_avatars.get_path());
                 } catch (Error e) {

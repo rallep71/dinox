@@ -1874,23 +1874,23 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             
             // If password provided, encrypt with GPG
             if (success && backup_password != null) {
-                // Use spawn_command_line_sync for proper argument handling with quoted password
-                string gpg_command = "gpg --batch --yes --symmetric --cipher-algo AES256 --pinentry-mode loopback --passphrase %s --output %s %s".printf(
-                    Shell.quote(backup_password),
-                    Shell.quote(backup_path),
-                    Shell.quote(temp_tar_path)
-                );
+                // Use Subprocess to avoid shell quoting issues
+                string[] argv = {
+                    "gpg", "--batch", "--yes", "--symmetric", "--cipher-algo", "AES256", 
+                    "--pinentry-mode", "loopback", 
+                    "--passphrase", backup_password, 
+                    "--output", backup_path, 
+                    temp_tar_path
+                };
                 
                 string? gpg_stdout = null;
                 string? gpg_stderr = null;
                 try {
-                    Process.spawn_command_line_sync(
-                        gpg_command,
-                        out gpg_stdout,
-                        out gpg_stderr,
-                        out exit_status
-                    );
-                    success = (exit_status == 0);
+                    Subprocess proc = new Subprocess.newv(argv, SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_PIPE);
+                    proc.communicate_utf8(null, null, out gpg_stdout, out gpg_stderr);
+                    success = proc.get_successful();
+                    exit_status = proc.get_exit_status();
+                    
                     if (!success) {
                         stderr_str = gpg_stderr ?? "GPG encryption failed";
                         warning("GPG encrypt failed (exit %d): %s", exit_status, stderr_str);

@@ -74,7 +74,7 @@ public class Xmpp.StartTlsXmppStream : TlsXmppStream {
                 conn.accept_certificate.connect(on_invalid_certificate);
                 conn.accept_certificate.connect((cert, flags) => on_invalid_cert.func(cert, flags));
             } catch (Error e) {
-                stderr.printf("Failed to start TLS: %s\n", e.message);
+                warning("Failed to start TLS: %s", e.message);
             }
 
             yield setup();

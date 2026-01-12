@@ -288,7 +288,7 @@ public class Database : Qlite.Database {
                 exec("CREATE UNIQUE INDEX identity_meta_idx ON identity_meta (identity_id, address_name, device_id)");
                 exec("CREATE INDEX identity_meta_list_idx ON identity_meta (identity_id, address_name)");
             } catch (Error e) {
-                stderr.printf("Failed to migrate OMEMO database\n");
+                critical("Failed to migrate OMEMO database: %s", e.message);
                 Process.exit(-1);
             }
         }

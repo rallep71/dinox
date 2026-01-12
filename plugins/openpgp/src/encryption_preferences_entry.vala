@@ -196,12 +196,19 @@ namespace Dino.Plugins.OpenPgp {
             
             new Thread<void*>(null, () => {
                 try {
-                    // Use echo and gpg --sign to verify passphrase
-                    string cmd = "echo -n 'test' | gpg --batch --yes --pinentry-mode loopback --passphrase '%s' -u %s --sign --armor -o /dev/null 2>/dev/null".printf(
-                        passphrase.replace("'", "'\\''"), key_fpr);
-                    int exit_status;
-                    Process.spawn_command_line_sync("sh -c \"" + cmd + "\"", null, null, out exit_status);
-                    success = (exit_status == 0);
+                    // Use Subprocess to avoid shell injection
+                    // Note: Passphrase is still visible in process list, but RCE is prevented.
+                    string[] argv = {
+                        "gpg", "--batch", "--yes", "--pinentry-mode", "loopback", 
+                        "--passphrase", passphrase, 
+                        "-u", key_fpr, 
+                        "--sign", "--armor", "-o", "/dev/null"
+                    };
+
+                    Subprocess proc = new Subprocess.newv(argv, SubprocessFlags.STDIN_PIPE);
+                    proc.communicate_utf8("test", null, null, null);
+                    
+                    success = proc.get_successful();
                 } catch (Error e) { warning(e.message); }
                 Idle.add((owned)callback);
                 return null;

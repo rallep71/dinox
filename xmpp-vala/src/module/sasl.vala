@@ -201,7 +201,7 @@ namespace Xmpp.Sasl {
                 flag.name = name;
                 stream.add_flag(flag);
             } else {
-                stderr.printf("No supported mechanism provided by server at %s\n", stream.remote_name.to_string());
+                warning("No supported mechanism provided by server at %s", stream.remote_name.to_string());
                 return;
             }
         }

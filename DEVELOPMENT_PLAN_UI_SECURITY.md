@@ -20,7 +20,22 @@ Hidden Unicode characters (Zero-width spaces, Bidi-overrides, etc.) can be used 
     *   **Action**: Integrate `scripts/scan_unicode.py` into the CI pipeline.
     *   **Goal**: Prevent any Pull Request from merging if it introduces unsuspecting dangerous characters.
 
-## Part 2: UI/UX Consistency (GTK4 & Libadwaita)
+## Part 1.5: Deep Code Audit (Results & Todo)
+
+### Completed Tasks
+*   **Unicode Sanitization**: Removed dangerous invisible characters from source code.
+*   **Command Injection Fixes**: Replaced `Process.spawn_command_line_sync("sh -c ...")` with `GLib.Subprocess` (direct execution without shell) in `application.vala` and `encryption_preferences_entry.vala`.
+*   **Path Traversal Prevention**: Fixed manual string concatenation for paths in `avatar_manager.vala` (replaced with `Path.build_filename`).
+*   **Error Handling**: Replaced `stderr.printf` with `warning()` or `critical()` in D-Bus modules and TLS stream handling for proper system logging.
+
+### Pending Refactoring (Technical Debt)
+1.  **Asserts in Release Code**:
+    *   **Problem**: Found ~40 uses of `assert()` in production code. This causes hard crashes instead of error handling.
+    *   **Plan**: Replace critical `assert()` with `return_if_fail()` or exception throwing.
+2.  **OMEMO Key Generation**:
+    *   **Problem**: `plugins/omemo/src/protocol/stream_module.vala` uses `Random.int_range` for key IDs (Comment: "TODO: No random, use ordered number").
+    *   **Risk**: Low (Collision unlikely), but non-compliant with Signal spec.
+    *   **Plan**: Implement a persistent counter for key IDs.
 
 ### Problem Analysis
 While DinoX has successfully migrated core windows to GTK4 and Libadwaita (`Adw.Dialog`, `Adw.Window`), visual inconsistencies ("Inkontinenz") likely stem from:
