@@ -49,8 +49,8 @@ public class EncryptionListEntry : Plugins.EncryptionListEntry, Object {
             input_status_callback(new Plugins.InputFieldStatus("Can't use encryption in a groupchat private message.", Plugins.InputFieldStatus.MessageType.ERROR, Plugins.InputFieldStatus.InputState.NO_SEND));
             return;
         }
-        MucManager muc_manager = plugin.app.stream_interactor.get_module(MucManager.IDENTITY);
-        Manager omemo_manager = plugin.app.stream_interactor.get_module(Manager.IDENTITY);
+        MucManager muc_manager = plugin.app.stream_interactor.get_module<MucManager>(MucManager.IDENTITY);
+        Manager omemo_manager = plugin.app.stream_interactor.get_module<Manager>(Manager.IDENTITY);
 
         if (muc_manager.is_private_room(conversation.account, conversation.counterpart)) {
             var offline_members = muc_manager.get_offline_members(conversation.counterpart, conversation.account);

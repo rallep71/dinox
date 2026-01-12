@@ -234,7 +234,7 @@ public class Dino.Ui.FreeDesktopNotifier : NotificationProvider, Object {
         try {
             uint32 notification_id = yield dbus_notifications.notify("Dino", 0, "", summary, body, actions, hash_table, -1);
 
-            Conversation group_conversation = stream_interactor.get_module(ConversationManager.IDENTITY).create_conversation(room_jid, account, Conversation.Type.GROUPCHAT);
+            Conversation group_conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).create_conversation(room_jid, account, Conversation.Type.GROUPCHAT);
             add_action_listener(notification_id, "default", () => {
                 GLib.Application.get_default().activate_action("open-muc-join", new Variant.int32(group_conversation.id));
             });

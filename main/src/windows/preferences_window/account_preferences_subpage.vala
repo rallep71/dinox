@@ -383,7 +383,7 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
         if (stream == null) return;
 
         // Try VCard4 (XEP-0292) first
-        var vcard4_module = stream.get_module(Xmpp.Xep.VCard4.Module.IDENTITY);
+        var vcard4_module = stream.get_module<Xmpp.Xep.VCard4.Module>(Xmpp.Xep.VCard4.Module.IDENTITY);
         if (vcard4_module != null) {
             var vcard4 = yield vcard4_module.request(stream, account.bare_jid);
             if (vcard4 != null) {
@@ -417,7 +417,7 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
                 if (vcard4.adr_country != null) vcard_adr_country.text = vcard4.adr_country;
                 
                 // Check access model
-                var pubsub_module = stream.get_module(Xmpp.Xep.Pubsub.Module.IDENTITY);
+                var pubsub_module = stream.get_module<Xmpp.Xep.Pubsub.Module>(Xmpp.Xep.Pubsub.Module.IDENTITY);
                 if (pubsub_module != null) {
                     var config = yield pubsub_module.request_node_config(stream, null, "urn:ietf:params:xml:ns:vcard-4.0");
                     if (config != null) {
@@ -519,7 +519,7 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
         }
 
         // 2. Save VCard4 (XEP-0292)
-        var vcard4_module = stream.get_module(Xmpp.Xep.VCard4.Module.IDENTITY);
+        var vcard4_module = stream.get_module<Xmpp.Xep.VCard4.Module>(Xmpp.Xep.VCard4.Module.IDENTITY);
         if (vcard4_module != null) {
             print("AccountPreferences: Saving VCard4...\n");
             var vcard4 = new Xmpp.Xep.VCard4.VCard4.create();
@@ -592,7 +592,7 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
         }
 
         // 3. Publish PEP Nickname (XEP-0172) for compatibility (e.g. Gajim)
-        var pubsub_module = stream.get_module(Xmpp.Xep.Pubsub.Module.IDENTITY);
+        var pubsub_module = stream.get_module<Xmpp.Xep.Pubsub.Module>(Xmpp.Xep.Pubsub.Module.IDENTITY);
         if (pubsub_module != null && vcard_nickname.text != "") {
             print("AccountPreferences: Publishing PEP Nickname...\n");
             var nick_node = new StanzaNode.build("nick", "http://jabber.org/protocol/nick");

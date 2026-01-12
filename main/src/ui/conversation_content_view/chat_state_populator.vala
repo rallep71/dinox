@@ -19,12 +19,12 @@ class ChatStatePopulator : Plugins.ConversationItemPopulator, Plugins.Conversati
     public ChatStatePopulator(StreamInteractor stream_interactor) {
         this.stream_interactor = stream_interactor;
 
-        stream_interactor.get_module(CounterpartInteractionManager.IDENTITY).received_state.connect((conversation, state) => {
+        stream_interactor.get_module<CounterpartInteractionManager>(CounterpartInteractionManager.IDENTITY).received_state.connect((conversation, state) => {
             if (current_conversation != null && current_conversation.equals(conversation)) {
                 update_chat_state();
             }
         });
-        stream_interactor.get_module(MessageProcessor.IDENTITY).message_sent.connect((message, conversation) => {
+        stream_interactor.get_module<MessageProcessor>(MessageProcessor.IDENTITY).message_sent.connect((message, conversation) => {
             if (conversation.equals(current_conversation)) {
                 update_chat_state();
             }
@@ -44,7 +44,7 @@ class ChatStatePopulator : Plugins.ConversationItemPopulator, Plugins.Conversati
     public void populate_timespan(Conversation conversation, DateTime from, DateTime to) { }
 
     private void update_chat_state() {
-        Gee.List<Jid>? typing_jids = stream_interactor.get_module(CounterpartInteractionManager.IDENTITY).get_typing_jids(current_conversation);
+        Gee.List<Jid>? typing_jids = stream_interactor.get_module<CounterpartInteractionManager>(CounterpartInteractionManager.IDENTITY).get_typing_jids(current_conversation);
 
         if (meta_item != null && typing_jids == null) {
             // Remove state (stoped typing)

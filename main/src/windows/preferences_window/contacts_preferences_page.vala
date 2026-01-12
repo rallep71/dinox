@@ -34,7 +34,7 @@ public class Dino.Ui.PreferencesWindowContacts : Adw.PreferencesPage {
         if (!signals_connected) {
             model.update.connect(refresh);
             
-            var roster_manager = model.stream_interactor.get_module(RosterManager.IDENTITY);
+            var roster_manager = model.stream_interactor.get_module<RosterManager>(RosterManager.IDENTITY);
             roster_manager.updated_roster_item.connect((account, jid, roster_item) => {
                 refresh();
             });
@@ -45,7 +45,7 @@ public class Dino.Ui.PreferencesWindowContacts : Adw.PreferencesPage {
                 refresh();
             });
             
-            var blocking_manager = model.stream_interactor.get_module(BlockingManager.IDENTITY);
+            var blocking_manager = model.stream_interactor.get_module<BlockingManager>(BlockingManager.IDENTITY);
             blocking_manager.block_changed.connect((account, jid) => {
                 refresh();
             });
@@ -85,7 +85,7 @@ public class Dino.Ui.PreferencesWindowContacts : Adw.PreferencesPage {
         foreach (Account account in model.stream_interactor.get_accounts()) {
             if (!account.enabled) continue;
             
-            var roster = model.stream_interactor.get_module(RosterManager.IDENTITY).get_roster(account);
+            var roster = model.stream_interactor.get_module<RosterManager>(RosterManager.IDENTITY).get_roster(account);
             if (roster == null) continue;
 
             foreach (Roster.Item roster_item in roster) {
@@ -107,7 +107,7 @@ public class Dino.Ui.PreferencesWindowContacts : Adw.PreferencesPage {
             row.subtitle = contact_info.jid.to_string();
 
             // Avatar and conversation
-            var conversation = model.stream_interactor.get_module(ConversationManager.IDENTITY)
+            var conversation = model.stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY)
                 .create_conversation(contact_info.jid, contact_info.account, Conversation.Type.CHAT);
             var avatar_model = new ViewModel.CompatAvatarPictureModel(model.stream_interactor).set_conversation(conversation);
             row.add_prefix(new AvatarPicture() { valign=Align.CENTER, height_request=35, width_request=35, model = avatar_model });
@@ -134,7 +134,7 @@ public class Dino.Ui.PreferencesWindowContacts : Adw.PreferencesPage {
             mute_button.tooltip_text = is_muted ? _("Unmute") : _("Mute");
             
             mute_button.clicked.connect(() => {
-                var conv = model.stream_interactor.get_module(ConversationManager.IDENTITY)
+                var conv = model.stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY)
                     .create_conversation(contact_info.jid, contact_info.account, Conversation.Type.CHAT);
                 bool currently_muted = conv.get_notification_setting(model.stream_interactor) == Conversation.NotifySetting.OFF;
                 on_mute_contact(contact_info.account, contact_info.jid, currently_muted, conv);
@@ -143,7 +143,7 @@ public class Dino.Ui.PreferencesWindowContacts : Adw.PreferencesPage {
             row.add_suffix(mute_button);
 
             // Block button
-            bool is_blocked = model.stream_interactor.get_module(BlockingManager.IDENTITY).is_blocked(contact_info.account, contact_info.jid);
+            bool is_blocked = model.stream_interactor.get_module<BlockingManager>(BlockingManager.IDENTITY).is_blocked(contact_info.account, contact_info.jid);
             var block_button = new Button.from_icon_name(is_blocked ? "action-unavailable-symbolic" : "action-unavailable-symbolic");
             block_button.valign = Align.CENTER;
             block_button.add_css_class("flat");
@@ -155,7 +155,7 @@ public class Dino.Ui.PreferencesWindowContacts : Adw.PreferencesPage {
             
             block_button.clicked.connect(() => {
                 // Check current status at click time, not at button creation time
-                bool currently_blocked = model.stream_interactor.get_module(BlockingManager.IDENTITY).is_blocked(contact_info.account, contact_info.jid);
+                bool currently_blocked = model.stream_interactor.get_module<BlockingManager>(BlockingManager.IDENTITY).is_blocked(contact_info.account, contact_info.jid);
                 on_block_contact(contact_info.account, contact_info.jid, currently_blocked);
             });
             
@@ -248,7 +248,7 @@ public class Dino.Ui.PreferencesWindowContacts : Adw.PreferencesPage {
 
             dialog.response.connect((response) => {
                 if (response == "unblock") {
-                    model.stream_interactor.get_module(BlockingManager.IDENTITY).unblock(account, jid);
+                    model.stream_interactor.get_module<BlockingManager>(BlockingManager.IDENTITY).unblock(account, jid);
                     refresh();
                 }
             });
@@ -268,7 +268,7 @@ public class Dino.Ui.PreferencesWindowContacts : Adw.PreferencesPage {
 
             dialog.response.connect((response) => {
                 if (response == "block") {
-                    model.stream_interactor.get_module(BlockingManager.IDENTITY).block(account, jid);
+                    model.stream_interactor.get_module<BlockingManager>(BlockingManager.IDENTITY).block(account, jid);
                     refresh();
                 }
             });
@@ -291,16 +291,16 @@ public class Dino.Ui.PreferencesWindowContacts : Adw.PreferencesPage {
         dialog.response.connect((response) => {
             if (response == "remove") {
                 // Get conversation and clear history first
-                var conversation = model.stream_interactor.get_module(ConversationManager.IDENTITY)
+                var conversation = model.stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY)
                     .get_conversation(jid.bare_jid, account, Conversation.Type.CHAT);
                 
                 if (conversation != null) {
-                    model.stream_interactor.get_module(ConversationManager.IDENTITY).clear_conversation_history(conversation);
-                    model.stream_interactor.get_module(ConversationManager.IDENTITY).close_conversation(conversation);
+                    model.stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).clear_conversation_history(conversation);
+                    model.stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).close_conversation(conversation);
                 }
                 
                 // Remove from roster (list will auto-refresh via removed_roster_item signal)
-                model.stream_interactor.get_module(RosterManager.IDENTITY).remove_jid(account, jid);
+                model.stream_interactor.get_module<RosterManager>(RosterManager.IDENTITY).remove_jid(account, jid);
             }
         });
 
@@ -337,7 +337,7 @@ public class Dino.Ui.PreferencesWindowContacts : Adw.PreferencesPage {
             // Check for duplicate aliases (excluding current contact)
             if (new_alias != "" && new_alias != current_alias) {
                 foreach (Account acc in model.stream_interactor.get_accounts()) {
-                    var roster = model.stream_interactor.get_module(RosterManager.IDENTITY).get_roster(acc);
+                    var roster = model.stream_interactor.get_module<RosterManager>(RosterManager.IDENTITY).get_roster(acc);
                     if (roster == null) continue;
                     
                     foreach (Roster.Item item in roster) {
@@ -368,7 +368,7 @@ public class Dino.Ui.PreferencesWindowContacts : Adw.PreferencesPage {
                 string? alias_to_set = new_alias == "" ? null : new_alias;
                 
                 // Update roster item alias
-                model.stream_interactor.get_module(RosterManager.IDENTITY).set_jid_handle(account, jid, alias_to_set);
+                model.stream_interactor.get_module<RosterManager>(RosterManager.IDENTITY).set_jid_handle(account, jid, alias_to_set);
             }
         });
         

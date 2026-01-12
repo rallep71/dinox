@@ -20,18 +20,18 @@ protected class RosterList {
         this.stream_interactor = stream_interactor;
         this.accounts = accounts;
 
-        handler_ids += stream_interactor.get_module(RosterManager.IDENTITY).removed_roster_item.connect( (account, jid) => {
+        handler_ids += stream_interactor.get_module<RosterManager>(RosterManager.IDENTITY).removed_roster_item.connect( (account, jid) => {
             if (accounts.contains(account)) {
                 remove_row(account, jid);
             }
         });
-        handler_ids += stream_interactor.get_module(RosterManager.IDENTITY).updated_roster_item.connect( (account, jid) => {
+        handler_ids += stream_interactor.get_module<RosterManager>(RosterManager.IDENTITY).updated_roster_item.connect( (account, jid) => {
             if (accounts.contains(account)) {
                 update_row(account, jid);
             }
         });
         list_box.destroy.connect(() => {
-            foreach (ulong handler_id in handler_ids) stream_interactor.get_module(RosterManager.IDENTITY).disconnect(handler_id);
+            foreach (ulong handler_id in handler_ids) stream_interactor.get_module<RosterManager>(RosterManager.IDENTITY).disconnect(handler_id);
         });
 
         foreach (Account a in accounts) fetch_roster_items(a);
@@ -56,7 +56,7 @@ protected class RosterList {
 
     private void fetch_roster_items(Account account) {
         rows[account] = new HashMap<Jid, ListBoxRow>(Jid.hash_func, Jid.equals_func);
-        foreach (Roster.Item roster_item in stream_interactor.get_module(RosterManager.IDENTITY).get_roster(account)) {
+        foreach (Roster.Item roster_item in stream_interactor.get_module<RosterManager>(RosterManager.IDENTITY).get_roster(account)) {
             update_row(account, roster_item.jid);
         }
     }

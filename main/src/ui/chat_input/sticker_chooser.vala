@@ -298,7 +298,7 @@ public class StickerChooser : Popover {
         new Thread<void*>("sticker-thumb-worker", () => {
             while (true) {
                 ThumbJob job = thumb_queue.pop();
-                var stickers = stream_interactor.get_module(Dino.Stickers.IDENTITY);
+                var stickers = stream_interactor.get_module<Dino.Stickers>(Dino.Stickers.IDENTITY);
 
                 // Decode/scaling can be expensive (especially animated WebP). Do it off the UI thread.
                 Pixbuf? pixbuf = null;
@@ -383,7 +383,7 @@ public class StickerChooser : Popover {
         var app = Dino.Application.get_default();
         if (!app.settings.stickers_enabled) return;
 
-        var stickers = stream_interactor.get_module(Dino.Stickers.IDENTITY);
+        var stickers = stream_interactor.get_module<Dino.Stickers>(Dino.Stickers.IDENTITY);
         if (stickers == null) {
             empty_label.label = _("Stickers are unavailable");
             return;
@@ -533,7 +533,7 @@ public class StickerChooser : Popover {
         string pack_id = packs[(int) pack_index].pack_id;
         current_pack_id = pack_id;
 
-        var stickers = stream_interactor.get_module(Dino.Stickers.IDENTITY);
+        var stickers = stream_interactor.get_module<Dino.Stickers>(Dino.Stickers.IDENTITY);
         if (stickers == null) return;
 
         var items = stickers.get_items(conversation.account, pack_id);
@@ -557,7 +557,7 @@ public class StickerChooser : Popover {
         if (conversation == null) return;
         if (current_pack_id == null) return;
 
-        var stickers_click = stream_interactor.get_module(Dino.Stickers.IDENTITY);
+        var stickers_click = stream_interactor.get_module<Dino.Stickers>(Dino.Stickers.IDENTITY);
         if (stickers_click == null) return;
         stickers_click.send_sticker.begin(conversation, current_pack_id, item, (obj, res) => {
             try {

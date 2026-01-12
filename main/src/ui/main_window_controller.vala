@@ -21,17 +21,17 @@ public class MainWindowController : Object {
         this.stream_interactor = stream_interactor;
         this.db = db;
 
-        stream_interactor.get_module(ConversationManager.IDENTITY).conversation_deactivated.connect(check_unset_conversation);
+        stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).conversation_deactivated.connect(check_unset_conversation);
         stream_interactor.account_removed.connect(check_unset_conversation);
 
         SimpleAction jump_to_conversatio_message_action = new SimpleAction("jump-to-conversation-message", new VariantType.tuple(new VariantType[]{VariantType.INT32, VariantType.INT32}));
         jump_to_conversatio_message_action.activate.connect((variant) => {
             int conversation_id = variant.get_child_value(0).get_int32();
-            Conversation? conversation = stream_interactor.get_module(ConversationManager.IDENTITY).get_conversation_by_id(conversation_id);
+            Conversation? conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_conversation_by_id(conversation_id);
             if (conversation == null || !this.conversation.equals(conversation)) return;
 
             int item_id = variant.get_child_value(1).get_int32();
-            ContentItem? content_item = stream_interactor.get_module(ContentItemStore.IDENTITY).get_item_by_id(conversation, item_id);
+            ContentItem? content_item = stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).get_item_by_id(conversation, item_id);
 
             select_conversation(conversation, false, false);
             window.conversation_view.conversation_frame.initialize_around_message(conversation, content_item);
@@ -81,7 +81,7 @@ public class MainWindowController : Object {
 //        ConversationListModel list_model = new ConversationListModel(stream_interactor);
 //        list_model.closed_conversation.connect((conversation) => {
 //            print(@"closed $(conversation.counterpart.bare_jid)\n");
-//            stream_interactor.get_module(ConversationManager.IDENTITY).close_conversation(conversation);
+//            stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).close_conversation(conversation);
 //        });
 //        SingleSelection selection_model = new SingleSelection(list_model) { autoselect=false };
 //        selection_model.notify["selected-item"].connect(() => {
@@ -111,18 +111,18 @@ public class MainWindowController : Object {
         EventControllerFocus focus_event_controller = new EventControllerFocus();
         window_widget.add_controller(focus_event_controller);
         focus_event_controller.enter.connect(() => {
-            stream_interactor.get_module(ChatInteraction.IDENTITY).on_window_focus_in(conversation);
+            stream_interactor.get_module<ChatInteraction>(ChatInteraction.IDENTITY).on_window_focus_in(conversation);
         });
         focus_event_controller.leave.connect(() => {
-            stream_interactor.get_module(ChatInteraction.IDENTITY).on_window_focus_out(conversation);
+            stream_interactor.get_module<ChatInteraction>(ChatInteraction.IDENTITY).on_window_focus_out(conversation);
         });
 
         window.conversation_selected.connect(conversation => select_conversation(conversation));
 
         stream_interactor.account_added.connect((account) => { update_stack_state(true); });
         stream_interactor.account_removed.connect((account) => { update_stack_state(); });
-        stream_interactor.get_module(ConversationManager.IDENTITY).conversation_activated.connect(() => update_stack_state());
-        stream_interactor.get_module(ConversationManager.IDENTITY).conversation_deactivated.connect(() => update_stack_state());
+        stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).conversation_activated.connect(() => update_stack_state());
+        stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).conversation_deactivated.connect(() => update_stack_state());
         update_stack_state();
     }
 
@@ -134,7 +134,7 @@ public class MainWindowController : Object {
 
         Dino.Ui.UiTiming.log_ms("MainWindowController.select_conversation: view_controller", t0_us);
 
-        stream_interactor.get_module(ChatInteraction.IDENTITY).on_conversation_selected(conversation);
+        stream_interactor.get_module<ChatInteraction>(ChatInteraction.IDENTITY).on_conversation_selected(conversation);
         conversation.active = true; // only for conversation_selected
         window.conversation_selector.on_conversation_selected(conversation); // In case selection was not via ConversationSelector
 
@@ -148,7 +148,7 @@ public class MainWindowController : Object {
     }
 
     private void check_unset_conversation() {
-        if (stream_interactor.get_module(ConversationManager.IDENTITY).get_active_conversations().size == 0) {
+        if (stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_active_conversations().size == 0) {
             unset_conversation();
         }
     }
@@ -171,7 +171,7 @@ public class MainWindowController : Object {
             } else {
                 window.set_stack_state(MainWindow.StackState.NO_ACTIVE_ACCOUNTS);
             }
-        } else if (stream_interactor.get_module(ConversationManager.IDENTITY).get_active_conversations().size == 0) {
+        } else if (stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_active_conversations().size == 0) {
             window.set_stack_state(MainWindow.StackState.NO_ACTIVE_CONVERSATIONS);
         } else {
             window.set_stack_state(MainWindow.StackState.CONVERSATION);

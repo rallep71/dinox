@@ -10,16 +10,16 @@ public class Module : XmppStreamModule, SecurityPrecondition {
     private HashMap<string, Cipher> ciphers = new HashMap<string, Cipher>();
 
     public override void attach(XmppStream stream) {
-        stream.get_module(ServiceDiscovery.Module.IDENTITY).add_feature(stream, NS_URI);
-        stream.get_module(Jingle.Module.IDENTITY).register_security_precondition(this);
+        stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).add_feature(stream, NS_URI);
+        stream.get_module<Jingle.Module>(Jingle.Module.IDENTITY).register_security_precondition(this);
     }
 
     public override void detach(XmppStream stream) {
-        stream.get_module(ServiceDiscovery.Module.IDENTITY).remove_feature(stream, NS_URI);
+        stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).remove_feature(stream, NS_URI);
     }
 
     public async bool is_available(XmppStream stream, Jid full_jid) {
-        return yield stream.get_module(ServiceDiscovery.Module.IDENTITY).has_entity_feature(stream, full_jid, NS_URI);
+        return yield stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).has_entity_feature(stream, full_jid, NS_URI);
     }
 
     public void register_envelop_encoding(EnvelopEncoding encoding) {

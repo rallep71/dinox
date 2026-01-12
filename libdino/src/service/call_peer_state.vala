@@ -43,9 +43,9 @@ public class Dino.PeerState : Object {
         this.call = call;
         this.call_state = call_state;
         this.stream_interactor = stream_interactor;
-        this.calls = stream_interactor.get_module(Calls.IDENTITY);
+        this.calls = stream_interactor.get_module<Calls>(Calls.IDENTITY);
 
-        Xep.JingleRtp.Module jinglertp_module = stream_interactor.module_manager.get_module(call.account, Xep.JingleRtp.Module.IDENTITY);
+        Xep.JingleRtp.Module jinglertp_module = stream_interactor.module_manager.get_module<Xep.JingleRtp.Module>(call.account, Xep.JingleRtp.Module.IDENTITY);
         if (jinglertp_module == null) return;
 
         var session_info_type = jinglertp_module.session_info_type;
@@ -92,11 +92,11 @@ public class Dino.PeerState : Object {
                 descriptions.add(new StanzaNode.build("description", Xep.JingleRtp.NS_URI).add_self_xmlns().put_attribute("media", "video"));
             }
 
-            stream.get_module(Xmpp.Xep.JingleMessageInitiation.Module.IDENTITY).send_session_propose_to_peer(stream, jid, sid, descriptions);
+            stream.get_module<Xmpp.Xep.JingleMessageInitiation.Module>(Xmpp.Xep.JingleMessageInitiation.Module.IDENTITY).send_session_propose_to_peer(stream, jid, sid, descriptions);
 
 //            Uncomment this use CIM instead of JMI
 //            call_state.cim_call_id = sid;
-//            stream.get_module(Xmpp.Xep.CallInvites.Module.IDENTITY).send_jingle_propose(stream, call_state.cim_call_id, jid, sid, we_should_send_video);
+//            stream.get_module<Xmpp.Xep.CallInvites.Module>(Xmpp.Xep.CallInvites.Module.IDENTITY).send_jingle_propose(stream, call_state.cim_call_id, jid, sid, we_should_send_video);
         } else if (jid_for_direct != null) {
             yield call_resource(jid_for_direct);
         }
@@ -114,7 +114,7 @@ public class Dino.PeerState : Object {
 
         Xep.Jingle.Session session;
         try {
-            session = yield stream.get_module(Xep.JingleRtp.Module.IDENTITY).start_call(stream, full_jid, we_should_send_video, sid, group_call != null ? group_call.muc_jid : null);
+            session = yield stream.get_module<Xep.JingleRtp.Module>(Xep.JingleRtp.Module.IDENTITY).start_call(stream, full_jid, we_should_send_video, sid, group_call != null ? group_call.muc_jid : null);
         } catch (Xep.Jingle.Error e) {
             warning("Failed to start call: %s", e.message);
             return;
@@ -151,8 +151,8 @@ public class Dino.PeerState : Object {
             XmppStream stream = stream_interactor.get_stream(call.account);
             if (stream == null) return;
 
-            stream.get_module(Xep.JingleMessageInitiation.Module.IDENTITY).send_session_accept_to_self(stream, sid);
-            stream.get_module(Xep.JingleMessageInitiation.Module.IDENTITY).send_session_proceed_to_peer(stream, jid, sid);
+            stream.get_module<Xep.JingleMessageInitiation.Module>(Xep.JingleMessageInitiation.Module.IDENTITY).send_session_accept_to_self(stream, sid);
+            stream.get_module<Xep.JingleMessageInitiation.Module>(Xep.JingleMessageInitiation.Module.IDENTITY).send_session_proceed_to_peer(stream, jid, sid);
         }
     }
 
@@ -166,8 +166,8 @@ public class Dino.PeerState : Object {
             XmppStream stream = stream_interactor.get_stream(call.account);
             if (stream == null) return;
 
-            stream.get_module(Xep.JingleMessageInitiation.Module.IDENTITY).send_session_reject_to_peer(stream, jid, sid);
-            stream.get_module(Xep.JingleMessageInitiation.Module.IDENTITY).send_session_reject_to_self(stream, sid);
+            stream.get_module<Xep.JingleMessageInitiation.Module>(Xep.JingleMessageInitiation.Module.IDENTITY).send_session_reject_to_peer(stream, jid, sid);
+            stream.get_module<Xep.JingleMessageInitiation.Module>(Xep.JingleMessageInitiation.Module.IDENTITY).send_session_reject_to_self(stream, sid);
         }
     }
 
@@ -187,7 +187,7 @@ public class Dino.PeerState : Object {
                     // Only a JMI so far
                     XmppStream? stream = stream_interactor.get_stream(call.account);
                     if (stream == null) return;
-                    stream.get_module(Xep.JingleMessageInitiation.Module.IDENTITY).send_session_retract_to_peer(stream, jid, sid);
+                    stream.get_module<Xep.JingleMessageInitiation.Module>(Xep.JingleMessageInitiation.Module.IDENTITY).send_session_retract_to_peer(stream, jid, sid);
                 }
                 break;
         }
@@ -200,7 +200,7 @@ public class Dino.PeerState : Object {
         Xep.JingleRtp.Stream stream = audio_content_parameter.stream;
 
         // Inform our counterpart that we (un)muted our audio
-        stream_interactor.module_manager.get_module(call.account, Xep.JingleRtp.Module.IDENTITY).session_info_type.send_mute(session, mute, "audio");
+        stream_interactor.module_manager.get_module<Xep.JingleRtp.Module>(call.account, Xep.JingleRtp.Module.IDENTITY).session_info_type.send_mute(session, mute, "audio");
 
         // Start/Stop sending audio data
         Application.get_default().plugin_registry.video_call_plugin.set_pause(stream, mute);
@@ -213,7 +213,7 @@ public class Dino.PeerState : Object {
             return;
         }
 
-        Xep.JingleRtp.Module rtp_module = stream_interactor.module_manager.get_module(call.account, Xep.JingleRtp.Module.IDENTITY);
+        Xep.JingleRtp.Module rtp_module = stream_interactor.module_manager.get_module<Xep.JingleRtp.Module>(call.account, Xep.JingleRtp.Module.IDENTITY);
 
         if (video_content_parameter != null &&
                 video_content_parameter.stream != null &&

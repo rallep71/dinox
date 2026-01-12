@@ -10,12 +10,12 @@ namespace Xmpp {
         }
 
         public T? cast(XmppStreamFlag flag) {
-#if VALA_0_56_11
+//#if VALA_0_56_11
         // We can't typecheck due to compiler bug
-        return (T) module;
-#else
-            return flag.get_type().is_a(typeof(T)) ? (T?) flag : null;
-#endif
+        return (T) flag;
+//#else
+//            return flag.get_type().is_a(typeof(T)) ? (T?) flag : null;
+//#endif
         }
 
         public bool matches(XmppStreamFlag module) {
@@ -29,22 +29,28 @@ namespace Xmpp {
         public abstract string get_id();
     }
 
-    public class ModuleIdentity<T> : Object {
-        public string ns { get; private set; }
-        public string id { get; private set; }
-
+    public class ModuleIdentity<T> : SimpleModuleIdentity {
         public ModuleIdentity(string ns, string id) {
-            this.ns = ns;
-            this.id = id;
+            base(ns, id);
         }
 
         public T? cast(XmppStreamModule module) {
-#if VALA_0_56_11
+//#if VALA_0_56_11
         // We can't typecheck due to compiler bug
         return (T) module;
-#else
-            return module.get_type().is_a(typeof(T)) ? (T?) module : null;
-#endif
+//#else
+//            return module.get_type().is_a(typeof(T)) ? (T?) module : null;
+//#endif
+        }
+    }
+
+    public class SimpleModuleIdentity : Object {
+        public string ns { get; private set; }
+        public string id { get; private set; }
+
+        public SimpleModuleIdentity(string ns, string id) {
+            this.ns = ns;
+            this.id = id;
         }
 
         public bool matches(XmppStreamModule module) {

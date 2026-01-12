@@ -49,13 +49,13 @@ namespace Xmpp.Xep.EntityCapabilities {
         }
 
         public override void attach(XmppStream stream) {
-            stream.get_module(Presence.Module.IDENTITY).pre_send_presence_stanza.connect(on_pre_send_presence_stanza);
-            stream.get_module(ServiceDiscovery.Module.IDENTITY).add_feature(stream, NS_URI);
+            stream.get_module<Presence.Module>(Presence.Module.IDENTITY).pre_send_presence_stanza.connect(on_pre_send_presence_stanza);
+            stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).add_feature(stream, NS_URI);
         }
 
         public override void detach(XmppStream stream) {
-            stream.get_module(Presence.Module.IDENTITY).pre_send_presence_stanza.disconnect(on_pre_send_presence_stanza);
-            stream.get_module(ServiceDiscovery.Module.IDENTITY).remove_feature(stream, NS_URI);
+            stream.get_module<Presence.Module>(Presence.Module.IDENTITY).pre_send_presence_stanza.disconnect(on_pre_send_presence_stanza);
+            stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).remove_feature(stream, NS_URI);
         }
 
         public override string get_ns() { return NS_URI; }

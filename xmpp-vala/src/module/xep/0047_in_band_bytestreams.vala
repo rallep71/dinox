@@ -12,10 +12,10 @@ public class Module : XmppStreamModule, Iq.Handler {
 
     public override void attach(XmppStream stream) {
         stream.add_flag(new Flag());
-        stream.get_module(Iq.Module.IDENTITY).register_for_namespace(NS_URI, this);
+        stream.get_module<Iq.Module>(Iq.Module.IDENTITY).register_for_namespace(NS_URI, this);
     }
     public override void detach(XmppStream stream) {
-        stream.get_module(Iq.Module.IDENTITY).unregister_from_namespace(NS_URI, this);
+        stream.get_module<Iq.Module>(Iq.Module.IDENTITY).unregister_from_namespace(NS_URI, this);
     }
 
     public async void on_iq_set(XmppStream stream, Iq.Stanza iq) {
@@ -25,28 +25,28 @@ public class Module : XmppStreamModule, Iq.Handler {
         node = (node != null) ? node : iq.stanza.get_subnode("data", NS_URI);
         node = (node != null) ? node : iq.stanza.get_subnode("close", NS_URI);
         if (node == null) {
-            stream.get_module(Iq.Module.IDENTITY).send_iq(stream, new Iq.Stanza.error(iq, new ErrorStanza.bad_request("unknown IBB action")) { to=iq.from });
+            stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq(stream, new Iq.Stanza.error(iq, new ErrorStanza.bad_request("unknown IBB action")) { to=iq.from });
             return;
         }
         string? sid = node.get_attribute("sid");
         if (sid == null) {
-            stream.get_module(Iq.Module.IDENTITY).send_iq(stream, new Iq.Stanza.error(iq, new ErrorStanza.bad_request("missing sid")) { to=iq.from });
+            stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq(stream, new Iq.Stanza.error(iq, new ErrorStanza.bad_request("missing sid")) { to=iq.from });
             return;
         }
         Connection? conn = stream.get_flag(Flag.IDENTITY).get_connection(sid);
         if (node.name == "open") {
             if (conn == null) {
-                stream.get_module(Iq.Module.IDENTITY).send_iq(stream, new Iq.Stanza.error(iq, new ErrorStanza.not_acceptable("unexpected IBB connection")) { to=iq.from });
+                stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq(stream, new Iq.Stanza.error(iq, new ErrorStanza.not_acceptable("unexpected IBB connection")) { to=iq.from });
                 return;
             }
             if (conn.state != Connection.State.WAITING_FOR_CONNECT) {
-                stream.get_module(Iq.Module.IDENTITY).send_iq(stream, new Iq.Stanza.error(iq, new ErrorStanza.bad_request("IBB open for already open connection")) { to=iq.from });
+                stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq(stream, new Iq.Stanza.error(iq, new ErrorStanza.bad_request("IBB open for already open connection")) { to=iq.from });
                 return;
             }
             conn.handle_open(stream, node, iq);
         } else {
             if (conn == null || conn.state != Connection.State.CONNECTED) {
-                stream.get_module(Iq.Module.IDENTITY).send_iq(stream, new Iq.Stanza.error(iq, new ErrorStanza.item_not_found()) { to=iq.from });
+                stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq(stream, new Iq.Stanza.error(iq, new ErrorStanza.item_not_found()) { to=iq.from });
                 return;
             }
             if (node.name == "close") {
@@ -244,7 +244,7 @@ public class Connection : IOStream {
             .put_node(new StanzaNode.text(Base64.encode(buffer)));
         Iq.Stanza iq = new Iq.Stanza.set(data) { to=receiver_full_jid };
         set_write_callback(write_async.callback, cancellable, io_priority);
-        stream.get_module(Iq.Module.IDENTITY).send_iq(stream, iq, (stream, iq) => {
+        stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq(stream, iq, (stream, iq) => {
             if (iq.is_error()) {
                 set_error("sending failed");
             } else if (remote_ack != seq) {
@@ -296,7 +296,7 @@ public class Connection : IOStream {
             .add_self_xmlns()
             .put_attribute("sid", sid);
         Iq.Stanza iq = new Iq.Stanza.set(close) { to=receiver_full_jid };
-        stream.get_module(Iq.Module.IDENTITY).send_iq(stream, iq, (stream, iq) => {
+        stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq(stream, iq, (stream, iq) => {
             assert(state == State.DISCONNECTING);
             if (iq.is_error()) {
                 set_error("disconnecting failed");
@@ -326,7 +326,7 @@ public class Connection : IOStream {
                 .put_attribute("sid", sid);
 
             Iq.Stanza iq = new Iq.Stanza.set(open) { to=receiver_full_jid };
-            stream.get_module(Iq.Module.IDENTITY).send_iq(stream, iq, (stream, iq) => {
+            stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq(stream, iq, (stream, iq) => {
                 if (conn.state != State.CONNECTING) {
                     assert(conn.state != State.CONNECTED);
                     return;
@@ -373,29 +373,29 @@ public class Connection : IOStream {
         string? stanza = open.get_attribute("stanza");
         if (block_size < 0 || (stanza != null && stanza != "iq" && stanza != "message")) {
             set_error("invalid open");
-            stream.get_module(Iq.Module.IDENTITY).send_iq(stream, new Iq.Stanza.error(iq, new ErrorStanza.bad_request("missing block_size or invalid stanza")) { to=iq.from });
+            stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq(stream, new Iq.Stanza.error(iq, new ErrorStanza.bad_request("missing block_size or invalid stanza")) { to=iq.from });
             return;
         }
         if (stanza != null && stanza != "iq") {
             set_error("invalid open");
-            stream.get_module(Iq.Module.IDENTITY).send_iq(stream, new Iq.Stanza.error(iq, new ErrorStanza.feature_not_implemented("cannot use message stanzas for IBB")) { to=iq.from });
+            stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq(stream, new Iq.Stanza.error(iq, new ErrorStanza.feature_not_implemented("cannot use message stanzas for IBB")) { to=iq.from });
             return;
         }
         if (block_size > this.block_size) {
             set_error("invalid open");
-            stream.get_module(Iq.Module.IDENTITY).send_iq(stream, new Iq.Stanza.error(iq, new ErrorStanza.build(ErrorStanza.TYPE_CANCEL, ErrorStanza.CONDITION_RESOURCE_CONSTRAINT, "opening a connection with a greater than negotiated/acceptable block size", null)) { to=iq.from });
+            stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq(stream, new Iq.Stanza.error(iq, new ErrorStanza.build(ErrorStanza.TYPE_CANCEL, ErrorStanza.CONDITION_RESOURCE_CONSTRAINT, "opening a connection with a greater than negotiated/acceptable block size", null)) { to=iq.from });
             return;
         }
         this.block_size = block_size;
         state = State.CONNECTED;
-        stream.get_module(Iq.Module.IDENTITY).send_iq(stream, new Iq.Stanza.result(iq));
+        stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq(stream, new Iq.Stanza.result(iq));
         trigger_write_callback();
     }
     public void handle_data(XmppStream stream, StanzaNode data, Iq.Stanza iq) {
         assert(state == State.CONNECTED);
         if (input_closed) {
             set_error("unexpected data");
-            stream.get_module(Iq.Module.IDENTITY).send_iq(stream, new Iq.Stanza.error(iq, new ErrorStanza.not_allowed("unexpected data")) { to=iq.from });
+            stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq(stream, new Iq.Stanza.error(iq, new ErrorStanza.not_allowed("unexpected data")) { to=iq.from });
             return;
         }
         int seq = data.get_attribute_int("seq");
@@ -404,17 +404,17 @@ public class Connection : IOStream {
         uint8[] content = Base64.decode(data.get_string_content());
         if (content.length > block_size) {
             set_error("data longer than negotiated block size");
-            stream.get_module(Iq.Module.IDENTITY).send_iq(stream, new Iq.Stanza.error(iq, new ErrorStanza.bad_request("data longer than negotiated block size")) { to=iq.from });
+            stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq(stream, new Iq.Stanza.error(iq, new ErrorStanza.bad_request("data longer than negotiated block size")) { to=iq.from });
             return;
         }
         if (seq < 0 || seq != remote_seq) {
             set_error("out of order data packets");
-            stream.get_module(Iq.Module.IDENTITY).send_iq(stream, new Iq.Stanza.error(iq, new ErrorStanza.build(ErrorStanza.TYPE_CANCEL, ErrorStanza.CONDITION_UNEXPECTED_REQUEST, "out of order data packets", null)) { to=iq.from });
+            stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq(stream, new Iq.Stanza.error(iq, new ErrorStanza.build(ErrorStanza.TYPE_CANCEL, ErrorStanza.CONDITION_UNEXPECTED_REQUEST, "out of order data packets", null)) { to=iq.from });
             return;
         }
         remote_seq = (remote_seq + 1) % SEQ_MODULUS;
 
-        stream.get_module(Iq.Module.IDENTITY).send_iq(stream, new Iq.Stanza.result(iq));
+        stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq(stream, new Iq.Stanza.result(iq));
         if (content.length != 0) {
             received.offer(new Bytes.take(content));
             trigger_read_callback();
@@ -422,7 +422,7 @@ public class Connection : IOStream {
     }
     public void handle_close(XmppStream stream, StanzaNode close, Iq.Stanza iq) {
         assert(state == State.CONNECTED);
-        stream.get_module(Iq.Module.IDENTITY).send_iq(stream, new Iq.Stanza.result(iq));
+        stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq(stream, new Iq.Stanza.result(iq));
         stream.get_flag(Flag.IDENTITY).remove_connection(this);
         input_closed = true;
         output_closed = true;

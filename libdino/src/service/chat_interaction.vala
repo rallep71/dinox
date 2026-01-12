@@ -27,9 +27,9 @@ public class ChatInteraction : StreamInteractionModule, Object {
     private ChatInteraction(StreamInteractor stream_interactor) {
         this.stream_interactor = stream_interactor;
         Timeout.add_seconds(30, update_interactions);
-        stream_interactor.get_module(MessageProcessor.IDENTITY).received_pipeline.connect(new ReceivedMessageListener(stream_interactor));
-        stream_interactor.get_module(MessageProcessor.IDENTITY).message_sent.connect(on_message_sent);
-        stream_interactor.get_module(ContentItemStore.IDENTITY).new_item.connect(new_item);
+        stream_interactor.get_module<MessageProcessor>(MessageProcessor.IDENTITY).received_pipeline.connect(new ReceivedMessageListener(stream_interactor));
+        stream_interactor.get_module<MessageProcessor>(MessageProcessor.IDENTITY).message_sent.connect(on_message_sent);
+        stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).new_item.connect(new_item);
     }
 
     public int get_num_unread(Conversation conversation) {
@@ -39,7 +39,7 @@ public class ChatInteraction : StreamInteractionModule, Object {
                 .with(db.content_item.conversation_id, "=", conversation.id)
                 .with(db.content_item.hide, "=", false);
 
-        ContentItem? read_up_to_item = stream_interactor.get_module(ContentItemStore.IDENTITY).get_item_by_id(conversation, conversation.read_up_to_item);
+        ContentItem? read_up_to_item = stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).get_item_by_id(conversation, conversation.read_up_to_item);
         if (read_up_to_item != null) {
             string time = read_up_to_item.time.to_unix().to_string();
             string id = read_up_to_item.id.to_string();
@@ -107,7 +107,7 @@ public class ChatInteraction : StreamInteractionModule, Object {
             }
         }
         if (mark_read) {
-            ContentItem? read_up_to = stream_interactor.get_module(ContentItemStore.IDENTITY).get_item_by_id(conversation, conversation.read_up_to_item);
+            ContentItem? read_up_to = stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).get_item_by_id(conversation, conversation.read_up_to_item);
             if (read_up_to != null) {
                 if (read_up_to.compare(item) < 0) {
                     conversation.read_up_to_item = item.id;
@@ -129,7 +129,7 @@ public class ChatInteraction : StreamInteractionModule, Object {
         focused_in(conversation);
         check_send_read();
 
-        ContentItem? latest_item = stream_interactor.get_module(ContentItemStore.IDENTITY).get_latest(conversation);
+        ContentItem? latest_item = stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).get_latest(conversation);
         if (latest_item != null) {
             conversation.read_up_to_item = latest_item.id;
         }
@@ -147,7 +147,7 @@ public class ChatInteraction : StreamInteractionModule, Object {
 
     private void check_send_read() {
         if (selected_conversation == null) return;
-        Entities.Message? message = stream_interactor.get_module(MessageStorage.IDENTITY).get_last_message(selected_conversation);
+        Entities.Message? message = stream_interactor.get_module<MessageStorage>(MessageStorage.IDENTITY).get_last_message(selected_conversation);
         if (message != null && message.direction == Entities.Message.DIRECTION_RECEIVED) {
             send_chat_marker(message, null, selected_conversation, Xep.ChatMarkers.MARKER_DISPLAYED);
         }
@@ -190,7 +190,7 @@ public class ChatInteraction : StreamInteractionModule, Object {
         public override async bool run(Entities.Message message, Xmpp.MessageStanza stanza, Conversation conversation) {
             if (Xmpp.MessageArchiveManagement.MessageFlag.get_flag(stanza) != null) return false;
 
-            ChatInteraction outer = stream_interactor.get_module(ChatInteraction.IDENTITY);
+            ChatInteraction outer = stream_interactor.get_module<ChatInteraction>(ChatInteraction.IDENTITY);
             outer.send_delivery_receipt(message, stanza, conversation);
 
             // Send chat marker
@@ -214,7 +214,7 @@ public class ChatInteraction : StreamInteractionModule, Object {
             case Xep.ChatMarkers.MARKER_RECEIVED:
                 if (stanza != null && Xep.ChatMarkers.Module.requests_marking(stanza) && message.type_ != Message.Type.GROUPCHAT) {
                     if (message.stanza_id == null) return;
-                    stream.get_module(Xep.ChatMarkers.Module.IDENTITY).send_marker(stream, message.from, message.stanza_id, message.get_type_string(), Xep.ChatMarkers.MARKER_RECEIVED);
+                    stream.get_module<Xep.ChatMarkers.Module>(Xep.ChatMarkers.Module.IDENTITY).send_marker(stream, message.from, message.stanza_id, message.get_type_string(), Xep.ChatMarkers.MARKER_RECEIVED);
                 }
                 break;
             case Xep.ChatMarkers.MARKER_DISPLAYED:
@@ -224,10 +224,10 @@ public class ChatInteraction : StreamInteractionModule, Object {
 
                     if (message.type_ == Message.Type.GROUPCHAT || message.type_ == Message.Type.GROUPCHAT_PM) {
                         if (message.server_id == null) return;
-                        stream.get_module(Xep.ChatMarkers.Module.IDENTITY).send_marker(stream, message.from.bare_jid, message.server_id, message.get_type_string(), Xep.ChatMarkers.MARKER_DISPLAYED);
+                        stream.get_module<Xep.ChatMarkers.Module>(Xep.ChatMarkers.Module.IDENTITY).send_marker(stream, message.from.bare_jid, message.server_id, message.get_type_string(), Xep.ChatMarkers.MARKER_DISPLAYED);
                     } else {
                         if (message.stanza_id == null) return;
-                        stream.get_module(Xep.ChatMarkers.Module.IDENTITY).send_marker(stream, message.from, message.stanza_id, message.get_type_string(), Xep.ChatMarkers.MARKER_DISPLAYED);
+                        stream.get_module<Xep.ChatMarkers.Module>(Xep.ChatMarkers.Module.IDENTITY).send_marker(stream, message.from, message.stanza_id, message.get_type_string(), Xep.ChatMarkers.MARKER_DISPLAYED);
                     }
                 }
                 break;
@@ -241,7 +241,7 @@ public class ChatInteraction : StreamInteractionModule, Object {
 
         XmppStream? stream = stream_interactor.get_stream(conversation.account);
         if (stream != null) {
-            stream.get_module(Xep.MessageDeliveryReceipts.Module.IDENTITY).send_received(stream, message.from, message.stanza_id);
+            stream.get_module<Xep.MessageDeliveryReceipts.Module>(Xep.MessageDeliveryReceipts.Module.IDENTITY).send_received(stream, message.from, message.stanza_id);
         }
     }
 
@@ -251,7 +251,7 @@ public class ChatInteraction : StreamInteractionModule, Object {
         XmppStream? stream = stream_interactor.get_stream(conversation.account);
         if (stream != null) {
             string message_type = conversation.type_ == Conversation.Type.GROUPCHAT ? Xmpp.MessageStanza.TYPE_GROUPCHAT : Xmpp.MessageStanza.TYPE_CHAT;
-            stream.get_module(Xep.ChatStateNotifications.Module.IDENTITY).send_state(stream, conversation.counterpart, message_type, state);
+            stream.get_module<Xep.ChatStateNotifications.Module>(Xep.ChatStateNotifications.Module.IDENTITY).send_state(stream, conversation.counterpart, message_type, state);
         }
     }
 }

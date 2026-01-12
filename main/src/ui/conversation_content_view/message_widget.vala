@@ -45,8 +45,8 @@ public class MessageMetaItem : ContentMetaItem {
         message_item = content_item as MessageItem;
         this.stream_interactor = stream_interactor;
 
-        stream_interactor.get_module(MessageCorrection.IDENTITY).received_correction.connect(on_updated_item);
-        stream_interactor.get_module(MessageDeletion.IDENTITY).item_deleted.connect(on_updated_item);
+        stream_interactor.get_module<MessageCorrection>(MessageCorrection.IDENTITY).received_correction.connect(on_updated_item);
+        stream_interactor.get_module<MessageDeletion>(MessageDeletion.IDENTITY).item_deleted.connect(on_updated_item);
 
         label.activate_link.connect(on_label_activate_link);
 
@@ -336,7 +336,7 @@ public class MessageMetaItem : ContentMetaItem {
         }
 
         if (message_item.message.quoted_item_id > 0) {
-            var quoted_content_item = stream_interactor.get_module(ContentItemStore.IDENTITY).get_item_by_id(message_item.conversation, message_item.message.quoted_item_id);
+            var quoted_content_item = stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).get_item_by_id(message_item.conversation, message_item.message.quoted_item_id);
             if (quoted_content_item != null) {
                 var quote_model = new Quote.Model.from_content_item(quoted_content_item, message_item.conversation, stream_interactor);
                 quote_model.jump_to.connect(() => {
@@ -354,7 +354,7 @@ public class MessageMetaItem : ContentMetaItem {
 
         Gee.List<Plugins.MessageAction> actions = new ArrayList<Plugins.MessageAction>();
 
-        bool correction_allowed = stream_interactor.get_module(MessageCorrection.IDENTITY).is_own_correction_allowed(message_item.conversation, message_item.message);
+        bool correction_allowed = stream_interactor.get_module<MessageCorrection>(MessageCorrection.IDENTITY).is_own_correction_allowed(message_item.conversation, message_item.message);
         if (correction_allowed) {
             Plugins.MessageAction action1 = new Plugins.MessageAction();
             action1.name = "correction";
@@ -383,7 +383,7 @@ public class MessageMetaItem : ContentMetaItem {
 
     private void on_in_edit_mode_changed() {
         if (in_edit_mode == false) return;
-        bool allowed = stream_interactor.get_module(MessageCorrection.IDENTITY).is_own_correction_allowed(message_item.conversation, message_item.message);
+        bool allowed = stream_interactor.get_module<MessageCorrection>(MessageCorrection.IDENTITY).is_own_correction_allowed(message_item.conversation, message_item.message);
         if (allowed) {
             MessageItem message_item = content_item as MessageItem;
             Message message = message_item.message;
@@ -432,8 +432,8 @@ public class MessageMetaItem : ContentMetaItem {
     }
 
     public override void dispose() {
-        stream_interactor.get_module(MessageCorrection.IDENTITY).received_correction.disconnect(on_updated_item);
-        stream_interactor.get_module(MessageDeletion.IDENTITY).item_deleted.disconnect(on_updated_item);
+        stream_interactor.get_module<MessageCorrection>(MessageCorrection.IDENTITY).received_correction.disconnect(on_updated_item);
+        stream_interactor.get_module<MessageDeletion>(MessageDeletion.IDENTITY).item_deleted.disconnect(on_updated_item);
         this.notify["in-edit-mode"].disconnect(on_in_edit_mode_changed);
         if (marked_notify_handler_id != -1) {
             this.disconnect(marked_notify_handler_id);

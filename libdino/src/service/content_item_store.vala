@@ -25,11 +25,11 @@ public class ContentItemStore : StreamInteractionModule, Object {
         this.stream_interactor = stream_interactor;
         this.db = db;
 
-        stream_interactor.get_module(FileManager.IDENTITY).received_file.connect(insert_file_transfer);
-        stream_interactor.get_module(MessageProcessor.IDENTITY).message_received.connect(announce_message);
-        stream_interactor.get_module(MessageProcessor.IDENTITY).message_sent.connect(announce_message);
-        stream_interactor.get_module(Calls.IDENTITY).call_incoming.connect(insert_call);
-        stream_interactor.get_module(Calls.IDENTITY).call_outgoing.connect(insert_call);
+        stream_interactor.get_module<FileManager>(FileManager.IDENTITY).received_file.connect(insert_file_transfer);
+        stream_interactor.get_module<MessageProcessor>(MessageProcessor.IDENTITY).message_received.connect(announce_message);
+        stream_interactor.get_module<MessageProcessor>(MessageProcessor.IDENTITY).message_sent.connect(announce_message);
+        stream_interactor.get_module<Calls>(Calls.IDENTITY).call_incoming.connect(insert_call);
+        stream_interactor.get_module<Calls>(Calls.IDENTITY).call_outgoing.connect(insert_call);
     }
 
     public void init(Conversation conversation, ContentItemCollection item_collection) {
@@ -70,7 +70,7 @@ public class ContentItemStore : StreamInteractionModule, Object {
     private ContentItem get_item(Conversation conversation, int id, int content_type, int foreign_id, DateTime time) throws Error {
         switch (content_type) {
             case 1:
-                Message? message = stream_interactor.get_module(MessageStorage.IDENTITY).get_message_by_id(foreign_id, conversation);
+                Message? message = stream_interactor.get_module<MessageStorage>(MessageStorage.IDENTITY).get_message_by_id(foreign_id, conversation);
                 if (message != null) {
                     var message_item = new MessageItem(message, conversation, id);
                     message_item.time = time; // In case of message corrections, the original time should be used
@@ -78,18 +78,18 @@ public class ContentItemStore : StreamInteractionModule, Object {
                 }
                 break;
             case 2:
-                FileTransfer? file_transfer = stream_interactor.get_module(FileTransferStorage.IDENTITY).get_file_by_id(foreign_id, conversation);
+                FileTransfer? file_transfer = stream_interactor.get_module<FileTransferStorage>(FileTransferStorage.IDENTITY).get_file_by_id(foreign_id, conversation);
                 if (file_transfer != null) {
                     Message? message = null;
                     if (file_transfer.provider == 0 && file_transfer.info != null) {
-                        message = stream_interactor.get_module(MessageStorage.IDENTITY).get_message_by_id(int.parse(file_transfer.info), conversation);
+                        message = stream_interactor.get_module<MessageStorage>(MessageStorage.IDENTITY).get_message_by_id(int.parse(file_transfer.info), conversation);
                     }
                     var file_item = new FileItem(file_transfer, conversation, id, message);
                     return file_item;
                 }
                 break;
             case 3:
-                Call? call = stream_interactor.get_module(CallStore.IDENTITY).get_call_by_id(foreign_id, conversation);
+                Call? call = stream_interactor.get_module<CallStore>(CallStore.IDENTITY).get_call_by_id(foreign_id, conversation);
                 if (call != null) {
                     var call_item = new CallItem(call, conversation, id);
                     return call_item;
@@ -143,7 +143,7 @@ public class ContentItemStore : StreamInteractionModule, Object {
             if (file_item.file_transfer.provider != 0 || file_item.file_transfer.info == null) return null;
 
             int message_db_id = int.parse(file_item.file_transfer.info);
-            return stream_interactor.get_module(MessageStorage.IDENTITY).get_message_by_id(message_db_id, conversation);
+            return stream_interactor.get_module<MessageStorage>(MessageStorage.IDENTITY).get_message_by_id(message_db_id, conversation);
         }
         MessageItem? message_item = content_item as MessageItem;
         if (message_item != null) {
@@ -167,7 +167,7 @@ public class ContentItemStore : StreamInteractionModule, Object {
     }
 
     public ContentItem? get_content_item_for_referencing_id(Conversation conversation, string referencing_id) {
-        Message? message = stream_interactor.get_module(MessageStorage.IDENTITY).get_message_by_referencing_id(referencing_id, conversation);
+        Message? message = stream_interactor.get_module<MessageStorage>(MessageStorage.IDENTITY).get_message_by_referencing_id(referencing_id, conversation);
         if (message == null) return null;
 
         Row? row = get_content_item_row_for_message(conversation, message);
@@ -184,7 +184,7 @@ public class ContentItemStore : StreamInteractionModule, Object {
     }
 
     public int get_content_item_id_for_referencing_id(Conversation conversation, string referencing_id) {
-        Message? message = stream_interactor.get_module(MessageStorage.IDENTITY).get_message_by_referencing_id(referencing_id, conversation);
+        Message? message = stream_interactor.get_module<MessageStorage>(MessageStorage.IDENTITY).get_message_by_referencing_id(referencing_id, conversation);
         if (message == null) return -1;
 
         Row? row = get_content_item_row_for_message(conversation, message);
@@ -209,7 +209,7 @@ public class ContentItemStore : StreamInteractionModule, Object {
                     .with(db.content_item.content_type, "=", 2);
         } else {
             // Check if this message has been corrected. In that case, the foreign id is the latest correction.
-            int correction_message_db_id = stream_interactor.get_module(MessageCorrection.IDENTITY).get_latest_correction_message_id(conversation, message);
+            int correction_message_db_id = stream_interactor.get_module<MessageCorrection>(MessageCorrection.IDENTITY).get_latest_correction_message_id(conversation, message);
             int message_db_id = correction_message_db_id != -1 ? correction_message_db_id : message.id;
 
             content_item_row.with(db.content_item.foreign_id, "=", message_db_id)

@@ -8,7 +8,7 @@ public class Module : BookmarksProvider, XmppStreamModule {
 
     public async Set<Conference>? get_conferences(XmppStream stream) {
         StanzaNode get_node = new StanzaNode.build("storage", NS_URI).add_self_xmlns();
-        StanzaNode? result_node = yield stream.get_module(PrivateXmlStorage.Module.IDENTITY).retrieve(stream, get_node);
+        StanzaNode? result_node = yield stream.get_module<PrivateXmlStorage.Module>(PrivateXmlStorage.Module.IDENTITY).retrieve(stream, get_node);
         if (result_node == null) return null;
 
         Set<Conference> ret = new HashSet<Conference>(Conference.hash_func, Conference.equals_func);
@@ -41,8 +41,8 @@ public class Module : BookmarksProvider, XmppStreamModule {
                 storage_node.put_node(conference_node);
             }
         }
-        yield stream.get_module(PrivateXmlStorage.Module.IDENTITY).store(stream, storage_node);
-        stream.get_module(Module.IDENTITY).received_conferences(stream, conferences);
+        yield stream.get_module<PrivateXmlStorage.Module>(PrivateXmlStorage.Module.IDENTITY).store(stream, storage_node);
+        stream.get_module<Module>(Module.IDENTITY).received_conferences(stream, conferences);
     }
 
     public async void add_conference(XmppStream stream, Conference conference) {

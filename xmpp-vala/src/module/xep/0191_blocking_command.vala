@@ -25,7 +25,7 @@ public class Module : XmppStreamModule, Iq.Handler {
         StanzaNode block_node = new StanzaNode.build("block", NS_URI).add_self_xmlns();
         fill_node_with_items(block_node, jids);
         Iq.Stanza iq = new Iq.Stanza.set(block_node);
-        stream.get_module(Iq.Module.IDENTITY).send_iq(stream, iq, null);
+        stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq(stream, iq, null);
         
         // Update local blocklist immediately for UI responsiveness
         if (stream.has_flag(Flag.IDENTITY)) {
@@ -44,7 +44,7 @@ public class Module : XmppStreamModule, Iq.Handler {
         StanzaNode unblock_node = new StanzaNode.build("unblock", NS_URI).add_self_xmlns();
         fill_node_with_items(unblock_node, jids);
         Iq.Stanza iq = new Iq.Stanza.set(unblock_node);
-        stream.get_module(Iq.Module.IDENTITY).send_iq(stream, iq, null);
+        stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq(stream, iq, null);
         
         // Update local blocklist immediately for UI responsiveness
         if (stream.has_flag(Flag.IDENTITY)) {
@@ -58,7 +58,7 @@ public class Module : XmppStreamModule, Iq.Handler {
     public void unblock_all(XmppStream stream) {
         StanzaNode unblock_node = new StanzaNode.build("unblock", NS_URI).add_self_xmlns();
         Iq.Stanza iq = new Iq.Stanza.set(unblock_node);
-        stream.get_module(Iq.Module.IDENTITY).send_iq(stream, iq, null);
+        stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq(stream, iq, null);
     }
 
     public bool is_supported(XmppStream stream) {
@@ -86,14 +86,14 @@ public class Module : XmppStreamModule, Iq.Handler {
     }
 
     public override void attach(XmppStream stream) {
-        stream.get_module(Iq.Module.IDENTITY).register_for_namespace(NS_URI, this);
-        stream.get_module(ServiceDiscovery.Module.IDENTITY).add_feature(stream, NS_URI);
+        stream.get_module<Iq.Module>(Iq.Module.IDENTITY).register_for_namespace(NS_URI, this);
+        stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).add_feature(stream, NS_URI);
         stream.stream_negotiated.connect(on_stream_negotiated);
     }
 
     public override void detach(XmppStream stream) {
-        stream.get_module(Iq.Module.IDENTITY).unregister_from_namespace(NS_URI, this);
-        stream.get_module(ServiceDiscovery.Module.IDENTITY).remove_feature(stream, NS_URI);
+        stream.get_module<Iq.Module>(Iq.Module.IDENTITY).unregister_from_namespace(NS_URI, this);
+        stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).remove_feature(stream, NS_URI);
         stream.stream_negotiated.disconnect(on_stream_negotiated);
     }
 
@@ -101,7 +101,7 @@ public class Module : XmppStreamModule, Iq.Handler {
     public override string get_id() { return IDENTITY.id; }
 
     private async void on_stream_negotiated(XmppStream stream) {
-        bool has_feature = yield stream.get_module(ServiceDiscovery.Module.IDENTITY).has_entity_feature(stream, stream.remote_name, NS_URI);
+        bool has_feature = yield stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).has_entity_feature(stream, stream.remote_name, NS_URI);
         if (has_feature) {
             stream.add_flag(new Flag());
             stream.get_flag(Flag.IDENTITY).blocklist = yield get_blocklist(stream);
@@ -114,7 +114,7 @@ public class Module : XmppStreamModule, Iq.Handler {
 
         Iq.Stanza result_iq;
         try {
-            result_iq = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+            result_iq = yield stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq_async(stream, iq);
         } catch (GLib.Error e) {
             warning("Failed to get blocklist: %s", e.message);
             return new ArrayList<string>();

@@ -16,7 +16,7 @@ namespace Xmpp.Xep.Coin {
         }
 
         public override void attach(XmppStream stream) {
-            stream.get_module(Iq.Module.IDENTITY).register_for_namespace(NS_RFC, this);
+            stream.get_module<Iq.Module>(Iq.Module.IDENTITY).register_for_namespace(NS_RFC, this);
         }
 
         public override void detach(XmppStream stream) { }

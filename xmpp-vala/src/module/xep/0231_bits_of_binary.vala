@@ -13,7 +13,7 @@ namespace Xmpp.Xep.BitsOfBinary {
 
         public override void attach(XmppStream stream) {
             known_bobs = new HashMap<string, Bytes>();
-            var message_module = stream.get_module(MessageModule.IDENTITY);
+            var message_module = stream.get_module<MessageModule>(MessageModule.IDENTITY);
             if (message_module != null) {
                 message_module.received_pipeline.connect(received_pipeline_listener);
             }
@@ -21,7 +21,7 @@ namespace Xmpp.Xep.BitsOfBinary {
         }
 
         public override void detach(XmppStream stream) {
-            var message_module = stream.get_module(MessageModule.IDENTITY);
+            var message_module = stream.get_module<MessageModule>(MessageModule.IDENTITY);
             if (message_module != null) {
                 message_module.received_pipeline.disconnect(received_pipeline_listener);
             }

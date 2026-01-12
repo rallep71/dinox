@@ -11,20 +11,20 @@ public abstract class Module : XmppStreamModule, Jingle.Transport {
     public static Xmpp.ModuleIdentity<Module> IDENTITY = new Xmpp.ModuleIdentity<Module>(NS_URI, "0176_jingle_ice_udp");
 
     public override void attach(XmppStream stream) {
-        stream.get_module(Jingle.Module.IDENTITY).register_transport(this);
-        stream.get_module(ServiceDiscovery.Module.IDENTITY).add_feature(stream, NS_URI);
-        stream.get_module(ServiceDiscovery.Module.IDENTITY).add_feature(stream, DTLS_NS_URI);
+        stream.get_module<Jingle.Module>(Jingle.Module.IDENTITY).register_transport(this);
+        stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).add_feature(stream, NS_URI);
+        stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).add_feature(stream, DTLS_NS_URI);
     }
     public override void detach(XmppStream stream) {
-        stream.get_module(ServiceDiscovery.Module.IDENTITY).remove_feature(stream, NS_URI);
-        stream.get_module(ServiceDiscovery.Module.IDENTITY).remove_feature(stream, DTLS_NS_URI);
+        stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).remove_feature(stream, NS_URI);
+        stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).remove_feature(stream, DTLS_NS_URI);
     }
 
     public override string get_ns() { return NS_URI; }
     public override string get_id() { return IDENTITY.id; }
 
     public async bool is_transport_available(XmppStream stream, uint8 components, Jid full_jid) {
-        return yield stream.get_module(ServiceDiscovery.Module.IDENTITY).has_entity_feature(stream, full_jid, NS_URI);
+        return yield stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).has_entity_feature(stream, full_jid, NS_URI);
     }
 
     public string ns_uri{ get { return NS_URI; } }

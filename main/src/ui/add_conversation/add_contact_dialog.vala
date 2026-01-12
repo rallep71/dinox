@@ -57,8 +57,8 @@ protected class AddContactDialog : Adw.Dialog {
         string? alias = alias_entry.text == "" ? null : alias_entry.text;
         try {
             Jid jid = new Jid(jid_entry.text);
-            stream_interactor.get_module(RosterManager.IDENTITY).add_jid(account, jid, alias);
-            stream_interactor.get_module(PresenceManager.IDENTITY).request_subscription(account, jid);
+            stream_interactor.get_module<RosterManager>(RosterManager.IDENTITY).add_jid(account, jid, alias);
+            stream_interactor.get_module<PresenceManager>(PresenceManager.IDENTITY).request_subscription(account, jid);
             
             // Clear fields for next use
             jid_entry.text = "";
@@ -76,7 +76,7 @@ protected class AddContactDialog : Adw.Dialog {
             // Disable button if: invalid JID, has resource, already in roster, or is own JID
             ok_button.sensitive = parsed_jid != null && 
                     parsed_jid.resourcepart == null &&
-                    stream_interactor.get_module(RosterManager.IDENTITY).get_roster_item(account, parsed_jid) == null &&
+                    stream_interactor.get_module<RosterManager>(RosterManager.IDENTITY).get_roster_item(account, parsed_jid) == null &&
                     !account.bare_jid.equals_bare(parsed_jid);
         } catch (InvalidJidError e) {
             ok_button.sensitive = false;

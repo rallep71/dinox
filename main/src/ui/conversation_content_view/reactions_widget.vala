@@ -26,19 +26,19 @@ public class ReactionsController : Object {
     }
 
     public void init() {
-        Gee.List<ReactionUsers> reactions = stream_interactor.get_module(Reactions.IDENTITY).get_item_reactions(conversation, content_item);
+        Gee.List<ReactionUsers> reactions = stream_interactor.get_module<Reactions>(Reactions.IDENTITY).get_item_reactions(conversation, content_item);
         foreach (ReactionUsers reaction_users in reactions) {
             foreach (Jid jid in reaction_users.jids) {
                 reaction_added(reaction_users.reaction, jid);
             }
         }
 
-        stream_interactor.get_module(Reactions.IDENTITY).reaction_added.connect((account, content_item_id, jid, reaction) => {
+        stream_interactor.get_module<Reactions>(Reactions.IDENTITY).reaction_added.connect((account, content_item_id, jid, reaction) => {
             if (this.content_item.id == content_item_id) {
                 reaction_added(reaction, jid);
             }
         });
-        stream_interactor.get_module(Reactions.IDENTITY).reaction_removed.connect((account, content_item_id, jid, reaction) => {
+        stream_interactor.get_module<Reactions>(Reactions.IDENTITY).reaction_removed.connect((account, content_item_id, jid, reaction) => {
             if (this.content_item.id == content_item_id) {
                 reaction_removed(reaction, jid);
             }
@@ -48,13 +48,13 @@ public class ReactionsController : Object {
     private void initialize_widget() {
         widget = new ReactionsWidget();
         widget.emoji_picked.connect((emoji) => {
-            stream_interactor.get_module(Reactions.IDENTITY).add_reaction(conversation, content_item, emoji);
+            stream_interactor.get_module<Reactions>(Reactions.IDENTITY).add_reaction(conversation, content_item, emoji);
         });
         widget.emoji_clicked.connect((emoji) => {
             if (account.bare_jid in reactions[emoji]) {
-                stream_interactor.get_module(Reactions.IDENTITY).remove_reaction(conversation, content_item, emoji);
+                stream_interactor.get_module<Reactions>(Reactions.IDENTITY).remove_reaction(conversation, content_item, emoji);
             } else {
-                stream_interactor.get_module(Reactions.IDENTITY).add_reaction(conversation, content_item, emoji);
+                stream_interactor.get_module<Reactions>(Reactions.IDENTITY).add_reaction(conversation, content_item, emoji);
             }
         });
         box_activated(widget);

@@ -234,7 +234,7 @@ public class FileWidgetController : Object {
 
     private void start_download() {
         if (stream_interactor != null) {
-            stream_interactor.get_module(FileManager.IDENTITY).download_file.begin(file_transfer);
+            stream_interactor.get_module<FileManager>(FileManager.IDENTITY).download_file.begin(file_transfer);
         }
     }
 

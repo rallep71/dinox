@@ -305,13 +305,13 @@ public class Module : XmppStreamModule {
     public signal void received_vcard(XmppStream stream, Jid jid, VCard4 vcard);
 
     public override void attach(XmppStream stream) {
-        stream.get_module(Pubsub.Module.IDENTITY).add_filtered_notification(stream, NS_URI, on_pubsub_item, null, null);
-        stream.get_module(Pubsub.Module.IDENTITY).add_filtered_notification(stream, NODE_URI_LEGACY, on_pubsub_item, null, null);
+        stream.get_module<Pubsub.Module>(Pubsub.Module.IDENTITY).add_filtered_notification(stream, NS_URI, on_pubsub_item, null, null);
+        stream.get_module<Pubsub.Module>(Pubsub.Module.IDENTITY).add_filtered_notification(stream, NODE_URI_LEGACY, on_pubsub_item, null, null);
     }
 
     public override void detach(XmppStream stream) {
-        stream.get_module(Pubsub.Module.IDENTITY).remove_filtered_notification(stream, NS_URI);
-        stream.get_module(Pubsub.Module.IDENTITY).remove_filtered_notification(stream, NODE_URI_LEGACY);
+        stream.get_module<Pubsub.Module>(Pubsub.Module.IDENTITY).remove_filtered_notification(stream, NS_URI);
+        stream.get_module<Pubsub.Module>(Pubsub.Module.IDENTITY).remove_filtered_notification(stream, NODE_URI_LEGACY);
     }
 
     private void on_pubsub_item(XmppStream stream, Jid jid, string? id, StanzaNode? item) {
@@ -326,7 +326,7 @@ public class Module : XmppStreamModule {
     }
 
     public async bool publish(XmppStream stream, VCard4 vcard, Pubsub.PublishOptions? options = null) {
-        var pubsub = stream.get_module(Pubsub.Module.IDENTITY);
+        var pubsub = stream.get_module<Pubsub.Module>(Pubsub.Module.IDENTITY);
         if (pubsub == null) {
             warning("VCard4: Pubsub module not found");
             return false;
@@ -352,7 +352,7 @@ public class Module : XmppStreamModule {
     }
 
     private async VCard4? request_node(XmppStream stream, Jid jid, string node) {
-        Gee.List<StanzaNode>? items = yield stream.get_module(Pubsub.Module.IDENTITY).request_all(stream, jid, node);
+        Gee.List<StanzaNode>? items = yield stream.get_module<Pubsub.Module>(Pubsub.Module.IDENTITY).request_all(stream, jid, node);
         if (items == null || items.size == 0) return null;
 
         // There should be only one item

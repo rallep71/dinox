@@ -22,17 +22,17 @@ public class ConversationSelector : Widget {
         list_box.add_css_class("navigation-sidebar");
         this.layout_manager = new BinLayout();
 
-        stream_interactor.get_module(ConversationManager.IDENTITY).conversation_activated.connect(add_conversation);
-        stream_interactor.get_module(ConversationManager.IDENTITY).conversation_deactivated.connect(remove_conversation);
+        stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).conversation_activated.connect(add_conversation);
+        stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).conversation_deactivated.connect(remove_conversation);
         stream_interactor.account_added.connect(on_account_added);
         stream_interactor.account_removed.connect(on_account_removed);
-        stream_interactor.get_module(ContentItemStore.IDENTITY).new_item.connect(on_content_item_received);
+        stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).new_item.connect(on_content_item_received);
         Timeout.add_seconds(60, () => {
             foreach (ConversationSelectorRow row in rows.values) row.update();
             return true;
         });
 
-        foreach (Conversation conversation in stream_interactor.get_module(ConversationManager.IDENTITY).get_active_conversations()) {
+        foreach (Conversation conversation in stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_active_conversations()) {
             add_conversation(conversation);
         }
         return this;
@@ -73,7 +73,7 @@ public class ConversationSelector : Widget {
     }
 
     private void on_account_added(Account account) {
-        foreach (Conversation conversation in stream_interactor.get_module(ConversationManager.IDENTITY).get_active_conversations()) {
+        foreach (Conversation conversation in stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_active_conversations()) {
             if (conversation.account == account) {
                 add_conversation(conversation);
             }

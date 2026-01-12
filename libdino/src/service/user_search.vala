@@ -15,7 +15,7 @@ public class UserSearch : Object {
         var stream = stream_interactor.get_stream(account);
         if (stream == null) return null;
 
-        var disco_module = stream.get_module(Xmpp.Xep.ServiceDiscovery.Module.IDENTITY);
+        var disco_module = stream.get_module<Xmpp.Xep.ServiceDiscovery.Module>(Xmpp.Xep.ServiceDiscovery.Module.IDENTITY);
         
         // 0. Check server features first
         try {
@@ -66,7 +66,7 @@ public class UserSearch : Object {
     public async Xmpp.Xep.DataForms.DataForm? get_search_fields(Account account, Jid search_jid) {
         var stream = stream_interactor.get_stream(account);
         if (stream == null) return null;
-        var search_module = stream.get_module(Xmpp.Xep.Search.Module.IDENTITY);
+        var search_module = stream.get_module<Xmpp.Xep.Search.Module>(Xmpp.Xep.Search.Module.IDENTITY);
         try {
             return yield search_module.get_fields(stream, search_jid);
         } catch (Error e) {
@@ -78,7 +78,7 @@ public class UserSearch : Object {
     public async Gee.List<Xmpp.Xep.Search.Item>? perform_search(Account account, Jid search_jid, Xmpp.Xep.DataForms.DataForm form, bool legacy_only = false) {
         var stream = stream_interactor.get_stream(account);
         if (stream == null) return null;
-        var search_module = stream.get_module(Xmpp.Xep.Search.Module.IDENTITY);
+        var search_module = stream.get_module<Xmpp.Xep.Search.Module>(Xmpp.Xep.Search.Module.IDENTITY);
         try {
             return yield search_module.search(stream, search_jid, form, legacy_only);
         } catch (Error e) {

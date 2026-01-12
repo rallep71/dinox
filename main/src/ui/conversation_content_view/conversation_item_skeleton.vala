@@ -150,7 +150,7 @@ public class ConversationItemSkeleton : Plugins.ConversationItemWidgetInterface,
         int64 t0_us = Dino.Ui.UiTiming.now_us();
 
         update_name_label();
-        updated_roster_handler_id = stream_interactor.get_module(RosterManager.IDENTITY).updated_roster_item.connect((account, jid, roster_item) => {
+        updated_roster_handler_id = stream_interactor.get_module<RosterManager>(RosterManager.IDENTITY).updated_roster_item.connect((account, jid, roster_item) => {
             if (this.conversation.account.equals(account) && this.conversation.counterpart.equals(jid)) {
                 update_name_label();
             }
@@ -341,7 +341,7 @@ public class ConversationItemSkeleton : Plugins.ConversationItemWidgetInterface,
             time_update_timeout = 0;
         }
         if (updated_roster_handler_id != 0){
-            stream_interactor.get_module(RosterManager.IDENTITY).disconnect(updated_roster_handler_id);
+            stream_interactor.get_module<RosterManager>(RosterManager.IDENTITY).disconnect(updated_roster_handler_id);
             updated_roster_handler_id = 0;
         }
         reactions_controller = null;

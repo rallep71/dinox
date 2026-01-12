@@ -24,7 +24,7 @@ public class Dino.FallbackBody : StreamInteractionModule, Object {
         this.db = db;
         this.received_message_listener = new ReceivedMessageListener(stream_interactor, db);
 
-        stream_interactor.get_module(MessageProcessor.IDENTITY).received_pipeline.connect(received_message_listener);
+        stream_interactor.get_module<MessageProcessor>(MessageProcessor.IDENTITY).received_pipeline.connect(received_message_listener);
     }
 
     private class ReceivedMessageListener : MessageListener {

@@ -97,6 +97,12 @@ public class Dino.Plugins.Ice.TransportParameters : JingleIceUdp.IceUdpTransport
                     // Reset EAGAIN counter on successful send
                     eagain_count = 0;
                 } catch (GLib.Error e) {
+                    if (e.message.contains("srtp_err_status_replay_fail") || e.message.contains("srtp_err_status_no_ctx")) {
+                         if (dtls_srtp_handler != null) dtls_srtp_handler.reset_encrypt_context();
+                         warning("Detected SRTP error (%s), resetting SRTP encrypt context", e.message);
+                         return;
+                    }
+
                     // EAGAIN (Resource temporarily unavailable) is common during connection setup
                     // Don't spam the log, just count them and log periodically
                     if (e.message.contains("nicht verfügbar") || e.message.contains("unavailable") || e.code == 11) {

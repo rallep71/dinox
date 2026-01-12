@@ -21,11 +21,11 @@ namespace Xmpp.Xep.MessageRetraction {
         public static ModuleIdentity<Module> IDENTITY = new ModuleIdentity<Module>(NS_URI, "0424_message_retraction");
 
         public override void attach(XmppStream stream) {
-            stream.get_module(ServiceDiscovery.Module.IDENTITY).add_feature(stream, NS_URI);
+            stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).add_feature(stream, NS_URI);
         }
 
         public override void detach(XmppStream stream) {
-            stream.get_module(ServiceDiscovery.Module.IDENTITY).remove_feature(stream, NS_URI);
+            stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).remove_feature(stream, NS_URI);
         }
 
         public override string get_ns() { return NS_URI; }

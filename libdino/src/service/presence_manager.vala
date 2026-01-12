@@ -54,7 +54,7 @@ public class PresenceManager : StreamInteractionModule, Object {
     }
 
     private void send_current_presence(XmppStream stream) {
-        var presence_module = stream.get_module(Xmpp.Presence.Module.IDENTITY);
+        var presence_module = stream.get_module<Xmpp.Presence.Module>(Xmpp.Presence.Module.IDENTITY);
         var presence = new Xmpp.Presence.Stanza();
         if (current_show != "online") {
             presence.show = current_show;
@@ -106,13 +106,13 @@ public class PresenceManager : StreamInteractionModule, Object {
 
     public void request_subscription(Account account, Jid jid) {
         XmppStream stream = stream_interactor.get_stream(account);
-        if (stream != null) stream.get_module(Xmpp.Presence.Module.IDENTITY).request_subscription(stream, jid.bare_jid);
+        if (stream != null) stream.get_module<Xmpp.Presence.Module>(Xmpp.Presence.Module.IDENTITY).request_subscription(stream, jid.bare_jid);
     }
 
     public void approve_subscription(Account account, Jid jid) {
         XmppStream stream = stream_interactor.get_stream(account);
         if (stream != null) {
-            stream.get_module(Xmpp.Presence.Module.IDENTITY).approve_subscription(stream, jid.bare_jid);
+            stream.get_module<Xmpp.Presence.Module>(Xmpp.Presence.Module.IDENTITY).approve_subscription(stream, jid.bare_jid);
             subscription_requests.remove(jid);
         }
     }
@@ -120,30 +120,30 @@ public class PresenceManager : StreamInteractionModule, Object {
     public void deny_subscription(Account account, Jid jid) {
         XmppStream stream = stream_interactor.get_stream(account);
         if (stream != null) {
-            stream.get_module(Xmpp.Presence.Module.IDENTITY).deny_subscription(stream, jid.bare_jid);
+            stream.get_module<Xmpp.Presence.Module>(Xmpp.Presence.Module.IDENTITY).deny_subscription(stream, jid.bare_jid);
             subscription_requests.remove(jid);
         }
     }
 
     public void cancel_subscription(Account account, Jid jid) {
         XmppStream stream = stream_interactor.get_stream(account);
-        if (stream != null) stream.get_module(Xmpp.Presence.Module.IDENTITY).cancel_subscription(stream, jid.bare_jid);
+        if (stream != null) stream.get_module<Xmpp.Presence.Module>(Xmpp.Presence.Module.IDENTITY).cancel_subscription(stream, jid.bare_jid);
     }
 
     private void on_account_added(Account account) {
-        stream_interactor.module_manager.get_module(account, Presence.Module.IDENTITY).received_available_show.connect((stream, jid, show) =>
+        stream_interactor.module_manager.get_module<Presence.Module>(account, Presence.Module.IDENTITY).received_available_show.connect((stream, jid, show) =>
             on_received_available_show(account, jid, show)
         );
-        stream_interactor.module_manager.get_module(account, Presence.Module.IDENTITY).received_unavailable.connect((stream, presence) =>
+        stream_interactor.module_manager.get_module<Presence.Module>(account, Presence.Module.IDENTITY).received_unavailable.connect((stream, presence) =>
             on_received_unavailable(account, presence.from)
         );
-        stream_interactor.module_manager.get_module(account, Presence.Module.IDENTITY).received_subscription_request.connect((stream, jid) => {
+        stream_interactor.module_manager.get_module<Presence.Module>(account, Presence.Module.IDENTITY).received_subscription_request.connect((stream, jid) => {
             if (!subscription_requests.contains(jid)) {
                 subscription_requests.add(jid);
             }
             received_subscription_request(jid, account);
         });
-        stream_interactor.module_manager.get_module(account, Presence.Module.IDENTITY).received_subscription_approval.connect((stream, jid) => {
+        stream_interactor.module_manager.get_module<Presence.Module>(account, Presence.Module.IDENTITY).received_subscription_approval.connect((stream, jid) => {
             received_subscription_approval(jid, account);
         });
     }

@@ -161,7 +161,7 @@ public class Xmpp.Xep.Jingle.Content : Object {
 
     public async void select_new_transport() {
         XmppStream stream = session.stream;
-        Transport? new_transport = yield stream.get_module(Module.IDENTITY).select_transport(stream, transport.type_, transport_params.components, peer_full_jid, tried_transport_methods);
+        Transport? new_transport = yield stream.get_module<Module>(Module.IDENTITY).select_transport(stream, transport.type_, transport_params.components, peer_full_jid, tried_transport_methods);
         if (new_transport == null) {
             session.terminate(ReasonElement.FAILED_TRANSPORT, null, "failed transport");
             // TODO should we only terminate this content or really the whole session?
@@ -188,7 +188,7 @@ public class Xmpp.Xep.Jingle.Content : Object {
             throw new IqError.BAD_REQUEST("transport-accept with unnegotiated transport method");
         }
         transport_params.handle_transport_accept(transport_node);
-        stream.get_module(Iq.Module.IDENTITY).send_iq(stream, new Iq.Stanza.result(iq));
+        stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq(stream, new Iq.Stanza.result(iq));
         transport_params.create_transport_connection(stream, this);
     }
 
@@ -196,18 +196,18 @@ public class Xmpp.Xep.Jingle.Content : Object {
         if (state != State.REPLACING_TRANSPORT) {
             throw new IqError.OUT_OF_ORDER("no outstanding transport-replace request");
         }
-        stream.get_module(Iq.Module.IDENTITY).send_iq(stream, new Iq.Stanza.result(iq));
+        stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq(stream, new Iq.Stanza.result(iq));
         select_new_transport.begin();
     }
 
     public void handle_transport_replace(XmppStream stream, StanzaNode transport_node, StanzaNode jingle, Iq.Stanza iq) throws IqError {
-        Transport? transport = stream.get_module(Module.IDENTITY).get_transport(transport_node.ns_uri);
+        Transport? transport = stream.get_module<Module>(Module.IDENTITY).get_transport(transport_node.ns_uri);
         TransportParameters? parameters = null;
         if (transport != null) {
             // Just parse the transport info for the errors.
             parameters = transport.parse_transport_parameters(stream, content_type.required_components, local_full_jid, peer_full_jid, transport_node);
         }
-        stream.get_module(Iq.Module.IDENTITY).send_iq(stream, new Iq.Stanza.result(iq));
+        stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq(stream, new Iq.Stanza.result(iq));
         if (state != State.WAITING_FOR_TRANSPORT_REPLACE || transport == null) {
             session.send_transport_reject(this, transport_node);
             return;
@@ -220,12 +220,12 @@ public class Xmpp.Xep.Jingle.Content : Object {
 
     public void handle_transport_info(XmppStream stream, StanzaNode transport, StanzaNode jingle, Iq.Stanza iq) throws IqError {
         this.transport_params.handle_transport_info(transport);
-        stream.get_module(Iq.Module.IDENTITY).send_iq(stream, new Iq.Stanza.result(iq));
+        stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq(stream, new Iq.Stanza.result(iq));
     }
 
     public void on_description_info(XmppStream stream, StanzaNode description, StanzaNode jinglq, Iq.Stanza iq) throws IqError {
         // TODO: do something.
-        stream.get_module(Iq.Module.IDENTITY).send_iq(stream, new Iq.Stanza.result(iq));
+        stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq(stream, new Iq.Stanza.result(iq));
     }
 
     public void set_transport_connection(ComponentConnection? conn, uint8 component = 1) {

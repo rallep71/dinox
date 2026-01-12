@@ -36,7 +36,7 @@ public class BadMessagesPopulator : Plugins.ConversationItemPopulator, Plugins.C
         });
 
         // Clear bad message warnings when conversation history is cleared
-        stream_interactor.get_module(ConversationManager.IDENTITY).conversation_cleared.connect((conversation) => {
+        stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).conversation_cleared.connect((conversation) => {
             // Always clear bad message state for this conversation, regardless of UI state
             plugin.clear_bad_message_state(conversation.account, conversation.counterpart);
             
@@ -61,10 +61,10 @@ public class BadMessagesPopulator : Plugins.ConversationItemPopulator, Plugins.C
                 qry.with(db.identity_meta.address_name, "=", current_conversation.counterpart.to_string());
                 break;
             case Conversation.Type.GROUPCHAT:
-                bool is_private = stream_interactor.get_module(MucManager.IDENTITY).is_private_room(current_conversation.account, current_conversation.counterpart);
+                bool is_private = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).is_private_room(current_conversation.account, current_conversation.counterpart);
                 if (!is_private) return;
 
-                var list = stream_interactor.get_module(MucManager.IDENTITY).get_offline_members(current_conversation.counterpart, current_conversation.account);
+                var list = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_offline_members(current_conversation.counterpart, current_conversation.account);
                 if (list == null || list.is_empty) return;
 
                 var selection = new StringBuilder();
@@ -171,10 +171,10 @@ public class BadMessagesWidget : Box {
         } else if (conversation.type_ == Conversation.Type.GROUPCHAT) {
             who = jid.to_string();
             // `jid` is a real JID. In MUCs, try to show nicks instead (given that the JID is currently online)
-            var occupants = plugin.app.stream_interactor.get_module(MucManager.IDENTITY).get_occupants(conversation.counterpart, conversation.account);
+            var occupants = plugin.app.stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_occupants(conversation.counterpart, conversation.account);
             if (occupants == null) return;
             foreach (Jid occupant in occupants) {
-                if (jid.equals_bare(plugin.app.stream_interactor.get_module(MucManager.IDENTITY).get_real_jid(occupant, conversation.account))) {
+                if (jid.equals_bare(plugin.app.stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_real_jid(occupant, conversation.account))) {
                     who = occupant.resourcepart;
                 }
             }

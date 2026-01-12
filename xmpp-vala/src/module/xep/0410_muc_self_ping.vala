@@ -1,7 +1,7 @@
 namespace Xmpp.Xep.MucSelfPing {
 
     public static async bool is_joined(XmppStream stream, Jid jid) {
-        Iq.Stanza iq_result = yield stream.get_module(Xmpp.Xep.Ping.Module.IDENTITY).send_ping(stream, jid);
+        Iq.Stanza iq_result = yield stream.get_module<Xmpp.Xep.Ping.Module>(Xmpp.Xep.Ping.Module.IDENTITY).send_ping(stream, jid);
 
         if (!iq_result.is_error()) {
             return true;

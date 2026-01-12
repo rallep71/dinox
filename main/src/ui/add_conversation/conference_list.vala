@@ -22,26 +22,26 @@ protected class ConferenceList {
     public ConferenceList(StreamInteractor stream_interactor) {
         this.stream_interactor = stream_interactor;
 
-        bookmarks_updated_handler_id = stream_interactor.get_module(MucManager.IDENTITY).bookmarks_updated.connect((account, conferences) => {
+        bookmarks_updated_handler_id = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).bookmarks_updated.connect((account, conferences) => {
             lists[account] = conferences;
             refresh_conferences();
         });
 
         foreach (Account account in stream_interactor.get_accounts()) {
-            stream_interactor.get_module(MucManager.IDENTITY).get_bookmarks.begin(account, (_, res) => {
-                Set<Conference>? conferences = stream_interactor.get_module(MucManager.IDENTITY).get_bookmarks.end(res);
+            stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_bookmarks.begin(account, (_, res) => {
+                Set<Conference>? conferences = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_bookmarks.end(res);
                 set_bookmarks(account, conferences);
             });
         }
 
-        stream_interactor.get_module(MucManager.IDENTITY).conference_added.connect(add_conference);
-        stream_interactor.get_module(MucManager.IDENTITY).conference_removed.connect(remove_conference);
+        stream_interactor.get_module<MucManager>(MucManager.IDENTITY).conference_added.connect(add_conference);
+        stream_interactor.get_module<MucManager>(MucManager.IDENTITY).conference_removed.connect(remove_conference);
     }
 
     ~ConferenceList() {
-        stream_interactor.get_module(MucManager.IDENTITY).disconnect(bookmarks_updated_handler_id);
-        stream_interactor.get_module(MucManager.IDENTITY).conference_added.disconnect(add_conference);
-        stream_interactor.get_module(MucManager.IDENTITY).conference_removed.disconnect(remove_conference);
+        stream_interactor.get_module<MucManager>(MucManager.IDENTITY).disconnect(bookmarks_updated_handler_id);
+        stream_interactor.get_module<MucManager>(MucManager.IDENTITY).conference_added.disconnect(add_conference);
+        stream_interactor.get_module<MucManager>(MucManager.IDENTITY).conference_removed.disconnect(remove_conference);
     }
 
     private void add_conference(Account account, Conference conference) {
@@ -108,7 +108,7 @@ internal class ConferenceListRow : ListRow {
         name_label.label = bookmark.name != null && bookmark.name != "" ? bookmark.name : bookmark.jid.to_string();
         
         // Check if room is private and show lock icon
-        Conversation? conversation = stream_interactor.get_module(ConversationManager.IDENTITY).get_conversation(bookmark.jid, account);
+        Conversation? conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_conversation(bookmark.jid, account);
         if (conversation != null) {
             XmppStream? stream = stream_interactor.get_stream(account);
             if (stream != null) {

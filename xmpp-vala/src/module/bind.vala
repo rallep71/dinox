@@ -39,7 +39,7 @@ namespace Xmpp.Bind {
                 if (requested_resource != null) {
                     bind_node.put_node(new StanzaNode.build("resource", NS_URI).put_node(new StanzaNode.text(requested_resource)));
                 }
-                stream.get_module(Iq.Module.IDENTITY).send_iq(stream, new Iq.Stanza.set(bind_node), iq_response_stanza);
+                stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq(stream, new Iq.Stanza.set(bind_node), iq_response_stanza);
                 stream.add_flag(flag);
             }
         }

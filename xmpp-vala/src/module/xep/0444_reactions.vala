@@ -25,17 +25,17 @@ public class Module : XmppStreamModule {
 
         MessageProcessingHints.set_message_hint(message, MessageProcessingHints.HINT_STORE);
 
-        yield stream.get_module(MessageModule.IDENTITY).send_message(stream, message);
+        yield stream.get_module<MessageModule>(MessageModule.IDENTITY).send_message(stream, message);
     }
 
     public override void attach(XmppStream stream) {
-        stream.get_module(ServiceDiscovery.Module.IDENTITY).add_feature(stream, NS_URI);
-        stream.get_module(MessageModule.IDENTITY).received_pipeline.connect(received_pipeline_listener);
+        stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).add_feature(stream, NS_URI);
+        stream.get_module<MessageModule>(MessageModule.IDENTITY).received_pipeline.connect(received_pipeline_listener);
     }
 
     public override void detach(XmppStream stream) {
-        stream.get_module(ServiceDiscovery.Module.IDENTITY).remove_feature(stream, NS_URI);
-        stream.get_module(MessageModule.IDENTITY).received_pipeline.disconnect(received_pipeline_listener);
+        stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).remove_feature(stream, NS_URI);
+        stream.get_module<MessageModule>(MessageModule.IDENTITY).received_pipeline.disconnect(received_pipeline_listener);
     }
 
     public override string get_ns() { return NS_URI; }
@@ -65,7 +65,7 @@ public class ReceivedPipelineListener : StanzaListener<MessageStanza> {
                 reactions.add(reaction);
             }
         }
-        stream.get_module(Module.IDENTITY).received_reactions(stream, message.from, id_attribute, reactions, message);
+        stream.get_module<Module>(Module.IDENTITY).received_reactions(stream, message.from, id_attribute, reactions, message);
 
         return true;
     }

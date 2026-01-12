@@ -14,7 +14,7 @@ public class Module : XmppStreamNegotiationModule {
 
         Iq.Stanza iq_result;
         try {
-            iq_result = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, request_form_iq);
+            iq_result = yield stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq_async(stream, request_form_iq);
         } catch (GLib.Error e) {
             warning("Failed to get registration form: %s", e.message);
             return null;
@@ -29,7 +29,7 @@ public class Module : XmppStreamNegotiationModule {
 
         Iq.Stanza iq_result;
         try {
-            iq_result = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+            iq_result = yield stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq_async(stream, iq);
         } catch (GLib.Error e) {
             warning("Failed to submit registration form: %s", e.message);
             return e.message;
@@ -54,7 +54,7 @@ public class Module : XmppStreamNegotiationModule {
 
         Iq.Stanza chpw_result;
         try {
-            chpw_result = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, set_password_iq);
+            chpw_result = yield stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq_async(stream, set_password_iq);
         } catch (GLib.Error e) {
             warning("Failed to change password: %s", e.message);
             return null;

@@ -31,7 +31,7 @@ public abstract class Module : XmppStreamModule {
 
     public async Jingle.Session start_call(XmppStream stream, Jid receiver_full_jid, bool video, string sid, Jid? muji_room) throws Jingle.Error {
 
-        Jingle.Module jingle_module = stream.get_module(Jingle.Module.IDENTITY);
+        Jingle.Module jingle_module = stream.get_module<Jingle.Module>(Jingle.Module.IDENTITY);
 
         Jid? my_jid = stream.get_flag(Bind.Flag.IDENTITY).my_jid;
         if (my_jid == null) {
@@ -62,7 +62,7 @@ public abstract class Module : XmppStreamModule {
             Parameters video_content_parameters = new Parameters(this, "video", yield get_supported_payloads("video"));
             video_content_parameters.local_crypto = generate_local_crypto();
             video_content_parameters.header_extensions.add_all(get_suggested_header_extensions("video"));
-            Jingle.Transport? video_transport = yield stream.get_module(Jingle.Module.IDENTITY).select_transport(stream, content_type.required_transport_type, content_type.required_components, receiver_full_jid, Set.empty());
+            Jingle.Transport? video_transport = yield stream.get_module<Jingle.Module>(Jingle.Module.IDENTITY).select_transport(stream, content_type.required_transport_type, content_type.required_components, receiver_full_jid, Set.empty());
             if (video_transport == null) {
                 throw new Jingle.Error.NO_SHARED_PROTOCOLS("No suitable video transports");
             }
@@ -104,7 +104,7 @@ public abstract class Module : XmppStreamModule {
             Parameters video_content_parameters = new Parameters(this, "video", yield get_supported_payloads("video"));
             video_content_parameters.local_crypto = generate_local_crypto();
             video_content_parameters.header_extensions.add_all(get_suggested_header_extensions("video"));
-            Jingle.Transport? video_transport = yield stream.get_module(Jingle.Module.IDENTITY).select_transport(stream, content_type.required_transport_type, content_type.required_components, receiver_full_jid, Set.empty());
+            Jingle.Transport? video_transport = yield stream.get_module<Jingle.Module>(Jingle.Module.IDENTITY).select_transport(stream, content_type.required_transport_type, content_type.required_components, receiver_full_jid, Set.empty());
             if (video_transport == null) {
                 throw new Jingle.Error.NO_SHARED_PROTOCOLS("No suitable video transports");
             }
@@ -134,25 +134,25 @@ public abstract class Module : XmppStreamModule {
     }
 
     public override void attach(XmppStream stream) {
-        stream.get_module(ServiceDiscovery.Module.IDENTITY).add_feature(stream, NS_URI);
-        stream.get_module(ServiceDiscovery.Module.IDENTITY).add_feature(stream, NS_URI_AUDIO);
-        stream.get_module(ServiceDiscovery.Module.IDENTITY).add_feature(stream, NS_URI_VIDEO);
-        stream.get_module(Jingle.Module.IDENTITY).register_content_type(content_type);
-        stream.get_module(Jingle.Module.IDENTITY).register_session_info_type(session_info_type);
+        stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).add_feature(stream, NS_URI);
+        stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).add_feature(stream, NS_URI_AUDIO);
+        stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).add_feature(stream, NS_URI_VIDEO);
+        stream.get_module<Jingle.Module>(Jingle.Module.IDENTITY).register_content_type(content_type);
+        stream.get_module<Jingle.Module>(Jingle.Module.IDENTITY).register_session_info_type(session_info_type);
     }
 
     public override void detach(XmppStream stream) {
-        stream.get_module(ServiceDiscovery.Module.IDENTITY).remove_feature(stream, NS_URI);
-        stream.get_module(ServiceDiscovery.Module.IDENTITY).remove_feature(stream, NS_URI_AUDIO);
-        stream.get_module(ServiceDiscovery.Module.IDENTITY).remove_feature(stream, NS_URI_VIDEO);
+        stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).remove_feature(stream, NS_URI);
+        stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).remove_feature(stream, NS_URI_AUDIO);
+        stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).remove_feature(stream, NS_URI_VIDEO);
     }
 
     public async bool is_available(XmppStream stream, Jid full_jid) {
-        bool? has_feature = yield stream.get_module(ServiceDiscovery.Module.IDENTITY).has_entity_feature(stream, full_jid, NS_URI);
+        bool? has_feature = yield stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).has_entity_feature(stream, full_jid, NS_URI);
         if (has_feature == null || !(!)has_feature) {
             return false;
         }
-        return yield stream.get_module(Jingle.Module.IDENTITY).is_available(stream, content_type.required_transport_type, content_type.required_components, full_jid);
+        return yield stream.get_module<Jingle.Module>(Jingle.Module.IDENTITY).is_available(stream, content_type.required_transport_type, content_type.required_components, full_jid);
     }
 
     public override string get_ns() { return NS_URI; }

@@ -100,7 +100,7 @@ public class ConnectionManager : Object {
             Xmpp.Presence.Stanza presence = new Xmpp.Presence.Stanza();
             presence.type_ = Xmpp.Presence.Stanza.TYPE_UNAVAILABLE;
             if (stream != null) {
-                stream.get_module(Presence.Module.IDENTITY).send_presence(stream, presence);
+                stream.get_module<Presence.Module>(Presence.Module.IDENTITY).send_presence(stream, presence);
             }
         }
 
@@ -265,9 +265,9 @@ public class ConnectionManager : Object {
             stream_attached_modules(account, stream);
             change_connection_state(account, ConnectionState.CONNECTED);
 
-//            stream.get_module(Xep.Muji.Module.IDENTITY).join_call(stream, new Jid("test@muc.poez.io"), true);
+//            stream.get_module<Xep.Muji.Module>(Xep.Muji.Module.IDENTITY).join_call(stream, new Jid("test@muc.poez.io"), true);
         });
-        stream.get_module(Sasl.Module.IDENTITY).received_auth_failure.connect((stream, node) => {
+        stream.get_module<Sasl.Module>(Sasl.Module.IDENTITY).received_auth_failure.connect((stream, node) => {
             set_connection_error(account, new ConnectionError(ConnectionError.Source.SASL, null));
         });
 
@@ -337,7 +337,7 @@ public class ConnectionManager : Object {
 
         XmppStream stream = connections[account].stream;
 
-        stream.get_module(Xep.Ping.Module.IDENTITY).send_ping.begin(stream, account.bare_jid.domain_jid, () => {
+        stream.get_module<Xep.Ping.Module>(Xep.Ping.Module.IDENTITY).send_ping.begin(stream, account.bare_jid.domain_jid, () => {
             acked = true;
             if (connections[account].stream != stream) return;
             change_connection_state(account, ConnectionState.CONNECTED);

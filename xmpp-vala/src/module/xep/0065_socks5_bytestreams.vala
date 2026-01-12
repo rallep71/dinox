@@ -47,11 +47,11 @@ public class Module : XmppStreamModule, Iq.Handler {
     }
 
     private async void query_availability(XmppStream stream) {
-        ServiceDiscovery.ItemsResult? items_result = yield stream.get_module(ServiceDiscovery.Module.IDENTITY).request_items(stream, stream.remote_name);
+        ServiceDiscovery.ItemsResult? items_result = yield stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).request_items(stream, stream.remote_name);
         if (items_result == null) return;
 
         foreach (Xep.ServiceDiscovery.Item item in items_result.items) {
-            bool has_feature = yield stream.get_module(ServiceDiscovery.Module.IDENTITY).has_entity_feature(stream, item.jid, NS_URI);
+            bool has_feature = yield stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).has_entity_feature(stream, item.jid, NS_URI);
             if (!has_feature) continue;
 
             StanzaNode query_node = new StanzaNode.build("query", NS_URI).add_self_xmlns();
@@ -59,7 +59,7 @@ public class Module : XmppStreamModule, Iq.Handler {
 
             Iq.Stanza iq_result;
             try {
-                iq_result = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+                iq_result = yield stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq_async(stream, iq);
             } catch (GLib.Error e) {
                 warning("Failed to query proxy: %s", e.message);
                 continue;

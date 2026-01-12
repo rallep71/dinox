@@ -53,7 +53,7 @@ public class ConversationSelectorRow : ListBoxRow {
         this.conversation = conversation;
         this.stream_interactor = stream_interactor;
 
-        var display_name_model = stream_interactor.get_module(ContactModels.IDENTITY).get_display_name_model(conversation);
+        var display_name_model = stream_interactor.get_module<ContactModels>(ContactModels.IDENTITY).get_display_name_model(conversation);
         display_name_model.bind_property("display-name", name_label, "label", BindingFlags.SYNC_CREATE);
 
         // Add right-click context menu for all conversations
@@ -66,7 +66,7 @@ public class ConversationSelectorRow : ListBoxRow {
         
         if (conversation.type_ == Conversation.Type.CHAT) {
             // Connect presence signals
-            var pm = stream_interactor.get_module(PresenceManager.IDENTITY);
+            var pm = stream_interactor.get_module<PresenceManager>(PresenceManager.IDENTITY);
             pm.show_received.connect(on_presence_changed);
             pm.received_offline_presence.connect(on_presence_changed);
             
@@ -76,7 +76,7 @@ public class ConversationSelectorRow : ListBoxRow {
 
         if (conversation.type_ == Conversation.Type.GROUPCHAT) {
             muc_indicator.visible = true;
-            stream_interactor.get_module(MucManager.IDENTITY).room_info_updated.connect((account, jid) => {
+            stream_interactor.get_module<MucManager>(MucManager.IDENTITY).room_info_updated.connect((account, jid) => {
                 if (conversation != null && conversation.counterpart.equals_bare(jid) && conversation.account.equals(account)) {
                     update_read(true); // bubble color might have changed
                     update_private_room_indicator();
@@ -101,7 +101,7 @@ public class ConversationSelectorRow : ListBoxRow {
                     return true;
                 });
                 // Invalidate tooltip when subject changes
-                stream_interactor.get_module(MucManager.IDENTITY).subject_set.connect((account, jid, subject) => {
+                stream_interactor.get_module<MucManager>(MucManager.IDENTITY).subject_set.connect((account, jid, subject) => {
                     if (conversation.account.equals(account) && conversation.counterpart.equals_bare(jid)) {
                         trigger_tooltip_query();
                     }
@@ -111,22 +111,22 @@ public class ConversationSelectorRow : ListBoxRow {
                 break;
         }
 
-        stream_interactor.get_module(ContentItemStore.IDENTITY).new_item.connect((item, c) => {
+        stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).new_item.connect((item, c) => {
             if (conversation.equals(c)) {
                 content_item_received(item);
             }
         });
-        stream_interactor.get_module(MessageCorrection.IDENTITY).received_correction.connect((item) => {
+        stream_interactor.get_module<MessageCorrection>(MessageCorrection.IDENTITY).received_correction.connect((item) => {
             if (last_content_item != null && last_content_item.id == item.id) {
                 content_item_received(item);
             }
         });
-        stream_interactor.get_module(MessageDeletion.IDENTITY).item_deleted.connect((item) => {
+        stream_interactor.get_module<MessageDeletion>(MessageDeletion.IDENTITY).item_deleted.connect((item) => {
             if (last_content_item != null && last_content_item.id == item.id) {
                 content_item_received(item);
             }
         });
-        stream_interactor.get_module(ConversationManager.IDENTITY).conversation_cleared.connect((cleared_conversation) => {
+        stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).conversation_cleared.connect((cleared_conversation) => {
             if (conversation.id == cleared_conversation.id) {
                 last_content_item = null;
                 update_message_label();
@@ -134,7 +134,7 @@ public class ConversationSelectorRow : ListBoxRow {
             }
         });
 
-        last_content_item = stream_interactor.get_module(ContentItemStore.IDENTITY).get_latest(conversation);
+        last_content_item = stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).get_latest(conversation);
 
         picture.model = new ViewModel.CompatAvatarPictureModel(stream_interactor).set_conversation(conversation);
         conversation.notify["read-up-to-item"].connect(() => update_read());
@@ -143,7 +143,7 @@ public class ConversationSelectorRow : ListBoxRow {
         
         // Listen for block status changes
         if (conversation.type_ == Conversation.Type.CHAT) {
-            stream_interactor.get_module(BlockingManager.IDENTITY).block_changed.connect((account, jid) => {
+            stream_interactor.get_module<BlockingManager>(BlockingManager.IDENTITY).block_changed.connect((account, jid) => {
                 if (conversation.account.equals(account) && conversation.counterpart.equals_bare(jid)) {
                     update_blocked_icon();
                 }
@@ -159,7 +159,7 @@ public class ConversationSelectorRow : ListBoxRow {
 
     ~ConversationSelectorRow() {
         if (conversation.type_ == Conversation.Type.CHAT) {
-            var pm = stream_interactor.get_module(PresenceManager.IDENTITY);
+            var pm = stream_interactor.get_module<PresenceManager>(PresenceManager.IDENTITY);
             pm.show_received.disconnect(on_presence_changed);
             pm.received_offline_presence.disconnect(on_presence_changed);
         }
@@ -170,7 +170,7 @@ public class ConversationSelectorRow : ListBoxRow {
     }
 
     public void content_item_received(ContentItem? ci = null) {
-        last_content_item = stream_interactor.get_module(ContentItemStore.IDENTITY).get_latest(conversation) ?? ci;
+        last_content_item = stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).get_latest(conversation) ?? ci;
         update_message_label();
         update_time_label();
         update_read();
@@ -203,7 +203,7 @@ public class ConversationSelectorRow : ListBoxRow {
 
     private void update_blocked_icon() {
         if (conversation.type_ == Conversation.Type.CHAT) {
-            bool is_blocked = stream_interactor.get_module(BlockingManager.IDENTITY).is_blocked(conversation.account, conversation.counterpart);
+            bool is_blocked = stream_interactor.get_module<BlockingManager>(BlockingManager.IDENTITY).is_blocked(conversation.account, conversation.counterpart);
             blocked_image.visible = is_blocked;
         } else {
             blocked_image.visible = false;
@@ -313,7 +313,7 @@ public class ConversationSelectorRow : ListBoxRow {
     }
 
     private void update_read_idle(bool force_update = false) {
-        int current_num_unread = stream_interactor.get_module(ChatInteraction.IDENTITY).get_num_unread(conversation);
+        int current_num_unread = stream_interactor.get_module<ChatInteraction>(ChatInteraction.IDENTITY).get_num_unread(conversation);
         if (num_unread == current_num_unread && !force_update) return;
         num_unread = current_num_unread;
 
@@ -355,7 +355,7 @@ public class ConversationSelectorRow : ListBoxRow {
         int row = 1;
 
         // Room topic/subject
-        string? topic = stream_interactor.get_module(MucManager.IDENTITY).get_groupchat_subject(conversation.counterpart, conversation.account);
+        string? topic = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_groupchat_subject(conversation.counterpart, conversation.account);
         debug("generate_groupchat_tooltip: topic='%s' for %s", topic ?? "(null)", conversation.counterpart.to_string());
         if (topic != null && topic.strip() != "") {
             Label topic_title = new Label(_("Thema:")) { valign=Align.START, xalign=0 };
@@ -374,7 +374,7 @@ public class ConversationSelectorRow : ListBoxRow {
         }
 
         // Room features (private/public, members-only, etc.)
-        MucManager muc_manager = stream_interactor.get_module(MucManager.IDENTITY);
+        MucManager muc_manager = stream_interactor.get_module<MucManager>(MucManager.IDENTITY);
         var features = new StringBuilder();
         
         if (muc_manager.is_private_room(conversation.account, conversation.counterpart)) {
@@ -408,13 +408,13 @@ public class ConversationSelectorRow : ListBoxRow {
 
         grid.attach(label, 0, 0, 2, 1);
 
-        Gee.List<Jid>? full_jids = stream_interactor.get_module(PresenceManager.IDENTITY).get_full_jids(conversation.counterpart, conversation.account);
+        Gee.List<Jid>? full_jids = stream_interactor.get_module<PresenceManager>(PresenceManager.IDENTITY).get_full_jids(conversation.counterpart, conversation.account);
         if (full_jids == null) return grid;
 
         for (int i = 0; i < full_jids.size; i++) {
             Jid full_jid = full_jids[i];
-            string? show = stream_interactor.get_module(PresenceManager.IDENTITY).get_last_show(full_jid, conversation.account);
-            string? status_msg = stream_interactor.get_module(PresenceManager.IDENTITY).get_last_status_msg(full_jid, conversation.account);
+            string? show = stream_interactor.get_module<PresenceManager>(PresenceManager.IDENTITY).get_last_show(full_jid, conversation.account);
+            string? status_msg = stream_interactor.get_module<PresenceManager>(PresenceManager.IDENTITY).get_last_status_msg(full_jid, conversation.account);
 
             string? status_text = null;
             if (show == Presence.Stanza.SHOW_AWAY) {
@@ -428,8 +428,8 @@ public class ConversationSelectorRow : ListBoxRow {
             }
 
             int i_cache = i;
-            stream_interactor.get_module(EntityInfo.IDENTITY).get_identity.begin(conversation.account, full_jid, (_, res) => {
-                Xep.ServiceDiscovery.Identity? identity = stream_interactor.get_module(EntityInfo.IDENTITY).get_identity.end(res);
+            stream_interactor.get_module<EntityInfo>(EntityInfo.IDENTITY).get_identity.begin(conversation.account, full_jid, (_, res) => {
+                Xep.ServiceDiscovery.Identity? identity = stream_interactor.get_module<EntityInfo>(EntityInfo.IDENTITY).get_identity.end(res);
 
                 Image image = new Image() { hexpand=false, valign=Align.CENTER };
                 if (identity != null && (identity.type_ == Xep.ServiceDiscovery.Identity.TYPE_PHONE || identity.type_ == Xep.ServiceDiscovery.Identity.TYPE_TABLET)) {
@@ -559,7 +559,7 @@ public class ConversationSelectorRow : ListBoxRow {
             menu.append(is_muted ? _("Unmute") : _("Mute"), "row.mute");
             
             // Block/Unblock
-            bool is_blocked = stream_interactor.get_module(BlockingManager.IDENTITY).is_blocked(conversation.account, conversation.counterpart);
+            bool is_blocked = stream_interactor.get_module<BlockingManager>(BlockingManager.IDENTITY).is_blocked(conversation.account, conversation.counterpart);
             menu.append(is_blocked ? _("Unblock") : _("Block"), "row.block");
             
             menu.append(_("Delete Conversation History"), "row.clear");
@@ -634,7 +634,7 @@ public class ConversationSelectorRow : ListBoxRow {
         
         var entry = new Entry() {
             placeholder_text = _("Alias"),
-            text = stream_interactor.get_module(RosterManager.IDENTITY).get_roster_item(conversation.account, conversation.counterpart)?.name ?? ""
+            text = stream_interactor.get_module<RosterManager>(RosterManager.IDENTITY).get_roster_item(conversation.account, conversation.counterpart)?.name ?? ""
         };
         
         dialog.set_extra_child(entry);
@@ -648,7 +648,7 @@ public class ConversationSelectorRow : ListBoxRow {
             if (response == "save") {
                 string new_alias = entry.text.strip();
                 if (new_alias.length > 0) {
-                    stream_interactor.get_module(RosterManager.IDENTITY).set_jid_handle(conversation.account, conversation.counterpart, new_alias);
+                    stream_interactor.get_module<RosterManager>(RosterManager.IDENTITY).set_jid_handle(conversation.account, conversation.counterpart, new_alias);
                 }
             }
         });
@@ -701,7 +701,7 @@ public class ConversationSelectorRow : ListBoxRow {
     }
 
     private void toggle_block() {
-        bool currently_blocked = stream_interactor.get_module(BlockingManager.IDENTITY).is_blocked(conversation.account, conversation.counterpart);
+        bool currently_blocked = stream_interactor.get_module<BlockingManager>(BlockingManager.IDENTITY).is_blocked(conversation.account, conversation.counterpart);
         
         if (currently_blocked) {
             // Unblock
@@ -717,7 +717,7 @@ public class ConversationSelectorRow : ListBoxRow {
             
             dialog.response.connect((response) => {
                 if (response == "unblock") {
-                    stream_interactor.get_module(BlockingManager.IDENTITY).unblock(conversation.account, conversation.counterpart);
+                    stream_interactor.get_module<BlockingManager>(BlockingManager.IDENTITY).unblock(conversation.account, conversation.counterpart);
                 }
             });
             
@@ -736,7 +736,7 @@ public class ConversationSelectorRow : ListBoxRow {
             
             dialog.response.connect((response) => {
                 if (response == "block") {
-                    stream_interactor.get_module(BlockingManager.IDENTITY).block(conversation.account, conversation.counterpart);
+                    stream_interactor.get_module<BlockingManager>(BlockingManager.IDENTITY).block(conversation.account, conversation.counterpart);
                 }
             });
             
@@ -758,13 +758,13 @@ public class ConversationSelectorRow : ListBoxRow {
         dialog.response.connect((response) => {
             if (response == "remove") {
                 // Clear conversation history
-                stream_interactor.get_module(ConversationManager.IDENTITY).clear_conversation_history(conversation);
+                stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).clear_conversation_history(conversation);
                 
                 // Close conversation
-                stream_interactor.get_module(ConversationManager.IDENTITY).close_conversation(conversation);
+                stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).close_conversation(conversation);
                 
                 // Remove from roster
-                stream_interactor.get_module(RosterManager.IDENTITY).remove_jid(conversation.account, conversation.counterpart);
+                stream_interactor.get_module<RosterManager>(RosterManager.IDENTITY).remove_jid(conversation.account, conversation.counterpart);
             }
         });
         
@@ -782,7 +782,7 @@ public class ConversationSelectorRow : ListBoxRow {
         var root = this.get_root() as Gtk.Window;
 
         dialog.selected.connect((account, jid) => {
-            stream_interactor.get_module(MucManager.IDENTITY).invite(conversation.account, conversation.counterpart, jid);
+            stream_interactor.get_module<MucManager>(MucManager.IDENTITY).invite(conversation.account, conversation.counterpart, jid);
             dialog.close();
         });
         
@@ -811,7 +811,7 @@ public class ConversationSelectorRow : ListBoxRow {
         dialog.response.connect((response) => {
             if (response == "delete") {
                 bool global = global_check != null && global_check.active;
-                stream_interactor.get_module(ConversationManager.IDENTITY).clear_conversation_history(conversation, global);
+                stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).clear_conversation_history(conversation, global);
             }
         });
         
@@ -830,12 +830,12 @@ public class ConversationSelectorRow : ListBoxRow {
             return;
         }
 
-        Gee.List<Jid>? full_jids = stream_interactor.get_module(PresenceManager.IDENTITY).get_full_jids(conversation.counterpart, conversation.account);
+        Gee.List<Jid>? full_jids = stream_interactor.get_module<PresenceManager>(PresenceManager.IDENTITY).get_full_jids(conversation.counterpart, conversation.account);
         
         string? best_show = null;
         if (full_jids != null) {
             foreach (Jid full_jid in full_jids) {
-                string? show = stream_interactor.get_module(PresenceManager.IDENTITY).get_last_show(full_jid, conversation.account);
+                string? show = stream_interactor.get_module<PresenceManager>(PresenceManager.IDENTITY).get_last_show(full_jid, conversation.account);
                 if (show == null) continue;
                 
                 if (best_show == null) {
@@ -881,7 +881,7 @@ public class ConversationSelectorRow : ListBoxRow {
             return;
         }
 
-        bool is_private = stream_interactor.get_module(MucManager.IDENTITY).is_private_room(
+        bool is_private = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).is_private_room(
             conversation.account, 
             conversation.counterpart
         );

@@ -46,7 +46,7 @@ namespace Dino {
             if (account.alias != null && account.alias.length == 0) return null;
             return account.alias;
         }
-        Roster.Item roster_item = stream_interactor.get_module(RosterManager.IDENTITY).get_roster_item(account, jid);
+        Roster.Item roster_item = stream_interactor.get_module<RosterManager>(RosterManager.IDENTITY).get_roster_item(account, jid);
         if (roster_item != null && roster_item.name != null && roster_item.name != "") {
             return roster_item.name;
         }
@@ -54,7 +54,7 @@ namespace Dino {
     }
 
     public static string get_groupchat_display_name(StreamInteractor stream_interactor, Account account, Jid jid) {
-        MucManager muc_manager = stream_interactor.get_module(MucManager.IDENTITY);
+        MucManager muc_manager = stream_interactor.get_module<MucManager>(MucManager.IDENTITY);
         
         // Priority 1: User's personal bookmark name (highest priority)
         string? bookmark_name = muc_manager.get_bookmark_name(account, jid);
@@ -77,7 +77,7 @@ namespace Dino {
 
     public static string get_occupant_display_name(StreamInteractor stream_interactor, Conversation conversation, Jid jid, string? self_word = null, bool muc_real_name = false) {
         if (muc_real_name) {
-            MucManager muc_manager = stream_interactor.get_module(MucManager.IDENTITY);
+            MucManager muc_manager = stream_interactor.get_module<MucManager>(MucManager.IDENTITY);
             if (muc_manager.is_private_room(conversation.account, conversation.counterpart)) {
                 Jid? real_jid = null;
                 if (jid.equals_bare(conversation.counterpart)) {
@@ -94,7 +94,7 @@ namespace Dino {
 
         // If it's us (jid=our real full JID), display our nick
         if (conversation.type_ == Conversation.Type.GROUPCHAT_PM && conversation.account.bare_jid.equals_bare(jid)) {
-            var muc_conv = stream_interactor.get_module(ConversationManager.IDENTITY).get_conversation(conversation.counterpart.bare_jid, conversation.account, Conversation.Type.GROUPCHAT);
+            var muc_conv = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_conversation(conversation.counterpart.bare_jid, conversation.account, Conversation.Type.GROUPCHAT);
             if (muc_conv != null && muc_conv.nickname != null) {
                 return muc_conv.nickname;
             }
@@ -102,7 +102,7 @@ namespace Dino {
 
         // If it's someone else's real jid, recover nickname
         if (!jid.equals_bare(conversation.counterpart)) {
-            MucManager muc_manager = stream_interactor.get_module(MucManager.IDENTITY);
+            MucManager muc_manager = stream_interactor.get_module<MucManager>(MucManager.IDENTITY);
             Jid? occupant_jid = muc_manager.get_occupant_jid(conversation.account, conversation.counterpart.bare_jid, jid);
             if (occupant_jid != null && occupant_jid.resourcepart != null) {
                 return occupant_jid.resourcepart;

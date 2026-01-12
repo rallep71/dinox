@@ -255,7 +255,7 @@ public class SearchProcessor : StreamInteractionModule, Object {
         foreach (Row row in rows) {
             try {
                 Message message = new Message.from_row(db, row);
-                Conversation? conversation = stream_interactor.get_module(ConversationManager.IDENTITY).get_conversation_for_message(message);
+                Conversation? conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_conversation_for_message(message);
                 ret.add(new MessageItem(message, conversation, row[db.content_item.id]));
             } catch (InvalidJidError e) {
                 warning("Ignoring search result with invalid Jid: %s", e.message);

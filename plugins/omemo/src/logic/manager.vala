@@ -68,9 +68,9 @@ public class Manager : StreamInteractionModule, Object {
 
         stream_interactor.account_added.connect(on_account_added);
         stream_interactor.stream_negotiated.connect(on_stream_negotiated);
-        stream_interactor.get_module(MessageProcessor.IDENTITY).pre_message_send.connect(on_pre_message_send);
-        stream_interactor.get_module(RosterManager.IDENTITY).mutual_subscription.connect(on_mutual_subscription);
-        stream_interactor.get_module(ConversationManager.IDENTITY).conversation_cleared.connect(on_conversation_cleared);
+        stream_interactor.get_module<MessageProcessor>(MessageProcessor.IDENTITY).pre_message_send.connect(on_pre_message_send);
+        stream_interactor.get_module<RosterManager>(RosterManager.IDENTITY).mutual_subscription.connect(on_mutual_subscription);
+        stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).conversation_cleared.connect(on_conversation_cleared);
     }
 
     private void on_conversation_cleared(Conversation conversation) {
@@ -107,15 +107,15 @@ public class Manager : StreamInteractionModule, Object {
         XmppStream? stream = stream_interactor.get_stream(account);
         if (stream == null) return;
 
-        stream.get_module(StreamModule.IDENTITY).clear_device_list(stream);
+        stream.get_module<StreamModule>(StreamModule.IDENTITY).clear_device_list(stream);
     }
 
     private Gee.List<Jid> get_occupants(Jid jid, Account account){
         Gee.List<Jid> occupants = new ArrayList<Jid>(Jid.equals_bare_func);
-        if(!stream_interactor.get_module(MucManager.IDENTITY).is_groupchat(jid, account)){
+        if(!stream_interactor.get_module<MucManager>(MucManager.IDENTITY).is_groupchat(jid, account)){
             occupants.add(jid);
         }
-        Gee.List<Jid>? occupant_jids = stream_interactor.get_module(MucManager.IDENTITY).get_offline_members(jid, account);
+        Gee.List<Jid>? occupant_jids = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_offline_members(jid, account);
         if(occupant_jids == null) {
             return occupants;
         }
@@ -138,7 +138,7 @@ public class Manager : StreamInteractionModule, Object {
                 message.marked = Entities.Message.Marked.UNSENT;
                 return;
             }
-            StreamModule? module_ = ((!)stream).get_module(StreamModule.IDENTITY);
+            StreamModule? module_ = ((!)stream).get_module<StreamModule>(StreamModule.IDENTITY);
             if (module_ == null) {
                 message.marked = Entities.Message.Marked.UNSENT;
                 return;
@@ -207,11 +207,11 @@ public class Manager : StreamInteractionModule, Object {
         XmppStream? stream = stream_interactor.get_stream(account);
         if(stream == null) return;
 
-        stream_interactor.module_manager.get_module(account, StreamModule.IDENTITY).request_user_devicelist.begin((!)stream, jid);
+        stream_interactor.module_manager.get_module<StreamModule>(account, StreamModule.IDENTITY).request_user_devicelist.begin((!)stream, jid);
     }
 
     private void on_stream_negotiated(Account account, XmppStream stream) {
-        StreamModule module = stream_interactor.module_manager.get_module(account, StreamModule.IDENTITY);
+        StreamModule module = stream_interactor.module_manager.get_module<StreamModule>(account, StreamModule.IDENTITY);
         if (module != null) {
             // Request our device list - this will automatically trigger republish if needed
             module.request_user_devicelist.begin(stream, account.bare_jid, (obj, res) => {
@@ -226,7 +226,7 @@ public class Manager : StreamInteractionModule, Object {
         int identity_id = db.identity.get_id(account.id);
         if (identity_id < 0) return;
 
-        StreamModule? module = stream.get_module(StreamModule.IDENTITY);
+        StreamModule? module = stream.get_module<StreamModule>(StreamModule.IDENTITY);
         if (module == null) return;
         int32 current_device_id = (int32) module.store.local_registration_id;
 
@@ -268,14 +268,14 @@ public class Manager : StreamInteractionModule, Object {
 
         // Publish to trigger PEP notification to all subscribers
         // NODE_DEVICELIST = "eu.siacs.conversations.axolotl.devicelist"
-        stream.get_module(Xep.Pubsub.Module.IDENTITY).publish.begin(stream, account.bare_jid, 
+        stream.get_module<Xep.Pubsub.Module>(Xep.Pubsub.Module.IDENTITY).publish.begin(stream, account.bare_jid, 
             Xep.Omemo.NS_URI + ".devicelist", null, list_node);
         
         debug("Republished device list for %s with %d devices", account.bare_jid.to_string(), devices.size);
     }
 
     private void on_account_added(Account account) {
-        StreamModule module = stream_interactor.module_manager.get_module(account, StreamModule.IDENTITY);
+        StreamModule module = stream_interactor.module_manager.get_module<StreamModule>(account, StreamModule.IDENTITY);
         if (module != null) {
             module.device_list_loaded.connect((jid, devices) => on_device_list_loaded(account, jid, devices));
             module.bundle_fetched.connect((jid, device_id, bundle) => on_bundle_fetched(account, jid, device_id, bundle));
@@ -291,7 +291,7 @@ public class Manager : StreamInteractionModule, Object {
         if (stream == null) {
             return;
         }
-        StreamModule? module = ((!)stream).get_module(StreamModule.IDENTITY);
+        StreamModule? module = ((!)stream).get_module<StreamModule>(StreamModule.IDENTITY);
         if (module == null) {
             return;
         }
@@ -343,9 +343,9 @@ public class Manager : StreamInteractionModule, Object {
         }
         foreach (Entities.Message msg in send_now) {
             if (msg.counterpart == null) continue;
-            Entities.Conversation? conv = stream_interactor.get_module(ConversationManager.IDENTITY).get_conversation(((!)msg.counterpart), account);
+            Entities.Conversation? conv = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_conversation(((!)msg.counterpart), account);
             if (conv == null) continue;
-            stream_interactor.get_module(MessageProcessor.IDENTITY).send_xmpp_message(msg, (!)conv, true);
+            stream_interactor.get_module<MessageProcessor>(MessageProcessor.IDENTITY).send_xmpp_message(msg, (!)conv, true);
         }
 
     }
@@ -381,7 +381,7 @@ public class Manager : StreamInteractionModule, Object {
         if (should_start_session(account, jid)) {
             XmppStream? stream = stream_interactor.get_stream(account);
             if (stream != null) {
-                StreamModule? module = ((!)stream).get_module(StreamModule.IDENTITY);
+                StreamModule? module = ((!)stream).get_module<StreamModule>(StreamModule.IDENTITY);
                 if (module != null) {
                     module.start_session(stream, jid, device_id, bundle);
                 }
@@ -432,9 +432,9 @@ public class Manager : StreamInteractionModule, Object {
         }
         foreach (Entities.Message msg in send_now) {
             if (msg.counterpart == null) continue;
-            Entities.Conversation? conv = stream_interactor.get_module(ConversationManager.IDENTITY).get_conversation((!)msg.counterpart, account);
+            Entities.Conversation? conv = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_conversation((!)msg.counterpart, account);
             if (conv == null) continue;
-            stream_interactor.get_module(MessageProcessor.IDENTITY).send_xmpp_message(msg, (!)conv, true);
+            stream_interactor.get_module<MessageProcessor>(MessageProcessor.IDENTITY).send_xmpp_message(msg, (!)conv, true);
         }
     }
 
@@ -444,7 +444,7 @@ public class Manager : StreamInteractionModule, Object {
             account.notify["id"].connect(() => initialize_store.callback());
             yield;
         }
-        StreamModule? module = stream_interactor.module_manager.get_module(account, StreamModule.IDENTITY);
+        StreamModule? module = stream_interactor.module_manager.get_module<StreamModule>(account, StreamModule.IDENTITY);
         if (module == null) return;
         Store store = module.store;
         Qlite.Row? row = db.identity.row_with(db.identity.account_id, account.id).inner;
@@ -493,8 +493,8 @@ public class Manager : StreamInteractionModule, Object {
     }
 
     public async bool ensure_get_keys_for_conversation(Conversation conversation) {
-        if (stream_interactor.get_module(MucManager.IDENTITY).is_private_room(conversation.account, conversation.counterpart)) {
-            foreach (Jid offline_member in stream_interactor.get_module(MucManager.IDENTITY).get_offline_members(conversation.counterpart, conversation.account)) {
+        if (stream_interactor.get_module<MucManager>(MucManager.IDENTITY).is_private_room(conversation.account, conversation.counterpart)) {
+            foreach (Jid offline_member in stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_offline_members(conversation.counterpart, conversation.account)) {
                 bool ok = yield ensure_get_keys_for_jid(conversation.account, offline_member);
                 if (!ok) {
                     return false;
@@ -510,7 +510,7 @@ public class Manager : StreamInteractionModule, Object {
         if (trust_manager.is_known_address(account, jid)) return true;
         XmppStream? stream = stream_interactor.get_stream(account);
         if (stream != null) {
-            var device_list = yield stream_interactor.module_manager.get_module(account, StreamModule.IDENTITY).request_user_devicelist(stream, jid);
+            var device_list = yield stream_interactor.module_manager.get_module<StreamModule>(account, StreamModule.IDENTITY).request_user_devicelist(stream, jid);
             return device_list.size > 0;
         }
         return true; // TODO wait for stream?

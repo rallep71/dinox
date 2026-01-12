@@ -46,20 +46,20 @@ namespace Dino.Plugins.OpenPgp {
         }
 
         public override void attach(XmppStream stream) {
-            stream.get_module(Presence.Module.IDENTITY).received_presence.connect(on_received_presence);
-            stream.get_module(Presence.Module.IDENTITY).pre_send_presence_stanza.connect(on_pre_send_presence_stanza);
-            stream.get_module(MessageModule.IDENTITY).received_pipeline.connect(received_pipeline_decrypt_listener);
+            stream.get_module<Presence.Module>(Presence.Module.IDENTITY).received_presence.connect(on_received_presence);
+            stream.get_module<Presence.Module>(Presence.Module.IDENTITY).pre_send_presence_stanza.connect(on_pre_send_presence_stanza);
+            stream.get_module<MessageModule>(MessageModule.IDENTITY).received_pipeline.connect(received_pipeline_decrypt_listener);
             stream.add_flag(new Flag());
         }
 
         public override void detach(XmppStream stream) {
-            stream.get_module(Presence.Module.IDENTITY).received_presence.disconnect(on_received_presence);
-            stream.get_module(Presence.Module.IDENTITY).pre_send_presence_stanza.disconnect(on_pre_send_presence_stanza);
-            stream.get_module(MessageModule.IDENTITY).received_pipeline.disconnect(received_pipeline_decrypt_listener);
+            stream.get_module<Presence.Module>(Presence.Module.IDENTITY).received_presence.disconnect(on_received_presence);
+            stream.get_module<Presence.Module>(Presence.Module.IDENTITY).pre_send_presence_stanza.disconnect(on_pre_send_presence_stanza);
+            stream.get_module<MessageModule>(MessageModule.IDENTITY).received_pipeline.disconnect(received_pipeline_decrypt_listener);
         }
 
         public static void require(XmppStream stream) {
-            if (stream.get_module(IDENTITY) == null) stream.add_module(new Module());
+            if (stream.get_module<Module>(IDENTITY) == null) stream.add_module(new Module());
         }
 
         public override string get_ns() { return NS_URI; }

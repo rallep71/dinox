@@ -89,10 +89,10 @@ public abstract class Xmpp.XmppStream : Object {
         }
     }
 
-    public T? get_module<T>(ModuleIdentity<T>? identity) {
+    public T? get_module<T>(SimpleModuleIdentity? identity) {
         if (identity == null) return null;
         foreach (var module in modules) {
-            if (((!)identity).matches(module)) return ((!)identity).cast(module);
+            if (((!)identity).matches(module)) return (T) module;
         }
         return null;
     }

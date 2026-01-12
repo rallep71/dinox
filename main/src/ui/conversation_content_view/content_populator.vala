@@ -27,11 +27,11 @@ public class ContentProvider : ContentItemCollection, Object {
 
     public void init(Plugins.ConversationItemCollection item_collection, Conversation conversation, Plugins.WidgetType type) {
         if (current_conversation != null) {
-            stream_interactor.get_module(ContentItemStore.IDENTITY).uninit(current_conversation, this);
+            stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).uninit(current_conversation, this);
         }
         current_conversation = conversation;
         this.item_collection = item_collection;
-        stream_interactor.get_module(ContentItemStore.IDENTITY).init(conversation, this);
+        stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).init(conversation, this);
     }
 
     public void insert_item(ContentItem item) {
@@ -45,7 +45,7 @@ public class ContentProvider : ContentItemCollection, Object {
 
 
     public Gee.List<ContentMetaItem> populate_latest(Conversation conversation, int n) {
-        Gee.List<ContentItem> items = stream_interactor.get_module(ContentItemStore.IDENTITY).get_n_latest(conversation, n);
+        Gee.List<ContentItem> items = stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).get_n_latest(conversation, n);
         Gee.List<ContentMetaItem> ret = new ArrayList<ContentMetaItem>();
         foreach (ContentItem item in items) {
             ret.add(create_content_meta_item(item));
@@ -55,7 +55,7 @@ public class ContentProvider : ContentItemCollection, Object {
 
     public Gee.List<ContentMetaItem> populate_before(Conversation conversation, ContentItem before_item, int n) {
         Gee.List<ContentMetaItem> ret = new ArrayList<ContentMetaItem>();
-        Gee.List<ContentItem> items = stream_interactor.get_module(ContentItemStore.IDENTITY).get_before(conversation, before_item, n);
+        Gee.List<ContentItem> items = stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).get_before(conversation, before_item, n);
         foreach (ContentItem item in items) {
             ret.add(create_content_meta_item(item));
         }
@@ -64,7 +64,7 @@ public class ContentProvider : ContentItemCollection, Object {
 
     public Gee.List<ContentMetaItem> populate_after(Conversation conversation, ContentItem after_item, int n) {
         Gee.List<ContentMetaItem> ret = new ArrayList<ContentMetaItem>();
-        Gee.List<ContentItem> items = stream_interactor.get_module(ContentItemStore.IDENTITY).get_after(conversation, after_item, n);
+        Gee.List<ContentItem> items = stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).get_after(conversation, after_item, n);
         foreach (ContentItem item in items) {
             var meta_item = create_content_meta_item(item);
             if (meta_item != null) {

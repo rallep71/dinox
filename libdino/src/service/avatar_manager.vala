@@ -181,7 +181,7 @@ public class AvatarManager : StreamInteractionModule, Object {
 
     private string? get_avatar_hash(Account account, Jid jid_) {
         Jid jid = jid_;
-        if (!stream_interactor.get_module(MucManager.IDENTITY).is_groupchat_occupant(jid_, account)) {
+        if (!stream_interactor.get_module<MucManager>(MucManager.IDENTITY).is_groupchat_occupant(jid_, account)) {
             jid = jid_.bare_jid;
         }
         if (user_avatars.has_key(jid)) {
@@ -263,7 +263,7 @@ public class AvatarManager : StreamInteractionModule, Object {
     private async void unset_vcard_avatar(XmppStream stream, Account account) {
         try {
             Iq.Stanza iq = new Iq.Stanza.get(new StanzaNode.build("vCard", "vcard-temp").add_self_xmlns());
-            Iq.Stanza iq_res = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+            Iq.Stanza iq_res = yield stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq_async(stream, iq);
 
             if (iq_res.is_error()) return;
 
@@ -284,7 +284,7 @@ public class AvatarManager : StreamInteractionModule, Object {
             // Do NOT add any PHOTO element. This removes it entirely.
 
             Iq.Stanza iq_set = new Iq.Stanza.set(new_vcard);
-            Iq.Stanza iq_set_res = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq_set);
+            Iq.Stanza iq_set_res = yield stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq_async(stream, iq_set);
             
             if (iq_set_res.is_error()) return;
 
@@ -329,13 +329,13 @@ public class AvatarManager : StreamInteractionModule, Object {
     }
 
     private void on_account_added(Account account) {
-        stream_interactor.module_manager.get_module(account, Xep.UserAvatars.Module.IDENTITY).received_avatar_hash.connect((stream, jid, id) =>
+        stream_interactor.module_manager.get_module<Xep.UserAvatars.Module>(account, Xep.UserAvatars.Module.IDENTITY).received_avatar_hash.connect((stream, jid, id) =>
             on_user_avatar_received(account, jid, id)
         );
-        stream_interactor.module_manager.get_module(account, Xep.UserAvatars.Module.IDENTITY).avatar_removed.connect((stream, jid) => {
+        stream_interactor.module_manager.get_module<Xep.UserAvatars.Module>(account, Xep.UserAvatars.Module.IDENTITY).avatar_removed.connect((stream, jid) => {
             on_user_avatar_removed(account, jid);
         });
-        stream_interactor.module_manager.get_module(account, Xep.VCard.Module.IDENTITY).received_avatar_hash.connect((stream, jid, id) =>
+        stream_interactor.module_manager.get_module<Xep.VCard.Module>(account, Xep.VCard.Module.IDENTITY).received_avatar_hash.connect((stream, jid, id) =>
             on_vcard_avatar_received(account, jid, id)
         );
 
@@ -365,7 +365,7 @@ public class AvatarManager : StreamInteractionModule, Object {
     }
 
     public void on_vcard_avatar_received(Account account, Jid jid_, string id) {
-        bool is_gc = stream_interactor.get_module(MucManager.IDENTITY).might_be_groupchat(jid_.bare_jid, account);
+        bool is_gc = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).might_be_groupchat(jid_.bare_jid, account);
         Jid jid = is_gc ? jid_ : jid_.bare_jid;
 
         if (!vcard_avatars.has_key(jid) || vcard_avatars[jid] != id) {

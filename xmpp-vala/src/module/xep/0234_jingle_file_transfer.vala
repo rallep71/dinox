@@ -14,12 +14,12 @@ public class Module : Jingle.ContentType, XmppStreamModule {
     public SessionInfoType session_info_type = new SessionInfoType();
 
     public override void attach(XmppStream stream) {
-        stream.get_module(ServiceDiscovery.Module.IDENTITY).add_feature(stream, NS_URI);
-        stream.get_module(Jingle.Module.IDENTITY).register_content_type(this);
-        stream.get_module(Jingle.Module.IDENTITY).register_session_info_type(session_info_type);
+        stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).add_feature(stream, NS_URI);
+        stream.get_module<Jingle.Module>(Jingle.Module.IDENTITY).register_content_type(this);
+        stream.get_module<Jingle.Module>(Jingle.Module.IDENTITY).register_session_info_type(session_info_type);
     }
     public override void detach(XmppStream stream) {
-        stream.get_module(ServiceDiscovery.Module.IDENTITY).remove_feature(stream, NS_URI);
+        stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).remove_feature(stream, NS_URI);
     }
 
     public string ns_uri { get { return NS_URI; } }
@@ -35,11 +35,11 @@ public class Module : Jingle.ContentType, XmppStreamModule {
     }
 
     public async bool is_available(XmppStream stream, Jid full_jid) {
-        bool? has_feature = yield stream.get_module(ServiceDiscovery.Module.IDENTITY).has_entity_feature(stream, full_jid, NS_URI);
+        bool? has_feature = yield stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).has_entity_feature(stream, full_jid, NS_URI);
         if (has_feature == null || !(!)has_feature) {
             return false;
         }
-        return yield stream.get_module(Jingle.Module.IDENTITY).is_available(stream, required_transport_type, required_components, full_jid);
+        return yield stream.get_module<Jingle.Module>(Jingle.Module.IDENTITY).is_available(stream, required_transport_type, required_components, full_jid);
     }
 
     public async void offer_file_stream(XmppStream stream, Jid receiver_full_jid, InputStream input_stream, string basename, int64 size, string? precondition_name = null, Object? precondition_options = null) throws Jingle.Error {
@@ -63,7 +63,7 @@ public class Module : Jingle.ContentType, XmppStreamModule {
             throw new Jingle.Error.BAD_REQUEST(e.message);
         }
 
-        Jingle.Module jingle_module = stream.get_module(Jingle.Module.IDENTITY);
+        Jingle.Module jingle_module = stream.get_module<Jingle.Module>(Jingle.Module.IDENTITY);
 
         Jingle.Transport? transport = yield jingle_module.select_transport(stream, required_transport_type, required_components, receiver_full_jid, Set.empty());
         if (transport == null) {

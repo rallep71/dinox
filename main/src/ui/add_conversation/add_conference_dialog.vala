@@ -111,8 +111,8 @@ public class AddConferenceDialog : Adw.Dialog {
             ConferenceListRow conference_row = row as ConferenceListRow;
             if (conference_row == null) return;
             // First leave the room (part), then remove the bookmark
-            stream_interactor.get_module(MucManager.IDENTITY).part(conference_row.account, conference_row.bookmark.jid);
-            stream_interactor.get_module(MucManager.IDENTITY).remove_bookmark(conference_row.account, conference_row.bookmark);
+            stream_interactor.get_module<MucManager>(MucManager.IDENTITY).part(conference_row.account, conference_row.bookmark.jid);
+            stream_interactor.get_module<MucManager>(MucManager.IDENTITY).remove_bookmark(conference_row.account, conference_row.bookmark);
         });
 
         Box wrap_box = new Box(Orientation.VERTICAL, 0);

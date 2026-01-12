@@ -27,8 +27,8 @@ public class Manager : StreamInteractionModule, Object {
         this.db = db;
 
         stream_interactor.account_added.connect(on_account_added);
-        stream_interactor.get_module(MessageProcessor.IDENTITY).received_pipeline.connect(received_message_listener);
-        stream_interactor.get_module(MessageProcessor.IDENTITY).pre_message_send.connect(check_encypt);
+        stream_interactor.get_module<MessageProcessor>(MessageProcessor.IDENTITY).received_pipeline.connect(received_message_listener);
+        stream_interactor.get_module<MessageProcessor>(MessageProcessor.IDENTITY).pre_message_send.connect(check_encypt);
     }
 
     public GPG.Key[] get_key_fprs(Conversation conversation) throws Error {
@@ -36,13 +36,13 @@ public class Manager : StreamInteractionModule, Object {
         keys.add(db.get_account_key(conversation.account));
         if (conversation.type_ == Conversation.Type.GROUPCHAT) {
             Gee.List<Jid> muc_jids = new Gee.ArrayList<Jid>();
-            Gee.List<Jid>? occupants = stream_interactor.get_module(MucManager.IDENTITY).get_occupants(conversation.counterpart, conversation.account);
+            Gee.List<Jid>? occupants = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_occupants(conversation.counterpart, conversation.account);
             if (occupants != null) muc_jids.add_all(occupants);
-            Gee.List<Jid>? offline_members = stream_interactor.get_module(MucManager.IDENTITY).get_offline_members(conversation.counterpart, conversation.account);
+            Gee.List<Jid>? offline_members = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_offline_members(conversation.counterpart, conversation.account);
             if (occupants != null) muc_jids.add_all(offline_members);
 
             foreach (Jid jid in muc_jids) {
-                string? key_id = stream_interactor.get_module(Manager.IDENTITY).get_key_id(conversation.account, jid);
+                string? key_id = stream_interactor.get_module<Manager>(Manager.IDENTITY).get_key_id(conversation.account, jid);
                 if (key_id != null && GPGHelper.get_keylist(key_id).size > 0 && !keys.contains(key_id)) {
                     keys.add(key_id);
                 }
@@ -72,7 +72,7 @@ public class Manager : StreamInteractionModule, Object {
                 GPG.Key[] keys = get_key_fprs(conversation);
                 XmppStream? stream = stream_interactor.get_stream(conversation.account);
                 if (stream != null) {
-                    bool encrypted = stream.get_module(Module.IDENTITY).encrypt(message_stanza, keys);
+                    bool encrypted = stream.get_module<Module>(Module.IDENTITY).encrypt(message_stanza, keys);
                     if (!encrypted) message.marked = Entities.Message.Marked.WONTSEND;
                 }
             }
@@ -83,12 +83,12 @@ public class Manager : StreamInteractionModule, Object {
     }
 
     public string? get_key_id(Account account, Jid jid) {
-        Jid search_jid = stream_interactor.get_module(MucManager.IDENTITY).is_groupchat_occupant(jid, account) ? jid : jid.bare_jid;
+        Jid search_jid = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).is_groupchat_occupant(jid, account) ? jid : jid.bare_jid;
         return db.get_contact_key(search_jid);
     }
 
     private void on_account_added(Account account) {
-        stream_interactor.module_manager.get_module(account, Module.IDENTITY).received_jid_key_id.connect((stream, jid, key_id) => {
+        stream_interactor.module_manager.get_module<Module>(account, Module.IDENTITY).received_jid_key_id.connect((stream, jid, key_id) => {
             on_jid_key_received(account, jid, key_id);
         });
     }
@@ -96,7 +96,7 @@ public class Manager : StreamInteractionModule, Object {
     private void on_jid_key_received(Account account, Jid jid, string key_id) {
         lock (pgp_key_ids) {
             if (!pgp_key_ids.has_key(jid) || pgp_key_ids[jid] != key_id) {
-                Jid set_jid = stream_interactor.get_module(MucManager.IDENTITY).is_groupchat_occupant(jid, account) ? jid : jid.bare_jid;
+                Jid set_jid = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).is_groupchat_occupant(jid, account) ? jid : jid.bare_jid;
                 db.set_contact_key(set_jid, key_id);
             }
             pgp_key_ids[jid] = key_id;

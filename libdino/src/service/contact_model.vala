@@ -24,23 +24,23 @@ namespace Dino {
         private ContactModels(StreamInteractor stream_interactor) {
             this.stream_interactor = stream_interactor;
 
-            stream_interactor.get_module(MucManager.IDENTITY).room_info_updated.connect((account, jid) => {
+            stream_interactor.get_module<MucManager>(MucManager.IDENTITY).room_info_updated.connect((account, jid) => {
                 debug("room_info_updated received for %s", jid.to_string());
                 check_update_models(account, jid, Conversation.Type.GROUPCHAT);
             });
-            stream_interactor.get_module(MucManager.IDENTITY).private_room_occupant_updated.connect((account, room, occupant) => {
+            stream_interactor.get_module<MucManager>(MucManager.IDENTITY).private_room_occupant_updated.connect((account, room, occupant) => {
                 check_update_models(account, room, Conversation.Type.GROUPCHAT);
             });
-            stream_interactor.get_module(MucManager.IDENTITY).subject_set.connect((account, jid, subject) => {
+            stream_interactor.get_module<MucManager>(MucManager.IDENTITY).subject_set.connect((account, jid, subject) => {
                 check_update_models(account, jid, Conversation.Type.GROUPCHAT);
             });
-            stream_interactor.get_module(RosterManager.IDENTITY).updated_roster_item.connect((account, jid, roster_item) => {
+            stream_interactor.get_module<RosterManager>(RosterManager.IDENTITY).updated_roster_item.connect((account, jid, roster_item) => {
                 check_update_models(account, jid, Conversation.Type.CHAT);
             });
         }
 
         private void check_update_models(Account account, Jid jid, Conversation.Type conversation_ty) {
-            var conversation = stream_interactor.get_module(ConversationManager.IDENTITY).get_conversation(jid, account, conversation_ty);
+            var conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_conversation(jid, account, conversation_ty);
             if (conversation == null) {
                 debug("check_update_models: No conversation for %s", jid.to_string());
                 return;

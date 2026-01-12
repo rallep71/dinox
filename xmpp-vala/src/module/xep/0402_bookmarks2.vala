@@ -15,7 +15,7 @@ public class Module : BookmarksProvider, XmppStreamModule {
         if (flag != null) {
             hm = flag.conferences;
         } else {
-            Gee.List<StanzaNode>? items = yield stream.get_module(Pubsub.Module.IDENTITY).request_all(stream, stream.get_flag(Bind.Flag.IDENTITY).my_jid.bare_jid, NS_URI);
+            Gee.List<StanzaNode>? items = yield stream.get_module<Pubsub.Module>(Pubsub.Module.IDENTITY).request_all(stream, stream.get_flag(Bind.Flag.IDENTITY).my_jid.bare_jid, NS_URI);
             if (items == null) return null;
 
             hm = new HashMap<Jid, Conference>(Jid.hash_func, Jid.equals_func);
@@ -53,7 +53,7 @@ public class Module : BookmarksProvider, XmppStreamModule {
                 .set_send_last_published_item("never")
                 .set_access_model("whitelist");
 
-        yield stream.get_module(Pubsub.Module.IDENTITY).publish(stream, stream.get_flag(Bind.Flag.IDENTITY).my_jid.bare_jid, NS_URI, conference.jid.to_string(), conference_node, publish_options);
+        yield stream.get_module<Pubsub.Module>(Pubsub.Module.IDENTITY).publish(stream, stream.get_flag(Bind.Flag.IDENTITY).my_jid.bare_jid, NS_URI, conference.jid.to_string(), conference_node, publish_options);
     }
 
     public async void replace_conference(XmppStream stream, Jid muc_jid, Conference modified_conference) {
@@ -61,7 +61,7 @@ public class Module : BookmarksProvider, XmppStreamModule {
     }
 
     public async void remove_conference(XmppStream stream, Conference conference) {
-        yield stream.get_module(Pubsub.Module.IDENTITY).retract_item(stream,
+        yield stream.get_module<Pubsub.Module>(Pubsub.Module.IDENTITY).retract_item(stream,
                     stream.get_flag(Bind.Flag.IDENTITY).my_jid.bare_jid,
                     NS_URI,
                     conference.jid.to_string());
@@ -120,11 +120,11 @@ public class Module : BookmarksProvider, XmppStreamModule {
     }
 
     public override void attach(XmppStream stream) {
-        stream.get_module(Pubsub.Module.IDENTITY).add_filtered_notification(stream, NS_URI, on_pupsub_item, on_pupsub_retract, null);
+        stream.get_module<Pubsub.Module>(Pubsub.Module.IDENTITY).add_filtered_notification(stream, NS_URI, on_pupsub_item, on_pupsub_retract, null);
     }
 
     public override void detach(XmppStream stream) {
-        stream.get_module(Pubsub.Module.IDENTITY).remove_filtered_notification(stream, NS_URI);
+        stream.get_module<Pubsub.Module>(Pubsub.Module.IDENTITY).remove_filtered_notification(stream, NS_URI);
     }
 
     public override string get_ns() { return NS_URI; }

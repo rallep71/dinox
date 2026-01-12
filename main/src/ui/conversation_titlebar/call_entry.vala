@@ -40,14 +40,14 @@ namespace Dino.Ui {
             action_group.add_action(video_call_action);
             button.insert_action_group("call", action_group);
 
-            stream_interactor.get_module(Calls.IDENTITY).call_incoming.connect((call, state,conversation) => {
+            stream_interactor.get_module<Calls>(Calls.IDENTITY).call_incoming.connect((call, state,conversation) => {
                 update_button_state();
             });
 
-            stream_interactor.get_module(Calls.IDENTITY).call_terminated.connect((call) => {
+            stream_interactor.get_module<Calls>(Calls.IDENTITY).call_terminated.connect((call) => {
                 update_button_state();
             });
-            stream_interactor.get_module(PresenceManager.IDENTITY).show_received.connect((jid, account) => {
+            stream_interactor.get_module<PresenceManager>(PresenceManager.IDENTITY).show_received.connect((jid, account) => {
                 if (this.conversation == null) return;
                 if (this.conversation.counterpart.equals_bare(jid) && this.conversation.account.equals(account)) {
                     update_visibility.begin();
@@ -61,14 +61,14 @@ namespace Dino.Ui {
         private void initiate_call(bool video) {
             // Check if this is a groupchat and if default MUC server is configured
             if (conversation.type_ == Conversation.Type.GROUPCHAT) {
-                if (!stream_interactor.get_module(Calls.IDENTITY).can_initiate_groupcall(conversation.account)) {
+                if (!stream_interactor.get_module<Calls>(Calls.IDENTITY).can_initiate_groupcall(conversation.account)) {
                     show_muc_server_required_dialog();
                     return;
                 }
             }
 
-            stream_interactor.get_module(Calls.IDENTITY).initiate_call.begin(conversation, video, (_, res) => {
-                CallState call_state = stream_interactor.get_module(Calls.IDENTITY).initiate_call.end(res);
+            stream_interactor.get_module<Calls>(Calls.IDENTITY).initiate_call.begin(conversation, video, (_, res) => {
+                CallState call_state = stream_interactor.get_module<Calls>(Calls.IDENTITY).initiate_call.end(res);
                 open_call_window(call_state);
             });
         }
@@ -112,7 +112,7 @@ namespace Dino.Ui {
         }
 
         private void update_button_state() {
-            button.sensitive = !stream_interactor.get_module(Calls.IDENTITY).is_call_in_progress();
+            button.sensitive = !stream_interactor.get_module<Calls>(Calls.IDENTITY).is_call_in_progress();
         }
 
         private async void update_visibility() {
@@ -122,7 +122,7 @@ namespace Dino.Ui {
             }
 
             Conversation conv_bak = conversation;
-            bool can_do_calls = yield stream_interactor.get_module(Calls.IDENTITY).can_conversation_do_calls(conversation);
+            bool can_do_calls = yield stream_interactor.get_module<Calls>(Calls.IDENTITY).can_conversation_do_calls(conversation);
             if (conv_bak != conversation) return;
 
             button.visible = can_do_calls;

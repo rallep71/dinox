@@ -17,7 +17,7 @@ public class Dino.StatelessFileSharing : StreamInteractionModule, Object {
     }
 
     public FileManager file_manager {
-        owned get { return stream_interactor.get_module(FileManager.IDENTITY); }
+        owned get { return stream_interactor.get_module<FileManager>(FileManager.IDENTITY); }
         private set { }
     }
 
@@ -30,7 +30,7 @@ public class Dino.StatelessFileSharing : StreamInteractionModule, Object {
         this.stream_interactor = stream_interactor;
         this.db = db;
 
-        stream_interactor.get_module(MessageProcessor.IDENTITY).received_pipeline.connect(new ReceivedMessageListener(this));
+        stream_interactor.get_module<MessageProcessor>(MessageProcessor.IDENTITY).received_pipeline.connect(new ReceivedMessageListener(this));
     }
 
     public static void start(StreamInteractor stream_interactor, Database db) {
@@ -61,7 +61,7 @@ public class Dino.StatelessFileSharing : StreamInteractionModule, Object {
             file_transfer.sticker_pack_node = sticker.node;
         }
 
-        stream_interactor.get_module(FileTransferStorage.IDENTITY).add_file(file_transfer);
+        stream_interactor.get_module<FileTransferStorage>(FileTransferStorage.IDENTITY).add_file(file_transfer);
 
         conversation.last_active = file_transfer.time;
         file_manager.received_file(file_transfer, conversation);
@@ -75,14 +75,14 @@ public class Dino.StatelessFileSharing : StreamInteractionModule, Object {
     }
 
     public void on_received_sources(Jid from, Conversation conversation, string attach_to_message_id, string? attach_to_file_id, Gee.List<Xep.StatelessFileSharing.Source> sources) {
-        Message? message = stream_interactor.get_module(MessageStorage.IDENTITY).get_message_by_referencing_id(attach_to_message_id, conversation);
+        Message? message = stream_interactor.get_module<MessageStorage>(MessageStorage.IDENTITY).get_message_by_referencing_id(attach_to_message_id, conversation);
         if (message == null) return;
 
         FileTransfer? file_transfer = null;
         if (attach_to_file_id != null) {
-            file_transfer = stream_interactor.get_module(FileTransferStorage.IDENTITY).get_files_by_message_and_file_id(message.id, attach_to_file_id, conversation);
+            file_transfer = stream_interactor.get_module<FileTransferStorage>(FileTransferStorage.IDENTITY).get_files_by_message_and_file_id(message.id, attach_to_file_id, conversation);
         } else {
-            file_transfer = stream_interactor.get_module(FileTransferStorage.IDENTITY).get_file_by_message_id(message.id, conversation);
+            file_transfer = stream_interactor.get_module<FileTransferStorage>(FileTransferStorage.IDENTITY).get_file_by_message_id(message.id, conversation);
         }
         if (file_transfer == null) return;
 

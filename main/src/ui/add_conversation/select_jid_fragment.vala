@@ -124,14 +124,14 @@ public class SelectJidFragment : Gtk.Box {
         foreach (Account account in accounts) {
             if (!account.enabled) continue;
             try {
-                Jid? muc_server = stream_interactor.get_module(MucManager.IDENTITY).default_muc_server.get(account);
+                Jid? muc_server = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).default_muc_server.get(account);
                 if (muc_server == null) {
                     muc_server = new Jid("conference." + account.domainpart);
                 }
                 
                 var stream = stream_interactor.get_stream(account);
                 if (stream != null) {
-                    var disco_module = stream.get_module(ServiceDiscovery.Module.IDENTITY);
+                    var disco_module = stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY);
                     var result = yield disco_module.request_items(stream, muc_server);
                     if (result != null) {
                         foreach (var item in result.items) {
@@ -329,7 +329,7 @@ public class SelectJidFragment : Gtk.Box {
                     
                     if (account != null) {
                         // Skip rooms where we are already joined
-                        if (stream_interactor.get_module(MucManager.IDENTITY).is_joined(item.jid, account)) continue;
+                        if (stream_interactor.get_module<MucManager>(MucManager.IDENTITY).is_joined(item.jid, account)) continue;
 
                         var list_row = new Gtk.ListBoxRow();
                         list_row.set_child(new AddListRow(stream_interactor, item.jid, account, item.name));

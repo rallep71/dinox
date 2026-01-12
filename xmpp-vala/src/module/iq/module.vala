@@ -106,11 +106,11 @@ namespace Xmpp.Iq {
     public interface Handler : Object {
         public async virtual void on_iq_get(XmppStream stream, Iq.Stanza iq) {
             Iq.Stanza bad_request = new Iq.Stanza.error(iq, new ErrorStanza.bad_request("unexpected IQ get for this namespace"));
-            stream.get_module(Module.IDENTITY).send_iq(stream, bad_request);
+            stream.get_module<Module>(Module.IDENTITY).send_iq(stream, bad_request);
         }
         public async virtual void on_iq_set(XmppStream stream, Iq.Stanza iq) {
             Iq.Stanza bad_request = new Iq.Stanza.error(iq, new ErrorStanza.bad_request("unexpected IQ set for this namespace"));
-            stream.get_module(Module.IDENTITY).send_iq(stream, bad_request);
+            stream.get_module<Module>(Module.IDENTITY).send_iq(stream, bad_request);
         }
     }
 

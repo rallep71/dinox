@@ -5,11 +5,17 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.9.7.7] - 2026-01-12
+## [0.9.7.8] - 2026-01-12
 
 ### Fixed
+- **Release Integrity**: Included all pending critical code fixes (Audio, Avatars, Refactoring) that were missing in v0.9.7.7 due to a build system error.
 - **Audio Sensitivity**: Reverted internal digital gain boost from 15dB to safe 6dB default to prevent clipping/distortion with high-quality microphones (e.g., USB DACs).
 - **Crash Fix**: Resolved a critical segmentation fault when ending video/voice calls caused by GStreamer buffer refcounting race conditions. Implemented deep buffer copying for the native WebRTC thread.
+
+## [0.9.7.7] - 2026-01-12
+
+### Note
+- This release was tagged incorrectly without the intended code changes. Please use v0.9.7.8.
 
 ## [0.9.7.6] - 2026-01-11
 

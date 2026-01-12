@@ -95,7 +95,7 @@ public class Module : XmppStreamNegotiationModule, WriteNodeFunc {
     }
 
     public override void attach(XmppStream stream) {
-        stream.get_module(Bind.Module.IDENTITY).bound_to_resource.connect(check_enable);
+        stream.get_module<Bind.Module>(Bind.Module.IDENTITY).bound_to_resource.connect(check_enable);
         stream.received_features_node.connect(check_resume);
 
         stream.received_nonza.connect(on_received_nonza);
@@ -105,7 +105,7 @@ public class Module : XmppStreamNegotiationModule, WriteNodeFunc {
     }
 
     public override void detach(XmppStream stream) {
-        stream.get_module(Bind.Module.IDENTITY).bound_to_resource.disconnect(check_enable);
+        stream.get_module<Bind.Module>(Bind.Module.IDENTITY).bound_to_resource.disconnect(check_enable);
         stream.received_features_node.disconnect(check_resume);
 
         stream.received_nonza.disconnect(on_received_nonza);
@@ -115,7 +115,7 @@ public class Module : XmppStreamNegotiationModule, WriteNodeFunc {
     }
 
     public static void require(XmppStream stream) {
-        if (stream.get_module(IDENTITY) == null) stream.add_module(new PrivateXmlStorage.Module());
+        if (stream.get_module<Module>(IDENTITY) == null) stream.add_module(new PrivateXmlStorage.Module());
     }
 
     public override bool mandatory_outstanding(XmppStream stream) { return false; }

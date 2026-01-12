@@ -78,7 +78,7 @@ protected class AddGroupchatDialog : Adw.Dialog {
             conference.jid = new Jid(get_effective_jid());
             conference.nick = nick_entry.text != "" ? nick_entry.text : null;
             conference.name = alias_entry.text;
-            stream_interactor.get_module(MucManager.IDENTITY).add_bookmark(account_combobox.active_account, conference);
+            stream_interactor.get_module<MucManager>(MucManager.IDENTITY).add_bookmark(account_combobox.active_account, conference);
             
             // If "Create as private room" is checked or avatar is selected, configure the room after joining
             if (private_room_checkbutton.active || selected_avatar_file != null) {
@@ -123,7 +123,7 @@ protected class AddGroupchatDialog : Adw.Dialog {
     
     private async void configure_room_async(Account account, Jid room_jid) {
         if (private_room_checkbutton.active) {
-            Xep.DataForms.DataForm? data_form = yield stream_interactor.get_module(MucManager.IDENTITY).get_config_form(account, room_jid);
+            Xep.DataForms.DataForm? data_form = yield stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_config_form(account, room_jid);
             if (data_form != null) {
                 // Configure as private room (members-only + non-anonymous + persistent)
                 foreach (Xep.DataForms.DataForm.Field field in data_form.fields) {
@@ -145,7 +145,7 @@ protected class AddGroupchatDialog : Adw.Dialog {
                             break;
                     }
                 }
-                yield stream_interactor.get_module(MucManager.IDENTITY).set_config_form(account, room_jid, data_form);
+                yield stream_interactor.get_module<MucManager>(MucManager.IDENTITY).set_config_form(account, room_jid, data_form);
             }
         }
 
@@ -178,7 +178,7 @@ protected class AddGroupchatDialog : Adw.Dialog {
                     yield Xmpp.Xep.VCard.publish_vcard(stream, vcard, room_jid);
                     
                     string hash = Checksum.compute_for_bytes(ChecksumType.SHA1, bytes);
-                    var avatar_manager = stream_interactor.get_module(AvatarManager.IDENTITY);
+                    var avatar_manager = stream_interactor.get_module<AvatarManager>(AvatarManager.IDENTITY);
                     yield avatar_manager.store_image(hash, bytes);
                     avatar_manager.on_vcard_avatar_received(account, room_jid, hash);
                 }

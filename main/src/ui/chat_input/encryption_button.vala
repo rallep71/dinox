@@ -61,7 +61,7 @@ public class EncryptionButton {
         Gtk.PopoverMenu popover_menu = new Gtk.PopoverMenu.from_model(menu_model);
         menu_button.popover = popover_menu;
 
-        stream_interactor.get_module(MucManager.IDENTITY).room_info_updated.connect((account, muc_jid) => {
+        stream_interactor.get_module<MucManager>(MucManager.IDENTITY).room_info_updated.connect((account, muc_jid) => {
             if (conversation != null && conversation.account.equals(account) && conversation.counterpart.equals(muc_jid)) {
                 check_encryption_validity();
                 update_visibility();
@@ -76,7 +76,7 @@ public class EncryptionButton {
         if (conversation == null) return;
         if (conversation.type_ != Conversation.Type.GROUPCHAT) return;
         
-        bool is_private = stream_interactor.get_module(MucManager.IDENTITY).is_private_room(
+        bool is_private = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).is_private_room(
             conversation.account, conversation.counterpart);
         
         if (!is_private && conversation.encryption != Encryption.NONE) {
@@ -123,7 +123,7 @@ public class EncryptionButton {
                 menu_button.visible = false;
                 break;
             case Conversation.Type.GROUPCHAT:
-                menu_button.visible = stream_interactor.get_module(MucManager.IDENTITY).is_private_room(conversation.account, conversation.counterpart);
+                menu_button.visible = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).is_private_room(conversation.account, conversation.counterpart);
                 break;
         }
     }

@@ -15,7 +15,7 @@ namespace Xmpp.Xep.MessageModeration {
 
         Iq.Stanza result_stanza;
         try {
-            result_stanza = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+            result_stanza = yield stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq_async(stream, iq);
         } catch (GLib.Error e) {
             warning("Failed to moderate message: %s", e.message);
             return false;

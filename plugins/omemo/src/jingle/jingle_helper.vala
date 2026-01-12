@@ -22,12 +22,12 @@ public class EncryptionHelper : JingleFileEncryptionHelper, Object {
 
         if (full_jid == null) {
             foreach (Jid test_jid in resources) {
-                if (yield stream.get_module(Module.IDENTITY).is_available(stream, test_jid)) {
+                if (yield stream.get_module<Module>(Module.IDENTITY).is_available(stream, test_jid)) {
                     return true;
                 }
             }
         } else {
-            if (yield stream.get_module(Module.IDENTITY).is_available(stream, full_jid)) {
+            if (yield stream.get_module<Module>(Module.IDENTITY).is_available(stream, full_jid)) {
                 return true;
             }
         }

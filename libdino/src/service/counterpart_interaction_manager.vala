@@ -25,10 +25,10 @@ public class CounterpartInteractionManager : StreamInteractionModule, Object {
     private CounterpartInteractionManager(StreamInteractor stream_interactor) {
         this.stream_interactor = stream_interactor;
         stream_interactor.account_added.connect(on_account_added);
-        stream_interactor.get_module(MessageProcessor.IDENTITY).message_received.connect((message, conversation) => clear_chat_state(conversation, message.from));
-        stream_interactor.get_module(MessageProcessor.IDENTITY).message_sent_or_received.connect(check_if_got_marker);
-        stream_interactor.get_module(PresenceManager.IDENTITY).received_offline_presence.connect((jid, account) => {
-            foreach (Conversation conversation in stream_interactor.get_module(ConversationManager.IDENTITY).get_conversations(jid, account)) {
+        stream_interactor.get_module<MessageProcessor>(MessageProcessor.IDENTITY).message_received.connect((message, conversation) => clear_chat_state(conversation, message.from));
+        stream_interactor.get_module<MessageProcessor>(MessageProcessor.IDENTITY).message_sent_or_received.connect(check_if_got_marker);
+        stream_interactor.get_module<PresenceManager>(PresenceManager.IDENTITY).received_offline_presence.connect((jid, account) => {
+            foreach (Conversation conversation in stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_conversations(jid, account)) {
                 clear_chat_state(conversation, jid);
             }
         });
@@ -64,13 +64,13 @@ public class CounterpartInteractionManager : StreamInteractionModule, Object {
     }
 
     private void on_account_added(Account account) {
-        stream_interactor.module_manager.get_module(account, Xep.ChatMarkers.Module.IDENTITY).marker_received.connect( (stream, jid, marker, id, message_stanza) => {
+        stream_interactor.module_manager.get_module<Xep.ChatMarkers.Module>(account, Xep.ChatMarkers.Module.IDENTITY).marker_received.connect( (stream, jid, marker, id, message_stanza) => {
             on_chat_marker_received.begin(account, jid, marker, id, message_stanza);
         });
-        stream_interactor.module_manager.get_module(account, Xep.MessageDeliveryReceipts.Module.IDENTITY).receipt_received.connect((stream, jid, id, stanza) => {
+        stream_interactor.module_manager.get_module<Xep.MessageDeliveryReceipts.Module>(account, Xep.MessageDeliveryReceipts.Module.IDENTITY).receipt_received.connect((stream, jid, id, stanza) => {
             on_receipt_received(account, jid, id, stanza);
         });
-        stream_interactor.module_manager.get_module(account, Xep.ChatStateNotifications.Module.IDENTITY).chat_state_received.connect((stream, jid, state, stanza) => {
+        stream_interactor.module_manager.get_module<Xep.ChatStateNotifications.Module>(account, Xep.ChatStateNotifications.Module.IDENTITY).chat_state_received.connect((stream, jid, state, stanza) => {
             on_chat_state_received.begin(account, jid, state, stanza);
         });
     }
@@ -95,12 +95,12 @@ public class CounterpartInteractionManager : StreamInteractionModule, Object {
         // Don't show our own (other devices) typing notification
         if (jid.equals_bare(account.bare_jid)) return;
 
-        Conversation? conversation = stream_interactor.get_module(ConversationManager.IDENTITY).approx_conversation_for_stanza(stanza.from, stanza.to, account, stanza.type_);
+        Conversation? conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).approx_conversation_for_stanza(stanza.from, stanza.to, account, stanza.type_);
         if (conversation == null) return;
 
         // Don't show our own typing notification in MUCs
         if (conversation.type_ == Conversation.Type.GROUPCHAT) {
-            Jid? own_muc_jid = stream_interactor.get_module(MucManager.IDENTITY).get_own_jid(jid.bare_jid, account);
+            Jid? own_muc_jid = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_own_jid(jid.bare_jid, account);
             if (own_muc_jid != null && own_muc_jid.equals(jid)) {
                 return;
             }
@@ -118,7 +118,7 @@ public class CounterpartInteractionManager : StreamInteractionModule, Object {
     }
 
     private async void on_chat_marker_received(Account account, Jid jid, string marker, string stanza_id, MessageStanza message_stanza) {
-        Conversation? conversation = stream_interactor.get_module(ConversationManager.IDENTITY).approx_conversation_for_stanza(message_stanza.from, message_stanza.to, account, message_stanza.type_);
+        Conversation? conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).approx_conversation_for_stanza(message_stanza.from, message_stanza.to, account, message_stanza.type_);
         if (conversation == null) return;
         handle_chat_marker(conversation, jid, marker, stanza_id);
     }
@@ -129,7 +129,7 @@ public class CounterpartInteractionManager : StreamInteractionModule, Object {
         if (conversation.type_ == Conversation.Type.CHAT) {
             own_marker = conversation.account.bare_jid.to_string() == jid.bare_jid.to_string();
         } else {
-            Jid? own_muc_jid = stream_interactor.get_module(MucManager.IDENTITY).get_own_jid(jid.bare_jid, conversation.account);
+            Jid? own_muc_jid = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_own_jid(jid.bare_jid, conversation.account);
             if (own_muc_jid != null && own_muc_jid.equals(jid)) {
                 own_marker = true;
             }
@@ -140,13 +140,13 @@ public class CounterpartInteractionManager : StreamInteractionModule, Object {
             if (marker != Xep.ChatMarkers.MARKER_DISPLAYED && marker != Xep.ChatMarkers.MARKER_ACKNOWLEDGED) return;
             Entities.Message? message = null;
             if (conversation.type_ == Conversation.Type.GROUPCHAT || conversation.type_ == Conversation.Type.GROUPCHAT_PM) {
-                message = stream_interactor.get_module(MessageStorage.IDENTITY).get_message_by_server_id(stanza_id, conversation);
+                message = stream_interactor.get_module<MessageStorage>(MessageStorage.IDENTITY).get_message_by_server_id(stanza_id, conversation);
                 // Outdated clients might use the message id. Or in MUCs that don't send server ids.
                 if (message == null) {
-                    message = stream_interactor.get_module(MessageStorage.IDENTITY).get_message_by_stanza_id(stanza_id, conversation);
+                    message = stream_interactor.get_module<MessageStorage>(MessageStorage.IDENTITY).get_message_by_stanza_id(stanza_id, conversation);
                 }
             } else {
-                message = stream_interactor.get_module(MessageStorage.IDENTITY).get_message_by_stanza_id(stanza_id, conversation);
+                message = stream_interactor.get_module<MessageStorage>(MessageStorage.IDENTITY).get_message_by_stanza_id(stanza_id, conversation);
             }
             if (message == null) return;
             // Don't move read marker backwards because we get old info from another client
@@ -154,16 +154,16 @@ public class CounterpartInteractionManager : StreamInteractionModule, Object {
             conversation.read_up_to = message;
 
             // TODO: This only marks messages as read, not http file transfers.
-            ContentItem? content_item = stream_interactor.get_module(ContentItemStore.IDENTITY).get_item_by_foreign(conversation, 1, message.id);
+            ContentItem? content_item = stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).get_item_by_foreign(conversation, 1, message.id);
             if (content_item == null) return;
-            ContentItem? read_up_to_item = stream_interactor.get_module(ContentItemStore.IDENTITY).get_item_by_id(conversation, conversation.read_up_to_item);
+            ContentItem? read_up_to_item = stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).get_item_by_id(conversation, conversation.read_up_to_item);
             if (read_up_to_item != null && read_up_to_item.compare(content_item) > 0) return;
             conversation.read_up_to_item = content_item.id;
         } else {
             // We can't currently handle chat markers in MUCs
             if (conversation.type_ == Conversation.Type.GROUPCHAT) return;
 
-            Entities.Message? message = stream_interactor.get_module(MessageStorage.IDENTITY).get_message_by_stanza_id(stanza_id, conversation);
+            Entities.Message? message = stream_interactor.get_module<MessageStorage>(MessageStorage.IDENTITY).get_message_by_stanza_id(stanza_id, conversation);
             if (message != null) {
                 switch (marker) {
                     case Xep.ChatMarkers.MARKER_RECEIVED:
@@ -174,7 +174,7 @@ public class CounterpartInteractionManager : StreamInteractionModule, Object {
                     case Xep.ChatMarkers.MARKER_DISPLAYED:
                         // If we got a display marker, set all messages up to that message as read (if we know they've been received).
                         received_message_displayed(conversation.account, jid, message);
-                        Gee.List<Entities.Message> messages = stream_interactor.get_module(MessageStorage.IDENTITY).get_messages(conversation);
+                        Gee.List<Entities.Message> messages = stream_interactor.get_module<MessageStorage>(MessageStorage.IDENTITY).get_messages(conversation);
                         foreach (Entities.Message m in messages) {
                             if (m.equals(message)) break;
                             if (m.marked == Entities.Message.Marked.RECEIVED) m.marked = Entities.Message.Marked.READ;
@@ -201,7 +201,7 @@ public class CounterpartInteractionManager : StreamInteractionModule, Object {
     }
 
     private void on_receipt_received(Account account, Jid jid, string id, MessageStanza stanza) {
-        Conversation? conversation = stream_interactor.get_module(ConversationManager.IDENTITY).approx_conversation_for_stanza(stanza.from, stanza.to, account, stanza.type_);
+        Conversation? conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).approx_conversation_for_stanza(stanza.from, stanza.to, account, stanza.type_);
         if (conversation == null) return;
         handle_chat_marker(conversation, jid,Xep.ChatMarkers.MARKER_RECEIVED, id);
     }

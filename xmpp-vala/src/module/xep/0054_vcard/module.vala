@@ -226,7 +226,7 @@ public async VCardInfo? fetch_vcard(XmppStream stream, Jid? jid = null) {
     
     Iq.Stanza iq_res;
     try {
-        iq_res = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+        iq_res = yield stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq_async(stream, iq);
     } catch (GLib.Error e) {
         warning("Failed to fetch vCard: %s", e.message);
         return null;
@@ -246,14 +246,14 @@ public async VCardInfo? fetch_vcard(XmppStream stream, Jid? jid = null) {
 public async void publish_vcard(XmppStream stream, VCardInfo vcard, Jid? to = null) throws Error {
     Iq.Stanza iq = new Iq.Stanza.set(vcard.to_node().add_self_xmlns());
     if (to != null) iq.to = to;
-    yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+    yield stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq_async(stream, iq);
 }
 
 public async Bytes? fetch_image(XmppStream stream, Jid jid, string hash) {
     Iq.Stanza iq = new Iq.Stanza.get(new StanzaNode.build("vCard", NS_URI).add_self_xmlns()) { to=jid };
     Iq.Stanza iq_res;
     try {
-        iq_res = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+        iq_res = yield stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq_async(stream, iq);
     } catch (GLib.Error e) {
         warning("Failed to fetch vCard image: %s", e.message);
         return null;
@@ -275,11 +275,11 @@ public class Module : XmppStreamModule {
     public signal void received_avatar_hash(XmppStream stream, Jid jid, string hash);
 
     public override void attach(XmppStream stream) {
-        stream.get_module(Presence.Module.IDENTITY).received_presence.connect(on_received_presence);
+        stream.get_module<Presence.Module>(Presence.Module.IDENTITY).received_presence.connect(on_received_presence);
     }
 
     public override void detach(XmppStream stream) {
-        stream.get_module(Presence.Module.IDENTITY).received_presence.disconnect(on_received_presence);
+        stream.get_module<Presence.Module>(Presence.Module.IDENTITY).received_presence.disconnect(on_received_presence);
     }
 
     public override string get_ns() { return NS_URI; }

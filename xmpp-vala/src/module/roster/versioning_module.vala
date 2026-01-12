@@ -14,14 +14,14 @@ public class VersioningModule : XmppStreamModule {
     }
 
     public override void attach(XmppStream stream) {
-        stream.get_module(Module.IDENTITY).pre_get_roster.connect(on_pre_get_roster);
-        stream.get_module(Module.IDENTITY).received_roster.connect(on_received_roster);
-        stream.get_module(Module.IDENTITY).item_updated.connect(on_item_updated);
-        stream.get_module(Module.IDENTITY).item_removed.connect(on_item_removed);
+        stream.get_module<Module>(Module.IDENTITY).pre_get_roster.connect(on_pre_get_roster);
+        stream.get_module<Module>(Module.IDENTITY).received_roster.connect(on_received_roster);
+        stream.get_module<Module>(Module.IDENTITY).item_updated.connect(on_item_updated);
+        stream.get_module<Module>(Module.IDENTITY).item_removed.connect(on_item_removed);
     }
 
     public override void detach(XmppStream stream) {
-        stream.get_module(Module.IDENTITY).pre_get_roster.disconnect(on_pre_get_roster);
+        stream.get_module<Module>(Module.IDENTITY).pre_get_roster.disconnect(on_pre_get_roster);
     }
 
     internal override string get_ns() { return NS_URI; }

@@ -30,15 +30,15 @@ public class MessageCorrection : StreamInteractionModule, MessageListener {
         this.stream_interactor = stream_interactor;
         this.db = db;
         stream_interactor.account_added.connect(on_account_added);
-        stream_interactor.get_module(MessageProcessor.IDENTITY).received_pipeline.connect(this);
-        stream_interactor.get_module(MessageProcessor.IDENTITY).build_message_stanza.connect(check_add_correction_node);
-        stream_interactor.get_module(PresenceManager.IDENTITY).received_offline_presence.connect((jid, account) => {
-            Conversation? conversation = stream_interactor.get_module(ConversationManager.IDENTITY).get_conversation(jid.bare_jid, account, Conversation.Type.GROUPCHAT);
+        stream_interactor.get_module<MessageProcessor>(MessageProcessor.IDENTITY).received_pipeline.connect(this);
+        stream_interactor.get_module<MessageProcessor>(MessageProcessor.IDENTITY).build_message_stanza.connect(check_add_correction_node);
+        stream_interactor.get_module<PresenceManager>(PresenceManager.IDENTITY).received_offline_presence.connect((jid, account) => {
+            Conversation? conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_conversation(jid.bare_jid, account, Conversation.Type.GROUPCHAT);
             if (conversation != null) {
                 if (last_messages.has_key(conversation)) last_messages[conversation].unset(jid);
             }
         });
-        stream_interactor.get_module(ContentItemStore.IDENTITY).new_item.connect(cache_unmatched_correction);
+        stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).new_item.connect(cache_unmatched_correction);
     }
 
     public void set_correction(Conversation conversation, Message message, Message old_message) {
@@ -65,7 +65,7 @@ public class MessageCorrection : StreamInteractionModule, MessageListener {
         if (conversation.type_ == Conversation.Type.CHAT) {
             own_jid = conversation.account.full_jid;
         } else if (conversation.type_ == Conversation.Type.GROUPCHAT) {
-            own_jid = stream_interactor.get_module(MucManager.IDENTITY).get_own_jid(conversation.counterpart, conversation.account);
+            own_jid = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_own_jid(conversation.counterpart, conversation.account);
         }
 
         if (own_jid == null) return false;
@@ -168,7 +168,7 @@ public class MessageCorrection : StreamInteractionModule, MessageListener {
             }
         }
 
-        Message? original_message = stream_interactor.get_module(MessageStorage.IDENTITY).get_message_by_stanza_id(replace_id, conversation);
+        Message? original_message = stream_interactor.get_module<MessageStorage>(MessageStorage.IDENTITY).get_message_by_stanza_id(replace_id, conversation);
         if (original_message != null && is_correction_acceptable(original_message, correction_message)) {
             correction_message.edit_to = replace_id;
             return process_in_order_correction(conversation, original_message, correction_message);
@@ -177,7 +177,7 @@ public class MessageCorrection : StreamInteractionModule, MessageListener {
     }
 
     private bool process_in_order_correction(Conversation conversation, Message original_message, Message correction_message) {
-        ContentItem? content_item = stream_interactor.get_module(ContentItemStore.IDENTITY).get_content_item_for_message(conversation, original_message);
+        ContentItem? content_item = stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).get_content_item_for_message(conversation, original_message);
 
         db.message_correction.insert()
                 .value(db.message_correction.message_id, correction_message.id)
@@ -203,7 +203,7 @@ public class MessageCorrection : StreamInteractionModule, MessageListener {
     }
 
     public void on_received_correction(Conversation conversation, int message_id) {
-        ContentItem? content_item = stream_interactor.get_module(ContentItemStore.IDENTITY).get_item_by_foreign(conversation, 1, message_id);
+        ContentItem? content_item = stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).get_item_by_foreign(conversation, 1, message_id);
         if (content_item != null) {
             received_correction(content_item);
         }
@@ -231,12 +231,12 @@ public class MessageCorrection : StreamInteractionModule, MessageListener {
     }
 
     private void on_account_added(Account account) {
-        Gee.List<Conversation> conversations = stream_interactor.get_module(ConversationManager.IDENTITY).get_active_conversations(account);
+        Gee.List<Conversation> conversations = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_active_conversations(account);
         foreach (Conversation conversation in conversations) {
             if (conversation.type_ != Conversation.Type.CHAT) continue;
 
             HashMap<Jid, Message> last_conversation_messages = new HashMap<Jid, Message>(Jid.hash_func, Jid.equals_func);
-            Gee.List<Message> messages = stream_interactor.get_module(MessageStorage.IDENTITY).get_messages(conversation);
+            Gee.List<Message> messages = stream_interactor.get_module<MessageStorage>(MessageStorage.IDENTITY).get_messages(conversation);
             for (int i = messages.size - 1; i > 0; i--) {
                 Message message = messages[i];
                 if (!last_conversation_messages.has_key(message.from) && message.edit_to == null) {

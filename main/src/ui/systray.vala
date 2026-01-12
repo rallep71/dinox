@@ -166,7 +166,7 @@ public class SystrayManager : Object {
             }
 
             // Connect to PresenceManager status changes
-            var pm = application.stream_interactor.get_module(PresenceManager.IDENTITY);
+            var pm = application.stream_interactor.get_module<PresenceManager>(PresenceManager.IDENTITY);
             status_changed_id = pm.status_changed.connect((show, msg) => {
                 update_status_items(show);
             });
@@ -317,7 +317,7 @@ public class SystrayManager : Object {
         }
         
         if (status_changed_id != 0) {
-            var pm = application.stream_interactor.get_module(PresenceManager.IDENTITY);
+            var pm = application.stream_interactor.get_module<PresenceManager>(PresenceManager.IDENTITY);
             SignalHandler.disconnect(pm, status_changed_id);
             status_changed_id = 0;
         }

@@ -97,16 +97,16 @@ public class ConversationViewController : Object {
         });
 
         // Update conversation topic
-        stream_interactor.get_module(MucManager.IDENTITY).subject_set.connect((account, jid, subject) => {
+        stream_interactor.get_module<MucManager>(MucManager.IDENTITY).subject_set.connect((account, jid, subject) => {
             if (conversation != null && conversation.counterpart.equals_bare(jid) && conversation.account.equals(account)) {
                 update_conversation_topic(subject);
             }
         });
 
-        stream_interactor.get_module(FileManager.IDENTITY).upload_available.connect(update_file_upload_status);
+        stream_interactor.get_module<FileManager>(FileManager.IDENTITY).upload_available.connect(update_file_upload_status);
         
         // Listen for conversation history cleared signal
-        stream_interactor.get_module(ConversationManager.IDENTITY).conversation_cleared.connect((cleared_conversation) => {
+        stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).conversation_cleared.connect((cleared_conversation) => {
             if (this.conversation != null && this.conversation.id == cleared_conversation.id) {
                 // Force reload the conversation view to show empty chat
                 view.conversation_frame.initialize_for_conversation(this.conversation, true);
@@ -128,8 +128,8 @@ public class ConversationViewController : Object {
 
         Shortcut shortcut = new Shortcut(new KeyvalTrigger(Key.U, ModifierType.CONTROL_MASK), new CallbackAction(() => {
             if (conversation == null) return false;
-            stream_interactor.get_module(FileManager.IDENTITY).is_upload_available.begin(conversation, (_, res) => {
-                if (stream_interactor.get_module(FileManager.IDENTITY).is_upload_available.end(res)) {
+            stream_interactor.get_module<FileManager>(FileManager.IDENTITY).is_upload_available.begin(conversation, (_, res) => {
+                if (stream_interactor.get_module<FileManager>(FileManager.IDENTITY).is_upload_available.end(res)) {
                     open_file_picker();
                 }
             });
@@ -139,7 +139,7 @@ public class ConversationViewController : Object {
 
         SimpleAction close_conversation_action = new SimpleAction("close-current-conversation", null);
         close_conversation_action.activate.connect(() => {
-            stream_interactor.get_module(ConversationManager.IDENTITY).close_conversation(conversation);
+            stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).close_conversation(conversation);
         });
         app.add_action(close_conversation_action);
         app.set_accels_for_action("app.close-current-conversation", KEY_COMBINATION_CLOSE_CONVERSATION);
@@ -168,7 +168,7 @@ public class ConversationViewController : Object {
 
         if (display_name_binding != null) display_name_binding.unbind();
         int64 t_title_us = Dino.Ui.UiTiming.now_us();
-        var display_name_model = stream_interactor.get_module(ContactModels.IDENTITY).get_display_name_model(conversation);
+        var display_name_model = stream_interactor.get_module<ContactModels>(ContactModels.IDENTITY).get_display_name_model(conversation);
         display_name_binding = display_name_model.bind_property("display-name", main_window.conversation_window_title, "title", BindingFlags.SYNC_CREATE);
         Dino.Ui.UiTiming.log_ms("ConversationViewController.select_conversation: display_name_model+bind", t_title_us);
 
@@ -201,7 +201,7 @@ public class ConversationViewController : Object {
     private async void update_file_upload_status() {
         if (conversation == null) return;
 
-        bool upload_available = yield stream_interactor.get_module(FileManager.IDENTITY).is_upload_available(conversation);
+        bool upload_available = yield stream_interactor.get_module<FileManager>(FileManager.IDENTITY).is_upload_available(conversation);
         chat_input_controller.set_file_upload_active(upload_available);
 
         if (upload_available) {
@@ -220,7 +220,7 @@ public class ConversationViewController : Object {
         if (subtitle != null) {
             str = Util.summarize_whitespaces_to_space(subtitle);
         } else if (conversation.type_ == Conversation.Type.GROUPCHAT) {
-            string? subject = stream_interactor.get_module(MucManager.IDENTITY).get_groupchat_subject(conversation.counterpart, conversation.account);
+            string? subject = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_groupchat_subject(conversation.counterpart, conversation.account);
             if (subject != null) {
                 str = Util.summarize_whitespaces_to_space(subject);
             }
@@ -283,8 +283,8 @@ public class ConversationViewController : Object {
         FileSendOverlay file_send_overlay = new FileSendOverlay(file, file_info);
         file_send_overlay.send_file.connect(send_file);
 
-        stream_interactor.get_module(FileManager.IDENTITY).get_file_size_limits.begin(conversation, (_, res) => {
-            HashMap<int, long> limits = stream_interactor.get_module(FileManager.IDENTITY).get_file_size_limits.end(res);
+        stream_interactor.get_module<FileManager>(FileManager.IDENTITY).get_file_size_limits.begin(conversation, (_, res) => {
+            HashMap<int, long> limits = stream_interactor.get_module<FileManager>(FileManager.IDENTITY).get_file_size_limits.end(res);
             bool something_works = false;
             foreach (var limit in limits.values) {
                 if (limit >= file_info.get_size()) {
@@ -311,7 +311,7 @@ public class ConversationViewController : Object {
 
     private void send_file(File file) {
         debug("ConversationViewController: send_file called for %s", file.get_path());
-        stream_interactor.get_module(FileManager.IDENTITY).send_file.begin(file, conversation);
+        stream_interactor.get_module<FileManager>(FileManager.IDENTITY).send_file.begin(file, conversation);
     }
 
     private bool forward_key_press_to_chat_input(EventControllerKey key_controller, uint keyval, uint keycode, Gdk.ModifierType state) {
@@ -361,7 +361,7 @@ public class ConversationViewController : Object {
         string body = "geo:%s,%s".printf(lat_str, lon_str);
         
         // Use MessageProcessor to create the message. This ensures it's saved to the DB and has correct IDs/timestamps.
-        Entities.Message message = stream_interactor.get_module(MessageProcessor.IDENTITY).create_out_message(body, conversation);
+        Entities.Message message = stream_interactor.get_module<MessageProcessor>(MessageProcessor.IDENTITY).create_out_message(body, conversation);
         
         var user_loc = new Xmpp.Xep.UserLocation.UserLocation.create();
         user_loc.lat = lat;
@@ -369,17 +369,17 @@ public class ConversationViewController : Object {
         user_loc.accuracy = accuracy;
         
         ulong signal_id = 0;
-        signal_id = stream_interactor.get_module(MessageProcessor.IDENTITY).pre_message_send.connect((msg, stanza, conv) => {
+        signal_id = stream_interactor.get_module<MessageProcessor>(MessageProcessor.IDENTITY).pre_message_send.connect((msg, stanza, conv) => {
             if (msg == message) {
                 stanza.stanza.put_node(user_loc.node);
                 debug("ConversationViewController: Injected location node: %s", user_loc.node.to_string());
-                stream_interactor.get_module(MessageProcessor.IDENTITY).disconnect(signal_id);
+                stream_interactor.get_module<MessageProcessor>(MessageProcessor.IDENTITY).disconnect(signal_id);
             }
         });
         
-        stream_interactor.get_module(ContentItemStore.IDENTITY).insert_message(message, conversation);
-        stream_interactor.get_module(MessageProcessor.IDENTITY).send_xmpp_message(message, conversation);
-        stream_interactor.get_module(MessageProcessor.IDENTITY).message_sent(message, conversation);
+        stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).insert_message(message, conversation);
+        stream_interactor.get_module<MessageProcessor>(MessageProcessor.IDENTITY).send_xmpp_message(message, conversation);
+        stream_interactor.get_module<MessageProcessor>(MessageProcessor.IDENTITY).message_sent(message, conversation);
         debug("ConversationViewController: send_xmpp_message called");
     }
 }

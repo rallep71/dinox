@@ -84,9 +84,9 @@ public class MessageProcessor : StreamInteractionModule, Object {
         foreach (Row row in select) {
             try {
                 Message message = new Message.from_row(db, row);
-                Conversation? msg_conv = stream_interactor.get_module(ConversationManager.IDENTITY).get_conversation(message.counterpart, account, Util.get_conversation_type_for_message(message));
+                Conversation? msg_conv = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_conversation(message.counterpart, account, Util.get_conversation_type_for_message(message));
                 if (msg_conv != null) {
-                    Message cached_msg = stream_interactor.get_module(MessageStorage.IDENTITY).get_message_by_id(message.id, msg_conv);
+                    Message cached_msg = stream_interactor.get_module<MessageStorage>(MessageStorage.IDENTITY).get_message_by_id(message.id, msg_conv);
                     send_xmpp_message(cached_msg ?? message, msg_conv, true);
                 }
             } catch (InvalidJidError e) {
@@ -96,16 +96,16 @@ public class MessageProcessor : StreamInteractionModule, Object {
     }
 
     private void on_account_added(Account account) {
-        stream_interactor.module_manager.get_module(account, Xmpp.MessageModule.IDENTITY).received_message.connect( (stream, message) => {
+        stream_interactor.module_manager.get_module<Xmpp.MessageModule>(account, Xmpp.MessageModule.IDENTITY).received_message.connect( (stream, message) => {
             on_message_received.begin(account, message);
         });
 
-        stream_interactor.module_manager.get_module(account, Xmpp.MessageModule.IDENTITY).received_error.connect((stream, message_stanza, error_stanza) => {
+        stream_interactor.module_manager.get_module<Xmpp.MessageModule>(account, Xmpp.MessageModule.IDENTITY).received_error.connect((stream, message_stanza, error_stanza) => {
             Message? message = null;
 
-            Gee.List<Conversation> conversations = stream_interactor.get_module(ConversationManager.IDENTITY).get_conversations(message_stanza.from, account);
+            Gee.List<Conversation> conversations = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_conversations(message_stanza.from, account);
             foreach (Conversation conversation in conversations) {
-                message = stream_interactor.get_module(MessageStorage.IDENTITY).get_message_by_stanza_id(message_stanza.id, conversation);
+                message = stream_interactor.get_module<MessageStorage>(MessageStorage.IDENTITY).get_message_by_stanza_id(message_stanza.id, conversation);
                 if (message != null) break;
             }
             if (message == null) return;
@@ -132,7 +132,7 @@ public class MessageProcessor : StreamInteractionModule, Object {
     public async void run_pipeline_announce(Account account, Xmpp.MessageStanza message_stanza) {
         Entities.Message message = yield parse_message_stanza(account, message_stanza);
 
-        Conversation? conversation = stream_interactor.get_module(ConversationManager.IDENTITY).get_conversation_for_message(message);
+        Conversation? conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_conversation_for_message(message);
         if (conversation == null) return;
 
         bool abort = yield received_pipeline.run(message, message_stanza, conversation);
@@ -155,7 +155,7 @@ public class MessageProcessor : StreamInteractionModule, Object {
         new_message.stanza_id = Xep.UniqueStableStanzaIDs.get_origin_id(message) ?? message.id;
 
         Jid? counterpart_override = null;
-        if (message.from.equals(stream_interactor.get_module(MucManager.IDENTITY).get_own_jid(message.from.bare_jid, account))) {
+        if (message.from.equals(stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_own_jid(message.from.bare_jid, account))) {
             new_message.direction = Entities.Message.DIRECTION_SENT;
             counterpart_override = message.from.bare_jid;
         } else if (account.bare_jid.equals_bare(message.from)) {
@@ -168,7 +168,7 @@ public class MessageProcessor : StreamInteractionModule, Object {
 
         // Parse server stanza-id
         Xmpp.MessageArchiveManagement.MessageFlag? mam_message_flag = Xmpp.MessageArchiveManagement.MessageFlag.get_flag(message);
-        EntityInfo entity_info = stream_interactor.get_module(EntityInfo.IDENTITY);
+        EntityInfo entity_info = stream_interactor.get_module<EntityInfo>(EntityInfo.IDENTITY);
         if (mam_message_flag != null && mam_message_flag.mam_id != null) {
             bool sender_supports_mam = entity_info.has_feature_cached(account, mam_message_flag.sender_jid, Xmpp.MessageArchiveManagement.NS_URI);
             if (sender_supports_mam) {
@@ -202,7 +202,7 @@ public class MessageProcessor : StreamInteractionModule, Object {
             bool muc_supports_occupant_ids = entity_info.has_feature_cached(account, message.from.bare_jid, Xmpp.Xep.OccupantIds.NS_URI);
             string? occupant_id = OccupantIds.get_occupant_id(message.stanza);
             if (muc_supports_occupant_ids && occupant_id != null) {
-                new_message.occupant_db_id = stream_interactor.get_module(OccupantIdStore.IDENTITY).cache_occupant_id(account, occupant_id, message.from);
+                new_message.occupant_db_id = stream_interactor.get_module<OccupantIdStore>(OccupantIdStore.IDENTITY).cache_occupant_id(account, occupant_id, message.from);
             }
         }
 
@@ -214,7 +214,7 @@ public class MessageProcessor : StreamInteractionModule, Object {
             return Entities.Message.Type.GROUPCHAT;
         }
         if (message_stanza.type_ == Xmpp.MessageStanza.TYPE_CHAT) {
-            Conversation? conversation = stream_interactor.get_module(ConversationManager.IDENTITY).get_conversation(message.counterpart.bare_jid, account);
+            Conversation? conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_conversation(message.counterpart.bare_jid, account);
             if (conversation != null) {
                 if (conversation.type_ == Conversation.Type.CHAT) {
                     return Entities.Message.Type.CHAT;
@@ -224,7 +224,7 @@ public class MessageProcessor : StreamInteractionModule, Object {
             } else {
                 XmppStream stream = stream_interactor.get_stream(account);
                 if (stream != null) {
-                    Gee.Set<Xep.ServiceDiscovery.Identity>? identities = yield stream.get_module(Xep.ServiceDiscovery.Module.IDENTITY).get_entity_identities(stream, message.counterpart.bare_jid);
+                    Gee.Set<Xep.ServiceDiscovery.Identity>? identities = yield stream.get_module<Xep.ServiceDiscovery.Module>(Xep.ServiceDiscovery.Module.IDENTITY).get_entity_identities(stream, message.counterpart.bare_jid);
                     if (identities == null) {
                         return Entities.Message.Type.CHAT;
                     }
@@ -379,7 +379,7 @@ public class MessageProcessor : StreamInteractionModule, Object {
         }
 
         public override async bool run(Entities.Message message, Xmpp.MessageStanza stanza, Conversation conversation) {
-            stream_interactor.get_module(MessageStorage.IDENTITY).add_message(message, conversation);
+            stream_interactor.get_module<MessageStorage>(MessageStorage.IDENTITY).add_message(message, conversation);
             return false;
         }
     }
@@ -417,7 +417,7 @@ public class MessageProcessor : StreamInteractionModule, Object {
 
         public override async bool run(Entities.Message message, Xmpp.MessageStanza stanza, Conversation conversation) {
             if (message.body == null) return true;
-            stream_interactor.get_module(ContentItemStore.IDENTITY).insert_message(message, conversation);
+            stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).insert_message(message, conversation);
             return false;
         }
     }
@@ -434,7 +434,7 @@ public class MessageProcessor : StreamInteractionModule, Object {
         message.direction = Entities.Message.DIRECTION_SENT;
         message.counterpart = conversation.counterpart;
         if (conversation.type_ == Conversation.Type.GROUPCHAT) {
-            message.ourpart = stream_interactor.get_module(MucManager.IDENTITY).get_own_jid(conversation.counterpart, conversation.account) ?? conversation.account.bare_jid;
+            message.ourpart = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_own_jid(conversation.counterpart, conversation.account) ?? conversation.account.bare_jid;
             message.real_jid = conversation.account.bare_jid;
         } else {
             message.ourpart = conversation.account.full_jid;
@@ -442,7 +442,7 @@ public class MessageProcessor : StreamInteractionModule, Object {
         message.marked = Entities.Message.Marked.UNSENT;
         message.encryption = conversation.encryption;
 
-        stream_interactor.get_module(MessageStorage.IDENTITY).add_message(message, conversation);
+        stream_interactor.get_module<MessageStorage>(MessageStorage.IDENTITY).add_message(message, conversation);
 
         return message;
     }
@@ -466,10 +466,10 @@ public class MessageProcessor : StreamInteractionModule, Object {
         }
 
         if (message.quoted_item_id != 0) {
-            ContentItem? quoted_content_item = stream_interactor.get_module(ContentItemStore.IDENTITY).get_item_by_id(conversation, message.quoted_item_id);
+            ContentItem? quoted_content_item = stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).get_item_by_id(conversation, message.quoted_item_id);
             if (quoted_content_item != null) {
                 Jid? quoted_sender = message.from;
-                string? quoted_stanza_id = stream_interactor.get_module(ContentItemStore.IDENTITY).get_message_id_for_content_item(conversation, quoted_content_item);
+                string? quoted_stanza_id = stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).get_message_id_for_content_item(conversation, quoted_content_item);
                 if (quoted_sender != null && quoted_stanza_id != null) {
                     Xep.Replies.set_reply_to(new_message, new Xep.Replies.ReplyTo(quoted_sender, quoted_stanza_id));
                 }
@@ -506,9 +506,9 @@ public class MessageProcessor : StreamInteractionModule, Object {
         }
 
         debug("DEBUG: MessageProcessor: calling send_message.begin");
-        stream.get_module(MessageModule.IDENTITY).send_message.begin(stream, new_message, (_, res) => {
+        stream.get_module<MessageModule>(MessageModule.IDENTITY).send_message.begin(stream, new_message, (_, res) => {
             try {
-                stream.get_module(MessageModule.IDENTITY).send_message.end(res);
+                stream.get_module<MessageModule>(MessageModule.IDENTITY).send_message.end(res);
                 debug("DEBUG: MessageProcessor: send_message.end returned");
                 debug("MessageProcessor: Message sent successfully (stanza_id: %s)", message.stanza_id);
                 if (message.marked == Message.Marked.SENDING) {

@@ -97,7 +97,22 @@ public class Session {
         return policy;
     }
 
+    private string? last_encryption_profile = null;
+    private uint8[]? last_encryption_key = null;
+    private uint8[]? last_encryption_salt = null;
+
+    public void force_reset_encrypt_stream() {
+        Context.create(out encrypt_context, null);
+        if (last_encryption_profile != null) {
+            set_encryption_key(last_encryption_profile, last_encryption_key, last_encryption_salt);
+        }
+    }
+
     public void set_encryption_key(string profile, uint8[] key, uint8[] salt) {
+        last_encryption_profile = profile;
+        last_encryption_key = key;
+        last_encryption_salt = salt;
+
         Policy policy = create_policy(profile);
         policy.ssrc.type = SsrcType.any_outbound;
         policy.key = new uint8[key.length + salt.length];

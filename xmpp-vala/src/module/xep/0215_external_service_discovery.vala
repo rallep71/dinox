@@ -8,7 +8,7 @@ namespace Xmpp.Xep.ExternalServiceDiscovery {
         Iq.Stanza request_iq = new Iq.Stanza.get((new StanzaNode.build("services", NS_URI)).add_self_xmlns()) { to=stream.remote_name };
         Iq.Stanza response_iq;
         try {
-            response_iq = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, request_iq);
+            response_iq = yield stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq_async(stream, request_iq);
         } catch (GLib.Error e) {
             warning("Failed to request services: %s", e.message);
             return new ArrayList<Service>();

@@ -17,18 +17,18 @@ public class Dino.Plugins.Ice.Plugin : RootInterface, Object {
             list.add(new Module());
         });
         app.stream_interactor.stream_attached_modules.connect((account, stream) => {
-            if (stream.get_module(Socks5Bytestreams.Module.IDENTITY) != null) {
-                stream.get_module(Socks5Bytestreams.Module.IDENTITY).set_local_ip_address_handler(get_local_ip_addresses);
+            if (stream.get_module<Socks5Bytestreams.Module>(Socks5Bytestreams.Module.IDENTITY) != null) {
+                stream.get_module<Socks5Bytestreams.Module>(Socks5Bytestreams.Module.IDENTITY).set_local_ip_address_handler(get_local_ip_addresses);
             }
-            if (stream.get_module(JingleRawUdp.Module.IDENTITY) != null) {
-                stream.get_module(JingleRawUdp.Module.IDENTITY).set_local_ip_address_handler(get_local_ip_addresses);
+            if (stream.get_module<JingleRawUdp.Module>(JingleRawUdp.Module.IDENTITY) != null) {
+                stream.get_module<JingleRawUdp.Module>(JingleRawUdp.Module.IDENTITY).set_local_ip_address_handler(get_local_ip_addresses);
             }
         });
         app.stream_interactor.stream_negotiated.connect(external_discovery_refresh_services);
     }
 
     private async void external_discovery_refresh_services(Account account, XmppStream stream) {
-        Module? ice_udp_module = stream.get_module(JingleIceUdp.Module.IDENTITY) as Module;
+        Module? ice_udp_module = stream.get_module<JingleIceUdp.Module>(JingleIceUdp.Module.IDENTITY) as Module;
         if (ice_udp_module == null) return;
 
         Gee.List<Xep.ExternalServiceDiscovery.Service> services = yield ExternalServiceDiscovery.request_services(stream);

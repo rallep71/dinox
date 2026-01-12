@@ -42,7 +42,7 @@ public class RoomBrowserDialog : Adw.Dialog {
         status_label.visible = false;
         room_list.visible = false;
 
-        Jid? muc_server = stream_interactor.get_module(MucManager.IDENTITY).default_muc_server.get(account);
+        Jid? muc_server = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).default_muc_server.get(account);
         
         if (muc_server == null) {
             // Try to find it if not cached yet
@@ -68,7 +68,7 @@ public class RoomBrowserDialog : Adw.Dialog {
                 return;
             }
 
-            ServiceDiscovery.ItemsResult? result = yield stream.get_module(ServiceDiscovery.Module.IDENTITY).request_items(stream, muc_server);
+            ServiceDiscovery.ItemsResult? result = yield stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).request_items(stream, muc_server);
             if (result != null) {
                 all_items = result.items;
                 populate_list("");
@@ -163,7 +163,7 @@ public class RoomBrowserDialog : Adw.Dialog {
     }
     
     private void open_room_conversation(Jid jid) {
-        Conversation? conversation = stream_interactor.get_module(ConversationManager.IDENTITY).get_conversation(jid, account, Conversation.Type.GROUPCHAT);
+        Conversation? conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_conversation(jid, account, Conversation.Type.GROUPCHAT);
         if (conversation != null) {
             Application app = GLib.Application.get_default() as Application;
             app.controller.select_conversation(conversation);
@@ -225,7 +225,7 @@ public class RoomBrowserDialog : Adw.Dialog {
 
             // Mark if already joined (using MucManager.is_joined)
             if (account != null) {
-                if (stream_interactor.get_module(MucManager.IDENTITY).is_joined(item.jid, account)) {
+                if (stream_interactor.get_module<MucManager>(MucManager.IDENTITY).is_joined(item.jid, account)) {
                     this.joined = true;
                     var joined_label = new Label(_("Joined"));
                     joined_label.add_css_class("success");

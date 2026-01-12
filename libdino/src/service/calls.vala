@@ -40,12 +40,12 @@ namespace Dino {
             call.direction = Call.DIRECTION_OUTGOING;
             call.account = conversation.account;
             call.counterpart = conversation.counterpart;
-            call.ourpart = stream_interactor.get_module(MucManager.IDENTITY).get_own_jid(conversation.counterpart, conversation.account) ?? conversation.account.full_jid;
+            call.ourpart = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_own_jid(conversation.counterpart, conversation.account) ?? conversation.account.full_jid;
             call.time = call.local_time = call.end_time = new DateTime.now_utc();
             call.encryption = Encryption.UNKNOWN;
             call.state = Call.State.RINGING;
 
-            stream_interactor.get_module(CallStore.IDENTITY).add_call(call, conversation);
+            stream_interactor.get_module<CallStore>(CallStore.IDENTITY).add_call(call, conversation);
 
             var call_state = new CallState(call, stream_interactor);
             connect_call_state_signals(call_state);
@@ -79,13 +79,13 @@ namespace Dino {
             if (conversation.type_ == Conversation.Type.CHAT) {
                 return !conversation.counterpart.equals_bare(conversation.account.bare_jid);
             } else {
-                bool is_private = stream_interactor.get_module(MucManager.IDENTITY).is_private_room(conversation.account, conversation.counterpart);
+                bool is_private = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).is_private_room(conversation.account, conversation.counterpart);
                 return is_private && can_initiate_groupcall(conversation.account);
             }
         }
 
         public bool can_initiate_groupcall(Account account) {
-            return stream_interactor.get_module(MucManager.IDENTITY).default_muc_server[account] != null;
+            return stream_interactor.get_module<MucManager>(MucManager.IDENTITY).default_muc_server[account] != null;
         }
 
         public async Gee.List<Jid> get_call_resources(Account account, Jid counterpart) {
@@ -101,7 +101,7 @@ namespace Dino {
             if (full_jids == null) return ret;
 
             foreach (Jid full_jid in full_jids) {
-                var module = stream.get_module(Xep.JingleRtp.Module.IDENTITY);
+                var module = stream.get_module<Xep.JingleRtp.Module>(Xep.JingleRtp.Module.IDENTITY);
                 if (module == null) return ret;
                 bool supports_rtc = yield module.is_available(stream, full_jid);
                 if (!supports_rtc) continue;
@@ -115,7 +115,7 @@ namespace Dino {
             if (stream == null) return false;
 
             foreach (Jid full_jid in full_jids) {
-                bool does_jmi = yield stream_interactor.get_module(EntityInfo.IDENTITY).has_feature(account, full_jid, Xep.JingleMessageInitiation.NS_URI);
+                bool does_jmi = yield stream_interactor.get_module<EntityInfo>(EntityInfo.IDENTITY).has_feature(account, full_jid, Xep.JingleMessageInitiation.NS_URI);
                 if (does_jmi) return true;
             }
             return false;
@@ -189,13 +189,13 @@ namespace Dino {
             }
 
             // This is a direct call without prior JMI. Ask user.
-            if (stream_interactor.get_module(MucManager.IDENTITY).might_be_groupchat(session.peer_full_jid.bare_jid, account)) return;
+            if (stream_interactor.get_module<MucManager>(MucManager.IDENTITY).might_be_groupchat(session.peer_full_jid.bare_jid, account)) return;
             peer_state = create_received_call(account, session.peer_full_jid, account.full_jid, counterpart_wants_video);
             peer_state.set_session(session);
-            Conversation conversation = stream_interactor.get_module(ConversationManager.IDENTITY).get_conversation(peer_state.call.counterpart.bare_jid, account, Conversation.Type.CHAT);
+            Conversation conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_conversation(peer_state.call.counterpart.bare_jid, account, Conversation.Type.CHAT);
             call_incoming(peer_state.call, peer_state.call_state, conversation, counterpart_wants_video, false);
 
-            stream_interactor.module_manager.get_module(account, Xep.JingleRtp.Module.IDENTITY).session_info_type.send_ringing(session);
+            stream_interactor.module_manager.get_module<Xep.JingleRtp.Module>(account, Xep.JingleRtp.Module.IDENTITY).session_info_type.send_ringing(session);
         }
 
         private PeerState create_received_call(Account account, Jid from, Jid to, bool video_requested) {
@@ -217,8 +217,8 @@ namespace Dino {
             call.time = call.local_time = call.end_time = new DateTime.now_utc();
             call.encryption = Encryption.UNKNOWN;
 
-            Conversation conversation = stream_interactor.get_module(ConversationManager.IDENTITY).create_conversation(call.counterpart.bare_jid, account, Conversation.Type.CHAT);
-            stream_interactor.get_module(CallStore.IDENTITY).add_call(call, conversation);
+            Conversation conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).create_conversation(call.counterpart.bare_jid, account, Conversation.Type.CHAT);
+            stream_interactor.get_module<CallStore>(CallStore.IDENTITY).add_call(call, conversation);
 
             var call_state = new CallState(call, stream_interactor);
             connect_call_state_signals(call_state);
@@ -288,9 +288,9 @@ namespace Dino {
             call.state = Call.State.RINGING;
 
             // TODO create conv
-            Conversation? conversation = stream_interactor.get_module(ConversationManager.IDENTITY).get_conversation(inviter_jid.bare_jid, account);
+            Conversation? conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_conversation(inviter_jid.bare_jid, account);
             if (conversation == null) return null;
-            stream_interactor.get_module(CallStore.IDENTITY).add_call(call, conversation);
+            stream_interactor.get_module<CallStore>(CallStore.IDENTITY).add_call(call, conversation);
 
             CallState call_state = new CallState(call, stream_interactor);
             connect_call_state_signals(call_state);
@@ -320,7 +320,7 @@ namespace Dino {
         }
 
         private void on_account_added(Account account) {
-            Xep.Jingle.Module jingle_module = stream_interactor.module_manager.get_module(account, Xep.Jingle.Module.IDENTITY);
+            Xep.Jingle.Module jingle_module = stream_interactor.module_manager.get_module<Xep.Jingle.Module>(account, Xep.Jingle.Module.IDENTITY);
             jingle_module.session_initiate_received.connect((stream, session) => {
                 foreach (Xep.Jingle.Content content in session.contents) {
                     Xep.JingleRtp.Parameters? rtp_content_parameter = content.content_params as Xep.JingleRtp.Parameters;
@@ -331,10 +331,10 @@ namespace Dino {
                 }
             });
 
-            Xep.JingleMessageInitiation.Module mi_module = stream_interactor.module_manager.get_module(account, Xep.JingleMessageInitiation.Module.IDENTITY);
+            Xep.JingleMessageInitiation.Module mi_module = stream_interactor.module_manager.get_module<Xep.JingleMessageInitiation.Module>(account, Xep.JingleMessageInitiation.Module.IDENTITY);
             mi_module.session_proposed.connect((from, to, sid, descriptions) => {
 
-                if (stream_interactor.get_module(MucManager.IDENTITY).might_be_groupchat(from.bare_jid, account)) return;
+                if (stream_interactor.get_module<MucManager>(MucManager.IDENTITY).might_be_groupchat(from.bare_jid, account)) return;
 
                 bool audio_requested = descriptions.any_match((description) => description.ns_uri == Xep.JingleRtp.NS_URI && description.get_attribute("media") == "audio");
                 bool video_requested = descriptions.any_match((description) => description.ns_uri == Xep.JingleRtp.NS_URI && description.get_attribute("media") == "video");
@@ -346,7 +346,7 @@ namespace Dino {
 
                 jmi_request_peer[peer_state.call] = peer_state;
 
-                Conversation conversation = stream_interactor.get_module(ConversationManager.IDENTITY).get_conversation(call_state.call.counterpart.bare_jid, account, Conversation.Type.CHAT);
+                Conversation conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_conversation(call_state.call.counterpart.bare_jid, account, Conversation.Type.CHAT);
                 if (call_state.call.direction == Call.DIRECTION_INCOMING) {
                     call_incoming(call_state.call, call_state, conversation, video_requested, false);
                 } else {
@@ -407,10 +407,10 @@ namespace Dino {
                 remove_call_from_datastructures(call);
             });
 
-            Xep.CallInvites.Module call_invites_module = stream_interactor.module_manager.get_module(account, Xep.CallInvites.Module.IDENTITY);
+            Xep.CallInvites.Module call_invites_module = stream_interactor.module_manager.get_module<Xep.CallInvites.Module>(account, Xep.CallInvites.Module.IDENTITY);
             call_invites_module.call_proposed.connect((from_jid, to_jid, call_id, video_requested, join_methods, message_stanza) => {
                 if (from_jid.equals_bare(account.bare_jid)) return;
-                if (stream_interactor.get_module(MucManager.IDENTITY).is_own_muc_jid(from_jid, account)) return;
+                if (stream_interactor.get_module<MucManager>(MucManager.IDENTITY).is_own_muc_jid(from_jid, account)) return;
 
                 bool multiparty = false;
                 CallState? call_state = null;
@@ -441,7 +441,7 @@ namespace Dino {
                     } else if (join_method_node.name == "jingle" && join_method_node.ns_uri == Xep.CallInvites.NS_URI) {
                         // This is an invite for a direct Jingle session
 
-                        if (stream_interactor.get_module(MucManager.IDENTITY).might_be_groupchat(from_jid.bare_jid, account)) return;
+                        if (stream_interactor.get_module<MucManager>(MucManager.IDENTITY).might_be_groupchat(from_jid.bare_jid, account)) return;
 
                         string? sid = join_method_node.get_attribute("sid");
                         if (sid == null) return;
@@ -467,7 +467,7 @@ namespace Dino {
                 call_state.cim_jids_to_inform.add(message_stanza.type_ == MessageStanza.TYPE_GROUPCHAT ? from_jid.bare_jid : from_jid);
                 call_state.cim_message_type = message_stanza.type_;
 
-                Conversation? conversation = stream_interactor.get_module(ConversationManager.IDENTITY).approx_conversation_for_stanza(from_jid, to_jid, account, message_stanza.type_);
+                Conversation? conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).approx_conversation_for_stanza(from_jid, to_jid, account, message_stanza.type_);
                 if (conversation == null) return;
 
                 if (call_state.call.direction == Call.DIRECTION_INCOMING) {
@@ -536,7 +536,7 @@ namespace Dino {
                 debug(@"[%s] %s rejected our MUJI invite", account.bare_jid.to_string(), from_jid.to_string());
             });
 
-            stream_interactor.module_manager.get_module(account, Xep.Coin.Module.IDENTITY).coin_info_received.connect((jid, info) => {
+            stream_interactor.module_manager.get_module<Xep.Coin.Module>(account, Xep.Coin.Module.IDENTITY).coin_info_received.connect((jid, info) => {
                 foreach (Call call in call_states.keys) {
                     if (call.counterparts[0].equals_bare(jid)) {
                         conference_info_received(call, info);

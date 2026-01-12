@@ -30,12 +30,12 @@ public class StreamModule : XmppStreamModule {
     }
 
     public override void attach(XmppStream stream) {
-        stream.get_module(Pubsub.Module.IDENTITY).add_filtered_notification(stream, NODE_DEVICELIST,
+        stream.get_module<Pubsub.Module>(Pubsub.Module.IDENTITY).add_filtered_notification(stream, NODE_DEVICELIST,
                 (stream, jid, id, node) => parse_device_list(stream, jid, id, node), null, null);
     }
 
     public override void detach(XmppStream stream) {
-        stream.get_module(Pubsub.Module.IDENTITY).remove_filtered_notification(stream, NODE_DEVICELIST);
+        stream.get_module<Pubsub.Module>(Pubsub.Module.IDENTITY).remove_filtered_notification(stream, NODE_DEVICELIST);
     }
 
     public async ArrayList<int32> request_user_devicelist(XmppStream stream, Jid jid) {
@@ -45,7 +45,7 @@ public class StreamModule : XmppStreamModule {
             future = promise.future;
             active_devicelist_requests[jid] = future;
 
-            stream.get_module(Pubsub.Module.IDENTITY).request(stream, jid, NODE_DEVICELIST, (stream, jid, id, node) => {
+            stream.get_module<Pubsub.Module>(Pubsub.Module.IDENTITY).request(stream, jid, NODE_DEVICELIST, (stream, jid, id, node) => {
                 ArrayList<int32> device_list = parse_device_list(stream, jid, id, node);
                 promise.set_value(device_list);
                 active_devicelist_requests.unset(jid);
@@ -78,7 +78,7 @@ public class StreamModule : XmppStreamModule {
             if (!am_on_devicelist) {
                 debug("Not on device list, adding id");
                 node.put_node(new StanzaNode.build("device", NS_URI).put_attribute("id", store.local_registration_id.to_string()));
-                stream.get_module(Pubsub.Module.IDENTITY).publish.begin(stream, jid, NODE_DEVICELIST, id, node, null, true, () => {
+                stream.get_module<Pubsub.Module>(Pubsub.Module.IDENTITY).publish.begin(stream, jid, NODE_DEVICELIST, id, node, null, true, () => {
                     try_make_node_public.begin(stream, NODE_DEVICELIST);
                 });
             }
@@ -113,7 +113,7 @@ public class StreamModule : XmppStreamModule {
     public void fetch_bundle(XmppStream stream, Jid jid, int device_id, bool ignore_if_non_present = true) {
         if (active_bundle_requests.add(jid.bare_jid.to_string() + @":$device_id")) {
             debug("Asking for bundle for %s/%d", jid.bare_jid.to_string(), device_id);
-            stream.get_module(Pubsub.Module.IDENTITY).request(stream, jid.bare_jid, @"$NODE_BUNDLES:$device_id", (stream, jid, id, node) => {
+            stream.get_module<Pubsub.Module>(Pubsub.Module.IDENTITY).request(stream, jid.bare_jid, @"$NODE_BUNDLES:$device_id", (stream, jid, id, node) => {
                 on_other_bundle_result(stream, jid, device_id, id, node, ignore_if_non_present);
             });
         }
@@ -145,7 +145,7 @@ public class StreamModule : XmppStreamModule {
     }
 
     public void clear_device_list(XmppStream stream) {
-        stream.get_module(Pubsub.Module.IDENTITY).delete_node(stream, null, NODE_DEVICELIST);
+        stream.get_module<Pubsub.Module>(Pubsub.Module.IDENTITY).delete_node(stream, null, NODE_DEVICELIST);
     }
 
     private void on_other_bundle_result(XmppStream stream, Jid jid, int device_id, string? id, StanzaNode? node, bool ignore_if_non_present) {
@@ -153,12 +153,12 @@ public class StreamModule : XmppStreamModule {
             // Device not registered, shouldn't exist
             if (ignore_if_non_present) {
                 debug("Ignoring device %s/%d: No bundle", jid.bare_jid.to_string(), device_id);
-                stream.get_module(IDENTITY).ignore_device(jid, device_id);
+                stream.get_module<StreamModule>(IDENTITY).ignore_device(jid, device_id);
             }
             bundle_fetch_failed(jid, device_id);
         } else {
             Bundle bundle = new Bundle(node);
-            stream.get_module(IDENTITY).unignore_device(jid, device_id);
+            stream.get_module<StreamModule>(IDENTITY).unignore_device(jid, device_id);
             // Never log key material (even public keys) in full; keep logs metadata-only.
             debug("Received bundle for %s/%d (identity_key_present=%s)",
                 jid.bare_jid.to_string(),
@@ -166,7 +166,7 @@ public class StreamModule : XmppStreamModule {
                 (bundle.identity_key != null).to_string());
             bundle_fetched(jid, device_id, bundle);
         }
-        stream.get_module(IDENTITY).active_bundle_requests.remove(jid.bare_jid.to_string() + @":$device_id");
+        stream.get_module<StreamModule>(IDENTITY).active_bundle_requests.remove(jid.bare_jid.to_string() + @":$device_id");
     }
 
     public bool start_session(XmppStream stream, Jid jid, int32 device_id, Bundle bundle) {
@@ -203,14 +203,14 @@ public class StreamModule : XmppStreamModule {
         }
         if (fail) {
             debug("Ignoring device %s/%d: Bad bundle: %s", jid.bare_jid.to_string(), device_id, bundle.node.to_string());
-            stream.get_module(IDENTITY).ignore_device(jid, device_id);
+            stream.get_module<StreamModule>(IDENTITY).ignore_device(jid, device_id);
         }
         return true;
     }
 
     public void publish_bundles_if_needed(XmppStream stream, Jid jid) {
         if (active_bundle_requests.add(jid.bare_jid.to_string() + @":$(store.local_registration_id)")) {
-            stream.get_module(Pubsub.Module.IDENTITY).request(stream, jid, @"$NODE_BUNDLES:$(store.local_registration_id)", on_self_bundle_result);
+            stream.get_module<Pubsub.Module>(Pubsub.Module.IDENTITY).request(stream, jid, @"$NODE_BUNDLES:$(store.local_registration_id)", on_self_bundle_result);
         }
     }
 
@@ -282,7 +282,7 @@ public class StreamModule : XmppStreamModule {
         } catch (Error e) {
             warning(@"Unexpected error while publishing bundle: $(e.message)\n");
         }
-        stream.get_module(IDENTITY).active_bundle_requests.remove(jid.bare_jid.to_string() + @":$(store.local_registration_id)");
+        stream.get_module<StreamModule>(IDENTITY).active_bundle_requests.remove(jid.bare_jid.to_string() + @":$(store.local_registration_id)");
     }
 
     public async void publish_bundles(XmppStream stream, SignedPreKeyRecord signed_pre_key_record, IdentityKeyPair identity_key_pair, Set<PreKeyRecord> pre_key_records, int32 device_id) throws Error {
@@ -305,19 +305,19 @@ public class StreamModule : XmppStreamModule {
         bundle.put_node(prekeys);
 
         string node_id = @"$NODE_BUNDLES:$device_id";
-        yield stream.get_module(Pubsub.Module.IDENTITY).publish(stream, null, node_id, "1", bundle);
+        yield stream.get_module<Pubsub.Module>(Pubsub.Module.IDENTITY).publish(stream, null, node_id, "1", bundle);
         yield try_make_node_public(stream, node_id);
 
     }
 
     private async void try_make_node_public(XmppStream stream, string node_id) {
-        DataForms.DataForm? data_form = yield stream.get_module(Pubsub.Module.IDENTITY).request_node_config(stream, null, node_id);
+        DataForms.DataForm? data_form = yield stream.get_module<Pubsub.Module>(Pubsub.Module.IDENTITY).request_node_config(stream, null, node_id);
         if (data_form == null) return;
 
         foreach (DataForms.DataForm.Field field in data_form.fields) {
             if (field.var == "pubsub#access_model" && field.get_value_string() != Pubsub.ACCESS_MODEL_OPEN) {
                 field.set_value_string(Pubsub.ACCESS_MODEL_OPEN);
-                yield stream.get_module(Pubsub.Module.IDENTITY).submit_node_config(stream, null, data_form, node_id);
+                yield stream.get_module<Pubsub.Module>(Pubsub.Module.IDENTITY).submit_node_config(stream, null, data_form, node_id);
                 break;
             }
         }

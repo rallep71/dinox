@@ -50,7 +50,7 @@ public class Dino.HistorySync {
     }
 
     public void update_latest_db_range(Account account, Xmpp.MessageStanza message_stanza) {
-        Jid mam_server = stream_interactor.get_module(MucManager.IDENTITY).might_be_groupchat(message_stanza.from.bare_jid, account) ? message_stanza.from.bare_jid : account.bare_jid;
+        Jid mam_server = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).might_be_groupchat(message_stanza.from.bare_jid, account) ? message_stanza.from.bare_jid : account.bare_jid;
 
         if (!current_catchup_id.has_key(account) || !current_catchup_id[account].has_key(mam_server)) return;
 
@@ -69,7 +69,7 @@ public class Dino.HistorySync {
         Jid message_author = message_stanza.from;
 
         // MUC servers may only send MAM messages from that MUC
-        bool is_muc_mam = stream_interactor.get_module(MucManager.IDENTITY).might_be_groupchat(mam_server, account) &&
+        bool is_muc_mam = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).might_be_groupchat(mam_server, account) &&
                 message_author.equals_bare(mam_server);
 
         bool from_our_server = mam_server.equals_bare(account.bare_jid);
@@ -85,7 +85,7 @@ public class Dino.HistorySync {
 
     private void on_unprocessed_message(Account account, XmppStream stream, MessageStanza message) {
         // Check that it's a legit MAM server
-        bool is_muc_mam = stream_interactor.get_module(MucManager.IDENTITY).might_be_groupchat(message.from, account);
+        bool is_muc_mam = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).might_be_groupchat(message.from, account);
         bool from_our_server = message.from.equals_bare(account.bare_jid);
         if (!is_muc_mam && !from_our_server) return;
 
@@ -460,7 +460,7 @@ public class Dino.HistorySync {
 
         foreach (Xmpp.MessageStanza message in stanzas[query_id]) {
             if (cancellable != null && cancellable.is_cancelled()) break;
-            yield stream_interactor.get_module(MessageProcessor.IDENTITY).run_pipeline_announce(account, message);
+            yield stream_interactor.get_module<MessageProcessor>(MessageProcessor.IDENTITY).run_pipeline_announce(account, message);
         }
         stanzas.unset(query_id);
     }
@@ -478,11 +478,11 @@ public class Dino.HistorySync {
             }
         });
 
-        stream_interactor.module_manager.get_module(account, Xmpp.MessageArchiveManagement.Module.IDENTITY).feature_available.connect((stream) => {
+        stream_interactor.module_manager.get_module<Xmpp.MessageArchiveManagement.Module>(account, Xmpp.MessageArchiveManagement.Module.IDENTITY).feature_available.connect((stream) => {
             consider_fetch_everything(account, stream);
         });
 
-        stream_interactor.module_manager.get_module(account, Xmpp.MessageModule.IDENTITY).received_message_unprocessed.connect((stream, message) => {
+        stream_interactor.module_manager.get_module<Xmpp.MessageModule>(account, Xmpp.MessageModule.IDENTITY).received_message_unprocessed.connect((stream, message) => {
             on_unprocessed_message(account, stream, message);
         });
     }

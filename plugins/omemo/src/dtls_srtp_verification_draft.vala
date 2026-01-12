@@ -23,7 +23,7 @@ namespace Dino.Plugins.Omemo.DtlsSrtpVerificationDraft {
             string? jingle_sid = iq.stanza.get_deep_attribute(Xep.Jingle.NS_URI + ":jingle", "sid");
             if (jingle_sid == null) return;
 
-            Xep.Omemo.OmemoDecryptor decryptor = stream.get_module(Xep.Omemo.OmemoDecryptor.IDENTITY);
+            Xep.Omemo.OmemoDecryptor decryptor = stream.get_module<Xep.Omemo.OmemoDecryptor>(Xep.Omemo.OmemoDecryptor.IDENTITY);
 
             foreach (StanzaNode content_node in content_nodes) {
                 string? content_name = content_node.get_attribute("name");
@@ -88,7 +88,7 @@ namespace Dino.Plugins.Omemo.DtlsSrtpVerificationDraft {
         // Asynchronously refresh OMEMO bundles when decryption fails
         private async void refresh_bundles_async(XmppStream stream, Jid jid, int device_id) {
             debug("Refreshing OMEMO bundles for %s/%d due to call decryption failure", jid.to_string(), device_id);
-            Omemo.StreamModule? omemo_module = stream.get_module(Omemo.StreamModule.IDENTITY);
+            Omemo.StreamModule? omemo_module = stream.get_module<Omemo.StreamModule>(Omemo.StreamModule.IDENTITY);
             if (omemo_module != null) {
                 // Request fresh device list and bundles
                 yield omemo_module.request_user_devicelist(stream, jid);
@@ -135,7 +135,7 @@ namespace Dino.Plugins.Omemo.DtlsSrtpVerificationDraft {
 
                 StanzaNode? encrypted_node = null;
                 try {
-                    Xep.Omemo.OmemoEncryptor encryptor = stream.get_module(Xep.Omemo.OmemoEncryptor.IDENTITY);
+                    Xep.Omemo.OmemoEncryptor encryptor = stream.get_module<Xep.Omemo.OmemoEncryptor>(Xep.Omemo.OmemoEncryptor.IDENTITY);
                     Xep.Omemo.EncryptionData enc_data = encryptor.encrypt_plaintext(fingerprint);
                     encryptor.encrypt_key(enc_data, iq.to.bare_jid, device_id);
                     encrypted_node = enc_data.get_encrypted_node();
@@ -192,7 +192,7 @@ namespace Dino.Plugins.Omemo.DtlsSrtpVerificationDraft {
             if (muji_node == null) return;
 
             StanzaNode device_node = new StanzaNode.build("device", NS_URI).add_self_xmlns()
-                    .put_attribute("id", stream.get_module(Omemo.StreamModule.IDENTITY).store.local_registration_id.to_string());
+                    .put_attribute("id", stream.get_module<Omemo.StreamModule>(Omemo.StreamModule.IDENTITY).store.local_registration_id.to_string());
             muji_node.put_node(device_node);
         }
 
@@ -226,22 +226,22 @@ namespace Dino.Plugins.Omemo.DtlsSrtpVerificationDraft {
         }
 
         public override void attach(XmppStream stream) {
-            stream.get_module(Xmpp.MessageModule.IDENTITY).received_message.connect(on_message_received);
-            stream.get_module(Xmpp.MessageModule.IDENTITY).send_pipeline.connect(send_listener);
-            stream.get_module(Xmpp.Iq.Module.IDENTITY).preprocess_incoming_iq_set_get.connect(on_preprocess_incoming_iq_set_get);
-            stream.get_module(Xmpp.Iq.Module.IDENTITY).preprocess_outgoing_iq_set_get.connect(on_preprocess_outgoing_iq_set_get);
-            stream.get_module(Xep.Jingle.Module.IDENTITY).session_initiate_received.connect(on_session_initiate_received);
-            stream.get_module(Xmpp.Presence.Module.IDENTITY).pre_send_presence_stanza.connect(on_pre_send_presence_stanza);
-            stream.get_module(Xmpp.Presence.Module.IDENTITY).received_available.connect(on_received_available);
+            stream.get_module<Xmpp.MessageModule>(Xmpp.MessageModule.IDENTITY).received_message.connect(on_message_received);
+            stream.get_module<Xmpp.MessageModule>(Xmpp.MessageModule.IDENTITY).send_pipeline.connect(send_listener);
+            stream.get_module<Xmpp.Iq.Module>(Xmpp.Iq.Module.IDENTITY).preprocess_incoming_iq_set_get.connect(on_preprocess_incoming_iq_set_get);
+            stream.get_module<Xmpp.Iq.Module>(Xmpp.Iq.Module.IDENTITY).preprocess_outgoing_iq_set_get.connect(on_preprocess_outgoing_iq_set_get);
+            stream.get_module<Xep.Jingle.Module>(Xep.Jingle.Module.IDENTITY).session_initiate_received.connect(on_session_initiate_received);
+            stream.get_module<Xmpp.Presence.Module>(Xmpp.Presence.Module.IDENTITY).pre_send_presence_stanza.connect(on_pre_send_presence_stanza);
+            stream.get_module<Xmpp.Presence.Module>(Xmpp.Presence.Module.IDENTITY).received_available.connect(on_received_available);
         }
 
         public override void detach(XmppStream stream) {
-            stream.get_module(Xmpp.MessageModule.IDENTITY).received_message.disconnect(on_message_received);
-            stream.get_module(Xmpp.MessageModule.IDENTITY).send_pipeline.disconnect(send_listener);
-            stream.get_module(Xmpp.Iq.Module.IDENTITY).preprocess_incoming_iq_set_get.disconnect(on_preprocess_incoming_iq_set_get);
-            stream.get_module(Xmpp.Iq.Module.IDENTITY).preprocess_outgoing_iq_set_get.disconnect(on_preprocess_outgoing_iq_set_get);
-            stream.get_module(Xep.Jingle.Module.IDENTITY).session_initiate_received.disconnect(on_session_initiate_received);
-            stream.get_module(Xmpp.Presence.Module.IDENTITY).received_available.disconnect(on_received_available);
+            stream.get_module<Xmpp.MessageModule>(Xmpp.MessageModule.IDENTITY).received_message.disconnect(on_message_received);
+            stream.get_module<Xmpp.MessageModule>(Xmpp.MessageModule.IDENTITY).send_pipeline.disconnect(send_listener);
+            stream.get_module<Xmpp.Iq.Module>(Xmpp.Iq.Module.IDENTITY).preprocess_incoming_iq_set_get.disconnect(on_preprocess_incoming_iq_set_get);
+            stream.get_module<Xmpp.Iq.Module>(Xmpp.Iq.Module.IDENTITY).preprocess_outgoing_iq_set_get.disconnect(on_preprocess_outgoing_iq_set_get);
+            stream.get_module<Xep.Jingle.Module>(Xep.Jingle.Module.IDENTITY).session_initiate_received.disconnect(on_session_initiate_received);
+            stream.get_module<Xmpp.Presence.Module>(Xmpp.Presence.Module.IDENTITY).received_available.disconnect(on_received_available);
         }
 
         public override string get_ns() { return NS_URI; }
@@ -261,7 +261,7 @@ namespace Dino.Plugins.Omemo.DtlsSrtpVerificationDraft {
             if (proceed_node == null) return false;
 
             StanzaNode device_node = new StanzaNode.build("device", NS_URI).add_self_xmlns()
-                    .put_attribute("id", stream.get_module(Omemo.StreamModule.IDENTITY).store.local_registration_id.to_string());
+                    .put_attribute("id", stream.get_module<Omemo.StreamModule>(Omemo.StreamModule.IDENTITY).store.local_registration_id.to_string());
             proceed_node.put_node(device_node);
             return false;
         }

@@ -43,7 +43,7 @@ namespace Xmpp.Xep.CallInvites {
                 );
             }
             MessageProcessingHints.set_message_hint(invite_message, MessageProcessingHints.HINT_STORE);
-            stream.get_module(MessageModule.IDENTITY).send_message.begin(stream, invite_message);
+            stream.get_module<MessageModule>(MessageModule.IDENTITY).send_message.begin(stream, invite_message);
         }
 
         public void send_jingle_accept(XmppStream stream, Jid inviter, string call_id, string sid, string message_type) {
@@ -72,7 +72,7 @@ namespace Xmpp.Xep.CallInvites {
                 );
             }
             MessageProcessingHints.set_message_hint(invite_message, MessageProcessingHints.HINT_STORE);
-            stream.get_module(MessageModule.IDENTITY).send_message.begin(stream, invite_message);
+            stream.get_module<MessageModule>(MessageModule.IDENTITY).send_message.begin(stream, invite_message);
         }
 
         public void send_retract(XmppStream stream, Jid to, string call_id, string message_type) {
@@ -94,7 +94,7 @@ namespace Xmpp.Xep.CallInvites {
             message.stanza.put_node(custom_node);
 
             MessageProcessingHints.set_message_hint(message, MessageProcessingHints.HINT_STORE);
-            stream.get_module(MessageModule.IDENTITY).send_message.begin(stream, message);
+            stream.get_module<MessageModule>(MessageModule.IDENTITY).send_message.begin(stream, message);
         }
 
         private void send_message(XmppStream stream, Jid to, string call_id, string action, string message_type) {
@@ -108,7 +108,7 @@ namespace Xmpp.Xep.CallInvites {
             message.stanza.put_node(custom_node);
 
             MessageProcessingHints.set_message_hint(message, MessageProcessingHints.HINT_STORE);
-            stream.get_module(MessageModule.IDENTITY).send_message.begin(stream, message);
+            stream.get_module<MessageModule>(MessageModule.IDENTITY).send_message.begin(stream, message);
         }
 
         private void on_received_message(XmppStream stream, MessageStanza message) {
@@ -166,11 +166,11 @@ namespace Xmpp.Xep.CallInvites {
         }
 
         public override void attach(XmppStream stream) {
-            stream.get_module(MessageModule.IDENTITY).received_message.connect(on_received_message);
+            stream.get_module<MessageModule>(MessageModule.IDENTITY).received_message.connect(on_received_message);
         }
 
         public override void detach(XmppStream stream) {
-            stream.get_module(MessageModule.IDENTITY).received_message.disconnect(on_received_message);
+            stream.get_module<MessageModule>(MessageModule.IDENTITY).received_message.disconnect(on_received_message);
         }
 
         public override string get_ns() { return NS_URI; }

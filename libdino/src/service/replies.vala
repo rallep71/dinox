@@ -24,7 +24,7 @@ public class Dino.Replies : StreamInteractionModule, Object {
         this.db = db;
         this.received_message_listener = new ReceivedMessageListener(stream_interactor, this);
 
-        stream_interactor.get_module(MessageProcessor.IDENTITY).received_pipeline.connect(received_message_listener);
+        stream_interactor.get_module<MessageProcessor>(MessageProcessor.IDENTITY).received_pipeline.connect(received_message_listener);
     }
 
     public ContentItem? get_quoted_content_item(Message message, Conversation conversation) {
@@ -32,7 +32,7 @@ public class Dino.Replies : StreamInteractionModule, Object {
 
         RowOption row_option = db.reply.select().with(db.reply.message_id, "=", message.id).row();
         if (row_option.is_present()) {
-            return stream_interactor.get_module(ContentItemStore.IDENTITY).get_item_by_id(conversation, row_option[db.reply.quoted_content_item_id]);
+            return stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).get_item_by_id(conversation, row_option[db.reply.quoted_content_item_id]);
         }
         return null;
     }
@@ -52,8 +52,8 @@ public class Dino.Replies : StreamInteractionModule, Object {
                 .order_by(db.message.time, "DESC");
 
         foreach (Row reply_row in reply_qry) {
-            ContentItem? message_item = stream_interactor.get_module(ContentItemStore.IDENTITY).get_item_by_foreign(conversation, 1, message.id);
-            Message? reply_message = stream_interactor.get_module(MessageStorage.IDENTITY).get_message_by_id(reply_row[db.message.id], conversation);
+            ContentItem? message_item = stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).get_item_by_foreign(conversation, 1, message.id);
+            Message? reply_message = stream_interactor.get_module<MessageStorage>(MessageStorage.IDENTITY).get_message_by_id(reply_row[db.message.id], conversation);
             if (message_item != null && reply_message != null) {
                 reply_message.set_quoted_item(message_item.id);
             }
@@ -63,7 +63,7 @@ public class Dino.Replies : StreamInteractionModule, Object {
         Xep.Replies.ReplyTo? reply_to = Xep.Replies.get_reply_to(stanza);
         if (reply_to == null) return;
 
-        ContentItem? quoted_content_item = stream_interactor.get_module(ContentItemStore.IDENTITY).get_content_item_for_referencing_id(conversation, reply_to.to_message_id);
+        ContentItem? quoted_content_item = stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).get_content_item_for_referencing_id(conversation, reply_to.to_message_id);
         if (quoted_content_item == null) return;
 
         message.set_quoted_item(quoted_content_item.id);

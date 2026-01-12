@@ -17,23 +17,23 @@ public class Module : XmppStreamModule, Jet.EnvelopEncoding {
     const uint IV_SIZE = 12;
 
     public override void attach(XmppStream stream) {
-        if (stream.get_module(Jet.Module.IDENTITY) != null) {
-            stream.get_module(ServiceDiscovery.Module.IDENTITY).add_feature(stream, NS_URI);
-            stream.get_module(Jet.Module.IDENTITY).register_envelop_encoding(this);
-            stream.get_module(Jet.Module.IDENTITY).register_cipher(new AesGcmCipher(KEY_SIZE, IV_SIZE, AES_128_GCM_URI));
+        if (stream.get_module<Jet.Module>(Jet.Module.IDENTITY) != null) {
+            stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).add_feature(stream, NS_URI);
+            stream.get_module<Jet.Module>(Jet.Module.IDENTITY).register_envelop_encoding(this);
+            stream.get_module<Jet.Module>(Jet.Module.IDENTITY).register_cipher(new AesGcmCipher(KEY_SIZE, IV_SIZE, AES_128_GCM_URI));
         }
     }
 
     public override void detach(XmppStream stream) {
-        stream.get_module(ServiceDiscovery.Module.IDENTITY).remove_feature(stream, NS_URI);
+        stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).remove_feature(stream, NS_URI);
     }
 
     public async bool is_available(XmppStream stream, Jid full_jid) {
-        bool? has_feature = yield stream.get_module(ServiceDiscovery.Module.IDENTITY).has_entity_feature(stream, full_jid, NS_URI);
+        bool? has_feature = yield stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).has_entity_feature(stream, full_jid, NS_URI);
         if (has_feature == null || !(!)has_feature) {
             return false;
         }
-        return yield stream.get_module(Xep.Jet.Module.IDENTITY).is_available(stream, full_jid);
+        return yield stream.get_module<Xep.Jet.Module>(Xep.Jet.Module.IDENTITY).is_available(stream, full_jid);
     }
 
     public string get_type_uri() {
@@ -44,7 +44,7 @@ public class Module : XmppStreamModule, Jet.EnvelopEncoding {
         StanzaNode? encrypted = security.get_subnode("encrypted", Omemo.NS_URI);
         if (encrypted == null) throw new Jingle.IqError.BAD_REQUEST("Invalid JET-OMEMO envelop: missing encrypted element");
 
-        Xep.Omemo.OmemoDecryptor decryptor = stream.get_module(Xep.Omemo.OmemoDecryptor.IDENTITY);
+        Xep.Omemo.OmemoDecryptor decryptor = stream.get_module<Xep.Omemo.OmemoDecryptor>(Xep.Omemo.OmemoDecryptor.IDENTITY);
 
         Xmpp.Xep.Omemo.ParsedData? data = decryptor.parse_node(encrypted);
         if (data == null)  throw new Jingle.IqError.BAD_REQUEST("Invalid JET-OMEMO envelop: bad encrypted element");
@@ -64,12 +64,12 @@ public class Module : XmppStreamModule, Jet.EnvelopEncoding {
     }
 
     public void encode_envelop(XmppStream stream, Jid local_full_jid, Jid peer_full_jid, Jet.SecurityParameters security_params, StanzaNode security) {
-        Store store = stream.get_module(Omemo.StreamModule.IDENTITY).store;
+        Store store = stream.get_module<Omemo.StreamModule>(Omemo.StreamModule.IDENTITY).store;
 
         var encryption_data = new Xep.Omemo.EncryptionData(store.local_registration_id);
         encryption_data.iv = security_params.secret.initialization_vector;
         encryption_data.keytag = security_params.secret.transport_key;
-        Xep.Omemo.OmemoEncryptor encryptor = stream.get_module(Xep.Omemo.OmemoEncryptor.IDENTITY);
+        Xep.Omemo.OmemoEncryptor encryptor = stream.get_module<Xep.Omemo.OmemoEncryptor>(Xep.Omemo.OmemoEncryptor.IDENTITY);
         try {
             encryptor.encrypt_key_to_recipient(stream, encryption_data, peer_full_jid.bare_jid);
         } catch (GLib.Error e) {

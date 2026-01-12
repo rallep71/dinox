@@ -18,7 +18,7 @@ public class PgpFileEncryptor : Dino.FileEncryptor, Object {
         FileMeta file_meta = new FileMeta();
 
         try {
-            GPG.Key[] keys = stream_interactor.get_module(Manager.IDENTITY).get_key_fprs(conversation);
+            GPG.Key[] keys = stream_interactor.get_module<Manager>(Manager.IDENTITY).get_key_fprs(conversation);
             uint8[] enc_content = GPGHelper.encrypt_file(file_transfer.get_file().get_path(), keys, GPG.EncryptFlags.ALWAYS_TRUST, file_transfer.file_name);
             file_transfer.input_stream = new MemoryInputStream.from_data(enc_content, GLib.free);
             file_transfer.encryption = Encryption.PGP;

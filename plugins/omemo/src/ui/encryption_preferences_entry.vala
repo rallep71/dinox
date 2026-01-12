@@ -76,7 +76,7 @@ public class OmemoPreferencesWidget : Adw.PreferencesGroup {
 
         Dino.Application? app = Application.get_default() as Dino.Application;
         if (app != null) {
-            store = app.stream_interactor.module_manager.get_module(account, StreamModule.IDENTITY).store;
+            store = app.stream_interactor.module_manager.get_module<StreamModule>(account, StreamModule.IDENTITY).store;
         }
 
         redraw_key_list();
@@ -127,7 +127,7 @@ public class OmemoPreferencesWidget : Adw.PreferencesGroup {
         Dino.Application app = Application.get_default() as Dino.Application;
         XmppStream? stream = app.stream_interactor.get_stream(account);
         if (stream == null) return;
-        StreamModule? module = stream.get_module(StreamModule.IDENTITY);
+        StreamModule? module = stream.get_module<StreamModule>(StreamModule.IDENTITY);
         if (module == null) return;
         module.bundle_fetched.connect_after((bundle_jid, device_id, bundle) => {
             if (bundle_jid.equals(jid) && !displayed_ids.contains(device_id)) {

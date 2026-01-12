@@ -102,7 +102,7 @@ public class MucAdminDialog : Adw.Dialog {
         rows.clear();
         remove_button.sensitive = false;
 
-        var jids = yield stream_interactor.get_module(MucManager.IDENTITY).get_affiliations(account, muc_jid, current_affiliation);
+        var jids = yield stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_affiliations(account, muc_jid, current_affiliation);
         if (jids != null) {
             foreach (Jid jid in jids) {
                 var label = new Label(jid.to_string());
@@ -135,7 +135,7 @@ public class MucAdminDialog : Adw.Dialog {
         dialog.ok_button.label = _("Add");
         
         dialog.selected.connect((account, jid) => {
-            stream_interactor.get_module(MucManager.IDENTITY).set_affiliation(account, muc_jid, jid, current_affiliation);
+            stream_interactor.get_module<MucManager>(MucManager.IDENTITY).set_affiliation(account, muc_jid, jid, current_affiliation);
             dialog.close();
             // Reload list after a short delay to allow server to process
             Timeout.add(500, () => { load_list.begin(); return false; });
@@ -150,7 +150,7 @@ public class MucAdminDialog : Adw.Dialog {
 
         Jid? jid = row.get_data<Jid>("jid");
         if (jid != null) {
-            stream_interactor.get_module(MucManager.IDENTITY).set_affiliation(account, muc_jid, jid, "none");
+            stream_interactor.get_module<MucManager>(MucManager.IDENTITY).set_affiliation(account, muc_jid, jid, "none");
             // Reload list after a short delay
             Timeout.add(500, () => { load_list.begin(); return false; });
         }

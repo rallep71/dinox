@@ -21,7 +21,7 @@ public class TrustManager {
         this.db = db;
 
         tag_message_listener = new TagMessageListener(stream_interactor, this, db, message_device_id_map);
-        stream_interactor.get_module(MessageProcessor.IDENTITY).received_pipeline.connect(tag_message_listener);
+        stream_interactor.get_module<MessageProcessor>(MessageProcessor.IDENTITY).received_pipeline.connect(tag_message_listener);
     }
 
     public void set_blind_trust(Account account, Jid jid, bool blind_trust) {
@@ -109,7 +109,7 @@ public class TrustManager {
 
             // TODO: Handling of files
 
-            ContentItem? content_item = stream_interactor.get_module(ContentItemStore.IDENTITY).get_item_by_foreign(conversation, 1, message.id);
+            ContentItem? content_item = stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).get_item_by_foreign(conversation, 1, message.id);
 
             if (content_item != null && device_id != 0) {
                 Jid jid = content_item.jid;
@@ -120,7 +120,7 @@ public class TrustManager {
                 int identity_id = db.identity.get_id(conversation.account.id);
                 TrustLevel trust_level = (TrustLevel) db.identity_meta.get_device(identity_id, jid.bare_jid.to_string(), device_id)[db.identity_meta.trust_level];
                 if (trust_level == TrustLevel.UNTRUSTED || trust_level == TrustLevel.UNKNOWN) {
-                    stream_interactor.get_module(ContentItemStore.IDENTITY).set_item_hide(content_item, true);
+                    stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).set_item_hide(content_item, true);
                     
                     // Don't mark messages as untrusted if they are older than conversation history clear
                     bool should_mark_untrusted = true;

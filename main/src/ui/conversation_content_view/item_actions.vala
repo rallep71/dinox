@@ -28,7 +28,7 @@ namespace Dino.Ui {
         if (occupant_jid == null) return null;
 
         // Check permissions
-        if (!stream_interactor.get_module(MucManager.IDENTITY).kick_possible(conversation.account, occupant_jid)) return null;
+        if (!stream_interactor.get_module<MucManager>(MucManager.IDENTITY).kick_possible(conversation.account, occupant_jid)) return null;
 
         Plugins.MessageAction action = new Plugins.MessageAction();
         action.name = "kick";
@@ -36,7 +36,7 @@ namespace Dino.Ui {
         action.tooltip = _("Kick user");
 
         action.callback = () => {
-            stream_interactor.get_module(MucManager.IDENTITY).kick(conversation.account, conversation.counterpart, occupant_jid.resourcepart);
+            stream_interactor.get_module<MucManager>(MucManager.IDENTITY).kick(conversation.account, conversation.counterpart, occupant_jid.resourcepart);
         };
 
         return action;
@@ -58,8 +58,8 @@ namespace Dino.Ui {
         if (occupant_jid == null) return null;
 
         // Check permissions (Owner or Admin)
-        Jid? own_jid = stream_interactor.get_module(MucManager.IDENTITY).get_own_jid(conversation.counterpart, conversation.account);
-        Xmpp.Xep.Muc.Affiliation? my_affiliation = stream_interactor.get_module(MucManager.IDENTITY).get_affiliation(conversation.counterpart, own_jid, conversation.account);
+        Jid? own_jid = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_own_jid(conversation.counterpart, conversation.account);
+        Xmpp.Xep.Muc.Affiliation? my_affiliation = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_affiliation(conversation.counterpart, own_jid, conversation.account);
 
         if (my_affiliation != Xmpp.Xep.Muc.Affiliation.OWNER && my_affiliation != Xmpp.Xep.Muc.Affiliation.ADMIN) return null;
 
@@ -69,7 +69,7 @@ namespace Dino.Ui {
         action.tooltip = _("Ban user");
 
         action.callback = () => {
-             stream_interactor.get_module(MucManager.IDENTITY).ban(conversation.account, conversation.counterpart, occupant_jid);
+             stream_interactor.get_module<MucManager>(MucManager.IDENTITY).ban(conversation.account, conversation.counterpart, occupant_jid);
         };
 
         return action;
@@ -83,12 +83,12 @@ namespace Dino.Ui {
 
         action.callback = (variant) => {
             string emoji = variant.get_string();
-            stream_interactor.get_module(Reactions.IDENTITY).add_reaction(conversation, content_item, emoji);
+            stream_interactor.get_module<Reactions>(Reactions.IDENTITY).add_reaction(conversation, content_item, emoji);
         };
 
         // Disable the button if reaction aren't possible.
-        bool supports_reactions = stream_interactor.get_module(Reactions.IDENTITY).conversation_supports_reactions(conversation);
-        string? message_id = stream_interactor.get_module(ContentItemStore.IDENTITY).get_message_id_for_content_item(conversation, content_item);
+        bool supports_reactions = stream_interactor.get_module<Reactions>(Reactions.IDENTITY).conversation_supports_reactions(conversation);
+        string? message_id = stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).get_message_id_for_content_item(conversation, content_item);
 
         if (!supports_reactions) {
             action.tooltip = _("This conversation does not support reactions.");
@@ -110,7 +110,7 @@ namespace Dino.Ui {
         };
 
         // Disable the button if replies aren't possible.
-        string? message_id = stream_interactor.get_module(ContentItemStore.IDENTITY).get_message_id_for_content_item(conversation, content_item);
+        string? message_id = stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).get_message_id_for_content_item(conversation, content_item);
         if (message_id == null) {
             action.sensitive = false;
             if (conversation.type_.is_muc_semantic()) {
@@ -123,10 +123,10 @@ namespace Dino.Ui {
     }
 
     public Plugins.MessageAction? get_delete_action(ContentItem content_item, Conversation conversation, StreamInteractor stream_interactor) {
-        bool is_deletable = stream_interactor.get_module(MessageDeletion.IDENTITY).is_deletable(conversation, content_item);
+        bool is_deletable = stream_interactor.get_module<MessageDeletion>(MessageDeletion.IDENTITY).is_deletable(conversation, content_item);
         if (!is_deletable) return null;
 
-        bool can_delete_for_everyone = stream_interactor.get_module(MessageDeletion.IDENTITY).can_delete_for_everyone(conversation, content_item);
+        bool can_delete_for_everyone = stream_interactor.get_module<MessageDeletion>(MessageDeletion.IDENTITY).can_delete_for_everyone(conversation, content_item);
 
         // Check if it is own message to distinguish between Retraction and Moderation
         bool is_own_message = false;
@@ -177,13 +177,13 @@ namespace Dino.Ui {
                         int response = dialog.choose.end(res);
                         if (is_moderation) {
                             if (response == 1) { // Remove (Globally)
-                                stream_interactor.get_module(MessageDeletion.IDENTITY).delete_globally(conversation, content_item);
+                                stream_interactor.get_module<MessageDeletion>(MessageDeletion.IDENTITY).delete_globally(conversation, content_item);
                             }
                         } else {
                             if (response == 1) { // Delete locally
-                                stream_interactor.get_module(MessageDeletion.IDENTITY).delete_locally(conversation, content_item, conversation.account.bare_jid);
+                                stream_interactor.get_module<MessageDeletion>(MessageDeletion.IDENTITY).delete_locally(conversation, content_item, conversation.account.bare_jid);
                             } else if (response == 2) { // Delete for everyone
-                                stream_interactor.get_module(MessageDeletion.IDENTITY).delete_globally(conversation, content_item);
+                                stream_interactor.get_module<MessageDeletion>(MessageDeletion.IDENTITY).delete_globally(conversation, content_item);
                             }
                         }
                     } catch (Error e) {
@@ -191,7 +191,7 @@ namespace Dino.Ui {
                     }
                 });
             } else {
-                stream_interactor.get_module(MessageDeletion.IDENTITY).delete_locally(conversation, content_item, conversation.account.bare_jid);
+                stream_interactor.get_module<MessageDeletion>(MessageDeletion.IDENTITY).delete_locally(conversation, content_item, conversation.account.bare_jid);
             }
         };
         return action;

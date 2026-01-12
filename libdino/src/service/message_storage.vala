@@ -112,9 +112,9 @@ public class MessageStorage : StreamInteractionModule, Object {
 
     public Message? get_message_by_referencing_id(string id, Conversation conversation) {
         if (conversation.type_ == Conversation.Type.CHAT) {
-            return stream_interactor.get_module(MessageStorage.IDENTITY).get_message_by_stanza_id(id, conversation);
+            return stream_interactor.get_module<MessageStorage>(MessageStorage.IDENTITY).get_message_by_stanza_id(id, conversation);
         } else {
-            return stream_interactor.get_module(MessageStorage.IDENTITY).get_message_by_server_id(id, conversation);
+            return stream_interactor.get_module<MessageStorage>(MessageStorage.IDENTITY).get_message_by_server_id(id, conversation);
         }
     }
 

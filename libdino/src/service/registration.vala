@@ -46,7 +46,7 @@ public class Register : StreamInteractionModule, Object{
             if (callback == null) return;
             Idle.add((owned)callback);
         });
-        stream.get_module(Sasl.Module.IDENTITY).received_auth_failure.connect((stream, node) => {
+        stream.get_module<Sasl.Module>(Sasl.Module.IDENTITY).received_auth_failure.connect((stream, node) => {
             if (callback == null) return;
             ret = ConnectionManager.ConnectionError.Source.SASL;
             Idle.add((owned)callback);
@@ -76,7 +76,7 @@ public class Register : StreamInteractionModule, Object{
     public async string? change_password(Account account, string new_pw){
         XmppStream stream = stream_interactor.get_stream(account);
         if (stream == null) return null;
-        return (yield stream.get_module(Xep.InBandRegistration.Module.IDENTITY).change_password(stream, account.full_jid, new_pw)).condition;
+        return (yield stream.get_module<Xep.InBandRegistration.Module>(Xep.InBandRegistration.Module.IDENTITY).change_password(stream, account.full_jid, new_pw)).condition;
     }
 
     public class ServerAvailabilityReturn {
@@ -184,7 +184,7 @@ public class Register : StreamInteractionModule, Object{
         yield;
 
         if (stream.negotiation_complete) {
-            ret.form = yield stream.get_module(Xep.InBandRegistration.Module.IDENTITY).get_from_server(stream, jid);
+            ret.form = yield stream.get_module<Xep.InBandRegistration.Module>(Xep.InBandRegistration.Module.IDENTITY).get_from_server(stream, jid);
         }
         try {
             yield stream.disconnect();
@@ -232,7 +232,7 @@ public class Register : StreamInteractionModule, Object{
 
         string? ret = null;
         if (stream.negotiation_complete) {
-            ret = yield stream.get_module(Xep.InBandRegistration.Module.IDENTITY).submit_to_server(stream, jid, form);
+            ret = yield stream.get_module<Xep.InBandRegistration.Module>(Xep.InBandRegistration.Module.IDENTITY).submit_to_server(stream, jid, form);
         }
         try {
             yield stream.disconnect();

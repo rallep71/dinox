@@ -71,9 +71,9 @@ public class Plugin : RootInterface, Object {
             this.own_notifications = new OwnNotifications(this, this.app.stream_interactor, account);
         });
 
-        app.stream_interactor.get_module(MessageProcessor.IDENTITY).received_pipeline.connect(new DecryptMessageListener(decryptors));
-        app.stream_interactor.get_module(FileManager.IDENTITY).add_file_decryptor(new OmemoFileDecryptor());
-        app.stream_interactor.get_module(FileManager.IDENTITY).add_file_encryptor(new OmemoFileEncryptor());
+        app.stream_interactor.get_module<MessageProcessor>(MessageProcessor.IDENTITY).received_pipeline.connect(new DecryptMessageListener(decryptors));
+        app.stream_interactor.get_module<FileManager>(FileManager.IDENTITY).add_file_decryptor(new OmemoFileDecryptor());
+        app.stream_interactor.get_module<FileManager>(FileManager.IDENTITY).add_file_encryptor(new OmemoFileEncryptor());
         JingleFileHelperRegistry.instance.add_encryption_helper(Encryption.OMEMO, new JetOmemo.EncryptionHelper(app.stream_interactor));
 
         Manager.start(this.app.stream_interactor, db, trust_manager, encryptors);

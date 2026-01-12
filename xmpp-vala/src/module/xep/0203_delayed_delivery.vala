@@ -30,11 +30,11 @@ public class Module : XmppStreamModule {
 
 
     public override void attach(XmppStream stream) {
-        stream.get_module(MessageModule.IDENTITY).received_pipeline.connect(received_pipeline_listener);
+        stream.get_module<MessageModule>(MessageModule.IDENTITY).received_pipeline.connect(received_pipeline_listener);
     }
 
     public override void detach(XmppStream stream) {
-        stream.get_module(MessageModule.IDENTITY).received_pipeline.disconnect(received_pipeline_listener);
+        stream.get_module<MessageModule>(MessageModule.IDENTITY).received_pipeline.disconnect(received_pipeline_listener);
     }
 
     public override string get_ns() {

@@ -69,8 +69,8 @@ public class ChatInputController : Object {
         chat_input.record_button.clicked.connect(show_recorder_popover);
         chat_input.send_button.clicked.connect(send_text);
 
-        stream_interactor.get_module(MucManager.IDENTITY).received_occupant_role.connect(update_moderated_input_status);
-        stream_interactor.get_module(MucManager.IDENTITY).room_info_updated.connect(update_moderated_input_status);
+        stream_interactor.get_module<MucManager>(MucManager.IDENTITY).received_occupant_role.connect(update_moderated_input_status);
+        stream_interactor.get_module<MucManager>(MucManager.IDENTITY).room_info_updated.connect(update_moderated_input_status);
 
         status_description_label.activate_link.connect((uri) => {
             if (uri == OPEN_CONVERSATION_DETAILS_URI){
@@ -83,11 +83,11 @@ public class ChatInputController : Object {
         SimpleAction quote_action = new SimpleAction("quote", new VariantType.tuple(new VariantType[]{VariantType.INT32, VariantType.INT32}));
         quote_action.activate.connect((variant) => {
             int conversation_id = variant.get_child_value(0).get_int32();
-            Conversation? conversation = stream_interactor.get_module(ConversationManager.IDENTITY).get_conversation_by_id(conversation_id);
+            Conversation? conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_conversation_by_id(conversation_id);
             if (conversation == null || !this.conversation.equals(conversation)) return;
 
             int content_item_id = variant.get_child_value(1).get_int32();
-            ContentItem? content_item = stream_interactor.get_module(ContentItemStore.IDENTITY).get_item_by_id(conversation, content_item_id);
+            ContentItem? content_item = stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).get_item_by_id(conversation, content_item_id);
             if (content_item == null) return;
 
             quoted_content_item = content_item;
@@ -190,7 +190,7 @@ public class ChatInputController : Object {
                     text = token[1];
                     break;
                 case "/kick":
-                    stream_interactor.get_module(MucManager.IDENTITY).kick(conversation.account, conversation.counterpart, token[1]);
+                    stream_interactor.get_module<MucManager>(MucManager.IDENTITY).kick(conversation.account, conversation.counterpart, token[1]);
                     return;
                 case "/affiliate":
                     if (token.length > 1) {
@@ -198,23 +198,23 @@ public class ChatInputController : Object {
                         if (user_role.length >= 2) {
                             string nick = string.joinv(" ", user_role[0:user_role.length - 1]).strip();
                             string role = user_role[user_role.length - 1].strip();
-                            stream_interactor.get_module(MucManager.IDENTITY).change_affiliation(conversation.account, conversation.counterpart, nick, role);
+                            stream_interactor.get_module<MucManager>(MucManager.IDENTITY).change_affiliation(conversation.account, conversation.counterpart, nick, role);
                         }
                     }
                     return;
                 case "/nick":
-                    stream_interactor.get_module(MucManager.IDENTITY).change_nick.begin(conversation, token[1]);
+                    stream_interactor.get_module<MucManager>(MucManager.IDENTITY).change_nick.begin(conversation, token[1]);
                     return;
                 case "/ping":
                     Xmpp.XmppStream? stream = stream_interactor.get_stream(conversation.account);
                     try {
-                        stream.get_module(Xmpp.Xep.Ping.Module.IDENTITY).send_ping.begin(stream, conversation.counterpart.with_resource(token[1]));
+                        stream.get_module<Xmpp.Xep.Ping.Module>(Xmpp.Xep.Ping.Module.IDENTITY).send_ping.begin(stream, conversation.counterpart.with_resource(token[1]));
                     } catch (Xmpp.InvalidJidError e) {
                         warning("Could not ping invalid Jid: %s", e.message);
                     }
                     return;
                 case "/topic":
-                    stream_interactor.get_module(MucManager.IDENTITY).change_subject(conversation.account, conversation.counterpart, token[1]);
+                    stream_interactor.get_module<MucManager>(MucManager.IDENTITY).change_subject(conversation.account, conversation.counterpart, token[1]);
                     return;
                 default:
                     if (token[0].has_prefix("//")) {
@@ -244,15 +244,15 @@ public class ChatInputController : Object {
         }
         
         if (has_text) {
-            stream_interactor.get_module(ChatInteraction.IDENTITY).on_message_entered(conversation);
+            stream_interactor.get_module<ChatInteraction>(ChatInteraction.IDENTITY).on_message_entered(conversation);
         } else {
-            stream_interactor.get_module(ChatInteraction.IDENTITY).on_message_cleared(conversation);
+            stream_interactor.get_module<ChatInteraction>(ChatInteraction.IDENTITY).on_message_cleared(conversation);
         }
     }
 
     private void update_moderated_input_status(Account account, Xmpp.Jid? jid = null) {
         if (conversation != null && conversation.type_ == Conversation.Type.GROUPCHAT){
-            Xmpp.Jid? own_jid = stream_interactor.get_module(MucManager.IDENTITY).get_own_jid(conversation.counterpart, conversation.account);
+            Xmpp.Jid? own_jid = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_own_jid(conversation.counterpart, conversation.account);
             if (own_jid == null) {
                 // Check if we are banned or kicked (not joined)
                 // If we are not joined, we might want to show a "Join" button or similar status
@@ -262,8 +262,8 @@ public class ChatInputController : Object {
                 // Let's check if we are banned.
                 return;
             }
-            if (stream_interactor.get_module(MucManager.IDENTITY).is_moderated_room(conversation.account, conversation.counterpart) &&
-                    stream_interactor.get_module(MucManager.IDENTITY).get_role(own_jid, conversation.account) == Xmpp.Xep.Muc.Role.VISITOR) {
+            if (stream_interactor.get_module<MucManager>(MucManager.IDENTITY).is_moderated_room(conversation.account, conversation.counterpart) &&
+                    stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_role(own_jid, conversation.account) == Xmpp.Xep.Muc.Role.VISITOR) {
                 string msg_str = _("This conference does not allow you to send messages.") + " <a href=\"" + OPEN_CONVERSATION_DETAILS_URI + "\">" + _("Request permission") + "</a>";
                 set_input_field_status(new Plugins.InputFieldStatus(msg_str, Plugins.InputFieldStatus.MessageType.ERROR, Plugins.InputFieldStatus.InputState.NO_SEND, true));
             } else {

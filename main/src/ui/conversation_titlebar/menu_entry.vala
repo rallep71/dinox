@@ -63,7 +63,7 @@ class MenuEntry : Plugins.ConversationTitlebarEntry, Object {
             dialog.response.connect((response) => {
                 if (response == "delete") {
                     bool global = global_check != null && global_check.active;
-                    stream_interactor.get_module(ConversationManager.IDENTITY).clear_conversation_history(conversation, global);
+                    stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).clear_conversation_history(conversation, global);
                 }
             });
             
@@ -107,7 +107,7 @@ class MenuEntry : Plugins.ConversationTitlebarEntry, Object {
         var root = button.get_root() as Gtk.Window;
 
         dialog.selected.connect((account, jid) => {
-            stream_interactor.get_module(MucManager.IDENTITY).invite(conversation.account, conversation.counterpart, jid);
+            stream_interactor.get_module<MucManager>(MucManager.IDENTITY).invite(conversation.account, conversation.counterpart, jid);
             dialog.close();
         });
         

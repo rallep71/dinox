@@ -21,7 +21,7 @@ public class Module : XmppStreamModule {
         received_message.to = jid;
         received_message.type_ = type_;
         received_message.stanza.put_node(new StanzaNode.build(marker, NS_URI).add_self_xmlns().put_attribute("id", message_id));
-        stream.get_module(MessageModule.IDENTITY).send_message.begin(stream, received_message);
+        stream.get_module<MessageModule>(MessageModule.IDENTITY).send_message.begin(stream, received_message);
     }
 
     public static bool requests_marking(MessageStanza message) {
@@ -30,15 +30,15 @@ public class Module : XmppStreamModule {
     }
 
     public override void attach(XmppStream stream) {
-        stream.get_module(ServiceDiscovery.Module.IDENTITY).add_feature(stream, NS_URI);
-        stream.get_module(MessageModule.IDENTITY).send_pipeline.connect(send_pipeline_listener);
-        stream.get_module(MessageModule.IDENTITY).received_message.connect(on_received_message);
+        stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).add_feature(stream, NS_URI);
+        stream.get_module<MessageModule>(MessageModule.IDENTITY).send_pipeline.connect(send_pipeline_listener);
+        stream.get_module<MessageModule>(MessageModule.IDENTITY).received_message.connect(on_received_message);
     }
 
     public override void detach(XmppStream stream) {
-        stream.get_module(ServiceDiscovery.Module.IDENTITY).remove_feature(stream, NS_URI);
-        stream.get_module(MessageModule.IDENTITY).send_pipeline.disconnect(send_pipeline_listener);
-        stream.get_module(MessageModule.IDENTITY).received_message.disconnect(on_received_message);
+        stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).remove_feature(stream, NS_URI);
+        stream.get_module<MessageModule>(MessageModule.IDENTITY).send_pipeline.disconnect(send_pipeline_listener);
+        stream.get_module<MessageModule>(MessageModule.IDENTITY).received_message.disconnect(on_received_message);
     }
 
     public override string get_ns() { return NS_URI; }

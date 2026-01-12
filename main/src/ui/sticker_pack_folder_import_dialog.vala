@@ -156,7 +156,7 @@ public class StickerPackFolderImportDialog : Adw.Window {
 
     private async void create(bool publish) {
         try {
-            var stickers = stream_interactor.get_module(Dino.Stickers.IDENTITY);
+            var stickers = stream_interactor.get_module<Dino.Stickers>(Dino.Stickers.IDENTITY);
             if (stickers == null) throw new Dino.StickerError.NOT_CONNECTED("Stickers module unavailable");
 
             string uri = yield stickers.create_pack_from_folder(account, folder_path, publish);

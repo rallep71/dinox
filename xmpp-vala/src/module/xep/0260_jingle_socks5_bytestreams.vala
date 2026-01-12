@@ -11,18 +11,18 @@ public class Module : Jingle.Transport, XmppStreamModule {
     public static Xmpp.ModuleIdentity<Module> IDENTITY = new Xmpp.ModuleIdentity<Module>(NS_URI, "0260_jingle_socks5_bytestreams");
 
     public override void attach(XmppStream stream) {
-        stream.get_module(Jingle.Module.IDENTITY).register_transport(this);
-        stream.get_module(ServiceDiscovery.Module.IDENTITY).add_feature(stream, NS_URI);
+        stream.get_module<Jingle.Module>(Jingle.Module.IDENTITY).register_transport(this);
+        stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).add_feature(stream, NS_URI);
     }
     public override void detach(XmppStream stream) {
-        stream.get_module(ServiceDiscovery.Module.IDENTITY).remove_feature(stream, NS_URI);
+        stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).remove_feature(stream, NS_URI);
     }
 
     public override string get_ns() { return NS_URI; }
     public override string get_id() { return IDENTITY.id; }
 
     public async bool is_transport_available(XmppStream stream, uint8 components, Jid full_jid) {
-        return components == 1 && yield stream.get_module(ServiceDiscovery.Module.IDENTITY).has_entity_feature(stream, full_jid, NS_URI);
+        return components == 1 && yield stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).has_entity_feature(stream, full_jid, NS_URI);
     }
 
     public string ns_uri { get { return NS_URI; } }
@@ -32,7 +32,7 @@ public class Module : Jingle.Transport, XmppStreamModule {
     private Gee.List<Candidate> get_proxies(XmppStream stream) {
         Gee.List<Candidate> result = new ArrayList<Candidate>();
         int i = 1 << 15;
-        foreach (Socks5Bytestreams.Proxy proxy in stream.get_module(Socks5Bytestreams.Module.IDENTITY).get_proxies(stream)) {
+        foreach (Socks5Bytestreams.Proxy proxy in stream.get_module<Socks5Bytestreams.Module>(Socks5Bytestreams.Module.IDENTITY).get_proxies(stream)) {
             result.add(new Candidate.proxy(random_uuid(), proxy, i));
             i -= 1;
         }
@@ -43,7 +43,7 @@ public class Module : Jingle.Transport, XmppStreamModule {
         Gee.List<Candidate> result = new ArrayList<Candidate>();
         SocketListener listener = new SocketListener();
         int i = 1 << 15;
-        foreach (string ip_address in stream.get_module(Socks5Bytestreams.Module.IDENTITY).get_local_ip_addresses()) {
+        foreach (string ip_address in stream.get_module<Socks5Bytestreams.Module>(Socks5Bytestreams.Module.IDENTITY).get_local_ip_addresses()) {
             InetSocketAddress addr = new InetSocketAddress.from_string(ip_address, 0);
             SocketAddress effective_any;
             string cid = random_uuid();
@@ -593,7 +593,7 @@ class Parameters : Jingle.TransportParameters, Object {
                     .put_node(new StanzaNode.text(peer_full_jid.to_string()))
                 );
             Iq.Stanza iq = new Iq.Stanza.set(query) { to=candidate.jid };
-            hack.get_module(Iq.Module.IDENTITY).send_iq(hack, iq, (stream, iq) => {
+            hack.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq(hack, iq, (stream, iq) => {
                 activation_error = iq.is_error();
                 Idle.add((owned)callback);
             });

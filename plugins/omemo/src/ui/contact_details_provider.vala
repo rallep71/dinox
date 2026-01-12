@@ -35,7 +35,7 @@ public class ContactDetailsProvider : Plugins.ContactDetailsProvider, Object {
         Dino.Application? app = GLib.Application.get_default() as Dino.Application;
         if (app == null) return null;
         
-        var muc_manager = app.stream_interactor.get_module(MucManager.IDENTITY);
+        var muc_manager = app.stream_interactor.get_module<MucManager>(MucManager.IDENTITY);
         
         // Get offline members (these have real JIDs stored)
         Gee.List<Jid>? members = muc_manager.get_offline_members(conversation.counterpart, conversation.account);

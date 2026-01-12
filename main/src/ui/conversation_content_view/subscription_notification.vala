@@ -14,9 +14,9 @@ public class SubscriptionNotitication : Object {
     public SubscriptionNotitication(StreamInteractor stream_interactor) {
         this.stream_interactor = stream_interactor;
 
-        stream_interactor.get_module(PresenceManager.IDENTITY).received_subscription_request.connect((jid, account) => {
-            Conversation relevant_conversation = stream_interactor.get_module(ConversationManager.IDENTITY).create_conversation(jid, account, Conversation.Type.CHAT);
-            stream_interactor.get_module(ConversationManager.IDENTITY).start_conversation(relevant_conversation);
+        stream_interactor.get_module<PresenceManager>(PresenceManager.IDENTITY).received_subscription_request.connect((jid, account) => {
+            Conversation relevant_conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).create_conversation(jid, account, Conversation.Type.CHAT);
+            stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).start_conversation(relevant_conversation);
             if (conversation != null && account.equals(conversation.account) && jid.equals(conversation.counterpart)) {
                 show_pending_subscription_request();
             }
@@ -29,13 +29,13 @@ public class SubscriptionNotitication : Object {
 
         if (conversation.type_ != Conversation.Type.CHAT) return;
 
-        if (stream_interactor.get_module(PresenceManager.IDENTITY).exists_subscription_request(conversation.account, conversation.counterpart)) {
+        if (stream_interactor.get_module<PresenceManager>(PresenceManager.IDENTITY).exists_subscription_request(conversation.account, conversation.counterpart)) {
             // Show a notification of a pending subscription request
             show_pending_subscription_request();
         } else if (!conversation.counterpart.equals_bare(conversation.account.bare_jid)) {
             // Show a suggestion to request subscription if: We don't have subscription yet and didn't yet request it
             // Don't show this notification for chats with ourselves
-            var roster_item = stream_interactor.get_module(RosterManager.IDENTITY).get_roster_item(conversation.account, conversation.counterpart);
+            var roster_item = stream_interactor.get_module<RosterManager>(RosterManager.IDENTITY).get_roster_item(conversation.account, conversation.counterpart);
             if (roster_item == null ||
                     (roster_item.subscription == Xmpp.Roster.Item.SUBSCRIPTION_NONE || roster_item.subscription == Xmpp.Roster.Item.SUBSCRIPTION_FROM) &&
                     !roster_item.subscription_requested) {
@@ -50,9 +50,9 @@ public class SubscriptionNotitication : Object {
         GLib.Application app = GLib.Application.get_default();
         accept_button.clicked.connect(() => {
             if (!already_in_roster) {
-                stream_interactor.get_module(RosterManager.IDENTITY).add_jid(conversation.account, conversation.counterpart, null);
+                stream_interactor.get_module<RosterManager>(RosterManager.IDENTITY).add_jid(conversation.account, conversation.counterpart, null);
             }
-            stream_interactor.get_module(PresenceManager.IDENTITY).request_subscription(conversation.account, conversation.counterpart);
+            stream_interactor.get_module<PresenceManager>(PresenceManager.IDENTITY).request_subscription(conversation.account, conversation.counterpart);
             app.activate_action("accept-subscription", conversation.id);
             ((Dino.Ui.Application) app).window.conversation_view.chat_input.chat_text_view.text_view.grab_focus();
             conversation_view.remove_notification(box);

@@ -100,7 +100,7 @@ namespace Dino.Plugins.Omemo {
 
         public override EncryptionResult encrypt_key_to_recipient(XmppStream stream, Xep.Omemo.EncryptionData enc_data, Jid recipient) throws GLib.Error {
             var result = new EncryptionResult();
-            StreamModule module = stream.get_module(StreamModule.IDENTITY);
+            StreamModule module = stream.get_module<StreamModule>(StreamModule.IDENTITY);
 
             foreach(int32 device_id in trust_manager.get_trusted_devices(account, recipient)) {
                 if (module.is_ignored_device(recipient, device_id)) {

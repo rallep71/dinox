@@ -19,7 +19,7 @@ namespace Dino.Ui {
 
         public override Object? get_widget(Plugins.ConversationItemWidgetInterface outer, Plugins.WidgetType type) {
             CallItem call_item = content_item as CallItem;
-            CallState? call_state = stream_interactor.get_module(Calls.IDENTITY).call_states[call_item.call];
+            CallState? call_state = stream_interactor.get_module<Calls>(Calls.IDENTITY).call_states[call_item.call];
             return new CallWidget(stream_interactor, call_item.call, call_state, call_item.conversation);
         }
 
@@ -139,7 +139,7 @@ namespace Dino.Ui {
                             title_label.label = video ? _("Incoming video group call") : _("Incoming group call");
                         }
 
-                        if (stream_interactor.get_module(Calls.IDENTITY).can_we_do_calls(call.account)) {
+                        if (stream_interactor.get_module<Calls>(Calls.IDENTITY).can_we_do_calls(call.account)) {
                             subtitle_label.label = "Ring ring…!";
                             incoming_call_box.visible = true;
                             incoming_call_revealer.reveal_child = true;

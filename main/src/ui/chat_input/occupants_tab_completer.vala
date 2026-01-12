@@ -90,10 +90,10 @@ public class OccupantsTabCompletor {
 
     private Gee.List<string> generate_completions_from_messages(string? prefix = null) {
         Gee.List<string> ret = new ArrayList<string>();
-        Gee.List<ContentItem> content_items = stream_interactor.get_module(ContentItemStore.IDENTITY).get_n_latest(conversation, 10);
+        Gee.List<ContentItem> content_items = stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).get_n_latest(conversation, 10);
         for (int i = content_items.size - 1; i > 0; i--) {
             string resourcepart = content_items[i].jid.resourcepart;
-            Jid? own_nick = stream_interactor.get_module(MucManager.IDENTITY).get_own_jid(conversation.counterpart, conversation.account);
+            Jid? own_nick = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_own_jid(conversation.counterpart, conversation.account);
             if (resourcepart != null && resourcepart != "" && (own_nick == null || resourcepart != own_nick.resourcepart) && !ret.contains(resourcepart)) {
                 if (prefix != null && !resourcepart.to_string().down().has_prefix(prefix.down())) continue;
                 ret.add(resourcepart);
@@ -107,7 +107,7 @@ public class OccupantsTabCompletor {
         Gee.List<string> ret = generate_completions_from_messages(prefix);
 
         // Then, suggest other nicks in alphabetical order
-        Gee.List<Jid>? occupants = stream_interactor.get_module(MucManager.IDENTITY).get_other_occupants(conversation.counterpart, conversation.account);
+        Gee.List<Jid>? occupants = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_other_occupants(conversation.counterpart, conversation.account);
         Gee.List<string> filtered_occupants = new ArrayList<string>();
         if (occupants != null) {
             foreach (Jid jid in occupants) {

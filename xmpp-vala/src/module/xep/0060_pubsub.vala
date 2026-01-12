@@ -23,7 +23,7 @@ namespace Xmpp.Xep.Pubsub {
                 owned ItemListenerDelegate.ResultFunc? item_listener,
                 owned RetractListenerDelegate.ResultFunc? retract_listener,
                 owned DeleteListenerDelegate.ResultFunc? delete_listener) {
-            stream.get_module(ServiceDiscovery.Module.IDENTITY).add_feature_notify(stream, node);
+            stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).add_feature_notify(stream, node);
             if (item_listener != null) {
                 item_listeners[node] = new ItemListenerDelegate((owned)item_listener);
             }
@@ -36,7 +36,7 @@ namespace Xmpp.Xep.Pubsub {
         }
 
         public void remove_filtered_notification(XmppStream stream, string node) {
-            stream.get_module(ServiceDiscovery.Module.IDENTITY).remove_feature_notify(stream, node);
+            stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).remove_feature_notify(stream, node);
             item_listeners.unset(node);
             retract_listeners.unset(node);
         }
@@ -47,7 +47,7 @@ namespace Xmpp.Xep.Pubsub {
 
             Iq.Stanza iq_res;
             try {
-                iq_res = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, request_iq);
+                iq_res = yield stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq_async(stream, request_iq);
             } catch (GLib.Error e) {
                 warning("Failed to request all items: %s", e.message);
                 return null;
@@ -75,7 +75,7 @@ namespace Xmpp.Xep.Pubsub {
 
             Iq.Stanza iq_res;
             try {
-                iq_res = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, request_iq);
+                iq_res = yield stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq_async(stream, request_iq);
             } catch (GLib.Error e) {
                 warning("Failed to request pubsub item %s/%s: %s", node, item_id, e.message);
                 return null;
@@ -95,7 +95,7 @@ namespace Xmpp.Xep.Pubsub {
         public void request(XmppStream stream, Jid jid, string node, owned OnResult listener) { // TODO multiple nodes gehen auch
             Iq.Stanza request_iq = new Iq.Stanza.get(new StanzaNode.build("pubsub", NS_URI).add_self_xmlns().put_node(new StanzaNode.build("items", NS_URI).put_attribute("node", node)));
             request_iq.to = jid;
-            stream.get_module(Iq.Module.IDENTITY).send_iq(stream, request_iq, (stream, iq) => {
+            stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq(stream, request_iq, (stream, iq) => {
                 StanzaNode event_node = iq.stanza.get_subnode("pubsub", NS_URI);
                 StanzaNode items_node = event_node != null ? event_node.get_subnode("items", NS_URI) : null;
                 StanzaNode item_node = items_node != null ? items_node.get_subnode("item", NS_URI) : null;
@@ -143,7 +143,7 @@ namespace Xmpp.Xep.Pubsub {
             // If the node was configured differently before, reconfigure it to meet our requirements and try again
             Iq.Stanza iq_result;
             try {
-                iq_result = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+                iq_result = yield stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq_async(stream, iq);
             } catch (GLib.Error e) {
                 warning("Failed to publish item: %s", e.message);
                 return false;
@@ -183,7 +183,7 @@ namespace Xmpp.Xep.Pubsub {
                 iq.to = jid;
             }
             bool ok = true;
-            stream.get_module(Iq.Module.IDENTITY).send_iq(stream, iq, (stream, result_iq) => {
+            stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq(stream, iq, (stream, result_iq) => {
                 ok = !result_iq.is_error();
                 Idle.add(retract_item.callback);
             });
@@ -201,7 +201,7 @@ namespace Xmpp.Xep.Pubsub {
             if (jid != null) {
                 iq.to = jid;
             }
-            stream.get_module(Iq.Module.IDENTITY).send_iq(stream, iq, null);
+            stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq(stream, iq, null);
         }
 
         public async DataForms.DataForm? request_node_config(XmppStream stream, Jid? jid, string node_id) {
@@ -215,7 +215,7 @@ namespace Xmpp.Xep.Pubsub {
             }
             Iq.Stanza result_iq;
             try {
-                result_iq = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+                result_iq = yield stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq_async(stream, iq);
             } catch (GLib.Error e) {
                 warning("Failed to request node config: %s", e.message);
                 return null;
@@ -241,7 +241,7 @@ namespace Xmpp.Xep.Pubsub {
             // node config is addressed to the pubsub service; keep default addressing
             Iq.Stanza iq_result;
             try {
-                iq_result = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+                iq_result = yield stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq_async(stream, iq);
             } catch (GLib.Error e) {
                 warning("Failed to submit node config: %s", e.message);
                 return false;
@@ -251,11 +251,11 @@ namespace Xmpp.Xep.Pubsub {
         }
 
         public override void attach(XmppStream stream) {
-            stream.get_module(MessageModule.IDENTITY).received_message.connect(on_received_message);
+            stream.get_module<MessageModule>(MessageModule.IDENTITY).received_message.connect(on_received_message);
         }
 
         public override void detach(XmppStream stream) {
-            stream.get_module(MessageModule.IDENTITY).received_message.disconnect(on_received_message);
+            stream.get_module<MessageModule>(MessageModule.IDENTITY).received_message.disconnect(on_received_message);
         }
 
         public override string get_ns() { return NS_URI; }
@@ -304,7 +304,7 @@ namespace Xmpp.Xep.Pubsub {
         }
 
         private async bool change_node_config(XmppStream stream, Jid? jid, string node, PublishOptions publish_options) {
-            DataForms.DataForm? data_form = yield stream.get_module(Pubsub.Module.IDENTITY).request_node_config(stream, jid, node);
+            DataForms.DataForm? data_form = yield stream.get_module<Pubsub.Module>(Pubsub.Module.IDENTITY).request_node_config(stream, jid, node);
             if (data_form == null) return false;
 
             foreach (DataForms.DataForm.Field field in data_form.fields) {
@@ -312,7 +312,7 @@ namespace Xmpp.Xep.Pubsub {
                     field.set_value_string(publish_options.settings[field.var]);
                 }
             }
-            return yield stream.get_module(Pubsub.Module.IDENTITY).submit_node_config(stream, jid, data_form, node);
+            return yield stream.get_module<Pubsub.Module>(Pubsub.Module.IDENTITY).submit_node_config(stream, jid, data_form, node);
         }
     }
 

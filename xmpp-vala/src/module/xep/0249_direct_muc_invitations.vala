@@ -12,7 +12,7 @@ namespace Xmpp.Xep.DirectMucInvitations {
             StanzaNode invite_node = new StanzaNode.build("x", NS_URI).add_self_xmlns()
                     .put_attribute("jid", to_muc.to_string());
             message.stanza.put_node(invite_node);
-            stream.get_module(MessageModule.IDENTITY).send_message.begin(stream, message);
+            stream.get_module<MessageModule>(MessageModule.IDENTITY).send_message.begin(stream, message);
         }
 
         private void received_message(XmppStream stream, MessageStanza message) {
@@ -36,11 +36,11 @@ namespace Xmpp.Xep.DirectMucInvitations {
         }
 
         public override void attach(XmppStream stream) {
-            stream.get_module(MessageModule.IDENTITY).received_message.connect(received_message);
+            stream.get_module<MessageModule>(MessageModule.IDENTITY).received_message.connect(received_message);
         }
 
         public override void detach(XmppStream stream) {
-            stream.get_module(MessageModule.IDENTITY).received_message.connect(received_message);
+            stream.get_module<MessageModule>(MessageModule.IDENTITY).received_message.connect(received_message);
         }
 
         public override string get_ns() {

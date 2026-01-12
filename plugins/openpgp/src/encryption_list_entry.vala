@@ -41,7 +41,7 @@ private class EncryptionListEntry : Plugins.EncryptionListEntry, Object {
         }
 
         if (conversation.type_ == Conversation.Type.CHAT) {
-            string? key_id = stream_interactor.get_module(Manager.IDENTITY).get_key_id(conversation.account, conversation.counterpart);
+            string? key_id = stream_interactor.get_module<Manager>(Manager.IDENTITY).get_key_id(conversation.account, conversation.counterpart);
             if (key_id == null) {
                 input_status_callback(new Plugins.InputFieldStatus("This contact does not support %s encryption.".printf("OpenPGP"), Plugins.InputFieldStatus.MessageType.ERROR, Plugins.InputFieldStatus.InputState.NO_SEND));
                 return;
@@ -53,13 +53,13 @@ private class EncryptionListEntry : Plugins.EncryptionListEntry, Object {
             }
         } else if (conversation.type_ == Conversation.Type.GROUPCHAT) {
             Gee.List<Jid> muc_jids = new Gee.ArrayList<Jid>();
-            Gee.List<Jid>? occupants = stream_interactor.get_module(MucManager.IDENTITY).get_occupants(conversation.counterpart, conversation.account);
+            Gee.List<Jid>? occupants = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_occupants(conversation.counterpart, conversation.account);
             if (occupants != null) muc_jids.add_all(occupants);
-            Gee.List<Jid>? offline_members = stream_interactor.get_module(MucManager.IDENTITY).get_offline_members(conversation.counterpart, conversation.account);
+            Gee.List<Jid>? offline_members = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_offline_members(conversation.counterpart, conversation.account);
             if (offline_members != null) muc_jids.add_all(offline_members);
 
             foreach (Jid jid in muc_jids) {
-                string? key_id = stream_interactor.get_module(Manager.IDENTITY).get_key_id(conversation.account, jid);
+                string? key_id = stream_interactor.get_module<Manager>(Manager.IDENTITY).get_key_id(conversation.account, jid);
                 if (key_id == null) {
                     input_status_callback(new Plugins.InputFieldStatus("A member's OpenPGP key is not in your keyring: %s / %s.".printf(jid.to_string(), key_id), Plugins.InputFieldStatus.MessageType.ERROR, Plugins.InputFieldStatus.InputState.NO_SEND));
                     return;

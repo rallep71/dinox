@@ -15,7 +15,7 @@ namespace Xmpp.Xep.Muji {
 
             group_call.our_nick = "%08x".printf(Random.next_int());
             debug(@"[%s] MUJI joining as %s", stream.get_flag(Bind.Flag.IDENTITY).my_jid.to_string(), group_call.our_nick);
-            Xep.Muc.JoinResult? result = yield stream.get_module(Muc.Module.IDENTITY).enter(stream, muc_jid, group_call.our_nick, null, null, false, initial_muji_node);
+            Xep.Muc.JoinResult? result = yield stream.get_module<Muc.Module>(Muc.Module.IDENTITY).enter(stream, muc_jid, group_call.our_nick, null, null, false, initial_muji_node);
             if (result == null || result.nick == null) return null;
             debug(@"[%s] MUJI joining as %s done", stream.get_flag(Bind.Flag.IDENTITY).my_jid.to_string(), group_call.our_nick);
 
@@ -45,7 +45,7 @@ namespace Xmpp.Xep.Muji {
 
                 Gee.List<Xep.JingleRtp.PayloadType> payload_types = null;
                 if (other_presences.is_empty) {
-                    payload_types = yield stream.get_module(Xep.JingleRtp.Module.IDENTITY).get_supported_payloads(media);
+                    payload_types = yield stream.get_module<Xep.JingleRtp.Module>(Xep.JingleRtp.Module.IDENTITY).get_supported_payloads(media);
                 } else {
                     yield compute_payload_intersection(stream, group_call, media);
                     payload_types = group_call.current_payload_intersection[media];
@@ -64,7 +64,7 @@ namespace Xmpp.Xep.Muji {
                 return null;
             }
             presence_stanza.stanza.put_node(muji_node);
-            stream.get_module(Presence.Module.IDENTITY).send_presence(stream, presence_stanza);
+            stream.get_module<Presence.Module>(Presence.Module.IDENTITY).send_presence(stream, presence_stanza);
 
             return group_call;
         }
@@ -119,7 +119,7 @@ namespace Xmpp.Xep.Muji {
             }
             // Check if we support the payloads
             foreach (Xep.JingleRtp.PayloadType payload_type in intersection) {
-                if (!yield stream.get_module(Xep.JingleRtp.Module.IDENTITY).is_payload_supported(media, payload_type)) {
+                if (!yield stream.get_module<Xep.JingleRtp.Module>(Xep.JingleRtp.Module.IDENTITY).is_payload_supported(media, payload_type)) {
                     remove_payloads.add(payload_type);
                 }
             }
@@ -248,13 +248,13 @@ namespace Xmpp.Xep.Muji {
 
         public override void attach(XmppStream stream) {
             stream.add_flag(new Flag());
-            stream.get_module(ServiceDiscovery.Module.IDENTITY).add_feature(stream, NS_URI);
-            stream.get_module(Presence.Module.IDENTITY).received_available.connect(on_received_available);
-            stream.get_module(Presence.Module.IDENTITY).received_unavailable.connect(on_received_unavailable);
+            stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).add_feature(stream, NS_URI);
+            stream.get_module<Presence.Module>(Presence.Module.IDENTITY).received_available.connect(on_received_available);
+            stream.get_module<Presence.Module>(Presence.Module.IDENTITY).received_unavailable.connect(on_received_unavailable);
         }
 
         public override void detach(XmppStream stream) {
-            stream.get_module(ServiceDiscovery.Module.IDENTITY).remove_feature(stream, NS_URI);
+            stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).remove_feature(stream, NS_URI);
         }
 
         public override string get_ns() {
@@ -284,7 +284,7 @@ namespace Xmpp.Xep.Muji {
         }
 
         public void leave(XmppStream stream) {
-            stream.get_module(Xep.Muc.Module.IDENTITY).exit(stream, muc_jid);
+            stream.get_module<Xep.Muc.Module>(Xep.Muc.Module.IDENTITY).exit(stream, muc_jid);
             stream.get_flag(Flag.IDENTITY).calls.unset(muc_jid);
         }
     }

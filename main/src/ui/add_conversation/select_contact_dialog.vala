@@ -88,7 +88,7 @@ public class SelectContactDialog : Adw.Dialog {
         });
         select_jid_fragment.remove_jid.connect((row) => {
             ListRow list_row = roster_list_box.get_selected_row().child as ListRow;
-            stream_interactor.get_module(RosterManager.IDENTITY).remove_jid(list_row.account, list_row.jid);
+            stream_interactor.get_module<RosterManager>(RosterManager.IDENTITY).remove_jid(list_row.account, list_row.jid);
         });
         select_jid_fragment.notify["done"].connect(() => {
             ok_button.sensitive = select_jid_fragment.done;
@@ -132,8 +132,8 @@ public class AddChatDialog : SelectContactDialog {
         title = _("Start Conversation");
         ok_button.label = _("Start");
         selected.connect((account, jid) => {
-            Conversation conversation = stream_interactor.get_module(ConversationManager.IDENTITY).create_conversation(jid, account, Conversation.Type.CHAT);
-            stream_interactor.get_module(ConversationManager.IDENTITY).start_conversation(conversation);
+            Conversation conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).create_conversation(jid, account, Conversation.Type.CHAT);
+            stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).start_conversation(conversation);
             added(conversation);
         });
     }

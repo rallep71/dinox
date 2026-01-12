@@ -26,7 +26,7 @@ public class FileManager : StreamInteractionModule, Object {
     private Gee.List<FileMetadataProvider> file_metadata_providers = new ArrayList<FileMetadataProvider>();
 
     public StatelessFileSharing sfs {
-        owned get { return stream_interactor.get_module(StatelessFileSharing.IDENTITY); }
+        owned get { return stream_interactor.get_module<StatelessFileSharing>(StatelessFileSharing.IDENTITY); }
         private set { }
     }
 
@@ -106,7 +106,7 @@ public class FileManager : StreamInteractionModule, Object {
             file_transfer.account = conversation.account;
             file_transfer.counterpart = conversation.counterpart;
             if (conversation.type_.is_muc_semantic()) {
-                file_transfer.ourpart = stream_interactor.get_module(MucManager.IDENTITY).get_own_jid(conversation.counterpart, conversation.account) ?? conversation.account.bare_jid;
+                file_transfer.ourpart = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_own_jid(conversation.counterpart, conversation.account) ?? conversation.account.bare_jid;
             } else {
                 file_transfer.ourpart = conversation.account.full_jid;
             }
@@ -159,7 +159,7 @@ public class FileManager : StreamInteractionModule, Object {
             file_transfer.input_stream = yield file_to_use.read_async();
             debug("FileManager: Stream re-opened.");
 
-            stream_interactor.get_module(FileTransferStorage.IDENTITY).add_file(file_transfer);
+            stream_interactor.get_module<FileTransferStorage>(FileTransferStorage.IDENTITY).add_file(file_transfer);
             conversation.last_active = file_transfer.time;
             received_file(file_transfer, conversation);
         } catch (Error e) {
@@ -265,7 +265,7 @@ public class FileManager : StreamInteractionModule, Object {
     }
 
     public async void download_file(FileTransfer file_transfer) {
-        Conversation conversation = stream_interactor.get_module(ConversationManager.IDENTITY).get_conversation(file_transfer.counterpart.bare_jid, file_transfer.account);
+        Conversation conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_conversation(file_transfer.counterpart.bare_jid, file_transfer.account);
 
         FileProvider? file_provider = this.select_file_provider(file_transfer);
 
@@ -315,11 +315,11 @@ public class FileManager : StreamInteractionModule, Object {
 
         Jid relevant_jid = conversation.counterpart;
         if (conversation.type_ == Conversation.Type.GROUPCHAT) {
-            relevant_jid = stream_interactor.get_module(MucManager.IDENTITY).get_real_jid(file_transfer.from, conversation.account);
+            relevant_jid = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_real_jid(file_transfer.from, conversation.account);
         }
         if (relevant_jid == null) return false;
 
-        bool in_roster = stream_interactor.get_module(RosterManager.IDENTITY).get_roster_item(conversation.account, relevant_jid) != null;
+        bool in_roster = stream_interactor.get_module<RosterManager>(RosterManager.IDENTITY).get_roster_item(conversation.account, relevant_jid) != null;
         return in_roster;
     }
 
@@ -456,7 +456,7 @@ public class FileManager : StreamInteractionModule, Object {
         file_transfer.account = conversation.account;
         file_transfer.counterpart = file_transfer.direction == FileTransfer.DIRECTION_RECEIVED ? from : conversation.counterpart;
         if (conversation.type_.is_muc_semantic()) {
-            file_transfer.ourpart = stream_interactor.get_module(MucManager.IDENTITY).get_own_jid(conversation.counterpart, conversation.account) ?? conversation.account.bare_jid;
+            file_transfer.ourpart = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_own_jid(conversation.counterpart, conversation.account) ?? conversation.account.bare_jid;
             file_transfer.direction = from.equals(file_transfer.ourpart) ? FileTransfer.DIRECTION_SENT : FileTransfer.DIRECTION_RECEIVED;
         } else {
             if (from.equals_bare(conversation.account.bare_jid)) {
@@ -488,7 +488,7 @@ public class FileManager : StreamInteractionModule, Object {
 
     private async void handle_incoming_file(FileProvider file_provider, string info, Jid from, DateTime time, DateTime local_time, Conversation conversation, FileReceiveData receive_data, FileMeta file_meta) {
         FileTransfer file_transfer = create_file_transfer_from_provider_incoming(file_provider, info, from, time, local_time, conversation, receive_data, file_meta);
-        stream_interactor.get_module(FileTransferStorage.IDENTITY).add_file(file_transfer);
+        stream_interactor.get_module<FileTransferStorage>(FileTransferStorage.IDENTITY).add_file(file_transfer);
 
         if (is_sender_trustworthy(file_transfer, conversation)) {
             try {

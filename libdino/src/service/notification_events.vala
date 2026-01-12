@@ -24,15 +24,15 @@ public class NotificationEvents : StreamInteractionModule, Object {
     public NotificationEvents(StreamInteractor stream_interactor) {
         this.stream_interactor = stream_interactor;
 
-        stream_interactor.get_module(ContentItemStore.IDENTITY).new_item.connect((item, conversation) => on_content_item_received.begin(item, conversation));
-        stream_interactor.get_module(PresenceManager.IDENTITY).received_subscription_request.connect((jid, account) => on_received_subscription_request.begin(jid, account));
+        stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).new_item.connect((item, conversation) => on_content_item_received.begin(item, conversation));
+        stream_interactor.get_module<PresenceManager>(PresenceManager.IDENTITY).received_subscription_request.connect((jid, account) => on_received_subscription_request.begin(jid, account));
 
-        stream_interactor.get_module(MucManager.IDENTITY).invite_received.connect((account, room_jid, from_jid, password, reason) => on_invite_received.begin(account, room_jid, from_jid, password, reason));
-        stream_interactor.get_module(MucManager.IDENTITY).voice_request_received.connect((account, room_jid, from_jid, nick) => on_voice_request_received.begin(account, room_jid, from_jid, nick));
+        stream_interactor.get_module<MucManager>(MucManager.IDENTITY).invite_received.connect((account, room_jid, from_jid, password, reason) => on_invite_received.begin(account, room_jid, from_jid, password, reason));
+        stream_interactor.get_module<MucManager>(MucManager.IDENTITY).voice_request_received.connect((account, room_jid, from_jid, nick) => on_voice_request_received.begin(account, room_jid, from_jid, nick));
 
-        stream_interactor.get_module(Calls.IDENTITY).call_incoming.connect((call, state, conversation, video, multiparty) => on_call_incoming.begin(call, state, conversation, video, multiparty));
+        stream_interactor.get_module<Calls>(Calls.IDENTITY).call_incoming.connect((call, state, conversation, video, multiparty) => on_call_incoming.begin(call, state, conversation, video, multiparty));
         stream_interactor.connection_manager.connection_error.connect((account, error) => on_connection_error.begin(account, error));
-        stream_interactor.get_module(ChatInteraction.IDENTITY).focused_in.connect((conversation) => on_focused_in.begin(conversation));
+        stream_interactor.get_module<ChatInteraction>(ChatInteraction.IDENTITY).focused_in.connect((conversation) => on_focused_in.begin(conversation));
 
         notifier_promise = new Promise<NotificationProvider>();
         notifier = notifier_promise.future;
@@ -62,11 +62,11 @@ public class NotificationEvents : StreamInteractionModule, Object {
     }
 
     private async void on_content_item_received(ContentItem item, Conversation conversation) {
-        ContentItem last_item = stream_interactor.get_module(ContentItemStore.IDENTITY).get_latest(conversation);
+        ContentItem last_item = stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).get_latest(conversation);
 
         if (item.id != last_item.id) return;
         if (item.id == conversation.read_up_to_item) return;
-        if (stream_interactor.get_module(ChatInteraction.IDENTITY).is_active_focus()) return;
+        if (stream_interactor.get_module<ChatInteraction>(ChatInteraction.IDENTITY).is_active_focus()) return;
 
         Conversation.NotifySetting notify = conversation.get_notification_setting(stream_interactor);
         if (notify == Conversation.NotifySetting.OFF) return;
@@ -84,7 +84,7 @@ public class NotificationEvents : StreamInteractionModule, Object {
                 if (message.direction == Message.DIRECTION_SENT) return;
 
                 if (notify == Conversation.NotifySetting.HIGHLIGHT) {
-                    Jid? nick = stream_interactor.get_module(MucManager.IDENTITY).get_own_jid(conversation.counterpart, conversation.account);
+                    Jid? nick = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_own_jid(conversation.counterpart, conversation.account);
                     if (nick == null) return;
 
                     bool highlight = Regex.match_simple("\\b" + Regex.escape_string(nick.resourcepart) + "\\b", message.body, RegexCompileFlags.CASELESS);
@@ -126,7 +126,7 @@ public class NotificationEvents : StreamInteractionModule, Object {
     }
 
     private async void on_voice_request_received(Account account, Jid room_jid, Jid from_jid, string nick) {
-        Conversation? conversation = stream_interactor.get_module(ConversationManager.IDENTITY).get_conversation(room_jid, account, Conversation.Type.GROUPCHAT);
+        Conversation? conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_conversation(room_jid, account, Conversation.Type.GROUPCHAT);
         if (conversation == null) return;
 
         try {
@@ -138,8 +138,8 @@ public class NotificationEvents : StreamInteractionModule, Object {
     }
 
     private async void on_received_subscription_request(Jid jid, Account account) {
-        Conversation conversation = stream_interactor.get_module(ConversationManager.IDENTITY).create_conversation(jid, account, Conversation.Type.CHAT);
-        if (stream_interactor.get_module(ChatInteraction.IDENTITY).is_active_focus(conversation)) return;
+        Conversation conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).create_conversation(jid, account, Conversation.Type.CHAT);
+        if (stream_interactor.get_module<ChatInteraction>(ChatInteraction.IDENTITY).is_active_focus(conversation)) return;
 
         try {
             NotificationProvider notifier = yield notifier.wait_async();
@@ -150,7 +150,7 @@ public class NotificationEvents : StreamInteractionModule, Object {
     }
 
     private async void on_call_incoming(Call call, CallState call_state, Conversation conversation, bool video, bool multiparty) {
-        if (!stream_interactor.get_module(Calls.IDENTITY).can_we_do_calls(call.account)) return;
+        if (!stream_interactor.get_module<Calls>(Calls.IDENTITY).can_we_do_calls(call.account)) return;
         string conversation_display_name = get_conversation_display_name(stream_interactor, conversation, null);
 
         try {

@@ -61,15 +61,15 @@ public class Dino.CallState : Object {
         XmppStream stream = stream_interactor.get_stream(call.account);
         if (stream == null) return;
 
-        Gee.List<Jid> occupants = stream_interactor.get_module(MucManager.IDENTITY).get_other_occupants(muc, call.account);
+        Gee.List<Jid> occupants = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_other_occupants(muc, call.account);
         foreach (Jid occupant in occupants) {
-            Jid? real_jid = stream_interactor.get_module(MucManager.IDENTITY).get_real_jid(occupant, call.account);
+            Jid? real_jid = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_real_jid(occupant, call.account);
             if (real_jid == null) continue;
             debug(@"Adding MUC member as MUJI MUC owner %s", real_jid.bare_jid.to_string());
-            yield stream.get_module(Xep.Muc.Module.IDENTITY).change_affiliation(stream, group_call.muc_jid, real_jid.bare_jid, null, "owner");
+            yield stream.get_module<Xep.Muc.Module>(Xep.Muc.Module.IDENTITY).change_affiliation(stream, group_call.muc_jid, real_jid.bare_jid, null, "owner");
         }
 
-        stream.get_module(Xep.CallInvites.Module.IDENTITY).send_muji_propose(stream, cim_call_id, muc, group_call.muc_jid, we_should_send_video, cim_message_type);
+        stream.get_module<Xep.CallInvites.Module>(Xep.CallInvites.Module.IDENTITY).send_muji_propose(stream, cim_call_id, muc, group_call.muc_jid, we_should_send_video, cim_message_type);
     }
 
     internal PeerState set_first_peer(Jid peer) {
@@ -106,12 +106,12 @@ public class Dino.CallState : Object {
                 join_group_call.begin(invited_to_group_call);
 
                 foreach (Jid jid_to_inform in cim_jids_to_inform) {
-                    stream.get_module(Xep.CallInvites.Module.IDENTITY).send_muji_accept(stream, jid_to_inform, cim_call_id, invited_to_group_call, cim_message_type);
+                    stream.get_module<Xep.CallInvites.Module>(Xep.CallInvites.Module.IDENTITY).send_muji_accept(stream, jid_to_inform, cim_call_id, invited_to_group_call, cim_message_type);
                 }
             } else if (peers.size == 1) {
                 string sid = peers.values.to_array()[0].sid;
                 foreach (Jid jid_to_inform in cim_jids_to_inform) {
-                    stream.get_module(Xep.CallInvites.Module.IDENTITY).send_jingle_accept(stream, jid_to_inform, cim_call_id, sid, cim_message_type);
+                    stream.get_module<Xep.CallInvites.Module>(Xep.CallInvites.Module.IDENTITY).send_jingle_accept(stream, jid_to_inform, cim_call_id, sid, cim_message_type);
                 }
             }
         } else {
@@ -129,7 +129,7 @@ public class Dino.CallState : Object {
             if (stream == null) return;
 
             foreach (Jid jid_to_inform in cim_jids_to_inform) {
-                stream.get_module(Xep.CallInvites.Module.IDENTITY).send_reject(stream, jid_to_inform, cim_call_id, cim_message_type);
+                stream.get_module<Xep.CallInvites.Module>(Xep.CallInvites.Module.IDENTITY).send_reject(stream, jid_to_inform, cim_call_id, cim_message_type);
             }
         }
         var peers_cpy = new ArrayList<PeerState>();
@@ -148,7 +148,7 @@ public class Dino.CallState : Object {
         XmppStream stream = stream_interactor.get_stream(call.account);
         if (stream != null) {
             if (group_call != null) {
-                stream.get_module(Xep.Muc.Module.IDENTITY).exit(stream, group_call.muc_jid);
+                stream.get_module<Xep.Muc.Module>(Xep.Muc.Module.IDENTITY).exit(stream, group_call.muc_jid);
             }
 
             if (call.state == Call.State.IN_PROGRESS || call.state == Call.State.ESTABLISHING) {
@@ -157,7 +157,7 @@ public class Dino.CallState : Object {
                 }
                 if (use_cim) {
                     foreach (Jid jid_to_inform in cim_jids_to_inform) {
-                        stream.get_module(Xep.CallInvites.Module.IDENTITY).send_left(stream, jid_to_inform, cim_call_id, cim_message_type);
+                        stream.get_module<Xep.CallInvites.Module>(Xep.CallInvites.Module.IDENTITY).send_left(stream, jid_to_inform, cim_call_id, cim_message_type);
                     }
                 }
             } else if (call.state == Call.State.RINGING) {
@@ -166,7 +166,7 @@ public class Dino.CallState : Object {
                 }
                 if (call.direction == Call.DIRECTION_OUTGOING && use_cim) {
                     foreach (Jid jid_to_inform in cim_jids_to_inform) {
-                        stream.get_module(Xep.CallInvites.Module.IDENTITY).send_retract(stream, jid_to_inform, cim_call_id, cim_message_type);
+                        stream.get_module<Xep.CallInvites.Module>(Xep.CallInvites.Module.IDENTITY).send_retract(stream, jid_to_inform, cim_call_id, cim_message_type);
                     }
                 }
             }
@@ -212,8 +212,8 @@ public class Dino.CallState : Object {
         if (stream == null) return;
 
         debug("[%s] Inviting to muji call %s", call.account.bare_jid.to_string(), invitee.to_string());
-        yield stream.get_module(Xep.Muc.Module.IDENTITY).change_affiliation(stream, group_call.muc_jid, invitee, null, "owner");
-        stream.get_module(Xep.CallInvites.Module.IDENTITY).send_muji_propose(stream, cim_call_id, invitee, group_call.muc_jid, we_should_send_video, "chat");
+        yield stream.get_module<Xep.Muc.Module>(Xep.Muc.Module.IDENTITY).change_affiliation(stream, group_call.muc_jid, invitee, null, "owner");
+        stream.get_module<Xep.CallInvites.Module>(Xep.CallInvites.Module.IDENTITY).send_muji_propose(stream, cim_call_id, invitee, group_call.muc_jid, we_should_send_video, "chat");
 
         // If the peer hasn't accepted within a minute, retract the invite
         // TODO this should be unset when we retract the invite. otherwise a second invite attempt might break due to this
@@ -229,8 +229,8 @@ public class Dino.CallState : Object {
 
             if (!contains_peer) {
                 debug("[%s] Retracting invite to %s from %s", call.account.bare_jid.to_string(), group_call.muc_jid.to_string(), invitee.to_string());
-//                stream.get_module(Xep.CallInvites.Module.IDENTITY).send_retract(stream, invitee, invite_id);
-//                stream.get_module(Xep.Muc.Module.IDENTITY).change_affiliation.begin(stream, group_call.muc_jid, invitee, null, "none");
+//                stream.get_module<Xep.CallInvites.Module>(Xep.CallInvites.Module.IDENTITY).send_retract(stream, invitee, invite_id);
+//                stream.get_module<Xep.Muc.Module>(Xep.Muc.Module.IDENTITY).change_affiliation.begin(stream, group_call.muc_jid, invitee, null, "none");
             }
             return false;
         });
@@ -338,8 +338,8 @@ public class Dino.CallState : Object {
     public async bool can_convert_into_groupcall() {
         if (peers.size == 0) return false;
         Jid peer = peers.keys.to_array()[0];
-        bool peer_has_feature = yield stream_interactor.get_module(EntityInfo.IDENTITY).has_feature(call.account, peer, Xep.Muji.NS_URI);
-        bool can_initiate = stream_interactor.get_module(Calls.IDENTITY).can_initiate_groupcall(call.account);
+        bool peer_has_feature = yield stream_interactor.get_module<EntityInfo>(EntityInfo.IDENTITY).has_feature(call.account, peer, Xep.Muji.NS_URI);
+        bool can_initiate = stream_interactor.get_module<Calls>(Calls.IDENTITY).can_initiate_groupcall(call.account);
         return peer_has_feature && can_initiate;
     }
 
@@ -347,7 +347,7 @@ public class Dino.CallState : Object {
         XmppStream stream = stream_interactor.get_stream(call.account);
         if (stream == null) return;
 
-        Jid? muc_jid = stream_interactor.get_module(MucManager.IDENTITY).default_muc_server[call.account];
+        Jid? muc_jid = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).default_muc_server[call.account];
         if (muc_jid == null) {
             warning("Failed to initiate group call: MUC server not known.");
             return;
@@ -364,7 +364,7 @@ public class Dino.CallState : Object {
         debug("[%s] Converting call to groupcall %s", call.account.bare_jid.to_string(), muc_jid.to_string());
         yield join_group_call(muc_jid);
 
-        Xep.DataForms.DataForm? data_form = yield stream_interactor.get_module(MucManager.IDENTITY).get_config_form(call.account, muc_jid);
+        Xep.DataForms.DataForm? data_form = yield stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_config_form(call.account, muc_jid);
         if (data_form == null) return;
 
         foreach (Xep.DataForms.DataForm.Field field in data_form.fields) {
@@ -391,7 +391,7 @@ public class Dino.CallState : Object {
                     break;
             }
         }
-        yield stream_interactor.get_module(MucManager.IDENTITY).set_config_form(call.account, muc_jid, data_form);
+        yield stream_interactor.get_module<MucManager>(MucManager.IDENTITY).set_config_form(call.account, muc_jid, data_form);
 
         foreach (Jid peer_jid in peers.keys) {
             debug("[%s] Group call inviting %s", call.account.bare_jid.to_string(), peer_jid.to_string());
@@ -404,7 +404,7 @@ public class Dino.CallState : Object {
         XmppStream stream = stream_interactor.get_stream(call.account);
         if (stream == null) return;
 
-        this.group_call = yield stream.get_module(Xep.Muji.Module.IDENTITY).join_call(stream, muc_jid, we_should_send_video);
+        this.group_call = yield stream.get_module<Xep.Muji.Module>(Xep.Muji.Module.IDENTITY).join_call(stream, muc_jid, we_should_send_video);
         if (this.group_call == null) {
             warning("[%s] Couldn't join MUJI MUC", call.account.bare_jid.to_string());
             return;

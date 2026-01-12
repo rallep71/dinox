@@ -18,12 +18,12 @@ namespace Dino.Ui.ConversationSummary {
         public UnreadIndicatorPopulator(StreamInteractor stream_interactor) {
             this.stream_interactor = stream_interactor;
 
-            stream_interactor.get_module(ChatInteraction.IDENTITY).focused_out.connect(() => {
+            stream_interactor.get_module<ChatInteraction>(ChatInteraction.IDENTITY).focused_out.connect(() => {
                 update_unread_indicator();
             });
 
-            stream_interactor.get_module(ContentItemStore.IDENTITY).new_item.connect(() => {
-                if (!stream_interactor.get_module(ChatInteraction.IDENTITY).is_active_focus(current_conversation)) {
+            stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).new_item.connect(() => {
+                if (!stream_interactor.get_module<ChatInteraction>(ChatInteraction.IDENTITY).is_active_focus(current_conversation)) {
                     update_unread_indicator();
                 }
             });
@@ -32,8 +32,8 @@ namespace Dino.Ui.ConversationSummary {
         private void update_unread_indicator() {
             if (current_conversation == null) return;
 
-            ContentItem? read_up_to_item = stream_interactor.get_module(ContentItemStore.IDENTITY).get_item_by_id(current_conversation, current_conversation.read_up_to_item);
-            int current_num_unread = stream_interactor.get_module(ChatInteraction.IDENTITY).get_num_unread(current_conversation);
+            ContentItem? read_up_to_item = stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).get_item_by_id(current_conversation, current_conversation.read_up_to_item);
+            int current_num_unread = stream_interactor.get_module<ChatInteraction>(ChatInteraction.IDENTITY).get_num_unread(current_conversation);
             if (current_num_unread == 0 && unread_indicator != null) {
                 item_collection.remove_item(unread_indicator);
                 unread_indicator = null;

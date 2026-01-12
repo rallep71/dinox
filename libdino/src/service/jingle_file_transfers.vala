@@ -111,8 +111,8 @@ public class JingleFileProvider : FileProvider, Object {
     }
 
     private void on_account_added(Account account) {
-        stream_interactor.module_manager.get_module(account, Xmpp.Xep.JingleFileTransfer.Module.IDENTITY).file_incoming.connect((stream, jingle_file_transfer) => {
-            Conversation? conversation = stream_interactor.get_module(ConversationManager.IDENTITY).get_conversation(jingle_file_transfer.peer.bare_jid, account);
+        stream_interactor.module_manager.get_module<Xmpp.Xep.JingleFileTransfer.Module>(account, Xmpp.Xep.JingleFileTransfer.Module.IDENTITY).file_incoming.connect((stream, jingle_file_transfer) => {
+            Conversation? conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_conversation(jingle_file_transfer.peer.bare_jid, account);
             if (conversation == null) return;
 
             string id = random_uuid();
@@ -152,7 +152,7 @@ public class JingleFileSender : FileSender, Object {
         if (resources == null) return false;
 
         foreach (Jid full_jid in resources) {
-            if (yield stream.get_module(Xep.JingleFileTransfer.Module.IDENTITY).is_available(stream, full_jid)) {
+            if (yield stream.get_module<Xep.JingleFileTransfer.Module>(Xep.JingleFileTransfer.Module.IDENTITY).is_available(stream, full_jid)) {
                 return true;
             }
         }
@@ -200,7 +200,7 @@ public class JingleFileSender : FileSender, Object {
             if (full_jid.equals(stream.get_flag(Bind.Flag.IDENTITY).my_jid)) {
                 continue;
             }
-            if (!yield stream.get_module(Xep.JingleFileTransfer.Module.IDENTITY).is_available(stream, full_jid)) {
+            if (!yield stream.get_module<Xep.JingleFileTransfer.Module>(Xep.JingleFileTransfer.Module.IDENTITY).is_available(stream, full_jid)) {
                 continue;
             }
             if (must_encrypt && !yield helper.can_encrypt(conversation, file_transfer, full_jid)) {
@@ -216,7 +216,7 @@ public class JingleFileSender : FileSender, Object {
                 }
             }
             try {
-                yield stream.get_module(Xep.JingleFileTransfer.Module.IDENTITY).offer_file_stream(stream, full_jid, file_transfer.input_stream, file_transfer.server_file_name, file_meta.size, precondition_name, precondition_options);
+                yield stream.get_module<Xep.JingleFileTransfer.Module>(Xep.JingleFileTransfer.Module.IDENTITY).offer_file_stream(stream, full_jid, file_transfer.input_stream, file_transfer.server_file_name, file_meta.size, precondition_name, precondition_options);
             } catch (Error e) {
                 throw new FileSendError.UPLOAD_FAILED(@"offer_file_stream failed: $(e.message)");
             }

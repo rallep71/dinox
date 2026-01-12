@@ -98,7 +98,7 @@ public class EntityInfo : StreamInteractionModule, Object {
         XmppStream? stream = stream_interactor.get_stream(account);
         if (stream == null) return;
         
-        ServiceDiscovery.InfoResult? info_result = yield stream.get_module(ServiceDiscovery.Module.IDENTITY).request_info(stream, jid);
+        ServiceDiscovery.InfoResult? info_result = yield stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).request_info(stream, jid);
         if (info_result != null) {
             jid_features[jid] = info_result.features;
             jid_identity[jid] = info_result.identities;
@@ -151,7 +151,7 @@ public class EntityInfo : StreamInteractionModule, Object {
     }
 
     private void on_received_available_presence(Account account, Presence.Stanza presence) {
-        bool is_gc = stream_interactor.get_module(MucManager.IDENTITY).might_be_groupchat(presence.from.bare_jid, account);
+        bool is_gc = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).might_be_groupchat(presence.from.bare_jid, account);
         if (is_gc) return;
 
         string? caps_hash = EntityCapabilities.get_caps_hash(presence);
@@ -241,7 +241,7 @@ public class EntityInfo : StreamInteractionModule, Object {
         XmppStream? stream = stream_interactor.get_stream(account);
         if (stream == null) return null;
 
-        ServiceDiscovery.InfoResult? info_result = yield stream.get_module(ServiceDiscovery.Module.IDENTITY).request_info(stream, jid);
+        ServiceDiscovery.InfoResult? info_result = yield stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).request_info(stream, jid);
         if (info_result == null) return null;
 
         var computed_hash = EntityCapabilities.Module.compute_hash_for_info_result(info_result);
@@ -272,9 +272,9 @@ public class EntityInfo : StreamInteractionModule, Object {
 
     private void on_account_added(Account account) {
         var cache = new CapsCacheImpl(account, this);
-        stream_interactor.module_manager.get_module(account, ServiceDiscovery.Module.IDENTITY).cache = cache;
+        stream_interactor.module_manager.get_module<ServiceDiscovery.Module>(account, ServiceDiscovery.Module.IDENTITY).cache = cache;
 
-        stream_interactor.module_manager.get_module(account, Presence.Module.IDENTITY).received_available.connect((stream, presence) => on_received_available_presence(account, presence));
+        stream_interactor.module_manager.get_module<Presence.Module>(account, Presence.Module.IDENTITY).received_available.connect((stream, presence) => on_received_available_presence(account, presence));
     }
 
     private void initialize_modules(Account account, ArrayList<XmppStreamModule> modules) {

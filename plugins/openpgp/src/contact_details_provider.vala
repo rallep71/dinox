@@ -21,7 +21,7 @@ public class ContactDetailsProvider : Plugins.ContactDetailsProvider, Object {
 
         if (conversation.type_ != Conversation.Type.CHAT) return null;
 
-        string? key_id = stream_interactor.get_module(Manager.IDENTITY).get_key_id(conversation.account, conversation.counterpart);
+        string? key_id = stream_interactor.get_module<Manager>(Manager.IDENTITY).get_key_id(conversation.account, conversation.counterpart);
         if (key_id == null) return null;
 
         Gee.List<GPG.Key>? keys = null;

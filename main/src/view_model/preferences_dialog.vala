@@ -67,11 +67,11 @@ public class Dino.Ui.ViewModel.PreferencesDialog : Object {
     }
 
     public void set_avatar_file(Account account, File file) {
-        stream_interactor.get_module(AvatarManager.IDENTITY).publish.begin(account, file);
+        stream_interactor.get_module<AvatarManager>(AvatarManager.IDENTITY).publish.begin(account, file);
     }
 
     public void remove_avatar(Account account) {
-        stream_interactor.get_module(AvatarManager.IDENTITY).unset_avatar(account);
+        stream_interactor.get_module<AvatarManager>(AvatarManager.IDENTITY).unset_avatar(account);
     }
 
     public void remove_account(Account account) {
@@ -125,7 +125,7 @@ public class Dino.Ui.ViewModel.ChangePasswordDialog : Object {
     public StreamInteractor stream_interactor { get; set; }
 
     public async string? change_password(string new_password) {
-        var res = yield stream_interactor.get_module(Register.IDENTITY).change_password(account, new_password);
+        var res = yield stream_interactor.get_module<Register>(Register.IDENTITY).change_password(account, new_password);
         if (res == null) {
             account.password = new_password;
         }

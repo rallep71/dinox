@@ -53,7 +53,7 @@ public class Module : XmppStreamModule {
         Iq.Stanza iq = new Iq.Stanza.get(request_node) { to=flag.file_store_jid };
 
         HttpFileTransferError? e = null;
-        stream.get_module(Iq.Module.IDENTITY).send_iq(stream, iq, (stream, iq) => {
+        stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq(stream, iq, (stream, iq) => {
             if (iq.is_error()) {
                 e = new HttpFileTransferError.SLOT_REQUEST("Error getting upload/download url (Error Iq)");
                 Idle.add((owned) callback);
@@ -117,10 +117,10 @@ public class Module : XmppStreamModule {
     public override string get_id() { return IDENTITY.id; }
 
     private async void query_availability(XmppStream stream) {
-        ServiceDiscovery.InfoResult? info_result = yield stream.get_module(ServiceDiscovery.Module.IDENTITY).request_info(stream, stream.remote_name);
+        ServiceDiscovery.InfoResult? info_result = yield stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).request_info(stream, stream.remote_name);
         bool available = check_ns_in_info(stream, stream.remote_name, info_result);
         if (!available) {
-            ServiceDiscovery.ItemsResult? items_result = yield stream.get_module(ServiceDiscovery.Module.IDENTITY).request_items(stream, stream.remote_name);
+            ServiceDiscovery.ItemsResult? items_result = yield stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).request_items(stream, stream.remote_name);
             if (items_result == null) return;
 
             for (int i = 0; i < 2; i++) {
@@ -130,7 +130,7 @@ public class Module : XmppStreamModule {
                     bool promising_upload_item = item.jid.to_string().has_prefix("upload");
                     if ((i == 0 && !promising_upload_item) || (i == 1) && promising_upload_item) continue;
 
-                    ServiceDiscovery.InfoResult? info_result2 = yield stream.get_module(ServiceDiscovery.Module.IDENTITY).request_info(stream, item.jid);
+                    ServiceDiscovery.InfoResult? info_result2 = yield stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).request_info(stream, item.jid);
                     bool available2 = check_ns_in_info(stream, item.jid, info_result2);
                     if (available2) return;
                 }
@@ -197,7 +197,7 @@ public class ReceivedPipelineListener : StanzaListener<MessageStanza> {
     public override async bool run(XmppStream stream, MessageStanza message) {
         string? oob_url = OutOfBandData.get_url_from_message(message);
         if (oob_url != null && oob_url == message.body) {
-            stream.get_module(Module.IDENTITY).received_url(stream, message);
+            stream.get_module<Module>(Module.IDENTITY).received_url(stream, message);
         }
         return false;
     }

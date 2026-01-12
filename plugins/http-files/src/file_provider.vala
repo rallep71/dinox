@@ -38,7 +38,7 @@ public class FileProvider : Dino.FileProvider, Object {
         this.session = new Soup.Session();
 
         session.user_agent = @"Dino/$(Dino.get_short_version()) ";
-        stream_interactor.get_module(MessageProcessor.IDENTITY).received_pipeline.connect(new ReceivedMessageListener(this));
+        stream_interactor.get_module<MessageProcessor>(MessageProcessor.IDENTITY).received_pipeline.connect(new ReceivedMessageListener(this));
     }
 
     private async void ensure_soup_context() {
@@ -232,10 +232,10 @@ public class FileProvider : Dino.FileProvider, Object {
             return file_meta;
         }
 
-        Conversation? conversation = stream_interactor.get_module(ConversationManager.IDENTITY).get_conversation(file_transfer.counterpart.bare_jid, file_transfer.account);
+        Conversation? conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_conversation(file_transfer.counterpart.bare_jid, file_transfer.account);
         if (conversation == null) throw new FileReceiveError.GET_METADATA_FAILED("No conversation");
 
-        Message? message = stream_interactor.get_module(MessageStorage.IDENTITY).get_message_by_id(int.parse(file_transfer.info), conversation);
+        Message? message = stream_interactor.get_module<MessageStorage>(MessageStorage.IDENTITY).get_message_by_id(int.parse(file_transfer.info), conversation);
         if (message == null) throw new FileReceiveError.GET_METADATA_FAILED("No message");
 
         var file_meta = new HttpFileMeta();
@@ -268,10 +268,10 @@ public class FileProvider : Dino.FileProvider, Object {
             return receive_data;
         }
 
-        Conversation? conversation = stream_interactor.get_module(ConversationManager.IDENTITY).get_conversation(file_transfer.counterpart.bare_jid, file_transfer.account);
+        Conversation? conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_conversation(file_transfer.counterpart.bare_jid, file_transfer.account);
         if (conversation == null) return null;
 
-        Message? message = stream_interactor.get_module(MessageStorage.IDENTITY).get_message_by_id(int.parse(file_transfer.info), conversation);
+        Message? message = stream_interactor.get_module<MessageStorage>(MessageStorage.IDENTITY).get_message_by_id(int.parse(file_transfer.info), conversation);
         if (message == null) return null;
 
         var receive_data = new HttpFileReceiveData();

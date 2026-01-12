@@ -357,7 +357,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
                     apply_color_scheme(settings.color_scheme);
                 });
 
-                NotificationEvents notification_events = stream_interactor.get_module(NotificationEvents.IDENTITY);
+                NotificationEvents notification_events = stream_interactor.get_module<NotificationEvents>(NotificationEvents.IDENTITY);
                 get_notifications_dbus.begin((_, res) => {
                     DBusNotifications? dbus_notifications = get_notifications_dbus.end(res);
                     if (dbus_notifications != null) {
@@ -376,7 +376,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
                         }
                     }
                 });
-                stream_interactor.get_module(FileManager.IDENTITY).add_metadata_provider(new Util.AudioVideoFileMetadataProvider());
+                stream_interactor.get_module<FileManager>(FileManager.IDENTITY).add_metadata_provider(new Util.AudioVideoFileMetadataProvider());
 
                 systray_manager = new SystrayManager(this);
 
@@ -456,7 +456,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
                         apply_color_scheme(settings.color_scheme);
                     });
 
-                    NotificationEvents notification_events = stream_interactor.get_module(NotificationEvents.IDENTITY);
+                    NotificationEvents notification_events = stream_interactor.get_module<NotificationEvents>(NotificationEvents.IDENTITY);
                     get_notifications_dbus.begin((_, res) => {
                         DBusNotifications? dbus_notifications = get_notifications_dbus.end(res);
                         if (dbus_notifications != null) {
@@ -475,7 +475,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
                             }
                         }
                     });
-                    stream_interactor.get_module(FileManager.IDENTITY).add_metadata_provider(new Util.AudioVideoFileMetadataProvider());
+                    stream_interactor.get_module<FileManager>(FileManager.IDENTITY).add_metadata_provider(new Util.AudioVideoFileMetadataProvider());
 
                     systray_manager = new SystrayManager(this);
 
@@ -596,8 +596,8 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
                     // Ignored
                 }
                 if (accounts.size == 1 && parsed_jid != null) {
-                    Conversation conversation = stream_interactor.get_module(ConversationManager.IDENTITY).create_conversation(parsed_jid, accounts[0], Conversation.Type.CHAT);
-                    stream_interactor.get_module(ConversationManager.IDENTITY).start_conversation(conversation);
+                    Conversation conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).create_conversation(parsed_jid, accounts[0], Conversation.Type.CHAT);
+                    stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).start_conversation(conversation);
                     controller.select_conversation(conversation);
                 } else {
                     AddChatDialog dialog = new AddChatDialog(stream_interactor, stream_interactor.get_accounts());
@@ -677,7 +677,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
 
         SimpleAction open_conversation_action = new SimpleAction("open-conversation", VariantType.INT32);
         open_conversation_action.activate.connect((variant) => {
-            Conversation? conversation = stream_interactor.get_module(ConversationManager.IDENTITY).get_conversation_by_id(variant.get_int32());
+            Conversation? conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_conversation_by_id(variant.get_int32());
             if (conversation != null) controller.select_conversation(conversation);
             Util.present_window(window);
         });
@@ -685,9 +685,9 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
 
         SimpleAction close_conversation_action = new SimpleAction("close-conversation", VariantType.INT32);
         close_conversation_action.activate.connect((variant) => {
-            Conversation? conversation = stream_interactor.get_module(ConversationManager.IDENTITY).get_conversation_by_id(variant.get_int32());
+            Conversation? conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_conversation_by_id(variant.get_int32());
             if (conversation != null) {
-                stream_interactor.get_module(ConversationManager.IDENTITY).close_conversation(conversation);
+                stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).close_conversation(conversation);
             }
         });
         add_action(close_conversation_action);
@@ -695,7 +695,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         SimpleAction open_conversation_details_action = new SimpleAction("open-conversation-details", new VariantType.tuple(new VariantType[]{VariantType.INT32, VariantType.STRING}));
         open_conversation_details_action.activate.connect((variant) => {
             int conversation_id = variant.get_child_value(0).get_int32();
-            Conversation? conversation = stream_interactor.get_module(ConversationManager.IDENTITY).get_conversation_by_id(conversation_id);
+            Conversation? conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_conversation_by_id(conversation_id);
             if (conversation == null) return;
 
             string stack_value = variant.get_child_value(1).get_string();
@@ -708,9 +708,9 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
 
         SimpleAction deny_subscription_action = new SimpleAction("deny-subscription", VariantType.INT32);
         deny_subscription_action.activate.connect((variant) => {
-            Conversation? conversation = stream_interactor.get_module(ConversationManager.IDENTITY).get_conversation_by_id(variant.get_int32());
+            Conversation? conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_conversation_by_id(variant.get_int32());
             if (conversation == null) return;
-            stream_interactor.get_module(PresenceManager.IDENTITY).deny_subscription(conversation.account, conversation.counterpart);
+            stream_interactor.get_module<PresenceManager>(PresenceManager.IDENTITY).deny_subscription(conversation.account, conversation.counterpart);
         });
         add_action(deny_subscription_action);
 
@@ -733,7 +733,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
 
         SimpleAction accept_muc_invite_action = new SimpleAction("open-muc-join", VariantType.INT32);
         accept_muc_invite_action.activate.connect((variant) => {
-            Conversation? conversation = stream_interactor.get_module(ConversationManager.IDENTITY).get_conversation_by_id(variant.get_int32());
+            Conversation? conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_conversation_by_id(variant.get_int32());
             if (conversation == null) return;
             show_join_muc_dialog(conversation.account, conversation.counterpart.to_string());
         });
@@ -742,18 +742,18 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         SimpleAction accept_voice_request_action = new SimpleAction("accept-voice-request", new VariantType.tuple(new VariantType[]{VariantType.INT32, VariantType.STRING}));
         accept_voice_request_action.activate.connect((variant) => {
             int conversation_id = variant.get_child_value(0).get_int32();
-            Conversation? conversation = stream_interactor.get_module(ConversationManager.IDENTITY).get_conversation_by_id(conversation_id);
+            Conversation? conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_conversation_by_id(conversation_id);
             if (conversation == null) return;
 
             string nick = variant.get_child_value(1).get_string();
-            stream_interactor.get_module(MucManager.IDENTITY).change_role(conversation.account, conversation.counterpart, nick, "participant");
+            stream_interactor.get_module<MucManager>(MucManager.IDENTITY).change_role(conversation.account, conversation.counterpart, nick, "participant");
         });
         add_action(accept_voice_request_action);
 
         SimpleAction set_status_action = new SimpleAction("set-status", VariantType.STRING);
         set_status_action.activate.connect((variant) => {
             string status = variant.get_string();
-            stream_interactor.get_module(PresenceManager.IDENTITY).set_status(status, null);
+            stream_interactor.get_module<PresenceManager>(PresenceManager.IDENTITY).set_status(status, null);
         });
         add_action(set_status_action);
 
@@ -770,12 +770,12 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         SimpleAction accept_call_action = new SimpleAction("accept-call", new VariantType.tuple(new VariantType[]{VariantType.INT32, VariantType.INT32}));
         accept_call_action.activate.connect((variant) => {
             int conversation_id = variant.get_child_value(0).get_int32();
-            Conversation? conversation = stream_interactor.get_module(ConversationManager.IDENTITY).get_conversation_by_id(conversation_id);
+            Conversation? conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_conversation_by_id(conversation_id);
             if (conversation == null) return;
 
             int call_id = variant.get_child_value(1).get_int32();
-            Call? call = stream_interactor.get_module(CallStore.IDENTITY).get_call_by_id(call_id, conversation);
-            CallState? call_state = stream_interactor.get_module(Calls.IDENTITY).call_states[call];
+            Call? call = stream_interactor.get_module<CallStore>(CallStore.IDENTITY).get_call_by_id(call_id, conversation);
+            CallState? call_state = stream_interactor.get_module<Calls>(Calls.IDENTITY).call_states[call];
             if (call_state == null) return;
 
             call_state.accept();
@@ -789,12 +789,12 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         SimpleAction deny_call_action = new SimpleAction("reject-call", new VariantType.tuple(new VariantType[]{VariantType.INT32, VariantType.INT32}));
         deny_call_action.activate.connect((variant) => {
             int conversation_id = variant.get_child_value(0).get_int32();
-            Conversation? conversation = stream_interactor.get_module(ConversationManager.IDENTITY).get_conversation_by_id(conversation_id);
+            Conversation? conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_conversation_by_id(conversation_id);
             if (conversation == null) return;
 
             int call_id = variant.get_child_value(1).get_int32();
-            Call? call = stream_interactor.get_module(CallStore.IDENTITY).get_call_by_id(call_id, conversation);
-            CallState? call_state = stream_interactor.get_module(Calls.IDENTITY).call_states[call];
+            Call? call = stream_interactor.get_module<CallStore>(CallStore.IDENTITY).get_call_by_id(call_id, conversation);
+            CallState? call_state = stream_interactor.get_module<Calls>(Calls.IDENTITY).call_states[call];
             if (call_state == null) return;
 
             call_state.reject();
@@ -803,7 +803,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
     }
 
     private void show_status_message_dialog() {
-        var presence_manager = stream_interactor.get_module(PresenceManager.IDENTITY);
+        var presence_manager = stream_interactor.get_module<PresenceManager>(PresenceManager.IDENTITY);
         string current_status = presence_manager.get_current_status_msg() ?? "";
         
         var dialog = new Adw.MessageDialog(window, _("Set Status Message"), null);

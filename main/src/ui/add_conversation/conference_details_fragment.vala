@@ -146,12 +146,12 @@ protected class ConferenceDetailsFragment : Box {
         string label_text = "";
         try {
             Jid parsed_jid = new Jid(jid);
-            Muc.JoinResult? join_result = yield stream_interactor.get_module(MucManager.IDENTITY).join(account, parsed_jid, nick, password);
+            Muc.JoinResult? join_result = yield stream_interactor.get_module<MucManager>(MucManager.IDENTITY).join(account, parsed_jid, nick, password);
 
             ok_button.label = _("Join");
             ok_button.sensitive = true;
             if (join_result == null || join_result.nick != null) {
-                Conversation conversation = stream_interactor.get_module(ConversationManager.IDENTITY).create_conversation(parsed_jid, account, Conversation.Type.GROUPCHAT);
+                Conversation conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).create_conversation(parsed_jid, account, Conversation.Type.GROUPCHAT);
                 Application app = GLib.Application.get_default() as Application;
                 app.controller.select_conversation(conversation);
                 joined();

@@ -126,7 +126,7 @@ public class ConversationView : Widget, Plugins.ConversationItemCollection, Plug
 
     public ConversationView init(StreamInteractor stream_interactor) {
         this.stream_interactor = stream_interactor;
-        stream_interactor.get_module(MessageDeletion.IDENTITY).item_deleted.connect(on_item_deleted);
+        stream_interactor.get_module<MessageDeletion>(MessageDeletion.IDENTITY).item_deleted.connect(on_item_deleted);
         scrolled.vadjustment.notify["upper"].connect_after(on_upper_notify);
         scrolled.vadjustment.notify["page-size"].connect(on_upper_notify);
         scrolled.vadjustment.notify["value"].connect(on_value_notify);
@@ -181,7 +181,7 @@ public class ConversationView : Widget, Plugins.ConversationItemCollection, Plug
             if (message_item != null) {
                 if ((conversation.type_ == Conversation.Type.CHAT && message_item.jid.equals_bare(conversation.account.bare_jid)) ||
                         (conversation.type_ == Conversation.Type.GROUPCHAT &&
-                        message_item.jid.equals(stream_interactor.get_module(MucManager.IDENTITY).get_own_jid(conversation.counterpart, conversation.account)))) {
+                        message_item.jid.equals(stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_own_jid(conversation.counterpart, conversation.account)))) {
                     message_item.in_edit_mode = true;
                     break;
                 }
@@ -810,7 +810,7 @@ public class ConversationView : Widget, Plugins.ConversationItemCollection, Plug
 
     public override void dispose() {
         if (stream_interactor != null) {
-            stream_interactor.get_module(MessageDeletion.IDENTITY).item_deleted.disconnect(on_item_deleted);
+            stream_interactor.get_module<MessageDeletion>(MessageDeletion.IDENTITY).item_deleted.disconnect(on_item_deleted);
         }
         base.dispose();
     }

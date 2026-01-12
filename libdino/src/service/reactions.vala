@@ -26,7 +26,7 @@ public class Dino.Reactions : StreamInteractionModule, Object {
         this.db = database;
         stream_interactor.account_added.connect(on_account_added);
 
-        stream_interactor.get_module(ContentItemStore.IDENTITY).new_item.connect(on_new_item);
+        stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).new_item.connect(on_new_item);
     }
 
     public void add_reaction(Conversation conversation, ContentItem content_item, string reaction) {
@@ -66,25 +66,25 @@ public class Dino.Reactions : StreamInteractionModule, Object {
             return true;
         } else {
             // The MUC server needs to 1) support stable stanza ids 2) either support occupant ids or be a private room (where we know real jids)
-            var entity_info = stream_interactor.get_module(EntityInfo.IDENTITY);
+            var entity_info = stream_interactor.get_module<EntityInfo>(EntityInfo.IDENTITY);
             bool server_supports_sid = entity_info.has_feature_cached(conversation.account, conversation.counterpart.bare_jid, Xep.UniqueStableStanzaIDs.NS_URI);
             if (!server_supports_sid) return false;
 
             bool? supports_occupant_ids = entity_info.has_feature_cached(conversation.account, conversation.counterpart, Xep.OccupantIds.NS_URI);
             if (supports_occupant_ids) return true;
 
-            return stream_interactor.get_module(MucManager.IDENTITY).is_private_room(conversation.account, conversation.counterpart);
+            return stream_interactor.get_module<MucManager>(MucManager.IDENTITY).is_private_room(conversation.account, conversation.counterpart);
         }
     }
 
     private void send_reactions(Conversation conversation, ContentItem content_item, Gee.List<string> reactions) throws IOError {
-        string? message_id = stream_interactor.get_module(ContentItemStore.IDENTITY).get_message_id_for_content_item(conversation, content_item);
+        string? message_id = stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).get_message_id_for_content_item(conversation, content_item);
         if (message_id == null) throw new IOError.FAILED("No message for content_item");
 
         XmppStream? stream = stream_interactor.get_stream(conversation.account);
         if (stream == null) throw new IOError.NOT_CONNECTED("No stream");
 
-        var reactions_module = stream.get_module(Xmpp.Xep.Reactions.Module.IDENTITY);
+        var reactions_module = stream.get_module<Xmpp.Xep.Reactions.Module>(Xmpp.Xep.Reactions.Module.IDENTITY);
 
         if (conversation.type_ == Conversation.Type.GROUPCHAT) {
             reactions_module.send_reaction.begin(stream, conversation.counterpart, "groupchat", message_id, reactions);
@@ -109,7 +109,7 @@ public class Dino.Reactions : StreamInteractionModule, Object {
             return get_chat_user_reactions(conversation.account, content_item.id, conversation.account.bare_jid)
                     .emojis;
         } else if (conversation.type_ == Conversation.Type.GROUPCHAT) {
-            string own_occupant_id = stream_interactor.get_module(MucManager.IDENTITY).get_own_occupant_id(conversation.account, content_item.jid);
+            string own_occupant_id = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_own_occupant_id(conversation.account, content_item.jid);
             return get_muc_user_reactions(conversation.account, content_item.id, own_occupant_id, conversation.account.bare_jid)
                     .emojis;
         }
@@ -213,7 +213,7 @@ public class Dino.Reactions : StreamInteractionModule, Object {
                 .outer_join_with(db.jid, db.jid.id, db.reaction.jid_id)
                 .order_by(db.reaction.time, "DESC");
 
-        string? own_occupant_id = stream_interactor.get_module(MucManager.IDENTITY).get_own_occupant_id(account, content_item.jid);
+        string? own_occupant_id = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_own_occupant_id(account, content_item.jid);
 
         var ret = new ArrayList<ReactionUsers>();
         var index = new HashMap<string, ReactionUsers>();
@@ -255,7 +255,7 @@ public class Dino.Reactions : StreamInteractionModule, Object {
 
     private void on_account_added(Account account) {
         // TODO get time from delays
-        stream_interactor.module_manager.get_module(account, Xmpp.Xep.Reactions.Module.IDENTITY).received_reactions.connect((stream, from_jid, message_id, reactions, stanza) => {
+        stream_interactor.module_manager.get_module<Xmpp.Xep.Reactions.Module>(account, Xmpp.Xep.Reactions.Module.IDENTITY).received_reactions.connect((stream, from_jid, message_id, reactions, stanza) => {
             on_reaction_received.begin(account, from_jid, message_id, reactions, stanza);
         });
     }
@@ -263,15 +263,15 @@ public class Dino.Reactions : StreamInteractionModule, Object {
     private async void on_reaction_received(Account account, Jid from_jid, string message_id, Gee.List<string> reactions, MessageStanza stanza) {
         if (stanza.type_ == MessageStanza.TYPE_GROUPCHAT) {
             // Apply the same restrictions for incoming reactions as we do on sending them
-            Conversation muc_conversation = stream_interactor.get_module(ConversationManager.IDENTITY).approx_conversation_for_stanza(from_jid, account.bare_jid, account, MessageStanza.TYPE_GROUPCHAT);
+            Conversation muc_conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).approx_conversation_for_stanza(from_jid, account.bare_jid, account, MessageStanza.TYPE_GROUPCHAT);
             bool muc_supports_reactions = conversation_supports_reactions(muc_conversation);
             if (!muc_supports_reactions) return;
         }
 
-        Message reaction_message = yield stream_interactor.get_module(MessageProcessor.IDENTITY).parse_message_stanza(account, stanza);
-        Conversation conversation = stream_interactor.get_module(ConversationManager.IDENTITY).get_conversation_for_message(reaction_message);
+        Message reaction_message = yield stream_interactor.get_module<MessageProcessor>(MessageProcessor.IDENTITY).parse_message_stanza(account, stanza);
+        Conversation conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_conversation_for_message(reaction_message);
 
-        int content_item_id = stream_interactor.get_module(ContentItemStore.IDENTITY).get_content_item_id_for_referencing_id(conversation, message_id);
+        int content_item_id = stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).get_content_item_id_for_referencing_id(conversation, message_id);
         var reaction_info = new ReactionInfo() { conversation=conversation, from_jid=from_jid, reactions=reactions, stanza=stanza, received_time=new DateTime.now() };
 
         if (content_item_id != -1) {
@@ -292,13 +292,13 @@ public class Dino.Reactions : StreamInteractionModule, Object {
      * If so, process the reactions, map and store them.
      */
     private void on_new_item(ContentItem item, Conversation conversation) {
-        string? stanza_id = stream_interactor.get_module(ContentItemStore.IDENTITY).get_message_id_for_content_item(conversation, item);
+        string? stanza_id = stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).get_message_id_for_content_item(conversation, item);
         if (stanza_id == null) return;
 
         Gee.List<ReactionInfo>? reaction_info_list = reaction_infos[stanza_id];
         if (reaction_info_list == null) return;
 
-        Message? message = stream_interactor.get_module(ContentItemStore.IDENTITY).get_message_for_content_item(conversation, item);
+        Message? message = stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).get_message_for_content_item(conversation, item);
         if (message == null) return;
 
         // Check if the (or potentially which) reaction fits the message
@@ -341,7 +341,7 @@ public class Dino.Reactions : StreamInteractionModule, Object {
 
         // Get current reactions
         string? occupant_id = OccupantIds.get_occupant_id(stanza.stanza);
-        Jid? real_jid = stream_interactor.get_module(MucManager.IDENTITY).get_real_jid(from_jid, account);
+        Jid? real_jid = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_real_jid(from_jid, account);
         if (stanza.type_ == MessageStanza.TYPE_GROUPCHAT && occupant_id == null && real_jid == null) {
             warning("Attempting to add reaction to message w/o knowing occupant id or real jid");
             return;
@@ -371,7 +371,7 @@ public class Dino.Reactions : StreamInteractionModule, Object {
 
         Jid signal_jid = from_jid;
         if (stanza.type_ == MessageStanza.TYPE_GROUPCHAT &&
-                signal_jid.equals(stream_interactor.get_module(MucManager.IDENTITY).get_own_jid(from_jid, account))) {
+                signal_jid.equals(stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_own_jid(from_jid, account))) {
             signal_jid = account.bare_jid;
         } else if (stanza.type_ == MessageStanza.TYPE_CHAT) {
             signal_jid = signal_jid.bare_jid;
@@ -434,7 +434,7 @@ public class Dino.Reactions : StreamInteractionModule, Object {
         }
 
         if (occupant_id != null) {
-            int occupant_db_id = stream_interactor.get_module(OccupantIdStore.IDENTITY).cache_occupant_id(account, occupant_id, jid);
+            int occupant_db_id = stream_interactor.get_module<OccupantIdStore>(OccupantIdStore.IDENTITY).cache_occupant_id(account, occupant_id, jid);
             builder.value(db.reaction.occupant_id, occupant_db_id, true);
         }
 

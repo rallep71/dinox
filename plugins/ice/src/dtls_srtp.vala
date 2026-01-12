@@ -114,6 +114,12 @@ public class Handler {
         return null;
     }
 
+    public void reset_encrypt_context() {
+        if (srtp_session != null && srtp_session.has_encrypt) {
+            srtp_session.force_reset_encrypt_stream();
+        }
+    }
+
     public uint8[]? process_outgoing_data(uint component_id, uint8[] data) throws Crypto.Error {
         if (srtp_session.has_encrypt) {
             if (component_id == 1) {

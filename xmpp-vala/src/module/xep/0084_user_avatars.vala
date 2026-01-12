@@ -7,7 +7,7 @@ namespace Xmpp.Xep.UserAvatars {
         string sha1 = Checksum.compute_for_data(ChecksumType.SHA1, image);
         StanzaNode data_node = new StanzaNode.build("data", NS_URI_DATA).add_self_xmlns()
                 .put_node(new StanzaNode.text(Base64.encode(image)));
-        stream.get_module(Pubsub.Module.IDENTITY).publish.begin(stream, null, NS_URI_DATA, sha1, data_node);
+        stream.get_module<Pubsub.Module>(Pubsub.Module.IDENTITY).publish.begin(stream, null, NS_URI_DATA, sha1, data_node);
 
         StanzaNode metadata_node = new StanzaNode.build("metadata", NS_URI_METADATA).add_self_xmlns();
         StanzaNode info_node = new StanzaNode.build("info", NS_URI_METADATA)
@@ -17,15 +17,15 @@ namespace Xmpp.Xep.UserAvatars {
                 .put_attribute("height", height.to_string())
                 .put_attribute("type", "image/png");
         metadata_node.put_node(info_node);
-        stream.get_module(Pubsub.Module.IDENTITY).publish.begin(stream, null, NS_URI_METADATA, sha1, metadata_node);
+        stream.get_module<Pubsub.Module>(Pubsub.Module.IDENTITY).publish.begin(stream, null, NS_URI_METADATA, sha1, metadata_node);
     }
 
     public void unset_avatar(XmppStream stream) {
-        stream.get_module(Pubsub.Module.IDENTITY).delete_node(stream, null, NS_URI_METADATA);
+        stream.get_module<Pubsub.Module>(Pubsub.Module.IDENTITY).delete_node(stream, null, NS_URI_METADATA);
     }
 
     public async Bytes? fetch_image(XmppStream stream, Jid jid, string hash) {
-        Gee.List<StanzaNode>? items = yield stream.get_module(Pubsub.Module.IDENTITY).request_all(stream, jid, NS_URI_DATA);
+        Gee.List<StanzaNode>? items = yield stream.get_module<Pubsub.Module>(Pubsub.Module.IDENTITY).request_all(stream, jid, NS_URI_DATA);
         if (items == null || items.size == 0 || items[0].sub_nodes.size == 0) return null;
 
         StanzaNode node = items[0].sub_nodes[0];
@@ -48,11 +48,11 @@ namespace Xmpp.Xep.UserAvatars {
         public signal void avatar_removed(XmppStream stream, Jid jid);
 
         public override void attach(XmppStream stream) {
-            stream.get_module(Pubsub.Module.IDENTITY).add_filtered_notification(stream, NS_URI_METADATA, on_pupsub_item, null, on_pubsub_delete);
+            stream.get_module<Pubsub.Module>(Pubsub.Module.IDENTITY).add_filtered_notification(stream, NS_URI_METADATA, on_pupsub_item, null, on_pubsub_delete);
         }
 
         public override void detach(XmppStream stream) {
-            stream.get_module(Pubsub.Module.IDENTITY).remove_filtered_notification(stream, NS_URI_METADATA);
+            stream.get_module<Pubsub.Module>(Pubsub.Module.IDENTITY).remove_filtered_notification(stream, NS_URI_METADATA);
         }
 
         public void on_pupsub_item(XmppStream stream, Jid jid, string hash, StanzaNode? node) {

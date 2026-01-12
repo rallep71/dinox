@@ -66,7 +66,7 @@ public class View : Popover {
         stack.transition_type = StackTransitionType.SLIDE_LEFT;
 
         string name = Markup.escape_text(name_);
-        Jid? real_jid = stream_interactor.get_module(MucManager.IDENTITY).get_real_jid(jid, conversation.account);
+        Jid? real_jid = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_real_jid(jid, conversation.account);
         if (real_jid != null) name += "\n<span font=\'8\'>%s</span>".printf(Markup.escape_text(real_jid.bare_jid.to_string()));
 
         Box header_box = new Box(Orientation.HORIZONTAL, 5);
@@ -86,9 +86,9 @@ public class View : Popover {
             header_button.clicked.connect(() => {
                 hide();
                 if (selected_jid != null) {
-                    Jid? real_jid_inner = stream_interactor.get_module(MucManager.IDENTITY).get_real_jid(selected_jid, conversation.account);
+                    Jid? real_jid_inner = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_real_jid(selected_jid, conversation.account);
                     Jid target_jid = real_jid_inner ?? selected_jid;
-                    Conversation conversation = stream_interactor.get_module(ConversationManager.IDENTITY).create_conversation(target_jid, conversation.account, Conversation.Type.CHAT);
+                    Conversation conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).create_conversation(target_jid, conversation.account, Conversation.Type.CHAT);
                     
                     Application app = GLib.Application.get_default() as Application;
                     var conversation_details = ConversationDetails.setup_dialog(conversation, stream_interactor);
@@ -99,19 +99,19 @@ public class View : Popover {
 
         outer_box.append(create_menu_button(_("Start private conversation"), private_conversation_button_clicked));
 
-        Jid? own_jid = stream_interactor.get_module(MucManager.IDENTITY).get_own_jid(conversation.counterpart, conversation.account);
+        Jid? own_jid = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_own_jid(conversation.counterpart, conversation.account);
         Xmpp.Xep.Muc.Role? role = null;
         if (own_jid != null) {
-            role = stream_interactor.get_module(MucManager.IDENTITY).get_role(own_jid, conversation.account);
+            role = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_role(own_jid, conversation.account);
         }
 
         Xmpp.Xep.Muc.Affiliation? my_affiliation = Xmpp.Xep.Muc.Affiliation.NONE;
         if (own_jid != null) {
-            my_affiliation = stream_interactor.get_module(MucManager.IDENTITY).get_affiliation(conversation.counterpart, own_jid, conversation.account);
+            my_affiliation = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_affiliation(conversation.counterpart, own_jid, conversation.account);
         }
         // Fallback: Check affiliation of the account JID if MUC JID affiliation is unknown
         if (my_affiliation == Xmpp.Xep.Muc.Affiliation.NONE || my_affiliation == null) {
-             my_affiliation = stream_interactor.get_module(MucManager.IDENTITY).get_affiliation(conversation.counterpart, conversation.account.bare_jid, conversation.account);
+             my_affiliation = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_affiliation(conversation.counterpart, conversation.account.bare_jid, conversation.account);
         }
         // Fallback: If we are Owner/Admin, we are effectively a Moderator
         if (role == null && (my_affiliation == Xmpp.Xep.Muc.Affiliation.OWNER || my_affiliation == Xmpp.Xep.Muc.Affiliation.ADMIN)) {
@@ -119,7 +119,7 @@ public class View : Popover {
         }
 
         bool is_self = (own_jid != null && jid.equals(own_jid));
-        Xmpp.Xep.Muc.Affiliation? target_affiliation = stream_interactor.get_module(MucManager.IDENTITY).get_affiliation(conversation.counterpart, jid, conversation.account);
+        Xmpp.Xep.Muc.Affiliation? target_affiliation = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_affiliation(conversation.counterpart, jid, conversation.account);
         
         bool allowed_by_hierarchy = true;
         if (my_affiliation == Xmpp.Xep.Muc.Affiliation.ADMIN) {
@@ -129,8 +129,8 @@ public class View : Popover {
         }
 
         // Blocking (XEP-0191)
-        if (!is_self && stream_interactor.get_module(BlockingManager.IDENTITY).is_supported(conversation.account)) {
-            bool is_blocked = stream_interactor.get_module(BlockingManager.IDENTITY).is_blocked(conversation.account, selected_jid);
+        if (!is_self && stream_interactor.get_module<BlockingManager>(BlockingManager.IDENTITY).is_supported(conversation.account)) {
+            bool is_blocked = stream_interactor.get_module<BlockingManager>(BlockingManager.IDENTITY).is_blocked(conversation.account, selected_jid);
             if (is_blocked) {
                 outer_box.append(create_menu_button(_("Unblock Contact"), unblock_button_clicked));
             } else {
@@ -138,7 +138,7 @@ public class View : Popover {
             }
         }
 
-        if (!is_self && allowed_by_hierarchy && role ==  Xmpp.Xep.Muc.Role.MODERATOR && stream_interactor.get_module(MucManager.IDENTITY).kick_possible(conversation.account, jid)) {
+        if (!is_self && allowed_by_hierarchy && role ==  Xmpp.Xep.Muc.Role.MODERATOR && stream_interactor.get_module<MucManager>(MucManager.IDENTITY).kick_possible(conversation.account, jid)) {
             outer_box.append(new Separator(Orientation.HORIZONTAL));
             outer_box.append(create_section_label(_("Moderation")));
             
@@ -174,7 +174,7 @@ public class View : Popover {
             }
         }
 
-        Xmpp.Xep.Muc.Role? target_role = stream_interactor.get_module(MucManager.IDENTITY).get_role(selected_jid, conversation.account);
+        Xmpp.Xep.Muc.Role? target_role = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_role(selected_jid, conversation.account);
 
         if (role == Xmpp.Xep.Muc.Role.MODERATOR) {
             if (target_role ==  Xmpp.Xep.Muc.Role.VISITOR) {
@@ -222,8 +222,8 @@ public class View : Popover {
         if (selected_jid == null) return;
         hide();
 
-        Conversation conversation = stream_interactor.get_module(ConversationManager.IDENTITY).create_conversation(selected_jid, conversation.account, Conversation.Type.GROUPCHAT_PM);
-        stream_interactor.get_module(ConversationManager.IDENTITY).start_conversation(conversation);
+        Conversation conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).create_conversation(selected_jid, conversation.account, Conversation.Type.GROUPCHAT_PM);
+        stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).start_conversation(conversation);
 
         Application app = GLib.Application.get_default() as Application;
         app.controller.select_conversation(conversation);
@@ -233,37 +233,37 @@ public class View : Popover {
         if (selected_jid == null) return;
         hide();
 
-        stream_interactor.get_module(MucManager.IDENTITY).kick(conversation.account, conversation.counterpart, selected_jid.resourcepart, _("Kicked by moderator"));
+        stream_interactor.get_module<MucManager>(MucManager.IDENTITY).kick(conversation.account, conversation.counterpart, selected_jid.resourcepart, _("Kicked by moderator"));
     }
 
     private void ban_button_clicked() {
         if (selected_jid == null) return;
         hide();
 
-        stream_interactor.get_module(MucManager.IDENTITY).ban(conversation.account, conversation.counterpart, selected_jid);
+        stream_interactor.get_module<MucManager>(MucManager.IDENTITY).ban(conversation.account, conversation.counterpart, selected_jid);
     }
 
     private void block_button_clicked() {
         if (selected_jid == null) return;
         hide();
-        stream_interactor.get_module(BlockingManager.IDENTITY).block(conversation.account, selected_jid);
+        stream_interactor.get_module<BlockingManager>(BlockingManager.IDENTITY).block(conversation.account, selected_jid);
     }
 
     private void unblock_button_clicked() {
         if (selected_jid == null) return;
         hide();
-        stream_interactor.get_module(BlockingManager.IDENTITY).unblock(conversation.account, selected_jid);
+        stream_interactor.get_module<BlockingManager>(BlockingManager.IDENTITY).unblock(conversation.account, selected_jid);
     }
 
     private void set_affiliation_button_clicked(string affiliation) {
         if (selected_jid == null) return;
         hide();
         
-        Jid? real_jid = stream_interactor.get_module(MucManager.IDENTITY).get_real_jid(selected_jid, conversation.account);
+        Jid? real_jid = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_real_jid(selected_jid, conversation.account);
         if (real_jid != null) {
-            stream_interactor.get_module(MucManager.IDENTITY).set_affiliation(conversation.account, conversation.counterpart, real_jid, affiliation);
+            stream_interactor.get_module<MucManager>(MucManager.IDENTITY).set_affiliation(conversation.account, conversation.counterpart, real_jid, affiliation);
         } else {
-            stream_interactor.get_module(MucManager.IDENTITY).change_affiliation(conversation.account, conversation.counterpart, selected_jid.resourcepart, affiliation);
+            stream_interactor.get_module<MucManager>(MucManager.IDENTITY).change_affiliation(conversation.account, conversation.counterpart, selected_jid.resourcepart, affiliation);
         }
     }
 
@@ -271,7 +271,7 @@ public class View : Popover {
         if (selected_jid == null) return;
         hide();
 
-        stream_interactor.get_module(MucManager.IDENTITY).change_role(conversation.account, conversation.counterpart, selected_jid.resourcepart, role);
+        stream_interactor.get_module<MucManager>(MucManager.IDENTITY).change_role(conversation.account, conversation.counterpart, selected_jid.resourcepart, role);
     }
 
     private void on_invite_clicked() {
@@ -282,7 +282,7 @@ public class View : Popover {
         add_chat_dialog.title = _("Invite to Conference");
         add_chat_dialog.ok_button.label = _("Invite");
         add_chat_dialog.selected.connect((account, jid) => {
-            stream_interactor.get_module(MucManager.IDENTITY).invite(conversation.account, conversation.counterpart, jid);
+            stream_interactor.get_module<MucManager>(MucManager.IDENTITY).invite(conversation.account, conversation.counterpart, jid);
         });
         add_chat_dialog.present((Window) get_root());
     }
@@ -295,7 +295,7 @@ public class View : Popover {
         Jid room = conversation.counterpart;
 
         // Get current affiliation to restore later
-        Xmpp.Xep.Muc.Affiliation? current_aff = stream_interactor.get_module(MucManager.IDENTITY).get_affiliation(room, target, account);
+        Xmpp.Xep.Muc.Affiliation? current_aff = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_affiliation(room, target, account);
         string restore_aff = "none";
         if (current_aff == Xmpp.Xep.Muc.Affiliation.MEMBER) restore_aff = "member";
         else if (current_aff == Xmpp.Xep.Muc.Affiliation.ADMIN) restore_aff = "admin";
@@ -306,16 +306,16 @@ public class View : Popover {
         Dino.send_message(conversation, msg, 0, null, new Gee.ArrayList<Xmpp.Xep.MessageMarkup.Span>());
 
         GLib.Timeout.add(500, () => {
-            stream_interactor.get_module(MucManager.IDENTITY).ban(account, room, target, "Banned for %d minutes".printf(minutes));
+            stream_interactor.get_module<MucManager>(MucManager.IDENTITY).ban(account, room, target, "Banned for %d minutes".printf(minutes));
             return false;
         });
 
         GLib.Timeout.add_seconds((uint)(minutes * 60), () => {
-            Jid? real_jid = stream_interactor.get_module(MucManager.IDENTITY).get_real_jid(target, account);
+            Jid? real_jid = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_real_jid(target, account);
             if (real_jid != null) {
-                stream_interactor.get_module(MucManager.IDENTITY).set_affiliation(account, room, real_jid, restore_aff);
+                stream_interactor.get_module<MucManager>(MucManager.IDENTITY).set_affiliation(account, room, real_jid, restore_aff);
             } else {
-                stream_interactor.get_module(MucManager.IDENTITY).change_affiliation(account, room, target.resourcepart, restore_aff);
+                stream_interactor.get_module<MucManager>(MucManager.IDENTITY).change_affiliation(account, room, target.resourcepart, restore_aff);
             }
             return false;
         });

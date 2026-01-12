@@ -54,10 +54,10 @@ public class StreamInteractor : Object {
         modules.add(module);
     }
 
-    public T? get_module<T>(ModuleIdentity<T>? identity) {
+    public T? get_module<T>(SimpleIdentity? identity) {
         if (identity == null) return null;
         foreach (StreamInteractionModule module in modules) {
-            if (identity.matches(module)) return identity.cast(module);
+             if (identity.matches(module)) return (T) module;
         }
         return null;
     }
@@ -81,24 +81,21 @@ public class StreamInteractor : Object {
     }
 }
 
-public class ModuleIdentity<T> : Object {
-    public string id { get; private set; }
+public class SimpleIdentity : Object {
+    public string id { get; protected set; }
+    public SimpleIdentity(string id) { this.id = id; }
+    public bool matches(StreamInteractionModule module) {
+        return module.id == id;
+    }
+}
 
+public class ModuleIdentity<T> : SimpleIdentity {
     public ModuleIdentity(string id) {
-        this.id = id;
+        base(id);
     }
 
     public T? cast(StreamInteractionModule module) {
-#if VALA_0_56_11
-        // We can't typecheck due to compiler bug
         return (T) module;
-#else
-        return module.get_type().is_a(typeof(T)) ? (T?) module : null;
-#endif
-    }
-
-    public bool matches(StreamInteractionModule module) {
-        return module.id == id;
     }
 }
 

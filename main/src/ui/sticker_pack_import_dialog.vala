@@ -161,7 +161,7 @@ public class StickerPackImportDialog : Adw.Window {
         }
 
         try {
-            var stickers = stream_interactor.get_module(Dino.Stickers.IDENTITY);
+            var stickers = stream_interactor.get_module<Dino.Stickers>(Dino.Stickers.IDENTITY);
             if (stickers == null) throw new Dino.StickerError.NOT_CONNECTED("Stickers module unavailable");
             pack = yield stickers.preview_pack(account, source_jid, node, item);
             title_label.label = pack.name ?? pack.pack_id;
@@ -181,7 +181,7 @@ public class StickerPackImportDialog : Adw.Window {
         yield yield_to_mainloop();
 
         try {
-            var stickers = stream_interactor.get_module(Dino.Stickers.IDENTITY);
+            var stickers = stream_interactor.get_module<Dino.Stickers>(Dino.Stickers.IDENTITY);
             if (stickers == null) throw new Dino.StickerError.NOT_CONNECTED("Stickers module unavailable");
             pack = yield stickers.import_pack(account, source_jid, node, item);
             this.close();

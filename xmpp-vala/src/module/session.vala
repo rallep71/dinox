@@ -6,11 +6,11 @@ public class Module : XmppStreamNegotiationModule {
     public static ModuleIdentity<Module> IDENTITY = new ModuleIdentity<Module>(NS_URI, "session");
 
     public override void attach(XmppStream stream) {
-        stream.get_module(Bind.Module.IDENTITY).bound_to_resource.connect(on_bound_resource);
+        stream.get_module<Bind.Module>(Bind.Module.IDENTITY).bound_to_resource.connect(on_bound_resource);
     }
 
     public override void detach(XmppStream stream) {
-        stream.get_module(Bind.Module.IDENTITY).bound_to_resource.disconnect(on_bound_resource);
+        stream.get_module<Bind.Module>(Bind.Module.IDENTITY).bound_to_resource.disconnect(on_bound_resource);
     }
 
     public override bool mandatory_outstanding(XmppStream stream) { return false; }
@@ -29,7 +29,7 @@ public class Module : XmppStreamNegotiationModule {
             Iq.Stanza iq = new Iq.Stanza.set(new StanzaNode.build("session", NS_URI).add_self_xmlns()) { to=stream.remote_name };
 
             try {
-                Iq.Stanza result_iq = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+                Iq.Stanza result_iq = yield stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq_async(stream, iq);
                 if (!result_iq.is_error()) {
                     stream.get_flag(Flag.IDENTITY).finished = true;
                 }

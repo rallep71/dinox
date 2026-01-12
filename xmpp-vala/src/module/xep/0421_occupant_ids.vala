@@ -16,11 +16,11 @@ public class Module : XmppStreamModule {
     public signal void received_own_occupant_id(XmppStream stream, Jid jid, string occupant_id);
 
     public override void attach(XmppStream stream) {
-        stream.get_module(Presence.Module.IDENTITY).received_available.connect(parse_occupant_id_from_presence);
+        stream.get_module<Presence.Module>(Presence.Module.IDENTITY).received_available.connect(parse_occupant_id_from_presence);
     }
 
     public override void detach(XmppStream stream) {
-        stream.get_module(Presence.Module.IDENTITY).received_available.disconnect(parse_occupant_id_from_presence);
+        stream.get_module<Presence.Module>(Presence.Module.IDENTITY).received_available.disconnect(parse_occupant_id_from_presence);
     }
 
     public override string get_ns() { return NS_URI; }

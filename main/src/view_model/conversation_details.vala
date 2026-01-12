@@ -99,10 +99,10 @@ public class Dino.Ui.Model.ConversationDetails : Object {
         Ui.ConversationDetails.populate_dialog(this, conversation, stream_interactor);
 
         if (conversation.type_ == GROUPCHAT) {
-            Gee.List<Jid>? occupants = stream_interactor.get_module(MucManager.IDENTITY).get_offline_members(conversation.counterpart, conversation.account);
+            Gee.List<Jid>? occupants = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_offline_members(conversation.counterpart, conversation.account);
             if (occupants != null) {
                 foreach (Jid occupant in occupants) {
-                    var affiliation = stream_interactor.get_module(MucManager.IDENTITY).get_affiliation(conversation.counterpart, occupant, conversation.account);
+                    var affiliation = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_affiliation(conversation.counterpart, occupant, conversation.account);
                     members.append(new Dino.Ui.Model.ConferenceMember() {
                         name = occupant.to_string(),
                         jid = occupant,

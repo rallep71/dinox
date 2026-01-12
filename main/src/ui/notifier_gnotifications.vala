@@ -135,7 +135,7 @@ namespace Dino.Ui {
                 warning("NotifierGNotifications: Failed to get icon for MUC invite: %s", e.message);
             }
 
-            Conversation group_conversation = stream_interactor.get_module(ConversationManager.IDENTITY).create_conversation(room_jid, account, Conversation.Type.GROUPCHAT);
+            Conversation group_conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).create_conversation(room_jid, account, Conversation.Type.GROUPCHAT);
             notification.set_default_action_and_target_value("app.open-muc-join", new Variant.int32(group_conversation.id));
             notification.add_button_with_target_value(_("Deny"), "app.deny-invite", group_conversation.id);
             notification.add_button_with_target_value(_("Accept"), "app.open-muc-join", group_conversation.id);
@@ -162,7 +162,7 @@ namespace Dino.Ui {
 
         public async void retract_content_item_notifications() {
             if (active_conversation_ids == null) {
-                Gee.List<Conversation> conversations = stream_interactor.get_module(ConversationManager.IDENTITY).get_active_conversations();
+                Gee.List<Conversation> conversations = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_active_conversations();
                 foreach (Conversation conversation in conversations) {
                     GLib.Application.get_default().withdraw_notification(conversation.id.to_string());
                 }

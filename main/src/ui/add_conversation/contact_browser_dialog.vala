@@ -95,7 +95,7 @@ public class ContactBrowserDialog : Adw.Dialog {
         foreach (Account account in accounts) {
             if (!account.enabled) continue;
             
-            foreach (Roster.Item roster_item in stream_interactor.get_module(RosterManager.IDENTITY).get_roster(account)) {
+            foreach (Roster.Item roster_item in stream_interactor.get_module<RosterManager>(RosterManager.IDENTITY).get_roster(account)) {
                 all_contacts.add(new ContactRow(stream_interactor, roster_item.jid, account));
             }
         }
@@ -185,7 +185,7 @@ public class ContactBrowserDialog : Adw.Dialog {
             var text_box = new Box(Orientation.VERTICAL, 2);
             
             // Get display name
-            Roster.Item? roster_item = stream_interactor.get_module(RosterManager.IDENTITY).get_roster_item(account, jid);
+            Roster.Item? roster_item = stream_interactor.get_module<RosterManager>(RosterManager.IDENTITY).get_roster_item(account, jid);
             this.display_name = roster_item != null && roster_item.name != null && roster_item.name != "" 
                 ? roster_item.name 
                 : jid.localpart ?? jid.to_string();

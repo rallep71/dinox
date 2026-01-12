@@ -10,7 +10,7 @@ public class Module : XmppStreamModule {
     public async void enable(XmppStream stream) {
         Iq.Stanza iq = new Iq.Stanza.set(new StanzaNode.build("enable", NS_URI).add_self_xmlns());
         try {
-            yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+            yield stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq_async(stream, iq);
         } catch (GLib.Error e) {
             warning("Failed to enable carbons: %s", e.message);
         }
@@ -19,7 +19,7 @@ public class Module : XmppStreamModule {
     public async void disable(XmppStream stream) {
         Iq.Stanza iq = new Iq.Stanza.set(new StanzaNode.build("disable", NS_URI).add_self_xmlns());
         try {
-            yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+            yield stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq_async(stream, iq);
         } catch (GLib.Error e) {
             warning("Failed to disable carbons: %s", e.message);
         }
@@ -27,14 +27,14 @@ public class Module : XmppStreamModule {
 
     public override void attach(XmppStream stream) {
         stream.stream_negotiated.connect(enable);
-        stream.get_module(MessageModule.IDENTITY).received_pipeline.connect(received_pipeline_listener);
-        stream.get_module(ServiceDiscovery.Module.IDENTITY).add_feature(stream, NS_URI);
+        stream.get_module<MessageModule>(MessageModule.IDENTITY).received_pipeline.connect(received_pipeline_listener);
+        stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).add_feature(stream, NS_URI);
     }
 
     public override void detach(XmppStream stream) {
         stream.stream_negotiated.disconnect(enable);
-        stream.get_module(MessageModule.IDENTITY).received_pipeline.disconnect(received_pipeline_listener);
-        stream.get_module(ServiceDiscovery.Module.IDENTITY).remove_feature(stream, NS_URI);
+        stream.get_module<MessageModule>(MessageModule.IDENTITY).received_pipeline.disconnect(received_pipeline_listener);
+        stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).remove_feature(stream, NS_URI);
     }
 
     public override string get_ns() {

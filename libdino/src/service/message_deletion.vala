@@ -34,7 +34,7 @@ namespace Dino {
             this.stream_interactor = stream_interactor;
             this.db = db;
 
-            stream_interactor.get_module(MessageProcessor.IDENTITY).received_pipeline.connect(this);
+            stream_interactor.get_module<MessageProcessor>(MessageProcessor.IDENTITY).received_pipeline.connect(this);
             
             // Start timer for auto-deleting expired messages (every 5 minutes)
             Timeout.add_seconds(60 * 5, check_expired_messages);
@@ -59,9 +59,9 @@ namespace Dino {
             }
 
             if (conversation.type_.is_muc_semantic()) {
-                bool muc_supports_moderation = stream_interactor.get_module(EntityInfo.IDENTITY)
+                bool muc_supports_moderation = stream_interactor.get_module<EntityInfo>(EntityInfo.IDENTITY)
                         .has_feature_cached(conversation.account, conversation.counterpart, Xmpp.Xep.MessageModeration.NS_URI);
-                bool we_are_moderator = stream_interactor.get_module(MucManager.IDENTITY).get_own_role(conversation) == Xmpp.Xep.Muc.Role.MODERATOR;
+                bool we_are_moderator = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_own_role(conversation) == Xmpp.Xep.Muc.Role.MODERATOR;
                 return is_own_message || (muc_supports_moderation && we_are_moderator);
             } else {
                 return is_own_message;
@@ -90,7 +90,7 @@ namespace Dino {
             }
 
             var task = retraction_queue.poll();
-            task.stream.get_module(MessageModule.IDENTITY).send_message.begin(task.stream, task.stanza);
+            task.stream.get_module<MessageModule>(MessageModule.IDENTITY).send_message.begin(task.stream, task.stanza);
 
             return true;
         }
@@ -99,7 +99,7 @@ namespace Dino {
             var stream = stream_interactor.get_stream(conversation.account);
             if (stream == null) return;
 
-            string? message_id_to_delete = stream_interactor.get_module(ContentItemStore.IDENTITY).get_message_id_for_content_item(conversation, content_item);
+            string? message_id_to_delete = stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).get_message_id_for_content_item(conversation, content_item);
             if (message_id_to_delete == null || message_id_to_delete.strip().length == 0) {
                 warning("Can't delete globally: missing message reference id (content_item=%i)", content_item.id);
                 // Fall back to local deletion (still satisfies user intent to remove from the UI).
@@ -142,7 +142,7 @@ namespace Dino {
             }
 
             // Mark the (underlying) message as removed and clear the body
-            Message? message = stream_interactor.get_module(ContentItemStore.IDENTITY).get_message_for_content_item(conversation, content_item);
+            Message? message = stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).get_message_for_content_item(conversation, content_item);
             if (message != null) {
                 message.body = "";
             }
@@ -164,7 +164,7 @@ namespace Dino {
             string? delete_message_id = Xep.MessageRetraction.get_retract_id(stanza);
             if (delete_message_id == null) return false;
 
-            ContentItem? content_item = stream_interactor.get_module(ContentItemStore.IDENTITY).get_content_item_for_referencing_id(conversation, delete_message_id);
+            ContentItem? content_item = stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).get_content_item_for_referencing_id(conversation, delete_message_id);
             if (content_item != null) {
                 debug("Deletion request: %s wants to remove message %s content item id %i. Allowed: %b",
                         message.from.to_string(), delete_message_id, content_item.id,
@@ -181,7 +181,7 @@ namespace Dino {
             } else if (conversation.type_.is_muc_semantic()) {
                 // Only accept MUC message removals if the MUC server announced support.
                 // MUC moderations should always come from the MUC bare JID.
-                bool muc_supports_moderation = stream_interactor.get_module(EntityInfo.IDENTITY)
+                bool muc_supports_moderation = stream_interactor.get_module<EntityInfo>(EntityInfo.IDENTITY)
                         .has_feature_cached(conversation.account, conversation.counterpart, Xmpp.Xep.MessageModeration.NS_URI);
                 return muc_supports_moderation && removed_by.equals(conversation.counterpart);
             }
@@ -192,7 +192,7 @@ namespace Dino {
         // Timer callback for auto-deleting expired messages
         private bool check_expired_messages() {
             var now = new DateTime.now_utc();
-            var content_item_store = stream_interactor.get_module(ContentItemStore.IDENTITY);
+            var content_item_store = stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY);
             
             foreach (Account account in stream_interactor.get_accounts()) {
                 foreach (Conversation conversation in db.get_conversations(account)) {

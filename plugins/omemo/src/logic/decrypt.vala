@@ -72,7 +72,7 @@ namespace Dino.Plugins.Omemo {
                             debug("No session available for %s/%d - fetching bundle to prepare for next message", possible_jid.to_string(), data.sid);
                             XmppStream? stream = stream_interactor.get_stream(account);
                             if (stream != null) {
-                                StreamModule? module = stream.get_module(StreamModule.IDENTITY);
+                                StreamModule? module = stream.get_module<StreamModule>(StreamModule.IDENTITY);
                                 if (module != null) {
                                     // Fetch their bundle - this will create a session when we next send them a message
                                     module.fetch_bundle(stream, possible_jid, data.sid, false);
@@ -86,7 +86,7 @@ namespace Dino.Plugins.Omemo {
             if (
                 data.ciphertext != null && // Ratchet forwarding doesn't contain payload and might not include us, which is ok
                 data.our_potential_encrypted_keys.size == 0 && // The message was not encrypted to us
-                stream_interactor.module_manager.get_module(message.account, StreamModule.IDENTITY).store.local_registration_id != data.sid // Message from this device. Never encrypted to itself.
+                stream_interactor.module_manager.get_module<StreamModule>(message.account, StreamModule.IDENTITY).store.local_registration_id != data.sid // Message from this device. Never encrypted to itself.
             ) {
                 // Don't mark messages as undecryptable if they are older than conversation history clear
                 bool should_mark_undecryptable = true;
@@ -208,7 +208,7 @@ namespace Dino.Plugins.Omemo {
             // This fixes decryption issues in old chats where sessions have expired
             XmppStream? stream = stream_interactor.get_stream(account);
             if (stream != null) {
-                stream.get_module(StreamModule.IDENTITY).request_user_devicelist.begin(stream, from_jid);
+                stream.get_module<StreamModule>(StreamModule.IDENTITY).request_user_devicelist.begin(stream, from_jid);
             }
             
             return true;

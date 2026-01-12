@@ -30,7 +30,7 @@ public class Dino.Ui.CallWindowController : Object {
         this.call_state = call_state;
         this.stream_interactor = stream_interactor;
 
-        this.calls = stream_interactor.get_module(Calls.IDENTITY);
+        this.calls = stream_interactor.get_module<Calls>(Calls.IDENTITY);
         this.own_video = call_plugin.create_widget(Plugins.WidgetType.GTK4);
 
         call_window.set_default_size(704, 528); // 640x480 * 1.1
@@ -38,7 +38,7 @@ public class Dino.Ui.CallWindowController : Object {
         this.call_window.bottom_bar.video_enabled = call_state.should_we_send_video();
 
         call_state.terminated.connect((who_terminated, reason_name, reason_text) => {
-            Conversation? conversation = stream_interactor.get_module(ConversationManager.IDENTITY).get_conversation(who_terminated.bare_jid, call.account, Conversation.Type.CHAT);
+            Conversation? conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_conversation(who_terminated.bare_jid, call.account, Conversation.Type.CHAT);
             string display_name = conversation != null ? Util.get_conversation_display_name(stream_interactor, conversation) : who_terminated.bare_jid.to_string();
 
             call_window.show_counterpart_ended(display_name, reason_name, reason_text);
@@ -202,7 +202,7 @@ public class Dino.Ui.CallWindowController : Object {
         });
         peer_state.counterpart_sends_video_updated.connect((mute) => {
             if (mute) {
-                Conversation? conversation = stream_interactor.get_module(ConversationManager.IDENTITY).get_conversation(peer_jid.bare_jid, call.account, Conversation.Type.CHAT);
+                Conversation? conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_conversation(peer_jid.bare_jid, call.account, Conversation.Type.CHAT);
                 call_window.set_placeholder(peer_id, conversation, stream_interactor);
                 participant_videos[peer_id].detach();
             } else {
@@ -261,19 +261,31 @@ public class Dino.Ui.CallWindowController : Object {
         }
         debug("[%s] Call window controller | Add participant: %s", call.account.bare_jid.to_string(), jid.to_string());
 
-        Conversation? conversation = stream_interactor.get_module(ConversationManager.IDENTITY).get_conversation(jid.bare_jid, call.account, Conversation.Type.CHAT);
+        Conversation? conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_conversation(jid.bare_jid, call.account, Conversation.Type.CHAT);
         string participant_name = conversation != null ? Util.get_conversation_display_name(stream_interactor, conversation) : jid.bare_jid.to_string();
 
         ParticipantWidget participant_widget = new ParticipantWidget(participant_name);
         participant_widget.may_show_invite_button = !participant_widgets.is_empty;
         participant_widget.debug_information_clicked.connect(() => {
             var conn_details_window = new CallConnectionDetailsWindow() { title=participant_name };
-            conn_details_window.update_content(peer_states[participant_id].get_info());
-            uint timeout_handle_id = Timeout.add_seconds(1, () => {
+            if (peer_states.has_key(participant_id)) {
                 conn_details_window.update_content(peer_states[participant_id].get_info());
-                return true;
+            }
+            uint timeout_handle_id = 0;
+            timeout_handle_id = Timeout.add_seconds(1, () => {
+                if (peer_states.has_key(participant_id)) {
+                    conn_details_window.update_content(peer_states[participant_id].get_info());
+                    return true;
+                }
+                timeout_handle_id = 0;
+                return false;
             });
-            conn_details_window.closed.connect(() => { Source.remove(timeout_handle_id); });
+            conn_details_window.closed.connect(() => {
+                if (timeout_handle_id > 0) {
+                    Source.remove(timeout_handle_id);
+                    timeout_handle_id = 0;
+                }
+            });
             conn_details_window.present(call_window);
             this.call_window.close_request.connect(() => { conn_details_window.close(); return false; });
         });
@@ -475,7 +487,7 @@ public class Dino.Ui.CallWindowController : Object {
     }
     
     private string get_participant_display_name(Jid jid) {
-        Conversation? conversation = stream_interactor.get_module(ConversationManager.IDENTITY).get_conversation(jid.bare_jid, call.account, Conversation.Type.CHAT);
+        Conversation? conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_conversation(jid.bare_jid, call.account, Conversation.Type.CHAT);
         if (conversation != null) {
             return Util.get_conversation_display_name(stream_interactor, conversation);
         }

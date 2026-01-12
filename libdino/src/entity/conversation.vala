@@ -144,7 +144,7 @@ public class Conversation : Object {
         if (!Application.get_default().settings.notifications) return NotifySetting.OFF;
 
         if (type_ == Type.GROUPCHAT) {
-            if (stream_interactor.get_module(MucManager.IDENTITY).is_private_room(this.account, this.counterpart)) {
+            if (stream_interactor.get_module<MucManager>(MucManager.IDENTITY).is_private_room(this.account, this.counterpart)) {
                 return NotifySetting.ON;
             } else {
                 return NotifySetting.HIGHLIGHT;
@@ -156,7 +156,7 @@ public class Conversation : Object {
     public Setting get_send_typing_setting(StreamInteractor stream_interactor) {
         if (send_typing != Setting.DEFAULT) return send_typing;
 
-        if (stream_interactor.get_module(MucManager.IDENTITY).is_public_room(this.account, this.counterpart)) return Setting.OFF;
+        if (stream_interactor.get_module<MucManager>(MucManager.IDENTITY).is_public_room(this.account, this.counterpart)) return Setting.OFF;
 
         return Application.get_default().settings.send_typing ? Setting.ON : Setting.OFF;
     }
@@ -164,7 +164,7 @@ public class Conversation : Object {
     public Setting get_send_marker_setting(StreamInteractor stream_interactor) {
         if (send_marker != Setting.DEFAULT) return send_marker;
 
-        if (stream_interactor.get_module(MucManager.IDENTITY).is_public_room(this.account, this.counterpart)) return Setting.OFF;
+        if (stream_interactor.get_module<MucManager>(MucManager.IDENTITY).is_public_room(this.account, this.counterpart)) return Setting.OFF;
 
         return Application.get_default().settings.send_marker ? Setting.ON : Setting.OFF;
     }

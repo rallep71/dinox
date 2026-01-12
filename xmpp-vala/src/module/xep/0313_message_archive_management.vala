@@ -21,12 +21,12 @@ public class Module : XmppStreamModule {
     private ReceivedPipelineListener received_pipeline_listener = new ReceivedPipelineListener();
 
     public override void attach(XmppStream stream) {
-        stream.get_module(MessageModule.IDENTITY).received_pipeline.connect(received_pipeline_listener);
+        stream.get_module<MessageModule>(MessageModule.IDENTITY).received_pipeline.connect(received_pipeline_listener);
         stream.stream_negotiated.connect(query_availability);
     }
 
     public override void detach(XmppStream stream) {
-        stream.get_module(MessageModule.IDENTITY).received_pipeline.disconnect(received_pipeline_listener);
+        stream.get_module<MessageModule>(MessageModule.IDENTITY).received_pipeline.disconnect(received_pipeline_listener);
     }
 
     public override string get_ns() { return NS_URI; }
@@ -34,7 +34,7 @@ public class Module : XmppStreamModule {
 
     private async void query_availability(XmppStream stream) {
         Jid own_jid = stream.get_flag(Bind.Flag.IDENTITY).my_jid.bare_jid;
-        bool mam_available = yield stream.get_module(ServiceDiscovery.Module.IDENTITY).has_entity_feature(stream, own_jid, NS_URI);
+        bool mam_available = yield stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).has_entity_feature(stream, own_jid, NS_URI);
         if (mam_available) {
             feature_available(stream);
         }
@@ -70,7 +70,7 @@ public class Module : XmppStreamModule {
 
         Iq.Stanza result_iq;
         try {
-            result_iq = yield stream.get_module(Iq.Module.IDENTITY).send_iq_async(stream, iq, Priority.LOW, cancellable);
+            result_iq = yield stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq_async(stream, iq, Priority.LOW, cancellable);
         } catch (GLib.Error e) {
             warning("Failed to query archive: %s", e.message);
             res.error = true;

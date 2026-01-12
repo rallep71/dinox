@@ -18,17 +18,17 @@ namespace Dino.Ui.ConversationDetails {
 
     public void populate_dialog(Model.ConversationDetails model, Conversation conversation, StreamInteractor stream_interactor) {
         model.conversation = conversation;
-        model.display_name = stream_interactor.get_module(ContactModels.IDENTITY).get_display_name_model(conversation);
-        model.blocked = stream_interactor.get_module(BlockingManager.IDENTITY).is_blocked(model.conversation.account, model.conversation.counterpart);
-        model.domain_blocked = stream_interactor.get_module(BlockingManager.IDENTITY).is_blocked(model.conversation.account, model.conversation.counterpart.domain_jid);
+        model.display_name = stream_interactor.get_module<ContactModels>(ContactModels.IDENTITY).get_display_name_model(conversation);
+        model.blocked = stream_interactor.get_module<BlockingManager>(BlockingManager.IDENTITY).is_blocked(model.conversation.account, model.conversation.counterpart);
+        model.domain_blocked = stream_interactor.get_module<BlockingManager>(BlockingManager.IDENTITY).is_blocked(model.conversation.account, model.conversation.counterpart.domain_jid);
 
         if (conversation.type_ == Conversation.Type.CHAT || conversation.type_ == Conversation.Type.GROUPCHAT_PM || conversation.type_ == Conversation.Type.GROUPCHAT) {
             fetch_vcard.begin(model, conversation, stream_interactor);
         }
 
         if (conversation.type_ == Conversation.Type.GROUPCHAT) {
-            stream_interactor.get_module(MucManager.IDENTITY).get_config_form.begin(conversation.account, conversation.counterpart, (_, res) => {
-                model.data_form = stream_interactor.get_module(MucManager.IDENTITY).get_config_form.end(res);
+            stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_config_form.begin(conversation.account, conversation.counterpart, (_, res) => {
+                model.data_form = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_config_form.end(res);
                 if (model.data_form == null) {
                     return;
                 }
@@ -40,12 +40,12 @@ namespace Dino.Ui.ConversationDetails {
     public void bind_dialog(Model.ConversationDetails model, ViewModel.ConversationDetails view_model, StreamInteractor stream_interactor) {
         // Set some data once
         view_model.avatar = new ViewModel.CompatAvatarPictureModel(stream_interactor).set_conversation(model.conversation);
-        view_model.show_blocked = model.conversation.type_ == Conversation.Type.CHAT && stream_interactor.get_module(BlockingManager.IDENTITY).is_supported(model.conversation.account);
+        view_model.show_blocked = model.conversation.type_ == Conversation.Type.CHAT && stream_interactor.get_module<BlockingManager>(BlockingManager.IDENTITY).is_supported(model.conversation.account);
         view_model.show_remove_contact = model.conversation.type_ == Conversation.Type.CHAT;  // Only show for 1:1 chats
         view_model.members_sorted.set_model(model.members);
         view_model.members.set_map_func((item) => {
             var conference_member = (Ui.Model.ConferenceMember) item;
-            Jid? nick_jid = stream_interactor.get_module(MucManager.IDENTITY).get_occupant_jid(model.conversation.account, model.conversation.counterpart, conference_member.jid);
+            Jid? nick_jid = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_occupant_jid(model.conversation.account, model.conversation.counterpart, conference_member.jid);
             return new Ui.ViewModel.ConferenceMemberListRow() {
                 avatar = new ViewModel.CompatAvatarPictureModel(stream_interactor).add_participant(model.conversation, conference_member.jid),
                 name = nick_jid != null ? nick_jid.resourcepart : conference_member.jid.localpart,
@@ -119,24 +119,24 @@ namespace Dino.Ui.ConversationDetails {
         view_model.block_changed.connect((action) => {
             switch (action) {
                 case USER:
-                    stream_interactor.get_module(BlockingManager.IDENTITY).block(model.conversation.account, model.conversation.counterpart);
-                    stream_interactor.get_module(BlockingManager.IDENTITY).unblock(model.conversation.account, model.conversation.counterpart.domain_jid);
+                    stream_interactor.get_module<BlockingManager>(BlockingManager.IDENTITY).block(model.conversation.account, model.conversation.counterpart);
+                    stream_interactor.get_module<BlockingManager>(BlockingManager.IDENTITY).unblock(model.conversation.account, model.conversation.counterpart.domain_jid);
                     break;
                 case DOMAIN:
-                    stream_interactor.get_module(BlockingManager.IDENTITY).block(model.conversation.account, model.conversation.counterpart.domain_jid);
+                    stream_interactor.get_module<BlockingManager>(BlockingManager.IDENTITY).block(model.conversation.account, model.conversation.counterpart.domain_jid);
                     break;
                 case UNBLOCK:
-                    stream_interactor.get_module(BlockingManager.IDENTITY).unblock(model.conversation.account, model.conversation.counterpart);
-                    stream_interactor.get_module(BlockingManager.IDENTITY).unblock(model.conversation.account, model.conversation.counterpart.domain_jid);
+                    stream_interactor.get_module<BlockingManager>(BlockingManager.IDENTITY).unblock(model.conversation.account, model.conversation.counterpart);
+                    stream_interactor.get_module<BlockingManager>(BlockingManager.IDENTITY).unblock(model.conversation.account, model.conversation.counterpart.domain_jid);
                     break;
             }
             view_model.blocked = action;
         });
         view_model.remove_contact.connect(() => {
             // Delete conversation history first, then remove contact from roster
-            stream_interactor.get_module(ConversationManager.IDENTITY).clear_conversation_history(model.conversation);
-            stream_interactor.get_module(RosterManager.IDENTITY).remove_jid(model.conversation.account, model.conversation.counterpart);
-            stream_interactor.get_module(ConversationManager.IDENTITY).close_conversation(model.conversation);
+            stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).clear_conversation_history(model.conversation);
+            stream_interactor.get_module<RosterManager>(RosterManager.IDENTITY).remove_jid(model.conversation.account, model.conversation.counterpart);
+            stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).close_conversation(model.conversation);
         });
         view_model.notification_changed.connect((setting) => {
             switch (setting) {
@@ -171,7 +171,7 @@ namespace Dino.Ui.ConversationDetails {
         view_model.about_rows.append(xmpp_addr_row);
 
         // Check if this is a MUC occupant and show Role/Affiliation
-        var muc_module = stream_interactor.get_module(MucManager.IDENTITY);
+        var muc_module = stream_interactor.get_module<MucManager>(MucManager.IDENTITY);
         var room_jid = model.conversation.counterpart.bare_jid;
         if (muc_module.is_joined(room_jid, model.conversation.account)) {
             var role = muc_module.get_role(model.conversation.counterpart, model.conversation.account);
@@ -207,18 +207,18 @@ namespace Dino.Ui.ConversationDetails {
             };
             about_row.changed.connect(() => {
                 if (about_row.text != model.display_name.display_name) {
-                    stream_interactor.get_module(RosterManager.IDENTITY).set_jid_handle(model.conversation.account, model.conversation.counterpart, about_row.text);
+                    stream_interactor.get_module<RosterManager>(RosterManager.IDENTITY).set_jid_handle(model.conversation.account, model.conversation.counterpart, about_row.text);
                 }
             });
             view_model.about_rows.append(about_row);
         }
         if (model.conversation.type_ == Conversation.Type.GROUPCHAT) {
-            var topic = stream_interactor.get_module(MucManager.IDENTITY).get_groupchat_subject(model.conversation.counterpart, model.conversation.account);
+            var topic = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_groupchat_subject(model.conversation.counterpart, model.conversation.account);
 
             Ui.ViewModel.PreferencesRow.Any preferences_row = null;
-            Jid? own_muc_jid = stream_interactor.get_module(MucManager.IDENTITY).get_own_jid(model.conversation.counterpart, model.conversation.account);
+            Jid? own_muc_jid = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_own_jid(model.conversation.counterpart, model.conversation.account);
             if (own_muc_jid != null) {
-                Xep.Muc.Role? own_role = stream_interactor.get_module(MucManager.IDENTITY).get_role(own_muc_jid, model.conversation.account);
+                Xep.Muc.Role? own_role = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_role(own_muc_jid, model.conversation.account);
                 if (own_role != null) {
                     if (own_role == MODERATOR) {
                         var preferences_row_entry = new ViewModel.PreferencesRow.Entry() {
@@ -227,7 +227,7 @@ namespace Dino.Ui.ConversationDetails {
                         };
                         preferences_row_entry.changed.connect(() => {
                             if (preferences_row_entry.text != topic) {
-                                stream_interactor.get_module(MucManager.IDENTITY).change_subject(model.conversation.account, model.conversation.counterpart, preferences_row_entry.text);
+                                stream_interactor.get_module<MucManager>(MucManager.IDENTITY).change_subject(model.conversation.account, model.conversation.counterpart, preferences_row_entry.text);
                             }
                         });
                         preferences_row = preferences_row_entry;
@@ -246,7 +246,7 @@ namespace Dino.Ui.ConversationDetails {
 
             // Administration Button
             if (own_muc_jid != null) {
-                Xep.Muc.Affiliation? own_affiliation = stream_interactor.get_module(MucManager.IDENTITY).get_affiliation(model.conversation.counterpart, own_muc_jid, model.conversation.account);
+                Xep.Muc.Affiliation? own_affiliation = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_affiliation(model.conversation.counterpart, own_muc_jid, model.conversation.account);
                 if (own_affiliation == OWNER || own_affiliation == ADMIN) {
                     var change_avatar_button = new ViewModel.PreferencesRow.Button() {
                         title = _("Avatar"),
@@ -298,9 +298,9 @@ namespace Dino.Ui.ConversationDetails {
                         confirm_dialog.choose.begin(parent, null, (obj, res) => {
                             string response = confirm_dialog.choose.end(res);
                             if (response == "destroy") {
-                                stream_interactor.get_module(MucManager.IDENTITY).destroy_room.begin(model.conversation.account, model.conversation.counterpart, null, (obj2, res2) => {
+                                stream_interactor.get_module<MucManager>(MucManager.IDENTITY).destroy_room.begin(model.conversation.account, model.conversation.counterpart, null, (obj2, res2) => {
                                     try {
-                                        stream_interactor.get_module(MucManager.IDENTITY).destroy_room.end(res2);
+                                        stream_interactor.get_module<MucManager>(MucManager.IDENTITY).destroy_room.end(res2);
                                         if (parent != null) {
                                             // If parent is an Adw.Dialog, we can try to close it.
                                             // But Adw.Dialog doesn't have a close() method in all versions, or it might be 'close()'
@@ -375,7 +375,7 @@ namespace Dino.Ui.ConversationDetails {
             if (model.data_form != null && model.data_form_bak != null) {
                 string current = model.data_form.stanza_node.to_string();
                 if (model.data_form_bak != current) {
-                    stream_interactor.get_module(MucManager.IDENTITY).set_config_form.begin(conversation.account, conversation.counterpart, model.data_form);
+                    stream_interactor.get_module<MucManager>(MucManager.IDENTITY).set_config_form.begin(conversation.account, conversation.counterpart, model.data_form);
                 }
             }
         });
@@ -404,7 +404,7 @@ namespace Dino.Ui.ConversationDetails {
         bool is_muc_occupant = (conversation.type_ == Conversation.Type.GROUPCHAT_PM);
 
         if (is_muc_occupant) {
-            var real_jid = stream_interactor.get_module(MucManager.IDENTITY).get_real_jid(conversation.counterpart, conversation.account);
+            var real_jid = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_real_jid(conversation.counterpart, conversation.account);
             if (real_jid != null) {
                 target_jid = real_jid;
                 is_muc_occupant = false; // It's now a real user JID
@@ -422,7 +422,7 @@ namespace Dino.Ui.ConversationDetails {
         }
 
         // Try XEP-0292
-        var vcard4_module = stream.get_module(Xmpp.Xep.VCard4.Module.IDENTITY);
+        var vcard4_module = stream.get_module<Xmpp.Xep.VCard4.Module>(Xmpp.Xep.VCard4.Module.IDENTITY);
         if (vcard4_module != null) {
             var vcard4 = yield vcard4_module.request(stream, target_jid);
             if (vcard4 != null) {
@@ -433,7 +433,7 @@ namespace Dino.Ui.ConversationDetails {
         }
 
         // Try PEP Nickname (XEP-0172)
-        var pubsub_module = stream.get_module(Xmpp.Xep.Pubsub.Module.IDENTITY);
+        var pubsub_module = stream.get_module<Xmpp.Xep.Pubsub.Module>(Xmpp.Xep.Pubsub.Module.IDENTITY);
         if (pubsub_module != null) {
             var items = yield pubsub_module.request_all(stream, target_jid, "http://jabber.org/protocol/nick");
             if (items != null && items.size > 0) {
@@ -657,7 +657,7 @@ namespace Dino.Ui.ConversationDetails {
                 debug("MUC vCard published.");
                 
                 string hash = Checksum.compute_for_bytes(ChecksumType.SHA1, bytes);
-                var avatar_manager = stream_interactor.get_module(AvatarManager.IDENTITY);
+                var avatar_manager = stream_interactor.get_module<AvatarManager>(AvatarManager.IDENTITY);
                 yield avatar_manager.store_image(hash, bytes);
                 avatar_manager.on_vcard_avatar_received(account, room_jid, hash);
                 debug("MUC avatar updated locally.");

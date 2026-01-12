@@ -19,15 +19,15 @@ namespace Xmpp.Xep.Jingle {
 
         public override void attach(XmppStream stream) {
             stream.add_flag(new Flag());
-            stream.get_module(ServiceDiscovery.Module.IDENTITY).add_feature(stream, NS_URI);
-            stream.get_module(Iq.Module.IDENTITY).register_for_namespace(NS_URI, this);
+            stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).add_feature(stream, NS_URI);
+            stream.get_module<Iq.Module>(Iq.Module.IDENTITY).register_for_namespace(NS_URI, this);
 
             // TODO update stream in all sessions
         }
 
         public override void detach(XmppStream stream) {
-            stream.get_module(ServiceDiscovery.Module.IDENTITY).remove_feature(stream, NS_URI);
-            stream.get_module(Iq.Module.IDENTITY).unregister_from_namespace(NS_URI, this);
+            stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).remove_feature(stream, NS_URI);
+            stream.get_module<Iq.Module>(Iq.Module.IDENTITY).unregister_from_namespace(NS_URI, this);
         }
 
         public void register_content_type(ContentType content_type) {
@@ -94,7 +94,7 @@ namespace Xmpp.Xep.Jingle {
         }
 
         private async bool is_jingle_available(XmppStream stream, Jid full_jid) {
-            bool? has_jingle = yield stream.get_module(ServiceDiscovery.Module.IDENTITY).has_entity_feature(stream, full_jid, NS_URI);
+            bool? has_jingle = yield stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).has_entity_feature(stream, full_jid, NS_URI);
             return has_jingle != null && has_jingle;
         }
 
@@ -146,7 +146,7 @@ namespace Xmpp.Xep.Jingle {
 
             stream.get_flag(Flag.IDENTITY).add_session(session);
             // We might get a follow-up before the ack => add_session before send_iq returns
-            stream.get_module(Iq.Module.IDENTITY).send_iq(stream, iq, (stream, iq) => {
+            stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq(stream, iq, (stream, iq) => {
                 if (iq.is_error()) warning("Jingle session-initiate got error: %s", iq.stanza.to_string());
             });
 
@@ -179,7 +179,7 @@ namespace Xmpp.Xep.Jingle {
 
             stream.get_flag(Flag.IDENTITY).add_session(session);
 
-            stream.get_module(Iq.Module.IDENTITY).send_iq(stream, new Iq.Stanza.result(iq));
+            stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq(stream, new Iq.Stanza.result(iq));
 
             session_initiate_received(stream, session);
         }
@@ -206,7 +206,7 @@ namespace Xmpp.Xep.Jingle {
             Session? session = yield stream.get_flag(Flag.IDENTITY).get_session(sid);
             if (action == "session-initiate") {
                 if (session != null) {
-                    stream.get_module(Iq.Module.IDENTITY).send_iq(stream, new Iq.Stanza.error(iq, new ErrorStanza.build(ErrorStanza.TYPE_MODIFY, ErrorStanza.CONDITION_CONFLICT, "session ID already in use", null)) { to=iq.from });
+                    stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq(stream, new Iq.Stanza.error(iq, new ErrorStanza.build(ErrorStanza.TYPE_MODIFY, ErrorStanza.CONDITION_CONFLICT, "session ID already in use", null)) { to=iq.from });
                     return;
                 }
                 yield handle_session_initiate(stream, sid, jingle_node, iq);
@@ -214,7 +214,7 @@ namespace Xmpp.Xep.Jingle {
             }
             if (session == null) {
                 StanzaNode unknown_session = new StanzaNode.build("unknown-session", ERROR_NS_URI).add_self_xmlns();
-                stream.get_module(Iq.Module.IDENTITY).send_iq(stream, new Iq.Stanza.error(iq, new ErrorStanza.item_not_found(unknown_session)) { to=iq.from });
+                stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq(stream, new Iq.Stanza.error(iq, new ErrorStanza.item_not_found(unknown_session)) { to=iq.from });
                 return;
             }
             session.handle_iq_set(action, jingle_node, iq);
@@ -243,6 +243,6 @@ namespace Xmpp.Xep.Jingle {
         } else {
             assert_not_reached();
         }
-        stream.get_module(Iq.Module.IDENTITY).send_iq(stream, new Iq.Stanza.error(iq, error) { to=iq.from });
+        stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq(stream, new Iq.Stanza.error(iq, error) { to=iq.from });
     }
 }

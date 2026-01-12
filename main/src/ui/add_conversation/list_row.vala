@@ -38,11 +38,11 @@ public class ListRow : Widget {
     private void set_status_dot(StreamInteractor stream_interactor){
         status_dot.visible = stream_interactor.connection_manager.get_state(account) == ConnectionManager.ConnectionState.CONNECTED;
 
-        Gee.List<Jid>? full_jids = stream_interactor.get_module(PresenceManager.IDENTITY).get_full_jids(jid, account);
+        Gee.List<Jid>? full_jids = stream_interactor.get_module<PresenceManager>(PresenceManager.IDENTITY).get_full_jids(jid, account);
         if (full_jids != null) {
             var statuses = new ArrayList<string>();
             foreach (var full_jid in full_jids) {
-                statuses.add(stream_interactor.get_module(PresenceManager.IDENTITY).get_last_show(full_jid, account));
+                statuses.add(stream_interactor.get_module<PresenceManager>(PresenceManager.IDENTITY).get_last_show(full_jid, account));
             }
 
             if (statuses.contains(Xmpp.Presence.Stanza.SHOW_DND)) status_dot.set_from_icon_name("dino-status-dnd");
@@ -75,12 +75,12 @@ public class ListRow : Widget {
         name_label.label = display_name;
         picture.model = new ViewModel.CompatAvatarPictureModel(stream_interactor).set_conversation(conv);
 
-        handler_ids += stream_interactor.get_module(PresenceManager.IDENTITY).show_received.connect((jid, account) => {
+        handler_ids += stream_interactor.get_module<PresenceManager>(PresenceManager.IDENTITY).show_received.connect((jid, account) => {
             if (account.equals(this.account) && jid.equals_bare(this.jid)) {
                 set_status_dot(stream_interactor);
             }
         });
-        handler_ids += stream_interactor.get_module(PresenceManager.IDENTITY).received_offline_presence.connect((jid, account) => {
+        handler_ids += stream_interactor.get_module<PresenceManager>(PresenceManager.IDENTITY).received_offline_presence.connect((jid, account) => {
             if (account.equals(this.account) && jid.equals_bare(this.jid)) {
                 set_status_dot(stream_interactor);
             }
@@ -93,7 +93,7 @@ public class ListRow : Widget {
         outer_box.unparent();
 
         foreach (var handler_id in handler_ids) {
-            stream_interactor.get_module(PresenceManager.IDENTITY).disconnect(handler_id);
+            stream_interactor.get_module<PresenceManager>(PresenceManager.IDENTITY).disconnect(handler_id);
         }
     }
 }

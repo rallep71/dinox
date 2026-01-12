@@ -31,7 +31,7 @@ private const string[] material_colors_200 = {"EF9A9A", "F48FB1", "CE93D8", "B39
 
 public static string get_consistent_hex_color(StreamInteractor stream_interactor, Account account, Jid jid, bool dark_theme = false) {
     uint8[] rgb;
-    if (stream_interactor.get_module(MucManager.IDENTITY).is_groupchat(jid.bare_jid, account) && jid.resourcepart != null) {
+    if (stream_interactor.get_module<MucManager>(MucManager.IDENTITY).is_groupchat(jid.bare_jid, account) && jid.resourcepart != null) {
         rgb = ConsistentColor.string_to_rgb(jid.resourcepart);
     } else {
         rgb = ConsistentColor.string_to_rgb(jid.bare_jid.to_string());
@@ -48,9 +48,9 @@ public static string get_name_hex_color(StreamInteractor stream_interactor, Acco
 }
 
 private static Jid get_relevant_jid(StreamInteractor stream_interactor, Account account, Jid jid, Conversation? conversation = null) {
-    Conversation conversation_ = conversation ?? stream_interactor.get_module(ConversationManager.IDENTITY).get_conversation(jid.bare_jid, account);
+    Conversation conversation_ = conversation ?? stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_conversation(jid.bare_jid, account);
     if (conversation_ != null && conversation_.type_ == Conversation.Type.GROUPCHAT) {
-        Jid? real_jid = stream_interactor.get_module(MucManager.IDENTITY).get_real_jid(jid, account);
+        Jid? real_jid = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_real_jid(jid, account);
         if (real_jid != null) {
             return real_jid.bare_jid;
         }

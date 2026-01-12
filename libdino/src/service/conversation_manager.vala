@@ -37,10 +37,10 @@ public class ConversationManager : StreamInteractionModule, Object {
         stream_interactor.add_module(this);
         stream_interactor.account_added.connect(on_account_added);
         stream_interactor.account_removed.connect(on_account_removed);
-        stream_interactor.get_module(MessageProcessor.IDENTITY).received_pipeline.connect(new MessageListener(stream_interactor));
-        stream_interactor.get_module(MessageProcessor.IDENTITY).message_sent.connect(handle_sent_message);
-        stream_interactor.get_module(Calls.IDENTITY).call_incoming.connect(handle_new_call);
-        stream_interactor.get_module(Calls.IDENTITY).call_outgoing.connect(handle_new_call);
+        stream_interactor.get_module<MessageProcessor>(MessageProcessor.IDENTITY).received_pipeline.connect(new MessageListener(stream_interactor));
+        stream_interactor.get_module<MessageProcessor>(MessageProcessor.IDENTITY).message_sent.connect(handle_sent_message);
+        stream_interactor.get_module<Calls>(Calls.IDENTITY).call_incoming.connect(handle_new_call);
+        stream_interactor.get_module<Calls>(Calls.IDENTITY).call_outgoing.connect(handle_new_call);
     }
 
     public Conversation create_conversation(Jid jid, Account account, Conversation.Type? type = null) {
@@ -60,7 +60,7 @@ public class ConversationManager : StreamInteractionModule, Object {
         Conversation conversation = new Conversation(jid, account, type);
         // Set encryption for conversation
         if (type == Conversation.Type.CHAT ||
-                (type == Conversation.Type.GROUPCHAT && stream_interactor.get_module(MucManager.IDENTITY).is_private_room(account, jid))) {
+                (type == Conversation.Type.GROUPCHAT && stream_interactor.get_module<MucManager>(MucManager.IDENTITY).is_private_room(account, jid))) {
             conversation.encryption = Application.get_default().settings.get_default_encryption(account);
         } else {
             conversation.encryption = Encryption.NONE;
@@ -202,7 +202,7 @@ public class ConversationManager : StreamInteractionModule, Object {
                 bool is_recent = message.time.compare(new DateTime.now_utc().add_days(-3)) > 0;
                 if (is_mam_message && !is_recent) return false;
             }
-            stream_interactor.get_module(ConversationManager.IDENTITY).start_conversation(conversation);
+            stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).start_conversation(conversation);
             return false;
         }
     }
@@ -223,8 +223,8 @@ public class ConversationManager : StreamInteractionModule, Object {
 
     public void clear_conversation_history(Conversation conversation, bool global = false) {
         // Delete all content items globally (server + local) in batches
-        var content_item_store = stream_interactor.get_module(ContentItemStore.IDENTITY);
-        var message_deletion = stream_interactor.get_module(MessageDeletion.IDENTITY);
+        var content_item_store = stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY);
+        var message_deletion = stream_interactor.get_module<MessageDeletion>(MessageDeletion.IDENTITY);
         
         if (global) {
             // Get items in batches and delete them from server using XEP-0425 Message Retraction
@@ -249,7 +249,7 @@ public class ConversationManager : StreamInteractionModule, Object {
         }
         
         // Clear message storage caches
-        stream_interactor.get_module(MessageStorage.IDENTITY).clear_conversation_cache(conversation);
+        stream_interactor.get_module<MessageStorage>(MessageStorage.IDENTITY).clear_conversation_cache(conversation);
         
         // Delete all remaining local data from database
         db.message.delete()

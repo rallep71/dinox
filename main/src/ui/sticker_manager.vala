@@ -78,7 +78,7 @@ namespace Dino.Ui {
 
             if (conversation == null) return;
 
-            var stickers = stream_interactor.get_module(Dino.Stickers.IDENTITY);
+            var stickers = stream_interactor.get_module<Dino.Stickers>(Dino.Stickers.IDENTITY);
             if (stickers == null) return;
 
             var packs = stickers.get_packs(conversation.account);
@@ -178,7 +178,7 @@ namespace Dino.Ui {
         private void publish_pack(Dino.Stickers.StickerPack pack) {
             if (conversation == null) return;
             
-            var stickers = stream_interactor.get_module(Dino.Stickers.IDENTITY);
+            var stickers = stream_interactor.get_module<Dino.Stickers>(Dino.Stickers.IDENTITY);
             if (stickers == null) return;
 
             // We need a way to show progress/blocking, as publishing is network IO.
@@ -227,7 +227,7 @@ namespace Dino.Ui {
         }
 
         private void delete_pack(Dino.Stickers.StickerPack pack) {
-            var stickers = stream_interactor.get_module(Dino.Stickers.IDENTITY);
+            var stickers = stream_interactor.get_module<Dino.Stickers>(Dino.Stickers.IDENTITY);
             if (stickers == null || conversation == null) return;
 
             try {

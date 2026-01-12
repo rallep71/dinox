@@ -167,7 +167,7 @@ public class MainWindow : Adw.ApplicationWindow {
     }
 
     private void setup_status_menu(Menu status_menu) {
-        var pm = this.stream_interactor.get_module(PresenceManager.IDENTITY);
+        var pm = this.stream_interactor.get_module<PresenceManager>(PresenceManager.IDENTITY);
         pm.status_changed.connect((show, msg) => {
             update_status_menu(status_menu, show);
         });

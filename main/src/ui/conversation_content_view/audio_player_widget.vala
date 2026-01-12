@@ -24,7 +24,7 @@ public class AudioFileMetaItem : FileMetaItem {
         // Auto-download audio files if not yet downloaded
         if (file_transfer.direction == FileTransfer.DIRECTION_RECEIVED && 
             file_transfer.state == FileTransfer.State.NOT_STARTED) {
-            stream_interactor.get_module(FileManager.IDENTITY).download_file.begin(file_transfer);
+            stream_interactor.get_module<FileManager>(FileManager.IDENTITY).download_file.begin(file_transfer);
         }
     }
 

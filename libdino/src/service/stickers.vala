@@ -346,7 +346,7 @@ public class Stickers : StreamInteractionModule, Object {
         XmppStream? stream = stream_interactor.get_stream(account);
         if (stream == null) throw new StickerError.NOT_CONNECTED("Not connected");
 
-        StanzaNode? pack_node = yield stream.get_module(Pubsub.Module.IDENTITY).request_item(stream, source_jid, node, pack_id);
+        StanzaNode? pack_node = yield stream.get_module<Pubsub.Module>(Pubsub.Module.IDENTITY).request_item(stream, source_jid, node, pack_id);
         if (pack_node == null) throw new StickerError.NOT_FOUND("Sticker pack not found");
         if (pack_node.name != "pack" || pack_node.ns_uri != Xmpp.Xep.Stickers.NS_URI) {
             throw new StickerError.INVALID_URI("PubSub item is not a sticker pack");
@@ -410,7 +410,7 @@ public class Stickers : StreamInteractionModule, Object {
 
         // Duplicate to our own PEP node
         var my_jid = stream.get_flag(Xmpp.Bind.Flag.IDENTITY).my_jid.bare_jid;
-        bool published = yield stream.get_module(Pubsub.Module.IDENTITY).publish(stream, my_jid, STICKERS_NODE, pack_id, pack_node,
+        bool published = yield stream.get_module<Pubsub.Module>(Pubsub.Module.IDENTITY).publish(stream, my_jid, STICKERS_NODE, pack_id, pack_node,
             new Pubsub.PublishOptions().set_persist_items(true).set_max_items("max").set_send_last_published_item("never").set_access_model(Pubsub.ACCESS_MODEL_OPEN)
         );
         if (!published) {
@@ -424,7 +424,7 @@ public class Stickers : StreamInteractionModule, Object {
         XmppStream? stream = stream_interactor.get_stream(account);
         if (stream == null) throw new StickerError.NOT_CONNECTED("Not connected");
 
-        StanzaNode? pack_node = yield stream.get_module(Pubsub.Module.IDENTITY).request_item(stream, source_jid, node, pack_id);
+        StanzaNode? pack_node = yield stream.get_module<Pubsub.Module>(Pubsub.Module.IDENTITY).request_item(stream, source_jid, node, pack_id);
         if (pack_node == null) throw new StickerError.NOT_FOUND("Sticker pack not found");
         if (pack_node.name != "pack" || pack_node.ns_uri != Xmpp.Xep.Stickers.NS_URI) {
             throw new StickerError.INVALID_URI("PubSub item is not a sticker pack");
@@ -459,7 +459,7 @@ public class Stickers : StreamInteractionModule, Object {
     public async void send_sticker(Conversation conversation, string pack_id, StickerItem item) throws Error {
         if (item.local_path == null) throw new StickerError.DOWNLOAD_FAILED("Sticker file not available locally");
 
-        var file_manager = stream_interactor.get_module(FileManager.IDENTITY);
+        var file_manager = stream_interactor.get_module<FileManager>(FileManager.IDENTITY);
 
         var cfg = new OutgoingStickerConfig(pack_id, (item.desc != null && item.desc != "") ? item.desc : null);
 
@@ -631,10 +631,10 @@ public class Stickers : StreamInteractionModule, Object {
         var items = get_items(account, pack_id);
         if (items.size == 0) throw new StickerError.NOT_FOUND("Sticker pack is empty");
 
-        var upload = stream.get_module(Xmpp.Xep.HttpFileUpload.Module.IDENTITY);
+        var upload = stream.get_module<Xmpp.Xep.HttpFileUpload.Module>(Xmpp.Xep.HttpFileUpload.Module.IDENTITY);
         if (upload == null) throw new StickerError.PUBLISH_FAILED("HTTP File Upload (XEP-0363) is not available");
 
-        var pubsub = stream.get_module(Pubsub.Module.IDENTITY);
+        var pubsub = stream.get_module<Pubsub.Module>(Pubsub.Module.IDENTITY);
         if (pubsub == null) throw new StickerError.PUBLISH_FAILED("PubSub module unavailable");
 
         // Upload any item that doesn't have a source URL yet

@@ -241,7 +241,7 @@ public class AddAccountDialog : Adw.Dialog {
                     }
                 }
 
-                ConnectionManager.ConnectionError.Source? error = yield stream_interactor.get_module(Register.IDENTITY).add_check_account(account);
+                ConnectionManager.ConnectionError.Source? error = yield stream_interactor.get_module<Register>(Register.IDENTITY).add_check_account(account);
                 sign_in_continue_spinner.visible = false;
                 sign_in_continue_button.sensitive = true;
 

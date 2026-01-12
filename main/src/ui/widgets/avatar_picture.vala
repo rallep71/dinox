@@ -14,8 +14,8 @@ public class Dino.Ui.ViewModel.AvatarPictureModel : Object {
 
 public class Dino.Ui.ViewModel.ConversationParticipantAvatarPictureTileModel : AvatarPictureTileModel {
     private StreamInteractor stream_interactor;
-    private AvatarManager? avatar_manager { owned get { return stream_interactor == null ? null : stream_interactor.get_module(AvatarManager.IDENTITY); } }
-    private MucManager? muc_manager { owned get { return stream_interactor == null ? null : stream_interactor.get_module(MucManager.IDENTITY); } }
+    private AvatarManager? avatar_manager { owned get { return stream_interactor == null ? null : stream_interactor.get_module<AvatarManager>(AvatarManager.IDENTITY); } }
+    private MucManager? muc_manager { owned get { return stream_interactor == null ? null : stream_interactor.get_module<MucManager>(MucManager.IDENTITY); } }
     private Conversation? conversation;
     private Jid? primary_avatar_jid;
     private Jid? secondary_avatar_jid;
@@ -43,7 +43,7 @@ public class Dino.Ui.ViewModel.ConversationParticipantAvatarPictureTileModel : A
         }
         string display = Util.get_participant_display_name(stream_interactor, conversation, display_name_jid);
         display_text = display.get_char(0).toupper().to_string();
-        stream_interactor.get_module(RosterManager.IDENTITY).updated_roster_item.connect(on_roster_updated);
+        stream_interactor.get_module<RosterManager>(RosterManager.IDENTITY).updated_roster_item.connect(on_roster_updated);
 
         float[] rgbf = color_id != null ? Xep.ConsistentColor.string_to_rgbf(color_id) : new float[] {0.5f, 0.5f, 0.5f};
         background_color = Gdk.RGBA() { red = rgbf[0], green = rgbf[1], blue = rgbf[2], alpha = 1.0f};
@@ -77,9 +77,9 @@ public class Dino.Ui.ViewModel.ConversationParticipantAvatarPictureTileModel : A
 
 public class Dino.Ui.ViewModel.CompatAvatarPictureModel : AvatarPictureModel {
     private StreamInteractor stream_interactor;
-    private AvatarManager? avatar_manager { owned get { return stream_interactor == null ? null : stream_interactor.get_module(AvatarManager.IDENTITY); } }
-    private MucManager? muc_manager { owned get { return stream_interactor == null ? null : stream_interactor.get_module(MucManager.IDENTITY); } }
-    private PresenceManager? presence_manager { owned get { return stream_interactor == null ? null : stream_interactor.get_module(PresenceManager.IDENTITY); } }
+    private AvatarManager? avatar_manager { owned get { return stream_interactor == null ? null : stream_interactor.get_module<AvatarManager>(AvatarManager.IDENTITY); } }
+    private MucManager? muc_manager { owned get { return stream_interactor == null ? null : stream_interactor.get_module<MucManager>(MucManager.IDENTITY); } }
+    private PresenceManager? presence_manager { owned get { return stream_interactor == null ? null : stream_interactor.get_module<PresenceManager>(PresenceManager.IDENTITY); } }
     private ConnectionManager? connection_manager { owned get { return stream_interactor == null ? null : stream_interactor.connection_manager; } }
     private Conversation? conversation;
     private uint conversation_generation = 0;

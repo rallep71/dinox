@@ -56,7 +56,7 @@ public class GlobalSearch {
     private void on_scrolled_window_vadjustment_value() {
         if (results_scrolled.vadjustment.upper - (results_scrolled.vadjustment.value + results_scrolled.vadjustment.page_size) < 100) {
             if (!reloading_mutex.trylock()) return;
-            Gee.List<MessageItem> new_messages = stream_interactor.get_module(SearchProcessor.IDENTITY).match_messages(search, loaded_results);
+            Gee.List<MessageItem> new_messages = stream_interactor.get_module<SearchProcessor>(SearchProcessor.IDENTITY).match_messages(search, loaded_results);
             if (new_messages.size == 0) {
                 reloading_mutex.unlock();
                 return;
@@ -106,7 +106,7 @@ public class GlobalSearch {
     }
 
     private void update_auto_complete() {
-        Gee.List<SearchSuggestion> suggestions = stream_interactor.get_module(SearchProcessor.IDENTITY).suggest_auto_complete(search_entry.text, search_entry.cursor_position);
+        Gee.List<SearchSuggestion> suggestions = stream_interactor.get_module<SearchProcessor>(SearchProcessor.IDENTITY).suggest_auto_complete(search_entry.text, search_entry.cursor_position);
         auto_complete_overlay.visible = suggestions.size > 0;
         if (suggestions.size > 0) {
             // Remove current suggestions
@@ -171,13 +171,13 @@ public class GlobalSearch {
             return;
         }
 
-        Gee.List<MessageItem> messages = stream_interactor.get_module(SearchProcessor.IDENTITY).match_messages(search);
+        Gee.List<MessageItem> messages = stream_interactor.get_module<SearchProcessor>(SearchProcessor.IDENTITY).match_messages(search);
         if (messages.size == 0) {
             results_empty_stack.set_visible_child_name("no-result");
         } else {
             results_empty_stack.set_visible_child_name("results");
 
-            int match_count = messages.size < 10 ? messages.size : stream_interactor.get_module(SearchProcessor.IDENTITY).count_match_messages(search);
+            int match_count = messages.size < 10 ? messages.size : stream_interactor.get_module<SearchProcessor>(SearchProcessor.IDENTITY).count_match_messages(search);
             entry_number_label.label = "<i>" + n("%i search result", "%i search results", match_count).printf(match_count) + "</i>";
             loaded_results += messages.size;
             append_messages(messages);
@@ -186,8 +186,8 @@ public class GlobalSearch {
 
     private void append_messages(Gee.List<MessageItem> messages) {
         foreach (MessageItem item in messages) {
-            Gee.List<MessageItem> before_message = stream_interactor.get_module(MessageStorage.IDENTITY).get_messages_before_message(item.conversation, item.message.time, item.message.id, 1);
-            Gee.List<MessageItem> after_message = stream_interactor.get_module(MessageStorage.IDENTITY).get_messages_after_message(item.conversation, item.message.time, item.message.id, 1);
+            Gee.List<MessageItem> before_message = stream_interactor.get_module<MessageStorage>(MessageStorage.IDENTITY).get_messages_before_message(item.conversation, item.message.time, item.message.id, 1);
+            Gee.List<MessageItem> after_message = stream_interactor.get_module<MessageStorage>(MessageStorage.IDENTITY).get_messages_after_message(item.conversation, item.message.time, item.message.id, 1);
 
             Box context_box = new Box(Orientation.VERTICAL, 5);
             if (before_message != null && before_message.size > 0) {

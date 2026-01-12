@@ -44,14 +44,14 @@ class StatusPopulator : Plugins.ConversationItemPopulator, Plugins.ConversationA
         this.current_conversation = conversation;
         this.item_collection = item_collection;
 
-        var muc_manager = stream_interactor.get_module(MucManager.IDENTITY);
+        var muc_manager = stream_interactor.get_module<MucManager>(MucManager.IDENTITY);
         muc_manager.self_removed.connect(on_self_removed);
         muc_manager.occupant_removed.connect(on_occupant_removed);
         muc_manager.occupant_affiliation_updated.connect(on_affiliation_updated);
     }
 
     public void close(Conversation conversation) {
-        var muc_manager = stream_interactor.get_module(MucManager.IDENTITY);
+        var muc_manager = stream_interactor.get_module<MucManager>(MucManager.IDENTITY);
         muc_manager.self_removed.disconnect(on_self_removed);
         muc_manager.occupant_removed.disconnect(on_occupant_removed);
         muc_manager.occupant_affiliation_updated.disconnect(on_affiliation_updated);

@@ -10,15 +10,16 @@ public class ModuleManager {
 
     public signal void initialize_account_modules(Account account, ArrayList<XmppStreamModule> modules);
 
-    public T? get_module<T>(Account account, Xmpp.ModuleIdentity<T> identity) {
+    public T? get_module<T>(Account account, Xmpp.SimpleModuleIdentity identity) {
         if (identity == null) return null;
         lock (module_map) {
             if (!module_map.has_key(account)) {
                 initialize(account);
             }
-            var res = module_map[account].filter((module) => identity.matches(module));
-            if (res != null && res.next()) {
-                return identity.cast(res.get());
+            foreach (var module in module_map[account]) {
+                if (identity.matches(module)) {
+                    return (T) module;
+                }
             }
         }
         return null;
