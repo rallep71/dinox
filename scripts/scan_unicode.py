@@ -44,6 +44,8 @@ for root, dirs, files in os.walk('.'):
                     for char in line:
                         if char in suspicious_chars:
                             found_issues.append(f"{path}:{i+1} : Gefunden '{suspicious_chars[char]}' (U+{ord(char):04X})")
+                        elif ord(char) < 32 and ord(char) not in [9, 10, 13]: # 9=TAB, 10=LF, 13=CR
+                             found_issues.append(f"{path}:{i+1} : Gefunden 'ASCII Control Char' (U+{ord(char):04X})")
         except UnicodeDecodeError:
             print(f"Warnung: Konnte {path} nicht als UTF-8 lesen.")
         except Exception as e:

@@ -307,7 +307,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Sticker chooser (GTK4)**
   - Removed invalid `modal` popover property usage to avoid runtime GObject criticals.
 - **Database (Qlite/SQLCipher)**
-  - Reduced log noise for plaintext fallback and added best-effort automatic plaintextencrypted migration when a key is provided.
+  - Reduced log noise for plaintext fallback and added best-effort automatic plaintext-encrypted migration when a key is provided.
 
 ## [0.8.6] - 2025-12-18
 
