@@ -19,6 +19,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - Improved UI clarity for adding custom bridges.
 - **UI**: Various refinements to Conversation View, File Sending Overlay, and Dialogs for a smoother user experience.
 
+### Fixed
+- **Packaging**: Correctly bundled `gstreamer1.0-pipewire` in **AppImage** and compiled a minimal `pipewire` GStreamer plugin for **Flatpak**. This ensures the new PipeWire backend works reliably in sandboxed environments and prevents fallback to incompatible audio drivers.
+
 ## [0.9.7.8] - 2026-01-12
 
 ### Fixed
