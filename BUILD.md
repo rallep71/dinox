@@ -93,6 +93,7 @@ sudo apt install \
     libgstreamer1.0-dev \
     libgstreamer-plugins-base1.0-dev \
     libgstreamer-plugins-bad1.0-dev \
+    gstreamer1.0-pipewire \
     libwebrtc-audio-processing-dev \
     libnice-dev \
     libgnutls28-dev \
@@ -123,6 +124,7 @@ sudo dnf install \
     gstreamer1-devel \
     gstreamer1-plugins-base-devel \
     gstreamer1-plugins-bad-free-devel \
+    pipewire-gstreamer \
     webrtc-audio-processing-devel \
     libnice-devel \
     gnutls-devel \
@@ -152,6 +154,7 @@ sudo pacman -S \
     gstreamer \
     gst-plugins-base \
     gst-plugins-bad \
+    gst-plugin-pipewire \
     webrtc-audio-processing \
     libnice \
     gnutls \
