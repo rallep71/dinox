@@ -9,12 +9,12 @@ Hidden Unicode characters (Zero-width spaces, Bidi-overrides, etc.) can be used 
 
 ### Action Items
 
-1.  **Immediate Sanitization**
-    *   **Action**: Review the 12 identified locations from the scan.
-    *   **Context**:
-        *   `main/src/ui/util/helper.vala`: Contains Non-Breaking Spaces (NBSP). *Verdict: Verify if intentional for UI formatting.*
-        *   `xmpp-vala/tests/jid.vala`: Contains RTL marks. *Verdict: Likely intentional for testing XMPP JID handling of RTL languages, but must be verified.*
-        *   `scripts/translate_all.py`: Contains ZWJ/ZWNJ. *Verdict: Likely required for automated translation of certain scripts (e.g., Arabic/Persian).*
+1.  **Immediate Sanitization** (✅ Verified & Safe)
+    *   **Action**: Reviewed the identified locations from the scan.
+    *   **Results**:
+        *   `main/src/ui/util/helper.vala`: Clean. No raw Non-Breaking Spaces found.
+        *   `xmpp-vala/tests/jid.vala`: Uses escaped `\u200F` (RLM) to test that the JID parser *correctly rejects* invalid Bidi characters. **Safe / Intentional**.
+        *   `scripts/translate_all.py`: Contains ZWNJ/ZWJ characters in Persian ("آدرس پیام‌رسان") and Sinhala strings. These are linguistically required for correct display. **Safe / Intentional**.
 
 2.  **Continuous Integration (CI) Gate**
     *   **Action**: Integrate `scripts/scan_unicode.py` into the CI pipeline.

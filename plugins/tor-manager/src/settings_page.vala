@@ -12,6 +12,10 @@ namespace Dino.Plugins.TorManager {
         private Adw.ActionRow main_switch_row;
         private uint debounce_timeout_id = 0;
         private bool ignore_text_changes = false;
+        
+        private Switch firewall_switch;
+        private Switch bridges_switch;
+        private Label warning_label;
 
         public TorSettingsPage(TorManager manager) {
             this.manager = manager;
@@ -50,20 +54,61 @@ namespace Dino.Plugins.TorManager {
             use_bridges_row.title = "Use Bridges";
             use_bridges_row.subtitle = "Hides the fact that you are using Tor.";
             
-            var bridges_switch = new Switch();
+            bridges_switch = new Switch();
             bridges_switch.valign = Align.CENTER;
             bridges_switch.active = manager.use_bridges;
 
             use_bridges_row.add_suffix(bridges_switch);
             bridge_group.add(use_bridges_row);
+
+
+            // Fascist Firewall Switch
+            var firewall_row = new Adw.ActionRow();
+            firewall_row.title = "Firewall Mode (Port 80/443 Only)";
+            firewall_row.subtitle = "Only connect to bridges using standard web ports. Helps behind strict firewalls.";
              
+            firewall_switch = new Switch();
+            firewall_switch.valign = Align.CENTER;
+            firewall_switch.active = manager.force_firewall_ports;
+            
+            // Warning Label for Firewall + Bridges
+            warning_label = new Label("Warning: Only bridges on port 80/443 will work when Firewall Mode is enabled!");
+            warning_label.add_css_class("error"); // Red text
+            warning_label.halign = Align.START;
+            warning_label.margin_start = 12;
+            warning_label.margin_bottom = 12;
+            warning_label.visible = false;
+            
+            firewall_switch.state_set.connect((state) => {
+                 on_firewall_toggled.begin(state);
+                 update_warning();
+                 return true;
+            });
+
+            firewall_row.add_suffix(firewall_switch);
+            bridge_group.add(firewall_row);
+            bridge_group.add(warning_label);
+            
+            update_warning();
+
+
              var box = new Box(Orientation.VERTICAL, 0);
              box.add_css_class("card");
              box.sensitive = manager.use_bridges;
              
+             // Label for manual input
+             var manual_label = new Label("Bridge List (Auto or Manual Entry)");
+             manual_label.halign = Align.START;
+             manual_label.margin_start = 12;
+             manual_label.margin_top = 12;
+             manual_label.add_css_class("heading");
+             box.append(manual_label);
+
              var scrolled = new ScrolledWindow();
              scrolled.min_content_height = 100;
              scrolled.propagate_natural_height = true;
+             // Add frame for input look
+             scrolled.add_css_class("frame"); 
              
              bridge_input_view = new TextView();
              bridge_input_view.top_margin = 12;
@@ -99,8 +144,13 @@ namespace Dino.Plugins.TorManager {
                 on_use_bridges_toggled.begin(state);
                 box.sensitive = state;
                 fetch_row.sensitive = state;
+                firewall_row.sensitive = state; 
+                update_warning();
                 return true; // handled
             });
+
+            // Init sensitive state
+            firewall_row.sensitive = manager.use_bridges;
 
             // Sync main switch if manager changes state (e.g. crash or external change)
             manager.notify["is-enabled"].connect(() => {
@@ -119,6 +169,18 @@ namespace Dino.Plugins.TorManager {
         private async void on_use_bridges_toggled(bool state) {
             main_switch_row.sensitive = false;
             yield manager.update_use_bridges(state);
+            main_switch_row.sensitive = true;
+        }
+
+        private void update_warning() {
+            if (warning_label != null && bridges_switch != null && firewall_switch != null) {
+                warning_label.visible = bridges_switch.active && firewall_switch.active;
+            }
+        }
+
+        private async void on_firewall_toggled(bool state) {
+            main_switch_row.sensitive = false;
+            yield manager.update_firewall_ports(state);
             main_switch_row.sensitive = true;
         }
 
@@ -154,13 +216,12 @@ namespace Dino.Plugins.TorManager {
                 prompt_captcha_solution(client, challenge);
                 
             } catch (Error e) {
-                var dlg = new Adw.MessageDialog(
-                    this.get_root() as Gtk.Window,
+                var dlg = new Adw.AlertDialog(
                     "Error fetching challenge",
                     e.message
                 );
                 dlg.add_response("ok", "OK");
-                dlg.present();
+                dlg.present(this.get_root() as Gtk.Window);
             } finally {
                 fetch_button.sensitive = true;
                 fetch_button.label = "Request";
@@ -179,9 +240,9 @@ namespace Dino.Plugins.TorManager {
                 texture = Gdk.Texture.for_pixbuf(pixbuf);
             } catch (Error e) {
                 warning("Failed to create texture from captcha: %s", e.message);
-                var err_dlg = new Adw.MessageDialog(this.get_root() as Gtk.Window, "Image Error", "Could not load CAPTCHA image.");
+                var err_dlg = new Adw.AlertDialog("Image Error", "Could not load CAPTCHA image.");
                 err_dlg.add_response("ok", "OK");
-                err_dlg.present();
+                err_dlg.present(this.get_root() as Gtk.Window);
                 return;
             }
 
@@ -201,21 +262,19 @@ namespace Dino.Plugins.TorManager {
             entry.placeholder_text = "Type characters from image...";
             content_area.append(entry);
 
-            var dlg = new Adw.MessageDialog(
-               this.get_root() as Gtk.Window,
+            var dlg = new Adw.AlertDialog(
                "Solve CAPTCHA",
                "Please type the characters you see in the image to receive bridges."
             );
             
-            dlg.set_extra_child(content_area);
+            dlg.extra_child = content_area;
             dlg.add_response("cancel", "Cancel");
             dlg.add_response("submit", "Submit");
             dlg.set_response_appearance("submit", Adw.ResponseAppearance.SUGGESTED);
+            dlg.default_response = "submit";
             
              // Handle Submit on Enter in Entry
-            entry.activate.connect(() => {
-                dlg.response("submit");
-            });
+            entry.activates_default = true;
             
             dlg.response.connect((response) => {
                 if (response == "submit") {
@@ -224,7 +283,7 @@ namespace Dino.Plugins.TorManager {
                 }
             });
             
-            dlg.present();
+            dlg.present(this.get_root() as Gtk.Window);
             entry.grab_focus();
         }
 
@@ -275,7 +334,7 @@ namespace Dino.Plugins.TorManager {
                         msg += "\n\nWarning: None of the bridges use standard ports (443/80). If you are behind a strict firewall, you might need to try again.";
                     }
 
-                    var success_dlg = new Adw.MessageDialog(this.get_root() as Gtk.Window, "Success", msg);
+                    var success_dlg = new Adw.AlertDialog("Success", msg);
                     success_dlg.add_response("ok", "OK");
                     if (good_ports == 0) {
                          success_dlg.add_response("retry", "Try Again");
@@ -287,9 +346,9 @@ namespace Dino.Plugins.TorManager {
                         }
                     });
 
-                    success_dlg.present();
+                    success_dlg.present(this.get_root() as Gtk.Window);
                 } else {
-                     var fail_dlg = new Adw.MessageDialog(this.get_root() as Gtk.Window, "Failed", "No bridges received. Maybe the solution was wrong?");
+                     var fail_dlg = new Adw.AlertDialog("Failed", "No bridges received. Maybe the solution was wrong?");
                      fail_dlg.add_response("retry", "Try Again");
                      fail_dlg.add_response("cancel", "Cancel");
                      
@@ -299,13 +358,13 @@ namespace Dino.Plugins.TorManager {
                         }
                      });
                      
-                     fail_dlg.present();
+                     fail_dlg.present(this.get_root() as Gtk.Window);
                 }
                 
             } catch (Error e) {
-                var err_dlg = new Adw.MessageDialog(this.get_root() as Gtk.Window, "Error", e.message);
+                var err_dlg = new Adw.AlertDialog("Error", e.message);
                 err_dlg.add_response("ok", "OK");
-                err_dlg.present();
+                err_dlg.present(this.get_root() as Gtk.Window);
             }
         }
     }

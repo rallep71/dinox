@@ -23,7 +23,30 @@ public class Dino.Ui.PreferencesDialog : Adw.PreferencesDialog {
     public signal void reset_database_requested();
     public signal void factory_reset_requested();
 
-    construct {
+    construct {    
+        var bp = new Adw.Breakpoint(new Adw.BreakpointCondition.length(Adw.BreakpointConditionLengthType.MAX_WIDTH, 600, Adw.LengthUnit.PX));
+        
+        bp.apply.connect(() => {
+            accounts_page.title = "";
+            contacts_page.title = "";
+            encryption_page.title = "";
+            general_page.title = "";
+            this.content_width = 360;
+            this.set_size_request(300, -1);
+            this.queue_resize();
+        });
+
+        bp.unapply.connect(() => {
+            accounts_page.title = _("Accounts");
+            contacts_page.title = _("Contacts");
+            encryption_page.title = _("Encryption");
+            general_page.title = _("General");
+            this.content_width = 700;
+            this.set_size_request(-1, -1);
+        });
+
+        this.add_breakpoint(bp);
+
         this.bind_property("model", accounts_page, "model", BindingFlags.SYNC_CREATE);
         this.bind_property("model", contacts_page, "model", BindingFlags.SYNC_CREATE);
         this.bind_property("model", account_page, "model", BindingFlags.SYNC_CREATE);

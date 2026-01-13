@@ -15,6 +15,7 @@ namespace Dino.Plugins.TorManager {
         public TorController controller { get; private set; }
         public bool is_enabled { get; private set; default = false; }
         public bool use_bridges { get; private set; default = true; }
+        public bool force_firewall_ports { get; private set; default = true; }
         private StreamInteractor stream_interactor;
         private Database db;
         private bool is_shutting_down = false;
@@ -83,11 +84,15 @@ obfs4 198.245.60.50:443 6C61208D644265A16CB0C7E835787C1D8429EC08 cert=sT/u/T1uA+
                 } else if (key == "tor_manager_use_bridges") {
                     if (val == "true") use_bridges = true;
                     else if (val == "false") use_bridges = false;
+                } else if (key == "tor_manager_firewall_ports") {
+                    if (val == "true") force_firewall_ports = true;
+                    else if (val == "false") force_firewall_ports = false;
                 }
             }
             
             // Sync controller
             controller.use_bridges = use_bridges;
+            controller.force_firewall_ports = force_firewall_ports;
 
             // If bridges are not set in DB (first run?), populate with bootstrap bridges
             bool bridges_exist = false;
@@ -208,6 +213,23 @@ obfs4 198.245.60.50:443 6C61208D644265A16CB0C7E835787C1D8429EC08 cert=sT/u/T1uA+
                     .perform();
             
              // If running, restart to apply
+            if (is_enabled) {
+                stop_tor(false);
+                yield start_tor(true);
+            }
+        }
+
+        public async void update_firewall_ports(bool use) {
+            if (force_firewall_ports == use) return;
+            force_firewall_ports = use;
+            controller.force_firewall_ports = use;
+            
+            db.settings.upsert()
+                    .value(db.settings.key, "tor_manager_firewall_ports", true)
+                    .value(db.settings.value, use ? "true" : "false")
+                    .perform();
+
+            // If running, restart to apply
             if (is_enabled) {
                 stop_tor(false);
                 yield start_tor(true);

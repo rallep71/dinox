@@ -102,19 +102,14 @@
     }
     
     function parseReleaseBody(body) {
-        // Extract title from ### Added or first ### heading
         let title = 'New Features';
         let items = [];
         
         const lines = body.split('\n');
         for (const line of lines) {
-            // Look for main feature heading like "**Volume Controls**"
-            const boldMatch = line.match(/^\s*-?\s*\*\*([^*]+)\*\*/);
-            if (boldMatch && !title.match(/Volume|Controls|Features/i)) {
-                title = boldMatch[1].replace(/ - .*/, '').trim();
-            }
             // Look for list items (- item)
-            const itemMatch = line.match(/^\s*-\s+(?!\*\*)(.+)$/);
+            // Updated regex to allow items starting with bold text (removed (?!\*\*) )
+            const itemMatch = line.match(/^\s*-\s+(.+)$/);
             if (itemMatch) {
                 const item = itemMatch[1].trim();
                 // Skip items that are just sub-descriptions
@@ -124,19 +119,24 @@
             }
         }
         
-        // If we found a bold title like "**Volume Controls**", use that
-        const mainFeatureMatch = body.match(/\*\*([^*]+)\*\*\s*-\s*([^\n]+)/);
-        if (mainFeatureMatch) {
-            title = mainFeatureMatch[1].trim();
-            items = [mainFeatureMatch[2].trim()];
-            // Get sub-items
-            const subItems = body.match(/^\s+-\s+([^\n*]+)$/gm);
-            if (subItems) {
-                items = items.concat(subItems.map(s => s.replace(/^\s+-\s+/, '').trim()));
+        // Fallback: If no items found, try to extract from "Header - Description" format
+        if (items.length === 0) {
+            const mainFeatureMatch = body.match(/\*\*([^*]+)\*\*\s*[:\-]\s*([^\n]+)/);
+            if (mainFeatureMatch) {
+                title = mainFeatureMatch[1].trim();
+                items.push(mainFeatureMatch[2].trim());
             }
+        } 
+        // If exactly one item and it starts with bold, use that as title
+        else if (items.length === 1) {
+             const singleMatch = items[0].match(/^\*\*([^*]+)\*\*[:\s]+(.+)$/);
+             if (singleMatch) {
+                 title = singleMatch[1].trim();
+                 items[0] = singleMatch[2].trim();
+             }
         }
         
-        // De-duplicate while preserving order (GitHub release notes sometimes contain repeated bullets)
+        // De-duplicate while preserving order
         const seen = new Set();
         const uniqueItems = [];
         for (const item of items) {
@@ -198,7 +198,10 @@
                 
                 if (h4) h4.textContent = title;
                 if (ul && items.length > 0) {
-                    ul.innerHTML = items.map(item => `<li>${item}</li>`).join('');
+                    ul.innerHTML = items.map(item => {
+                        const htmlContent = item.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                        return `<li>${htmlContent}</li>`;
+                    }).join('');
                 }
             }
         }
@@ -242,7 +245,8 @@
             const listItems = (items && items.length > 0) ? items.slice(0, 4) : ['See GitHub release notes for details.'];
             for (const entry of listItems) {
                 const li = document.createElement('li');
-                li.textContent = String(entry);
+                // Render bold markdown (**text**) as HTML <strong>text</strong>
+                li.innerHTML = String(entry).replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
                 ul.appendChild(li);
             }
 

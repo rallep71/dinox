@@ -149,7 +149,7 @@
                                                         <property name="hexpand">true</property>
                                                         <property name="content">
                                                             <object class="DinoUiNaturalSizeIncrease">
-                                                                <property name="min-natural-width">600</property>
+                                                                <property name="min-natural-width">360</property>
                                                                 <child>
                                                                     <object class="GtkStack" id="right_stack">
                                                                         <property name="hexpand">false</property>
@@ -184,7 +184,7 @@
                                                                 <property name="tightening-threshold">400</property>
                                                                 <child>
                                                                     <object class="DinoUiNaturalSizeIncrease">
-                                                                        <property name="min-natural-width">400</property>
+                                                                        <property name="min-natural-width">300</property>
                                                                         <child>
                                                                             <object class="AdwBin" id="search_frame">
                                                                                 <property name="hexpand">true</property>

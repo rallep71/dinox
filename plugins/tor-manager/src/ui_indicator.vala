@@ -14,22 +14,37 @@ namespace Dino.Plugins.TorManager {
             this.manager = manager;
             
             // We need to wait for the window to be available
-            // If called from 'activate', window should be there or created shortly.
             var app = GLib.Application.get_default() as Gtk.Application;
             if (app != null) {
                 app.activate.connect(() => {
-                    // Give the app a moment to create the window in its own activate handler
-                    Timeout.add(100, () => {
-                        init_ui(app);
-                        return false;
-                    });
+                    start_search_loop(app);
                 });
                 
                 // If already active (e.g. plugin loaded late)
                 if (app.active_window != null) {
-                     init_ui(app);
+                     start_search_loop(app);
                 }
             }
+        }
+
+        private void start_search_loop(Gtk.Application app, int attempt = 0) {
+            Timeout.add(500, () => {
+                if (button != null) return false; // Success!
+
+                var window = app.active_window;
+                if (window != null) {
+                    init_ui(app);
+                    if (button != null) return false; // Found it
+                }
+                
+                if (attempt < 10) {
+                     // Retry
+                     start_search_loop(app, attempt + 1);
+                } else {
+                     warning("TorManager: Could not find sidebar header bar to attach indicator after 5 seconds.");
+                }
+                return false;
+            });
         }
 
         private void init_ui(Gtk.Application app) {
@@ -47,7 +62,8 @@ namespace Dino.Plugins.TorManager {
                 // Usually pack_end adds inner-most. So if menu is already there, we might be to the left of it.
                 header.pack_end(button);
             } else {
-                warning("TorManager: Could not find sidebar header bar to attach indicator.");
+                // Silent return during retry loop, warning only on final timeout
+                // warning("TorManager: Could not find sidebar header bar to attach indicator.");
             }
         }
         
@@ -171,6 +187,9 @@ namespace Dino.Plugins.TorManager {
                      icon.remove_css_class("error");
                      
                      string mode = manager.use_bridges ? "Bridges" : "Direct";
+                     if (manager.force_firewall_ports) {
+                         mode += " + FW";
+                     }
                      button.tooltip_text = "Tor Connected (%s)".printf(mode);
                      status_label.label = "Connected (%s)".printf(mode);
                 } else {

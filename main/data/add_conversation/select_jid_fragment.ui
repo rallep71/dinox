@@ -11,15 +11,15 @@
                         <property name="hexpand">1</property>
                         <property name="margin-start">12</property>
                         <property name="margin-end">12</property>
-                        <property name="margin-top">20</property>
-                        <property name="margin-bottom">20</property>
+                        <property name="margin-top">24</property>
+                        <property name="margin-bottom">24</property>
                         <property name="orientation">vertical</property>
-                        <property name="spacing">10</property>
+                        <property name="spacing">12</property>
                         <child>
                             <object class="GtkBox" id="account_selector_box">
                                 <property name="visible">False</property>
                                 <property name="orientation">horizontal</property>
-                                <property name="spacing">10</property>
+                                <property name="spacing">12</property>
                                 <child>
                                     <object class="GtkLabel">
                                         <property name="label" translatable="yes">Use account:</property>
@@ -28,7 +28,7 @@
                                 <child>
                                     <object class="GtkDropDown" id="account_dropdown">
                                         <property name="hexpand">True</property>
-                                        <property name="margin-start">50</property>
+                                        <property name="margin-start">12</property>
                                     </object>
                                 </child>
                             </object>

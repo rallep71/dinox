@@ -626,8 +626,10 @@ public class ConversationView : Widget, Plugins.ConversationItemCollection, Plug
     }
 
     public void remove_notification(Widget widget) {
-        notification_revealer.reveal_child = false;
-        notifications.remove(widget);
+        if (widget.get_parent() == notifications) {
+            notification_revealer.reveal_child = false;
+            notifications.remove(widget);
+        }
     }
 
     private Widget insert_new(Plugins.MetaConversationItem item) {

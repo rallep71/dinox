@@ -14,6 +14,7 @@ namespace Dino.Ui.ChatInput {
 public class AudioRecorder : GLib.Object {
     private Pipeline pipeline;
     private Element source;
+    private Element volume;
     private Element level;
     private Element convert;
     private Element resample;
@@ -48,7 +49,12 @@ public class AudioRecorder : GLib.Object {
         current_output_path = output_path;
 
         pipeline = new Pipeline("audio-recorder");
-        source = ElementFactory.make("autoaudiosrc", "source");
+        if (ElementFactory.find("pipewiresrc") != null) {
+            source = ElementFactory.make("pipewiresrc", "source");
+        } else {
+            source = ElementFactory.make("autoaudiosrc", "source");
+        }
+        volume = ElementFactory.make("volume", "volume");
         level = ElementFactory.make("level", "level");
         convert = ElementFactory.make("audioconvert", "convert");
         resample = ElementFactory.make("audioresample", "resample");
@@ -61,7 +67,7 @@ public class AudioRecorder : GLib.Object {
         muxer = ElementFactory.make("mp4mux", "muxer");
         sink = ElementFactory.make("filesink", "sink");
 
-        if (source == null || level == null || convert == null || resample == null || capsfilter == null || encoder == null || parser == null || muxer == null || sink == null) {
+        if (source == null || volume == null || level == null || convert == null || resample == null || capsfilter == null || encoder == null || parser == null || muxer == null || sink == null) {
             throw new Error(Quark.from_string("AudioRecorder"), 0, "Could not create GStreamer elements. Missing plugins? (good/bad/ugly/libav)");
         }
 
@@ -72,18 +78,21 @@ public class AudioRecorder : GLib.Object {
             // 64kbps is decent for mono AAC-LC
             encoder.set("bitrate", 64000);
         }
+
+        // Boost volume (approx +8dB) as raw mic input is often too quiet compared to processed calls
+        volume.set("volume", 2.5);
         
         // Try to enable faststart for web/streaming compatibility (moves moov atom to beginning)
         // Note: faststart might not be available in older GStreamer versions, but it's standard in recent ones.
         // We just set it; if it doesn't exist, GStreamer will emit a warning but continue.
-        // muxer.set("faststart", true);
+        muxer.set("faststart", true); // Enabled for iOS/Android compatibility
 
         sink.set("location", output_path);
         level.set("interval", 100000000); // 100ms
         level.set("post-messages", true);
 
-        pipeline.add_many(source, level, convert, resample, capsfilter, encoder, parser, muxer, sink);
-        if (!source.link(level) || !level.link(convert) || !convert.link(resample) || !resample.link(capsfilter) || !capsfilter.link(encoder) || !encoder.link(parser) || !parser.link(muxer) || !muxer.link(sink)) {
+        pipeline.add_many(source, volume, level, convert, resample, capsfilter, encoder, parser, muxer, sink);
+        if (!source.link(volume) || !volume.link(level) || !level.link(convert) || !convert.link(resample) || !resample.link(capsfilter) || !capsfilter.link(encoder) || !encoder.link(parser) || !parser.link(muxer) || !muxer.link(sink)) {
              throw new Error(Quark.from_string("AudioRecorder"), 0, "Could not link GStreamer elements");
         }
 

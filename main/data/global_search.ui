@@ -7,10 +7,10 @@
                 <property name="orientation">vertical</property>
                 <child>
                     <object class="GtkSearchEntry" id="search_entry">
-                        <property name="margin-start">12</property>
-                        <property name="margin-end">12</property>
-                        <property name="margin-top">12</property>
-                        <property name="margin-bottom">12</property>
+                        <property name="margin-start">6</property>
+                        <property name="margin-end">6</property>
+                        <property name="margin-top">6</property>
+                        <property name="margin-bottom">6</property>
                     </object>
                 </child>
                 <child>
@@ -86,9 +86,9 @@
         </property>
         <child type="overlay">
             <object class="GtkFrame" id="auto_complete_overlay">
-                <property name="margin-top">42</property>
-                <property name="margin-start">12</property>
-                <property name="margin-end">12</property>
+                <property name="margin-top">36</property>
+                <property name="margin-start">6</property>
+                <property name="margin-end">6</property>
                 <property name="valign">start</property>
                 <style>
                     <class name="auto-complete"/>

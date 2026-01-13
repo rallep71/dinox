@@ -311,9 +311,9 @@ namespace Dino.Ui.ConversationDetails {
                                     } catch (GLib.Error e) {
                                         Gtk.Window? window = null;
                                         if (parent != null) window = parent.get_root() as Gtk.Window;
-                                        var error_dialog = new Adw.MessageDialog(window, _("Failed to destroy room"), e.message);
+                                        var error_dialog = new Adw.AlertDialog(_("Failed to destroy room"), e.message);
                                         error_dialog.add_response("close", _("Close"));
-                                        error_dialog.present();
+                                        error_dialog.present(window);
                                     }
                                 });
                             }

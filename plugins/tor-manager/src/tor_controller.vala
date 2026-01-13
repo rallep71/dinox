@@ -12,6 +12,7 @@ namespace Dino.Plugins.TorManager {
         public int socks_port { get; private set; default = 9155; }
         public string bridge_lines { get; set; default = ""; }
         public bool use_bridges { get; set; default = true; }
+        public bool force_firewall_ports { get; set; default = true; } // Enabled by default for better UX
         
         public signal void process_exited(int status);
         public signal void bootstrap_status(int percent, string summary);
@@ -193,6 +194,13 @@ namespace Dino.Plugins.TorManager {
                 }
 
                 torrc.append("UseBridges 1\n");
+                
+                // Firewall Bypass Logic
+                if (force_firewall_ports) {
+                    torrc.append("FascistFirewall 1\n");
+                    torrc.append("ReachableAddresses *:80,*:443\n");
+                }
+
                 foreach (string line in bridge_lines.split("\n")) {
                     string clean_line = line.strip();
                     if (clean_line != "" && !clean_line.has_prefix("#")) {

@@ -67,6 +67,9 @@ public class MainWindow : Adw.ApplicationWindow {
         search_frame.set_child(global_search.get_widget());
 
         setup_header_bar();
+        
+        // Add class for plugins (e.g. TorManager) to find the sidebar header
+        header_bar.add_css_class("dino-left");
 
         stack.add_named(welcome_placeholder, "welcome_placeholder");
         stack.add_named(accounts_placeholder, "accounts_placeholder");

@@ -8,7 +8,7 @@
         <child>
             <object class="GtkBox">
                 <property name="orientation">vertical</property>
-                <property name="spacing">20</property>
+                <property name="spacing">24</property>
                 <child>
                     <object class="AdwHeaderBar">
                         <style>
@@ -40,7 +40,7 @@
                                                 <property name="child">
                                                     <object class="GtkBox" id="sign_in_box">
                                                         <property name="orientation">vertical</property>
-                                                        <property name="spacing">20</property>
+                                                        <property name="spacing">24</property>
                                                         <child>
                                                             <object class="AdwPreferencesGroup">
                                                                 <child>
@@ -149,11 +149,11 @@
                                                 <property name="child">
                                                     <object class="GtkBox" id="sign_in_tls_box">
                                                         <property name="orientation">vertical</property>
-                                                        <property name="margin-top">30</property>
-                                                        <property name="margin-bottom">20</property>
-                                                        <property name="margin-start">50</property>
-                                                        <property name="margin-end">50</property>
-                                                        <property name="spacing">20</property>
+                                                        <property name="margin-top">24</property>
+                                                        <property name="margin-bottom">24</property>
+                                                        <property name="margin-start">24</property>
+                                                        <property name="margin-end">24</property>
+                                                        <property name="spacing">12</property>
                                                         <child>
                                                             <object class="GtkImage">
                                                                 <property name="icon-name">channel-insecure-symbolic</property>
@@ -240,8 +240,8 @@
                                                         <child>
                                                             <object class="GtkBox">
                                                                 <property name="halign">center</property>
-                                                                <property name="spacing">8</property>
-                                                                <property name="margin-top">30</property>
+                                                                <property name="spacing">12</property>
+                                                                <property name="margin-top">24</property>
                                                                 <child>
                                                                     <object class="GtkButton" id="login_button">
                                                                         <property name="label" translatable="1">Sign in instead</property>
@@ -362,8 +362,8 @@
                                                         <child>
                                                             <object class="GtkLabel" id="success_description">
                                                                 <property name="wrap">1</property>
-                                                                <property name="margin-top">5</property>
-                                                                <property name="margin-bottom">5</property>
+                                                                <property name="margin-top">6</property>
+                                                                <property name="margin-bottom">6</property>
                                                                 <property name="use-markup">1</property>
                                                                 <property name="justify">center</property>
                                                                 <style>
@@ -404,7 +404,7 @@
                                                 </style>
                                                 <property name="child">
                                                     <object class="GtkBox" id="box2">
-                                                        <property name="spacing">20</property>
+                                                        <property name="spacing">12</property>
                                                         <child>
                                                             <object class="GtkLabel" id="notification_label"/>
                                                         </child>

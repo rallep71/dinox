@@ -132,7 +132,7 @@ public class VideoPlayerWidget : Widget {
 
         // Setup menu button overlay
         MenuButton button = new MenuButton();
-        button.icon_name = "view-more";
+        button.icon_name = "view-more-symbolic";
         Menu menu_model = new Menu();
         menu_model.append(_("Open"), "file.open");
         menu_model.append(_("Save as…"), "file.save_as");

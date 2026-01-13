@@ -26,6 +26,14 @@ else
     MAKE_ARGS="-j$(nproc)"
 fi
 
+echo "Running Unicode Security Scan..."
+python3 scripts/scan_unicode.py
+
+if [ $? -ne 0 ]; then
+    echo "Unicode scan failed! Potential unsafe hidden chars found."
+    exit 1
+fi
+
 echo "Building dependencies..."
 
 # 1. webrtc-audio-processing

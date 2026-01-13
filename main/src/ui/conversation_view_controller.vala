@@ -342,9 +342,9 @@ public class ConversationViewController : Object {
                 send_location_message(lat, lon, accuracy);
             } catch (Error e) {
                 warning("ConversationViewController: Failed to get location: %s", e.message);
-                var dialog = new Adw.MessageDialog(main_window, _("Failed to get location"), e.message);
+                var dialog = new Adw.AlertDialog(_("Failed to get location"), e.message);
                 dialog.add_response("close", _("Close"));
-                dialog.present();
+                dialog.present(main_window);
             }
         });
     }

@@ -74,8 +74,7 @@ namespace Dino.Ui {
         }
 
         private void show_muc_server_required_dialog() {
-            var dialog = new Adw.MessageDialog(
-                (Gtk.Window) button.get_root(),
+            var dialog = new Adw.AlertDialog(
                 _("Conference Server Required"),
                 _("To start a group call, you need to configure a default conference server in your account settings.")
             );
@@ -83,16 +82,15 @@ namespace Dino.Ui {
             dialog.add_response("cancel", _("Cancel"));
             dialog.add_response("settings", _("Open Settings"));
             dialog.set_response_appearance("settings", Adw.ResponseAppearance.SUGGESTED);
-            dialog.set_default_response("settings");
+            dialog.default_response = "settings";
             
             dialog.response.connect((response) => {
                 if (response == "settings") {
                     GLib.Application.get_default().activate_action("preferences-account", new Variant.int32(conversation.account.id));
                 }
-                dialog.close();
             });
             
-            dialog.present();
+            dialog.present((Gtk.Window) button.get_root());
         }
 
         private void open_call_window(CallState call_state) {

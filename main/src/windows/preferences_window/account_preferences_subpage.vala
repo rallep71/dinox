@@ -83,7 +83,7 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
             dialog.present((Gtk.Window)this.get_root());
         });
         enter_password_button.clicked.connect(() => {
-            var dialog = new Adw.MessageDialog((Window)this.get_root(), "Enter password for %s".printf(account.bare_jid.to_string()), null);
+            var dialog = new Adw.AlertDialog("Enter password for %s".printf(account.bare_jid.to_string()), null);
             var password = new PasswordEntry() { show_peek_icon=true };
             dialog.response.connect((response) => {
                 if (response == "connect") {
@@ -91,12 +91,12 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
                     model.reconnect_account(account);
                 }
             });
-            dialog.set_default_response("connect");
-            dialog.set_extra_child(password);
+            dialog.default_response = "connect";
+            dialog.extra_child = password;
             dialog.add_response("cancel", _("Cancel"));
             dialog.add_response("connect", _("Connect"));
 
-            dialog.present();
+            dialog.present((Gtk.Window)this.get_root());
         });
         
         trust_certificate_button.clicked.connect(() => {
@@ -513,9 +513,9 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
         } catch (Error e) {
             warning("Failed to save vCard: %s", e.message);
             print("AccountPreferences: Failed to save VCard-temp: %s\n", e.message);
-            var dialog = new Adw.MessageDialog((Window)this.get_root(), "Failed to save profile", e.message);
+            var dialog = new Adw.AlertDialog("Failed to save profile", e.message);
             dialog.add_response("ok", _("OK"));
-            dialog.present();
+            dialog.present((Window)this.get_root());
         }
 
         // 2. Save VCard4 (XEP-0292)

@@ -193,6 +193,12 @@ public class WebRTCCallManager : Object {
             source = audio_input_device.device.create_element("audio-src");
         }
         if (source == null) {
+            if (Gst.ElementFactory.find("pipewiresrc") != null) {
+                // Prefer pipewiresrc if available for better stability on modern systems
+                source = Gst.ElementFactory.make("pipewiresrc", "audio-src");
+            }
+        }
+        if (source == null) {
             source = Gst.ElementFactory.make("autoaudiosrc", "audio-src");
         }
         if (source == null) {

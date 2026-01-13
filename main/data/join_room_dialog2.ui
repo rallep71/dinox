@@ -24,16 +24,16 @@
                 <property name="orientation">vertical</property>
                 <property name="valign">center</property>
                 <property name="vexpand">True</property>
-                <property name="spacing">6</property>
-                <property name="margin-top">20</property>
-                <property name="margin-start">20</property>
-                <property name="margin-end">20</property>
-                <property name="margin-bottom">20</property>
+                <property name="spacing">12</property>
+                <property name="margin-top">24</property>
+                <property name="margin-start">24</property>
+                <property name="margin-end">24</property>
+                <property name="margin-bottom">24</property>
                 <child>
                   <object class="DinoUiAvatarPicture" id="picture">
                     <property name="height-request">100</property>
                     <property name="width-request">100</property>
-                    <property name="margin-bottom">20</property>
+                    <property name="margin-bottom">24</property>
                     <property name="halign">center</property>
                     <binding name="model">
                       <lookup name="avatar">

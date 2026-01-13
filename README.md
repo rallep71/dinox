@@ -113,6 +113,8 @@ DinoX stores your local data (accounts, messages, settings, cached metadata) in 
 DinoX 1:1 calling focuses on cross-client interoperability (notably with **Conversations (Android)** and **Monal (iOS)**) while keeping the existing media stack:
 
 - **Media stack:** GStreamer (RTP/rtpbin + WebRTC elements), `libnice` (ICE), `gnutls` (DTLS), `libsrtp2` (SRTP).
+- **PipeWire Support:** DinoX integrates explicitly with PipeWire for modern audio support.
+  > **Important:** If your system uses PipeWire (common on Fedora, Manjaro, Mint 22+), you **must** install the GStreamer PipeWire plugin (usually `gstreamer1.0-pipewire` or `gst-plugin-pipewire`). This is a separate package from standard GStreamer plugins! Without it, calls or voice notes will fallback to the legacy sound server (Pulse/ALSA), which may lead to stability issues or incorrect device selection.
 - **Security profile:** **DTLS-SRTP only** (no SDES-SRTP).
 - **Baseline codecs:** **Opus** (audio) and **VP8** (video) for reliable interop.
 - **Optional audio quality:** `webrtc-audio-processing` enables AEC/NS/AGC if present.

@@ -806,17 +806,18 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         var presence_manager = stream_interactor.get_module<PresenceManager> (PresenceManager.IDENTITY);
         string current_status = presence_manager.get_current_status_msg () ?? "";
 
-        var dialog = new Adw.MessageDialog (window, _("Set Status Message"), null);
+        var dialog = new Adw.AlertDialog (_("Set Status Message"), null);
         var entry = new Entry ();
         entry.text = current_status;
         entry.activate.connect (() => {
             dialog.response ("set");
         });
 
-        dialog.set_extra_child (entry);
+        dialog.extra_child = entry;
         dialog.add_response ("cancel", _("Cancel"));
         dialog.add_response ("set", _("Set"));
-        dialog.set_default_response ("set");
+        dialog.default_response = "set";
+        dialog.close_response = "cancel";
 
         dialog.response.connect ((response) => {
             if (response == "set") {
@@ -824,7 +825,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             }
         });
 
-        dialog.present ();
+        dialog.present (window);
     }
 
     private void show_preferences_window () {

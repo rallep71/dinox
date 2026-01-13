@@ -5,6 +5,20 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.7.9] - 2026-01-13
+
+### Added
+- **Audio/Video Backend**: Added native **PipeWire support** (`pipewiresrc`) as the primary audio source for Calls and Voice Notes. This massively improves stability and quality on modern Linux distributions (Mint, Fedora, Arch) and fixes "Device not found" errors.
+- **Voice Notes**: Added a +8dB volume boost to voice messages to fix low microphone volume issues.
+- **Voice Notes**: Enabled "Faststart" (Web Optimized) for MP4 recordings. This ensures compatibility with iOS devices and the Conversations app, which previously refused to play DinoX voice notes.
+
+### Changed
+- **Tor Manager**: Enhanced connection logic and settings UI:
+    - Included a **Firewall Mode** to restrict Tor traffic to ports 80 and 443 only.
+    - Added an intelligent **Bridge Filter** for OBFS4 that prioritizes bridges on ports 80/443 for better reachability in restrictive networks.
+    - Improved UI clarity for adding custom bridges.
+- **UI**: Various refinements to Conversation View, File Sending Overlay, and Dialogs for a smoother user experience.
+
 ## [0.9.7.8] - 2026-01-12
 
 ### Fixed

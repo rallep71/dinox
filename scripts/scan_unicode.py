@@ -22,7 +22,7 @@ suspicious_chars = {
 }
 
 extensions = ['.vala', '.c', '.h', '.py', '.sh', '.md', '.txt', '.ui', '.xml', '.json', '.css', '.build', '.in', '.yml', '.yaml']
-ignore_dirs = ['build', '.git', 'icon_backup']
+ignore_dirs = ['build', '.git', 'icon_backup', '.venv']
 
 found_issues = []
 
