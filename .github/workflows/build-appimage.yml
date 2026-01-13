@@ -35,7 +35,8 @@ jobs:
               libsoup-3.0-dev libunwind-dev libgstreamer1.0-dev \
               libgstreamer-plugins-base1.0-dev gstreamer1.0-plugins-good \
               gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-libav \
-              gstreamer1.0-tools gstreamer1.0-nice gstreamer1.0-vaapi libnice-dev libsrtp2-dev \
+              gstreamer1.0-tools gstreamer1.0-nice gstreamer1.0-vaapi gstreamer1.0-pipewire \
+              libnice-dev libsrtp2-dev \
               libgnutls28-dev libcanberra-dev libdbusmenu-glib-dev \
               libgdk-pixbuf-2.0-dev libsignal-protocol-c-dev libprotobuf-c-dev \
               libsqlcipher-dev libsecret-1-dev protobuf-c-compiler cmake patchelf \
@@ -65,7 +66,8 @@ jobs:
               libsoup-3.0-dev libunwind-dev libgstreamer1.0-dev \
               libgstreamer-plugins-base1.0-dev gstreamer1.0-plugins-good \
               gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-libav \
-              gstreamer1.0-tools gstreamer1.0-nice gstreamer1.0-vaapi libnice-dev libsrtp2-dev \
+              gstreamer1.0-tools gstreamer1.0-nice gstreamer1.0-vaapi gstreamer1.0-pipewire \
+              libnice-dev libsrtp2-dev \
               libgnutls28-dev libcanberra-dev libdbusmenu-glib-dev \
               libgdk-pixbuf-2.0-dev libsignal-protocol-c-dev libprotobuf-c-dev \
               libsqlcipher-dev libsecret-1-dev protobuf-c-compiler cmake patchelf \
