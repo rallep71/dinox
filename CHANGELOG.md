@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - **Packaging**: Correctly bundled `gstreamer1.0-pipewire` in **AppImage** and compiled a minimal `pipewire` GStreamer plugin for **Flatpak**. This ensures the new PipeWire backend works reliably in sandboxed environments and prevents fallback to incompatible audio drivers.
+- **UI Responsiveness**: Fixed layout rendering issues in the Preferences dialog (specifically Tor settings). The settings window now adapts correctly to narrow window sizes (mobile layout), ensuring all controls remain accessible without being cut off.
 
 ## [0.9.7.8] - 2026-01-12
 

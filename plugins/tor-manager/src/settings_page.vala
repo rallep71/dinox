@@ -75,6 +75,8 @@ namespace Dino.Plugins.TorManager {
             warning_label = new Label("Warning: Only bridges on port 80/443 will work when Firewall Mode is enabled!");
             warning_label.add_css_class("error"); // Red text
             warning_label.halign = Align.START;
+            warning_label.wrap = true;
+            warning_label.xalign = 0;
             warning_label.margin_start = 12;
             warning_label.margin_bottom = 12;
             warning_label.visible = false;
@@ -163,6 +165,9 @@ namespace Dino.Plugins.TorManager {
              var help_label = new Label("Alternatively get bridges at https://bridges.torproject.org/");
              help_label.add_css_class("dim-label");
              help_label.margin_top = 6;
+             help_label.wrap = true;
+             help_label.xalign = 0;
+             help_label.halign = Align.START;
              bridge_group.add(help_label);
         }
 
