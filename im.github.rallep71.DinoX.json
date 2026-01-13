@@ -284,6 +284,90 @@
                 }
             ]
         },
+        {            "name": "pipewire",
+            "buildsystem": "meson",
+            "builddir": true,
+            "config-opts": [
+                "-Ddocs=disabled",
+                "-Dman=disabled",
+                "-Dtests=disabled",
+                "-Dexamples=disabled",
+                "-Dsystemd=disabled",
+                "-Dsession-managers=[]",
+                "-Dpipewire-alsa=disabled",
+                "-Dpipewire-jack=disabled",
+                "-Djack=disabled",
+                "-Dpipewire-v4l2=disabled",
+                "-Dbluez5=disabled",
+                "-Dffmpeg=disabled",
+                "-Dvulkan=disabled",
+                "-Dudev=disabled",
+                "-Davahi=disabled",
+                "-Draop=disabled",
+                "-Dgstreamer=enabled",
+                "-Dgstreamer-device-provider=enabled"
+            ],
+            "cleanup": [
+                "/bin",
+                "/etc",
+                "/include",
+                "/libexec",
+                "/share",
+                "/lib/pkgconfig",
+                "/lib/systemd"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://gitlab.freedesktop.org/pipewire/pipewire/-/archive/1.2.7/pipewire-1.2.7.tar.gz",
+                    "sha256": "4b611dd59480dc584a7e802a8183060da3169826d9c6e3b5675e3532f3f9050d"
+                }
+            ]
+        },
+        {            "name": "pipewire",
+            "buildsystem": "meson",
+            "config-opts": [
+                "-Ddocs=disabled",
+                "-Dman=disabled",
+                "-Dtests=disabled",
+                "-Dexamples=disabled",
+                "-Dsystemd=disabled",
+                "-Dsession-managers=[]",
+                "-Dpipewire-alsa=disabled",
+                "-Dpipewire-jack=disabled",
+                "-Djack=disabled",
+                "-Dpipewire-v4l2=disabled",
+                "-Dbluez5=disabled",
+                "-Dffmpeg=disabled",
+                "-Dvulkan=disabled",
+                "-Dlibcamera=disabled",
+                "-Droc=disabled",
+                "-Dudevrulesdir=/app/lib/udev/rules.d",
+                "-Dgstreamer=enabled"
+            ],
+            "cleanup": [
+                "/bin",
+                "/etc",
+                "/include",
+                "/libexec",
+                "/lib/pkgconfig",
+                "/lib/systemd",
+                "/share/alsa",
+                "/share/man",
+                "/share/pipewire",
+                "/share/doc",
+                "/share/locale",
+                "*.a",
+                "*.la"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://gitlab.freedesktop.org/pipewire/pipewire/-/archive/1.2.7/pipewire-1.2.7.tar.gz",
+                    "sha256": "e75568ed18bcbe75e9779af57cb9cc256fd7ebfaadc12bb347a0717055d1d3a9"
+                }
+            ]
+        },
         {
             "name": "dino",
             "buildsystem": "meson",
