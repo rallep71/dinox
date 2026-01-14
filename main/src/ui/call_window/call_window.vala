@@ -250,10 +250,12 @@ namespace Dino.Ui {
 
             hide_control_handler = Timeout.add_seconds(3, () => {
                 if (!hide_control_elements) {
+                    hide_control_handler = 0;
                     return false;
                 }
 
                 if (bottom_bar.is_menu_active()) {
+                    hide_control_handler = 0;
                     return false;
                 }
 

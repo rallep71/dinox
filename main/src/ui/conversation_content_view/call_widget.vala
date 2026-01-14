@@ -112,7 +112,13 @@ namespace Dino.Ui {
         }
 
         private void on_time_update_timeout() {
-            if (time_update_handler_id != 0) update_call_state();
+            // Since this is a one-shot timeout (add_seconds_once), it's already invalid when this runs.
+            // We clear the ID to prevent dispose() from trying to remove it.
+            // If update_call_state starts a new one, it will overwrite this variable.
+            var current_id = time_update_handler_id;
+            time_update_handler_id = 0;
+            
+            if (current_id != 0) update_call_state();
         }
 
         private void update_call_state() {

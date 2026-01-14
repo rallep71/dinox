@@ -170,16 +170,21 @@ public class AudioRecorder : GLib.Object {
             });
             
             // Safety timeout (2 seconds)
-            uint timeout_source = Timeout.add(2000, () => {
+            uint timeout_source = 0;
+            timeout_source = Timeout.add(2000, () => {
                 print("DEBUG: AudioRecorder.stop_recording_async: Timeout reached\n");
                 callback();
+                timeout_source = 0;
                 return false;
             });
             
             yield;
             print("DEBUG: AudioRecorder.stop_recording_async: finished yield\n");
             
-            Source.remove(timeout_source);
+            if (timeout_source != 0) {
+                Source.remove(timeout_source);
+                timeout_source = 0;
+            }
             if (bus != null) {
                 bus.disconnect(signal_id);
                 // Important: Remove the signal watch to stop the bus from polling the main loop

@@ -188,8 +188,8 @@ public class Dino.Plugins.Rtp.VoiceProcessor : Audio.Filter {
                 adjust_stream_delay(native);
                 return Source.CONTINUE;
             }
+            adjust_delay_timeout_id = 0;
         }
-        adjust_delay_timeout_id = 0;
         return Source.REMOVE;
     }
 
@@ -211,13 +211,13 @@ public class Dino.Plugins.Rtp.VoiceProcessor : Audio.Filter {
                 // make_writable() is insufficient if the memory is shared/readonly further up.
                 Gst.Buffer copy = buffer.copy_deep();
                 analyze_reverse_stream(native, echo_probe.audio_info, copy);
+
+                if (adjust_delay_timeout_id == 0 && echo_probe != null) {
+                    adjust_delay_timeout_id = Timeout.add(1000, adjust_delay);
+                }
             }
         }
         
-        if (adjust_delay_timeout_id == 0 && echo_probe != null) {
-            adjust_delay_timeout_id = Timeout.add(1000, adjust_delay);
-        }
-
         if (now_us - last_reverse_log_us >= 2 * 1000 * 1000) {
             message("VoiceProcessor: reverse feed %u buffers/2s (last_pts=%" + uint64.FORMAT + ")", reverse_buffers_since_log, (uint64) last_reverse);
             reverse_buffers_since_log = 0;
@@ -289,11 +289,12 @@ public class Dino.Plugins.Rtp.VoiceProcessor : Audio.Filter {
             echo_probe.disconnect(process_stream_delay_handler_id);
             process_stream_delay_handler_id = 0;
         }
-        if (adjust_delay_timeout_id != 0) {
-            Source.remove(adjust_delay_timeout_id);
-            adjust_delay_timeout_id = 0;
-        }
+
         lock (adapter) {
+            if (adjust_delay_timeout_id != 0) {
+                Source.remove(adjust_delay_timeout_id);
+                adjust_delay_timeout_id = 0;
+            }
             adapter.clear();
             destroy_native(native);
             native = null;

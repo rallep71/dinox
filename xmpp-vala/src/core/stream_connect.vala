@@ -92,13 +92,16 @@ namespace Xmpp {
                 connection_timeout_id = Timeout.add_seconds(60, () => {
                     warning("Connection attempt timed out");
                     stream.disconnect.begin();
+                    connection_timeout_id = 0;
                     return Source.REMOVE;
                 });
 
                 yield stream.connect();
 
-                Source.remove(connection_timeout_id);
-                connection_timeout_id = 0;
+                if (connection_timeout_id != 0) {
+                    Source.remove(connection_timeout_id);
+                    connection_timeout_id = 0;
+                }
 
                 return new XmppStreamResult() { stream=stream };
             } catch (IOError e) {
