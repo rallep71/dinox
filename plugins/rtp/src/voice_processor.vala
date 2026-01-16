@@ -157,6 +157,7 @@ public class Dino.Plugins.Rtp.VoiceProcessor : Audio.Filter {
     private static extern void set_stream_delay(void* native, int delay);
     private static extern void notify_gain_level(void* native, int gain_level);
     private static extern int get_suggested_gain_level(void* native);
+    private static extern void set_compression_gain_db(void* native, int gain_db, bool manual_mode);
 
     public override bool setup(Audio.Info info) {
         message("VoiceProcessor.setup(%s)", info.to_caps().to_string());
@@ -229,6 +230,17 @@ public class Dino.Plugins.Rtp.VoiceProcessor : Audio.Filter {
         lock (adapter) {
             if (native != null) {
                 set_stream_delay(native, stream_delay);
+            }
+        }
+    }
+
+    public void set_gain_db(int gain_db, bool manual_mode) {
+        lock (adapter) {
+            if (native != null) {
+                message("VoiceProcessor: calling native set_compression_gain_db(%d, %s)", gain_db, manual_mode.to_string());
+                set_compression_gain_db(native, gain_db, manual_mode);
+            } else {
+                warning("VoiceProcessor: native is NULL");
             }
         }
     }

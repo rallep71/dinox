@@ -622,6 +622,16 @@ public class Dino.Plugins.Rtp.Plugin : RootInterface, VideoCallPlugin, Object {
         real_device.set_volume(volume);
     }
 
+    public void set_digital_gain_db(int gain_db, bool manual_mode) {
+        debug("RtpPlugin: set_digital_gain_db gain=%d manual=%s. Devices: %d", gain_db, manual_mode.to_string(), devices.size);
+        foreach (Device device in devices) {
+            if (device.is_source) {
+                debug("RtpPlugin: updating device %s", device.id);
+                device.set_digital_gain_db(gain_db, manual_mode);
+            }
+        }
+    }
+
     public double get_stream_volume(Xmpp.Xep.JingleRtp.Stream? stream) {
         Stream? plugin_stream = stream as Stream?;
         if (plugin_stream == null || plugin_stream.output_device == null) return 1.0;

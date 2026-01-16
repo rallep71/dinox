@@ -30,6 +30,10 @@ struct _DinoPluginsRtpVoiceProcessorNative {
     gint stream_delay = 0;
     gint last_median = 0;
     gint last_poor_delays = 0;
+    
+    // Manual gain state
+    bool manual_mode = false;
+    float manual_gain_factor = 1.0f;
 };
 
 extern "C" void *dino_plugins_rtp_adjust_to_running_time(GstBaseTransform *transform, GstBuffer *buffer) {
@@ -54,7 +58,7 @@ extern "C" void *dino_plugins_rtp_voice_processor_init_native(gint stream_delay)
     config.gain_controller1.enabled = true;
     config.gain_controller1.mode = webrtc::AudioProcessing::Config::GainController1::kAdaptiveDigital;
     config.gain_controller1.target_level_dbfs = 3;
-    config.gain_controller1.compression_gain_db = 6; // Restored to default 6dB
+    config.gain_controller1.compression_gain_db = 9; // Slightly boosted default
     config.gain_controller1.enable_limiter = true;
     
     config.high_pass_filter.enabled = true;
@@ -190,6 +194,18 @@ dino_plugins_rtp_voice_processor_process_stream(void *native_ptr, GstAudioInfo *
     auto * const data = (int16_t * const) abuf.planes[0];
     err = apm->ProcessStream (data, config, config, data);
 
+    // Apply manual gain if enabled (Post-Processing)
+    if (native->manual_mode && native->manual_gain_factor != 1.0f) {
+        int num_samples = abuf.n_samples * SAMPLE_CHANNELS;
+        for (int i = 0; i < num_samples; i++) {
+            float val = (float)data[i] * native->manual_gain_factor;
+            // Hard clipping to int16 range
+            if (val > 32767.0f) val = 32767.0f;
+            if (val < -32768.0f) val = -32768.0f;
+            data[i] = (int16_t)val;
+        }
+    }
+
     gst_audio_buffer_unmap (&abuf);
 
     if (err < 0) g_warning("voice_processor_native.cpp: ProcessStream %i", err);
@@ -199,4 +215,51 @@ extern "C" void dino_plugins_rtp_voice_processor_destroy_native(void *native_ptr
     auto *native = (_DinoPluginsRtpVoiceProcessorNative *) native_ptr;
     native->apm = nullptr;
     delete native;
+}
+
+extern "C" void dino_plugins_rtp_voice_processor_set_compression_gain_db(void *native_ptr, gint gain_db, bool manual_mode) {
+    if (!native_ptr) return;
+    auto *native = (_DinoPluginsRtpVoiceProcessorNative *) native_ptr;
+
+    // Store state for manual post-processing
+    native->manual_mode = manual_mode;
+    if (manual_mode) {
+        // Calculate linear factor from dB: factor = 10 ^ (dB / 20)
+        native->manual_gain_factor = powf(10.0f, (float)gain_db / 20.0f);
+    } else {
+        native->manual_gain_factor = 1.0f;
+    }
+
+    webrtc::AudioProcessing::Config config = native->apm->GetConfig();
+    
+    // Always update compression_gain_db for Adaptive mode or as a fallback
+    config.gain_controller1.compression_gain_db = gain_db;
+    
+    // Explicitly disable GainController2 to prevent conflicts
+    config.gain_controller2.enabled = false;
+
+    if (manual_mode) {
+        // In manual mode, we rely on our post-processing loop (below in process_stream).
+        // We revert WebRTC AGC to AdaptiveDigital but with a neutral config or just keep it running
+        // to handle noise suppression, but we don't want it to fight our gain.
+        // Actually, if we apply gain AFTER, we should let WebRTC do its thing on the original signal.
+        // BUT if gain_db is high, maybe the user wants the input to WebRTC to be high? 
+        // No, digital gain is usually post-ADC.
+        
+        // Let's set WebRTC to AdaptiveDigital with default settings to ensure clean signal for AEC
+        config.gain_controller1.mode = webrtc::AudioProcessing::Config::GainController1::kAdaptiveDigital;
+        config.gain_controller1.enable_limiter = true;
+        config.gain_controller1.target_level_dbfs = 3;
+        
+        g_debug("voice_processor_native.cpp: Manual Mode ON. applied db=%.2f (factor=%.2f). WebRTC AGC set to standard Adaptive.", (float)gain_db, native->manual_gain_factor);
+    } else {
+        // Standard Adaptive Behavior
+        config.gain_controller1.mode = webrtc::AudioProcessing::Config::GainController1::kAdaptiveDigital;
+        config.gain_controller1.enable_limiter = true;
+        config.gain_controller1.target_level_dbfs = 3; 
+        
+        g_debug("voice_processor_native.cpp: Manual Mode OFF. WebRTC AGC Adaptive. Gain_db=%d", gain_db);
+    }
+    
+    native->apm->ApplyConfig(config);
 }

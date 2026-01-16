@@ -8,6 +8,7 @@ public class Dino.Ui.AudioSettingsPopover : Gtk.Popover {
     public signal void speaker_selected(Plugins.MediaDevice device);
     public signal void microphone_volume_changed(double volume);
     public signal void speaker_volume_changed(double volume);
+    public signal void digital_gain_changed(int gain_db, bool manual_mode);
 
     public Plugins.MediaDevice? current_microphone_device { get; set; }
     public Plugins.MediaDevice? current_speaker_device { get; set; }
@@ -17,6 +18,8 @@ public class Dino.Ui.AudioSettingsPopover : Gtk.Popover {
     
     private Scale? microphone_volume_scale;
     private Scale? speaker_volume_scale;
+    private Scale? digital_gain_scale;
+    private Switch? digital_gain_switch;
 
     public AudioSettingsPopover() {
         Box box = new Box(Orientation.VERTICAL, 15);
@@ -32,6 +35,15 @@ public class Dino.Ui.AudioSettingsPopover : Gtk.Popover {
         }
     }
     
+    public void set_digital_gain_db(int gain_db) {
+        if (digital_gain_scale != null) {
+            // Only update UI if we are in manual mode or just to reflect state?
+            // Actually, we don't get updates FROM backend usually.
+            // But if we did, we should be careful not to trigger loops.
+            digital_gain_scale.set_value((double) gain_db);
+        }
+    }
+
     public void set_speaker_volume(double volume) {
         if (speaker_volume_scale != null) {
             speaker_volume_scale.set_value(volume);
@@ -103,6 +115,44 @@ public class Dino.Ui.AudioSettingsPopover : Gtk.Popover {
             volume_box.append(microphone_volume_scale);
             volume_box.append(new Image.from_icon_name("microphone-sensitivity-high-symbolic"));
             micro_box.append(volume_box);
+
+            // Digital Gain Slider
+            Box gain_box = new Box(Orientation.HORIZONTAL, 8);
+            gain_box.append(new Label(_("WebRTC Gain:")));
+            
+            digital_gain_switch = new Switch();
+            digital_gain_switch.valign = Align.CENTER;
+            digital_gain_switch.active = false; // Default: OFF (Adaptive)
+            gain_box.append(digital_gain_switch);
+            
+            digital_gain_scale = new Scale.with_range(Orientation.HORIZONTAL, 0.0, 30.0, 1.0);
+            digital_gain_scale.set_value(9.0); // Default
+            digital_gain_scale.hexpand = true;
+            digital_gain_scale.draw_value = true;
+            digital_gain_scale.value_pos = PositionType.RIGHT;
+            digital_gain_scale.set_digits(0);
+            digital_gain_scale.sensitive = false; // Initially disabled
+            
+            digital_gain_scale.value_changed.connect(() => {
+                if (digital_gain_switch.active) {
+                    digital_gain_changed((int) digital_gain_scale.get_value(), true);
+                }
+            });
+            
+            digital_gain_switch.notify["active"].connect(() => {
+                bool is_active = digital_gain_switch.active;
+                debug("AudioSettingsPopover: Switch toggled. Active: %s", is_active.to_string());
+                digital_gain_scale.sensitive = is_active;
+                if (is_active) {
+                    digital_gain_changed((int) digital_gain_scale.get_value(), true);
+                } else {
+                    // Revert to default/adaptive
+                    digital_gain_changed(9, false); // 9 is default
+                }
+            });
+            
+            gain_box.append(digital_gain_scale);
+            micro_box.append(gain_box);
         }
 
         return micro_box;

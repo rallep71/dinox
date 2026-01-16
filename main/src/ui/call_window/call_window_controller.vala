@@ -375,6 +375,11 @@ public class Dino.Ui.CallWindowController : Object {
                 call_plugin.set_device_volume(device, volume);
             }
         });
+
+        audio_settings_popover.digital_gain_changed.connect((gain_db, manual_mode) => {
+            debug("CallWindowController: gain_db=%d manual=%s", gain_db, manual_mode.to_string());
+            call_plugin.set_digital_gain_db(gain_db, manual_mode);
+        });
     }
 
     private void update_current_audio_device(AudioSettingsPopover audio_settings_popover) {
