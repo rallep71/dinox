@@ -21,6 +21,11 @@ This document is organized as a **chronological release timeline** first, follow
 
 ## Timeline (Recent Releases)
 
+### v0.9.8.0 (Audio & Usability Polish)
+
+- **Adjustable Audio Gain**: Implemented manual audio gain control (Post-Processing) with slider ui to bypass WebRTC limits.
+- **Input Device Selection**: Explicit selection of audio input device in settings.
+
 ### v0.9.7.0 (Stable Tor & Multi-Arch)
 
 - **Network Reliability**: Fixed race conditions during Tor startup; implemented port waiting logic to prevent "Connection Refused".
@@ -120,26 +125,6 @@ Focus: make GitHub release assets reliable for end users (Flatpak/AppImage).
 ---
 
 ## Roadmap (Next Work)
-
-### v0.9.8.0 (Audio & Usability Polish)
-
-Focus: Refined audio control and user experience enhancements.
-
-| Item | Description | Status |
-|------|-------------|--------|
-| **Adjustable Audio Gain** | UI slider to control WebRTC digital gain (compression_gain_db) in real-time | TODO |
-| **Input Device Selection** | Explicit selection of audio input device (Microphone) in settings, independent of system defaults | TODO |
-
-### v0.9.4.0 (Call Quality & Performance)
-
-Focus: Audio/Video improvements and performance optimization.
-
-| Item | Description | Status |
-|------|-------------|--------|
-| **Call Quality UI** | Display packet loss, jitter, and resolution during calls | IN PROGRESS (backend ready) |
-| **Echo Cancellation** | Fine-tune `webrtc-audio-processing` AEC settings across Linux audio setups | IN PROGRESS |
-| **Spell Checking** | Re-enable spell checking (waiting for GTK4 GtkTextView support) | BLOCKED |
-| **Performance** | Optimize memory usage for long-running sessions | TODO |
 
 ### Q2 2026: Modern XEPs (explicit TODOs)
 
