@@ -650,14 +650,16 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
                 dsp = null;
             }
             if (tee != null) {
-                int linked_src_pads = 0;
                 tee.foreach_src_pad((_, pad) => {
-                    if (pad.is_linked()) linked_src_pads++;
+                    if (pad.is_linked()) {
+                        var peer = pad.get_peer();
+                        if (peer != null) {
+                            pad.unlink(peer);
+                        }
+                    }
                     return true;
                 });
-                if (linked_src_pads != 0) {
-                    warning("%s-tee still has %d src pads while being destroyed", id, linked_src_pads);
-                }
+
                 tee.set_locked_state(true);
                 tee.set_state(Gst.State.NULL);
                 pipe.remove(tee);
