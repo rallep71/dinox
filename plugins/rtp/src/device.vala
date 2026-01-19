@@ -102,12 +102,14 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
     }
 
     public void set_digital_gain_db(int gain_db, bool manual_mode) {
+#if WITH_VOICE_PROCESSOR
         if (dsp != null && dsp is VoiceProcessor) {
             debug("Device: invoking VoiceProcessor set_gain_db");
             ((VoiceProcessor) dsp).set_gain_db(gain_db, manual_mode);
         } else {
             debug("Device: dsp is null or not VoiceProcessor. dsp=%s", dsp == null ? "null" : dsp.get_type().name());
         }
+#endif
     }
 
     public void update(Gst.Device device) {
