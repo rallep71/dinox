@@ -67,6 +67,7 @@ sources = files(
     'src/module/xep/0082_date_time_profiles.vala',
     'src/module/xep/0084_user_avatars.vala',
     'src/module/xep/0085_chat_state_notifications.vala',
+    'src/module/xep/0092_software_version.vala',
     'src/module/xep/0104_http_scheme_url_data.vala',
     'src/module/xep/0115_entity_capabilities.vala',
     'src/module/xep/0166_jingle/component.vala',

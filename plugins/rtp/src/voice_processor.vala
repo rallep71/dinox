@@ -50,7 +50,7 @@ public class Dino.Plugins.Rtp.EchoProbe : Audio.Filter {
                 if (measured_delay >= 150 && measured_delay < 2000) {
                     int new_delay = int.min(measured_delay, 384);
                     if (new_delay != this.delay) {
-                        message("Delay adjusted from %dms to %dms", this.delay, new_delay);
+                        debug("Delay adjusted from %dms to %dms", this.delay, new_delay);
                         this.delay = new_delay;
                         on_new_delay(new_delay);
                     }
@@ -99,7 +99,7 @@ public class Dino.Plugins.Rtp.EchoProbe : Audio.Filter {
                 last_log_us = now_us;
             }
             if (now_us - last_log_us >= 2 * 1000 * 1000) {
-                message("EchoProbe: emitted %u buffers (delay=%dms)", buffers_since_log, delay);
+                debug("EchoProbe: emitted %u buffers (delay=%dms)", buffers_since_log, delay);
                 buffers_since_log = 0;
                 last_log_us = now_us;
             }
@@ -160,7 +160,7 @@ public class Dino.Plugins.Rtp.VoiceProcessor : Audio.Filter {
     private static extern void set_compression_gain_db(void* native, int gain_db, bool manual_mode);
 
     public override bool setup(Audio.Info info) {
-        message("VoiceProcessor.setup(%s)", info.to_caps().to_string());
+        debug("VoiceProcessor.setup(%s)", info.to_caps().to_string());
         audio_info = info;
         period_samples = info.rate / 100; // 10ms buffers
         period_size = period_samples * info.bpf;
@@ -169,7 +169,7 @@ public class Dino.Plugins.Rtp.VoiceProcessor : Audio.Filter {
     }
 
     public override bool start() {
-        message("VoiceProcessor.start(echo_probe=%s, initial_delay=%dms)", echo_probe != null ? "yes" : "no", echo_probe != null ? echo_probe.delay : -1);
+        debug("VoiceProcessor.start(echo_probe=%s, initial_delay=%dms)", echo_probe != null ? "yes" : "no", echo_probe != null ? echo_probe.delay : -1);
         native = init_native(echo_probe.delay);
         if (process_outgoing_buffer_handler_id == 0 && echo_probe != null) {
             process_outgoing_buffer_handler_id = echo_probe.on_new_buffer.connect(process_outgoing_buffer);
@@ -220,7 +220,7 @@ public class Dino.Plugins.Rtp.VoiceProcessor : Audio.Filter {
         }
         
         if (now_us - last_reverse_log_us >= 2 * 1000 * 1000) {
-            message("VoiceProcessor: reverse feed %u buffers/2s (last_pts=%" + uint64.FORMAT + ")", reverse_buffers_since_log, (uint64) last_reverse);
+            debug("VoiceProcessor: reverse feed %u buffers/2s (last_pts=%" + uint64.FORMAT + ")", reverse_buffers_since_log, (uint64) last_reverse);
             reverse_buffers_since_log = 0;
             last_reverse_log_us = now_us;
         }
@@ -237,7 +237,7 @@ public class Dino.Plugins.Rtp.VoiceProcessor : Audio.Filter {
     public void set_gain_db(int gain_db, bool manual_mode) {
         lock (adapter) {
             if (native != null) {
-                message("VoiceProcessor: calling native set_compression_gain_db(%d, %s)", gain_db, manual_mode.to_string());
+                debug("VoiceProcessor: calling native set_compression_gain_db(%d, %s)", gain_db, manual_mode.to_string());
                 set_compression_gain_db(native, gain_db, manual_mode);
             } else {
                 warning("VoiceProcessor: native is NULL");
@@ -283,7 +283,7 @@ public class Dino.Plugins.Rtp.VoiceProcessor : Audio.Filter {
                 last_forward_log_us = now_us;
             }
             if (now_us - last_forward_log_us >= 2 * 1000 * 1000) {
-                 message("VoiceProcessor: forward feed %u buffers/2s", forward_buffers_since_log);
+                 debug("VoiceProcessor: forward feed %u buffers/2s", forward_buffers_since_log);
                  forward_buffers_since_log = 0;
                  last_forward_log_us = now_us;
             }

@@ -98,7 +98,7 @@ public class Account : Object {
     }
 
     private static string get_random_resource() {
-        return "dino." + Random.next_int().to_string("%x");
+        return "DinoX." + Random.next_int().to_string("%x");
     }
 
     public bool equals(Account acc) {
