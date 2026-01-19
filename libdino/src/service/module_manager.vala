@@ -52,7 +52,8 @@ public class ModuleManager {
             module_map[account].add(new Bind.Module(account.resourcepart));
             module_map[account].add(new Session.Module());
             module_map[account].add(new Roster.Module());
-            module_map[account].add(new Xep.ServiceDiscovery.Module.with_identity("client", "pc", "Dino"));
+            module_map[account].add(new Xep.ServiceDiscovery.Module.with_identity("client", "pc", "DinoX"));
+            module_map[account].add(new Xep.SoftwareVersion.Module("DinoX", Dino.VERSION, "Linux"));
             module_map[account].add(new Xep.PrivateXmlStorage.Module());
             module_map[account].add(new Xep.Bookmarks.Module());
             module_map[account].add(new Xep.Bookmarks2.Module());
