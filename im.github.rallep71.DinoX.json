@@ -334,6 +334,17 @@
             ]
         },
         {
+            "name": "webrtc-audio-processing",
+            "buildsystem": "meson",
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://gitlab.freedesktop.org/pulseaudio/webrtc-audio-processing/-/archive/v2.1/webrtc-audio-processing-v2.1.tar.gz",
+                    "sha256": "2358883a8551711f3b6169f6799c003dc1a6efd37bdb24a135a015cc9e3d7713"
+                }
+            ]
+        },
+        {
             "name": "dino",
             "buildsystem": "meson",
             "builddir": true,
