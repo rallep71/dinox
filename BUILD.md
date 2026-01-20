@@ -8,6 +8,7 @@ This guide provides detailed instructions for building DinoX on various Linux di
 *   **Build System:** Meson (>= 0.56.0), Ninja
 *   **Language:** Vala (>= 0.48)
 *   **Toolkit:** GTK4, Libadwaita
+*   **Multimedia:** GStreamer, PipeWire
 
 ## Dependencies
 
