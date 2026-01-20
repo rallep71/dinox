@@ -20,7 +20,7 @@ Built for ultimate privacy with integrated Tor & Obfs4proxy, full local database
 
 ## What is DinoX?
 
-DinoX is a modern XMPP (Jabber) messaging client for Linux built with **GTK4** and **libadwaita**. 
+DinoX is a secure XMPP messenger for Linux with built-in Tor & Obfs4proxy (Zero-Config Privacy). Features OMEMO encryption, decentralized Group Video Calls, hardware acceleration, and full database encryption in a modern GTK4/libadwaita interface.
 
 DinoX features System Tray support, MUJI group video calls, voice messages, message retraction, advanced MUC moderation and more.
 
@@ -95,7 +95,7 @@ sudo apt install build-essential meson ninja-build valac \
   libgpgme-dev libqrencode-dev libsoup-3.0-dev libgstreamer1.0-dev \
   libgstreamer-plugins-base1.0-dev libgstreamer-plugins-bad1.0-dev \
   libwebrtc-audio-processing-dev libnice-dev libgnutls28-dev libsrtp2-dev \
-  libgeoclue-2-dev
+  libgeoclue-2-dev gstreamer1.0-pipewire
 ```
 
 For a complete, up-to-date build guide (including Fedora/Arch and call stack notes), see [BUILD.md](BUILD.md).
