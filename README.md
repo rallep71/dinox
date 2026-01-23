@@ -70,13 +70,23 @@ flatpak run im.github.rallep71.DinoX
 
 ### AppImage
 
-Download from [GitHub Releases](https://github.com/rallep71/dinox/releases/latest)
+- Download from [GitHub Releases](https://github.com/rallep71/dinox/releases/latest)
 
-```bash
-chmod +x DinoX-*.AppImage
-./DinoX-*.AppImage
-```
+  ```bash
+  chmod +x DinoX-*.AppImage
+  ./DinoX-*.AppImage
+  ```
+- Install via [AppMan](https://github.com/ivan-hc/AppMan) (rootless)
 
+  ```bash
+  appman -i dinox
+  ```
+- Install via [AM](https://github.com/ivan-hc/AM)
+
+  ```bash
+  am -i dinox
+  ```
+  
 ### Build from Source
 
 ```bash
