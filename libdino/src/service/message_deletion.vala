@@ -107,10 +107,10 @@ namespace Dino {
                 return;
             }
 
+            bool perform_retraction = false;
+            
             if (conversation.type_ == Conversation.Type.CHAT) {
-                MessageStanza stanza = new MessageStanza() { to = conversation.counterpart };
-                Xmpp.Xep.MessageRetraction.set_retract_id(stanza, (!)message_id_to_delete);
-                enqueue_retraction(stream, stanza);
+                perform_retraction = true;
                 delete_locally(conversation, content_item, conversation.account.bare_jid);
             } else if (conversation.type_.is_muc_semantic()) {
                 bool is_own_message = false;
@@ -121,14 +121,53 @@ namespace Dino {
                 }
 
                 if (is_own_message) {
-                    MessageStanza stanza = new MessageStanza() { to = conversation.counterpart };
-                    stanza.type_ = MessageStanza.TYPE_GROUPCHAT;
-                    Xmpp.Xep.MessageRetraction.set_retract_id(stanza, (!)message_id_to_delete);
-                    enqueue_retraction(stream, stanza);
+                    perform_retraction = true;
                 } else {
                     Xmpp.Xep.MessageModeration.moderate.begin(stream, conversation.counterpart, (!)message_id_to_delete);
                 }
                 // Message will be deleted locally when the MUC server sends out a moderation/retraction message
+            }
+            
+            if (perform_retraction) {
+                // Send retraction as a proper message (encrypted if needed) with Fallback/Hint
+                Entities.Message retraction_msg = new Entities.Message("This message was retracted.");
+                retraction_msg.account = conversation.account;
+                retraction_msg.counterpart = conversation.counterpart;
+                retraction_msg.direction = Entities.Message.DIRECTION_SENT;
+                retraction_msg.encryption = conversation.encryption;
+                retraction_msg.stanza_id = Xmpp.random_uuid();
+                retraction_msg.type_ = Util.get_message_type_for_conversation(conversation);
+
+                if (conversation.type_ == Conversation.Type.GROUPCHAT) {
+                    retraction_msg.ourpart = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_own_jid(conversation.counterpart, conversation.account) ?? conversation.account.bare_jid;
+                } else {
+                    retraction_msg.ourpart = conversation.account.full_jid;
+                }
+                
+                // Use a dedicated handler method instead of lambda to avoid Vala compiler crashes
+                ulong signal_id = 0;
+                var message_processor = stream_interactor.get_module<MessageProcessor>(MessageProcessor.IDENTITY);
+                signal_id = message_processor.build_message_stanza.connect((msg, stanza, conv) => {
+                    if (msg == retraction_msg) {
+                        // 1. Retract
+                        Xep.MessageRetraction.set_retract_id(stanza, message_id_to_delete);
+
+                        // 2. Fallback
+                        var locations = new ArrayList<Xep.FallbackIndication.FallbackLocation>();
+                        // "This message was retracted." is 27 chars
+                        locations.add(new Xep.FallbackIndication.FallbackLocation.partial_body(0, 27)); 
+                        var fallback = new Xep.FallbackIndication.Fallback(Xep.MessageRetraction.NS_URI, locations);
+                        Xep.FallbackIndication.set_fallback(stanza, fallback);
+
+                        // 3. Store Hint
+                        Xep.MessageProcessingHints.set_message_hint(stanza, Xep.MessageProcessingHints.HINT_STORE);
+
+                        // Disconnect self immediately
+                        GLib.SignalHandler.disconnect(message_processor, signal_id);
+                    }
+                });
+
+                message_processor.send_xmpp_message(retraction_msg, conversation);
             }
         }
 

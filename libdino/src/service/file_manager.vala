@@ -241,6 +241,12 @@ public class FileManager : StreamInteractionModule, Object {
             }
 
             yield file_sender.send_file(conversation, file_transfer, file_send_data, file_meta);
+            
+            // Explicitly close the stream as we prevent libsoup/cis from closing the base stream
+            if (file_transfer.input_stream != null) {
+                try { yield file_transfer.input_stream.close_async(); } catch (Error e) {}
+            }
+
             file_transfer.state = FileTransfer.State.COMPLETE;
 
         } catch (Error e) {

@@ -218,6 +218,15 @@ public class VideoPlayerWidget : Widget {
                 if (file != null) {
                     if (start_play_button != null) start_play_button.visible = true;
                 }
+                
+                // Force preview mode even if complete, to avoid GStreamer entirely
+                if (preview_image == null) {
+                    preview_image = new FixedRatioPicture() { min_width=100, min_height=100, max_width=320, max_height=240 };
+                    // Add a "Play" icon overlay on the preview to show it's a video
+                    // stack.add_child(preview_image); 
+                    // For now just show generic preview
+                }
+                 stack.set_visible_child(preview_image);
             }
         } else {
             // Not complete (Downloading, Not Started, etc.)
@@ -225,21 +234,19 @@ public class VideoPlayerWidget : Widget {
                 state = State.PREVIEW;
                 show_overlay_toolbar = true;
                 
-                if (preview_image == null) {
-                    preview_image = new FixedRatioPicture() { min_width=100, min_height=100, max_width=320, max_height=240 };
-                    // Try to get a thumbnail if available, otherwise use a generic video icon
-                    // For now, let's use a generic icon or empty
-                    // TODO: Implement thumbnail extraction for videos
-                    
-                    // Use a placeholder icon for now
-                    var icon_theme = Gtk.IconTheme.get_for_display(Gdk.Display.get_default());
-                    if (icon_theme.has_icon("video-x-generic")) {
-                        // This is a bit hacky, FixedRatioPicture expects a Paintable
-                        // We might want to improve this later
+                if (preview_image != null) {
+                    stack.set_visible_child(preview_image);
+                } else {
+                    var placeholder = stack.get_child_by_name("placeholder");
+                    if (placeholder == null) {
+                        var icon = new Gtk.Image.from_icon_name("video-x-generic");
+                        icon.pixel_size = 96;
+                        stack.add_named(icon, "placeholder");
+                        placeholder = icon;
                     }
-                    stack.add_child(preview_image);
+                    stack.set_visible_child(placeholder);
                 }
-                stack.set_visible_child(preview_image);
+                // stack.set_visible_child(preview_image); // Removed this line as we handle it above
             }
 
             if (file_transfer.state == FileTransfer.State.IN_PROGRESS) {

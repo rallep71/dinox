@@ -19,6 +19,7 @@ namespace Dino {
         }
 
         public async void fill_metadata(File file, Xep.FileMetadataElement.FileMetadata metadata) {
+            debug("GenericFileMetadataProvider: Processing %s", file.get_path());
             FileInfo info;
             try {
                 info = file.query_info("*", FileQueryInfoFlags.NONE);
@@ -116,6 +117,7 @@ namespace Dino {
         private const string MIME_TYPE = "image/png";
 
         public async void fill_metadata(File file, Xep.FileMetadataElement.FileMetadata metadata) {
+            debug("ImageFileMetadataProvider: Processing %s", file.get_path());
             // Do not invoke the SVG loader (librsvg/gdk-pixbuf) in Flatpak runtimes due to crashes.
             // Some files may be mislabeled (e.g. SVGZ content with image/png mime type).
             if (looks_like_svg_file(file)) {

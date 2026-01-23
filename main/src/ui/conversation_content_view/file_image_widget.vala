@@ -328,11 +328,38 @@ public class FileImageWidget : Widget {
 
     public async void load_from_file(File file, string file_name) throws GLib.Error {
         reset_loading_and_animation();
-        FixedRatioPicture image = new FixedRatioPicture() { min_width=100, min_height=100, max_width=600, max_height=300 };
 
-        // Show placeholder immediately to avoid blocking chat switching.
-        stack.add_child(image);
-        stack.set_visible_child(image);
+        Widget? content_widget = null;
+        if (this.file_transfer.mime_type != null && this.file_transfer.mime_type.down().has_prefix("video/")) {
+            var video = new Gtk.Video.for_file(file) {
+                 autoplay = false,
+                 loop = false,
+                 vexpand = true,
+                 hexpand = true
+            };
+            video.set_size_request(200, 200);
+            content_widget = video;
+        } else {
+            content_widget = new FixedRatioPicture() { min_width=100, min_height=100, max_width=600, max_height=300 };
+        }
+
+        // Add new child and set visible BEFORE removing old ones to allow crossfade and avoid empty stack warnings
+        stack.add_child(content_widget);
+        stack.set_visible_child(content_widget);
+
+        // Clear old children
+        Widget? child = stack.get_first_child();
+        while (child != null) {
+            Widget next = child.get_next_sibling();
+            if (child != content_widget) {
+                stack.remove(child);
+            }
+            child = next;
+        }
+
+        if (content_widget is Gtk.Video) return;
+
+        FixedRatioPicture image = (FixedRatioPicture) content_widget;
 
         uint gen = ++load_generation;
         var cancellable = new Cancellable();
@@ -370,7 +397,7 @@ public class FileImageWidget : Widget {
 
         // Background decode for static images and non-webp stickers.
         new Thread<void*>("dinox-image-decode", () => {
-                var out = new LoadResult();
+                var result = new LoadResult();
                 if (cancellable.is_cancelled()) {
                     return null;
                 }
@@ -398,20 +425,22 @@ public class FileImageWidget : Widget {
                     if (is_sticker && animations_enabled) {
                         Gdk.PixbufAnimation anim;
                         anim = new Gdk.PixbufAnimation.from_stream(stream);
-                        out.animation = anim;
+                        result.animation = anim;
                     } else {
-                        out.pixbuf = new Pixbuf.from_stream(stream);
+                        var pb = new Pixbuf.from_stream(stream);
+                        // Apply orientation in the thread to avoid UI blocking and ensure it's done before display
+                        result.pixbuf = pb.apply_embedded_orientation();
                     }
                 } catch (Error e) {
-                    // Keep out empty.
+                    // Keep result empty.
                 }
 
                 Idle.add(() => {
                     if (this.load_generation != gen) return false;
                     if (cancellable.is_cancelled()) return false;
 
-                    if (out.animation != null && is_sticker && animations_enabled && !out.animation.is_static_image()) {
-                        var iter = out.animation.get_iter(null);
+                    if (result.animation != null && is_sticker && animations_enabled && !result.animation.is_static_image()) {
+                        var iter = result.animation.get_iter(null);
                         var first_tex = Texture.for_pixbuf(iter.get_pixbuf());
                         image.paintable = first_tex;
                         if (local_path != null && local_path != "") {
@@ -423,16 +452,16 @@ public class FileImageWidget : Widget {
                         return false;
                     }
 
-                    if (out.animation != null && out.animation.is_static_image()) {
-                        var pb = out.animation.get_static_image();
+                    if (result.animation != null && result.animation.is_static_image()) {
+                        var pb = result.animation.get_static_image();
+                        // Animation frames/static images might also need orientation
                         pb = pb.apply_embedded_orientation();
                         image.paintable = Texture.for_pixbuf(pb);
                         return false;
                     }
 
-                    if (out.pixbuf != null) {
-                        var pb = out.pixbuf.apply_embedded_orientation();
-                        image.paintable = Texture.for_pixbuf(pb);
+                    if (result.pixbuf != null) {
+                        image.paintable = Texture.for_pixbuf(result.pixbuf);
                     }
                     return false;
                 });
@@ -477,6 +506,10 @@ public class FileImageWidget : Widget {
     public void on_image_clicked(GestureClick gesture_click_controller, int n_press, double x, double y) {
         if (this.file_transfer.state != COMPLETE) return;
 
+        if (this.file_transfer.mime_type != null && this.file_transfer.mime_type.down().has_prefix("video/")) {
+            return;
+        }
+
         switch (gesture_click_controller.get_device().source) {
             case Gdk.InputSource.TOUCHSCREEN:
             case Gdk.InputSource.PEN:
@@ -510,11 +543,18 @@ public class FileImageWidget : Widget {
             return false;
         }
 
-        if (file_transfer.is_sticker && file_transfer.mime_type != null && file_transfer.mime_type != "" && file_transfer.mime_type.down().has_prefix("image/svg")) {
+        string? mime_type = file_transfer.mime_type;
+        if (mime_type == null) return false;
+        
+        if (file_transfer.is_sticker && mime_type != "" && mime_type.down().has_prefix("image/svg")) {
             return false;
         }
 
-        return file_transfer.mime_type != null && Dino.Util.is_pixbuf_supported_mime_type(file_transfer.mime_type) &&
+        if (mime_type.down().has_prefix("video/")) {
+            return file_transfer.state == FileTransfer.State.COMPLETE;
+        }
+
+        return Dino.Util.is_pixbuf_supported_mime_type(file_transfer.mime_type) &&
                 (file_transfer.state == FileTransfer.State.COMPLETE || file_transfer.thumbnails.size > 0);
     }
 

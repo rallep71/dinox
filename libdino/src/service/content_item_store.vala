@@ -140,9 +140,11 @@ public class ContentItemStore : StreamInteractionModule, Object {
     public Message? get_message_for_content_item(Conversation conversation, ContentItem content_item) {
         FileItem? file_item = content_item as FileItem;
         if (file_item != null) {
-            if (file_item.file_transfer.provider != 0 || file_item.file_transfer.info == null) return null;
+            // Allow lookup if info is present, regardless of provider (fixes delete-for-all for HTTP uploads)
+            if (file_item.file_transfer.info == null) return null;
 
             int message_db_id = int.parse(file_item.file_transfer.info);
+            // If parsing fails (returns 0) or ID is invalid, get_message_by_id checks handle it or return null
             return stream_interactor.get_module<MessageStorage>(MessageStorage.IDENTITY).get_message_by_id(message_db_id, conversation);
         }
         MessageItem? message_item = content_item as MessageItem;
