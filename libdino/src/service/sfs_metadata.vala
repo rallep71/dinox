@@ -35,11 +35,14 @@ namespace Dino {
             metadata.size = info.get_size();
             metadata.date = info.get_modification_date_time();
 
-            var checksum_types = new ArrayList<ChecksumType>.wrap(new ChecksumType[] { ChecksumType.SHA256, ChecksumType.SHA512 });
-            var file_hashes = yield compute_file_hashes(file, checksum_types);
+            // Skip hashing for files larger than 50MB to avoid stability issues and long delays
+            if (metadata.size < 50 * 1024 * 1024) {
+                var checksum_types = new ArrayList<ChecksumType>.wrap(new ChecksumType[] { ChecksumType.SHA256, ChecksumType.SHA512 });
+                var file_hashes = yield compute_file_hashes(file, checksum_types);
 
-            metadata.hashes.add(new CryptographicHashes.Hash.with_checksum(ChecksumType.SHA256, file_hashes[ChecksumType.SHA256]));
-            metadata.hashes.add(new CryptographicHashes.Hash.with_checksum(ChecksumType.SHA512, file_hashes[ChecksumType.SHA512]));
+                metadata.hashes.add(new CryptographicHashes.Hash.with_checksum(ChecksumType.SHA256, file_hashes[ChecksumType.SHA256]));
+                metadata.hashes.add(new CryptographicHashes.Hash.with_checksum(ChecksumType.SHA512, file_hashes[ChecksumType.SHA512]));
+            }
         }
     }
 

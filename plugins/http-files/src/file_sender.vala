@@ -283,7 +283,9 @@ public class HttpFileSender : FileSender, Object {
                 cipher.set_iv(enc_data.iv);
                 // GCM tag length is 16
                 var encrypter = new SymmetricCipherEncrypter((owned) cipher, 16);
-                upload_stream = new ConverterInputStream(upload_stream, encrypter);
+                var cis = new ConverterInputStream(upload_stream, encrypter);
+                cis.close_base_stream = false;
+                upload_stream = cis;
                 upload_size += 16;
             } catch (Crypto.Error e) {
                 throw new FileSendError.UPLOAD_FAILED("Encryption setup failed: %s".printf(e.message));
