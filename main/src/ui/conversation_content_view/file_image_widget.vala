@@ -45,6 +45,8 @@ public class FileImageWidget : Widget {
 
     private FileTransmissionProgress transmission_progress = new FileTransmissionProgress() { halign=Align.CENTER, valign=Align.CENTER, visible=false };
 
+    private Widget? active_content_widget = null;
+
     construct {
         layout_manager = new BinLayout();
     }
@@ -385,6 +387,7 @@ public class FileImageWidget : Widget {
         }
 
         // Add new child and set visible
+        active_content_widget = content_widget;
         stack.add_child(content_widget);
         stack.set_visible_child(content_widget);
 
@@ -393,8 +396,8 @@ public class FileImageWidget : Widget {
              Widget? child = stack.get_first_child();
              while (child != null) {
                  Widget next = child.get_next_sibling();
-                 if (child != content_widget) {
-                     stack.remove(child);
+                 if (child != content_widget && child != active_content_widget) {
+                     if (child.get_parent() == stack) stack.remove(child);
                  }
                  child = next;
              }
@@ -543,6 +546,7 @@ public class FileImageWidget : Widget {
 
         FixedRatioPicture image = new FixedRatioPicture() { min_width=100, min_height=100, max_width=600, max_height=300 };
         image.paintable = Texture.for_pixbuf(pixbuf);
+        active_content_widget = image;
         stack.add_child(image);
         stack.set_visible_child(image);
     }
