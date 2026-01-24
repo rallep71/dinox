@@ -23,12 +23,47 @@ public class AudioVideoFileMetadataProvider: Dino.FileMetadataProvider, Object {
     public async void fill_metadata(File file, Xep.FileMetadataElement.FileMetadata metadata) {
         MediaFile media = MediaFile.for_file(file);
         if (!media.prepared) {
-            media.notify["prepared"].connect((object, pspec) => {
-                Idle.add(fill_metadata.callback);
+            ulong prepared_sig = 0;
+            ulong error_sig = 0;
+            uint timeout_id = 0;
+            bool resumed = false;
+
+            prepared_sig = media.notify["prepared"].connect((o, p) => {
+                if (!resumed) {
+                    resumed = true;
+                    if (prepared_sig > 0) media.disconnect(prepared_sig);
+                    if (error_sig > 0) media.disconnect(error_sig);
+                    if (timeout_id > 0) Source.remove(timeout_id);
+                    fill_metadata.callback();
+                }
             });
+            error_sig = media.notify["error"].connect((o, p) => {
+                if (!resumed) {
+                    resumed = true;
+                    if (prepared_sig > 0) media.disconnect(prepared_sig);
+                    if (error_sig > 0) media.disconnect(error_sig);
+                    if (timeout_id > 0) Source.remove(timeout_id);
+                    fill_metadata.callback();
+                }
+            });
+            // 2 seconds timeout to prevent hanging the send process
+            timeout_id = Timeout.add(2000, () => {
+                if (!resumed) {
+                    resumed = true;
+                    if (prepared_sig > 0) media.disconnect(prepared_sig);
+                    if (error_sig > 0) media.disconnect(error_sig);
+                    timeout_id = 0;
+                    fill_metadata.callback();
+                }
+                return Source.REMOVE;
+            });
+
             yield;
         }
-        metadata.length = media.duration / 1000;
+
+        if (media.prepared && media.duration > 0) {
+            metadata.length = media.duration / 1000;
+        }
     }
 }
 

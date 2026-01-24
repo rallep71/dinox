@@ -5,6 +5,12 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.8.3] - 2026-01-24
+
+### Fixed
+- **File Transfer**: Fixed a critical issue where sending video files would hang indefinitely (UI freeze) if metadata extraction stalled. Added a robust timeout mechanism to ensure sending proceeds even if metadata fails.
+- **Stability**: Fixed a crash (`malloc(): smallbin double linked list corrupted`) and persistent `GtkStack` warnings in the file preview widget caused by race conditions during widget cleanup.
+
 ## [0.9.8.2] - 2026-01-24
 
 ### Fixed

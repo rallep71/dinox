@@ -27,6 +27,7 @@ public class FileImageWidget : Widget {
     private FileTransfer file_transfer;
 
     private uint animation_timeout_id = 0;
+    private uint cleanup_timeout_id = 0;
     private Gdk.PixbufAnimationIter? sticker_anim_iter = null;
     private FixedRatioPicture? sticker_anim_picture = null;
 
@@ -97,6 +98,10 @@ public class FileImageWidget : Widget {
 
     private void reset_loading_and_animation() {
         pause_animation();
+        if (cleanup_timeout_id != 0) {
+            Source.remove(cleanup_timeout_id);
+            cleanup_timeout_id = 0;
+        }
         sticker_anim_iter = null;
         sticker_anim_picture = null;
 
@@ -392,7 +397,9 @@ public class FileImageWidget : Widget {
         stack.set_visible_child(content_widget);
 
         // Schedule removal of old children after transition
-        Timeout.add(stack.transition_duration + 50, () => {
+        if (cleanup_timeout_id != 0) Source.remove(cleanup_timeout_id);
+        cleanup_timeout_id = Timeout.add(stack.transition_duration + 50, () => {
+             cleanup_timeout_id = 0;
              Widget? child = stack.get_first_child();
              while (child != null) {
                  Widget next = child.get_next_sibling();
