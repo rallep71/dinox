@@ -5,6 +5,12 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.8.4] - 2026-01-24
+
+### Fixed
+- **UI**: Fixed an issue where the file transfer progress indicator would hang (freeze) during upload by enforcing progress signals.
+- **Message Retraction**: Fixed an issue where retracted messages were not deleted from the view, and the retraction notification appeared as a new message instead.
+
 ## [0.9.8.3] - 2026-01-24
 
 ### Fixed

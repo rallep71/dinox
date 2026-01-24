@@ -204,11 +204,41 @@ namespace Dino {
             if (delete_message_id == null) return false;
 
             ContentItem? content_item = stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).get_content_item_for_referencing_id(conversation, delete_message_id);
+            
+            // Debugging Retraction Issues:
+            if (content_item == null) {
+                // If standard lookup failed, maybe the ID was stored as the other ID type?
+                // Sometimes clients send the stanza-id as 'id', but we stored it as 'server_id' or vice versa,
+                // especially in mixed environments (MAM/Carbons).
+                // Let's manually try to find it by poking MessageStorage directly for BOTH fields.
+                
+                var msg_storage = stream_interactor.get_module<MessageStorage>(MessageStorage.IDENTITY);
+                Message? found_msg = msg_storage.get_message_by_stanza_id(delete_message_id, conversation);
+                if (found_msg == null) {
+                    found_msg = msg_storage.get_message_by_server_id(delete_message_id, conversation);
+                }
+                
+                if (found_msg != null) {
+                    // We found the message, but ContentItemStore lookup failed. Map it back to ContentItem.
+                    // This is a workaround for database lookup inconsistencies.
+                     var ci_row = stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).get_content_item_row_for_message(conversation, found_msg);
+                     if (ci_row != null) {
+                         try {
+                            content_item = stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).get_item_from_row(ci_row, conversation);
+                         } catch (GLib.Error e) {}
+                     }
+                }
+            }
+
             if (content_item != null) {
+                bool allowed = is_removal_allowed(conversation, content_item, stanza.from);
                 debug("Deletion request: %s wants to remove message %s content item id %i. Allowed: %b",
-                        message.from.to_string(), delete_message_id, content_item.id,
-                        is_removal_allowed(conversation, content_item, stanza.from));
-                delete_locally(conversation, content_item, stanza.from);
+                        message.from.to_string(), delete_message_id, content_item.id, allowed);
+                
+                if (allowed) {
+                    delete_locally(conversation, content_item, stanza.from);
+                    return true;
+                }
             }
 
             return false;
