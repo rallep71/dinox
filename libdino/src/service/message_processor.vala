@@ -278,8 +278,19 @@ public class MessageProcessor : StreamInteractionModule, Object {
                     builder.with_null(db.message.our_resource);
                 }
             }
-            bool duplicate = builder.single().row().is_present();
-            return duplicate;
+            var row_opt = builder.single().row();
+            if (row_opt.is_present()) {
+                if (message.server_id != null) {
+                    var row = row_opt.inner;
+                    db.message.update()
+                        .with(db.message.id, "=", row[db.message.id])
+                        .with_null(db.message.server_id)
+                        .set(db.message.server_id, message.server_id)
+                        .perform();
+                }
+                return true;
+            }
+            return false;
         }
 
         // Deduplicate messages based on content and metadata

@@ -8,8 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.9.8.4] - 2026-01-24
 
 ### Fixed
-- **UI**: Fixed an issue where the file transfer progress indicator would hang (freeze) during upload by enforcing progress signals.
-- **Message Retraction**: Fixed an issue where retracted messages were not deleted from the view, and the retraction notification appeared as a new message instead.
+- **UI Performance**: Fixed a freeze in the progress bar during file uploads by throttling property update notifications.
+- **Message Retraction**: Implemented robust XEP-0424 support with "Dual Stack" strategy (XEP-0422 Fastening + Legacy V1 Child) to ensure compatibility with both modern clients (Conversations) and legacy clients (Monal/iOS).
+- **Interoperability**: Corrected message ID usage in Group Chats (preferring XEP-0359 Origin IDs over Server IDs) to fix retraction failures with Android clients.
 
 ## [0.9.8.3] - 2026-01-24
 

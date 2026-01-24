@@ -111,11 +111,21 @@ public class MessageStorage : StreamInteractionModule, Object {
     }
 
     public Message? get_message_by_referencing_id(string id, Conversation conversation) {
+        Message? message = null;
         if (conversation.type_ == Conversation.Type.CHAT) {
-            return stream_interactor.get_module<MessageStorage>(MessageStorage.IDENTITY).get_message_by_stanza_id(id, conversation);
+            message = stream_interactor.get_module<MessageStorage>(MessageStorage.IDENTITY).get_message_by_stanza_id(id, conversation);
+            // Fallback for clients sending server_id in 1:1 chats (e.g. some MAM implementations)
+            if (message == null) {
+                message = stream_interactor.get_module<MessageStorage>(MessageStorage.IDENTITY).get_message_by_server_id(id, conversation);
+            }
         } else {
-            return stream_interactor.get_module<MessageStorage>(MessageStorage.IDENTITY).get_message_by_server_id(id, conversation);
+            message = stream_interactor.get_module<MessageStorage>(MessageStorage.IDENTITY).get_message_by_server_id(id, conversation);
+            // Fallback for clients sending stanza_id (origin-id) in MUCs (e.g. Conversations, XEP-0424 compliance)
+            if (message == null) {
+                message = stream_interactor.get_module<MessageStorage>(MessageStorage.IDENTITY).get_message_by_stanza_id(id, conversation);
+            }
         }
+        return message;
     }
 
     public Message? get_message_by_stanza_id(string stanza_id, Conversation conversation) {
@@ -229,11 +239,15 @@ public class MessageStorage : StreamInteractionModule, Object {
     public static string? get_reference_id(Message message) {
         if (message.edit_to != null) return message.edit_to;
 
-        if (message.type_ == Message.Type.CHAT) {
+        // XEP-0424/XEP-0359: Prefer using the Stable Stanza ID (Origin ID / UUID) if available,
+        // as it is the most reliable way to identify the message across different clients/storage.
+        // This fixes interoperability with clients like Conversations in MUCs that track messages by Origin ID.
+        if (message.stanza_id != null && message.stanza_id != "") {
             return message.stanza_id;
-        } else {
-            return message.server_id;
         }
+        
+        // Fallback to Server ID (MAM ID) if no Origin ID is available (e.g. historical messages or server-side archives)
+        return message.server_id;
     }
 }
 

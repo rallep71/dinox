@@ -59,7 +59,7 @@ public class ContentItemStore : StreamInteractionModule, Object {
         return ret;
     }
 
-    private ContentItem get_item_from_row(Row row, Conversation conversation) throws Error {
+    public ContentItem get_item_from_row(Row row, Conversation conversation) throws Error {
         int id = row[db.content_item.id];
         int content_type = row[db.content_item.content_type];
         int foreign_id = row[db.content_item.foreign_id];
@@ -196,7 +196,7 @@ public class ContentItemStore : StreamInteractionModule, Object {
         return -1;
     }
 
-    private Row? get_content_item_row_for_message(Conversation conversation, Message message) {
+    public Row? get_content_item_row_for_message(Conversation conversation, Message message) {
         var content_item_row = db.content_item.select();
 
         RowOption file_transfer_row = db.file_transfer.select()

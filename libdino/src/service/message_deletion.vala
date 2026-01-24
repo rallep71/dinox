@@ -239,6 +239,14 @@ namespace Dino {
                     delete_locally(conversation, content_item, stanza.from);
                     return true;
                 }
+            } else {
+                debug("Deletion request: %s wants to remove message %s but it was not found.", 
+                        message.from.to_string(), delete_message_id);
+                // Even if we didn't find the message, we should consume the retraction stanza to prevent
+                // the fallback "This message was retracted" text from appearing as a new message.
+                // The user clearly intended to retract something, showing the fallback is confusing/wrong
+                // if we can't link it.
+                return true;
             }
 
             return false;
@@ -246,13 +254,20 @@ namespace Dino {
 
         private bool is_removal_allowed(Conversation conversation, ContentItem content_item, Jid removed_by) {
             if (conversation.type_ == Conversation.Type.CHAT) {
+                // In 1:1 chats, allow retraction if the sender matches (ignoring resource)
                 return removed_by.equals_bare(content_item.jid);
             } else if (conversation.type_.is_muc_semantic()) {
-                // Only accept MUC message removals if the MUC server announced support.
-                // MUC moderations should always come from the MUC bare JID.
-                bool muc_supports_moderation = stream_interactor.get_module<EntityInfo>(EntityInfo.IDENTITY)
+                // Case 1: Moderator/Server Removal (XEP-0425) - From Room JID
+                if (removed_by.equals(conversation.counterpart)) {
+                    return stream_interactor.get_module<EntityInfo>(EntityInfo.IDENTITY)
                         .has_feature_cached(conversation.account, conversation.counterpart, Xmpp.Xep.MessageModeration.NS_URI);
-                return muc_supports_moderation && removed_by.equals(conversation.counterpart);
+                }
+                
+                // Case 2: Self-Retraction (XEP-0424) - From Sender's Occupant JID
+                // Verify the retraction sender matches the original message sender
+                if (removed_by.equals(content_item.jid)) {
+                    return true;
+                }
             }
 
             return false;
