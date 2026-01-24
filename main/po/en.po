@@ -737,8 +737,8 @@ msgid ""
 "Bei der ersten Nutzung musst du ein Passwort setzen. Ohne Passwort kann "
 "DinoX die verschlüsselte Datenbank nicht öffnen."
 msgstr ""
-"Bei der ersten Nutzung musst du ein Passwort setzen. Ohne Passwort kann "
-"DinoX die verschlüsselte Datenbank nicht öffnen."
+"You must set a password on first use. Without a password, DinoX cannot open "
+"the encrypted database."
 
 #: main/src/ui/application.vala:373
 #, c-format
@@ -778,8 +778,7 @@ msgid ""
 "Dieses Passwort wird verwendet, um deine lokalen DinoX-Daten zu "
 "verschlüsseln."
 msgstr ""
-"Dieses Passwort wird verwendet, um deine lokalen DinoX-Daten zu "
-"verschlüsseln."
+"This password is used to encrypt your local DinoX data."
 
 #: main/src/ui/application.vala:828
 msgid "Abbrechen"

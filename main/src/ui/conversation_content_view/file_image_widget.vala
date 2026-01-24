@@ -30,6 +30,8 @@ public class FileImageWidget : Widget {
     private Gdk.PixbufAnimationIter? sticker_anim_iter = null;
     private FixedRatioPicture? sticker_anim_picture = null;
 
+    private File? temp_video_file = null;
+
     private Gtk.ScrolledWindow? watched_scrolled = null;
     private Gtk.Adjustment? watched_vadjustment = null;
     private ulong watched_vadjustment_handler_id = 0;
@@ -331,7 +333,46 @@ public class FileImageWidget : Widget {
 
         Widget? content_widget = null;
         if (this.file_transfer.mime_type != null && this.file_transfer.mime_type.down().has_prefix("video/")) {
-            var video = new Gtk.Video.for_file(file) {
+            File video_file = file;
+            try {
+                // Decrypt into a temporary file for playback
+                var app = (Dino.Application) GLib.Application.get_default();
+                var enc = app.file_encryption;
+                
+                string temp_dir = Path.build_filename(Environment.get_user_cache_dir(), "dinox", "temp_video");
+                if (!FileUtils.test(temp_dir, FileTest.EXISTS)) {
+                    DirUtils.create_with_parents(temp_dir, 0700);
+                }
+                
+                string ext = "";
+                if ("." in file_name) {
+                    string[] parts = file_name.split(".");
+                    ext = "." + parts[parts.length - 1];
+                }
+                string random_name = GLib.Uuid.string_random() + ext;
+                string temp_path = Path.build_filename(temp_dir, random_name);
+                File target_file = File.new_for_path(temp_path);
+                
+                var source_stream = file.read();
+                var target_stream = target_file.replace(null, false, GLib.FileCreateFlags.NONE);
+                yield enc.decrypt_stream(source_stream, target_stream);
+                
+                // Close streams
+                try { source_stream.close(); } catch (Error e) {}
+                try { target_stream.close(); } catch (Error e) {}
+
+                // Clean up previous temp file if exists
+                if (temp_video_file != null) {
+                    try { temp_video_file.delete(null); } catch (Error e) {}
+                }
+                temp_video_file = target_file;
+                video_file = target_file;
+            } catch (Error e) {
+                warning("Video decryption failed: %s", e.message);
+                // Fallback to original file
+            }
+
+            var video = new Gtk.Video.for_file(video_file) {
                  autoplay = false,
                  loop = false,
                  vexpand = true,
@@ -343,19 +384,22 @@ public class FileImageWidget : Widget {
             content_widget = new FixedRatioPicture() { min_width=100, min_height=100, max_width=600, max_height=300 };
         }
 
-        // Add new child and set visible BEFORE removing old ones to allow crossfade and avoid empty stack warnings
+        // Add new child and set visible
         stack.add_child(content_widget);
         stack.set_visible_child(content_widget);
 
-        // Clear old children
-        Widget? child = stack.get_first_child();
-        while (child != null) {
-            Widget next = child.get_next_sibling();
-            if (child != content_widget) {
-                stack.remove(child);
-            }
-            child = next;
-        }
+        // Schedule removal of old children after transition
+        Timeout.add(stack.transition_duration + 50, () => {
+             Widget? child = stack.get_first_child();
+             while (child != null) {
+                 Widget next = child.get_next_sibling();
+                 if (child != content_widget) {
+                     stack.remove(child);
+                 }
+                 child = next;
+             }
+             return false;
+        });
 
         if (content_widget is Gtk.Video) return;
 
@@ -506,9 +550,7 @@ public class FileImageWidget : Widget {
     public void on_image_clicked(GestureClick gesture_click_controller, int n_press, double x, double y) {
         if (this.file_transfer.state != COMPLETE) return;
 
-        if (this.file_transfer.mime_type != null && this.file_transfer.mime_type.down().has_prefix("video/")) {
-            return;
-        }
+        bool is_video = (this.file_transfer.mime_type != null && this.file_transfer.mime_type.down().has_prefix("video/"));
 
         switch (gesture_click_controller.get_device().source) {
             case Gdk.InputSource.TOUCHSCREEN:
@@ -521,8 +563,12 @@ public class FileImageWidget : Widget {
                 }
                 break;
             default:
-                this.activate_action("file.open", null);
-                image_overlay_toolbar.visible = false;
+                if (is_video) {
+                    image_overlay_toolbar.visible = !image_overlay_toolbar.visible;
+                } else {
+                    this.activate_action("file.open", null);
+                    image_overlay_toolbar.visible = false;
+                }
                 break;
         }
     }
@@ -559,6 +605,14 @@ public class FileImageWidget : Widget {
     }
 
     public override void dispose() {
+        if (temp_video_file != null) {
+            try {
+                temp_video_file.delete(null);
+            } catch (Error e) {
+                // Ignore
+            }
+            temp_video_file = null;
+        }
         reset_loading_and_animation();
         disconnect_scroll_watch();
         if (overlay != null && overlay.parent != null) overlay.unparent();

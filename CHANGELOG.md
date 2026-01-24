@@ -5,6 +5,13 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.8.2] - 2026-01-24
+
+### Fixed
+- **Media**: Fixed inline playback for encrypted MOV/MP4 videos. Videos are now decrypted to a temporary file for playback with Gtk.Video/GStreamer.
+- **UI**: Fixed `GtkStack` warnings ("child not found") in file preview widgets.
+- **Localization**: Fixed a regression where English users were prompted for the database password in German.
+
 ## [0.9.8.1] - 2026-01-23
 
 ### Fixed
