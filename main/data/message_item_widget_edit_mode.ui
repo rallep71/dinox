@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+    <requires lib="gtk+" version="3.22"/>
+    <template class="DinoUiConversationSummaryMessageItemEditMode" parent="GtkBox">
+        <property name="orientation">vertical</property>
+        <property name="spacing">5</property>
+        <property name="margin_top">5</property>
+        <property name="margin_bottom">5</property>
+        <child>
+            <object class="GtkFrame" id="frame">
+                <style>
+                    <class name="dino-chatinput"/>
+                </style>
+                <child>
+                    <object class="GtkBox">
+                        <child>
+                            <object class="DinoUiChatTextView" id="chat_text_view" />
+                        </child>
+                        <child>
+                            <object class="GtkMenuButton" id="emoji_button">
+                                <property name="has-frame">False</property>
+                                <property name="margin-top">3</property>
+                                <property name="valign">start</property>
+                                <style>
+                                    <class name="dino-chatinput-button"/>
+                                    <class name="flat"/>
+                                </style>
+                                <child>
+                                    <object class="GtkImage">
+                                        <property name="icon-name">emoji-people-symbolic</property>
+                                        <property name="icon-size">1</property>
+                                    </object>
+                                </child>
+                            </object>
+                        </child>
+                    </object>
+                </child>
+            </object>
+        </child>
+        <child>
+            <object class="GtkBox">
+                <property name="spacing">5</property>
+                <property name="halign">end</property>
+                <child>
+                    <object class="GtkButton" id="cancel_button">
+                        <property name="label" translatable="yes">Cancel</property>
+                    </object>
+                </child>
+                <child>
+                    <object class="GtkButton" id="send_button">
+                        <property name="label" translatable="yes">Update message</property>
+                        <style>
+                            <class name="suggested-action"/>
+                        </style>
+                    </object>
+                </child>
+            </object>
+        </child>
+    </template>
+</interface>

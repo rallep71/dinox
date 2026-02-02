@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+    <requires lib="gtk" version="4.0"/>
+    <template class="DinoPluginsOmemoManageKeyDialog">
+        <property name="modal">True</property>
+        <property name="resizable">False</property>
+        <child type="titlebar">
+            <object class="GtkHeaderBar" id="headerbar">
+                <property name="show_title_buttons">0</property>
+                <child>
+                    <object class="GtkButton" id="cancel_button"/>
+                </child>
+                <child type="end">
+                    <object class="GtkButton" id="ok_button">
+                        <property name="sensitive">0</property>
+                        <style>
+                            <class name="suggested-action"/>
+                        </style>
+                    </object>
+                </child>
+            </object>
+        </child>
+        <child>
+            <object class="GtkBox">
+                <child>
+                    <object class="GtkStack" id="manage_stack">
+                        <property name="transition-type">slide-left-right</property>
+                        <child>
+                            <object class="GtkStackPage">
+                                <property name="name">main</property>
+                                <property name="child">
+                                    <object class="GtkBox" id="main_screen">
+                                        <property name="margin-start">12</property>
+                                        <property name="margin-end">12</property>
+                                        <property name="margin-top">12</property>
+                                        <property name="margin-bottom">12</property>
+                                        <property name="spacing">12</property>
+                                        <property name="orientation">vertical</property>
+                                        <property name="valign">center</property>
+                                        <child>
+                                            <object class="GtkLabel" id="main_desc_label">
+                                                <property name="wrap">1</property>
+                                                <property name="xalign">0</property>
+                                                <property name="max-width-chars">1</property>
+                                            </object>
+                                        </child>
+                                        <child>
+                                            <object class="GtkFrame">
+                                                <property name="child">
+                                                    <object class="GtkListBox" id="main_action_list">
+                                                        <property name="selection-mode">none</property>
+                                                    </object>
+                                                </property>
+                                            </object>
+                                        </child>
+                                    </object>
+                                </property>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkStackPage">
+                                <property name="name">verify</property>
+                                <property name="child">
+                                    <object class="GtkBox" id="verify_screen">
+                                        <property name="margin-start">12</property>
+                                        <property name="margin-end">12</property>
+                                        <property name="margin-top">12</property>
+                                        <property name="margin-bottom">12</property>
+                                        <property name="spacing">12</property>
+                                        <property name="orientation">vertical</property>
+                                        <property name="valign">center</property>
+                                        <child>
+                                            <object class="GtkLabel" id="compare_fingerprint_label">
+                                                <property name="wrap">1</property>
+                                                <property name="max-width-chars">45</property>
+                                            </object>
+                                        </child>
+                                        <child>
+                                            <object class="GtkBox">
+                                                <property name="orientation">vertical</property>
+                                                <property name="margin-start">12</property>
+                                                <property name="margin-end">12</property>
+                                                <property name="spacing">12</property>
+                                                <property name="hexpand">0</property>
+                                                <property name="halign">center</property>
+                                                <child>
+                                                    <object class="GtkLabel" id="verify_label">
+                                                        <property name="margin-top">12</property>
+                                                        <property name="margin-bottom">12</property>
+                                                        <property name="justify">right</property>
+                                                    </object>
+                                                </child>
+                                                <child>
+                                                    <object class="GtkButton" id="verify_no_button">
+                                                        <property name="hexpand">1</property>
+                                                    </object>
+                                                </child>
+                                                <child>
+                                                    <object class="GtkButton" id="verify_yes_button">
+                                                        <property name="hexpand">1</property>
+                                                    </object>
+                                                </child>
+                                            </object>
+                                        </child>
+                                    </object>
+                                </property>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkStackPage">
+                                <property name="name">confirm</property>
+                                <property name="child">
+                                    <object class="GtkBox" id="confirm_screen">
+                                        <property name="margin-start">12</property>
+                                        <property name="margin-end">12</property>
+                                        <property name="margin-top">12</property>
+                                        <property name="margin-bottom">12</property>
+                                        <property name="spacing">12</property>
+                                        <property name="orientation">vertical</property>
+                                        <property name="valign">center</property>
+                                        <child>
+                                            <object class="GtkImage" id="confirm_image"/>
+                                        </child>
+                                        <child>
+                                            <object class="GtkLabel" id="confirm_title_label">
+                                                <attributes>
+                                                    <attribute name="scale" value="1.1"></attribute>
+                                                </attributes>
+                                            </object>
+                                        </child>
+                                        <child>
+                                            <object class="GtkLabel" id="confirm_desc_label">
+                                                <property name="justify">center</property>
+                                                <property name="wrap">1</property>
+                                                <property name="max-width-chars">40</property>
+                                                <attributes>
+                                                    <attribute name="scale" value="0.8"></attribute>
+                                                </attributes>
+                                                <style>
+                                                    <class name="dim-label"/>
+                                                </style>
+                                            </object>
+                                        </child>
+                                    </object>
+                                </property>
+                            </object>
+                        </child>
+                    </object>
+                </child>
+            </object>
+        </child>
+    </template>
+</interface>

@@ -1,0 +1,282 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-12-31 14:10+0100\n"
+"PO-Revision-Date: 2025-09-06 12:01+0000\n"
+"Language-Team: none\n"
+"Language: kab\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 5.14-dev\n"
+
+#: plugins/omemo/data/encryption_preferences_entry.ui:8
+msgid ""
+"Each device has its own OMEMO key. Messages can only be decrypted by a "
+"device if they are encrypted to its key. Messages are only encrypted to "
+"accepted devices."
+msgstr "Yal allal yesɛa tasarut-is OMEMO. Izenan zemren ad ttwasifren kan sɣur allal ma yella ttwačifren ɣer tsarut-is. Izenan ttwačifren kan ɣer wallalen yettwaqblen."
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:36
+msgid "Manage Key"
+msgstr "Ssefrek tasarut"
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:37
+msgid ""
+"Compare the fingerprint, character by character, with the one shown on your "
+"contact's device."
+msgstr "Smemzadi limpreinte, usekkil s usekkil, d tin yettwaskanen ɣef wallal n unermas-ik."
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:38
+msgid "Fingerprints differ"
+msgstr "Limpreintes mgaradent"
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:39
+msgid "Fingerprints match"
+msgstr "Limpreintes mcudden"
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:40
+#: plugins/omemo/src/ui/manage_key_dialog.vala:81
+#: plugins/omemo/src/ui/manage_key_dialog.vala:87
+msgid "Cancel"
+msgstr "Sefsex"
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:41
+msgid "Confirm"
+msgstr "Sentem"
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:59
+msgid "Verify key"
+msgstr "Senqed tasarut"
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:60
+#, c-format
+msgid ""
+"Future messages sent by %s from the device that uses this key will be "
+"highlighted accordingly in the chat window."
+msgstr "Izenan i d-iteddun sɣur %s seg wallal yesseqdacen tasarut-agi ad ttwasbirqen deg usfaylu n udiwenni."
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:70
+msgid "Fingerprints do not match"
+msgstr "Limpreintes ur mcuddent ara"
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:71
+#, c-format
+msgid ""
+"Please verify that you are comparing the correct fingerprint. If "
+"fingerprints do not match, %s's account may be compromised and you should "
+"consider rejecting this key."
+msgstr "Ttxil-k senqed d akken tsemzadiḍ limpreinte tameɣtut. Ma yella limpreintes ur mcuddent ara, amiḍan n %s yezmer ad yili yettwaqecceḍ, u ilaq ad tcemmmeḍ ad tagiḍ tasarut-agi."
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:123
+msgid "Verify key fingerprint"
+msgstr "Senqed limpreinte n tasarut"
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:123
+msgid ""
+"Compare this key's fingerprint with the fingerprint displayed on the "
+"contact's device."
+msgstr "Smemzadi limpreinte n tasarut-agi d limpreinte yettwaskanen ɣef wallal n unermas."
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:125
+#: plugins/omemo/src/ui/manage_key_dialog.vala:153
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:288
+msgid "Reject key"
+msgstr "Agi tasarut"
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:125
+msgid ""
+"Block encrypted communication with the contact's device that uses this key."
+msgstr "Sewḥel taywalt yettwachifren d wallal n unermas yesseqdacen tasarut-agi."
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:127
+#: plugins/omemo/src/ui/manage_key_dialog.vala:161
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:283
+msgid "Accept key"
+msgstr "Qbel tasarut"
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:127
+msgid ""
+"Allow encrypted communication with the contact's device that uses this key."
+msgstr "Sireg taywalt yettwachifren d wallal n unermas yesseqdacen tasarut-agi."
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:131
+#: plugins/omemo/src/ui/manage_key_dialog.vala:136
+#: plugins/omemo/src/ui/manage_key_dialog.vala:140
+#, c-format
+msgid "This key is currently %s."
+msgstr "Tasarut-agi tura d %s."
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:131
+msgid "accepted"
+msgstr "yettwaqbel"
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:131
+#: plugins/omemo/src/ui/manage_key_dialog.vala:136
+#, c-format
+msgid "This means it can be used by %s to receive and send encrypted messages."
+msgstr "Ayagi yebɣa ad d-yini d akken yezmer ad yettwaseqdec sɣur %s i wakken ad yeṭṭef u ad yazen izenan yettwachifren."
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:136
+msgid "verified"
+msgstr "yettwasenqed"
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:136
+msgid ""
+"Additionally it has been verified to match the key on the contact's device."
+msgstr "Rnu ɣer-s, yettwasenqed d akken yemcada d tasarut yellan ɣef wallal n unermas."
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:140
+msgid "rejected"
+msgstr "yettwagi"
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:140
+#, c-format
+msgid ""
+"This means it cannot be used by %s to decipher your messages, and you won't "
+"see messages encrypted with it."
+msgstr "Ayagi yebɣa ad d-yini d akken ur yezmir ara ad yettwaseqdec sɣur %s i wakken ad yefk awanec i yizenan-ik, u ur tettwaliḍ ara izenan yettwachifren yis-s."
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:154
+#, c-format
+msgid ""
+"You won't see encrypted messages from the device of %s that uses this key. "
+"Conversely, that device won't be able to decipher your messages anymore."
+msgstr "Ur tettwaliḍ ara izenan yettwachifren seg wallal n %s yesseqdacen tasarut-agi. S tmeẓla, allal-nni ur yezmir ara ad yefk awanec i yizenan-ik."
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:162
+#, c-format
+msgid ""
+"You will be able to exchange encrypted messages with the device of %s that "
+"uses this key."
+msgstr "Ad tizmireḍ ad tbeddleḍ izenan yettwachifren d wallal n %s yesseqdacen tasarut-agi."
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:168
+msgid "Back"
+msgstr "Uɣal"
+
+#: plugins/omemo/src/ui/device_notification_populator.vala:73
+msgid "Manage"
+msgstr "Ssefrek"
+
+#: plugins/omemo/src/ui/device_notification_populator.vala:80
+msgid "This contact has new devices"
+msgstr "Anermas-agi yesɛa allalen imaynuten"
+
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:50
+msgid "OMEMO by default"
+msgstr "OMEMO s wudem amezwer"
+
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:51
+msgid "Enable OMEMO encryption for new conversations"
+msgstr "Rmed achifru OMEMO i yidiwenniten imaynuten"
+
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:52
+msgid "Encrypt to new devices"
+msgstr "Chifer ɣer wallalen imaynuten"
+
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:53
+msgid "Automatically encrypt to new devices from this contact."
+msgstr "Chifer s wudem awurman ɣer wallalen imaynuten n unermas-agi."
+
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:54
+msgid "New keys"
+msgstr "Tisura timaynutin"
+
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:98
+msgid ""
+"New encryption keys from your other devices will be accepted automatically."
+msgstr "Tisura n uchifru timaynutin seg wallalen-ik nniḍen ad ttwaqblent s wudem awurman."
+
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:158
+msgid "This device"
+msgstr "Allal-agi"
+
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:217
+msgid "Other device"
+msgstr "Allal nniḍen"
+
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:217
+msgid "Device"
+msgstr "Allal"
+
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:219
+msgid "Accepted"
+msgstr "Yettwaqbel"
+
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:222
+msgid "Rejected"
+msgstr "Yettwagi"
+
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:225
+#: plugins/omemo/src/ui/contact_details_provider.vala:136
+msgid "Verified"
+msgstr "Yettwasenqed"
+
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:277
+msgid "New device"
+msgstr "Allal amaynut"
+
+#: plugins/omemo/src/ui/contact_details_provider.vala:46
+#: plugins/omemo/src/ui/contact_details_provider.vala:53
+msgid "OMEMO Encryption"
+msgstr "Achifru OMEMO"
+
+#: plugins/omemo/src/ui/contact_details_provider.vala:47
+msgid "No member JIDs available. This may be an anonymous room."
+msgstr "Ulac JIDs n yimsliten i yellan. Ayagi yezmer ad yili d taxxamt tanaffalt."
+
+#: plugins/omemo/src/ui/contact_details_provider.vala:54
+msgid "Encryption keys for room members"
+msgstr "Tisura n uchifru i yimsliten n texxamt"
+
+#: plugins/omemo/src/ui/contact_details_provider.vala:76
+msgid "%d device"
+msgid_plural "%d devices"
+msgstr[0] "%d ibenk"
+msgstr[1] "%d ibenkan"
+
+#: plugins/omemo/src/ui/contact_details_provider.vala:138
+msgid "Trusted"
+msgstr "Yettwaman"
+
+#: plugins/omemo/src/ui/contact_details_provider.vala:140
+msgid "Untrusted"
+msgstr "Ur yettwaman ara"
+
+#: plugins/omemo/src/ui/contact_details_provider.vala:142
+msgid "Unknown"
+msgstr "Arussin"
+
+#: plugins/omemo/src/ui/own_notifications.vala:29
+msgid "OMEMO trust decision required"
+msgstr "Tadment n laman OMEMO tettwasra"
+
+#: plugins/omemo/src/ui/own_notifications.vala:31
+#, c-format
+msgid "Did you add a new device for account %s?"
+msgstr "Terniḍ allal amaynut i umiḍan %s?"
+
+#: plugins/omemo/src/ui/bad_messages_populator.vala:185
+#, c-format
+msgid ""
+"%s has been using an untrusted device. You won't see messages from devices "
+"that you do not trust."
+msgstr "%s yesseqdac allal ur nettwaqbel ara. Ur tettwaliḍ ara izenan seg wallalen ur t-tumneḍ ara."
+
+#: plugins/omemo/src/ui/bad_messages_populator.vala:186
+msgid "Manage devices"
+msgstr "Ssefrek allalen"
+
+#: plugins/omemo/src/ui/bad_messages_populator.vala:188
+#, c-format
+msgid ""
+"%s does not trust this device. That means, you might be missing messages."
+msgstr "%s ur yettamen ara allal-agi. Ayagi yebɣa ad d-yini, yezmer ad k-ruḥen izenan."

@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <template class="DinoUiGeneralPreferencesPage" parent="AdwPreferencesPage">
+    <child>
+      <object class="AdwPreferencesGroup">
+        <child>
+          <object class="AdwSwitchRow" id="typing_row">
+            <property name="title" translatable="yes">Send _Typing Notifications</property>
+            <property name="use-underline">True</property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwSwitchRow" id="marker_row">
+            <property name="title" translatable="yes">Send _Read Receipts</property>
+            <property name="use-underline">True</property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwSwitchRow" id="location_sharing_row">
+            <property name="title" translatable="yes">Allow Location Sharing</property>
+            <property name="subtitle" translatable="yes">Allow sending your current location in chats</property>
+            <property name="use-underline">True</property>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="AdwPreferencesGroup">
+        <child>
+          <object class="AdwSwitchRow" id="notification_row">
+            <property name="title" translatable="yes">_Notifications</property>
+            <property name="subtitle" translatable="yes">Notify when a new message arrives</property>
+            <property name="use-underline">True</property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwSwitchRow" id="keep_background_row">
+            <property name="title" translatable="yes">_Keep Running in Background</property>
+            <property name="subtitle" translatable="yes">Continue running after closing window to receive notifications immediately</property>
+            <property name="use-underline">True</property>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="AdwPreferencesGroup">
+        <property name="title" translatable="yes">Appearance</property>
+        <child>
+          <object class="AdwComboRow" id="color_scheme_row">
+            <property name="title" translatable="yes">_Color Scheme</property>
+            <property name="subtitle" translatable="yes">Choose between light and dark appearance</property>
+            <property name="use-underline">True</property>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="AdwPreferencesGroup">
+        <child>
+          <object class="AdwSwitchRow" id="emoji_row">
+            <property name="title" translatable="yes">_Convert Smileys to Emoji</property>
+            <property name="use-underline">True</property>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="AdwPreferencesGroup">
+        <property name="title" translatable="yes">Stickers</property>
+        <child>
+          <object class="AdwSwitchRow" id="stickers_enabled_row">
+            <property name="title" translatable="yes">Enable Stickers</property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwSwitchRow" id="sticker_animations_row">
+            <property name="title" translatable="yes">Enable Sticker Animations</property>
+            <property name="subtitle" translatable="yes">Disable to reduce flashing/flickering</property>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="AdwPreferencesGroup">
+        <property name="title" translatable="yes">User Data</property>
+        <child>
+          <object class="AdwActionRow" id="backup_row">
+            <property name="title" translatable="yes">Backup User Data</property>
+            <property name="subtitle" translatable="yes">Create a backup of your accounts, messages and settings</property>
+            <property name="activatable">True</property>
+            <child>
+              <object class="GtkImage">
+                <property name="icon-name">document-save-symbolic</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwActionRow" id="restore_backup_row">
+            <property name="title" translatable="yes">Restore from Backup</property>
+            <property name="subtitle" translatable="yes">Restore accounts, messages and settings from a backup file</property>
+            <property name="activatable">True</property>
+            <child>
+              <object class="GtkImage">
+                <property name="icon-name">document-open-symbolic</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwActionRow" id="data_location_row">
+            <property name="title" translatable="yes">Data Storage Location</property>
+            <property name="subtitle" translatable="yes">View where your data is stored</property>
+            <property name="activatable">True</property>
+            <child>
+              <object class="GtkImage">
+                <property name="icon-name">folder-symbolic</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="AdwPreferencesGroup">
+        <property name="title" translatable="yes">Database Maintenance</property>
+        <child>
+          <object class="AdwActionRow" id="change_db_password_row">
+            <property name="title" translatable="yes">Change Database Password</property>
+            <property name="subtitle" translatable="yes">Change the password used to encrypt your local data</property>
+            <property name="activatable">True</property>
+            <child>
+              <object class="GtkImage">
+                <property name="icon-name">dialog-password-symbolic</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwActionRow" id="clear_cache_row">
+            <property name="title" translatable="yes">Clear Cache</property>
+            <property name="subtitle" translatable="yes">Clear cached files, avatars and previews</property>
+            <property name="activatable">True</property>
+            <child>
+              <object class="GtkImage">
+                <property name="icon-name">edit-clear-symbolic</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwActionRow" id="reset_database_row">
+            <property name="title" translatable="yes">Reset Database</property>
+            <property name="subtitle" translatable="yes">Delete all messages, files and OMEMO keys. Your accounts will remain.</property>
+            <property name="activatable">True</property>
+            <child>
+              <object class="GtkImage">
+                <property name="icon-name">user-trash-symbolic</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwActionRow" id="factory_reset_row">
+            <property name="title" translatable="yes">Factory Reset</property>
+            <property name="subtitle" translatable="yes">Delete ALL data including accounts. This cannot be undone!</property>
+            <property name="activatable">True</property>
+            <child>
+              <object class="GtkImage">
+                <property name="icon-name">edit-delete-symbolic</property>
+                <style>
+                  <class name="error"/>
+                </style>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

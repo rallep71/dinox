@@ -1,0 +1,2563 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-12-18 18:28+0100\n"
+"PO-Revision-Date: 2023-10-04 02:12+0000\n"
+"Language-Team: none\n"
+"Language: si\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"weblate.org>\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 5.1-dev\n"
+
+#: main/data/add_conversation/add_groupchat_dialog.ui:80
+msgid "Add MUC"
+msgstr "MUC එක් කරන්න"
+
+#: main/data/add_conversation/add_groupchat_dialog.ui:90
+msgid "Insert a Name for MUC..."
+msgstr "MUC සඳහා නමක් ඇතුළත් කරන්න..."
+
+#: main/data/add_conversation/select_jid_fragment.ui:20
+msgid "Search or enter channel address..."
+msgstr "නාලිකා ලිපිනය සොයන්න හෝ ඇතුළත් කරන්න..."
+
+#: main/data/add_conversation/select_jid_fragment.ui:67
+#: main/src/ui/add_conversation/select_jid_fragment.vala:205
+msgid "Add Group"
+msgstr "කණ්ඩායම එකතු කරන්න"
+
+#: main/data/add_conversation/select_jid_fragment.ui:88
+msgid "Delete Group"
+msgstr "කණ්ඩායම මකන්න"
+
+#: main/data/call_widget.ui:73 main/src/ui/notifier_freedesktop.vala:125
+#: main/src/ui/notifier_freedesktop.vala:232
+#: main/src/ui/notifier_gnotifications.vala:82
+msgid "Reject"
+msgstr "ප්‍රතික්ෂේප කරන්න"
+
+#: main/data/call_widget.ui:81
+#: main/src/ui/conversation_content_view/subscription_notification.vala:67
+#: main/src/ui/notifier_freedesktop.vala:125
+#: main/src/ui/notifier_freedesktop.vala:166
+#: main/src/ui/notifier_freedesktop.vala:232
+#: main/src/ui/notifier_freedesktop.vala:266
+#: main/src/ui/notifier_gnotifications.vala:83
+#: main/src/ui/notifier_gnotifications.vala:101
+#: main/src/ui/notifier_gnotifications.vala:140
+#: main/src/ui/notifier_gnotifications.vala:158
+msgid "Accept"
+msgstr "පිළිගන්න"
+
+#: main/data/chat_input.ui:63
+msgid "Record voice message"
+msgstr "හඬ පණිවිඩය පටිගත කරන්න"
+
+#: main/data/chat_input.ui:77
+msgid "Send message"
+msgstr "පණිවිඩය යවන්න"
+
+#: main/data/conversation_details.ui:145
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:566
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:175
+msgid "Remove Contact"
+msgstr "සම්බන්ධතාවය ඉවත් කරන්න"
+
+#: main/data/conversation_details.ui:171
+#: main/src/windows/conversation_details.vala:229
+msgid "About"
+msgstr "පිළිබඳව"
+
+#: main/data/conversation_row.ui:56
+msgid "Private room (supports group calls)"
+msgstr "පෞද්ගලික කාමරය (සමූහ ඇමතුම් සහාය)"
+
+#: main/data/conversation_row.ui:135
+#: main/src/windows/conversation_details.vala:171
+#: main/src/windows/conversation_details.vala:172
+msgid "Muted"
+msgstr "නිශ්ශබ්ද කළ"
+
+#: main/data/conversation_row.ui:146
+#: main/src/windows/conversation_details.vala:136
+msgid "Blocked"
+msgstr "අවහිර කළ"
+
+#: main/data/gtk/help-overlay.ui:10
+#: main/data/preferences_window/preferences_dialog.ui:32
+msgid "General"
+msgstr "සාමාන්‍ය"
+
+#: main/data/gtk/help-overlay.ui:14 main/data/main_window.ui:38
+#: main/data/menu_add.ui:7
+#: main/src/ui/add_conversation/select_contact_dialog.vala:106
+#: main/src/ui/main_window.vala:154
+msgid "Start Conversation"
+msgstr "සංවාදයක් අරඹන්න"
+
+#: main/data/gtk/help-overlay.ui:20 main/data/main_window.ui:51
+#: main/data/menu_add.ui:11
+#: main/src/ui/add_conversation/add_conference_dialog.vala:24
+#: main/src/ui/application.vala:1373 main/src/ui/main_window.vala:155
+msgid "Join Channel"
+msgstr "නාලිකාවකට සම්බන්ධ වන්න"
+
+#: main/data/gtk/help-overlay.ui:26
+msgid "Show preferences"
+msgstr "මනාප පෙන්වන්න"
+
+#: main/data/gtk/help-overlay.ui:32
+msgid "Keyboard shortcuts"
+msgstr "යතුරුපුවරු කෙටිමං"
+
+#: main/data/gtk/help-overlay.ui:39
+msgid "Conversation"
+msgstr "සංවාදය"
+
+#: main/data/gtk/help-overlay.ui:43
+#: main/src/ui/conversation_titlebar/search_entry.vala:12
+msgid "Search messages"
+msgstr "පණිවිඩ සොයන්න"
+
+#: main/data/gtk/help-overlay.ui:49 main/src/ui/chat_input/view.vala:59
+msgid "Send a file"
+msgstr "ගොනුවක් යවන්න"
+
+#: main/data/gtk/help-overlay.ui:55
+msgid "Close conversation"
+msgstr "සංවාදය වසන්න"
+
+#: main/data/gtk/help-overlay.ui:62
+msgid "Navigation"
+msgstr "සංචාලනය"
+
+#: main/data/gtk/help-overlay.ui:66
+msgid "Jump to next conversation"
+msgstr "ඊළඟ සංවාදයට පනින්න"
+
+#: main/data/gtk/help-overlay.ui:72
+msgid "Jump to previous conversation"
+msgstr "පෙර සංවාදයට පනින්න"
+
+#: main/data/main_window.ui:64 main/src/ui/main_window.vala:157
+msgid "Help: How to join channels"
+msgstr "උදව්: නාලිකා වලට සම්බන්ධ වන ආකාරය"
+
+#: main/data/main_window.ui:118
+msgid "You have no open chats"
+msgstr "ඔබට විවෘත කතාබහ නැත"
+
+#: main/data/main_window.ui:119
+msgid "Click + to start a chat or join a channel"
+msgstr "කතාබහක් ආරම්භ කිරීමට හෝ නාලිකාවකට සම්බන්ධ වීමට + ක්ලික් කරන්න"
+
+#: main/data/menu_app.ui:6
+msgid "Status"
+msgstr "තත්වය"
+
+#: main/data/menu_app.ui:11
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:427
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
+#: main/src/ui/systray.vala:279
+msgid "Online"
+msgstr "සබැඳි"
+
+#: main/data/menu_app.ui:16
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:421
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
+#: main/src/ui/systray.vala:279
+msgid "Away"
+msgstr "ඈතින්"
+
+#: main/data/menu_app.ui:21
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:425
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
+#: main/src/ui/systray.vala:279
+msgid "Busy"
+msgstr "කාර්යබහුල"
+
+#: main/data/menu_app.ui:26
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:423
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
+#: main/src/ui/systray.vala:279
+msgid "Not Available"
+msgstr "නොතිබේ"
+
+#: main/data/menu_app.ui:34
+msgid "Preferences"
+msgstr "මනාප"
+
+#: main/data/menu_app.ui:38
+msgid "Keyboard Shortcuts"
+msgstr "යතුරුපුවරු කෙටිමං"
+
+#: main/data/menu_app.ui:42 main/src/ui/application.vala:354
+msgid "About DinoX"
+msgstr "DinoX ගැන"
+
+#: main/data/menu_conversation.ui:7
+msgid "Contact Details"
+msgstr "සම්බන්ධතා විස්තර"
+
+#: main/data/menu_conversation.ui:13
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:513
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:565
+#: main/src/ui/conversation_titlebar/menu_entry.vala:84
+msgid "Delete Conversation History"
+msgstr "සංවාද ඉතිහාසය මකන්න"
+
+#: main/data/message_item_widget_edit_mode.ui:46
+#: main/data/preferences_window/change_password_dialog.ui:18
+#: main/src/ui/add_conversation/add_conference_dialog.vala:41
+#: main/src/ui/add_conversation/select_contact_dialog.vala:40
+#: main/src/ui/application.vala:455 main/src/ui/application.vala:483
+#: main/src/ui/application.vala:779 main/src/ui/application.vala:857
+#: main/src/ui/application.vala:915 main/src/ui/application.vala:947
+#: main/src/ui/application.vala:1103 main/src/ui/application.vala:1383
+#: main/src/ui/chat_input/sticker_chooser.vala:547
+#: main/src/ui/chat_input/sticker_chooser.vala:869
+#: main/src/ui/conversation_content_view/file_default_widget.vala:90
+#: main/src/ui/conversation_content_view/item_actions.vala:165
+#: main/src/ui/conversation_content_view/item_actions.vala:168
+#: main/src/ui/conversation_details.vala:249
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:633
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:660
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:679
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:704
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:723
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:744
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:790
+#: main/src/ui/conversation_titlebar/call_entry.vala:83
+#: main/src/ui/conversation_titlebar/menu_entry.vala:51
+#: main/src/windows/conversation_details.vala:60
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:68
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:205
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:225
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:249
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:269
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:291
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:332
+msgid "Cancel"
+msgstr "අවලංගු කරන්න"
+
+#: main/data/message_item_widget_edit_mode.ui:51
+msgid "Update message"
+msgstr "පණිවිඩය යාවත්කාල කරන්න"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:68
+#: main/src/ui/conversation_details.vala:170
+msgid "XMPP Address"
+msgstr "XMPP ලිපිනය"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:77
+msgid "Local alias"
+msgstr "ප්‍රාදේශීය අන්වර්ථ නාමය"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:82
+#: main/src/ui/application.vala:449 main/src/ui/application.vala:1078
+#: main/src/ui/util/data_forms.vala:63
+msgid "Password"
+msgstr "මුරපදය"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:104
+msgid "Connection status"
+msgstr "සම්බන්ධතා තත්ත්වය"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:117
+msgid "View Certificate"
+msgstr "සහතිකය බලන්න"
+
+# Custom host/port feature (Issue #115)
+#: main/data/preferences_window/account_preferences_subpage.ui:128
+msgid "Advanced Settings"
+msgstr "උසස් සැකසුම්"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:129
+msgid "Custom server connection (leave empty for automatic)"
+msgstr "අභිරුචි සේවාදායක සම්බන්ධතාවය (ස්වයංක්‍රීය සඳහා හිස්ව තබන්න)"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:132
+msgid "Server Hostname"
+msgstr "සේවාදායක ධාරක නාමය"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:137
+msgid "Port"
+msgstr "පෝට්ටුව"
+
+#: main/data/preferences_window/change_password_dialog.ui:61
+msgid "Current password"
+msgstr "වත්මන් මුරපදය"
+
+#: main/data/preferences_window/change_password_dialog.ui:66
+msgid "New password"
+msgstr "නව මුරපදය"
+
+#: main/data/preferences_window/change_password_dialog.ui:71
+msgid "Confirm password"
+msgstr "මුරපදය තහවුරු කරන්න"
+
+#: main/data/preferences_window/general_preferences_page.ui:9
+msgid "Send _Typing Notifications"
+msgstr "_ටයිප් කිරීමේ දැනුම්දීම් යවන්න"
+
+#: main/data/preferences_window/general_preferences_page.ui:15
+msgid "Send _Read Receipts"
+msgstr "_කියවීමේ රිසිට්පත් යවන්න"
+
+#: main/data/preferences_window/general_preferences_page.ui:25
+msgid "_Notifications"
+msgstr "_දැනුම්දීම්"
+
+#: main/data/preferences_window/general_preferences_page.ui:26
+msgid "Notify when a new message arrives"
+msgstr "නව පණිවිඩයක් පැමිණි විට දැනුම්දෙන්න"
+
+#: main/data/preferences_window/general_preferences_page.ui:32
+msgid "_Keep Running in Background"
+msgstr "_පසුබිමේ ක්‍රියාත්මක කරන්න"
+
+#: main/data/preferences_window/general_preferences_page.ui:33
+msgid ""
+"Continue running after closing window to receive notifications immediately"
+msgstr "දැනුම්දීම් ක්ෂණිකව ලබා ගැනීමට කවුළුව වැසීමෙන් පසු දිගටම ක්‍රියාත්මක වන්න"
+
+#: main/data/preferences_window/general_preferences_page.ui:41
+msgid "Appearance"
+msgstr "පෙනුම"
+
+#: main/data/preferences_window/general_preferences_page.ui:44
+msgid "_Color Scheme"
+msgstr "_වර්ණ යෝජනා ක්‍රමය"
+
+#: main/data/preferences_window/general_preferences_page.ui:45
+msgid "Choose between light and dark appearance"
+msgstr "ලා සහ අඳුරු පෙනුම අතර තෝරන්න"
+
+#: main/data/preferences_window/general_preferences_page.ui:55
+msgid "_Convert Smileys to Emoji"
+msgstr "_සිනහ මුහුණු ඉමෝජි බවට පරිවර්තනය කරන්න"
+
+#: main/data/preferences_window/general_preferences_page.ui:63
+#: main/src/ui/chat_input/view.vala:51
+#, fuzzy
+msgid "Stickers"
+msgstr "ස්පීකර්"
+
+#: main/data/preferences_window/general_preferences_page.ui:66
+msgid "Enable Stickers"
+msgstr ""
+
+#: main/data/preferences_window/general_preferences_page.ui:71
+msgid "Enable Sticker Animations"
+msgstr ""
+
+#: main/data/preferences_window/general_preferences_page.ui:72
+msgid "Disable to reduce flashing/flickering"
+msgstr ""
+
+#: main/data/preferences_window/general_preferences_page.ui:79
+msgid "User Data"
+msgstr "පරිශීලක දත්ත"
+
+#: main/data/preferences_window/general_preferences_page.ui:82
+msgid "Backup User Data"
+msgstr "පරිශීලක දත්ත උපස්ථ කරන්න"
+
+#: main/data/preferences_window/general_preferences_page.ui:83
+msgid "Create a backup of your accounts, messages and settings"
+msgstr "ඔබේ ගිණුම්, පණිවිඩ සහ සැකසුම් වල උපස්ථයක් සාදන්න"
+
+#: main/data/preferences_window/general_preferences_page.ui:94
+#: main/src/ui/application.vala:478 main/src/ui/main_window.vala:223
+msgid "Restore from Backup"
+msgstr "උපස්ථයෙන් ප්‍රතිසාධනය කරන්න"
+
+#: main/data/preferences_window/general_preferences_page.ui:95
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "උපස්ථ ගොනුවකින් ගිණුම්, පණිවිඩ සහ සැකසුම් ප්‍රතිසාධනය කරන්න"
+
+#: main/data/preferences_window/general_preferences_page.ui:106
+msgid "Data Storage Location"
+msgstr "දත්ත ගබඩා ස්ථානය"
+
+#: main/data/preferences_window/general_preferences_page.ui:107
+msgid "View where your data is stored"
+msgstr "ඔබේ දත්ත ගබඩා කර ඇති ස්ථානය බලන්න"
+
+#: main/data/preferences_window/general_preferences_page.ui:120
+msgid "Database Maintenance"
+msgstr "දත්ත සමුදාය නඩත්තුව"
+
+#: main/data/preferences_window/general_preferences_page.ui:123
+#: main/src/ui/application.vala:775 main/src/ui/application.vala:780
+msgid "Clear Cache"
+msgstr "හැඹිලිය හිස් කරන්න"
+
+#: main/data/preferences_window/general_preferences_page.ui:124
+msgid "Clear cached files, avatars and previews"
+msgstr "හැඹිලිගත ගොනු, අවතාර සහ පෙරදසුන් හිස් කරන්න"
+
+#: main/data/preferences_window/general_preferences_page.ui:135
+#: main/src/ui/application.vala:852 main/src/ui/application.vala:858
+msgid "Reset Database"
+msgstr "දත්ත සමුදාය යළි පිහිටුවන්න"
+
+#: main/data/preferences_window/general_preferences_page.ui:136
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr "සියලුම පණිවිඩ, ගොනු සහ OMEMO යතුරු මකන්න. ඔබේ ගිණුම් පවතිනු ඇත."
+
+#: main/data/preferences_window/general_preferences_page.ui:147
+#: main/src/ui/application.vala:910
+msgid "Factory Reset"
+msgstr "කර්මාන්තශාලා යළි පිහිටුවීම"
+
+#: main/data/preferences_window/general_preferences_page.ui:148
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr "ගිණුම් ඇතුළු සියලුම දත්ත මකන්න. මෙය අහෝසි කළ නොහැක!"
+
+#: main/data/preferences_window/preferences_dialog.ui:11
+#: main/src/windows/preferences_window/accounts_preferences_page.vala:15
+#: main/src/windows/preferences_window/accounts_preferences_page.vala:27
+msgid "Accounts"
+msgstr "ගිණුම්"
+
+#: main/data/preferences_window/preferences_dialog.ui:18
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:17
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:67
+msgid "Contacts"
+msgstr "සම්බන්ධතා"
+
+#: main/data/preferences_window/preferences_dialog.ui:25
+#: main/src/windows/conversation_details.vala:279
+msgid "Encryption"
+msgstr "සංකේතනය"
+
+#: main/src/ui/add_conversation/add_conference_dialog.vala:44
+msgid "Next"
+msgstr "ඊළඟ"
+
+#: main/src/ui/add_conversation/add_conference_dialog.vala:59
+#: main/src/ui/add_conversation/conference_details_fragment.vala:151
+#: main/src/ui/application.vala:1387
+msgid "Join"
+msgstr "සම්බන්ධ වන්න"
+
+#: main/src/ui/add_conversation/add_groupchat_dialog.vala:26
+msgid "Add"
+msgstr "එකතු කරන්න"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:143
+msgid "Joining…"
+msgstr "සම්බන්ධවෙමින්…"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:164
+msgid "Password required to enter room"
+msgstr "කාමරයට ඇතුළු වීමට මුරපදය අවශ්‍යයි"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:169
+msgid "Banned from joining or creating conference"
+msgstr "සම්මන්ත්‍රණයට සම්බන්ධ වීම හෝ නිර්මාණය කිරීම තහනම්"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:171
+msgid "Room does not exist"
+msgstr "කාමරය නොපවතී"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:173
+msgid "Not allowed to create room"
+msgstr "කාමරය නිර්මාණය කිරීමට අවසර නැත"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:175
+msgid "Members-only room"
+msgstr "සාමාජිකයන්ට පමණක් කාමරය"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:178
+msgid "Choose a different nick"
+msgstr "වෙනත් අන්වර්ථ නාමයක් තෝරන්න"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:180
+msgid "Too many occupants in room"
+msgstr "කාමරයේ වාසීන් ඉතා වැඩිය"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:183
+#: main/src/ui/notifier_freedesktop.vala:190
+#: main/src/ui/notifier_gnotifications.vala:108
+#: main/src/windows/preferences_window/add_account_dialog.vala:271
+#, c-format
+msgid "Could not connect to %s"
+msgstr "%s වෙත සම්බන්ධ වීමට නොහැකි විය"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:186
+#: main/src/windows/preferences_window/add_account_dialog.vala:287
+#: main/src/windows/preferences_window/add_account_dialog.vala:297
+#: main/src/windows/preferences_window/add_account_dialog.vala:307
+#: main/src/windows/preferences_window/add_account_dialog.vala:393
+msgid "Invalid address"
+msgstr "ලිපිනය වැරදියි"
+
+#: main/src/ui/add_conversation/select_contact_dialog.vala:70
+msgid "Search or enter contact address..."
+msgstr "සම්බන්ධතා ලිපිනය සොයන්න හෝ ඇතුළත් කරන්න..."
+
+#: main/src/ui/add_conversation/select_contact_dialog.vala:107
+msgid "Start"
+msgstr "අරඹන්න"
+
+#: main/src/ui/add_conversation/select_jid_fragment.vala:154
+msgid "Browse Rooms"
+msgstr "කාමර බ්‍රවුස් කරන්න"
+
+#: main/src/ui/add_conversation/select_jid_fragment.vala:157
+msgid "Browse Contacts"
+msgstr "සම්බන්ධතා බ්‍රවුස් කරන්න"
+
+#: main/src/ui/add_conversation/select_jid_fragment.vala:202
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:70
+msgid "Add Contact"
+msgstr "සම්බන්ධතාවක් එක් කරන්න"
+
+#: main/src/ui/add_conversation/select_jid_fragment.vala:203
+msgid "Delete Contact"
+msgstr "සම්බන්ධතාවක් මකන්න"
+
+#: main/src/ui/add_conversation/select_jid_fragment.vala:206
+#: main/src/ui/add_conversation/select_jid_fragment.vala:216
+msgid "Leave Group"
+msgstr "කණ්ඩායම හැරයන්න"
+
+#: main/src/ui/application.vala:359
+msgid "Modern XMPP client with extended features"
+msgstr "දිගු විශේෂාංග සහිත නවීන XMPP සේවාදායකයා"
+
+#: main/src/ui/application.vala:366 main/src/ui/application.vala:741
+msgid "User Data Locations"
+msgstr "පරිශීලක දත්ත ස්ථාන"
+
+#: main/src/ui/application.vala:369 main/src/ui/application.vala:755
+msgid "Configuration:"
+msgstr "වින්‍යාසය:"
+
+#: main/src/ui/application.vala:372 main/src/ui/application.vala:757
+msgid "Data & Database:"
+msgstr "දත්ත සහ දත්ත සමුදාය:"
+
+#: main/src/ui/application.vala:375 main/src/ui/application.vala:759
+msgid "Cache:"
+msgstr "හැඹිලිය:"
+
+#: main/src/ui/application.vala:378
+msgid "Info:"
+msgstr "තොරතුරු:"
+
+#: main/src/ui/application.vala:379
+msgid ""
+"Your personal data (accounts, messages, files) is stored separately from the "
+"application."
+msgstr "ඔබේ පුද්ගලික දත්ත (ගිණුම්, පණිවිඩ, ගොනු) යෙදුමෙන් වෙන්ව ගබඩා කර ඇත."
+
+#: main/src/ui/application.vala:381
+msgid "When you update DinoX, your data remains intact."
+msgstr "ඔබ DinoX යාවත්කාලීන කරන විට, ඔබේ දත්ත නොවෙනස්ව පවතී."
+
+#: main/src/ui/application.vala:383
+msgid "Use Settings → General → Backup User Data to create a backup."
+msgstr "උපස්ථයක් සෑදීමට සැකසුම් → සාමාන්‍ය → පරිශීලක දත්ත උපස්ථ කරන්න භාවිතා කරන්න."
+
+#: main/src/ui/application.vala:401
+msgid "Select Backup File"
+msgstr "උපස්ථ ගොනුව තෝරන්න"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+#: main/src/ui/application.vala:409
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "උපස්ථ ගොනු (*.tar.gz, *.tar.gz.gpg)"
+
+#: main/src/ui/application.vala:439
+msgid "Enter Backup Password"
+msgstr "උපස්ථ මුරපදය ඇතුළත් කරන්න"
+
+#: main/src/ui/application.vala:440
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "මෙම උපස්ථය සංකේතනය කර ඇත. මුරපදය ඇතුළත් කරන්න."
+
+#: main/src/ui/application.vala:456
+msgid "Decrypt & Restore"
+msgstr "විකේතනය කර ප්‍රතිසාධනය කරන්න"
+
+#: main/src/ui/application.vala:479
+msgid ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+msgstr ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+
+#: main/src/ui/application.vala:484
+msgid "Restore Backup"
+msgstr "උපස්ථය ප්‍රතිසාධනය කරන්න"
+
+#: main/src/ui/application.vala:501 main/src/ui/application.vala:533
+msgid "Decrypting Backup..."
+msgstr "උපස්ථය විකේතනය කරමින්..."
+
+#: main/src/ui/application.vala:501 main/src/ui/application.vala:585
+msgid "Restoring Backup..."
+msgstr "උපස්ථය ප්‍රතිසාධනය කරමින්..."
+
+#: main/src/ui/application.vala:502
+msgid "Please wait, this may take a moment..."
+msgstr "කරුණාකර රැඳී සිටින්න, මෙයට මොහොතක් ගත විය හැක..."
+
+#: main/src/ui/application.vala:534
+msgid "Decrypting encrypted backup file..."
+msgstr "උපස්ථ ගොනුව විකේතනය කරමින්..."
+
+#: main/src/ui/application.vala:572
+msgid "Decryption Failed"
+msgstr "විකේතනය අසාර්ථක විය"
+
+#: main/src/ui/application.vala:573
+msgid ""
+"Could not decrypt the backup file.\n"
+"\n"
+"Please check if the password is correct."
+msgstr ""
+"උපස්ථ ගොනුව විකේතනය කළ නොහැක.\n"
+"\n"
+"මුරපදය නිවැරදිදැයි පරීක්ෂා කරන්න."
+
+#: main/src/ui/application.vala:575 main/src/ui/application.vala:685
+#: main/src/ui/chat_input/sticker_chooser.vala:575
+#: main/src/ui/chat_input/sticker_chooser.vala:594
+#: main/src/ui/chat_input/sticker_chooser.vala:602
+#: main/src/ui/chat_input/sticker_chooser.vala:817
+#: main/src/ui/chat_input/sticker_chooser.vala:835
+#: main/src/ui/chat_input/sticker_chooser.vala:843
+#: main/src/ui/chat_input/sticker_chooser.vala:883
+msgid "OK"
+msgstr "OK"
+
+#: main/src/ui/application.vala:586
+msgid "Extracting files from backup..."
+msgstr "උපස්ථයෙන් ගොනු උපුටා ගනිමින්..."
+
+#: main/src/ui/application.vala:667
+msgid "Restore Complete!"
+msgstr "ප්‍රතිසාධනය සම්පූර්ණයි!"
+
+#: main/src/ui/application.vala:668
+msgid "DinoX will now restart..."
+msgstr "DinoX දැන් නැවත ආරම්භ වේ..."
+
+#: main/src/ui/application.vala:682
+msgid "Restore Failed"
+msgstr "ප්‍රතිසාධනය අසාර්ථක විය"
+
+#: main/src/ui/application.vala:683
+#, c-format
+msgid ""
+"Could not restore the backup file.\n"
+"\n"
+"Error: %s"
+msgstr ""
+"උපස්ථ ගොනුව ප්‍රතිස්ථාපනය කළ නොහැක.\n"
+"\n"
+"දෝෂය: %s"
+
+#: main/src/ui/application.vala:683 main/src/ui/application.vala:1359
+msgid "Unknown error"
+msgstr "නොදන්නා දෝෂය"
+
+#: main/src/ui/application.vala:761
+msgid ""
+"Your personal data (accounts, messages, files) is stored separately from the "
+"application. When you update DinoX, your data remains intact."
+msgstr ""
+"ඔබේ පුද්ගලික දත්ත (ගිණුම්, පණිවිඩ, ගොනු) යෙදුමෙන් වෙන්ව ගබඩා කර ඇත. ඔබ DinoX යාවත්කාලීන කරන "
+"විට, ඔබේ දත්ත නොවෙනස්ව පවතී."
+
+#: main/src/ui/application.vala:766 main/src/ui/application.vala:1254
+#: main/src/ui/application.vala:1338
+#: main/src/ui/chat_input/sticker_chooser.vala:174
+#: main/src/ui/conversation_details.vala:272 main/src/ui/main_window.vala:172
+msgid "Close"
+msgstr "වසන්න"
+
+#: main/src/ui/application.vala:776
+msgid ""
+"This will delete cached files, avatars and previews.\n"
+"\n"
+"They will be re-downloaded when needed."
+msgstr ""
+"මෙය හැඹිලිගත ගොනු, අවතාර සහ පෙරදසුන් මකා දමනු ඇත.\n"
+"\n"
+"අවශ්‍ය වූ විට ඒවා නැවත බාගත කරනු ලැබේ."
+
+#: main/src/ui/application.vala:813
+#, c-format
+msgid "Cache cleared (%s freed)"
+msgstr "හැඹිලිය හිස් කරන ලදී (%s නිදහස් විය)"
+
+#: main/src/ui/application.vala:816
+msgid "Failed to clear cache"
+msgstr "හැඹිලිය හිස් කිරීමට අසමත් විය"
+
+#: main/src/ui/application.vala:853
+msgid ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+msgstr ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+
+#: main/src/ui/application.vala:881
+msgid "Resetting database... DinoX will restart."
+msgstr "දත්ත සමුදාය යළි පිහිටුවමින්... DinoX නැවත ආරම්භ වේ."
+
+#: main/src/ui/application.vala:911
+msgid ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+msgstr ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+
+#: main/src/ui/application.vala:916
+msgid "Create Backup First"
+msgstr "පළමුව උපස්ථයක් සාදන්න"
+
+#: main/src/ui/application.vala:917
+msgid "Delete Everything"
+msgstr "සියල්ල මකන්න"
+
+#: main/src/ui/application.vala:937
+msgid "Are you absolutely sure?"
+msgstr "ඔබට විශ්වාසද?"
+
+#: main/src/ui/application.vala:938
+msgid ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+msgstr ""
+"කර්මාන්තශාලා යළි පිහිටුවීම තහවුරු කිරීමට 'DELETE' ටයිප් කරන්න.\n"
+"\n"
+"මෙය ඔබගේ සියලුම DinoX දත්ත ස්ථිරවම ඉවත් කරනු ඇත."
+
+#: main/src/ui/application.vala:948
+msgid "Confirm Delete"
+msgstr "මකා දැමීම තහවුරු කරන්න"
+
+#: main/src/ui/application.vala:975
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "කර්මාන්තශාලා යළි පිහිටුවීම සිදු වෙමින්... DinoX නැවත ආරම්භ වේ."
+
+#: main/src/ui/application.vala:1040
+msgid "Backup Encryption"
+msgstr "උපස්ථ සංකේතනය"
+
+#: main/src/ui/application.vala:1041
+msgid ""
+"Do you want to encrypt the backup with a password?\n"
+"\n"
+"Encrypted backups are more secure but require the password to restore."
+msgstr ""
+"ඔබට මුරපදයක් සමඟ උපස්ථය සංකේතනය කිරීමට අවශ්‍යද?\n"
+"\n"
+"සංකේතනය කළ උපස්ථ වඩාත් ආරක්ෂිත නමුත් ප්‍රතිසාධනය කිරීමට මුරපදය අවශ්‍ය වේ."
+
+#: main/src/ui/application.vala:1044
+msgid "No Encryption"
+msgstr "සංකේතනයක් නැත"
+
+#: main/src/ui/application.vala:1045
+msgid "Encrypt with Password"
+msgstr "මුරපදයකින් සංකේතනය කරන්න"
+
+#: main/src/ui/application.vala:1063
+msgid "Set Backup Password"
+msgstr "උපස්ථ මුරපදය සකසන්න"
+
+#: main/src/ui/application.vala:1064
+msgid ""
+"Enter a password to encrypt the backup.\n"
+"\n"
+"<b>Important:</b> Remember this password! Without it, the backup cannot be "
+"restored."
+msgstr ""
+"උපස්ථය සංකේතනය කිරීමට මුරපදයක් ඇතුළත් කරන්න.\n"
+"\n"
+"<b>වැදගත්:</b> මෙම මුරපදය මතක තබා ගන්න! එය නොමැතිව, උපස්ථය ප්‍රතිස්ථාපනය කළ නොහැක."
+
+#: main/src/ui/application.vala:1072
+msgid "Password (minimum 4 characters)"
+msgstr "මුරපදය (අවම අක්ෂර 4ක්)"
+
+#: main/src/ui/application.vala:1080 main/src/ui/application.vala:1087
+msgid "Confirm Password"
+msgstr "මුරපදය තහවුරු කරන්න"
+
+#: main/src/ui/application.vala:1104
+msgid "Create Encrypted Backup"
+msgstr "සංකේතනය කළ උපස්ථයක් සාදන්න"
+
+#: main/src/ui/application.vala:1116 main/src/ui/application.vala:1131
+msgid "Password too short"
+msgstr "මුරපදය කෙටි වැඩිය"
+
+#: main/src/ui/application.vala:1118 main/src/ui/application.vala:1133
+msgid "Passwords do not match"
+msgstr "මුරපද නොගැලපේ"
+
+#: main/src/ui/application.vala:1120 main/src/ui/application.vala:1135
+msgid "✓ Passwords match"
+msgstr "✓ මුරපද ගැලපේ"
+
+#: main/src/ui/application.vala:1153
+msgid "Select Backup Location"
+msgstr "උපස්ථ ස්ථානය තෝරන්න"
+
+#: main/src/ui/application.vala:1208
+msgid "Creating Encrypted Backup..."
+msgstr "සංකේතනය කළ උපස්ථයක් සාදමින්..."
+
+#: main/src/ui/application.vala:1208
+msgid "Creating Backup..."
+msgstr "උපස්ථයක් සාදමින්..."
+
+#: main/src/ui/application.vala:1209
+msgid "Please wait while your data is being backed up."
+msgstr "ඔබගේ දත්ත උපස්ථ කරන අතරතුර කරුණාකර රැඳී සිටින්න."
+
+#: main/src/ui/application.vala:1248
+msgid "No data directory found to backup"
+msgstr "උපස්ථ කිරීමට දත්ත නාමාවලියක් හමු නොවීය"
+
+#: main/src/ui/application.vala:1251 main/src/ui/application.vala:1357
+msgid "Backup Failed"
+msgstr "උපස්ථය අසාර්ථක විය"
+
+#: main/src/ui/application.vala:1345
+msgid "Encrypted Backup Created"
+msgstr "සංකේතනය කළ උපස්ථය නිර්මාණය කරන ලදී"
+
+#: main/src/ui/application.vala:1347
+#, c-format
+msgid ""
+"Your encrypted backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"ඔබගේ සංකේතනය කළ උපස්ථය සාර්ථකව නිර්මාණය කරන ලදී.\n"
+"\n"
+"ප්‍රමාණය: %s"
+
+#: main/src/ui/application.vala:1348
+msgid "Your encrypted backup was created successfully."
+msgstr "ඔබගේ සංකේතනය කළ උපස්ථය සාර්ථකව නිර්මාණය කරන ලදී."
+
+#: main/src/ui/application.vala:1350
+msgid "Backup Created"
+msgstr "උපස්ථය නිර්මාණය කරන ලදී"
+
+#: main/src/ui/application.vala:1352
+#, c-format
+msgid ""
+"Your backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"ඔබගේ උපස්ථය සාර්ථකව නිර්මාණය කරන ලදී.\n"
+"\n"
+"ප්‍රමාණය: %s"
+
+#: main/src/ui/application.vala:1353
+msgid "Your backup was created successfully."
+msgstr "ඔබගේ උපස්ථය සාර්ථකව නිර්මාණය කරන ලදී."
+
+#: main/src/ui/application.vala:1360
+#, c-format
+msgid "Backup failed: %s"
+msgstr "උපස්ථය අසාර්ථකයි: %s"
+
+#: main/src/ui/call_window/audio_settings_popover.vala:46
+msgid "Microphones"
+msgstr "මයික්‍රෝෆෝන"
+
+#: main/src/ui/call_window/audio_settings_popover.vala:49
+msgid "No microphone found."
+msgstr "මයික්‍රෝෆෝනයක් හමු නොවීය."
+
+#: main/src/ui/call_window/audio_settings_popover.vala:116
+msgid "Speakers"
+msgstr "ස්පීකර්"
+
+#: main/src/ui/call_window/audio_settings_popover.vala:119
+msgid "No speaker found."
+msgstr "ස්පීකරයක් හමු නොවීය."
+
+#: main/src/ui/call_window/call_window_controller.vala:153
+msgid "Invite to Call"
+msgstr "ඇමතුමට ආරාධනා කරන්න"
+
+#: main/src/ui/call_window/call_window_controller.vala:154
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:772
+#: main/src/ui/conversation_titlebar/menu_entry.vala:99
+#: main/src/ui/occupant_menu/view.vala:27
+#: main/src/ui/occupant_menu/view.vala:276
+msgid "Invite"
+msgstr "ආරාධනා කරන්න"
+
+#: main/src/ui/call_window/call_window_controller.vala:453
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:240
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:270
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:285
+#: main/src/ui/util/helper.vala:69 main/src/ui/util/helper.vala:73
+#: main/src/ui/util/helper.vala:81
+msgid "Me"
+msgstr "මම"
+
+#: main/src/ui/call_window/call_window.vala:219
+#, c-format
+msgid "%s ended the call"
+msgstr "%s විසින් ඇමතුම අවසන් කරන ලදි"
+
+#: main/src/ui/call_window/call_window.vala:221
+#, c-format
+msgid "%s declined the call"
+msgstr "%s විසින් ඇමතුම ප්‍රතික්ෂේප කරන ලදි"
+
+#: main/src/ui/call_window/participant_widget.vala:140
+msgid "Debug information"
+msgstr "දෝෂ නිරාකරණ තොරතුරු"
+
+#: main/src/ui/call_window/participant_widget.vala:149
+#: main/src/ui/conversation_content_view/call_widget.vala:152
+msgid "Calling…"
+msgstr "අමතමින්…"
+
+#: main/src/ui/call_window/participant_widget.vala:151
+msgid "Ringing…"
+msgstr "නාදවෙමින්…"
+
+#: main/src/ui/call_window/participant_widget.vala:153
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:244
+msgid "Connecting…"
+msgstr "සම්බන්ධවෙමින්…"
+
+#: main/src/ui/call_window/video_settings_popover.vala:25
+msgid "Cameras"
+msgstr "කැමරා"
+
+#: main/src/ui/call_window/video_settings_popover.vala:28
+msgid "No camera found."
+msgstr "කැමරාවක් හමු නොවීය."
+
+#: main/src/ui/chat_input/chat_input_controller.vala:267
+msgid "This conference does not allow you to send messages."
+msgstr "මෙම සම්මන්ත්‍රණය ඔබට පණිවිඩ යැවීමට ඉඩ නොදේ."
+
+#: main/src/ui/chat_input/chat_input_controller.vala:267
+msgid "Request permission"
+msgstr "අවසර ඉල්ලන්න"
+
+#: main/src/ui/chat_input/encryption_button.vala:35
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:224
+msgid "Unencrypted"
+msgstr "සංකේතනය නොකළ"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:25
+#, fuzzy
+msgid "Import…"
+msgstr "Import Key"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:26
+msgid "Folder…"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:27
+#: main/src/ui/chat_input/sticker_chooser.vala:822
+#: main/src/ui/chat_input/sticker_chooser.vala:849
+msgid "Publish"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:28
+#: main/src/ui/chat_input/sticker_chooser.vala:870
+#: main/src/ui/conversation_content_view/item_actions.vala:165
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:745
+#: main/src/windows/conversation_details.vala:61
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:292
+msgid "Remove"
+msgstr "ඉවත් කරන්න"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:237
+msgid "Paste an xmpp: sticker pack link and press Enter."
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:241
+msgid "xmpp:…"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:413
+#: main/src/ui/chat_input/sticker_chooser.vala:574
+#: main/src/ui/chat_input/sticker_chooser.vala:816
+msgid "Stickers are unavailable"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:420
+#: main/src/ui/chat_input/sticker_chooser.vala:497
+#: main/src/ui/chat_input/sticker_chooser.vala:502
+msgid "None"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:450
+msgid "No sticker packs yet. Use Import… to add one."
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:452
+#: main/src/ui/chat_input/sticker_chooser.vala:735
+msgid "No stickers selected"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:534
+#, fuzzy
+msgid "Select sticker folder"
+msgstr "ගොනුව තෝරන්න"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:535
+#: main/src/ui/conversation_view_controller.vala:238
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:180
+msgid "Select"
+msgstr "තෝරන්න"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:544
+#, fuzzy
+msgid "Create sticker pack"
+msgstr "සංකේතනය කළ උපස්ථයක් සාදන්න"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:545
+msgid ""
+"Do you want to keep this pack local, or also publish it so you can share an "
+"xmpp: link?"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:548
+#, fuzzy
+msgid "Local only"
+msgstr "ප්‍රාදේශීය අන්වර්ථ නාමය"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:549
+msgid "Publish & copy link"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:574
+#: main/src/ui/chat_input/sticker_chooser.vala:816
+msgid "Stickers module unavailable"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:593
+#: main/src/ui/chat_input/sticker_chooser.vala:834
+msgid "Sticker pack published"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:593
+#: main/src/ui/chat_input/sticker_chooser.vala:834
+#, c-format
+msgid ""
+"Share link copied to clipboard:\n"
+"%s"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:601
+#, fuzzy
+msgid "Failed to create sticker pack"
+msgstr "හැඹිලිය හිස් කිරීමට අසමත් විය"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:698
+msgid "Invalid sticker pack link"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:755
+msgid "No stickers in this pack"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:811
+#, fuzzy
+msgid "Publishing…"
+msgstr "සම්බන්ධවෙමින්…"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:842
+#, fuzzy
+msgid "Failed to publish sticker pack"
+msgstr "හැඹිලිය හිස් කිරීමට අසමත් විය"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:866
+#, fuzzy
+msgid "Remove sticker pack?"
+msgstr "සම්බන්ධතාවය ඉවත් කරන්නද?"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:867
+#, c-format
+msgid ""
+"This will delete the downloaded files and remove the pack from your list: %s"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:882
+#, fuzzy
+msgid "Failed to remove sticker pack"
+msgstr "හැඹිලිය හිස් කිරීමට අසමත් විය"
+
+#: main/src/ui/contact_details/permissions_provider.vala:23
+msgid "Request permission to send messages"
+msgstr "පණිවිඩ යැවීමට අවසර ඉල්ලන්න"
+
+#: main/src/ui/contact_details/permissions_provider.vala:24
+msgid "Request"
+msgstr "ඉල්ලීම"
+
+#: main/src/ui/contact_details/settings_provider.vala:21
+#: main/src/ui/contact_details/settings_provider.vala:24
+#: main/src/ui/contact_details/settings_provider.vala:31
+#: main/src/ui/contact_details/settings_provider.vala:34
+msgid "On"
+msgstr "සක්‍රියයි"
+
+#: main/src/ui/contact_details/settings_provider.vala:21
+#: main/src/ui/contact_details/settings_provider.vala:25
+#: main/src/ui/contact_details/settings_provider.vala:31
+#: main/src/ui/contact_details/settings_provider.vala:35
+msgid "Off"
+msgstr "අක්‍රියයි"
+
+#: main/src/ui/contact_details/settings_provider.vala:22
+msgid "Send typing notifications"
+msgstr "ටයිප් කිරීමේ දැනුම්දීම් යවන්න"
+
+#: main/src/ui/contact_details/settings_provider.vala:23
+#: main/src/ui/contact_details/settings_provider.vala:33
+#, c-format
+msgid "Default: %s"
+msgstr "පෙරනිමි: %s"
+
+#: main/src/ui/contact_details/settings_provider.vala:32
+msgid "Send read receipts"
+msgstr "කියවීමේ රිසිට්පත් යවන්න"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:137
+#: main/src/ui/notifier_freedesktop.vala:114
+#: main/src/ui/notifier_gnotifications.vala:72
+msgid "Incoming video call"
+msgstr "එන දෘෂ්‍ය ඇමතුම"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:137
+#: main/src/ui/conversation_content_view/call_widget.vala:168
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:287
+#: main/src/ui/notifier_freedesktop.vala:114
+#: main/src/ui/notifier_gnotifications.vala:72
+msgid "Incoming call"
+msgstr "එන ඇමතුම"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:139
+#: main/src/ui/notifier_freedesktop.vala:116
+#: main/src/ui/notifier_gnotifications.vala:74
+msgid "Incoming video group call"
+msgstr "එන කණ්ඩායම් දෘෂ්‍ය ඇමතුම"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:139
+#: main/src/ui/notifier_freedesktop.vala:116
+#: main/src/ui/notifier_gnotifications.vala:74
+msgid "Incoming group call"
+msgstr "එන කණ්ඩායම් ඇමතුම"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:159
+msgid "Call started"
+msgstr "ඇමතුම ආරම්භ විය"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:161
+#, c-format
+msgid "Started %s ago"
+msgstr "%sකට පෙර ආරම්භ විය"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:168
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:287
+msgid "Outgoing call"
+msgstr "යන ඇමතුම"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:169
+msgid "You handled this call on another device"
+msgstr "ඔබ මෙම ඇමතුම වෙනත් උපාංගයකින් හසුරුවා ගත්තා"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:174
+msgid "Call ended"
+msgstr "ඇමතුම අවසන් විය"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:175
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:315
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:490
+#, no-c-format
+msgid "%H∶%M"
+msgstr "%H∶%M"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:175
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:316
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:491
+#, no-c-format
+msgid "%l∶%M %p"
+msgstr "%p %l∶%M"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:177
+#, c-format
+msgid "Ended at %s"
+msgstr "%sට අවසන් විය"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:179
+#, c-format
+msgid "Lasted %s"
+msgstr "%sක් පැවතුණි"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:183
+msgid "Call missed"
+msgstr "ඇමතුම මගහැරුණි"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:185
+msgid "You missed this call"
+msgstr "ඔබට මෙම ඇමතුම මගහැරුණි"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:188
+#, c-format
+msgid "%s missed this call"
+msgstr "%sට මෙම ඇමතුම මගහැරුණි"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:193
+msgid "Call declined"
+msgstr "ඇමතුම ප්‍රතික්ෂේප කරන ලදී"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:195
+msgid "You declined this call"
+msgstr "ඔබ මෙම ඇමතුම ප්‍රතික්ෂේප කළා"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:198
+#, c-format
+msgid "%s declined this call"
+msgstr "%s මෙම ඇමතුම ප්‍රතික්ෂේප කළා"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:203
+msgid "Call failed"
+msgstr "ඇමතුම අසාර්ථකයි"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:241
+msgid "a few seconds"
+msgstr "තත්පර කිහිපය"
+
+#: main/src/ui/conversation_content_view/chat_state_populator.vala:108
+#, c-format
+msgid "%s, %s and %i others are typing…"
+msgstr "%s, %s සහ තවත් %i දෙනෙක් යතුරු ලියමින්…"
+
+#: main/src/ui/conversation_content_view/chat_state_populator.vala:115
+#, c-format
+msgid "%s, %s and %s are typing…"
+msgstr "%s, %s සහ %s යතුරු ලියමින්…"
+
+#: main/src/ui/conversation_content_view/chat_state_populator.vala:121
+#, c-format
+msgid "%s and %s are typing…"
+msgstr "%s සහ %s යතුරු ලියමින්…"
+
+#: main/src/ui/conversation_content_view/chat_state_populator.vala:126
+#, c-format
+msgid "%s is typing…"
+msgstr "%s යතුරු ලියමින්…"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:256
+msgid "Delivered"
+msgstr "බෙදා හැරියා"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:260
+msgid "Read"
+msgstr "කියවන ලදී"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:266
+msgid "Unable to send message"
+msgstr "පණිවිඩය යැවීමට නොහැක"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:303
+#, no-c-format
+msgid "%x, %H∶%M"
+msgstr "%x, %H∶%M"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:304
+#, no-c-format
+msgid "%x, %l∶%M %p"
+msgstr "%x, %p %l∶%M"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:307
+#, no-c-format
+msgid "%b %d, %H∶%M"
+msgstr "%b %d, %H∶%M"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:308
+#, no-c-format
+msgid "%b %d, %l∶%M %p"
+msgstr "%b %d, %p %l∶%M"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:311
+#, no-c-format
+msgid "%a, %H∶%M"
+msgstr "%a, %H∶%M"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:312
+#, no-c-format
+msgid "%a, %l∶%M %p"
+msgstr "%a, %l∶%M %p"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:322
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:496
+msgid "Just now"
+msgstr "මේ දැන්"
+
+#: main/src/ui/conversation_content_view/conversation_view.vala:114
+msgid "More actions"
+msgstr "තවත් ක්‍රියාවන්"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:67
+#: main/src/ui/conversation_content_view/file_image_widget.vala:201
+msgid "Open"
+msgstr "විවෘත"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:68
+#: main/src/ui/conversation_content_view/file_image_widget.vala:202
+#: main/src/ui/conversation_content_view/file_widget.vala:174
+msgid "Save as…"
+msgstr "ලෙස සුරකින්න…"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:77
+#, c-format
+msgid "Downloading %s… (%u%%)"
+msgstr "%s බාගත කරමින්… (%u%%)"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:79
+#, c-format
+msgid "Downloading %s…"
+msgstr "%sක් බාගනිමින්…"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:83
+#, c-format
+msgid "Uploading %s… (%u%%)"
+msgstr "%s උඩුගත කරමින්… (%u%%)"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:97
+#, c-format
+msgid "%s offered: %s"
+msgstr "%s ඉදිරිපත් කළේ: %s"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:99
+#, c-format
+msgid "File offered: %s"
+msgstr "ඉදිරිපත් කළ ගොනුව: %s"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:101
+msgid "File offered"
+msgstr "ගොනුව ඉදිරිපත් කරන ලදි"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:107
+msgid "File transfer failed"
+msgstr "ගොනුව හුවමාරුව අසාර්ථක වුණි"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:36
+msgid "Kick user"
+msgstr "පරිශීලකයා ඉවත් කරන්න"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:69
+msgid "Ban user"
+msgstr "පරිශීලකයා තහනම් කරන්න"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:82
+#: main/src/ui/conversation_content_view/reactions_widget.vala:128
+msgid "Add reaction"
+msgstr "ප්‍රතිචාරය එකතු කරන්න"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:94
+msgid "This conversation does not support reactions."
+msgstr "මෙම සංවාදය ප්‍රතිචාර සහාය නොකරයි."
+
+#: main/src/ui/conversation_content_view/item_actions.vala:107
+msgid "Reply"
+msgstr "පිළිතුරු"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:117
+msgid "This conversation does not support replies."
+msgstr "මෙම සංවාදය පිළිතුරු සහාය නොකරයි."
+
+#: main/src/ui/conversation_content_view/item_actions.vala:146
+msgid "Moderate message..."
+msgstr "පණිවිඩය මධ්‍යසථ කරන්න…"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:148
+msgid "Delete..."
+msgstr "මකන්න..."
+
+#: main/src/ui/conversation_content_view/item_actions.vala:150
+#: main/src/ui/conversation_content_view/item_actions.vala:168
+msgid "Delete locally"
+msgstr "ප්‍රාදේශීයව මකන්න"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:160
+msgid "Moderate message"
+msgstr "පණිවිඩය මධ්‍යසථ කරන්න"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:160
+msgid "Delete message"
+msgstr "පණිවිඩය මකන්න"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:164
+msgid "Do you want to remove this message from the channel?"
+msgstr "ඔබට මෙම පණිවිඩය නාලිකාවෙන් ඉවත් කිරීමට අවශ්‍යද?"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:167
+msgid "Do you want to delete this message just for yourself or for everyone?"
+msgstr "ඔබට මෙම පණිවිඩය ඔබට පමණක් හෝ සැමට මකා දැමීමට අවශ්‍යද?"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:168
+msgid "Delete for everyone"
+msgstr "සැමට මකන්න"
+
+#: main/src/ui/conversation_content_view/message_widget.vala:174
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:255
+msgid "Message deleted"
+msgstr "පණිවිඩය මකා දැමිණි"
+
+#: main/src/ui/conversation_content_view/message_widget.vala:178
+msgid "edited"
+msgstr "සංස්කරණය කළා"
+
+#: main/src/ui/conversation_content_view/message_widget.vala:182
+msgid "Message truncated - exceeds 100,000 characters"
+msgstr "පණිවිඩය කපා හැරියා - අක්ෂර 100,000 ඉක්මවයි"
+
+#: main/src/ui/conversation_content_view/message_widget.vala:191
+msgid "pending…"
+msgstr "පොරොත්තුවෙන්…"
+
+#: main/src/ui/conversation_content_view/message_widget.vala:206
+msgid "delivery failed"
+msgstr "බෙදාහැරීම අසාර්ථකයි"
+
+#: main/src/ui/conversation_content_view/message_widget.vala:254
+msgid "Edit message"
+msgstr "පණිවිඩය සංස්කරණය කරන්න"
+
+#: main/src/ui/conversation_content_view/quote_widget.vala:43
+msgid "File"
+msgstr "ගොනුව"
+
+#: main/src/ui/conversation_content_view/reactions_widget.vala:102
+msgid "You"
+msgstr "ඔබ"
+
+#: main/src/ui/conversation_content_view/subscription_notification.vala:49
+msgid "Send request"
+msgstr "ඉල්ලීම යවන්න"
+
+#: main/src/ui/conversation_content_view/subscription_notification.vala:60
+msgid "You do not receive status updates from this contact yet."
+msgstr "ඔබ තවම මෙම සම්බන්ධතාවෙන් තත්ත්ව යාවත්කාලීන ලබා ගන්නේ නැත."
+
+#: main/src/ui/conversation_content_view/subscription_notification.vala:68
+#: main/src/ui/notifier_freedesktop.vala:166
+#: main/src/ui/notifier_freedesktop.vala:266
+#: main/src/ui/notifier_gnotifications.vala:102
+#: main/src/ui/notifier_gnotifications.vala:139
+#: main/src/ui/notifier_gnotifications.vala:157
+msgid "Deny"
+msgstr "ප්‍රතික්ෂේප කරන්න"
+
+#: main/src/ui/conversation_content_view/subscription_notification.vala:80
+msgid "This contact would like to add you to their contact list"
+msgstr "මෙම සම්බන්ධතාවය ඔවුන්ගේ සම්බන්ධතා ලැයිස්තුවට ඔබව එක් කිරීමට කැමතියි"
+
+#: main/src/ui/conversation_content_view/unread_indicator_populator.vala:76
+msgid "New"
+msgstr "අලුත්"
+
+#: main/src/ui/conversation_details.vala:175
+#: main/src/ui/util/data_forms.vala:40
+msgid "Display name"
+msgstr "සංදර්ශක නම"
+
+#: main/src/ui/conversation_details.vala:195
+#: main/src/ui/conversation_details.vala:209
+msgid "Topic"
+msgstr "මාතෘකාව"
+
+#: main/src/ui/conversation_details.vala:222
+msgid "Permissions"
+msgstr "අවසර"
+
+#: main/src/ui/conversation_details.vala:223
+msgid "Manage Affiliations"
+msgstr "සම්බන්ධතා කළමනාකරණය"
+
+#: main/src/ui/conversation_details.vala:239
+msgid "Danger Zone"
+msgstr "අනතුරුදායක කලාපය"
+
+#: main/src/ui/conversation_details.vala:240
+msgid "Destroy Room"
+msgstr "කාමරය විනාශ කරන්න"
+
+#: main/src/ui/conversation_details.vala:246
+msgid "Destroy Room?"
+msgstr "කාමරය විනාශ කරන්නද?"
+
+#: main/src/ui/conversation_details.vala:247
+msgid ""
+"Are you sure you want to permanently destroy this room? This action cannot "
+"be undone and all history will be lost for all participants."
+msgstr ""
+"ඔබට මෙම කාමරය ස්ථිරවම විනාශ කිරීමට අවශ්‍ය බව විශ්වාසද? මෙම ක්‍රියාව අහෝසි කළ නොහැකි අතර "
+"සියලු සහභාගිවන්නන්ට සියලු ඉතිහාසය අහිමි වේ."
+
+#: main/src/ui/conversation_details.vala:250
+msgid "Destroy"
+msgstr "විනාශ කරන්න"
+
+#: main/src/ui/conversation_details.vala:271
+msgid "Failed to destroy room"
+msgstr "කාමරය විනාශ කිරීමට අසමත් විය"
+
+#: main/src/ui/conversation_details.vala:286
+msgid "Auto-delete messages"
+msgstr "පණිවිඩ ස්වයංක්‍රීයව මකන්න"
+
+#: main/src/ui/conversation_details.vala:287
+msgid "Never"
+msgstr "කවදාවත් නැහැ"
+
+#: main/src/ui/conversation_details.vala:288
+msgid "After 15 minutes"
+msgstr "විනාඩි 15 කට පසු"
+
+#: main/src/ui/conversation_details.vala:289
+msgid "After 30 minutes"
+msgstr "විනාඩි 30 කට පසු"
+
+#: main/src/ui/conversation_details.vala:290
+msgid "After 1 hour"
+msgstr "පැය 1 කට පසු"
+
+#: main/src/ui/conversation_details.vala:291
+msgid "After 24 hours"
+msgstr "පැය 24 කට පසු"
+
+#: main/src/ui/conversation_details.vala:292
+msgid "After 7 days"
+msgstr "දින 7 කට පසු"
+
+#: main/src/ui/conversation_details.vala:293
+msgid "After 30 days"
+msgstr "දින 30 කට පසු"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:276
+#: main/src/ui/notifier_freedesktop.vala:71
+#: main/src/ui/notifier_gnotifications.vala:36
+msgid "Image sent"
+msgstr "පින්තූරය යවන ලදි"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:276
+#: main/src/ui/notifier_freedesktop.vala:71
+#: main/src/ui/notifier_gnotifications.vala:36
+msgid "File sent"
+msgstr "ගොනුව යවන ලදි"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:278
+#: main/src/ui/notifier_freedesktop.vala:73
+#: main/src/ui/notifier_gnotifications.vala:38
+msgid "Image received"
+msgstr "පින්තූරය ලැබුණි"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:278
+#: main/src/ui/notifier_freedesktop.vala:73
+#: main/src/ui/notifier_gnotifications.vala:38
+msgid "File received"
+msgstr "ගොනුව ලැබුණි"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:361
+msgid "Thema:"
+msgstr "මාතෘකාව:"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:381
+msgid "Privat"
+msgstr "පුද්ගලික"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:383
+msgid "Öffentlich"
+msgstr "පොදු"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:387
+msgid "Typ:"
+msgstr "වර්ගය:"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:483
+#: main/src/ui/widgets/date_separator.vala:37
+#, no-c-format
+msgid "%b %d"
+msgstr "%b %d"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:487
+#: main/src/ui/widgets/date_separator.vala:28
+msgid "Yesterday"
+msgstr "ඊයේ"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:506
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:554
+#: main/src/ui/conversation_titlebar/menu_entry.vala:79
+msgid "Conversation Details"
+msgstr "සංවාද විස්තර"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:507
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:771
+#: main/src/ui/conversation_titlebar/menu_entry.vala:98
+msgid "Invite Contact"
+msgstr "සම්බන්ධතාවය ආරාධනා කරන්න"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:511
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:559
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:661
+#: main/src/ui/occupant_menu/view.vala:173
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:140
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:206
+msgid "Unmute"
+msgstr "නිශ්ශබ්දතාව ඉවත් කරන්න"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:511
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:559
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:680
+#: main/src/ui/occupant_menu/view.vala:177
+#: main/src/windows/conversation_details.vala:163
+#: main/src/windows/conversation_details.vala:164
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:140
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:226
+msgid "Mute"
+msgstr "නිහඬ"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:514
+msgid "Leave and Close"
+msgstr "ඉවත්ව වසන්න"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:555
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:623
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:126
+msgid "Edit Alias"
+msgstr "අන්වර්ථ නාමය සංස්කරණය කරන්න"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:563
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:705
+#: main/src/windows/conversation_details.vala:108
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:250
+msgid "Unblock"
+msgstr "අවහිර කිරීම ඉවත් කරන්න"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:563
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:724
+#: main/src/windows/conversation_details.vala:144
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:270
+msgid "Block"
+msgstr "අවහිර කරන්න"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:628
+msgid "Alias"
+msgstr "අන්වර්ථ නාමය"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:634
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:333
+msgid "Save"
+msgstr "සුරකින්න"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:657
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:202
+msgid "Unmute contact?"
+msgstr "සම්බන්ධතාවයේ නිශ්ශබ්දතාව ඉවත් කරන්නද?"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:658
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:203
+#, c-format
+msgid "This will enable notifications from %s."
+msgstr "මෙය %s වෙතින් දැනුම්දීම් සක්‍රීය කරනු ඇත."
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:676
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:222
+msgid "Mute contact?"
+msgstr "සම්බන්ධතාවය නිශ්ශබ්ද කරන්නද?"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:677
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:223
+#, c-format
+msgid "This will disable notifications from %s."
+msgstr "මෙය %s වෙතින් දැනුම්දීම් අක්‍රීය කරනු ඇත."
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:701
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:246
+msgid "Unblock contact?"
+msgstr "සම්බන්ධතාවයේ අවහිර කිරීම ඉවත් කරන්නද?"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:702
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:247
+#, c-format
+msgid "This will allow %s to send you messages again."
+msgstr "මෙය %s ට නැවත ඔබට පණිවිඩ යැවීමට ඉඩ දෙනු ඇත."
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:720
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:266
+msgid "Block contact?"
+msgstr "සම්බන්ධතාවය අවහිර කරන්නද?"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:721
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:267
+#, c-format
+msgid "This will prevent %s from sending you messages."
+msgstr "මෙය %s ට ඔබට පණිවිඩ යැවීම වළක්වනු ඇත."
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:741
+#: main/src/windows/conversation_details.vala:57
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:288
+msgid "Remove contact?"
+msgstr "සම්බන්ධතාවය ඉවත් කරන්නද?"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:742
+#, c-format
+msgid ""
+"This will:\n"
+"• Delete all conversation history\n"
+"• Remove %s from your contact list\n"
+"\n"
+"This action cannot be undone."
+msgstr ""
+"මෙය:\n"
+"• සියලුම සංවාද ඉතිහාසය මකා දමනු ඇත\n"
+"• ඔබේ සම්බන්ධතා ලැයිස්තුවෙන් %s ඉවත් කරනු ඇත\n"
+"\n"
+"මෙම ක්‍රියාව අහෝසි කළ නොහැක."
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:787
+msgid "Delete all message history?"
+msgstr "සියලු පණිවිඩ ඉතිහාසය මකන්නද?"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:788
+msgid ""
+"This will permanently delete all messages in this conversation. This action "
+"cannot be undone."
+msgstr "මෙය මෙම සංවාදයේ සියලුම පණිවිඩ ස්ථිරවම මකා දමයි. මෙම ක්‍රියාව අහෝසි කළ නොහැක."
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:791
+#: main/src/ui/conversation_titlebar/menu_entry.vala:51
+msgid "Delete"
+msgstr "මකන්න"
+
+#: main/src/ui/conversation_titlebar/call_entry.vala:14
+msgid "Start call"
+msgstr "ඇමතුම අරඹන්න"
+
+#: main/src/ui/conversation_titlebar/call_entry.vala:25
+msgid "Audio call"
+msgstr "ශ්‍රව්‍ය ඇමතුම"
+
+#: main/src/ui/conversation_titlebar/call_entry.vala:26
+msgid "Video call"
+msgstr "දෘෂ්‍ය ඇමතුම"
+
+#: main/src/ui/conversation_titlebar/call_entry.vala:79
+msgid "Conference Server Required"
+msgstr "සම්මන්ත්‍රණ සේවාදායකය අවශ්‍යයි"
+
+#: main/src/ui/conversation_titlebar/call_entry.vala:80
+msgid ""
+"To start a group call, you need to configure a default conference server in "
+"your account settings."
+msgstr ""
+"සමූහ ඇමතුමක් ආරම්භ කිරීමට, ඔබේ ගිණුම් සැකසුම් තුළ පෙරනිමි සම්මන්ත්‍රණ සේවාදායකයක් වින්‍යාස කළ යුතුය."
+
+#: main/src/ui/conversation_titlebar/call_entry.vala:84
+msgid "Open Settings"
+msgstr "සැකසුම් විවෘත කරන්න"
+
+#: main/src/ui/conversation_titlebar/menu_entry.vala:47
+msgid "Delete all message history for this conversation?"
+msgstr "මෙම සංවාදයේ සියලුම පණිවිඩ ඉතිහාසය මකන්නද?"
+
+#: main/src/ui/conversation_titlebar/menu_entry.vala:49
+msgid "This action cannot be undone."
+msgstr "මෙම ක්‍රියාව අවලංගු කළ නොහැක."
+
+#: main/src/ui/conversation_titlebar/menu_entry.vala:85
+msgid "Close Conversation"
+msgstr "සංවාදය වසන්න"
+
+#: main/src/ui/conversation_titlebar/occupants_entry.vala:14
+#: main/src/windows/conversation_details.vala:289
+msgid "Members"
+msgstr "සාමාජිකයන්"
+
+#: main/src/ui/conversation_view_controller.vala:237
+msgid "Select file"
+msgstr "ගොනුව තෝරන්න"
+
+#: main/src/ui/file_send_overlay.vala:60
+msgid "The file exceeds the server's maximum upload size."
+msgstr "ගොනුව සේවාදායකයේ උපරිම උඩුගත ප්‍රමාණය ඉක්මවයි."
+
+#: main/src/ui/global_search.vala:208
+#, c-format
+msgid "In %s"
+msgstr "%s තුළ"
+
+#: main/src/ui/global_search.vala:208
+#, c-format
+msgid "With %s"
+msgstr "%s සමග"
+
+#: main/src/ui/main_window.vala:169
+msgid "Join Channel Help"
+msgstr "නාලිකාවට එකතුවීම සඳහා උදව්"
+
+#: main/src/ui/main_window.vala:170
+msgid ""
+"To join a channel, click the \"Join Channel\" button and enter the channel "
+"JID (example: room@conference.example.org).\n"
+"\n"
+"If you need a password or a nickname, provide them in the dialog. Use the "
+"discovery features in the server to find public rooms."
+msgstr ""
+"නාලිකාවකට සම්බන්ධ වීමට, \"නාලිකාවට සම්බන්ධ වන්න\" බොත්තම ක්ලික් කර නාලිකා JID ඇතුළත් කරන්න "
+"(උදාහරණ: room@conference.example.org).\n"
+"\n"
+"ඔබට මුරපදයක් හෝ අන්වර්ථ නාමයක් අවශ්‍ය නම්, සංවාදයේ ඒවා සපයන්න. පොදු කාමර සොයා ගැනීමට "
+"සේවාදායකයේ සොයා ගැනීමේ විශේෂාංග භාවිතා කරන්න."
+
+#: main/src/ui/main_window.vala:219
+msgid "Welcome to DinoX!"
+msgstr "DinoX වෙත සාදරයෙන් පිළිගනිමු!"
+
+#: main/src/ui/main_window.vala:220
+msgid "Sign in or create an account to get started."
+msgstr "ආරම්භ කිරීමට පුරනය වන්න හෝ ගිණුමක් සාදන්න."
+
+#: main/src/ui/main_window.vala:221
+msgid "Set up account"
+msgstr "ගිණුමක් පිහිටුවන්න"
+
+#: main/src/ui/main_window.vala:230
+#: main/src/windows/preferences_window/accounts_preferences_page.vala:71
+#: main/src/windows/preferences_window/encryption_preferences_page.vala:49
+msgid "No active accounts"
+msgstr "සක්‍රිය කළ ගිණුම් නැත"
+
+#: main/src/ui/main_window.vala:231
+msgid "Manage accounts"
+msgstr "ගිණුම් කලමනාකරණය කරන්න"
+
+#: main/src/ui/notifier_freedesktop.vala:159
+#: main/src/ui/notifier_gnotifications.vala:93
+msgid "Subscription request"
+msgstr "දායකත්ව ඉල්ලීම"
+
+#: main/src/ui/notifier_freedesktop.vala:194
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:259
+msgid "Wrong password"
+msgstr "මුරපදය වැරදියි"
+
+#: main/src/ui/notifier_freedesktop.vala:197
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:261
+msgid "Invalid TLS certificate"
+msgstr "අවලංගු TLS සහතිකය"
+
+#: main/src/ui/notifier_freedesktop.vala:222
+#: main/src/ui/notifier_gnotifications.vala:127
+#, c-format
+msgid "Invitation to %s"
+msgstr "%s වෙත ආරාධනය"
+
+#: main/src/ui/notifier_freedesktop.vala:223
+#: main/src/ui/notifier_gnotifications.vala:128
+#, c-format
+msgid "%s invited you to %s"
+msgstr "%s ඔබව %s වෙත ආරාධනා කළා"
+
+#: main/src/ui/notifier_freedesktop.vala:256
+#: main/src/ui/notifier_gnotifications.vala:147
+msgid "Permission request"
+msgstr "අවසර ඉල්ලීම"
+
+#: main/src/ui/notifier_freedesktop.vala:257
+#: main/src/ui/notifier_gnotifications.vala:148
+#, c-format
+msgid "%s requests the permission to write in %s"
+msgstr "%s %s හි ලිවීමට අවසර ඉල්ලයි"
+
+#: main/src/ui/occupant_menu/list.vala:118
+#: main/src/view_model/conversation_details.vala:134
+msgid "Owner"
+msgstr "හිමිකරු"
+
+#: main/src/ui/occupant_menu/list.vala:120
+#: main/src/view_model/conversation_details.vala:135
+msgid "Admin"
+msgstr "පරිපාලක"
+
+#: main/src/ui/occupant_menu/list.vala:122
+#: main/src/view_model/conversation_details.vala:136
+msgid "Member"
+msgstr "සාමාජික"
+
+#: main/src/ui/occupant_menu/list.vala:124
+msgid "User"
+msgstr "පරිශීලක"
+
+#: main/src/ui/occupant_menu/view.vala:89
+msgid "Start private conversation"
+msgstr "පෞද්ගලික සංවාදයක් අරඹන්න"
+
+#: main/src/ui/occupant_menu/view.vala:125
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:157
+msgid "Unblock Contact"
+msgstr "සම්බන්ධතාවයේ අවහිර කිරීම ඉවත් කරන්න"
+
+#: main/src/ui/occupant_menu/view.vala:127
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:157
+msgid "Block Contact"
+msgstr "සම්බන්ධතාවය අවහිර කරන්න"
+
+#: main/src/ui/occupant_menu/view.vala:133
+msgid "Moderation"
+msgstr "මධ්‍යස්ථභාවය"
+
+#: main/src/ui/occupant_menu/view.vala:135
+msgid "Kick"
+msgstr "ඉවත් කරන්න"
+
+#: main/src/ui/occupant_menu/view.vala:139
+msgid "Ban (Permanent)"
+msgstr "තහනම් කරන්න (ස්ථිර)"
+
+#: main/src/ui/occupant_menu/view.vala:140
+msgid "Ban (10 min)"
+msgstr "තහනම් කරන්න (මිනිත්තු 10)"
+
+#: main/src/ui/occupant_menu/view.vala:141
+msgid "Ban (15 min)"
+msgstr "තහනම් කරන්න (මිනිත්තු 15)"
+
+#: main/src/ui/occupant_menu/view.vala:142
+msgid "Ban (30 min)"
+msgstr "තහනම් කරන්න (මිනිත්තු 30)"
+
+#: main/src/ui/occupant_menu/view.vala:146
+msgid "Administration"
+msgstr "පරිපාලනය"
+
+#: main/src/ui/occupant_menu/view.vala:150
+msgid "Make Admin"
+msgstr "පරිපාලක කරන්න"
+
+#: main/src/ui/occupant_menu/view.vala:152
+msgid "Revoke Admin"
+msgstr "පරිපාලක අවලංගු කරන්න"
+
+#: main/src/ui/occupant_menu/view.vala:156
+msgid "Make Owner"
+msgstr "හිමිකරු කරන්න"
+
+#: main/src/ui/occupant_menu/view.vala:161
+msgid "Make Member"
+msgstr "සාමාජික කරන්න"
+
+#: main/src/ui/occupant_menu/view.vala:163
+msgid "Revoke Membership"
+msgstr "සාමාජිකත්වය අවලංගු කරන්න"
+
+#: main/src/ui/occupant_menu/view.vala:228
+msgid "Kicked by moderator"
+msgstr "මධ්‍යස්ථයා විසින් ඉවත් කරන ලදී"
+
+#: main/src/ui/occupant_menu/view.vala:275
+msgid "Invite to Conference"
+msgstr "සම්මන්ත්‍රණයට ආරාධනා කරන්න"
+
+#: main/src/ui/systray.vala:178
+msgid "Quit"
+msgstr "ඉවත්වන්න"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:14
+#, fuzzy
+msgid "Import"
+msgstr "Import Key"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:15
+msgid "Copy Share URI"
+msgstr ""
+
+#: main/src/ui/sticker_pack_import_dialog.vala:29
+msgid "Import Sticker Pack"
+msgstr ""
+
+#: main/src/ui/sticker_pack_import_dialog.vala:62
+#, fuzzy
+msgid "Loading…"
+msgstr "පොරොත්තුවෙන්…"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:70
+#, fuzzy
+msgid "No account available"
+msgstr "නොතිබේ"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:84
+#: main/src/ui/sticker_pack_import_dialog.vala:107
+#, fuzzy
+msgid "Failed to import sticker pack"
+msgstr "හැඹිලිය හිස් කිරීමට අසමත් විය"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:98
+#, fuzzy
+msgid "Importing…"
+msgstr "සම්බන්ධවෙමින්…"
+
+#: main/src/ui/util/data_forms.vala:41
+msgid ""
+"A friendly name shown in room listings (does not change the room address)"
+msgstr ""
+"කාමර ලැයිස්තුවල පෙන්වන මිත්‍රශීලී නාමයක් (කාමර ලිපිනය වෙනස් නොකරයි)කාමර ලැයිස්තුවල පෙන්වන "
+"මිත්‍රශීලී නමක් (කාමර ලිපිනය වෙනස් නොකරයි)කාමර ලැයිස්තුවල පෙන්වන මිත්‍රශීලී නමක් (කාමර ලිපිනය වෙනස් "
+"නොකරයි)"
+
+#: main/src/ui/util/data_forms.vala:44
+msgid "Description"
+msgstr "විස්තරය"
+
+#: main/src/ui/util/data_forms.vala:45
+msgid "A description of the room shown in room listings"
+msgstr "කාමර ලැයිස්තු වල පෙන්වන කාමරයේ විස්තරය"
+
+#: main/src/ui/util/data_forms.vala:48
+msgid "Persistent"
+msgstr "නොනැසෙන"
+
+#: main/src/ui/util/data_forms.vala:49
+msgid "The room will persist after the last occupant leaves"
+msgstr "අවසන් පදිංචිකරු පිටත්ව ගිය පසුවද කාමරය පවතිනු ඇත"
+
+#: main/src/ui/util/data_forms.vala:52
+msgid "Publicly searchable"
+msgstr "පොදු සෙවීමට"
+
+#: main/src/ui/util/data_forms.vala:53
+msgid "The room will appear in public room listings"
+msgstr "කාමරය පොදු කාමර ලැයිස්තුවල දිස්වනු ඇත"
+
+#: main/src/ui/util/data_forms.vala:56
+msgid "Occupants may change the subject"
+msgstr "නේවාසිකයින්ට මාතෘකාව වෙනස් කළ හැක"
+
+#: main/src/ui/util/data_forms.vala:59
+msgid "Permission to view JIDs"
+msgstr "JID බැලීමට අවසරය"
+
+#: main/src/ui/util/data_forms.vala:60
+msgid "Who is allowed to view the occupants' JIDs?"
+msgstr "නේවාසිකයන්ගේ JID බැලීමට කාට අවසරද?"
+
+#: main/src/ui/util/data_forms.vala:67
+msgid "Moderated"
+msgstr "මධ්‍යස්ථ"
+
+#: main/src/ui/util/data_forms.vala:68
+msgid "Only occupants with voice may send messages"
+msgstr "හඬ ඇති නේවාසිකයින්ට පමණක් පණිවිඩ යැවිය හැක"
+
+#: main/src/ui/util/data_forms.vala:71
+msgid "Members only"
+msgstr "සාමාජිකයන් පමණයි"
+
+#: main/src/ui/util/data_forms.vala:72
+msgid ""
+"Only members may enter the room. Warning: Non-members will be removed when "
+"enabled!"
+msgstr ""
+"සාමාජිකයින්ට පමණක් කාමරයට ඇතුළු විය හැක. අවවාදයයි: සක්‍රිය කළ විට සාමාජිකයන් නොවන අය ඉවත් "
+"කෙරෙනු ඇත!සාමාජිකයින්ට පමණක් කාමරයට ඇතුළු විය හැක. අවවාදය: සාමාජිකයින් නොවන අය සක්‍රීය කළ "
+"විට ඉවත් කරනු ලැබේ!සාමාජිකයින්ට පමණක් කාමරයට ඇතුළු විය හැක. අවවාදය: සාමාජිකයින් නොවන අය "
+"සක්‍රීය කළ විට ඉවත් කරනු ලැබේ!"
+
+#: main/src/ui/util/helper.vala:65
+#, c-format
+msgid "%s from %s"
+msgstr "%s, %s වෙතින්"
+
+#: main/src/ui/widgets/date_separator.vala:22
+msgid "Today"
+msgstr "අද"
+
+#: main/src/ui/widgets/date_separator.vala:35
+#, no-c-format
+msgid "%a, %b %d"
+msgstr "%a, %b %d"
+
+#: main/src/windows/conversation_details.vala:58
+msgid ""
+"This contact will be removed from your contact list and all conversation "
+"history will be permanently deleted."
+msgstr ""
+"මෙම සම්බන්ධතාවය ඔබේ සම්බන්ධතා ලැයිස්තුවෙන් ඉවත් කෙරෙනු ඇති අතර සියලුම සංවාද ඉතිහාසය ස්ථිරවම "
+"මකා දැමෙනු ඇත."
+
+#: main/src/windows/conversation_details.vala:108
+msgid "Block user"
+msgstr "පරිශීලකයා අවහිර කරන්න"
+
+#: main/src/windows/conversation_details.vala:108
+msgid "Block entire domain"
+msgstr "සම්පූර්ණ වසම අවහිර කරන්න"
+
+#: main/src/windows/conversation_details.vala:125
+msgid "Pinned"
+msgstr "පින් කළා"
+
+#: main/src/windows/conversation_details.vala:125
+msgid "Pin"
+msgstr "පින් කරන්න"
+
+#: main/src/windows/conversation_details.vala:140
+msgid "Domain blocked"
+msgstr "වසම අවහිර කර ඇත"
+
+#: main/src/windows/conversation_details.vala:165
+msgid "Notifications enabled"
+msgstr "දැනුම්දීම් සක්‍රීයයි"
+
+#: main/src/windows/conversation_details.vala:168
+msgid "Notifications for mentions"
+msgstr "සඳහන් කිරීම් සඳහා දැනුම්දීම්"
+
+#: main/src/windows/conversation_details.vala:173
+msgid "Notifications disabled"
+msgstr "දැනුම්දීම් අක්‍රීයයි"
+
+#: main/src/windows/conversation_details.vala:232
+msgid "Settings"
+msgstr "සැකසුම්"
+
+#: main/src/windows/conversation_details.vala:261
+msgid "Room Configuration"
+msgstr "කාමර වින්‍යාසය"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:69
+msgid "Connect"
+msgstr "සම්බන්ධ වන්න"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
+msgid "Disable account"
+msgstr "ගිණුම අක්‍රීය කරන්න"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
+msgid "Enable account"
+msgstr "ගිණුම සක්‍රීය කරන්න"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:179
+msgid "Select avatar"
+msgstr "අවතාරය තෝරන්න"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:190
+msgid "Images"
+msgstr "පින්තූර"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:194
+msgid "All files"
+msgstr "සියලු ගොනු"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:212
+#, c-format
+msgid "Remove account %s?"
+msgstr "%s ගිණුම ඉවත් කරන්න ද?"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:246
+msgid "Connected"
+msgstr "සම්බන්ධ වී ඇත"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:248
+msgid "Disconnected"
+msgstr "සම්බන්ධ වී නැත"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:268
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:270
+msgid "Error"
+msgstr "දෝෂයක්"
+
+#: main/src/windows/preferences_window/accounts_preferences_page.vala:28
+msgid "Disabled accounts"
+msgstr "අක්‍රීය ගිණුම්"
+
+#: main/src/windows/preferences_window/accounts_preferences_page.vala:31
+#: main/src/windows/preferences_window/add_account_dialog.vala:92
+msgid "Add Account"
+msgstr "ගිණුම එක් කරන්න"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:137
+msgid "Sign in"
+msgstr "පුරනය වන්න"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:156
+#, c-format
+msgid "The server could not prove that it is %s."
+msgstr "සේවාදායකයට එය %s බව සනාථ කළ නොහැක."
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:158
+msgid "Its security certificate is not trusted by your operating system."
+msgstr "එහි ආරක්ෂක සහතිකය ඔබේ මෙහෙයුම් පද්ධතිය විශ්වාස නොකරයි."
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:160
+msgid "Its security certificate is issued to another domain."
+msgstr "එහි ආරක්ෂක සහතිකය වෙනත් වසමකට නිකුත් කර ඇත."
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:162
+msgid "Its security certificate will only become valid in the future."
+msgstr "එහි ආරක්ෂක සහතිකය අනාගතයේ දී පමණක් වලංගු වනු ඇත."
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:164
+msgid "Its security certificate is expired."
+msgstr "එහි ආරක්ෂක සහතිකය කල් ඉකුත් වී ඇත."
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:172
+msgid "Create account"
+msgstr "ගිණුම සාදන්න"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:191
+#, c-format
+msgid "You can now use the account %s."
+msgstr "ඔබට දැන් %s ගිණුම භාවිත කළ හැකියි."
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:248
+msgid "Wrong username or password"
+msgstr "පරිශිලක නාමය හෝ මුරපදය වැරදියි"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:251
+msgid "Something went wrong"
+msgstr "යමක් වැරදී ඇත"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:325
+msgid "No response from server"
+msgstr "සේවාදායකයෙන් ප්‍රතිචාරයක් නැත"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:336
+#, c-format
+msgid "Register on %s"
+msgstr "%s හි ලියාපදිංචි වන්න"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:339
+msgid "The server requires to sign up through a website"
+msgstr "සේවාදායකයට වෙබ් අඩවියක් හරහා ලියාපදිංචි වීම අවශ්‍යයි"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:341
+msgid "Open website"
+msgstr "වෙබ් අඩවිය විවෘත කරන්න"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:353
+msgid "Register"
+msgstr "ලියාපදිංචි වන්න"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:355
+#, c-format
+msgid "Check %s for information on how to sign up"
+msgstr "ලියාපදිංචි වන ආකාරය පිළිබඳ තොරතුරු සඳහා %s පරීක්ෂා කරන්න"
+
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:192
+msgid "No contacts"
+msgstr "සම්බන්ධතා නැත"
+
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:193
+msgid "Add contacts to start chatting"
+msgstr "කතාබහ ආරම්භ කිරීමට සම්බන්ධතා එක් කරන්න"
+
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:289
+#, c-format
+msgid ""
+"This will remove %s from your contact list and delete all conversation "
+"history."
+msgstr "මෙය ඔබේ සම්බන්ධතා ලැයිස්තුවෙන් %s ඉවත් කර සියලුම සංවාද ඉතිහාසය මකා දමනු ඇත."
+
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:318
+msgid "Edit Contact Alias"
+msgstr "සම්බන්ධතා අන්වර්ථ නාමය සංස්කරණය කරන්න"
+
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:319
+#, c-format
+msgid "Change the display name for %s"
+msgstr "%s සඳහා ප්‍රදර්ශන නාමය වෙනස් කරන්න"
+
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:325
+msgid "Alias (optional)"
+msgstr "අන්වර්ථ නාමය (විකල්ප)"
+
+#~ msgid "Creating backup..."
+#~ msgstr "උපස්ථය නිර්මාණය කරමින්..."
+
+#, c-format
+#~ msgid "Backup created successfully (%s)"
+#~ msgstr "උපස්ථය සාර්ථකව නිර්මාණය කරන ලදී (%s)"
+
+#~ msgid "Backup created successfully"
+#~ msgstr "උපස්ථය සාර්ථකව නිර්මාණය කරන ලදී"
+
+# DinoX v0.7.7 - Database Maintenance & Backup/Restore
+#~ msgid "Clean Database"
+#~ msgstr "Clean Database"
+
+#~ msgid "Encrypting Backup..."
+#~ msgstr "Encrypting Backup..."
+
+#~ msgid "Creating encrypted backup..."
+#~ msgstr "සංකේතනය කළ උපස්ථයක් සාදමින්..."
+
+#~ msgid "Encrypted backup created successfully"
+#~ msgstr "සංකේතනය කළ උපස්ථය සාර්ථකව නිර්මාණය විය"
+
+#~ msgid "Encrypted backup created (%s)"
+#~ msgstr "සංකේතනය කළ උපස්ථය නිර්මාණය විය (%s)"
+
+# OpenPGP Key Management
+#~ msgid "OpenPGP Key Management"
+#~ msgstr "OpenPGP Key Management"
+
+#~ msgid "Actions"
+#~ msgstr "Actions"
+
+#~ msgid "Generate New Key"
+#~ msgstr "Generate New Key"
+
+#~ msgid "Your Keys"
+#~ msgstr "Your Keys"
+
+#~ msgid "Fingerprint"
+#~ msgstr "Fingerprint"
+
+#~ msgid "Export Public Key"
+#~ msgstr "Export Public Key"
+
+#~ msgid "Delete Key"
+#~ msgstr "Delete Key"
+
+#~ msgid "Name"
+#~ msgstr "Name"
+
+#~ msgid "Email"
+#~ msgstr "Email"
+
+#~ msgid "Passphrase"
+#~ msgstr "Passphrase"
+
+#~ msgid "Generate"
+#~ msgstr "Generate"
+
+#~ msgid "Select OpenPGP Key"
+#~ msgstr "Select OpenPGP Key"
+
+#~ msgid "Wrong passphrase"
+#~ msgstr "Wrong passphrase"
+
+#~ msgid "Manage Keys"
+#~ msgstr "Manage Keys"
+
+#~ msgid "Announce key"
+#~ msgstr "Announce key"
+
+#~ msgid "Disabled"
+#~ msgstr "Disabled"
+
+#~ msgid "Success"
+#~ msgstr "Success"
+
+#~ msgid "Create a new OpenPGP key pair"
+#~ msgstr "නව OpenPGP යතුරු යුගලයක් සාදන්න"
+
+#~ msgid "Import a key from file (.asc, .gpg)"
+#~ msgstr "ගොනුවකින් යතුරක් ආයාත කරන්න (.asc, .gpg)"
+
+#~ msgid "Private keys available for signing and decryption"
+#~ msgstr "අත්සන් කිරීම සහ විකේතනය සඳහා පෞද්ගලික යතුරු"
+
+#~ msgid "No private keys found"
+#~ msgstr "පෞද්ගලික යතුරු හමු නොවීය"
+
+#~ msgid "Generate or import a key to get started"
+#~ msgstr "ආරම්භ කිරීමට යතුරක් සාදන්න හෝ ආයාත කරන්න"
+
+#~ msgid "Generate New OpenPGP Key"
+#~ msgstr "නව OpenPGP යතුරක් සාදන්න"
+
+#~ msgid "Enter your details to create a new key pair."
+#~ msgstr "නව යතුරු යුගලයක් සෑදීමට ඔබේ විස්තර ඇතුළත් කරන්න."
+
+#~ msgid "Your Name"
+#~ msgstr "ඔබේ නම"
+
+#~ msgid "you@example.com"
+#~ msgstr "you@example.com"
+
+#~ msgid "Passphrase (optional)"
+#~ msgstr "මුරවදන (විකල්ප)"
+
+#~ msgid "4096-bit RSA key, valid for 2 years."
+#~ msgstr "4096-bit RSA යතුර, වසර 2ක් වලංගු."
+
+#~ msgid "Name must be at least 2 characters"
+#~ msgstr "නම අවම වශයෙන් අකුරු 2ක් විය යුතුය"
+
+#~ msgid "Please enter a valid email address"
+#~ msgstr "කරුණාකර වලංගු ඊමේල් ලිපිනයක් ඇතුළත් කරන්න"
+
+#~ msgid "Generating Key..."
+#~ msgstr "යතුර සාදමින්..."
+
+#~ msgid "Key generated successfully!"
+#~ msgstr "යතුර සාර්ථකව සාදන ලදි!"
+
+#~ msgid "Import OpenPGP Key"
+#~ msgstr "OpenPGP යතුර ආයාත කරන්න"
+
+#~ msgid "OpenPGP Keys (*.asc, *.gpg)"
+#~ msgstr "OpenPGP යතුරු (*.asc, *.gpg)"
+
+#~ msgid "All Files"
+#~ msgstr "සියලු ගොනු"
+
+#~ msgid "Key imported! Re-open Key Management to see it."
+#~ msgstr "යතුර ආයාත කරන ලදි! එය බැලීමට යතුරු කළමනාකරණය නැවත විවෘත කරන්න."
+
+#~ msgid "Import failed: "
+#~ msgstr "ආයාතය අසාර්ථකයි: "
+
+#~ msgid "Key exported to: "
+#~ msgstr "යතුර අපනයනය කළේ: "
+
+#~ msgid "Export failed."
+#~ msgstr "අපනයනය අසාර්ථකයි."
+
+#~ msgid "Delete Key?"
+#~ msgstr "යතුර මකන්නද?"
+
+#~ msgid ""
+#~ "Delete this key?\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "This cannot be undone!"
+#~ msgstr ""
+#~ "මෙම යතුර මකන්නද?\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "මෙය අහෝසි කළ නොහැක!"
+
+#~ msgid "Key deleted."
+#~ msgstr "යතුර මකා දමන ලදි."
+
+#~ msgid "Delete failed: "
+#~ msgstr "මැකීම අසාර්ථකයි: "
+
+#~ msgid "Choose a key to announce to your contacts."
+#~ msgstr "ඔබේ සම්බන්ධතාවලට නිවේදනය කිරීමට යතුරක් තෝරන්න."
+
+#~ msgid "Enter GPG passphrase to confirm:"
+#~ msgstr "තහවුරු කිරීමට GPG මුරවදන ඇතුළත් කරන්න:"
+
+#~ msgid "Generate, import, export, or delete keys"
+#~ msgstr "යතුරු සාදන්න, ආයාත කරන්න, අපනයනය කරන්න හෝ මකන්න"
+
+#~ msgid "No keys available. Generate or import one!"
+#~ msgstr "යතුරු නැත. එකක් සාදන්න හෝ ආයාත කරන්න!"
+
+#~ msgid "Error in GnuPG"
+#~ msgstr "GnuPG හි දෝෂයක්"
+
+#~ msgid "Message too long"
+#~ msgstr "පණිවිඩය දිග වැඩියි"
+
+#, c-format
+#~ msgid "%i min ago"
+#~ msgid_plural "%i mins ago"
+#~ msgstr[0] "මිනි. %iකට පෙර"
+#~ msgstr[1] "මිනි. %iකට පෙර"
+
+#, c-format
+#~ msgid "%i search result"
+#~ msgid_plural "%i search results"
+#~ msgstr[0] "සෙවුම් ප්‍රතිඵල %i ක්"
+#~ msgstr[1] "සෙවුම් ප්‍රතිඵල %i ක්"
+
+#, c-format
+#~ msgid "%i hour"
+#~ msgid_plural "%i hours"
+#~ msgstr[0] "පැය %i"
+#~ msgstr[1] "පැය %i"
+
+#, c-format
+#~ msgid "%i minute"
+#~ msgid_plural "%i minutes"
+#~ msgstr[0] "මිනිත්තු %i"
+#~ msgstr[1] "මිනිත්තු %i"
+
+#~ msgid "Back"
+#~ msgstr "පෙර"
+
+#~ msgid "Finish"
+#~ msgstr "අවසන් කරන්න"
+
+#~ msgid "Account"
+#~ msgstr "ගිණුම"
+
+#~ msgid "No matching messages"
+#~ msgstr "ගැළපෙන පණිවිඩ නැත"
+
+#~ msgid "Check the spelling or try to remove filters"
+#~ msgstr "අක්ෂර වින්‍යාසය පරීක්ෂා කරන්න හෝ පෙරහන් ඉවත් කිරීමට උත්සහ කරන්න"
+
+#~ msgid "Send"
+#~ msgstr "යවන්න"
+
+#~ msgid "Add an account"
+#~ msgstr "ගිණුමක් එක් කරන්න"
+
+#~ msgid "Notifications"
+#~ msgstr "දැනුම්දීම්"

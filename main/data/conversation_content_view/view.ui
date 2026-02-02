@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+    <requires lib="gtk" version="4.0"/>
+    <template class="DinoUiConversationSummaryConversationView">
+        <child>
+            <object class="GtkOverlay">
+                <property name="child">
+                    <object class="GtkScrolledWindow" id="scrolled">
+                        <property name="hscrollbar_policy">never</property>
+                        <property name="hexpand">1</property>
+                        <property name="vexpand">1</property>
+                        <property name="child">
+                            <object class="GtkBox" id="main_wrap_box">
+                                <property name="valign">end</property>
+                                <child>
+                                    <object class="GtkOverlay">
+                                        <child>
+                                            <object class="DinoUiSizeRequestBox" id="main">
+                                                <property name="margin-bottom">15</property>
+                                                <property name="orientation">vertical</property>
+                                                <property name="size-request-mode">height-for-width</property>
+                                            </object>
+                                        </child>
+                                        <child type="overlay">
+                                            <object class="GtkBox" id="message_menu_box">
+                                                <property name="margin-end">10</property>
+                                                <property name="halign">end</property>
+                                                <property name="valign">start</property>
+                                                <property name="visible">False</property>
+                                                <style>
+                                                    <class name="card"/>
+                                                    <class name="toolbar"/>
+                                                    <class name="compact-card-toolbar"/>
+                                                </style>
+                                            </object>
+                                        </child>
+                                    </object>
+                                </child>
+                            </object>
+                        </property>
+                    </object>
+                </property>
+                <child type="overlay">
+                    <object class="GtkRevealer" id="notification_revealer">
+                        <property name="halign">center</property>
+                        <property name="valign">start</property>
+                        <property name="child">
+                            <object class="GtkFrame" id="frame2">
+                                <style>
+                                    <class name="app-notification"/>
+                                </style>
+                                <property name="child">
+                                    <object class="GtkBox" id="notifications">
+                                        <property name="hexpand">0</property>
+                                        <property name="vexpand">0</property>
+                                        <property name="orientation">vertical</property>
+                                    </object>
+                                </property>
+                                <child type="label_item">
+                                    <placeholder/>
+                                </child>
+                            </object>
+                        </property>
+                    </object>
+                </child>
+            </object>
+        </child>
+    </template>
+</interface>

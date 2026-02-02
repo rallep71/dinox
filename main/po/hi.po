@@ -1,0 +1,2810 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-01 18:06+0100\n"
+"PO-Revision-Date: 2025-03-12 18:09+0000\n"
+"Language-Team: none\n"
+"Language: hi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 5.10.3-dev\n"
+
+#: main/data/add_conversation/add_groupchat_dialog.ui:81
+msgid "Add MUC"
+msgstr "MUC जोड़ें"
+
+#: main/data/add_conversation/add_groupchat_dialog.ui:91
+msgid "Insert a Name for MUC..."
+msgstr "कमरे का नाम दर्ज करें..."
+
+#: main/data/add_conversation/select_jid_fragment.ui:20
+msgid "Search or enter channel address..."
+msgstr "चैनल पता खोजें या दर्ज करें..."
+
+#: main/data/add_conversation/select_jid_fragment.ui:67
+#: main/src/ui/add_conversation/select_jid_fragment.vala:204
+msgid "Add Group"
+msgstr "समूह जोड़ें"
+
+#: main/data/add_conversation/select_jid_fragment.ui:88
+msgid "Delete Group"
+msgstr "समूह हटाएं"
+
+#: main/data/call_widget.ui:73 main/src/ui/notifier_freedesktop.vala:125
+#: main/src/ui/notifier_freedesktop.vala:232
+#: main/src/ui/notifier_gnotifications.vala:82
+msgid "Reject"
+msgstr "अस्वीकारें"
+
+#: main/data/call_widget.ui:81
+#: main/src/ui/conversation_content_view/subscription_notification.vala:67
+#: main/src/ui/notifier_freedesktop.vala:125
+#: main/src/ui/notifier_freedesktop.vala:166
+#: main/src/ui/notifier_freedesktop.vala:232
+#: main/src/ui/notifier_freedesktop.vala:266
+#: main/src/ui/notifier_gnotifications.vala:83
+#: main/src/ui/notifier_gnotifications.vala:101
+#: main/src/ui/notifier_gnotifications.vala:140
+#: main/src/ui/notifier_gnotifications.vala:158
+msgid "Accept"
+msgstr "स्वीकारें"
+
+#: main/data/chat_input.ui:15
+msgid "Send File…"
+msgstr "फ़ाइल भेजें…"
+
+#: main/data/chat_input.ui:25
+msgid "Send Location"
+msgstr "स्थान भेजें"
+
+#: main/data/chat_input.ui:96
+msgid "Record voice message"
+msgstr "ध्वनि संदेश रिकॉर्ड करें"
+
+#: main/data/chat_input.ui:110
+msgid "Send message"
+msgstr "संदेश भेजें"
+
+#: main/data/conversation_details.ui:162
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:567
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:169
+msgid "Remove Contact"
+msgstr "संपर्क हटाएं"
+
+#: main/data/conversation_details.ui:192
+#: main/src/windows/conversation_details.vala:239
+msgid "About"
+msgstr "परिचय"
+
+#: main/data/conversation_row.ui:56
+msgid "Private room (supports group calls)"
+msgstr "निजी कमरा (समूह कॉल समर्थित)"
+
+#: main/data/conversation_row.ui:135
+#: main/src/windows/conversation_details.vala:181
+#: main/src/windows/conversation_details.vala:182
+msgid "Muted"
+msgstr "मूक किया गया"
+
+#: main/data/conversation_row.ui:146
+#: main/src/windows/conversation_details.vala:146
+msgid "Blocked"
+msgstr "अवरुद्ध"
+
+#: main/data/gtk/help-overlay.ui:10
+#: main/data/preferences_window/preferences_dialog.ui:32
+msgid "General"
+msgstr "सामान्य"
+
+#: main/data/gtk/help-overlay.ui:14 main/data/main_window.ui:38
+#: main/data/menu_add.ui:7
+#: main/src/ui/add_conversation/select_contact_dialog.vala:110
+#: main/src/ui/main_window.vala:154
+msgid "Start Conversation"
+msgstr "बातचीत प्रारंभ करें"
+
+#: main/data/gtk/help-overlay.ui:20 main/data/main_window.ui:51
+#: main/data/menu_add.ui:11
+#: main/src/ui/add_conversation/add_conference_dialog.vala:25
+#: main/src/ui/application.vala:1908 main/src/ui/main_window.vala:155
+msgid "Join Channel"
+msgstr "चैनल से जुड़ें"
+
+#: main/data/gtk/help-overlay.ui:26
+msgid "Show preferences"
+msgstr "प्राथमिकताएं दिखाएं"
+
+#: main/data/gtk/help-overlay.ui:32
+msgid "Keyboard shortcuts"
+msgstr "कीबोर्ड शॉर्टकट"
+
+#: main/data/gtk/help-overlay.ui:39
+msgid "Conversation"
+msgstr "वार्तालाप"
+
+#: main/data/gtk/help-overlay.ui:43
+#: main/src/ui/conversation_titlebar/search_entry.vala:12
+msgid "Search messages"
+msgstr "संदेश खोजें"
+
+#: main/data/gtk/help-overlay.ui:49 main/src/ui/chat_input/view.vala:62
+msgid "Send a file"
+msgstr "फाइल भेजें"
+
+#: main/data/gtk/help-overlay.ui:55
+msgid "Close conversation"
+msgstr "बातचीत बंद करें"
+
+#: main/data/gtk/help-overlay.ui:62
+msgid "Navigation"
+msgstr "नेविगेशन"
+
+#: main/data/gtk/help-overlay.ui:66
+msgid "Jump to next conversation"
+msgstr "अगली बातचीत पर जाएं"
+
+#: main/data/gtk/help-overlay.ui:72
+msgid "Jump to previous conversation"
+msgstr "पिछली बातचीत पर जाएं"
+
+#: main/data/main_window.ui:64 main/src/ui/main_window.vala:157
+msgid "Help: How to join channels"
+msgstr "सहायता: चैनलों में कैसे शामिल हों"
+
+#: main/data/main_window.ui:118
+msgid "You have no open chats"
+msgstr "आपके पास कोई खुली चैट नहीं है"
+
+#: main/data/main_window.ui:119
+msgid "Click + to start a chat or join a channel"
+msgstr "चैट शुरू करने या चैनल से जुड़ने के लिए + पर क्लिक करें"
+
+#: main/data/menu_app.ui:6
+msgid "Status"
+msgstr "स्थिति"
+
+#: main/data/menu_app.ui:11
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:427
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
+#: main/src/ui/systray.vala:279
+msgid "Online"
+msgstr "ऑनलाइन"
+
+#: main/data/menu_app.ui:16
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:421
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
+#: main/src/ui/systray.vala:279
+msgid "Away"
+msgstr "दूर"
+
+#: main/data/menu_app.ui:21
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:425
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
+#: main/src/ui/systray.vala:279
+msgid "Busy"
+msgstr "व्यस्त"
+
+#: main/data/menu_app.ui:26
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:423
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
+#: main/src/ui/systray.vala:279
+msgid "Not Available"
+msgstr "उपलब्ध नहीं"
+
+#: main/data/menu_app.ui:30 main/src/ui/main_window.vala:215
+msgid "Set Status Message…"
+msgstr "स्थिति संदेश सेट करें…"
+
+#: main/data/menu_app.ui:38
+msgid "Preferences"
+msgstr "प्राथमिकताएं"
+
+#: main/data/menu_app.ui:42
+msgid "Panic Wipe"
+msgstr "आपातकालीन वाइप"
+
+#: main/data/menu_app.ui:46
+msgid "Keyboard Shortcuts"
+msgstr "कीबोर्ड शॉर्टकट"
+
+#: main/data/menu_app.ui:50 main/src/ui/application.vala:891
+msgid "About DinoX"
+msgstr "DinoX के बारे में"
+
+#: main/data/menu_conversation.ui:7
+msgid "Contact Details"
+msgstr "संपर्क विवरण"
+
+#: main/data/menu_conversation.ui:13
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:513
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:565
+#: main/src/ui/conversation_titlebar/menu_entry.vala:84
+msgid "Delete Conversation History"
+msgstr "बातचीत का इतिहास हटाएं"
+
+#: main/data/message_item_widget_edit_mode.ui:46
+#: main/data/preferences_window/change_password_dialog.ui:18
+#: main/src/ui/add_conversation/add_conference_dialog.vala:44
+#: main/src/ui/add_conversation/select_contact_dialog.vala:43
+#: main/src/ui/application.vala:754 main/src/ui/application.vala:992
+#: main/src/ui/application.vala:1020 main/src/ui/application.vala:1316
+#: main/src/ui/application.vala:1394 main/src/ui/application.vala:1452
+#: main/src/ui/application.vala:1484 main/src/ui/application.vala:1640
+#: main/src/ui/application.vala:1918
+#: main/src/ui/conversation_content_view/file_default_widget.vala:90
+#: main/src/ui/conversation_content_view/item_actions.vala:165
+#: main/src/ui/conversation_content_view/item_actions.vala:168
+#: main/src/ui/conversation_details.vala:283
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:641
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:668
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:687
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:712
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:731
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:752
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:797
+#: main/src/ui/conversation_titlebar/call_entry.vala:83
+#: main/src/ui/conversation_titlebar/menu_entry.vala:51
+#: main/src/windows/conversation_details.vala:60
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:90
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:199
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:219
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:243
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:263
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:285
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:326
+msgid "Cancel"
+msgstr "रद्द करें"
+
+#: main/data/message_item_widget_edit_mode.ui:51
+msgid "Update message"
+msgstr "संदेश अपडेट करें"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:68
+#: main/src/ui/conversation_details.vala:169
+msgid "XMPP Address"
+msgstr "XMPP पता"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:77
+msgid "Local alias"
+msgstr "स्थानीय उपनाम"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:82
+#: main/src/ui/application.vala:986 main/src/ui/application.vala:1615
+#: main/src/ui/util/data_forms.vala:63
+msgid "Password"
+msgstr "पासवर्ड"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:104
+msgid "Connection status"
+msgstr "कनेक्शन स्थिति"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:117
+msgid "View Certificate"
+msgstr "प्रमाणपत्र देखें"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:128
+msgid "Public Profile"
+msgstr "सार्वजनिक प्रोफ़ाइल"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:131
+msgid "Public Access"
+msgstr "सार्वजनिक पहुँच"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:132
+msgid "Allow anyone to see your profile"
+msgstr "किसी को भी अपनी प्रोफ़ाइल देखने दें"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:137
+msgid "Share with Contacts"
+msgstr "संपर्कों के साथ साझा करें"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:138
+msgid "Allow contacts to see your profile"
+msgstr "संपर्कों को अपनी प्रोफ़ाइल देखने दें"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:143
+#: main/src/ui/conversation_details.vala:561
+msgid "Full Name"
+msgstr "पूरा नाम"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:148
+#: main/src/ui/conversation_details.vala:562
+msgid "Nickname"
+msgstr "उपनाम"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:153
+#: main/src/ui/conversation_details.vala:575
+msgid "Gender"
+msgstr "लिंग"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:157
+#: main/src/ui/conversation_details.vala:573
+msgid "Unknown"
+msgstr "अज्ञात"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:158
+#: main/src/ui/conversation_details.vala:569
+msgid "Male"
+msgstr "पुरुष"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:159
+#: main/src/ui/conversation_details.vala:570
+msgid "Female"
+msgstr "महिला"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:160
+#: main/src/ui/conversation_details.vala:571
+msgid "Other"
+msgstr "अन्य"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:161
+#: main/src/ui/chat_input/sticker_chooser.vala:397
+#: main/src/ui/chat_input/sticker_chooser.vala:459
+#: main/src/ui/chat_input/sticker_chooser.vala:464
+#: main/src/ui/conversation_details.vala:572
+msgid "None"
+msgstr "कोई नहीं"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:169
+#: main/src/ui/conversation_details.vala:578
+msgid "Birthday"
+msgstr "जन्मदिन"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:174
+#: main/src/ui/conversation_details.vala:580
+msgid "Address"
+msgstr "पता"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:177
+msgid "Street"
+msgstr ""
+
+#: main/data/preferences_window/account_preferences_subpage.ui:182
+msgid "Postal Code"
+msgstr ""
+
+#: main/data/preferences_window/account_preferences_subpage.ui:187
+msgid "City"
+msgstr ""
+
+#: main/data/preferences_window/account_preferences_subpage.ui:192
+#, fuzzy
+msgid "Region"
+msgstr "%s पर पंजीकरण करें"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:197
+msgid "Country"
+msgstr ""
+
+#: main/data/preferences_window/account_preferences_subpage.ui:204
+#: main/src/ui/conversation_details.vala:582
+msgid "Email"
+msgstr "ईमेल"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:209
+#: main/src/ui/conversation_details.vala:584
+msgid "IM Address"
+msgstr "IM पता"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:214
+msgid "Phone Number"
+msgstr "फ़ोन नंबर"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:219
+#: main/src/ui/conversation_details.vala:588
+msgid "Organization"
+msgstr "संगठन"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:224
+msgid "Job Title"
+msgstr "पद"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:229
+#: main/src/ui/conversation_details.vala:182
+#: main/src/ui/conversation_details.vala:592
+msgid "Role"
+msgstr "भूमिका"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:234
+#: main/src/ui/conversation_details.vala:594
+msgid "Timezone"
+msgstr "समय क्षेत्र"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:239
+msgid "Website"
+msgstr "वेबसाइट"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:244
+#: main/src/ui/util/data_forms.vala:44
+msgid "Description"
+msgstr "विवरण"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:249
+msgid "Save Profile"
+msgstr "प्रोफ़ाइल सहेजें"
+
+# Custom host/port feature (Issue #115)
+#: main/data/preferences_window/account_preferences_subpage.ui:261
+msgid "Advanced Settings"
+msgstr "उन्नत सेटिंग्स"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:262
+msgid "Custom server connection (leave empty for automatic)"
+msgstr "कस्टम सर्वर कनेक्शन (स्वचालित के लिए खाली छोड़ें)"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:265
+msgid "Server Hostname"
+msgstr "सर्वर होस्टनाम"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:270
+msgid "Port"
+msgstr "पोर्ट"
+
+#: main/data/preferences_window/change_password_dialog.ui:61
+msgid "Current password"
+msgstr "वर्तमान पासवर्ड"
+
+#: main/data/preferences_window/change_password_dialog.ui:66
+msgid "New password"
+msgstr "नया पासवर्ड"
+
+#: main/data/preferences_window/change_password_dialog.ui:71
+msgid "Confirm password"
+msgstr "पासवर्ड की पुष्टि करें"
+
+#: main/data/preferences_window/general_preferences_page.ui:9
+msgid "Send _Typing Notifications"
+msgstr "टाइपिंग अधिसूचना भेजें (_T)"
+
+#: main/data/preferences_window/general_preferences_page.ui:15
+msgid "Send _Read Receipts"
+msgstr "पठन रसीद भेजें (_R)"
+
+#: main/data/preferences_window/general_preferences_page.ui:21
+msgid "Allow Location Sharing"
+msgstr "स्थान साझा करने की अनुमति दें"
+
+#: main/data/preferences_window/general_preferences_page.ui:22
+msgid "Allow sending your current location in chats"
+msgstr "चैट में अपना वर्तमान स्थान भेजने की अनुमति दें"
+
+#: main/data/preferences_window/general_preferences_page.ui:32
+msgid "_Notifications"
+msgstr "अधिसूचनाएं (_N)"
+
+#: main/data/preferences_window/general_preferences_page.ui:33
+msgid "Notify when a new message arrives"
+msgstr "नया संदेश आने पर सूचित करें"
+
+#: main/data/preferences_window/general_preferences_page.ui:39
+msgid "_Keep Running in Background"
+msgstr "_पृष्ठभूमि में चलता रहे"
+
+#: main/data/preferences_window/general_preferences_page.ui:40
+msgid ""
+"Continue running after closing window to receive notifications immediately"
+msgstr "विंडो बंद करने के बाद भी चलते रहें ताकि सूचनाएं तुरंत प्राप्त हों"
+
+#: main/data/preferences_window/general_preferences_page.ui:48
+msgid "Appearance"
+msgstr "प्रकटन"
+
+#: main/data/preferences_window/general_preferences_page.ui:51
+msgid "_Color Scheme"
+msgstr "_रंग योजना"
+
+#: main/data/preferences_window/general_preferences_page.ui:52
+msgid "Choose between light and dark appearance"
+msgstr "हल्के और गहरे रंग के बीच चुनें"
+
+#: main/data/preferences_window/general_preferences_page.ui:62
+msgid "_Convert Smileys to Emoji"
+msgstr "स्माइलीज को इमोजी में बदलें (_C)"
+
+#: main/data/preferences_window/general_preferences_page.ui:70
+#: main/src/ui/chat_input/view.vala:54
+msgid "Stickers"
+msgstr "स्टिकर"
+
+#: main/data/preferences_window/general_preferences_page.ui:73
+msgid "Enable Stickers"
+msgstr "स्टिकर सक्षम करें"
+
+#: main/data/preferences_window/general_preferences_page.ui:78
+msgid "Enable Sticker Animations"
+msgstr "स्टिकर एनिमेशन सक्षम करें"
+
+#: main/data/preferences_window/general_preferences_page.ui:79
+msgid "Disable to reduce flashing/flickering"
+msgstr "चमक कम करने के लिए अक्षम करें"
+
+#: main/data/preferences_window/general_preferences_page.ui:86
+msgid "User Data"
+msgstr "उपयोगकर्ता डेटा"
+
+#: main/data/preferences_window/general_preferences_page.ui:89
+msgid "Backup User Data"
+msgstr "उपयोगकर्ता डेटा बैकअप"
+
+#: main/data/preferences_window/general_preferences_page.ui:90
+msgid "Create a backup of your accounts, messages and settings"
+msgstr "अपने खातों, संदेशों और सेटिंग्स का बैकअप बनाएं"
+
+#: main/data/preferences_window/general_preferences_page.ui:101
+#: main/src/ui/application.vala:1015 main/src/ui/main_window.vala:226
+msgid "Restore from Backup"
+msgstr "बैकअप से पुनर्स्थापित करें"
+
+#: main/data/preferences_window/general_preferences_page.ui:102
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "बैकअप फ़ाइल से खाते, संदेश और सेटिंग्स पुनर्स्थापित करें"
+
+#: main/data/preferences_window/general_preferences_page.ui:113
+msgid "Data Storage Location"
+msgstr "डेटा संग्रहण स्थान"
+
+#: main/data/preferences_window/general_preferences_page.ui:114
+msgid "View where your data is stored"
+msgstr "देखें कि आपका डेटा कहां संग्रहीत है"
+
+#: main/data/preferences_window/general_preferences_page.ui:127
+msgid "Database Maintenance"
+msgstr "डेटाबेस रखरखाव"
+
+# DinoX v0.7.7 - Database Maintenance & Backup/Restore
+#: main/data/preferences_window/general_preferences_page.ui:130
+msgid "Change Database Password"
+msgstr "डेटाबेस पासवर्ड बदलें"
+
+#: main/data/preferences_window/general_preferences_page.ui:131
+msgid "Change the password used to encrypt your local data"
+msgstr "अपने स्थानीय डेटा को एन्क्रिप्ट करने के लिए उपयोग किए जाने वाले पासवर्ड को बदलें"
+
+#: main/data/preferences_window/general_preferences_page.ui:142
+#: main/src/ui/application.vala:1312 main/src/ui/application.vala:1317
+msgid "Clear Cache"
+msgstr "कैश साफ़ करें"
+
+#: main/data/preferences_window/general_preferences_page.ui:143
+msgid "Clear cached files, avatars and previews"
+msgstr "कैश की गई फ़ाइलें, अवतार और पूर्वावलोकन साफ़ करें"
+
+#: main/data/preferences_window/general_preferences_page.ui:154
+#: main/src/ui/application.vala:1389 main/src/ui/application.vala:1395
+msgid "Reset Database"
+msgstr "डेटाबेस रीसेट करें"
+
+#: main/data/preferences_window/general_preferences_page.ui:155
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr "सभी संदेश, फ़ाइलें और OMEMO कुंजियाँ हटाएं। आपके खाते बने रहेंगे।"
+
+#: main/data/preferences_window/general_preferences_page.ui:166
+#: main/src/ui/application.vala:1447
+msgid "Factory Reset"
+msgstr "फ़ैक्टरी रीसेट"
+
+#: main/data/preferences_window/general_preferences_page.ui:167
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr "खातों सहित सभी डेटा हटाएं। इसे पूर्ववत नहीं किया जा सकता!"
+
+#: main/data/preferences_window/preferences_dialog.ui:11
+#: main/src/windows/preferences_window/accounts_preferences_page.vala:15
+#: main/src/windows/preferences_window/accounts_preferences_page.vala:27
+msgid "Accounts"
+msgstr "खाते"
+
+#: main/data/preferences_window/preferences_dialog.ui:18
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:17
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:67
+msgid "Contacts"
+msgstr "संपर्क"
+
+#: main/data/preferences_window/preferences_dialog.ui:25
+#: main/src/windows/conversation_details.vala:292
+msgid "Encryption"
+msgstr "कूटलेखन"
+
+#: main/src/ui/add_conversation/add_conference_dialog.vala:47
+msgid "Next"
+msgstr "अगला"
+
+#: main/src/ui/add_conversation/add_conference_dialog.vala:62
+#: main/src/ui/add_conversation/conference_details_fragment.vala:151
+#: main/src/ui/application.vala:1922
+msgid "Join"
+msgstr "जुड़ें"
+
+#: main/src/ui/add_conversation/add_groupchat_dialog.vala:26
+msgid "Add"
+msgstr "जोड़ें"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:143
+msgid "Joining…"
+msgstr "जुड़ रहे हैं…"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:164
+msgid "Password required to enter room"
+msgstr "कक्ष में प्रवेश के लिए पासवर्ड आवश्यक है"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:169
+msgid "Banned from joining or creating conference"
+msgstr "कॉन्फ़्रेंस में शामिल होने या बनाने पर प्रतिबंध लगा दिया गया है"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:171
+msgid "Room does not exist"
+msgstr "कक्ष मौजूद नहीं है"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:173
+msgid "Not allowed to create room"
+msgstr "कक्ष बनाने की अनुमति नहीं है"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:175
+msgid "Members-only room"
+msgstr "केवल सदस्यों के लिए कक्ष"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:178
+msgid "Choose a different nick"
+msgstr "कोई अलग उपनाम चुनें"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:180
+msgid "Too many occupants in room"
+msgstr "कक्ष में बहुत अधिक लोग हैं"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:183
+#: main/src/ui/notifier_freedesktop.vala:190
+#: main/src/ui/notifier_gnotifications.vala:108
+#: main/src/windows/preferences_window/add_account_dialog.vala:271
+#, c-format
+msgid "Could not connect to %s"
+msgstr "%s से जुड़ नहीं सके"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:186
+#: main/src/windows/preferences_window/add_account_dialog.vala:287
+#: main/src/windows/preferences_window/add_account_dialog.vala:297
+#: main/src/windows/preferences_window/add_account_dialog.vala:307
+#: main/src/windows/preferences_window/add_account_dialog.vala:393
+msgid "Invalid address"
+msgstr "अमान्य पता"
+
+#: main/src/ui/add_conversation/select_contact_dialog.vala:76
+msgid "Search or enter contact address..."
+msgstr "संपर्क पता खोजें या दर्ज करें..."
+
+#: main/src/ui/add_conversation/select_contact_dialog.vala:111
+msgid "Start"
+msgstr "शुरु"
+
+#: main/src/ui/add_conversation/select_jid_fragment.vala:154
+msgid "Browse Rooms"
+msgstr "कमरे ब्राउज़ करें"
+
+#: main/src/ui/add_conversation/select_jid_fragment.vala:157
+msgid "Browse Contacts"
+msgstr "संपर्क ब्राउज़ करें"
+
+#: main/src/ui/add_conversation/select_jid_fragment.vala:201
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:70
+msgid "Add Contact"
+msgstr "संपर्क जोड़ें"
+
+#: main/src/ui/add_conversation/select_jid_fragment.vala:202
+msgid "Delete Contact"
+msgstr "संपर्क हटाएं"
+
+#: main/src/ui/add_conversation/select_jid_fragment.vala:205
+#: main/src/ui/add_conversation/select_jid_fragment.vala:215
+msgid "Leave Group"
+msgstr "समूह छोड़ें"
+
+#: main/src/ui/application.vala:161
+msgid "Beenden"
+msgstr "बाहर निकलें"
+
+#: main/src/ui/application.vala:266 main/src/ui/application.vala:361
+msgid "Passwort"
+msgstr "पासवर्ड"
+
+#: main/src/ui/application.vala:271
+msgid "DinoX entsperren"
+msgstr "DinoX अनलॉक करें"
+
+#: main/src/ui/application.vala:272
+msgid "Bitte Passwort eingeben, um die verschlüsselte Datenbank zu öffnen."
+msgstr "कृपया एन्क्रिप्टेड डेटाबेस खोलने के लिए पासवर्ड दर्ज करें।"
+
+#: main/src/ui/application.vala:274
+#, c-format
+msgid "Falsches Passwort. Versuch %d/%d"
+msgstr "गलत पासवर्ड। प्रयास %d/%d"
+
+#: main/src/ui/application.vala:346
+msgid "Entsperren"
+msgstr "अनलॉक करें"
+
+#: main/src/ui/application.vala:363
+msgid "Passwort bestätigen"
+msgstr "पासवर्ड की पुष्टि करें"
+
+#: main/src/ui/application.vala:370
+msgid "Passwort festlegen"
+msgstr "पासवर्ड सेट करें"
+
+#: main/src/ui/application.vala:371
+msgid ""
+"Bei der ersten Nutzung musst du ein Passwort setzen. Ohne Passwort kann "
+"DinoX die verschlüsselte Datenbank nicht öffnen."
+msgstr ""
+"आपको पहले उपयोग पर एक पासवर्ड सेट करना होगा। पासवर्ड के बिना, DinoX एन्क्रिप्टेड "
+"डेटाबेस नहीं खोल सकता है।"
+
+#: main/src/ui/application.vala:373
+#, c-format
+msgid "Ungültiges Passwort. Versuch %d/%d"
+msgstr "अमान्य पासवर्ड। प्रयास %d/%d"
+
+#: main/src/ui/application.vala:448
+msgid "Passwort setzen"
+msgstr "पासवर्ड सेट करें"
+
+#: main/src/ui/application.vala:746
+msgid "Set Status Message"
+msgstr "स्थिति संदेश सेट करें"
+
+#: main/src/ui/application.vala:755
+msgid "Set"
+msgstr "सेट करें"
+
+#: main/src/ui/application.vala:809
+msgid "Aktuelles Passwort"
+msgstr "वर्तमान पासवर्ड"
+
+#: main/src/ui/application.vala:811
+msgid "Neues Passwort"
+msgstr "नया पासवर्ड"
+
+#: main/src/ui/application.vala:813
+msgid "Neues Passwort bestätigen"
+msgstr "नए पासवर्ड की पुष्टि करें"
+
+#: main/src/ui/application.vala:824
+msgid "Datenbank-Passwort ändern"
+msgstr "डेटाबेस पासवर्ड बदलें"
+
+#: main/src/ui/application.vala:825
+msgid ""
+"Dieses Passwort wird verwendet, um deine lokalen DinoX-Daten zu "
+"verschlüsseln."
+msgstr ""
+"इस पासवर्ड का उपयोग आपके स्थानीय DinoX डेटा को एन्क्रिप्ट करने के लिए किया जाता है।"
+
+#: main/src/ui/application.vala:828
+msgid "Abbrechen"
+msgstr "रद्द करें"
+
+#: main/src/ui/application.vala:829
+msgid "Ändern"
+msgstr "बदलें"
+
+#: main/src/ui/application.vala:896
+msgid "Modern XMPP client with extended features"
+msgstr "विस्तारित सुविधाओं वाला आधुनिक XMPP क्लाइंट"
+
+#: main/src/ui/application.vala:903 main/src/ui/application.vala:1278
+msgid "User Data Locations"
+msgstr "उपयोगकर्ता डेटा स्थान"
+
+#: main/src/ui/application.vala:906 main/src/ui/application.vala:1292
+msgid "Configuration:"
+msgstr "विन्यास:"
+
+#: main/src/ui/application.vala:909 main/src/ui/application.vala:1294
+msgid "Data & Database:"
+msgstr "डेटा और डेटाबेस:"
+
+#: main/src/ui/application.vala:912 main/src/ui/application.vala:1296
+msgid "Cache:"
+msgstr "कैश:"
+
+#: main/src/ui/application.vala:915
+msgid "Info:"
+msgstr "जानकारी:"
+
+#: main/src/ui/application.vala:916
+msgid ""
+"Your personal data (accounts, messages, files) is stored separately from the "
+"application."
+msgstr "आपका व्यक्तिगत डेटा (खाते, संदेश, फ़ाइलें) एप्लिकेशन से अलग संग्रहीत किया जाता है।"
+
+#: main/src/ui/application.vala:918
+msgid "When you update DinoX, your data remains intact."
+msgstr "जब आप DinoX अपडेट करते हैं, तो आपका डेटा सुरक्षित रहता है।"
+
+#: main/src/ui/application.vala:920
+msgid "Use Settings → General → Backup User Data to create a backup."
+msgstr "बैकअप बनाने के लिए सेटिंग्स → सामान्य → उपयोगकर्ता डेटा बैकअप का उपयोग करें।"
+
+#: main/src/ui/application.vala:938
+msgid "Select Backup File"
+msgstr "बैकअप फ़ाइल चुनें"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+#: main/src/ui/application.vala:946
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "बैकअप फ़ाइलें (*.tar.gz, *.tar.gz.gpg)"
+
+#: main/src/ui/application.vala:976
+msgid "Enter Backup Password"
+msgstr "बैकअप पासवर्ड दर्ज करें"
+
+#: main/src/ui/application.vala:977
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "यह बैकअप एन्क्रिप्टेड है। डिक्रिप्ट करने के लिए पासवर्ड दर्ज करें।"
+
+#: main/src/ui/application.vala:993
+msgid "Decrypt & Restore"
+msgstr "डिक्रिप्ट और पुनर्स्थापित करें"
+
+#: main/src/ui/application.vala:1016
+msgid ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+msgstr ""
+"यह बैकअप के साथ सभी मौजूदा डेटा को बदल देगा।\n"
+"\n"
+"<b>मौजूदा खाते, संदेश और सेटिंग्स अधिलेखित हो जाएंगे!</b>\n"
+"\n"
+"पुनर्स्थापना के बाद DinoX पुनरारंभ होगा।"
+
+#: main/src/ui/application.vala:1021
+msgid "Restore Backup"
+msgstr "बैकअप पुनर्स्थापित करें"
+
+#: main/src/ui/application.vala:1038 main/src/ui/application.vala:1070
+msgid "Decrypting Backup..."
+msgstr "बैकअप डिक्रिप्ट किया जा रहा है..."
+
+#: main/src/ui/application.vala:1038 main/src/ui/application.vala:1122
+msgid "Restoring Backup..."
+msgstr "बैकअप पुनर्स्थापित किया जा रहा है..."
+
+#: main/src/ui/application.vala:1039
+msgid "Please wait, this may take a moment..."
+msgstr "कृपया प्रतीक्षा करें, इसमें कुछ समय लग सकता है..."
+
+#: main/src/ui/application.vala:1071
+msgid "Decrypting encrypted backup file..."
+msgstr "बैकअप फ़ाइल डिक्रिप्ट कर रहा है..."
+
+#: main/src/ui/application.vala:1109
+msgid "Decryption Failed"
+msgstr "डिक्रिप्शन विफल"
+
+#: main/src/ui/application.vala:1110
+msgid ""
+"Could not decrypt the backup file.\n"
+"\n"
+"Please check if the password is correct."
+msgstr ""
+"बैकअप फ़ाइल को डिक्रिप्ट नहीं किया जा सका.\n"
+"\n"
+"कृपया जांचें कि पासवर्ड सही है।"
+
+#: main/src/ui/application.vala:1112 main/src/ui/application.vala:1222
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:430
+msgid "OK"
+msgstr "OK"
+
+#: main/src/ui/application.vala:1123
+msgid "Extracting files from backup..."
+msgstr "बैकअप से फ़ाइलें निकाल रहा है..."
+
+#: main/src/ui/application.vala:1204
+msgid "Restore Complete!"
+msgstr "पुनर्स्थापना पूर्ण!"
+
+#: main/src/ui/application.vala:1205
+msgid "DinoX will now restart..."
+msgstr "DinoX अब पुनः आरंभ होगा..."
+
+#: main/src/ui/application.vala:1219
+msgid "Restore Failed"
+msgstr "पुनर्स्थापना विफल"
+
+#: main/src/ui/application.vala:1220
+#, c-format
+msgid ""
+"Could not restore the backup file.\n"
+"\n"
+"Error: %s"
+msgstr ""
+"बैकअप फ़ाइल को पुनर्स्थापित नहीं किया जा सका.\n"
+"\n"
+"त्रुटि: %s"
+
+#: main/src/ui/application.vala:1220 main/src/ui/application.vala:1896
+msgid "Unknown error"
+msgstr "अज्ञात त्रुटि"
+
+#: main/src/ui/application.vala:1298
+msgid ""
+"Your personal data (accounts, messages, files) is stored separately from the "
+"application. When you update DinoX, your data remains intact."
+msgstr ""
+"आपका व्यक्तिगत डेटा (खाते, संदेश, फ़ाइलें) एप्लिकेशन से अलग संग्रहीत किया जाता है। जब आप "
+"DinoX को अपडेट करते हैं, तो आपका डेटा बरकरार रहता है।"
+
+#: main/src/ui/application.vala:1303 main/src/ui/application.vala:1791
+#: main/src/ui/application.vala:1875
+#: main/src/ui/chat_input/sticker_chooser.vala:181
+#: main/src/ui/conversation_details.vala:306
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:566
+#: main/src/ui/conversation_view_controller.vala:340
+#: main/src/ui/main_window.vala:172
+msgid "Close"
+msgstr "बंद करें"
+
+#: main/src/ui/application.vala:1313
+msgid ""
+"This will delete cached files, avatars and previews.\n"
+"\n"
+"They will be re-downloaded when needed."
+msgstr ""
+"यह कैश की गई फ़ाइलों, अवतारों और पूर्वावलोकनों को हटा देगा।\n"
+"\n"
+"आवश्यकता होने पर उन्हें फिर से डाउनलोड किया जाएगा।"
+
+#: main/src/ui/application.vala:1350
+#, c-format
+msgid "Cache cleared (%s freed)"
+msgstr "कैश साफ़ किया गया (%s मुक्त)"
+
+#: main/src/ui/application.vala:1353
+msgid "Failed to clear cache"
+msgstr "कैश साफ़ करने में विफल"
+
+#: main/src/ui/application.vala:1390
+msgid ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+msgstr ""
+"यह सभी संदेशों, फ़ाइलों और OMEMO एन्क्रिप्शन कुंजियों को हटा देगा।\n"
+"\n"
+"<b>आपके खाते बने रहेंगे, लेकिन आप सभी चैट इतिहास खो देंगे और आपको अपने संपर्कों के साथ "
+"एन्क्रिप्शन को फिर से सत्यापित करने की आवश्यकता होगी।</b>\n"
+"\n"
+"यह क्रिया पूर्ववत नहीं की जा सकती!"
+
+#: main/src/ui/application.vala:1418
+msgid "Resetting database... DinoX will restart."
+msgstr "डेटाबेस रीसेट हो रहा है... DinoX पुनः आरंभ होगा।"
+
+#: main/src/ui/application.vala:1448
+msgid ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+msgstr ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+
+#: main/src/ui/application.vala:1453
+msgid "Create Backup First"
+msgstr "पहले बैकअप बनाएँ"
+
+#: main/src/ui/application.vala:1454
+msgid "Delete Everything"
+msgstr "सब कुछ हटाएँ"
+
+#: main/src/ui/application.vala:1474
+msgid "Are you absolutely sure?"
+msgstr "क्या आप पूरी तरह सुनिश्चित हैं?"
+
+#: main/src/ui/application.vala:1475
+msgid ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+msgstr ""
+"फ़ैक्टरी रीसेट की पुष्टि करने के लिए 'DELETE' टाइप करें।\n"
+"\n"
+"यह आपके सभी DinoX डेटा को स्थायी रूप से हटा देगा।"
+
+#: main/src/ui/application.vala:1485
+msgid "Confirm Delete"
+msgstr "हटाने की पुष्टि करें"
+
+#: main/src/ui/application.vala:1512
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "फ़ैक्टरी रीसेट प्रगति पर है... DinoX पुनः आरंभ होगा।"
+
+#: main/src/ui/application.vala:1577
+msgid "Backup Encryption"
+msgstr "बैकअप एन्क्रिप्शन"
+
+#: main/src/ui/application.vala:1578
+msgid ""
+"Do you want to encrypt the backup with a password?\n"
+"\n"
+"Encrypted backups are more secure but require the password to restore."
+msgstr ""
+"क्या आप बैकअप को पासवर्ड से एन्क्रिप्ट करना चाहते हैं?\n"
+"\n"
+"एन्क्रिप्टेड बैकअप अधिक सुरक्षित होते हैं लेकिन पुनर्स्थापित करने के लिए पासवर्ड की आवश्यकता "
+"होती है।"
+
+#: main/src/ui/application.vala:1581
+msgid "No Encryption"
+msgstr "कोई एन्क्रिप्शन नहीं"
+
+#: main/src/ui/application.vala:1582
+msgid "Encrypt with Password"
+msgstr "पासवर्ड के साथ एन्क्रिप्ट करें"
+
+#: main/src/ui/application.vala:1600
+msgid "Set Backup Password"
+msgstr "बैकअप पासवर्ड सेट करें"
+
+#: main/src/ui/application.vala:1601
+msgid ""
+"Enter a password to encrypt the backup.\n"
+"\n"
+"<b>Important:</b> Remember this password! Without it, the backup cannot be "
+"restored."
+msgstr ""
+"बैकअप को एन्क्रिप्ट करने के लिए पासवर्ड दर्ज करें।\n"
+"\n"
+"<b>महत्वपूर्ण:</b> यह पासवर्ड याद रखें! इसके बिना, बैकअप को पुनर्स्थापित नहीं किया जा "
+"सकता।"
+
+#: main/src/ui/application.vala:1609
+msgid "Password (minimum 4 characters)"
+msgstr "पासवर्ड (न्यूनतम 4 अक्षर)"
+
+#: main/src/ui/application.vala:1617 main/src/ui/application.vala:1624
+msgid "Confirm Password"
+msgstr "पासवर्ड की पुष्टि करें"
+
+#: main/src/ui/application.vala:1641
+msgid "Create Encrypted Backup"
+msgstr "एन्क्रिप्टेड बैकअप बनाएँ"
+
+#: main/src/ui/application.vala:1653 main/src/ui/application.vala:1668
+msgid "Password too short"
+msgstr "पासवर्ड बहुत छोटा है"
+
+#: main/src/ui/application.vala:1655 main/src/ui/application.vala:1670
+msgid "Passwords do not match"
+msgstr "पासवर्ड मेल नहीं खाते"
+
+#: main/src/ui/application.vala:1657 main/src/ui/application.vala:1672
+msgid "✓ Passwords match"
+msgstr "✓ पासवर्ड मेल खाते हैं"
+
+#: main/src/ui/application.vala:1690
+msgid "Select Backup Location"
+msgstr "बैकअप स्थान चुनें"
+
+#: main/src/ui/application.vala:1745
+msgid "Creating Encrypted Backup..."
+msgstr "एन्क्रिप्टेड बैकअप बनाया जा रहा है..."
+
+#: main/src/ui/application.vala:1745
+msgid "Creating Backup..."
+msgstr "बैकअप बनाया जा रहा है..."
+
+#: main/src/ui/application.vala:1746
+msgid "Please wait while your data is being backed up."
+msgstr "कृपया प्रतीक्षा करें, आपके डेटा का बैकअप लिया जा रहा है।"
+
+#: main/src/ui/application.vala:1785
+msgid "No data directory found to backup"
+msgstr "बैकअप के लिए कोई डेटा निर्देशिका नहीं मिली"
+
+#: main/src/ui/application.vala:1788 main/src/ui/application.vala:1894
+msgid "Backup Failed"
+msgstr "बैकअप विफल"
+
+#: main/src/ui/application.vala:1882
+msgid "Encrypted Backup Created"
+msgstr "एन्क्रिप्टेड बैकअप बनाया गया"
+
+#: main/src/ui/application.vala:1884
+#, c-format
+msgid ""
+"Your encrypted backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"आपका एन्क्रिप्टेड बैकअप सफलतापूर्वक बनाया गया।\n"
+"\n"
+"आकार: %s"
+
+#: main/src/ui/application.vala:1885
+msgid "Your encrypted backup was created successfully."
+msgstr "आपका एन्क्रिप्टेड बैकअप सफलतापूर्वक बनाया गया।"
+
+#: main/src/ui/application.vala:1887
+msgid "Backup Created"
+msgstr "बैकअप बनाया गया"
+
+#: main/src/ui/application.vala:1889
+#, c-format
+msgid ""
+"Your backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"आपका बैकअप सफलतापूर्वक बनाया गया।\n"
+"\n"
+"आकार: %s"
+
+#: main/src/ui/application.vala:1890
+msgid "Your backup was created successfully."
+msgstr "आपका बैकअप सफलतापूर्वक बनाया गया।"
+
+#: main/src/ui/application.vala:1897
+#, c-format
+msgid "Backup failed: %s"
+msgstr "बैकअप विफल: %s"
+
+#: main/src/ui/call_window/audio_settings_popover.vala:46
+msgid "Microphones"
+msgstr "माइक्रोफोन"
+
+#: main/src/ui/call_window/audio_settings_popover.vala:49
+msgid "No microphone found."
+msgstr "कोई माइक्रोफोन नहीं मिला।"
+
+#: main/src/ui/call_window/audio_settings_popover.vala:116
+msgid "Speakers"
+msgstr "स्पीकर"
+
+#: main/src/ui/call_window/audio_settings_popover.vala:119
+msgid "No speaker found."
+msgstr "कोई स्पीकर नहीं मिला।"
+
+#: main/src/ui/call_window/call_window_controller.vala:152
+msgid "Invite to Call"
+msgstr "कॉल हेतु आमंत्रित करें"
+
+#: main/src/ui/call_window/call_window_controller.vala:153
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:780
+#: main/src/ui/conversation_titlebar/menu_entry.vala:99
+#: main/src/ui/occupant_menu/view.vala:27
+#: main/src/ui/occupant_menu/view.vala:283
+msgid "Invite"
+msgstr "आमंत्रित करें"
+
+#: main/src/ui/call_window/call_window_controller.vala:451
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:240
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:270
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:285
+#: main/src/ui/util/helper.vala:79 main/src/ui/util/helper.vala:83
+#: main/src/ui/util/helper.vala:91
+msgid "Me"
+msgstr "मैं"
+
+#: main/src/ui/call_window/call_window.vala:219
+#, c-format
+msgid "%s ended the call"
+msgstr "%s ने कॉल समाप्त कर दी"
+
+#: main/src/ui/call_window/call_window.vala:221
+#, c-format
+msgid "%s declined the call"
+msgstr "%s ने कॉल को काट दिया"
+
+#: main/src/ui/call_window/participant_widget.vala:140
+msgid "Debug information"
+msgstr "डिबग जानकारी"
+
+#: main/src/ui/call_window/participant_widget.vala:149
+#: main/src/ui/conversation_content_view/call_widget.vala:152
+msgid "Calling…"
+msgstr "कॉलिंग…"
+
+#: main/src/ui/call_window/participant_widget.vala:151
+msgid "Ringing…"
+msgstr "घंटी बज रही है…"
+
+#: main/src/ui/call_window/participant_widget.vala:153
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:532
+msgid "Connecting…"
+msgstr "कनेक्ट हो रहा है…"
+
+#: main/src/ui/call_window/video_settings_popover.vala:25
+msgid "Cameras"
+msgstr "कैमरा"
+
+#: main/src/ui/call_window/video_settings_popover.vala:28
+msgid "No camera found."
+msgstr "कैमरा नहीं मिला।"
+
+#: main/src/ui/chat_input/chat_input_controller.vala:267
+msgid "This conference does not allow you to send messages."
+msgstr "यह कॉन्फ़्रेंस आपको संदेश भेजने की अनुमति नहीं देती है।"
+
+#: main/src/ui/chat_input/chat_input_controller.vala:267
+msgid "Request permission"
+msgstr "अनुमति मांगें"
+
+#: main/src/ui/chat_input/encryption_button.vala:35
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:224
+msgid "Unencrypted"
+msgstr "अकूटलेखित"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:176
+msgid "Manage Sticker Packs"
+msgstr "स्टिकर पैक प्रबंधित करें"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:390
+msgid "Stickers are unavailable"
+msgstr "स्टिकर अनुपलब्ध हैं"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:412
+msgid "No sticker packs yet."
+msgstr "अभी तक कोई स्टिकर पैक नहीं है।"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:414
+#: main/src/ui/chat_input/sticker_chooser.vala:527
+msgid "No stickers selected"
+msgstr "कोई स्टिकर नहीं चुना गया"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:543
+msgid "No stickers in this pack"
+msgstr "इस पैक में कोई स्टिकर नहीं है"
+
+#: main/src/ui/contact_details/permissions_provider.vala:23
+msgid "Request permission to send messages"
+msgstr "संदेश भेजने की अनुमति का अनुरोध करें"
+
+#: main/src/ui/contact_details/permissions_provider.vala:24
+msgid "Request"
+msgstr "अनुरोध"
+
+#: main/src/ui/contact_details/settings_provider.vala:21
+#: main/src/ui/contact_details/settings_provider.vala:24
+#: main/src/ui/contact_details/settings_provider.vala:31
+#: main/src/ui/contact_details/settings_provider.vala:34
+msgid "On"
+msgstr "चालू"
+
+#: main/src/ui/contact_details/settings_provider.vala:21
+#: main/src/ui/contact_details/settings_provider.vala:25
+#: main/src/ui/contact_details/settings_provider.vala:31
+#: main/src/ui/contact_details/settings_provider.vala:35
+msgid "Off"
+msgstr "बंद"
+
+#: main/src/ui/contact_details/settings_provider.vala:22
+msgid "Send typing notifications"
+msgstr "टाइपिंग सूचनाएं भेजें"
+
+#: main/src/ui/contact_details/settings_provider.vala:23
+#: main/src/ui/contact_details/settings_provider.vala:33
+#, c-format
+msgid "Default: %s"
+msgstr "तयशुदा: %s"
+
+#: main/src/ui/contact_details/settings_provider.vala:32
+msgid "Send read receipts"
+msgstr "पठन रसीदें भेजें"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:137
+#: main/src/ui/notifier_freedesktop.vala:114
+#: main/src/ui/notifier_gnotifications.vala:72
+msgid "Incoming video call"
+msgstr "आवक वीडियो कॉल"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:137
+#: main/src/ui/conversation_content_view/call_widget.vala:168
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:287
+#: main/src/ui/notifier_freedesktop.vala:114
+#: main/src/ui/notifier_gnotifications.vala:72
+msgid "Incoming call"
+msgstr "आवक कॉल"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:139
+#: main/src/ui/notifier_freedesktop.vala:116
+#: main/src/ui/notifier_gnotifications.vala:74
+msgid "Incoming video group call"
+msgstr "आवक वीडियो समूह कॉल"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:139
+#: main/src/ui/notifier_freedesktop.vala:116
+#: main/src/ui/notifier_gnotifications.vala:74
+msgid "Incoming group call"
+msgstr "आवक समूह कॉल"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:159
+msgid "Call started"
+msgstr "कॉल शुरू हुई"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:161
+#, c-format
+msgid "Started %s ago"
+msgstr "%s पहले शुरू हुआ"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:168
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:287
+msgid "Outgoing call"
+msgstr "जावक कॉल"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:169
+msgid "You handled this call on another device"
+msgstr "आपने यह कॉल किसी अन्य डिवाइस पर संभाली"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:174
+msgid "Call ended"
+msgstr "कॉल समाप्त"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:175
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:315
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:490
+#, no-c-format
+msgid "%H∶%M"
+msgstr "%H∶%M"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:175
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:316
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:491
+#, no-c-format
+msgid "%l∶%M %p"
+msgstr "%l∶%M %p"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:177
+#, c-format
+msgid "Ended at %s"
+msgstr "%s पर समाप्त हुआ"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:179
+#, c-format
+msgid "Lasted %s"
+msgstr "%s तक चला"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:183
+msgid "Call missed"
+msgstr "कॉल छूट गई"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:185
+msgid "You missed this call"
+msgstr "आपसे यह कॉल छूट गई"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:188
+#, c-format
+msgid "%s missed this call"
+msgstr "%s से यह कॉल छूट गई"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:193
+msgid "Call declined"
+msgstr "कॉल अस्वीकृत"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:195
+msgid "You declined this call"
+msgstr "आपने यह कॉल अस्वीकार कर दिया"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:198
+#, c-format
+msgid "%s declined this call"
+msgstr "%s ने इस कॉल को अस्वीकार कर दिया"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:203
+msgid "Call failed"
+msgstr "कॉल विफल"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:241
+msgid "a few seconds"
+msgstr "कुछ सेकंड"
+
+#: main/src/ui/conversation_content_view/chat_state_populator.vala:108
+#, c-format
+msgid "%s, %s and %i others are typing…"
+msgstr "%s, %s और %i अन्य लोग टाइप कर रहे हैं…"
+
+#: main/src/ui/conversation_content_view/chat_state_populator.vala:115
+#, c-format
+msgid "%s, %s and %s are typing…"
+msgstr "%s, %s और %s टाइप कर रहे हैं…"
+
+#: main/src/ui/conversation_content_view/chat_state_populator.vala:121
+#, c-format
+msgid "%s and %s are typing…"
+msgstr "%s और %s टाइप कर रहे हैं…"
+
+#: main/src/ui/conversation_content_view/chat_state_populator.vala:126
+#, c-format
+msgid "%s is typing…"
+msgstr "%s टाइप कर रहा है…"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:256
+msgid "Delivered"
+msgstr "वितरित"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:260
+msgid "Read"
+msgstr "पठित"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:266
+msgid "Unable to send message"
+msgstr "संदेश भेजने में असमर्थ"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:303
+#, no-c-format
+msgid "%x, %H∶%M"
+msgstr "%x, %H∶%M"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:304
+#, no-c-format
+msgid "%x, %l∶%M %p"
+msgstr "%x, %l∶%M %p"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:307
+#, no-c-format
+msgid "%b %d, %H∶%M"
+msgstr "%d %b, %H∶%M"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:308
+#, no-c-format
+msgid "%b %d, %l∶%M %p"
+msgstr "%d %b, %l∶%M %p"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:311
+#, no-c-format
+msgid "%a, %H∶%M"
+msgstr "%a, %H∶%M"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:312
+#, no-c-format
+msgid "%a, %l∶%M %p"
+msgstr "%a, %l∶%M %p"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:322
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:496
+msgid "Just now"
+msgstr "बस अभी"
+
+#: main/src/ui/conversation_content_view/conversation_view.vala:114
+msgid "More actions"
+msgstr "अधिक क्रियाएं"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:67
+#: main/src/ui/conversation_content_view/file_image_widget.vala:201
+msgid "Open"
+msgstr "खोलें"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:68
+#: main/src/ui/conversation_content_view/file_image_widget.vala:202
+#: main/src/ui/conversation_content_view/file_widget.vala:174
+msgid "Save as…"
+msgstr "ऐसे सहेजें…"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:77
+#, c-format
+msgid "Downloading %s… (%u%%)"
+msgstr "%s डाउनलोड हो रहा है… (%u%%)"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:79
+#, c-format
+msgid "Downloading %s…"
+msgstr "%s डाउनलोड हो रहा है…"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:83
+#, c-format
+msgid "Uploading %s… (%u%%)"
+msgstr "%s अपलोड हो रहा है… (%u%%)"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:97
+#, c-format
+msgid "%s offered: %s"
+msgstr "%s पेश: %s"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:99
+#, c-format
+msgid "File offered: %s"
+msgstr "फाइल पेश: %s"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:101
+msgid "File offered"
+msgstr "फाइल पेश"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:107
+msgid "File transfer failed"
+msgstr "फाइल स्थानांतरण विफल"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:36
+msgid "Kick user"
+msgstr "उपयोगकर्ता निकालें"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:69
+msgid "Ban user"
+msgstr "उपयोगकर्ता पर प्रतिबंध लगाएं"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:82
+#: main/src/ui/conversation_content_view/reactions_widget.vala:128
+msgid "Add reaction"
+msgstr "प्रतिक्रिया जोड़ें"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:94
+msgid "This conversation does not support reactions."
+msgstr "यह बातचीत प्रतिक्रियाओं का समर्थन नहीं करती।"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:107
+msgid "Reply"
+msgstr "जवाब"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:117
+msgid "This conversation does not support replies."
+msgstr "यह बातचीत जवाब का समर्थन नहीं करती।"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:146
+msgid "Moderate message..."
+msgstr "संदेश प्रबंधित करें…"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:148
+msgid "Delete..."
+msgstr "हटाएं..."
+
+#: main/src/ui/conversation_content_view/item_actions.vala:150
+#: main/src/ui/conversation_content_view/item_actions.vala:168
+msgid "Delete locally"
+msgstr "स्थानीय रूप से हटाएं"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:160
+msgid "Moderate message"
+msgstr "संदेश प्रबंधित करें"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:160
+msgid "Delete message"
+msgstr "संदेश हटाएं"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:164
+msgid "Do you want to remove this message from the channel?"
+msgstr "क्या आप इस संदेश को चैनल से हटाना चाहते हैं?"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:165
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:753
+#: main/src/windows/conversation_details.vala:61
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:286
+msgid "Remove"
+msgstr "हटाएं"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:167
+msgid "Do you want to delete this message just for yourself or for everyone?"
+msgstr "क्या आप इस संदेश को केवल अपने लिए या सभी के लिए हटाना चाहते हैं?"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:168
+msgid "Delete for everyone"
+msgstr "सभी के लिए हटाएं"
+
+#: main/src/ui/conversation_content_view/message_widget.vala:174
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:255
+msgid "Message deleted"
+msgstr "संदेश हटा दिया गया"
+
+#: main/src/ui/conversation_content_view/message_widget.vala:178
+msgid "edited"
+msgstr "संपादित"
+
+#: main/src/ui/conversation_content_view/message_widget.vala:182
+msgid "Message truncated - exceeds 100,000 characters"
+msgstr "संदेश काट दिया गया - 100,000 वर्णों से अधिक"
+
+#: main/src/ui/conversation_content_view/message_widget.vala:191
+msgid "pending…"
+msgstr "लंबित…"
+
+#: main/src/ui/conversation_content_view/message_widget.vala:206
+msgid "delivery failed"
+msgstr "डिलीवरी विफल"
+
+#: main/src/ui/conversation_content_view/message_widget.vala:362
+msgid "Edit message"
+msgstr "संदेश संपादित करें"
+
+#: main/src/ui/conversation_content_view/quote_widget.vala:43
+msgid "File"
+msgstr "फाइल"
+
+#: main/src/ui/conversation_content_view/reactions_widget.vala:102
+msgid "You"
+msgstr "आप"
+
+#: main/src/ui/conversation_content_view/subscription_notification.vala:49
+msgid "Send request"
+msgstr "अनुरोध भेजें"
+
+#: main/src/ui/conversation_content_view/subscription_notification.vala:60
+msgid "You do not receive status updates from this contact yet."
+msgstr "आपको अभी तक इस संपर्क से स्थिति अपडेट प्राप्त नहीं होते हैं।"
+
+#: main/src/ui/conversation_content_view/subscription_notification.vala:68
+#: main/src/ui/notifier_freedesktop.vala:166
+#: main/src/ui/notifier_freedesktop.vala:266
+#: main/src/ui/notifier_gnotifications.vala:102
+#: main/src/ui/notifier_gnotifications.vala:139
+#: main/src/ui/notifier_gnotifications.vala:157
+msgid "Deny"
+msgstr "अस्वीकारें"
+
+#: main/src/ui/conversation_content_view/subscription_notification.vala:80
+msgid "This contact would like to add you to their contact list"
+msgstr "यह संपर्क आपको अपनी संपर्क सूची में जोड़ना चाहता है"
+
+#: main/src/ui/conversation_content_view/unread_indicator_populator.vala:76
+msgid "New"
+msgstr "नया"
+
+#: main/src/ui/conversation_details.vala:188
+#, fuzzy
+msgid "Affiliation"
+msgstr "संबंधन प्रबंधित करें"
+
+#: main/src/ui/conversation_details.vala:197
+msgid "Real JID"
+msgstr "असली JID"
+
+#: main/src/ui/conversation_details.vala:205
+#: main/src/ui/util/data_forms.vala:40
+msgid "Display name"
+msgstr "प्रदर्शित नाम"
+
+#: main/src/ui/conversation_details.vala:225
+#: main/src/ui/conversation_details.vala:239
+msgid "Topic"
+msgstr "विषय"
+
+#: main/src/ui/conversation_details.vala:252
+msgid "Permissions"
+msgstr "अनुमतियाँ"
+
+#: main/src/ui/conversation_details.vala:253
+msgid "Manage Affiliations"
+msgstr "संबद्धता प्रबंधित करें"
+
+#: main/src/ui/conversation_details.vala:273
+msgid "Danger Zone"
+msgstr "खतरा क्षेत्र"
+
+#: main/src/ui/conversation_details.vala:274
+msgid "Destroy Room"
+msgstr "कमरा नष्ट करें"
+
+#: main/src/ui/conversation_details.vala:280
+msgid "Destroy Room?"
+msgstr "क्या कमरा नष्ट करें?"
+
+#: main/src/ui/conversation_details.vala:281
+msgid ""
+"Are you sure you want to permanently destroy this room? This action cannot "
+"be undone and all history will be lost for all participants."
+msgstr ""
+"क्या आप वाकई इस कमरे को स्थायी रूप से नष्ट करना चाहते हैं? इस क्रिया को पूर्ववत नहीं किया "
+"जा सकता और सभी प्रतिभागियों का सारा इतिहास खो जाएगा।"
+
+#: main/src/ui/conversation_details.vala:284
+msgid "Destroy"
+msgstr "नष्ट करें"
+
+#: main/src/ui/conversation_details.vala:305
+msgid "Failed to destroy room"
+msgstr "कमरा नष्ट करने में विफल"
+
+#: main/src/ui/conversation_details.vala:320
+msgid "Auto-delete messages"
+msgstr "संदेशों को स्वचालित रूप से हटाएं"
+
+#: main/src/ui/conversation_details.vala:321
+msgid "Never"
+msgstr "कभी नहीं"
+
+#: main/src/ui/conversation_details.vala:322
+msgid "After 15 minutes"
+msgstr "15 मिनट बाद"
+
+#: main/src/ui/conversation_details.vala:323
+msgid "After 30 minutes"
+msgstr "30 मिनट बाद"
+
+#: main/src/ui/conversation_details.vala:324
+msgid "After 1 hour"
+msgstr "1 घंटे बाद"
+
+#: main/src/ui/conversation_details.vala:325
+msgid "After 24 hours"
+msgstr "24 घंटे बाद"
+
+#: main/src/ui/conversation_details.vala:326
+msgid "After 7 days"
+msgstr "7 दिन बाद"
+
+#: main/src/ui/conversation_details.vala:327
+msgid "After 30 days"
+msgstr "30 दिन बाद"
+
+#: main/src/ui/conversation_details.vala:586
+msgid "Phone"
+msgstr "फ़ोन"
+
+#: main/src/ui/conversation_details.vala:590
+msgid "Title"
+msgstr "शीर्षक"
+
+#: main/src/ui/conversation_details.vala:596
+msgid "URL"
+msgstr "URL"
+
+#: main/src/ui/conversation_details.vala:598
+msgid "Note"
+msgstr "नोट"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:276
+#: main/src/ui/notifier_freedesktop.vala:71
+#: main/src/ui/notifier_gnotifications.vala:36
+msgid "Image sent"
+msgstr "छवि भेजी गई"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:276
+#: main/src/ui/notifier_freedesktop.vala:71
+#: main/src/ui/notifier_gnotifications.vala:36
+msgid "File sent"
+msgstr "फाइल भेजी गई"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:278
+#: main/src/ui/notifier_freedesktop.vala:73
+#: main/src/ui/notifier_gnotifications.vala:38
+msgid "Image received"
+msgstr "छवि प्राप्त हुई"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:278
+#: main/src/ui/notifier_freedesktop.vala:73
+#: main/src/ui/notifier_gnotifications.vala:38
+msgid "File received"
+msgstr "फाइल प्राप्त हुई"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:361
+msgid "Thema:"
+msgstr "विषय:"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:381
+msgid "Privat"
+msgstr "निजी"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:383
+msgid "Öffentlich"
+msgstr "सार्वजनिक"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:387
+msgid "Typ:"
+msgstr "प्रकार:"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:483
+#: main/src/ui/widgets/date_separator.vala:37
+#, no-c-format
+msgid "%b %d"
+msgstr "%d %b"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:487
+#: main/src/ui/widgets/date_separator.vala:28
+msgid "Yesterday"
+msgstr "बिता कल"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:506
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:554
+#: main/src/ui/conversation_titlebar/menu_entry.vala:79
+msgid "Conversation Details"
+msgstr "बातचीत का विवरण"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:507
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:779
+#: main/src/ui/conversation_titlebar/menu_entry.vala:98
+msgid "Invite Contact"
+msgstr "संपर्क आमंत्रित करें"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:511
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:559
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:669
+#: main/src/ui/occupant_menu/view.vala:181
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:134
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:200
+msgid "Unmute"
+msgstr "अनम्यूट करें"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:511
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:559
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:688
+#: main/src/ui/occupant_menu/view.vala:185
+#: main/src/windows/conversation_details.vala:173
+#: main/src/windows/conversation_details.vala:174
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:134
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:220
+msgid "Mute"
+msgstr "म्यूट करें"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:514
+msgid "Leave and Close"
+msgstr "छोड़ें और बंद करें"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:555
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:631
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:120
+msgid "Edit Alias"
+msgstr "उपनाम संपादित करें"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:563
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:713
+#: main/src/windows/conversation_details.vala:118
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:244
+msgid "Unblock"
+msgstr "अनब्लॉक करें"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:563
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:732
+#: main/src/windows/conversation_details.vala:154
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:264
+msgid "Block"
+msgstr "अवरुद्ध करें"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:636
+msgid "Alias"
+msgstr "उपनाम"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:642
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:327
+msgid "Save"
+msgstr "सहेजें"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:665
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:196
+msgid "Unmute contact?"
+msgstr "संपर्क को अनम्यूट करें?"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:666
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:197
+#, c-format
+msgid "This will enable notifications from %s."
+msgstr "यह %s से सूचनाएं सक्षम करेगा।"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:684
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:216
+msgid "Mute contact?"
+msgstr "संपर्क को म्यूट करें?"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:685
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:217
+#, c-format
+msgid "This will disable notifications from %s."
+msgstr "यह %s से सूचनाएं अक्षम करेगा।"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:709
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:240
+msgid "Unblock contact?"
+msgstr "संपर्क अनब्लॉक करें?"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:710
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:241
+#, c-format
+msgid "This will allow %s to send you messages again."
+msgstr "यह %s को आपको फिर से संदेश भेजने की अनुमति देगा।"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:728
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:260
+msgid "Block contact?"
+msgstr "संपर्क ब्लॉक करें?"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:729
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:261
+#, c-format
+msgid "This will prevent %s from sending you messages."
+msgstr "यह %s को आपको संदेश भेजने से रोकेगा।"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:749
+#: main/src/windows/conversation_details.vala:57
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:282
+msgid "Remove contact?"
+msgstr "संपर्क हटाएं?"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:750
+#, c-format
+msgid ""
+"This will:\n"
+"• Delete all conversation history\n"
+"• Remove %s from your contact list\n"
+"\n"
+"This action cannot be undone."
+msgstr ""
+"यह:\n"
+"• सभी वार्तालाप इतिहास हटा देगा\n"
+"• आपकी संपर्क सूची से %s को हटा देगा\n"
+"\n"
+"इस क्रिया को पूर्ववत नहीं किया जा सकता।"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:794
+msgid "Delete all message history?"
+msgstr "सभी संदेश इतिहास हटाएं?"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:795
+msgid ""
+"This will permanently delete all messages in this conversation. This action "
+"cannot be undone."
+msgstr ""
+"इससे इस वार्तालाप के सभी संदेश स्थायी रूप से हटा दिए जाएंगे। इस क्रिया को पूर्ववत नहीं "
+"किया जा सकता।"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:798
+#: main/src/ui/conversation_titlebar/menu_entry.vala:51
+msgid "Delete"
+msgstr "हटाएं"
+
+#: main/src/ui/conversation_titlebar/call_entry.vala:14
+msgid "Start call"
+msgstr "कॉल शुरू करें"
+
+#: main/src/ui/conversation_titlebar/call_entry.vala:25
+msgid "Audio call"
+msgstr "ऑडियो कॉल"
+
+#: main/src/ui/conversation_titlebar/call_entry.vala:26
+msgid "Video call"
+msgstr "वीडियो कॉल"
+
+#: main/src/ui/conversation_titlebar/call_entry.vala:79
+msgid "Conference Server Required"
+msgstr "कॉन्फ्रेंस सर्वर आवश्यक"
+
+#: main/src/ui/conversation_titlebar/call_entry.vala:80
+msgid ""
+"To start a group call, you need to configure a default conference server in "
+"your account settings."
+msgstr ""
+"समूह कॉल शुरू करने के लिए, आपको अपनी खाता सेटिंग में एक डिफ़ॉल्ट कॉन्फ़्रेंस सर्वर कॉन्फ़िगर "
+"करना होगा।"
+
+#: main/src/ui/conversation_titlebar/call_entry.vala:84
+msgid "Open Settings"
+msgstr "सेटिंग खोलें"
+
+#: main/src/ui/conversation_titlebar/menu_entry.vala:47
+msgid "Delete all message history for this conversation?"
+msgstr "इस वार्तालाप के लिए सभी संदेश इतिहास हटाएं?"
+
+#: main/src/ui/conversation_titlebar/menu_entry.vala:49
+msgid "This action cannot be undone."
+msgstr "इस क्रिया को पूर्ववत नहीं किया जा सकता।"
+
+#: main/src/ui/conversation_titlebar/menu_entry.vala:85
+msgid "Close Conversation"
+msgstr "बातचीत बंद करें"
+
+#: main/src/ui/conversation_titlebar/occupants_entry.vala:14
+#: main/src/windows/conversation_details.vala:302
+msgid "Members"
+msgstr "सदस्य"
+
+#: main/src/ui/conversation_view_controller.vala:256
+msgid "Select file"
+msgstr "फाइल चुनें"
+
+#: main/src/ui/conversation_view_controller.vala:257
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:215
+msgid "Select"
+msgstr "चुनें"
+
+#: main/src/ui/conversation_view_controller.vala:339
+msgid "Failed to get location"
+msgstr "स्थान प्राप्त करने में विफल"
+
+#: main/src/ui/file_send_overlay.vala:60
+msgid "The file exceeds the server's maximum upload size."
+msgstr "फाइल सर्वर के अधिकतम अपलोड आकार से अधिक है।"
+
+#: main/src/ui/global_search.vala:208
+#, c-format
+msgid "In %s"
+msgstr "%s में"
+
+#: main/src/ui/global_search.vala:208
+#, c-format
+msgid "With %s"
+msgstr "%s के साथ"
+
+#: main/src/ui/main_window.vala:169
+msgid "Join Channel Help"
+msgstr "चैनल जुड़ने में सहायता"
+
+#: main/src/ui/main_window.vala:170
+msgid ""
+"To join a channel, click the \"Join Channel\" button and enter the channel "
+"JID (example: room@conference.example.org).\n"
+"\n"
+"If you need a password or a nickname, provide them in the dialog. Use the "
+"discovery features in the server to find public rooms."
+msgstr ""
+"चैनल में शामिल होने के लिए, \"चैनल में शामिल हों\" बटन पर क्लिक करें और चैनल JID दर्ज करें "
+"(उदाहरण: room@conference.example.org)।\n"
+"\n"
+"यदि आपको पासवर्ड या उपनाम की आवश्यकता है, तो उन्हें संवाद में प्रदान करें। सार्वजनिक कमरे "
+"खोजने के लिए सर्वर की खोज सुविधाओं का उपयोग करें।"
+
+#: main/src/ui/main_window.vala:222
+msgid "Welcome to DinoX!"
+msgstr "DinoX में आपका स्वागत है!"
+
+#: main/src/ui/main_window.vala:223
+msgid "Sign in or create an account to get started."
+msgstr "आरंभ करने के लिए साइन इन करें या खाता बनाएं।"
+
+#: main/src/ui/main_window.vala:224
+msgid "Set up account"
+msgstr "खाता स्थापित करें"
+
+#: main/src/ui/main_window.vala:233
+#: main/src/windows/preferences_window/accounts_preferences_page.vala:71
+#: main/src/windows/preferences_window/encryption_preferences_page.vala:49
+msgid "No active accounts"
+msgstr "कोई सक्रिय खाता नहीं"
+
+#: main/src/ui/main_window.vala:234
+msgid "Manage accounts"
+msgstr "खाते प्रबंधित करें"
+
+#: main/src/ui/notifier_freedesktop.vala:159
+#: main/src/ui/notifier_gnotifications.vala:93
+msgid "Subscription request"
+msgstr "सदस्यता अनुरोध"
+
+#: main/src/ui/notifier_freedesktop.vala:194
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:547
+msgid "Wrong password"
+msgstr "गलत पासवर्ड"
+
+#: main/src/ui/notifier_freedesktop.vala:197
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:549
+msgid "Invalid TLS certificate"
+msgstr "अमान्य TLS प्रमाणपत्र"
+
+#: main/src/ui/notifier_freedesktop.vala:222
+#: main/src/ui/notifier_gnotifications.vala:127
+#, c-format
+msgid "Invitation to %s"
+msgstr "%s को आमंत्रण"
+
+#: main/src/ui/notifier_freedesktop.vala:223
+#: main/src/ui/notifier_gnotifications.vala:128
+#, c-format
+msgid "%s invited you to %s"
+msgstr "%s ने आपको %s पर आमंत्रित किया"
+
+#: main/src/ui/notifier_freedesktop.vala:256
+#: main/src/ui/notifier_gnotifications.vala:147
+msgid "Permission request"
+msgstr "अनुमति अनुरोध"
+
+#: main/src/ui/notifier_freedesktop.vala:257
+#: main/src/ui/notifier_gnotifications.vala:148
+#, c-format
+msgid "%s requests the permission to write in %s"
+msgstr "%s को %s में लिखने की अनुमति चाहिए"
+
+#: main/src/ui/occupant_menu/list.vala:118
+#: main/src/view_model/conversation_details.vala:139
+msgid "Owner"
+msgstr "संचालक"
+
+#: main/src/ui/occupant_menu/list.vala:120
+#: main/src/view_model/conversation_details.vala:140
+msgid "Admin"
+msgstr "प्रबंधक"
+
+#: main/src/ui/occupant_menu/list.vala:122
+#: main/src/view_model/conversation_details.vala:141
+msgid "Member"
+msgstr "सदस्य"
+
+#: main/src/ui/occupant_menu/list.vala:124
+msgid "User"
+msgstr "उपयोक्ता"
+
+#: main/src/ui/occupant_menu/view.vala:100
+msgid "Start private conversation"
+msgstr "निजी बातचीत शुरू करें"
+
+#: main/src/ui/occupant_menu/view.vala:135
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:151
+msgid "Unblock Contact"
+msgstr "संपर्क अनब्लॉक करें"
+
+#: main/src/ui/occupant_menu/view.vala:137
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:151
+msgid "Block Contact"
+msgstr "संपर्क ब्लॉक करें"
+
+#: main/src/ui/occupant_menu/view.vala:143
+msgid "Moderation"
+msgstr "मॉडरेशन"
+
+#: main/src/ui/occupant_menu/view.vala:145
+msgid "Kick"
+msgstr "बाहर निकालें"
+
+#: main/src/ui/occupant_menu/view.vala:149
+msgid "Ban (Permanent)"
+msgstr "प्रतिबंध (स्थायी)"
+
+#: main/src/ui/occupant_menu/view.vala:150
+msgid "Ban (10 min)"
+msgstr "प्रतिबंध (10 मिनट)"
+
+#: main/src/ui/occupant_menu/view.vala:151
+msgid "Ban (15 min)"
+msgstr "प्रतिबंध (15 मिनट)"
+
+#: main/src/ui/occupant_menu/view.vala:152
+msgid "Ban (30 min)"
+msgstr "प्रतिबंध (30 मिनट)"
+
+#: main/src/ui/occupant_menu/view.vala:156
+msgid "Administration"
+msgstr "प्रशासन"
+
+#: main/src/ui/occupant_menu/view.vala:160
+msgid "Make Admin"
+msgstr "एडमिन बनाएं"
+
+#: main/src/ui/occupant_menu/view.vala:162
+msgid "Revoke Admin"
+msgstr "एडमिन हटाएँ"
+
+#: main/src/ui/occupant_menu/view.vala:166
+msgid "Make Owner"
+msgstr "मालिक बनाएं"
+
+#: main/src/ui/occupant_menu/view.vala:171
+msgid "Make Member"
+msgstr "सदस्य बनाएं"
+
+#: main/src/ui/occupant_menu/view.vala:173
+msgid "Revoke Membership"
+msgstr "सदस्यता रद्द करें"
+
+#: main/src/ui/occupant_menu/view.vala:236
+msgid "Kicked by moderator"
+msgstr "मॉडरेटर द्वारा निकाला गया"
+
+#: main/src/ui/occupant_menu/view.vala:282
+msgid "Invite to Conference"
+msgstr "सम्मेलन में आमंत्रित करें"
+
+#: main/src/ui/systray.vala:178
+msgid "Quit"
+msgstr "बाहर निकलें"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:35
+msgid "Import"
+msgstr "आयात करें"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:36
+msgid "Copy Share URI"
+msgstr "शेयर यूआरआई कॉपी करें"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:50
+msgid "Import Sticker Pack"
+msgstr "स्टिकर पैक आयात करें"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:90
+#: main/src/ui/sticker_pack_import_dialog.vala:147
+msgid "Loading…"
+msgstr "लोड हो रहा है…"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:128
+msgid "Importing…"
+msgstr "आयात किया जा रहा है…"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:136
+#: main/src/ui/sticker_pack_import_dialog.vala:158
+msgid "No account available"
+msgstr "कोई खाता उपलब्ध नहीं है"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:172
+#: main/src/ui/sticker_pack_import_dialog.vala:189
+msgid "Failed to import sticker pack"
+msgstr "स्टिकर पैक आयात करने में विफल"
+
+#: main/src/ui/util/data_forms.vala:41
+msgid ""
+"A friendly name shown in room listings (does not change the room address)"
+msgstr "कमरा सूचियों में दिखाया गया मैत्रीपूर्ण नाम (कमरे का पता नहीं बदलता)"
+
+#: main/src/ui/util/data_forms.vala:45
+msgid "A description of the room shown in room listings"
+msgstr "कमरे की सूचियों में दिखाए गए कमरे का विवरण"
+
+#: main/src/ui/util/data_forms.vala:48
+msgid "Persistent"
+msgstr "बरकरार"
+
+#: main/src/ui/util/data_forms.vala:49
+msgid "The room will persist after the last occupant leaves"
+msgstr "अंतिम सदस्य के जाने के बाद भी कक्ष बना रहेगा"
+
+#: main/src/ui/util/data_forms.vala:52
+msgid "Publicly searchable"
+msgstr "सार्वजनिक रूप से खोज योग्य"
+
+#: main/src/ui/util/data_forms.vala:53
+msgid "The room will appear in public room listings"
+msgstr "कमरा सार्वजनिक कमरा सूची में दिखाई देगा"
+
+#: main/src/ui/util/data_forms.vala:56
+msgid "Occupants may change the subject"
+msgstr "सदस्य विषय बदल सकते हैं"
+
+#: main/src/ui/util/data_forms.vala:59
+msgid "Permission to view JIDs"
+msgstr "JID देखने की अनुमति"
+
+#: main/src/ui/util/data_forms.vala:60
+msgid "Who is allowed to view the occupants' JIDs?"
+msgstr "सदस्यों की JID देखने की अनुमति किसे है?"
+
+#: main/src/ui/util/data_forms.vala:67
+msgid "Moderated"
+msgstr "नियंत्रित"
+
+#: main/src/ui/util/data_forms.vala:68
+msgid "Only occupants with voice may send messages"
+msgstr "केवल वॉयस वाले लोग ही संदेश भेज सकते हैं"
+
+#: main/src/ui/util/data_forms.vala:71
+msgid "Members only"
+msgstr "केवल सदस्य"
+
+#: main/src/ui/util/data_forms.vala:72
+msgid ""
+"Only members may enter the room. Warning: Non-members will be removed when "
+"enabled!"
+msgstr ""
+"केवल सदस्य ही कमरे में प्रवेश कर सकते हैं। चेतावनी: सक्षम होने पर गैर-सदस्यों को हटा दिया "
+"जाएगा!"
+
+#: main/src/ui/util/helper.vala:75
+#, c-format
+msgid "%s from %s"
+msgstr "%s द्वारा %s"
+
+#: main/src/ui/widgets/date_separator.vala:22
+msgid "Today"
+msgstr "आज"
+
+#: main/src/ui/widgets/date_separator.vala:35
+#, no-c-format
+msgid "%a, %b %d"
+msgstr "%a, %b %d"
+
+#: main/src/windows/conversation_details.vala:58
+msgid ""
+"This contact will be removed from your contact list and all conversation "
+"history will be permanently deleted."
+msgstr ""
+"इस संपर्क को आपकी संपर्क सूची से हटा दिया जाएगा और सभी वार्तालाप इतिहास स्थायी रूप से "
+"हटा दिया जाएगा।"
+
+#: main/src/windows/conversation_details.vala:118
+msgid "Block user"
+msgstr "उपयोगकर्ता को ब्लॉक करें"
+
+#: main/src/windows/conversation_details.vala:118
+msgid "Block entire domain"
+msgstr "पूरे डोमेन को ब्लॉक करें"
+
+#: main/src/windows/conversation_details.vala:135
+msgid "Pinned"
+msgstr "पिन किए गए"
+
+#: main/src/windows/conversation_details.vala:135
+msgid "Pin"
+msgstr "पिन"
+
+#: main/src/windows/conversation_details.vala:150
+msgid "Domain blocked"
+msgstr "डोमेन अवरुद्ध"
+
+#: main/src/windows/conversation_details.vala:175
+msgid "Notifications enabled"
+msgstr "अधिसूचनाएं सक्षम"
+
+#: main/src/windows/conversation_details.vala:178
+msgid "Notifications for mentions"
+msgstr "उल्लेखों के लिए अधिसूचनाएं"
+
+#: main/src/windows/conversation_details.vala:183
+msgid "Notifications disabled"
+msgstr "अधिसूचनाएं अक्षम"
+
+#: main/src/windows/conversation_details.vala:242
+#, fuzzy
+msgid "Profile"
+msgstr "प्रोफ़ाइल सहेजें"
+
+#: main/src/windows/conversation_details.vala:245
+msgid "Settings"
+msgstr "सेटिंग"
+
+#: main/src/windows/conversation_details.vala:274
+msgid "Room Configuration"
+msgstr "कक्ष विन्यास"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:91
+msgid "Connect"
+msgstr "जुड़ें"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:146
+msgid "Disable account"
+msgstr "खाता अक्षम करें"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:146
+msgid "Enable account"
+msgstr "खाता सक्षम करें"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:214
+msgid "Select avatar"
+msgstr "अवतार चुनें"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:225
+msgid "Images"
+msgstr "छवियां"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:229
+msgid "All files"
+msgstr "सभी फाइलें"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:247
+#, c-format
+msgid "Remove account %s?"
+msgstr "खाता %s हटाएं?"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:534
+msgid "Connected"
+msgstr "कनेक्टेड"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:536
+msgid "Disconnected"
+msgstr "डिस्कनेक्टेड"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:556
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:558
+msgid "Error"
+msgstr "त्रुटि"
+
+#: main/src/windows/preferences_window/accounts_preferences_page.vala:28
+msgid "Disabled accounts"
+msgstr "अक्षम खाते"
+
+#: main/src/windows/preferences_window/accounts_preferences_page.vala:31
+#: main/src/windows/preferences_window/add_account_dialog.vala:92
+msgid "Add Account"
+msgstr "खाता जोड़ें"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:137
+msgid "Sign in"
+msgstr "साइन इन"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:156
+#, c-format
+msgid "The server could not prove that it is %s."
+msgstr "सर्वर यह साबित नहीं कर सका कि यह %s है।"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:158
+msgid "Its security certificate is not trusted by your operating system."
+msgstr "इसका सुरक्षा प्रमाणपत्र आपके ऑपरेटिंग सिस्टम द्वारा विश्वसनीय नहीं है।"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:160
+msgid "Its security certificate is issued to another domain."
+msgstr "इसका सुरक्षा प्रमाणपत्र दूसरे डोमेन को जारी किया जाता है।"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:162
+msgid "Its security certificate will only become valid in the future."
+msgstr "इसका सुरक्षा प्रमाणपत्र भविष्य में ही मान्य होगा।"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:164
+msgid "Its security certificate is expired."
+msgstr "इसका सुरक्षा प्रमाणपत्र समाप्त हो गया है।"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:172
+msgid "Create account"
+msgstr "खाता बनाएं"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:191
+#, c-format
+msgid "You can now use the account %s."
+msgstr "अब आप %s खाते का उपयोग कर सकते हैं।"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:248
+msgid "Wrong username or password"
+msgstr "गलत उपयोक्ता नाम या पासवर्ड"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:251
+msgid "Something went wrong"
+msgstr "कुछ गलत हुआ"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:325
+msgid "No response from server"
+msgstr "सर्वर से कोई प्रतिक्रिया नहीं"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:336
+#, c-format
+msgid "Register on %s"
+msgstr "%s पर पंजीकरण करें"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:339
+msgid "The server requires to sign up through a website"
+msgstr "सर्वर को एक वेबसाइट के माध्यम से साइन अप करने की आवश्यकता होती है"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:341
+msgid "Open website"
+msgstr "वेबसाइट खोलें"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:353
+msgid "Register"
+msgstr "पंजीकृत करें"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:355
+#, c-format
+msgid "Check %s for information on how to sign up"
+msgstr "साइन अप करने के तरीके के बारे में जानकारी के लिए %s देखें"
+
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:186
+msgid "No contacts"
+msgstr "कोई संपर्क नहीं"
+
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:187
+msgid "Add contacts to start chatting"
+msgstr "चैट शुरू करने के लिए संपर्क जोड़ें"
+
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:283
+#, c-format
+msgid ""
+"This will remove %s from your contact list and delete all conversation "
+"history."
+msgstr "यह %s को आपकी संपर्क सूची से हटा देगा और सभी वार्तालाप इतिहास को हटा देगा।"
+
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:312
+msgid "Edit Contact Alias"
+msgstr "संपर्क उपनाम संपादित करें"
+
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:313
+#, c-format
+msgid "Change the display name for %s"
+msgstr "%s के लिए प्रदर्शन नाम बदलें"
+
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:319
+msgid "Alias (optional)"
+msgstr "उपनाम (वैकल्पिक)"
+
+#~ msgid "Import…"
+#~ msgstr "आयात करें…"
+
+#~ msgid "Select sticker folder"
+#~ msgstr "स्टिकर फ़ोल्डर चुनें"
+
+#~ msgid "Local only"
+#~ msgstr "केवल स्थानीय"
+
+#~ msgid "Failed to create sticker pack"
+#~ msgstr "स्टिकर पैक बनाने में विफल"
+
+#~ msgid "Publishing…"
+#~ msgstr "प्रकाशित किया जा रहा है…"
+
+#~ msgid "Failed to publish sticker pack"
+#~ msgstr "स्टिकर पैक प्रकाशित करने में विफल"
+
+#~ msgid "Failed to remove sticker pack"
+#~ msgstr "स्टिकर पैक हटाने में विफल"
+
+#~ msgid "Creating backup..."
+#~ msgstr "बैकअप बना रहा है..."
+
+#, c-format
+#~ msgid "Backup created successfully (%s)"
+#~ msgstr "बैकअप सफलतापूर्वक बनाया गया (%s)"
+
+#~ msgid "Backup created successfully"
+#~ msgstr "बैकअप सफलतापूर्वक बनाया गया"
+
+#~ msgid "Encrypting Backup..."
+#~ msgstr "Encrypting Backup..."
+
+#~ msgid "Creating encrypted backup..."
+#~ msgstr "एन्क्रिप्टेड बैकअप बना रहा है..."
+
+#~ msgid "Encrypted backup created successfully"
+#~ msgstr "एन्क्रिप्टेड बैकअप सफलतापूर्वक बनाया गया"
+
+#~ msgid "Encrypted backup created (%s)"
+#~ msgstr "एन्क्रिप्टेड बैकअप बनाया गया (%s)"
+
+# OpenPGP Key Management
+#~ msgid "OpenPGP Key Management"
+#~ msgstr "OpenPGP Key Management"
+
+#~ msgid "Actions"
+#~ msgstr "Actions"
+
+#~ msgid "Generate New Key"
+#~ msgstr "Generate New Key"
+
+#~ msgid "Your Keys"
+#~ msgstr "Your Keys"
+
+#~ msgid "Fingerprint"
+#~ msgstr "Fingerprint"
+
+#~ msgid "Export Public Key"
+#~ msgstr "Export Public Key"
+
+#~ msgid "Delete Key"
+#~ msgstr "Delete Key"
+
+#~ msgid "Name"
+#~ msgstr "Name"
+
+#~ msgid "Passphrase"
+#~ msgstr "Passphrase"
+
+#~ msgid "Generate"
+#~ msgstr "Generate"
+
+#~ msgid "Select OpenPGP Key"
+#~ msgstr "Select OpenPGP Key"
+
+#~ msgid "Wrong passphrase"
+#~ msgstr "Wrong passphrase"
+
+#~ msgid "Manage Keys"
+#~ msgstr "Manage Keys"
+
+#~ msgid "Announce key"
+#~ msgstr "Announce key"
+
+#~ msgid "Disabled"
+#~ msgstr "Disabled"
+
+#~ msgid "Create a new OpenPGP key pair"
+#~ msgstr "नया OpenPGP कुंजी जोड़ी बनाएं"
+
+#~ msgid "Import a key from file (.asc, .gpg)"
+#~ msgstr "फ़ाइल से कुंजी आयात करें (.asc, .gpg)"
+
+#~ msgid "Private keys available for signing and decryption"
+#~ msgstr "हस्ताक्षर और डिक्रिप्शन के लिए उपलब्ध निजी कुंजियाँ"
+
+#~ msgid "No private keys found"
+#~ msgstr "कोई निजी कुंजी नहीं मिली"
+
+#~ msgid "Generate or import a key to get started"
+#~ msgstr "शुरू करने के लिए कुंजी बनाएं या आयात करें"
+
+#~ msgid "Generate New OpenPGP Key"
+#~ msgstr "नई OpenPGP कुंजी बनाएं"
+
+#~ msgid "Enter your details to create a new key pair."
+#~ msgstr "नया कुंजी जोड़ी बनाने के लिए अपना विवरण दर्ज करें।"
+
+#~ msgid "you@example.com"
+#~ msgstr "you@example.com"
+
+#~ msgid "Passphrase (optional)"
+#~ msgstr "पासफ़्रेज़ (वैकल्पिक)"
+
+#~ msgid "4096-bit RSA key, valid for 2 years."
+#~ msgstr "4096-बिट RSA कुंजी, 2 साल के लिए वैध।"
+
+#~ msgid "Name must be at least 2 characters"
+#~ msgstr "नाम कम से कम 2 अक्षर का होना चाहिए"
+
+#~ msgid "Please enter a valid email address"
+#~ msgstr "कृपया एक वैध ईमेल पता दर्ज करें"
+
+#~ msgid "Generating Key..."
+#~ msgstr "कुंजी बना रहे हैं..."
+
+#~ msgid "Key generated successfully!"
+#~ msgstr "कुंजी सफलतापूर्वक बनाई गई!"
+
+#~ msgid "Import OpenPGP Key"
+#~ msgstr "OpenPGP कुंजी आयात करें"
+
+#~ msgid "OpenPGP Keys (*.asc, *.gpg)"
+#~ msgstr "OpenPGP कुंजियाँ (*.asc, *.gpg)"
+
+#~ msgid "All Files"
+#~ msgstr "सभी फ़ाइलें"
+
+#~ msgid "Key imported! Re-open Key Management to see it."
+#~ msgstr "कुंजी आयात हो गई! इसे देखने के लिए कुंजी प्रबंधन फिर से खोलें।"
+
+#~ msgid "Import failed: "
+#~ msgstr "आयात विफल: "
+
+#~ msgid "Key exported to: "
+#~ msgstr "कुंजी निर्यात की गई: "
+
+#~ msgid "Export failed."
+#~ msgstr "निर्यात विफल।"
+
+#~ msgid "Delete Key?"
+#~ msgstr "कुंजी हटाएं?"
+
+#~ msgid ""
+#~ "Delete this key?\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "This cannot be undone!"
+#~ msgstr ""
+#~ "यह कुंजी हटाएं?\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "इसे पूर्ववत नहीं किया जा सकता!"
+
+#~ msgid "Key deleted."
+#~ msgstr "कुंजी हटा दी गई।"
+
+#~ msgid "Delete failed: "
+#~ msgstr "हटाना विफल: "
+
+#~ msgid "Choose a key to announce to your contacts."
+#~ msgstr "अपने संपर्कों को घोषित करने के लिए एक कुंजी चुनें।"
+
+#~ msgid "Enter GPG passphrase to confirm:"
+#~ msgstr "पुष्टि के लिए GPG पासफ़्रेज़ दर्ज करें:"
+
+#~ msgid "Generate, import, export, or delete keys"
+#~ msgstr "कुंजियाँ बनाएं, आयात करें, निर्यात करें या हटाएं"
+
+#~ msgid "No keys available. Generate or import one!"
+#~ msgstr "कोई कुंजी उपलब्ध नहीं। एक बनाएं या आयात करें!"
+
+#~ msgid "Error in GnuPG"
+#~ msgstr "GnuPG में त्रुटि"
+
+#~ msgid "Message too long"
+#~ msgstr "संदेश बहुत लंबा है"
+
+#, c-format
+#~ msgid "%i min ago"
+#~ msgid_plural "%i mins ago"
+#~ msgstr[0] "%i मिनट पहले"
+#~ msgstr[1] "%i मिनट पहले"
+
+#~ msgid "Grant write permission"
+#~ msgstr "लेखन अनुमति दें"
+
+#~ msgid "Name of the room"
+#~ msgstr "कक्ष का नाम"
+
+#~ msgid "Only members may enter the room"
+#~ msgstr "केवल सदस्य ही कक्ष में प्रवेश कर सकते हैं"
+
+#, c-format
+#~ msgid "%i search result"
+#~ msgid_plural "%i search results"
+#~ msgstr[0] "%i खोज परिणाम"
+#~ msgstr[1] "%i खोज परिणाम"
+
+#, c-format
+#~ msgid "%i hour"
+#~ msgid_plural "%i hours"
+#~ msgstr[0] "%i घंटा"
+#~ msgstr[1] "%i घंटे"
+
+#, c-format
+#~ msgid "%i minute"
+#~ msgid_plural "%i minutes"
+#~ msgstr[0] "%i मिनट"
+#~ msgstr[1] "%i मिनट"
+
+#~ msgid "Could not establish a secure connection"
+#~ msgstr "सुरक्षित कनेक्शन स्थापित नहीं किया जा सका"
+
+#~ msgid "Back"
+#~ msgstr "पीछे"
+
+#~ msgid "Choose a public server"
+#~ msgstr "सार्वजनिक सर्वर चुनें"
+
+#~ msgid "Or specify a server address"
+#~ msgstr "या सर्वर पता निर्दिष्ट करें"
+
+#~ msgid "Sign in instead"
+#~ msgstr "इसके बजाय साइन इन करें"
+
+#~ msgid "All set up!"
+#~ msgstr "सब तैयार!"
+
+#~ msgid "Finish"
+#~ msgstr "समापन"
+
+#~ msgid "Account"
+#~ msgstr "खाता"
+
+#~ msgid "Modern XMPP chat client"
+#~ msgstr "आधुनिक XMPP चैट क्लाइंट"
+
+#~ msgid ""
+#~ "Dino is a modern open-source chat client for the desktop. It focuses on "
+#~ "providing a clean and reliable Jabber/XMPP experience while having your "
+#~ "privacy in mind."
+#~ msgstr ""
+#~ "डिनो डेस्कटॉप के लिए एक आधुनिक ओपन-सोर्स चैट क्लाइंट है। यह आपकी गोपनीयता को ध्यान "
+#~ "में रखते हुए एक स्वच्छ और विश्वसनीय जैबर/एक्सएमपीपी अनुभव प्रदान करने पर केंद्रित है।"
+
+#~ msgid ""
+#~ "It supports end-to-end encryption with OMEMO and OpenPGP and allows "
+#~ "configuring privacy-related features such as read receipts and typing "
+#~ "notifications."
+#~ msgstr ""
+#~ "यह OMEMO और OpenPGP के साथ शुरू-से-अंत कूटलेखन का समर्थन करता है और गोपनीयता-संबंधी "
+#~ "सुविधाओं जैसे कि पठन रसीद और टाइपिंग अधिसूचनाओं को विन्यस्त करने की अनुमति देता है।"
+
+#~ msgid ""
+#~ "Dino fetches history from the server and synchronizes messages with other "
+#~ "devices."
+#~ msgstr ""
+#~ "डिनो सर्वर से इतिहास प्राप्त करता है और संदेशों को अन्य डिवाइसों के साथ समन्वयित करता "
+#~ "है।"
+
+#~ msgid "No active search"
+#~ msgstr "कोई सक्रिय खोज नहीं"
+
+#~ msgid "Type to start a search"
+#~ msgstr "खोज शुरू करने के लिए टाइप करें"
+
+#~ msgid "No matching messages"
+#~ msgstr "कोई मेल खाता संदेश नहीं"
+
+#~ msgid "Check the spelling or try to remove filters"
+#~ msgstr "वर्तनी जांचें या फिल्टर हटाने का प्रयास करें"
+
+#~ msgid "Send"
+#~ msgstr "भेजें"
+
+#, c-format
+#~ msgid "Sign in to %s"
+#~ msgstr "%s में साइन इन करें"
+
+#~ msgid "No accounts configured"
+#~ msgstr "कोई खाता विन्यस्त नहीं"
+
+#~ msgid "Add an account"
+#~ msgstr "खाता जोड़ें"
+
+#~ msgid "Pick another server"
+#~ msgstr "कोई अन्य सर्वर चुनें"

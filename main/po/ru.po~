@@ -1,0 +1,2753 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-12-18 18:28+0100\n"
+"PO-Revision-Date: 2025-05-06 13:05+0000\n"
+"Language-Team: Russian <https://hosted.weblate.org/projects/dino/"
+"translations/ru/>\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Weblate 5.12-dev\n"
+
+#: main/data/add_conversation/add_groupchat_dialog.ui:80
+msgid "Add MUC"
+msgstr "Добавить MUC"
+
+#: main/data/add_conversation/add_groupchat_dialog.ui:90
+msgid "Insert a Name for MUC..."
+msgstr "Введите имя комнаты..."
+
+#: main/data/add_conversation/select_jid_fragment.ui:20
+msgid "Search or enter channel address..."
+msgstr "Поиск или ввод адреса канала..."
+
+#: main/data/add_conversation/select_jid_fragment.ui:67
+#: main/src/ui/add_conversation/select_jid_fragment.vala:205
+msgid "Add Group"
+msgstr "Добавить группу"
+
+#: main/data/add_conversation/select_jid_fragment.ui:88
+msgid "Delete Group"
+msgstr "Удалить группу"
+
+#: main/data/call_widget.ui:73 main/src/ui/notifier_freedesktop.vala:125
+#: main/src/ui/notifier_freedesktop.vala:232
+#: main/src/ui/notifier_gnotifications.vala:82
+msgid "Reject"
+msgstr "Отклонить"
+
+#: main/data/call_widget.ui:81
+#: main/src/ui/conversation_content_view/subscription_notification.vala:67
+#: main/src/ui/notifier_freedesktop.vala:125
+#: main/src/ui/notifier_freedesktop.vala:166
+#: main/src/ui/notifier_freedesktop.vala:232
+#: main/src/ui/notifier_freedesktop.vala:266
+#: main/src/ui/notifier_gnotifications.vala:83
+#: main/src/ui/notifier_gnotifications.vala:101
+#: main/src/ui/notifier_gnotifications.vala:140
+#: main/src/ui/notifier_gnotifications.vala:158
+msgid "Accept"
+msgstr "Принять"
+
+#: main/data/chat_input.ui:63
+msgid "Record voice message"
+msgstr "Записать голосовое сообщение"
+
+#: main/data/chat_input.ui:77
+msgid "Send message"
+msgstr "Отправить сообщение"
+
+#: main/data/conversation_details.ui:145
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:566
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:175
+msgid "Remove Contact"
+msgstr "Удалить контакт"
+
+#: main/data/conversation_details.ui:171
+#: main/src/windows/conversation_details.vala:229
+msgid "About"
+msgstr "О программе"
+
+#: main/data/conversation_row.ui:56
+msgid "Private room (supports group calls)"
+msgstr "Приватная комната (поддерживает групповые звонки)"
+
+#: main/data/conversation_row.ui:135
+#: main/src/windows/conversation_details.vala:171
+#: main/src/windows/conversation_details.vala:172
+msgid "Muted"
+msgstr "Звук выключен"
+
+#: main/data/conversation_row.ui:146
+#: main/src/windows/conversation_details.vala:136
+msgid "Blocked"
+msgstr "Заблокировано"
+
+#: main/data/gtk/help-overlay.ui:10
+#: main/data/preferences_window/preferences_dialog.ui:32
+msgid "General"
+msgstr "Основные"
+
+#: main/data/gtk/help-overlay.ui:14 main/data/main_window.ui:38
+#: main/data/menu_add.ui:7
+#: main/src/ui/add_conversation/select_contact_dialog.vala:106
+#: main/src/ui/main_window.vala:154
+msgid "Start Conversation"
+msgstr "Начать чат"
+
+#: main/data/gtk/help-overlay.ui:20 main/data/main_window.ui:51
+#: main/data/menu_add.ui:11
+#: main/src/ui/add_conversation/add_conference_dialog.vala:24
+#: main/src/ui/application.vala:1373 main/src/ui/main_window.vala:155
+msgid "Join Channel"
+msgstr "Присоединиться к каналу"
+
+#: main/data/gtk/help-overlay.ui:26
+msgid "Show preferences"
+msgstr "Показать настройки"
+
+#: main/data/gtk/help-overlay.ui:32
+msgid "Keyboard shortcuts"
+msgstr "Комбинации клавиш"
+
+#: main/data/gtk/help-overlay.ui:39
+msgid "Conversation"
+msgstr "Чат"
+
+#: main/data/gtk/help-overlay.ui:43
+#: main/src/ui/conversation_titlebar/search_entry.vala:12
+msgid "Search messages"
+msgstr "Поиск сообщений"
+
+#: main/data/gtk/help-overlay.ui:49 main/src/ui/chat_input/view.vala:59
+msgid "Send a file"
+msgstr "Прикрепить файл"
+
+#: main/data/gtk/help-overlay.ui:55
+msgid "Close conversation"
+msgstr "Закрыть разговор"
+
+#: main/data/gtk/help-overlay.ui:62
+msgid "Navigation"
+msgstr "Навигация"
+
+#: main/data/gtk/help-overlay.ui:66
+msgid "Jump to next conversation"
+msgstr "Перейти к следующему чату"
+
+#: main/data/gtk/help-overlay.ui:72
+msgid "Jump to previous conversation"
+msgstr "Перейти к предыдущему чату"
+
+#: main/data/main_window.ui:64 main/src/ui/main_window.vala:157
+msgid "Help: How to join channels"
+msgstr "Справка: Как присоединиться к каналам"
+
+#: main/data/main_window.ui:118
+msgid "You have no open chats"
+msgstr "Тут пустовато"
+
+#: main/data/main_window.ui:119
+msgid "Click + to start a chat or join a channel"
+msgstr "Нажмите + для того, чтобы начать чат или присоединиться к каналу"
+
+#: main/data/menu_app.ui:6
+msgid "Status"
+msgstr "Статус"
+
+#: main/data/menu_app.ui:11
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:427
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
+#: main/src/ui/systray.vala:279
+msgid "Online"
+msgstr "В сети"
+
+#: main/data/menu_app.ui:16
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:421
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
+#: main/src/ui/systray.vala:279
+msgid "Away"
+msgstr "Отошёл"
+
+#: main/data/menu_app.ui:21
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:425
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
+#: main/src/ui/systray.vala:279
+msgid "Busy"
+msgstr "Занят"
+
+#: main/data/menu_app.ui:26
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:423
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
+#: main/src/ui/systray.vala:279
+msgid "Not Available"
+msgstr "Недоступен"
+
+#: main/data/menu_app.ui:34
+msgid "Preferences"
+msgstr "Опции"
+
+#: main/data/menu_app.ui:38
+msgid "Keyboard Shortcuts"
+msgstr "Комбинации клавиш"
+
+#: main/data/menu_app.ui:42 main/src/ui/application.vala:354
+msgid "About DinoX"
+msgstr "О DinoX"
+
+#: main/data/menu_conversation.ui:7
+msgid "Contact Details"
+msgstr "Информация о контакте"
+
+#: main/data/menu_conversation.ui:13
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:513
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:565
+#: main/src/ui/conversation_titlebar/menu_entry.vala:84
+msgid "Delete Conversation History"
+msgstr "Удалить историю разговора"
+
+#: main/data/message_item_widget_edit_mode.ui:46
+#: main/data/preferences_window/change_password_dialog.ui:18
+#: main/src/ui/add_conversation/add_conference_dialog.vala:41
+#: main/src/ui/add_conversation/select_contact_dialog.vala:40
+#: main/src/ui/application.vala:455 main/src/ui/application.vala:483
+#: main/src/ui/application.vala:779 main/src/ui/application.vala:857
+#: main/src/ui/application.vala:915 main/src/ui/application.vala:947
+#: main/src/ui/application.vala:1103 main/src/ui/application.vala:1383
+#: main/src/ui/chat_input/sticker_chooser.vala:547
+#: main/src/ui/chat_input/sticker_chooser.vala:869
+#: main/src/ui/conversation_content_view/file_default_widget.vala:90
+#: main/src/ui/conversation_content_view/item_actions.vala:165
+#: main/src/ui/conversation_content_view/item_actions.vala:168
+#: main/src/ui/conversation_details.vala:249
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:633
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:660
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:679
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:704
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:723
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:744
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:790
+#: main/src/ui/conversation_titlebar/call_entry.vala:83
+#: main/src/ui/conversation_titlebar/menu_entry.vala:51
+#: main/src/windows/conversation_details.vala:60
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:68
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:205
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:225
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:249
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:269
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:291
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:332
+msgid "Cancel"
+msgstr "Отмена"
+
+#: main/data/message_item_widget_edit_mode.ui:51
+msgid "Update message"
+msgstr "Редактировать сообщение"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:68
+#: main/src/ui/conversation_details.vala:170
+msgid "XMPP Address"
+msgstr "XMPP-адрес"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:77
+msgid "Local alias"
+msgstr "Локальный псевдоним"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:82
+#: main/src/ui/application.vala:449 main/src/ui/application.vala:1078
+#: main/src/ui/util/data_forms.vala:63
+msgid "Password"
+msgstr "Пароль"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:104
+msgid "Connection status"
+msgstr "Состояние соединения"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:117
+msgid "View Certificate"
+msgstr "Просмотреть сертификат"
+
+# Custom host/port feature (Issue #115)
+#: main/data/preferences_window/account_preferences_subpage.ui:128
+msgid "Advanced Settings"
+msgstr "Дополнительные настройки"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:129
+msgid "Custom server connection (leave empty for automatic)"
+msgstr ""
+"Пользовательское подключение к серверу (оставьте пустым для "
+"автоматического)Пользовательское подключение к серверу (оставьте пустым для "
+"автоматического)"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:132
+msgid "Server Hostname"
+msgstr "Имя хоста сервера"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:137
+msgid "Port"
+msgstr "Порт"
+
+#: main/data/preferences_window/change_password_dialog.ui:61
+msgid "Current password"
+msgstr "Текущий пароль"
+
+#: main/data/preferences_window/change_password_dialog.ui:66
+msgid "New password"
+msgstr "Новый пароль"
+
+#: main/data/preferences_window/change_password_dialog.ui:71
+msgid "Confirm password"
+msgstr "Подтвердите пароль"
+
+#: main/data/preferences_window/general_preferences_page.ui:9
+msgid "Send _Typing Notifications"
+msgstr "Отправлять _уведомления при наборе сообщения"
+
+#: main/data/preferences_window/general_preferences_page.ui:15
+msgid "Send _Read Receipts"
+msgstr "Отправлять _уведомления о прочтении"
+
+#: main/data/preferences_window/general_preferences_page.ui:25
+msgid "_Notifications"
+msgstr "_Уведомления"
+
+#: main/data/preferences_window/general_preferences_page.ui:26
+msgid "Notify when a new message arrives"
+msgstr "Уведомлять о новых сообщениях"
+
+#: main/data/preferences_window/general_preferences_page.ui:32
+msgid "_Keep Running in Background"
+msgstr "_Работать в фоне"
+
+#: main/data/preferences_window/general_preferences_page.ui:33
+msgid ""
+"Continue running after closing window to receive notifications immediately"
+msgstr ""
+"Продолжать работу после закрытия окна для немедленного получения "
+"уведомленийПродолжать работу после закрытия окна для получения уведомлений"
+
+#: main/data/preferences_window/general_preferences_page.ui:41
+msgid "Appearance"
+msgstr "Внешний вид"
+
+#: main/data/preferences_window/general_preferences_page.ui:44
+msgid "_Color Scheme"
+msgstr "_Цветовая схема"
+
+#: main/data/preferences_window/general_preferences_page.ui:45
+msgid "Choose between light and dark appearance"
+msgstr "Выбор между светлой и тёмной темой"
+
+#: main/data/preferences_window/general_preferences_page.ui:55
+msgid "_Convert Smileys to Emoji"
+msgstr "_Преобразовывать смайлики в эмодзи"
+
+#: main/data/preferences_window/general_preferences_page.ui:63
+#: main/src/ui/chat_input/view.vala:51
+#, fuzzy
+msgid "Stickers"
+msgstr "Динамики"
+
+#: main/data/preferences_window/general_preferences_page.ui:66
+msgid "Enable Stickers"
+msgstr ""
+
+#: main/data/preferences_window/general_preferences_page.ui:71
+msgid "Enable Sticker Animations"
+msgstr ""
+
+#: main/data/preferences_window/general_preferences_page.ui:72
+msgid "Disable to reduce flashing/flickering"
+msgstr ""
+
+#: main/data/preferences_window/general_preferences_page.ui:79
+msgid "User Data"
+msgstr "Данные пользователя"
+
+#: main/data/preferences_window/general_preferences_page.ui:82
+msgid "Backup User Data"
+msgstr "Резервная копия данных"
+
+#: main/data/preferences_window/general_preferences_page.ui:83
+msgid "Create a backup of your accounts, messages and settings"
+msgstr "Создать резервную копию аккаунтов, сообщений и настроек"
+
+#: main/data/preferences_window/general_preferences_page.ui:94
+#: main/src/ui/application.vala:478 main/src/ui/main_window.vala:223
+msgid "Restore from Backup"
+msgstr "Восстановить из копии"
+
+#: main/data/preferences_window/general_preferences_page.ui:95
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr ""
+"Восстановить учётные записи, сообщения и настройки из файла резервной копии"
+
+#: main/data/preferences_window/general_preferences_page.ui:106
+msgid "Data Storage Location"
+msgstr "Расположение данных"
+
+#: main/data/preferences_window/general_preferences_page.ui:107
+msgid "View where your data is stored"
+msgstr "Показать где хранятся ваши данные"
+
+#: main/data/preferences_window/general_preferences_page.ui:120
+msgid "Database Maintenance"
+msgstr "Обслуживание базы данных"
+
+#: main/data/preferences_window/general_preferences_page.ui:123
+#: main/src/ui/application.vala:775 main/src/ui/application.vala:780
+msgid "Clear Cache"
+msgstr "Очистить кэш"
+
+#: main/data/preferences_window/general_preferences_page.ui:124
+msgid "Clear cached files, avatars and previews"
+msgstr "Очистить кэшированные файлы, аватары и превью"
+
+#: main/data/preferences_window/general_preferences_page.ui:135
+#: main/src/ui/application.vala:852 main/src/ui/application.vala:858
+msgid "Reset Database"
+msgstr "Сбросить базу данных"
+
+#: main/data/preferences_window/general_preferences_page.ui:136
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr ""
+"Удалить все сообщения, файлы и ключи OMEMO. Ваши учётные записи сохранятся."
+
+#: main/data/preferences_window/general_preferences_page.ui:147
+#: main/src/ui/application.vala:910
+msgid "Factory Reset"
+msgstr "Сброс к заводским настройкам"
+
+#: main/data/preferences_window/general_preferences_page.ui:148
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr ""
+"Удалить ВСЕ данные, включая учётные записи. Это действие нельзя отменить!"
+
+#: main/data/preferences_window/preferences_dialog.ui:11
+#: main/src/windows/preferences_window/accounts_preferences_page.vala:15
+#: main/src/windows/preferences_window/accounts_preferences_page.vala:27
+msgid "Accounts"
+msgstr "Учётные записи"
+
+#: main/data/preferences_window/preferences_dialog.ui:18
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:17
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:67
+msgid "Contacts"
+msgstr "Контакты"
+
+#: main/data/preferences_window/preferences_dialog.ui:25
+#: main/src/windows/conversation_details.vala:279
+msgid "Encryption"
+msgstr "Шифрование"
+
+#: main/src/ui/add_conversation/add_conference_dialog.vala:44
+msgid "Next"
+msgstr "Далее"
+
+#: main/src/ui/add_conversation/add_conference_dialog.vala:59
+#: main/src/ui/add_conversation/conference_details_fragment.vala:151
+#: main/src/ui/application.vala:1387
+msgid "Join"
+msgstr "Присоединиться"
+
+#: main/src/ui/add_conversation/add_groupchat_dialog.vala:26
+msgid "Add"
+msgstr "Добавить"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:143
+msgid "Joining…"
+msgstr "Присоединение…"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:164
+msgid "Password required to enter room"
+msgstr "Требуется пароль для входа в комнату"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:169
+msgid "Banned from joining or creating conference"
+msgstr "Вам запрещено заходить в конференции или создавать их"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:171
+msgid "Room does not exist"
+msgstr "Данной комнаты не существует"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:173
+msgid "Not allowed to create room"
+msgstr "Вам запрещено создавать комнаты"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:175
+msgid "Members-only room"
+msgstr "Комната только для участников"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:178
+msgid "Choose a different nick"
+msgstr "Выберите другой никнейм"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:180
+msgid "Too many occupants in room"
+msgstr "В комнате слишком много посетителей"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:183
+#: main/src/ui/notifier_freedesktop.vala:190
+#: main/src/ui/notifier_gnotifications.vala:108
+#: main/src/windows/preferences_window/add_account_dialog.vala:271
+#, c-format
+msgid "Could not connect to %s"
+msgstr "Не удаётся подключиться к %s"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:186
+#: main/src/windows/preferences_window/add_account_dialog.vala:287
+#: main/src/windows/preferences_window/add_account_dialog.vala:297
+#: main/src/windows/preferences_window/add_account_dialog.vala:307
+#: main/src/windows/preferences_window/add_account_dialog.vala:393
+msgid "Invalid address"
+msgstr "Недействительный адрес"
+
+#: main/src/ui/add_conversation/select_contact_dialog.vala:70
+msgid "Search or enter contact address..."
+msgstr "Поиск или ввод адреса контакта..."
+
+#: main/src/ui/add_conversation/select_contact_dialog.vala:107
+msgid "Start"
+msgstr "Начать"
+
+#: main/src/ui/add_conversation/select_jid_fragment.vala:154
+msgid "Browse Rooms"
+msgstr "Обзор комнат"
+
+#: main/src/ui/add_conversation/select_jid_fragment.vala:157
+msgid "Browse Contacts"
+msgstr "Просмотр контактов"
+
+#: main/src/ui/add_conversation/select_jid_fragment.vala:202
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:70
+msgid "Add Contact"
+msgstr "Добавить контакт"
+
+#: main/src/ui/add_conversation/select_jid_fragment.vala:203
+msgid "Delete Contact"
+msgstr "Удалить контакт"
+
+#: main/src/ui/add_conversation/select_jid_fragment.vala:206
+#: main/src/ui/add_conversation/select_jid_fragment.vala:216
+msgid "Leave Group"
+msgstr "Покинуть группу"
+
+#: main/src/ui/application.vala:359
+msgid "Modern XMPP client with extended features"
+msgstr "Современный XMPP-клиент с расширенными функциями"
+
+#: main/src/ui/application.vala:366 main/src/ui/application.vala:741
+msgid "User Data Locations"
+msgstr "Расположение данных пользователя"
+
+#: main/src/ui/application.vala:369 main/src/ui/application.vala:755
+msgid "Configuration:"
+msgstr "Настройка:"
+
+#: main/src/ui/application.vala:372 main/src/ui/application.vala:757
+msgid "Data & Database:"
+msgstr "Данные и база данных:"
+
+#: main/src/ui/application.vala:375 main/src/ui/application.vala:759
+msgid "Cache:"
+msgstr "Кэш:"
+
+#: main/src/ui/application.vala:378
+msgid "Info:"
+msgstr "Инфо:"
+
+#: main/src/ui/application.vala:379
+msgid ""
+"Your personal data (accounts, messages, files) is stored separately from the "
+"application."
+msgstr ""
+"Ваши персональные данные (аккаунты, сообщения, файлы) хранятся отдельно от "
+"приложения."
+
+#: main/src/ui/application.vala:381
+msgid "When you update DinoX, your data remains intact."
+msgstr "При обновлении DinoX ваши данные сохраняются."
+
+#: main/src/ui/application.vala:383
+msgid "Use Settings → General → Backup User Data to create a backup."
+msgstr "Используйте Настройки → Общие → Резервная копия для создания бэкапа."
+
+#: main/src/ui/application.vala:401
+msgid "Select Backup File"
+msgstr "Выбрать файл резервной копии"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+#: main/src/ui/application.vala:409
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "Файлы резервных копий (*.tar.gz, *.tar.gz.gpg)"
+
+#: main/src/ui/application.vala:439
+msgid "Enter Backup Password"
+msgstr "Введите пароль резервной копии"
+
+#: main/src/ui/application.vala:440
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "Эта резервная копия зашифрована. Введите пароль."
+
+#: main/src/ui/application.vala:456
+msgid "Decrypt & Restore"
+msgstr "Расшифровать и восстановить"
+
+#: main/src/ui/application.vala:479
+msgid ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+msgstr ""
+"Это заменит все текущие данные резервной копией.\n"
+"\n"
+"<b>Текущие аккаунты, сообщения и настройки будут перезаписаны!</b>\n"
+"\n"
+"DinoX перезапустится после восстановления."
+
+#: main/src/ui/application.vala:484
+msgid "Restore Backup"
+msgstr "Восстановить копию"
+
+#: main/src/ui/application.vala:501 main/src/ui/application.vala:533
+msgid "Decrypting Backup..."
+msgstr "Расшифровка резервной копии..."
+
+#: main/src/ui/application.vala:501 main/src/ui/application.vala:585
+msgid "Restoring Backup..."
+msgstr "Восстановление резервной копии..."
+
+#: main/src/ui/application.vala:502
+msgid "Please wait, this may take a moment..."
+msgstr "Пожалуйста, подождите, это может занять некоторое время..."
+
+#: main/src/ui/application.vala:534
+msgid "Decrypting encrypted backup file..."
+msgstr "Расшифровка файла резервной копии..."
+
+#: main/src/ui/application.vala:572
+msgid "Decryption Failed"
+msgstr "Ошибка расшифровки"
+
+#: main/src/ui/application.vala:573
+msgid ""
+"Could not decrypt the backup file.\n"
+"\n"
+"Please check if the password is correct."
+msgstr ""
+"Не удалось расшифровать файл.\n"
+"\n"
+"Проверьте правильность пароля."
+
+#: main/src/ui/application.vala:575 main/src/ui/application.vala:685
+#: main/src/ui/chat_input/sticker_chooser.vala:575
+#: main/src/ui/chat_input/sticker_chooser.vala:594
+#: main/src/ui/chat_input/sticker_chooser.vala:602
+#: main/src/ui/chat_input/sticker_chooser.vala:817
+#: main/src/ui/chat_input/sticker_chooser.vala:835
+#: main/src/ui/chat_input/sticker_chooser.vala:843
+#: main/src/ui/chat_input/sticker_chooser.vala:883
+msgid "OK"
+msgstr "ОК"
+
+#: main/src/ui/application.vala:586
+msgid "Extracting files from backup..."
+msgstr "Извлечение файлов из резервной копии..."
+
+#: main/src/ui/application.vala:667
+msgid "Restore Complete!"
+msgstr "Восстановление завершено!"
+
+#: main/src/ui/application.vala:668
+msgid "DinoX will now restart..."
+msgstr "DinoX сейчас перезапустится..."
+
+#: main/src/ui/application.vala:682
+msgid "Restore Failed"
+msgstr "Ошибка восстановления"
+
+#: main/src/ui/application.vala:683
+#, c-format
+msgid ""
+"Could not restore the backup file.\n"
+"\n"
+"Error: %s"
+msgstr ""
+"Не удалось восстановить файл.\n"
+"\n"
+"Ошибка: %s"
+
+#: main/src/ui/application.vala:683 main/src/ui/application.vala:1359
+msgid "Unknown error"
+msgstr "Неизвестная ошибка"
+
+#: main/src/ui/application.vala:761
+msgid ""
+"Your personal data (accounts, messages, files) is stored separately from the "
+"application. When you update DinoX, your data remains intact."
+msgstr ""
+"Ваши персональные данные (аккаунты, сообщения, файлы) хранятся отдельно от "
+"приложения. При обновлении DinoX ваши данные остаются нетронутыми.Ваши "
+"личные данные (учётные записи, сообщения, файлы) хранятся отдельно от "
+"приложения. При обновлении DinoX ваши данные сохраняются."
+
+#: main/src/ui/application.vala:766 main/src/ui/application.vala:1254
+#: main/src/ui/application.vala:1338
+#: main/src/ui/chat_input/sticker_chooser.vala:174
+#: main/src/ui/conversation_details.vala:272 main/src/ui/main_window.vala:172
+msgid "Close"
+msgstr "Закрыть"
+
+#: main/src/ui/application.vala:776
+msgid ""
+"This will delete cached files, avatars and previews.\n"
+"\n"
+"They will be re-downloaded when needed."
+msgstr ""
+"Это удалит кэшированные файлы, аватары и превью.\n"
+"\n"
+"Они будут загружены заново при необходимости."
+
+#: main/src/ui/application.vala:813
+#, c-format
+msgid "Cache cleared (%s freed)"
+msgstr "Кэш очищен (освобождено %s)"
+
+#: main/src/ui/application.vala:816
+msgid "Failed to clear cache"
+msgstr "Не удалось очистить кэш"
+
+#: main/src/ui/application.vala:853
+msgid ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+msgstr ""
+"Это удалит все сообщения, файлы и ключи шифрования OMEMO.\n"
+"\n"
+"<b>Ваши аккаунты останутся, но вы потеряете всю историю чатов и вам нужно "
+"будет повторно верифицировать шифрование с контактами.</b>\n"
+"\n"
+"Это действие нельзя отменить!"
+
+#: main/src/ui/application.vala:881
+msgid "Resetting database... DinoX will restart."
+msgstr "Сброс базы данных... DinoX перезапустится."
+
+#: main/src/ui/application.vala:911
+msgid ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+msgstr ""
+"<b>⚠️ ВНИМАНИЕ: Это удалит ВСЕ данные!</b>\n"
+"\n"
+"• Все аккаунты\n"
+"• Все сообщения и файлы\n"
+"• Все ключи шифрования\n"
+"• Все настройки\n"
+"\n"
+"Это необратимо. Сначала создайте резервную копию!"
+
+#: main/src/ui/application.vala:916
+msgid "Create Backup First"
+msgstr "Сначала создайте резервную копию"
+
+#: main/src/ui/application.vala:917
+msgid "Delete Everything"
+msgstr "Удалить всё"
+
+#: main/src/ui/application.vala:937
+msgid "Are you absolutely sure?"
+msgstr "Вы абсолютно уверены?"
+
+#: main/src/ui/application.vala:938
+msgid ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+msgstr ""
+"Введите 'DELETE' для подтверждения сброса.\n"
+"\n"
+"Это навсегда удалит все ваши данные DinoX."
+
+#: main/src/ui/application.vala:948
+msgid "Confirm Delete"
+msgstr "Подтвердить удаление"
+
+#: main/src/ui/application.vala:975
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "Выполняется сброс до заводских настроек... DinoX перезапустится."
+
+#: main/src/ui/application.vala:1040
+msgid "Backup Encryption"
+msgstr "Шифрование резервной копии"
+
+#: main/src/ui/application.vala:1041
+msgid ""
+"Do you want to encrypt the backup with a password?\n"
+"\n"
+"Encrypted backups are more secure but require the password to restore."
+msgstr ""
+"Вы хотите зашифровать резервную копию паролем?\n"
+"\n"
+"Зашифрованные резервные копии более безопасны, но требуют пароль для "
+"восстановления."
+
+#: main/src/ui/application.vala:1044
+msgid "No Encryption"
+msgstr "Без шифрования"
+
+#: main/src/ui/application.vala:1045
+msgid "Encrypt with Password"
+msgstr "Зашифровать паролем"
+
+#: main/src/ui/application.vala:1063
+msgid "Set Backup Password"
+msgstr "Установить пароль резервной копии"
+
+#: main/src/ui/application.vala:1064
+msgid ""
+"Enter a password to encrypt the backup.\n"
+"\n"
+"<b>Important:</b> Remember this password! Without it, the backup cannot be "
+"restored."
+msgstr ""
+"Введите пароль для шифрования резервной копии.\n"
+"\n"
+"<b>Важно:</b> Запомните этот пароль! Без него резервная копия не может быть "
+"восстановлена."
+
+#: main/src/ui/application.vala:1072
+msgid "Password (minimum 4 characters)"
+msgstr "Пароль (минимум 4 символа)"
+
+#: main/src/ui/application.vala:1080 main/src/ui/application.vala:1087
+msgid "Confirm Password"
+msgstr "Подтвердить пароль"
+
+#: main/src/ui/application.vala:1104
+msgid "Create Encrypted Backup"
+msgstr "Создать зашифрованную копию"
+
+#: main/src/ui/application.vala:1116 main/src/ui/application.vala:1131
+msgid "Password too short"
+msgstr "Пароль слишком короткий"
+
+#: main/src/ui/application.vala:1118 main/src/ui/application.vala:1133
+msgid "Passwords do not match"
+msgstr "Пароли не совпадают"
+
+#: main/src/ui/application.vala:1120 main/src/ui/application.vala:1135
+msgid "✓ Passwords match"
+msgstr "✓ Пароли совпадают"
+
+#: main/src/ui/application.vala:1153
+msgid "Select Backup Location"
+msgstr "Выбрать место для бэкапа"
+
+#: main/src/ui/application.vala:1208
+msgid "Creating Encrypted Backup..."
+msgstr "Создание зашифрованной резервной копии..."
+
+#: main/src/ui/application.vala:1208
+msgid "Creating Backup..."
+msgstr "Создание резервной копии..."
+
+#: main/src/ui/application.vala:1209
+msgid "Please wait while your data is being backed up."
+msgstr ""
+"Пожалуйста, подождите, пока выполняется резервное копирование ваших данных."
+
+#: main/src/ui/application.vala:1248
+msgid "No data directory found to backup"
+msgstr "Не найден каталог данных для резервного копирования"
+
+#: main/src/ui/application.vala:1251 main/src/ui/application.vala:1357
+msgid "Backup Failed"
+msgstr "Ошибка резервного копирования"
+
+#: main/src/ui/application.vala:1345
+msgid "Encrypted Backup Created"
+msgstr "Зашифрованная резервная копия создана"
+
+#: main/src/ui/application.vala:1347
+#, c-format
+msgid ""
+"Your encrypted backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"Ваша зашифрованная резервная копия была успешно создана.\n"
+"\n"
+"Размер: %s"
+
+#: main/src/ui/application.vala:1348
+msgid "Your encrypted backup was created successfully."
+msgstr "Ваша зашифрованная резервная копия была успешно создана."
+
+#: main/src/ui/application.vala:1350
+msgid "Backup Created"
+msgstr "Резервная копия создана"
+
+#: main/src/ui/application.vala:1352
+#, c-format
+msgid ""
+"Your backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"Ваша резервная копия была успешно создана.\n"
+"\n"
+"Размер: %s"
+
+#: main/src/ui/application.vala:1353
+msgid "Your backup was created successfully."
+msgstr "Ваша резервная копия была успешно создана."
+
+#: main/src/ui/application.vala:1360
+#, c-format
+msgid "Backup failed: %s"
+msgstr "Ошибка резервного копирования: %s"
+
+#: main/src/ui/call_window/audio_settings_popover.vala:46
+msgid "Microphones"
+msgstr "Микрофоны"
+
+#: main/src/ui/call_window/audio_settings_popover.vala:49
+msgid "No microphone found."
+msgstr "Микрофон не найден."
+
+#: main/src/ui/call_window/audio_settings_popover.vala:116
+msgid "Speakers"
+msgstr "Динамики"
+
+#: main/src/ui/call_window/audio_settings_popover.vala:119
+msgid "No speaker found."
+msgstr "Динамик не найден."
+
+#: main/src/ui/call_window/call_window_controller.vala:153
+msgid "Invite to Call"
+msgstr "Пригласить на звонок"
+
+#: main/src/ui/call_window/call_window_controller.vala:154
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:772
+#: main/src/ui/conversation_titlebar/menu_entry.vala:99
+#: main/src/ui/occupant_menu/view.vala:27
+#: main/src/ui/occupant_menu/view.vala:276
+msgid "Invite"
+msgstr "Пригласить"
+
+#: main/src/ui/call_window/call_window_controller.vala:453
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:240
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:270
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:285
+#: main/src/ui/util/helper.vala:69 main/src/ui/util/helper.vala:73
+#: main/src/ui/util/helper.vala:81
+msgid "Me"
+msgstr "Я"
+
+#: main/src/ui/call_window/call_window.vala:219
+#, c-format
+msgid "%s ended the call"
+msgstr "%s завершил(а) звонок"
+
+#: main/src/ui/call_window/call_window.vala:221
+#, c-format
+msgid "%s declined the call"
+msgstr "%s отклонил(а) звонок"
+
+#: main/src/ui/call_window/participant_widget.vala:140
+msgid "Debug information"
+msgstr "Отладочная информация"
+
+#: main/src/ui/call_window/participant_widget.vala:149
+#: main/src/ui/conversation_content_view/call_widget.vala:152
+msgid "Calling…"
+msgstr "Вызов…"
+
+#: main/src/ui/call_window/participant_widget.vala:151
+msgid "Ringing…"
+msgstr "Звонок…"
+
+#: main/src/ui/call_window/participant_widget.vala:153
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:244
+msgid "Connecting…"
+msgstr "Подключение…"
+
+#: main/src/ui/call_window/video_settings_popover.vala:25
+msgid "Cameras"
+msgstr "Камеры"
+
+#: main/src/ui/call_window/video_settings_popover.vala:28
+msgid "No camera found."
+msgstr "Камера не найдена."
+
+#: main/src/ui/chat_input/chat_input_controller.vala:267
+msgid "This conference does not allow you to send messages."
+msgstr "Вам запретили отправлять сообщения в этой беседе."
+
+#: main/src/ui/chat_input/chat_input_controller.vala:267
+msgid "Request permission"
+msgstr "Запросить разрешение"
+
+#: main/src/ui/chat_input/encryption_button.vala:35
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:224
+msgid "Unencrypted"
+msgstr "Не зашифровано"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:25
+#, fuzzy
+msgid "Import…"
+msgstr "Импортировать ключ"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:26
+msgid "Folder…"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:27
+#: main/src/ui/chat_input/sticker_chooser.vala:822
+#: main/src/ui/chat_input/sticker_chooser.vala:849
+msgid "Publish"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:28
+#: main/src/ui/chat_input/sticker_chooser.vala:870
+#: main/src/ui/conversation_content_view/item_actions.vala:165
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:745
+#: main/src/windows/conversation_details.vala:61
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:292
+msgid "Remove"
+msgstr "Удалить"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:237
+msgid "Paste an xmpp: sticker pack link and press Enter."
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:241
+msgid "xmpp:…"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:413
+#: main/src/ui/chat_input/sticker_chooser.vala:574
+#: main/src/ui/chat_input/sticker_chooser.vala:816
+msgid "Stickers are unavailable"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:420
+#: main/src/ui/chat_input/sticker_chooser.vala:497
+#: main/src/ui/chat_input/sticker_chooser.vala:502
+msgid "None"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:450
+msgid "No sticker packs yet. Use Import… to add one."
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:452
+#: main/src/ui/chat_input/sticker_chooser.vala:735
+msgid "No stickers selected"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:534
+#, fuzzy
+msgid "Select sticker folder"
+msgstr "Выберите файл"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:535
+#: main/src/ui/conversation_view_controller.vala:238
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:180
+msgid "Select"
+msgstr "Выбрать"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:544
+#, fuzzy
+msgid "Create sticker pack"
+msgstr "Создать зашифрованную копию"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:545
+msgid ""
+"Do you want to keep this pack local, or also publish it so you can share an "
+"xmpp: link?"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:548
+#, fuzzy
+msgid "Local only"
+msgstr "Локальный псевдоним"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:549
+msgid "Publish & copy link"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:574
+#: main/src/ui/chat_input/sticker_chooser.vala:816
+msgid "Stickers module unavailable"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:593
+#: main/src/ui/chat_input/sticker_chooser.vala:834
+msgid "Sticker pack published"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:593
+#: main/src/ui/chat_input/sticker_chooser.vala:834
+#, c-format
+msgid ""
+"Share link copied to clipboard:\n"
+"%s"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:601
+#, fuzzy
+msgid "Failed to create sticker pack"
+msgstr "Не удалось очистить кэш"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:698
+msgid "Invalid sticker pack link"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:755
+msgid "No stickers in this pack"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:811
+#, fuzzy
+msgid "Publishing…"
+msgstr "печатает…"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:842
+#, fuzzy
+msgid "Failed to publish sticker pack"
+msgstr "Не удалось очистить кэш"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:866
+#, fuzzy
+msgid "Remove sticker pack?"
+msgstr "Удалить контакт?"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:867
+#, c-format
+msgid ""
+"This will delete the downloaded files and remove the pack from your list: %s"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:882
+#, fuzzy
+msgid "Failed to remove sticker pack"
+msgstr "Не удалось очистить кэш"
+
+#: main/src/ui/contact_details/permissions_provider.vala:23
+msgid "Request permission to send messages"
+msgstr "Запросить разрешение на отправку сообщений"
+
+#: main/src/ui/contact_details/permissions_provider.vala:24
+msgid "Request"
+msgstr "Запросить"
+
+#: main/src/ui/contact_details/settings_provider.vala:21
+#: main/src/ui/contact_details/settings_provider.vala:24
+#: main/src/ui/contact_details/settings_provider.vala:31
+#: main/src/ui/contact_details/settings_provider.vala:34
+msgid "On"
+msgstr "ВКЛ"
+
+#: main/src/ui/contact_details/settings_provider.vala:21
+#: main/src/ui/contact_details/settings_provider.vala:25
+#: main/src/ui/contact_details/settings_provider.vala:31
+#: main/src/ui/contact_details/settings_provider.vala:35
+msgid "Off"
+msgstr "ВЫКЛ"
+
+#: main/src/ui/contact_details/settings_provider.vala:22
+msgid "Send typing notifications"
+msgstr "Отправлять уведомления при наборе сообщения"
+
+#: main/src/ui/contact_details/settings_provider.vala:23
+#: main/src/ui/contact_details/settings_provider.vala:33
+#, c-format
+msgid "Default: %s"
+msgstr "По умолчанию: %s"
+
+#: main/src/ui/contact_details/settings_provider.vala:32
+msgid "Send read receipts"
+msgstr "Отправлять уведомления о прочтении"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:137
+#: main/src/ui/notifier_freedesktop.vala:114
+#: main/src/ui/notifier_gnotifications.vala:72
+msgid "Incoming video call"
+msgstr "Входящий видеозвонок"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:137
+#: main/src/ui/conversation_content_view/call_widget.vala:168
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:287
+#: main/src/ui/notifier_freedesktop.vala:114
+#: main/src/ui/notifier_gnotifications.vala:72
+msgid "Incoming call"
+msgstr "Входящий звонок"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:139
+#: main/src/ui/notifier_freedesktop.vala:116
+#: main/src/ui/notifier_gnotifications.vala:74
+msgid "Incoming video group call"
+msgstr "Входящий групповой видеозвонок"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:139
+#: main/src/ui/notifier_freedesktop.vala:116
+#: main/src/ui/notifier_gnotifications.vala:74
+msgid "Incoming group call"
+msgstr "Входящий групповой звонок"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:159
+msgid "Call started"
+msgstr "Звонок начат"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:161
+#, c-format
+msgid "Started %s ago"
+msgstr "Начат %s назад"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:168
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:287
+msgid "Outgoing call"
+msgstr "Исходящий звонок"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:169
+msgid "You handled this call on another device"
+msgstr "Вы обработали этот звонок на другом устройстве"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:174
+msgid "Call ended"
+msgstr "Звонок завершён"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:175
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:315
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:490
+#, no-c-format
+msgid "%H∶%M"
+msgstr "%H∶%M"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:175
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:316
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:491
+#, no-c-format
+msgid "%l∶%M %p"
+msgstr "%l∶%M %p"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:177
+#, c-format
+msgid "Ended at %s"
+msgstr "Завершён в %s"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:179
+#, c-format
+msgid "Lasted %s"
+msgstr "Продлился %s"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:183
+msgid "Call missed"
+msgstr "Пропущенный звонок"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:185
+msgid "You missed this call"
+msgstr "Вы пропустили этот звонок"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:188
+#, c-format
+msgid "%s missed this call"
+msgstr "%s пропустил(а) этот звонок"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:193
+msgid "Call declined"
+msgstr "Звонок отклонён"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:195
+msgid "You declined this call"
+msgstr "Вы отклонили этот звонок"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:198
+#, c-format
+msgid "%s declined this call"
+msgstr "%s отклонил(а) этот звонок"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:203
+msgid "Call failed"
+msgstr "Звонок не удался"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:241
+msgid "a few seconds"
+msgstr "несколько секунд"
+
+#: main/src/ui/conversation_content_view/chat_state_populator.vala:108
+#, c-format
+msgid "%s, %s and %i others are typing…"
+msgstr "%s, %s и ещё %i печатают…"
+
+#: main/src/ui/conversation_content_view/chat_state_populator.vala:115
+#, c-format
+msgid "%s, %s and %s are typing…"
+msgstr "%s, %s и %s печатают…"
+
+#: main/src/ui/conversation_content_view/chat_state_populator.vala:121
+#, c-format
+msgid "%s and %s are typing…"
+msgstr "%s и %s печатают…"
+
+#: main/src/ui/conversation_content_view/chat_state_populator.vala:126
+#, c-format
+msgid "%s is typing…"
+msgstr "%s печатает…"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:256
+msgid "Delivered"
+msgstr "Доставлено"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:260
+msgid "Read"
+msgstr "Прочитано"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:266
+msgid "Unable to send message"
+msgstr "Не удаётся отправить сообщение"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:303
+#, no-c-format
+msgid "%x, %H∶%M"
+msgstr "%H∶%M, %x"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:304
+#, no-c-format
+msgid "%x, %l∶%M %p"
+msgstr "%l∶%M, %x %p"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:307
+#, no-c-format
+msgid "%b %d, %H∶%M"
+msgstr "%d %b, %H∶%M"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:308
+#, no-c-format
+msgid "%b %d, %l∶%M %p"
+msgstr "%d %b, %l∶%M %p"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:311
+#, no-c-format
+msgid "%a, %H∶%M"
+msgstr "%a, %H∶%M"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:312
+#, no-c-format
+msgid "%a, %l∶%M %p"
+msgstr "%a, %l∶%M %p"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:322
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:496
+msgid "Just now"
+msgstr "Только что"
+
+#: main/src/ui/conversation_content_view/conversation_view.vala:114
+msgid "More actions"
+msgstr "Больше действий"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:67
+#: main/src/ui/conversation_content_view/file_image_widget.vala:201
+msgid "Open"
+msgstr "Открыть"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:68
+#: main/src/ui/conversation_content_view/file_image_widget.vala:202
+#: main/src/ui/conversation_content_view/file_widget.vala:174
+msgid "Save as…"
+msgstr "Сохранить как…"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:77
+#, c-format
+msgid "Downloading %s… (%u%%)"
+msgstr "Загрузка %s… (%u%%)"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:79
+#, c-format
+msgid "Downloading %s…"
+msgstr "Скачивание %s…"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:83
+#, c-format
+msgid "Uploading %s… (%u%%)"
+msgstr "Отправка %s… (%u%%)"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:97
+#, c-format
+msgid "%s offered: %s"
+msgstr "%s. Приблизительный размер: %s"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:99
+#, c-format
+msgid "File offered: %s"
+msgstr "Приблизительный размер файла: %s"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:101
+msgid "File offered"
+msgstr "Предложен файл"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:107
+msgid "File transfer failed"
+msgstr "Ошибка передачи файла"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:36
+msgid "Kick user"
+msgstr "Выгнать пользователя"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:69
+msgid "Ban user"
+msgstr "Забанить пользователя"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:82
+#: main/src/ui/conversation_content_view/reactions_widget.vala:128
+msgid "Add reaction"
+msgstr "Добавить реакцию"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:94
+msgid "This conversation does not support reactions."
+msgstr "Эта чат не поддерживает реакции."
+
+#: main/src/ui/conversation_content_view/item_actions.vala:107
+msgid "Reply"
+msgstr "Ответить"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:117
+msgid "This conversation does not support replies."
+msgstr "Этот чат не поддерживает ответов."
+
+#: main/src/ui/conversation_content_view/item_actions.vala:146
+msgid "Moderate message..."
+msgstr "Модерировать сообщение…"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:148
+msgid "Delete..."
+msgstr "Удалить..."
+
+#: main/src/ui/conversation_content_view/item_actions.vala:150
+#: main/src/ui/conversation_content_view/item_actions.vala:168
+msgid "Delete locally"
+msgstr "Удалить локально"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:160
+msgid "Moderate message"
+msgstr "Модерировать сообщение"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:160
+msgid "Delete message"
+msgstr "Удалить сообщение"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:164
+msgid "Do you want to remove this message from the channel?"
+msgstr "Вы хотите удалить это сообщение из канала?"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:167
+msgid "Do you want to delete this message just for yourself or for everyone?"
+msgstr "Вы хотите удалить это сообщение только для себя или для всех?"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:168
+msgid "Delete for everyone"
+msgstr "Удалить для всех"
+
+#: main/src/ui/conversation_content_view/message_widget.vala:174
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:255
+msgid "Message deleted"
+msgstr "Сообщение удалено"
+
+#: main/src/ui/conversation_content_view/message_widget.vala:178
+msgid "edited"
+msgstr "изменено"
+
+#: main/src/ui/conversation_content_view/message_widget.vala:182
+msgid "Message truncated - exceeds 100,000 characters"
+msgstr "Сообщение обрезано - превышает 100 000 символов"
+
+#: main/src/ui/conversation_content_view/message_widget.vala:191
+msgid "pending…"
+msgstr "ожидание…"
+
+#: main/src/ui/conversation_content_view/message_widget.vala:206
+msgid "delivery failed"
+msgstr "доставка не удалась"
+
+#: main/src/ui/conversation_content_view/message_widget.vala:254
+msgid "Edit message"
+msgstr "Отредактировать сообщение"
+
+#: main/src/ui/conversation_content_view/quote_widget.vala:43
+msgid "File"
+msgstr "Файл"
+
+#: main/src/ui/conversation_content_view/reactions_widget.vala:102
+msgid "You"
+msgstr "Вы"
+
+#: main/src/ui/conversation_content_view/subscription_notification.vala:49
+msgid "Send request"
+msgstr "Отправить запрос"
+
+#: main/src/ui/conversation_content_view/subscription_notification.vala:60
+msgid "You do not receive status updates from this contact yet."
+msgstr "Вы ещё не получаете обновления статуса от этого контакта."
+
+#: main/src/ui/conversation_content_view/subscription_notification.vala:68
+#: main/src/ui/notifier_freedesktop.vala:166
+#: main/src/ui/notifier_freedesktop.vala:266
+#: main/src/ui/notifier_gnotifications.vala:102
+#: main/src/ui/notifier_gnotifications.vala:139
+#: main/src/ui/notifier_gnotifications.vala:157
+msgid "Deny"
+msgstr "Отклонить"
+
+#: main/src/ui/conversation_content_view/subscription_notification.vala:80
+msgid "This contact would like to add you to their contact list"
+msgstr "Этот контакт хочет добавить вас в свой список контактов"
+
+#: main/src/ui/conversation_content_view/unread_indicator_populator.vala:76
+msgid "New"
+msgstr "Новые"
+
+#: main/src/ui/conversation_details.vala:175
+#: main/src/ui/util/data_forms.vala:40
+msgid "Display name"
+msgstr "Отображаемое имя"
+
+#: main/src/ui/conversation_details.vala:195
+#: main/src/ui/conversation_details.vala:209
+msgid "Topic"
+msgstr "Тема"
+
+#: main/src/ui/conversation_details.vala:222
+msgid "Permissions"
+msgstr "Разрешения"
+
+#: main/src/ui/conversation_details.vala:223
+msgid "Manage Affiliations"
+msgstr "Управление участниками"
+
+#: main/src/ui/conversation_details.vala:239
+msgid "Danger Zone"
+msgstr "Опасная зона"
+
+#: main/src/ui/conversation_details.vala:240
+msgid "Destroy Room"
+msgstr "Уничтожить комнату"
+
+#: main/src/ui/conversation_details.vala:246
+msgid "Destroy Room?"
+msgstr "Уничтожить комнату?"
+
+#: main/src/ui/conversation_details.vala:247
+msgid ""
+"Are you sure you want to permanently destroy this room? This action cannot "
+"be undone and all history will be lost for all participants."
+msgstr ""
+"Вы уверены, что хотите безвозвратно удалить эту комнату? Это действие нельзя "
+"отменить, и вся история будет потеряна для всех участников.Вы уверены, что "
+"хотите навсегда уничтожить эту комнату? Это действие нельзя отменить, и вся "
+"история будет потеряна для всех участников."
+
+#: main/src/ui/conversation_details.vala:250
+msgid "Destroy"
+msgstr "Уничтожить"
+
+#: main/src/ui/conversation_details.vala:271
+msgid "Failed to destroy room"
+msgstr "Не удалось уничтожить комнату"
+
+#: main/src/ui/conversation_details.vala:286
+msgid "Auto-delete messages"
+msgstr "Автоудаление сообщений"
+
+#: main/src/ui/conversation_details.vala:287
+msgid "Never"
+msgstr "Никогда"
+
+#: main/src/ui/conversation_details.vala:288
+msgid "After 15 minutes"
+msgstr "Через 15 минут"
+
+#: main/src/ui/conversation_details.vala:289
+msgid "After 30 minutes"
+msgstr "Через 30 минут"
+
+#: main/src/ui/conversation_details.vala:290
+msgid "After 1 hour"
+msgstr "Через 1 час"
+
+#: main/src/ui/conversation_details.vala:291
+msgid "After 24 hours"
+msgstr "Через 24 часа"
+
+#: main/src/ui/conversation_details.vala:292
+msgid "After 7 days"
+msgstr "Через 7 дней"
+
+#: main/src/ui/conversation_details.vala:293
+msgid "After 30 days"
+msgstr "Через 30 дней"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:276
+#: main/src/ui/notifier_freedesktop.vala:71
+#: main/src/ui/notifier_gnotifications.vala:36
+msgid "Image sent"
+msgstr "Изображение отправлено"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:276
+#: main/src/ui/notifier_freedesktop.vala:71
+#: main/src/ui/notifier_gnotifications.vala:36
+msgid "File sent"
+msgstr "Файл отправлен"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:278
+#: main/src/ui/notifier_freedesktop.vala:73
+#: main/src/ui/notifier_gnotifications.vala:38
+msgid "Image received"
+msgstr "Изображение получено"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:278
+#: main/src/ui/notifier_freedesktop.vala:73
+#: main/src/ui/notifier_gnotifications.vala:38
+msgid "File received"
+msgstr "Файл получен"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:361
+msgid "Thema:"
+msgstr "Тема:"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:381
+msgid "Privat"
+msgstr "Приватный"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:383
+msgid "Öffentlich"
+msgstr "Публичный"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:387
+msgid "Typ:"
+msgstr "Тип:"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:483
+#: main/src/ui/widgets/date_separator.vala:37
+#, no-c-format
+msgid "%b %d"
+msgstr "%d %b"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:487
+#: main/src/ui/widgets/date_separator.vala:28
+msgid "Yesterday"
+msgstr "Вчера"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:506
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:554
+#: main/src/ui/conversation_titlebar/menu_entry.vala:79
+msgid "Conversation Details"
+msgstr "Информация о чате"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:507
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:771
+#: main/src/ui/conversation_titlebar/menu_entry.vala:98
+msgid "Invite Contact"
+msgstr "Пригласить контакт"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:511
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:559
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:661
+#: main/src/ui/occupant_menu/view.vala:173
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:140
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:206
+msgid "Unmute"
+msgstr "Включить звук"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:511
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:559
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:680
+#: main/src/ui/occupant_menu/view.vala:177
+#: main/src/windows/conversation_details.vala:163
+#: main/src/windows/conversation_details.vala:164
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:140
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:226
+msgid "Mute"
+msgstr "Выключить звук"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:514
+msgid "Leave and Close"
+msgstr "Выйти и закрыть"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:555
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:623
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:126
+msgid "Edit Alias"
+msgstr "Редактировать псевдоним"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:563
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:705
+#: main/src/windows/conversation_details.vala:108
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:250
+msgid "Unblock"
+msgstr "Разблокировать"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:563
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:724
+#: main/src/windows/conversation_details.vala:144
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:270
+msgid "Block"
+msgstr "Заблокировать"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:628
+msgid "Alias"
+msgstr "Псевдоним"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:634
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:333
+msgid "Save"
+msgstr "Сохранить"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:657
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:202
+msgid "Unmute contact?"
+msgstr "Включить звук контакта?"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:658
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:203
+#, c-format
+msgid "This will enable notifications from %s."
+msgstr "Это включит уведомления от %s."
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:676
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:222
+msgid "Mute contact?"
+msgstr "Отключить звук контакта?"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:677
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:223
+#, c-format
+msgid "This will disable notifications from %s."
+msgstr "Это отключит уведомления от %s."
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:701
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:246
+msgid "Unblock contact?"
+msgstr "Разблокировать контакт?"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:702
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:247
+#, c-format
+msgid "This will allow %s to send you messages again."
+msgstr "Это позволит %s снова отправлять вам сообщения."
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:720
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:266
+msgid "Block contact?"
+msgstr "Заблокировать контакт?"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:721
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:267
+#, c-format
+msgid "This will prevent %s from sending you messages."
+msgstr "Это запретит %s отправлять вам сообщения."
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:741
+#: main/src/windows/conversation_details.vala:57
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:288
+msgid "Remove contact?"
+msgstr "Удалить контакт?"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:742
+#, c-format
+msgid ""
+"This will:\n"
+"• Delete all conversation history\n"
+"• Remove %s from your contact list\n"
+"\n"
+"This action cannot be undone."
+msgstr ""
+"Это:\n"
+"• Удалит всю историю переписки\n"
+"• Удалит %s из вашего списка контактов\n"
+"\n"
+"Это действие нельзя отменить."
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:787
+msgid "Delete all message history?"
+msgstr "Удалить всю историю сообщений?"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:788
+msgid ""
+"This will permanently delete all messages in this conversation. This action "
+"cannot be undone."
+msgstr ""
+"Это навсегда удалит все сообщения в этой беседе. Это действие нельзя "
+"отменить.Это навсегда удалит все сообщения в этой беседе. Это действие "
+"нельзя отменить."
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:791
+#: main/src/ui/conversation_titlebar/menu_entry.vala:51
+msgid "Delete"
+msgstr "Удалить"
+
+#: main/src/ui/conversation_titlebar/call_entry.vala:14
+msgid "Start call"
+msgstr "Начать звонок"
+
+#: main/src/ui/conversation_titlebar/call_entry.vala:25
+msgid "Audio call"
+msgstr "Аудиозвонок"
+
+#: main/src/ui/conversation_titlebar/call_entry.vala:26
+msgid "Video call"
+msgstr "Видеозвонок"
+
+#: main/src/ui/conversation_titlebar/call_entry.vala:79
+msgid "Conference Server Required"
+msgstr "Требуется сервер конференций"
+
+#: main/src/ui/conversation_titlebar/call_entry.vala:80
+msgid ""
+"To start a group call, you need to configure a default conference server in "
+"your account settings."
+msgstr ""
+"Чтобы начать групповой звонок, необходимо настроить сервер конференций по "
+"умолчанию в настройках аккаунта."
+
+#: main/src/ui/conversation_titlebar/call_entry.vala:84
+msgid "Open Settings"
+msgstr "Открыть настройки"
+
+#: main/src/ui/conversation_titlebar/menu_entry.vala:47
+msgid "Delete all message history for this conversation?"
+msgstr "Удалить всю историю сообщений?"
+
+#: main/src/ui/conversation_titlebar/menu_entry.vala:49
+msgid "This action cannot be undone."
+msgstr "Это действие нельзя отменить."
+
+#: main/src/ui/conversation_titlebar/menu_entry.vala:85
+msgid "Close Conversation"
+msgstr "Закрыть чат"
+
+#: main/src/ui/conversation_titlebar/occupants_entry.vala:14
+#: main/src/windows/conversation_details.vala:289
+msgid "Members"
+msgstr "Участники"
+
+#: main/src/ui/conversation_view_controller.vala:237
+msgid "Select file"
+msgstr "Выберите файл"
+
+#: main/src/ui/file_send_overlay.vala:60
+msgid "The file exceeds the server's maximum upload size."
+msgstr "Размер файла превышает максимальный размер загрузки сервера."
+
+#: main/src/ui/global_search.vala:208
+#, c-format
+msgid "In %s"
+msgstr "В %s"
+
+#: main/src/ui/global_search.vala:208
+#, c-format
+msgid "With %s"
+msgstr "С %s"
+
+#: main/src/ui/main_window.vala:169
+msgid "Join Channel Help"
+msgstr "Помощь по присоединению к каналу"
+
+#: main/src/ui/main_window.vala:170
+msgid ""
+"To join a channel, click the \"Join Channel\" button and enter the channel "
+"JID (example: room@conference.example.org).\n"
+"\n"
+"If you need a password or a nickname, provide them in the dialog. Use the "
+"discovery features in the server to find public rooms."
+msgstr ""
+"Чтобы присоединиться к каналу, нажмите кнопку \"Присоединиться к каналу\" и "
+"введите JID канала (пример: room@conference.example.org).\n"
+"\n"
+"Если вам нужен пароль или псевдоним, укажите их в диалоге. Используйте "
+"функции обнаружения сервера для поиска публичных комнат."
+
+#: main/src/ui/main_window.vala:219
+msgid "Welcome to DinoX!"
+msgstr "Добро пожаловать в DinoX!"
+
+#: main/src/ui/main_window.vala:220
+msgid "Sign in or create an account to get started."
+msgstr "Войдите или создайте учётную запись, чтобы начать использование."
+
+#: main/src/ui/main_window.vala:221
+msgid "Set up account"
+msgstr "Настроить учётную запись"
+
+#: main/src/ui/main_window.vala:230
+#: main/src/windows/preferences_window/accounts_preferences_page.vala:71
+#: main/src/windows/preferences_window/encryption_preferences_page.vala:49
+msgid "No active accounts"
+msgstr "Нет активных учётных записей"
+
+#: main/src/ui/main_window.vala:231
+msgid "Manage accounts"
+msgstr "Управление учётными записями"
+
+#: main/src/ui/notifier_freedesktop.vala:159
+#: main/src/ui/notifier_gnotifications.vala:93
+msgid "Subscription request"
+msgstr "Требуется авторизация"
+
+#: main/src/ui/notifier_freedesktop.vala:194
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:259
+msgid "Wrong password"
+msgstr "Неверный пароль"
+
+#: main/src/ui/notifier_freedesktop.vala:197
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:261
+msgid "Invalid TLS certificate"
+msgstr "Недействительный TSL сертификат"
+
+#: main/src/ui/notifier_freedesktop.vala:222
+#: main/src/ui/notifier_gnotifications.vala:127
+#, c-format
+msgid "Invitation to %s"
+msgstr "Приглашение в %s"
+
+#: main/src/ui/notifier_freedesktop.vala:223
+#: main/src/ui/notifier_gnotifications.vala:128
+#, c-format
+msgid "%s invited you to %s"
+msgstr "%s пригласил вас в %s"
+
+#: main/src/ui/notifier_freedesktop.vala:256
+#: main/src/ui/notifier_gnotifications.vala:147
+msgid "Permission request"
+msgstr "Запрос на разрешения"
+
+#: main/src/ui/notifier_freedesktop.vala:257
+#: main/src/ui/notifier_gnotifications.vala:148
+#, c-format
+msgid "%s requests the permission to write in %s"
+msgstr "%s запросил(а) разрешение на возможность писать в %s"
+
+#: main/src/ui/occupant_menu/list.vala:118
+#: main/src/view_model/conversation_details.vala:134
+msgid "Owner"
+msgstr "Владелец"
+
+#: main/src/ui/occupant_menu/list.vala:120
+#: main/src/view_model/conversation_details.vala:135
+msgid "Admin"
+msgstr "Администратор"
+
+#: main/src/ui/occupant_menu/list.vala:122
+#: main/src/view_model/conversation_details.vala:136
+msgid "Member"
+msgstr "Участник"
+
+#: main/src/ui/occupant_menu/list.vala:124
+msgid "User"
+msgstr "Пользователь"
+
+#: main/src/ui/occupant_menu/view.vala:89
+msgid "Start private conversation"
+msgstr "Начать личный чат"
+
+#: main/src/ui/occupant_menu/view.vala:125
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:157
+msgid "Unblock Contact"
+msgstr "Разблокировать контакт"
+
+#: main/src/ui/occupant_menu/view.vala:127
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:157
+msgid "Block Contact"
+msgstr "Заблокировать контакт"
+
+#: main/src/ui/occupant_menu/view.vala:133
+msgid "Moderation"
+msgstr "Модерация"
+
+#: main/src/ui/occupant_menu/view.vala:135
+msgid "Kick"
+msgstr "Выгнать"
+
+#: main/src/ui/occupant_menu/view.vala:139
+msgid "Ban (Permanent)"
+msgstr "Бан (Постоянный)"
+
+#: main/src/ui/occupant_menu/view.vala:140
+msgid "Ban (10 min)"
+msgstr "Бан (10 мин)"
+
+#: main/src/ui/occupant_menu/view.vala:141
+msgid "Ban (15 min)"
+msgstr "Бан (15 мин)"
+
+#: main/src/ui/occupant_menu/view.vala:142
+msgid "Ban (30 min)"
+msgstr "Бан (30 мин)"
+
+#: main/src/ui/occupant_menu/view.vala:146
+msgid "Administration"
+msgstr "Администрирование"
+
+#: main/src/ui/occupant_menu/view.vala:150
+msgid "Make Admin"
+msgstr "Сделать администратором"
+
+#: main/src/ui/occupant_menu/view.vala:152
+msgid "Revoke Admin"
+msgstr "Отозвать права админа"
+
+#: main/src/ui/occupant_menu/view.vala:156
+msgid "Make Owner"
+msgstr "Сделать владельцем"
+
+#: main/src/ui/occupant_menu/view.vala:161
+msgid "Make Member"
+msgstr "Сделать участником"
+
+#: main/src/ui/occupant_menu/view.vala:163
+msgid "Revoke Membership"
+msgstr "Отозвать членство"
+
+#: main/src/ui/occupant_menu/view.vala:228
+msgid "Kicked by moderator"
+msgstr "Выгнан модератором"
+
+#: main/src/ui/occupant_menu/view.vala:275
+msgid "Invite to Conference"
+msgstr "Пригласить в чат"
+
+#: main/src/ui/systray.vala:178
+msgid "Quit"
+msgstr "Выйти"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:14
+#, fuzzy
+msgid "Import"
+msgstr "Импортировать ключ"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:15
+msgid "Copy Share URI"
+msgstr ""
+
+#: main/src/ui/sticker_pack_import_dialog.vala:29
+msgid "Import Sticker Pack"
+msgstr ""
+
+#: main/src/ui/sticker_pack_import_dialog.vala:62
+#, fuzzy
+msgid "Loading…"
+msgstr "ожидание…"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:70
+#, fuzzy
+msgid "No account available"
+msgstr "Недоступен"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:84
+#: main/src/ui/sticker_pack_import_dialog.vala:107
+#, fuzzy
+msgid "Failed to import sticker pack"
+msgstr "Не удалось очистить кэш"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:98
+#, fuzzy
+msgid "Importing…"
+msgstr "Подключение…"
+
+#: main/src/ui/util/data_forms.vala:41
+msgid ""
+"A friendly name shown in room listings (does not change the room address)"
+msgstr ""
+"Понятное имя, отображаемое в списках комнат (не изменяет адрес "
+"комнаты)Дружественное имя, отображаемое в списках комнат (не меняет адрес "
+"комнаты)Понятное имя в списках комнат (не меняет адрес комнаты)"
+
+#: main/src/ui/util/data_forms.vala:44
+msgid "Description"
+msgstr "Описание"
+
+#: main/src/ui/util/data_forms.vala:45
+msgid "A description of the room shown in room listings"
+msgstr "Описание комнаты, отображаемое в списках комнат"
+
+#: main/src/ui/util/data_forms.vala:48
+msgid "Persistent"
+msgstr "Сохранить комнату пустой"
+
+#: main/src/ui/util/data_forms.vala:49
+msgid "The room will persist after the last occupant leaves"
+msgstr "Комната сохранится, даже если уйдёт последний посетитель"
+
+#: main/src/ui/util/data_forms.vala:52
+msgid "Publicly searchable"
+msgstr "Доступность для публичного поиска"
+
+#: main/src/ui/util/data_forms.vala:53
+msgid "The room will appear in public room listings"
+msgstr "Комната появится в публичных списках"
+
+#: main/src/ui/util/data_forms.vala:56
+msgid "Occupants may change the subject"
+msgstr "Посетители могут менять тему чата"
+
+#: main/src/ui/util/data_forms.vala:59
+msgid "Permission to view JIDs"
+msgstr "Разрешение на просмотр JID"
+
+#: main/src/ui/util/data_forms.vala:60
+msgid "Who is allowed to view the occupants' JIDs?"
+msgstr "Кому разрешено просматривать JID посетителей?"
+
+#: main/src/ui/util/data_forms.vala:67
+msgid "Moderated"
+msgstr "Модерируемый"
+
+#: main/src/ui/util/data_forms.vala:68
+msgid "Only occupants with voice may send messages"
+msgstr "Только посетители с голосом (разрешение) могут отправлять сообщения"
+
+#: main/src/ui/util/data_forms.vala:71
+msgid "Members only"
+msgstr "Только для участников"
+
+#: main/src/ui/util/data_forms.vala:72
+msgid ""
+"Only members may enter the room. Warning: Non-members will be removed when "
+"enabled!"
+msgstr ""
+"Только участники могут войти в комнату. Предупреждение: Не-участники будут "
+"удалены при включении!"
+
+#: main/src/ui/util/helper.vala:65
+#, c-format
+msgid "%s from %s"
+msgstr "%s из %s"
+
+#: main/src/ui/widgets/date_separator.vala:22
+msgid "Today"
+msgstr "Сегодня"
+
+#: main/src/ui/widgets/date_separator.vala:35
+#, no-c-format
+msgid "%a, %b %d"
+msgstr "%a, %d %b"
+
+#: main/src/windows/conversation_details.vala:58
+msgid ""
+"This contact will be removed from your contact list and all conversation "
+"history will be permanently deleted."
+msgstr ""
+"Этот контакт будет удален из вашего списка контактов, и вся история "
+"переписки будет безвозвратно удалена."
+
+#: main/src/windows/conversation_details.vala:108
+msgid "Block user"
+msgstr "Заблокировать пользователя"
+
+#: main/src/windows/conversation_details.vala:108
+msgid "Block entire domain"
+msgstr "Заблокировать весь домен"
+
+#: main/src/windows/conversation_details.vala:125
+msgid "Pinned"
+msgstr "Закреплено"
+
+#: main/src/windows/conversation_details.vala:125
+msgid "Pin"
+msgstr "Закрепить"
+
+#: main/src/windows/conversation_details.vala:140
+msgid "Domain blocked"
+msgstr "Домен заблокирован"
+
+#: main/src/windows/conversation_details.vala:165
+msgid "Notifications enabled"
+msgstr "Уведомления включены"
+
+#: main/src/windows/conversation_details.vala:168
+msgid "Notifications for mentions"
+msgstr "Уведомления для упоминаний"
+
+#: main/src/windows/conversation_details.vala:173
+msgid "Notifications disabled"
+msgstr "Уведомления отключены"
+
+#: main/src/windows/conversation_details.vala:232
+msgid "Settings"
+msgstr "Настройки"
+
+#: main/src/windows/conversation_details.vala:261
+msgid "Room Configuration"
+msgstr "Настройки комнаты"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:69
+msgid "Connect"
+msgstr "Подключиться"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
+msgid "Disable account"
+msgstr "Отключить учётную запись"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
+msgid "Enable account"
+msgstr "Включить учётную запись"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:179
+msgid "Select avatar"
+msgstr "Выбрать аватарку"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:190
+msgid "Images"
+msgstr "Изображения"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:194
+msgid "All files"
+msgstr "Все файлы"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:212
+#, c-format
+msgid "Remove account %s?"
+msgstr "Удалить учётную запись %s?"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:246
+msgid "Connected"
+msgstr "Подключено"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:248
+msgid "Disconnected"
+msgstr "Отключено"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:268
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:270
+msgid "Error"
+msgstr "Ошибка"
+
+#: main/src/windows/preferences_window/accounts_preferences_page.vala:28
+msgid "Disabled accounts"
+msgstr "Отключённые учётные записи"
+
+#: main/src/windows/preferences_window/accounts_preferences_page.vala:31
+#: main/src/windows/preferences_window/add_account_dialog.vala:92
+msgid "Add Account"
+msgstr "Добавить учётную запись"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:137
+msgid "Sign in"
+msgstr "Войти"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:156
+#, c-format
+msgid "The server could not prove that it is %s."
+msgstr "Сервер не смог доказать, что %s."
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:158
+msgid "Its security certificate is not trusted by your operating system."
+msgstr "Его сертификат безопасности не доверяет вашей операционной системе."
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:160
+msgid "Its security certificate is issued to another domain."
+msgstr "Его сертификат безопасности выдаётся другому домену."
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:162
+msgid "Its security certificate will only become valid in the future."
+msgstr "Его сертификат безопасности станет действительным только в будущем."
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:164
+msgid "Its security certificate is expired."
+msgstr "Срок действия его сертификата безопасности истёк."
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:172
+msgid "Create account"
+msgstr "Создать учётную запись"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:191
+#, c-format
+msgid "You can now use the account %s."
+msgstr "Теперь вы можете использовать учётную запись %s."
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:248
+msgid "Wrong username or password"
+msgstr "Неправильный логин или пароль"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:251
+msgid "Something went wrong"
+msgstr "Что-то пошло не так"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:325
+msgid "No response from server"
+msgstr "Нет ответа от сервера"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:336
+#, c-format
+msgid "Register on %s"
+msgstr "Регистрация в %s"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:339
+msgid "The server requires to sign up through a website"
+msgstr "Сервер требует пройти авторизацию через сайт"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:341
+msgid "Open website"
+msgstr "Открыть веб-сайт"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:353
+msgid "Register"
+msgstr "Зарегистрироваться"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:355
+#, c-format
+msgid "Check %s for information on how to sign up"
+msgstr "Прочтите %s, чтобы узнать о процессе авторизации"
+
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:192
+msgid "No contacts"
+msgstr "Нет контактов"
+
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:193
+msgid "Add contacts to start chatting"
+msgstr "Добавьте контакты, чтобы начать общение"
+
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:289
+#, c-format
+msgid ""
+"This will remove %s from your contact list and delete all conversation "
+"history."
+msgstr ""
+"%s будет удалён из вашего списка контактов, и вся история переписки будет "
+"удалена."
+
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:318
+msgid "Edit Contact Alias"
+msgstr "Редактировать псевдоним контакта"
+
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:319
+#, c-format
+msgid "Change the display name for %s"
+msgstr "Изменить отображаемое имя для %s"
+
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:325
+msgid "Alias (optional)"
+msgstr "Псевдоним (необязательно)"
+
+#~ msgid "Creating backup..."
+#~ msgstr "Создание резервной копии..."
+
+#, c-format
+#~ msgid "Backup created successfully (%s)"
+#~ msgstr "Резервная копия создана (%s)"
+
+#~ msgid "Backup created successfully"
+#~ msgstr "Резервная копия создана"
+
+# DinoX v0.7.7 - Database Maintenance & Backup/Restore
+#~ msgid "Clean Database"
+#~ msgstr "Очистить базу данных"
+
+#~ msgid "Encrypting Backup..."
+#~ msgstr "Шифрование резервной копии..."
+
+#~ msgid "Creating encrypted backup..."
+#~ msgstr "Создание зашифрованной резервной копии..."
+
+#~ msgid "Encrypted backup created successfully"
+#~ msgstr "Зашифрованная резервная копия успешно создана"
+
+#~ msgid "Encrypted backup created (%s)"
+#~ msgstr "Зашифрованная резервная копия создана (%s)"
+
+# OpenPGP Key Management translations
+#~ msgid "OpenPGP Key Management"
+#~ msgstr "Управление ключами OpenPGP"
+
+#~ msgid "Actions"
+#~ msgstr "Действия"
+
+#~ msgid "Generate New Key"
+#~ msgstr "Создать новый ключ"
+
+#~ msgid "Create a new OpenPGP key pair"
+#~ msgstr "Создать новую пару ключей OpenPGP"
+
+#~ msgid "Import a key from file (.asc, .gpg)"
+#~ msgstr "Импортировать ключ из файла (.asc, .gpg)"
+
+#~ msgid "Your Keys"
+#~ msgstr "Ваши ключи"
+
+#~ msgid "Private keys available for signing and decryption"
+#~ msgstr "Закрытые ключи для подписи и расшифровки"
+
+#~ msgid "No private keys found"
+#~ msgstr "Закрытые ключи не найдены"
+
+#~ msgid "Generate or import a key to get started"
+#~ msgstr "Создайте или импортируйте ключ для начала"
+
+#~ msgid "Fingerprint"
+#~ msgstr "Отпечаток"
+
+#~ msgid "Export Public Key"
+#~ msgstr "Экспортировать открытый ключ"
+
+#~ msgid "Delete Key"
+#~ msgstr "Удалить ключ"
+
+#~ msgid "Generate New OpenPGP Key"
+#~ msgstr "Создать новый ключ OpenPGP"
+
+#~ msgid "Enter your details to create a new key pair."
+#~ msgstr "Введите ваши данные для создания новой пары ключей."
+
+#~ msgid "Name"
+#~ msgstr "Имя"
+
+#~ msgid "Your Name"
+#~ msgstr "Ваше имя"
+
+#~ msgid "Email"
+#~ msgstr "Email"
+
+#~ msgid "you@example.com"
+#~ msgstr "вы@пример.com"
+
+#~ msgid "Passphrase (optional)"
+#~ msgstr "Парольная фраза (необязательно)"
+
+#~ msgid "Passphrase"
+#~ msgstr "Парольная фраза"
+
+#~ msgid "4096-bit RSA key, valid for 2 years."
+#~ msgstr "4096-битный RSA ключ, действителен 2 года."
+
+#~ msgid "Generate"
+#~ msgstr "Создать"
+
+#~ msgid "Name must be at least 2 characters"
+#~ msgstr "Имя должно содержать минимум 2 символа"
+
+#~ msgid "Please enter a valid email address"
+#~ msgstr "Пожалуйста, введите корректный адрес email"
+
+#~ msgid "Generating Key..."
+#~ msgstr "Создание ключа..."
+
+#~ msgid "Key generated successfully!"
+#~ msgstr "Ключ успешно создан!"
+
+#~ msgid "Import OpenPGP Key"
+#~ msgstr "Импортировать ключ OpenPGP"
+
+#~ msgid "OpenPGP Keys (*.asc, *.gpg)"
+#~ msgstr "Ключи OpenPGP (*.asc, *.gpg)"
+
+#~ msgid "All Files"
+#~ msgstr "Все файлы"
+
+#~ msgid "Key imported! Re-open Key Management to see it."
+#~ msgstr ""
+#~ "Ключ импортирован! Откройте Управление ключами заново, чтобы увидеть его."
+
+#~ msgid "Import failed: "
+#~ msgstr "Ошибка импорта: "
+
+#~ msgid "Key exported to: "
+#~ msgstr "Ключ экспортирован в: "
+
+#~ msgid "Export failed."
+#~ msgstr "Ошибка экспорта."
+
+#~ msgid "Delete Key?"
+#~ msgstr "Удалить ключ?"
+
+#~ msgid ""
+#~ "Delete this key?\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "This cannot be undone!"
+#~ msgstr ""
+#~ "Удалить этот ключ?\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "Это действие нельзя отменить!"
+
+#~ msgid "Key deleted."
+#~ msgstr "Ключ удалён."
+
+#~ msgid "Delete failed: "
+#~ msgstr "Ошибка удаления: "
+
+#~ msgid "Select OpenPGP Key"
+#~ msgstr "Выбрать ключ OpenPGP"
+
+#~ msgid "Choose a key to announce to your contacts."
+#~ msgstr "Выберите ключ для объявления вашим контактам."
+
+#~ msgid "Enter GPG passphrase to confirm:"
+#~ msgstr "Введите парольную фразу GPG для подтверждения:"
+
+#~ msgid "Wrong passphrase"
+#~ msgstr "Неверная парольная фраза"
+
+#~ msgid "Manage Keys"
+#~ msgstr "Управление ключами"
+
+#~ msgid "Generate, import, export, or delete keys"
+#~ msgstr "Создавать, импортировать, экспортировать или удалять ключи"
+
+#~ msgid "No keys available. Generate or import one!"
+#~ msgstr "Нет доступных ключей. Создайте или импортируйте!"
+
+#~ msgid "Announce key"
+#~ msgstr "Объявить ключ"
+
+#~ msgid "Disabled"
+#~ msgstr "Отключено"
+
+#~ msgid "Error in GnuPG"
+#~ msgstr "Ошибка в GnuPG"
+
+#~ msgid "Success"
+#~ msgstr "Успех"
+
+#~ msgid "Message too long"
+#~ msgstr "Сообщение слишком длинное"
+
+#, c-format
+#~ msgid "%i min ago"
+#~ msgid_plural "%i mins ago"
+#~ msgstr[0] "%i минута назад"
+#~ msgstr[1] "%i минуты назад"
+#~ msgstr[2] "%i минут назад"
+
+#~ msgid "Grant write permission"
+#~ msgstr "Выдать разрешение писать"
+
+#~ msgid "Name of the room"
+#~ msgstr "Название комнаты"
+
+#~ msgid "Only members may enter the room"
+#~ msgstr "Только участники могут заходить в комнату"
+
+#, c-format
+#~ msgid "%i search result"
+#~ msgid_plural "%i search results"
+#~ msgstr[0] "%i результат поиска"
+#~ msgstr[1] "%i результата поиска"
+#~ msgstr[2] "%i результатов поиска"
+
+#, c-format
+#~ msgid "%i hour"
+#~ msgid_plural "%i hours"
+#~ msgstr[0] "%i час"
+#~ msgstr[1] "%i часа"
+#~ msgstr[2] "%i часов"
+
+#, c-format
+#~ msgid "%i minute"
+#~ msgid_plural "%i minutes"
+#~ msgstr[0] "%i минута"
+#~ msgstr[1] "%i минуты"
+#~ msgstr[2] "%i минут"
+
+#~ msgid "Could not establish a secure connection"
+#~ msgstr "Не удалось установить защищённое соединение"
+
+#~ msgid "Back"
+#~ msgstr "Назад"
+
+#~ msgid "Choose a public server"
+#~ msgstr "Выберите публичный сервер"
+
+#~ msgid "Or specify a server address"
+#~ msgstr "Или введите адрес сервера сами"
+
+#~ msgid "Sign in instead"
+#~ msgstr "Войти вместо"
+
+#~ msgid "All set up!"
+#~ msgstr "Всё готово!"
+
+#~ msgid "Finish"
+#~ msgstr "Закончить"
+
+#~ msgid "Account"
+#~ msgstr "Уч. запись"
+
+#~ msgid "Nick"
+#~ msgstr "Никнейм"
+
+#~ msgid "Modern XMPP chat client"
+#~ msgstr "Современный XMPP клиент"
+
+#~ msgid ""
+#~ "Dino is a modern open-source chat client for the desktop. It focuses on "
+#~ "providing a clean and reliable Jabber/XMPP experience while having your "
+#~ "privacy in mind."
+#~ msgstr ""
+#~ "Dino — это современный клиент для чатов с открытым исходным кодом, "
+#~ "направленный на надёжное и приватное использование Jabber/XMPP на "
+#~ "персональных компьютерах."
+
+#~ msgid ""
+#~ "It supports end-to-end encryption with OMEMO and OpenPGP and allows "
+#~ "configuring privacy-related features such as read receipts and typing "
+#~ "notifications."
+#~ msgstr ""
+#~ "Он поддерживает сквозное шифрование через OMEMO и OpenPGP и позволяет "
+#~ "настраивать такие функции, как уведомления о прочтении и наборе сообщений."
+
+#~ msgid ""
+#~ "Dino fetches history from the server and synchronizes messages with other "
+#~ "devices."
+#~ msgstr ""
+#~ "Dino загружает историю с сервера и синхронизирует сообщения с другими "
+#~ "устройствами."
+
+#~ msgid "No active search"
+#~ msgstr "Поиск по сообщениям"
+
+#~ msgid "Type to start a search"
+#~ msgstr "Начните писать то, что хотите найти"
+
+#~ msgid "No matching messages"
+#~ msgstr "Нет подходящих сообщений"
+
+#~ msgid "Check the spelling or try to remove filters"
+#~ msgstr "Проверьте словари или измените критерии поиска"
+
+#~ msgid "Send"
+#~ msgstr "Отправить"
+
+#, c-format
+#~ msgid "Sign in to %s"
+#~ msgstr "Вход в уч. запись %s"
+
+#~ msgid "No accounts configured"
+#~ msgstr "Нет настроенных уч. записей"
+
+#~ msgid "Add an account"
+#~ msgstr "Добавить учётную запись"
+
+#~ msgid "Pick another server"
+#~ msgstr "Выбрать другой сервер"
+
+#~ msgid "Local Settings"
+#~ msgstr "Локальные настройки"
+
+#~ msgid "Notifications"
+#~ msgstr "Уведомления"
+
+#~ msgid "Pin conversation"
+#~ msgstr "Прикрепить чат"
+
+#~ msgid "Pins the conversation to the top of the conversation list"
+#~ msgstr "Прикрепить чат в верху списка чатов"
+
+#~ msgid "Only when mentioned"
+#~ msgstr "Только при упоминании"
+
+#~ msgid "Conference Details"
+#~ msgstr "Информация о конференции"
+
+#~ msgid "Communication and status updates in either direction are blocked"
+#~ msgstr "Переписка и обновления статусов заблокированы в оба направления"
+
+#~ msgid "A password to restrict access to the room"
+#~ msgstr "Пароль для ограничения доступа к комнате"
+
+#~ msgid "Maximum amount of backlog issued by the room"
+#~ msgstr "Максимальное количество логов, оставляемое комнатой"
+
+#~ msgid "Convert smileys to emojis"
+#~ msgstr "Превращать смайлы в эмодзи"
+
+#~ msgid "Check spelling"
+#~ msgstr "Проверка орфографии"
+
+#~ msgid "Click here to start a conversation or join a channel."
+#~ msgstr "Нажмите здесь, чтобы начать беседу или присоединиться к каналу."
+
+#~ msgid "No active conversations"
+#~ msgstr "Нет активных чатов"
+
+#~ msgid "Main window with conversations"
+#~ msgstr "Главное окно с чатами"
+
+#~ msgid "%s, %s and %i others"
+#~ msgstr "%s, %s и ещё %i человек"
+
+#~ msgid "You can now start using %s"
+#~ msgstr "Теперь вы можете использовать %s"
+
+#~ msgid "%s, %s and %s"
+#~ msgstr "%s, %s и %s"
+
+#~ msgid "%s and %s"
+#~ msgstr "%s и %s"
+
+#~ msgid "has stopped typing"
+#~ msgstr "перестал печатать"
+
+#~ msgid "%i search results"
+#~ msgstr "Результаты поиска по запросу «%i»"
+
+#~ msgid "Discover real JIDs"
+#~ msgstr "Показывать настоящие JID"
+
+#~ msgid "Who may discover real JIDs?"
+#~ msgstr "Кто может видеть настоящие JID?"
+
+#~ msgid "Password required for room entry, if any"
+#~ msgstr "Требуется пароль для входа в комнату, если"
+
+#~ msgid "Failed connecting to %s"
+#~ msgstr "Не удалось соединение с %s"
+
+#~ msgid "Join Conference"
+#~ msgstr "Войти в конференцию"
+
+#~ msgid "JID should be of the form “user@example.com”"
+#~ msgstr "JID должен быть в виде «user@example.com»"
+
+#~ msgid "Copy Link Address"
+#~ msgstr "Копировать адресс ссылки"
+
+#~ msgid "Copy"
+#~ msgstr "Копировать"
+
+#~ msgid "Select All"
+#~ msgstr "Выбрать всё"
+
+#~ msgid "Search"
+#~ msgstr "Поиск"
+
+#~ msgid "Start Chat"
+#~ msgstr "Начать чат"
+
+#~ msgid "Optional: Custom server connection"
+#~ msgstr "Необязательно: Пользовательское подключение к серверу"

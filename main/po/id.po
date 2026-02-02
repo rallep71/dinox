@@ -1,0 +1,2847 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-01 18:06+0100\n"
+"PO-Revision-Date: 2024-10-27 10:00+0000\n"
+"Language-Team: none\n"
+"Language: id\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 5.8.2-dev\n"
+
+#: main/data/add_conversation/add_groupchat_dialog.ui:81
+msgid "Add MUC"
+msgstr "Tambah MUC"
+
+#: main/data/add_conversation/add_groupchat_dialog.ui:91
+msgid "Insert a Name for MUC..."
+msgstr "Masukkan nama ruang..."
+
+#: main/data/add_conversation/select_jid_fragment.ui:20
+msgid "Search or enter channel address..."
+msgstr "Cari atau masukkan alamat kanal..."
+
+#: main/data/add_conversation/select_jid_fragment.ui:67
+#: main/src/ui/add_conversation/select_jid_fragment.vala:204
+msgid "Add Group"
+msgstr "Tambah Grup"
+
+#: main/data/add_conversation/select_jid_fragment.ui:88
+msgid "Delete Group"
+msgstr "Hapus grup"
+
+#: main/data/call_widget.ui:73 main/src/ui/notifier_freedesktop.vala:125
+#: main/src/ui/notifier_freedesktop.vala:232
+#: main/src/ui/notifier_gnotifications.vala:82
+msgid "Reject"
+msgstr "Tolak"
+
+#: main/data/call_widget.ui:81
+#: main/src/ui/conversation_content_view/subscription_notification.vala:67
+#: main/src/ui/notifier_freedesktop.vala:125
+#: main/src/ui/notifier_freedesktop.vala:166
+#: main/src/ui/notifier_freedesktop.vala:232
+#: main/src/ui/notifier_freedesktop.vala:266
+#: main/src/ui/notifier_gnotifications.vala:83
+#: main/src/ui/notifier_gnotifications.vala:101
+#: main/src/ui/notifier_gnotifications.vala:140
+#: main/src/ui/notifier_gnotifications.vala:158
+msgid "Accept"
+msgstr "Terima"
+
+#: main/data/chat_input.ui:15
+msgid "Send File…"
+msgstr "Kirim Berkas…"
+
+#: main/data/chat_input.ui:25
+msgid "Send Location"
+msgstr "Kirim Lokasi"
+
+#: main/data/chat_input.ui:96
+msgid "Record voice message"
+msgstr "Rekam pesan suara"
+
+#: main/data/chat_input.ui:110
+msgid "Send message"
+msgstr "Kirim pesan"
+
+#: main/data/conversation_details.ui:162
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:567
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:169
+msgid "Remove Contact"
+msgstr "Hapus Kontak"
+
+#: main/data/conversation_details.ui:192
+#: main/src/windows/conversation_details.vala:239
+msgid "About"
+msgstr "Tentang"
+
+#: main/data/conversation_row.ui:56
+msgid "Private room (supports group calls)"
+msgstr "Ruang privat (mendukung panggilan grup)"
+
+#: main/data/conversation_row.ui:135
+#: main/src/windows/conversation_details.vala:181
+#: main/src/windows/conversation_details.vala:182
+msgid "Muted"
+msgstr "Disenyapkan"
+
+#: main/data/conversation_row.ui:146
+#: main/src/windows/conversation_details.vala:146
+msgid "Blocked"
+msgstr "Diblokir"
+
+#: main/data/gtk/help-overlay.ui:10
+#: main/data/preferences_window/preferences_dialog.ui:32
+msgid "General"
+msgstr "Umum"
+
+#: main/data/gtk/help-overlay.ui:14 main/data/main_window.ui:38
+#: main/data/menu_add.ui:7
+#: main/src/ui/add_conversation/select_contact_dialog.vala:110
+#: main/src/ui/main_window.vala:154
+msgid "Start Conversation"
+msgstr "Mulai percakapan"
+
+#: main/data/gtk/help-overlay.ui:20 main/data/main_window.ui:51
+#: main/data/menu_add.ui:11
+#: main/src/ui/add_conversation/add_conference_dialog.vala:25
+#: main/src/ui/application.vala:1908 main/src/ui/main_window.vala:155
+msgid "Join Channel"
+msgstr "Bergabung dengan Channel"
+
+#: main/data/gtk/help-overlay.ui:26
+msgid "Show preferences"
+msgstr "Tampilkan preferensi"
+
+#: main/data/gtk/help-overlay.ui:32
+msgid "Keyboard shortcuts"
+msgstr "Pintasan keyboard"
+
+#: main/data/gtk/help-overlay.ui:39
+msgid "Conversation"
+msgstr "Percakapan"
+
+#: main/data/gtk/help-overlay.ui:43
+#: main/src/ui/conversation_titlebar/search_entry.vala:12
+msgid "Search messages"
+msgstr "Cari pesan"
+
+#: main/data/gtk/help-overlay.ui:49 main/src/ui/chat_input/view.vala:62
+msgid "Send a file"
+msgstr "Kirim file"
+
+#: main/data/gtk/help-overlay.ui:55
+msgid "Close conversation"
+msgstr "Tutup percakapan"
+
+#: main/data/gtk/help-overlay.ui:62
+msgid "Navigation"
+msgstr "Navigasi"
+
+#: main/data/gtk/help-overlay.ui:66
+msgid "Jump to next conversation"
+msgstr "Pesan selanjutnya"
+
+#: main/data/gtk/help-overlay.ui:72
+msgid "Jump to previous conversation"
+msgstr "Pesan sebelumnya"
+
+#: main/data/main_window.ui:64 main/src/ui/main_window.vala:157
+msgid "Help: How to join channels"
+msgstr "Bantuan: Cara bergabung dengan kanal"
+
+#: main/data/main_window.ui:118
+msgid "You have no open chats"
+msgstr "Anda tidak memiliki percakapan terbuka"
+
+#: main/data/main_window.ui:119
+msgid "Click + to start a chat or join a channel"
+msgstr "Klik + untuk memulai obrolan atau bergabung dengan saluran"
+
+#: main/data/menu_app.ui:6
+msgid "Status"
+msgstr "Status"
+
+#: main/data/menu_app.ui:11
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:427
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
+#: main/src/ui/systray.vala:279
+msgid "Online"
+msgstr "Daring"
+
+#: main/data/menu_app.ui:16
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:421
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
+#: main/src/ui/systray.vala:279
+msgid "Away"
+msgstr "Pergi"
+
+#: main/data/menu_app.ui:21
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:425
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
+#: main/src/ui/systray.vala:279
+msgid "Busy"
+msgstr "Sibuk"
+
+#: main/data/menu_app.ui:26
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:423
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
+#: main/src/ui/systray.vala:279
+msgid "Not Available"
+msgstr "Tidak tersedia"
+
+#: main/data/menu_app.ui:30 main/src/ui/main_window.vala:215
+msgid "Set Status Message…"
+msgstr "Atur Pesan Status…"
+
+#: main/data/menu_app.ui:38
+msgid "Preferences"
+msgstr "Preferensi"
+
+#: main/data/menu_app.ui:42
+msgid "Panic Wipe"
+msgstr "Hapus Panik"
+
+#: main/data/menu_app.ui:46
+msgid "Keyboard Shortcuts"
+msgstr "Kombinasi tombol"
+
+#: main/data/menu_app.ui:50 main/src/ui/application.vala:891
+msgid "About DinoX"
+msgstr "Tentang DinoX"
+
+#: main/data/menu_conversation.ui:7
+msgid "Contact Details"
+msgstr "Detail kontak"
+
+#: main/data/menu_conversation.ui:13
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:513
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:565
+#: main/src/ui/conversation_titlebar/menu_entry.vala:84
+msgid "Delete Conversation History"
+msgstr "Hapus Riwayat Percakapan"
+
+#: main/data/message_item_widget_edit_mode.ui:46
+#: main/data/preferences_window/change_password_dialog.ui:18
+#: main/src/ui/add_conversation/add_conference_dialog.vala:44
+#: main/src/ui/add_conversation/select_contact_dialog.vala:43
+#: main/src/ui/application.vala:754 main/src/ui/application.vala:992
+#: main/src/ui/application.vala:1020 main/src/ui/application.vala:1316
+#: main/src/ui/application.vala:1394 main/src/ui/application.vala:1452
+#: main/src/ui/application.vala:1484 main/src/ui/application.vala:1640
+#: main/src/ui/application.vala:1918
+#: main/src/ui/conversation_content_view/file_default_widget.vala:90
+#: main/src/ui/conversation_content_view/item_actions.vala:165
+#: main/src/ui/conversation_content_view/item_actions.vala:168
+#: main/src/ui/conversation_details.vala:283
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:641
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:668
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:687
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:712
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:731
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:752
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:797
+#: main/src/ui/conversation_titlebar/call_entry.vala:83
+#: main/src/ui/conversation_titlebar/menu_entry.vala:51
+#: main/src/windows/conversation_details.vala:60
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:90
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:199
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:219
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:243
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:263
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:285
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:326
+msgid "Cancel"
+msgstr "Batal"
+
+#: main/data/message_item_widget_edit_mode.ui:51
+msgid "Update message"
+msgstr "Update pesan"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:68
+#: main/src/ui/conversation_details.vala:169
+msgid "XMPP Address"
+msgstr "Alamat XMPP"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:77
+msgid "Local alias"
+msgstr "Alias lokal"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:82
+#: main/src/ui/application.vala:986 main/src/ui/application.vala:1615
+#: main/src/ui/util/data_forms.vala:63
+msgid "Password"
+msgstr "Kata sandi"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:104
+msgid "Connection status"
+msgstr "Status koneksi"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:117
+msgid "View Certificate"
+msgstr "Lihat Sertifikat"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:128
+msgid "Public Profile"
+msgstr "Profil Publik"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:131
+msgid "Public Access"
+msgstr "Akses Publik"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:132
+msgid "Allow anyone to see your profile"
+msgstr "Izinkan siapa saja melihat profil Anda"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:137
+msgid "Share with Contacts"
+msgstr "Bagikan dengan Kontak"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:138
+msgid "Allow contacts to see your profile"
+msgstr "Izinkan kontak melihat profil Anda"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:143
+#: main/src/ui/conversation_details.vala:561
+msgid "Full Name"
+msgstr "Nama Lengkap"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:148
+#: main/src/ui/conversation_details.vala:562
+msgid "Nickname"
+msgstr "Nama Panggilan"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:153
+#: main/src/ui/conversation_details.vala:575
+msgid "Gender"
+msgstr "Jenis Kelamin"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:157
+#: main/src/ui/conversation_details.vala:573
+msgid "Unknown"
+msgstr "Tidak Diketahui"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:158
+#: main/src/ui/conversation_details.vala:569
+msgid "Male"
+msgstr "Pria"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:159
+#: main/src/ui/conversation_details.vala:570
+msgid "Female"
+msgstr "Wanita"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:160
+#: main/src/ui/conversation_details.vala:571
+msgid "Other"
+msgstr "Lainnya"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:161
+#: main/src/ui/chat_input/sticker_chooser.vala:397
+#: main/src/ui/chat_input/sticker_chooser.vala:459
+#: main/src/ui/chat_input/sticker_chooser.vala:464
+#: main/src/ui/conversation_details.vala:572
+msgid "None"
+msgstr "Tidak Ada"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:169
+#: main/src/ui/conversation_details.vala:578
+msgid "Birthday"
+msgstr "Ulang Tahun"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:174
+#: main/src/ui/conversation_details.vala:580
+msgid "Address"
+msgstr "Alamat"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:177
+msgid "Street"
+msgstr ""
+
+#: main/data/preferences_window/account_preferences_subpage.ui:182
+msgid "Postal Code"
+msgstr ""
+
+#: main/data/preferences_window/account_preferences_subpage.ui:187
+msgid "City"
+msgstr ""
+
+#: main/data/preferences_window/account_preferences_subpage.ui:192
+#, fuzzy
+msgid "Region"
+msgstr "Terdaftar pada %s"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:197
+msgid "Country"
+msgstr ""
+
+#: main/data/preferences_window/account_preferences_subpage.ui:204
+#: main/src/ui/conversation_details.vala:582
+msgid "Email"
+msgstr "Email"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:209
+#: main/src/ui/conversation_details.vala:584
+msgid "IM Address"
+msgstr "Alamat IM"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:214
+msgid "Phone Number"
+msgstr "Nomor Telepon"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:219
+#: main/src/ui/conversation_details.vala:588
+msgid "Organization"
+msgstr "Organisasi"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:224
+msgid "Job Title"
+msgstr "Jabatan"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:229
+#: main/src/ui/conversation_details.vala:182
+#: main/src/ui/conversation_details.vala:592
+msgid "Role"
+msgstr "Peran"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:234
+#: main/src/ui/conversation_details.vala:594
+msgid "Timezone"
+msgstr "Zona Waktu"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:239
+msgid "Website"
+msgstr "Situs Web"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:244
+#: main/src/ui/util/data_forms.vala:44
+msgid "Description"
+msgstr "Deskripsi"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:249
+msgid "Save Profile"
+msgstr "Simpan Profil"
+
+# Custom host/port feature (Issue #115)
+#: main/data/preferences_window/account_preferences_subpage.ui:261
+msgid "Advanced Settings"
+msgstr "Pengaturan Lanjutan"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:262
+msgid "Custom server connection (leave empty for automatic)"
+msgstr "Koneksi server kustom (kosongkan untuk otomatis)"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:265
+msgid "Server Hostname"
+msgstr "Nama Host Server"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:270
+msgid "Port"
+msgstr "Port"
+
+#: main/data/preferences_window/change_password_dialog.ui:61
+msgid "Current password"
+msgstr "Kata sandi saat ini"
+
+#: main/data/preferences_window/change_password_dialog.ui:66
+msgid "New password"
+msgstr "Kata sandi baru"
+
+#: main/data/preferences_window/change_password_dialog.ui:71
+msgid "Confirm password"
+msgstr "Konfirmasi kata sandi"
+
+#: main/data/preferences_window/general_preferences_page.ui:9
+msgid "Send _Typing Notifications"
+msgstr "Kirim _Notifikasi Mengetik"
+
+#: main/data/preferences_window/general_preferences_page.ui:15
+msgid "Send _Read Receipts"
+msgstr "Kirim _Tanda Dibaca"
+
+#: main/data/preferences_window/general_preferences_page.ui:21
+msgid "Allow Location Sharing"
+msgstr "Izinkan Berbagi Lokasi"
+
+#: main/data/preferences_window/general_preferences_page.ui:22
+msgid "Allow sending your current location in chats"
+msgstr "Izinkan mengirim lokasi Anda saat ini dalam obrolan"
+
+#: main/data/preferences_window/general_preferences_page.ui:32
+msgid "_Notifications"
+msgstr "_Notifikasi"
+
+#: main/data/preferences_window/general_preferences_page.ui:33
+msgid "Notify when a new message arrives"
+msgstr "Beri tahu saat ada pesan"
+
+#: main/data/preferences_window/general_preferences_page.ui:39
+msgid "_Keep Running in Background"
+msgstr "_Terus berjalan di latar belakang"
+
+#: main/data/preferences_window/general_preferences_page.ui:40
+msgid ""
+"Continue running after closing window to receive notifications immediately"
+msgstr ""
+"Terus berjalan setelah menutup jendela untuk menerima notifikasi segera"
+
+#: main/data/preferences_window/general_preferences_page.ui:48
+msgid "Appearance"
+msgstr "Tampilan"
+
+#: main/data/preferences_window/general_preferences_page.ui:51
+msgid "_Color Scheme"
+msgstr "_Skema warna"
+
+#: main/data/preferences_window/general_preferences_page.ui:52
+msgid "Choose between light and dark appearance"
+msgstr "Pilih antara tampilan terang dan gelap"
+
+#: main/data/preferences_window/general_preferences_page.ui:62
+msgid "_Convert Smileys to Emoji"
+msgstr "_Konversi Emotikon ke Emoji"
+
+#: main/data/preferences_window/general_preferences_page.ui:70
+#: main/src/ui/chat_input/view.vala:54
+msgid "Stickers"
+msgstr "Stiker"
+
+#: main/data/preferences_window/general_preferences_page.ui:73
+msgid "Enable Stickers"
+msgstr "Aktifkan Stiker"
+
+#: main/data/preferences_window/general_preferences_page.ui:78
+msgid "Enable Sticker Animations"
+msgstr "Aktifkan Animasi Stiker"
+
+#: main/data/preferences_window/general_preferences_page.ui:79
+msgid "Disable to reduce flashing/flickering"
+msgstr "Nonaktifkan untuk mengurangi kedipan"
+
+#: main/data/preferences_window/general_preferences_page.ui:86
+msgid "User Data"
+msgstr "Data Pengguna"
+
+#: main/data/preferences_window/general_preferences_page.ui:89
+msgid "Backup User Data"
+msgstr "Cadangkan data pengguna"
+
+#: main/data/preferences_window/general_preferences_page.ui:90
+msgid "Create a backup of your accounts, messages and settings"
+msgstr "Buat cadangan akun, pesan, dan pengaturan Anda"
+
+#: main/data/preferences_window/general_preferences_page.ui:101
+#: main/src/ui/application.vala:1015 main/src/ui/main_window.vala:226
+msgid "Restore from Backup"
+msgstr "Pulihkan dari Cadangan"
+
+#: main/data/preferences_window/general_preferences_page.ui:102
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "Pulihkan akun, pesan, dan pengaturan dari file cadangan"
+
+#: main/data/preferences_window/general_preferences_page.ui:113
+msgid "Data Storage Location"
+msgstr "Lokasi Penyimpanan Data"
+
+#: main/data/preferences_window/general_preferences_page.ui:114
+msgid "View where your data is stored"
+msgstr "Lihat di mana data Anda disimpan"
+
+#: main/data/preferences_window/general_preferences_page.ui:127
+msgid "Database Maintenance"
+msgstr "Pemeliharaan Database"
+
+# DinoX v0.7.7 - Database Maintenance & Backup/Restore
+#: main/data/preferences_window/general_preferences_page.ui:130
+msgid "Change Database Password"
+msgstr "Ubah Kata Sandi Basis Data"
+
+#: main/data/preferences_window/general_preferences_page.ui:131
+msgid "Change the password used to encrypt your local data"
+msgstr "Ubah kata sandi yang digunakan untuk mengenkripsi data lokal Anda"
+
+#: main/data/preferences_window/general_preferences_page.ui:142
+#: main/src/ui/application.vala:1312 main/src/ui/application.vala:1317
+msgid "Clear Cache"
+msgstr "Bersihkan Cache"
+
+#: main/data/preferences_window/general_preferences_page.ui:143
+msgid "Clear cached files, avatars and previews"
+msgstr "Bersihkan file cache, avatar, dan pratinjau"
+
+#: main/data/preferences_window/general_preferences_page.ui:154
+#: main/src/ui/application.vala:1389 main/src/ui/application.vala:1395
+msgid "Reset Database"
+msgstr "Atur Ulang Database"
+
+#: main/data/preferences_window/general_preferences_page.ui:155
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr "Hapus semua pesan, file, dan kunci OMEMO. Akun Anda akan tetap ada."
+
+#: main/data/preferences_window/general_preferences_page.ui:166
+#: main/src/ui/application.vala:1447
+msgid "Factory Reset"
+msgstr "Reset Pabrik"
+
+#: main/data/preferences_window/general_preferences_page.ui:167
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr "Hapus SEMUA data termasuk akun. Ini tidak dapat dibatalkan!"
+
+#: main/data/preferences_window/preferences_dialog.ui:11
+#: main/src/windows/preferences_window/accounts_preferences_page.vala:15
+#: main/src/windows/preferences_window/accounts_preferences_page.vala:27
+msgid "Accounts"
+msgstr "Akun"
+
+#: main/data/preferences_window/preferences_dialog.ui:18
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:17
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:67
+msgid "Contacts"
+msgstr "Kontak"
+
+#: main/data/preferences_window/preferences_dialog.ui:25
+#: main/src/windows/conversation_details.vala:292
+msgid "Encryption"
+msgstr "Enkripsi"
+
+#: main/src/ui/add_conversation/add_conference_dialog.vala:47
+msgid "Next"
+msgstr "Selanjutnya"
+
+#: main/src/ui/add_conversation/add_conference_dialog.vala:62
+#: main/src/ui/add_conversation/conference_details_fragment.vala:151
+#: main/src/ui/application.vala:1922
+msgid "Join"
+msgstr "Bergabung"
+
+#: main/src/ui/add_conversation/add_groupchat_dialog.vala:26
+msgid "Add"
+msgstr "Tambah"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:143
+msgid "Joining…"
+msgstr "Bergabung…"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:164
+msgid "Password required to enter room"
+msgstr "Password diperlukan untuk memasuki kamar"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:169
+msgid "Banned from joining or creating conference"
+msgstr "Dilarang bergabung atau membuat grup"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:171
+msgid "Room does not exist"
+msgstr "Kamar tidak ada"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:173
+msgid "Not allowed to create room"
+msgstr "Tidak diperbolehkan membuat kamar"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:175
+msgid "Members-only room"
+msgstr "Kamar khusus anggota"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:178
+msgid "Choose a different nick"
+msgstr "Pilih nama panggilan lain"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:180
+msgid "Too many occupants in room"
+msgstr "Terlalu banyak penghuni di kamar"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:183
+#: main/src/ui/notifier_freedesktop.vala:190
+#: main/src/ui/notifier_gnotifications.vala:108
+#: main/src/windows/preferences_window/add_account_dialog.vala:271
+#, c-format
+msgid "Could not connect to %s"
+msgstr "Tidak terhubung ke %s"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:186
+#: main/src/windows/preferences_window/add_account_dialog.vala:287
+#: main/src/windows/preferences_window/add_account_dialog.vala:297
+#: main/src/windows/preferences_window/add_account_dialog.vala:307
+#: main/src/windows/preferences_window/add_account_dialog.vala:393
+msgid "Invalid address"
+msgstr "Alamat tidak valid"
+
+#: main/src/ui/add_conversation/select_contact_dialog.vala:76
+msgid "Search or enter contact address..."
+msgstr "Cari atau masukkan alamat kontak..."
+
+#: main/src/ui/add_conversation/select_contact_dialog.vala:111
+msgid "Start"
+msgstr "Mulai"
+
+#: main/src/ui/add_conversation/select_jid_fragment.vala:154
+msgid "Browse Rooms"
+msgstr "Jelajahi ruang"
+
+#: main/src/ui/add_conversation/select_jid_fragment.vala:157
+msgid "Browse Contacts"
+msgstr "Jelajahi Kontak"
+
+#: main/src/ui/add_conversation/select_jid_fragment.vala:201
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:70
+msgid "Add Contact"
+msgstr "Tambah kontak"
+
+#: main/src/ui/add_conversation/select_jid_fragment.vala:202
+msgid "Delete Contact"
+msgstr "Hapus Kontak"
+
+#: main/src/ui/add_conversation/select_jid_fragment.vala:205
+#: main/src/ui/add_conversation/select_jid_fragment.vala:215
+msgid "Leave Group"
+msgstr "Keluar grup"
+
+#: main/src/ui/application.vala:161
+msgid "Beenden"
+msgstr "Keluar"
+
+#: main/src/ui/application.vala:266 main/src/ui/application.vala:361
+msgid "Passwort"
+msgstr "Kata sandi"
+
+#: main/src/ui/application.vala:271
+msgid "DinoX entsperren"
+msgstr "Buka Kunci DinoX"
+
+#: main/src/ui/application.vala:272
+msgid "Bitte Passwort eingeben, um die verschlüsselte Datenbank zu öffnen."
+msgstr "Silakan masukkan kata sandi untuk membuka basis data terenkripsi."
+
+#: main/src/ui/application.vala:274
+#, c-format
+msgid "Falsches Passwort. Versuch %d/%d"
+msgstr "Kata sandi salah. Percobaan %d/%d"
+
+#: main/src/ui/application.vala:346
+msgid "Entsperren"
+msgstr "Buka Kunci"
+
+#: main/src/ui/application.vala:363
+msgid "Passwort bestätigen"
+msgstr "Konfirmasi kata sandi"
+
+#: main/src/ui/application.vala:370
+msgid "Passwort festlegen"
+msgstr "Atur Kata Sandi"
+
+#: main/src/ui/application.vala:371
+msgid ""
+"Bei der ersten Nutzung musst du ein Passwort setzen. Ohne Passwort kann "
+"DinoX die verschlüsselte Datenbank nicht öffnen."
+msgstr ""
+"Anda harus mengatur kata sandi pada penggunaan pertama. Tanpa kata sandi, "
+"DinoX tidak dapat membuka basis data terenkripsi."
+
+#: main/src/ui/application.vala:373
+#, c-format
+msgid "Ungültiges Passwort. Versuch %d/%d"
+msgstr "Kata sandi tidak valid. Percobaan %d/%d"
+
+#: main/src/ui/application.vala:448
+msgid "Passwort setzen"
+msgstr "Atur Kata Sandi"
+
+#: main/src/ui/application.vala:746
+msgid "Set Status Message"
+msgstr "Atur Pesan Status"
+
+#: main/src/ui/application.vala:755
+msgid "Set"
+msgstr "Atur"
+
+#: main/src/ui/application.vala:809
+msgid "Aktuelles Passwort"
+msgstr "Kata sandi saat ini"
+
+#: main/src/ui/application.vala:811
+msgid "Neues Passwort"
+msgstr "Kata sandi baru"
+
+#: main/src/ui/application.vala:813
+msgid "Neues Passwort bestätigen"
+msgstr "Konfirmasi kata sandi baru"
+
+#: main/src/ui/application.vala:824
+msgid "Datenbank-Passwort ändern"
+msgstr "Ubah kata sandi basis data"
+
+#: main/src/ui/application.vala:825
+msgid ""
+"Dieses Passwort wird verwendet, um deine lokalen DinoX-Daten zu "
+"verschlüsseln."
+msgstr "Kata sandi ini digunakan untuk mengenkripsi data DinoX lokal Anda."
+
+#: main/src/ui/application.vala:828
+msgid "Abbrechen"
+msgstr "Batal"
+
+#: main/src/ui/application.vala:829
+msgid "Ändern"
+msgstr "Ubah"
+
+#: main/src/ui/application.vala:896
+msgid "Modern XMPP client with extended features"
+msgstr "Klien XMPP modern dengan fitur yang diperluas"
+
+#: main/src/ui/application.vala:903 main/src/ui/application.vala:1278
+msgid "User Data Locations"
+msgstr "Lokasi Data Pengguna"
+
+#: main/src/ui/application.vala:906 main/src/ui/application.vala:1292
+msgid "Configuration:"
+msgstr "Konfigurasi:"
+
+#: main/src/ui/application.vala:909 main/src/ui/application.vala:1294
+msgid "Data & Database:"
+msgstr "Data & Database:"
+
+#: main/src/ui/application.vala:912 main/src/ui/application.vala:1296
+msgid "Cache:"
+msgstr "Cache:"
+
+#: main/src/ui/application.vala:915
+msgid "Info:"
+msgstr "Info:"
+
+#: main/src/ui/application.vala:916
+msgid ""
+"Your personal data (accounts, messages, files) is stored separately from the "
+"application."
+msgstr "Data pribadi Anda (akun, pesan, file) disimpan terpisah dari aplikasi."
+
+#: main/src/ui/application.vala:918
+msgid "When you update DinoX, your data remains intact."
+msgstr "Saat Anda memperbarui DinoX, data Anda tetap utuh."
+
+#: main/src/ui/application.vala:920
+msgid "Use Settings → General → Backup User Data to create a backup."
+msgstr ""
+"Gunakan Pengaturan → Umum → Cadangkan Data Pengguna untuk membuat cadangan."
+
+#: main/src/ui/application.vala:938
+msgid "Select Backup File"
+msgstr "Pilih File Cadangan"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+#: main/src/ui/application.vala:946
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "File cadangan (*.tar.gz, *.tar.gz.gpg)"
+
+#: main/src/ui/application.vala:976
+msgid "Enter Backup Password"
+msgstr "Masukkan Kata Sandi Cadangan"
+
+#: main/src/ui/application.vala:977
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "Cadangan ini dienkripsi. Masukkan kata sandi untuk mendekripsi."
+
+#: main/src/ui/application.vala:993
+msgid "Decrypt & Restore"
+msgstr "Dekripsi & Pulihkan"
+
+#: main/src/ui/application.vala:1016
+msgid ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+msgstr ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+
+#: main/src/ui/application.vala:1021
+msgid "Restore Backup"
+msgstr "Pulihkan Cadangan"
+
+#: main/src/ui/application.vala:1038 main/src/ui/application.vala:1070
+msgid "Decrypting Backup..."
+msgstr "Mendekripsi Cadangan..."
+
+#: main/src/ui/application.vala:1038 main/src/ui/application.vala:1122
+msgid "Restoring Backup..."
+msgstr "Memulihkan Cadangan..."
+
+#: main/src/ui/application.vala:1039
+msgid "Please wait, this may take a moment..."
+msgstr "Harap tunggu, ini mungkin memakan waktu sejenak..."
+
+#: main/src/ui/application.vala:1071
+msgid "Decrypting encrypted backup file..."
+msgstr "Mendekripsi file cadangan..."
+
+#: main/src/ui/application.vala:1109
+msgid "Decryption Failed"
+msgstr "Dekripsi gagal"
+
+#: main/src/ui/application.vala:1110
+msgid ""
+"Could not decrypt the backup file.\n"
+"\n"
+"Please check if the password is correct."
+msgstr ""
+"Tidak dapat mendekripsi file cadangan.\n"
+"\n"
+"Periksa apakah kata sandi benar."
+
+#: main/src/ui/application.vala:1112 main/src/ui/application.vala:1222
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:430
+msgid "OK"
+msgstr "OK"
+
+#: main/src/ui/application.vala:1123
+msgid "Extracting files from backup..."
+msgstr "Mengekstrak file dari cadangan..."
+
+#: main/src/ui/application.vala:1204
+msgid "Restore Complete!"
+msgstr "Pemulihan Selesai!"
+
+#: main/src/ui/application.vala:1205
+msgid "DinoX will now restart..."
+msgstr "DinoX akan memulai ulang sekarang..."
+
+#: main/src/ui/application.vala:1219
+msgid "Restore Failed"
+msgstr "Pemulihan Gagal"
+
+#: main/src/ui/application.vala:1220
+#, c-format
+msgid ""
+"Could not restore the backup file.\n"
+"\n"
+"Error: %s"
+msgstr ""
+"Tidak dapat memulihkan file cadangan.\n"
+"\n"
+"Kesalahan: %s"
+
+#: main/src/ui/application.vala:1220 main/src/ui/application.vala:1896
+msgid "Unknown error"
+msgstr "Kesalahan tidak diketahui"
+
+#: main/src/ui/application.vala:1298
+msgid ""
+"Your personal data (accounts, messages, files) is stored separately from the "
+"application. When you update DinoX, your data remains intact."
+msgstr ""
+"Data pribadi Anda (akun, pesan, file) disimpan terpisah dari aplikasi. Saat "
+"Anda memperbarui DinoX, data Anda tetap utuh."
+
+#: main/src/ui/application.vala:1303 main/src/ui/application.vala:1791
+#: main/src/ui/application.vala:1875
+#: main/src/ui/chat_input/sticker_chooser.vala:181
+#: main/src/ui/conversation_details.vala:306
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:566
+#: main/src/ui/conversation_view_controller.vala:340
+#: main/src/ui/main_window.vala:172
+msgid "Close"
+msgstr "Tutup"
+
+#: main/src/ui/application.vala:1313
+msgid ""
+"This will delete cached files, avatars and previews.\n"
+"\n"
+"They will be re-downloaded when needed."
+msgstr ""
+"Ini akan menghapus file cache, avatar, dan pratinjau.\n"
+"\n"
+"Mereka akan diunduh ulang saat dibutuhkan."
+
+#: main/src/ui/application.vala:1350
+#, c-format
+msgid "Cache cleared (%s freed)"
+msgstr "Cache dibersihkan (%s dibebaskan)"
+
+#: main/src/ui/application.vala:1353
+msgid "Failed to clear cache"
+msgstr "Gagal membersihkan cache"
+
+#: main/src/ui/application.vala:1390
+msgid ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+msgstr ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+
+#: main/src/ui/application.vala:1418
+msgid "Resetting database... DinoX will restart."
+msgstr "Mereset database... DinoX akan dimulai ulang."
+
+#: main/src/ui/application.vala:1448
+msgid ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+msgstr ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+
+#: main/src/ui/application.vala:1453
+msgid "Create Backup First"
+msgstr "Buat Cadangan Terlebih Dahulu"
+
+#: main/src/ui/application.vala:1454
+msgid "Delete Everything"
+msgstr "Hapus Semuanya"
+
+#: main/src/ui/application.vala:1474
+msgid "Are you absolutely sure?"
+msgstr "Apakah Anda benar-benar yakin?"
+
+#: main/src/ui/application.vala:1475
+msgid ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+msgstr ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+
+#: main/src/ui/application.vala:1485
+msgid "Confirm Delete"
+msgstr "Konfirmasi Hapus"
+
+#: main/src/ui/application.vala:1512
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "Reset pabrik sedang berlangsung... DinoX akan dimulai ulang."
+
+#: main/src/ui/application.vala:1577
+msgid "Backup Encryption"
+msgstr "Enkripsi Cadangan"
+
+#: main/src/ui/application.vala:1578
+msgid ""
+"Do you want to encrypt the backup with a password?\n"
+"\n"
+"Encrypted backups are more secure but require the password to restore."
+msgstr ""
+"Apakah Anda ingin mengenkripsi cadangan dengan kata sandi?\n"
+"\n"
+"Cadangan terenkripsi lebih aman tetapi memerlukan kata sandi untuk "
+"memulihkan."
+
+#: main/src/ui/application.vala:1581
+msgid "No Encryption"
+msgstr "Tanpa Enkripsi"
+
+#: main/src/ui/application.vala:1582
+msgid "Encrypt with Password"
+msgstr "Enkripsi dengan Kata Sandi"
+
+#: main/src/ui/application.vala:1600
+msgid "Set Backup Password"
+msgstr "Atur Kata Sandi Cadangan"
+
+#: main/src/ui/application.vala:1601
+msgid ""
+"Enter a password to encrypt the backup.\n"
+"\n"
+"<b>Important:</b> Remember this password! Without it, the backup cannot be "
+"restored."
+msgstr ""
+"Masukkan kata sandi untuk mengenkripsi cadangan.\n"
+"\n"
+"<b>Penting:</b> Ingat kata sandi ini! Tanpanya, cadangan tidak dapat "
+"dipulihkan."
+
+#: main/src/ui/application.vala:1609
+msgid "Password (minimum 4 characters)"
+msgstr "Kata sandi (minimal 4 karakter)"
+
+#: main/src/ui/application.vala:1617 main/src/ui/application.vala:1624
+msgid "Confirm Password"
+msgstr "Konfirmasi Kata Sandi"
+
+#: main/src/ui/application.vala:1641
+msgid "Create Encrypted Backup"
+msgstr "Buat Cadangan Terenkripsi"
+
+#: main/src/ui/application.vala:1653 main/src/ui/application.vala:1668
+msgid "Password too short"
+msgstr "Kata sandi terlalu pendek"
+
+#: main/src/ui/application.vala:1655 main/src/ui/application.vala:1670
+msgid "Passwords do not match"
+msgstr "Kata sandi tidak cocok"
+
+#: main/src/ui/application.vala:1657 main/src/ui/application.vala:1672
+msgid "✓ Passwords match"
+msgstr "✓ Kata sandi cocok"
+
+#: main/src/ui/application.vala:1690
+msgid "Select Backup Location"
+msgstr "Pilih Lokasi Cadangan"
+
+#: main/src/ui/application.vala:1745
+msgid "Creating Encrypted Backup..."
+msgstr "Membuat Cadangan Terenkripsi..."
+
+#: main/src/ui/application.vala:1745
+msgid "Creating Backup..."
+msgstr "Membuat Cadangan..."
+
+#: main/src/ui/application.vala:1746
+msgid "Please wait while your data is being backed up."
+msgstr "Harap tunggu sementara data Anda dicadangkan."
+
+#: main/src/ui/application.vala:1785
+msgid "No data directory found to backup"
+msgstr "Tidak ada direktori data yang ditemukan untuk dicadangkan"
+
+#: main/src/ui/application.vala:1788 main/src/ui/application.vala:1894
+msgid "Backup Failed"
+msgstr "Cadangan Gagal"
+
+#: main/src/ui/application.vala:1882
+msgid "Encrypted Backup Created"
+msgstr "Cadangan Terenkripsi Dibuat"
+
+#: main/src/ui/application.vala:1884
+#, c-format
+msgid ""
+"Your encrypted backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"Cadangan terenkripsi Anda berhasil dibuat.\n"
+"\n"
+"Ukuran: %s"
+
+#: main/src/ui/application.vala:1885
+msgid "Your encrypted backup was created successfully."
+msgstr "Cadangan terenkripsi Anda berhasil dibuat."
+
+#: main/src/ui/application.vala:1887
+msgid "Backup Created"
+msgstr "Cadangan Dibuat"
+
+#: main/src/ui/application.vala:1889
+#, c-format
+msgid ""
+"Your backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"Cadangan Anda berhasil dibuat.\n"
+"\n"
+"Ukuran: %s"
+
+#: main/src/ui/application.vala:1890
+msgid "Your backup was created successfully."
+msgstr "Cadangan Anda berhasil dibuat."
+
+#: main/src/ui/application.vala:1897
+#, c-format
+msgid "Backup failed: %s"
+msgstr "Cadangan gagal: %s"
+
+#: main/src/ui/call_window/audio_settings_popover.vala:46
+msgid "Microphones"
+msgstr "Mikrofon"
+
+#: main/src/ui/call_window/audio_settings_popover.vala:49
+msgid "No microphone found."
+msgstr "Mikrofon tidak ditemukan."
+
+#: main/src/ui/call_window/audio_settings_popover.vala:116
+msgid "Speakers"
+msgstr "Sepiker"
+
+#: main/src/ui/call_window/audio_settings_popover.vala:119
+msgid "No speaker found."
+msgstr "Sepiker tidak ditemukan."
+
+#: main/src/ui/call_window/call_window_controller.vala:152
+msgid "Invite to Call"
+msgstr "Undang ke Panggilan"
+
+#: main/src/ui/call_window/call_window_controller.vala:153
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:780
+#: main/src/ui/conversation_titlebar/menu_entry.vala:99
+#: main/src/ui/occupant_menu/view.vala:27
+#: main/src/ui/occupant_menu/view.vala:283
+msgid "Invite"
+msgstr "Undang"
+
+#: main/src/ui/call_window/call_window_controller.vala:451
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:240
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:270
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:285
+#: main/src/ui/util/helper.vala:79 main/src/ui/util/helper.vala:83
+#: main/src/ui/util/helper.vala:91
+msgid "Me"
+msgstr "Saya"
+
+#: main/src/ui/call_window/call_window.vala:219
+#, c-format
+msgid "%s ended the call"
+msgstr "%s mengakhiri panggilan"
+
+#: main/src/ui/call_window/call_window.vala:221
+#, c-format
+msgid "%s declined the call"
+msgstr "%s menolak panggilan"
+
+#: main/src/ui/call_window/participant_widget.vala:140
+msgid "Debug information"
+msgstr "Informasi Debug"
+
+#: main/src/ui/call_window/participant_widget.vala:149
+#: main/src/ui/conversation_content_view/call_widget.vala:152
+msgid "Calling…"
+msgstr "Memanggil…"
+
+#: main/src/ui/call_window/participant_widget.vala:151
+msgid "Ringing…"
+msgstr "Berdering…"
+
+#: main/src/ui/call_window/participant_widget.vala:153
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:532
+msgid "Connecting…"
+msgstr "Menghubungi…"
+
+#: main/src/ui/call_window/video_settings_popover.vala:25
+msgid "Cameras"
+msgstr "Kamera"
+
+#: main/src/ui/call_window/video_settings_popover.vala:28
+msgid "No camera found."
+msgstr "Kamera tidak ditemukan."
+
+#: main/src/ui/chat_input/chat_input_controller.vala:267
+msgid "This conference does not allow you to send messages."
+msgstr "Grup ini tidak mengijinkan anda mengirim pesan."
+
+#: main/src/ui/chat_input/chat_input_controller.vala:267
+msgid "Request permission"
+msgstr "Meminta ijin"
+
+#: main/src/ui/chat_input/encryption_button.vala:35
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:224
+msgid "Unencrypted"
+msgstr "Tidak terenkripsi"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:176
+msgid "Manage Sticker Packs"
+msgstr "Kelola Paket Stiker"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:390
+msgid "Stickers are unavailable"
+msgstr "Stiker tidak tersedia"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:412
+msgid "No sticker packs yet."
+msgstr "Belum ada paket stiker."
+
+#: main/src/ui/chat_input/sticker_chooser.vala:414
+#: main/src/ui/chat_input/sticker_chooser.vala:527
+msgid "No stickers selected"
+msgstr "Tidak ada stiker yang dipilih"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:543
+msgid "No stickers in this pack"
+msgstr "Tidak ada stiker dalam paket ini"
+
+#: main/src/ui/contact_details/permissions_provider.vala:23
+msgid "Request permission to send messages"
+msgstr "Meminta ijin untuk mengirim pesan"
+
+#: main/src/ui/contact_details/permissions_provider.vala:24
+msgid "Request"
+msgstr "Permintaan"
+
+#: main/src/ui/contact_details/settings_provider.vala:21
+#: main/src/ui/contact_details/settings_provider.vala:24
+#: main/src/ui/contact_details/settings_provider.vala:31
+#: main/src/ui/contact_details/settings_provider.vala:34
+msgid "On"
+msgstr "Nyala"
+
+#: main/src/ui/contact_details/settings_provider.vala:21
+#: main/src/ui/contact_details/settings_provider.vala:25
+#: main/src/ui/contact_details/settings_provider.vala:31
+#: main/src/ui/contact_details/settings_provider.vala:35
+msgid "Off"
+msgstr "Mati"
+
+#: main/src/ui/contact_details/settings_provider.vala:22
+msgid "Send typing notifications"
+msgstr "Kirim pemberitahuan pengetikan"
+
+#: main/src/ui/contact_details/settings_provider.vala:23
+#: main/src/ui/contact_details/settings_provider.vala:33
+#, c-format
+msgid "Default: %s"
+msgstr "Pengaturan awal: %s"
+
+#: main/src/ui/contact_details/settings_provider.vala:32
+msgid "Send read receipts"
+msgstr "Kirim tanda telah dibaca"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:137
+#: main/src/ui/notifier_freedesktop.vala:114
+#: main/src/ui/notifier_gnotifications.vala:72
+msgid "Incoming video call"
+msgstr "Panggilan video masuk"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:137
+#: main/src/ui/conversation_content_view/call_widget.vala:168
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:287
+#: main/src/ui/notifier_freedesktop.vala:114
+#: main/src/ui/notifier_gnotifications.vala:72
+msgid "Incoming call"
+msgstr "Panggilan masuk"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:139
+#: main/src/ui/notifier_freedesktop.vala:116
+#: main/src/ui/notifier_gnotifications.vala:74
+msgid "Incoming video group call"
+msgstr "Panggilan video grup masuk"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:139
+#: main/src/ui/notifier_freedesktop.vala:116
+#: main/src/ui/notifier_gnotifications.vala:74
+msgid "Incoming group call"
+msgstr "Panggilan grup masuk"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:159
+msgid "Call started"
+msgstr "Panggilan dimulai"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:161
+#, c-format
+msgid "Started %s ago"
+msgstr "Dimulai %s yang lalu"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:168
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:287
+msgid "Outgoing call"
+msgstr "Panggilan keluar"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:169
+msgid "You handled this call on another device"
+msgstr "Anda menangani panggilan ini di perangkat lain"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:174
+msgid "Call ended"
+msgstr "Panggilan berakhir"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:175
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:315
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:490
+#, no-c-format
+msgid "%H∶%M"
+msgstr "%H∶%M"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:175
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:316
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:491
+#, no-c-format
+msgid "%l∶%M %p"
+msgstr "%l∶%M %p"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:177
+#, c-format
+msgid "Ended at %s"
+msgstr "Berakhir pada %s"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:179
+#, c-format
+msgid "Lasted %s"
+msgstr "Berlangsung %s"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:183
+msgid "Call missed"
+msgstr "Panggilan tak terjawab"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:185
+msgid "You missed this call"
+msgstr "Anda melewatkan panggilan ini"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:188
+#, c-format
+msgid "%s missed this call"
+msgstr "%s melewatkan panggilan ini"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:193
+msgid "Call declined"
+msgstr "Panggilan ditolak"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:195
+msgid "You declined this call"
+msgstr "Anda menolak panggilan ini"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:198
+#, c-format
+msgid "%s declined this call"
+msgstr "%s menolak panggilan ini"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:203
+msgid "Call failed"
+msgstr "Panggilan gagal"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:241
+msgid "a few seconds"
+msgstr "beberapa detik"
+
+#: main/src/ui/conversation_content_view/chat_state_populator.vala:108
+#, c-format
+msgid "%s, %s and %i others are typing…"
+msgstr "%s, %s, dan %i lainnya sedang mengetik…"
+
+#: main/src/ui/conversation_content_view/chat_state_populator.vala:115
+#, c-format
+msgid "%s, %s and %s are typing…"
+msgstr "%s, %s, dan %s sedang mengetik…"
+
+#: main/src/ui/conversation_content_view/chat_state_populator.vala:121
+#, c-format
+msgid "%s and %s are typing…"
+msgstr "%s dan%s sedang mengetik…"
+
+#: main/src/ui/conversation_content_view/chat_state_populator.vala:126
+#, c-format
+msgid "%s is typing…"
+msgstr "%s sedang mengetik…"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:256
+msgid "Delivered"
+msgstr "Terkirim"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:260
+msgid "Read"
+msgstr "Baca"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:266
+msgid "Unable to send message"
+msgstr "Tidak bisa mengirimkan pesan"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:303
+#, no-c-format
+msgid "%x, %H∶%M"
+msgstr "%x, %H∶%M"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:304
+#, no-c-format
+msgid "%x, %l∶%M %p"
+msgstr "%x, %l∶%M %p"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:307
+#, no-c-format
+msgid "%b %d, %H∶%M"
+msgstr "%d %b, %H∶%M"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:308
+#, no-c-format
+msgid "%b %d, %l∶%M %p"
+msgstr "%d %b, %l∶%M %p"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:311
+#, no-c-format
+msgid "%a, %H∶%M"
+msgstr "%a, %H∶%M"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:312
+#, no-c-format
+msgid "%a, %l∶%M %p"
+msgstr "%a, %l∶%M %p"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:322
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:496
+msgid "Just now"
+msgstr "Sesaat lalu"
+
+#: main/src/ui/conversation_content_view/conversation_view.vala:114
+msgid "More actions"
+msgstr "Tindakan lainnya"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:67
+#: main/src/ui/conversation_content_view/file_image_widget.vala:201
+msgid "Open"
+msgstr "Buka"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:68
+#: main/src/ui/conversation_content_view/file_image_widget.vala:202
+#: main/src/ui/conversation_content_view/file_widget.vala:174
+msgid "Save as…"
+msgstr "Simpan sebagai…"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:77
+#, c-format
+msgid "Downloading %s… (%u%%)"
+msgstr "Mengunduh %s… (%u%%)"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:79
+#, c-format
+msgid "Downloading %s…"
+msgstr "Mengunduh %s…"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:83
+#, c-format
+msgid "Uploading %s… (%u%%)"
+msgstr "Mengunggah %s… (%u%%)"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:97
+#, c-format
+msgid "%s offered: %s"
+msgstr "%s ditawarkan: %s"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:99
+#, c-format
+msgid "File offered: %s"
+msgstr "File ditawarkan: %s"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:101
+msgid "File offered"
+msgstr "File ditawarkan"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:107
+msgid "File transfer failed"
+msgstr "Transfer file gagal"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:36
+msgid "Kick user"
+msgstr "Tendang pengguna"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:69
+msgid "Ban user"
+msgstr "Blokir pengguna"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:82
+#: main/src/ui/conversation_content_view/reactions_widget.vala:128
+msgid "Add reaction"
+msgstr "Tambahkan reaksi"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:94
+msgid "This conversation does not support reactions."
+msgstr "Percakapan ini tidak mendukung reaksi."
+
+#: main/src/ui/conversation_content_view/item_actions.vala:107
+msgid "Reply"
+msgstr "Balas"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:117
+msgid "This conversation does not support replies."
+msgstr "Percakapan ini tidak mendukung balasan."
+
+#: main/src/ui/conversation_content_view/item_actions.vala:146
+msgid "Moderate message..."
+msgstr "Moderasi pesan…"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:148
+msgid "Delete..."
+msgstr "Hapus..."
+
+#: main/src/ui/conversation_content_view/item_actions.vala:150
+#: main/src/ui/conversation_content_view/item_actions.vala:168
+msgid "Delete locally"
+msgstr "Hapus secara lokal"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:160
+msgid "Moderate message"
+msgstr "Moderasi pesan"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:160
+msgid "Delete message"
+msgstr "Hapus pesan"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:164
+msgid "Do you want to remove this message from the channel?"
+msgstr "Apakah Anda ingin menghapus pesan ini dari kanal?"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:165
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:753
+#: main/src/windows/conversation_details.vala:61
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:286
+msgid "Remove"
+msgstr "Hapus"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:167
+msgid "Do you want to delete this message just for yourself or for everyone?"
+msgstr ""
+"Apakah Anda ingin menghapus pesan ini hanya untuk diri sendiri atau untuk "
+"semua orang?"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:168
+msgid "Delete for everyone"
+msgstr "Hapus untuk semua orang"
+
+#: main/src/ui/conversation_content_view/message_widget.vala:174
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:255
+msgid "Message deleted"
+msgstr "Pesan dihapus"
+
+#: main/src/ui/conversation_content_view/message_widget.vala:178
+msgid "edited"
+msgstr "Diedit"
+
+#: main/src/ui/conversation_content_view/message_widget.vala:182
+msgid "Message truncated - exceeds 100,000 characters"
+msgstr "Pesan terpotong - melebihi 100.000 karakter"
+
+#: main/src/ui/conversation_content_view/message_widget.vala:191
+msgid "pending…"
+msgstr "tertunda…"
+
+#: main/src/ui/conversation_content_view/message_widget.vala:206
+msgid "delivery failed"
+msgstr "pengiriman gagal"
+
+#: main/src/ui/conversation_content_view/message_widget.vala:362
+msgid "Edit message"
+msgstr "Ubah pesan"
+
+#: main/src/ui/conversation_content_view/quote_widget.vala:43
+msgid "File"
+msgstr "Berkas"
+
+#: main/src/ui/conversation_content_view/reactions_widget.vala:102
+msgid "You"
+msgstr "Anda"
+
+#: main/src/ui/conversation_content_view/subscription_notification.vala:49
+msgid "Send request"
+msgstr "Kirim permintaan"
+
+#: main/src/ui/conversation_content_view/subscription_notification.vala:60
+msgid "You do not receive status updates from this contact yet."
+msgstr "Anda belum menerima pembaruan status dari kontak ini."
+
+#: main/src/ui/conversation_content_view/subscription_notification.vala:68
+#: main/src/ui/notifier_freedesktop.vala:166
+#: main/src/ui/notifier_freedesktop.vala:266
+#: main/src/ui/notifier_gnotifications.vala:102
+#: main/src/ui/notifier_gnotifications.vala:139
+#: main/src/ui/notifier_gnotifications.vala:157
+msgid "Deny"
+msgstr "Tolak"
+
+#: main/src/ui/conversation_content_view/subscription_notification.vala:80
+msgid "This contact would like to add you to their contact list"
+msgstr "Kontak ini ingin menambahkan anda kedalam daftar kontaknya"
+
+#: main/src/ui/conversation_content_view/unread_indicator_populator.vala:76
+msgid "New"
+msgstr "Baru"
+
+#: main/src/ui/conversation_details.vala:188
+#, fuzzy
+msgid "Affiliation"
+msgstr "Kelola Afiliasi"
+
+#: main/src/ui/conversation_details.vala:197
+msgid "Real JID"
+msgstr "JID Asli"
+
+#: main/src/ui/conversation_details.vala:205
+#: main/src/ui/util/data_forms.vala:40
+msgid "Display name"
+msgstr "Nama tampilan"
+
+#: main/src/ui/conversation_details.vala:225
+#: main/src/ui/conversation_details.vala:239
+msgid "Topic"
+msgstr "Topik"
+
+#: main/src/ui/conversation_details.vala:252
+msgid "Permissions"
+msgstr "Izin"
+
+#: main/src/ui/conversation_details.vala:253
+msgid "Manage Affiliations"
+msgstr "Kelola Afiliasi"
+
+#: main/src/ui/conversation_details.vala:273
+msgid "Danger Zone"
+msgstr "Zona Bahaya"
+
+#: main/src/ui/conversation_details.vala:274
+msgid "Destroy Room"
+msgstr "Hancurkan Ruangan"
+
+#: main/src/ui/conversation_details.vala:280
+msgid "Destroy Room?"
+msgstr "Hancurkan ruangan?"
+
+#: main/src/ui/conversation_details.vala:281
+msgid ""
+"Are you sure you want to permanently destroy this room? This action cannot "
+"be undone and all history will be lost for all participants."
+msgstr ""
+"Apakah Anda yakin ingin menghancurkan ruangan ini secara permanen? Tindakan "
+"ini tidak dapat dibatalkan dan semua riwayat akan hilang untuk semua peserta."
+
+#: main/src/ui/conversation_details.vala:284
+msgid "Destroy"
+msgstr "Hancurkan"
+
+#: main/src/ui/conversation_details.vala:305
+msgid "Failed to destroy room"
+msgstr "Gagal menghapus ruangan"
+
+#: main/src/ui/conversation_details.vala:320
+msgid "Auto-delete messages"
+msgstr "Hapus otomatis pesan"
+
+#: main/src/ui/conversation_details.vala:321
+msgid "Never"
+msgstr "Tidak pernah"
+
+#: main/src/ui/conversation_details.vala:322
+msgid "After 15 minutes"
+msgstr "Setelah 15 menit"
+
+#: main/src/ui/conversation_details.vala:323
+msgid "After 30 minutes"
+msgstr "Setelah 30 menit"
+
+#: main/src/ui/conversation_details.vala:324
+msgid "After 1 hour"
+msgstr "Setelah 1 jam"
+
+#: main/src/ui/conversation_details.vala:325
+msgid "After 24 hours"
+msgstr "Setelah 24 jam"
+
+#: main/src/ui/conversation_details.vala:326
+msgid "After 7 days"
+msgstr "Setelah 7 hari"
+
+#: main/src/ui/conversation_details.vala:327
+msgid "After 30 days"
+msgstr "Setelah 30 hari"
+
+#: main/src/ui/conversation_details.vala:586
+msgid "Phone"
+msgstr "Telepon"
+
+#: main/src/ui/conversation_details.vala:590
+msgid "Title"
+msgstr "Gelar"
+
+#: main/src/ui/conversation_details.vala:596
+msgid "URL"
+msgstr "URL"
+
+#: main/src/ui/conversation_details.vala:598
+msgid "Note"
+msgstr "Catatan"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:276
+#: main/src/ui/notifier_freedesktop.vala:71
+#: main/src/ui/notifier_gnotifications.vala:36
+msgid "Image sent"
+msgstr "Gambar terkirim"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:276
+#: main/src/ui/notifier_freedesktop.vala:71
+#: main/src/ui/notifier_gnotifications.vala:36
+msgid "File sent"
+msgstr "File terkirim"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:278
+#: main/src/ui/notifier_freedesktop.vala:73
+#: main/src/ui/notifier_gnotifications.vala:38
+msgid "Image received"
+msgstr "Gambar diterima"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:278
+#: main/src/ui/notifier_freedesktop.vala:73
+#: main/src/ui/notifier_gnotifications.vala:38
+msgid "File received"
+msgstr "File diterima"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:361
+msgid "Thema:"
+msgstr "Tema:"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:381
+msgid "Privat"
+msgstr "Pribadi"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:383
+msgid "Öffentlich"
+msgstr "Publik"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:387
+msgid "Typ:"
+msgstr "Tipe:"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:483
+#: main/src/ui/widgets/date_separator.vala:37
+#, no-c-format
+msgid "%b %d"
+msgstr "%d %b"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:487
+#: main/src/ui/widgets/date_separator.vala:28
+msgid "Yesterday"
+msgstr "Kemarin"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:506
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:554
+#: main/src/ui/conversation_titlebar/menu_entry.vala:79
+msgid "Conversation Details"
+msgstr "Detail Obrolan"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:507
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:779
+#: main/src/ui/conversation_titlebar/menu_entry.vala:98
+msgid "Invite Contact"
+msgstr "Undang Kontak"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:511
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:559
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:669
+#: main/src/ui/occupant_menu/view.vala:181
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:134
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:200
+msgid "Unmute"
+msgstr "Bunyikan"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:511
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:559
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:688
+#: main/src/ui/occupant_menu/view.vala:185
+#: main/src/windows/conversation_details.vala:173
+#: main/src/windows/conversation_details.vala:174
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:134
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:220
+msgid "Mute"
+msgstr "Bisukan"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:514
+msgid "Leave and Close"
+msgstr "Keluar dan tutup"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:555
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:631
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:120
+msgid "Edit Alias"
+msgstr "Ubah Alias"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:563
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:713
+#: main/src/windows/conversation_details.vala:118
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:244
+msgid "Unblock"
+msgstr "Buka blokir"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:563
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:732
+#: main/src/windows/conversation_details.vala:154
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:264
+msgid "Block"
+msgstr "Blokir"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:636
+msgid "Alias"
+msgstr "Alias"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:642
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:327
+msgid "Save"
+msgstr "Simpan"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:665
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:196
+msgid "Unmute contact?"
+msgstr "Bunyikan kontak?"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:666
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:197
+#, c-format
+msgid "This will enable notifications from %s."
+msgstr "Ini akan mengaktifkan notifikasi dari %s."
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:684
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:216
+msgid "Mute contact?"
+msgstr "Bisukan kontak?"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:685
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:217
+#, c-format
+msgid "This will disable notifications from %s."
+msgstr "Ini akan menonaktifkan notifikasi dari %s."
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:709
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:240
+msgid "Unblock contact?"
+msgstr "Buka blokir kontak?"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:710
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:241
+#, c-format
+msgid "This will allow %s to send you messages again."
+msgstr "Ini akan memungkinkan %s mengirim pesan kepada Anda lagi."
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:728
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:260
+msgid "Block contact?"
+msgstr "Blokir kontak?"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:729
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:261
+#, c-format
+msgid "This will prevent %s from sending you messages."
+msgstr "Ini akan mencegah %s mengirim pesan kepada Anda."
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:749
+#: main/src/windows/conversation_details.vala:57
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:282
+msgid "Remove contact?"
+msgstr "Hapus kontak?"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:750
+#, c-format
+msgid ""
+"This will:\n"
+"• Delete all conversation history\n"
+"• Remove %s from your contact list\n"
+"\n"
+"This action cannot be undone."
+msgstr ""
+"Ini akan:\n"
+"• Menghapus semua riwayat percakapan\n"
+"• Menghapus %s dari daftar kontak Anda\n"
+"\n"
+"Tindakan ini tidak dapat dibatalkan."
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:794
+msgid "Delete all message history?"
+msgstr "Hapus semua riwayat pesan?"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:795
+msgid ""
+"This will permanently delete all messages in this conversation. This action "
+"cannot be undone."
+msgstr ""
+"Ini akan menghapus semua pesan dalam percakapan ini secara permanen. "
+"Tindakan ini tidak dapat dibatalkan."
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:798
+#: main/src/ui/conversation_titlebar/menu_entry.vala:51
+msgid "Delete"
+msgstr "Hapus"
+
+#: main/src/ui/conversation_titlebar/call_entry.vala:14
+msgid "Start call"
+msgstr "Mulai panggilan"
+
+#: main/src/ui/conversation_titlebar/call_entry.vala:25
+msgid "Audio call"
+msgstr "Panggilan audio"
+
+#: main/src/ui/conversation_titlebar/call_entry.vala:26
+msgid "Video call"
+msgstr "Panggilan video"
+
+#: main/src/ui/conversation_titlebar/call_entry.vala:79
+msgid "Conference Server Required"
+msgstr "Server Konferensi Diperlukan"
+
+#: main/src/ui/conversation_titlebar/call_entry.vala:80
+msgid ""
+"To start a group call, you need to configure a default conference server in "
+"your account settings."
+msgstr ""
+"Untuk memulai panggilan grup, Anda perlu mengonfigurasi server konferensi "
+"default di pengaturan akun Anda."
+
+#: main/src/ui/conversation_titlebar/call_entry.vala:84
+msgid "Open Settings"
+msgstr "Buka Pengaturan"
+
+#: main/src/ui/conversation_titlebar/menu_entry.vala:47
+msgid "Delete all message history for this conversation?"
+msgstr "Hapus semua riwayat pesan untuk percakapan ini?"
+
+#: main/src/ui/conversation_titlebar/menu_entry.vala:49
+msgid "This action cannot be undone."
+msgstr "Tindakan ini tidak dapat dibatalkan."
+
+#: main/src/ui/conversation_titlebar/menu_entry.vala:85
+msgid "Close Conversation"
+msgstr "Tutup Obrolan"
+
+#: main/src/ui/conversation_titlebar/occupants_entry.vala:14
+#: main/src/windows/conversation_details.vala:302
+msgid "Members"
+msgstr "Anggota"
+
+#: main/src/ui/conversation_view_controller.vala:256
+msgid "Select file"
+msgstr "Pilih file"
+
+#: main/src/ui/conversation_view_controller.vala:257
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:215
+msgid "Select"
+msgstr "Pilih"
+
+#: main/src/ui/conversation_view_controller.vala:339
+msgid "Failed to get location"
+msgstr "Gagal mendapatkan lokasi"
+
+#: main/src/ui/file_send_overlay.vala:60
+msgid "The file exceeds the server's maximum upload size."
+msgstr "Ukuran file melebihi ukuran unggahan maksimum."
+
+#: main/src/ui/global_search.vala:208
+#, c-format
+msgid "In %s"
+msgstr "di %s"
+
+#: main/src/ui/global_search.vala:208
+#, c-format
+msgid "With %s"
+msgstr "Pada %s"
+
+#: main/src/ui/main_window.vala:169
+msgid "Join Channel Help"
+msgstr "Bantuan Bergabung Saluran"
+
+#: main/src/ui/main_window.vala:170
+msgid ""
+"To join a channel, click the \"Join Channel\" button and enter the channel "
+"JID (example: room@conference.example.org).\n"
+"\n"
+"If you need a password or a nickname, provide them in the dialog. Use the "
+"discovery features in the server to find public rooms."
+msgstr ""
+"Untuk bergabung dengan saluran, klik tombol \"Gabung Saluran\" dan masukkan "
+"JID saluran (contoh: room@conference.example.org).\n"
+"\n"
+"Jika Anda memerlukan kata sandi atau nama panggilan, berikan di dialog. "
+"Gunakan fitur penemuan server untuk menemukan ruangan publik."
+
+#: main/src/ui/main_window.vala:222
+msgid "Welcome to DinoX!"
+msgstr "Selamat datang di DinoX!"
+
+#: main/src/ui/main_window.vala:223
+msgid "Sign in or create an account to get started."
+msgstr "Masuk atau buat akun untuk memulai."
+
+#: main/src/ui/main_window.vala:224
+msgid "Set up account"
+msgstr "Buat akun"
+
+#: main/src/ui/main_window.vala:233
+#: main/src/windows/preferences_window/accounts_preferences_page.vala:71
+#: main/src/windows/preferences_window/encryption_preferences_page.vala:49
+msgid "No active accounts"
+msgstr "Tidak ada akun aktif"
+
+#: main/src/ui/main_window.vala:234
+msgid "Manage accounts"
+msgstr "Atur akun"
+
+#: main/src/ui/notifier_freedesktop.vala:159
+#: main/src/ui/notifier_gnotifications.vala:93
+msgid "Subscription request"
+msgstr "Meminta ijin"
+
+#: main/src/ui/notifier_freedesktop.vala:194
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:547
+msgid "Wrong password"
+msgstr "Password salah"
+
+#: main/src/ui/notifier_freedesktop.vala:197
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:549
+msgid "Invalid TLS certificate"
+msgstr "Sertifikat TLS tidak valid"
+
+#: main/src/ui/notifier_freedesktop.vala:222
+#: main/src/ui/notifier_gnotifications.vala:127
+#, c-format
+msgid "Invitation to %s"
+msgstr "Undangan untuk %s"
+
+#: main/src/ui/notifier_freedesktop.vala:223
+#: main/src/ui/notifier_gnotifications.vala:128
+#, c-format
+msgid "%s invited you to %s"
+msgstr "%s mengundang anda ke %s"
+
+#: main/src/ui/notifier_freedesktop.vala:256
+#: main/src/ui/notifier_gnotifications.vala:147
+msgid "Permission request"
+msgstr "Permintaan ijin"
+
+#: main/src/ui/notifier_freedesktop.vala:257
+#: main/src/ui/notifier_gnotifications.vala:148
+#, c-format
+msgid "%s requests the permission to write in %s"
+msgstr "%smeminta ijin untuk menulis ke dalam %s"
+
+#: main/src/ui/occupant_menu/list.vala:118
+#: main/src/view_model/conversation_details.vala:139
+msgid "Owner"
+msgstr "Pemilik"
+
+#: main/src/ui/occupant_menu/list.vala:120
+#: main/src/view_model/conversation_details.vala:140
+msgid "Admin"
+msgstr "Moderator"
+
+#: main/src/ui/occupant_menu/list.vala:122
+#: main/src/view_model/conversation_details.vala:141
+msgid "Member"
+msgstr "Anggota"
+
+#: main/src/ui/occupant_menu/list.vala:124
+msgid "User"
+msgstr "Pengguna"
+
+#: main/src/ui/occupant_menu/view.vala:100
+msgid "Start private conversation"
+msgstr "Mulai percakapan pribadi"
+
+#: main/src/ui/occupant_menu/view.vala:135
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:151
+msgid "Unblock Contact"
+msgstr "Buka Blokir Kontak"
+
+#: main/src/ui/occupant_menu/view.vala:137
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:151
+msgid "Block Contact"
+msgstr "Blokir Kontak"
+
+#: main/src/ui/occupant_menu/view.vala:143
+msgid "Moderation"
+msgstr "Moderasi"
+
+#: main/src/ui/occupant_menu/view.vala:145
+msgid "Kick"
+msgstr "Depak"
+
+#: main/src/ui/occupant_menu/view.vala:149
+msgid "Ban (Permanent)"
+msgstr "Blokir (Permanen)"
+
+#: main/src/ui/occupant_menu/view.vala:150
+msgid "Ban (10 min)"
+msgstr "Blokir (10 mnt)"
+
+#: main/src/ui/occupant_menu/view.vala:151
+msgid "Ban (15 min)"
+msgstr "Blokir (15 mnt)"
+
+#: main/src/ui/occupant_menu/view.vala:152
+msgid "Ban (30 min)"
+msgstr "Blokir (30 mnt)"
+
+#: main/src/ui/occupant_menu/view.vala:156
+msgid "Administration"
+msgstr "Administrasi"
+
+#: main/src/ui/occupant_menu/view.vala:160
+msgid "Make Admin"
+msgstr "Jadikan Admin"
+
+#: main/src/ui/occupant_menu/view.vala:162
+msgid "Revoke Admin"
+msgstr "Cabut Admin"
+
+#: main/src/ui/occupant_menu/view.vala:166
+msgid "Make Owner"
+msgstr "Jadikan Pemilik"
+
+#: main/src/ui/occupant_menu/view.vala:171
+msgid "Make Member"
+msgstr "Jadikan Anggota"
+
+#: main/src/ui/occupant_menu/view.vala:173
+msgid "Revoke Membership"
+msgstr "Cabut Keanggotaan"
+
+#: main/src/ui/occupant_menu/view.vala:236
+msgid "Kicked by moderator"
+msgstr "Dikeluarkan oleh moderator"
+
+#: main/src/ui/occupant_menu/view.vala:282
+msgid "Invite to Conference"
+msgstr "Undang ke Konferensi"
+
+#: main/src/ui/systray.vala:178
+msgid "Quit"
+msgstr "Keluar"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:35
+msgid "Import"
+msgstr "Impor"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:36
+msgid "Copy Share URI"
+msgstr "Salin URI Berbagi"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:50
+msgid "Import Sticker Pack"
+msgstr "Impor Paket Stiker"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:90
+#: main/src/ui/sticker_pack_import_dialog.vala:147
+msgid "Loading…"
+msgstr "Memuat…"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:128
+msgid "Importing…"
+msgstr "Mengimpor…"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:136
+#: main/src/ui/sticker_pack_import_dialog.vala:158
+msgid "No account available"
+msgstr "Tidak ada akun yang tersedia"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:172
+#: main/src/ui/sticker_pack_import_dialog.vala:189
+msgid "Failed to import sticker pack"
+msgstr "Gagal mengimpor paket stiker"
+
+#: main/src/ui/util/data_forms.vala:41
+msgid ""
+"A friendly name shown in room listings (does not change the room address)"
+msgstr ""
+"Nama ramah yang ditampilkan dalam daftar ruangan (tidak mengubah alamat "
+"ruangan)"
+
+#: main/src/ui/util/data_forms.vala:45
+msgid "A description of the room shown in room listings"
+msgstr "Deskripsi ruangan yang ditampilkan dalam daftar ruangan"
+
+#: main/src/ui/util/data_forms.vala:48
+msgid "Persistent"
+msgstr "Abadi"
+
+#: main/src/ui/util/data_forms.vala:49
+msgid "The room will persist after the last occupant leaves"
+msgstr "Kamar tetap ada setelah penghuni terakhir pergi"
+
+#: main/src/ui/util/data_forms.vala:52
+msgid "Publicly searchable"
+msgstr "Dapat ditemukan"
+
+#: main/src/ui/util/data_forms.vala:53
+msgid "The room will appear in public room listings"
+msgstr "Ruangan akan muncul di daftar ruangan publik"
+
+#: main/src/ui/util/data_forms.vala:56
+msgid "Occupants may change the subject"
+msgstr "Penghuni dapat mengubah subyek pembicaraan"
+
+#: main/src/ui/util/data_forms.vala:59
+msgid "Permission to view JIDs"
+msgstr "Ijin untuk melihat JID"
+
+#: main/src/ui/util/data_forms.vala:60
+msgid "Who is allowed to view the occupants' JIDs?"
+msgstr "Siapa yang diijinkan untuk melihat JID penghuni?"
+
+#: main/src/ui/util/data_forms.vala:67
+msgid "Moderated"
+msgstr "Dimoderasi"
+
+#: main/src/ui/util/data_forms.vala:68
+msgid "Only occupants with voice may send messages"
+msgstr "Hanya penghuni dengan akses suara yang boleh mengirim pesan"
+
+#: main/src/ui/util/data_forms.vala:71
+msgid "Members only"
+msgstr "Khusus anggota"
+
+#: main/src/ui/util/data_forms.vala:72
+msgid ""
+"Only members may enter the room. Warning: Non-members will be removed when "
+"enabled!"
+msgstr ""
+"Hanya anggota yang dapat masuk ke ruangan. Peringatan: Non-anggota akan "
+"dihapus ketika diaktifkan!"
+
+#: main/src/ui/util/helper.vala:75
+#, c-format
+msgid "%s from %s"
+msgstr "%s dari %s"
+
+#: main/src/ui/widgets/date_separator.vala:22
+msgid "Today"
+msgstr "Hari ini"
+
+#: main/src/ui/widgets/date_separator.vala:35
+#, no-c-format
+msgid "%a, %b %d"
+msgstr "%a, %b %d"
+
+#: main/src/windows/conversation_details.vala:58
+msgid ""
+"This contact will be removed from your contact list and all conversation "
+"history will be permanently deleted."
+msgstr ""
+"Kontak ini akan dihapus dari daftar kontak Anda dan semua riwayat percakapan "
+"akan dihapus secara permanen."
+
+#: main/src/windows/conversation_details.vala:118
+msgid "Block user"
+msgstr "Blokir pengguna"
+
+#: main/src/windows/conversation_details.vala:118
+msgid "Block entire domain"
+msgstr "Blokir seluruh domain"
+
+#: main/src/windows/conversation_details.vala:135
+msgid "Pinned"
+msgstr "Disematkan"
+
+#: main/src/windows/conversation_details.vala:135
+msgid "Pin"
+msgstr "Sematkan"
+
+#: main/src/windows/conversation_details.vala:150
+msgid "Domain blocked"
+msgstr "Domain diblokir"
+
+#: main/src/windows/conversation_details.vala:175
+msgid "Notifications enabled"
+msgstr "Notifikasi dinyalakan"
+
+#: main/src/windows/conversation_details.vala:178
+msgid "Notifications for mentions"
+msgstr "Notifikasi penyebutan"
+
+#: main/src/windows/conversation_details.vala:183
+msgid "Notifications disabled"
+msgstr "Notifikasi disenyapkan"
+
+#: main/src/windows/conversation_details.vala:242
+#, fuzzy
+msgid "Profile"
+msgstr "Simpan Profil"
+
+#: main/src/windows/conversation_details.vala:245
+msgid "Settings"
+msgstr "Pengaturan"
+
+#: main/src/windows/conversation_details.vala:274
+msgid "Room Configuration"
+msgstr "Konfigurasi kamar"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:91
+msgid "Connect"
+msgstr "Hubungi"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:146
+msgid "Disable account"
+msgstr "Nonaktifkan akun"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:146
+msgid "Enable account"
+msgstr "Aktifkan akun"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:214
+msgid "Select avatar"
+msgstr "Pilih gambar profil"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:225
+msgid "Images"
+msgstr "Gambar"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:229
+msgid "All files"
+msgstr "Semua file"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:247
+#, c-format
+msgid "Remove account %s?"
+msgstr "Hapus akun %s?"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:534
+msgid "Connected"
+msgstr "Terhubung"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:536
+msgid "Disconnected"
+msgstr "Terputus"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:556
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:558
+msgid "Error"
+msgstr "Rusak"
+
+#: main/src/windows/preferences_window/accounts_preferences_page.vala:28
+msgid "Disabled accounts"
+msgstr "Akun dinonaktifkan"
+
+#: main/src/windows/preferences_window/accounts_preferences_page.vala:31
+#: main/src/windows/preferences_window/add_account_dialog.vala:92
+msgid "Add Account"
+msgstr "Tambah akun"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:137
+msgid "Sign in"
+msgstr "Masuk"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:156
+#, c-format
+msgid "The server could not prove that it is %s."
+msgstr "Server tidak dapat membuktikan bahwa ini adalah %s."
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:158
+msgid "Its security certificate is not trusted by your operating system."
+msgstr "Sertifikat keamanannya tidak dipercaya oleh OS Anda."
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:160
+msgid "Its security certificate is issued to another domain."
+msgstr "Sertifikat keamanan dikeluarkan untuk domain lain."
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:162
+msgid "Its security certificate will only become valid in the future."
+msgstr "Sertifikat keamanan hanya akan berlaku di masa mendatang."
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:164
+msgid "Its security certificate is expired."
+msgstr "Sertifikat keamanan tidak berlaku."
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:172
+msgid "Create account"
+msgstr "Buat akun"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:191
+#, c-format
+msgid "You can now use the account %s."
+msgstr "Akun dapat digunakan %s."
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:248
+msgid "Wrong username or password"
+msgstr "Nama pengguna atau kata sandi salah"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:251
+msgid "Something went wrong"
+msgstr "Ada yang tidak beres"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:325
+msgid "No response from server"
+msgstr "Server tidak merespon"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:336
+#, c-format
+msgid "Register on %s"
+msgstr "Terdaftar pada %s"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:339
+msgid "The server requires to sign up through a website"
+msgstr "Server ini mengharuskan pendaftaran melalui website"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:341
+msgid "Open website"
+msgstr "Buka website"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:353
+msgid "Register"
+msgstr "Daftar"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:355
+#, c-format
+msgid "Check %s for information on how to sign up"
+msgstr "Periksa %s untuk informasi pendaftaran"
+
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:186
+msgid "No contacts"
+msgstr "Tidak ada kontak"
+
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:187
+msgid "Add contacts to start chatting"
+msgstr "Tambahkan kontak untuk mulai mengobrol"
+
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:283
+#, c-format
+msgid ""
+"This will remove %s from your contact list and delete all conversation "
+"history."
+msgstr ""
+"Ini akan menghapus %s dari daftar kontak Anda dan menghapus semua riwayat "
+"percakapan."
+
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:312
+msgid "Edit Contact Alias"
+msgstr "Edit Alias Kontak"
+
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:313
+#, c-format
+msgid "Change the display name for %s"
+msgstr "Ubah nama tampilan untuk %s"
+
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:319
+msgid "Alias (optional)"
+msgstr "Alias (opsional)"
+
+#~ msgid "Import…"
+#~ msgstr "Impor…"
+
+#~ msgid "Select sticker folder"
+#~ msgstr "Pilih folder stiker"
+
+#~ msgid "Local only"
+#~ msgstr "Hanya lokal"
+
+#~ msgid "Failed to create sticker pack"
+#~ msgstr "Gagal membuat paket stiker"
+
+#~ msgid "Publishing…"
+#~ msgstr "Menerbitkan…"
+
+#~ msgid "Failed to publish sticker pack"
+#~ msgstr "Gagal menerbitkan paket stiker"
+
+#~ msgid "Failed to remove sticker pack"
+#~ msgstr "Gagal menghapus paket stiker"
+
+#~ msgid "Creating backup..."
+#~ msgstr "Membuat cadangan..."
+
+#, c-format
+#~ msgid "Backup created successfully (%s)"
+#~ msgstr "Cadangan berhasil dibuat (%s)"
+
+#~ msgid "Backup created successfully"
+#~ msgstr "Cadangan berhasil dibuat"
+
+#~ msgid "Encrypting Backup..."
+#~ msgstr "Encrypting Backup..."
+
+#~ msgid "Creating encrypted backup..."
+#~ msgstr "Membuat cadangan terenkripsi..."
+
+#~ msgid "Encrypted backup created successfully"
+#~ msgstr "Cadangan terenkripsi berhasil dibuat"
+
+#~ msgid "Encrypted backup created (%s)"
+#~ msgstr "Cadangan terenkripsi dibuat (%s)"
+
+# OpenPGP Key Management
+#~ msgid "OpenPGP Key Management"
+#~ msgstr "OpenPGP Key Management"
+
+#~ msgid "Actions"
+#~ msgstr "Actions"
+
+#~ msgid "Generate New Key"
+#~ msgstr "Generate New Key"
+
+#~ msgid "Your Keys"
+#~ msgstr "Your Keys"
+
+#~ msgid "Fingerprint"
+#~ msgstr "Fingerprint"
+
+#~ msgid "Export Public Key"
+#~ msgstr "Export Public Key"
+
+#~ msgid "Delete Key"
+#~ msgstr "Delete Key"
+
+#~ msgid "Name"
+#~ msgstr "Name"
+
+#~ msgid "Passphrase"
+#~ msgstr "Passphrase"
+
+#~ msgid "Generate"
+#~ msgstr "Generate"
+
+#~ msgid "Select OpenPGP Key"
+#~ msgstr "Select OpenPGP Key"
+
+#~ msgid "Wrong passphrase"
+#~ msgstr "Wrong passphrase"
+
+#~ msgid "Manage Keys"
+#~ msgstr "Manage Keys"
+
+#~ msgid "Announce key"
+#~ msgstr "Announce key"
+
+#~ msgid "Disabled"
+#~ msgstr "Disabled"
+
+#~ msgid "Create a new OpenPGP key pair"
+#~ msgstr "Buat pasangan kunci OpenPGP baru"
+
+#~ msgid "Import a key from file (.asc, .gpg)"
+#~ msgstr "Impor kunci dari file (.asc, .gpg)"
+
+#~ msgid "Private keys available for signing and decryption"
+#~ msgstr "Kunci pribadi tersedia untuk penandatanganan dan dekripsi"
+
+#~ msgid "No private keys found"
+#~ msgstr "Tidak ada kunci pribadi ditemukan"
+
+#~ msgid "Generate or import a key to get started"
+#~ msgstr "Buat atau impor kunci untuk memulai"
+
+#~ msgid "Generate New OpenPGP Key"
+#~ msgstr "Buat Kunci OpenPGP Baru"
+
+#~ msgid "Enter your details to create a new key pair."
+#~ msgstr "Masukkan detail Anda untuk membuat pasangan kunci baru."
+
+#~ msgid "you@example.com"
+#~ msgstr "anda@contoh.com"
+
+#~ msgid "Passphrase (optional)"
+#~ msgstr "Frasa sandi (opsional)"
+
+#~ msgid "4096-bit RSA key, valid for 2 years."
+#~ msgstr "Kunci RSA 4096-bit, berlaku selama 2 tahun."
+
+#~ msgid "Name must be at least 2 characters"
+#~ msgstr "Nama harus minimal 2 karakter"
+
+#~ msgid "Please enter a valid email address"
+#~ msgstr "Silakan masukkan alamat email yang valid"
+
+#~ msgid "Generating Key..."
+#~ msgstr "Membuat Kunci..."
+
+#~ msgid "Key generated successfully!"
+#~ msgstr "Kunci berhasil dibuat!"
+
+#~ msgid "Import OpenPGP Key"
+#~ msgstr "Impor Kunci OpenPGP"
+
+#~ msgid "OpenPGP Keys (*.asc, *.gpg)"
+#~ msgstr "Kunci OpenPGP (*.asc, *.gpg)"
+
+#~ msgid "All Files"
+#~ msgstr "Semua File"
+
+#~ msgid "Key imported! Re-open Key Management to see it."
+#~ msgstr "Kunci diimpor! Buka kembali Manajemen Kunci untuk melihatnya."
+
+#~ msgid "Import failed: "
+#~ msgstr "Impor gagal: "
+
+#~ msgid "Key exported to: "
+#~ msgstr "Kunci diekspor ke: "
+
+#~ msgid "Export failed."
+#~ msgstr "Ekspor gagal."
+
+#~ msgid "Delete Key?"
+#~ msgstr "Hapus Kunci?"
+
+#~ msgid ""
+#~ "Delete this key?\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "This cannot be undone!"
+#~ msgstr ""
+#~ "Hapus kunci ini?\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "Ini tidak dapat dibatalkan!"
+
+#~ msgid "Key deleted."
+#~ msgstr "Kunci dihapus."
+
+#~ msgid "Delete failed: "
+#~ msgstr "Penghapusan gagal: "
+
+#~ msgid "Choose a key to announce to your contacts."
+#~ msgstr "Pilih kunci untuk diumumkan ke kontak Anda."
+
+#~ msgid "Enter GPG passphrase to confirm:"
+#~ msgstr "Masukkan frasa sandi GPG untuk konfirmasi:"
+
+#~ msgid "Generate, import, export, or delete keys"
+#~ msgstr "Buat, impor, ekspor, atau hapus kunci"
+
+#~ msgid "No keys available. Generate or import one!"
+#~ msgstr "Tidak ada kunci tersedia. Buat atau impor satu!"
+
+#~ msgid "Error in GnuPG"
+#~ msgstr "Kesalahan di GnuPG"
+
+#~ msgid "Message too long"
+#~ msgstr "Pesan terlalu panjang"
+
+#, c-format
+#~ msgid "%i min ago"
+#~ msgid_plural "%i mins ago"
+#~ msgstr[0] "%i menit yang lalu"
+
+#~ msgid "Grant write permission"
+#~ msgstr "Beri ijin menulis"
+
+#~ msgid "Name of the room"
+#~ msgstr "Nama kamar"
+
+#~ msgid "Only members may enter the room"
+#~ msgstr "Hanya anggota yang boleh memasuki kamar"
+
+#, c-format
+#~ msgid "%i search result"
+#~ msgid_plural "%i search results"
+#~ msgstr[0] "%i hasil pencarian"
+
+#, c-format
+#~ msgid "%i hour"
+#~ msgid_plural "%i hours"
+#~ msgstr[0] "%i jam"
+
+#, c-format
+#~ msgid "%i minute"
+#~ msgid_plural "%i minutes"
+#~ msgstr[0] "%i menit"
+
+#~ msgid "Could not establish a secure connection"
+#~ msgstr "Tidak dapat membuat sambungan aman"
+
+#~ msgid "Back"
+#~ msgstr "Kembali"
+
+#~ msgid "Choose a public server"
+#~ msgstr "Pilih server publik"
+
+#~ msgid "Or specify a server address"
+#~ msgstr "Atau tentukan alamat server"
+
+#~ msgid "Sign in instead"
+#~ msgstr "Masuk saja"
+
+#~ msgid "All set up!"
+#~ msgstr "Selesai!"
+
+#~ msgid "Finish"
+#~ msgstr "Selesai"
+
+#~ msgid "Account"
+#~ msgstr "Akun"
+
+#~ msgid "Modern XMPP chat client"
+#~ msgstr "Aplikasi chat XMPP modern"
+
+#~ msgid ""
+#~ "Dino is a modern open-source chat client for the desktop. It focuses on "
+#~ "providing a clean and reliable Jabber/XMPP experience while having your "
+#~ "privacy in mind."
+#~ msgstr ""
+#~ "Dino adalah aplikasi chat open source modern untuk PC. Menyediakan "
+#~ "pengalaman Jabber / XMPP yang handal dengan tetap menjunjung privasi Anda."
+
+#~ msgid ""
+#~ "It supports end-to-end encryption with OMEMO and OpenPGP and allows "
+#~ "configuring privacy-related features such as read receipts and typing "
+#~ "notifications."
+#~ msgstr ""
+#~ "Mendukung enkripsi end-to-end dengan OMEMO dan OpenPGP, dan memungkinkan "
+#~ "pengaturan fitur terkait privasi seperti tanda pesan dibaca dan "
+#~ "pemberitahuan pengetikan."
+
+#~ msgid ""
+#~ "Dino fetches history from the server and synchronizes messages with other "
+#~ "devices."
+#~ msgstr ""
+#~ "Dino mengambil riwayat pesan dari server dan menyinkronkan pesan dengan "
+#~ "perangkat lain."
+
+#~ msgid "No active search"
+#~ msgstr "Tidak ada pencarian aktif"
+
+#~ msgid "Type to start a search"
+#~ msgstr "Ketik untuk memulai pencarian"
+
+#~ msgid "No matching messages"
+#~ msgstr "Tidak ada pesan yang cocok"
+
+#~ msgid "Check the spelling or try to remove filters"
+#~ msgstr "Periksa ejaan atau coba hapus filter"
+
+#~ msgid "Send"
+#~ msgstr "Kirim"
+
+#, c-format
+#~ msgid "Sign in to %s"
+#~ msgstr "Masuk ke %s"
+
+#~ msgid "No accounts configured"
+#~ msgstr "Tidak ada akun yang dikonfigurasi"
+
+#~ msgid "Add an account"
+#~ msgstr "Tambah akun"
+
+#~ msgid "Pick another server"
+#~ msgstr "Pilih server lain"
+
+#~ msgid "Local Settings"
+#~ msgstr "Pengaturan lokal"
+
+#~ msgid "Notifications"
+#~ msgstr "Notifikasi"
+
+#~ msgid "Pin conversation"
+#~ msgstr "Sematkan percakapan"
+
+#~ msgid "Only when mentioned"
+#~ msgstr "Hanya jika dipanggil"
+
+#~ msgid "Conference Details"
+#~ msgstr "Detail Grup"
+
+#~ msgid "Communication and status updates in either direction are blocked"
+#~ msgstr "Komunikasi dan pembaruan status diblokir pada kedua arah"
+
+#~ msgid "A password to restrict access to the room"
+#~ msgstr "Kata sandi untuk membatasi akses ke kamar"
+
+#~ msgid "Maximum amount of backlog issued by the room"
+#~ msgstr "Jumlah maksimum backlog yang diterbitkan oleh kamar"
+
+#~ msgid "Convert smileys to emojis"
+#~ msgstr "Ubah smiley menjadi emoji"
+
+#~ msgid "Check spelling"
+#~ msgstr "Periksa ejaan"
+
+#~ msgid "Click here to start a conversation or join a channel."
+#~ msgstr "Klik untuk memulai percakapan atau bergabung dengan channel."

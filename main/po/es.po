@@ -1,0 +1,2949 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-01 18:06+0100\n"
+"PO-Revision-Date: 2024-08-23 19:09+0000\n"
+"Language-Team: Spanish <https://hosted.weblate.org/projects/dino/"
+"translations/es/>\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.7.1-dev\n"
+
+#: main/data/add_conversation/add_groupchat_dialog.ui:81
+msgid "Add MUC"
+msgstr "Añadir MUC"
+
+#: main/data/add_conversation/add_groupchat_dialog.ui:91
+msgid "Insert a Name for MUC..."
+msgstr "Introduce un nombre para la sala..."
+
+#: main/data/add_conversation/select_jid_fragment.ui:20
+msgid "Search or enter channel address..."
+msgstr "Buscar o introducir dirección del canal..."
+
+#: main/data/add_conversation/select_jid_fragment.ui:67
+#: main/src/ui/add_conversation/select_jid_fragment.vala:204
+msgid "Add Group"
+msgstr "Añadir grupo"
+
+#: main/data/add_conversation/select_jid_fragment.ui:88
+msgid "Delete Group"
+msgstr "Eliminar grupo"
+
+#: main/data/call_widget.ui:73 main/src/ui/notifier_freedesktop.vala:125
+#: main/src/ui/notifier_freedesktop.vala:232
+#: main/src/ui/notifier_gnotifications.vala:82
+msgid "Reject"
+msgstr "Rechazar"
+
+#: main/data/call_widget.ui:81
+#: main/src/ui/conversation_content_view/subscription_notification.vala:67
+#: main/src/ui/notifier_freedesktop.vala:125
+#: main/src/ui/notifier_freedesktop.vala:166
+#: main/src/ui/notifier_freedesktop.vala:232
+#: main/src/ui/notifier_freedesktop.vala:266
+#: main/src/ui/notifier_gnotifications.vala:83
+#: main/src/ui/notifier_gnotifications.vala:101
+#: main/src/ui/notifier_gnotifications.vala:140
+#: main/src/ui/notifier_gnotifications.vala:158
+msgid "Accept"
+msgstr "Aceptar"
+
+#: main/data/chat_input.ui:15
+msgid "Send File…"
+msgstr "Enviar archivo…"
+
+#: main/data/chat_input.ui:25
+msgid "Send Location"
+msgstr "Enviar ubicación"
+
+#: main/data/chat_input.ui:96
+msgid "Record voice message"
+msgstr "Grabar mensaje de voz"
+
+#: main/data/chat_input.ui:110
+msgid "Send message"
+msgstr "Enviar mensaje"
+
+#: main/data/conversation_details.ui:162
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:567
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:169
+msgid "Remove Contact"
+msgstr "Eliminar contacto"
+
+#: main/data/conversation_details.ui:192
+#: main/src/windows/conversation_details.vala:239
+msgid "About"
+msgstr "Acerca de"
+
+#: main/data/conversation_row.ui:56
+msgid "Private room (supports group calls)"
+msgstr "Sala privada (soporta llamadas grupales)"
+
+#: main/data/conversation_row.ui:135
+#: main/src/windows/conversation_details.vala:181
+#: main/src/windows/conversation_details.vala:182
+msgid "Muted"
+msgstr "Silenciado"
+
+#: main/data/conversation_row.ui:146
+#: main/src/windows/conversation_details.vala:146
+msgid "Blocked"
+msgstr "Bloqueado"
+
+#: main/data/gtk/help-overlay.ui:10
+#: main/data/preferences_window/preferences_dialog.ui:32
+msgid "General"
+msgstr "General"
+
+#: main/data/gtk/help-overlay.ui:14 main/data/main_window.ui:38
+#: main/data/menu_add.ui:7
+#: main/src/ui/add_conversation/select_contact_dialog.vala:110
+#: main/src/ui/main_window.vala:154
+msgid "Start Conversation"
+msgstr "Iniciar Conversación"
+
+#: main/data/gtk/help-overlay.ui:20 main/data/main_window.ui:51
+#: main/data/menu_add.ui:11
+#: main/src/ui/add_conversation/add_conference_dialog.vala:25
+#: main/src/ui/application.vala:1908 main/src/ui/main_window.vala:155
+msgid "Join Channel"
+msgstr "Unirse a Conversación en grupo"
+
+#: main/data/gtk/help-overlay.ui:26
+msgid "Show preferences"
+msgstr "Mostrar preferencias"
+
+#: main/data/gtk/help-overlay.ui:32
+msgid "Keyboard shortcuts"
+msgstr "Atajos de teclado"
+
+#: main/data/gtk/help-overlay.ui:39
+msgid "Conversation"
+msgstr "Conversación"
+
+#: main/data/gtk/help-overlay.ui:43
+#: main/src/ui/conversation_titlebar/search_entry.vala:12
+msgid "Search messages"
+msgstr "Buscar mensajes"
+
+#: main/data/gtk/help-overlay.ui:49 main/src/ui/chat_input/view.vala:62
+msgid "Send a file"
+msgstr "Enviar un archivo"
+
+#: main/data/gtk/help-overlay.ui:55
+msgid "Close conversation"
+msgstr "Cerrar conversación"
+
+#: main/data/gtk/help-overlay.ui:62
+msgid "Navigation"
+msgstr "Navegación"
+
+#: main/data/gtk/help-overlay.ui:66
+msgid "Jump to next conversation"
+msgstr "Saltar a conversación siguiente"
+
+#: main/data/gtk/help-overlay.ui:72
+msgid "Jump to previous conversation"
+msgstr "Saltar a conversación anterior"
+
+#: main/data/main_window.ui:64 main/src/ui/main_window.vala:157
+msgid "Help: How to join channels"
+msgstr "Ayuda: Cómo unirse a canales"
+
+#: main/data/main_window.ui:118
+msgid "You have no open chats"
+msgstr "No tienes conversaciones abiertas"
+
+#: main/data/main_window.ui:119
+msgid "Click + to start a chat or join a channel"
+msgstr "Haz clic en + para iniciar un chat o unirte a un canal"
+
+#: main/data/menu_app.ui:6
+msgid "Status"
+msgstr "Estado"
+
+#: main/data/menu_app.ui:11
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:427
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
+#: main/src/ui/systray.vala:279
+msgid "Online"
+msgstr "En línea"
+
+#: main/data/menu_app.ui:16
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:421
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
+#: main/src/ui/systray.vala:279
+msgid "Away"
+msgstr "Ausente"
+
+#: main/data/menu_app.ui:21
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:425
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
+#: main/src/ui/systray.vala:279
+msgid "Busy"
+msgstr "Ocupado"
+
+#: main/data/menu_app.ui:26
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:423
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
+#: main/src/ui/systray.vala:279
+msgid "Not Available"
+msgstr "No disponible"
+
+#: main/data/menu_app.ui:30 main/src/ui/main_window.vala:215
+msgid "Set Status Message…"
+msgstr "Establecer mensaje de estado…"
+
+#: main/data/menu_app.ui:38
+msgid "Preferences"
+msgstr "Preferencias"
+
+#: main/data/menu_app.ui:42
+msgid "Panic Wipe"
+msgstr "Borrado de pánico"
+
+#: main/data/menu_app.ui:46
+msgid "Keyboard Shortcuts"
+msgstr "Atajos de teclado"
+
+#: main/data/menu_app.ui:50 main/src/ui/application.vala:891
+msgid "About DinoX"
+msgstr "Acerca de DinoX"
+
+#: main/data/menu_conversation.ui:7
+msgid "Contact Details"
+msgstr "Detalles de Contacto"
+
+#: main/data/menu_conversation.ui:13
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:513
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:565
+#: main/src/ui/conversation_titlebar/menu_entry.vala:84
+msgid "Delete Conversation History"
+msgstr "Eliminar historial de conversación"
+
+#: main/data/message_item_widget_edit_mode.ui:46
+#: main/data/preferences_window/change_password_dialog.ui:18
+#: main/src/ui/add_conversation/add_conference_dialog.vala:44
+#: main/src/ui/add_conversation/select_contact_dialog.vala:43
+#: main/src/ui/application.vala:754 main/src/ui/application.vala:992
+#: main/src/ui/application.vala:1020 main/src/ui/application.vala:1316
+#: main/src/ui/application.vala:1394 main/src/ui/application.vala:1452
+#: main/src/ui/application.vala:1484 main/src/ui/application.vala:1640
+#: main/src/ui/application.vala:1918
+#: main/src/ui/conversation_content_view/file_default_widget.vala:90
+#: main/src/ui/conversation_content_view/item_actions.vala:165
+#: main/src/ui/conversation_content_view/item_actions.vala:168
+#: main/src/ui/conversation_details.vala:283
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:641
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:668
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:687
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:712
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:731
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:752
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:797
+#: main/src/ui/conversation_titlebar/call_entry.vala:83
+#: main/src/ui/conversation_titlebar/menu_entry.vala:51
+#: main/src/windows/conversation_details.vala:60
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:90
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:199
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:219
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:243
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:263
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:285
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:326
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: main/data/message_item_widget_edit_mode.ui:51
+msgid "Update message"
+msgstr "Actualizar mensaje"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:68
+#: main/src/ui/conversation_details.vala:169
+msgid "XMPP Address"
+msgstr "Dirección XMPP"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:77
+msgid "Local alias"
+msgstr "Alias local"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:82
+#: main/src/ui/application.vala:986 main/src/ui/application.vala:1615
+#: main/src/ui/util/data_forms.vala:63
+msgid "Password"
+msgstr "Contraseña"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:104
+msgid "Connection status"
+msgstr "Estado de la conexión"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:117
+msgid "View Certificate"
+msgstr "Ver certificado"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:128
+msgid "Public Profile"
+msgstr "Perfil público"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:131
+msgid "Public Access"
+msgstr "Acceso público"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:132
+msgid "Allow anyone to see your profile"
+msgstr "Permitir que cualquiera vea tu perfil"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:137
+msgid "Share with Contacts"
+msgstr "Compartir con contactos"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:138
+msgid "Allow contacts to see your profile"
+msgstr "Permitir que los contactos vean tu perfil"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:143
+#: main/src/ui/conversation_details.vala:561
+msgid "Full Name"
+msgstr "Nombre completo"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:148
+#: main/src/ui/conversation_details.vala:562
+msgid "Nickname"
+msgstr "Apodo"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:153
+#: main/src/ui/conversation_details.vala:575
+msgid "Gender"
+msgstr "Género"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:157
+#: main/src/ui/conversation_details.vala:573
+msgid "Unknown"
+msgstr "Desconocido"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:158
+#: main/src/ui/conversation_details.vala:569
+msgid "Male"
+msgstr "Masculino"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:159
+#: main/src/ui/conversation_details.vala:570
+msgid "Female"
+msgstr "Femenino"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:160
+#: main/src/ui/conversation_details.vala:571
+msgid "Other"
+msgstr "Otro"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:161
+#: main/src/ui/chat_input/sticker_chooser.vala:397
+#: main/src/ui/chat_input/sticker_chooser.vala:459
+#: main/src/ui/chat_input/sticker_chooser.vala:464
+#: main/src/ui/conversation_details.vala:572
+msgid "None"
+msgstr "Ninguno"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:169
+#: main/src/ui/conversation_details.vala:578
+msgid "Birthday"
+msgstr "Cumpleaños"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:174
+#: main/src/ui/conversation_details.vala:580
+msgid "Address"
+msgstr "Dirección"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:177
+msgid "Street"
+msgstr ""
+
+#: main/data/preferences_window/account_preferences_subpage.ui:182
+msgid "Postal Code"
+msgstr ""
+
+#: main/data/preferences_window/account_preferences_subpage.ui:187
+msgid "City"
+msgstr ""
+
+#: main/data/preferences_window/account_preferences_subpage.ui:192
+#, fuzzy
+msgid "Region"
+msgstr "Registrarte en %s"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:197
+msgid "Country"
+msgstr ""
+
+#: main/data/preferences_window/account_preferences_subpage.ui:204
+#: main/src/ui/conversation_details.vala:582
+msgid "Email"
+msgstr "Correo electrónico"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:209
+#: main/src/ui/conversation_details.vala:584
+msgid "IM Address"
+msgstr "Dirección IM"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:214
+msgid "Phone Number"
+msgstr "Número de teléfono"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:219
+#: main/src/ui/conversation_details.vala:588
+msgid "Organization"
+msgstr "Organización"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:224
+msgid "Job Title"
+msgstr "Cargo"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:229
+#: main/src/ui/conversation_details.vala:182
+#: main/src/ui/conversation_details.vala:592
+msgid "Role"
+msgstr "Rol"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:234
+#: main/src/ui/conversation_details.vala:594
+msgid "Timezone"
+msgstr "Zona horaria"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:239
+msgid "Website"
+msgstr "Sitio web"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:244
+#: main/src/ui/util/data_forms.vala:44
+msgid "Description"
+msgstr "Descripción"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:249
+msgid "Save Profile"
+msgstr "Guardar perfil"
+
+# Custom host/port feature (Issue #115)
+#: main/data/preferences_window/account_preferences_subpage.ui:261
+msgid "Advanced Settings"
+msgstr "Configuración avanzada"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:262
+msgid "Custom server connection (leave empty for automatic)"
+msgstr "Conexión de servidor personalizada (dejar vacío para automático)"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:265
+msgid "Server Hostname"
+msgstr "Nombre del servidor"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:270
+msgid "Port"
+msgstr "Puerto"
+
+#: main/data/preferences_window/change_password_dialog.ui:61
+msgid "Current password"
+msgstr "Contraseña actual"
+
+#: main/data/preferences_window/change_password_dialog.ui:66
+msgid "New password"
+msgstr "Nueva contraseña"
+
+#: main/data/preferences_window/change_password_dialog.ui:71
+msgid "Confirm password"
+msgstr "Confirmar contraseña"
+
+#: main/data/preferences_window/general_preferences_page.ui:9
+msgid "Send _Typing Notifications"
+msgstr "_Enviar notificaciones de escritura"
+
+#: main/data/preferences_window/general_preferences_page.ui:15
+msgid "Send _Read Receipts"
+msgstr "Enviar _confirmación de lectura"
+
+#: main/data/preferences_window/general_preferences_page.ui:21
+msgid "Allow Location Sharing"
+msgstr "Permitir compartir ubicación"
+
+#: main/data/preferences_window/general_preferences_page.ui:22
+msgid "Allow sending your current location in chats"
+msgstr "Permitir enviar su ubicación actual en los chats"
+
+#: main/data/preferences_window/general_preferences_page.ui:32
+msgid "_Notifications"
+msgstr "_Notificaciones"
+
+#: main/data/preferences_window/general_preferences_page.ui:33
+msgid "Notify when a new message arrives"
+msgstr "Notificar cada nuevo mensaje"
+
+#: main/data/preferences_window/general_preferences_page.ui:39
+msgid "_Keep Running in Background"
+msgstr "_Mantener en segundo plano"
+
+#: main/data/preferences_window/general_preferences_page.ui:40
+msgid ""
+"Continue running after closing window to receive notifications immediately"
+msgstr ""
+"Continuar ejecutando después de cerrar la ventana para recibir "
+"notificaciones inmediatamenteSeguir ejecutándose después de cerrar la "
+"ventana para recibir notificaciones inmediatamente"
+
+#: main/data/preferences_window/general_preferences_page.ui:48
+msgid "Appearance"
+msgstr "Apariencia"
+
+#: main/data/preferences_window/general_preferences_page.ui:51
+msgid "_Color Scheme"
+msgstr "_Esquema de colores"
+
+#: main/data/preferences_window/general_preferences_page.ui:52
+msgid "Choose between light and dark appearance"
+msgstr "Elegir entre apariencia clara y oscura"
+
+#: main/data/preferences_window/general_preferences_page.ui:62
+msgid "_Convert Smileys to Emoji"
+msgstr "_Convertir emoticones en emojis"
+
+#: main/data/preferences_window/general_preferences_page.ui:70
+#: main/src/ui/chat_input/view.vala:54
+msgid "Stickers"
+msgstr "Stickers"
+
+#: main/data/preferences_window/general_preferences_page.ui:73
+msgid "Enable Stickers"
+msgstr "Habilitar pegatinas"
+
+#: main/data/preferences_window/general_preferences_page.ui:78
+msgid "Enable Sticker Animations"
+msgstr "Habilitar animaciones de pegatinas"
+
+#: main/data/preferences_window/general_preferences_page.ui:79
+msgid "Disable to reduce flashing/flickering"
+msgstr "Desactivar para reducir el parpadeo"
+
+#: main/data/preferences_window/general_preferences_page.ui:86
+msgid "User Data"
+msgstr "Datos de usuario"
+
+#: main/data/preferences_window/general_preferences_page.ui:89
+msgid "Backup User Data"
+msgstr "Copia de seguridad"
+
+#: main/data/preferences_window/general_preferences_page.ui:90
+msgid "Create a backup of your accounts, messages and settings"
+msgstr "Crear una copia de seguridad de sus cuentas, mensajes y configuración"
+
+#: main/data/preferences_window/general_preferences_page.ui:101
+#: main/src/ui/application.vala:1015 main/src/ui/main_window.vala:226
+msgid "Restore from Backup"
+msgstr "Restaurar desde copia"
+
+#: main/data/preferences_window/general_preferences_page.ui:102
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr ""
+"Restaurar cuentas, mensajes y configuración desde un archivo de respaldo"
+
+#: main/data/preferences_window/general_preferences_page.ui:113
+msgid "Data Storage Location"
+msgstr "Ubicación de almacenamiento de datos"
+
+#: main/data/preferences_window/general_preferences_page.ui:114
+msgid "View where your data is stored"
+msgstr "Ver dónde se almacenan sus datos"
+
+#: main/data/preferences_window/general_preferences_page.ui:127
+msgid "Database Maintenance"
+msgstr "Mantenimiento de base de datos"
+
+# DinoX v0.7.7 - Database Maintenance & Backup/Restore
+#: main/data/preferences_window/general_preferences_page.ui:130
+msgid "Change Database Password"
+msgstr "Cambiar contraseña de la base de datos"
+
+#: main/data/preferences_window/general_preferences_page.ui:131
+msgid "Change the password used to encrypt your local data"
+msgstr "Cambiar la contraseña utilizada para cifrar sus datos locales"
+
+#: main/data/preferences_window/general_preferences_page.ui:142
+#: main/src/ui/application.vala:1312 main/src/ui/application.vala:1317
+msgid "Clear Cache"
+msgstr "Limpiar caché"
+
+#: main/data/preferences_window/general_preferences_page.ui:143
+msgid "Clear cached files, avatars and previews"
+msgstr "Limpiar archivos en caché, avatares y vistas previas"
+
+#: main/data/preferences_window/general_preferences_page.ui:154
+#: main/src/ui/application.vala:1389 main/src/ui/application.vala:1395
+msgid "Reset Database"
+msgstr "Restablecer base de datos"
+
+#: main/data/preferences_window/general_preferences_page.ui:155
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr ""
+"Eliminar todos los mensajes, archivos y claves OMEMO. Tus cuentas "
+"permanecerán."
+
+#: main/data/preferences_window/general_preferences_page.ui:166
+#: main/src/ui/application.vala:1447
+msgid "Factory Reset"
+msgstr "Restablecer de fábrica"
+
+#: main/data/preferences_window/general_preferences_page.ui:167
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr ""
+"Eliminar TODOS los datos, incluidas las cuentas. ¡Esto no se puede deshacer!"
+
+#: main/data/preferences_window/preferences_dialog.ui:11
+#: main/src/windows/preferences_window/accounts_preferences_page.vala:15
+#: main/src/windows/preferences_window/accounts_preferences_page.vala:27
+msgid "Accounts"
+msgstr "Cuentas"
+
+#: main/data/preferences_window/preferences_dialog.ui:18
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:17
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:67
+msgid "Contacts"
+msgstr "Contactos"
+
+#: main/data/preferences_window/preferences_dialog.ui:25
+#: main/src/windows/conversation_details.vala:292
+msgid "Encryption"
+msgstr "Encriptación"
+
+#: main/src/ui/add_conversation/add_conference_dialog.vala:47
+msgid "Next"
+msgstr "Siguiente"
+
+#: main/src/ui/add_conversation/add_conference_dialog.vala:62
+#: main/src/ui/add_conversation/conference_details_fragment.vala:151
+#: main/src/ui/application.vala:1922
+msgid "Join"
+msgstr "Unirse"
+
+#: main/src/ui/add_conversation/add_groupchat_dialog.vala:26
+msgid "Add"
+msgstr "Añadir"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:143
+msgid "Joining…"
+msgstr "Uniéndose…"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:164
+msgid "Password required to enter room"
+msgstr "Contraseña requerida para entrar a la conversación"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:169
+msgid "Banned from joining or creating conference"
+msgstr "Prohibido unirse o crear una conversación en grupo"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:171
+msgid "Room does not exist"
+msgstr "La sala no existe"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:173
+msgid "Not allowed to create room"
+msgstr "No está permitido crear una conversación en grupo"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:175
+msgid "Members-only room"
+msgstr "La conversación es solo para miembros"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:178
+msgid "Choose a different nick"
+msgstr "Elige un alias diferente"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:180
+msgid "Too many occupants in room"
+msgstr "La conversación tiene demasiados ocupantes"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:183
+#: main/src/ui/notifier_freedesktop.vala:190
+#: main/src/ui/notifier_gnotifications.vala:108
+#: main/src/windows/preferences_window/add_account_dialog.vala:271
+#, c-format
+msgid "Could not connect to %s"
+msgstr "No se pudo conectar a %s"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:186
+#: main/src/windows/preferences_window/add_account_dialog.vala:287
+#: main/src/windows/preferences_window/add_account_dialog.vala:297
+#: main/src/windows/preferences_window/add_account_dialog.vala:307
+#: main/src/windows/preferences_window/add_account_dialog.vala:393
+msgid "Invalid address"
+msgstr "Dirección inválida"
+
+#: main/src/ui/add_conversation/select_contact_dialog.vala:76
+msgid "Search or enter contact address..."
+msgstr "Buscar o introducir dirección del contacto..."
+
+#: main/src/ui/add_conversation/select_contact_dialog.vala:111
+msgid "Start"
+msgstr "Iniciar"
+
+#: main/src/ui/add_conversation/select_jid_fragment.vala:154
+msgid "Browse Rooms"
+msgstr "Explorar salas"
+
+#: main/src/ui/add_conversation/select_jid_fragment.vala:157
+msgid "Browse Contacts"
+msgstr "Explorar contactos"
+
+#: main/src/ui/add_conversation/select_jid_fragment.vala:201
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:70
+msgid "Add Contact"
+msgstr "Añadir Contacto"
+
+#: main/src/ui/add_conversation/select_jid_fragment.vala:202
+msgid "Delete Contact"
+msgstr "Eliminar contacto"
+
+#: main/src/ui/add_conversation/select_jid_fragment.vala:205
+#: main/src/ui/add_conversation/select_jid_fragment.vala:215
+msgid "Leave Group"
+msgstr "Salir del grupo"
+
+#: main/src/ui/application.vala:161
+msgid "Beenden"
+msgstr "Salir"
+
+#: main/src/ui/application.vala:266 main/src/ui/application.vala:361
+msgid "Passwort"
+msgstr "Contraseña"
+
+#: main/src/ui/application.vala:271
+msgid "DinoX entsperren"
+msgstr "Desbloquear DinoX"
+
+#: main/src/ui/application.vala:272
+msgid "Bitte Passwort eingeben, um die verschlüsselte Datenbank zu öffnen."
+msgstr "Introduzca la contraseña para abrir la base de datos cifrada."
+
+#: main/src/ui/application.vala:274
+#, c-format
+msgid "Falsches Passwort. Versuch %d/%d"
+msgstr "Contraseña incorrecta. Intento %d/%d"
+
+#: main/src/ui/application.vala:346
+msgid "Entsperren"
+msgstr "Desbloquear"
+
+#: main/src/ui/application.vala:363
+msgid "Passwort bestätigen"
+msgstr "Confirmar contraseña"
+
+#: main/src/ui/application.vala:370
+msgid "Passwort festlegen"
+msgstr "Establecer contraseña"
+
+#: main/src/ui/application.vala:371
+msgid ""
+"Bei der ersten Nutzung musst du ein Passwort setzen. Ohne Passwort kann "
+"DinoX die verschlüsselte Datenbank nicht öffnen."
+msgstr ""
+"Debes establecer una contraseña en el primer uso. Sin contraseña, DinoX no "
+"puede abrir la base de datos cifrada."
+
+#: main/src/ui/application.vala:373
+#, c-format
+msgid "Ungültiges Passwort. Versuch %d/%d"
+msgstr "Contraseña inválida. Intento %d/%d"
+
+#: main/src/ui/application.vala:448
+msgid "Passwort setzen"
+msgstr "Establecer contraseña"
+
+#: main/src/ui/application.vala:746
+msgid "Set Status Message"
+msgstr "Establecer mensaje de estado"
+
+#: main/src/ui/application.vala:755
+msgid "Set"
+msgstr "Establecer"
+
+#: main/src/ui/application.vala:809
+msgid "Aktuelles Passwort"
+msgstr "Contraseña actual"
+
+#: main/src/ui/application.vala:811
+msgid "Neues Passwort"
+msgstr "Nueva contraseña"
+
+#: main/src/ui/application.vala:813
+msgid "Neues Passwort bestätigen"
+msgstr "Confirmar nueva contraseña"
+
+#: main/src/ui/application.vala:824
+msgid "Datenbank-Passwort ändern"
+msgstr "Cambiar contraseña de base de datos"
+
+#: main/src/ui/application.vala:825
+msgid ""
+"Dieses Passwort wird verwendet, um deine lokalen DinoX-Daten zu "
+"verschlüsseln."
+msgstr "Esta contraseña se utiliza para cifrar tus datos locales de DinoX."
+
+#: main/src/ui/application.vala:828
+msgid "Abbrechen"
+msgstr "Cancelar"
+
+#: main/src/ui/application.vala:829
+msgid "Ändern"
+msgstr "Cambiar"
+
+#: main/src/ui/application.vala:896
+msgid "Modern XMPP client with extended features"
+msgstr "Cliente XMPP moderno con funciones extendidas"
+
+#: main/src/ui/application.vala:903 main/src/ui/application.vala:1278
+msgid "User Data Locations"
+msgstr "Ubicaciones de datos"
+
+#: main/src/ui/application.vala:906 main/src/ui/application.vala:1292
+msgid "Configuration:"
+msgstr "Configuración:"
+
+#: main/src/ui/application.vala:909 main/src/ui/application.vala:1294
+msgid "Data & Database:"
+msgstr "Datos y base de datos:"
+
+#: main/src/ui/application.vala:912 main/src/ui/application.vala:1296
+msgid "Cache:"
+msgstr "Caché:"
+
+#: main/src/ui/application.vala:915
+msgid "Info:"
+msgstr "Info:"
+
+#: main/src/ui/application.vala:916
+msgid ""
+"Your personal data (accounts, messages, files) is stored separately from the "
+"application."
+msgstr ""
+"Sus datos personales (cuentas, mensajes, archivos) se almacenan por separado "
+"de la aplicación."
+
+#: main/src/ui/application.vala:918
+msgid "When you update DinoX, your data remains intact."
+msgstr "Al actualizar DinoX, sus datos permanecen intactos."
+
+#: main/src/ui/application.vala:920
+msgid "Use Settings → General → Backup User Data to create a backup."
+msgstr "Use Configuración → General → Copia de seguridad para crear una copia."
+
+#: main/src/ui/application.vala:938
+msgid "Select Backup File"
+msgstr "Seleccionar archivo de copia"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+#: main/src/ui/application.vala:946
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "Archivos de copia de seguridad (*.tar.gz, *.tar.gz.gpg)"
+
+#: main/src/ui/application.vala:976
+msgid "Enter Backup Password"
+msgstr "Introducir contraseña de copia"
+
+#: main/src/ui/application.vala:977
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "Esta copia está cifrada. Introduzca la contraseña para descifrarla."
+
+#: main/src/ui/application.vala:993
+msgid "Decrypt & Restore"
+msgstr "Descifrar y restaurar"
+
+#: main/src/ui/application.vala:1016
+msgid ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+msgstr ""
+"Esto reemplazará todos los datos actuales con la copia de seguridad.\n"
+"\n"
+"<b>¡Las cuentas, mensajes y configuraciones actuales se sobrescribirán!</b>\n"
+"\n"
+"DinoX se reiniciará después de restaurar."
+
+#: main/src/ui/application.vala:1021
+msgid "Restore Backup"
+msgstr "Restaurar copia"
+
+#: main/src/ui/application.vala:1038 main/src/ui/application.vala:1070
+msgid "Decrypting Backup..."
+msgstr "Descifrando copia de seguridad..."
+
+#: main/src/ui/application.vala:1038 main/src/ui/application.vala:1122
+msgid "Restoring Backup..."
+msgstr "Restaurando copia de seguridad..."
+
+#: main/src/ui/application.vala:1039
+msgid "Please wait, this may take a moment..."
+msgstr "Por favor espere, esto puede tardar un momento..."
+
+#: main/src/ui/application.vala:1071
+msgid "Decrypting encrypted backup file..."
+msgstr "Descifrando archivo de copia de seguridad..."
+
+#: main/src/ui/application.vala:1109
+msgid "Decryption Failed"
+msgstr "Error de descifrado"
+
+#: main/src/ui/application.vala:1110
+msgid ""
+"Could not decrypt the backup file.\n"
+"\n"
+"Please check if the password is correct."
+msgstr ""
+"No se pudo descifrar el archivo.\n"
+"\n"
+"Compruebe si la contraseña es correcta."
+
+#: main/src/ui/application.vala:1112 main/src/ui/application.vala:1222
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:430
+msgid "OK"
+msgstr "Aceptar"
+
+#: main/src/ui/application.vala:1123
+msgid "Extracting files from backup..."
+msgstr "Extrayendo archivos de la copia de seguridad..."
+
+#: main/src/ui/application.vala:1204
+msgid "Restore Complete!"
+msgstr "¡Restauración completada!"
+
+#: main/src/ui/application.vala:1205
+msgid "DinoX will now restart..."
+msgstr "DinoX se reiniciará ahora..."
+
+#: main/src/ui/application.vala:1219
+msgid "Restore Failed"
+msgstr "La restauración falló"
+
+#: main/src/ui/application.vala:1220
+#, c-format
+msgid ""
+"Could not restore the backup file.\n"
+"\n"
+"Error: %s"
+msgstr ""
+"No se pudo restaurar el archivo.\n"
+"\n"
+"Error: %s"
+
+#: main/src/ui/application.vala:1220 main/src/ui/application.vala:1896
+msgid "Unknown error"
+msgstr "Error desconocido"
+
+#: main/src/ui/application.vala:1298
+msgid ""
+"Your personal data (accounts, messages, files) is stored separately from the "
+"application. When you update DinoX, your data remains intact."
+msgstr ""
+"Sus datos personales (cuentas, mensajes, archivos) se almacenan por separado "
+"de la aplicación. Cuando actualiza DinoX, sus datos permanecen intactos.Sus "
+"datos personales (cuentas, mensajes, archivos) se almacenan por separado de "
+"la aplicación. Cuando actualiza DinoX, sus datos permanecen intactos."
+
+#: main/src/ui/application.vala:1303 main/src/ui/application.vala:1791
+#: main/src/ui/application.vala:1875
+#: main/src/ui/chat_input/sticker_chooser.vala:181
+#: main/src/ui/conversation_details.vala:306
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:566
+#: main/src/ui/conversation_view_controller.vala:340
+#: main/src/ui/main_window.vala:172
+msgid "Close"
+msgstr "Cerrar"
+
+#: main/src/ui/application.vala:1313
+msgid ""
+"This will delete cached files, avatars and previews.\n"
+"\n"
+"They will be re-downloaded when needed."
+msgstr ""
+"Esto eliminará archivos en caché, avatares y vistas previas.\n"
+"\n"
+"Se volverán a descargar cuando sea necesario."
+
+#: main/src/ui/application.vala:1350
+#, c-format
+msgid "Cache cleared (%s freed)"
+msgstr "Caché limpiada (%s liberado)"
+
+#: main/src/ui/application.vala:1353
+msgid "Failed to clear cache"
+msgstr "Error al limpiar la caché"
+
+#: main/src/ui/application.vala:1390
+msgid ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+msgstr ""
+"Esto eliminará todos los mensajes, archivos y claves de cifrado OMEMO.\n"
+"\n"
+"<b>Sus cuentas permanecerán, pero perderá todo el historial de chat y deberá "
+"volver a verificar el cifrado con sus contactos.</b>\n"
+"\n"
+"¡Esta acción no se puede deshacer!"
+
+#: main/src/ui/application.vala:1418
+msgid "Resetting database... DinoX will restart."
+msgstr "Restableciendo base de datos... DinoX se reiniciará."
+
+#: main/src/ui/application.vala:1448
+msgid ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+msgstr ""
+"<b>⚠️ ADVERTENCIA: ¡Esto eliminará TODOS los datos!</b>\n"
+"\n"
+"• Todas las cuentas\n"
+"• Todos los mensajes y archivos\n"
+"• Todas las claves de cifrado\n"
+"• Todas las configuraciones\n"
+"\n"
+"Esto es irreversible. ¡Asegúrese de crear una copia de seguridad primero!"
+
+#: main/src/ui/application.vala:1453
+msgid "Create Backup First"
+msgstr "Crear copia primero"
+
+#: main/src/ui/application.vala:1454
+msgid "Delete Everything"
+msgstr "Eliminar todo"
+
+#: main/src/ui/application.vala:1474
+msgid "Are you absolutely sure?"
+msgstr "¿Está absolutamente seguro?"
+
+#: main/src/ui/application.vala:1475
+msgid ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+msgstr ""
+"Escriba 'DELETE' para confirmar el restablecimiento de fábrica.\n"
+"\n"
+"Esto eliminará permanentemente todos sus datos de DinoX."
+
+#: main/src/ui/application.vala:1485
+msgid "Confirm Delete"
+msgstr "Confirmar eliminación"
+
+#: main/src/ui/application.vala:1512
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "Restablecimiento de fábrica en progreso... DinoX se reiniciará."
+
+#: main/src/ui/application.vala:1577
+msgid "Backup Encryption"
+msgstr "Cifrado de copia de seguridad"
+
+#: main/src/ui/application.vala:1578
+msgid ""
+"Do you want to encrypt the backup with a password?\n"
+"\n"
+"Encrypted backups are more secure but require the password to restore."
+msgstr ""
+"¿Desea cifrar la copia de seguridad con una contraseña?\n"
+"\n"
+"Las copias cifradas son más seguras pero requieren la contraseña para "
+"restaurarse."
+
+#: main/src/ui/application.vala:1581
+msgid "No Encryption"
+msgstr "Sin cifrado"
+
+#: main/src/ui/application.vala:1582
+msgid "Encrypt with Password"
+msgstr "Cifrar con contraseña"
+
+#: main/src/ui/application.vala:1600
+msgid "Set Backup Password"
+msgstr "Establecer contraseña de copia"
+
+#: main/src/ui/application.vala:1601
+msgid ""
+"Enter a password to encrypt the backup.\n"
+"\n"
+"<b>Important:</b> Remember this password! Without it, the backup cannot be "
+"restored."
+msgstr ""
+"Introduzca una contraseña para cifrar la copia.\n"
+"\n"
+"<b>Importante:</b> ¡Recuerde esta contraseña! Sin ella, la copia no se puede "
+"restaurar."
+
+#: main/src/ui/application.vala:1609
+msgid "Password (minimum 4 characters)"
+msgstr "Contraseña (mínimo 4 caracteres)"
+
+#: main/src/ui/application.vala:1617 main/src/ui/application.vala:1624
+msgid "Confirm Password"
+msgstr "Confirmar contraseña"
+
+#: main/src/ui/application.vala:1641
+msgid "Create Encrypted Backup"
+msgstr "Crear copia cifrada"
+
+#: main/src/ui/application.vala:1653 main/src/ui/application.vala:1668
+msgid "Password too short"
+msgstr "Contraseña demasiado corta"
+
+#: main/src/ui/application.vala:1655 main/src/ui/application.vala:1670
+msgid "Passwords do not match"
+msgstr "Las contraseñas no coinciden"
+
+#: main/src/ui/application.vala:1657 main/src/ui/application.vala:1672
+msgid "✓ Passwords match"
+msgstr "✓ Las contraseñas coinciden"
+
+#: main/src/ui/application.vala:1690
+msgid "Select Backup Location"
+msgstr "Seleccionar ubicación de copia"
+
+#: main/src/ui/application.vala:1745
+msgid "Creating Encrypted Backup..."
+msgstr "Creando copia de seguridad cifrada..."
+
+#: main/src/ui/application.vala:1745
+msgid "Creating Backup..."
+msgstr "Creando copia de seguridad..."
+
+#: main/src/ui/application.vala:1746
+msgid "Please wait while your data is being backed up."
+msgstr ""
+"Por favor, espere mientras se realiza la copia de seguridad de sus datos."
+
+#: main/src/ui/application.vala:1785
+msgid "No data directory found to backup"
+msgstr "No se encontró directorio de datos para respaldar"
+
+#: main/src/ui/application.vala:1788 main/src/ui/application.vala:1894
+msgid "Backup Failed"
+msgstr "Falló la copia de seguridad"
+
+#: main/src/ui/application.vala:1882
+msgid "Encrypted Backup Created"
+msgstr "Copia de seguridad cifrada creada"
+
+#: main/src/ui/application.vala:1884
+#, c-format
+msgid ""
+"Your encrypted backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"Su copia de seguridad cifrada se creó correctamente.\n"
+"\n"
+"Tamaño: %s"
+
+#: main/src/ui/application.vala:1885
+msgid "Your encrypted backup was created successfully."
+msgstr "Su copia de seguridad cifrada se creó correctamente."
+
+#: main/src/ui/application.vala:1887
+msgid "Backup Created"
+msgstr "Copia de seguridad creada"
+
+#: main/src/ui/application.vala:1889
+#, c-format
+msgid ""
+"Your backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"Su copia de seguridad se creó correctamente.\n"
+"\n"
+"Tamaño: %s"
+
+#: main/src/ui/application.vala:1890
+msgid "Your backup was created successfully."
+msgstr "Su copia de seguridad se creó correctamente."
+
+#: main/src/ui/application.vala:1897
+#, c-format
+msgid "Backup failed: %s"
+msgstr "Error en la copia: %s"
+
+#: main/src/ui/call_window/audio_settings_popover.vala:46
+msgid "Microphones"
+msgstr "Micrófonos"
+
+#: main/src/ui/call_window/audio_settings_popover.vala:49
+msgid "No microphone found."
+msgstr "No se encontró un micrófono."
+
+#: main/src/ui/call_window/audio_settings_popover.vala:116
+msgid "Speakers"
+msgstr "Altavoces"
+
+#: main/src/ui/call_window/audio_settings_popover.vala:119
+msgid "No speaker found."
+msgstr "No se encontraron altavoces."
+
+#: main/src/ui/call_window/call_window_controller.vala:152
+msgid "Invite to Call"
+msgstr "Invitar a la Llamada"
+
+#: main/src/ui/call_window/call_window_controller.vala:153
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:780
+#: main/src/ui/conversation_titlebar/menu_entry.vala:99
+#: main/src/ui/occupant_menu/view.vala:27
+#: main/src/ui/occupant_menu/view.vala:283
+msgid "Invite"
+msgstr "Invitar"
+
+#: main/src/ui/call_window/call_window_controller.vala:451
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:240
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:270
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:285
+#: main/src/ui/util/helper.vala:79 main/src/ui/util/helper.vala:83
+#: main/src/ui/util/helper.vala:91
+msgid "Me"
+msgstr "Yo"
+
+#: main/src/ui/call_window/call_window.vala:219
+#, c-format
+msgid "%s ended the call"
+msgstr "%s finalizó la llamada"
+
+#: main/src/ui/call_window/call_window.vala:221
+#, c-format
+msgid "%s declined the call"
+msgstr "%s ha rechazado la llamada"
+
+#: main/src/ui/call_window/participant_widget.vala:140
+msgid "Debug information"
+msgstr "Información de depuración"
+
+#: main/src/ui/call_window/participant_widget.vala:149
+#: main/src/ui/conversation_content_view/call_widget.vala:152
+msgid "Calling…"
+msgstr "Llamando…"
+
+#: main/src/ui/call_window/participant_widget.vala:151
+msgid "Ringing…"
+msgstr "Sonando…"
+
+#: main/src/ui/call_window/participant_widget.vala:153
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:532
+msgid "Connecting…"
+msgstr "Conectando…"
+
+#: main/src/ui/call_window/video_settings_popover.vala:25
+msgid "Cameras"
+msgstr "Cámaras"
+
+#: main/src/ui/call_window/video_settings_popover.vala:28
+msgid "No camera found."
+msgstr "No se encontró una cámara."
+
+#: main/src/ui/chat_input/chat_input_controller.vala:267
+msgid "This conference does not allow you to send messages."
+msgstr "Esta conversación en grupo no permite enviar mensajes."
+
+#: main/src/ui/chat_input/chat_input_controller.vala:267
+msgid "Request permission"
+msgstr "Solicitar permiso"
+
+#: main/src/ui/chat_input/encryption_button.vala:35
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:224
+msgid "Unencrypted"
+msgstr "Sin cifrado"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:176
+msgid "Manage Sticker Packs"
+msgstr "Gestionar paquetes de stickers"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:390
+msgid "Stickers are unavailable"
+msgstr "Las pegatinas no están disponibles"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:412
+msgid "No sticker packs yet."
+msgstr "Aún no hay paquetes de stickers."
+
+#: main/src/ui/chat_input/sticker_chooser.vala:414
+#: main/src/ui/chat_input/sticker_chooser.vala:527
+msgid "No stickers selected"
+msgstr "Ninguna pegatina seleccionada"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:543
+msgid "No stickers in this pack"
+msgstr "No hay pegatinas en este paquete"
+
+#: main/src/ui/contact_details/permissions_provider.vala:23
+msgid "Request permission to send messages"
+msgstr "Solicitar permiso para enviar mensajes"
+
+#: main/src/ui/contact_details/permissions_provider.vala:24
+msgid "Request"
+msgstr "Solicitar"
+
+#: main/src/ui/contact_details/settings_provider.vala:21
+#: main/src/ui/contact_details/settings_provider.vala:24
+#: main/src/ui/contact_details/settings_provider.vala:31
+#: main/src/ui/contact_details/settings_provider.vala:34
+msgid "On"
+msgstr "Sí"
+
+#: main/src/ui/contact_details/settings_provider.vala:21
+#: main/src/ui/contact_details/settings_provider.vala:25
+#: main/src/ui/contact_details/settings_provider.vala:31
+#: main/src/ui/contact_details/settings_provider.vala:35
+msgid "Off"
+msgstr "No"
+
+#: main/src/ui/contact_details/settings_provider.vala:22
+msgid "Send typing notifications"
+msgstr "Enviar notificación de escritura"
+
+#: main/src/ui/contact_details/settings_provider.vala:23
+#: main/src/ui/contact_details/settings_provider.vala:33
+#, c-format
+msgid "Default: %s"
+msgstr "Por defecto: %s"
+
+#: main/src/ui/contact_details/settings_provider.vala:32
+msgid "Send read receipts"
+msgstr "Enviar notificación de lectura"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:137
+#: main/src/ui/notifier_freedesktop.vala:114
+#: main/src/ui/notifier_gnotifications.vala:72
+msgid "Incoming video call"
+msgstr "Videollamada entrante"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:137
+#: main/src/ui/conversation_content_view/call_widget.vala:168
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:287
+#: main/src/ui/notifier_freedesktop.vala:114
+#: main/src/ui/notifier_gnotifications.vala:72
+msgid "Incoming call"
+msgstr "Llamada entrante"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:139
+#: main/src/ui/notifier_freedesktop.vala:116
+#: main/src/ui/notifier_gnotifications.vala:74
+msgid "Incoming video group call"
+msgstr "Llamada entrante de video en grupo"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:139
+#: main/src/ui/notifier_freedesktop.vala:116
+#: main/src/ui/notifier_gnotifications.vala:74
+msgid "Incoming group call"
+msgstr "Llamada grupal entrante"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:159
+msgid "Call started"
+msgstr "Llamada iniciada"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:161
+#, c-format
+msgid "Started %s ago"
+msgstr "Inició hace %s"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:168
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:287
+msgid "Outgoing call"
+msgstr "Llamada saliente"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:169
+msgid "You handled this call on another device"
+msgstr "Ha gestionado esta llamada en otro dispositivo"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:174
+msgid "Call ended"
+msgstr "Llamada finalizada"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:175
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:315
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:490
+#, no-c-format
+msgid "%H∶%M"
+msgstr "%H∶%M"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:175
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:316
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:491
+#, no-c-format
+msgid "%l∶%M %p"
+msgstr "%l∶%M %p"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:177
+#, c-format
+msgid "Ended at %s"
+msgstr "Finalizada a las %s"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:179
+#, c-format
+msgid "Lasted %s"
+msgstr "Duración %s"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:183
+msgid "Call missed"
+msgstr "Llamada perdida"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:185
+msgid "You missed this call"
+msgstr "Hay una llamadas perdida"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:188
+#, c-format
+msgid "%s missed this call"
+msgstr "%s tiene una llamada perdida"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:193
+msgid "Call declined"
+msgstr "Llamada rechazada"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:195
+msgid "You declined this call"
+msgstr "Has rechazado esta llamada"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:198
+#, c-format
+msgid "%s declined this call"
+msgstr "%s ha rechazado esta llamada"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:203
+msgid "Call failed"
+msgstr "Llamada fallida"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:241
+msgid "a few seconds"
+msgstr "hace segundos"
+
+#: main/src/ui/conversation_content_view/chat_state_populator.vala:108
+#, c-format
+msgid "%s, %s and %i others are typing…"
+msgstr "%s, %s y otros %i están tecleando…"
+
+#: main/src/ui/conversation_content_view/chat_state_populator.vala:115
+#, c-format
+msgid "%s, %s and %s are typing…"
+msgstr "%s, %s y %s están escribiendo…"
+
+#: main/src/ui/conversation_content_view/chat_state_populator.vala:121
+#, c-format
+msgid "%s and %s are typing…"
+msgstr "%s y %s están escribiendo…"
+
+#: main/src/ui/conversation_content_view/chat_state_populator.vala:126
+#, c-format
+msgid "%s is typing…"
+msgstr "%s está escribiendo…"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:256
+msgid "Delivered"
+msgstr "Entregado"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:260
+msgid "Read"
+msgstr "Leer"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:266
+msgid "Unable to send message"
+msgstr "No se pudo enviar el mensaje"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:303
+#, no-c-format
+msgid "%x, %H∶%M"
+msgstr "%x, %H∶%M"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:304
+#, no-c-format
+msgid "%x, %l∶%M %p"
+msgstr "%x, %l∶%M %p"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:307
+#, no-c-format
+msgid "%b %d, %H∶%M"
+msgstr "%d %b, %H∶%M"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:308
+#, no-c-format
+msgid "%b %d, %l∶%M %p"
+msgstr "%d %b, %l∶%M %p"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:311
+#, no-c-format
+msgid "%a, %H∶%M"
+msgstr "%a, %H∶%M"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:312
+#, no-c-format
+msgid "%a, %l∶%M %p"
+msgstr "%a, %l∶%M %p"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:322
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:496
+msgid "Just now"
+msgstr "Justo ahora"
+
+#: main/src/ui/conversation_content_view/conversation_view.vala:114
+msgid "More actions"
+msgstr "Más acciones"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:67
+#: main/src/ui/conversation_content_view/file_image_widget.vala:201
+msgid "Open"
+msgstr "Abrir"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:68
+#: main/src/ui/conversation_content_view/file_image_widget.vala:202
+#: main/src/ui/conversation_content_view/file_widget.vala:174
+msgid "Save as…"
+msgstr "Guardar como…"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:77
+#, c-format
+msgid "Downloading %s… (%u%%)"
+msgstr "Descargando %s… (%u%%)"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:79
+#, c-format
+msgid "Downloading %s…"
+msgstr "Bajando %s…"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:83
+#, c-format
+msgid "Uploading %s… (%u%%)"
+msgstr "Subiendo %s… (%u%%)"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:97
+#, c-format
+msgid "%s offered: %s"
+msgstr "%s ofreció: %s"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:99
+#, c-format
+msgid "File offered: %s"
+msgstr "Archivo ofrecido: %s"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:101
+msgid "File offered"
+msgstr "Archivo ofrecido"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:107
+msgid "File transfer failed"
+msgstr "Transferencia de archivo fallida"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:36
+msgid "Kick user"
+msgstr "Expulsar usuario"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:69
+msgid "Ban user"
+msgstr "Banear usuario"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:82
+#: main/src/ui/conversation_content_view/reactions_widget.vala:128
+msgid "Add reaction"
+msgstr "Añadir la reacción"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:94
+msgid "This conversation does not support reactions."
+msgstr "Esta conversación no admite reacciones."
+
+#: main/src/ui/conversation_content_view/item_actions.vala:107
+msgid "Reply"
+msgstr "Respuesta"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:117
+msgid "This conversation does not support replies."
+msgstr "Esta conversación no admite réplicas."
+
+#: main/src/ui/conversation_content_view/item_actions.vala:146
+msgid "Moderate message..."
+msgstr "Moderar mensaje…"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:148
+msgid "Delete..."
+msgstr "Eliminar..."
+
+#: main/src/ui/conversation_content_view/item_actions.vala:150
+#: main/src/ui/conversation_content_view/item_actions.vala:168
+msgid "Delete locally"
+msgstr "Eliminar localmente"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:160
+msgid "Moderate message"
+msgstr "Moderar mensaje"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:160
+msgid "Delete message"
+msgstr "Eliminar mensaje"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:164
+msgid "Do you want to remove this message from the channel?"
+msgstr "¿Desea eliminar este mensaje del canal?"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:165
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:753
+#: main/src/windows/conversation_details.vala:61
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:286
+msgid "Remove"
+msgstr "Quitar"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:167
+msgid "Do you want to delete this message just for yourself or for everyone?"
+msgstr "¿Desea eliminar este mensaje solo para usted o para todos?"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:168
+msgid "Delete for everyone"
+msgstr "Eliminar para todos"
+
+#: main/src/ui/conversation_content_view/message_widget.vala:174
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:255
+msgid "Message deleted"
+msgstr "Mensaje eliminado"
+
+#: main/src/ui/conversation_content_view/message_widget.vala:178
+msgid "edited"
+msgstr "editado"
+
+#: main/src/ui/conversation_content_view/message_widget.vala:182
+msgid "Message truncated - exceeds 100,000 characters"
+msgstr "Mensaje truncado - supera los 100.000 caracteres"
+
+#: main/src/ui/conversation_content_view/message_widget.vala:191
+msgid "pending…"
+msgstr "pendiente…"
+
+#: main/src/ui/conversation_content_view/message_widget.vala:206
+msgid "delivery failed"
+msgstr "entrega fallida"
+
+#: main/src/ui/conversation_content_view/message_widget.vala:362
+msgid "Edit message"
+msgstr "Editar el mensaje"
+
+#: main/src/ui/conversation_content_view/quote_widget.vala:43
+msgid "File"
+msgstr "Archivo"
+
+#: main/src/ui/conversation_content_view/reactions_widget.vala:102
+msgid "You"
+msgstr "Tú"
+
+#: main/src/ui/conversation_content_view/subscription_notification.vala:49
+msgid "Send request"
+msgstr "Enviar solicitud"
+
+#: main/src/ui/conversation_content_view/subscription_notification.vala:60
+msgid "You do not receive status updates from this contact yet."
+msgstr "Aún no recibe actualizaciones de estado de este contacto."
+
+#: main/src/ui/conversation_content_view/subscription_notification.vala:68
+#: main/src/ui/notifier_freedesktop.vala:166
+#: main/src/ui/notifier_freedesktop.vala:266
+#: main/src/ui/notifier_gnotifications.vala:102
+#: main/src/ui/notifier_gnotifications.vala:139
+#: main/src/ui/notifier_gnotifications.vala:157
+msgid "Deny"
+msgstr "Denegar"
+
+#: main/src/ui/conversation_content_view/subscription_notification.vala:80
+msgid "This contact would like to add you to their contact list"
+msgstr "A este contacto le gustaría añadirte a la lista de contactos"
+
+#: main/src/ui/conversation_content_view/unread_indicator_populator.vala:76
+msgid "New"
+msgstr "Nuevo"
+
+#: main/src/ui/conversation_details.vala:188
+#, fuzzy
+msgid "Affiliation"
+msgstr "Gestionar afiliaciones"
+
+#: main/src/ui/conversation_details.vala:197
+msgid "Real JID"
+msgstr "JID Real"
+
+#: main/src/ui/conversation_details.vala:205
+#: main/src/ui/util/data_forms.vala:40
+msgid "Display name"
+msgstr "Nombre para mostrar"
+
+#: main/src/ui/conversation_details.vala:225
+#: main/src/ui/conversation_details.vala:239
+msgid "Topic"
+msgstr "Tema"
+
+#: main/src/ui/conversation_details.vala:252
+msgid "Permissions"
+msgstr "Permisos"
+
+#: main/src/ui/conversation_details.vala:253
+msgid "Manage Affiliations"
+msgstr "Gestionar afiliaciones"
+
+#: main/src/ui/conversation_details.vala:273
+msgid "Danger Zone"
+msgstr "Zona de peligro"
+
+#: main/src/ui/conversation_details.vala:274
+msgid "Destroy Room"
+msgstr "Destruir sala"
+
+#: main/src/ui/conversation_details.vala:280
+msgid "Destroy Room?"
+msgstr "¿Destruir sala?"
+
+#: main/src/ui/conversation_details.vala:281
+msgid ""
+"Are you sure you want to permanently destroy this room? This action cannot "
+"be undone and all history will be lost for all participants."
+msgstr ""
+"¿Está seguro de que desea destruir permanentemente esta sala? Esta acción no "
+"se puede deshacer y se perderá todo el historial para todos los "
+"participantes.¿Está seguro de que desea destruir permanentemente esta sala? "
+"Esta acción no se puede deshacer y todo el historial se perderá para todos "
+"los participantes."
+
+#: main/src/ui/conversation_details.vala:284
+msgid "Destroy"
+msgstr "Destruir"
+
+#: main/src/ui/conversation_details.vala:305
+msgid "Failed to destroy room"
+msgstr "Error al destruir la sala"
+
+#: main/src/ui/conversation_details.vala:320
+msgid "Auto-delete messages"
+msgstr "Eliminar mensajes automáticamente"
+
+#: main/src/ui/conversation_details.vala:321
+msgid "Never"
+msgstr "Nunca"
+
+#: main/src/ui/conversation_details.vala:322
+msgid "After 15 minutes"
+msgstr "Después de 15 minutos"
+
+#: main/src/ui/conversation_details.vala:323
+msgid "After 30 minutes"
+msgstr "Después de 30 minutos"
+
+#: main/src/ui/conversation_details.vala:324
+msgid "After 1 hour"
+msgstr "Después de 1 hora"
+
+#: main/src/ui/conversation_details.vala:325
+msgid "After 24 hours"
+msgstr "Después de 24 horas"
+
+#: main/src/ui/conversation_details.vala:326
+msgid "After 7 days"
+msgstr "Después de 7 días"
+
+#: main/src/ui/conversation_details.vala:327
+msgid "After 30 days"
+msgstr "Después de 30 días"
+
+#: main/src/ui/conversation_details.vala:586
+msgid "Phone"
+msgstr "Teléfono"
+
+#: main/src/ui/conversation_details.vala:590
+msgid "Title"
+msgstr "Título"
+
+#: main/src/ui/conversation_details.vala:596
+msgid "URL"
+msgstr "URL"
+
+#: main/src/ui/conversation_details.vala:598
+msgid "Note"
+msgstr "Nota"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:276
+#: main/src/ui/notifier_freedesktop.vala:71
+#: main/src/ui/notifier_gnotifications.vala:36
+msgid "Image sent"
+msgstr "Imagen enviada"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:276
+#: main/src/ui/notifier_freedesktop.vala:71
+#: main/src/ui/notifier_gnotifications.vala:36
+msgid "File sent"
+msgstr "Archivo enviado"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:278
+#: main/src/ui/notifier_freedesktop.vala:73
+#: main/src/ui/notifier_gnotifications.vala:38
+msgid "Image received"
+msgstr "Imagen recibida"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:278
+#: main/src/ui/notifier_freedesktop.vala:73
+#: main/src/ui/notifier_gnotifications.vala:38
+msgid "File received"
+msgstr "Archivo recibido"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:361
+msgid "Thema:"
+msgstr "Tema:"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:381
+msgid "Privat"
+msgstr "Privado"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:383
+msgid "Öffentlich"
+msgstr "Público"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:387
+msgid "Typ:"
+msgstr "Tipo:"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:483
+#: main/src/ui/widgets/date_separator.vala:37
+#, no-c-format
+msgid "%b %d"
+msgstr "%d %b"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:487
+#: main/src/ui/widgets/date_separator.vala:28
+msgid "Yesterday"
+msgstr "Ayer"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:506
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:554
+#: main/src/ui/conversation_titlebar/menu_entry.vala:79
+msgid "Conversation Details"
+msgstr "Detalles de la conversación"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:507
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:779
+#: main/src/ui/conversation_titlebar/menu_entry.vala:98
+msgid "Invite Contact"
+msgstr "Invitar contacto"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:511
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:559
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:669
+#: main/src/ui/occupant_menu/view.vala:181
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:134
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:200
+msgid "Unmute"
+msgstr "Desilenciar"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:511
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:559
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:688
+#: main/src/ui/occupant_menu/view.vala:185
+#: main/src/windows/conversation_details.vala:173
+#: main/src/windows/conversation_details.vala:174
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:134
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:220
+msgid "Mute"
+msgstr "Silenciar"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:514
+msgid "Leave and Close"
+msgstr "Salir y cerrar"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:555
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:631
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:120
+msgid "Edit Alias"
+msgstr "Editar alias"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:563
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:713
+#: main/src/windows/conversation_details.vala:118
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:244
+msgid "Unblock"
+msgstr "Desbloquear"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:563
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:732
+#: main/src/windows/conversation_details.vala:154
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:264
+msgid "Block"
+msgstr "Bloquear"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:636
+msgid "Alias"
+msgstr "Alias"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:642
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:327
+msgid "Save"
+msgstr "Guardar"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:665
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:196
+msgid "Unmute contact?"
+msgstr "¿Activar sonido del contacto?"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:666
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:197
+#, c-format
+msgid "This will enable notifications from %s."
+msgstr "Esto activará las notificaciones de %s."
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:684
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:216
+msgid "Mute contact?"
+msgstr "¿Silenciar contacto?"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:685
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:217
+#, c-format
+msgid "This will disable notifications from %s."
+msgstr "Esto desactivará las notificaciones de %s."
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:709
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:240
+msgid "Unblock contact?"
+msgstr "¿Desbloquear contacto?"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:710
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:241
+#, c-format
+msgid "This will allow %s to send you messages again."
+msgstr "Esto permitirá que %s te envíe mensajes de nuevo."
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:728
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:260
+msgid "Block contact?"
+msgstr "¿Bloquear contacto?"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:729
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:261
+#, c-format
+msgid "This will prevent %s from sending you messages."
+msgstr "Esto impedirá que %s le envíe mensajes."
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:749
+#: main/src/windows/conversation_details.vala:57
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:282
+msgid "Remove contact?"
+msgstr "¿Eliminar contacto?"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:750
+#, c-format
+msgid ""
+"This will:\n"
+"• Delete all conversation history\n"
+"• Remove %s from your contact list\n"
+"\n"
+"This action cannot be undone."
+msgstr ""
+"Esto:\n"
+"• Eliminará todo el historial de conversaciones\n"
+"• Eliminará a %s de tu lista de contactos\n"
+"\n"
+"Esta acción no se puede deshacer."
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:794
+msgid "Delete all message history?"
+msgstr "¿Eliminar todo el historial de mensajes?"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:795
+msgid ""
+"This will permanently delete all messages in this conversation. This action "
+"cannot be undone."
+msgstr ""
+"Esto eliminará permanentemente todos los mensajes de esta conversación. Esta "
+"acción no se puede deshacer.Esto eliminará permanentemente todos los "
+"mensajes de esta conversación. Esta acción no se puede deshacer."
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:798
+#: main/src/ui/conversation_titlebar/menu_entry.vala:51
+msgid "Delete"
+msgstr "Eliminar"
+
+#: main/src/ui/conversation_titlebar/call_entry.vala:14
+msgid "Start call"
+msgstr "Iniciar llamada"
+
+#: main/src/ui/conversation_titlebar/call_entry.vala:25
+msgid "Audio call"
+msgstr "Audiollamada"
+
+#: main/src/ui/conversation_titlebar/call_entry.vala:26
+msgid "Video call"
+msgstr "Videollamada"
+
+#: main/src/ui/conversation_titlebar/call_entry.vala:79
+msgid "Conference Server Required"
+msgstr "Servidor de conferencia requerido"
+
+#: main/src/ui/conversation_titlebar/call_entry.vala:80
+msgid ""
+"To start a group call, you need to configure a default conference server in "
+"your account settings."
+msgstr ""
+"Para iniciar una llamada grupal, necesita configurar un servidor de "
+"conferencia predeterminado en la configuración de su cuenta."
+
+#: main/src/ui/conversation_titlebar/call_entry.vala:84
+msgid "Open Settings"
+msgstr "Abrir configuración"
+
+#: main/src/ui/conversation_titlebar/menu_entry.vala:47
+msgid "Delete all message history for this conversation?"
+msgstr "¿Eliminar todo el historial de mensajes?"
+
+#: main/src/ui/conversation_titlebar/menu_entry.vala:49
+msgid "This action cannot be undone."
+msgstr "Esta acción no se puede deshacer."
+
+#: main/src/ui/conversation_titlebar/menu_entry.vala:85
+msgid "Close Conversation"
+msgstr "Cerrar la conversación"
+
+#: main/src/ui/conversation_titlebar/occupants_entry.vala:14
+#: main/src/windows/conversation_details.vala:302
+msgid "Members"
+msgstr "Miembros"
+
+#: main/src/ui/conversation_view_controller.vala:256
+msgid "Select file"
+msgstr "Seleccionar archivo"
+
+#: main/src/ui/conversation_view_controller.vala:257
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:215
+msgid "Select"
+msgstr "Seleccionar"
+
+#: main/src/ui/conversation_view_controller.vala:339
+msgid "Failed to get location"
+msgstr "Error al obtener la ubicación"
+
+#: main/src/ui/file_send_overlay.vala:60
+msgid "The file exceeds the server's maximum upload size."
+msgstr "El archivo excede el tamaño máximo de subida del servidor."
+
+#: main/src/ui/global_search.vala:208
+#, c-format
+msgid "In %s"
+msgstr "En %s"
+
+#: main/src/ui/global_search.vala:208
+#, c-format
+msgid "With %s"
+msgstr "Con %s"
+
+#: main/src/ui/main_window.vala:169
+msgid "Join Channel Help"
+msgstr "Ayuda para unirse al canal"
+
+#: main/src/ui/main_window.vala:170
+msgid ""
+"To join a channel, click the \"Join Channel\" button and enter the channel "
+"JID (example: room@conference.example.org).\n"
+"\n"
+"If you need a password or a nickname, provide them in the dialog. Use the "
+"discovery features in the server to find public rooms."
+msgstr ""
+"Para unirte a un canal, haz clic en el botón \"Unirse al Canal\" e introduce "
+"el JID del canal (ejemplo: room@conference.example.org).\n"
+"\n"
+"Si necesitas una contraseña o un apodo, proporciónalos en el diálogo. Usa "
+"las funciones de descubrimiento del servidor para encontrar salas públicas."
+
+#: main/src/ui/main_window.vala:222
+msgid "Welcome to DinoX!"
+msgstr "¡Bienvenido a DinoX!"
+
+#: main/src/ui/main_window.vala:223
+msgid "Sign in or create an account to get started."
+msgstr "Inicia sesión o crea una cuenta para iniciar."
+
+#: main/src/ui/main_window.vala:224
+msgid "Set up account"
+msgstr "Establecer cuenta"
+
+#: main/src/ui/main_window.vala:233
+#: main/src/windows/preferences_window/accounts_preferences_page.vala:71
+#: main/src/windows/preferences_window/encryption_preferences_page.vala:49
+msgid "No active accounts"
+msgstr "No hay cuentas activas"
+
+#: main/src/ui/main_window.vala:234
+msgid "Manage accounts"
+msgstr "Gestionar cuentas"
+
+#: main/src/ui/notifier_freedesktop.vala:159
+#: main/src/ui/notifier_gnotifications.vala:93
+msgid "Subscription request"
+msgstr "Solicitud de suscripción"
+
+#: main/src/ui/notifier_freedesktop.vala:194
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:547
+msgid "Wrong password"
+msgstr "Contraseña incorrecta"
+
+#: main/src/ui/notifier_freedesktop.vala:197
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:549
+msgid "Invalid TLS certificate"
+msgstr "Certificado TLS inválido"
+
+#: main/src/ui/notifier_freedesktop.vala:222
+#: main/src/ui/notifier_gnotifications.vala:127
+#, c-format
+msgid "Invitation to %s"
+msgstr "Invitación a %s"
+
+#: main/src/ui/notifier_freedesktop.vala:223
+#: main/src/ui/notifier_gnotifications.vala:128
+#, c-format
+msgid "%s invited you to %s"
+msgstr "%s te ha invitado a %s"
+
+#: main/src/ui/notifier_freedesktop.vala:256
+#: main/src/ui/notifier_gnotifications.vala:147
+msgid "Permission request"
+msgstr "Solicitud de permiso"
+
+#: main/src/ui/notifier_freedesktop.vala:257
+#: main/src/ui/notifier_gnotifications.vala:148
+#, c-format
+msgid "%s requests the permission to write in %s"
+msgstr "%s solicita permiso para escribir en %s"
+
+#: main/src/ui/occupant_menu/list.vala:118
+#: main/src/view_model/conversation_details.vala:139
+msgid "Owner"
+msgstr "Propietario"
+
+#: main/src/ui/occupant_menu/list.vala:120
+#: main/src/view_model/conversation_details.vala:140
+msgid "Admin"
+msgstr "Administrador"
+
+#: main/src/ui/occupant_menu/list.vala:122
+#: main/src/view_model/conversation_details.vala:141
+msgid "Member"
+msgstr "Miembro"
+
+#: main/src/ui/occupant_menu/list.vala:124
+msgid "User"
+msgstr "Usuario"
+
+#: main/src/ui/occupant_menu/view.vala:100
+msgid "Start private conversation"
+msgstr "Iniciar conversación privada"
+
+#: main/src/ui/occupant_menu/view.vala:135
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:151
+msgid "Unblock Contact"
+msgstr "Desbloquear contacto"
+
+#: main/src/ui/occupant_menu/view.vala:137
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:151
+msgid "Block Contact"
+msgstr "Bloquear contacto"
+
+#: main/src/ui/occupant_menu/view.vala:143
+msgid "Moderation"
+msgstr "Moderación"
+
+#: main/src/ui/occupant_menu/view.vala:145
+msgid "Kick"
+msgstr "Expulsar"
+
+#: main/src/ui/occupant_menu/view.vala:149
+msgid "Ban (Permanent)"
+msgstr "Prohibir (Permanente)"
+
+#: main/src/ui/occupant_menu/view.vala:150
+msgid "Ban (10 min)"
+msgstr "Prohibir (10 min)"
+
+#: main/src/ui/occupant_menu/view.vala:151
+msgid "Ban (15 min)"
+msgstr "Prohibir (15 min)"
+
+#: main/src/ui/occupant_menu/view.vala:152
+msgid "Ban (30 min)"
+msgstr "Prohibir (30 min)"
+
+#: main/src/ui/occupant_menu/view.vala:156
+msgid "Administration"
+msgstr "Administración"
+
+#: main/src/ui/occupant_menu/view.vala:160
+msgid "Make Admin"
+msgstr "Hacer Admin"
+
+#: main/src/ui/occupant_menu/view.vala:162
+msgid "Revoke Admin"
+msgstr "Revocar Admin"
+
+#: main/src/ui/occupant_menu/view.vala:166
+msgid "Make Owner"
+msgstr "Hacer Propietario"
+
+#: main/src/ui/occupant_menu/view.vala:171
+msgid "Make Member"
+msgstr "Hacer Miembro"
+
+#: main/src/ui/occupant_menu/view.vala:173
+msgid "Revoke Membership"
+msgstr "Revocar Membresía"
+
+#: main/src/ui/occupant_menu/view.vala:236
+msgid "Kicked by moderator"
+msgstr "Expulsado por el moderador"
+
+#: main/src/ui/occupant_menu/view.vala:282
+msgid "Invite to Conference"
+msgstr "Invitar a la conferencia"
+
+#: main/src/ui/systray.vala:178
+msgid "Quit"
+msgstr "Salir"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:35
+msgid "Import"
+msgstr "Importar"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:36
+msgid "Copy Share URI"
+msgstr "Copiar URI de compartir"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:50
+msgid "Import Sticker Pack"
+msgstr "Importar paquete de pegatinas"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:90
+#: main/src/ui/sticker_pack_import_dialog.vala:147
+msgid "Loading…"
+msgstr "Cargando…"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:128
+msgid "Importing…"
+msgstr "Importando…"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:136
+#: main/src/ui/sticker_pack_import_dialog.vala:158
+msgid "No account available"
+msgstr "No hay cuenta disponible"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:172
+#: main/src/ui/sticker_pack_import_dialog.vala:189
+msgid "Failed to import sticker pack"
+msgstr "Error al importar el paquete de stickers"
+
+#: main/src/ui/util/data_forms.vala:41
+msgid ""
+"A friendly name shown in room listings (does not change the room address)"
+msgstr ""
+"Un nombre amigable mostrado en los listados de salas (no cambia la dirección "
+"de la sala)Un nombre amigable mostrado en las listas de salas (no cambia la "
+"dirección de la sala)Un nombre amigable mostrado en las listas de salas (no "
+"cambia la dirección de la sala)"
+
+#: main/src/ui/util/data_forms.vala:45
+msgid "A description of the room shown in room listings"
+msgstr "Una descripción de la sala mostrada en los listados de salas"
+
+#: main/src/ui/util/data_forms.vala:48
+msgid "Persistent"
+msgstr "Persistente"
+
+#: main/src/ui/util/data_forms.vala:49
+msgid "The room will persist after the last occupant leaves"
+msgstr "La sala persistirá después de que el último ocupante se salga"
+
+#: main/src/ui/util/data_forms.vala:52
+msgid "Publicly searchable"
+msgstr "Búsqueda pública"
+
+#: main/src/ui/util/data_forms.vala:53
+msgid "The room will appear in public room listings"
+msgstr "La sala aparecerá en listados públicos"
+
+#: main/src/ui/util/data_forms.vala:56
+msgid "Occupants may change the subject"
+msgstr "Los ocupantes pueden cambiar de asunto"
+
+#: main/src/ui/util/data_forms.vala:59
+msgid "Permission to view JIDs"
+msgstr "Permiso para ver los JID"
+
+#: main/src/ui/util/data_forms.vala:60
+msgid "Who is allowed to view the occupants' JIDs?"
+msgstr "¿Quién puede ver los JID's de los ocupantes?"
+
+#: main/src/ui/util/data_forms.vala:67
+msgid "Moderated"
+msgstr "Moderada"
+
+#: main/src/ui/util/data_forms.vala:68
+msgid "Only occupants with voice may send messages"
+msgstr "Solo los participantes con voz pueden enviar mensajes"
+
+#: main/src/ui/util/data_forms.vala:71
+msgid "Members only"
+msgstr "Solo miembros"
+
+#: main/src/ui/util/data_forms.vala:72
+msgid ""
+"Only members may enter the room. Warning: Non-members will be removed when "
+"enabled!"
+msgstr ""
+"Solo los miembros pueden entrar a la sala. ¡Advertencia: Los no miembros "
+"serán eliminados al activar!Solo los miembros pueden entrar en la sala. "
+"¡Advertencia: Los no miembros serán eliminados al activar!"
+
+#: main/src/ui/util/helper.vala:75
+#, c-format
+msgid "%s from %s"
+msgstr "%s desde %s"
+
+#: main/src/ui/widgets/date_separator.vala:22
+msgid "Today"
+msgstr "Hoy"
+
+#: main/src/ui/widgets/date_separator.vala:35
+#, no-c-format
+msgid "%a, %b %d"
+msgstr "%a, %d %b"
+
+#: main/src/windows/conversation_details.vala:58
+msgid ""
+"This contact will be removed from your contact list and all conversation "
+"history will be permanently deleted."
+msgstr ""
+"Este contacto será eliminado de tu lista de contactos y todo el historial de "
+"conversación será eliminado permanentemente."
+
+#: main/src/windows/conversation_details.vala:118
+msgid "Block user"
+msgstr "Bloquear usuario"
+
+#: main/src/windows/conversation_details.vala:118
+msgid "Block entire domain"
+msgstr "Bloquear todo el dominio"
+
+#: main/src/windows/conversation_details.vala:135
+msgid "Pinned"
+msgstr "Fijado"
+
+#: main/src/windows/conversation_details.vala:135
+msgid "Pin"
+msgstr "Fijar"
+
+#: main/src/windows/conversation_details.vala:150
+msgid "Domain blocked"
+msgstr "Dominio bloqueado"
+
+#: main/src/windows/conversation_details.vala:175
+msgid "Notifications enabled"
+msgstr "Notificaciones habilitadas"
+
+#: main/src/windows/conversation_details.vala:178
+msgid "Notifications for mentions"
+msgstr "Notificaciones de menciones"
+
+#: main/src/windows/conversation_details.vala:183
+msgid "Notifications disabled"
+msgstr "Notificaciones desactivadas"
+
+#: main/src/windows/conversation_details.vala:242
+#, fuzzy
+msgid "Profile"
+msgstr "Guardar perfil"
+
+#: main/src/windows/conversation_details.vala:245
+msgid "Settings"
+msgstr "Configuraciones"
+
+#: main/src/windows/conversation_details.vala:274
+msgid "Room Configuration"
+msgstr "Configuración de la conversación en grupo"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:91
+msgid "Connect"
+msgstr "Conectar"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:146
+msgid "Disable account"
+msgstr "Desactivar cuenta"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:146
+msgid "Enable account"
+msgstr "Activar cuenta"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:214
+msgid "Select avatar"
+msgstr "Seleccionar imagen"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:225
+msgid "Images"
+msgstr "Imágenes"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:229
+msgid "All files"
+msgstr "Todos los archivos"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:247
+#, c-format
+msgid "Remove account %s?"
+msgstr "¿Quitar cuenta %s?"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:534
+msgid "Connected"
+msgstr "Conectado"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:536
+msgid "Disconnected"
+msgstr "Desconectado"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:556
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:558
+msgid "Error"
+msgstr "Error"
+
+#: main/src/windows/preferences_window/accounts_preferences_page.vala:28
+msgid "Disabled accounts"
+msgstr "Cuentas deshabilitadas"
+
+#: main/src/windows/preferences_window/accounts_preferences_page.vala:31
+#: main/src/windows/preferences_window/add_account_dialog.vala:92
+msgid "Add Account"
+msgstr "Añadir Cuenta"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:137
+msgid "Sign in"
+msgstr "Iniciar Sesión"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:156
+#, c-format
+msgid "The server could not prove that it is %s."
+msgstr "El servidor no pudo probar que es %s."
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:158
+msgid "Its security certificate is not trusted by your operating system."
+msgstr "El certificado no es confiable para el sistema operativo."
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:160
+msgid "Its security certificate is issued to another domain."
+msgstr "El certificado de seguridad está emitido para otro dominio."
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:162
+msgid "Its security certificate will only become valid in the future."
+msgstr "El certificado de seguridad solo será válido en el futuro."
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:164
+msgid "Its security certificate is expired."
+msgstr "El certificado de seguridad está expirado."
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:172
+msgid "Create account"
+msgstr "Crear cuenta"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:191
+#, c-format
+msgid "You can now use the account %s."
+msgstr "Ya puedes usar la cuenta %s."
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:248
+msgid "Wrong username or password"
+msgstr "Usuario o contraseña incorrecta"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:251
+msgid "Something went wrong"
+msgstr "Algo ha ido mal"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:325
+msgid "No response from server"
+msgstr "No hay respuesta del servidor"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:336
+#, c-format
+msgid "Register on %s"
+msgstr "Registrarte en %s"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:339
+msgid "The server requires to sign up through a website"
+msgstr "El servidor requiere registrarse a través de un sitio web"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:341
+msgid "Open website"
+msgstr "Abrir sitio web"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:353
+msgid "Register"
+msgstr "Registrarse"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:355
+#, c-format
+msgid "Check %s for information on how to sign up"
+msgstr "Comprobar %s para información sobre como registrarse"
+
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:186
+msgid "No contacts"
+msgstr "Sin contactos"
+
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:187
+msgid "Add contacts to start chatting"
+msgstr "Añade contactos para empezar a chatear"
+
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:283
+#, c-format
+msgid ""
+"This will remove %s from your contact list and delete all conversation "
+"history."
+msgstr ""
+"%s será eliminado de tu lista de contactos y se eliminará todo el historial "
+"de conversaciones."
+
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:312
+msgid "Edit Contact Alias"
+msgstr "Editar alias del contacto"
+
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:313
+#, c-format
+msgid "Change the display name for %s"
+msgstr "Cambiar el nombre para %s"
+
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:319
+msgid "Alias (optional)"
+msgstr "Alias (opcional)"
+
+#~ msgid "Import…"
+#~ msgstr "Importar…"
+
+#~ msgid "Select sticker folder"
+#~ msgstr "Seleccionar carpeta de stickers"
+
+#~ msgid "Local only"
+#~ msgstr "Solo local"
+
+#~ msgid "Failed to create sticker pack"
+#~ msgstr "Error al crear el paquete de stickers"
+
+#~ msgid "Publishing…"
+#~ msgstr "Publicando…"
+
+#~ msgid "Failed to publish sticker pack"
+#~ msgstr "Error al publicar el paquete de stickers"
+
+#~ msgid "Failed to remove sticker pack"
+#~ msgstr "Error al eliminar el paquete de stickers"
+
+#~ msgid "Creating backup..."
+#~ msgstr "Creando copia de seguridad..."
+
+#, c-format
+#~ msgid "Backup created successfully (%s)"
+#~ msgstr "Copia de seguridad creada (%s)"
+
+#~ msgid "Backup created successfully"
+#~ msgstr "Copia de seguridad creada"
+
+#~ msgid "Encrypting Backup..."
+#~ msgstr "Cifrando copia de seguridad..."
+
+#~ msgid "Creating encrypted backup..."
+#~ msgstr "Creando copia de seguridad cifrada..."
+
+#~ msgid "Encrypted backup created successfully"
+#~ msgstr "Copia de seguridad cifrada creada correctamente"
+
+# OpenPGP Key Management translations
+#~ msgid "OpenPGP Key Management"
+#~ msgstr "Gestión de claves OpenPGP"
+
+#~ msgid "Actions"
+#~ msgstr "Acciones"
+
+#~ msgid "Generate New Key"
+#~ msgstr "Generar nueva clave"
+
+#~ msgid "Create a new OpenPGP key pair"
+#~ msgstr "Crear un nuevo par de claves OpenPGP"
+
+#~ msgid "Import a key from file (.asc, .gpg)"
+#~ msgstr "Importar una clave desde archivo (.asc, .gpg)"
+
+#~ msgid "Your Keys"
+#~ msgstr "Tus claves"
+
+#~ msgid "Private keys available for signing and decryption"
+#~ msgstr "Claves privadas disponibles para firmar y descifrar"
+
+#~ msgid "No private keys found"
+#~ msgstr "No se encontraron claves privadas"
+
+#~ msgid "Generate or import a key to get started"
+#~ msgstr "Genera o importa una clave para comenzar"
+
+#~ msgid "Fingerprint"
+#~ msgstr "Huella digital"
+
+#~ msgid "Export Public Key"
+#~ msgstr "Exportar clave pública"
+
+#~ msgid "Delete Key"
+#~ msgstr "Eliminar clave"
+
+#~ msgid "Generate New OpenPGP Key"
+#~ msgstr "Generar nueva clave OpenPGP"
+
+#~ msgid "Enter your details to create a new key pair."
+#~ msgstr "Ingresa tus datos para crear un nuevo par de claves."
+
+#~ msgid "Name"
+#~ msgstr "Nombre"
+
+#~ msgid "you@example.com"
+#~ msgstr "tu@ejemplo.com"
+
+#~ msgid "Passphrase (optional)"
+#~ msgstr "Contraseña (opcional)"
+
+#~ msgid "Passphrase"
+#~ msgstr "Contraseña"
+
+#~ msgid "4096-bit RSA key, valid for 2 years."
+#~ msgstr "Clave RSA de 4096 bits, válida por 2 años."
+
+#~ msgid "Generate"
+#~ msgstr "Generar"
+
+#~ msgid "Name must be at least 2 characters"
+#~ msgstr "El nombre debe tener al menos 2 caracteres"
+
+#~ msgid "Please enter a valid email address"
+#~ msgstr "Por favor ingresa una dirección de correo válida"
+
+#~ msgid "Generating Key..."
+#~ msgstr "Generando clave..."
+
+#~ msgid "Key generated successfully!"
+#~ msgstr "¡Clave generada exitosamente!"
+
+#~ msgid "Import OpenPGP Key"
+#~ msgstr "Importar clave OpenPGP"
+
+#~ msgid "OpenPGP Keys (*.asc, *.gpg)"
+#~ msgstr "Claves OpenPGP (*.asc, *.gpg)"
+
+#~ msgid "All Files"
+#~ msgstr "Todos los archivos"
+
+#~ msgid "Key imported! Re-open Key Management to see it."
+#~ msgstr "¡Clave importada! Vuelve a abrir la Gestión de claves para verla."
+
+#~ msgid "Import failed: "
+#~ msgstr "Error de importación: "
+
+#~ msgid "Key exported to: "
+#~ msgstr "Clave exportada a: "
+
+#~ msgid "Export failed."
+#~ msgstr "Error de exportación."
+
+#~ msgid "Delete Key?"
+#~ msgstr "¿Eliminar clave?"
+
+#~ msgid ""
+#~ "Delete this key?\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "This cannot be undone!"
+#~ msgstr ""
+#~ "¿Eliminar esta clave?\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "¡Esto no se puede deshacer!"
+
+#~ msgid "Key deleted."
+#~ msgstr "Clave eliminada."
+
+#~ msgid "Delete failed: "
+#~ msgstr "Error al eliminar: "
+
+#~ msgid "Select OpenPGP Key"
+#~ msgstr "Seleccionar clave OpenPGP"
+
+#~ msgid "Choose a key to announce to your contacts."
+#~ msgstr "Elige una clave para anunciar a tus contactos."
+
+#~ msgid "Enter GPG passphrase to confirm:"
+#~ msgstr "Ingresa la contraseña GPG para confirmar:"
+
+#~ msgid "Wrong passphrase"
+#~ msgstr "Contraseña incorrecta"
+
+#~ msgid "Manage Keys"
+#~ msgstr "Administrar claves"
+
+#~ msgid "Generate, import, export, or delete keys"
+#~ msgstr "Generar, importar, exportar o eliminar claves"
+
+#~ msgid "No keys available. Generate or import one!"
+#~ msgstr "No hay claves disponibles. ¡Genera o importa una!"
+
+#~ msgid "Announce key"
+#~ msgstr "Anunciar clave"
+
+#~ msgid "Disabled"
+#~ msgstr "Desactivado"
+
+#~ msgid "Error in GnuPG"
+#~ msgstr "Error en GnuPG"
+
+#~ msgid "Message too long"
+#~ msgstr "Mensaje demasiado largo"
+
+#, c-format
+#~ msgid "%i min ago"
+#~ msgid_plural "%i mins ago"
+#~ msgstr[0] "hace %i min"
+#~ msgstr[1] "hace %i mins"
+
+#~ msgid "Grant write permission"
+#~ msgstr "Conceder permiso para escribir"
+
+#~ msgid "Name of the room"
+#~ msgstr "Nombre de la conversación en grupo"
+
+#~ msgid "Only members may enter the room"
+#~ msgstr "Solo los miembros pueden entrar a la conversación"
+
+#, c-format
+#~ msgid "%i search result"
+#~ msgid_plural "%i search results"
+#~ msgstr[0] "%i resultado de búsqueda"
+#~ msgstr[1] "%i resultado de búsquedas"
+
+#, c-format
+#~ msgid "%i hour"
+#~ msgid_plural "%i hours"
+#~ msgstr[0] "%i hora"
+#~ msgstr[1] "%i horas"
+
+#, c-format
+#~ msgid "%i minute"
+#~ msgid_plural "%i minutes"
+#~ msgstr[0] "%i minuto"
+#~ msgstr[1] "%i minutos"
+
+#~ msgid "Could not establish a secure connection"
+#~ msgstr "No se pudo establecer una conexión segura"
+
+#~ msgid "Back"
+#~ msgstr "Volver"
+
+#~ msgid "Choose a public server"
+#~ msgstr "Elegir un servidor público"
+
+#~ msgid "Or specify a server address"
+#~ msgstr "O especificar la dirección de servidor"
+
+#~ msgid "Sign in instead"
+#~ msgstr "Iniciar sesión"
+
+#~ msgid "All set up!"
+#~ msgstr "¡Todo listo!"
+
+#~ msgid "Finish"
+#~ msgstr "Finalizado"
+
+#~ msgid "Account"
+#~ msgstr "Cuenta"
+
+#~ msgid "Modern XMPP chat client"
+#~ msgstr "Un cliente de XMPP moderno"
+
+#~ msgid ""
+#~ "Dino is a modern open-source chat client for the desktop. It focuses on "
+#~ "providing a clean and reliable Jabber/XMPP experience while having your "
+#~ "privacy in mind."
+#~ msgstr ""
+#~ "Dino es un cliente de mensajería moderno y libre para escritorio y móvil. "
+#~ "Está enfocado en proveer una experiencia Jabber/XMPP limpia y confiable "
+#~ "teniendo la privacidad en mente."
+
+#~ msgid ""
+#~ "It supports end-to-end encryption with OMEMO and OpenPGP and allows "
+#~ "configuring privacy-related features such as read receipts and typing "
+#~ "notifications."
+#~ msgstr ""
+#~ "Soporta cifrado fin-a-fin a través de OMEMO y OpenPGP y permite "
+#~ "configurar características relacionadas con la privacidad, como "
+#~ "confirmaciones de lectura y notificaciones de escritura."
+
+#~ msgid ""
+#~ "Dino fetches history from the server and synchronizes messages with other "
+#~ "devices."
+#~ msgstr ""
+#~ "Dino recupera el historial de mensajes desde el servidor y sincroniza los "
+#~ "mensajes con otros dispositivos."
+
+#~ msgid "No active search"
+#~ msgstr "No hay búsquedas activas"
+
+#~ msgid "Type to start a search"
+#~ msgstr "Escribir para iniciar una búsqueda"
+
+#~ msgid "No matching messages"
+#~ msgstr "No hay mensajes coincidentes"
+
+#~ msgid "Check the spelling or try to remove filters"
+#~ msgstr "Comprueba la ortografía o intenta quitar los filtros"
+
+#~ msgid "Send"
+#~ msgstr "Enviar"
+
+#, c-format
+#~ msgid "Sign in to %s"
+#~ msgstr "Iniciar sesión a %s"
+
+#~ msgid "No accounts configured"
+#~ msgstr "No hay cuentas configuradas"
+
+#~ msgid "Add an account"
+#~ msgstr "Añadir una cuenta"
+
+#~ msgid "Pick another server"
+#~ msgstr "Elegir otro servidor"
+
+#~ msgid "Local Settings"
+#~ msgstr "Configuraciones locales"
+
+#~ msgid "Notifications"
+#~ msgstr "Notificaciones"
+
+#~ msgid "Pin conversation"
+#~ msgstr "fijar la conversación"
+
+#~ msgid "Pins the conversation to the top of the conversation list"
+#~ msgstr ""
+#~ "Fija la conversación en la parte superior de la lista de conversaciones"
+
+#~ msgid "Only when mentioned"
+#~ msgstr "Solo cuando te mencionan"
+
+#~ msgid "Conference Details"
+#~ msgstr "Detalles de Conversación en grupo"
+
+#~ msgid "Communication and status updates in either direction are blocked"
+#~ msgstr ""
+#~ "La comunicación y las actualizaciones de estado en cualquier dirección "
+#~ "están bloqueadas"
+
+#~ msgid "A password to restrict access to the room"
+#~ msgstr "Una contraseña para restringir el acceso de la sala"
+
+#~ msgid "Maximum amount of backlog issued by the room"
+#~ msgstr "Cantidad máxima de mensajes previos emitido por la sala"
+
+#~ msgid "Convert smileys to emojis"
+#~ msgstr "Convertir sonrisas en emoticonos"
+
+#~ msgid "Check spelling"
+#~ msgstr "Comprobar ortografía"
+
+#~ msgid "Click here to start a conversation or join a channel."
+#~ msgstr ""
+#~ "Pulsar aquí para iniciar una conversación o unirse a un conversación en "
+#~ "grupo."
+
+#~ msgid "No active conversations"
+#~ msgstr "No hay conversaciones activa"
+
+#~ msgid "Main window with conversations"
+#~ msgstr "Ventana principal con conversaciones"
+
+#~ msgid "%s, %s and %i others"
+#~ msgstr "%s, %s y %i otros"
+
+#~ msgid "You can now start using %s"
+#~ msgstr "Puedes empezar a usar %s"
+
+#~ msgid "%s, %s and %s"
+#~ msgstr "%s, %s y %s"
+
+#~ msgid "%s and %s"
+#~ msgstr "%s y %s"
+
+#~ msgid "has stopped typing"
+#~ msgstr "ha dejado de escribir"
+
+#~ msgid "%i search results"
+#~ msgstr "%i resultados de la búsqueda"
+
+#~ msgid "Discover real JIDs"
+#~ msgstr "Descubrir JIDs reales"
+
+#~ msgid "Who may discover real JIDs?"
+#~ msgstr "¿Quién puede ver los JIDs reales?"
+
+#~ msgid "Password required for room entry, if any"
+#~ msgstr ""
+#~ "Contraseña requerida para entrar en la conversación en grupo. Dejar vacío "
+#~ "para ninguna"
+
+#~ msgid "Failed connecting to %s"
+#~ msgstr "Fallo conectando con %s"
+
+#~ msgid "Join Conference"
+#~ msgstr "Unirse a Conversación en grupo"
+
+#~ msgid "Communicate happiness."
+#~ msgstr "Comunícate felizmente."
+
+#~ msgid "JID should be of the form “user@example.com”"
+#~ msgstr "El JID debe tener la forma \"usuario@ejemplo.com\""
+
+#~ msgid "Copy Link Address"
+#~ msgstr "Copiar dirección del enlace"
+
+#~ msgid "Copy"
+#~ msgstr "Copiar"
+
+#~ msgid "Select All"
+#~ msgstr "Seleccionar todo"
+
+#~ msgid "Search"
+#~ msgstr "Buscar"
+
+#~ msgid "Start Chat"
+#~ msgstr "Iniciar Conversación"
+
+#~ msgid "Request presence updates"
+#~ msgstr "Solicitar actualizaciones de presencia"
+
+#~ msgid "This is an app-notification. Click the button to dismiss"
+#~ msgstr ""
+#~ "Esto es una notificación de la aplicación. Haz click en el botón para "
+#~ "descartar"
+
+#~ msgid "Join on startup"
+#~ msgstr "Unirse al inicio"
+
+#~ msgid "Optional: Custom server connection"
+#~ msgstr "Opcional: Conexión de servidor personalizada"

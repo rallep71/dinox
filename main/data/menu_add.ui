@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+    <menu id="menu_add">
+        <section>
+            <item>
+                <attribute name="action">app.add_chat</attribute>
+                <attribute name="label" translatable="yes">Start Conversation</attribute>
+            </item>
+            <item>
+                <attribute name="action">app.add_conference</attribute>
+                <attribute name="label" translatable="yes">Join Channel</attribute>
+            </item>
+        </section>
+    </menu>
+</interface>

@@ -1,0 +1,7 @@
+build/
+dist/
+*.o
+messages.mo
+.vscode/
+build_log.txt
+logs/

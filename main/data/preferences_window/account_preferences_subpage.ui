@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <template class="DinoUiAccountPreferencesSubpage">
+    <child>
+      <object class="GtkBox">
+        <property name="orientation">vertical</property>
+        <child>
+          <object class="AdwHeaderBar" id="headerbar">
+            <style>
+              <class name="flat"/>
+            </style>
+          </object>
+        </child>
+        <child>
+          <object class="GtkScrolledWindow">
+            <property name="vexpand">True</property>
+            <property name="hexpand">True</property>
+            <child>
+              <object class="AdwClamp">
+                <child>
+                  <object class="GtkBox">
+                    <property name="margin-top">24</property>
+                    <property name="margin-bottom">24</property>
+                    <property name="margin-start">12</property>
+                    <property name="margin-end">12</property>
+                    <property name="spacing">24</property>
+                    <property name="orientation">vertical</property>
+                    <child>
+                      <object class="GtkOverlay">
+                        <property name="halign">center</property>
+                        <property name="child">
+                          <object class="DinoUiAvatarPicture" id="avatar">
+                            <property name="height-request">144</property>
+                            <property name="width-request">144</property>
+                          </object>
+                        </property>
+                        <child type="overlay">
+                          <object class="GtkBox" id="avatar_menu_box">
+                            <property name="opacity">0.9</property>
+                            <property name="margin-end">6</property>
+                            <property name="margin-bottom">6</property>
+                            <property name="halign">end</property>
+                            <property name="valign">end</property>
+                            <style>
+                              <class name="card"/>
+                              <class name="toolbar"/>
+                              <class name="compact-card-toolbar"/>
+                            </style>
+                            <child>
+                              <object class="GtkButton" id="edit_avatar_button">
+                                <property name="icon-name">document-edit-symbolic</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkButton" id="remove_avatar_button">
+                                <property name="icon-name">user-trash-symbolic</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="AdwPreferencesGroup">
+                        <child>
+                          <object class="AdwActionRow" id="xmpp_address">
+                            <property name="title" translatable="yes">XMPP Address</property>
+                            <property name="subtitle_selectable">True</property>
+                            <style>
+                              <class name="property"/>
+                            </style>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwEntryRow" id="local_alias">
+                            <property name="title" translatable="yes">Local alias</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwActionRow" id="password_change">
+                            <property name="title" translatable="yes">Password</property>
+                            <child type="suffix">
+                              <object class="GtkBox">
+                                <property name="opacity">0.7</property>
+                                <property name="spacing">6</property>
+                                <property name="orientation">horizontal</property>
+                                <child>
+                                  <object class="GtkLabel">
+                                    <property name="label">•••••</property>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkImage">
+                                    <property name="icon-name">go-next-symbolic</property>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwActionRow" id="connection_status">
+                            <property name="title" translatable="yes">Connection status</property>
+                            <style>
+                              <class name="property"/>
+                            </style>
+                            <child type="suffix">
+                              <object class="GtkButton" id="enter_password_button">
+                                <property name="label">Enter password</property>
+                                <property name="valign">center</property>
+                                <property name="visible">False</property>
+                              </object>
+                            </child>
+                            <child type="suffix">
+                              <object class="GtkButton" id="trust_certificate_button">
+                                <property name="label" translatable="yes">View Certificate</property>
+                                <property name="valign">center</property>
+                                <property name="visible">False</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="AdwPreferencesGroup">
+                        <property name="title" translatable="yes">Public Profile</property>
+                        <child>
+                          <object class="AdwSwitchRow" id="vcard_public_access">
+                            <property name="title" translatable="yes">Public Access</property>
+                            <property name="subtitle" translatable="yes">Allow anyone to see your profile</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwSwitchRow" id="vcard_share_with_contacts">
+                            <property name="title" translatable="yes">Share with Contacts</property>
+                            <property name="subtitle" translatable="yes">Allow contacts to see your profile</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwEntryRow" id="vcard_fn">
+                            <property name="title" translatable="yes">Full Name</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwEntryRow" id="vcard_nickname">
+                            <property name="title" translatable="yes">Nickname</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwComboRow" id="vcard_gender">
+                            <property name="title" translatable="yes">Gender</property>
+                            <property name="model">
+                              <object class="GtkStringList">
+                                <items>
+                                  <item translatable="yes">Unknown</item>
+                                  <item translatable="yes">Male</item>
+                                  <item translatable="yes">Female</item>
+                                  <item translatable="yes">Other</item>
+                                  <item translatable="yes">None</item>
+                                </items>
+                              </object>
+                            </property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwEntryRow" id="vcard_bday">
+                            <property name="title" translatable="yes">Birthday</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwExpanderRow" id="vcard_address_expander">
+                            <property name="title" translatable="yes">Address</property>
+                            <child>
+                              <object class="AdwEntryRow" id="vcard_adr_street">
+                                <property name="title" translatable="yes">Street</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="AdwEntryRow" id="vcard_adr_pcode">
+                                <property name="title" translatable="yes">Postal Code</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="AdwEntryRow" id="vcard_adr_city">
+                                <property name="title" translatable="yes">City</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="AdwEntryRow" id="vcard_adr_region">
+                                <property name="title" translatable="yes">Region</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="AdwEntryRow" id="vcard_adr_country">
+                                <property name="title" translatable="yes">Country</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwEntryRow" id="vcard_email">
+                            <property name="title" translatable="yes">Email</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwEntryRow" id="vcard_impp">
+                            <property name="title" translatable="yes">IM Address</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwEntryRow" id="vcard_phone">
+                            <property name="title" translatable="yes">Phone Number</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwEntryRow" id="vcard_org">
+                            <property name="title" translatable="yes">Organization</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwEntryRow" id="vcard_title">
+                            <property name="title" translatable="yes">Job Title</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwEntryRow" id="vcard_role">
+                            <property name="title" translatable="yes">Role</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwEntryRow" id="vcard_tz">
+                            <property name="title" translatable="yes">Timezone</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwEntryRow" id="vcard_url">
+                            <property name="title" translatable="yes">Website</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwEntryRow" id="vcard_desc">
+                            <property name="title" translatable="yes">Description</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="save_vcard_button">
+                            <property name="label" translatable="yes">Save Profile</property>
+                            <property name="halign">end</property>
+                            <property name="margin-top">12</property>
+                            <style>
+                              <class name="suggested-action"/>
+                            </style>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="AdwPreferencesGroup">
+                        <property name="title" translatable="yes">Advanced Settings</property>
+                        <property name="description" translatable="yes">Custom server connection (leave empty for automatic)</property>
+                        <child>
+                          <object class="AdwEntryRow" id="custom_host_entry">
+                            <property name="title" translatable="yes">Server Hostname</property>
+                          </object>
+                        </child>
+                        <child>                          <object class="AdwComboRow" id="proxy_type_row">
+                            <property name="title" translatable="yes">Proxy Type</property>
+                            <property name="model">
+                              <object class="GtkStringList">
+                                <items>
+                                  <item translatable="yes">None</item>
+                                  <item translatable="yes">SOCKS5</item>
+                                </items>
+                              </object>
+                            </property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwEntryRow" id="proxy_host_entry">
+                            <property name="title" translatable="yes">Proxy Hostname</property>
+                            <property name="visible">False</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwEntryRow" id="proxy_port_entry">
+                            <property name="title" translatable="yes">Proxy Port</property>
+                            <property name="visible">False</property>
+                          </object>
+                        </child>
+                        <child>                          <object class="AdwEntryRow" id="custom_port_entry">
+                            <property name="title" translatable="yes">Port</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkBox" id="button_container">
+                        <property name="halign">center</property>
+                        <property name="spacing">24</property>
+                        <child>
+                          <object class="GtkButton" id="disable_account_button">
+                            <property name="label" translatable="1">Disable account</property>
+                            <property name="halign">center</property>
+                            <style>
+                              <class name="pill"/>
+                            </style>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="remove_account_button">
+                            <property name="label" translatable="1">Remove account</property>
+                            <property name="halign">center</property>
+                            <style>
+                              <class name="pill"/>
+                              <class name="destructive-action"/>
+                            </style>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

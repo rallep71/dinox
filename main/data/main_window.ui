@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+    <requires lib="gtk" version="4.0"/>
+    <requires lib="libadwaita" version="1.4"/>
+    <template class="DinoUiMainWindow" parent="AdwApplicationWindow">
+        <property name="default-width">900</property>
+        <property name="default-height">600</property>
+        <child>
+            <object class="AdwBreakpoint">
+                <condition>max-width: 860sp</condition>
+                <setter object="navigation_split_view" property="collapsed">True</setter>
+            </object>
+        </child>
+        <property name="content">
+            <object class="GtkStack" id="stack">
+                <child>
+                    <object class="GtkStackPage">
+                        <property name="name">main</property>
+                        <property name="child">
+                            <object class="AdwNavigationSplitView" id="navigation_split_view">
+                                <property name="vexpand">True</property>
+                                <property name="sidebar">
+                                    <object class="AdwNavigationPage">
+                                        <property name="title">DinoX</property>
+                                        <property name="tag">sidebar</property>
+                                        <property name="child">
+                                            <object class="AdwToolbarView">
+                                                <child type="top">
+                                                    <object class="AdwHeaderBar" id="header_bar">
+                                                        <property name="show-title">False</property>
+                                                        <property name="hexpand">False</property>
+                                                        <style>
+                                                            <class name="dino-left"/>
+                                                        </style>
+                                                        <child>
+                                                            <object class="GtkButton" id="add_chat_button">
+                                                                <property name="has-frame">False</property>
+                                                                <property name="tooltip-text" translatable="yes">Start Conversation</property>
+                                                                <property name="action-name">app.add_chat</property>
+                                                                <child>
+                                                                    <object class="GtkImage">
+                                                                        <property name="icon-name">avatar-default-symbolic</property>
+                                                                        <property name="icon-size">normal</property>
+                                                                    </object>
+                                                                </child>
+                                                            </object>
+                                                        </child>
+                                                        <child>
+                                                            <object class="GtkButton" id="add_group_button">
+                                                                <property name="has-frame">False</property>
+                                                                <property name="tooltip-text" translatable="yes">Join Channel</property>
+                                                                <property name="action-name">app.add_conference</property>
+                                                                <child>
+                                                                    <object class="GtkImage">
+                                                                        <property name="icon-name">system-users-symbolic</property>
+                                                                        <property name="icon-size">normal</property>
+                                                                    </object>
+                                                                </child>
+                                                            </object>
+                                                        </child>
+                                                        <child>
+                                                            <object class="GtkMenuButton" id="status_button">
+                                                                <property name="has-frame">False</property>
+                                                                <property name="tooltip-text" translatable="yes">Set Status</property>
+                                                                <child>
+                                                                    <object class="GtkImage" id="status_image">
+                                                                        <property name="icon-name">user-available-symbolic</property>
+                                                                        <property name="icon-size">normal</property>
+                                                                    </object>
+                                                                </child>
+                                                            </object>
+                                                        </child>
+                                                        <child type="end">
+                                                            <object class="GtkMenuButton" id="menu_button">
+                                                                <property name="has-frame">False</property>
+                                                                <child>
+                                                                    <object class="GtkImage">
+                                                                        <property name="icon-name">open-menu-symbolic</property>
+                                                                        <property name="icon-size">normal</property>
+                                                                    </object>
+                                                                </child>
+                                                            </object>
+                                                        </child>
+                                                    </object>
+                                                </child>
+                                                <property name="content">
+                                                    <object class="GtkStack" id="left_stack">
+                                                        <property name="hexpand">False</property>
+                                                        <child>
+                                                            <object class="GtkStackPage">
+                                                                <property name="name">content</property>
+                                                                <property name="child">
+                                                                    <object class="GtkScrolledWindow">
+                                                                        <property name="hscrollbar_policy">never</property>
+                                                                        <property name="vexpand">1</property>
+                                                                        <child>
+                                                                            <object class="DinoUiConversationSelector" id="conversation_selector">
+                                                                            </object>
+                                                                        </child>
+                                                                    </object>
+                                                                </property>
+                                                            </object>
+                                                        </child>
+                                                        <child>
+                                                            <object class="GtkStackPage">
+                                                                <property name="name">placeholder</property>
+                                                                <property name="child">
+                                                                    <object class="AdwStatusPage">
+                                                                        <style>
+                                                                            <class name="compact"/>
+                                                                        </style>
+                                                                        <property name="margin-start">20</property>
+                                                                        <property name="margin-end">20</property>
+                                                                        <property name="margin-top">20</property>
+                                                                        <property name="margin-bottom">20</property>
+                                                                        <property name="width_request">260</property>
+
+                                                                        <property name="title" translatable="yes">You have no open chats</property>
+                                                                        <property name="description" translatable="yes">Click + to start a chat or join a channel</property>
+                                                                    </object>
+                                                                </property>
+                                                            </object>
+                                                        </child>
+                                                    </object>
+                                                </property>
+                                            </object>
+                                        </property>
+                                    </object>
+                                </property>
+                                <property name="content">
+                                    <object class="AdwNavigationPage">
+                                        <property name="title">Conversation</property>
+                                        <style>
+                                            <class name="view" />
+                                        </style>
+                                        <property name="child">
+                                            <object class="AdwToolbarView">
+                                                <child type="top">
+                                                    <object class="AdwHeaderBar" id="conversation_headerbar">
+                                                        <property name="title-widget">
+                                                            <object class="AdwWindowTitle" id="conversation_window_title" />
+                                                        </property>
+                                                    </object>
+                                                </child>
+                                                <property name="content">
+                                                    <object class="AdwOverlaySplitView" id="search_flap">
+                                                        <property name="sidebar-position">end</property>
+                                                        <property name="collapsed">True</property>
+                                                        <property name="hexpand">true</property>
+                                                        <property name="content">
+                                                            <object class="DinoUiNaturalSizeIncrease">
+                                                                <property name="min-natural-width">360</property>
+                                                                <child>
+                                                                    <object class="GtkStack" id="right_stack">
+                                                                        <property name="hexpand">false</property>
+                                                                        <child>
+                                                                            <object class="GtkStackPage">
+                                                                                <property name="name">content</property>
+                                                                                <property name="child">
+                                                                                    <object class="DinoUiConversationView" id="conversation_view">
+                                                                                    </object>
+                                                                                </property>
+                                                                            </object>
+                                                                        </child>
+                                                                        <child>
+                                                                            <object class="GtkStackPage">
+                                                                                <property name="name">placeholder</property>
+                                                                                <property name="child">
+                                                                                    <object class="AdwStatusPage">                                                                    
+                                                                                        <property name="hexpand">True</property>
+                                                                                        <property name="vexpand">True</property>
+                                                                                    </object>
+                                                                                </property>
+                                                                            </object>
+                                                                        </child>
+                                                                    </object>
+                                                                </child>
+                                                            </object>
+                                                        </property>
+                                                        <property name="sidebar">
+                                                            <object class="AdwClamp">
+                                                                <property name="hexpand">false</property>
+                                                                <property name="maximum-size">400</property>
+                                                                <property name="tightening-threshold">400</property>
+                                                                <child>
+                                                                    <object class="DinoUiNaturalSizeIncrease">
+                                                                        <property name="min-natural-width">300</property>
+                                                                        <child>
+                                                                            <object class="AdwBin" id="search_frame">
+                                                                                <property name="hexpand">true</property>
+                                                                                <style>
+                                                                                    <class name="background"/>
+                                                                                </style>
+                                                                            </object>
+                                                                        </child>
+                                                                    </object>
+                                                                </child>
+                                                            </object>
+                                                        </property>
+                                                    </object>
+                                                </property>
+                                            </object>
+                                        </property>
+                                    </object>
+                                </property>
+                            </object>
+                        </property>
+                    </object>
+                </child>
+            </object>
+        </property>
+    </template>
+</interface>

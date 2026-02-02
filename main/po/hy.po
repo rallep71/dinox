@@ -1,0 +1,2814 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-01 18:06+0100\n"
+"PO-Revision-Date: 2025-08-15 12:01+0000\n"
+"Language-Team: none\n"
+"Language: hy\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 5.13\n"
+
+#: main/data/add_conversation/add_groupchat_dialog.ui:81
+msgid "Add MUC"
+msgstr "Ավելացնել MUC"
+
+#: main/data/add_conversation/add_groupchat_dialog.ui:91
+msgid "Insert a Name for MUC..."
+msgstr "Մուտքագրեք MUC-ի անունը..."
+
+#: main/data/add_conversation/select_jid_fragment.ui:20
+msgid "Search or enter channel address..."
+msgstr "Որոնել կամ մուտքագրել ալիքի հասցեն..."
+
+#: main/data/add_conversation/select_jid_fragment.ui:67
+#: main/src/ui/add_conversation/select_jid_fragment.vala:204
+msgid "Add Group"
+msgstr "Ավելացնել խումբ"
+
+#: main/data/add_conversation/select_jid_fragment.ui:88
+msgid "Delete Group"
+msgstr "Ջնջել խումբը"
+
+#: main/data/call_widget.ui:73 main/src/ui/notifier_freedesktop.vala:125
+#: main/src/ui/notifier_freedesktop.vala:232
+#: main/src/ui/notifier_gnotifications.vala:82
+msgid "Reject"
+msgstr "Մերժել"
+
+#: main/data/call_widget.ui:81
+#: main/src/ui/conversation_content_view/subscription_notification.vala:67
+#: main/src/ui/notifier_freedesktop.vala:125
+#: main/src/ui/notifier_freedesktop.vala:166
+#: main/src/ui/notifier_freedesktop.vala:232
+#: main/src/ui/notifier_freedesktop.vala:266
+#: main/src/ui/notifier_gnotifications.vala:83
+#: main/src/ui/notifier_gnotifications.vala:101
+#: main/src/ui/notifier_gnotifications.vala:140
+#: main/src/ui/notifier_gnotifications.vala:158
+msgid "Accept"
+msgstr "Ընդունել"
+
+#: main/data/chat_input.ui:15
+msgid "Send File…"
+msgstr "Ուղարկել ֆայլ…"
+
+#: main/data/chat_input.ui:25
+msgid "Send Location"
+msgstr "Ուղարկել տեղադրությունը"
+
+#: main/data/chat_input.ui:96
+msgid "Record voice message"
+msgstr "Ձայնագրել ձայնային հաղորդագրություն"
+
+#: main/data/chat_input.ui:110
+msgid "Send message"
+msgstr "Ուղարկել հաղորդագրություն"
+
+#: main/data/conversation_details.ui:162
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:567
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:169
+msgid "Remove Contact"
+msgstr "Հեռացնել կոնտակտը"
+
+#: main/data/conversation_details.ui:192
+#: main/src/windows/conversation_details.vala:239
+msgid "About"
+msgstr "Ծրագրի մասին"
+
+#: main/data/conversation_row.ui:56
+msgid "Private room (supports group calls)"
+msgstr "Անձնական սենյակ (աջակցում է խմբային զանգեր)"
+
+#: main/data/conversation_row.ui:135
+#: main/src/windows/conversation_details.vala:181
+#: main/src/windows/conversation_details.vala:182
+msgid "Muted"
+msgstr "Լռեցուած է"
+
+#: main/data/conversation_row.ui:146
+#: main/src/windows/conversation_details.vala:146
+msgid "Blocked"
+msgstr "Արգելափակ է"
+
+#: main/data/gtk/help-overlay.ui:10
+#: main/data/preferences_window/preferences_dialog.ui:32
+msgid "General"
+msgstr "Ընդհանուր"
+
+#: main/data/gtk/help-overlay.ui:14 main/data/main_window.ui:38
+#: main/data/menu_add.ui:7
+#: main/src/ui/add_conversation/select_contact_dialog.vala:110
+#: main/src/ui/main_window.vala:154
+msgid "Start Conversation"
+msgstr "Սկսել զրոյց"
+
+#: main/data/gtk/help-overlay.ui:20 main/data/main_window.ui:51
+#: main/data/menu_add.ui:11
+#: main/src/ui/add_conversation/add_conference_dialog.vala:25
+#: main/src/ui/application.vala:1908 main/src/ui/main_window.vala:155
+msgid "Join Channel"
+msgstr "Միանալ սենեակին"
+
+#: main/data/gtk/help-overlay.ui:26
+msgid "Show preferences"
+msgstr "Ցուցադրել կարգաւորումներ"
+
+#: main/data/gtk/help-overlay.ui:32
+msgid "Keyboard shortcuts"
+msgstr "Ստեղնաշարի կարճատներ"
+
+#: main/data/gtk/help-overlay.ui:39
+msgid "Conversation"
+msgstr "Զրոյց"
+
+#: main/data/gtk/help-overlay.ui:43
+#: main/src/ui/conversation_titlebar/search_entry.vala:12
+msgid "Search messages"
+msgstr "Փնտրել գրութիւններ"
+
+#: main/data/gtk/help-overlay.ui:49 main/src/ui/chat_input/view.vala:62
+msgid "Send a file"
+msgstr "Ուղարկել նիշք"
+
+#: main/data/gtk/help-overlay.ui:55
+msgid "Close conversation"
+msgstr "Փակել զրույցը"
+
+#: main/data/gtk/help-overlay.ui:62
+msgid "Navigation"
+msgstr "Նաւարկում"
+
+#: main/data/gtk/help-overlay.ui:66
+msgid "Jump to next conversation"
+msgstr "Անցնել յաջորդ զրոյցին"
+
+#: main/data/gtk/help-overlay.ui:72
+msgid "Jump to previous conversation"
+msgstr "Անցնել նախորդ զրոյցին"
+
+#: main/data/main_window.ui:64 main/src/ui/main_window.vala:157
+msgid "Help: How to join channels"
+msgstr "Օգնություն. Ինչպես միանալ ալիքներին"
+
+#: main/data/main_window.ui:118
+msgid "You have no open chats"
+msgstr "Չունես ոչ մի բաց զրոյց"
+
+#: main/data/main_window.ui:119
+msgid "Click + to start a chat or join a channel"
+msgstr "Սեղմիր + զրոյց սկսելու կամ սենեակ մտնելու համար"
+
+#: main/data/menu_app.ui:6
+msgid "Status"
+msgstr "Կարգավիճակ"
+
+#: main/data/menu_app.ui:11
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:427
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
+#: main/src/ui/systray.vala:279
+msgid "Online"
+msgstr "Առցանց"
+
+#: main/data/menu_app.ui:16
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:421
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
+#: main/src/ui/systray.vala:279
+msgid "Away"
+msgstr "Բացակայում է"
+
+#: main/data/menu_app.ui:21
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:425
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
+#: main/src/ui/systray.vala:279
+msgid "Busy"
+msgstr "Զbaghված"
+
+#: main/data/menu_app.ui:26
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:423
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
+#: main/src/ui/systray.vala:279
+msgid "Not Available"
+msgstr "Անհասանելի"
+
+#: main/data/menu_app.ui:30 main/src/ui/main_window.vala:215
+msgid "Set Status Message…"
+msgstr "Սահմանել կարգավիճակի հաղորդագրություն…"
+
+#: main/data/menu_app.ui:38
+msgid "Preferences"
+msgstr "Կարգաւորումներ"
+
+#: main/data/menu_app.ui:42
+msgid "Panic Wipe"
+msgstr "Խուճապային մաքրում"
+
+#: main/data/menu_app.ui:46
+msgid "Keyboard Shortcuts"
+msgstr "Ստեղնաշարի կարճատներ"
+
+#: main/data/menu_app.ui:50 main/src/ui/application.vala:891
+msgid "About DinoX"
+msgstr "DinoX-ի մասին"
+
+#: main/data/menu_conversation.ui:7
+msgid "Contact Details"
+msgstr "Կոնտակտի մանրամասներ"
+
+#: main/data/menu_conversation.ui:13
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:513
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:565
+#: main/src/ui/conversation_titlebar/menu_entry.vala:84
+msgid "Delete Conversation History"
+msgstr "Ջնջել զրույցի պատմությունը"
+
+#: main/data/message_item_widget_edit_mode.ui:46
+#: main/data/preferences_window/change_password_dialog.ui:18
+#: main/src/ui/add_conversation/add_conference_dialog.vala:44
+#: main/src/ui/add_conversation/select_contact_dialog.vala:43
+#: main/src/ui/application.vala:754 main/src/ui/application.vala:992
+#: main/src/ui/application.vala:1020 main/src/ui/application.vala:1316
+#: main/src/ui/application.vala:1394 main/src/ui/application.vala:1452
+#: main/src/ui/application.vala:1484 main/src/ui/application.vala:1640
+#: main/src/ui/application.vala:1918
+#: main/src/ui/conversation_content_view/file_default_widget.vala:90
+#: main/src/ui/conversation_content_view/item_actions.vala:165
+#: main/src/ui/conversation_content_view/item_actions.vala:168
+#: main/src/ui/conversation_details.vala:283
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:641
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:668
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:687
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:712
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:731
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:752
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:797
+#: main/src/ui/conversation_titlebar/call_entry.vala:83
+#: main/src/ui/conversation_titlebar/menu_entry.vala:51
+#: main/src/windows/conversation_details.vala:60
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:90
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:199
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:219
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:243
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:263
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:285
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:326
+msgid "Cancel"
+msgstr "Չեղարկել"
+
+#: main/data/message_item_widget_edit_mode.ui:51
+msgid "Update message"
+msgstr "Թարմացնել գրութիւնը"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:68
+#: main/src/ui/conversation_details.vala:169
+msgid "XMPP Address"
+msgstr "XMPP հասցէ"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:77
+msgid "Local alias"
+msgstr "Տեղական այլանուն"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:82
+#: main/src/ui/application.vala:986 main/src/ui/application.vala:1615
+#: main/src/ui/util/data_forms.vala:63
+msgid "Password"
+msgstr "Ծածկագիր"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:104
+msgid "Connection status"
+msgstr "Կապի վիճակ"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:117
+msgid "View Certificate"
+msgstr "Դիտել վկայականը"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:128
+msgid "Public Profile"
+msgstr "Հանրային պրոֆիլ"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:131
+msgid "Public Access"
+msgstr "Հանրային հասանելիություն"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:132
+msgid "Allow anyone to see your profile"
+msgstr "Թույլատրել բոլորին տեսնել ձեր պրոֆիլը"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:137
+msgid "Share with Contacts"
+msgstr "Կիսվել կոնտակտների հետ"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:138
+msgid "Allow contacts to see your profile"
+msgstr "Թույլատրել կոնտակտներին տեսնել ձեր պրոֆիլը"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:143
+#: main/src/ui/conversation_details.vala:561
+msgid "Full Name"
+msgstr "Ամբողջական անուն"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:148
+#: main/src/ui/conversation_details.vala:562
+msgid "Nickname"
+msgstr "Կեղծանուն"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:153
+#: main/src/ui/conversation_details.vala:575
+msgid "Gender"
+msgstr "Սեռ"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:157
+#: main/src/ui/conversation_details.vala:573
+msgid "Unknown"
+msgstr "Անհայտ"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:158
+#: main/src/ui/conversation_details.vala:569
+msgid "Male"
+msgstr "Տղամարդ"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:159
+#: main/src/ui/conversation_details.vala:570
+msgid "Female"
+msgstr "Կին"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:160
+#: main/src/ui/conversation_details.vala:571
+msgid "Other"
+msgstr "Այլ"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:161
+#: main/src/ui/chat_input/sticker_chooser.vala:397
+#: main/src/ui/chat_input/sticker_chooser.vala:459
+#: main/src/ui/chat_input/sticker_chooser.vala:464
+#: main/src/ui/conversation_details.vala:572
+msgid "None"
+msgstr "Ոչ մեկը"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:169
+#: main/src/ui/conversation_details.vala:578
+msgid "Birthday"
+msgstr "Ծննդյան օր"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:174
+#: main/src/ui/conversation_details.vala:580
+msgid "Address"
+msgstr "Հասցե"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:177
+msgid "Street"
+msgstr ""
+
+#: main/data/preferences_window/account_preferences_subpage.ui:182
+msgid "Postal Code"
+msgstr ""
+
+#: main/data/preferences_window/account_preferences_subpage.ui:187
+msgid "City"
+msgstr ""
+
+#: main/data/preferences_window/account_preferences_subpage.ui:192
+#, fuzzy
+msgid "Region"
+msgstr "Գրանցուել %s֊ում"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:197
+msgid "Country"
+msgstr ""
+
+#: main/data/preferences_window/account_preferences_subpage.ui:204
+#: main/src/ui/conversation_details.vala:582
+msgid "Email"
+msgstr "Էլ․ փոստ"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:209
+#: main/src/ui/conversation_details.vala:584
+msgid "IM Address"
+msgstr "IM հասցե"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:214
+msgid "Phone Number"
+msgstr "Հեռախոսահամար"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:219
+#: main/src/ui/conversation_details.vala:588
+msgid "Organization"
+msgstr "Կազմակերպություն"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:224
+msgid "Job Title"
+msgstr "Պաշտոն"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:229
+#: main/src/ui/conversation_details.vala:182
+#: main/src/ui/conversation_details.vala:592
+msgid "Role"
+msgstr "Դեր"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:234
+#: main/src/ui/conversation_details.vala:594
+msgid "Timezone"
+msgstr "Ժամային գոտի"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:239
+msgid "Website"
+msgstr "Վեբ կայք"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:244
+#: main/src/ui/util/data_forms.vala:44
+msgid "Description"
+msgstr "Նկարագրություն"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:249
+msgid "Save Profile"
+msgstr "Պահպանել պրոֆիլը"
+
+# Custom host/port feature (Issue #115)
+#: main/data/preferences_window/account_preferences_subpage.ui:261
+msgid "Advanced Settings"
+msgstr "Ընդլայնված կարգավորումներ"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:262
+msgid "Custom server connection (leave empty for automatic)"
+msgstr "Սերվերի հատուկ միացում (թողնել դատարկ՝ ավտոմատի համար)"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:265
+msgid "Server Hostname"
+msgstr "Սերվերի հոսթի անունը"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:270
+msgid "Port"
+msgstr "Պորտ"
+
+#: main/data/preferences_window/change_password_dialog.ui:61
+msgid "Current password"
+msgstr "Ընթացիկ ծածկագիր"
+
+#: main/data/preferences_window/change_password_dialog.ui:66
+msgid "New password"
+msgstr "Նոր ծածկագիր"
+
+#: main/data/preferences_window/change_password_dialog.ui:71
+msgid "Confirm password"
+msgstr "Հաստատել ծածկագիրը"
+
+#: main/data/preferences_window/general_preferences_page.ui:9
+msgid "Send _Typing Notifications"
+msgstr "Յայտնել _Տպելուդ Մասին"
+
+#: main/data/preferences_window/general_preferences_page.ui:15
+msgid "Send _Read Receipts"
+msgstr "Յայտնել _Ընթերցելուդ Մասին"
+
+#: main/data/preferences_window/general_preferences_page.ui:21
+msgid "Allow Location Sharing"
+msgstr "Թույլատրել տեղադրության համօգտագործումը"
+
+#: main/data/preferences_window/general_preferences_page.ui:22
+msgid "Allow sending your current location in chats"
+msgstr "Թույլատրել ուղարկել ձեր ընթացիկ տեղադրությունը զրույցներում"
+
+#: main/data/preferences_window/general_preferences_page.ui:32
+msgid "_Notifications"
+msgstr "_Ծանուցումներ"
+
+#: main/data/preferences_window/general_preferences_page.ui:33
+msgid "Notify when a new message arrives"
+msgstr "Ծանուցել երբ նոր գրութիւն է եկել"
+
+#: main/data/preferences_window/general_preferences_page.ui:39
+msgid "_Keep Running in Background"
+msgstr "_Շարունակել աշխատել ֆոնային ռեժիմում"
+
+#: main/data/preferences_window/general_preferences_page.ui:40
+msgid ""
+"Continue running after closing window to receive notifications immediately"
+msgstr ""
+"Շարունակել աշխատել պատուհանը փակելուց հետո՝ ծանուցումներն անմիջապես ստանալու "
+"համար"
+
+#: main/data/preferences_window/general_preferences_page.ui:48
+msgid "Appearance"
+msgstr "Արտաքին տեսք"
+
+#: main/data/preferences_window/general_preferences_page.ui:51
+msgid "_Color Scheme"
+msgstr "_Գունային սխեմա"
+
+#: main/data/preferences_window/general_preferences_page.ui:52
+msgid "Choose between light and dark appearance"
+msgstr "Ընտրեք լուսավոր և մութ արտաքին տեսքի միջև"
+
+#: main/data/preferences_window/general_preferences_page.ui:62
+msgid "_Convert Smileys to Emoji"
+msgstr "_Փոխարկել զմայլիկներն՝ էմոջիների"
+
+#: main/data/preferences_window/general_preferences_page.ui:70
+#: main/src/ui/chat_input/view.vala:54
+msgid "Stickers"
+msgstr "Սթիքերներ"
+
+#: main/data/preferences_window/general_preferences_page.ui:73
+msgid "Enable Stickers"
+msgstr "Միացնել սติกերները"
+
+#: main/data/preferences_window/general_preferences_page.ui:78
+msgid "Enable Sticker Animations"
+msgstr "Միացնել սติกերների անիմացիաները"
+
+#: main/data/preferences_window/general_preferences_page.ui:79
+msgid "Disable to reduce flashing/flickering"
+msgstr "Անջատել՝ թարթումը նվազեցնելու համար"
+
+#: main/data/preferences_window/general_preferences_page.ui:86
+msgid "User Data"
+msgstr "Օգտատիրոջ տվյալներ"
+
+#: main/data/preferences_window/general_preferences_page.ui:89
+msgid "Backup User Data"
+msgstr "Պահուստավորել օգտատիրոջ տվյալները"
+
+#: main/data/preferences_window/general_preferences_page.ui:90
+msgid "Create a backup of your accounts, messages and settings"
+msgstr ""
+"Ստեղծել ձեր հաշիվների, հաղորդագրությունների և կարգավորումների պահուստային "
+"պատճենը"
+
+#: main/data/preferences_window/general_preferences_page.ui:101
+#: main/src/ui/application.vala:1015 main/src/ui/main_window.vala:226
+msgid "Restore from Backup"
+msgstr "Վերականգնել պահուստից"
+
+#: main/data/preferences_window/general_preferences_page.ui:102
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr ""
+"Վերականգնել հաշիվները, հաղորդագրությունները և կարգավորումները պահուստային "
+"ֆայլից"
+
+#: main/data/preferences_window/general_preferences_page.ui:113
+msgid "Data Storage Location"
+msgstr "Տվյալների պահպանման վայրը"
+
+#: main/data/preferences_window/general_preferences_page.ui:114
+msgid "View where your data is stored"
+msgstr "Դիտել, թե որտեղ են պահվում ձեր տվյալները"
+
+#: main/data/preferences_window/general_preferences_page.ui:127
+msgid "Database Maintenance"
+msgstr "Տվյալների բազայի սպասարկում"
+
+#: main/data/preferences_window/general_preferences_page.ui:130
+msgid "Change Database Password"
+msgstr "Փոխել տվյալների բազայի գաղտնաբառը"
+
+#: main/data/preferences_window/general_preferences_page.ui:131
+msgid "Change the password used to encrypt your local data"
+msgstr "Փոխել տեղական տվյալների գաղտնագրման համար օգտագործվող գաղտնաբառը"
+
+#: main/data/preferences_window/general_preferences_page.ui:142
+#: main/src/ui/application.vala:1312 main/src/ui/application.vala:1317
+msgid "Clear Cache"
+msgstr "Մաքրել քեշը"
+
+#: main/data/preferences_window/general_preferences_page.ui:143
+msgid "Clear cached files, avatars and previews"
+msgstr "Մաքրել քեշավորված ֆայլերը, ավատարները և նախադիտումները"
+
+#: main/data/preferences_window/general_preferences_page.ui:154
+#: main/src/ui/application.vala:1389 main/src/ui/application.vala:1395
+msgid "Reset Database"
+msgstr "Վերակայել տվյալների բազան"
+
+#: main/data/preferences_window/general_preferences_page.ui:155
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr ""
+"Ջնջել բոլոր հաղորդագրությունները, ֆայլերը և OMEMO բանալիները: Ձեր հաշիվները "
+"կմնան:"
+
+#: main/data/preferences_window/general_preferences_page.ui:166
+#: main/src/ui/application.vala:1447
+msgid "Factory Reset"
+msgstr "Գործարանային վերակայում"
+
+#: main/data/preferences_window/general_preferences_page.ui:167
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr "Ջնջել ԲՈԼՈՐ տվյալները, ներառյալ հաշիվները: Սա հնարավոր չէ հետարկել:"
+
+#: main/data/preferences_window/preferences_dialog.ui:11
+#: main/src/windows/preferences_window/accounts_preferences_page.vala:15
+#: main/src/windows/preferences_window/accounts_preferences_page.vala:27
+msgid "Accounts"
+msgstr "Հաշիւներ"
+
+#: main/data/preferences_window/preferences_dialog.ui:18
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:17
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:67
+msgid "Contacts"
+msgstr "Կոնտակտներ"
+
+#: main/data/preferences_window/preferences_dialog.ui:25
+#: main/src/windows/conversation_details.vala:292
+msgid "Encryption"
+msgstr "Կրիպտաւորում"
+
+#: main/src/ui/add_conversation/add_conference_dialog.vala:47
+msgid "Next"
+msgstr "Յաջորդ"
+
+#: main/src/ui/add_conversation/add_conference_dialog.vala:62
+#: main/src/ui/add_conversation/conference_details_fragment.vala:151
+#: main/src/ui/application.vala:1922
+msgid "Join"
+msgstr "Միանալ"
+
+#: main/src/ui/add_conversation/add_groupchat_dialog.vala:26
+msgid "Add"
+msgstr "Աւելացնել"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:143
+msgid "Joining…"
+msgstr "Մուտք…"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:164
+msgid "Password required to enter room"
+msgstr "Սենեակին միանալու համար անհրաժէշտ է ծածկագիր"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:169
+msgid "Banned from joining or creating conference"
+msgstr "Քեզ արգելուած է ստեղծել կամ միանալ սենեակների"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:171
+msgid "Room does not exist"
+msgstr "Սենեակը գոյութիւն չունի"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:173
+msgid "Not allowed to create room"
+msgstr "Սենեակ ստեղծելն արգելուած է"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:175
+msgid "Members-only room"
+msgstr "Փակ սենեակ՝ միայն անդամների համար"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:178
+msgid "Choose a different nick"
+msgstr "Ընտրել այլ մականուն"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:180
+msgid "Too many occupants in room"
+msgstr "Չափից շատ մասնակիցներ՝ սենեակում"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:183
+#: main/src/ui/notifier_freedesktop.vala:190
+#: main/src/ui/notifier_gnotifications.vala:108
+#: main/src/windows/preferences_window/add_account_dialog.vala:271
+#, c-format
+msgid "Could not connect to %s"
+msgstr "Հնարաւոր չէ միանալ %s֊ին"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:186
+#: main/src/windows/preferences_window/add_account_dialog.vala:287
+#: main/src/windows/preferences_window/add_account_dialog.vala:297
+#: main/src/windows/preferences_window/add_account_dialog.vala:307
+#: main/src/windows/preferences_window/add_account_dialog.vala:393
+msgid "Invalid address"
+msgstr "Անուաւեր հասցէ"
+
+#: main/src/ui/add_conversation/select_contact_dialog.vala:76
+msgid "Search or enter contact address..."
+msgstr "Որոնել կամ մուտքագրել կոնտակտի հասցեն..."
+
+#: main/src/ui/add_conversation/select_contact_dialog.vala:111
+msgid "Start"
+msgstr "Սկսել"
+
+#: main/src/ui/add_conversation/select_jid_fragment.vala:154
+msgid "Browse Rooms"
+msgstr "Դիտել սենյակները"
+
+#: main/src/ui/add_conversation/select_jid_fragment.vala:157
+msgid "Browse Contacts"
+msgstr "Դիտել կոնտակտները"
+
+#: main/src/ui/add_conversation/select_jid_fragment.vala:201
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:70
+msgid "Add Contact"
+msgstr "Աւելացնել կոնտակտ"
+
+#: main/src/ui/add_conversation/select_jid_fragment.vala:202
+msgid "Delete Contact"
+msgstr "Ջնջել կոնտակտը"
+
+#: main/src/ui/add_conversation/select_jid_fragment.vala:205
+#: main/src/ui/add_conversation/select_jid_fragment.vala:215
+msgid "Leave Group"
+msgstr "Լքել խումբը"
+
+#: main/src/ui/application.vala:161
+msgid "Beenden"
+msgstr "Ելք"
+
+#: main/src/ui/application.vala:266 main/src/ui/application.vala:361
+msgid "Passwort"
+msgstr "Գաղտնաբառ"
+
+#: main/src/ui/application.vala:271
+msgid "DinoX entsperren"
+msgstr "Ապաարգելափակել DinoX-ը"
+
+#: main/src/ui/application.vala:272
+msgid "Bitte Passwort eingeben, um die verschlüsselte Datenbank zu öffnen."
+msgstr ""
+"Խնդրում ենք մուտքագրել գաղտնաբառը՝ գաղտնագրված տվյալների բազան բացելու համար:"
+
+#: main/src/ui/application.vala:274
+#, c-format
+msgid "Falsches Passwort. Versuch %d/%d"
+msgstr "Սխալ գաղտնաբառ: Փորձ %d/%d"
+
+#: main/src/ui/application.vala:346
+msgid "Entsperren"
+msgstr "Ապաարգելափակել"
+
+#: main/src/ui/application.vala:363
+msgid "Passwort bestätigen"
+msgstr "Հաստատել գաղտնաբառը"
+
+#: main/src/ui/application.vala:370
+msgid "Passwort festlegen"
+msgstr "Սահմանել գաղտնաբառ"
+
+#: main/src/ui/application.vala:371
+msgid ""
+"Bei der ersten Nutzung musst du ein Passwort setzen. Ohne Passwort kann "
+"DinoX die verschlüsselte Datenbank nicht öffnen."
+msgstr ""
+"Առաջին օգտագործման ժամանակ պետք է սահմանեք գաղտնաբառ: Առանց գաղտնաբառի DinoX-"
+"ը չի կարող բացել գաղտնագրված տվյալների բազան:"
+
+#: main/src/ui/application.vala:373
+#, c-format
+msgid "Ungültiges Passwort. Versuch %d/%d"
+msgstr "Անվավեր գաղտնաբառ: Փորձ %d/%d"
+
+#: main/src/ui/application.vala:448
+msgid "Passwort setzen"
+msgstr "Սահմանել գաղտնաբառ"
+
+#: main/src/ui/application.vala:746
+msgid "Set Status Message"
+msgstr "Սահմանել կարգավիճակի հաղորդագրություն"
+
+#: main/src/ui/application.vala:755
+msgid "Set"
+msgstr "Սահմանել"
+
+#: main/src/ui/application.vala:809
+msgid "Aktuelles Passwort"
+msgstr "Ընթացիկ գաղտնաբառ"
+
+#: main/src/ui/application.vala:811
+msgid "Neues Passwort"
+msgstr "Նոր գաղտնաբառ"
+
+#: main/src/ui/application.vala:813
+msgid "Neues Passwort bestätigen"
+msgstr "Հաստատել նոր գաղտնաբառը"
+
+#: main/src/ui/application.vala:824
+msgid "Datenbank-Passwort ändern"
+msgstr "Փոխել տվյալների բազայի գաղտնաբառը"
+
+#: main/src/ui/application.vala:825
+msgid ""
+"Dieses Passwort wird verwendet, um deine lokalen DinoX-Daten zu "
+"verschlüsseln."
+msgstr ""
+"Այս գաղտնաբառը օգտագործվում է ձեր տեղական DinoX տվյալները գաղտնագրելու համար:"
+
+#: main/src/ui/application.vala:828
+msgid "Abbrechen"
+msgstr "Չեղարկել"
+
+#: main/src/ui/application.vala:829
+msgid "Ändern"
+msgstr "Փոխել"
+
+#: main/src/ui/application.vala:896
+msgid "Modern XMPP client with extended features"
+msgstr "Ժամանակակից XMPP հաճախորդ ընդլայնված հնարավորություններով"
+
+#: main/src/ui/application.vala:903 main/src/ui/application.vala:1278
+msgid "User Data Locations"
+msgstr "Օգտատիրոջ տվյալների գտնվելու վայրերը"
+
+#: main/src/ui/application.vala:906 main/src/ui/application.vala:1292
+msgid "Configuration:"
+msgstr "Կարգավորումներ:"
+
+#: main/src/ui/application.vala:909 main/src/ui/application.vala:1294
+msgid "Data & Database:"
+msgstr "Տվյալներ և տվյալների բազա:"
+
+#: main/src/ui/application.vala:912 main/src/ui/application.vala:1296
+msgid "Cache:"
+msgstr "Քեշ:"
+
+#: main/src/ui/application.vala:915
+msgid "Info:"
+msgstr "Տեղեկություն:"
+
+#: main/src/ui/application.vala:916
+msgid ""
+"Your personal data (accounts, messages, files) is stored separately from the "
+"application."
+msgstr ""
+"Ձեր անձնական տվյալները (հաշիվներ, հաղորդագրություններ, ֆայլեր) պահվում են "
+"հավելվածից առանձին:"
+
+#: main/src/ui/application.vala:918
+msgid "When you update DinoX, your data remains intact."
+msgstr "Երբ թարմացնում եք DinoX-ը, ձեր տվյալները մնում են անփոփոխ:"
+
+#: main/src/ui/application.vala:920
+msgid "Use Settings → General → Backup User Data to create a backup."
+msgstr ""
+"Օգտագործեք Կարգավորումներ → Ընդհանուր → Պահուստավորել օգտատիրոջ տվյալները՝ "
+"պահուստ ստեղծելու համար:"
+
+#: main/src/ui/application.vala:938
+msgid "Select Backup File"
+msgstr "Ընտրել պահուստային ֆայլը"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+#: main/src/ui/application.vala:946
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "Պահուստային ֆայլեր (*.tar.gz, *.tar.gz.gpg)"
+
+#: main/src/ui/application.vala:976
+msgid "Enter Backup Password"
+msgstr "Մուտքագրեք պահուստի գաղտնաբառը"
+
+#: main/src/ui/application.vala:977
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr ""
+"Այս պահուստը գաղտնագրված է: Խնդրում ենք մուտքագրել գաղտնաբառը այն վերծանելու "
+"համար:"
+
+#: main/src/ui/application.vala:993
+msgid "Decrypt & Restore"
+msgstr "Վերծանել և վերականգնել"
+
+#: main/src/ui/application.vala:1016
+msgid ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+msgstr ""
+"Սա կփոխարինի բոլոր ընթացիկ տվյալները պահուստով:\n"
+"\n"
+"<b>Ընթացիկ հաշիվները, հաղորդագրությունները և կարգավորումները կվերագրվեն:</"
+"b>\n"
+"\n"
+"DinoX-ը կվերագործարկվի վերականգնումից հետո:"
+
+#: main/src/ui/application.vala:1021
+msgid "Restore Backup"
+msgstr "Վերականգնել պահուստը"
+
+#: main/src/ui/application.vala:1038 main/src/ui/application.vala:1070
+msgid "Decrypting Backup..."
+msgstr "Պահուստի վերծանում..."
+
+#: main/src/ui/application.vala:1038 main/src/ui/application.vala:1122
+msgid "Restoring Backup..."
+msgstr "Պահուստի վերականգնում..."
+
+#: main/src/ui/application.vala:1039
+msgid "Please wait, this may take a moment..."
+msgstr "Խնդրում ենք սպասել, սա կարող է որոշ ժամանակ տևել..."
+
+#: main/src/ui/application.vala:1071
+msgid "Decrypting encrypted backup file..."
+msgstr "Գաղտնագրված պահուստային ֆայլի վերծանում..."
+
+#: main/src/ui/application.vala:1109
+msgid "Decryption Failed"
+msgstr "Վերծանումը ձախողվեց"
+
+#: main/src/ui/application.vala:1110
+msgid ""
+"Could not decrypt the backup file.\n"
+"\n"
+"Please check if the password is correct."
+msgstr ""
+"Չհաջողվեց վերծանել պահուստային ֆայլը:\n"
+"\n"
+"Խնդրում ենք ստուգել, արդյոք գաղտնաբառը ճիշտ է:"
+
+#: main/src/ui/application.vala:1112 main/src/ui/application.vala:1222
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:430
+msgid "OK"
+msgstr "OK"
+
+#: main/src/ui/application.vala:1123
+msgid "Extracting files from backup..."
+msgstr "Ֆայլերի դուրսբերում պահուստից..."
+
+#: main/src/ui/application.vala:1204
+msgid "Restore Complete!"
+msgstr "Վերականգնումն ավարտված է:"
+
+#: main/src/ui/application.vala:1205
+msgid "DinoX will now restart..."
+msgstr "DinoX-ը հիմա կվերագործարկվի..."
+
+#: main/src/ui/application.vala:1219
+msgid "Restore Failed"
+msgstr "Վերականգնումը ձախողվեց"
+
+#: main/src/ui/application.vala:1220
+#, c-format
+msgid ""
+"Could not restore the backup file.\n"
+"\n"
+"Error: %s"
+msgstr ""
+"Չհաջողվեց վերականգնել պահուստային ֆայլը:\n"
+"\n"
+"Սխալ՝ %s"
+
+#: main/src/ui/application.vala:1220 main/src/ui/application.vala:1896
+msgid "Unknown error"
+msgstr "Անհայտ սխալ"
+
+#: main/src/ui/application.vala:1298
+msgid ""
+"Your personal data (accounts, messages, files) is stored separately from the "
+"application. When you update DinoX, your data remains intact."
+msgstr ""
+"Ձեր անձնական տվյալները (հաշիվներ, հաղորդագրություններ, ֆայլեր) պահվում են "
+"հավելվածից առանձին: Երբ թարմացնում եք DinoX-ը, ձեր տվյալները մնում են "
+"անփոփոխ:"
+
+#: main/src/ui/application.vala:1303 main/src/ui/application.vala:1791
+#: main/src/ui/application.vala:1875
+#: main/src/ui/chat_input/sticker_chooser.vala:181
+#: main/src/ui/conversation_details.vala:306
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:566
+#: main/src/ui/conversation_view_controller.vala:340
+#: main/src/ui/main_window.vala:172
+msgid "Close"
+msgstr "Փակել"
+
+#: main/src/ui/application.vala:1313
+msgid ""
+"This will delete cached files, avatars and previews.\n"
+"\n"
+"They will be re-downloaded when needed."
+msgstr ""
+"Սա կջնջի քեշավորված ֆայլերը, ավատարները և նախադիտումները:\n"
+"\n"
+"Դրանք կրկին կներբեռնվեն, երբ անհրաժեշտ լինի:"
+
+#: main/src/ui/application.vala:1350
+#, c-format
+msgid "Cache cleared (%s freed)"
+msgstr "Քեշը մաքրված է (%s ազատված)"
+
+#: main/src/ui/application.vala:1353
+msgid "Failed to clear cache"
+msgstr "Չհաջողվեց մաքրել քեշը"
+
+#: main/src/ui/application.vala:1390
+msgid ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+msgstr ""
+"Սա կջնջի բոլոր հաղորդագրությունները, ֆայլերը և OMEMO գաղտնագրման "
+"բանալիները:\n"
+"\n"
+"<b>Ձեր հաշիվները կմնան, բայց դուք կկորցնեք զրույցի ամբողջ պատմությունը և "
+"ստիպված կլինեք վերստուգել գաղտնագրումը ձեր կոնտակտների հետ:</b>\n"
+"\n"
+"Այս գործողությունը հնարավոր չէ հետարկել:"
+
+#: main/src/ui/application.vala:1418
+msgid "Resetting database... DinoX will restart."
+msgstr "Տվյալների բազայի վերակայում... DinoX-ը կվերագործարկվի:"
+
+#: main/src/ui/application.vala:1448
+msgid ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+msgstr ""
+"<b>⚠️ ԶԳՈՒՇԱՑՈՒՄ. Սա կջնջի ԲՈԼՈՐ տվյալները:</b>\n"
+"\n"
+"• Բոլոր հաշիվները\n"
+"• Բոլոր հաղորդագրությունները և ֆայլերը\n"
+"• Բոլոր գաղտնագրման բանալիները\n"
+"• Բոլոր կարգավորումները\n"
+"\n"
+"Սա անդառնալի է: Համոզվեք, որ նախապես ստեղծել եք պահուստ:"
+
+#: main/src/ui/application.vala:1453
+msgid "Create Backup First"
+msgstr "Նախ ստեղծեք պահուստ"
+
+#: main/src/ui/application.vala:1454
+msgid "Delete Everything"
+msgstr "Ջնջել ամեն ինչ"
+
+#: main/src/ui/application.vala:1474
+msgid "Are you absolutely sure?"
+msgstr "Դուք լիովին համոզվա՞ծ եք:"
+
+#: main/src/ui/application.vala:1475
+msgid ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+msgstr ""
+"Մուտքագրեք 'DELETE'՝ գործարանային վերակայումը հաստատելու համար:\n"
+"\n"
+"Սա ընդմիշտ կջնջի ձեր բոլոր DinoX տվյալները:"
+
+#: main/src/ui/application.vala:1485
+msgid "Confirm Delete"
+msgstr "Հաստատել ջնջումը"
+
+#: main/src/ui/application.vala:1512
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "Գործարանային վերակայում ընթացքի մեջ է... DinoX-ը կվերագործարկվի:"
+
+#: main/src/ui/application.vala:1577
+msgid "Backup Encryption"
+msgstr "Պահուստային պատճենի գաղտնագրում"
+
+#: main/src/ui/application.vala:1578
+msgid ""
+"Do you want to encrypt the backup with a password?\n"
+"\n"
+"Encrypted backups are more secure but require the password to restore."
+msgstr ""
+"Ցանկանու՞մ եք գաղտնագրել պահուստային պատճենը գաղտնաբառով:\n"
+"\n"
+"Գաղտնագրված պահուստային պատճեններն ավելի անվտանգ են, բայց վերականգնելու "
+"համար պահանջում են գաղտնաբառ:"
+
+#: main/src/ui/application.vala:1581
+msgid "No Encryption"
+msgstr "Առանց գաղտնագրման"
+
+#: main/src/ui/application.vala:1582
+msgid "Encrypt with Password"
+msgstr "Գաղտնագրել գաղտնաբառով"
+
+#: main/src/ui/application.vala:1600
+msgid "Set Backup Password"
+msgstr "Սահմանել պահուստի գաղտնաբառ"
+
+#: main/src/ui/application.vala:1601
+msgid ""
+"Enter a password to encrypt the backup.\n"
+"\n"
+"<b>Important:</b> Remember this password! Without it, the backup cannot be "
+"restored."
+msgstr ""
+"Մուտքագրեք գաղտնաբառ՝ պահուստը գաղտնագրելու համար:\n"
+"\n"
+"<b>Կարևոր է.</b> Հիշեք այս գաղտնաբառը: Առանց դրա պահուստը հնարավոր չէ "
+"վերականգնել:"
+
+#: main/src/ui/application.vala:1609
+msgid "Password (minimum 4 characters)"
+msgstr "Գաղտնաբառ (առնվազն 4 նիշ)"
+
+#: main/src/ui/application.vala:1617 main/src/ui/application.vala:1624
+msgid "Confirm Password"
+msgstr "Հաստատել գաղտնաբառը"
+
+#: main/src/ui/application.vala:1641
+msgid "Create Encrypted Backup"
+msgstr "Ստեղծել գաղտնագրված պահուստ"
+
+#: main/src/ui/application.vala:1653 main/src/ui/application.vala:1668
+msgid "Password too short"
+msgstr "Գաղտնաբառը շատ կարճ է"
+
+#: main/src/ui/application.vala:1655 main/src/ui/application.vala:1670
+msgid "Passwords do not match"
+msgstr "Գաղտնաբառերը չեն համընկնում"
+
+#: main/src/ui/application.vala:1657 main/src/ui/application.vala:1672
+msgid "✓ Passwords match"
+msgstr "✓ Գաղտնաբառերը համընկնում են"
+
+#: main/src/ui/application.vala:1690
+msgid "Select Backup Location"
+msgstr "Ընտրել պահուստի գտնվելու վայրը"
+
+#: main/src/ui/application.vala:1745
+msgid "Creating Encrypted Backup..."
+msgstr "Ստեղծվում է գաղտնագրված պահուստ..."
+
+#: main/src/ui/application.vala:1745
+msgid "Creating Backup..."
+msgstr "Ստեղծվում է պահուստ..."
+
+#: main/src/ui/application.vala:1746
+msgid "Please wait while your data is being backed up."
+msgstr "Խնդրում ենք սպասել, մինչ ձեր տվյալները պահուստավորվում են:"
+
+#: main/src/ui/application.vala:1785
+msgid "No data directory found to backup"
+msgstr "Պահուստավորման համար տվյալների պանակ չի գտնվել"
+
+#: main/src/ui/application.vala:1788 main/src/ui/application.vala:1894
+msgid "Backup Failed"
+msgstr "Պահուստավորումը ձախողվեց"
+
+#: main/src/ui/application.vala:1882
+msgid "Encrypted Backup Created"
+msgstr "Գաղտնագրված պահուստը ստեղծվեց"
+
+#: main/src/ui/application.vala:1884
+#, c-format
+msgid ""
+"Your encrypted backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"Ձեր գաղտնագրված պահուստային պատճենը հաջողությամբ ստեղծվել է:\n"
+"\n"
+"Չափը՝ %s"
+
+#: main/src/ui/application.vala:1885
+msgid "Your encrypted backup was created successfully."
+msgstr "Ձեր գաղտնագրված պահուստը հաջողությամբ ստեղծվեց:"
+
+#: main/src/ui/application.vala:1887
+msgid "Backup Created"
+msgstr "Պահուստը ստեղծվեց"
+
+#: main/src/ui/application.vala:1889
+#, c-format
+msgid ""
+"Your backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"Ձեր պահուստային պատճենը հաջողությամբ ստեղծվել է:\n"
+"\n"
+"Չափը՝ %s"
+
+#: main/src/ui/application.vala:1890
+msgid "Your backup was created successfully."
+msgstr "Ձեր պահուստը հաջողությամբ ստեղծվեց:"
+
+#: main/src/ui/application.vala:1897
+#, c-format
+msgid "Backup failed: %s"
+msgstr "Պահուստավորումը ձախողվեց. %s"
+
+#: main/src/ui/call_window/audio_settings_popover.vala:46
+msgid "Microphones"
+msgstr "Խօսափողներ"
+
+#: main/src/ui/call_window/audio_settings_popover.vala:49
+msgid "No microphone found."
+msgstr "Խօսափող չի գտնուել։"
+
+#: main/src/ui/call_window/audio_settings_popover.vala:116
+msgid "Speakers"
+msgstr "Բարձրախօսներ"
+
+#: main/src/ui/call_window/audio_settings_popover.vala:119
+msgid "No speaker found."
+msgstr "Բարձրախօս չի գտնուել։"
+
+#: main/src/ui/call_window/call_window_controller.vala:152
+msgid "Invite to Call"
+msgstr "Հրաւիրել զանգի"
+
+#: main/src/ui/call_window/call_window_controller.vala:153
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:780
+#: main/src/ui/conversation_titlebar/menu_entry.vala:99
+#: main/src/ui/occupant_menu/view.vala:27
+#: main/src/ui/occupant_menu/view.vala:283
+msgid "Invite"
+msgstr "Հրաւիրել"
+
+#: main/src/ui/call_window/call_window_controller.vala:451
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:240
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:270
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:285
+#: main/src/ui/util/helper.vala:79 main/src/ui/util/helper.vala:83
+#: main/src/ui/util/helper.vala:91
+msgid "Me"
+msgstr "Ես"
+
+#: main/src/ui/call_window/call_window.vala:219
+#, c-format
+msgid "%s ended the call"
+msgstr "%s֊ն աւարտեց զանգը"
+
+#: main/src/ui/call_window/call_window.vala:221
+#, c-format
+msgid "%s declined the call"
+msgstr "%s֊ը չընդունեց զանգը"
+
+#: main/src/ui/call_window/participant_widget.vala:140
+msgid "Debug information"
+msgstr "Տեղեկութիւններ վրիպազերծման համար"
+
+#: main/src/ui/call_window/participant_widget.vala:149
+#: main/src/ui/conversation_content_view/call_widget.vala:152
+msgid "Calling…"
+msgstr "Զանգ է գնում…"
+
+#: main/src/ui/call_window/participant_widget.vala:151
+msgid "Ringing…"
+msgstr "Զանգ…"
+
+#: main/src/ui/call_window/participant_widget.vala:153
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:532
+msgid "Connecting…"
+msgstr "Միացում…"
+
+#: main/src/ui/call_window/video_settings_popover.vala:25
+msgid "Cameras"
+msgstr "Խցիկներ"
+
+#: main/src/ui/call_window/video_settings_popover.vala:28
+msgid "No camera found."
+msgstr "Խցիկ չի գտնուել"
+
+#: main/src/ui/chat_input/chat_input_controller.vala:267
+msgid "This conference does not allow you to send messages."
+msgstr "Այս սենեակում գրելու թոյլտւութիւն չունես։"
+
+#: main/src/ui/chat_input/chat_input_controller.vala:267
+msgid "Request permission"
+msgstr "Դիմել խօսքի թոյլտւութիւն ստանալու համար"
+
+#: main/src/ui/chat_input/encryption_button.vala:35
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:224
+msgid "Unencrypted"
+msgstr "Ոչ կրիպտաւորուած"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:176
+msgid "Manage Sticker Packs"
+msgstr "Կառավարել սթիքերների փաթեթները"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:390
+msgid "Stickers are unavailable"
+msgstr "Ստիկերները անհասանելի են"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:412
+msgid "No sticker packs yet."
+msgstr "Դեռևս սթիքերների փաթեթներ չկան:"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:414
+#: main/src/ui/chat_input/sticker_chooser.vala:527
+msgid "No stickers selected"
+msgstr "Ստիկերներ ընտրված չեն"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:543
+msgid "No stickers in this pack"
+msgstr "Այս փաթեթում ստիկերներ չկան"
+
+#: main/src/ui/contact_details/permissions_provider.vala:23
+msgid "Request permission to send messages"
+msgstr "Դիմել գրութիւններ ուղարկելու թոյլտւութեան համար"
+
+#: main/src/ui/contact_details/permissions_provider.vala:24
+msgid "Request"
+msgstr "Դիմել"
+
+#: main/src/ui/contact_details/settings_provider.vala:21
+#: main/src/ui/contact_details/settings_provider.vala:24
+#: main/src/ui/contact_details/settings_provider.vala:31
+#: main/src/ui/contact_details/settings_provider.vala:34
+msgid "On"
+msgstr "Այո"
+
+#: main/src/ui/contact_details/settings_provider.vala:21
+#: main/src/ui/contact_details/settings_provider.vala:25
+#: main/src/ui/contact_details/settings_provider.vala:31
+#: main/src/ui/contact_details/settings_provider.vala:35
+msgid "Off"
+msgstr "Ոչ"
+
+#: main/src/ui/contact_details/settings_provider.vala:22
+msgid "Send typing notifications"
+msgstr "Յայտնել որ գրում ես"
+
+#: main/src/ui/contact_details/settings_provider.vala:23
+#: main/src/ui/contact_details/settings_provider.vala:33
+#, c-format
+msgid "Default: %s"
+msgstr "Լռելեայն՝ %s"
+
+#: main/src/ui/contact_details/settings_provider.vala:32
+msgid "Send read receipts"
+msgstr "Յայտնել որ կարդացել ես"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:137
+#: main/src/ui/notifier_freedesktop.vala:114
+#: main/src/ui/notifier_gnotifications.vala:72
+msgid "Incoming video call"
+msgstr "Վիդեօ զանգ է գալիս"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:137
+#: main/src/ui/conversation_content_view/call_widget.vala:168
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:287
+#: main/src/ui/notifier_freedesktop.vala:114
+#: main/src/ui/notifier_gnotifications.vala:72
+msgid "Incoming call"
+msgstr "Զանգ է գալիս"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:139
+#: main/src/ui/notifier_freedesktop.vala:116
+#: main/src/ui/notifier_gnotifications.vala:74
+msgid "Incoming video group call"
+msgstr "Խմբային վիդեօ զանգ է գալիս"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:139
+#: main/src/ui/notifier_freedesktop.vala:116
+#: main/src/ui/notifier_gnotifications.vala:74
+msgid "Incoming group call"
+msgstr "Խմբային զանգ է գալիս"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:159
+msgid "Call started"
+msgstr "Զանգը սկսուել է"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:161
+#, c-format
+msgid "Started %s ago"
+msgstr "Սկսուել է %s առաջ"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:168
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:287
+msgid "Outgoing call"
+msgstr "Զանգ է գնում"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:169
+msgid "You handled this call on another device"
+msgstr "Փոխանցել ես զանգը այլ սարքին"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:174
+msgid "Call ended"
+msgstr "Զանգն աւարտուեց"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:175
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:315
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:490
+#, no-c-format
+msgid "%H∶%M"
+msgstr "%H∶%M"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:175
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:316
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:491
+#, no-c-format
+msgid "%l∶%M %p"
+msgstr "%H∶%M"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:177
+#, c-format
+msgid "Ended at %s"
+msgstr "Աւարտուեց %s֊ին"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:179
+#, c-format
+msgid "Lasted %s"
+msgstr "Տեւեց՝ %s"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:183
+msgid "Call missed"
+msgstr "Բաց թողնուած զանգ"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:185
+msgid "You missed this call"
+msgstr "Բաց թողեցիր այս զանգը"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:188
+#, c-format
+msgid "%s missed this call"
+msgstr "%s֊ը բաց թողեց այս զանգը"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:193
+msgid "Call declined"
+msgstr "Զանգը մերժուած է"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:195
+msgid "You declined this call"
+msgstr "Դու մերժեցիր այս զանգը"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:198
+#, c-format
+msgid "%s declined this call"
+msgstr "%s֊ը մերժեց այս զանգը"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:203
+msgid "Call failed"
+msgstr "Զանգը ձախողուեց"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:241
+msgid "a few seconds"
+msgstr "մի քանի վայրկեան"
+
+#: main/src/ui/conversation_content_view/chat_state_populator.vala:108
+#, c-format
+msgid "%s, %s and %i others are typing…"
+msgstr "%s֊ը, %s֊ը եւ %i մնացածը տպում են…"
+
+#: main/src/ui/conversation_content_view/chat_state_populator.vala:115
+#, c-format
+msgid "%s, %s and %s are typing…"
+msgstr "%s֊ը, %s֊ը եւ %s֊ը տպում են…"
+
+#: main/src/ui/conversation_content_view/chat_state_populator.vala:121
+#, c-format
+msgid "%s and %s are typing…"
+msgstr "%s֊ը եւ %s֊ը տպում են…"
+
+#: main/src/ui/conversation_content_view/chat_state_populator.vala:126
+#, c-format
+msgid "%s is typing…"
+msgstr "%s ֊ը տպում է…"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:256
+msgid "Delivered"
+msgstr "Առաքուած է"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:260
+msgid "Read"
+msgstr "Ընթերցուած է"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:266
+msgid "Unable to send message"
+msgstr "Հնարաւոր չէ ուղարկել գրութիւնը"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:303
+#, no-c-format
+msgid "%x, %H∶%M"
+msgstr "%x, %H∶%M"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:304
+#, no-c-format
+msgid "%x, %l∶%M %p"
+msgstr "%x, %H∶%M"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:307
+#, no-c-format
+msgid "%b %d, %H∶%M"
+msgstr "%b %d, %H∶%M"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:308
+#, no-c-format
+msgid "%b %d, %l∶%M %p"
+msgstr "%b %d, %H∶%M"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:311
+#, no-c-format
+msgid "%a, %H∶%M"
+msgstr "%a, %H∶%M"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:312
+#, no-c-format
+msgid "%a, %l∶%M %p"
+msgstr "%a, %H∶%M"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:322
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:496
+msgid "Just now"
+msgstr "Հէնց նոր"
+
+#: main/src/ui/conversation_content_view/conversation_view.vala:114
+msgid "More actions"
+msgstr "Այլ գործողություններ"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:67
+#: main/src/ui/conversation_content_view/file_image_widget.vala:201
+msgid "Open"
+msgstr "Բացել"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:68
+#: main/src/ui/conversation_content_view/file_image_widget.vala:202
+#: main/src/ui/conversation_content_view/file_widget.vala:174
+msgid "Save as…"
+msgstr "Պահել որպէս…"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:77
+#, c-format
+msgid "Downloading %s… (%u%%)"
+msgstr "Ներբեռնւում է %s… (%u%%)"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:79
+#, c-format
+msgid "Downloading %s…"
+msgstr "Բեռնւում է %s…"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:83
+#, c-format
+msgid "Uploading %s… (%u%%)"
+msgstr "Վերբեռնւում է %s… (%u%%)"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:97
+#, c-format
+msgid "%s offered: %s"
+msgstr "առաջարկւում է ընդունել %s, չափսը՝ %s"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:99
+#, c-format
+msgid "File offered: %s"
+msgstr "Առաջարկւում է ընդունել նիշք՝ %s"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:101
+msgid "File offered"
+msgstr "Առաջարկւում է ընդունել նիշք"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:107
+msgid "File transfer failed"
+msgstr "Նիշքի փոխանցումը խափանուեց"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:36
+msgid "Kick user"
+msgstr "Հեռացնել օգտատիրոջը"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:69
+msgid "Ban user"
+msgstr "Արգելափակել օգտատիրոջը"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:82
+#: main/src/ui/conversation_content_view/reactions_widget.vala:128
+msgid "Add reaction"
+msgstr "Աւելացնել արձագանք"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:94
+msgid "This conversation does not support reactions."
+msgstr "Այս զրոյցը չի սատարում արձագանքների։"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:107
+msgid "Reply"
+msgstr "Պատասխանել"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:117
+msgid "This conversation does not support replies."
+msgstr "Այս զրոյցը չի սատարում պատասխանների։"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:146
+msgid "Moderate message..."
+msgstr "Կարգավորել հաղորդագրությունը..."
+
+#: main/src/ui/conversation_content_view/item_actions.vala:148
+msgid "Delete..."
+msgstr "Ջնջել..."
+
+#: main/src/ui/conversation_content_view/item_actions.vala:150
+#: main/src/ui/conversation_content_view/item_actions.vala:168
+msgid "Delete locally"
+msgstr "Ջնջել տեղային"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:160
+msgid "Moderate message"
+msgstr "Կարգավորել հաղորդագրությունը"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:160
+msgid "Delete message"
+msgstr "Ջնջել հաղորդագրությունը"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:164
+msgid "Do you want to remove this message from the channel?"
+msgstr "Ցանկանու՞մ եք հեռացնել այս հաղորդագրությունը ալիքից:"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:165
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:753
+#: main/src/windows/conversation_details.vala:61
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:286
+msgid "Remove"
+msgstr "Հեռացնել"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:167
+msgid "Do you want to delete this message just for yourself or for everyone?"
+msgstr "Ցանկանու՞մ եք ջնջել այս հաղորդագրությունը միայն ձեզ համար, թե՞ բոլորի:"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:168
+msgid "Delete for everyone"
+msgstr "Ջնջել բոլորի համար"
+
+#: main/src/ui/conversation_content_view/message_widget.vala:174
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:255
+msgid "Message deleted"
+msgstr "Հաղորդագրությունը ջնջված է"
+
+#: main/src/ui/conversation_content_view/message_widget.vala:178
+msgid "edited"
+msgstr "խմբագրուած է"
+
+#: main/src/ui/conversation_content_view/message_widget.vala:182
+msgid "Message truncated - exceeds 100,000 characters"
+msgstr "Հաղորդագրությունը կրճատված է - գերազանցում է 100,000 նիշը"
+
+#: main/src/ui/conversation_content_view/message_widget.vala:191
+msgid "pending…"
+msgstr "ուղարկւում է…"
+
+#: main/src/ui/conversation_content_view/message_widget.vala:206
+msgid "delivery failed"
+msgstr "առաքումը խափանուեց"
+
+#: main/src/ui/conversation_content_view/message_widget.vala:362
+msgid "Edit message"
+msgstr "Խմբագրել գրութիւնը"
+
+#: main/src/ui/conversation_content_view/quote_widget.vala:43
+msgid "File"
+msgstr "Նիշք"
+
+#: main/src/ui/conversation_content_view/reactions_widget.vala:102
+msgid "You"
+msgstr "Դու"
+
+#: main/src/ui/conversation_content_view/subscription_notification.vala:49
+msgid "Send request"
+msgstr "Ուղարկել դիմում"
+
+#: main/src/ui/conversation_content_view/subscription_notification.vala:60
+msgid "You do not receive status updates from this contact yet."
+msgstr "Դու չես ստանում կարգավիճակի թարմացումներ այս անձից։"
+
+#: main/src/ui/conversation_content_view/subscription_notification.vala:68
+#: main/src/ui/notifier_freedesktop.vala:166
+#: main/src/ui/notifier_freedesktop.vala:266
+#: main/src/ui/notifier_gnotifications.vala:102
+#: main/src/ui/notifier_gnotifications.vala:139
+#: main/src/ui/notifier_gnotifications.vala:157
+msgid "Deny"
+msgstr "Մերժել"
+
+#: main/src/ui/conversation_content_view/subscription_notification.vala:80
+msgid "This contact would like to add you to their contact list"
+msgstr "Այս անձը ցանկանում է աւելացնել քեզ իր կոնտակտների մէջ"
+
+#: main/src/ui/conversation_content_view/unread_indicator_populator.vala:76
+msgid "New"
+msgstr "Նոր"
+
+#: main/src/ui/conversation_details.vala:188
+#, fuzzy
+msgid "Affiliation"
+msgstr "Կառավարել անդամակցությունները"
+
+#: main/src/ui/conversation_details.vala:197
+msgid "Real JID"
+msgstr "Իրական JID"
+
+#: main/src/ui/conversation_details.vala:205
+#: main/src/ui/util/data_forms.vala:40
+msgid "Display name"
+msgstr "Անուն"
+
+#: main/src/ui/conversation_details.vala:225
+#: main/src/ui/conversation_details.vala:239
+msgid "Topic"
+msgstr "Թեմա"
+
+#: main/src/ui/conversation_details.vala:252
+msgid "Permissions"
+msgstr "Թույլտվություններ"
+
+#: main/src/ui/conversation_details.vala:253
+msgid "Manage Affiliations"
+msgstr "Կառավարել անդամakցությունները"
+
+#: main/src/ui/conversation_details.vala:273
+msgid "Danger Zone"
+msgstr "Վտանգավոր գոտի"
+
+#: main/src/ui/conversation_details.vala:274
+msgid "Destroy Room"
+msgstr "Ոչնչացնել սենյակը"
+
+#: main/src/ui/conversation_details.vala:280
+msgid "Destroy Room?"
+msgstr "Ոչնչացնե՞լ սենյակը:"
+
+#: main/src/ui/conversation_details.vala:281
+msgid ""
+"Are you sure you want to permanently destroy this room? This action cannot "
+"be undone and all history will be lost for all participants."
+msgstr ""
+"Դուք համոզվա՞ծ եք, որ ցանկանում եք ընդմիշտ ոչնչացնել այս սենյակը: Այս "
+"գործողությունը հնարավոր չէ հետարկել, և ամբողջ պատմությունը կկորչի բոլոր "
+"մասնակիցների համար:"
+
+#: main/src/ui/conversation_details.vala:284
+msgid "Destroy"
+msgstr "Ոչնչացնել"
+
+#: main/src/ui/conversation_details.vala:305
+msgid "Failed to destroy room"
+msgstr "Չհաջողվեց ոչնչացնել սենյակը"
+
+#: main/src/ui/conversation_details.vala:320
+msgid "Auto-delete messages"
+msgstr "Հաղորդագրությունների ավտոմատ ջնջում"
+
+#: main/src/ui/conversation_details.vala:321
+msgid "Never"
+msgstr "Երբեք"
+
+#: main/src/ui/conversation_details.vala:322
+msgid "After 15 minutes"
+msgstr "15 րոպե անց"
+
+#: main/src/ui/conversation_details.vala:323
+msgid "After 30 minutes"
+msgstr "30 րոպե անց"
+
+#: main/src/ui/conversation_details.vala:324
+msgid "After 1 hour"
+msgstr "1 ժամ անց"
+
+#: main/src/ui/conversation_details.vala:325
+msgid "After 24 hours"
+msgstr "24 ժամ անց"
+
+#: main/src/ui/conversation_details.vala:326
+msgid "After 7 days"
+msgstr "7 օր անց"
+
+#: main/src/ui/conversation_details.vala:327
+msgid "After 30 days"
+msgstr "30 օր անց"
+
+#: main/src/ui/conversation_details.vala:586
+msgid "Phone"
+msgstr "Հեռախոս"
+
+#: main/src/ui/conversation_details.vala:590
+msgid "Title"
+msgstr "Կոչում"
+
+#: main/src/ui/conversation_details.vala:596
+msgid "URL"
+msgstr "URL"
+
+#: main/src/ui/conversation_details.vala:598
+msgid "Note"
+msgstr "Նշում"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:276
+#: main/src/ui/notifier_freedesktop.vala:71
+#: main/src/ui/notifier_gnotifications.vala:36
+msgid "Image sent"
+msgstr "Նկարն ուղարկուած է"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:276
+#: main/src/ui/notifier_freedesktop.vala:71
+#: main/src/ui/notifier_gnotifications.vala:36
+msgid "File sent"
+msgstr "Նիշքն ուղարկուած է"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:278
+#: main/src/ui/notifier_freedesktop.vala:73
+#: main/src/ui/notifier_gnotifications.vala:38
+msgid "Image received"
+msgstr "Նկարը ստացուած է"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:278
+#: main/src/ui/notifier_freedesktop.vala:73
+#: main/src/ui/notifier_gnotifications.vala:38
+msgid "File received"
+msgstr "Նիշքը ստացուած է"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:361
+msgid "Thema:"
+msgstr "Թեմա:"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:381
+msgid "Privat"
+msgstr "Մասնավոր"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:383
+msgid "Öffentlich"
+msgstr "Հանրային"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:387
+msgid "Typ:"
+msgstr "Տիպ:"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:483
+#: main/src/ui/widgets/date_separator.vala:37
+#, no-c-format
+msgid "%b %d"
+msgstr "%b %d"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:487
+#: main/src/ui/widgets/date_separator.vala:28
+msgid "Yesterday"
+msgstr "Երէկ"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:506
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:554
+#: main/src/ui/conversation_titlebar/menu_entry.vala:79
+msgid "Conversation Details"
+msgstr "Զրոյցի մանրամասներ"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:507
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:779
+#: main/src/ui/conversation_titlebar/menu_entry.vala:98
+msgid "Invite Contact"
+msgstr "Հրավիրել կոնտակտ"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:511
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:559
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:669
+#: main/src/ui/occupant_menu/view.vala:181
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:134
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:200
+msgid "Unmute"
+msgstr "Միացնել ձայնը"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:511
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:559
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:688
+#: main/src/ui/occupant_menu/view.vala:185
+#: main/src/windows/conversation_details.vala:173
+#: main/src/windows/conversation_details.vala:174
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:134
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:220
+msgid "Mute"
+msgstr "Անջատել ձայնը"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:514
+msgid "Leave and Close"
+msgstr "Լքել և փակել"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:555
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:631
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:120
+msgid "Edit Alias"
+msgstr "Խմբագրել այլանունը"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:563
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:713
+#: main/src/windows/conversation_details.vala:118
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:244
+msgid "Unblock"
+msgstr "Ապաարգելափակել"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:563
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:732
+#: main/src/windows/conversation_details.vala:154
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:264
+msgid "Block"
+msgstr "Արգելափակել"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:636
+msgid "Alias"
+msgstr "Այլանուն"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:642
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:327
+msgid "Save"
+msgstr "Պահպանել"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:665
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:196
+msgid "Unmute contact?"
+msgstr "Միացնե՞լ կոնտակտի ձայնը:"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:666
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:197
+#, c-format
+msgid "This will enable notifications from %s."
+msgstr "Սա կմիացնի ծանուցումները %s-ից:"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:684
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:216
+msgid "Mute contact?"
+msgstr "Լռեցնե՞լ կոնտակտին:"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:685
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:217
+#, c-format
+msgid "This will disable notifications from %s."
+msgstr "Սա կանջատի ծանուցումները %s-ից:"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:709
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:240
+msgid "Unblock contact?"
+msgstr "Ապաարգելափակե՞լ կոնտակտին:"
+
+# c-format
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:710
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:241
+#, c-format
+msgid "This will allow %s to send you messages again."
+msgstr "Սա թույլ կտա %s-ին կրկին հաղորդագրություններ ուղարկել ձեզ:"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:728
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:260
+msgid "Block contact?"
+msgstr "Արգելափակե՞լ կոնտակտին:"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:729
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:261
+#, c-format
+msgid "This will prevent %s from sending you messages."
+msgstr "Սա կկանխի %s-ի կողմից ձեզ հաղորդագրություններ ուղարկելը:"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:749
+#: main/src/windows/conversation_details.vala:57
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:282
+msgid "Remove contact?"
+msgstr "Հեռացնե՞լ կոնտակտը:"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:750
+#, c-format
+msgid ""
+"This will:\n"
+"• Delete all conversation history\n"
+"• Remove %s from your contact list\n"
+"\n"
+"This action cannot be undone."
+msgstr ""
+"Սա կկատարի հետևյալը.\n"
+"• Կջնջի զրույցի ամբողջ պատմությունը\n"
+"• Կհեռացնի %s-ին ձեր կոնտակտների ցանկից\n"
+"\n"
+"Այս գործողությունը հնարավոր չէ հետարկել:"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:794
+msgid "Delete all message history?"
+msgstr "Ջնջե՞լ հաղորդագրությունների ամբողջ պատմությունը:"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:795
+msgid ""
+"This will permanently delete all messages in this conversation. This action "
+"cannot be undone."
+msgstr ""
+"Սա ընդմիշտ կջնջի այս զրույցի բոլոր հաղորդագրությունները: Այս գործողությունը "
+"հնարավոր չէ հետարկել:"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:798
+#: main/src/ui/conversation_titlebar/menu_entry.vala:51
+msgid "Delete"
+msgstr "Ջնջել"
+
+#: main/src/ui/conversation_titlebar/call_entry.vala:14
+msgid "Start call"
+msgstr "Սկսել զանգ"
+
+#: main/src/ui/conversation_titlebar/call_entry.vala:25
+msgid "Audio call"
+msgstr "Աւդիօ զանգ"
+
+#: main/src/ui/conversation_titlebar/call_entry.vala:26
+msgid "Video call"
+msgstr "Վիդեօ զանգ"
+
+#: main/src/ui/conversation_titlebar/call_entry.vala:79
+msgid "Conference Server Required"
+msgstr "Պահանջվում է կոնֆերանսի սերվեր"
+
+#: main/src/ui/conversation_titlebar/call_entry.vala:80
+msgid ""
+"To start a group call, you need to configure a default conference server in "
+"your account settings."
+msgstr ""
+"Խմբային զանգ սկսելու համար անհրաժեշտ է կարգավորել լռելյայն կոնֆերանսի սերվեր "
+"ձեր հաշվի կարգավորումներում:"
+
+#: main/src/ui/conversation_titlebar/call_entry.vala:84
+msgid "Open Settings"
+msgstr "Բացել կարգավորումները"
+
+#: main/src/ui/conversation_titlebar/menu_entry.vala:47
+msgid "Delete all message history for this conversation?"
+msgstr "Ջնջե՞լ այս զրույցի հաղորդագրությունների ամբողջ պատմությունը:"
+
+#: main/src/ui/conversation_titlebar/menu_entry.vala:49
+msgid "This action cannot be undone."
+msgstr "Այս գործողությունը հնարավոր չէ հետարկել:"
+
+#: main/src/ui/conversation_titlebar/menu_entry.vala:85
+msgid "Close Conversation"
+msgstr "Փակել զրոյցը"
+
+#: main/src/ui/conversation_titlebar/occupants_entry.vala:14
+#: main/src/windows/conversation_details.vala:302
+msgid "Members"
+msgstr "Անդամներ"
+
+#: main/src/ui/conversation_view_controller.vala:256
+msgid "Select file"
+msgstr "Ընտել նիշք"
+
+#: main/src/ui/conversation_view_controller.vala:257
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:215
+msgid "Select"
+msgstr "Ընտրել"
+
+#: main/src/ui/conversation_view_controller.vala:339
+msgid "Failed to get location"
+msgstr "Չհաջողվեց ստանալ տեղադրությունը"
+
+#: main/src/ui/file_send_overlay.vala:60
+msgid "The file exceeds the server's maximum upload size."
+msgstr "Նիշքի չափսը սպասարկչում թոյլատրելիից մեծ է։"
+
+#: main/src/ui/global_search.vala:208
+#, c-format
+msgid "In %s"
+msgstr "%s֊ում"
+
+#: main/src/ui/global_search.vala:208
+#, c-format
+msgid "With %s"
+msgstr "%s֊ի հետ"
+
+#: main/src/ui/main_window.vala:169
+msgid "Join Channel Help"
+msgstr "Ալիքին միանալու օգնություն"
+
+#: main/src/ui/main_window.vala:170
+msgid ""
+"To join a channel, click the \"Join Channel\" button and enter the channel "
+"JID (example: room@conference.example.org).\n"
+"\n"
+"If you need a password or a nickname, provide them in the dialog. Use the "
+"discovery features in the server to find public rooms."
+msgstr ""
+"Ալիքին միանալու համար սեղմեք «Միանալ ալիքին» կոճակը և մուտքագրեք ալիքի JID-ը "
+"(օրինակ՝ room@conference.example.org):\n"
+"\n"
+"Եթե ձեզ անհրաժեշտ է գաղտնաբառ կամ մականուն, տրամադրեք դրանք երկխոսության "
+"պատուհանում: Օգտագործեք սերվերի հայտնաբերման հնարավորությունները հանրային "
+"սենյակներ գտնելու համար:"
+
+#: main/src/ui/main_window.vala:222
+msgid "Welcome to DinoX!"
+msgstr "Բարի գալուստ DinoX!"
+
+#: main/src/ui/main_window.vala:223
+msgid "Sign in or create an account to get started."
+msgstr "Մուտք գործիր կամ ստեղծիր հաշիւ։"
+
+#: main/src/ui/main_window.vala:224
+msgid "Set up account"
+msgstr "Կարգաւորել հաշիւ"
+
+#: main/src/ui/main_window.vala:233
+#: main/src/windows/preferences_window/accounts_preferences_page.vala:71
+#: main/src/windows/preferences_window/encryption_preferences_page.vala:49
+msgid "No active accounts"
+msgstr "Ակտիւ հաշիւներ չկան"
+
+#: main/src/ui/main_window.vala:234
+msgid "Manage accounts"
+msgstr "Ակտիւ հաշիւներ չկան"
+
+#: main/src/ui/notifier_freedesktop.vala:159
+#: main/src/ui/notifier_gnotifications.vala:93
+msgid "Subscription request"
+msgstr "Հետեւելու դիմում"
+
+#: main/src/ui/notifier_freedesktop.vala:194
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:547
+msgid "Wrong password"
+msgstr "Սխալ ծածկագիր"
+
+#: main/src/ui/notifier_freedesktop.vala:197
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:549
+msgid "Invalid TLS certificate"
+msgstr "Անուաւեր TLS վկայական"
+
+#: main/src/ui/notifier_freedesktop.vala:222
+#: main/src/ui/notifier_gnotifications.vala:127
+#, c-format
+msgid "Invitation to %s"
+msgstr "Հրաւէր՝ %s"
+
+#: main/src/ui/notifier_freedesktop.vala:223
+#: main/src/ui/notifier_gnotifications.vala:128
+#, c-format
+msgid "%s invited you to %s"
+msgstr "%s֊ը հրաւիրեց քեզ %s"
+
+#: main/src/ui/notifier_freedesktop.vala:256
+#: main/src/ui/notifier_gnotifications.vala:147
+msgid "Permission request"
+msgstr "Դիմել թոյլտւութեան համար"
+
+#: main/src/ui/notifier_freedesktop.vala:257
+#: main/src/ui/notifier_gnotifications.vala:148
+#, c-format
+msgid "%s requests the permission to write in %s"
+msgstr "%s դիմում է %s֊ում գրելու թոյլտւութեան համար"
+
+#: main/src/ui/occupant_menu/list.vala:118
+#: main/src/view_model/conversation_details.vala:139
+msgid "Owner"
+msgstr "Տէր"
+
+#: main/src/ui/occupant_menu/list.vala:120
+#: main/src/view_model/conversation_details.vala:140
+msgid "Admin"
+msgstr "Վարչապետ"
+
+#: main/src/ui/occupant_menu/list.vala:122
+#: main/src/view_model/conversation_details.vala:141
+msgid "Member"
+msgstr "Անդամ"
+
+#: main/src/ui/occupant_menu/list.vala:124
+msgid "User"
+msgstr "Օգտատէր"
+
+#: main/src/ui/occupant_menu/view.vala:100
+msgid "Start private conversation"
+msgstr "Սկսել անձնական զրոյց"
+
+#: main/src/ui/occupant_menu/view.vala:135
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:151
+msgid "Unblock Contact"
+msgstr "Ապաարգելափակել կոնտակտին"
+
+#: main/src/ui/occupant_menu/view.vala:137
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:151
+msgid "Block Contact"
+msgstr "Արգելափակել կոնտակտին"
+
+#: main/src/ui/occupant_menu/view.vala:143
+msgid "Moderation"
+msgstr "Մոդերացիա"
+
+#: main/src/ui/occupant_menu/view.vala:145
+msgid "Kick"
+msgstr "Տշել"
+
+#: main/src/ui/occupant_menu/view.vala:149
+msgid "Ban (Permanent)"
+msgstr "Արգելափակել (Մշտական)"
+
+#: main/src/ui/occupant_menu/view.vala:150
+msgid "Ban (10 min)"
+msgstr "Արգելափակել (10 րոպե)"
+
+#: main/src/ui/occupant_menu/view.vala:151
+msgid "Ban (15 min)"
+msgstr "Արգելափակել (15 րոպե)"
+
+#: main/src/ui/occupant_menu/view.vala:152
+msgid "Ban (30 min)"
+msgstr "Արգելափակել (30 րոպե)"
+
+#: main/src/ui/occupant_menu/view.vala:156
+msgid "Administration"
+msgstr "Ադմինիստրացիա"
+
+#: main/src/ui/occupant_menu/view.vala:160
+msgid "Make Admin"
+msgstr "Դարձնել ադմին"
+
+#: main/src/ui/occupant_menu/view.vala:162
+msgid "Revoke Admin"
+msgstr "Հեռացնել ադմինից"
+
+#: main/src/ui/occupant_menu/view.vala:166
+msgid "Make Owner"
+msgstr "Դարձնել սեփականատեր"
+
+#: main/src/ui/occupant_menu/view.vala:171
+msgid "Make Member"
+msgstr "Դարձնել անդամ"
+
+#: main/src/ui/occupant_menu/view.vala:173
+msgid "Revoke Membership"
+msgstr "Հեռացնել անդամությունից"
+
+#: main/src/ui/occupant_menu/view.vala:236
+msgid "Kicked by moderator"
+msgstr "Հեռացվել է մոդերատորի կողմից"
+
+#: main/src/ui/occupant_menu/view.vala:282
+msgid "Invite to Conference"
+msgstr "Հրավիրել կոնֆերանսի"
+
+#: main/src/ui/systray.vala:178
+msgid "Quit"
+msgstr "Դուրս գալ"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:35
+msgid "Import"
+msgstr "Ներմուծել"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:36
+msgid "Copy Share URI"
+msgstr "Պատճենել համօգտագործման URI-ն"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:50
+msgid "Import Sticker Pack"
+msgstr "Ներմուծել ստիկերների փաթեթ"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:90
+#: main/src/ui/sticker_pack_import_dialog.vala:147
+msgid "Loading…"
+msgstr "Բեռնում…"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:128
+msgid "Importing…"
+msgstr "Ներմուծում…"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:136
+#: main/src/ui/sticker_pack_import_dialog.vala:158
+msgid "No account available"
+msgstr "Հաշիվը հասանելի չէ"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:172
+#: main/src/ui/sticker_pack_import_dialog.vala:189
+msgid "Failed to import sticker pack"
+msgstr "Չհաջողվեց ներմուծել սթիքերների փաթեթը"
+
+#: main/src/ui/util/data_forms.vala:41
+msgid ""
+"A friendly name shown in room listings (does not change the room address)"
+msgstr "Սենյակների ցուցակներում ցուցադրվող անուն (չի փոխում սենյակի հասցեն)"
+
+#: main/src/ui/util/data_forms.vala:45
+msgid "A description of the room shown in room listings"
+msgstr "Սենյակի նկարագրությունը, որը ցուցադրվում է սենյակների ցուցակներում"
+
+#: main/src/ui/util/data_forms.vala:48
+msgid "Persistent"
+msgstr "Մշտական"
+
+#: main/src/ui/util/data_forms.vala:49
+msgid "The room will persist after the last occupant leaves"
+msgstr "Սենեակը մնալու է նոյնիսկ եթէ վերջին մասնակիցը լքի այն"
+
+#: main/src/ui/util/data_forms.vala:52
+msgid "Publicly searchable"
+msgstr "Հանրային եւ փնտրելի"
+
+#: main/src/ui/util/data_forms.vala:53
+msgid "The room will appear in public room listings"
+msgstr "Սենյակը կհայտնվի հանրային սենյակների ցուցակներում"
+
+#: main/src/ui/util/data_forms.vala:56
+msgid "Occupants may change the subject"
+msgstr "Մասնակիցները կարող են փոխել սենեակի թեման"
+
+#: main/src/ui/util/data_forms.vala:59
+msgid "Permission to view JIDs"
+msgstr "Թոյլատրել տեսնել մասնակիցների JID֊երը"
+
+#: main/src/ui/util/data_forms.vala:60
+msgid "Who is allowed to view the occupants' JIDs?"
+msgstr "Ո՞վ կարող է տեսնել մասնակիցների JID֊երը։"
+
+#: main/src/ui/util/data_forms.vala:67
+msgid "Moderated"
+msgstr "Խօսքի կարգաւորումներ են առկայ"
+
+#: main/src/ui/util/data_forms.vala:68
+msgid "Only occupants with voice may send messages"
+msgstr ""
+"Միայն ձայնի իրավունք ունեցող մասնակիցները կարող են հաղորդագրություններ "
+"ուղարկել"
+
+#: main/src/ui/util/data_forms.vala:71
+msgid "Members only"
+msgstr "Միայն անդամների համար"
+
+#: main/src/ui/util/data_forms.vala:72
+msgid ""
+"Only members may enter the room. Warning: Non-members will be removed when "
+"enabled!"
+msgstr ""
+"Միայն անդամները կարող են մուտք գործել սենյակ: Զգուշացում. Ոչ անդամները "
+"կհեռացվեն, երբ միացված է!"
+
+#: main/src/ui/util/helper.vala:75
+#, c-format
+msgid "%s from %s"
+msgstr "%s֊ը %s֊ից"
+
+#: main/src/ui/widgets/date_separator.vala:22
+msgid "Today"
+msgstr "Այսօր"
+
+#: main/src/ui/widgets/date_separator.vala:35
+#, no-c-format
+msgid "%a, %b %d"
+msgstr "%a, %b %d"
+
+#: main/src/windows/conversation_details.vala:58
+msgid ""
+"This contact will be removed from your contact list and all conversation "
+"history will be permanently deleted."
+msgstr ""
+"Այս կոնտակտը կհեռացվի ձեր կոնտակտների ցանկից, և զրույցի ամբողջ պատմությունը "
+"ընդմիշտ կջնջվի:"
+
+#: main/src/windows/conversation_details.vala:118
+msgid "Block user"
+msgstr "Արգելափակել օգտատիրոջը"
+
+#: main/src/windows/conversation_details.vala:118
+msgid "Block entire domain"
+msgstr "Արգելափակել ամբողջ տիրոյթը"
+
+#: main/src/windows/conversation_details.vala:135
+msgid "Pinned"
+msgstr "Ամրացուած է"
+
+#: main/src/windows/conversation_details.vala:135
+msgid "Pin"
+msgstr "Ամրացնել"
+
+#: main/src/windows/conversation_details.vala:150
+msgid "Domain blocked"
+msgstr "Տիրոյթն արգելափակուած է"
+
+#: main/src/windows/conversation_details.vala:175
+msgid "Notifications enabled"
+msgstr "Ծանուցումները միացուած են"
+
+#: main/src/windows/conversation_details.vala:178
+msgid "Notifications for mentions"
+msgstr "Ծանուցել երբ նշուած ես"
+
+#: main/src/windows/conversation_details.vala:183
+msgid "Notifications disabled"
+msgstr "Ծանուցումներն անջատուած են"
+
+#: main/src/windows/conversation_details.vala:242
+#, fuzzy
+msgid "Profile"
+msgstr "Պահպանել պրոֆիլը"
+
+#: main/src/windows/conversation_details.vala:245
+msgid "Settings"
+msgstr "Կարգաւորումներ"
+
+#: main/src/windows/conversation_details.vala:274
+msgid "Room Configuration"
+msgstr "Սենեակի կարգաւորումներ"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:91
+msgid "Connect"
+msgstr "Կպնել"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:146
+msgid "Disable account"
+msgstr "Անջատել հաշիւը"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:146
+msgid "Enable account"
+msgstr "Միացնել հաշիւը"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:214
+msgid "Select avatar"
+msgstr "Ընտրել աւատար"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:225
+msgid "Images"
+msgstr "Նկարներ"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:229
+msgid "All files"
+msgstr "Բոլոր նիշքերը"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:247
+#, c-format
+msgid "Remove account %s?"
+msgstr "Հեռացնե՞լ %s հաշիւը"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:534
+msgid "Connected"
+msgstr "Միացուած է"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:536
+msgid "Disconnected"
+msgstr "Անջատուած է"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:556
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:558
+msgid "Error"
+msgstr "Սխալ"
+
+#: main/src/windows/preferences_window/accounts_preferences_page.vala:28
+msgid "Disabled accounts"
+msgstr "Անջատուած հաշիւներ"
+
+#: main/src/windows/preferences_window/accounts_preferences_page.vala:31
+#: main/src/windows/preferences_window/add_account_dialog.vala:92
+msgid "Add Account"
+msgstr "Աւելացնել հաշիւ"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:137
+msgid "Sign in"
+msgstr "Մուտք"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:156
+#, c-format
+msgid "The server could not prove that it is %s."
+msgstr "Սպասարկիչը չի ապացուցել որ այն %s֊ն է։"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:158
+msgid "Its security certificate is not trusted by your operating system."
+msgstr ""
+"Դրա անվտանգության վկայականը վստահելի չէ ձեր օպերացիոն համակարգի կողմից:"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:160
+msgid "Its security certificate is issued to another domain."
+msgstr "Անվտանգութեան վկայականը թողարկուած է այլ տիրոյթի համար։"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:162
+msgid "Its security certificate will only become valid in the future."
+msgstr "Անվտանգութեան վկայականը կը դառնայ վաւեր ապագայում։"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:164
+msgid "Its security certificate is expired."
+msgstr "Անվտանգութեան վկայականի ժամկէտն աւարտուել է։"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:172
+msgid "Create account"
+msgstr "Ստեղծել հաշիւ"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:191
+#, c-format
+msgid "You can now use the account %s."
+msgstr "%s հաշիւն արդէն օգտագործելի է։"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:248
+msgid "Wrong username or password"
+msgstr "Սխալ մուտքանուն կամ ծածկագիր"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:251
+msgid "Something went wrong"
+msgstr "Ինչ֊որ բան սխան ընթացաւ"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:325
+msgid "No response from server"
+msgstr "Սպասարկիչը չի պատասխանում"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:336
+#, c-format
+msgid "Register on %s"
+msgstr "Գրանցուել %s֊ում"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:339
+msgid "The server requires to sign up through a website"
+msgstr "Սպասարկիչը պահանջում է գրանցուել կայքում"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:341
+msgid "Open website"
+msgstr "Բացել կայքը"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:353
+msgid "Register"
+msgstr "Գրանցուել"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:355
+#, c-format
+msgid "Check %s for information on how to sign up"
+msgstr "Նշել %s՝ գրանցուելու մասին տեղեկանալու համար"
+
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:186
+msgid "No contacts"
+msgstr "Կոնտակտներ չկան"
+
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:187
+msgid "Add contacts to start chatting"
+msgstr "Ավելացրեք կոնտակտներ զրուցելու համար"
+
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:283
+#, c-format
+msgid ""
+"This will remove %s from your contact list and delete all conversation "
+"history."
+msgstr ""
+"Սա կհեռացնի %s-ին ձեր կոնտակտների ցանկից և կջնջի զրույցի ամբողջ պատմությունը:"
+
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:312
+msgid "Edit Contact Alias"
+msgstr "Խմբագրել կոնտակտի այլանունը"
+
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:313
+#, c-format
+msgid "Change the display name for %s"
+msgstr "Փոխել %s-ի ցուցադրվող անունը"
+
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:319
+msgid "Alias (optional)"
+msgstr "Այլանուն (կամընտիր)"
+
+#~ msgid "Import…"
+#~ msgstr "Ներմուծել…"
+
+#~ msgid "Select sticker folder"
+#~ msgstr "Ընտրել սթիքերների պանակը"
+
+#~ msgid "Local only"
+#~ msgstr "Միայն տեղական"
+
+#~ msgid "Failed to create sticker pack"
+#~ msgstr "Չհաջողվեց ստեղծել սթիքերների փաթեթ"
+
+#~ msgid "Publishing…"
+#~ msgstr "Հրապարակում…"
+
+#~ msgid "Failed to publish sticker pack"
+#~ msgstr "Չհաջողվեց հրապարակել սթիքերների փաթեթը"
+
+#~ msgid "Failed to remove sticker pack"
+#~ msgstr "Չհաջողվեց հեռացնել սթիքերների փաթեթը"
+
+# DinoX v0.7.7 - Database Maintenance & Backup/Restore
+#~ msgid "Clean Database"
+#~ msgstr "Clean Database"
+
+#~ msgid "Encrypting Backup..."
+#~ msgstr "Encrypting Backup..."
+
+# OpenPGP Key Management - English fallback (Armenian script not available)
+#~ msgid "OpenPGP Key Management"
+#~ msgstr "OpenPGP Key Management"
+
+#~ msgid "Actions"
+#~ msgstr "Actions"
+
+#~ msgid "Generate New Key"
+#~ msgstr "Generate New Key"
+
+#~ msgid "Create a new OpenPGP key pair"
+#~ msgstr "Create a new OpenPGP key pair"
+
+#~ msgid "Import a key from file (.asc, .gpg)"
+#~ msgstr "Import a key from file (.asc, .gpg)"
+
+#~ msgid "Your Keys"
+#~ msgstr "Your Keys"
+
+#~ msgid "Private keys available for signing and decryption"
+#~ msgstr "Private keys available for signing and decryption"
+
+#~ msgid "No private keys found"
+#~ msgstr "No private keys found"
+
+#~ msgid "Generate or import a key to get started"
+#~ msgstr "Generate or import a key to get started"
+
+#~ msgid "Fingerprint"
+#~ msgstr "Fingerprint"
+
+#~ msgid "Export Public Key"
+#~ msgstr "Export Public Key"
+
+#~ msgid "Delete Key"
+#~ msgstr "Delete Key"
+
+#~ msgid "Generate New OpenPGP Key"
+#~ msgstr "Generate New OpenPGP Key"
+
+#~ msgid "Enter your details to create a new key pair."
+#~ msgstr "Enter your details to create a new key pair."
+
+#~ msgid "Name"
+#~ msgstr "Name"
+
+#~ msgid "you@example.com"
+#~ msgstr "you@example.com"
+
+#~ msgid "Passphrase (optional)"
+#~ msgstr "Passphrase (optional)"
+
+#~ msgid "Passphrase"
+#~ msgstr "Passphrase"
+
+#~ msgid "4096-bit RSA key, valid for 2 years."
+#~ msgstr "4096-bit RSA key, valid for 2 years."
+
+#~ msgid "Generate"
+#~ msgstr "Generate"
+
+#~ msgid "Name must be at least 2 characters"
+#~ msgstr "Name must be at least 2 characters"
+
+#~ msgid "Please enter a valid email address"
+#~ msgstr "Please enter a valid email address"
+
+#~ msgid "Generating Key..."
+#~ msgstr "Generating Key..."
+
+#~ msgid "Key generated successfully!"
+#~ msgstr "Key generated successfully!"
+
+#~ msgid "Import OpenPGP Key"
+#~ msgstr "Import OpenPGP Key"
+
+#~ msgid "OpenPGP Keys (*.asc, *.gpg)"
+#~ msgstr "OpenPGP Keys (*.asc, *.gpg)"
+
+#~ msgid "All Files"
+#~ msgstr "All Files"
+
+#~ msgid "Key imported! Re-open Key Management to see it."
+#~ msgstr "Key imported! Re-open Key Management to see it."
+
+#~ msgid "Import failed: "
+#~ msgstr "Import failed: "
+
+#~ msgid "Key exported to: "
+#~ msgstr "Key exported to: "
+
+#~ msgid "Export failed."
+#~ msgstr "Export failed."
+
+#~ msgid "Delete Key?"
+#~ msgstr "Delete Key?"
+
+#~ msgid ""
+#~ "Delete this key?\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "This cannot be undone!"
+#~ msgstr ""
+#~ "Delete this key?\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "This cannot be undone!"
+
+#~ msgid "Key deleted."
+#~ msgstr "Key deleted."
+
+#~ msgid "Delete failed: "
+#~ msgstr "Delete failed: "
+
+#~ msgid "Select OpenPGP Key"
+#~ msgstr "Select OpenPGP Key"
+
+#~ msgid "Choose a key to announce to your contacts."
+#~ msgstr "Choose a key to announce to your contacts."
+
+#~ msgid "Enter GPG passphrase to confirm:"
+#~ msgstr "Enter GPG passphrase to confirm:"
+
+#~ msgid "Wrong passphrase"
+#~ msgstr "Wrong passphrase"
+
+#~ msgid "Manage Keys"
+#~ msgstr "Manage Keys"
+
+#~ msgid "Generate, import, export, or delete keys"
+#~ msgstr "Generate, import, export, or delete keys"
+
+#~ msgid "No keys available. Generate or import one!"
+#~ msgstr "No keys available. Generate or import one!"
+
+#~ msgid "Announce key"
+#~ msgstr "Announce key"
+
+#~ msgid "Disabled"
+#~ msgstr "Disabled"
+
+#~ msgid "Error in GnuPG"
+#~ msgstr "Error in GnuPG"
+
+#~ msgid "Message too long"
+#~ msgstr "Հաղորդագրութիւնը չափից շատ երկար է"
+
+#, c-format
+#~ msgid "%i min ago"
+#~ msgid_plural "%i mins ago"
+#~ msgstr[0] "%i րոպէ առաջ"
+#~ msgstr[1] "%i րոպէ առաջ"
+
+#~ msgid "Grant write permission"
+#~ msgstr "Տալ գրելու թոյլտւութիւն"
+
+#~ msgid "Name of the room"
+#~ msgstr "Սենեակի անուանում"
+
+#~ msgid "Only members may enter the room"
+#~ msgstr "Միայն անդամներն են կարող մուտք գործել սենեակ"
+
+#, c-format
+#~ msgid "%i search result"
+#~ msgid_plural "%i search results"
+#~ msgstr[0] "%i արդիւնք"
+#~ msgstr[1] "%i արդիւնք"
+
+#, c-format
+#~ msgid "%i hour"
+#~ msgid_plural "%i hours"
+#~ msgstr[0] "%i ժամ"
+#~ msgstr[1] "%i ժամ"
+
+#, c-format
+#~ msgid "%i minute"
+#~ msgid_plural "%i minutes"
+#~ msgstr[0] "%i րոպէ"
+#~ msgstr[1] "%i րոպէ"
+
+#~ msgid "Login"
+#~ msgstr "Մուտք գործել"
+
+#~ msgid "Could not establish a secure connection"
+#~ msgstr "Հնարաւոր չէ հաստատել գաղտնի միացում"
+
+#~ msgid "Back"
+#~ msgstr "Հետ"
+
+#~ msgid "Choose a public server"
+#~ msgstr "Ընտրել հանրային սպասարկիչ"
+
+#~ msgid "Or specify a server address"
+#~ msgstr "Կամ նշել սպասարկչի հասցէ"
+
+#~ msgid "Sign in instead"
+#~ msgstr "Մուտքգործել փոխարէնը"
+
+#~ msgid "All set up!"
+#~ msgstr "Եղա՛ւ։"
+
+#~ msgid "Finish"
+#~ msgstr "Վերջ"
+
+#~ msgid "Change"
+#~ msgstr "Փոխել"
+
+#~ msgid "Account"
+#~ msgstr "Հաշիւ"
+
+#~ msgid "Modern XMPP chat client"
+#~ msgstr "Ժամանակակից XMPP կլիենտ"
+
+#~ msgid ""
+#~ "Dino is a modern open-source chat client for the desktop. It focuses on "
+#~ "providing a clean and reliable Jabber/XMPP experience while having your "
+#~ "privacy in mind."
+#~ msgstr ""
+#~ "Dino֊ն՝ ժամանակակից, բաց կոդով կլիենտ է։ Այն միտուած է պարզ եւ վստահելի "
+#~ "Jabber/XMPP փորձառութիւն ապահովելուն, միաժամանակ մտքում ունենալով քո "
+#~ "գաղտնիութիւնը։"
+
+#~ msgid ""
+#~ "It supports end-to-end encryption with OMEMO and OpenPGP and allows "
+#~ "configuring privacy-related features such as read receipts and typing "
+#~ "notifications."
+#~ msgstr ""
+#~ "Սատարում է ծայրից ծայրի կրիպտաւորմանը OMEMO֊ի եւ OpenPGP֊ի միջոցով եւ "
+#~ "թոյլ է տալիս կարգաւորել գաղտնիութեանը վերաբերող հնարաւորութիւններ, "
+#~ "ինչպիսին են՝ ստացուած գրութիւնը ընթերնելու կամ տպելու մասին ծանուցելը։"
+
+#~ msgid ""
+#~ "Dino fetches history from the server and synchronizes messages with other "
+#~ "devices."
+#~ msgstr ""
+#~ "Dino֊ն ունակ է ստանալ սպասարկչից գրութիւնների պատմութիւն եւ սինքրոնացնել "
+#~ "այն այլ սարքերի հետ։"
+
+#~ msgid "No active search"
+#~ msgstr "Փնտրելն ընթացքում չէ"
+
+#~ msgid "Type to start a search"
+#~ msgstr "Տպէք՝ փնտրելու համար"
+
+#~ msgid "No matching messages"
+#~ msgstr "Համապատասխան գրութիւններ չկան"
+
+#~ msgid "Check the spelling or try to remove filters"
+#~ msgstr "Համոզուիր որ սխալներ չկան կամ փորձիր վերացնել զտիչները"
+
+#~ msgid "Send"
+#~ msgstr "Ուղարկել"

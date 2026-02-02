@@ -1,0 +1,283 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-12-31 14:10+0100\n"
+"PO-Revision-Date: 2024-01-06 01:07+0000\n"
+"Language-Team: none\n"
+"Language: da\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.4-dev\n"
+
+#: plugins/omemo/data/encryption_preferences_entry.ui:8
+msgid ""
+"Each device has its own OMEMO key. Messages can only be decrypted by a "
+"device if they are encrypted to its key. Messages are only encrypted to "
+"accepted devices."
+msgstr "Hver enhed har sin egen OMEMO-nøgle. Beskeder kan kun dekrypteres af en enhed, hvis de er krypteret til dens nøgle. Beskeder krypteres kun til accepterede enheder."
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:36
+msgid "Manage Key"
+msgstr "Håndter nøgle"
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:37
+msgid ""
+"Compare the fingerprint, character by character, with the one shown on your "
+"contact's device."
+msgstr "Sammenlign fingeraftrykket, tegn for tegn, med det der vises på din kontakts enhed."
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:38
+msgid "Fingerprints differ"
+msgstr "Fingeraftryk er forskellige"
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:39
+msgid "Fingerprints match"
+msgstr "Fingeraftryk matcher"
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:40
+#: plugins/omemo/src/ui/manage_key_dialog.vala:81
+#: plugins/omemo/src/ui/manage_key_dialog.vala:87
+msgid "Cancel"
+msgstr "Annuller"
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:41
+msgid "Confirm"
+msgstr "Bekræft"
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:59
+msgid "Verify key"
+msgstr "Verificer nøgle"
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:60
+#, c-format
+msgid ""
+"Future messages sent by %s from the device that uses this key will be "
+"highlighted accordingly in the chat window."
+msgstr "Fremtidige beskeder sendt af %s fra enheden, der bruger denne nøgle, vil blive fremhævet i chatvinduet."
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:70
+msgid "Fingerprints do not match"
+msgstr "Fingeraftryk matcher ikke"
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:71
+#, c-format
+msgid ""
+"Please verify that you are comparing the correct fingerprint. If "
+"fingerprints do not match, %s's account may be compromised and you should "
+"consider rejecting this key."
+msgstr "Bekræft venligst, at du sammenligner det korrekte fingeraftryk. Hvis fingeraftryk ikke matcher, kan %s's konto være kompromitteret, og du bør overveje at afvise denne nøgle."
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:123
+msgid "Verify key fingerprint"
+msgstr "Verificer nøglefingeraftryk"
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:123
+msgid ""
+"Compare this key's fingerprint with the fingerprint displayed on the "
+"contact's device."
+msgstr "Sammenlign denne nøgles fingeraftryk med fingeraftrykket vist på kontaktens enhed."
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:125
+#: plugins/omemo/src/ui/manage_key_dialog.vala:153
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:288
+msgid "Reject key"
+msgstr "Afvis nøgle"
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:125
+msgid ""
+"Block encrypted communication with the contact's device that uses this key."
+msgstr "Bloker krypteret kommunikation med kontaktens enhed, der bruger denne nøgle."
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:127
+#: plugins/omemo/src/ui/manage_key_dialog.vala:161
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:283
+msgid "Accept key"
+msgstr "Accepter nøgle"
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:127
+msgid ""
+"Allow encrypted communication with the contact's device that uses this key."
+msgstr "Tillad krypteret kommunikation med kontaktens enhed, der bruger denne nøgle."
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:131
+#: plugins/omemo/src/ui/manage_key_dialog.vala:136
+#: plugins/omemo/src/ui/manage_key_dialog.vala:140
+#, c-format
+msgid "This key is currently %s."
+msgstr "Denne nøgle er i øjeblikket %s."
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:131
+msgid "accepted"
+msgstr "accepteret"
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:131
+#: plugins/omemo/src/ui/manage_key_dialog.vala:136
+#, c-format
+msgid "This means it can be used by %s to receive and send encrypted messages."
+msgstr "Dette betyder, at den kan bruges af %s til at modtage og sende krypterede beskeder."
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:136
+msgid "verified"
+msgstr "verificeret"
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:136
+msgid ""
+"Additionally it has been verified to match the key on the contact's device."
+msgstr "Derudover er det verificeret at matche nøglen på kontaktens enhed."
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:140
+msgid "rejected"
+msgstr "afvist"
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:140
+#, c-format
+msgid ""
+"This means it cannot be used by %s to decipher your messages, and you won't "
+"see messages encrypted with it."
+msgstr "Dette betyder, at den ikke kan bruges af %s til at dechifrere dine beskeder, og du vil ikke se beskeder krypteret med den."
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:154
+#, c-format
+msgid ""
+"You won't see encrypted messages from the device of %s that uses this key. "
+"Conversely, that device won't be able to decipher your messages anymore."
+msgstr "Du vil ikke se krypterede beskeder fra enheden tilhørende %s, der bruger denne nøgle. Omvendt vil den enhed ikke længere kunne dechifrere dine beskeder."
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:162
+#, c-format
+msgid ""
+"You will be able to exchange encrypted messages with the device of %s that "
+"uses this key."
+msgstr "Du vil kunne udveksle krypterede beskeder med enheden tilhørende %s, der bruger denne nøgle."
+
+#: plugins/omemo/src/ui/manage_key_dialog.vala:168
+msgid "Back"
+msgstr "Tilbage"
+
+#: plugins/omemo/src/ui/device_notification_populator.vala:73
+msgid "Manage"
+msgstr "Håndter"
+
+#: plugins/omemo/src/ui/device_notification_populator.vala:80
+msgid "This contact has new devices"
+msgstr "Denne kontakt har nye enheder"
+
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:50
+msgid "OMEMO by default"
+msgstr "OMEMO som standard"
+
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:51
+msgid "Enable OMEMO encryption for new conversations"
+msgstr "Aktiver OMEMO-kryptering for nye samtaler"
+
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:52
+msgid "Encrypt to new devices"
+msgstr "Krypter til nye enheder"
+
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:53
+msgid "Automatically encrypt to new devices from this contact."
+msgstr "Krypter automatisk til nye enheder fra denne kontakt."
+
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:54
+msgid "New keys"
+msgstr "Nye nøgler"
+
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:98
+msgid ""
+"New encryption keys from your other devices will be accepted automatically."
+msgstr "Nye krypteringsnøgler fra dine andre enheder vil blive accepteret automatisk."
+
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:158
+msgid "This device"
+msgstr "Denne enhed"
+
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:217
+msgid "Other device"
+msgstr "Anden enhed"
+
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:217
+msgid "Device"
+msgstr "Enhed"
+
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:219
+msgid "Accepted"
+msgstr "Accepteret"
+
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:222
+msgid "Rejected"
+msgstr "Afvist"
+
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:225
+#: plugins/omemo/src/ui/contact_details_provider.vala:136
+msgid "Verified"
+msgstr "Verificeret"
+
+#: plugins/omemo/src/ui/encryption_preferences_entry.vala:277
+msgid "New device"
+msgstr "Ny enhed"
+
+#: plugins/omemo/src/ui/contact_details_provider.vala:46
+#: plugins/omemo/src/ui/contact_details_provider.vala:53
+msgid "OMEMO Encryption"
+msgstr "OMEMO-kryptering"
+
+#: plugins/omemo/src/ui/contact_details_provider.vala:47
+msgid "No member JIDs available. This may be an anonymous room."
+msgstr "Ingen medlems-JID'er tilgængelige. Dette kan være et anonymt rum."
+
+#: plugins/omemo/src/ui/contact_details_provider.vala:54
+msgid "Encryption keys for room members"
+msgstr "Krypteringsnøgler for rumsmedlemmer"
+
+#: plugins/omemo/src/ui/contact_details_provider.vala:76
+#, c-format
+msgid "%d device"
+msgid_plural "%d devices"
+msgstr[0] "%d enhed"
+msgstr[1] "%d enheder"
+
+#: plugins/omemo/src/ui/contact_details_provider.vala:138
+msgid "Trusted"
+msgstr "Betroet"
+
+#: plugins/omemo/src/ui/contact_details_provider.vala:140
+msgid "Untrusted"
+msgstr "Ikke betroet"
+
+#: plugins/omemo/src/ui/contact_details_provider.vala:142
+msgid "Unknown"
+msgstr "Ukendt"
+
+#: plugins/omemo/src/ui/own_notifications.vala:29
+msgid "OMEMO trust decision required"
+msgstr "OMEMO-tillidsbeslutning påkrævet"
+
+#: plugins/omemo/src/ui/own_notifications.vala:31
+#, c-format
+msgid "Did you add a new device for account %s?"
+msgstr "Tilføjede du en ny enhed til kontoen %s?"
+
+#: plugins/omemo/src/ui/bad_messages_populator.vala:185
+#, c-format
+msgid ""
+"%s has been using an untrusted device. You won't see messages from devices "
+"that you do not trust."
+msgstr "%s har brugt en ikke-betroet enhed. Du vil ikke se beskeder fra enheder, du ikke stoler på."
+
+#: plugins/omemo/src/ui/bad_messages_populator.vala:186
+msgid "Manage devices"
+msgstr "Håndter enheder"
+
+#: plugins/omemo/src/ui/bad_messages_populator.vala:188
+#, c-format
+msgid ""
+"%s does not trust this device. That means, you might be missing messages."
+msgstr "%s stoler ikke på denne enhed. Det betyder, at du måske mangler beskeder."

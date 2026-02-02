@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+    <menu id="menu_app">
+        <section>
+            <item>
+                <attribute name="action">app.preferences</attribute>
+                <attribute name="label" translatable="yes">Preferences</attribute>
+            </item>
+            <item>
+                <attribute name="action">app.panic-wipe</attribute>
+                <attribute name="label" translatable="yes">Panic Wipe</attribute>
+            </item>
+            <item>
+                <attribute name="action">win.show-help-overlay</attribute>
+                <attribute name="label" translatable="yes">Keyboard Shortcuts</attribute>
+            </item>
+            <item>
+                <attribute name="action">app.about</attribute>
+                <attribute name="label" translatable="yes">About DinoX</attribute>
+            </item>
+        </section>
+    </menu>
+</interface>

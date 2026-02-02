@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  
+  <url>
+    <loc>https://dinox.handwerker.jetzt/</loc>
+    <lastmod>2025-11-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://dinox.handwerker.jetzt/assets/icon.svg</image:loc>
+      <image:title>DinoX Logo</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://dinox.handwerker.jetzt/assets/mucji.png</image:loc>
+      <image:title>DinoX MUJI Group Video Calls</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://dinox.handwerker.jetzt/assets/voicecal.png</image:loc>
+      <image:title>DinoX Audio and Video Calls</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://dinox.handwerker.jetzt/assets/voise.png</image:loc>
+      <image:title>DinoX Voice Messages</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://dinox.handwerker.jetzt/assets/privt.png</image:loc>
+      <image:title>DinoX Private MUC Rooms</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://dinox.handwerker.jetzt/assets/backup.png</image:loc>
+      <image:title>DinoX Data Backup</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://dinox.handwerker.jetzt/assets/emoji.png</image:loc>
+      <image:title>DinoX Emoji Picker</image:title>
+    </image:image>
+  </url>
+  
+</urlset>

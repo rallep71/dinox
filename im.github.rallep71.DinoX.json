@@ -1,0 +1,367 @@
+{
+    "id": "im.github.rallep71.DinoX",
+    "runtime": "org.gnome.Platform",
+    "runtime-version": "48",
+    "sdk": "org.gnome.Sdk",
+    "command": "dinox",
+    "separate-locales": false,
+    "add-extensions": {
+        "org.freedesktop.Platform.ffmpeg-full": {
+            "directory": "lib/ffmpeg",
+            "version": "24.08",
+            "add-ld-path": "."
+        }
+    },
+    "cleanup-commands": [
+        "mkdir -p /app/lib/ffmpeg"
+    ],
+    "cleanup": [
+        "/include",
+        "/lib/pkgconfig",
+        "/lib/cmake",
+        "/share/pkgconfig",
+        "/share/aclocal",
+        "/man",
+        "/share/man",
+        "/share/gtk-doc",
+        "*.la",
+        "*.a"
+    ],
+    "finish-args": [
+        "--share=ipc",
+        "--socket=fallback-x11",
+        "--socket=wayland",
+        "--socket=pulseaudio",
+        "--socket=gpg-agent",
+        "--filesystem=xdg-run/pipewire-0",
+        "--share=network",
+        "--device=all",
+        "--talk-name=org.freedesktop.portal.Desktop",
+        "--talk-name=org.freedesktop.Notifications",
+        "--talk-name=org.kde.StatusNotifierWatcher",
+        "--talk-name=org.freedesktop.ScreenSaver",
+        "--talk-name=org.freedesktop.GeoClue2",
+        "--own-name=org.mpris.MediaPlayer2.Dino",
+        "--filesystem=xdg-cache/dinox:create",
+        "--filesystem=xdg-run/dinox:create"
+    ],
+    "modules": [
+        {
+            "name": "libcanberra",
+            "buildsystem": "autotools",
+            "config-opts": [
+                "--disable-oss",
+                "--disable-alsa",
+                "--enable-pulse",
+                "--disable-gtk",
+                "--disable-gtk3"
+            ],
+            "cleanup": [
+                "/include",
+                "/lib/pkgconfig",
+                "*.la",
+                "*.a"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://deb.debian.org/debian/pool/main/libc/libcanberra/libcanberra_0.30.orig.tar.xz",
+                    "sha256": "c2b671e67e0c288a69fc33dc1b6f1b534d07882c2aceed37004bf48c601afa72"
+                }
+            ]
+        },
+        {
+            "name": "libnice",
+            "buildsystem": "meson",
+            "builddir": true,
+            "config-opts": [
+                "-Dtests=disabled",
+                "-Dgtk_doc=disabled"
+            ],
+            "cleanup": [
+                "/include",
+                "/lib/pkgconfig",
+                "*.la",
+                "*.a"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://gitlab.freedesktop.org/libnice/libnice/-/archive/0.1.23/libnice-0.1.23.tar.gz",
+                    "sha256": "cd69da89d70b529e2eac955de006503a318123d36196482b14005a83e7cb2c21"
+                }
+            ]
+        },
+        {
+            "name": "sqlcipher",
+            "buildsystem": "autotools",
+            "config-opts": [
+                "--enable-tempstore=yes",
+                "--disable-tcl",
+                "CFLAGS=-DSQLITE_HAS_CODEC -DSQLITE_ENABLE_COLUMN_METADATA -DSQLITE_ENABLE_FTS3 -DSQLITE_ENABLE_FTS3_PARENTHESIS -DSQLITE_ENABLE_FTS4"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/sqlcipher/sqlcipher/archive/v4.5.5.tar.gz",
+                    "sha256": "014ef9d4f5b5f4e7af4d93ad399667947bb55e31860e671f0def1b8ae6f05de0"
+                }
+            ]
+        },
+        {
+            "name": "protobuf",
+            "buildsystem": "cmake-ninja",
+            "config-opts": [
+                "-Dprotobuf_BUILD_TESTS=OFF",
+                "-Dprotobuf_BUILD_SHARED_LIBS=ON",
+                "-DCMAKE_INSTALL_LIBDIR=lib"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/protocolbuffers/protobuf/releases/download/v21.12/protobuf-cpp-3.21.12.tar.gz",
+                    "sha256": "4eab9b524aa5913c6fffb20b2a8abf5ef7f95a80bc0701f3a6dbb4c607f73460"
+                }
+            ]
+        },
+        {
+            "name": "libprotobuf-c",
+            "buildsystem": "autotools",
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/protobuf-c/protobuf-c/releases/download/v1.5.0/protobuf-c-1.5.0.tar.gz",
+                    "sha256": "7b404c63361ed35b3667aec75cc37b54298d56dd2bcf369de3373212cc06fd98"
+                }
+            ]
+        },
+        {
+            "name": "libomemo-c",
+            "buildsystem": "meson",
+            "config-opts": [
+                "-Dtests=false",
+                "-Ddefault_library=static",
+                "--libdir=lib"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/dino/libomemo-c/releases/download/v0.5.1/libomemo-c-0.5.1.tar.gz",
+                    "sha512": "ff59565406c51663f2944e9a7c12c5b0e3fa01073039f5161472dd81f59194b1cf2685bc1e0cc930a141bc409b965c5d93313cfc3e0e237250102af3b5e88826",
+                    "x-checker-data": {
+                        "type": "anitya",
+                        "project-id": 359676,
+                        "stable-only": true,
+                        "url-template": "https://github.com/dino/libomemo-c/releases/download/v$version/libomemo-c-$version.tar.gz"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "qrencode",
+            "buildsystem": "autotools",
+            "cleanup": [
+                "*"
+            ],
+            "build-options": {
+                "cflags": "-fPIC"
+            },
+            "config-opts": [
+                "--disable-shared"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/fukuchi/libqrencode/archive/refs/tags/v4.1.1.tar.gz",
+                    "sha512": "584106e7bcaaa1ef2efe63d653daad38d4ff436eb4b185a1db3c747169c1ffa74149c3b1329bb0b8ae007903db0a7034aabf135cc196d91a37b5c61348154a65",
+                    "x-checker-data": {
+                        "type": "anitya",
+                        "project-id": 12834,
+                        "stable-only": true,
+                        "url-template": "https://github.com/fukuchi/libqrencode/archive/refs/tags/v$version.tar.gz"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "intltool",
+            "cleanup": [ "*" ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://launchpad.net/intltool/trunk/0.51.0/+download/intltool-0.51.0.tar.gz",
+                    "sha256": "67c74d94196b153b774ab9f89b2fa6c6ba79352407037c8c14d5aeb334e959cd"
+                }
+            ]
+        },
+        {
+            "name": "libdbusmenu",
+            "buildsystem": "autotools",
+            "build-options": {
+                "cflags": "-Wno-error"
+            },
+            "config-opts": [
+                "--disable-dumper",
+                "--disable-tests",
+                "--disable-gtk",
+                "--with-gtk=no"
+            ],
+            "make-install-args": [
+                "typelibdir=/app/lib/girepository-1.0",
+                "girdir=/app/share/gir-1.0"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/rallep71/dinox/raw/vendor/vendor/libdbusmenu-16.04.0.tar.gz",
+                    "sha256": "b9cc4a2acd74509435892823607d966d424bd9ad5d0b00938f27240a1bfa878a"
+                },
+                {
+                    "type": "shell",
+                    "commands": [
+                        "sed -i '/AC_OUTPUT/i AM_CONDITIONAL([HAVE_VALGRIND], [test \"x$enable_valgrind\" = \"xyes\"])' configure.ac",
+                        "autoreconf -vfi"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "webrtc-audio-processing",
+            "buildsystem": "meson",
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://gitlab.freedesktop.org/pulseaudio/webrtc-audio-processing/-/archive/v2.1/webrtc-audio-processing-v2.1.tar.gz",
+                    "sha256": "2358883a8551711f3b6169f6799c003dc1a6efd37bdb24a135a015cc9e3d7713"
+                }
+            ]
+        },
+        {
+            "name": "libevent",
+            "buildsystem": "autotools",
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/libevent/libevent/releases/download/release-2.1.12-stable/libevent-2.1.12-stable.tar.gz",
+                    "sha256": "92e6de1be9ec176428fd2367677e61ceffc2ee1cb119035037a27d346b0403bb"
+                }
+            ]
+        },
+        {
+            "name": "tor",
+            "buildsystem": "autotools",
+            "config-opts": [
+                "--disable-asciidoc",
+                "--disable-manpages",
+                "--disable-system-torrc",
+                "--disable-module-relay",
+                "--disable-unittests"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://dist.torproject.org/tor-0.4.8.10.tar.gz",
+                    "sha256": "e628b4fab70edb4727715b23cf2931375a9f7685ac08f2c59ea498a178463a86"
+                }
+            ]
+        },
+        {
+            "name": "obfs4proxy",
+            "buildsystem": "simple",
+            "build-commands": [
+                "mkdir -p /app/bin",
+                "ar x obfs4proxy.deb data.tar.xz",
+                "tar -xf data.tar.xz ./usr/bin/obfs4proxy",
+                "cp ./usr/bin/obfs4proxy /app/bin/obfs4proxy",
+                "chmod +x /app/bin/obfs4proxy"
+            ],
+            "sources": [
+                {
+                    "type": "file",
+                    "url": "http://ftp.de.debian.org/debian/pool/main/o/obfs4proxy/obfs4proxy_0.0.14-2+b5_amd64.deb",
+                    "sha256": "ed9b68429f2893502603c74a50dafeae502e6cd5e1c34efea9418bbd19c54e85",
+                    "dest-filename": "obfs4proxy.deb"
+                }
+            ]
+        },
+        {
+            "name": "pipewire",
+            "buildsystem": "meson",
+            "builddir": true,
+            "config-opts": [
+                "-Ddocs=disabled",
+                "-Dman=disabled",
+                "-Dtests=disabled",
+                "-Dexamples=disabled",
+                "-Dsystemd=disabled",
+                "-Dsession-managers=[]",
+                "-Dpipewire-alsa=disabled",
+                "-Dpipewire-jack=disabled",
+                "-Djack=disabled",
+                "-Dpipewire-v4l2=disabled",
+                "-Dbluez5=disabled",
+                "-Dffmpeg=disabled",
+                "-Dvulkan=disabled",
+                "-Dlibcamera=disabled",
+                "-Droc=disabled",
+                "-Davahi=disabled",
+                "-Draop=disabled",
+                "-Dudevrulesdir=/app/lib/udev/rules.d",
+                "-Dgstreamer=enabled",
+                "-Dgstreamer-device-provider=enabled"
+            ],
+            "cleanup": [
+                "/bin",
+                "/etc",
+                "/include",
+                "/libexec",
+                "/lib/pkgconfig",
+                "/lib/systemd",
+                "/share/alsa",
+                "/share/man",
+                "/share/pipewire",
+                "/share/doc",
+                "/share/locale",
+                "*.a",
+                "*.la"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://gitlab.freedesktop.org/pipewire/pipewire/-/archive/1.2.7/pipewire-1.2.7.tar.gz",
+                    "sha256": "e75568ed18bcbe75e9779af57cb9cc256fd7ebfaadc12bb347a0717055d1d3a9"
+                }
+            ]
+        },
+        {
+            "name": "webrtc-audio-processing",
+            "buildsystem": "meson",
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://gitlab.freedesktop.org/pulseaudio/webrtc-audio-processing/-/archive/v2.1/webrtc-audio-processing-v2.1.tar.gz",
+                    "sha256": "2358883a8551711f3b6169f6799c003dc1a6efd37bdb24a135a015cc9e3d7713"
+                }
+            ]
+        },
+        {
+            "name": "dino",
+            "buildsystem": "meson",
+            "builddir": true,
+            "config-opts": [
+                "--libdir=lib",
+                "-Dplugin-notification-sound=enabled"
+            ],
+            "cleanup": [
+                "/include",
+                "/share/vala"
+            ],
+            "sources": [
+                {
+                    "type": "dir",
+                    "path": "."
+                }
+            ]
+        }
+    ]
+}

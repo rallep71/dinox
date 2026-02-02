@@ -1,0 +1,24 @@
+DinoX - Authors & Contributors
+==============================
+
+PROJECT MAINTAINER
+------------------
+Ralf Peter <dinox@handwerker.jetzt>
+
+CONTRIBUTORS
+------------
+- Ralf Peter - Project maintainer, feature development
+
+ACKNOWLEDGMENTS
+---------------
+This project incorporates code from Dino (https://dino.im),
+which is licensed under GPL-3.0. The original Dino authors
+retain copyright for their contributions.
+
+For Dino contributors, see:
+https://github.com/dino/dino/graphs/contributors
+
+LICENSE
+-------
+DinoX is licensed under GNU GPL-3.0.
+See LICENSE file for details.

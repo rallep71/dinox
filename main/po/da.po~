@@ -1,0 +1,2680 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-12-18 18:28+0100\n"
+"PO-Revision-Date: 2024-01-06 01:07+0000\n"
+"Language-Team: none\n"
+"Language: da\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.4-dev\n"
+
+#: main/data/add_conversation/add_groupchat_dialog.ui:80
+msgid "Add MUC"
+msgstr "Tilføj MUC"
+
+#: main/data/add_conversation/add_groupchat_dialog.ui:90
+msgid "Insert a Name for MUC..."
+msgstr "Indtast et navn til rummet..."
+
+#: main/data/add_conversation/select_jid_fragment.ui:20
+msgid "Search or enter channel address..."
+msgstr "Søg eller indtast kanaladresse..."
+
+#: main/data/add_conversation/select_jid_fragment.ui:67
+#: main/src/ui/add_conversation/select_jid_fragment.vala:205
+msgid "Add Group"
+msgstr "Tilføj gruppe"
+
+#: main/data/add_conversation/select_jid_fragment.ui:88
+msgid "Delete Group"
+msgstr "Slet gruppe"
+
+#: main/data/call_widget.ui:73 main/src/ui/notifier_freedesktop.vala:125
+#: main/src/ui/notifier_freedesktop.vala:232
+#: main/src/ui/notifier_gnotifications.vala:82
+msgid "Reject"
+msgstr "Afvis"
+
+#: main/data/call_widget.ui:81
+#: main/src/ui/conversation_content_view/subscription_notification.vala:67
+#: main/src/ui/notifier_freedesktop.vala:125
+#: main/src/ui/notifier_freedesktop.vala:166
+#: main/src/ui/notifier_freedesktop.vala:232
+#: main/src/ui/notifier_freedesktop.vala:266
+#: main/src/ui/notifier_gnotifications.vala:83
+#: main/src/ui/notifier_gnotifications.vala:101
+#: main/src/ui/notifier_gnotifications.vala:140
+#: main/src/ui/notifier_gnotifications.vala:158
+msgid "Accept"
+msgstr "Accepter"
+
+#: main/data/chat_input.ui:63
+msgid "Record voice message"
+msgstr "Optag talebesked"
+
+#: main/data/chat_input.ui:77
+msgid "Send message"
+msgstr "Send besked"
+
+#: main/data/conversation_details.ui:145
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:566
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:175
+msgid "Remove Contact"
+msgstr "Fjern kontakt"
+
+#: main/data/conversation_details.ui:171
+#: main/src/windows/conversation_details.vala:229
+msgid "About"
+msgstr "Om"
+
+#: main/data/conversation_row.ui:56
+msgid "Private room (supports group calls)"
+msgstr "Privat rum (understøtter gruppeopkald)"
+
+#: main/data/conversation_row.ui:135
+#: main/src/windows/conversation_details.vala:171
+#: main/src/windows/conversation_details.vala:172
+msgid "Muted"
+msgstr "Lydløs"
+
+#: main/data/conversation_row.ui:146
+#: main/src/windows/conversation_details.vala:136
+msgid "Blocked"
+msgstr "Blokeret"
+
+#: main/data/gtk/help-overlay.ui:10
+#: main/data/preferences_window/preferences_dialog.ui:32
+msgid "General"
+msgstr "Generelt"
+
+#: main/data/gtk/help-overlay.ui:14 main/data/main_window.ui:38
+#: main/data/menu_add.ui:7
+#: main/src/ui/add_conversation/select_contact_dialog.vala:106
+#: main/src/ui/main_window.vala:154
+msgid "Start Conversation"
+msgstr "Start samtale"
+
+#: main/data/gtk/help-overlay.ui:20 main/data/main_window.ui:51
+#: main/data/menu_add.ui:11
+#: main/src/ui/add_conversation/add_conference_dialog.vala:24
+#: main/src/ui/application.vala:1373 main/src/ui/main_window.vala:155
+msgid "Join Channel"
+msgstr "Forbind til kanal"
+
+#: main/data/gtk/help-overlay.ui:26
+msgid "Show preferences"
+msgstr "Vis indstillinger"
+
+#: main/data/gtk/help-overlay.ui:32
+msgid "Keyboard shortcuts"
+msgstr "Tastaturgenveje"
+
+#: main/data/gtk/help-overlay.ui:39
+msgid "Conversation"
+msgstr "Samtale"
+
+#: main/data/gtk/help-overlay.ui:43
+#: main/src/ui/conversation_titlebar/search_entry.vala:12
+msgid "Search messages"
+msgstr "Søg meddelelser"
+
+#: main/data/gtk/help-overlay.ui:49 main/src/ui/chat_input/view.vala:59
+msgid "Send a file"
+msgstr "Send en fil"
+
+#: main/data/gtk/help-overlay.ui:55
+msgid "Close conversation"
+msgstr "Luk samtale"
+
+#: main/data/gtk/help-overlay.ui:62
+msgid "Navigation"
+msgstr "Navigation"
+
+#: main/data/gtk/help-overlay.ui:66
+msgid "Jump to next conversation"
+msgstr "Spring til næste samtale"
+
+#: main/data/gtk/help-overlay.ui:72
+msgid "Jump to previous conversation"
+msgstr "Spring til foregående samtale"
+
+#: main/data/main_window.ui:64 main/src/ui/main_window.vala:157
+msgid "Help: How to join channels"
+msgstr "Hjælp: Sådan tilslutter du dig kanaler"
+
+#: main/data/main_window.ui:118
+msgid "You have no open chats"
+msgstr "Du har ingen åbne samtaler"
+
+#: main/data/main_window.ui:119
+msgid "Click + to start a chat or join a channel"
+msgstr "Klik + for at starte en samtale eller forbinde til en kanal"
+
+#: main/data/menu_app.ui:6
+msgid "Status"
+msgstr "Status"
+
+#: main/data/menu_app.ui:11
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:427
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
+#: main/src/ui/systray.vala:279
+msgid "Online"
+msgstr "Online"
+
+#: main/data/menu_app.ui:16
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:421
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
+#: main/src/ui/systray.vala:279
+msgid "Away"
+msgstr "Væk"
+
+#: main/data/menu_app.ui:21
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:425
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
+#: main/src/ui/systray.vala:279
+msgid "Busy"
+msgstr "Optaget"
+
+#: main/data/menu_app.ui:26
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:423
+#: main/src/ui/main_window.vala:202 main/src/ui/systray.vala:147
+#: main/src/ui/systray.vala:279
+msgid "Not Available"
+msgstr "Ikke tilgængelig"
+
+#: main/data/menu_app.ui:34
+msgid "Preferences"
+msgstr "Indstillinger"
+
+#: main/data/menu_app.ui:38
+msgid "Keyboard Shortcuts"
+msgstr "Tastaturgenveje"
+
+#: main/data/menu_app.ui:42 main/src/ui/application.vala:354
+msgid "About DinoX"
+msgstr "Om DinoX"
+
+#: main/data/menu_conversation.ui:7
+msgid "Contact Details"
+msgstr "Kontaktoplysninger"
+
+#: main/data/menu_conversation.ui:13
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:513
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:565
+#: main/src/ui/conversation_titlebar/menu_entry.vala:84
+msgid "Delete Conversation History"
+msgstr "Slet samtalehistorik"
+
+#: main/data/message_item_widget_edit_mode.ui:46
+#: main/data/preferences_window/change_password_dialog.ui:18
+#: main/src/ui/add_conversation/add_conference_dialog.vala:41
+#: main/src/ui/add_conversation/select_contact_dialog.vala:40
+#: main/src/ui/application.vala:455 main/src/ui/application.vala:483
+#: main/src/ui/application.vala:779 main/src/ui/application.vala:857
+#: main/src/ui/application.vala:915 main/src/ui/application.vala:947
+#: main/src/ui/application.vala:1103 main/src/ui/application.vala:1383
+#: main/src/ui/chat_input/sticker_chooser.vala:547
+#: main/src/ui/chat_input/sticker_chooser.vala:869
+#: main/src/ui/conversation_content_view/file_default_widget.vala:90
+#: main/src/ui/conversation_content_view/item_actions.vala:165
+#: main/src/ui/conversation_content_view/item_actions.vala:168
+#: main/src/ui/conversation_details.vala:249
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:633
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:660
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:679
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:704
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:723
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:744
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:790
+#: main/src/ui/conversation_titlebar/call_entry.vala:83
+#: main/src/ui/conversation_titlebar/menu_entry.vala:51
+#: main/src/windows/conversation_details.vala:60
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:68
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:205
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:225
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:249
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:269
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:291
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:332
+msgid "Cancel"
+msgstr "Fortryd"
+
+#: main/data/message_item_widget_edit_mode.ui:51
+msgid "Update message"
+msgstr "Opdater besked"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:68
+#: main/src/ui/conversation_details.vala:170
+msgid "XMPP Address"
+msgstr "XMPP-adresse"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:77
+msgid "Local alias"
+msgstr "Lokalt alias"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:82
+#: main/src/ui/application.vala:449 main/src/ui/application.vala:1078
+#: main/src/ui/util/data_forms.vala:63
+msgid "Password"
+msgstr "Kodeord"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:104
+msgid "Connection status"
+msgstr "Forbindelsesstatus"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:117
+msgid "View Certificate"
+msgstr "Vis certifikat"
+
+# Custom host/port feature (Issue #115)
+#: main/data/preferences_window/account_preferences_subpage.ui:128
+msgid "Advanced Settings"
+msgstr "Avancerede indstillinger"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:129
+msgid "Custom server connection (leave empty for automatic)"
+msgstr "Brugerdefineret serverforbindelse (lad stå tom for automatisk)"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:132
+msgid "Server Hostname"
+msgstr "Serverværtsnavn"
+
+#: main/data/preferences_window/account_preferences_subpage.ui:137
+msgid "Port"
+msgstr "Port"
+
+#: main/data/preferences_window/change_password_dialog.ui:61
+msgid "Current password"
+msgstr "Nuværende adgangskode"
+
+#: main/data/preferences_window/change_password_dialog.ui:66
+msgid "New password"
+msgstr "Ny adgangskode"
+
+#: main/data/preferences_window/change_password_dialog.ui:71
+msgid "Confirm password"
+msgstr "Bekræft adgangskode"
+
+#: main/data/preferences_window/general_preferences_page.ui:9
+msgid "Send _Typing Notifications"
+msgstr "Send _skrive-notifikationer"
+
+#: main/data/preferences_window/general_preferences_page.ui:15
+msgid "Send _Read Receipts"
+msgstr "Send _læsekvitteringer"
+
+#: main/data/preferences_window/general_preferences_page.ui:25
+msgid "_Notifications"
+msgstr "_Notifikationer"
+
+#: main/data/preferences_window/general_preferences_page.ui:26
+msgid "Notify when a new message arrives"
+msgstr "Giv besked når en ny meddelelse kommer ind"
+
+#: main/data/preferences_window/general_preferences_page.ui:32
+msgid "_Keep Running in Background"
+msgstr "_Kør i baggrunden"
+
+#: main/data/preferences_window/general_preferences_page.ui:33
+msgid ""
+"Continue running after closing window to receive notifications immediately"
+msgstr ""
+"Fortsæt med at køre efter lukning af vinduet for at modtage notifikationer "
+"med det sammeFortsæt med at køre efter lukning af vinduet for at modtage "
+"notifikationer med det samme"
+
+#: main/data/preferences_window/general_preferences_page.ui:41
+msgid "Appearance"
+msgstr "Udseende"
+
+#: main/data/preferences_window/general_preferences_page.ui:44
+msgid "_Color Scheme"
+msgstr "_Farveskema"
+
+#: main/data/preferences_window/general_preferences_page.ui:45
+msgid "Choose between light and dark appearance"
+msgstr "Vælg mellem lyst og mørkt udseende"
+
+#: main/data/preferences_window/general_preferences_page.ui:55
+msgid "_Convert Smileys to Emoji"
+msgstr "_Konverter smileys til emoji"
+
+#: main/data/preferences_window/general_preferences_page.ui:63
+#: main/src/ui/chat_input/view.vala:51
+#, fuzzy
+msgid "Stickers"
+msgstr "Højtalere"
+
+#: main/data/preferences_window/general_preferences_page.ui:66
+msgid "Enable Stickers"
+msgstr ""
+
+#: main/data/preferences_window/general_preferences_page.ui:71
+msgid "Enable Sticker Animations"
+msgstr ""
+
+#: main/data/preferences_window/general_preferences_page.ui:72
+msgid "Disable to reduce flashing/flickering"
+msgstr ""
+
+#: main/data/preferences_window/general_preferences_page.ui:79
+msgid "User Data"
+msgstr "Brugerdata"
+
+#: main/data/preferences_window/general_preferences_page.ui:82
+msgid "Backup User Data"
+msgstr "Sikkerhedskopier data"
+
+#: main/data/preferences_window/general_preferences_page.ui:83
+msgid "Create a backup of your accounts, messages and settings"
+msgstr "Opret en sikkerhedskopi af konti, beskeder og indstillinger"
+
+#: main/data/preferences_window/general_preferences_page.ui:94
+#: main/src/ui/application.vala:478 main/src/ui/main_window.vala:223
+msgid "Restore from Backup"
+msgstr "Gendan fra sikkerhedskopi"
+
+#: main/data/preferences_window/general_preferences_page.ui:95
+msgid "Restore accounts, messages and settings from a backup file"
+msgstr "Gendan konti, beskeder og indstillinger fra en sikkerhedskopi"
+
+#: main/data/preferences_window/general_preferences_page.ui:106
+msgid "Data Storage Location"
+msgstr "Datalagringsplacering"
+
+#: main/data/preferences_window/general_preferences_page.ui:107
+msgid "View where your data is stored"
+msgstr "Se hvor dine data er gemt"
+
+#: main/data/preferences_window/general_preferences_page.ui:120
+msgid "Database Maintenance"
+msgstr "Databasevedligeholdelse"
+
+#: main/data/preferences_window/general_preferences_page.ui:123
+#: main/src/ui/application.vala:775 main/src/ui/application.vala:780
+msgid "Clear Cache"
+msgstr "Ryd cache"
+
+#: main/data/preferences_window/general_preferences_page.ui:124
+msgid "Clear cached files, avatars and previews"
+msgstr "Ryd cachede filer, avatarer og forhåndsvisninger"
+
+#: main/data/preferences_window/general_preferences_page.ui:135
+#: main/src/ui/application.vala:852 main/src/ui/application.vala:858
+msgid "Reset Database"
+msgstr "Nulstil database"
+
+#: main/data/preferences_window/general_preferences_page.ui:136
+msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
+msgstr "Slet alle beskeder, filer og OMEMO-nøgler. Dine konti bevares."
+
+#: main/data/preferences_window/general_preferences_page.ui:147
+#: main/src/ui/application.vala:910
+msgid "Factory Reset"
+msgstr "Fabriksindstilling"
+
+#: main/data/preferences_window/general_preferences_page.ui:148
+msgid "Delete ALL data including accounts. This cannot be undone!"
+msgstr "Slet ALLE data inklusive konti. Dette kan ikke fortrydes!"
+
+#: main/data/preferences_window/preferences_dialog.ui:11
+#: main/src/windows/preferences_window/accounts_preferences_page.vala:15
+#: main/src/windows/preferences_window/accounts_preferences_page.vala:27
+msgid "Accounts"
+msgstr "Konti"
+
+#: main/data/preferences_window/preferences_dialog.ui:18
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:17
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:67
+msgid "Contacts"
+msgstr "Kontakter"
+
+#: main/data/preferences_window/preferences_dialog.ui:25
+#: main/src/windows/conversation_details.vala:279
+msgid "Encryption"
+msgstr "Kryptering"
+
+#: main/src/ui/add_conversation/add_conference_dialog.vala:44
+msgid "Next"
+msgstr "Næste"
+
+#: main/src/ui/add_conversation/add_conference_dialog.vala:59
+#: main/src/ui/add_conversation/conference_details_fragment.vala:151
+#: main/src/ui/application.vala:1387
+msgid "Join"
+msgstr "Forbind"
+
+#: main/src/ui/add_conversation/add_groupchat_dialog.vala:26
+msgid "Add"
+msgstr "Tilføj"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:143
+msgid "Joining…"
+msgstr "Forbinder…"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:164
+msgid "Password required to enter room"
+msgstr "Adgang til rummet kræver kodeord"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:169
+msgid "Banned from joining or creating conference"
+msgstr "Udelukket fra at forbinde til eller oprette konference"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:171
+msgid "Room does not exist"
+msgstr "Rummet findes ikke"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:173
+msgid "Not allowed to create room"
+msgstr "Ikke tilladt at oprette rum"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:175
+msgid "Members-only room"
+msgstr "Rum kun for medlemmer"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:178
+msgid "Choose a different nick"
+msgstr "Vælg et andet kaldenavn"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:180
+msgid "Too many occupants in room"
+msgstr "Der er for mange personer i rummet"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:183
+#: main/src/ui/notifier_freedesktop.vala:190
+#: main/src/ui/notifier_gnotifications.vala:108
+#: main/src/windows/preferences_window/add_account_dialog.vala:271
+#, c-format
+msgid "Could not connect to %s"
+msgstr "Kunne ikke forbinde til %s"
+
+#: main/src/ui/add_conversation/conference_details_fragment.vala:186
+#: main/src/windows/preferences_window/add_account_dialog.vala:287
+#: main/src/windows/preferences_window/add_account_dialog.vala:297
+#: main/src/windows/preferences_window/add_account_dialog.vala:307
+#: main/src/windows/preferences_window/add_account_dialog.vala:393
+msgid "Invalid address"
+msgstr "Ugyldig adresse"
+
+#: main/src/ui/add_conversation/select_contact_dialog.vala:70
+msgid "Search or enter contact address..."
+msgstr "Søg eller indtast kontaktadresse..."
+
+#: main/src/ui/add_conversation/select_contact_dialog.vala:107
+msgid "Start"
+msgstr "Start"
+
+#: main/src/ui/add_conversation/select_jid_fragment.vala:154
+msgid "Browse Rooms"
+msgstr "Gennemse rum"
+
+#: main/src/ui/add_conversation/select_jid_fragment.vala:157
+msgid "Browse Contacts"
+msgstr "Gennemse kontakter"
+
+#: main/src/ui/add_conversation/select_jid_fragment.vala:202
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:70
+msgid "Add Contact"
+msgstr "Tilføj kontakt"
+
+#: main/src/ui/add_conversation/select_jid_fragment.vala:203
+msgid "Delete Contact"
+msgstr "Slet kontakt"
+
+#: main/src/ui/add_conversation/select_jid_fragment.vala:206
+#: main/src/ui/add_conversation/select_jid_fragment.vala:216
+msgid "Leave Group"
+msgstr "Forlad gruppe"
+
+#: main/src/ui/application.vala:359
+msgid "Modern XMPP client with extended features"
+msgstr "Moderne XMPP-klient med udvidede funktioner"
+
+#: main/src/ui/application.vala:366 main/src/ui/application.vala:741
+msgid "User Data Locations"
+msgstr "Dataplaceringer"
+
+#: main/src/ui/application.vala:369 main/src/ui/application.vala:755
+msgid "Configuration:"
+msgstr "Konfiguration:"
+
+#: main/src/ui/application.vala:372 main/src/ui/application.vala:757
+msgid "Data & Database:"
+msgstr "Data & database:"
+
+#: main/src/ui/application.vala:375 main/src/ui/application.vala:759
+msgid "Cache:"
+msgstr "Cache:"
+
+#: main/src/ui/application.vala:378
+msgid "Info:"
+msgstr "Info:"
+
+#: main/src/ui/application.vala:379
+msgid ""
+"Your personal data (accounts, messages, files) is stored separately from the "
+"application."
+msgstr ""
+"Dine personlige data (konti, beskeder, filer) gemmes separat fra "
+"applikationen."
+
+#: main/src/ui/application.vala:381
+msgid "When you update DinoX, your data remains intact."
+msgstr "Når du opdaterer DinoX, forbliver dine data intakte."
+
+#: main/src/ui/application.vala:383
+msgid "Use Settings → General → Backup User Data to create a backup."
+msgstr ""
+"Brug Indstillinger → Generelt → Sikkerhedskopier brugerdata for at oprette "
+"en sikkerhedskopi."
+
+#: main/src/ui/application.vala:401
+msgid "Select Backup File"
+msgstr "Vælg backup-fil"
+
+# DinoX v0.7.7 - Additional Backup/Restore strings
+#: main/src/ui/application.vala:409
+msgid "Backup Files (*.tar.gz, *.tar.gz.gpg)"
+msgstr "Backup-filer (*.tar.gz, *.tar.gz.gpg)"
+
+#: main/src/ui/application.vala:439
+msgid "Enter Backup Password"
+msgstr "Indtast backup-adgangskode"
+
+#: main/src/ui/application.vala:440
+msgid "This backup is encrypted. Please enter the password to decrypt it."
+msgstr "Denne backup er krypteret. Indtast adgangskoden for at dekryptere."
+
+#: main/src/ui/application.vala:456
+msgid "Decrypt & Restore"
+msgstr "Dekrypter og gendan"
+
+#: main/src/ui/application.vala:479
+msgid ""
+"This will replace all current data with the backup.\n"
+"\n"
+"<b>Current accounts, messages and settings will be overwritten!</b>\n"
+"\n"
+"DinoX will restart after restoring."
+msgstr ""
+"Dette erstatter alle nuværende data med backuppen.\n"
+"\n"
+"<b>Nuværende konti, beskeder og indstillinger vil blive overskrevet!</b>\n"
+"\n"
+"DinoX genstartes efter gendannelse."
+
+#: main/src/ui/application.vala:484
+msgid "Restore Backup"
+msgstr "Gendan sikkerhedskopi"
+
+#: main/src/ui/application.vala:501 main/src/ui/application.vala:533
+msgid "Decrypting Backup..."
+msgstr "Dekrypterer sikkerhedskopi..."
+
+#: main/src/ui/application.vala:501 main/src/ui/application.vala:585
+msgid "Restoring Backup..."
+msgstr "Gendanner sikkerhedskopi..."
+
+#: main/src/ui/application.vala:502
+msgid "Please wait, this may take a moment..."
+msgstr "Vent venligst, dette kan tage et øjeblik..."
+
+#: main/src/ui/application.vala:534
+msgid "Decrypting encrypted backup file..."
+msgstr "Dekrypterer backup-fil..."
+
+#: main/src/ui/application.vala:572
+msgid "Decryption Failed"
+msgstr "Dekryptering mislykkedes"
+
+#: main/src/ui/application.vala:573
+msgid ""
+"Could not decrypt the backup file.\n"
+"\n"
+"Please check if the password is correct."
+msgstr ""
+"Kunne ikke dekryptere backup-filen.\n"
+"\n"
+"Kontrollér om adgangskoden er korrekt."
+
+#: main/src/ui/application.vala:575 main/src/ui/application.vala:685
+#: main/src/ui/chat_input/sticker_chooser.vala:575
+#: main/src/ui/chat_input/sticker_chooser.vala:594
+#: main/src/ui/chat_input/sticker_chooser.vala:602
+#: main/src/ui/chat_input/sticker_chooser.vala:817
+#: main/src/ui/chat_input/sticker_chooser.vala:835
+#: main/src/ui/chat_input/sticker_chooser.vala:843
+#: main/src/ui/chat_input/sticker_chooser.vala:883
+msgid "OK"
+msgstr "OK"
+
+#: main/src/ui/application.vala:586
+msgid "Extracting files from backup..."
+msgstr "Udpakker filer fra backup..."
+
+#: main/src/ui/application.vala:667
+msgid "Restore Complete!"
+msgstr "Gendannelse fuldført!"
+
+#: main/src/ui/application.vala:668
+msgid "DinoX will now restart..."
+msgstr "DinoX genstartes nu..."
+
+#: main/src/ui/application.vala:682
+msgid "Restore Failed"
+msgstr "Gendannelse mislykkedes"
+
+#: main/src/ui/application.vala:683
+#, c-format
+msgid ""
+"Could not restore the backup file.\n"
+"\n"
+"Error: %s"
+msgstr ""
+"Kunne ikke gendanne backup-filen.\n"
+"\n"
+"Fejl: %s"
+
+#: main/src/ui/application.vala:683 main/src/ui/application.vala:1359
+msgid "Unknown error"
+msgstr "Ukendt fejl"
+
+#: main/src/ui/application.vala:761
+msgid ""
+"Your personal data (accounts, messages, files) is stored separately from the "
+"application. When you update DinoX, your data remains intact."
+msgstr ""
+"Dine personlige data (konti, beskeder, filer) gemmes separat fra "
+"applikationen. Når du opdaterer DinoX, forbliver dine data intakte.Dine "
+"personlige data (konti, beskeder, filer) gemmes separat fra applikationen. "
+"Når du opdaterer DinoX, forbliver dine data intakte."
+
+#: main/src/ui/application.vala:766 main/src/ui/application.vala:1254
+#: main/src/ui/application.vala:1338
+#: main/src/ui/chat_input/sticker_chooser.vala:174
+#: main/src/ui/conversation_details.vala:272 main/src/ui/main_window.vala:172
+msgid "Close"
+msgstr "Luk"
+
+#: main/src/ui/application.vala:776
+msgid ""
+"This will delete cached files, avatars and previews.\n"
+"\n"
+"They will be re-downloaded when needed."
+msgstr ""
+"Dette vil slette cachede filer, avatarer og forhåndsvisninger.\n"
+"\n"
+"De vil blive downloadet igen, når det er nødvendigt."
+
+#: main/src/ui/application.vala:813
+#, c-format
+msgid "Cache cleared (%s freed)"
+msgstr "Cache ryddet (%s frigivet)"
+
+#: main/src/ui/application.vala:816
+msgid "Failed to clear cache"
+msgstr "Kunne ikke rydde cache"
+
+#: main/src/ui/application.vala:853
+msgid ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+msgstr ""
+"This will delete all messages, files and OMEMO encryption keys.\n"
+"\n"
+"<b>Your accounts will remain, but you will lose all chat history and need to "
+"re-verify encryption with your contacts.</b>\n"
+"\n"
+"This action cannot be undone!"
+
+#: main/src/ui/application.vala:881
+msgid "Resetting database... DinoX will restart."
+msgstr "Nulstiller database... DinoX genstartes."
+
+#: main/src/ui/application.vala:911
+msgid ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+msgstr ""
+"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"\n"
+"• All accounts\n"
+"• All messages and files\n"
+"• All encryption keys\n"
+"• All settings\n"
+"\n"
+"This is irreversible. Make sure to create a backup first!"
+
+#: main/src/ui/application.vala:916
+msgid "Create Backup First"
+msgstr "Opret sikkerhedskopi først"
+
+#: main/src/ui/application.vala:917
+msgid "Delete Everything"
+msgstr "Slet alt"
+
+#: main/src/ui/application.vala:937
+msgid "Are you absolutely sure?"
+msgstr "Er du helt sikker?"
+
+#: main/src/ui/application.vala:938
+msgid ""
+"Type 'DELETE' to confirm factory reset.\n"
+"\n"
+"This will permanently remove all your DinoX data."
+msgstr ""
+"Skriv 'DELETE' for at bekræfte fabriksnulstilling.\n"
+"\n"
+"Dette vil permanent fjerne alle dine DinoX-data."
+
+#: main/src/ui/application.vala:948
+msgid "Confirm Delete"
+msgstr "Bekræft sletning"
+
+#: main/src/ui/application.vala:975
+msgid "Factory reset in progress... DinoX will restart."
+msgstr "Fabriksnulstilling i gang... DinoX genstartes."
+
+#: main/src/ui/application.vala:1040
+msgid "Backup Encryption"
+msgstr "Sikkerhedskopikryptering"
+
+#: main/src/ui/application.vala:1041
+msgid ""
+"Do you want to encrypt the backup with a password?\n"
+"\n"
+"Encrypted backups are more secure but require the password to restore."
+msgstr ""
+"Vil du kryptere sikkerhedskopien med en adgangskode?\n"
+"\n"
+"Krypterede sikkerhedskopier er mere sikre, men kræver adgangskoden for at "
+"gendanne."
+
+#: main/src/ui/application.vala:1044
+msgid "No Encryption"
+msgstr "Ingen kryptering"
+
+#: main/src/ui/application.vala:1045
+msgid "Encrypt with Password"
+msgstr "Krypter med adgangskode"
+
+#: main/src/ui/application.vala:1063
+msgid "Set Backup Password"
+msgstr "Angiv backup-adgangskode"
+
+#: main/src/ui/application.vala:1064
+msgid ""
+"Enter a password to encrypt the backup.\n"
+"\n"
+"<b>Important:</b> Remember this password! Without it, the backup cannot be "
+"restored."
+msgstr ""
+"Indtast en adgangskode til at kryptere backuppen.\n"
+"\n"
+"<b>Vigtigt:</b> Husk denne adgangskode! Uden den kan backuppen ikke "
+"gendannes."
+
+#: main/src/ui/application.vala:1072
+msgid "Password (minimum 4 characters)"
+msgstr "Adgangskode (mindst 4 tegn)"
+
+#: main/src/ui/application.vala:1080 main/src/ui/application.vala:1087
+msgid "Confirm Password"
+msgstr "Bekræft adgangskode"
+
+#: main/src/ui/application.vala:1104
+msgid "Create Encrypted Backup"
+msgstr "Opret krypteret sikkerhedskopi"
+
+#: main/src/ui/application.vala:1116 main/src/ui/application.vala:1131
+msgid "Password too short"
+msgstr "Adgangskode for kort"
+
+#: main/src/ui/application.vala:1118 main/src/ui/application.vala:1133
+msgid "Passwords do not match"
+msgstr "Adgangskoder matcher ikke"
+
+#: main/src/ui/application.vala:1120 main/src/ui/application.vala:1135
+msgid "✓ Passwords match"
+msgstr "✓ Adgangskoder matcher"
+
+#: main/src/ui/application.vala:1153
+msgid "Select Backup Location"
+msgstr "Vælg placering til sikkerhedskopi"
+
+#: main/src/ui/application.vala:1208
+msgid "Creating Encrypted Backup..."
+msgstr "Opretter krypteret sikkerhedskopi..."
+
+#: main/src/ui/application.vala:1208
+msgid "Creating Backup..."
+msgstr "Opretter sikkerhedskopi..."
+
+#: main/src/ui/application.vala:1209
+msgid "Please wait while your data is being backed up."
+msgstr "Vent venligst, mens dine data sikkerhedskopieres."
+
+#: main/src/ui/application.vala:1248
+msgid "No data directory found to backup"
+msgstr "Ingen datamappe fundet til sikkerhedskopiering"
+
+#: main/src/ui/application.vala:1251 main/src/ui/application.vala:1357
+msgid "Backup Failed"
+msgstr "Sikkerhedskopiering mislykkedes"
+
+#: main/src/ui/application.vala:1345
+msgid "Encrypted Backup Created"
+msgstr "Krypteret sikkerhedskopi oprettet"
+
+#: main/src/ui/application.vala:1347
+#, c-format
+msgid ""
+"Your encrypted backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"Din krypterede sikkerhedskopi blev oprettet succesfuldt.\n"
+"\n"
+"Størrelse: %s"
+
+#: main/src/ui/application.vala:1348
+msgid "Your encrypted backup was created successfully."
+msgstr "Din krypterede sikkerhedskopi blev oprettet med succes."
+
+#: main/src/ui/application.vala:1350
+msgid "Backup Created"
+msgstr "Sikkerhedskopi oprettet"
+
+#: main/src/ui/application.vala:1352
+#, c-format
+msgid ""
+"Your backup was created successfully.\n"
+"\n"
+"Size: %s"
+msgstr ""
+"Din sikkerhedskopi blev oprettet succesfuldt.\n"
+"\n"
+"Størrelse: %s"
+
+#: main/src/ui/application.vala:1353
+msgid "Your backup was created successfully."
+msgstr "Din sikkerhedskopi blev oprettet med succes."
+
+#: main/src/ui/application.vala:1360
+#, c-format
+msgid "Backup failed: %s"
+msgstr "Sikkerhedskopiering mislykkedes: %s"
+
+#: main/src/ui/call_window/audio_settings_popover.vala:46
+msgid "Microphones"
+msgstr "Mikrofoner"
+
+#: main/src/ui/call_window/audio_settings_popover.vala:49
+msgid "No microphone found."
+msgstr "Der er ikke fundet nogen mikrofoner."
+
+#: main/src/ui/call_window/audio_settings_popover.vala:116
+msgid "Speakers"
+msgstr "Højtalere"
+
+#: main/src/ui/call_window/audio_settings_popover.vala:119
+msgid "No speaker found."
+msgstr "Der er ikke fundet nogen højtalere."
+
+#: main/src/ui/call_window/call_window_controller.vala:153
+msgid "Invite to Call"
+msgstr "Inviter til opkald"
+
+#: main/src/ui/call_window/call_window_controller.vala:154
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:772
+#: main/src/ui/conversation_titlebar/menu_entry.vala:99
+#: main/src/ui/occupant_menu/view.vala:27
+#: main/src/ui/occupant_menu/view.vala:276
+msgid "Invite"
+msgstr "Inviter"
+
+#: main/src/ui/call_window/call_window_controller.vala:453
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:240
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:270
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:285
+#: main/src/ui/util/helper.vala:69 main/src/ui/util/helper.vala:73
+#: main/src/ui/util/helper.vala:81
+msgid "Me"
+msgstr "Mig"
+
+#: main/src/ui/call_window/call_window.vala:219
+#, c-format
+msgid "%s ended the call"
+msgstr "%s afsluttede opkaldet"
+
+#: main/src/ui/call_window/call_window.vala:221
+#, c-format
+msgid "%s declined the call"
+msgstr "%s afslog opkaldet"
+
+#: main/src/ui/call_window/participant_widget.vala:140
+msgid "Debug information"
+msgstr "Debuginformation"
+
+#: main/src/ui/call_window/participant_widget.vala:149
+#: main/src/ui/conversation_content_view/call_widget.vala:152
+msgid "Calling…"
+msgstr "Starter opkald…"
+
+#: main/src/ui/call_window/participant_widget.vala:151
+msgid "Ringing…"
+msgstr "Ringer…"
+
+#: main/src/ui/call_window/participant_widget.vala:153
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:244
+msgid "Connecting…"
+msgstr "Forbinder…"
+
+#: main/src/ui/call_window/video_settings_popover.vala:25
+msgid "Cameras"
+msgstr "Kameraer"
+
+#: main/src/ui/call_window/video_settings_popover.vala:28
+msgid "No camera found."
+msgstr "Ingen kameraer fundet."
+
+#: main/src/ui/chat_input/chat_input_controller.vala:267
+msgid "This conference does not allow you to send messages."
+msgstr "Denne konference tillader ikke at du sender meddelelser."
+
+#: main/src/ui/chat_input/chat_input_controller.vala:267
+msgid "Request permission"
+msgstr "Anmod om tilladelse"
+
+#: main/src/ui/chat_input/encryption_button.vala:35
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:224
+msgid "Unencrypted"
+msgstr "Ukrypteret"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:25
+#, fuzzy
+msgid "Import…"
+msgstr "Importér nøgle"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:26
+msgid "Folder…"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:27
+#: main/src/ui/chat_input/sticker_chooser.vala:822
+#: main/src/ui/chat_input/sticker_chooser.vala:849
+msgid "Publish"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:28
+#: main/src/ui/chat_input/sticker_chooser.vala:870
+#: main/src/ui/conversation_content_view/item_actions.vala:165
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:745
+#: main/src/windows/conversation_details.vala:61
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:292
+msgid "Remove"
+msgstr "Fjern"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:237
+msgid "Paste an xmpp: sticker pack link and press Enter."
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:241
+msgid "xmpp:…"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:413
+#: main/src/ui/chat_input/sticker_chooser.vala:574
+#: main/src/ui/chat_input/sticker_chooser.vala:816
+msgid "Stickers are unavailable"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:420
+#: main/src/ui/chat_input/sticker_chooser.vala:497
+#: main/src/ui/chat_input/sticker_chooser.vala:502
+msgid "None"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:450
+msgid "No sticker packs yet. Use Import… to add one."
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:452
+#: main/src/ui/chat_input/sticker_chooser.vala:735
+msgid "No stickers selected"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:534
+#, fuzzy
+msgid "Select sticker folder"
+msgstr "Vælg fil"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:535
+#: main/src/ui/conversation_view_controller.vala:238
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:180
+msgid "Select"
+msgstr "Vælg"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:544
+#, fuzzy
+msgid "Create sticker pack"
+msgstr "Opret krypteret sikkerhedskopi"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:545
+msgid ""
+"Do you want to keep this pack local, or also publish it so you can share an "
+"xmpp: link?"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:548
+#, fuzzy
+msgid "Local only"
+msgstr "Lokalt alias"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:549
+msgid "Publish & copy link"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:574
+#: main/src/ui/chat_input/sticker_chooser.vala:816
+msgid "Stickers module unavailable"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:593
+#: main/src/ui/chat_input/sticker_chooser.vala:834
+msgid "Sticker pack published"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:593
+#: main/src/ui/chat_input/sticker_chooser.vala:834
+#, c-format
+msgid ""
+"Share link copied to clipboard:\n"
+"%s"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:601
+#, fuzzy
+msgid "Failed to create sticker pack"
+msgstr "Kunne ikke rydde cache"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:698
+msgid "Invalid sticker pack link"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:755
+msgid "No stickers in this pack"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:811
+#, fuzzy
+msgid "Publishing…"
+msgstr "Forbinder…"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:842
+#, fuzzy
+msgid "Failed to publish sticker pack"
+msgstr "Kunne ikke rydde cache"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:866
+#, fuzzy
+msgid "Remove sticker pack?"
+msgstr "Fjern kontakt?"
+
+#: main/src/ui/chat_input/sticker_chooser.vala:867
+#, c-format
+msgid ""
+"This will delete the downloaded files and remove the pack from your list: %s"
+msgstr ""
+
+#: main/src/ui/chat_input/sticker_chooser.vala:882
+#, fuzzy
+msgid "Failed to remove sticker pack"
+msgstr "Kunne ikke rydde cache"
+
+#: main/src/ui/contact_details/permissions_provider.vala:23
+msgid "Request permission to send messages"
+msgstr "Anmod om tilladelse til at sende beskeder"
+
+#: main/src/ui/contact_details/permissions_provider.vala:24
+msgid "Request"
+msgstr "Anmodning"
+
+#: main/src/ui/contact_details/settings_provider.vala:21
+#: main/src/ui/contact_details/settings_provider.vala:24
+#: main/src/ui/contact_details/settings_provider.vala:31
+#: main/src/ui/contact_details/settings_provider.vala:34
+msgid "On"
+msgstr "Til"
+
+#: main/src/ui/contact_details/settings_provider.vala:21
+#: main/src/ui/contact_details/settings_provider.vala:25
+#: main/src/ui/contact_details/settings_provider.vala:31
+#: main/src/ui/contact_details/settings_provider.vala:35
+msgid "Off"
+msgstr "Fra"
+
+#: main/src/ui/contact_details/settings_provider.vala:22
+msgid "Send typing notifications"
+msgstr "Underret om at der skrives"
+
+#: main/src/ui/contact_details/settings_provider.vala:23
+#: main/src/ui/contact_details/settings_provider.vala:33
+#, c-format
+msgid "Default: %s"
+msgstr "Standardindstilling: %s"
+
+#: main/src/ui/contact_details/settings_provider.vala:32
+msgid "Send read receipts"
+msgstr "Send kvittering for læsning"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:137
+#: main/src/ui/notifier_freedesktop.vala:114
+#: main/src/ui/notifier_gnotifications.vala:72
+msgid "Incoming video call"
+msgstr "Indgående videoopkald"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:137
+#: main/src/ui/conversation_content_view/call_widget.vala:168
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:287
+#: main/src/ui/notifier_freedesktop.vala:114
+#: main/src/ui/notifier_gnotifications.vala:72
+msgid "Incoming call"
+msgstr "Indkommende opkald"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:139
+#: main/src/ui/notifier_freedesktop.vala:116
+#: main/src/ui/notifier_gnotifications.vala:74
+msgid "Incoming video group call"
+msgstr "Indgående videogruppeopkald"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:139
+#: main/src/ui/notifier_freedesktop.vala:116
+#: main/src/ui/notifier_gnotifications.vala:74
+msgid "Incoming group call"
+msgstr "Indgående gruppeopkald"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:159
+msgid "Call started"
+msgstr "Opkald startet"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:161
+#, c-format
+msgid "Started %s ago"
+msgstr "Begyndte for %s siden"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:168
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:287
+msgid "Outgoing call"
+msgstr "Udgående opkald"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:169
+msgid "You handled this call on another device"
+msgstr "Du tog dette opkald på en anden enhed"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:174
+msgid "Call ended"
+msgstr "Opkald afsluttet"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:175
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:315
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:490
+#, no-c-format
+msgid "%H∶%M"
+msgstr "%H∶%M"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:175
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:316
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:491
+#, no-c-format
+msgid "%l∶%M %p"
+msgstr "%l∶%M %p"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:177
+#, c-format
+msgid "Ended at %s"
+msgstr "Sluttede kl. %s"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:179
+#, c-format
+msgid "Lasted %s"
+msgstr "Varede %s"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:183
+msgid "Call missed"
+msgstr "Opkald mistet"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:185
+msgid "You missed this call"
+msgstr "Du gik glip af det opkald"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:188
+#, c-format
+msgid "%s missed this call"
+msgstr "%s gik glip af dette opkald"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:193
+msgid "Call declined"
+msgstr "Opkald afslået"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:195
+msgid "You declined this call"
+msgstr "Du afslog dette opkald"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:198
+#, c-format
+msgid "%s declined this call"
+msgstr "%s afslog dette opkald"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:203
+msgid "Call failed"
+msgstr "Opkald fejlede"
+
+#: main/src/ui/conversation_content_view/call_widget.vala:241
+msgid "a few seconds"
+msgstr "nogle få sekunder"
+
+#: main/src/ui/conversation_content_view/chat_state_populator.vala:108
+#, c-format
+msgid "%s, %s and %i others are typing…"
+msgstr "%s, %s og %i andre siger…"
+
+#: main/src/ui/conversation_content_view/chat_state_populator.vala:115
+#, c-format
+msgid "%s, %s and %s are typing…"
+msgstr "%s, %s og %s skriver…"
+
+#: main/src/ui/conversation_content_view/chat_state_populator.vala:121
+#, c-format
+msgid "%s and %s are typing…"
+msgstr "%s og %s skriver…"
+
+#: main/src/ui/conversation_content_view/chat_state_populator.vala:126
+#, c-format
+msgid "%s is typing…"
+msgstr "%s skriver…"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:256
+msgid "Delivered"
+msgstr "Afleveret"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:260
+msgid "Read"
+msgstr "Læs"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:266
+msgid "Unable to send message"
+msgstr "Ikke i stand til at sende beskeden"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:303
+#, no-c-format
+msgid "%x, %H∶%M"
+msgstr "%x, %H∶%M"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:304
+#, no-c-format
+msgid "%x, %l∶%M %p"
+msgstr "%x, %l∶%M %p"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:307
+#, no-c-format
+msgid "%b %d, %H∶%M"
+msgstr "%d. %b, %H∶%M"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:308
+#, no-c-format
+msgid "%b %d, %l∶%M %p"
+msgstr "%d. %b, %l∶%M %p"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:311
+#, no-c-format
+msgid "%a, %H∶%M"
+msgstr "%a, %H∶%M"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:312
+#, no-c-format
+msgid "%a, %l∶%M %p"
+msgstr "%a, %l∶%M %p"
+
+#: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:322
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:496
+msgid "Just now"
+msgstr "Netop nu"
+
+#: main/src/ui/conversation_content_view/conversation_view.vala:114
+msgid "More actions"
+msgstr "Flere handlinger"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:67
+#: main/src/ui/conversation_content_view/file_image_widget.vala:201
+msgid "Open"
+msgstr "Åbn"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:68
+#: main/src/ui/conversation_content_view/file_image_widget.vala:202
+#: main/src/ui/conversation_content_view/file_widget.vala:174
+msgid "Save as…"
+msgstr "Gem som…"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:77
+#, c-format
+msgid "Downloading %s… (%u%%)"
+msgstr "Downloader %s… (%u%%)"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:79
+#, c-format
+msgid "Downloading %s…"
+msgstr "Downloader %s…"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:83
+#, c-format
+msgid "Uploading %s… (%u%%)"
+msgstr "Uploader %s… (%u%%)"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:97
+#, c-format
+msgid "%s offered: %s"
+msgstr "%s tilbudt: %s"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:99
+#, c-format
+msgid "File offered: %s"
+msgstr "Fil tilbudt: %s"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:101
+msgid "File offered"
+msgstr "Fil tilbudt"
+
+#: main/src/ui/conversation_content_view/file_default_widget.vala:107
+msgid "File transfer failed"
+msgstr "Filoverførsel fejlede"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:36
+msgid "Kick user"
+msgstr "Smid bruger ud"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:69
+msgid "Ban user"
+msgstr "Udeluk bruger"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:82
+#: main/src/ui/conversation_content_view/reactions_widget.vala:128
+msgid "Add reaction"
+msgstr "Tilføj reaktion"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:94
+msgid "This conversation does not support reactions."
+msgstr "Denne samtale understøtter ikke reaktioner."
+
+#: main/src/ui/conversation_content_view/item_actions.vala:107
+msgid "Reply"
+msgstr "Svar"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:117
+msgid "This conversation does not support replies."
+msgstr "Denne samtale understøtter ikke svar."
+
+#: main/src/ui/conversation_content_view/item_actions.vala:146
+msgid "Moderate message..."
+msgstr "Moderer besked…"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:148
+msgid "Delete..."
+msgstr "Slet..."
+
+#: main/src/ui/conversation_content_view/item_actions.vala:150
+#: main/src/ui/conversation_content_view/item_actions.vala:168
+msgid "Delete locally"
+msgstr "Slet lokalt"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:160
+msgid "Moderate message"
+msgstr "Moderer besked"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:160
+msgid "Delete message"
+msgstr "Slet besked"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:164
+msgid "Do you want to remove this message from the channel?"
+msgstr "Vil du fjerne denne besked fra kanalen?"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:167
+msgid "Do you want to delete this message just for yourself or for everyone?"
+msgstr "Vil du slette denne besked kun for dig selv eller for alle?"
+
+#: main/src/ui/conversation_content_view/item_actions.vala:168
+msgid "Delete for everyone"
+msgstr "Slet for alle"
+
+#: main/src/ui/conversation_content_view/message_widget.vala:174
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:255
+msgid "Message deleted"
+msgstr "Besked slettet"
+
+#: main/src/ui/conversation_content_view/message_widget.vala:178
+msgid "edited"
+msgstr "redigeret"
+
+#: main/src/ui/conversation_content_view/message_widget.vala:182
+msgid "Message truncated - exceeds 100,000 characters"
+msgstr "Besked afkortet - overstiger 100.000 tegn"
+
+#: main/src/ui/conversation_content_view/message_widget.vala:191
+msgid "pending…"
+msgstr "afventer …"
+
+#: main/src/ui/conversation_content_view/message_widget.vala:206
+msgid "delivery failed"
+msgstr "modtagelsen fejlede"
+
+#: main/src/ui/conversation_content_view/message_widget.vala:254
+msgid "Edit message"
+msgstr "Rediger besked"
+
+#: main/src/ui/conversation_content_view/quote_widget.vala:43
+msgid "File"
+msgstr "Fil"
+
+#: main/src/ui/conversation_content_view/reactions_widget.vala:102
+msgid "You"
+msgstr "Du"
+
+#: main/src/ui/conversation_content_view/subscription_notification.vala:49
+msgid "Send request"
+msgstr "Send anmodning"
+
+#: main/src/ui/conversation_content_view/subscription_notification.vala:60
+msgid "You do not receive status updates from this contact yet."
+msgstr "Du modtager endnu ikke statusopdateringer fra denne kontakt."
+
+#: main/src/ui/conversation_content_view/subscription_notification.vala:68
+#: main/src/ui/notifier_freedesktop.vala:166
+#: main/src/ui/notifier_freedesktop.vala:266
+#: main/src/ui/notifier_gnotifications.vala:102
+#: main/src/ui/notifier_gnotifications.vala:139
+#: main/src/ui/notifier_gnotifications.vala:157
+msgid "Deny"
+msgstr "Afslå"
+
+#: main/src/ui/conversation_content_view/subscription_notification.vala:80
+msgid "This contact would like to add you to their contact list"
+msgstr "Denne kontakt vil gerne tilføje dig til sin kontaktliste"
+
+#: main/src/ui/conversation_content_view/unread_indicator_populator.vala:76
+msgid "New"
+msgstr "Ny"
+
+#: main/src/ui/conversation_details.vala:175
+#: main/src/ui/util/data_forms.vala:40
+msgid "Display name"
+msgstr "Visningsnavn"
+
+#: main/src/ui/conversation_details.vala:195
+#: main/src/ui/conversation_details.vala:209
+msgid "Topic"
+msgstr "Emne"
+
+#: main/src/ui/conversation_details.vala:222
+msgid "Permissions"
+msgstr "Tilladelser"
+
+#: main/src/ui/conversation_details.vala:223
+msgid "Manage Affiliations"
+msgstr "Administrer tilhørsforhold"
+
+#: main/src/ui/conversation_details.vala:239
+msgid "Danger Zone"
+msgstr "Farezone"
+
+#: main/src/ui/conversation_details.vala:240
+msgid "Destroy Room"
+msgstr "Ødelæg rum"
+
+#: main/src/ui/conversation_details.vala:246
+msgid "Destroy Room?"
+msgstr "Ødelæg rum?"
+
+#: main/src/ui/conversation_details.vala:247
+msgid ""
+"Are you sure you want to permanently destroy this room? This action cannot "
+"be undone and all history will be lost for all participants."
+msgstr ""
+"Er du sikker på, at du vil permanent ødelægge dette rum? Denne handling kan "
+"ikke fortrydes, og al historik vil gå tabt for alle deltagere.Er du sikker "
+"på, at du vil ødelægge dette rum permanent? Denne handling kan ikke "
+"fortrydes, og al historik vil gå tabt for alle deltagere."
+
+#: main/src/ui/conversation_details.vala:250
+msgid "Destroy"
+msgstr "Ødelæg"
+
+#: main/src/ui/conversation_details.vala:271
+msgid "Failed to destroy room"
+msgstr "Kunne ikke slette rum"
+
+#: main/src/ui/conversation_details.vala:286
+msgid "Auto-delete messages"
+msgstr "Slet beskeder automatisk"
+
+#: main/src/ui/conversation_details.vala:287
+msgid "Never"
+msgstr "Aldrig"
+
+#: main/src/ui/conversation_details.vala:288
+msgid "After 15 minutes"
+msgstr "Efter 15 minutter"
+
+#: main/src/ui/conversation_details.vala:289
+msgid "After 30 minutes"
+msgstr "Efter 30 minutter"
+
+#: main/src/ui/conversation_details.vala:290
+msgid "After 1 hour"
+msgstr "Efter 1 time"
+
+#: main/src/ui/conversation_details.vala:291
+msgid "After 24 hours"
+msgstr "Efter 24 timer"
+
+#: main/src/ui/conversation_details.vala:292
+msgid "After 7 days"
+msgstr "Efter 7 dage"
+
+#: main/src/ui/conversation_details.vala:293
+msgid "After 30 days"
+msgstr "Efter 30 dage"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:276
+#: main/src/ui/notifier_freedesktop.vala:71
+#: main/src/ui/notifier_gnotifications.vala:36
+msgid "Image sent"
+msgstr "Billede sendt"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:276
+#: main/src/ui/notifier_freedesktop.vala:71
+#: main/src/ui/notifier_gnotifications.vala:36
+msgid "File sent"
+msgstr "Fil sendt"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:278
+#: main/src/ui/notifier_freedesktop.vala:73
+#: main/src/ui/notifier_gnotifications.vala:38
+msgid "Image received"
+msgstr "Billede modtaget"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:278
+#: main/src/ui/notifier_freedesktop.vala:73
+#: main/src/ui/notifier_gnotifications.vala:38
+msgid "File received"
+msgstr "Fil modtaget"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:361
+msgid "Thema:"
+msgstr "Emne:"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:381
+msgid "Privat"
+msgstr "Privat"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:383
+msgid "Öffentlich"
+msgstr "Offentlig"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:387
+msgid "Typ:"
+msgstr "Type:"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:483
+#: main/src/ui/widgets/date_separator.vala:37
+#, no-c-format
+msgid "%b %d"
+msgstr "%d. %b"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:487
+#: main/src/ui/widgets/date_separator.vala:28
+msgid "Yesterday"
+msgstr "I går"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:506
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:554
+#: main/src/ui/conversation_titlebar/menu_entry.vala:79
+msgid "Conversation Details"
+msgstr "Samtaledetaljer"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:507
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:771
+#: main/src/ui/conversation_titlebar/menu_entry.vala:98
+msgid "Invite Contact"
+msgstr "Inviter kontakt"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:511
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:559
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:661
+#: main/src/ui/occupant_menu/view.vala:173
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:140
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:206
+msgid "Unmute"
+msgstr "Fjern lydløs"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:511
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:559
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:680
+#: main/src/ui/occupant_menu/view.vala:177
+#: main/src/windows/conversation_details.vala:163
+#: main/src/windows/conversation_details.vala:164
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:140
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:226
+msgid "Mute"
+msgstr "Lydløs"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:514
+msgid "Leave and Close"
+msgstr "Forlad og luk"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:555
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:623
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:126
+msgid "Edit Alias"
+msgstr "Rediger alias"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:563
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:705
+#: main/src/windows/conversation_details.vala:108
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:250
+msgid "Unblock"
+msgstr "Fjern blokering"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:563
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:724
+#: main/src/windows/conversation_details.vala:144
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:270
+msgid "Block"
+msgstr "Bloker"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:628
+msgid "Alias"
+msgstr "Alias"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:634
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:333
+msgid "Save"
+msgstr "Gem"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:657
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:202
+msgid "Unmute contact?"
+msgstr "Fjern lydløs fra kontakt?"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:658
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:203
+#, c-format
+msgid "This will enable notifications from %s."
+msgstr "Dette aktiverer notifikationer fra %s."
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:676
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:222
+msgid "Mute contact?"
+msgstr "Sæt kontakt på lydløs?"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:677
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:223
+#, c-format
+msgid "This will disable notifications from %s."
+msgstr "Dette deaktiverer notifikationer fra %s."
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:701
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:246
+msgid "Unblock contact?"
+msgstr "Fjern blokering af kontakt?"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:702
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:247
+#, c-format
+msgid "This will allow %s to send you messages again."
+msgstr "Dette vil tillade %s at sende dig beskeder igen."
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:720
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:266
+msgid "Block contact?"
+msgstr "Bloker kontakt?"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:721
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:267
+#, c-format
+msgid "This will prevent %s from sending you messages."
+msgstr "Dette forhindrer %s i at sende dig beskeder."
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:741
+#: main/src/windows/conversation_details.vala:57
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:288
+msgid "Remove contact?"
+msgstr "Fjern kontakt?"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:742
+#, c-format
+msgid ""
+"This will:\n"
+"• Delete all conversation history\n"
+"• Remove %s from your contact list\n"
+"\n"
+"This action cannot be undone."
+msgstr ""
+"Dette vil:\n"
+"• Slette al samtalehistorik\n"
+"• Fjerne %s fra din kontaktliste\n"
+"\n"
+"Denne handling kan ikke fortrydes."
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:787
+msgid "Delete all message history?"
+msgstr "Slet al beskedhistorik?"
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:788
+msgid ""
+"This will permanently delete all messages in this conversation. This action "
+"cannot be undone."
+msgstr ""
+"Dette vil permanent slette alle beskeder i denne samtale. Denne handling kan "
+"ikke fortrydes."
+
+#: main/src/ui/conversation_selector/conversation_selector_row.vala:791
+#: main/src/ui/conversation_titlebar/menu_entry.vala:51
+msgid "Delete"
+msgstr "Slet"
+
+#: main/src/ui/conversation_titlebar/call_entry.vala:14
+msgid "Start call"
+msgstr "Start opkald"
+
+#: main/src/ui/conversation_titlebar/call_entry.vala:25
+msgid "Audio call"
+msgstr "Lydopkald"
+
+#: main/src/ui/conversation_titlebar/call_entry.vala:26
+msgid "Video call"
+msgstr "Videoopkald"
+
+#: main/src/ui/conversation_titlebar/call_entry.vala:79
+msgid "Conference Server Required"
+msgstr "Konferenceserver påkrævet"
+
+#: main/src/ui/conversation_titlebar/call_entry.vala:80
+msgid ""
+"To start a group call, you need to configure a default conference server in "
+"your account settings."
+msgstr ""
+"For at starte et gruppeopkald skal du konfigurere en "
+"standardkonferenceserver i dine kontoindstillinger."
+
+#: main/src/ui/conversation_titlebar/call_entry.vala:84
+msgid "Open Settings"
+msgstr "Åbn indstillinger"
+
+#: main/src/ui/conversation_titlebar/menu_entry.vala:47
+msgid "Delete all message history for this conversation?"
+msgstr "Slet al beskedhistorik for denne samtale?"
+
+#: main/src/ui/conversation_titlebar/menu_entry.vala:49
+msgid "This action cannot be undone."
+msgstr "Denne handling kan ikke fortrydes."
+
+#: main/src/ui/conversation_titlebar/menu_entry.vala:85
+msgid "Close Conversation"
+msgstr "Luk samtale"
+
+#: main/src/ui/conversation_titlebar/occupants_entry.vala:14
+#: main/src/windows/conversation_details.vala:289
+msgid "Members"
+msgstr "Medlemmer"
+
+#: main/src/ui/conversation_view_controller.vala:237
+msgid "Select file"
+msgstr "Vælg fil"
+
+#: main/src/ui/file_send_overlay.vala:60
+msgid "The file exceeds the server's maximum upload size."
+msgstr "Filen overstiger serverens maksimale uploadstørrelse."
+
+#: main/src/ui/global_search.vala:208
+#, c-format
+msgid "In %s"
+msgstr "I %s"
+
+#: main/src/ui/global_search.vala:208
+#, c-format
+msgid "With %s"
+msgstr "Med %s"
+
+#: main/src/ui/main_window.vala:169
+msgid "Join Channel Help"
+msgstr "Hjælp til at tilslutte kanal"
+
+#: main/src/ui/main_window.vala:170
+msgid ""
+"To join a channel, click the \"Join Channel\" button and enter the channel "
+"JID (example: room@conference.example.org).\n"
+"\n"
+"If you need a password or a nickname, provide them in the dialog. Use the "
+"discovery features in the server to find public rooms."
+msgstr ""
+"For at deltage i en kanal, klik på knappen \"Deltag i kanal\" og indtast "
+"kanalens JID (eksempel: room@conference.example.org).\n"
+"\n"
+"Hvis du har brug for et kodeord eller kaldenavn, angiv dem i dialogen. Brug "
+"serverens opdagelsesfunktioner til at finde offentlige rum."
+
+#: main/src/ui/main_window.vala:219
+msgid "Welcome to DinoX!"
+msgstr "Velkommen til DinoX!"
+
+#: main/src/ui/main_window.vala:220
+msgid "Sign in or create an account to get started."
+msgstr "Log ind eller opret en konto for at begynde."
+
+#: main/src/ui/main_window.vala:221
+msgid "Set up account"
+msgstr "Opret en konto"
+
+#: main/src/ui/main_window.vala:230
+#: main/src/windows/preferences_window/accounts_preferences_page.vala:71
+#: main/src/windows/preferences_window/encryption_preferences_page.vala:49
+msgid "No active accounts"
+msgstr "Ingen aktive konti"
+
+#: main/src/ui/main_window.vala:231
+msgid "Manage accounts"
+msgstr "Håndter konti"
+
+#: main/src/ui/notifier_freedesktop.vala:159
+#: main/src/ui/notifier_gnotifications.vala:93
+msgid "Subscription request"
+msgstr "Abonnementsanmodning"
+
+#: main/src/ui/notifier_freedesktop.vala:194
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:259
+msgid "Wrong password"
+msgstr "Forkert kodeord"
+
+#: main/src/ui/notifier_freedesktop.vala:197
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:261
+msgid "Invalid TLS certificate"
+msgstr "Ugyldigt TLS-certifikat"
+
+#: main/src/ui/notifier_freedesktop.vala:222
+#: main/src/ui/notifier_gnotifications.vala:127
+#, c-format
+msgid "Invitation to %s"
+msgstr "Invitation til %s"
+
+#: main/src/ui/notifier_freedesktop.vala:223
+#: main/src/ui/notifier_gnotifications.vala:128
+#, c-format
+msgid "%s invited you to %s"
+msgstr "%s inviterede dig til %s"
+
+#: main/src/ui/notifier_freedesktop.vala:256
+#: main/src/ui/notifier_gnotifications.vala:147
+msgid "Permission request"
+msgstr "Tilladelsesanmodning"
+
+#: main/src/ui/notifier_freedesktop.vala:257
+#: main/src/ui/notifier_gnotifications.vala:148
+#, c-format
+msgid "%s requests the permission to write in %s"
+msgstr "%s anmoder om tilladelse til at skrive i %s"
+
+#: main/src/ui/occupant_menu/list.vala:118
+#: main/src/view_model/conversation_details.vala:134
+msgid "Owner"
+msgstr "Ejer"
+
+#: main/src/ui/occupant_menu/list.vala:120
+#: main/src/view_model/conversation_details.vala:135
+msgid "Admin"
+msgstr "Administrator"
+
+#: main/src/ui/occupant_menu/list.vala:122
+#: main/src/view_model/conversation_details.vala:136
+msgid "Member"
+msgstr "Medlem"
+
+#: main/src/ui/occupant_menu/list.vala:124
+msgid "User"
+msgstr "Bruger"
+
+#: main/src/ui/occupant_menu/view.vala:89
+msgid "Start private conversation"
+msgstr "Start en privat samtale"
+
+#: main/src/ui/occupant_menu/view.vala:125
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:157
+msgid "Unblock Contact"
+msgstr "Ophæv blokering af kontakt"
+
+#: main/src/ui/occupant_menu/view.vala:127
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:157
+msgid "Block Contact"
+msgstr "Bloker kontakt"
+
+#: main/src/ui/occupant_menu/view.vala:133
+msgid "Moderation"
+msgstr "Moderation"
+
+#: main/src/ui/occupant_menu/view.vala:135
+msgid "Kick"
+msgstr "Spark"
+
+#: main/src/ui/occupant_menu/view.vala:139
+msgid "Ban (Permanent)"
+msgstr "Udeluk (Permanent)"
+
+#: main/src/ui/occupant_menu/view.vala:140
+msgid "Ban (10 min)"
+msgstr "Udeluk (10 min)"
+
+#: main/src/ui/occupant_menu/view.vala:141
+msgid "Ban (15 min)"
+msgstr "Bandlys (15 min)"
+
+#: main/src/ui/occupant_menu/view.vala:142
+msgid "Ban (30 min)"
+msgstr "Bandlys (30 min)"
+
+#: main/src/ui/occupant_menu/view.vala:146
+msgid "Administration"
+msgstr "Administration"
+
+#: main/src/ui/occupant_menu/view.vala:150
+msgid "Make Admin"
+msgstr "Gør til administrator"
+
+#: main/src/ui/occupant_menu/view.vala:152
+msgid "Revoke Admin"
+msgstr "Fjern admin"
+
+#: main/src/ui/occupant_menu/view.vala:156
+msgid "Make Owner"
+msgstr "Gør til ejer"
+
+#: main/src/ui/occupant_menu/view.vala:161
+msgid "Make Member"
+msgstr "Gør til medlem"
+
+#: main/src/ui/occupant_menu/view.vala:163
+msgid "Revoke Membership"
+msgstr "Tilbagekald medlemskab"
+
+#: main/src/ui/occupant_menu/view.vala:228
+msgid "Kicked by moderator"
+msgstr "Smidt ud af moderator"
+
+#: main/src/ui/occupant_menu/view.vala:275
+msgid "Invite to Conference"
+msgstr "Inviter til konference"
+
+#: main/src/ui/systray.vala:178
+msgid "Quit"
+msgstr "Afslut"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:14
+#, fuzzy
+msgid "Import"
+msgstr "Importér nøgle"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:15
+msgid "Copy Share URI"
+msgstr ""
+
+#: main/src/ui/sticker_pack_import_dialog.vala:29
+msgid "Import Sticker Pack"
+msgstr ""
+
+#: main/src/ui/sticker_pack_import_dialog.vala:62
+#, fuzzy
+msgid "Loading…"
+msgstr "afventer …"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:70
+#, fuzzy
+msgid "No account available"
+msgstr "Ikke tilgængelig"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:84
+#: main/src/ui/sticker_pack_import_dialog.vala:107
+#, fuzzy
+msgid "Failed to import sticker pack"
+msgstr "Kunne ikke rydde cache"
+
+#: main/src/ui/sticker_pack_import_dialog.vala:98
+#, fuzzy
+msgid "Importing…"
+msgstr "Forbinder…"
+
+#: main/src/ui/util/data_forms.vala:41
+msgid ""
+"A friendly name shown in room listings (does not change the room address)"
+msgstr ""
+"Et venligt navn vist i rumoversigter (ændrer ikke rumadressen)Et venligt "
+"navn vist i rumlister (ændrer ikke rumadressen)Et venligt navn vist i "
+"rumlister (ændrer ikke rumadressen)"
+
+#: main/src/ui/util/data_forms.vala:44
+msgid "Description"
+msgstr "Beskrivelse"
+
+#: main/src/ui/util/data_forms.vala:45
+msgid "A description of the room shown in room listings"
+msgstr "En beskrivelse af rummet vist i rumoversigter"
+
+#: main/src/ui/util/data_forms.vala:48
+msgid "Persistent"
+msgstr "Vedvarende"
+
+#: main/src/ui/util/data_forms.vala:49
+msgid "The room will persist after the last occupant leaves"
+msgstr "Rummet vil bestå efter den sidste deltager forlader det"
+
+#: main/src/ui/util/data_forms.vala:52
+msgid "Publicly searchable"
+msgstr "Søgbart for offentligheden"
+
+#: main/src/ui/util/data_forms.vala:53
+msgid "The room will appear in public room listings"
+msgstr "Rummet vil blive vist i offentlige rumlister"
+
+#: main/src/ui/util/data_forms.vala:56
+msgid "Occupants may change the subject"
+msgstr "Deltagerne kan ændre emnet"
+
+#: main/src/ui/util/data_forms.vala:59
+msgid "Permission to view JIDs"
+msgstr "Tilladelse til at se JID'er"
+
+#: main/src/ui/util/data_forms.vala:60
+msgid "Who is allowed to view the occupants' JIDs?"
+msgstr "Hvem har tilladelse til at se deltagernes JID'er?"
+
+#: main/src/ui/util/data_forms.vala:67
+msgid "Moderated"
+msgstr "Modereret"
+
+#: main/src/ui/util/data_forms.vala:68
+msgid "Only occupants with voice may send messages"
+msgstr "Kun deltagere med audio må sende beskeder"
+
+#: main/src/ui/util/data_forms.vala:71
+msgid "Members only"
+msgstr "Kun for medlemmer"
+
+#: main/src/ui/util/data_forms.vala:72
+msgid ""
+"Only members may enter the room. Warning: Non-members will be removed when "
+"enabled!"
+msgstr ""
+"Kun medlemmer må komme ind i rummet. Advarsel: Ikke-medlemmer vil blive "
+"fjernet når aktiveret!"
+
+#: main/src/ui/util/helper.vala:65
+#, c-format
+msgid "%s from %s"
+msgstr "%s fra %s"
+
+#: main/src/ui/widgets/date_separator.vala:22
+msgid "Today"
+msgstr "I dag"
+
+#: main/src/ui/widgets/date_separator.vala:35
+#, no-c-format
+msgid "%a, %b %d"
+msgstr "%a, %b %d"
+
+#: main/src/windows/conversation_details.vala:58
+msgid ""
+"This contact will be removed from your contact list and all conversation "
+"history will be permanently deleted."
+msgstr ""
+"Denne kontakt vil blive fjernet fra din kontaktliste, og al samtalehistorik "
+"vil blive permanent slettet."
+
+#: main/src/windows/conversation_details.vala:108
+msgid "Block user"
+msgstr "Bloker bruger"
+
+#: main/src/windows/conversation_details.vala:108
+msgid "Block entire domain"
+msgstr "Bloker hele domænet"
+
+#: main/src/windows/conversation_details.vala:125
+msgid "Pinned"
+msgstr "Fastgjort"
+
+#: main/src/windows/conversation_details.vala:125
+msgid "Pin"
+msgstr "Fastgør"
+
+#: main/src/windows/conversation_details.vala:140
+msgid "Domain blocked"
+msgstr "Domæne blokeret"
+
+#: main/src/windows/conversation_details.vala:165
+msgid "Notifications enabled"
+msgstr "Notifikationer aktiveret"
+
+#: main/src/windows/conversation_details.vala:168
+msgid "Notifications for mentions"
+msgstr "Notifikationer for omtaler"
+
+#: main/src/windows/conversation_details.vala:173
+msgid "Notifications disabled"
+msgstr "Notifikationer deaktiveret"
+
+#: main/src/windows/conversation_details.vala:232
+msgid "Settings"
+msgstr "Indstillinger"
+
+#: main/src/windows/conversation_details.vala:261
+msgid "Room Configuration"
+msgstr "Rumopsætning"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:69
+msgid "Connect"
+msgstr "Forbind"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
+msgid "Disable account"
+msgstr "Deaktiver konto"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:111
+msgid "Enable account"
+msgstr "Aktiver konto"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:179
+msgid "Select avatar"
+msgstr "Vælg avatar"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:190
+msgid "Images"
+msgstr "Billeder"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:194
+msgid "All files"
+msgstr "Alle filer"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:212
+#, c-format
+msgid "Remove account %s?"
+msgstr "Fjern konto %s?"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:246
+msgid "Connected"
+msgstr "Forbundet"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:248
+msgid "Disconnected"
+msgstr "Afbrudt"
+
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:268
+#: main/src/windows/preferences_window/account_preferences_subpage.vala:270
+msgid "Error"
+msgstr "Fejl"
+
+#: main/src/windows/preferences_window/accounts_preferences_page.vala:28
+msgid "Disabled accounts"
+msgstr "Deaktiverede konti"
+
+#: main/src/windows/preferences_window/accounts_preferences_page.vala:31
+#: main/src/windows/preferences_window/add_account_dialog.vala:92
+msgid "Add Account"
+msgstr "Tilføj konto"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:137
+msgid "Sign in"
+msgstr "Log ind"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:156
+#, c-format
+msgid "The server could not prove that it is %s."
+msgstr "Serveren kunne ikke bevise at den er %s."
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:158
+msgid "Its security certificate is not trusted by your operating system."
+msgstr "Dit operativsystem har ikke tillid til dens sikkerhedscertifikat."
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:160
+msgid "Its security certificate is issued to another domain."
+msgstr "Dens sikkerhedscertifikat er udstedt til et andet domæne."
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:162
+msgid "Its security certificate will only become valid in the future."
+msgstr "Dets sikkerhedscertifikat bliver først gyldig i fremtiden."
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:164
+msgid "Its security certificate is expired."
+msgstr "Dets sikkerhedscertifikat er udløbet."
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:172
+msgid "Create account"
+msgstr "Opret en konto"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:191
+#, c-format
+msgid "You can now use the account %s."
+msgstr "Du kan nu bruge kontoen %s."
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:248
+msgid "Wrong username or password"
+msgstr "Forkert brugernavn eller kodeord"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:251
+msgid "Something went wrong"
+msgstr "Der gik noget galt"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:325
+msgid "No response from server"
+msgstr "Intet svar fra serveren"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:336
+#, c-format
+msgid "Register on %s"
+msgstr "Registrer på %s"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:339
+msgid "The server requires to sign up through a website"
+msgstr "Serveren kræver at man logger ind via en webside"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:341
+msgid "Open website"
+msgstr "Åbn webside"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:353
+msgid "Register"
+msgstr "Registrer"
+
+#: main/src/windows/preferences_window/add_account_dialog.vala:355
+#, c-format
+msgid "Check %s for information on how to sign up"
+msgstr "Besøg %s for information om hvordan man tilmelder sig"
+
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:192
+msgid "No contacts"
+msgstr "Ingen kontakter"
+
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:193
+msgid "Add contacts to start chatting"
+msgstr "Tilføj kontakter for at begynde at chatte"
+
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:289
+#, c-format
+msgid ""
+"This will remove %s from your contact list and delete all conversation "
+"history."
+msgstr ""
+"%s vil blive fjernet fra din kontaktliste og al samtalehistorik vil blive "
+"slettet."
+
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:318
+msgid "Edit Contact Alias"
+msgstr "Rediger kontakt alias"
+
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:319
+#, c-format
+msgid "Change the display name for %s"
+msgstr "Skift visningsnavn for %s"
+
+#: main/src/windows/preferences_window/contacts_preferences_page.vala:325
+msgid "Alias (optional)"
+msgstr "Alias (valgfrit)"
+
+#~ msgid "Creating backup..."
+#~ msgstr "Opretter sikkerhedskopi..."
+
+#, c-format
+#~ msgid "Backup created successfully (%s)"
+#~ msgstr "Sikkerhedskopi oprettet (%s)"
+
+#~ msgid "Backup created successfully"
+#~ msgstr "Sikkerhedskopi oprettet"
+
+# DinoX v0.7.7 - Database Maintenance & Backup/Restore
+#~ msgid "Clean Database"
+#~ msgstr "Ryd database"
+
+#~ msgid "Encrypting Backup..."
+#~ msgstr "Krypterer sikkerhedskopi..."
+
+#~ msgid "Creating encrypted backup..."
+#~ msgstr "Opretter krypteret backup..."
+
+#~ msgid "Encrypted backup created successfully"
+#~ msgstr "Krypteret backup oprettet"
+
+#~ msgid "Encrypted backup created (%s)"
+#~ msgstr "Krypteret backup oprettet (%s)"
+
+# OpenPGP Key Management translations
+#~ msgid "OpenPGP Key Management"
+#~ msgstr "OpenPGP-nøglehåndtering"
+
+#~ msgid "Actions"
+#~ msgstr "Handlinger"
+
+#~ msgid "Generate New Key"
+#~ msgstr "Generer ny nøgle"
+
+#~ msgid "Create a new OpenPGP key pair"
+#~ msgstr "Opret et nyt OpenPGP-nøglepar"
+
+#~ msgid "Import a key from file (.asc, .gpg)"
+#~ msgstr "Importér en nøgle fra fil (.asc, .gpg)"
+
+#~ msgid "Your Keys"
+#~ msgstr "Dine nøgler"
+
+#~ msgid "Private keys available for signing and decryption"
+#~ msgstr "Private nøgler tilgængelige til signering og dekryptering"
+
+#~ msgid "No private keys found"
+#~ msgstr "Ingen private nøgler fundet"
+
+#~ msgid "Generate or import a key to get started"
+#~ msgstr "Generér eller importér en nøgle for at komme i gang"
+
+#~ msgid "Fingerprint"
+#~ msgstr "Fingeraftryk"
+
+#~ msgid "Export Public Key"
+#~ msgstr "Eksportér offentlig nøgle"
+
+#~ msgid "Delete Key"
+#~ msgstr "Slet nøgle"
+
+#~ msgid "Generate New OpenPGP Key"
+#~ msgstr "Generér ny OpenPGP-nøgle"
+
+#~ msgid "Enter your details to create a new key pair."
+#~ msgstr "Indtast dine oplysninger for at oprette et nyt nøglepar."
+
+#~ msgid "Name"
+#~ msgstr "Navn"
+
+#~ msgid "Your Name"
+#~ msgstr "Dit navn"
+
+#~ msgid "Email"
+#~ msgstr "E-mail"
+
+#~ msgid "you@example.com"
+#~ msgstr "dig@eksempel.dk"
+
+#~ msgid "Passphrase (optional)"
+#~ msgstr "Adgangssætning (valgfrit)"
+
+#~ msgid "Passphrase"
+#~ msgstr "Adgangssætning"
+
+#~ msgid "4096-bit RSA key, valid for 2 years."
+#~ msgstr "4096-bit RSA-nøgle, gyldig i 2 år."
+
+#~ msgid "Generate"
+#~ msgstr "Generér"
+
+#~ msgid "Name must be at least 2 characters"
+#~ msgstr "Navn skal være mindst 2 tegn"
+
+#~ msgid "Please enter a valid email address"
+#~ msgstr "Indtast venligst en gyldig e-mailadresse"
+
+#~ msgid "Generating Key..."
+#~ msgstr "Genererer nøgle..."
+
+#~ msgid "Key generated successfully!"
+#~ msgstr "Nøgle genereret!"
+
+#~ msgid "Import OpenPGP Key"
+#~ msgstr "Importér OpenPGP-nøgle"
+
+#~ msgid "OpenPGP Keys (*.asc, *.gpg)"
+#~ msgstr "OpenPGP-nøgler (*.asc, *.gpg)"
+
+#~ msgid "All Files"
+#~ msgstr "Alle filer"
+
+#~ msgid "Key imported! Re-open Key Management to see it."
+#~ msgstr "Nøgle importeret! Genåbn nøglehåndtering for at se den."
+
+#~ msgid "Import failed: "
+#~ msgstr "Import mislykkedes: "
+
+#~ msgid "Key exported to: "
+#~ msgstr "Nøgle eksporteret til: "
+
+#~ msgid "Export failed."
+#~ msgstr "Eksport mislykkedes."
+
+#~ msgid "Delete Key?"
+#~ msgstr "Slet nøgle?"
+
+#~ msgid ""
+#~ "Delete this key?\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "This cannot be undone!"
+#~ msgstr ""
+#~ "Slet denne nøgle?\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "Dette kan ikke fortrydes!"
+
+#~ msgid "Key deleted."
+#~ msgstr "Nøgle slettet."
+
+#~ msgid "Delete failed: "
+#~ msgstr "Sletning mislykkedes: "
+
+#~ msgid "Select OpenPGP Key"
+#~ msgstr "Vælg OpenPGP-nøgle"
+
+#~ msgid "Choose a key to announce to your contacts."
+#~ msgstr "Vælg en nøgle at annoncere til dine kontakter."
+
+#~ msgid "Enter GPG passphrase to confirm:"
+#~ msgstr "Indtast GPG-adgangssætning for at bekræfte:"
+
+#~ msgid "Wrong passphrase"
+#~ msgstr "Forkert adgangssætning"
+
+#~ msgid "Manage Keys"
+#~ msgstr "Administrer nøgler"
+
+#~ msgid "Generate, import, export, or delete keys"
+#~ msgstr "Generér, importér, eksportér eller slet nøgler"
+
+#~ msgid "No keys available. Generate or import one!"
+#~ msgstr "Ingen nøgler tilgængelige. Generér eller importér en!"
+
+#~ msgid "Announce key"
+#~ msgstr "Annoncér nøgle"
+
+#~ msgid "Disabled"
+#~ msgstr "Deaktiveret"
+
+#~ msgid "Error in GnuPG"
+#~ msgstr "Fejl i GnuPG"
+
+#~ msgid "Success"
+#~ msgstr "Succes"
+
+#~ msgid "Message too long"
+#~ msgstr "Beskeden er for lang"
+
+#, c-format
+#~ msgid "%i min ago"
+#~ msgid_plural "%i mins ago"
+#~ msgstr[0] "%i minut siden"
+#~ msgstr[1] "%i minutter siden"
+
+#~ msgid "Grant write permission"
+#~ msgstr "Tildel skrivetilladelse"
+
+#~ msgid "Name of the room"
+#~ msgstr "Rummets navn"
+
+#~ msgid "Only members may enter the room"
+#~ msgstr "Kun medlemmer må komme ind i rummet"
+
+#, c-format
+#~ msgid "%i search result"
+#~ msgid_plural "%i search results"
+#~ msgstr[0] "%i søgeresultat"
+#~ msgstr[1] "%i søgeresultater"
+
+#, c-format
+#~ msgid "%i hour"
+#~ msgid_plural "%i hours"
+#~ msgstr[0] "%i time"
+#~ msgstr[1] "%i timer"
+
+#, c-format
+#~ msgid "%i minute"
+#~ msgid_plural "%i minutes"
+#~ msgstr[0] "%i minut"
+#~ msgstr[1] "%i minutter"
+
+#~ msgid "Could not establish a secure connection"
+#~ msgstr "Kunne ikke oprette en sikker forbindelse"
+
+#~ msgid "Back"
+#~ msgstr "Tilbage"
+
+#~ msgid "Choose a public server"
+#~ msgstr "Vælg en offentlig server"
+
+#~ msgid "Or specify a server address"
+#~ msgstr "Eller angiv en serveradresse"
+
+#~ msgid "Sign in instead"
+#~ msgstr "Log ind i stedet"
+
+#~ msgid "All set up!"
+#~ msgstr "Alt er klart!"
+
+#~ msgid "Finish"
+#~ msgstr "Afslut"
+
+#~ msgid "Account"
+#~ msgstr "Konto"
+
+#~ msgid "Nick"
+#~ msgstr "Kaldenavn"
+
+#~ msgid "Modern XMPP chat client"
+#~ msgstr "Moderne XMPP-Chatklient"
+
+#~ msgid ""
+#~ "Dino is a modern open-source chat client for the desktop. It focuses on "
+#~ "providing a clean and reliable Jabber/XMPP experience while having your "
+#~ "privacy in mind."
+#~ msgstr ""
+#~ "Dino er en moderne open-source chatklient til skrivebordet. Den fokuserer "
+#~ "på at give en ren og pålidelig Jabber/XMPP-oplevelse som samtidig har dit "
+#~ "privatliv på sinde."
+
+#~ msgid ""
+#~ "It supports end-to-end encryption with OMEMO and OpenPGP and allows "
+#~ "configuring privacy-related features such as read receipts and typing "
+#~ "notifications."
+#~ msgstr ""
+#~ "Den understøtter end-to-end kryptering med OMEMO og OpenPGP og tillader "
+#~ "at konfigurere privatlivs-relaterede features så som læsekvitteringer og "
+#~ "besked om skrivning."
+
+#~ msgid ""
+#~ "Dino fetches history from the server and synchronizes messages with other "
+#~ "devices."
+#~ msgstr ""
+#~ "Dino henter tidligere beskeder fra serveren og synkroniserer beskeder med "
+#~ "andre enheder."
+
+#~ msgid "No active search"
+#~ msgstr "Ingen aktiv søgning"
+
+#~ msgid "Type to start a search"
+#~ msgstr "Skriv for at starte en søgning"
+
+#~ msgid "No matching messages"
+#~ msgstr "Ingen modsvarende beskeder"
+
+#~ msgid "Check the spelling or try to remove filters"
+#~ msgstr "Kontroller stavning eller prøv at fjerne nogle filtre"
+
+#~ msgid "Send"
+#~ msgstr "Send"
+
+#, c-format
+#~ msgid "Sign in to %s"
+#~ msgstr "Log ind på %s"
+
+#~ msgid "No accounts configured"
+#~ msgstr "Ingen konti konfigureret"
+
+#~ msgid "Add an account"
+#~ msgstr "Tilføj en konto"
+
+#~ msgid "Pick another server"
+#~ msgstr "Vælg en anden server"
+
+#~ msgid "Local Settings"
+#~ msgstr "Lokale indstillinger"
+
+#~ msgid "Notifications"
+#~ msgstr "Underretninger"
+
+#~ msgid "Pin conversation"
+#~ msgstr "Fastgør samtale"
+
+#~ msgid "Pins the conversation to the top of the conversation list"
+#~ msgstr "Fastgør samtalerne til toppen af samtalelisten"
+
+#~ msgid "Only when mentioned"
+#~ msgstr "Kun når omtalt"
+
+#~ msgid "Conference Details"
+#~ msgstr "Konferenceoplysninger"
+
+#~ msgid "Communication and status updates in either direction are blocked"
+#~ msgstr ""
+#~ "Kommunikations- og statusopdateringer er blokerede i begge retninger"
+
+#~ msgid "A password to restrict access to the room"
+#~ msgstr "Et kodeord for at begrænse adgangen til rummet"
+
+#~ msgid "Maximum amount of backlog issued by the room"
+#~ msgstr "Maksimalt antal tidligere beskeder udsendt af rummet"
+
+#~ msgid "Convert smileys to emojis"
+#~ msgstr "Konverter smileys til emojis"
+
+#~ msgid "Check spelling"
+#~ msgstr "Tjek stavning"

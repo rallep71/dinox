@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+    <template class="DinoUiConversationSummaryItemMetaDataHeader">
+        <property name="spacing">6</property>
+        <property name="orientation">horizontal</property>
+        <child>
+            <object class="GtkLabel" id="name_label">
+                <property name="ellipsize">end</property>
+                <property name="xalign">0</property>
+                <property name="valign">baseline</property>
+                <attributes>
+                    <attribute name="weight" value="PANGO_WEIGHT_BOLD"/>
+                </attributes>
+            </object>
+        </child>
+        <child>
+            <object class="GtkLabel" id="time_label">
+                <property name="xalign">0</property>
+                <property name="valign">baseline</property>
+                <attributes>
+                    <attribute name="scale" value="0.8"/>
+                </attributes>
+                <style>
+                    <class name="dim-label"/>
+                </style>
+            </object>
+        </child>
+    </template>
+</interface>

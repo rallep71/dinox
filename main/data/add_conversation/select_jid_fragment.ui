@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+    <requires lib="gtk" version="4.0"/>
+    <template class="DinoUiSelectJidFragment">
+        <child>
+            <object class="AdwClamp">
+                <property name="maximum-size">350</property>
+                <property name="tightening-threshold">300</property>
+                <child>
+                    <object class="GtkBox">
+                        <property name="hexpand">1</property>
+                        <property name="margin-start">12</property>
+                        <property name="margin-end">12</property>
+                        <property name="margin-top">24</property>
+                        <property name="margin-bottom">24</property>
+                        <property name="orientation">vertical</property>
+                        <property name="spacing">12</property>
+                        <child>
+                            <object class="GtkBox" id="account_selector_box">
+                                <property name="visible">False</property>
+                                <property name="orientation">horizontal</property>
+                                <property name="spacing">12</property>
+                                <child>
+                                    <object class="GtkLabel">
+                                        <property name="label" translatable="yes">Use account:</property>
+                                    </object>
+                                </child>
+                                <child>
+                                    <object class="GtkDropDown" id="account_dropdown">
+                                        <property name="hexpand">True</property>
+                                        <property name="margin-start">12</property>
+                                    </object>
+                                </child>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkEntry" id="entry">
+                                <property name="placeholder-text" translatable="yes">Search or enter channel address...</property>
+                                <property name="activates-default">1</property>
+                                <property name="hexpand">1</property>
+                                <property name="secondary-icon-name">system-search-symbolic</property>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkBox">
+                                <property name="hexpand">1</property>
+                                <property name="vexpand">1</property>
+                                <property name="orientation">vertical</property>
+                                <child>
+                                    <object class="GtkFrame">
+                                        <property name="child">
+                                            <object class="GtkScrolledWindow" id="scrolled_window">
+                                                <property name="hscrollbar-policy">never</property>
+                                                <property name="hexpand">1</property>
+                                                <property name="vexpand">1</property>
+                                                <property name="child">
+                                                    <object class="GtkBox" id="box">
+                                                        <property name="orientation">vertical</property>
+                                                    </object>
+                                                </property>
+                                            </object>
+                                        </property>
+                                    </object>
+                                </child>
+                                <child>
+                                    <object class="GtkBox">
+                                        <property name="css-classes">toolbar</property>
+                                        <style>
+                                            <class name="toolbar"/>
+                                            <class name="inline-toolbar"/>
+                                        </style>
+                                        <child>
+                                            <object class="GtkButton" id="add_button">
+                                                <child>
+                                                    <object class="GtkBox">
+                                                        <property name="spacing">6</property>
+                                                        <child>
+                                                            <object class="GtkImage">
+                                                                <property name="icon-name">list-add-symbolic</property>
+                                                                <property name="icon-size">normal</property>
+                                                            </object>
+                                                        </child>
+                                                        <child>
+                                                            <object class="GtkLabel" id="add_button_label">
+                                                                <property name="label" translatable="yes">Add Group</property>
+                                                            </object>
+                                                        </child>
+                                                    </object>
+                                                </child>
+                                            </object>
+                                        </child>
+                                        <child>
+                                            <object class="GtkButton" id="remove_button">
+                                                <property name="sensitive">0</property>
+                                                <child>
+                                                    <object class="GtkBox">
+                                                        <property name="spacing">6</property>
+                                                        <child>
+                                                            <object class="GtkImage">
+                                                                <property name="icon-name">list-remove-symbolic</property>
+                                                                <property name="icon-size">normal</property>
+                                                            </object>
+                                                        </child>
+                                                        <child>
+                                                            <object class="GtkLabel" id="remove_button_label">
+                                                                <property name="label" translatable="yes">Delete Group</property>
+                                                            </object>
+                                                        </child>
+                                                    </object>
+                                                </child>
+                                            </object>
+                                        </child>
+                                    </object>
+                                </child>
+                            </object>
+                        </child>
+                    </object>
+                </child>
+            </object>
+        </child>
+    </template>
+</interface>

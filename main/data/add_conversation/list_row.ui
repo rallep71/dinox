@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+    <requires lib="gtk" version="4.0"/>
+    <object class="GtkBox" id="outer_box">
+        <property name="orientation">horizontal</property>
+        <property name="spacing">8</property>
+        <property name="margin-start">6</property>
+        <property name="margin-end">6</property>
+        <property name="margin-top">6</property>
+        <property name="margin-bottom">6</property>
+        <child>
+            <object class="DinoUiAvatarPicture" id="picture">
+                <property name="height-request">30</property>
+                <property name="width-request">30</property>
+                <property name="valign">center</property>
+            </object>
+        </child>
+        <child>
+            <object class="GtkBox">
+                <property name="orientation">vertical</property>
+                <property name="valign">center</property>
+                <child>
+                    <object class="GtkBox">
+                        <property name="orientation">horizontal</property>
+                        <property name="spacing">6</property>
+                        <child>
+                            <object class="GtkImage" id="private_room_image">
+                                <property name="icon-name">changes-prevent-symbolic</property>
+                                <property name="pixel-size">14</property>
+                                <property name="visible">0</property>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkLabel" id="name_label">
+                                <property name="ellipsize">end</property>
+                                <property name="xalign">0</property>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkImage" id="status_dot">
+                                <property name="pixel-size">8</property>
+                            </object>
+                        </child>
+                    </object>
+                </child>
+                <child>
+                    <object class="GtkLabel" id="via_label">
+                        <property name="ellipsize">end</property>
+                        <property name="xalign">0</property>
+                        <attributes>
+                            <attribute name="scale" value="0.8"></attribute>
+                        </attributes>
+                    </object>
+                </child>
+            </object>
+        </child>
+    </object>
+</interface>

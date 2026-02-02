@@ -1,0 +1,6 @@
+dinox.handwerker.jetzt
+
+✅ Build-Härtung: Compiler-Flags (-fstack-protector-strong, etc.) sind aktiv.
+✅ Fehlerbehandlung: Das "Verschlucken" von Fehlern (leere catch-Blöcke) wurde in allen kritischen Bereichen (Krypto, Netzwerk, UI) behoben.
+✅ Datenbank-Verschlüsselung: omemo.db wird jetzt mit SQLCipher verschlüsselt. Der Schlüssel liegt sicher im System-Schlüsselbund (libsecret).
+
