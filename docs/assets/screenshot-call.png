@@ -1,0 +1,43 @@
+<svg width="400" height="250" viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="callGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e293b"/>
+      <stop offset="100%" style="stop-color:#0f172a"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="400" height="250" rx="12" fill="url(#callGrad)"/>
+  
+  <!-- Main video -->
+  <rect x="20" y="20" width="240" height="160" rx="12" fill="#334155"/>
+  <circle cx="140" cy="100" r="35" fill="#3b82f6"/>
+  <text x="140" y="108" font-family="Inter, sans-serif" font-size="24" fill="white" text-anchor="middle" font-weight="600">RP</text>
+  <rect x="30" y="160" width="80" height="10" rx="5" fill="white" opacity="0.8"/>
+  
+  <!-- Participant thumbnails -->
+  <rect x="280" y="20" width="100" height="70" rx="8" fill="#475569"/>
+  <circle cx="330" cy="45" r="18" fill="#10b981"/>
+  <text x="330" y="51" font-family="Inter, sans-serif" font-size="14" fill="white" text-anchor="middle">A</text>
+  <rect x="290" y="70" width="50" height="8" rx="4" fill="white" opacity="0.6"/>
+  
+  <rect x="280" y="100" width="100" height="70" rx="8" fill="#475569"/>
+  <circle cx="330" cy="125" r="18" fill="#8b5cf6"/>
+  <text x="330" y="131" font-family="Inter, sans-serif" font-size="14" fill="white" text-anchor="middle">B</text>
+  <rect x="290" y="150" width="60" height="8" rx="4" fill="white" opacity="0.6"/>
+  
+  <!-- Controls -->
+  <rect x="80" y="200" width="240" height="40" rx="20" fill="rgba(255,255,255,0.1)"/>
+  
+  <circle cx="130" cy="220" r="16" fill="#475569"/>
+  <path d="M124 216 L136 216 L136 224 L124 224 Z" fill="white"/>
+  
+  <circle cx="180" cy="220" r="16" fill="#475569"/>
+  <path d="M173 217 L187 217 L187 223 L173 223 Z M177 213 L183 213 L183 217 L177 217 Z" fill="white"/>
+  
+  <circle cx="230" cy="220" r="16" fill="#ef4444"/>
+  <path d="M222 220 L238 220 M222 218 L225 220 L222 222 M238 218 L235 220 L238 222" stroke="white" stroke-width="2" fill="none" transform="rotate(135 230 220)"/>
+  
+  <circle cx="280" cy="220" r="16" fill="#475569"/>
+  <rect x="273" y="213" width="14" height="14" rx="2" fill="none" stroke="white" stroke-width="2"/>
+</svg>
