@@ -28,15 +28,48 @@ namespace Dino.Plugins.TorManager {
             stop();
         }
 
+        // Get the directory where the executable is located (works on Windows and Linux)
+        private string? get_executable_dir() {
+#if WINDOWS
+            // On Windows, use Win32 API via GLib
+            string? exe_path = null;
+            try {
+                // GLib provides this via get_current_dir, but we need the exe location
+                // Use environment or fallback
+                string? path = Environment.get_variable("_");  // The full path to the running exe
+                if (path != null && path.has_suffix(".exe")) {
+                    exe_path = Path.get_dirname(path);
+                }
+            } catch (Error e) { }
+            
+            if (exe_path == null) {
+                // Fallback: Check current working directory
+                exe_path = Environment.get_current_dir();
+            }
+            return exe_path;
+#else
+            // On Linux, read /proc/self/exe
+            try {
+                string self_path = FileUtils.read_link("/proc/self/exe");
+                return Path.get_dirname(self_path);
+            } catch (Error e) {
+                return null;
+            }
+#endif
+        }
+
         private void check_installation() {
             try {
                 // Determine path to 'tor' executable
-                // In Flatpak, it should be in /app/bin/tor or /usr/bin/tor
+#if WINDOWS
+                string[] argv = {"tor.exe", "--version"};
+#else
                 string[] argv = {"tor", "--version"};
+#endif
                 Subprocess proc = new Subprocess.newv(argv, SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_MERGE);
                 proc.wait(null);
                 if (proc.get_if_exited() && proc.get_exit_status() == 0) {
-                    warning("Tor executable found.");
+                    debug("Tor executable found.");
                 } else {
                     warning("Tor executable NOT found or errored.");
                 }
@@ -70,7 +103,7 @@ namespace Dino.Plugins.TorManager {
         }
 
         public void clean_state() {
-            string data_dir = Path.build_filename(Environment.get_user_data_dir(), "dino", "tor");
+            string data_dir = Path.build_filename(Environment.get_user_data_dir(), "dinox", "tor");
             warning("TorController: Cleaning Tor state in %s", data_dir);
             
             // Remove files that might contain corrupted state
@@ -90,14 +123,18 @@ namespace Dino.Plugins.TorManager {
         public async void start() {
             if (is_running) return;
 
-            string data_dir = Path.build_filename(Environment.get_user_data_dir(), "dino", "tor");
+            string data_dir = Path.build_filename(Environment.get_user_data_dir(), "dinox", "tor");
             
-            // ROBUST ZOMBIE KILLER: Force kill any previous instance by pattern, not just PID file
+            // ROBUST ZOMBIE KILLER: Force kill any previous instance
             // We do this BEFORE finding a free port to free up the default port (9155) if possible.
             try {
-                // We look for any process running with our specific config file path.
-                // "pkill -f" matches against the full command line.
-                string[] kill_cmd = {"pkill", "-9", "-f", "dino/tor/torrc"};
+#if WINDOWS
+                // Windows: Use taskkill to kill any running tor.exe
+                string[] kill_cmd = {"taskkill", "/F", "/IM", "tor.exe"};
+#else
+                // Linux/macOS: Use pkill to match config file path
+                string[] kill_cmd = {"pkill", "-9", "-f", "dinox/tor/torrc"};
+#endif
                 new Subprocess.newv(kill_cmd, SubprocessFlags.NONE).wait(null);
                 
                 // Give the OS a moment to reclaim the ports
@@ -109,8 +146,8 @@ namespace Dino.Plugins.TorManager {
                 
                 debug("TorController: Zombie cleanup routine executed.");
             } catch (Error e) {
-                // Ignored: pkill might fail if no process exists, which is good.
-                message("TorController: No zombies found or pkill unavailable: %s", e.message);
+                // Ignored: kill might fail if no process exists, which is good.
+                debug("TorController: No zombies found or kill unavailable: %s", e.message);
             }
 
             // Find a free port dynamically (after cleanup!)
@@ -149,12 +186,25 @@ namespace Dino.Plugins.TorManager {
             }
 
             if (use_bridges && bridge_lines.strip() != "") {
-                string? obfs4_path = Environment.find_program_in_path("obfs4proxy");
+#if WINDOWS
+                string obfs4_exe = "obfs4proxy.exe";
+#else
+                string obfs4_exe = "obfs4proxy";
+#endif
+                string? obfs4_path = Environment.find_program_in_path(obfs4_exe);
                 
-                // Fallback strategies for AppImage / Flatpak / Custom installs
+                // Fallback strategies for AppImage / Flatpak / Windows portable / Custom installs
                 if (obfs4_path == null) {
                      var candidates = new Gee.ArrayList<string>();
                      
+#if WINDOWS
+                     // Windows portable: Look in bin/ subfolder relative to exe
+                     string? exe_dir = get_executable_dir();
+                     if (exe_dir != null) {
+                         candidates.add(Path.build_filename(exe_dir, "bin", "obfs4proxy.exe"));
+                         candidates.add(Path.build_filename(exe_dir, "obfs4proxy.exe"));
+                     }
+#else
                      // 1. AppImage specific: $APPDIR/usr/bin or $APPDIR/bin
                      string? appdir = Environment.get_variable("APPDIR");
                      if (appdir != null) {
@@ -177,6 +227,7 @@ namespace Dino.Plugins.TorManager {
                              candidates.add(Path.build_filename(self_dir, "obfs4proxy"));
                          }
                      } catch (Error e) { /* ignore */ }
+#endif
 
                      foreach(string l in candidates) {
                         if (FileUtils.test(l, FileTest.EXISTS)) {
@@ -219,7 +270,11 @@ namespace Dino.Plugins.TorManager {
                 return;
             }
 
+#if WINDOWS
+            string[] argv = {"tor.exe", "-f", torrc_path};
+#else
             string[] argv = {"tor", "-f", torrc_path};
+#endif
 
             try {
                 tor_process = new Subprocess.newv(argv, SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_PIPE);

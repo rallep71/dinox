@@ -426,7 +426,19 @@ public class FileManager : StreamInteractionModule, Object {
                 var computed_hashes = checksum_stream.get_hashes();
 
                 foreach (var checksum_type in hashes.keys) {
-                    if (hashes[checksum_type] != computed_hashes[checksum_type]) {
+                    string expected = hashes[checksum_type];
+                    string computed = computed_hashes[checksum_type];
+                    
+                    // Normalize both to standard Base64 for comparison
+                    // Some implementations use Base64-URL encoding (- and _ instead of + and /)
+                    string expected_norm = expected.replace("-", "+").replace("_", "/");
+                    string computed_norm = computed.replace("-", "+").replace("_", "/");
+                    
+                    // Also handle missing padding
+                    while (expected_norm.length % 4 != 0) expected_norm += "=";
+                    while (computed_norm.length % 4 != 0) computed_norm += "=";
+                    
+                    if (expected_norm != computed_norm) {
                         warning("Hash of downloaded file does not equal advertised hash, discarding: %s. %s should be %s, was %s",
                                 file_transfer.file_name, checksum_type.to_string(), hashes[checksum_type], computed_hashes[checksum_type]);
                         FileUtils.remove(file.get_path());

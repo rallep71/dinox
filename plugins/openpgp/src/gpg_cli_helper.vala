@@ -836,6 +836,17 @@ public static string? export_public_key(string key_id) throws GLib.Error {
 public static bool import_key(string armored_key) throws GLib.Error {
     initialize();
     
+    // Validate that the key looks like ASCII armor
+    string trimmed = armored_key.strip();
+    if (!trimmed.has_prefix("-----BEGIN PGP")) {
+        warning("GPGHelper: import_key: Invalid key format - not ASCII armored");
+        return false;
+    }
+    if (!trimmed.has_suffix("-----")) {
+        warning("GPGHelper: import_key: Invalid key format - incomplete ASCII armor");
+        return false;
+    }
+    
     string temp_key = Path.build_filename(Environment.get_tmp_dir(), "dinox-import-%d.asc".printf(Random.int_range(0, 1000000)));
     FileUtils.set_contents(temp_key, armored_key);
     
@@ -846,6 +857,11 @@ public static bool import_key(string armored_key) throws GLib.Error {
     run_gpg_sync(args, null, out stdout_str, out stderr_str, out exit_status);
     
     FileUtils.remove(temp_key);
+    
+    if (exit_status != 0 && stderr_str.contains("radix64")) {
+        warning("GPGHelper: import_key: Key has invalid base64 encoding, ignoring");
+        return false;
+    }
     
     return exit_status == 0;
 }

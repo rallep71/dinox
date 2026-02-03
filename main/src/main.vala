@@ -80,6 +80,18 @@ void main(string[] args) {
                  }
             }
         }
+        
+        // Add bin/ folder to PATH for portable tools (gpg.exe, tar.exe, etc.)
+        string bin_path = Path.build_filename(exe_dir, "bin");
+        if (FileUtils.test(bin_path, FileTest.IS_DIR)) {
+            string? old_path = Environment.get_variable("PATH");
+            if (old_path != null) {
+                Environment.set_variable("PATH", bin_path + ";" + old_path, true);
+            } else {
+                Environment.set_variable("PATH", bin_path, true);
+            }
+            message("Added bin to PATH: %s", bin_path);
+        }
 #endif
 
         Plugins.Loader loader = new Plugins.Loader(app);

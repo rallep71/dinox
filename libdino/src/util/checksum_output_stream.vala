@@ -41,7 +41,12 @@ public class ChecksumOutputStream : OutputStream {
     public HashMap<ChecksumType, string> get_hashes() {
         var results = new HashMap<ChecksumType, string>();
         foreach (var entry in checksums.entries) {
-            results[entry.key] = entry.value.c.get_string();
+            // Get raw digest bytes, then encode as Base64 (XEP-0300 uses Base64, not hex)
+            // GLib.Checksum.get_string() returns hex, but XMPP uses Base64
+            uint8[] digest = new uint8[64]; // 64 bytes = 512 bits (sha-512 max)
+            size_t length = digest.length;
+            entry.value.c.get_digest(digest, ref length);
+            results[entry.key] = GLib.Base64.encode(digest[0:length]);
         }
         return results;
     }

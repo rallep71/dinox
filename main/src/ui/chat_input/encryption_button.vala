@@ -50,6 +50,7 @@ public class EncryptionButton {
         SimpleActionGroup action_group = new SimpleActionGroup();
         action = new SimpleAction.stateful("encryption", VariantType.INT32, new Variant.int32(Encryption.NONE));
         action.activate.connect((parameter) => {
+            if (conversation == null) return;
             action.set_state(parameter);
             conversation.encryption = (Encryption) parameter.get_int32();
             encryption_changed(conversation.encryption);
@@ -95,6 +96,7 @@ public class EncryptionButton {
     }
 
     private void update_encryption_menu_state() {
+        if (conversation == null) return;
         action.set_state(new Variant.int32(conversation.encryption));
         action.change_state(new Variant.int32(conversation.encryption));
     }
@@ -107,10 +109,15 @@ public class EncryptionButton {
     }
 
     private void update_encryption_menu_icon() {
+        if (conversation == null) return;
         set_icon(conversation.encryption == Encryption.NONE ? "changes-allow-symbolic" : "changes-prevent-symbolic");
     }
 
     private void update_visibility() {
+        if (conversation == null) {
+            menu_button.visible = false;
+            return;
+        }
         if (conversation.encryption != Encryption.NONE) {
             menu_button.visible = true;
             return;
