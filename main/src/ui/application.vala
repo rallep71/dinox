@@ -48,6 +48,32 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
 
     private bool core_ready = false;
     private bool pending_activate = false;
+
+    // Get a Windows-native temp directory (avoids MSYS2 path issues)
+    private static string get_native_tmp_dir() {
+#if WINDOWS
+        // On Windows, Environment.get_tmp_dir() returns MSYS2-style paths like /tmp
+        // which become C:\msys64\tmp - but native Windows tools can't find this.
+        // Use %TEMP% environment variable for native Windows paths.
+        string? temp = Environment.get_variable("TEMP");
+        if (temp != null && temp != "") {
+            return temp;
+        }
+        temp = Environment.get_variable("TMP");
+        if (temp != null && temp != "") {
+            return temp;
+        }
+        // Fallback to LOCALAPPDATA\Temp
+        string? localappdata = Environment.get_variable("LOCALAPPDATA");
+        if (localappdata != null && localappdata != "") {
+            return Path.build_filename(localappdata, "Temp");
+        }
+        // Ultimate fallback
+        return "C:\\Temp";
+#else
+        return Environment.get_tmp_dir();
+#endif
+    }
     private string? pending_xmpp_uri = null;
 
     private const int MAX_UNLOCK_TRIES = 3;
@@ -556,13 +582,63 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
     }
 
     private void panic_wipe_and_exit () {
+        // CRITICAL: First close all database connections before trying to delete files!
+        // On Windows, open files cannot be deleted.
         try {
-            wipe_dir (Path.build_filename (Environment.get_user_data_dir (), "dinox"));
-            wipe_dir (Path.build_filename (Environment.get_user_config_dir (), "dinox"));
-            wipe_dir (Path.build_filename (Environment.get_user_cache_dir (), "dinox"));
+            // Close main database
+            if (db != null) {
+                db.close();
+            }
+        } catch (Error e) {
+            // Best effort
+        }
+
+        string data_dir = Path.build_filename (Environment.get_user_data_dir (), "dinox");
+        string config_dir = Path.build_filename (Environment.get_user_config_dir (), "dinox");
+        string cache_dir = Path.build_filename (Environment.get_user_cache_dir (), "dinox");
+        
+        // Also delete old "dino" directories (legacy from original Dino)
+        string old_data_dir = Path.build_filename (Environment.get_user_data_dir (), "dino");
+        string old_config_dir = Path.build_filename (Environment.get_user_config_dir (), "dino");
+        string old_cache_dir = Path.build_filename (Environment.get_user_cache_dir (), "dino");
+
+#if WINDOWS
+        // On Windows: Spawn a background cmd process that deletes after we exit
+        // File locks are released when our process terminates
+        // Use full path to Windows timeout.exe (not MSYS2 timeout which is different!)
+        string data_dir_win = data_dir.replace("/", "\\");
+        string config_dir_win = config_dir.replace("/", "\\");
+        string cache_dir_win = cache_dir.replace("/", "\\");
+        string old_data_dir_win = old_data_dir.replace("/", "\\");
+        string old_config_dir_win = old_config_dir.replace("/", "\\");
+        string old_cache_dir_win = old_cache_dir.replace("/", "\\");
+        
+        // Use Windows' built-in timeout.exe with full path - delete both dinox AND legacy dino folders
+        string wipe_cmd = "cmd.exe /c C:\\Windows\\System32\\timeout.exe /t 1 /nobreak >nul & rd /s /q \"%s\" 2>nul & rd /s /q \"%s\" 2>nul & rd /s /q \"%s\" 2>nul & rd /s /q \"%s\" 2>nul & rd /s /q \"%s\" 2>nul & rd /s /q \"%s\" 2>nul".printf(
+            data_dir_win, config_dir_win, cache_dir_win,
+            old_data_dir_win, old_config_dir_win, old_cache_dir_win
+        );
+        
+        try {
+            Process.spawn_command_line_async(wipe_cmd);
+        } catch (Error e) {
+            warning("Panic wipe spawn failed: %s", e.message);
+        }
+#else
+        // On Linux: Direct deletion works fine
+        try {
+            wipe_dir (data_dir);
+            wipe_dir (config_dir);
+            wipe_dir (cache_dir);
+            // Also wipe legacy "dino" folders
+            wipe_dir (old_data_dir);
+            wipe_dir (old_config_dir);
+            wipe_dir (old_cache_dir);
         } catch (Error e) {
             warning ("Panic wipe failed: %s", e.message);
         }
+#endif
+
         Process.exit (0);
     }
 
@@ -1135,7 +1211,8 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
 
             // If encrypted, decrypt first
             if (restore_password != null && backup_file.has_suffix( ".gpg")) {
-                tar_path = Path.build_filename (Environment.get_tmp_dir (), "dinox-restore-temp.tar.gz");
+                // Use native temp directory on Windows
+                tar_path = Path.build_filename (get_native_tmp_dir(), "dinox-restore-temp.tar.gz");
 
                 // Update dialog to show decryption progress
                 Idle.add( () => {
@@ -1144,33 +1221,31 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
                     return false;
                 });
 
-                // Use gpg with passphrase via command line
-                // Note: We need to use spawn_command_line_sync for proper argument handling
-                string gpg_command = "gpg --batch --yes --decrypt --pinentry-mode loopback --passphrase %s --output %s %s".printf( 
-                    Shell.quote (restore_password),
-                    Shell.quote (tar_path),
-                    Shell.quote (backup_file)
-);
+                // Use OpenSSL for symmetric decryption (matches our encryption)
+                // AES-256-CBC with PBKDF2 key derivation
+                string[] dec_argv = {
+                    "openssl", "enc", "-d", "-aes-256-cbc", "-pbkdf2",
+                    "-in", backup_file,
+                    "-out", tar_path,
+                    "-pass", "pass:" + restore_password
+                };
 
                 int exit_status = -1;
                 string? stdout_str = null;
                 string? stderr_str = null;
                 try {
-                    Process.spawn_command_line_sync (
-                        gpg_command,
-                        out stdout_str,
-                        out stderr_str,
-                        out exit_status
-);
-                    decrypt_success = (exit_status == 0);
+                    Subprocess proc = new Subprocess.newv (dec_argv, SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_PIPE);
+                    proc.communicate_utf8 (null, null, out stdout_str, out stderr_str);
+                    decrypt_success = proc.get_successful ();
+                    exit_status = proc.get_exit_status ();
                     if (!decrypt_success) {
-                        error_message = stderr_str ?? "GPG decryption failed";
-                        warning ("GPG decrypt failed (exit %d): %s", exit_status, error_message);
+                        error_message = stderr_str ?? "Decryption failed";
+                        warning ("OpenSSL decrypt failed (exit %d): %s", exit_status, error_message);
                     }
                 } catch (Error err) {
                     decrypt_success = false;
                     error_message = err.message;
-                    warning ("Failed to run GPG decrypt: %s", err.message);
+                    warning ("Failed to run OpenSSL decrypt: %s", err.message);
                 }
 
                 if (!decrypt_success) {
@@ -1197,6 +1272,18 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             });
 
             // Extract backup to user directories
+#if WINDOWS
+            // On Windows, use the system tar.exe which understands native paths
+            string system_tar = Path.build_filename(Environment.get_variable("SYSTEMROOT") ?? "C:\\Windows", "System32", "tar.exe");
+            string tar_cmd = FileUtils.test(system_tar, FileTest.EXISTS) ? system_tar : "tar";
+            string[] argv = {
+                tar_cmd,
+                "-xzf",
+                tar_path,
+                "-C", Environment.get_user_data_dir(),
+                "--overwrite"
+            };
+#else
             string[] argv = {
                 "tar",
                 "-xzf",
@@ -1204,6 +1291,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
                 "-C", Environment.get_user_data_dir( ),
                 "--overwrite"
             };
+#endif
 
             string? stderr_str = null;
             int exit_status = -1;
@@ -1231,6 +1319,18 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
 
             // Also extract config if it exists in the backup
             if (success) {
+#if WINDOWS
+                // Reuse the same system tar path
+                string tar_cmd_cfg = FileUtils.test(system_tar, FileTest.EXISTS) ? system_tar : "tar";
+                string[] argv_config = {
+                    tar_cmd_cfg,
+                    "-xzf",
+                    tar_path,
+                    "-C", Environment.get_user_config_dir(),
+                    "--overwrite",
+                    "--strip-components=0"
+                };
+#else
                 string[] argv_config = {
                     "tar",
                     "-xzf",
@@ -1239,6 +1339,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
                     "--overwrite",
                     "--strip-components=0"
                 };
+#endif
 
                 try {
                     Process.spawn_sync (
@@ -1263,11 +1364,13 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
 
             if (success) {
                 // Sync filesystem to ensure all files are written
+#if !WINDOWS
                 try {
                     Process.spawn_command_line_sync ("sync", null, null, null);
                 } catch (Error err) {
                     // Ignore sync errors
                 }
+#endif
 
                 // Clear OMEMO sessions to force re-negotiation after restore
                 clear_omemo_sessions_after_restore( );
@@ -1782,21 +1885,10 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             warning ("Failed to checkpoint main database: %s", e.message);
         }
 
-        // Also checkpoint omemo.db and pgp.db via sqlite3 command
-        string data_dir = Path.build_filename( Environment.get_user_data_dir( ), "dinox");
-        string[] db_files = { "omemo.db", "pgp.db" };
-
-        foreach (string db_file in db_files) {
-            string db_path = Path.build_filename (data_dir, db_file);
-            if (FileUtils.test (db_path, FileTest.EXISTS)) {
-                try {
-                    string[] argv = { "sqlite3", db_path, "PRAGMA wal_checkpoint(TRUNCATE);" };
-                    Process.spawn_sync (null, argv, null, SpawnFlags.SEARCH_PATH, null, null, null, null);
-                } catch (Error e) {
-                    warning ("Failed to checkpoint %s: %s", db_file, e.message);
-                }
-            }
-        }
+        // NOTE: We don't checkpoint omemo.db and pgp.db here because:
+        // 1. They are encrypted with SQLCipher and need a key
+        // 2. The plugins handle their own WAL checkpointing
+        // 3. Calling sqlite3 on encrypted DBs would fail or hang
     }
 
     private void perform_backup (string data_dir, string backup_path, string? password = null) {
@@ -1840,7 +1932,8 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             // If encrypting, create tar.gz first in temp dir, then encrypt to final path
             if (backup_password != null) {
                 // Create temp tar.gz file (without .gpg extension)
-                temp_tar_path = Path.build_filename( Environment.get_tmp_dir( ), "dinox-backup-temp.tar.gz");
+                // Use native Windows temp path to avoid MSYS2 path issues
+                temp_tar_path = Path.build_filename(get_native_tmp_dir(), "dinox-backup-temp.tar.gz");
             }
 
             // Check if data directory exists
@@ -1861,9 +1954,25 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
                 return null;
             }
 
-            // Build tar command - backup the data directory
+            // Build archive command - backup the data directory
             // DinoX stores all data in ~/.local/share/dinox (get_user_data_dir)
-            string[] argv = { "tar", "-czf", temp_tar_path, "-C", Environment.get_user_data_dir( ), "dinox" };
+            string data_parent = Environment.get_user_data_dir();
+            
+#if WINDOWS
+            // On Windows, use the system tar.exe (C:\Windows\System32\tar.exe)
+            // which understands native Windows paths. Don't use MSYS2 tar which has path issues.
+            // GLib returns Windows-native paths for get_user_data_dir() on Windows.
+            string system_tar = Path.build_filename(Environment.get_variable("SYSTEMROOT") ?? "C:\\Windows", "System32", "tar.exe");
+            string[] argv;
+            if (FileUtils.test(system_tar, FileTest.EXISTS)) {
+                argv = { system_tar, "-czf", temp_tar_path, "-C", data_parent, "dinox" };
+            } else {
+                // Fallback to PATH-based tar (might be MSYS2 tar, might fail)
+                argv = { "tar", "-czf", temp_tar_path, "-C", data_parent, "dinox" };
+            }
+#else
+            string[] argv = { "tar", "-czf", temp_tar_path, "-C", data_parent, "dinox" };
+#endif
 
             string? stdout_str = null;
             int exit_status = -1;
@@ -1884,28 +1993,28 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
                 stderr_str = err.message;
             }
 
-            // If password provided, encrypt with GPG
+            // If password provided, encrypt with OpenSSL (simpler than GPG, no agent needed)
             if (success && backup_password != null) {
-                // Use Subprocess to avoid shell quoting issues
-                string[] gpg_argv = {
-                    "gpg", "--batch", "--yes", "--symmetric", "--cipher-algo", "AES256",
-                    "--pinentry-mode", "loopback",
-                    "--passphrase", backup_password,
-                    "--output", backup_path,
-                    temp_tar_path
+                // Use OpenSSL for symmetric encryption - it doesn't need gpg-agent
+                // AES-256-CBC with PBKDF2 key derivation
+                string[] enc_argv = {
+                    "openssl", "enc", "-aes-256-cbc", "-salt", "-pbkdf2",
+                    "-in", temp_tar_path,
+                    "-out", backup_path,
+                    "-pass", "pass:" + backup_password
                 };
 
-                string? gpg_stdout = null;
-                string? gpg_stderr = null;
+                string? enc_stdout = null;
+                string? enc_stderr = null;
                 try {
-                    Subprocess proc = new Subprocess.newv (gpg_argv, SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_PIPE);
-                    proc.communicate_utf8 (null, null, out gpg_stdout, out gpg_stderr);
+                    Subprocess proc = new Subprocess.newv (enc_argv, SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_PIPE);
+                    proc.communicate_utf8 (null, null, out enc_stdout, out enc_stderr);
                     success = proc.get_successful ();
                     exit_status = proc.get_exit_status ();
 
                     if (!success) {
-                        stderr_str = gpg_stderr ?? "GPG encryption failed";
-                        warning ("GPG encrypt failed (exit %d): %s", exit_status, stderr_str);
+                        stderr_str = enc_stderr ?? "Encryption failed";
+                        warning ("OpenSSL encrypt failed (exit %d): %s", exit_status, stderr_str);
                     }
 
                     // Delete temporary unencrypted file
