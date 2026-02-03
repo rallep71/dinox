@@ -7,9 +7,6 @@ build_log.txt
 logs/
 *.log
 
-# Documentation (hosted separately or not needed)
-docs/
-
 # BFG cleanup reports
 ..bfg-report/
 .bfg-report/
@@ -23,3 +20,8 @@ test_*.py
 test_*.vala
 debug*.log
 windows.txt
+
+# Editor backup files
+*~
+*.bak
+*.swp
