@@ -49,29 +49,61 @@ namespace Dino.Plugins.OpenPgp {
                 return;
             }
             
-            debug("XEP-0373: Publishing key %s for account %s", key_id, account.bare_jid.to_string());
+            debug("XEP-0373: Publishing key %s for account %s (running in background thread)", key_id, account.bare_jid.to_string());
             
-            try {
-                // Get the full key data for publishing
-                GPGHelper.Key? key = GPGHelper.get_private_key(key_id);
-                if (key == null) {
-                    debug("XEP-0373: Could not get key %s for publishing", key_id);
-                    return;
+            // Copy values for thread safety
+            string key_id_copy = key_id;
+            
+            // Run GPG operations in background thread to avoid blocking UI
+            new Thread<void*>("xep0373-publish-key", () => {
+                GPGHelper.Key? key = null;
+                string? armored_key = null;
+                
+                try {
+                    // Get the full key data for publishing
+                    key = GPGHelper.get_private_key(key_id_copy);
+                    if (key == null) {
+                        debug("XEP-0373: Could not get key %s for publishing", key_id_copy);
+                        return null;
+                    }
+                    
+                    debug("XEP-0373: Got private key, fingerprint: %s", key.fpr);
+                    
+                    // Export the public key in ASCII armor format
+                    armored_key = GPGHelper.export_public_key(key_id_copy);
+                    if (armored_key == null) {
+                        debug("XEP-0373: Could not export public key %s", key_id_copy);
+                        return null;
+                    }
+                    
+                    debug("XEP-0373: Exported public key, length: %d bytes", armored_key.length);
+                    
+                } catch (Error e) {
+                    debug("XEP-0373: Failed to get key for publishing: %s", e.message);
+                    return null;
                 }
                 
-                debug("XEP-0373: Got private key, fingerprint: %s", key.fpr);
-                
-                // Export the public key in ASCII armor format
-                string? armored_key = GPGHelper.export_public_key(key_id);
-                if (armored_key == null) {
-                    debug("XEP-0373: Could not export public key %s", key_id);
-                    return;
-                }
-                
-                debug("XEP-0373: Exported public key, length: %d bytes", armored_key.length);
-                
-                // Get the fingerprint
+                // Publish key on main thread (stream operations must be on main thread)
                 string fingerprint = key.fpr;
+                string armored_copy = armored_key;
+                
+                Idle.add(() => {
+                    publish_key_to_stream.begin(stream, fingerprint, armored_copy);
+                    return false;
+                });
+                
+                return null;
+            });
+        }
+        
+        // Helper to publish key on main thread
+        private async void publish_key_to_stream(XmppStream stream, string fingerprint, string armored_key) {
+            try {
+                // Check if stream is still valid (may have been disconnected while we were processing)
+                if (stream == null) {
+                    debug("XEP-0373: Stream is null, skipping publish");
+                    return;
+                }
                 
                 // Get the XEP-0373 module
                 Xmpp.Xep.OpenPgp.Module? module = stream.get_module(Xmpp.Xep.OpenPgp.Module.IDENTITY);
@@ -83,7 +115,7 @@ namespace Dino.Plugins.OpenPgp {
                 // Publish the key
                 yield module.publish_key(stream, fingerprint, armored_key);
                 
-                debug("XEP-0373: Successfully published key %s for %s", fingerprint, account.bare_jid.to_string());
+                debug("XEP-0373: Successfully published key %s", fingerprint);
                 
             } catch (Error e) {
                 debug("XEP-0373: Failed to publish key: %s", e.message);
@@ -91,6 +123,11 @@ namespace Dino.Plugins.OpenPgp {
         }
         
         private void on_public_keys_received(Account account, XmppStream stream, Jid jid, Gee.List<Xmpp.Xep.OpenPgp.PublicKeyMeta> keys) {
+            // Check stream validity
+            if (stream == null) {
+                debug("XEP-0373: Stream is null in on_public_keys_received");
+                return;
+            }
             // Fetch and import each key
             foreach (var key_meta in keys) {
                 fetch_and_import_key.begin(account, stream, jid, key_meta.fingerprint);
@@ -99,6 +136,12 @@ namespace Dino.Plugins.OpenPgp {
         
         private async void fetch_and_import_key(Account account, XmppStream stream, Jid jid, string fingerprint) {
             try {
+                // Check stream validity
+                if (stream == null) {
+                    debug("XEP-0373: Stream is null in fetch_and_import_key");
+                    return;
+                }
+                
                 Xmpp.Xep.OpenPgp.Module? module = stream.get_module(Xmpp.Xep.OpenPgp.Module.IDENTITY);
                 if (module == null) return;
                 
@@ -108,14 +151,43 @@ namespace Dino.Plugins.OpenPgp {
                     return;
                 }
                 
-                // Import the key into our keyring
-                debug("XEP-0373: About to import key, first 200 chars: %.200s", key_data.armored_key);
-                GPGHelper.import_key(key_data.armored_key);
+                // Validate key format before importing
+                string? armored = key_data.armored_key;
+                if (armored == null || armored.length < 50) {
+                    debug("XEP-0373: Key too short or null for %s from %s", fingerprint, jid.to_string());
+                    return;
+                }
                 
-                debug("XEP-0373: Imported key %s from %s", fingerprint, jid.to_string());
+                // Check for valid ASCII armor
+                if (!armored.contains("-----BEGIN PGP")) {
+                    debug("XEP-0373: Key not ASCII armored for %s from %s", fingerprint, jid.to_string());
+                    return;
+                }
                 
-                // Notify listeners
-                key_received(account, jid, fingerprint, key_data.armored_key);
+                // Import the key in background thread to avoid blocking
+                debug("XEP-0373: About to import key, first 200 chars: %.200s", armored);
+                
+                // Copy values for thread safety
+                string armored_copy = armored;
+                string fp_copy = fingerprint;
+                Jid jid_copy = jid;
+                
+                new Thread<void*>("xep0373-import-key", () => {
+                    try {
+                        GPGHelper.import_key(armored_copy);
+                        debug("XEP-0373: Imported key %s from %s", fp_copy, jid_copy.to_string());
+                        
+                        // Notify listeners on main thread
+                        Idle.add(() => {
+                            key_received(account, jid_copy, fp_copy, armored_copy);
+                            return false;
+                        });
+                    } catch (Error import_err) {
+                        // Don't crash on import errors, just log
+                        debug("XEP-0373: Key import failed for %s: %s", fp_copy, import_err.message);
+                    }
+                    return null;
+                });
                 
             } catch (Error e) {
                 debug("XEP-0373: Failed to fetch/import key %s from %s: %s", 

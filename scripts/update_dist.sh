@@ -31,6 +31,12 @@ rm -f dist/obfs4proxy 2>/dev/null || true  # Linux version without .exe
 echo "[3/8] Copying main executable..."
 cp build/main/dinox.exe dist/
 
+# Copy Windows launcher script
+if [ -f "scripts/dinox.bat" ]; then
+    cp scripts/dinox.bat dist/
+    echo "  ✓ dinox.bat (Windows launcher with environment setup)"
+fi
+
 # ============================================
 # Core DLLs (must be next to dinox.exe for Windows DLL loading)
 # ============================================
@@ -40,6 +46,176 @@ cp build/xmpp-vala/libxmpp-vala-0.dll dist/
 cp build/qlite/libqlite-0.dll dist/
 cp build/crypto-vala/libcrypto-vala-0.dll dist/
 echo "  ✓ libdino-0.dll, libxmpp-vala-0.dll, libqlite-0.dll, libcrypto-vala-0.dll"
+
+# ============================================
+# System DLLs from MSYS2 (required for standalone Windows execution)
+# ============================================
+echo "[4b/8] Copying MSYS2 system DLLs..."
+MINGW_BIN="/mingw64/bin"
+
+# GTK4 and Adwaita
+SYSTEM_DLLS=(
+    # GTK4 core
+    "libgtk-4-1.dll"
+    "libadwaita-1-0.dll"
+    "libgdk_pixbuf-2.0-0.dll"
+    "libcairo-2.dll"
+    "libcairo-gobject-2.dll"
+    "libcairo-script-interpreter-2.dll"
+    
+    # Pango (text rendering)
+    "libpango-1.0-0.dll"
+    "libpangocairo-1.0-0.dll"
+    "libpangowin32-1.0-0.dll"
+    "libpangoft2-1.0-0.dll"
+    
+    # GLib family
+    "libglib-2.0-0.dll"
+    "libgobject-2.0-0.dll"
+    "libgio-2.0-0.dll"
+    "libgmodule-2.0-0.dll"
+    "libgthread-2.0-0.dll"
+    
+    # Image format support
+    "libpng16-16.dll"
+    "libjpeg-8.dll"
+    "libtiff-6.dll"
+    "libwebp-7.dll"
+    "libwebpdemux-2.dll"
+    "librsvg-2-2.dll"
+    
+    # Graphics
+    "libpixman-1-0.dll"
+    "libfreetype-6.dll"
+    "libfontconfig-1.dll"
+    "libharfbuzz-0.dll"
+    "libharfbuzz-gobject-0.dll"
+    "libfribidi-0.dll"
+    "libgraphene-1.0-0.dll"
+    "libepoxy-0.dll"
+    
+    # Compression
+    "zlib1.dll"
+    "libbz2-1.dll"
+    "libbrotlidec.dll"
+    "libbrotlicommon.dll"
+    "liblzma-5.dll"
+    "libzstd.dll"
+    
+    # Crypto/SSL
+    "libssl-3-x64.dll"
+    "libcrypto-3-x64.dll"
+    "libgcrypt-20.dll"
+    "libgpg-error-0.dll"
+    "libassuan-0.dll"
+    "libgpgme-11.dll"
+    
+    # Network
+    "libsoup-3.0-0.dll"
+    "libnghttp2-14.dll"
+    "libpsl-5.dll"
+    "libidn2-0.dll"
+    "libunistring-5.dll"
+    
+    # SQLite
+    "libsqlite3-0.dll"
+    
+    # Other dependencies
+    "libintl-8.dll"
+    "libiconv-2.dll"
+    "libpcre2-8-0.dll"
+    "libffi-8.dll"
+    "libexpat-1.dll"
+    "libxml2-2.dll"
+    
+    # GStreamer (for RTP/audio)
+    "libgstreamer-1.0-0.dll"
+    "libgstbase-1.0-0.dll"
+    "libgstaudio-1.0-0.dll"
+    "libgstvideo-1.0-0.dll"
+    "libgstsdp-1.0-0.dll"
+    "libgstrtp-1.0-0.dll"
+    "libgstwebrtc-1.0-0.dll"
+    "libgstapp-1.0-0.dll"
+    "libgstpbutils-1.0-0.dll"
+    "libgstgl-1.0-0.dll"
+    "libgstcodecs-1.0-0.dll"
+    "libnice-10.dll"
+    "liborc-0.4-0.dll"
+    
+    # Windows-specific
+    "libwinpthread-1.dll"
+    "libstdc++-6.dll"
+    "libgcc_s_seh-1.dll"
+    
+    # ICU (internationalization - for webkit/soup)
+    "libicuuc74.dll"
+    "libicuin74.dll"
+    "libicudt74.dll"
+    
+    # Gee (collections library)
+    "libgee-0.8-2.dll"
+    
+    # QREncode
+    "libqrencode-4.dll"
+    
+    # Signal protocol
+    "libsignal-protocol-c-2.dll"
+    
+    # SRTPv2 for RTP
+    "libsrtp2-1.dll"
+)
+
+DLL_COUNT=0
+for dll in "${SYSTEM_DLLS[@]}"; do
+    if [ -f "$MINGW_BIN/$dll" ]; then
+        cp "$MINGW_BIN/$dll" dist/
+        DLL_COUNT=$((DLL_COUNT + 1))
+    else
+        # Try alternative names (version numbers may differ)
+        FOUND=false
+        for alt in "$MINGW_BIN"/${dll%%-*}*.dll; do
+            if [ -f "$alt" ]; then
+                cp "$alt" dist/
+                DLL_COUNT=$((DLL_COUNT + 1))
+                FOUND=true
+                break
+            fi
+        done
+        if [ "$FOUND" = false ]; then
+            echo "  ⚠ Not found: $dll"
+        fi
+    fi
+done
+echo "  ✓ $DLL_COUNT system DLLs copied"
+
+# Copy GDK-Pixbuf loaders (for image format support)
+if [ -d "/mingw64/lib/gdk-pixbuf-2.0" ]; then
+    mkdir -p dist/lib/gdk-pixbuf-2.0
+    cp -r /mingw64/lib/gdk-pixbuf-2.0/* dist/lib/
+    echo "  ✓ GDK-Pixbuf loaders"
+fi
+
+# Copy GIO modules (for GVFS, etc.)
+if [ -d "/mingw64/lib/gio" ]; then
+    mkdir -p dist/lib/gio
+    cp -r /mingw64/lib/gio/* dist/lib/gio/
+    echo "  ✓ GIO modules"
+fi
+
+# Copy GStreamer plugins (for audio/video)
+if [ -d "/mingw64/lib/gstreamer-1.0" ]; then
+    mkdir -p dist/lib/gstreamer-1.0
+    # Only copy essential plugins to keep size manageable
+    for plugin in coreelements audioconvert audioresample volume autodetect \
+                  wasapi directsound rtp rtpmanager srtp dtls nice webrtc \
+                  opus vpx openh264 app audioparsers; do
+        for f in /mingw64/lib/gstreamer-1.0/*${plugin}*.dll; do
+            [ -f "$f" ] && cp "$f" dist/lib/gstreamer-1.0/
+        done
+    done
+    echo "  ✓ GStreamer plugins"
+fi
 
 # ============================================
 # Plugins (loaded dynamically from plugins/)
@@ -145,10 +321,45 @@ if [ -f "/mingw64/ssl/certs/ca-bundle.crt" ]; then
     echo "  ✓ CA certificates"
 fi
 
-# Icons
+# GTK4 schemas (needed for settings)
+if [ -d "/mingw64/share/glib-2.0/schemas" ]; then
+    mkdir -p dist/share/glib-2.0/schemas
+    cp /mingw64/share/glib-2.0/schemas/gschemas.compiled dist/share/glib-2.0/schemas/ 2>/dev/null || true
+    cp /mingw64/share/glib-2.0/schemas/*.xml dist/share/glib-2.0/schemas/ 2>/dev/null || true
+    echo "  ✓ GLib schemas"
+fi
+
+# Adwaita icons (needed for GTK4/libadwaita UI)
+if [ -d "/mingw64/share/icons/Adwaita" ]; then
+    mkdir -p dist/share/icons
+    cp -r /mingw64/share/icons/Adwaita dist/share/icons/
+    echo "  ✓ Adwaita icons"
+fi
+
+# Hicolor icons (fallback icon theme)
+if [ -d "/mingw64/share/icons/hicolor" ]; then
+    cp -r /mingw64/share/icons/hicolor dist/share/icons/
+    echo "  ✓ Hicolor icons"
+fi
+
+# GTK4 settings
+if [ -f "/mingw64/share/gtk-4.0/settings.ini" ]; then
+    mkdir -p dist/share/gtk-4.0
+    cp /mingw64/share/gtk-4.0/settings.ini dist/share/gtk-4.0/
+    echo "  ✓ GTK settings"
+fi
+
+# Pixbuf loaders cache
+if [ -f "/mingw64/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache" ]; then
+    mkdir -p dist/lib/gdk-pixbuf-2.0/2.10.0
+    cp /mingw64/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache dist/lib/gdk-pixbuf-2.0/2.10.0/
+    echo "  ✓ Pixbuf loaders cache"
+fi
+
+# Application icons
 if [ -d "main/data/icons/hicolor" ]; then
     cp -r main/data/icons/hicolor dist/share/icons/
-    echo "  ✓ Icons"
+    echo "  ✓ DinoX icons"
 fi
 
 # ============================================
@@ -159,19 +370,25 @@ echo "[8/8] Build complete!"
 echo ""
 echo "Directory structure:"
 echo "  dist/"
+echo "  ├── dinox.bat              (Windows launcher - USE THIS!)"
 echo "  ├── dinox.exe              (main application)"
-echo "  ├── gpgme-w32spawn.exe     (GPGME helper)"
-echo "  ├── lib*.dll               (core libraries)"
+echo "  ├── *.dll                  (system + core libraries)"
 echo "  ├── bin/"
 echo "  │   ├── gpg.exe            (OpenPGP encryption)"
 echo "  │   ├── openssl.exe        (backup encryption)"
 echo "  │   ├── tor.exe            (anonymity)"
 echo "  │   └── obfs4proxy.exe     (bridges)"
+echo "  ├── lib/"
+echo "  │   ├── gdk-pixbuf-2.0/    (image loaders)"
+echo "  │   ├── gio/               (GIO modules)"
+echo "  │   └── gstreamer-1.0/     (audio/video plugins)"
 echo "  ├── plugins/"
-echo "  │   └── *.dll              (feature plugins)"
-echo "  ├── share/icons/           (application icons)"
+echo "  │   └── *.dll              (DinoX feature plugins)"
+echo "  ├── share/"
+echo "  │   ├── glib-2.0/schemas/  (GSettings)"
+echo "  │   └── icons/             (Adwaita + app icons)"
 echo "  └── ssl/certs/             (CA certificates)"
 echo ""
-echo "Note: tar.exe uses Windows built-in (C:\\Windows\\System32\\tar.exe)"
+echo "To run from Windows Explorer: Double-click dinox.bat"
+echo "To run from MSYS2 terminal:   ./dist/dinox.exe"
 echo ""
-echo "You can now run: ./dist/dinox.exe"

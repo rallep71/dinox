@@ -215,23 +215,15 @@ public class Plugin : Plugins.RootInterface, Object {
 
     private void on_initialize_account_modules(Account account, ArrayList<Xmpp.XmppStreamModule> modules) {
         string? key_id = db.get_account_key(account);
-        if (key_id != null) {
-            try {
-                // Verify key existence before passing to module
-                var key = GPGHelper.get_private_key(key_id);
-                if (key == null) {
-                    debug("OpenPGP: Key %s returned null. Cleaning up database.", key_id);
-                    db.remove_account_key(account);
-                    key_id = null;
-                }
-            } catch (Error e) {
-                // If the key is missing from the keyring, GPGME throws an error.
-                // We should clean up our database reference to avoid persistent warnings.
-                debug("OpenPGP: Stale key detected (%s). Removing from database: %s", key_id, e.message);
-                db.remove_account_key(account);
-                key_id = null;
-            }
-        }
+        
+        // NOTE: We do NOT verify the key here synchronously anymore!
+        // The Module.do_key_setup() handles this asynchronously in a background thread.
+        // This prevents the app from hanging during startup if GPG is slow or unresponsive.
+        // If the key is invalid, do_key_setup() will simply fail to enable signing,
+        // and the user will see that OpenPGP is not working.
+        
+        debug("OpenPGP: Initializing modules for account %s, key_id: %s", 
+              account.bare_jid.to_string(), key_id ?? "none");
 
         // Add XEP-0027 module (legacy presence-based key signing)
         Module module = new Module(key_id);

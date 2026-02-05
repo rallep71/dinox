@@ -96,7 +96,7 @@ public class KeyManagementDialog : Object {
         // Import Key button
         var import_row = new Adw.ActionRow();
         import_row.title = _("Import Key");
-        import_row.subtitle = _("Import a key from file (.asc, .gpg)");
+        import_row.subtitle = _("Your secret key backup or public keys from contacts");
         var imp_icon = new Gtk.Image.from_icon_name("document-open-symbolic");
         import_row.add_suffix(imp_icon);
         var imp_btn = new Gtk.Button();
@@ -269,13 +269,22 @@ public class KeyManagementDialog : Object {
             row.add_row(publish_row);
         }
         
-        // Export button row
+        // Export public key button row
         var export_row = new Adw.ActionRow();
         export_row.title = _("Export Public Key");
         export_row.activatable = true;
         export_row.add_suffix(new Gtk.Image.from_icon_name("document-save-symbolic"));
-        export_row.activated.connect(() => export_key(key));
+        export_row.activated.connect(() => export_key(key, false));
         row.add_row(export_row);
+        
+        // Export secret key button row (for backup)
+        var export_secret_row = new Adw.ActionRow();
+        export_secret_row.title = _("Export Secret Key (Backup)");
+        export_secret_row.subtitle = _("Required for restoring your key");
+        export_secret_row.activatable = true;
+        export_secret_row.add_suffix(new Gtk.Image.from_icon_name("channel-secure-symbolic"));
+        export_secret_row.activated.connect(() => export_key(key, true));
+        row.add_row(export_secret_row);
         
         // Delete button row
         var delete_row = new Adw.ActionRow();
@@ -621,16 +630,21 @@ public class KeyManagementDialog : Object {
         }
     }
 
-    private void export_key(GpgKeyInfo key) {
+    private void export_key(GpgKeyInfo key, bool export_secret = false) {
         var file_dialog = new Gtk.FileDialog();
-        file_dialog.title = _("Export Public Key");
-        file_dialog.initial_name = key.email.replace("@", "_") + "_public.asc";
+        if (export_secret) {
+            file_dialog.title = _("Export Secret Key (Backup)");
+            file_dialog.initial_name = key.email.replace("@", "_") + "_SECRET.asc";
+        } else {
+            file_dialog.title = _("Export Public Key");
+            file_dialog.initial_name = key.email.replace("@", "_") + "_public.asc";
+        }
         
         file_dialog.save.begin(parent_window, null, (obj, res) => {
             try {
                 var file = file_dialog.save.end(res);
                 if (file != null) {
-                    export_key_to_file.begin(key, file.get_path());
+                    export_key_to_file.begin(key, file.get_path(), export_secret);
                 }
             } catch (Error e) {
                 // User cancelled
@@ -638,13 +652,18 @@ public class KeyManagementDialog : Object {
         });
     }
 
-    private async void export_key_to_file(GpgKeyInfo key, string path) {
+    private async void export_key_to_file(GpgKeyInfo key, string path, bool export_secret = false) {
         try {
             string openpgp_gnupg_home = Path.build_filename(Application.get_storage_dir(), "openpgp", "gnupg");
             string gpg_bin = Environment.find_program_in_path("gpg");
             if (gpg_bin == null) gpg_bin = "gpg";
             
-            string[] argv = { gpg_bin, "--homedir", openpgp_gnupg_home, "--armor", "--export", key.fingerprint };
+            string[] argv;
+            if (export_secret) {
+                argv = { gpg_bin, "--homedir", openpgp_gnupg_home, "--armor", "--export-secret-keys", key.fingerprint };
+            } else {
+                argv = { gpg_bin, "--homedir", openpgp_gnupg_home, "--armor", "--export", key.fingerprint };
+            }
             
             var proc = new Subprocess.newv(argv, SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_PIPE);
             string? stdout_str = null;
@@ -657,7 +676,11 @@ public class KeyManagementDialog : Object {
                     // Use File.replace_contents_async correctly
                     File f = File.new_for_path(path);
                     yield f.replace_contents_async(stdout_str.data, null, false, FileCreateFlags.NONE, null, null);
-                    show_message(_("Success"), _("Key exported to: ") + path);
+                    if (export_secret) {
+                        show_message(_("Success"), _("Secret key exported to: ") + path + "\n\n" + _("Keep this file safe! Anyone with this file can read your encrypted messages."));
+                    } else {
+                        show_message(_("Success"), _("Key exported to: ") + path);
+                    }
                 } catch (Error e) {
                     show_message(_("Error"), e.message);
                 }
