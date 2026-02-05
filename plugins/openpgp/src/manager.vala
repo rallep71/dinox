@@ -20,6 +20,11 @@ public class Manager : StreamInteractionModule, Object {
     private HashMap<Jid, string> pgp_key_ids = new HashMap<Jid, string>(Jid.hash_bare_func, Jid.equals_bare_func);
     private ReceivedMessageListener received_message_listener = new ReceivedMessageListener();
     
+    // Key cache to avoid synchronous GPG calls during message encryption
+    // Maps key_id -> GPGHelper.Key (or null if key not valid)
+    private HashMap<string, GPGHelper.Key?> key_cache = new HashMap<string, GPGHelper.Key?>();
+    private Mutex key_cache_mutex = Mutex();
+    
     // XEP-0373 key manager reference - set by plugin after initialization
     public Xep0373KeyManager? xep0373_manager { get; set; default = null; }
 
@@ -66,6 +71,62 @@ public class Manager : StreamInteractionModule, Object {
         debug("OpenPGP: %s does NOT support XEP-0374 - using XEP-0027 fallback", jid.to_string());
         return false;
     }
+    
+    /**
+     * Get a cached key, returns null if not in cache or invalid
+     */
+    private GPGHelper.Key? get_cached_key(string key_id) {
+        key_cache_mutex.lock();
+        GPGHelper.Key? key = null;
+        if (key_cache.has_key(key_id)) {
+            key = key_cache[key_id];
+        }
+        key_cache_mutex.unlock();
+        return key;
+    }
+    
+    /**
+     * Check if a key is in the cache
+     */
+    private bool is_key_cached(string key_id) {
+        key_cache_mutex.lock();
+        bool has = key_cache.has_key(key_id);
+        key_cache_mutex.unlock();
+        return has;
+    }
+    
+    /**
+     * Add a key to the cache (can be null for invalid keys)
+     */
+    public void cache_key(string key_id, GPGHelper.Key? key) {
+        key_cache_mutex.lock();
+        key_cache[key_id] = key;
+        key_cache_mutex.unlock();
+        if (key != null) {
+            debug("OpenPGP: Cached key %s (fpr: %s)", key_id, key.fpr);
+        } else {
+            debug("OpenPGP: Cached null for key %s (invalid)", key_id);
+        }
+    }
+    
+    /**
+     * Pre-load a key into cache in background thread
+     */
+    public void preload_key_async(string key_id) {
+        if (is_key_cached(key_id)) return;
+        
+        string key_id_copy = key_id;
+        new Thread<void*>("openpgp-preload-key", () => {
+            try {
+                var key = GPGHelper.get_public_key(key_id_copy);
+                cache_key(key_id_copy, key);
+            } catch (Error e) {
+                debug("OpenPGP: Failed to preload key %s: %s", key_id_copy, e.message);
+                cache_key(key_id_copy, null);
+            }
+            return null;
+        });
+    }
 
     public GPGHelper.Key[] get_key_fprs(Conversation conversation) throws Error {
         Gee.List<string> keys = new Gee.ArrayList<string>();
@@ -87,8 +148,17 @@ public class Manager : StreamInteractionModule, Object {
 
             foreach (Jid jid in muc_jids) {
                 string? key_id = stream_interactor.get_module<Manager>(Manager.IDENTITY).get_key_id(conversation.account, jid);
-                if (key_id != null && GPGHelper.get_keylist(key_id).size > 0 && !keys.contains(key_id)) {
-                    keys.add(key_id);
+                if (key_id != null && !keys.contains(key_id)) {
+                    // Use cache to check if key is valid - don't call GPG synchronously
+                    GPGHelper.Key? cached = get_cached_key(key_id);
+                    if (cached != null) {
+                        keys.add(key_id);
+                    } else if (!is_key_cached(key_id)) {
+                        // Key not in cache yet, add it anyway and preload for next time
+                        keys.add(key_id);
+                        preload_key_async(key_id);
+                    }
+                    // If cached as null (invalid), skip it
                 }
             }
         } else {
@@ -103,19 +173,30 @@ public class Manager : StreamInteractionModule, Object {
         
         debug("OpenPGP get_key_fprs: Total %d key IDs to encrypt to", keys.size);
         
-        // Build array, filtering out null keys
+        // Build array using cached keys - NO synchronous GPG calls
         var valid_keys = new Gee.ArrayList<GPGHelper.Key>();
-        for (int i = 0; i < keys.size; i++) {
-            try {
-                GPGHelper.Key? key = GPGHelper.get_public_key(keys[i]);
-                if (key != null) {
-                    valid_keys.add(key);
-                    debug("OpenPGP get_key_fprs: Got public key %s", key.fpr);
-                } else {
-                    debug("OpenPGP get_key_fprs: Key %s returned null!", keys[i]);
+        foreach (string key_id in keys) {
+            GPGHelper.Key? key = get_cached_key(key_id);
+            if (key != null) {
+                valid_keys.add(key);
+                debug("OpenPGP get_key_fprs: Got cached key %s", key.fpr);
+            } else if (!is_key_cached(key_id)) {
+                // Not in cache yet, we need to fetch it synchronously as fallback
+                // This should only happen on first use before cache is populated
+                debug("OpenPGP get_key_fprs: Key %s not cached, fetching sync (first use)", key_id);
+                try {
+                    key = GPGHelper.get_public_key(key_id);
+                    cache_key(key_id, key);
+                    if (key != null) {
+                        valid_keys.add(key);
+                        debug("OpenPGP get_key_fprs: Got public key %s", key.fpr);
+                    }
+                } catch (Error e) {
+                    debug("OpenPGP: Failed to get public key for %s: %s", key_id, e.message);
+                    cache_key(key_id, null);
                 }
-            } catch (Error e) {
-                debug("OpenPGP: Failed to get public key for %s: %s", keys[i], e.message);
+            } else {
+                debug("OpenPGP get_key_fprs: Key %s cached as invalid, skipping", key_id);
             }
         }
         
@@ -130,6 +211,10 @@ public class Manager : StreamInteractionModule, Object {
             if (message.encryption == Encryption.PGP) {
                 debug("OpenPGP check_encypt: Encryption IS PGP, getting keys...");
                 GPGHelper.Key[] keys = get_key_fprs(conversation);
+                debug("OpenPGP check_encypt: Got %d keys to encrypt to", keys.length);
+                foreach (var k in keys) {
+                    debug("OpenPGP check_encypt: -> Key: %s (uid: %s)", k.fpr, k.uid ?? "none");
+                }
                 XmppStream? stream = stream_interactor.get_stream(conversation.account);
                 if (stream != null) {
                     bool encrypted = false;

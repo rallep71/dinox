@@ -23,8 +23,18 @@ public class KeyManager : Object {
                     if (key_str.length > 0) return key_str;
                 }
             } catch (Error e) {
-                warning("KeyManager: Could not read key file: %s", e.message);
+                // CRITICAL: If we can't read an existing key file, we MUST NOT generate a new one
+                // as this would make the existing omemo.db unreadable!
+                warning("KeyManager: Could not read existing key file: %s", e.message);
+                throw new IOError.FAILED("Cannot read existing OMEMO key file. Database would become inaccessible.");
             }
+        }
+
+        // Only generate new key if the file does NOT exist
+        // Check if omemo.db exists - if so, we MUST NOT generate a new key
+        string omemo_db_path = Path.build_filename(key_dir, "omemo.db");
+        if (FileUtils.test(omemo_db_path, FileTest.EXISTS)) {
+            throw new IOError.FAILED("OMEMO database exists but key file is missing. Cannot recover.");
         }
 
         // Generate new key (Simple fallback for Windows)

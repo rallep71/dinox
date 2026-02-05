@@ -74,6 +74,39 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         return Environment.get_tmp_dir();
 #endif
     }
+
+#if WINDOWS
+    // Get the directory where dinox.exe is located
+    private static string get_executable_dir() {
+        // Try to get from command line args (first arg is usually the exe path)
+        string? exe_path = null;
+        
+        // Method 1: Check if we're in the dist folder structure
+        // Look for openssl.exe in bin/ relative to current working dir
+        string cwd = Environment.get_current_dir();
+        if (FileUtils.test(Path.build_filename(cwd, "bin", "openssl.exe"), FileTest.EXISTS)) {
+            return cwd;
+        }
+        
+        // Method 2: Try common install locations
+        string[] possible_dirs = {
+            "C:\\Program Files\\DinoX",
+            "C:\\Program Files (x86)\\DinoX",
+            Path.build_filename(Environment.get_home_dir(), "dino-win", "dist"),
+            "."
+        };
+        
+        foreach (string dir in possible_dirs) {
+            if (FileUtils.test(Path.build_filename(dir, "bin", "openssl.exe"), FileTest.EXISTS)) {
+                return dir;
+            }
+        }
+        
+        // Fallback to current dir
+        return cwd;
+    }
+#endif
+
     private string? pending_xmpp_uri = null;
 
     private const int MAX_UNLOCK_TRIES = 3;
@@ -605,7 +638,6 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
 #if WINDOWS
         // On Windows: Spawn a background cmd process that deletes after we exit
         // File locks are released when our process terminates
-        // Use full path to Windows timeout.exe (not MSYS2 timeout which is different!)
         string data_dir_win = data_dir.replace("/", "\\");
         string config_dir_win = config_dir.replace("/", "\\");
         string cache_dir_win = cache_dir.replace("/", "\\");
@@ -613,13 +645,24 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         string old_config_dir_win = old_config_dir.replace("/", "\\");
         string old_cache_dir_win = old_cache_dir.replace("/", "\\");
         
-        // Use Windows' built-in timeout.exe with full path - delete both dinox AND legacy dino folders
-        string wipe_cmd = "cmd.exe /c C:\\Windows\\System32\\timeout.exe /t 1 /nobreak >nul & rd /s /q \"%s\" 2>nul & rd /s /q \"%s\" 2>nul & rd /s /q \"%s\" 2>nul & rd /s /q \"%s\" 2>nul & rd /s /q \"%s\" 2>nul & rd /s /q \"%s\" 2>nul".printf(
-            data_dir_win, config_dir_win, cache_dir_win,
-            old_data_dir_win, old_config_dir_win, old_cache_dir_win
-        );
+        // Create a batch file that will delete after we exit
+        // This is more reliable than inline cmd commands
+        string batch_path = Path.build_filename(Environment.get_tmp_dir(), "dinox_wipe.bat").replace("/", "\\");
+        string batch_content = "@echo off\r\n";
+        batch_content += "ping 127.0.0.1 -n 2 > nul\r\n";  // Wait ~1 second
+        batch_content += "rd /s /q \"" + data_dir_win + "\" 2>nul\r\n";
+        batch_content += "rd /s /q \"" + config_dir_win + "\" 2>nul\r\n";
+        batch_content += "rd /s /q \"" + cache_dir_win + "\" 2>nul\r\n";
+        batch_content += "rd /s /q \"" + old_data_dir_win + "\" 2>nul\r\n";
+        batch_content += "rd /s /q \"" + old_config_dir_win + "\" 2>nul\r\n";
+        batch_content += "rd /s /q \"" + old_cache_dir_win + "\" 2>nul\r\n";
+        batch_content += "(goto) 2>nul & del \"%~f0\"\r\n";  // Delete batch file silently
         
         try {
+            FileUtils.set_contents(batch_path, batch_content);
+            // Start batch file hidden with START /B
+            string wipe_cmd = "cmd.exe /c start /b \"\" \"" + batch_path + "\"";
+            debug("Panic wipe command: %s", wipe_cmd);
             Process.spawn_command_line_async(wipe_cmd);
         } catch (Error e) {
             warning("Panic wipe spawn failed: %s", e.message);
@@ -1223,8 +1266,22 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
 
                 // Use OpenSSL for symmetric decryption (matches our encryption)
                 // AES-256-CBC with PBKDF2 key derivation
+#if WINDOWS
+                // On Windows, use openssl.exe from our bin/ directory
+                string exe_dir = get_executable_dir();
+                string openssl_exe = Path.build_filename(exe_dir, "bin", "openssl.exe");
+                if (!FileUtils.test(openssl_exe, FileTest.EXISTS)) {
+                    openssl_exe = "C:\\msys64\\mingw64\\bin\\openssl.exe";
+                }
+                if (!FileUtils.test(openssl_exe, FileTest.EXISTS)) {
+                    openssl_exe = "openssl";
+                }
+                warning("Restore: Using OpenSSL at: %s", openssl_exe);
+#else
+                string openssl_exe = "openssl";
+#endif
                 string[] dec_argv = {
-                    "openssl", "enc", "-d", "-aes-256-cbc", "-pbkdf2",
+                    openssl_exe, "enc", "-d", "-aes-256-cbc", "-pbkdf2",
                     "-in", backup_file,
                     "-out", tar_path,
                     "-pass", "pass:" + restore_password
@@ -1274,14 +1331,14 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             // Extract backup to user directories
 #if WINDOWS
             // On Windows, use the system tar.exe which understands native paths
+            // Note: Windows tar doesn't support --overwrite, but it overwrites by default
             string system_tar = Path.build_filename(Environment.get_variable("SYSTEMROOT") ?? "C:\\Windows", "System32", "tar.exe");
             string tar_cmd = FileUtils.test(system_tar, FileTest.EXISTS) ? system_tar : "tar";
             string[] argv = {
                 tar_cmd,
                 "-xzf",
                 tar_path,
-                "-C", Environment.get_user_data_dir(),
-                "--overwrite"
+                "-C", Environment.get_user_data_dir()
             };
 #else
             string[] argv = {
@@ -1321,14 +1378,13 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             if (success) {
 #if WINDOWS
                 // Reuse the same system tar path
+                // Note: Windows tar doesn't support --overwrite or --strip-components
                 string tar_cmd_cfg = FileUtils.test(system_tar, FileTest.EXISTS) ? system_tar : "tar";
                 string[] argv_config = {
                     tar_cmd_cfg,
                     "-xzf",
                     tar_path,
-                    "-C", Environment.get_user_config_dir(),
-                    "--overwrite",
-                    "--strip-components=0"
+                    "-C", Environment.get_user_config_dir()
                 };
 #else
                 string[] argv_config = {
@@ -1970,6 +2026,8 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
                 // Fallback to PATH-based tar (might be MSYS2 tar, might fail)
                 argv = { "tar", "-czf", temp_tar_path, "-C", data_parent, "dinox" };
             }
+            warning("Backup: Using tar: %s", argv[0]);
+            warning("Backup: Command: %s -czf %s -C %s dinox", argv[0], temp_tar_path, data_parent);
 #else
             string[] argv = { "tar", "-czf", temp_tar_path, "-C", data_parent, "dinox" };
 #endif
@@ -1977,6 +2035,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             string? stdout_str = null;
             int exit_status = -1;
 
+            warning("Backup: Starting tar process...");
             try {
                 Process.spawn_sync (
                     null,
@@ -1989,26 +2048,55 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
                     out exit_status
 );
                 success = (exit_status == 0);
+                warning("Backup: tar finished with exit code %d", exit_status);
             } catch (Error err) {
                 stderr_str = err.message;
+                warning("Backup: tar exception: %s", err.message);
             }
 
             // If password provided, encrypt with OpenSSL (simpler than GPG, no agent needed)
             if (success && backup_password != null) {
+                warning("Backup: Starting OpenSSL encryption...");
                 // Use OpenSSL for symmetric encryption - it doesn't need gpg-agent
                 // AES-256-CBC with PBKDF2 key derivation
+#if WINDOWS
+                // On Windows, use openssl.exe from our bin/ directory
+                string exe_dir = get_executable_dir();
+                string openssl_exe = Path.build_filename(exe_dir, "bin", "openssl.exe");
+                warning("Backup: Looking for OpenSSL at: %s", openssl_exe);
+                if (!FileUtils.test(openssl_exe, FileTest.EXISTS)) {
+                    // Try MSYS2 path
+                    openssl_exe = "C:\\msys64\\mingw64\\bin\\openssl.exe";
+                    warning("Backup: Fallback to MSYS2 OpenSSL: %s", openssl_exe);
+                }
+                if (!FileUtils.test(openssl_exe, FileTest.EXISTS)) {
+                    // Fallback to PATH
+                    openssl_exe = "openssl";
+                }
+                warning("Backup: Using OpenSSL at: %s", openssl_exe);
+#else
+                string openssl_exe = "openssl";
+#endif
                 string[] enc_argv = {
-                    "openssl", "enc", "-aes-256-cbc", "-salt", "-pbkdf2",
+                    openssl_exe, "enc", "-aes-256-cbc", "-salt", "-pbkdf2",
                     "-in", temp_tar_path,
                     "-out", backup_path,
                     "-pass", "pass:" + backup_password
                 };
 
+                // Debug: Print the full command
+                string cmd_debug = string.joinv(" ", enc_argv);
+                warning("Backup: OpenSSL command: %s", cmd_debug);
+                warning("Backup: temp_tar_path exists: %s", FileUtils.test(temp_tar_path, FileTest.EXISTS).to_string());
+
                 string? enc_stdout = null;
                 string? enc_stderr = null;
                 try {
+                    warning("Backup: Spawning OpenSSL subprocess...");
                     Subprocess proc = new Subprocess.newv (enc_argv, SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_PIPE);
+                    warning("Backup: Waiting for OpenSSL to finish...");
                     proc.communicate_utf8 (null, null, out enc_stdout, out enc_stderr);
+                    warning("Backup: OpenSSL finished!");
                     success = proc.get_successful ();
                     exit_status = proc.get_exit_status ();
 
@@ -2019,6 +2107,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
 
                     // Delete temporary unencrypted file
                     FileUtils.unlink( temp_tar_path);
+                    warning("Backup: Temp file deleted");
                 } catch (Error err) {
                     stderr_str = err.message;
                     success = false;
@@ -2026,24 +2115,34 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
                 }
             }
 
+            warning("Backup: Encryption block done, success=%s", success.to_string());
+
             // Get file size if successful
             string size_str = "";
             if (success) {
+                warning("Backup: Getting file size...");
                 try {
                     var file = File.new_for_path (backup_path);
                     FileInfo info = file.query_info (FileAttribute.STANDARD_SIZE, FileQueryInfoFlags.NONE);
                     int64 size = info.get_size ();
                     size_str = format_size (size);
+                    warning("Backup: File size: %s", size_str);
                 } catch (Error err) {
                     // Ignore size check error
+                    warning("Backup: Could not get file size: %s", err.message);
                 }
             }
+
+            warning("Backup: About to update UI via Idle.add...");
 
             // Update dialog on main thread
             string final_stderr = stderr_str;
             string final_size = size_str;
             bool was_encrypted = backup_password != null;
-            Idle.add (() => {
+            
+            // Use Timeout instead of Idle - more reliable on Windows
+            Timeout.add(100, () => {
+                warning("Backup: Inside Timeout callback!");
                 spinner.spinning = false;
                 progress_dialog.set_extra_child (null);
                 progress_dialog.add_response ("close", _("Close"));

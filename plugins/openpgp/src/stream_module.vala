@@ -9,41 +9,152 @@ namespace Dino.Plugins.OpenPgp {
         public static Xmpp.ModuleIdentity<Module> IDENTITY = new Xmpp.ModuleIdentity<Module>(NS_URI, "0027_current_pgp_usage");
 
         public signal void received_jid_key_id(XmppStream stream, Jid jid, string key_id);
+        
+        // Signal emitted when key setup is complete - allows triggering presence resend
+        public signal void key_setup_complete();
 
         private string? signed_status = null;
         private GPGHelper.Key? own_key = null;
         private ReceivedPipelineDecryptListener received_pipeline_decrypt_listener = new ReceivedPipelineDecryptListener();
+        
+        // Flag to prevent use-after-free in thread callbacks
+        private bool module_disposed = false;
+        
+        // Reference to attached stream for presence resend
+        private weak XmppStream? attached_stream = null;
+        
+        // Store key_id for deferred initialization (safer on Windows)
+        private string? pending_key_id = null;
+        private bool key_setup_done = false;
 
         public Module(string? own_key_id = null) {
-            set_private_key_id(own_key_id);
+            // DON'T do key setup in constructor - just store the ID
+            // The actual setup happens in attach() when the stream is ready
+            // This avoids thread race conditions on Windows
+            this.pending_key_id = own_key_id;
+            debug("OpenPGP XEP-0027: Module created with key_id: %s (setup deferred)", own_key_id ?? "none");
         }
 
         public void set_private_key_id(string? own_key_id) {
-            if (own_key_id != null) {
-                debug("OpenPGP XEP-0027: Setting private key ID: %s", own_key_id);
+            // Just update the pending key ID - actual setup is done in do_key_setup()
+            this.pending_key_id = own_key_id;
+            this.key_setup_done = false;
+            
+            if (own_key_id == null || own_key_id.length == 0) {
+                own_key = null;
+                signed_status = null;
+                debug("OpenPGP XEP-0027: Key cleared");
+            } else if (attached_stream != null) {
+                // If already attached, do setup now
+                do_key_setup();
+            }
+        }
+        
+        // Perform key setup in background thread - non-blocking
+        private void do_key_setup() {
+            if (key_setup_done || pending_key_id == null || pending_key_id.length == 0) {
+                return;
+            }
+            
+            // Mark as done immediately to prevent duplicate calls
+            key_setup_done = true;
+            
+            debug("OpenPGP XEP-0027: Starting async key setup for: %s", pending_key_id);
+            
+            // Copy values for thread safety
+            string key_id_copy = pending_key_id;
+            
+            // Run GPG operations in background thread to avoid blocking UI
+            new Thread<void*>("openpgp-key-setup", () => {
+                GPGHelper.Key? key = null;
+                string? sig = null;
+                
                 try {
-                    own_key = GPGHelper.get_private_key(own_key_id);
-                    if (own_key == null) {
-                        debug("OpenPGP XEP-0027: Can't get PGP private key %s - key returned null", own_key_id);
+                    key = GPGHelper.get_private_key(key_id_copy);
+                    if (key == null) {
+                        debug("OpenPGP XEP-0027: Can't get PGP private key %s - key returned null", key_id_copy);
+                        return null;
                     }
-                } catch (Error e) {
-                    debug("OpenPGP XEP-0027: Failed to get private key %s: %s", own_key_id, e.message);
-                }
-                if (own_key != null) {
+                    
                     debug("OpenPGP XEP-0027: Got private key, now trying to sign...");
-                    signed_status = gpg_sign("", own_key);
-                    if (signed_status != null) {
-                        debug("OpenPGP XEP-0027: Presence signing ENABLED with key %s (fingerprint: %s)", own_key_id, own_key.fpr);
-                        // Note: Keyserver upload is now user-controlled via Key Management dialog
+                    sig = gpg_sign("", key);
+                } catch (Error e) {
+                    debug("OpenPGP XEP-0027: Failed to get private key %s: %s", key_id_copy, e.message);
+                    return null;
+                }
+                
+                // Callback to main thread with results
+                Idle.add(() => {
+                    if (module_disposed) return false;
+                    
+                    if (sig != null && key != null) {
+                        this.own_key = key;
+                        this.signed_status = sig;
+                        debug("OpenPGP XEP-0027: Presence signing ENABLED with key %s", key_id_copy);
+                        
+                        // Send presence with signature
+                        if (attached_stream != null) {
+                            debug("OpenPGP XEP-0027: Sending signed presence...");
+                            var presence_module = attached_stream.get_module<Presence.Module>(Presence.Module.IDENTITY);
+                            if (presence_module != null) {
+                                var presence = new Presence.Stanza();
+                                presence.type_ = Presence.Stanza.TYPE_AVAILABLE;
+                                presence_module.send_presence(attached_stream, presence);
+                                debug("OpenPGP XEP-0027: Signed presence sent!");
+                            }
+                        }
+                        
+                        key_setup_complete();
                     } else {
                         debug("OpenPGP XEP-0027: Failed to create signed_status - signing disabled!");
                     }
-                } else {
-                    debug("OpenPGP XEP-0027: No private key available - presence signing DISABLED. Other clients won't see your key!");
+                    return false;
+                });
+                
+                return null;
+            });
+        }
+        
+        // LEGACY synchronous version - NOT USED, kept for reference
+        private void do_key_setup_sync_UNUSED() {
+            string? key_id_copy = pending_key_id;
+            if (key_id_copy == null || key_id_copy.length == 0) return;
+            
+            try {
+                var key = GPGHelper.get_private_key(key_id_copy);
+                if (key == null) {
+                    debug("OpenPGP XEP-0027: Can't get PGP private key %s - key returned null", key_id_copy);
+                    return;
                 }
-            } else {
-                debug("OpenPGP XEP-0027: No key_id configured for this account");
+                
+                string? sig = gpg_sign("", key);
+                
+                if (sig != null) {
+                    this.own_key = key;
+                    this.signed_status = sig;
+                    debug("OpenPGP XEP-0027: Presence signing ENABLED with key %s", pending_key_id);
+                    
+                    // Send presence with signature
+                    if (attached_stream != null) {
+                        debug("OpenPGP XEP-0027: Sending signed presence...");
+                        var presence_module = attached_stream.get_module<Presence.Module>(Presence.Module.IDENTITY);
+                        if (presence_module != null) {
+                            var presence = new Presence.Stanza();
+                            presence.type_ = Presence.Stanza.TYPE_AVAILABLE;
+                            presence_module.send_presence(attached_stream, presence);
+                            debug("OpenPGP XEP-0027: Signed presence sent!");
+                        }
+                    }
+                    
+                    key_setup_complete();
+                } else {
+                    debug("OpenPGP XEP-0027: Failed to create signed_status - signing disabled!");
+                }
+            } catch (Error e) {
+                debug("OpenPGP XEP-0027: Failed to get private key %s: %s", pending_key_id, e.message);
             }
+            
+            key_setup_done = true;
         }
 
         // XEP-0027 encryption (legacy format)
@@ -62,13 +173,13 @@ namespace Dino.Plugins.OpenPgp {
         public bool encrypt_0374(MessageStanza message, GPGHelper.Key[] keys) {
             if (message.to == null || message.body == null) return false;
             
-            // Create signcrypt content element
-            var signcrypt = new Xmpp.Xep.OpenPgpContent.SigncryptElement.with_body(message.to, message.body);
-            string signcrypt_xml = signcrypt.to_stanza_node().to_xml();
-            
             // Sign and encrypt the signcrypt element
             string? encrypted;
             try {
+                // Create signcrypt content element
+                var signcrypt = new Xmpp.Xep.OpenPgpContent.SigncryptElement.with_body(message.to, message.body);
+                string signcrypt_xml = signcrypt.to_stanza_node().to_xml();
+                
                 // For XEP-0374 we need to sign AND encrypt
                 // The signcrypt element itself should be encrypted to all recipients
                 encrypted = GPGHelper.sign_and_encrypt(signcrypt_xml, keys, own_key);
@@ -121,13 +232,29 @@ namespace Dino.Plugins.OpenPgp {
         }
 
         public override void attach(XmppStream stream) {
+            // Store reference to stream for presence resend after key setup
+            attached_stream = stream;
+            
             stream.get_module<Presence.Module>(Presence.Module.IDENTITY).received_presence.connect(on_received_presence);
             stream.get_module<Presence.Module>(Presence.Module.IDENTITY).pre_send_presence_stanza.connect(on_pre_send_presence_stanza);
             stream.get_module<MessageModule>(MessageModule.IDENTITY).received_pipeline.connect(received_pipeline_decrypt_listener);
             stream.add_flag(new Flag());
+            
+            // Perform deferred key setup now that stream is attached
+            // Use Idle.add to not block the attach() call
+            Idle.add(() => {
+                if (!module_disposed) {
+                    do_key_setup();
+                }
+                return false;
+            });
         }
 
         public override void detach(XmppStream stream) {
+            // Mark as disposed FIRST to prevent any pending callbacks from running
+            module_disposed = true;
+            attached_stream = null;
+            
             stream.get_module<Presence.Module>(Presence.Module.IDENTITY).received_presence.disconnect(on_received_presence);
             stream.get_module<Presence.Module>(Presence.Module.IDENTITY).pre_send_presence_stanza.disconnect(on_pre_send_presence_stanza);
             stream.get_module<MessageModule>(MessageModule.IDENTITY).received_pipeline.disconnect(received_pipeline_decrypt_listener);
@@ -151,15 +278,20 @@ namespace Dino.Plugins.OpenPgp {
             }
             debug("OpenPGP XEP-0027: Got signed presence from %s, signature length: %d", presence.from.to_string(), sig.length);
             
-            // Store copies for the idle callback (avoid closure issues)
+            // Store copies for thread safety
             string sig_copy = sig;
             string signed_data = presence.status == null ? "" : presence.status;
             Jid from_jid = presence.from;
             
-            // Use Idle.add instead of Thread to avoid Windows GLib handler stack corruption
-            // The GPG operations are already serialized via mutex, so this is safe
-            Idle.add(() => {
-                var verify_result = verify_signature(sig_copy, signed_data);
+            // Run GPG verification in background thread to avoid blocking UI
+            new Thread<void*>("openpgp-verify-presence", () => {
+                GPGHelper.SignatureVerifyResult verify_result;
+                try {
+                    verify_result = verify_signature(sig_copy, signed_data);
+                } catch (Error e) {
+                    debug("OpenPGP: Error in verify_signature: %s", e.message);
+                    return null;
+                }
                 
                 if (verify_result.key_id != null) {
                     if (verify_result.key_missing) {
@@ -180,30 +312,45 @@ namespace Dino.Plugins.OpenPgp {
                         }
                     }
                     
-                    if (verify_result.verified || verify_result.key_id != null) {
-                        // Store the key ID even if not verified (user can import manually)
-                        stream.get_flag(Flag.IDENTITY).set_key_id(from_jid, verify_result.key_id);
-                        string key_id_copy = verify_result.key_id;
-                        Idle.add(() => {
-                            received_jid_key_id(stream, from_jid, key_id_copy);
-                            return false;
-                        });
-                        if (verify_result.verified) {
-                            debug("OpenPGP XEP-0027: VERIFIED key %s from %s", verify_result.key_id, from_jid.to_string());
-                        } else {
-                            debug("OpenPGP XEP-0027: Stored UNVERIFIED key %s from %s (key not in keyring)", 
-                                    verify_result.key_id, from_jid.to_string());
+                    // Copy final result for main thread callback
+                    string? final_key_id = verify_result.key_id;
+                    bool final_verified = verify_result.verified;
+                    
+                    // Callback to main thread to update UI/flags
+                    Idle.add(() => {
+                        if (module_disposed) return false;
+                        
+                        if (final_key_id != null) {
+                            // Store the key ID even if not verified (user can import manually)
+                            stream.get_flag(Flag.IDENTITY).set_key_id(from_jid, final_key_id);
+                            received_jid_key_id(stream, from_jid, final_key_id);
+                            
+                            if (final_verified) {
+                                debug("OpenPGP XEP-0027: VERIFIED key %s from %s", final_key_id, from_jid.to_string());
+                            } else {
+                                debug("OpenPGP XEP-0027: Stored UNVERIFIED key %s from %s (key not in keyring)", 
+                                        final_key_id, from_jid.to_string());
+                            }
                         }
-                    }
+                        return false;
+                    });
                 } else {
                     debug("OpenPGP XEP-0027: Could not extract key ID from signature of %s", from_jid.to_string());
                 }
-                return false;  // Don't repeat
+                
+                return null;
             });
         }
         
         // Wrapper for GPGHelper.verify_signature
         private static GPGHelper.SignatureVerifyResult verify_signature(string sig, string signed_text) {
+            // Validate signature before passing to GPG - avoid radix64 errors
+            // Check for base64url characters that will cause GPG to fail
+            if (sig.contains("-") || sig.contains("_")) {
+                debug("OpenPGP XEP-0027: Signature contains base64url characters, skipping");
+                return new GPGHelper.SignatureVerifyResult();
+            }
+            
             // XEP-0027 uses detached PGP SIGNATURE format, not PGP MESSAGE
             string armor = "-----BEGIN PGP SIGNATURE-----\n\n" + sig + "\n-----END PGP SIGNATURE-----";
             debug("OpenPGP XEP-0027: verify_signature armor:\n%s", armor);
@@ -342,6 +489,13 @@ public class ReceivedPipelineDecryptListener : StanzaListener<MessageStanza> {
     public override string[] after_actions { get { return after_actions_const; } }
 
     public override async bool run(XmppStream stream, MessageStanza message) {
+        // Check if we have any secret keys before attempting decryption
+        // Without secret keys, decryption will always fail
+        if (!GPGHelper.has_secret_keys()) {
+            debug("OpenPGP: No secret keys available, skipping decryption");
+            return false;
+        }
+        
         // Try XEP-0374 format first (<openpgp> element)
         string? openpgp_data = get_openpgp_content(message);
         if (openpgp_data != null) {
@@ -376,18 +530,23 @@ public class ReceivedPipelineDecryptListener : StanzaListener<MessageStanza> {
         SourceFunc callback = gpg_decrypt_0374.callback;
         string? res = null;
         new Thread<void*> (null, () => {
-            // The data is base64-encoded OpenPGP message
-            // We need to wrap it in ASCII armor for GPG
-            // But first check if it's already armored
-            string armor;
-            string clean_data = base64_data.strip();
-            
-            if (clean_data.has_prefix("-----BEGIN PGP")) {
-                // Already armored, use as-is
-                armor = clean_data;
-            } else {
-                // Wrap in armor
-                armor = "-----BEGIN PGP MESSAGE-----\n\n" + clean_data + "\n-----END PGP MESSAGE-----";
+            try {
+                // The data is base64-encoded OpenPGP message
+                // We need to wrap it in ASCII armor for GPG
+                // But first check if it's already armored
+                string armor;
+                string clean_data = base64_data.strip();
+                
+                // Convert Base64-URL to Standard Base64 (- -> +, _ -> /)
+                // This fixes radix64 errors from GPG
+                clean_data = clean_data.replace("-", "+").replace("_", "/");
+                
+                if (clean_data.has_prefix("-----BEGIN PGP")) {
+                    // Already armored, use as-is
+                    armor = clean_data;
+                } else {
+                    // Wrap in armor
+                    armor = "-----BEGIN PGP MESSAGE-----\n\n" + clean_data + "\n-----END PGP MESSAGE-----";
             }
             
             try {
@@ -397,6 +556,10 @@ public class ReceivedPipelineDecryptListener : StanzaListener<MessageStanza> {
                 res = extract_body_from_signcrypt(decrypted_xml);
             } catch (Error e) {
                 debug("OpenPGP XEP-0374: Decryption failed: %s", e.message);
+                res = null;
+            }
+            } catch (Error e) {
+                debug("OpenPGP XEP-0374: Thread error: %s", e.message);
                 res = null;
             }
             Idle.add((owned) callback);
@@ -426,22 +589,31 @@ public class ReceivedPipelineDecryptListener : StanzaListener<MessageStanza> {
         SourceFunc callback = gpg_decrypt.callback;
         string? res = null;
         new Thread<void*> (null, () => {
-            // Check if already armored
-            string armor;
-            string clean_data = enc.strip();
-            
-            if (clean_data.has_prefix("-----BEGIN PGP")) {
-                // Already armored, use as-is
-                armor = clean_data;
-            } else {
-                // Wrap in armor
-                armor = "-----BEGIN PGP MESSAGE-----\n\n" + clean_data + "\n-----END PGP MESSAGE-----";
-            }
-            
             try {
-                res = GPGHelper.decrypt(armor);
+                // Check if already armored
+                string armor;
+                string clean_data = enc.strip();
+                
+                // Convert Base64-URL to Standard Base64 (- -> +, _ -> /)
+                // This fixes radix64 errors from GPG
+                clean_data = clean_data.replace("-", "+").replace("_", "/");
+                
+                if (clean_data.has_prefix("-----BEGIN PGP")) {
+                    // Already armored, use as-is
+                    armor = clean_data;
+                } else {
+                    // Wrap in armor
+                    armor = "-----BEGIN PGP MESSAGE-----\n\n" + clean_data + "\n-----END PGP MESSAGE-----";
+                }
+                
+                try {
+                    res = GPGHelper.decrypt(armor);
+                } catch (Error e) {
+                    debug("OpenPGP XEP-0027: Decryption failed: %s", e.message);
+                    res = null;
+                }
             } catch (Error e) {
-                debug("OpenPGP XEP-0027: Decryption failed: %s", e.message);
+                debug("OpenPGP XEP-0027: Thread error: %s", e.message);
                 res = null;
             }
             Idle.add((owned) callback);
