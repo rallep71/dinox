@@ -577,7 +577,8 @@ public static string decrypt(string encr) throws GLib.Error {
             throw new IOError.FAILED("GPG decrypt failed: no secret key available for this message");
         }
         
-        string[] args = { "--decrypt", "-o", temp_out, temp_in };
+        // Use --status-fd to check actual decryption status, --ignore-crc-error for robustness
+        string[] args = { "--decrypt", "--status-fd", "2", "--ignore-crc-error", "-o", temp_out, temp_in };
         
         string stdout_str, stderr_str;
         int exit_status;
@@ -586,7 +587,12 @@ public static string decrypt(string encr) throws GLib.Error {
         
         FileUtils.remove(temp_in);
         
-        if (exit_status != 0) {
+        // Check if decryption was actually successful by looking at status output
+        // GPG may return non-zero exit code due to signature issues even when decryption worked
+        bool decryption_ok = stderr_str.contains("[GNUPG:] DECRYPTION_OKAY") || 
+                             stderr_str.contains("[GNUPG:] GOODMDC");
+        
+        if (!decryption_ok && exit_status != 0) {
             // Clean up temp_out if it exists
             if (FileUtils.test(temp_out, FileTest.EXISTS)) {
                 FileUtils.remove(temp_out);
@@ -636,8 +642,9 @@ public static DecryptedData decrypt_data(uint8[] data) throws GLib.Error {
             throw new IOError.FAILED("GPG decrypt data failed: no secret key available for this message");
         }
         
-        // Use --status-fd to get filename info
-        string[] args = { "--decrypt", "--status-fd", "2", "-o", temp_out, temp_in };
+        // Use --status-fd to get status info, --ignore-crc-error for robustness
+        // Don't use --batch as we may need pinentry for passphrase
+        string[] args = { "--decrypt", "--status-fd", "2", "--ignore-crc-error", "-o", temp_out, temp_in };
         
         string stdout_str, stderr_str;
         int exit_status;
@@ -646,7 +653,12 @@ public static DecryptedData decrypt_data(uint8[] data) throws GLib.Error {
         
         FileUtils.remove(temp_in);
         
-        if (exit_status != 0) {
+        // Check if decryption was actually successful by looking at status output
+        // GPG may return non-zero exit code due to signature issues even when decryption worked
+        bool decryption_ok = stderr_str.contains("[GNUPG:] DECRYPTION_OKAY") || 
+                             stderr_str.contains("[GNUPG:] GOODMDC");
+        
+        if (!decryption_ok && exit_status != 0) {
             // Clean up temp_out if it exists
             if (FileUtils.test(temp_out, FileTest.EXISTS)) {
                 FileUtils.remove(temp_out);
