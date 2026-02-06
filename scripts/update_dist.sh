@@ -149,9 +149,9 @@ SYSTEM_DLLS=(
     "libgcc_s_seh-1.dll"
     
     # ICU (internationalization - for webkit/soup)
-    "libicuuc74.dll"
-    "libicuin74.dll"
-    "libicudt74.dll"
+    "libicuuc78.dll"
+    "libicuin78.dll"
+    "libicudt78.dll"
     
     # Gee (collections library)
     "libgee-0.8-2.dll"
@@ -159,8 +159,8 @@ SYSTEM_DLLS=(
     # QREncode
     "libqrencode-4.dll"
     
-    # Signal protocol
-    "libsignal-protocol-c-2.dll"
+    # Signal protocol (not in MSYS2's standard packages, built separately for OMEMO)
+    # "libsignal-protocol-c-2.dll"
     
     # SRTPv2 for RTP
     "libsrtp2-1.dll"
