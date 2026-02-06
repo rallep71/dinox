@@ -489,23 +489,30 @@ public class ReceivedPipelineDecryptListener : StanzaListener<MessageStanza> {
     public override string[] after_actions { get { return after_actions_const; } }
 
     public override async bool run(XmppStream stream, MessageStanza message) {
+        debug("OpenPGP ReceivedPipeline: Processing message from %s, body=%s", 
+              message.from != null ? message.from.to_string() : "null",
+              message.body != null ? "(has body)" : "(no body)");
+        
         // Check if we have any secret keys before attempting decryption
         // Without secret keys, decryption will always fail
         if (!GPGHelper.has_secret_keys()) {
-            debug("OpenPGP: No secret keys available, skipping decryption");
+            debug("OpenPGP ReceivedPipeline: No secret keys available, skipping decryption");
             return false;
         }
         
         // Try XEP-0374 format first (<openpgp> element)
         string? openpgp_data = get_openpgp_content(message);
         if (openpgp_data != null) {
+            debug("OpenPGP ReceivedPipeline: Found XEP-0374 encrypted content, length=%d", openpgp_data.length);
             MessageFlag flag = new MessageFlag();
             message.add_flag(flag);
             string? decrypted = yield gpg_decrypt_0374(openpgp_data);
             if (decrypted != null) {
                 flag.decrypted = true;
                 message.body = decrypted;
-                debug("OpenPGP: Decrypted XEP-0374 message");
+                debug("OpenPGP ReceivedPipeline: Decrypted XEP-0374 message: %s", decrypted);
+            } else {
+                debug("OpenPGP ReceivedPipeline: XEP-0374 decryption returned null!");
             }
             return false;
         }
@@ -513,14 +520,19 @@ public class ReceivedPipelineDecryptListener : StanzaListener<MessageStanza> {
         // Fall back to XEP-0027 format (<x xmlns='jabber:x:encrypted'>)
         string? encrypted = get_cyphertext(message);
         if (encrypted != null) {
+            debug("OpenPGP ReceivedPipeline: Found XEP-0027 encrypted content, length=%d", encrypted.length);
             MessageFlag flag = new MessageFlag();
             message.add_flag(flag);
             string? decrypted = yield gpg_decrypt(encrypted);
             if (decrypted != null) {
                 flag.decrypted = true;
                 message.body = decrypted;
-                debug("OpenPGP: Decrypted XEP-0027 message");
+                debug("OpenPGP ReceivedPipeline: Decrypted XEP-0027 message: %s", decrypted);
+            } else {
+                debug("OpenPGP ReceivedPipeline: XEP-0027 decryption returned null!");
             }
+        } else {
+            debug("OpenPGP ReceivedPipeline: No encrypted content found in message");
         }
         return false;
     }
@@ -531,33 +543,91 @@ public class ReceivedPipelineDecryptListener : StanzaListener<MessageStanza> {
         string? res = null;
         new Thread<void*> (null, () => {
             try {
-                // The data is base64-encoded OpenPGP message
-                // We need to wrap it in ASCII armor for GPG
-                // But first check if it's already armored
-                string armor;
                 string clean_data = base64_data.strip();
                 
-                // Convert Base64-URL to Standard Base64 (- -> +, _ -> /)
-                // This fixes radix64 errors from GPG
-                clean_data = clean_data.replace("-", "+").replace("_", "/");
+                debug("OpenPGP gpg_decrypt_0374: Input length=%d, first 100 chars: %s", 
+                      clean_data.length, 
+                      clean_data.length > 100 ? clean_data.substring(0, 100) : clean_data);
+                
+                string? decrypted_xml = null;
                 
                 if (clean_data.has_prefix("-----BEGIN PGP")) {
-                    // Already armored, use as-is
-                    armor = clean_data;
+                    debug("OpenPGP gpg_decrypt_0374: Data is already armored");
+                    try {
+                        decrypted_xml = GPGHelper.decrypt(clean_data);
+                    } catch (Error e) {
+                        debug("OpenPGP gpg_decrypt_0374: Armored decryption failed: %s", e.message);
+                    }
                 } else {
-                    // Wrap in armor
-                    armor = "-----BEGIN PGP MESSAGE-----\n\n" + clean_data + "\n-----END PGP MESSAGE-----";
-            }
-            
-            try {
-                string decrypted_xml = GPGHelper.decrypt(armor);
-                // Parse the decrypted XML to extract the body
-                // The decrypted content should be a <signcrypt> element
-                res = extract_body_from_signcrypt(decrypted_xml);
-            } catch (Error e) {
-                debug("OpenPGP XEP-0374: Decryption failed: %s", e.message);
-                res = null;
-            }
+                    // Remove whitespace from base64
+                    clean_data = clean_data.replace("\n", "").replace("\r", "").replace(" ", "").replace("\t", "");
+                    
+                    // Add padding if needed
+                    int padding_needed = (4 - (clean_data.length % 4)) % 4;
+                    for (int i = 0; i < padding_needed; i++) {
+                        clean_data += "=";
+                    }
+                    
+                    debug("OpenPGP gpg_decrypt_0374: Base64 after cleanup, length=%d", clean_data.length);
+                    
+                    // Decode base64 to binary
+                    uint8[] binary_data;
+                    try {
+                        binary_data = Base64.decode(clean_data);
+                        debug("OpenPGP gpg_decrypt_0374: Decoded to %d binary bytes", binary_data.length);
+                    } catch (Error e) {
+                        debug("OpenPGP gpg_decrypt_0374: Base64 decode failed: %s", e.message);
+                        res = null;
+                        Idle.add((owned) callback);
+                        return null;
+                    }
+                    
+                    // Decrypt binary data
+                    try {
+                        var decrypted = GPGHelper.decrypt_data(binary_data);
+                        // Convert uint8[] to string safely
+                        decrypted_xml = (string) decrypted.data;
+                        if (decrypted.data.length > 0 && decrypted.data[decrypted.data.length - 1] != 0) {
+                            var sb = new StringBuilder();
+                            foreach (uint8 b in decrypted.data) {
+                                if (b != 0) sb.append_c((char) b);
+                            }
+                            decrypted_xml = sb.str;
+                        }
+                        debug("OpenPGP gpg_decrypt_0374: Binary decryption successful");
+                    } catch (Error e) {
+                        debug("OpenPGP gpg_decrypt_0374: Binary decryption failed: %s", e.message);
+                        
+                        // Fallback: try ASCII armor
+                        var wrapped = new StringBuilder();
+                        for (int i = 0; i < clean_data.length; i += 64) {
+                            int end = int.min(i + 64, clean_data.length);
+                            wrapped.append(clean_data.substring(i, end - i));
+                            wrapped.append("\n");
+                        }
+                        
+                        string armor = "-----BEGIN PGP MESSAGE-----\n\n" + wrapped.str + "-----END PGP MESSAGE-----";
+                        try {
+                            decrypted_xml = GPGHelper.decrypt(armor);
+                            debug("OpenPGP gpg_decrypt_0374: ASCII armor fallback successful");
+                        } catch (Error e2) {
+                            debug("OpenPGP gpg_decrypt_0374: ASCII armor fallback also failed: %s", e2.message);
+                        }
+                    }
+                }
+                
+                if (decrypted_xml != null) {
+                    debug("OpenPGP gpg_decrypt_0374: Decrypted XML: %s", 
+                          decrypted_xml.length > 200 ? decrypted_xml.substring(0, 200) + "..." : decrypted_xml);
+                    res = extract_body_from_signcrypt(decrypted_xml);
+                    if (res != null) {
+                        debug("OpenPGP gpg_decrypt_0374: Extracted body: %s", res);
+                    } else {
+                        // If no <body> tag, return the whole decrypted content
+                        debug("OpenPGP gpg_decrypt_0374: No body tag found, using full content");
+                        res = decrypted_xml;
+                    }
+                }
             } catch (Error e) {
                 debug("OpenPGP XEP-0374: Thread error: %s", e.message);
                 res = null;
@@ -590,27 +660,85 @@ public class ReceivedPipelineDecryptListener : StanzaListener<MessageStanza> {
         string? res = null;
         new Thread<void*> (null, () => {
             try {
-                // Check if already armored
-                string armor;
                 string clean_data = enc.strip();
                 
-                // Convert Base64-URL to Standard Base64 (- -> +, _ -> /)
-                // This fixes radix64 errors from GPG
-                clean_data = clean_data.replace("-", "+").replace("_", "/");
+                debug("OpenPGP gpg_decrypt: Input length=%d, first 100 chars: %s", 
+                      clean_data.length, 
+                      clean_data.length > 100 ? clean_data.substring(0, 100) : clean_data);
                 
+                // Check if it's already armored
                 if (clean_data.has_prefix("-----BEGIN PGP")) {
-                    // Already armored, use as-is
-                    armor = clean_data;
+                    debug("OpenPGP gpg_decrypt: Data is already armored, decrypting directly");
+                    try {
+                        res = GPGHelper.decrypt(clean_data);
+                        debug("OpenPGP gpg_decrypt: Armored decryption successful");
+                    } catch (Error e) {
+                        debug("OpenPGP gpg_decrypt: Armored decryption failed: %s", e.message);
+                    }
                 } else {
-                    // Wrap in armor
-                    armor = "-----BEGIN PGP MESSAGE-----\n\n" + clean_data + "\n-----END PGP MESSAGE-----";
-                }
-                
-                try {
-                    res = GPGHelper.decrypt(armor);
-                } catch (Error e) {
-                    debug("OpenPGP XEP-0027: Decryption failed: %s", e.message);
-                    res = null;
+                    // XEP-0027 sends base64-encoded PGP message
+                    // Decode base64 and pass binary data to GPG
+                    
+                    // Remove any whitespace/newlines from the base64
+                    clean_data = clean_data.replace("\n", "").replace("\r", "").replace(" ", "").replace("\t", "");
+                    
+                    debug("OpenPGP gpg_decrypt: Base64 after cleanup, length=%d", clean_data.length);
+                    
+                    // Add padding if needed
+                    int padding_needed = (4 - (clean_data.length % 4)) % 4;
+                    for (int i = 0; i < padding_needed; i++) {
+                        clean_data += "=";
+                    }
+                    
+                    // Decode base64 to binary
+                    uint8[] binary_data;
+                    try {
+                        binary_data = Base64.decode(clean_data);
+                        debug("OpenPGP gpg_decrypt: Decoded to %d binary bytes", binary_data.length);
+                    } catch (Error e) {
+                        debug("OpenPGP gpg_decrypt: Base64 decode failed: %s", e.message);
+                        res = null;
+                        Idle.add((owned) callback);
+                        return null;
+                    }
+                    
+                    // Write binary data to temp file and decrypt
+                    try {
+                        var decrypted = GPGHelper.decrypt_data(binary_data);
+                        // Convert uint8[] to string safely
+                        res = (string) decrypted.data;
+                        // Ensure null termination for string
+                        if (decrypted.data.length > 0 && decrypted.data[decrypted.data.length - 1] != 0) {
+                            // Data is not null-terminated, create proper string
+                            var sb = new StringBuilder();
+                            foreach (uint8 b in decrypted.data) {
+                                if (b != 0) sb.append_c((char) b);
+                            }
+                            res = sb.str;
+                        }
+                        debug("OpenPGP gpg_decrypt: Binary decryption successful, result: %s", 
+                              res != null ? res : "null");
+                    } catch (Error e) {
+                        debug("OpenPGP gpg_decrypt: Binary decryption failed: %s", e.message);
+                        
+                        // Fallback: try as ASCII armor
+                        debug("OpenPGP gpg_decrypt: Trying ASCII armor fallback...");
+                        var wrapped = new StringBuilder();
+                        for (int i = 0; i < clean_data.length; i += 64) {
+                            int end = int.min(i + 64, clean_data.length);
+                            wrapped.append(clean_data.substring(i, end - i));
+                            wrapped.append("\n");
+                        }
+                        
+                        string armor = "-----BEGIN PGP MESSAGE-----\n\n" + wrapped.str + "-----END PGP MESSAGE-----";
+                        try {
+                            res = GPGHelper.decrypt(armor);
+                            debug("OpenPGP gpg_decrypt: ASCII armor fallback successful");
+                        } catch (Error e2) {
+                            debug("OpenPGP gpg_decrypt: ASCII armor fallback also failed: %s", e2.message);
+                            res = null;
+                        }
+                    }
                 }
             } catch (Error e) {
                 debug("OpenPGP XEP-0027: Thread error: %s", e.message);
@@ -624,13 +752,29 @@ public class ReceivedPipelineDecryptListener : StanzaListener<MessageStanza> {
     }
 
     private string? get_cyphertext(MessageStanza message) {
+        // Debug: dump stanza to see what we're looking for
+        debug("OpenPGP get_cyphertext: Looking for <x xmlns='jabber:x:encrypted'>");
+        debug("OpenPGP get_cyphertext: Stanza: %s", message.stanza.to_string());
         StanzaNode? x_node = message.stanza.get_subnode("x", NS_URI_ENCRYPTED);
-        return x_node == null ? null : x_node.get_string_content();
+        if (x_node != null) {
+            string? content = x_node.get_string_content();
+            debug("OpenPGP get_cyphertext: Found encrypted content, length=%d", content != null ? content.length : 0);
+            return content;
+        }
+        debug("OpenPGP get_cyphertext: No <x> node found with namespace %s", NS_URI_ENCRYPTED);
+        return null;
     }
     
     private string? get_openpgp_content(MessageStanza message) {
+        debug("OpenPGP get_openpgp_content: Looking for <openpgp xmlns='urn:xmpp:openpgp:0'>");
         StanzaNode? openpgp_node = message.stanza.get_subnode("openpgp", "urn:xmpp:openpgp:0");
-        return openpgp_node == null ? null : openpgp_node.get_string_content();
+        if (openpgp_node != null) {
+            string? content = openpgp_node.get_string_content();
+            debug("OpenPGP get_openpgp_content: Found openpgp content, length=%d", content != null ? content.length : 0);
+            return content;
+        }
+        debug("OpenPGP get_openpgp_content: No <openpgp> node found");
+        return null;
     }
 }
 

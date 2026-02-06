@@ -13,10 +13,11 @@ private static bool initialized = false;
 private static string? gpg_binary = null;
 private static string? gpg_homedir = null;
 
-// Mutex to serialize GPG calls - prevents crashes on Windows when multiple
+// RecMutex to serialize GPG calls - prevents crashes on Windows when multiple
 // GPG processes run simultaneously and corrupt GLib's error handler stack
-private static Mutex gpg_mutex;
-private static Mutex secret_keys_mutex;
+// RecMutex allows same-thread re-entry but blocks different threads
+private static RecMutex gpg_mutex;
+private static RecMutex secret_keys_mutex;
 
 // Thread-safe mutex initialization state: 0=not started, 1=in progress, 2=done
 private static int mutex_init_state = 0;
@@ -36,8 +37,8 @@ private static void ensure_mutex_initialized() {
     // Try to become the initializer (atomically change 0 -> 1)
     if (AtomicInt.compare_and_exchange(ref mutex_init_state, 0, 1)) {
         // We won the race, do initialization
-        gpg_mutex = Mutex();
-        secret_keys_mutex = Mutex();
+        gpg_mutex = RecMutex();
+        secret_keys_mutex = RecMutex();
         // Mark as complete
         AtomicInt.set(ref mutex_init_state, 2);
     } else {
@@ -318,11 +319,10 @@ public static string encrypt_armor(string plain, Key[] keys, int flags = 0) thro
         throw new IOError.FAILED("GPG encrypt failed: No recipient keys provided");
     }
     
-    // Use try_lock to avoid deadlock - if mutex is held by background thread, proceed anyway
-    // GPG/gpg-agent has its own internal serialization
+    // Lock mutex to serialize GPG calls - prevents Windows crashes from concurrent subprocesses
     ensure_mutex_initialized();
-    bool got_lock = gpg_mutex.trylock();
-    debug("GPGHelper.encrypt_armor: try_lock result=%s", got_lock ? "acquired" : "busy (proceeding anyway)");
+    gpg_mutex.lock();
+    debug("GPGHelper.encrypt_armor: mutex acquired");
     
     try {
         var args = new ArrayList<string>();
@@ -358,7 +358,7 @@ public static string encrypt_armor(string plain, Key[] keys, int flags = 0) thro
         
         if (exit_status != 0) {
             debug("GPGHelper.encrypt_armor: GPG failed: %s", stderr_str);
-            if (got_lock) gpg_mutex.unlock();
+            gpg_mutex.unlock();
             throw new IOError.FAILED("GPG encrypt failed: %s", stderr_str);
         }
         
@@ -368,11 +368,11 @@ public static string encrypt_armor(string plain, Key[] keys, int flags = 0) thro
         FileUtils.remove(temp_out);
         
         debug("GPGHelper.encrypt_armor: Success, result length=%d", result.length);
-        if (got_lock) gpg_mutex.unlock();
+        gpg_mutex.unlock();
         return result;
     } catch (Error e) {
         debug("GPGHelper.encrypt_armor: Exception: %s", e.message);
-        if (got_lock) gpg_mutex.unlock();
+        gpg_mutex.unlock();
         throw e;
     }
 }
@@ -384,9 +384,9 @@ public static string encrypt_armor(string plain, Key[] keys, int flags = 0) thro
 public static string sign_and_encrypt(string plain, Key[] recipients, Key? sign_key = null) throws GLib.Error {
     initialize();
     
-    // Use try_lock to avoid deadlock with background threads
+    // Lock mutex to serialize GPG calls
     ensure_mutex_initialized();
-    bool got_lock = gpg_mutex.trylock();
+    gpg_mutex.lock();
     
     try {
         var args = new ArrayList<string>();
@@ -423,7 +423,7 @@ public static string sign_and_encrypt(string plain, Key[] recipients, Key? sign_
         FileUtils.remove(temp_in);
         
         if (exit_status != 0) {
-            if (got_lock) gpg_mutex.unlock();
+            gpg_mutex.unlock();
             throw new IOError.FAILED("GPG sign+encrypt failed: %s", stderr_str);
         }
         
@@ -431,10 +431,10 @@ public static string sign_and_encrypt(string plain, Key[] recipients, Key? sign_
         FileUtils.get_contents(temp_out, out signenc_result);
         FileUtils.remove(temp_out);
         
-        if (got_lock) gpg_mutex.unlock();
+        gpg_mutex.unlock();
         return signenc_result;
     } catch (Error e) {
-        if (got_lock) gpg_mutex.unlock();
+        gpg_mutex.unlock();
         throw e;
     }
 }
@@ -445,9 +445,9 @@ public static string sign_and_encrypt(string plain, Key[] recipients, Key? sign_
 public static uint8[] encrypt_file(string uri, Key[] keys, int flags, string file_name) throws GLib.Error {
     initialize();
     
-    // Use try_lock to avoid deadlock with background threads
+    // Lock mutex to serialize GPG calls
     ensure_mutex_initialized();
-    bool got_lock = gpg_mutex.trylock();
+    gpg_mutex.lock();
     
     try {
         var args = new ArrayList<string>();
@@ -472,7 +472,7 @@ public static uint8[] encrypt_file(string uri, Key[] keys, int flags, string fil
         run_gpg_internal(args.to_array(), null, out stdout_str, out stderr_str, out exit_status);
         
         if (exit_status != 0) {
-            if (got_lock) gpg_mutex.unlock();
+            gpg_mutex.unlock();
             throw new IOError.FAILED("GPG encrypt file failed: %s", stderr_str);
         }
         
@@ -480,10 +480,10 @@ public static uint8[] encrypt_file(string uri, Key[] keys, int flags, string fil
         FileUtils.get_data(temp_out, out result);
         FileUtils.remove(temp_out);
         
-        if (got_lock) gpg_mutex.unlock();
+        gpg_mutex.unlock();
         return result;
     } catch (Error e) {
-        if (got_lock) gpg_mutex.unlock();
+        gpg_mutex.unlock();
         throw e;
     }
 }
@@ -560,9 +560,9 @@ private static bool can_decrypt_message(string temp_in) {
 public static string decrypt(string encr) throws GLib.Error {
     initialize();
     
-    // Use try_lock to avoid deadlock with background threads
+    // Lock mutex to serialize GPG calls
     ensure_mutex_initialized();
-    bool got_lock = gpg_mutex.trylock();
+    gpg_mutex.lock();
     
     try {
         string temp_in = Path.build_filename(Environment.get_tmp_dir(), "dinox-dec-in-%d.asc".printf(Random.int_range(0, 1000000)));
@@ -573,7 +573,7 @@ public static string decrypt(string encr) throws GLib.Error {
         // This prevents Windows crashes from starting pinentry for messages we can't decrypt
         if (!can_decrypt_message(temp_in)) {
             FileUtils.remove(temp_in);
-            if (got_lock) gpg_mutex.unlock();
+            gpg_mutex.unlock();
             throw new IOError.FAILED("GPG decrypt failed: no secret key available for this message");
         }
         
@@ -591,13 +591,13 @@ public static string decrypt(string encr) throws GLib.Error {
             if (FileUtils.test(temp_out, FileTest.EXISTS)) {
                 FileUtils.remove(temp_out);
             }
-            if (got_lock) gpg_mutex.unlock();
+            gpg_mutex.unlock();
             throw new IOError.FAILED("GPG decrypt failed (exit %d): no secret key or passphrase error", exit_status);
         }
         
         // Check if output file was created
         if (!FileUtils.test(temp_out, FileTest.EXISTS)) {
-            if (got_lock) gpg_mutex.unlock();
+            gpg_mutex.unlock();
             throw new IOError.FAILED("GPG decrypt failed: output file not created");
         }
         
@@ -605,10 +605,10 @@ public static string decrypt(string encr) throws GLib.Error {
         FileUtils.get_contents(temp_out, out result);
         FileUtils.remove(temp_out);
         
-        if (got_lock) gpg_mutex.unlock();
+        gpg_mutex.unlock();
         return result;
     } catch (Error e) {
-        if (got_lock) gpg_mutex.unlock();
+        gpg_mutex.unlock();
         throw e;
     }
 }
@@ -619,9 +619,9 @@ public static string decrypt(string encr) throws GLib.Error {
 public static DecryptedData decrypt_data(uint8[] data) throws GLib.Error {
     initialize();
     
-    // Use try_lock to avoid deadlock with background threads
+    // Lock mutex to serialize GPG calls
     ensure_mutex_initialized();
-    bool got_lock = gpg_mutex.trylock();
+    gpg_mutex.lock();
     
     try {
         string temp_in = Path.build_filename(Environment.get_tmp_dir(), "dinox-dec-in-%d.gpg".printf(Random.int_range(0, 1000000)));
@@ -632,7 +632,7 @@ public static DecryptedData decrypt_data(uint8[] data) throws GLib.Error {
         // This prevents Windows crashes from starting pinentry for messages we can't decrypt
         if (!can_decrypt_message(temp_in)) {
             FileUtils.remove(temp_in);
-            if (got_lock) gpg_mutex.unlock();
+            gpg_mutex.unlock();
             throw new IOError.FAILED("GPG decrypt data failed: no secret key available for this message");
         }
         
@@ -651,13 +651,13 @@ public static DecryptedData decrypt_data(uint8[] data) throws GLib.Error {
             if (FileUtils.test(temp_out, FileTest.EXISTS)) {
                 FileUtils.remove(temp_out);
             }
-            if (got_lock) gpg_mutex.unlock();
+            gpg_mutex.unlock();
             throw new IOError.FAILED("GPG decrypt data failed (exit %d): no secret key or passphrase error", exit_status);
         }
         
         // Check if output file was created
         if (!FileUtils.test(temp_out, FileTest.EXISTS)) {
-            if (got_lock) gpg_mutex.unlock();
+            gpg_mutex.unlock();
             throw new IOError.FAILED("GPG decrypt data failed: output file not created");
         }
         
@@ -680,10 +680,10 @@ public static DecryptedData decrypt_data(uint8[] data) throws GLib.Error {
             }
         }
         
-        if (got_lock) gpg_mutex.unlock();
+        gpg_mutex.unlock();
         return new DecryptedData() { data = result_data, filename = filename };
     } catch (Error e) {
-        if (got_lock) gpg_mutex.unlock();
+        gpg_mutex.unlock();
         throw e;
     }
 }
@@ -695,15 +695,16 @@ public static string sign(string plain, int mode, Key? key = null) throws GLib.E
     initialize();
     
     // Check if key requires passphrase BEFORE taking the mutex
-    // (key_requires_passphrase also uses the mutex internally)
+    // (key_requires_passphrase also uses the mutex internally via run_gpg_sync)
+    // With RecMutex, this is safe
     bool needs_passphrase = true;
     if (key != null) {
         needs_passphrase = key_requires_passphrase(key.fpr);
     }
     
-    // Use try_lock to avoid deadlock with background threads
+    // Lock mutex to serialize GPG calls
     ensure_mutex_initialized();
-    bool got_lock = gpg_mutex.trylock();
+    gpg_mutex.lock();
     
     try {
         string temp_in = Path.build_filename(Environment.get_tmp_dir(), "dinox-sign-in-%d".printf(Random.int_range(0, 1000000)));
@@ -743,7 +744,7 @@ public static string sign(string plain, int mode, Key? key = null) throws GLib.E
         FileUtils.remove(temp_in);
         
         if (exit_status != 0) {
-            if (got_lock) gpg_mutex.unlock();
+            gpg_mutex.unlock();
             throw new IOError.FAILED("GPG sign failed: %s", stderr_str);
         }
         
@@ -751,10 +752,10 @@ public static string sign(string plain, int mode, Key? key = null) throws GLib.E
         FileUtils.get_contents(temp_out, out result);
         FileUtils.remove(temp_out);
         
-        if (got_lock) gpg_mutex.unlock();
+        gpg_mutex.unlock();
         return result;
     } catch (Error e) {
-        if (got_lock) gpg_mutex.unlock();
+        gpg_mutex.unlock();
         throw e;
     }
 }
@@ -777,9 +778,9 @@ public class SignatureVerifyResult {
 public static SignatureVerifyResult verify_signature(string signature, string? text) throws GLib.Error {
     initialize();
     
-    // Use try_lock to avoid deadlock with background threads
+    // Lock mutex to serialize GPG calls
     ensure_mutex_initialized();
-    bool got_lock = gpg_mutex.trylock();
+    gpg_mutex.lock();
     
     var result = new SignatureVerifyResult();
     
@@ -821,7 +822,7 @@ public static SignatureVerifyResult verify_signature(string signature, string? t
             FileUtils.remove(temp_status);
         }
         
-        if (got_lock) gpg_mutex.unlock();
+        gpg_mutex.unlock();
         
         // Parse fingerprint from status output
         foreach (string line in status_output.split("\n")) {
@@ -870,7 +871,7 @@ public static SignatureVerifyResult verify_signature(string signature, string? t
         debug("GPGHelper.verify_signature: Could not find any key ID in output");
         return result;
     } catch (Error e) {
-        if (got_lock) gpg_mutex.unlock();
+        gpg_mutex.unlock();
         throw e;
     }
 }

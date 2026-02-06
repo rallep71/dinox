@@ -225,6 +225,15 @@ public class Plugin : Plugins.RootInterface, Object {
         debug("OpenPGP: Initializing modules for account %s, key_id: %s", 
               account.bare_jid.to_string(), key_id ?? "none");
 
+        // Pre-cache the account key in background to avoid sync calls during message sending
+        if (key_id != null) {
+            var manager = app.stream_interactor.get_module<Manager>(Manager.IDENTITY);
+            if (manager != null) {
+                debug("OpenPGP: Pre-caching account key %s", key_id);
+                manager.preload_key_async(key_id);
+            }
+        }
+
         // Add XEP-0027 module (legacy presence-based key signing)
         Module module = new Module(key_id);
         this.modules[account] = module;

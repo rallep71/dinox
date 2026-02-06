@@ -175,28 +175,37 @@ public class Manager : StreamInteractionModule, Object {
         
         // Build array using cached keys - NO synchronous GPG calls
         var valid_keys = new Gee.ArrayList<GPGHelper.Key>();
+        bool has_uncached = false;
+        
         foreach (string key_id in keys) {
             GPGHelper.Key? key = get_cached_key(key_id);
             if (key != null) {
                 valid_keys.add(key);
                 debug("OpenPGP get_key_fprs: Got cached key %s", key.fpr);
             } else if (!is_key_cached(key_id)) {
-                // Not in cache yet, we need to fetch it synchronously as fallback
-                // This should only happen on first use before cache is populated
-                debug("OpenPGP get_key_fprs: Key %s not cached, fetching sync (first use)", key_id);
-                try {
-                    key = GPGHelper.get_public_key(key_id);
-                    cache_key(key_id, key);
-                    if (key != null) {
-                        valid_keys.add(key);
-                        debug("OpenPGP get_key_fprs: Got public key %s", key.fpr);
-                    }
-                } catch (Error e) {
-                    debug("OpenPGP: Failed to get public key for %s: %s", key_id, e.message);
-                    cache_key(key_id, null);
-                }
+                // Not in cache yet - start background fetch but don't block
+                debug("OpenPGP get_key_fprs: Key %s not cached, starting async fetch", key_id);
+                preload_key_async(key_id);
+                has_uncached = true;
             } else {
                 debug("OpenPGP get_key_fprs: Key %s cached as invalid, skipping", key_id);
+            }
+        }
+        
+        // If we have uncached keys, we can't encrypt yet
+        if (has_uncached) {
+            debug("OpenPGP get_key_fprs: Some keys not cached yet, returning empty (retry later)");
+            // Allow a brief wait for keys to be cached (100ms)
+            Thread.usleep(100000);
+            
+            // Try again after the wait
+            valid_keys.clear();
+            foreach (string key_id in keys) {
+                GPGHelper.Key? key = get_cached_key(key_id);
+                if (key != null) {
+                    valid_keys.add(key);
+                    debug("OpenPGP get_key_fprs: Got cached key (after wait) %s", key.fpr);
+                }
             }
         }
         
