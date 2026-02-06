@@ -577,20 +577,36 @@ public static string decrypt(string encr) throws GLib.Error {
             throw new IOError.FAILED("GPG decrypt failed: no secret key available for this message");
         }
         
-        // Use --status-fd to check actual decryption status, --ignore-crc-error for robustness
-        string[] args = { "--decrypt", "--status-fd", "2", "--ignore-crc-error", "-o", temp_out, temp_in };
-        
         string stdout_str, stderr_str;
         int exit_status;
-        // Use interactive mode (no --batch) so pinentry can prompt for passphrase
-        run_gpg_internal(args, null, out stdout_str, out stderr_str, out exit_status, true);
+        bool decryption_ok = false;
+        
+        // First try batch mode - this works if gpg-agent has passphrase cached
+        // This avoids Pinentry issues in background threads on Windows
+        string[] batch_args = { "--batch", "--yes", "--decrypt", "--status-fd", "2", "--ignore-crc-error", "-o", temp_out, temp_in };
+        debug("GPGHelper.decrypt: Trying batch mode first...");
+        run_gpg_internal(batch_args, null, out stdout_str, out stderr_str, out exit_status, false);
+        
+        decryption_ok = stderr_str.contains("[GNUPG:] DECRYPTION_OKAY") || 
+                        stderr_str.contains("[GNUPG:] GOODMDC");
+        
+        // If batch mode failed, try interactive mode for passphrase
+        if (!decryption_ok && exit_status != 0) {
+            debug("GPGHelper.decrypt: Batch mode failed, trying interactive mode...");
+            // Remove failed output
+            if (FileUtils.test(temp_out, FileTest.EXISTS)) {
+                FileUtils.remove(temp_out);
+            }
+            
+            // Try interactive mode (for pinentry passphrase prompt)
+            string[] interactive_args = { "--decrypt", "--status-fd", "2", "--ignore-crc-error", "-o", temp_out, temp_in };
+            run_gpg_internal(interactive_args, null, out stdout_str, out stderr_str, out exit_status, true);
+            
+            decryption_ok = stderr_str.contains("[GNUPG:] DECRYPTION_OKAY") || 
+                            stderr_str.contains("[GNUPG:] GOODMDC");
+        }
         
         FileUtils.remove(temp_in);
-        
-        // Check if decryption was actually successful by looking at status output
-        // GPG may return non-zero exit code due to signature issues even when decryption worked
-        bool decryption_ok = stderr_str.contains("[GNUPG:] DECRYPTION_OKAY") || 
-                             stderr_str.contains("[GNUPG:] GOODMDC");
         
         if (!decryption_ok && exit_status != 0) {
             // Clean up temp_out if it exists
@@ -610,6 +626,7 @@ public static string decrypt(string encr) throws GLib.Error {
         string result;
         FileUtils.get_contents(temp_out, out result);
         FileUtils.remove(temp_out);
+        debug("GPGHelper.decrypt: Success, decrypted %d chars", result.length);
         
         gpg_mutex.unlock();
         return result;
@@ -642,21 +659,36 @@ public static DecryptedData decrypt_data(uint8[] data) throws GLib.Error {
             throw new IOError.FAILED("GPG decrypt data failed: no secret key available for this message");
         }
         
-        // Use --status-fd to get status info, --ignore-crc-error for robustness
-        // Don't use --batch as we may need pinentry for passphrase
-        string[] args = { "--decrypt", "--status-fd", "2", "--ignore-crc-error", "-o", temp_out, temp_in };
-        
         string stdout_str, stderr_str;
         int exit_status;
-        // Use interactive mode (no --batch) so pinentry can prompt for passphrase
-        run_gpg_internal(args, null, out stdout_str, out stderr_str, out exit_status, true);
+        bool decryption_ok = false;
+        
+        // First try batch mode - this works if gpg-agent has passphrase cached
+        // This avoids Pinentry issues in background threads on Windows
+        string[] batch_args = { "--batch", "--yes", "--decrypt", "--status-fd", "2", "--ignore-crc-error", "-o", temp_out, temp_in };
+        debug("GPGHelper.decrypt_data: Trying batch mode first...");
+        run_gpg_internal(batch_args, null, out stdout_str, out stderr_str, out exit_status, false);
+        
+        decryption_ok = stderr_str.contains("[GNUPG:] DECRYPTION_OKAY") || 
+                        stderr_str.contains("[GNUPG:] GOODMDC");
+        
+        // If batch mode failed and we need passphrase, try interactive mode
+        if (!decryption_ok && exit_status != 0) {
+            debug("GPGHelper.decrypt_data: Batch mode failed, trying interactive mode...");
+            // Remove failed output
+            if (FileUtils.test(temp_out, FileTest.EXISTS)) {
+                FileUtils.remove(temp_out);
+            }
+            
+            // Try interactive mode (for pinentry passphrase prompt)
+            string[] interactive_args = { "--decrypt", "--status-fd", "2", "--ignore-crc-error", "-o", temp_out, temp_in };
+            run_gpg_internal(interactive_args, null, out stdout_str, out stderr_str, out exit_status, true);
+            
+            decryption_ok = stderr_str.contains("[GNUPG:] DECRYPTION_OKAY") || 
+                            stderr_str.contains("[GNUPG:] GOODMDC");
+        }
         
         FileUtils.remove(temp_in);
-        
-        // Check if decryption was actually successful by looking at status output
-        // GPG may return non-zero exit code due to signature issues even when decryption worked
-        bool decryption_ok = stderr_str.contains("[GNUPG:] DECRYPTION_OKAY") || 
-                             stderr_str.contains("[GNUPG:] GOODMDC");
         
         if (!decryption_ok && exit_status != 0) {
             // Clean up temp_out if it exists
@@ -676,6 +708,7 @@ public static DecryptedData decrypt_data(uint8[] data) throws GLib.Error {
         uint8[] result_data;
         FileUtils.get_data(temp_out, out result_data);
         FileUtils.remove(temp_out);
+        debug("GPGHelper.decrypt_data: Success, decrypted %d bytes", result_data.length);
         
         // Parse filename from status output
         string filename = "";

@@ -129,6 +129,10 @@ public class Manager : StreamInteractionModule, Object {
     }
 
     public GPGHelper.Key[] get_key_fprs(Conversation conversation) throws Error {
+        if (conversation == null) {
+            throw new IOError.FAILED("No conversation provided");
+        }
+        
         Gee.List<string> keys = new Gee.ArrayList<string>();
         
         string? account_key = db.get_account_key(conversation.account);

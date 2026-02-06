@@ -31,14 +31,22 @@ private class EncryptionListEntry : Plugins.EncryptionListEntry, Object {
     }}
 
     public Object? get_encryption_icon(Entities.Conversation conversation, ContentItem content_item) {
+        if (conversation == null) return null;
         return null;
     }
 
     public string? get_encryption_icon_name(Entities.Conversation conversation, ContentItem content_item) {
+        if (conversation == null) return null;
         return null;
     }
 
     public void encryption_activated(Entities.Conversation conversation, Plugins.SetInputFieldStatus input_status_callback) {
+        // Null check to prevent assertion failures
+        if (conversation == null) {
+            input_status_callback(new Plugins.InputFieldStatus("No conversation selected.", Plugins.InputFieldStatus.MessageType.ERROR, Plugins.InputFieldStatus.InputState.NO_SEND));
+            return;
+        }
+        
         // Run key checks in background to avoid blocking UI
         string? account_key = db.get_account_key(conversation.account);
         

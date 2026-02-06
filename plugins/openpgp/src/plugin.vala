@@ -198,6 +198,7 @@ public class Plugin : Plugins.RootInterface, Object {
         // Proactively fetch XEP-0373 keys when a conversation is activated
         // This ensures we have the contact's key before trying to encrypt
         app.stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).conversation_activated.connect((conversation) => {
+            if (conversation == null) return;
             if (conversation.type_ == Conversation.Type.CHAT && this.xep0373_manager != null) {
                 debug("OpenPGP: Conversation activated, requesting XEP-0373 keys for %s", conversation.counterpart.to_string());
                 this.xep0373_manager.request_keys.begin(conversation.account, conversation.counterpart.bare_jid);

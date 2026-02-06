@@ -17,6 +17,8 @@ public class ContactDetailsProvider : Plugins.ContactDetailsProvider, Object {
     public void populate(Conversation conversation, Plugins.ContactDetails contact_details, WidgetType type) { }
 
     public Object? get_widget(Conversation conversation) {
+        if (conversation == null) return null;
+        
         var preferences_group = new Adw.PreferencesGroup() { title="OpenPGP" };
 
         if (conversation.type_ != Conversation.Type.CHAT) return null;
