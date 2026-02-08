@@ -31,7 +31,7 @@ if have_x11
     dependencies += [dep_gtk4_x11, dep_x11]
 endif
 
-# Systray uses StatusNotifierItem via D-Bus (no external dependencies needed)
+# Source files (platform-independent)
 sources = files(
     'src/main.vala',
     'src/ui/add_conversation/add_conference_dialog.vala',
@@ -116,7 +116,6 @@ sources = files(
     'src/ui/util/ui_timing.vala',
     'src/ui/util/size_request_box.vala',
     'src/ui/util/sizing_bin.vala',
-    'src/ui/systray.vala',
     'src/ui/sticker_pack_import_dialog.vala',
     'src/ui/sticker_pack_folder_import_dialog.vala',
     'src/ui/sticker_manager.vala',
@@ -139,6 +138,14 @@ sources = files(
     'src/windows/preferences_window/preferences_dialog.vala',
     'src/windows/conversation_details.vala',
 )
+
+# Platform-specific systray implementation
+if host_machine.system() == 'windows'
+    sources += files('src/ui/systray_windows.vala')
+else
+    sources += files('src/ui/systray.vala')
+endif
+
 sources += gnome.compile_resources(
     'resources',
     'data/gresource.xml',

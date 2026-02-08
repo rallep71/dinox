@@ -5,6 +5,12 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.8.8] - 2026-02-09
+
+### Fixed
+- **System Tray (Linux)**: Restored full StatusNotifierItem systray with libdbusmenu that was accidentally removed during Windows porting. Linux users have tray icon, background mode, and status menu back. Added `GApplication.hold()` fallback for GNOME desktops without AppIndicator extension.
+- **Platform Split**: Systray implementation is now platform-conditional — Linux gets full SNI/dbusmenu tray, Windows gets clean quit-on-close behavior.
+
 ## [0.9.8.7] - 2026-02-09
 
 ### Added
