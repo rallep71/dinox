@@ -1,25 +1,39 @@
 build/
+build_linux/
 dist/
 *.o
 messages.mo
 .vscode/
-build_log.txt
 logs/
 *.log
+dll.log
 
 # BFG cleanup reports
 ..bfg-report/
 .bfg-report/
 
-# AI/Development guidelines (internal only)
+# Documentation/internal markdown (keep only README.md and .github/)
 AI_GUIDELINES.md
+BUILD.md
+CHANGELOG.md
+CONTRIBUTING.md
+DEBUG.md
+NOTICE
+DEVELOPMENT_PLAN*.md
+CRASH_ANALYSIS*.md
+OPENPGP_PORTING_GUIDE.md
+docs/accessibility-pruefprotokoll.md
+docs/internal/*.md
+
+# Text/log files (except build-system configs)
+build_log.txt
+windowsbuild.txt
+windows.txt
 
 # Debug/test files
-*.txt
 test_*.py
 test_*.vala
 debug*.log
-windows.txt
 
 # Sensitive/private key material - NEVER commit
 key/
