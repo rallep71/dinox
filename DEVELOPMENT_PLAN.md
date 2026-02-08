@@ -53,23 +53,7 @@ This document is organized as a **chronological release timeline** first, follow
 - **UI Refinements**: Redesigned header bar, Status Menu moved to dedicated button with dynamic reachability colors.
 - **Maintenance**: Deprecated "Help" button in favor of streamlined UI.
 
-### Next Big Step: Tor Support
-
-- **Network**: Implement Tor connection support (SOCKS5 proxy) - **Implemented in v0.9.7.0**
-- **Privacy**: Allow connecting via Tor for enhanced anonymity (similar to Gajim).
-
 ## Forward-Looking Roadmap
-
-### Q1/Q2 2026: The Windows Port — COMPLETED
-
-**Status: DONE** (v0.9.8.5)
-
-- **Porting**: MSYS2/Mingw-w64 environment fully working.
-- **Dependencies**: libcanberra, libsecret, and D-Bus excluded; Windows-specific fallbacks implemented.
-- **Distribution**: Automated Windows builds via GitHub Actions with artifact upload and release creation.
-- **CI**: Windows CI/CD workflow (`windows-build.yml`) builds with MSYS2/MINGW64, including libomemo-c from source.
-
-See [DEVELOPMENT_PLAN_WINDOWS.md](DEVELOPMENT_PLAN_WINDOWS.md) for technical details.
 
 ### Q2/Q3 2026: OMEMO 2 (urn:xmpp:omemo:2)
 

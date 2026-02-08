@@ -958,11 +958,6 @@ section {
     .download-grid {
         grid-template-columns: repeat(2, 1fr);
     }
-    
-    /* Source Code card spans full width */
-    .download-card:last-child {
-        grid-column: 1 / -1;
-    }
 }
 
 .download-card {
