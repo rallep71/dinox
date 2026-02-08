@@ -44,18 +44,31 @@ public class ConversationSelector : Widget {
         realize.connect(() => {
             ListBoxRow? first_row = list_box.get_row_at_index(0);
             if (first_row != null) {
+                // This will trigger row_selected which calls row_activated
                 list_box.select_row(first_row);
-                row_activated(first_row);
             }
         });
 
+        // Use row_selected for single-click selection (GTK4 row_activated only fires on double-click/Enter)
+        list_box.row_selected.connect((row) => {
+            debug("ConversationSelector: list_box.row_selected triggered");
+            if (row != null) {
+                row_activated(row);
+            }
+        });
+        
+        // Also connect row_activated for keyboard navigation (Enter key)
         list_box.row_activated.connect(row_activated);
     }
 
     public void row_activated(ListBoxRow r) {
+        debug("ConversationSelector.row_activated: Called");
         ConversationSelectorRow? row = r as ConversationSelectorRow;
         if (row != null) {
+            debug("ConversationSelector.row_activated: Emitting conversation_selected for %s", row.conversation.counterpart.to_string());
             conversation_selected(row.conversation);
+        } else {
+            debug("ConversationSelector.row_activated: row is not ConversationSelectorRow!");
         }
     }
 

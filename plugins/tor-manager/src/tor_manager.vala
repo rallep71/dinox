@@ -19,6 +19,7 @@ namespace Dino.Plugins.TorManager {
         private StreamInteractor stream_interactor;
         private Database db;
         private bool is_shutting_down = false;
+        private bool is_starting_up = false;  // True during initial restore_state → start_tor sequence
         private int retry_count = 0;
         private const int MAX_RETRIES = 2;
 
@@ -46,17 +47,19 @@ obfs4 198.245.60.50:443 6C61208D644265A16CB0C7E835787C1D8429EC08 cert=sT/u/T1uA+
 
         private void on_account_added(Account account) {
             if (is_enabled) {
-                warning("TorManager: New account added (%s). Enforcing Tor proxy settings.", account.bare_jid.to_string());
-                // Force configuration on the new account
+                // Always set proxy settings so the first connection attempt goes through Tor.
+                // If Tor isn't ready yet, the connection will fail and retry.
+                int port = controller.socks_port;
+                debug("TorManager: New account added (%s). Setting proxy to 127.0.0.1:%d (Tor running: %s)",
+                       account.bare_jid.to_string(), port, controller.is_running.to_string());
                 account.proxy_type = "socks5";
                 account.proxy_host = "127.0.0.1";
-                account.proxy_port = controller.socks_port;
+                account.proxy_port = port;
                 
-                // We also update the DB to be sure, though it might be redundant if this is coming FROM db
                 db.account.update()
                         .set(db.account.proxy_type, "socks5")
                         .set(db.account.proxy_host, "127.0.0.1")
-                        .set(db.account.proxy_port, controller.socks_port)
+                        .set(db.account.proxy_port, port)
                         .with(db.account.id, "=", account.id)
                         .perform();
             }
@@ -115,8 +118,11 @@ obfs4 198.245.60.50:443 6C61208D644265A16CB0C7E835787C1D8429EC08 cert=sT/u/T1uA+
 
             if (is_enabled) {
                 debug("TorManager: state is ENABLED. Starting Tor...");
+                is_starting_up = true;
                 // FORCE apply proxy settings on startup (true) because the port might have changed dynamically (e.g. 9155 -> 9156)
-                start_tor.begin(true);
+                start_tor.begin(true, (obj, res) => {
+                    is_starting_up = false;
+                });
             } else {
                 // CRITICAL FIX: If state is OFF, strictly ensure no accounts are left in SOCKS5 mode.
                 debug("TorManager: state is DISABLED. Ensuring clear-net (DB Cleanup)...");
@@ -279,11 +285,9 @@ obfs4 198.245.60.50:443 6C61208D644265A16CB0C7E835787C1D8429EC08 cert=sT/u/T1uA+
                 var accounts = stream_interactor.get_accounts();
                 debug("TorManager: ENABLE sequence - Found %d managed accounts. Applying Port: %d", accounts.size, controller.socks_port);
                 foreach (var account in accounts) {
-                    debug("TorManager: Setting SOCKS5 for %s -> 127.0.0.1:%d", account.bare_jid.to_string(), controller.socks_port);
+                    bool port_changed = (account.proxy_port != controller.socks_port);
                     
-                    // 1. Update DB to persist settings and update UI
-                    // db.account.update().perform() does not throw in the Vala binding apparently,
-                    // or handles errors internally.
+                    // 1. Update DB to persist settings
                     db.account.update()
                         .set(db.account.proxy_type, "socks5")
                         .set(db.account.proxy_host, "127.0.0.1")
@@ -291,11 +295,29 @@ obfs4 198.245.60.50:443 6C61208D644265A16CB0C7E835787C1D8429EC08 cert=sT/u/T1uA+
                         .with(db.account.id, "=", account.id)
                         .perform();
 
-                    // 2. Update RAM object and reconnect
+                    // 2. Update RAM object
                     account.proxy_type = "socks5";
                     account.proxy_host = "127.0.0.1";
                     account.proxy_port = controller.socks_port;
-                    reconnect_account.begin(account);
+                    
+                    // 3. Only reconnect if the account is already connected/connecting
+                    //    (skip during startup — accounts will connect with proxy settings
+                    //    that we already set via on_account_added)
+                    var state = stream_interactor.connection_manager.get_state(account);
+                    if (state == ConnectionManager.ConnectionState.CONNECTED ||
+                        state == ConnectionManager.ConnectionState.CONNECTING) {
+                        if (port_changed) {
+                            debug("TorManager: Port changed for %s, reconnecting through 127.0.0.1:%d",
+                                  account.bare_jid.to_string(), controller.socks_port);
+                            reconnect_account.begin(account);
+                        } else {
+                            debug("TorManager: %s already configured for port %d, no reconnect needed",
+                                  account.bare_jid.to_string(), controller.socks_port);
+                        }
+                    } else {
+                        debug("TorManager: %s not connected yet (state: %s), proxy settings applied for next connect",
+                              account.bare_jid.to_string(), state.to_string());
+                    }
                 }
             } else {
                 // DISABLE sequence - use the robust cleanup logic we unified

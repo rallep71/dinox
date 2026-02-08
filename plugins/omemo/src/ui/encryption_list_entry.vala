@@ -5,6 +5,15 @@ using Xmpp;
 
 namespace Dino.Plugins.Omemo {
 
+// Helper function for async sleep
+private async void sleep_async(uint milliseconds) {
+    Timeout.add(milliseconds, () => {
+        sleep_async.callback();
+        return false;
+    });
+    yield;
+}
+
 public class EncryptionListEntry : Plugins.EncryptionListEntry, Object {
     private Plugin plugin;
     private Database db;
@@ -49,6 +58,28 @@ public class EncryptionListEntry : Plugins.EncryptionListEntry, Object {
             input_status_callback(new Plugins.InputFieldStatus("Can't use encryption in a groupchat private message.", Plugins.InputFieldStatus.MessageType.ERROR, Plugins.InputFieldStatus.InputState.NO_SEND));
             return;
         }
+        
+        // Check if our own OMEMO identity is initialized
+        int identity_id = db.identity.get_id(conversation.account.id);
+        if (identity_id < 0) {
+            // Identity not yet created - OMEMO is still initializing (e.g. after Panic Wipe)
+            input_status_callback(new Plugins.InputFieldStatus("OMEMO is initializing, please wait a moment...", Plugins.InputFieldStatus.MessageType.INFO, Plugins.InputFieldStatus.InputState.NO_SEND));
+            
+            // Wait for initialization (up to 5 seconds)
+            for (int i = 0; i < 10; i++) {
+                yield sleep_async(500);
+                identity_id = db.identity.get_id(conversation.account.id);
+                if (identity_id >= 0) break;
+            }
+            
+            if (identity_id < 0) {
+                input_status_callback(new Plugins.InputFieldStatus("OMEMO initialization failed. Please try again.", Plugins.InputFieldStatus.MessageType.ERROR, Plugins.InputFieldStatus.InputState.NO_SEND));
+                return;
+            }
+            // Clear the "initializing" message
+            input_status_callback(new Plugins.InputFieldStatus("", Plugins.InputFieldStatus.MessageType.NONE, Plugins.InputFieldStatus.InputState.NORMAL));
+        }
+        
         MucManager muc_manager = plugin.app.stream_interactor.get_module<MucManager>(MucManager.IDENTITY);
         Manager omemo_manager = plugin.app.stream_interactor.get_module<Manager>(Manager.IDENTITY);
 

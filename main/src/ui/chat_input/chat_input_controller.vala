@@ -102,6 +102,7 @@ public class ChatInputController : Object {
     }
 
     public void set_conversation(Conversation conversation) {
+        debug("ChatInputController.set_conversation: Called with %s", conversation != null ? conversation.counterpart.to_string() : "NULL");
         int64 t0_us = Dino.Ui.UiTiming.now_us();
         suppress_chat_state_on_text_change = true;
         reset_input_field_status();
@@ -111,6 +112,7 @@ public class ChatInputController : Object {
         this.conversation = conversation;
 
         int64 t_enc_us = Dino.Ui.UiTiming.now_us();
+        debug("ChatInputController.set_conversation: About to call encryption_widget.set_conversation");
         chat_input.encryption_widget.set_conversation(conversation);
         Dino.Ui.UiTiming.log_ms("ChatInputController.set_conversation: encryption_widget.set_conversation", t_enc_us);
 
@@ -136,14 +138,23 @@ public class ChatInputController : Object {
     }
 
     private void on_encryption_changed(Encryption encryption) {
+        debug("ChatInputController: on_encryption_changed called with %d", (int)encryption);
         reset_input_field_status();
 
-        if (encryption == Encryption.NONE) return;
+        if (encryption == Encryption.NONE) {
+            debug("ChatInputController: encryption is NONE, returning");
+            return;
+        }
 
         Application app = GLib.Application.get_default() as Application;
+        debug("ChatInputController: Looking for encryption_entry for %d, registry has %d entries", 
+              (int)encryption, app.plugin_registry.encryption_list_entries.size);
         var encryption_entry = app.plugin_registry.encryption_list_entries[encryption];
         if (encryption_entry != null) {
+            debug("ChatInputController: Found encryption_entry '%s', calling encryption_activated", encryption_entry.name);
             encryption_entry.encryption_activated(conversation, set_input_field_status);
+        } else {
+            debug("ChatInputController: encryption_entry is NULL for %d!", (int)encryption);
         }
     }
 

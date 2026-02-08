@@ -46,7 +46,11 @@ public class Loader : Object {
         }
 
         foreach (string plugin in plugin_names) {
-            load(plugin);
+            try {
+                load(plugin);
+            } catch (Error e) {
+                warning("Failed to load plugin %s: %s", plugin, e.message);
+            }
         }
     }
 

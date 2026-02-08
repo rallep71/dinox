@@ -417,7 +417,11 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
                 ((Dino.Application)this).init ();
 
                 if (plugin_loader != null) {
-                    plugin_loader.load_all ();
+                    try {
+                        plugin_loader.load_all ();
+                    } catch (Error plugin_err) {
+                        warning ("Plugin loading error (non-fatal): %s", plugin_err.message);
+                    }
                 }
                 create_ui_actions ();
                 core_ready = true;

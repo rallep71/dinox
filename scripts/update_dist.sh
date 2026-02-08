@@ -24,6 +24,8 @@ rm -f dist/notification-sound.dll 2>/dev/null || true
 rm -f dist/rtp.dll 2>/dev/null || true
 rm -f dist/omemo.dll 2>/dev/null || true
 rm -f dist/obfs4proxy 2>/dev/null || true  # Linux version without .exe
+rm -f dist/tor.exe 2>/dev/null || true     # Stale Linux ELF or old MSYS2 binary
+rm -f dist/tor 2>/dev/null || true         # Linux binary without .exe
 
 # ============================================
 # Main executable (must be in dist/ root)
@@ -63,11 +65,13 @@ SYSTEM_DLLS=(
     "libcairo-gobject-2.dll"
     "libcairo-script-interpreter-2.dll"
     
-    # Pango (text rendering)
+    # Pango text rendering deps
     "libpango-1.0-0.dll"
     "libpangocairo-1.0-0.dll"
     "libpangowin32-1.0-0.dll"
     "libpangoft2-1.0-0.dll"
+    "libthai-0.dll"
+    "libdatrie-1.dll"
     
     # GLib family
     "libglib-2.0-0.dll"
@@ -90,6 +94,7 @@ SYSTEM_DLLS=(
     "libfontconfig-1.dll"
     "libharfbuzz-0.dll"
     "libharfbuzz-gobject-0.dll"
+    "libharfbuzz-subset-0.dll"
     "libfribidi-0.dll"
     "libgraphene-1.0-0.dll"
     "libepoxy-0.dll"
@@ -127,6 +132,17 @@ SYSTEM_DLLS=(
     "libffi-8.dll"
     "libexpat-1.dll"
     "libxml2-2.dll"
+    "libsecret-1-0.dll"
+    "libdeflate.dll"
+    "libjbig-0.dll"
+    "libLerc.dll"
+    "libgraphite2.dll"
+    "liblzo2-2.dll"
+    "libsharpyuv-0.dll"
+    "libnghttp3-9.dll"
+    "libngtcp2-111.dll"
+    "libngtcp2_crypto_ossl-0.dll"
+    "libssh2-1.dll"
     
     # GStreamer (for RTP/audio)
     "libgstreamer-1.0-0.dll"
@@ -159,11 +175,49 @@ SYSTEM_DLLS=(
     # QREncode
     "libqrencode-4.dll"
     
+    # Audio/Video codecs (needed by GStreamer plugins)
+    "libopus-0.dll"
+    "libopenh264-7.dll"
+    "libvpx-1.dll"
+    
     # Signal protocol (not in MSYS2's standard packages, built separately for OMEMO)
     # "libsignal-protocol-c-2.dll"
     
     # SRTPv2 for RTP
     "libsrtp2-1.dll"
+    
+    # AppStream (dependency of libadwaita/GTK4 on newer MSYS2)
+    "libappstream-5.dll"
+    "libcurl-4.dll"
+    "libxmlb-2.dll"
+    "libyaml-0-2.dll"
+    
+    # Additional GStreamer libs (transitive deps of RTP/video plugins)
+    "libgstallocators-1.0-0.dll"
+    "libgstd3d11-1.0-0.dll"
+    "libgstd3d12-1.0-0.dll"
+    "libgstd3dshader-1.0-0.dll"
+    "libgstplay-1.0-0.dll"
+    "libgstplayer-1.0-0.dll"
+    "libgsttag-1.0-0.dll"
+    "libgstfft-1.0-0.dll"
+    
+    # Signal protocol (OMEMO encryption)
+    "libomemo-c-0.dll"
+    
+    # GnuTLS + deps (required by ice plugin / libnice for DTLS)
+    "libgnutls-30.dll"
+    "libnettle-8.dll"
+    "libhogweed-6.dll"
+    "libgmp-10.dll"
+    "libtasn1-6.dll"
+    "libp11-kit-0.dll"
+    
+    # JSON-GLib (required by tor-manager plugin)
+    "libjson-glib-1.0-0.dll"
+    
+    # SQLCipher (if using encrypted DB instead of plain sqlite)
+    "libsqlcipher-0.dll"
 )
 
 DLL_COUNT=0
@@ -188,6 +242,55 @@ for dll in "${SYSTEM_DLLS[@]}"; do
     fi
 done
 echo "  ✓ $DLL_COUNT system DLLs copied"
+
+# ============================================
+# AUTO-DETECT missing DLL dependencies (recursive!)
+# This scans ALL DLLs/EXEs in dist/ using objdump to find their
+# imports, then copies any missing DLL from MSYS2's /mingw64/bin/.
+# Repeats until no new DLLs are discovered (transitive resolution).
+# This eliminates the need to manually track every dependency.
+# ============================================
+echo "[4c/8] Auto-detecting missing DLL dependencies..."
+AUTO_COUNT=0
+PASS=0
+while true; do
+    PASS=$((PASS + 1))
+    FOUND_NEW=false
+    
+    # Collect all DLL imports from everything in dist/
+    ALL_DEPS=$(objdump -p dist/*.dll dist/*.exe dist/plugins/*.dll 2>/dev/null \
+        | grep "DLL Name:" | awk '{print $3}' | sort -u)
+    
+    for dep_name in $ALL_DEPS; do
+        # Skip if already in dist/
+        [ -f "dist/$dep_name" ] && continue
+        
+        # Copy from MSYS2 if available (system DLLs like kernel32.dll
+        # won't be in /mingw64/bin/ so they're skipped automatically)
+        if [ -f "$MINGW_BIN/$dep_name" ]; then
+            cp "$MINGW_BIN/$dep_name" dist/
+            echo "  + Pass $PASS: $dep_name"
+            AUTO_COUNT=$((AUTO_COUNT + 1))
+            FOUND_NEW=true
+        fi
+    done
+    
+    # Stop when no new DLLs were found
+    if [ "$FOUND_NEW" = false ]; then
+        break
+    fi
+    
+    # Safety: max 10 passes to avoid infinite loops
+    if [ $PASS -ge 10 ]; then
+        echo "  ⚠ Stopped after $PASS passes (safety limit)"
+        break
+    fi
+done
+if [ $AUTO_COUNT -gt 0 ]; then
+    echo "  ✓ Auto-copied $AUTO_COUNT additional DLLs in $PASS passes"
+else
+    echo "  ✓ No missing dependencies detected"
+fi
 
 # Copy GDK-Pixbuf loaders (for image format support)
 if [ -d "/mingw64/lib/gdk-pixbuf-2.0" ]; then
@@ -223,6 +326,12 @@ fi
 echo "[5/8] Copying Plugins..."
 find build/plugins -name "*.dll" -exec cp {} dist/plugins/ \;
 echo "  ✓ $(ls dist/plugins/*.dll 2>/dev/null | wc -l) plugins copied"
+
+# Clean up any stale core DLLs that may have landed in plugins/ from earlier builds.
+# These are NOT plugins and would cause "register_plugin not found" errors.
+for core_dll in libdino-0.dll libxmpp-vala-0.dll libqlite-0.dll libcrypto-vala-0.dll; do
+    rm -f "dist/plugins/$core_dll" 2>/dev/null
+done
 
 # ============================================
 # Helper executables (all in bin/)
@@ -280,15 +389,24 @@ else
     echo "  ⚠ Warning: openssl.exe not found! Encrypted backups will not work."
 fi
 
-# Tor
-if command -v tor &> /dev/null; then
-    cp "$(which tor)" dist/bin/tor.exe
-    echo "  ✓ tor.exe"
-elif [ -f "/mingw64/bin/tor.exe" ]; then
+# Tor - MUST use MinGW64 native build, NOT the MSYS2/Cygwin version
+# The MSYS2 /usr/bin/tor is a Cygwin binary that Windows reports as "16-bit incompatible"
+if [ -f "/mingw64/bin/tor.exe" ]; then
     cp /mingw64/bin/tor.exe dist/bin/
-    echo "  ✓ tor.exe"
+    echo "  ✓ tor.exe (mingw64 native)"
+elif command -v tor &> /dev/null; then
+    TOR_PATH="$(which tor)"
+    # Only use if it's from mingw64, not from /usr/bin (MSYS2/Cygwin)
+    if [[ "$TOR_PATH" == /mingw64/* ]]; then
+        cp "$TOR_PATH" dist/bin/tor.exe
+        echo "  ✓ tor.exe"
+    else
+        echo "  ⚠ Warning: tor found at $TOR_PATH but it's not a native Windows build!"
+        echo "    Install mingw-w64-x86_64-tor: pacman -S mingw-w64-x86_64-tor"
+    fi
 else
     echo "  ⚠ Warning: tor not found! Anonymous connections will not work."
+    echo "    Install: pacman -S mingw-w64-x86_64-tor"
 fi
 
 # obfs4proxy (Tor bridge support)

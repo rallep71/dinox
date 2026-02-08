@@ -50,7 +50,12 @@ public class EncryptionButton {
         SimpleActionGroup action_group = new SimpleActionGroup();
         action = new SimpleAction.stateful("encryption", VariantType.INT32, new Variant.int32(Encryption.NONE));
         action.activate.connect((parameter) => {
-            if (conversation == null) return;
+            debug("EncryptionButton: action.activate called with %d", parameter.get_int32());
+            if (conversation == null) {
+                debug("EncryptionButton: conversation is NULL, returning");
+                return;
+            }
+            debug("EncryptionButton: Setting encryption to %d for %s", parameter.get_int32(), conversation.counterpart.to_string());
             action.set_state(parameter);
             conversation.encryption = (Encryption) parameter.get_int32();
             encryption_changed(conversation.encryption);
@@ -136,11 +141,13 @@ public class EncryptionButton {
     }
 
     public void set_conversation(Conversation conversation) {
+        debug("EncryptionButton.set_conversation: Called with %s", conversation != null ? conversation.counterpart.to_string() : "NULL");
         if (conversation_encryption_handler_id != -1 && this.conversation != null) {
             this.conversation.disconnect(conversation_encryption_handler_id);
         }
 
         this.conversation = conversation;
+        debug("EncryptionButton.set_conversation: this.conversation is now %s", this.conversation != null ? "SET" : "NULL");
         update_encryption_menu_state();
         update_encryption_menu_icon();
         update_visibility();

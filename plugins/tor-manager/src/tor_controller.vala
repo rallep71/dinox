@@ -9,6 +9,7 @@ namespace Dino.Plugins.TorManager {
         // private DataInputStream? control_stream;
 
         public bool is_running { get; private set; default = false; }
+        public bool is_starting { get; private set; default = false; }
         public int socks_port { get; private set; default = 9155; }
         public string bridge_lines { get; set; default = ""; }
         public bool use_bridges { get; set; default = true; }
@@ -62,7 +63,14 @@ namespace Dino.Plugins.TorManager {
             try {
                 // Determine path to 'tor' executable
 #if WINDOWS
-                string[] argv = {"tor.exe", "--version"};
+                // Try to find tor.exe - it may be in bin/ subfolder
+                string? tor_path = Environment.find_program_in_path("tor.exe");
+                if (tor_path == null) {
+                    // Not critical - Tor will be found later when PATH is set up
+                    debug("Tor executable not in PATH yet (will be available via bin/ at runtime).");
+                    return;
+                }
+                string[] argv = {tor_path, "--version"};
 #else
                 string[] argv = {"tor", "--version"};
 #endif
@@ -71,10 +79,10 @@ namespace Dino.Plugins.TorManager {
                 if (proc.get_if_exited() && proc.get_exit_status() == 0) {
                     debug("Tor executable found.");
                 } else {
-                    warning("Tor executable NOT found or errored.");
+                    debug("Tor executable NOT found or errored.");
                 }
             } catch (Error e) {
-                warning("Error checking for Tor: %s", e.message);
+                debug("Tor check skipped: %s", e.message);
             }
         }
 
@@ -121,7 +129,8 @@ namespace Dino.Plugins.TorManager {
         }
 
         public async void start() {
-            if (is_running) return;
+            if (is_running || is_starting) return;
+            is_starting = true;
 
             string data_dir = Path.build_filename(Environment.get_user_data_dir(), "dinox", "tor");
             
@@ -130,12 +139,14 @@ namespace Dino.Plugins.TorManager {
             try {
 #if WINDOWS
                 // Windows: Use taskkill to kill any running tor.exe
+                // Suppress stdout/stderr to avoid noisy "FEHLER: Der Prozess wurde nicht gefunden" messages
                 string[] kill_cmd = {"taskkill", "/F", "/IM", "tor.exe"};
+                new Subprocess.newv(kill_cmd, SubprocessFlags.STDOUT_SILENCE | SubprocessFlags.STDERR_SILENCE).wait(null);
 #else
                 // Linux/macOS: Use pkill to match config file path
                 string[] kill_cmd = {"pkill", "-9", "-f", "dinox/tor/torrc"};
-#endif
                 new Subprocess.newv(kill_cmd, SubprocessFlags.NONE).wait(null);
+#endif
                 
                 // Give the OS a moment to reclaim the ports
                 Timeout.add(500, () => {
@@ -279,6 +290,7 @@ namespace Dino.Plugins.TorManager {
             try {
                 tor_process = new Subprocess.newv(argv, SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_PIPE);
                 is_running = true;
+                is_starting = false;
                 debug("Tor process started with PID: %s", tor_process.get_identifier());
                 
                 // Monitor the process
@@ -297,6 +309,7 @@ namespace Dino.Plugins.TorManager {
                     tor_process = null;
                 }
                 is_running = false;
+                is_starting = false;
             }
         }
         
@@ -334,6 +347,7 @@ namespace Dino.Plugins.TorManager {
                 tor_process = null;
             }
             is_running = false;
+            is_starting = false;
         }
 
         private async void monitor_process(Subprocess proc) {

@@ -619,6 +619,8 @@ public class KeyManagementDialog : Object {
             yield proc.communicate_utf8_async(null, null, out stdout_str, out stderr_str);
             
             if (proc.get_exit_status() == 0) {
+                // Invalidate secret keys cache so incoming PGP messages can be decrypted immediately
+                GPGHelper.invalidate_secret_keys_cache();
                 keys_changed();
                 dialog.force_close();
                 show_message(_("Success"), _("Key imported! Re-open Key Management to see it."));
