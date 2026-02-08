@@ -101,7 +101,7 @@ namespace Dino {
 
             string? message_id_to_delete = stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).get_message_id_for_content_item(conversation, content_item);
             if (message_id_to_delete == null || message_id_to_delete.strip().length == 0) {
-                warning("Can't delete globally: missing message reference id (content_item=%i)", content_item.id);
+                debug("Can't delete globally: missing message reference id (content_item=%i), falling back to local delete", content_item.id);
                 // Fall back to local deletion (still satisfies user intent to remove from the UI).
                 delete_locally(conversation, content_item, conversation.account.bare_jid);
                 return;

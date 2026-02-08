@@ -98,15 +98,8 @@ public class FileProvider : Dino.FileProvider, Object {
     }
 
     private void on_file_message(Entities.Message message, Xmpp.MessageStanza stanza, Conversation conversation, string url) {
-        // Persist only plain http(s) URLs; never persist aesgcm:// secrets (fragment carries key).
-        // For OMEMO URLs, keep referencing the original message by id.
-        string additional_info;
-        if (url.has_prefix("aesgcm://") || url.index_of("#") >= 0) {
-            additional_info = message.id.to_string();
-        } else {
-            // This is safe to persist; used when clients put the URL only in the OOB element.
-            additional_info = "url:" + url;
-        }
+        // Always store the message database ID so lookups (deletion, reactions, etc.) work.
+        string additional_info = message.id.to_string();
 
         var receive_data = new HttpFileReceiveData();
         receive_data.url = url;

@@ -100,8 +100,11 @@ namespace Dino {
         private void cache_file(FileTransfer file_transfer) {
             files_by_db_id[file_transfer.id] = file_transfer;
 
-            if (file_transfer.info != null && file_transfer.info != "") {
-                files_by_message_id[int.parse(file_transfer.info)] = file_transfer;
+            if (file_transfer.info != null && file_transfer.info != "" && !file_transfer.info.has_prefix("url:")) {
+                int parsed_id = int.parse(file_transfer.info);
+                if (parsed_id > 0) {
+                    files_by_message_id[parsed_id] = file_transfer;
+                }
 
                 if (file_transfer.file_sharing_id != null && file_transfer.info != null) {
                     string combined_identifier = file_transfer.info + file_transfer.file_sharing_id;
