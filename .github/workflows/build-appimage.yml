@@ -12,21 +12,12 @@ permissions:
 jobs:
   build_appimage:
     runs-on: ubuntu-24.04
-    strategy:
-      matrix:
-        arch: [x86_64, aarch64]
-      fail-fast: false
     
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up QEMU
-        if: matrix.arch == 'aarch64'
-        uses: docker/setup-qemu-action@v3
-
-      - name: Build and Package (x86_64)
-        if: matrix.arch == 'x86_64'
+      - name: Build and Package
         run: |
             sudo apt-get update
             sudo apt-get install -y build-essential python3-pip ninja-build pkg-config valac gettext \
@@ -52,49 +43,18 @@ jobs:
             # Build AppImage 
             ./scripts/build-appimage.sh
 
-      - name: Build and Package (aarch64)
-        if: matrix.arch == 'aarch64'
-        uses: uraimo/run-on-arch-action@v2
-        with:
-          arch: aarch64
-          distro: ubuntu22.04
-          githubToken: ${{ github.token }}
-          install: |
-            apt-get update
-            apt-get install -y build-essential python3-pip ninja-build pkg-config valac gettext \
-              libgtk-4-dev libadwaita-1-dev libglib2.0-dev libgee-0.8-dev \
-              libsqlite3-dev libicu-dev libgcrypt20-dev libgpgme-dev libqrencode-dev \
-              libsoup-3.0-dev libunwind-dev libgstreamer1.0-dev \
-              libgstreamer-plugins-base1.0-dev gstreamer1.0-plugins-good \
-              gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-libav \
-              gstreamer1.0-tools gstreamer1.0-nice gstreamer1.0-vaapi gstreamer1.0-pipewire \
-              libnice-dev libsrtp2-dev \
-              libgnutls28-dev libcanberra-dev libdbusmenu-glib-dev \
-              libgdk-pixbuf-2.0-dev libsignal-protocol-c-dev libprotobuf-c-dev \
-              libsqlcipher-dev libsecret-1-dev protobuf-c-compiler cmake patchelf \
-              file wget libfuse2 tor obfs4proxy git libjson-glib-dev clang
-            
-            pip3 install meson>=1.3.0
-          run: |
-            # Build custom dependencies
-            chmod +x scripts/ci-build-deps.sh scripts/build-appimage.sh
-            ./scripts/ci-build-deps.sh
-
-            # Build AppImage
-            ./scripts/build-appimage.sh
-
       - name: Upload Logs
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: build-logs-${{ matrix.arch }}
+          name: build-logs
           path: |
              build-meson/meson-logs/meson-log.txt
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: DinoX-AppImage-${{ matrix.arch }}
+          name: DinoX-AppImage
           path: |
             build/DinoX-*.AppImage
             build/DinoX-*.AppImage.zsync
