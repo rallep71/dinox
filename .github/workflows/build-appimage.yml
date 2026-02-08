@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-24.04
     strategy:
       matrix:
-        arch: [x86_64]
+        arch: [x86_64, aarch64]
       fail-fast: false
     
     steps:
@@ -123,10 +123,29 @@ jobs:
           find . -name "DinoX-*.AppImage*" -exec mv {} assets/ \;
           ls -lh assets/
 
+      - name: Extract Release Notes from CHANGELOG
+        id: changelog
+        run: |
+          version="${{ steps.version.outputs.version }}"
+          notes=$(awk -v ver="[$version]" '
+            /^## / { if (p) { exit }; if ($2 == ver) { p=1; next } }
+            p { print }
+          ' CHANGELOG.md)
+          # Fallback for point releases (e.g. 0.9.8.5 -> 0.9.8)
+          if [ -z "${notes//[[:space:]]/}" ]; then
+            base=$(echo "$version" | sed -E 's/\.[0-9]+$//')
+            notes=$(awk -v ver="[$base]" '
+              /^## / { if (p) { exit }; if ($2 == ver) { p=1; next } }
+              p { print }
+            ' CHANGELOG.md)
+          fi
+          echo "$notes" > RELEASE_BODY.md
+
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
           name: DinoX v${{ steps.version.outputs.version }}
+          body_path: RELEASE_BODY.md
           draft: false
           prerelease: false
           files: assets/*
