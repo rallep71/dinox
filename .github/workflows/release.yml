@@ -57,15 +57,12 @@ jobs:
 
   build-aarch64:
     name: "Build (aarch64)"
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-24.04-arm
     steps:
       - name: "Checkout sources"
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      - name: "Set up QEMU"
-        uses: docker/setup-qemu-action@v3
 
       - name: "Install Flatpak Builder"
         run: |
@@ -73,14 +70,12 @@ jobs:
           sudo apt-get install -y flatpak flatpak-builder elfutils
           flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
-      - name: "Build Flatpak (Cross-Compile)"
+      - name: "Build Flatpak"
         run: |
-          # Build for aarch64 using QEMU user emulation on the host
-          # This avoids nested container/bwrap issues
-          flatpak-builder --user --arch=aarch64 --disable-rofiles-fuse --install-deps-from=flathub --force-clean --default-branch=master --repo=repo build-dir im.github.rallep71.DinoX.json
+          flatpak-builder --user --install-deps-from=flathub --force-clean --default-branch=master --repo=repo build-dir im.github.rallep71.DinoX.json
           
           # Bundle
-          flatpak build-bundle --arch=aarch64 repo dinox-aarch64.flatpak im.github.rallep71.DinoX master
+          flatpak build-bundle repo dinox-aarch64.flatpak im.github.rallep71.DinoX master
 
       - name: "Upload Artifacts"
         uses: actions/upload-artifact@v4

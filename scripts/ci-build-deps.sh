@@ -7,24 +7,10 @@ if [ "$(id -u)" != "0" ]; then
     SUDO="sudo"
 fi
 
-# Detect System Architecture for Parallelism Control
-ARCH="$(uname -m)"
+# Build parallelism
+NINJA_ARGS=""
+MAKE_ARGS="-j$(nproc)"
 MESON_OPTS=""
-if [ "$ARCH" == "aarch64" ]; then
-    echo "Running on aarch64 - Limiting parallelism and optimization to avoid OOM/Segfaults"
-    # Use GCC on aarch64 — clang segfaults under QEMU user-mode emulation
-    export CC=gcc
-    export CXX=g++
-    
-    NINJA_ARGS="-j 1"
-    MAKE_ARGS="-j 1"
-    # Reduce optimization to save memory/prevent compiler crashes in QEMU
-    # Also disable debug info (-g) to reduce memory usage during linking
-    MESON_OPTS="-Doptimization=0 -Ddebug=false"
-else
-    NINJA_ARGS=""
-    MAKE_ARGS="-j$(nproc)"
-fi
 
 echo "Running Unicode Security Scan..."
 python3 scripts/scan_unicode.py
