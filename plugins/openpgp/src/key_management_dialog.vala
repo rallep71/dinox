@@ -221,11 +221,7 @@ public class KeyManagementDialog : Object {
         // Escape markup to handle <email> in UIDs correctly.
         // Adw.ExpanderRow.title uses markup, so raw text might fail to parse.
         string escaped_title = GLib.Markup.escape_text(key.uid);
-        try {
-             row.title = escaped_title;
-        } catch (Error e) {
-             row.title = "Invalid key UID";
-        }
+        row.title = escaped_title;
         
         // Check if key is published to keyserver
         bool is_published = (db != null) ? db.is_key_published(key.fingerprint) : false;

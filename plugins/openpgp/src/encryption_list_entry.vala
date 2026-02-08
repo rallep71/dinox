@@ -193,57 +193,51 @@ private class EncryptionListEntry : Plugins.EncryptionListEntry, Object {
     private async void fetch_key_and_update_status(Entities.Conversation conversation, Plugins.SetInputFieldStatus input_status_callback) {
         if (xep0373_manager == null) return;
         
-        try {
-            // Request keys from contact via XEP-0373 PubSub
-            yield xep0373_manager.request_keys(conversation.account, conversation.counterpart.bare_jid);
+        // Request keys from contact via XEP-0373 PubSub
+        yield xep0373_manager.request_keys(conversation.account, conversation.counterpart.bare_jid);
+        
+        // Wait a moment for the key to be imported and stored in DB
+        // The signal handler in plugin.vala stores the key when received
+        Timeout.add(500, () => {
+            // Check if we now have the key
+            string? key_id = db.get_contact_key(conversation.counterpart.bare_jid);
             
-            // Wait a moment for the key to be imported and stored in DB
-            // The signal handler in plugin.vala stores the key when received
-            Timeout.add(500, () => {
-                // Check if we now have the key
-                string? key_id = db.get_contact_key(conversation.counterpart.bare_jid);
-                
-                if (key_id != null) {
-                    // Verify and cache in background thread
-                    string key_id_copy = key_id;
-                    new Thread<void*>("openpgp-verify-fetched", () => {
-                        GPGHelper.Key? key = null;
-                        try {
-                            key = GPGHelper.get_public_key(key_id_copy);
-                        } catch (Error e) {
-                            debug("OpenPGP: Key check failed: %s", e.message);
+            if (key_id != null) {
+                // Verify and cache in background thread
+                string key_id_copy = key_id;
+                new Thread<void*>("openpgp-verify-fetched", () => {
+                    GPGHelper.Key? key = null;
+                    try {
+                        key = GPGHelper.get_public_key(key_id_copy);
+                    } catch (Error e) {
+                        debug("OpenPGP: Key check failed: %s", e.message);
+                    }
+                    
+                    Idle.add(() => {
+                        // Cache the key (or null if invalid)
+                        var manager = stream_interactor.get_module<Manager>(Manager.IDENTITY);
+                        if (manager != null) {
+                            manager.cache_key(key_id_copy, key);
                         }
                         
-                        Idle.add(() => {
-                            // Cache the key (or null if invalid)
-                            var manager = stream_interactor.get_module<Manager>(Manager.IDENTITY);
-                            if (manager != null) {
-                                manager.cache_key(key_id_copy, key);
-                            }
-                            
-                            if (key != null) {
-                                debug("OpenPGP: Successfully fetched and cached key %s for %s", key_id_copy, conversation.counterpart.to_string());
-                                input_status_callback(new Plugins.InputFieldStatus("", Plugins.InputFieldStatus.MessageType.NONE, Plugins.InputFieldStatus.InputState.NORMAL));
-                            } else {
-                                debug("OpenPGP: Key %s fetched but not in keyring", key_id_copy);
-                                input_status_callback(new Plugins.InputFieldStatus("This contact's OpenPGP key is not in your keyring.", Plugins.InputFieldStatus.MessageType.ERROR, Plugins.InputFieldStatus.InputState.NO_SEND));
-                            }
-                            return false;
-                        });
-                        return null;
+                        if (key != null) {
+                            debug("OpenPGP: Successfully fetched and cached key %s for %s", key_id_copy, conversation.counterpart.to_string());
+                            input_status_callback(new Plugins.InputFieldStatus("", Plugins.InputFieldStatus.MessageType.NONE, Plugins.InputFieldStatus.InputState.NORMAL));
+                        } else {
+                            debug("OpenPGP: Key %s fetched but not in keyring", key_id_copy);
+                            input_status_callback(new Plugins.InputFieldStatus("This contact's OpenPGP key is not in your keyring.", Plugins.InputFieldStatus.MessageType.ERROR, Plugins.InputFieldStatus.InputState.NO_SEND));
+                        }
+                        return false;
                     });
-                } else {
-                    // No key published by contact
-                    debug("OpenPGP: No XEP-0373 key published by %s", conversation.counterpart.to_string());
-                    input_status_callback(new Plugins.InputFieldStatus("This contact has not published an OpenPGP key.", Plugins.InputFieldStatus.MessageType.ERROR, Plugins.InputFieldStatus.InputState.NO_SEND));
-                }
-                return false; // Don't repeat timeout
-            });
-            
-        } catch (Error e) {
-            debug("OpenPGP: Failed to fetch XEP-0373 keys: %s", e.message);
-            input_status_callback(new Plugins.InputFieldStatus("Failed to fetch contact's OpenPGP key: %s".printf(e.message), Plugins.InputFieldStatus.MessageType.ERROR, Plugins.InputFieldStatus.InputState.NO_SEND));
-        }
+                    return null;
+                });
+            } else {
+                // No key published by contact
+                debug("OpenPGP: No XEP-0373 key published by %s", conversation.counterpart.to_string());
+                input_status_callback(new Plugins.InputFieldStatus("This contact has not published an OpenPGP key.", Plugins.InputFieldStatus.MessageType.ERROR, Plugins.InputFieldStatus.InputState.NO_SEND));
+            }
+            return false; // Don't repeat timeout
+        });
     }
 }
 

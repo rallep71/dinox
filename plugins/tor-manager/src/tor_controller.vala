@@ -34,14 +34,12 @@ namespace Dino.Plugins.TorManager {
 #if WINDOWS
             // On Windows, use Win32 API via GLib
             string? exe_path = null;
-            try {
-                // GLib provides this via get_current_dir, but we need the exe location
-                // Use environment or fallback
-                string? path = Environment.get_variable("_");  // The full path to the running exe
-                if (path != null && path.has_suffix(".exe")) {
-                    exe_path = Path.get_dirname(path);
-                }
-            } catch (Error e) { }
+            // GLib provides this via get_current_dir, but we need the exe location
+            // Use environment or fallback
+            string? path = Environment.get_variable("_");  // The full path to the running exe
+            if (path != null && path.has_suffix(".exe")) {
+                exe_path = Path.get_dirname(path);
+            }
             
             if (exe_path == null) {
                 // Fallback: Check current working directory

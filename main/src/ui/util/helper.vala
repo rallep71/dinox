@@ -160,7 +160,6 @@ public static bool is_dark_theme(Gtk.Widget widget) {
     return Adw.StyleManager.get_default().dark;
 }
 
-private static int8 is24h = 0;
 public static bool is_24h_format() {
     return true;
 }

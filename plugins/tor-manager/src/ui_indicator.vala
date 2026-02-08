@@ -6,7 +6,8 @@ namespace Dino.Plugins.TorManager {
 
     public class TorIndicator : Object {
         private TorManager manager;
-        private MenuButton button;
+        private ToggleButton button;
+        private Popover popover;
         private Image icon;
         private Switch? toggle_switch;
         
@@ -80,7 +81,7 @@ namespace Dino.Plugins.TorManager {
         }
 
         private void create_button() {
-            button = new MenuButton();
+            button = new ToggleButton();
             button.has_frame = false;
             button.tooltip_text = "Tor Network";
             
@@ -88,8 +89,23 @@ namespace Dino.Plugins.TorManager {
             icon = new Image.from_icon_name("network-server-symbolic");
             button.child = icon;
             
-            // Popover
-            var popover = new Popover();
+            // Popover — manually managed so it does NOT auto-close on toggle
+            popover = new Popover();
+            popover.set_parent(button);
+            popover.autohide = true;   // close when user clicks outside
+            popover.has_arrow = true;
+            
+            // Sync button toggle state with popover visibility
+            popover.closed.connect(() => {
+                button.active = false;
+            });
+            button.toggled.connect(() => {
+                if (button.active) {
+                    popover.popup();
+                } else {
+                    popover.popdown();
+                }
+            });
             var box = new Box(Orientation.VERTICAL, 6);
             box.margin_top = 12;
             box.margin_bottom = 12;
@@ -149,18 +165,15 @@ namespace Dino.Plugins.TorManager {
             settings_btn.add_css_class("pill");
             settings_btn.clicked.connect(() => {
                 popover.popdown();
-                // Close popover and open prefs
+                // Close popover and open prefs directly on the Tor page
                 var app = GLib.Application.get_default();
                 if (app != null) {
-                    // Invoke standard preferences action
-                    // Note: direct activation uses the short name, not the "app." prefixed name used in Gtk Actionable
-                     app.activate_action("preferences", null);
+                     app.activate_action("preferences-page", new Variant.string("tor"));
                 }
             });
             box.append(settings_btn);
             
             popover.set_child(box);
-            button.popover = popover;
 
             // Connect Signals for UI Updates
             manager.controller.notify["is-running"].connect(() => { update_icon(status_label); });

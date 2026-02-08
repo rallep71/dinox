@@ -78,9 +78,6 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
 #if WINDOWS
     // Get the directory where dinox.exe is located
     private static string get_executable_dir() {
-        // Try to get from command line args (first arg is usually the exe path)
-        string? exe_path = null;
-        
         // Method 1: Check if we're in the dist folder structure
         // Look for openssl.exe in bin/ relative to current working dir
         string cwd = Environment.get_current_dir();
@@ -621,13 +618,9 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
     private void panic_wipe_and_exit () {
         // CRITICAL: First close all database connections before trying to delete files!
         // On Windows, open files cannot be deleted.
-        try {
-            // Close main database
-            if (db != null) {
-                db.close();
-            }
-        } catch (Error e) {
-            // Best effort
+        // Close main database
+        if (db != null) {
+            db.close();
         }
 
         string data_dir = Path.build_filename (Environment.get_user_data_dir (), "dinox");
@@ -689,6 +682,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         Process.exit (0);
     }
 
+#if !WINDOWS
     private void wipe_dir (string path) throws Error {
         if (!FileUtils.test (path, FileTest.EXISTS)) return;
         File root = File.new_for_path (path);
@@ -715,6 +709,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             try { f.delete (null); } catch (Error e) { }
         }
     }
+#endif
 
     public void handle_uri (string jid, string query, Gee.Map<string, string> options) {
         switch (query) {
@@ -761,9 +756,18 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
 
     private void create_ui_actions () {
         SimpleAction preferences_action = new SimpleAction ("preferences", null);
-        preferences_action.activate.connect (show_preferences_window);
+        preferences_action.activate.connect (() => {
+            show_preferences_window ();
+        });
         add_action (preferences_action);
         set_accels_for_action ("app.preferences", KEY_COMBINATION_SHOW_SETTINGS);
+
+        SimpleAction preferences_page_action = new SimpleAction ("preferences-page", VariantType.STRING);
+        preferences_page_action.activate.connect ((action, variant) => {
+            string? page_name = variant != null ? variant.get_string () : null;
+            show_preferences_window (page_name);
+        });
+        add_action (preferences_page_action);
 
         SimpleAction set_status_message_action = new SimpleAction ("set-status-message", null);
         set_status_message_action.activate.connect (show_status_message_dialog);
@@ -962,7 +966,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         dialog.present (window);
     }
 
-    private void show_preferences_window () {
+    private void show_preferences_window (string? navigate_to_page = null) {
         Ui.PreferencesDialog dialog = new Ui.PreferencesDialog ();
         configure_preferences (dialog);
         dialog.model.populate (db, stream_interactor);
@@ -977,6 +981,11 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         dialog.reset_database_requested.connect (() => reset_database ());
         dialog.factory_reset_requested.connect (() => factory_reset ());
         dialog.present (window);
+        
+        // Navigate to specific page if requested (e.g. "tor" from the Tor indicator)
+        if (navigate_to_page != null) {
+            dialog.set_visible_page_name (navigate_to_page);
+        }
     }
 
     private void show_change_db_password_dialog () {

@@ -144,12 +144,7 @@ namespace Dino.Plugins.OpenPgp {
                 // Debugging markup error
                 // warning("Setting markup for key: '%s' -> '%s'", name, safe_name);
                 
-                try {
-                    name_label.set_markup(safe_name);
-                } catch (Error e) {
-                    debug("Failed to set markup for key %s: %s", key.fingerprint, e.message);
-                    name_label.label = name; // Fallback to plain text
-                }
+                name_label.set_markup(safe_name);
                 name_label.xalign = 0;
                 name_label.add_css_class("heading");
 

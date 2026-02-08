@@ -185,68 +185,6 @@ private static string[] get_base_command(bool allow_interactive = false) {
 }
 
 /**
- * Build interactive GPG command (for signing, decrypting - operations that may need passphrase)
- */
-private static string[] get_interactive_command() {
-    return get_base_command(true);
-}
-
-/**
- * Run GPG command and return stdout
- */
-private static string run_gpg(string[] extra_args, string? stdin_data = null) throws GLib.Error {
-    var args = new ArrayList<string>();
-    foreach (string arg in get_base_command()) {
-        args.add(arg);
-    }
-    foreach (string arg in extra_args) {
-        args.add(arg);
-    }
-    
-    // Build command array
-    string[] cmd = args.to_array();
-    
-    try {
-        SubprocessFlags flags = SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_PIPE;
-        if (stdin_data != null) {
-            flags |= SubprocessFlags.STDIN_PIPE;
-        }
-        
-        var subprocess = new Subprocess.newv(cmd, flags);
-        
-        Bytes? stdout_bytes = null;
-        Bytes? stderr_bytes = null;
-        
-        if (stdin_data != null) {
-            subprocess.communicate(new Bytes(stdin_data.data), null, out stdout_bytes, out stderr_bytes);
-        } else {
-            subprocess.communicate(null, null, out stdout_bytes, out stderr_bytes);
-        }
-        
-        string stdout_str = "";
-        if (stdout_bytes != null) {
-            stdout_str = (string) stdout_bytes.get_data();
-            if (stdout_str == null) stdout_str = "";
-        }
-        
-        // Check for errors
-        if (!subprocess.get_if_exited() || subprocess.get_exit_status() != 0) {
-            string stderr_str = "";
-            if (stderr_bytes != null) {
-                stderr_str = (string) stderr_bytes.get_data();
-                if (stderr_str != null && stderr_str.length > 0) {
-                    debug("GPG stderr: %s", stderr_str);
-                }
-            }
-        }
-        
-        return stdout_str;
-    } catch (Error e) {
-        throw e;
-    }
-}
-
-/**
  * Internal GPG run WITHOUT mutex (caller must hold the lock)
  */
 private static bool run_gpg_internal(string[] extra_args, string? stdin_data, out string stdout_str, out string stderr_str, out int exit_status, bool allow_interactive = false) {
@@ -1242,9 +1180,8 @@ public static bool download_key_from_keyserver(string key_id, string keyserver =
  * This works even for keys without verified email (no UID)
  */
 private static bool download_key_from_openpgp_org_api(string key_id) {
-    try {
-        // Normalize key ID to uppercase and remove 0x prefix
-        string normalized_id = key_id.up().replace("0X", "").replace(" ", "");
+    // Normalize key ID to uppercase and remove 0x prefix
+    string normalized_id = key_id.up().replace("0X", "").replace(" ", "");
         
         // keys.openpgp.org API endpoint
         // Use by-fingerprint for full fingerprints (40 chars), by-keyid for short IDs (16 chars)
@@ -1333,10 +1270,6 @@ private static bool download_key_from_openpgp_org_api(string key_id) {
             debug("GPGHelper: Import from API failed: %s", import_stderr);
             return false;
         }
-    } catch (Error e) {
-        debug("GPGHelper: API download error: %s", e.message);
-        return false;
-    }
 }
 
 /**
