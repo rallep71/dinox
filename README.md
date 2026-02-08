@@ -8,7 +8,7 @@
 [![GTK4](https://img.shields.io/badge/GTK-4.14.5-4a86cf.svg)](https://www.gtk.org/)
 [![Release](https://img.shields.io/github/v/release/rallep71/dinox)](https://github.com/rallep71/dinox/releases)
 
-**The Most Secure XMPP Messenger for Linux**
+**The Most Secure XMPP Messenger for Linux & Windows**
 
 Built for ultimate privacy with integrated Tor & Obfs4proxy, full local database encryption, and decentralized MUJI Group Video Calls
 
@@ -20,7 +20,7 @@ Built for ultimate privacy with integrated Tor & Obfs4proxy, full local database
 
 ## What is DinoX?
 
-DinoX is a secure XMPP messenger for Linux with built-in Tor & Obfs4proxy (Zero-Config Privacy). Features OMEMO encryption, decentralized Group Video Calls, hardware acceleration, and full database encryption in a modern GTK4/libadwaita interface.
+DinoX is a secure XMPP messenger for Linux & Windows with built-in Tor & Obfs4proxy (Zero-Config Privacy). Features OMEMO encryption, decentralized Group Video Calls, hardware acceleration, and full database encryption in a modern GTK4/libadwaita interface.
 
 DinoX features System Tray support, MUJI group video calls, voice messages, message retraction, advanced MUC moderation and more.
 
@@ -32,7 +32,7 @@ DinoX features System Tray support, MUJI group video calls, voice messages, mess
 | **Full Local Encryption** | All local files (avatars, stickers, transfers) are encrypted at rest (AES-256-GCM) |
 | **Secure Deletion** | Global history deletion (both sides) with smart throttling & zero-trace cache cleanup |
 | **OMEMO Encryption** | End-to-end encryption for all messages and files |
-| **OpenPGP Encryption** | XEP-0373 with key management, generation & deletion |
+| **OpenPGP Encryption** | XEP-0027 (Legacy) + XEP-0373 with key management, generation, deletion & revocation |
 | **Encrypted Local Database** | Local data is stored in an encrypted SQLCipher database (password required at startup) |
 | **Change Database Password** | Change the local database password via Preferences (SQLCipher rekey) |
 | **Panic Wipe** | Quickly wipe local DinoX data (`Ctrl+Shift+Alt+P`) and exit (also triggered after 3 failed unlock attempts) |
@@ -53,11 +53,15 @@ DinoX features System Tray support, MUJI group video calls, voice messages, mess
 | **TLS Certificate Pinning** | Trust self-signed certs for self-hosted servers |
 | **Backup & Restore** | Full data backup with optional GPG encryption (AES-256) |
 | **Database Maintenance** | Clean orphaned records, optimize storage |
-| **PGP Key Management** | Generate, select, delete OpenPGP keys in-app |
+| **PGP Key Management** | Generate, select, delete, revoke OpenPGP keys in-app. Automatic key exchange via PEP |
 | **47 Languages** | 100% translated |
 | **Dark Mode** | System theme or manual toggle |
 
 ## Installation
+
+### Windows
+
+Download the latest Windows build from [GitHub Releases](https://github.com/rallep71/dinox/releases/latest). Extract the ZIP archive and run `dinox.bat`.
 
 ### Flatpak
 
@@ -167,6 +171,8 @@ DinoX implements **80 XMPP Extension Protocols**. Here are the key ones with ful
 |-----|------|--------|
 | XEP-0384 | OMEMO Encryption | Full |
 | XEP-0373 | OpenPGP for XMPP | Full |
+| XEP-0374 | OpenPGP for XMPP Instant Messaging | Full |
+| XEP-0027 | Current Jabber OpenPGP Usage | Full |
 | XEP-0448 | Encryption for Stateless File Sharing | Full |
 | XEP-0454 | OMEMO Media Sharing | Full |
 
