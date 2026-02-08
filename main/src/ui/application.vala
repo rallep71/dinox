@@ -335,6 +335,27 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             typeof(Dino.Ui.SizeRequestBin).ensure();
             typeof(Dino.Ui.SizingBin).ensure();
 
+#if WINDOWS
+            // Re-apply icon theme search path now that GTK is fully initialized.
+            // The path set in main.vala may be too early (Display not yet available).
+            var display = Gdk.Display.get_default();
+            if (display != null) {
+                var icon_theme = Gtk.IconTheme.get_for_display(display);
+                string exe_path = Environment.find_program_in_path("dinox.exe") ?? "";
+                string exe_dir = exe_path != "" ? Path.get_dirname(exe_path) : Environment.get_current_dir();
+                // Try to get exe dir from argv[0] or GApplication
+                string? prgname = Environment.get_prgname();
+                if (prgname != null && (prgname.contains("\\") || prgname.contains("/"))) {
+                    exe_dir = Path.get_dirname(prgname);
+                }
+                string icon_path = Path.build_filename(exe_dir, "share", "icons");
+                if (FileUtils.test(icon_path, FileTest.IS_DIR)) {
+                    icon_theme.add_search_path(icon_path);
+                    debug("startup: Added icon path: %s", icon_path);
+                }
+            }
+#endif
+
             cleanup_temp_files ();
 
             if (print_version) {

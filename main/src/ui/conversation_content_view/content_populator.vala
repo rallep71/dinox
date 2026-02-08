@@ -84,10 +84,17 @@ public class ContentProvider : ContentItemCollection, Object {
         } else if (content_item.type_ == FileItem.TYPE) {
             FileItem file_item = (FileItem) content_item;
             string? mime_type = file_item.file_transfer.mime_type;
-            if (mime_type == null) {
+            // If mime_type is missing or generic (e.g. from encrypted on-disk storage),
+            // try to guess from the filename extension.
+            if (mime_type == null || mime_type == "" || mime_type == "application/octet-stream") {
                 bool uncertain;
                 string content_type = ContentType.guess(file_item.file_transfer.file_name, null, out uncertain);
-                mime_type = ContentType.get_mime_type(content_type);
+                string guessed = ContentType.get_mime_type(content_type);
+                if (guessed != null && guessed != "application/octet-stream") {
+                    mime_type = guessed;
+                    // Also fix the stored value so subsequent lookups are correct
+                    file_item.file_transfer.mime_type = guessed;
+                }
             }
 
             if (mime_type != null && mime_type.has_prefix("audio/")) {
