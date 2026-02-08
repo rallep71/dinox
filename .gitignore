@@ -21,6 +21,21 @@ test_*.vala
 debug*.log
 windows.txt
 
+# Sensitive/private key material - NEVER commit
+key/
+*.asc
+*.gpg
+*.kbx
+pubring.*
+trustdb.*
+
+# GnuPG home directories (may contain private keys)
+**/gnupg/
+
+# Windows thumbnail cache
+Thumbs.db
+Thumbs.db:encryptable
+
 # Editor backup files
 *~
 *.bak

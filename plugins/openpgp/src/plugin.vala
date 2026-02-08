@@ -190,6 +190,18 @@ public class Plugin : Plugins.RootInterface, Object {
             // Store the fingerprint as the contact key
             // XEP-0373 keys are already imported into GPG keyring by xep0373_key_manager
             db.set_contact_key(jid.bare_jid, fingerprint);
+            
+            // Re-trigger encryption evaluation for any active conversation with this contact
+            // This makes the encryption button update automatically after key import
+            var cm = app.stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY);
+            if (cm != null) {
+                foreach (var conv in cm.get_active_conversations(account)) {
+                    if (conv.counterpart.bare_jid.equals(jid.bare_jid) && conv.encryption == Encryption.PGP) {
+                        debug("OpenPGP: Re-evaluating encryption for %s after key import", jid.to_string());
+                        conv.notify_property("encryption");
+                    }
+                }
+            }
         });
         
         // Proactively fetch XEP-0373 keys when a conversation is activated
@@ -199,6 +211,20 @@ public class Plugin : Plugins.RootInterface, Object {
             if (conversation.type_ == Conversation.Type.CHAT && this.xep0373_manager != null) {
                 debug("OpenPGP: Conversation activated, requesting XEP-0373 keys for %s", conversation.counterpart.to_string());
                 this.xep0373_manager.request_keys.begin(conversation.account, conversation.counterpart.bare_jid);
+            }
+        });
+        
+        // After stream connects, fetch keys for all active conversations
+        // This handles the case where conversation_activated fires before the stream is ready
+        app.stream_interactor.stream_negotiated.connect((account, stream) => {
+            if (this.xep0373_manager == null) return;
+            var cm = app.stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY);
+            if (cm == null) return;
+            foreach (var conv in cm.get_active_conversations(account)) {
+                if (conv.type_ == Conversation.Type.CHAT) {
+                    debug("OpenPGP: Stream ready, fetching keys for %s", conv.counterpart.to_string());
+                    this.xep0373_manager.request_keys.begin(account, conv.counterpart.bare_jid);
+                }
             }
         });
         
