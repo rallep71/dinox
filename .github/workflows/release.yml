@@ -115,6 +115,16 @@ jobs:
           mv dinox-x86_64.flatpak dinox-${version}-x86_64.flatpak
           mv dinox-aarch64.flatpak dinox-${version}-aarch64.flatpak
 
+      - name: "Generate Checksums"
+        run: |
+          version="${{ steps.get_version.outputs.version }}"
+          sha256sum dinox-${version}-x86_64.flatpak > dinox-${version}-x86_64.flatpak.sha256
+          sha256sum dinox-${version}-aarch64.flatpak > dinox-${version}-aarch64.flatpak.sha256
+          echo "=== SHA256 Checksums ==="
+          cat dinox-${version}-x86_64.flatpak.sha256
+          cat dinox-${version}-aarch64.flatpak.sha256
+          cat dinox-${version}.tar.gz.sha256
+
       - name: "Prepare Release Body"
         run: |
           version="${{ steps.get_version.outputs.version }}"
@@ -155,6 +165,8 @@ jobs:
           body_path: RELEASE_BODY.md
           files: |
             dinox-*-x86_64.flatpak
+            dinox-*-x86_64.flatpak.sha256
             dinox-*-aarch64.flatpak
+            dinox-*-aarch64.flatpak.sha256
             dinox-*.tar.gz
             dinox-*.tar.gz.sha256

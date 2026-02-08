@@ -628,6 +628,10 @@ create_appimage() {
         log_info "AppImage created successfully: $APPIMAGE_NAME"
         log_info "Size: $(du -h "$APPIMAGE_NAME" | cut -f1)"
         
+        # Generate SHA256 checksum
+        sha256sum "$APPIMAGE_NAME" > "$APPIMAGE_NAME.sha256"
+        log_info "SHA256: $(cat "$APPIMAGE_NAME.sha256")"
+        
         # Check for zsync file
         if [ -f "$APPIMAGE_NAME.zsync" ]; then
             log_info "Zsync file created: $APPIMAGE_NAME.zsync"

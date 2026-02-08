@@ -5,7 +5,15 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.9.8.6] - 2026-02-08
+## [0.9.8.7] - 2026-02-09
+
+### Added
+- **SHA256 Checksums**: All binary downloads (AppImages, Flatpaks, Windows zip) now include SHA256 checksum files for integrity verification.
+
+### Fixed
+- **AppImage Filename**: Fixed missing version number in AppImage filenames (was `DinoX--aarch64.AppImage`, now `DinoX-0.9.8.7-aarch64.AppImage`).
+
+## [0.9.8.6] - 2026-02-09
 
 ### Fixed
 - **Certificate Pinning**: Fixed SQL syntax error when pinning self-signed certificates. The upsert query had empty `ON CONFLICT()` and a leading comma in the INSERT column list because `domain` was not marked as a key column. Clicking "Trust This Certificate" now works correctly.
