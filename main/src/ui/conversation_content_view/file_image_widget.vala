@@ -608,6 +608,8 @@ public class FileImageWidget : Widget {
         }
 
         if (mime_type.down().has_prefix("video/")) {
+            // Don't display videos larger than 50 MB inline to avoid UI freeze
+            if (file_transfer.size > 50 * 1024 * 1024) return false;
             return file_transfer.state == FileTransfer.State.COMPLETE;
         }
 
