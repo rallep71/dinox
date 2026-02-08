@@ -182,9 +182,23 @@
                                                         </child>
                                                         <child>
                                                             <object class="GtkBox">
+                                                                <property name="spacing">6</property>
                                                                 <child>
                                                                     <object class="GtkButton" id="sign_in_tls_back_button">
                                                                         <property name="label" translatable="1">Back</property>
+                                                                    </object>
+                                                                </child>
+                                                                <child>
+                                                                    <object class="GtkBox">
+                                                                        <property name="hexpand">1</property>
+                                                                    </object>
+                                                                </child>
+                                                                <child>
+                                                                    <object class="GtkButton" id="sign_in_tls_trust_button">
+                                                                        <property name="label" translatable="1">Trust This Certificate</property>
+                                                                        <style>
+                                                                            <class name="destructive-action"/>
+                                                                        </style>
                                                                     </object>
                                                                 </child>
                                                             </object>

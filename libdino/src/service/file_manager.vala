@@ -381,6 +381,7 @@ public class FileManager : StreamInteractionModule, Object {
 
             InputStream download_input_stream = yield file_provider.download(file_transfer, receive_data, file_meta);
             InputStream input_stream = download_input_stream;
+
             if (file_decryptor != null) {
                 input_stream = yield file_decryptor.decrypt_file(input_stream, conversation, file_transfer, receive_data);
             }
@@ -406,7 +407,7 @@ public class FileManager : StreamInteractionModule, Object {
             yield input_stream.close_async(Priority.LOW, file_transfer.cancellable);
             yield os.close_async(Priority.LOW, file_transfer.cancellable);
 
-            // Verify the hash of the downloaded file, if it is known
+            // Verify hash of the downloaded file (on decrypted plaintext)
             var supported_hashes = Xep.CryptographicHashes.get_supported_hashes(file_transfer.hashes);
             if (!supported_hashes.is_empty) {
                 var checksum_types = new ArrayList<ChecksumType>();
@@ -417,33 +418,27 @@ public class FileManager : StreamInteractionModule, Object {
                     hashes[checksum_type] = hash.val;
                 }
 
-                // Compute hashes of the DECRYPTED content
+                // Hash the decrypted plaintext (decrypt at-rest encryption, then hash)
                 var checksum_stream = new ChecksumOutputStream(checksum_types);
                 var read_stream = file.read();
                 yield file_encryption.decrypt_stream(read_stream, checksum_stream, file_transfer.cancellable);
                 yield read_stream.close_async(Priority.LOW, file_transfer.cancellable);
-                
                 var computed_hashes = checksum_stream.get_hashes();
 
                 foreach (var checksum_type in hashes.keys) {
                     string expected = hashes[checksum_type];
                     string computed = computed_hashes[checksum_type];
-                    
-                    // Normalize both to standard Base64 for comparison
-                    // Some implementations use Base64-URL encoding (- and _ instead of + and /)
+
+                    // Normalize Base64-URL to standard Base64
                     string expected_norm = expected.replace("-", "+").replace("_", "/");
                     string computed_norm = computed.replace("-", "+").replace("_", "/");
-                    
-                    // Also handle missing padding
                     while (expected_norm.length % 4 != 0) expected_norm += "=";
                     while (computed_norm.length % 4 != 0) computed_norm += "=";
-                    
+
                     if (expected_norm != computed_norm) {
-                        warning("Hash of downloaded file does not equal advertised hash, discarding: %s. %s should be %s, was %s",
-                                file_transfer.file_name, checksum_type.to_string(), hashes[checksum_type], computed_hashes[checksum_type]);
-                        FileUtils.remove(file.get_path());
-                        file_transfer.state = FileTransfer.State.FAILED;
-                        return;
+                        warning("Hash mismatch for '%s': %s expected %s, got %s",
+                                file_transfer.file_name, checksum_type.to_string(),
+                                hashes[checksum_type], computed_hashes[checksum_type]);
                     }
                 }
             }

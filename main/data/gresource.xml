@@ -54,6 +54,7 @@
     <file>icons/scalable/status/dino-tick-symbolic.svg</file>
     <file>icons/scalable/status/dino-video-off-symbolic.svg</file>
     <file>icons/scalable/status/dino-video-symbolic.svg</file>
+    <file alias="icons/scalable/apps/im.github.rallep71.DinoX.svg">icons/hicolor/scalable/apps/im.github.rallep71.DinoX.svg</file>
 
     <file>preferences_window/account_preferences_subpage.ui</file>
     <file>preferences_window/add_account_dialog.ui</file>

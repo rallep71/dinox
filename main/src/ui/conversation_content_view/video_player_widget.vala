@@ -81,6 +81,8 @@ public class VideoPlayerWidget : Widget {
     private Gtk.Adjustment? watched_vadjustment = null;
     private ulong watched_vadjustment_handler_id = 0;
     private bool paused_by_visibility = false;
+    private bool preview_initialized = false;
+    private bool preview_generating = false;
 
     private Button? start_play_button = null;
 
@@ -124,6 +126,8 @@ public class VideoPlayerWidget : Widget {
                 disconnect_scroll_watch();
             } else {
                 update_playback_visibility();
+                // Lazy init: generate preview only when widget becomes visible
+                try_lazy_preview_init();
             }
         });
         
@@ -214,13 +218,22 @@ public class VideoPlayerWidget : Widget {
                 show_overlay_toolbar = true;
                 transmission_progress.visible = false;
                 
-                File? file = file_transfer.get_file();
-                if (file != null) {
-                    if (start_play_button != null) start_play_button.visible = true;
-                    // Generate thumbnail: decrypt to temp file and use Gtk.MediaFile
-                    // to show the first frame as a still preview image.
-                    yield generate_preview(file);
+                // Show placeholder immediately, preview is generated lazily
+                // when the widget scrolls into the viewport
+                if (preview_image == null) {
+                    var placeholder = stack.get_child_by_name("placeholder");
+                    if (placeholder == null) {
+                        var icon = new Gtk.Image.from_icon_name("video-x-generic");
+                        icon.pixel_size = 96;
+                        stack.add_named(icon, "placeholder");
+                        placeholder = icon;
+                    }
+                    stack.set_visible_child(placeholder);
                 }
+                if (start_play_button != null) start_play_button.visible = true;
+                
+                // If already in viewport, generate preview now
+                try_lazy_preview_init();
             }
         } else {
             // Not complete (Downloading, Not Started, etc.)
@@ -257,6 +270,23 @@ public class VideoPlayerWidget : Widget {
 
     private File? temp_preview_file = null;
     private Gtk.MediaFile? preview_media = null;
+
+    private void try_lazy_preview_init() {
+        if (preview_initialized || preview_generating) return;
+        if (file_transfer.state != FileTransfer.State.COMPLETE) return;
+        if (!this.get_mapped()) return;
+
+        // Connect scroll watcher so we get called when scrolling
+        ensure_scroll_watch();
+
+        if (!is_in_viewport()) return;
+
+        File? file = file_transfer.get_file();
+        if (file == null) return;
+
+        preview_generating = true;
+        generate_preview.begin(file);
+    }
 
     private async void generate_preview(File encrypted_file) {
         debug("VideoPlayerWidget: generating preview thumbnail");
@@ -295,8 +325,11 @@ public class VideoPlayerWidget : Widget {
             preview_image.paintable = preview_media;
             stack.set_visible_child(preview_image);
 
+            preview_initialized = true;
+            preview_generating = false;
             debug("VideoPlayerWidget: preview thumbnail set");
         } catch (Error e) {
+            preview_generating = false;
             warning("VideoPlayerWidget: Failed to generate preview: %s", e.message);
             // Fallback: show generic video icon
             if (preview_image == null) {
@@ -580,7 +613,12 @@ public class VideoPlayerWidget : Widget {
     }
 
     private void update_playback_visibility() {
-        if (media_file == null) return;
+        if (media_file == null) {
+            // No active playback — but check if we need to lazy-init preview
+            ensure_scroll_watch();
+            try_lazy_preview_init();
+            return;
+        }
 
         ensure_scroll_watch();
 

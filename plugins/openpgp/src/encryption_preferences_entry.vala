@@ -314,7 +314,7 @@ namespace Dino.Plugins.OpenPgp {
             if (widget is Gtk.Window) parent_window = (Gtk.Window)widget;
             if (parent_window != null) {
                 if (key_dialog != null && keys_changed_handler_id > 0) { key_dialog.disconnect(keys_changed_handler_id); keys_changed_handler_id = 0; }
-                key_dialog = new KeyManagementDialog(parent_window, plugin.db);
+                key_dialog = new KeyManagementDialog(parent_window, plugin.db, plugin.xep0373_manager, current_account);
                 keys_changed_handler_id = key_dialog.keys_changed.connect(() => { on_keys_changed(); });
                 key_dialog.present();
             }

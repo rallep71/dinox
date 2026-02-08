@@ -160,6 +160,41 @@ namespace Xmpp.Xep.OpenPgp {
         }
 
         /**
+         * Unpublish (retract) a public key from PEP.
+         * This removes the key data node and updates the metadata list
+         * to no longer include this fingerprint.
+         *
+         * @param stream The XMPP stream
+         * @param fingerprint The fingerprint to retract (uppercase, no spaces)
+         * @return true if successful
+         */
+        public async bool unpublish_key(XmppStream stream, string fingerprint) {
+            var pubsub = stream.get_module<Pubsub.Module>(Pubsub.Module.IDENTITY);
+            
+            string fp = fingerprint.up().replace(" ", "");
+            string key_node = NS_URI_PUBKEYS + ":" + fp;
+            
+            debug("XEP-0373: Unpublishing key %s – deleting node %s", fp, key_node);
+            
+            // 1. Delete the key data node entirely
+            pubsub.delete_node(stream, null, key_node);
+            
+            // 2. Publish an empty metadata list so contacts know the key is gone
+            StanzaNode empty_list = new StanzaNode.build("public-keys-list", NS_URI)
+                .add_self_xmlns();
+            
+            var meta_publish_options = new Pubsub.PublishOptions();
+            meta_publish_options.settings["pubsub#access_model"] = Pubsub.ACCESS_MODEL_OPEN;
+            meta_publish_options.settings["pubsub#persist_items"] = "true";
+            meta_publish_options.settings["pubsub#max_items"] = "1";
+            
+            bool meta_ok = yield pubsub.publish(stream, null, NS_URI_PUBKEYS, "current", empty_list, meta_publish_options);
+            debug("XEP-0373: Metadata cleared: %s", meta_ok ? "SUCCESS" : "FAILED");
+            
+            return meta_ok;
+        }
+
+        /**
          * Retrieve the list of public key metadata from a contact
          */
         public async Gee.List<PublicKeyMeta>? fetch_public_keys_list(XmppStream stream, Jid jid) {

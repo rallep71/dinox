@@ -226,5 +226,26 @@ namespace Dino.Plugins.OpenPgp {
             debug("XEP-0373: Republishing key for account %s", account.bare_jid.to_string());
             publish_own_key_async.begin(account, stream);
         }
+
+        /**
+         * Retract (unpublish) a key from PubSub.
+         * Called when the user revokes a key, so contacts no longer see it.
+         */
+        public async bool retract_published_key(Account account, string fingerprint) {
+            XmppStream? stream = stream_interactor.get_stream(account);
+            if (stream == null) {
+                debug("XEP-0373: Cannot retract key - no stream for %s", account.bare_jid.to_string());
+                return false;
+            }
+
+            Xmpp.Xep.OpenPgp.Module? module = stream.get_module(Xmpp.Xep.OpenPgp.Module.IDENTITY);
+            if (module == null) {
+                debug("XEP-0373: Cannot retract key - XEP-0373 module not loaded");
+                return false;
+            }
+
+            debug("XEP-0373: Retracting key %s for account %s", fingerprint, account.bare_jid.to_string());
+            return yield module.unpublish_key(stream, fingerprint);
+        }
     }
 }

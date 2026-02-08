@@ -49,13 +49,17 @@ public class KeyManagementDialog : Object {
     private Adw.PreferencesGroup keys_group;
     private Gee.List<GpgKeyInfo> current_keys;
     private Database? db;
+    private Xep0373KeyManager? xep0373_manager;
+    private Dino.Entities.Account? account;
 
     public signal void keys_changed();
 
-    public KeyManagementDialog(Gtk.Window parent, Database? database = null) {
+    public KeyManagementDialog(Gtk.Window parent, Database? database = null, Xep0373KeyManager? xep0373_mgr = null, Dino.Entities.Account? account = null) {
         this.parent_window = parent;
         this.current_keys = new Gee.ArrayList<GpgKeyInfo>();
         this.db = database;
+        this.xep0373_manager = xep0373_mgr;
+        this.account = account;
     }
 
     public void present() {
@@ -282,10 +286,30 @@ public class KeyManagementDialog : Object {
         export_secret_row.activated.connect(() => export_key(key, true));
         row.add_row(export_secret_row);
         
+        // Revoke button row
+        var revoke_row = new Adw.ActionRow();
+        revoke_row.title = _("Revoke Key");
+        revoke_row.subtitle = _("Invalidate key, keep locally for old messages");
+        revoke_row.add_css_class("error");
+        revoke_row.activatable = true;
+        revoke_row.add_suffix(new Gtk.Image.from_icon_name("dialog-warning-symbolic"));
+        revoke_row.activated.connect(() => confirm_revoke_key(key));
+        row.add_row(revoke_row);
+        
+        // Revoke & Delete button row
+        var revoke_delete_row = new Adw.ActionRow();
+        revoke_delete_row.title = _("Revoke &amp; Delete Key");
+        revoke_delete_row.subtitle = _("Invalidate and remove key completely");
+        revoke_delete_row.add_css_class("error");
+        revoke_delete_row.activatable = true;
+        revoke_delete_row.add_suffix(new Gtk.Image.from_icon_name("edit-delete-symbolic"));
+        revoke_delete_row.activated.connect(() => confirm_revoke_and_delete_key(key));
+        row.add_row(revoke_delete_row);
+        
         // Delete button row
         var delete_row = new Adw.ActionRow();
         delete_row.title = _("Delete Key");
-        delete_row.add_css_class("error");
+        delete_row.subtitle = _("Remove locally only, contacts are NOT notified");
         delete_row.activatable = true;
         delete_row.add_suffix(new Gtk.Image.from_icon_name("user-trash-symbolic"));
         delete_row.activated.connect(() => confirm_delete_key(key));
@@ -692,7 +716,7 @@ public class KeyManagementDialog : Object {
 
     private void confirm_delete_key(GpgKeyInfo key) {
         var confirm = new Adw.AlertDialog(_("Delete Key?"), 
-            _("Delete this key?\n\n%s\n\nThis cannot be undone!").printf(key.uid));
+            _("Delete this key?\n\n%s\n\nWarning: The key will only be removed locally. Your contacts will NOT be notified and may continue to use this key.\n\nConsider using 'Revoke and Delete' instead.\n\nThis cannot be undone!").printf(key.uid));
         
         confirm.add_response("cancel", _("Cancel"));
         confirm.add_response("delete", _("Delete"));
@@ -732,6 +756,230 @@ public class KeyManagementDialog : Object {
             }
         } catch (Error e) {
             show_message(_("Error"), e.message);
+        }
+    }
+
+    private void confirm_revoke_key(GpgKeyInfo key) {
+        var confirm = new Adw.AlertDialog(_("Revoke Key?"),
+            _("Revoke this key?\n\n%s\n\nThe key will be permanently marked as invalid. This cannot be undone!\n\nThe revocation will be published to the XMPP server and keyservers so that your contacts know this key is no longer valid.").printf(key.uid));
+
+        confirm.add_response("cancel", _("Cancel"));
+        confirm.add_response("revoke", _("Revoke"));
+        confirm.set_response_appearance("revoke", Adw.ResponseAppearance.DESTRUCTIVE);
+        confirm.default_response = "cancel";
+        confirm.close_response = "cancel";
+
+        confirm.response.connect((response) => {
+            if (response == "revoke") {
+                perform_revoke_key.begin(key);
+            }
+        });
+
+        confirm.present(dialog);
+    }
+
+    private async void perform_revoke_key(GpgKeyInfo key) {
+        // Show progress dialog
+        var progress = new Adw.AlertDialog(_("Revoking..."), _("Revoking key and publishing revocation..."));
+        var spinner = new Gtk.Spinner() { spinning = true };
+        spinner.set_size_request(32, 32);
+        spinner.halign = Gtk.Align.CENTER;
+        progress.extra_child = spinner;
+        progress.present(dialog);
+
+        bool gpg_ok = false;
+        bool pubsub_ok = false;
+        bool keyserver_ok = false;
+        string? error_msg = null;
+
+        // 1. Revoke key in GPG (background thread)
+        SourceFunc callback_ref = perform_revoke_key.callback;
+        string fp_copy = key.fingerprint;
+
+        new Thread<void*>("revoke-key", () => {
+            try {
+                gpg_ok = GPGHelper.revoke_key(fp_copy, 0, "Key revoked by user");
+            } catch (Error e) {
+                error_msg = e.message;
+                debug("Revoke failed: %s", e.message);
+            }
+
+            // Also try uploading the revoked key to keyserver (so others know)
+            if (gpg_ok) {
+                try {
+                    keyserver_ok = GPGHelper.upload_key_to_keyserver(fp_copy);
+                } catch (Error e) {
+                    debug("Keyserver upload of revoked key failed: %s", e.message);
+                    // Not fatal - key is still revoked locally
+                }
+            }
+
+            Idle.add((owned) callback_ref);
+            return null;
+        });
+        yield;
+
+        // 2. Retract from PubSub (XEP-0373) on main thread
+        if (gpg_ok && xep0373_manager != null && account != null) {
+            pubsub_ok = yield xep0373_manager.retract_published_key(account, key.fingerprint);
+            if (!pubsub_ok) {
+                debug("PubSub retraction failed (non-fatal)");
+            }
+        }
+
+        // 3. Clean up database
+        if (gpg_ok && db != null && account != null) {
+            // If this was the account's active key, remove the association
+            string? account_key = db.get_account_key(account);
+            if (account_key != null && (account_key == key.fingerprint || key.fingerprint.has_suffix(account_key) || account_key.has_suffix(key.fingerprint))) {
+                db.remove_account_key(account);
+            }
+        }
+
+        // 4. Invalidate caches
+        GPGHelper.invalidate_secret_keys_cache();
+
+        progress.force_close();
+
+        if (gpg_ok) {
+            keys_changed();
+            dialog.force_close();
+            string details = _("Key revoked successfully.");
+            if (keyserver_ok) {
+                details += "\n" + _("Revocation published to keyserver.");
+            }
+            if (pubsub_ok) {
+                details += "\n" + _("Key removed from XMPP server.");
+            }
+            show_message(_("Success"), details);
+        } else {
+            show_message(_("Error"), _("Revocation failed: ") + (error_msg ?? _("Unknown error")));
+        }
+    }
+
+    private void confirm_revoke_and_delete_key(GpgKeyInfo key) {
+        var confirm = new Adw.AlertDialog(_("Revoke and Delete Key?"),
+            _("Revoke and delete this key?\n\n%s\n\nThe key will be permanently invalidated and then removed. Your contacts and keyservers will be notified.\n\nYou will no longer be able to decrypt old messages encrypted with this key.\n\nThis cannot be undone!").printf(key.uid));
+
+        confirm.add_response("cancel", _("Cancel"));
+        confirm.add_response("revoke-delete", _("Revoke and Delete"));
+        confirm.set_response_appearance("revoke-delete", Adw.ResponseAppearance.DESTRUCTIVE);
+        confirm.default_response = "cancel";
+        confirm.close_response = "cancel";
+
+        confirm.response.connect((response) => {
+            if (response == "revoke-delete") {
+                perform_revoke_and_delete_key.begin(key);
+            }
+        });
+
+        confirm.present(dialog);
+    }
+
+    private async void perform_revoke_and_delete_key(GpgKeyInfo key) {
+        // Show progress dialog
+        var progress = new Adw.AlertDialog(_("Revoking & Deleting..."), _("Revoking key, notifying contacts, and deleting..."));
+        var spinner = new Gtk.Spinner() { spinning = true };
+        spinner.set_size_request(32, 32);
+        spinner.halign = Gtk.Align.CENTER;
+        progress.extra_child = spinner;
+        progress.present(dialog);
+
+        bool gpg_ok = false;
+        bool keyserver_ok = false;
+        bool delete_ok = false;
+        string? error_msg = null;
+
+        // 1. Revoke key in GPG + upload to keyserver (background thread)
+        SourceFunc callback_ref = perform_revoke_and_delete_key.callback;
+        string fp_copy = key.fingerprint;
+
+        new Thread<void*>("revoke-delete-key", () => {
+            try {
+                gpg_ok = GPGHelper.revoke_key(fp_copy, 0, "Key revoked by user");
+            } catch (Error e) {
+                error_msg = e.message;
+                debug("Revoke failed: %s", e.message);
+            }
+
+            // Upload revoked key to keyserver before deleting
+            if (gpg_ok) {
+                try {
+                    keyserver_ok = GPGHelper.upload_key_to_keyserver(fp_copy);
+                } catch (Error e) {
+                    debug("Keyserver upload of revoked key failed: %s", e.message);
+                }
+            }
+
+            Idle.add((owned) callback_ref);
+            return null;
+        });
+        yield;
+
+        // 2. Retract from PubSub (XEP-0373)
+        bool pubsub_ok = false;
+        if (gpg_ok && xep0373_manager != null && account != null) {
+            pubsub_ok = yield xep0373_manager.retract_published_key(account, key.fingerprint);
+        }
+
+        // 3. Clean up database
+        if (gpg_ok && db != null && account != null) {
+            string? account_key = db.get_account_key(account);
+            if (account_key != null && (account_key == key.fingerprint || key.fingerprint.has_suffix(account_key) || account_key.has_suffix(key.fingerprint))) {
+                db.remove_account_key(account);
+            }
+        }
+
+        // 4. Now delete the key from GPG keyring (background thread)
+        if (gpg_ok) {
+            SourceFunc delete_callback = perform_revoke_and_delete_key.callback;
+
+            new Thread<void*>("delete-revoked-key", () => {
+                try {
+                    string openpgp_gnupg_home = Path.build_filename(Application.get_storage_dir(), "openpgp", "gnupg");
+                    string gpg_bin = Environment.find_program_in_path("gpg");
+                    if (gpg_bin == null) gpg_bin = "gpg";
+
+                    string[] argv = { gpg_bin, "--homedir", openpgp_gnupg_home, "--batch", "--yes", "--delete-secret-and-public-key", fp_copy };
+                    var proc = new Subprocess.newv(argv, SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_PIPE);
+                    string? stdout_str = null;
+                    string? stderr_str = null;
+                    proc.communicate_utf8(null, null, out stdout_str, out stderr_str);
+                    delete_ok = (proc.get_exit_status() == 0);
+                    if (!delete_ok) {
+                        debug("Delete after revoke failed: %s", stderr_str ?? "");
+                    }
+                } catch (Error e) {
+                    debug("Delete after revoke error: %s", e.message);
+                }
+                Idle.add((owned) delete_callback);
+                return null;
+            });
+            yield;
+        }
+
+        // 5. Invalidate caches
+        GPGHelper.invalidate_secret_keys_cache();
+
+        progress.force_close();
+
+        if (gpg_ok) {
+            keys_changed();
+            dialog.force_close();
+            string details = _("Key revoked");
+            if (keyserver_ok) {
+                details += ", " + _("keyserver notified");
+            }
+            if (pubsub_ok) {
+                details += ", " + _("XMPP server updated");
+            }
+            if (delete_ok) {
+                details += ", " + _("key deleted");
+            }
+            details += ".";
+            show_message(_("Success"), details);
+        } else {
+            show_message(_("Error"), _("Revocation failed: ") + (error_msg ?? _("Unknown error")));
         }
     }
 

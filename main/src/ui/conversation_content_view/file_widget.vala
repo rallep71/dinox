@@ -282,6 +282,7 @@ public class FileDefaultWidgetController : Object {
     }
 
     private void update_file_info() {
+        if (file_transfer == null) return;
         state = file_transfer.state;
         widget.update_file_info(file_transfer.mime_type, file_transfer.state, file_transfer.direction, file_transfer.size, file_transfer.transferred_bytes);
     }

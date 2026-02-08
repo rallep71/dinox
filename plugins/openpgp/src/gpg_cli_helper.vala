@@ -1094,6 +1094,75 @@ public static bool import_key(string armored_key) throws GLib.Error {
 public const string DEFAULT_KEYSERVER = "hkps://keys.openpgp.org";
 
 /**
+ * Revoke a GPG key by generating and importing a revocation certificate.
+ * After this the key is marked as revoked in the local keyring.
+ * @param fingerprint: Full fingerprint of the key to revoke
+ * @param reason: Revocation reason code (0=no reason, 1=compromised, 2=superseded, 3=no longer used)
+ * @param comment: Optional human-readable comment for the revocation
+ * @return true if revocation was successful
+ */
+public static bool revoke_key(string fingerprint, int reason = 0, string comment = "") throws GLib.Error {
+    initialize();
+
+    debug("GPGHelper: Revoking key %s (reason=%d)", fingerprint, reason);
+
+    // Generate revocation certificate non-interactively via --gen-revoke with --command-fd
+    // We pipe the answers: "y\n<reason>\n<comment>\n\ny\n"
+    var stdin_builder = new StringBuilder();
+    stdin_builder.append("y\n");                    // Really generate? y
+    stdin_builder.append_printf("%d\n", reason);    // Reason code
+    stdin_builder.append(comment);                  // Comment (can be empty)
+    stdin_builder.append("\n");                      // End of comment
+    stdin_builder.append("\n");                      // Blank line = confirm
+    stdin_builder.append("y\n");                     // Really revoke? y
+
+    string[] args = { "--command-fd", "0", "--status-fd", "2", "--batch", "--yes", "--gen-revoke", fingerprint };
+
+    string stdout_str, stderr_str;
+    int exit_status;
+    run_gpg_sync(args, stdin_builder.str, out stdout_str, out stderr_str, out exit_status);
+
+    if (exit_status != 0) {
+        debug("GPGHelper: Failed to generate revocation certificate: %s", stderr_str);
+        // Fallback: try a simpler invocation without --command-fd
+        string[] args2 = { "--batch", "--yes", "--output", "-", "--gen-revoke", fingerprint };
+        var stdin2 = "y\n%d\n%s\n\ny\n".printf(reason, comment);
+        run_gpg_sync(args2, stdin2, out stdout_str, out stderr_str, out exit_status);
+
+        if (exit_status != 0) {
+            debug("GPGHelper: Revocation certificate generation failed (fallback too): %s", stderr_str);
+            throw new GLib.Error(GLib.Quark.from_string("gpg"), 1,
+                "Failed to generate revocation certificate: %s", stderr_str);
+        }
+    }
+
+    // stdout_str should contain the ASCII-armored revocation certificate
+    if (!stdout_str.contains("BEGIN PGP PUBLIC KEY BLOCK")) {
+        debug("GPGHelper: Revocation certificate output does not contain expected block, stderr: %s", stderr_str);
+        throw new GLib.Error(GLib.Quark.from_string("gpg"), 2,
+            "Revocation certificate was not produced correctly");
+    }
+
+    debug("GPGHelper: Got revocation certificate, importing...");
+
+    // Import the revocation certificate to mark the key as revoked
+    string[] import_args = { "--batch", "--yes", "--import" };
+    string import_stdout, import_stderr;
+    int import_exit;
+    run_gpg_sync(import_args, stdout_str, out import_stdout, out import_stderr, out import_exit);
+
+    if (import_exit != 0) {
+        debug("GPGHelper: Failed to import revocation certificate: %s", import_stderr);
+        throw new GLib.Error(GLib.Quark.from_string("gpg"), 3,
+            "Failed to import revocation certificate: %s", import_stderr);
+    }
+
+    debug("GPGHelper: Key %s successfully revoked", fingerprint);
+    invalidate_secret_keys_cache();
+    return true;
+}
+
+/**
  * Upload a public key to a keyserver
  * @param key_id: The key ID or fingerprint to upload
  * @param keyserver: The keyserver URL (default: keys.openpgp.org)

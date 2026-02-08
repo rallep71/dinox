@@ -50,6 +50,7 @@ public class AddAccountDialog : Adw.Dialog {
     [GtkChild] private unowned Box sign_in_tls_box;
     [GtkChild] private unowned Label sign_in_tls_label;
     [GtkChild] private unowned Button sign_in_tls_back_button;
+    [GtkChild] private unowned Button sign_in_tls_trust_button;
 
     // Select Server
     [GtkChild] private unowned Box create_account_box;
@@ -85,6 +86,8 @@ public class AddAccountDialog : Adw.Dialog {
     private Jid? server_jid = null;
     private Jid? login_jid = null;
     private Xep.InBandRegistration.Form? form = null;
+    private TlsCertificate? pending_tls_certificate = null;
+    private TlsCertificateFlags pending_tls_flags;
 
     public AddAccountDialog(StreamInteractor stream_interactor, Database db, bool start_registration = false) {
         this.stream_interactor = stream_interactor;
@@ -98,6 +101,7 @@ public class AddAccountDialog : Adw.Dialog {
 
         // Sign in - TLS error
         sign_in_tls_back_button.clicked.connect(() => show_sign_in() );
+        sign_in_tls_trust_button.clicked.connect(() => on_tls_trust_button_clicked.begin() );
 
         // Select Server
         server_entry.changed.connect(() => {
@@ -154,8 +158,13 @@ public class AddAccountDialog : Adw.Dialog {
         sign_in_serverlist_button.visible = true;
     }
 
-    private void show_tls_error(string domain, TlsCertificateFlags error_flags) {
+    private void show_tls_error(string domain, TlsCertificateFlags error_flags, TlsCertificate? cert = null) {
         switch_stack_page(Page.SIGN_IN_TLS_ERROR);
+
+        // Store certificate for potential pinning
+        pending_tls_certificate = cert;
+        pending_tls_flags = error_flags;
+        sign_in_tls_trust_button.visible = (cert != null);
 
         string error_desc = _("The server could not prove that it is %s.").printf("<b>" + domain + "</b>");
         if (TlsCertificateFlags.UNKNOWN_CA in error_flags) {
@@ -168,6 +177,23 @@ public class AddAccountDialog : Adw.Dialog {
             error_desc += " " + _("Its security certificate is expired.");
         }
         sign_in_tls_label.label = error_desc;
+    }
+
+    private async void on_tls_trust_button_clicked() {
+        if (pending_tls_certificate == null || login_jid == null) return;
+
+        // Pin the certificate
+        stream_interactor.connection_manager.pin_certificate(
+            login_jid.domainpart, pending_tls_certificate, pending_tls_flags);
+
+        // Clear pending state
+        pending_tls_certificate = null;
+
+        // Go back and retry with the now-pinned certificate
+        show_sign_in(true);
+
+        // Auto-retry the sign-in
+        yield on_sign_in_continue_button_clicked();
     }
 
     private void show_select_server() {
@@ -264,12 +290,13 @@ public class AddAccountDialog : Adw.Dialog {
                 bool has_custom_host = custom_host_entry.text.length > 0;
                 
                 if (!has_custom_host) {
-                    Register.ServerAvailabilityReturn server_status = yield Register.check_server_availability(login_jid);
+                    Register register_module = stream_interactor.get_module<Register>(Register.IDENTITY);
+                    Register.ServerAvailabilityReturn server_status = yield register_module.check_server_availability(login_jid);
                     sign_in_continue_spinner.visible = false;
                     sign_in_continue_button.sensitive = true;
                     if (!server_status.available) {
                         if (server_status.error_flags != null) {
-                            show_tls_error(login_jid.domainpart, server_status.error_flags);
+                            show_tls_error(login_jid.domainpart, server_status.error_flags, server_status.tls_certificate);
                         } else {
                             sign_in_error_label.visible = true;
                             sign_in_error_label.label = _("Could not connect to %s").printf(login_jid.domainpart);

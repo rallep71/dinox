@@ -83,6 +83,9 @@ public class ContentProvider : ContentItemCollection, Object {
             return new MessageMetaItem(content_item, stream_interactor);
         } else if (content_item.type_ == FileItem.TYPE) {
             FileItem file_item = (FileItem) content_item;
+            if (file_item.file_transfer == null) {
+                return new FileMetaItem(content_item, stream_interactor);
+            }
             string? mime_type = file_item.file_transfer.mime_type;
             // If mime_type is missing or generic (e.g. from encrypted on-disk storage),
             // try to guess from the filename extension.

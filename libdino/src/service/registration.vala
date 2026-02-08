@@ -30,7 +30,18 @@ public class Register : StreamInteractionModule, Object{
         list.add(new Sasl.Module(account.bare_jid.to_string(), account.password));
 
         XmppStreamResult stream_result = yield Xmpp.establish_stream(account.bare_jid.domain_jid, list, Application.print_xmpp,
-                (peer_cert, errors) => { return ConnectionManager.on_invalid_certificate(account.domainpart, peer_cert, errors); }
+                (peer_cert, errors) => {
+                    // Check pinned certificates in database
+                    if (db != null) {
+                        string cert_fp = CertificateManager.get_certificate_fingerprint(peer_cert);
+                        string? pinned_fp = db.pinned_certificate.get_pinned_fingerprint(account.domainpart);
+                        if (pinned_fp != null && pinned_fp == cert_fp) {
+                            debug("Certificate for %s matches pinned fingerprint (add_check_account)", account.domainpart);
+                            return true;
+                        }
+                    }
+                    return ConnectionManager.on_invalid_certificate(account.domainpart, peer_cert, errors);
+                }
         );
 
         if (stream_result.stream == null) {
@@ -82,16 +93,28 @@ public class Register : StreamInteractionModule, Object{
     public class ServerAvailabilityReturn {
         public bool available { get; set; }
         public TlsCertificateFlags? error_flags { get; set; }
+        public TlsCertificate? tls_certificate { get; set; }
     }
 
-    public static async ServerAvailabilityReturn check_server_availability(Jid jid) {
+    public async ServerAvailabilityReturn check_server_availability(Jid jid) {
         ServerAvailabilityReturn ret = new ServerAvailabilityReturn() { available=false };
 
         Gee.List<XmppStreamModule> list = new ArrayList<XmppStreamModule>();
         list.add(new Iq.Module());
 
         XmppStreamResult stream_result = yield Xmpp.establish_stream(jid.domain_jid, list, Application.print_xmpp,
-                (peer_cert, errors) => { return ConnectionManager.on_invalid_certificate(jid.domainpart, peer_cert, errors); }
+                (peer_cert, errors) => {
+                    // Check pinned certificates in database
+                    if (db != null) {
+                        string cert_fp = CertificateManager.get_certificate_fingerprint(peer_cert);
+                        string? pinned_fp = db.pinned_certificate.get_pinned_fingerprint(jid.domainpart);
+                        if (pinned_fp != null && pinned_fp == cert_fp) {
+                            debug("Certificate for %s matches pinned fingerprint (check_server_availability)", jid.domainpart);
+                            return true;
+                        }
+                    }
+                    return ConnectionManager.on_invalid_certificate(jid.domainpart, peer_cert, errors);
+                }
         );
 
         if (stream_result.stream == null) {
@@ -100,6 +123,7 @@ public class Register : StreamInteractionModule, Object{
             }
             if (stream_result.tls_errors != null) {
                 ret.error_flags = stream_result.tls_errors;
+                ret.tls_certificate = stream_result.tls_certificate;
             }
             return ret;
         }

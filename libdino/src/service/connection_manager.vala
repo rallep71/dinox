@@ -413,6 +413,11 @@ public class ConnectionManager : Object {
     private void set_connection_error(Account account, ConnectionError error) {
         connection_errors[account] = error;
         connection_error(account, error);
+
+        // Auto-trigger certificate dialog for TLS errors with certificate info
+        if (error.source == ConnectionError.Source.TLS && error.tls_certificate != null) {
+            certificate_validation_required(account, error.tls_certificate, error.tls_flags);
+        }
     }
 
     /**

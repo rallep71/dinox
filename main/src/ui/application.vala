@@ -472,6 +472,22 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
 
                 systray_manager = new SystrayManager (this);
 
+                // Auto-show certificate warning dialog when TLS cert validation fails
+                stream_interactor.connection_manager.certificate_validation_required.connect((account, peer_cert, errors) => {
+                    Idle.add(() => {
+                        var app = (Gtk.Application) GLib.Application.get_default();
+                        Gtk.Window? parent_window = app != null ? app.active_window : null;
+                        if (parent_window != null) {
+                            var cert_dialog = new CertificateWarningDialog(
+                                account, peer_cert, errors,
+                                account.domainpart, stream_interactor
+                            );
+                            cert_dialog.present(parent_window);
+                        }
+                        return false;
+                    });
+                });
+
                 if (unlock_parent != null) {
                     unlock_parent.close ();
                     unlock_parent = null;
@@ -570,6 +586,22 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
                     stream_interactor.get_module<FileManager> (FileManager.IDENTITY).add_metadata_provider (new Util.AudioVideoFileMetadataProvider ());
 
                     systray_manager = new SystrayManager (this);
+
+                    // Auto-show certificate warning dialog when TLS cert validation fails
+                    stream_interactor.connection_manager.certificate_validation_required.connect((account, peer_cert, errors) => {
+                        Idle.add(() => {
+                            var app = (Gtk.Application) GLib.Application.get_default();
+                            Gtk.Window? parent_window = app != null ? app.active_window : null;
+                            if (parent_window != null) {
+                                var cert_dialog = new CertificateWarningDialog(
+                                    account, peer_cert, errors,
+                                    account.domainpart, stream_interactor
+                                );
+                                cert_dialog.present(parent_window);
+                            }
+                            return false;
+                        });
+                    });
 
                     if (unlock_parent != null) {
                         unlock_parent.close ();

@@ -168,8 +168,11 @@ public class CertificateWarningDialog : Object {
             // Pin the certificate
             stream_interactor.connection_manager.pin_certificate(domain, certificate, tls_flags);
             
-            // Reconnect the account
-            stream_interactor.connect_account(account);
+            // Force reconnect - disconnect first to clear error state, then reconnect
+            stream_interactor.connection_manager.disconnect_account.begin(account, (_, res) => {
+                stream_interactor.connection_manager.disconnect_account.end(res);
+                stream_interactor.connection_manager.connect_account(account);
+            });
         }
         dialog.close();
     }

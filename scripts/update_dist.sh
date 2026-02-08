@@ -314,7 +314,8 @@ if [ -d "/mingw64/lib/gstreamer-1.0" ]; then
                   wasapi directsound rtp rtpmanager srtp dtls nice webrtc \
                   opus vpx openh264 app audioparsers \
                   playback typefindfunctions videoconvert videoscale \
-                  videorate videoparsersbad d3d11 d3d12 mediafoundation; do
+                  videorate videoparsersbad d3d11 d3d12 mediafoundation \
+                  isomp4 audiofx libav; do
         for f in /mingw64/lib/gstreamer-1.0/*${plugin}*.dll; do
             [ -f "$f" ] && cp "$f" dist/lib/gstreamer-1.0/
         done
