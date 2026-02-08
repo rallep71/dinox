@@ -122,7 +122,7 @@ jobs:
           ./scripts/update_dist.sh
           echo ""
           echo "=== Distribution Contents ==="
-          find dist -type f | head -30
+          find dist -type f | head -30 || true
           echo "..."
           echo "Total files: $(find dist -type f | wc -l)"
           echo "Total size: $(du -sh dist | cut -f1)"
@@ -178,6 +178,25 @@ jobs:
           cd dist && 7z a -tzip "../DinoX-Windows-${{ steps.version.outputs.version }}-x86_64.zip" . && cd ..
           echo "Created: DinoX-Windows-${{ steps.version.outputs.version }}-x86_64.zip"
 
+      - name: Extract Release Notes from CHANGELOG
+        if: startsWith(github.ref, 'refs/tags/v') || (github.event_name == 'workflow_dispatch' && github.event.inputs.create_release == 'true')
+        id: changelog
+        shell: bash
+        run: |
+          version=$(cat VERSION | tr -d '[:space:]')
+          notes=$(awk -v ver="[$version]" '
+            /^## / { if (p) { exit }; if ($2 == ver) { p=1; next } }
+            p { print }
+          ' CHANGELOG.md)
+          if [ -z "${notes//[[:space:]]/}" ]; then
+            base=$(echo "$version" | sed -E 's/\.[0-9]+$//')
+            notes=$(awk -v ver="[$base]" '
+              /^## / { if (p) { exit }; if ($2 == ver) { p=1; next } }
+              p { print }
+            ' CHANGELOG.md)
+          fi
+          echo "$notes" > RELEASE_BODY.md
+
       - name: Upload Release Asset
         if: startsWith(github.ref, 'refs/tags/v') || (github.event_name == 'workflow_dispatch' && github.event.inputs.create_release == 'true')
         uses: softprops/action-gh-release@v2
@@ -185,7 +204,7 @@ jobs:
           files: DinoX-Windows-*.zip
           tag_name: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || format('v{0}', steps.version.outputs.version) }}
           name: DinoX ${{ steps.version.outputs.version }} (Windows)
+          body_path: RELEASE_BODY.md
           draft: true
-          generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
