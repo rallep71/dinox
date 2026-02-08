@@ -127,6 +127,61 @@ Optional: verify what the AppImage bundles and which plugins are visible:
 ./squashfs-root/usr/bin/gst-inspect-1.0 autoaudiosink pulsesink pipewiresink 2>/dev/null | head -n 30
 ```
 
+### Windows
+
+DinoX on Windows uses the MSYS2/MINGW64 environment. Launch with debug logging via the batch file or directly from a MINGW64 shell.
+
+#### Using the batch file
+
+```cmd
+set DINO_LOG_LEVEL=debug
+dinox.bat
+```
+
+#### From MINGW64 shell
+
+```bash
+DINO_LOG_LEVEL=debug ./bin/dinox.exe
+```
+
+#### Redirecting output to a log file
+
+Windows console output may get lost when closing the terminal. To capture logs:
+
+```cmd
+set DINO_LOG_LEVEL=debug
+dinox.bat > dinox-debug.log 2>&1
+```
+
+Or from MINGW64:
+
+```bash
+DINO_LOG_LEVEL=debug ./bin/dinox.exe 2>&1 | tee dinox-debug.log
+```
+
+#### GStreamer debugging on Windows
+
+```cmd
+set GST_DEBUG=3
+set DINO_LOG_LEVEL=debug
+dinox.bat
+```
+
+Or from MINGW64:
+
+```bash
+GST_DEBUG=3 DINO_LOG_LEVEL=debug ./bin/dinox.exe
+```
+
+#### Common Windows issues
+
+1. **Missing DLLs**: If DinoX fails to start with a DLL error, ensure you extracted the full ZIP and run from the extracted directory.
+2. **GStreamer plugins not found**: Check that `GST_PLUGIN_PATH` points to the `lib/gstreamer-1.0` directory inside the distribution folder. The batch file sets this automatically.
+3. **No audio**: Windows uses `wasapisink`/`wasapisrc` instead of PulseAudio. Debug with:
+   ```bash
+   GST_DEBUG=wasapi*:5,audiobasesink:5 DINO_LOG_LEVEL=debug ./bin/dinox.exe
+   ```
+
 ## Log Levels
 
 | Level | Description |
@@ -179,8 +234,8 @@ DINO_LOG_LEVEL=debug flatpak run im.github.rallep71.DinoX 2>&1 | grep -i "connec
 
 When reporting issues, please include:
 
-1. DinoX version (`flatpak info im.github.rallep71.DinoX` or check About dialog)
-2. Linux distribution and version
+1. DinoX version (`flatpak info im.github.rallep71.DinoX`, check About dialog, or `cat VERSION` in the install directory)
+2. Operating system and version (Linux distribution, Windows 10/11)
 3. Relevant log output with `DINO_LOG_LEVEL=debug`
 4. Steps to reproduce the issue
 
