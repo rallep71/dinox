@@ -14,7 +14,7 @@ add_project_arguments(
   language: 'vala'
 )
 
-if host_machine.system() == 'windows' or true
+if host_machine.system() == 'windows'
   message('Forcing WINDOWS define for Vala')
   add_project_arguments('--define=WINDOWS', language: 'vala')
 endif
@@ -53,14 +53,14 @@ dep_gstreamer_webrtc = dependency('gstreamer-webrtc-1.0', required: false)
 dep_gtk4 = dependency('gtk4')
 dep_gtk4_x11 = dependency('gtk4-x11', required: false)
 dep_x11 = dependency('x11', required: false)
-if host_machine.system() == 'windows' or true
+if host_machine.system() == 'windows'
     dep_dbusmenu = disabler()
 else
     dep_dbusmenu = dependency('dbusmenu-glib-0.4')
 endif
 dep_icu_uc = dependency('icu-uc')
 dep_libadwaita = dependency('libadwaita-1', version: '>=1.5')
-if host_machine.system() == 'windows' or true
+if host_machine.system() == 'windows'
     dep_libcanberra = disabler()
 else
     dep_libcanberra = dependency('libcanberra', disabler: true, required: get_option('plugin-notification-sound'))
@@ -74,7 +74,7 @@ dep_nice = dependency('nice', version: '>=0.1.15', disabler: true, required: get
 dep_m = meson.get_compiler('c').find_library('m', required: false)
 # dep_sqlite3 = dependency('sqlite3', version: '>=3.24')
 dep_sqlcipher = dependency('sqlcipher', version: '>=3.4')
-if host_machine.system() == 'windows' or true
+if host_machine.system() == 'windows'
     dep_libsecret = dependency('libsecret-1', required: false)
 else
     dep_libsecret = dependency('libsecret-1')

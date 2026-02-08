@@ -217,16 +217,10 @@ public class VideoPlayerWidget : Widget {
                 File? file = file_transfer.get_file();
                 if (file != null) {
                     if (start_play_button != null) start_play_button.visible = true;
+                    // Generate thumbnail: decrypt to temp file and use Gtk.MediaFile
+                    // to show the first frame as a still preview image.
+                    yield generate_preview(file);
                 }
-                
-                // Force preview mode even if complete, to avoid GStreamer entirely
-                if (preview_image == null) {
-                    preview_image = new FixedRatioPicture() { min_width=100, min_height=100, max_width=320, max_height=240 };
-                    // Add a "Play" icon overlay on the preview to show it's a video
-                    // stack.add_child(preview_image); 
-                    // For now just show generic preview
-                }
-                 stack.set_visible_child(preview_image);
             }
         } else {
             // Not complete (Downloading, Not Started, etc.)
@@ -257,6 +251,59 @@ public class VideoPlayerWidget : Widget {
                 transmission_progress.state = FileTransmissionProgress.State.DOWNLOAD_NOT_STARTED;
             } else {
                 transmission_progress.visible = false;
+            }
+        }
+    }
+
+    private File? temp_preview_file = null;
+    private Gtk.MediaFile? preview_media = null;
+
+    private async void generate_preview(File encrypted_file) {
+        debug("VideoPlayerWidget: generating preview thumbnail");
+        try {
+            var app = (Dino.Application) GLib.Application.get_default();
+            var enc = app.file_encryption;
+
+            string temp_dir = Path.build_filename(Environment.get_user_cache_dir(), "dinox", "temp_video");
+            DirUtils.create_with_parents(temp_dir, 0700);
+
+            string ext = "";
+            if ("." in file_transfer.file_name) {
+                string[] parts = file_transfer.file_name.split(".");
+                ext = "." + parts[parts.length - 1];
+            }
+            string random_name = "preview_" + GLib.Uuid.string_random() + ext;
+            string temp_path = Path.build_filename(temp_dir, random_name);
+            temp_preview_file = File.new_for_path(temp_path);
+
+            var source_stream = encrypted_file.read();
+            var target_stream = temp_preview_file.replace(null, false, GLib.FileCreateFlags.NONE);
+            yield enc.decrypt_stream(source_stream, target_stream);
+            try { source_stream.close(); } catch (Error e) {}
+            try { target_stream.close(); } catch (Error e) {}
+
+            // Use Gtk.MediaFile to extract the first frame as a still image.
+            // With playing=false it loads the video and shows the first frame.
+            preview_media = Gtk.MediaFile.for_file(temp_preview_file);
+            preview_media.loop = false;
+            preview_media.playing = false;
+
+            if (preview_image == null) {
+                preview_image = new FixedRatioPicture() { min_width=100, min_height=100, max_width=320, max_height=240 };
+                stack.add_child(preview_image);
+            }
+            preview_image.paintable = preview_media;
+            stack.set_visible_child(preview_image);
+
+            debug("VideoPlayerWidget: preview thumbnail set");
+        } catch (Error e) {
+            warning("VideoPlayerWidget: Failed to generate preview: %s", e.message);
+            // Fallback: show generic video icon
+            if (preview_image == null) {
+                var icon = new Gtk.Image.from_icon_name("video-x-generic");
+                icon.pixel_size = 96;
+                stack.add_named(icon, "fallback");
+                stack.set_visible_child(icon);
             }
         }
     }
@@ -447,14 +494,26 @@ public class VideoPlayerWidget : Widget {
             media_file.set_playing(false);
             media_file = null;
         }
+        if (preview_media != null) {
+            preview_media = null;
+        }
         if (temp_play_file != null) {
             try {
                 temp_play_file.delete(null);
             } catch (Error e) {}
             temp_play_file = null;
         }
+        if (temp_preview_file != null) {
+            try {
+                temp_preview_file.delete(null);
+            } catch (Error e) {}
+            temp_preview_file = null;
+        }
         if (video_picture != null) {
             video_picture.set_paintable(null);
+        }
+        if (preview_image != null) {
+            preview_image.paintable = null;
         }
         base.dispose();
     }
