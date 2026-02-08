@@ -221,6 +221,21 @@ public class HttpFileSender : FileSender, Object {
                 });
             }
 
+            // For PGP file transfers: add OOB (Out-of-Band) element so receiving
+            // clients recognize this as a file transfer and display it inline.
+            // The URL is in cleartext but the file content is GPG-encrypted.
+            if (send_data.encrypt_message && !(send_data is EncryptedHttpFileSendData)) {
+                string oob_url = send_data.url_down;
+                ulong oob_signal_id = 0;
+                oob_signal_id = stream_interactor.get_module<MessageProcessor>(MessageProcessor.IDENTITY).build_message_stanza.connect((msg, stanza, conv) => {
+                    if (msg.id == message.id) {
+                        Xep.OutOfBandData.add_url_to_message(stanza, oob_url);
+                        debug("http-files: added OOB element for PGP file transfer url=%s", sanitize_url_for_log(oob_url));
+                        stream_interactor.get_module<MessageProcessor>(MessageProcessor.IDENTITY).disconnect(oob_signal_id);
+                    }
+                });
+            }
+
             message.encryption = send_data.encrypt_message ? conversation.encryption : Encryption.NONE;
             debug("http-files: sending message body url=%s message.encryption=%d", sanitize_url_for_log(send_data.url_down), (int) message.encryption);
             stream_interactor.get_module<MessageProcessor>(MessageProcessor.IDENTITY).send_xmpp_message(message, conversation);
@@ -242,6 +257,9 @@ public class HttpFileSender : FileSender, Object {
     }
 
     public async bool can_encrypt(Conversation conversation, FileTransfer file_transfer) {
+        // PGP file encryption is handled by PgpFileEncryptor (GPG-encrypted .pgp files)
+        // for interoperability with other clients (Monocles, Conversations, etc.)
+        if (conversation.encryption == Encryption.PGP) return false;
         return conversation.encryption != Encryption.NONE;
     }
 

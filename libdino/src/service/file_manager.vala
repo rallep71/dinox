@@ -496,9 +496,14 @@ public class FileManager : StreamInteractionModule, Object {
         var encryption = file_provider.get_encryption(file_transfer, receive_data, file_meta);
         if (encryption != Encryption.NONE) file_transfer.encryption = encryption;
 
-        foreach (FileDecryptor decryptor in file_decryptors) {
-            if (decryptor.can_decrypt_file(conversation, file_transfer, receive_data)) {
-                file_transfer.encryption = decryptor.get_encryption();
+        // Only let decryptors set the encryption type if the provider didn't already
+        // determine it. This prevents e.g. the OMEMO decryptor from overwriting PGP
+        // when both use aesgcm:// URLs for file transport.
+        if (file_transfer.encryption == Encryption.NONE) {
+            foreach (FileDecryptor decryptor in file_decryptors) {
+                if (decryptor.can_decrypt_file(conversation, file_transfer, receive_data)) {
+                    file_transfer.encryption = decryptor.get_encryption();
+                }
             }
         }
 

@@ -173,6 +173,13 @@ public class FileProvider : Dino.FileProvider, Object {
     }
 
     public Encryption get_encryption(FileTransfer file_transfer, FileReceiveData receive_data, FileMeta file_meta) {
+        // Propagate the message-level encryption (PGP, OMEMO, etc.) to the file transfer.
+        // The file content is AES-GCM encrypted (aesgcm:// URL), while the message carrying
+        // the decryption key is encrypted with the conversation's encryption (e.g. PGP/OMEMO).
+        HttpFileMeta? http_meta = file_meta as HttpFileMeta;
+        if (http_meta != null && http_meta.message != null && http_meta.message.encryption != Encryption.NONE) {
+            return http_meta.message.encryption;
+        }
         return Encryption.NONE;
     }
 

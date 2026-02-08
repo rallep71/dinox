@@ -411,6 +411,7 @@ public static uint8[] encrypt_file(string uri, Key[] keys, int flags, string fil
     initialize();
     
     var args = new ArrayList<string>();
+    args.add("--sign");
     args.add("--encrypt");
     args.add("--trust-model");
     args.add("always");

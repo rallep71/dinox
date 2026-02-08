@@ -282,12 +282,65 @@ public class Manager : StreamInteractionModule, Object {
     }
 
     private void on_jid_key_received(Account account, Jid jid, string key_id) {
+        bool is_new_key = false;
         lock (pgp_key_ids) {
             if (!pgp_key_ids.has_key(jid) || pgp_key_ids[jid] != key_id) {
                 Jid set_jid = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).is_groupchat_occupant(jid, account) ? jid : jid.bare_jid;
                 db.set_contact_key(set_jid, key_id);
+                is_new_key = true;
             }
             pgp_key_ids[jid] = key_id;
+        }
+        
+        // If we got a new key_id from presence, check if we already have it in the GPG keyring.
+        // If not, try to download it from a keyserver automatically.
+        if (is_new_key) {
+            string key_id_copy = key_id;
+            Jid jid_copy = jid;
+            new Thread<void*>("auto-fetch-pgp-key", () => {
+                try {
+                    // First check if we already have this key
+                    GPGHelper.Key? existing = GPGHelper.get_public_key(key_id_copy);
+                    if (existing != null) {
+                        debug("OpenPGP: Key %s for %s already in keyring", key_id_copy, jid_copy.to_string());
+                        // Cache it for fast access
+                        Idle.add(() => {
+                            cache_key(key_id_copy, existing);
+                            return false;
+                        });
+                        return null;
+                    }
+                } catch (Error e) {
+                    // Key not found locally — that's expected, try keyserver
+                    debug("OpenPGP: Key %s not in keyring: %s", key_id_copy, e.message);
+                }
+                
+                // Key not in keyring — try to download from keyserver
+                debug("OpenPGP: Auto-fetching key %s for %s from keyserver", key_id_copy, jid_copy.to_string());
+                try {
+                    bool found = GPGHelper.download_key_from_keyserver(key_id_copy);
+                    if (found) {
+                        debug("OpenPGP: Auto-fetched key %s for %s from keyserver!", key_id_copy, jid_copy.to_string());
+                        GPGHelper.invalidate_secret_keys_cache();
+                        
+                        // Cache the newly imported key and notify UI
+                        Idle.add(() => {
+                            try {
+                                GPGHelper.Key? key = GPGHelper.get_public_key(key_id_copy);
+                                cache_key(key_id_copy, key);
+                            } catch (Error e) {
+                                debug("OpenPGP: Failed to cache auto-fetched key: %s", e.message);
+                            }
+                            return false;
+                        });
+                    } else {
+                        debug("OpenPGP: Key %s for %s not found on keyserver", key_id_copy, jid_copy.to_string());
+                    }
+                } catch (Error e) {
+                    debug("OpenPGP: Keyserver fetch failed for %s: %s", key_id_copy, e.message);
+                }
+                return null;
+            });
         }
     }
 

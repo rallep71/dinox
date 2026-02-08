@@ -31,7 +31,9 @@ public class PgpFileDecryptor : FileDecryptor, Object {
             } while(len > 0);
 
             GPGHelper.DecryptedData clear_data = GPGHelper.decrypt_data(data.data);
-            file_transfer.encryption = Encryption.PGP;
+            if (file_transfer.encryption == Encryption.NONE) {
+                file_transfer.encryption = Encryption.PGP;
+            }
             if (clear_data.filename != null && clear_data.filename != "") {
                 debug("Decrypting file %s from %s", clear_data.filename, file_transfer.file_name);
                 file_transfer.file_name = clear_data.filename;

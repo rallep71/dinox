@@ -65,8 +65,12 @@ public class OmemoFileDecryptor : FileDecryptor, Object {
         throw new FileReceiveError.DECRYPTION_FAILED ("Unsupported aesgcm:// secret encoding");
       }
 
-      file_transfer.encryption = Encryption.OMEMO;
-      debug ("Decrypting file %s from %s", file_transfer.file_name, file_transfer.server_file_name);
+      // Only set encryption if not already determined by the file provider
+      // (e.g. PGP conversations also use aesgcm:// for file transport)
+      if (file_transfer.encryption == Encryption.NONE) {
+          file_transfer.encryption = Encryption.OMEMO;
+      }
+      debug ("Decrypting file %s from %s (encryption=%d)", file_transfer.file_name, file_transfer.server_file_name, (int) file_transfer.encryption);
 
       SymmetricCipher cipher = new SymmetricCipher ("AES-GCM");
       cipher.set_key (key);
