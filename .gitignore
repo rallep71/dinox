@@ -12,15 +12,11 @@ dll.log
 ..bfg-report/
 .bfg-report/
 
-# Documentation/internal markdown (keep only README.md and .github/)
+# Internal docs (not for public release)
 AI_GUIDELINES.md
-BUILD.md
-CHANGELOG.md
-CONTRIBUTING.md
-DEBUG.md
-NOTICE
-DEVELOPMENT_PLAN*.md
 CRASH_ANALYSIS*.md
+DEVELOPMENT_PLAN_UI_SECURITY.md
+DEVELOPMENT_PLAN_WINDOWS.md
 OPENPGP_PORTING_GUIDE.md
 docs/accessibility-pruefprotokoll.md
 docs/internal/*.md

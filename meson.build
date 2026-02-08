@@ -1,4 +1,4 @@
-project('Dino', 'c', 'cpp', 'vala', version: '0.9.8.4', license: 'GPL-3.0', meson_version: '>=1.3.0')
+project('Dino', 'c', 'cpp', 'vala', version: '0.9.8.5', license: 'GPL-3.0', meson_version: '>=1.3.0')
 
 # Security Hardening Flags
 add_project_arguments(

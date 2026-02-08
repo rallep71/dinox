@@ -1,0 +1,189 @@
+name: Windows Build (MSYS2)
+
+on:
+  push:
+    branches: [main, master]
+    tags: ['v*']
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+    inputs:
+      create_release:
+        description: 'Create GitHub Release with the built artifact'
+        type: boolean
+        default: false
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup MSYS2
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW64
+          update: true
+          install: >-
+            git
+            base-devel
+            mingw-w64-x86_64-toolchain
+            mingw-w64-x86_64-meson
+            mingw-w64-x86_64-ninja
+            mingw-w64-x86_64-pkg-config
+            mingw-w64-x86_64-vala
+            mingw-w64-x86_64-cmake
+            mingw-w64-x86_64-gtk4
+            mingw-w64-x86_64-libadwaita
+            mingw-w64-x86_64-glib2
+            mingw-w64-x86_64-gdk-pixbuf2
+            mingw-w64-x86_64-libgee
+            mingw-w64-x86_64-libsoup3
+            mingw-w64-x86_64-sqlcipher
+            mingw-w64-x86_64-icu
+            mingw-w64-x86_64-json-glib
+            mingw-w64-x86_64-libgcrypt
+            mingw-w64-x86_64-gpgme
+            mingw-w64-x86_64-gnutls
+            mingw-w64-x86_64-libsrtp
+            mingw-w64-x86_64-qrencode
+            mingw-w64-x86_64-libsecret
+            mingw-w64-x86_64-gstreamer
+            mingw-w64-x86_64-gst-plugins-base
+            mingw-w64-x86_64-gst-plugins-good
+            mingw-w64-x86_64-gst-plugins-bad
+            mingw-w64-x86_64-gst-libav
+            mingw-w64-x86_64-libnice
+            mingw-w64-x86_64-webrtc-audio-processing-1
+            mingw-w64-x86_64-opus
+            mingw-w64-x86_64-openh264
+            mingw-w64-x86_64-libvpx
+            mingw-w64-x86_64-openssl
+            mingw-w64-x86_64-librsvg
+            mingw-w64-x86_64-tor
+
+      # libomemo-c is not in MSYS2 repos — build from source
+      - name: Build libomemo-c
+        run: |
+          echo "=== Building libomemo-c ==="
+          cd /tmp
+          git clone --depth 1 https://github.com/rallep71/libomemo-c.git
+          cd libomemo-c
+          mkdir build && cd build
+          cmake -G Ninja \
+            -DCMAKE_INSTALL_PREFIX=/mingw64 \
+            -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
+            -DCMAKE_BUILD_TYPE=Release \
+            ..
+          ninja
+          ninja install
+          echo "✓ libomemo-c installed"
+          # Verify pkg-config finds it
+          pkg-config --modversion libomemo-c
+
+      # Problem matchers for CI error reporting
+      - name: Setup problem matchers
+        shell: bash
+        run: |
+          echo "::add-matcher::.github/matchers/gcc-problem-matcher.json"
+          echo "::add-matcher::.github/matchers/vala-problem-matcher.json"
+          echo "::add-matcher::.github/matchers/meson-problem-matcher.json"
+
+      - name: Configure (meson setup)
+        run: |
+          meson setup build \
+            -Dplugin-omemo=enabled \
+            -Dplugin-rtp=enabled \
+            -Dplugin-openpgp=enabled \
+            -Dplugin-ice=enabled \
+            -Dplugin-http-files=enabled
+          echo ""
+          echo "=== Configuration Summary ==="
+          grep -A 20 "Dino 0" build/meson-logs/meson-log.txt | head -25 || true
+
+      - name: Build
+        run: |
+          ninja -C build
+          echo "✓ Build successful"
+
+      - name: Create distribution bundle
+        run: |
+          ./scripts/update_dist.sh
+          echo ""
+          echo "=== Distribution Contents ==="
+          find dist -type f | head -30
+          echo "..."
+          echo "Total files: $(find dist -type f | wc -l)"
+          echo "Total size: $(du -sh dist | cut -f1)"
+
+      - name: Verify distribution
+        run: |
+          echo "=== Verifying distribution ==="
+          # Check critical files exist
+          MISSING=0
+          for f in dist/dinox.exe dist/dinox.bat dist/libdino-0.dll dist/libxmpp-vala-0.dll; do
+            if [ ! -f "$f" ]; then
+              echo "MISSING: $f"
+              MISSING=1
+            else
+              echo "  ✓ $f"
+            fi
+          done
+          # Check plugins
+          PLUGIN_COUNT=$(find dist/plugins -name "*.dll" 2>/dev/null | wc -l)
+          echo "  ✓ $PLUGIN_COUNT plugins found"
+          if [ "$PLUGIN_COUNT" -lt 4 ]; then
+            echo "WARNING: Expected at least 4 plugins!"
+            MISSING=1
+          fi
+          # Check DLLs
+          DLL_COUNT=$(find dist -maxdepth 1 -name "*.dll" | wc -l)
+          echo "  ✓ $DLL_COUNT system DLLs"
+          if [ "$MISSING" -eq 1 ]; then
+            echo "ERROR: Distribution verification failed!"
+            exit 1
+          fi
+          echo "=== Distribution OK ==="
+
+      - name: Get version
+        id: version
+        run: |
+          VERSION=$(cat VERSION | tr -d '[:space:]')
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "Version: $VERSION"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: DinoX-Windows-${{ steps.version.outputs.version }}-x86_64
+          path: dist/
+          retention-days: 30
+
+      # Create GitHub Release when a version tag is pushed or manually triggered
+      - name: Create Release
+        if: startsWith(github.ref, 'refs/tags/v') || (github.event_name == 'workflow_dispatch' && github.event.inputs.create_release == 'true')
+        shell: bash
+        run: |
+          cd dist && 7z a -tzip "../DinoX-Windows-${{ steps.version.outputs.version }}-x86_64.zip" . && cd ..
+          echo "Created: DinoX-Windows-${{ steps.version.outputs.version }}-x86_64.zip"
+
+      - name: Upload Release Asset
+        if: startsWith(github.ref, 'refs/tags/v') || (github.event_name == 'workflow_dispatch' && github.event.inputs.create_release == 'true')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: DinoX-Windows-*.zip
+          tag_name: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || format('v{0}', steps.version.outputs.version) }}
+          name: DinoX ${{ steps.version.outputs.version }} (Windows)
+          draft: true
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
