@@ -312,7 +312,9 @@ if [ -d "/mingw64/lib/gstreamer-1.0" ]; then
     # Only copy essential plugins to keep size manageable
     for plugin in coreelements audioconvert audioresample volume autodetect \
                   wasapi directsound rtp rtpmanager srtp dtls nice webrtc \
-                  opus vpx openh264 app audioparsers; do
+                  opus vpx openh264 app audioparsers \
+                  playback typefindfunctions videoconvert videoscale \
+                  videorate videoparsersbad d3d11 d3d12 mediafoundation; do
         for f in /mingw64/lib/gstreamer-1.0/*${plugin}*.dll; do
             [ -f "$f" ] && cp "$f" dist/lib/gstreamer-1.0/
         done
