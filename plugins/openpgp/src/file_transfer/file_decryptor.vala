@@ -41,6 +41,15 @@ public class PgpFileDecryptor : FileDecryptor, Object {
                 debug("Decrypting file %s from %s", file_transfer.file_name.substring(0, file_transfer.file_name.length - 4), file_transfer.file_name);
                 file_transfer.file_name = file_transfer.file_name.substring(0, file_transfer.file_name.length - 4);
             }
+
+            // Update mime type based on the actual (decrypted) filename so the UI
+            // can display images/videos inline instead of showing a generic file icon.
+            bool uncertain;
+            string? guessed_type = ContentType.guess(file_transfer.file_name, null, out uncertain);
+            if (guessed_type != null && guessed_type != "application/octet-stream") {
+                file_transfer.mime_type = guessed_type;
+            }
+
             return new MemoryInputStream.from_data(clear_data.data, GLib.free);
         } catch (Error e) {
             throw new FileReceiveError.DECRYPTION_FAILED("PGP file decryption error: %s".printf(e.message));

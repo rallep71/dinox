@@ -418,6 +418,10 @@ public class FileItem : ContentItem {
         this.file_transfer = file_transfer;
         this.conversation = conversation;
 
+        // Keep encryption icon in sync when the file decryptor updates
+        // the encryption after download (e.g. PGP file decryption)
+        file_transfer.bind_property("encryption", this, "encryption");
+
         // TODO those don't work
         if (message != null) {
             message.bind_property("marked", this, "mark");

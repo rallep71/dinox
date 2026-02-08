@@ -395,7 +395,12 @@ public class VideoPlayerWidget : Widget {
                 try { source_stream.close(); } catch (Error e) {}
                 try { target_stream.close(); } catch (Error e) {}
 
+#if WINDOWS
+                string win_path = temp_file.get_path().replace("/", "\\");
+                Process.spawn_command_line_async("cmd.exe /c start \"\" \"" + win_path + "\"");
+#else
                 AppInfo.launch_default_for_uri(temp_file.get_uri(), null);
+#endif
             }
         } catch (GLib.Error err) {
             warning("Failed to open file: %s", err.message);
