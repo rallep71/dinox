@@ -1,0 +1,165 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-x86_64:
+    name: "Build (x86_64)"
+    runs-on: ubuntu-24.04
+    outputs:
+      version: ${{ steps.get_version.outputs.version }}
+    steps:
+      - name: "Checkout sources"
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: "Get version"
+        id: get_version
+        run: echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
+      - name: "Install Flatpak Builder"
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y flatpak flatpak-builder elfutils
+          flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+
+      - name: "Build Flatpak"
+        run: |
+          # Install dependencies and build
+          flatpak-builder --user --install-deps-from=flathub --force-clean --default-branch=master --repo=repo build-dir im.github.rallep71.DinoX.json
+          
+          # Create bundle
+          flatpak build-bundle repo dinox-x86_64.flatpak im.github.rallep71.DinoX master
+
+      - name: "Create Source Tarball"
+        run: |
+          version="${{ steps.get_version.outputs.version }}"
+          git config --global --add safe.directory '*'
+          git archive --format=tar.gz --output=dinox-$version.tar.gz --prefix=dinox-$version/ HEAD
+          sha256sum dinox-$version.tar.gz > dinox-$version.tar.gz.sha256
+
+      - name: "Upload Artifacts"
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts-x86_64
+          path: |
+            dinox-x86_64.flatpak
+            dinox-*.tar.gz
+            dinox-*.tar.gz.sha256
+
+  build-aarch64:
+    name: "Build (aarch64)"
+    runs-on: ubuntu-24.04
+    steps:
+      - name: "Checkout sources"
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: "Set up QEMU"
+        uses: docker/setup-qemu-action@v3
+
+      - name: "Install Flatpak Builder"
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y flatpak flatpak-builder elfutils
+          flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+
+      - name: "Build Flatpak (Cross-Compile)"
+        run: |
+          # Build for aarch64 using QEMU user emulation on the host
+          # This avoids nested container/bwrap issues
+          flatpak-builder --user --arch=aarch64 --disable-rofiles-fuse --install-deps-from=flathub --force-clean --default-branch=master --repo=repo build-dir im.github.rallep71.DinoX.json
+          
+          # Bundle
+          flatpak build-bundle --arch=aarch64 repo dinox-aarch64.flatpak im.github.rallep71.DinoX master
+
+      - name: "Upload Artifacts"
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts-aarch64
+          path: dinox-aarch64.flatpak
+
+  create-release:
+    name: "Create Release"
+    needs: [build-x86_64, build-aarch64]
+    runs-on: ubuntu-24.04
+    steps:
+      - name: "Checkout sources"
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: "Get version"
+        id: get_version
+        run: echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
+      - name: "Download x86_64 Artifacts"
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts-x86_64
+          path: ./
+
+      - name: "Download aarch64 Artifacts"
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts-aarch64
+          path: ./
+
+      - name: "Rename Artifacts"
+        run: |
+          version="${{ steps.get_version.outputs.version }}"
+          mv dinox-x86_64.flatpak dinox-${version}-x86_64.flatpak
+          mv dinox-aarch64.flatpak dinox-${version}-aarch64.flatpak
+
+      - name: "Prepare Release Body"
+        run: |
+          version="${{ steps.get_version.outputs.version }}"
+          
+          echo "## DinoX v$version" > RELEASE_BODY.md
+          echo "" >> RELEASE_BODY.md
+          echo "Modern XMPP client with extended features." >> RELEASE_BODY.md
+          echo "" >> RELEASE_BODY.md
+          echo "### What's New" >> RELEASE_BODY.md
+          echo "" >> RELEASE_BODY.md
+          
+          # Extract changelog helper
+          extract_changelog() {
+            local ver="$1"
+            awk -v ver="[$ver]" '
+              /^## / { if (p) { exit }; if ($2 == ver) { p=1; next } }
+              p { print }
+            ' CHANGELOG.md
+          }
+
+          notes="$(extract_changelog "$version")"
+          # Fallback logic for point releases
+          if [ -z "${notes//[[:space:]]/}" ]; then
+            if echo "$version" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$'; then
+              base_version="$(echo "$version" | sed -E 's/\.[0-9]+$//')"
+              notes="$(extract_changelog "$base_version")"
+              if [ -n "${notes//[[:space:]]/}" ]; then
+                echo "(Release notes from v$base_version)" >> RELEASE_BODY.md
+                echo "" >> RELEASE_BODY.md
+              fi
+            fi
+          fi
+          echo "$notes" >> RELEASE_BODY.md
+
+      - name: "Create Release"
+        uses: softprops/action-gh-release@v1
+        with:
+          body_path: RELEASE_BODY.md
+          files: |
+            dinox-*-x86_64.flatpak
+            dinox-*-aarch64.flatpak
+            dinox-*.tar.gz
+            dinox-*.tar.gz.sha256

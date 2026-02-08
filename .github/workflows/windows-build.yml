@@ -83,6 +83,7 @@ jobs:
             -DCMAKE_INSTALL_PREFIX=/mingw64 \
             -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
             -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
             ..
           ninja
           ninja install
