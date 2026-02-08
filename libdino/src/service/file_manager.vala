@@ -450,11 +450,17 @@ public class FileManager : StreamInteractionModule, Object {
 
             file_transfer.path = file.get_basename();
 
-            FileInfo file_info = file_transfer.get_file().query_info("*", FileQueryInfoFlags.NONE);
-            string normalized_mime = normalize_mime_type(file_info.get_content_type(), file_transfer.path);
-            if (normalized_mime != "application/octet-stream" || file_transfer.mime_type == null) {
-                // Only overwrite mime_type if it's better than what we had before.
-                file_transfer.mime_type = normalized_mime;
+            // Note: The stored file is encrypted on disk, so querying its content-type
+            // returns "application/octet-stream" instead of the real mime type.
+            // Only update mime_type from disk if we don't already have one from the
+            // HTTP HEAD response or file metadata.
+            if (file_transfer.mime_type == null || file_transfer.mime_type == "" || file_transfer.mime_type == "application/octet-stream") {
+                // Try to guess from filename as fallback
+                bool uncertain;
+                string? guessed_type = ContentType.guess(file_transfer.file_name, null, out uncertain);
+                if (guessed_type != null && guessed_type != "application/octet-stream") {
+                    file_transfer.mime_type = guessed_type;
+                }
             }
 
             file_transfer.state = FileTransfer.State.COMPLETE;

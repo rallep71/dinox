@@ -1,5 +1,6 @@
 namespace Dino {
 
+#if !WINDOWS
 [DBus (name = "org.freedesktop.UPower")]
 public interface UPower : Object {
     public signal void Sleeping();
@@ -15,5 +16,6 @@ public static UPower? get_upower() {
     }
     return upower;
 }
+#endif
 
 }

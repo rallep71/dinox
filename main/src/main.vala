@@ -100,6 +100,11 @@ void main(string[] args) {
             Environment.set_variable("PATH", new_path, true);
             message("PATH prepended: %s", exe_dir);
         }
+
+        // Suppress "win32 session dbus binary not found" warning from GLib-GIO.
+        // GApplication internally tries to connect to the session bus even with NON_UNIQUE,
+        // but there is no DBus session bus daemon on Windows.
+        Environment.set_variable("DBUS_SESSION_BUS_ADDRESS", "nul", true);
 #endif
 
         Plugins.Loader loader = new Plugins.Loader(app);
