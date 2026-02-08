@@ -5,6 +5,12 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.8.6] - 2026-02-08
+
+### Fixed
+- **Certificate Pinning**: Fixed SQL syntax error when pinning self-signed certificates. The upsert query had empty `ON CONFLICT()` and a leading comma in the INSERT column list because `domain` was not marked as a key column. Clicking "Trust This Certificate" now works correctly.
+- **CI/CD**: Switched aarch64 AppImage and Flatpak builds from QEMU emulation to native GitHub ARM64 runners (`ubuntu-24.04-arm`). Eliminates compiler crashes and dramatically improves build speed.
+
 ## [0.9.8.5] - 2026-02-08
 
 ### Added
