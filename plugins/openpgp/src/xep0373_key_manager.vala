@@ -175,6 +175,8 @@ namespace Dino.Plugins.OpenPgp {
                 new Thread<void*>("xep0373-import-key", () => {
                     try {
                         GPGHelper.import_key(armored_copy);
+                        // import_key already invalidates the cache, but ensure it's done
+                        GPGHelper.invalidate_secret_keys_cache();
                         debug("XEP-0373: Imported key %s from %s", fp_copy, jid_copy.to_string());
                         
                         // Notify listeners on main thread

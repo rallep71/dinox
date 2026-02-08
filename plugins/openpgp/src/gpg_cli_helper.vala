@@ -13,39 +13,81 @@ private static bool initialized = false;
 private static string? gpg_binary = null;
 private static string? gpg_homedir = null;
 
-// RecMutex to serialize GPG calls - prevents crashes on Windows when multiple
-// GPG processes run simultaneously and corrupt GLib's error handler stack
-// RecMutex allows same-thread re-entry but blocks different threads
-private static RecMutex gpg_mutex;
-private static RecMutex secret_keys_mutex;
+// GPG Worker Queue — all GPG subprocess calls are serialized through a single
+// worker thread.  This eliminates mutex double-release bugs, deadlock risks,
+// and prevents Windows crashes from concurrent GPG subprocess spawning.
+private static AsyncQueue<GpgJob>? job_queue = null;
+private static Thread<void*>? worker_thread = null;
+private static Mutex result_mutex;
+private static Cond result_cond;
+private static int worker_started = 0;
 
-// Thread-safe mutex initialization state: 0=not started, 1=in progress, 2=done
-private static int mutex_init_state = 0;
+private static Mutex secret_keys_mutex;
 
 // Cache for has_secret_keys() - thread-safe check
 private static bool has_secret_keys_checked = false;
 private static bool has_secret_keys_cached = false;
 
 /**
- * Initialize mutexes - thread-safe using atomic operations
- * This is separate from initialize() to avoid chicken-egg problem
+ * Job submitted to the GPG worker queue.
  */
-private static void ensure_mutex_initialized() {
-    // Fast path - already initialized
-    if (AtomicInt.get(ref mutex_init_state) == 2) return;
-    
-    // Try to become the initializer (atomically change 0 -> 1)
-    if (AtomicInt.compare_and_exchange(ref mutex_init_state, 0, 1)) {
-        // We won the race, do initialization
-        gpg_mutex = RecMutex();
-        secret_keys_mutex = RecMutex();
-        // Mark as complete
-        AtomicInt.set(ref mutex_init_state, 2);
-    } else {
-        // Someone else is initializing - spin wait until done
-        while (AtomicInt.get(ref mutex_init_state) != 2) {
-            Thread.yield();
-        }
+public class GpgJob {
+    public string[] extra_args;
+    public string? stdin_data;
+    public bool allow_interactive;
+    public string caller;
+
+    // Results (set by worker thread)
+    public string stdout_str = "";
+    public string stderr_str = "";
+    public int exit_status = -1;
+    public bool result = false;
+    public bool completed = false;
+
+    public GpgJob(string[] args, string? stdin_input, bool interactive, string caller_name) {
+        this.extra_args = args;
+        this.stdin_data = stdin_input;
+        this.allow_interactive = interactive;
+        this.caller = caller_name;
+    }
+}
+
+/**
+ * Ensure the single GPG worker thread is running.
+ * Thread-safe using atomic compare-and-swap.
+ */
+private static void ensure_worker_started() {
+    if (AtomicInt.compare_and_exchange(ref worker_started, 0, 1)) {
+        job_queue = new AsyncQueue<GpgJob>();
+        worker_thread = new Thread<void*>("gpg-worker", gpg_worker_func);
+        debug("GPGHelper: Worker thread started");
+    }
+}
+
+/**
+ * GPG worker thread — pops jobs from the queue and executes them one at a time.
+ * Only ONE GPG subprocess is ever active, eliminating all concurrency issues.
+ */
+private static void* gpg_worker_func() {
+    debug("GPGHelper: Worker thread running (thread %lld)", (int64) Thread.self<void*>());
+    while (true) {
+        GpgJob job = job_queue.pop();
+
+        debug("GPGHelper [%s]: Worker executing job", job.caller);
+
+        job.result = run_gpg_internal(
+            job.extra_args, job.stdin_data,
+            out job.stdout_str, out job.stderr_str,
+            out job.exit_status, job.allow_interactive
+        );
+
+        debug("GPGHelper [%s]: Worker completed (exit=%d)", job.caller, job.exit_status);
+
+        // Signal completion to the waiting submitter
+        result_mutex.lock();
+        job.completed = true;
+        result_cond.broadcast();
+        result_mutex.unlock();
     }
 }
 
@@ -81,8 +123,8 @@ public class DecryptedData {
  * Initialize the GPG helper - find gpg binary and set homedir
  */
 private static void initialize() {
-    // First ensure mutexes are ready
-    ensure_mutex_initialized();
+    // Ensure the worker queue is running
+    ensure_worker_started();
     
     if (initialized) return;
     
@@ -291,20 +333,27 @@ private static bool run_gpg_internal(string[] extra_args, string? stdin_data, ou
 }
 
 /**
- * Simple synchronous GPG run (for simpler commands)
- * @param extra_args: additional arguments to pass to GPG
- * @param stdin_data: optional data to pass to GPG via temp file
- * @param allow_interactive: if true, allows pinentry to prompt for passphrase (no --batch)
- *                           When true, we avoid pipes to prevent Windows GLib crash
+ * Submit a GPG operation to the worker queue and wait for completion.
+ * Serializes all GPG subprocess calls through the single worker thread.
+ * Safe to call from any thread — the caller blocks until the operation completes.
  */
 private static bool run_gpg_sync(string[] extra_args, string? stdin_data, out string stdout_str, out string stderr_str, out int exit_status, bool allow_interactive = false) {
-    // Ensure mutex is initialized before locking
-    ensure_mutex_initialized();
-    // Lock mutex to serialize GPG calls - prevents Windows crashes from concurrent GPG processes
-    gpg_mutex.lock();
-    bool result = run_gpg_internal(extra_args, stdin_data, out stdout_str, out stderr_str, out exit_status, allow_interactive);
-    gpg_mutex.unlock();
-    return result;
+    ensure_worker_started();
+
+    var job = new GpgJob(extra_args, stdin_data, allow_interactive, "run_gpg_sync");
+    job_queue.push(job);
+
+    // Wait for the worker to complete this job
+    result_mutex.lock();
+    while (!job.completed) {
+        result_cond.wait(result_mutex);
+    }
+    result_mutex.unlock();
+
+    stdout_str = job.stdout_str;
+    stderr_str = job.stderr_str;
+    exit_status = job.exit_status;
+    return job.result;
 }
 
 /**
@@ -319,62 +368,50 @@ public static string encrypt_armor(string plain, Key[] keys, int flags = 0) thro
         throw new IOError.FAILED("GPG encrypt failed: No recipient keys provided");
     }
     
-    // Lock mutex to serialize GPG calls - prevents Windows crashes from concurrent subprocesses
-    ensure_mutex_initialized();
-    gpg_mutex.lock();
-    debug("GPGHelper.encrypt_armor: mutex acquired");
+    var args = new ArrayList<string>();
+    args.add("--armor");
+    args.add("--encrypt");
+    args.add("--trust-model");
+    args.add("always");
     
-    try {
-        var args = new ArrayList<string>();
-        args.add("--armor");
-        args.add("--encrypt");
-        args.add("--trust-model");
-        args.add("always");
-        
-        foreach (Key key in keys) {
-            args.add("-r");
-            args.add(key.fpr);
-            debug("GPGHelper.encrypt_armor: Adding recipient %s", key.fpr);
-        }
-        
-        // Write plaintext to temp file
-        string temp_in = Path.build_filename(Environment.get_tmp_dir(), "dinox-enc-in-%d".printf(Random.int_range(0, 1000000)));
-        string temp_out = temp_in + ".asc";
-        debug("GPGHelper.encrypt_armor: Writing to temp file %s", temp_in);
-        FileUtils.set_contents(temp_in, plain);
-        debug("GPGHelper.encrypt_armor: Temp file written, size=%d", plain.length);
-        
-        args.add("-o");
-        args.add(temp_out);
-        args.add(temp_in);
-        
-        string stdout_str, stderr_str;
-        int exit_status;
-        debug("GPGHelper.encrypt_armor: Calling GPG...");
-        run_gpg_internal(args.to_array(), null, out stdout_str, out stderr_str, out exit_status);
-        debug("GPGHelper.encrypt_armor: GPG returned, exit=%d", exit_status);
-        
-        FileUtils.remove(temp_in);
-        
-        if (exit_status != 0) {
-            debug("GPGHelper.encrypt_armor: GPG failed: %s", stderr_str);
-            gpg_mutex.unlock();
-            throw new IOError.FAILED("GPG encrypt failed: %s", stderr_str);
-        }
-        
-        debug("GPGHelper.encrypt_armor: Reading output file %s", temp_out);
-        string result;
-        FileUtils.get_contents(temp_out, out result);
-        FileUtils.remove(temp_out);
-        
-        debug("GPGHelper.encrypt_armor: Success, result length=%d", result.length);
-        gpg_mutex.unlock();
-        return result;
-    } catch (Error e) {
-        debug("GPGHelper.encrypt_armor: Exception: %s", e.message);
-        gpg_mutex.unlock();
-        throw e;
+    foreach (Key key in keys) {
+        args.add("-r");
+        args.add(key.fpr);
+        debug("GPGHelper.encrypt_armor: Adding recipient %s", key.fpr);
     }
+    
+    // Write plaintext to temp file
+    string temp_in = Path.build_filename(Environment.get_tmp_dir(), "dinox-enc-in-%d".printf(Random.int_range(0, 1000000)));
+    string temp_out = temp_in + ".asc";
+    debug("GPGHelper.encrypt_armor: Writing to temp file %s", temp_in);
+    FileUtils.set_contents(temp_in, plain);
+    debug("GPGHelper.encrypt_armor: Temp file written, size=%d", plain.length);
+    
+    args.add("-o");
+    args.add(temp_out);
+    args.add(temp_in);
+    
+    string stdout_str, stderr_str;
+    int exit_status;
+    debug("GPGHelper.encrypt_armor: Calling GPG...");
+    // Serialized through the worker queue — no manual lock needed
+    run_gpg_sync(args.to_array(), null, out stdout_str, out stderr_str, out exit_status);
+    debug("GPGHelper.encrypt_armor: GPG returned, exit=%d", exit_status);
+    
+    FileUtils.remove(temp_in);
+    
+    if (exit_status != 0) {
+        debug("GPGHelper.encrypt_armor: GPG failed: %s", stderr_str);
+        throw new IOError.FAILED("GPG encrypt failed: %s", stderr_str);
+    }
+    
+    debug("GPGHelper.encrypt_armor: Reading output file %s", temp_out);
+    string result;
+    FileUtils.get_contents(temp_out, out result);
+    FileUtils.remove(temp_out);
+    
+    debug("GPGHelper.encrypt_armor: Success, result length=%d", result.length);
+    return result;
 }
 
 /**
@@ -384,59 +421,49 @@ public static string encrypt_armor(string plain, Key[] keys, int flags = 0) thro
 public static string sign_and_encrypt(string plain, Key[] recipients, Key? sign_key = null) throws GLib.Error {
     initialize();
     
-    // Lock mutex to serialize GPG calls
-    ensure_mutex_initialized();
-    gpg_mutex.lock();
+    var args = new ArrayList<string>();
+    args.add("--armor");
+    args.add("--sign");
+    args.add("--encrypt");
+    args.add("--trust-model");
+    args.add("always");
     
-    try {
-        var args = new ArrayList<string>();
-        args.add("--armor");
-        args.add("--sign");
-        args.add("--encrypt");
-        args.add("--trust-model");
-        args.add("always");
-        
-        if (sign_key != null) {
-            args.add("-u");
-            args.add(sign_key.fpr);
-        }
-        
-        foreach (Key key in recipients) {
-            args.add("-r");
-            args.add(key.fpr);
-        }
-        
-        // Write plaintext to temp file
-        string temp_in = Path.build_filename(Environment.get_tmp_dir(), "dinox-signenc-in-%d".printf(Random.int_range(0, 1000000)));
-        string temp_out = temp_in + ".asc";
-        FileUtils.set_contents(temp_in, plain);
-        
-        args.add("-o");
-        args.add(temp_out);
-        args.add(temp_in);
-        
-        string stdout_str, stderr_str;
-        int exit_status;
-        // Use interactive mode (no --batch) so pinentry can prompt for passphrase
-        run_gpg_internal(args.to_array(), null, out stdout_str, out stderr_str, out exit_status, true);
-        
-        FileUtils.remove(temp_in);
-        
-        if (exit_status != 0) {
-            gpg_mutex.unlock();
-            throw new IOError.FAILED("GPG sign+encrypt failed: %s", stderr_str);
-        }
-        
-        string signenc_result;
-        FileUtils.get_contents(temp_out, out signenc_result);
-        FileUtils.remove(temp_out);
-        
-        gpg_mutex.unlock();
-        return signenc_result;
-    } catch (Error e) {
-        gpg_mutex.unlock();
-        throw e;
+    if (sign_key != null) {
+        args.add("-u");
+        args.add(sign_key.fpr);
     }
+    
+    foreach (Key key in recipients) {
+        args.add("-r");
+        args.add(key.fpr);
+    }
+    
+    // Write plaintext to temp file
+    string temp_in = Path.build_filename(Environment.get_tmp_dir(), "dinox-signenc-in-%d".printf(Random.int_range(0, 1000000)));
+    string temp_out = temp_in + ".asc";
+    FileUtils.set_contents(temp_in, plain);
+    
+    args.add("-o");
+    args.add(temp_out);
+    args.add(temp_in);
+    
+    string stdout_str, stderr_str;
+    int exit_status;
+    // Use interactive mode (no --batch) so pinentry can prompt for passphrase
+    // Serialized through the worker queue
+    run_gpg_sync(args.to_array(), null, out stdout_str, out stderr_str, out exit_status, true);
+    
+    FileUtils.remove(temp_in);
+    
+    if (exit_status != 0) {
+        throw new IOError.FAILED("GPG sign+encrypt failed: %s", stderr_str);
+    }
+    
+    string signenc_result;
+    FileUtils.get_contents(temp_out, out signenc_result);
+    FileUtils.remove(temp_out);
+    
+    return signenc_result;
 }
 
 /**
@@ -445,47 +472,37 @@ public static string sign_and_encrypt(string plain, Key[] recipients, Key? sign_
 public static uint8[] encrypt_file(string uri, Key[] keys, int flags, string file_name) throws GLib.Error {
     initialize();
     
-    // Lock mutex to serialize GPG calls
-    ensure_mutex_initialized();
-    gpg_mutex.lock();
+    var args = new ArrayList<string>();
+    args.add("--encrypt");
+    args.add("--trust-model");
+    args.add("always");
+    args.add("--set-filename");
+    args.add(file_name);
     
-    try {
-        var args = new ArrayList<string>();
-        args.add("--encrypt");
-        args.add("--trust-model");
-        args.add("always");
-        args.add("--set-filename");
-        args.add(file_name);
-        
-        foreach (Key key in keys) {
-            args.add("-r");
-            args.add(key.fpr);
-        }
-        
-        string temp_out = Path.build_filename(Environment.get_tmp_dir(), "dinox-enc-out-%d.gpg".printf(Random.int_range(0, 1000000)));
-        args.add("-o");
-        args.add(temp_out);
-        args.add(uri);
-        
-        string stdout_str, stderr_str;
-        int exit_status;
-        run_gpg_internal(args.to_array(), null, out stdout_str, out stderr_str, out exit_status);
-        
-        if (exit_status != 0) {
-            gpg_mutex.unlock();
-            throw new IOError.FAILED("GPG encrypt file failed: %s", stderr_str);
-        }
-        
-        uint8[] result;
-        FileUtils.get_data(temp_out, out result);
-        FileUtils.remove(temp_out);
-        
-        gpg_mutex.unlock();
-        return result;
-    } catch (Error e) {
-        gpg_mutex.unlock();
-        throw e;
+    foreach (Key key in keys) {
+        args.add("-r");
+        args.add(key.fpr);
     }
+    
+    string temp_out = Path.build_filename(Environment.get_tmp_dir(), "dinox-enc-out-%d.gpg".printf(Random.int_range(0, 1000000)));
+    args.add("-o");
+    args.add(temp_out);
+    args.add(uri);
+    
+    string stdout_str, stderr_str;
+    int exit_status;
+    // Serialized through the worker queue
+    run_gpg_sync(args.to_array(), null, out stdout_str, out stderr_str, out exit_status);
+    
+    if (exit_status != 0) {
+        throw new IOError.FAILED("GPG encrypt file failed: %s", stderr_str);
+    }
+    
+    uint8[] result;
+    FileUtils.get_data(temp_out, out result);
+    FileUtils.remove(temp_out);
+    
+    return result;
 }
 
 /**
@@ -501,7 +518,8 @@ private static bool can_decrypt_message(string temp_in) {
     
     string stdout_str, stderr_str;
     int exit_status;
-    run_gpg_internal(args, null, out stdout_str, out stderr_str, out exit_status, false);
+    // Serialized through the worker queue
+    run_gpg_sync(args, null, out stdout_str, out stderr_str, out exit_status, false);
     
     // GPG outputs key IDs in format like:
     // :pubkey enc packet: version 3, algo 16, keyid 282580F966E14B2E
@@ -532,6 +550,7 @@ private static bool can_decrypt_message(string temp_in) {
     }
     
     // Check if we have any of these secret keys
+    // Safe to call get_keylist here — each queue submission is independent
     try {
         var our_keys = get_keylist(null, true);  // secret_only = true
         foreach (var our_key in our_keys) {
@@ -560,80 +579,63 @@ private static bool can_decrypt_message(string temp_in) {
 public static string decrypt(string encr) throws GLib.Error {
     initialize();
     
-    // Lock mutex to serialize GPG calls
-    ensure_mutex_initialized();
-    gpg_mutex.lock();
+    string temp_in = Path.build_filename(Environment.get_tmp_dir(), "dinox-dec-in-%d.asc".printf(Random.int_range(0, 1000000)));
+    string temp_out = Path.build_filename(Environment.get_tmp_dir(), "dinox-dec-out-%d".printf(Random.int_range(0, 1000000)));
+    FileUtils.set_contents(temp_in, encr);
     
-    try {
-        string temp_in = Path.build_filename(Environment.get_tmp_dir(), "dinox-dec-in-%d.asc".printf(Random.int_range(0, 1000000)));
-        string temp_out = Path.build_filename(Environment.get_tmp_dir(), "dinox-dec-out-%d".printf(Random.int_range(0, 1000000)));
-        FileUtils.set_contents(temp_in, encr);
-        
-        // First check if we have the secret key needed
-        // This prevents Windows crashes from starting pinentry for messages we can't decrypt
-        if (!can_decrypt_message(temp_in)) {
-            FileUtils.remove(temp_in);
-            gpg_mutex.unlock();
-            throw new IOError.FAILED("GPG decrypt failed: no secret key available for this message");
+    // First check if we have the secret key needed
+    // This prevents Windows crashes from starting pinentry for messages we can't decrypt
+    if (!can_decrypt_message(temp_in)) {
+        FileUtils.remove(temp_in);
+        throw new IOError.FAILED("GPG decrypt failed: no secret key available for this message");
+    }
+    
+    string stdout_str, stderr_str;
+    int exit_status;
+    bool decryption_ok = false;
+    
+    // First try batch mode - this works if gpg-agent has passphrase cached
+    // Serialized through the worker queue
+    string[] batch_args = { "--batch", "--yes", "--decrypt", "--status-fd", "2", "--ignore-crc-error", "-o", temp_out, temp_in };
+    debug("GPGHelper.decrypt: Trying batch mode first...");
+    run_gpg_sync(batch_args, null, out stdout_str, out stderr_str, out exit_status, false);
+    
+    decryption_ok = stderr_str.contains("[GNUPG:] DECRYPTION_OKAY") || 
+                    stderr_str.contains("[GNUPG:] GOODMDC");
+    
+    // If batch mode failed, try interactive mode for passphrase
+    if (!decryption_ok && exit_status != 0) {
+        debug("GPGHelper.decrypt: Batch mode failed, trying interactive mode...");
+        if (FileUtils.test(temp_out, FileTest.EXISTS)) {
+            FileUtils.remove(temp_out);
         }
         
-        string stdout_str, stderr_str;
-        int exit_status;
-        bool decryption_ok = false;
-        
-        // First try batch mode - this works if gpg-agent has passphrase cached
-        // This avoids Pinentry issues in background threads on Windows
-        string[] batch_args = { "--batch", "--yes", "--decrypt", "--status-fd", "2", "--ignore-crc-error", "-o", temp_out, temp_in };
-        debug("GPGHelper.decrypt: Trying batch mode first...");
-        run_gpg_internal(batch_args, null, out stdout_str, out stderr_str, out exit_status, false);
+        string[] interactive_args = { "--decrypt", "--status-fd", "2", "--ignore-crc-error", "-o", temp_out, temp_in };
+        run_gpg_sync(interactive_args, null, out stdout_str, out stderr_str, out exit_status, true);
         
         decryption_ok = stderr_str.contains("[GNUPG:] DECRYPTION_OKAY") || 
                         stderr_str.contains("[GNUPG:] GOODMDC");
-        
-        // If batch mode failed, try interactive mode for passphrase
-        if (!decryption_ok && exit_status != 0) {
-            debug("GPGHelper.decrypt: Batch mode failed, trying interactive mode...");
-            // Remove failed output
-            if (FileUtils.test(temp_out, FileTest.EXISTS)) {
-                FileUtils.remove(temp_out);
-            }
-            
-            // Try interactive mode (for pinentry passphrase prompt)
-            string[] interactive_args = { "--decrypt", "--status-fd", "2", "--ignore-crc-error", "-o", temp_out, temp_in };
-            run_gpg_internal(interactive_args, null, out stdout_str, out stderr_str, out exit_status, true);
-            
-            decryption_ok = stderr_str.contains("[GNUPG:] DECRYPTION_OKAY") || 
-                            stderr_str.contains("[GNUPG:] GOODMDC");
-        }
-        
-        FileUtils.remove(temp_in);
-        
-        if (!decryption_ok && exit_status != 0) {
-            // Clean up temp_out if it exists
-            if (FileUtils.test(temp_out, FileTest.EXISTS)) {
-                FileUtils.remove(temp_out);
-            }
-            gpg_mutex.unlock();
-            throw new IOError.FAILED("GPG decrypt failed (exit %d): no secret key or passphrase error", exit_status);
-        }
-        
-        // Check if output file was created
-        if (!FileUtils.test(temp_out, FileTest.EXISTS)) {
-            gpg_mutex.unlock();
-            throw new IOError.FAILED("GPG decrypt failed: output file not created");
-        }
-        
-        string result;
-        FileUtils.get_contents(temp_out, out result);
-        FileUtils.remove(temp_out);
-        debug("GPGHelper.decrypt: Success, decrypted %d chars", result.length);
-        
-        gpg_mutex.unlock();
-        return result;
-    } catch (Error e) {
-        gpg_mutex.unlock();
-        throw e;
     }
+    
+    FileUtils.remove(temp_in);
+    
+    if (!decryption_ok && exit_status != 0) {
+        if (FileUtils.test(temp_out, FileTest.EXISTS)) {
+            FileUtils.remove(temp_out);
+        }
+        throw new IOError.FAILED("GPG decrypt failed (exit %d): no secret key or passphrase error", exit_status);
+    }
+    
+    if (!FileUtils.test(temp_out, FileTest.EXISTS)) {
+        throw new IOError.FAILED("GPG decrypt failed: output file not created");
+    }
+    
+    string result;
+    FileUtils.get_contents(temp_out, out result);
+    FileUtils.remove(temp_out);
+    debug("GPGHelper.decrypt: Success, decrypted %d chars", result.length);
+    
+    return result;
 }
 
 /**
@@ -642,95 +644,77 @@ public static string decrypt(string encr) throws GLib.Error {
 public static DecryptedData decrypt_data(uint8[] data) throws GLib.Error {
     initialize();
     
-    // Lock mutex to serialize GPG calls
-    ensure_mutex_initialized();
-    gpg_mutex.lock();
+    string temp_in = Path.build_filename(Environment.get_tmp_dir(), "dinox-dec-in-%d.gpg".printf(Random.int_range(0, 1000000)));
+    string temp_out = Path.build_filename(Environment.get_tmp_dir(), "dinox-dec-out-%d".printf(Random.int_range(0, 1000000)));
     
-    try {
-        string temp_in = Path.build_filename(Environment.get_tmp_dir(), "dinox-dec-in-%d.gpg".printf(Random.int_range(0, 1000000)));
-        string temp_out = Path.build_filename(Environment.get_tmp_dir(), "dinox-dec-out-%d".printf(Random.int_range(0, 1000000)));
-        FileUtils.set_data(temp_in, data);
-        
-        // First check if we have the secret key needed
-        // This prevents Windows crashes from starting pinentry for messages we can't decrypt
-        if (!can_decrypt_message(temp_in)) {
-            FileUtils.remove(temp_in);
-            gpg_mutex.unlock();
-            throw new IOError.FAILED("GPG decrypt data failed: no secret key available for this message");
+    FileUtils.set_data(temp_in, data);
+    
+    // First check if we have the secret key needed
+    if (!can_decrypt_message(temp_in)) {
+        FileUtils.remove(temp_in);
+        throw new IOError.FAILED("GPG decrypt data failed: no secret key available for this message");
+    }
+    
+    string stdout_str, stderr_str;
+    int exit_status;
+    bool decryption_ok = false;
+    
+    // First try batch mode - works if gpg-agent has passphrase cached
+    // Serialized through the worker queue
+    string[] batch_args = { "--batch", "--yes", "--decrypt", "--status-fd", "2", "--ignore-crc-error", "-o", temp_out, temp_in };
+    debug("GPGHelper.decrypt_data: Trying batch mode first...");
+    run_gpg_sync(batch_args, null, out stdout_str, out stderr_str, out exit_status, false);
+    
+    decryption_ok = stderr_str.contains("[GNUPG:] DECRYPTION_OKAY") || 
+                    stderr_str.contains("[GNUPG:] GOODMDC");
+    
+    // If batch mode failed, try interactive mode for passphrase
+    if (!decryption_ok && exit_status != 0) {
+        debug("GPGHelper.decrypt_data: Batch mode failed, trying interactive mode...");
+        if (FileUtils.test(temp_out, FileTest.EXISTS)) {
+            FileUtils.remove(temp_out);
         }
         
-        string stdout_str, stderr_str;
-        int exit_status;
-        bool decryption_ok = false;
-        
-        // First try batch mode - this works if gpg-agent has passphrase cached
-        // This avoids Pinentry issues in background threads on Windows
-        string[] batch_args = { "--batch", "--yes", "--decrypt", "--status-fd", "2", "--ignore-crc-error", "-o", temp_out, temp_in };
-        debug("GPGHelper.decrypt_data: Trying batch mode first...");
-        run_gpg_internal(batch_args, null, out stdout_str, out stderr_str, out exit_status, false);
+        string[] interactive_args = { "--decrypt", "--status-fd", "2", "--ignore-crc-error", "-o", temp_out, temp_in };
+        run_gpg_sync(interactive_args, null, out stdout_str, out stderr_str, out exit_status, true);
         
         decryption_ok = stderr_str.contains("[GNUPG:] DECRYPTION_OKAY") || 
                         stderr_str.contains("[GNUPG:] GOODMDC");
-        
-        // If batch mode failed and we need passphrase, try interactive mode
-        if (!decryption_ok && exit_status != 0) {
-            debug("GPGHelper.decrypt_data: Batch mode failed, trying interactive mode...");
-            // Remove failed output
-            if (FileUtils.test(temp_out, FileTest.EXISTS)) {
-                FileUtils.remove(temp_out);
-            }
-            
-            // Try interactive mode (for pinentry passphrase prompt)
-            string[] interactive_args = { "--decrypt", "--status-fd", "2", "--ignore-crc-error", "-o", temp_out, temp_in };
-            run_gpg_internal(interactive_args, null, out stdout_str, out stderr_str, out exit_status, true);
-            
-            decryption_ok = stderr_str.contains("[GNUPG:] DECRYPTION_OKAY") || 
-                            stderr_str.contains("[GNUPG:] GOODMDC");
-        }
-        
-        FileUtils.remove(temp_in);
-        
-        if (!decryption_ok && exit_status != 0) {
-            // Clean up temp_out if it exists
-            if (FileUtils.test(temp_out, FileTest.EXISTS)) {
-                FileUtils.remove(temp_out);
-            }
-            gpg_mutex.unlock();
-            throw new IOError.FAILED("GPG decrypt data failed (exit %d): no secret key or passphrase error", exit_status);
-        }
-        
-        // Check if output file was created
-        if (!FileUtils.test(temp_out, FileTest.EXISTS)) {
-            gpg_mutex.unlock();
-            throw new IOError.FAILED("GPG decrypt data failed: output file not created");
-        }
-        
-        uint8[] result_data;
-        FileUtils.get_data(temp_out, out result_data);
-        FileUtils.remove(temp_out);
-        debug("GPGHelper.decrypt_data: Success, decrypted %d bytes", result_data.length);
-        
-        // Parse filename from status output
-        string filename = "";
-        if (stderr_str.contains("[GNUPG:] PLAINTEXT")) {
-            // Format: [GNUPG:] PLAINTEXT 62 0 filename
-            foreach (string line in stderr_str.split("\n")) {
-                if (line.contains("[GNUPG:] PLAINTEXT")) {
-                    var parts = line.split(" ");
-                    if (parts.length >= 5) {
-                        filename = parts[4];
-                    }
-                    break;
-                }
-            }
-        }
-        
-        gpg_mutex.unlock();
-        return new DecryptedData() { data = result_data, filename = filename };
-    } catch (Error e) {
-        gpg_mutex.unlock();
-        throw e;
     }
+    
+    FileUtils.remove(temp_in);
+    
+    if (!decryption_ok && exit_status != 0) {
+        if (FileUtils.test(temp_out, FileTest.EXISTS)) {
+            FileUtils.remove(temp_out);
+        }
+        throw new IOError.FAILED("GPG decrypt data failed (exit %d): no secret key or passphrase error", exit_status);
+    }
+    
+    if (!FileUtils.test(temp_out, FileTest.EXISTS)) {
+        throw new IOError.FAILED("GPG decrypt data failed: output file not created");
+    }
+    
+    uint8[] result_data;
+    FileUtils.get_data(temp_out, out result_data);
+    FileUtils.remove(temp_out);
+    debug("GPGHelper.decrypt_data: Success, decrypted %d bytes", result_data.length);
+    
+    // Parse filename from status output
+    string filename = "";
+    if (stderr_str.contains("[GNUPG:] PLAINTEXT")) {
+        foreach (string line in stderr_str.split("\n")) {
+            if (line.contains("[GNUPG:] PLAINTEXT")) {
+                var parts = line.split(" ");
+                if (parts.length >= 5) {
+                    filename = parts[4];
+                }
+                break;
+            }
+        }
+    }
+    
+    return new DecryptedData() { data = result_data, filename = filename };
 }
 
 /**
@@ -739,70 +723,57 @@ public static DecryptedData decrypt_data(uint8[] data) throws GLib.Error {
 public static string sign(string plain, int mode, Key? key = null) throws GLib.Error {
     initialize();
     
-    // Check if key requires passphrase BEFORE taking the mutex
-    // (key_requires_passphrase also uses the mutex internally via run_gpg_sync)
-    // With RecMutex, this is safe
+    // Check if key requires passphrase
+    // With the worker queue there is no deadlock risk — each call is an independent queue submission
     bool needs_passphrase = true;
     if (key != null) {
         needs_passphrase = key_requires_passphrase(key.fpr);
     }
     
-    // Lock mutex to serialize GPG calls
-    ensure_mutex_initialized();
-    gpg_mutex.lock();
+    string temp_in = Path.build_filename(Environment.get_tmp_dir(), "dinox-sign-in-%d".printf(Random.int_range(0, 1000000)));
+    string temp_out = Path.build_filename(Environment.get_tmp_dir(), "dinox-sign-out-%d.asc".printf(Random.int_range(0, 1000000)));
+    FileUtils.set_contents(temp_in, plain);
     
-    try {
-        string temp_in = Path.build_filename(Environment.get_tmp_dir(), "dinox-sign-in-%d".printf(Random.int_range(0, 1000000)));
-        string temp_out = Path.build_filename(Environment.get_tmp_dir(), "dinox-sign-out-%d.asc".printf(Random.int_range(0, 1000000)));
-        FileUtils.set_contents(temp_in, plain);
-        
-        var args = new ArrayList<string>();
-        args.add("--armor");
-        // XEP-0027 requires detached signature, not clearsign
-        args.add("--detach-sign");
-        
-        // If key has no passphrase, use batch mode to avoid pinentry issues on Windows
-        if (!needs_passphrase) {
-            args.add("--batch");
-            args.add("--yes");
-            args.add("--pinentry-mode");
-            args.add("loopback");
-            args.add("--passphrase");
-            args.add("");
-        }
-        
-        if (key != null) {
-            args.add("-u");
-            args.add(key.fpr);
-        }
-        
-        args.add("-o");
-        args.add(temp_out);
-        args.add(temp_in);
-        
-        string stdout_str, stderr_str;
-        int exit_status;
-        // Use interactive mode only if key requires passphrase (for pinentry)
-        // Otherwise use batch mode which is safer on Windows
-        run_gpg_internal(args.to_array(), null, out stdout_str, out stderr_str, out exit_status, needs_passphrase);
-        
-        FileUtils.remove(temp_in);
-        
-        if (exit_status != 0) {
-            gpg_mutex.unlock();
-            throw new IOError.FAILED("GPG sign failed: %s", stderr_str);
-        }
-        
-        string result;
-        FileUtils.get_contents(temp_out, out result);
-        FileUtils.remove(temp_out);
-        
-        gpg_mutex.unlock();
-        return result;
-    } catch (Error e) {
-        gpg_mutex.unlock();
-        throw e;
+    var args = new ArrayList<string>();
+    args.add("--armor");
+    // XEP-0027 requires detached signature, not clearsign
+    args.add("--detach-sign");
+    
+    // If key has no passphrase, use batch mode to avoid pinentry issues on Windows
+    if (!needs_passphrase) {
+        args.add("--batch");
+        args.add("--yes");
+        args.add("--pinentry-mode");
+        args.add("loopback");
+        args.add("--passphrase");
+        args.add("");
     }
+    
+    if (key != null) {
+        args.add("-u");
+        args.add(key.fpr);
+    }
+    
+    args.add("-o");
+    args.add(temp_out);
+    args.add(temp_in);
+    
+    string stdout_str, stderr_str;
+    int exit_status;
+    // Serialized through the worker queue
+    run_gpg_sync(args.to_array(), null, out stdout_str, out stderr_str, out exit_status, needs_passphrase);
+    
+    FileUtils.remove(temp_in);
+    
+    if (exit_status != 0) {
+        throw new IOError.FAILED("GPG sign failed: %s", stderr_str);
+    }
+    
+    string result;
+    FileUtils.get_contents(temp_out, out result);
+    FileUtils.remove(temp_out);
+    
+    return result;
 }
 
 /**
@@ -823,102 +794,92 @@ public class SignatureVerifyResult {
 public static SignatureVerifyResult verify_signature(string signature, string? text) throws GLib.Error {
     initialize();
     
-    // Lock mutex to serialize GPG calls
-    ensure_mutex_initialized();
-    gpg_mutex.lock();
-    
     var result = new SignatureVerifyResult();
     
-    try {
-        string temp_sig = Path.build_filename(Environment.get_tmp_dir(), "dinox-verify-sig-%d.asc".printf(Random.int_range(0, 1000000)));
-        string temp_status = Path.build_filename(Environment.get_tmp_dir(), "dinox-verify-status-%d.txt".printf(Random.int_range(0, 1000000)));
-        FileUtils.set_contents(temp_sig, signature);
-        
-        var args = new ArrayList<string>();
-        args.add("--verify");
-        args.add("--status-file");
-        args.add(temp_status);
-        args.add(temp_sig);
-        
-        string? temp_text = null;
-        if (text != null) {
-            temp_text = Path.build_filename(Environment.get_tmp_dir(), "dinox-verify-txt-%d".printf(Random.int_range(0, 1000000)));
-            FileUtils.set_contents(temp_text, text);
-            args.add(temp_text);
-        }
-        
-        string stdout_str, stderr_str;
-        int exit_status;
-        run_gpg_internal(args.to_array(), null, out stdout_str, out stderr_str, out exit_status);
-        
-        FileUtils.remove(temp_sig);
-        if (temp_text != null) {
-            FileUtils.remove(temp_text);
-        }
-        
-        // Read status from file
-        string status_output = "";
-        if (FileUtils.test(temp_status, FileTest.EXISTS)) {
-            try {
-                FileUtils.get_contents(temp_status, out status_output);
-            } catch (Error e) {
-                debug("GPGHelper.verify_signature: Could not read status file: %s", e.message);
-            }
-            FileUtils.remove(temp_status);
-        }
-        
-        gpg_mutex.unlock();
-        
-        // Parse fingerprint from status output
-        foreach (string line in status_output.split("\n")) {
-            if (line.contains("[GNUPG:] VALIDSIG")) {
-                var parts = line.split(" ");
-                if (parts.length >= 3) {
-                    result.key_id = parts[2];
-                    result.verified = true;
-                    debug("GPGHelper.verify_signature: VALID signature from key: %s", parts[2]);
-                    return result;
-                }
-            }
-            if (line.contains("[GNUPG:] GOODSIG")) {
-                var parts = line.split(" ");
-                if (parts.length >= 3) {
-                    result.key_id = parts[2];
-                    result.verified = true;
-                    debug("GPGHelper.verify_signature: GOOD signature from key: %s", parts[2]);
-                    return result;
-                }
-            }
-        }
-        
-        // Key not in keyring - extract key ID anyway
-        foreach (string line in status_output.split("\n")) {
-            if (line.contains("[GNUPG:] ERRSIG")) {
-                var parts = line.split(" ");
-                if (parts.length >= 3) {
-                    result.key_id = parts[2];
-                    result.key_missing = true;
-                    debug("GPGHelper.verify_signature: Key %s NOT in keyring (ERRSIG)", parts[2]);
-                    return result;
-                }
-            }
-            if (line.contains("[GNUPG:] NO_PUBKEY")) {
-                var parts = line.split(" ");
-                if (parts.length >= 3) {
-                    result.key_id = parts[2];
-                    result.key_missing = true;
-                    debug("GPGHelper.verify_signature: Key %s NOT in keyring (NO_PUBKEY)", parts[2]);
-                    return result;
-                }
-            }
-        }
-        
-        debug("GPGHelper.verify_signature: Could not find any key ID in output");
-        return result;
-    } catch (Error e) {
-        gpg_mutex.unlock();
-        throw e;
+    string temp_sig = Path.build_filename(Environment.get_tmp_dir(), "dinox-verify-sig-%d.asc".printf(Random.int_range(0, 1000000)));
+    string temp_status = Path.build_filename(Environment.get_tmp_dir(), "dinox-verify-status-%d.txt".printf(Random.int_range(0, 1000000)));
+    FileUtils.set_contents(temp_sig, signature);
+    
+    var args = new ArrayList<string>();
+    args.add("--verify");
+    args.add("--status-file");
+    args.add(temp_status);
+    args.add(temp_sig);
+    
+    string? temp_text = null;
+    if (text != null) {
+        temp_text = Path.build_filename(Environment.get_tmp_dir(), "dinox-verify-txt-%d".printf(Random.int_range(0, 1000000)));
+        FileUtils.set_contents(temp_text, text);
+        args.add(temp_text);
     }
+    
+    string stdout_str, stderr_str;
+    int exit_status;
+    // Serialized through the worker queue
+    run_gpg_sync(args.to_array(), null, out stdout_str, out stderr_str, out exit_status);
+    
+    FileUtils.remove(temp_sig);
+    if (temp_text != null) {
+        FileUtils.remove(temp_text);
+    }
+    
+    // Read status from file
+    string status_output = "";
+    if (FileUtils.test(temp_status, FileTest.EXISTS)) {
+        try {
+            FileUtils.get_contents(temp_status, out status_output);
+        } catch (Error e) {
+            debug("GPGHelper.verify_signature: Could not read status file: %s", e.message);
+        }
+        FileUtils.remove(temp_status);
+    }
+    
+    // Parse fingerprint from status output
+    foreach (string line in status_output.split("\n")) {
+        if (line.contains("[GNUPG:] VALIDSIG")) {
+            var parts = line.split(" ");
+            if (parts.length >= 3) {
+                result.key_id = parts[2];
+                result.verified = true;
+                debug("GPGHelper.verify_signature: VALID signature from key: %s", parts[2]);
+                return result;
+            }
+        }
+        if (line.contains("[GNUPG:] GOODSIG")) {
+            var parts = line.split(" ");
+            if (parts.length >= 3) {
+                result.key_id = parts[2];
+                result.verified = true;
+                debug("GPGHelper.verify_signature: GOOD signature from key: %s", parts[2]);
+                return result;
+            }
+        }
+    }
+    
+    // Key not in keyring - extract key ID anyway
+    foreach (string line in status_output.split("\n")) {
+        if (line.contains("[GNUPG:] ERRSIG")) {
+            var parts = line.split(" ");
+            if (parts.length >= 3) {
+                result.key_id = parts[2];
+                result.key_missing = true;
+                debug("GPGHelper.verify_signature: Key %s NOT in keyring (ERRSIG)", parts[2]);
+                return result;
+            }
+        }
+        if (line.contains("[GNUPG:] NO_PUBKEY")) {
+            var parts = line.split(" ");
+            if (parts.length >= 3) {
+                result.key_id = parts[2];
+                result.key_missing = true;
+                debug("GPGHelper.verify_signature: Key %s NOT in keyring (NO_PUBKEY)", parts[2]);
+                return result;
+            }
+        }
+    }
+    
+    debug("GPGHelper.verify_signature: Could not find any key ID in output");
+    return result;
 }
 
 /**
@@ -937,31 +898,34 @@ public static string? get_sign_key(string signature, string? text) throws GLib.E
  * Thread-safe implementation to prevent race conditions.
  */
 public static bool has_secret_keys() {
-    ensure_mutex_initialized();
+    // Quick check for cached result
     secret_keys_mutex.lock();
-    
-    // Return cached result if already checked
     if (has_secret_keys_checked) {
         bool result = has_secret_keys_cached;
         secret_keys_mutex.unlock();
         return result;
     }
+    secret_keys_mutex.unlock();
     
+    // Not cached, need to query GPG.
+    // Do this OUTSIDE secret_keys_mutex to avoid blocking on the queue
+    bool found_keys = false;
     try {
         var keys = get_keylist(null, true);  // secret_only = true
-        has_secret_keys_cached = keys.size > 0;
-        has_secret_keys_checked = true;
-        debug("GPGHelper.has_secret_keys: %s", has_secret_keys_cached ? "yes" : "no");
-        bool result = has_secret_keys_cached;
-        secret_keys_mutex.unlock();
-        return result;
+        found_keys = keys.size > 0;
+        debug("GPGHelper.has_secret_keys: %s", found_keys ? "yes" : "no");
     } catch (Error e) {
         warning("GPGHelper.has_secret_keys: Error checking for keys: %s", e.message);
-        has_secret_keys_cached = false;
-        has_secret_keys_checked = true;
-        secret_keys_mutex.unlock();
-        return false;
+        found_keys = false;
     }
+    
+    // Update cache while holding the mutex
+    secret_keys_mutex.lock();
+    has_secret_keys_cached = found_keys;
+    has_secret_keys_checked = true;
+    secret_keys_mutex.unlock();
+    
+    return found_keys;
 }
 
 /**
@@ -969,7 +933,6 @@ public static bool has_secret_keys() {
  * Thread-safe implementation.
  */
 public static void invalidate_secret_keys_cache() {
-    ensure_mutex_initialized();
     secret_keys_mutex.lock();
     has_secret_keys_checked = false;
     secret_keys_mutex.unlock();
@@ -1178,6 +1141,10 @@ public static bool import_key(string armored_key) throws GLib.Error {
         debug("GPGHelper: import_key: GPG returned error %d: %s", exit_status, stderr_str ?? "unknown");
         return false;
     }
+    
+    // Invalidate has_secret_keys cache so incoming messages can be decrypted immediately
+    invalidate_secret_keys_cache();
+    debug("GPGHelper: import_key: Success, secret keys cache invalidated");
     
     return true;
 }

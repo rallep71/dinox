@@ -15,6 +15,9 @@ public class MainWindowController : Object {
     private MainWindow window;
 
     private ConversationViewController conversation_view_controller;
+    
+    // Flag to prevent re-entry during conversation selection
+    private bool selecting_conversation = false;
 
     public MainWindowController(Application application, StreamInteractor stream_interactor, Database db) {
         this.app = application;
@@ -76,7 +79,10 @@ public class MainWindowController : Object {
             ((Dino.Ui.Application) app).restore_from_backup();
         });
         window.accounts_placeholder.primary_button.clicked.connect(() => { app.activate_action("preferences", null); });
-        window.conversation_selector.conversation_selected.connect((conversation) => select_conversation(conversation));
+        window.conversation_selector.conversation_selected.connect((conversation) => {
+            debug("MainWindowController: conversation_selector.conversation_selected received for %s", conversation != null ? conversation.counterpart.to_string() : "NULL");
+            select_conversation(conversation);
+        });
 
 //        ConversationListModel list_model = new ConversationListModel(stream_interactor);
 //        list_model.closed_conversation.connect((conversation) => {
@@ -117,16 +123,36 @@ public class MainWindowController : Object {
             stream_interactor.get_module<ChatInteraction>(ChatInteraction.IDENTITY).on_window_focus_out(conversation);
         });
 
-        window.conversation_selected.connect(conversation => select_conversation(conversation));
+        window.conversation_selected.connect(conversation => {
+            debug("MainWindowController: window.conversation_selected received for %s", conversation != null ? conversation.counterpart.to_string() : "NULL");
+            select_conversation(conversation);
+        });
 
         stream_interactor.account_added.connect((account) => { update_stack_state(true); });
         stream_interactor.account_removed.connect((account) => { update_stack_state(); });
-        stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).conversation_activated.connect(() => update_stack_state());
+        stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).conversation_activated.connect((activated_conversation) => {
+            update_stack_state();
+            // Auto-select conversation if none selected, but prevent recursion
+            if (this.conversation == null && !selecting_conversation) {
+                debug("MainWindowController: No conversation selected, auto-selecting %s", activated_conversation.counterpart.to_string());
+                selecting_conversation = true;
+                select_conversation(activated_conversation);
+                selecting_conversation = false;
+            }
+        });
         stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).conversation_deactivated.connect(() => update_stack_state());
         update_stack_state();
     }
 
     public void select_conversation(Conversation? conversation, bool do_reset_search = true, bool default_initialize_conversation = true) {
+        debug("MainWindowController.select_conversation: Called with %s", conversation != null ? conversation.counterpart.to_string() : "NULL");
+        
+        // Guard against recursion
+        if (selecting_conversation && this.conversation != null) {
+            debug("MainWindowController.select_conversation: Skipping - already selecting");
+            return;
+        }
+        
         int64 t0_us = Dino.Ui.UiTiming.now_us();
         this.conversation = conversation;
 

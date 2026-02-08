@@ -295,21 +295,14 @@ namespace Dino.Plugins.OpenPgp {
                 
                 if (verify_result.key_id != null) {
                     if (verify_result.key_missing) {
-                        // Key is not in our keyring - try to fetch from keyserver
-                        debug("OpenPGP XEP-0027: Key %s from %s not in keyring, trying keyserver...", 
+                        // Key is not in our keyring.
+                        // Do NOT auto-download from keyserver here — it blocks
+                        // the GPG worker queue for seconds per contact and makes
+                        // startup feel sluggish.  The key ID is still stored in
+                        // the Flag/DB so encryption works once the user imports
+                        // the key manually or via XEP-0373 PubSub.
+                        debug("OpenPGP XEP-0027: Key %s from %s not in keyring (skipping keyserver to keep startup fast)", 
                                 verify_result.key_id, from_jid.to_string());
-                        try {
-                            bool imported = GPGHelper.download_key_from_keyserver(verify_result.key_id);
-                            if (imported) {
-                                debug("OpenPGP XEP-0027: Successfully imported key %s from keyserver!", verify_result.key_id);
-                                // Now verify again
-                                verify_result = verify_signature(sig_copy, signed_data);
-                            } else {
-                                debug("OpenPGP XEP-0027: Key %s not found on keyserver", verify_result.key_id);
-                            }
-                        } catch (Error e) {
-                            debug("OpenPGP XEP-0027: Keyserver lookup failed: %s", e.message);
-                        }
                     }
                     
                     // Copy final result for main thread callback
@@ -562,6 +555,15 @@ public class ReceivedPipelineDecryptListener : StanzaListener<MessageStanza> {
                     // Remove whitespace from base64
                     clean_data = clean_data.replace("\n", "").replace("\r", "").replace(" ", "").replace("\t", "");
                     
+                    // Validate: reject base64url characters (- _) that would
+                    // silently produce garbled binary and NODATA errors from GPG
+                    if (clean_data.contains("-") || clean_data.contains("_")) {
+                        debug("OpenPGP gpg_decrypt_0374: Data contains base64url characters, skipping");
+                        res = null;
+                        Idle.add((owned) callback);
+                        return null;
+                    }
+                    
                     // Add padding if needed
                     int padding_needed = (4 - (clean_data.length % 4)) % 4;
                     for (int i = 0; i < padding_needed; i++) {
@@ -681,6 +683,15 @@ public class ReceivedPipelineDecryptListener : StanzaListener<MessageStanza> {
                     
                     // Remove any whitespace/newlines from the base64
                     clean_data = clean_data.replace("\n", "").replace("\r", "").replace(" ", "").replace("\t", "");
+                    
+                    // Validate: reject base64url characters (- _) that would
+                    // silently produce garbled binary and NODATA errors from GPG
+                    if (clean_data.contains("-") || clean_data.contains("_")) {
+                        debug("OpenPGP gpg_decrypt: Data contains base64url characters, skipping");
+                        res = null;
+                        Idle.add((owned) callback);
+                        return null;
+                    }
                     
                     debug("OpenPGP gpg_decrypt: Base64 after cleanup, length=%d", clean_data.length);
                     

@@ -146,12 +146,18 @@ public class ConversationViewController : Object {
     }
 
     public void select_conversation(Conversation? conversation, bool default_initialize_conversation) {
+        debug("ConversationViewController.select_conversation: Called with %s", conversation != null ? conversation.counterpart.to_string() : "NULL");
         int64 t0_us = Dino.Ui.UiTiming.now_us();
         if (this.conversation != null) {
-            conversation.notify["encryption"].disconnect(update_file_upload_status);
+            this.conversation.notify["encryption"].disconnect(update_file_upload_status);
         }
 
         this.conversation = conversation;
+        
+        if (conversation == null) {
+            debug("ConversationViewController.select_conversation: conversation is NULL, returning!");
+            return;
+        }
 
         // Set list model onto list view
 //        Dino.Application app = GLib.Application.get_default() as Dino.Application;

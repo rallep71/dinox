@@ -177,9 +177,18 @@ public class Manager : StreamInteractionModule, Object {
         
         debug("OpenPGP get_key_fprs: Total %d key IDs to encrypt to", keys.size);
         
-        // Build array using cached keys - NO synchronous GPG calls
+        // Build array of Key objects for encryption.
+        // Use cached keys when available, otherwise construct Key directly from
+        // the DB key ID.  GPG accepts fingerprints, long key IDs, and short key
+        // IDs as -r recipient identifiers, so a full key listing round-trip
+        // through the worker queue is NOT needed at send time.
+        //
+        // This avoids the previous race condition where the GPG worker queue was
+        // busy with startup operations (presence verification, XEP-0373 key
+        // imports) and the 100 ms timeout expired before the key lookup completed,
+        // causing messages to be encrypted to 0 recipients (WONTSEND) or only to
+        // the account key (recipient can't decrypt).
         var valid_keys = new Gee.ArrayList<GPGHelper.Key>();
-        bool has_uncached = false;
         
         foreach (string key_id in keys) {
             GPGHelper.Key? key = get_cached_key(key_id);
@@ -187,29 +196,17 @@ public class Manager : StreamInteractionModule, Object {
                 valid_keys.add(key);
                 debug("OpenPGP get_key_fprs: Got cached key %s", key.fpr);
             } else if (!is_key_cached(key_id)) {
-                // Not in cache yet - start background fetch but don't block
-                debug("OpenPGP get_key_fprs: Key %s not cached, starting async fetch", key_id);
+                // Not in cache — construct Key directly from the DB key ID.
+                // GPG will validate the key during encryption; if the key does
+                // not exist in the keyring, encrypt_armor() will fail and the
+                // message will be marked WONTSEND (correct behaviour).
+                key = new GPGHelper.Key(key_id);
+                valid_keys.add(key);
+                debug("OpenPGP get_key_fprs: Using key ID %s directly (cache cold)", key_id);
+                // Start background preload so the full Key is cached for next time
                 preload_key_async(key_id);
-                has_uncached = true;
             } else {
                 debug("OpenPGP get_key_fprs: Key %s cached as invalid, skipping", key_id);
-            }
-        }
-        
-        // If we have uncached keys, we can't encrypt yet
-        if (has_uncached) {
-            debug("OpenPGP get_key_fprs: Some keys not cached yet, returning empty (retry later)");
-            // Allow a brief wait for keys to be cached (100ms)
-            Thread.usleep(100000);
-            
-            // Try again after the wait
-            valid_keys.clear();
-            foreach (string key_id in keys) {
-                GPGHelper.Key? key = get_cached_key(key_id);
-                if (key != null) {
-                    valid_keys.add(key);
-                    debug("OpenPGP get_key_fprs: Got cached key (after wait) %s", key.fpr);
-                }
             }
         }
         

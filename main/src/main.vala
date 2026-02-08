@@ -81,16 +81,24 @@ void main(string[] args) {
             }
         }
         
-        // Add bin/ folder to PATH for portable tools (gpg.exe, tar.exe, etc.)
+        // Add exe directory AND bin/ folder to PATH.
+        // The exe directory MUST be in PATH so that plugins loaded from
+        // plugins/ can resolve their dependencies on our core DLLs
+        // (libdino-0.dll, libxmpp-vala-0.dll, etc.) which live next to
+        // dinox.exe.  Windows LoadLibrary does NOT search the parent
+        // directory of a DLL being loaded.
         string bin_path = Path.build_filename(exe_dir, "bin");
-        if (FileUtils.test(bin_path, FileTest.IS_DIR)) {
+        {
             string? old_path = Environment.get_variable("PATH");
-            if (old_path != null) {
-                Environment.set_variable("PATH", bin_path + ";" + old_path, true);
-            } else {
-                Environment.set_variable("PATH", bin_path, true);
+            string new_path = exe_dir;
+            if (FileUtils.test(bin_path, FileTest.IS_DIR)) {
+                new_path = exe_dir + ";" + bin_path;
             }
-            message("Added bin to PATH: %s", bin_path);
+            if (old_path != null) {
+                new_path = new_path + ";" + old_path;
+            }
+            Environment.set_variable("PATH", new_path, true);
+            message("PATH prepended: %s", exe_dir);
         }
 #endif
 

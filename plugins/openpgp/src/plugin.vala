@@ -140,9 +140,6 @@ public class Plugin : Plugins.RootInterface, Object {
             int exit_status = subprocess.get_if_exited() ? subprocess.get_exit_status() : -1;
             debug("OpenPGP: Killed gpg-agent (exit=%d)", exit_status);
             
-            // Give it a moment to restart
-            Thread.usleep(500000); // 500ms
-            
             // Verify the gpg-agent.conf was written correctly
             string? conf_content = null;
             FileUtils.get_contents(agent_conf_path, out conf_content);

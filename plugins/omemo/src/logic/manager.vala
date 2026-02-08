@@ -217,9 +217,36 @@ public class Manager : StreamInteractionModule, Object {
             module.request_user_devicelist.begin(stream, account.bare_jid, (obj, res) => {
                 module.request_user_devicelist.end(res);
                 // Force republish of device list to notify all subscribers
-                republish_device_list(account, stream);
+                republish_device_list_with_retry(account, stream, 5);
             });
         }
+    }
+
+    // Republish device list with retry mechanism for race condition after new account creation
+    // After Panic Wipe + new login, initialize_store (async key generation) may not be finished
+    // when on_stream_negotiated fires. This retry ensures we eventually publish the device list.
+    private void republish_device_list_with_retry(Account account, XmppStream stream, int retries_left) {
+        int identity_id = db.identity.get_id(account.id);
+        if (identity_id < 0) {
+            if (retries_left > 0) {
+                // Identity not yet created (initialize_store still running), retry after delay
+                debug("OMEMO: Identity not yet available for %s, retrying in 500ms (%d retries left)", 
+                      account.bare_jid.to_string(), retries_left);
+                Timeout.add(500, () => {
+                    // Verify stream is still valid
+                    if (stream_interactor.get_stream(account) == stream) {
+                        republish_device_list_with_retry(account, stream, retries_left - 1);
+                    }
+                    return false; // Don't repeat
+                });
+            } else {
+                warning("OMEMO: Identity still not available after retries for %s", account.bare_jid.to_string());
+            }
+            return;
+        }
+        
+        // Identity exists, proceed with republish
+        republish_device_list(account, stream);
     }
 
     private void republish_device_list(Account account, XmppStream stream) {
@@ -508,12 +535,33 @@ public class Manager : StreamInteractionModule, Object {
 
     public async bool ensure_get_keys_for_jid(Account account, Jid jid) {
         if (trust_manager.is_known_address(account, jid)) return true;
+        
+        // Wait for stream to become available (up to 10 seconds)
+        // On first start, the XMPP connection may still be establishing
+        // when the chat window opens and checks OMEMO availability.
         XmppStream? stream = stream_interactor.get_stream(account);
+        if (stream == null) {
+            debug("OMEMO: Stream not ready for %s, waiting...", jid.to_string());
+            for (int i = 0; i < 20; i++) {
+                Timeout.add(500, () => {
+                    ensure_get_keys_for_jid.callback();
+                    return false;
+                });
+                yield;
+                stream = stream_interactor.get_stream(account);
+                if (stream != null) {
+                    debug("OMEMO: Stream became available for %s after %d ms", jid.to_string(), (i + 1) * 500);
+                    break;
+                }
+            }
+        }
+        
         if (stream != null) {
             var device_list = yield stream_interactor.module_manager.get_module<StreamModule>(account, StreamModule.IDENTITY).request_user_devicelist(stream, jid);
             return device_list.size > 0;
         }
-        return true; // TODO wait for stream?
+        debug("OMEMO: Cannot verify keys for %s - no stream available after waiting", jid.to_string());
+        return false;
     }
 
     public static void start(StreamInteractor stream_interactor, Database db, TrustManager trust_manager, HashMap<Account, OmemoEncryptor> encryptors) {
