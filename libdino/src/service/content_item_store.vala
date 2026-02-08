@@ -81,8 +81,11 @@ public class ContentItemStore : StreamInteractionModule, Object {
                 FileTransfer? file_transfer = stream_interactor.get_module<FileTransferStorage>(FileTransferStorage.IDENTITY).get_file_by_id(foreign_id, conversation);
                 if (file_transfer != null) {
                     Message? message = null;
-                    if (file_transfer.provider == 0 && file_transfer.info != null) {
-                        message = stream_interactor.get_module<MessageStorage>(MessageStorage.IDENTITY).get_message_by_id(int.parse(file_transfer.info), conversation);
+                    if (file_transfer.provider == 0 && file_transfer.info != null && !file_transfer.info.has_prefix("url:")) {
+                        int msg_id = int.parse(file_transfer.info);
+                        if (msg_id > 0) {
+                            message = stream_interactor.get_module<MessageStorage>(MessageStorage.IDENTITY).get_message_by_id(msg_id, conversation);
+                        }
                     }
                     var file_item = new FileItem(file_transfer, conversation, id, message);
                     return file_item;
@@ -143,8 +146,11 @@ public class ContentItemStore : StreamInteractionModule, Object {
             // Allow lookup if info is present, regardless of provider (fixes delete-for-all for HTTP uploads)
             if (file_item.file_transfer.info == null) return null;
 
+            // Handle legacy "url:" prefix entries (stored before this fix)
+            if (file_item.file_transfer.info.has_prefix("url:")) return null;
+
             int message_db_id = int.parse(file_item.file_transfer.info);
-            // If parsing fails (returns 0) or ID is invalid, get_message_by_id checks handle it or return null
+            if (message_db_id == 0) return null;
             return stream_interactor.get_module<MessageStorage>(MessageStorage.IDENTITY).get_message_by_id(message_db_id, conversation);
         }
         MessageItem? message_item = content_item as MessageItem;
