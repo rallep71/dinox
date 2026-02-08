@@ -67,7 +67,7 @@ public class CertificateManager : Object {
         DateTime? not_after = get_certificate_not_after(cert);
 
         db.pinned_certificate.upsert()
-            .value(db.pinned_certificate.domain, domain)
+            .value(db.pinned_certificate.domain, domain, true)
             .value(db.pinned_certificate.fingerprint_sha256, fingerprint)
             .value(db.pinned_certificate.issuer, issuer)
             .value(db.pinned_certificate.not_valid_before, not_before != null ? (long) not_before.to_unix() : -1)
