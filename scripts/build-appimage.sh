@@ -525,7 +525,7 @@ create_appimage() {
     cd "$BUILD_DIR"
     
     # Get version
-    VERSION=$(cat "$PROJECT_ROOT/VERSION" | grep RELEASE | awk '{print $2}')
+    VERSION=$(cat "$PROJECT_ROOT/VERSION" | head -1 | tr -d '[:space:]')
     
     # Detect architecture if not set
     if [ -z "$ARCH" ]; then
