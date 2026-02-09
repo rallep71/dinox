@@ -14,6 +14,7 @@ dll.log
 
 # Internal docs (not for public release)
 AI_GUIDELINES.md
+SIGNPATH_SETUP.md
 CRASH_ANALYSIS*.md
 DEVELOPMENT_PLAN_UI_SECURITY.md
 DEVELOPMENT_PLAN_WINDOWS.md

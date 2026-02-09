@@ -5,7 +5,11 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.9.8.9] - 2026-02-09
+## [0.9.9.0] - 2026-02-09
+
+### Fixed
+- **Backup/Restore after Panic Wipe**: Fixed critical bug where restoring a backup after a Panic Wipe would fail because the database was encrypted with the original password, but the app tried to open it with the newly set password. After restore, DinoX now shows a clear dialog asking for the backup's original database password. Panic Wipe is disabled during this phase to prevent accidental data loss.
+- **Backup Password Leak**: OpenSSL backup encryption/decryption no longer passes the password via command line (`-pass pass:...`). Passwords are now securely piped via stdin (`-pass stdin`), preventing exposure in process listings (`/proc/PID/cmdline`) and log output.
 
 ### Fixed
 - **Windows GStreamer Plugins**: Fixed GStreamer plugin DLL loading failures (d3d11, d3d12, isomp4, libav, rtpmanager, webrtc). The auto-dependency detection now scans GStreamer plugin subdirectory for missing DLLs. Moved GStreamer/GIO/GDK-Pixbuf copy steps before auto-detect to ensure all transitive dependencies are resolved.

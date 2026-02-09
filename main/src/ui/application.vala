@@ -403,6 +403,15 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             return;
         }
 
+        // Detect whether this startup follows a backup restore.
+        // If so, the DB on disk is encrypted with the backup's original
+        // password, which may differ from whatever the user set most recently
+        // (e.g. after a Panic Wipe + fresh password + restore).
+        string restore_marker = Path.build_filename (
+            Dino.Application.get_storage_dir (), ".restore_pending"
+        );
+        bool is_restore = FileUtils.test (restore_marker, FileTest.EXISTS);
+
         var password_entry = new Gtk.PasswordEntry ();
         password_entry.hexpand = true;
         password_entry.show_peek_icon = true;
@@ -413,10 +422,21 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         form.append (label);
         form.append (password_entry);
 
-        string heading = _("DinoX entsperren");
-        string body = _("Bitte Passwort eingeben, um die verschlüsselte Datenbank zu öffnen.");
-        if (unlock_failures > 0) {
-            body = _("Falsches Passwort. Versuch %d/%d").printf( unlock_failures + 1, MAX_UNLOCK_TRIES);
+        string heading;
+        string body;
+        if (is_restore) {
+            heading = _("Backup wiederhergestellt");
+            if (unlock_failures > 0) {
+                body = _("Falsches Passwort.\n\nBitte gib das Passwort ein, das beim Erstellen des Backups für die Datenbank aktiv war.");
+            } else {
+                body = _("Ein Backup wurde wiederhergestellt.\n\nBitte gib das Passwort ein, das beim Erstellen des Backups für die Datenbank aktiv war.");
+            }
+        } else {
+            heading = _("DinoX entsperren");
+            body = _("Bitte Passwort eingeben, um die verschlüsselte Datenbank zu öffnen.");
+            if (unlock_failures > 0) {
+                body = _("Falsches Passwort. Versuch %d/%d").printf( unlock_failures + 1, MAX_UNLOCK_TRIES);
+            }
         }
 
         UnlockFormAction do_unlock = () => {
@@ -424,7 +444,9 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             if (password.strip ().length == 0) {
                 unlock_failures++;
                 warning ("Unlock failed: empty password");
-                if (unlock_failures >= MAX_UNLOCK_TRIES) {
+                // Never panic-wipe after a restore — the user just needs
+                // the correct original password from the backup.
+                if (!is_restore && unlock_failures >= MAX_UNLOCK_TRIES) {
                     panic_wipe_and_exit ();
                 }
                 prompt_unlock ();
@@ -433,6 +455,11 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             try {
                 this.db_key = password;
                 ((Dino.Application)this).init ();
+
+                // Successful unlock — remove restore marker if present
+                if (is_restore) {
+                    FileUtils.unlink (restore_marker);
+                }
 
                 if (plugin_loader != null) {
                     try {
@@ -500,7 +527,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             } catch (Error e) {
                 unlock_failures++;
                 warning ("Unlock failed: %s", e.message);
-                if (unlock_failures >= MAX_UNLOCK_TRIES) {
+                if (!is_restore && unlock_failures >= MAX_UNLOCK_TRIES) {
                     panic_wipe_and_exit ();
                 }
                 prompt_unlock ();
@@ -1350,19 +1377,21 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
 #else
                 string openssl_exe = "openssl";
 #endif
+                // Pass password via stdin (-pass stdin) to avoid leaking it
+                // in process listings or log output.
                 string[] dec_argv = {
                     openssl_exe, "enc", "-d", "-aes-256-cbc", "-pbkdf2",
                     "-in", backup_file,
                     "-out", tar_path,
-                    "-pass", "pass:" + restore_password
+                    "-pass", "stdin"
                 };
 
                 int exit_status = -1;
                 string? stdout_str = null;
                 string? stderr_str = null;
                 try {
-                    Subprocess proc = new Subprocess.newv (dec_argv, SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_PIPE);
-                    proc.communicate_utf8 (null, null, out stdout_str, out stderr_str);
+                    Subprocess proc = new Subprocess.newv (dec_argv, SubprocessFlags.STDIN_PIPE | SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_PIPE);
+                    proc.communicate_utf8 (restore_password, null, out stdout_str, out stderr_str);
                     decrypt_success = proc.get_successful ();
                     exit_status = proc.get_exit_status ();
                     if (!decrypt_success) {
@@ -1489,6 +1518,19 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             }
 
             if (success) {
+                // Write a restore marker so the next startup knows the DB
+                // on disk may be encrypted with the backup's original password
+                // (which can differ from whatever the user set most recently,
+                // e.g. after a Panic Wipe).
+                try {
+                    string marker_path = Path.build_filename (
+                        Environment.get_user_data_dir (), "dinox", ".restore_pending"
+                    );
+                    FileUtils.set_contents (marker_path, "1");
+                } catch (Error marker_err) {
+                    warning ("Could not write restore marker: %s", marker_err.message);
+                }
+
                 // Sync filesystem to ensure all files are written
 #if !WINDOWS
                 try {
@@ -2147,25 +2189,24 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
 #else
                 string openssl_exe = "openssl";
 #endif
+                // Pass password via stdin (-pass stdin) to avoid leaking it
+                // in process listings or log output.
                 string[] enc_argv = {
                     openssl_exe, "enc", "-aes-256-cbc", "-salt", "-pbkdf2",
                     "-in", temp_tar_path,
                     "-out", backup_path,
-                    "-pass", "pass:" + backup_password
+                    "-pass", "stdin"
                 };
 
-                // Debug: Print the full command
-                string cmd_debug = string.joinv(" ", enc_argv);
-                warning("Backup: OpenSSL command: %s", cmd_debug);
                 warning("Backup: temp_tar_path exists: %s", FileUtils.test(temp_tar_path, FileTest.EXISTS).to_string());
 
                 string? enc_stdout = null;
                 string? enc_stderr = null;
                 try {
                     warning("Backup: Spawning OpenSSL subprocess...");
-                    Subprocess proc = new Subprocess.newv (enc_argv, SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_PIPE);
+                    Subprocess proc = new Subprocess.newv (enc_argv, SubprocessFlags.STDIN_PIPE | SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_PIPE);
                     warning("Backup: Waiting for OpenSSL to finish...");
-                    proc.communicate_utf8 (null, null, out enc_stdout, out enc_stderr);
+                    proc.communicate_utf8 (backup_password, null, out enc_stdout, out enc_stderr);
                     warning("Backup: OpenSSL finished!");
                     success = proc.get_successful ();
                     exit_status = proc.get_exit_status ();
