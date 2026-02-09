@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Backup/Restore after Panic Wipe**: Fixed critical bug where restoring a backup after a Panic Wipe would fail because the database was encrypted with the original password, but the app tried to open it with the newly set password. After restore, DinoX now shows a clear dialog asking for the backup's original database password. Panic Wipe is disabled during this phase to prevent accidental data loss.
 - **Backup Password Leak**: OpenSSL backup encryption/decryption no longer passes the password via command line (`-pass pass:...`). Passwords are now securely piped via stdin (`-pass stdin`), preventing exposure in process listings (`/proc/PID/cmdline`) and log output.
 
+## [0.9.8.8] - 2026-02-09
 ### Fixed
 - **Windows GStreamer Plugins**: Fixed GStreamer plugin DLL loading failures (d3d11, d3d12, isomp4, libav, rtpmanager, webrtc). The auto-dependency detection now scans GStreamer plugin subdirectory for missing DLLs. Moved GStreamer/GIO/GDK-Pixbuf copy steps before auto-detect to ensure all transitive dependencies are resolved.
 - **Windows OMEMO & RTP Plugins**: Fixed `omemo.dll` and `rtp.dll` failing to load ("Das angegebene Modul wurde nicht gefunden"). DinoX plugins are now copied before the auto-dependency scan so their transitive DLL dependencies are resolved automatically.
@@ -28,8 +29,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Windows: No more batch file needed**: `dinox.exe` now sets all required environment variables (GTK paths, GStreamer plugins, SSL certificates) internally on startup. Users can double-click `dinox.exe` directly — the batch file is kept only as a legacy fallback.
 - **Windows: No terminal window**: `dinox.exe` now uses the Windows GUI subsystem (`-mwindows`), so launching it no longer opens a console window in the background.
 - **Windows: App icon in .exe**: The DinoX application icon is now embedded in `dinox.exe` via a Windows resource file, so it shows in Explorer, taskbar, and Alt+Tab.
-
-## [0.9.8.8] - 2026-02-09
 
 ### Fixed
 - **System Tray (Linux)**: Restored full StatusNotifierItem systray with libdbusmenu that was accidentally removed during Windows porting. Linux users have tray icon, background mode, and status menu back. Added `GApplication.hold()` fallback for GNOME desktops without AppIndicator extension.
