@@ -63,6 +63,8 @@ DinoX features System Tray support, MUJI group video calls, voice messages, mess
 
 Download the latest Windows build from [GitHub Releases](https://github.com/rallep71/dinox/releases/latest). Extract the ZIP archive and run `dinox.exe`.
 
+> **Note:** Windows SmartScreen may show a warning because DinoX is not yet code-signed. Click **"More info"** → **"Run anyway"** to proceed. You can verify the download integrity using the `.sha256` checksum file.
+
 ### Flatpak
 
 Download from [GitHub Releases](https://github.com/rallep71/dinox/releases/latest)
