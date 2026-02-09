@@ -1,0 +1,88 @@
+name: Feature Request
+description: Suggest a new feature or enhancement for DinoX
+title: "[Feature]: "
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to suggest a feature!
+
+        This is the wrong template if you want to report a bug — please use the Bug Report template instead.
+
+  - type: checkboxes
+    id: precondition
+    attributes:
+      label: Precondition
+      options:
+        - label: I understood that this template is only for feature requests and not for bug reports
+          required: true
+        - label: I have searched [existing issues](https://github.com/rallep71/dinox/issues) and this feature has not been requested before
+          required: true
+
+  - type: textarea
+    id: feature
+    attributes:
+      label: Describe your feature
+      description: What feature are you missing? Be as detailed as possible.
+      placeholder: Tell us what feature is missing!
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem / Motivation
+      description: What problem does this feature solve? Why would it be useful?
+      placeholder: Describe the problem this feature would solve
+    validations:
+      required: false
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Have you considered any alternative solutions or workarounds?
+    validations:
+      required: false
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected area
+      description: Which part of DinoX does this relate to?
+      multiple: true
+      options:
+        - UI / UX
+        - XMPP Protocol
+        - Encryption (OMEMO/OpenPGP)
+        - Voice / Video Calls
+        - File Transfer
+        - Multi-User Chat (MUC)
+        - Tor / Privacy
+        - Database
+        - Windows Build
+        - Translations
+        - Other
+    validations:
+      required: false
+
+  - type: input
+    id: xep
+    attributes:
+      label: Related XEP (if applicable)
+      description: "If this relates to an XMPP Extension Protocol, provide the number"
+      placeholder: "XEP-0XXX"
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context
+      description: |
+        Mockups, screenshots from other apps, links, references?
+
+        Tip: You can attach images by clicking this area to highlight it and then dragging files in.
+    validations:
+      required: false
