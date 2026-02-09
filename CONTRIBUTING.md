@@ -55,14 +55,26 @@ Thank you for your interest in contributing to DinoX!
 
 ### Translations
 
-DinoX supports 47 languages via gettext. To contribute translations:
+DinoX supports 47 languages via gettext (~85% translated). We welcome translation contributions!
 
-1. Check `main/po/` for existing language files
-2. Edit or create a `.po` file for your language
-3. Test your translations locally by building and running DinoX
-4. Submit a Pull Request
+**How to contribute translations:**
 
-You can also use the translation helper script:
+1. Browse the existing `.po` files in `main/po/` — pick your language or create a new one
+2. Use a PO editor like [Poedit](https://poedit.net/), [Lokalize](https://apps.kde.org/lokalize/), or any text editor
+3. Focus on untranslated (`msgstr ""`) and fuzzy entries first
+4. Test your translations locally by building and running DinoX
+5. Submit a Pull Request with your updated `.po` file
+
+**Quick start for a new language:**
+
+```bash
+# Create a new .po file from the template
+cd main/po
+msginit -l <LANG_CODE> -i dinox.pot -o <LANG_CODE>.po
+# Edit <LANG_CODE>.po with your translations
+```
+
+**Translation helper script** (checks coverage across all languages):
 
 ```bash
 python3 scripts/translate_all.py

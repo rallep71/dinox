@@ -13,7 +13,7 @@ This document is organized as a **chronological release timeline** first, follow
 |--------|--------|
 | **Release Line** | 0.9.8.x |
 | **XEPs Implemented** | ~78 |
-| **Languages** | 47 (100% translated) |
+| **Languages** | 47 (~85% translated) |
 | **Build Status** | Clean |
 | **GTK/libadwaita** | GTK4 4.14, libadwaita 1.5 |
 
