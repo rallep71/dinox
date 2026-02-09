@@ -1,18 +1,22 @@
 # Contributing to DinoX
 
-Thank you for your interest in contributing to DinoX! 🦖
+Thank you for your interest in contributing to DinoX!
 
 ## How to Contribute
 
 ### Reporting Bugs
+
 - Check if the issue already exists in [GitHub Issues](https://github.com/rallep71/dinox/issues)
-- Create a new issue with a clear description
+- Create a new issue using the **Bug Report** template
 - Include steps to reproduce, expected behavior, and actual behavior
-- Add system information (distribution, DinoX version)
+- Add system information (OS, DinoX version, installation method)
+- Attach debug logs — see [DEBUG.md](DEBUG.md) for instructions
 
 ### Feature Requests
-- Open a new issue with the "enhancement" label
+
+- Open a new issue using the **Feature Request** template
 - Describe the feature and why it would be useful
+- If it relates to an XMPP Extension Protocol (XEP), include the XEP number and link
 - If possible, include mockups or examples
 
 ### Code Contributions
@@ -28,37 +32,84 @@ Thank you for your interest in contributing to DinoX! 🦖
    git checkout -b feature/your-feature-name
    ```
 
-3. **Build and test**
+3. **Install dependencies and build** — see [BUILD.md](BUILD.md)
    ```bash
    meson setup build
    ninja -C build
    ./build/main/dinox
    ```
 
-4. **Commit your changes**
+4. **Make your changes**
+   - Follow existing code conventions (see below)
+   - Test on at least one platform (Linux build, Flatpak, or Windows)
+
+5. **Commit your changes**
    - Use clear, descriptive commit messages
    - Reference issues if applicable: `Fix #123: Description`
+   - Keep commits focused — one logical change per commit
 
-5. **Submit a Pull Request**
-   - Describe what your PR does
-   - Link related issues
-   - Add screenshots for UI changes
+6. **Submit a Pull Request**
+   - Fill out the PR template
+   - Describe what your PR does and link related issues
+   - Add before/after screenshots for UI changes
 
 ### Translations
 
-DinoX uses gettext for translations. To contribute translations:
+DinoX supports 47 languages via gettext. To contribute translations:
 
 1. Check `main/po/` for existing language files
-2. Update or create a `.po` file for your language
-3. Test your translations locally
+2. Edit or create a `.po` file for your language
+3. Test your translations locally by building and running DinoX
 4. Submit a Pull Request
+
+You can also use the translation helper script:
+
+```bash
+python3 scripts/translate_all.py
+```
+
+## Project Architecture
+
+DinoX follows a modular plugin architecture:
+
+| Directory | Purpose |
+|-----------|---------|
+| `xmpp-vala/` | XMPP protocol library — XEP implementations, stream management |
+| `libdino/` | Core application library — services, database, business logic |
+| `main/` | GTK4/libadwaita UI — windows, widgets, controllers |
+| `qlite/` | SQLite/SQLCipher ORM wrapper |
+| `crypto-vala/` | Cryptographic abstractions |
+| `plugins/omemo/` | OMEMO encryption (Legacy + OMEMO 2) |
+| `plugins/openpgp/` | OpenPGP encryption (XEP-0027, XEP-0373/0374) |
+| `plugins/rtp/` | Audio/video calls (Jingle RTP, MUJI) |
+| `plugins/ice/` | ICE/DTLS-SRTP transport for calls |
+| `plugins/tor-manager/` | Integrated Tor & obfs4proxy |
+| `plugins/http-files/` | HTTP file upload/download (XEP-0363) |
+| `plugins/notification-sound/` | Notification sounds |
+
+### Key Patterns
+
+- **Plugin system**: Plugins implement the `RootInterface` and register via `ModuleManager`
+- **Async operations**: Use GLib `async`/`yield` pattern throughout
+- **Database access**: All queries go through `qlite` — never raw SQL in UI code
+- **Signal-based communication**: GLib signals for loose coupling between components
 
 ## Code Style
 
-- Follow existing code conventions
+- **Language**: Vala (GTK4 + libadwaita)
+- Follow existing code conventions in the file you're editing
 - Use meaningful variable and function names
-- Comment complex logic
+- Comment complex logic, especially protocol-level decisions
 - Keep functions focused and small
+- Use `debug()`, `warning()`, `critical()` for logging — never `print()`
+
+## Platforms
+
+DinoX runs on Linux and Windows. When contributing:
+
+- **Linux-specific code**: Guarded by `#if !WINDOWS` or runtime checks
+- **Windows-specific code**: Guarded by `#if WINDOWS` — see `main/src/ui/application.vala`
+- **Cross-platform**: Most code should work on both platforms. Test when possible.
 
 ## Communication
 
@@ -68,4 +119,4 @@ DinoX uses gettext for translations. To contribute translations:
 
 ## License
 
-By contributing, you agree that your contributions will be licensed under GPLv3.
+By contributing, you agree that your contributions will be licensed under the [GPLv3](LICENSE).

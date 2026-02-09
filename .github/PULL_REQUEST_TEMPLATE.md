@@ -33,7 +33,7 @@ Related to #
 **Test Environment**:
 - OS: 
 - Desktop Environment: 
-- Dino Version: 
+- DinoX Version: 
 
 ## Screenshots
 
@@ -59,7 +59,7 @@ Related to #
 
 ### Code Quality
 - [ ] Code compiles without warnings
-- [ ] Follows [code style guidelines](../docs/CONTRIBUTING.md#coding-standards)
+- [ ] Follows [code style guidelines](CONTRIBUTING.md)
 - [ ] No commented-out code or debug prints
 - [ ] Proper error handling added
 
@@ -72,17 +72,17 @@ Related to #
 ### Documentation
 - [ ] Updated relevant documentation
 - [ ] Added/updated code comments
-- [ ] Updated [DEVELOPMENT_PLAN.md](../DEVELOPMENT_PLAN.md) if needed
-- [ ] Updated [XEP_SUPPORT.md](../docs/XEP_SUPPORT.md) if added XEP
+- [ ] Updated [CHANGELOG.md](CHANGELOG.md) if needed
+- [ ] Updated README XEP table if added XEP support
 
 ### Commit Messages
-- [ ] Commit messages follow [conventional format](../docs/CONTRIBUTING.md#commit-guidelines)
+- [ ] Commit messages follow conventional format
 - [ ] Each commit is atomic and logical
 
 ### Database
 - [ ] No database schema changes
 - [ ] Or: Database migration added and tested
-- [ ] Or: Migration documented in [DATABASE_SCHEMA.md](../docs/DATABASE_SCHEMA.md)
+- [ ] Or: Migration documented in commit message
 
 ## Additional Notes
 

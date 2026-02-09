@@ -1,5 +1,5 @@
-# Diese Datei aktiviert den "Sponsor"-Button auf GitHub
-# Dokumentation: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/displaying-a-sponsor-button-in-your-repository
+# Sponsor button configuration
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/displaying-a-sponsor-button-in-your-repository
 
 github: rallep71
 ko_fi: rallep

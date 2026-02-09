@@ -13,7 +13,7 @@ dll.log
 .bfg-report/
 
 # Internal docs (not for public release)
-AI_GUIDELINES.md
+CODING_STANDARDS.md
 SIGNPATH_SETUP.md
 CRASH_ANALYSIS*.md
 DEVELOPMENT_PLAN_UI_SECURITY.md

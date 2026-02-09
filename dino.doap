@@ -200,23 +200,23 @@
       وهو يدعم التشفير بواسطة OMEMO و OpenPGP يسمح بإعداد ميزات الخصوصية كالإيصالات المقروءة والإخطارات عند الكتابة.
       يقوم Dino بجلب السِجلّ مِن السيرفر ثم يُزامِن الرسائل مع الأجهزة الأخرى.
     </description>
-    <homepage rdf:resource="https://dino.im/"/>
-    <wiki rdf:resource="https://github.com/dino/dino/wiki"/>
-    <bug-database rdf:resource="https://github.com/dino/dino/issues"/>
+    <homepage rdf:resource="https://dinox.handwerker.jetzt/"/>
+    <wiki rdf:resource="https://github.com/rallep71/dinox/wiki"/>
+    <bug-database rdf:resource="https://github.com/rallep71/dinox/issues"/>
     <category rdf:resource="https://linkmauve.fr/ns/xmpp-doap#category-client"/>
     <category rdf:resource="http://api.gnome.org/doap-extensions#apps"/>
     <license rdf:resource="http://usefulinc.com/doap/licenses/gplv3"/>
     <schema:logo rdf:resource="https://dinox.handwerker.jetzt/assets/icon.svg"/>
-    <schema:screenshot rdf:resource="https://dino.im/img/screenshot1.png"/>
-    <schema:screenshot rdf:resource="https://dino.im/img/screenshot3.png"/>
-    <schema:screenshot rdf:resource="https://dino.im/img/screenshot2.png"/>
+    <schema:screenshot rdf:resource="https://dinox.handwerker.jetzt/assets/screenshot1.png"/>
+    <schema:screenshot rdf:resource="https://dinox.handwerker.jetzt/assets/screenshot2.png"/>
     <programming-language>Vala</programming-language>
     <os>Linux</os>
+    <os>Windows</os>
     <os>FreeBSD</os>
     <repository>
       <GitRepository>
-        <location rdf:resource="https://github.com/dino/dino.git"/>
-        <browse rdf:resource="https://github.com/dino/dino/"/>
+        <location rdf:resource="https://github.com/rallep71/dinox.git"/>
+        <browse rdf:resource="https://github.com/rallep71/dinox/"/>
       </GitRepository>
     </repository>
     <implements rdf:resource="https://xmpp.org/rfcs/rfc6120.html"/>
@@ -635,7 +635,8 @@
       <xmpp:SupportedXep>
         <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0384.html"/>
         <xmpp:status>complete</xmpp:status>
-        <xmpp:version>0.3.0</xmpp:version>
+        <xmpp:version>0.8.3</xmpp:version>
+        <xmpp:note>Supports both OMEMO legacy (eu.siacs.conversations.axolotl) and OMEMO 2 (urn:xmpp:omemo:2)</xmpp:note>
         <xmpp:since>0.1</xmpp:since>
       </xmpp:SupportedXep>
     </implements>
@@ -772,13 +773,6 @@
     </implements>
     <implements>
       <xmpp:SupportedXep>
-        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0453.html"/>
-        <xmpp:status>complete</xmpp:status>
-        <xmpp:version>0.1.2</xmpp:version>
-      </xmpp:SupportedXep>
-    </implements>
-    <implements>
-      <xmpp:SupportedXep>
         <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0454.html"/>
         <xmpp:status>partial</xmpp:status>
         <xmpp:note>No support for embedded thumbnails</xmpp:note>
@@ -811,21 +805,7 @@
     </implements>
     <implements>
       <xmpp:SupportedXep>
-        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0292.html"/>
-        <xmpp:status>complete</xmpp:status>
-        <xmpp:since>0.9.1.0</xmpp:since>
-      </xmpp:SupportedXep>
-    </implements>
-    <implements>
-      <xmpp:SupportedXep>
         <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0172.html"/>
-        <xmpp:status>complete</xmpp:status>
-        <xmpp:since>0.9.1.0</xmpp:since>
-      </xmpp:SupportedXep>
-    </implements>
-    <implements>
-      <xmpp:SupportedXep>
-        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0054.html"/>
         <xmpp:status>complete</xmpp:status>
         <xmpp:since>0.9.1.0</xmpp:since>
       </xmpp:SupportedXep>
@@ -881,11 +861,116 @@
         <xmpp:status>complete</xmpp:status>
       </xmpp:SupportedXep>
     </implements>
+    <implements>
+      <xmpp:SupportedXep>
+        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0374.html"/>
+        <xmpp:status>complete</xmpp:status>
+        <xmpp:note>OpenPGP for XMPP Instant Messaging</xmpp:note>
+        <xmpp:since>0.1</xmpp:since>
+      </xmpp:SupportedXep>
+    </implements>
+    <implements>
+      <xmpp:SupportedXep>
+        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0104.html"/>
+        <xmpp:status>complete</xmpp:status>
+        <xmpp:note>HTTP Scheme for URL Data</xmpp:note>
+        <xmpp:since>0.1</xmpp:since>
+      </xmpp:SupportedXep>
+    </implements>
+    <implements>
+      <xmpp:SupportedXep>
+        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0264.html"/>
+        <xmpp:status>complete</xmpp:status>
+        <xmpp:note>Jingle Content Thumbnails</xmpp:note>
+        <xmpp:since>0.1</xmpp:since>
+      </xmpp:SupportedXep>
+    </implements>
+    <implements>
+      <xmpp:SupportedXep>
+        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0420.html"/>
+        <xmpp:status>complete</xmpp:status>
+        <xmpp:version>0.4.0</xmpp:version>
+        <xmpp:note>Stanza Content Encryption, used by OMEMO 2</xmpp:note>
+        <xmpp:since>0.9.7.0</xmpp:since>
+      </xmpp:SupportedXep>
+    </implements>
+
+    <release>
+      <Version>
+        <name>0.9.9.2</name>
+        <created>2026-02-09</created>
+        <revision>0.9.9.2</revision>
+      </Version>
+    </release>
+
+    <release>
+      <Version>
+        <name>0.9.9.1</name>
+        <created>2026-02-09</created>
+        <revision>0.9.9.1</revision>
+      </Version>
+    </release>
+
+    <release>
+      <Version>
+        <name>0.9.9.0</name>
+        <created>2026-02-09</created>
+        <revision>0.9.9.0</revision>
+      </Version>
+    </release>
+
+    <release>
+      <Version>
+        <name>0.9.8.9</name>
+        <created>2026-02-09</created>
+        <revision>0.9.8.9</revision>
+      </Version>
+    </release>
+
+    <release>
+      <Version>
+        <name>0.9.8.8</name>
+        <created>2026-02-09</created>
+        <revision>0.9.8.8</revision>
+      </Version>
+    </release>
+
+    <release>
+      <Version>
+        <name>0.9.8.7</name>
+        <created>2026-02-09</created>
+        <revision>0.9.8.7</revision>
+      </Version>
+    </release>
+
+    <release>
+      <Version>
+        <name>0.9.8.6</name>
+        <created>2026-02-08</created>
+        <revision>0.9.8.6</revision>
+      </Version>
+    </release>
+
+    <release>
+      <Version>
+        <name>0.9.8.5</name>
+        <created>2026-02-08</created>
+        <revision>0.9.8.5</revision>
+      </Version>
+    </release>
+
+    <release>
+      <Version>
+        <name>0.9.8.4</name>
+        <created>2026-01-24</created>
+        <revision>0.9.8.4</revision>
+      </Version>
+    </release>
 
     <release>
       <Version>
         <name>0.9.8.3</name>
-        <created>2026-02-13</created>
+        <created>2026-01-24</created>
         <revision>0.9.8.3</revision>
       </Version>
     </release>
@@ -893,15 +978,23 @@
     <release>
       <Version>
         <name>0.9.8.2</name>
-        <created>2026-02-12</created>
+        <created>2026-01-24</created>
         <revision>0.9.8.2</revision>
       </Version>
     </release>
 
     <release>
       <Version>
+        <name>0.9.8.1</name>
+        <created>2026-01-23</created>
+        <revision>0.9.8.1</revision>
+      </Version>
+    </release>
+
+    <release>
+      <Version>
         <name>0.9.8.0</name>
-        <created>2026-01-20</created>
+        <created>2026-01-19</created>
         <revision>0.9.8.0</revision>
       </Version>
     </release>
