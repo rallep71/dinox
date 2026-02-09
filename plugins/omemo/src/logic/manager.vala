@@ -208,6 +208,10 @@ public class Manager : StreamInteractionModule, Object {
         if(stream == null) return;
 
         stream_interactor.module_manager.get_module<StreamModule>(account, StreamModule.IDENTITY).request_user_devicelist.begin((!)stream, jid);
+        StreamModule2? module2 = stream_interactor.module_manager.get_module<StreamModule2>(account, StreamModule2.IDENTITY);
+        if (module2 != null) {
+            module2.request_user_devicelist.begin((!)stream, jid);
+        }
     }
 
     private void on_stream_negotiated(Account account, XmppStream stream) {
@@ -219,6 +223,11 @@ public class Manager : StreamInteractionModule, Object {
                 // Force republish of device list to notify all subscribers
                 republish_device_list_with_retry(account, stream, 5);
             });
+        }
+        /* Also request OMEMO 2 device list */
+        StreamModule2? module2 = stream_interactor.module_manager.get_module<StreamModule2>(account, StreamModule2.IDENTITY);
+        if (module2 != null) {
+            module2.request_user_devicelist.begin(stream, account.bare_jid);
         }
     }
 
@@ -307,6 +316,13 @@ public class Manager : StreamInteractionModule, Object {
             module.device_list_loaded.connect((jid, devices) => on_device_list_loaded(account, jid, devices));
             module.bundle_fetched.connect((jid, device_id, bundle) => on_bundle_fetched(account, jid, device_id, bundle));
             module.bundle_fetch_failed.connect((jid) => continue_message_sending(account, jid));
+        }
+        /* OMEMO 2 stream module */
+        StreamModule2? module2 = stream_interactor.module_manager.get_module<StreamModule2>(account, StreamModule2.IDENTITY);
+        if (module2 != null) {
+            module2.device_list_loaded.connect((jid, devices) => on_device_list_loaded(account, jid, devices));
+            module2.bundle_fetched.connect((jid, device_id, bundle) => on_bundle_v2_fetched(account, jid, device_id, bundle));
+            module2.bundle_fetch_failed.connect((jid) => continue_message_sending(account, jid));
         }
         initialize_store.begin(account);
     }
@@ -417,6 +433,55 @@ public class Manager : StreamInteractionModule, Object {
         continue_message_sending(account, jid);
     }
 
+    /**
+     * Handle OMEMO 2 bundle fetch results.
+     * Uses the same session setup via libomemo-c Signal protocol.
+     */
+    private void on_bundle_v2_fetched(Account account, Jid jid, int32 device_id, Bundle2 bundle) {
+        int identity_id = db.identity.get_id(account.id);
+        if (identity_id < 0) return;
+
+        ECPublicKey? identity_key = bundle.identity_key;
+        if (identity_key == null) {
+            debug("OMEMO 2: Bundle for %s/%d has no identity key", jid.to_string(), device_id);
+            return;
+        }
+
+        bool blind_trust = db.trust.get_blind_trust(identity_id, jid.bare_jid.to_string(), true);
+
+        bool untrust = !(blind_trust || db.identity_meta.with_address(identity_id, jid.bare_jid.to_string())
+                .with(db.identity_meta.device_id, "=", device_id)
+                .with(db.identity_meta.identity_key_public_base64, "=", Base64.encode(identity_key.serialize()))
+                .single().row().is_present());
+
+        Row device = db.identity_meta.get_device(identity_id, jid.bare_jid.to_string(), device_id);
+        TrustLevel trusted = TrustLevel.UNKNOWN;
+        if (device != null) {
+            trusted = (TrustLevel) device[db.identity_meta.trust_level];
+        }
+
+        if (untrust) {
+            trusted = TrustLevel.UNKNOWN;
+        } else if (blind_trust && trusted == TrustLevel.UNKNOWN) {
+            trusted = TrustLevel.TRUSTED;
+        }
+
+        /* Store identity key in database using insert_device_session */
+        string identity_key_b64 = Base64.encode(identity_key.serialize());
+        db.identity_meta.insert_device_session(identity_id, jid.bare_jid.to_string(), device_id, identity_key_b64, trusted);
+
+        if (should_start_session(account, jid)) {
+            XmppStream? stream = stream_interactor.get_stream(account);
+            if (stream != null) {
+                StreamModule2? module2 = ((!)stream).get_module<StreamModule2>(StreamModule2.IDENTITY);
+                if (module2 != null) {
+                    module2.start_session(stream, jid, device_id, bundle);
+                }
+            }
+        }
+        continue_message_sending(account, jid);
+    }
+
     private bool should_start_session(Account account, Jid jid) {
         lock (message_states) {
             foreach (Entities.Message msg in message_states.keys) {
@@ -516,6 +581,11 @@ public class Manager : StreamInteractionModule, Object {
         XmppStream? stream = stream_interactor.get_stream(account);
         if (stream != null) {
             module.request_user_devicelist.begin((!)stream, account.bare_jid);
+            /* Also request OMEMO 2 device list */
+            StreamModule2? module2 = stream_interactor.module_manager.get_module<StreamModule2>(account, StreamModule2.IDENTITY);
+            if (module2 != null) {
+                module2.request_user_devicelist.begin((!)stream, account.bare_jid);
+            }
         }
     }
 
@@ -558,6 +628,14 @@ public class Manager : StreamInteractionModule, Object {
         
         if (stream != null) {
             var device_list = yield stream_interactor.module_manager.get_module<StreamModule>(account, StreamModule.IDENTITY).request_user_devicelist(stream, jid);
+            /* Also try OMEMO 2 device list */
+            StreamModule2? module2 = stream_interactor.module_manager.get_module<StreamModule2>(account, StreamModule2.IDENTITY);
+            if (module2 != null) {
+                var device_list_v2 = yield module2.request_user_devicelist(stream, jid);
+                if (device_list_v2.size > 0 && device_list.size == 0) {
+                    return true;
+                }
+            }
             return device_list.size > 0;
         }
         debug("OMEMO: Cannot verify keys for %s - no stream available after waiting", jid.to_string());
