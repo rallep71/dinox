@@ -57,7 +57,11 @@ Thank you for your interest in contributing to DinoX!
 
 DinoX supports 47 languages via gettext (~85% translated). We welcome translation contributions!
 
-**How to contribute translations:**
+**The easiest way to translate is via [Weblate](https://hosted.weblate.org/engage/dinox/)** — no local setup needed, just translate in the browser.
+
+[![Translation status](https://hosted.weblate.org/widget/dinox/translations/multi-auto.svg)](https://hosted.weblate.org/engage/dinox/)
+
+**Alternatively, contribute via Pull Request:**
 
 1. Browse the existing `.po` files in `main/po/` — pick your language or create a new one
 2. Use a PO editor like [Poedit](https://poedit.net/), [Lokalize](https://apps.kde.org/lokalize/), or any text editor

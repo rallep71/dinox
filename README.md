@@ -7,6 +7,7 @@
 [![License: GPL-3.0](https://img.shields.io/badge/License-GPL%203.0-blue.svg)](LICENSE)
 [![GTK4](https://img.shields.io/badge/GTK-4.14.5-4a86cf.svg)](https://www.gtk.org/)
 [![Release](https://img.shields.io/github/v/release/rallep71/dinox)](https://github.com/rallep71/dinox/releases)
+[![Translation status](https://hosted.weblate.org/widget/dinox/translations/svg-badge.svg)](https://hosted.weblate.org/engage/dinox/)
 
 **The Most Secure XMPP Messenger for Linux & Windows**
 
@@ -55,7 +56,7 @@ DinoX features System Tray support, MUJI group video calls, voice messages, mess
 | **Backup & Restore** | Full data backup with optional GPG encryption (AES-256) |
 | **Database Maintenance** | Clean orphaned records, optimize storage |
 | **PGP Key Management** | Generate, select, delete, revoke OpenPGP keys in-app. Automatic key exchange via PEP |
-| **47 Languages** | ~85% translated — [help translate](CONTRIBUTING.md#translations) |
+| **47 Languages** | ~85% translated — [help translate on Weblate](https://hosted.weblate.org/engage/dinox/) |
 | **Dark Mode** | System theme or manual toggle |
 
 ## Installation
