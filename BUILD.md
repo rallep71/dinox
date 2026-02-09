@@ -89,6 +89,8 @@ sudo apt install \
     libdbusmenu-glib-dev \
     libgcrypt20-dev \
     libgpgme-dev \
+    libomemo-c-dev \
+    libjson-glib-dev \
     libqrencode-dev \
     libsoup-3.0-dev \
     libgstreamer1.0-dev \
@@ -120,6 +122,8 @@ sudo dnf install \
     libdbusmenu-glib-devel \
     libgcrypt-devel \
     gpgme-devel \
+    libomemo-c-devel \
+    json-glib-devel \
     qrencode-devel \
     libsoup3-devel \
     gstreamer1-devel \
@@ -150,6 +154,8 @@ sudo pacman -S \
     libdbusmenu-glib \
     libgcrypt \
     gpgme \
+    libomemo-c \
+    json-glib \
     qrencode \
     libsoup3 \
     gstreamer \

@@ -36,12 +36,14 @@ assignees: ''
 <!-- Or check About dialog -->
 
 **OS**: 
-<!-- e.g., Ubuntu 24.04, Arch Linux, Fedora 40 -->
+<!-- e.g., Ubuntu 24.04, Arch Linux, Fedora 40, Windows 10/11 -->
 
 **Installation Method**:
 - [ ] Compiled from source
 - [ ] Flatpak
-- [ ] System package
+- [ ] AppImage
+- [ ] Windows (ZIP)
+- [ ] AppMan / AM
 
 **Desktop Environment**:
 <!-- e.g., GNOME 47, KDE Plasma 6, etc. -->
@@ -53,8 +55,9 @@ assignees: ''
 
 ```
 <!-- Paste logs here -->
-<!-- Run with: DINO_LOG_LEVEL=debug ./build/main/dinox 2>&1 | tee dino.log -->
-<!-- Or check: ~/.local/share/dino/dino.log -->
+<!-- Run with: DINO_LOG_LEVEL=debug ./build/main/dinox 2>&1 | tee dinox.log -->
+<!-- Or Flatpak: flatpak run --env=DINO_LOG_LEVEL=debug im.github.rallep71.DinoX 2>&1 | tee dinox.log -->
+<!-- Or Windows: set DINO_LOG_LEVEL=debug && dinox.exe > dinox.log 2>&1 -->
 ```
 
 </details>

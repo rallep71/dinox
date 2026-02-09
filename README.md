@@ -31,8 +31,8 @@ DinoX features System Tray support, MUJI group video calls, voice messages, mess
 | **Encrypted File Upload** | AES-GCM URI Scheme & XEP-0448 support for secure file sharing |
 | **Full Local Encryption** | All local files (avatars, stickers, transfers) are encrypted at rest (AES-256-GCM) |
 | **Secure Deletion** | Global history deletion (both sides) with smart throttling & zero-trace cache cleanup |
-| **OMEMO Encryption** | End-to-end encryption for all messages and files |
-| **OpenPGP Encryption** | XEP-0027 (Legacy) + XEP-0373 with key management, generation, deletion & revocation |
+| **OMEMO Encryption** | End-to-end encryption for messages and files (OMEMO Legacy + OMEMO 2) |
+| **OpenPGP Encryption** | XEP-0027 (Legacy) + XEP-0373/0374 with key management, generation, deletion & revocation |
 | **Encrypted Local Database** | Local data is stored in an encrypted SQLCipher database (password required at startup) |
 | **Change Database Password** | Change the local database password via Preferences (SQLCipher rekey) |
 | **Panic Wipe** | Quickly wipe local DinoX data (`Ctrl+Shift+Alt+P`) and exit (also triggered after 3 failed unlock attempts) |
@@ -51,6 +51,7 @@ DinoX features System Tray support, MUJI group video calls, voice messages, mess
 | **Message Replies** | Quote and reply to messages (XEP-0461) |
 | **MUC Moderation** | Kick, ban (timed), manage roles (XEP-0425) |
 | **TLS Certificate Pinning** | Trust self-signed certs for self-hosted servers |
+| **TLS Certificate Info** | View TLS certificate details (issuer, validity, fingerprint) in account settings |
 | **Backup & Restore** | Full data backup with optional GPG encryption (AES-256) |
 | **Database Maintenance** | Clean orphaned records, optimize storage |
 | **PGP Key Management** | Generate, select, delete, revoke OpenPGP keys in-app. Automatic key exchange via PEP |
@@ -110,10 +111,10 @@ ninja -C build
 sudo apt install build-essential meson ninja-build valac \
   libgtk-4-dev libadwaita-1-dev libglib2.0-dev libgee-0.8-dev \
   libsqlcipher-dev libsecret-1-dev libicu-dev libdbusmenu-glib-dev libgcrypt20-dev \
-  libgpgme-dev libqrencode-dev libsoup-3.0-dev libgstreamer1.0-dev \
+  libgpgme-dev libqrencode-dev libomemo-c-dev libsoup-3.0-dev libgstreamer1.0-dev \
   libgstreamer-plugins-base1.0-dev libgstreamer-plugins-bad1.0-dev \
   libwebrtc-audio-processing-dev libnice-dev libgnutls28-dev libsrtp2-dev \
-  libgeoclue-2-dev gstreamer1.0-pipewire
+  gstreamer1.0-pipewire
 ```
 
 For a complete, up-to-date build guide (including Fedora/Arch and call stack notes), see [BUILD.md](BUILD.md).
@@ -142,7 +143,7 @@ If you are building from source using distro packages, ensure you are on a suffi
 
 ## XEP Support
 
-DinoX implements **80 XMPP Extension Protocols**. Here are the key ones with full UI support:
+DinoX implements **90+ XMPP Extension Protocols**. Here are the key ones with full UI support:
 
 ### Messaging
 | XEP | Name | Status |
@@ -171,7 +172,8 @@ DinoX implements **80 XMPP Extension Protocols**. Here are the key ones with ful
 ### Security
 | XEP | Name | Status |
 |-----|------|--------|
-| XEP-0384 | OMEMO Encryption | Full |
+| XEP-0384 | OMEMO Encryption (Legacy + OMEMO 2) | Full |
+| XEP-0420 | Stanza Content Encryption (SCE) | Full |
 | XEP-0373 | OpenPGP for XMPP | Full |
 | XEP-0374 | OpenPGP for XMPP Instant Messaging | Full |
 | XEP-0027 | Current Jabber OpenPGP Usage | Full |
@@ -211,6 +213,7 @@ DinoX implements **80 XMPP Extension Protocols**. Here are the key ones with ful
 | XEP-0198 | Stream Management | Full |
 | XEP-0280 | Message Carbons | Full |
 | XEP-0352 | Client State Indication | Full |
+| XEP-0092 | Software Version | Full |
 | XEP-0368 | SRV for XMPP over TLS | Full |
 
 ## Screenshots
