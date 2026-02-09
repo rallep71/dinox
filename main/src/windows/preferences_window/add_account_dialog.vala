@@ -177,6 +177,92 @@ public class AddAccountDialog : Adw.Dialog {
             error_desc += " " + _("Its security certificate is expired.");
         }
         sign_in_tls_label.label = error_desc;
+
+        // Add certificate details if available
+        if (cert != null) {
+            // Remove any previously added cert details
+            Widget? child = sign_in_tls_box.get_first_child();
+            var to_remove = new Gee.ArrayList<Widget>();
+            while (child != null) {
+                if (child.name == "cert_details_frame") {
+                    to_remove.add(child);
+                }
+                child = child.get_next_sibling();
+            }
+            foreach (var w in to_remove) {
+                sign_in_tls_box.remove(w);
+            }
+
+            var details_frame = build_certificate_details_widget(cert);
+            details_frame.name = "cert_details_frame";
+            // Insert before the last child (button box)
+            sign_in_tls_box.append(details_frame);
+            // Reorder: move buttons to end
+            Widget? last = sign_in_tls_box.get_last_child();
+            if (last != null && last != details_frame) {
+                sign_in_tls_box.reorder_child_after(details_frame, sign_in_tls_label);
+            }
+        }
+    }
+
+    private Gtk.Frame build_certificate_details_widget(TlsCertificate cert) {
+        string fingerprint = CertificateManager.get_certificate_fingerprint(cert);
+        string? issuer = CertificateManager.get_certificate_issuer(cert);
+        DateTime? not_before = CertificateManager.get_certificate_not_before(cert);
+        DateTime? not_after = CertificateManager.get_certificate_not_after(cert);
+
+        var details_frame = new Frame(null);
+        details_frame.add_css_class("view");
+        var details_box = new Box(Orientation.VERTICAL, 4);
+        details_box.margin_start = 10;
+        details_box.margin_end = 10;
+        details_box.margin_top = 8;
+        details_box.margin_bottom = 8;
+
+        if (issuer != null) {
+            var issuer_label = new Label(null);
+            issuer_label.set_markup("<small><b>" + _("Issuer:") + "</b> " + Markup.escape_text(issuer) + "</small>");
+            issuer_label.xalign = 0;
+            issuer_label.wrap = true;
+            details_box.append(issuer_label);
+        }
+
+        if (not_before != null || not_after != null) {
+            string validity = "";
+            if (not_before != null) validity += _("From:") + " " + not_before.format("%Y-%m-%d");
+            if (not_after != null) {
+                if (validity.length > 0) validity += "  ";
+                validity += _("Until:") + " " + not_after.format("%Y-%m-%d");
+                if (not_after.compare(new DateTime.now_utc()) < 0) {
+                    validity += " <span foreground='red'>(" + _("expired") + ")</span>";
+                }
+            }
+            var validity_label = new Label(null);
+            validity_label.set_markup("<small><b>" + _("Valid:") + "</b> " + validity + "</small>");
+            validity_label.xalign = 0;
+            validity_label.wrap = true;
+            details_box.append(validity_label);
+        }
+
+        var fp_header = new Label(null);
+        fp_header.set_markup("<small><b>" + _("SHA-256 Fingerprint:") + "</b></small>");
+        fp_header.xalign = 0;
+        details_box.append(fp_header);
+
+        var fp_label = new Label(fingerprint);
+        fp_label.add_css_class("monospace");
+        fp_label.wrap = true;
+        fp_label.wrap_mode = Pango.WrapMode.CHAR;
+        fp_label.xalign = 0;
+        fp_label.selectable = true;
+        fp_label.add_css_class("dim-label");
+        var fp_attrs = new Pango.AttrList();
+        fp_attrs.insert(Pango.attr_scale_new(0.75));
+        fp_label.attributes = fp_attrs;
+        details_box.append(fp_label);
+
+        details_frame.child = details_box;
+        return details_frame;
     }
 
     private async void on_tls_trust_button_clicked() {

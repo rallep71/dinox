@@ -50,6 +50,14 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
     [GtkChild] public unowned Adw.EntryRow vcard_desc;
     [GtkChild] public unowned Button save_vcard_button;
 
+    // Server Certificate section
+    [GtkChild] public unowned Adw.PreferencesGroup cert_group;
+    [GtkChild] public unowned Adw.ActionRow cert_status_row;
+    [GtkChild] public unowned Adw.ActionRow cert_issuer_row;
+    [GtkChild] public unowned Adw.ActionRow cert_validity_row;
+    [GtkChild] public unowned Adw.ActionRow cert_fingerprint_row;
+    [GtkChild] public unowned Button unpin_certificate_button;
+
     public Account account { get { return model.selected_account.account; } }
     public ViewModel.PreferencesDialog model { get; set; }
 
@@ -101,6 +109,24 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
         
         trust_certificate_button.clicked.connect(() => {
             show_certificate_dialog();
+        });
+
+        unpin_certificate_button.clicked.connect(() => {
+            var dialog = new Adw.AlertDialog(
+                _("Remove pinned certificate for %s?").printf(account.domainpart),
+                _("The server will need to present a valid CA-signed certificate, or you will be asked to trust it again.")
+            );
+            dialog.add_response("cancel", _("Cancel"));
+            dialog.add_response("remove", _("Remove"));
+            dialog.set_response_appearance("remove", Adw.ResponseAppearance.DESTRUCTIVE);
+            dialog.response.connect((response) => {
+                if (response == "remove") {
+                    model.stream_interactor.connection_manager.unpin_certificate(account.domainpart);
+                    model.reconnect_account(account);
+                    update_certificate_info();
+                }
+            });
+            dialog.present((Window)this.get_root());
         });
 
         save_vcard_button.clicked.connect(() => {
@@ -195,6 +221,7 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
                 bindings += account.bind_property("enabled", connection_status, "visible", BindingFlags.SYNC_CREATE);
                 bindings += model.selected_account.bind_property("connection-state", connection_status, "subtitle", BindingFlags.SYNC_CREATE, (binding, from, ref to) => {
                     to = get_status_label();
+                    update_certificate_info();
                     return true;
                 });
                 bindings += model.selected_account.bind_property("connection-error", connection_status, "subtitle", BindingFlags.SYNC_CREATE, (binding, from, ref to) => {
@@ -216,8 +243,10 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
 
                 model.selected_account.notify["connection-error"].connect(() => {
                     update_connection_error_ui();
+                    update_certificate_info();
                 });
                 update_connection_error_ui();
+                update_certificate_info();
             });
         });
     }
@@ -294,6 +323,93 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
             model.stream_interactor
         );
         dialog.present((Window)this.get_root());
+    }
+
+    private void update_certificate_info() {
+        string domain = account.domainpart;
+        var cm = model.stream_interactor.connection_manager;
+        
+        // Try to get the live certificate from active connection
+        TlsCertificate? live_cert = cm.get_peer_certificate(account);
+        bool is_pinned = cm.is_certificate_pinned(domain);
+        CertificateInfo? pinned_info = cm.get_pinned_certificate_info(domain);
+
+        if (live_cert != null) {
+            // Connected — show the live certificate
+            string fingerprint = CertificateManager.get_certificate_fingerprint(live_cert);
+            string? issuer = CertificateManager.get_certificate_issuer(live_cert);
+            DateTime? not_before = CertificateManager.get_certificate_not_before(live_cert);
+            DateTime? not_after = CertificateManager.get_certificate_not_after(live_cert);
+
+            cert_group.visible = true;
+
+            if (is_pinned) {
+                cert_status_row.subtitle = _("Pinned (self-signed / manually trusted)");
+                cert_status_row.add_css_class("warning");
+            } else {
+                cert_status_row.subtitle = _("Valid (CA-signed)");
+                cert_status_row.remove_css_class("warning");
+            }
+
+            if (issuer != null) {
+                cert_issuer_row.subtitle = issuer;
+                cert_issuer_row.visible = true;
+            } else {
+                cert_issuer_row.visible = false;
+            }
+
+            if (not_before != null || not_after != null) {
+                string validity = "";
+                if (not_before != null) validity += _("From:") + " " + not_before.format("%Y-%m-%d");
+                if (not_after != null) {
+                    if (validity.length > 0) validity += "  —  ";
+                    validity += _("Until:") + " " + not_after.format("%Y-%m-%d");
+                    if (not_after.compare(new DateTime.now_utc()) < 0) {
+                        validity += " (" + _("expired") + ")";
+                    }
+                }
+                cert_validity_row.subtitle = validity;
+                cert_validity_row.visible = true;
+            } else {
+                cert_validity_row.visible = false;
+            }
+
+            cert_fingerprint_row.subtitle = fingerprint;
+            cert_fingerprint_row.visible = true;
+            unpin_certificate_button.visible = is_pinned;
+
+        } else if (pinned_info != null) {
+            // Not connected but have a pinned cert — show the stored info
+            cert_group.visible = true;
+            cert_status_row.subtitle = _("Pinned (not connected)");
+            cert_status_row.add_css_class("warning");
+
+            if (pinned_info.issuer != null) {
+                cert_issuer_row.subtitle = pinned_info.issuer;
+                cert_issuer_row.visible = true;
+            } else {
+                cert_issuer_row.visible = false;
+            }
+
+            cert_validity_row.subtitle = pinned_info.get_validity_string();
+            cert_validity_row.visible = true;
+
+            cert_fingerprint_row.subtitle = pinned_info.fingerprint_sha256;
+            cert_fingerprint_row.visible = true;
+            unpin_certificate_button.visible = true;
+        } else {
+            // Not connected and no pinned cert
+            if (cm.get_state(account) == ConnectionManager.ConnectionState.DISCONNECTED) {
+                cert_group.visible = false;
+            } else {
+                cert_group.visible = true;
+                cert_status_row.subtitle = _("Connecting…");
+                cert_issuer_row.visible = false;
+                cert_validity_row.visible = false;
+                cert_fingerprint_row.visible = false;
+                unpin_certificate_button.visible = false;
+            }
+        }
     }
 
     private void show_select_avatar() {

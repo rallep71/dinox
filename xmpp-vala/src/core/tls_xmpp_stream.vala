@@ -15,6 +15,21 @@ public abstract class Xmpp.TlsXmppStream : IoXmppStream {
         base(remote_name);
     }
 
+    /**
+     * Get the TLS peer certificate from the active connection.
+     * Works for both successful (CA-signed) and pinned connections.
+     */
+    public TlsCertificate? get_tls_peer_certificate() {
+        // First check if we stored a cert from on_invalid_certificate
+        if (peer_certificate != null) return peer_certificate;
+        // Otherwise get it from the live TLS connection
+        IOStream? io_stream = get_stream();
+        if (io_stream != null && io_stream is TlsConnection) {
+            return ((TlsConnection) io_stream).peer_certificate;
+        }
+        return null;
+    }
+
     protected bool on_invalid_certificate(TlsCertificate peer_cert, TlsCertificateFlags errors) {
         this.errors = errors;
         this.peer_certificate = peer_cert;

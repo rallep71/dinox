@@ -165,6 +165,20 @@ public class ConnectionManager : Object {
         return null;
     }
 
+    /**
+     * Get the TLS peer certificate for a connected account.
+     * Returns the live certificate from the active TLS connection.
+     */
+    public TlsCertificate? get_peer_certificate(Account account) {
+        if (!connections.has_key(account)) return null;
+        var stream = connections[account].stream;
+        if (stream == null) return null;
+        if (stream is Xmpp.TlsXmppStream) {
+            return ((Xmpp.TlsXmppStream) stream).get_tls_peer_certificate();
+        }
+        return null;
+    }
+
     public Collection<Account> get_managed_accounts() {
         return connections.keys;
     }
@@ -508,6 +522,40 @@ public class ConnectionManager : Object {
             .with(db.pinned_certificate.domain, "=", domain)
             .perform();
         debug("Certificate unpinned for domain %s", domain);
+    }
+
+    /**
+     * Check if a certificate is pinned for the given domain.
+     */
+    public bool is_certificate_pinned(string domain) {
+        if (db == null) return false;
+        return db.pinned_certificate.get_pinned_fingerprint(domain) != null;
+    }
+
+    /**
+     * Get information about a pinned certificate.
+     */
+    public CertificateInfo? get_pinned_certificate_info(string domain) {
+        if (db == null) return null;
+
+        var row_opt = db.pinned_certificate.select()
+            .with(db.pinned_certificate.domain, "=", domain)
+            .single()
+            .row();
+
+        if (!row_opt.is_present()) return null;
+
+        return new CertificateInfo(
+            domain,
+            row_opt[db.pinned_certificate.fingerprint_sha256],
+            row_opt[db.pinned_certificate.issuer],
+            row_opt[db.pinned_certificate.not_valid_before] > 0 
+                ? new DateTime.from_unix_utc(row_opt[db.pinned_certificate.not_valid_before]) : null,
+            row_opt[db.pinned_certificate.not_valid_after] > 0 
+                ? new DateTime.from_unix_utc(row_opt[db.pinned_certificate.not_valid_after]) : null,
+            new DateTime.from_unix_utc(row_opt[db.pinned_certificate.pinned_at]),
+            (TlsCertificateFlags) row_opt[db.pinned_certificate.tls_flags]
+        );
     }
 }
 
