@@ -55,7 +55,7 @@ DinoX features System Tray support, MUJI group video calls, voice messages, mess
 | **Backup & Restore** | Full data backup with optional GPG encryption (AES-256) |
 | **Database Maintenance** | Clean orphaned records, optimize storage |
 | **PGP Key Management** | Generate, select, delete, revoke OpenPGP keys in-app. Automatic key exchange via PEP |
-| **47 Languages** | 100% translated |
+| **47 Languages** | ~85% translated — [help translate](CONTRIBUTING.md#translations) |
 | **Dark Mode** | System theme or manual toggle |
 
 ## Installation
