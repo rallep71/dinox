@@ -81,6 +81,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Item | Description | Status |
 |------|-------------|--------|
+| **Notification Sounds** | Cross-platform notification sounds for messages and calls. Currently only built in Flatpak (via libcanberra). Needs: enable by default on Linux, implement Windows-native backend (PlaySound/XAudio2), remove libcanberra hard dependency. | TODO |
 | **Screen Sharing** | Share desktop or windows during calls | TODO |
 | **Whiteboard** | Collaborative drawing (protocol TBD) | CONCEPT |
 
