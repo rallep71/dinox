@@ -54,7 +54,9 @@
     <file>icons/scalable/status/dino-tick-symbolic.svg</file>
     <file>icons/scalable/status/dino-video-off-symbolic.svg</file>
     <file>icons/scalable/status/dino-video-symbolic.svg</file>
-    <file alias="icons/scalable/apps/im.github.rallep71.DinoX.svg">icons/hicolor/scalable/apps/im.github.rallep71.DinoX.svg</file>
+    <!-- App icon SVG removed from GResource: GTK4/librsvg renders the SVG-wrapped
+         base64 PNG with a light background in About dialog and header bar.
+         Using installed hicolor PNGs directly ensures the dark icon is shown. -->
 
     <file>preferences_window/account_preferences_subpage.ui</file>
     <file>preferences_window/add_account_dialog.ui</file>

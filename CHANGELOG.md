@@ -5,6 +5,18 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.9.2] - 2026-02-09
+
+### Added
+- **Server Certificate Info (GitHub Issue #10)**: Account preferences now show the TLS certificate details of the connected XMPP server — status (CA-signed or pinned), issuer, validity period, and SHA-256 fingerprint. Pinned (self-signed) certificates can be removed directly from the UI. Certificate details are also shown in the "Trust This Certificate" dialog during account setup.
+
+### Fixed
+- **App Icon in About Dialog**: Fixed app icon appearing light/white in AppImage and Flatpak builds. The GResource-bundled SVG (base64-wrapped PNG) was being prioritized by GTK4/librsvg and rendered with a light background. Removed SVG from GResource so GTK resolves the icon from installed hicolor PNGs.
+
+### Improved
+- **App Icon Rounded Corners**: All app icon sizes (16–512px) now have slightly rounded corners to avoid the "Minecraft cube" look on desktop environments like Linux Mint Cinnamon.
+- **Menu Order**: Moved "Panic Wipe" to the bottom of the hamburger menu, below "About DinoX", to prevent accidental activation.
+
 ## [0.9.9.1] - 2026-02-09
 
 ### Added

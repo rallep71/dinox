@@ -124,6 +124,60 @@
                       </object>
                     </child>
                     <child>
+                      <object class="AdwPreferencesGroup" id="cert_group">
+                        <property name="title" translatable="yes">Server Certificate</property>
+                        <property name="description" translatable="yes">TLS certificate used by the XMPP server</property>
+                        <property name="visible">False</property>
+                        <child>
+                          <object class="AdwActionRow" id="cert_status_row">
+                            <property name="title" translatable="yes">Status</property>
+                            <style>
+                              <class name="property"/>
+                            </style>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwActionRow" id="cert_issuer_row">
+                            <property name="title" translatable="yes">Issued by</property>
+                            <property name="visible">False</property>
+                            <style>
+                              <class name="property"/>
+                            </style>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwActionRow" id="cert_validity_row">
+                            <property name="title" translatable="yes">Valid</property>
+                            <property name="visible">False</property>
+                            <style>
+                              <class name="property"/>
+                            </style>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwActionRow" id="cert_fingerprint_row">
+                            <property name="title" translatable="yes">SHA-256 Fingerprint</property>
+                            <property name="visible">False</property>
+                            <property name="subtitle_selectable">True</property>
+                            <style>
+                              <class name="property"/>
+                            </style>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="unpin_certificate_button">
+                            <property name="label" translatable="yes">Remove Pinned Certificate</property>
+                            <property name="halign">end</property>
+                            <property name="margin-top">6</property>
+                            <property name="visible">False</property>
+                            <style>
+                              <class name="destructive-action"/>
+                            </style>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
                       <object class="AdwPreferencesGroup">
                         <property name="title" translatable="yes">Public Profile</property>
                         <child>
