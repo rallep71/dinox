@@ -10,26 +10,41 @@
 
 ## Reporting a Vulnerability
 
-If you discover a security vulnerability in DinoX, please report it responsibly.
+It is highly appreciated to report a vulnerability to the DinoX developers.
+We kindly ask you to **not disclose it publicly** until it has been fixed.
+This prevents abuse and exploitation in the current published releases.
 
 **Do NOT open a public GitHub issue for security vulnerabilities.**
 
 ### How to Report
 
+Please report issues directly via:
+
 - **Email**: dinox@handwerker.jetzt
 - **XMPP** (OMEMO encrypted): dinox@handwerker.jetzt
 
-Please include:
-- Description of the vulnerability
-- Steps to reproduce
+Please try to report in detail:
+
+- What you are concerned about
+- If applicable, how to reproduce the vulnerability
 - Affected versions
 - Potential impact
+- Your contact details, if needed — so we can ask follow-up questions
+- You are also invited to suggest a fix
 
 ### Response Timeline
 
 - **Acknowledgment**: Within 48 hours
 - **Initial assessment**: Within 7 days
 - **Fix & disclosure**: Coordinated with reporter
+
+Once a vulnerability has been reported and confirmed, we try our very best to provide
+a fix as soon as possible, ideally within days. However, depending on the issue, it can
+take longer if many code sections need to be changed. Please keep in mind that this is a
+non-commercial open source project maintained by volunteers.
+
+Thank you for considering to report a security vulnerability. This improves the quality
+of DinoX significantly.
 
 ## Security Features
 
