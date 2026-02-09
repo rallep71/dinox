@@ -192,7 +192,24 @@ endif
 if meson.get_compiler('vala').version().version_compare('=0.56.12')
     vala_args += ['-D', 'VALA_0_56_12']
 endif
-exe_dino = executable('dinox', sources, c_args: c_args, vala_args: vala_args, dependencies: dependencies, install: true, install_rpath: default_install_rpath)
+
+# Windows-specific: embed icon in .exe and use GUI subsystem (no terminal window)
+extra_link_args = []
+extra_objects = []
+if host_machine.system() == 'windows'
+    # Use GUI subsystem so double-clicking dinox.exe doesn't open a console window
+    extra_link_args += ['-mwindows']
+
+    # Compile Windows resource file (.rc) to embed the app icon in the .exe
+    windows_mod = import('windows')
+    win_res = windows_mod.compile_resources(
+        'data/dinox.rc',
+        depend_files: files('data/dinox.ico'),
+    )
+    sources += win_res
+endif
+
+exe_dino = executable('dinox', sources, c_args: c_args, vala_args: vala_args, link_args: extra_link_args, dependencies: dependencies, install: true, install_rpath: default_install_rpath)
 
 # Install app icons (PNG sizes for better systray support)
 install_data('data/icons/hicolor/16x16/apps/im.github.rallep71.DinoX.png', install_dir: get_option('datadir') / 'icons/hicolor/16x16/apps')

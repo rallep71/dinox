@@ -1,0 +1,5 @@
+// Windows Resource file for DinoX
+// Embeds the application icon into dinox.exe
+
+// IDI_ICON1 is the primary application icon shown in Explorer, taskbar, etc.
+IDI_ICON1 ICON "dinox.ico"

@@ -254,7 +254,7 @@ The `scripts/update_dist.sh` script collects the built executable, all required 
 bash scripts/update_dist.sh
 ```
 
-The resulting `dist/` directory contains everything needed to run DinoX on Windows. Run it with `dinox.bat`.
+The resulting `dist/` directory contains everything needed to run DinoX on Windows. Run `dinox.exe` directly.
 
 #### Windows notes
 

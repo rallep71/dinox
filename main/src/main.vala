@@ -45,6 +45,24 @@ void main(string[] args) {
         }
         string exe_dir = (exe_path != null) ? Path.get_dirname(exe_path) : Environment.get_current_dir();
 
+        // Set ALL environment variables that the batch file used to set.
+        // This makes dinox.exe fully self-contained — no .bat needed!
+
+        // GTK/GLib resource paths
+        Environment.set_variable("XDG_DATA_DIRS",
+            Path.build_filename(exe_dir, "share"), true);
+        Environment.set_variable("GSETTINGS_SCHEMA_DIR",
+            Path.build_filename(exe_dir, "share", "glib-2.0", "schemas"), true);
+        Environment.set_variable("GDK_PIXBUF_MODULE_FILE",
+            Path.build_filename(exe_dir, "lib", "gdk-pixbuf-2.0", "2.10.0", "loaders.cache"), true);
+        Environment.set_variable("GDK_PIXBUF_MODULEDIR",
+            Path.build_filename(exe_dir, "lib", "gdk-pixbuf-2.0", "2.10.0", "loaders"), true);
+        Environment.set_variable("GTK_PATH", exe_dir, true);
+
+        // GStreamer plugin path
+        Environment.set_variable("GST_PLUGIN_PATH",
+            Path.build_filename(exe_dir, "lib", "gstreamer-1.0"), true);
+
         // Configure Icon Theme for portable Windows build
         var display = Gdk.Display.get_default();
         if (display != null) {
@@ -71,11 +89,15 @@ void main(string[] args) {
             string local_cert = Path.build_filename(exe_dir, "ssl", "certs", "ca-bundle.crt");
             if (FileUtils.test(local_cert, FileTest.EXISTS)) {
                 Environment.set_variable("GTLS_SYSTEM_CA_FILE", local_cert, true);
+                Environment.set_variable("SSL_CERT_FILE", local_cert, true);
+                Environment.set_variable("SSL_CERT_DIR",
+                    Path.build_filename(exe_dir, "ssl", "certs"), true);
                 message("Set GTLS_SYSTEM_CA_FILE to %s", local_cert);
             } else {
                  string local_cert_flat = Path.build_filename(exe_dir, "ca-bundle.crt");
                  if (FileUtils.test(local_cert_flat, FileTest.EXISTS)) {
                     Environment.set_variable("GTLS_SYSTEM_CA_FILE", local_cert_flat, true);
+                    Environment.set_variable("SSL_CERT_FILE", local_cert_flat, true);
                     message("Set GTLS_SYSTEM_CA_FILE to %s", local_cert_flat);
                  }
             }

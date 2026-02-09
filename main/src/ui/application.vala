@@ -1158,12 +1158,16 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
 
         // Add debug info with data location
         string data_dir = Path.build_filename( Environment.get_user_data_dir( ), "dinox");
+        string config_dir = Path.build_filename (Environment.get_user_config_dir (), "dinox");
         string cache_dir = Path.build_filename (Environment.get_user_cache_dir (), "dinox");
 
         string support_info = _("User Data Locations") + """
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-""" + _("Data, Database & Configuration:") + """
+""" + _("Data & Database:") + """
+%s
+
+""" + _("Configuration:") + """
 %s
 
 """ + _("Cache:") + """
@@ -1175,7 +1179,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
 """ + _("When you update DinoX, your data remains intact.") + """
 
 """ + _("Use Settings → General → Backup User Data to create a backup.");
-        support_info = support_info.printf (data_dir, cache_dir);
+        support_info = support_info.printf (data_dir, config_dir, cache_dir);
 
         about_dialog.debug_info = support_info;
         about_dialog.debug_info_filename = "dinox-data-locations.txt";

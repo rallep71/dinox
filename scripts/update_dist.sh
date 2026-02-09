@@ -243,55 +243,6 @@ for dll in "${SYSTEM_DLLS[@]}"; do
 done
 echo "  ✓ $DLL_COUNT system DLLs copied"
 
-# ============================================
-# AUTO-DETECT missing DLL dependencies (recursive!)
-# This scans ALL DLLs/EXEs in dist/ using objdump to find their
-# imports, then copies any missing DLL from MSYS2's /mingw64/bin/.
-# Repeats until no new DLLs are discovered (transitive resolution).
-# This eliminates the need to manually track every dependency.
-# ============================================
-echo "[4c/8] Auto-detecting missing DLL dependencies..."
-AUTO_COUNT=0
-PASS=0
-while true; do
-    PASS=$((PASS + 1))
-    FOUND_NEW=false
-    
-    # Collect all DLL imports from everything in dist/
-    ALL_DEPS=$(objdump -p dist/*.dll dist/*.exe dist/plugins/*.dll 2>/dev/null \
-        | grep "DLL Name:" | awk '{print $3}' | sort -u)
-    
-    for dep_name in $ALL_DEPS; do
-        # Skip if already in dist/
-        [ -f "dist/$dep_name" ] && continue
-        
-        # Copy from MSYS2 if available (system DLLs like kernel32.dll
-        # won't be in /mingw64/bin/ so they're skipped automatically)
-        if [ -f "$MINGW_BIN/$dep_name" ]; then
-            cp "$MINGW_BIN/$dep_name" dist/
-            echo "  + Pass $PASS: $dep_name"
-            AUTO_COUNT=$((AUTO_COUNT + 1))
-            FOUND_NEW=true
-        fi
-    done
-    
-    # Stop when no new DLLs were found
-    if [ "$FOUND_NEW" = false ]; then
-        break
-    fi
-    
-    # Safety: max 10 passes to avoid infinite loops
-    if [ $PASS -ge 10 ]; then
-        echo "  ⚠ Stopped after $PASS passes (safety limit)"
-        break
-    fi
-done
-if [ $AUTO_COUNT -gt 0 ]; then
-    echo "  ✓ Auto-copied $AUTO_COUNT additional DLLs in $PASS passes"
-else
-    echo "  ✓ No missing dependencies detected"
-fi
-
 # Copy GDK-Pixbuf loaders (for image format support)
 if [ -d "/mingw64/lib/gdk-pixbuf-2.0" ]; then
     mkdir -p dist/lib/gdk-pixbuf-2.0
@@ -325,8 +276,9 @@ fi
 
 # ============================================
 # Plugins (loaded dynamically from plugins/)
+# Copy BEFORE auto-detect so their dependencies get resolved too
 # ============================================
-echo "[5/8] Copying Plugins..."
+echo "[4d/8] Copying DinoX Plugins..."
 find build/plugins -name "*.dll" -exec cp {} dist/plugins/ \;
 echo "  ✓ $(ls dist/plugins/*.dll 2>/dev/null | wc -l) plugins copied"
 
@@ -337,9 +289,59 @@ for core_dll in libdino-0.dll libxmpp-vala-0.dll libqlite-0.dll libcrypto-vala-0
 done
 
 # ============================================
+# AUTO-DETECT missing DLL dependencies (recursive!)
+# This scans ALL DLLs/EXEs in dist/ using objdump to find their
+# imports, then copies any missing DLL from MSYS2's /mingw64/bin/.
+# Repeats until no new DLLs are discovered (transitive resolution).
+# This eliminates the need to manually track every dependency.
+# ============================================
+echo "[4e/8] Auto-detecting missing DLL dependencies..."
+AUTO_COUNT=0
+PASS=0
+while true; do
+    PASS=$((PASS + 1))
+    FOUND_NEW=false
+    
+    # Collect all DLL imports from everything in dist/ including subdirs
+    ALL_DEPS=$(objdump -p dist/*.dll dist/*.exe dist/plugins/*.dll \
+        dist/lib/gstreamer-1.0/*.dll dist/lib/gio/modules/*.dll 2>/dev/null \
+        | grep "DLL Name:" | awk '{print $3}' | sort -u)
+    
+    for dep_name in $ALL_DEPS; do
+        # Skip if already in dist/
+        [ -f "dist/$dep_name" ] && continue
+        
+        # Copy from MSYS2 if available (system DLLs like kernel32.dll
+        # won't be in /mingw64/bin/ so they're skipped automatically)
+        if [ -f "$MINGW_BIN/$dep_name" ]; then
+            cp "$MINGW_BIN/$dep_name" dist/
+            echo "  + Pass $PASS: $dep_name"
+            AUTO_COUNT=$((AUTO_COUNT + 1))
+            FOUND_NEW=true
+        fi
+    done
+    
+    # Stop when no new DLLs were found
+    if [ "$FOUND_NEW" = false ]; then
+        break
+    fi
+    
+    # Safety: max 10 passes to avoid infinite loops
+    if [ $PASS -ge 10 ]; then
+        echo "  ⚠ Stopped after $PASS passes (safety limit)"
+        break
+    fi
+done
+if [ $AUTO_COUNT -gt 0 ]; then
+    echo "  ✓ Auto-copied $AUTO_COUNT additional DLLs in $PASS passes"
+else
+    echo "  ✓ No missing dependencies detected"
+fi
+
+# ============================================
 # Helper executables (all in bin/)
 # ============================================
-echo "[6/8] Copying helper executables to bin/..."
+echo "[5/8] Copying helper executables to bin/..."
 
 # GPG executables (for OpenPGP and encrypted backups)
 if [ -f "/mingw64/bin/gpg.exe" ]; then
@@ -432,7 +434,7 @@ fi
 # ============================================
 # Resources (share/)
 # ============================================
-echo "[7/8] Copying resources..."
+echo "[6/8] Copying resources..."
 
 # CA Certificates (needed for TLS)
 if [ -f "/mingw64/ssl/certs/ca-bundle.crt" ]; then
@@ -487,12 +489,11 @@ fi
 # Summary
 # ============================================
 echo ""
-echo "[8/8] Build complete!"
+echo "[7/8] Build complete!"
 echo ""
 echo "Directory structure:"
 echo "  dist/"
-echo "  ├── dinox.bat              (Windows launcher - USE THIS!)"
-echo "  ├── dinox.exe              (main application)"
+echo "  ├── dinox.exe              (main application - run this!)"
 echo "  ├── *.dll                  (system + core libraries)"
 echo "  ├── bin/"
 echo "  │   ├── gpg.exe            (OpenPGP encryption)"
@@ -510,6 +511,5 @@ echo "  │   ├── glib-2.0/schemas/  (GSettings)"
 echo "  │   └── icons/             (Adwaita + app icons)"
 echo "  └── ssl/certs/             (CA certificates)"
 echo ""
-echo "To run from Windows Explorer: Double-click dinox.bat"
-echo "To run from MSYS2 terminal:   ./dist/dinox.exe"
+echo "To run: Double-click dinox.exe"
 echo ""

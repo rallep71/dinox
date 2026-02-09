@@ -5,6 +5,18 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.8.9] - 2026-02-09
+
+### Fixed
+- **Windows GStreamer Plugins**: Fixed GStreamer plugin DLL loading failures (d3d11, d3d12, isomp4, libav, rtpmanager, webrtc). The auto-dependency detection now scans GStreamer plugin subdirectory for missing DLLs. Moved GStreamer/GIO/GDK-Pixbuf copy steps before auto-detect to ensure all transitive dependencies are resolved.
+- **Windows OMEMO & RTP Plugins**: Fixed `omemo.dll` and `rtp.dll` failing to load ("Das angegebene Modul wurde nicht gefunden"). DinoX plugins are now copied before the auto-dependency scan so their transitive DLL dependencies are resolved automatically.
+- **Windows About Dialog**: Debug Information now shows all 3 data paths (Data & Database, Configuration, Cache) instead of combining Data and Configuration into one line. On Windows these are separate directories.
+
+### Improved
+- **Windows: No more batch file needed**: `dinox.exe` now sets all required environment variables (GTK paths, GStreamer plugins, SSL certificates) internally on startup. Users can double-click `dinox.exe` directly — the batch file is kept only as a legacy fallback.
+- **Windows: No terminal window**: `dinox.exe` now uses the Windows GUI subsystem (`-mwindows`), so launching it no longer opens a console window in the background.
+- **Windows: App icon in .exe**: The DinoX application icon is now embedded in `dinox.exe` via a Windows resource file, so it shows in Explorer, taskbar, and Alt+Tab.
+
 ## [0.9.8.8] - 2026-02-09
 
 ### Fixed

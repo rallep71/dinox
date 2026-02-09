@@ -103,6 +103,20 @@ jobs:
           echo "::add-matcher::.github/matchers/vala-problem-matcher.json"
           echo "::add-matcher::.github/matchers/meson-problem-matcher.json"
 
+      - name: Generate Windows icon (.ico)
+        run: |
+          echo "=== Generating dinox.ico from PNGs ==="
+          # ImageMagick's convert is available in MSYS2
+          pacman -S --noconfirm --needed mingw-w64-x86_64-imagemagick 2>/dev/null || true
+          magick \
+            main/data/icons/hicolor/16x16/apps/im.github.rallep71.DinoX.png \
+            main/data/icons/hicolor/32x32/apps/im.github.rallep71.DinoX.png \
+            main/data/icons/hicolor/48x48/apps/im.github.rallep71.DinoX.png \
+            main/data/icons/hicolor/128x128/apps/im.github.rallep71.DinoX.png \
+            main/data/icons/hicolor/256x256/apps/im.github.rallep71.DinoX.png \
+            main/data/dinox.ico
+          echo "✓ dinox.ico created ($(wc -c < main/data/dinox.ico) bytes)"
+
       - name: Configure (meson setup)
         run: |
           meson setup build \
