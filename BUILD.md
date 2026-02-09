@@ -264,9 +264,9 @@ The resulting `dist/` directory contains everything needed to run DinoX on Windo
 
 #### Windows notes
 
-- **Tor/Obfs4proxy**: Not available on Windows. DinoX connects directly without Tor.
+- **Tor/Obfs4proxy**: Bundled and fully functional on Windows. Tor and obfs4proxy bridges work out of the box.
 - **libsecret/D-Bus**: Not used on Windows. Passwords are handled differently.
-- **libcanberra**: Notification sounds use an alternative mechanism on Windows.
+- **libcanberra**: Notification sounds are only available in the Flatpak build (explicitly enabled). Disabled by default on all other platforms including Windows. See [Development Plan](DEVELOPMENT_PLAN.md) for cross-platform notification sound plans.
 - **webrtc-audio-processing**: MSYS2 provides version 0.3 and 1.x. DinoX auto-detects and uses whatever is available. Version 2.x is not yet packaged for MSYS2.
 ```
 

@@ -12,7 +12,7 @@
 
 Built for ultimate privacy with integrated Tor & Obfs4proxy, full local database encryption, and decentralized MUJI Group Video Calls
 
-[Website](https://dinox.handwerker.jetzt) • [Download](#installation) • [Features](#key-features) • [XEP Support](#xep-support) • [Changelog](CHANGELOG.md) • [Development Plan](DEVELOPMENT_PLAN.md) • [Contributing](CONTRIBUTING.md)
+[Website](https://dinox.handwerker.jetzt) • [Download](#installation) • [Features](#key-features) • [XEP Support](#xep-support) • [Build](BUILD.md) • [Debug](DEBUG.md) • [Changelog](CHANGELOG.md) • [Development Plan](DEVELOPMENT_PLAN.md) • [Contributing](CONTRIBUTING.md)
 
 </div>
 
