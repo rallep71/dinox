@@ -691,4 +691,21 @@ namespace Omemo {
     public static void setup_crypto_provider(NativeContext context);
     [CCode (cname = "signal_vala_randomize", cheader_filename = "native/helper.h")]
     public static int native_random(uint8[] data);
+
+    /* OMEMO 2 crypto primitives */
+    [CCode (cname = "omemo2_hkdf_sha256", cheader_filename = "native/helper.h")]
+    public static int omemo2_hkdf_sha256([CCode (array_length = false)] uint8[] output, size_t output_len,
+            uint8[] ikm, uint8[]? salt, uint8[]? info);
+
+    [CCode (cname = "omemo2_aes_256_cbc_pkcs7_encrypt", cheader_filename = "native/helper.h")]
+    public static int omemo2_aes_256_cbc_pkcs7_encrypt([CCode (array_length = false)] out uint8[] output, out size_t output_len,
+            uint8[] key, uint8[] iv, uint8[] plaintext);
+
+    [CCode (cname = "omemo2_aes_256_cbc_pkcs7_decrypt", cheader_filename = "native/helper.h")]
+    public static int omemo2_aes_256_cbc_pkcs7_decrypt([CCode (array_length = false)] out uint8[] output, out size_t output_len,
+            uint8[] key, uint8[] iv, uint8[] ciphertext);
+
+    [CCode (cname = "omemo2_hmac_sha256", cheader_filename = "native/helper.h")]
+    public static int omemo2_hmac_sha256([CCode (array_length = false)] uint8[] output, size_t output_len,
+            uint8[] key, uint8[] data);
 }

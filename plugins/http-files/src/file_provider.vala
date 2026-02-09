@@ -138,7 +138,7 @@ public class FileProvider : Dino.FileProvider, Object {
         } catch (Error e) {
             warning("Failed to parse URI: %s", e.message);
         }
-        head_message.accept_certificate.connect((peer_cert, errors) => { return ConnectionManager.on_invalid_certificate(transfer_host, peer_cert, errors); });
+        head_message.accept_certificate.connect((peer_cert, errors) => { return ConnectionManager.on_invalid_certificate(transfer_host, peer_cert, errors, dino_db); });
 #endif
 
 
@@ -193,7 +193,7 @@ public class FileProvider : Dino.FileProvider, Object {
         } catch (Error e) {
             warning("Failed to parse URI: %s", e.message);
         }
-        get_message.accept_certificate.connect((peer_cert, errors) => { return ConnectionManager.on_invalid_certificate(transfer_host, peer_cert, errors); });
+        get_message.accept_certificate.connect((peer_cert, errors) => { return ConnectionManager.on_invalid_certificate(transfer_host, peer_cert, errors, dino_db); });
 #endif
 
         try {

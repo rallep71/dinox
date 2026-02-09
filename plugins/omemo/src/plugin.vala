@@ -38,6 +38,8 @@ public class Plugin : RootInterface, Object {
     public TrustManager trust_manager;
     public HashMap<Account, OmemoDecryptor> decryptors = new HashMap<Account, OmemoDecryptor> (Account.hash_func, Account.equals_func);
     public HashMap<Account, OmemoEncryptor> encryptors = new HashMap<Account, OmemoEncryptor> (Account.hash_func, Account.equals_func);
+    public HashMap<Account, Omemo2Decrypt> decryptors_v2 = new HashMap<Account, Omemo2Decrypt> (Account.hash_func, Account.equals_func);
+    public HashMap<Account, Omemo2Encrypt> encryptors_v2 = new HashMap<Account, Omemo2Encrypt> (Account.hash_func, Account.equals_func);
 
     public void registered (Dino.Application app) {
         ensure_context ();
@@ -63,16 +65,22 @@ public class Plugin : RootInterface, Object {
         this.app.stream_interactor.module_manager.initialize_account_modules.connect ((account, list) => {
             Store store = Plugin.get_context ().create_store ();
             list.add (new StreamModule (store));
+            list.add (new StreamModule2 (store));
             decryptors[account] = new OmemoDecryptor (account, app.stream_interactor, trust_manager, db, store);
             list.add (decryptors[account]);
             encryptors[account] = new OmemoEncryptor (account, trust_manager, store);
             list.add (encryptors[account]);
+            decryptors_v2[account] = new Omemo2Decrypt (account, app.stream_interactor, trust_manager, db, store);
+            list.add (decryptors_v2[account]);
+            encryptors_v2[account] = new Omemo2Encrypt (account, trust_manager, store);
+            list.add (encryptors_v2[account]);
             list.add (new JetOmemo.Module ());
             list.add (new DtlsSrtpVerificationDraft.StreamModule ());
             this.own_notifications = new OwnNotifications (this, this.app.stream_interactor, account);
         });
 
         app.stream_interactor.get_module<MessageProcessor> (MessageProcessor.IDENTITY).received_pipeline.connect (new DecryptMessageListener (decryptors));
+        app.stream_interactor.get_module<MessageProcessor> (MessageProcessor.IDENTITY).received_pipeline.connect (new Omemo2DecryptMessageListener (decryptors_v2));
         app.stream_interactor.get_module<FileManager> (FileManager.IDENTITY).add_file_decryptor (new OmemoFileDecryptor ());
         app.stream_interactor.get_module<FileManager> (FileManager.IDENTITY).add_file_encryptor (new OmemoFileEncryptor ());
         JingleFileHelperRegistry.instance.add_encryption_helper (Encryption.OMEMO, new JetOmemo.EncryptionHelper (app.stream_interactor));

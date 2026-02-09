@@ -5,6 +5,14 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.9.1] - 2026-02-09
+
+### Added
+- **OMEMO 2 Support (XEP-0384 v0.8+)**: Full implementation of OMEMO 2 with backward compatibility to legacy OMEMO. Includes SCE envelope layer (XEP-0420), OMEMO 2 XML parsers, bundle/stream management for `urn:xmpp:omemo:2` namespace, and HKDF-SHA-256 / AES-256-CBC / HMAC-SHA-256 crypto primitives via libgcrypt. OMEMO 2 device lists and bundles are published and subscribed alongside legacy OMEMO. Interop testing pending (Kaidan Flatpak currently broken).
+
+### Fixed
+- **HTTP File Transfer with Self-Signed Certificates**: Fixed file upload/download failing when the XMPP server uses a self-signed certificate. Previously, only the XMPP connection checked pinned certificates — HTTP uploads (PUT), downloads (GET), metadata requests (HEAD), and sticker uploads all rejected self-signed certs even when the user had already accepted them. Now all HTTP file operations respect pinned certificates from the database.
+
 ## [0.9.9.0] - 2026-02-09
 
 ### Fixed

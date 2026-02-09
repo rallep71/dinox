@@ -706,7 +706,7 @@ public class Stickers : StreamInteractionModule, Object {
         yield ensure_http_context();
         var put_message = new Soup.Message("PUT", url_put);
 #if SOUP_3_0
-        put_message.accept_certificate.connect((peer_cert, errors) => { return ConnectionManager.on_invalid_certificate(cert_domain, peer_cert, errors); });
+        put_message.accept_certificate.connect((peer_cert, errors) => { return ConnectionManager.on_invalid_certificate(cert_domain, peer_cert, errors, db); });
         InputStream input_stream = file.read(null);
         string ct = (content_type != null && content_type != "") ? content_type : "application/octet-stream";
         put_message.set_request_body(ct, input_stream, (ssize_t) size);

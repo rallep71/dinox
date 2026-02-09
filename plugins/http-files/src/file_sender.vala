@@ -317,7 +317,7 @@ public class HttpFileSender : FileSender, Object {
         } catch (GLib.Error e) {
             warning("Failed to parse URI: %s", e.message);
         }
-        put_message.accept_certificate.connect((peer_cert, errors) => { return ConnectionManager.on_invalid_certificate(transfer_host, peer_cert, errors); });
+        put_message.accept_certificate.connect((peer_cert, errors) => { return ConnectionManager.on_invalid_certificate(transfer_host, peer_cert, errors, db); });
         put_message.set_request_body(file_meta.mime_type, upload_stream, (ssize_t) upload_size);
 #else
 

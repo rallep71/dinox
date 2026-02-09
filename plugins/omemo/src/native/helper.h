@@ -42,4 +42,24 @@ int signal_vala_decrypt(signal_buffer **output,
         void *user_data);
 void setup_signal_vala_crypto_provider(signal_context *context);
 
+/* OMEMO 2 crypto primitives */
+int omemo2_hkdf_sha256(uint8_t *output, size_t output_len,
+        const uint8_t *ikm, size_t ikm_len,
+        const uint8_t *salt, size_t salt_len,
+        const uint8_t *info, size_t info_len);
+
+int omemo2_aes_256_cbc_pkcs7_encrypt(uint8_t **output, size_t *output_len,
+        const uint8_t *key, size_t key_len,
+        const uint8_t *iv, size_t iv_len,
+        const uint8_t *plaintext, size_t plaintext_len);
+
+int omemo2_aes_256_cbc_pkcs7_decrypt(uint8_t **output, size_t *output_len,
+        const uint8_t *key, size_t key_len,
+        const uint8_t *iv, size_t iv_len,
+        const uint8_t *ciphertext, size_t ciphertext_len);
+
+int omemo2_hmac_sha256(uint8_t *output, size_t output_len,
+        const uint8_t *key, size_t key_len,
+        const uint8_t *data, size_t data_len);
+
 #endif

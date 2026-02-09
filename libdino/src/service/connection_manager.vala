@@ -451,13 +451,26 @@ public class ConnectionManager : Object {
         return false;
     }
 
-    public static bool on_invalid_certificate(string domain, TlsCertificate peer_cert, TlsCertificateFlags errors) {
+    public static bool on_invalid_certificate(string domain, TlsCertificate peer_cert, TlsCertificateFlags errors, Database? db = null) {
         if (domain.has_suffix(".onion") && errors == TlsCertificateFlags.UNKNOWN_CA) {
             // It's barely possible for .onion servers to provide a non-self-signed cert.
             // But that's fine because encryption is provided independently though TOR.
             warning("Accepting TLS certificate from unknown CA from .onion address %s", domain);
             return true;
         }
+
+        // Check if certificate is pinned (e.g. self-signed certs accepted by user for XMPP connection)
+        // This ensures HTTP file uploads/downloads work with the same pinned certs
+        if (db != null) {
+            string cert_fp = CertificateManager.get_certificate_fingerprint(peer_cert);
+            string? pinned_fp = db.pinned_certificate.get_pinned_fingerprint(domain);
+
+            if (pinned_fp != null && pinned_fp == cert_fp) {
+                debug("HTTP certificate for %s matches pinned fingerprint, accepting", domain);
+                return true;
+            }
+        }
+
         return false;
     }
 
