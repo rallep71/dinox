@@ -85,7 +85,7 @@ public class Plugin : RootInterface, Object {
         app.stream_interactor.get_module<FileManager> (FileManager.IDENTITY).add_file_encryptor (new OmemoFileEncryptor ());
         JingleFileHelperRegistry.instance.add_encryption_helper (Encryption.OMEMO, new JetOmemo.EncryptionHelper (app.stream_interactor));
 
-        Manager.start (this.app.stream_interactor, db, trust_manager, encryptors);
+        Manager.start (this.app.stream_interactor, db, trust_manager, encryptors, encryptors_v2);
 
         string locales_dir;
         if (app.search_path_generator != null) {

@@ -13,12 +13,12 @@ namespace Dino.Plugins.Omemo {
      * Encryption flow:
      * 1. Build SCE envelope with body text + from JID + random padding
      * 2. Generate random 32-byte message key (mk)
-     * 3. HKDF-SHA-256(mk, salt=32_zero_bytes, info="OMEMO Payload") → 80 bytes:
+     * 3. HKDF-SHA-256(mk, salt=32_zero_bytes, info="OMEMO Payload") -> 80 bytes:
      *    enc_key[32] | auth_key[32] | iv[16]
      * 4. ciphertext = AES-256-CBC-PKCS7(enc_key, iv, SCE_plaintext)
      * 5. auth_tag = HMAC-SHA-256(auth_key, ciphertext)[0:16]
      * 6. payload = ciphertext (in <payload>)
-     * 7. Per device: DR_encrypt(mk || auth_tag) = 48 bytes → <key rid='...'> 
+     * 7. Per device: DR_encrypt(mk || auth_tag) = 48 bytes -> <key rid='...'> 
      */
     public class Omemo2Encrypt : Xep.Omemo.Omemo2Encryptor {
 
@@ -41,8 +41,99 @@ namespace Dino.Plugins.Omemo {
         }
 
         public override Omemo2EncryptionData encrypt_plaintext(string plaintext) throws GLib.Error {
-            /* 1. Build SCE envelope */
+            return encrypt_plaintext_with_extras(plaintext, null);
+        }
+
+        /**
+         * Encrypt the full message and add to the MessageStanza.
+         * For OMEMO 2, this wraps the body AND any SFS/OOB/fallback elements
+         * inside the SCE envelope so they are encrypted end-to-end.
+         */
+        public EncryptState encrypt(MessageStanza message, Jid self_jid, Gee.List<Jid> recipients, XmppStream stream) {
+            EncryptState status = new EncryptState();
+            if (!Plugin.ensure_context()) return status;
+            if (message.to == null) return status;
+
+            try {
+                /* Collect extra nodes from the stanza that should go inside the SCE envelope */
+                var extra_nodes = new Gee.ArrayList<StanzaNode>();
+                var nodes_to_remove = new Gee.ArrayList<StanzaNode>();
+                // Namespaces of content that belongs inside the SCE envelope
+                string[] sce_ns = {
+                    "urn:xmpp:sfs:0",            // XEP-0447 Stateless File Sharing
+                    "jabber:x:oob",               // XEP-0066 Out of Band Data
+                    "urn:xmpp:fallback:0",         // XEP-0428 Fallback Indication
+                    "urn:xmpp:receipts",           // XEP-0184 Message Delivery Receipts
+                    "urn:xmpp:chat-markers:0",     // XEP-0333 Chat Markers
+                    "urn:xmpp:bob"                 // XEP-0231 Bits of Binary (thumbnails)
+                };
+                foreach (StanzaNode child in message.stanza.get_all_subnodes()) {
+                    foreach (string ns in sce_ns) {
+                        if (child.ns_uri == ns) {
+                            extra_nodes.add(child);
+                            nodes_to_remove.add(child);
+                            break;
+                        }
+                    }
+                }
+
+                /* Determine SCE body text.
+                 * If the message contains SFS nodes, omit the body entirely
+                 * (the URL would otherwise appear as text below the file in
+                 * clients like Kaidan). */
+                bool has_sfs = false;
+                foreach (StanzaNode en in extra_nodes) {
+                    if (en.ns_uri == "urn:xmpp:sfs:0") { has_sfs = true; break; }
+                }
+                string? body_text = has_sfs ? null : message.body;
+                if (body_text != null && body_text.has_prefix("aesgcm://")) {
+                    string stripped = "https://" + body_text.substring("aesgcm://".length);
+                    int frag = stripped.index_of("#");
+                    if (frag >= 0) stripped = stripped.substring(0, frag);
+                    body_text = stripped;
+                }
+
+                Omemo2EncryptionData enc_data = encrypt_plaintext_with_extras(body_text, extra_nodes);
+
+                debug("OMEMO 2 encrypt: body='%s' extra_nodes=%d", 
+                      body_text != null && body_text.length > 80 ? body_text.substring(0, 80) + "..." : body_text ?? "(null)",
+                      extra_nodes.size);
+                foreach (StanzaNode en in extra_nodes) {
+                    debug("OMEMO 2 encrypt: extra node <%s xmlns='%s'>", en.name, en.ns_uri ?? "(null)");
+                }
+
+                status = encrypt_key_to_recipients(enc_data, self_jid, recipients, stream);
+
+                /* Remove the collected nodes from the cleartext stanza */
+                foreach (StanzaNode node in nodes_to_remove) {
+                    message.stanza.sub_nodes.remove(node);
+                }
+
+                message.stanza.put_node(enc_data.get_encrypted_node());
+                Xep.ExplicitEncryption.add_encryption_tag_to_message(message, NS_URI_V2, "OMEMO");
+                message.body = "[This message is OMEMO encrypted]";
+                status.encrypted = true;
+            } catch (Error e) {
+                warning("OMEMO 2: Error while encrypting message: %s", e.message);
+                message.body = "[OMEMO encryption failed]";
+                status.encrypted = false;
+            }
+            return status;
+        }
+
+        /**
+         * Build and encrypt an SCE envelope with body text and extra content nodes.
+         */
+        public Omemo2EncryptionData encrypt_plaintext_with_extras(string? plaintext, Gee.List<StanzaNode>? extra_content_nodes = null) throws GLib.Error {
+            /* 1. Build SCE envelope with body + extra nodes */
             Xep.Sce.Envelope envelope = Xep.Sce.build_message_envelope(plaintext, account.bare_jid);
+
+            if (extra_content_nodes != null) {
+                foreach (StanzaNode node in extra_content_nodes) {
+                    envelope.add_content_node(node);
+                }
+            }
+
             uint8[] sce_bytes = envelope.to_xml();
 
             /* 2. Generate message key */
@@ -84,30 +175,6 @@ namespace Dino.Plugins.Omemo {
             ret.ciphertext = ciphertext;
             ret.message_key = mk_with_tag;  /* 48 bytes: mk || auth_tag */
             return ret;
-        }
-
-        /**
-         * Encrypt the full message and add to the MessageStanza.
-         */
-        public EncryptState encrypt(MessageStanza message, Jid self_jid, Gee.List<Jid> recipients, XmppStream stream) {
-            EncryptState status = new EncryptState();
-            if (!Plugin.ensure_context()) return status;
-            if (message.to == null) return status;
-
-            try {
-                Omemo2EncryptionData enc_data = encrypt_plaintext(message.body);
-                status = encrypt_key_to_recipients(enc_data, self_jid, recipients, stream);
-
-                message.stanza.put_node(enc_data.get_encrypted_node());
-                Xep.ExplicitEncryption.add_encryption_tag_to_message(message, NS_URI_V2, "OMEMO");
-                message.body = "[This message is OMEMO encrypted]";
-                status.encrypted = true;
-            } catch (Error e) {
-                warning("OMEMO 2: Error while encrypting message: %s", e.message);
-                message.body = "[OMEMO encryption failed]";
-                status.encrypted = false;
-            }
-            return status;
         }
 
         internal EncryptState encrypt_key_to_recipients(Omemo2EncryptionData enc_data, Jid self_jid, Gee.List<Jid> recipients, XmppStream stream) throws Error {
@@ -166,6 +233,7 @@ namespace Dino.Plugins.Omemo {
         public override void encrypt_key(Omemo2EncryptionData encryption_data, Jid jid, int32 device_id) throws GLib.Error {
             Address address = new Address(jid.bare_jid.to_string(), device_id);
             SessionCipher cipher = store.create_session_cipher(address);
+            cipher.version = 4; // OMEMO 2 requires protocol version 4
             CiphertextMessage device_key = cipher.encrypt(encryption_data.message_key);
             address.device_id = 0;
             debug("OMEMO 2: Created encrypted key for %s/%d", jid.bare_jid.to_string(), device_id);

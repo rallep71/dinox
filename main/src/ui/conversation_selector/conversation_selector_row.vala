@@ -262,6 +262,7 @@ public class ConversationSelectorRow : ListBoxRow {
                 case FileItem.TYPE:
                     FileItem file_item = last_content_item as FileItem;
                     FileTransfer transfer = file_item.file_transfer;
+                    if (transfer == null) break;
 
                     if (conversation.type_ == Conversation.Type.GROUPCHAT) {
                         // TODO properly display nick for oneself

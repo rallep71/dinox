@@ -72,9 +72,9 @@ fi
 if grep -q "## \[Unreleased\]" CHANGELOG.md; then
     TODAY=$(date +%Y-%m-%d)
     sed -i "s/## \[Unreleased\]/## [Unreleased]\n\n## [$VERSION] - $TODAY/" CHANGELOG.md
-    echo -e "${GREEN}✓${NC} Updated CHANGELOG.md"
+    echo -e "${GREEN}[OK]${NC} Updated CHANGELOG.md"
 else
-    echo -e "${YELLOW}⚠${NC} No [Unreleased] section in CHANGELOG.md"
+    echo -e "${YELLOW}[WARN]${NC} No [Unreleased] section in CHANGELOG.md"
 fi
 
 # Commit changelog update
@@ -84,13 +84,13 @@ git commit -m "chore: Release version $VERSION
 Release: DinoX v$VERSION
 
 See CHANGELOG.md for full details."
-echo -e "${GREEN}✓${NC} Committed version bump"
+echo -e "${GREEN}[OK]${NC} Committed version bump"
 
 # Create annotated tag
 git tag -a "$TAG" -m "Release DinoX v$VERSION
 
 See CHANGELOG.md for details."
-echo -e "${GREEN}✓${NC} Created tag $TAG"
+echo -e "${GREEN}[OK]${NC} Created tag $TAG"
 
 # Show what will be pushed
 echo ""
@@ -111,11 +111,11 @@ echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     # Push commit
     git push origin "$CURRENT_BRANCH"
-    echo -e "${GREEN}✓${NC} Pushed commit"
+    echo -e "${GREEN}[OK]${NC} Pushed commit"
     
     # Push tag
     git push origin "$TAG"
-    echo -e "${GREEN}✓${NC} Pushed tag"
+    echo -e "${GREEN}[OK]${NC} Pushed tag"
     
     echo ""
     echo -e "${GREEN}======================================${NC}"

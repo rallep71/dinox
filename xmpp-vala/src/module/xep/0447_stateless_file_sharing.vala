@@ -54,15 +54,45 @@ namespace Xmpp.Xep.StatelessFileSharing {
         return false;
     }
 
-    // Currently only returns a single http source
+    // Parses <sources> node for both plain HTTP and ESFS encrypted sources (XEP-0448)
     private static Gee.List<Source>? get_sources(StanzaNode sources_node) {
-        string? url = HttpSchemeForUrlData.get_url(sources_node);
-        if (url == null) return null;
-
-        var http_source = new HttpSource() { url=url };
         var sources = new Gee.ArrayList<Source>();
-        sources.add(http_source);
 
+        // Check for direct <url-data> (unencrypted)
+        string? url = HttpSchemeForUrlData.get_url(sources_node);
+        if (url != null) {
+            sources.add(new HttpSource() { url=url });
+        }
+
+        // Check for ESFS encrypted sources (XEP-0448)
+        StanzaNode? encrypted_node = sources_node.get_subnode("encrypted", EsfsHttpSource.NS_URI);
+        if (encrypted_node != null) {
+            string? cipher = encrypted_node.get_attribute("cipher");
+            string? key_str = null;
+            string? iv_str = null;
+
+            StanzaNode? key_node = encrypted_node.get_subnode("key", EsfsHttpSource.NS_URI);
+            if (key_node != null) key_str = key_node.get_string_content();
+
+            StanzaNode? iv_node = encrypted_node.get_subnode("iv", EsfsHttpSource.NS_URI);
+            if (iv_node != null) iv_str = iv_node.get_string_content();
+
+            // Get inner <sources> containing the actual download URL
+            StanzaNode? inner_sources_node = encrypted_node.get_subnode("sources", NS_URI);
+            if (inner_sources_node != null) {
+                string? inner_url = HttpSchemeForUrlData.get_url(inner_sources_node);
+                if (inner_url != null && key_str != null && iv_str != null) {
+                    var esfs = new EsfsHttpSource();
+                    esfs.url = inner_url;
+                    esfs.key = Base64.decode(key_str.strip());
+                    esfs.iv = Base64.decode(iv_str.strip());
+                    esfs.cipher_uri = cipher ?? "";
+                    sources.add(esfs);
+                }
+            }
+        }
+
+        if (sources.is_empty) return null;
         return sources;
     }
 
@@ -73,10 +103,30 @@ namespace Xmpp.Xep.StatelessFileSharing {
             file_sharing_node.put_attribute("id", file_sharing_id, NS_URI);
         }
         if (sources != null && !sources.is_empty) {
-            file_sharing_node.put_node(create_sources_node(file_sharing_id, sources));
-        }
-        if (encryption != null) {
-            file_sharing_node.put_node(encryption.to_stanza_node());
+            if (encryption != null) {
+                // XEP-0448: Wrap sources inside <encrypted> inside <sources>
+                var outer_sources = new StanzaNode.build("sources", NS_URI);
+                var encrypted_node = new StanzaNode.build("encrypted", EncryptionData.NS_URI).add_self_xmlns();
+                if (encryption.cipher_uri != null && encryption.cipher_uri != "") {
+                    encrypted_node.put_attribute("cipher", encryption.cipher_uri);
+                }
+                var key_node = new StanzaNode.build("key", EncryptionData.NS_URI);
+                key_node.put_node(new StanzaNode.text(Base64.encode(encryption.key)));
+                encrypted_node.put_node(key_node);
+                var iv_node = new StanzaNode.build("iv", EncryptionData.NS_URI);
+                iv_node.put_node(new StanzaNode.text(Base64.encode(encryption.iv)));
+                encrypted_node.put_node(iv_node);
+                // Inner <sources> with the actual URL(s)
+                var inner_sources = new StanzaNode.build("sources", NS_URI).add_self_xmlns();
+                foreach (var source in sources) {
+                    inner_sources.put_node(source.to_stanza_node());
+                }
+                encrypted_node.put_node(inner_sources);
+                outer_sources.put_node(encrypted_node);
+                file_sharing_node.put_node(outer_sources);
+            } else {
+                file_sharing_node.put_node(create_sources_node(file_sharing_id, sources));
+            }
         }
         message.stanza.put_node(file_sharing_node);
     }
@@ -85,18 +135,7 @@ namespace Xmpp.Xep.StatelessFileSharing {
         public const string NS_URI = "urn:xmpp:esfs:0";
         public uint8[] key;
         public uint8[] iv;
-
-        public StanzaNode to_stanza_node() {
-            var node = new StanzaNode.build("encryption", NS_URI).add_self_xmlns();
-            var key_node = new StanzaNode.build("key", NS_URI);
-            key_node.put_node(new StanzaNode.text(Base64.encode(key)));
-            node.put_node(key_node);
-            
-            var iv_node = new StanzaNode.build("iv", NS_URI);
-            iv_node.put_node(new StanzaNode.text(Base64.encode(iv)));
-            node.put_node(iv_node);
-            return node;
-        }
+        public string? cipher_uri;
     }
 
     public static void set_sfs_attachment(MessageStanza message, string attach_to_id, string attach_to_file_id, Gee.List<Xep.StatelessFileSharing.Source> sources) {
@@ -150,6 +189,32 @@ namespace Xmpp.Xep.StatelessFileSharing {
             HttpSource? http_source = source as HttpSource;
             if (http_source == null) return false;
             return http_source.url == this.url;
+        }
+    }
+
+    /**
+     * ESFS (XEP-0448) encrypted HTTP source.
+     * Carries the download URL plus encryption key/iv/cipher for file decryption.
+     */
+    public class EsfsHttpSource : Object, Source {
+        public const string NS_URI = "urn:xmpp:esfs:0";
+        public string url { get; set; }
+        public uint8[] key { get; set; }
+        public uint8[] iv { get; set; }
+        public string cipher_uri { get; set; default = ""; }
+
+        public string type() {
+            return "esfs";
+        }
+
+        public StanzaNode to_stanza_node() {
+            return HttpSchemeForUrlData.to_stanza_node(url);
+        }
+
+        public bool equals(Source source) {
+            EsfsHttpSource? other = source as EsfsHttpSource;
+            if (other == null) return false;
+            return other.url == this.url;
         }
     }
 }

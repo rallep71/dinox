@@ -19,41 +19,41 @@ public class UserSearch : Object {
         
         // 0. Check server features first
         try {
-            print("DEBUG: Requesting disco info from %s\n", account.domainpart);
+            debug("Requesting disco info from %s", account.domainpart);
             var info = yield disco_module.request_info(stream, new Jid(account.domainpart));
             if (info != null) {
-                print("DEBUG: Server features: %s\n", string.joinv(", ", info.features.to_array()));
+                debug("Server features: %s", string.joinv(", ", info.features.to_array()));
                 if (info.features.contains(Xmpp.Xep.Search.NS_URI)) {
-                    print("DEBUG: Server %s supports search directly\n", account.domainpart);
+                    debug("Server %s supports search directly", account.domainpart);
                     return new Jid(account.domainpart);
                 }
             }
         } catch (Error e) {
-            print("DEBUG: Error checking server info: %s\n", e.message);
+            debug("Error checking server info: %s", e.message);
         }
 
         // 1. Check server items
         try {
-            print("DEBUG: Requesting disco items from %s\n", account.domainpart);
+            debug("Requesting disco items from %s", account.domainpart);
             var items = yield disco_module.request_items(stream, new Jid(account.domainpart));
             if (items == null) {
-                print("DEBUG: No items returned from %s\n", account.domainpart);
+                debug("No items returned from %s", account.domainpart);
                 return null;
             }
 
             foreach (var item in items.items) {
-                print("DEBUG: Checking item %s\n", item.jid.to_string());
+                debug("Checking item %s", item.jid.to_string());
                 // 2. Check features of each item
                 var info = yield disco_module.request_info(stream, item.jid);
                 if (info != null) {
                     if (info.features.contains(Xmpp.Xep.Search.NS_URI)) {
-                        print("DEBUG: Found search component: %s\n", item.jid.to_string());
+                        debug("Found search component: %s", item.jid.to_string());
                         return item.jid;
                     } else {
-                        print("DEBUG: Item %s does not have search feature\n", item.jid.to_string());
+                        debug("Item %s does not have search feature", item.jid.to_string());
                     }
                 } else {
-                    print("DEBUG: Could not get info for item %s\n", item.jid.to_string());
+                    debug("Could not get info for item %s", item.jid.to_string());
                 }
             }
         } catch (Error e) {

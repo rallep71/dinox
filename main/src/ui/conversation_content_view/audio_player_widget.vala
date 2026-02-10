@@ -34,7 +34,7 @@ public class AudioFileMetaItem : FileMetaItem {
 }
 
 public class AudioPlayerWidget : Box {
-    private FileTransfer file_transfer;
+    private FileTransfer? file_transfer;
     private Button play_button;
     private Scale progress_scale;
     private Label time_label;
@@ -285,6 +285,7 @@ public class AudioPlayerWidget : Box {
     
     public override void dispose() {
         stop();
+        file_transfer = null;
         if (temp_play_file != null) {
             try {
                 temp_play_file.delete(null);

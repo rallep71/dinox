@@ -71,7 +71,11 @@ public class VideoPlayerWidget : Widget {
     private Gtk.Box overlay_toolbar = new Gtk.Box(Orientation.VERTICAL, 0) { halign=Align.START, valign=Align.START, margin_top=10, margin_start=10, margin_end=10, margin_bottom=10, vexpand=false, visible=false };
     private Label file_size_label = new Label(null) { halign=Align.START, valign=Align.END, margin_bottom=4, margin_start=4, visible=false };
 
-    private FileTransfer file_transfer;
+    private FileTransfer? file_transfer;
+    private Binding? ft_state_binding = null;
+    private Binding? ft_size_binding1 = null;
+    private Binding? ft_size_binding2 = null;
+    private Binding? ft_bytes_binding = null;
     private Gtk.Picture? video_picture = null;
     private Gtk.MediaFile? media_file = null;
     private Gtk.Widget? video_container = null;
@@ -174,12 +178,12 @@ public class VideoPlayerWidget : Widget {
 
         update_widget.begin();
 
-        file_transfer.bind_property("state", this, "file-transfer-state");
+        ft_state_binding = file_transfer.bind_property("state", this, "file-transfer-state");
         this.notify["file-transfer-state"].connect(update_widget);
         
-        this.file_transfer.bind_property("size", file_size_label, "label", BindingFlags.SYNC_CREATE, file_size_label_transform);
-        this.file_transfer.bind_property("size", transmission_progress, "file-size", BindingFlags.SYNC_CREATE);
-        this.file_transfer.bind_property("transferred-bytes", transmission_progress, "transferred-size", BindingFlags.SYNC_CREATE);
+        ft_size_binding1 = this.file_transfer.bind_property("size", file_size_label, "label", BindingFlags.SYNC_CREATE, file_size_label_transform);
+        ft_size_binding2 = this.file_transfer.bind_property("size", transmission_progress, "file-size", BindingFlags.SYNC_CREATE);
+        ft_bytes_binding = this.file_transfer.bind_property("transferred-bytes", transmission_progress, "transferred-size", BindingFlags.SYNC_CREATE);
     }
 
     public FileTransfer.State file_transfer_state { get; set; }
@@ -201,7 +205,8 @@ public class VideoPlayerWidget : Widget {
 
     private void on_motion_event_enter() {
         overlay_toolbar.visible = show_overlay_toolbar;
-        file_size_label.visible = file_transfer != null && file_transfer.direction == FileTransfer.DIRECTION_RECEIVED && file_transfer.state == FileTransfer.State.NOT_STARTED && !file_transfer.sfs_sources.is_empty;
+        if (file_transfer == null) return;
+        file_size_label.visible = file_transfer.direction == FileTransfer.DIRECTION_RECEIVED && file_transfer.state == FileTransfer.State.NOT_STARTED && !file_transfer.sfs_sources.is_empty;
     }
 
     private bool file_size_label_transform(Binding binding, GLib.Value source_value, ref GLib.Value target_value) {
@@ -211,6 +216,7 @@ public class VideoPlayerWidget : Widget {
     }
 
     private async void update_widget() {
+        if (file_transfer == null) return;
         debug("VideoPlayerWidget: update_widget state=%s", file_transfer.state.to_string());
         if (file_transfer.state == FileTransfer.State.COMPLETE) {
             if (state != State.VIDEO) {
@@ -273,6 +279,7 @@ public class VideoPlayerWidget : Widget {
 
     private void try_lazy_preview_init() {
         if (preview_initialized || preview_generating) return;
+        if (file_transfer == null) return;
         if (file_transfer.state != FileTransfer.State.COMPLETE) return;
         if (!this.get_mapped()) return;
 
@@ -522,6 +529,13 @@ public class VideoPlayerWidget : Widget {
     }
 
     public override void dispose() {
+        // Unbind all file_transfer property bindings
+        if (ft_state_binding != null) { ft_state_binding.unbind(); ft_state_binding = null; }
+        if (ft_size_binding1 != null) { ft_size_binding1.unbind(); ft_size_binding1 = null; }
+        if (ft_size_binding2 != null) { ft_size_binding2.unbind(); ft_size_binding2 = null; }
+        if (ft_bytes_binding != null) { ft_bytes_binding.unbind(); ft_bytes_binding = null; }
+        file_transfer = null;
+
         disconnect_scroll_watch();
         if (media_file != null) {
             media_file.set_playing(false);

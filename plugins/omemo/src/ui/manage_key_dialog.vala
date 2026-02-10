@@ -125,20 +125,25 @@ public class ManageKeyDialog : Gtk.Window {
         reject_row.set_child(make_action_box(_("Reject key"), _("Block encrypted communication with the contact's device that uses this key.")));
         ListBoxRow accept_row = new ListBoxRow() {visible = true };
         accept_row.set_child(make_action_box(_("Accept key"), _("Allow encrypted communication with the contact's device that uses this key.")));
+        ListBoxRow remove_row = new ListBoxRow() { visible = true };
+        remove_row.set_child(make_action_box(_("Remove device"), _("Delete this device's key and session data. Use this for old or inactive devices.")));
 
         switch((TrustLevel) device[db.identity_meta.trust_level]) {
             case TrustLevel.TRUSTED:
                 main_desc_label.set_markup(_("This key is currently %s.").printf("<span color='#1A63D9'>"+_("accepted")+"</span>")+" "+_("This means it can be used by %s to receive and send encrypted messages.").printf(@"<b>$(Markup.escape_text(device[db.identity_meta.address_name]))</b>"));
                 main_action_list.append(verify_row);
                 main_action_list.append(reject_row);
+                main_action_list.append(remove_row);
                 break;
             case TrustLevel.VERIFIED:
                 main_desc_label.set_markup(_("This key is currently %s.").printf("<span color='#1A63D9'>"+_("verified")+"</span>")+" "+_("This means it can be used by %s to receive and send encrypted messages.").printf(@"<b>$(Markup.escape_text(device[db.identity_meta.address_name]))</b>") + " " + _("Additionally it has been verified to match the key on the contact's device."));
                 main_action_list.append(reject_row);
+                main_action_list.append(remove_row);
                 break;
             case TrustLevel.UNTRUSTED:
                 main_desc_label.set_markup(_("This key is currently %s.").printf("<span color='#D91900'>"+_("rejected")+"</span>")+" "+_("This means it cannot be used by %s to decipher your messages, and you won't see messages encrypted with it.").printf(@"<b>$(Markup.escape_text(device[db.identity_meta.address_name]))</b>"));
                 main_action_list.append(accept_row);
+                main_action_list.append(remove_row);
                 break;
             default:
                 break;
@@ -164,6 +169,14 @@ public class ManageKeyDialog : Gtk.Window {
                 ok_button.sensitive = true;
                 return_to_main = true;
                 current_response = TrustLevel.TRUSTED;
+            } else if (row == remove_row) {
+                confirm_image.set_from_icon_name("user-trash-symbolic");
+                confirm_title_label.label = _("Remove device");
+                confirm_desc_label.set_markup(_("The key and session data for this device of %s will be deleted. If the device is still active, it will re-appear when a new message is received.").printf(@"<b>$(Markup.escape_text(device[db.identity_meta.address_name]))</b>"));
+                manage_stack.set_visible_child_name("confirm");
+                ok_button.sensitive = true;
+                return_to_main = true;
+                current_response = -1;
             }
             cancel_button.label = _("Back");
         });

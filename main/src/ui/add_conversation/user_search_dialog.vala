@@ -220,7 +220,7 @@ public class UserSearchDialog : Adw.Dialog {
         var timeout = new TimeoutSource(5000); // 5 seconds timeout for the first attempt
         timeout.set_callback(() => {
             timed_out = true;
-            print("DEBUG: Primary search timed out, triggering fallback immediately.\n");
+            debug("Primary search timed out, triggering fallback immediately.");
             do_fallback_search.begin(form);
             return false;
         });
@@ -230,14 +230,14 @@ public class UserSearchDialog : Adw.Dialog {
         
         if (timed_out) {
             // If timeout already fired, we ignore this result (or we could merge it, but let's keep it simple)
-            print("DEBUG: Primary search returned after timeout, ignoring.\n");
+            debug("Primary search returned after timeout, ignoring.");
             return;
         }
         timeout.destroy();
 
         // If results are null (error) or empty, and we haven't tried the main server yet
         if ((results == null || results.size == 0) && search_component_jid.to_string() != account.domainpart) {
-             print("DEBUG: Search on component failed or empty, trying server directly: %s\n", account.domainpart);
+             debug("Search on component failed or empty, trying server directly: %s", account.domainpart);
              yield do_fallback_search(form);
              return;
         }
@@ -258,7 +258,7 @@ public class UserSearchDialog : Adw.Dialog {
          var fallback_timeout = new TimeoutSource(25000); // Increased to 25s
          fallback_timeout.set_callback(() => {
             timed_out = true;
-            print("DEBUG: Fallback search timed out.\n");
+            debug("Fallback search timed out.");
             spinner.stop();
             search_button.sensitive = true;
             var label = new Label(_("Fallback search request timed out."));
@@ -271,7 +271,7 @@ public class UserSearchDialog : Adw.Dialog {
          var results = yield user_search.perform_search(account, server_jid, form, true);
          
          if (timed_out) {
-             print("DEBUG: Fallback search returned after timeout, ignoring.\n");
+             debug("Fallback search returned after timeout, ignoring.");
              return;
          }
          fallback_timeout.destroy();

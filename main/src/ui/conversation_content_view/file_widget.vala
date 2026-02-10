@@ -55,13 +55,15 @@ public class FileWidget : SizeRequestBin {
         DEFAULT
     }
 
-    private FileTransfer file_transfer;
+    private FileTransfer? file_transfer;
     public FileTransfer.State file_transfer_state { get; set; }
     public string file_transfer_mime_type { get; set; }
     private State? state = null;
 
     private FileDefaultWidgetController default_widget_controller;
     private Widget? content = null;
+    private Binding? state_binding = null;
+    private Binding? mime_binding = null;
 
     public signal void open_file();
     public signal void save_file_as();
@@ -80,8 +82,10 @@ public class FileWidget : SizeRequestBin {
         size_request_mode = SizeRequestMode.HEIGHT_FOR_WIDTH;
     }
 
-    public FileWidget(FileTransfer file_transfer) {
+    public FileWidget(FileTransfer? file_transfer) {
         this.file_transfer = file_transfer;
+
+        if (file_transfer == null) return;
 
         update_widget.begin();
 //        size_allocate.connect((allocation) => {
@@ -90,14 +94,15 @@ public class FileWidget : SizeRequestBin {
 //            }
 //        });
 
-        file_transfer.bind_property("state", this, "file-transfer-state");
-        file_transfer.bind_property("mime-type", this, "file-transfer-mime-type");
+        state_binding = file_transfer.bind_property("state", this, "file-transfer-state");
+        mime_binding = file_transfer.bind_property("mime-type", this, "file-transfer-mime-type");
 
         this.notify["file-transfer-state"].connect(update_widget);
         this.notify["file-transfer-mime-type"].connect(update_widget);
     }
 
     private async void update_widget() {
+        if (file_transfer == null) return;
         bool show_image = FileImageWidget.can_display(file_transfer);
 
         if (show_image && state != State.IMAGE) {
@@ -129,8 +134,11 @@ public class FileWidget : SizeRequestBin {
     }
 
     public override void dispose() {
+        if (state_binding != null) { state_binding.unbind(); state_binding = null; }
+        if (mime_binding != null) { mime_binding.unbind(); mime_binding = null; }
         if (default_widget_controller != null) default_widget_controller.dispose();
         default_widget_controller = null;
+        file_transfer = null;
         if (content != null) {
             content.unparent();
             content.dispose();
@@ -257,6 +265,9 @@ public class FileDefaultWidgetController : Object {
     public int64 file_transfer_transferred_bytes { get; set; }
 
     private FileTransfer.State state;
+    private Binding? state_binding2 = null;
+    private Binding? mime_binding2 = null;
+    private Binding? bytes_binding2 = null;
 
     public FileDefaultWidgetController(FileDefaultWidget widget) {
         this.widget = widget;
@@ -268,15 +279,16 @@ public class FileDefaultWidgetController : Object {
         this.notify["file-transfer-transferred-bytes"].connect(update_file_info);
     }
 
-    public void set_file_transfer(FileTransfer file_transfer) {
+    public void set_file_transfer(FileTransfer? file_transfer) {
         this.file_transfer = file_transfer;
+        if (file_transfer == null) return;
 
         widget.init_updating_file_info();
         widget.name_label.label = file_transfer.file_name;
 
-        file_transfer.bind_property("state", this, "file-transfer-state");
-        file_transfer.bind_property("mime-type", this, "file-transfer-mime-type");
-        file_transfer.bind_property("transferred-bytes", this, "file-transfer-transferred-bytes");
+        state_binding2 = file_transfer.bind_property("state", this, "file-transfer-state");
+        mime_binding2 = file_transfer.bind_property("mime-type", this, "file-transfer-mime-type");
+        bytes_binding2 = file_transfer.bind_property("transferred-bytes", this, "file-transfer-transferred-bytes");
 
         update_file_info();
     }
@@ -299,6 +311,13 @@ public class FileDefaultWidgetController : Object {
                 // Clicking doesn't do anything in FAILED and IN_PROGRESS states
                 break;
         }
+    }
+
+    public new void dispose() {
+        if (state_binding2 != null) { state_binding2.unbind(); state_binding2 = null; }
+        if (mime_binding2 != null) { mime_binding2.unbind(); mime_binding2 = null; }
+        if (bytes_binding2 != null) { bytes_binding2.unbind(); bytes_binding2 = null; }
+        file_transfer = null;
     }
 }
 
