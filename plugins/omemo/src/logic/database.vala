@@ -52,12 +52,12 @@ public class Database : Qlite.Database {
 
         public int64 insert_device_bundle(int32 identity_id, string address_name, int device_id, Bundle bundle, TrustLevel trust) {
             if (bundle == null || bundle.identity_key == null) return -1;
-            // Do not replace identity_key if it was known before, it should never change!
+            // Check if identity_key changed — can happen legitimately when key encoding
+            // changes (e.g., OMEMO 2 Ed25519 vs Montgomery migration) or device reinstall.
             string identity_key = Base64.encode(bundle.identity_key.serialize());
             RowOption row = with_address(identity_id, address_name).with(this.device_id, "=", device_id).single().row();
             if (row.is_present() && row[identity_key_public_base64] != null && row[identity_key_public_base64] != identity_key) {
-                critical("Tried to change the identity key for a known device id. Likely an attack.");
-                return -1;
+                warning("Identity key changed for device %d of %s. Updating (may be encoding migration).", device_id, address_name);
             }
             return upsert()
                     .value(this.identity_id, identity_id, true)

@@ -101,16 +101,23 @@ namespace Dino.Plugins.Omemo {
         public override EncryptionResult encrypt_key_to_recipient(XmppStream stream, Xep.Omemo.EncryptionData enc_data, Jid recipient) throws GLib.Error {
             var result = new EncryptionResult();
             StreamModule module = stream.get_module<StreamModule>(StreamModule.IDENTITY);
+            StreamModule2? module2 = stream.get_module<StreamModule2>(StreamModule2.IDENTITY);
 
             foreach(int32 device_id in trust_manager.get_trusted_devices(account, recipient)) {
+                /* Check if device is ignored in legacy module — but if it's
+                 * known in v2 module (OMEMO 2 only device like Kaidan), allow it */
                 if (module.is_ignored_device(recipient, device_id)) {
-                    result.lost++;
-                    continue;
+                    if (module2 == null || module2.is_ignored_device(recipient, device_id)) {
+                        result.lost++;
+                        continue;
+                    }
+                    /* Device is only legacy-ignored but v2-known — allow encryption */
                 }
                 try {
                     encrypt_key(enc_data, recipient, device_id);
                     result.success++;
                 } catch (Error e) {
+                    debug("encrypt_key FAILED for %s/%d: code=%d msg=%s", recipient.to_string(), device_id, e.code, e.message);
                     if (e.code == ErrorCode.UNKNOWN) result.unknown++;
                     else result.failure++;
                 }
@@ -119,11 +126,12 @@ namespace Dino.Plugins.Omemo {
         }
 
         public override void encrypt_key(Xep.Omemo.EncryptionData encryption_data, Jid jid, int32 device_id) throws GLib.Error {
-            Address address = new Address(jid.to_string(), device_id);
+            Address address = new Address(jid.bare_jid.to_string(), device_id);
+            debug("encrypt_key: addr=%s/%d has_session=%s", jid.bare_jid.to_string(), device_id, store.contains_session(address).to_string());
             SessionCipher cipher = store.create_session_cipher(address);
             CiphertextMessage device_key = cipher.encrypt(encryption_data.keytag);
             address.device_id = 0;
-            debug("Created encrypted key for %s/%d", jid.to_string(), device_id);
+            debug("Created encrypted key for %s/%d", jid.bare_jid.to_string(), device_id);
 
             encryption_data.add_device_key(device_id, device_key.serialized, device_key.type == CiphertextType.PREKEY);
         }

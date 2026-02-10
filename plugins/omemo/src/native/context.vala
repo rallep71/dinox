@@ -57,6 +57,17 @@ public class Context {
         return public_key;
     }
 
+    /**
+     * Decode a bare 32-byte X25519 (Montgomery) public key.
+     * Used for OMEMO 2 bundle keys which are X25519, not Ed25519.
+     * curve_decode_point() auto-detects 32-byte keys as Ed25519 which is wrong for OMEMO 2.
+     */
+    public ECPublicKey decode_public_key_mont(uint8[] bytes) throws Error {
+        ECPublicKey public_key;
+        throw_by_code(curve_decode_point_mont(out public_key, bytes, native_context), "Error decoding public key (mont)");
+        return public_key;
+    }
+
     public ECPrivateKey decode_private_key(uint8[] bytes) throws Error {
         ECPrivateKey private_key;
         throw_by_code(curve_decode_private_point(out private_key, bytes, native_context), "Error decoding private key");

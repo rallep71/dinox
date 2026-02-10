@@ -40,7 +40,7 @@ public class Bundle2 {
     }}
 
     /**
-     * Get signed pre-key (bare 32-byte X25519 key → decoded via curve_decode_point).
+     * Get signed pre-key (bare 32-byte X25519 Montgomery key).
      */
     public ECPublicKey? signed_pre_key { owned get {
         if (node == null) return null;
@@ -49,7 +49,7 @@ public class Bundle2 {
         string? key = spk_node.get_string_content();
         if (key == null) return null;
         try {
-            return Plugin.get_context().decode_public_key(Base64.decode((!)key));
+            return Plugin.get_context().decode_public_key_mont(Base64.decode((!)key));
         } catch (Error e) {
             warning("Bundle2: Failed to decode signed pre-key: %s", e.message);
             return null;
@@ -69,7 +69,10 @@ public class Bundle2 {
     }}
 
     /**
-     * Get identity key (bare 32-byte X25519 key).
+     * Get identity key (bare 32-byte Ed25519 key).
+     * OMEMO 2 bundles carry IK as Ed25519 (ec_public_key_get_ed()),
+     * NOT Montgomery. curve_decode_point with 32 bytes → curve_decode_point_ed
+     * → stores ed_data (for sig verify) + converts to Montgomery in data (for DH).
      */
     public ECPublicKey? identity_key { owned get {
         if (node == null) return null;
@@ -116,7 +119,7 @@ public class Bundle2 {
             string? key_str = node.get_string_content();
             if (key_str == null) return null;
             try {
-                return Plugin.get_context().decode_public_key(Base64.decode((!)key_str));
+                return Plugin.get_context().decode_public_key_mont(Base64.decode((!)key_str));
             } catch (Error e) {
                 warning("Bundle2.PreKey2: Failed to decode pre-key: %s", e.message);
                 return null;

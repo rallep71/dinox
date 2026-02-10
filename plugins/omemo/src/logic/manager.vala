@@ -345,18 +345,46 @@ public class Manager : StreamInteractionModule, Object {
         //Update meta database
         db.identity_meta.insert_device_list(identity_id, jid.bare_jid.to_string(), device_list);
 
-        //Fetch the bundle for each new device
+        //Fetch the bundle for each new device (try both legacy and OMEMO 2)
+        StreamModule2? module2 = ((!)stream).get_module<StreamModule2>(StreamModule2.IDENTITY);
         int inc = 0;
         foreach (Row row in db.identity_meta.get_unknown_devices(identity_id, jid.bare_jid.to_string())) {
             try {
-                module.fetch_bundle(stream, new Jid(row[db.identity_meta.address_name]), row[db.identity_meta.device_id], false);
+                Jid device_jid = new Jid(row[db.identity_meta.address_name]);
+                int device_id = row[db.identity_meta.device_id];
+                module.fetch_bundle(stream, device_jid, device_id, false);
+                if (module2 != null) {
+                    module2.fetch_bundle(stream, device_jid, device_id, false);
+                }
                 inc++;
             } catch (InvalidJidError e) {
                 warning("Ignoring device with invalid Jid: %s", e.message);
             }
         }
         if (inc > 0) {
-            debug("new bundles %i/%i for %s", inc, device_list.size, jid.to_string());
+            debug("new bundles %i/%i for %s (legacy + v2)", inc, device_list.size, jid.to_string());
+        }
+
+        /* Also fetch v2 bundles for known devices without a session.
+         * This covers OMEMO 2-only devices (e.g. Kaidan) that were already
+         * inserted into the DB but whose legacy bundle fetch failed. */
+        if (module2 != null) {
+            int v2_inc = 0;
+            foreach (int32 device_id in device_list) {
+                Address address = new Address(jid.bare_jid.to_string(), device_id);
+                try {
+                    if (!module.store.contains_session(address)) {
+                        module2.fetch_bundle(stream, jid, device_id, false);
+                        v2_inc++;
+                    }
+                } catch (Error e) {
+                    // ignore
+                }
+                address.device_id = 0;
+            }
+            if (v2_inc > 0) {
+                debug("v2 session-less bundles %i/%i for %s", v2_inc, device_list.size, jid.to_string());
+            }
         }
 
         //Create an entry for the jid in the account table if one does not exist already
@@ -470,13 +498,16 @@ public class Manager : StreamInteractionModule, Object {
         string identity_key_b64 = Base64.encode(identity_key.serialize());
         db.identity_meta.insert_device_session(identity_id, jid.bare_jid.to_string(), device_id, identity_key_b64, trusted);
 
-        if (should_start_session(account, jid)) {
-            XmppStream? stream = stream_interactor.get_stream(account);
-            if (stream != null) {
-                StreamModule2? module2 = ((!)stream).get_module<StreamModule2>(StreamModule2.IDENTITY);
-                if (module2 != null) {
-                    module2.start_session(stream, jid, device_id, bundle);
-                }
+        /* Always start session for OMEMO 2 bundles — these may come from
+         * OMEMO 2-only devices (e.g. Kaidan) that have no legacy bundle.
+         * Without a proactive session, the legacy encryptor marks them as
+         * 'lost' and messages are retracted as WONTSEND. */
+        XmppStream? stream = stream_interactor.get_stream(account);
+        if (stream != null) {
+            StreamModule2? module2 = ((!)stream).get_module<StreamModule2>(StreamModule2.IDENTITY);
+            if (module2 != null) {
+                debug("OMEMO 2: Starting session with %s/%d from bundle", jid.to_string(), device_id);
+                module2.start_session(stream, jid, device_id, bundle);
             }
         }
         continue_message_sending(account, jid);
