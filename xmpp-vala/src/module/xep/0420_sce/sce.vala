@@ -40,7 +40,7 @@ namespace Xmpp.Xep.Sce {
             }
             envelope.put_node(content);
 
-            /* <rpad> random padding (XEP-0420 §4.1) */
+            /* <rpad> random padding (XEP-0420 sec.4.1) */
             envelope.put_node(new StanzaNode.build("rpad", NS_URI)
                 .put_node(new StanzaNode.text(generate_rpad())));
 
@@ -146,13 +146,15 @@ namespace Xmpp.Xep.Sce {
     /**
      * Convenience: Build an SCE envelope for a simple text message.
      */
-    public Envelope build_message_envelope(string body_text, Jid from_jid, Jid? to_jid = null) {
+    public Envelope build_message_envelope(string? body_text, Jid from_jid, Jid? to_jid = null) {
         Envelope env = new Envelope();
 
-        StanzaNode body_node = new StanzaNode.build("body", "jabber:client")
-            .add_self_xmlns()
-            .put_node(new StanzaNode.text(body_text));
-        env.add_content_node(body_node);
+        if (body_text != null) {
+            StanzaNode body_node = new StanzaNode.build("body", "jabber:client")
+                .add_self_xmlns()
+                .put_node(new StanzaNode.text(body_text));
+            env.add_content_node(body_node);
+        }
 
         env.from_jid = from_jid.to_string();
         if (to_jid != null) {

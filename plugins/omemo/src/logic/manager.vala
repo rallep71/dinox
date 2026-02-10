@@ -14,7 +14,10 @@ public class Manager : StreamInteractionModule, Object {
     private Database db;
     private TrustManager trust_manager;
     private HashMap<Account, OmemoEncryptor> encryptors;
+    private HashMap<Account, Omemo2Encrypt> encryptors_v2;
     private Map<Entities.Message, MessageState> message_states = new HashMap<Entities.Message, MessageState>(Entities.Message.hash_func, Entities.Message.equals_func);
+    /* Track JIDs that have announced OMEMO 2 devices */
+    private HashSet<string> v2_jids = new HashSet<string>();
 
     private class MessageState {
         public Entities.Message msg { get; private set; }
@@ -60,11 +63,12 @@ public class Manager : StreamInteractionModule, Object {
         }
     }
 
-    private Manager(StreamInteractor stream_interactor, Database db, TrustManager trust_manager, HashMap<Account, OmemoEncryptor> encryptors) {
+    private Manager(StreamInteractor stream_interactor, Database db, TrustManager trust_manager, HashMap<Account, OmemoEncryptor> encryptors, HashMap<Account, Omemo2Encrypt> encryptors_v2) {
         this.stream_interactor = stream_interactor;
         this.db = db;
         this.trust_manager = trust_manager;
         this.encryptors = encryptors;
+        this.encryptors_v2 = encryptors_v2;
 
         stream_interactor.account_added.connect(on_account_added);
         stream_interactor.stream_negotiated.connect(on_stream_negotiated);
@@ -159,7 +163,22 @@ public class Manager : StreamInteractionModule, Object {
             }
 
             //Attempt to encrypt the message
-            Xep.Omemo.EncryptState enc_state = encryptors[conversation.account].encrypt(message_stanza, conversation.account.bare_jid, recipients, stream);
+            /* Check if any recipient has OMEMO 2 devices -- if so, use v2 encryptor */
+            bool use_v2 = false;
+            foreach (Jid recipient in recipients) {
+                if (v2_jids.contains(recipient.bare_jid.to_string())) {
+                    use_v2 = true;
+                    break;
+                }
+            }
+
+            Xep.Omemo.EncryptState enc_state;
+            if (use_v2 && encryptors_v2.has_key(conversation.account)) {
+                debug("OMEMO 2: Using v2 encryptor for message (recipient has v2 devices)");
+                enc_state = encryptors_v2[conversation.account].encrypt(message_stanza, conversation.account.bare_jid, recipients, stream);
+            } else {
+                enc_state = encryptors[conversation.account].encrypt(message_stanza, conversation.account.bare_jid, recipients, stream);
+            }
             MessageState state;
             lock (message_states) {
                 if (message_states.has_key(message)) {
@@ -228,6 +247,16 @@ public class Manager : StreamInteractionModule, Object {
         StreamModule2? module2 = stream_interactor.module_manager.get_module<StreamModule2>(account, StreamModule2.IDENTITY);
         if (module2 != null) {
             module2.request_user_devicelist.begin(stream, account.bare_jid);
+
+            /* Request v2 device lists for all active conversation partners.
+             * PEP auto-notifications may not arrive for all contacts,
+             * so we actively fetch their v2 device lists too. */
+            Gee.List<Conversation> conversations = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_active_conversations(account);
+            foreach (Conversation conv in conversations) {
+                if (conv.counterpart != null && !conv.counterpart.equals_bare(account.bare_jid)) {
+                    module2.request_user_devicelist.begin(stream, conv.counterpart.bare_jid);
+                }
+            }
         }
     }
 
@@ -320,7 +349,23 @@ public class Manager : StreamInteractionModule, Object {
         /* OMEMO 2 stream module */
         StreamModule2? module2 = stream_interactor.module_manager.get_module<StreamModule2>(account, StreamModule2.IDENTITY);
         if (module2 != null) {
-            module2.device_list_loaded.connect((jid, devices) => on_device_list_loaded(account, jid, devices));
+            module2.device_list_loaded.connect((jid, devices) => {
+                /* Track JIDs that announce OMEMO 2 devices */
+                if (devices.size > 0) {
+                    v2_jids.add(jid.bare_jid.to_string());
+                    /* Also register for ESFS file transfer detection */
+                    Dino.Entities.FileTransfer.register_esfs_jid(jid.bare_jid.to_string());
+                    debug("OMEMO 2: Marked %s as v2-capable (%d devices)", jid.bare_jid.to_string(), devices.size);
+                }
+                /* Handle v2 device list separately -- must be ADDITIVE.
+                 * DO NOT call on_device_list_loaded() here! That function
+                 * uses insert_device_list() which destructively deactivates
+                 * ALL existing devices before reactivating listed ones.
+                 * An empty v2 list (contact doesn't support OMEMO 2) would
+                 * wipe all v1 devices. Even a non-empty v2 list would
+                 * deactivate v1-only devices. */
+                on_device_list_loaded_v2(account, jid, devices);
+            });
             module2.bundle_fetched.connect((jid, device_id, bundle) => on_bundle_v2_fetched(account, jid, device_id, bundle));
             module2.bundle_fetch_failed.connect((jid) => continue_message_sending(account, jid));
         }
@@ -421,6 +466,54 @@ public class Manager : StreamInteractionModule, Object {
 
     }
 
+    /**
+     * Handle OMEMO 2 device list results -- ADDITIVE processing.
+     * Unlike the v1 handler, this does NOT deactivate existing devices.
+     * Empty v2 lists are ignored (contact doesn't support OMEMO 2).
+     */
+    private void on_device_list_loaded_v2(Account account, Jid jid, ArrayList<int32> device_list) {
+        if (device_list.size == 0) {
+            // Contact has no OMEMO 2 devices -- nothing to do.
+            // Crucially, we do NOT deactivate their v1 devices.
+            return;
+        }
+
+        debug("OMEMO 2: received v2 device list for %s (%d devices)", jid.to_string(), device_list.size);
+
+        XmppStream? stream = stream_interactor.get_stream(account);
+        if (stream == null) return;
+
+        int identity_id = db.identity.get_id(account.id);
+        if (identity_id < 0) return;
+
+        // Additively add v2 devices (don't deactivate existing v1 devices)
+        db.identity_meta.insert_device_list_additive(identity_id, jid.bare_jid.to_string(), device_list);
+
+        // Create trust entry if needed
+        if (db.trust.select().with(db.trust.identity_id, "=", identity_id).with(db.trust.address_name, "=", jid.bare_jid.to_string()).count() == 0) {
+            db.trust.insert().value(db.trust.identity_id, identity_id).value(db.trust.address_name, jid.bare_jid.to_string()).value(db.trust.blind_trust, true).perform();
+        }
+
+        // Fetch v2 bundles for devices without a session
+        StreamModule2? module2 = stream.get_module<StreamModule2>(StreamModule2.IDENTITY);
+        if (module2 != null) {
+            foreach (int32 device_id in device_list) {
+                Address address = new Address(jid.bare_jid.to_string(), device_id);
+                try {
+                    if (!module2.store.contains_session(address)) {
+                        module2.fetch_bundle(stream, jid, device_id, false);
+                    }
+                } catch (Error e) {
+                    // ignore
+                }
+                address.device_id = 0;
+            }
+        }
+
+        // Continue any waiting messages
+        continue_message_sending(account, jid);
+    }
+
     private void on_bundle_fetched(Account account, Jid jid, int32 device_id, Bundle bundle) {
         int identity_id = db.identity.get_id(account.id);
         if (identity_id < 0) return;
@@ -498,7 +591,7 @@ public class Manager : StreamInteractionModule, Object {
         string identity_key_b64 = Base64.encode(identity_key.serialize());
         db.identity_meta.insert_device_session(identity_id, jid.bare_jid.to_string(), device_id, identity_key_b64, trusted);
 
-        /* Always start session for OMEMO 2 bundles — these may come from
+        /* Always start session for OMEMO 2 bundles -- these may come from
          * OMEMO 2-only devices (e.g. Kaidan) that have no legacy bundle.
          * Without a proactive session, the legacy encryptor marks them as
          * 'lost' and messages are retracted as WONTSEND. */
@@ -673,8 +766,8 @@ public class Manager : StreamInteractionModule, Object {
         return false;
     }
 
-    public static void start(StreamInteractor stream_interactor, Database db, TrustManager trust_manager, HashMap<Account, OmemoEncryptor> encryptors) {
-        Manager m = new Manager(stream_interactor, db, trust_manager, encryptors);
+    public static void start(StreamInteractor stream_interactor, Database db, TrustManager trust_manager, HashMap<Account, OmemoEncryptor> encryptors, HashMap<Account, Omemo2Encrypt> encryptors_v2 = new HashMap<Account, Omemo2Encrypt>(Account.hash_func, Account.equals_func)) {
+        Manager m = new Manager(stream_interactor, db, trust_manager, encryptors, encryptors_v2);
         stream_interactor.add_module(m);
     }
 }

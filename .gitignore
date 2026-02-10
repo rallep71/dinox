@@ -7,6 +7,9 @@ messages.mo
 logs/
 *.log
 dll.log
+test_omemo_deser
+test_omemo_deser.c
+kaidan_issue_toakafa.md
 
 # BFG cleanup reports
 ..bfg-report/

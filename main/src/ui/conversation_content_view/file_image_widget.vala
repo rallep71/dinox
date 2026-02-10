@@ -24,7 +24,12 @@ public class FileImageWidget : Widget {
     private Gtk.Box image_overlay_toolbar = new Gtk.Box(Orientation.VERTICAL, 0) { halign=Align.END, valign=Align.START, margin_top=10, margin_start=10, margin_end=10, margin_bottom=10, vexpand=false, visible=false };
     private Label file_size_label = new Label(null) { halign=Align.START, valign=Align.END, margin_bottom=4, margin_start=4, visible=false };
 
-    private FileTransfer file_transfer;
+    private FileTransfer? file_transfer;
+    private Binding? ft_size_binding1 = null;
+    private Binding? ft_size_binding2 = null;
+    private Binding? ft_bytes_binding = null;
+    private ulong ft_state_handler_id = 0;
+    private ulong ft_sources_handler_id = 0;
 
     private uint animation_timeout_id = 0;
     private uint cleanup_timeout_id = 0;
@@ -269,17 +274,18 @@ public class FileImageWidget : Widget {
     private void on_motion_event_enter() {
         image_overlay_toolbar.visible = show_image_overlay_toolbar;
         file_size_label.visible = file_transfer != null && file_transfer.direction == FileTransfer.DIRECTION_RECEIVED && file_transfer.state == FileTransfer.State.NOT_STARTED && !file_transfer.sfs_sources.is_empty;
+        if (file_transfer == null) return;
     }
 
     public async void set_file_transfer(FileTransfer file_transfer) {
         this.file_transfer = file_transfer;
 
-        this.file_transfer.bind_property("size", file_size_label, "label", BindingFlags.SYNC_CREATE, file_size_label_transform);
-        this.file_transfer.bind_property("size", transmission_progress, "file-size", BindingFlags.SYNC_CREATE);
-        this.file_transfer.bind_property("transferred-bytes", transmission_progress, "transferred-size");
+        ft_size_binding1 = this.file_transfer.bind_property("size", file_size_label, "label", BindingFlags.SYNC_CREATE, file_size_label_transform);
+        ft_size_binding2 = this.file_transfer.bind_property("size", transmission_progress, "file-size", BindingFlags.SYNC_CREATE);
+        ft_bytes_binding = this.file_transfer.bind_property("transferred-bytes", transmission_progress, "transferred-size");
 
-        file_transfer.notify["state"].connect(refresh_state);
-        file_transfer.sources_changed.connect(refresh_state);
+        ft_state_handler_id = file_transfer.notify["state"].connect(refresh_state);
+        ft_sources_handler_id = file_transfer.sources_changed.connect(refresh_state);
         refresh_state();
     }
 
@@ -289,6 +295,7 @@ public class FileImageWidget : Widget {
     }
 
     private void refresh_state() {
+        if (file_transfer == null) return;
         if ((state == EMPTY || state == PREVIEW) && file_transfer.path != null) {
             load_from_file.begin(file_transfer.get_file(), file_transfer.file_name);
             show_image_overlay_toolbar = true;
@@ -339,7 +346,7 @@ public class FileImageWidget : Widget {
         reset_loading_and_animation();
 
         Widget? content_widget = null;
-        if (this.file_transfer.mime_type != null && this.file_transfer.mime_type.down().has_prefix("video/")) {
+        if (this.file_transfer != null && this.file_transfer.mime_type != null && this.file_transfer.mime_type.down().has_prefix("video/")) {
             File video_file = file;
             try {
                 // Decrypt into a temporary file for playback
@@ -429,7 +436,7 @@ public class FileImageWidget : Widget {
 
         // Avoid SVG stickers: gdk-pixbuf SVG loader can crash in some Flatpak runtimes.
         if (is_sticker) {
-            string? mt = this.file_transfer.mime_type;
+            string? mt = this.file_transfer != null ? this.file_transfer.mime_type : null;
             if (mt != null && mt != "" && mt.down().has_prefix("image/svg")) {
                 return;
             }
@@ -535,16 +542,22 @@ public class FileImageWidget : Widget {
             }
         }
         if (pixbuf == null) {
-            warning("Can't load thumbnails of file %s", file_transfer.file_name);
+            debug("Can't load thumbnails of file %s", file_transfer.file_name);
             throw new Error(-1, 0, "Error loading preview image");
         }
         // TODO: should this be executed? If yes, before or after scaling
         pixbuf = pixbuf.apply_embedded_orientation();
 
-        if (file_transfer.width > 0 && file_transfer.height > 0) {
-            pixbuf = pixbuf.scale_simple(file_transfer.width, file_transfer.height, InterpType.BILINEAR);
+        int target_w = file_transfer.width;
+        int target_h = file_transfer.height;
+        // Clamp to sane limits to guard against corrupt DB values or malicious metadata
+        if (target_w > 4096) target_w = 4096;
+        if (target_h > 4096) target_h = 4096;
+        if (target_w > 0 && target_h > 0) {
+            pixbuf = pixbuf.scale_simple(target_w, target_h, InterpType.BILINEAR);
         } else {
-            warning("Preview: Not scaling image, width: %d, height: %d\n", file_transfer.width, file_transfer.height);
+            // Use the thumbnail's native size, don't attempt to scale
+            debug("Preview: Using native thumbnail size for %s", file_transfer.file_name);
         }
         if (pixbuf == null) {
             warning("Can't scale thumbnail %s", file_transfer.file_name);
@@ -559,6 +572,7 @@ public class FileImageWidget : Widget {
     }
 
     public void on_image_clicked(GestureClick gesture_click_controller, int n_press, double x, double y) {
+        if (this.file_transfer == null) return;
         if (this.file_transfer.state != COMPLETE) return;
 
         bool is_video = (this.file_transfer.mime_type != null && this.file_transfer.mime_type.down().has_prefix("video/"));
@@ -585,16 +599,20 @@ public class FileImageWidget : Widget {
     }
 
     public static Pixbuf? parse_thumbnail(Xep.JingleContentThumbnails.Thumbnail thumbnail) {
-        MemoryInputStream input_stream = new MemoryInputStream.from_data(thumbnail.data.get_data());
+        if (thumbnail.data == null) return null;
+        uint8[] raw = thumbnail.data.get_data();
+        if (raw == null || raw.length == 0) return null;
+        MemoryInputStream input_stream = new MemoryInputStream.from_data(raw);
         try {
             return new Pixbuf.from_stream(input_stream);
         } catch (Error e) {
-            warning("Failed to parse thumbnail: %s", e.message);
+            debug("Thumbnail not parseable (%d bytes): %s", raw.length, e.message);
             return null;
         }
     }
 
-    public static bool can_display(FileTransfer file_transfer) {
+    public static bool can_display(FileTransfer? file_transfer) {
+        if (file_transfer == null) return false;
         var app = Dino.Application.get_default();
         if (file_transfer.is_sticker && !app.settings.stickers_enabled) {
             return false;
@@ -618,6 +636,21 @@ public class FileImageWidget : Widget {
     }
 
     public override void dispose() {
+        // Unbind all file_transfer property bindings
+        if (ft_size_binding1 != null) { ft_size_binding1.unbind(); ft_size_binding1 = null; }
+        if (ft_size_binding2 != null) { ft_size_binding2.unbind(); ft_size_binding2 = null; }
+        if (ft_bytes_binding != null) { ft_bytes_binding.unbind(); ft_bytes_binding = null; }
+        // Disconnect signal handlers from file_transfer
+        if (file_transfer != null && ft_state_handler_id != 0) {
+            file_transfer.disconnect(ft_state_handler_id);
+            ft_state_handler_id = 0;
+        }
+        if (file_transfer != null && ft_sources_handler_id != 0) {
+            file_transfer.disconnect(ft_sources_handler_id);
+            ft_sources_handler_id = 0;
+        }
+        file_transfer = null;
+
         if (temp_video_file != null) {
             try {
                 temp_video_file.delete(null);

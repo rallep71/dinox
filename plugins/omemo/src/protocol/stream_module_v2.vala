@@ -12,7 +12,7 @@ private const string NODE_BUNDLES_V2 = Xmpp.Xep.Omemo.NODE_BUNDLES_V2;
 private const int NUM_KEYS_TO_PUBLISH_V2 = 100;
 
 /**
- * OMEMO 2 stream module — manages PEP interaction for device lists and bundles.
+ * OMEMO 2 stream module -- manages PEP interaction for device lists and bundles.
  *
  * Key differences from legacy StreamModule:
  * - Device list: urn:xmpp:omemo:2:devices (<devices><device id='...' label='...'/></devices>)
@@ -237,20 +237,31 @@ public class StreamModule2 : XmppStreamModule {
     }
 
     public void publish_bundles_if_needed(XmppStream stream, Jid jid) {
-        if (active_bundle_requests.add(jid.bare_jid.to_string() + @":v2:$(store.local_registration_id)")) {
+        string key = jid.bare_jid.to_string() + @":v2:$(store.local_registration_id)";
+        debug("OMEMO 2: publish_bundles_if_needed called for %s, key=%s", jid.bare_jid.to_string(), key);
+        if (active_bundle_requests.add(key)) {
+            debug("OMEMO 2: Starting fetch_self_bundle for %s", jid.bare_jid.to_string());
             /* For OMEMO 2, fetch our own bundle from multi-item node */
             fetch_self_bundle.begin(stream, jid);
+        } else {
+            debug("OMEMO 2: Bundle request already active for %s", jid.bare_jid.to_string());
         }
     }
 
     private async void fetch_self_bundle(XmppStream stream, Jid jid) {
+        debug("OMEMO 2: fetch_self_bundle requesting item from %s node=%s id=%s", jid.bare_jid.to_string(), NODE_BUNDLES_V2, store.local_registration_id.to_string());
         StanzaNode? node = yield stream.get_module<Pubsub.Module>(Pubsub.Module.IDENTITY)
             .request_item(stream, jid, NODE_BUNDLES_V2, store.local_registration_id.to_string());
+        debug("OMEMO 2: fetch_self_bundle result: node=%s", node != null ? "present" : "NULL");
         yield on_self_bundle_result(stream, jid, node);
     }
 
     private async void on_self_bundle_result(XmppStream stream, Jid jid, StanzaNode? node) {
-        if (!Plugin.ensure_context()) return;
+        debug("OMEMO 2: on_self_bundle_result called, node=%s", node != null ? "present" : "NULL");
+        if (!Plugin.ensure_context()) {
+            debug("OMEMO 2: on_self_bundle_result: ensure_context FAILED, aborting");
+            return;
+        }
         Map<int, ECPublicKey> keys = new HashMap<int, ECPublicKey>();
         ECPublicKey? identity_key = null;
         int32 signed_pre_key_id = -1;
@@ -259,6 +270,7 @@ public class StreamModule2 : XmppStreamModule {
         bool changed = false;
 
         if (node == null) {
+            debug("OMEMO 2: No existing bundle found, will publish new one");
             identity_key = store.identity_key_pair.public;
             changed = true;
         } else {
@@ -293,6 +305,16 @@ public class StreamModule2 : XmppStreamModule {
                 signed_pre_key_record = store.load_signed_pre_key(signed_pre_key_id);
             }
 
+            /* Upgrade SPK if signature_omemo is missing (pre-OMEMO2 keys) */
+            if (signed_pre_key_record != null && signed_pre_key_record.signature_omemo.length == 0) {
+                debug("OMEMO 2: SPK %u missing signature_omemo, upgrading...", signed_pre_key_record.id);
+                SignedPreKeyRecord upgraded = signed_pre_key_record;
+                Protocol.KeyHelper.upgrade_signed_pre_key(ref upgraded, identity_key_pair, Plugin.get_context().native_context);
+                signed_pre_key_record = upgraded;
+                store.store_signed_pre_key((!)signed_pre_key_record);
+                changed = true;
+            }
+
             /* Validate PreKeys */
             Set<PreKeyRecord> pre_key_records = new HashSet<PreKeyRecord>();
             foreach (var entry in keys.entries) {
@@ -316,8 +338,13 @@ public class StreamModule2 : XmppStreamModule {
                 changed = true;
             }
 
+            debug("OMEMO 2: Bundle check complete: changed=%s, pre_keys=%d", changed.to_string(), pre_key_records.size);
             if (changed) {
+                debug("OMEMO 2: Publishing v2 bundle for device %d", (int32)store.local_registration_id);
                 yield publish_bundle_v2(stream, (!)signed_pre_key_record, identity_key_pair, pre_key_records, (int32)store.local_registration_id);
+                debug("OMEMO 2: Bundle published successfully");
+            } else {
+                debug("OMEMO 2: Bundle unchanged, not publishing");
             }
         } catch (Error e) {
             warning("OMEMO 2: Unexpected error while publishing bundle: %s", e.message);
@@ -327,43 +354,89 @@ public class StreamModule2 : XmppStreamModule {
 
     /**
      * Publish OMEMO 2 bundle to multi-item PEP node.
-     * Uses bare 32-byte keys (serialize_omemo) and OMEMO 2 XML format.
+     * Key formats per OMEMO 2 (XEP-0384) and QXmpp interop:
+     *   IK  = Ed25519 (ec_public_key_get_ed)
+     *   SPK = X25519/Montgomery (ec_public_key_get_mont)
+     *   PKs = X25519/Montgomery (ec_public_key_get_mont)
      */
     public async void publish_bundle_v2(XmppStream stream, SignedPreKeyRecord signed_pre_key_record, IdentityKeyPair identity_key_pair, Set<PreKeyRecord> pre_key_records, int32 device_id) throws Error {
         ECKeyPair tmp;
+        /* IK must be Ed25519, SPK must be Montgomery/X25519 */
+        uint8[] ik_bytes = identity_key_pair.public.ed.data;
+        uint8[] spk_bytes = (tmp = signed_pre_key_record.key_pair).public.mont.data;
+        uint8[] sig_omemo = signed_pre_key_record.signature_omemo;
+        uint8[] sig_legacy = signed_pre_key_record.signature;
+        debug("OMEMO 2: Bundle IK %d bytes (Ed25519), SPK %d bytes (Mont)", ik_bytes.length, spk_bytes.length);
+        debug("OMEMO 2: SPK signature_omemo %d bytes, signature_legacy %d bytes", sig_omemo.length, sig_legacy.length);
+        debug("OMEMO 2: SPK id=%u", signed_pre_key_record.id);
+
+        /* Verify the OMEMO signature locally, simulating what QXmpp/Kaidan does */
+        try {
+            ECPublicKey verify_ik;
+            curve_decode_point_ed(out verify_ik, ik_bytes, Plugin.get_context().native_context);
+            ECPublicKey verify_spk;
+            curve_decode_point_mont(out verify_spk, spk_bytes, Plugin.get_context().native_context);
+            uint8[] verify_spk_serialized = verify_spk.serialize_omemo();
+            debug("OMEMO 2: Verify: IK decoded (has_ed=%s), SPK decoded, SPK serialized %d bytes",
+                  verify_ik.ed != null ? "true" : "false", verify_spk_serialized.length);
+            int verify_result = Curve.verify_signature(verify_ik, verify_spk_serialized, sig_omemo);
+            debug("OMEMO 2: Local SPK signature verification result: %d (1=valid, 0=invalid, <0=error)", verify_result);
+        } catch (Error e) {
+            warning("OMEMO 2: Local signature verification failed with exception: %s", e.message);
+        }
+
         StanzaNode bundle = new StanzaNode.build("bundle", NS_URI_V2)
                 .add_self_xmlns()
                 .put_node(new StanzaNode.build("spk", NS_URI_V2)
                     .put_attribute("id", signed_pre_key_record.id.to_string())
-                    .put_node(new StanzaNode.text(Base64.encode((tmp = signed_pre_key_record.key_pair).public.serialize_omemo()))))
+                    .put_node(new StanzaNode.text(Base64.encode(spk_bytes))))
                 .put_node(new StanzaNode.build("spks", NS_URI_V2)
                     .put_node(new StanzaNode.text(Base64.encode(signed_pre_key_record.signature_omemo))))
                 .put_node(new StanzaNode.build("ik", NS_URI_V2)
-                    .put_node(new StanzaNode.text(Base64.encode(identity_key_pair.public.serialize_omemo()))));
+                    .put_node(new StanzaNode.text(Base64.encode(ik_bytes))));
 
         StanzaNode prekeys = new StanzaNode.build("prekeys", NS_URI_V2);
         foreach (PreKeyRecord pre_key_record in pre_key_records) {
+            uint8[] pk_bytes = pre_key_record.key_pair.public.mont.data;
             prekeys.put_node(new StanzaNode.build("pk", NS_URI_V2)
                     .put_attribute("id", pre_key_record.id.to_string())
-                    .put_node(new StanzaNode.text(Base64.encode(pre_key_record.key_pair.public.serialize_omemo()))));
+                    .put_node(new StanzaNode.text(Base64.encode(pk_bytes))));
         }
         bundle.put_node(prekeys);
 
         /* Publish to multi-item node with item_id = device_id */
-        yield stream.get_module<Pubsub.Module>(Pubsub.Module.IDENTITY).publish(stream, null, NODE_BUNDLES_V2, device_id.to_string(), bundle);
+        debug("OMEMO 2: About to publish bundle to node %s with item_id %s", NODE_BUNDLES_V2, device_id.to_string());
+        bool result = yield stream.get_module<Pubsub.Module>(Pubsub.Module.IDENTITY).publish(stream, null, NODE_BUNDLES_V2, device_id.to_string(), bundle);
+        debug("OMEMO 2: Bundle publish result: %s", result ? "SUCCESS" : "FAILURE");
         yield try_make_node_public(stream, NODE_BUNDLES_V2);
     }
 
     private async void try_make_node_public(XmppStream stream, string node_id) {
+        debug("OMEMO 2: try_make_node_public for %s", node_id);
         DataForms.DataForm? data_form = yield stream.get_module<Pubsub.Module>(Pubsub.Module.IDENTITY).request_node_config(stream, null, node_id);
-        if (data_form == null) return;
+        if (data_form == null) {
+            debug("OMEMO 2: try_make_node_public: data_form is NULL for %s", node_id);
+            return;
+        }
 
+        bool needs_submit = false;
         foreach (DataForms.DataForm.Field field in data_form.fields) {
             if (field.var == "pubsub#access_model" && field.get_value_string() != Pubsub.ACCESS_MODEL_OPEN) {
+                debug("OMEMO 2: Changing access_model from %s to %s", field.get_value_string(), Pubsub.ACCESS_MODEL_OPEN);
                 field.set_value_string(Pubsub.ACCESS_MODEL_OPEN);
-                yield stream.get_module<Pubsub.Module>(Pubsub.Module.IDENTITY).submit_node_config(stream, null, data_form, node_id);
+                needs_submit = true;
+            }
+            if (field.var == "pubsub#max_items" && field.get_value_string() != "max") {
+                debug("OMEMO 2: Changing max_items from %s to max", field.get_value_string());
+                field.set_value_string("max");
+                needs_submit = true;
             }
         }
+        if (needs_submit) {
+            yield stream.get_module<Pubsub.Module>(Pubsub.Module.IDENTITY).submit_node_config(stream, null, data_form, node_id);
+            debug("OMEMO 2: Node config updated for %s", node_id);
+        }
+        debug("OMEMO 2: try_make_node_public done for %s", node_id);
     }
 }
 

@@ -192,8 +192,13 @@ namespace Dino.Plugins.Omemo {
             Row? device = db.identity_meta.get_device(identity_id, from_jid.to_string(), sid);
             if (device != null && device[db.identity_meta.identity_key_public_base64] != null) {
                 if (device[db.identity_meta.identity_key_public_base64] != identity_key) {
-                    critical("Tried to use a different identity key for a known device id.");
-                    return false;
+                    warning("Identity key changed for device %d of %s. Accepting new key (may be key format migration or reinstall).", sid, from_jid.to_string());
+                    // Delete old session -- it's no longer valid with the new identity key
+                    Address addr = new Address(from_jid.bare_jid.to_string(), sid);
+                    store.delete_session(addr);
+                    addr.device_id = 0;
+                    // Update the stored identity key and reset trust to UNKNOWN
+                    db.identity_meta.insert_device_session(identity_id, from_jid.to_string(), sid, identity_key, TrustLevel.UNKNOWN);
                 }
             } else {
                 debug("Learn new device from incoming message from %s/%d", from_jid.to_string(), sid);

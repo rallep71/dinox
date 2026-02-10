@@ -26,17 +26,17 @@ public class Module : XmppStreamModule {
         Iq.Stanza iq = new Iq.Stanza.get(query);
         iq.to = jid;
 
-        print("DEBUG: Sending search fields request to %s\n", jid.to_string());
+        debug("Sending search fields request to %s", jid.to_string());
         Iq.Stanza? result_iq = yield stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq_async(stream, iq);
         if (result_iq == null) {
-            print("DEBUG: Search fields request returned null\n");
+            debug("Search fields request returned null");
             return null;
         }
         if (result_iq.type_ == Xmpp.Stanza.TYPE_ERROR) {
-            print("DEBUG: Search fields request returned error: %s\n", result_iq.stanza.to_string());
+            debug("Search fields request returned error: %s", result_iq.stanza.to_string());
             return null;
         }
-        print("DEBUG: Search fields response: %s\n", result_iq.stanza.to_string());
+        debug("Search fields response: %s", result_iq.stanza.to_string());
 
         StanzaNode? result_query = result_iq.stanza.get_subnode("query", NS_URI);
         if (result_query == null) return null;
@@ -71,17 +71,17 @@ public class Module : XmppStreamModule {
         Iq.Stanza iq = new Iq.Stanza.set(query);
         iq.to = jid;
 
-        print("DEBUG: Sending search request to %s: %s\n", jid.to_string(), iq.stanza.to_string());
+        debug("Sending search request to %s: %s", jid.to_string(), iq.stanza.to_string());
         Iq.Stanza? result_iq = yield stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq_async(stream, iq);
         if (result_iq == null) {
-            print("DEBUG: Search request returned null\n");
+            debug("Search request returned null");
             return null;
         }
         if (result_iq.type_ == Xmpp.Stanza.TYPE_ERROR) {
-            print("DEBUG: Search request returned error: %s\n", result_iq.stanza.to_string());
+            debug("Search request returned error: %s", result_iq.stanza.to_string());
             return null;
         }
-        print("DEBUG: Search response: %s\n", result_iq.stanza.to_string());
+        debug("Search response: %s", result_iq.stanza.to_string());
 
         StanzaNode? result_query = result_iq.stanza.get_subnode("query", NS_URI);
         if (result_query == null) return null;
@@ -137,7 +137,7 @@ public class Module : XmppStreamModule {
         }
         
         if (legacy_items.size > 0) {
-            print("DEBUG: Found %d legacy search items\n", legacy_items.size);
+            debug("Found %d legacy search items", legacy_items.size);
             return legacy_items;
         }
         

@@ -331,7 +331,7 @@ public class ChatInputController : Object {
     private void start_recording() {
         try {
             string path = Path.build_filename(Environment.get_tmp_dir(), "dino_voice_%s.m4a".printf(new DateTime.now_local().format("%Y%m%d%H%M%S")));
-            print("DEBUG: ChatInputController.start_recording: path=%s\n".printf(path));
+            debug("ChatInputController.start_recording: path=%s", path);
             audio_recorder.start_recording(path);
             is_recording = true;
             chat_input.record_button.icon_name = "media-record-symbolic";
@@ -342,10 +342,10 @@ public class ChatInputController : Object {
     }
 
     private async void stop_recording() {
-        print("DEBUG: ChatInputController.stop_recording: called\n");
+        debug("ChatInputController.stop_recording: called");
         chat_input.record_button.sensitive = false;
         yield audio_recorder.stop_recording_async();
-        print("DEBUG: ChatInputController.stop_recording: returned from async stop\n");
+        debug("ChatInputController.stop_recording: returned from async stop");
         chat_input.record_button.sensitive = true;
         
         chat_input.record_button.icon_name = "microphone-sensitivity-medium-symbolic";
@@ -356,16 +356,16 @@ public class ChatInputController : Object {
             File f = File.new_for_path(audio_recorder.current_output_path);
             try {
                 FileInfo info = f.query_info(FileAttribute.STANDARD_SIZE, FileQueryInfoFlags.NONE);
-                print("DEBUG: ChatInputController.stop_recording: file size=%lld\n".printf(info.get_size()));
+                debug("ChatInputController.stop_recording: file size=%lld", info.get_size());
                 if (info.get_size() > 0) {
-                    print("DEBUG: ChatInputController.stop_recording: emitting voice_message_recorded\n");
+                    debug("ChatInputController.stop_recording: emitting voice_message_recorded");
                     voice_message_recorded(audio_recorder.current_output_path);
                 } else {
                     warning("Recorded audio file is empty, not sending.");
                     FileUtils.unlink(audio_recorder.current_output_path);
                 }
             } catch (Error e) {
-                print("DEBUG: ChatInputController.stop_recording: Error checking file: %s\n".printf(e.message));
+                debug("ChatInputController.stop_recording: Error checking file: %s", e.message);
                 warning("Failed to check recorded audio file: %s", e.message);
             }
         }

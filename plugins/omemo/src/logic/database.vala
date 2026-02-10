@@ -50,9 +50,26 @@ public class Database : Qlite.Database {
             }
         }
 
+        /**
+         * Add devices to the list without deactivating existing ones.
+         * Used for OMEMO 2 device lists which only contain v2-capable devices.
+         * A destructive update would wipe v1-only devices.
+         */
+        public void insert_device_list_additive(int32 identity_id, string address_name, ArrayList<int32> devices) {
+            foreach (int32 device_id in devices) {
+                upsert()
+                        .value(this.identity_id, identity_id, true)
+                        .value(this.address_name, address_name, true)
+                        .value(this.device_id, device_id, true)
+                        .value(this.now_active, true)
+                        .value(this.last_active, (long) new DateTime.now_utc().to_unix())
+                        .perform();
+            }
+        }
+
         public int64 insert_device_bundle(int32 identity_id, string address_name, int device_id, Bundle bundle, TrustLevel trust) {
             if (bundle == null || bundle.identity_key == null) return -1;
-            // Check if identity_key changed — can happen legitimately when key encoding
+            // Check if identity_key changed -- can happen legitimately when key encoding
             // changes (e.g., OMEMO 2 Ed25519 vs Montgomery migration) or device reinstall.
             string identity_key = Base64.encode(bundle.identity_key.serialize());
             RowOption row = with_address(identity_id, address_name).with(this.device_id, "=", device_id).single().row();
@@ -70,8 +87,9 @@ public class Database : Qlite.Database {
         public int64 insert_device_session(int32 identity_id, string address_name, int device_id, string identity_key, TrustLevel trust) {
             RowOption row = with_address(identity_id, address_name).with(this.device_id, "=", device_id).single().row();
             if (row.is_present() && row[identity_key_public_base64] != null && row[identity_key_public_base64] != identity_key) {
-                critical("Tried to change the identity key for a known device id. Likely an attack.");
-                return -1;
+                warning("Identity key changed for device %d of %s. Updating (may be key format migration or reinstall).", device_id, address_name);
+                // Reset trust to UNKNOWN when identity key changes
+                trust = TrustLevel.UNKNOWN;
             }
             return upsert()
                     .value(this.identity_id, identity_id, true)

@@ -78,7 +78,7 @@ public class FileManager : StreamInteractionModule, Object {
     public delegate void OutgoingFileTransferConfigurator(FileTransfer file_transfer);
 
     public async void send_file(File file, Conversation conversation, owned OutgoingFileTransferConfigurator? configure = null) {
-        print("DEBUG: FileManager.send_file: called for %s\n".printf(file.get_path()));
+        debug("FileManager.send_file: called for %s", file.get_path());
         File file_to_use = file;
         File? temp_file = null;
 
@@ -612,6 +612,12 @@ public class FileReceiveData { }
 
 public class HttpFileReceiveData : FileReceiveData {
     public string url { get; set; }
+}
+
+public class EsfsHttpFileReceiveData : HttpFileReceiveData {
+    public uint8[] esfs_key { get; set; }
+    public uint8[] esfs_iv { get; set; }
+    public string esfs_cipher { get; set; default = ""; }
 }
 
 public interface FileProvider : Object {

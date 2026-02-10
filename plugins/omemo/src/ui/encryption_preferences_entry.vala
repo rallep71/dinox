@@ -201,10 +201,12 @@ public class OmemoPreferencesWidget : Adw.PreferencesGroup {
             }
         }
 
-        if (device[plugin.db.identity_meta.now_active]) {
+        {
+            bool is_active = device[plugin.db.identity_meta.now_active];
             Adw.ActionRow action_row = new Adw.ActionRow() { use_markup = true };
             action_row.activated.connect(() => {
-                Row updated_device = plugin.db.identity_meta.get_device(device[plugin.db.identity_meta.identity_id], device[plugin.db.identity_meta.address_name], device[plugin.db.identity_meta.device_id]);
+                Row? updated_device = plugin.db.identity_meta.get_device(device[plugin.db.identity_meta.identity_id], device[plugin.db.identity_meta.address_name], device[plugin.db.identity_meta.device_id]);
+                if (updated_device == null) return;
                 ManageKeyDialog manage_dialog = new ManageKeyDialog(updated_device, plugin.db);
                 manage_dialog.set_transient_for((Gtk.Window) get_root());
                 manage_dialog.present();
@@ -214,7 +216,11 @@ public class OmemoPreferencesWidget : Adw.PreferencesGroup {
                 });
             });
             action_row.activatable = true;
-            action_row.title = account.bare_jid.equals_bare(jid) ? _("Other device") : _("Device");
+            if (is_active) {
+                action_row.title = account.bare_jid.equals_bare(jid) ? _("Other device") : _("Device");
+            } else {
+                action_row.title = account.bare_jid.equals_bare(jid) ? _("Other device (inactive)") : _("Device (inactive)");
+            }
             action_row.subtitle = fingerprint_markup(fingerprint_from_base64(key_base64));
             string trust_str = _("Accepted");
             switch(trust) {
@@ -228,6 +234,7 @@ public class OmemoPreferencesWidget : Adw.PreferencesGroup {
                 default:
                     break;
             }
+            if (!is_active) trust_str += " - " + _("Inactive");
 
             action_row.add_suffix(new Label(trust_str));
             add_key_row(action_row);
@@ -257,6 +264,11 @@ public class OmemoPreferencesWidget : Adw.PreferencesGroup {
     }
 
     private void update_stored_trust(int response, Row device) {
+        if (response == -1) {
+            // Delete device
+            plugin.trust_manager.delete_device(account, jid, device[plugin.db.identity_meta.device_id]);
+            return;
+        }
         switch (response) {
             case TrustLevel.TRUSTED:
                 plugin.trust_manager.set_device_trust(account, jid, device[plugin.db.identity_meta.device_id], TrustLevel.TRUSTED);

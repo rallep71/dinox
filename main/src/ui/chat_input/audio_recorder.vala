@@ -43,7 +43,7 @@ public class AudioRecorder : GLib.Object {
     }
 
     public void start_recording(string output_path) throws Error {
-        print("DEBUG: AudioRecorder.start_recording: output_path=%s\n".printf(output_path));
+        debug("AudioRecorder.start_recording: output_path=%s", output_path);
         if (is_recording) return;
 
         current_output_path = output_path;
@@ -148,13 +148,13 @@ public class AudioRecorder : GLib.Object {
     }
 
     public async void stop_recording_async() {
-        print("DEBUG: AudioRecorder.stop_recording_async: called\n");
+        debug("AudioRecorder.stop_recording_async: called");
         if (timeout_id != 0) {
             Source.remove(timeout_id);
             timeout_id = 0;
         }
         if (pipeline != null && is_recording) {
-            print("DEBUG: AudioRecorder.stop_recording_async: sending EOS\n");
+            debug("AudioRecorder.stop_recording_async: sending EOS");
             pipeline.send_event(new Event.eos());
             
             // Wait for EOS or Error
@@ -163,7 +163,7 @@ public class AudioRecorder : GLib.Object {
             
             signal_id = bus.message.connect((bus, msg) => {
                 if (msg.type == Gst.MessageType.EOS || msg.type == Gst.MessageType.ERROR) {
-                    print("DEBUG: AudioRecorder.stop_recording_async: Received %s\n".printf(msg.type.to_string()));
+                    debug("AudioRecorder.stop_recording_async: Received %s", msg.type.to_string());
                     // Defer callback to avoid re-entrancy issues if needed, though yield handles it
                     Idle.add((owned) callback);
                 }
@@ -172,14 +172,14 @@ public class AudioRecorder : GLib.Object {
             // Safety timeout (2 seconds)
             uint timeout_source = 0;
             timeout_source = Timeout.add(2000, () => {
-                print("DEBUG: AudioRecorder.stop_recording_async: Timeout reached\n");
+                debug("AudioRecorder.stop_recording_async: Timeout reached");
                 callback();
                 timeout_source = 0;
                 return false;
             });
             
             yield;
-            print("DEBUG: AudioRecorder.stop_recording_async: finished yield\n");
+            debug("AudioRecorder.stop_recording_async: finished yield");
             
             if (timeout_source != 0) {
                 Source.remove(timeout_source);

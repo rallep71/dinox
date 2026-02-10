@@ -22,9 +22,9 @@ public class FileProvider : Dino.FileProvider, Object {
         string out = s;
         // Never log secrets in fragments.
         int hash = out.index_of("#");
-        if (hash >= 0) out = out.substring(0, hash) + "#…";
+        if (hash >= 0) out = out.substring(0, hash) + "#...";
         // Keep logs small.
-        if (out.length > 200) out = out.substring(0, 200) + "…";
+        if (out.length > 200) out = out.substring(0, 200) + "...";
         return out;
     }
 
@@ -254,6 +254,17 @@ public class FileProvider : Dino.FileProvider, Object {
     public FileReceiveData? get_file_receive_data(FileTransfer file_transfer) {
         if (file_transfer.provider == FileManager.SFS_PROVIDER_ID) {
             if (!file_transfer.sfs_sources.is_empty) {
+                // Check for ESFS encrypted source first
+                var esfs_source = file_transfer.sfs_sources.get(0) as Xep.StatelessFileSharing.EsfsHttpSource;
+                if (esfs_source != null) {
+                    var receive_data = new EsfsHttpFileReceiveData();
+                    receive_data.url = esfs_source.url;
+                    receive_data.esfs_key = esfs_source.key;
+                    receive_data.esfs_iv = esfs_source.iv;
+                    receive_data.esfs_cipher = esfs_source.cipher_uri;
+                    return receive_data;
+                }
+                // Regular HTTP source
                 var http_source = file_transfer.sfs_sources.get(0) as Xep.StatelessFileSharing.HttpSource;
                 if (http_source != null) {
                     var receive_data = new HttpFileReceiveData();

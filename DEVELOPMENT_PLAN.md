@@ -1,7 +1,7 @@
 # DinoX - Development Plan
 
-> **Last Updated**: February 8, 2026
-> **Current Release Line**: 0.9.8.x
+> **Last Updated**: February 10, 2026
+> **Current Release Line**: 0.9.9.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
 
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Release Line** | 0.9.8.x |
+| **Release Line** | 0.9.9.x |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (~85% translated) |
 | **Build Status** | Clean |
@@ -20,6 +20,48 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v0.9.9.3 (Stability & Debug Cleanup)
+
+- **CRITICAL Fix**: Resolved `dino_entities_file_transfer_get_mime_type: assertion 'self != NULL' failed` crash caused by dangling GObject bind_property bindings. Proper lifecycle management with unbind() in dispose().
+- **Debug Output Cleanup**: Removed 57 leftover debug print/warning statements across the codebase.
+- **Thumbnail Parsing**: Fixed SFS/thumbnail metadata parsing for incoming file transfers with XEP-0264 thumbnails.
+- **OMEMO 1 + 2 Stabilization**: Continued stabilization of dual-protocol OMEMO support.
+
+### v0.9.9.2 (Server Certificate Info)
+
+- **Server Certificate Info (GitHub Issue #10)**: Account preferences now show TLS certificate details — status, issuer, validity period, and SHA-256 fingerprint. Pinned certificates can be removed from the UI.
+- **App Icon Fix**: Fixed light/white app icon in AppImage and Flatpak (GResource SVG priority issue).
+- **Menu Order**: Moved "Panic Wipe" to bottom of hamburger menu to prevent accidental activation.
+
+### v0.9.9.1 (OMEMO 2 Support)
+
+- **OMEMO 2 (XEP-0384 v0.8+)**: Full implementation of OMEMO 2 with backward compatibility to legacy OMEMO. Dual-stack: Legacy OMEMO + Modern OMEMO 2 for seamless migration.
+- **SCE Envelope Layer (XEP-0420)**: Stanza Content Encryption used by OMEMO 2.
+- **Crypto**: HKDF-SHA-256 / AES-256-CBC / HMAC-SHA-256 via libgcrypt.
+- **HTTP File Transfer with Self-Signed Certificates**: All HTTP file operations now respect pinned certificates.
+
+### v0.9.9.0 (Backup/Restore & Security)
+
+- **Backup/Restore after Panic Wipe**: Fixed critical bug where restoring a backup after Panic Wipe failed due to password mismatch. Clear dialog now asks for backup's original password.
+- **Backup Password Leak**: OpenSSL no longer passes passwords via command line. Passwords piped via stdin.
+
+### v0.9.8.8 (Windows GStreamer & System Tray)
+
+- **Windows GStreamer Plugins**: Fixed DLL loading failures. Auto-dependency detection now scans plugin subdirectories.
+- **Windows OMEMO & RTP Plugins**: Fixed plugin loading failures by copying before dependency scan.
+- **Windows UX**: No batch file needed, no terminal window, app icon embedded in .exe.
+- **System Tray (Linux)**: Restored StatusNotifierItem systray with libdbusmenu. Platform-conditional implementation.
+
+### v0.9.8.7 (SHA256 Checksums)
+
+- **SHA256 Checksums**: All binary downloads now include SHA256 checksum files.
+- **AppImage Filename**: Fixed missing version number in filenames.
+
+### v0.9.8.6 (Certificate Pinning & Native ARM CI)
+
+- **Certificate Pinning SQL Fix**: Fixed SQL syntax error in upsert query for pinning self-signed certificates.
+- **Native ARM CI**: Switched aarch64 builds from QEMU emulation to native GitHub ARM64 runners (`ubuntu-24.04-arm`).
 
 ### v0.9.8.5 (Windows Port & OpenPGP Overhaul)
 
@@ -54,12 +96,6 @@ This document is organized as a **chronological release timeline** first, follow
 - **Maintenance**: Deprecated "Help" button in favor of streamlined UI.
 
 ## Forward-Looking Roadmap
-
-### Q2/Q3 2026: OMEMO 2 (urn:xmpp:omemo:2)
-
-- **Compatibility**: Dual-stack implementation (Legacy OMEMO + Modern OMEMO 2) for seamless migration.
-- **Security**: Improved ciphers, enhanced forward secrecy, and modern key agreement.
-- **Interop**: Ensure compatibility with Conversations, Monal, and other clients adopting OMEMO 2.
 
 ### Q3/Q4 2026: macOS & BSD Porting
 

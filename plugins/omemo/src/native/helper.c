@@ -386,7 +386,7 @@ int omemo2_hkdf_sha256(uint8_t *output, size_t output_len,
         const uint8_t *info, size_t info_len)
 {
     /* RFC 5869 HKDF using HMAC-SHA-256 */
-    /* Step 1: Extract — PRK = HMAC-SHA-256(salt, IKM) */
+    /* Step 1: Extract -- PRK = HMAC-SHA-256(salt, IKM) */
     gcry_mac_hd_t hmac;
     gpg_error_t err;
 
@@ -413,7 +413,7 @@ int omemo2_hkdf_sha256(uint8_t *output, size_t output_len,
     gcry_mac_close(hmac);
     if (err) return -1;
 
-    /* Step 2: Expand — T(i) = HMAC-SHA-256(PRK, T(i-1) || info || i) */
+    /* Step 2: Expand -- T(i) = HMAC-SHA-256(PRK, T(i-1) || info || i) */
     size_t n = (output_len + 31) / 32;
     if (n > 255) return -1;  /* RFC limit */
 

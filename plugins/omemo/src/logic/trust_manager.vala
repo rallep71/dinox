@@ -33,6 +33,42 @@ public class TrustManager {
             .set(db.trust.blind_trust, blind_trust).perform();
     }
 
+    /**
+     * Remove a device entirely: delete session + identity_meta entry.
+     * This lets the user clean up old/inactive devices that no longer work.
+     */
+    public void delete_device(Account account, Jid jid, int device_id) {
+        int identity_id = db.identity.get_id(account.id);
+        if (identity_id < 0) return;
+
+        // Delete the signal session
+        Dino.Application? app = Application.get_default() as Dino.Application;
+        if (app != null) {
+            Store? store = app.stream_interactor.module_manager.get_module<StreamModule>(account, StreamModule.IDENTITY).store;
+            if (store != null) {
+                try {
+                    Address addr = new Address(jid.bare_jid.to_string(), device_id);
+                    if (store.contains_session(addr)) {
+                        store.delete_session(addr);
+                        debug("Deleted session for %s/%d", jid.to_string(), device_id);
+                    }
+                    addr.device_id = 0;
+                } catch (Error e) {
+                    warning("Error deleting session for %s/%d: %s", jid.to_string(), device_id, e.message);
+                }
+            }
+        }
+
+        // Delete identity_meta row
+        db.identity_meta.delete()
+            .with(db.identity_meta.identity_id, "=", identity_id)
+            .with(db.identity_meta.address_name, "=", jid.bare_jid.to_string())
+            .with(db.identity_meta.device_id, "=", device_id)
+            .perform();
+
+        debug("Removed device %s/%d from database", jid.to_string(), device_id);
+    }
+
     public void set_device_trust(Account account, Jid jid, int device_id, TrustLevel trust_level) {
         int identity_id = db.identity.get_id(account.id);
         db.identity_meta.update()

@@ -8,6 +8,9 @@ namespace Dino.Plugins.HttpFiles {
 class EncryptedHttpFileSendData : HttpFileSendData {
     public uint8[] key;
     public uint8[] iv;
+    /* ESFS mode: aes-256-gcm-nopadding:0 -> no GCM auth tag appended.
+     * Legacy aesgcm:// mode: GCM auth tag (16 bytes) IS appended. */
+    public bool esfs_mode = false;
 }
 
 public class HttpFileSender : FileSender, Object {
@@ -57,8 +60,14 @@ public class HttpFileSender : FileSender, Object {
             enc_data.iv = new uint8[12];
             Crypto.randomize(enc_data.key);
             Crypto.randomize(enc_data.iv);
-            // AES-GCM adds 16 bytes auth tag
-            upload_size += 16;
+            // Check ESFS vs legacy mode early so the slot size is correct.
+            // ESFS (aes-256-gcm-nopadding:0): no GCM auth tag -> upload_size = file size.
+            // Legacy aesgcm://: 16-byte GCM auth tag appended -> upload_size = file size + 16.
+            bool is_esfs = Dino.Entities.FileTransfer.is_esfs_jid(conversation.counterpart.bare_jid.to_string());
+            enc_data.esfs_mode = is_esfs;
+            if (!is_esfs) {
+                upload_size += 16;
+            }
             send_data = enc_data;
         } else {
             send_data = new HttpFileSendData();
@@ -141,6 +150,13 @@ public class HttpFileSender : FileSender, Object {
         // Share encrypted files without SFS
         else {
             debug("http-files: sending encrypted or non-referenceable; uploading first url=%s", sanitize_url_for_log(send_data.url_down));
+
+            // esfs_mode was already set in prepare_send_file() so slot size matches.
+            if (send_data is EncryptedHttpFileSendData) {
+                var enc = (EncryptedHttpFileSendData) send_data;
+                debug("http-files: esfs_mode=%s for %s", enc.esfs_mode.to_string(), conversation.counterpart.bare_jid.to_string());
+            }
+
             yield upload(file_transfer, send_data, file_meta);
 
             // Construct aesgcm URL if encrypted
@@ -189,33 +205,25 @@ public class HttpFileSender : FileSender, Object {
                 var sfs_encryption = new Xep.StatelessFileSharing.EncryptionData();
                 sfs_encryption.key = enc_data.key;
                 sfs_encryption.iv = enc_data.iv;
+                sfs_encryption.cipher_uri = "urn:xmpp:ciphers:aes-256-gcm-nopadding:0";
                 
-                // We need to hook into the message building process to inject the SFS element.
-                // Since we don't have a direct way to modify the stanza here before it's sent by MessageProcessor,
-                // we can use the 'build_message_stanza' signal or similar, but that's global.
-                // Alternatively, we can manually construct the SFS element and attach it if MessageProcessor allows.
-                
-                // Better approach: The MessageProcessor emits 'build_message_stanza'. We can connect to it temporarily?
-                // Or, we can use the fact that we are in a plugin.
-                
-                // Actually, let's look at how SFS is usually attached.
-                // In 'send_file' above (unencrypted branch), it does:
-                // Xep.StatelessFileSharing.set_sfs_attachment(stanza, attach_to_id, file_transfer.file_sharing_id, sources);
-                // But that's for attaching to an existing message.
-                
-                // Here we are creating a new message.
-                // We can use a one-shot signal handler on the message processor for this specific message ID?
-                // Or we can just attach the SFS element to the message object if it supports it?
-                // The 'Entities.Message' object doesn't hold arbitrary stanza nodes.
-                
-                // Let's use a signal connection on the message processor for this specific send.
+                // Hook into message building to inject the SFS element onto the stanza.
+                // The OMEMO 2 encryptor will then pick it up and put it inside the SCE envelope.
                 ulong signal_id = 0;
                 signal_id = stream_interactor.get_module<MessageProcessor>(MessageProcessor.IDENTITY).build_message_stanza.connect((msg, stanza, conv) => {
                     if (msg.id == message.id) {
                         var sources = new ArrayList<Xep.StatelessFileSharing.Source>();
                         sources.add(new Xep.StatelessFileSharing.HttpSource() { url = sfs_url });
                         
-                        Xep.StatelessFileSharing.set_sfs_element(stanza, file_transfer.file_sharing_id, file_transfer.file_metadata, sources, sfs_encryption);
+                        var fm = file_transfer.file_metadata;
+                        debug("http-files: SFS metadata for ESFS: name=%s size=%lld mime=%s hashes=%d width=%d height=%d",
+                              fm.name ?? "(null)", (long) fm.size, fm.mime_type ?? "(null)",
+                              fm.hashes.size, fm.width, fm.height);
+                        foreach (var h in fm.hashes) {
+                            debug("http-files: SFS hash algo=%s val=%s", h.algo, h.val);
+                        }
+                        
+                        Xep.StatelessFileSharing.set_sfs_element(stanza, file_transfer.file_sharing_id, fm, sources, sfs_encryption);
                         stream_interactor.get_module<MessageProcessor>(MessageProcessor.IDENTITY).disconnect(signal_id);
                     }
                 });
@@ -299,12 +307,15 @@ public class HttpFileSender : FileSender, Object {
                 var cipher = new SymmetricCipher("AES256-GCM");
                 cipher.set_key(enc_data.key);
                 cipher.set_iv(enc_data.iv);
-                // GCM tag length is 16
-                var encrypter = new SymmetricCipherEncrypter((owned) cipher, 16);
+                /* ESFS (aes-256-gcm-nopadding:0): no GCM auth tag (Kaidan/QXmpp).
+                 * Legacy aesgcm://: 16-byte GCM auth tag appended (Conversations/Monocles). */
+                int tag_len = enc_data.esfs_mode ? 0 : 16;
+                var encrypter = new SymmetricCipherEncrypter((owned) cipher, tag_len);
                 var cis = new ConverterInputStream(upload_stream, encrypter);
                 cis.close_base_stream = false;
                 upload_stream = cis;
-                upload_size += 16;
+                // The encrypted stream is larger by tag_len bytes
+                upload_size += tag_len;
             } catch (Crypto.Error e) {
                 throw new FileSendError.UPLOAD_FAILED("Encryption setup failed: %s".printf(e.message));
             }
@@ -350,11 +361,11 @@ public class HttpFileSender : FileSender, Object {
         if (url == null) return "(null)";
         string s = url;
         int hash = s.index_of("#");
-        if (hash >= 0) s = s.substring(0, hash) + "#…";
+        if (hash >= 0) s = s.substring(0, hash) + "#...";
         // Avoid spewing huge query strings in logs.
         int q = s.index_of("?");
         if (q >= 0 && q < s.length) {
-            s = s.substring(0, q) + "?…";
+            s = s.substring(0, q) + "?...";
         }
         return s;
     }

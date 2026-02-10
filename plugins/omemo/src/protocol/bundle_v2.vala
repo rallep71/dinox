@@ -71,8 +71,8 @@ public class Bundle2 {
     /**
      * Get identity key (bare 32-byte Ed25519 key).
      * OMEMO 2 bundles carry IK as Ed25519 (ec_public_key_get_ed()),
-     * NOT Montgomery. curve_decode_point with 32 bytes → curve_decode_point_ed
-     * → stores ed_data (for sig verify) + converts to Montgomery in data (for DH).
+     * NOT Montgomery. curve_decode_point with 32 bytes -> curve_decode_point_ed
+     * -> stores ed_data (for sig verify) + converts to Montgomery in data (for DH).
      */
     public ECPublicKey? identity_key { owned get {
         if (node == null) return null;

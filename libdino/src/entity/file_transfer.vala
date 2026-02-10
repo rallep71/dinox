@@ -9,6 +9,15 @@ public class FileTransfer : Object {
     public const bool DIRECTION_SENT = true;
     public const bool DIRECTION_RECEIVED = false;
 
+    /**
+     * Registry of JIDs that support OMEMO 2 / ESFS file transfers.
+     * Set by the OMEMO plugin when v2 device lists are received.
+     * Read by the http-files plugin to choose GCM tag handling.
+     */
+    private static Gee.HashSet<string> _esfs_jids = new Gee.HashSet<string>();
+    public static void register_esfs_jid(string jid) { _esfs_jids.add(jid); }
+    public static bool is_esfs_jid(string jid) { return _esfs_jids.contains(jid); }
+
     public enum State {
         COMPLETE,
         IN_PROGRESS,
@@ -128,7 +137,7 @@ public class FileTransfer : Object {
 
         id = row[db.file_transfer.id];
         file_sharing_id = row[db.file_transfer.file_sharing_id];
-        account = db.get_account_by_id(row[db.file_transfer.account_id]); // TODO don’t have to generate acc new
+        account = db.get_account_by_id(row[db.file_transfer.account_id]); // TODO don't have to generate acc new
 
             // Sticker fields (optional)
             is_sticker = row[db.file_transfer.is_sticker];

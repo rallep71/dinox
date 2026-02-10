@@ -594,11 +594,11 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
 
         // 1. Save VCard-temp (XEP-0054)
         print("AccountPreferences: Saving VCard-temp...\n");
-        print("DEBUG: Street: '%s'\n", vcard_adr_street.text);
-        print("DEBUG: City: '%s'\n", vcard_adr_city.text);
-        print("DEBUG: Region: '%s'\n", vcard_adr_region.text);
-        print("DEBUG: PCode: '%s'\n", vcard_adr_pcode.text);
-        print("DEBUG: Country: '%s'\n", vcard_adr_country.text);
+        debug("Street: '%s'", vcard_adr_street.text);
+        debug("City: '%s'", vcard_adr_city.text);
+        debug("Region: '%s'", vcard_adr_region.text);
+        debug("PCode: '%s'", vcard_adr_pcode.text);
+        debug("Country: '%s'", vcard_adr_country.text);
 
         var vcard = new Xmpp.Xep.VCard.VCardInfo();
         vcard.full_name = vcard_fn.text;

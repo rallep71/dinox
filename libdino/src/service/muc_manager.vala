@@ -679,14 +679,14 @@ public class MucManager : StreamInteractionModule, Object {
         stream_interactor.module_manager.get_module<Xep.Muc.Module>(account, Xep.Muc.Module.IDENTITY).self_removed_from_room.connect( (stream, jid, code, reason) => {
             cancel_sync(account, jid);
             
-            printerr("DEBUG: self_removed_from_room code=%d reason='%s'\n", (int)code, reason != null ? reason : "null");
+            debug("self_removed_from_room code=%d reason='%s'", (int)code, reason != null ? reason : "null");
 
             bool close = true;
             if (code == Xep.Muc.StatusCode.BANNED && reason != null && (reason.contains("minutes") || reason.contains("min"))) {
                  close = false;
-                 printerr("DEBUG: Not closing conversation because of timed ban.\n");
+                 debug("Not closing conversation because of timed ban.");
             } else {
-                 printerr("DEBUG: Closing conversation. Code match: %s, Reason match: %s\n", (code == Xep.Muc.StatusCode.BANNED).to_string(), (reason != null && (reason.contains("minutes") || reason.contains("min"))).to_string());
+                 debug("Closing conversation. Code match: %s, Reason match: %s", (code == Xep.Muc.StatusCode.BANNED).to_string(), (reason != null && (reason.contains("minutes") || reason.contains("min"))).to_string());
             }
 
             left(account, jid, close);

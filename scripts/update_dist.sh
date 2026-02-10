@@ -36,7 +36,7 @@ cp build/main/dinox.exe dist/
 # Copy Windows launcher script
 if [ -f "scripts/dinox.bat" ]; then
     cp scripts/dinox.bat dist/
-    echo "  ✓ dinox.bat (Windows launcher with environment setup)"
+    echo "  [OK] dinox.bat (Windows launcher with environment setup)"
 fi
 
 # ============================================
@@ -47,7 +47,7 @@ cp build/libdino/libdino-0.dll dist/
 cp build/xmpp-vala/libxmpp-vala-0.dll dist/
 cp build/qlite/libqlite-0.dll dist/
 cp build/crypto-vala/libcrypto-vala-0.dll dist/
-echo "  ✓ libdino-0.dll, libxmpp-vala-0.dll, libqlite-0.dll, libcrypto-vala-0.dll"
+echo "  [OK] libdino-0.dll, libxmpp-vala-0.dll, libqlite-0.dll, libcrypto-vala-0.dll"
 
 # ============================================
 # System DLLs from MSYS2 (required for standalone Windows execution)
@@ -237,24 +237,24 @@ for dll in "${SYSTEM_DLLS[@]}"; do
             fi
         done
         if [ "$FOUND" = false ]; then
-            echo "  ⚠ Not found: $dll"
+            echo "  [WARN] Not found: $dll"
         fi
     fi
 done
-echo "  ✓ $DLL_COUNT system DLLs copied"
+echo "  [OK] $DLL_COUNT system DLLs copied"
 
 # Copy GDK-Pixbuf loaders (for image format support)
 if [ -d "/mingw64/lib/gdk-pixbuf-2.0" ]; then
     mkdir -p dist/lib/gdk-pixbuf-2.0
     cp -r /mingw64/lib/gdk-pixbuf-2.0/* dist/lib/
-    echo "  ✓ GDK-Pixbuf loaders"
+    echo "  [OK] GDK-Pixbuf loaders"
 fi
 
 # Copy GIO modules (for GVFS, etc.)
 if [ -d "/mingw64/lib/gio" ]; then
     mkdir -p dist/lib/gio
     cp -r /mingw64/lib/gio/* dist/lib/gio/
-    echo "  ✓ GIO modules"
+    echo "  [OK] GIO modules"
 fi
 
 # Copy GStreamer plugins (for audio/video)
@@ -271,7 +271,7 @@ if [ -d "/mingw64/lib/gstreamer-1.0" ]; then
             [ -f "$f" ] && cp "$f" dist/lib/gstreamer-1.0/
         done
     done
-    echo "  ✓ GStreamer plugins"
+    echo "  [OK] GStreamer plugins"
 fi
 
 # ============================================
@@ -280,7 +280,7 @@ fi
 # ============================================
 echo "[4d/8] Copying DinoX Plugins..."
 find build/plugins -name "*.dll" -exec cp {} dist/plugins/ \;
-echo "  ✓ $(ls dist/plugins/*.dll 2>/dev/null | wc -l) plugins copied"
+echo "  [OK] $(ls dist/plugins/*.dll 2>/dev/null | wc -l) plugins copied"
 
 # Clean up any stale core DLLs that may have landed in plugins/ from earlier builds.
 # These are NOT plugins and would cause "register_plugin not found" errors.
@@ -328,14 +328,14 @@ while true; do
     
     # Safety: max 10 passes to avoid infinite loops
     if [ $PASS -ge 10 ]; then
-        echo "  ⚠ Stopped after $PASS passes (safety limit)"
+        echo "  [WARN] Stopped after $PASS passes (safety limit)"
         break
     fi
 done
 if [ $AUTO_COUNT -gt 0 ]; then
-    echo "  ✓ Auto-copied $AUTO_COUNT additional DLLs in $PASS passes"
+    echo "  [OK] Auto-copied $AUTO_COUNT additional DLLs in $PASS passes"
 else
-    echo "  ✓ No missing dependencies detected"
+    echo "  [OK] No missing dependencies detected"
 fi
 
 # ============================================
@@ -346,22 +346,22 @@ echo "[5/8] Copying helper executables to bin/..."
 # GPG executables (for OpenPGP and encrypted backups)
 if [ -f "/mingw64/bin/gpg.exe" ]; then
     cp /mingw64/bin/gpg.exe dist/bin/
-    echo "  ✓ gpg.exe"
+    echo "  [OK] gpg.exe"
 fi
 if [ -f "/mingw64/bin/gpg-agent.exe" ]; then
     cp /mingw64/bin/gpg-agent.exe dist/bin/
-    echo "  ✓ gpg-agent.exe"
+    echo "  [OK] gpg-agent.exe"
 fi
 if [ -f "/mingw64/bin/gpgconf.exe" ]; then
     cp /mingw64/bin/gpgconf.exe dist/bin/
-    echo "  ✓ gpgconf.exe"
+    echo "  [OK] gpgconf.exe"
 fi
 if [ -f "/mingw64/bin/pinentry-w32.exe" ]; then
     cp /mingw64/bin/pinentry-w32.exe dist/bin/
-    echo "  ✓ pinentry-w32.exe"
+    echo "  [OK] pinentry-w32.exe"
 elif [ -f "/usr/bin/pinentry-w32.exe" ]; then
     cp /usr/bin/pinentry-w32.exe dist/bin/
-    echo "  ✓ pinentry-w32.exe"
+    echo "  [OK] pinentry-w32.exe"
 fi
 
 # GPGME spawn helper (needed by GPGME library - MUST be next to exe or in PATH)
@@ -369,48 +369,48 @@ if [ -f "/mingw64/bin/gpgme-w32spawn.exe" ]; then
     cp /mingw64/bin/gpgme-w32spawn.exe dist/bin/
     # ALSO copy to dist/ root as GPGME looks there first!
     cp /mingw64/bin/gpgme-w32spawn.exe dist/
-    echo "  ✓ gpgme-w32spawn.exe (bin/ + root)"
+    echo "  [OK] gpgme-w32spawn.exe (bin/ + root)"
 elif command -v gpgme-w32spawn.exe &> /dev/null; then
     cp "$(command -v gpgme-w32spawn.exe)" dist/bin/
     cp "$(command -v gpgme-w32spawn.exe)" dist/
-    echo "  ✓ gpgme-w32spawn.exe (bin/ + root)"
+    echo "  [OK] gpgme-w32spawn.exe (bin/ + root)"
 else
-    echo "  ⚠ Warning: gpgme-w32spawn.exe not found!"
+    echo "  [WARN] Warning: gpgme-w32spawn.exe not found!"
 fi
 
 # NOTE: Do NOT copy tar.exe! Windows 10+ has a built-in tar.exe in System32
 # that works with native Windows paths. Our MSYS2 tar.exe has path conversion
 # issues that cause "Cannot connect to C:" errors on user machines.
-echo "  ℹ tar.exe: Using Windows built-in (C:\\Windows\\System32\\tar.exe)"
+echo "  [INFO] tar.exe: Using Windows built-in (C:\\Windows\\System32\\tar.exe)"
 
 # OpenSSL (for backup encryption - simpler than GPG, no agent needed)
 if [ -f "/mingw64/bin/openssl.exe" ]; then
     cp /mingw64/bin/openssl.exe dist/bin/
-    echo "  ✓ openssl.exe"
+    echo "  [OK] openssl.exe"
 elif [ -f "/usr/bin/openssl.exe" ]; then
     cp /usr/bin/openssl.exe dist/bin/
-    echo "  ✓ openssl.exe"
+    echo "  [OK] openssl.exe"
 else
-    echo "  ⚠ Warning: openssl.exe not found! Encrypted backups will not work."
+    echo "  [WARN] Warning: openssl.exe not found! Encrypted backups will not work."
 fi
 
 # Tor - MUST use MinGW64 native build, NOT the MSYS2/Cygwin version
 # The MSYS2 /usr/bin/tor is a Cygwin binary that Windows reports as "16-bit incompatible"
 if [ -f "/mingw64/bin/tor.exe" ]; then
     cp /mingw64/bin/tor.exe dist/bin/
-    echo "  ✓ tor.exe (mingw64 native)"
+    echo "  [OK] tor.exe (mingw64 native)"
 elif command -v tor &> /dev/null; then
     TOR_PATH="$(which tor)"
     # Only use if it's from mingw64, not from /usr/bin (MSYS2/Cygwin)
     if [[ "$TOR_PATH" == /mingw64/* ]]; then
         cp "$TOR_PATH" dist/bin/tor.exe
-        echo "  ✓ tor.exe"
+        echo "  [OK] tor.exe"
     else
-        echo "  ⚠ Warning: tor found at $TOR_PATH but it's not a native Windows build!"
+        echo "  [WARN] Warning: tor found at $TOR_PATH but it's not a native Windows build!"
         echo "    Install mingw-w64-x86_64-tor: pacman -S mingw-w64-x86_64-tor"
     fi
 else
-    echo "  ⚠ Warning: tor not found! Anonymous connections will not work."
+    echo "  [WARN] Warning: tor not found! Anonymous connections will not work."
     echo "    Install: pacman -S mingw-w64-x86_64-tor"
 fi
 
@@ -426,9 +426,9 @@ fi
 
 if [ -n "$OBFS4_PATH" ]; then
     cp "$OBFS4_PATH" dist/bin/obfs4proxy.exe
-    echo "  ✓ obfs4proxy.exe"
+    echo "  [OK] obfs4proxy.exe"
 else
-    echo "  ⚠ Warning: obfs4proxy not found! Bridges might not work."
+    echo "  [WARN] Warning: obfs4proxy not found! Bridges might not work."
 fi
 
 # ============================================
@@ -441,7 +441,7 @@ if [ -f "/mingw64/ssl/certs/ca-bundle.crt" ]; then
     cp /mingw64/ssl/certs/ca-bundle.crt dist/ssl/certs/
     # Also copy to dist/ root for backwards compatibility
     cp /mingw64/ssl/certs/ca-bundle.crt dist/
-    echo "  ✓ CA certificates"
+    echo "  [OK] CA certificates"
 fi
 
 # GTK4 schemas (needed for settings)
@@ -449,40 +449,40 @@ if [ -d "/mingw64/share/glib-2.0/schemas" ]; then
     mkdir -p dist/share/glib-2.0/schemas
     cp /mingw64/share/glib-2.0/schemas/gschemas.compiled dist/share/glib-2.0/schemas/ 2>/dev/null || true
     cp /mingw64/share/glib-2.0/schemas/*.xml dist/share/glib-2.0/schemas/ 2>/dev/null || true
-    echo "  ✓ GLib schemas"
+    echo "  [OK] GLib schemas"
 fi
 
 # Adwaita icons (needed for GTK4/libadwaita UI)
 if [ -d "/mingw64/share/icons/Adwaita" ]; then
     mkdir -p dist/share/icons
     cp -r /mingw64/share/icons/Adwaita dist/share/icons/
-    echo "  ✓ Adwaita icons"
+    echo "  [OK] Adwaita icons"
 fi
 
 # Hicolor icons (fallback icon theme)
 if [ -d "/mingw64/share/icons/hicolor" ]; then
     cp -r /mingw64/share/icons/hicolor dist/share/icons/
-    echo "  ✓ Hicolor icons"
+    echo "  [OK] Hicolor icons"
 fi
 
 # GTK4 settings
 if [ -f "/mingw64/share/gtk-4.0/settings.ini" ]; then
     mkdir -p dist/share/gtk-4.0
     cp /mingw64/share/gtk-4.0/settings.ini dist/share/gtk-4.0/
-    echo "  ✓ GTK settings"
+    echo "  [OK] GTK settings"
 fi
 
 # Pixbuf loaders cache
 if [ -f "/mingw64/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache" ]; then
     mkdir -p dist/lib/gdk-pixbuf-2.0/2.10.0
     cp /mingw64/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache dist/lib/gdk-pixbuf-2.0/2.10.0/
-    echo "  ✓ Pixbuf loaders cache"
+    echo "  [OK] Pixbuf loaders cache"
 fi
 
 # Application icons
 if [ -d "main/data/icons/hicolor" ]; then
     cp -r main/data/icons/hicolor dist/share/icons/
-    echo "  ✓ DinoX icons"
+    echo "  [OK] DinoX icons"
 fi
 
 # ============================================
@@ -493,23 +493,23 @@ echo "[7/8] Build complete!"
 echo ""
 echo "Directory structure:"
 echo "  dist/"
-echo "  ├── dinox.exe              (main application - run this!)"
-echo "  ├── *.dll                  (system + core libraries)"
-echo "  ├── bin/"
-echo "  │   ├── gpg.exe            (OpenPGP encryption)"
-echo "  │   ├── openssl.exe        (backup encryption)"
-echo "  │   ├── tor.exe            (anonymity)"
-echo "  │   └── obfs4proxy.exe     (bridges)"
-echo "  ├── lib/"
-echo "  │   ├── gdk-pixbuf-2.0/    (image loaders)"
-echo "  │   ├── gio/               (GIO modules)"
-echo "  │   └── gstreamer-1.0/     (audio/video plugins)"
-echo "  ├── plugins/"
-echo "  │   └── *.dll              (DinoX feature plugins)"
-echo "  ├── share/"
-echo "  │   ├── glib-2.0/schemas/  (GSettings)"
-echo "  │   └── icons/             (Adwaita + app icons)"
-echo "  └── ssl/certs/             (CA certificates)"
+echo "  |-- dinox.exe              (main application - run this!)"
+echo "  |-- *.dll                  (system + core libraries)"
+echo "  |-- bin/"
+echo "  |   |-- gpg.exe            (OpenPGP encryption)"
+echo "  |   |-- openssl.exe        (backup encryption)"
+echo "  |   |-- tor.exe            (anonymity)"
+echo "  |   \-- obfs4proxy.exe     (bridges)"
+echo "  |-- lib/"
+echo "  |   |-- gdk-pixbuf-2.0/    (image loaders)"
+echo "  |   |-- gio/               (GIO modules)"
+echo "  |   \-- gstreamer-1.0/     (audio/video plugins)"
+echo "  |-- plugins/"
+echo "  |   \-- *.dll              (DinoX feature plugins)"
+echo "  |-- share/"
+echo "  |   |-- glib-2.0/schemas/  (GSettings)"
+echo "  |   \-- icons/             (Adwaita + app icons)"
+echo "  \-- ssl/certs/             (CA certificates)"
 echo ""
 echo "To run: Double-click dinox.exe"
 echo ""

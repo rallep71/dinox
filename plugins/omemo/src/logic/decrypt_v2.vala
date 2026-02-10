@@ -13,12 +13,12 @@ namespace Dino.Plugins.Omemo {
      *
      * Decryption flow:
      * 1. Find our <key> in <keys jid='our_jid'> group
-     * 2. DR_decrypt(encrypted_key) → mk(32) || auth_tag(16) = 48 bytes
-     * 3. HKDF-SHA-256(mk, salt=32_zero_bytes, info="OMEMO Payload") → 80 bytes:
+     * 2. DR_decrypt(encrypted_key) -> mk(32) || auth_tag(16) = 48 bytes
+     * 3. HKDF-SHA-256(mk, salt=32_zero_bytes, info="OMEMO Payload") -> 80 bytes:
      *    enc_key[32] | auth_key[32] | iv[16]
      * 4. Verify: HMAC-SHA-256(auth_key, ciphertext)[0:16] == auth_tag
      * 5. plaintext = AES-256-CBC-PKCS7-decrypt(enc_key, iv, ciphertext)
-     * 6. Parse SCE envelope → extract body text
+     * 6. Parse SCE envelope -> extract body text
      */
     public class Omemo2Decrypt : Xep.Omemo.Omemo2Decryptor {
 
@@ -72,12 +72,44 @@ namespace Dino.Plugins.Omemo {
 
                 foreach (Jid possible_jid in possible_jids) {
                     try {
-                        /* Decrypt per-device key → mk || auth_tag */
+                        /* Decrypt per-device key -> mk || auth_tag */
                         uint8[] mk_and_tag = decrypt_key_raw(encrypted_key, is_kex, data.sid, possible_jid);
 
                         if (data.ciphertext != null) {
-                            string cleartext = yield decrypt_payload(data.ciphertext, mk_and_tag);
-                            message.body = cleartext;
+                            Xep.Sce.Envelope envelope = yield decrypt_envelope(data.ciphertext, mk_and_tag);
+
+                            /* Extract body if present */
+                            string? body = envelope.get_body();
+                            if (body != null) {
+                                message.body = body;
+                            }
+
+                            /* Inject all SCE content nodes into stanza for downstream handlers
+                             * (e.g. FileProvider for file-sharing, OOB, SFS elements) */
+                            foreach (StanzaNode content_node in envelope.content_nodes) {
+                                debug("OMEMO 2: SCE content node: <%s xmlns='%s'> xml=%s",
+                                      content_node.name,
+                                      content_node.ns_uri ?? "(null)",
+                                      content_node.to_xml());
+                                if (content_node.name != "body") {
+                                    stanza.stanza.put_node(content_node);
+                                }
+                                /* Store BOB (Bits of Binary) data from SCE envelope so that
+                                 * thumbnail cid: URIs can be resolved later.  The normal
+                                 * BOB pipeline listener ran before OMEMO decryption and
+                                 * couldn't see these nodes. */
+                                if (content_node.name == "data" && content_node.ns_uri == Xmpp.Xep.BitsOfBinary.NS_URI) {
+                                    string? cid = content_node.get_attribute("cid");
+                                    string? base64 = content_node.get_string_content();
+                                    if (cid != null && base64 != null) {
+                                        if (Xmpp.Xep.BitsOfBinary.known_bobs == null) {
+                                            Xmpp.Xep.BitsOfBinary.known_bobs = new Gee.HashMap<string, GLib.Bytes>();
+                                        }
+                                        Xmpp.Xep.BitsOfBinary.known_bobs[cid] = new GLib.Bytes.take(GLib.Base64.decode(base64));
+                                        debug("OMEMO 2: Stored BOB data for cid=%s (%d bytes)", cid, (int)Xmpp.Xep.BitsOfBinary.known_bobs[cid].length);
+                                    }
+                                }
+                            }
                         }
 
                         if (conversation.type_ == Conversation.Type.GROUPCHAT && message.real_jid == null) {
@@ -91,7 +123,7 @@ namespace Dino.Plugins.Omemo {
                         debug("OMEMO 2: Decrypting message from %s/%d failed: %s", possible_jid.to_string(), data.sid, e.message);
 
                         if (e.message.contains("SG_ERR_NO_SESSION") && !is_kex) {
-                            debug("OMEMO 2: No session for %s/%d — fetching bundle", possible_jid.to_string(), data.sid);
+                            debug("OMEMO 2: No session for %s/%d -- fetching bundle", possible_jid.to_string(), data.sid);
                             XmppStream? stream = stream_interactor.get_stream(account);
                             if (stream != null) {
                                 StreamModule2? module = stream.get_module<StreamModule2>(StreamModule2.IDENTITY);
@@ -143,11 +175,13 @@ namespace Dino.Plugins.Omemo {
 
                 debug("OMEMO 2: Starting new session for decryption with %s/%d", from_jid.to_string(), sid);
                 SessionCipher cipher = store.create_session_cipher(address);
+                cipher.version = 4; // OMEMO 2 requires protocol version 4
                 decrypted = cipher.decrypt_pre_key_message(msg);
             } else {
                 debug("OMEMO 2: Continuing session for decryption with %s/%d", from_jid.to_string(), sid);
                 OmemoMessage msg = Plugin.get_context().deserialize_omemo_message(encrypted_key);
                 SessionCipher cipher = store.create_session_cipher(address);
+                cipher.version = 4; // OMEMO 2 requires protocol version 4
                 decrypted = cipher.decrypt_message(msg);
             }
 
@@ -159,13 +193,16 @@ namespace Dino.Plugins.Omemo {
          * Decrypt the OMEMO 2 payload using the message key.
          */
         public override async string decrypt(uint8[] ciphertext, uint8[] message_key) throws GLib.Error {
-            return yield decrypt_payload(ciphertext, message_key);
+            Xep.Sce.Envelope envelope = yield decrypt_envelope(ciphertext, message_key);
+            string? body = envelope.get_body();
+            return body ?? "";
         }
 
         /**
          * Decrypt payload: verify HMAC, AES-256-CBC decrypt, parse SCE.
+         * Returns the full SCE envelope for processing all content nodes.
          */
-        private async string decrypt_payload(uint8[] ciphertext, uint8[] mk_and_tag) throws GLib.Error {
+        private async Xep.Sce.Envelope decrypt_envelope(uint8[] ciphertext, uint8[] mk_and_tag) throws GLib.Error {
             if (mk_and_tag.length < MK_SIZE + 16) {
                 throw new GLib.Error(Quark.from_string("omemo2"), 10, "Decrypted key too short (got %d, need %d)", mk_and_tag.length, MK_SIZE + 16);
             }
@@ -209,12 +246,10 @@ namespace Dino.Plugins.Omemo {
                 throw new GLib.Error(Quark.from_string("omemo2"), 15, "Failed to parse SCE envelope");
             }
 
-            string? body = envelope.get_body();
-            if (body == null) {
-                throw new GLib.Error(Quark.from_string("omemo2"), 16, "SCE envelope has no body");
-            }
+            debug("OMEMO 2: SCE envelope decoded, %d content nodes, body=%s",
+                  envelope.content_nodes.size, envelope.get_body() != null ? "yes" : "no");
 
-            return body;
+            return envelope;
         }
 
         /**
@@ -280,8 +315,13 @@ namespace Dino.Plugins.Omemo {
             Row? device = db.identity_meta.get_device(identity_id, from_jid.to_string(), sid);
             if (device != null && device[db.identity_meta.identity_key_public_base64] != null) {
                 if (device[db.identity_meta.identity_key_public_base64] != identity_key) {
-                    critical("OMEMO 2: Tried to use a different identity key for a known device id.");
-                    return false;
+                    warning("OMEMO 2: Identity key changed for device %d of %s. Accepting new key (may be key format migration or reinstall).", sid, from_jid.to_string());
+                    // Delete old session -- it's no longer valid with the new identity key
+                    Address addr = new Address(from_jid.bare_jid.to_string(), sid);
+                    store.delete_session(addr);
+                    addr.device_id = 0;
+                    // Update the stored identity key and reset trust to UNKNOWN
+                    db.identity_meta.insert_device_session(identity_id, from_jid.to_string(), sid, identity_key, TrustLevel.UNKNOWN);
                 }
             } else {
                 debug("OMEMO 2: Learn new device from incoming message from %s/%d", from_jid.to_string(), sid);

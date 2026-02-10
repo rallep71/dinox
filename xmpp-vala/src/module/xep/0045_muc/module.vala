@@ -422,21 +422,21 @@ public class Module : XmppStreamModule {
     }
 
     private void on_received_unavailable(XmppStream stream, Presence.Stanza presence) {
-        printerr("DEBUG: on_received_unavailable from %s\n", presence.from.to_string());
+        debug("on_received_unavailable from %s", presence.from.to_string());
         Flag flag = stream.get_flag(Flag.IDENTITY);
         if (!flag.is_occupant(presence.from)) {
-            printerr("DEBUG: Not an occupant: %s\n", presence.from.to_string());
+            debug("Not an occupant: %s", presence.from.to_string());
             return;
         }
 
         StanzaNode? x_node = presence.stanza.get_subnode("x", NS_URI_USER);
         if (x_node == null) {
-            printerr("DEBUG: No x_node found\n");
+            debug("No x_node found");
             return;
         }
 
         ArrayList<int> status_codes = get_status_codes(x_node);
-        printerr("DEBUG: Status codes: ");
+        debug("Status codes:");
         foreach (int c in status_codes) printerr("%d ", c);
         printerr("\n");
 
@@ -450,27 +450,27 @@ public class Module : XmppStreamModule {
             StanzaNode? reason_node = item_node.get_subnode("reason", NS_URI_USER);
             if (reason_node != null) {
                 reason = reason_node.get_string_content();
-                printerr("DEBUG: Found reason node with content: '%s'\n", reason);
+                debug("Found reason node with content: '%s'", reason);
             } else {
-                printerr("DEBUG: Item node found, but no reason node.\n");
+                debug("Item node found, but no reason node.");
                 // Try without namespace just in case
                 reason_node = item_node.get_subnode("reason");
                 if (reason_node != null) {
                      reason = reason_node.get_string_content();
-                     printerr("DEBUG: Found reason node without explicit namespace: '%s'\n", reason);
+                     debug("Found reason node without explicit namespace: '%s'", reason);
                 }
             }
         } else {
-            printerr("DEBUG: No item node found in x_node.\n");
+            debug("No item node found in x_node.");
         }
 
         bool is_self = StatusCode.SELF_PRESENCE in status_codes;
         if (!is_self) {
             string? own_nick = flag.get_muc_nick(presence.from.bare_jid);
-            printerr("DEBUG: Checking self-removal. Own nick: '%s', Presence resource: '%s'\n", own_nick != null ? own_nick : "null", presence.from.resourcepart);
+            debug("Checking self-removal. Own nick: '%s', Presence resource: '%s'", own_nick != null ? own_nick : "null", presence.from.resourcepart);
             if (own_nick != null && presence.from.resourcepart == own_nick) {
                 is_self = true;
-                printerr("DEBUG: Detected self-removal via nick match (missing 110)\n");
+                debug("Detected self-removal via nick match (missing 110)");
                 flag.remove_occupant_info(presence.from);
             }
         }
@@ -478,7 +478,7 @@ public class Module : XmppStreamModule {
         foreach (StatusCode code in USER_REMOVED_CODES) {
             if (code in status_codes) {
                 if (is_self) {
-                    printerr("DEBUG: Self removed with code %s\n", code.to_string());
+                    debug("Self removed with code %s", code.to_string());
                     flag.left_muc(stream, presence.from.bare_jid);
                     self_removed_from_room(stream, presence.from, code, reason);
                     Presence.Flag presence_flag = stream.get_flag(Presence.Flag.IDENTITY);

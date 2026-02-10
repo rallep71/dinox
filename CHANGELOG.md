@@ -5,6 +5,16 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.9.3] - 2026-02-10
+
+### Fixed
+- **CRITICAL: bind_property Lifecycle Fix**: Fixed `dino_entities_file_transfer_get_mime_type: assertion 'self != NULL' failed` crash caused by dangling GObject bind_property bindings. FileWidget, FileImageWidget, VideoPlayerWidget, and AudioPlayerWidget now store Binding references and unbind them in dispose(), preventing access to destroyed FileTransfer objects during widget recycling.
+- **Thumbnail Parsing**: Fixed SFS/thumbnail metadata parsing for incoming file transfers with XEP-0264 thumbnails.
+
+### Improved
+- **Debug Output Cleanup**: Removed 57 leftover debug print/warning statements across the codebase for cleaner runtime output.
+- **OMEMO 1 + 2 End-to-End Encryption**: Stabilized dual-protocol OMEMO support (legacy XEP-0384 v0.3 + modern v0.8) introduced in v0.9.9.1.
+
 ## [0.9.9.2] - 2026-02-09
 
 ### Added
