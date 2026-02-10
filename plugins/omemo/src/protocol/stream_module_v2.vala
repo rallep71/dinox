@@ -220,6 +220,7 @@ public class StreamModule2 : XmppStreamModule {
                     }
                     debug("OMEMO 2: Starting new session with %s/%d", jid.bare_jid.to_string(), device_id);
                     SessionBuilder builder = store.create_session_builder(address);
+                    builder.version = 4; // OMEMO 2: verify signature on bare 32-byte key
                     builder.process_pre_key_bundle(create_pre_key_bundle(device_id, device_id, pre_key_id, pre_key, signed_pre_key_id, signed_pre_key, signed_pre_key_signature, identity_key));
                 } catch (Error e) {
                     debug("OMEMO 2: Can't create session with %s/%d: %s", jid.bare_jid.to_string(), device_id, e.message);
