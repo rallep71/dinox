@@ -15,8 +15,9 @@ import sys
 SUSPICIOUS_CHARS = {
     # Zero-width characters (can hide code)
     '\u200b': 'Zero Width Space',
-    '\u200c': 'Zero Width Non-Joiner',
-    '\u200d': 'Zero Width Joiner',
+    # Note: U+200C (ZWNJ) and U+200D (ZWJ) are excluded because they are
+    # linguistically required in Persian/Arabic translations (ZWNJ is used
+    # between word parts, ZWJ controls ligature joining).
     '\uFEFF': 'Zero Width No-Break Space / BOM',
 
     # BiDi control characters (CVE-2021-42574 "Trojan Source" attack vector)
@@ -33,7 +34,8 @@ SUSPICIOUS_CHARS = {
     '\u2069': 'Pop Directional Isolate',
 
     # Unusual whitespace
-    '\u00A0': 'Non-Breaking Space (NBSP)',
+    # Note: U+00A0 (NBSP) is excluded because it legitimately appears in
+    # translated strings (e.g. French/Luxembourgish typographic rules).
     '\u2000': 'En Quad',
     '\u2001': 'Em Quad',
     '\u2002': 'En Space',
