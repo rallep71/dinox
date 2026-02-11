@@ -13,7 +13,7 @@
 
 Built for ultimate privacy with Omemo 1 + 2, integrated OpenPGP Key Manager, integrated Tor & Obfs4proxy, full local database encryption, WebRTC Audio/Video Calls and decentralized MUJI Group Video Calls Hardware Accelerated, voice messages, message retraction, advanced MUC moderation and more...in a modern GTK4/libadwaita interface with System Tray support
 
-[Website](https://dinox.handwerker.jetzt) • [Download](#installation) • [Features](#key-features) • [XEP Support](#xep-support) • [Build](BUILD.md) • [Debug](DEBUG.md) • [Changelog](CHANGELOG.md) • [Development Plan](DEVELOPMENT_PLAN.md) • [Contributing](CONTRIBUTING.md)
+[Website](https://dinox.handwerker.jetzt) • [Download](#installation) • [Features](#key-features) • [XEP Support](#xep-support) • [Build](docs/internal/BUILD.md) • [Debug](docs/internal/DEBUG.md) • [Changelog](docs/internal/CHANGELOG.md) • [Development Plan](docs/internal/DEVELOPMENT_PLAN.md) • [Contributing](docs/internal/CONTRIBUTING.md)
 
 </div>
 
@@ -112,7 +112,7 @@ sudo apt install build-essential meson ninja-build valac \
   gstreamer1.0-pipewire
 ```
 
-For a complete, up-to-date build guide (including Fedora/Arch and call stack notes), see [BUILD.md](BUILD.md).
+For a complete, up-to-date build guide (including Fedora/Arch and call stack notes), see [BUILD.md](docs/internal/BUILD.md).
 
 ## Local data encryption
 
@@ -132,9 +132,9 @@ DinoX 1:1 calling focuses on cross-client interoperability (notably with **Conve
 - **Security profile:** **DTLS-SRTP only** (no SDES-SRTP).
 - **Baseline codecs:** **Opus** (audio) and **VP8** (video) for reliable interop.
 - **Optional audio quality:** `webrtc-audio-processing` enables AEC/NS/AGC if present.
-  > **Note:** Many distributions ship outdated versions. For best quality (Echo Cancellation), we strongly recommend building **version 2.1+** from source. See [BUILD.md](BUILD.md#building-webrtc-audio-processing-21-manual).
+  > **Note:** Many distributions ship outdated versions. For best quality (Echo Cancellation), we strongly recommend building **version 2.1+** from source. See [BUILD.md](docs/internal/BUILD.md#building-webrtc-audio-processing-21-manual).
 
-If you are building from source using distro packages, ensure you are on a sufficiently new `libnice` (recommended: `>= 0.1.23`). For collecting reproducible call logs, see [DEBUG.md](DEBUG.md).
+If you are building from source using distro packages, ensure you are on a sufficiently new `libnice` (recommended: `>= 0.1.23`). For collecting reproducible call logs, see [DEBUG.md](docs/internal/DEBUG.md).
 
 ## XEP Support
 
@@ -235,11 +235,11 @@ DinoX implements **90+ XMPP Extension Protocols**. Here are the key ones with fu
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for how to contribute.
+See [CONTRIBUTING.md](docs/internal/CONTRIBUTING.md) for how to contribute.
 
 ## Debug Mode
 
-See [DEBUG.md](DEBUG.md) for debugging instructions.
+See [DEBUG.md](docs/internal/DEBUG.md) for debugging instructions.
 
 ## License
 

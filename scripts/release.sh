@@ -69,16 +69,16 @@ if git rev-parse "$TAG" >/dev/null 2>&1; then
 fi
 
 # Update CHANGELOG.md date if [Unreleased] exists
-if grep -q "## \[Unreleased\]" CHANGELOG.md; then
+if grep -q "## \[Unreleased\]" docs/internal/CHANGELOG.md; then
     TODAY=$(date +%Y-%m-%d)
-    sed -i "s/## \[Unreleased\]/## [Unreleased]\n\n## [$VERSION] - $TODAY/" CHANGELOG.md
+    sed -i "s/## \[Unreleased\]/## [Unreleased]\n\n## [$VERSION] - $TODAY/" docs/internal/CHANGELOG.md
     echo -e "${GREEN}[OK]${NC} Updated CHANGELOG.md"
 else
     echo -e "${YELLOW}[WARN]${NC} No [Unreleased] section in CHANGELOG.md"
 fi
 
 # Commit changelog update
-git add CHANGELOG.md
+git add docs/internal/CHANGELOG.md
 git commit -m "chore: Release version $VERSION
 
 Release: DinoX v$VERSION

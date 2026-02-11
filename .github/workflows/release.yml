@@ -142,7 +142,7 @@ jobs:
             awk -v ver="[$ver]" '
               /^## / { if (p) { exit }; if ($2 == ver) { p=1; next } }
               p { print }
-            ' CHANGELOG.md
+            ' docs/internal/CHANGELOG.md
           }
 
           notes="$(extract_changelog "$version")"

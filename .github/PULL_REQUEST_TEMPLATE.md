@@ -59,7 +59,7 @@ Related to #
 
 ### Code Quality
 - [ ] Code compiles without warnings
-- [ ] Follows [code style guidelines](CONTRIBUTING.md)
+- [ ] Follows [code style guidelines](../docs/internal/CONTRIBUTING.md)
 - [ ] No commented-out code or debug prints
 - [ ] Proper error handling added
 
@@ -72,7 +72,7 @@ Related to #
 ### Documentation
 - [ ] Updated relevant documentation
 - [ ] Added/updated code comments
-- [ ] Updated [CHANGELOG.md](CHANGELOG.md) if needed
+- [ ] Updated [CHANGELOG.md](../docs/internal/CHANGELOG.md) if needed
 - [ ] Updated README XEP table if added XEP support
 
 ### Commit Messages

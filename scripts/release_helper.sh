@@ -26,24 +26,24 @@ echo "Preparing release v$VERSION ($DATE)..."
 
 # 1. Update CHANGELOG.md
 # Replaces "## [Unreleased]" with "## [Unreleased]\n\n## [VERSION] - DATE"
-sed -i "s/## \[Unreleased\]/## [Unreleased]\n\n## [$VERSION] - $DATE/" CHANGELOG.md
+sed -i "s/## \[Unreleased\]/## [Unreleased]\n\n## [$VERSION] - $DATE/" docs/internal/CHANGELOG.md
 
 # Update the links at the bottom of CHANGELOG.md
 # This is a bit complex with sed, so we'll append the new link and update the Unreleased link
 # Assuming the last line is the previous version link
-PREV_VERSION=$(grep -oP "\[\d+\.\d+\.\d+(\.\d+)?\]:.*tag/v\K.*" CHANGELOG.md | head -1)
+PREV_VERSION=$(grep -oP "\[\d+\.\d+\.\d+(\d+)?\]:.*tag/v\K.*" docs/internal/CHANGELOG.md | head -1)
 if [ ! -z "$PREV_VERSION" ]; then
     # Update Unreleased link to compare VERSION...HEAD
-    sed -i "s/\[Unreleased\]:.*compare\/v.*HEAD/[Unreleased]: https:\/\/github.com\/rallep71\/dinox\/compare\/v$VERSION...HEAD/" CHANGELOG.md
+    sed -i "s/\[Unreleased\]:.*compare\/v.*HEAD/[Unreleased]: https:\/\/github.com\/rallep71\/dinox\/compare\/v$VERSION...HEAD/" docs/internal/CHANGELOG.md
     # Add new version link
-    echo "[$VERSION]: https://github.com/rallep71/dinox/releases/tag/v$VERSION" >> CHANGELOG.md
+    echo "[$VERSION]: https://github.com/rallep71/dinox/releases/tag/v$VERSION" >> docs/internal/CHANGELOG.md
 fi
 
 echo "Updated CHANGELOG.md"
 
 # 2. Update DEVELOPMENT_PLAN.md
-sed -i "s/> \*\*Version\*\*: .*/> **Version**: $VERSION/" DEVELOPMENT_PLAN.md
-sed -i "s/> \*\*Last Updated\*\*: .*/> **Last Updated**: $READABLE_DATE/" DEVELOPMENT_PLAN.md
+sed -i "s/> \*\*Version\*\*: .*/> **Version**: $VERSION/" docs/internal/DEVELOPMENT_PLAN.md
+sed -i "s/> \*\*Last Updated\*\*: .*/> **Last Updated**: $READABLE_DATE/" docs/internal/DEVELOPMENT_PLAN.md
 echo "Updated DEVELOPMENT_PLAN.md"
 
 # 3. Update AppData
