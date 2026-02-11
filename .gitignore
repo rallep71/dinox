@@ -38,7 +38,6 @@ docs/accessibility-pruefprotokoll.md
 build_log.txt
 windowsbuild.txt
 windows.txt
-meson_options.txt
 cross_file.txt
 check_translations.py
 
