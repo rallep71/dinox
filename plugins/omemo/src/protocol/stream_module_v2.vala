@@ -377,19 +377,15 @@ public class StreamModule2 : XmppStreamModule {
         debug("OMEMO 2: SPK id=%u", signed_pre_key_record.id);
 
         /* Verify the OMEMO signature locally, simulating what QXmpp/Kaidan does */
-        try {
-            ECPublicKey verify_ik;
-            curve_decode_point_ed(out verify_ik, ik_bytes, Plugin.get_context().native_context);
-            ECPublicKey verify_spk;
-            curve_decode_point_mont(out verify_spk, spk_bytes, Plugin.get_context().native_context);
-            uint8[] verify_spk_serialized = verify_spk.serialize_omemo();
-            debug("OMEMO 2: Verify: IK decoded (has_ed=%s), SPK decoded, SPK serialized %d bytes",
-                  verify_ik.ed != null ? "true" : "false", verify_spk_serialized.length);
-            int verify_result = Curve.verify_signature(verify_ik, verify_spk_serialized, sig_omemo);
-            debug("OMEMO 2: Local SPK signature verification result: %d (1=valid, 0=invalid, <0=error)", verify_result);
-        } catch (Error e) {
-            warning("OMEMO 2: Local signature verification failed with exception: %s", e.message);
-        }
+        ECPublicKey verify_ik;
+        curve_decode_point_ed(out verify_ik, ik_bytes, Plugin.get_context().native_context);
+        ECPublicKey verify_spk;
+        curve_decode_point_mont(out verify_spk, spk_bytes, Plugin.get_context().native_context);
+        uint8[] verify_spk_serialized = verify_spk.serialize_omemo();
+        debug("OMEMO 2: Verify: IK decoded (has_ed=%s), SPK decoded, SPK serialized %d bytes",
+              verify_ik.ed != null ? "true" : "false", verify_spk_serialized.length);
+        int verify_result = Curve.verify_signature(verify_ik, verify_spk_serialized, sig_omemo);
+        debug("OMEMO 2: Local SPK signature verification result: %d (1=valid, 0=invalid, <0=error)", verify_result);
 
         StanzaNode bundle = new StanzaNode.build("bundle", NS_URI_V2)
                 .add_self_xmlns()
