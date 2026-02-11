@@ -1653,7 +1653,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
 
         var dialog = new Adw.AlertDialog (
             _("Clear Cache"),
-            _("This will delete cached files, avatars and previews.\n\nThey will be re-downloaded when needed.")
+            _("This will delete cached files, avatars, previews and database caches (entity discovery, roster, MAM sync state, stickers).\n\nAll data will be re-fetched from the server when needed.")
 );
 
         dialog.add_response ("cancel", _("Cancel"));
@@ -1676,13 +1676,22 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
 
         new Thread<void*> ("clear-cache", () => {
             int64 freed_bytes = 0;
+            int db_rows_deleted = 0;
             bool success = true;
 
+            // 1. Clear filesystem cache (avatars, previews, downloaded files)
             try {
                 freed_bytes = delete_directory_contents (cache_dir);
             } catch (Error err) {
                 success = false;
-                warning ("Failed to clear cache: %s", err.message);
+                warning ("Failed to clear filesystem cache: %s", err.message);
+            }
+
+            // 2. Purge database caches (entity discovery, roster, MAM, stickers, etc.)
+            try {
+                db_rows_deleted = db.purge_caches ();
+            } catch (Error err) {
+                warning ("Failed to purge database caches: %s", err.message);
             }
 
             Idle.add (() => {
@@ -1690,7 +1699,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
                     Adw.Toast toast;
                     if (success) {
                         string size_str = format_size (freed_bytes);
-                        toast = new Adw.Toast (_("Cache cleared (%s freed)").printf( size_str));
+                        toast = new Adw.Toast (_("Cache cleared (%s freed, %d DB rows removed)").printf (size_str, db_rows_deleted));
                         toast.timeout = 3;
                     } else {
                         toast = new Adw.Toast (_("Failed to clear cache"));
