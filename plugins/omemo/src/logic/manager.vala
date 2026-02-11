@@ -71,6 +71,7 @@ public class Manager : StreamInteractionModule, Object {
         this.encryptors_v2 = encryptors_v2;
 
         stream_interactor.account_added.connect(on_account_added);
+        stream_interactor.account_removed.connect(on_account_removed);
         stream_interactor.stream_negotiated.connect(on_stream_negotiated);
         stream_interactor.get_module<MessageProcessor>(MessageProcessor.IDENTITY).pre_message_send.connect(on_pre_message_send);
         stream_interactor.get_module<RosterManager>(RosterManager.IDENTITY).mutual_subscription.connect(on_mutual_subscription);
@@ -413,6 +414,27 @@ public class Manager : StreamInteractionModule, Object {
             });
         }
         initialize_store.begin(account);
+    }
+
+    private void on_account_removed(Account account) {
+        // Clean up all OMEMO data for this account from omemo.db
+        int identity_id = db.identity.get_id(account.id);
+        if (identity_id < 0) return;
+
+        // Delete child tables first (reference identity_id)
+        db.content_item_meta.delete().with(db.content_item_meta.identity_id, "=", identity_id).perform();
+        db.trust.delete().with(db.trust.identity_id, "=", identity_id).perform();
+        db.identity_meta.delete().with(db.identity_meta.identity_id, "=", identity_id).perform();
+        db.session.delete().with(db.session.identity_id, "=", identity_id).perform();
+        db.pre_key.delete().with(db.pre_key.identity_id, "=", identity_id).perform();
+        db.signed_pre_key.delete().with(db.signed_pre_key.identity_id, "=", identity_id).perform();
+
+        // Delete the identity row itself (own keypair)
+        db.identity.delete().with(db.identity.account_id, "=", account.id).perform();
+
+        // Remove from in-memory caches
+        encryptors.unset(account);
+        encryptors_v2.unset(account);
     }
 
     private void on_device_list_loaded(Account account, Jid jid, ArrayList<int32> device_list) {

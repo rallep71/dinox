@@ -87,7 +87,66 @@ public class Account : Object {
     }
 
     public void remove() {
+        if (id < 0 || db == null) return;
+
+        // Delete all related data before removing the account row.
+        // No FK cascade constraints exist, so we clean up manually.
+        // Order matters: child tables must be deleted before parent tables.
+
+        // Delete content_items and conversation_settings for our conversations (via subquery)
+        try {
+            db.exec(@"DELETE FROM content_item WHERE conversation_id IN (SELECT id FROM conversation WHERE account_id = $(id))");
+            db.exec(@"DELETE FROM conversation_settings WHERE conversation_id IN (SELECT id FROM conversation WHERE account_id = $(id))");
+        } catch (Error e) {
+            warning("Error cleaning content_item/conversation_settings: %s", e.message);
+        }
+
+        // Delete call_counterparts for our calls (via subquery)
+        try {
+            db.exec(@"DELETE FROM call_counterpart WHERE call_id IN (SELECT id FROM call WHERE account_id = $(id))");
+        } catch (Error e) {
+            warning("Error cleaning call_counterpart: %s", e.message);
+        }
+
+        // Delete message-child tables (must happen BEFORE message delete)
+        try {
+            db.exec(@"DELETE FROM body_meta WHERE message_id IN (SELECT id FROM message WHERE account_id = $(id))");
+            db.exec(@"DELETE FROM message_occupant_id WHERE message_id IN (SELECT id FROM message WHERE account_id = $(id))");
+            db.exec(@"DELETE FROM message_correction WHERE message_id IN (SELECT id FROM message WHERE account_id = $(id))");
+            db.exec(@"DELETE FROM reply WHERE message_id IN (SELECT id FROM message WHERE account_id = $(id))");
+            db.exec(@"DELETE FROM real_jid WHERE message_id IN (SELECT id FROM message WHERE account_id = $(id))");
+            db.exec(@"DELETE FROM undecrypted WHERE message_id IN (SELECT id FROM message WHERE account_id = $(id))");
+        } catch (Error e) {
+            warning("Error cleaning message-child tables: %s", e.message);
+        }
+
+        // Delete file_transfer-child tables (must happen BEFORE file_transfer delete)
+        try {
+            db.exec(@"DELETE FROM file_hashes WHERE id IN (SELECT id FROM file_transfer WHERE account_id = $(id))");
+            db.exec(@"DELETE FROM file_thumbnails WHERE id IN (SELECT id FROM file_transfer WHERE account_id = $(id))");
+            db.exec(@"DELETE FROM sfs_sources WHERE file_transfer_id IN (SELECT id FROM file_transfer WHERE account_id = $(id))");
+        } catch (Error e) {
+            warning("Error cleaning file_transfer-child tables: %s", e.message);
+        }
+
+        // Delete from all tables that have account_id directly
+        db.message.delete().with(db.message.account_id, "=", id).perform();
+        db.entity.delete().with(db.entity.account_id, "=", id).perform();
+        db.occupantid.delete().with(db.occupantid.account_id, "=", id).perform();
+        db.file_transfer.delete().with(db.file_transfer.account_id, "=", id).perform();
+        db.call.delete().with(db.call.account_id, "=", id).perform();
+        db.conversation.delete().with(db.conversation.account_id, "=", id).perform();
+        db.avatar.delete().with(db.avatar.account_id, "=", id).perform();
+        db.roster.delete().with(db.roster.account_id, "=", id).perform();
+        db.mam_catchup.delete().with(db.mam_catchup.account_id, "=", id).perform();
+        db.reaction.delete().with(db.reaction.account_id, "=", id).perform();
+        db.account_settings.delete().with(db.account_settings.account_id, "=", id).perform();
+        db.sticker_pack.delete().with(db.sticker_pack.account_id, "=", id).perform();
+        db.sticker_item.delete().with(db.sticker_item.account_id, "=", id).perform();
+
+        // Finally delete the account row itself
         db.account.delete().with(db.account.bare_jid, "=", bare_jid.to_string()).perform();
+
         notify.disconnect(on_update);
         id = -1;
         db = null;
