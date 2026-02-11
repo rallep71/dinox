@@ -19,6 +19,39 @@ public class Manager : StreamInteractionModule, Object {
     /* Track JIDs that have announced OMEMO 2 devices */
     private HashSet<string> v2_jids = new HashSet<string>();
 
+    /* ── Bundle-Retry ──────────────────────────────────────────────
+     * Wenn ein OMEMO-2-Bundle leer/kaputt vom Server kommt (z.B.
+     * Kaidan publiziert <ik/> ohne Inhalt), wird das Gerät hier
+     * eingetragen.  Alle BUNDLE_RETRY_INTERVAL_SEC Sekunden fragt
+     * DinoX das Bundle erneut ab.  Nach BUNDLE_RETRY_MAX_ATTEMPTS
+     * erfolglosen Versuchen wird das Gerät nicht mehr probiert.
+     * Sobald ein gültiges Bundle eintrifft, wird der Eintrag
+     * entfernt und die Session normal aufgebaut.
+     * ─────────────────────────────────────────────────────────── */
+    private const int BUNDLE_RETRY_INTERVAL_SEC = 10 * 60;   // 10 Minuten
+    private const int BUNDLE_RETRY_MAX_ATTEMPTS = 5;
+
+    private class BundleRetryEntry {
+        public Account account;
+        public Jid jid;
+        public int32 device_id;
+        public int attempts;
+        public BundleRetryEntry(Account account, Jid jid, int32 device_id) {
+            this.account = account;
+            this.jid = jid;
+            this.device_id = device_id;
+            this.attempts = 0;
+        }
+        public string key() {
+            return @"$(account.id):$(jid.bare_jid):$device_id";
+        }
+    }
+
+    /* Map: "account_id:bare_jid:device_id" → BundleRetryEntry */
+    private HashMap<string, BundleRetryEntry> bundle_retry_queue
+        = new HashMap<string, BundleRetryEntry>();
+    private uint bundle_retry_timer_id = 0;
+
     private class MessageState {
         public Entities.Message msg { get; private set; }
         public Xep.Omemo.EncryptState last_try { get; private set; }
@@ -214,12 +247,21 @@ public class Manager : StreamInteractionModule, Object {
                 } else {
                     debug("delaying message %s", state.to_string());
 
+                    // Fetch bundles via both legacy and v2 modules
+                    StreamModule2? module2_delay = ((!)stream).get_module<StreamModule2>(StreamModule2.IDENTITY);
+
                     if (state.waiting_own_sessions > 0) {
                         module.fetch_bundles((!)stream, conversation.account.bare_jid, trust_manager.get_trusted_devices(conversation.account, conversation.account.bare_jid));
+                        if (use_v2 && module2_delay != null) {
+                            module2_delay.fetch_bundles((!)stream, conversation.account.bare_jid, trust_manager.get_trusted_devices(conversation.account, conversation.account.bare_jid));
+                        }
                     }
                     if (state.waiting_other_sessions > 0 && message.counterpart != null) {
                         foreach(Jid jid in get_occupants(((!)message.counterpart).bare_jid, conversation.account)) {
                             module.fetch_bundles((!)stream, jid, trust_manager.get_trusted_devices(conversation.account, jid));
+                            if (use_v2 && module2_delay != null) {
+                                module2_delay.fetch_bundles((!)stream, jid, trust_manager.get_trusted_devices(conversation.account, jid));
+                            }
                         }
                     }
                     if (state.waiting_other_devicelists > 0 && message.counterpart != null) {
@@ -253,6 +295,9 @@ public class Manager : StreamInteractionModule, Object {
                 republish_device_list_with_retry(account, stream, 5);
             });
         }
+        /* Bundle-Retry-Timer starten (einmalig, läuft für alle Accounts) */
+        start_bundle_retry_timer();
+
         /* Also request OMEMO 2 device list */
         StreamModule2? module2 = stream_interactor.module_manager.get_module<StreamModule2>(account, StreamModule2.IDENTITY);
         if (module2 != null) {
@@ -267,6 +312,60 @@ public class Manager : StreamInteractionModule, Object {
                     module2.request_user_devicelist.begin(stream, conv.counterpart.bare_jid);
                 }
             }
+        }
+    }
+
+    /* ── Bundle-Retry-Timer ────────────────────────────────────────
+     * Startet einen GLib.Timeout, der alle BUNDLE_RETRY_INTERVAL_SEC
+     * Sekunden die Retry-Queue abarbeitet.  Wird nur einmal gestartet
+     * und läuft, solange die Queue Einträge hat.
+     * ───────────────────────────────────────────────────────────── */
+    private void start_bundle_retry_timer() {
+        if (bundle_retry_timer_id != 0) return;  // läuft bereits
+        bundle_retry_timer_id = Timeout.add_seconds(BUNDLE_RETRY_INTERVAL_SEC, () => {
+            process_bundle_retry_queue();
+            if (bundle_retry_queue.size == 0) {
+                debug("OMEMO 2: Bundle retry queue empty – timer stopped");
+                bundle_retry_timer_id = 0;
+                return false;  // Timer beenden
+            }
+            return true;  // weiter laufen lassen
+        });
+        debug("OMEMO 2: Bundle retry timer started (%d sec interval)", BUNDLE_RETRY_INTERVAL_SEC);
+    }
+
+    /* Alle Einträge in der Retry-Queue durchgehen und Bundle erneut
+     * vom Server abfragen.  Einträge mit zu vielen Versuchen werden
+     * entfernt und das Gerät ignoriert. */
+    private void process_bundle_retry_queue() {
+        if (bundle_retry_queue.size == 0) return;
+
+        var to_remove = new ArrayList<string>();
+
+        foreach (var entry in bundle_retry_queue.entries) {
+            BundleRetryEntry r = entry.value;
+            r.attempts++;
+
+            if (r.attempts > BUNDLE_RETRY_MAX_ATTEMPTS) {
+                debug("OMEMO 2: Giving up on bundle for %s/%d after %d attempts",
+                      r.jid.to_string(), r.device_id, BUNDLE_RETRY_MAX_ATTEMPTS);
+                to_remove.add(entry.key);
+                continue;
+            }
+
+            XmppStream? stream = stream_interactor.get_stream(r.account);
+            if (stream == null) continue;
+
+            StreamModule2? module2 = stream.get_module<StreamModule2>(StreamModule2.IDENTITY);
+            if (module2 == null) continue;
+
+            debug("OMEMO 2: Retry bundle fetch for %s/%d (attempt %d/%d)",
+                  r.jid.to_string(), r.device_id, r.attempts, BUNDLE_RETRY_MAX_ATTEMPTS);
+            module2.fetch_bundle(stream, r.jid, r.device_id, false);
+        }
+
+        foreach (string key in to_remove) {
+            bundle_retry_queue.unset(key);
         }
     }
 
@@ -629,8 +728,46 @@ public class Manager : StreamInteractionModule, Object {
 
         ECPublicKey? identity_key = bundle.identity_key;
         if (identity_key == null) {
-            debug("OMEMO 2: Bundle for %s/%d has no identity key", jid.to_string(), device_id);
+            /* Bundle ist leer/kaputt – für periodischen Retry vormerken.
+             * Typisch für Kaidan u.a., die manchmal <ik/> ohne Inhalt
+             * publizieren.  Beim nächsten Retry-Zyklus wird das Bundle
+             * erneut abgefragt; repariert der Kontakt sein Bundle
+             * zwischenzeitlich, klappt der Session-Aufbau automatisch. */
+            var entry = new BundleRetryEntry(account, jid, device_id);
+            string key = entry.key();
+            if (!bundle_retry_queue.has_key(key)) {
+                bundle_retry_queue[key] = entry;
+                debug("OMEMO 2: Bundle for %s/%d has no identity key – queued for retry",
+                      jid.to_string(), device_id);
+            } else {
+                debug("OMEMO 2: Bundle for %s/%d still broken (attempt %d)",
+                      jid.to_string(), device_id,
+                      bundle_retry_queue[key].attempts);
+            }
+
+            /* Gerät auch im v2-Modul als ignored markieren, damit der
+             * Encryptor es als 'lost' statt 'unknown' zählt.  Sonst
+             * blockiert ein einzelnes kaputtes Gerät ALLE Nachrichten
+             * an den Kontakt, obwohl andere Geräte erreichbar sind. */
+            XmppStream? ign_stream = stream_interactor.get_stream(account);
+            if (ign_stream != null) {
+                StreamModule2? m2 = ign_stream.get_module<StreamModule2>(StreamModule2.IDENTITY);
+                if (m2 != null) {
+                    m2.ignore_device(jid, device_id);
+                    debug("OMEMO 2: Ignoring device %s/%d (broken bundle)",
+                          jid.to_string(), device_id);
+                }
+            }
+            continue_message_sending(account, jid);
             return;
+        }
+
+        /* Gültiges Bundle erhalten → aus Retry-Queue entfernen, falls vorhanden */
+        string ok_key = @"$(account.id):$(jid.bare_jid):$device_id";
+        if (bundle_retry_queue.has_key(ok_key)) {
+            debug("OMEMO 2: Bundle for %s/%d now valid – removed from retry queue",
+                  jid.to_string(), device_id);
+            bundle_retry_queue.unset(ok_key);
         }
 
         bool blind_trust = db.trust.get_blind_trust(identity_id, jid.bare_jid.to_string(), true);
