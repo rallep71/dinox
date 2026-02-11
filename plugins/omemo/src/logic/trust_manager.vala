@@ -9,6 +9,9 @@ namespace Dino.Plugins.Omemo {
 public class TrustManager {
 
     public signal void bad_message_state_updated(Account account, Jid jid, int device_id);
+    /** Emitted after an own device is removed from the local DB, so the
+     *  device list on PubSub can be republished without that device. */
+    public signal void own_device_removed(Account account);
 
     private StreamInteractor stream_interactor;
     private Database db;
@@ -35,7 +38,8 @@ public class TrustManager {
 
     /**
      * Remove a device entirely: delete session + identity_meta entry.
-     * This lets the user clean up old/inactive devices that no longer work.
+     * If this is one of the user's own devices, also emit own_device_removed()
+     * so the PubSub device list gets republished without it.
      */
     public void delete_device(Account account, Jid jid, int device_id) {
         int identity_id = db.identity.get_id(account.id);
@@ -67,6 +71,11 @@ public class TrustManager {
             .perform();
 
         debug("Removed device %s/%d from database", jid.to_string(), device_id);
+
+        // If this was an own device, signal so Manager republishes the PubSub device list
+        if (jid.equals_bare(account.bare_jid)) {
+            own_device_removed(account);
+        }
     }
 
     public void set_device_trust(Account account, Jid jid, int device_id, TrustLevel trust_level) {
@@ -105,7 +114,8 @@ public class TrustManager {
     public bool is_known_address(Account account, Jid jid) {
         int identity_id = db.identity.get_id(account.id);
         if (identity_id < 0) return false;
-        return db.identity_meta.with_address(identity_id, jid.to_string()).with(db.identity_meta.last_active, ">", 0).count() > 0;
+        return db.identity_meta.with_address(identity_id, jid.bare_jid.to_string())
+                .with(db.identity_meta.now_active, "=", true).count() > 0;
     }
 
     public Gee.List<int32> get_trusted_devices(Account account, Jid jid) {

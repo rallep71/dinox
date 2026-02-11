@@ -30,6 +30,7 @@ public class StreamModule2 : XmppStreamModule {
     private Map<string, DateTime> device_ignore_time = new HashMap<string, DateTime>();
 
     public signal void device_list_loaded(Jid jid, ArrayList<int32> devices);
+    public signal void device_label_received(Jid jid, int32 device_id, string label);
     public signal void bundle_fetched(Jid jid, int device_id, Bundle2 bundle);
     public signal void bundle_fetch_failed(Jid jid, int device_id);
 
@@ -105,7 +106,12 @@ public class StreamModule2 : XmppStreamModule {
         }
 
         foreach (StanzaNode device_node in node.get_subnodes("device")) {
-            device_list.add(device_node.get_attribute_int("id"));
+            int32 did = device_node.get_attribute_int("id");
+            device_list.add(did);
+            string? label = device_node.get_attribute("label");
+            if (label != null && label.length > 0) {
+                device_label_received(jid, did, label);
+            }
         }
         device_list_loaded(jid, device_list);
 

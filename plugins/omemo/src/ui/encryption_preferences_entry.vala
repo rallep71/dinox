@@ -203,6 +203,10 @@ public class OmemoPreferencesWidget : Adw.PreferencesGroup {
 
         {
             bool is_active = device[plugin.db.identity_meta.now_active];
+            int32 dev_id = device[plugin.db.identity_meta.device_id];
+            long last_active_ts = device[plugin.db.identity_meta.last_active];
+            string? device_label = device[plugin.db.identity_meta.device_label];
+
             Adw.ActionRow action_row = new Adw.ActionRow() { use_markup = true };
             action_row.activated.connect(() => {
                 Row? updated_device = plugin.db.identity_meta.get_device(device[plugin.db.identity_meta.identity_id], device[plugin.db.identity_meta.address_name], device[plugin.db.identity_meta.device_id]);
@@ -216,12 +220,53 @@ public class OmemoPreferencesWidget : Adw.PreferencesGroup {
                 });
             });
             action_row.activatable = true;
-            if (is_active) {
-                action_row.title = account.bare_jid.equals_bare(jid) ? _("Other device") : _("Device");
+
+            // Build title with device label or ID
+            string title_base;
+            if (device_label != null && device_label.length > 0) {
+                title_base = device_label;
+            } else if (account.bare_jid.equals_bare(jid)) {
+                title_base = _("Other device");
             } else {
-                action_row.title = account.bare_jid.equals_bare(jid) ? _("Other device (inactive)") : _("Device (inactive)");
+                title_base = _("Device");
             }
-            action_row.subtitle = fingerprint_markup(fingerprint_from_base64(key_base64));
+            // Always append device ID for identification
+            string title_text = @"$(title_base) #$(dev_id)";
+            if (!is_active) {
+                title_text += " (" + _("inactive") + ")";
+            }
+            action_row.title = title_text;
+            debug("OMEMO UI: title='%s' label='%s' dev_id=%d active=%s last_active=%ld",
+                title_text, device_label ?? "(null)", dev_id, is_active.to_string(), last_active_ts);
+
+            // Build subtitle: fingerprint + last active info
+            string fp_markup = fingerprint_markup(fingerprint_from_base64(key_base64));
+            string last_active_info = "";
+            if (last_active_ts > 0) {
+                var last_dt = new DateTime.from_unix_utc(last_active_ts);
+                var now = new DateTime.now_utc();
+                var diff = now.difference(last_dt);
+                int days_ago = (int)(diff / TimeSpan.DAY);
+                if (days_ago == 0) {
+                    last_active_info = _("today");
+                } else if (days_ago == 1) {
+                    last_active_info = _("yesterday");
+                } else if (days_ago < 30) {
+                    last_active_info = _("%d days ago").printf(days_ago);
+                } else if (days_ago < 365) {
+                    int months = days_ago / 30;
+                    last_active_info = ngettext("%d month ago", "%d months ago", months).printf(months);
+                } else {
+                    int years = days_ago / 365;
+                    last_active_info = ngettext("%d year ago", "%d years ago", years).printf(years);
+                }
+                last_active_info = _("Last seen") + ": " + last_active_info;
+            } else {
+                last_active_info = _("Last seen") + ": " + _("unknown");
+            }
+            action_row.subtitle = fp_markup + "\n<small>" + Markup.escape_text(last_active_info) + "</small>";
+
+            // Trust + zombie warning in suffix
             string trust_str = _("Accepted");
             switch(trust) {
                 case TrustLevel.UNTRUSTED:
@@ -234,9 +279,30 @@ public class OmemoPreferencesWidget : Adw.PreferencesGroup {
                 default:
                     break;
             }
-            if (!is_active) trust_str += " - " + _("Inactive");
 
-            action_row.add_suffix(new Label(trust_str));
+            // Zombie detection: active on PubSub but no activity for > 60 days
+            bool is_zombie = is_active && last_active_ts > 0;
+            if (is_zombie) {
+                var last_dt = new DateTime.from_unix_utc(last_active_ts);
+                var now = new DateTime.now_utc();
+                var diff = now.difference(last_dt);
+                is_zombie = (diff / TimeSpan.DAY) > 60;
+            }
+
+            var suffix_box = new Box(Orientation.VERTICAL, 2) { valign = Align.CENTER };
+            var trust_label = new Label(trust_str);
+            suffix_box.append(trust_label);
+
+            if (!is_active) {
+                var inactive_label = new Label(_("Inactive")) { css_classes = { "dim-label" } };
+                suffix_box.append(inactive_label);
+            } else if (is_zombie) {
+                var zombie_label = new Label("⚠ " + _("Stale")) { css_classes = { "warning" } };
+                zombie_label.tooltip_text = _("This device has not been active for a long time. It may be abandoned. Consider removing it.");
+                suffix_box.append(zombie_label);
+            }
+
+            action_row.add_suffix(suffix_box);
             add_key_row(action_row);
         }
         displayed_ids.add(device[plugin.db.identity_meta.device_id]);

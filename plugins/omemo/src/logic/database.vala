@@ -7,7 +7,7 @@ using Dino.Security;
 namespace Dino.Plugins.Omemo {
 
 public class Database : Qlite.Database {
-    private const int VERSION = 5;
+    private const int VERSION = 6;
 
     public class IdentityMetaTable : Table {
         //Default to provide backwards compatability
@@ -21,10 +21,11 @@ public class Database : Qlite.Database {
         public Column<long> last_active = new Column.Long("last_active");
         public Column<long> last_message_untrusted = new Column.Long("last_message_untrusted") { min_version = 5 };
         public Column<long> last_message_undecryptable = new Column.Long("last_message_undecryptable") { min_version = 5 };
+        public Column<string?> device_label = new Column.Text("device_label") { min_version = 6 };
 
         internal IdentityMetaTable(Database db) {
             base(db, "identity_meta");
-            init({identity_id, address_name, device_id, identity_key_public_base64, trusted_identity, trust_level, now_active, last_active, last_message_untrusted, last_message_undecryptable});
+            init({identity_id, address_name, device_id, identity_key_public_base64, trusted_identity, trust_level, now_active, last_active, last_message_untrusted, last_message_undecryptable, device_label});
             index("identity_meta_idx", {identity_id, address_name, device_id}, true);
             index("identity_meta_list_idx", {identity_id, address_name});
         }
@@ -40,13 +41,17 @@ public class Database : Qlite.Database {
         public void insert_device_list(int32 identity_id, string address_name, ArrayList<int32> devices) {
             update().with(this.identity_id, "=", identity_id).with(this.address_name, "=", address_name).set(now_active, false).perform();
             foreach (int32 device_id in devices) {
-                upsert()
+                // Check if this device already exists — only set last_active for genuinely NEW devices
+                bool is_new = !with_address(identity_id, address_name).with(this.device_id, "=", device_id).single().row().is_present();
+                var builder = upsert()
                         .value(this.identity_id, identity_id, true)
                         .value(this.address_name, address_name, true)
                         .value(this.device_id, device_id, true)
-                        .value(this.now_active, true)
-                        .value(this.last_active, (long) new DateTime.now_utc().to_unix())
-                        .perform();
+                        .value(this.now_active, true);
+                if (is_new) {
+                    builder.value(this.last_active, (long) new DateTime.now_utc().to_unix());
+                }
+                builder.perform();
             }
         }
 
@@ -57,13 +62,16 @@ public class Database : Qlite.Database {
          */
         public void insert_device_list_additive(int32 identity_id, string address_name, ArrayList<int32> devices) {
             foreach (int32 device_id in devices) {
-                upsert()
+                bool is_new = !with_address(identity_id, address_name).with(this.device_id, "=", device_id).single().row().is_present();
+                var builder = upsert()
                         .value(this.identity_id, identity_id, true)
                         .value(this.address_name, address_name, true)
                         .value(this.device_id, device_id, true)
-                        .value(this.now_active, true)
-                        .value(this.last_active, (long) new DateTime.now_utc().to_unix())
-                        .perform();
+                        .value(this.now_active, true);
+                if (is_new) {
+                    builder.value(this.last_active, (long) new DateTime.now_utc().to_unix());
+                }
+                builder.perform();
             }
         }
 
@@ -149,6 +157,25 @@ public class Database : Qlite.Database {
         public Row? get_device(int identity_id, string address_name, int device_id) {
             return this.with_address(identity_id, address_name)
                 .with(this.device_id, "=", device_id).single().row().inner;
+        }
+
+        /** Update last_active timestamp when a message is successfully decrypted from this device */
+        public void update_last_active(int identity_id, string address_name, int device_id) {
+            update()
+                .with(this.identity_id, "=", identity_id)
+                .with(this.address_name, "=", address_name)
+                .with(this.device_id, "=", device_id)
+                .set(this.last_active, (long) new DateTime.now_utc().to_unix())
+                .perform();
+        }
+
+        public void update_device_label(int identity_id, string address_name, int device_id, string label) {
+            update()
+                .with(this.identity_id, "=", identity_id)
+                .with(this.address_name, "=", address_name)
+                .with(this.device_id, "=", device_id)
+                .set(this.device_label, label)
+                .perform();
         }
     }
 
