@@ -11,19 +11,13 @@
 
 **The Most Secure XMPP Messenger for Linux & Windows**
 
-Built for ultimate privacy with integrated Tor & Obfs4proxy, full local database encryption, and decentralized MUJI Group Video Calls
+Built for ultimate privacy with Omemo 1 + 2, integrated OpenPGP Key Manager, integrated Tor & Obfs4proxy, full local database encryption, WebRTC Audio/Video Calls and decentralized MUJI Group Video Calls Hardware Accelerated, voice messages, message retraction, advanced MUC moderation and more...in a modern GTK4/libadwaita interface with System Tray support
 
 [Website](https://dinox.handwerker.jetzt) • [Download](#installation) • [Features](#key-features) • [XEP Support](#xep-support) • [Build](BUILD.md) • [Debug](DEBUG.md) • [Changelog](CHANGELOG.md) • [Development Plan](DEVELOPMENT_PLAN.md) • [Contributing](CONTRIBUTING.md)
 
 </div>
 
 ---
-
-## What is DinoX?
-
-DinoX is a secure XMPP messenger for Linux & Windows with built-in Tor & Obfs4proxy (Zero-Config Privacy). Features OMEMO encryption, decentralized Group Video Calls, hardware acceleration, and full database encryption in a modern GTK4/libadwaita interface.
-
-DinoX features System Tray support, MUJI group video calls, voice messages, message retraction, advanced MUC moderation and more.
 
 ## Key Features
 
