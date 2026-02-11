@@ -28,7 +28,10 @@ public class Xep0448Test : Gee.TestCase {
         var sfs_node = message.stanza.get_subnode("file-sharing", StatelessFileSharing.NS_URI);
         assert(sfs_node != null);
         
-        var enc_node = sfs_node.get_subnode("encryption", StatelessFileSharing.EncryptionData.NS_URI);
+        var sources_node = sfs_node.get_subnode("sources", StatelessFileSharing.NS_URI);
+        assert(sources_node != null);
+
+        var enc_node = sources_node.get_subnode("encrypted", StatelessFileSharing.EncryptionData.NS_URI);
         assert(enc_node != null);
 
         var key_node = enc_node.get_subnode("key", StatelessFileSharing.EncryptionData.NS_URI);
@@ -38,6 +41,10 @@ public class Xep0448Test : Gee.TestCase {
         var iv_node = enc_node.get_subnode("iv", StatelessFileSharing.EncryptionData.NS_URI);
         assert(iv_node != null);
         assert(iv_node.get_string_content() == "MDEyMzQ1Njc4OTAx");
+
+        // Verify inner sources contain the URL
+        var inner_sources = enc_node.get_subnode("sources", StatelessFileSharing.NS_URI);
+        assert(inner_sources != null);
     }
 }
 
