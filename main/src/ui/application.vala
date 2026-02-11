@@ -1688,11 +1688,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             }
 
             // 2. Purge database caches (entity discovery, roster, MAM, stickers, etc.)
-            try {
-                db_rows_deleted = db.purge_caches ();
-            } catch (Error err) {
-                warning ("Failed to purge database caches: %s", err.message);
-            }
+            db_rows_deleted = db.purge_caches ();
 
             Idle.add (() => {
                 if (toast_overlay != null) {

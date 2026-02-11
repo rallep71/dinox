@@ -340,9 +340,13 @@ namespace Dino.Plugins.Omemo {
                 if (device[db.identity_meta.identity_key_public_base64] != identity_key) {
                     warning("OMEMO 2: Identity key changed for device %d of %s. Accepting new key (may be key format migration or reinstall).", sid, from_jid.to_string());
                     // Delete old session -- it's no longer valid with the new identity key
-                    Address addr = new Address(from_jid.bare_jid.to_string(), sid);
-                    store.delete_session(addr);
-                    addr.device_id = 0;
+                    try {
+                        Address addr = new Address(from_jid.bare_jid.to_string(), sid);
+                        store.delete_session(addr);
+                        addr.device_id = 0;
+                    } catch (Error e) {
+                        warning("OMEMO 2: Failed to delete old session for %s/%d: %s", from_jid.to_string(), sid, e.message);
+                    }
                     // Update the stored identity key and reset trust to UNKNOWN
                     db.identity_meta.insert_device_session(identity_id, from_jid.to_string(), sid, identity_key, TrustLevel.UNKNOWN);
                 }
