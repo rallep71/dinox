@@ -5,6 +5,24 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.9.4] - 2026-02-12
+
+### Fixed
+- **OMEMO Device Management**: Fixed PubSub device list management — devices can now be properly removed from the server. Device management dialog shows detailed device information including labels, trust status, and last activity.
+- **OMEMO Session Auto-Repair**: Automatically detects and repairs broken OMEMO sessions by clearing corrupt session data and re-fetching bundles, preventing permanent message decryption failures.
+- **OMEMO Session Thrashing Guard**: Prevents rapid session rebuild loops by tracking recent repairs and skipping redundant re-keying within a cooldown period.
+- **OMEMO Broken Bundle Handling**: Devices with broken bundles (empty identity key, signed prekey, or signature) are now counted as "lost" instead of "unknown", allowing messages to be sent to other working devices instead of blocking encryption entirely.
+- **OMEMO V2 Bundle Fetch on Delay**: When an OMEMO V2 encrypted message triggers a delayed bundle fetch, the V2 bundle is now correctly requested. Previously only the legacy bundle was fetched, causing messages to hang indefinitely.
+- **Account Deletion**: Deleting an account now performs a complete cascade delete across 25+ database tables, preventing orphaned data from remaining after account removal.
+- **Clear Cache**: The "Clear Cache" function now properly purges 10 database cache tables (avatar, entity_feature, entity_identity, roster, settings, mam_catchup, etc.) in addition to clearing the file system cache directory.
+
+### Added
+- **OMEMO Bundle Retry**: When a device's bundle cannot be fetched, it is automatically retried every 10 minutes (up to 5 attempts) before being permanently marked as unavailable.
+- **OMEMO Device Labels**: Device labels are now stored in the database and displayed in the OMEMO device management UI alongside device IDs and trust status.
+
+### Improved
+- **Repository Cleanup**: Removed obsolete files (icon_backup/, meson_options.txt, cross_file.txt, check_translations.py, OMEMO2_IMPLEMENTATION_PLAN.md). Moved documentation files to docs/internal/.
+
 ## [0.9.9.3] - 2026-02-10
 
 ### Fixed
