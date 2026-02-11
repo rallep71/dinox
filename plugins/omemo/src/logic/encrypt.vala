@@ -118,8 +118,24 @@ namespace Dino.Plugins.Omemo {
                     result.success++;
                 } catch (Error e) {
                     debug("encrypt_key FAILED for %s/%d: code=%d msg=%s", recipient.to_string(), device_id, e.code, e.message);
-                    if (e.code == ErrorCode.UNKNOWN) result.unknown++;
-                    else result.failure++;
+                    if (e.code == ErrorCode.UNKNOWN) {
+                        /* Wenn das Gerät in BEIDEN Modulen (legacy + v2)
+                         * als ignored markiert ist, hat es ein dauerhaft
+                         * kaputtes Bundle.  Als 'lost' statt 'unknown'
+                         * zählen, damit funktionierende Geräte nicht
+                         * blockiert werden. */
+                        bool legacy_ignored = module.is_ignored_device(recipient, device_id);
+                        bool v2_ignored = (module2 == null || module2.is_ignored_device(recipient, device_id));
+                        if (legacy_ignored && v2_ignored) {
+                            debug("encrypt_key: %s/%d treated as lost (broken bundle in both modules)",
+                                  recipient.to_string(), device_id);
+                            result.lost++;
+                        } else {
+                            result.unknown++;
+                        }
+                    } else {
+                        result.failure++;
+                    }
                 }
             }
             return result;
