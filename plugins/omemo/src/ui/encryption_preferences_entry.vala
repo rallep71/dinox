@@ -236,8 +236,6 @@ public class OmemoPreferencesWidget : Adw.PreferencesGroup {
                 title_text += " (" + _("inactive") + ")";
             }
             action_row.title = title_text;
-            debug("OMEMO UI: title='%s' label='%s' dev_id=%d active=%s last_active=%ld",
-                title_text, device_label ?? "(null)", dev_id, is_active.to_string(), last_active_ts);
 
             // Build subtitle: fingerprint + last active info
             string fp_markup = fingerprint_markup(fingerprint_from_base64(key_base64));

@@ -915,6 +915,56 @@ public class Database : Qlite.Database {
         jid_table_reverse[bare_jid] = id;
         return id;
     }
+
+    public int purge_caches() {
+        int total_deleted = 0;
+        try {
+            // Count rows before deleting for reporting
+            total_deleted += (int) entity.select().count();
+            total_deleted += (int) entity_identity.select().count();
+            total_deleted += (int) entity_feature.select().count();
+            total_deleted += (int) avatar.select().count();
+            total_deleted += (int) file_thumbnails.select().count();
+            total_deleted += (int) mam_catchup.select().count();
+            total_deleted += (int) roster.select().count();
+            total_deleted += (int) sticker_item.select().count();
+            total_deleted += (int) sticker_pack.select().count();
+
+            // Entity discovery cache (caps hashes, disco#info results)
+            exec("DELETE FROM entity");
+            exec("DELETE FROM entity_identity");
+            exec("DELETE FROM entity_feature");
+
+            // Avatar references (actual files cleared from filesystem separately)
+            exec("DELETE FROM contact_avatar");
+
+            // File thumbnail cache (data URIs, re-fetchable)
+            exec("DELETE FROM file_thumbnails");
+
+            // Undecrypted message stash (transient, keys won't arrive later)
+            exec("DELETE FROM undecrypted");
+
+            // MAM sync progress markers (forces clean re-sync from server)
+            exec("DELETE FROM mam_catchup");
+
+            // Roster cache (fully re-synced on next connect)
+            exec("DELETE FROM roster");
+            // Reset roster_version so server sends full roster instead of incremental
+            exec("UPDATE account SET roster_version = NULL");
+
+            // Sticker cache (re-fetchable from PubSub, local files cleared from filesystem)
+            exec("DELETE FROM sticker_item");
+            exec("DELETE FROM sticker_pack");
+
+            // Reclaim disk space
+            exec("VACUUM");
+
+            print("Database cache purge: %d rows deleted\n", total_deleted);
+        } catch (Error e) {
+            warning("Failed to purge database caches: %s", e.message);
+        }
+        return total_deleted;
+    }
 }
 
 }
