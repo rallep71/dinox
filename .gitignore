@@ -15,6 +15,9 @@ kaidan_issue_toakafa.md
 ..bfg-report/
 .bfg-report/
 
+# Icon backup (personal backup, not project-relevant)
+icon_backup/
+
 # Internal docs (not for public release)
 docs/internal/CODING_STANDARDS.md
 docs/internal/SIGNPATH_SETUP.md
@@ -33,6 +36,9 @@ docs/accessibility-pruefprotokoll.md
 build_log.txt
 windowsbuild.txt
 windows.txt
+meson_options.txt
+cross_file.txt
+check_translations.py
 
 # Debug/test files
 test_*.py
