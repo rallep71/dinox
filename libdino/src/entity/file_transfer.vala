@@ -13,10 +13,24 @@ public class FileTransfer : Object {
      * Registry of JIDs that support OMEMO 2 / ESFS file transfers.
      * Set by the OMEMO plugin when v2 device lists are received.
      * Read by the http-files plugin to choose GCM tag handling.
+     *
+     * Note: lazy initialization is required because static field initializers
+     * in Vala run in GObject class_init, which only fires on first instantiation.
+     * These static methods may be called before any FileTransfer instance exists.
      */
-    private static Gee.HashSet<string> _esfs_jids = new Gee.HashSet<string>();
-    public static void register_esfs_jid(string jid) { _esfs_jids.add(jid); }
-    public static bool is_esfs_jid(string jid) { return _esfs_jids.contains(jid); }
+    private static Gee.HashSet<string>? _esfs_jids = null;
+
+    public static void register_esfs_jid(string jid) {
+        if (_esfs_jids == null) {
+            _esfs_jids = new Gee.HashSet<string>();
+        }
+        _esfs_jids.add(jid);
+    }
+
+    public static bool is_esfs_jid(string jid) {
+        if (_esfs_jids == null) return false;
+        return _esfs_jids.contains(jid);
+    }
 
     public enum State {
         COMPLETE,

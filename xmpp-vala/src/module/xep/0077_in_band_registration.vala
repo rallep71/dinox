@@ -66,6 +66,22 @@ public class Module : XmppStreamNegotiationModule {
         return null;
     }
 
+    // XEP-0077 §3.2: Cancel registration (delete account from server)
+    public async bool cancel_registration(XmppStream stream, Jid jid) {
+        StanzaNode query_node = new StanzaNode.build("query", NS_URI).add_self_xmlns();
+        query_node.put_node(new StanzaNode.build("remove", NS_URI));
+        Iq.Stanza iq = new Iq.Stanza.set(query_node) { to = jid.bare_jid.domain_jid };
+
+        Iq.Stanza iq_result;
+        try {
+            iq_result = yield stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq_async(stream, iq);
+        } catch (GLib.Error e) {
+            warning("Failed to cancel registration: %s", e.message);
+            return false;
+        }
+        return !iq_result.is_error();
+    }
+
     public override bool mandatory_outstanding(XmppStream stream) { return false; }
 
     public override bool negotiation_active(XmppStream stream) { return false; }

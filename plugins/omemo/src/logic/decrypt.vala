@@ -13,6 +13,9 @@ namespace Dino.Plugins.Omemo {
         private Database db;
         private StreamInteractor stream_interactor;
         private TrustManager trust_manager;
+        // Track devices where we already attempted session repair this runtime
+        // to avoid thrashing: old queued messages would keep deleting fresh sessions
+        private Gee.HashSet<string> session_repair_attempted = new Gee.HashSet<string>();
 
         public override uint32 own_device_id { get { return store.local_registration_id; }}
 
@@ -62,22 +65,44 @@ namespace Dino.Plugins.Omemo {
                         message.encryption = Encryption.OMEMO;
 
                         trust_manager.message_device_id_map[message] = data.sid;
+
+                        // Update last_active for this device (actual message, not just PubSub presence)
+                        if (identity_id >= 0) {
+                            db.identity_meta.update_last_active(identity_id, possible_jid.bare_jid.to_string(), data.sid);
+                        }
+
                         return true;
                     } catch (Error e) {
                         debug("Decrypting message from %s/%d failed: %s", possible_jid.to_string(), data.sid, e.message);
                         
-                        // If we have SG_ERR_NO_SESSION error, the other client has a stale session
-                        // We need to trigger a session rebuild by fetching their bundle
-                        if (e.message.contains("SG_ERR_NO_SESSION") && !data.is_prekey) {
-                            debug("No session available for %s/%d - fetching bundle to prepare for next message", possible_jid.to_string(), data.sid);
+                        // Session is broken — delete it and fetch bundle to rebuild
+                        // Only attempt repair ONCE per device to prevent thrashing:
+                        // old queued messages would keep destroying freshly-built sessions
+                        string repair_key = "%s/%d".printf(possible_jid.bare_jid.to_string(), data.sid);
+                        if ((e.message.contains("SG_ERR_NO_SESSION") || e.message.contains("SG_ERR_INVALID_MESSAGE"))
+                            && !session_repair_attempted.contains(repair_key)) {
+                            session_repair_attempted.add(repair_key);
+                            debug("Broken/missing session for %s/%d — deleting session and fetching bundle (one-time repair)", possible_jid.to_string(), data.sid);
+                            // Delete the broken session so a fresh pre-key session can be built
+                            try {
+                                Address addr = new Address(possible_jid.bare_jid.to_string(), data.sid);
+                                if (store.contains_session(addr)) {
+                                    store.delete_session(addr);
+                                    debug("Deleted broken session for %s/%d", possible_jid.to_string(), data.sid);
+                                }
+                                addr.device_id = 0;
+                            } catch (Error del_err) {
+                                warning("Error deleting session: %s", del_err.message);
+                            }
                             XmppStream? stream = stream_interactor.get_stream(account);
                             if (stream != null) {
                                 StreamModule? module = stream.get_module<StreamModule>(StreamModule.IDENTITY);
                                 if (module != null) {
-                                    // Fetch their bundle - this will create a session when we next send them a message
                                     module.fetch_bundle(stream, possible_jid, data.sid, false);
                                 }
                             }
+                        } else if (e.message.contains("SG_ERR_NO_SESSION") || e.message.contains("SG_ERR_INVALID_MESSAGE")) {
+                            debug("Session repair already attempted for %s/%d — ignoring old message", possible_jid.to_string(), data.sid);
                         }
                     }
                 }

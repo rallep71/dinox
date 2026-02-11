@@ -27,6 +27,8 @@ namespace Dino.Plugins.Omemo {
         private Database db;
         private StreamInteractor stream_interactor;
         private TrustManager trust_manager;
+        // Track devices where we already attempted session repair this runtime
+        private Gee.HashSet<string> session_repair_attempted = new Gee.HashSet<string>();
 
         /* HKDF constants */
         private const int MK_SIZE = 32;
@@ -118,12 +120,31 @@ namespace Dino.Plugins.Omemo {
 
                         message.encryption = Encryption.OMEMO;
                         trust_manager.message_device_id_map[message] = data.sid;
+
+                        // Update last_active for this device (actual message, not just PubSub presence)
+                        if (identity_id >= 0) {
+                            db.identity_meta.update_last_active(identity_id, possible_jid.bare_jid.to_string(), data.sid);
+                        }
+
                         return true;
                     } catch (Error e) {
                         debug("OMEMO 2: Decrypting message from %s/%d failed: %s", possible_jid.to_string(), data.sid, e.message);
 
-                        if (e.message.contains("SG_ERR_NO_SESSION") && !is_kex) {
-                            debug("OMEMO 2: No session for %s/%d -- fetching bundle", possible_jid.to_string(), data.sid);
+                        string repair_key = "%s/%d".printf(possible_jid.bare_jid.to_string(), data.sid);
+                        if ((e.message.contains("SG_ERR_NO_SESSION") || e.message.contains("SG_ERR_INVALID_MESSAGE"))
+                            && !session_repair_attempted.contains(repair_key)) {
+                            session_repair_attempted.add(repair_key);
+                            debug("OMEMO 2: Broken/missing session for %s/%d — deleting and fetching bundle (one-time repair)", possible_jid.to_string(), data.sid);
+                            try {
+                                Address addr = new Address(possible_jid.bare_jid.to_string(), data.sid);
+                                if (store.contains_session(addr)) {
+                                    store.delete_session(addr);
+                                    debug("OMEMO 2: Deleted broken session for %s/%d", possible_jid.to_string(), data.sid);
+                                }
+                                addr.device_id = 0;
+                            } catch (Error del_err) {
+                                warning("OMEMO 2: Error deleting session: %s", del_err.message);
+                            }
                             XmppStream? stream = stream_interactor.get_stream(account);
                             if (stream != null) {
                                 StreamModule2? module = stream.get_module<StreamModule2>(StreamModule2.IDENTITY);
@@ -131,6 +152,8 @@ namespace Dino.Plugins.Omemo {
                                     module.fetch_bundle(stream, possible_jid, data.sid, false);
                                 }
                             }
+                        } else if (e.message.contains("SG_ERR_NO_SESSION") || e.message.contains("SG_ERR_INVALID_MESSAGE")) {
+                            debug("OMEMO 2: Session repair already attempted for %s/%d — ignoring old message", possible_jid.to_string(), data.sid);
                         }
                     }
                 }

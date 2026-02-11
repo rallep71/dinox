@@ -75,6 +75,15 @@ public class Manager : StreamInteractionModule, Object {
         stream_interactor.get_module<MessageProcessor>(MessageProcessor.IDENTITY).pre_message_send.connect(on_pre_message_send);
         stream_interactor.get_module<RosterManager>(RosterManager.IDENTITY).mutual_subscription.connect(on_mutual_subscription);
         stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).conversation_cleared.connect(on_conversation_cleared);
+
+        // When the user removes an own device via TrustManager, republish the device list
+        trust_manager.own_device_removed.connect((account) => {
+            XmppStream? stream = stream_interactor.get_stream(account);
+            if (stream != null) {
+                republish_device_list(account, stream);
+                republish_device_list_v2(account, stream);
+            }
+        });
     }
 
     private void on_conversation_cleared(Conversation conversation) {
@@ -302,23 +311,6 @@ public class Manager : StreamInteractionModule, Object {
             devices.add(row[db.identity_meta.device_id]);
         }
 
-        // AUTO-CLEANUP: If we have too many devices, assume they are stale zombies
-        // The user complained about "21 devices", so we set a low threshold to trigger cleanup.
-        if (devices.size > 5) {
-            debug("Too many devices (%d) for own account. Cleaning up stale devices...", devices.size);
-            devices.clear();
-            devices.add(current_device_id);
-            
-            // Update DB to reflect this cleanup
-            // We set 'now_active' to false for everyone except current_device_id
-            db.identity_meta.update()
-                .set(db.identity_meta.now_active, false)
-                .with(db.identity_meta.identity_id, "=", identity_id)
-                .with(db.identity_meta.address_name, "=", account.bare_jid.to_string())
-                .with(db.identity_meta.device_id, "!=", current_device_id)
-                .perform();
-        }
-
         // Ensure current device is in the list
         if (!devices.contains(current_device_id)) {
              devices.add(current_device_id);
@@ -339,12 +331,56 @@ public class Manager : StreamInteractionModule, Object {
         debug("Republished device list for %s with %d devices", account.bare_jid.to_string(), devices.size);
     }
 
+    /**
+     * Republish OMEMO 2 device list to PubSub based on current DB state.
+     * Same logic as republish_device_list() but for the urn:xmpp:omemo:2:devices node.
+     */
+    private void republish_device_list_v2(Account account, XmppStream stream) {
+        int identity_id = db.identity.get_id(account.id);
+        if (identity_id < 0) return;
+
+        StreamModule2? module2 = stream.get_module<StreamModule2>(StreamModule2.IDENTITY);
+        if (module2 == null) return;
+        int32 current_device_id = (int32) module2.store.local_registration_id;
+
+        // Build device list from DB (same source as v1 -- they share device IDs)
+        ArrayList<int32> devices = new ArrayList<int32>();
+        foreach (Row row in db.identity_meta.with_address(identity_id, account.bare_jid.to_string())
+                .with(db.identity_meta.now_active, "=", true)) {
+            devices.add(row[db.identity_meta.device_id]);
+        }
+
+        // Ensure current device is in the list
+        if (!devices.contains(current_device_id)) {
+            devices.add(current_device_id);
+        }
+
+        // Create OMEMO 2 device list stanza: <devices xmlns='urn:xmpp:omemo:2'><device id='...'/></devices>
+        StanzaNode devices_node = new StanzaNode.build("devices", Xep.Omemo.NS_URI_V2).add_self_xmlns();
+        foreach (int32 device_id in devices) {
+            devices_node.put_node(new StanzaNode.build("device", Xep.Omemo.NS_URI_V2)
+                .put_attribute("id", device_id.to_string()));
+        }
+
+        stream.get_module<Xep.Pubsub.Module>(Xep.Pubsub.Module.IDENTITY).publish.begin(stream, account.bare_jid,
+            Xep.Omemo.NODE_DEVICELIST_V2, null, devices_node);
+
+        debug("Republished OMEMO 2 device list for %s with %d devices", account.bare_jid.to_string(), devices.size);
+    }
+
     private void on_account_added(Account account) {
         StreamModule module = stream_interactor.module_manager.get_module<StreamModule>(account, StreamModule.IDENTITY);
         if (module != null) {
             module.device_list_loaded.connect((jid, devices) => on_device_list_loaded(account, jid, devices));
             module.bundle_fetched.connect((jid, device_id, bundle) => on_bundle_fetched(account, jid, device_id, bundle));
             module.bundle_fetch_failed.connect((jid) => continue_message_sending(account, jid));
+            module.device_label_received.connect((jid, device_id, label) => {
+                int identity_id = db.identity.get_id(account.id);
+                if (identity_id >= 0) {
+                    db.identity_meta.update_device_label(identity_id, jid.bare_jid.to_string(), device_id, label);
+                    debug("OMEMO 1: Stored device label '%s' for %s/%d", label, jid.to_string(), device_id);
+                }
+            });
         }
         /* OMEMO 2 stream module */
         StreamModule2? module2 = stream_interactor.module_manager.get_module<StreamModule2>(account, StreamModule2.IDENTITY);
@@ -368,6 +404,13 @@ public class Manager : StreamInteractionModule, Object {
             });
             module2.bundle_fetched.connect((jid, device_id, bundle) => on_bundle_v2_fetched(account, jid, device_id, bundle));
             module2.bundle_fetch_failed.connect((jid) => continue_message_sending(account, jid));
+            module2.device_label_received.connect((jid, device_id, label) => {
+                int identity_id = db.identity.get_id(account.id);
+                if (identity_id >= 0) {
+                    db.identity_meta.update_device_label(identity_id, jid.bare_jid.to_string(), device_id, label);
+                    debug("OMEMO 2: Stored device label '%s' for %s/%d", label, jid.to_string(), device_id);
+                }
+            });
         }
         initialize_store.begin(account);
     }

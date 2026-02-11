@@ -10,6 +10,7 @@ dll.log
 test_omemo_deser
 test_omemo_deser.c
 kaidan_issue_toakafa.md
+docs/internal/KAIDAN_OMEMO_FIX.md
 
 # BFG cleanup reports
 ..bfg-report/
@@ -29,6 +30,7 @@ docs/internal/OMEMO2_IMPLEMENTATION_PLAN.md
 docs/internal/AUDIO_VIDEO_COMPLETE_ANALYSIS.md
 docs/internal/BRIDGE_STRATEGY.md
 docs/internal/OMEMO_BUG_FIX.md
+docs/internal/OMEMO_DEVICE_UI_IMPROVEMENTS.md
 docs/internal/TOR_IMPLEMENTATION.md
 docs/accessibility-pruefprotokoll.md
 

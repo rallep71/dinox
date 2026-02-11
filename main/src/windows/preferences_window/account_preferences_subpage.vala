@@ -448,15 +448,22 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
     private void show_remove_account_dialog() {
         Adw.AlertDialog dialog = new Adw.AlertDialog (
                 _("Remove account %s?".printf(account.bare_jid.to_string())),
-                "You won't be able to access your conversation history anymore."
+                _("You won't be able to access your conversation history anymore.")
         );
-        // TODO remove history!
-        dialog.add_response("cancel", "Cancel");
-        dialog.add_response("remove", "Remove");
+
+        // Checkbox: also delete from server
+        var server_check = new Gtk.CheckButton.with_label(_("Also delete account from server"));
+        server_check.margin_start = 12;
+        server_check.margin_end = 12;
+        server_check.margin_top = 6;
+        dialog.set_extra_child(server_check);
+
+        dialog.add_response("cancel", _("Cancel"));
+        dialog.add_response("remove", _("Remove"));
         dialog.set_response_appearance("remove", Adw.ResponseAppearance.DESTRUCTIVE);
         dialog.response.connect((response) => {
             if (response == "remove") {
-                model.remove_account(account);
+                model.remove_account(account, server_check.active);
 
                 // Close the account subpage. Get the parent-times-x PreferencesDialog, to call pop_subpage() on it.
                 Widget parent = this.parent;

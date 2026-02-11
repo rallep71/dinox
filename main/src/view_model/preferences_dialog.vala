@@ -74,7 +74,26 @@ public class Dino.Ui.ViewModel.PreferencesDialog : Object {
         stream_interactor.get_module<AvatarManager>(AvatarManager.IDENTITY).unset_avatar(account);
     }
 
-    public void remove_account(Account account) {
+    public void remove_account(Account account, bool also_from_server = false) {
+        if (also_from_server) {
+            XmppStream? stream = stream_interactor.get_stream(account);
+            if (stream != null) {
+                var module = stream.get_module<Xmpp.Xep.InBandRegistration.Module>(Xmpp.Xep.InBandRegistration.Module.IDENTITY);
+                if (module != null) {
+                    module.cancel_registration.begin(stream, account.bare_jid, (obj, res) => {
+                        bool success = module.cancel_registration.end(res);
+                        if (!success) {
+                            warning("Failed to remove account %s from server", account.bare_jid.to_string());
+                        }
+                        stream_interactor.disconnect_account.begin(account, () => {
+                            account.remove();
+                            update_data();
+                        });
+                    });
+                    return;
+                }
+            }
+        }
         stream_interactor.disconnect_account.begin(account, () => {
             account.remove();
             update_data();
