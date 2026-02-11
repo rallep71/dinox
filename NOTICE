@@ -48,8 +48,8 @@ See the GNU GPL-3.0 license for complete warranty disclaimer.
 CHANGES
 -------
 For a list of changes and additions made in this fork, see:
-- CHANGELOG.md - Version history
-- DEVELOPMENT_PLAN.md - Roadmap and feature list
+- docs/internal/CHANGELOG.md - Version history
+- docs/internal/DEVELOPMENT_PLAN.md - Roadmap and feature list
 - docs/XEP_SUPPORT.md - Protocol implementation status
 
 CONTACT
@@ -67,7 +67,7 @@ This project complies with the GNU GPL-3.0 license:
 ✓ Source code is publicly available
 ✓ License text is included (LICENSE file)
 ✓ Original authors are credited (AUTHORS file)
-✓ Modifications are documented (CHANGELOG.md)
+✓ Modifications are documented (docs/internal/CHANGELOG.md)
 ✓ Same license is maintained (GPL-3.0)
 
 Last Updated: November 21, 2025

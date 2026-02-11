@@ -16,14 +16,18 @@ kaidan_issue_toakafa.md
 .bfg-report/
 
 # Internal docs (not for public release)
-CODING_STANDARDS.md
-SIGNPATH_SETUP.md
-CRASH_ANALYSIS*.md
-DEVELOPMENT_PLAN_UI_SECURITY.md
-DEVELOPMENT_PLAN_WINDOWS.md
-OPENPGP_PORTING_GUIDE.md
+docs/internal/CODING_STANDARDS.md
+docs/internal/SIGNPATH_SETUP.md
+docs/internal/CRASH_ANALYSIS*.md
+docs/internal/DEVELOPMENT_PLAN_UI_SECURITY.md
+docs/internal/DEVELOPMENT_PLAN_WINDOWS.md
+docs/internal/OPENPGP_PORTING_GUIDE.md
+docs/internal/OMEMO2_IMPLEMENTATION_PLAN.md
+docs/internal/AUDIO_VIDEO_COMPLETE_ANALYSIS.md
+docs/internal/BRIDGE_STRATEGY.md
+docs/internal/OMEMO_BUG_FIX.md
+docs/internal/TOR_IMPLEMENTATION.md
 docs/accessibility-pruefprotokoll.md
-docs/internal/*.md
 
 # Text/log files (except build-system configs)
 build_log.txt

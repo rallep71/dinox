@@ -8,7 +8,7 @@ body:
       value: |
         Thanks for taking the time to fill out this bug report!
 
-        Please check the [DEBUG guide](https://github.com/rallep71/dinox/blob/master/DEBUG.md) for instructions on how to collect logs.
+        Please check the [DEBUG guide](https://github.com/rallep71/dinox/blob/master/docs/internal/DEBUG.md) for instructions on how to collect logs.
 
   - type: dropdown
     id: installation
@@ -116,7 +116,7 @@ body:
     attributes:
       label: Log output
       description: |
-        Please attach relevant log output. See the [DEBUG guide](https://github.com/rallep71/dinox/blob/master/DEBUG.md) for how to collect logs.
+        Please attach relevant log output. See the [DEBUG guide](https://github.com/rallep71/dinox/blob/master/docs/internal/DEBUG.md) for how to collect logs.
 
         **Linux**: `DINO_LOG_LEVEL=debug ./build/main/dinox 2>&1 | tee dinox.log`
         **Flatpak**: `flatpak run --env=DINO_LOG_LEVEL=debug im.github.rallep71.DinoX 2>&1 | tee dinox.log`
@@ -145,5 +145,5 @@ body:
           required: true
         - label: I am using the latest version of DinoX
           required: true
-        - label: I have read the [DEBUG guide](https://github.com/rallep71/dinox/blob/master/DEBUG.md)
+        - label: I have read the [DEBUG guide](https://github.com/rallep71/dinox/blob/master/docs/internal/DEBUG.md)
           required: false
