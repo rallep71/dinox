@@ -262,7 +262,13 @@ public async Bytes? fetch_image(XmppStream stream, Jid jid, string hash) {
     if (iq_res.is_error()) return null;
     string? res = iq_res.stanza.get_deep_string_content(@"$NS_URI:vCard", "PHOTO", "BINVAL");
     if (res == null) return null;
-    Bytes content = new Bytes.take(Base64.decode(res));
+    // Strip whitespace from base64 (servers often return multi-line BINVAL)
+    string clean_res = "";
+    foreach (string line in res.split("\n")) {
+        clean_res += line.strip();
+    }
+    if (clean_res == "") return null;
+    Bytes content = new Bytes.take(Base64.decode(clean_res));
     string sha1 = Checksum.compute_for_bytes(ChecksumType.SHA1, content);
     if (sha1 != hash) return null;
 
@@ -294,7 +300,7 @@ public class Module : XmppStreamModule {
         StanzaNode? photo_node = update_node.get_subnode("photo", NS_URI_UPDATE);
         if (photo_node == null) return;
         string? sha1 = photo_node.get_string_content();
-        if (sha1 == null) return;
+        if (sha1 == null || sha1.strip() == "") return; // Empty <photo/> = no avatar per XEP-0153 §3.1
         received_avatar_hash(stream, presence.from, sha1);
     }
 }

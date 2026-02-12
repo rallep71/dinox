@@ -1690,6 +1690,15 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             // 2. Purge database caches (entity discovery, roster, MAM, stickers, etc.)
             db_rows_deleted = db.purge_caches ();
 
+            // 3. Clear in-memory avatar caches to match DB state
+            Idle.add (() => {
+                var avatar_mgr = stream_interactor.get_module<AvatarManager> (AvatarManager.IDENTITY);
+                if (avatar_mgr != null) {
+                    avatar_mgr.purge_in_memory_caches ();
+                }
+                return false;
+            });
+
             Idle.add (() => {
                 if (toast_overlay != null) {
                     Adw.Toast toast;
