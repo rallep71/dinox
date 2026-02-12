@@ -361,14 +361,19 @@ public class MessageProcessor : StreamInteractionModule, Object {
 
             // Check if this is a MAM message (from archive)
             var mam_flag = Xmpp.MessageArchiveManagement.MessageFlag.get_flag(stanza);
-            if (mam_flag == null || mam_flag.server_time == null) {
+            if (mam_flag == null) {
                 return false; // Not from MAM, allow (new live message)
             }
 
+            // Use server_time from MAM, fall back to message.time if missing
+            DateTime? msg_time = mam_flag.server_time ?? message.time;
+            if (msg_time == null) {
+                return false; // No timestamp available, allow
+            }
+
             // Filter out MAM messages older than the clear timestamp
-            if (mam_flag.server_time.compare(conversation.history_cleared_at) < 0) {
-                // Message is older than clear timestamp - filter it out
-                return true; // ABORT processing
+            if (msg_time.compare(conversation.history_cleared_at) <= 0) {
+                return true; // ABORT: message is from before history was cleared
             }
 
             return false; // Message is newer, allow it
