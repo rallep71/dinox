@@ -146,6 +146,7 @@ public class AvatarManager : StreamInteractionModule, Object {
         }
 
         stream_interactor.account_added.connect(on_account_added);
+        stream_interactor.stream_negotiated.connect(on_stream_negotiated);
         stream_interactor.module_manager.initialize_account_modules.connect((_, modules) => {
             modules.add(new Xep.UserAvatars.Module());
             modules.add(new Xep.VCard.Module());
@@ -195,6 +196,16 @@ public class AvatarManager : StreamInteractionModule, Object {
 
     public bool has_avatar(Account account, Jid jid) {
         return get_avatar_hash(account, jid) != null;
+    }
+
+    /**
+     * Clears in-memory avatar caches. Must be called after DB purge_caches()
+     * to ensure consistency between DB and memory state.
+     */
+    public void purge_in_memory_caches() {
+        user_avatars.clear();
+        vcard_avatars.clear();
+        pending_fetch.clear();
     }
 
     public async void publish(Account account, File file) {
@@ -347,7 +358,37 @@ public class AvatarManager : StreamInteractionModule, Object {
         }
     }
 
+    /**
+     * On reconnect, re-fetch any avatars where we have a hash but the image file is missing.
+     * This handles the case after clear_cache or corrupted files.
+     */
+    private void on_stream_negotiated(Account account, XmppStream stream) {
+        // Collect JIDs with known hashes but missing avatar files
+        var missing = new Gee.ArrayList<Jid>();
+        foreach (var entry in user_avatars.entries) {
+            if (!has_image(entry.value)) {
+                missing.add(entry.key);
+            }
+        }
+        foreach (var entry in vcard_avatars.entries) {
+            if (!user_avatars.has_key(entry.key) && !has_image(entry.value)) {
+                missing.add(entry.key);
+            }
+        }
+        if (missing.size > 0) {
+            debug("AvatarManager: %d avatars need re-fetch after reconnect for %s", missing.size, account.bare_jid.to_string());
+            refetch_missing_avatars.begin(account, missing);
+        }
+    }
+
+    private async void refetch_missing_avatars(Account account, Gee.ArrayList<Jid> jids) {
+        foreach (Jid jid in jids) {
+            yield fetch_and_store_for_jid(account, jid);
+        }
+    }
+
     private void on_user_avatar_received(Account account, Jid jid_, string id) {
+        if (id == null || id.strip() == "") return;
         Jid jid = jid_.bare_jid;
 
         if (!user_avatars.has_key(jid) || user_avatars[jid] != id) {
@@ -365,6 +406,7 @@ public class AvatarManager : StreamInteractionModule, Object {
     }
 
     public void on_vcard_avatar_received(Account account, Jid jid_, string id) {
+        if (id == null || id.strip() == "") return;
         bool is_gc = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).might_be_groupchat(jid_.bare_jid, account);
         Jid jid = is_gc ? jid_ : jid_.bare_jid;
 

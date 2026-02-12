@@ -25,17 +25,23 @@ namespace Xmpp.Xep.UserAvatars {
     }
 
     public async Bytes? fetch_image(XmppStream stream, Jid jid, string hash) {
-        Gee.List<StanzaNode>? items = yield stream.get_module<Pubsub.Module>(Pubsub.Module.IDENTITY).request_all(stream, jid, NS_URI_DATA);
-        if (items == null || items.size == 0 || items[0].sub_nodes.size == 0) return null;
+        // Request the specific item by hash ID instead of fetching all items.
+        // This avoids getting the wrong avatar version when multiple exist.
+        StanzaNode? data_node = yield stream.get_module<Pubsub.Module>(Pubsub.Module.IDENTITY).request_item(stream, jid, NS_URI_DATA, hash);
+        if (data_node == null) {
+            // Fallback: try request_all for servers that don't support item-id retrieval
+            Gee.List<StanzaNode>? items = yield stream.get_module<Pubsub.Module>(Pubsub.Module.IDENTITY).request_all(stream, jid, NS_URI_DATA);
+            if (items == null || items.size == 0 || items[0].sub_nodes.size == 0) return null;
+            data_node = items[0].sub_nodes[0];
+        }
 
-        StanzaNode node = items[0].sub_nodes[0];
-        string? id = items[0].get_attribute("id", Pubsub.NS_URI);
-        if (id == null) return null;
+        string? content_str = data_node.get_string_content();
+        if (content_str == null || content_str.strip() == "") return null;
 
-        Bytes image = new Bytes.take(Base64.decode(node.get_string_content()));
+        Bytes image = new Bytes.take(Base64.decode(content_str));
         string sha1 = Checksum.compute_for_bytes(ChecksumType.SHA1, image);
-        if (sha1 != id) {
-            warning("sha sum did not match for avatar from %s expected=%s actual=%s", jid.to_string(), id, sha1);
+        if (sha1 != hash) {
+            warning("sha sum did not match for avatar from %s expected=%s actual=%s", jid.to_string(), hash, sha1);
             return null;
         }
         return image;
