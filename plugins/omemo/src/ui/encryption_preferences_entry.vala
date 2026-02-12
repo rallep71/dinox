@@ -161,14 +161,20 @@ public class OmemoPreferencesWidget : Adw.PreferencesGroup {
             title_text = _("This device") + @" #$(sid)";
         }
 
+        Adw.ActionRow action_row = new Adw.ActionRow() { use_markup = true };
+
         var own_action_box = new Box(Orientation.HORIZONTAL, 6);
+        var edit_label_button = new Button() { icon_name="document-edit-symbolic", valign=Align.CENTER, tooltip_text=_("Set device name") };
+        edit_label_button.clicked.connect(() => {
+            show_label_dialog(action_row, sid, own_label);
+        });
+        own_action_box.append(edit_label_button);
         var show_qrcode_button = new MenuButton() { icon_name="dino-qr-code-symbolic", valign=Align.CENTER };
         own_action_box.append(show_qrcode_button);
         var copy_button = new Button() { icon_name="edit-copy-symbolic", valign=Align.CENTER };
         copy_button.clicked.connect(() => { copy_button.get_clipboard().set_text(fingerprint); });
         own_action_box.append(copy_button);
 
-        Adw.ActionRow action_row = new Adw.ActionRow() { use_markup = true };
         action_row.title = title_text;
         action_row.subtitle = fingerprint_markup(fingerprint_from_base64(own_b64));
         action_row.add_suffix(own_action_box);
@@ -193,6 +199,40 @@ public class OmemoPreferencesWidget : Adw.PreferencesGroup {
         qrcode_popover.add_css_class("qrcode-container");
 
         show_qrcode_button.popover = qrcode_popover;
+    }
+
+    private void show_label_dialog(Adw.ActionRow action_row, int32 sid, string? current_label) {
+        var dialog = new Adw.AlertDialog(_("Device Name"), _("Set a name for this device that other contacts can see."));
+        dialog.add_response("cancel", _("Cancel"));
+        dialog.add_response("save", _("Save"));
+        dialog.set_response_appearance("save", Adw.ResponseAppearance.SUGGESTED);
+        dialog.default_response = "save";
+        dialog.close_response = "cancel";
+
+        var entry = new Gtk.Entry() { text = current_label ?? "", placeholder_text = "DinoX", max_length = 50 };
+        entry.activate.connect(() => { dialog.response("save"); });
+        var clamp = new Adw.Clamp() { maximum_size = 400, child = entry };
+        dialog.extra_child = clamp;
+
+        dialog.response.connect((response) => {
+            if (response == "save") {
+                string new_label = entry.text.strip();
+                // Save and publish via Manager
+                Manager? manager = plugin.app.stream_interactor.get_module<Manager>(Manager.IDENTITY);
+                if (manager != null) {
+                    manager.set_own_device_label(account, new_label);
+                }
+                // Update title
+                string title_text;
+                if (new_label.length > 0) {
+                    title_text = @"$(new_label) #$(sid) (" + _("This device") + ")";
+                } else {
+                    title_text = _("This device") + @" #$(sid)";
+                }
+                action_row.title = title_text;
+            }
+        });
+        dialog.present((Gtk.Window) get_root());
     }
 
     private void add_fingerprint(Row device, TrustLevel trust) {
