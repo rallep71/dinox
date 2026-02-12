@@ -146,6 +146,20 @@ public class OmemoPreferencesWidget : Adw.PreferencesGroup {
     private void add_own_fingerprint() {
         string own_b64 = plugin.db.identity.row_with(plugin.db.identity.account_id, account.id)[plugin.db.identity.identity_key_public_base64];
         string fingerprint = fingerprint_from_base64(own_b64);
+        int sid = plugin.db.identity.row_with(plugin.db.identity.account_id, account.id)[plugin.db.identity.device_id];
+
+        // Try to get own device label from identity_meta
+        Row? own_meta = plugin.db.identity_meta.get_device(identity_id, account.bare_jid.to_string(), sid);
+        string? own_label = null;
+        if (own_meta != null) {
+            own_label = own_meta[plugin.db.identity_meta.device_label];
+        }
+        string title_text;
+        if (own_label != null && own_label.length > 0) {
+            title_text = @"$(own_label) #$(sid) (" + _("This device") + ")";
+        } else {
+            title_text = _("This device") + @" #$(sid)";
+        }
 
         var own_action_box = new Box(Orientation.HORIZONTAL, 6);
         var show_qrcode_button = new MenuButton() { icon_name="dino-qr-code-symbolic", valign=Align.CENTER };
@@ -155,13 +169,12 @@ public class OmemoPreferencesWidget : Adw.PreferencesGroup {
         own_action_box.append(copy_button);
 
         Adw.ActionRow action_row = new Adw.ActionRow() { use_markup = true };
-        action_row.title = _("This device");
+        action_row.title = title_text;
         action_row.subtitle = fingerprint_markup(fingerprint_from_base64(own_b64));
         action_row.add_suffix(own_action_box);
         add_key_row(action_row);
 
         // Create and set QR code popover
-        int sid = plugin.db.identity.row_with(plugin.db.identity.account_id, account.id)[plugin.db.identity.device_id];
         var iri_query = @"omemo-sid-$(sid)=$(fingerprint)";
 #if GLIB_2_66 && VALA_0_50
         string iri = GLib.Uri.join(UriFlags.NONE, "xmpp", null, null, 0, jid.to_string(), iri_query, null);
@@ -349,8 +362,17 @@ public class OmemoPreferencesWidget : Adw.PreferencesGroup {
     }
 
     private void add_new_fingerprint(Row device) {
+        int32 dev_id = device[plugin.db.identity_meta.device_id];
+        string? device_label = device[plugin.db.identity_meta.device_label];
+        string title_text;
+        if (device_label != null && device_label.length > 0) {
+            title_text = @"$(device_label) #$(dev_id)";
+        } else {
+            title_text = _("New device") + @" #$(dev_id)";
+        }
+
         Adw.ActionRow action_row = new Adw.ActionRow() { use_markup = true };
-        action_row.title = _("New device");
+        action_row.title = title_text;
         action_row.subtitle = fingerprint_markup(fingerprint_from_base64(device[plugin.db.identity_meta.identity_key_public_base64]));
 
         Button accept_button = new Button() { visible = true, valign = Align.CENTER, hexpand = true };
