@@ -5,6 +5,11 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.9.7] - 2026-02-12
+
+### Fixed
+- **Clipboard Paste Lag**: Fixed UI lag on every paste event (Ctrl+V). `read_texture_async` was called unconditionally, causing GDK to probe all clipboard formats including unsupported ones like `image/x-xpixmap`, blocking the main thread. Now checks clipboard formats first and only attempts texture read when a supported image format (PNG, JPEG, BMP, GIF, TIFF, WebP, SVG) is present.
+
 ## [0.9.9.6] - 2026-02-12
 
 ### Fixed
