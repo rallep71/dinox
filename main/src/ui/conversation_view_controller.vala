@@ -238,16 +238,28 @@ public class ConversationViewController : Object {
     private async void on_clipboard_paste() {
         try {
             Clipboard clipboard = view.get_clipboard();
-            Gdk.Texture? texture = yield clipboard.read_texture_async(null); // TODO critical
+
+            // Only attempt texture read if clipboard actually has a supported image format.
+            // Without this check, read_texture_async tries every format (incl. image/x-xpixmap)
+            // which is slow and blocks the UI on each paste event.
+            var formats = clipboard.get_formats();
+            bool has_image = formats.contain_mime_type("image/png") ||
+                             formats.contain_mime_type("image/jpeg") ||
+                             formats.contain_mime_type("image/bmp") ||
+                             formats.contain_mime_type("image/gif") ||
+                             formats.contain_mime_type("image/tiff") ||
+                             formats.contain_mime_type("image/webp") ||
+                             formats.contain_mime_type("image/svg+xml");
+            if (!has_image) return;
+
+            Gdk.Texture? texture = yield clipboard.read_texture_async(null);
             if (texture != null) {
                 var file_name = Path.build_filename(FileManager.get_storage_dir(), Xmpp.random_uuid() + ".png");
                 texture.save_to_png(file_name);
                 open_send_file_overlay(File.new_for_path(file_name));
             }
-        } catch (IOError.NOT_SUPPORTED e) {
-            // Format not supported, ignore
         } catch (Error e) {
-            warning("Failed to read texture from clipboard: %s", e.message);
+            // Ignore clipboard read errors (unsupported formats, cancelled, etc.)
         }
     }
 
