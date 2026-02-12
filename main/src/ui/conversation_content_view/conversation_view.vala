@@ -818,6 +818,7 @@ public class ConversationView : Widget, Plugins.ConversationItemCollection, Plug
     public override void dispose() {
         if (stream_interactor != null) {
             stream_interactor.get_module<MessageDeletion>(MessageDeletion.IDENTITY).item_deleted.disconnect(on_item_deleted);
+            stream_interactor = null;
         }
         base.dispose();
     }

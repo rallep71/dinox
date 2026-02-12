@@ -432,17 +432,23 @@ public class MessageMetaItem : ContentMetaItem {
     }
 
     public override void dispose() {
-        stream_interactor.get_module<MessageCorrection>(MessageCorrection.IDENTITY).received_correction.disconnect(on_updated_item);
-        stream_interactor.get_module<MessageDeletion>(MessageDeletion.IDENTITY).item_deleted.disconnect(on_updated_item);
-        this.notify["in-edit-mode"].disconnect(on_in_edit_mode_changed);
+        if (stream_interactor != null) {
+            stream_interactor.get_module<MessageCorrection>(MessageCorrection.IDENTITY).received_correction.disconnect(on_updated_item);
+            stream_interactor.get_module<MessageDeletion>(MessageDeletion.IDENTITY).item_deleted.disconnect(on_updated_item);
+            this.notify["in-edit-mode"].disconnect(on_in_edit_mode_changed);
+            stream_interactor = null;
+        }
         if (marked_notify_handler_id != -1) {
             this.disconnect(marked_notify_handler_id);
+            marked_notify_handler_id = -1;
         }
         if (realize_id != -1) {
             label.disconnect(realize_id);
+            realize_id = -1;
         }
         if (pending_timeout_id != -1) {
             Source.remove(pending_timeout_id);
+            pending_timeout_id = -1;
         }
         if (label != null) {
             label.unparent();
