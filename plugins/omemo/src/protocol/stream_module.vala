@@ -17,6 +17,7 @@ public class StreamModule : XmppStreamModule {
     private static TimeSpan IGNORE_TIME = TimeSpan.MINUTE; // vala-lint=naming-convention
 
     public Store store { public get; private set; }
+    public string? own_device_label { get; set; default = null; }
     private ConcurrentSet<string> active_bundle_requests = new ConcurrentSet<string> ();
     private HashMap<Jid, Future<ArrayList<int32>>> active_devicelist_requests = new HashMap<Jid, Future<ArrayList<int32>>> (Jid.hash_func, Jid.equals_func);
     private Map<string, DateTime> device_ignore_time = new HashMap<string, DateTime> ();
@@ -81,7 +82,11 @@ public class StreamModule : XmppStreamModule {
             }
             if (!am_on_devicelist) {
                 debug ("Not on device list, adding id");
-                node.put_node (new StanzaNode.build ("device", NS_URI).put_attribute ("id", store.local_registration_id.to_string ()));
+                var own_node = new StanzaNode.build ("device", NS_URI).put_attribute ("id", store.local_registration_id.to_string ());
+                if (own_device_label != null && own_device_label.length > 0) {
+                    own_node.put_attribute ("label", own_device_label);
+                }
+                node.put_node (own_node);
                 stream.get_module<Pubsub.Module> (Pubsub.Module.IDENTITY).publish.begin (stream, jid, NODE_DEVICELIST, id, node, null, true, () => {
                     try_make_node_public.begin (stream, NODE_DEVICELIST);
                 });
