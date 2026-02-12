@@ -90,11 +90,18 @@ public class ListRow : Widget {
     }
 
     public override void dispose() {
-        outer_box.unparent();
-
-        foreach (var handler_id in handler_ids) {
-            stream_interactor.get_module<PresenceManager>(PresenceManager.IDENTITY).disconnect(handler_id);
+        if (outer_box != null) {
+            outer_box.unparent();
+            outer_box = null;
         }
+
+        if (handler_ids.length > 0) {
+            foreach (var handler_id in handler_ids) {
+                stream_interactor.get_module<PresenceManager>(PresenceManager.IDENTITY).disconnect(handler_id);
+            }
+            handler_ids = new ulong[0];
+        }
+        base.dispose();
     }
 }
 

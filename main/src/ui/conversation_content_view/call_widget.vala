@@ -259,15 +259,15 @@ namespace Dino.Ui {
         }
 
         public override void dispose() {
-            base.dispose();
-
             if (time_update_handler_id != 0) {
                 Source.remove(time_update_handler_id);
                 time_update_handler_id = 0;
             }
             if (call_manager != null) {
                 call_manager.peer_joined.disconnect(update_counterparts);
+                call_manager = null;
             }
+            base.dispose();
         }
     }
 }
