@@ -5,6 +5,12 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.9.6] - 2026-02-12
+
+### Fixed
+- **OMEMO v1/v2 Session Conflict**: Fixed `SG_ERR_LEGACY_MESSAGE` decryption failures caused by v1 and v2 OMEMO sharing the same Signal Protocol session store. When a v2 bundle arrived first, it created a version-4 session that the v1 encryptor would use without the correct cipher version, producing unreadable messages. Fix: (1) v1 `start_session` now detects v4 sessions and replaces them with v3, (2) v2 sessions are no longer created for JIDs that have v1 devices, (3) `SG_ERR_LEGACY_MESSAGE` now triggers automatic session repair.
+- **GTK4 Double Dispose Crash**: Fixed `GLib-GObject-CRITICAL` errors from `dispose()` being called multiple times on GTK4 widgets (`MessageWidget`, `ConversationView`, `ListRow`, `CallWidget`). Added null guards and sentinel resets to prevent double-free.
+
 ## [0.9.9.5] - 2026-02-12
 
 ### Added
