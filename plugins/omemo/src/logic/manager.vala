@@ -18,6 +18,8 @@ public class Manager : StreamInteractionModule, Object {
     private Map<Entities.Message, MessageState> message_states = new HashMap<Entities.Message, MessageState>(Entities.Message.hash_func, Entities.Message.equals_func);
     /* Track JIDs that have announced OMEMO 2 devices */
     private HashSet<string> v2_jids = new HashSet<string>();
+    /* Track JIDs that have announced OMEMO 1 (legacy) devices */
+    private HashSet<string> v1_jids = new HashSet<string>();
 
     /* ── Bundle-Retry ──────────────────────────────────────────────
      * Wenn ein OMEMO-2-Bundle leer/kaputt vom Server kommt (z.B.
@@ -206,10 +208,14 @@ public class Manager : StreamInteractionModule, Object {
             }
 
             //Attempt to encrypt the message
-            /* Check if any recipient has OMEMO 2 devices -- if so, use v2 encryptor */
+            /* Use v2 encryptor ONLY if recipient has v2 devices AND no v1 devices.
+             * This ensures compatibility with clients that only support OMEMO v1
+             * (e.g. Monal, Conversations). When a JID has both v1 and v2 devices,
+             * v1 format is used since all devices can decrypt it. */
             bool use_v2 = false;
             foreach (Jid recipient in recipients) {
-                if (v2_jids.contains(recipient.bare_jid.to_string())) {
+                string bare = recipient.bare_jid.to_string();
+                if (v2_jids.contains(bare) && !v1_jids.contains(bare)) {
                     use_v2 = true;
                     break;
                 }
@@ -549,6 +555,12 @@ public class Manager : StreamInteractionModule, Object {
     private void on_device_list_loaded(Account account, Jid jid, ArrayList<int32> device_list) {
         debug("received device list for %s from %s", account.bare_jid.to_string(), jid.to_string());
 
+        /* Track JIDs with v1 (legacy) device list */
+        if (device_list.size > 0) {
+            v1_jids.add(jid.bare_jid.to_string());
+            debug("OMEMO 1: Marked %s as v1-capable (%d devices)", jid.bare_jid.to_string(), device_list.size);
+        }
+
         XmppStream? stream = stream_interactor.get_stream(account);
         if (stream == null) {
             return;
@@ -584,13 +596,15 @@ public class Manager : StreamInteractionModule, Object {
             debug("new bundles %i/%i for %s (legacy + v2)", inc, device_list.size, jid.to_string());
         }
 
-        /* Also fetch v2 bundles for known devices without a session.
-         * This covers OMEMO 2-only devices (e.g. Kaidan) that were already
-         * inserted into the DB but whose legacy bundle fetch failed. */
-        if (module2 != null) {
+        /* Also fetch v2 bundles for known devices without a session,
+         * but ONLY for v2-only JIDs.  For JIDs with v1 devices we use the
+         * v1 encryptor, and a v4 session in the shared store would produce
+         * messages with a broken version byte (SG_ERR_LEGACY_MESSAGE). */
+        string dl_bare = jid.bare_jid.to_string();
+        if (module2 != null && !v1_jids.contains(dl_bare)) {
             int v2_inc = 0;
             foreach (int32 device_id in device_list) {
-                Address address = new Address(jid.bare_jid.to_string(), device_id);
+                Address address = new Address(dl_bare, device_id);
                 try {
                     if (!module.store.contains_session(address)) {
                         module2.fetch_bundle(stream, jid, device_id, false);
@@ -602,7 +616,7 @@ public class Manager : StreamInteractionModule, Object {
                 address.device_id = 0;
             }
             if (v2_inc > 0) {
-                debug("v2 session-less bundles %i/%i for %s", v2_inc, device_list.size, jid.to_string());
+                debug("v2 session-less bundles %i/%i for %s", v2_inc, device_list.size, dl_bare);
             }
         }
 
@@ -803,17 +817,22 @@ public class Manager : StreamInteractionModule, Object {
         string identity_key_b64 = Base64.encode(identity_key.serialize());
         db.identity_meta.insert_device_session(identity_id, jid.bare_jid.to_string(), device_id, identity_key_b64, trusted);
 
-        /* Always start session for OMEMO 2 bundles -- these may come from
-         * OMEMO 2-only devices (e.g. Kaidan) that have no legacy bundle.
-         * Without a proactive session, the legacy encryptor marks them as
-         * 'lost' and messages are retracted as WONTSEND. */
-        XmppStream? stream = stream_interactor.get_stream(account);
-        if (stream != null) {
-            StreamModule2? module2 = ((!)stream).get_module<StreamModule2>(StreamModule2.IDENTITY);
-            if (module2 != null) {
-                debug("OMEMO 2: Starting session with %s/%d from bundle", jid.to_string(), device_id);
-                module2.start_session(stream, jid, device_id, bundle);
+        /* Start v2 session ONLY for v2-only JIDs (no v1 devices).
+         * If the JID has v1 devices we use the v1 encryptor, and a v4 session
+         * in the shared store would produce messages with a broken version
+         * byte that v1 decryptors reject as SG_ERR_LEGACY_MESSAGE. */
+        string v2_bare = jid.bare_jid.to_string();
+        if (!v1_jids.contains(v2_bare)) {
+            XmppStream? stream = stream_interactor.get_stream(account);
+            if (stream != null) {
+                StreamModule2? module2 = ((!)stream).get_module<StreamModule2>(StreamModule2.IDENTITY);
+                if (module2 != null) {
+                    debug("OMEMO 2: Starting session with %s/%d from bundle (v2-only JID)", jid.to_string(), device_id);
+                    module2.start_session(stream, jid, device_id, bundle);
+                }
             }
+        } else {
+            debug("OMEMO 2: Skipping v2 session for %s/%d (JID has v1 devices, would conflict with v1 encryptor)", jid.to_string(), device_id);
         }
         continue_message_sending(account, jid);
     }
