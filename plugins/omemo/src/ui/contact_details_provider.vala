@@ -82,10 +82,20 @@ public class ContactDetailsProvider : Plugins.ContactDetailsProvider, Object {
                 
                 string fingerprint = fingerprint_from_base64(key_base64);
                 TrustLevel trust_level = (TrustLevel) device[plugin.db.identity_meta.trust_level];
+                int32 dev_id = device[plugin.db.identity_meta.device_id];
+                string? device_label = device[plugin.db.identity_meta.device_label];
+                
+                // Build title: label or "Device" + ID
+                string title_text;
+                if (device_label != null && device_label.length > 0) {
+                    title_text = @"$(device_label) #$(dev_id)";
+                } else {
+                    title_text = @"Device #$(dev_id)";
+                }
                 
                 var device_row = new Adw.ActionRow() { use_markup = true };
-                device_row.title = fingerprint_markup(fingerprint);
-                device_row.subtitle = trust_level_to_string(trust_level);
+                device_row.title = title_text;
+                device_row.subtitle = fingerprint_markup(fingerprint) + "\n" + trust_level_to_string(trust_level);
                 
                 // Add trust indicator
                 var trust_icon = new Gtk.Image();
