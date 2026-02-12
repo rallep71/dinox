@@ -268,7 +268,15 @@ namespace Dino.Plugins.Omemo {
         }
 
         public override async bool run(Entities.Message message, Xmpp.MessageStanza stanza, Conversation conversation) {
-            decryptors[message.account].decrypt_message(message, stanza, conversation);
+            bool had_encrypted_node = stanza.stanza.get_subnode("encrypted", Omemo.NS_URI) != null;
+            bool decrypted = decryptors[message.account].decrypt_message(message, stanza, conversation);
+
+            // If the stanza had an OMEMO v1 <encrypted> element but decryption failed,
+            // clear the body so the OMEMO fallback text ("[This message is OMEMO encrypted]")
+            // doesn't get stored as plaintext. The FILTER_EMPTY listener will drop it.
+            if (had_encrypted_node && !decrypted) {
+                message.body = null;
+            }
             return false;
         }
     }

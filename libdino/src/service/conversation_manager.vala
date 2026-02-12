@@ -267,24 +267,17 @@ public class ConversationManager : StreamInteractionModule, Object {
             .with(db.content_item.conversation_id, "=", conversation.id)
             .perform();
         
-        // NOTE: Message deletion from server depends on XEP-0425 support:
-        // - If the server supports XEP-0425 AND applies it to MAM archives: Messages stay deleted
-        // - If the server doesn't support it or ignores it for MAM: Messages will reappear on next sync
-        // 
-        // This is a limitation of XMPP - there's no standard way to delete from MAM archives.
-        // XEP-0313 (Message Archive Management) has no delete operation.
+        // NOTE: We intentionally keep mam_catchup intact here.
+        // Deleting mam_catchup would force a complete MAM re-sync from scratch,
+        // causing the server to re-send ALL archived messages for this account.
+        // Even with the ClearedConversationFilterListener, edge cases (null server_time,
+        // timing issues) could let old messages slip through — and OMEMO messages
+        // would appear as undecryptable blobs since the ratchet has moved forward.
         //
-        // To check if your server supports XEP-0425 for MAM:
-        // 1. Check https://compliance.conversations.im/
-        // 2. Or check ejabberd config for mod_message_retract
-        
-        // CRITICAL: Delete ALL MAM catchup for this account's bare JID
-        // This forces a complete re-sync from scratch, but messages will be deduplicated
-        // This is the ONLY way to prevent deleted messages from reappearing via MAM
-        db.mam_catchup.delete()
-            .with(db.mam_catchup.account_id, "=", conversation.account.id)
-            .with(db.mam_catchup.server_jid, "=", conversation.account.bare_jid.to_string())
-            .perform();
+        // By keeping mam_catchup ranges, MAM only fetches messages newer than the
+        // last known sync point. The cleared conversation's messages are gone from
+        // the local DB and won't be re-fetched. history_cleared_at serves as a
+        // safety net for any future gap-fill scenarios.
         
         // Mark this conversation as "cleared" with current timestamp
         // This will filter out old messages during MAM re-sync (both in-memory and after restart)
