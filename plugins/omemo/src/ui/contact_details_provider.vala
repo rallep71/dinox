@@ -83,10 +83,9 @@ public class ContactDetailsProvider : Plugins.ContactDetailsProvider, Object {
                 string fingerprint = fingerprint_from_base64(key_base64);
                 TrustLevel trust_level = (TrustLevel) device[plugin.db.identity_meta.trust_level];
                 
-                var device_row = new Adw.ActionRow();
-                device_row.title = format_fingerprint(fingerprint);
+                var device_row = new Adw.ActionRow() { use_markup = true };
+                device_row.title = fingerprint_markup(fingerprint);
                 device_row.subtitle = trust_level_to_string(trust_level);
-                device_row.add_css_class("monospace");
                 
                 // Add trust indicator
                 var trust_icon = new Gtk.Image();
@@ -118,17 +117,6 @@ public class ContactDetailsProvider : Plugins.ContactDetailsProvider, Object {
         return main_group;
     }
     
-    private string format_fingerprint(string fingerprint) {
-        // Format fingerprint in groups of 8 characters
-        var builder = new StringBuilder();
-        for (int i = 0; i < fingerprint.length; i++) {
-            if (i > 0 && i % 8 == 0) {
-                builder.append(" ");
-            }
-            builder.append_c(fingerprint[i]);
-        }
-        return builder.str;
-    }
     
     private string trust_level_to_string(TrustLevel level) {
         switch (level) {

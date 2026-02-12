@@ -17,24 +17,35 @@ public static string fingerprint_from_base64(string b64) {
 }
 
 public static string fingerprint_markup(string s) {
-    return "<span font_family='monospace' font='9'>" + format_fingerprint(s) + "</span>";
+    // XEP-0384 §8: 8 groups of 8 lowercase hex chars,
+    // each colored per XEP-0392 (Consistent Color Generation)
+    string markup = "<span font_family='monospace' font='9'>";
+    for (int i = 0; i < s.length && i < 64; i += 8) {
+        int remaining = int.min(8, s.length - i);
+        string group = s.substring(i, remaining).down();
+        uint8[] rgb = Xmpp.Xep.ConsistentColor.string_to_rgb(group);
+        string color = "#%02x%02x%02x".printf(rgb[0], rgb[1], rgb[2]);
+        if (i > 0) {
+            markup += (i == 32) ? "\n" : "\u00a0";
+        }
+        markup += @"<span foreground='$(color)'>$(group)</span>";
+    }
+    markup += "</span>";
+    return markup;
 }
 
 public static string format_fingerprint(string s) {
-    string markup = "";
-    for (int i = 0; i < s.length; i += 4) {
-        string four_chars = s.substring(i, 4).down();
-
-        if (i % 32 == 0 && i != 0) markup += "\n";
-        markup += four_chars;
-        if (i % 16 == 12 && i % 32 != 28) {
-            markup += " ";
+    // Plain text: 8 groups of 8 lowercase hex chars
+    string result = "";
+    for (int i = 0; i < s.length && i < 64; i += 8) {
+        int remaining = int.min(8, s.length - i);
+        string group = s.substring(i, remaining).down();
+        if (i > 0) {
+            result += (i == 32) ? "\n" : " ";
         }
-        if (i % 8 == 4 && i % 16 != 12) {
-            markup += "\u00a0"; // Non-breaking space
-        }
+        result += group;
     }
-    return markup;
+    return result;
 }
 
 }
