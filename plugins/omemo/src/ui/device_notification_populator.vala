@@ -30,11 +30,14 @@ public class DeviceNotificationPopulator : NotificationPopulator, Object {
     }
 
     public void close(Conversation conversation) {
-        notification = null;
+        if (notification != null) {
+            notification_collection.remove_meta_notification(notification);
+            notification = null;
+        }
     }
 
     private void display_notification() {
-        if (notification == null) {
+        if (notification == null && notification_collection != null && current_conversation != null) {
             notification = new ConversationNotification(plugin, current_conversation);
             notification.should_hide.connect(should_hide);
             notification_collection.add_meta_notification(notification);

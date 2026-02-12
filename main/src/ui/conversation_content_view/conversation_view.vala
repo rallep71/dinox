@@ -621,6 +621,7 @@ public class ConversationView : Widget, Plugins.ConversationItemCollection, Plug
     }
 
     public void add_notification(Widget widget) {
+        if (widget.get_parent() != null) return; // Already parented — avoid GTK assertion
         notifications.append(widget);
         Timeout.add(20, () => {
             notification_revealer.transition_duration = 200;

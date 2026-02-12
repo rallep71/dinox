@@ -91,6 +91,16 @@ public class OmemoPreferencesWidget : Adw.PreferencesGroup {
             keys_preferences_group.remove(widget);
         }
         keys_preferences_group_children.clear();
+        displayed_ids.clear();
+
+        // Unparent qrcode_popover so it can be reattached to a new MenuButton
+        if (qrcode_popover.get_parent() != null) {
+            // The popover is owned by a MenuButton; clear that assignment
+            var old_parent = qrcode_popover.get_parent();
+            if (old_parent is MenuButton) {
+                ((MenuButton) old_parent).popover = null;
+            }
+        }
 
         // Dialog opened from the account settings menu
         // Show the fingerprint for this device separately with buttons for a qrcode and to copy
@@ -123,17 +133,22 @@ public class OmemoPreferencesWidget : Adw.PreferencesGroup {
         return GLib.Uri.escape_string(s, ALLOWED_RESERVED_CHARS, true);
     }
 
+    private bool bundle_fetch_connected = false;
+
     private void fetch_unknown_bundles() {
         Dino.Application app = Application.get_default() as Dino.Application;
         XmppStream? stream = app.stream_interactor.get_stream(account);
         if (stream == null) return;
         StreamModule? module = stream.get_module<StreamModule>(StreamModule.IDENTITY);
         if (module == null) return;
-        module.bundle_fetched.connect_after((bundle_jid, device_id, bundle) => {
-            if (bundle_jid.equals(jid) && !displayed_ids.contains(device_id)) {
-                redraw_key_list();
-            }
-        });
+        if (!bundle_fetch_connected) {
+            bundle_fetch_connected = true;
+            module.bundle_fetched.connect_after((bundle_jid, device_id, bundle) => {
+                if (bundle_jid.equals(jid) && !displayed_ids.contains(device_id)) {
+                    redraw_key_list();
+                }
+            });
+        }
         foreach (Row device in plugin.db.identity_meta.get_unknown_devices(identity_id, jid.to_string())) {
             try {
                 module.fetch_bundle(stream, new Jid(device[plugin.db.identity_meta.address_name]), device[plugin.db.identity_meta.device_id], false);
