@@ -419,8 +419,13 @@ public class Manager : StreamInteractionModule, Object {
         // Create device list stanza node
         StanzaNode list_node = new StanzaNode.build("list", Xep.Omemo.NS_URI).add_self_xmlns();
         foreach (int32 device_id in devices) {
-            list_node.put_node(new StanzaNode.build("device", Xep.Omemo.NS_URI)
-                .put_attribute("id", device_id.to_string()));
+            var device_node = new StanzaNode.build("device", Xep.Omemo.NS_URI)
+                .put_attribute("id", device_id.to_string());
+            // Add label for own device
+            if (device_id == current_device_id && module.own_device_label != null && module.own_device_label.length > 0) {
+                device_node.put_attribute("label", module.own_device_label);
+            }
+            list_node.put_node(device_node);
         }
 
         // Publish to trigger PEP notification to all subscribers
@@ -458,8 +463,13 @@ public class Manager : StreamInteractionModule, Object {
         // Create OMEMO 2 device list stanza: <devices xmlns='urn:xmpp:omemo:2'><device id='...'/></devices>
         StanzaNode devices_node = new StanzaNode.build("devices", Xep.Omemo.NS_URI_V2).add_self_xmlns();
         foreach (int32 device_id in devices) {
-            devices_node.put_node(new StanzaNode.build("device", Xep.Omemo.NS_URI_V2)
-                .put_attribute("id", device_id.to_string()));
+            var device_node = new StanzaNode.build("device", Xep.Omemo.NS_URI_V2)
+                .put_attribute("id", device_id.to_string());
+            // Add label for own device
+            if (device_id == current_device_id && module2.own_device_label != null && module2.own_device_label.length > 0) {
+                device_node.put_attribute("label", module2.own_device_label);
+            }
+            devices_node.put_node(device_node);
         }
 
         stream.get_module<Xep.Pubsub.Module>(Xep.Pubsub.Module.IDENTITY).publish.begin(stream, account.bare_jid,
@@ -906,12 +916,64 @@ public class Manager : StreamInteractionModule, Object {
         // Generated new device ID, ensure this gets added to the devicelist
         XmppStream? stream = stream_interactor.get_stream(account);
         if (stream != null) {
+            // Load own device label from DB and set it on both modules
+            load_own_device_label(account, module);
+
             module.request_user_devicelist.begin((!)stream, account.bare_jid);
             /* Also request OMEMO 2 device list */
             StreamModule2? module2 = stream_interactor.module_manager.get_module<StreamModule2>(account, StreamModule2.IDENTITY);
             if (module2 != null) {
+                load_own_device_label_v2(account, module2);
                 module2.request_user_devicelist.begin((!)stream, account.bare_jid);
             }
+        }
+    }
+
+    private void load_own_device_label(Account account, StreamModule module) {
+        int identity_id = db.identity.get_id(account.id);
+        if (identity_id < 0) return;
+        int32 device_id = (int32) module.store.local_registration_id;
+        Row? meta = db.identity_meta.get_device(identity_id, account.bare_jid.to_string(), device_id);
+        if (meta != null) {
+            module.own_device_label = meta[db.identity_meta.device_label];
+        }
+    }
+
+    private void load_own_device_label_v2(Account account, StreamModule2 module2) {
+        int identity_id = db.identity.get_id(account.id);
+        if (identity_id < 0) return;
+        int32 device_id = (int32) module2.store.local_registration_id;
+        Row? meta = db.identity_meta.get_device(identity_id, account.bare_jid.to_string(), device_id);
+        if (meta != null) {
+            module2.own_device_label = meta[db.identity_meta.device_label];
+        }
+    }
+
+    /** Set own device label, store in DB, and republish device lists (v1 + v2) */
+    public void set_own_device_label(Account account, string label) {
+        int identity_id = db.identity.get_id(account.id);
+        if (identity_id < 0) return;
+
+        StreamModule? module = stream_interactor.module_manager.get_module<StreamModule>(account, StreamModule.IDENTITY);
+        if (module == null) return;
+        int32 device_id = (int32) module.store.local_registration_id;
+
+        // Store in DB
+        db.identity_meta.update_device_label(identity_id, account.bare_jid.to_string(), device_id, label);
+        debug("Stored own device label '%s' for %s/%d", label, account.bare_jid.to_string(), device_id);
+
+        // Set on modules
+        module.own_device_label = label;
+        StreamModule2? module2 = stream_interactor.module_manager.get_module<StreamModule2>(account, StreamModule2.IDENTITY);
+        if (module2 != null) {
+            module2.own_device_label = label;
+        }
+
+        // Republish device lists with label
+        XmppStream? stream = stream_interactor.get_stream(account);
+        if (stream != null) {
+            republish_device_list(account, stream);
+            republish_device_list_v2(account, stream);
         }
     }
 
