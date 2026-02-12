@@ -78,23 +78,30 @@ public class Dino.Ui.ViewModel.PreferencesDialog : Object {
         if (also_from_server) {
             XmppStream? stream = stream_interactor.get_stream(account);
             if (stream != null) {
-                // Alle PEP/PubSub-Knoten entfernen bevor das Konto gelöscht wird
-                cleanup_server_data(stream);
+                // Alle PEP/PubSub-Knoten entfernen, dann Konto vom Server löschen
+                cleanup_server_data.begin(stream, (obj, res) => {
+                    cleanup_server_data.end(res);
 
-                var module = stream.get_module<Xmpp.Xep.InBandRegistration.Module>(Xmpp.Xep.InBandRegistration.Module.IDENTITY);
-                if (module != null) {
-                    module.cancel_registration.begin(stream, account.bare_jid, (obj, res) => {
-                        bool success = module.cancel_registration.end(res);
-                        if (!success) {
-                            warning("Failed to remove account %s from server", account.bare_jid.to_string());
-                        }
+                    var module = stream.get_module<Xmpp.Xep.InBandRegistration.Module>(Xmpp.Xep.InBandRegistration.Module.IDENTITY);
+                    if (module != null) {
+                        module.cancel_registration.begin(stream, account.bare_jid, (obj2, res2) => {
+                            bool success = module.cancel_registration.end(res2);
+                            if (!success) {
+                                warning("Failed to remove account %s from server", account.bare_jid.to_string());
+                            }
+                            stream_interactor.disconnect_account.begin(account, () => {
+                                account.remove();
+                                update_data();
+                            });
+                        });
+                    } else {
                         stream_interactor.disconnect_account.begin(account, () => {
                             account.remove();
                             update_data();
                         });
-                    });
-                    return;
-                }
+                    }
+                });
+                return;
             }
         }
         stream_interactor.disconnect_account.begin(account, () => {
@@ -103,11 +110,25 @@ public class Dino.Ui.ViewModel.PreferencesDialog : Object {
         });
     }
 
-    private void cleanup_server_data(XmppStream stream) {
+    private async void cleanup_server_data(XmppStream stream) {
         var pubsub = stream.get_module<Pubsub.Module>(Pubsub.Module.IDENTITY);
         if (pubsub == null) return;
 
-        // OMEMO v1 (Legacy/Conversations-kompatibel)
+        // OMEMO v1: Geräteliste holen, dann jeden einzelnen Bundle-Knoten löschen
+        Gee.List<StanzaNode>? v1_items = yield pubsub.request_all(stream, stream.remote_name, "eu.siacs.conversations.axolotl.devicelist");
+        if (v1_items != null) {
+            foreach (StanzaNode item in v1_items) {
+                StanzaNode? list_node = item.sub_nodes.size > 0 ? item.sub_nodes[0] : null;
+                if (list_node != null) {
+                    foreach (StanzaNode device_node in list_node.get_subnodes("device")) {
+                        int device_id = device_node.get_attribute_int("id");
+                        if (device_id > 0) {
+                            pubsub.delete_node(stream, null, @"eu.siacs.conversations.axolotl.bundles:$device_id");
+                        }
+                    }
+                }
+            }
+        }
         pubsub.delete_node(stream, null, "eu.siacs.conversations.axolotl.devicelist");
 
         // OMEMO v2 (XEP-0384)
@@ -123,9 +144,6 @@ public class Dino.Ui.ViewModel.PreferencesDialog : Object {
 
         // XEP-0402 Lesezeichen
         pubsub.delete_node(stream, null, Bookmarks2.NS_URI);
-
-        // Einzelne OMEMO-v1-Bundle-Knoten (eu.siacs.conversations.axolotl.bundles:DEVICE_ID)
-        // werden durch die serverseitige Kontolöschung (XEP-0077) entfernt
     }
 
     public void reconnect_account(Account account) {
