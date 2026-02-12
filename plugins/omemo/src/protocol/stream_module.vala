@@ -203,7 +203,18 @@ public class StreamModule : XmppStreamModule {
                 Address address = new Address (jid.bare_jid.to_string (), device_id);
                 try {
                     if (store.contains_session (address)) {
-                        return false;
+                        /* Check if this is a v4 session created by the OMEMO 2 module.
+                         * The v1 encryptor uses cipher.version=0 (default) which
+                         * breaks with v4 sessions → SG_ERR_LEGACY_MESSAGE.
+                         * Replace v4 with a proper v3 session. */
+                        SessionCipher probe = store.create_session_cipher (address);
+                        uint32 sv = probe.get_session_version ();
+                        if (sv >= 4) {
+                            debug ("Replacing v%u session with v3 for %s/%d", sv, jid.bare_jid.to_string (), device_id);
+                            store.delete_session (address);
+                        } else {
+                            return false;
+                        }
                     }
                     debug ("Starting new session for encryption with %s/%d", jid.bare_jid.to_string (), device_id);
                     SessionBuilder builder = store.create_session_builder (address);

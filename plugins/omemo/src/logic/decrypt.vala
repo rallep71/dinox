@@ -79,7 +79,7 @@ namespace Dino.Plugins.Omemo {
                         // Only attempt repair ONCE per device to prevent thrashing:
                         // old queued messages would keep destroying freshly-built sessions
                         string repair_key = "%s/%d".printf(possible_jid.bare_jid.to_string(), data.sid);
-                        if ((e.message.contains("SG_ERR_NO_SESSION") || e.message.contains("SG_ERR_INVALID_MESSAGE"))
+                        if ((e.message.contains("SG_ERR_NO_SESSION") || e.message.contains("SG_ERR_INVALID_MESSAGE") || e.message.contains("SG_ERR_LEGACY_MESSAGE"))
                             && !session_repair_attempted.contains(repair_key)) {
                             session_repair_attempted.add(repair_key);
                             debug("Broken/missing session for %s/%d — deleting session and fetching bundle (one-time repair)", possible_jid.to_string(), data.sid);
@@ -101,7 +101,7 @@ namespace Dino.Plugins.Omemo {
                                     module.fetch_bundle(stream, possible_jid, data.sid, false);
                                 }
                             }
-                        } else if (e.message.contains("SG_ERR_NO_SESSION") || e.message.contains("SG_ERR_INVALID_MESSAGE")) {
+                        } else if (e.message.contains("SG_ERR_NO_SESSION") || e.message.contains("SG_ERR_INVALID_MESSAGE") || e.message.contains("SG_ERR_LEGACY_MESSAGE")) {
                             debug("Session repair already attempted for %s/%d — ignoring old message", possible_jid.to_string(), data.sid);
                         }
                     }
