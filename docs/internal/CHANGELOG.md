@@ -5,6 +5,16 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.9.5] - 2026-02-12
+
+### Added
+- **OMEMO Fingerprint Display**: Fingerprints are now displayed in standardized XEP-0384 §8 format (8 groups of 8 hex digits) across all OMEMO UI views — device management, trust dialogs, and key verification.
+- **OMEMO Device Labels**: Own device label (e.g. "DinoX - Linux") is now automatically set and published for both OMEMO v1 and v2. Remote device labels (e.g. "Kaidan - KDE Flatpak", "Conversations - Pixel 8") are fetched from v2 device lists and displayed in all device management views.
+- **Server Cleanup on Account Deletion**: Deleting an account from the server now performs a full PubSub cleanup before XEP-0077 unregistration — removes the v2 device list, v1 device list, and all individual OMEMO v1 bundle nodes (`eu.siacs.conversations.axolotl.bundles:DEVICE_ID`) from the server.
+
+### Fixed
+- **GTK Widget Assertion**: Fixed `gtk_widget_set_parent: assertion 'child->priv->parent == NULL' failed` error caused by widget reparenting during UI updates.
+
 ## [0.9.9.4] - 2026-02-12
 
 ### Fixed
