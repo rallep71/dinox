@@ -78,6 +78,9 @@ public class Dino.Ui.ViewModel.PreferencesDialog : Object {
         if (also_from_server) {
             XmppStream? stream = stream_interactor.get_stream(account);
             if (stream != null) {
+                // Alle PEP/PubSub-Knoten entfernen bevor das Konto gelöscht wird
+                cleanup_server_data(stream);
+
                 var module = stream.get_module<Xmpp.Xep.InBandRegistration.Module>(Xmpp.Xep.InBandRegistration.Module.IDENTITY);
                 if (module != null) {
                     module.cancel_registration.begin(stream, account.bare_jid, (obj, res) => {
@@ -98,6 +101,31 @@ public class Dino.Ui.ViewModel.PreferencesDialog : Object {
             account.remove();
             update_data();
         });
+    }
+
+    private void cleanup_server_data(XmppStream stream) {
+        var pubsub = stream.get_module<Pubsub.Module>(Pubsub.Module.IDENTITY);
+        if (pubsub == null) return;
+
+        // OMEMO v1 (Legacy/Conversations-kompatibel)
+        pubsub.delete_node(stream, null, "eu.siacs.conversations.axolotl.devicelist");
+
+        // OMEMO v2 (XEP-0384)
+        pubsub.delete_node(stream, null, Omemo.NODE_DEVICELIST_V2);
+        pubsub.delete_node(stream, null, Omemo.NODE_BUNDLES_V2);
+
+        // XEP-0084 Benutzer-Avatar
+        pubsub.delete_node(stream, null, "urn:xmpp:avatar:data");
+        pubsub.delete_node(stream, null, "urn:xmpp:avatar:metadata");
+
+        // XEP-0048 Lesezeichen (Legacy)
+        pubsub.delete_node(stream, null, "storage:bookmarks");
+
+        // XEP-0402 Lesezeichen
+        pubsub.delete_node(stream, null, Bookmarks2.NS_URI);
+
+        // Einzelne OMEMO-v1-Bundle-Knoten (eu.siacs.conversations.axolotl.bundles:DEVICE_ID)
+        // werden durch die serverseitige Kontolöschung (XEP-0077) entfernt
     }
 
     public void reconnect_account(Account account) {
