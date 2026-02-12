@@ -5,6 +5,31 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.9.8] - 2026-02-12
+
+### Fixed
+- **Undecryptable OMEMO Ghost Messages**: When OMEMO decryption failed (missing session, ratchet mismatch, etc.), the sender's fallback body text `[This message is OMEMO encrypted]` was stored as a normal plaintext message. These ghost messages accumulated in conversations and could never be decrypted. Now both v1 and v2 decrypt listeners clear the message body on failure, causing the pipeline's empty-message filter to silently drop them.
+- **MAM Re-sync After History Clear**: Clearing conversation history previously deleted MAM catchup ranges, forcing a complete archive re-sync from the server on next startup. This caused all old messages to reappear as undecryptable OMEMO blobs (since the ratchet had moved forward). MAM catchup ranges are now preserved, so only new messages are fetched after clearing.
+- **Cleared Conversation Filter**: Hardened the MAM message filter for cleared conversations — now falls back to `message.time` when `server_time` is null, and uses inclusive timestamp comparison to properly filter edge-case messages at the exact clear boundary.
+- **Avatar Sync (6 Bugs Fixed)**: Avatars were unreliable — sometimes showing, sometimes blank, especially after Clear Cache or reconnect:
+  - In-memory avatar hash caches were not cleared after DB purge → stale data, failed fetches with no retry
+  - No re-fetch on reconnect — if an avatar file was missing, it stayed blank permanently until a new presence arrived
+  - Empty SHA1 hash from `<photo/>` in XEP-0153 presence was stored as a valid hash, causing phantom fetch attempts
+  - XEP-0084 (PubSub) avatar fetch used `request_all()` instead of `request_item(hash)` → wrong avatar version returned → SHA1 mismatch → silent failure
+  - vCard `fetch_image()` did not strip whitespace from Base64 BINVAL (unlike `VCardInfo.from_node()`) → multi-line base64 caused SHA1 mismatch → avatar silently lost
+  - Empty/null hash IDs in `on_user_avatar_received`/`on_vcard_avatar_received` not filtered
+
+### Important — Upgrade Notice
+> **Users upgrading from v0.9.9.7 or earlier should delete their local database and perform a fresh start.**
+> Previous versions stored undecryptable OMEMO fallback text as plaintext messages and had inconsistent avatar cache state.
+> To clean up:
+> 1. Close DinoX
+> 2. Delete `~/.local/share/dinox/dino.db`
+> 3. Delete `~/.cache/dinox/` (avatar + file cache)
+> 4. Restart DinoX — accounts will reconnect, MAM will sync fresh messages, avatars will be re-fetched
+>
+> Alternatively, use **Settings → Clear Cache** (clears avatars, thumbnails, MAM sync state) and then manually clear old conversations that show ghost messages.
+
 ## [0.9.9.7] - 2026-02-12
 
 ### Fixed
