@@ -637,7 +637,10 @@ public class Stickers : StreamInteractionModule, Object {
         var pubsub = stream.get_module<Pubsub.Module>(Pubsub.Module.IDENTITY);
         if (pubsub == null) throw new StickerError.PUBLISH_FAILED("PubSub module unavailable");
 
-        // Upload any item that doesn't have a source URL yet
+        // Upload any item that doesn't have a source URL yet.
+        // Sticker files on disk are encrypted at rest (AES-256-GCM). We must
+        // decrypt to a temp file before uploading so recipients get usable data
+        // and the reported size matches the plaintext content.
         foreach (var it in items) {
             if (it.source_url != null && it.source_url != "") continue;
             if (it.local_path == null || it.local_path == "") {
@@ -645,15 +648,29 @@ public class Stickers : StreamInteractionModule, Object {
                 continue;
             }
 
-            File f = File.new_for_path(it.local_path);
-            FileInfo finfo = f.query_info("standard::size", FileQueryInfoFlags.NONE, null);
+            // Decrypt the at-rest file to a temp location for upload.
+            string temp_path = Path.build_filename(Environment.get_tmp_dir(), "dinox-sticker-upload-" + Random.next_int().to_string("%x"));
+            File temp_file = File.new_for_path(temp_path);
+            try {
+                uint8[] enc_data;
+                FileUtils.get_data(it.local_path, out enc_data);
+                uint8[] plaintext = file_encryption.decrypt_data(enc_data);
+                FileUtils.set_data(temp_path, plaintext);
+            } catch (Error e) {
+                warning("Failed to decrypt sticker for upload: %s", e.message);
+                continue;
+            }
+
+            FileInfo finfo = temp_file.query_info("standard::size", FileQueryInfoFlags.NONE, null);
             int64 size = finfo.get_size();
 
-            string filename = f.get_basename() ?? (it.hash_value ?? Xmpp.random_uuid());
+            string filename = File.new_for_path(it.local_path).get_basename() ?? (it.hash_value ?? Xmpp.random_uuid());
             string? ct = (it.media_type != null && it.media_type != "") ? it.media_type : "application/octet-stream";
             var slot = yield upload.request_slot(stream, filename, size, ct);
 
-            yield upload_file_to_slot(slot.url_put, slot.headers, f, ct, size, account.domainpart);
+            yield upload_file_to_slot(slot.url_put, slot.headers, temp_file, ct, size, account.domainpart);
+
+            try { temp_file.delete(null); } catch (Error e) { }
 
             it.source_url = slot.url_get;
 
