@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.0.0] - 2026-02-13
 
+### Added
+- **XEP-0050 Ad-Hoc Commands**: New XMPP module for executing, listing and handling ad-hoc commands.
+- **Bot-Features Plugin**: New plugin providing a local HTTP API (localhost:7842) for bot management and XMPP message routing. Includes token authentication, rate limiting, webhook support, and 16 REST endpoints (create, delete, list, sendMessage, getUpdates, setWebhook, sendFile, setCommands, joinRoom, leaveRoom, sendReaction, getMe, getInfo, getCommands, deleteWebhook, health).
+
 ### Fixed
 - **Sticker Publish Uploads Encrypted Garbage**: `publish_pack()` uploaded sticker files directly from disk, but those files are AES-256-GCM encrypted at rest. Recipients received undecryptable ciphertext and the HTTP slot size was wrong (ciphertext > plaintext). Now decrypts to a temp file before uploading and reports the correct plaintext size.
 - **Sticker Chooser Lag (O(n^2) Clear)**: `clear_sticker_store()` used `remove(0)` in a loop. GLib.ListStore is array-backed, so each removal shifted all remaining elements. 40 stickers = 1600 element shifts. Replaced with `remove_all()` (O(1)).
