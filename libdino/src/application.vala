@@ -56,7 +56,7 @@ public interface Application : GLib.Application {
 
         MessageProcessor.start(stream_interactor, db);
         MessageStorage.start(stream_interactor, db);
-        PresenceManager.start(stream_interactor);
+        PresenceManager.start(stream_interactor, db);
         CounterpartInteractionManager.start(stream_interactor);
         BlockingManager.start(stream_interactor);
         Calls.start(stream_interactor, db);

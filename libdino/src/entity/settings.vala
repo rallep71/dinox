@@ -18,6 +18,8 @@ public class Settings : Object {
         stickers_enabled_ = col_to_bool_or_default("stickers_enabled", true);
         sticker_animations_enabled_ = col_to_bool_or_default("sticker_animations_enabled", true);
         location_sharing_enabled_ = col_to_bool_or_default("location_sharing_enabled", false);
+        presence_show_ = col_to_string_or_default("presence_show", "online");
+        presence_status_msg_ = col_to_string_or_default("presence_status_msg", "");
     }
 
     private bool col_to_bool_or_default(string key, bool def) {
@@ -148,6 +150,30 @@ public class Settings : Object {
                 .value(db.settings.value, value.to_string())
                 .perform();
             location_sharing_enabled_ = value;
+        }
+    }
+
+    private string presence_show_;
+    public string presence_show {
+        get { return presence_show_; }
+        set {
+            db.settings.upsert()
+                .value(db.settings.key, "presence_show", true)
+                .value(db.settings.value, value)
+                .perform();
+            presence_show_ = value;
+        }
+    }
+
+    private string presence_status_msg_;
+    public string presence_status_msg {
+        get { return presence_status_msg_; }
+        set {
+            db.settings.upsert()
+                .value(db.settings.key, "presence_status_msg", true)
+                .value(db.settings.value, value)
+                .perform();
+            presence_status_msg_ = value;
         }
     }
 

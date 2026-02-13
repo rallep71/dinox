@@ -5,6 +5,48 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.9.9] - 2026-02-13
+
+### Fixed
+- **Status/Presence (6 Bugs Fixed)**: Global status setting was broken in multiple ways:
+  - Changing status show (Online/Away/DND/XA) discarded the status message — now preserves the current message
+  - Status was not persisted to database — restarting DinoX always reset to "online". Now saved/restored via DB settings
+  - Main window menu and systray always initialized to "online" regardless of actual status — now reads from PresenceManager
+  - "Away" and "Extended Away" (XA) had identical orange color in the status menu — XA now uses gray (`dim-label`)
+  - Initial presence broadcast after stream negotiation always sent "online" before the correct status — now injects show/status via `pre_send_presence_stanza` hook, eliminating the brief flash
+  - Status message dialog and sending chain were functional but status message was only visible in conversation list tooltip on hover (by design)
+- **Conversation List Status Dots**: Emoji status dots (🟢🟠🔴⭕) next to own-account JIDs in the conversation list did not update when changing status. Added `on_own_status_changed()` handler connected to `PresenceManager.status_changed` signal.
+- **Status Dot Flickering**: After changing status, dots briefly showed the correct emoji but then reverted. Root cause: incoming presence from other connected resources (e.g. Monal-iOS still "online") triggered `update_status()` via `on_presence_changed`, overwriting the manually set dot. Fix: `on_presence_changed` now skips `update_status()` for own-account conversations — those are managed exclusively by `on_own_status_changed`.
+- **Green Dot Hidden**: Status dots showed correctly for Away/DND/XA but the green dot for "online" was always hidden. The `on_own_status_changed` handler had a special case hiding the dot for "online". Removed — all four states now always display their emoji.
+- **External Contact Avatars Missing on Startup**: Avatars for external contacts in the conversation list were blank after launching DinoX — only appearing after clicking the conversation. Root cause: Race condition where `ConversationManager` created sidebar rows (triggering avatar lookup) before `AvatarManager` had loaded hashes from the database. Fix: Pre-load all avatar hashes in the `AvatarManager` constructor, before any signal connections.
+- **MUC OMEMO Own Keys Not Visible**: In MUC conversation details, OMEMO keys for the own JID were filtered out. Now shows "Your devices" section first, followed by each MUC member's devices.
+- **MUC OMEMO Trust Management**: Clicking a member's device row in MUC OMEMO details now opens ManageKeyDialog for that JID. Added auto-accept toggle (blind trust) per member and accept/reject for new/changed devices.
+- **MUC OMEMO Double Widget Fetch**: `conversation_details.vala` called `get_widget()` twice per provider — once to check null, once to add. Now caches the result.
+- **MUC OMEMO Undecryptable Warning for Own JID**: "Does not trust this device" banner was shown for own JID in MUC context when other own devices couldn't decrypt. Now skipped for own JID.
+- **MUC Destroy Room**: Destroy room IQ errors were silently swallowed. Now checks `is_error()` on IQ result and throws `GLib.IOError.FAILED` with error text.
+- **MUC Destroy Room Cleanup**: `destroy_room()` now performs full cleanup chain: send destroy IQ → remove bookmark → remove from mucs_joined → send exit presence → cancel MAM sync → close conversation.
+- **OMEMO v1/v2 MUC Version Selection**: In MUC, if one member was v2-only, the entire message was sent as v2 — v1 clients couldn't decrypt. Fixed: v2 is now only used when ALL MUC recipients are v2-capable. Default changed from `use_v2=false` (escalate on first v2-only) to `use_v2=true` (downgrade on first v1-only).
+- **OMEMO Stale Device Accumulation**: Old device IDs from previous installations, AppImage tests, and other clients accumulated on the PubSub device list but were never removed. New `cleanup_stale_own_devices()` runs on every connect: deactivates all non-own devices in the local DB, publishes a clean device list (v1+v2) containing only the current device, and deletes stale bundle nodes (v1) / retracts stale bundle items (v2) from the server.
+- **MUC Duplicate in Channel Dialog**: Opening "Kanal beitreten" could show the same MUC twice if bookmark events arrived during refresh. `add_conference()` now deduplicates by JID, and `refresh_conferences()` properly clears the widget cache after removing list items.
+- **MUC Lock Icon Missing on Startup**: Private room lock icon in "Kanal beitreten" was always missing on first open because it only checked in-memory MUC flags (empty on startup). Now uses `is_private_room()` which also checks the database for cached disco#info features.
+- **Channel Dialog Type Check**: The "Join" button enable/disable logic used an incorrect GLib type check (`row.get_type().is_a(typeof(AddListRow))`) that always returned false. Fixed to `row.child is AddListRow`.
+- **Channel Dialog Password Field**: Setting a conference password targeted the wrong stack widget (`nick_stack` instead of `password_stack`), making the password label invisible.
+- **Channel Dialog Join Button Stuck**: If the JID entered in the join dialog was invalid, the "Join" button remained disabled with spinner text permanently. Now restores the button to "Join" with sensitivity before showing the error.
+- **OMEMO "Does Not Support Encryption" in MUC After Rejoin**: Activating OMEMO in a MUC after rejoin falsely reported the room doesn't support encryption. Root cause: `is_private_room()` returned false because disco#info features weren't loaded yet, causing the code to fall into the 1:1 path which checked OMEMO keys for the MUC JID (always fails). Fix: For GROUPCHAT conversations, never fall through to 1:1 code path; wait up to 3 seconds for room features to load.
+- **OMEMO Solo MUC Encryption**: Sending an encrypted message in a MUC where no other members have OMEMO devices (solo room) was rejected with WONTSEND. Now allows self-only encryption when recipients list is empty in groupchat context.
+- **OMEMO Self-Only Encryption**: When only our own device was in a MUC (no other OMEMO-capable members), encryption failed because `other_devices == 0` rejection didn't distinguish from `own_devices == 0`. Now checks separately: only aborts if own devices are missing, allows sending when only own devices exist.
+- **OMEMO Stale Devices in MUC Member Display**: `get_known_devices()` and `get_new_devices()` did not filter by `now_active`, showing old/inactive devices that were no longer published on the server. Added `now_active = true` filter to both queries.
+- **OMEMO MUC Device Display Improved**: MUC member device list now filters out devices with no communication history (`last_active` is null), sorts remaining devices by most recent activity first, and shows "Last seen: today/yesterday/X days ago" per device. Inactive device count shown in subtitle (e.g. "+3 inactive").
+- **OMEMO Device List Refresh**: `insert_device_list()` previously overwrote `last_active` timestamps for **all** devices on every PubSub device-list update, making the field meaningless. Now only sets `last_active` for genuinely new devices; existing devices retain their decryption-based timestamps.
+- **OMEMO Cleanup on MUC Destroy**: When a MUC room is destroyed, OMEMO data (identity_meta, session, trust entries) stored under the room JID is now automatically cleaned up. Member keys stored under real JIDs are intentionally preserved since they are shared with 1:1 conversations.
+- **OMEMO Device List JID Filter**: `on_device_list_loaded()` (v1 and v2) now filters out non-user JIDs such as PubSub service components (`pubsub.example.com`) and MUC room JIDs. Previously these created garbage entries in identity_meta and trust tables that could never be used.
+- **Double Ringtone Prevention**: Freedesktop notification for incoming calls previously set `sound-name=phone-incoming-call` as a hint, causing some desktop environments (GNOME) to play their own ringtone in addition to the plugin's ringtone. Replaced with `suppress-sound=true` so only the notification-sound plugin controls all audio feedback.
+
+### Added
+- **MUC Destroy Room Menu**: Right-click context menu on MUC conversations now shows "Destroy Room" option (only visible for room owners).
+- **Notification Sound Plugin Enabled by Default**: The libcanberra notification sound plugin is now compiled and loaded by default on Linux. Previously it was disabled and only built in Flatpak/AppImage. Fixed null safety issues, added error handling for context creation, and set `plugin-notification-sound` meson option from `disabled` to `auto`.
+- **Call Ringtone**: Incoming audio/video calls now play the `phone-incoming-call` freedesktop sound event via libcanberra in a 3-second loop until the call is accepted, rejected, or missed. Previously only the notification daemon hint was used, which many desktop environments silently ignored.
+
 ## [0.9.9.8] - 2026-02-12
 
 ### Fixed

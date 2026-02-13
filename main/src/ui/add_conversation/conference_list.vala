@@ -48,6 +48,10 @@ protected class ConferenceList {
         if (!widgets.has_key(account)) {
             widgets[account] = new HashMap<Jid, ListBoxRow>(Jid.hash_func, Jid.equals_func);
         }
+        // Remove existing entry for this JID to prevent duplicates
+        if (widgets[account].has_key(conference.jid)) {
+            list_box.remove(widgets[account][conference.jid]);
+        }
         var widget = new ConferenceListRow(stream_interactor, conference, account);
         var list_box_row = new ListBoxRow();
         list_box_row.set_child(widget);
@@ -71,6 +75,7 @@ protected class ConferenceList {
             foreach (Jid jid in account_widgets_cpy.keys) {
                 list_box.remove(widgets[account][jid]);
             }
+            widgets[account].clear();
         }
 
         foreach (Account account in lists.keys) {
@@ -107,20 +112,9 @@ internal class ConferenceListRow : ListRow {
         
         name_label.label = bookmark.name != null && bookmark.name != "" ? bookmark.name : bookmark.jid.to_string();
         
-        // Check if room is private and show lock icon
-        Conversation? conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_conversation(bookmark.jid, account);
-        if (conversation != null) {
-            XmppStream? stream = stream_interactor.get_stream(account);
-            if (stream != null) {
-                Xep.Muc.Flag? flag = stream.get_flag(Xep.Muc.Flag.IDENTITY);
-                if (flag != null) {
-                    bool is_members_only = flag.has_room_feature(bookmark.jid, Xep.Muc.Feature.MEMBERS_ONLY);
-                    bool is_non_anonymous = flag.has_room_feature(bookmark.jid, Xep.Muc.Feature.NON_ANONYMOUS);
-                    if (is_members_only && is_non_anonymous) {
-                        private_room_image.visible = true;
-                    }
-                }
-            }
+        // Check if room is private and show lock icon (uses DB + memory cache for reliability on startup)
+        if (stream_interactor.get_module<MucManager>(MucManager.IDENTITY).is_private_room(account, bookmark.jid)) {
+            private_room_image.visible = true;
         }
         
         if (stream_interactor.get_accounts().size > 1) {

@@ -20,6 +20,7 @@ public class PresenceManager : StreamInteractionModule, Object {
 
     private string current_show = "online";
     private string? current_status_msg = null;
+    private Database? db = null;
 
     public string get_current_show() {
         return current_show;
@@ -29,20 +30,44 @@ public class PresenceManager : StreamInteractionModule, Object {
         return current_status_msg;
     }
 
-    public static void start(StreamInteractor stream_interactor) {
-        PresenceManager m = new PresenceManager(stream_interactor);
+    public static void start(StreamInteractor stream_interactor, Database? db = null) {
+        PresenceManager m = new PresenceManager(stream_interactor, db);
         stream_interactor.add_module(m);
     }
 
-    private PresenceManager(StreamInteractor stream_interactor) {
+    private PresenceManager(StreamInteractor stream_interactor, Database? db = null) {
         this.stream_interactor = stream_interactor;
+        this.db = db;
         stream_interactor.account_added.connect(on_account_added);
         stream_interactor.stream_negotiated.connect(on_stream_negotiated);
+
+        // Restore persisted status from database
+        if (db != null) {
+            var settings = new Dino.Entities.Settings.from_db(db);
+            string saved_show = settings.presence_show;
+            string saved_msg = settings.presence_status_msg;
+            if (saved_show != null && saved_show.strip() != "") {
+                this.current_show = saved_show;
+            }
+            if (saved_msg != null && saved_msg.strip() != "") {
+                this.current_status_msg = saved_msg;
+            } else {
+                this.current_status_msg = null;
+            }
+        }
     }
 
     public void set_status(string show, string? status_msg) {
         this.current_show = show;
         this.current_status_msg = status_msg;
+
+        // Persist to database
+        if (db != null) {
+            var settings = new Dino.Entities.Settings.from_db(db);
+            settings.presence_show = show;
+            settings.presence_status_msg = status_msg ?? "";
+        }
+
         status_changed(show, status_msg);
 
         foreach (Account account in stream_interactor.get_accounts()) {
@@ -74,10 +99,10 @@ public class PresenceManager : StreamInteractionModule, Object {
     }
 
     private void on_stream_negotiated(Account account, XmppStream stream) {
-        // Send our custom status after the stream is negotiated
-        // The default presence module sends an initial "available" presence,
-        // but we want to enforce our current global status.
-        send_current_presence(stream);
+        // The initial presence already has the correct status injected
+        // via on_pre_send_presence, so we don't need to send a second one.
+        // Just fire our signal so the UI updates.
+        status_changed(current_show, current_status_msg);
     }
 
     public string? get_last_show(Jid jid, Account account) {
@@ -141,6 +166,7 @@ public class PresenceManager : StreamInteractionModule, Object {
     }
 
     private void on_account_added(Account account) {
+        stream_interactor.module_manager.get_module<Presence.Module>(account, Presence.Module.IDENTITY).pre_send_presence_stanza.connect(on_pre_send_presence);
         stream_interactor.module_manager.get_module<Presence.Module>(account, Presence.Module.IDENTITY).received_available_show.connect((stream, jid, show) =>
             on_received_available_show(account, jid, show)
         );
@@ -156,6 +182,22 @@ public class PresenceManager : StreamInteractionModule, Object {
         stream_interactor.module_manager.get_module<Presence.Module>(account, Presence.Module.IDENTITY).received_subscription_approval.connect((stream, jid) => {
             received_subscription_approval(jid, account);
         });
+    }
+
+    /**
+     * Inject current status into any outgoing broadcast presence stanza.
+     * This ensures the initial presence after stream negotiation already
+     * carries the correct show/status, avoiding a brief "online" flash.
+     */
+    private void on_pre_send_presence(XmppStream stream, Xmpp.Presence.Stanza presence) {
+        // Only modify broadcast presence (no 'to', no 'type') — don't touch subscriptions etc.
+        if (presence.to != null || presence.type_ != Xmpp.Presence.Stanza.TYPE_AVAILABLE) return;
+        if (current_show != "online" && (presence.show == null || presence.show == "online")) {
+            presence.show = current_show;
+        }
+        if (current_status_msg != null && current_status_msg.strip() != "" && presence.status == null) {
+            presence.status = current_status_msg;
+        }
     }
 
     private void on_received_available_show(Account account, Jid jid, string show) {

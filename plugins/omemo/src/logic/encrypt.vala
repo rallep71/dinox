@@ -82,7 +82,9 @@ namespace Dino.Plugins.Omemo {
                 if (status.other_waiting_lists > 0) return status;
                 status.other_devices += trust_manager.get_trusted_devices(account, recipient).size;
             }
-            if (status.own_devices == 0 || status.other_devices == 0) return status;
+            // Allow sending with no other devices (e.g. solo MUC — encrypt to self only)
+            if (status.own_devices == 0) return status;
+            if (recipients.size > 0 && status.other_devices == 0) return status;
 
 
             //Encrypt the key for each recipient's device individually

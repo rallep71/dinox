@@ -174,7 +174,7 @@ public class SystrayManager : Object {
             status_changed_id = pm.status_changed.connect((show, msg) => {
                 update_status_items(show);
             });
-            update_status_items("online");
+            update_status_items(pm.get_current_show());
 
             // Separator
             var item_sep = new Dbusmenu.Menuitem();

@@ -38,11 +38,11 @@ public class Loader : Object {
                 Dir dir = Dir.open(path, 0);
                 string? file = null;
                 while ((file = dir.read_name()) != null) {
-                    if (file.has_suffix("so") || file.has_suffix("dll") || file.has_suffix("dylib")) plugin_names.add(file);
+                    if (file.has_suffix("so") || file.has_suffix("dll") || file.has_suffix("dylib")) {
+                        plugin_names.add(file);
+                    }
                 }
-            } catch (Error e) {
-                // Ignore this folder
-            }
+            } catch (Error e) { }
         }
 
         foreach (string plugin in plugin_names) {

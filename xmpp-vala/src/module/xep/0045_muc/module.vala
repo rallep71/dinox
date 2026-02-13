@@ -624,7 +624,26 @@ public class Module : XmppStreamModule {
         StanzaNode query_node = new StanzaNode.build("query", NS_URI_OWNER).add_self_xmlns().put_node(destroy_node);
         Iq.Stanza set_iq = new Iq.Stanza.set(query_node) { to=jid };
         
-        yield stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq_async(stream, set_iq);
+        Iq.Stanza result = yield stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq_async(stream, set_iq);
+        if (result.is_error()) {
+            StanzaNode? error_node = result.stanza.get_subnode("error");
+            string error_text = "Server rejected room destruction";
+            if (error_node != null) {
+                StanzaNode? text_node = error_node.get_subnode("text");
+                if (text_node != null && text_node.get_string_content() != null) {
+                    error_text = text_node.get_string_content();
+                } else {
+                    // Try to get the error condition name
+                    foreach (StanzaNode child in error_node.get_all_subnodes()) {
+                        if (child.ns_uri == "urn:ietf:params:xml:ns:xmpp-stanzas") {
+                            error_text = child.name;
+                            break;
+                        }
+                    }
+                }
+            }
+            throw new GLib.IOError.FAILED(error_text);
+        }
     }
 }
 

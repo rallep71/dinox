@@ -140,6 +140,7 @@ public class Database : Qlite.Database {
         public QueryBuilder get_known_devices(int identity_id, string address_name) {
             return this.with_address(identity_id, address_name)
                 .with(this.trust_level, "!=", TrustLevel.UNKNOWN)
+                .with(this.now_active, "=", true)
                 .without_null(this.identity_key_public_base64);
         }
 
@@ -151,6 +152,7 @@ public class Database : Qlite.Database {
         public QueryBuilder get_new_devices(int identity_id, string address_name) {
             return this.with_address(identity_id, address_name)
                 .with(this.trust_level, "=", TrustLevel.UNKNOWN)
+                .with(this.now_active, "=", true)
                 .without_null(this.identity_key_public_base64);
         }
 
