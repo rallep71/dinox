@@ -10,6 +10,7 @@ public class MessageRouter : Object {
     private BotRegistry registry;
     private SessionPool session_pool;
     private WebhookDispatcher webhook_dispatcher;
+    private BotfatherHandler? botfather;
     private HashMap<int, ulong> message_handlers = new HashMap<int, ulong>();
     private uint cleanup_timer_id = 0;
 
@@ -20,9 +21,15 @@ public class MessageRouter : Object {
         this.session_pool = session_pool;
         this.webhook_dispatcher = webhook_dispatcher;
 
-        // Listen for incoming messages on all accounts
+        // Listen for incoming messages on all accounts (for bot update queue + webhook)
         app.stream_interactor.get_module<MessageProcessor>(MessageProcessor.IDENTITY)
             .received_pipeline.connect(new ReceivedMessageListener(this));
+
+        // Listen for SENT messages too (self-chat Botmother commands)
+        // In self-chat, messages are DIRECTION_SENT and may be deduplicated before
+        // received_pipeline reaches our listener, so we need this extra hook.
+        app.stream_interactor.get_module<MessageProcessor>(MessageProcessor.IDENTITY)
+            .message_sent.connect(on_message_sent);
 
         // Periodic cleanup of old updates
         cleanup_timer_id = GLib.Timeout.add_seconds(3600, () => {
@@ -167,7 +174,42 @@ public class MessageRouter : Object {
 
     // --- Inbound: XMPP -> Bot Update Queue / Webhook ---
 
+    public void set_botfather(BotfatherHandler handler) {
+        this.botfather = handler;
+    }
+
+    // Handle sent messages (self-chat Botmother commands)
+    private void on_message_sent(Entities.Message message, Conversation conversation) {
+        if (message.body == null || message.body.strip() == "") return;
+        if (botfather == null) return;
+
+        string body = message.body.strip();
+        if (!body.has_prefix("/")) return;
+
+        // Only process in self-chat (conversation with yourself)
+        string account_bare = conversation.account.bare_jid.to_string();
+        string counterpart_bare = conversation.counterpart.bare_jid.to_string();
+        if (account_bare != counterpart_bare) return;
+
+        string response = botfather.process_command(account_bare, body);
+        send_chat_reply(conversation, response);
+    }
+
     public void on_message_received(Entities.Message message, Conversation conversation) {
+        // Skip messages with empty body (OMEMO-encrypted, PubSub notifications, etc.)
+        if (message.body == null || message.body.strip() == "") return;
+
+        // Skip messages from pubsub/system services
+        string from_str = message.from.to_string();
+        if (from_str.has_prefix("pubsub.") || from_str.has_prefix("upload.")) return;
+
+        // Botmother commands (/) are handled ONLY via on_message_sent (self-chat).
+        // Do NOT process commands here to avoid double responses or
+        // accidental command processing from external contacts.
+
+        // For bot update queue: skip own outgoing messages
+        if (message.direction == Entities.Message.DIRECTION_SENT) return;
+
         // Route to all active bots owned by this account
         Account account = conversation.account;
         var bots = registry.get_all_active_bots();
@@ -202,6 +244,11 @@ public class MessageRouter : Object {
         sb.append(",\"timestamp\":%ld".printf((long) (message.time ?? new DateTime.now_utc()).to_unix()));
         sb.append("}");
         return sb.str;
+    }
+
+    // Send a plain-text reply back into a conversation (for Botmother commands)
+    private void send_chat_reply(Conversation conversation, string text) {
+        Dino.send_message(conversation, text, 0, null, new Gee.ArrayList<Xmpp.Xep.MessageMarkup.Span>());
     }
 
     private static string escape_json(string s) {

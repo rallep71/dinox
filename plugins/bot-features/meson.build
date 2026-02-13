@@ -22,6 +22,10 @@ sources = files(
     'src/webhook_dispatcher.vala',
     'src/botfather_handler.vala',
 )
-lib_bot_features = shared_library('bot-features', sources, name_prefix: '', dependencies: dependencies, install: true, install_dir: get_option('libdir') / get_option('plugindir'), install_rpath: default_install_rpath)
+c_args = [
+    '-DG_LOG_DOMAIN="bot-features"',
+    '-DGETTEXT_PACKAGE="dino"',
+]
+lib_bot_features = shared_library('bot-features', sources, name_prefix: '', c_args: c_args, dependencies: dependencies, install: true, install_dir: get_option('libdir') / get_option('plugindir'), install_rpath: default_install_rpath)
 dep_bot_features = declare_dependency(link_with: lib_bot_features, include_directories: include_directories('.'))
 summary('BotFather API and Bot Management (bot-features)', dep_bot_features, section: 'Plugins')

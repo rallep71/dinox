@@ -83,6 +83,17 @@
     </child>
     <child>
       <object class="AdwPreferencesGroup">
+        <property name="title" translatable="yes">Botmother</property>
+        <child>
+          <object class="AdwSwitchRow" id="bot_features_row">
+            <property name="title" translatable="yes">Enable Botmother</property>
+            <property name="subtitle" translatable="yes">Start the local Botmother API server for managing XMPP bots</property>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="AdwPreferencesGroup">
         <property name="title" translatable="yes">User Data</property>
         <child>
           <object class="AdwActionRow" id="backup_row">

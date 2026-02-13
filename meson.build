@@ -59,6 +59,7 @@ else
     dep_dbusmenu = dependency('dbusmenu-glib-0.4')
 endif
 dep_icu_uc = dependency('icu-uc')
+dep_json_glib = dependency('json-glib-1.0')
 dep_libadwaita = dependency('libadwaita-1', version: '>=1.5')
 if host_machine.system() == 'windows'
     dep_libcanberra = disabler()

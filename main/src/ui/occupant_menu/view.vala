@@ -43,6 +43,15 @@ public class View : Popover {
         invite_list.unselect_all();
     }
 
+    // Defer hide() so button gesture controllers finish cleanly
+    // (avoids GTK 'Broken accounting of active state' warning)
+    private void hide_deferred() {
+        GLib.Idle.add(() => {
+            hide();
+            return false;
+        });
+    }
+
     private void initialize_list() {
         if (list == null) {
             list = new List(stream_interactor, conversation);
@@ -84,7 +93,7 @@ public class View : Popover {
             header_button.clicked.connect(show_list);
         } else {
             header_button.clicked.connect(() => {
-                hide();
+                hide_deferred();
                 if (selected_jid != null) {
                     Jid? real_jid_inner = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_real_jid(selected_jid, conversation.account);
                     Jid target_jid = real_jid_inner ?? selected_jid;
@@ -220,7 +229,7 @@ public class View : Popover {
 
     private void private_conversation_button_clicked() {
         if (selected_jid == null) return;
-        hide();
+        hide_deferred();
 
         Conversation conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).create_conversation(selected_jid, conversation.account, Conversation.Type.GROUPCHAT_PM);
         stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).start_conversation(conversation);
@@ -231,33 +240,33 @@ public class View : Popover {
 
     private void kick_button_clicked() {
         if (selected_jid == null) return;
-        hide();
+        hide_deferred();
 
         stream_interactor.get_module<MucManager>(MucManager.IDENTITY).kick(conversation.account, conversation.counterpart, selected_jid.resourcepart, _("Kicked by moderator"));
     }
 
     private void ban_button_clicked() {
         if (selected_jid == null) return;
-        hide();
+        hide_deferred();
 
         stream_interactor.get_module<MucManager>(MucManager.IDENTITY).ban(conversation.account, conversation.counterpart, selected_jid);
     }
 
     private void block_button_clicked() {
         if (selected_jid == null) return;
-        hide();
+        hide_deferred();
         stream_interactor.get_module<BlockingManager>(BlockingManager.IDENTITY).block(conversation.account, selected_jid);
     }
 
     private void unblock_button_clicked() {
         if (selected_jid == null) return;
-        hide();
+        hide_deferred();
         stream_interactor.get_module<BlockingManager>(BlockingManager.IDENTITY).unblock(conversation.account, selected_jid);
     }
 
     private void set_affiliation_button_clicked(string affiliation) {
         if (selected_jid == null) return;
-        hide();
+        hide_deferred();
         
         Jid? real_jid = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_real_jid(selected_jid, conversation.account);
         if (real_jid != null) {
@@ -269,13 +278,13 @@ public class View : Popover {
 
     private void voice_button_clicked(string role) {
         if (selected_jid == null) return;
-        hide();
+        hide_deferred();
 
         stream_interactor.get_module<MucManager>(MucManager.IDENTITY).change_role(conversation.account, conversation.counterpart, selected_jid.resourcepart, role);
     }
 
     private void on_invite_clicked() {
-        hide();
+        hide_deferred();
         Gee.List<Account> acc_list = new ArrayList<Account>(Account.equals_func);
         acc_list.add(conversation.account);
         SelectContactDialog add_chat_dialog = new SelectContactDialog(stream_interactor, acc_list);
@@ -320,7 +329,7 @@ public class View : Popover {
             return false;
         });
         
-        hide();
+        hide_deferred();
     }
 }
 
