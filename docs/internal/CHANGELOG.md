@@ -5,6 +5,14 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0.0] - 2026-02-13
+
+### Fixed
+- **Sticker Publish Uploads Encrypted Garbage**: `publish_pack()` uploaded sticker files directly from disk, but those files are AES-256-GCM encrypted at rest. Recipients received undecryptable ciphertext and the HTTP slot size was wrong (ciphertext > plaintext). Now decrypts to a temp file before uploading and reports the correct plaintext size.
+- **Sticker Chooser Lag (O(n^2) Clear)**: `clear_sticker_store()` used `remove(0)` in a loop. GLib.ListStore is array-backed, so each removal shifted all remaining elements. 40 stickers = 1600 element shifts. Replaced with `remove_all()` (O(1)).
+- **Sticker Thumbnail Worker Too Slow**: Background thumb worker had `Thread.usleep(30ms)` between every thumbnail decode. 40 stickers = 1.2 seconds of pure sleep. Reduced to 2ms (CPU yield only), increasing throughput from ~33 to ~500 thumbs/sec.
+- **Sticker Thumb Cache Flash**: When the 256-entry thumbnail cache overflowed, `thumb_cache.clear()` wiped all entries at once, forcing a visible re-decode flash of every thumbnail in view. Now evicts only ~half the entries via iterator, preserving recently used textures.
+
 ## [0.9.9.9] - 2026-02-13
 
 ### Fixed

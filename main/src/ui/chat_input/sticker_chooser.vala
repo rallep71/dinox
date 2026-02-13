@@ -286,9 +286,7 @@ public class StickerChooser : Popover {
     }
 
     private void clear_sticker_store() {
-        while (sticker_store.get_n_items() > 0) {
-            sticker_store.remove(0);
-        }
+        sticker_store.remove_all();
     }
 
     private void ensure_thumb_worker() {
@@ -347,7 +345,15 @@ public class StickerChooser : Popover {
                         var tex = Gdk.Texture.for_pixbuf(pixbuf);
                         thumb_cache[path] = tex;
                         if (thumb_cache.size > THUMB_CACHE_LIMIT) {
-                            thumb_cache.clear();
+                            // Evict ~half instead of clearing everything to avoid
+                            // a visible flash when all thumbnails need re-decode.
+                            var iter = thumb_cache.map_iterator();
+                            int removed = 0;
+                            int target = THUMB_CACHE_LIMIT / 2;
+                            while (iter.next() && removed < target) {
+                                iter.unset();
+                                removed++;
+                            }
                         }
                         picture.paintable = tex;
                     } else {
@@ -358,8 +364,8 @@ public class StickerChooser : Popover {
                     return false;
                 });
 
-                // Throttle to keep the UI smooth on slower machines.
-                Thread.usleep(30 * 1000);
+                // Minimal yield to avoid starving the CPU on very large packs.
+                Thread.usleep(2 * 1000);
             }
         });
     }
