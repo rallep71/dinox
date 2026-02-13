@@ -92,13 +92,20 @@ public class BadMessagesPopulator : Plugins.ConversationItemPopulator, Plugins.C
                 warning("Skipping bad message item with invalid JID: %s", e.message);
                 continue;
             }
+            
+            // In MUC: skip "undecryptable" warnings for own account's devices.
+            // These are typically caused by the user's other resources (e.g. Monal)
+            // that didn't encrypt to this device — confusing in own-member MUC.
+            bool skip_own_undecryptable = current_conversation.type_ == Conversation.Type.GROUPCHAT
+                && jid.equals_bare(current_conversation.account.bare_jid);
+            
             if (!db.identity_meta.last_message_untrusted.is_null(row)) {
                 DateTime time = new DateTime.from_unix_utc(row[db.identity_meta.last_message_untrusted]);
                 var item = new BadMessageItem(plugin, current_conversation, jid, time, BadnessType.UNTRUSTED);
                 bad_items.add(item);
                 item_collection.insert_item(item);
             }
-            if (!db.identity_meta.last_message_undecryptable.is_null(row)) {
+            if (!db.identity_meta.last_message_undecryptable.is_null(row) && !skip_own_undecryptable) {
                 DateTime time = new DateTime.from_unix_utc(row[db.identity_meta.last_message_undecryptable]);
                 var item = new BadMessageItem(plugin, current_conversation, jid, time, BadnessType.UNDECRYPTABLE);
                 bad_items.add(item);

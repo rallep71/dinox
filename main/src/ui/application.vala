@@ -971,7 +971,8 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         SimpleAction set_status_action = new SimpleAction ("set-status", VariantType.STRING);
         set_status_action.activate.connect ((variant) => {
             string status = variant.get_string ();
-            stream_interactor.get_module<PresenceManager> (PresenceManager.IDENTITY).set_status (status, null);
+            var pm = stream_interactor.get_module<PresenceManager> (PresenceManager.IDENTITY);
+            pm.set_status (status, pm.get_current_status_msg ());
         });
         add_action (set_status_action);
 

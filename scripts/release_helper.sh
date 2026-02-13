@@ -42,9 +42,13 @@ fi
 echo "Updated CHANGELOG.md"
 
 # 2. Update DEVELOPMENT_PLAN.md
-sed -i "s/> \*\*Version\*\*: .*/> **Version**: $VERSION/" docs/internal/DEVELOPMENT_PLAN.md
-sed -i "s/> \*\*Last Updated\*\*: .*/> **Last Updated**: $READABLE_DATE/" docs/internal/DEVELOPMENT_PLAN.md
-echo "Updated DEVELOPMENT_PLAN.md"
+if [ -f docs/internal/DEVELOPMENT_PLAN.md ]; then
+    sed -i "s/> \*\*Version\*\*: .*/> **Version**: $VERSION/" docs/internal/DEVELOPMENT_PLAN.md
+    sed -i "s/> \*\*Last Updated\*\*: .*/> **Last Updated**: $READABLE_DATE/" docs/internal/DEVELOPMENT_PLAN.md
+    echo "Updated DEVELOPMENT_PLAN.md"
+else
+    echo "WARNING: docs/internal/DEVELOPMENT_PLAN.md not found, skipping"
+fi
 
 # 3. Update AppData
 # Insert new release tag after <releases>

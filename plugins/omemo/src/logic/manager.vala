@@ -111,6 +111,7 @@ public class Manager : StreamInteractionModule, Object {
         stream_interactor.get_module<MessageProcessor>(MessageProcessor.IDENTITY).pre_message_send.connect(on_pre_message_send);
         stream_interactor.get_module<RosterManager>(RosterManager.IDENTITY).mutual_subscription.connect(on_mutual_subscription);
         stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).conversation_cleared.connect(on_conversation_cleared);
+        stream_interactor.get_module<MucManager>(MucManager.IDENTITY).conference_removed.connect(on_conference_removed);
 
         // When the user removes an own device via TrustManager, republish the device list
         trust_manager.own_device_removed.connect((account) => {
@@ -125,6 +126,32 @@ public class Manager : StreamInteractionModule, Object {
     private void on_conversation_cleared(Conversation conversation) {
         // When conversation history is cleared, also clear OMEMO data for this contact
         clear_contact_data(conversation.account, conversation.counterpart);
+    }
+
+    private void on_conference_removed(Account account, Jid room_jid) {
+        // When a MUC is destroyed/left, clean OMEMO data stored under the room JID.
+        // Member keys (stored under real JIDs) are intentionally preserved.
+        int identity_id = db.identity.get_id(account.id);
+        if (identity_id < 0) return;
+
+        string room_address = room_jid.bare_jid.to_string();
+
+        db.identity_meta.delete()
+                .with(db.identity_meta.identity_id, "=", identity_id)
+                .with(db.identity_meta.address_name, "=", room_address)
+                .perform();
+
+        db.session.delete()
+                .with(db.session.identity_id, "=", identity_id)
+                .with(db.session.address_name, "=", room_address)
+                .perform();
+
+        db.trust.delete()
+                .with(db.trust.identity_id, "=", identity_id)
+                .with(db.trust.address_name, "=", room_address)
+                .perform();
+
+        debug("OMEMO: Cleaned data for removed MUC %s", room_address);
     }
 
     private void clear_contact_data(Account account, Xmpp.Jid jid) {
@@ -198,25 +225,26 @@ public class Manager : StreamInteractionModule, Object {
             Gee.List<Jid> recipients;
             if (message_stanza.type_ == MessageStanza.TYPE_GROUPCHAT) {
                 recipients = get_occupants((!)message.to.bare_jid, conversation.account);
-                if (recipients.size == 0) {
-                    message.marked = Entities.Message.Marked.WONTSEND;
-                    return;
-                }
+                // Empty recipients is OK in MUC (solo room) — encryptor will encrypt to self-devices
             } else {
                 recipients = new ArrayList<Jid>(Jid.equals_bare_func);
                 recipients.add(message_stanza.to);
             }
 
             //Attempt to encrypt the message
-            /* Use v2 encryptor ONLY if recipient has v2 devices AND no v1 devices.
-             * This ensures compatibility with clients that only support OMEMO v1
-             * (e.g. Monal, Conversations). When a JID has both v1 and v2 devices,
-             * v1 format is used since all devices can decrypt it. */
-            bool use_v2 = false;
+            /* Use v2 encryptor ONLY if ALL recipients have v2 devices AND none
+             * have v1-only devices. This ensures compatibility in MUCs where
+             * some members may only support OMEMO v1 (Monal, Conversations).
+             * A single v1-only member forces the entire message to use v1 format. */
+            bool use_v2 = true;
+            if (recipients.size == 0) {
+                use_v2 = false;
+            }
             foreach (Jid recipient in recipients) {
                 string bare = recipient.bare_jid.to_string();
-                if (v2_jids.contains(bare) && !v1_jids.contains(bare)) {
-                    use_v2 = true;
+                if (!v2_jids.contains(bare) || v1_jids.contains(bare)) {
+                    // This recipient has v1 devices or no v2 devices → must use v1
+                    use_v2 = false;
                     break;
                 }
             }
@@ -297,8 +325,8 @@ public class Manager : StreamInteractionModule, Object {
             // Request our device list - this will automatically trigger republish if needed
             module.request_user_devicelist.begin(stream, account.bare_jid, (obj, res) => {
                 module.request_user_devicelist.end(res);
-                // Force republish of device list to notify all subscribers
-                republish_device_list_with_retry(account, stream, 5);
+                // Clean stale devices, then republish clean device list
+                cleanup_stale_own_devices(account, stream);
             });
         }
         /* Bundle-Retry-Timer starten (einmalig, läuft für alle Accounts) */
@@ -484,6 +512,73 @@ public class Manager : StreamInteractionModule, Object {
         debug("Republished OMEMO 2 device list for %s with %d devices", account.bare_jid.to_string(), devices.size);
     }
 
+    /**
+     * Entfernt veraltete eigene Geräte aus der Device-List (v1+v2) und der lokalen DB.
+     * Wird nach dem Laden der Device-List beim Connect aufgerufen.
+     *
+     * Ablauf:
+     * 1. Alle eigenen Geräte in identity_meta, die NICHT das aktuelle Gerät sind,
+     *    werden als now_active=false markiert.
+     * 2. Die bereinigte Device-List wird auf dem Server veröffentlicht (v1 + v2).
+     * 3. Veraltete v1-Bundle-Nodes werden vom PubSub gelöscht.
+     * 4. Veraltete v2-Bundle-Items werden vom PubSub zurückgezogen.
+     */
+    private void cleanup_stale_own_devices(Account account, XmppStream stream) {
+        int identity_id = db.identity.get_id(account.id);
+        if (identity_id < 0) return;
+
+        StreamModule? module = stream.get_module<StreamModule>(StreamModule.IDENTITY);
+        if (module == null) return;
+        int32 own_device_id = (int32) module.store.local_registration_id;
+        if (own_device_id == 0) return;
+
+        string own_jid = account.bare_jid.to_string();
+
+        // Sammle veraltete Device-IDs bevor wir sie deaktivieren
+        var stale_devices = new ArrayList<int32>();
+        foreach (Row row in db.identity_meta.with_address(identity_id, own_jid)
+                .with(db.identity_meta.device_id, "!=", own_device_id)
+                .with(db.identity_meta.now_active, "=", true)) {
+            stale_devices.add(row[db.identity_meta.device_id]);
+        }
+
+        if (stale_devices.size == 0) {
+            // Keine veralteten Geräte, nur republish
+            republish_device_list_with_retry(account, stream, 5);
+            return;
+        }
+
+        debug("OMEMO: Cleaning %d stale own devices for %s", stale_devices.size, own_jid);
+
+        // Alle fremden eigenen Geräte in der DB deaktivieren
+        db.identity_meta.update()
+            .with(db.identity_meta.identity_id, "=", identity_id)
+            .with(db.identity_meta.address_name, "=", own_jid)
+            .with(db.identity_meta.device_id, "!=", own_device_id)
+            .set(db.identity_meta.now_active, false)
+            .perform();
+
+        // Bereinigte Device-List veröffentlichen (enthält nur noch unser Gerät)
+        republish_device_list(account, stream);
+        republish_device_list_v2(account, stream);
+
+        // Veraltete v1-Bundle-Nodes löschen
+        var pubsub = stream.get_module<Xep.Pubsub.Module>(Xep.Pubsub.Module.IDENTITY);
+        if (pubsub != null) {
+            foreach (int32 stale_id in stale_devices) {
+                string v1_bundle_node = NODE_BUNDLES + ":" + stale_id.to_string();
+                debug("OMEMO: Deleting stale v1 bundle node %s", v1_bundle_node);
+                pubsub.delete_node(stream, account.bare_jid, v1_bundle_node);
+
+                // v2-Bundle-Item zurückziehen
+                debug("OMEMO: Retracting stale v2 bundle item %d", stale_id);
+                pubsub.retract_item.begin(stream, account.bare_jid, NODE_BUNDLES_V2, stale_id.to_string());
+            }
+        }
+
+        debug("OMEMO: Stale device cleanup done for %s — removed %d devices", own_jid, stale_devices.size);
+    }
+
     private void on_account_added(Account account) {
         StreamModule module = stream_interactor.module_manager.get_module<StreamModule>(account, StreamModule.IDENTITY);
         if (module != null) {
@@ -553,6 +648,12 @@ public class Manager : StreamInteractionModule, Object {
     }
 
     private void on_device_list_loaded(Account account, Jid jid, ArrayList<int32> device_list) {
+        // Filter out non-user JIDs (PubSub services, MUC room JIDs, server components)
+        string bare_str = jid.bare_jid.to_string();
+        if (!bare_str.contains("@") || stream_interactor.get_module<MucManager>(MucManager.IDENTITY).is_groupchat(jid.bare_jid, account)) {
+            debug("OMEMO: Ignoring device list from non-user JID %s", bare_str);
+            return;
+        }
         debug("received device list for %s from %s", account.bare_jid.to_string(), jid.to_string());
 
         /* Track JIDs with v1 (legacy) device list */
@@ -663,6 +764,13 @@ public class Manager : StreamInteractionModule, Object {
         if (device_list.size == 0) {
             // Contact has no OMEMO 2 devices -- nothing to do.
             // Crucially, we do NOT deactivate their v1 devices.
+            return;
+        }
+
+        // Filter out non-user JIDs (PubSub services, MUC room JIDs, server components)
+        string bare_str = jid.bare_jid.to_string();
+        if (!bare_str.contains("@") || stream_interactor.get_module<MucManager>(MucManager.IDENTITY).is_groupchat(jid.bare_jid, account)) {
+            debug("OMEMO 2: Ignoring v2 device list from non-user JID %s", bare_str);
             return;
         }
 

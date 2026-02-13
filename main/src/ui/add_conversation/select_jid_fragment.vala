@@ -351,7 +351,7 @@ public class SelectJidFragment : Gtk.Box {
 
     private void check_buttons_active() {
         ListBoxRow? row = list.get_selected_row();
-        bool active = row != null && !row.get_type().is_a(typeof(AddListRow)) && !row.get_type().is_a(typeof(SearchDirectoryRow));
+        bool active = row != null && row.child != null && !(row.child is AddListRow) && !(row.child is SearchDirectoryRow);
         remove_button.sensitive = active;
 
         foreach (Widget w in added_rows) {

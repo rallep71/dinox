@@ -83,10 +83,25 @@ public class EncryptionListEntry : Plugins.EncryptionListEntry, Object {
         MucManager muc_manager = plugin.app.stream_interactor.get_module<MucManager>(MucManager.IDENTITY);
         Manager omemo_manager = plugin.app.stream_interactor.get_module<Manager>(Manager.IDENTITY);
 
-        if (muc_manager.is_private_room(conversation.account, conversation.counterpart)) {
+        if (conversation.type_ == Conversation.Type.GROUPCHAT) {
+            // MUC path: never fall through to 1:1 check (MUC JID has no OMEMO keys)
+            bool is_private = muc_manager.is_private_room(conversation.account, conversation.counterpart);
+            if (!is_private) {
+                // Room features (disco#info) may not be loaded yet after (re)join — wait briefly
+                for (int i = 0; i < 6; i++) {
+                    yield sleep_async(500);
+                    is_private = muc_manager.is_private_room(conversation.account, conversation.counterpart);
+                    if (is_private) break;
+                }
+            }
+            if (!is_private) {
+                // Still not private after waiting — public room or features unavailable
+                input_status_callback(new Plugins.InputFieldStatus("OMEMO can't be used in public (non-members-only) rooms.", Plugins.InputFieldStatus.MessageType.ERROR, Plugins.InputFieldStatus.InputState.NO_SEND));
+                return;
+            }
             var offline_members = muc_manager.get_offline_members(conversation.counterpart, conversation.account);
             if (offline_members == null) {
-                // We don't store offline members yet, and it'll be null if we're offline
+                // Offline members not available (still joining or offline)
                 return;
             }
             foreach (Jid offline_member in offline_members) {

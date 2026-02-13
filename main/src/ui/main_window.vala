@@ -176,8 +176,8 @@ public class MainWindow : Adw.ApplicationWindow {
         pm.status_changed.connect((show, msg) => {
             update_status_menu(status_menu, show);
         });
-        // Initial update (default to online if not set, or fetch from PM if exposed)
-        update_status_menu(status_menu, "online"); 
+        // Initial update with persisted status
+        update_status_menu(status_menu, pm.get_current_show()); 
     }
 
     private void update_status_menu(Menu status_menu, string current_status) {
@@ -213,8 +213,10 @@ public class MainWindow : Adw.ApplicationWindow {
                 status_image.add_css_class("success");
                 break;
             case "away":
-            case "xa":
                 status_image.add_css_class("warning");
+                break;
+            case "xa":
+                status_image.add_css_class("dim-label");
                 break;
             case "dnd":
                 status_image.add_css_class("error");

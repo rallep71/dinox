@@ -391,7 +391,7 @@ namespace Dino.Ui.ConversationDetails {
         foreach (Plugins.ContactDetailsProvider provider in app.plugin_registry.contact_details_entries) {
             var preferences_group = (Adw.PreferencesGroup) provider.get_widget(conversation);
             if (preferences_group != null) {
-                dialog.add_encryption_tab_element((Adw.PreferencesGroup) provider.get_widget(conversation));
+                dialog.add_encryption_tab_element(preferences_group);
             }
             provider.populate(conversation, contact_details, Plugins.WidgetType.GTK4);
         }

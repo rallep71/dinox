@@ -48,7 +48,7 @@ protected class ConferenceDetailsFragment : Box {
         set {
             password_label.label = value;
             password_entry.text = value;
-            nick_stack.set_visible_child_name("label");
+            password_stack.set_visible_child_name("label");
         }
     }
 
@@ -185,6 +185,8 @@ protected class ConferenceDetailsFragment : Box {
         } catch (InvalidJidError e) {
             label_text = _("Invalid address");
         }
+        ok_button.label = _("Join");
+        ok_button.sensitive = true;
         notification_label.label = label_text;
         notification_revealer.set_reveal_child(true);
     }

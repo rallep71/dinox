@@ -69,6 +69,7 @@ public class ConversationSelectorRow : ListBoxRow {
             var pm = stream_interactor.get_module<PresenceManager>(PresenceManager.IDENTITY);
             pm.show_received.connect(on_presence_changed);
             pm.received_offline_presence.connect(on_presence_changed);
+            pm.status_changed.connect(on_own_status_changed);
             
             // Initial update
             update_status();
@@ -162,6 +163,7 @@ public class ConversationSelectorRow : ListBoxRow {
             var pm = stream_interactor.get_module<PresenceManager>(PresenceManager.IDENTITY);
             pm.show_received.disconnect(on_presence_changed);
             pm.received_offline_presence.disconnect(on_presence_changed);
+            pm.status_changed.disconnect(on_own_status_changed);
         }
     }
 
@@ -514,6 +516,15 @@ public class ConversationSelectorRow : ListBoxRow {
             menu.append(_("Delete Conversation History"), "row.clear");
             menu.append(_("Leave and Close"), "row.close");
             
+            // Show "Destroy Room" only for owners
+            Jid? own_muc_jid = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_own_jid(conversation.counterpart, conversation.account);
+            if (own_muc_jid != null) {
+                Xep.Muc.Affiliation? own_aff = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_affiliation(conversation.counterpart, own_muc_jid, conversation.account);
+                if (own_aff == Xep.Muc.Affiliation.OWNER) {
+                    menu.append(_("Destroy Room"), "row.destroy");
+                }
+            }
+            
             // Details action
             var details_action = new SimpleAction("details", null);
             details_action.activate.connect(() => {
@@ -549,6 +560,13 @@ public class ConversationSelectorRow : ListBoxRow {
                 GLib.Application.get_default().activate_action("close-conversation", new GLib.Variant.int32(conversation.id));
             });
             action_group.add_action(close_action);
+            
+            // Destroy room action (only added to menu for owners)
+            var destroy_action = new SimpleAction("destroy", null);
+            destroy_action.activate.connect(() => {
+                show_destroy_room_dialog();
+            });
+            action_group.add_action(destroy_action);
             
         } else {
             // 1:1 Chat options
@@ -819,9 +837,74 @@ public class ConversationSelectorRow : ListBoxRow {
         dialog.present((Window)this.get_root());
     }
 
+    private void show_destroy_room_dialog() {
+        var dialog = new Adw.AlertDialog(
+            _("Destroy Room?"),
+            _("Are you sure you want to permanently destroy this room? This action cannot be undone and all history will be lost for all participants.")
+        );
+        dialog.add_response("cancel", _("Cancel"));
+        dialog.add_response("destroy", _("Destroy"));
+        dialog.set_response_appearance("destroy", DESTRUCTIVE);
+        dialog.set_default_response("cancel");
+        dialog.set_close_response("cancel");
+        
+        dialog.response.connect((response) => {
+            if (response == "destroy") {
+                stream_interactor.get_module<MucManager>(MucManager.IDENTITY).destroy_room.begin(conversation.account, conversation.counterpart, null, (obj, res) => {
+                    try {
+                        stream_interactor.get_module<MucManager>(MucManager.IDENTITY).destroy_room.end(res);
+                        // destroy_room now handles: bookmark removal + part + conversation close
+                    } catch (GLib.Error e) {
+                        var error_dialog = new Adw.AlertDialog(_("Failed to destroy room"), e.message);
+                        error_dialog.add_response("close", _("Close"));
+                        error_dialog.present((Window)this.get_root());
+                    }
+                });
+            }
+        });
+        
+        dialog.present((Window)this.get_root());
+    }
+
     private void on_presence_changed(Jid jid, Account account) {
         if (account == conversation.account && jid.bare_jid.equals(conversation.counterpart)) {
+            // For own-account conversations, the dot is managed by
+            // on_own_status_changed() using the global status the user set.
+            // Received presence from other resources (e.g. Monal-iOS still
+            // "online") would overwrite it with incorrect data, so skip.
+            foreach (Account acc in stream_interactor.get_accounts()) {
+                if (acc.bare_jid.equals(conversation.counterpart)) {
+                    return;
+                }
+            }
             update_status();
+        }
+    }
+
+    /**
+     * Called when the user changes their own global status.
+     * If the conversation counterpart is one of the user's own accounts,
+     * update the dot immediately using the new show value — bypassing
+     * the Presence.Flag cache which won't be updated until the server
+     * echoes the presence back.
+     */
+    private void on_own_status_changed(string show, string? status_msg) {
+        if (conversation.type_ != Conversation.Type.CHAT) return;
+        foreach (Account acc in stream_interactor.get_accounts()) {
+            if (acc.bare_jid.equals(conversation.counterpart)) {
+                // Counterpart is one of our own accounts — update immediately
+                string emoji = "🟢";
+                if (show == "away") {
+                    emoji = "🟠";
+                } else if (show == "dnd") {
+                    emoji = "🔴";
+                } else if (show == "xa") {
+                    emoji = "⭕";
+                }
+                status_label.label = emoji;
+                status_label.visible = true;
+                return;
+            }
         }
     }
 

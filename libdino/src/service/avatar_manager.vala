@@ -145,6 +145,26 @@ public class AvatarManager : StreamInteractionModule, Object {
             warning("AvatarManager: Failed to create avatars directory: %s", e.message);
         }
 
+        // Pre-load ALL avatar hashes from DB into memory BEFORE connecting signals.
+        // This ensures hashes are available when ConversationManager creates sidebar
+        // rows during account_added (which fires before AvatarManager.on_account_added).
+        foreach (Row row in db.avatar.select({db.avatar.jid_id, db.avatar.hash, db.avatar.type_})) {
+            try {
+                string hash = row[db.avatar.hash];
+                if (hash == null || hash.strip() == "") continue;
+                Jid jid = db.get_jid_by_id(row[db.avatar.jid_id]);
+                if (jid == null) continue;
+                int type = row[db.avatar.type_];
+                if (type == Source.USER_AVATARS) {
+                    user_avatars[jid] = hash;
+                } else if (type == Source.VCARD && !user_avatars.has_key(jid)) {
+                    vcard_avatars[jid] = hash;
+                }
+            } catch (InvalidJidError e) {
+                // skip invalid JIDs
+            }
+        }
+
         stream_interactor.account_added.connect(on_account_added);
         stream_interactor.stream_negotiated.connect(on_stream_negotiated);
         stream_interactor.module_manager.initialize_account_modules.connect((_, modules) => {

@@ -469,14 +469,55 @@ public class MucManager : StreamInteractionModule, Object {
 
     public async void destroy_room(Account account, Jid jid, string? reason = null) throws GLib.Error {
         XmppStream? stream = stream_interactor.get_stream(account);
-        if (stream != null) {
-            yield stream.get_module<Xep.Muc.Module>(Xep.Muc.Module.IDENTITY).destroy_room(stream, jid.bare_jid, reason, null);
-            if (bookmarks_provider.has_key(account)) {
-                Conference c = new Conference();
-                c.jid = jid.bare_jid;
-                yield bookmarks_provider[account].remove_conference(stream, c);
+        if (stream == null) throw new GLib.IOError.NOT_CONNECTED("No active stream for account");
+        
+        Jid bare = jid.bare_jid;
+        debug("destroy_room: Starting for %s", bare.to_string());
+        
+        // 1. Remove bookmark FIRST (before destroy — server state is still clean)
+        if (bookmarks_provider.has_key(account)) {
+            Conference c = new Conference();
+            c.jid = bare;
+            debug("destroy_room: Removing bookmark for %s", bare.to_string());
+            yield bookmarks_provider[account].remove_conference(stream, c);
+            debug("destroy_room: Bookmark retract sent for %s", bare.to_string());
+            
+            // Also purge from in-memory Bookmarks2 Flag cache directly
+            Xep.Bookmarks2.Flag? bm_flag = stream.get_flag(Xep.Bookmarks2.Flag.IDENTITY);
+            if (bm_flag != null && bm_flag.conferences.has_key(bare)) {
+                bm_flag.conferences.unset(bare);
+                debug("destroy_room: Removed %s from Bookmarks2 Flag cache", bare.to_string());
             }
+        } else {
+            debug("destroy_room: No bookmarks_provider for account, skipping bookmark removal");
         }
+        
+        // 2. Send the destroy IQ to the server
+        debug("destroy_room: Sending destroy IQ for %s", bare.to_string());
+        yield stream.get_module<Xep.Muc.Module>(Xep.Muc.Module.IDENTITY).destroy_room(stream, bare, reason, null);
+        debug("destroy_room: Destroy IQ succeeded for %s", bare.to_string());
+        
+        // 3. Leave the room locally (remove from mucs_joined, exit presence, cancel sync)
+        if (mucs_joined.has_key(account) && mucs_joined[account].contains(jid)) {
+            mucs_joined[account].remove(jid);
+            debug("destroy_room: Removed %s from mucs_joined", bare.to_string());
+        }
+        stream.get_module<Xep.Muc.Module>(Xep.Muc.Module.IDENTITY).exit(stream, bare);
+        cancel_sync(account, jid);
+        
+        // 4. Close the conversation in the UI
+        Conversation? conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_conversation(jid, account, Conversation.Type.GROUPCHAT);
+        if (conversation != null) {
+            debug("destroy_room: Closing conversation for %s (active=%s)", bare.to_string(), conversation.active.to_string());
+            stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).close_conversation(conversation);
+        } else {
+            debug("destroy_room: No conversation found for %s", bare.to_string());
+        }
+        
+        // 5. Explicitly fire conference_removed so UI (ConferenceList) updates
+        conference_removed(account, bare);
+        
+        debug("destroy_room: Complete for %s", bare.to_string());
     }
 
     //the term `private room` is a short hand for members-only+non-anonymous rooms
