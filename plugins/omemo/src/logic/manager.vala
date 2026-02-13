@@ -277,7 +277,9 @@ public class Manager : StreamInteractionModule, Object {
             if (!state.will_send_now) {
                 if (message.marked == Entities.Message.Marked.WONTSEND) {
                     debug("retracting message %s", state.to_string());
-                    message_states.unset(message);
+                    lock (message_states) {
+                        message_states.unset(message);
+                    }
                 } else {
                     debug("delaying message %s", state.to_string());
 
@@ -729,9 +731,11 @@ public class Manager : StreamInteractionModule, Object {
         //Get all messages that needed the devicelist and determine if we can now send them
         HashSet<Entities.Message> send_now = new HashSet<Entities.Message>();
         lock (message_states) {
-            foreach (Entities.Message msg in message_states.keys) {
+            foreach (var entry in message_states.entries) {
+                Entities.Message msg = entry.key;
                 if (!msg.account.equals(account)) continue;
-                MessageState state = message_states[msg];
+                MessageState state = entry.value;
+                if (state == null) continue;
                 if (account.bare_jid.equals(jid)) {
                     state.waiting_own_devicelist = false;
                 } else if (msg.counterpart != null) {
@@ -967,9 +971,11 @@ public class Manager : StreamInteractionModule, Object {
         //Get all messages waiting and determine if they can now be sent
         HashSet<Entities.Message> send_now = new HashSet<Entities.Message>();
         lock (message_states) {
-            foreach (Entities.Message msg in message_states.keys) {
+            foreach (var entry in message_states.entries) {
+                Entities.Message msg = entry.key;
                 if (!msg.account.equals(account)) continue;
-                MessageState state = message_states[msg];
+                MessageState state = entry.value;
+                if (state == null) continue;
 
                 if (account.bare_jid.equals(jid)) {
                     state.waiting_own_sessions--;

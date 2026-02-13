@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="libadwaita" version="1.0"/>
+  <template class="DinoUiBotManagerDialog" parent="AdwDialog">
+    <property name="title" translatable="yes">Botmother Manager</property>
+    <property name="content-width">500</property>
+    <property name="content-height">450</property>
+    <child>
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar">
+            <child type="end">
+              <object class="GtkButton" id="create_button">
+                <property name="label" translatable="yes">New Botmother</property>
+                <style>
+                  <class name="suggested-action"/>
+                </style>
+              </object>
+            </child>
+          </object>
+        </child>
+        <property name="content">
+          <object class="GtkStack" id="main_stack">
+            <child>
+              <object class="GtkStackPage">
+                <property name="name">empty</property>
+                <property name="child">
+                  <object class="AdwStatusPage" id="empty_page">
+                    <property name="icon-name">face-robot-symbolic</property>
+                    <property name="title" translatable="yes">No Botmothers Yet</property>
+                    <property name="description" translatable="yes">Create your first Botmother to get started with the local API</property>
+                  </object>
+                </property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkStackPage">
+                <property name="name">list</property>
+                <property name="child">
+                  <object class="GtkScrolledWindow">
+                    <property name="hscrollbar-policy">never</property>
+                    <property name="vexpand">True</property>
+                    <child>
+                      <object class="AdwClamp">
+                        <property name="maximum-size">500</property>
+                        <property name="margin-top">12</property>
+                        <property name="margin-bottom">12</property>
+                        <property name="margin-start">12</property>
+                        <property name="margin-end">12</property>
+                        <child>
+                          <object class="GtkBox">
+                            <property name="orientation">vertical</property>
+                            <property name="spacing">12</property>
+                            <child>
+                              <object class="GtkListBox" id="toggle_list">
+                                <property name="selection-mode">none</property>
+                                <style>
+                                  <class name="boxed-list"/>
+                                </style>
+                                <child>
+                                  <object class="AdwSwitchRow" id="account_enabled_switch">
+                                    <property name="title" translatable="yes">Botmother Active</property>
+                                    <property name="subtitle" translatable="yes">Enable Botmother for this account</property>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkListBox" id="bot_list">
+                                <property name="selection-mode">none</property>
+                                <style>
+                                  <class name="boxed-list"/>
+                                </style>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox" id="api_info_box">
+                                <property name="orientation">vertical</property>
+                                <property name="spacing">4</property>
+                                <property name="margin-top">8</property>
+                                <child>
+                                  <object class="GtkLabel" id="api_status_label">
+                                    <property name="xalign">0</property>
+                                    <property name="css-classes">dim-label</property>
+                                    <property name="css-classes">caption</property>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkStackPage">
+                <property name="name">loading</property>
+                <property name="child">
+                  <object class="GtkBox">
+                    <property name="orientation">vertical</property>
+                    <property name="valign">center</property>
+                    <property name="halign">center</property>
+                    <child>
+                      <object class="GtkSpinner" id="loading_spinner">
+                        <property name="spinning">True</property>
+                        <property name="width-request">32</property>
+                        <property name="height-request">32</property>
+                      </object>
+                    </child>
+                  </object>
+                </property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkStackPage">
+                <property name="name">error</property>
+                <property name="child">
+                  <object class="AdwStatusPage" id="error_page">
+                    <property name="icon-name">dialog-error-symbolic</property>
+                    <property name="title" translatable="yes">Connection Error</property>
+                    <property name="description" translatable="yes">Could not connect to the Botmother API. Make sure Botmother is enabled in General settings.</property>
+                  </object>
+                </property>
+              </object>
+            </child>
+          </object>
+        </property>
+      </object>
+    </child>
+  </template>
+</interface>

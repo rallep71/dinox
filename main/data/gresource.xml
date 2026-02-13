@@ -8,6 +8,8 @@
     <file>add_conversation/conference_details_fragment.ui</file>
     <file>add_conversation/list_row.ui</file>
     <file>add_conversation/select_jid_fragment.ui</file>
+    <file>bot_manager_dialog.ui</file>
+    <file>bot_create_dialog.ui</file>
     <file>call_widget.ui</file>
     <file>chat_input.ui</file>
     <file>conversation_content_view/item_metadata_header.ui</file>

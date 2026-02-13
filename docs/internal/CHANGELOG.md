@@ -5,6 +5,23 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.1.0] - 2026-02-13
+
+### Added
+- **Botmother Chat Interface**: Interactive bot management via self-chat commands (Telegram BotFather-style). Commands: `/newbot`, `/mybots`, `/deletebot`, `/token`, `/showtoken`, `/revoke`, `/activate`, `/deactivate`, `/setcommands`, `/setdescription`, `/status`, `/help`. Modern output with emoji icons, line separators, JSON examples and curl usage. **Note: Currently only "Personal" (local) mode is functional. "Group" and "Broadcast" modes are not yet implemented.**
+- **Botmother UI — BotManagerDialog**: GTK4/libadwaita dialog showing all bots with status icons (🟢/🔴), mode, token copy button, and delete button. Auto-refreshes on focus. Accessible via Settings → Account → "Botmother".
+- **Botmother UI — BotCreateDialog**: Create new bots with name and mode selection (Personal/Group/Broadcast). Note: Currently only "Personal" (local) mode is implemented and tested.
+- **Per-Account Botmother Toggle**: AdwSwitchRow in BotManagerDialog to enable/disable Botmother per account. Disabling unpins and closes the self-chat conversation. Global toggle in general settings overrides per-account settings.
+- **Bot Activate/Deactivate**: `/activate <ID>` and `/deactivate <ID>` commands to set bots active or disabled. Disabled bots reject API requests. Status visible in `/mybots` and UI.
+- **Token Display**: `/showtoken <ID>` shows the current API token. Token plaintext stored in new `token_raw` DB column (DB schema v1→v2 migration). Previously only the SHA-256 hash was stored.
+- **Auto-Pin Self-Chat**: Botmother self-chat conversation is automatically pinned when the account has bots and Botmother is enabled. Unpinned and closed when disabled or last bot deleted.
+
+### Fixed
+- **OMEMO Race Condition (MessageState NULL Crash)**: `message_states.unset()` in `on_pre_message_send` was outside the `lock(message_states)` block, causing concurrent HashMap modification during iteration. Iterator yielded stale keys → `message_states[msg]` returned NULL → crash on property access. Fix: Added missing lock, switched from `keys` + re-lookup to `entries` iterator, added null guards.
+- **SQLite Upsert Crash**: `set_setting()` in BotRegistry called `upsert().value(key_, key)` without marking it as the conflict column. Generated SQL had empty `ON CONFLICT ()`. Fix: `.value(key_, key, true)` to set the upsert conflict key.
+- **GTK Warning in OccupantMenu**: `Gtk-WARNING: Allocating size to GtkPopoverMenu without calling measure()`. Fix: Deferred `hide()` call via `Idle.add()`.
+- **Bot-Features DB Migration**: Adding `token_raw` column without bumping DB version caused `no such column: token_raw` crash on existing databases. Fix: Set `min_version = 2` on the column and bumped `VERSION` from 1 to 2 for Qlite auto-migration.
+
 ## [1.0.0.0] - 2026-02-13
 
 ### Added

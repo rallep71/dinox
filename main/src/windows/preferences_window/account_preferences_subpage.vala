@@ -57,6 +57,7 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
     [GtkChild] public unowned Adw.ActionRow cert_validity_row;
     [GtkChild] public unowned Adw.ActionRow cert_fingerprint_row;
     [GtkChild] public unowned Button unpin_certificate_button;
+    [GtkChild] public unowned Adw.ActionRow manage_botmothers_row;
 
     public Account account { get { return model.selected_account.account; } }
     public ViewModel.PreferencesDialog model { get; set; }
@@ -84,6 +85,12 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
         });
         remove_account_button.clicked.connect(() => {
             show_remove_account_dialog();
+        });
+        manage_botmothers_row.activatable_widget = new Label("");
+        manage_botmothers_row.activated.connect(() => {
+            var dialog = new BotManagerDialog();
+            dialog.account_jid = account.bare_jid.to_string();
+            dialog.present((Gtk.Window)this.get_root());
         });
         password_change.activatable_widget = new Label("");
         password_change.activated.connect(() => {

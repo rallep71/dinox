@@ -16,6 +16,7 @@ public class TokenManager : Object {
         string raw_token = create_raw_token(bot_id);
         string hash = hash_token(raw_token);
         registry.update_bot_token_hash(bot_id, hash);
+        registry.update_bot_token_raw(bot_id, raw_token);
         registry.log_action(bot_id, "token_generated");
         return raw_token;
     }
@@ -35,6 +36,7 @@ public class TokenManager : Object {
     // Revoke a bot's token (sets hash to empty, effectively invalidating it)
     public void revoke_token(int bot_id) {
         registry.update_bot_token_hash(bot_id, "");
+        registry.update_bot_token_raw(bot_id, "");
         registry.log_action(bot_id, "token_revoked");
     }
 

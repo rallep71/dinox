@@ -4,8 +4,7 @@ using Dino.Entities;
 namespace Dino.Plugins.BotFeatures {
 
 // Chat command handler for @BotFather-style interactive bot management.
-// Users interact with the BotFather by sending commands in a special conversation,
-// or these commands can be invoked from the bot-manager UI.
+// Users interact with the Botmother by sending commands in a self-chat.
 public class BotfatherHandler : Object {
 
     private Dino.Application app;
@@ -18,7 +17,7 @@ public class BotfatherHandler : Object {
         this.token_manager = token_manager;
     }
 
-    // Process a BotFather command from a user. Returns a response string.
+    // Process a Botmother command from a user. Returns a response string.
     public string process_command(string owner_jid, string command_text) {
         string[] parts = command_text.strip().split(" ", 2);
         string cmd = parts[0].down();
@@ -33,8 +32,14 @@ public class BotfatherHandler : Object {
                 return cmd_deletebot(owner_jid, args);
             case "/token":
                 return cmd_token(owner_jid, args);
+            case "/showtoken":
+                return cmd_showtoken(owner_jid, args);
             case "/revoke":
                 return cmd_revoke(owner_jid, args);
+            case "/activate":
+                return cmd_activate(owner_jid, args);
+            case "/deactivate":
+                return cmd_deactivate(owner_jid, args);
             case "/setcommands":
                 return cmd_setcommands(owner_jid, args);
             case "/setdescription":
@@ -45,14 +50,16 @@ public class BotfatherHandler : Object {
             case "/start":
                 return cmd_help();
             default:
-                return "Unbekannter Befehl. Tippe /help fuer eine Liste der verfuegbaren Befehle.";
+                return _("Unknown command. Type /help for a list of available commands.");
         }
     }
 
     // /newbot <name> -- Create a new bot
     private string cmd_newbot(string owner_jid, string? name) {
         if (name == null || name.strip().length == 0) {
-            return "Bitte gib einen Namen fuer den Bot an:\n/newbot MeinBot";
+            return "➕ " + _("Create a new bot") + "\n\n" +
+                _("Send the name for your bot:") + "\n" +
+                "❯ /newbot MyBot";
         }
 
         string bot_name = name.strip();
@@ -60,7 +67,7 @@ public class BotfatherHandler : Object {
         // Check max bots per user
         var existing = registry.get_bots_by_owner(owner_jid);
         if (existing.size >= 20) {
-            return "Du hast bereits 20 Bots. Loesche zuerst einen mit /deletebot.";
+            return "⚠️ " + _("You already have 20 bots. Delete one first with /deletebot.");
         }
 
         // Create the bot
@@ -72,96 +79,208 @@ public class BotfatherHandler : Object {
 
         registry.log_action(bot_id, "created", "owner=%s".printf(owner_jid));
 
-        return "Bot '%s' wurde erstellt! (ID: %d)\n\nDein API-Token (nur einmal sichtbar!):\n\n%s\n\nBewahre diesen Token sicher auf. Du kannst ihn mit /token %d erneut generieren (der alte wird ungueltig).".printf(
-            bot_name, bot_id, raw_token, bot_id);
+        return "✅ " + _("Bot created!") + "\n\n" +
+            "• " + _("Name: %s").printf(bot_name) + "\n" +
+            "• ID: %d\n\n".printf(bot_id) +
+            "🔑 " + _("Your API Token:") + "\n" +
+            "──────────\n" +
+            "%s\n".printf(raw_token) +
+            "──────────\n\n" +
+            "📋 " + _("Quick start:") + "\n" +
+            "curl -H \"Authorization: Bearer %s\" \\\n".printf(raw_token) +
+            "  http://localhost:7842/bot/getMe\n\n" +
+            "⚠️ " + _("Save this token! It won't be shown again.") + "\n" +
+            _("Regenerate: /token %d").printf(bot_id);
     }
 
     // /mybots -- List all bots owned by the user
     private string cmd_mybots(string owner_jid) {
         var bots = registry.get_bots_by_owner(owner_jid);
         if (bots.size == 0) {
-            return "Du hast noch keine Bots. Erstelle einen mit /newbot <Name>.";
+            return "🤖 " + _("You don't have any bots yet.") + "\n\n" +
+                _("Create your first bot:") + "\n" +
+                "❯ /newbot MyBot";
         }
 
-        var sb = new StringBuilder("Deine Bots:\n\n");
+        var sb = new StringBuilder("🤖 " + _("Your Bots") + "\n");
+        sb.append("───────────────\n");
         foreach (BotInfo bot in bots) {
-            sb.append("  #%d  %s  [%s]  Modus: %s\n".printf(
-                bot.id, bot.name ?? "?", bot.status ?? "?", bot.mode ?? "?"));
+            string status_icon = (bot.status == "active") ? "🟢" : "🔴";
+            sb.append("%s #%d • %s\n".printf(status_icon, bot.id, bot.name ?? "?"));
+            sb.append("   %s: %s • %s\n\n".printf(_("Mode"), bot.mode ?? "?", bot.status ?? "?"));
         }
-        sb.append("\nGesamt: %d Bot(s)".printf(bots.size));
+        sb.append("───────────────\n");
+        sb.append(_("Total: %d bot(s)").printf(bots.size));
         return sb.str;
     }
 
     // /deletebot <id> -- Delete a bot
     private string cmd_deletebot(string owner_jid, string? id_str) {
         if (id_str == null) {
-            return "Bitte gib die Bot-ID an: /deletebot <ID>\nSiehe /mybots fuer deine Bot-IDs.";
+            return "🗑️ " + _("Delete a bot") + "\n\n" +
+                _("Usage:") + " /deletebot <ID>\n" +
+                _("See your bots:") + " /mybots";
         }
 
         int bot_id = int.parse(id_str.strip());
         BotInfo? bot = registry.get_bot_by_id(bot_id);
         if (bot == null || bot.owner_jid != owner_jid) {
-            return "Bot #%d nicht gefunden oder gehoert dir nicht.".printf(bot_id);
+            return "❌ " + _("Bot #%d not found or does not belong to you.").printf(bot_id);
         }
 
         string bot_name = bot.name ?? "?";
         registry.delete_bot(bot_id);
         registry.log_action(bot_id, "deleted", "owner=%s".printf(owner_jid));
 
-        return "Bot '%s' (ID: %d) wurde geloescht. Token ist ungueltig.".printf(bot_name, bot_id);
+        return "✅ " + _("Bot '%s' (ID: %d) deleted.").printf(bot_name, bot_id) + "\n" +
+            _("Token is now invalid.");
     }
 
     // /token <id> -- Regenerate token for a bot
     private string cmd_token(string owner_jid, string? id_str) {
         if (id_str == null) {
-            return "Bitte gib die Bot-ID an: /token <ID>";
+            return "🔑 " + _("Regenerate Token") + "\n\n" +
+                _("Usage:") + " /token <ID>";
         }
 
         int bot_id = int.parse(id_str.strip());
         BotInfo? bot = registry.get_bot_by_id(bot_id);
         if (bot == null || bot.owner_jid != owner_jid) {
-            return "Bot #%d nicht gefunden oder gehoert dir nicht.".printf(bot_id);
+            return "❌ " + _("Bot #%d not found or does not belong to you.").printf(bot_id);
         }
 
         string raw_token = token_manager.regenerate_token(bot_id);
-        return "Neuer Token fuer '%s' (ID: %d):\n\n%s\n\nDer alte Token ist jetzt ungueltig.".printf(
-            bot.name ?? "?", bot_id, raw_token);
+        return "🔑 " + _("New Token for '%s'").printf(bot.name ?? "?") + "\n\n" +
+            "──────────\n" +
+            "%s\n".printf(raw_token) +
+            "──────────\n\n" +
+            "📋 " + _("Usage:") + "\n" +
+            "curl -H \"Authorization: Bearer %s\" \\\n".printf(raw_token) +
+            "  http://localhost:7842/bot/getMe\n\n" +
+            "⚠️ " + _("The old token is now invalid.");
     }
 
     // /revoke <id> -- Revoke token without generating a new one
     private string cmd_revoke(string owner_jid, string? id_str) {
         if (id_str == null) {
-            return "Bitte gib die Bot-ID an: /revoke <ID>";
+            return "🚫 " + _("Revoke Token") + "\n\n" +
+                _("Usage:") + " /revoke <ID>";
         }
 
         int bot_id = int.parse(id_str.strip());
         BotInfo? bot = registry.get_bot_by_id(bot_id);
         if (bot == null || bot.owner_jid != owner_jid) {
-            return "Bot #%d nicht gefunden oder gehoert dir nicht.".printf(bot_id);
+            return "❌ " + _("Bot #%d not found or does not belong to you.").printf(bot_id);
         }
 
         token_manager.revoke_token(bot_id);
         registry.update_bot_status(bot_id, "disabled");
 
-        return "Token fuer '%s' (ID: %d) wurde widerrufen. Der Bot ist jetzt deaktiviert.\nGeneriere einen neuen Token mit /token %d".printf(
-            bot.name ?? "?", bot_id, bot_id);
+        return "🚫 " + _("Token revoked for '%s' (ID: %d)").printf(bot.name ?? "?", bot_id) + "\n\n" +
+            "🔴 " + _("Bot is now disabled.") + "\n" +
+            _("Generate a new token:") + " /token %d".printf(bot_id);
     }
 
-    // /setcommands <id> /cmd1 - beschreibung, /cmd2 - beschreibung
+    // /showtoken <id> -- Show current token for a bot
+    private string cmd_showtoken(string owner_jid, string? id_str) {
+        if (id_str == null) {
+            return "🔑 " + _("Show Token") + "\n\n" +
+                _("Usage:") + " /showtoken <ID>";
+        }
+
+        int bot_id = int.parse(id_str.strip());
+        BotInfo? bot = registry.get_bot_by_id(bot_id);
+        if (bot == null || bot.owner_jid != owner_jid) {
+            return "❌ " + _("Bot #%d not found or does not belong to you.").printf(bot_id);
+        }
+
+        string? raw = bot.token_raw;
+        if (raw == null || raw.strip().length == 0) {
+            return "⚠️ " + _("No token stored for '%s' (ID: %d).").printf(bot.name ?? "?", bot_id) + "\n\n" +
+                _("Generate a new token:") + " /token %d".printf(bot_id);
+        }
+
+        return "🔑 " + _("Token for '%s'").printf(bot.name ?? "?") + "\n\n" +
+            "──────────\n" +
+            "%s\n".printf(raw) +
+            "──────────\n\n" +
+            "📋 " + _("Usage:") + "\n" +
+            "curl -H \"Authorization: Bearer %s\" \\\n".printf(raw) +
+            "  http://localhost:7842/bot/getMe";
+    }
+
+    // /activate <id> -- Activate a bot
+    private string cmd_activate(string owner_jid, string? id_str) {
+        if (id_str == null) {
+            return "🟢 " + _("Activate Bot") + "\n\n" +
+                _("Usage:") + " /activate <ID>\n" +
+                _("See your bots:") + " /mybots";
+        }
+
+        int bot_id = int.parse(id_str.strip());
+        BotInfo? bot = registry.get_bot_by_id(bot_id);
+        if (bot == null || bot.owner_jid != owner_jid) {
+            return "❌ " + _("Bot #%d not found or does not belong to you.").printf(bot_id);
+        }
+
+        if (bot.status == "active") {
+            return "🟢 " + _("Bot '%s' (ID: %d) is already active.").printf(bot.name ?? "?", bot_id);
+        }
+
+        registry.update_bot_status(bot_id, "active");
+        registry.log_action(bot_id, "activated", "owner=%s".printf(owner_jid));
+
+        return "✅ " + _("Bot '%s' (ID: %d) activated.").printf(bot.name ?? "?", bot_id) + "\n\n" +
+            "🟢 " + _("The bot is now online and accepts API requests.");
+    }
+
+    // /deactivate <id> -- Deactivate a bot
+    private string cmd_deactivate(string owner_jid, string? id_str) {
+        if (id_str == null) {
+            return "🔴 " + _("Deactivate Bot") + "\n\n" +
+                _("Usage:") + " /deactivate <ID>\n" +
+                _("See your bots:") + " /mybots";
+        }
+
+        int bot_id = int.parse(id_str.strip());
+        BotInfo? bot = registry.get_bot_by_id(bot_id);
+        if (bot == null || bot.owner_jid != owner_jid) {
+            return "❌ " + _("Bot #%d not found or does not belong to you.").printf(bot_id);
+        }
+
+        if (bot.status == "disabled" || bot.status == "inactive") {
+            return "🔴 " + _("Bot '%s' (ID: %d) is already inactive.").printf(bot.name ?? "?", bot_id);
+        }
+
+        registry.update_bot_status(bot_id, "disabled");
+        registry.log_action(bot_id, "deactivated", "owner=%s".printf(owner_jid));
+
+        return "✅ " + _("Bot '%s' (ID: %d) deactivated.").printf(bot.name ?? "?", bot_id) + "\n\n" +
+            "🔴 " + _("The bot is now offline. API requests will be rejected.") + "\n" +
+            _("Reactivate:") + " /activate %d".printf(bot_id);
+    }
+
+    // /setcommands <id> /cmd1 - description, /cmd2 - description
     private string cmd_setcommands(string owner_jid, string? args) {
         if (args == null) {
-            return "Nutzung: /setcommands <ID> /befehl1 - Beschreibung, /befehl2 - Beschreibung";
+            return "⚙️ " + _("Set Bot Commands") + "\n\n" +
+                _("Usage:") + "\n" +
+                "/setcommands <ID> /cmd1 - desc, /cmd2 - desc\n\n" +
+                _("Example:") + "\n" +
+                "/setcommands 1 /hello - Greet, /info - Bot info";
         }
 
         string[] tokens = args.strip().split(" ", 2);
         if (tokens.length < 2) {
-            return "Nutzung: /setcommands <ID> /befehl1 - Beschreibung, /befehl2 - Beschreibung";
+            return "⚙️ " + _("Set Bot Commands") + "\n\n" +
+                _("Usage:") + "\n" +
+                "/setcommands <ID> /cmd1 - desc, /cmd2 - desc";
         }
 
         int bot_id = int.parse(tokens[0].strip());
         BotInfo? bot = registry.get_bot_by_id(bot_id);
         if (bot == null || bot.owner_jid != owner_jid) {
-            return "Bot #%d nicht gefunden oder gehoert dir nicht.".printf(bot_id);
+            return "❌ " + _("Bot #%d not found or does not belong to you.").printf(bot_id);
         }
 
         string commands_str = tokens[1].strip();
@@ -179,28 +298,33 @@ public class BotfatherHandler : Object {
         }
 
         if (commands.size == 0) {
-            return "Keine gueltige Befehle erkannt. Format: /cmd - Beschreibung";
+            return "❌ " + _("No valid commands found.") + "\n" +
+                _("Format: /cmd - description");
         }
 
         registry.set_bot_commands(bot_id, commands);
-        return "%d Befehl(e) gesetzt fuer '%s'.".printf(commands.size, bot.name ?? "?");
+        return "✅ " + _("%d command(s) set for '%s'.").printf(commands.size, bot.name ?? "?");
     }
 
     // /setdescription <id> <text>
     private string cmd_setdescription(string owner_jid, string? args) {
         if (args == null) {
-            return "Nutzung: /setdescription <ID> <Beschreibungstext>";
+            return "📝 " + _("Set Bot Description") + "\n\n" +
+                _("Usage:") + "\n" +
+                "/setdescription <ID> <text>";
         }
 
         string[] tokens = args.strip().split(" ", 2);
         if (tokens.length < 2) {
-            return "Nutzung: /setdescription <ID> <Beschreibungstext>";
+            return "📝 " + _("Set Bot Description") + "\n\n" +
+                _("Usage:") + "\n" +
+                "/setdescription <ID> <text>";
         }
 
         int bot_id = int.parse(tokens[0].strip());
         BotInfo? bot = registry.get_bot_by_id(bot_id);
         if (bot == null || bot.owner_jid != owner_jid) {
-            return "Bot #%d nicht gefunden oder gehoert dir nicht.".printf(bot_id);
+            return "❌ " + _("Bot #%d not found or does not belong to you.").printf(bot_id);
         }
 
         // Update description directly via SQL
@@ -209,7 +333,7 @@ public class BotfatherHandler : Object {
             .set(registry.bot.description, tokens[1].strip())
             .perform();
 
-        return "Beschreibung fuer '%s' aktualisiert.".printf(bot.name ?? "?");
+        return "✅ " + _("Description for '%s' updated.").printf(bot.name ?? "?");
     }
 
     // /status [id] -- Show bot status
@@ -221,45 +345,113 @@ public class BotfatherHandler : Object {
             foreach (BotInfo b in bots) {
                 if (b.status == "active") active++;
             }
-            return "Status: %d Bot(s) gesamt, %d aktiv.\nHTTP API: localhost:7842".printf(bots.size, active);
+            return "📊 " + _("Overview") + "\n" +
+                "───────────────\n" +
+                "• " + _("Bots: %d total, %d active").printf(bots.size, active) + "\n" +
+                "• " + _("API: http://localhost:7842") + "\n" +
+                "───────────────";
         }
 
         int bot_id = int.parse(id_str.strip());
         BotInfo? bot = registry.get_bot_by_id(bot_id);
         if (bot == null || bot.owner_jid != owner_jid) {
-            return "Bot #%d nicht gefunden oder gehoert dir nicht.".printf(bot_id);
+            return "❌ " + _("Bot #%d not found or does not belong to you.").printf(bot_id);
         }
 
+        string status_icon = (bot.status == "active") ? "🟢" : "🔴";
+
         var sb = new StringBuilder();
-        sb.append("Bot: %s (ID: %d)\n".printf(bot.name ?? "?", bot.id));
-        sb.append("Status: %s\n".printf(bot.status ?? "?"));
-        sb.append("Modus: %s\n".printf(bot.mode ?? "?"));
-        sb.append("JID: %s\n".printf(bot.jid ?? "(persoenlich)"));
-        sb.append("Webhook: %s\n".printf(bot.webhook_enabled ? (bot.webhook_url ?? "?") : "deaktiviert"));
+        sb.append("🤖 " + (bot.name ?? "?") + " #%d\n".printf(bot.id));
+        sb.append("───────────────\n");
+        sb.append("%s %s: %s\n".printf(status_icon, _("Status"), bot.status ?? "?"));
+        sb.append("• %s: %s\n".printf(_("Mode"), bot.mode ?? "?"));
+        sb.append("• %s: %s\n".printf(_("JID"), bot.jid ?? _("(personal)")));
+
+        if (bot.webhook_enabled) {
+            sb.append("• Webhook: %s\n".printf(bot.webhook_url ?? "?"));
+        } else {
+            sb.append("• Webhook: %s\n".printf(_("off")));
+        }
 
         var cmds = registry.get_bot_commands(bot.id);
         if (cmds.size > 0) {
-            sb.append("Befehle: %d\n".printf(cmds.size));
+            sb.append("• %s: %d\n".printf(_("Commands"), cmds.size));
         }
+        sb.append("───────────────");
 
         return sb.str;
     }
 
     // /help -- Show available commands
     private string cmd_help() {
-        return "DinoX BotFather - Bot-Verwaltung\n\n" +
-            "Verfuegbare Befehle:\n" +
-            "  /newbot <Name>         - Neuen Bot erstellen\n" +
-            "  /mybots                - Alle Bots auflisten\n" +
-            "  /deletebot <ID>        - Bot loeschen\n" +
-            "  /token <ID>            - Token neu generieren\n" +
-            "  /revoke <ID>           - Token widerrufen (Bot deaktivieren)\n" +
-            "  /setcommands <ID> ...  - Bot-Befehle setzen\n" +
-            "  /setdescription <ID> . - Bot-Beschreibung setzen\n" +
-            "  /status [ID]           - Status anzeigen\n" +
-            "  /help                  - Diese Hilfe\n\n" +
-            "HTTP API: http://localhost:7842\n" +
-            "Doku: /bot/getMe, /bot/sendMessage, /bot/getUpdates, ...";
+        return "🤖 Botmother\n" +
+            "────────────────────\n\n" +
+
+            "📦 " + _("Bot Management") + "\n" +
+            "   /newbot <Name>       — " + _("Create a new bot") + "\n" +
+            "   /mybots              — " + _("List your bots") + "\n" +
+            "   /deletebot <ID>      — " + _("Delete a bot") + "\n" +
+            "   /activate <ID>       — " + _("Activate a bot") + "\n" +
+            "   /deactivate <ID>     — " + _("Deactivate a bot") + "\n\n" +
+
+            "🔑 " + _("Token") + "\n" +
+            "   /token <ID>          — " + _("Regenerate token") + "\n" +
+            "   /showtoken <ID>      — " + _("Show current token") + "\n" +
+            "   /revoke <ID>         — " + _("Revoke token") + "\n\n" +
+
+            "⚙️ " + _("Settings") + "\n" +
+            "   /setcommands <ID>    — " + _("Set bot commands") + "\n" +
+            "   /setdescription <ID> — " + _("Set description") + "\n" +
+            "   /status [ID]         — " + _("Show status") + "\n\n" +
+
+            "────────────────────\n" +
+            "🌐 HTTP API: http://localhost:7842\n\n" +
+
+            "📋 " + _("Examples:") + "\n\n" +
+
+            "① " + _("Get bot info (GET → JSON):") + "\n" +
+            "──────────\n" +
+            "curl -H \"Authorization: Bearer <TOKEN>\" \\\n" +
+            "  http://localhost:7842/bot/getMe\n\n" +
+            "→ " + _("Response:") + "\n" +
+            "{\n" +
+            "  \"ok\": true,\n" +
+            "  \"result\": {\n" +
+            "    \"id\": 1,\n" +
+            "    \"name\": \"MyBot\",\n" +
+            "    \"jid\": \"\",\n" +
+            "    \"mode\": \"personal\",\n" +
+            "    \"status\": \"active\",\n" +
+            "    \"description\": \"\",\n" +
+            "    \"created_at\": 1739478000\n" +
+            "  }\n" +
+            "}\n" +
+            "──────────\n\n" +
+
+            "② " + _("Send message (POST → JSON):") + "\n" +
+            "──────────\n" +
+            "curl -X POST \\\n" +
+            "  -H \"Authorization: Bearer <TOKEN>\" \\\n" +
+            "  -H \"Content-Type: application/json\" \\\n" +
+            "  -d '{\n" +
+            "    \"to\": \"user@server.tld\",\n" +
+            "    \"text\": \"Hello!\"\n" +
+            "  }' \\\n" +
+            "  http://localhost:7842/bot/sendMessage\n\n" +
+            "→ " + _("Response:") + "\n" +
+            "{\n" +
+            "  \"ok\": true,\n" +
+            "  \"result\": {\n" +
+            "    \"message_id\": \"abc-123\"\n" +
+            "  }\n" +
+            "}\n" +
+            "──────────\n\n" +
+
+            "💡 " + _("Notes:") + "\n" +
+            "• " + _("Replace <TOKEN> with your bot token (/showtoken <ID>)") + "\n" +
+            "• " + _("Header: Authorization: Bearer <TOKEN>") + "\n" +
+            "• " + _("POST body field: \"text\" (not \"body\")") + "\n" +
+            "• " + _("All responses: {\"ok\": true/false, \"result\": ...}");
     }
 }
 

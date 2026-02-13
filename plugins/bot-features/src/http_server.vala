@@ -42,6 +42,7 @@ public class HttpServer : Object {
         server.add_handler("/bot/create", handle_create_bot);
         server.add_handler("/bot/list", handle_list_bots);
         server.add_handler("/bot/delete", handle_delete_bot);
+        server.add_handler("/bot/account/status", handle_account_status);
         server.add_handler("/health", handle_health);
 
         // Listen on localhost only (security: no external access)
@@ -66,19 +67,29 @@ public class HttpServer : Object {
 
         var body = get_request_body(msg);
         if (body == null) {
-            AuthMiddleware.send_error(msg, 400, "bad_request", "Invalid JSON body. Example: {\"name\":\"MeinBot\",\"owner\":\"user@server.tld\"}");
+            AuthMiddleware.send_error(msg, 400, "bad_request", "Invalid JSON body. Example: {\"name\":\"MeinBot\",\"account\":\"user@server.tld\"}");
             return;
         }
 
         string? name = json_get_string(body, "name");
-        string? owner = json_get_string(body, "owner");
+        // Accept both "account" (UI) and "owner" (legacy) fields
+        string? owner = json_get_string(body, "account");
+        if (owner == null) owner = json_get_string(body, "owner");
+        string? mode = json_get_string(body, "mode");
+        if (mode == null) mode = "personal";
 
         if (name == null || name.strip().length == 0) {
             AuthMiddleware.send_error(msg, 400, "bad_request", "Missing required field: name");
             return;
         }
         if (owner == null || owner.strip().length == 0) {
-            AuthMiddleware.send_error(msg, 400, "bad_request", "Missing required field: owner (your JID)");
+            AuthMiddleware.send_error(msg, 400, "bad_request", "Missing required field: account (your JID)");
+            return;
+        }
+
+        // Validate mode
+        if (mode != "personal" && mode != "dedicated" && mode != "cloud") {
+            AuthMiddleware.send_error(msg, 400, "bad_request", "Invalid mode. Must be: personal, dedicated, or cloud");
             return;
         }
 
@@ -89,57 +100,126 @@ public class HttpServer : Object {
             return;
         }
 
-        int bot_id = registry.create_bot(name.strip(), owner.strip(), "", "personal");
+        int bot_id = registry.create_bot(name.strip(), owner.strip(), "", mode);
         string raw_token = token_manager.generate_token(bot_id);
-        registry.log_action(bot_id, "created", "owner=%s via=http".printf(owner));
+        registry.log_action(bot_id, "created", "owner=%s mode=%s via=http".printf(owner, mode));
 
-        string json = "{\"id\":%d,\"name\":\"%s\",\"token\":\"%s\",\"api_url\":\"http://localhost:7842/bot/\",\"hint\":\"Use token as Bearer in Authorization header\"}".printf(
-            bot_id, escape_json(name.strip()), escape_json(raw_token));
+        string json = "{\"id\":%d,\"name\":\"%s\",\"token\":\"%s\",\"mode\":\"%s\",\"api_url\":\"http://localhost:7842/bot/\",\"hint\":\"Use token as Bearer in Authorization header\"}".printf(
+            bot_id, escape_json(name.strip()), escape_json(raw_token), escape_json(mode));
         AuthMiddleware.send_success(msg, json);
     }
 
     // --- GET /bot/list --- (no token needed, localhost only)
     private void handle_list_bots(Soup.Server srv, Soup.ServerMessage msg,
                                   string path, HashTable<string, string>? query) {
-        var bots = registry.get_all_active_bots();
-        var sb = new StringBuilder("[");
+        // Optional filter by account
+        string? account_filter = null;
+        if (query != null && query.contains("account")) {
+            account_filter = query.get("account");
+        }
+
+        var bots = registry.get_all_bots();
+        var sb = new StringBuilder("{\"bots\":[");
         bool first = true;
         foreach (BotInfo bot in bots) {
+            // Filter by account if specified
+            if (account_filter != null && bot.owner_jid != account_filter) continue;
             if (!first) sb.append(",");
             sb.append(bot_to_json(bot));
             first = false;
         }
-        sb.append("]");
-        AuthMiddleware.send_success(msg, sb.str);
+        sb.append("]}");
+        msg.set_status(200, null);
+        msg.set_response("application/json", Soup.MemoryUse.COPY, sb.str.data);
     }
 
-    // --- POST /bot/delete --- (no token needed, localhost only)
+    // --- POST or DELETE /bot/delete --- (no token needed, localhost only)
     private void handle_delete_bot(Soup.Server srv, Soup.ServerMessage msg,
                                    string path, HashTable<string, string>? query) {
-        if (msg.get_method() != "POST") {
-            AuthMiddleware.send_error(msg, 405, "method_not_allowed", "Use POST");
+        string method = msg.get_method();
+        int bot_id = -1;
+
+        if (method == "DELETE" && query != null && query.contains("id")) {
+            // DELETE /bot/delete?id=123
+            bot_id = int.parse(query.get("id"));
+        } else if (method == "POST") {
+            // POST /bot/delete with JSON body {"id":123}
+            var body = get_request_body(msg);
+            if (body == null || !body.has_member("id")) {
+                AuthMiddleware.send_error(msg, 400, "bad_request", "Missing required field: id");
+                return;
+            }
+            bot_id = (int) body.get_int_member("id");
+        } else {
+            AuthMiddleware.send_error(msg, 405, "method_not_allowed", "Use POST or DELETE");
             return;
         }
 
-        var body = get_request_body(msg);
-        if (body == null) {
-            AuthMiddleware.send_error(msg, 400, "bad_request", "Invalid JSON. Example: {\"id\":1}");
+        if (bot_id <= 0) {
+            AuthMiddleware.send_error(msg, 400, "bad_request", "Invalid bot id");
             return;
         }
 
-        if (!body.has_member("id")) {
-            AuthMiddleware.send_error(msg, 400, "bad_request", "Missing required field: id");
-            return;
-        }
-        int bot_id = (int) body.get_int_member("id");
         BotInfo? bot = registry.get_bot_by_id(bot_id);
         if (bot == null) {
-            AuthMiddleware.send_error(msg, 404, "not_found", "Bot not found");
+            AuthMiddleware.send_error(msg, 404, "not_found", "Botmother not found");
             return;
         }
         registry.delete_bot(bot_id);
         registry.log_action(bot_id, "deleted", "via=http");
         AuthMiddleware.send_success(msg, "{\"deleted\":true,\"id\":%d}".printf(bot_id));
+    }
+
+    // --- GET/POST /bot/account/status ---
+    // GET: returns {"account":"jid","enabled":true/false}
+    // POST: {"account":"jid","enabled":true/false} -> sets the per-account toggle
+    private void handle_account_status(Soup.Server srv, Soup.ServerMessage msg,
+                                       string path, HashTable<string, string>? query) {
+        string method = msg.get_method();
+
+        if (method == "GET") {
+            string? account = query != null ? query.lookup("account") : null;
+            if (account == null || account.strip().length == 0) {
+                AuthMiddleware.send_error(msg, 400, "bad_request", "Missing ?account= parameter");
+                return;
+            }
+            string key = "botmother_account_enabled:" + account.strip();
+            string? val = registry.get_setting(key);
+            bool is_enabled = (val == null || val == "true"); // default: enabled
+            string json = "{\"account\":\"%s\",\"enabled\":%s}".printf(
+                account.strip(), is_enabled ? "true" : "false");
+            AuthMiddleware.send_success(msg, json);
+            return;
+        }
+
+        if (method == "POST") {
+            var body = get_request_body(msg);
+            if (body == null) {
+                AuthMiddleware.send_error(msg, 400, "bad_request", "Invalid JSON body");
+                return;
+            }
+            string? account = json_get_string(body, "account");
+            if (account == null || account.strip().length == 0) {
+                AuthMiddleware.send_error(msg, 400, "bad_request", "Missing 'account' field");
+                return;
+            }
+            bool new_enabled = true;
+            if (body.has_member("enabled")) {
+                new_enabled = body.get_boolean_member("enabled");
+            }
+            string key = "botmother_account_enabled:" + account.strip();
+            registry.set_setting(key, new_enabled ? "true" : "false");
+
+            // Emit signal so the plugin can react (pin/unpin)
+            registry.account_toggled(account.strip(), new_enabled);
+
+            string json = "{\"account\":\"%s\",\"enabled\":%s}".printf(
+                account.strip(), new_enabled ? "true" : "false");
+            AuthMiddleware.send_success(msg, json);
+            return;
+        }
+
+        AuthMiddleware.send_error(msg, 405, "method_not_allowed", "Use GET or POST");
     }
 
     // --- GET /health ---
@@ -485,15 +565,19 @@ public class HttpServer : Object {
     // --- JSON Helpers ---
 
     private string bot_to_json(BotInfo bot) {
-        return "{\"id\":%d,\"name\":\"%s\",\"jid\":\"%s\",\"mode\":\"%s\",\"status\":\"%s\",\"description\":\"%s\",\"created_at\":%ld}".printf(
-            bot.id,
-            escape_json(bot.name ?? ""),
-            escape_json(bot.jid ?? ""),
-            escape_json(bot.mode ?? "personal"),
-            escape_json(bot.status ?? "active"),
-            escape_json(bot.description ?? ""),
-            bot.created_at
-        );
+        var sb = new StringBuilder();
+        sb.append("{\"id\":%d".printf(bot.id));
+        sb.append(",\"name\":\"%s\"".printf(escape_json(bot.name ?? "")));
+        sb.append(",\"jid\":\"%s\"".printf(escape_json(bot.jid ?? "")));
+        sb.append(",\"mode\":\"%s\"".printf(escape_json(bot.mode ?? "personal")));
+        sb.append(",\"status\":\"%s\"".printf(escape_json(bot.status ?? "active")));
+        sb.append(",\"description\":\"%s\"".printf(escape_json(bot.description ?? "")));
+        sb.append(",\"created_at\":%ld".printf(bot.created_at));
+        if (bot.token_raw != null && bot.token_raw.strip().length > 0) {
+            sb.append(",\"token\":\"%s\"".printf(escape_json(bot.token_raw)));
+        }
+        sb.append("}");
+        return sb.str;
     }
 
     // Simple JSON parser - extract string value by key from JSON body
