@@ -92,6 +92,7 @@ public class ModuleManager {
             module_map[account].add(new Xep.Coin.Module());
             module_map[account].add(new Xep.Search.Module());
             module_map[account].add(new Xep.VCard4.Module());
+            module_map[account].add(new Xep.AdHocCommands.Module());
             initialize_account_modules(account, module_map[account]);
         }
     }
