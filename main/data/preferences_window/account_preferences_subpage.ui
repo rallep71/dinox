@@ -350,6 +350,23 @@
                       </object>
                     </child>
                     <child>
+                      <object class="AdwPreferencesGroup">
+                        <property name="title" translatable="yes">Botmother</property>
+                        <child>
+                          <object class="AdwActionRow" id="manage_botmothers_row">
+                            <property name="title" translatable="yes">Manage Botmothers</property>
+                            <property name="subtitle" translatable="yes">Create, configure and delete Botmothers for this account</property>
+                            <property name="activatable">True</property>
+                            <child>
+                              <object class="GtkImage">
+                                <property name="icon-name">go-next-symbolic</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
                       <object class="GtkBox" id="button_container">
                         <property name="halign">center</property>
                         <property name="spacing">24</property>

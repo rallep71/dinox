@@ -3,7 +3,13 @@ using Gee;
 namespace Dino.Plugins.BotFeatures {
 
 public class BotRegistry : Qlite.Database {
-    private const int VERSION = 1;
+    private const int VERSION = 2;
+
+    // Fired after a bot is deleted, with the owner JID and bot ID
+    public signal void bot_deleted(string owner_jid, int bot_id);
+
+    // Fired when per-account Botmother is toggled on/off
+    public signal void account_toggled(string account_jid, bool enabled);
 
     // --- Bot Table ---
     public class BotTable : Qlite.Table {
@@ -11,6 +17,7 @@ public class BotRegistry : Qlite.Database {
         public Qlite.Column<string> name_ = new Qlite.Column.Text("name") { not_null = true };
         public Qlite.Column<string> jid = new Qlite.Column.Text("jid");
         public Qlite.Column<string> token_hash = new Qlite.Column.Text("token_hash") { unique = true };
+        public Qlite.Column<string> token_raw = new Qlite.Column.Text("token_raw") { min_version = 2 };
         public Qlite.Column<string> owner_jid = new Qlite.Column.Text("owner_jid") { not_null = true };
         public Qlite.Column<string> description = new Qlite.Column.Text("description");
         public Qlite.Column<string> permissions = new Qlite.Column.Text("permissions") { @default = "'all'" };
@@ -24,7 +31,7 @@ public class BotRegistry : Qlite.Database {
 
         internal BotTable(Qlite.Database db) {
             base(db, "bot");
-            init({id, name_, jid, token_hash, owner_jid, description, permissions, status, mode,
+            init({id, name_, jid, token_hash, token_raw, owner_jid, description, permissions, status, mode,
                   created_at, last_active, webhook_url, webhook_secret, webhook_enabled});
         }
     }
@@ -162,8 +169,20 @@ public class BotRegistry : Qlite.Database {
         return result;
     }
 
+    public Gee.List<BotInfo> get_all_bots() {
+        var result = new ArrayList<BotInfo>();
+        foreach (Qlite.Row row in bot.select()) {
+            result.add(bot_info_from_row(row));
+        }
+        return result;
+    }
+
     public void update_bot_token_hash(int bot_id, string new_hash) {
         bot.update().with(bot.id, "=", bot_id).set(bot.token_hash, new_hash).perform();
+    }
+
+    public void update_bot_token_raw(int bot_id, string raw_token) {
+        bot.update().with(bot.id, "=", bot_id).set(bot.token_raw, raw_token).perform();
     }
 
     public void update_bot_status(int bot_id, string status) {
@@ -184,9 +203,18 @@ public class BotRegistry : Qlite.Database {
     }
 
     public void delete_bot(int bot_id) {
+        // Look up owner before deleting
+        string? owner = null;
+        BotInfo? info = get_bot_by_id(bot_id);
+        if (info != null) owner = info.owner_jid;
+
         bot_command.delete().with(bot_command.bot_id, "=", bot_id).perform();
         update_queue.delete().with(update_queue.bot_id, "=", bot_id).perform();
         bot.delete().with(bot.id, "=", bot_id).perform();
+
+        if (owner != null) {
+            bot_deleted(owner, bot_id);
+        }
     }
 
     // --- Bot Commands CRUD ---
@@ -282,7 +310,7 @@ public class BotRegistry : Qlite.Database {
 
     public void set_setting(string key, string value) {
         settings.upsert()
-            .value(settings.key_, key)
+            .value(settings.key_, key, true)
             .value(settings.value_, value)
             .perform();
     }
@@ -308,6 +336,7 @@ public class BotRegistry : Qlite.Database {
         info.name = bot.name_.get(row);
         info.jid = bot.jid.get(row);
         info.token_hash = bot.token_hash.get(row);
+        info.token_raw = bot.token_raw.get(row);
         info.owner_jid = bot.owner_jid.get(row);
         info.description = bot.description.get(row);
         info.permissions = bot.permissions.get(row);
@@ -329,6 +358,7 @@ public class BotInfo : Object {
     public string? name { get; set; }
     public string? jid { get; set; }
     public string? token_hash { get; set; }
+    public string? token_raw { get; set; }
     public string? owner_jid { get; set; }
     public string? description { get; set; }
     public string? permissions { get; set; }
