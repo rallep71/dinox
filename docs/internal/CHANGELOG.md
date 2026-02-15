@@ -5,6 +5,21 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0.1] - 2026-02-15
+
+### Added
+- **Telegram Inline Media Display**: Photos, videos, audio and GIFs sent from Telegram now display inline in XMPP conversations. Previously they appeared as `[photo] URL` text. Solution: Two-message approach — info text followed by bare URL so Dino's file provider regex matches and triggers inline rendering.
+- **Telegram Sticker Handling**: Static `.webp` stickers are forwarded as inline images. Animated `.tgs` and video `.webm` stickers are converted to their emoji representation (since these formats cannot be displayed inline).
+- **`/clear` Command**: New bot command to clean up dedicated bot conversations. Clears AI conversation history (RAM) and local DinoX SQLite database. Optional `/clear mam` deletes the global ejabberd MAM archive (with warning that it affects all users).
+- **ejabberd MAM Delete API**: `EjabberdApi.delete_mam_messages()` method for server-side MAM archive cleanup via ejabberd REST API (`delete_old_mam_messages`).
+
+### Fixed
+- **Telegram 409 Polling Conflicts**: Added per-bot polling lock, long polling (25s timeout), `deleteWebhook` on startup, and 5-second backoff on HTTP 409 errors using monotonic time skip to prevent rapid re-polling.
+
+### Changed
+- **Debug Logging**: Downgraded verbose media detection logs from `message()` to `debug()` for cleaner runtime output.
+- **Version**: Bumped from 1.1.0.0 to 1.1.0.1
+
 ## [1.1.0.0] - 2026-02-15
 
 ### Added
