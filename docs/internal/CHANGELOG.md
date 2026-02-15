@@ -5,6 +5,26 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0.0] - 2026-02-15
+
+### Added
+- **AI Integration (9 Providers)**: Full AI chat integration with support for OpenAI, Claude, Gemini, Groq, Mistral, DeepSeek, Perplexity, Ollama and OpenClaw. Configurable via interactive `/ki` chat menu or HTTP API. Requires Botmother to be set up first. Per-bot provider, model, endpoint and API key settings with persistent storage. Each provider is independently enable/disable-able per bot. See [API_BOTMOTHER_AI_GUIDE.md](API_BOTMOTHER_AI_GUIDE.md) for full documentation.
+- **OpenClaw Agent Support**: OpenClaw as 9th AI provider — autonomous agent integration via simple `{"message": "..."}` POST with Bearer token auth. Flexible JSON response parsing (tries response/text/message/content/reply/result fields, falls back to raw body).
+- **Telegram Bridge**: Bidirectional XMPP-to-Telegram message bridge. Configure via `/telegram` chat command or HTTP API. Supports polling mode with auto-reconnect, message forwarding in both directions, and connection testing.
+- **HTTP API Extensions (Telegram)**: 5 new REST endpoints — `/bot/telegram/setup` (POST), `/bot/telegram/status` (GET), `/bot/telegram/enable` (POST), `/bot/telegram/send` (POST), `/bot/telegram/test` (POST).
+- **HTTP API Extensions (AI)**: 4 new REST endpoints — `/bot/ai/setup` (POST), `/bot/ai/status` (GET), `/bot/ai/enable` (POST), `/bot/ai/ask` (POST). Total: 31 REST endpoints.
+- **TLS API Server**: HTTP API server now supports TLS with auto-generated self-signed certificates (cert_gen.c). Configurable via preferences UI (enable/disable TLS, port, certificate paths).
+- **Auto-Restart API Server**: API server automatically restarts when settings change (port, TLS toggle, certificate paths) without requiring app restart.
+- **Dedicated Bot Mode with OMEMO**: Bots operate with full OMEMO encryption support. Session pool management for concurrent encrypted bot conversations.
+- **Interactive Menu System**: BotFather-style chat menus for `/help`, `/ki` (AI setup/providers/models), `/telegram` (bridge config), and `/api` (server settings). Rich formatted output with inline options.
+- **i18n Audit**: ~195 German strings changed to English with `_()` gettext wrappers across 6 source files for proper internationalization.
+- **API_BOTMOTHER_AI_GUIDE.md**: Comprehensive 12-chapter documentation covering bot management, AI integration, Telegram bridge, HTTP API (31 endpoints), TLS setup, and curl/Python examples.
+
+### Changed
+- **Version**: Bumped from 1.0.1.0 to 1.1.0.0
+- **meson.build**: Project version updated to 1.1.0.0
+- **DOAP files**: Added release entries for 1.0.0.0, 1.0.1.0, 1.1.0.0. Updated dino.doap.in URLs to dinox.handwerker.jetzt, added Windows to OS list, fixed repository URL.
+
 ## [1.0.1.0] - 2026-02-13
 
 ### Added
