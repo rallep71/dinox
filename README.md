@@ -11,9 +11,9 @@
 
 **The Most Secure XMPP Messenger for Linux & Windows**
 
-Built for ultimate privacy with Omemo 1 + 2, integrated OpenPGP Key Manager, integrated Tor & Obfs4proxy, full local database encryption, WebRTC Audio/Video Calls and decentralized MUJI Group Video Calls Hardware Accelerated, voice messages, message retraction, advanced MUC moderation and more...in a modern GTK4/libadwaita interface with System Tray support
+Built for ultimate privacy with Omemo 1 + 2, integrated OpenPGP Key Manager, integrated Tor & Obfs4proxy, full local database encryption, WebRTC Audio/Video Calls and decentralized MUJI Group Video Calls Hardware Accelerated, voice messages, message retraction, advanced MUC moderation and more...in a modern GTK4/libadwaita interface with System Tray support. Local API Server, Botmother Bot Management and AI Integration (9 providers incl. OpenClaw)
 
-[Website](https://dinox.handwerker.jetzt) • [Download](#installation) • [Features](#key-features) • [XEP Support](#xep-support) • [Build](docs/internal/BUILD.md) • [Debug](docs/internal/DEBUG.md) • [Changelog](docs/internal/CHANGELOG.md) • [Development Plan](docs/internal/DEVELOPMENT_PLAN.md) • [Contributing](docs/internal/CONTRIBUTING.md)
+[Website](https://dinox.handwerker.jetzt) • [Download](#installation) • [Features](#key-features) • [XEP Support](#xep-support) • [Build](docs/internal/BUILD.md) • [Debug](docs/internal/DEBUG.md) • [Changelog](docs/internal/CHANGELOG.md) • [API & Botmother AI Guide](docs/internal/API_BOTMOTHER_AI_GUIDE.md) • [Development Plan](docs/internal/DEVELOPMENT_PLAN.md) • [Contributing](docs/internal/CONTRIBUTING.md)
 
 </div>
 
