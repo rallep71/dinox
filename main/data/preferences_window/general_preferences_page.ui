@@ -90,6 +90,65 @@
             <property name="subtitle" translatable="yes">Start the local Botmother API server for managing XMPP bots</property>
           </object>
         </child>
+        <child>
+          <object class="AdwComboRow" id="api_mode_row">
+            <property name="title" translatable="yes">API Server Mode</property>
+            <property name="subtitle" translatable="yes">Local: localhost only. Network: all interfaces with TLS (HTTPS)</property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwSpinRow" id="api_port_row">
+            <property name="title" translatable="yes">API Port</property>
+            <property name="subtitle" translatable="yes">Port for the HTTP(S) API server</property>
+            <property name="adjustment">
+              <object class="GtkAdjustment">
+                <property name="lower">1024</property>
+                <property name="upper">65535</property>
+                <property name="step-increment">1</property>
+                <property name="value">7842</property>
+              </object>
+            </property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwEntryRow" id="api_tls_cert_row">
+            <property name="title" translatable="yes">TLS Certificate (PEM)</property>
+            <property name="text"></property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwEntryRow" id="api_tls_key_row">
+            <property name="title" translatable="yes">TLS Private Key (PEM)</property>
+            <property name="text"></property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwActionRow" id="api_cert_renew_row">
+            <property name="title" translatable="yes">Renew Self-Signed Certificate</property>
+            <property name="subtitle" translatable="yes">Delete current certificate. A new one will be generated on next start.</property>
+            <property name="activatable">True</property>
+            <child>
+              <object class="GtkImage">
+                <property name="icon-name">view-refresh-symbolic</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwActionRow" id="api_cert_delete_row">
+            <property name="title" translatable="yes">Delete Certificate</property>
+            <property name="subtitle" translatable="yes">Remove the self-signed certificate and private key</property>
+            <property name="activatable">True</property>
+            <child>
+              <object class="GtkImage">
+                <property name="icon-name">user-trash-symbolic</property>
+                <style>
+                  <class name="error"/>
+                </style>
+              </object>
+            </child>
+          </object>
+        </child>
       </object>
     </child>
     <child>

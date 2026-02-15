@@ -54,6 +54,8 @@ public class Manager : StreamInteractionModule, Object {
         = new HashMap<string, BundleRetryEntry>();
     private uint bundle_retry_timer_id = 0;
 
+
+
     private class MessageState {
         public Entities.Message msg { get; private set; }
         public Xep.Omemo.EncryptState last_try { get; private set; }
@@ -80,11 +82,20 @@ public class Manager : StreamInteractionModule, Object {
             will_send_now = false;
             if (new_try.other_failure > 0 || (new_try.other_lost == new_try.other_devices && new_try.other_devices > 0)) {
                 msg.marked = Entities.Message.Marked.WONTSEND;
-            } else if (new_try.other_unknown > 0 || new_try.own_unknown > 0 || new_try.other_waiting_lists > 0 || !new_try.own_list || new_try.own_devices == 0) {
+            } else if (new_try.other_waiting_lists > 0 || !new_try.own_list || new_try.own_devices == 0) {
+                // Still waiting for device lists — must block
+                msg.marked = Entities.Message.Marked.UNSENT;
+            } else if (new_try.other_unknown > 0 && new_try.other_success < 1) {
+                // No counterpart device succeeded at all — block until bundle arrives
+                msg.marked = Entities.Message.Marked.UNSENT;
+            } else if (new_try.own_unknown > 0 && new_try.own_success < 1) {
+                // No own device succeeded — block until own session established
                 msg.marked = Entities.Message.Marked.UNSENT;
             } else if (!new_try.encrypted) {
                 msg.marked = Entities.Message.Marked.WONTSEND;
             } else {
+                // Send: at least 1 counterpart device OK, at least 1 own device OK.
+                // Stale devices without sessions are skipped gracefully.
                 will_send_now = true;
             }
         }
@@ -550,15 +561,17 @@ public class Manager : StreamInteractionModule, Object {
             return;
         }
 
-        debug("OMEMO: Cleaning %d stale own devices for %s", stale_devices.size, own_jid);
+        debug("OMEMO: Cleaning %d stale phantom devices for %s (no identity key)", stale_devices.size, own_jid);
 
-        // Alle fremden eigenen Geräte in der DB deaktivieren
-        db.identity_meta.update()
-            .with(db.identity_meta.identity_id, "=", identity_id)
-            .with(db.identity_meta.address_name, "=", own_jid)
-            .with(db.identity_meta.device_id, "!=", own_device_id)
-            .set(db.identity_meta.now_active, false)
-            .perform();
+        // Phantom-Devices in der DB deaktivieren (nur die ohne Identity Key)
+        foreach (int32 stale_id in stale_devices) {
+            db.identity_meta.update()
+                .with(db.identity_meta.identity_id, "=", identity_id)
+                .with(db.identity_meta.address_name, "=", own_jid)
+                .with(db.identity_meta.device_id, "=", stale_id)
+                .set(db.identity_meta.now_active, false)
+                .perform();
+        }
 
         // Bereinigte Device-List veröffentlichen (enthält nur noch unser Gerät)
         republish_device_list(account, stream);
@@ -578,7 +591,7 @@ public class Manager : StreamInteractionModule, Object {
             }
         }
 
-        debug("OMEMO: Stale device cleanup done for %s — removed %d devices", own_jid, stale_devices.size);
+        debug("OMEMO: Stale phantom device cleanup done for %s — removed %d devices", own_jid, stale_devices.size);
     }
 
     private void on_account_added(Account account) {
@@ -676,7 +689,13 @@ public class Manager : StreamInteractionModule, Object {
         int identity_id = db.identity.get_id(account.id);
         if (identity_id < 0) return;
 
-        //Update meta database
+        /* Multi-Device-sicher: Device-Listen vom Server werden
+         * unveraendert uebernommen. Echte Geraete (Handy, Tablet)
+         * behalten ihre Device-IDs. Stale Devices blockieren das
+         * Senden nicht (Toleranz-Fix in update_from_encrypt_status:
+         * own_unknown > 0 blockiert nur wenn own_success < 1).
+         * cleanup_stale_own_devices() raeumt nur wirklich tote
+         * Geraete auf (kein Identity Key = nie ein Bundle gesehen). */
         db.identity_meta.insert_device_list(identity_id, jid.bare_jid.to_string(), device_list);
 
         //Fetch the bundle for each new device (try both legacy and OMEMO 2)
@@ -785,6 +804,8 @@ public class Manager : StreamInteractionModule, Object {
 
         int identity_id = db.identity.get_id(account.id);
         if (identity_id < 0) return;
+
+        /* Multi-Device-sicher: v2-Device-Listen unveraendert uebernehmen. */
 
         // Additively add v2 devices (don't deactivate existing v1 devices)
         db.identity_meta.insert_device_list_additive(identity_id, jid.bare_jid.to_string(), device_list);
@@ -1148,16 +1169,33 @@ public class Manager : StreamInteractionModule, Object {
         }
         
         if (stream != null) {
-            var device_list = yield stream_interactor.module_manager.get_module<StreamModule>(account, StreamModule.IDENTITY).request_user_devicelist(stream, jid);
-            /* Also try OMEMO 2 device list */
-            StreamModule2? module2 = stream_interactor.module_manager.get_module<StreamModule2>(account, StreamModule2.IDENTITY);
-            if (module2 != null) {
-                var device_list_v2 = yield module2.request_user_devicelist(stream, jid);
-                if (device_list_v2.size > 0 && device_list.size == 0) {
-                    return true;
+            // Try up to 8 times (4 seconds) to get device list.
+            // Bot accounts may still be publishing their device list via PubSub
+            // when we first check, causing a false "does not support OMEMO".
+            for (int attempt = 0; attempt < 8; attempt++) {
+                // Check DB first (PEP notification may have arrived)
+                if (trust_manager.is_known_address(account, jid)) return true;
+
+                var device_list = yield stream_interactor.module_manager.get_module<StreamModule>(account, StreamModule.IDENTITY).request_user_devicelist(stream, jid);
+                /* Also try OMEMO 2 device list */
+                StreamModule2? module2 = stream_interactor.module_manager.get_module<StreamModule2>(account, StreamModule2.IDENTITY);
+                if (module2 != null) {
+                    var device_list_v2 = yield module2.request_user_devicelist(stream, jid);
+                    if (device_list_v2.size > 0 && device_list.size == 0) {
+                        return true;
+                    }
+                }
+                if (device_list.size > 0) return true;
+
+                // No devices yet — wait 500ms and retry
+                if (attempt < 7) {
+                    debug("OMEMO: No devices for %s yet (attempt %d/8), retrying...", jid.to_string(), attempt + 1);
+                    Timeout.add(500, ensure_get_keys_for_jid.callback);
+                    yield;
                 }
             }
-            return device_list.size > 0;
+            debug("OMEMO: No devices found for %s after retries", jid.to_string());
+            return false;
         }
         debug("OMEMO: Cannot verify keys for %s - no stream available after waiting", jid.to_string());
         return false;

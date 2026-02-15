@@ -19,6 +19,10 @@ public class Settings : Object {
         sticker_animations_enabled_ = col_to_bool_or_default("sticker_animations_enabled", true);
         location_sharing_enabled_ = col_to_bool_or_default("location_sharing_enabled", false);
         bot_features_enabled_ = col_to_bool_or_default("bot_features_enabled", false);
+        api_mode_ = col_to_string_or_default("api_mode", "local");
+        api_port_ = col_to_int_or_default("api_port", 7842);
+        api_tls_cert_ = col_to_string_or_default("api_tls_cert", "");
+        api_tls_key_ = col_to_string_or_default("api_tls_key", "");
         presence_show_ = col_to_string_or_default("presence_show", "online");
         presence_status_msg_ = col_to_string_or_default("presence_status_msg", "");
     }
@@ -31,6 +35,11 @@ public class Settings : Object {
     private string col_to_string_or_default(string key, string def) {
         string? val = db.settings.select({db.settings.value}).with(db.settings.key, "=", key)[db.settings.value];
         return val ?? def;
+    }
+
+    private int col_to_int_or_default(string key, int def) {
+        string? val = db.settings.select({db.settings.value}).with(db.settings.key, "=", key)[db.settings.value];
+        return val != null ? int.parse(val) : def;
     }
 
     private bool send_typing_;
@@ -163,6 +172,54 @@ public class Settings : Object {
                 .value(db.settings.value, value.to_string())
                 .perform();
             bot_features_enabled_ = value;
+        }
+    }
+
+    private string api_mode_;
+    public string api_mode {
+        get { return api_mode_; }
+        set {
+            db.settings.upsert()
+                .value(db.settings.key, "api_mode", true)
+                .value(db.settings.value, value)
+                .perform();
+            api_mode_ = value;
+        }
+    }
+
+    private int api_port_;
+    public int api_port {
+        get { return api_port_; }
+        set {
+            db.settings.upsert()
+                .value(db.settings.key, "api_port", true)
+                .value(db.settings.value, value.to_string())
+                .perform();
+            api_port_ = value;
+        }
+    }
+
+    private string api_tls_cert_;
+    public string api_tls_cert {
+        get { return api_tls_cert_; }
+        set {
+            db.settings.upsert()
+                .value(db.settings.key, "api_tls_cert", true)
+                .value(db.settings.value, value)
+                .perform();
+            api_tls_cert_ = value;
+        }
+    }
+
+    private string api_tls_key_;
+    public string api_tls_key {
+        get { return api_tls_key_; }
+        set {
+            db.settings.upsert()
+                .value(db.settings.key, "api_tls_key", true)
+                .value(db.settings.value, value)
+                .perform();
+            api_tls_key_ = value;
         }
     }
 

@@ -15,6 +15,10 @@ public class SubscriptionNotitication : Object {
         this.stream_interactor = stream_interactor;
 
         stream_interactor.get_module<PresenceManager>(PresenceManager.IDENTITY).received_subscription_request.connect((jid, account) => {
+            // Skip subscription notifications for suppressed JIDs (e.g. dedicated bots)
+            if (stream_interactor.get_module<PresenceManager>(PresenceManager.IDENTITY).is_subscription_suppressed(jid)) {
+                return;
+            }
             Conversation relevant_conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).create_conversation(jid, account, Conversation.Type.CHAT);
             stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).start_conversation(relevant_conversation);
             if (conversation != null && account.equals(conversation.account) && jid.equals(conversation.counterpart)) {
@@ -28,6 +32,11 @@ public class SubscriptionNotitication : Object {
         this.conversation_view = conversation_view;
 
         if (conversation.type_ != Conversation.Type.CHAT) return;
+
+        // Skip subscription notifications for suppressed JIDs (e.g. dedicated bots)
+        if (stream_interactor.get_module<PresenceManager>(PresenceManager.IDENTITY).is_subscription_suppressed(conversation.counterpart)) {
+            return;
+        }
 
         if (stream_interactor.get_module<PresenceManager>(PresenceManager.IDENTITY).exists_subscription_request(conversation.account, conversation.counterpart)) {
             // Show a notification of a pending subscription request

@@ -1,0 +1,355 @@
+hosts:
+  - chat.handwerker.jetzt
+
+loglevel: info
+
+### DATENBANK (Übernommen aus 25.70)
+default_db: sql
+sql_type: pgsql
+sql_server: "localhost"
+sql_database: "ejabberd"
+sql_username: "ejabberd_user"
+sql_password: "Sandycarl19###"
+auth_method: [sql]
+sql_pool_size: 10 
+
+update_sql_schema: true
+
+## CA File (Standard in 25.10, ggf. anpassen wenn nicht benötigt)
+#ca_file: /opt/ejabberd/conf/cacert.pem
+
+#certfiles:
+#  - "/var/www/clients/client1/web1/ssl/handwerker.jetzt-le.crt"
+#  - "/var/www/clients/client1/web1/ssl/handwerker.jetzt-le.key"
+
+certfiles:
+  - "/opt/ejabberd/conf/ssl/server.crt"
+  - "/opt/ejabberd/conf/ssl/server.key"
+## If you already have certificates, list them here
+# certfiles:
+#  - /etc/letsencrypt/live/domain.tld/fullchain.pem
+#  - /etc/letsencrypt/live/domain.tld/privkey.pem
+
+listen:
+  -
+    port: 5222
+    ip: "::"
+    module: ejabberd_c2s
+    max_stanza_size: 262144
+    shaper: c2s_shaper
+    access: c2s
+    starttls_required: true
+  -
+    port: 5223
+    ip: "::"
+    module: ejabberd_c2s
+    max_stanza_size: 262144
+    shaper: c2s_shaper
+    access: c2s
+    tls: true
+  -
+    port: 5269
+    ip: "::"
+    module: ejabberd_s2s_in
+    max_stanza_size: 524288
+    shaper: s2s_shaper
+  -
+    port: 5443
+    ip: "::"
+    module: ejabberd_http
+    tls: true
+    request_handlers:
+      /admin: ejabberd_web_admin
+      /api: mod_http_api
+      /bosh: mod_bosh
+      /captcha: ejabberd_captcha
+      /upload: mod_http_upload
+      /ws: ejabberd_http_ws
+ # -
+ #   port: 5280
+ #   ip: "::"
+ #   module: ejabberd_http
+ #   request_handlers:
+ #     /admin: ejabberd_web_admin
+ #     /.well-known/acme-challenge: ejabberd_acme
+  
+  ### STUN/TURN Konfiguration (Übernommen aus 25.70)
+  -
+    port: 3478
+    transport: udp
+    module: ejabberd_stun
+    use_turn: true
+    turn_min_port: 49152
+    turn_max_port: 49172
+    turn_ipv4_address: 212.87.214.35
+    turn_max_allocations: 50
+    turn_max_permissions: 50
+  -
+    port: 5349
+    transport: tcp
+    module: ejabberd_stun
+    use_turn: true
+    tls: true
+    turn_min_port: 49152
+    turn_max_port: 49172
+    ip: 212.87.214.35
+    turn_ipv4_address: 212.87.214.35
+    turn_max_allocations: 50
+    turn_max_permissions: 50
+
+#  -
+#    port: 1883
+#    ip: "::"
+#    module: mod_mqtt
+#    backlog: 1000
+
+s2s_use_starttls: optional
+
+acl:
+  admin:
+    user:
+      - "admin@chat.handwerker.jetzt"
+  local:
+    user_regexp: ""
+  loopback:
+    ip:
+      - 127.0.0.0/8
+      - ::1/128
+
+access_rules:
+  local:
+    allow: local
+  c2s:
+    deny: blocked
+    allow: all
+  announce:
+    allow: admin
+  configure:
+    allow: admin
+  muc_create:
+    allow: local
+  pubsub_createnode:
+    allow: local
+  trusted_network:
+    allow: loopback
+
+api_permissions:
+  "console commands":
+    from: ejabberd_ctl
+    who: all
+    what: "*"
+  "webadmin commands":
+    from: ejabberd_web_admin
+    who: admin
+    what: "*"
+  "adhoc commands":
+    from: mod_adhoc_api
+    who: admin
+    what: "*"
+  "http access":
+    from: mod_http_api
+    who: admin
+#      access:
+#        allow:
+#          - acl: loopback
+#          - acl: admin
+      ## OAuth entfernt
+    what:
+      - "*"
+      - "!stop"
+      - "!start"
+  "public commands":
+    who:
+      ip: 127.0.0.1/8
+    what:
+      - status
+      - connected_users_number
+
+shaper:
+  normal:
+    rate: 50000
+    burst_size: 100000
+  fast: 100000
+
+shaper_rules:
+  max_user_sessions: 10
+  max_user_offline_messages:
+    5000: admin
+    100: all
+  c2s_shaper:
+    none: admin
+    normal: all
+  s2s_shaper: fast
+
+modules:
+  mod_adhoc: {}
+  mod_adhoc_api: {}
+  mod_admin_extra: {}
+  mod_announce:
+    access: announce
+  mod_avatar: {}
+  mod_blocking: {}
+  mod_bosh: {}
+  mod_caps: {}
+  mod_carboncopy: {}
+  mod_client_state: {}
+  mod_configure: {}
+  mod_disco: {}
+  mod_fail2ban: {}
+  mod_http_api: {}
+  mod_http_upload:
+    docroot: "/opt/ejabberd_uploads"
+    ## WICHTIG: @HOST_URL_ENCODE@ ist neu in 25.10 für bessere URL-Kodierung
+    put_url: https://@HOST_URL_ENCODE@:5443/upload
+    max_size: 104857600
+    custom_headers:
+      "Access-Control-Allow-Origin": "https://@HOST@"
+      "Access-Control-Allow-Methods": "GET,HEAD,PUT,OPTIONS"
+      "Access-Control-Allow-Headers": "Content-Type"
+    content_types:
+      .avi: video/avi
+      .bmp: image/bmp
+      .bz2: application/x-bzip2
+      .css: text/css
+      .gif: image/gif
+      .gz: application/x-gzip
+      .html: text/html
+      .ico: image/vnd.microsoft.icon
+      .jar: application/java-archive
+      .jpeg: image/jpeg
+      .jpg: image/jpeg
+      .js: text/javascript
+      .json: application/json
+      .m4a: audio/mp4
+      .map: application/json
+      .mp3: audio/mpeg
+      .mp4: video/mp4
+      .mpeg: video/mpeg
+      .mpg: video/mpeg
+      .ogg: application/ogg
+      .pdf: application/pdf
+      .png: image/png
+      .rtf: application/rtf
+      .svg: image/svg+xml
+      .tiff: image/tiff
+      .ttf: font/ttf
+      .txt: text/plain
+      .wav: audio/wav
+      .webp: image/webp
+      .woff: font/woff
+      .woff2: font/woff2
+      .xml: application/xml
+      .xpi: application/x-xpinstall
+      .xul: application/vnd.mozilla.xul+xml
+      .xz: application/x-xz
+      .zip: application/zip
+  mod_last: {}
+  mod_mam:
+    ## SQL Backend aktiviert
+    db_type: sql
+    assume_mam_usage: true
+    default: always
+  mod_mqtt: {}
+  mod_muc:
+    db_type: sql
+    preload_rooms: true
+    access:
+      - allow
+    access_admin:
+      - allow: admin
+    access_create: muc_create
+    access_persistent: muc_create
+    access_mam:
+      - allow
+    default_room_options:
+      mam: true
+      persistent: true
+      public: true
+      allow_change_subj: true
+      members_only: false
+  mod_muc_admin: {}
+  mod_muc_occupantid: {}
+  mod_offline:
+    access_max_user_messages: max_user_offline_messages
+  mod_ping: {}
+  mod_privacy: {}
+  mod_private: {}
+  mod_proxy65:
+    access: local
+    max_connections: 5
+  mod_pubsub:
+    access_createnode: pubsub_createnode
+    plugins:
+      - flat
+      - pep
+    force_node_config:
+      ## Avoid buggy clients to make their bookmarks public
+      storage:bookmarks:
+        access_model: whitelist
+  mod_push: {}
+  mod_push_keepalive: {}
+  mod_register:
+    ## Only accept registration requests from the "trusted"
+    ## network (see access_rules section above).
+    ## Think twice before enabling registration from any
+    ## address. See the Jabber SPAM Manifesto for details:
+    ## https://github.com/ge0rg/jabber-spam-fighting-manifesto
+    ip_access: trusted_network
+  mod_roster:
+    versioning: true
+  mod_s2s_bidi: {}
+  mod_s2s_dialback: {}
+  mod_shared_roster: {}
+  mod_stream_mgmt:
+    resend_on_timeout: if_offline
+  
+  ## STUN/TURN Services (Übernommen aus 25.70)
+  mod_stun_disco:
+    credentials_lifetime: 12h
+    services:
+        -
+          host: 212.87.214.35
+          port: 3478
+          type: stun
+          transport: udp
+          restricted: false
+        -
+          host: 212.87.214.35
+          port: 3478
+          type: turn
+          transport: udp
+          restricted: true
+        -
+          host: chat.handwerker.jetzt
+          port: 5349
+          type: stuns
+          transport: tcp
+          restricted: false
+        -
+          host: chat.handwerker.jetzt
+          port: 5349
+          type: turns
+          transport: tcp
+          restricted: true
+
+  mod_vcard: 
+    allow_return_all: true
+    db_type: sql
+    matches: 50
+    search: true 
+    hosts:
+      - "vjud@HOST@"
+  mod_vcard_xupdate: {}
+  
+  ## Neu hinzugefügt aus 25.70
+#  mod_auth_fast:
+#    token_lifetime: 14days
+#    db_type: mnesia
+
+  mod_version:
+    show_os: false
+
+### Local Variables:
+### mode: yaml
+### End:
+### vim: set filetype=yaml tabstop=8

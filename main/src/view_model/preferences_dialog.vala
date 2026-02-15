@@ -78,7 +78,7 @@ public class Dino.Ui.ViewModel.PreferencesDialog : Object {
         if (also_from_server) {
             XmppStream? stream = stream_interactor.get_stream(account);
             if (stream != null) {
-                // Alle PEP/PubSub-Knoten entfernen, dann Konto vom Server löschen
+                // Remove all PEP/PubSub nodes, then delete account from server
                 cleanup_server_data.begin(stream, (obj, res) => {
                     cleanup_server_data.end(res);
 
@@ -114,7 +114,7 @@ public class Dino.Ui.ViewModel.PreferencesDialog : Object {
         var pubsub = stream.get_module<Pubsub.Module>(Pubsub.Module.IDENTITY);
         if (pubsub == null) return;
 
-        // OMEMO v1: Geräteliste holen, dann jeden einzelnen Bundle-Knoten löschen
+        // OMEMO v1: Get device list, then delete each individual bundle node
         Gee.List<StanzaNode>? v1_items = yield pubsub.request_all(stream, stream.remote_name, "eu.siacs.conversations.axolotl.devicelist");
         if (v1_items != null) {
             foreach (StanzaNode item in v1_items) {
@@ -135,14 +135,14 @@ public class Dino.Ui.ViewModel.PreferencesDialog : Object {
         pubsub.delete_node(stream, null, Omemo.NODE_DEVICELIST_V2);
         pubsub.delete_node(stream, null, Omemo.NODE_BUNDLES_V2);
 
-        // XEP-0084 Benutzer-Avatar
+        // XEP-0084 User Avatar
         pubsub.delete_node(stream, null, "urn:xmpp:avatar:data");
         pubsub.delete_node(stream, null, "urn:xmpp:avatar:metadata");
 
-        // XEP-0048 Lesezeichen (Legacy)
+        // XEP-0048 Bookmarks (Legacy)
         pubsub.delete_node(stream, null, "storage:bookmarks");
 
-        // XEP-0402 Lesezeichen
+        // XEP-0402 Bookmarks
         pubsub.delete_node(stream, null, Bookmarks2.NS_URI);
     }
 
@@ -183,6 +183,10 @@ public class Dino.Ui.ViewModel.PreferencesDialog : Object {
         settings.bind_property("sticker-animations-enabled", general_page, "sticker-animations-enabled", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
         settings.bind_property("location-sharing-enabled", general_page, "location-sharing-enabled", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
         settings.bind_property("bot-features-enabled", general_page, "bot-features-enabled", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
+        settings.bind_property("api-mode", general_page, "api-mode", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
+        settings.bind_property("api-port", general_page, "api-port", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
+        settings.bind_property("api-tls-cert", general_page, "api-tls-cert", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
+        settings.bind_property("api-tls-key", general_page, "api-tls-key", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
     }
 }
 

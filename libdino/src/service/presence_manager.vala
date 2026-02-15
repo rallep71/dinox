@@ -17,6 +17,7 @@ public class PresenceManager : StreamInteractionModule, Object {
     private StreamInteractor stream_interactor;
     private HashMap<Jid, ArrayList<Jid>> resources = new HashMap<Jid, ArrayList<Jid>>(Jid.hash_bare_func, Jid.equals_bare_func);
     private Gee.List<Jid> subscription_requests = new ArrayList<Jid>(Jid.equals_func);
+    private HashSet<string> suppress_subscription_jids = new HashSet<string>();
 
     private string current_show = "online";
     private string? current_status_msg = null;
@@ -137,6 +138,16 @@ public class PresenceManager : StreamInteractionModule, Object {
 
     public bool exists_subscription_request(Account account, Jid jid) {
         return subscription_requests.contains(jid);
+    }
+
+    // Suppress subscription notifications for a specific JID (used by bot plugin)
+    public void suppress_subscription_notification(Jid jid) {
+        suppress_subscription_jids.add(jid.bare_jid.to_string());
+    }
+
+    // Check if subscription notification is suppressed for a JID
+    public bool is_subscription_suppressed(Jid jid) {
+        return suppress_subscription_jids.contains(jid.bare_jid.to_string());
     }
 
     public void request_subscription(Account account, Jid jid) {

@@ -123,6 +123,11 @@ public class EncryptionButton {
             menu_button.visible = false;
             return;
         }
+        // Hide encryption button for bot conversations (subscription suppressed = bot JID)
+        if (stream_interactor.get_module<PresenceManager>(PresenceManager.IDENTITY).is_subscription_suppressed(conversation.counterpart)) {
+            menu_button.visible = false;
+            return;
+        }
         if (conversation.encryption != Encryption.NONE) {
             menu_button.visible = true;
             return;
