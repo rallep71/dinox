@@ -13,7 +13,12 @@
 #include <stdint.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#ifdef _WIN32
+#include <direct.h>
+#include <io.h>
+#else
 #include <unistd.h>
+#endif
 #include <errno.h>
 
 #include "cert_gen.h"
