@@ -4,6 +4,7 @@ dependencies = [
     dep_gio,
     dep_glib,
     dep_gmodule,
+    dep_crypto_vala,
     dependency('json-glib-1.0'),
     dep_libsoup,
     dep_qlite,

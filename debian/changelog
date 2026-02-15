@@ -1,3 +1,18 @@
+dino (1.1.0.1) unstable; urgency=medium
+
+  * Telegram Bridge: Inline media display for photos, videos, audio,
+    voice messages, GIFs, and stickers (TG->XMPP)
+  * Sticker handling: Animated/video stickers sent as emoji,
+    static stickers displayed as images
+  * Telegram polling: Long polling (25s), deleteWebhook on start,
+    per-bot poll lock, 409 backoff (5s) for shared bot tokens
+  * Bot /clear command: Clears AI conversation history and local
+    chat database, optional /clear mam for server archive
+  * ejabberd API: Added delete_old_mam_messages endpoint
+  * Debug logging: Downgraded media detection logs to debug level
+
+ -- Dino Developers <chat@dino.im>  Sat, 15 Feb 2026 18:00:00 +0000
+
 dino (1.1.0.0) unstable; urgency=medium
 
   * Botmother Phase 3: AI, Telegram, TLS, OpenClaw

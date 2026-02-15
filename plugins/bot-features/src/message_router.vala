@@ -11,6 +11,7 @@ public class MessageRouter : Object {
     private SessionPool session_pool;
     private WebhookDispatcher webhook_dispatcher;
     private BotfatherHandler? botfather;
+    private EjabberdApi? ejabberd_api;
     public AiIntegration ai;
     public TelegramBridge telegram;
     private HashMap<int, ulong> message_handlers = new HashMap<int, ulong>();
@@ -27,6 +28,7 @@ public class MessageRouter : Object {
 
         // Handle incoming Telegram messages -> forward to XMPP
         telegram.telegram_message_received.connect(on_telegram_message);
+        telegram.telegram_file_received.connect(on_telegram_file);
 
         // Listen for incoming messages on all accounts (for bot update queue + webhook)
         app.stream_interactor.get_module<MessageProcessor>(MessageProcessor.IDENTITY)
@@ -64,6 +66,23 @@ public class MessageRouter : Object {
             string msg = "[Telegram] %s:\n%s".printf(from_name, text);
             session_pool.send_message_for_bot(bot_id, owner_jid, msg);
         }
+    }
+
+    // Handle Telegram -> XMPP file forwarding (inline image/video/audio display)
+    private void on_telegram_file(int bot_id, string from_name, string file_url, string? caption) {
+        BotInfo? bot = registry.get_bot_by_id(bot_id);
+        if (bot == null) return;
+
+        string? owner_jid = bot.owner_jid;
+        if (owner_jid == null || owner_jid == "") return;
+
+        // Send sender info + optional caption as text message
+        string info = "[Telegram] %s:".printf(from_name);
+        if (caption != null && caption.length > 0) info += "\n" + caption;
+        session_pool.send_message_for_bot(bot_id, owner_jid, info);
+
+        // Send bare file URL as separate message -> Dino auto-detects and shows inline
+        session_pool.send_message_for_bot(bot_id, owner_jid, file_url);
     }
 
     // --- Outbound: Bot -> XMPP ---
@@ -199,6 +218,10 @@ public class MessageRouter : Object {
         this.botfather = handler;
     }
 
+    public void set_ejabberd_api(EjabberdApi api) {
+        this.ejabberd_api = api;
+    }
+
     // Handle sent messages (self-chat Botmother commands)
     private void on_message_sent(Entities.Message message, Conversation conversation) {
         if (message.body == null || message.body.strip() == "") return;
@@ -327,6 +350,9 @@ public class MessageRouter : Object {
                 return true;
             case "/api":
                 handle_api_command(bot, from_str, arg1, arg2);
+                return true;
+            case "/clear":
+                handle_clear_command.begin(bot, from_str, arg1);
                 return true;
             default:
                 return false;
@@ -779,6 +805,62 @@ public class MessageRouter : Object {
         }
     }
 
+    // Handle /clear command - clear bot chat history
+    private async void handle_clear_command(BotInfo bot, string from_str, string? scope) {
+        var sb = new StringBuilder();
+
+        // 1. Clear AI conversation history (RAM)
+        ai.clear_history(bot.id, "all");
+        sb.append(_("AI conversation history cleared.") + "\n");
+
+        // 2. Clear local message database for the bot conversation
+        if (bot.jid != null) {
+            try {
+                var jid = new Jid(bot.jid);
+                // Find the conversation in DinoX's local DB
+                var conversation_manager = app.stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY);
+                // Try all accounts to find conversations with this bot JID
+                bool found = false;
+                foreach (var account in app.stream_interactor.get_accounts()) {
+                    var conv = conversation_manager.get_conversation(jid.bare_jid, account, Conversation.Type.CHAT);
+                    if (conv != null) {
+                        conversation_manager.clear_conversation_history(conv, false);
+                        sb.append(_("Local chat history cleared.") + "\n");
+                        found = true;
+                    }
+                }
+                if (!found) {
+                    sb.append(_("No local conversation found for %s.").printf(bot.jid) + "\n");
+                }
+            } catch (Error e) {
+                sb.append(_("Error clearing local history: %s").printf(e.message) + "\n");
+            }
+        }
+
+        // 3. Clear MAM archive via ejabberd REST API if configured
+        // Note: ejabberd has no per-user MAM delete, only global (all users).
+        // We only delete if the admin explicitly requests it, as it affects ALL users.
+        if (scope != null && scope.down() == "mam") {
+            if (ejabberd_api != null && ejabberd_api.is_configured()) {
+                sb.append(_("Deleting server message archive (ALL users)...") + "\n");
+                session_pool.send_message_for_bot(bot.id, from_str, sb.str);
+                sb.truncate(0);
+
+                var result = yield ejabberd_api.delete_mam_messages();
+                if (result.success) {
+                    sb.append(_("Server message archive (MAM) cleared.") + "\n");
+                } else {
+                    sb.append(_("MAM delete failed: %s").printf(result.error_message ?? "unknown") + "\n");
+                }
+            } else {
+                sb.append(_("ejabberd API not configured.") + "\n");
+            }
+        }
+
+        sb.append("\n" + _("Done! Chat history has been cleaned up."));
+        session_pool.send_message_for_bot(bot.id, from_str, sb.str);
+    }
+
     // Handle slash commands for dedicated bots
     private string? handle_dedicated_command(BotInfo bot, string body) {
         string cmd = body.split(" ")[0].down();
@@ -838,6 +920,7 @@ public class MessageRouter : Object {
         sb.append("/help       - " + _("This menu") + "\n");
         sb.append("/start      - " + _("Greeting") + "\n");
         sb.append("/info       - " + _("Bot details") + "\n");
+        sb.append("/clear      - " + _("Clear chat history") + "\n");
 
         // Custom commands from DB
         var commands = registry.get_bot_commands(bot.id);
