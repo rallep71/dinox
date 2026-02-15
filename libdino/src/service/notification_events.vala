@@ -139,6 +139,9 @@ public class NotificationEvents : StreamInteractionModule, Object {
     }
 
     private async void on_received_subscription_request(Jid jid, Account account) {
+        // Skip desktop notification for bot JIDs (subscription is auto-approved)
+        if (stream_interactor.get_module<PresenceManager>(PresenceManager.IDENTITY).is_subscription_suppressed(jid)) return;
+
         Conversation conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).create_conversation(jid, account, Conversation.Type.CHAT);
         if (stream_interactor.get_module<ChatInteraction>(ChatInteraction.IDENTITY).is_active_focus(conversation)) return;
 

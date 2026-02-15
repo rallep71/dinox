@@ -10,11 +10,13 @@ public class BotfatherHandler : Object {
     private Dino.Application app;
     private BotRegistry registry;
     private TokenManager token_manager;
+    private EjabberdApi? ejabberd_api;
 
-    public BotfatherHandler(Dino.Application app, BotRegistry registry, TokenManager token_manager) {
+    public BotfatherHandler(Dino.Application app, BotRegistry registry, TokenManager token_manager, EjabberdApi? ejabberd_api = null) {
         this.app = app;
         this.registry = registry;
         this.token_manager = token_manager;
+        this.ejabberd_api = ejabberd_api;
     }
 
     // Process a Botmother command from a user. Returns a response string.
@@ -129,6 +131,18 @@ public class BotfatherHandler : Object {
         }
 
         string bot_name = bot.name ?? "?";
+
+        // For dedicated bots: unregister from ejabberd
+        if (bot.mode == "dedicated" && bot.jid != null && bot.jid.contains("@")) {
+            string username = bot.jid.split("@")[0];
+            if (ejabberd_api != null) {
+                ejabberd_api.unregister_account.begin(username, (obj, res) => {
+                    var result = ejabberd_api.unregister_account.end(res);
+                    message("Botfather: ejabberd unregister %s: %s", username, result.success ? "OK" : "FAILED");
+                });
+            }
+        }
+
         registry.delete_bot(bot_id);
         registry.log_action(bot_id, "deleted", "owner=%s".printf(owner_jid));
 
