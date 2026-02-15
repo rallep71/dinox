@@ -42,6 +42,52 @@
                         <property name="orientation">vertical</property>
                         <property name="spacing">16</property>
                         <child>
+                          <object class="GtkBox">
+                            <property name="orientation">horizontal</property>
+                            <property name="spacing">16</property>
+                            <property name="halign">center</property>
+                            <property name="margin-bottom">8</property>
+                            <child>
+                              <object class="GtkOverlay" id="avatar_overlay">
+                                <child>
+                                  <object class="GtkImage" id="avatar_preview">
+                                    <property name="pixel-size">72</property>
+                                    <property name="icon-name">avatar-default-symbolic</property>
+                                    <style>
+                                      <class name="icon-dropshadow"/>
+                                    </style>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="orientation">vertical</property>
+                                <property name="valign">center</property>
+                                <property name="spacing">4</property>
+                                <child>
+                                  <object class="GtkButton" id="avatar_button">
+                                    <property name="label" translatable="yes">Choose Avatar</property>
+                                    <style>
+                                      <class name="flat"/>
+                                    </style>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkButton" id="avatar_remove_button">
+                                    <property name="label" translatable="yes">Remove</property>
+                                    <property name="visible">False</property>
+                                    <style>
+                                      <class name="flat"/>
+                                      <class name="destructive-action"/>
+                                    </style>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
                           <object class="GtkListBox">
                             <property name="selection-mode">none</property>
                             <style>
@@ -102,6 +148,33 @@
                         <property name="orientation">vertical</property>
                         <property name="spacing">12</property>
                         <property name="halign">center</property>
+                        <child>
+                          <object class="GtkBox">
+                            <property name="orientation">vertical</property>
+                            <property name="spacing">4</property>
+                            <child>
+                              <object class="GtkLabel" id="jid_heading_label">
+                                <property name="label" translatable="yes">Bot JID:</property>
+                                <property name="xalign">0</property>
+                                <property name="visible">False</property>
+                                <style>
+                                  <class name="heading"/>
+                                </style>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="jid_label">
+                                <property name="selectable">True</property>
+                                <property name="wrap">True</property>
+                                <property name="xalign">0</property>
+                                <property name="visible">False</property>
+                                <style>
+                                  <class name="monospace"/>
+                                </style>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
                         <child>
                           <object class="GtkBox">
                             <property name="orientation">vertical</property>

@@ -3,13 +3,16 @@ using Gee;
 namespace Dino.Plugins.BotFeatures {
 
 public class BotRegistry : Qlite.Database {
-    private const int VERSION = 2;
+    private const int VERSION = 3;
 
-    // Fired after a bot is deleted, with the owner JID and bot ID
-    public signal void bot_deleted(string owner_jid, int bot_id);
+    // Fired after a bot is deleted, with the owner JID, bot ID, and bot details
+    public signal void bot_deleted(string owner_jid, int bot_id, string? bot_jid, string? bot_mode);
 
     // Fired when per-account Botmother is toggled on/off
     public signal void account_toggled(string account_jid, bool enabled);
+
+    // Fired when a bot's status changes (active/disabled)
+    public signal void bot_status_changed(int bot_id, string new_status);
 
     // --- Bot Table ---
     public class BotTable : Qlite.Table {
@@ -28,11 +31,12 @@ public class BotRegistry : Qlite.Database {
         public Qlite.Column<string> webhook_url = new Qlite.Column.Text("webhook_url");
         public Qlite.Column<string> webhook_secret = new Qlite.Column.Text("webhook_secret");
         public Qlite.Column<bool> webhook_enabled = new Qlite.Column.BoolInt("webhook_enabled");
+        public Qlite.Column<string> bot_password = new Qlite.Column.Text("bot_password") { min_version = 3 };
 
         internal BotTable(Qlite.Database db) {
             base(db, "bot");
             init({id, name_, jid, token_hash, token_raw, owner_jid, description, permissions, status, mode,
-                  created_at, last_active, webhook_url, webhook_secret, webhook_enabled});
+                  created_at, last_active, webhook_url, webhook_secret, webhook_enabled, bot_password});
         }
     }
 
@@ -189,6 +193,14 @@ public class BotRegistry : Qlite.Database {
         bot.update().with(bot.id, "=", bot_id).set(bot.status, status).perform();
     }
 
+    public void update_bot_jid(int bot_id, string jid) {
+        bot.update().with(bot.id, "=", bot_id).set(bot.jid, jid).perform();
+    }
+
+    public void update_bot_password(int bot_id, string password) {
+        bot.update().with(bot.id, "=", bot_id).set(bot.bot_password, password).perform();
+    }
+
     public void update_bot_last_active(int bot_id) {
         long now = (long) new DateTime.now_utc().to_unix();
         bot.update().with(bot.id, "=", bot_id).set(bot.last_active, now).perform();
@@ -203,17 +215,23 @@ public class BotRegistry : Qlite.Database {
     }
 
     public void delete_bot(int bot_id) {
-        // Look up owner before deleting
+        // Look up owner and bot details before deleting
         string? owner = null;
+        string? jid = null;
+        string? mode = null;
         BotInfo? info = get_bot_by_id(bot_id);
-        if (info != null) owner = info.owner_jid;
+        if (info != null) {
+            owner = info.owner_jid;
+            jid = info.jid;
+            mode = info.mode;
+        }
 
         bot_command.delete().with(bot_command.bot_id, "=", bot_id).perform();
         update_queue.delete().with(update_queue.bot_id, "=", bot_id).perform();
         bot.delete().with(bot.id, "=", bot_id).perform();
 
         if (owner != null) {
-            bot_deleted(owner, bot_id);
+            bot_deleted(owner, bot_id, jid, mode);
         }
     }
 
@@ -315,6 +333,10 @@ public class BotRegistry : Qlite.Database {
             .perform();
     }
 
+    public void delete_setting(string key) {
+        settings.delete().with(settings.key_, "=", key).perform();
+    }
+
     // --- Audit Log ---
 
     public void log_action(int bot_id, string action, string? details = null, string? ip = null) {
@@ -347,6 +369,7 @@ public class BotRegistry : Qlite.Database {
         info.webhook_url = bot.webhook_url.get(row);
         info.webhook_secret = bot.webhook_secret.get(row);
         info.webhook_enabled = bot.webhook_enabled.get(row);
+        info.bot_password = bot.bot_password.get(row);
         return info;
     }
 }
@@ -369,6 +392,7 @@ public class BotInfo : Object {
     public string? webhook_url { get; set; }
     public string? webhook_secret { get; set; }
     public bool webhook_enabled { get; set; }
+    public string? bot_password { get; set; }
 }
 
 public class CommandInfo : Object {

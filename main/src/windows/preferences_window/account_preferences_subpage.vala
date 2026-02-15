@@ -598,22 +598,13 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
     }
 
     private async void save_vcard() {
-        print("AccountPreferences: Starting save_vcard...\n");
         save_vcard_button.sensitive = false;
         var stream = model.stream_interactor.get_stream(account);
         if (stream == null) {
-            print("AccountPreferences: Stream is null!\n");
             return;
         }
 
         // 1. Save VCard-temp (XEP-0054)
-        print("AccountPreferences: Saving VCard-temp...\n");
-        debug("Street: '%s'", vcard_adr_street.text);
-        debug("City: '%s'", vcard_adr_city.text);
-        debug("Region: '%s'", vcard_adr_region.text);
-        debug("PCode: '%s'", vcard_adr_pcode.text);
-        debug("Country: '%s'", vcard_adr_country.text);
-
         var vcard = new Xmpp.Xep.VCard.VCardInfo();
         vcard.full_name = vcard_fn.text;
         vcard.nickname = vcard_nickname.text;
@@ -639,10 +630,8 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
             }
             
             yield Xmpp.Xep.VCard.publish_vcard(stream, vcard);
-            print("AccountPreferences: VCard-temp saved.\n");
         } catch (Error e) {
             warning("Failed to save vCard: %s", e.message);
-            print("AccountPreferences: Failed to save VCard-temp: %s\n", e.message);
             var dialog = new Adw.AlertDialog("Failed to save profile", e.message);
             dialog.add_response("ok", _("OK"));
             dialog.present((Window)this.get_root());
@@ -651,7 +640,6 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
         // 2. Save VCard4 (XEP-0292)
         var vcard4_module = stream.get_module<Xmpp.Xep.VCard4.Module>(Xmpp.Xep.VCard4.Module.IDENTITY);
         if (vcard4_module != null) {
-            print("AccountPreferences: Saving VCard4...\n");
             var vcard4 = new Xmpp.Xep.VCard4.VCard4.create();
             vcard4.full_name = vcard_fn.text;
             vcard4.nickname = vcard_nickname.text;
@@ -690,7 +678,6 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
             // Add a timeout to re-enable the button in case publish hangs
             uint timeout_id = Timeout.add_seconds(10, () => {
                 if (!save_vcard_button.sensitive) {
-                    print("AccountPreferences: Save timed out, re-enabling button.\n");
                     save_vcard_button.sensitive = true;
                 }
                 return false;
@@ -710,29 +697,25 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
             Source.remove(timeout_id);
             
             if (success) {
-                print("AccountPreferences: VCard4 saved successfully. Reloading...\n");
                 yield load_vcard();
             } else {
-                print("AccountPreferences: VCard4 save failed (or partial failure).\n");
+                warning("VCard4 save failed");
                 // Re-enable button so user can try again
                 save_vcard_button.sensitive = true;
             }
         } else {
-            print("AccountPreferences: VCard4 module not found!\n");
+            warning("VCard4 module not found");
         }
 
         // 3. Publish PEP Nickname (XEP-0172) for compatibility (e.g. Gajim)
         var pubsub_module = stream.get_module<Xmpp.Xep.Pubsub.Module>(Xmpp.Xep.Pubsub.Module.IDENTITY);
         if (pubsub_module != null && vcard_nickname.text != "") {
-            print("AccountPreferences: Publishing PEP Nickname...\n");
             var nick_node = new StanzaNode.build("nick", "http://jabber.org/protocol/nick");
             nick_node.put_node(new StanzaNode.text(vcard_nickname.text));
             
             bool res = yield pubsub_module.publish(stream, null, "http://jabber.org/protocol/nick", "current", nick_node);
-            if (res) {
-                print("AccountPreferences: PEP Nickname published.\n");
-            } else {
-                print("AccountPreferences: Failed to publish PEP Nickname.\n");
+            if (!res) {
+                warning("Failed to publish PEP Nickname");
             }
         }
 

@@ -16,26 +16,26 @@
       Dino fetches history from the server and synchronizes messages with other devices.
     </description>
 
-    <homepage rdf:resource="https://dino.im/" />
-    <wiki rdf:resource="https://github.com/dino/dino/wiki" />
-    <bug-database rdf:resource="https://github.com/dino/dino/issues" />
+    <homepage rdf:resource="https://dinox.handwerker.jetzt/" />
+    <wiki rdf:resource="https://github.com/rallep71/dinox/wiki" />
+    <bug-database rdf:resource="https://github.com/rallep71/dinox/issues" />
     <category rdf:resource="https://linkmauve.fr/ns/xmpp-doap#category-client" />
     <category rdf:resource="http://api.gnome.org/doap-extensions#apps" />
     <license rdf:resource="http://usefulinc.com/doap/licenses/gplv3" />
 
     <schema:logo rdf:resource="https://dinox.handwerker.jetzt/assets/icon.svg" />
-    <schema:screenshot rdf:resource="https://dino.im/img/screenshot1.png" />
-    <schema:screenshot rdf:resource="https://dino.im/img/screenshot3.png" />
-    <schema:screenshot rdf:resource="https://dino.im/img/screenshot2.png" />
+    <schema:screenshot rdf:resource="https://dinox.handwerker.jetzt/assets/screenshot1.png" />
+    <schema:screenshot rdf:resource="https://dinox.handwerker.jetzt/assets/screenshot2.png" />
 
     <programming-language>Vala</programming-language>
     <os>Linux</os>
+    <os>Windows</os>
     <os>FreeBSD</os>
 
     <repository>
       <GitRepository>
-        <location rdf:resource="https://github.com/dino/dino.git" />
-        <browse rdf:resource="https://github.com/dino/dino/" />
+        <location rdf:resource="https://github.com/rallep71/dinox.git" />
+        <browse rdf:resource="https://github.com/rallep71/dinox/" />
       </GitRepository>
     </repository>
 

@@ -75,6 +75,69 @@
                               </object>
                             </child>
                             <child>
+                              <object class="GtkListBox" id="ejabberd_settings_list">
+                                <property name="selection-mode">none</property>
+                                <style>
+                                  <class name="boxed-list"/>
+                                </style>
+                                <child>
+                                  <object class="AdwExpanderRow" id="ejabberd_expander">
+                                    <property name="title" translatable="yes">Server Settings</property>
+                                    <property name="subtitle" translatable="yes">ejabberd API for dedicated bots</property>
+                                    <property name="show-enable-switch">false</property>
+                                    <child>
+                                      <object class="AdwEntryRow" id="ejabberd_url_entry">
+                                        <property name="title" translatable="yes">API URL</property>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="AdwEntryRow" id="ejabberd_host_entry">
+                                        <property name="title" translatable="yes">XMPP Host</property>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="AdwEntryRow" id="ejabberd_admin_entry">
+                                        <property name="title" translatable="yes">Admin JID</property>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="AdwPasswordEntryRow" id="ejabberd_password_entry">
+                                        <property name="title" translatable="yes">Admin Password</property>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="AdwActionRow" id="ejabberd_actions_row">
+                                        <property name="title" translatable="yes">Connection</property>
+                                        <child type="suffix">
+                                          <object class="GtkBox">
+                                            <property name="spacing">8</property>
+                                            <property name="valign">center</property>
+                                            <child>
+                                              <object class="GtkButton" id="ejabberd_test_button">
+                                                <property name="label" translatable="yes">Test</property>
+                                                <style>
+                                                  <class name="flat"/>
+                                                </style>
+                                              </object>
+                                            </child>
+                                            <child>
+                                              <object class="GtkButton" id="ejabberd_save_button">
+                                                <property name="label" translatable="yes">Save</property>
+                                                <style>
+                                                  <class name="flat"/>
+                                                  <class name="suggested-action"/>
+                                                </style>
+                                              </object>
+                                            </child>
+                                          </object>
+                                        </child>
+                                      </object>
+                                    </child>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                            <child>
                               <object class="GtkBox" id="api_info_box">
                                 <property name="orientation">vertical</property>
                                 <property name="spacing">4</property>

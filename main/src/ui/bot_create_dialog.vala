@@ -23,12 +23,19 @@ public class BotCreateDialog : Adw.Dialog {
     [GtkChild] private unowned Gtk.Label token_label;
     [GtkChild] private unowned Gtk.Button copy_token_button;
     [GtkChild] private unowned Gtk.Label mode_description;
+    [GtkChild] private unowned Gtk.Label jid_label;
+    [GtkChild] private unowned Gtk.Label jid_heading_label;
+    [GtkChild] private unowned Gtk.Image avatar_preview;
+    [GtkChild] private unowned Gtk.Button avatar_button;
+    [GtkChild] private unowned Gtk.Button avatar_remove_button;
 
     public signal void bot_created();
 
     private Soup.Session http;
     private uint16 api_port = 7842;
     private string? created_token = null;
+    private string? avatar_base64 = null;
+    private string? avatar_mime = null;
 
     // Mode values sent to API
     private const string[] MODE_KEYS = { "personal", "dedicated", "cloud" };
@@ -91,6 +98,72 @@ public class BotCreateDialog : Adw.Dialog {
                 });
             }
         });
+
+        avatar_button.clicked.connect(() => {
+            pick_avatar.begin();
+        });
+
+        avatar_remove_button.clicked.connect(() => {
+            avatar_base64 = null;
+            avatar_mime = null;
+            avatar_preview.icon_name = "avatar-default-symbolic";
+            avatar_preview.paintable = null;
+            avatar_remove_button.visible = false;
+        });
+    }
+
+    private async void pick_avatar() {
+        var dialog = new Gtk.FileDialog();
+        dialog.title = "Choose Bot Avatar";
+
+        var filter = new Gtk.FileFilter();
+        filter.name = "Images";
+        filter.add_mime_type("image/png");
+        filter.add_mime_type("image/jpeg");
+        filter.add_mime_type("image/gif");
+        filter.add_mime_type("image/webp");
+        var filters = new GLib.ListStore(typeof(Gtk.FileFilter));
+        filters.append(filter);
+        dialog.filters = filters;
+
+        try {
+            var file = yield dialog.open(this.get_root() as Gtk.Window, null);
+            if (file != null) {
+                load_avatar_file.begin(file);
+            }
+        } catch (Error e) {
+            // User cancelled - that's fine
+        }
+    }
+
+    private async void load_avatar_file(GLib.File file) {
+        try {
+            uint8[] data;
+            yield file.load_contents_async(null, out data, null);
+
+            // Detect mime type
+            string? content_type = GLib.ContentType.guess(file.get_basename(), data, null);
+            if (content_type != null) {
+                avatar_mime = GLib.ContentType.get_mime_type(content_type);
+            } else {
+                avatar_mime = "image/png";
+            }
+
+            // Encode to base64
+            avatar_base64 = GLib.Base64.encode(data);
+
+            // Show preview
+            try {
+                var texture = Gdk.Texture.from_file(file);
+                avatar_preview.paintable = texture;
+                avatar_preview.icon_name = null;
+            } catch (Error e) {
+                warning("Could not load avatar preview: %s", e.message);
+            }
+            avatar_remove_button.visible = true;
+        } catch (Error e) {
+            warning("Could not load avatar file: %s", e.message);
+        }
     }
 
     private async void do_create() {
@@ -121,6 +194,12 @@ public class BotCreateDialog : Adw.Dialog {
                 builder.set_member_name("webhook_url");
                 builder.add_string_value(webhook);
             }
+            if (avatar_base64 != null) {
+                builder.set_member_name("avatar");
+                builder.add_string_value(avatar_base64);
+                builder.set_member_name("avatar_type");
+                builder.add_string_value(avatar_mime ?? "image/png");
+            }
             builder.end_object();
 
             var gen = new Json.Generator();
@@ -150,6 +229,16 @@ public class BotCreateDialog : Adw.Dialog {
                     token_label.label = created_token;
                 } else {
                     token_label.label = "(token not returned)";
+                }
+
+                // Show JID for dedicated bots
+                if (result_obj.has_member("jid")) {
+                    string bot_jid = result_obj.get_string_member("jid");
+                    if (bot_jid != null && bot_jid != "") {
+                        jid_label.label = bot_jid;
+                        jid_label.visible = true;
+                        jid_heading_label.visible = true;
+                    }
                 }
 
                 cancel_button.label = "Done";
