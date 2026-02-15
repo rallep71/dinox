@@ -65,6 +65,7 @@ public class Plugin : RootInterface, Object {
         var ejabberd_api = new EjabberdApi(registry);
         botfather = new BotfatherHandler(app, registry, token_manager, ejabberd_api);
         message_router.set_botfather(botfather);
+        message_router.set_ejabberd_api(ejabberd_api);
 
         // Start HTTP API on configured port and mode
         var app_settings = app.settings;

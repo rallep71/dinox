@@ -111,6 +111,18 @@ public class EjabberdApi : Object {
         return sb.str;
     }
 
+    // Delete MAM (Message Archive) messages on the server
+    // WARNING: This is a GLOBAL operation - deletes ALL users' MAM archives!
+    // ejabberd has no per-user MAM delete via REST API.
+    public async ApiResult delete_mam_messages() {
+        if (!is_configured()) {
+            return ApiResult() { success = false, error_message = "ejabberd API not configured" };
+        }
+        // delete_old_mam_messages with type=all and days=0 deletes ALL archived messages
+        string body = "{\"type\":\"all\",\"days\":0}";
+        return yield api_call("delete_old_mam_messages", body);
+    }
+
     // Generate a bot username from the bot name
     public static string generate_bot_username(string bot_name) {
         // Convert to lowercase, replace spaces/special chars with underscore
