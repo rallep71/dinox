@@ -230,36 +230,7 @@ msgstr "Detaily Kontaktu"
 msgid "Delete Conversation History"
 msgstr "Smazat historii konverzace"
 
-#: main/data/message_item_widget_edit_mode.ui:46
-#: main/data/preferences_window/change_password_dialog.ui:18
-#: main/src/ui/add_conversation/add_conference_dialog.vala:44
-#: main/src/ui/add_conversation/select_contact_dialog.vala:43
-#: main/src/ui/application.vala:754 main/src/ui/application.vala:992
-#: main/src/ui/application.vala:1020 main/src/ui/application.vala:1316
-#: main/src/ui/application.vala:1394 main/src/ui/application.vala:1452
-#: main/src/ui/application.vala:1484 main/src/ui/application.vala:1640
-#: main/src/ui/application.vala:1918
-#: main/src/ui/conversation_content_view/file_default_widget.vala:90
-#: main/src/ui/conversation_content_view/item_actions.vala:165
-#: main/src/ui/conversation_content_view/item_actions.vala:168
-#: main/src/ui/conversation_details.vala:283
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:641
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:668
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:687
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:712
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:731
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:752
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:797
-#: main/src/ui/conversation_titlebar/call_entry.vala:83
-#: main/src/ui/conversation_titlebar/menu_entry.vala:51
-#: main/src/windows/conversation_details.vala:60
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:90
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:199
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:219
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:243
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:263
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:285
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:326
+#: main/src/ui/application.vala:828
 msgid "Cancel"
 msgstr "Zrušit"
 
@@ -276,9 +247,7 @@ msgstr "XMPP adresa"
 msgid "Local alias"
 msgstr "Místní alias"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:82
-#: main/src/ui/application.vala:986 main/src/ui/application.vala:1615
-#: main/src/ui/util/data_forms.vala:63
+#: main/src/ui/application.vala:266 main/src/ui/application.vala:361
 msgid "Password"
 msgstr "Heslo"
 
@@ -561,8 +530,7 @@ msgstr "Zobrazit kde jsou uložena vaše data"
 msgid "Database Maintenance"
 msgstr "Údržba databáze"
 
-# DinoX v0.7.7 - Database Maintenance & Backup/Restore
-#: main/data/preferences_window/general_preferences_page.ui:130
+#: main/src/ui/application.vala:824
 msgid "Change Database Password"
 msgstr "Změnit heslo databáze"
 
@@ -707,37 +675,33 @@ msgstr "Smazat kontakt"
 msgid "Leave Group"
 msgstr "Opustit skupinu"
 
-#: main/src/ui/application.vala:161
-msgid "Beenden"
+#: main/src/ui/systray.vala:178
+msgid "Quit"
 msgstr "Ukončit"
 
-#: main/src/ui/application.vala:266 main/src/ui/application.vala:361
-msgid "Passwort"
-msgstr "Heslo"
-
 #: main/src/ui/application.vala:271
-msgid "DinoX entsperren"
-msgstr "Odemknout DinoX"
+msgid "Unlock DinoX"
+msgstr ""
 
 #: main/src/ui/application.vala:272
-msgid "Bitte Passwort eingeben, um die verschlüsselte Datenbank zu öffnen."
-msgstr "Zadejte heslo pro otevření šifrované databáze."
+msgid "Please enter your password to open the encrypted database."
+msgstr ""
 
 #: main/src/ui/application.vala:274
 #, c-format
-msgid "Falsches Passwort. Versuch %d/%d"
-msgstr "Nesprávné heslo. Pokus %d/%d"
+msgid "Wrong password. Attempt %d/%d"
+msgstr ""
 
 #: main/src/ui/application.vala:346
-msgid "Entsperren"
-msgstr "Odemknout"
+msgid "Unlock"
+msgstr ""
 
-#: main/src/ui/application.vala:363
-msgid "Passwort bestätigen"
+#: main/src/ui/application.vala:1617 main/src/ui/application.vala:1624
+msgid "Confirm Password"
 msgstr "Potvrdit heslo"
 
-#: main/src/ui/application.vala:370
-msgid "Passwort festlegen"
+#: main/src/ui/application.vala:448
+msgid "Set Password"
 msgstr "Nastavit heslo"
 
 #: main/src/ui/application.vala:371
@@ -750,12 +714,8 @@ msgstr ""
 
 #: main/src/ui/application.vala:373
 #, c-format
-msgid "Ungültiges Passwort. Versuch %d/%d"
-msgstr "Neplatné heslo. Pokus %d/%d"
-
-#: main/src/ui/application.vala:448
-msgid "Passwort setzen"
-msgstr "Nastavit heslo"
+msgid "Invalid password. Attempt %d/%d"
+msgstr ""
 
 #: main/src/ui/application.vala:746
 msgid "Set Status Message"
@@ -766,20 +726,16 @@ msgid "Set"
 msgstr "Nastavit"
 
 #: main/src/ui/application.vala:809
-msgid "Aktuelles Passwort"
-msgstr "Aktuální heslo"
+msgid "Current Password"
+msgstr ""
 
 #: main/src/ui/application.vala:811
-msgid "Neues Passwort"
-msgstr "Nové heslo"
+msgid "New Password"
+msgstr ""
 
 #: main/src/ui/application.vala:813
-msgid "Neues Passwort bestätigen"
-msgstr "Potvrdit nové heslo"
-
-#: main/src/ui/application.vala:824
-msgid "Datenbank-Passwort ändern"
-msgstr "Změnit heslo databáze"
+msgid "Confirm New Password"
+msgstr ""
 
 #: main/src/ui/application.vala:825
 msgid ""
@@ -787,13 +743,9 @@ msgid ""
 "verschlüsseln."
 msgstr "Toto heslo se používá k šifrování vašich místních dat DinoX."
 
-#: main/src/ui/application.vala:828
-msgid "Abbrechen"
-msgstr "Zrušit"
-
 #: main/src/ui/application.vala:829
-msgid "Ändern"
-msgstr "Změnit"
+msgid "Change"
+msgstr ""
 
 #: main/src/ui/application.vala:896
 msgid "Modern XMPP client with extended features"
@@ -1088,10 +1040,6 @@ msgstr ""
 #: main/src/ui/application.vala:1609
 msgid "Password (minimum 4 characters)"
 msgstr "Heslo (minimálně 4 znaky)"
-
-#: main/src/ui/application.vala:1617 main/src/ui/application.vala:1624
-msgid "Confirm Password"
-msgstr "Potvrdit heslo"
 
 #: main/src/ui/application.vala:1641
 msgid "Create Encrypted Backup"
@@ -2205,10 +2153,6 @@ msgstr "Vyhozen moderátorem"
 msgid "Invite to Conference"
 msgstr "Pozvat do konference"
 
-#: main/src/ui/systray.vala:178
-msgid "Quit"
-msgstr "Ukončit"
-
 #: main/src/ui/sticker_pack_import_dialog.vala:35
 msgid "Import"
 msgstr "Importovat"
@@ -2501,9 +2445,6 @@ msgid ""
 "This will remove %s from your contact list and delete all conversation "
 "history."
 msgstr ""
-"Toto odstraní uživatele %s z vašeho seznamu kontaktů a smaže veškerou "
-"historii konverzací.%s bude odebrán z vašeho seznamu kontaktů a celá "
-"historie konverzací bude smazána."
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:312
 msgid "Edit Contact Alias"
@@ -2517,6 +2458,12 @@ msgstr "Změnit zobrazované jméno pro %s"
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:319
 msgid "Alias (optional)"
 msgstr "Přezdívka (volitelné)"
+
+msgid "Error: %s"
+msgstr ""
+
+msgid "Wrong current password"
+msgstr ""
 
 #~ msgid "Import…"
 #~ msgstr "Importovat…"

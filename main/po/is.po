@@ -230,36 +230,7 @@ msgstr "Tengiliðaupplýsingar"
 msgid "Delete Conversation History"
 msgstr "Eyða samtalsferli"
 
-#: main/data/message_item_widget_edit_mode.ui:46
-#: main/data/preferences_window/change_password_dialog.ui:18
-#: main/src/ui/add_conversation/add_conference_dialog.vala:44
-#: main/src/ui/add_conversation/select_contact_dialog.vala:43
-#: main/src/ui/application.vala:754 main/src/ui/application.vala:992
-#: main/src/ui/application.vala:1020 main/src/ui/application.vala:1316
-#: main/src/ui/application.vala:1394 main/src/ui/application.vala:1452
-#: main/src/ui/application.vala:1484 main/src/ui/application.vala:1640
-#: main/src/ui/application.vala:1918
-#: main/src/ui/conversation_content_view/file_default_widget.vala:90
-#: main/src/ui/conversation_content_view/item_actions.vala:165
-#: main/src/ui/conversation_content_view/item_actions.vala:168
-#: main/src/ui/conversation_details.vala:283
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:641
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:668
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:687
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:712
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:731
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:752
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:797
-#: main/src/ui/conversation_titlebar/call_entry.vala:83
-#: main/src/ui/conversation_titlebar/menu_entry.vala:51
-#: main/src/windows/conversation_details.vala:60
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:90
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:199
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:219
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:243
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:263
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:285
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:326
+#: main/src/ui/application.vala:828
 msgid "Cancel"
 msgstr "Hætta við"
 
@@ -276,9 +247,7 @@ msgstr "XMPP vistfang"
 msgid "Local alias"
 msgstr "Staðbundið samnefni"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:82
-#: main/src/ui/application.vala:986 main/src/ui/application.vala:1615
-#: main/src/ui/util/data_forms.vala:63
+#: main/src/ui/application.vala:266 main/src/ui/application.vala:361
 msgid "Password"
 msgstr "Lykilorð"
 
@@ -561,8 +530,7 @@ msgstr "Skoða hvar gögnin þín eru geymd"
 msgid "Database Maintenance"
 msgstr "Gagnagrunnsviðhald"
 
-# DinoX v0.7.7 - Database Maintenance & Backup/Restore
-#: main/data/preferences_window/general_preferences_page.ui:130
+#: main/src/ui/application.vala:824
 msgid "Change Database Password"
 msgstr "Breyta lykilorði gagnagrunns"
 
@@ -709,37 +677,33 @@ msgstr "Eyða tengilið"
 msgid "Leave Group"
 msgstr "Yfirgefa hóp"
 
-#: main/src/ui/application.vala:161
-msgid "Beenden"
+#: main/src/ui/systray.vala:178
+msgid "Quit"
 msgstr "Hætta"
 
-#: main/src/ui/application.vala:266 main/src/ui/application.vala:361
-msgid "Passwort"
-msgstr "Lykilorð"
-
 #: main/src/ui/application.vala:271
-msgid "DinoX entsperren"
-msgstr "Aflæsa DinoX"
+msgid "Unlock DinoX"
+msgstr ""
 
 #: main/src/ui/application.vala:272
-msgid "Bitte Passwort eingeben, um die verschlüsselte Datenbank zu öffnen."
-msgstr "Vinsamlegast sláðu inn lykilorð til að opna dulkóðaða gagnagrunninn."
+msgid "Please enter your password to open the encrypted database."
+msgstr ""
 
 #: main/src/ui/application.vala:274
 #, c-format
-msgid "Falsches Passwort. Versuch %d/%d"
-msgstr "Rangt lykilorð. Tilraun %d/%d"
+msgid "Wrong password. Attempt %d/%d"
+msgstr ""
 
 #: main/src/ui/application.vala:346
-msgid "Entsperren"
-msgstr "Aflæsa"
+msgid "Unlock"
+msgstr ""
 
-#: main/src/ui/application.vala:363
-msgid "Passwort bestätigen"
+#: main/src/ui/application.vala:1617 main/src/ui/application.vala:1624
+msgid "Confirm Password"
 msgstr "Staðfesta lykilorð"
 
-#: main/src/ui/application.vala:370
-msgid "Passwort festlegen"
+#: main/src/ui/application.vala:448
+msgid "Set Password"
 msgstr "Setja lykilorð"
 
 #: main/src/ui/application.vala:371
@@ -752,12 +716,8 @@ msgstr ""
 
 #: main/src/ui/application.vala:373
 #, c-format
-msgid "Ungültiges Passwort. Versuch %d/%d"
-msgstr "Ógilt lykilorð. Tilraun %d/%d"
-
-#: main/src/ui/application.vala:448
-msgid "Passwort setzen"
-msgstr "Setja lykilorð"
+msgid "Invalid password. Attempt %d/%d"
+msgstr ""
 
 #: main/src/ui/application.vala:746
 msgid "Set Status Message"
@@ -768,20 +728,16 @@ msgid "Set"
 msgstr "Setja"
 
 #: main/src/ui/application.vala:809
-msgid "Aktuelles Passwort"
-msgstr "Núverandi lykilorð"
+msgid "Current Password"
+msgstr ""
 
 #: main/src/ui/application.vala:811
-msgid "Neues Passwort"
-msgstr "Nýtt lykilorð"
+msgid "New Password"
+msgstr ""
 
 #: main/src/ui/application.vala:813
-msgid "Neues Passwort bestätigen"
-msgstr "Staðfesta nýtt lykilorð"
-
-#: main/src/ui/application.vala:824
-msgid "Datenbank-Passwort ändern"
-msgstr "Breyta lykilorði gagnagrunns"
+msgid "Confirm New Password"
+msgstr ""
 
 #: main/src/ui/application.vala:825
 msgid ""
@@ -789,13 +745,9 @@ msgid ""
 "verschlüsseln."
 msgstr "Þetta lykilorð er notað til að dulkóða staðbundin DinoX gögn þín."
 
-#: main/src/ui/application.vala:828
-msgid "Abbrechen"
-msgstr "Hætta við"
-
 #: main/src/ui/application.vala:829
-msgid "Ändern"
-msgstr "Breyta"
+msgid "Change"
+msgstr ""
 
 #: main/src/ui/application.vala:896
 msgid "Modern XMPP client with extended features"
@@ -1093,10 +1045,6 @@ msgstr ""
 #: main/src/ui/application.vala:1609
 msgid "Password (minimum 4 characters)"
 msgstr "Lykilorð (að lágmarki 4 stafir)"
-
-#: main/src/ui/application.vala:1617 main/src/ui/application.vala:1624
-msgid "Confirm Password"
-msgstr "Staðfesta lykilorð"
 
 #: main/src/ui/application.vala:1641
 msgid "Create Encrypted Backup"
@@ -2210,10 +2158,6 @@ msgstr "Sparkad út af stjórnanda"
 msgid "Invite to Conference"
 msgstr "Bjóða í ráðstefnu"
 
-#: main/src/ui/systray.vala:178
-msgid "Quit"
-msgstr "Hætta"
-
 #: main/src/ui/sticker_pack_import_dialog.vala:35
 msgid "Import"
 msgstr "Flytja inn"
@@ -2520,6 +2464,12 @@ msgstr "Breyta birtingarnafni fyrir %s"
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:319
 msgid "Alias (optional)"
 msgstr "Samnefni (valfrjálst)"
+
+msgid "Error: %s"
+msgstr ""
+
+msgid "Wrong current password"
+msgstr ""
 
 #~ msgid "Import…"
 #~ msgstr "Flytja inn…"

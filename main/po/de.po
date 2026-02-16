@@ -709,36 +709,32 @@ msgid "Leave Group"
 msgstr "Gruppe verlassen"
 
 #: main/src/ui/application.vala:161
-msgid "Beenden"
+msgid "Quit"
 msgstr "Beenden"
 
-#: main/src/ui/application.vala:266 main/src/ui/application.vala:361
-msgid "Passwort"
-msgstr "Passwort"
-
 #: main/src/ui/application.vala:271
-msgid "DinoX entsperren"
+msgid "Unlock DinoX"
 msgstr "DinoX entsperren"
 
 #: main/src/ui/application.vala:272
-msgid "Bitte Passwort eingeben, um die verschlüsselte Datenbank zu öffnen."
+msgid "Please enter your password to open the encrypted database."
 msgstr "Bitte Passwort eingeben, um die verschlüsselte Datenbank zu öffnen."
 
 #: main/src/ui/application.vala:274
 #, c-format
-msgid "Falsches Passwort. Versuch %d/%d"
+msgid "Wrong password. Attempt %d/%d"
 msgstr "Falsches Passwort. Versuch %d/%d"
 
 #: main/src/ui/application.vala:346
-msgid "Entsperren"
+msgid "Unlock"
 msgstr "Entsperren"
 
 #: main/src/ui/application.vala:363
-msgid "Passwort bestätigen"
+msgid "Confirm Password"
 msgstr "Passwort bestätigen"
 
 #: main/src/ui/application.vala:370
-msgid "Passwort festlegen"
+msgid "Set Password"
 msgstr "Passwort festlegen"
 
 #: main/src/ui/application.vala:371
@@ -751,12 +747,8 @@ msgstr ""
 
 #: main/src/ui/application.vala:373
 #, c-format
-msgid "Ungültiges Passwort. Versuch %d/%d"
+msgid "Invalid password. Attempt %d/%d"
 msgstr "Ungültiges Passwort. Versuch %d/%d"
-
-#: main/src/ui/application.vala:448
-msgid "Passwort setzen"
-msgstr "Passwort setzen"
 
 #: main/src/ui/application.vala:746
 msgid "Set Status Message"
@@ -767,20 +759,16 @@ msgid "Set"
 msgstr "Setzen"
 
 #: main/src/ui/application.vala:809
-msgid "Aktuelles Passwort"
+msgid "Current Password"
 msgstr "Aktuelles Passwort"
 
 #: main/src/ui/application.vala:811
-msgid "Neues Passwort"
+msgid "New Password"
 msgstr "Neues Passwort"
 
 #: main/src/ui/application.vala:813
-msgid "Neues Passwort bestätigen"
+msgid "Confirm New Password"
 msgstr "Neues Passwort bestätigen"
-
-#: main/src/ui/application.vala:824
-msgid "Datenbank-Passwort ändern"
-msgstr "Datenbank-Passwort ändern"
 
 #: main/src/ui/application.vala:825
 msgid ""
@@ -790,12 +778,8 @@ msgstr ""
 "Dieses Passwort wird verwendet, um deine lokalen DinoX-Daten zu "
 "verschlüsseln."
 
-#: main/src/ui/application.vala:828
-msgid "Abbrechen"
-msgstr "Abbrechen"
-
 #: main/src/ui/application.vala:829
-msgid "Ändern"
+msgid "Change"
 msgstr "Ändern"
 
 #: main/src/ui/application.vala:896
@@ -1099,10 +1083,6 @@ msgstr ""
 #: main/src/ui/application.vala:1609
 msgid "Password (minimum 4 characters)"
 msgstr "Passwort (mindestens 4 Zeichen)"
-
-#: main/src/ui/application.vala:1617 main/src/ui/application.vala:1624
-msgid "Confirm Password"
-msgstr "Passwort bestätigen"
 
 #: main/src/ui/application.vala:1641
 msgid "Create Encrypted Backup"
@@ -2230,10 +2210,6 @@ msgstr "Vom Moderator gekickt"
 msgid "Invite to Conference"
 msgstr "In Konferenz einladen"
 
-#: main/src/ui/systray.vala:178
-msgid "Quit"
-msgstr "Beenden"
-
 #: main/src/ui/sticker_pack_import_dialog.vala:35
 msgid "Import"
 msgstr "Importieren"
@@ -2540,10 +2516,7 @@ msgid ""
 "history."
 msgstr ""
 "Dies wird %s aus deiner Kontaktliste entfernen und den gesamten "
-"Gesprächsverlauf löschen.Dies wird %s aus deiner Kontaktliste entfernen und "
-"den gesamten Gesprächsverlauf löschen.%s wird aus deiner Kontaktliste "
-"entfernt und der gesamte Gesprächsverlauf wird gelöscht.Dies entfernt %s aus "
-"Ihrer Kontaktliste und löscht den gesamten Gesprächsverlauf."
+"Gesprächsverlauf löschen."
 
 #
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:312
@@ -2558,6 +2531,30 @@ msgstr "Anzeigename für %s ändern"
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:319
 msgid "Alias (optional)"
 msgstr "Alias (optional)"
+
+msgid "Allow invites"
+msgstr "Einladungen erlauben"
+
+msgid "Allow occupants to invite others"
+msgstr "Erlaube Teilnehmern andere einzuladen"
+
+msgid "Logging"
+msgstr "Verlauf"
+
+msgid "Log conversation history"
+msgstr "Unterhaltungsverlauf protokollieren"
+
+msgid "Language"
+msgstr "Sprache"
+
+msgid "Password protected"
+msgstr "Passwortgeschützt"
+
+msgid "Error: %s"
+msgstr "Fehler: %s"
+
+msgid "Wrong current password"
+msgstr "Falsches aktuelles Passwort"
 
 #~ msgid "Import…"
 #~ msgstr "Importieren…"
@@ -2866,9 +2863,6 @@ msgstr "Alias (optional)"
 #~ msgid "Finish"
 #~ msgstr "Fertig"
 
-#~ msgid "Change"
-#~ msgstr "Ändern"
-
 #~ msgid "Account"
 #~ msgstr "Konto"
 
@@ -3063,21 +3057,3 @@ msgstr "Alias (optional)"
 
 #~ msgid "Optional: Custom server connection"
 #~ msgstr "Optional: Benutzerdefinierte Serververbindung"
-
-msgid "Allow invites"
-msgstr "Einladungen erlauben"
-
-msgid "Allow occupants to invite others"
-msgstr "Erlaube Teilnehmern andere einzuladen"
-
-msgid "Logging"
-msgstr "Verlauf"
-
-msgid "Log conversation history"
-msgstr "Unterhaltungsverlauf protokollieren"
-
-msgid "Language"
-msgstr "Sprache"
-
-msgid "Password protected"
-msgstr "Passwortgeschützt"

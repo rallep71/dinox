@@ -702,36 +702,32 @@ msgid "Leave Group"
 msgstr ""
 
 #: main/src/ui/application.vala:161
-msgid "Beenden"
-msgstr ""
-
-#: main/src/ui/application.vala:266 main/src/ui/application.vala:361
-msgid "Passwort"
+msgid "Quit"
 msgstr ""
 
 #: main/src/ui/application.vala:271
-msgid "DinoX entsperren"
+msgid "Unlock DinoX"
 msgstr ""
 
 #: main/src/ui/application.vala:272
-msgid "Bitte Passwort eingeben, um die verschlüsselte Datenbank zu öffnen."
+msgid "Please enter your password to open the encrypted database."
 msgstr ""
 
 #: main/src/ui/application.vala:274
 #, c-format
-msgid "Falsches Passwort. Versuch %d/%d"
+msgid "Wrong password. Attempt %d/%d"
 msgstr ""
 
 #: main/src/ui/application.vala:346
-msgid "Entsperren"
+msgid "Unlock"
 msgstr ""
 
 #: main/src/ui/application.vala:363
-msgid "Passwort bestätigen"
+msgid "Confirm Password"
 msgstr ""
 
 #: main/src/ui/application.vala:370
-msgid "Passwort festlegen"
+msgid "Set Password"
 msgstr ""
 
 #: main/src/ui/application.vala:371
@@ -742,11 +738,7 @@ msgstr ""
 
 #: main/src/ui/application.vala:373
 #, c-format
-msgid "Ungültiges Passwort. Versuch %d/%d"
-msgstr ""
-
-#: main/src/ui/application.vala:448
-msgid "Passwort setzen"
+msgid "Invalid password. Attempt %d/%d"
 msgstr ""
 
 #: main/src/ui/application.vala:746
@@ -758,19 +750,15 @@ msgid "Set"
 msgstr ""
 
 #: main/src/ui/application.vala:809
-msgid "Aktuelles Passwort"
+msgid "Current Password"
 msgstr ""
 
 #: main/src/ui/application.vala:811
-msgid "Neues Passwort"
+msgid "New Password"
 msgstr ""
 
 #: main/src/ui/application.vala:813
-msgid "Neues Passwort bestätigen"
-msgstr ""
-
-#: main/src/ui/application.vala:824
-msgid "Datenbank-Passwort ändern"
+msgid "Confirm New Password"
 msgstr ""
 
 #: main/src/ui/application.vala:825
@@ -779,12 +767,8 @@ msgid ""
 "verschlüsseln."
 msgstr ""
 
-#: main/src/ui/application.vala:828
-msgid "Abbrechen"
-msgstr ""
-
 #: main/src/ui/application.vala:829
-msgid "Ändern"
+msgid "Change"
 msgstr ""
 
 #: main/src/ui/application.vala:896
@@ -1036,10 +1020,6 @@ msgstr ""
 
 #: main/src/ui/application.vala:1609
 msgid "Password (minimum 4 characters)"
-msgstr ""
-
-#: main/src/ui/application.vala:1617 main/src/ui/application.vala:1624
-msgid "Confirm Password"
 msgstr ""
 
 #: main/src/ui/application.vala:1641
@@ -2129,10 +2109,6 @@ msgstr ""
 msgid "Invite to Conference"
 msgstr ""
 
-#: main/src/ui/systray.vala:178
-msgid "Quit"
-msgstr ""
-
 #: main/src/ui/sticker_pack_import_dialog.vala:35
 msgid "Import"
 msgstr ""
@@ -2428,4 +2404,10 @@ msgstr ""
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:319
 msgid "Alias (optional)"
+msgstr ""
+
+msgid "Error: %s"
+msgstr ""
+
+msgid "Wrong current password"
 msgstr ""

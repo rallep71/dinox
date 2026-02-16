@@ -231,36 +231,7 @@ msgstr "Контактні данні"
 msgid "Delete Conversation History"
 msgstr "Видалити історію розмов"
 
-#: main/data/message_item_widget_edit_mode.ui:46
-#: main/data/preferences_window/change_password_dialog.ui:18
-#: main/src/ui/add_conversation/add_conference_dialog.vala:44
-#: main/src/ui/add_conversation/select_contact_dialog.vala:43
-#: main/src/ui/application.vala:754 main/src/ui/application.vala:992
-#: main/src/ui/application.vala:1020 main/src/ui/application.vala:1316
-#: main/src/ui/application.vala:1394 main/src/ui/application.vala:1452
-#: main/src/ui/application.vala:1484 main/src/ui/application.vala:1640
-#: main/src/ui/application.vala:1918
-#: main/src/ui/conversation_content_view/file_default_widget.vala:90
-#: main/src/ui/conversation_content_view/item_actions.vala:165
-#: main/src/ui/conversation_content_view/item_actions.vala:168
-#: main/src/ui/conversation_details.vala:283
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:641
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:668
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:687
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:712
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:731
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:752
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:797
-#: main/src/ui/conversation_titlebar/call_entry.vala:83
-#: main/src/ui/conversation_titlebar/menu_entry.vala:51
-#: main/src/windows/conversation_details.vala:60
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:90
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:199
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:219
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:243
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:263
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:285
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:326
+#: main/src/ui/application.vala:828
 msgid "Cancel"
 msgstr "Скасувати"
 
@@ -277,9 +248,7 @@ msgstr "XMPP Адреса"
 msgid "Local alias"
 msgstr "Місцевий псевдонім"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:82
-#: main/src/ui/application.vala:986 main/src/ui/application.vala:1615
-#: main/src/ui/util/data_forms.vala:63
+#: main/src/ui/application.vala:266 main/src/ui/application.vala:361
 msgid "Password"
 msgstr "Пароль"
 
@@ -564,7 +533,7 @@ msgstr "Показати де зберігаються ваші дані"
 msgid "Database Maintenance"
 msgstr "Обслуговування бази даних"
 
-#: main/data/preferences_window/general_preferences_page.ui:130
+#: main/src/ui/application.vala:824
 msgid "Change Database Password"
 msgstr "Змінити пароль бази даних"
 
@@ -711,37 +680,33 @@ msgstr "Видалити контакт"
 msgid "Leave Group"
 msgstr "Покинути групу"
 
-#: main/src/ui/application.vala:161
-msgid "Beenden"
+#: main/src/ui/systray.vala:178
+msgid "Quit"
 msgstr "Вийти"
 
-#: main/src/ui/application.vala:266 main/src/ui/application.vala:361
-msgid "Passwort"
-msgstr "Пароль"
-
 #: main/src/ui/application.vala:271
-msgid "DinoX entsperren"
-msgstr "Розблокувати DinoX"
+msgid "Unlock DinoX"
+msgstr ""
 
 #: main/src/ui/application.vala:272
-msgid "Bitte Passwort eingeben, um die verschlüsselte Datenbank zu öffnen."
-msgstr "Будь ласка, введіть пароль, щоб відкрити зашифровану базу даних."
+msgid "Please enter your password to open the encrypted database."
+msgstr ""
 
 #: main/src/ui/application.vala:274
 #, c-format
-msgid "Falsches Passwort. Versuch %d/%d"
-msgstr "Невірний пароль. Спроба %d/%d"
+msgid "Wrong password. Attempt %d/%d"
+msgstr ""
 
 #: main/src/ui/application.vala:346
-msgid "Entsperren"
-msgstr "Розблокувати"
+msgid "Unlock"
+msgstr ""
 
-#: main/src/ui/application.vala:363
-msgid "Passwort bestätigen"
+#: main/src/ui/application.vala:1617 main/src/ui/application.vala:1624
+msgid "Confirm Password"
 msgstr "Підтвердити пароль"
 
-#: main/src/ui/application.vala:370
-msgid "Passwort festlegen"
+#: main/src/ui/application.vala:448
+msgid "Set Password"
 msgstr "Встановити пароль"
 
 #: main/src/ui/application.vala:371
@@ -754,12 +719,8 @@ msgstr ""
 
 #: main/src/ui/application.vala:373
 #, c-format
-msgid "Ungültiges Passwort. Versuch %d/%d"
-msgstr "Недійсний пароль. Спроба %d/%d"
-
-#: main/src/ui/application.vala:448
-msgid "Passwort setzen"
-msgstr "Встановити пароль"
+msgid "Invalid password. Attempt %d/%d"
+msgstr ""
 
 #: main/src/ui/application.vala:746
 msgid "Set Status Message"
@@ -770,20 +731,16 @@ msgid "Set"
 msgstr "Встановити"
 
 #: main/src/ui/application.vala:809
-msgid "Aktuelles Passwort"
-msgstr "Поточний пароль"
+msgid "Current Password"
+msgstr ""
 
 #: main/src/ui/application.vala:811
-msgid "Neues Passwort"
-msgstr "Новий пароль"
+msgid "New Password"
+msgstr ""
 
 #: main/src/ui/application.vala:813
-msgid "Neues Passwort bestätigen"
-msgstr "Підтвердити новий пароль"
-
-#: main/src/ui/application.vala:824
-msgid "Datenbank-Passwort ändern"
-msgstr "Змінити пароль бази даних"
+msgid "Confirm New Password"
+msgstr ""
 
 #: main/src/ui/application.vala:825
 msgid ""
@@ -791,14 +748,6 @@ msgid ""
 "verschlüsseln."
 msgstr ""
 "Цей пароль використовується для шифрування ваших локальних даних DinoX."
-
-#: main/src/ui/application.vala:828
-msgid "Abbrechen"
-msgstr "Скасувати"
-
-#: main/src/ui/application.vala:829
-msgid "Ändern"
-msgstr "Змінити"
 
 #: main/src/ui/application.vala:896
 msgid "Modern XMPP client with extended features"
@@ -1099,10 +1048,6 @@ msgstr ""
 #: main/src/ui/application.vala:1609
 msgid "Password (minimum 4 characters)"
 msgstr "Пароль (мінімум 4 символи)"
-
-#: main/src/ui/application.vala:1617 main/src/ui/application.vala:1624
-msgid "Confirm Password"
-msgstr "Підтвердити пароль"
 
 #: main/src/ui/application.vala:1641
 msgid "Create Encrypted Backup"
@@ -2216,10 +2161,6 @@ msgstr "Вигнано модератором"
 msgid "Invite to Conference"
 msgstr "Запросити до конференції"
 
-#: main/src/ui/systray.vala:178
-msgid "Quit"
-msgstr "Вийти"
-
 #: main/src/ui/sticker_pack_import_dialog.vala:35
 msgid "Import"
 msgstr "Імпорт"
@@ -2511,8 +2452,6 @@ msgid ""
 "This will remove %s from your contact list and delete all conversation "
 "history."
 msgstr ""
-"Це видалить %s з вашого списку контактів і видалить всю історію розмов.%s "
-"буде видалено з вашого списку контактів, і вся історія розмов буде видалена."
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:312
 msgid "Edit Contact Alias"
@@ -2526,6 +2465,15 @@ msgstr "Змінити відображуване ім'я для %s"
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:319
 msgid "Alias (optional)"
 msgstr "Псевдонім (необов'язково)"
+
+msgid "Error: %s"
+msgstr ""
+
+msgid "Wrong current password"
+msgstr ""
+
+#~ msgid "Change"
+#~ msgstr "Зміна"
 
 #~ msgid "Import…"
 #~ msgstr "Імпортувати…"
@@ -2784,9 +2732,6 @@ msgstr "Псевдонім (необов'язково)"
 
 #~ msgid "Finish"
 #~ msgstr "Закінчити"
-
-#~ msgid "Change"
-#~ msgstr "Зміна"
 
 #~ msgid "Account"
 #~ msgstr "Обліковий запис"

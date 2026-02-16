@@ -1,3 +1,14 @@
+dino (1.1.0.2) unstable; urgency=medium
+
+  * Security: Removed ejabberd.yaml with credentials from git history
+  * i18n: Converted password dialog strings from German to English msgids
+  * i18n: Wrapped hardcoded strings in change_password_dialog.vala
+  * i18n: Updated all 47 .po files, fixed format-spec errors
+  * Website: Fixed XMPP contact URI (?join -> ?message)
+  * Website: Clarified AI description in footer (REST API, not built-in)
+
+ -- Dino Developers <chat@dino.im>  Mon, 16 Feb 2026 18:00:00 +0000
+
 dino (1.1.0.1) unstable; urgency=medium
 
   * Telegram Bridge: Inline media display for photos, videos, audio,

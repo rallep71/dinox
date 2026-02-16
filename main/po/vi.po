@@ -230,38 +230,9 @@ msgstr "Thông tin liên hệ"
 msgid "Delete Conversation History"
 msgstr "Xóa lịch sử trò chuyện"
 
-#: main/data/message_item_widget_edit_mode.ui:46
-#: main/data/preferences_window/change_password_dialog.ui:18
-#: main/src/ui/add_conversation/add_conference_dialog.vala:44
-#: main/src/ui/add_conversation/select_contact_dialog.vala:43
-#: main/src/ui/application.vala:754 main/src/ui/application.vala:992
-#: main/src/ui/application.vala:1020 main/src/ui/application.vala:1316
-#: main/src/ui/application.vala:1394 main/src/ui/application.vala:1452
-#: main/src/ui/application.vala:1484 main/src/ui/application.vala:1640
-#: main/src/ui/application.vala:1918
-#: main/src/ui/conversation_content_view/file_default_widget.vala:90
-#: main/src/ui/conversation_content_view/item_actions.vala:165
-#: main/src/ui/conversation_content_view/item_actions.vala:168
-#: main/src/ui/conversation_details.vala:283
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:641
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:668
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:687
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:712
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:731
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:752
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:797
-#: main/src/ui/conversation_titlebar/call_entry.vala:83
-#: main/src/ui/conversation_titlebar/menu_entry.vala:51
-#: main/src/windows/conversation_details.vala:60
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:90
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:199
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:219
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:243
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:263
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:285
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:326
+#: main/src/ui/application.vala:828
 msgid "Cancel"
-msgstr "Huỷ"
+msgstr "Hủy"
 
 #: main/data/message_item_widget_edit_mode.ui:51
 msgid "Update message"
@@ -276,11 +247,9 @@ msgstr "Địa chỉ XMPP"
 msgid "Local alias"
 msgstr "Bí danh cục bộ"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:82
-#: main/src/ui/application.vala:986 main/src/ui/application.vala:1615
-#: main/src/ui/util/data_forms.vala:63
+#: main/src/ui/application.vala:266 main/src/ui/application.vala:361
 msgid "Password"
-msgstr "Mật khẩu phòng"
+msgstr "Mật khẩu"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:104
 msgid "Connection status"
@@ -559,9 +528,9 @@ msgstr "Xem nơi lưu trữ dữ liệu"
 msgid "Database Maintenance"
 msgstr "Bảo trì cơ sở dữ liệu"
 
-#: main/data/preferences_window/general_preferences_page.ui:130
+#: main/src/ui/application.vala:824
 msgid "Change Database Password"
-msgstr "Đổi mật khẩu cơ sở dữ liệu"
+msgstr "Thay đổi mật khẩu cơ sở dữ liệu"
 
 #: main/data/preferences_window/general_preferences_page.ui:131
 msgid "Change the password used to encrypt your local data"
@@ -705,37 +674,33 @@ msgstr "Xóa liên hệ"
 msgid "Leave Group"
 msgstr "Rời nhóm"
 
-#: main/src/ui/application.vala:161
-msgid "Beenden"
+#: main/src/ui/systray.vala:178
+msgid "Quit"
 msgstr "Thoát"
 
-#: main/src/ui/application.vala:266 main/src/ui/application.vala:361
-msgid "Passwort"
-msgstr "Mật khẩu"
-
 #: main/src/ui/application.vala:271
-msgid "DinoX entsperren"
-msgstr "Mở khóa DinoX"
+msgid "Unlock DinoX"
+msgstr ""
 
 #: main/src/ui/application.vala:272
-msgid "Bitte Passwort eingeben, um die verschlüsselte Datenbank zu öffnen."
-msgstr "Vui lòng nhập mật khẩu để mở cơ sở dữ liệu được mã hóa."
+msgid "Please enter your password to open the encrypted database."
+msgstr ""
 
 #: main/src/ui/application.vala:274
 #, c-format
-msgid "Falsches Passwort. Versuch %d/%d"
-msgstr "Mật khẩu sai. Thử %d/%d"
+msgid "Wrong password. Attempt %d/%d"
+msgstr ""
 
 #: main/src/ui/application.vala:346
-msgid "Entsperren"
-msgstr "Mở khóa"
+msgid "Unlock"
+msgstr ""
 
-#: main/src/ui/application.vala:363
-msgid "Passwort bestätigen"
+#: main/src/ui/application.vala:1617 main/src/ui/application.vala:1624
+msgid "Confirm Password"
 msgstr "Xác nhận mật khẩu"
 
-#: main/src/ui/application.vala:370
-msgid "Passwort festlegen"
+#: main/src/ui/application.vala:448
+msgid "Set Password"
 msgstr "Đặt mật khẩu"
 
 #: main/src/ui/application.vala:371
@@ -748,12 +713,8 @@ msgstr ""
 
 #: main/src/ui/application.vala:373
 #, c-format
-msgid "Ungültiges Passwort. Versuch %d/%d"
-msgstr "Mật khẩu không hợp lệ. Thử %d/%d"
-
-#: main/src/ui/application.vala:448
-msgid "Passwort setzen"
-msgstr "Đặt mật khẩu"
+msgid "Invalid password. Attempt %d/%d"
+msgstr ""
 
 #: main/src/ui/application.vala:746
 msgid "Set Status Message"
@@ -764,34 +725,22 @@ msgid "Set"
 msgstr "Đặt"
 
 #: main/src/ui/application.vala:809
-msgid "Aktuelles Passwort"
-msgstr "Mật khẩu hiện tại"
+msgid "Current Password"
+msgstr ""
 
 #: main/src/ui/application.vala:811
-msgid "Neues Passwort"
-msgstr "Mật khẩu mới"
+msgid "New Password"
+msgstr ""
 
 #: main/src/ui/application.vala:813
-msgid "Neues Passwort bestätigen"
-msgstr "Xác nhận mật khẩu mới"
-
-#: main/src/ui/application.vala:824
-msgid "Datenbank-Passwort ändern"
-msgstr "Thay đổi mật khẩu cơ sở dữ liệu"
+msgid "Confirm New Password"
+msgstr ""
 
 #: main/src/ui/application.vala:825
 msgid ""
 "Dieses Passwort wird verwendet, um deine lokalen DinoX-Daten zu "
 "verschlüsseln."
 msgstr "Mật khẩu này được sử dụng để mã hóa dữ liệu DinoX cục bộ của bạn."
-
-#: main/src/ui/application.vala:828
-msgid "Abbrechen"
-msgstr "Hủy"
-
-#: main/src/ui/application.vala:829
-msgid "Ändern"
-msgstr "Thay đổi"
 
 #: main/src/ui/application.vala:896
 msgid "Modern XMPP client with extended features"
@@ -1088,10 +1037,6 @@ msgstr ""
 #: main/src/ui/application.vala:1609
 msgid "Password (minimum 4 characters)"
 msgstr "Mật khẩu (tối thiểu 4 ký tự)"
-
-#: main/src/ui/application.vala:1617 main/src/ui/application.vala:1624
-msgid "Confirm Password"
-msgstr "Xác nhận mật khẩu"
 
 #: main/src/ui/application.vala:1641
 msgid "Create Encrypted Backup"
@@ -2203,10 +2148,6 @@ msgstr "Bị quản trị viên đuổi"
 msgid "Invite to Conference"
 msgstr "Mời vào hội nghị"
 
-#: main/src/ui/systray.vala:178
-msgid "Quit"
-msgstr "Thoát"
-
 #: main/src/ui/sticker_pack_import_dialog.vala:35
 msgid "Import"
 msgstr "Nhập"
@@ -2514,6 +2455,15 @@ msgstr "Thay đổi tên hiển thị cho %s"
 msgid "Alias (optional)"
 msgstr "Bí danh (tùy chọn)"
 
+msgid "Error: %s"
+msgstr ""
+
+msgid "Wrong current password"
+msgstr ""
+
+#~ msgid "Change"
+#~ msgstr "Thay đổi"
+
 #~ msgid "Import…"
 #~ msgstr "Nhập…"
 
@@ -2762,9 +2712,6 @@ msgstr "Bí danh (tùy chọn)"
 
 #~ msgid "Finish"
 #~ msgstr "Hoàn tất"
-
-#~ msgid "Change"
-#~ msgstr "Thay đổi"
 
 #~ msgid "Account"
 #~ msgstr "Tài khoản"

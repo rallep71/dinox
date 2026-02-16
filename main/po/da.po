@@ -230,38 +230,9 @@ msgstr "Kontaktoplysninger"
 msgid "Delete Conversation History"
 msgstr "Slet samtalehistorik"
 
-#: main/data/message_item_widget_edit_mode.ui:46
-#: main/data/preferences_window/change_password_dialog.ui:18
-#: main/src/ui/add_conversation/add_conference_dialog.vala:44
-#: main/src/ui/add_conversation/select_contact_dialog.vala:43
-#: main/src/ui/application.vala:754 main/src/ui/application.vala:992
-#: main/src/ui/application.vala:1020 main/src/ui/application.vala:1316
-#: main/src/ui/application.vala:1394 main/src/ui/application.vala:1452
-#: main/src/ui/application.vala:1484 main/src/ui/application.vala:1640
-#: main/src/ui/application.vala:1918
-#: main/src/ui/conversation_content_view/file_default_widget.vala:90
-#: main/src/ui/conversation_content_view/item_actions.vala:165
-#: main/src/ui/conversation_content_view/item_actions.vala:168
-#: main/src/ui/conversation_details.vala:283
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:641
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:668
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:687
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:712
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:731
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:752
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:797
-#: main/src/ui/conversation_titlebar/call_entry.vala:83
-#: main/src/ui/conversation_titlebar/menu_entry.vala:51
-#: main/src/windows/conversation_details.vala:60
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:90
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:199
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:219
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:243
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:263
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:285
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:326
+#: main/src/ui/application.vala:828
 msgid "Cancel"
-msgstr "Fortryd"
+msgstr "Annuller"
 
 #: main/data/message_item_widget_edit_mode.ui:51
 msgid "Update message"
@@ -276,11 +247,9 @@ msgstr "XMPP-adresse"
 msgid "Local alias"
 msgstr "Lokalt alias"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:82
-#: main/src/ui/application.vala:986 main/src/ui/application.vala:1615
-#: main/src/ui/util/data_forms.vala:63
+#: main/src/ui/application.vala:266 main/src/ui/application.vala:361
 msgid "Password"
-msgstr "Kodeord"
+msgstr "Adgangskode"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:104
 msgid "Connection status"
@@ -562,10 +531,9 @@ msgstr "Se hvor dine data er gemt"
 msgid "Database Maintenance"
 msgstr "Databasevedligeholdelse"
 
-# DinoX v0.7.7 - Database Maintenance & Backup/Restore
-#: main/data/preferences_window/general_preferences_page.ui:130
+#: main/src/ui/application.vala:824
 msgid "Change Database Password"
-msgstr "Skift databaseadgangskode"
+msgstr "Skift database-adgangskode"
 
 #: main/data/preferences_window/general_preferences_page.ui:131
 msgid "Change the password used to encrypt your local data"
@@ -707,37 +675,33 @@ msgstr "Slet kontakt"
 msgid "Leave Group"
 msgstr "Forlad gruppe"
 
-#: main/src/ui/application.vala:161
-msgid "Beenden"
+#: main/src/ui/systray.vala:178
+msgid "Quit"
 msgstr "Afslut"
 
-#: main/src/ui/application.vala:266 main/src/ui/application.vala:361
-msgid "Passwort"
-msgstr "Adgangskode"
-
 #: main/src/ui/application.vala:271
-msgid "DinoX entsperren"
-msgstr "Lås DinoX op"
+msgid "Unlock DinoX"
+msgstr ""
 
 #: main/src/ui/application.vala:272
-msgid "Bitte Passwort eingeben, um die verschlüsselte Datenbank zu öffnen."
-msgstr "Indtast venligst adgangskode for at åbne den krypterede database."
+msgid "Please enter your password to open the encrypted database."
+msgstr ""
 
 #: main/src/ui/application.vala:274
 #, c-format
-msgid "Falsches Passwort. Versuch %d/%d"
-msgstr "Forkert adgangskode. Forsøg %d/%d"
+msgid "Wrong password. Attempt %d/%d"
+msgstr ""
 
 #: main/src/ui/application.vala:346
-msgid "Entsperren"
-msgstr "Lås op"
+msgid "Unlock"
+msgstr ""
 
-#: main/src/ui/application.vala:363
-msgid "Passwort bestätigen"
+#: main/src/ui/application.vala:1617 main/src/ui/application.vala:1624
+msgid "Confirm Password"
 msgstr "Bekræft adgangskode"
 
-#: main/src/ui/application.vala:370
-msgid "Passwort festlegen"
+#: main/src/ui/application.vala:448
+msgid "Set Password"
 msgstr "Angiv adgangskode"
 
 #: main/src/ui/application.vala:371
@@ -750,12 +714,8 @@ msgstr ""
 
 #: main/src/ui/application.vala:373
 #, c-format
-msgid "Ungültiges Passwort. Versuch %d/%d"
-msgstr "Ugyldig adgangskode. Forsøg %d/%d"
-
-#: main/src/ui/application.vala:448
-msgid "Passwort setzen"
-msgstr "Angiv adgangskode"
+msgid "Invalid password. Attempt %d/%d"
+msgstr ""
 
 #: main/src/ui/application.vala:746
 msgid "Set Status Message"
@@ -766,20 +726,16 @@ msgid "Set"
 msgstr "Angiv"
 
 #: main/src/ui/application.vala:809
-msgid "Aktuelles Passwort"
-msgstr "Nuværende adgangskode"
+msgid "Current Password"
+msgstr ""
 
 #: main/src/ui/application.vala:811
-msgid "Neues Passwort"
-msgstr "Ny adgangskode"
+msgid "New Password"
+msgstr ""
 
 #: main/src/ui/application.vala:813
-msgid "Neues Passwort bestätigen"
-msgstr "Bekræft ny adgangskode"
-
-#: main/src/ui/application.vala:824
-msgid "Datenbank-Passwort ändern"
-msgstr "Skift database-adgangskode"
+msgid "Confirm New Password"
+msgstr ""
 
 #: main/src/ui/application.vala:825
 msgid ""
@@ -787,13 +743,9 @@ msgid ""
 "verschlüsseln."
 msgstr "Denne adgangskode bruges til at kryptere dine lokale DinoX-data."
 
-#: main/src/ui/application.vala:828
-msgid "Abbrechen"
-msgstr "Annuller"
-
 #: main/src/ui/application.vala:829
-msgid "Ändern"
-msgstr "Skift"
+msgid "Change"
+msgstr ""
 
 #: main/src/ui/application.vala:896
 msgid "Modern XMPP client with extended features"
@@ -1093,10 +1045,6 @@ msgstr ""
 #: main/src/ui/application.vala:1609
 msgid "Password (minimum 4 characters)"
 msgstr "Adgangskode (mindst 4 tegn)"
-
-#: main/src/ui/application.vala:1617 main/src/ui/application.vala:1624
-msgid "Confirm Password"
-msgstr "Bekræft adgangskode"
 
 #: main/src/ui/application.vala:1641
 msgid "Create Encrypted Backup"
@@ -2210,10 +2158,6 @@ msgstr "Smidt ud af moderator"
 msgid "Invite to Conference"
 msgstr "Inviter til konference"
 
-#: main/src/ui/systray.vala:178
-msgid "Quit"
-msgstr "Afslut"
-
 #: main/src/ui/sticker_pack_import_dialog.vala:35
 msgid "Import"
 msgstr "Importer"
@@ -2520,6 +2464,12 @@ msgstr "Skift visningsnavn for %s"
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:319
 msgid "Alias (optional)"
 msgstr "Alias (valgfrit)"
+
+msgid "Error: %s"
+msgstr ""
+
+msgid "Wrong current password"
+msgstr ""
 
 #~ msgid "Import…"
 #~ msgstr "Importer…"

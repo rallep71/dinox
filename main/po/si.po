@@ -231,36 +231,7 @@ msgstr "සම්බන්ධතා විස්තර"
 msgid "Delete Conversation History"
 msgstr "සංවාද ඉතිහාසය මකන්න"
 
-#: main/data/message_item_widget_edit_mode.ui:46
-#: main/data/preferences_window/change_password_dialog.ui:18
-#: main/src/ui/add_conversation/add_conference_dialog.vala:44
-#: main/src/ui/add_conversation/select_contact_dialog.vala:43
-#: main/src/ui/application.vala:754 main/src/ui/application.vala:992
-#: main/src/ui/application.vala:1020 main/src/ui/application.vala:1316
-#: main/src/ui/application.vala:1394 main/src/ui/application.vala:1452
-#: main/src/ui/application.vala:1484 main/src/ui/application.vala:1640
-#: main/src/ui/application.vala:1918
-#: main/src/ui/conversation_content_view/file_default_widget.vala:90
-#: main/src/ui/conversation_content_view/item_actions.vala:165
-#: main/src/ui/conversation_content_view/item_actions.vala:168
-#: main/src/ui/conversation_details.vala:283
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:641
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:668
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:687
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:712
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:731
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:752
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:797
-#: main/src/ui/conversation_titlebar/call_entry.vala:83
-#: main/src/ui/conversation_titlebar/menu_entry.vala:51
-#: main/src/windows/conversation_details.vala:60
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:90
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:199
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:219
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:243
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:263
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:285
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:326
+#: main/src/ui/application.vala:828
 msgid "Cancel"
 msgstr "අවලංගු කරන්න"
 
@@ -277,9 +248,7 @@ msgstr "XMPP ලිපිනය"
 msgid "Local alias"
 msgstr "ප්‍රාදේශීය අන්වර්ථ නාමය"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:82
-#: main/src/ui/application.vala:986 main/src/ui/application.vala:1615
-#: main/src/ui/util/data_forms.vala:63
+#: main/src/ui/application.vala:266 main/src/ui/application.vala:361
 msgid "Password"
 msgstr "මුරපදය"
 
@@ -560,10 +529,9 @@ msgstr "ඔබේ දත්ත ගබඩා කර ඇති ස්ථානය 
 msgid "Database Maintenance"
 msgstr "දත්ත සමුදාය නඩත්තුව"
 
-# DinoX v0.7.7 - Database Maintenance & Backup/Restore
-#: main/data/preferences_window/general_preferences_page.ui:130
+#: main/src/ui/application.vala:824
 msgid "Change Database Password"
-msgstr "දත්ත සමුදා මුරපදය වෙනස් කරන්න"
+msgstr "දත්ත ගබඩා මුරපදය වෙනස් කරන්න"
 
 #: main/data/preferences_window/general_preferences_page.ui:131
 msgid "Change the password used to encrypt your local data"
@@ -705,37 +673,33 @@ msgstr "සම්බන්ධතාවක් මකන්න"
 msgid "Leave Group"
 msgstr "කණ්ඩායම හැරයන්න"
 
-#: main/src/ui/application.vala:161
-msgid "Beenden"
-msgstr "පිටවන්න"
-
-#: main/src/ui/application.vala:266 main/src/ui/application.vala:361
-msgid "Passwort"
-msgstr "මුරපදය"
+#: main/src/ui/systray.vala:178
+msgid "Quit"
+msgstr "ඉවත්වන්න"
 
 #: main/src/ui/application.vala:271
-msgid "DinoX entsperren"
-msgstr "DinoX අගුළු හරින්න"
+msgid "Unlock DinoX"
+msgstr ""
 
 #: main/src/ui/application.vala:272
-msgid "Bitte Passwort eingeben, um die verschlüsselte Datenbank zu öffnen."
-msgstr "සංකේතනය කළ දත්ත ගබඩාව විවෘත කිරීමට කරුණාකර මුරපදය ඇතුළත් කරන්න."
+msgid "Please enter your password to open the encrypted database."
+msgstr ""
 
 #: main/src/ui/application.vala:274
 #, c-format
-msgid "Falsches Passwort. Versuch %d/%d"
-msgstr "වැරදි මුරපදයකි. උත්සාහය %d/%d"
+msgid "Wrong password. Attempt %d/%d"
+msgstr ""
 
 #: main/src/ui/application.vala:346
-msgid "Entsperren"
-msgstr "අගුළු හරින්න"
+msgid "Unlock"
+msgstr ""
 
-#: main/src/ui/application.vala:363
-msgid "Passwort bestätigen"
+#: main/src/ui/application.vala:1617 main/src/ui/application.vala:1624
+msgid "Confirm Password"
 msgstr "මුරපදය තහවුරු කරන්න"
 
-#: main/src/ui/application.vala:370
-msgid "Passwort festlegen"
+#: main/src/ui/application.vala:448
+msgid "Set Password"
 msgstr "මුරපදය සකසන්න"
 
 #: main/src/ui/application.vala:371
@@ -748,12 +712,8 @@ msgstr ""
 
 #: main/src/ui/application.vala:373
 #, c-format
-msgid "Ungültiges Passwort. Versuch %d/%d"
-msgstr "වලංගු නොවන මුරපදයකි. උත්සාහය %d/%d"
-
-#: main/src/ui/application.vala:448
-msgid "Passwort setzen"
-msgstr "මුරපදය සකසන්න"
+msgid "Invalid password. Attempt %d/%d"
+msgstr ""
 
 #: main/src/ui/application.vala:746
 msgid "Set Status Message"
@@ -764,20 +724,16 @@ msgid "Set"
 msgstr "සකසන්න"
 
 #: main/src/ui/application.vala:809
-msgid "Aktuelles Passwort"
-msgstr "වත්මන් මුරපදය"
+msgid "Current Password"
+msgstr ""
 
 #: main/src/ui/application.vala:811
-msgid "Neues Passwort"
-msgstr "නව මුරපදය"
+msgid "New Password"
+msgstr ""
 
 #: main/src/ui/application.vala:813
-msgid "Neues Passwort bestätigen"
-msgstr "නව මුරපදය තහවුරු කරන්න"
-
-#: main/src/ui/application.vala:824
-msgid "Datenbank-Passwort ändern"
-msgstr "දත්ත ගබඩා මුරපදය වෙනස් කරන්න"
+msgid "Confirm New Password"
+msgstr ""
 
 #: main/src/ui/application.vala:825
 msgid ""
@@ -785,13 +741,9 @@ msgid ""
 "verschlüsseln."
 msgstr "මෙම මුරපදය ඔබගේ දේශීය DinoX දත්ත සංකේතනය කිරීමට භාවිතා කරයි."
 
-#: main/src/ui/application.vala:828
-msgid "Abbrechen"
-msgstr "අවලංගු කරන්න"
-
 #: main/src/ui/application.vala:829
-msgid "Ändern"
-msgstr "වෙනස් කරන්න"
+msgid "Change"
+msgstr ""
 
 #: main/src/ui/application.vala:896
 msgid "Modern XMPP client with extended features"
@@ -1083,10 +1035,6 @@ msgstr ""
 #: main/src/ui/application.vala:1609
 msgid "Password (minimum 4 characters)"
 msgstr "මුරපදය (අවම අක්ෂර 4ක්)"
-
-#: main/src/ui/application.vala:1617 main/src/ui/application.vala:1624
-msgid "Confirm Password"
-msgstr "මුරපදය තහවුරු කරන්න"
 
 #: main/src/ui/application.vala:1641
 msgid "Create Encrypted Backup"
@@ -2195,10 +2143,6 @@ msgstr "පරිපාලක විසින් ඉවත් කරන ලද�
 msgid "Invite to Conference"
 msgstr "සම්මන්ත්‍රණයට ආරාධනා කරන්න"
 
-#: main/src/ui/systray.vala:178
-msgid "Quit"
-msgstr "ඉවත්වන්න"
-
 #: main/src/ui/sticker_pack_import_dialog.vala:35
 msgid "Import"
 msgstr "ආයාත කරන්න"
@@ -2505,6 +2449,12 @@ msgstr "%s සඳහා ප්‍රදර්ශන නාමය වෙනස්
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:319
 msgid "Alias (optional)"
 msgstr "අන්වර්ථ නාමය (විකල්ප)"
+
+msgid "Error: %s"
+msgstr ""
+
+msgid "Wrong current password"
+msgstr ""
 
 #~ msgid "Import…"
 #~ msgstr "ආයාත කරන්න…"
