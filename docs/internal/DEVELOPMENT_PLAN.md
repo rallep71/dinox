@@ -154,6 +154,12 @@ This document is organized as a **chronological release timeline** first, follow
 - **FreeBSD/OpenBSD**: Port via pkg/ports system. Adapt Tor/Obfs4proxy integration for BSD init systems.
 - **CI**: Extend GitHub Actions with macOS runners; FreeBSD via cross-compilation or VM-based CI.
 
+### Q1 2026: Security Enhancements
+
+| Item | Description | Status |
+|------|-------------|--------|
+| **OMEMO: Reject Unencrypted Messages** | When OMEMO encryption is active for a conversation, unencrypted incoming messages are currently accepted and displayed. `conversation.encryption` only controls outgoing messages — no pipeline listener checks encryption status on the receive path. Add a new `MessageListener` (between `DECRYPT` and `STORE`) that checks `conversation.encryption != Encryption.NONE && message.encryption == Encryption.NONE` and either discards the message or marks it with a warning. Affected files: `libdino/src/service/message_processor.vala` (pipeline), `plugins/omemo/src/logic/decrypt.vala`, `plugins/omemo/src/logic/decrypt_v2.vala`. Consider adding a per-conversation setting "Allow unencrypted messages" (default: warn, options: allow/warn/reject). | TODO |
+
 ### Q2 2026: Modern XEPs
 
 | XEP | Feature | Implementation TODO |
