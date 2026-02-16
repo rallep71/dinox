@@ -243,6 +243,8 @@ public class Dino.Plugins.Rtp.Plugin : RootInterface, VideoCallPlugin, Object {
                 return Gst.Caps.from_string("application/x-rtp,media=audio,encoding-name=PCMA,clock-rate=8000,payload=8");
             case 9:
                 return Gst.Caps.from_string("application/x-rtp,media=audio,encoding-name=G722,clock-rate=8000,payload=9");
+            case 101:
+                return Gst.Caps.from_string("application/x-rtp,media=audio,encoding-name=TELEPHONE-EVENT,clock-rate=8000,payload=101");
             default:
                 return null;
         }
@@ -642,5 +644,11 @@ public class Dino.Plugins.Rtp.Plugin : RootInterface, VideoCallPlugin, Object {
         Stream? plugin_stream = stream as Stream?;
         if (plugin_stream == null || plugin_stream.output_device == null) return;
         plugin_stream.output_device.set_volume(volume);
+    }
+
+    public void send_dtmf(Xmpp.Xep.JingleRtp.Stream? stream, char digit, uint duration_ms = 250) {
+        Stream? plugin_stream = stream as Stream?;
+        if (plugin_stream == null) return;
+        plugin_stream.send_dtmf(digit, duration_ms);
     }
 }

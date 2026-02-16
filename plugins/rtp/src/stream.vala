@@ -66,7 +66,18 @@ public class Dino.Plugins.Rtp.Stream : Xmpp.Xep.JingleRtp.Stream {
     private Gst.Pad send_rtp_src_pad;
 
     private Crypto.Srtp.Session? crypto_session = new Crypto.Srtp.Session();
-    
+
+    // DTMF support (RFC 4733 via on_new_sample injection)
+    private bool dtmf_active = false;          // Currently sending DTMF
+    private int dtmf_event_code = -1;          // Current event code (0-15)
+    private uint8 dtmf_payload_type = 0;       // Negotiated PT for telephone-event
+    private uint32 dtmf_clockrate = 8000;
+    private uint32 dtmf_start_timestamp = 0;   // RTP timestamp at DTMF start
+    private bool dtmf_marker_sent = false;     // Marker bit sent on first packet
+    private int dtmf_end_counter = 0;          // End packet redundancy counter
+    private uint32 dtmf_duration_samples = 0;   // Duration threshold in audio clockrate units
+    private Gee.LinkedList<char> dtmf_queue = new Gee.LinkedList<char>();  // Queued digits
+
     // Signal handler IDs for proper cleanup
     private ulong senders_changed_handler_id;
     private ulong feedback_rtcp_handler_id;
@@ -94,6 +105,183 @@ public class Dino.Plugins.Rtp.Stream : Xmpp.Xep.JingleRtp.Stream {
         if (receiving && output == null) {
             output_device = output_device;
         }
+    }
+
+    /**
+     * Send a DTMF tone via RFC 4733 telephone-event.
+     * DTMF packets are injected directly in on_new_sample by replacing audio
+     * buffers with RFC 4733 event packets. This keeps the same seqnum stream
+     * and avoids any pipeline modifications or SRTP conflicts.
+     * @param digit The DTMF digit: 0-9, *, #, A-D (mapped to event codes 0-15)
+     * @param duration_ms Duration of the tone in milliseconds (default 250)
+     */
+    public void send_dtmf(char digit, uint duration_ms = 250) {
+        if (media != "audio" || !sending || !created) {
+            warning("Cannot send DTMF: stream not ready (media=%s, sending=%s, created=%s)", media, sending.to_string(), created.to_string());
+            return;
+        }
+
+        int event_code = dtmf_digit_to_event(digit);
+        if (event_code < 0) {
+            warning("Invalid DTMF digit: %c", digit);
+            return;
+        }
+
+        // Resolve PT on first use
+        if (dtmf_payload_type == 0) {
+            resolve_dtmf_payload_type();
+        }
+        if (dtmf_payload_type == 0) {
+            debug("telephone-event not negotiated, DTMF not available");
+            return;
+        }
+
+        // If already sending DTMF, queue for later
+        if (dtmf_active) {
+            dtmf_queue.offer(digit);
+            debug("DTMF active, queued digit '%c' (queue size: %d)", digit, dtmf_queue.size);
+            return;
+        }
+
+        start_dtmf_digit(digit, event_code, duration_ms);
+    }
+
+    private void start_dtmf_digit(char digit, int event_code, uint duration_ms) {
+        debug("Sending DTMF digit '%c' (event %d, PT %u, duration %u ms)", digit, event_code, dtmf_payload_type, duration_ms);
+
+        // Start DTMF injection
+        dtmf_event_code = event_code;
+        dtmf_marker_sent = false;
+        dtmf_start_timestamp = 0;  // Will be set from first intercepted audio packet
+        dtmf_end_counter = 0;
+        // Calculate duration threshold in audio clockrate units (no main-loop timer)
+        dtmf_duration_samples = (uint32)(duration_ms * payload_type.clockrate / 1000);
+        dtmf_active = true;
+    }
+
+    /**
+     * Build an RFC 4733 telephone-event RTP packet by replacing the audio
+     * payload in an existing RTP buffer. Preserves SSRC and seqnum from the
+     * original audio packet for seamless SRTP continuity.
+     *
+     * RFC 4733 payload format (4 bytes):
+     *   0                   1                   2                   3
+     *   0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+     *  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+     *  |     event     |E R| volume    |          duration             |
+     *  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+     */
+    private uint8[]? build_dtmf_rtp_packet(uint8[] audio_rtp_data) {
+        if (audio_rtp_data.length < 12) return null;  // Minimum RTP header size
+
+        // Parse the RTP header from the audio packet
+        uint8 version_flags = audio_rtp_data[0];
+        // uint8 pt_marker = audio_rtp_data[1];
+        uint16 seqnum = (uint16)((audio_rtp_data[2] << 8) | audio_rtp_data[3]);
+        uint32 timestamp = (uint32)((audio_rtp_data[4] << 24) | (audio_rtp_data[5] << 16) |
+                                     (audio_rtp_data[6] << 8) | audio_rtp_data[7]);
+        // SSRC is bytes 8-11
+
+        // Set start timestamp from first audio packet
+        if (dtmf_start_timestamp == 0) {
+            dtmf_start_timestamp = timestamp;
+        }
+
+        // Calculate duration in RTP timestamp units
+        uint32 duration_ts = timestamp - dtmf_start_timestamp;
+        if (duration_ts > 65535) duration_ts = 65535;  // Max 16-bit duration
+
+        // Auto-trigger end when duration reached (driven by RTP timestamps, not main loop)
+        if (dtmf_end_counter == 0 && dtmf_duration_samples > 0 && duration_ts >= dtmf_duration_samples) {
+            dtmf_end_counter = 3;
+            debug("DTMF ending (duration %u >= %u samples), sending %d end packets", (uint)duration_ts, (uint)dtmf_duration_samples, dtmf_end_counter);
+        }
+
+        bool is_end = (dtmf_end_counter > 0);
+        bool is_marker = !dtmf_marker_sent;
+
+        // Build new RTP packet: 12-byte header + 4-byte RFC 4733 payload
+        uint8[] packet = new uint8[16];
+
+        // RTP header
+        packet[0] = version_flags & 0xF0;  // V=2, P=0, X=0, CC=0
+        packet[0] = (packet[0] & 0xC0) | 0x00;  // Clear extension/CSRC bits
+        packet[0] = 0x80;  // V=2, no padding, no extension, CC=0
+        packet[1] = dtmf_payload_type;
+        if (is_marker) packet[1] |= 0x80;  // Marker bit on first DTMF packet
+
+        // Seqnum from original audio packet
+        packet[2] = (uint8)(seqnum >> 8);
+        packet[3] = (uint8)(seqnum & 0xFF);
+
+        // Timestamp: use the START timestamp (constant during entire DTMF event)
+        packet[4] = (uint8)(dtmf_start_timestamp >> 24);
+        packet[5] = (uint8)((dtmf_start_timestamp >> 16) & 0xFF);
+        packet[6] = (uint8)((dtmf_start_timestamp >> 8) & 0xFF);
+        packet[7] = (uint8)(dtmf_start_timestamp & 0xFF);
+
+        // SSRC: copy from original audio packet
+        packet[8] = audio_rtp_data[8];
+        packet[9] = audio_rtp_data[9];
+        packet[10] = audio_rtp_data[10];
+        packet[11] = audio_rtp_data[11];
+
+        // RFC 4733 payload (4 bytes)
+        packet[12] = (uint8)dtmf_event_code;        // Event code
+        packet[13] = is_end ? (uint8)0x80 : (uint8)0x00;  // E bit + R=0
+        packet[13] |= 10;                            // Volume = 10 dBm0
+        packet[14] = (uint8)((duration_ts >> 8) & 0xFF);   // Duration high byte
+        packet[15] = (uint8)(duration_ts & 0xFF);          // Duration low byte
+
+        if (is_marker) {
+            dtmf_marker_sent = true;
+        }
+
+        if (is_end) {
+            dtmf_end_counter--;
+            if (dtmf_end_counter <= 0) {
+                dtmf_active = false;
+                dtmf_event_code = -1;
+                debug("DTMF completed (all end packets sent, last seq=%u)", seqnum);
+
+                // Process next queued digit directly (no main-loop Idle.add)
+                if (!dtmf_queue.is_empty) {
+                    char next_digit = dtmf_queue.poll();
+                    int next_code = dtmf_digit_to_event(next_digit);
+                    if (next_code >= 0) {
+                        start_dtmf_digit(next_digit, next_code, 250);
+                    }
+                }
+            }
+        }
+
+        return packet;
+    }
+
+    /**
+     * Resolve the negotiated telephone-event payload type from the session parameters.
+     */
+    private void resolve_dtmf_payload_type() {
+        var content_params = content.content_params as Xmpp.Xep.JingleRtp.Parameters;
+        if (content_params == null) return;
+
+        foreach (var pt in content_params.payload_types) {
+            if (pt.name != null && pt.name.down() == "telephone-event") {
+                dtmf_payload_type = (uint8)pt.id;
+                dtmf_clockrate = pt.clockrate > 0 ? pt.clockrate : 8000;
+                debug("Resolved DTMF payload type: PT %u, clockrate %u", dtmf_payload_type, dtmf_clockrate);
+                return;
+            }
+        }
+    }
+
+    private static int dtmf_digit_to_event(char digit) {
+        if (digit >= '0' && digit <= '9') return digit - '0';
+        if (digit == '*') return 10;
+        if (digit == '#') return 11;
+        if (digit >= 'A' && digit <= 'D') return 12 + (digit - 'A');
+        if (digit >= 'a' && digit <= 'd') return 12 + (digit - 'a');
+        return -1;
     }
 
     public override void create() {
@@ -396,6 +584,17 @@ public class Dino.Plugins.Rtp.Stream : Xmpp.Xep.JingleRtp.Stream {
                 warning_once("Sending RTP %s buffer seq %u with SSRC %u when our ssrc is %u", media, buffer_seq, buffer_ssrc, our_ssrc);
             }
 #endif
+            // DTMF injection: replace audio buffer with RFC 4733 packet
+            if (dtmf_active && dtmf_event_code >= 0) {
+                uint8[] audio_data;
+                buffer.extract_dup(0, buffer.get_size(), out audio_data);
+                uint8[]? dtmf_packet = build_dtmf_rtp_packet(audio_data);
+                if (dtmf_packet != null) {
+                    prepare_local_crypto();
+                    encrypt_and_send_rtp((owned) dtmf_packet);
+                    return Gst.FlowReturn.OK;
+                }
+            }
         }
 
 #if GST_1_20
@@ -542,9 +741,21 @@ public class Dino.Plugins.Rtp.Stream : Xmpp.Xep.JingleRtp.Stream {
             }
         }
 
+        // Clean up DTMF state
+        dtmf_active = false;
+        dtmf_event_code = -1;
+        dtmf_payload_type = 0;
+
         // Disconnect input device
         if (input != null) {
-            input_pad.unlink(send_rtp_sink_pad);
+            if (input_queue != null) {
+                input_pad.unlink(input_queue.get_static_pad("sink"));
+                input_queue.set_state(Gst.State.NULL);
+                pipe.remove(input_queue);
+                input_queue = null;
+            } else {
+                input_pad.unlink(send_rtp_sink_pad);
+            }
             input.release_request_pad(input_pad);
             input_pad = null;
         }
@@ -786,12 +997,19 @@ public class Dino.Plugins.Rtp.Stream : Xmpp.Xep.JingleRtp.Stream {
         if (created && this.input != null) {
             if (this.input_queue != null) {
                  this.input_pad.unlink(this.input_queue.get_static_pad("sink"));
-                 this.input_queue.get_static_pad("src").unlink(send_rtp_sink_pad);
+                 var queue_src = this.input_queue.get_static_pad("src");
+                 var queue_peer = queue_src.get_peer();
+                 if (queue_peer != null) {
+                     queue_src.unlink(queue_peer);
+                 }
                  this.input_queue.set_state(Gst.State.NULL);
                  pipe.remove(this.input_queue);
                  this.input_queue = null;
             } else {
-                 this.input_pad.unlink(send_rtp_sink_pad);
+                 var input_peer = this.input_pad.get_peer();
+                 if (input_peer != null) {
+                     this.input_pad.unlink(input_peer);
+                 }
             }
             this.input.release_request_pad(this.input_pad);
             this.input_pad = null;

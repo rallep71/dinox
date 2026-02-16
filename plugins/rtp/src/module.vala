@@ -67,6 +67,12 @@ public class Dino.Plugins.Rtp.Module : JingleRtp.Module {
         string? codec = CodecUtil.get_codec_from_payload(media, payload_type);
         if (codec == null) return false;
 
+        // telephone-event (RFC 4733 DTMF) is always supported — no pipeline check needed
+        if (codec.down() == "telephone-event") {
+            supported_codecs.add(codec);
+            return true;
+        }
+
         // Speex is deprecated/unreliable in our pipeline checks (and not needed for interop).
         // Avoid probing/negotiating it entirely.
         if (codec.down() == "speex") {
@@ -148,6 +154,11 @@ public class Dino.Plugins.Rtp.Module : JingleRtp.Module {
             var opus = new JingleRtp.PayloadType() { channels = 1, clockrate = 48000, name = "opus", id = 111, channels = 2 };
             opus.parameters["useinbandfec"] = "1";
             yield add_if_supported(list, media, opus);
+
+            // RFC 4733 DTMF tones
+            var dtmf = new JingleRtp.PayloadType() { clockrate = 8000, name = "telephone-event", id = 101, channels = 1 };
+            dtmf.parameters["events"] = "0-15";
+            list.add(dtmf);
         } else if (media == "video") {
             var rtcp_fbs = new ArrayList<JingleRtp.RtcpFeedback>();
             rtcp_fbs.add(new JingleRtp.RtcpFeedback("goog-remb"));
