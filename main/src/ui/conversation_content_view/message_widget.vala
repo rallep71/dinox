@@ -423,9 +423,21 @@ public class MessageMetaItem : ContentMetaItem {
         }
     }
 
-    public static bool on_label_activate_link(string uri) {
+    public bool on_label_activate_link(string uri) {
         // Always handle xmpp URIs with Dino
         if (!uri.has_prefix("xmpp:")) return false;
+
+        // Bot command links: send command directly in the current conversation
+        if (uri.contains("?message;body=")) {
+            int body_idx = uri.index_of("?message;body=") + "?message;body=".length;
+            string? body = GLib.Uri.unescape_string(uri.substring(body_idx));
+            if (body != null && body != "" && message_item != null) {
+                Conversation conv = message_item.conversation;
+                Dino.send_message(conv, body, 0, null, new Gee.ArrayList<Xmpp.Xep.MessageMarkup.Span>());
+                return true;
+            }
+        }
+
         File file = File.new_for_uri(uri);
         Dino.Application.get_default().open(new File[]{file}, "");
         return true;

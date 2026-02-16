@@ -50,7 +50,7 @@ public class BotfatherHandler : Object {
                 return cmd_status(owner_jid, args);
             case "/help":
             case "/start":
-                return cmd_help();
+                return cmd_help(owner_jid);
             default:
                 return _("Unknown command. Type /help for a list of available commands.");
         }
@@ -396,14 +396,21 @@ public class BotfatherHandler : Object {
         return sb.str;
     }
 
+    // Build an xmpp: URI that auto-sends a command when clicked
+    private string cmd_uri(string jid, string command) {
+        string encoded = command.replace(" ", "%20");
+        return "xmpp:" + jid + "?message;body=" + encoded;
+    }
+
     // /help -- Show available commands
-    private string cmd_help() {
+    private string cmd_help(string owner_jid) {
         return "🤖 Botmother\n" +
             "────────────────────\n\n" +
 
             "📦 " + _("Bot Management") + "\n" +
+            "   " + cmd_uri(owner_jid, "/mybots") + " — " + _("List your bots") + "\n" +
+            "   " + cmd_uri(owner_jid, "/status") + " — " + _("Show status") + "\n" +
             "   /newbot <Name>       — " + _("Create a new bot") + "\n" +
-            "   /mybots              — " + _("List your bots") + "\n" +
             "   /deletebot <ID>      — " + _("Delete a bot") + "\n" +
             "   /activate <ID>       — " + _("Activate a bot") + "\n" +
             "   /deactivate <ID>     — " + _("Deactivate a bot") + "\n\n" +
@@ -415,8 +422,7 @@ public class BotfatherHandler : Object {
 
             "⚙️ " + _("Settings") + "\n" +
             "   /setcommands <ID>    — " + _("Set bot commands") + "\n" +
-            "   /setdescription <ID> — " + _("Set description") + "\n" +
-            "   /status [ID]         — " + _("Show status") + "\n\n" +
+            "   /setdescription <ID> — " + _("Set description") + "\n\n" +
 
             "────────────────────\n" +
             "🌐 HTTP API: http://localhost:7842\n\n" +

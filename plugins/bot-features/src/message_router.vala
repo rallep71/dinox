@@ -365,56 +365,56 @@ public class MessageRouter : Object {
 
         if (action == null) {
             // KI main menu
-            response = build_ki_menu(bot.id);
+            response = build_ki_menu(bot.id, bot.jid ?? "");
         } else {
             switch (action.down()) {
                 case "on":
                     if (!ai.is_enabled(bot.id)) {
                         string? endpoint = registry.get_setting("bot_%d_ai_endpoint".printf(bot.id));
                         if (endpoint == null) {
-                            response = _("AI not configured.") + "\n\n" + build_ki_setup_menu();
+                            response = _("AI not configured.") + "\n\n" + build_ki_setup_menu(bot.jid ?? "");
                         } else {
                             registry.set_setting("bot_%d_ai_enabled".printf(bot.id), "true");
-                            response = _("AI activated!") + "\n\n" + build_ki_menu(bot.id);
+                            response = _("AI activated!") + "\n\n" + build_ki_menu(bot.id, bot.jid ?? "");
                         }
                     } else {
-                        response = _("AI is already active.") + "\n\n" + build_ki_menu(bot.id);
+                        response = _("AI is already active.") + "\n\n" + build_ki_menu(bot.id, bot.jid ?? "");
                     }
                     break;
                 case "off":
                     ai.disable(bot.id);
-                    response = _("AI deactivated.") + "\n\n" + build_ki_menu(bot.id);
+                    response = _("AI deactivated.") + "\n\n" + build_ki_menu(bot.id, bot.jid ?? "");
                     break;
                 case "status":
-                    response = ai.get_status(bot.id) + "\n\n" + build_ki_menu(bot.id);
+                    response = ai.get_status(bot.id) + "\n\n" + build_ki_menu(bot.id, bot.jid ?? "");
                     break;
                 case "clear":
                     ai.clear_history(bot.id, from_str);
-                    response = _("Chat history cleared.") + "\n\n" + build_ki_menu(bot.id);
+                    response = _("Chat history cleared.") + "\n\n" + build_ki_menu(bot.id, bot.jid ?? "");
                     break;
                 case "anbieter":
                 case "providers":
-                    response = build_ki_providers_menu();
+                    response = build_ki_providers_menu(bot.jid ?? "");
                     break;
                 case "system":
                     if (args != null && args.length > 0) {
                         registry.set_setting("bot_%d_ai_system".printf(bot.id), args);
-                        response = _("System prompt updated:") + "\n%s\n\n".printf(args) + build_ki_menu(bot.id);
+                        response = _("System prompt updated:") + "\n%s\n\n".printf(args) + build_ki_menu(bot.id, bot.jid ?? "");
                     } else {
                         string? current = registry.get_setting("bot_%d_ai_system".printf(bot.id));
                         response = _("Current system prompt:") + "\n%s\n\n".printf(current ?? _("(default)")) +
                             _("Change with:") + "\n/ki system <new prompt>\n\n" +
-                            _("Example:") + "\n/ki system You are a friendly assistant.\n\n" + build_ki_menu(bot.id);
+                            _("Example:") + "\n/ki system You are a friendly assistant.\n\n" + build_ki_menu(bot.id, bot.jid ?? "");
                     }
                     break;
                 case "setup":
                     if (args == null) {
-                        response = build_ki_setup_menu();
+                        response = build_ki_setup_menu(bot.jid ?? "");
                     } else {
                         // Parse: <provider> <key> <model>
                         string[] setup_parts = args.split(" ", 3);
                         if (setup_parts.length < 3) {
-                            response = build_ki_setup_help(setup_parts[0]);
+                            response = build_ki_setup_help(setup_parts[0], bot.jid ?? "");
                         } else {
                             string provider = setup_parts[0];
                             string api_key = setup_parts[1];
@@ -428,16 +428,16 @@ public class MessageRouter : Object {
                 case "model":
                     if (args != null && args.length > 0) {
                         registry.set_setting("bot_%d_ai_model".printf(bot.id), args);
-                        response = _("Model changed: %s").printf(args) + "\n\n" + build_ki_menu(bot.id);
+                        response = _("Model changed: %s").printf(args) + "\n\n" + build_ki_menu(bot.id, bot.jid ?? "");
                     } else {
                         string? current_model = registry.get_setting("bot_%d_ai_model".printf(bot.id));
                         string? current_type = registry.get_setting("bot_%d_ai_type".printf(bot.id));
                         response = _("Current model: %s").printf(current_model ?? _("(not set)")) + "\n\n" +
-                            build_ki_models_help(current_type ?? "openai");
+                            build_ki_models_help(current_type ?? "openai", bot.jid ?? "");
                     }
                     break;
                 default:
-                    response = _("Unknown: /ki %s").printf(action) + "\n\n" + build_ki_menu(bot.id);
+                    response = _("Unknown: /ki %s").printf(action) + "\n\n" + build_ki_menu(bot.id, bot.jid ?? "");
                     break;
             }
         }
@@ -448,7 +448,7 @@ public class MessageRouter : Object {
     }
 
     // Build the KI main menu
-    private string build_ki_menu(int bot_id) {
+    private string build_ki_menu(int bot_id, string jid = "") {
         bool enabled = ai.is_enabled(bot_id);
         string? ai_type = registry.get_setting("bot_%d_ai_type".printf(bot_id));
         string? model = registry.get_setting("bot_%d_ai_model".printf(bot_id));
@@ -471,29 +471,51 @@ public class MessageRouter : Object {
         sb.append(_("Commands:") + "\n\n");
 
         if (!configured) {
-            sb.append("/ki setup       - " + _("Set up AI") + "\n");
-            sb.append("/ki providers   - " + _("Show all providers") + "\n");
-        } else {
-            if (enabled) {
-                sb.append("/ki off         - " + _("Turn off AI") + "\n");
+            if (jid != "") {
+                sb.append(cmd_uri(jid, "/ki%20setup") + " \u2014 " + _("Set up AI") + "\n");
+                sb.append(cmd_uri(jid, "/ki%20providers") + " \u2014 " + _("Show all providers") + "\n");
             } else {
-                sb.append("/ki on          - " + _("Turn on AI") + "\n");
+                sb.append("/ki setup       - " + _("Set up AI") + "\n");
+                sb.append("/ki providers   - " + _("Show all providers") + "\n");
             }
-            sb.append("/ki status      - " + _("Current configuration") + "\n");
-            sb.append("/ki model       - " + _("Show/change model") + "\n");
-            sb.append("/ki system      - " + _("Show/change system prompt") + "\n");
-            sb.append("/ki clear       - " + _("Clear chat history") + "\n");
-            sb.append("/ki providers   - " + _("Switch provider") + "\n");
-            sb.append("/ki setup       - " + _("Set up again") + "\n");
+        } else {
+            if (jid != "") {
+                if (enabled) {
+                    sb.append(cmd_uri(jid, "/ki%20off") + " \u2014 " + _("Turn off AI") + "\n");
+                } else {
+                    sb.append(cmd_uri(jid, "/ki%20on") + " \u2014 " + _("Turn on AI") + "\n");
+                }
+                sb.append(cmd_uri(jid, "/ki%20status") + " \u2014 " + _("Current configuration") + "\n");
+                sb.append(cmd_uri(jid, "/ki%20model") + " \u2014 " + _("Show/change model") + "\n");
+                sb.append(cmd_uri(jid, "/ki%20clear") + " \u2014 " + _("Clear chat history") + "\n");
+                sb.append(cmd_uri(jid, "/ki%20providers") + " \u2014 " + _("Switch provider") + "\n");
+                sb.append(cmd_uri(jid, "/ki%20setup") + " \u2014 " + _("Set up again") + "\n");
+            } else {
+                if (enabled) {
+                    sb.append("/ki off         - " + _("Turn off AI") + "\n");
+                } else {
+                    sb.append("/ki on          - " + _("Turn on AI") + "\n");
+                }
+                sb.append("/ki status      - " + _("Current configuration") + "\n");
+                sb.append("/ki model       - " + _("Show/change model") + "\n");
+                sb.append("/ki system      - " + _("Show/change system prompt") + "\n");
+                sb.append("/ki clear       - " + _("Clear chat history") + "\n");
+                sb.append("/ki providers   - " + _("Switch provider") + "\n");
+                sb.append("/ki setup       - " + _("Set up again") + "\n");
+            }
         }
 
         sb.append("\n────────────────────\n");
-        sb.append(_("Back: /help"));
+        if (jid != "") {
+            sb.append(_("Back:") + " " + cmd_uri(jid, "/help"));
+        } else {
+            sb.append(_("Back: /help"));
+        }
         return sb.str;
     }
 
     // Build the KI setup menu (choose provider)
-    private string build_ki_setup_menu() {
+    private string build_ki_setup_menu(string jid = "") {
         var sb = new StringBuilder();
         sb.append(_("AI Setup") + "\n");
         sb.append("════════════════════\n\n");
@@ -510,13 +532,18 @@ public class MessageRouter : Object {
         sb.append("\n────────────────────\n");
         sb.append(_("Details for a provider:") + "\n");
         sb.append("  /ki setup openai  " + _("(without key shows help)") + "\n\n");
-        sb.append(_("All providers with models: /ki providers") + "\n");
-        sb.append(_("Back: /ki"));
+        if (jid != "") {
+            sb.append(_("All providers with models:") + " " + cmd_uri(jid, "/ki%20providers") + "\n");
+            sb.append(_("Back:") + " " + cmd_uri(jid, "/ki"));
+        } else {
+            sb.append(_("All providers with models: /ki providers") + "\n");
+            sb.append(_("Back: /ki"));
+        }
         return sb.str;
     }
 
     // Build help for a specific provider setup
-    private string build_ki_setup_help(string provider) {
+    private string build_ki_setup_help(string provider, string jid = "") {
         string p = provider.down();
         var sb = new StringBuilder();
         sb.append(_("AI Setup: %s").printf(p) + "\n");
@@ -578,13 +605,18 @@ public class MessageRouter : Object {
         }
 
         sb.append("\n────────────────────\n");
-        sb.append(_("All providers: /ki setup") + "\n");
-        sb.append(_("Back: /ki"));
+        if (jid != "") {
+            sb.append(_("All providers:") + " " + cmd_uri(jid, "/ki%20setup") + "\n");
+            sb.append(_("Back:") + " " + cmd_uri(jid, "/ki"));
+        } else {
+            sb.append(_("All providers: /ki setup") + "\n");
+            sb.append(_("Back: /ki"));
+        }
         return sb.str;
     }
 
     // Build the providers overview menu
-    private string build_ki_providers_menu() {
+    private string build_ki_providers_menu(string jid = "") {
         var sb = new StringBuilder();
         sb.append(_("AI Providers") + "\n");
         sb.append("════════════════════\n\n");
@@ -603,12 +635,16 @@ public class MessageRouter : Object {
         sb.append("  /ki setup groq\n");
         sb.append("  /ki setup ollama\n");
         sb.append("  ... " + _("etc.") + "\n\n");
-        sb.append(_("Back: /ki"));
+        if (jid != "") {
+            sb.append(_("Back:") + " " + cmd_uri(jid, "/ki"));
+        } else {
+            sb.append(_("Back: /ki"));
+        }
         return sb.str;
     }
 
     // Build help for available models for current provider
-    private string build_ki_models_help(string ai_type) {
+    private string build_ki_models_help(string ai_type, string jid = "") {
         var sb = new StringBuilder();
         sb.append(_("Change model:") + "\n/ki model <name>\n\n");
         sb.append(_("Available models for %s:").printf(ai_type) + "\n");
@@ -644,7 +680,11 @@ public class MessageRouter : Object {
                 sb.append("  " + _("(unknown provider)") + "\n");
                 break;
         }
-        sb.append("\n" + _("Back: /ki"));
+        if (jid != "") {
+            sb.append("\n" + _("Back:") + " " + cmd_uri(jid, "/ki"));
+        } else {
+            sb.append("\n" + _("Back: /ki"));
+        }
         return sb.str;
     }
 
@@ -654,41 +694,41 @@ public class MessageRouter : Object {
 
         if (action == null) {
             // Telegram main menu
-            response = build_telegram_menu(bot.id);
+            response = build_telegram_menu(bot.id, bot.jid ?? "");
         } else {
             switch (action.down()) {
                 case "on":
                     if (!telegram.is_enabled(bot.id)) {
                         string? token = registry.get_setting("bot_%d_tg_token".printf(bot.id));
                         if (token == null) {
-                            response = _("Telegram not configured.") + "\n\n" + build_telegram_setup_menu();
+                            response = _("Telegram not configured.") + "\n\n" + build_telegram_setup_menu(bot.jid ?? "");
                         } else {
                             registry.set_setting("bot_%d_tg_enabled".printf(bot.id), "true");
                             telegram.start_polling(bot.id, from_str);
-                            response = _("Telegram bridge activated!") + "\n\n" + build_telegram_menu(bot.id);
+                            response = _("Telegram bridge activated!") + "\n\n" + build_telegram_menu(bot.id, bot.jid ?? "");
                         }
                     } else {
-                        response = _("Telegram bridge is already active.") + "\n\n" + build_telegram_menu(bot.id);
+                        response = _("Telegram bridge is already active.") + "\n\n" + build_telegram_menu(bot.id, bot.jid ?? "");
                     }
                     break;
                 case "off":
                     telegram.disable(bot.id);
-                    response = _("Telegram bridge deactivated.") + "\n\n" + build_telegram_menu(bot.id);
+                    response = _("Telegram bridge deactivated.") + "\n\n" + build_telegram_menu(bot.id, bot.jid ?? "");
                     break;
                 case "status":
-                    response = telegram.get_status(bot.id) + "\n\n" + build_telegram_menu(bot.id);
+                    response = telegram.get_status(bot.id) + "\n\n" + build_telegram_menu(bot.id, bot.jid ?? "");
                     break;
                 case "test":
                     response = yield telegram.test_connection(bot.id);
-                    response += "\n\n" + build_telegram_menu(bot.id);
+                    response += "\n\n" + build_telegram_menu(bot.id, bot.jid ?? "");
                     break;
                 case "setup":
                     if (args == null) {
-                        response = build_telegram_setup_menu();
+                        response = build_telegram_setup_menu(bot.jid ?? "");
                     } else {
                         string[] setup_parts = args.split(" ", 3);
                         if (setup_parts.length < 2) {
-                            response = _("Not enough parameters.") + "\n\n" + build_telegram_setup_menu();
+                            response = _("Not enough parameters.") + "\n\n" + build_telegram_setup_menu(bot.jid ?? "");
                         } else {
                             string tg_token = setup_parts[0];
                             string chat_id = setup_parts[1];
@@ -697,7 +737,7 @@ public class MessageRouter : Object {
                             telegram.start_polling(bot.id, from_str);
                             response = _("Telegram bridge configured and started!") +
                                 "\n" + _("Chat ID: %s").printf(chat_id) +
-                                "\n" + _("Mode: %s").printf(mode) + "\n\n" + build_telegram_menu(bot.id);
+                                "\n" + _("Mode: %s").printf(mode) + "\n\n" + build_telegram_menu(bot.id, bot.jid ?? "");
                         }
                     }
                     break;
@@ -707,10 +747,10 @@ public class MessageRouter : Object {
                         string new_mode = args.down();
                         if (new_mode == "bridge" || new_mode == "forward") {
                             registry.set_setting("bot_%d_tg_mode".printf(bot.id), new_mode);
-                            response = _("Mode changed: %s").printf(new_mode) + "\n\n" + build_telegram_menu(bot.id);
+                            response = _("Mode changed: %s").printf(new_mode) + "\n\n" + build_telegram_menu(bot.id, bot.jid ?? "");
                         } else {
                             response = _("Invalid mode: %s").printf(new_mode) + "\n\n" +
-                                _("Available: bridge, forward") + "\n\n" + build_telegram_menu(bot.id);
+                                _("Available: bridge, forward") + "\n\n" + build_telegram_menu(bot.id, bot.jid ?? "");
                         }
                     } else {
                         string? current_mode = registry.get_setting("bot_%d_tg_mode".printf(bot.id));
@@ -718,11 +758,11 @@ public class MessageRouter : Object {
                             _("Change mode:") + "\n" +
                             "  /telegram mode bridge   - " + _("Messages in both directions") + "\n" +
                             "  /telegram mode forward  - " + _("Only XMPP -> Telegram") + "\n\n" +
-                            build_telegram_menu(bot.id);
+                            build_telegram_menu(bot.id, bot.jid ?? "");
                     }
                     break;
                 default:
-                    response = _("Unknown: /telegram %s").printf(action) + "\n\n" + build_telegram_menu(bot.id);
+                    response = _("Unknown: /telegram %s").printf(action) + "\n\n" + build_telegram_menu(bot.id, bot.jid ?? "");
                     break;
             }
         }
@@ -733,7 +773,7 @@ public class MessageRouter : Object {
     }
 
     // Build the Telegram main menu
-    private string build_telegram_menu(int bot_id) {
+    private string build_telegram_menu(int bot_id, string jid = "") {
         bool enabled = telegram.is_enabled(bot_id);
         bool configured = registry.get_setting("bot_%d_tg_token".printf(bot_id)) != null;
         string? mode = registry.get_setting("bot_%d_tg_mode".printf(bot_id));
@@ -753,26 +793,46 @@ public class MessageRouter : Object {
         sb.append(_("Commands:") + "\n\n");
 
         if (!configured) {
-            sb.append("/telegram setup    - " + _("Set up Telegram") + "\n");
-        } else {
-            if (enabled) {
-                sb.append("/telegram off      - " + _("Turn off bridge") + "\n");
+            if (jid != "") {
+                sb.append(cmd_uri(jid, "/telegram%20setup") + " \u2014 " + _("Set up Telegram") + "\n");
             } else {
-                sb.append("/telegram on       - " + _("Turn on bridge") + "\n");
+                sb.append("/telegram setup    - " + _("Set up Telegram") + "\n");
             }
-            sb.append("/telegram status   - " + _("Current configuration") + "\n");
-            sb.append("/telegram mode     - " + _("Show/change mode") + "\n");
-            sb.append("/telegram test     - " + _("Test connection") + "\n");
-            sb.append("/telegram setup    - " + _("Set up again") + "\n");
+        } else {
+            if (jid != "") {
+                if (enabled) {
+                    sb.append(cmd_uri(jid, "/telegram%20off") + " \u2014 " + _("Turn off bridge") + "\n");
+                } else {
+                    sb.append(cmd_uri(jid, "/telegram%20on") + " \u2014 " + _("Turn on bridge") + "\n");
+                }
+                sb.append(cmd_uri(jid, "/telegram%20status") + " \u2014 " + _("Current configuration") + "\n");
+                sb.append(cmd_uri(jid, "/telegram%20mode") + " \u2014 " + _("Show/change mode") + "\n");
+                sb.append(cmd_uri(jid, "/telegram%20test") + " \u2014 " + _("Test connection") + "\n");
+                sb.append(cmd_uri(jid, "/telegram%20setup") + " \u2014 " + _("Set up again") + "\n");
+            } else {
+                if (enabled) {
+                    sb.append("/telegram off      - " + _("Turn off bridge") + "\n");
+                } else {
+                    sb.append("/telegram on       - " + _("Turn on bridge") + "\n");
+                }
+                sb.append("/telegram status   - " + _("Current configuration") + "\n");
+                sb.append("/telegram mode     - " + _("Show/change mode") + "\n");
+                sb.append("/telegram test     - " + _("Test connection") + "\n");
+                sb.append("/telegram setup    - " + _("Set up again") + "\n");
+            }
         }
 
         sb.append("\n────────────────────\n");
-        sb.append(_("Back: /help"));
+        if (jid != "") {
+            sb.append(_("Back:") + " " + cmd_uri(jid, "/help"));
+        } else {
+            sb.append(_("Back: /help"));
+        }
         return sb.str;
     }
 
     // Build the Telegram setup guide
-    private string build_telegram_setup_menu() {
+    private string build_telegram_setup_menu(string jid = "") {
         var sb = new StringBuilder();
         sb.append(_("Telegram Setup") + "\n");
         sb.append("════════════════════\n\n");
@@ -793,7 +853,11 @@ public class MessageRouter : Object {
         sb.append("  bridge  = " + _("Messages in both directions (default)") + "\n");
         sb.append("  forward = " + _("Only XMPP -> Telegram") + "\n");
         sb.append("\n────────────────────\n");
-        sb.append(_("Back: /telegram"));
+        if (jid != "") {
+            sb.append(_("Back:") + " " + cmd_uri(jid, "/telegram"));
+        } else {
+            sb.append(_("Back: /telegram"));
+        }
         return sb.str;
     }
 
@@ -883,8 +947,15 @@ public class MessageRouter : Object {
         }
     }
 
+    // Build an xmpp: URI that auto-sends a command when clicked
+    private string cmd_uri(string jid, string command) {
+        string encoded = command.replace(" ", "%20");
+        return "xmpp:" + jid + "?message;body=" + encoded;
+    }
+
     // Build the main help menu
     private string build_help_menu(BotInfo bot) {
+        string jid = bot.jid ?? "";
         var sb = new StringBuilder();
         sb.append("%s\n".printf(bot.name ?? "Bot"));
         sb.append("════════════════════\n\n");
@@ -911,16 +982,25 @@ public class MessageRouter : Object {
 
         sb.append("\n────────────────────\n");
         sb.append(_("Menus:") + "\n\n");
-        sb.append("/ki         - " + _("AI assistant setup & control") + "\n");
-        sb.append("/telegram   - " + _("Telegram bridge setup & control") + "\n");
-        sb.append("/api        - " + _("HTTP API & webhook documentation") + "\n");
+        if (jid != "") {
+            sb.append(cmd_uri(jid, "/ki") + " \u2014 " + _("AI assistant setup & control") + "\n");
+            sb.append(cmd_uri(jid, "/telegram") + " \u2014 " + _("Telegram bridge setup & control") + "\n");
+            sb.append(cmd_uri(jid, "/api") + " \u2014 " + _("HTTP API & webhook documentation") + "\n");
+        } else {
+            sb.append("/ki         - " + _("AI assistant setup & control") + "\n");
+            sb.append("/telegram   - " + _("Telegram bridge setup & control") + "\n");
+            sb.append("/api        - " + _("HTTP API & webhook documentation") + "\n");
+        }
 
         sb.append("\n────────────────────\n");
         sb.append(_("Basic commands:") + "\n\n");
-        sb.append("/help       - " + _("This menu") + "\n");
-        sb.append("/start      - " + _("Greeting") + "\n");
-        sb.append("/info       - " + _("Bot details") + "\n");
-        sb.append("/clear      - " + _("Clear chat history") + "\n");
+        if (jid != "") {
+            sb.append(cmd_uri(jid, "/info") + " \u2014 " + _("Bot details") + "\n");
+            sb.append(cmd_uri(jid, "/clear") + " \u2014 " + _("Clear chat history") + "\n");
+        } else {
+            sb.append("/info       - " + _("Bot details") + "\n");
+            sb.append("/clear      - " + _("Clear chat history") + "\n");
+        }
 
         // Custom commands from DB
         var commands = registry.get_bot_commands(bot.id);
@@ -928,7 +1008,11 @@ public class MessageRouter : Object {
             sb.append("\n────────────────────\n");
             sb.append(_("Custom commands:") + "\n\n");
             foreach (var c in commands) {
-                sb.append("/%s - %s\n".printf(c.command, c.description));
+                if (jid != "") {
+                    sb.append(cmd_uri(jid, "/" + c.command) + " \u2014 " + c.description + "\n");
+                } else {
+                    sb.append("/%s - %s\n".printf(c.command, c.description));
+                }
             }
         }
 
@@ -936,16 +1020,32 @@ public class MessageRouter : Object {
         sb.append("\n────────────────────\n");
         sb.append(_("Quick start:") + "\n\n");
         if (!ki_configured) {
-            sb.append("/ki setup   - " + _("Set up AI now") + "\n");
+            if (jid != "") {
+                sb.append(cmd_uri(jid, "/ki%20setup") + " \u2014 " + _("Set up AI now") + "\n");
+            } else {
+                sb.append("/ki setup   - " + _("Set up AI now") + "\n");
+            }
         } else if (!ki_on) {
-            sb.append("/ki on      - " + _("Turn on AI") + "\n");
+            if (jid != "") {
+                sb.append(cmd_uri(jid, "/ki%20on") + " \u2014 " + _("Turn on AI") + "\n");
+            } else {
+                sb.append("/ki on      - " + _("Turn on AI") + "\n");
+            }
         } else {
             sb.append(_("Just send a message for the AI!") + "\n");
         }
         if (!tg_configured) {
-            sb.append("/telegram setup  - " + _("Set up Telegram now") + "\n");
+            if (jid != "") {
+                sb.append(cmd_uri(jid, "/telegram%20setup") + " \u2014 " + _("Set up Telegram now") + "\n");
+            } else {
+                sb.append("/telegram setup  - " + _("Set up Telegram now") + "\n");
+            }
         } else if (!tg_on) {
-            sb.append("/telegram on     - " + _("Turn on Telegram") + "\n");
+            if (jid != "") {
+                sb.append(cmd_uri(jid, "/telegram%20on") + " \u2014 " + _("Turn on Telegram") + "\n");
+            } else {
+                sb.append("/telegram on     - " + _("Turn on Telegram") + "\n");
+            }
         }
 
         return sb.str;
@@ -1017,18 +1117,34 @@ public class MessageRouter : Object {
         sb.append("Token: %s\n".printf(token_display));
         sb.append("JID: %s\n".printf(bot.jid ?? "?"));
 
-        sb.append("\n────────────────────\n");
-        sb.append(_("Topics:") + "\n\n");
-        sb.append("/api auth         - " + _("Authentication & token") + "\n");
-        sb.append("/api messages     - " + _("Send & receive messages") + "\n");
-        sb.append("/api webhook      - " + _("Set up webhook") + "\n");
-        sb.append("/api management   - " + _("Create, delete, manage bots") + "\n");
-        sb.append("/api advanced     - " + _("Files, reactions, rooms") + "\n");
-        sb.append("/api examples     - " + _("Quick start with curl") + "\n");
-        sb.append("/api server       - " + _("API server settings") + "\n");
+        string jid = bot.jid ?? "";
 
         sb.append("\n────────────────────\n");
-        sb.append(_("Back: /help"));
+        sb.append(_("Topics:") + "\n\n");
+        if (jid != "") {
+            sb.append(cmd_uri(jid, "/api%20auth") + " \u2014 " + _("Authentication & token") + "\n");
+            sb.append(cmd_uri(jid, "/api%20messages") + " \u2014 " + _("Send & receive messages") + "\n");
+            sb.append(cmd_uri(jid, "/api%20webhook") + " \u2014 " + _("Set up webhook") + "\n");
+            sb.append(cmd_uri(jid, "/api%20management") + " \u2014 " + _("Create, delete, manage bots") + "\n");
+            sb.append(cmd_uri(jid, "/api%20advanced") + " \u2014 " + _("Files, reactions, rooms") + "\n");
+            sb.append(cmd_uri(jid, "/api%20examples") + " \u2014 " + _("Quick start with curl") + "\n");
+            sb.append(cmd_uri(jid, "/api%20server") + " \u2014 " + _("API server settings") + "\n");
+        } else {
+            sb.append("/api auth         - " + _("Authentication & token") + "\n");
+            sb.append("/api messages     - " + _("Send & receive messages") + "\n");
+            sb.append("/api webhook      - " + _("Set up webhook") + "\n");
+            sb.append("/api management   - " + _("Create, delete, manage bots") + "\n");
+            sb.append("/api advanced     - " + _("Files, reactions, rooms") + "\n");
+            sb.append("/api examples     - " + _("Quick start with curl") + "\n");
+            sb.append("/api server       - " + _("API server settings") + "\n");
+        }
+
+        sb.append("\n────────────────────\n");
+        if (jid != "") {
+            sb.append(_("Back:") + " " + cmd_uri(jid, "/help"));
+        } else {
+            sb.append(_("Back: /help"));
+        }
         return sb.str;
     }
 
@@ -1070,7 +1186,7 @@ public class MessageRouter : Object {
         sb.append("    -d '{\"id\":%d}'\n".printf(bot.id));
 
         sb.append("\n────────────────────\n");
-        sb.append(_("Back: /api"));
+        { string _jid = bot.jid ?? ""; if (_jid != "") { sb.append(_("Back:") + " " + cmd_uri(_jid, "/api")); } else { sb.append(_("Back: /api")); } }
         return sb.str;
     }
 
@@ -1126,8 +1242,8 @@ public class MessageRouter : Object {
         sb.append("   }]}\n");
 
         sb.append("\n────────────────────\n");
-        sb.append(_("Next: /api webhook") + "\n");
-        sb.append(_("Back: /api"));
+        { string _jid = bot.jid ?? ""; if (_jid != "") { sb.append(_("Next:") + " " + cmd_uri(_jid, "/api%20webhook") + "\n"); } else { sb.append(_("Next: /api webhook") + "\n"); } }
+        { string _jid = bot.jid ?? ""; if (_jid != "") { sb.append(_("Back:") + " " + cmd_uri(_jid, "/api")); } else { sb.append(_("Back: /api")); } }
         return sb.str;
     }
 
@@ -1187,7 +1303,7 @@ public class MessageRouter : Object {
         sb.append("   assert header == 'sha256=' + sig\n");
 
         sb.append("\n────────────────────\n");
-        sb.append(_("Back: /api"));
+        { string _jid = bot.jid ?? ""; if (_jid != "") { sb.append(_("Back:") + " " + cmd_uri(_jid, "/api")); } else { sb.append(_("Back: /api")); } }
         return sb.str;
     }
 
@@ -1245,7 +1361,7 @@ public class MessageRouter : Object {
         sb.append("curl http://localhost:7842/health\n");
 
         sb.append("\n────────────────────\n");
-        sb.append(_("Back: /api"));
+        { string _jid = bot.jid ?? ""; if (_jid != "") { sb.append(_("Back:") + " " + cmd_uri(_jid, "/api")); } else { sb.append(_("Back: /api")); } }
         return sb.str;
     }
 
@@ -1320,7 +1436,7 @@ public class MessageRouter : Object {
         sb.append("  http://localhost:7842/bot/getInfo\n");
 
         sb.append("\n────────────────────\n");
-        sb.append(_("Back: /api"));
+        { string _jid = bot.jid ?? ""; if (_jid != "") { sb.append(_("Back:") + " " + cmd_uri(_jid, "/api")); } else { sb.append(_("Back: /api")); } }
         return sb.str;
     }
 
@@ -1601,7 +1717,7 @@ public class MessageRouter : Object {
         sb.append("         ejabberd/test\n");
 
         sb.append("\n────────────────────\n");
-        sb.append(_("Back: /api"));
+        { string _jid = bot.jid ?? ""; if (_jid != "") { sb.append(_("Back:") + " " + cmd_uri(_jid, "/api")); } else { sb.append(_("Back: /api")); } }
         return sb.str;
     }
 

@@ -1,7 +1,7 @@
 # DinoX - Development Plan
 
-> **Last Updated**: February 13, 2026
-> **Current Release Line**: 0.9.9.x
+> **Last Updated**: February 16, 2026
+> **Current Release Line**: 1.1.0.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
 
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Release Line** | 0.9.9.x |
+| **Release Line** | 1.1.0.x |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (~85% translated) |
 | **Build Status** | Clean |
@@ -173,6 +173,7 @@ This document is organized as a **chronological release timeline** first, follow
 | Item | Description | Status |
 |------|-------------|--------|
 | **Notification Sounds (Windows)** | Linux notification sounds (messages + call ringtone) are complete via libcanberra. Windows needs a native backend (PlaySound/XAudio2) since libcanberra is not available. | TODO |
+| **DTMF Tone Support (XEP-0181)** | Implement DTMF (Dual-Tone Multi-Frequency) signaling for Jingle calls. Required for IVR systems, voicemail navigation, and conference PINs. Uses XEP-0181 `<dtmf/>` element with Jingle RTP sessions. Needs UI dialpad overlay during active calls. Related: PayloadType negotiation issues observed with Opal.im gateway (Jacques Comeaux report). | TODO |
 | **Screen Sharing** | Share desktop or windows during calls | TODO |
 | **Whiteboard** | Collaborative drawing (protocol TBD) | CONCEPT |
 
