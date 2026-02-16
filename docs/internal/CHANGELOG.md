@@ -7,9 +7,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.1.0.2] - 2026-02-16
 
-### Security
-- **ejabberd.yaml removed from git history**: Configuration file containing database credentials was committed accidentally. Removed from entire git history using `git filter-repo`. File added to `.gitignore`.
-
 ### Fixed
 - **Password dialog i18n**: All 22 German gettext msgid strings in password dialogs (unlock, set password, change DB password, backup restore) converted to English. Non-German/non-English users previously saw German fallback text instead of their language.
 - **change_password_dialog.vala**: Wrapped 2 hardcoded English strings (`"Error: %s"`, `"Wrong current password"`) in `_()` for translation.
