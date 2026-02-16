@@ -296,9 +296,17 @@ public static string parse_add_markup_theme(string s_, string? highlight_word, b
                     }
                 }
 
+                // For xmpp: command URIs, show only the command text
+                string display = link;
+                if (link.has_prefix("xmpp:") && link.contains("?message;body=")) {
+                    int body_idx = link.index_of("?message;body=") + "?message;body=".length;
+                    string? decoded = GLib.Uri.unescape_string(link.substring(body_idx));
+                    if (decoded != null && decoded != "") display = decoded;
+                }
+
                 return parse_add_markup_theme(s[0:start], highlight_word, parse_links, parse_text_markup, false, dark_theme, ref theme_dependent, already_escaped) +
                         "<a href=\"" + Markup.escape_text(link) + "\">" +
-                        parse_add_markup_theme(link, highlight_word, false, false, false, dark_theme, ref theme_dependent, already_escaped) +
+                        parse_add_markup_theme(display, highlight_word, false, false, false, dark_theme, ref theme_dependent, already_escaped) +
                         "</a>" +
                         parse_add_markup_theme(s[end:s.length], highlight_word, parse_links, parse_text_markup, false, dark_theme, ref theme_dependent, already_escaped);
             }
