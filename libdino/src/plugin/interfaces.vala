@@ -125,6 +125,9 @@ public interface VideoCallPlugin : Object {
     public abstract double get_stream_volume(Xmpp.Xep.JingleRtp.Stream? stream);
     public abstract void set_stream_volume(Xmpp.Xep.JingleRtp.Stream? stream, double volume);
 
+    // DTMF (RFC 4733 telephone-event)
+    public abstract void send_dtmf(Xmpp.Xep.JingleRtp.Stream? stream, char digit, uint duration_ms = 250);
+
     public abstract void dump_dot();
 }
 

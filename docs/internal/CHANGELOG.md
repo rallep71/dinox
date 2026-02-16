@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - **Clickable Bot Command Menus**: All interactive bot menus (`/help`, `/ki`, `/telegram`, `/api` and their sub-menus) now generate clickable `xmpp:` URIs. Users can click commands directly instead of typing them. Links display only the command text (e.g. `/ki`) instead of the full URI. Clicking sends the command in the current conversation without opening an external dialog or switching accounts.
+- **DTMF Support (RFC 4733)**: Full telephone-event DTMF implementation for audio and video calls. DTMF tones are sent as RFC 4733 RTP packets by injecting them directly into the audio RTP stream (replacing audio payloads during tone duration). This preserves the same sequence number stream and SSRC, avoiding any SRTP replay protection conflicts. Supports digits 0-9, *, #, A-D with configurable duration (default 250ms). Payload type is dynamically resolved from the negotiated session parameters (typically PT 101 at 8kHz or PT 110 at 48kHz depending on remote client).
+- **Dialpad UI**: New `CallDialpad` popover widget with 3x4 grid (0-9, *, #) including telephone-style sublabels (ABC, DEF, etc.). Accessible via dialpad button in the call bottom bar during active audio/video calls. Digits queued automatically when typing faster than tone duration to prevent dropped inputs.
+- **SIP & DTMF Analysis Document**: Comprehensive 8-section analysis (`docs/internal/SIP_DTMF_ANALYSIS.md`) covering the Jingle call stack, codec inventory, DTMF methods (RFC 4733 vs XEP-0181), ejabberd mod_sip evaluation, SIP-Gateway compatibility (Opal.im), and implementation roadmap.
+
+### Fixed
+- **Dialpad Disappearing During Video Calls**: The call window's auto-hide timer (3 seconds of no mouse movement) was closing the dialpad popover because `is_menu_active()` only checked audio/video settings popovers. Now also checks the dialpad popover state, keeping controls visible while the dialpad is open.
+- **DTMF Lag During Video Calls**: DTMF timing was driven by `Timeout.add()` and `Idle.add()` on the GLib main loop, which is heavily loaded during video rendering. Replaced with RTP-timestamp-based timing in the streaming thread — duration is now measured in audio clockrate samples (e.g. 12000 samples = 250ms at 48kHz), completely independent of UI thread load.
 
 ### Changed
 - **Version**: Bumped from 1.1.0.2 to 1.1.0.3

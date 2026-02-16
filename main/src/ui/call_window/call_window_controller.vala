@@ -85,6 +85,15 @@ public class Dino.Ui.CallWindowController : Object {
             call_state.mute_own_video(!call_window.bottom_bar.video_enabled);
             update_own_video();
         });
+        bottom_bar_handler_ids += call_window.bottom_bar.dtmf_digit.connect((digit) => {
+            // Send DTMF via RFC 4733 to all peers' audio streams
+            foreach (PeerState peer_state in call_state.peers.values) {
+                var audio_stream = peer_state.get_audio_stream();
+                if (audio_stream != null) {
+                    call_plugin.send_dtmf(audio_stream, digit);
+                }
+            }
+        });
         call_window_handler_ids += call_window.notify["default-width"].connect((event) => {
             if (call_window.default_width == -1) return;
             int current_width = this.call_window.get_width();

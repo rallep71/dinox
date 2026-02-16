@@ -39,6 +39,8 @@ public class Dino.Plugins.Rtp.CodecUtil {
                     return "pcmu";
                 case 8:
                     return "pcma";
+                case 101:
+                    return "telephone-event";
             }
         }
         return null;

@@ -5,6 +5,7 @@ using Pango;
 public class Dino.Ui.CallBottomBar : Gtk.Box {
 
     public signal void hang_up();
+    public signal void dtmf_digit(char digit);
 
     public bool audio_enabled { get; set; }
     public bool video_enabled { get; set; }
@@ -22,6 +23,8 @@ public class Dino.Ui.CallBottomBar : Gtk.Box {
     private Image video_image = new Image() { pixel_size=22 };
     private MenuButton video_settings_button = new MenuButton() { halign=Align.END, valign=Align.END };
     public VideoSettingsPopover? video_settings_popover;
+
+    private MenuButton dialpad_button = new MenuButton() { height_request=45, width_request=45, halign=Align.START, valign=Align.START };
 
     private Label label = new Label("") { halign=Align.CENTER, valign=Align.CENTER, wrap=true, wrap_mode=Pango.WrapMode.WORD_CHAR, hexpand=true };
     private Stack stack = new Stack();
@@ -60,6 +63,20 @@ public class Dino.Ui.CallBottomBar : Gtk.Box {
         video_settings_button.add_css_class("call-button");
         video_settings_button.add_css_class("call-mediadevice-settings-button");
         main_buttons.append(video_button_overlay);
+
+        // Dialpad (DTMF) button
+        dialpad_button.set_child(new Image() { icon_name="input-dialpad-symbolic", pixel_size=22 });
+        dialpad_button.add_css_class("circular");
+        dialpad_button.add_css_class("white-button");
+        var dialpad = new CallDialpad();
+        dialpad.digit_pressed.connect((digit) => {
+            dtmf_digit(digit);
+        });
+        dialpad_button.popover = dialpad;
+        Adw.Bin dialpad_button_bin = new Adw.Bin() { valign=Align.START };
+        dialpad_button_bin.add_css_class("call-button");
+        dialpad_button_bin.set_child(dialpad_button);
+        main_buttons.append(dialpad_button_bin);
 
         Button button_hang = new Button() { height_request=45, width_request=45, halign=Align.START, valign=Align.START };
         button_hang.set_child(new Image() { icon_name="dino-phone-hangup-symbolic", pixel_size=22 });
@@ -156,6 +173,7 @@ public class Dino.Ui.CallBottomBar : Gtk.Box {
 
     public bool is_menu_active() {
         return (video_settings_button.popover != null && video_settings_button.popover.visible) ||
-                (audio_settings_button.popover != null && audio_settings_button.popover.visible);
+                (audio_settings_button.popover != null && audio_settings_button.popover.visible) ||
+                (dialpad_button.popover != null && dialpad_button.popover.visible);
     }
 }
