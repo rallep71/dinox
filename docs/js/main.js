@@ -887,27 +887,77 @@ function loadGoogleTranslateScript() {
         }
 
         function showConsentDialog(lang) {
+            // Localized consent texts
+            var texts = {
+                de: {
+                    title: 'Übersetzung via Google Translate',
+                    body: 'Wenn Sie eine andere Sprache als Englisch wählen, wird ein Skript von ' +
+                        '<strong>Google Translate</strong> (<code>translate.google.com</code>) geladen. ' +
+                        'Google kann dabei Cookies setzen (z.\u00a0B. <code>googtrans</code>, <code>NID</code>) und ' +
+                        'technische Daten empfangen (IP-Adresse, Browser-Kennung, Seiteninhalt).',
+                    details: 'Details',
+                    googlePolicy: 'Google-Datenschutzerklärung',
+                    ourPolicy: 'Unsere Datenschutzerklärung \u00a78a',
+                    accept: 'Akzeptieren',
+                    cancel: 'Abbrechen'
+                },
+                fr: {
+                    title: 'Traduction via Google Translate',
+                    body: 'En sélectionnant une langue autre que l\u2019anglais, un script de ' +
+                        '<strong>Google Translate</strong> (<code>translate.google.com</code>) sera chargé. ' +
+                        'Google peut déposer des cookies (par ex. <code>googtrans</code>, <code>NID</code>) et ' +
+                        'recevoir des données techniques (adresse IP, navigateur, contenu de la page).',
+                    details: 'Détails',
+                    googlePolicy: 'Politique de confidentialité Google',
+                    ourPolicy: 'Notre politique de confidentialité \u00a78a',
+                    accept: 'Accepter',
+                    cancel: 'Annuler'
+                },
+                es: {
+                    title: 'Traducción a través de Google Translate',
+                    body: 'Al seleccionar un idioma distinto del inglés, se cargará un script de ' +
+                        '<strong>Google Translate</strong> (<code>translate.google.com</code>). ' +
+                        'Google puede establecer cookies (p.\u00a0ej. <code>googtrans</code>, <code>NID</code>) y ' +
+                        'recibir datos técnicos (dirección IP, navegador, contenido de la página).',
+                    details: 'Detalles',
+                    googlePolicy: 'Política de privacidad de Google',
+                    ourPolicy: 'Nuestra política de privacidad \u00a78a',
+                    accept: 'Aceptar',
+                    cancel: 'Cancelar'
+                }
+            };
+            // Fallback to English
+            var t = texts[lang] || {
+                title: 'Translation via Google Translate',
+                body: 'By selecting a language other than English, a script from ' +
+                    '<strong>Google Translate</strong> (<code>translate.google.com</code>) will be loaded. ' +
+                    'Google may set cookies (e.g. <code>googtrans</code>, <code>NID</code>) and receive ' +
+                    'technical data (IP address, browser info, page content).',
+                details: 'Details',
+                googlePolicy: 'Google Privacy Policy',
+                ourPolicy: 'Our Privacy Policy \u00a78a',
+                accept: 'Accept',
+                cancel: 'Cancel'
+            };
+
             // Build overlay
             var overlay = document.createElement('div');
             overlay.className = 'gt-consent-overlay active';
             overlay.setAttribute('role', 'dialog');
             overlay.setAttribute('aria-modal', 'true');
-            overlay.setAttribute('aria-label', 'Google Translate consent');
+            overlay.setAttribute('aria-label', t.title);
 
             var box = document.createElement('div');
             box.className = 'gt-consent-box';
             box.innerHTML =
-                '<h3>Translation via Google Translate</h3>' +
-                '<p>By selecting a language other than English, a script from ' +
-                '<strong>Google Translate</strong> (<code>translate.google.com</code>) will be loaded. ' +
-                'Google may set cookies (e.g. <code>googtrans</code>, <code>NID</code>) and receive ' +
-                'technical data (IP address, browser info, page content).<br><br>' +
-                'Details: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">' +
-                'Google Privacy Policy</a> \u00b7 <a href="privacy.html#8a" target="_blank" rel="noopener noreferrer">' +
-                'Our Privacy Policy \u00a78a</a></p>' +
+                '<h3>' + t.title + '</h3>' +
+                '<p>' + t.body + '<br><br>' +
+                t.details + ': <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">' +
+                t.googlePolicy + '</a> \u00b7 <a href="privacy.html#8a" target="_blank" rel="noopener noreferrer">' +
+                t.ourPolicy + '</a></p>' +
                 '<div class="gt-consent-actions">' +
-                '<button type="button" class="btn btn-primary gt-consent-accept">Accept</button>' +
-                '<button type="button" class="btn btn-secondary gt-consent-cancel">Cancel</button>' +
+                '<button type="button" class="btn btn-primary gt-consent-accept">' + t.accept + '</button>' +
+                '<button type="button" class="btn btn-secondary gt-consent-cancel">' + t.cancel + '</button>' +
                 '</div>';
 
             overlay.appendChild(box);
