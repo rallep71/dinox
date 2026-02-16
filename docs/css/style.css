@@ -580,11 +580,34 @@ ul, ol {
     gap: var(--space-xl);
 }
 
+/* Hero grid: title full-width on top, slider left + content right */
+.hero-grid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--space-xl);
+}
+
 @media (min-width: 1024px) {
-    .hero .container {
-        flex-direction: row;
+    .hero-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto 1fr;
+        gap: var(--space-2xl) var(--space-3xl);
         text-align: left;
-        gap: var(--space-3xl);
+        align-items: start;
+    }
+}
+
+.hero-header {
+    width: 100%;
+}
+
+@media (min-width: 1024px) {
+    .hero-header {
+        grid-column: 1 / -1;
+        text-align: center;
     }
 }
 
@@ -592,11 +615,21 @@ ul, ol {
     flex: 1;
     max-width: 100%;
     width: 100%;
+    order: 2;
 }
 
 @media (min-width: 768px) {
     .hero-content {
         max-width: 600px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .hero-content {
+        max-width: none;
+        order: 0;
+        grid-column: 2;
+        grid-row: 2;
     }
 }
 
@@ -651,7 +684,7 @@ ul, ol {
     font-size: clamp(1rem, 2.5vw, 1.25rem);
     color: var(--text-secondary);
     margin-bottom: var(--space-xl);
-    max-width: 540px;
+    max-width: 600px;
 }
 
 .hero-buttons {
@@ -700,6 +733,24 @@ ul, ol {
     }
 }
 
+/* Hero title centered on desktop */
+@media (min-width: 1024px) {
+    .hero-title {
+        text-align: center;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .hero-badge {
+        display: inline-flex;
+    }
+    .hero-header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
 .tag {
     padding: var(--space-xs) var(--space-md);
     background: var(--bg-card);
@@ -716,11 +767,21 @@ ul, ol {
     width: 100%;
     max-width: 100%;
     position: relative;
+    order: 1;
 }
 
 @media (min-width: 768px) {
     .hero-slider {
         max-width: 600px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .hero-slider {
+        max-width: none;
+        order: 0;
+        grid-column: 1;
+        grid-row: 2;
     }
 }
 
