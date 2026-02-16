@@ -5,6 +5,7 @@
  */
 
 /* Google Translate initialization – must be in global scope */
+var _gtScriptLoaded = false;
 function googleTranslateElementInit() {
     new google.translate.TranslateElement({
         pageLanguage: 'en',
@@ -12,6 +13,15 @@ function googleTranslateElementInit() {
         autoDisplay: false,
         layout: google.translate.TranslateElement.InlineLayout.SIMPLE
     }, 'google_translate_element');
+}
+
+function loadGoogleTranslateScript() {
+    if (_gtScriptLoaded) return;
+    _gtScriptLoaded = true;
+    var s = document.createElement('script');
+    s.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+    s.async = true;
+    document.body.appendChild(s);
 }
 
 (function() {
@@ -858,6 +868,8 @@ function googleTranslateElementInit() {
                 document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/';
                 document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.' + window.location.hostname;
             } else {
+                // Lazy-load Google Translate script on first non-EN selection
+                loadGoogleTranslateScript();
                 document.cookie = 'googtrans=/en/' + lang + '; path=/';
                 document.cookie = 'googtrans=/en/' + lang + '; path=/; domain=.' + window.location.hostname;
             }
@@ -874,7 +886,12 @@ function googleTranslateElementInit() {
         });
 
         // Set initial active state from cookie
-        setActiveState(getActiveLanguage());
+        var activeLang = getActiveLanguage();
+        setActiveState(activeLang);
+        // Load Google Translate if a non-EN language is already active (from cookie)
+        if (activeLang !== 'en') {
+            loadGoogleTranslateScript();
+        }
     })();
 
     // ========================================
@@ -1038,21 +1055,34 @@ function googleTranslateElementInit() {
         const docCache = {};
 
         function fetchDoc(name) {
-            const cached = docCache[name];
+            var cached = docCache[name];
             if (cached && Date.now() - cached.ts < CACHE_TTL) {
                 return Promise.resolve(cached.html);
             }
 
-            const url = BASE_RAW + name + '.md';
-            return fetch(url)
+            var url = BASE_RAW + name + '.md';
+            // Abort after 15 seconds to avoid hanging spinner
+            var controller = ('AbortController' in window) ? new AbortController() : null;
+            var timeoutId = controller ? window.setTimeout(function() { controller.abort(); }, 15000) : null;
+            var fetchOpts = controller ? { signal: controller.signal } : undefined;
+
+            return fetch(url, fetchOpts)
                 .then(function(res) {
+                    if (timeoutId) window.clearTimeout(timeoutId);
                     if (!res.ok) throw new Error('HTTP ' + res.status);
                     return res.text();
                 })
                 .then(function(md) {
-                    var rendered = mdToHtml(md);
-                    docCache[name] = { html: rendered, ts: Date.now() };
-                    return rendered;
+                    try {
+                        var rendered = mdToHtml(md);
+                        docCache[name] = { html: rendered, ts: Date.now() };
+                        return rendered;
+                    } catch (parseErr) {
+                        console.warn('Markdown parse error:', parseErr);
+                        // Fallback: wrap raw text in <pre>
+                        var safe = md.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                        return '<pre style="white-space:pre-wrap;word-break:break-word;">' + safe + '</pre>';
+                    }
                 });
         }
 
