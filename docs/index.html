@@ -195,11 +195,20 @@
             
             <ul class="nav-menu">
                 <li><a href="#features">Features</a></li>
+                <li><a href="#docs">Docs</a></li>
                 <li><a href="#download">Download</a></li>
                 <li><a href="#xep">XEP Support</a></li>
                 <li><a href="#changelog">Changelog</a></li>
                 <li><a href="#donate">Support</a></li>
                 <li><a href="https://github.com/rallep71/dinox">GitHub</a></li>
+                <li class="lang-switcher-wrapper">
+                    <div class="lang-switcher" role="listbox" aria-label="Language">
+                        <button type="button" class="lang-btn active" data-lang="en" role="option" aria-selected="true" title="English">EN</button>
+                        <button type="button" class="lang-btn" data-lang="de" role="option" aria-selected="false" title="Deutsch">DE</button>
+                        <button type="button" class="lang-btn" data-lang="fr" role="option" aria-selected="false" title="Fran\u00e7ais">FR</button>
+                        <button type="button" class="lang-btn" data-lang="es" role="option" aria-selected="false" title="Espa\u00f1ol">ES</button>
+                    </div>
+                </li>
             </ul>
             
             <div class="nav-actions">
@@ -231,11 +240,18 @@
         <!-- Mobile Menu -->
         <div class="mobile-menu" id="mobileMenu">
             <a href="#features">Features</a>
+            <a href="#docs">Docs</a>
             <a href="#download">Download</a>
             <a href="#xep">XEP Support</a>
             <a href="#changelog">Changelog</a>
             <a href="#donate">Support</a>
             <a href="https://github.com/rallep71/dinox">GitHub</a>
+            <div class="lang-switcher mobile-lang" role="listbox" aria-label="Language">
+                <button type="button" class="lang-btn active" data-lang="en" role="option" aria-selected="true" title="English">EN</button>
+                <button type="button" class="lang-btn" data-lang="de" role="option" aria-selected="false" title="Deutsch">DE</button>
+                <button type="button" class="lang-btn" data-lang="fr" role="option" aria-selected="false" title="Fran\u00e7ais">FR</button>
+                <button type="button" class="lang-btn" data-lang="es" role="option" aria-selected="false" title="Espa\u00f1ol">ES</button>
+            </div>
         </div>
     </nav>
 
@@ -500,6 +516,91 @@
                         <h3>47 Languages</h3>
                         <p>Translated into 47 languages — ~85% coverage. <a href="https://hosted.weblate.org/engage/dinox/">Help translate on Weblate</a> — no setup needed!</p>
                     </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== Documentation Section ===== -->
+        <section id="docs" class="docs" aria-labelledby="docs-title">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title" id="docs-title">Documentation</h2>
+                    <p class="section-subtitle">Everything you need to build, debug and contribute</p>
+                </div>
+
+                <div class="docs-grid" role="list">
+                    <a href="https://github.com/rallep71/dinox/blob/master/docs/internal/BUILD.md" class="docs-card" role="listitem" rel="noopener">
+                        <div class="docs-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="16 18 22 12 16 6"/>
+                                <polyline points="8 6 2 12 8 18"/>
+                            </svg>
+                        </div>
+                        <h3>Build</h3>
+                        <p>Build instructions for Linux and Windows (MSYS2/MinGW64). Meson/Ninja setup, dependencies, cross-compilation.</p>
+                    </a>
+
+                    <a href="https://github.com/rallep71/dinox/blob/master/docs/internal/DEBUG.md" class="docs-card" role="listitem" rel="noopener">
+                        <div class="docs-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/>
+                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                                <line x1="12" y1="17" x2="12.01" y2="17"/>
+                            </svg>
+                        </div>
+                        <h3>Debug</h3>
+                        <p>Debugging guide with GDB, log collection scripts, GStreamer pipeline inspection and call diagnostics.</p>
+                    </a>
+
+                    <a href="https://github.com/rallep71/dinox/blob/master/docs/internal/CHANGELOG.md" class="docs-card" role="listitem" rel="noopener">
+                        <div class="docs-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                                <line x1="16" y1="13" x2="8" y2="13"/>
+                                <line x1="16" y1="17" x2="8" y2="17"/>
+                                <polyline points="10 9 9 9 8 9"/>
+                            </svg>
+                        </div>
+                        <h3>Changelog</h3>
+                        <p>Full release history from v0.7.1 to current. Every feature, fix and improvement documented in detail.</p>
+                    </a>
+
+                    <a href="https://github.com/rallep71/dinox/blob/master/docs/internal/API_BOTMOTHER_AI_GUIDE.md" class="docs-card" role="listitem" rel="noopener">
+                        <div class="docs-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1.07A7 7 0 0 1 14 23h-4a7 7 0 0 1-6.93-6H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73A2 2 0 0 1 12 2z"/>
+                                <circle cx="9" cy="15" r="1"/>
+                                <circle cx="15" cy="15" r="1"/>
+                            </svg>
+                        </div>
+                        <h3>API &amp; Botmother AI Guide</h3>
+                        <p>Comprehensive 12-chapter guide covering bot management, AI integration (9 providers), Telegram bridge, 31 REST API endpoints and TLS setup.</p>
+                    </a>
+
+                    <a href="https://github.com/rallep71/dinox/blob/master/docs/internal/DEVELOPMENT_PLAN.md" class="docs-card" role="listitem" rel="noopener">
+                        <div class="docs-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+                                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+                            </svg>
+                        </div>
+                        <h3>Development Plan</h3>
+                        <p>Roadmap and architecture overview. Planned features, milestones and technical design decisions.</p>
+                    </a>
+
+                    <a href="https://github.com/rallep71/dinox/blob/master/docs/internal/CONTRIBUTING.md" class="docs-card" role="listitem" rel="noopener">
+                        <div class="docs-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                <circle cx="8.5" cy="7" r="4"/>
+                                <line x1="20" y1="8" x2="20" y2="14"/>
+                                <line x1="23" y1="11" x2="17" y2="11"/>
+                            </svg>
+                        </div>
+                        <h3>Contributing</h3>
+                        <p>How to contribute to DinoX. Code style, pull request guidelines, issue reporting and development setup.</p>
+                    </a>
                 </div>
             </div>
         </section>
@@ -1027,7 +1128,7 @@ ninja -C build && sudo ninja -C build install</code></pre>
             </div>
             
             <div class="footer-bottom">
-                <p>© 2025 Ralf Peter. Licensed under <a href="https://github.com/rallep71/dinox/blob/master/LICENSE">GPLv3</a>.</p>
+                <p>© 2025–2026 Ralf Peter. Licensed under <a href="https://github.com/rallep71/dinox/blob/master/LICENSE">GPLv3</a>.</p>
                 <p>
                     <a href="impressum.html">Imprint</a> · <a href="privacy.html">Privacy Policy</a> · <a href="donations.html">Donations &amp; transparency</a>
                 </p>
@@ -1049,6 +1150,9 @@ ninja -C build && sudo ninja -C build install</code></pre>
         <div class="lightbox-caption" id="lightboxCaption" aria-live="polite"></div>
     </div>
 
+    <!-- Hidden Google Translate element -->
+    <div id="google_translate_element" style="display:none" aria-hidden="true"></div>
     <script src="js/main.js"></script>
+    <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" defer></script>
 </body>
 </html>

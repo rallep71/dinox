@@ -23,8 +23,18 @@
                 <li><a href="./#download">Download</a></li>
                 <li><a href="./#xep">XEP Support</a></li>
                 <li><a href="./#donate">Support</a></li>
+                <li><a href="./#docs">Docs</a></li>
                 <li><a href="https://github.com/rallep71/dinox">GitHub</a></li>
             </ul>
+
+            <div class="lang-switcher-wrapper" role="listbox" aria-label="Language">
+                <div class="lang-switcher">
+                    <button type="button" class="lang-btn active" data-lang="en" role="option" aria-selected="true">EN</button>
+                    <button type="button" class="lang-btn" data-lang="de" role="option" aria-selected="false">DE</button>
+                    <button type="button" class="lang-btn" data-lang="fr" role="option" aria-selected="false">FR</button>
+                    <button type="button" class="lang-btn" data-lang="es" role="option" aria-selected="false">ES</button>
+                </div>
+            </div>
 
             <div class="nav-actions">
                 <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
@@ -57,7 +67,14 @@
             <a href="./#download">Download</a>
             <a href="./#xep">XEP Support</a>
             <a href="./#donate">Support</a>
+            <a href="./#docs">Docs</a>
             <a href="https://github.com/rallep71/dinox">GitHub</a>
+            <div class="lang-switcher mobile-lang" role="listbox" aria-label="Language">
+                <button type="button" class="lang-btn active" data-lang="en" role="option" aria-selected="true">EN</button>
+                <button type="button" class="lang-btn" data-lang="de" role="option" aria-selected="false">DE</button>
+                <button type="button" class="lang-btn" data-lang="fr" role="option" aria-selected="false">FR</button>
+                <button type="button" class="lang-btn" data-lang="es" role="option" aria-selected="false">ES</button>
+            </div>
         </div>
     </nav>
 
@@ -134,6 +151,22 @@
                         This website serves its fonts locally from the same domain. No fonts are loaded from Google Fonts.
                     </p>
 
+                    <h2>8a. Translation service (Google Translate)</h2>
+                    <p>
+                        This website offers an optional language switcher powered by Google Translate. When you select a
+                        language other than English, a script from Google (<code>translate.google.com</code>) is loaded
+                        and your browser connects to Google servers. Google may set cookies (e.g. <code>googtrans</code>,
+                        <code>NID</code>) and receive technical connection data (IP address, user agent, page content).
+                    </p>
+                    <p>
+                        Google processes this data under its own responsibility. For details, see the
+                        <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google Privacy Policy</a>.
+                    </p>
+                    <p>
+                        Legal basis (GDPR): Art. 6(1)(a) (consent) — translation is only triggered by an active user action
+                        (clicking a language button).
+                    </p>
+
                     <h2>9. Your rights</h2>
                     <p>
                         Depending on the applicable law (in particular the GDPR), you may have rights including access, rectification,
@@ -161,7 +194,7 @@
         <div class="container">
             <div class="footer-bottom">
                 <p>
-                    © 2025 Ralf Peter. Licensed under <a href="https://github.com/rallep71/dinox/blob/master/LICENSE">GPLv3</a>.
+                    © 2025–2026 Ralf Peter. Licensed under <a href="https://github.com/rallep71/dinox/blob/master/LICENSE">GPLv3</a>.
                     · <a href="impressum.html">Imprint</a>
                     · <a href="privacy.html">Privacy Policy</a>
                     · <a href="donations.html">Donations &amp; transparency</a>
@@ -170,6 +203,8 @@
         </div>
     </footer>
 
+    <div id="google_translate_element" style="display:none" aria-hidden="true"></div>
     <script src="js/main.js"></script>
+    <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" defer></script>
 </body>
 </html>
