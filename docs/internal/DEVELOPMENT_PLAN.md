@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Release Line** | 1.1.0.x |
+| **Current Version** | 1.1.0.3 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (~85% translated) |
 | **Build Status** | Clean |
@@ -20,6 +20,57 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v1.1.0.3 (DTMF Support, Dialpad UI, Clickable Bot Commands)
+
+- **DTMF Support (RFC 4733)**: Full telephone-event DTMF for audio and video calls. Direct RTP packet injection into the audio stream (same seqnum/SSRC/SRTP path). Supports 0-9, *, #, A-D with 250ms default duration. Dynamic payload type resolution from negotiated session.
+- **Dialpad UI**: New `CallDialpad` popover with 3x4 grid and telephone-style sublabels. Accessible via dialpad button during active calls. Automatic digit queuing for fast input.
+- **Clickable Bot Command Menus**: All interactive bot menus (`/help`, `/ki`, `/telegram`, `/api`) generate clickable `xmpp:` URIs. Users click commands instead of typing them.
+- **Dialpad Auto-Hide Fix**: `is_menu_active()` now checks the dialpad popover, preventing the 3-second auto-hide timer from closing the dialpad during video calls.
+- **DTMF Video Call Lag Fix**: Replaced GLib main-loop timers (`Timeout.add`/`Idle.add`) with RTP-timestamp-based timing in the streaming thread. Duration measured in audio clockrate samples, independent of UI thread load.
+
+### v1.1.0.2 (i18n Password Dialogs, Website Fixes)
+
+- **Password Dialog i18n**: All 22 German gettext msgid strings in password dialogs converted to English. Non-German users previously saw German fallback text.
+- **Translation Format-Spec Fixes**: Fixed format-spec errors in 12 .po files caused by `msguniq` concatenating duplicate `msgstr` values.
+- **Website**: Fixed XMPP contact URI from `?join` (MUC) to `?message` (regular JID). Clarified footer text about REST API.
+
+### v1.1.0.1 (Telegram Inline Media, /clear Command)
+
+- **Telegram Inline Media Display**: Photos, videos, audio and GIFs from Telegram now display inline in XMPP conversations via two-message approach (info text + bare URL).
+- **Telegram Sticker Handling**: Static `.webp` stickers forwarded as inline images. Animated `.tgs`/`.webm` converted to emoji representation.
+- **`/clear` Command**: Clean bot conversations -- clears AI history (RAM) and local SQLite DB. Optional `/clear mam` deletes ejabberd MAM archive.
+- **Telegram 409 Polling Fix**: Per-bot polling lock, long polling (25s), `deleteWebhook` on startup, 5-second backoff on HTTP 409.
+
+### v1.1.0.0 (AI Integration, Telegram Bridge, TLS API Server)
+
+- **AI Integration (9 Providers)**: OpenAI, Claude, Gemini, Groq, Mistral, DeepSeek, Perplexity, Ollama and OpenClaw. Per-bot provider/model/endpoint/API key settings.
+- **OpenClaw Agent Support**: 9th AI provider -- autonomous agent integration via `{"message": "..."}` POST with Bearer token auth.
+- **Telegram Bridge**: Bidirectional XMPP-to-Telegram message bridge with polling mode, auto-reconnect, and connection testing.
+- **HTTP API Extensions**: 9 new REST endpoints for Telegram (5) and AI (4). Total: 31 REST endpoints.
+- **TLS API Server**: Auto-generated self-signed certificates (cert_gen.c). Configurable via preferences UI.
+- **Auto-Restart API Server**: Server restarts automatically when settings change (port, TLS, certificates).
+- **Dedicated Bot Mode with OMEMO**: Full OMEMO encryption for bots with session pool management.
+- **Interactive Menu System**: BotFather-style chat menus for `/help`, `/ki`, `/telegram`, `/api`.
+- **API_BOTMOTHER_AI_GUIDE.md**: Comprehensive 12-chapter documentation (bot management, AI, Telegram, HTTP API, TLS).
+
+### v1.0.1.0 (Botmother Chat Interface)
+
+- **Botmother Chat Interface**: Interactive bot management via self-chat commands (BotFather-style). Commands: `/newbot`, `/mybots`, `/deletebot`, `/token`, `/showtoken`, `/revoke`, `/activate`, `/deactivate`, `/setcommands`, `/setdescription`, `/status`, `/help`.
+- **BotManagerDialog**: GTK4/libadwaita dialog showing all bots with status icons, mode, token copy, and delete.
+- **BotCreateDialog**: Create bots with name and mode selection.
+- **Per-Account Botmother Toggle**: Enable/disable Botmother per account.
+- **Auto-Pin Self-Chat**: Botmother self-chat conversation auto-pinned when account has bots.
+- **OMEMO Race Condition Fix**: `message_states.unset()` outside lock caused concurrent HashMap modification crash.
+- **SQLite Upsert Fix**: Missing conflict column in `set_setting()` caused empty `ON CONFLICT()` SQL.
+
+### v1.0.0.0 (Bot-Features Plugin, Ad-Hoc Commands)
+
+- **XEP-0050 Ad-Hoc Commands**: XMPP module for executing, listing and handling ad-hoc commands.
+- **Bot-Features Plugin**: Local HTTP API (localhost:7842) for bot management and XMPP message routing. Token auth, rate limiting, webhooks, 16 REST endpoints.
+- **Sticker Publish Fix**: `publish_pack()` uploaded AES-256-GCM encrypted files instead of plaintext. Now decrypts to temp file.
+- **Sticker Chooser Lag Fix**: O(n^2) `remove(0)` loop replaced with `remove_all()` (O(1)).
+- **Sticker Thumbnail Speed**: Reduced `Thread.usleep` from 30ms to 2ms, increasing throughput from ~33 to ~500 thumbs/sec.
 
 ### v0.9.9.9 (MUC OMEMO, Notification Sounds, Call Ringtone)
 
@@ -173,7 +224,6 @@ This document is organized as a **chronological release timeline** first, follow
 | Item | Description | Status |
 |------|-------------|--------|
 | **Notification Sounds (Windows)** | Linux notification sounds (messages + call ringtone) are complete via libcanberra. Windows needs a native backend (PlaySound/XAudio2) since libcanberra is not available. | TODO |
-| **DTMF Tone Support (XEP-0181)** | Implement DTMF (Dual-Tone Multi-Frequency) signaling for Jingle calls. Required for IVR systems, voicemail navigation, and conference PINs. Uses XEP-0181 `<dtmf/>` element with Jingle RTP sessions. Needs UI dialpad overlay during active calls. Related: PayloadType negotiation issues observed with Opal.im gateway (Jacques Comeaux report). | TODO |
 | **Screen Sharing** | Share desktop or windows during calls | TODO |
 | **Whiteboard** | Collaborative drawing (protocol TBD) | CONCEPT |
 
