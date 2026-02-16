@@ -1,6 +1,5 @@
 dino (1.1.0.2) unstable; urgency=medium
 
-  * Security: Removed ejabberd.yaml with credentials from git history
   * i18n: Converted password dialog strings from German to English msgids
   * i18n: Wrapped hardcoded strings in change_password_dialog.vala
   * i18n: Updated all 47 .po files, fixed format-spec errors
