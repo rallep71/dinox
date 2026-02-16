@@ -1053,8 +1053,14 @@ function loadGoogleTranslateScript() {
             function inlineMarkdown(text) {
                 // Images
                 text = text.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" loading="lazy">');
-                // Links
-                text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+                // Links — anchor links (#...) stay in-viewer, external links open new tab
+                text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, function(_, label, href) {
+                    if (href.startsWith('#')) {
+                        // Internal anchor: scroll within the docs viewer
+                        return '<a href="' + href + '" class="docs-anchor-link">' + label + '</a>';
+                    }
+                    return '<a href="' + href + '" target="_blank" rel="noopener noreferrer">' + label + '</a>';
+                });
                 // Bold + italic
                 text = text.replace(/\*\*\*([^*]+)\*\*\*/g, '<strong><em>$1</em></strong>');
                 // Bold
@@ -1092,11 +1098,21 @@ function loadGoogleTranslateScript() {
                     continue;
                 }
 
-                // Headings
+                // Headings — generate slug IDs for anchor navigation
                 const headingMatch = line.match(/^(#{1,6})\s+(.+)$/);
                 if (headingMatch) {
                     const level = headingMatch[1].length;
-                    html += '<h' + level + '>' + inlineMarkdown(headingMatch[2]) + '</h' + level + '>\n';
+                    const raw = headingMatch[2];
+                    // Generate slug: lowercase, strip non-alphanumeric (keep hyphens/spaces), replace spaces with hyphens
+                    var slug = raw.replace(/\*\*([^*]+)\*\*/g, '$1')
+                        .replace(/`([^`]+)`/g, '$1')
+                        .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+                        .toLowerCase()
+                        .replace(/[^a-z0-9\s-]/g, '')
+                        .replace(/\s+/g, '-')
+                        .replace(/-+/g, '-')
+                        .replace(/^-|-$/g, '');
+                    html += '<h' + level + ' id="' + slug + '">' + inlineMarkdown(raw) + '</h' + level + '>\n';
                     i++;
                     continue;
                 }
@@ -1224,6 +1240,17 @@ function loadGoogleTranslateScript() {
             fetchDoc(name)
                 .then(function(html) {
                     viewerBody.innerHTML = html;
+                    // Handle anchor links within rendered MD — scroll inside viewer
+                    viewerBody.addEventListener('click', function(e) {
+                        var link = e.target.closest('a.docs-anchor-link');
+                        if (!link) return;
+                        e.preventDefault();
+                        var targetId = link.getAttribute('href').replace('#', '');
+                        var target = viewerBody.querySelector('#' + CSS.escape(targetId));
+                        if (target) {
+                            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    });
                 })
                 .catch(function(err) {
                     viewerBody.innerHTML = '<div class="docs-viewer-error">Failed to load document. <a href="' +
