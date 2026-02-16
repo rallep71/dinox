@@ -11,7 +11,7 @@
 
 **The Most Secure XMPP Messenger for Linux & Windows**
 
-Built for ultimate privacy with Omemo 1 + 2, integrated OpenPGP Key Manager, integrated Tor & Obfs4proxy, full local database encryption, WebRTC Audio/Video Calls and decentralized MUJI Group Video Calls Hardware Accelerated, voice messages, message retraction, advanced MUC moderation and more...in a modern GTK4/libadwaita interface with System Tray support. Local API Server, Botmother Bot Management and AI Integration (9 providers incl. OpenClaw)
+Built for ultimate privacy with Omemo 1 + 2, integrated OpenPGP Key Manager, integrated Tor & Obfs4proxy, full local database encryption, WebRTC Audio/Video Calls and decentralized MUJI Group Video Calls Hardware Accelerated, voice messages, message retraction, advanced MUC moderation and more...in a modern GTK4/libadwaita interface with System Tray support. Local API Server, Botmother Bot Management and AI Integration (9 providers incl. OpenClaw). DTMF Support (RFC 4733) with Dialpad UI for XMPP SIP Provider telephony
 
 [Website](https://dinox.handwerker.jetzt) • [Download](#installation) • [Features](#key-features) • [XEP Support](#xep-support) • [Build](docs/internal/BUILD.md) • [Debug](docs/internal/DEBUG.md) • [Changelog](docs/internal/CHANGELOG.md) • [API & Botmother AI Guide](docs/internal/API_BOTMOTHER_AI_GUIDE.md) • [Development Plan](docs/internal/DEVELOPMENT_PLAN.md) • [Contributing](docs/internal/CONTRIBUTING.md)
 
@@ -35,6 +35,7 @@ Built for ultimate privacy with Omemo 1 + 2, integrated OpenPGP Key Manager, int
 | **Disappearing Messages** | Auto-delete messages after 15min, 30min, 1h, 24h, 7d or 30d |
 | **MUJI Group Calls** | Multi-party audio/video conferences (mesh-based) |
 | **1:1 Voice & Video** | Crystal clear calls with Echo Cancellation, Noise Suppression, AGC & Transient Suppression |
+| **DTMF & Dialpad** | RFC 4733 telephone-event support with Dialpad UI for XMPP SIP Provider telephony (hotlines, IVR, conference controls) |
 | **Voice Messages** | Record and send audio messages (AAC format) |
 | **Inline Video Player** | Play videos directly in chat (no external player) |
 | **Group Chats (MUC)** | Full support with moderation, roles, private rooms |
