@@ -675,6 +675,16 @@ ul, ol {
     background-clip: text;
 }
 
+.hero-title::selection {
+    -webkit-text-fill-color: #fff;
+    background: var(--color-primary);
+}
+
+.hero-title::-moz-selection {
+    -webkit-text-fill-color: #fff;
+    background: var(--color-primary);
+}
+
 .hero-subtitle {
     font-size: clamp(1rem, 2.5vw, 1.25rem);
     color: var(--text-secondary);
@@ -2006,6 +2016,18 @@ section {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+}
+
+.text-gradient::selection,
+.hero-title::selection {
+    -webkit-text-fill-color: #fff;
+    background: var(--color-primary);
+}
+
+.text-gradient::-moz-selection,
+.hero-title::-moz-selection {
+    -webkit-text-fill-color: #fff;
+    background: var(--color-primary);
 }
 
 /* ===== Legal / long-form content (privacy, imprint) ===== */
