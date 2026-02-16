@@ -102,6 +102,7 @@ DinoX follows a modular plugin architecture:
 | `plugins/tor-manager/` | Integrated Tor & obfs4proxy |
 | `plugins/http-files/` | HTTP file upload/download (XEP-0363) |
 | `plugins/notification-sound/` | Notification sounds |
+| `plugins/bot-features/` | Local HTTP API server, bot management, AI integration |
 
 ### Key Patterns
 
@@ -129,9 +130,10 @@ DinoX runs on Linux and Windows. When contributing:
 
 ## Communication
 
-- **XMPP Chat**: [dinox@chat.handwerker.jetzt](xmpp:dinox@chat.handwerker.jetzt?join)
+- **XMPP Chat** (OMEMO encrypted): [dinox@chat.handwerker.jetzt](xmpp:dinox@chat.handwerker.jetzt?join)
 - **Email**: dinox@handwerker.jetzt
 - **GitHub Issues**: For bugs and feature requests
+- **Security vulnerabilities**: See [SECURITY.md](SECURITY.md) — do NOT open public issues
 
 ## License
 
