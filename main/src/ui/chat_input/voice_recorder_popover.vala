@@ -97,8 +97,8 @@ public class VoiceRecorderPopover : Popover {
         
         for (int i = 0; i < samples.size; i++) {
             double level = samples[i];
-            // Amplify low levels for better visualization
-            level = Math.fmin(level * 2.0, 1.0);
+            // Values are already perceptually scaled by db_to_visual() in AudioRecorder
+            level = Math.fmin(level, 1.0);
             
             double bar_height = height * level;
             if (bar_height < 2.0) bar_height = 2.0; // Minimum height
