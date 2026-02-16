@@ -842,6 +842,15 @@ function loadGoogleTranslateScript() {
     // ========================================
     (function initLanguageSwitcher() {
         const allBtns = document.querySelectorAll('.lang-btn');
+        const CONSENT_KEY = 'dinox-gt-consent';
+
+        function hasConsent() {
+            return localStorage.getItem(CONSENT_KEY) === 'yes';
+        }
+
+        function giveConsent() {
+            localStorage.setItem(CONSENT_KEY, 'yes');
+        }
 
         function getActiveLanguage() {
             const cookie = document.cookie.split(';')
@@ -877,11 +886,78 @@ function loadGoogleTranslateScript() {
             window.location.reload();
         }
 
+        function showConsentDialog(lang) {
+            // Build overlay
+            var overlay = document.createElement('div');
+            overlay.className = 'gt-consent-overlay active';
+            overlay.setAttribute('role', 'dialog');
+            overlay.setAttribute('aria-modal', 'true');
+            overlay.setAttribute('aria-label', 'Google Translate consent');
+
+            var box = document.createElement('div');
+            box.className = 'gt-consent-box';
+            box.innerHTML =
+                '<h3>Translation via Google Translate</h3>' +
+                '<p>By selecting a language other than English, a script from ' +
+                '<strong>Google Translate</strong> (<code>translate.google.com</code>) will be loaded. ' +
+                'Google may set cookies (e.g. <code>googtrans</code>, <code>NID</code>) and receive ' +
+                'technical data (IP address, browser info, page content).<br><br>' +
+                'Details: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">' +
+                'Google Privacy Policy</a> \u00b7 <a href="privacy.html#8a" target="_blank" rel="noopener noreferrer">' +
+                'Our Privacy Policy \u00a78a</a></p>' +
+                '<div class="gt-consent-actions">' +
+                '<button type="button" class="btn btn-primary gt-consent-accept">Accept</button>' +
+                '<button type="button" class="btn btn-secondary gt-consent-cancel">Cancel</button>' +
+                '</div>';
+
+            overlay.appendChild(box);
+            document.body.appendChild(overlay);
+
+            // Focus trap
+            var acceptBtn = overlay.querySelector('.gt-consent-accept');
+            var cancelBtn = overlay.querySelector('.gt-consent-cancel');
+            acceptBtn.focus();
+
+            function close() {
+                overlay.remove();
+            }
+
+            acceptBtn.addEventListener('click', function() {
+                giveConsent();
+                close();
+                switchLanguage(lang);
+            });
+
+            cancelBtn.addEventListener('click', close);
+
+            // Close on overlay click (outside box)
+            overlay.addEventListener('click', function(e) {
+                if (e.target === overlay) close();
+            });
+
+            // Close on Escape
+            overlay.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') close();
+            });
+        }
+
         allBtns.forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.preventDefault();
                 const lang = btn.getAttribute('data-lang');
-                if (lang) switchLanguage(lang);
+                if (!lang) return;
+                // Switching back to EN never needs consent
+                if (lang === 'en') {
+                    switchLanguage(lang);
+                    return;
+                }
+                // Already consented → switch directly
+                if (hasConsent()) {
+                    switchLanguage(lang);
+                    return;
+                }
+                // Show consent dialog
+                showConsentDialog(lang);
             });
         });
 
