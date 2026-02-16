@@ -181,6 +181,37 @@ if dep_gtk4.version() == 'unknown' or dep_gtk4.version().version_compare('>=4.14
     vala_args += ['-D', 'GTK_4_14']
     sources += files('src/ui/conversation_content_view/file_transmission_progress.c')
 endif
+
+# Compatibility wrapper for deprecated GValueArray (used by GStreamer level element)
+sources += files('src/ui/chat_input/gva_compat.c')
+
+# Voice message noise suppression (optional, uses webrtc-audio-processing-2)
+if dep_webrtc_audio_processing.found()
+    voice_msg_ns_deps = [dep_glib, dep_gstreamer, dep_webrtc_audio_processing]
+    voice_msg_ns_cpp_args = c_args
+    if dep_webrtc_audio_processing.version().version_compare('>=2.0')
+        voice_msg_ns_cpp_args += ['-DWITH_VOICE_PROCESSOR', '-DWEBRTC2']
+    elif dep_webrtc_audio_processing.version().version_compare('>=1.0')
+        voice_msg_ns_cpp_args += ['-DWITH_VOICE_PROCESSOR', '-DWEBRTC1']
+    endif
+    lib_voice_msg_ns = static_library('voice-msg-ns',
+        files('src/ui/chat_input/voice_msg_ns.cpp'),
+        cpp_args: voice_msg_ns_cpp_args,
+        dependencies: voice_msg_ns_deps,
+        install: false,
+    )
+    dependencies += declare_dependency(link_with: lib_voice_msg_ns)
+else
+    # Build stub version without webrtc-audio-processing
+    lib_voice_msg_ns = static_library('voice-msg-ns',
+        files('src/ui/chat_input/voice_msg_ns.cpp'),
+        cpp_args: c_args,
+        dependencies: [dep_glib, dep_gstreamer],
+        install: false,
+    )
+    dependencies += declare_dependency(link_with: lib_voice_msg_ns)
+endif
+
 if dep_libadwaita.version() == 'unknown' or dep_libadwaita.version().version_compare('>=1.4')
     vala_args += ['-D', 'Adw_1_4']
 endif
