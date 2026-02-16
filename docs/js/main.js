@@ -4,6 +4,16 @@
  * No external dependencies - pure vanilla JS
  */
 
+/* Google Translate initialization – must be in global scope */
+function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        includedLanguages: 'de,en,es,fr',
+        autoDisplay: false,
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+    }, 'google_translate_element');
+}
+
 (function() {
     'use strict';
 
@@ -816,6 +826,56 @@
             }
         });
     }
+
+    // ========================================
+    // Google Translate Language Switcher
+    // ========================================
+    (function initLanguageSwitcher() {
+        const allBtns = document.querySelectorAll('.lang-btn');
+
+        function getActiveLanguage() {
+            const cookie = document.cookie.split(';')
+                .map(c => c.trim())
+                .find(c => c.startsWith('googtrans='));
+            if (cookie) {
+                const parts = cookie.split('/');
+                return parts[parts.length - 1] || 'en';
+            }
+            return 'en';
+        }
+
+        function setActiveState(lang) {
+            allBtns.forEach(btn => {
+                const isActive = btn.getAttribute('data-lang') === lang;
+                btn.classList.toggle('active', isActive);
+                btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+            });
+        }
+
+        function switchLanguage(lang) {
+            if (lang === 'en') {
+                // Remove googtrans cookie to revert to original
+                document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/';
+                document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.' + window.location.hostname;
+            } else {
+                document.cookie = 'googtrans=/en/' + lang + '; path=/';
+                document.cookie = 'googtrans=/en/' + lang + '; path=/; domain=.' + window.location.hostname;
+            }
+            setActiveState(lang);
+            window.location.reload();
+        }
+
+        allBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const lang = btn.getAttribute('data-lang');
+                if (lang) switchLanguage(lang);
+            });
+        });
+
+        // Set initial active state from cookie
+        setActiveState(getActiveLanguage());
+    })();
 
     console.log('DinoX Website initialized');
 })();
