@@ -24,7 +24,13 @@ jobs:
 
       - name: "Get version"
         id: get_version
-        run: echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+        run: |
+          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then
+            version="${GITHUB_REF#refs/tags/v}"
+          else
+            version="$(cat VERSION)"
+          fi
+          echo "version=$version" >> $GITHUB_OUTPUT
 
       - name: "Install Flatpak Builder"
         run: |
@@ -44,8 +50,8 @@ jobs:
         run: |
           version="${{ steps.get_version.outputs.version }}"
           git config --global --add safe.directory '*'
-          git archive --format=tar.gz --output=dinox-$version.tar.gz --prefix=dinox-$version/ HEAD
-          sha256sum dinox-$version.tar.gz > dinox-$version.tar.gz.sha256
+          git archive --format=tar.gz --output="dinox-${version}.tar.gz" --prefix="dinox-${version}/" HEAD
+          sha256sum "dinox-${version}.tar.gz" > "dinox-${version}.tar.gz.sha256"
 
       - name: "Upload Artifacts"
         uses: actions/upload-artifact@v4
@@ -96,7 +102,13 @@ jobs:
 
       - name: "Get version"
         id: get_version
-        run: echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+        run: |
+          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then
+            version="${GITHUB_REF#refs/tags/v}"
+          else
+            version="$(cat VERSION)"
+          fi
+          echo "version=$version" >> $GITHUB_OUTPUT
 
       - name: "Download x86_64 Artifacts"
         uses: actions/download-artifact@v4
@@ -163,6 +175,7 @@ jobs:
       - name: "Create Release"
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: v${{ steps.get_version.outputs.version }}
           name: DinoX v${{ steps.get_version.outputs.version }}
           body_path: RELEASE_BODY.md
           files: |
