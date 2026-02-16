@@ -700,36 +700,32 @@ msgid "Leave Group"
 msgstr "Leave Group"
 
 #: main/src/ui/application.vala:161
-msgid "Beenden"
+msgid "Quit"
 msgstr "Quit"
 
-#: main/src/ui/application.vala:266 main/src/ui/application.vala:361
-msgid "Passwort"
-msgstr "Password"
-
 #: main/src/ui/application.vala:271
-msgid "DinoX entsperren"
+msgid "Unlock DinoX"
 msgstr "Unlock DinoX"
 
 #: main/src/ui/application.vala:272
-msgid "Bitte Passwort eingeben, um die verschlüsselte Datenbank zu öffnen."
-msgstr "Please enter password to open the encrypted database."
+msgid "Please enter your password to open the encrypted database."
+msgstr "Please enter your password to open the encrypted database."
 
 #: main/src/ui/application.vala:274
 #, c-format
-msgid "Falsches Passwort. Versuch %d/%d"
+msgid "Wrong password. Attempt %d/%d"
 msgstr "Wrong password. Attempt %d/%d"
 
 #: main/src/ui/application.vala:346
-msgid "Entsperren"
+msgid "Unlock"
 msgstr "Unlock"
 
 #: main/src/ui/application.vala:363
-msgid "Passwort bestätigen"
-msgstr "Confirm password"
+msgid "Confirm Password"
+msgstr "Confirm Password"
 
 #: main/src/ui/application.vala:370
-msgid "Passwort festlegen"
+msgid "Set Password"
 msgstr "Set Password"
 
 #: main/src/ui/application.vala:371
@@ -742,12 +738,8 @@ msgstr ""
 
 #: main/src/ui/application.vala:373
 #, c-format
-msgid "Ungültiges Passwort. Versuch %d/%d"
+msgid "Invalid password. Attempt %d/%d"
 msgstr "Invalid password. Attempt %d/%d"
-
-#: main/src/ui/application.vala:448
-msgid "Passwort setzen"
-msgstr "Set Password"
 
 #: main/src/ui/application.vala:746
 msgid "Set Status Message"
@@ -758,34 +750,25 @@ msgid "Set"
 msgstr "Set"
 
 #: main/src/ui/application.vala:809
-msgid "Aktuelles Passwort"
-msgstr "Current password"
+msgid "Current Password"
+msgstr "Current Password"
 
 #: main/src/ui/application.vala:811
-msgid "Neues Passwort"
+msgid "New Password"
 msgstr "New Password"
 
 #: main/src/ui/application.vala:813
-msgid "Neues Passwort bestätigen"
-msgstr "Confirm new password"
-
-#: main/src/ui/application.vala:824
-msgid "Datenbank-Passwort ändern"
-msgstr "Change database password"
+msgid "Confirm New Password"
+msgstr "Confirm New Password"
 
 #: main/src/ui/application.vala:825
 msgid ""
 "Dieses Passwort wird verwendet, um deine lokalen DinoX-Daten zu "
 "verschlüsseln."
-msgstr ""
-"This password is used to encrypt your local DinoX data."
-
-#: main/src/ui/application.vala:828
-msgid "Abbrechen"
-msgstr "Cancel"
+msgstr "This password is used to encrypt your local DinoX data."
 
 #: main/src/ui/application.vala:829
-msgid "Ändern"
+msgid "Change"
 msgstr "Change"
 
 #: main/src/ui/application.vala:896
@@ -1081,10 +1064,6 @@ msgstr ""
 #: main/src/ui/application.vala:1609
 msgid "Password (minimum 4 characters)"
 msgstr "Password (minimum 4 characters)"
-
-#: main/src/ui/application.vala:1617 main/src/ui/application.vala:1624
-msgid "Confirm Password"
-msgstr "Confirm Password"
 
 #: main/src/ui/application.vala:1641
 msgid "Create Encrypted Backup"
@@ -2196,10 +2175,6 @@ msgstr "Kicked by moderator"
 msgid "Invite to Conference"
 msgstr "Invite to Conference"
 
-#: main/src/ui/systray.vala:178
-msgid "Quit"
-msgstr "Quit"
-
 #: main/src/ui/sticker_pack_import_dialog.vala:35
 msgid "Import"
 msgstr "Import"
@@ -2504,6 +2479,12 @@ msgstr "Change the display name for %s"
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:319
 msgid "Alias (optional)"
 msgstr "Alias (optional)"
+
+msgid "Error: %s"
+msgstr "Error: %s"
+
+msgid "Wrong current password"
+msgstr "Wrong current password"
 
 #~ msgid "Select sticker folder"
 #~ msgstr "Select sticker folder"

@@ -5,6 +5,21 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0.2] - 2026-02-16
+
+### Security
+- **ejabberd.yaml removed from git history**: Configuration file containing database credentials was committed accidentally. Removed from entire git history using `git filter-repo`. File added to `.gitignore`.
+
+### Fixed
+- **Password dialog i18n**: All 22 German gettext msgid strings in password dialogs (unlock, set password, change DB password, backup restore) converted to English. Non-German/non-English users previously saw German fallback text instead of their language.
+- **change_password_dialog.vala**: Wrapped 2 hardcoded English strings (`"Error: %s"`, `"Wrong current password"`) in `_()` for translation.
+- **Translation files (.po)**: Updated all 47 language files with new English msgids. Fixed format-spec errors in 12 .po files caused by `msguniq` concatenating duplicate `msgstr` values.
+
+### Changed
+- **Website**: Fixed XMPP contact URI from `?join` (MUC) to `?message` (regular JID) in contact section and footer.
+- **Website**: Clarified footer text — AI is available via extensible REST API with 9 providers, not built-in.
+- **Version**: Bumped from 1.1.0.1 to 1.1.0.2
+
 ## [1.1.0.1] - 2026-02-15
 
 ### Added

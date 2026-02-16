@@ -55,10 +55,10 @@ namespace Dino.Ui{
                     close();
                 }
 
-                change_password_error_label.label = "Error: %s".printf(ret);
+                change_password_error_label.label = _("Error: %s").printf(ret);
 
             } else {
-                change_password_error_label.label = "Wrong current password";
+                change_password_error_label.label = _("Wrong current password");
             }
         }
     }

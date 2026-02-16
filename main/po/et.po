@@ -230,38 +230,9 @@ msgstr "Kontaktandmed"
 msgid "Delete Conversation History"
 msgstr "Kustuta vestluste ajalugu"
 
-#: main/data/message_item_widget_edit_mode.ui:46
-#: main/data/preferences_window/change_password_dialog.ui:18
-#: main/src/ui/add_conversation/add_conference_dialog.vala:44
-#: main/src/ui/add_conversation/select_contact_dialog.vala:43
-#: main/src/ui/application.vala:754 main/src/ui/application.vala:992
-#: main/src/ui/application.vala:1020 main/src/ui/application.vala:1316
-#: main/src/ui/application.vala:1394 main/src/ui/application.vala:1452
-#: main/src/ui/application.vala:1484 main/src/ui/application.vala:1640
-#: main/src/ui/application.vala:1918
-#: main/src/ui/conversation_content_view/file_default_widget.vala:90
-#: main/src/ui/conversation_content_view/item_actions.vala:165
-#: main/src/ui/conversation_content_view/item_actions.vala:168
-#: main/src/ui/conversation_details.vala:283
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:641
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:668
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:687
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:712
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:731
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:752
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:797
-#: main/src/ui/conversation_titlebar/call_entry.vala:83
-#: main/src/ui/conversation_titlebar/menu_entry.vala:51
-#: main/src/windows/conversation_details.vala:60
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:90
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:199
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:219
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:243
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:263
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:285
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:326
+#: main/src/ui/application.vala:828
 msgid "Cancel"
-msgstr "Katkesta"
+msgstr "Loobu"
 
 #: main/data/message_item_widget_edit_mode.ui:51
 msgid "Update message"
@@ -276,11 +247,9 @@ msgstr "XMPP aadress"
 msgid "Local alias"
 msgstr "Kohalik varjunimi"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:82
-#: main/src/ui/application.vala:986 main/src/ui/application.vala:1615
-#: main/src/ui/util/data_forms.vala:63
+#: main/src/ui/application.vala:266 main/src/ui/application.vala:361
 msgid "Password"
-msgstr "Salasõna"
+msgstr "Parool"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:104
 msgid "Connection status"
@@ -561,7 +530,7 @@ msgstr "Vaadake, kus teie andmed on salvestatud"
 msgid "Database Maintenance"
 msgstr "Andmebaasi hooldus"
 
-#: main/data/preferences_window/general_preferences_page.ui:130
+#: main/src/ui/application.vala:824
 msgid "Change Database Password"
 msgstr "Muuda andmebaasi parooli"
 
@@ -706,37 +675,33 @@ msgstr "Kustuta kontakt"
 msgid "Leave Group"
 msgstr "Lahku grupist"
 
-#: main/src/ui/application.vala:161
-msgid "Beenden"
+#: main/src/ui/systray.vala:178
+msgid "Quit"
 msgstr "Välju"
 
-#: main/src/ui/application.vala:266 main/src/ui/application.vala:361
-msgid "Passwort"
-msgstr "Parool"
-
 #: main/src/ui/application.vala:271
-msgid "DinoX entsperren"
-msgstr "Ava DinoX"
+msgid "Unlock DinoX"
+msgstr ""
 
 #: main/src/ui/application.vala:272
-msgid "Bitte Passwort eingeben, um die verschlüsselte Datenbank zu öffnen."
-msgstr "Palun sisestage krüpteeritud andmebaasi avamiseks parool."
+msgid "Please enter your password to open the encrypted database."
+msgstr ""
 
 #: main/src/ui/application.vala:274
 #, c-format
-msgid "Falsches Passwort. Versuch %d/%d"
-msgstr "Vale parool. Katse %d/%d"
+msgid "Wrong password. Attempt %d/%d"
+msgstr ""
 
 #: main/src/ui/application.vala:346
-msgid "Entsperren"
-msgstr "Ava"
+msgid "Unlock"
+msgstr ""
 
-#: main/src/ui/application.vala:363
-msgid "Passwort bestätigen"
+#: main/src/ui/application.vala:1617 main/src/ui/application.vala:1624
+msgid "Confirm Password"
 msgstr "Kinnita parool"
 
-#: main/src/ui/application.vala:370
-msgid "Passwort festlegen"
+#: main/src/ui/application.vala:448
+msgid "Set Password"
 msgstr "Määra parool"
 
 #: main/src/ui/application.vala:371
@@ -749,12 +714,8 @@ msgstr ""
 
 #: main/src/ui/application.vala:373
 #, c-format
-msgid "Ungültiges Passwort. Versuch %d/%d"
-msgstr "Vigane parool. Katse %d/%d"
-
-#: main/src/ui/application.vala:448
-msgid "Passwort setzen"
-msgstr "Määra parool"
+msgid "Invalid password. Attempt %d/%d"
+msgstr ""
 
 #: main/src/ui/application.vala:746
 msgid "Set Status Message"
@@ -765,20 +726,16 @@ msgid "Set"
 msgstr "Määra"
 
 #: main/src/ui/application.vala:809
-msgid "Aktuelles Passwort"
-msgstr "Praegune parool"
+msgid "Current Password"
+msgstr ""
 
 #: main/src/ui/application.vala:811
-msgid "Neues Passwort"
-msgstr "Uus parool"
+msgid "New Password"
+msgstr ""
 
 #: main/src/ui/application.vala:813
-msgid "Neues Passwort bestätigen"
-msgstr "Kinnita uus parool"
-
-#: main/src/ui/application.vala:824
-msgid "Datenbank-Passwort ändern"
-msgstr "Muuda andmebaasi parooli"
+msgid "Confirm New Password"
+msgstr ""
 
 #: main/src/ui/application.vala:825
 msgid ""
@@ -786,14 +743,6 @@ msgid ""
 "verschlüsseln."
 msgstr ""
 "Seda parooli kasutatakse teie kohalike DinoX-i andmete krüpteerimiseks."
-
-#: main/src/ui/application.vala:828
-msgid "Abbrechen"
-msgstr "Loobu"
-
-#: main/src/ui/application.vala:829
-msgid "Ändern"
-msgstr "Muuda"
 
 #: main/src/ui/application.vala:896
 msgid "Modern XMPP client with extended features"
@@ -1090,10 +1039,6 @@ msgstr ""
 #: main/src/ui/application.vala:1609
 msgid "Password (minimum 4 characters)"
 msgstr "Parool (vähemalt 4 tähemärki)"
-
-#: main/src/ui/application.vala:1617 main/src/ui/application.vala:1624
-msgid "Confirm Password"
-msgstr "Kinnita parool"
 
 #: main/src/ui/application.vala:1641
 msgid "Create Encrypted Backup"
@@ -2207,10 +2152,6 @@ msgstr "Moderaatori poolt välja visatud"
 msgid "Invite to Conference"
 msgstr "Kutsu konverentsile"
 
-#: main/src/ui/systray.vala:178
-msgid "Quit"
-msgstr "Välju"
-
 #: main/src/ui/sticker_pack_import_dialog.vala:35
 msgid "Import"
 msgstr "Impordi"
@@ -2502,9 +2443,6 @@ msgid ""
 "This will remove %s from your contact list and delete all conversation "
 "history."
 msgstr ""
-"See eemaldab kasutaja %s sinu kontaktiloendist ja kustutab kogu "
-"vestlusajaloo.%s eemaldatakse sinu kontaktide nimekirjast ja kogu vestluste "
-"ajalugu kustutatakse."
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:312
 msgid "Edit Contact Alias"
@@ -2518,6 +2456,15 @@ msgstr "Muuda %s kuvatavat nime"
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:319
 msgid "Alias (optional)"
 msgstr "Alias (valikuline)"
+
+msgid "Error: %s"
+msgstr ""
+
+msgid "Wrong current password"
+msgstr ""
+
+#~ msgid "Change"
+#~ msgstr "Muuda"
 
 #~ msgid "Import…"
 #~ msgstr "Impordi…"
@@ -2771,9 +2718,6 @@ msgstr "Alias (valikuline)"
 
 #~ msgid "Finish"
 #~ msgstr "Lõpeta"
-
-#~ msgid "Change"
-#~ msgstr "Muuda"
 
 #~ msgid "Account"
 #~ msgstr "Kasutajakonto"

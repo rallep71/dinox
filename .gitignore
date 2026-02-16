@@ -20,6 +20,7 @@ docs/internal/KAIDAN_OMEMO_FIX.md
 icon_backup/
 
 # Internal docs (not for public release)
+docs/internal/ejabberd.yaml
 docs/internal/CODING_STANDARDS.md
 docs/internal/SIGNPATH_SETUP.md
 docs/internal/CRASH_ANALYSIS*.md

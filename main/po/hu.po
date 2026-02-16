@@ -234,36 +234,7 @@ msgstr "Partner részletei"
 msgid "Delete Conversation History"
 msgstr "Beszélgetési előzmények törlése"
 
-#: main/data/message_item_widget_edit_mode.ui:46
-#: main/data/preferences_window/change_password_dialog.ui:18
-#: main/src/ui/add_conversation/add_conference_dialog.vala:44
-#: main/src/ui/add_conversation/select_contact_dialog.vala:43
-#: main/src/ui/application.vala:754 main/src/ui/application.vala:992
-#: main/src/ui/application.vala:1020 main/src/ui/application.vala:1316
-#: main/src/ui/application.vala:1394 main/src/ui/application.vala:1452
-#: main/src/ui/application.vala:1484 main/src/ui/application.vala:1640
-#: main/src/ui/application.vala:1918
-#: main/src/ui/conversation_content_view/file_default_widget.vala:90
-#: main/src/ui/conversation_content_view/item_actions.vala:165
-#: main/src/ui/conversation_content_view/item_actions.vala:168
-#: main/src/ui/conversation_details.vala:283
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:641
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:668
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:687
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:712
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:731
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:752
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:797
-#: main/src/ui/conversation_titlebar/call_entry.vala:83
-#: main/src/ui/conversation_titlebar/menu_entry.vala:51
-#: main/src/windows/conversation_details.vala:60
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:90
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:199
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:219
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:243
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:263
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:285
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:326
+#: main/src/ui/application.vala:828
 msgid "Cancel"
 msgstr "Mégse"
 
@@ -280,9 +251,7 @@ msgstr "XMPP-cím"
 msgid "Local alias"
 msgstr "Helyi álnév"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:82
-#: main/src/ui/application.vala:986 main/src/ui/application.vala:1615
-#: main/src/ui/util/data_forms.vala:63
+#: main/src/ui/application.vala:266 main/src/ui/application.vala:361
 msgid "Password"
 msgstr "Jelszó"
 
@@ -566,9 +535,9 @@ msgstr "Nézze meg, hol tárolódnak az adatai"
 msgid "Database Maintenance"
 msgstr "Adatbázis karbantartás"
 
-#: main/data/preferences_window/general_preferences_page.ui:130
+#: main/src/ui/application.vala:824
 msgid "Change Database Password"
-msgstr "Adatbázis jelszavának megváltoztatása"
+msgstr "Adatbázis jelszó megváltoztatása"
 
 #: main/data/preferences_window/general_preferences_page.ui:131
 msgid "Change the password used to encrypt your local data"
@@ -713,37 +682,33 @@ msgstr "Névjegy törlése"
 msgid "Leave Group"
 msgstr "Csoport elhagyása"
 
-#: main/src/ui/application.vala:161
-msgid "Beenden"
+#: main/src/ui/systray.vala:178
+msgid "Quit"
 msgstr "Kilépés"
 
-#: main/src/ui/application.vala:266 main/src/ui/application.vala:361
-msgid "Passwort"
-msgstr "Jelszó"
-
 #: main/src/ui/application.vala:271
-msgid "DinoX entsperren"
-msgstr "DinoX feloldása"
+msgid "Unlock DinoX"
+msgstr ""
 
 #: main/src/ui/application.vala:272
-msgid "Bitte Passwort eingeben, um die verschlüsselte Datenbank zu öffnen."
-msgstr "Kérjük, adja meg a jelszót a titkosított adatbázis megnyitásához."
+msgid "Please enter your password to open the encrypted database."
+msgstr ""
 
 #: main/src/ui/application.vala:274
 #, c-format
-msgid "Falsches Passwort. Versuch %d/%d"
-msgstr "Hibás jelszó. Próbálkozás %d/%d"
+msgid "Wrong password. Attempt %d/%d"
+msgstr ""
 
 #: main/src/ui/application.vala:346
-msgid "Entsperren"
-msgstr "Feloldás"
+msgid "Unlock"
+msgstr ""
 
-#: main/src/ui/application.vala:363
-msgid "Passwort bestätigen"
+#: main/src/ui/application.vala:1617 main/src/ui/application.vala:1624
+msgid "Confirm Password"
 msgstr "Jelszó megerősítése"
 
-#: main/src/ui/application.vala:370
-msgid "Passwort festlegen"
+#: main/src/ui/application.vala:448
+msgid "Set Password"
 msgstr "Jelszó beállítása"
 
 #: main/src/ui/application.vala:371
@@ -756,12 +721,8 @@ msgstr ""
 
 #: main/src/ui/application.vala:373
 #, c-format
-msgid "Ungültiges Passwort. Versuch %d/%d"
-msgstr "Érvénytelen jelszó. Próbálkozás %d/%d"
-
-#: main/src/ui/application.vala:448
-msgid "Passwort setzen"
-msgstr "Jelszó beállítása"
+msgid "Invalid password. Attempt %d/%d"
+msgstr ""
 
 #: main/src/ui/application.vala:746
 msgid "Set Status Message"
@@ -772,34 +733,22 @@ msgid "Set"
 msgstr "Beállítás"
 
 #: main/src/ui/application.vala:809
-msgid "Aktuelles Passwort"
-msgstr "Jelenlegi jelszó"
+msgid "Current Password"
+msgstr ""
 
 #: main/src/ui/application.vala:811
-msgid "Neues Passwort"
-msgstr "Új jelszó"
+msgid "New Password"
+msgstr ""
 
 #: main/src/ui/application.vala:813
-msgid "Neues Passwort bestätigen"
-msgstr "Új jelszó megerősítése"
-
-#: main/src/ui/application.vala:824
-msgid "Datenbank-Passwort ändern"
-msgstr "Adatbázis jelszó megváltoztatása"
+msgid "Confirm New Password"
+msgstr ""
 
 #: main/src/ui/application.vala:825
 msgid ""
 "Dieses Passwort wird verwendet, um deine lokalen DinoX-Daten zu "
 "verschlüsseln."
 msgstr "Ez a jelszó a helyi DinoX adatok titkosítására szolgál."
-
-#: main/src/ui/application.vala:828
-msgid "Abbrechen"
-msgstr "Mégse"
-
-#: main/src/ui/application.vala:829
-msgid "Ändern"
-msgstr "Változtat"
 
 #: main/src/ui/application.vala:896
 msgid "Modern XMPP client with extended features"
@@ -1099,10 +1048,6 @@ msgstr ""
 msgid "Password (minimum 4 characters)"
 msgstr "Jelszó (legalább 4 karakter)"
 
-#: main/src/ui/application.vala:1617 main/src/ui/application.vala:1624
-msgid "Confirm Password"
-msgstr "Jelszó megerősítése"
-
 #: main/src/ui/application.vala:1641
 msgid "Create Encrypted Backup"
 msgstr "Titkosított mentés létrehozása"
@@ -1389,7 +1334,7 @@ msgstr "%H∶%M"
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:491
 #, no-c-format
 msgid "%l∶%M %p"
-msgstr "%p %I∶%M"
+msgstr ""
 
 #: main/src/ui/conversation_content_view/call_widget.vala:177
 #, c-format
@@ -1475,17 +1420,17 @@ msgstr "%x, %H∶%M"
 #: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:304
 #, no-c-format
 msgid "%x, %l∶%M %p"
-msgstr "%x, %p %I∶%M"
+msgstr ""
 
 #: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:307
 #, no-c-format
 msgid "%b %d, %H∶%M"
-msgstr "%b. %e., %H∶%M"
+msgstr ""
 
 #: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:308
 #, no-c-format
 msgid "%b %d, %l∶%M %p"
-msgstr "%b. %e., %p %I∶%M"
+msgstr ""
 
 #: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:311
 #, no-c-format
@@ -1495,7 +1440,7 @@ msgstr "%a, %H∶%M"
 #: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:312
 #, no-c-format
 msgid "%a, %l∶%M %p"
-msgstr "%a, %p %I∶%M"
+msgstr ""
 
 #: main/src/ui/conversation_content_view/conversation_item_skeleton.vala:322
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:496
@@ -1822,7 +1767,7 @@ msgstr "Típus:"
 #: main/src/ui/widgets/date_separator.vala:37
 #, no-c-format
 msgid "%b %d"
-msgstr "%b. %e."
+msgstr ""
 
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:487
 #: main/src/ui/widgets/date_separator.vala:28
@@ -2216,10 +2161,6 @@ msgstr "A moderátor kirúgta"
 msgid "Invite to Conference"
 msgstr "Meghívás konferenciára"
 
-#: main/src/ui/systray.vala:178
-msgid "Quit"
-msgstr "Kilépés"
-
 #: main/src/ui/sticker_pack_import_dialog.vala:35
 msgid "Import"
 msgstr "Importálás"
@@ -2325,7 +2266,7 @@ msgstr "Ma"
 #: main/src/ui/widgets/date_separator.vala:35
 #, no-c-format
 msgid "%a, %b %d"
-msgstr "%b. %e., %a"
+msgstr ""
 
 #: main/src/windows/conversation_details.vala:58
 msgid ""
@@ -2499,8 +2440,6 @@ msgstr "Regisztráció"
 #, c-format
 msgid "Check %s for information on how to sign up"
 msgstr ""
-"Nézd meg a %s oldalt a regisztrációval kapcsolatos információkértNézze meg a "
-"%s oldalt azon információkért, hogy hogyan kell regisztrálni"
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:186
 msgid "No contacts"
@@ -2516,9 +2455,6 @@ msgid ""
 "This will remove %s from your contact list and delete all conversation "
 "history."
 msgstr ""
-"Ez eltávolítja %s személyt a névjegyzékedből és törli az összes beszélgetési "
-"előzményt.%s eltávolításra kerül a névjegyzékedből és az összes beszélgetési "
-"előzmény törlődik."
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:312
 msgid "Edit Contact Alias"
@@ -2532,6 +2468,15 @@ msgstr "Megjelenített név módosítása %s számára"
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:319
 msgid "Alias (optional)"
 msgstr "Becenév (opcionális)"
+
+msgid "Error: %s"
+msgstr ""
+
+msgid "Wrong current password"
+msgstr ""
+
+#~ msgid "Change"
+#~ msgstr "Változtatás"
 
 #~ msgid "Import…"
 #~ msgstr "Importálás…"
@@ -2785,9 +2730,6 @@ msgstr "Becenév (opcionális)"
 
 #~ msgid "Finish"
 #~ msgstr "Befejezés"
-
-#~ msgid "Change"
-#~ msgstr "Változtatás"
 
 #~ msgid "Account"
 #~ msgstr "Fiók"

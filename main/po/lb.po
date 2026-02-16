@@ -226,36 +226,7 @@ msgstr "Kontaktdetailer"
 msgid "Delete Conversation History"
 msgstr "Gespréichverlaf läschen"
 
-#: main/data/message_item_widget_edit_mode.ui:46
-#: main/data/preferences_window/change_password_dialog.ui:18
-#: main/src/ui/add_conversation/add_conference_dialog.vala:44
-#: main/src/ui/add_conversation/select_contact_dialog.vala:43
-#: main/src/ui/application.vala:754 main/src/ui/application.vala:992
-#: main/src/ui/application.vala:1020 main/src/ui/application.vala:1316
-#: main/src/ui/application.vala:1394 main/src/ui/application.vala:1452
-#: main/src/ui/application.vala:1484 main/src/ui/application.vala:1640
-#: main/src/ui/application.vala:1918
-#: main/src/ui/conversation_content_view/file_default_widget.vala:90
-#: main/src/ui/conversation_content_view/item_actions.vala:165
-#: main/src/ui/conversation_content_view/item_actions.vala:168
-#: main/src/ui/conversation_details.vala:283
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:641
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:668
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:687
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:712
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:731
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:752
-#: main/src/ui/conversation_selector/conversation_selector_row.vala:797
-#: main/src/ui/conversation_titlebar/call_entry.vala:83
-#: main/src/ui/conversation_titlebar/menu_entry.vala:51
-#: main/src/windows/conversation_details.vala:60
-#: main/src/windows/preferences_window/account_preferences_subpage.vala:90
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:199
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:219
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:243
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:263
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:285
-#: main/src/windows/preferences_window/contacts_preferences_page.vala:326
+#: main/src/ui/application.vala:828
 msgid "Cancel"
 msgstr "Ofbriechen"
 
@@ -272,9 +243,7 @@ msgstr "XMPP Adress"
 msgid "Local alias"
 msgstr "Lokalen Pseudonym"
 
-#: main/data/preferences_window/account_preferences_subpage.ui:82
-#: main/src/ui/application.vala:986 main/src/ui/application.vala:1615
-#: main/src/ui/util/data_forms.vala:63
+#: main/src/ui/application.vala:266 main/src/ui/application.vala:361
 msgid "Password"
 msgstr "Passwuert"
 
@@ -558,8 +527,7 @@ msgstr "Kuckt wou Är Daten gespäichert sinn"
 msgid "Database Maintenance"
 msgstr "Datebank Ënnerhalt"
 
-# DinoX v0.7.7 - Database Maintenance & Backup/Restore
-#: main/data/preferences_window/general_preferences_page.ui:130
+#: main/src/ui/application.vala:824
 msgid "Change Database Password"
 msgstr "Datebank-Passwuert änneren"
 
@@ -707,39 +675,35 @@ msgstr "Kontakt läschen"
 msgid "Leave Group"
 msgstr "Grupp verloossen"
 
-#: main/src/ui/application.vala:161
-msgid "Beenden"
-msgstr "Ophalen"
-
-#: main/src/ui/application.vala:266 main/src/ui/application.vala:361
-msgid "Passwort"
-msgstr "Passwuert"
+#: main/src/ui/systray.vala:178
+msgid "Quit"
+msgstr "Zoumaachen"
 
 #: main/src/ui/application.vala:271
-msgid "DinoX entsperren"
-msgstr "DinoX entspären"
+msgid "Unlock DinoX"
+msgstr ""
 
 #: main/src/ui/application.vala:272
-msgid "Bitte Passwort eingeben, um die verschlüsselte Datenbank zu öffnen."
+msgid "Please enter your password to open the encrypted database."
 msgstr ""
 "Gitt w.e.g. d'Passwuert an, fir déi verschlësselt Datebank opzemaachen."
 
 #: main/src/ui/application.vala:274
 #, c-format
-msgid "Falsches Passwort. Versuch %d/%d"
-msgstr "Falscht Passwuert. Versuch %d/%d"
+msgid "Wrong password. Attempt %d/%d"
+msgstr ""
 
 #: main/src/ui/application.vala:346
-msgid "Entsperren"
-msgstr "Entspären"
+msgid "Unlock"
+msgstr ""
 
-#: main/src/ui/application.vala:363
-msgid "Passwort bestätigen"
+#: main/src/ui/application.vala:1617 main/src/ui/application.vala:1624
+msgid "Confirm Password"
 msgstr "Passwuert bestätegen"
 
-#: main/src/ui/application.vala:370
-msgid "Passwort festlegen"
-msgstr "Passwuert festleeën"
+#: main/src/ui/application.vala:448
+msgid "Set Password"
+msgstr "Passwuert setzen"
 
 #: main/src/ui/application.vala:371
 msgid ""
@@ -751,12 +715,8 @@ msgstr ""
 
 #: main/src/ui/application.vala:373
 #, c-format
-msgid "Ungültiges Passwort. Versuch %d/%d"
-msgstr "Ongëltegt Passwuert. Versuch %d/%d"
-
-#: main/src/ui/application.vala:448
-msgid "Passwort setzen"
-msgstr "Passwuert setzen"
+msgid "Invalid password. Attempt %d/%d"
+msgstr ""
 
 #: main/src/ui/application.vala:746
 msgid "Set Status Message"
@@ -767,20 +727,16 @@ msgid "Set"
 msgstr "Setzen"
 
 #: main/src/ui/application.vala:809
-msgid "Aktuelles Passwort"
-msgstr "Aktuellt Passwuert"
+msgid "Current Password"
+msgstr ""
 
 #: main/src/ui/application.vala:811
-msgid "Neues Passwort"
-msgstr "Neit Passwuert"
+msgid "New Password"
+msgstr ""
 
 #: main/src/ui/application.vala:813
-msgid "Neues Passwort bestätigen"
-msgstr "Neit Passwuert bestätegen"
-
-#: main/src/ui/application.vala:824
-msgid "Datenbank-Passwort ändern"
-msgstr "Datebank-Passwuert änneren"
+msgid "Confirm New Password"
+msgstr ""
 
 #: main/src/ui/application.vala:825
 msgid ""
@@ -789,13 +745,9 @@ msgid ""
 msgstr ""
 "Dëst Passwuert gëtt benotzt fir Är lokal DinoX-Donnéeën ze verschlësselen."
 
-#: main/src/ui/application.vala:828
-msgid "Abbrechen"
-msgstr "Ofbriechen"
-
 #: main/src/ui/application.vala:829
-msgid "Ändern"
-msgstr "Änneren"
+msgid "Change"
+msgstr ""
 
 #: main/src/ui/application.vala:896
 msgid "Modern XMPP client with extended features"
@@ -1096,10 +1048,6 @@ msgstr ""
 #: main/src/ui/application.vala:1609
 msgid "Password (minimum 4 characters)"
 msgstr "Passwuert (mindestens 4 Zeechen)"
-
-#: main/src/ui/application.vala:1617 main/src/ui/application.vala:1624
-msgid "Confirm Password"
-msgstr "Passwuert bestätegen"
 
 #: main/src/ui/application.vala:1641
 msgid "Create Encrypted Backup"
@@ -2214,10 +2162,6 @@ msgstr "Vum Moderator erausgehäit"
 msgid "Invite to Conference"
 msgstr "An d'Konferenz invitéieren"
 
-#: main/src/ui/systray.vala:178
-msgid "Quit"
-msgstr "Zoumaachen"
-
 #: main/src/ui/sticker_pack_import_dialog.vala:35
 msgid "Import"
 msgstr "Importéieren"
@@ -2524,6 +2468,12 @@ msgstr "Den ugezeechte Numm fir %s änneren"
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:319
 msgid "Alias (optional)"
 msgstr "Alias (optional)"
+
+msgid "Error: %s"
+msgstr ""
+
+msgid "Wrong current password"
+msgstr ""
 
 #~ msgid "Import…"
 #~ msgstr "Importéieren…"

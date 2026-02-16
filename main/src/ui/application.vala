@@ -269,7 +269,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         var buttons = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
         buttons.halign = Gtk.Align.END;
 
-        var cancel_btn = new Gtk.Button.with_label (_("Beenden"));
+        var cancel_btn = new Gtk.Button.with_label (_("Quit"));
         cancel_btn.clicked.connect (() => {
             Process.exit (0);
         });
@@ -417,7 +417,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         password_entry.show_peek_icon = true;
 
         var form = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
-        var label = new Gtk.Label (_("Passwort"));
+        var label = new Gtk.Label (_("Password"));
         label.halign = Gtk.Align.START;
         form.append (label);
         form.append (password_entry);
@@ -425,17 +425,17 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         string heading;
         string body;
         if (is_restore) {
-            heading = _("Backup wiederhergestellt");
+            heading = _("Backup Restored");
             if (unlock_failures > 0) {
-                body = _("Falsches Passwort.\n\nBitte gib das Passwort ein, das beim Erstellen des Backups für die Datenbank aktiv war.");
+                body = _("Wrong password.\n\nPlease enter the password that was active for the database when the backup was created.");
             } else {
-                body = _("Ein Backup wurde wiederhergestellt.\n\nBitte gib das Passwort ein, das beim Erstellen des Backups für die Datenbank aktiv war.");
+                body = _("A backup has been restored.\n\nPlease enter the password that was active for the database when the backup was created.");
             }
         } else {
-            heading = _("DinoX entsperren");
-            body = _("Bitte Passwort eingeben, um die verschlüsselte Datenbank zu öffnen.");
+            heading = _("Unlock DinoX");
+            body = _("Please enter your password to open the encrypted database.");
             if (unlock_failures > 0) {
-                body = _("Falsches Passwort. Versuch %d/%d").printf( unlock_failures + 1, MAX_UNLOCK_TRIES);
+                body = _("Wrong password. Attempt %d/%d").printf( unlock_failures + 1, MAX_UNLOCK_TRIES);
             }
         }
 
@@ -535,7 +535,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         };
 
         password_entry.activate.connect (() => do_unlock ());
-        set_unlock_window_content (build_unlock_form (heading, body, form, _("Entsperren"), do_unlock));
+        set_unlock_window_content (build_unlock_form (heading, body, form, _("Unlock"), do_unlock));
     }
 
     private void prompt_set_password () {
@@ -550,19 +550,19 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         password_entry_confirm.show_peek_icon = true;
 
         var form = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
-        var l1 = new Gtk.Label (_("Passwort"));
+        var l1 = new Gtk.Label (_("Password"));
         l1.halign = Gtk.Align.START;
-        var l2 = new Gtk.Label (_("Passwort bestätigen"));
+        var l2 = new Gtk.Label (_("Confirm Password"));
         l2.halign = Gtk.Align.START;
         form.append (l1);
         form.append (password_entry);
         form.append (l2);
         form.append (password_entry_confirm);
 
-        string heading = _("Passwort festlegen");
-        string body = _("Bei der ersten Nutzung musst du ein Passwort setzen. Ohne Passwort kann DinoX die verschlüsselte Datenbank nicht öffnen.");
+        string heading = _("Set Password");
+        string body = _("On first use, you need to set a password. Without a password, DinoX cannot open the encrypted database.");
         if (unlock_failures > 0) {
-            body = _("Ungültiges Passwort. Versuch %d/%d").printf( unlock_failures + 1, MAX_UNLOCK_TRIES);
+            body = _("Invalid password. Attempt %d/%d").printf( unlock_failures + 1, MAX_UNLOCK_TRIES);
         }
 
         UnlockFormAction do_set = () => {
@@ -653,7 +653,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         };
 
         password_entry_confirm.activate.connect (() => do_set ());
-        set_unlock_window_content (build_unlock_form (heading, body, form, _("Passwort setzen"), do_set));
+        set_unlock_window_content (build_unlock_form (heading, body, form, _("Set Password"), do_set));
     }
 
     private void create_pre_unlock_actions () {
@@ -1095,11 +1095,11 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         grid.margin_start = 6;
         grid.margin_end = 6;
 
-        var l_old = new Gtk.Label (_("Aktuelles Passwort"));
+        var l_old = new Gtk.Label (_("Current Password"));
         l_old.halign = Gtk.Align.START;
-        var l_new = new Gtk.Label (_("Neues Passwort"));
+        var l_new = new Gtk.Label (_("New Password"));
         l_new.halign = Gtk.Align.START;
-        var l_new2 = new Gtk.Label (_("Neues Passwort bestätigen"));
+        var l_new2 = new Gtk.Label (_("Confirm New Password"));
         l_new2.halign = Gtk.Align.START;
 
         grid.attach (l_old, 0, 0, 1, 1);
@@ -1110,12 +1110,12 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         grid.attach (new_entry_confirm, 0, 5, 1, 1);
 
         var dialog = new Adw.AlertDialog (
-            _("Datenbank-Passwort ändern"),
-            _("Dieses Passwort wird verwendet, um deine lokalen DinoX-Daten zu verschlüsseln.")
+            _("Change Database Password"),
+            _("This password is used to encrypt your local DinoX data.")
 );
         dialog.extra_child = grid;
-        dialog.add_response ("cancel", _("Abbrechen"));
-        dialog.add_response ("change", _("Ändern"));
+        dialog.add_response ("cancel", _("Cancel"));
+        dialog.add_response ("change", _("Change"));
         dialog.default_response = "change";
         dialog.close_response = "cancel";
 
