@@ -877,5 +877,244 @@ function googleTranslateElementInit() {
         setActiveState(getActiveLanguage());
     })();
 
+    // ========================================
+    // Documentation Viewer (fetch + render MD)
+    // ========================================
+    (function initDocsViewer() {
+        const BASE_RAW = 'https://raw.githubusercontent.com/rallep71/dinox/master/docs/internal/';
+        const BASE_VIEW = 'https://github.com/rallep71/dinox/blob/master/docs/internal/';
+        const CACHE_TTL = 10 * 60 * 1000; // 10 minutes
+
+        const viewer = document.getElementById('docsViewer');
+        const viewerTitle = document.getElementById('docsViewerTitle');
+        const viewerBody = document.getElementById('docsViewerBody');
+        const viewerClose = document.getElementById('docsViewerClose');
+        const viewerGithub = document.getElementById('docsViewerGithub');
+        const cards = document.querySelectorAll('.docs-card[data-doc]');
+
+        if (!viewer || cards.length === 0) return;
+
+        // --- Lightweight Markdown to HTML renderer ---
+        function mdToHtml(md) {
+            // Normalize line endings
+            md = md.replace(/\r\n/g, '\n');
+
+            let html = '';
+            const lines = md.split('\n');
+            let i = 0;
+
+            function escHtml(s) {
+                return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            }
+
+            function inlineMarkdown(text) {
+                // Images
+                text = text.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" loading="lazy">');
+                // Links
+                text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+                // Bold + italic
+                text = text.replace(/\*\*\*([^*]+)\*\*\*/g, '<strong><em>$1</em></strong>');
+                // Bold
+                text = text.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+                // Italic
+                text = text.replace(/(?<!\*)\*([^*]+)\*(?!\*)/g, '<em>$1</em>');
+                // Inline code
+                text = text.replace(/`([^`]+)`/g, function(_, code) {
+                    return '<code>' + escHtml(code) + '</code>';
+                });
+                return text;
+            }
+
+            while (i < lines.length) {
+                const line = lines[i];
+
+                // Fenced code block
+                const fenceMatch = line.match(/^```(\w*)/);
+                if (fenceMatch) {
+                    i++;
+                    let codeLines = [];
+                    while (i < lines.length && !lines[i].startsWith('```')) {
+                        codeLines.push(escHtml(lines[i]));
+                        i++;
+                    }
+                    i++; // skip closing ```
+                    html += '<pre><code>' + codeLines.join('\n') + '</code></pre>\n';
+                    continue;
+                }
+
+                // Horizontal rule
+                if (/^(-{3,}|_{3,}|\*{3,})\s*$/.test(line)) {
+                    html += '<hr>\n';
+                    i++;
+                    continue;
+                }
+
+                // Headings
+                const headingMatch = line.match(/^(#{1,6})\s+(.+)$/);
+                if (headingMatch) {
+                    const level = headingMatch[1].length;
+                    html += '<h' + level + '>' + inlineMarkdown(headingMatch[2]) + '</h' + level + '>\n';
+                    i++;
+                    continue;
+                }
+
+                // Table
+                if (line.includes('|') && i + 1 < lines.length && /^\|?\s*[-:]+[-|:\s]+$/.test(lines[i + 1])) {
+                    html += '<table>\n';
+                    // Header row
+                    const headerCells = line.split('|').map(c => c.trim()).filter(c => c !== '');
+                    html += '<thead><tr>' + headerCells.map(c => '<th>' + inlineMarkdown(c) + '</th>').join('') + '</tr></thead>\n';
+                    i += 2; // skip header + separator
+                    html += '<tbody>\n';
+                    while (i < lines.length && lines[i].includes('|') && lines[i].trim() !== '') {
+                        const cells = lines[i].split('|').map(c => c.trim()).filter(c => c !== '');
+                        html += '<tr>' + cells.map(c => '<td>' + inlineMarkdown(c) + '</td>').join('') + '</tr>\n';
+                        i++;
+                    }
+                    html += '</tbody></table>\n';
+                    continue;
+                }
+
+                // Blockquote
+                if (line.startsWith('>')) {
+                    let quoteLines = [];
+                    while (i < lines.length && lines[i].startsWith('>')) {
+                        quoteLines.push(lines[i].replace(/^>\s?/, ''));
+                        i++;
+                    }
+                    html += '<blockquote><p>' + inlineMarkdown(quoteLines.join(' ')) + '</p></blockquote>\n';
+                    continue;
+                }
+
+                // Unordered list
+                if (/^\s*[-*+]\s+/.test(line)) {
+                    html += '<ul>\n';
+                    while (i < lines.length && /^\s*[-*+]\s+/.test(lines[i])) {
+                        const item = lines[i].replace(/^\s*[-*+]\s+/, '');
+                        html += '<li>' + inlineMarkdown(item) + '</li>\n';
+                        i++;
+                    }
+                    html += '</ul>\n';
+                    continue;
+                }
+
+                // Ordered list
+                if (/^\s*\d+\.\s+/.test(line)) {
+                    html += '<ol>\n';
+                    while (i < lines.length && /^\s*\d+\.\s+/.test(lines[i])) {
+                        const item = lines[i].replace(/^\s*\d+\.\s+/, '');
+                        html += '<li>' + inlineMarkdown(item) + '</li>\n';
+                        i++;
+                    }
+                    html += '</ol>\n';
+                    continue;
+                }
+
+                // Empty line
+                if (line.trim() === '') {
+                    i++;
+                    continue;
+                }
+
+                // Paragraph — collect consecutive non-empty lines
+                let paraLines = [];
+                while (i < lines.length && lines[i].trim() !== '' &&
+                       !lines[i].startsWith('#') && !lines[i].startsWith('```') &&
+                       !/^\s*[-*+]\s+/.test(lines[i]) && !/^\s*\d+\.\s+/.test(lines[i]) &&
+                       !lines[i].startsWith('>') && !/^(-{3,}|_{3,}|\*{3,})\s*$/.test(lines[i]) &&
+                       !(lines[i].includes('|') && i + 1 < lines.length && /^\|?\s*[-:]+[-|:\s]+$/.test(lines[i + 1]))) {
+                    paraLines.push(lines[i]);
+                    i++;
+                }
+                if (paraLines.length > 0) {
+                    html += '<p>' + inlineMarkdown(paraLines.join('\n').replace(/\n/g, '<br>')) + '</p>\n';
+                }
+            }
+
+            return html;
+        }
+
+        // --- Fetch, cache & display ---
+        const docCache = {};
+
+        function fetchDoc(name) {
+            const cached = docCache[name];
+            if (cached && Date.now() - cached.ts < CACHE_TTL) {
+                return Promise.resolve(cached.html);
+            }
+
+            const url = BASE_RAW + name + '.md';
+            return fetch(url)
+                .then(function(res) {
+                    if (!res.ok) throw new Error('HTTP ' + res.status);
+                    return res.text();
+                })
+                .then(function(md) {
+                    var rendered = mdToHtml(md);
+                    docCache[name] = { html: rendered, ts: Date.now() };
+                    return rendered;
+                });
+        }
+
+        function showDoc(name, title) {
+            // Set active card
+            cards.forEach(function(c) { c.classList.toggle('active', c.getAttribute('data-doc') === name); });
+
+            viewerTitle.textContent = title;
+            viewerGithub.href = BASE_VIEW + name + '.md';
+            viewerBody.innerHTML = '<div class="docs-viewer-loading" aria-live="polite">Loading documentation...</div>';
+            viewer.hidden = false;
+
+            fetchDoc(name)
+                .then(function(html) {
+                    viewerBody.innerHTML = html;
+                })
+                .catch(function(err) {
+                    viewerBody.innerHTML = '<div class="docs-viewer-error">Failed to load document. <a href="' +
+                        BASE_VIEW + name + '.md" target="_blank" rel="noopener noreferrer">View on GitHub</a> instead.</div>';
+                    console.warn('Docs fetch error:', err);
+                });
+
+            // Scroll viewer into view
+            viewer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function closeViewer() {
+            viewer.hidden = true;
+            cards.forEach(function(c) { c.classList.remove('active'); });
+        }
+
+        // Card click handlers
+        cards.forEach(function(card) {
+            card.addEventListener('click', function() {
+                var name = card.getAttribute('data-doc');
+                var title = card.querySelector('h3').textContent;
+                showDoc(name, title);
+            });
+            card.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    card.click();
+                }
+            });
+        });
+
+        // Close button
+        if (viewerClose) {
+            viewerClose.addEventListener('click', closeViewer);
+        }
+
+        // Open doc from URL hash (e.g. #docs/SECURITY)
+        var hashMatch = window.location.hash.match(/^#docs\/(\w+)$/);
+        if (hashMatch) {
+            var docName = hashMatch[1];
+            var matchingCard = document.querySelector('.docs-card[data-doc="' + docName + '"]');
+            if (matchingCard) {
+                var cardTitle = matchingCard.querySelector('h3').textContent;
+                setTimeout(function() { showDoc(docName, cardTitle); }, 300);
+            }
+        }
+    })();
+
     console.log('DinoX Website initialized');
 })();
