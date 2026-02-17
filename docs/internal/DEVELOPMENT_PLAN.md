@@ -1,6 +1,6 @@
 # DinoX - Development Plan
 
-> **Last Updated**: February 17, 2026
+> **Last Updated**: February 17, 2026 (v1.1.0.5)
 > **Current Release Line**: 1.1.0.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.0.4 |
+| **Current Version** | 1.1.0.5 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (~85% translated) |
 | **Build Status** | Clean |
@@ -20,6 +20,15 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v1.1.0.5 (Comprehensive Security Audit)
+
+- **Crypto Security Audit (23 Findings)**: Full audit of 39 crypto-related files and 15 OpenPGP files. 6 critical, 11 medium, 3 low findings in OMEMO/Signal layer plus 3 findings in OpenPGP layer -- all fixed and verified.
+- **Critical Fixes**: AES-GCM tag verification bypass, XML injection in OMEMO key exchange, SASL SCRAM nonce truncation, Double Ratchet key reuse via duplicate XML elements, PKCS#5 padding oracle, pre-key exhaustion without replenishment.
+- **Medium Fixes**: HKDF salt handling, trust store race conditions, session store unbounded growth, bundle fetch without verification, missing replay protection logging, cleartext key material in logs, Signal session serialization integrity, certificate chain validation, stale device ID publishing, multi-device decryption race, X3DH SPK signature verification.
+- **OpenPGP Fixes**: Secure temp file deletion (zero-overwrite before unlink), secure temp file permissions (0600 via FileCreateFlags.PRIVATE), CSPRNG random padding replacing Mersenne Twister.
+- **Security Audit Documentation**: SECURITY_AUDIT.md report, security-audit.html web page, website and README navigation links.
+- **OMEMO v2 Implementation Story**: Full documentation of OMEMO v2 implementation journey.
 
 ### v1.1.0.4 (URL Link Preview, Voice Message Waveform, AppImage Icons)
 
@@ -222,15 +231,20 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Item | Description | Status |
 |------|-------------|--------|
+| **Comprehensive Security Audit** | Full audit of 54 crypto-related files (39 OMEMO/Signal + 15 OpenPGP). 23 findings identified and fixed. Documentation published as SECURITY_AUDIT.md and security-audit.html. | DONE |
 | **OMEMO: Reject Unencrypted Messages** | When OMEMO encryption is active for a conversation, unencrypted incoming messages are currently accepted and displayed. `conversation.encryption` only controls outgoing messages — no pipeline listener checks encryption status on the receive path. Add a new `MessageListener` (between `DECRYPT` and `STORE`) that checks `conversation.encryption != Encryption.NONE && message.encryption == Encryption.NONE` and either discards the message or marks it with a warning. Affected files: `libdino/src/service/message_processor.vala` (pipeline), `plugins/omemo/src/logic/decrypt.vala`, `plugins/omemo/src/logic/decrypt_v2.vala`. Consider adding a per-conversation setting "Allow unencrypted messages" (default: warn, options: allow/warn/reject). | TODO |
 
-### Q2 2026: Modern XEPs
+### Q2 2026: Modern Authentication & XEPs
 
-| XEP | Feature | Implementation TODO |
-|-----|---------|---------------------|
-| **XEP-0357** | Push Notifications | Add/verify push enable/disable flow per account, server capability discovery, and end-to-end testing with common push components. |
-| **XEP-0388** | SASL2 / FAST | Implement SASL2 negotiation and FAST token handling; ensure interaction with XEP-0198 stream management and session resumption remains correct. |
-| **XEP-0386** | Bind 2 | Implement Bind2 negotiation and integrate with session establishment; verify multi-device and reconnection behavior. |
+| XEP / Feature | Description | Implementation TODO | Status |
+|----------------|-------------|---------------------|--------|
+| **SCRAM-SHA-256** | Modern SASL authentication | Implement SCRAM-SHA-256 mechanism alongside existing SCRAM-SHA-1. Conversations, Monal, and Gajim already support this. Affected files: `xmpp-vala/src/module/sasl.vala`, `xmpp-vala/src/module/xep/plain_sasl.vala`. Add SHA-256 hash function to SCRAM negotiation, prefer SHA-256 over SHA-1 when server offers both. | TODO |
+| **SCRAM-SHA-1-PLUS** | TLS Channel Binding | Implement `tls-server-end-point` and `tls-unique` channel binding for SCRAM-SHA-1-PLUS. Prevents MITM attacks on SASL authentication. Conversations, Monal, and Gajim already support this. Requires extracting TLS channel binding data from GnuTLS/OpenSSL session. | TODO |
+| **SCRAM-SHA-256-PLUS** | SHA-256 with Channel Binding | Combined SCRAM-SHA-256 with TLS channel binding. Strongest authentication option. Depends on SCRAM-SHA-256 and channel binding implementation. | TODO |
+| **SCRAM Nonce CSPRNG** | Cryptographic nonce generation | Replace `GLib.Random` (Mersenne Twister) in SASL nonce generation with `/dev/urandom` or `gcry_randomize()`. Current implementation uses a non-cryptographic PRNG for security-critical nonce generation. | TODO |
+| **XEP-0357** | Push Notifications | Add/verify push enable/disable flow per account, server capability discovery, and end-to-end testing with common push components. | TODO |
+| **XEP-0388** | SASL2 / FAST | Implement SASL2 negotiation and FAST token handling; ensure interaction with XEP-0198 stream management and session resumption remains correct. | TODO |
+| **XEP-0386** | Bind 2 | Implement Bind2 negotiation and integrate with session establishment; verify multi-device and reconnection behavior. | TODO |
 
 ### Q3 2026: Advanced media
 
