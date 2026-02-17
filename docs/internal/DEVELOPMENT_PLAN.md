@@ -238,10 +238,10 @@ This document is organized as a **chronological release timeline** first, follow
 
 | XEP / Feature | Description | Implementation TODO | Status |
 |----------------|-------------|---------------------|--------|
-| **SCRAM-SHA-256** | Modern SASL authentication | Implement SCRAM-SHA-256 mechanism alongside existing SCRAM-SHA-1. Conversations, Monal, and Gajim already support this. Affected files: `xmpp-vala/src/module/sasl.vala`, `xmpp-vala/src/module/xep/plain_sasl.vala`. Add SHA-256 hash function to SCRAM negotiation, prefer SHA-256 over SHA-1 when server offers both. | TODO |
+| **SCRAM-SHA-256** | Modern SASL authentication | Implement SCRAM-SHA-256 mechanism alongside existing SCRAM-SHA-1. Conversations, Monal, and Gajim already support this. Affected files: `xmpp-vala/src/module/sasl.vala`, `xmpp-vala/src/module/xep/plain_sasl.vala`. Add SHA-256 hash function to SCRAM negotiation, prefer SHA-256 over SHA-1 when server offers both. | DONE |
 | **SCRAM-SHA-1-PLUS** | TLS Channel Binding | Implement `tls-server-end-point` and `tls-unique` channel binding for SCRAM-SHA-1-PLUS. Prevents MITM attacks on SASL authentication. Conversations, Monal, and Gajim already support this. Requires extracting TLS channel binding data from GnuTLS/OpenSSL session. | TODO |
 | **SCRAM-SHA-256-PLUS** | SHA-256 with Channel Binding | Combined SCRAM-SHA-256 with TLS channel binding. Strongest authentication option. Depends on SCRAM-SHA-256 and channel binding implementation. | TODO |
-| **SCRAM Nonce CSPRNG** | Cryptographic nonce generation | Replace `GLib.Random` (Mersenne Twister) in SASL nonce generation with `/dev/urandom` or `gcry_randomize()`. Current implementation uses a non-cryptographic PRNG for security-critical nonce generation. | TODO |
+| **SCRAM Nonce CSPRNG** | Cryptographic nonce generation | Replace `GLib.Random` (Mersenne Twister) in SASL nonce generation with `/dev/urandom` or `gcry_randomize()`. Current implementation uses a non-cryptographic PRNG for security-critical nonce generation. | DONE |
 | **XEP-0357** | Push Notifications | Add/verify push enable/disable flow per account, server capability discovery, and end-to-end testing with common push components. | TODO |
 | **XEP-0388** | SASL2 / FAST | Implement SASL2 negotiation and FAST token handling; ensure interaction with XEP-0198 stream management and session resumption remains correct. | TODO |
 | **XEP-0386** | Bind 2 | Implement Bind2 negotiation and integrate with session establishment; verify multi-device and reconnection behavior. | TODO |
