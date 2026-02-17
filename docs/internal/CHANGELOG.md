@@ -5,6 +5,26 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0.4] - 2026-02-17
+
+### Added
+- **URL Link Preview**: Telegram-style preview cards for URLs in chat messages. Fetches OpenGraph metadata (title, description, image, site name) with fallback to `<title>` and `<meta name="description">`. Preview cards show optional thumbnail (80x80), site name, bold title, and description with accent-color left border. Clickable to open URL in browser. In-memory cache to avoid redundant fetches. Skips `aesgcm://` URLs (OMEMO file transfers).
+- **Voice Message Waveform (Recorder)**: Real waveform display using peak dB from GStreamer `level` element with non-linear `sqrt` curve instead of random bars. 300x48px waveform (60 bars, red) with pulsing record indicator, age-based opacity gradient, and auto-send on max duration (5 minutes with countdown in last 30s).
+- **Voice Message Waveform (Player)**: Replace slider with 50-bar waveform visualization (blue=played, grey=unplayed). Faster-than-realtime waveform scan via `playbin`+`level`+`fakesink`. Click/drag seek support. Download-wait logic with loading icon and error state handling.
+- **Voice Message Audio Quality**: 48kHz mono S16LE capsfilter to match PipeWire native rate. Volume 1.8x (+5 dB) with 230ms pre-roll mute to suppress PipeWire transient crackling at recording start. `audiodynamic` soft-knee compressor to prevent clipping.
+
+### Fixed
+- **File Provider URL Bug**: Receiver saw "unknown file to download" instead of URL messages. `file_provider.vala` used `oob_url ?? message.body` fallback — when no OOB element was present, a plain URL in the message body was treated as a file transfer. Now only uses OOB when present, or message body only for `aesgcm://` (OMEMO encrypted file transfers).
+- **Video Call DMABuf Caps (GitHub Issue #11)**: Older V4L2 drivers (e.g. Haswell ThinkPad T440) advertise `video/x-raw(memory:DMABuf)` caps via PipeWire that they cannot actually deliver, causing 0 kbps outgoing video. `get_best_caps()` now filters out DMABuf and DMA_DRM format caps in Round 1, falling back to SystemMemory caps.
+- **OMEMO File Decryption**: Fixed double-decryption bug in `file_encryption.vala` `decrypt_stream` where the `n < TAG_SIZE` branch corrupted GCM auth state by decrypting data twice.
+- **Subscription Notification Loop**: Opening a chat with a DinoX contact always showed "Send subscription request" at the top, even though chat worked normally. Two bugs: (1) The `ask` field was stored to DB but never loaded back in `RosterStoreImpl` constructor, so DinoX forgot that a subscription request was already sent. (2) The notification now suppressed entirely for conversations with existing message activity (`last_active != null`), since subscription is only needed for presence/status updates, not messaging.
+- **Telegram Bridge Timeout Spam**: Long-polling timeout responses from Telegram API logged as `WARNING`. Demoted to `debug` level since timeouts are normal behavior for long polling.
+- **AppImage Missing Icons**: Icons missing in menu, systray, and About dialog on fresh AppImage installations. Three fixes: (1) `build-appimage.sh` now copies all 6 icon sizes (16/32/48/128/256/512px) instead of only 256px, and generates icon cache. (2) `AppRun` sets `XDG_DATA_DIRS` to include `$APPDIR/usr/share`. (3) `application.vala` sets `XDG_DATA_DIRS` programmatically when `APPDIR` env var is present (safety net).
+- **AppImage Systray Icon**: SNI `StatusNotifierItem` now exposes `IconThemePath` D-Bus property pointing to `$APPDIR/usr/share/icons` when running as AppImage, so desktop environments can find the icon.
+
+### Changed
+- **Version**: Bumped from 1.1.0.3 to 1.1.0.4
+
 ## [1.1.0.3] - 2026-02-16
 
 ### Added
