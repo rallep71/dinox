@@ -653,8 +653,8 @@
                                 <td><s>SCRAM-SHA-256 support</s></td>
                                 <td class="severity-medium"><s>Medium</s></td>
                                 <td>
-                                    <strong>Fixed in v1.1.0.6.</strong> SCRAM-SHA-256 implemented alongside SCRAM-SHA-1.
-                                    Preferred over SHA-1 when the server offers both.
+                                    <strong>Fixed in v1.1.0.6.</strong> SCRAM-SHA-256 and SCRAM-SHA-512 implemented alongside SCRAM-SHA-1.
+                                    Preference order: SHA-512 &gt; SHA-256 &gt; SHA-1.
                                 </td>
                             </tr>
                             <tr>
@@ -690,18 +690,18 @@
                     <h2>SCRAM Channel Binding Support Across XMPP Clients</h2>
                     <table class="audit-table">
                         <thead>
-                            <tr><th>Client</th><th>SCRAM-SHA-1</th><th>SCRAM-SHA-1-PLUS</th><th>SCRAM-SHA-256</th></tr>
+                            <tr><th>Client</th><th>SCRAM-SHA-1</th><th>SCRAM-SHA-1-PLUS</th><th>SCRAM-SHA-256</th><th>SCRAM-SHA-512</th></tr>
                         </thead>
                         <tbody>
-                            <tr><td>Conversations</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
-                            <tr><td>Monal</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
-                            <tr><td>Gajim</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
-                            <tr><td>Profanity</td><td>Yes</td><td>Yes</td><td>Partial</td></tr>
-                            <tr><td>Siskin IM</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
-                            <tr><td><strong>DinoX</strong></td><td><strong>Yes</strong></td><td><strong>No (planned)</strong></td><td><strong>Yes</strong></td></tr>
-                            <tr><td>Dino (original)</td><td>Yes</td><td>No</td><td>No</td></tr>
-                            <tr><td>Kaidan</td><td>Yes</td><td>Limited</td><td>Yes</td></tr>
-                            <tr><td>Pidgin / Swift / Psi</td><td>Yes</td><td>No</td><td>No</td></tr>
+                            <tr><td>Conversations</td><td>Yes</td><td>Yes</td><td>Yes</td><td>No</td></tr>
+                            <tr><td>Monal</td><td>Yes</td><td>Yes</td><td>Yes</td><td>No</td></tr>
+                            <tr><td>Gajim</td><td>Yes</td><td>Yes</td><td>Yes</td><td>No</td></tr>
+                            <tr><td>Profanity</td><td>Yes</td><td>Yes</td><td>Partial</td><td>No</td></tr>
+                            <tr><td>Siskin IM</td><td>Yes</td><td>Yes</td><td>Yes</td><td>No</td></tr>
+                            <tr><td><strong>DinoX</strong></td><td><strong>Yes</strong></td><td><strong>No (planned)</strong></td><td><strong>Yes</strong></td><td><strong>Yes</strong></td></tr>
+                            <tr><td>Dino (original)</td><td>Yes</td><td>No</td><td>No</td><td>No</td></tr>
+                            <tr><td>Kaidan</td><td>Yes</td><td>Limited</td><td>Yes</td><td>No</td></tr>
+                            <tr><td>Pidgin / Swift / Psi</td><td>Yes</td><td>No</td><td>No</td><td>No</td></tr>
                         </tbody>
                     </table>
 
