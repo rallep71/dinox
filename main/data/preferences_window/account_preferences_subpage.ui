@@ -347,6 +347,12 @@
                             <property name="title" translatable="yes">Port</property>
                           </object>
                         </child>
+                        <child>
+                          <object class="AdwSwitchRow" id="require_channel_binding_switch">
+                            <property name="title" translatable="yes">MITM Protection</property>
+                            <property name="subtitle" translatable="yes">Require channel binding (SCRAM-*-PLUS). Rejects login if server does not support it.</property>
+                          </object>
+                        </child>
                       </object>
                     </child>
                     <child>

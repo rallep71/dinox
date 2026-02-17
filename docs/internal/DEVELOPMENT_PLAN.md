@@ -29,6 +29,8 @@ This document is organized as a **chronological release timeline** first, follow
 - **OpenPGP Fixes**: Secure temp file deletion (zero-overwrite before unlink), secure temp file permissions (0600 via FileCreateFlags.PRIVATE), CSPRNG random padding replacing Mersenne Twister.
 - **Security Audit Documentation**: SECURITY_AUDIT.md report, security-audit.html web page, website and README navigation links.
 - **OMEMO v2 Implementation Story**: Full documentation of OMEMO v2 implementation journey.
+- **SCRAM-SHA-256/512 + Channel Binding**: All 6 SCRAM variants (SHA-1, SHA-256, SHA-512, and their -PLUS counterparts) with CSPRNG nonces. Channel binding uses tls-exporter (RFC 9266) with fallback to tls-server-end-point (RFC 5929).
+- **Channel Binding Downgrade Protection**: Per-account MITM protection toggle in Advanced Settings. When enabled, refuses login if server does not offer SCRAM-*-PLUS mechanisms (possible downgrade attack). DB version 37.
 
 ### v1.1.0.4 (URL Link Preview, Voice Message Waveform, AppImage Icons)
 
@@ -243,6 +245,7 @@ This document is organized as a **chronological release timeline** first, follow
 | **SCRAM-SHA-256-PLUS** | SHA-256 with Channel Binding | Combined SCRAM-SHA-256 with TLS channel binding. Prefers `tls-exporter` (GLib 2.74+) with fallback to `tls-server-end-point` (GLib 2.66+). | DONE |
 | **SCRAM-SHA-512-PLUS** | SHA-512 with Channel Binding | Combined SCRAM-SHA-512 with TLS channel binding. DinoX is the only XMPP client supporting this. Same channel binding infrastructure as SHA-256-PLUS. | DONE |
 | **SCRAM Nonce CSPRNG** | Cryptographic nonce generation | Replace `GLib.Random` (Mersenne Twister) in SASL nonce generation with `/dev/urandom` or `gcry_randomize()`. Current implementation uses a non-cryptographic PRNG for security-critical nonce generation. | DONE |
+| **Channel Binding Downgrade Protection** | MITM protection toggle | Per-account toggle to require SCRAM-*-PLUS mechanisms. When enabled, login is refused if server only offers non-PLUS mechanisms (possible MITM stripping channel binding). Similar to Conversations/Monocles "MITM Protection" toggle. DB version 37, UI in Advanced Settings. | DONE |
 | **XEP-0357** | Push Notifications | Add/verify push enable/disable flow per account, server capability discovery, and end-to-end testing with common push components. | TODO |
 | **XEP-0388** | SASL2 / FAST | Implement SASL2 negotiation and FAST token handling; ensure interaction with XEP-0198 stream management and session resumption remains correct. | TODO |
 | **XEP-0386** | Bind 2 | Implement Bind2 negotiation and integrate with session establishment; verify multi-device and reconnection behavior. | TODO |
