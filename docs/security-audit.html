@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Audit - DinoX</title>
+    <meta name="description" content="DinoX cryptographic security audit results. 17 issues found and fixed across OMEMO, SASL, and Signal Protocol code.">
+    <meta name="robots" content="index, follow">
+    <link rel="icon" type="image/svg+xml" href="assets/icon.svg">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .audit-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.95rem; }
+        .audit-table th, .audit-table td { padding: 0.6rem 0.8rem; text-align: left; border-bottom: 1px solid var(--border-color, #333); }
+        .audit-table th { font-weight: 600; }
+        .audit-table tr:hover { background: rgba(53,132,228,0.06); }
+        .severity-critical { color: #e01b24; font-weight: 700; }
+        .severity-high { color: #ff7800; font-weight: 600; }
+        .severity-medium { color: #f5c211; font-weight: 600; }
+        .status-fixed { color: #26a269; font-weight: 600; }
+        .status-wontfix { color: #888; }
+        .audit-meta { display: flex; flex-wrap: wrap; gap: 2rem; margin: 1.5rem 0; padding: 1rem; background: rgba(53,132,228,0.08); border-radius: 8px; }
+        .audit-meta div { min-width: 140px; }
+        .audit-meta strong { display: block; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.7; margin-bottom: 0.2rem; }
+        .code-ref { font-family: monospace; font-size: 0.9em; background: rgba(255,255,255,0.06); padding: 0.15em 0.4em; border-radius: 3px; }
+        h3 { margin-top: 2.5rem; }
+    </style>
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+        <div class="container">
+            <a href="./" class="nav-brand">
+                <img src="assets/icon.svg" alt="" class="logo" width="36" height="36">
+                <span class="brand-name">DinoX</span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="./#features">Features</a></li>
+                <li><a href="./#download">Download</a></li>
+                <li><a href="./#xep">XEP Support</a></li>
+                <li><a href="./#donate">Support</a></li>
+                <li><a href="./#docs">Docs</a></li>
+                <li><a href="https://github.com/rallep71/dinox">GitHub</a></li>
+            </ul>
+            <div class="lang-switcher-wrapper" role="listbox" aria-label="Language">
+                <div class="lang-switcher">
+                    <button type="button" class="lang-btn active" data-lang="en" role="option" aria-selected="true">EN</button>
+                    <button type="button" class="lang-btn" data-lang="de" role="option" aria-selected="false">DE</button>
+                    <button type="button" class="lang-btn" data-lang="fr" role="option" aria-selected="false">FR</button>
+                    <button type="button" class="lang-btn" data-lang="es" role="option" aria-selected="false">ES</button>
+                </div>
+            </div>
+            <div class="nav-actions">
+                <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
+                    <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"/>
+                        <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                        <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                    </svg>
+                    <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                    </svg>
+                </button>
+                <button type="button" class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Menu" aria-expanded="false" aria-controls="mobileMenu">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </div>
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="./#features">Features</a>
+            <a href="./#download">Download</a>
+            <a href="./#xep">XEP Support</a>
+            <a href="./#donate">Support</a>
+            <a href="./#docs">Docs</a>
+            <a href="https://github.com/rallep71/dinox">GitHub</a>
+        </div>
+    </nav>
+
+    <main id="main" tabindex="-1">
+        <section class="features">
+            <div class="container">
+                <div class="feature-card">
+
+                    <h1>Security Audit</h1>
+                    <p>
+                        In February 2026, a comprehensive security audit was performed on all cryptographic code
+                        in DinoX. The audit covered OMEMO v1/v2 encryption, the Signal Protocol crypto provider,
+                        SASL authentication, file transfer encryption, and the underlying GCrypt wrapper library.
+                        <strong>All critical and medium-severity issues have been fixed.</strong>
+                    </p>
+
+                    <div class="audit-meta">
+                        <div><strong>Date</strong> February 17, 2026</div>
+                        <div><strong>Scope</strong> 39 crypto-related files</div>
+                        <div><strong>Findings</strong> 6 Critical/High, 11 Medium</div>
+                        <div><strong>Status</strong> <span class="status-fixed">All fixed</span></div>
+                        <div><strong>Commits</strong>
+                            <a href="https://github.com/rallep71/dinox/commit/08c895f6">08c895f6</a>,
+                            <a href="https://github.com/rallep71/dinox/commit/83fa5046">83fa5046</a>
+                        </div>
+                    </div>
+
+                    <!-- ============================================================ -->
+                    <h2>About helper.c</h2>
+                    <p>
+                        The file <span class="code-ref">plugins/omemo/src/native/helper.c</span> provides
+                        GCrypt-based cryptographic callbacks (HMAC-SHA256, SHA-512, AES encrypt/decrypt, random)
+                        that are registered as the <strong>Signal Protocol crypto provider</strong> for
+                        libomemo-c (formerly libsignal-protocol-c).
+                    </p>
+                    <p>
+                        This file originates from the <strong>original Dino project</strong>, authored by
+                        <strong>Marvin W</strong> (core Dino developer) on March 11, 2017, as
+                        <span class="code-ref">plugins/signal-protocol/src/signal_helper.c</span>.
+                        It has been maintained and renamed twice through Dino's evolution:
+                    </p>
+                    <ul>
+                        <li>2023: moved to <span class="code-ref">plugins/omemo/src/signal/signal_helper.c</span></li>
+                        <li>2025: renamed to <span class="code-ref">plugins/omemo/src/native/helper.c</span></li>
+                    </ul>
+                    <p>
+                        The file is written in C (not Vala) because libomemo-c requires a
+                        <span class="code-ref">signal_crypto_provider</span> struct with C function pointers.
+                        This is standard practice &mdash; every XMPP client using libsignal has equivalent glue code.
+                    </p>
+                    <p>
+                        <strong>Note:</strong> Several critical bugs found in this file (the <code>free(md)</code>
+                        heap corruption and the <code>sizeof(gcry_mac_hd_t)</code> type mismatch) are present in
+                        the <strong>original upstream Dino codebase</strong> as of the audit date and have not been
+                        reported or fixed there. The OMEMO v2 functions (<code>omemo2_hkdf_sha256</code>,
+                        <code>omemo2_aes_256_cbc_pkcs7_encrypt/decrypt</code>) were added in the DinoX fork.
+                    </p>
+
+                    <!-- ============================================================ -->
+                    <h2>Critical &amp; High Severity (Fixed)</h2>
+                    <table class="audit-table">
+                        <thead>
+                            <tr><th>#</th><th>Severity</th><th>File</th><th>Issue</th><th>Status</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td class="severity-critical">CRITICAL</td>
+                                <td><span class="code-ref">helper.c:159</span></td>
+                                <td>
+                                    <strong>Heap corruption: <code>free(md)</code> on <code>gcry_md_read()</code> internal pointer.</strong>
+                                    <code>gcry_md_read()</code> returns a pointer to an internal buffer &mdash; calling <code>free()</code>
+                                    on it corrupts the heap. Also present in upstream Dino.
+                                </td>
+                                <td class="status-fixed">Fixed</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td class="severity-critical">CRITICAL</td>
+                                <td><span class="code-ref">helper.c:86-89</span></td>
+                                <td>
+                                    <strong>Resource leak: missing <code>gcry_mac_close()</code> on setkey failure.</strong>
+                                    When <code>gcry_mac_setkey()</code> fails, the HMAC context was freed with <code>free(ctx)</code>
+                                    but <code>gcry_mac_close(*ctx)</code> was not called first, leaking GCrypt internal state.
+                                    Also present in upstream Dino.
+                                </td>
+                                <td class="status-fixed">Fixed</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td class="severity-critical">CRITICAL</td>
+                                <td><span class="code-ref">helper.c:343-345</span></td>
+                                <td>
+                                    <strong>Incomplete PKCS#5 padding validation.</strong>
+                                    Only the last byte of the padding was checked. An attacker could craft ciphertext
+                                    with invalid interior padding bytes that would be accepted. Fixed with constant-time
+                                    XOR-accumulator verifying all padding bytes.
+                                </td>
+                                <td class="status-fixed">Fixed</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td class="severity-high">HIGH</td>
+                                <td><span class="code-ref">simple_iks.vala:33-36</span></td>
+                                <td>
+                                    <strong>Timing attack: non-constant-time identity key comparison.</strong>
+                                    Early-return byte comparison leaked key data via timing side channels.
+                                    Fixed with XOR-OR accumulator pattern.
+                                </td>
+                                <td class="status-fixed">Fixed</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td class="severity-high">HIGH</td>
+                                <td><span class="code-ref">sasl.vala:110-113</span></td>
+                                <td>
+                                    <strong>Timing attack: non-constant-time SCRAM server signature verification.</strong>
+                                    Same early-return pattern in SASL SCRAM-SHA-1 server signature check.
+                                    Fixed with XOR-OR accumulator.
+                                </td>
+                                <td class="status-fixed">Fixed</td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                                <td class="severity-high">HIGH</td>
+                                <td><span class="code-ref">helper.c:128</span></td>
+                                <td>
+                                    <strong>Type mismatch: <code>sizeof(gcry_mac_hd_t)</code> instead of <code>sizeof(gcry_md_hd_t)</code></strong>
+                                    in SHA-512 digest init. The wrong type size was used for the allocation.
+                                    Also present in upstream Dino.
+                                </td>
+                                <td class="status-fixed">Fixed</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- ============================================================ -->
+                    <h2>Medium Severity (Fixed)</h2>
+                    <table class="audit-table">
+                        <thead>
+                            <tr><th>#</th><th>File</th><th>Issue</th><th>Status</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>7</td>
+                                <td><span class="code-ref">file_decryptor.vala</span></td>
+                                <td>
+                                    <strong>Empty cipher URI defaulted to unauthenticated GCM.</strong>
+                                    An empty or unknown ESFS cipher string silently fell through to GCM without
+                                    auth tag verification. Now rejects unknown cipher URIs.
+                                </td>
+                                <td class="status-fixed">Fixed</td>
+                            </tr>
+                            <tr>
+                                <td>8</td>
+                                <td><span class="code-ref">decrypt.vala</span></td>
+                                <td>
+                                    <strong>Loose key length validation.</strong>
+                                    Accepted any key &ge;32 bytes. Now enforces exactly 16 or 32 bytes
+                                    per OMEMO specification.
+                                </td>
+                                <td class="status-fixed">Fixed</td>
+                            </tr>
+                            <tr>
+                                <td>9</td>
+                                <td><span class="code-ref">encrypt.vala</span></td>
+                                <td>
+                                    <strong>Key material not zeroized after use (OMEMO v1).</strong>
+                                    AES key and IV remained in heap memory after encryption.
+                                    Now explicitly zeroed with <code>Memory.set()</code>.
+                                </td>
+                                <td class="status-fixed">Fixed</td>
+                            </tr>
+                            <tr>
+                                <td>10</td>
+                                <td><span class="code-ref">encrypt_v2.vala</span></td>
+                                <td>
+                                    <strong>Key material not zeroized after use (OMEMO v2).</strong>
+                                    Message key, HKDF output, encryption key, and auth key
+                                    remained in heap. Now zeroed after use.
+                                </td>
+                                <td class="status-fixed">Fixed</td>
+                            </tr>
+                            <tr>
+                                <td>11</td>
+                                <td><span class="code-ref">helper.c (HKDF)</span></td>
+                                <td>
+                                    <strong>HKDF intermediate keys not zeroized.</strong>
+                                    Stack-allocated <code>prk</code> and <code>t_prev</code> were not cleared
+                                    on return, leaving key derivation material recoverable.
+                                    All exit paths now zeroize via <code>goto cleanup</code>.
+                                </td>
+                                <td class="status-fixed">Fixed</td>
+                            </tr>
+                            <tr>
+                                <td>12</td>
+                                <td><span class="code-ref">helper.c (omemo2 CBC)</span></td>
+                                <td>
+                                    <strong>Non-constant-time PKCS#7 padding check in OMEMO v2 decrypt.</strong>
+                                    Early-exit loop leaked padding length via timing (padding oracle risk).
+                                    Replaced with constant-time XOR-accumulator.
+                                </td>
+                                <td class="status-fixed">Fixed</td>
+                            </tr>
+                            <tr>
+                                <td>13</td>
+                                <td><span class="code-ref">cipher.vala</span></td>
+                                <td>
+                                    <strong>ECB mode available in cipher API.</strong>
+                                    ECB provides no semantic security. Now logs a warning when ECB is requested.
+                                </td>
+                                <td class="status-fixed">Fixed</td>
+                            </tr>
+                            <tr>
+                                <td>14</td>
+                                <td><span class="code-ref">sasl.vala</span></td>
+                                <td>
+                                    <strong>PLAIN authentication sent without TLS check.</strong>
+                                    Cleartext password could be sent over unencrypted connection.
+                                    Now refuses PLAIN auth unless the stream is a TLS connection.
+                                </td>
+                                <td class="status-fixed">Fixed</td>
+                            </tr>
+                            <tr>
+                                <td>15</td>
+                                <td><span class="code-ref">sasl.vala</span></td>
+                                <td>
+                                    <strong>No minimum PBKDF2 iteration count.</strong>
+                                    A malicious server could specify iteration count of 1 for SCRAM.
+                                    Now enforces a minimum of 4096 iterations per RFC 5802 recommendation.
+                                </td>
+                                <td class="status-fixed">Fixed</td>
+                            </tr>
+                            <tr>
+                                <td>16</td>
+                                <td><span class="code-ref">file_decryptor.vala</span></td>
+                                <td>
+                                    <strong>GCM decryption without auth tag verification.</strong>
+                                    ESFS GCM mode used tag length 0 for Kaidan/QXmpp interop.
+                                    Now logs a warning. Full auth tag enforcement deferred for interoperability.
+                                </td>
+                                <td class="status-fixed">Fixed (warning)</td>
+                            </tr>
+                            <tr>
+                                <td>17</td>
+                                <td><span class="code-ref">decrypt.vala</span></td>
+                                <td>
+                                    <strong>Incomplete session finalization after pre-key decrypt.</strong>
+                                    A <code>TODO</code> comment suggested the session was not properly finalized.
+                                    Clarified that Signal sessions auto-transition after pre-key decryption.
+                                </td>
+                                <td class="status-fixed">Fixed (clarified)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- ============================================================ -->
+                    <h2>Known Limitations (Not Fixed)</h2>
+                    <p>
+                        The following items were identified but intentionally not addressed, as they require
+                        significant architectural changes or have negligible practical risk:
+                    </p>
+                    <table class="audit-table">
+                        <thead>
+                            <tr><th>Item</th><th>Risk</th><th>Rationale</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>SCRAM-SHA-1-PLUS channel binding</td>
+                                <td class="severity-medium">Medium</td>
+                                <td>
+                                    Requires extracting TLS channel binding data from GnuTLS
+                                    (<code>gnutls_session_channel_binding()</code>). Major clients
+                                    (Conversations, Monal, Gajim) support this. Planned for a future release.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>SCRAM-SHA-256 support</td>
+                                <td class="severity-medium">Medium</td>
+                                <td>
+                                    Current implementation only supports SCRAM-SHA-1. SHA-256 provides
+                                    stronger hash security. Low incremental effort once channel binding is implemented.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>SCRAM nonce uses GLib.Random</td>
+                                <td>Low</td>
+                                <td>
+                                    GLib.Random (Mersenne Twister, seeded from <code>/dev/urandom</code>) is
+                                    not a CSPRNG. However, SCRAM nonces only need to prevent replay &mdash;
+                                    the actual authentication security relies on PBKDF2 + HMAC, not nonce entropy.
+                                    Not practically exploitable.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- ============================================================ -->
+                    <h2>SCRAM Channel Binding Support Across XMPP Clients</h2>
+                    <table class="audit-table">
+                        <thead>
+                            <tr><th>Client</th><th>SCRAM-SHA-1</th><th>SCRAM-SHA-1-PLUS</th><th>SCRAM-SHA-256</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Conversations</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+                            <tr><td>Monal</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+                            <tr><td>Gajim</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+                            <tr><td>Profanity</td><td>Yes</td><td>Yes</td><td>Partial</td></tr>
+                            <tr><td>Siskin IM</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+                            <tr><td><strong>DinoX</strong></td><td><strong>Yes</strong></td><td><strong>No (planned)</strong></td><td><strong>No (planned)</strong></td></tr>
+                            <tr><td>Dino (original)</td><td>Yes</td><td>No</td><td>No</td></tr>
+                            <tr><td>Kaidan</td><td>Yes</td><td>Limited</td><td>Yes</td></tr>
+                            <tr><td>Pidgin / Swift / Psi</td><td>Yes</td><td>No</td><td>No</td></tr>
+                        </tbody>
+                    </table>
+
+                    <!-- ============================================================ -->
+                    <h2>Upstream Dino Bugs</h2>
+                    <p>
+                        The following bugs found during this audit also exist in the
+                        <strong>original Dino codebase</strong>
+                        (<a href="https://github.com/dino/dino">github.com/dino/dino</a>)
+                        in the file <span class="code-ref">plugins/omemo/src/native/helper.c</span>
+                        (formerly <span class="code-ref">signal_helper.c</span>):
+                    </p>
+                    <ul>
+                        <li>
+                            <strong>#1 &mdash; <code>free(md)</code> after <code>gcry_md_read()</code></strong>:
+                            <code>gcry_md_read()</code> returns an internal pointer that must not be freed.
+                            This causes heap corruption.
+                        </li>
+                        <li>
+                            <strong>#2 &mdash; Missing <code>gcry_mac_close()</code></strong>:
+                            On <code>gcry_mac_setkey()</code> failure, the GCrypt MAC handle is not closed
+                            before the context pointer is freed.
+                        </li>
+                        <li>
+                            <strong>#6 &mdash; <code>sizeof(gcry_mac_hd_t)</code> vs <code>sizeof(gcry_md_hd_t)</code></strong>:
+                            Wrong type used in <code>malloc()</code> for the SHA-512 digest context allocation.
+                        </li>
+                    </ul>
+                    <p>
+                        These bugs have been present since the file was first written in 2017.
+                        They are <strong>not introduced by DinoX</strong>.
+                    </p>
+
+                    <p style="margin-top: 2.5rem;">
+                        <a class="btn btn-secondary" href="./">Back to home</a>
+                        <a class="btn btn-secondary" href="https://github.com/rallep71/dinox/commit/08c895f6">View critical fixes</a>
+                        <a class="btn btn-secondary" href="https://github.com/rallep71/dinox/commit/83fa5046">View medium fixes</a>
+                    </p>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer" role="contentinfo">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>
+                    &copy; 2025&ndash;2026 Ralf Peter. Licensed under <a href="https://github.com/rallep71/dinox/blob/master/LICENSE">GPLv3</a>.
+                    &middot; <a href="impressum.html">Imprint</a>
+                    &middot; <a href="privacy.html">Privacy Policy</a>
+                    &middot; <a href="donations.html">Donations &amp; transparency</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <div id="google_translate_element" aria-hidden="true"></div>
+    <script src="js/main.js"></script>
+</body>
+</html>
