@@ -42,6 +42,10 @@ public class SubscriptionNotitication : Object {
             // Show a notification of a pending subscription request
             show_pending_subscription_request();
         } else if (!conversation.counterpart.equals_bare(conversation.account.bare_jid)) {
+            // Don't bother with subscription notification if we already have an active conversation
+            // (subscription is only needed for presence/status, not for messaging)
+            if (conversation.last_active != null) return;
+
             // Show a suggestion to request subscription if: We don't have subscription yet and didn't yet request it
             // Don't show this notification for chats with ourselves
             var roster_item = stream_interactor.get_module<RosterManager>(RosterManager.IDENTITY).get_roster_item(conversation.account, conversation.counterpart);

@@ -346,6 +346,14 @@ public class MessageMetaItem : ContentMetaItem {
                 outer.set_widget(quote_widget, Plugins.WidgetType.GTK4, 1);
             }
         }
+
+        // URL link preview (Telegram-style)
+        string? preview_url = Dino.Ui.extract_preview_url(message_item.message.body);
+        if (preview_url != null) {
+            var preview_widget = new Dino.Ui.UrlPreviewWidget(preview_url);
+            outer.set_widget(preview_widget, Plugins.WidgetType.GTK4, 3);
+        }
+
         return main_widget;
     }
 

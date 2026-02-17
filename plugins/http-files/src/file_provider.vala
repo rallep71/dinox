@@ -77,9 +77,18 @@ public class FileProvider : Dino.FileProvider, Object {
             }
 
             string? oob_url = Xmpp.Xep.OutOfBandData.get_url_from_message(stanza);
-            // Some clients (notably Conversations) may include the URL only in the OOB element
-            // and keep the body as a human-readable fallback text.
-            string? url_candidate = oob_url ?? message.body;
+
+            // Determine the file URL candidate:
+            // - If OOB element present: use that URL (standard file transfer)
+            // - If no OOB but body is an aesgcm:// URL: treat as OMEMO file transfer
+            // - If no OOB and body is a plain http(s):// URL: this is a normal text
+            //   message with a link, NOT a file transfer — do not intercept
+            string? url_candidate = null;
+            if (oob_url != null) {
+                url_candidate = oob_url;
+            } else if (message.body != null && FileProvider.omemo_url_regex.match(message.body)) {
+                url_candidate = message.body;
+            }
 
             bool normal_file = url_candidate != null && FileProvider.http_url_regex.match(url_candidate);
             bool omemo_file = url_candidate != null && FileProvider.omemo_url_regex.match(url_candidate);

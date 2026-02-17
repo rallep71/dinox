@@ -2559,3 +2559,7 @@ body {
         font-size: 1.1rem;
     }
 }
+
+#google_translate_element {
+    display: none;
+}
