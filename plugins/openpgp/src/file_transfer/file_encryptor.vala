@@ -36,7 +36,7 @@ public class PgpFileEncryptor : Dino.FileEncryptor, Object {
             }
 
             uint8[] enc_content = GPGHelper.encrypt_file(temp_in, keys, 0, file_transfer.file_name);
-            FileUtils.remove(temp_in);
+            GPGHelper.secure_delete_file(temp_in);
 
             file_transfer.input_stream = new MemoryInputStream.from_data(enc_content, GLib.free);
             // Set encryption to NONE so that HttpFileSender.prepare_send_file()

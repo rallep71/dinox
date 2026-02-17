@@ -110,11 +110,24 @@ namespace Xmpp.Xep.OpenPgpContent {
         }
         
         private static string generate_random_padding() {
-            // Generate 16-64 random bytes
-            int length = Random.int_range(16, 65);
-            uint8[] bytes = new uint8[length];
-            for (int i = 0; i < length; i++) {
-                bytes[i] = (uint8) Random.int_range(0, 256);
+            // Use CSPRNG for random padding (prevents traffic analysis)
+            uint8[] bytes;
+            try {
+                var urandom = File.new_for_path("/dev/urandom");
+                var stream = urandom.read();
+                uint8[] len_buf = new uint8[1];
+                stream.read(len_buf);
+                int length = 16 + (int)(len_buf[0] % 49);  // 16-64
+                bytes = new uint8[length];
+                stream.read(bytes);
+                stream.close();
+            } catch (Error e) {
+                // Fallback for platforms without /dev/urandom
+                int length = Random.int_range(16, 65);
+                bytes = new uint8[length];
+                for (int i = 0; i < length; i++) {
+                    bytes[i] = (uint8) Random.int_range(0, 256);
+                }
             }
             return Base64.encode(bytes);
         }
@@ -203,10 +216,24 @@ namespace Xmpp.Xep.OpenPgpContent {
         }
         
         private static string generate_random_padding() {
-            int length = Random.int_range(16, 65);
-            uint8[] bytes = new uint8[length];
-            for (int i = 0; i < length; i++) {
-                bytes[i] = (uint8) Random.int_range(0, 256);
+            // Use CSPRNG for random padding (prevents traffic analysis)
+            uint8[] bytes;
+            try {
+                var urandom = File.new_for_path("/dev/urandom");
+                var stream = urandom.read();
+                uint8[] len_buf = new uint8[1];
+                stream.read(len_buf);
+                int length = 16 + (int)(len_buf[0] % 49);  // 16-64
+                bytes = new uint8[length];
+                stream.read(bytes);
+                stream.close();
+            } catch (Error e) {
+                // Fallback for platforms without /dev/urandom
+                int length = Random.int_range(16, 65);
+                bytes = new uint8[length];
+                for (int i = 0; i < length; i++) {
+                    bytes[i] = (uint8) Random.int_range(0, 256);
+                }
             }
             return Base64.encode(bytes);
         }
@@ -295,10 +322,24 @@ namespace Xmpp.Xep.OpenPgpContent {
         }
         
         private static string generate_random_padding() {
-            int length = Random.int_range(16, 65);
-            uint8[] bytes = new uint8[length];
-            for (int i = 0; i < length; i++) {
-                bytes[i] = (uint8) Random.int_range(0, 256);
+            // Use CSPRNG for random padding (prevents traffic analysis)
+            uint8[] bytes;
+            try {
+                var urandom = File.new_for_path("/dev/urandom");
+                var stream = urandom.read();
+                uint8[] len_buf = new uint8[1];
+                stream.read(len_buf);
+                int length = 16 + (int)(len_buf[0] % 49);  // 16-64
+                bytes = new uint8[length];
+                stream.read(bytes);
+                stream.close();
+            } catch (Error e) {
+                // Fallback for platforms without /dev/urandom
+                int length = Random.int_range(16, 65);
+                bytes = new uint8[length];
+                for (int i = 0; i < length; i++) {
+                    bytes[i] = (uint8) Random.int_range(0, 256);
+                }
             }
             return Base64.encode(bytes);
         }
