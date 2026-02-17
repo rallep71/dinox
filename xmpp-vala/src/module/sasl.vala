@@ -8,6 +8,8 @@ namespace Xmpp.Sasl {
         public string password;
         public string client_nonce;
         public uint8[] server_signature;
+        public string gs2_header = "n,,";
+        public uint8[]? channel_binding_data;
         public bool finished = false;
 
         public override string get_ns() { return NS_URI; }
@@ -19,7 +21,9 @@ namespace Xmpp.Sasl {
         public const string SCRAM_SHA_1 = "SCRAM-SHA-1";
         public const string SCRAM_SHA_1_PLUS = "SCRAM-SHA-1-PLUS";
         public const string SCRAM_SHA_256 = "SCRAM-SHA-256";
+        public const string SCRAM_SHA_256_PLUS = "SCRAM-SHA-256-PLUS";
         public const string SCRAM_SHA_512 = "SCRAM-SHA-512";
+        public const string SCRAM_SHA_512_PLUS = "SCRAM-SHA-512-PLUS";
     }
 
     public class Module : XmppStreamNegotiationModule {
@@ -144,25 +148,33 @@ namespace Xmpp.Sasl {
 
         // Dispatch helpers for multi-algorithm SCRAM
         private static uint8[] scram_hash(string mechanism, uint8[] data) {
-            if (mechanism == Mechanism.SCRAM_SHA_512) return sha512(data);
-            if (mechanism == Mechanism.SCRAM_SHA_256) return sha256(data);
+            if (mechanism == Mechanism.SCRAM_SHA_512 || mechanism == Mechanism.SCRAM_SHA_512_PLUS) return sha512(data);
+            if (mechanism == Mechanism.SCRAM_SHA_256 || mechanism == Mechanism.SCRAM_SHA_256_PLUS) return sha256(data);
             return sha1(data);
         }
 
         private static uint8[] scram_hmac(string mechanism, uint8[] key, uint8[] data) {
-            if (mechanism == Mechanism.SCRAM_SHA_512) return hmac_sha512(key, data);
-            if (mechanism == Mechanism.SCRAM_SHA_256) return hmac_sha256(key, data);
+            if (mechanism == Mechanism.SCRAM_SHA_512 || mechanism == Mechanism.SCRAM_SHA_512_PLUS) return hmac_sha512(key, data);
+            if (mechanism == Mechanism.SCRAM_SHA_256 || mechanism == Mechanism.SCRAM_SHA_256_PLUS) return hmac_sha256(key, data);
             return hmac_sha1(key, data);
         }
 
         private static uint8[] scram_pbkdf2(string mechanism, string password, uint8[] salt, uint iterations) {
-            if (mechanism == Mechanism.SCRAM_SHA_512) return pbkdf2_sha512(password, salt, iterations);
-            if (mechanism == Mechanism.SCRAM_SHA_256) return pbkdf2_sha256(password, salt, iterations);
+            if (mechanism == Mechanism.SCRAM_SHA_512 || mechanism == Mechanism.SCRAM_SHA_512_PLUS) return pbkdf2_sha512(password, salt, iterations);
+            if (mechanism == Mechanism.SCRAM_SHA_256 || mechanism == Mechanism.SCRAM_SHA_256_PLUS) return pbkdf2_sha256(password, salt, iterations);
             return pbkdf2_sha1(password, salt, iterations);
         }
 
         private static bool is_scram(string mechanism) {
-            return mechanism == Mechanism.SCRAM_SHA_1 || mechanism == Mechanism.SCRAM_SHA_256 || mechanism == Mechanism.SCRAM_SHA_512;
+            return mechanism == Mechanism.SCRAM_SHA_1 || mechanism == Mechanism.SCRAM_SHA_1_PLUS ||
+                   mechanism == Mechanism.SCRAM_SHA_256 || mechanism == Mechanism.SCRAM_SHA_256_PLUS ||
+                   mechanism == Mechanism.SCRAM_SHA_512 || mechanism == Mechanism.SCRAM_SHA_512_PLUS;
+        }
+
+        private static bool is_scram_plus(string mechanism) {
+            return mechanism == Mechanism.SCRAM_SHA_1_PLUS ||
+                   mechanism == Mechanism.SCRAM_SHA_256_PLUS ||
+                   mechanism == Mechanism.SCRAM_SHA_512_PLUS;
         }
 
         private static void xor_inplace(uint8[] mix, uint8[] a2) {
@@ -249,7 +261,18 @@ namespace Xmpp.Sasl {
                             return;
                         }
                         if (!server_nonce.has_prefix(flag.client_nonce)) return;
-                        string client_final_message_bare = @"c=biws,r=$server_nonce";
+                        // Compute channel binding input: gs2-header + cbind-data
+                        uint8[] gs2_bytes = (uint8[]) flag.gs2_header.to_utf8();
+                        uint8[] cb_input;
+                        if (flag.channel_binding_data != null) {
+                            cb_input = new uint8[gs2_bytes.length + flag.channel_binding_data.length];
+                            for (int i = 0; i < gs2_bytes.length; i++) cb_input[i] = gs2_bytes[i];
+                            for (int i = 0; i < flag.channel_binding_data.length; i++) cb_input[gs2_bytes.length + i] = flag.channel_binding_data[i];
+                        } else {
+                            cb_input = gs2_bytes;
+                        }
+                        string c_value = Base64.encode((uchar[]) cb_input);
+                        string client_final_message_bare = @"c=$c_value,r=$server_nonce";
                         uint8[] salted_password = scram_pbkdf2(flag.mechanism, flag.password, salt, iterations);
                         uint8[] client_key = scram_hmac(flag.mechanism, salted_password, (uint8[]) "Client Key".to_utf8());
                         uint8[] stored_key = scram_hash(flag.mechanism, client_key);
@@ -294,26 +317,58 @@ namespace Xmpp.Sasl {
                     name = split[0];
                 }
             }
+            // Try to get channel binding data for SCRAM-*-PLUS
+            string? cb_type = null;
+            uint8[]? cb_data = null;
+#if GLIB_2_66
+            if (stream is TlsXmppStream) {
+                cb_data = ((TlsXmppStream) stream).get_channel_binding_data(out cb_type);
+            }
+#endif
+
             string? scram_mechanism = null;
-            if (Mechanism.SCRAM_SHA_512 in supported_mechanisms) {
-                scram_mechanism = Mechanism.SCRAM_SHA_512;
-            } else if (Mechanism.SCRAM_SHA_256 in supported_mechanisms) {
-                scram_mechanism = Mechanism.SCRAM_SHA_256;
-            } else if (Mechanism.SCRAM_SHA_1 in supported_mechanisms) {
-                scram_mechanism = Mechanism.SCRAM_SHA_1;
+            if (cb_data != null) {
+                // Prefer -PLUS variants when channel binding is available
+                if (Mechanism.SCRAM_SHA_512_PLUS in supported_mechanisms) {
+                    scram_mechanism = Mechanism.SCRAM_SHA_512_PLUS;
+                } else if (Mechanism.SCRAM_SHA_256_PLUS in supported_mechanisms) {
+                    scram_mechanism = Mechanism.SCRAM_SHA_256_PLUS;
+                } else if (Mechanism.SCRAM_SHA_1_PLUS in supported_mechanisms) {
+                    scram_mechanism = Mechanism.SCRAM_SHA_1_PLUS;
+                } else if (Mechanism.SCRAM_SHA_512 in supported_mechanisms) {
+                    scram_mechanism = Mechanism.SCRAM_SHA_512;
+                } else if (Mechanism.SCRAM_SHA_256 in supported_mechanisms) {
+                    scram_mechanism = Mechanism.SCRAM_SHA_256;
+                } else if (Mechanism.SCRAM_SHA_1 in supported_mechanisms) {
+                    scram_mechanism = Mechanism.SCRAM_SHA_1;
+                }
+            } else {
+                if (Mechanism.SCRAM_SHA_512 in supported_mechanisms) {
+                    scram_mechanism = Mechanism.SCRAM_SHA_512;
+                } else if (Mechanism.SCRAM_SHA_256 in supported_mechanisms) {
+                    scram_mechanism = Mechanism.SCRAM_SHA_256;
+                } else if (Mechanism.SCRAM_SHA_1 in supported_mechanisms) {
+                    scram_mechanism = Mechanism.SCRAM_SHA_1;
+                }
             }
             if (scram_mechanism != null) {
                 string normalized_password = password.normalize(-1, NormalizeMode.NFKC);
                 string client_nonce = generate_csprng_nonce();
+                // GS2 header: "p=<cb_type>,," for -PLUS, "n,," for non-PLUS
+                string gs2_header = is_scram_plus(scram_mechanism) ? @"p=$cb_type,," : "n,,";
                 string initial_message = @"n=$name,r=$client_nonce";
                 stream.write(new StanzaNode.build("auth", NS_URI).add_self_xmlns()
                         .put_attribute("mechanism", scram_mechanism)
-                        .put_node(new StanzaNode.text(Base64.encode((uchar[]) ("n,,"+initial_message).to_utf8()))));
+                        .put_node(new StanzaNode.text(Base64.encode((uchar[]) (gs2_header+initial_message).to_utf8()))));
                 var flag = new Flag();
                 flag.mechanism = scram_mechanism;
                 flag.name = name;
                 flag.password = normalized_password;
                 flag.client_nonce = client_nonce;
+                flag.gs2_header = gs2_header;
+                if (is_scram_plus(scram_mechanism)) {
+                    flag.channel_binding_data = cb_data;
+                }
                 stream.add_flag(flag);
             } else if (Mechanism.PLAIN in supported_mechanisms) {
                 if (!(stream is TlsXmppStream)) {

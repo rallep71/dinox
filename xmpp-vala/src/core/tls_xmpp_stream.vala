@@ -30,6 +30,51 @@ public abstract class Xmpp.TlsXmppStream : IoXmppStream {
         return null;
     }
 
+#if GLIB_2_66
+    /**
+     * Get TLS channel binding data for SCRAM-*-PLUS authentication.
+     * Returns null if channel binding is not available.
+     *
+     * Preference: tls-exporter (RFC 9266, GLib 2.74+) > tls-server-end-point (RFC 5929)
+     * tls-unique is NOT supported because it is broken with TLS 1.3.
+     */
+    public uint8[]? get_channel_binding_data(out string? cb_type) {
+        cb_type = null;
+        IOStream? io_stream = get_stream();
+        if (io_stream == null || !(io_stream is TlsConnection)) return null;
+        TlsConnection tls_conn = (TlsConnection) io_stream;
+
+#if GLIB_2_74
+        // Prefer tls-exporter (RFC 9266) - works with TLS 1.2 and TLS 1.3
+        try {
+            var data = new ByteArray();
+            if (GLibFixes.tls_get_channel_binding(tls_conn, TlsChannelBindingType.EXPORTER, data)) {
+                cb_type = "tls-exporter";
+                uint8[] result = new uint8[data.len];
+                for (uint i = 0; i < data.len; i++) result[i] = data.data[i];
+                return result;
+            }
+        } catch (Error e) {
+            // tls-exporter not available, try tls-server-end-point
+        }
+#endif
+
+        // Fallback: tls-server-end-point (RFC 5929) - hash of server certificate
+        try {
+            var data = new ByteArray();
+            if (GLibFixes.tls_get_channel_binding(tls_conn, TlsChannelBindingType.SERVER_END_POINT, data)) {
+                cb_type = "tls-server-end-point";
+                uint8[] result = new uint8[data.len];
+                for (uint i = 0; i < data.len; i++) result[i] = data.data[i];
+                return result;
+            }
+        } catch (Error e) {
+            warning("Channel binding (tls-server-end-point) failed: %s", e.message);
+        }
+        return null;
+    }
+#endif
+
     protected bool on_invalid_certificate(TlsCertificate peer_cert, TlsCertificateFlags errors) {
         this.errors = errors;
         this.peer_certificate = peer_cert;
