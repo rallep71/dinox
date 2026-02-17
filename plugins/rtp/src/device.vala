@@ -381,9 +381,17 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
             int best_height = 0;
             for (int i = 0; i < device.caps.get_size(); i++) {
                 unowned Gst.Structure? that = device.caps.get_structure(i);
-                // unowned Gst.CapsFeatures? features = device.caps.get_features(i);
+                unowned Gst.CapsFeatures? features = device.caps.get_features(i);
                 Value? best_fraction_now = null;
                 if (!that.has_name("video/x-raw")) continue;
+                // Skip DMABuf/DRM caps — older V4L2 drivers (e.g. Haswell)
+                // advertise DMA_DRM caps they cannot actually deliver, causing
+                // the pipeline to starve (0 kbps sent).
+                if (features != null && features.contains("memory:DMABuf")) continue;
+                if (that.has_field("format")) {
+                    unowned string? fmt = that.get_string("format");
+                    if (fmt == "DMA_DRM") continue;
+                }
                 int num = 0, den = 0, width = 0, height = 0;
                 if (!that.has_field("framerate")) continue;
                 Value framerate = that.get_value("framerate");
