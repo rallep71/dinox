@@ -27,6 +27,7 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
     [GtkChild] public unowned Adw.ComboRow proxy_type_row;
     [GtkChild] public unowned Adw.EntryRow proxy_host_entry;
     [GtkChild] public unowned Adw.EntryRow proxy_port_entry;
+    [GtkChild] public unowned Adw.SwitchRow require_channel_binding_switch;
 
     [GtkChild] public unowned Adw.EntryRow vcard_fn;
     [GtkChild] public unowned Adw.EntryRow vcard_nickname;
@@ -69,6 +70,7 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
     private ulong proxy_type_row_changed = 0;
     private ulong proxy_host_entry_changed = 0;
     private ulong proxy_port_entry_changed = 0;
+    private ulong require_cb_changed = 0;
 
     construct {
         title = "Account";
@@ -213,6 +215,13 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
                     int port = int.parse(proxy_port_entry.text);
                     account.proxy_port = (port > 0 && port <= 65535) ? port : 0;
                     check_proxy_availability.begin();
+                });
+
+                // Channel binding downgrade protection
+                if (require_cb_changed != 0) require_channel_binding_switch.disconnect(require_cb_changed);
+                require_channel_binding_switch.active = account.require_channel_binding;
+                require_cb_changed = require_channel_binding_switch.notify["active"].connect(() => {
+                    account.require_channel_binding = require_channel_binding_switch.active;
                 });
 
                 load_vcard.begin();

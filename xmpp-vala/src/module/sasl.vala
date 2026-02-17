@@ -31,6 +31,7 @@ namespace Xmpp.Sasl {
 
         public string name { get; set; }
         public string password { get; set; }
+        public bool require_channel_binding { get; set; default = false; }
         public bool use_full_name = false;
 
         public signal void received_auth_failure(XmppStream stream, StanzaNode node);
@@ -335,14 +336,18 @@ namespace Xmpp.Sasl {
                     scram_mechanism = Mechanism.SCRAM_SHA_256_PLUS;
                 } else if (Mechanism.SCRAM_SHA_1_PLUS in supported_mechanisms) {
                     scram_mechanism = Mechanism.SCRAM_SHA_1_PLUS;
-                } else if (Mechanism.SCRAM_SHA_512 in supported_mechanisms) {
-                    scram_mechanism = Mechanism.SCRAM_SHA_512;
-                } else if (Mechanism.SCRAM_SHA_256 in supported_mechanisms) {
-                    scram_mechanism = Mechanism.SCRAM_SHA_256;
-                } else if (Mechanism.SCRAM_SHA_1 in supported_mechanisms) {
-                    scram_mechanism = Mechanism.SCRAM_SHA_1;
+                } else if (!require_channel_binding) {
+                    // Fall back to non-PLUS only if downgrade protection is off
+                    if (Mechanism.SCRAM_SHA_512 in supported_mechanisms) {
+                        scram_mechanism = Mechanism.SCRAM_SHA_512;
+                    } else if (Mechanism.SCRAM_SHA_256 in supported_mechanisms) {
+                        scram_mechanism = Mechanism.SCRAM_SHA_256;
+                    } else if (Mechanism.SCRAM_SHA_1 in supported_mechanisms) {
+                        scram_mechanism = Mechanism.SCRAM_SHA_1;
+                    }
                 }
-            } else {
+            } else if (!require_channel_binding) {
+                // No channel binding data available; only proceed if not required
                 if (Mechanism.SCRAM_SHA_512 in supported_mechanisms) {
                     scram_mechanism = Mechanism.SCRAM_SHA_512;
                 } else if (Mechanism.SCRAM_SHA_256 in supported_mechanisms) {
@@ -370,6 +375,10 @@ namespace Xmpp.Sasl {
                     flag.channel_binding_data = cb_data;
                 }
                 stream.add_flag(flag);
+            } else if (require_channel_binding) {
+                warning("Channel binding required but no -PLUS mechanism available at %s (possible downgrade attack)", stream.remote_name.to_string());
+                received_auth_failure(stream, new StanzaNode.build("failure", NS_URI));
+                return;
             } else if (Mechanism.PLAIN in supported_mechanisms) {
                 if (!(stream is TlsXmppStream)) {
                     warning("Refusing PLAIN authentication without TLS to %s", stream.remote_name.to_string());

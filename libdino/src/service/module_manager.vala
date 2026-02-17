@@ -38,6 +38,7 @@ public class ModuleManager {
                 ((Bind.Module) module).requested_resource = account.resourcepart;
             } else if (module.get_id() == Sasl.Module.IDENTITY.id) {
                 ((Sasl.Module) module).password = account.password;
+                ((Sasl.Module) module).require_channel_binding = account.require_channel_binding;
             }
         }
         return modules;
