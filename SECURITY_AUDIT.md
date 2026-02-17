@@ -282,7 +282,7 @@ GPG operations are serialized through a single worker thread to prevent race con
 | Item | Risk | Rationale |
 |------|------|-----------|
 | SCRAM-SHA-1-PLUS channel binding | Medium | Requires extracting TLS binding data from GnuTLS. Major clients (Conversations, Monal, Gajim) support this. Planned for future release. |
-| ~~SCRAM-SHA-256 support~~ | ~~Medium~~ | **Fixed in v1.1.0.6.** SCRAM-SHA-256 implemented alongside SCRAM-SHA-1. Preferred over SHA-1 when server offers both. |
+| ~~SCRAM-SHA-256 support~~ | ~~Medium~~ | **Fixed in v1.1.0.6.** SCRAM-SHA-256 and SCRAM-SHA-512 implemented alongside SCRAM-SHA-1. Preference order: SHA-512 > SHA-256 > SHA-1. |
 | ~~SCRAM nonce uses GLib.Random~~ | ~~Low~~ | **Fixed in v1.1.0.6.** Nonce generation replaced with `/dev/urandom` CSPRNG (24 bytes, Base64-encoded). Fallback to GLib.Random on systems without `/dev/urandom`. |
 | OpenPGP interactive-mode MDC check | Low | In interactive decrypt mode (pinentry), GPG status output cannot be captured, so MDC status is not verified by DinoX. Mitigated by GPG 2.2+ enforcing MDC by default. |
 | Vala string zeroization | Info | Vala/GLib strings are garbage-collected, never zeroized in memory. Language limitation, not fixable without C interop. Applies to both OMEMO and OpenPGP. |
@@ -291,17 +291,17 @@ GPG operations are serialized through a single worker thread to prevent race con
 
 ## SCRAM Channel Binding: Client Comparison
 
-| Client | SCRAM-SHA-1 | SCRAM-SHA-1-PLUS | SCRAM-SHA-256 |
-|--------|-------------|------------------|---------------|
-| Conversations | Yes | Yes | Yes |
-| Monal | Yes | Yes | Yes |
-| Gajim | Yes | Yes | Yes |
-| Profanity | Yes | Yes | Partial |
-| Siskin IM | Yes | Yes | Yes |
-| **DinoX** | **Yes** | **No (planned)** | **Yes** |
-| Dino (original) | Yes | No | No |
-| Kaidan | Yes | Limited | Yes |
-| Pidgin / Swift / Psi | Yes | No | No |
+| Client | SCRAM-SHA-1 | SCRAM-SHA-1-PLUS | SCRAM-SHA-256 | SCRAM-SHA-512 |
+|--------|-------------|------------------|---------------|---------------|
+| Conversations | Yes | Yes | Yes | No |
+| Monal | Yes | Yes | Yes | No |
+| Gajim | Yes | Yes | Yes | No |
+| Profanity | Yes | Yes | Partial | No |
+| Siskin IM | Yes | Yes | Yes | No |
+| **DinoX** | **Yes** | **No (planned)** | **Yes** | **Yes** |
+| Dino (original) | Yes | No | No | No |
+| Kaidan | Yes | Limited | Yes | No |
+| Pidgin / Swift / Psi | Yes | No | No | No |
 
 ---
 

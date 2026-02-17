@@ -19,6 +19,7 @@ namespace Xmpp.Sasl {
         public const string SCRAM_SHA_1 = "SCRAM-SHA-1";
         public const string SCRAM_SHA_1_PLUS = "SCRAM-SHA-1-PLUS";
         public const string SCRAM_SHA_256 = "SCRAM-SHA-256";
+        public const string SCRAM_SHA_512 = "SCRAM-SHA-512";
     }
 
     public class Module : XmppStreamNegotiationModule {
@@ -109,6 +110,61 @@ namespace Xmpp.Sasl {
             return res;
         }
 
+        private static size_t SHA512_SIZE = 64;
+
+        private static uint8[] sha512(uint8[] data) {
+            Checksum checksum = new Checksum(ChecksumType.SHA512);
+            checksum.update(data, data.length);
+            uint8[] res = new uint8[SHA512_SIZE];
+            checksum.get_digest(res, ref SHA512_SIZE);
+            return res;
+        }
+
+        private static uint8[] hmac_sha512(uint8[] key, uint8[] data) {
+            Hmac hmac = new Hmac(ChecksumType.SHA512, key);
+            hmac.update(data);
+            uint8[] res = new uint8[SHA512_SIZE];
+            hmac.get_digest(res, ref SHA512_SIZE);
+            return res;
+        }
+
+        private static uint8[] pbkdf2_sha512(string password, uint8[] salt, uint iterations) {
+            uint8[] res = new uint8[SHA512_SIZE];
+            uint8[] last = new uint8[salt.length + 4];
+            for(int i = 0; i < salt.length; i++) {
+                last[i] = salt[i];
+            }
+            last[salt.length + 3] = 1;
+            for(int i = 0; i < iterations; i++) {
+                last = hmac_sha512((uint8[]) password.to_utf8(), last);
+                xor_inplace(res, last);
+            }
+            return res;
+        }
+
+        // Dispatch helpers for multi-algorithm SCRAM
+        private static uint8[] scram_hash(string mechanism, uint8[] data) {
+            if (mechanism == Mechanism.SCRAM_SHA_512) return sha512(data);
+            if (mechanism == Mechanism.SCRAM_SHA_256) return sha256(data);
+            return sha1(data);
+        }
+
+        private static uint8[] scram_hmac(string mechanism, uint8[] key, uint8[] data) {
+            if (mechanism == Mechanism.SCRAM_SHA_512) return hmac_sha512(key, data);
+            if (mechanism == Mechanism.SCRAM_SHA_256) return hmac_sha256(key, data);
+            return hmac_sha1(key, data);
+        }
+
+        private static uint8[] scram_pbkdf2(string mechanism, string password, uint8[] salt, uint iterations) {
+            if (mechanism == Mechanism.SCRAM_SHA_512) return pbkdf2_sha512(password, salt, iterations);
+            if (mechanism == Mechanism.SCRAM_SHA_256) return pbkdf2_sha256(password, salt, iterations);
+            return pbkdf2_sha1(password, salt, iterations);
+        }
+
+        private static bool is_scram(string mechanism) {
+            return mechanism == Mechanism.SCRAM_SHA_1 || mechanism == Mechanism.SCRAM_SHA_256 || mechanism == Mechanism.SCRAM_SHA_512;
+        }
+
         private static void xor_inplace(uint8[] mix, uint8[] a2) {
             for(int i = 0; i < mix.length; i++) {
                 mix[i] = mix[i] ^ a2[i];
@@ -147,7 +203,7 @@ namespace Xmpp.Sasl {
             if (node.ns_uri == NS_URI) {
                 if (node.name == "success") {
                     Flag flag = stream.get_flag(Flag.IDENTITY);
-                    if (flag.mechanism == Mechanism.SCRAM_SHA_1 || flag.mechanism == Mechanism.SCRAM_SHA_256) {
+                    if (is_scram(flag.mechanism)) {
                         string confirm = (string) Base64.decode(node.get_string_content());
                         uint8[] server_signature = null;
                         foreach(string c in confirm.split(",")) {
@@ -173,8 +229,7 @@ namespace Xmpp.Sasl {
                     received_auth_failure(stream, node);
                 } else if (node.name == "challenge" && stream.has_flag(Flag.IDENTITY)) {
                     Flag flag = stream.get_flag(Flag.IDENTITY);
-                    if (flag.mechanism == Mechanism.SCRAM_SHA_1 || flag.mechanism == Mechanism.SCRAM_SHA_256) {
-                        bool is_sha256 = (flag.mechanism == Mechanism.SCRAM_SHA_256);
+                    if (is_scram(flag.mechanism)) {
                         string challenge = (string) Base64.decode(node.get_string_content());
                         string? server_nonce = null;
                         uint8[] salt = null;
@@ -195,14 +250,14 @@ namespace Xmpp.Sasl {
                         }
                         if (!server_nonce.has_prefix(flag.client_nonce)) return;
                         string client_final_message_bare = @"c=biws,r=$server_nonce";
-                        uint8[] salted_password = is_sha256 ? pbkdf2_sha256(flag.password, salt, iterations) : pbkdf2_sha1(flag.password, salt, iterations);
-                        uint8[] client_key = is_sha256 ? hmac_sha256(salted_password, (uint8[]) "Client Key".to_utf8()) : hmac_sha1(salted_password, (uint8[]) "Client Key".to_utf8());
-                        uint8[] stored_key = is_sha256 ? sha256(client_key) : sha1(client_key);
+                        uint8[] salted_password = scram_pbkdf2(flag.mechanism, flag.password, salt, iterations);
+                        uint8[] client_key = scram_hmac(flag.mechanism, salted_password, (uint8[]) "Client Key".to_utf8());
+                        uint8[] stored_key = scram_hash(flag.mechanism, client_key);
                         string auth_message = @"n=$(flag.name),r=$(flag.client_nonce),$challenge,$client_final_message_bare";
-                        uint8[] client_signature = is_sha256 ? hmac_sha256(stored_key, (uint8[]) auth_message.to_utf8()) : hmac_sha1(stored_key, (uint8[]) auth_message.to_utf8());
+                        uint8[] client_signature = scram_hmac(flag.mechanism, stored_key, (uint8[]) auth_message.to_utf8());
                         uint8[] client_proof = xor(client_key, client_signature);
-                        uint8[] server_key = is_sha256 ? hmac_sha256(salted_password, (uint8[]) "Server Key".to_utf8()) : hmac_sha1(salted_password, (uint8[]) "Server Key".to_utf8());
-                        flag.server_signature = is_sha256 ? hmac_sha256(server_key, (uint8[]) auth_message.to_utf8()) : hmac_sha1(server_key, (uint8[]) auth_message.to_utf8());
+                        uint8[] server_key = scram_hmac(flag.mechanism, salted_password, (uint8[]) "Server Key".to_utf8());
+                        flag.server_signature = scram_hmac(flag.mechanism, server_key, (uint8[]) auth_message.to_utf8());
                         string client_final_message = @"$client_final_message_bare,p=$(Base64.encode(client_proof))";
                         stream.write(new StanzaNode.build("response", NS_URI).add_self_xmlns()
                                 .put_node(new StanzaNode.text(Base64.encode((uchar[]) (client_final_message).to_utf8()))));
@@ -240,7 +295,9 @@ namespace Xmpp.Sasl {
                 }
             }
             string? scram_mechanism = null;
-            if (Mechanism.SCRAM_SHA_256 in supported_mechanisms) {
+            if (Mechanism.SCRAM_SHA_512 in supported_mechanisms) {
+                scram_mechanism = Mechanism.SCRAM_SHA_512;
+            } else if (Mechanism.SCRAM_SHA_256 in supported_mechanisms) {
                 scram_mechanism = Mechanism.SCRAM_SHA_256;
             } else if (Mechanism.SCRAM_SHA_1 in supported_mechanisms) {
                 scram_mechanism = Mechanism.SCRAM_SHA_1;
