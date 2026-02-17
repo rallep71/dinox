@@ -39,14 +39,15 @@ DinoX uses dedicated log domains per module. You can filter with `G_MESSAGES_DEB
 | Domain | Module |
 |--------|--------|
 | `dino` | Main UI application |
-| `libdino` | Core library (connection, encryption, services) |
-| `xmpp-vala` | XMPP protocol implementation |
+| `libdino` | Core library (connection, encryption, certificate pinning, services) |
+| `xmpp-vala` | XMPP protocol (SASL/SCRAM, TLS, XEPs, OpenPGP key ops) |
 | `qlite` | Database layer (SQLite/SQLCipher) |
 | `crypto-vala` | Cryptographic operations |
 | `OMEMO` | OMEMO encryption plugin |
 | `OpenPGP` | OpenPGP encryption plugin |
 | `rtp` | Audio/video calls (RTP/Jingle) |
 | `ice` | ICE/DTLS-SRTP (call transport) |
+| `bot-features` | Botmother bot framework (Telegram, AI, webhooks) |
 
 Example — show only OMEMO and connection logs:
 
@@ -117,9 +118,59 @@ G_MESSAGES_DEBUG="libdino,xmpp-vala" DINO_LOG_LEVEL=debug ./build/main/dinox 2>&
 - TLS certificate validation (trust flags, `.onion` exceptions)
 - Certificate pinning (pin/unpin, fingerprint comparison)
 - StartTLS handshake, proxy resolver setup
-- SASL mechanism selection and authentication
+- SASL mechanism selection and authentication (see [SASL / SCRAM](#sasl--scram-authentication) below)
 - Network monitor online/offline state changes
 - Suspend/resume handling
+
+### SASL / SCRAM Authentication
+
+Debug SCRAM mechanism negotiation, channel binding, and downgrade protection:
+
+```bash
+G_MESSAGES_DEBUG="xmpp-vala" DINO_LOG_LEVEL=debug ./build/main/dinox 2>&1 | grep -i "SASL:"
+```
+
+**What's logged (debug level):**
+- **Mechanism discovery**: `SASL: Server offers: SCRAM-SHA-512-PLUS, SCRAM-SHA-256-PLUS, ... | Channel binding: available (tls-exporter) | Downgrade protection: off` — lists all server-offered mechanisms, channel binding availability with type (`tls-exporter` / `tls-unique` / `none`), and per-account downgrade protection status
+- **Mechanism selection**: `SASL: Selected SCRAM-SHA-512-PLUS for chat.example.com` — shows which mechanism was chosen after priority evaluation
+- **Authentication success**: `SASL: Authenticated via SCRAM-SHA-512-PLUS at chat.example.com` — confirms successful SCRAM handshake
+
+**Warnings (always visible):**
+- `SCRAM: Server iteration count too low (<count>), rejecting` — server PBKDF2 iteration count below safe minimum
+- `Channel binding required but no -PLUS mechanism available at <host> (possible downgrade attack)` — downgrade protection triggered, login refused
+- `Refusing PLAIN authentication without TLS to <host>` — plaintext auth blocked on unencrypted connection
+- `No supported mechanism provided by server at <host>` — no usable auth mechanism found
+
+**Mechanism priority order (highest to lowest):**
+
+With channel binding available:
+1. SCRAM-SHA-512-PLUS
+2. SCRAM-SHA-256-PLUS
+3. SCRAM-SHA-1-PLUS
+
+Without channel binding (or fallback when `-PLUS` unavailable):
+1. SCRAM-SHA-512
+2. SCRAM-SHA-256
+3. SCRAM-SHA-1
+4. PLAIN (over TLS only)
+
+### Certificate Pinning
+
+Debug certificate pinning, fingerprint validation, and `.onion` exceptions:
+
+```bash
+G_MESSAGES_DEBUG="libdino" DINO_LOG_LEVEL=debug ./build/main/dinox 2>&1 | grep -iE "certificate|pinned|fingerprint|onion"
+```
+
+**What's logged (debug level):**
+- `Certificate pinned for domain <host> with fingerprint <fp>` — new pin stored
+- `Certificate unpinned for domain <host>` — pin removed
+- `Certificate for <host> matches pinned fingerprint` — pin verified on connect
+- `Certificate for <host> matches pinned fingerprint, accepting` — TLS/HTTP accepted via pin match
+- `Accepting certificate from .onion domain <host> with unknown CA` — Tor hidden service TLS exception
+
+**Warnings:**
+- `Certificate for <host> changed from pinned fingerprint! Old: <fp>, New: <fp>` — possible MITM, fingerprint mismatch
 
 ### OMEMO Encryption
 
@@ -135,21 +186,24 @@ G_MESSAGES_DEBUG="OMEMO" DINO_LOG_LEVEL=debug ./build/main/dinox 2>&1 | grep -i 
 - Pre-key store initialization, signed pre-key validation
 - Session store errors, identity key mismatches
 - DTLS-SRTP verification for encrypted calls via OMEMO
+- Device ID matching: `Is ours? <remote_id> =? <own_id>` for each incoming key element
 
 ### OpenPGP Encryption
 
 Debug OpenPGP key management, publishing, and message encrypt/decrypt:
 
 ```bash
-G_MESSAGES_DEBUG="OpenPGP" DINO_LOG_LEVEL=debug ./build/main/dinox 2>&1 | grep -i "openpgp\|pgp\|gpg"
+G_MESSAGES_DEBUG="xmpp-vala,OpenPGP" DINO_LOG_LEVEL=debug ./build/main/dinox 2>&1 | grep -i "XEP-0373\|openpgp\|pgp"
 ```
 
 **What's logged:**
-- XEP-0373 key publish/retract operations
-- PubSub node creation and metadata publishing
-- Key import/export with length validation
-- Fingerprint logging for key verification
+- **Key publishing**: `XEP-0373: Publishing to node: <node>`, publish result (SUCCESS/FAILED), metadata date
+- **Key fetching**: PubSub item count, per-item processing, base64 key length, decoded key length, fingerprint
+- **Self-test**: `XEP-0373: Self-test SUCCESS - found <n> key(s)` or `Self-test FAILED` after publishing
+- **Key unpublishing**: Node deletion, metadata clearing
+- **Key updates**: `XEP-0373: Received public key update from <jid>` on PubSub notifications
 - SCE (Stanza Content Encryption) envelope parsing
+- PubSub node creation and access model configuration
 
 ### Audio/Video Calls
 
@@ -238,6 +292,65 @@ G_MESSAGES_DEBUG="all" DINO_LOG_LEVEL=debug ./build/main/dinox 2>&1 | grep -iE "
 - Encryption mode selection (AES-GCM)
 - URL sanitization in logs (sensitive parts stripped)
 - Legacy message parsing with OMEMO/normal detection
+
+### Botmother (Bot-Features Plugin)
+
+Debug the bot framework including bot sessions, Telegram bridging, bot OMEMO encryption, AI integration, webhooks, and the HTTP management server:
+
+```bash
+G_MESSAGES_DEBUG="all" DINO_LOG_LEVEL=debug ./build/main/dinox 2>&1 | grep -iE "Botmother|BotOmemo|BotRouter|SessionPool|Telegram:|AI:|Webhook"
+```
+
+**What's logged:**
+
+#### Botmother Core
+- Bot registry open/close, PRAGMA configuration
+- HTTP server start (port, network/localhost mode), restart on settings change
+- Bot conversation setup and room-join orchestration
+- Owner JID validation, subscription approval/rejection
+- `Botmother: Disabled in settings, skipping initialization` when plugin is off
+
+#### Bot OMEMO (BotOmemo)
+- OMEMO context initialization per bot
+- Per-bot key generation, bundle publishing, pre-key persistence
+- Session store load/save with device IDs
+- Encrypt/decrypt failures per bot with device details
+- Device list management, vCard publishing
+
+#### Telegram Bridge
+- Webhook deletion on startup, long-poll lifecycle
+- Animated/video sticker-to-emoji conversion
+- Media type detection, file URL resolution
+- AES-GCM encrypted file download, decryption, and re-upload
+- Poll timeouts (normal re-poll vs. 409 conflict backoff)
+- Send/upload HTTP status codes on failure
+
+#### Session Pool
+- Per-bot XMPP connection status, JID validation
+- Subscription requests from non-owner JIDs (rejected with warning)
+- Message filtering — non-owner messages ignored with warning
+- OMEMO send fallback to plaintext on encryption failure
+- Stream error and reconnection handling
+
+#### AI Integration
+- Request/response status for each backend: OpenAI, Claude, Gemini, Ollama, OpenClaw
+- HTTP status codes on API failures
+- Token/model selection logging
+
+#### Webhooks
+- Dispatch to subscriber URL with HTTP status
+- Retry/failure logging
+
+### Notification Sound
+
+The notification-sound plugin has minimal logging:
+
+```bash
+G_MESSAGES_DEBUG="all" DINO_LOG_LEVEL=debug ./build/main/dinox 2>&1 | grep -i "NotificationSound"
+```
+
+**Warnings:**
+- `NotificationSound: Failed to create libcanberra context (error <code>)` — audio notification system init failed
 
 ### History Synchronization (MAM)
 
@@ -374,6 +487,16 @@ G_MESSAGES_DEBUG="OMEMO" DINO_LOG_LEVEL=debug ./build/main/dinox 2>&1 | grep -i 
 ```bash
 G_MESSAGES_DEBUG="libdino,xmpp-vala" DINO_LOG_LEVEL=debug ./build/main/dinox 2>&1 | grep -iE "connect|tls|sasl|dns|error"
 ```
+
+### Login / Authentication Failing
+
+Check which SCRAM mechanism is selected and whether channel binding or downgrade protection is interfering:
+
+```bash
+G_MESSAGES_DEBUG="xmpp-vala" DINO_LOG_LEVEL=debug ./build/main/dinox 2>&1 | grep -i "SASL:\|SCRAM:\|channel.bind\|mechanism"
+```
+
+If you see `Channel binding required but no -PLUS mechanism available` — the downgrade protection toggle is ON but the server doesn't offer `-PLUS` mechanisms. Either disable downgrade protection in account settings or check TLS configuration on the server.
 
 ### Tor Not Connecting
 
