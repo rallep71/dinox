@@ -84,6 +84,7 @@ int signal_vala_hmac_sha256_init(void **hmac_context, const uint8_t *key, size_t
     }
 
     if (gcry_mac_setkey(*ctx, key, key_len)) {
+        gcry_mac_close(*ctx);
         free(ctx);
         return SG_ERR_UNKNOWN;
     }
@@ -125,7 +126,7 @@ void signal_vala_hmac_sha256_cleanup(void *hmac_context, void *user_data) {
 }
 
 int signal_vala_sha512_digest_init(void **digest_context, void *user_data) {
-    gcry_md_hd_t* ctx = malloc(sizeof(gcry_mac_hd_t));
+    gcry_md_hd_t* ctx = malloc(sizeof(gcry_md_hd_t));
     if (!ctx) return SG_ERR_NOMEM;
 
     if (gcry_md_open(ctx, GCRY_MD_SHA512, 0)) {
@@ -156,7 +157,6 @@ int signal_vala_sha512_digest_final(void *digest_context, signal_buffer **output
     gcry_md_reset(*ctx);
 
     signal_buffer *output_buffer = signal_buffer_create(md, len);
-    free(md);
     if (!output_buffer) return SG_ERR_NOMEM;
 
     *output = output_buffer;
@@ -341,7 +341,13 @@ no_error:
 
     if (pkcs_pad) {
         uint8_t pad_len = signal_buffer_data(out_buf)[padded_len - 1];
-        if (pad_len > 16 || pad_len > padded_len) goto error;
+        if (pad_len < 1 || pad_len > 16 || pad_len > padded_len) goto error;
+        uint8_t* pad_ptr = signal_buffer_data(out_buf) + padded_len - pad_len;
+        uint8_t pad_check = 0;
+        for (size_t i = 0; i < pad_len; i++) {
+            pad_check |= pad_ptr[i] ^ pad_len;
+        }
+        if (pad_check != 0) goto error;
         *output = signal_buffer_create(signal_buffer_data(out_buf), padded_len - pad_len);
         signal_buffer_bzero_free(out_buf);
         out_buf = 0;

@@ -30,10 +30,11 @@ public class SimpleIdentityKeyStore : IdentityKeyStore {
         if (!trusted_identities[address.name].has_key(address.device_id)) return true;
         uint8[] other_key = trusted_identities[address.name][address.device_id].key;
         if (other_key.length != key.length) return false;
+        uint8 result = 0;
         for (int i = 0; i < key.length; i++) {
-            if (other_key[i] != key[i]) return false;
+            result |= other_key[i] ^ key[i];
         }
-        return true;
+        return result == 0;
     }
 }
 

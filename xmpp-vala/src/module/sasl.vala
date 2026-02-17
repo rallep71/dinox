@@ -106,9 +106,11 @@ namespace Xmpp.Sasl {
                         }
                         if (server_signature == null) return;
                         if (server_signature.length != flag.server_signature.length) return;
+                        uint8 result = 0;
                         for(int i = 0; i < server_signature.length; i++) {
-                            if (server_signature[i] != flag.server_signature[i]) return;
+                            result |= server_signature[i] ^ flag.server_signature[i];
                         }
+                        if (result != 0) return;
                     }
                     stream.require_setup();
                     flag.password = null; // Remove password from memory
