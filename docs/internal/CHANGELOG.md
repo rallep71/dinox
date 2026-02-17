@@ -5,6 +5,22 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0.6] - 2026-02-17
+
+### Added
+- **SCRAM-SHA-256**: Implemented SCRAM-SHA-256 SASL mechanism alongside existing SCRAM-SHA-1. Preferred over SHA-1 when server offers both.
+- **SCRAM-SHA-512**: Implemented SCRAM-SHA-512 SASL mechanism. DinoX is the only XMPP client supporting this. Preference order: SHA-512 > SHA-256 > SHA-1.
+- **SCRAM Channel Binding (-PLUS variants)**: All 6 SCRAM mechanisms now support TLS channel binding (SCRAM-SHA-1-PLUS, SCRAM-SHA-256-PLUS, SCRAM-SHA-512-PLUS). Uses `tls-exporter` (RFC 9266, GLib 2.74+) with automatic fallback to `tls-server-end-point` (RFC 5929, GLib 2.66+). Custom VAPI binding (`glib_fixes.vapi`) to fix upstream Vala NULL dereference bug in `g_tls_connection_get_channel_binding_data()`.
+- **Channel Binding Downgrade Protection**: Per-account "MITM Protection" toggle in Account Preferences > Advanced Settings. When enabled, refuses login if server only offers non-PLUS SCRAM mechanisms, which may indicate a MITM stripping channel binding advertisements. Similar to Conversations/Monocles "MITM Protection" toggle.
+
+### Security
+- **SCRAM Nonce CSPRNG**: Replaced `GLib.Random` (Mersenne Twister) in SASL nonce generation with `/dev/urandom` (24 bytes, Base64-encoded). Mersenne Twister is not a CSPRNG and its state can be reconstructed from 624 observed outputs. Fallback to GLib.Random on systems without `/dev/urandom`.
+- **Downgrade Attack Detection**: When `require_channel_binding` is enabled and the server advertises channel binding capability but only offers non-PLUS mechanisms, the SASL module logs a warning and refuses authentication to prevent MITM downgrade attacks.
+
+### Changed
+- **Version**: Bumped from 1.1.0.5 to 1.1.0.6
+- **DB Version**: 36 -> 37 (new `require_channel_binding` column in account table)
+
 ## [1.1.0.5] - 2026-02-17
 
 ### Security
