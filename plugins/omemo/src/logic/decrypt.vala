@@ -187,7 +187,7 @@ namespace Dino.Plugins.Omemo {
                 debug("Starting new session for decryption with device from %s/%d", from_jid.to_string(), sid);
                 SessionCipher cipher = store.create_session_cipher(address);
                 key = cipher.decrypt_pre_key_message(msg);
-                // TODO: Finish session
+                // Session auto-transitions to normal ratchet state after pre-key decryption
             } else {
                 debug("Continuing session for decryption with device from %s/%d", from_jid.to_string(), sid);
                 OmemoMessage msg = Plugin.get_context().deserialize_signal_message(encrypted_key);
@@ -195,15 +195,17 @@ namespace Dino.Plugins.Omemo {
                 key = cipher.decrypt_message(msg);
             }
 
-            if (key.length >= 32) {
-                int authtaglength = key.length - 16;
-                uint8[] new_ciphertext = new uint8[ciphertext.length + authtaglength];
+            if (key.length == 32) {
+                // Standard OMEMO: 16-byte AES key + 16-byte GCM auth tag
+                uint8[] new_ciphertext = new uint8[ciphertext.length + 16];
                 uint8[] new_key = new uint8[16];
                 Memory.copy(new_ciphertext, ciphertext, ciphertext.length);
-                Memory.copy((uint8*)new_ciphertext + ciphertext.length, (uint8*)key + 16, authtaglength);
+                Memory.copy((uint8*)new_ciphertext + ciphertext.length, (uint8*)key + 16, 16);
                 Memory.copy(new_key, key, 16);
                 data.ciphertext = new_ciphertext;
                 key = new_key;
+            } else if (key.length != 16) {
+                throw new GLib.Error(-1, 0, "Unexpected OMEMO key length: %d (expected 16 or 32)", key.length);
             }
 
             return key;

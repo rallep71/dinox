@@ -174,6 +174,13 @@ namespace Dino.Plugins.Omemo {
             var ret = new Omemo2EncryptionData(own_device_id);
             ret.ciphertext = ciphertext;
             ret.message_key = mk_with_tag;  /* 48 bytes: mk || auth_tag */
+
+            // Zeroize sensitive key material
+            Memory.set(mk, 0, MK_SIZE);
+            Memory.set(hkdf_output, 0, HKDF_OUTPUT_SIZE);
+            Memory.set(enc_key, 0, 32);
+            Memory.set(auth_key, 0, 32);
+
             return ret;
         }
 

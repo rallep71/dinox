@@ -135,6 +135,10 @@ namespace Xmpp.Sasl {
                             }
                         }
                         if (server_nonce == null || salt == null || iterations == 0) return;
+                        if (iterations < 4096) {
+                            warning("SCRAM: Server iteration count too low (%u), rejecting", iterations);
+                            return;
+                        }
                         if (!server_nonce.has_prefix(flag.client_nonce)) return;
                         string client_final_message_bare = @"c=biws,r=$server_nonce";
                         uint8[] salted_password = pbkdf2_sha1(flag.password, salt, iterations);
@@ -195,6 +199,10 @@ namespace Xmpp.Sasl {
                 flag.client_nonce = client_nonce;
                 stream.add_flag(flag);
             } else if (Mechanism.PLAIN in supported_mechanisms) {
+                if (!(stream is TlsXmppStream)) {
+                    warning("Refusing PLAIN authentication without TLS to %s", stream.remote_name.to_string());
+                    return;
+                }
                 stream.write(new StanzaNode.build("auth", NS_URI).add_self_xmlns()
                                     .put_attribute("mechanism", Mechanism.PLAIN)
                                     .put_node(new StanzaNode.text(Base64.encode(get_plain_bytes(name, password)))));
