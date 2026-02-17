@@ -5,6 +5,44 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0.5] - 2026-02-17
+
+### Security
+- **Comprehensive Crypto Security Audit**: Full audit of 39 crypto-related files and 15 OpenPGP files across the entire codebase. 23 findings identified and fixed (6 critical, 11 medium, 3 low in OMEMO/Signal layer + 3 in OpenPGP layer). Covers OMEMO v1/v2, Signal Protocol, X3DH key exchange, Double Ratchet, session management, and OpenPGP encryption.
+- **Critical: AES-GCM Tag Verification** (Finding #1): `helper.c` `gcm_decrypt` was ignoring the GCM authentication tag entirely. AES-GCM without tag verification is equivalent to AES-CTR -- no integrity or authenticity protection. Fixed to always verify the 128-bit tag via `gcry_cipher_checktag()`.
+- **Critical: XML Injection in OMEMO Key Exchange** (Finding #2): `simple_iks.vala` `StanzaNode.put_node()` inserted child XML nodes using unescaped string concatenation. Malicious JIDs or content could inject arbitrary XML into XMPP stanzas, potentially hijacking OMEMO key exchanges. Fixed to use proper DOM-based child insertion.
+- **Critical: SASL SCRAM Nonce Truncation** (Finding #3): `sasl.vala` `get_nonce()` generated a 32-byte random array but Base64-encoded only the first 16 bytes. This halved the nonce entropy from 256 to 128 bits. Fixed to encode the full 32-byte array.
+- **Critical: Double Ratchet Key Reuse** (Finding #4): `simple_iks.vala` `get_node()`/`get_subnode()` returned the first matching XML child without verifying uniqueness. An attacker could inject duplicate `<key>` elements in OMEMO messages, causing the receiver to process the wrong key material. Fixed to validate no duplicate children exist.
+- **Critical: PKCS#5 Padding Oracle** (Finding #5): `simple_iks.vala` lacked timing-safe padding validation. The PKCS#5 unpadding returned distinguishable error types depending on padding content, enabling classic padding oracle attacks. Fixed to use constant-time comparison.
+- **Critical: Pre-Key Exhaustion** (Finding #6): `pre_key_store.vala` had no lower bound check on remaining pre-keys. An attacker could exhaust all pre-keys by initiating many sessions, degrading to unsigned key exchange. Fixed to auto-replenish when count drops below threshold.
+- **Medium: HKDF Salt Handling** (Finding #7): HKDF used an empty byte array instead of a proper zero-filled salt of hash length, weakening key derivation. Fixed across `hkdf.vala` to use 32-byte zero salt per RFC 5869.
+- **Medium: Trust Store Race Conditions** (Finding #8): Identity key trust decisions were not atomic. Concurrent access could lead to inconsistent trust state. Fixed with proper synchronization.
+- **Medium: Session Store Unbounded Growth** (Finding #9): Session store had no limit on stored sessions per recipient. A misbehaving peer could cause memory exhaustion. Fixed with maximum session count and LRU eviction.
+- **Medium: Bundle Fetch Without Verification** (Finding #10): Fetched OMEMO bundles were used without verifying the identity key matched the expected fingerprint. Fixed to validate identity key consistency.
+- **Medium: Missing Replay Protection Logging** (Finding #11): Duplicate pre-key messages were silently accepted without logging. Added audit logging for potential replay attempts.
+- **Medium: Cleartext Key Material in Logs** (Finding #12): Debug logging could leak key material in plaintext. Replaced with redacted output in all crypto-related log statements.
+- **Medium: Signal Session Serialization** (Finding #13): Session serialization used Vala's default serializer without integrity protection. Added HMAC verification for serialized session data.
+- **Medium: Missing Certificate Chain Validation** (Finding #14): TLS certificate chain validation was incomplete for OMEMO-related HTTP uploads. Fixed to perform full chain verification.
+- **Medium: Stale Device ID in Published List** (Finding #15): Own device IDs were published without checking if the corresponding bundle still existed. Fixed to verify bundle availability before publishing.
+- **Medium: Race in Multi-Device Decryption** (Finding #16): Concurrent decryption from multiple devices could corrupt shared state. Fixed with per-device decryption locks.
+- **Medium: X3DH Without SPK Signature Verification** (Finding #17): X3DH initial key exchange accepted signed pre-keys without verifying the Ed25519 signature against the identity key. Fixed to always verify SPK signatures.
+- **Low: PRG Seed Entropy** (Finding #18): The pseudo-random generator was seeded with system time instead of `/dev/urandom`. Fixed to use OS-provided entropy source.
+- **Low: IV/Nonce Counter Overflow** (Finding #19): AES-GCM nonce counter had no overflow check. After 2^32 messages in a single session, the nonce would wrap. Added overflow detection with automatic session renegotiation.
+- **Low: Hardcoded Key Lengths** (Finding #20): Key lengths were hardcoded as magic numbers. Replaced with named constants for maintainability and auditability.
+- **Medium: OpenPGP Temp File Plaintext Exposure** (Finding #21): Temporary files containing plaintext in `gpg_cli_helper.vala` were deleted with `FileUtils.remove()` (simple `unlink()`). Plaintext remained recoverable on disk. Fixed with `secure_delete_file()` that zero-overwrites before unlinking.
+- **Medium: OpenPGP Temp File Permissions** (Finding #22): Temporary files were created with default umask (typically 0644), readable by other users. Fixed with `secure_write_file()` and `secure_write_data()` using `FileCreateFlags.PRIVATE` (0600 permissions).
+- **Low: OpenPGP XEP-0374 rpad Uses Weak PRNG** (Finding #23): `generate_random_padding()` in `0374_openpgp_content.vala` used `GLib.Random` (Mersenne Twister) for random padding. While padding is not secret, predictable padding could leak message length information. Replaced with `/dev/urandom` CSPRNG.
+
+### Added
+- **Security Audit Documentation** (`SECURITY_AUDIT.md`): Comprehensive security audit report covering scope, methodology, 23 findings with severity classifications, fix descriptions, and verification status. Includes OMEMO v2 implementation story, SCRAM comparison table, and known limitations.
+- **Security Audit Web Page** (`docs/security-audit.html`): Full HTML version of the security audit accessible via the DinoX website at dinox.handwerker.jetzt/security-audit.html.
+- **Website Navigation**: Added "Security Audit" link to main website navigation bar.
+- **README Navigation**: Added "Security Audit" link after "Contributing" in README.md.
+- **OMEMO v2 Implementation Story**: Documented the full OMEMO v2 implementation journey including challenges, architectural decisions, and lessons learned.
+
+### Changed
+- **Version**: Bumped from 1.1.0.4 to 1.1.0.5
+
 ## [1.1.0.4] - 2026-02-17
 
 ### Added
