@@ -281,7 +281,7 @@ GPG operations are serialized through a single worker thread to prevent race con
 
 | Item | Risk | Rationale |
 |------|------|-----------|
-| ~~SCRAM-SHA-1-PLUS channel binding~~ | ~~Medium~~ | **Fixed in v1.1.0.6.** SCRAM-SHA-1-PLUS, SCRAM-SHA-256-PLUS, and SCRAM-SHA-512-PLUS implemented with `tls-exporter` (RFC 9266, GLib 2.74+) and `tls-server-end-point` (RFC 5929, GLib 2.66+) channel binding. DinoX is the only XMPP client supporting all six SCRAM variants. |
+| ~~SCRAM-SHA-1-PLUS channel binding~~ | ~~Medium~~ | **Fixed in v1.1.0.6.** SCRAM-SHA-1-PLUS, SCRAM-SHA-256-PLUS, and SCRAM-SHA-512-PLUS implemented with `tls-exporter` (RFC 9266, GLib 2.74+) and `tls-server-end-point` (RFC 5929, GLib 2.66+) channel binding. Per-account downgrade protection toggle refuses login if server strips -PLUS mechanisms (possible MITM). DinoX is the only XMPP client supporting all six SCRAM variants. |
 | ~~SCRAM-SHA-256 support~~ | ~~Medium~~ | **Fixed in v1.1.0.6.** SCRAM-SHA-256 and SCRAM-SHA-512 implemented alongside SCRAM-SHA-1. Preference order: SHA-512 > SHA-256 > SHA-1. |
 | ~~SCRAM nonce uses GLib.Random~~ | ~~Low~~ | **Fixed in v1.1.0.6.** Nonce generation replaced with `/dev/urandom` CSPRNG (24 bytes, Base64-encoded). Fallback to GLib.Random on systems without `/dev/urandom`. |
 | OpenPGP interactive-mode MDC check | Low | In interactive decrypt mode (pinentry), GPG status output cannot be captured, so MDC status is not verified by DinoX. Mitigated by GPG 2.2+ enforcing MDC by default. |

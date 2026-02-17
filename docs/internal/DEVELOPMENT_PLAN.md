@@ -1,6 +1,6 @@
 # DinoX - Development Plan
 
-> **Last Updated**: February 17, 2026 (v1.1.0.5)
+> **Last Updated**: February 17, 2026 (v1.1.0.6)
 > **Current Release Line**: 1.1.0.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.0.5 |
+| **Current Version** | 1.1.0.6 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (~85% translated) |
 | **Build Status** | Clean |
@@ -21,6 +21,14 @@ This document is organized as a **chronological release timeline** first, follow
 
 ## Timeline (Recent Releases)
 
+### v1.1.0.6 (SCRAM Channel Binding & Downgrade Protection)
+
+- **SCRAM-SHA-256/512**: Implemented SCRAM-SHA-256 and SCRAM-SHA-512 alongside existing SCRAM-SHA-1. Preference order: SHA-512 > SHA-256 > SHA-1.
+- **SCRAM Channel Binding (-PLUS)**: All 6 SCRAM variants (SHA-1, SHA-256, SHA-512, and their -PLUS counterparts). Channel binding uses tls-exporter (RFC 9266, GLib 2.74+) with fallback to tls-server-end-point (RFC 5929, GLib 2.66+). Custom VAPI binding to fix upstream Vala NULL dereference bug.
+- **SCRAM Nonce CSPRNG**: Replaced GLib.Random (Mersenne Twister) with /dev/urandom for SASL nonce generation (24 bytes, Base64-encoded).
+- **Channel Binding Downgrade Protection**: Per-account MITM protection toggle in Advanced Settings. When enabled, refuses login if server does not offer SCRAM-*-PLUS mechanisms (possible downgrade attack). Similar to Conversations/Monocles "MITM Protection" toggle. DB version 37.
+- **DinoX Exclusive**: Only XMPP client supporting all 6 SCRAM variants including SHA-512-PLUS.
+
 ### v1.1.0.5 (Comprehensive Security Audit)
 
 - **Crypto Security Audit (23 Findings)**: Full audit of 39 crypto-related files and 15 OpenPGP files. 6 critical, 11 medium, 3 low findings in OMEMO/Signal layer plus 3 findings in OpenPGP layer -- all fixed and verified.
@@ -29,8 +37,6 @@ This document is organized as a **chronological release timeline** first, follow
 - **OpenPGP Fixes**: Secure temp file deletion (zero-overwrite before unlink), secure temp file permissions (0600 via FileCreateFlags.PRIVATE), CSPRNG random padding replacing Mersenne Twister.
 - **Security Audit Documentation**: SECURITY_AUDIT.md report, security-audit.html web page, website and README navigation links.
 - **OMEMO v2 Implementation Story**: Full documentation of OMEMO v2 implementation journey.
-- **SCRAM-SHA-256/512 + Channel Binding**: All 6 SCRAM variants (SHA-1, SHA-256, SHA-512, and their -PLUS counterparts) with CSPRNG nonces. Channel binding uses tls-exporter (RFC 9266) with fallback to tls-server-end-point (RFC 5929).
-- **Channel Binding Downgrade Protection**: Per-account MITM protection toggle in Advanced Settings. When enabled, refuses login if server does not offer SCRAM-*-PLUS mechanisms (possible downgrade attack). DB version 37.
 
 ### v1.1.0.4 (URL Link Preview, Voice Message Waveform, AppImage Icons)
 

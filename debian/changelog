@@ -1,3 +1,14 @@
+dino (1.1.0.6) unstable; urgency=medium
+
+  * SCRAM-SHA-256/512: Added SCRAM-SHA-256 and SCRAM-SHA-512 mechanisms
+  * SCRAM Channel Binding: All 6 SCRAM-*-PLUS variants with tls-exporter
+    (RFC 9266) and tls-server-end-point (RFC 5929) fallback
+  * SCRAM Nonce CSPRNG: Replaced GLib.Random with /dev/urandom
+  * Downgrade Protection: Per-account MITM toggle to require -PLUS mechanisms
+  * DB version 37: Added require_channel_binding column
+
+ -- Dino Developers <chat@dino.im>  Mon, 17 Feb 2026 22:00:00 +0000
+
 dino (1.1.0.2) unstable; urgency=medium
 
   * i18n: Converted password dialog strings from German to English msgids
