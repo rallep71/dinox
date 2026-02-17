@@ -647,7 +647,9 @@
                                     <strong>Fixed in v1.1.0.6.</strong> SCRAM-SHA-1-PLUS, SCRAM-SHA-256-PLUS, and
                                     SCRAM-SHA-512-PLUS implemented with <code>tls-exporter</code> (RFC 9266, GLib 2.74+)
                                     and <code>tls-server-end-point</code> (RFC 5929, GLib 2.66+) channel binding.
-                                    DinoX is the only XMPP client supporting all six SCRAM variants.
+                                    Per-account downgrade protection toggle refuses login if server strips -PLUS
+                                    mechanisms (possible MITM). DinoX is the only XMPP client supporting all six
+                                    SCRAM variants.
                                 </td>
                             </tr>
                             <tr>
