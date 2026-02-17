@@ -93,8 +93,8 @@
 
                     <div class="audit-meta">
                         <div><strong>Date</strong> February 17, 2026</div>
-                        <div><strong>Scope</strong> 39 crypto-related files</div>
-                        <div><strong>Findings</strong> 6 Critical/High, 11 Medium, 3 Low</div>
+                        <div><strong>Scope</strong> 39 crypto-related files + 15 OpenPGP files</div>
+                        <div><strong>Findings</strong> 6 Critical/High, 11 Medium, 3 Low + 3 OpenPGP</div>
                         <div><strong>Status</strong> <span class="status-fixed">All fixed</span></div>
                         <div><strong>Commits</strong>
                             <a href="https://github.com/rallep71/dinox/commit/08c895f6">08c895f6</a>,
@@ -535,6 +535,101 @@
                     </table>
 
                     <!-- ============================================================ -->
+                    <h2>OpenPGP Implementation Security</h2>
+                    <p>
+                        DinoX implements <strong>XEP-0027</strong> (legacy PGP), <strong>XEP-0373</strong>
+                        (OpenPGP key distribution via PubSub), and <strong>XEP-0374</strong> (OpenPGP for
+                        XMPP Instant Messaging) with automatic protocol selection. GPG operations are
+                        serialized through a single worker thread to prevent race conditions.
+                    </p>
+
+                    <h3>Architecture</h3>
+                    <ul>
+                        <li><strong>GPG CLI backend</strong> (<code>gpg_cli_helper.vala</code>, 1474 lines)
+                            &mdash; all crypto delegates to the system <code>gpg</code> binary, avoiding GPGME issues on Windows.</li>
+                        <li><strong>Worker queue</strong> &mdash; single background thread serializes all GPG subprocess calls,
+                            preventing deadlocks and concurrent-spawn crashes.</li>
+                        <li><strong>App-scoped keyring</strong> &mdash; <code>$STORAGE/openpgp/gnupg</code> (0700),
+                            isolated from <code>~/.gnupg</code>. Enables clean Panic Wipe.</li>
+                        <li><strong>Dual-protocol encryption</strong> &mdash; XEP-0374 signcrypt for contacts with
+                            Service Discovery support; XEP-0027 fallback for all others.</li>
+                    </ul>
+
+                    <h3>Audited Files (15)</h3>
+                    <table class="audit-table">
+                        <thead><tr><th>File</th><th>Purpose</th></tr></thead>
+                        <tbody>
+                            <tr><td><code>gpg_cli_helper.vala</code></td><td>GPG subprocess wrapper (encrypt, decrypt, sign, verify, key management)</td></tr>
+                            <tr><td><code>gpgme_fix.c</code> / <code>gpgme_fix.h</code></td><td>Windows stdio fix, GPGME key ref/unref</td></tr>
+                            <tr><td><code>stream_module.vala</code></td><td>XEP-0027/0374 message encrypt/decrypt, presence signing</td></tr>
+                            <tr><td><code>manager.vala</code></td><td>Encryption orchestration, key cache, keyserver auto-fetch</td></tr>
+                            <tr><td><code>plugin.vala</code></td><td>Plugin lifecycle, gpg-agent config, module registration</td></tr>
+                            <tr><td><code>database.vala</code></td><td>Key storage (SQLite), account/contact key mapping</td></tr>
+                            <tr><td><code>xep0373_key_manager.vala</code></td><td>XEP-0373 PubSub key publishing and retrieval</td></tr>
+                            <tr><td><code>file_encryptor.vala</code></td><td>GPG file encryption for HTTP upload</td></tr>
+                            <tr><td><code>file_decryptor.vala</code></td><td>GPG file decryption</td></tr>
+                            <tr><td><code>0373_openpgp.vala</code></td><td>XEP-0373 XMPP module (PEP key distribution)</td></tr>
+                            <tr><td><code>0374_openpgp_content.vala</code></td><td>XEP-0374 content elements (signcrypt, sign, crypt)</td></tr>
+                            <tr><td><code>stream_flag.vala</code></td><td>Per-JID key ID storage</td></tr>
+                            <tr><td><code>encryption_list_entry.vala</code></td><td>UI integration for encryption activation</td></tr>
+                            <tr><td><code>key_management_dialog.vala</code></td><td>Key generation/import/export/revocation UI</td></tr>
+                            <tr><td><code>util.vala</code></td><td>Fingerprint formatting</td></tr>
+                        </tbody>
+                    </table>
+
+                    <h3>OpenPGP Findings (Fixed)</h3>
+                    <table class="audit-table">
+                        <thead><tr><th>#</th><th>Severity</th><th>File(s)</th><th>Issue</th></tr></thead>
+                        <tbody>
+                            <tr>
+                                <td>21</td>
+                                <td class="severity-medium">Medium</td>
+                                <td><code>gpg_cli_helper.vala</code></td>
+                                <td><strong>Temp files containing plaintext not securely wiped.</strong>
+                                    All GPG subprocess operations wrote sensitive data (plaintext messages,
+                                    decrypted content, key material) to <code>/tmp</code> and deleted with
+                                    <code>FileUtils.remove()</code> (simple <code>unlink()</code>). Deleted data
+                                    remains on disk until overwritten by chance. Now <code>secure_delete_file()</code>
+                                    overwrites with zeros before unlinking.</td>
+                            </tr>
+                            <tr>
+                                <td>22</td>
+                                <td class="severity-medium">Medium</td>
+                                <td><code>gpg_cli_helper.vala</code> + <code>file_encryptor.vala</code></td>
+                                <td><strong>Temp files created with permissive permissions.</strong>
+                                    <code>FileUtils.set_contents()</code> creates files 0644 (umask-dependent),
+                                    allowing other local users to read sensitive plaintext. Now
+                                    <code>secure_write_file()</code> uses <code>FileCreateFlags.PRIVATE</code>
+                                    (0600) and atomic creation (fails if file exists, preventing TOCTOU).</td>
+                            </tr>
+                            <tr>
+                                <td>23</td>
+                                <td>Low</td>
+                                <td><code>0374_openpgp_content.vala</code></td>
+                                <td><strong>XEP-0374 rpad uses Mersenne Twister.</strong>
+                                    <code>generate_random_padding()</code> used <code>GLib.Random.int_range()</code>
+                                    (MT19937) for random padding bytes. Now uses <code>/dev/urandom</code>
+                                    (CSPRNG) with GLib.Random fallback. Same as OMEMO finding #20.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h3>OpenPGP Security Properties (Verified)</h3>
+                    <table class="audit-table">
+                        <thead><tr><th>Property</th><th>Status</th></tr></thead>
+                        <tbody>
+                            <tr><td>GPG subprocess serialization (worker queue)</td><td class="status-fixed">Correct</td></tr>
+                            <tr><td>App-scoped keyring isolation (0700 permissions)</td><td class="status-fixed">Correct</td></tr>
+                            <tr><td>XEP-0373 key import validation (armor check, base64, radix64 reject)</td><td class="status-fixed">Correct</td></tr>
+                            <tr><td>XEP-0027 signature verification (VALIDSIG/GOODSIG/ERRSIG)</td><td class="status-fixed">Correct</td></tr>
+                            <tr><td>MDC enforcement (batch mode: DECRYPTION_OKAY/GOODMDC required)</td><td class="status-fixed">Correct</td></tr>
+                            <tr><td>Base64url injection prevention (<code>-</code> and <code>_</code> rejected)</td><td class="status-fixed">Correct</td></tr>
+                            <tr><td>Key revocation and PubSub unpublish</td><td class="status-fixed">Correct</td></tr>
+                            <tr><td>Sensitive debug logging (no key material leaked)</td><td class="status-fixed">OK</td></tr>
+                        </tbody>
+                    </table>
+
+                    <!-- ============================================================ -->
                     <h2>Known Limitations (Not Fixed)</h2>
                     <p>
                         The following items were identified but intentionally not addressed, as they require
@@ -570,6 +665,23 @@
                                     not a CSPRNG. However, SCRAM nonces only need to prevent replay &mdash;
                                     the actual authentication security relies on PBKDF2 + HMAC, not nonce entropy.
                                     Not practically exploitable.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>OpenPGP interactive-mode MDC check</td>
+                                <td>Low</td>
+                                <td>
+                                    In interactive decrypt mode (pinentry), GPG status output cannot be captured,
+                                    so MDC status is not verified by DinoX. Mitigated by GPG 2.2+ enforcing MDC
+                                    by default.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Vala string zeroization</td>
+                                <td>Info</td>
+                                <td>
+                                    Vala/GLib strings are garbage-collected, never zeroized in memory. Language
+                                    limitation, not fixable without C interop. Applies to both OMEMO and OpenPGP.
                                 </td>
                             </tr>
                         </tbody>

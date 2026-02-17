@@ -185,6 +185,58 @@ private static string[] get_base_command(bool allow_interactive = false) {
 }
 
 /**
+ * Write string data to a file with restrictive permissions (0600).
+ * Prevents other users from reading sensitive cryptographic material in temp files.
+ */
+public static void secure_write_file(string path, string data) throws GLib.Error {
+    var file = File.new_for_path(path);
+    var os = file.create(FileCreateFlags.PRIVATE);
+    if (data.length > 0) {
+        os.write(data.data);
+    }
+    os.close();
+}
+
+/**
+ * Write binary data to a file with restrictive permissions (0600).
+ */
+public static void secure_write_data(string path, uint8[] data) throws GLib.Error {
+    var file = File.new_for_path(path);
+    var os = file.create(FileCreateFlags.PRIVATE);
+    if (data.length > 0) {
+        os.write(data);
+    }
+    os.close();
+}
+
+/**
+ * Securely delete a file by overwriting contents with zeros before unlinking.
+ * Prevents recovery of sensitive plaintext or key material from disk.
+ */
+public static void secure_delete_file(string path) {
+    if (!FileUtils.test(path, FileTest.EXISTS)) return;
+    try {
+        var file = File.new_for_path(path);
+        var info = file.query_info("standard::size", FileQueryInfoFlags.NONE);
+        int64 size = info.get_size();
+        if (size > 0) {
+            var os = file.replace(null, false, FileCreateFlags.PRIVATE);
+            uint8[] zeros = new uint8[4096];
+            int64 written = 0;
+            while (written < size) {
+                int chunk = (int) int64.min(4096, size - written);
+                os.write(zeros[0:chunk]);
+                written += chunk;
+            }
+            os.close();
+        }
+    } catch (Error e) {
+        // Best effort - proceed to remove
+    }
+    FileUtils.remove(path);
+}
+
+/**
  * Internal GPG run WITHOUT mutex (caller must hold the lock)
  */
 private static bool run_gpg_internal(string[] extra_args, string? stdin_data, out string stdout_str, out string stderr_str, out int exit_status, bool allow_interactive = false) {
@@ -322,7 +374,7 @@ public static string encrypt_armor(string plain, Key[] keys, int flags = 0) thro
     string temp_in = Path.build_filename(Environment.get_tmp_dir(), "dinox-enc-in-%d".printf(Random.int_range(0, 1000000)));
     string temp_out = temp_in + ".asc";
     debug("GPGHelper.encrypt_armor: Writing to temp file %s", temp_in);
-    FileUtils.set_contents(temp_in, plain);
+    secure_write_file(temp_in, plain);
     debug("GPGHelper.encrypt_armor: Temp file written, size=%d", plain.length);
     
     args.add("-o");
@@ -336,7 +388,7 @@ public static string encrypt_armor(string plain, Key[] keys, int flags = 0) thro
     run_gpg_sync(args.to_array(), null, out stdout_str, out stderr_str, out exit_status);
     debug("GPGHelper.encrypt_armor: GPG returned, exit=%d", exit_status);
     
-    FileUtils.remove(temp_in);
+    secure_delete_file(temp_in);
     
     if (exit_status != 0) {
         debug("GPGHelper.encrypt_armor: GPG failed: %s", stderr_str);
@@ -346,7 +398,7 @@ public static string encrypt_armor(string plain, Key[] keys, int flags = 0) thro
     debug("GPGHelper.encrypt_armor: Reading output file %s", temp_out);
     string result;
     FileUtils.get_contents(temp_out, out result);
-    FileUtils.remove(temp_out);
+    secure_delete_file(temp_out);
     
     debug("GPGHelper.encrypt_armor: Success, result length=%d", result.length);
     return result;
@@ -379,7 +431,7 @@ public static string sign_and_encrypt(string plain, Key[] recipients, Key? sign_
     // Write plaintext to temp file
     string temp_in = Path.build_filename(Environment.get_tmp_dir(), "dinox-signenc-in-%d".printf(Random.int_range(0, 1000000)));
     string temp_out = temp_in + ".asc";
-    FileUtils.set_contents(temp_in, plain);
+    secure_write_file(temp_in, plain);
     
     args.add("-o");
     args.add(temp_out);
@@ -391,7 +443,7 @@ public static string sign_and_encrypt(string plain, Key[] recipients, Key? sign_
     // Serialized through the worker queue
     run_gpg_sync(args.to_array(), null, out stdout_str, out stderr_str, out exit_status, true);
     
-    FileUtils.remove(temp_in);
+    secure_delete_file(temp_in);
     
     if (exit_status != 0) {
         throw new IOError.FAILED("GPG sign+encrypt failed: %s", stderr_str);
@@ -399,7 +451,7 @@ public static string sign_and_encrypt(string plain, Key[] recipients, Key? sign_
     
     string signenc_result;
     FileUtils.get_contents(temp_out, out signenc_result);
-    FileUtils.remove(temp_out);
+    secure_delete_file(temp_out);
     
     return signenc_result;
 }
@@ -439,7 +491,7 @@ public static uint8[] encrypt_file(string uri, Key[] keys, int flags, string fil
     
     uint8[] result;
     FileUtils.get_data(temp_out, out result);
-    FileUtils.remove(temp_out);
+    secure_delete_file(temp_out);
     
     return result;
 }
@@ -520,12 +572,12 @@ public static string decrypt(string encr) throws GLib.Error {
     
     string temp_in = Path.build_filename(Environment.get_tmp_dir(), "dinox-dec-in-%d.asc".printf(Random.int_range(0, 1000000)));
     string temp_out = Path.build_filename(Environment.get_tmp_dir(), "dinox-dec-out-%d".printf(Random.int_range(0, 1000000)));
-    FileUtils.set_contents(temp_in, encr);
+    secure_write_file(temp_in, encr);
     
     // First check if we have the secret key needed
     // This prevents Windows crashes from starting pinentry for messages we can't decrypt
     if (!can_decrypt_message(temp_in)) {
-        FileUtils.remove(temp_in);
+        secure_delete_file(temp_in);
         throw new IOError.FAILED("GPG decrypt failed: no secret key available for this message");
     }
     
@@ -546,7 +598,7 @@ public static string decrypt(string encr) throws GLib.Error {
     if (!decryption_ok && exit_status != 0) {
         debug("GPGHelper.decrypt: Batch mode failed, trying interactive mode...");
         if (FileUtils.test(temp_out, FileTest.EXISTS)) {
-            FileUtils.remove(temp_out);
+            secure_delete_file(temp_out);
         }
         
         string[] interactive_args = { "--decrypt", "--status-fd", "2", "--ignore-crc-error", "-o", temp_out, temp_in };
@@ -556,11 +608,11 @@ public static string decrypt(string encr) throws GLib.Error {
                         stderr_str.contains("[GNUPG:] GOODMDC");
     }
     
-    FileUtils.remove(temp_in);
+    secure_delete_file(temp_in);
     
     if (!decryption_ok && exit_status != 0) {
         if (FileUtils.test(temp_out, FileTest.EXISTS)) {
-            FileUtils.remove(temp_out);
+            secure_delete_file(temp_out);
         }
         throw new IOError.FAILED("GPG decrypt failed (exit %d): no secret key or passphrase error", exit_status);
     }
@@ -571,7 +623,7 @@ public static string decrypt(string encr) throws GLib.Error {
     
     string result;
     FileUtils.get_contents(temp_out, out result);
-    FileUtils.remove(temp_out);
+    secure_delete_file(temp_out);
     debug("GPGHelper.decrypt: Success, decrypted %d chars", result.length);
     
     return result;
@@ -586,11 +638,11 @@ public static DecryptedData decrypt_data(uint8[] data) throws GLib.Error {
     string temp_in = Path.build_filename(Environment.get_tmp_dir(), "dinox-dec-in-%d.gpg".printf(Random.int_range(0, 1000000)));
     string temp_out = Path.build_filename(Environment.get_tmp_dir(), "dinox-dec-out-%d".printf(Random.int_range(0, 1000000)));
     
-    FileUtils.set_data(temp_in, data);
+    secure_write_data(temp_in, data);
     
     // First check if we have the secret key needed
     if (!can_decrypt_message(temp_in)) {
-        FileUtils.remove(temp_in);
+        secure_delete_file(temp_in);
         throw new IOError.FAILED("GPG decrypt data failed: no secret key available for this message");
     }
     
@@ -611,7 +663,7 @@ public static DecryptedData decrypt_data(uint8[] data) throws GLib.Error {
     if (!decryption_ok && exit_status != 0) {
         debug("GPGHelper.decrypt_data: Batch mode failed, trying interactive mode...");
         if (FileUtils.test(temp_out, FileTest.EXISTS)) {
-            FileUtils.remove(temp_out);
+            secure_delete_file(temp_out);
         }
         
         string[] interactive_args = { "--decrypt", "--status-fd", "2", "--ignore-crc-error", "-o", temp_out, temp_in };
@@ -621,11 +673,11 @@ public static DecryptedData decrypt_data(uint8[] data) throws GLib.Error {
                         stderr_str.contains("[GNUPG:] GOODMDC");
     }
     
-    FileUtils.remove(temp_in);
+    secure_delete_file(temp_in);
     
     if (!decryption_ok && exit_status != 0) {
         if (FileUtils.test(temp_out, FileTest.EXISTS)) {
-            FileUtils.remove(temp_out);
+            secure_delete_file(temp_out);
         }
         throw new IOError.FAILED("GPG decrypt data failed (exit %d): no secret key or passphrase error", exit_status);
     }
@@ -636,7 +688,7 @@ public static DecryptedData decrypt_data(uint8[] data) throws GLib.Error {
     
     uint8[] result_data;
     FileUtils.get_data(temp_out, out result_data);
-    FileUtils.remove(temp_out);
+    secure_delete_file(temp_out);
     debug("GPGHelper.decrypt_data: Success, decrypted %d bytes", result_data.length);
     
     // Parse filename from status output
@@ -671,7 +723,7 @@ public static string sign(string plain, int mode, Key? key = null) throws GLib.E
     
     string temp_in = Path.build_filename(Environment.get_tmp_dir(), "dinox-sign-in-%d".printf(Random.int_range(0, 1000000)));
     string temp_out = Path.build_filename(Environment.get_tmp_dir(), "dinox-sign-out-%d.asc".printf(Random.int_range(0, 1000000)));
-    FileUtils.set_contents(temp_in, plain);
+    secure_write_file(temp_in, plain);
     
     var args = new ArrayList<string>();
     args.add("--armor");
@@ -702,7 +754,7 @@ public static string sign(string plain, int mode, Key? key = null) throws GLib.E
     // Serialized through the worker queue
     run_gpg_sync(args.to_array(), null, out stdout_str, out stderr_str, out exit_status, needs_passphrase);
     
-    FileUtils.remove(temp_in);
+    secure_delete_file(temp_in);
     
     if (exit_status != 0) {
         throw new IOError.FAILED("GPG sign failed: %s", stderr_str);
@@ -710,7 +762,7 @@ public static string sign(string plain, int mode, Key? key = null) throws GLib.E
     
     string result;
     FileUtils.get_contents(temp_out, out result);
-    FileUtils.remove(temp_out);
+    secure_delete_file(temp_out);
     
     return result;
 }
@@ -737,7 +789,7 @@ public static SignatureVerifyResult verify_signature(string signature, string? t
     
     string temp_sig = Path.build_filename(Environment.get_tmp_dir(), "dinox-verify-sig-%d.asc".printf(Random.int_range(0, 1000000)));
     string temp_status = Path.build_filename(Environment.get_tmp_dir(), "dinox-verify-status-%d.txt".printf(Random.int_range(0, 1000000)));
-    FileUtils.set_contents(temp_sig, signature);
+    secure_write_file(temp_sig, signature);
     
     var args = new ArrayList<string>();
     args.add("--verify");
@@ -748,7 +800,7 @@ public static SignatureVerifyResult verify_signature(string signature, string? t
     string? temp_text = null;
     if (text != null) {
         temp_text = Path.build_filename(Environment.get_tmp_dir(), "dinox-verify-txt-%d".printf(Random.int_range(0, 1000000)));
-        FileUtils.set_contents(temp_text, text);
+        secure_write_file(temp_text, text);
         args.add(temp_text);
     }
     
@@ -757,9 +809,9 @@ public static SignatureVerifyResult verify_signature(string signature, string? t
     // Serialized through the worker queue
     run_gpg_sync(args.to_array(), null, out stdout_str, out stderr_str, out exit_status);
     
-    FileUtils.remove(temp_sig);
+    secure_delete_file(temp_sig);
     if (temp_text != null) {
-        FileUtils.remove(temp_text);
+        secure_delete_file(temp_text);
     }
     
     // Read status from file
@@ -770,7 +822,7 @@ public static SignatureVerifyResult verify_signature(string signature, string? t
         } catch (Error e) {
             debug("GPGHelper.verify_signature: Could not read status file: %s", e.message);
         }
-        FileUtils.remove(temp_status);
+        secure_delete_file(temp_status);
     }
     
     // Parse fingerprint from status output
@@ -1057,7 +1109,7 @@ public static bool import_key(string armored_key) throws GLib.Error {
     
     string temp_key = Path.build_filename(Environment.get_tmp_dir(), "dinox-import-%d.asc".printf(Random.int_range(0, 1000000)));
     try {
-        FileUtils.set_contents(temp_key, normalized);
+        secure_write_file(temp_key, normalized);
     } catch (Error e) {
         warning("GPGHelper: import_key: Failed to write temp file: %s", e.message);
         return false;
@@ -1069,7 +1121,7 @@ public static bool import_key(string armored_key) throws GLib.Error {
     int exit_status;
     run_gpg_sync(args, null, out stdout_str, out stderr_str, out exit_status);
     
-    FileUtils.remove(temp_key);
+    secure_delete_file(temp_key);
     
     // Don't crash on radix64 errors - just log and return false
     if (exit_status != 0) {
@@ -1288,12 +1340,12 @@ private static bool download_key_from_openpgp_org_api(string key_id) {
             if (curl_exit != 0) {
                 string curl_stderr = stderr_bytes != null ? (string) stderr_bytes.get_data() : "";
                 debug("GPGHelper: API download failed (exit=%d): %s", curl_exit, curl_stderr ?? "");
-                FileUtils.remove(temp_key);
+                secure_delete_file(temp_key);
                 return false;
             }
         } catch (Error e) {
             debug("GPGHelper: curl execution failed: %s", e.message);
-            FileUtils.remove(temp_key);
+            secure_delete_file(temp_key);
             return false;
         }
         
@@ -1309,7 +1361,7 @@ private static bool download_key_from_openpgp_org_api(string key_id) {
         
         if (file_size < 100) {
             debug("GPGHelper: Downloaded key file too small: %lld bytes", file_size);
-            FileUtils.remove(temp_key);
+            secure_delete_file(temp_key);
             return false;
         }
         
@@ -1322,7 +1374,7 @@ private static bool download_key_from_openpgp_org_api(string key_id) {
         int import_exit;
         run_gpg_sync(import_args, null, out import_stdout, out import_stderr, out import_exit);
         
-        FileUtils.remove(temp_key);
+        secure_delete_file(temp_key);
         
         // Check if import succeeded - GPG may still skip keys without UID
         if (import_stderr.contains("ohne User-ID") || import_stderr.contains("no user ID")) {
@@ -1387,7 +1439,7 @@ public static bool key_requires_passphrase(string key_fpr) {
     string temp_out = temp_in + ".asc";
     
     try {
-        FileUtils.set_contents(temp_in, "test");
+        secure_write_file(temp_in, "test");
     } catch (Error e) {
         return true;  // Assume protected on error
     }
@@ -1404,8 +1456,8 @@ public static bool key_requires_passphrase(string key_fpr) {
     run_gpg_sync(args, null, out stdout_str, out stderr_str, out exit_status, false);
     
     // Cleanup temp files
-    FileUtils.remove(temp_in);
-    FileUtils.remove(temp_out);
+    secure_delete_file(temp_in);
+    secure_delete_file(temp_out);
     
     if (exit_status == 0) {
         // Empty passphrase worked = key has no passphrase
