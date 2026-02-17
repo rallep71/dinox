@@ -539,6 +539,7 @@ int omemo2_aes_256_cbc_pkcs7_decrypt(uint8_t **output, size_t *output_len,
     gcry_cipher_close(ctx);
 
     if (err) {
+        memset(decrypted, 0, ciphertext_len);
         g_free(decrypted);
         return -1;
     }
@@ -546,6 +547,7 @@ int omemo2_aes_256_cbc_pkcs7_decrypt(uint8_t **output, size_t *output_len,
     /* Remove PKCS#7 padding */
     uint8_t pad_val = decrypted[ciphertext_len - 1];
     if (pad_val < 1 || pad_val > 16 || pad_val > ciphertext_len) {
+        memset(decrypted, 0, ciphertext_len);
         g_free(decrypted);
         return -1;
     }
@@ -556,6 +558,7 @@ int omemo2_aes_256_cbc_pkcs7_decrypt(uint8_t **output, size_t *output_len,
         pad_check |= decrypted[i] ^ pad_val;
     }
     if (pad_check != 0) {
+        memset(decrypted, 0, ciphertext_len);
         g_free(decrypted);
         return -1;
     }
@@ -563,6 +566,7 @@ int omemo2_aes_256_cbc_pkcs7_decrypt(uint8_t **output, size_t *output_len,
     *output_len = ciphertext_len - pad_val;
     *output = g_malloc(*output_len);
     memcpy(*output, decrypted, *output_len);
+    memset(decrypted, 0, ciphertext_len);
     g_free(decrypted);
     return 0;
 }
@@ -594,5 +598,6 @@ int omemo2_hmac_sha256(uint8_t *output, size_t output_len,
 
     /* Truncate to requested output_len */
     memcpy(output, full_mac, output_len);
+    memset(full_mac, 0, sizeof(full_mac));
     return 0;
 }
