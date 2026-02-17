@@ -1,6 +1,6 @@
 # DinoX - Development Plan
 
-> **Last Updated**: February 16, 2026
+> **Last Updated**: February 17, 2026
 > **Current Release Line**: 1.1.0.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.0.3 |
+| **Current Version** | 1.1.0.4 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (~85% translated) |
 | **Build Status** | Clean |
@@ -20,6 +20,19 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v1.1.0.4 (URL Link Preview, Voice Message Waveform, AppImage Icons)
+
+- **URL Link Preview**: Telegram-style preview cards for URLs in chat messages. Fetches OpenGraph metadata (title, description, image, site name) with in-memory cache. Accent-color left border, optional 80x80 thumbnail, clickable to open browser.
+- **Voice Message Waveform (Recorder)**: Real waveform display using peak dB from GStreamer `level` element. 60-bar red waveform with pulsing record indicator and age-based opacity gradient. 5-minute max duration with countdown.
+- **Voice Message Waveform (Player)**: 50-bar waveform visualization (blue=played, grey=unplayed) replacing the slider. Faster-than-realtime scan via `playbin`+`level`+`fakesink`. Click/drag seek.
+- **Voice Message Audio Quality**: 48kHz mono, +5 dB volume, 230ms pre-roll mute, soft-knee compressor to prevent clipping.
+- **File Provider URL Bug Fix**: Receiver no longer sees "unknown file to download" for URL messages. Fixed `oob_url ?? message.body` fallback logic.
+- **Video DMABuf Fix (Issue #11)**: Filter out DMABuf/DMA_DRM caps in video device selection. Fixes 0 kbps video on older V4L2 drivers.
+- **OMEMO File Decryption Fix**: Fixed double-decryption bug in `file_encryption.vala` GCM auth state.
+- **Subscription Notification Fix**: Fixed persistent "Send request" notification in DinoX-to-DinoX chats. Load `ask` field from DB, suppress for active conversations.
+- **AppImage Icons**: Copy all 6 icon sizes, set XDG_DATA_DIRS in AppRun, SNI IconThemePath property.
+- **Telegram Bridge**: Downgrade timeout warnings to debug level.
 
 ### v1.1.0.3 (DTMF Support, Dialpad UI, Clickable Bot Commands)
 
