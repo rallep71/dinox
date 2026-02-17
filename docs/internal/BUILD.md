@@ -349,3 +349,52 @@ find squashfs-root -maxdepth 5 -type f -name 'libnice*.so*' -print
 ```
 
 If you want deterministic AppImage dependency versions, build in a clean/controlled environment (container/VM) and avoid mixing host system GStreamer plugins with the bundled set.
+
+---
+
+## Scripts Reference
+
+All scripts live in the `scripts/` directory. Debug scripts are documented in [DEBUG.md](DEBUG.md#helper-scripts).
+
+### Build & Distribution
+
+| Script | Purpose |
+|--------|--------|
+| `scripts/build-appimage.sh` | Build a portable AppImage for Linux. Auto-detects architecture (x86_64/aarch64), copies runtime libraries, GStreamer plugins, and icons into an AppDir, then packages it with `appimagetool`. Use on a clean build host for reproducible results. |
+| `scripts/update_dist.sh` | Collect the Windows build into a `dist/` folder: `dinox.exe`, all required DLLs, GStreamer plugins, Tor/obfs4proxy binaries, SSL certs, icons. Run after `ninja -C build` in MSYS2. |
+| `scripts/ci-build-deps.sh` | CI pipeline script: runs `scripts/scan_unicode.py`, then builds `webrtc-audio-processing` from source. Used in automated builds to prepare dependencies. |
+| `scripts/dinox.bat` | Windows launcher (legacy/fallback). Sets `PATH` and launches `dinox.exe`. Kept for backward compatibility — `dinox.exe` now sets all environment variables internally. |
+
+### Release
+
+| Script | Purpose |
+|--------|--------|
+| `scripts/release.sh <version>` | Full release workflow: validates version format, updates `VERSION`, `debian/changelog`, `dino.doap`, creates annotated Git tag, and pushes. Requires clean working tree. |
+| `scripts/release_helper.sh <version>` | Lighter release helper: updates `CHANGELOG.md` (inserts version heading under `[Unreleased]`), `VERSION`, `dino.doap`, and `debian/changelog`. Does not tag or push. |
+
+### Security & Quality
+
+| Script | Purpose |
+|--------|--------|
+| `scripts/scan_unicode.py` | Scan source files for hidden/dangerous Unicode characters (zero-width, BiDi overrides, homoglyphs). Run from the project root. Used in CI via `ci-build-deps.sh`. Usage: `python3 scripts/scan_unicode.py [--verbose]` |
+
+### Translation
+
+| Script | Purpose |
+|--------|--------|
+| `scripts/translate_all.py` | Batch-insert missing translation strings into all `.po` files under `main/po/`. Adds `msgid`/`msgstr` entries for new UI strings. |
+| `scripts/analyze_translations.py` | Analyze specific translation keys across all `.po` files to check coverage. |
+
+### Development
+
+| Script | Purpose |
+|--------|--------|
+| `scripts/create_openpgp_patches.sh [dino_path]` | Generate diff patches between DinoX and original Dino for the OpenPGP porting work. Outputs patch files to `patches/`. |
+
+### Debug
+
+| Script | Purpose |
+|--------|--------|
+| `scripts/run-dinox-debug.sh` | Start DinoX with full debug logging. See [DEBUG.md](DEBUG.md#start-a-debug-session). |
+| `scripts/stop-dinox.sh` | Stop a running debug instance. See [DEBUG.md](DEBUG.md#stop-dinox). |
+| `scripts/scan-dinox-latest-log.sh` | Scan latest debug log for issues. See [DEBUG.md](DEBUG.md#scan-latest-log). |
