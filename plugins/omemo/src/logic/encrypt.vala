@@ -36,6 +36,9 @@ namespace Dino.Plugins.Omemo {
             uint8[] keytag = new uint8[key.length + tag.length];
             Memory.copy(keytag, key, key.length);
             Memory.copy((uint8*)keytag + key.length, tag, tag.length);
+            // Zeroize sensitive key material
+            Memory.set(key, 0, key.length);
+            Memory.set(iv, 0, iv.length);
 
             var ret = new Xep.Omemo.EncryptionData(own_device_id);
             ret.ciphertext = ciphertext;

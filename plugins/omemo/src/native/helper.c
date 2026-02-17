@@ -417,7 +417,10 @@ int omemo2_hkdf_sha256(uint8_t *output, size_t output_len,
     size_t prk_len = 32;
     err = gcry_mac_read(hmac, prk, &prk_len);
     gcry_mac_close(hmac);
-    if (err) return -1;
+    if (err) {
+        memset(prk, 0, sizeof(prk));
+        return -1;
+    }
 
     /* Step 2: Expand -- T(i) = HMAC-SHA-256(PRK, T(i-1) || info || i) */
     size_t n = (output_len + 31) / 32;
@@ -427,31 +430,32 @@ int omemo2_hkdf_sha256(uint8_t *output, size_t output_len,
     size_t t_prev_len = 0;
     size_t offset = 0;
 
+    int result = 0;
     for (size_t i = 1; i <= n; i++) {
         err = gcry_mac_open(&hmac, GCRY_MAC_HMAC_SHA256, 0, NULL);
-        if (err) return -1;
+        if (err) { result = -1; goto hkdf_cleanup; }
 
         err = gcry_mac_setkey(hmac, prk, 32);
-        if (err) { gcry_mac_close(hmac); return -1; }
+        if (err) { gcry_mac_close(hmac); result = -1; goto hkdf_cleanup; }
 
         if (t_prev_len > 0) {
             err = gcry_mac_write(hmac, t_prev, t_prev_len);
-            if (err) { gcry_mac_close(hmac); return -1; }
+            if (err) { gcry_mac_close(hmac); result = -1; goto hkdf_cleanup; }
         }
 
         if (info != NULL && info_len > 0) {
             err = gcry_mac_write(hmac, info, info_len);
-            if (err) { gcry_mac_close(hmac); return -1; }
+            if (err) { gcry_mac_close(hmac); result = -1; goto hkdf_cleanup; }
         }
 
         uint8_t counter = (uint8_t)i;
         err = gcry_mac_write(hmac, &counter, 1);
-        if (err) { gcry_mac_close(hmac); return -1; }
+        if (err) { gcry_mac_close(hmac); result = -1; goto hkdf_cleanup; }
 
         size_t mac_len = 32;
         err = gcry_mac_read(hmac, t_prev, &mac_len);
         gcry_mac_close(hmac);
-        if (err) return -1;
+        if (err) { result = -1; goto hkdf_cleanup; }
         t_prev_len = 32;
 
         size_t copy_len = (output_len - offset < 32) ? (output_len - offset) : 32;
@@ -459,7 +463,12 @@ int omemo2_hkdf_sha256(uint8_t *output, size_t output_len,
         offset += copy_len;
     }
 
-    return 0;
+    /* Zeroize sensitive intermediate key material */
+hkdf_cleanup:
+    memset(prk, 0, sizeof(prk));
+    memset(t_prev, 0, sizeof(t_prev));
+
+    return result;
 }
 
 int omemo2_aes_256_cbc_pkcs7_encrypt(uint8_t **output, size_t *output_len,
@@ -541,12 +550,14 @@ int omemo2_aes_256_cbc_pkcs7_decrypt(uint8_t **output, size_t *output_len,
         return -1;
     }
 
-    /* Verify all padding bytes */
+    /* Verify all padding bytes (constant-time) */
+    uint8_t pad_check = 0;
     for (size_t i = ciphertext_len - pad_val; i < ciphertext_len; i++) {
-        if (decrypted[i] != pad_val) {
-            g_free(decrypted);
-            return -1;
-        }
+        pad_check |= decrypted[i] ^ pad_val;
+    }
+    if (pad_check != 0) {
+        g_free(decrypted);
+        return -1;
     }
 
     *output_len = ciphertext_len - pad_val;

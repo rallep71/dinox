@@ -31,7 +31,9 @@ public class SymmetricCipher {
 
     private static GCrypt.Cipher.Mode mode_from_string(string name) {
         switch (name) {
-            case "ECB": return GCrypt.Cipher.Mode.ECB;
+            case "ECB":
+                warning("ECB mode is insecure and should not be used for encryption");
+                return GCrypt.Cipher.Mode.ECB;
             case "CFB": return GCrypt.Cipher.Mode.CFB;
             case "CBC": return GCrypt.Cipher.Mode.CBC;
             case "STREAM": return GCrypt.Cipher.Mode.STREAM;

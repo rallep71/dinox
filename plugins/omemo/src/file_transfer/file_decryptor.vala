@@ -224,8 +224,10 @@ public class OmemoFileDecryptor : FileDecryptor, Object {
       debug ("ESFS: CBC decrypted %u bytes -> %zu bytes", buffer.len, plaintext_len);
       return new MemoryInputStream.from_data (plaintext);
 
-    } else if (cipher_uri.contains ("aes-256-gcm") || cipher_uri == "") {
-      // AES-256-GCM-nopadding: NO auth tag (Kaidan/QXmpp treats GCM without tag)
+    } else if (cipher_uri.contains ("aes-256-gcm")) {
+      // AES-256-GCM: Kaidan/QXmpp may not append auth tag, so taglen=0 for interop.
+      // This means ciphertext is NOT authenticated -- log a warning.
+      warning ("ESFS: GCM decryption without auth tag verification (interop mode)");
       SymmetricCipher cipher = new SymmetricCipher ("AES256-GCM");
       cipher.set_key (key);
       cipher.set_iv (iv);
@@ -233,7 +235,7 @@ public class OmemoFileDecryptor : FileDecryptor, Object {
 
     } else {
       throw new GLib.Error (Quark.from_string ("esfs"), 2,
-          "ESFS: Unsupported cipher: %s", cipher_uri);
+          "ESFS: Unsupported or missing cipher: %s", cipher_uri);
     }
   }
 }
