@@ -24,6 +24,36 @@ grep -nE "WARN|WARNING|ERROR|CRITICAL" "$log_file" | head -n 200 || true
 
 echo
 
+echo "== SASL / Authentication =="
+grep -nE "SASL:|SCRAM:|channel.bind|downgrade" "$log_file" | head -n 50 || true
+
+echo
+
+echo "== Certificate Pinning =="
+grep -nEi "certificate.*pinned|fingerprint.*changed|onion.*unknown CA" "$log_file" | head -n 50 || true
+
+echo
+
+echo "== OMEMO =="
+grep -nEi "omemo.*fail|omemo.*error|decrypt.*fail|bundle.*fail|session.*error" "$log_file" | head -n 50 || true
+
+echo
+
+echo "== OpenPGP =="
+grep -nE "XEP-0373:.*FAIL|XEP-0373:.*error|XEP-0373:.*Self-test" "$log_file" | head -n 50 || true
+
+echo
+
+echo "== Botmother =="
+grep -nEi "Botmother:|BotOmemo:|BotRouter:|SessionPool:.*REJECTED|SessionPool:.*IGNORED|Telegram:.*fail|Telegram:.*error" "$log_file" | head -n 100 || true
+
+echo
+
+echo "== Tor =="
+grep -nEi "\[TOR\]|TorController|obfs4|bridge.*fail" "$log_file" | head -n 50 || true
+
+echo
+
 echo "== Audio underflow / discontinuities =="
 grep -nEi "underflow|skipping segment|audioringbuffer|too late|discont" "$log_file" | head -n 200 || true
 
