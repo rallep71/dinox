@@ -332,6 +332,159 @@
                     </table>
 
                     <!-- ============================================================ -->
+                    <h2>OMEMO v2 Implementation Security</h2>
+                    <p>
+                        DinoX is one of the first desktop XMPP clients to implement <strong>OMEMO v2</strong>
+                        (XEP-0384 v0.8+) alongside the legacy OMEMO protocol (v0.3.x). The implementation
+                        was developed and debugged through interoperability testing with
+                        <strong>Kaidan</strong> (which uses the QXmpp library), as well as Conversations
+                        and Monocles for legacy OMEMO backward compatibility.
+                    </p>
+
+                    <h3>Crypto Architecture</h3>
+                    <p>OMEMO v2 uses a fundamentally different encryption scheme than legacy OMEMO:</p>
+                    <table class="audit-table">
+                        <thead>
+                            <tr><th>Aspect</th><th>Legacy OMEMO</th><th>OMEMO v2</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Payload cipher</td><td>AES-128-GCM (16-byte key, 12-byte IV)</td><td>AES-256-CBC + HMAC-SHA-256 via HKDF</td></tr>
+                            <tr><td>Key derivation</td><td>Direct key use</td><td>HKDF-SHA-256 (salt=256 zero-bits, info=<code>"OMEMO Payload"</code>) &rarr; 80 bytes</td></tr>
+                            <tr><td>Per-device key material</td><td>32 bytes (key + GCM auth tag)</td><td>48 bytes (32-byte key + 16-byte HMAC)</td></tr>
+                            <tr><td>Content wrapping</td><td>Plaintext body</td><td>SCE envelope (XEP-0420) with random padding</td></tr>
+                            <tr><td>Wire format</td><td>DJB-serialized keys (0x05 prefix)</td><td>Bare X25519/Ed25519 keys</td></tr>
+                            <tr><td>Identity key format</td><td>Curve25519 (Montgomery)</td><td>Ed25519 (with Montgomery conversion for DH)</td></tr>
+                        </tbody>
+                    </table>
+                    <p>
+                        All OMEMO v2 cryptographic primitives were implemented in
+                        <span class="code-ref">helper.c</span> using libgcrypt:
+                        <code>omemo2_hkdf_sha256()</code>,
+                        <code>omemo2_aes_256_cbc_pkcs7_encrypt/decrypt()</code>,
+                        <code>omemo2_hmac_sha256()</code>.
+                    </p>
+
+                    <h3>Kaidan Interoperability: Issues Found and Fixed</h3>
+                    <p>
+                        The following interop issues were discovered and resolved during testing with Kaidan:
+                    </p>
+
+                    <h4>1. Ed25519 Identity Key Decoding</h4>
+                    <p>
+                        OMEMO v2 bundles carry the identity key in <strong>Ed25519 format</strong>,
+                        not Montgomery/X25519. Initially DinoX decoded the identity key with
+                        <code>decode_public_key_mont()</code>, which silently produced wrong key material.
+                        Sessions appeared to establish but messages were undecryptable. Fixed by switching to
+                        <code>decode_public_key()</code> which correctly handles Ed25519-to-Montgomery
+                        conversion for ECDH while preserving Ed25519 data for XEdDSA signature verification.
+                        (<span class="code-ref">bundle_v2.vala</span>,
+                        <a href="https://github.com/rallep71/dinox/commit/620b0e24">620b0e24</a>)
+                    </p>
+
+                    <h4>2. OMEMO v1/v2 Session Conflict</h4>
+                    <p>
+                        Both protocol versions share the same libomemo-c session store. When a v2 bundle
+                        arrived first, it created a <code>builder.version&nbsp;=&nbsp;4</code> session.
+                        The v1 encryptor then used this v4 session without setting <code>cipher.version</code>,
+                        producing messages with a broken version byte that receivers rejected as
+                        <code>SG_ERR_LEGACY_MESSAGE</code>. Fixed by preventing v2 session creation for
+                        JIDs with v1 devices, replacing v4 sessions with v3 in v1 <code>start_session()</code>,
+                        and using v2 encryptor only when all recipients support v2.
+                        (<span class="code-ref">manager.vala</span>,
+                        <a href="https://github.com/rallep71/dinox/commit/40bcb7db">40bcb7db</a>)
+                    </p>
+
+                    <h4>3. v2 Device List Wiping v1 Devices</h4>
+                    <p>
+                        The v1 device list handler used destructive <code>insert_device_list()</code>
+                        which deactivates all devices before re-inserting active ones. When applied to an
+                        empty v2 device list from a v1-only client, all devices were deactivated and
+                        <code>get_trusted_devices()</code> returned empty. Fixed with an additive
+                        <code>insert_device_list_additive()</code> that never deactivates devices.
+                    </p>
+
+                    <h4>4. GCM Auth Tag Mismatch for File Transfers</h4>
+                    <p>
+                        ESFS file transfers (OMEMO v2) use <code>aes-256-gcm-nopadding:0</code> with no
+                        GCM auth tag. Legacy <code>aesgcm://</code> transfers append a 16-byte tag. Both
+                        paths shared the same upload code, causing Kaidan to report "checksum mismatch".
+                        Fixed with an <code>esfs_mode</code> flag controlling tag length and an ESFS JID
+                        registry for cross-plugin communication.
+                    </p>
+
+                    <h4>5. HTTP 413 on ESFS File Uploads</h4>
+                    <p>
+                        Upload slots were always requested with <code>file_size&nbsp;+&nbsp;16</code> for
+                        the GCM tag, but ESFS uploads have <code>tag_len&nbsp;=&nbsp;0</code>. The server
+                        rejected the Content-Length mismatch with HTTP 413. Fixed by checking the ESFS
+                        JID registry before requesting the slot.
+                    </p>
+
+                    <h4>6. Bundle Retry for Broken Bundles</h4>
+                    <p>
+                        Kaidan sometimes publishes bundles with empty <code>&lt;ik/&gt;</code> elements
+                        (no identity key content). These broken bundles were silently accepted, creating
+                        devices with <code>identity_key&nbsp;=&nbsp;null</code> that blocked all encryption.
+                        Fixed with a retry mechanism (up to 5 attempts, 10-minute intervals) and by marking
+                        devices with broken bundles as &ldquo;lost&rdquo; so messages still flow to other devices.
+                        (<a href="https://github.com/rallep71/dinox/commit/cc0abe1b">cc0abe1b</a>)
+                    </p>
+
+                    <h4>7. Undecryptable Message Storage</h4>
+                    <p>
+                        When OMEMO decryption fails, the sender's fallback body
+                        <code>[This message is OMEMO encrypted]</code> was stored as a normal plaintext
+                        message, creating ghost messages. Fixed by clearing <code>message.body</code>
+                        when OMEMO decryption fails, allowing the message filter to drop it.
+                        (<a href="https://github.com/rallep71/dinox/commit/65530687">65530687</a>)
+                    </p>
+
+                    <h4>8. Session Auto-Repair</h4>
+                    <p>
+                        <code>SG_ERR_INVALID_MESSAGE</code> errors (ratchet desync) caused permanent
+                        message loss. Fixed with automatic session repair: broken sessions are deleted
+                        and the peer's bundle is re-fetched to establish a new session. A per-device
+                        HashSet guard prevents thrashing (one repair per device per runtime).
+                        (<a href="https://github.com/rallep71/dinox/commit/de3de171">de3de171</a>)
+                    </p>
+
+                    <h3>OMEMO v2 Security Hardening (from this audit)</h3>
+                    <p>During the February 2026 audit, the following OMEMO v2-specific issues were addressed:</p>
+                    <ul>
+                        <li><strong>Key zeroization (#10):</strong> Message key, HKDF output, encryption key, and auth key in <span class="code-ref">encrypt_v2.vala</span> are now explicitly zeroed after use</li>
+                        <li><strong>HKDF intermediate key zeroization (#11):</strong> <code>prk</code> and <code>t_prev</code> in <span class="code-ref">helper.c</span> HKDF implementation cleared on all exit paths</li>
+                        <li><strong>Constant-time PKCS#7 validation (#12):</strong> Padding check in <code>omemo2_aes_256_cbc_pkcs7_decrypt()</code> replaced with constant-time XOR-accumulator to prevent padding oracle attacks</li>
+                        <li><strong>Strict key length validation (#8):</strong> Decryptor rejects key material that is not exactly 16 or 32 bytes</li>
+                        <li><strong>Unknown cipher rejection (#7):</strong> ESFS file transfers with empty or unrecognized cipher URIs are now rejected instead of silently defaulting to unauthenticated GCM</li>
+                    </ul>
+
+                    <h3>Dual-Protocol Design</h3>
+                    <p>DinoX runs both OMEMO v1 and v2 simultaneously with shared infrastructure:</p>
+                    <ul>
+                        <li>Same identity key pair and device ID for both protocols</li>
+                        <li>Same libomemo-c session store (<code>builder.version&nbsp;=&nbsp;4</code> for v2 sessions)</li>
+                        <li>Separate PEP nodes for device lists and bundles</li>
+                        <li>Automatic protocol selection: v2 when all recipients support it, v1 otherwise</li>
+                        <li>Trust is per identity key, independent of protocol version</li>
+                    </ul>
+
+                    <h3>Testing Matrix</h3>
+                    <table class="audit-table">
+                        <thead>
+                            <tr><th>Test</th><th>Protocol</th><th>Tested Against</th><th>Result</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Text send/receive</td><td>OMEMO v2</td><td>Kaidan</td><td class="status-fixed">Pass</td></tr>
+                            <tr><td>File send/receive (ESFS/SFS)</td><td>OMEMO v2</td><td>Kaidan</td><td class="status-fixed">Pass</td></tr>
+                            <tr><td>Text send/receive</td><td>OMEMO v1</td><td>Monocles/Conversations</td><td class="status-fixed">Pass</td></tr>
+                            <tr><td>File send/receive (aesgcm://)</td><td>OMEMO v1</td><td>Monocles</td><td class="status-fixed">Pass</td></tr>
+                            <tr><td>Simultaneous v1+v2 operation</td><td>Both</td><td>Mixed</td><td class="status-fixed">Pass</td></tr>
+                            <tr><td>Device list coexistence</td><td>Both</td><td>Mixed</td><td class="status-fixed">Pass</td></tr>
+                            <tr><td>MUC OMEMO (v1+v2 version selection)</td><td>Both</td><td>Mixed</td><td class="status-fixed">Pass</td></tr>
+                        </tbody>
+                    </table>
+
+                    <!-- ============================================================ -->
                     <h2>Known Limitations (Not Fixed)</h2>
                     <p>
                         The following items were identified but intentionally not addressed, as they require
