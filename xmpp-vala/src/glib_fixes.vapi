@@ -1,6 +1,12 @@
 [CCode (cprefix = "G", gir_namespace = "Gio", gir_version = "2.0", lower_case_cprefix = "g_")]
 namespace GLibFixes {
 
+    // Fix for g_tls_connection_get_channel_binding_data:
+    // The standard Vala binding uses "out unowned ByteArray" which passes NULL.
+    // The C function expects a pre-allocated GByteArray* to fill.
+    [CCode (cname = "g_tls_connection_get_channel_binding_data", cheader_filename = "gio/gio.h")]
+    public static bool tls_get_channel_binding(GLib.TlsConnection conn, GLib.TlsChannelBindingType type, GLib.ByteArray data) throws GLib.Error;
+
     [CCode (cheader_filename = "gio/gio.h", type_id = "g_resolver_get_type ()")]
     public class Resolver : GLib.Object {
         [CCode (has_construct_function = false)]

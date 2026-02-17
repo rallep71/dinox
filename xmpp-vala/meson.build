@@ -154,6 +154,18 @@ if meson.get_compiler('vala').version().version_compare('=0.56.11')
     vala_args += ['-D', 'VALA_0_56_11']
 endif
 
+# GLib version feature guards
+glib_version = dep_glib.version()
+if glib_version.version_compare('>=2.60')
+    vala_args += ['-D', 'GLIB_2_60']
+endif
+if glib_version.version_compare('>=2.66')
+    vala_args += ['-D', 'GLIB_2_66']
+endif
+if glib_version.version_compare('>=2.74')
+    vala_args += ['-D', 'GLIB_2_74']
+endif
+
 lib_xmpp_vala = library('xmpp-vala', sources, c_args: c_args, vala_args: vala_args, dependencies: dependencies, version: '0.1', install: true, install_dir: [true, true, true], install_rpath: default_install_rpath)
 dep_xmpp_vala = declare_dependency(link_with: lib_xmpp_vala, include_directories: include_directories('.'))
 
