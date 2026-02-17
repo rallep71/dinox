@@ -68,3 +68,6 @@ Thumbs.db:encryptable
 *~
 *.bak
 *.swp
+
+# Voice message notes (local only)
+Voice\ Message\ System\ --\ Ist-Zustand.txt

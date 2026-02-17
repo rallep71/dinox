@@ -461,6 +461,11 @@ export TEXTDOMAINDIR="$APPDIR/usr/share/locale"
 # Set GSettings schema path
 export GSETTINGS_SCHEMA_DIR="$APPDIR/usr/share/glib-2.0/schemas:$GSETTINGS_SCHEMA_DIR"
 
+# XDG_DATA_DIRS: GTK4 uses this to find icon themes, .desktop files, etc.
+# Prepend the bundled share directory so GTK finds the app icon for About dialog,
+# window icon, and the desktop can find it for systray (SNI icon_name lookup).
+export XDG_DATA_DIRS="$APPDIR/usr/share${XDG_DATA_DIRS:+:$XDG_DATA_DIRS}:/usr/local/share:/usr/share"
+
 # Run DinoX
 exec "$APPDIR/usr/bin/dinox" "$@"
 EOF
@@ -499,22 +504,37 @@ EOF
 copy_icon() {
     log_info "Copying application icon..."
     
-    # Use 256x256 PNG instead of SVG to avoid theming issues
-    ICON_SOURCE="$PROJECT_ROOT/main/data/icons/hicolor/256x256/apps/im.github.rallep71.DinoX.png"
-    # Destination in AppDir
-    ICON_DEST_DIR="$APPDIR/usr/share/icons/hicolor/256x256/apps"
-    mkdir -p "$ICON_DEST_DIR"
-    ICON_DEST="$ICON_DEST_DIR/im.github.rallep71.DinoX.png"
+    # Copy ALL icon sizes into AppDir so GTK4 icon theme lookup works
+    local icon_copied=false
+    for size in 16x16 32x32 48x48 128x128 256x256 512x512; do
+        ICON_SOURCE="$PROJECT_ROOT/main/data/icons/hicolor/$size/apps/im.github.rallep71.DinoX.png"
+        if [ -f "$ICON_SOURCE" ]; then
+            ICON_DEST_DIR="$APPDIR/usr/share/icons/hicolor/$size/apps"
+            mkdir -p "$ICON_DEST_DIR"
+            cp "$ICON_SOURCE" "$ICON_DEST_DIR/im.github.rallep71.DinoX.png"
+            log_info "Icon copied: $size"
+            icon_copied=true
+        fi
+    done
     
-    if [ -f "$ICON_SOURCE" ]; then
-        cp "$ICON_SOURCE" "$ICON_DEST"
-        # Also copy to AppDir root for AppImage (as .png)
-        cp "$ICON_SOURCE" "$APPDIR/im.github.rallep71.DinoX.png"
-        # Create a .DirIcon symlink for some file managers
+    # Copy 256x256 to AppDir root for AppImage thumbnail / .DirIcon
+    ICON_SOURCE_ROOT="$PROJECT_ROOT/main/data/icons/hicolor/256x256/apps/im.github.rallep71.DinoX.png"
+    if [ -f "$ICON_SOURCE_ROOT" ]; then
+        cp "$ICON_SOURCE_ROOT" "$APPDIR/im.github.rallep71.DinoX.png"
         ln -sf "im.github.rallep71.DinoX.png" "$APPDIR/.DirIcon"
-        log_info "Icon copied! (PNG)"
+    fi
+    
+    # Update the icon cache so GTK4 can find icons by name
+    if command -v gtk4-update-icon-cache &>/dev/null; then
+        gtk4-update-icon-cache -f -t "$APPDIR/usr/share/icons/hicolor" 2>/dev/null || true
+    elif command -v gtk-update-icon-cache &>/dev/null; then
+        gtk-update-icon-cache -f -t "$APPDIR/usr/share/icons/hicolor" 2>/dev/null || true
+    fi
+    
+    if [ "$icon_copied" = true ]; then
+        log_info "All icon sizes copied!"
     else
-        log_warn "Icon not found at $ICON_SOURCE"
+        log_warn "No icon files found!"
     fi
 }
 

@@ -96,6 +96,10 @@ public class RosterStoreImpl : Roster.Storage, Object {
                 item.jid = new Jid(row[db.roster.jid]);
                 item.name = row[db.roster.handle];
                 item.subscription = row[db.roster.subscription];
+                string? ask_val = row[db.roster.ask];
+                if (ask_val != null) {
+                    item.stanza_node.set_attribute("ask", ask_val);
+                }
                 items[item.jid] = item;
             } catch (InvalidJidError e) {
                 warning("Ignoring roster entry with invalid Jid: %s", e.message);

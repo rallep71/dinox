@@ -515,7 +515,12 @@ public class TelegramBridge : Object {
                 }
             }
         } catch (GLib.Error e) {
-            warning("Telegram: Poll error for bot %d: %s", bot_id, e.message);
+            // Socket timeouts during long-polling are normal (network hiccups)
+            if (e.message.contains("Zeitüberschreitung") || e.message.contains("timed out") || e.message.contains("Timeout")) {
+                debug("Telegram: Poll timeout for bot %d (normal), retrying", bot_id);
+            } else {
+                warning("Telegram: Poll error for bot %d: %s", bot_id, e.message);
+            }
         }
         poll_in_progress[bot_id] = false;
     }

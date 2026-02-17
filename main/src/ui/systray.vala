@@ -28,6 +28,10 @@ public class StatusNotifierItem : Object {
     public string category { get; set; default = "Communications"; }
     public string id { get; set; default = "dinox"; }
     public bool item_is_menu { get; set; default = false; }
+
+    // IconThemePath tells the StatusNotifierHost where to look for the icon.
+    // Critical for AppImage/Flatpak where the icon is not in the system theme.
+    public string icon_theme_path { get; set; default = ""; }
     
     // Menu is exported on /MenuBar
     public ObjectPath menu { 
@@ -144,6 +148,17 @@ public class SystrayManager : Object {
             status_notifier = new StatusNotifierItem();
             status_notifier.activate.connect(on_activate);
             status_notifier.secondary_activate.connect(on_secondary_activate);
+            
+            // Set IconThemePath for AppImage/Flatpak so the desktop can find the icon.
+            // APPDIR env is set by AppRun; for normal installs this stays empty (system theme).
+            string? appdir = Environment.get_variable("APPDIR");
+            if (appdir != null) {
+                string theme_path = Path.build_filename(appdir, "usr", "share", "icons");
+                if (FileUtils.test(theme_path, FileTest.IS_DIR)) {
+                    status_notifier.icon_theme_path = theme_path;
+                    debug("Systray: IconThemePath set to %s", theme_path);
+                }
+            }
             
             // Initialize Dbusmenu Server
             menu_server = new Dbusmenu.Server("/MenuBar");

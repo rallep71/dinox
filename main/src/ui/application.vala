@@ -305,6 +305,24 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
 #endif
         Environment.set_application_name ("DinoX");
         Gtk.Window.set_default_icon_name ("im.github.rallep71.DinoX");
+
+        // For AppImage: ensure GTK4 can find bundled icons by prepending to XDG_DATA_DIRS.
+        // (AppRun also sets this, but do it here as safety net for direct execution.)
+        string? appdir = Environment.get_variable("APPDIR");
+        if (appdir != null) {
+            string share_dir = Path.build_filename(appdir, "usr", "share");
+            string? current_xdg = Environment.get_variable("XDG_DATA_DIRS");
+            if (current_xdg == null || !current_xdg.contains(share_dir)) {
+                string new_xdg = share_dir;
+                if (current_xdg != null && current_xdg != "") {
+                    new_xdg = share_dir + ":" + current_xdg;
+                } else {
+                    new_xdg = share_dir + ":/usr/local/share:/usr/share";
+                }
+                Environment.set_variable("XDG_DATA_DIRS", new_xdg, true);
+            }
+        }
+
         add_main_option_entries (OPTIONS);
 
         // Register core (libdino) option entries early (before command line parsing).
