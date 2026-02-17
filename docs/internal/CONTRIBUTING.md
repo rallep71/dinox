@@ -78,10 +78,14 @@ msginit -l <LANG_CODE> -i dinox.pot -o <LANG_CODE>.po
 # Edit <LANG_CODE>.po with your translations
 ```
 
-**Translation helper script** (checks coverage across all languages):
+**Translation helper scripts:**
 
 ```bash
+# Batch-insert missing translation strings into all .po files
 python3 scripts/translate_all.py
+
+# Analyze specific translation keys across all .po files
+python3 scripts/analyze_translations.py
 ```
 
 ## Project Architecture
@@ -110,6 +114,17 @@ DinoX follows a modular plugin architecture:
 - **Async operations**: Use GLib `async`/`yield` pattern throughout
 - **Database access**: All queries go through `qlite` — never raw SQL in UI code
 - **Signal-based communication**: GLib signals for loose coupling between components
+
+### Helper Scripts
+
+| Script | Purpose |
+|--------|--------|
+| `scripts/create_openpgp_patches.sh [dino_path]` | Generate diff patches between DinoX and original Dino for OpenPGP porting |
+| `scripts/scan_unicode.py` | Scan source files for hidden/dangerous Unicode characters. Run before committing. |
+| `scripts/translate_all.py` | Batch-insert missing translation strings into `.po` files |
+| `scripts/analyze_translations.py` | Check coverage of specific translation keys across all languages |
+
+For build, release, and debug scripts see [BUILD.md](BUILD.md#scripts-reference) and [DEBUG.md](DEBUG.md#helper-scripts).
 
 ## Code Style
 
