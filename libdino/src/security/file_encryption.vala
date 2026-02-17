@@ -87,96 +87,53 @@ public class FileEncryption : Object {
         
         uint8[] buffer = new uint8[8192];
         uint8[] tag_buffer = new uint8[TAG_SIZE];
-        size_t tag_buffer_filled = 0;
         
-        // Initial fill of tag buffer
+        // Initial fill of tag buffer (holdback for potential GCM tag at EOF)
         yield input.read_all_async(tag_buffer, Priority.DEFAULT, cancellable, out bytes_read);
-        tag_buffer_filled = bytes_read;
         
-        if (tag_buffer_filled < TAG_SIZE) {
+        if (bytes_read < TAG_SIZE) {
              throw new IOError.FAILED("Stream too short (missing Tag)");
         }
 
         while (true) {
             ssize_t n = yield input.read_async(buffer, Priority.DEFAULT, cancellable);
             if (n == 0) break; // EOF
-            
-            // The bytes in 'tag_buffer' are now confirmed to be ciphertext (not tag), 
-            // because we read more bytes.
-            // Decrypt 'tag_buffer' and write it out.
-            uint8[] out_chunk = new uint8[TAG_SIZE];
-            cipher.decrypt(out_chunk, tag_buffer);
-            yield output.write_all_async(out_chunk, Priority.DEFAULT, cancellable, null);
-            
-            // Now we have 'n' new bytes in 'buffer'.
-            // We need to keep the last TAG_SIZE bytes of this new chunk (plus potentially some from previous if n is small)
-            // as the new potential tag.
-            
-            // To simplify:
-            // We have 'tag_buffer' (old potential tag) and 'buffer' (new data).
-            // We already processed 'tag_buffer'.
-            // Now we need to refill 'tag_buffer' from the end of 'buffer'.
-            // And decrypt the rest of 'buffer'.
-            
-            // Wait, the logic above is slightly flawed.
-            // Correct logic:
-            // 1. We have a "holding buffer" of size TAG_SIZE.
-            // 2. We read a chunk.
-            // 3. If chunk size > 0:
-            //    a. We decrypt the *previous* holding buffer and write it.
-            //    b. We take the *last* TAG_SIZE bytes of the new chunk as the new holding buffer.
-            //    c. We decrypt the *rest* of the new chunk (beginning) and write it.
-            //    d. Wait, what if chunk < TAG_SIZE?
-            
-            // Better Logic:
-            // Use a circular buffer or just a large buffer.
-            // Let's use a simpler approach:
-            // Read everything into a temporary file? No, we want to stream to output (which might be a temp file).
-            
-            // Let's use the "Hold Back" strategy properly.
-            // We need to hold back exactly TAG_SIZE bytes.
-            
-            // Current state: 'tag_buffer' holds the last TAG_SIZE bytes seen so far.
-            // We just read 'n' bytes into 'buffer'.
-            
+
+            // tag_buffer holds TAG_SIZE bytes from previous reads (potential tag).
+            // We now have n new bytes in buffer. Total: TAG_SIZE + n bytes.
+            // The first n bytes are confirmed ciphertext, last TAG_SIZE are new holdback.
+
             if (n >= TAG_SIZE) {
-                // 1. Decrypt and write the old 'tag_buffer'.
-                // (We already did this? No, we need to do it now).
-                // Actually, in the loop:
-                // We have 'tag_buffer' filled with valid data from previous reads.
-                // We read 'n' new bytes.
-                // Since we have new bytes, 'tag_buffer' is definitely ciphertext.
-                // Decrypt 'tag_buffer' -> write.
-                
-                // 2. Decrypt 'buffer[0 : n - TAG_SIZE]' -> write.
-                uint8[] middle_chunk = buffer[0 : (int)n - TAG_SIZE];
-                uint8[] out_middle = new uint8[middle_chunk.length];
-                cipher.decrypt(out_middle, middle_chunk);
-                yield output.write_all_async(out_middle, Priority.DEFAULT, cancellable, null);
-                
-                // 3. Update 'tag_buffer' with 'buffer[n - TAG_SIZE : n]'.
+                // Decrypt all of tag_buffer (confirmed ciphertext)
+                uint8[] out_held = new uint8[TAG_SIZE];
+                cipher.decrypt(out_held, tag_buffer);
+                yield output.write_all_async(out_held, Priority.DEFAULT, cancellable, null);
+
+                // Decrypt buffer[0 : n - TAG_SIZE]
+                int middle_len = (int)n - TAG_SIZE;
+                if (middle_len > 0) {
+                    uint8[] middle = buffer[0:middle_len];
+                    uint8[] out_middle = new uint8[middle_len];
+                    cipher.decrypt(out_middle, middle);
+                    yield output.write_all_async(out_middle, Priority.DEFAULT, cancellable, null);
+                }
+
+                // New tag_buffer = buffer[n - TAG_SIZE : n]
                 Memory.copy(tag_buffer, (void*)((uint8*)buffer + (n - TAG_SIZE)), TAG_SIZE);
             } else {
-                // New chunk is smaller than TAG_SIZE.
-                // We need to slide data.
-                // We have TAG_SIZE bytes in tag_buffer.
-                // We have n bytes in buffer.
-                // Total available: TAG_SIZE + n.
-                // New tag will be the last TAG_SIZE bytes of (tag_buffer + buffer).
-                // Data to decrypt is the first 'n' bytes of (tag_buffer + buffer).
-                
-                uint8[] combined = new uint8[TAG_SIZE + n];
-                Memory.copy(combined, tag_buffer, TAG_SIZE);
-                Memory.copy((void*)((uint8*)combined + TAG_SIZE), buffer, (size_t)n);
-                
-                // Decrypt first 'n' bytes
-                uint8[] to_decrypt = combined[0:(int)n];
+                // n < TAG_SIZE: decrypt only the first n bytes of tag_buffer,
+                // then slide remaining tag_buffer bytes + new buffer bytes into new holdback.
+                uint8[] to_decrypt = tag_buffer[0:(int)n];
                 uint8[] out_decrypt = new uint8[(int)n];
                 cipher.decrypt(out_decrypt, to_decrypt);
                 yield output.write_all_async(out_decrypt, Priority.DEFAULT, cancellable, null);
-                
-                // New tag is last TAG_SIZE bytes
-                Memory.copy(tag_buffer, (void*)((uint8*)combined + n), TAG_SIZE);
+
+                // New tag_buffer = tag_buffer[n:TAG_SIZE] + buffer[0:n]
+                uint8[] new_tag = new uint8[TAG_SIZE];
+                int keep = TAG_SIZE - (int)n;
+                Memory.copy(new_tag, (void*)((uint8*)tag_buffer + n), (size_t)keep);
+                Memory.copy((void*)((uint8*)new_tag + keep), buffer, (size_t)n);
+                Memory.copy(tag_buffer, new_tag, TAG_SIZE);
             }
         }
         

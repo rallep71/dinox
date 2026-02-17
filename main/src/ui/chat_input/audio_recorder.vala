@@ -30,6 +30,7 @@ public class AudioRecorder : GLib.Object {
     private int64 start_time = 0;
     private int64 recording_start_us = 0;
     private const int64 PREROLL_SKIP_US = 230000; // Skip first 230ms to avoid PipeWire open transient
+    public const int MAX_DURATION_SECONDS = 300; // 5 minutes max recording
 
     // Direct C binding to avoid GLib.ValueArray deprecation warning (deprecated since GLib 2.32)
     // GStreamer's level element still uses GValueArray internally
@@ -42,6 +43,7 @@ public class AudioRecorder : GLib.Object {
 
     public signal void level_changed(double peak);
     public signal void duration_changed(string text);
+    public signal void max_duration_reached();
 
     public AudioRecorder() {
     }
@@ -206,7 +208,20 @@ public class AudioRecorder : GLib.Object {
         int seconds = (int)(diff / 1000000);
         int mins = seconds / 60;
         int secs = seconds % 60;
-        duration_changed("%d:%02d".printf(mins, secs));
+
+        if (seconds >= MAX_DURATION_SECONDS) {
+            duration_changed("%d:%02d".printf(mins, secs));
+            max_duration_reached();
+            return false;
+        }
+
+        // Show remaining time in last 30 seconds
+        if (seconds >= MAX_DURATION_SECONDS - 30) {
+            int remaining = MAX_DURATION_SECONDS - seconds;
+            duration_changed("%d:%02d (-%ds)".printf(mins, secs, remaining));
+        } else {
+            duration_changed("%d:%02d".printf(mins, secs));
+        }
         return true;
     }
 

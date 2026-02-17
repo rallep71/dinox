@@ -400,7 +400,7 @@ public class FileManager : StreamInteractionModule, Object {
 
             // libsoup doesn't properly support splicing
             OutputStream os = file.create(FileCreateFlags.REPLACE_DESTINATION);
-            
+
             // Encrypt stream to disk
             yield file_encryption.encrypt_stream(input_stream, os, file_transfer.cancellable);
             
