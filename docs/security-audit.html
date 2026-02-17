@@ -650,21 +650,20 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>SCRAM-SHA-256 support</td>
-                                <td class="severity-medium">Medium</td>
+                                <td><s>SCRAM-SHA-256 support</s></td>
+                                <td class="severity-medium"><s>Medium</s></td>
                                 <td>
-                                    Current implementation only supports SCRAM-SHA-1. SHA-256 provides
-                                    stronger hash security. Low incremental effort once channel binding is implemented.
+                                    <strong>Fixed in v1.1.0.6.</strong> SCRAM-SHA-256 implemented alongside SCRAM-SHA-1.
+                                    Preferred over SHA-1 when the server offers both.
                                 </td>
                             </tr>
                             <tr>
-                                <td>SCRAM nonce uses GLib.Random</td>
-                                <td>Low</td>
+                                <td><s>SCRAM nonce uses GLib.Random</s></td>
+                                <td><s>Low</s></td>
                                 <td>
-                                    GLib.Random (Mersenne Twister, seeded from <code>/dev/urandom</code>) is
-                                    not a CSPRNG. However, SCRAM nonces only need to prevent replay &mdash;
-                                    the actual authentication security relies on PBKDF2 + HMAC, not nonce entropy.
-                                    Not practically exploitable.
+                                    <strong>Fixed in v1.1.0.6.</strong> Nonce generation replaced with
+                                    <code>/dev/urandom</code> CSPRNG (24 bytes, Base64-encoded).
+                                    Fallback to GLib.Random on systems without <code>/dev/urandom</code>.
                                 </td>
                             </tr>
                             <tr>
@@ -699,7 +698,7 @@
                             <tr><td>Gajim</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
                             <tr><td>Profanity</td><td>Yes</td><td>Yes</td><td>Partial</td></tr>
                             <tr><td>Siskin IM</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
-                            <tr><td><strong>DinoX</strong></td><td><strong>Yes</strong></td><td><strong>No (planned)</strong></td><td><strong>No (planned)</strong></td></tr>
+                            <tr><td><strong>DinoX</strong></td><td><strong>Yes</strong></td><td><strong>No (planned)</strong></td><td><strong>Yes</strong></td></tr>
                             <tr><td>Dino (original)</td><td>Yes</td><td>No</td><td>No</td></tr>
                             <tr><td>Kaidan</td><td>Yes</td><td>Limited</td><td>Yes</td></tr>
                             <tr><td>Pidgin / Swift / Psi</td><td>Yes</td><td>No</td><td>No</td></tr>

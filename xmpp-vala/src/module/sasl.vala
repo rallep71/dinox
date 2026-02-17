@@ -18,6 +18,7 @@ namespace Xmpp.Sasl {
         public const string PLAIN = "PLAIN";
         public const string SCRAM_SHA_1 = "SCRAM-SHA-1";
         public const string SCRAM_SHA_1_PLUS = "SCRAM-SHA-1-PLUS";
+        public const string SCRAM_SHA_256 = "SCRAM-SHA-256";
     }
 
     public class Module : XmppStreamNegotiationModule {
@@ -76,6 +77,38 @@ namespace Xmpp.Sasl {
             return res;
         }
 
+        private static size_t SHA256_SIZE = 32;
+
+        private static uint8[] sha256(uint8[] data) {
+            Checksum checksum = new Checksum(ChecksumType.SHA256);
+            checksum.update(data, data.length);
+            uint8[] res = new uint8[SHA256_SIZE];
+            checksum.get_digest(res, ref SHA256_SIZE);
+            return res;
+        }
+
+        private static uint8[] hmac_sha256(uint8[] key, uint8[] data) {
+            Hmac hmac = new Hmac(ChecksumType.SHA256, key);
+            hmac.update(data);
+            uint8[] res = new uint8[SHA256_SIZE];
+            hmac.get_digest(res, ref SHA256_SIZE);
+            return res;
+        }
+
+        private static uint8[] pbkdf2_sha256(string password, uint8[] salt, uint iterations) {
+            uint8[] res = new uint8[SHA256_SIZE];
+            uint8[] last = new uint8[salt.length + 4];
+            for(int i = 0; i < salt.length; i++) {
+                last[i] = salt[i];
+            }
+            last[salt.length + 3] = 1;
+            for(int i = 0; i < iterations; i++) {
+                last = hmac_sha256((uint8[]) password.to_utf8(), last);
+                xor_inplace(res, last);
+            }
+            return res;
+        }
+
         private static void xor_inplace(uint8[] mix, uint8[] a2) {
             for(int i = 0; i < mix.length; i++) {
                 mix[i] = mix[i] ^ a2[i];
@@ -90,11 +123,31 @@ namespace Xmpp.Sasl {
             return mix;
         }
 
+        private static string generate_csprng_nonce() {
+            uint8[] nonce_bytes = new uint8[24];
+            try {
+                var urandom = File.new_for_path("/dev/urandom");
+                var input_stream = urandom.read();
+                size_t bytes_read;
+                input_stream.read_all(nonce_bytes, out bytes_read);
+                input_stream.close();
+                if (bytes_read < 24) {
+                    throw new IOError.FAILED("Short read from /dev/urandom");
+                }
+            } catch (Error e) {
+                // Fallback for systems without /dev/urandom (Windows)
+                for (int i = 0; i < nonce_bytes.length; i++) {
+                    nonce_bytes[i] = (uint8) Random.int_range(0, 256);
+                }
+            }
+            return Base64.encode(nonce_bytes);
+        }
+
         public void received_nonza(XmppStream stream, StanzaNode node) {
             if (node.ns_uri == NS_URI) {
                 if (node.name == "success") {
                     Flag flag = stream.get_flag(Flag.IDENTITY);
-                    if (flag.mechanism == Mechanism.SCRAM_SHA_1) {
+                    if (flag.mechanism == Mechanism.SCRAM_SHA_1 || flag.mechanism == Mechanism.SCRAM_SHA_256) {
                         string confirm = (string) Base64.decode(node.get_string_content());
                         uint8[] server_signature = null;
                         foreach(string c in confirm.split(",")) {
@@ -120,7 +173,8 @@ namespace Xmpp.Sasl {
                     received_auth_failure(stream, node);
                 } else if (node.name == "challenge" && stream.has_flag(Flag.IDENTITY)) {
                     Flag flag = stream.get_flag(Flag.IDENTITY);
-                    if (flag.mechanism == Mechanism.SCRAM_SHA_1) {
+                    if (flag.mechanism == Mechanism.SCRAM_SHA_1 || flag.mechanism == Mechanism.SCRAM_SHA_256) {
+                        bool is_sha256 = (flag.mechanism == Mechanism.SCRAM_SHA_256);
                         string challenge = (string) Base64.decode(node.get_string_content());
                         string? server_nonce = null;
                         uint8[] salt = null;
@@ -141,14 +195,14 @@ namespace Xmpp.Sasl {
                         }
                         if (!server_nonce.has_prefix(flag.client_nonce)) return;
                         string client_final_message_bare = @"c=biws,r=$server_nonce";
-                        uint8[] salted_password = pbkdf2_sha1(flag.password, salt, iterations);
-                        uint8[] client_key = hmac_sha1(salted_password, (uint8[]) "Client Key".to_utf8());
-                        uint8[] stored_key = sha1(client_key);
+                        uint8[] salted_password = is_sha256 ? pbkdf2_sha256(flag.password, salt, iterations) : pbkdf2_sha1(flag.password, salt, iterations);
+                        uint8[] client_key = is_sha256 ? hmac_sha256(salted_password, (uint8[]) "Client Key".to_utf8()) : hmac_sha1(salted_password, (uint8[]) "Client Key".to_utf8());
+                        uint8[] stored_key = is_sha256 ? sha256(client_key) : sha1(client_key);
                         string auth_message = @"n=$(flag.name),r=$(flag.client_nonce),$challenge,$client_final_message_bare";
-                        uint8[] client_signature = hmac_sha1(stored_key, (uint8[]) auth_message.to_utf8());
+                        uint8[] client_signature = is_sha256 ? hmac_sha256(stored_key, (uint8[]) auth_message.to_utf8()) : hmac_sha1(stored_key, (uint8[]) auth_message.to_utf8());
                         uint8[] client_proof = xor(client_key, client_signature);
-                        uint8[] server_key = hmac_sha1(salted_password, (uint8[]) "Server Key".to_utf8());
-                        flag.server_signature = hmac_sha1(server_key, (uint8[]) auth_message.to_utf8());
+                        uint8[] server_key = is_sha256 ? hmac_sha256(salted_password, (uint8[]) "Server Key".to_utf8()) : hmac_sha1(salted_password, (uint8[]) "Server Key".to_utf8());
+                        flag.server_signature = is_sha256 ? hmac_sha256(server_key, (uint8[]) auth_message.to_utf8()) : hmac_sha1(server_key, (uint8[]) auth_message.to_utf8());
                         string client_final_message = @"$client_final_message_bare,p=$(Base64.encode(client_proof))";
                         stream.write(new StanzaNode.build("response", NS_URI).add_self_xmlns()
                                 .put_node(new StanzaNode.text(Base64.encode((uchar[]) (client_final_message).to_utf8()))));
@@ -185,15 +239,21 @@ namespace Xmpp.Sasl {
                     name = split[0];
                 }
             }
-            if (Mechanism.SCRAM_SHA_1 in supported_mechanisms) {
+            string? scram_mechanism = null;
+            if (Mechanism.SCRAM_SHA_256 in supported_mechanisms) {
+                scram_mechanism = Mechanism.SCRAM_SHA_256;
+            } else if (Mechanism.SCRAM_SHA_1 in supported_mechanisms) {
+                scram_mechanism = Mechanism.SCRAM_SHA_1;
+            }
+            if (scram_mechanism != null) {
                 string normalized_password = password.normalize(-1, NormalizeMode.NFKC);
-                string client_nonce = Random.next_int().to_string("%.8x") + Random.next_int().to_string("%.8x") + Random.next_int().to_string("%.8x");
+                string client_nonce = generate_csprng_nonce();
                 string initial_message = @"n=$name,r=$client_nonce";
                 stream.write(new StanzaNode.build("auth", NS_URI).add_self_xmlns()
-                        .put_attribute("mechanism", Mechanism.SCRAM_SHA_1)
+                        .put_attribute("mechanism", scram_mechanism)
                         .put_node(new StanzaNode.text(Base64.encode((uchar[]) ("n,,"+initial_message).to_utf8()))));
                 var flag = new Flag();
-                flag.mechanism = Mechanism.SCRAM_SHA_1;
+                flag.mechanism = scram_mechanism;
                 flag.name = name;
                 flag.password = normalized_password;
                 flag.client_nonce = client_nonce;

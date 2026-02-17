@@ -282,8 +282,8 @@ GPG operations are serialized through a single worker thread to prevent race con
 | Item | Risk | Rationale |
 |------|------|-----------|
 | SCRAM-SHA-1-PLUS channel binding | Medium | Requires extracting TLS binding data from GnuTLS. Major clients (Conversations, Monal, Gajim) support this. Planned for future release. |
-| SCRAM-SHA-256 support | Medium | Only SCRAM-SHA-1 currently implemented. Low incremental effort once channel binding is added. |
-| SCRAM nonce uses GLib.Random | Low | Mersenne Twister seeded from `/dev/urandom`. Not a CSPRNG, but SCRAM nonce only needs replay prevention. Not practically exploitable. |
+| ~~SCRAM-SHA-256 support~~ | ~~Medium~~ | **Fixed in v1.1.0.6.** SCRAM-SHA-256 implemented alongside SCRAM-SHA-1. Preferred over SHA-1 when server offers both. |
+| ~~SCRAM nonce uses GLib.Random~~ | ~~Low~~ | **Fixed in v1.1.0.6.** Nonce generation replaced with `/dev/urandom` CSPRNG (24 bytes, Base64-encoded). Fallback to GLib.Random on systems without `/dev/urandom`. |
 | OpenPGP interactive-mode MDC check | Low | In interactive decrypt mode (pinentry), GPG status output cannot be captured, so MDC status is not verified by DinoX. Mitigated by GPG 2.2+ enforcing MDC by default. |
 | Vala string zeroization | Info | Vala/GLib strings are garbage-collected, never zeroized in memory. Language limitation, not fixable without C interop. Applies to both OMEMO and OpenPGP. |
 
@@ -298,7 +298,7 @@ GPG operations are serialized through a single worker thread to prevent race con
 | Gajim | Yes | Yes | Yes |
 | Profanity | Yes | Yes | Partial |
 | Siskin IM | Yes | Yes | Yes |
-| **DinoX** | **Yes** | **No (planned)** | **No (planned)** |
+| **DinoX** | **Yes** | **No (planned)** | **Yes** |
 | Dino (original) | Yes | No | No |
 | Kaidan | Yes | Limited | Yes |
 | Pidgin / Swift / Psi | Yes | No | No |
