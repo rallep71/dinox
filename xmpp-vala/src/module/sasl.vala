@@ -237,6 +237,7 @@ namespace Xmpp.Sasl {
                     stream.require_setup();
                     flag.password = null; // Remove password from memory
                     flag.finished = true;
+                    debug("SASL: Authenticated via %s at %s", flag.mechanism, stream.remote_name.to_string());
                 } else if (node.name == "failure") {
                     stream.remove_flag(stream.get_flag(Flag.IDENTITY));
                     received_auth_failure(stream, node);
@@ -326,6 +327,11 @@ namespace Xmpp.Sasl {
                 cb_data = ((TlsXmppStream) stream).get_channel_binding_data(out cb_type);
             }
 #endif
+            debug("SASL: Server offers: %s | Channel binding: %s (%s) | Downgrade protection: %s",
+                string.joinv(", ", supported_mechanisms),
+                cb_data != null ? "available" : "unavailable",
+                cb_type ?? "none",
+                require_channel_binding ? "ON" : "off");
 
             string? scram_mechanism = null;
             if (cb_data != null) {
@@ -357,6 +363,7 @@ namespace Xmpp.Sasl {
                 }
             }
             if (scram_mechanism != null) {
+                debug("SASL: Selected %s for %s", scram_mechanism, stream.remote_name.to_string());
                 string normalized_password = password.normalize(-1, NormalizeMode.NFKC);
                 string client_nonce = generate_csprng_nonce();
                 // GS2 header: "p=<cb_type>,," for -PLUS, "n,," for non-PLUS
