@@ -36,5 +36,12 @@
       <image:title>DinoX Emoji Picker</image:title>
     </image:image>
   </url>
+
+  <url>
+    <loc>https://dinox.handwerker.jetzt/security-audit.html</loc>
+    <lastmod>2026-02-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
   
 </urlset>
