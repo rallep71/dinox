@@ -88,17 +88,18 @@
                         In February 2026, a comprehensive security audit was performed on all cryptographic code
                         in DinoX. The audit covered OMEMO v1/v2 encryption, the Signal Protocol crypto provider,
                         SASL authentication, file transfer encryption, and the underlying GCrypt wrapper library.
-                        <strong>All critical and medium-severity issues have been fixed.</strong>
+                        <strong>All critical, medium, and low-severity issues have been fixed.</strong>
                     </p>
 
                     <div class="audit-meta">
                         <div><strong>Date</strong> February 17, 2026</div>
                         <div><strong>Scope</strong> 39 crypto-related files</div>
-                        <div><strong>Findings</strong> 6 Critical/High, 11 Medium</div>
+                        <div><strong>Findings</strong> 6 Critical/High, 11 Medium, 3 Low</div>
                         <div><strong>Status</strong> <span class="status-fixed">All fixed</span></div>
                         <div><strong>Commits</strong>
                             <a href="https://github.com/rallep71/dinox/commit/08c895f6">08c895f6</a>,
-                            <a href="https://github.com/rallep71/dinox/commit/83fa5046">83fa5046</a>
+                            <a href="https://github.com/rallep71/dinox/commit/83fa5046">83fa5046</a>,
+                            <a href="https://github.com/rallep71/dinox/commit/525115d9">525115d9</a>
                         </div>
                     </div>
 
@@ -332,6 +333,52 @@
                     </table>
 
                     <!-- ============================================================ -->
+                    <h2>Low Severity (Fixed)</h2>
+                    <table class="audit-table">
+                        <thead>
+                            <tr><th>#</th><th>File</th><th>Issue</th><th>Status</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>18</td>
+                                <td><span class="code-ref">helper.c (omemo2 CBC)</span></td>
+                                <td>
+                                    <strong>Decrypted plaintext not zeroized before free.</strong>
+                                    After copying the unpadded result, the full decrypted buffer
+                                    (including padding) was freed with <code>g_free()</code> without
+                                    clearing. Now <code>memset(decrypted, 0, ciphertext_len)</code>
+                                    on all exit paths.
+                                </td>
+                                <td class="status-fixed">Fixed</td>
+                            </tr>
+                            <tr>
+                                <td>19</td>
+                                <td><span class="code-ref">helper.c (omemo2 HMAC)</span></td>
+                                <td>
+                                    <strong>Full HMAC not zeroized on stack.</strong>
+                                    <code>omemo2_hmac_sha256()</code> computed a full 32-byte MAC
+                                    into a stack buffer, copied the truncated result, but did not
+                                    clear the full MAC before return. Now
+                                    <code>memset(full_mac, 0, sizeof(full_mac))</code> after truncation.
+                                </td>
+                                <td class="status-fixed">Fixed</td>
+                            </tr>
+                            <tr>
+                                <td>20</td>
+                                <td><span class="code-ref">sce.vala</span></td>
+                                <td>
+                                    <strong>Random padding used Mersenne Twister.</strong>
+                                    <code>generate_rpad()</code> used <code>GLib.Random</code> (MT19937)
+                                    which is not a CSPRNG. An attacker recovering the MT state could
+                                    predict padding lengths, leaking minor traffic analysis information.
+                                    Now uses <code>/dev/urandom</code> directly, with GLib.Random as fallback.
+                                </td>
+                                <td class="status-fixed">Fixed</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- ============================================================ -->
                     <h2>OMEMO v2 Implementation Security</h2>
                     <p>
                         DinoX is one of the first desktop XMPP clients to implement <strong>OMEMO v2</strong>
@@ -456,6 +503,9 @@
                         <li><strong>Constant-time PKCS#7 validation (#12):</strong> Padding check in <code>omemo2_aes_256_cbc_pkcs7_decrypt()</code> replaced with constant-time XOR-accumulator to prevent padding oracle attacks</li>
                         <li><strong>Strict key length validation (#8):</strong> Decryptor rejects key material that is not exactly 16 or 32 bytes</li>
                         <li><strong>Unknown cipher rejection (#7):</strong> ESFS file transfers with empty or unrecognized cipher URIs are now rejected instead of silently defaulting to unauthenticated GCM</li>
+                        <li><strong>CBC decrypt buffer zeroization (#18):</strong> Decrypted plaintext buffer in <code>omemo2_aes_256_cbc_pkcs7_decrypt()</code> now zeroized before <code>g_free()</code> on all exit paths</li>
+                        <li><strong>HMAC stack buffer zeroization (#19):</strong> Full 32-byte MAC in <code>omemo2_hmac_sha256()</code> cleared after truncation to prevent stack recovery</li>
+                        <li><strong>SCE rpad CSPRNG (#20):</strong> Random padding generation in <code>sce.vala</code> now uses <code>/dev/urandom</code> instead of Mersenne Twister to prevent padding length prediction</li>
                     </ul>
 
                     <h3>Dual-Protocol Design</h3>

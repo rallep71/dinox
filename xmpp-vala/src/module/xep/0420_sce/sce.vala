@@ -130,13 +130,27 @@ namespace Xmpp.Xep.Sce {
 
         /**
          * Generate random padding string (1-200 random printable chars).
+         * Uses /dev/urandom (CSPRNG) instead of GLib.Random (Mersenne Twister)
+         * to prevent padding length prediction via MT state recovery.
          */
         private static string generate_rpad() {
-            int len = 1 + (int)(GLib.Random.next_int() % 200);
+            uint8[] rand_bytes = new uint8[201];
+            try {
+                var urandom = File.new_for_path("/dev/urandom");
+                var stream = urandom.read();
+                stream.read(rand_bytes);
+                stream.close();
+            } catch (Error e) {
+                /* Fallback: GLib.Random if /dev/urandom unavailable */
+                for (int i = 0; i < rand_bytes.length; i++) {
+                    rand_bytes[i] = (uint8)(GLib.Random.next_int() & 0xFF);
+                }
+            }
+            int len = 1 + (int)(rand_bytes[0] % 200);
             var sb = new GLib.StringBuilder.sized(len);
             for (int i = 0; i < len; i++) {
                 /* Printable ASCII 0x20-0x7E */
-                char c = (char)(0x20 + (GLib.Random.next_int() % 95));
+                char c = (char)(0x20 + (rand_bytes[1 + i] % 95));
                 sb.append_c(c);
             }
             return sb.str;

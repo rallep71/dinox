@@ -2,7 +2,7 @@
 
 **Date:** February 17, 2026  
 **Scope:** 39 crypto-related files (OMEMO v1/v2, Signal Protocol, SASL, file transfer, GCrypt wrapper)  
-**Findings:** 6 Critical/High, 11 Medium  
+**Findings:** 6 Critical/High, 11 Medium, 3 Low  
 **Status:** All fixed  
 **Website:** [dinox.handwerker.jetzt/security-audit.html](https://dinox.handwerker.jetzt/security-audit.html)
 
@@ -11,9 +11,10 @@
 ## Summary
 
 A comprehensive security audit was performed on all cryptographic code in DinoX.
-All critical and medium-severity issues have been fixed in commits
-[`08c895f6`](https://github.com/rallep71/dinox/commit/08c895f6) (critical) and
-[`83fa5046`](https://github.com/rallep71/dinox/commit/83fa5046) (medium).
+All critical, medium, and low-severity issues have been fixed in commits
+[`08c895f6`](https://github.com/rallep71/dinox/commit/08c895f6) (critical),
+[`83fa5046`](https://github.com/rallep71/dinox/commit/83fa5046) (medium), and
+[`525115d9`](https://github.com/rallep71/dinox/commit/525115d9) (low).
 
 ---
 
@@ -68,6 +69,16 @@ there as of the audit date. These bugs have existed since 2017.
 | 15 | `sasl.vala` | **No minimum PBKDF2 iteration count.** Malicious server could specify 1 iteration. Now enforces minimum 4096 per RFC 5802. |
 | 16 | `file_decryptor.vala` | **GCM without auth tag verification.** ESFS GCM used tag length 0 for Kaidan/QXmpp interop. Now logs a warning. |
 | 17 | `decrypt.vala` | **Incomplete session finalization.** `TODO` comment clarified: Signal sessions auto-transition after pre-key decryption. |
+
+---
+
+## Low Severity (Fixed)
+
+| # | File | Issue |
+|---|------|-------|
+| 18 | `helper.c` (omemo2 CBC decrypt) | **Decrypted plaintext not zeroized before free.** After copying the unpadded result, the full decrypted buffer (including padding) was freed with `g_free()` without clearing. Now `memset(decrypted, 0, ciphertext_len)` on all exit paths. |
+| 19 | `helper.c` (omemo2 HMAC) | **Full HMAC not zeroized on stack.** `omemo2_hmac_sha256()` computed a full 32-byte MAC into a stack buffer, copied the truncated result, but did not clear the full MAC before return. Now `memset(full_mac, 0, sizeof(full_mac))` after truncation. |
+| 20 | `sce.vala` (SCE rpad) | **Random padding used Mersenne Twister.** `generate_rpad()` used `GLib.Random` (MT19937) which is not a CSPRNG. An attacker recovering the MT state could predict padding lengths, leaking minor traffic analysis information. Now uses `/dev/urandom` directly, with GLib.Random as fallback. |
 
 ---
 
@@ -176,6 +187,12 @@ During the February 2026 audit, the following OMEMO v2-specific issues were addr
   16 or 32 bytes
 - **Unknown cipher rejection** (#7): ESFS file transfers with empty or unrecognized cipher URIs
   are now rejected instead of silently defaulting to unauthenticated GCM
+- **CBC decrypt buffer zeroization** (#18): Decrypted plaintext buffer in
+  `omemo2_aes_256_cbc_pkcs7_decrypt()` now zeroized before `g_free()` on all exit paths
+- **HMAC stack buffer zeroization** (#19): Full 32-byte MAC in `omemo2_hmac_sha256()` cleared
+  after truncation to prevent stack recovery
+- **SCE rpad CSPRNG** (#20): Random padding generation in `sce.vala` now uses `/dev/urandom`
+  instead of Mersenne Twister to prevent padding length prediction
 
 ### Dual-Protocol Design
 
