@@ -19,7 +19,7 @@ namespace Dino.Plugins.TorManager {
 
         public TorSettingsPage(TorManager manager) {
             this.manager = manager;
-            this.title = "Tor Network";
+            this.title = "Tor";
             this.icon_name = "network-server-symbolic"; 
             this.name = "tor";
 
@@ -82,6 +82,7 @@ namespace Dino.Plugins.TorManager {
             warning_label.visible = false;
             
             firewall_switch.state_set.connect((state) => {
+                 firewall_switch.state = state;
                  on_firewall_toggled.begin(state);
                  update_warning();
                  return true;
@@ -143,6 +144,7 @@ namespace Dino.Plugins.TorManager {
 
             // Connect signal late to ensure all widgets exist
             bridges_switch.state_set.connect((state) => {
+                bridges_switch.state = state;
                 on_use_bridges_toggled.begin(state);
                 box.sensitive = state;
                 fetch_row.sensitive = state;
