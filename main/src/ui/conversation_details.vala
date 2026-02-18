@@ -211,6 +211,35 @@ namespace Dino.Ui.ConversationDetails {
                 }
             });
             view_model.about_rows.append(about_row);
+
+            // Subscription status row
+            var roster_mgr = stream_interactor.get_module<RosterManager>(RosterManager.IDENTITY);
+            var roster_item = roster_mgr.get_roster_item(model.conversation.account, model.conversation.counterpart);
+            if (roster_item != null) {
+                string sub_text;
+                switch (roster_item.subscription) {
+                    case Xmpp.Roster.Item.SUBSCRIPTION_BOTH:
+                        sub_text = _("Mutual");
+                        break;
+                    case Xmpp.Roster.Item.SUBSCRIPTION_TO:
+                        sub_text = _("To (you see them, they don't see you)");
+                        break;
+                    case Xmpp.Roster.Item.SUBSCRIPTION_FROM:
+                        sub_text = _("From (they see you, you don't see them)");
+                        break;
+                    default:
+                        sub_text = _("None");
+                        break;
+                }
+                if (roster_item.subscription_requested) {
+                    sub_text += " " + _("(request pending)");
+                }
+                var sub_row = new ViewModel.PreferencesRow.Text() {
+                    title = _("Subscription"),
+                    text = sub_text
+                };
+                view_model.about_rows.append(sub_row);
+            }
         }
         if (model.conversation.type_ == Conversation.Type.GROUPCHAT) {
             var topic = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_groupchat_subject(model.conversation.counterpart, model.conversation.account);
