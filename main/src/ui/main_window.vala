@@ -105,8 +105,8 @@ public class MainWindow : Adw.ApplicationWindow {
     }
 
     public void restore_window_size() {
-        // Set minimum size to prevent invisible window after factory reset
-        set_size_request(400, 300);
+        // Set minimum size to prevent layout warnings and text clipping
+        set_size_request(500, 300);
         
         // Default size if config values are invalid
         int width = config.window_width > 0 ? config.window_width : 900;
