@@ -5,6 +5,19 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0.9] - 2026-02-18
+
+### Added
+- **OMEMO Session Reset**: New "Reset session" and "Reset all sessions" actions in key management UI. Allows resetting broken Signal sessions without removing devices or trust levels. Available in ManageKeyDialog (per device), 1:1 encryption settings, and MUC member key views.
+
+### Fixed
+- **OMEMO IV Zeroing Bug**: Fixed critical encryption bug where the AES-GCM initialization vector was zeroed before being written to the outgoing stanza. Recipients received an all-zeros IV that did not match the IV used for encryption, causing decryption failures on all clients (Monal: GCM error, Monocles: silent failure). Introduced in commit 83fa504.
+- **OMEMO Session Auto-Recovery**: Missing Signal sessions (SG_ERR_NO_SESSION) are now classified as recoverable instead of permanent failures. The retry mechanism automatically fetches bundles, establishes fresh sessions, and resends the message. Previously, messages to devices with missing sessions were silently dropped (marked WONTSEND).
+- **OMEMO v4 Session Guard**: Detect and remove v4 (OMEMO 2) sessions in the v1 encryptor before they produce broken messages. Forces session re-establishment with correct v3 protocol.
+
+### Changed
+- **Version**: Bumped from 1.1.0.8 to 1.1.0.9
+
 ## [1.1.0.8] - 2026-02-18
 
 ### Fixed

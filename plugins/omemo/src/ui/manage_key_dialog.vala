@@ -125,6 +125,8 @@ public class ManageKeyDialog : Gtk.Window {
         reject_row.set_child(make_action_box(_("Reject key"), _("Block encrypted communication with the contact's device that uses this key.")));
         ListBoxRow accept_row = new ListBoxRow() {visible = true };
         accept_row.set_child(make_action_box(_("Accept key"), _("Allow encrypted communication with the contact's device that uses this key.")));
+        ListBoxRow reset_row = new ListBoxRow() { visible = true };
+        reset_row.set_child(make_action_box(_("Reset session"), _("Delete the encryption session for this device. A fresh session will be established on the next message. Use this when messages are not arriving.")));
         ListBoxRow remove_row = new ListBoxRow() { visible = true };
         remove_row.set_child(make_action_box(_("Remove device"), _("Delete this device's key and session data. Use this for old or inactive devices.")));
 
@@ -133,16 +135,19 @@ public class ManageKeyDialog : Gtk.Window {
                 main_desc_label.set_markup(_("This key is currently %s.").printf("<span color='#1A63D9'>"+_("accepted")+"</span>")+" "+_("This means it can be used by %s to receive and send encrypted messages.").printf(@"<b>$(Markup.escape_text(device[db.identity_meta.address_name]))</b>"));
                 main_action_list.append(verify_row);
                 main_action_list.append(reject_row);
+                main_action_list.append(reset_row);
                 main_action_list.append(remove_row);
                 break;
             case TrustLevel.VERIFIED:
                 main_desc_label.set_markup(_("This key is currently %s.").printf("<span color='#1A63D9'>"+_("verified")+"</span>")+" "+_("This means it can be used by %s to receive and send encrypted messages.").printf(@"<b>$(Markup.escape_text(device[db.identity_meta.address_name]))</b>") + " " + _("Additionally it has been verified to match the key on the contact's device."));
                 main_action_list.append(reject_row);
+                main_action_list.append(reset_row);
                 main_action_list.append(remove_row);
                 break;
             case TrustLevel.UNTRUSTED:
                 main_desc_label.set_markup(_("This key is currently %s.").printf("<span color='#D91900'>"+_("rejected")+"</span>")+" "+_("This means it cannot be used by %s to decipher your messages, and you won't see messages encrypted with it.").printf(@"<b>$(Markup.escape_text(device[db.identity_meta.address_name]))</b>"));
                 main_action_list.append(accept_row);
+                main_action_list.append(reset_row);
                 main_action_list.append(remove_row);
                 break;
             default:
@@ -177,6 +182,14 @@ public class ManageKeyDialog : Gtk.Window {
                 ok_button.sensitive = true;
                 return_to_main = true;
                 current_response = -1;
+            } else if (row == reset_row) {
+                confirm_image.set_from_icon_name("view-refresh-symbolic");
+                confirm_title_label.label = _("Reset session");
+                confirm_desc_label.set_markup(_("The encryption session for this device of %s will be deleted. A fresh session will be negotiated automatically when the next message is sent. The key and trust level are preserved.").printf(@"<b>$(Markup.escape_text(device[db.identity_meta.address_name]))</b>"));
+                manage_stack.set_visible_child_name("confirm");
+                ok_button.sensitive = true;
+                return_to_main = true;
+                current_response = -2;
             }
             cancel_button.label = _("Back");
         });

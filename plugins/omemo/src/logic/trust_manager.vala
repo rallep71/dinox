@@ -37,6 +37,70 @@ public class TrustManager {
     }
 
     /**
+     * Reset the Signal session for a single device without removing the
+     * device or its trust level.  Immediately fetches the bundle and
+     * starts a fresh PreKey session.
+     */
+    public void reset_session(Account account, Jid jid, int device_id) {
+        int identity_id = db.identity.get_id(account.id);
+        if (identity_id < 0) return;
+
+        Dino.Application? app = Application.get_default() as Dino.Application;
+        if (app == null) return;
+
+        StreamModule? module = app.stream_interactor.module_manager.get_module<StreamModule>(account, StreamModule.IDENTITY);
+        if (module == null) return;
+        Store? store = module.store;
+        if (store == null) return;
+
+        try {
+            Address addr = new Address(jid.bare_jid.to_string(), device_id);
+            if (store.contains_session(addr)) {
+                store.delete_session(addr);
+                debug("Reset session for %s/%d", jid.to_string(), device_id);
+            }
+            addr.device_id = 0;
+        } catch (Error e) {
+            warning("Error resetting session for %s/%d: %s", jid.to_string(), device_id, e.message);
+        }
+
+        // Immediately fetch fresh bundle and rebuild session
+        // Clear the active_bundle_requests entry so the fetch is not skipped
+        XmppStream? stream = app.stream_interactor.get_stream(account);
+        if (stream != null) {
+            string req_key = jid.bare_jid.to_string() + @":$device_id";
+            module.active_bundle_requests.remove(req_key);
+
+            // Use a one-shot signal handler to start the session as soon as the bundle arrives
+            ulong handler_id = 0;
+            handler_id = module.bundle_fetched.connect((bundle_jid, bundle_device_id, bundle) => {
+                if (bundle_jid.equals_bare(jid) && bundle_device_id == device_id) {
+                    debug("Bundle received for %s/%d after reset, starting fresh session", jid.to_string(), device_id);
+                    module.start_session(stream, jid, device_id, bundle);
+                    module.disconnect(handler_id);
+                }
+            });
+
+            module.fetch_bundle(stream, jid, device_id, false);
+            debug("Triggered bundle fetch + session rebuild for %s/%d", jid.to_string(), device_id);
+        }
+    }
+
+    /**
+     * Reset Signal sessions for all known devices of a contact.
+     */
+    public void reset_all_sessions(Account account, Jid jid) {
+        int identity_id = db.identity.get_id(account.id);
+        if (identity_id < 0) return;
+
+        foreach (Row device in db.identity_meta.get_known_devices(identity_id, jid.bare_jid.to_string())) {
+            int32 dev_id = device[db.identity_meta.device_id];
+            reset_session(account, jid, dev_id);
+        }
+        debug("Reset all sessions for %s", jid.to_string());
+    }
+
+    /**
      * Remove a device entirely: delete session + identity_meta entry.
      * If this is one of the user's own devices, also emit own_device_removed()
      * so the PubSub device list gets republished without it.

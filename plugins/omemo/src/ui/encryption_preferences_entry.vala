@@ -111,12 +111,30 @@ public class OmemoPreferencesWidget : Adw.PreferencesGroup {
 
         //Show the normal devicelist
         var own_id = plugin.db.identity.row_with(plugin.db.identity.account_id, account.id)[plugin.db.identity.device_id];
+        int known_count = 0;
         foreach (Row device in plugin.db.identity_meta.get_known_devices(identity_id, jid.to_string())) {
             if(jid.equals(account.bare_jid) && device[plugin.db.identity_meta.device_id] == own_id) {
                 // If this is our own account, don't show this device twice (did it separately already)
                 continue;
             }
             add_fingerprint(device, (TrustLevel) device[plugin.db.identity_meta.trust_level]);
+            known_count++;
+        }
+
+        // "Reset all sessions" row — only show for contacts (not own account) with known devices
+        if (!jid.equals(account.bare_jid) && known_count > 0) {
+            var reset_all_row = new Adw.ActionRow();
+            reset_all_row.title = _("Reset all sessions");
+            reset_all_row.subtitle = _("Delete all encryption sessions. Fresh sessions will be established on the next message.");
+            reset_all_row.activatable = true;
+            var reset_icon = new Gtk.Image.from_icon_name("view-refresh-symbolic");
+            reset_all_row.add_suffix(reset_icon);
+            reset_all_row.activated.connect(() => {
+                plugin.trust_manager.reset_all_sessions(account, jid);
+                reset_all_row.subtitle = _("Sessions reset. A fresh key exchange will happen on the next message.");
+            });
+            keys_preferences_group.add(reset_all_row);
+            keys_preferences_group_children.add(reset_all_row);
         }
 
         //Show any new devices for which the user must decide whether to accept or reject
@@ -399,6 +417,11 @@ public class OmemoPreferencesWidget : Adw.PreferencesGroup {
         if (response == -1) {
             // Delete device
             plugin.trust_manager.delete_device(account, jid, device[plugin.db.identity_meta.device_id]);
+            return;
+        }
+        if (response == -2) {
+            // Reset session only
+            plugin.trust_manager.reset_session(account, jid, device[plugin.db.identity_meta.device_id]);
             return;
         }
         switch (response) {
