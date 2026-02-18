@@ -28,7 +28,7 @@ public class HttpServer : Object {
     }
 
     public void start(uint16 port, string mode = "local", string tls_cert_path = "", string tls_key_path = "") throws Error {
-        server = new Soup.Server(null);
+        server = new Soup.Server("server-header", "DinoX-BotAPI/1.0", null);
         current_mode = mode;
         current_port = port;
 
@@ -1096,7 +1096,7 @@ public class HttpServer : Object {
         }
         if (api_key == null) api_key = "-";
 
-        string result = message_router.ai.configure_preset(bot.id, provider, api_key, model);
+        message_router.ai.configure_preset(bot.id, provider, api_key, model);
         registry.log_action(bot.id, "ai_setup", "provider=%s model=%s via=http".printf(provider, model));
 
         AuthMiddleware.send_success(msg, "{\"configured\":true,\"provider\":\"%s\",\"model\":\"%s\"}".printf(

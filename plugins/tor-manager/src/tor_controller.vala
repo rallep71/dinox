@@ -29,9 +29,9 @@ namespace Dino.Plugins.TorManager {
             stop();
         }
 
-        // Get the directory where the executable is located (works on Windows and Linux)
-        private string? get_executable_dir() {
 #if WINDOWS
+        // Get the directory where the executable is located
+        private string? get_executable_dir() {
             // On Windows, use Win32 API via GLib
             string? exe_path = null;
             // GLib provides this via get_current_dir, but we need the exe location
@@ -46,16 +46,8 @@ namespace Dino.Plugins.TorManager {
                 exe_path = Environment.get_current_dir();
             }
             return exe_path;
-#else
-            // On Linux, read /proc/self/exe
-            try {
-                string self_path = FileUtils.read_link("/proc/self/exe");
-                return Path.get_dirname(self_path);
-            } catch (Error e) {
-                return null;
-            }
-#endif
         }
+#endif
 
         private void check_installation() {
             try {

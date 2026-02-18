@@ -40,6 +40,7 @@ public class UserSearchDialog : Adw.Dialog {
     private void setup_ui() {
         var toolbar_view = new Adw.ToolbarView();
         var header_bar = new Adw.HeaderBar();
+        header_bar.decoration_layout = ":";
         toolbar_view.add_top_bar(header_bar);
 
         var cancel_button = new Button.with_label(_("Close"));

@@ -298,36 +298,28 @@ public class SessionPool : Object {
             .put_attribute("id", device_id.to_string());
         list_node.put_node(device_node);
 
-        try {
-            yield stream.get_module<Xep.Pubsub.Module>(Xep.Pubsub.Module.IDENTITY)
-                .publish(stream, null, "eu.siacs.conversations.axolotl.devicelist",
-                         "current", list_node);
-            message("SessionPool: Bot %d device list published", bot_id);
+        yield stream.get_module<Xep.Pubsub.Module>(Xep.Pubsub.Module.IDENTITY)
+            .publish(stream, null, "eu.siacs.conversations.axolotl.devicelist",
+                     "current", list_node);
+        message("SessionPool: Bot %d device list published", bot_id);
 
-            // Make device list node publicly accessible (fire-and-forget)
-            try_make_pubsub_node_public.begin(stream, "eu.siacs.conversations.axolotl.devicelist");
-        } catch (Error e) {
-            warning("SessionPool: Bot %d device list publish failed: %s", bot_id, e.message);
-        }
+        // Make device list node publicly accessible (fire-and-forget)
+        try_make_pubsub_node_public.begin(stream, "eu.siacs.conversations.axolotl.devicelist");
     }
 
     /** Make a PubSub node publicly accessible so other clients can read it. */
     private async void try_make_pubsub_node_public(XmppStream stream, string node_id) {
-        try {
-            Xep.DataForms.DataForm? form = yield stream.get_module<Xep.Pubsub.Module>(Xep.Pubsub.Module.IDENTITY)
-                .request_node_config(stream, null, node_id);
-            if (form == null) return;
-            foreach (Xep.DataForms.DataForm.Field field in form.fields) {
-                if (field.var == "pubsub#access_model" && field.get_value_string() != Xep.Pubsub.ACCESS_MODEL_OPEN) {
-                    field.set_value_string(Xep.Pubsub.ACCESS_MODEL_OPEN);
-                    yield stream.get_module<Xep.Pubsub.Module>(Xep.Pubsub.Module.IDENTITY)
-                        .submit_node_config(stream, null, form, node_id);
-                    message("SessionPool: Made node %s public", node_id);
-                    break;
-                }
+        Xep.DataForms.DataForm? form = yield stream.get_module<Xep.Pubsub.Module>(Xep.Pubsub.Module.IDENTITY)
+            .request_node_config(stream, null, node_id);
+        if (form == null) return;
+        foreach (Xep.DataForms.DataForm.Field field in form.fields) {
+            if (field.var == "pubsub#access_model" && field.get_value_string() != Xep.Pubsub.ACCESS_MODEL_OPEN) {
+                field.set_value_string(Xep.Pubsub.ACCESS_MODEL_OPEN);
+                yield stream.get_module<Xep.Pubsub.Module>(Xep.Pubsub.Module.IDENTITY)
+                    .submit_node_config(stream, null, form, node_id);
+                message("SessionPool: Made node %s public", node_id);
+                break;
             }
-        } catch (Error e) {
-            warning("SessionPool: Could not make node %s public: %s", node_id, e.message);
         }
     }
 
@@ -452,26 +444,22 @@ public class SessionPool : Object {
         var stream = dedicated_streams[bot_id];
 
         // Delete OMEMO PubSub nodes (device list + bundle)
-        try {
-            var pubsub = stream.get_module<Xep.Pubsub.Module>(Xep.Pubsub.Module.IDENTITY);
-            pubsub.delete_node(stream, null, "eu.siacs.conversations.axolotl.devicelist");
-            message("SessionPool: Deleted device list node for bot %d", bot_id);
+        var pubsub = stream.get_module<Xep.Pubsub.Module>(Xep.Pubsub.Module.IDENTITY);
+        pubsub.delete_node(stream, null, "eu.siacs.conversations.axolotl.devicelist");
+        message("SessionPool: Deleted device list node for bot %d", bot_id);
 
-            if (device_id > 0) {
-                string bundle_node = "eu.siacs.conversations.axolotl.bundles:%u".printf(device_id);
-                pubsub.delete_node(stream, null, bundle_node);
-                message("SessionPool: Deleted bundle node %s for bot %d", bundle_node, bot_id);
-            }
-
-            // Delete avatar node
-            pubsub.delete_node(stream, null, "urn:xmpp:avatar:data");
-            pubsub.delete_node(stream, null, "urn:xmpp:avatar:metadata");
-
-            // Delete vCard node
-            pubsub.delete_node(stream, null, "urn:xmpp:vcard4");
-        } catch (Error e) {
-            warning("SessionPool: PubSub cleanup failed for bot %d: %s", bot_id, e.message);
+        if (device_id > 0) {
+            string bundle_node = "eu.siacs.conversations.axolotl.bundles:%u".printf(device_id);
+            pubsub.delete_node(stream, null, bundle_node);
+            message("SessionPool: Deleted bundle node %s for bot %d", bundle_node, bot_id);
         }
+
+        // Delete avatar node
+        pubsub.delete_node(stream, null, "urn:xmpp:avatar:data");
+        pubsub.delete_node(stream, null, "urn:xmpp:avatar:metadata");
+
+        // Delete vCard node
+        pubsub.delete_node(stream, null, "urn:xmpp:vcard4");
 
         // Give the delete IQs a moment to send, then disconnect
         GLib.Timeout.add(500, () => {

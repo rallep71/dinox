@@ -49,6 +49,7 @@ public class SelectContactDialog : Adw.Dialog {
         ok_button.visible = true;
 
         header_bar = new Adw.HeaderBar();
+        header_bar.decoration_layout = ":";
         header_bar.pack_start(cancel_button);
         header_bar.pack_end(ok_button);
 

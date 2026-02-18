@@ -14,7 +14,6 @@ public class MessageRouter : Object {
     private EjabberdApi? ejabberd_api;
     public AiIntegration ai;
     public TelegramBridge telegram;
-    private HashMap<int, ulong> message_handlers = new HashMap<int, ulong>();
     private uint cleanup_timer_id = 0;
 
     public MessageRouter(Dino.Application app, BotRegistry registry,
@@ -185,7 +184,7 @@ public class MessageRouter : Object {
             string nickname = nick ?? (bot.name ?? "bot");
 
             app.stream_interactor.get_module<MucManager>(MucManager.IDENTITY)
-                .join(account, room_jid, nickname, null);
+                .join.begin(account, room_jid, nickname, null);
 
             registry.log_action(bot.id, "join_room", room_jid_str);
             return true;
