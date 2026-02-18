@@ -1,6 +1,6 @@
 # DinoX - Development Plan
 
-> **Last Updated**: February 18, 2026 (v1.1.0.7)
+> **Last Updated**: February 18, 2026 (v1.1.0.8)
 > **Current Release Line**: 1.1.0.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.0.7 |
+| **Current Version** | 1.1.0.8 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (~85% translated) |
 | **Build Status** | Clean |
@@ -20,6 +20,14 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v1.1.0.8 (Sticker & Tor UI Fixes, Connection Stability)
+
+- **Sticker Button Visibility Fix**: Sticker button now hides when stickers are disabled in settings. Reactive binding to `stickers_enabled`.
+- **Sticker Animation Toggle Fix**: Toggling sticker animations on/off takes effect immediately. Always loads as animation; playback controlled by setting.
+- **Tor Settings UI Fixes**: Shortened tab title to "Tor", fixed visually stuck firewall/bridges switches, replaced blocking subprocess calls with async.
+- **Connection Manager Null Guard**: Prevents critical assertion failure when account removed during async stream establishment.
+- **Minimum Window Width**: Raised from 400 to 500px to prevent Adwaita GtkStack width overflow.
 
 ### v1.1.0.7 (Public Room Search, UX Polish, Zero Warnings)
 

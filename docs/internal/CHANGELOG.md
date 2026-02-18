@@ -5,6 +5,20 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0.8] - 2026-02-18
+
+### Fixed
+- **Sticker Button Visibility**: Sticker button now correctly hides when stickers are disabled in settings. Added reactive binding to `stickers_enabled` setting.
+- **Sticker Animation Toggle**: Toggling sticker animations on/off in settings now takes effect immediately. Stickers always loaded as animations; playback controlled by setting with reactive listener.
+- **Tor Settings Label Truncation**: Shortened "Tor Network" tab title to "Tor" to prevent text truncation in narrow preferences window.
+- **Tor Switches Visually Stuck**: Firewall and bridges toggle switches now update immediately. Fixed `state_set` handlers to set `.state` property before async operations.
+- **Tor Controller Blocking UI**: Replaced synchronous `wait(null)` subprocess calls in Tor controller with async `wait_async()` to prevent blocking the GTK main loop.
+- **Connection Manager Null Guard**: Added null check after async stream establishment to prevent critical assertion failure when account is removed during connection.
+- **Minimum Window Width**: Increased `set_size_request` from 400 to 500 pixels to prevent Adwaita GtkStack width overflow warning.
+
+### Changed
+- **Version**: Bumped from 1.1.0.7 to 1.1.0.8
+
 ## [1.1.0.7] - 2026-02-18
 
 ### Added
