@@ -76,6 +76,7 @@ public class AddConferenceDialog : Adw.Dialog {
         ok_button.add_css_class("suggested-action");
 
         header_bar = new Adw.HeaderBar();
+        header_bar.decoration_layout = ":";
 
         header_bar.pack_start(cancel_button);
         header_bar.pack_end(ok_button);

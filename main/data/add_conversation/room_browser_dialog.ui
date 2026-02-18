@@ -10,6 +10,7 @@
             <object class="AdwToolbarView">
                 <child type="top">
                     <object class="AdwHeaderBar">
+                        <property name="decoration-layout">:</property>
                         <child type="start">
                             <object class="GtkButton" id="cancel_button">
                                 <property name="label" translatable="yes">Cancel</property>
