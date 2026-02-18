@@ -121,6 +121,22 @@ public class ContactDetailsProvider : Plugins.ContactDetailsProvider, Object {
             });
             expander.add_row(auto_accept_row);
             
+            // "Reset all sessions" action row — useful when messages fail
+            if (known_devices.size > 0) {
+                var reset_all_row = new Adw.ActionRow();
+                reset_all_row.title = _("Reset all sessions");
+                reset_all_row.subtitle = _("Delete all encryption sessions for this contact. Fresh sessions will be established on the next message.");
+                reset_all_row.activatable = true;
+                var reset_icon = new Gtk.Image.from_icon_name("view-refresh-symbolic");
+                reset_all_row.add_suffix(reset_icon);
+                reset_all_row.activated.connect(() => {
+                    plugin.trust_manager.reset_all_sessions(conversation.account, the_jid);
+                    // Brief visual feedback
+                    reset_all_row.subtitle = _("Sessions reset. A fresh key exchange will happen on the next message.");
+                });
+                expander.add_row(reset_all_row);
+            }
+            
             // Known devices — clickable for trust management
             foreach (Row device in known_devices) {
                 string? key_base64 = device[plugin.db.identity_meta.identity_key_public_base64];
@@ -177,6 +193,8 @@ public class ContactDetailsProvider : Plugins.ContactDetailsProvider, Object {
                     manage_dialog.response.connect((resp) => {
                         if (resp == -1) {
                             plugin.trust_manager.delete_device(conversation.account, the_jid, dev_id);
+                        } else if (resp == -2) {
+                            plugin.trust_manager.reset_session(conversation.account, the_jid, dev_id);
                         } else {
                             plugin.trust_manager.set_device_trust(conversation.account, the_jid, dev_id, (TrustLevel) resp);
                         }

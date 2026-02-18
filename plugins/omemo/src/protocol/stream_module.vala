@@ -18,7 +18,7 @@ public class StreamModule : XmppStreamModule {
 
     public Store store { public get; private set; }
     public string? own_device_label { get; set; default = null; }
-    private ConcurrentSet<string> active_bundle_requests = new ConcurrentSet<string> ();
+    internal ConcurrentSet<string> active_bundle_requests = new ConcurrentSet<string> ();
     private HashMap<Jid, Future<ArrayList<int32>>> active_devicelist_requests = new HashMap<Jid, Future<ArrayList<int32>>> (Jid.hash_func, Jid.equals_func);
     private Map<string, DateTime> device_ignore_time = new HashMap<string, DateTime> ();
 

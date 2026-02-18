@@ -36,9 +36,8 @@ namespace Dino.Plugins.Omemo {
             uint8[] keytag = new uint8[key.length + tag.length];
             Memory.copy(keytag, key, key.length);
             Memory.copy((uint8*)keytag + key.length, tag, tag.length);
-            // Zeroize sensitive key material
+            // Zeroize AES key after copying into keytag (IV is public — sent in cleartext)
             Memory.set(key, 0, key.length);
-            Memory.set(iv, 0, iv.length);
 
             var ret = new Xep.Omemo.EncryptionData(own_device_id);
             ret.ciphertext = ciphertext;
@@ -73,21 +72,31 @@ namespace Dino.Plugins.Omemo {
             EncryptState status = new EncryptState();
 
             //Check we have the bundles and device lists needed to send the message
-            if (!trust_manager.is_known_address(account, self_jid)) return status;
+            if (!trust_manager.is_known_address(account, self_jid)) {
+                warning("OMEMO: own address %s not known — cannot encrypt", self_jid.to_string());
+                return status;
+            }
             status.own_list = true;
             status.own_devices = trust_manager.get_trusted_devices(account, self_jid).size;
             status.other_waiting_lists = 0;
             status.other_devices = 0;
             foreach (Jid recipient in recipients) {
                 if (!trust_manager.is_known_address(account, recipient)) {
+                    warning("OMEMO: recipient %s not known — waiting for device list", recipient.to_string());
                     status.other_waiting_lists++;
                 }
                 if (status.other_waiting_lists > 0) return status;
                 status.other_devices += trust_manager.get_trusted_devices(account, recipient).size;
             }
             // Allow sending with no other devices (e.g. solo MUC — encrypt to self only)
-            if (status.own_devices == 0) return status;
-            if (recipients.size > 0 && status.other_devices == 0) return status;
+            if (status.own_devices == 0) {
+                warning("OMEMO: no own trusted devices — cannot encrypt");
+                return status;
+            }
+            if (recipients.size > 0 && status.other_devices == 0) {
+                warning("OMEMO: recipient has 0 trusted devices — message will not be sent");
+                return status;
+            }
 
 
             //Encrypt the key for each recipient's device individually
@@ -123,7 +132,13 @@ namespace Dino.Plugins.Omemo {
                     result.success++;
                 } catch (Error e) {
                     debug("encrypt_key FAILED for %s/%d: code=%d msg=%s", recipient.to_string(), device_id, e.code, e.message);
-                    if (e.code == ErrorCode.UNKNOWN) {
+                    if (e.code == ErrorCode.NO_SESSION) {
+                        /* Session fehlt — als 'unknown' zählen, damit der
+                         * Retry-Mechanismus Bundle-Fetch + Session-Aufbau
+                         * auslöst.  Ohne diese Behandlung wird die Nachricht
+                         * sofort als WONTSEND markiert und nie gesendet. */
+                        result.unknown++;
+                    } else if (e.code == ErrorCode.UNKNOWN) {
                         /* Wenn das Gerät in BEIDEN Modulen (legacy + v2)
                          * als ignored markiert ist, hat es ein dauerhaft
                          * kaputtes Bundle.  Als 'lost' statt 'unknown'
@@ -148,11 +163,16 @@ namespace Dino.Plugins.Omemo {
 
         public override void encrypt_key(Xep.Omemo.EncryptionData encryption_data, Jid jid, int32 device_id) throws GLib.Error {
             Address address = new Address(jid.bare_jid.to_string(), device_id);
-            debug("encrypt_key: addr=%s/%d has_session=%s", jid.bare_jid.to_string(), device_id, store.contains_session(address).to_string());
             SessionCipher cipher = store.create_session_cipher(address);
+            uint32 sess_ver = cipher.get_session_version();
+            if (sess_ver >= 4) {
+                warning("encrypt_key: v1 encryptor using v4 session for %s/%d! This will produce broken messages. Deleting session.", jid.bare_jid.to_string(), device_id);
+                store.delete_session(address);
+                address.device_id = 0;
+                throw new GLib.Error(Quark.from_string("omemo"), -1000, "v4 session in v1 encryptor");
+            }
             CiphertextMessage device_key = cipher.encrypt(encryption_data.keytag);
             address.device_id = 0;
-            debug("Created encrypted key for %s/%d", jid.bare_jid.to_string(), device_id);
 
             encryption_data.add_device_key(device_id, device_key.serialized, device_key.type == CiphertextType.PREKEY);
         }

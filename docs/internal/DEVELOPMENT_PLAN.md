@@ -1,6 +1,6 @@
 # DinoX - Development Plan
 
-> **Last Updated**: February 18, 2026 (v1.1.0.8)
+> **Last Updated**: February 18, 2026 (v1.1.0.9)
 > **Current Release Line**: 1.1.0.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.0.8 |
+| **Current Version** | 1.1.0.9 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (~85% translated) |
 | **Build Status** | Clean |
@@ -20,6 +20,13 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v1.1.0.9 (OMEMO Session Reset, IV Fix, Auto-Recovery)
+
+- **OMEMO Session Reset UI**: New "Reset session" and "Reset all sessions" actions in key management. Available per device (ManageKeyDialog), per contact (encryption settings), and per MUC member. Deletes broken Signal sessions while preserving keys and trust levels. Fresh sessions are negotiated automatically on next message.
+- **OMEMO IV Zeroing Fix**: Fixed critical bug where AES-GCM IV was zeroed before being placed in the outgoing stanza. All recipients received a zeroed IV that didn't match the encryption IV, causing universal decryption failure.
+- **OMEMO Session Auto-Recovery**: SG_ERR_NO_SESSION errors now trigger automatic bundle fetch and session rebuild instead of silently dropping messages.
+- **OMEMO v4 Session Guard**: v4 sessions in the v1 encryptor are detected and replaced with correct v3 sessions.
 
 ### v1.1.0.8 (Sticker & Tor UI Fixes, Connection Stability)
 
