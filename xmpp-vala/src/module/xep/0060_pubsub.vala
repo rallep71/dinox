@@ -53,8 +53,7 @@ namespace Xmpp.Xep.Pubsub {
                 return null;
             }
 
-            // Debug: Print PubSub IQ response
-            print("PubSub IQ response for node '%s': %s\n", node, iq_res.stanza.to_string());
+            debug("PubSub IQ response for node '%s': %s", node, iq_res.stanza.to_string());
 
             StanzaNode event_node = iq_res.stanza.get_subnode("pubsub", NS_URI);
             if (event_node == null) return null;
