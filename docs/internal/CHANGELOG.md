@@ -5,6 +5,25 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0.7] - 2026-02-18
+
+### Added
+- **Public XMPP Room Search**: Search all public XMPP servers via search.jabber.network API. Toggle between local server rooms and global public search in Browse Rooms dialog.
+- **Subscription Status in Contact Details**: Show roster subscription state (Mutual, To, From, None) and pending requests in the About section of 1:1 contact details.
+- **SASL Debug Logging**: Extended debug logging for all SASL mechanisms and authentication flow. New DEBUG.md documentation.
+- **Scripts Documentation**: Documented all scripts in BUILD.md and CONTRIBUTING.md. Extended scan-dinox-latest-log.sh with SASL, OMEMO, OpenPGP, Botmother, Tor, and certificate pinning sections.
+
+### Fixed
+- **Duplicate X+Cancel Buttons**: Removed redundant close button from 10 dialogs total (bot create, contact browser, user search, select contact, join MUC, sticker import, and 4 previously fixed dialogs). Uses `decoration-layout=":"` on AdwHeaderBar.
+- **Attachment Button Pop-in Lag**: File attachment button no longer flickers/appears late when switching conversations. Optimistic UI keeps button visible while stream is connecting.
+- **GTK4 CSS Warning**: Replaced unsupported `max-width` CSS property with widget constraint.
+- **Adwaita PreferencesDialog Warning**: Set minimum size on PreferencesDialog to suppress libadwaita warning.
+- **All Compiler Warnings Eliminated**: Fixed unreachable catch clauses, unused variables/fields, implicit `.begin()` deprecated calls, `uint8[]` GObject property warnings, and Windows-conditional code warnings. Clean build: 626/626 targets, zero warnings.
+
+### Changed
+- **Version**: Bumped from 1.1.0.6 to 1.1.0.7
+- **Security Audit Docs**: Updated documentation references.
+
 ## [1.1.0.6] - 2026-02-17
 
 ### Added
