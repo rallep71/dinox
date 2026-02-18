@@ -230,7 +230,8 @@ DinoX implements **90+ XMPP Extension Protocols**. Here are the key ones with fu
 | **Website** | [dinox.handwerker.jetzt](https://dinox.handwerker.jetzt) |
 | **Releases** | [GitHub Releases](https://github.com/rallep71/dinox/releases) |
 | **Issues** | [Bug Tracker](https://github.com/rallep71/dinox/issues) |
-| **XMPP Chat** | [dinox@chat.handwerker.jetzt](xmpp:dinox@chat.handwerker.jetzt?join) |
+| **XMPP Chat Room** | [dinox@conference.chat.handwerker.jetzt](xmpp:dinox@conference.chat.handwerker.jetzt?join) |
+| **XMPP Contact** | [dinox@chat.handwerker.jetzt](xmpp:dinox@chat.handwerker.jetzt?message) |
 | **Email** | dinox@handwerker.jetzt |
 | **Ko-fi** | [ko-fi.com/rallep](https://ko-fi.com/rallep) |
 
