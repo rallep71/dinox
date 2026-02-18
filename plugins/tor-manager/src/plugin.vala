@@ -34,13 +34,13 @@ namespace Dino.Plugins.TorManager {
                 var page = new TorSettingsPage(tor_manager);
                 dialog.add(page);
 
-                // Add breakpoint to clear title on small screens (match main dialog behavior)
+                // Match the main dialog breakpoint: hide title at narrow width
                 var bp = new Adw.Breakpoint(new Adw.BreakpointCondition.length(Adw.BreakpointConditionLengthType.MAX_WIDTH, 600, Adw.LengthUnit.PX));
                 bp.apply.connect(() => {
                     page.title = "";
                 });
                 bp.unapply.connect(() => {
-                    page.title = "Tor Network";
+                    page.title = "Tor";
                 });
                 dialog.add_breakpoint(bp);
              }

@@ -166,7 +166,8 @@ public class FileImageWidget : Widget {
 
         ensure_scroll_watch();
 
-        bool should_animate = this.visible && this.get_mapped() && is_in_viewport();
+        bool animations_enabled = Dino.Application.get_default().settings.sticker_animations_enabled;
+        bool should_animate = animations_enabled && this.visible && this.get_mapped() && is_in_viewport();
         if (should_animate) {
             if (animation_timeout_id == 0) {
                 schedule_next_sticker_frame();
@@ -190,8 +191,8 @@ public class FileImageWidget : Widget {
         animation_timeout_id = Timeout.add((uint) delay_ms, () => {
             if (sticker_anim_iter == null || sticker_anim_picture == null) return false;
 
-            // Only animate while visible (mapped + within viewport).
-            if (!this.visible || !this.get_mapped() || !is_in_viewport()) {
+            // Only animate while visible, in viewport, and animations enabled.
+            if (!this.visible || !this.get_mapped() || !is_in_viewport() || !Dino.Application.get_default().settings.sticker_animations_enabled) {
                 animation_timeout_id = 0;
                 return false;
             }
@@ -256,6 +257,11 @@ public class FileImageWidget : Widget {
             } else {
                 update_animation_state();
             }
+        });
+
+        // React to sticker animation setting changes
+        Dino.Application.get_default().settings.notify["sticker-animations-enabled"].connect(() => {
+            update_animation_state();
         });
     }
 
@@ -427,10 +433,6 @@ public class FileImageWidget : Widget {
         load_cancellable = cancellable;
 
         bool is_sticker = this.file_transfer != null && this.file_transfer.is_sticker;
-        bool animations_enabled = true;
-        if (is_sticker) {
-            animations_enabled = Dino.Application.get_default().settings.sticker_animations_enabled;
-        }
 
         string? local_path = file.get_path();
 
@@ -449,7 +451,7 @@ public class FileImageWidget : Widget {
         }
 
         // If we have a cached first frame for an animated sticker, show it immediately.
-        if (is_sticker && animations_enabled && local_path != null && local_path != "") {
+        if (is_sticker && local_path != null && local_path != "") {
             var cached = get_cached_first_frame(local_path);
             if (cached != null) {
                 image.paintable = cached;
@@ -483,7 +485,7 @@ public class FileImageWidget : Widget {
                         stream = new MemoryInputStream.from_data(data, null);
                     }
 
-                    if (is_sticker && animations_enabled) {
+                    if (is_sticker) {
                         Gdk.PixbufAnimation anim;
                         anim = new Gdk.PixbufAnimation.from_stream(stream);
                         result.animation = anim;
@@ -500,7 +502,7 @@ public class FileImageWidget : Widget {
                     if (this.load_generation != gen) return false;
                     if (cancellable.is_cancelled()) return false;
 
-                    if (result.animation != null && is_sticker && animations_enabled && !result.animation.is_static_image()) {
+                    if (result.animation != null && is_sticker && !result.animation.is_static_image()) {
                         var iter = result.animation.get_iter(null);
                         var first_tex = Texture.for_pixbuf(iter.get_pixbuf());
                         image.paintable = first_tex;
@@ -513,7 +515,7 @@ public class FileImageWidget : Widget {
                         return false;
                     }
 
-                    if (result.animation != null && result.animation.is_static_image()) {
+                    if (result.animation != null && is_sticker && result.animation.is_static_image()) {
                         var pb = result.animation.get_static_image();
                         // Animation frames/static images might also need orientation
                         pb = pb.apply_embedded_orientation();

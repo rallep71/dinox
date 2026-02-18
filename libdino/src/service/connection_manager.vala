@@ -244,6 +244,14 @@ public class ConnectionManager : Object {
                     account.custom_host, custom_port,
                     account.proxy_type, account.proxy_host, proxy_port
             );
+
+            if (!connections.has_key(account) || connections[account] == null) {
+                debug("[%s] Connection object gone while connecting, discarding stream", account.bare_jid.to_string());
+                if (stream_result.stream != null) stream_result.stream.disconnect.begin();
+                connection_ongoing[account] = false;
+                return;
+            }
+
             connections[account].stream = stream_result.stream;
 
             connection_ongoing[account] = false;

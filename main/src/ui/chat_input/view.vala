@@ -55,6 +55,13 @@ public class View : Box {
         sticker_button.set_popover(sticker_chooser);
         sticker_button.tooltip_text = Util.string_if_tooltips_active(_("Stickers"));
 
+        // Hide sticker button when stickers are disabled in settings
+        var app = Dino.Application.get_default();
+        sticker_button.visible = app.settings.stickers_enabled;
+        app.settings.notify["stickers-enabled"].connect(() => {
+            sticker_button.visible = app.settings.stickers_enabled;
+        });
+
         // Defensive: keep MenuButton state in sync when the popover is dismissed programmatically
         // (e.g. by selecting a sticker) or by outside clicks.
         sticker_chooser.closed.connect(() => {

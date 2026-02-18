@@ -50,13 +50,15 @@ namespace Dino.Plugins.TorManager {
 #endif
 
         private void check_installation() {
+            check_installation_async.begin();
+        }
+
+        private async void check_installation_async() {
             try {
                 // Determine path to 'tor' executable
 #if WINDOWS
-                // Try to find tor.exe - it may be in bin/ subfolder
                 string? tor_path = Environment.find_program_in_path("tor.exe");
                 if (tor_path == null) {
-                    // Not critical - Tor will be found later when PATH is set up
                     debug("Tor executable not in PATH yet (will be available via bin/ at runtime).");
                     return;
                 }
@@ -65,7 +67,7 @@ namespace Dino.Plugins.TorManager {
                 string[] argv = {"tor", "--version"};
 #endif
                 Subprocess proc = new Subprocess.newv(argv, SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_MERGE);
-                proc.wait(null);
+                yield proc.wait_async();
                 if (proc.get_if_exited() && proc.get_exit_status() == 0) {
                     debug("Tor executable found.");
                 } else {
@@ -129,13 +131,14 @@ namespace Dino.Plugins.TorManager {
             try {
 #if WINDOWS
                 // Windows: Use taskkill to kill any running tor.exe
-                // Suppress stdout/stderr to avoid noisy "FEHLER: Der Prozess wurde nicht gefunden" messages
                 string[] kill_cmd = {"taskkill", "/F", "/IM", "tor.exe"};
-                new Subprocess.newv(kill_cmd, SubprocessFlags.STDOUT_SILENCE | SubprocessFlags.STDERR_SILENCE).wait(null);
+                var kill_proc = new Subprocess.newv(kill_cmd, SubprocessFlags.STDOUT_SILENCE | SubprocessFlags.STDERR_SILENCE);
+                yield kill_proc.wait_async();
 #else
                 // Linux/macOS: Use pkill to match config file path
                 string[] kill_cmd = {"pkill", "-9", "-f", "dinox/tor/torrc"};
-                new Subprocess.newv(kill_cmd, SubprocessFlags.NONE).wait(null);
+                var kill_proc = new Subprocess.newv(kill_cmd, SubprocessFlags.STDOUT_SILENCE | SubprocessFlags.STDERR_SILENCE);
+                yield kill_proc.wait_async();
 #endif
                 
                 // Give the OS a moment to reclaim the ports
