@@ -121,7 +121,6 @@ window.dino-main .dino-link-preview {
     background: alpha(@theme_fg_color, 0.04);
     padding: 8px;
     border-radius: 0 6px 6px 0;
-    max-width: 400px;
 }
 
 window.dino-main .dino-link-preview:hover {
