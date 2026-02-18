@@ -24,6 +24,9 @@ public class Dino.Ui.PreferencesDialog : Adw.PreferencesDialog {
     public signal void factory_reset_requested();
 
     construct {    
+        this.set_size_request(360, 500);
+        this.content_width = 700;
+
         var bp = new Adw.Breakpoint(new Adw.BreakpointCondition.length(Adw.BreakpointConditionLengthType.MAX_WIDTH, 600, Adw.LengthUnit.PX));
         
         bp.apply.connect(() => {
