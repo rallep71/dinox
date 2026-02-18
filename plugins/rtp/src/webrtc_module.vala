@@ -60,6 +60,12 @@ public class WebRTCModule : JingleRtp.Module {
             opus.parameters["useinbandfec"] = "1";
             opus.parameters["stereo"] = "1";
             payloads.add(opus);
+
+            // G.711 fallback for SIP gateways (e.g. Cheogram) that don't support Opus
+            var pcmu = new JingleRtp.PayloadType() { clockrate = 8000, name = "PCMU", id = 0, channels = 1 };
+            payloads.add(pcmu);
+            var pcma = new JingleRtp.PayloadType() { clockrate = 8000, name = "PCMA", id = 8, channels = 1 };
+            payloads.add(pcma);
         } else if (media == "video") {
             // VP8 - best compatibility with Monal/Conversations, WebRTC mandatory codec
             var vp8 = new JingleRtp.PayloadType() {
@@ -96,7 +102,7 @@ public class WebRTCModule : JingleRtp.Module {
         string name = payload_type.name.up();
         
         if (media == "audio") {
-            return name == "OPUS";
+            return name == "OPUS" || name == "PCMU" || name == "PCMA";
         } else if (media == "video") {
             return name == "VP9" || name == "VP8" || name == "H264";
         }
@@ -121,10 +127,14 @@ public class WebRTCModule : JingleRtp.Module {
                 }
             }
         } else if (media == "audio") {
-            foreach (var payload in payloads) {
-                if (payload.name.up() == "OPUS") {
-                    debug("WebRTC: Selected Opus codec for audio");
-                    return payload;
+            // Strict priority: Opus > PCMU > PCMA
+            string[] audio_priority = { "OPUS", "PCMU", "PCMA" };
+            foreach (string codec_name in audio_priority) {
+                foreach (var payload in payloads) {
+                    if (payload.name.up() == codec_name) {
+                        debug("WebRTC: Selected %s codec for audio", codec_name);
+                        return payload;
+                    }
                 }
             }
         }

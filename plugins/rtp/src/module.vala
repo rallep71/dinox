@@ -155,6 +155,12 @@ public class Dino.Plugins.Rtp.Module : JingleRtp.Module {
             opus.parameters["useinbandfec"] = "1";
             yield add_if_supported(list, media, opus);
 
+            // G.711 fallback for SIP gateways (e.g. Cheogram) that don't support Opus
+            var pcmu = new JingleRtp.PayloadType() { clockrate = 8000, name = "PCMU", id = 0, channels = 1 };
+            yield add_if_supported(list, media, pcmu);
+            var pcma = new JingleRtp.PayloadType() { clockrate = 8000, name = "PCMA", id = 8, channels = 1 };
+            yield add_if_supported(list, media, pcma);
+
             // RFC 4733 DTMF tones
             var dtmf = new JingleRtp.PayloadType() { clockrate = 8000, name = "telephone-event", id = 101, channels = 1 };
             dtmf.parameters["events"] = "0-15";
@@ -179,7 +185,7 @@ public class Dino.Plugins.Rtp.Module : JingleRtp.Module {
         if (media == "audio" || media == "video") {
             // Prefer VP8 first for better Monal/Conversations compatibility
             // VP8 is the mandatory WebRTC codec and has best cross-client support
-            string[] preferred_audio = {"opus"};
+            string[] preferred_audio = {"opus", "pcmu", "pcma"};
             string[] preferred_video = {"vp8"};  // VP8 first for compatibility!
             string[] preferred = media == "audio" ? preferred_audio : preferred_video;
             
