@@ -24,9 +24,8 @@ The file `plugins/omemo/src/native/helper.c` provides GCrypt-based cryptographic
 (HMAC-SHA256, SHA-512, AES encrypt/decrypt, random) registered as the Signal Protocol crypto
 provider for libomemo-c (formerly libsignal-protocol-c).
 
-**This file originates from the original Dino project**, authored by **Marvin W** (core Dino
-developer) on March 11, 2017, as `plugins/signal-protocol/src/signal_helper.c`. It has been
-renamed twice:
+**This file originates from the original Dino project** (March 11, 2017), originally at
+`plugins/signal-protocol/src/signal_helper.c`. It has been renamed twice:
 
 - 2023: `plugins/omemo/src/signal/signal_helper.c`
 - 2025: `plugins/omemo/src/native/helper.c`
