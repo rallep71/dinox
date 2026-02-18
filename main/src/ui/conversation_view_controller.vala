@@ -208,6 +208,19 @@ public class ConversationViewController : Object {
         if (conversation == null) return;
 
         bool upload_available = yield stream_interactor.get_module<FileManager>(FileManager.IDENTITY).is_upload_available(conversation);
+
+        // Optimistic UI: If the stream is still connecting and the server hasn't
+        // confirmed HTTP Upload yet, keep the button visible instead of hiding it
+        // and causing a jarring pop-in once the disco#info response arrives.
+        if (!upload_available) {
+            var conn_state = stream_interactor.connection_manager.get_state(conversation.account);
+            if (conn_state == ConnectionManager.ConnectionState.CONNECTING) {
+                // Stream not fully negotiated yet -- assume upload will be available
+                // (virtually all modern XMPP servers support HTTP File Upload).
+                upload_available = true;
+            }
+        }
+
         chat_input_controller.set_file_upload_active(upload_available);
 
         if (upload_available) {
