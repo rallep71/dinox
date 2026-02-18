@@ -1,6 +1,6 @@
 # DinoX - Development Plan
 
-> **Last Updated**: February 17, 2026 (v1.1.0.6)
+> **Last Updated**: February 18, 2026 (v1.1.0.7)
 > **Current Release Line**: 1.1.0.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.0.6 |
+| **Current Version** | 1.1.0.7 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (~85% translated) |
 | **Build Status** | Clean |
@@ -20,6 +20,16 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v1.1.0.7 (Public Room Search, UX Polish, Zero Warnings)
+
+- **Public XMPP Room Search**: Search all public XMPP servers via search.jabber.network API in Browse Rooms dialog. Toggle between local disco and global public search.
+- **Subscription Status**: Show roster subscription state (Mutual, To, From, None) and pending requests in contact details.
+- **Duplicate Close Button Fix**: Removed redundant X+Cancel from 10 dialogs (decoration-layout).
+- **Attachment Button Lag Fix**: Optimistic UI keeps file button visible while XMPP stream still connecting.
+- **All Compiler Warnings Eliminated**: Unreachable catches, unused vars, implicit .begin(), uint8[] GObject properties, Windows-conditional extern/methods. 626/626 targets, zero warnings.
+- **GTK/Adwaita Warnings Fixed**: CSS max-width replaced with widget constraint, PreferencesDialog minimum size set.
+- **SASL Debug Logging & Scripts**: Extended debug logging, documented all scripts, extended log scanner.
 
 ### v1.1.0.6 (SCRAM Channel Binding & Downgrade Protection)
 
