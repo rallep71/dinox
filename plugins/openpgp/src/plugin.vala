@@ -5,8 +5,10 @@ using Dino.Entities;
 extern const string GETTEXT_PACKAGE;
 extern const string LOCALE_INSTALL_DIR;
 
+#if WINDOWS
 [CCode (cname = "openpgp_fix_windows_stdio", cheader_filename = "gpgme_fix.h")]
 extern void openpgp_fix_windows_stdio();
+#endif
 
 namespace Dino.Plugins.OpenPgp {
 
@@ -33,8 +35,8 @@ public class Plugin : Plugins.RootInterface, Object {
         // On Windows (MSYS2), get_storage_dir returns a Unix-style path (/c/...), but native GPG
         // expects Windows-style paths (C:\...). If we set GNUPGHOME to the Unix path, GPG fails.
         string env_gnupg_home = openpgp_gnupg_home;
-        string? gpg_bindir = null;
 #if WINDOWS
+        string? gpg_bindir = null;
         openpgp_fix_windows_stdio();
         // Force backslashes for Windows paths to ensure native GPG compatibility
         // First handle potential MSYS path conversion if it starts with /c/

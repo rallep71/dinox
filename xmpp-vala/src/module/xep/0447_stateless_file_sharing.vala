@@ -199,8 +199,9 @@ namespace Xmpp.Xep.StatelessFileSharing {
     public class EsfsHttpSource : Object, Source {
         public const string NS_URI = "urn:xmpp:esfs:0";
         public string url { get; set; }
-        public uint8[] key { get; set; }
-        public uint8[] iv { get; set; }
+        // uint8[] cannot be a GObject property; use plain fields
+        public uint8[] key;
+        public uint8[] iv;
         public string cipher_uri { get; set; default = ""; }
 
         public string type() {

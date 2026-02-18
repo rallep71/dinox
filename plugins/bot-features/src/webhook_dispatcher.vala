@@ -28,7 +28,7 @@ public class WebhookDispatcher : Object {
                 msg.get_request_headers().append("X-Bot-Delivery", GLib.Uuid.string_random());
                 msg.get_request_headers().append("User-Agent", "DinoX-BotAPI/1.0");
 
-                var response = yield session.send_and_read_async(msg, GLib.Priority.DEFAULT, null);
+                yield session.send_and_read_async(msg, GLib.Priority.DEFAULT, null);
 
                 uint status = msg.get_status();
                 if (status >= 200 && status < 300) {

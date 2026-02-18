@@ -37,6 +37,7 @@ public class ContactBrowserDialog : Adw.Dialog {
         
         // Header
         var header_bar = new Adw.HeaderBar();
+        header_bar.decoration_layout = ":";
         
         cancel_button = new Button.with_label(_("Cancel"));
         start_button = new Button.with_label(_("Start"));

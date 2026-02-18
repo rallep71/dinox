@@ -540,12 +540,12 @@ namespace Dino.Ui {
                 if (url.has_prefix("http://") || url.has_prefix("https://")) {
                     // Skip aesgcm (OMEMO file transfer)
                     if (url.contains("aesgcm")) {
-                        try { match.next(); } catch (RegexError e) { break; }
+                        match.next();
                         continue;
                     }
                     return url;
                 }
-                try { match.next(); } catch (RegexError e) { break; }
+                match.next();
             }
         } catch (Error e) {
             debug("URL extraction error: %s", e.message);

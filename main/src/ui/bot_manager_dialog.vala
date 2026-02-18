@@ -20,7 +20,6 @@ public class BotManagerDialog : Adw.Dialog {
     [GtkChild] private unowned Gtk.Button create_button;
     [GtkChild] private unowned Gtk.Label api_status_label;
     [GtkChild] private unowned Adw.SwitchRow account_enabled_switch;
-    [GtkChild] private unowned Adw.ExpanderRow ejabberd_expander;
     [GtkChild] private unowned Adw.EntryRow ejabberd_url_entry;
     [GtkChild] private unowned Adw.EntryRow ejabberd_host_entry;
     [GtkChild] private unowned Adw.EntryRow ejabberd_admin_entry;
@@ -475,7 +474,7 @@ public class BotManagerDialog : Adw.Dialog {
 
             var msg = new Soup.Message("POST", "http://127.0.0.1:%u/bot/ejabberd/settings".printf(api_port));
             msg.set_request_body_from_bytes("application/json", new Bytes(body.data));
-            Bytes response = yield http.send_and_read_async(msg, GLib.Priority.DEFAULT, null);
+            yield http.send_and_read_async(msg, GLib.Priority.DEFAULT, null);
 
             if (msg.status_code == 200) {
                 ejabberd_actions_row.subtitle = _("Saved");

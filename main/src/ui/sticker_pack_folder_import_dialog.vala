@@ -56,6 +56,7 @@ public class StickerPackFolderImportDialog : Adw.Window {
 
         // Adw.Window does not support gtk_window_set_titlebar(); keep header inside content.
         var header = new Adw.HeaderBar();
+        header.decoration_layout = ":";
 
         // Title line with spinner (spinner shows immediately when starting).
         var title_row = new Gtk.Box(Orientation.HORIZONTAL, 8);

@@ -457,22 +457,18 @@ public class BotOmemoManager : Object {
 
     /** Make a PubSub bundle node publicly accessible (background task). */
     private async void make_bundle_node_public(XmppStream stream, string node_id) {
-        try {
-            Xep.DataForms.DataForm? form = yield stream.get_module<Xep.Pubsub.Module>(Xep.Pubsub.Module.IDENTITY)
-                .request_node_config(stream, null, node_id);
-            if (form == null) return;
-            foreach (Xep.DataForms.DataForm.Field field in form.fields) {
-                if (field.var == "pubsub#access_model" &&
-                    field.get_value_string() != Xep.Pubsub.ACCESS_MODEL_OPEN) {
-                    field.set_value_string(Xep.Pubsub.ACCESS_MODEL_OPEN);
-                    yield stream.get_module<Xep.Pubsub.Module>(Xep.Pubsub.Module.IDENTITY)
-                        .submit_node_config(stream, null, form, node_id);
-                    message("BotOmemo: Made bundle node %s public", node_id);
-                    break;
-                }
+        Xep.DataForms.DataForm? form = yield stream.get_module<Xep.Pubsub.Module>(Xep.Pubsub.Module.IDENTITY)
+            .request_node_config(stream, null, node_id);
+        if (form == null) return;
+        foreach (Xep.DataForms.DataForm.Field field in form.fields) {
+            if (field.var == "pubsub#access_model" &&
+                field.get_value_string() != Xep.Pubsub.ACCESS_MODEL_OPEN) {
+                field.set_value_string(Xep.Pubsub.ACCESS_MODEL_OPEN);
+                yield stream.get_module<Xep.Pubsub.Module>(Xep.Pubsub.Module.IDENTITY)
+                    .submit_node_config(stream, null, form, node_id);
+                message("BotOmemo: Made bundle node %s public", node_id);
+                break;
             }
-        } catch (Error e) {
-            warning("BotOmemo: Could not make bundle node %s public: %s", node_id, e.message);
         }
     }
 

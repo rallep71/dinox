@@ -81,7 +81,7 @@
                                   <class name="boxed-list"/>
                                 </style>
                                 <child>
-                                  <object class="AdwExpanderRow" id="ejabberd_expander">
+                                  <object class="AdwExpanderRow">
                                     <property name="title" translatable="yes">Server Settings</property>
                                     <property name="subtitle" translatable="yes">ejabberd API for dedicated bots</property>
                                     <property name="show-enable-switch">false</property>

@@ -2330,6 +2330,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         dialog.child = toolbar_view;
 
         var header = new Adw.HeaderBar ();
+        header.decoration_layout = ":";
         toolbar_view.add_top_bar (header);
 
         var cancel_button = new Gtk.Button.with_label (_("Cancel"));
