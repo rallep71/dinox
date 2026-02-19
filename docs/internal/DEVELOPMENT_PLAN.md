@@ -1,6 +1,6 @@
 # DinoX - Development Plan
 
-> **Last Updated**: February 19, 2026 (v1.1.1.0)
+> **Last Updated**: February 19, 2026 (v1.1.1.1)
 > **Current Release Line**: 1.1.1.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.1.0 |
+| **Current Version** | 1.1.1.1 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (~85% translated) |
 | **Build Status** | Clean |
@@ -20,6 +20,11 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v1.1.1.1 (AudioRecorder Fix, Installation Docs)
+
+- **AudioRecorder MP4 Corruption Fix**: Replaced pad probe buffer dropping with volume mute (0 to 1.8 after 200ms). Pad probes caused timestamp gaps in MP4 container, producing corrupted audio files.
+- **Installation Docs**: Added GNOME Platform//48 runtime requirement to Flatpak instructions in README, website and release notes.
 
 ### v1.1.1.0 (Video Messages, MUC Fixes, AudioRecorder Hardening)
 
