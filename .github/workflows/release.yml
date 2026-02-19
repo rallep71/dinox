@@ -172,6 +172,44 @@ jobs:
           fi
           echo "$notes" >> RELEASE_BODY.md
 
+          # Installation instructions
+          cat >> RELEASE_BODY.md << 'INSTALL_EOF'
+
+---
+
+### Installation
+
+#### Flatpak (Linux)
+```bash
+# 1. Install the GNOME runtime (required, one-time setup)
+flatpak install flathub org.gnome.Platform//48
+
+# 2. Install DinoX (replace ARCH with x86_64 or aarch64)
+flatpak install dinox-VERSION-ARCH.flatpak
+```
+
+#### AppImage (Linux)
+Download the `.AppImage` file from the [AppImage release](https://github.com/rallep71/dinox/actions/workflows/build-appimage.yml), make it executable and run:
+```bash
+chmod +x DinoX-*.AppImage
+./DinoX-*.AppImage
+```
+
+#### Windows
+Download and extract the `.zip` file. Run `dinox.exe` from the extracted folder.
+**Note:** Windows builds are experimental. See the [README](https://github.com/rallep71/dinox#windows) for details.
+
+#### Build from Source
+```bash
+tar xf dinox-VERSION.tar.gz
+cd dinox-VERSION
+meson setup build && cd build && ninja
+```
+INSTALL_EOF
+
+          # Replace VERSION placeholder with actual version
+          sed -i "s/VERSION/$version/g" RELEASE_BODY.md
+
       - name: "Create Release"
         uses: softprops/action-gh-release@v2
         with:
