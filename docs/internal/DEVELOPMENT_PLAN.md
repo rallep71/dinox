@@ -1,7 +1,7 @@
 # DinoX - Development Plan
 
-> **Last Updated**: February 18, 2026 (v1.1.0.9)
-> **Current Release Line**: 1.1.0.x
+> **Last Updated**: February 19, 2026 (v1.1.1.0)
+> **Current Release Line**: 1.1.1.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
 
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.0.9 |
+| **Current Version** | 1.1.1.0 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (~85% translated) |
 | **Build Status** | Clean |
@@ -20,6 +20,16 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v1.1.1.0 (Video Messages, MUC Fixes, AudioRecorder Hardening)
+
+- **Video Messages**: Record and send video messages with camera+microphone. GStreamer pipeline with pipewiresrc/v4l2src (video) and autoaudiosrc (audio), H.264+AAC in MP4, HW encoder fallback (vaapi/va/x264). Live preview via gdkpixbufsink. Camera button in chat input. Max 720p/30fps, 120s.
+- **G.711 Fallback Codecs**: PCMU/PCMA for SIP gateway compatibility.
+- **MUC Role/Affiliation Fixes**: Signals only fire on actual changes, moderator menu per XEP-0045, role status messages.
+- **Botmother UI Fixes**: ejabberd test-before-save, vCard debounce, stream cleanup.
+- **Video Player Size Cap**: 400x225px Gtk.Frame prevents oversized inline video.
+- **Recording Lifecycle Fixes**: Popover destroyed after each recording (fresh preview), signal handlers disconnected in dispose, GStreamer elements released.
+- **AudioRecorder Hardening**: autoaudiosrc instead of pipewiresrc, double-callback guard, timer leak fix, PipeWire transient mute.
 
 ### v1.1.0.9 (OMEMO Session Reset, IV Fix, Auto-Recovery)
 
