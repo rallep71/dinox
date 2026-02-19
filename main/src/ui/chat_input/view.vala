@@ -28,6 +28,7 @@ public class View : Box {
     [GtkChild] public unowned Button send_location_button;
     [GtkChild] public unowned Popover attachment_popover;
     [GtkChild] public unowned Button record_button;
+    [GtkChild] public unowned Button video_record_button;
     [GtkChild] public unowned MenuButton emoji_button;
     [GtkChild] public unowned MenuButton sticker_button;
     [GtkChild] public unowned MenuButton encryption_button;

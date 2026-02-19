@@ -48,6 +48,9 @@ public class ConversationViewController : Object {
             // We just need to make sure we pass the file object.
             send_file(File.new_for_path(path));
         });
+        chat_input_controller.video_message_recorded.connect((path) => {
+            send_file(File.new_for_path(path));
+        });
 
         view.chat_input.send_file_button.clicked.connect(() => {
             view.chat_input.attachment_popover.popdown();

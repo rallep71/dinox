@@ -25,6 +25,7 @@ public class ChatInputController : Object {
     public signal void file_picker_selected();
     public signal void clipboard_pasted();
     public signal void voice_message_recorded(string path);
+    public signal void video_message_recorded(string path);
 
     public new string? conversation_display_name { get; set; }
     public string? conversation_topic { get; set; }
@@ -42,6 +43,9 @@ public class ChatInputController : Object {
     private AudioRecorder audio_recorder;
     private VoiceRecorderPopover? recorder_popover = null;
     private bool is_recording = false;
+    private VideoRecorder video_recorder;
+    private VideoRecorderPopover? video_popover = null;
+    private bool is_video_recording = false;
 
     public ChatInputController(ChatInput.View chat_input, StreamInteractor stream_interactor) {
         this.chat_input = chat_input;
@@ -49,6 +53,7 @@ public class ChatInputController : Object {
         this.stream_interactor = stream_interactor;
         this.chat_text_view_controller = new ChatTextViewController(chat_input.chat_text_view, stream_interactor);
         this.audio_recorder = new AudioRecorder();
+        this.video_recorder = new VideoRecorder();
 
         chat_input.init(stream_interactor);
 
@@ -67,6 +72,7 @@ public class ChatInputController : Object {
 
         // chat_input.file_button.clicked.connect(() => file_picker_selected());
         chat_input.record_button.clicked.connect(show_recorder_popover);
+        chat_input.video_record_button.clicked.connect(show_video_recorder_popover);
         chat_input.send_button.clicked.connect(send_text);
 
         stream_interactor.get_module<MucManager>(MucManager.IDENTITY).received_occupant_role.connect(update_moderated_input_status);
@@ -382,6 +388,95 @@ public class ChatInputController : Object {
         if (audio_recorder.current_output_path != null) {
             FileUtils.unlink(audio_recorder.current_output_path);
         }
+    }
+
+    // === Video Recording ===
+
+    private void show_video_recorder_popover() {
+        if (video_popover == null) {
+            video_popover = new VideoRecorderPopover(video_recorder);
+            video_popover.set_parent(chat_input.video_record_button);
+
+            video_popover.send_clicked.connect(() => {
+                if (is_video_recording) {
+                    is_video_recording = false;
+                    stop_video_recording.begin();
+                }
+                video_popover.popdown();
+            });
+
+            video_popover.cancel_clicked.connect(() => {
+                if (is_video_recording) {
+                    is_video_recording = false;
+                    cancel_video_recording.begin();
+                }
+                video_popover.popdown();
+            });
+
+            video_popover.closed.connect(() => {
+                if (is_video_recording) {
+                    is_video_recording = false;
+                    cancel_video_recording.begin();
+                }
+                // Destroy popover so preview poll restarts fresh next time
+                video_popover.unparent();
+                video_popover = null;
+            });
+        }
+
+        video_popover.popup();
+        start_video_recording();
+    }
+
+    private void start_video_recording() {
+        try {
+            string path = Path.build_filename(Environment.get_tmp_dir(),
+                "dino_video_%s.mp4".printf(new DateTime.now_local().format("%Y%m%d%H%M%S")));
+            debug("ChatInputController.start_video_recording: path=%s", path);
+            video_recorder.start_recording(path);
+            is_video_recording = true;
+            chat_input.video_record_button.icon_name = "media-record-symbolic";
+            chat_input.video_record_button.add_css_class("destructive-action");
+        } catch (Error e) {
+            warning("Failed to start video recording: %s", e.message);
+        }
+    }
+
+    private async void stop_video_recording() {
+        debug("ChatInputController.stop_video_recording: called");
+        chat_input.video_record_button.sensitive = false;
+        // Save path before stop (stop may clear it)
+        string? path = video_recorder.current_output_path;
+        yield video_recorder.stop_recording_async();
+        debug("ChatInputController.stop_video_recording: returned from async stop");
+        chat_input.video_record_button.sensitive = true;
+
+        chat_input.video_record_button.icon_name = "camera-video-symbolic";
+        chat_input.video_record_button.remove_css_class("destructive-action");
+
+        if (path != null) {
+            File f = File.new_for_path(path);
+            try {
+                FileInfo info = f.query_info(FileAttribute.STANDARD_SIZE, FileQueryInfoFlags.NONE);
+                debug("ChatInputController.stop_video_recording: file size=%lld", info.get_size());
+                if (info.get_size() > 0) {
+                    debug("ChatInputController.stop_video_recording: emitting video_message_recorded");
+                    video_message_recorded(path);
+                } else {
+                    warning("Recorded video file is empty, not sending.");
+                    FileUtils.unlink(path);
+                }
+            } catch (Error e) {
+                warning("Failed to check recorded video file: %s", e.message);
+            }
+        }
+    }
+
+    private async void cancel_video_recording() {
+        video_recorder.cancel_recording();
+        chat_input.video_record_button.sensitive = true;
+        chat_input.video_record_button.icon_name = "camera-video-symbolic";
+        chat_input.video_record_button.remove_css_class("destructive-action");
     }
 }
 

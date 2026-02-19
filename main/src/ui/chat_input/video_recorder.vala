@@ -1,0 +1,427 @@
+/*
+ * Copyright (C) 2025 Ralf Peter <dinox@handwerker.jetzt>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ */
+
+using Gst;
+
+namespace Dino.Ui.ChatInput {
+
+public class VideoRecorder : GLib.Object {
+    private Pipeline pipeline;
+    private Element video_source;
+    private Element video_convert;
+    private Element video_scale;
+    private Element video_rate;
+    private Element video_capsfilter;
+    private Element video_encoder;
+    private Element video_parser;
+    private Element video_queue;
+    private Element audio_source;
+    private Element audio_convert;
+    private Element audio_resample;
+    private Element audio_capsfilter;
+    private Element audio_volume;
+    private Element audio_encoder;
+    private Element audio_convert2;
+    private Element audio_parser;
+    private Element audio_queue;
+    private Element muxer;
+    private Element sink;
+    private Element tee;
+    private Element preview_queue;
+    private Element preview_convert;
+    private Element preview_sink;
+    private Gst.Bus? bus;
+    private uint timeout_id = 0;
+    private int64 start_time = 0;
+    public const int MAX_DURATION_SECONDS = 120; // 2 minutes
+
+    public string? current_output_path { get; private set; }
+    public bool is_recording { get; private set; default = false; }
+
+    // GdkPixbuf sink element for live preview in the popover
+    public Element? gtk_sink { get; private set; }
+
+    public signal void duration_changed(string text);
+    public signal void max_duration_reached();
+
+    public VideoRecorder() {
+    }
+
+    ~VideoRecorder() {
+        if (is_recording) {
+            cancel_recording();
+        }
+    }
+
+    public void start_recording(string output_path) throws Error {
+        debug("VideoRecorder.start_recording: output_path=%s", output_path);
+        if (is_recording) return;
+
+        current_output_path = output_path;
+
+        pipeline = new Pipeline("video-recorder");
+
+        // === VIDEO branch ===
+        if (ElementFactory.find("pipewiresrc") != null) {
+            video_source = ElementFactory.make("pipewiresrc", "video-source");
+            // PipeWire auto-detects camera via downstream video caps negotiation
+        } else {
+            video_source = ElementFactory.make("v4l2src", "video-source");
+        }
+        video_convert = ElementFactory.make("videoconvert", "video-convert");
+        video_scale = ElementFactory.make("videoscale", "video-scale");
+        video_rate = ElementFactory.make("videorate", "video-rate");
+        video_capsfilter = ElementFactory.make("capsfilter", "video-caps");
+        video_queue = ElementFactory.make("queue", "video-queue");
+
+        // Tee for preview + recording
+        tee = ElementFactory.make("tee", "video-tee");
+        preview_queue = ElementFactory.make("queue", "preview-queue");
+        preview_convert = ElementFactory.make("videoconvert", "preview-convert");
+
+        // GdkPixbuf sink for live preview - available in gst-plugins-good
+        preview_sink = ElementFactory.make("gdkpixbufsink", "preview-sink");
+        if (preview_sink == null) {
+            preview_sink = ElementFactory.make("fakesink", "preview-sink");
+            if (preview_sink != null) preview_sink.set("sync", true);
+            warning("gdkpixbufsink not available, preview disabled");
+        }
+
+        // H.264 encoder - try hardware first, then software
+        video_encoder = ElementFactory.make("vaapih264enc", "video-encoder");
+        if (video_encoder == null) {
+            video_encoder = ElementFactory.make("vah264enc", "video-encoder");
+        }
+        if (video_encoder == null) {
+            video_encoder = ElementFactory.make("x264enc", "video-encoder");
+            if (video_encoder != null) {
+                // Software encoder: tune for speed and low latency
+                video_encoder.set("speed-preset", 2); // superfast
+                video_encoder.set("tune", 4); // zerolatency
+                video_encoder.set("bitrate", 1500); // kbps (x264enc takes kbps)
+                video_encoder.set("key-int-max", 60);
+            }
+        }
+        video_parser = ElementFactory.make("h264parse", "video-parser");
+
+        // === AUDIO branch ===
+        // Always use autoaudiosrc for audio - it auto-detects PipeWire/PulseAudio/ALSA
+        // (pipewiresrc defaults to video and stream-properties don't reliably force audio)
+        audio_source = ElementFactory.make("autoaudiosrc", "audio-source");
+        audio_convert = ElementFactory.make("audioconvert", "audio-convert");
+        audio_resample = ElementFactory.make("audioresample", "audio-resample");
+        audio_capsfilter = ElementFactory.make("capsfilter", "audio-caps");
+        audio_volume = ElementFactory.make("volume", "audio-volume");
+        audio_queue = ElementFactory.make("queue", "audio-queue");
+        // Second audioconvert: S16LE (from capsfilter) -> F32LE (for avenc_aac)
+        audio_convert2 = ElementFactory.make("audioconvert", "audio-convert2");
+        audio_encoder = ElementFactory.make("avenc_aac", "audio-encoder");
+        if (audio_encoder == null) {
+            audio_encoder = ElementFactory.make("voaacenc", "audio-encoder");
+        }
+        audio_parser = ElementFactory.make("aacparse", "audio-parser");
+
+        // === Muxer + Sink ===
+        muxer = ElementFactory.make("mp4mux", "muxer");
+        sink = ElementFactory.make("filesink", "sink");
+
+        // Validate all required elements
+        if (video_source == null || video_convert == null || video_scale == null ||
+            video_capsfilter == null || video_encoder == null || video_parser == null ||
+            audio_source == null || audio_convert == null || audio_resample == null ||
+            audio_capsfilter == null || audio_encoder == null || audio_parser == null ||
+            muxer == null || sink == null || tee == null || preview_queue == null ||
+            video_queue == null || audio_queue == null || video_rate == null) {
+            throw new Error(Quark.from_string("VideoRecorder"), 0,
+                "Could not create GStreamer elements. Missing plugins? Need: gst-plugins-good, gst-plugins-bad, gst-plugins-ugly, gst-libav, gstreamer-gtk4");
+        }
+
+        // Configure video caps: max 720p, max 30fps - accept lower resolutions
+        video_capsfilter.set("caps", Caps.from_string(
+            "video/x-raw, width=[1,1280], height=[1,720], framerate=[1/1,30/1]"));
+
+        // Configure audio caps: 48kHz mono
+        audio_capsfilter.set("caps", Caps.from_string(
+            "audio/x-raw, rate=48000, channels=1, format=S16LE"));
+
+        // Mute during PipeWire connection transient, unmute after stabilization
+        audio_volume.set("volume", 0.0);
+
+        // AAC 96kbps for audio in video
+        if (audio_encoder.get_factory().get_name() == "avenc_aac" || audio_encoder.get_factory().get_name() == "voaacenc") {
+            audio_encoder.set("bitrate", 96000);
+        }
+
+        sink.set("location", output_path);
+
+        // Queue settings for smooth recording
+        video_queue.set("max-size-time", (uint64)3000000000); // 3s buffer
+        video_queue.set("max-size-buffers", 0);
+        video_queue.set("max-size-bytes", 0);
+        audio_queue.set("max-size-time", (uint64)3000000000);
+        audio_queue.set("max-size-buffers", 0);
+        audio_queue.set("max-size-bytes", 0);
+        preview_queue.set("max-size-buffers", 3);
+        preview_queue.set("leaky", 2); // downstream = drop oldest
+
+        // Add all elements to pipeline
+        pipeline.add_many(video_source, video_convert, video_scale, video_rate,
+            video_capsfilter, tee, video_queue, video_encoder, video_parser,
+            preview_queue, preview_convert, preview_sink,
+            audio_source, audio_volume, audio_convert, audio_resample, audio_capsfilter,
+            audio_queue, audio_convert2, audio_encoder, audio_parser,
+            muxer, sink);
+
+        // Link video source chain up to tee
+        // video_source → video_convert → video_scale → video_rate → video_caps → tee
+        if (!video_source.link(video_convert) || !video_convert.link(video_scale) ||
+            !video_scale.link(video_rate) || !video_rate.link(video_capsfilter) ||
+            !video_capsfilter.link(tee)) {
+            throw new Error(Quark.from_string("VideoRecorder"), 0,
+                "Could not link video source chain");
+        }
+
+        // Tee → preview branch: preview_queue → preview_convert → preview_sink
+        var tee_preview_pad = tee.request_pad_simple("src_%u");
+        var preview_queue_pad = preview_queue.get_static_pad("sink");
+        if (tee_preview_pad.link(preview_queue_pad) != PadLinkReturn.OK) {
+            throw new Error(Quark.from_string("VideoRecorder"), 0,
+                "Could not link tee to preview queue");
+        }
+        if (!preview_queue.link(preview_convert) || !preview_convert.link(preview_sink)) {
+            throw new Error(Quark.from_string("VideoRecorder"), 0,
+                "Could not link preview branch");
+        }
+
+        // Tee → record branch: video_queue → video_encoder → video_parser → muxer
+        var tee_record_pad = tee.request_pad_simple("src_%u");
+        var record_queue_pad = video_queue.get_static_pad("sink");
+        if (tee_record_pad.link(record_queue_pad) != PadLinkReturn.OK) {
+            throw new Error(Quark.from_string("VideoRecorder"), 0,
+                "Could not link tee to record queue");
+        }
+        if (!video_queue.link(video_encoder) || !video_encoder.link(video_parser) ||
+            !video_parser.link(muxer)) {
+            throw new Error(Quark.from_string("VideoRecorder"), 0,
+                "Could not link video record branch");
+        }
+
+        // Audio chain: audio_source → volume → convert → resample → caps → queue → encoder → parser → muxer
+        if (!audio_source.link(audio_volume)) {
+            throw new Error(Quark.from_string("VideoRecorder"), 0, "Could not link audio_source → audio_volume");
+        }
+        if (!audio_volume.link(audio_convert)) {
+            throw new Error(Quark.from_string("VideoRecorder"), 0, "Could not link audio_volume → audio_convert");
+        }
+        if (!audio_convert.link(audio_resample)) {
+            throw new Error(Quark.from_string("VideoRecorder"), 0, "Could not link audio_convert → audio_resample");
+        }
+        if (!audio_resample.link(audio_capsfilter)) {
+            throw new Error(Quark.from_string("VideoRecorder"), 0, "Could not link audio_resample → audio_capsfilter");
+        }
+        if (!audio_capsfilter.link(audio_queue)) {
+            throw new Error(Quark.from_string("VideoRecorder"), 0, "Could not link audio_capsfilter → audio_queue");
+        }
+        if (!audio_queue.link(audio_convert2)) {
+            throw new Error(Quark.from_string("VideoRecorder"), 0, "Could not link audio_queue → audio_convert2");
+        }
+        if (!audio_convert2.link(audio_encoder)) {
+            throw new Error(Quark.from_string("VideoRecorder"), 0, "Could not link audio_convert2 → audio_encoder");
+        }
+        if (!audio_encoder.link(audio_parser)) {
+            throw new Error(Quark.from_string("VideoRecorder"), 0, "Could not link audio_encoder → audio_parser");
+        }
+        if (!audio_parser.link(muxer)) {
+            throw new Error(Quark.from_string("VideoRecorder"), 0, "Could not link audio_parser → muxer");
+        }
+
+        // Muxer → sink
+        if (!muxer.link(sink)) {
+            throw new Error(Quark.from_string("VideoRecorder"), 0,
+                "Could not link muxer to sink");
+        }
+
+        // Store preview sink reference for the popover to access
+        gtk_sink = preview_sink;
+
+        bus = pipeline.get_bus();
+        bus.add_signal_watch();
+        bus.message.connect(on_bus_message);
+
+        // Start directly in PLAYING - live sources (pipewiresrc, autoaudiosrc)
+        // don't produce data in PAUSED state and may block preroll.
+        // Direct PLAYING start is the reliable approach for live pipelines.
+        pipeline.set_state(State.PLAYING);
+        is_recording = true;
+        start_time = GLib.get_monotonic_time();
+        timeout_id = Timeout.add(100, update_duration);
+
+        // Unmute after PipeWire transient has passed (200ms)
+        // Volume 0→1.5: silent buffers still flow, no timestamp gaps
+        Timeout.add(200, () => {
+            if (audio_volume != null && is_recording) {
+                audio_volume.set("volume", 1.5);
+            }
+            return false;
+        });
+    }
+
+    private void on_bus_message(Gst.Bus bus, Gst.Message msg) {
+        if (msg.type == MessageType.ERROR) {
+            Error err;
+            string debug_info;
+            msg.parse_error(out err, out debug_info);
+            warning("VideoRecorder: Pipeline error: %s (%s)", err.message, debug_info);
+        } else if (msg.type == MessageType.WARNING) {
+            Error warn;
+            string debug_info;
+            msg.parse_warning(out warn, out debug_info);
+            debug("VideoRecorder: Pipeline warning: %s (%s)", warn.message, debug_info);
+        }
+    }
+
+    private bool update_duration() {
+        if (!is_recording) return false;
+        int64 now = GLib.get_monotonic_time();
+        int64 diff = now - start_time;
+        int seconds = (int)(diff / 1000000);
+        int mins = seconds / 60;
+        int secs = seconds % 60;
+
+        if (seconds >= MAX_DURATION_SECONDS) {
+            duration_changed("%d:%02d".printf(mins, secs));
+            max_duration_reached();
+            return false;
+        }
+
+        // Show remaining time in last 30 seconds
+        if (seconds >= MAX_DURATION_SECONDS - 30) {
+            int remaining = MAX_DURATION_SECONDS - seconds;
+            duration_changed("%d:%02d (-%ds)".printf(mins, secs, remaining));
+        } else {
+            duration_changed("%d:%02d".printf(mins, secs));
+        }
+        return true;
+    }
+
+    // Get the latest preview frame as a texture (from gdkpixbufsink's last-pixbuf)
+    public Gdk.Texture? get_preview_texture() {
+        if (gtk_sink == null) return null;
+        // gdkpixbufsink exposes a "last-pixbuf" property
+        GLib.Value val = GLib.Value(typeof(Gdk.Pixbuf));
+        gtk_sink.get_property("last-pixbuf", ref val);
+        Gdk.Pixbuf? pixbuf = val.get_object() as Gdk.Pixbuf;
+        if (pixbuf == null) return null;
+        return Gdk.Texture.for_pixbuf(pixbuf);
+    }
+
+    public async void stop_recording_async() {
+        debug("VideoRecorder.stop_recording_async: called");
+        if (timeout_id != 0) {
+            Source.remove(timeout_id);
+            timeout_id = 0;
+        }
+        if (pipeline != null && is_recording) {
+            debug("VideoRecorder.stop_recording_async: sending EOS");
+            pipeline.send_event(new Event.eos());
+
+            // Wait for EOS or Error
+            ulong signal_id = 0;
+            SourceFunc callback = stop_recording_async.callback;
+
+            bool eos_handled = false;
+            signal_id = bus.message.connect((bus, msg) => {
+                if (!eos_handled && (msg.type == Gst.MessageType.EOS || msg.type == Gst.MessageType.ERROR)) {
+                    eos_handled = true;
+                    debug("VideoRecorder.stop_recording_async: Received %s", msg.type.to_string());
+                    Idle.add((owned) callback);
+                }
+            });
+
+            // Safety timeout (5 seconds - video muxing takes longer than audio)
+            uint timeout_source = 0;
+            timeout_source = Timeout.add(5000, () => {
+                debug("VideoRecorder.stop_recording_async: Timeout reached");
+                callback();
+                timeout_source = 0;
+                return false;
+            });
+
+            yield;
+            debug("VideoRecorder.stop_recording_async: finished yield");
+
+            if (timeout_source != 0) {
+                Source.remove(timeout_source);
+                timeout_source = 0;
+            }
+            if (bus != null) {
+                bus.disconnect(signal_id);
+                bus.remove_signal_watch();
+                bus = null;
+            }
+
+            if (pipeline != null) {
+                pipeline.set_state(State.NULL);
+                pipeline = null;
+            }
+            is_recording = false;
+            cleanup_elements();
+        }
+    }
+
+    public void cancel_recording() {
+        if (timeout_id != 0) {
+            Source.remove(timeout_id);
+            timeout_id = 0;
+        }
+        if (pipeline != null) {
+            if (bus != null) {
+                bus.remove_signal_watch();
+                bus = null;
+            }
+            pipeline.set_state(State.NULL);
+            pipeline = null;
+            is_recording = false;
+            cleanup_elements();
+        }
+        if (current_output_path != null) {
+            FileUtils.unlink(current_output_path);
+            current_output_path = null;
+        }
+    }
+
+    private void cleanup_elements() {
+        gtk_sink = null;
+        video_source = null;
+        video_convert = null;
+        video_scale = null;
+        video_rate = null;
+        video_capsfilter = null;
+        video_encoder = null;
+        video_parser = null;
+        video_queue = null;
+        audio_source = null;
+        audio_convert = null;
+        audio_resample = null;
+        audio_capsfilter = null;
+        audio_volume = null;
+        audio_encoder = null;
+        audio_convert2 = null;
+        audio_parser = null;
+        audio_queue = null;
+        muxer = null;
+        sink = null;
+        tee = null;
+        preview_queue = null;
+        preview_convert = null;
+        preview_sink = null;
+    }
+}
+
+}
