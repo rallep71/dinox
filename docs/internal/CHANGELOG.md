@@ -5,6 +5,15 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.1.1] - 2026-02-19
+
+### Fixed
+- **AudioRecorder MP4 Corruption**: Replaced pad probe buffer dropping with volume mute approach (0 to 1.8 after 200ms). Pad probes caused MP4 timestamp discontinuities resulting in corrupted audio files ("Diese Datei ist beschaedigt"). Silent buffers now flow continuously, avoiding timestamp gaps while PipeWire transient crackling is suppressed.
+
+### Changed
+- **Version**: Bumped from 1.1.1.0 to 1.1.1.1
+- **Installation Docs**: Added GNOME Platform//48 runtime requirement to Flatpak instructions (README, website, release notes).
+
 ## [1.1.1.0] - 2026-02-19
 
 ### Added
