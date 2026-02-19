@@ -113,10 +113,40 @@ ninja -C build
 sudo apt install build-essential meson ninja-build valac \
   libgtk-4-dev libadwaita-1-dev libglib2.0-dev libgee-0.8-dev \
   libsqlcipher-dev libsecret-1-dev libicu-dev libdbusmenu-glib-dev libgcrypt20-dev \
-  libgpgme-dev libqrencode-dev libomemo-c-dev libsoup-3.0-dev libgstreamer1.0-dev \
+  libgpgme-dev libqrencode-dev libsoup-3.0-dev libgstreamer1.0-dev \
   libgstreamer-plugins-base1.0-dev libgstreamer-plugins-bad1.0-dev \
-  libwebrtc-audio-processing-dev libnice-dev libgnutls28-dev libsrtp2-dev \
-  gstreamer1.0-pipewire
+  libnice-dev libgnutls28-dev libsrtp2-dev \
+  gstreamer1.0-pipewire cmake wget
+```
+
+**Required custom dependencies** (not available in distro packages or too old):
+
+DinoX requires **webrtc-audio-processing >= 2.1**, **libnice >= 0.1.23** and **libomemo-c** which are not available in Ubuntu 24.04 repos. Build them first:
+
+```bash
+# Build script does all three automatically:
+./scripts/ci-build-deps.sh
+```
+
+Or manually:
+```bash
+# webrtc-audio-processing v2.1 (echo cancellation, noise suppression)
+wget -O webrtc-v2.1.tar.gz "https://gitlab.freedesktop.org/pulseaudio/webrtc-audio-processing/-/archive/v2.1/webrtc-audio-processing-v2.1.tar.gz"
+tar xf webrtc-v2.1.tar.gz && cd webrtc-audio-processing-v2.1
+meson setup build --prefix=/usr && ninja -C build && sudo ninja -C build install && sudo ldconfig
+cd ..
+
+# libnice 0.1.23 (ICE for audio/video calls)
+wget -O libnice-0.1.23.tar.gz "https://gitlab.freedesktop.org/libnice/libnice/-/archive/0.1.23/libnice-0.1.23.tar.gz"
+tar xf libnice-0.1.23.tar.gz && cd libnice-0.1.23
+meson setup build --prefix=/usr -Dtests=disabled -Dgtk_doc=disabled && ninja -C build && sudo ninja -C build install && sudo ldconfig
+cd ..
+
+# libomemo-c (OMEMO encryption)
+git clone https://github.com/rallep71/libomemo-c.git && cd libomemo-c
+mkdir build && cd build && cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_POSITION_INDEPENDENT_CODE=ON ..
+make -j$(nproc) && sudo make install && sudo ldconfig
+cd ../..
 ```
 
 For a complete, up-to-date build guide (including Fedora/Arch and call stack notes), see [BUILD.md](docs/internal/BUILD.md).
