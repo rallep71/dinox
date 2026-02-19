@@ -147,51 +147,81 @@ public class View : Popover {
             }
         }
 
-        if (!is_self && allowed_by_hierarchy && role ==  Xmpp.Xep.Muc.Role.MODERATOR && stream_interactor.get_module<MucManager>(MucManager.IDENTITY).kick_possible(conversation.account, jid)) {
-            outer_box.append(new Separator(Orientation.HORIZONTAL));
-            outer_box.append(create_section_label(_("Moderation")));
-            
-            outer_box.append(create_menu_button(_("Kick"), kick_button_clicked));
+        Xmpp.Xep.Muc.Role? target_role = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_role(selected_jid, conversation.account);
+
+        // === Moderation section (Role-based actions, XEP-0045 Section 8) ===
+        // Moderators can: kick, change roles (mute/unmute, grant/revoke moderator)
+        if (!is_self && role == Xmpp.Xep.Muc.Role.MODERATOR) {
+            bool has_moderation_header = false;
+
+            // Kick — requires moderator role, target must not be higher affiliation
+            if (allowed_by_hierarchy && stream_interactor.get_module<MucManager>(MucManager.IDENTITY).kick_possible(conversation.account, jid)) {
+                if (!has_moderation_header) {
+                    outer_box.append(new Separator(Orientation.HORIZONTAL));
+                    outer_box.append(create_section_label(_("Moderation")));
+                    has_moderation_header = true;
+                }
+                outer_box.append(create_menu_button(_("Kick"), kick_button_clicked));
+            }
+
+            // Mute/Unmute — change role to visitor/participant
+            if (allowed_by_hierarchy) {
+                if (!has_moderation_header) {
+                    outer_box.append(new Separator(Orientation.HORIZONTAL));
+                    outer_box.append(create_section_label(_("Moderation")));
+                    has_moderation_header = true;
+                }
+                if (target_role == Xmpp.Xep.Muc.Role.VISITOR) {
+                    outer_box.append(create_menu_button(_("Unmute"), () => voice_button_clicked("participant")));
+                } else if (target_role == Xmpp.Xep.Muc.Role.PARTICIPANT || target_role == null) {
+                    outer_box.append(create_menu_button(_("Mute"), () => voice_button_clicked("visitor")));
+                }
+            }
+
+            // Grant/Revoke Moderator role
+            if (allowed_by_hierarchy) {
+                if (!has_moderation_header) {
+                    outer_box.append(new Separator(Orientation.HORIZONTAL));
+                    outer_box.append(create_section_label(_("Moderation")));
+                    has_moderation_header = true;
+                }
+                if (target_role == Xmpp.Xep.Muc.Role.MODERATOR) {
+                    outer_box.append(create_menu_button(_("Revoke Moderator"), () => voice_button_clicked("participant")));
+                } else {
+                    outer_box.append(create_menu_button(_("Make Moderator"), () => voice_button_clicked("moderator")));
+                }
+            }
         }
-        
+
+        // === Administration section (Affiliation-based actions, XEP-0045 Section 9/10) ===
+        // Owners/Admins can: ban, change affiliations
         if (!is_self && allowed_by_hierarchy && (my_affiliation == Xmpp.Xep.Muc.Affiliation.OWNER || my_affiliation == Xmpp.Xep.Muc.Affiliation.ADMIN)) {
+            outer_box.append(new Separator(Orientation.HORIZONTAL));
+            outer_box.append(create_section_label(_("Administration")));
+
+            // Ban (change affiliation to outcast)
             outer_box.append(create_menu_button(_("Ban (Permanent)"), ban_button_clicked));
             outer_box.append(create_menu_button(_("Ban (10 min)"), () => ban_timed_button_clicked(10)));
             outer_box.append(create_menu_button(_("Ban (15 min)"), () => ban_timed_button_clicked(15)));
             outer_box.append(create_menu_button(_("Ban (30 min)"), () => ban_timed_button_clicked(30)));
 
-            // Affiliation Management
-            outer_box.append(new Separator(Orientation.HORIZONTAL));
-            outer_box.append(create_section_label(_("Administration")));
-
+            // Affiliation changes — Owner can set owner/admin/member/none
             if (my_affiliation == Xmpp.Xep.Muc.Affiliation.OWNER) {
+                if (target_affiliation != Xmpp.Xep.Muc.Affiliation.OWNER) {
+                    outer_box.append(create_menu_button(_("Make Owner"), () => set_affiliation_button_clicked("owner")));
+                }
                 if (target_affiliation != Xmpp.Xep.Muc.Affiliation.ADMIN) {
                     outer_box.append(create_menu_button(_("Make Admin"), () => set_affiliation_button_clicked("admin")));
                 } else {
                     outer_box.append(create_menu_button(_("Revoke Admin"), () => set_affiliation_button_clicked("member")));
                 }
-
-                if (target_affiliation != Xmpp.Xep.Muc.Affiliation.OWNER) {
-                    outer_box.append(create_menu_button(_("Make Owner"), () => set_affiliation_button_clicked("owner")));
-                }
             }
 
+            // Both owner and admin can set member/none
             if (target_affiliation != Xmpp.Xep.Muc.Affiliation.MEMBER) {
                 outer_box.append(create_menu_button(_("Make Member"), () => set_affiliation_button_clicked("member")));
             } else {
                 outer_box.append(create_menu_button(_("Revoke Membership"), () => set_affiliation_button_clicked("none")));
-            }
-        }
-
-        Xmpp.Xep.Muc.Role? target_role = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_role(selected_jid, conversation.account);
-
-        if (role == Xmpp.Xep.Muc.Role.MODERATOR) {
-            if (target_role ==  Xmpp.Xep.Muc.Role.VISITOR) {
-                outer_box.append(create_menu_button(_("Unmute"), () => voice_button_clicked("participant")));
-            } 
-            else if (target_role ==  Xmpp.Xep.Muc.Role.PARTICIPANT || target_role == null){
-                // If role is null, we assume they are a participant (standard user) or we just try anyway.
-                outer_box.append(create_menu_button(_("Mute"), () => voice_button_clicked("visitor")));
             }
         }
 

@@ -244,10 +244,6 @@ namespace Dino.Ui.ConversationDetails {
             if (model.settings_rows.get_n_items() > 0) {
                 about_box.append(Util.rows_to_preference_group(model.settings_rows, _("Settings")));
             }
-            if (model.room_configuration_rows != null && model.room_configuration_rows.get_n_items() > 0) {
-                add_room_configuration_tab_element();
-            }
-
             if (model.account_jid != null) {
                 var account_label = new Label(@"via $(model.account_jid)") { halign=Align.START, margin_start=14, margin_top=4 };
                 account_label.add_css_class("dim-label");
@@ -274,6 +270,13 @@ namespace Dino.Ui.ConversationDetails {
                 room_config_stack_page.title = _("Room Configuration");
                 room_config_stack_page.name = "room_config";
                 debug("Created room_config_stack_page");
+            } else {
+                // Clear existing children to avoid duplicates on repeated calls
+                var child = room_config_box.get_first_child();
+                while (child != null) {
+                    room_config_box.remove(child);
+                    child = room_config_box.get_first_child();
+                }
             }
             foreach (Adw.PreferencesGroup preferences_group in Util.rows_to_preference_window_split_at_text(model.room_configuration_rows)) {
                 room_config_box.append(preferences_group);

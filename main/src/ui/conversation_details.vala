@@ -170,33 +170,39 @@ namespace Dino.Ui.ConversationDetails {
         xmpp_addr_row.text = model.conversation.counterpart.to_string();
         view_model.about_rows.append(xmpp_addr_row);
 
-        // Check if this is a MUC occupant and show Role/Affiliation
+        // Show own Role/Affiliation in MUC rooms
         var muc_module = stream_interactor.get_module<MucManager>(MucManager.IDENTITY);
         var room_jid = model.conversation.counterpart.bare_jid;
-        if (muc_module.is_joined(room_jid, model.conversation.account)) {
-            var role = muc_module.get_role(model.conversation.counterpart, model.conversation.account);
-            var affiliation = muc_module.get_affiliation(room_jid, model.conversation.counterpart, model.conversation.account);
-            
-            if (role != null) {
-                var role_row = new ViewModel.PreferencesRow.Text();
-                role_row.title = _("Role");
-                role_row.text = role.to_string();
-                view_model.about_rows.append(role_row);
-            }
-            if (affiliation != null && affiliation != Xmpp.Xep.Muc.Affiliation.NONE) {
-                var affiliation_row = new ViewModel.PreferencesRow.Text();
-                affiliation_row.title = _("Affiliation");
-                affiliation_row.text = affiliation.to_string();
-                view_model.about_rows.append(affiliation_row);
-            }
-            
-            // Try to show Real JID if available and different from counterpart
-            var real_jid = muc_module.get_real_jid(model.conversation.counterpart, model.conversation.account);
-            if (real_jid != null && !real_jid.equals(model.conversation.counterpart)) {
-                var real_jid_row = new ViewModel.PreferencesRow.Text();
-                real_jid_row.title = _("Real JID");
-                real_jid_row.text = real_jid.to_string();
-                view_model.about_rows.append(real_jid_row);
+        if (model.conversation.type_ == Conversation.Type.GROUPCHAT && muc_module.is_joined(room_jid, model.conversation.account)) {
+            // Get own MUC JID (room@conf/nickname) to query own role
+            var own_muc_jid = muc_module.get_own_jid(room_jid, model.conversation.account);
+            if (own_muc_jid != null) {
+                var role = muc_module.get_role(own_muc_jid, model.conversation.account);
+                if (role != null && role != Xmpp.Xep.Muc.Role.NONE) {
+                    var role_row = new ViewModel.PreferencesRow.Text();
+                    role_row.title = _("Your Role");
+                    switch (role) {
+                        case Xmpp.Xep.Muc.Role.MODERATOR: role_row.text = _("Moderator"); break;
+                        case Xmpp.Xep.Muc.Role.PARTICIPANT: role_row.text = _("Participant"); break;
+                        case Xmpp.Xep.Muc.Role.VISITOR: role_row.text = _("Visitor"); break;
+                        default: role_row.text = _("None"); break;
+                    }
+                    view_model.about_rows.append(role_row);
+                }
+
+                var affiliation = muc_module.get_affiliation(room_jid, own_muc_jid, model.conversation.account);
+                if (affiliation != null && affiliation != Xmpp.Xep.Muc.Affiliation.NONE) {
+                    var affiliation_row = new ViewModel.PreferencesRow.Text();
+                    affiliation_row.title = _("Your Affiliation");
+                    switch (affiliation) {
+                        case Xmpp.Xep.Muc.Affiliation.OWNER: affiliation_row.text = _("Owner"); break;
+                        case Xmpp.Xep.Muc.Affiliation.ADMIN: affiliation_row.text = _("Admin"); break;
+                        case Xmpp.Xep.Muc.Affiliation.MEMBER: affiliation_row.text = _("Member"); break;
+                        case Xmpp.Xep.Muc.Affiliation.OUTCAST: affiliation_row.text = _("Outcast"); break;
+                        default: affiliation_row.text = _("None"); break;
+                    }
+                    view_model.about_rows.append(affiliation_row);
+                }
             }
         }
 
