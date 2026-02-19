@@ -71,8 +71,8 @@
         "description": "The first XMPP messenger with an extensible REST API and AI support for 9 providers (OpenClaw, Claude, OpenAI, Gemini, Groq, Mistral, DeepSeek, Perplexity, Ollama), Botmother bot management, Telegram bridge, 31 REST API endpoints, integrated Tor/Obfs4proxy, OMEMO encryption, decentralized group video calls, and full local data encryption.",
         "url": "https://dinox.handwerker.jetzt/",
         "downloadUrl": "https://github.com/rallep71/dinox/releases/latest",
-        "softwareVersion": "1.1.0.0",
-        "datePublished": "2026-02-15",
+        "softwareVersion": "1.1.1.0",
+        "datePublished": "2026-02-19",
         "author": {
             "@type": "Person",
             "name": "Ralf Peter",
@@ -263,7 +263,7 @@
             <div class="container hero-grid">
                 <div class="hero-header">
                     <div class="hero-badge">
-                        <span>Version 1.1.0.0 available — First XMPP Client with Extensible REST API</span>
+                        <span>Version 1.1.1.0 available — First XMPP Client with Extensible REST API</span>
                     </div>
                     
                     <h1 class="hero-title">The First XMPP Messenger with Extensible REST API, AI Support &amp; Advanced Security Features</h1>
@@ -757,7 +757,11 @@
                         </div>
                         <h3>Flatpak</h3>
                         <p>Recommended installation for all Linux distributions. Sandboxed, automatic updates.</p>
-                        <pre><code>flatpak install --user DinoX.flatpak</code></pre>
+                        <pre><code># Install GNOME runtime first (one-time)
+flatpak install flathub org.gnome.Platform//48
+
+# Then install DinoX
+flatpak install --user dinox-*-x86_64.flatpak</code></pre>
                         <a href="https://github.com/rallep71/dinox/releases/latest" class="btn btn-primary">
                             GitHub Releases
                         </a>
@@ -869,7 +873,7 @@ ninja -C build && sudo ninja -C build install</code></pre>
                         <div class="xep-stat-label">Translation</div>
                     </div>
                     <div class="xep-stat" id="xep-version-stat">
-                        <div class="xep-stat-number">v1.1.0.0</div>
+                        <div class="xep-stat-number">v1.1.1.0</div>
                         <div class="xep-stat-label">Current Version</div>
                     </div>
                 </div>
