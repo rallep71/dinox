@@ -62,6 +62,8 @@ sources = files(
     'src/ui/call_window/video_settings_popover.vala',
     'src/ui/chat_input/audio_recorder.vala',
     'src/ui/chat_input/voice_recorder_popover.vala',
+    'src/ui/chat_input/video_recorder.vala',
+    'src/ui/chat_input/video_recorder_popover.vala',
     'src/ui/chat_input/chat_input_controller.vala',
     'src/ui/chat_input/chat_text_view.vala',
     'src/ui/chat_input/encryption_button.vala',

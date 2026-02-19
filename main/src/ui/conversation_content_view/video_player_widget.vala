@@ -388,22 +388,22 @@ public class VideoPlayerWidget : Widget {
 
         if (video_picture == null) {
             video_picture = new Gtk.Picture();
-            video_picture.content_fit = ContentFit.SCALE_DOWN;  // Scale down large videos
+            video_picture.content_fit = ContentFit.CONTAIN;
             video_picture.can_shrink = true;
-            video_picture.halign = Align.START;
-            video_picture.valign = Align.START;
+            video_picture.halign = Align.FILL;
+            video_picture.valign = Align.FILL;
             video_picture.hexpand = false;
             video_picture.vexpand = false;
-            // Set max size but allow scaling down
-            video_picture.set_size_request(320, 180);  // Minimum 320x180 (16:9)
             
-            // Create aspect frame to maintain ratio
-            var aspect_frame = new Gtk.AspectFrame(0.0f, 0.0f, 16.0f/9.0f, false);
-            aspect_frame.set_child(video_picture);
-            aspect_frame.halign = Align.START;
-            aspect_frame.valign = Align.START;
-            aspect_frame.hexpand = false;
-            aspect_frame.vexpand = false;
+            // Fixed-size frame: 400x225 (16:9) - video scales inside via CONTAIN
+            var frame = new Gtk.Frame(null);
+            frame.set_child(video_picture);
+            frame.halign = Align.START;
+            frame.valign = Align.START;
+            frame.hexpand = false;
+            frame.vexpand = false;
+            frame.set_size_request(400, 225);
+            frame.overflow = Gtk.Overflow.HIDDEN;
             
             // Create a box to hold the video and controls
             var box = new Gtk.Box(Orientation.VERTICAL, 0);
@@ -412,7 +412,7 @@ public class VideoPlayerWidget : Widget {
             box.hexpand = false;
             box.vexpand = false;
             
-            box.append(aspect_frame);
+            box.append(frame);
             
             video_container = box;
             stack.add_child(video_container);
