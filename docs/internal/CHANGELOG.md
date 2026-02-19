@@ -5,6 +5,30 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.1.0] - 2026-02-19
+
+### Added
+- **Video Messages**: Record and send video messages with camera and microphone. New VideoRecorder module with GStreamer pipeline (pipewiresrc/v4l2src for video, autoaudiosrc for audio). H.264+AAC in MP4 container with hardware encoder fallback (vaapi/va/x264). Live camera preview in popover via gdkpixbufsink (20fps polling). Camera button next to microphone in chat input. Max 720p/30fps, max 120 seconds recording.
+- **G.711 Fallback Codecs**: Added PCMU/PCMA (G.711) fallback codecs for SIP gateway compatibility in audio/video calls.
+- **Monal Session-Terminate Analysis**: Documented Monal issue #1576 (session-terminate bug).
+
+### Fixed
+- **MUC Role/Affiliation Signals**: Role and affiliation change signals now only fire on actual changes, preventing redundant status messages and UI updates.
+- **MUC Moderator Menu**: Fixed occupant menu role/affiliation display per XEP-0045. Moderator fallback for role status messages.
+- **Botmother UI Fixes**: ejabberd test-before-save, vCard debounce, stream cleanup improvements.
+- **Video Player Size**: Video player in chat capped at 400x225px using Gtk.Frame to prevent oversized display.
+- **Video Recording Preview Freeze**: Popover destroyed after each recording to ensure fresh preview poll on subsequent recordings.
+- **Video Recording Signal Leak**: Signal handlers (duration_changed, max_duration_reached) properly disconnected in popover dispose to prevent callbacks on destroyed widgets.
+- **Audio Crackling**: First 200ms muted to suppress PipeWire connection transient crackling in video recordings.
+- **AudioRecorder Source**: Changed from pipewiresrc (defaults to video) to autoaudiosrc for reliable audio capture.
+- **AudioRecorder Double-Callback**: Added EOS-handled guard to prevent double yield-resume in stop_recording_async.
+- **AudioRecorder Timer Leak**: cancel_recording now properly removes the duration update timer.
+- **GStreamer Element Leak**: All GStreamer elements released after recording via cleanup_elements.
+- **PubSub Log Level**: Downgraded PubSub IQ response log from warning to debug.
+
+### Changed
+- **Version**: Bumped from 1.1.0.9 to 1.1.1.0
+
 ## [1.1.0.9] - 2026-02-18
 
 ### Added
