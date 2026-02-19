@@ -28,11 +28,6 @@ public class AudioRecorder : GLib.Object {
     private Gst.Bus? bus;
     private uint timeout_id = 0;
     private int64 start_time = 0;
-    private int64 recording_start_us = 0;
-    private const int64 POST_READY_SAFETY_US = 80000; // 80ms extra after ASYNC_DONE
-    private bool pipeline_ready = false;
-    private int64 pipeline_ready_time = 0;
-    private ulong audio_probe_id = 0;
     public const int MAX_DURATION_SECONDS = 300; // 5 minutes max recording
 
     // Direct C binding to avoid GLib.ValueArray deprecation warning (deprecated since GLib 2.32)
@@ -96,8 +91,8 @@ public class AudioRecorder : GLib.Object {
             encoder.set("bitrate", 64000);
         }
 
-        // Normal volume - pad probe handles PipeWire transient
-        volume.set("volume", 1.8);
+        // Start muted - unmute after 200ms to suppress PipeWire transient crackling
+        volume.set("volume", 0.0);
 
         // Soft-knee compressor/limiter to prevent clipping and reduce dynamic range
         // Threshold 0.5 = -6 dB, ratio 0.3 = ~3:1 compression above threshold
@@ -137,25 +132,16 @@ public class AudioRecorder : GLib.Object {
         pipeline.set_state(State.PLAYING);
         is_recording = true;
         start_time = GLib.get_monotonic_time();
-        recording_start_us = start_time;
-        pipeline_ready = false;
-        pipeline_ready_time = 0;
 
-        // Pad probe: DROP audio buffers until pipeline reports ASYNC_DONE
-        // ASYNC_DONE means all elements (incl. audio device) have completed state change
-        var encoder_sink_pad = encoder.get_static_pad("sink");
-        audio_probe_id = encoder_sink_pad.add_probe(Gst.PadProbeType.BUFFER, (pad, info) => {
-            if (!pipeline_ready) {
-                return Gst.PadProbeReturn.DROP;
+        // Unmute after PipeWire transient has passed (200ms)
+        // Silent buffers still flow (no timestamp gaps), only transient crackling is suppressed
+        Timeout.add(200, () => {
+            if (volume != null && is_recording) {
+                volume.set("volume", 1.8);
             }
-            int64 elapsed = GLib.get_monotonic_time() - pipeline_ready_time;
-            if (elapsed < POST_READY_SAFETY_US) {
-                return Gst.PadProbeReturn.DROP;
-            }
-            audio_probe_id = 0;
-            return Gst.PadProbeReturn.REMOVE;
+            return false;
         });
-        
+
         timeout_id = Timeout.add(100, update_duration);
     }
 
@@ -172,17 +158,8 @@ public class AudioRecorder : GLib.Object {
     }
 
     private void on_bus_message(Gst.Bus bus, Gst.Message msg) {
-        if (msg.type == MessageType.ASYNC_DONE) {
-            // Pipeline fully initialized - audio device is stable
-            debug("AudioRecorder: Pipeline ASYNC_DONE - audio device ready");
-            pipeline_ready = true;
-            pipeline_ready_time = GLib.get_monotonic_time();
-        } else if (msg.type == MessageType.ELEMENT && msg.src == level) {
-            // Skip level messages until pipeline is ready
-            if (!pipeline_ready) {
-                level_changed(0.0);
-                return;
-            }
+        if (msg.type == MessageType.ELEMENT && msg.src == level) {
+
             unowned Gst.Structure structure = msg.get_structure();
             if (structure != null && structure.has_field("peak")) {
                 unowned GLib.Value? peak_value = structure.get_value("peak");
