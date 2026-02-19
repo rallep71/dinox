@@ -42,6 +42,8 @@ namespace Dino.Ui.ConversationDetails {
         public StackPage? member_stack_page = null;
         public Box? member_box = null;
 
+        private uint about_tab_idle_id = 0;
+
         private SimpleAction block_action = new SimpleAction.stateful("block", VariantType.INT32, new Variant.int32(ViewModel.ConversationDetails.BlockState.UNBLOCK));
 
         class construct {
@@ -85,9 +87,9 @@ namespace Dino.Ui.ConversationDetails {
             model.notify["notification-options"].connect(update_notification_button_visibility);
             model.notify["notification-is-default"].connect(update_notification_button_visibility);
 
-            model.about_rows.items_changed.connect(populate_about_tab);
-            model.vcard_rows.items_changed.connect(populate_about_tab);
-            model.settings_rows.items_changed.connect(populate_about_tab);
+            model.about_rows.items_changed.connect(schedule_populate_about_tab);
+            model.vcard_rows.items_changed.connect(schedule_populate_about_tab);
+            model.settings_rows.items_changed.connect(schedule_populate_about_tab);
             // TODO add_room_configuration_tab_element gets called even after the window is closed
             model.notify["room-configuration-rows"].connect(add_room_configuration_tab_element);
 
@@ -226,6 +228,15 @@ namespace Dino.Ui.ConversationDetails {
             });
 
             add_members_tab_element(list_view);
+        }
+
+        private void schedule_populate_about_tab() {
+            if (about_tab_idle_id != 0) return;
+            about_tab_idle_id = Idle.add(() => {
+                about_tab_idle_id = 0;
+                populate_about_tab();
+                return Source.REMOVE;
+            });
         }
 
         private void populate_about_tab() {

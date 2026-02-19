@@ -38,12 +38,20 @@ public class EjabberdApi : Object {
         return registry.get_setting(KEY_HOST) ?? "localhost";
     }
 
-    // Test connectivity to ejabberd API
+    // Test connectivity to ejabberd API (using saved config)
     public async ApiResult test_connection() {
         if (!is_configured()) {
             return ApiResult() { success = false, error_message = "ejabberd API not configured" };
         }
         return yield api_call("status", "{}");
+    }
+
+    // Test connectivity with explicit credentials (for test-before-save)
+    public async ApiResult test_connection_with_params(string api_url, string host, string admin_jid, string admin_password) {
+        if (api_url.strip() == "" || admin_jid.strip() == "" || admin_password.strip() == "" || host.strip() == "") {
+            return ApiResult() { success = false, error_message = "Missing required fields" };
+        }
+        return yield api_call_direct(api_url.strip(), admin_jid.strip(), admin_password.strip(), "status", "{}");
     }
 
     // Register a new XMPP account on the server
@@ -142,7 +150,7 @@ public class EjabberdApi : Object {
         return sb.str;
     }
 
-    // Internal: make an API call to ejabberd
+    // Internal: make an API call to ejabberd using saved settings
     private async ApiResult api_call(string endpoint, string json_body) {
         string? api_url = registry.get_setting(KEY_API_URL);
         string? admin_jid = registry.get_setting(KEY_ADMIN_JID);
@@ -152,6 +160,11 @@ public class EjabberdApi : Object {
             return ApiResult() { success = false, error_message = "Missing API configuration" };
         }
 
+        return yield api_call_direct(api_url, admin_jid, admin_pw, endpoint, json_body);
+    }
+
+    // Internal: make an API call with explicit credentials
+    private async ApiResult api_call_direct(string api_url, string admin_jid, string admin_pw, string endpoint, string json_body) {
         // Ensure URL ends without trailing slash
         string base_url = api_url.strip();
         if (base_url.has_suffix("/")) {

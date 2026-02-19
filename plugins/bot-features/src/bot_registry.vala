@@ -201,6 +201,10 @@ public class BotRegistry : Qlite.Database {
         bot.update().with(bot.id, "=", bot_id).set(bot.bot_password, password).perform();
     }
 
+    public void update_bot_owner(int bot_id, string owner_jid) {
+        bot.update().with(bot.id, "=", bot_id).set(bot.owner_jid, owner_jid).perform();
+    }
+
     public void update_bot_last_active(int bot_id) {
         long now = (long) new DateTime.now_utc().to_unix();
         bot.update().with(bot.id, "=", bot_id).set(bot.last_active, now).perform();

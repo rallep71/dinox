@@ -24,6 +24,7 @@ public class BotManagerDialog : Adw.Dialog {
     [GtkChild] private unowned Adw.EntryRow ejabberd_host_entry;
     [GtkChild] private unowned Adw.EntryRow ejabberd_admin_entry;
     [GtkChild] private unowned Adw.PasswordEntryRow ejabberd_password_entry;
+    [GtkChild] private unowned Gtk.Button ejabberd_clear_button;
     [GtkChild] private unowned Gtk.Button ejabberd_test_button;
     [GtkChild] private unowned Gtk.Button ejabberd_save_button;
     [GtkChild] private unowned Adw.ActionRow ejabberd_actions_row;
@@ -49,7 +50,7 @@ public class BotManagerDialog : Adw.Dialog {
         // Load when mapped (account_jid may be set after construct)
         this.notify["account-jid"].connect(() => {
             if (account_jid != "") {
-                this.title = "Botmother \u2014 %s".printf(account_jid);
+                this.title = _("Botmother") + " \u2014 %s".printf(account_jid);
                 main_stack.visible_child_name = "loading";
                 load_account_status.begin();
             }
@@ -64,6 +65,9 @@ public class BotManagerDialog : Adw.Dialog {
         });
 
         // ejabberd settings buttons
+        ejabberd_clear_button.clicked.connect(() => {
+            clear_ejabberd_settings.begin();
+        });
         ejabberd_save_button.clicked.connect(() => {
             save_ejabberd_settings.begin();
         });
@@ -132,7 +136,7 @@ public class BotManagerDialog : Adw.Dialog {
             Bytes response = yield http.send_and_read_async(msg, GLib.Priority.DEFAULT, null);
 
             if (msg.status_code != 200) {
-                show_error("API returned status %u".printf(msg.status_code));
+                show_error(_("API returned status %u").printf(msg.status_code));
                 return;
             }
 
@@ -141,23 +145,21 @@ public class BotManagerDialog : Adw.Dialog {
             var root = parser.get_root().get_object();
 
             if (!root.has_member("bots")) {
-                show_error("Invalid response from API");
+                show_error(_("Invalid response from API"));
                 return;
             }
 
             var bots = root.get_array_member("bots");
 
-            // Clear existing rows
-            Gtk.Widget? child = bot_list.get_first_child();
-            while (child != null) {
-                Gtk.Widget? next = child.get_next_sibling();
-                bot_list.remove(child);
-                child = next;
+            // Clear existing rows (use get_row_at_index to avoid removing GtkListBox internal widgets)
+            Gtk.ListBoxRow? old_row;
+            while ((old_row = bot_list.get_row_at_index(0)) != null) {
+                bot_list.remove(old_row);
             }
 
             if (bots.get_length() == 0) {
                 // Still show "list" page so toggle + ejabberd settings remain visible
-                api_status_label.label = "Botmother API: http://127.0.0.1:%u".printf(api_port);
+                api_status_label.label = _("Botmother API: http://127.0.0.1:%u").printf(api_port);
                 main_stack.visible_child_name = "list";
                 return;
             }
@@ -285,7 +287,7 @@ public class BotManagerDialog : Adw.Dialog {
                 }
             }
 
-            api_status_label.label = "Botmother API: http://127.0.0.1:%u".printf(api_port);
+            api_status_label.label = _("Botmother API: http://127.0.0.1:%u").printf(api_port);
             main_stack.visible_child_name = "list";
 
         } catch (Error e) {
@@ -304,11 +306,11 @@ public class BotManagerDialog : Adw.Dialog {
 
     private async void confirm_delete(int64 bot_id, string bot_name) {
         var alert = new Adw.AlertDialog(
-            "Delete Botmother?",
-            "Are you sure you want to delete \"%s\"? This cannot be undone.".printf(bot_name)
+            _("Delete Botmother?"),
+            _("Are you sure you want to delete \"%s\"? This cannot be undone.").printf(bot_name)
         );
-        alert.add_response("cancel", "Cancel");
-        alert.add_response("delete", "Delete");
+        alert.add_response("cancel", _("Cancel"));
+        alert.add_response("delete", _("Delete"));
         alert.set_response_appearance("delete", Adw.ResponseAppearance.DESTRUCTIVE);
         alert.default_response = "cancel";
 
@@ -416,6 +418,38 @@ public class BotManagerDialog : Adw.Dialog {
         main_stack.visible_child_name = "error";
     }
 
+    private async void clear_ejabberd_settings() {
+        var alert = new Adw.AlertDialog(
+            _("Clear Server Settings?"),
+            _("This will remove the saved ejabberd API credentials.")
+        );
+        alert.add_response("cancel", _("Cancel"));
+        alert.add_response("clear", _("Clear"));
+        alert.set_response_appearance("clear", Adw.ResponseAppearance.DESTRUCTIVE);
+        alert.default_response = "cancel";
+
+        string response = yield alert.choose(this, null);
+        if (response != "clear") return;
+
+        try {
+            // Send empty values to clear the settings
+            string body = "{\"api_url\":\"\",\"host\":\"\",\"admin_jid\":\"\",\"admin_password\":\"\"}";
+            var msg = new Soup.Message("POST", "http://127.0.0.1:%u/bot/ejabberd/settings".printf(api_port));
+            msg.set_request_body_from_bytes("application/json", new Bytes(body.data));
+            yield http.send_and_read_async(msg, GLib.Priority.DEFAULT, null);
+
+            // Clear form fields
+            ejabberd_url_entry.text = "";
+            ejabberd_host_entry.text = "";
+            ejabberd_admin_entry.text = "";
+            ejabberd_password_entry.text = "";
+            ejabberd_actions_row.subtitle = _("Not configured");
+        } catch (Error e) {
+            warning("BotManager: Failed to clear ejabberd settings: %s", e.message);
+            ejabberd_actions_row.subtitle = _("Error: %s").printf(e.message);
+        }
+    }
+
     // --- ejabberd settings ---
 
     private async void load_ejabberd_settings() {
@@ -495,8 +529,28 @@ public class BotManagerDialog : Adw.Dialog {
         ejabberd_actions_row.subtitle = _("Testing...");
         ejabberd_test_button.sensitive = false;
         try {
+            // Send current form values so user can test without saving first
+            var builder = new Json.Builder();
+            builder.begin_object();
+            builder.set_member_name("api_url");
+            builder.add_string_value(ejabberd_url_entry.text.strip());
+            builder.set_member_name("host");
+            builder.add_string_value(ejabberd_host_entry.text.strip());
+            builder.set_member_name("admin_jid");
+            builder.add_string_value(ejabberd_admin_entry.text.strip());
+            string pw = ejabberd_password_entry.text.strip();
+            if (pw != "") {
+                builder.set_member_name("admin_password");
+                builder.add_string_value(pw);
+            }
+            builder.end_object();
+
+            var gen = new Json.Generator();
+            gen.root = builder.get_root();
+            string body = gen.to_data(null);
+
             var msg = new Soup.Message("POST", "http://127.0.0.1:%u/bot/ejabberd/test".printf(api_port));
-            msg.set_request_body_from_bytes("application/json", new Bytes("{}".data));
+            msg.set_request_body_from_bytes("application/json", new Bytes(body.data));
             Bytes response = yield http.send_and_read_async(msg, GLib.Priority.DEFAULT, null);
 
             if (msg.status_code == 200) {

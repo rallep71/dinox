@@ -189,10 +189,9 @@ public class UserSearchDialog : Adw.Dialog {
         spinner.start();
         
         // Clear previous results
-        var child = results_list.get_first_child();
-        while (child != null) {
-            results_list.remove(child);
-            child = results_list.get_first_child();
+        Gtk.ListBoxRow? old_row;
+        while ((old_row = results_list.get_row_at_index(0)) != null) {
+            results_list.remove(old_row);
         }
 
         Xmpp.Xep.DataForms.DataForm form = new Xmpp.Xep.DataForms.DataForm("submit");
@@ -285,10 +284,9 @@ public class UserSearchDialog : Adw.Dialog {
         search_button.sensitive = true;
 
         // Clear previous results (in case we are running fallback after a partial failure)
-        var child = results_list.get_first_child();
-        while (child != null) {
-            results_list.remove(child);
-            child = results_list.get_first_child();
+        Gtk.ListBoxRow? old_row;
+        while ((old_row = results_list.get_row_at_index(0)) != null) {
+            results_list.remove(old_row);
         }
 
         if (results != null) {
