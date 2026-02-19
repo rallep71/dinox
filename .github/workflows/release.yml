@@ -172,43 +172,43 @@ jobs:
           fi
           echo "$notes" >> RELEASE_BODY.md
 
-          # Installation instructions
-          cat >> RELEASE_BODY.md << 'INSTALL_EOF'
-
----
-
-### Installation
-
-#### Flatpak (Linux)
-```bash
-# 1. Install the GNOME runtime (required, one-time setup)
-flatpak install flathub org.gnome.Platform//48
-
-# 2. Install DinoX (replace ARCH with x86_64 or aarch64)
-flatpak install dinox-VERSION-ARCH.flatpak
-```
-
-#### AppImage (Linux)
-Download the `.AppImage` file from the [AppImage release](https://github.com/rallep71/dinox/actions/workflows/build-appimage.yml), make it executable and run:
-```bash
-chmod +x DinoX-*.AppImage
-./DinoX-*.AppImage
-```
-
-#### Windows
-Download and extract the `.zip` file. Run `dinox.exe` from the extracted folder.
-**Note:** Windows builds are experimental. See the [README](https://github.com/rallep71/dinox#windows) for details.
-
-#### Build from Source
-```bash
-tar xf dinox-VERSION.tar.gz
-cd dinox-VERSION
-meson setup build && cd build && ninja
-```
-INSTALL_EOF
-
-          # Replace VERSION placeholder with actual version
-          sed -i "s/VERSION/$version/g" RELEASE_BODY.md
+      - name: "Add Installation Instructions"
+        run: |
+          version="${{ steps.get_version.outputs.version }}"
+          CB='```'
+          {
+            echo ""
+            echo "---"
+            echo ""
+            echo "### Installation"
+            echo ""
+            echo "#### Flatpak (Linux)"
+            echo "${CB}bash"
+            echo "# 1. Install the GNOME runtime (required, one-time setup)"
+            echo "flatpak install flathub org.gnome.Platform//48"
+            echo ""
+            echo "# 2. Install DinoX (replace ARCH with x86_64 or aarch64)"
+            echo "flatpak install dinox-${version}-ARCH.flatpak"
+            echo "${CB}"
+            echo ""
+            echo "#### AppImage (Linux)"
+            echo "Download the \`.AppImage\` file, make it executable and run:"
+            echo "${CB}bash"
+            echo "chmod +x DinoX-*.AppImage"
+            echo "./DinoX-*.AppImage"
+            echo "${CB}"
+            echo ""
+            echo "#### Windows"
+            echo "Download and extract the \`.zip\` file. Run \`dinox.exe\` from the extracted folder."
+            echo "**Note:** Windows builds are experimental. See the [README](https://github.com/rallep71/dinox#windows) for details."
+            echo ""
+            echo "#### Build from Source"
+            echo "${CB}bash"
+            echo "tar xf dinox-${version}.tar.gz"
+            echo "cd dinox-${version}"
+            echo "meson setup build && cd build && ninja"
+            echo "${CB}"
+          } >> RELEASE_BODY.md
 
       - name: "Create Release"
         uses: softprops/action-gh-release@v2
