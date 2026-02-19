@@ -67,7 +67,13 @@ Download the latest Windows build from [GitHub Releases](https://github.com/rall
 Download from [GitHub Releases](https://github.com/rallep71/dinox/releases/latest)
 
 ```bash
-flatpak install --user DinoX.flatpak
+# 1. Install the GNOME runtime (required, one-time setup)
+flatpak install flathub org.gnome.Platform//48
+
+# 2. Install DinoX (replace ARCH with x86_64 or aarch64)
+flatpak install --user dinox-*-ARCH.flatpak
+
+# 3. Run
 flatpak run im.github.rallep71.DinoX
 ```
 
