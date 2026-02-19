@@ -352,6 +352,9 @@ public class SessionPool : Object {
     private async void run_stream_loop(int bot_id, TlsXmppStream stream) {
         try {
             yield stream.loop();
+        } catch (IOError.CANCELLED e) {
+            // Normal: stream was intentionally disconnected (bot toggled off)
+            message("SessionPool: Bot %d stream cancelled (normal disconnect)", bot_id);
         } catch (Error e) {
             warning("SessionPool: Bot %d stream error: %s", bot_id, e.message);
         }

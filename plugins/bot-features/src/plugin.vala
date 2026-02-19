@@ -195,8 +195,7 @@ public class Plugin : RootInterface, Object {
             var presence_mgr = app.stream_interactor.get_module<PresenceManager>(PresenceManager.IDENTITY);
             presence_mgr.suppress_subscription_notification(bot_jid);
 
-            // Only create conversation for the bot's OWNER account, not all accounts
-            // This prevents the bot chat from appearing twice when multiple accounts exist
+            // Find the owner account for this bot
             Xmpp.Jid? owner_jid = null;
             if (bot.owner_jid != null) {
                 try {
@@ -206,37 +205,45 @@ public class Plugin : RootInterface, Object {
                 }
             }
 
-            foreach (Account account in app.stream_interactor.get_accounts()) {
-                // Skip accounts that are NOT the bot owner
-                if (owner_jid != null && !account.bare_jid.equals(owner_jid)) {
-                    continue;
+            // Find the matching owner account - bot conversations only appear for the owner
+            var accounts = app.stream_interactor.get_accounts();
+            Account? target_account = null;
+            foreach (Account account in accounts) {
+                if (owner_jid != null && account.bare_jid.equals(owner_jid)) {
+                    target_account = account;
+                    break;
                 }
-
-                // Set roster handle: show bot name instead of raw JID
-                var roster_mgr = app.stream_interactor.get_module<RosterManager>(RosterManager.IDENTITY);
-                var existing_item = roster_mgr.get_roster_item(account, bot_jid);
-                if (existing_item != null) {
-                    roster_mgr.set_jid_handle(account, bot_jid, bot.name);
-                } else {
-                    roster_mgr.add_jid(account, bot_jid, bot.name);
-                }
-                message("Botmother: Set roster name '%s' for bot JID %s (account %s)",
-                    bot.name, bot.jid, account.bare_jid.to_string());
-
-                // Create/get conversation with bot JID and set encryption to OMEMO
-                var cm = app.stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY);
-                Conversation conversation = cm.create_conversation(bot_jid, account, Conversation.Type.CHAT);
-                // Set encryption BEFORE start_conversation so it takes effect immediately
-                conversation.encryption = Entities.Encryption.OMEMO;
-                message("Botmother: Set encryption=OMEMO for bot conversation %s", bot.jid);
-                // Now activate it in the sidebar
-                cm.start_conversation(conversation);
-
-                // Approve any pending subscription FROM the bot + send our subscription TO the bot
-                presence_mgr.approve_subscription(account, bot_jid);
-                presence_mgr.request_subscription(account, bot_jid);
-                message("Botmother: Approved + requested subscription for bot %s", bot.jid);
             }
+            if (target_account == null) {
+                message("Botmother: Owner account '%s' not active in DinoX for bot %d - conversation will appear when owner logs in",
+                    bot.owner_jid ?? "(null)", bot_id);
+                return;
+            }
+
+            // Set roster handle: show bot name instead of raw JID
+            var roster_mgr = app.stream_interactor.get_module<RosterManager>(RosterManager.IDENTITY);
+            var existing_item = roster_mgr.get_roster_item(target_account, bot_jid);
+            if (existing_item != null) {
+                roster_mgr.set_jid_handle(target_account, bot_jid, bot.name);
+            } else {
+                roster_mgr.add_jid(target_account, bot_jid, bot.name);
+            }
+            message("Botmother: Set roster name '%s' for bot JID %s (account %s)",
+                bot.name, bot.jid, target_account.bare_jid.to_string());
+
+            // Create/get conversation with bot JID and set encryption to OMEMO
+            var cm = app.stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY);
+            Conversation conversation = cm.create_conversation(bot_jid, target_account, Conversation.Type.CHAT);
+            // Set encryption BEFORE start_conversation so it takes effect immediately
+            conversation.encryption = Entities.Encryption.OMEMO;
+            message("Botmother: Set encryption=OMEMO for bot conversation %s", bot.jid);
+            // Now activate it in the sidebar
+            cm.start_conversation(conversation);
+
+            // Approve any pending subscription FROM the bot + send our subscription TO the bot
+            presence_mgr.approve_subscription(target_account, bot_jid);
+            presence_mgr.request_subscription(target_account, bot_jid);
+            message("Botmother: Approved + requested subscription for bot %s", bot.jid);
         } catch (Error e) {
             warning("Botmother: Error setting up bot conversation for %d: %s", bot_id, e.message);
         }
@@ -263,7 +270,7 @@ public class Plugin : RootInterface, Object {
             try {
                 Xmpp.Jid bot_jid = new Xmpp.Jid(bot.jid);
 
-                // Only fix conversations for the bot's owner account
+                // Find the owner account; fall back to first available if owner not found
                 Xmpp.Jid? owner_jid = null;
                 if (bot.owner_jid != null) {
                     try {
@@ -271,37 +278,41 @@ public class Plugin : RootInterface, Object {
                     } catch (Error e) { /* ignore */ }
                 }
 
-                foreach (Account account in app.stream_interactor.get_accounts()) {
-                    // Skip accounts that are NOT the bot owner
-                    if (owner_jid != null && !account.bare_jid.equals(owner_jid)) {
-                        continue;
+                // Only create/fix conversation if owner account is active
+                var accounts = app.stream_interactor.get_accounts();
+                Account? target_account = null;
+                foreach (Account account in accounts) {
+                    if (owner_jid != null && account.bare_jid.equals(owner_jid)) {
+                        target_account = account;
+                        break;
                     }
+                }
+                if (target_account == null) continue;
 
-                    // Check if conversation exists and fix encryption
-                    Conversation? conv = cm.get_conversation(bot_jid, account, Conversation.Type.CHAT);
-                    if (conv != null && conv.encryption != Entities.Encryption.OMEMO) {
-                        conv.encryption = Entities.Encryption.OMEMO;
-                        message("Botmother: Fixed encryption=OMEMO for bot conversation %s", bot.jid);
-                    }
+                // Check if conversation exists and fix encryption
+                Conversation? conv = cm.get_conversation(bot_jid, target_account, Conversation.Type.CHAT);
+                if (conv != null && conv.encryption != Entities.Encryption.OMEMO) {
+                    conv.encryption = Entities.Encryption.OMEMO;
+                    message("Botmother: Fixed encryption=OMEMO for bot conversation %s", bot.jid);
+                }
 
-                    // Auto-approve any pending subscription from the bot
-                    if (presence_mgr.exists_subscription_request(account, bot_jid)) {
-                        message("Botmother: Auto-approving pending subscription from bot %s at startup", bot.jid);
-                        presence_mgr.approve_subscription(account, bot_jid);
-                        presence_mgr.request_subscription(account, bot_jid);
-                    }
+                // Auto-approve any pending subscription from the bot
+                if (presence_mgr.exists_subscription_request(target_account, bot_jid)) {
+                    message("Botmother: Auto-approving pending subscription from bot %s at startup", bot.jid);
+                    presence_mgr.approve_subscription(target_account, bot_jid);
+                    presence_mgr.request_subscription(target_account, bot_jid);
+                }
 
-                    // Also set roster name if available (preserve subscription state)
-                    if (bot.name != null) {
-                        var roster_mgr = app.stream_interactor.get_module<RosterManager>(RosterManager.IDENTITY);
-                        var item = roster_mgr.get_roster_item(account, bot_jid);
-                        if (item == null) {
-                            roster_mgr.add_jid(account, bot_jid, bot.name);
-                            message("Botmother: Set roster name '%s' for bot %s at startup", bot.name, bot.jid);
-                        } else if (item.name == null || item.name == "") {
-                            roster_mgr.set_jid_handle(account, bot_jid, bot.name);
-                            message("Botmother: Updated roster name '%s' for bot %s at startup", bot.name, bot.jid);
-                        }
+                // Also set roster name if available (preserve subscription state)
+                if (bot.name != null) {
+                    var roster_mgr = app.stream_interactor.get_module<RosterManager>(RosterManager.IDENTITY);
+                    var item = roster_mgr.get_roster_item(target_account, bot_jid);
+                    if (item == null) {
+                        roster_mgr.add_jid(target_account, bot_jid, bot.name);
+                        message("Botmother: Set roster name '%s' for bot %s at startup", bot.name, bot.jid);
+                    } else if (item.name == null || item.name == "") {
+                        roster_mgr.set_jid_handle(target_account, bot_jid, bot.name);
+                        message("Botmother: Updated roster name '%s' for bot %s at startup", bot.name, bot.jid);
                     }
                 }
             } catch (Error e) {

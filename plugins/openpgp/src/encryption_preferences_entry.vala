@@ -41,11 +41,9 @@ namespace Dino.Plugins.OpenPgp {
 
         private void clear_list() {
             if (list_box == null) return;
-            Gtk.Widget? child = list_box.get_first_child();
-            while (child != null) {
-                Gtk.Widget? next = child.get_next_sibling();
-                list_box.remove(child);
-                child = next;
+            Gtk.ListBoxRow? row;
+            while ((row = list_box.get_row_at_index(0)) != null) {
+                list_box.remove(row);
             }
         }
 

@@ -39,16 +39,20 @@ public class BotCreateDialog : Adw.Dialog {
 
     // Mode values sent to API
     private const string[] MODE_KEYS = { "personal", "dedicated", "cloud" };
-    private const string[] MODE_LABELS = {
-        "Personal Bot",
-        "Dedicated Bot Account",
-        "DinoX Bot Server"
-    };
-    private const string[] MODE_DESCRIPTIONS = {
-        "Botmother uses your XMPP account to send and receive messages via the local API on port 7842.",
-        "Creates a dedicated XMPP account for the bot on your server. Requires server admin access.",
-        "Hosted on bots.dinox.im. The bot runs on our server. (Coming soon)"
-    };
+    private static string[] get_mode_labels() {
+        return {
+            _("Personal Bot"),
+            _("Dedicated Bot Account"),
+            _("DinoX Bot Server")
+        };
+    }
+    private static string[] get_mode_descriptions() {
+        return {
+            _("Botmother uses your XMPP account to send and receive messages via the local API on port 7842."),
+            _("Creates a dedicated XMPP account for the bot on your server. Requires server admin access."),
+            _("Hosted on bots.dinox.im. The bot runs on our server. (Coming soon)")
+        };
+    }
 
     public string account_jid { get; set; default = ""; }
 
@@ -56,18 +60,20 @@ public class BotCreateDialog : Adw.Dialog {
         http = new Soup.Session();
 
         // Setup mode combo with 3 modes
+        var mode_labels = get_mode_labels();
         var mode_model = new Gtk.StringList(null);
-        for (int i = 0; i < MODE_LABELS.length; i++) {
-            mode_model.append(MODE_LABELS[i]);
+        for (int i = 0; i < mode_labels.length; i++) {
+            mode_model.append(mode_labels[i]);
         }
         mode_combo.model = mode_model;
         mode_combo.selected = 0;
 
         // Update description when mode changes
         mode_combo.notify["selected"].connect(() => {
+            var descriptions = get_mode_descriptions();
             uint sel = mode_combo.selected;
-            if (sel < MODE_DESCRIPTIONS.length) {
-                mode_description.label = MODE_DESCRIPTIONS[sel];
+            if (sel < descriptions.length) {
+                mode_description.label = descriptions[sel];
             }
         });
 
@@ -91,9 +97,9 @@ public class BotCreateDialog : Adw.Dialog {
             if (created_token != null) {
                 var clipboard = copy_token_button.get_clipboard();
                 clipboard.set_text(created_token);
-                copy_token_button.label = "Copied!";
+                copy_token_button.label = _("Copied!");
                 GLib.Timeout.add(2000, () => {
-                    copy_token_button.label = "Copy Token";
+                    copy_token_button.label = _("Copy Token");
                     return false;
                 });
             }
@@ -114,10 +120,10 @@ public class BotCreateDialog : Adw.Dialog {
 
     private async void pick_avatar() {
         var dialog = new Gtk.FileDialog();
-        dialog.title = "Choose Bot Avatar";
+        dialog.title = _("Choose Bot Avatar");
 
         var filter = new Gtk.FileFilter();
-        filter.name = "Images";
+        filter.name = _("Images");
         filter.add_mime_type("image/png");
         filter.add_mime_type("image/jpeg");
         filter.add_mime_type("image/gif");
@@ -156,7 +162,6 @@ public class BotCreateDialog : Adw.Dialog {
             try {
                 var texture = Gdk.Texture.from_file(file);
                 avatar_preview.paintable = texture;
-                avatar_preview.icon_name = null;
             } catch (Error e) {
                 warning("Could not load avatar preview: %s", e.message);
             }
@@ -228,7 +233,7 @@ public class BotCreateDialog : Adw.Dialog {
                     created_token = result_obj.get_string_member("token");
                     token_label.label = created_token;
                 } else {
-                    token_label.label = "(token not returned)";
+                    token_label.label = _("(token not returned)");
                 }
 
                 // Show JID for dedicated bots
@@ -241,7 +246,7 @@ public class BotCreateDialog : Adw.Dialog {
                     }
                 }
 
-                cancel_button.label = "Done";
+                cancel_button.label = _("Done");
                 create_button.visible = false;
                 content_stack.visible_child_name = "success";
             } else {

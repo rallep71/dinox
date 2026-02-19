@@ -148,10 +148,9 @@ public class RoomBrowserDialog : Adw.Dialog {
     }
 
     private void clear_list() {
-        Gtk.Widget? child = room_list.get_first_child();
-        while (child != null) {
-            room_list.remove(child);
-            child = room_list.get_first_child();
+        Gtk.ListBoxRow? row;
+        while ((row = room_list.get_row_at_index(0)) != null) {
+            room_list.remove(row);
         }
     }
 

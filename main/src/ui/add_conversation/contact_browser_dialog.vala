@@ -116,10 +116,9 @@ public class ContactBrowserDialog : Adw.Dialog {
 
     private void populate_list(string filter) {
         // Clear list
-        Gtk.Widget? child = contact_list.get_first_child();
-        while (child != null) {
-            contact_list.remove(child);
-            child = contact_list.get_first_child();
+        Gtk.ListBoxRow? row;
+        while ((row = contact_list.get_row_at_index(0)) != null) {
+            contact_list.remove(row);
         }
 
         string filter_lower = filter.down();

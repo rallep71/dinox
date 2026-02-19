@@ -543,7 +543,32 @@ public class HttpServer : Object {
     }
 
     private async void do_ejabberd_test(Soup.ServerMessage msg) {
-        var result = yield ejabberd_api.test_connection();
+        // Check if request body contains inline credentials (test-before-save)
+        ApiResult result;
+        Json.Object? body = get_request_body(msg);
+        if (body != null) {
+            string? api_url = json_get_string(body, "api_url");
+            string? host = json_get_string(body, "host");
+            string? admin_jid = json_get_string(body, "admin_jid");
+            string? admin_pw = json_get_string(body, "admin_password");
+
+            // If password not provided in body, fall back to saved password
+            if (admin_pw == null || admin_pw.strip() == "") {
+                admin_pw = registry.get_setting(EjabberdApi.KEY_ADMIN_PASSWORD);
+            }
+
+            if (api_url != null && api_url.strip() != "" &&
+                host != null && host.strip() != "" &&
+                admin_jid != null && admin_jid.strip() != "" &&
+                admin_pw != null && admin_pw.strip() != "") {
+                result = yield ejabberd_api.test_connection_with_params(api_url, host, admin_jid, admin_pw);
+            } else {
+                result = yield ejabberd_api.test_connection();
+            }
+        } else {
+            result = yield ejabberd_api.test_connection();
+        }
+
         if (result.success) {
             string json = "{\"connected\":true,\"response\":\"%s\"}".printf(
                 escape_json(result.response_body ?? "ok"));

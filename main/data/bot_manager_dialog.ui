@@ -113,6 +113,15 @@
                                             <property name="spacing">8</property>
                                             <property name="valign">center</property>
                                             <child>
+                                              <object class="GtkButton" id="ejabberd_clear_button">
+                                                <property name="label" translatable="yes">Clear</property>
+                                                <style>
+                                                  <class name="flat"/>
+                                                  <class name="destructive-action"/>
+                                                </style>
+                                              </object>
+                                            </child>
+                                            <child>
                                               <object class="GtkButton" id="ejabberd_test_button">
                                                 <property name="label" translatable="yes">Test</property>
                                                 <style>
@@ -145,8 +154,10 @@
                                 <child>
                                   <object class="GtkLabel" id="api_status_label">
                                     <property name="xalign">0</property>
-                                    <property name="css-classes">dim-label</property>
-                                    <property name="css-classes">caption</property>
+                                    <style>
+                                      <class name="dim-label"/>
+                                      <class name="caption"/>
+                                    </style>
                                   </object>
                                 </child>
                               </object>

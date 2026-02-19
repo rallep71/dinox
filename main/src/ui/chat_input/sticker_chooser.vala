@@ -423,11 +423,9 @@ public class StickerChooser : Popover {
     }
 
     private void clear_pack_list() {
-        Gtk.Widget? child = pack_list.get_first_child();
-        while (child != null) {
-            Gtk.Widget? next = child.get_next_sibling();
-            pack_list.remove(child);
-            child = next;
+        Gtk.ListBoxRow? row;
+        while ((row = pack_list.get_row_at_index(0)) != null) {
+            pack_list.remove(row);
         }
     }
 
