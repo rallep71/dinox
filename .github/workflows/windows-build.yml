@@ -207,6 +207,7 @@ jobs:
             DinoX-Windows-*.zip.sha256
           tag_name: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || format('v{0}', steps.version.outputs.version) }}
           name: DinoX v${{ steps.version.outputs.version }}
+          body: "Release builds in progress. Full changelog will appear shortly."
           draft: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

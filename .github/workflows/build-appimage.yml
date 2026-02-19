@@ -95,6 +95,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           name: DinoX v${{ steps.version.outputs.version }}
+          body: "Release builds in progress. Full changelog will appear shortly."
           draft: false
           prerelease: false
           files: assets/*
