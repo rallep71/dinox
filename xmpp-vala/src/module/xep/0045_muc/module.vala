@@ -395,8 +395,11 @@ public class Module : XmppStreamModule {
                 Affiliation? affiliation = null;
                 if (affiliation_str != null) {
                     affiliation = parse_affiliation(affiliation_str);
+                    Affiliation old_affiliation = flag.get_affiliation(presence.from.bare_jid, presence.from);
                     flag.set_affiliation(presence.from.bare_jid, presence.from, affiliation);
-                    received_occupant_affiliation(stream, presence.from, affiliation);
+                    if (affiliation != old_affiliation) {
+                        received_occupant_affiliation(stream, presence.from, affiliation);
+                    }
                 }
                 string? jid_ = x_node.get_deep_attribute("item", "jid");
                 if (jid_ != null) {
@@ -414,8 +417,11 @@ public class Module : XmppStreamModule {
                 string? role_str = x_node.get_deep_attribute("item", "role");
                 if (role_str != null) {
                     Role role = parse_role(role_str);
+                    Role? old_role = flag.get_occupant_role(presence.from);
                     flag.set_occupant_role(presence.from, role);
-                    received_occupant_role(stream, presence.from, role);
+                    if (old_role == null || role != old_role) {
+                        received_occupant_role(stream, presence.from, role);
+                    }
                 }
             }
         }

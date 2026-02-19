@@ -48,6 +48,7 @@ class StatusPopulator : Plugins.ConversationItemPopulator, Plugins.ConversationA
         muc_manager.self_removed.connect(on_self_removed);
         muc_manager.occupant_removed.connect(on_occupant_removed);
         muc_manager.occupant_affiliation_updated.connect(on_affiliation_updated);
+        muc_manager.received_occupant_role.connect(on_role_updated);
     }
 
     public void close(Conversation conversation) {
@@ -55,6 +56,7 @@ class StatusPopulator : Plugins.ConversationItemPopulator, Plugins.ConversationA
         muc_manager.self_removed.disconnect(on_self_removed);
         muc_manager.occupant_removed.disconnect(on_occupant_removed);
         muc_manager.occupant_affiliation_updated.disconnect(on_affiliation_updated);
+        muc_manager.received_occupant_role.disconnect(on_role_updated);
         current_conversation = null;
     }
 
@@ -116,6 +118,22 @@ class StatusPopulator : Plugins.ConversationItemPopulator, Plugins.ConversationA
             case Xep.Muc.Affiliation.NONE: msg = _("%s's affiliation has been removed.").printf(nick); break;
         }
         
+        if (msg != "") {
+            item_collection.insert_item(new MetaStatusItem(msg, new DateTime.now_utc()));
+        }
+    }
+
+    private void on_role_updated(Account account, Jid occupant_jid, Xep.Muc.Role? role) {
+        if (current_conversation == null || !current_conversation.account.equals(account) || !current_conversation.counterpart.equals_bare(occupant_jid)) return;
+
+        string nick = occupant_jid.resourcepart;
+        string msg = "";
+        switch (role) {
+            case Xep.Muc.Role.MODERATOR: msg = _("%s is now a moderator.").printf(nick); break;
+            case Xep.Muc.Role.VISITOR: msg = _("%s has been muted.").printf(nick); break;
+            case Xep.Muc.Role.PARTICIPANT: msg = _("%s is now a participant.").printf(nick); break;
+        }
+
         if (msg != "") {
             item_collection.insert_item(new MetaStatusItem(msg, new DateTime.now_utc()));
         }

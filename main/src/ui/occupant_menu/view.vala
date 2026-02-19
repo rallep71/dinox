@@ -123,7 +123,8 @@ public class View : Popover {
              my_affiliation = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_affiliation(conversation.counterpart, conversation.account.bare_jid, conversation.account);
         }
         // Fallback: If we are Owner/Admin, we are effectively a Moderator
-        if (role == null && (my_affiliation == Xmpp.Xep.Muc.Affiliation.OWNER || my_affiliation == Xmpp.Xep.Muc.Affiliation.ADMIN)) {
+        if ((role == null || role == Xmpp.Xep.Muc.Role.PARTICIPANT || role == Xmpp.Xep.Muc.Role.NONE)
+            && (my_affiliation == Xmpp.Xep.Muc.Affiliation.OWNER || my_affiliation == Xmpp.Xep.Muc.Affiliation.ADMIN)) {
             role = Xmpp.Xep.Muc.Role.MODERATOR;
         }
 
