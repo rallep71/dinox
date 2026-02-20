@@ -1,6 +1,6 @@
 # DinoX - Development Plan
 
-> **Last Updated**: February 20, 2026 (v1.1.1.2)
+> **Last Updated**: February 20, 2026 (v1.1.1.3)
 > **Current Release Line**: 1.1.1.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.1.2 |
+| **Current Version** | 1.1.1.3 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (~85% translated) |
 | **Build Status** | Clean |
@@ -20,6 +20,11 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v1.1.1.3 (Pango Crash Fix, Markup Escaping)
+
+- **Pango cursor_pos Assertion Fix**: Reset `label.selectable` before text update to invalidate stale cursor index. Moved `unbreak_space` before AttrList byte index computation (NBSP is 2 bytes vs 1). Recompute `/me` bold/italic indices after NBSP expansion.
+- **Markup Escaping**: Escape `status_text` in conversation selector tooltip and reaction emoji in reactions widget to prevent Pango parse errors.
 
 ### v1.1.1.2 (Video Preview Fix, Runtime Dependency)
 
