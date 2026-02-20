@@ -5,6 +5,15 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.1.4] - 2026-02-20
+
+### Fixed
+- **Plugin Load Order (Flatpak)**: Fixed `bot-features.so` failing to load because `omemo.so` was not yet loaded. Plugin loader now sorts dependencies first and retries failed plugins in a second pass.
+- **Flatpak login1 D-Bus Permission**: Added `--system-talk-name=org.freedesktop.login1` to Flatpak finish-args, fixing `login1.vala: No such file or directory` warning on suspend/resume detection.
+
+### Changed
+- **Version**: Bumped from 1.1.1.3 to 1.1.1.4
+
 ## [1.1.1.3] - 2026-02-20
 
 ### Fixed

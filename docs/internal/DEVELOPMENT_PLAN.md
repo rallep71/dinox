@@ -1,6 +1,6 @@
 # DinoX - Development Plan
 
-> **Last Updated**: February 20, 2026 (v1.1.1.3)
+> **Last Updated**: February 20, 2026 (v1.1.1.4)
 > **Current Release Line**: 1.1.1.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.1.3 |
+| **Current Version** | 1.1.1.4 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (~85% translated) |
 | **Build Status** | Clean |
@@ -20,6 +20,11 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v1.1.1.4 (Plugin Load Order, Flatpak Fixes)
+
+- **Plugin Load Order Fix**: `bot-features.so` depends on `omemo.so` at runtime. Plugin loader now sorts dependencies-first and retries failed plugins in a second pass.
+- **Flatpak login1 D-Bus**: Added `--system-talk-name=org.freedesktop.login1` for suspend/resume detection.
 
 ### v1.1.1.3 (Pango Crash Fix, Markup Escaping)
 
