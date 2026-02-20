@@ -1,6 +1,6 @@
 # DinoX - Development Plan
 
-> **Last Updated**: February 19, 2026 (v1.1.1.1)
+> **Last Updated**: February 20, 2026 (v1.1.1.2)
 > **Current Release Line**: 1.1.1.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.1.1 |
+| **Current Version** | 1.1.1.2 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (~85% translated) |
 | **Build Status** | Clean |
@@ -20,6 +20,12 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v1.1.1.2 (Video Preview Fix, Runtime Dependency)
+
+- **Video Preview Dark Screen Fix**: `gdkpixbufsink` unavailable caused black preview during video recording. Replaced `fakesink` fallback with `appsink` pulling RGBA frames into `Gdk.MemoryTexture`.
+- **Missing gst-plugins-good**: Added `gstreamer1.0-plugins-good` to all build/install docs and CI workflows.
+- **Build System**: Added `gstreamer-app-1.0` as core dependency for main binary.
 
 ### v1.1.1.1 (AudioRecorder Fix, Installation Docs)
 

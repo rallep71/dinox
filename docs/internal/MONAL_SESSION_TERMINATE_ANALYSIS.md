@@ -238,22 +238,112 @@ The session is removed from the map **immediately** when the `terminated` signal
 
 ---
 
-## Root Cause: Monal Bug
+## Root Cause: Monal Bug -- Inverted Condition in session-terminate Handler
 
-The evidence is clear:
+> **Updated**: February 20, 2026
+> **Monal developer response**: tmolitor-stud-tu claims session-terminate handling is "already implemented" and links to:
+> - develop: https://github.com/monal-im/Monal/blob/develop/Monal/Classes/MLCall.m#L1671
+> - stable: https://github.com/monal-im/Monal/blob/stable/Monal/Classes/MLCall.m#L1604
+
+### Code Analysis of Monal's session-terminate handler
+
+The session-terminate handling lives inside `processIncomingSDP:` in `MLCall.m`. Here is the relevant code (identical in both stable and develop branches):
+
+```objc
+// handle session-terminate: fake jmi finish message and handle it
+else if([iqNode check:@"{urn:xmpp:jingle:1}jingle<action=session-terminate>"])
+{
+    if(self.jmiProceed == nil)
+    {
+        DDLogDebug(@"Got jingle session-terminate after jmi proceed, faking incoming jmi:finish for Conversations compatibility...");
+        // --> fakes a <finish> JMI stanza
+        XMPPMessage* jmiNode = ...;
+        [jmiNode addChildNode:[[MLXMLNode alloc] initWithElement:@"finish" ...]];
+        [self.voipProcessor handleIncomingJMIStanza:jmiNode onAccount:self.account];
+    }
+    else
+    {
+        DDLogDebug(@"Got jingle session-terminate before even receiving jmi proceed, faking incoming jmi:reject for unknown-client compatibility...");
+        // --> fakes a <reject> JMI stanza
+        XMPPMessage* jmiNode = ...;
+        [jmiNode addChildNode:[[MLXMLNode alloc] initWithElement:@"reject" ...]];
+        [self.voipProcessor handleIncomingJMIStanza:jmiNode onAccount:self.account];
+    }
+    return;
+}
+```
+
+### Bug: The condition is inverted
+
+The `if/else` branches are **swapped relative to the log messages and intended behavior**:
+
+| Condition | Log message says | Actually means | Action taken | Correct action |
+|-----------|-----------------|----------------|-------------|----------------|
+| `jmiProceed == nil` | "after jmi proceed" | Proceed was **NOT** received | Fakes `<finish>` | Should fake `<reject>` |
+| `jmiProceed != nil` | "before even receiving jmi proceed" | Proceed **WAS** received | Fakes `<reject>` | Should fake `<finish>` |
+
+**The log messages describe the correct intended logic, but the condition is backwards.**
+
+### How this causes the observed behavior
+
+For a **normal established call** (the standard case reported in this issue):
+
+1. Call is set up via JMI: propose -> proceed -> session-initiate -> session-accept -> connected
+2. At this point: `self.jmiProceed != nil` (it was set when the proceed was sent/received)
+3. Remote party (DinoX/Dino) hangs up -> sends `session-terminate` with `<success/>`
+4. Monal receives it in `processIncomingSDP:`, matches the SID
+5. **Because `jmiProceed != nil`, Monal enters the `else` branch**
+6. Monal fakes a `<reject>` JMI stanza instead of a `<finish>`
+7. The JMI handler (`handleIncomingJMIStanza`) likely ignores the `<reject>` because the call is already past the ringing phase and fully connected
+8. **Result: The session-terminate has no effect**
+9. No IQ result is sent back to the caller (XEP-0166 violation)
+10. WebRTC eventually detects the RTP stream stopped (~8 seconds)
+11. ICE state changes to disconnected/failed
+12. `delayedEnd:2.0` fires -> `end` with `isConnected = NO` + `wasConnectedOnce = YES` -> `MLCallFinishReasonConnectivityError`
+13. Monal sends its own `session-terminate` with `<connectivity-error/>`
+14. User sees "Call ended: connection failed" instead of a clean hangup
+
+### Additional issue: No IQ result acknowledgment
+
+The session-terminate handler does `return;` without ever sending an IQ result (`initAsResponseTo:iqNode`). Per XEP-0166 Section 6.7, the receiver MUST acknowledge `session-terminate` with an IQ result:
+
+> Upon receiving the session-terminate, the other party MUST acknowledge it by returning an IQ result.
+
+### The fix
+
+The condition should be:
+
+```objc
+if(self.jmiProceed != nil)   // <-- was: == nil
+{
+    // Call was established via JMI -> fake <finish>
+    ...
+}
+else
+{
+    // No JMI proceed -> call was set up without JMI (e.g. direct Jingle) -> fake <reject>
+    ...
+}
+```
+
+And an IQ result should be sent before returning:
+```objc
+[self.account send:[[XMPPIQ alloc] initAsResponseTo:iqNode]];
+```
+
+---
+
+## Evidence Summary
 
 | Step | What happens | Who is responsible |
 |------|-------------|-------------------|
 | 1 | DinoX sends valid `session-terminate` with `<success/>` | DinoX (correct) |
-| 2 | Monal should process it, send IQ result, end call UI | **Monal fails here** |
-| 3 | ~8s later Monal detects RTP timeout, sends its own terminate | Monal (wrong -- should have ended at step 2) |
-| 4 | DinoX replies `unknown-session` (session already gone) | DinoX (correct) |
-| 5 | Monal shows "connection failed" instead of clean hangup | Monal (wrong UX) |
-
-**Monal does not process incoming `session-terminate` IQ stanzas.** It relies solely on RTP media stream timeout to detect call end, which:
-- Causes an ~8 second delay before the call UI ends
-- Shows a misleading "connection failed" error instead of a clean hangup
-- Sends a redundant `session-terminate` with `<connectivity-error/>` to a session that no longer exists
+| 2 | Monal receives it but enters wrong branch (fakes `<reject>` instead of `<finish>`) | **Monal bug** |
+| 3 | JMI handler ignores the reject for an already-connected call | **Monal bug** |
+| 4 | No IQ result sent back | **Monal bug (XEP-0166 violation)** |
+| 5 | ~8s later Monal detects RTP timeout, sends its own terminate | Monal (consequence of bug) |
+| 6 | DinoX replies `unknown-session` (session already cleaned up) | DinoX (correct) |
+| 7 | Monal shows "connection failed" instead of clean hangup | Monal (wrong UX) |
 
 ---
 
@@ -261,7 +351,7 @@ The evidence is clear:
 
 From **XEP-0166 Section 6.7** (Session Terminate):
 
-> In order to location a session, the location party MUST send a `session-terminate` action to the other party. Upon receiving the `session-terminate`, the other party MUST acknowledge it by returning an IQ result and SHOULD location all location with the session.
+> In order to terminate a session, the terminating party MUST send a `session-terminate` action to the other party. Upon receiving the `session-terminate`, the other party MUST acknowledge it by returning an IQ result and SHOULD terminate all resources associated with the session.
 
 DinoX complies fully:
 - Sends `session-terminate` with `<success/>` reason on user hangup
@@ -274,4 +364,4 @@ DinoX complies fully:
 
 ## Conclusion
 
-This is a **Monal bug**. DinoX's Jingle session-terminate implementation is fully XEP-0166 compliant. The stanza capture in the issue proves that DinoX sends a correct `session-terminate` that Monal ignores.
+This is a **Monal bug** caused by an **inverted condition** in `MLCall.m` `processIncomingSDP:`. The code that tmolitor-stud-tu linked as proof of implementation is exactly the code that contains the bug. The `if(self.jmiProceed == nil)` check is backwards, causing all established JMI calls to fake a `<reject>` instead of a `<finish>` when a `session-terminate` is received, which effectively makes the session-terminate a no-op for connected calls.

@@ -5,6 +5,16 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.1.2] - 2026-02-20
+
+### Fixed
+- **Video Message Preview Dark Screen**: Fixed video recorder preview staying black during recording. The `gdkpixbufsink` element (from `gst-plugins-good`) was unavailable, causing fallback to `fakesink` which has no `last-pixbuf` property. Replaced `fakesink` fallback with `appsink` that pulls RGBA frames and creates `Gdk.MemoryTexture` for the preview. Recording itself was unaffected (only the preview display).
+- **Missing Runtime Dependency**: Added `gstreamer1.0-plugins-good` to all dependency lists (README, BUILD.md, CI workflows, release notes). This package provides `gdkpixbufsink` (video preview) and `mp4mux` (video container) at runtime.
+
+### Changed
+- **Version**: Bumped from 1.1.1.1 to 1.1.1.2
+- **Build System**: Added `gstreamer-app-1.0` as core dependency for main binary (needed for appsink fallback in video preview).
+
 ## [1.1.1.1] - 2026-02-19
 
 ### Fixed

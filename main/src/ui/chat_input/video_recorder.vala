@@ -36,6 +36,7 @@ public class VideoRecorder : GLib.Object {
     private Element preview_queue;
     private Element preview_convert;
     private Element preview_sink;
+    private bool preview_is_pixbufsink = false;
     private Gst.Bus? bus;
     private uint timeout_id = 0;
     private int64 start_time = 0;
@@ -87,10 +88,20 @@ public class VideoRecorder : GLib.Object {
 
         // GdkPixbuf sink for live preview - available in gst-plugins-good
         preview_sink = ElementFactory.make("gdkpixbufsink", "preview-sink");
-        if (preview_sink == null) {
-            preview_sink = ElementFactory.make("fakesink", "preview-sink");
-            if (preview_sink != null) preview_sink.set("sync", true);
-            warning("gdkpixbufsink not available, preview disabled");
+        if (preview_sink != null) {
+            preview_is_pixbufsink = true;
+        } else {
+            // Fallback: use appsink to pull RGBA frames manually
+            preview_is_pixbufsink = false;
+            preview_sink = ElementFactory.make("appsink", "preview-sink");
+            if (preview_sink != null) {
+                preview_sink.set("sync", true);
+                preview_sink.set("max-buffers", 1);
+                preview_sink.set("drop", true);
+                preview_sink.set("emit-signals", false);
+                preview_sink.set("caps", Caps.from_string("video/x-raw, format=RGBA"));
+            }
+            debug("gdkpixbufsink not available, using appsink for preview");
         }
 
         // H.264 encoder - try hardware first, then software
@@ -310,15 +321,41 @@ public class VideoRecorder : GLib.Object {
         return true;
     }
 
-    // Get the latest preview frame as a texture (from gdkpixbufsink's last-pixbuf)
+    // Get the latest preview frame as a texture
     public Gdk.Texture? get_preview_texture() {
         if (gtk_sink == null) return null;
-        // gdkpixbufsink exposes a "last-pixbuf" property
-        GLib.Value val = GLib.Value(typeof(Gdk.Pixbuf));
-        gtk_sink.get_property("last-pixbuf", ref val);
-        Gdk.Pixbuf? pixbuf = val.get_object() as Gdk.Pixbuf;
-        if (pixbuf == null) return null;
-        return Gdk.Texture.for_pixbuf(pixbuf);
+
+        if (preview_is_pixbufsink) {
+            // gdkpixbufsink exposes a "last-pixbuf" property
+            GLib.Value val = GLib.Value(typeof(Gdk.Pixbuf));
+            gtk_sink.get_property("last-pixbuf", ref val);
+            Gdk.Pixbuf? pixbuf = val.get_object() as Gdk.Pixbuf;
+            if (pixbuf == null) return null;
+            return Gdk.Texture.for_pixbuf(pixbuf);
+        }
+
+        // Fallback: pull RGBA sample from appsink
+        var appsink = (Gst.App.Sink) gtk_sink;
+        var sample = appsink.try_pull_sample(0);
+        if (sample == null) return null;
+
+        unowned Gst.Caps? caps = sample.get_caps();
+        if (caps == null || caps.get_size() == 0) return null;
+        unowned Gst.Structure structure = caps.get_structure(0);
+        int width = 0, height = 0;
+        structure.get_int("width", out width);
+        structure.get_int("height", out height);
+        if (width <= 0 || height <= 0) return null;
+
+        var buffer = sample.get_buffer();
+        if (buffer == null) return null;
+        Gst.MapInfo map;
+        if (!buffer.map(out map, Gst.MapFlags.READ)) return null;
+
+        // Copy RGBA pixel data and create texture
+        var bytes = new GLib.Bytes(map.data[0:map.size]);
+        buffer.unmap(map);
+        return new Gdk.MemoryTexture(width, height, Gdk.MemoryFormat.R8G8B8A8, bytes, width * 4);
     }
 
     public async void stop_recording_async() {
