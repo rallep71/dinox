@@ -6,6 +6,10 @@ messages.mo
 .vscode/
 logs/
 *.log
+
+# Flatpak build cache and output
+.flatpak-builder/
+flatpak-build/
 dll.log
 test_omemo_deser
 test_omemo_deser.c
