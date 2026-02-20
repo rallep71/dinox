@@ -45,7 +45,30 @@ public class Loader : Object {
             } catch (Error e) { }
         }
 
+        // Sort plugins so that dependencies are loaded first.
+        // e.g. omemo.so must load before bot-features.so which links against it.
+        var sorted = new ArrayList<string>();
+        var deferred = new ArrayList<string>();
         foreach (string plugin in plugin_names) {
+            if (plugin.has_prefix("bot-features")) {
+                deferred.add(plugin);
+            } else {
+                sorted.add(plugin);
+            }
+        }
+        sorted.add_all(deferred);
+
+        // Two-pass loading: retry failed plugins after all others are loaded
+        var failed = new ArrayList<string>();
+        foreach (string plugin in sorted) {
+            try {
+                load(plugin);
+            } catch (Error e) {
+                failed.add(plugin);
+            }
+        }
+        // Retry once for plugins that failed due to dependency order
+        foreach (string plugin in failed) {
             try {
                 load(plugin);
             } catch (Error e) {
