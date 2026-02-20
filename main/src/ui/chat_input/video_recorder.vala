@@ -19,7 +19,7 @@ public class VideoRecorder : GLib.Object {
     private Element video_rate;
     private Element video_capsfilter;
     private Element video_encoder;
-    private Element video_parser;
+    private Element? video_parser;
     private Element video_queue;
     private Element audio_source;
     private Element audio_convert;
@@ -104,7 +104,7 @@ public class VideoRecorder : GLib.Object {
             debug("gdkpixbufsink not available, using appsink for preview");
         }
 
-        // H.264 encoder - try hardware first, then software
+        // H.264 encoder - try hardware first, then software fallbacks
         video_encoder = ElementFactory.make("vaapih264enc", "video-encoder");
         if (video_encoder == null) {
             video_encoder = ElementFactory.make("vah264enc", "video-encoder");
@@ -119,7 +119,22 @@ public class VideoRecorder : GLib.Object {
                 video_encoder.set("key-int-max", 60);
             }
         }
+        if (video_encoder == null) {
+            // Fallback: avenc_h264 from gst-libav (ffmpeg) - available in Flatpak via ffmpeg-full extension
+            video_encoder = ElementFactory.make("avenc_h264", "video-encoder");
+            if (video_encoder != null) {
+                debug("Using avenc_h264 (ffmpeg) as H.264 encoder fallback");
+                // avenc_h264 uses different property names than x264enc
+                // Use a reasonable preset for recording quality
+                video_encoder.set("bitrate", 1500000); // bps (avenc uses bps, not kbps)
+                video_encoder.set("max-threads", 2);
+            }
+        }
+        // h264parse is optional - avenc_h264 output can go directly to mp4mux
         video_parser = ElementFactory.make("h264parse", "video-parser");
+        if (video_parser == null) {
+            debug("h264parse not available, will link encoder directly to muxer");
+        }
 
         // === AUDIO branch ===
         // Always use autoaudiosrc for audio - it auto-detects PipeWire/PulseAudio/ALSA
@@ -142,15 +157,30 @@ public class VideoRecorder : GLib.Object {
         muxer = ElementFactory.make("mp4mux", "muxer");
         sink = ElementFactory.make("filesink", "sink");
 
-        // Validate all required elements
-        if (video_source == null || video_convert == null || video_scale == null ||
-            video_capsfilter == null || video_encoder == null || video_parser == null ||
-            audio_source == null || audio_convert == null || audio_resample == null ||
-            audio_capsfilter == null || audio_encoder == null || audio_parser == null ||
-            muxer == null || sink == null || tee == null || preview_queue == null ||
-            video_queue == null || audio_queue == null || video_rate == null) {
+        // Validate all required elements - log which ones are missing for diagnostics
+        string[] missing = {};
+        if (video_source == null) missing += "video_source (pipewiresrc/v4l2src)";
+        if (video_convert == null) missing += "videoconvert (gst-plugins-base)";
+        if (video_scale == null) missing += "videoscale (gst-plugins-base)";
+        if (video_rate == null) missing += "videorate (gst-plugins-base)";
+        if (video_capsfilter == null) missing += "capsfilter (gstreamer)";
+        if (video_encoder == null) missing += "h264 encoder (x264enc from gst-plugins-ugly, vaapih264enc/vah264enc from gst-plugins-bad, or avenc_h264 from gst-libav)";
+        if (tee == null) missing += "tee (gstreamer)";
+        if (preview_queue == null) missing += "queue (gstreamer)";
+        if (video_queue == null) missing += "queue (gstreamer)";
+        if (audio_source == null) missing += "autoaudiosrc (gst-plugins-base)";
+        if (audio_convert == null) missing += "audioconvert (gst-plugins-base)";
+        if (audio_resample == null) missing += "audioresample (gst-plugins-base)";
+        if (audio_capsfilter == null) missing += "capsfilter (gstreamer)";
+        if (audio_encoder == null) missing += "AAC encoder (avenc_aac from gst-libav, or voaacenc from gst-plugins-bad)";
+        if (audio_parser == null) missing += "aacparse (gst-plugins-good)";
+        if (audio_queue == null) missing += "queue (gstreamer)";
+        if (muxer == null) missing += "mp4mux (gst-plugins-good)";
+        if (sink == null) missing += "filesink (gstreamer)";
+        if (missing.length > 0) {
+            string details = string.joinv(", ", missing);
             throw new Error(Quark.from_string("VideoRecorder"), 0,
-                "Could not create GStreamer elements. Missing plugins? Need: gst-plugins-good, gst-plugins-bad, gst-plugins-ugly, gst-libav, gstreamer-gtk4");
+                "Could not create GStreamer elements. Missing: %s. Install: gst-plugins-good, gst-plugins-bad, gst-plugins-ugly, gst-libav".printf(details));
         }
 
         // Configure video caps: max 720p, max 30fps - accept lower resolutions
@@ -183,11 +213,14 @@ public class VideoRecorder : GLib.Object {
 
         // Add all elements to pipeline
         pipeline.add_many(video_source, video_convert, video_scale, video_rate,
-            video_capsfilter, tee, video_queue, video_encoder, video_parser,
+            video_capsfilter, tee, video_queue, video_encoder,
             preview_queue, preview_convert, preview_sink,
             audio_source, audio_volume, audio_convert, audio_resample, audio_capsfilter,
             audio_queue, audio_convert2, audio_encoder, audio_parser,
             muxer, sink);
+        if (video_parser != null) {
+            pipeline.add(video_parser);
+        }
 
         // Link video source chain up to tee
         // video_source → video_convert → video_scale → video_rate → video_caps → tee
@@ -210,17 +243,29 @@ public class VideoRecorder : GLib.Object {
                 "Could not link preview branch");
         }
 
-        // Tee → record branch: video_queue → video_encoder → video_parser → muxer
+        // Tee → record branch: video_queue → video_encoder → [video_parser →] muxer
         var tee_record_pad = tee.request_pad_simple("src_%u");
         var record_queue_pad = video_queue.get_static_pad("sink");
         if (tee_record_pad.link(record_queue_pad) != PadLinkReturn.OK) {
             throw new Error(Quark.from_string("VideoRecorder"), 0,
                 "Could not link tee to record queue");
         }
-        if (!video_queue.link(video_encoder) || !video_encoder.link(video_parser) ||
-            !video_parser.link(muxer)) {
+        if (!video_queue.link(video_encoder)) {
             throw new Error(Quark.from_string("VideoRecorder"), 0,
-                "Could not link video record branch");
+                "Could not link video_queue → video_encoder");
+        }
+        if (video_parser != null) {
+            // encoder → parser → muxer
+            if (!video_encoder.link(video_parser) || !video_parser.link(muxer)) {
+                throw new Error(Quark.from_string("VideoRecorder"), 0,
+                    "Could not link video_encoder → video_parser → muxer");
+            }
+        } else {
+            // encoder → muxer directly (avenc_h264 output is compatible with mp4mux)
+            if (!video_encoder.link(muxer)) {
+                throw new Error(Quark.from_string("VideoRecorder"), 0,
+                    "Could not link video_encoder → muxer");
+            }
         }
 
         // Audio chain: audio_source → volume → convert → resample → caps → queue → encoder → parser → muxer

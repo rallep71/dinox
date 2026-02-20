@@ -411,7 +411,8 @@ namespace Dino.Ui {
             card_box.add_css_class("dino-link-preview");
             card_box.halign = Align.START;
             card_box.hexpand = false;
-            card_box.width_request = 400;  // max-width equivalent for GTK4
+            // Don't use width_request (sets MINIMUM width, not max).
+            // Instead, constrain via max_width_chars on labels.
 
             // Image on the left (if available)
             if (data.image_texture != null) {

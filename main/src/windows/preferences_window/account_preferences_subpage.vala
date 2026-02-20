@@ -802,7 +802,7 @@ public class Dino.Ui.NaturalDirectionBoxLayout : LayoutManager {
             int alt_minimum, alt_natural, alt_minimum_baseline, alt_natural_baseline;
             alternative.measure(widget, orientation, -1, out alt_minimum, out alt_natural, out alt_minimum_baseline, out alt_natural_baseline);
             if (alt_minimum < minimum && alt_minimum != -1) minimum = alt_minimum;
-            if (alt_minimum_baseline < minimum_baseline && alt_minimum_baseline != -1) minimum = alt_minimum_baseline;
+            if (alt_minimum_baseline < minimum_baseline && alt_minimum_baseline != -1) minimum_baseline = alt_minimum_baseline;
         } else {
             Orientation other_orientation = orientation == Orientation.HORIZONTAL ? Orientation.VERTICAL : Orientation.HORIZONTAL;
             int blind_minimum, blind_natural, blind_minimum_baseline, blind_natural_baseline;
