@@ -5,6 +5,17 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.1.6] - 2026-02-20
+
+### Fixed
+- **Video Recording Flatpak (openh264enc)**: Added `openh264enc` (from gst-plugins-bad, included in GNOME Platform runtime) as 5th H.264 encoder fallback. Fixes video recording in Flatpak where x264enc, avenc_h264, vaapih264enc, and vah264enc are all unavailable. Encoder fallback chain: vaapih264enc → vah264enc → x264enc → avenc_h264 → openh264enc.
+- **Audio Recording Quality (voaacenc bitrate)**: Increased `voaacenc` bitrate from 64kbps to 128kbps. In Flatpak where `avenc_aac` (gst-libav) is unavailable, the fallback `voaacenc` encoder was producing noticeable noise/artifacts at 64kbps. `avenc_aac` bitrate increased from 64kbps to 96kbps for improved clarity.
+- **Audio Noise Suppression (webrtcdsp)**: Added optional WebRTC-based noise suppression (`webrtcdsp` from gst-plugins-bad) to both audio recorder (voice messages) and video recorder (video audio). Automatically reduces constant background hiss/noise when the GStreamer element is available. Falls back gracefully to the existing pipeline when unavailable.
+- **Audio Encoder Diagnostics**: Added debug logging showing which AAC encoder is actually being used (avenc_aac vs voaacenc), helping diagnose quality differences across distributions.
+
+### Changed
+- **Version**: Bumped from 1.1.1.5 to 1.1.1.6
+
 ## [1.1.1.5] - 2026-02-20
 
 ### Fixed
