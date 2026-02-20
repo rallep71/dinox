@@ -5,6 +5,18 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.1.3] - 2026-02-20
+
+### Fixed
+- **Pango Cursor Position Assertion Failure**: Fixed `pango_layout_get_cursor_pos: assertion 'index >= 0 && index <= layout->length' failed` crash. Reset `label.selectable` before updating markup text to invalidate stale cursor index when message labels are dynamically updated (delivery status, corrections, deletions).
+- **AttrList Byte Index Mismatch**: Moved `unbreak_space_around_non_spacing_mark()` call before AttrList byte index computation. NBSP (U+00A0, 2 bytes UTF-8) replacing regular space (1 byte) shifted all subsequent byte offsets, causing Pango attribute misalignment.
+- **`/me` Message Bold/Italic Indices**: Recompute `/me` prefix bold/italic attribute byte indices after NBSP expansion to prevent index overflow.
+- **Unescaped Markup in Conversation Selector**: `status_text` in resource tooltip now escaped with `Markup.escape_text()` to prevent Pango parse errors from special characters.
+- **Unescaped Markup in Reactions Widget**: Reaction emoji now escaped with `Markup.escape_text()` to prevent potential Pango markup injection.
+
+### Changed
+- **Version**: Bumped from 1.1.1.2 to 1.1.1.3
+
 ## [1.1.1.2] - 2026-02-20
 
 ### Fixed
