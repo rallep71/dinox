@@ -1,6 +1,6 @@
 # DinoX - Development Plan
 
-> **Last Updated**: February 20, 2026 (v1.1.1.4)
+> **Last Updated**: February 20, 2026 (v1.1.1.5)
 > **Current Release Line**: 1.1.1.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.1.4 |
+| **Current Version** | 1.1.1.5 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (~85% translated) |
 | **Build Status** | Clean |
@@ -20,6 +20,12 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v1.1.1.5 (GtkBox Warning Fix, Video Encoder Flatpak Fix)
+
+- **GtkBox Warning Fix**: Removed `width_request=400` on URL preview card_box (was minimum, not maximum). Fixed baseline bug in NaturalDirectionBoxLayout.
+- **Video Encoder Flatpak Fix**: Added `avenc_h264` (ffmpeg) as fallback H.264 encoder. Made `h264parse` optional. Video recording now works in Flatpak without gst-plugins-ugly/bad.
+- **Error Diagnostics**: Video recorder now reports exactly which GStreamer element is missing instead of generic "Need: gstreamer-gtk4".
 
 ### v1.1.1.4 (Plugin Load Order, Flatpak Fixes)
 

@@ -5,6 +5,18 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.1.5] - 2026-02-20
+
+### Fixed
+- **GtkBox min/nat Height Warning**: Removed incorrect `width_request = 400` on URL preview `card_box` (sets minimum width, not maximum). This caused GTK warning "reported min height 207 and natural height 108" when container was narrower than 400px, because wrapping labels produced inverted min/natural height values.
+- **NaturalDirectionBoxLayout Baseline Bug**: Fixed typo `minimum = alt_minimum_baseline` → `minimum_baseline = alt_minimum_baseline` in preferences page layout manager. Was corrupting minimum height value with a baseline value.
+- **Video Recording H.264 Encoder (Flatpak)**: Added `avenc_h264` (from gst-libav/ffmpeg) as 4th fallback H.264 encoder after vaapih264enc, vah264enc, x264enc. Flatpak builds include the `ffmpeg-full` extension but not `gst-plugins-ugly` (x264enc), so video recording failed completely.
+- **Video Recording h264parse Optional**: Made `h264parse` (from gst-plugins-bad) optional. When unavailable, encoder links directly to mp4mux. This removes the hard dependency on gst-plugins-bad for video recording.
+- **Video Recording Error Message**: Replaced misleading "Need: gstreamer-gtk4" with detailed per-element diagnostics showing exactly which GStreamer element is missing and which package provides it.
+
+### Changed
+- **Version**: Bumped from 1.1.1.4 to 1.1.1.5
+
 ## [1.1.1.4] - 2026-02-20
 
 ### Fixed
