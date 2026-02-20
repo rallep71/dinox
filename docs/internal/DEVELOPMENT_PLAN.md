@@ -322,6 +322,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Item | Description | Status |
 |------|-------------|--------|
+| **AppImage: Remove unused libgstgtk4.so** | `libgstgtk4.so` is listed in AppImage GStreamer plugin copy list but never used. RTP video calls use a custom `Rtp.Sink` (extends `Gst.Video.Sink`), video recording preview uses `gdkpixbufsink`/`appsink`. Remove from `build-appimage.sh` plugin list to avoid confusion and reduce AppImage size. | TODO |
 | **Notification Sounds (Windows)** | Linux notification sounds (messages + call ringtone) are complete via libcanberra. Windows needs a native backend (PlaySound/XAudio2) since libcanberra is not available. | TODO |
 | **Screen Sharing** | Share desktop or windows during calls | TODO |
 | **Whiteboard** | Collaborative drawing (protocol TBD) | CONCEPT |
