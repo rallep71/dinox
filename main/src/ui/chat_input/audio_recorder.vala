@@ -19,6 +19,7 @@ public class AudioRecorder : GLib.Object {
     private Element convert;
     private Element resample;
     private Element capsfilter;
+    private Element? noise_suppressor;  // webrtcdsp noise suppression (optional)
     private Element compressor;
     private Element convert2;  // S16LE → F32LE for encoder
     private Element encoder;
@@ -83,12 +84,28 @@ public class AudioRecorder : GLib.Object {
         // S16LE is required for webrtc noise suppression processing
         capsfilter.set("caps", Caps.from_string("audio/x-raw, rate=48000, channels=1, format=S16LE"));
 
+        // WebRTC noise suppression (optional) - reduces constant background hiss/noise
+        // Requires gst-plugins-bad with webrtc-audio-processing library
+        noise_suppressor = ElementFactory.make("webrtcdsp", "noise-suppressor");
+        if (noise_suppressor != null) {
+            noise_suppressor.set("noise-suppression", true);
+            noise_suppressor.set("gain-control", false);  // we handle gain via volume element
+            debug("AudioRecorder: webrtcdsp noise suppression enabled");
+        } else {
+            debug("AudioRecorder: webrtcdsp not available, recording without noise suppression");
+        }
+
         // Second audioconvert: S16LE (after NS+compressor) → F32LE (for avenc_aac)
         convert2 = ElementFactory.make("audioconvert", "convert2");
 
-        if (encoder.get_factory().get_name() == "avenc_aac" || encoder.get_factory().get_name() == "voaacenc") {
-            // 64kbps is decent for mono AAC-LC
-            encoder.set("bitrate", 64000);
+        // Log which encoder is actually being used
+        string encoder_name = encoder.get_factory().get_name();
+        debug("AudioRecorder: using encoder '%s'", encoder_name);
+
+        if (encoder_name == "avenc_aac") {
+            encoder.set("bitrate", 96000); // avenc_aac: 96kbps for clear mono speech
+        } else if (encoder_name == "voaacenc") {
+            encoder.set("bitrate", 128000); // voaacenc: needs higher bitrate for comparable quality
         }
 
         // Start muted - unmute after 200ms to suppress PipeWire transient crackling
@@ -112,15 +129,33 @@ public class AudioRecorder : GLib.Object {
         level.set("interval", 100000000); // 100ms
         level.set("post-messages", true);
 
+        // Add base elements to pipeline
         pipeline.add_many(source, volume, level, convert, resample, capsfilter, convert2, encoder, parser, muxer, sink);
-        bool linked;
+        // Add optional processing elements
+        if (noise_suppressor != null) {
+            pipeline.add(noise_suppressor);
+        }
         if (compressor != null) {
             pipeline.add(compressor);
-            // source → volume → level → convert → resample → capsfilter(S16LE) → compressor → convert2(→F32LE) → encoder → parser → muxer → sink
-            linked = source.link(volume) && volume.link(level) && level.link(convert) && convert.link(resample) && resample.link(capsfilter) && capsfilter.link(compressor) && compressor.link(convert2) && convert2.link(encoder) && encoder.link(parser) && parser.link(muxer) && muxer.link(sink);
-        } else {
-            linked = source.link(volume) && volume.link(level) && level.link(convert) && convert.link(resample) && resample.link(capsfilter) && capsfilter.link(convert2) && convert2.link(encoder) && encoder.link(parser) && parser.link(muxer) && muxer.link(sink);
         }
+
+        // Link common prefix: source → volume → level → convert → resample → capsfilter
+        bool linked = source.link(volume) && volume.link(level) && level.link(convert) && convert.link(resample) && resample.link(capsfilter);
+
+        // Link optional chain: capsfilter → [webrtcdsp] → [compressor] → convert2
+        Element last = capsfilter;
+        if (noise_suppressor != null) {
+            linked = linked && last.link(noise_suppressor);
+            last = noise_suppressor;
+        }
+        if (compressor != null) {
+            linked = linked && last.link(compressor);
+            last = compressor;
+        }
+        linked = linked && last.link(convert2);
+
+        // Link common suffix: convert2 → encoder → parser → muxer → sink
+        linked = linked && convert2.link(encoder) && encoder.link(parser) && parser.link(muxer) && muxer.link(sink);
         if (!linked) {
              throw new Error(Quark.from_string("AudioRecorder"), 0, "Could not link GStreamer elements");
         }

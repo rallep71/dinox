@@ -897,6 +897,14 @@
 
     <release>
       <Version>
+        <name>1.1.1.6</name>
+        <created>2026-02-20</created>
+        <revision>1.1.1.6</revision>
+      </Version>
+    </release>
+
+    <release>
+      <Version>
         <name>1.1.1.5</name>
         <created>2026-02-20</created>
         <revision>1.1.1.5</revision>

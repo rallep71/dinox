@@ -26,6 +26,7 @@ public class VideoRecorder : GLib.Object {
     private Element audio_resample;
     private Element audio_capsfilter;
     private Element audio_volume;
+    private Element? noise_suppressor;  // webrtcdsp noise suppression (optional)
     private Element audio_encoder;
     private Element audio_convert2;
     private Element audio_parser;
@@ -124,10 +125,17 @@ public class VideoRecorder : GLib.Object {
             video_encoder = ElementFactory.make("avenc_h264", "video-encoder");
             if (video_encoder != null) {
                 debug("Using avenc_h264 (ffmpeg) as H.264 encoder fallback");
-                // avenc_h264 uses different property names than x264enc
-                // Use a reasonable preset for recording quality
                 video_encoder.set("bitrate", 1500000); // bps (avenc uses bps, not kbps)
                 video_encoder.set("max-threads", 2);
+            }
+        }
+        if (video_encoder == null) {
+            // Fallback: openh264enc from gst-plugins-bad - available in GNOME Platform runtime (Flatpak)
+            video_encoder = ElementFactory.make("openh264enc", "video-encoder");
+            if (video_encoder != null) {
+                debug("Using openh264enc as H.264 encoder fallback");
+                video_encoder.set("bitrate", 1500000); // bps
+                video_encoder.set("complexity", 1);     // medium complexity
             }
         }
         // h264parse is optional - avenc_h264 output can go directly to mp4mux
@@ -153,6 +161,16 @@ public class VideoRecorder : GLib.Object {
         }
         audio_parser = ElementFactory.make("aacparse", "audio-parser");
 
+        // WebRTC noise suppression for audio (optional) - reduces constant background hiss/noise
+        noise_suppressor = ElementFactory.make("webrtcdsp", "audio-noise-suppressor");
+        if (noise_suppressor != null) {
+            noise_suppressor.set("noise-suppression", true);
+            noise_suppressor.set("gain-control", false);  // we handle gain via volume element
+            debug("VideoRecorder: webrtcdsp audio noise suppression enabled");
+        } else {
+            debug("VideoRecorder: webrtcdsp not available, recording audio without noise suppression");
+        }
+
         // === Muxer + Sink ===
         muxer = ElementFactory.make("mp4mux", "muxer");
         sink = ElementFactory.make("filesink", "sink");
@@ -164,7 +182,7 @@ public class VideoRecorder : GLib.Object {
         if (video_scale == null) missing += "videoscale (gst-plugins-base)";
         if (video_rate == null) missing += "videorate (gst-plugins-base)";
         if (video_capsfilter == null) missing += "capsfilter (gstreamer)";
-        if (video_encoder == null) missing += "h264 encoder (x264enc from gst-plugins-ugly, vaapih264enc/vah264enc from gst-plugins-bad, or avenc_h264 from gst-libav)";
+        if (video_encoder == null) missing += "h264 encoder (x264enc from gst-plugins-ugly, vaapih264enc/vah264enc from gst-plugins-bad, avenc_h264 from gst-libav, or openh264enc from gst-plugins-bad)";
         if (tee == null) missing += "tee (gstreamer)";
         if (preview_queue == null) missing += "queue (gstreamer)";
         if (video_queue == null) missing += "queue (gstreamer)";
@@ -194,9 +212,13 @@ public class VideoRecorder : GLib.Object {
         // Mute during PipeWire connection transient, unmute after stabilization
         audio_volume.set("volume", 0.0);
 
-        // AAC 96kbps for audio in video
-        if (audio_encoder.get_factory().get_name() == "avenc_aac" || audio_encoder.get_factory().get_name() == "voaacenc") {
-            audio_encoder.set("bitrate", 96000);
+        // AAC bitrate for audio in video
+        string audio_enc_name = audio_encoder.get_factory().get_name();
+        debug("VideoRecorder: using audio encoder '%s'", audio_enc_name);
+        if (audio_enc_name == "avenc_aac") {
+            audio_encoder.set("bitrate", 96000);  // avenc_aac: 96kbps for clear mono speech
+        } else if (audio_enc_name == "voaacenc") {
+            audio_encoder.set("bitrate", 128000); // voaacenc: needs higher bitrate for comparable quality
         }
 
         sink.set("location", output_path);
@@ -220,6 +242,9 @@ public class VideoRecorder : GLib.Object {
             muxer, sink);
         if (video_parser != null) {
             pipeline.add(video_parser);
+        }
+        if (noise_suppressor != null) {
+            pipeline.add(noise_suppressor);
         }
 
         // Link video source chain up to tee
@@ -268,7 +293,7 @@ public class VideoRecorder : GLib.Object {
             }
         }
 
-        // Audio chain: audio_source → volume → convert → resample → caps → queue → encoder → parser → muxer
+        // Audio chain: audio_source → volume → convert → resample → caps → [webrtcdsp] → queue → convert2 → encoder → parser → muxer
         if (!audio_source.link(audio_volume)) {
             throw new Error(Quark.from_string("VideoRecorder"), 0, "Could not link audio_source → audio_volume");
         }
@@ -281,8 +306,16 @@ public class VideoRecorder : GLib.Object {
         if (!audio_resample.link(audio_capsfilter)) {
             throw new Error(Quark.from_string("VideoRecorder"), 0, "Could not link audio_resample → audio_capsfilter");
         }
-        if (!audio_capsfilter.link(audio_queue)) {
-            throw new Error(Quark.from_string("VideoRecorder"), 0, "Could not link audio_capsfilter → audio_queue");
+        // Link optional noise suppression between capsfilter and queue
+        Element audio_last = audio_capsfilter;
+        if (noise_suppressor != null) {
+            if (!audio_last.link(noise_suppressor)) {
+                throw new Error(Quark.from_string("VideoRecorder"), 0, "Could not link audio_capsfilter → webrtcdsp");
+            }
+            audio_last = noise_suppressor;
+        }
+        if (!audio_last.link(audio_queue)) {
+            throw new Error(Quark.from_string("VideoRecorder"), 0, "Could not link audio chain → audio_queue");
         }
         if (!audio_queue.link(audio_convert2)) {
             throw new Error(Quark.from_string("VideoRecorder"), 0, "Could not link audio_queue → audio_convert2");

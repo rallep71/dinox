@@ -1,6 +1,6 @@
 # DinoX - Development Plan
 
-> **Last Updated**: February 20, 2026 (v1.1.1.5)
+> **Last Updated**: February 20, 2026 (v1.1.1.6)
 > **Current Release Line**: 1.1.1.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.1.5 |
+| **Current Version** | 1.1.1.6 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (~85% translated) |
 | **Build Status** | Clean |
@@ -20,6 +20,12 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v1.1.1.6 (Flatpak Video Fix, Audio Quality)
+
+- **openh264enc Fallback**: Added OpenH264 encoder as 5th fallback for H.264 encoding. Available in GNOME Platform runtime (Flatpak) without extra extensions.
+- **Audio Quality Fix**: Increased voaacenc bitrate from 64→128kbps (Flatpak fallback encoder). Increased avenc_aac from 64→96kbps.
+- **Encoder Diagnostics**: Debug log shows which AAC encoder is active.
 
 ### v1.1.1.5 (GtkBox Warning Fix, Video Encoder Flatpak Fix)
 
