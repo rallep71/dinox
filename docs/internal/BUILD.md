@@ -100,7 +100,8 @@ sudo apt install \
     libwebrtc-audio-processing-dev \
     libnice-dev \
     libgnutls28-dev \
-    libsrtp2-dev
+    libsrtp2-dev \
+    gstreamer1.0-plugins-good
 ```
 
 ### Fedora
@@ -133,7 +134,8 @@ sudo dnf install \
     webrtc-audio-processing-devel \
     libnice-devel \
     gnutls-devel \
-    libsrtp2-devel
+    libsrtp2-devel \
+    gstreamer1-plugins-good
 ```
 
 ### Arch Linux / Manjaro
@@ -160,6 +162,7 @@ sudo pacman -S \
     libsoup3 \
     gstreamer \
     gst-plugins-base \
+    gst-plugins-good \
     gst-plugins-bad \
     gst-plugin-pipewire \
     webrtc-audio-processing \

@@ -12,6 +12,7 @@ dependencies = [
     dep_glib,
     dep_gmodule,
     dep_gstreamer,
+    dep_gstreamer_app_core,
     dep_gtk4,
     dep_icu_uc,
     dep_json_glib,

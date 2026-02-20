@@ -20,7 +20,8 @@ jobs:
             libnice-dev libnotify-dev libqrencode-dev libsoup-3.0-dev \
             libsqlite3-dev libsqlcipher-dev libsecret-1-dev libsrtp2-dev \
             libgnutls28-dev libdbusmenu-glib-dev meson valac pkg-config \
-            libjson-glib-dev libprotobuf-c-dev protobuf-c-compiler
+            libjson-glib-dev libprotobuf-c-dev protobuf-c-compiler \
+            gstreamer1.0-plugins-good
       - name: "Build custom dependencies"
         run: |
           chmod +x scripts/ci-build-deps.sh
@@ -96,7 +97,8 @@ jobs:
             libnice-dev libnotify-dev libqrencode-dev libsoup-3.0-dev \
             libsqlite3-dev libsqlcipher-dev libsecret-1-dev libsrtp2-dev \
             libgnutls28-dev libdbusmenu-glib-dev meson valac pkg-config \
-            libjson-glib-dev libprotobuf-c-dev protobuf-c-compiler
+            libjson-glib-dev libprotobuf-c-dev protobuf-c-compiler \
+            gstreamer1.0-plugins-good
       - name: "Build custom dependencies"
         run: |
           chmod +x scripts/ci-build-deps.sh
