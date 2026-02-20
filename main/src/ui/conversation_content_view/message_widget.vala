@@ -116,19 +116,33 @@ public class MessageMetaItem : ContentMetaItem {
         var bold_attr = Pango.attr_weight_new(Pango.Weight.BOLD);
         var italic_attr = Pango.attr_style_new(Pango.Style.ITALIC);
 
+        bool is_me_message = false;
+        string me_display_name = "";
+
         // Prefix message with name instead of /me
         if (markup_text.has_prefix("/me ")) {
             string display_name = Util.get_participant_display_name(stream_interactor, conversation, message.from);
             markup_text = display_name + " " + markup_text.substring(4);
+            is_me_message = true;
+            me_display_name = display_name;
 
             foreach (Xep.MessageMarkup.Span span in markups) {
                 int length = display_name.char_count() - 4 + 1;
                 span.start_char += length;
                 span.end_char += length;
             }
+        }
 
-            bold_attr.end_index = display_name.length;
-            italic_attr.end_index = display_name.length;
+        // Work around pango bug - must happen BEFORE computing AttrList byte indices,
+        // because NBSP (U+00A0) is 2 bytes in UTF-8 vs 1 byte for regular space
+        markup_text = Util.unbreak_space_around_non_spacing_mark((owned) markup_text);
+
+        // Compute /me bold/italic AFTER unbreak_space so byte indices are correct
+        if (is_me_message) {
+            // Recompute byte length after potential NBSP expansion
+            int name_byte_len = markup_text.index_of_nth_char(me_display_name.char_count());
+            bold_attr.end_index = name_byte_len;
+            italic_attr.end_index = name_byte_len;
             attrs.insert(bold_attr.copy());
             attrs.insert(italic_attr.copy());
         }
@@ -152,9 +166,6 @@ public class MessageMetaItem : ContentMetaItem {
                 attrs.insert(attr.copy());
             }
         }
-
-        // Work around pango bug
-        markup_text = Util.unbreak_space_around_non_spacing_mark((owned) markup_text);
 
         if (conversation.type_ == Conversation.Type.GROUPCHAT) {
             markup_text = Util.parse_add_markup_theme(markup_text, conversation.nickname, true, true, true, Util.is_dark_theme(this.label), ref theme_dependent);
@@ -213,7 +224,12 @@ public class MessageMetaItem : ContentMetaItem {
         } else if (!theme_dependent && realize_id != -1) {
             label.disconnect(realize_id);
         }
+
+        // Reset selectable before changing text to avoid stale cursor index
+        // (Pango-CRITICAL: pango_layout_get_cursor_pos assertion failure)
+        label.selectable = false;
         label.label = markup_text;
+        label.selectable = true;
     }
 
     public void update_label() {

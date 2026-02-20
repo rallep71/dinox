@@ -138,7 +138,7 @@ public class ReactionsWidget : Grid {
 
     public void update_reaction(string reaction, int count, bool own, Gee.List<string> names) {
         if (!reaction_buttons.has_key(reaction)) {
-            Label reaction_label = new Label("<span size='small'>" + reaction + "</span>") { use_markup=true };
+            Label reaction_label = new Label("<span size='small'>" + GLib.Markup.escape_text(reaction) + "</span>") { use_markup=true };
             Label count_label = new Label("") { use_markup=true };
             Button button = new Button();
             button.add_css_class("pill");

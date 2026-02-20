@@ -460,7 +460,7 @@ public class ConversationSelectorRow : ListBoxRow {
                     return;
                 }
                 if (status_text != null) {
-                    sb.append(" <i>(").append(status_text).append(")</i>");
+                    sb.append(" <i>(").append(GLib.Markup.escape_text(status_text)).append(")</i>");
                 }
                 if (status_msg != null && status_msg != "") {
                     sb.append("\n<small>").append(GLib.Markup.escape_text(status_msg)).append("</small>");
