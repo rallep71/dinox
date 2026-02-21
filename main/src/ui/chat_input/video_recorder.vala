@@ -42,7 +42,6 @@ public class VideoRecorder : GLib.Object {
     private uint timeout_id = 0;
     private int64 start_time = 0;
     private bool error_cancelling = false; // prevent re-entrant cancel from bus callback
-    private bool use_webm = false; // true if VP8/WebM fallback is active
     public const int MAX_DURATION_SECONDS = 120; // 2 minutes
 
     public string? current_output_path { get; private set; }
@@ -71,13 +70,15 @@ public class VideoRecorder : GLib.Object {
      */
     private bool test_video_encoder(string factory_name) {
         try {
+            // Use videoconvert before the encoder so hardware encoders (VAAPI, VA)
+            // can negotiate their preferred input format instead of raw I420.
             var test_pipe = Gst.parse_launch(
-                "videotestsrc num-buffers=1 ! video/x-raw,format=I420,width=160,height=120,framerate=1/1 ! %s ! fakesink".printf(factory_name));
+                "videotestsrc num-buffers=1 ! video/x-raw,width=160,height=120,framerate=1/1 ! videoconvert ! %s ! fakesink".printf(factory_name));
             if (test_pipe == null) return false;
 
             test_pipe.set_state(State.PLAYING);
             var test_bus = ((Pipeline)test_pipe).get_bus();
-            var msg = test_bus.timed_pop_filtered(3 * Gst.SECOND,
+            var msg = test_bus.timed_pop_filtered(5 * Gst.SECOND,
                 MessageType.ERROR | MessageType.EOS);
             bool works = (msg != null && msg.type == MessageType.EOS);
             test_pipe.set_state(State.NULL);
@@ -150,7 +151,6 @@ public class VideoRecorder : GLib.Object {
         // H.264 encoder - try hardware first, then software fallbacks
         // Each encoder is validated with a 1-frame test pipeline to catch runtime failures
         // (e.g. openh264enc factory exists but the Cisco library can't initialize)
-        use_webm = false;
         video_encoder = try_create_encoder("vaapih264enc", "video-encoder");
         if (video_encoder == null) {
             video_encoder = try_create_encoder("vah264enc", "video-encoder");
@@ -184,27 +184,18 @@ public class VideoRecorder : GLib.Object {
             }
         }
         if (video_encoder == null) {
-            // Ultimate fallback: VP8 (libvpx) in WebM container
-            // VP8 is in gst-plugins-good and works on every system without special libraries
-            video_encoder = try_create_encoder("vp8enc", "video-encoder");
-            if (video_encoder != null) {
-                debug("Using vp8enc (VP8/WebM) as ultimate encoder fallback");
-                video_encoder.set("target-bitrate", 1500000); // bps
-                video_encoder.set("cpu-used", 8);             // fastest encoding
-                video_encoder.set("deadline", (int64)1);      // realtime
-                video_encoder.set("keyframe-max-dist", 60);
-                use_webm = true;
-            }
+            // No working H.264 encoder found.
+            // We do NOT fall back to VP8/WebM because most mobile XMPP clients
+            // (Monocles, Conversations) cannot play WebM video messages.
+            // H.264/MP4 is the only universally supported format.
+            throw new Error(Quark.from_string("VideoRecorder"), 0,
+                "No working H.264 video encoder found. Install one of: gstreamer1.0-vaapi (Intel/AMD), gstreamer1.0-plugins-ugly (x264), gstreamer1.0-libav (ffmpeg), or libgstreamer-plugins-bad1.0 (openh264)");
         }
 
-        // Parser: h264parse for H.264 encoders, no parser needed for VP8
-        if (!use_webm) {
-            video_parser = ElementFactory.make("h264parse", "video-parser");
-            if (video_parser == null) {
-                debug("h264parse not available, will link encoder directly to muxer");
-            }
-        } else {
-            video_parser = null;
+        // Parser: h264parse for proper MP4 muxing (optional but recommended)
+        video_parser = ElementFactory.make("h264parse", "video-parser");
+        if (video_parser == null) {
+            debug("h264parse not available, will link encoder directly to muxer");
         }
 
         // === AUDIO branch ===
@@ -225,25 +216,15 @@ public class VideoRecorder : GLib.Object {
         audio_parser = ElementFactory.make("aacparse", "audio-parser");
 
         // === Muxer + Sink ===
-        if (use_webm) {
-            muxer = ElementFactory.make("webmmux", "muxer");
-            // Switch audio encoder to Vorbis for WebM container (AAC not allowed in WebM)
-            audio_encoder = ElementFactory.make("vorbisenc", "audio-encoder");
-            if (audio_encoder == null) {
-                audio_encoder = ElementFactory.make("opusenc", "audio-encoder");
-            }
-            audio_parser = null; // No aacparse needed for Vorbis/Opus
-        } else {
-            muxer = ElementFactory.make("mp4mux", "muxer");
+        muxer = ElementFactory.make("mp4mux", "muxer");
+        if (muxer != null) {
+            // faststart: moves moov atom to the beginning of the file after EOS,
+            // so the video can start playing before fully downloaded.
+            muxer.set("faststart", true);
         }
         sink = ElementFactory.make("filesink", "sink");
 
-        // Adjust output path extension to match container format
-        if (use_webm && output_path.has_suffix(".mp4")) {
-            current_output_path = output_path.substring(0, output_path.length - 4) + ".webm";
-        } else {
-            current_output_path = output_path;
-        }
+        current_output_path = output_path;
 
         // Validate all required elements - log which ones are missing for diagnostics
         string[] missing = {};
@@ -260,12 +241,10 @@ public class VideoRecorder : GLib.Object {
         if (audio_convert == null) missing += "audioconvert (gst-plugins-base)";
         if (audio_resample == null) missing += "audioresample (gst-plugins-base)";
         if (audio_capsfilter == null) missing += "capsfilter (gstreamer)";
-        if (audio_encoder == null) missing += use_webm
-            ? "Vorbis/Opus encoder (vorbisenc from gst-plugins-base, or opusenc from gst-plugins-bad)"
-            : "AAC encoder (avenc_aac from gst-libav, or voaacenc from gst-plugins-bad)";
-        if (!use_webm && audio_parser == null) missing += "aacparse (gst-plugins-good)";
+        if (audio_encoder == null) missing += "AAC encoder (avenc_aac from gst-libav, or voaacenc from gst-plugins-bad)";
+        if (audio_parser == null) missing += "aacparse (gst-plugins-good)";
         if (audio_queue == null) missing += "queue (gstreamer)";
-        if (muxer == null) missing += use_webm ? "webmmux (gst-plugins-good)" : "mp4mux (gst-plugins-good)";
+        if (muxer == null) missing += "mp4mux (gst-plugins-good)";
         if (sink == null) missing += "filesink (gstreamer)";
         if (missing.length > 0) {
             string details = string.joinv(", ", missing);
@@ -391,7 +370,7 @@ public class VideoRecorder : GLib.Object {
             throw new Error(Quark.from_string("VideoRecorder"), 0, "Could not link audio_convert2 → audio_encoder");
         }
         if (audio_parser != null) {
-            // H.264/AAC path: encoder → parser → muxer
+            // AAC path: encoder → parser → muxer
             if (!audio_encoder.link(audio_parser)) {
                 throw new Error(Quark.from_string("VideoRecorder"), 0, "Could not link audio_encoder → audio_parser");
             }
@@ -399,7 +378,7 @@ public class VideoRecorder : GLib.Object {
                 throw new Error(Quark.from_string("VideoRecorder"), 0, "Could not link audio_parser → muxer");
             }
         } else {
-            // WebM/Vorbis/Opus path: encoder → muxer directly
+            // No parser available: link encoder directly to muxer
             if (!audio_encoder.link(muxer)) {
                 throw new Error(Quark.from_string("VideoRecorder"), 0, "Could not link audio_encoder → muxer");
             }
@@ -530,19 +509,31 @@ public class VideoRecorder : GLib.Object {
             timeout_id = 0;
         }
         if (pipeline != null && is_recording) {
-            // 1. Remove bus watch FIRST — prevents callbacks during teardown
+            // 1. Remove bus watch FIRST — prevents error callbacks during teardown
             if (bus_watch_id != 0) {
                 Source.remove(bus_watch_id);
                 bus_watch_id = 0;
             }
             
-            // 2. Send EOS so mp4mux writes the moov atom
+            // 2. Send EOS so mp4mux writes the moov atom (critical for valid MP4!)
             pipeline.send_event(new Event.eos());
             
-            // 3. Wait for muxer to finalize (max 1s, video takes longer)
+            // 3. Wait for muxer to finalize — 5 seconds for longer videos.
+            //    Without this, mp4mux won't write the moov atom and the file
+            //    will be unplayable on any device.
             if (bus != null) {
-                bus.timed_pop_filtered(Gst.SECOND,
+                var msg = bus.timed_pop_filtered(5 * Gst.SECOND,
                     Gst.MessageType.EOS | Gst.MessageType.ERROR);
+                if (msg == null) {
+                    warning("VideoRecorder: EOS timeout after 5s — MP4 may be incomplete");
+                } else if (msg.type == Gst.MessageType.ERROR) {
+                    Error err;
+                    string dbg;
+                    msg.parse_error(out err, out dbg);
+                    warning("VideoRecorder: Pipeline error during finalization: %s", err.message);
+                } else {
+                    debug("VideoRecorder: EOS received, MP4 file finalized");
+                }
                 bus = null;
             }
             
