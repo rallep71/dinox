@@ -477,8 +477,9 @@ public class Manager : StreamInteractionModule, Object {
 
         // Publish to trigger PEP notification to all subscribers
         // NODE_DEVICELIST = "eu.siacs.conversations.axolotl.devicelist"
+        // Use fixed item_id "current" to REPLACE existing item (not create a new one)
         stream.get_module<Xep.Pubsub.Module>(Xep.Pubsub.Module.IDENTITY).publish.begin(stream, account.bare_jid, 
-            Xep.Omemo.NS_URI + ".devicelist", null, list_node);
+            Xep.Omemo.NS_URI + ".devicelist", "current", list_node);
         
         debug("Republished device list for %s with %d devices", account.bare_jid.to_string(), devices.size);
     }
@@ -519,8 +520,9 @@ public class Manager : StreamInteractionModule, Object {
             devices_node.put_node(device_node);
         }
 
+        // Use fixed item_id "current" to REPLACE existing item (not create a new one)
         stream.get_module<Xep.Pubsub.Module>(Xep.Pubsub.Module.IDENTITY).publish.begin(stream, account.bare_jid,
-            Xep.Omemo.NODE_DEVICELIST_V2, null, devices_node);
+            Xep.Omemo.NODE_DEVICELIST_V2, "current", devices_node);
 
         debug("Republished OMEMO 2 device list for %s with %d devices", account.bare_jid.to_string(), devices.size);
     }
@@ -536,6 +538,14 @@ public class Manager : StreamInteractionModule, Object {
      * 3. Veraltete v1-Bundle-Nodes werden vom PubSub gelöscht.
      * 4. Veraltete v2-Bundle-Items werden vom PubSub zurückgezogen.
      */
+    private string[] device_list_to_strings(ArrayList<int32> devices) {
+        string[] result = new string[devices.size];
+        for (int i = 0; i < devices.size; i++) {
+            result[i] = devices[i].to_string();
+        }
+        return result;
+    }
+
     private void cleanup_stale_own_devices(Account account, XmppStream stream) {
         int identity_id = db.identity.get_id(account.id);
         if (identity_id < 0) return;
@@ -547,23 +557,37 @@ public class Manager : StreamInteractionModule, Object {
 
         string own_jid = account.bare_jid.to_string();
 
-        // Sammle veraltete Device-IDs bevor wir sie deaktivieren
+        // Only remove TRUE phantom devices: those without an identity key.
+        // Devices WITH an identity key are legitimate other clients (e.g. Monal,
+        // Conversations) using the same JID — they must NOT be removed.
+        debug("OMEMO cleanup: own_device_id=%d, checking active devices for %s", own_device_id, own_jid);
         var stale_devices = new ArrayList<int32>();
+        int kept_count = 0;
         foreach (Row row in db.identity_meta.with_address(identity_id, own_jid)
                 .with(db.identity_meta.device_id, "!=", own_device_id)
                 .with(db.identity_meta.now_active, "=", true)) {
-            stale_devices.add(row[db.identity_meta.device_id]);
+            int32 dev_id = row[db.identity_meta.device_id];
+            string? pub_key = row[db.identity_meta.identity_key_public_base64];
+            if (pub_key == null || pub_key.length == 0) {
+                // Phantom device: appeared in device list but never had a bundle fetched
+                debug("OMEMO cleanup: device %d → PHANTOM (no identity key) → will remove", dev_id);
+                stale_devices.add(dev_id);
+            } else {
+                debug("OMEMO cleanup: device %d → KEPT (has identity key)", dev_id);
+                kept_count++;
+            }
         }
 
         if (stale_devices.size == 0) {
-            // Keine veralteten Geräte, nur republish
+            // No phantom devices, just republish (ensures our device is in the list)
+            debug("OMEMO cleanup: no phantoms found, %d other devices kept, republishing", kept_count);
             republish_device_list_with_retry(account, stream, 5);
             return;
         }
 
         debug("OMEMO: Cleaning %d stale phantom devices for %s (no identity key)", stale_devices.size, own_jid);
 
-        // Phantom-Devices in der DB deaktivieren (nur die ohne Identity Key)
+        // Deactivate only phantom devices (no identity key)
         foreach (int32 stale_id in stale_devices) {
             db.identity_meta.update()
                 .with(db.identity_meta.identity_id, "=", identity_id)
@@ -575,10 +599,17 @@ public class Manager : StreamInteractionModule, Object {
 
         // Bereinigte Device-List veröffentlichen (enthält nur noch unser Gerät)
         republish_device_list(account, stream);
+
+        // Delete then republish v2 devicelist node to clear accumulated old items
+        // (v2 node may have max_items=max, causing stale device lists to persist)
+        var pubsub = stream.get_module<Xep.Pubsub.Module>(Xep.Pubsub.Module.IDENTITY);
+        if (pubsub != null) {
+            debug("OMEMO: Deleting v2 devicelist node to clear stale items");
+            pubsub.delete_node(stream, account.bare_jid, Xep.Omemo.NODE_DEVICELIST_V2);
+        }
         republish_device_list_v2(account, stream);
 
         // Veraltete v1-Bundle-Nodes löschen
-        var pubsub = stream.get_module<Xep.Pubsub.Module>(Xep.Pubsub.Module.IDENTITY);
         if (pubsub != null) {
             foreach (int32 stale_id in stale_devices) {
                 string v1_bundle_node = NODE_BUNDLES + ":" + stale_id.to_string();
@@ -696,6 +727,11 @@ public class Manager : StreamInteractionModule, Object {
          * own_unknown > 0 blockiert nur wenn own_success < 1).
          * cleanup_stale_own_devices() raeumt nur wirklich tote
          * Geraete auf (kein Identity Key = nie ein Bundle gesehen). */
+        if (jid.equals_bare(account.bare_jid)) {
+            debug("OMEMO device_list_loaded: OWN JID %s — server sent %d devices: %s",
+                  jid.to_string(), device_list.size,
+                  string.joinv(", ", device_list_to_strings(device_list)));
+        }
         db.identity_meta.insert_device_list(identity_id, jid.bare_jid.to_string(), device_list);
 
         //Fetch the bundle for each new device (try both legacy and OMEMO 2)
@@ -815,10 +851,21 @@ public class Manager : StreamInteractionModule, Object {
             db.trust.insert().value(db.trust.identity_id, identity_id).value(db.trust.address_name, jid.bare_jid.to_string()).value(db.trust.blind_trust, true).perform();
         }
 
-        // Fetch v2 bundles for devices without a session
+        // Clean phantom devices from v2 device list for own JID.
+        // The v1 cleanup runs before v2 list processing, so phantoms
+        // re-created by insert_device_list_additive need a second pass.
+        if (jid.equals_bare(account.bare_jid)) {
+            debug("OMEMO 2: own v2 device list loaded — running phantom cleanup");
+            cleanup_stale_own_devices(account, stream);
+        }
+
+        // Fetch v2 bundles only for ACTIVE devices without a session.
+        // After cleanup, phantom devices are inactive and should not trigger bundle fetches.
         StreamModule2? module2 = stream.get_module<StreamModule2>(StreamModule2.IDENTITY);
         if (module2 != null) {
-            foreach (int32 device_id in device_list) {
+            foreach (Row row in db.identity_meta.with_address(identity_id, jid.bare_jid.to_string())
+                    .with(db.identity_meta.now_active, "=", true)) {
+                int32 device_id = row[db.identity_meta.device_id];
                 Address address = new Address(jid.bare_jid.to_string(), device_id);
                 try {
                     if (!module2.store.contains_session(address)) {
