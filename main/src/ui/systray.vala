@@ -122,14 +122,7 @@ public class SystrayManager : Object {
         
         // Disconnect XMPP accounts gracefully (sends <presence type="unavailable"/>)
         var accounts = application.stream_interactor.get_accounts();
-        int pending = accounts.size;
-        debug("Systray: Disconnecting %d accounts...", pending);
-        
-        if (pending == 0) {
-            // No accounts, quit immediately
-            finalize_quit();
-            return;
-        }
+        debug("Systray: Disconnecting all accounts...");
         
         // Safety timer: force exit after 3 seconds if graceful disconnect hangs
         uint force_timer = Timeout.add(3000, () => {
@@ -138,17 +131,12 @@ public class SystrayManager : Object {
             return false;
         });
         
-        // Disconnect all accounts, count down
-        foreach (var account in accounts) {
-            application.stream_interactor.disconnect_account.begin(account, (obj, res) => {
-                pending--;
-                debug("Systray: Account disconnected, %d remaining", pending);
-                if (pending <= 0) {
-                    Source.remove(force_timer);
-                    finalize_quit();
-                }
-            });
-        }
+        // Use disconnect_all() to close connections WITHOUT firing account_removed.
+        // stream_interactor.disconnect_account() fires account_removed which
+        // causes the OMEMO plugin to DELETE all identity keys and sessions.
+        application.stream_interactor.connection_manager.disconnect_all();
+        Source.remove(force_timer);
+        finalize_quit();
     }
     
     private void finalize_quit() {
