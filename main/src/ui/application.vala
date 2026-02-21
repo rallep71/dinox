@@ -2378,12 +2378,13 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             systray_manager = null;
         }
 
-        // Disconnect all accounts to clean up XMPP connections
+        // Close XMPP connections without triggering account_removed.
+        // stream_interactor.disconnect_account() fires account_removed which
+        // causes the OMEMO plugin to DELETE all identity keys and sessions.
+        // During shutdown we only want to close the network connections, not
+        // wipe cryptographic material.
         if (stream_interactor != null) {
-            var accounts = stream_interactor.get_accounts ();
-            foreach (var account in accounts) {
-                stream_interactor.disconnect_account.begin (account);
-            }
+            stream_interactor.connection_manager.disconnect_all ();
         }
 
         base.shutdown ();

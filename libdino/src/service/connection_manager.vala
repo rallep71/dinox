@@ -214,6 +214,19 @@ public class ConnectionManager : Object {
         }
     }
 
+    /**
+     * Close all XMPP connections without removing account state.
+     * Used during application shutdown to cleanly close sockets without
+     * triggering account_removed (which would wipe OMEMO identity data).
+     */
+    public void disconnect_all() {
+        foreach (Account account in connections.keys) {
+            make_offline(account);
+            connections[account].disconnect_account.begin();
+        }
+        connections.clear();
+    }
+
     private async void connect_stream(Account account) {
         if (!connections.has_key(account)) return;
 
