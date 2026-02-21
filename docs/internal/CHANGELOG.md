@@ -5,6 +5,17 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.1.8] - 2026-02-21
+
+### Fixed
+- **CRITICAL: Shutdown Destroyed OMEMO Identity Keys**: `shutdown()` called `stream_interactor.disconnect_account()` which fires the `account_removed` signal. The OMEMO manager's `on_account_removed()` handler deletes ALL identity data (private keypair, device_id, sessions, pre-keys, trust). This caused new OMEMO identities to be generated on every restart — contacts saw a "new device" each time. Fix: Use `connection_manager.disconnect_all()` during shutdown to close XMPP sockets without triggering `account_removed`. Affects both OMEMO v1 and v2.
+
+### Added
+- **ConnectionManager.disconnect_all()**: New method to close all XMPP connections without firing `account_removed` signals. Used during application shutdown to preserve OMEMO cryptographic material.
+
+### Changed
+- **Version**: Bumped from 1.1.1.7 to 1.1.1.8
+
 ## [1.1.1.7] - 2026-02-21
 
 ### Fixed
