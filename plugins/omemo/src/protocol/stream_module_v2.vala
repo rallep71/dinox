@@ -104,7 +104,8 @@ public class StreamModule2 : XmppStreamModule {
                 }
                 node.put_node(own_node);
                 stream.get_module<Pubsub.Module>(Pubsub.Module.IDENTITY).publish.begin(stream, jid, NODE_DEVICELIST_V2, id, node, null, true, () => {
-                    try_make_node_public.begin(stream, NODE_DEVICELIST_V2);
+                    // Device list node: max_items=1 (only latest list matters)
+                    try_make_node_public.begin(stream, NODE_DEVICELIST_V2, "1");
                 });
             }
             publish_bundles_if_needed(stream, jid);
@@ -418,8 +419,8 @@ public class StreamModule2 : XmppStreamModule {
         yield try_make_node_public(stream, NODE_BUNDLES_V2);
     }
 
-    private async void try_make_node_public(XmppStream stream, string node_id) {
-        debug("OMEMO 2: try_make_node_public for %s", node_id);
+    private async void try_make_node_public(XmppStream stream, string node_id, string max_items = "max") {
+        debug("OMEMO 2: try_make_node_public for %s (max_items=%s)", node_id, max_items);
         DataForms.DataForm? data_form = yield stream.get_module<Pubsub.Module>(Pubsub.Module.IDENTITY).request_node_config(stream, null, node_id);
         if (data_form == null) {
             debug("OMEMO 2: try_make_node_public: data_form is NULL for %s", node_id);
@@ -433,9 +434,9 @@ public class StreamModule2 : XmppStreamModule {
                 field.set_value_string(Pubsub.ACCESS_MODEL_OPEN);
                 needs_submit = true;
             }
-            if (field.var == "pubsub#max_items" && field.get_value_string() != "max") {
-                debug("OMEMO 2: Changing max_items from %s to max", field.get_value_string());
-                field.set_value_string("max");
+            if (field.var == "pubsub#max_items" && field.get_value_string() != max_items) {
+                debug("OMEMO 2: Changing max_items from %s to %s", field.get_value_string(), max_items);
+                field.set_value_string(max_items);
                 needs_submit = true;
             }
         }

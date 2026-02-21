@@ -146,6 +146,7 @@ public class Database : Qlite.Database {
 
         public QueryBuilder get_unknown_devices(int identity_id, string address_name) {
             return this.with_address(identity_id, address_name)
+                .with(this.now_active, "=", true)
                 .with_null(this.identity_key_public_base64);
         }
 

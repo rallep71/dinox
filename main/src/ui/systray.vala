@@ -120,21 +120,46 @@ public class SystrayManager : Object {
         // Cleanup systray first
         cleanup();
         
-        // Disconnect XMPP accounts - fire and forget
+        // Disconnect XMPP accounts gracefully (sends <presence type="unavailable"/>)
         var accounts = application.stream_interactor.get_accounts();
-        debug("Systray: Disconnecting %d accounts...", accounts.size);
-        foreach (var account in accounts) {
-            application.stream_interactor.disconnect_account.begin(account);
+        int pending = accounts.size;
+        debug("Systray: Disconnecting %d accounts...", pending);
+        
+        if (pending == 0) {
+            // No accounts, quit immediately
+            finalize_quit();
+            return;
         }
         
-        // Try graceful GTK quit
+        // Safety timer: force exit after 3 seconds if graceful disconnect hangs
+        uint force_timer = Timeout.add(3000, () => {
+            warning("Systray: Graceful disconnect timed out after 3s, forcing exit");
+            finalize_quit();
+            return false;
+        });
+        
+        // Disconnect all accounts, count down
+        foreach (var account in accounts) {
+            application.stream_interactor.disconnect_account.begin(account, (obj, res) => {
+                pending--;
+                debug("Systray: Account disconnected, %d remaining", pending);
+                if (pending <= 0) {
+                    Source.remove(force_timer);
+                    finalize_quit();
+                }
+            });
+        }
+    }
+    
+    private void finalize_quit() {
+        // Ensure cache is cleaned up
+        application.cleanup_temp_files();
+        
+        // Graceful GTK quit — triggers application.shutdown() for final cleanup
         debug("Systray: Calling application.quit()");
         application.quit();
         
-        // Ensure cache is cleaned up before force exit
-        application.cleanup_temp_files();
-        
-        // Force exit immediately - Flatpak doesn't quit cleanly otherwise
+        // Force exit as fallback — Flatpak sometimes doesn't quit cleanly
         debug("Systray: Force exit - Process.exit(0)");
         Process.exit(0);
     }
