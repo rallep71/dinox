@@ -5,15 +5,18 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.1.1.6] - 2026-02-20
+## [1.1.1.6] - 2026-02-21
 
 ### Fixed
-- **Video Recording Flatpak (openh264enc)**: Added `openh264enc` (from gst-plugins-bad, included in GNOME Platform runtime) as 5th H.264 encoder fallback. Fixes video recording in Flatpak where x264enc, avenc_h264, vaapih264enc, and vah264enc are all unavailable. Encoder fallback chain: vaapih264enc → vah264enc → x264enc → avenc_h264 → openh264enc.
-- **Audio Recording Quality (voaacenc bitrate)**: Increased `voaacenc` bitrate from 64kbps to 128kbps. In Flatpak where `avenc_aac` (gst-libav) is unavailable, the fallback `voaacenc` encoder was producing noticeable noise/artifacts at 64kbps. `avenc_aac` bitrate increased from 64kbps to 96kbps for improved clarity.
-- **Audio Noise Suppression (webrtcdsp)**: Added optional WebRTC-based noise suppression (`webrtcdsp` from gst-plugins-bad) to both audio recorder (voice messages) and video recorder (video audio). Automatically reduces constant background hiss/noise when the GStreamer element is available. Falls back gracefully to the existing pipeline when unavailable.
-- **Audio Encoder Diagnostics**: Added debug logging showing which AAC encoder is actually being used (avenc_aac vs voaacenc), helping diagnose quality differences across distributions.
+- **PipeWire Pipeline Leaks**: Eliminated GStreamer pipeline creation at widget construction time. Pipelines are now created only when the user clicks play, and fully destroyed on stop/dispose. Prevents resource leaks from videos that are never played.
+- **Video Thumbnail Preview**: Fixed `is_in_viewport()` using wrong reference widget (`content` child instead of `ScrolledWindow`), causing `compute_bounds()` coordinates to never match the visible viewport. Added deferred preview init with 200ms + 800ms retry for widgets not yet mapped at construction time.
+- **Video Player Controls**: Re-enabled seek bar, time display, play/pause toggle, and stop button for inline video messages. Full playback controls with position tracking.
+- **Audio Pipeline Cleanup**: Removed `audiodynamic` noise gate and compressor from both audio recorder and video recorder. The hard-knee expander (ratio=0.0) caused harsh scratching/crackling artifacts. Returned to clean pass-through pipeline with volume=1.0 (no boost).
+- **Video Recording Flatpak (openh264enc)**: Added `openh264enc` (from gst-plugins-bad, included in GNOME Platform runtime) as 5th H.264 encoder fallback. Encoder fallback chain: vaapih264enc → vah264enc → x264enc → avenc_h264 → openh264enc.
+- **Audio Recording Quality (voaacenc bitrate)**: Increased `voaacenc` bitrate from 64kbps to 128kbps. `avenc_aac` bitrate increased from 64kbps to 96kbps for improved clarity.
 
 ### Changed
+- **AppImage Dependencies**: Removed unused `libgstgtk4.so`, added `libgstgdkpixbuf.so` (video thumbnails) and `libgstx264.so` (H.264 encoding).
 - **Version**: Bumped from 1.1.1.5 to 1.1.1.6
 
 ## [1.1.1.5] - 2026-02-20
