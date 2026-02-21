@@ -278,7 +278,8 @@ public class VideoRecorder : GLib.Object {
             }
         }
 
-        // Audio chain: audio_source → volume → convert → resample → caps → queue → convert2 → encoder → parser → muxer
+        // Audio chain: source → volume → convert → resample → caps → queue → convert2 → encoder → parser → muxer
+        // No audio processing (noise gate, compressor etc.) — pass-through for cleanest signal
         if (!audio_source.link(audio_volume)) {
             throw new Error(Quark.from_string("VideoRecorder"), 0, "Could not link audio_source → audio_volume");
         }
@@ -340,11 +341,11 @@ public class VideoRecorder : GLib.Object {
         start_time = GLib.get_monotonic_time();
         timeout_id = Timeout.add(100, update_duration);
 
-        // Unmute after PipeWire transient has passed (200ms)
-        // Volume 0→1.5: silent buffers still flow, no timestamp gaps
+        // Unmute after PipeWire transient has passed (400ms)
+        // Volume 1.0 = no software amplification → cleanest signal
         Timeout.add(400, () => {
             if (audio_volume != null && is_recording) {
-                audio_volume.set("volume", 1.5);
+                audio_volume.set("volume", 1.0);
             }
             return false;
         });

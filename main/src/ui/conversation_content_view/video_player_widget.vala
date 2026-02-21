@@ -279,6 +279,23 @@ public class VideoPlayerWidget : Widget {
         ft_size_binding1 = this.file_transfer.bind_property("size", file_size_label, "label", BindingFlags.SYNC_CREATE, file_size_label_transform);
         ft_size_binding2 = this.file_transfer.bind_property("size", transmission_progress, "file-size", BindingFlags.SYNC_CREATE);
         ft_bytes_binding = this.file_transfer.bind_property("transferred-bytes", transmission_progress, "transferred-size", BindingFlags.SYNC_CREATE);
+
+        // Retry preview after the widget has been realized and mapped.
+        // The initial update_widget call may fire before the widget is mapped,
+        // and notify["mapped"] only fires on transitions — so a deferred retry is needed.
+        // Use short timeout (200ms) rather than Idle.add because GTK may not have
+        // mapped the widget yet during the same main loop iteration.
+        Timeout.add(200, () => {
+            try_lazy_preview_init();
+            // If still not initialized and widget exists, try once more after 1s
+            if (!preview_initialized && !preview_generating) {
+                Timeout.add(800, () => {
+                    try_lazy_preview_init();
+                    return false;
+                });
+            }
+            return false;
+        });
     }
 
     public FileTransfer.State file_transfer_state { get; set; }
@@ -961,21 +978,25 @@ public class VideoPlayerWidget : Widget {
     }
 
     private bool is_in_viewport() {
-        if (watched_scrolled == null || watched_vadjustment == null) return true;
+        if (watched_scrolled == null || watched_vadjustment == null) {
+            return true;
+        }
 
-        Gtk.Widget? content = watched_scrolled.get_child();
-        if (content == null) return true;
-
+        // Compute widget bounds relative to the ScrolledWindow (not its child).
+        // The ScrolledWindow's coordinate space already accounts for scrolling,
+        // so a visible widget will have y1 >= 0 and y2 <= page_size.
         Graphene.Rect bounds;
-        if (!this.compute_bounds(content, out bounds)) return true;
+        if (!this.compute_bounds(watched_scrolled, out bounds)) {
+            return true;
+        }
 
-        double top = watched_vadjustment.value;
-        double bottom = top + watched_vadjustment.page_size;
+        double page_size = watched_vadjustment.page_size;
         double y1 = bounds.origin.y;
         double y2 = y1 + bounds.size.height;
 
         const double margin = 64.0;
-        return (y2 >= (top - margin)) && (y1 <= (bottom + margin));
+        bool result = (y2 >= -margin) && (y1 <= (page_size + margin));
+        return result;
     }
 
     private void update_playback_visibility() {
