@@ -1,6 +1,6 @@
 # DinoX - Development Plan
 
-> **Last Updated**: February 21, 2026 (v1.1.1.8)
+> **Last Updated**: February 21, 2026 (v1.1.1.9)
 > **Current Release Line**: 1.1.1.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.1.8 |
+| **Current Version** | 1.1.1.9 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (~85% translated) |
 | **Build Status** | Clean |
@@ -21,6 +21,13 @@ This document is organized as a **chronological release timeline** first, follow
 
 ## Timeline (Recent Releases)
 
+### v1.1.1.9 (Video Message Compatibility Fix)
+
+- **VP8/WebM Removal**: Removed VP8/WebM fallback — Monocles/Conversations can't play WebM. H.264/MP4 only.
+- **MP4 moov atom Fix**: EOS timeout 1s→5s. Without sufficient wait, mp4mux never writes the moov atom → all MP4s were corrupted.
+- **VAAPI Encoder Test Fix**: Added `videoconvert` to test pipeline. Hardware encoders need format negotiation, not raw I420.
+- **MP4 faststart**: moov atom at file beginning for progressive playback.
+
 ### v1.1.1.8 (CRITICAL: OMEMO Identity Persistence Fix)
 
 - **OMEMO Identity Persistence**: Shutdown was destroying all OMEMO identity keys via `account_removed` signal. Every restart generated new OMEMO identities (new device IDs, new keypairs). Fix: `disconnect_all()` closes sockets without triggering account removal. Affects v1+v2.
@@ -29,7 +36,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 - **OMEMO v2 Phantom Fix**: Fixed v2 device list causing phantom devices to re-appear endlessly. Cleanup now runs after v2 list, PubSub node uses `max_items=1`, republish uses fixed item_id `"current"`, bundles only fetched for active devices.
 - **Encoder Runtime Validation**: Each video encoder tested with 1-frame pipeline before use. Catches broken `openh264enc` (factory exists but lib fails at runtime).
-- **VP8/WebM Fallback**: Added `vp8enc` as ultimate fallback (gst-plugins-good, works everywhere). Auto-switches to WebM container with Vorbis/Opus audio.
+- **VP8/WebM Fallback**: ~~Added `vp8enc` as ultimate fallback~~ (removed in v1.1.1.9).
 - **Pipeline Error → Auto Cancel**: Broken pipelines now cancel recording + show error dialog instead of freezing the app.
 - **Graceful Shutdown**: Systray quit disconnects all XMPP accounts with 3s timeout before exit.
 
