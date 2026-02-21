@@ -26,7 +26,6 @@ public class VideoRecorder : GLib.Object {
     private Element audio_resample;
     private Element audio_capsfilter;
     private Element audio_volume;
-    private Element? noise_suppressor;  // webrtcdsp noise suppression (optional)
     private Element audio_encoder;
     private Element audio_convert2;
     private Element audio_parser;
@@ -39,6 +38,7 @@ public class VideoRecorder : GLib.Object {
     private Element preview_sink;
     private bool preview_is_pixbufsink = false;
     private Gst.Bus? bus;
+    private uint bus_watch_id = 0;
     private uint timeout_id = 0;
     private int64 start_time = 0;
     public const int MAX_DURATION_SECONDS = 120; // 2 minutes
@@ -161,16 +161,6 @@ public class VideoRecorder : GLib.Object {
         }
         audio_parser = ElementFactory.make("aacparse", "audio-parser");
 
-        // WebRTC noise suppression for audio (optional) - reduces constant background hiss/noise
-        noise_suppressor = ElementFactory.make("webrtcdsp", "audio-noise-suppressor");
-        if (noise_suppressor != null) {
-            noise_suppressor.set("noise-suppression", true);
-            noise_suppressor.set("gain-control", false);  // we handle gain via volume element
-            debug("VideoRecorder: webrtcdsp audio noise suppression enabled");
-        } else {
-            debug("VideoRecorder: webrtcdsp not available, recording audio without noise suppression");
-        }
-
         // === Muxer + Sink ===
         muxer = ElementFactory.make("mp4mux", "muxer");
         sink = ElementFactory.make("filesink", "sink");
@@ -215,10 +205,8 @@ public class VideoRecorder : GLib.Object {
         // AAC bitrate for audio in video
         string audio_enc_name = audio_encoder.get_factory().get_name();
         debug("VideoRecorder: using audio encoder '%s'", audio_enc_name);
-        if (audio_enc_name == "avenc_aac") {
-            audio_encoder.set("bitrate", 96000);  // avenc_aac: 96kbps for clear mono speech
-        } else if (audio_enc_name == "voaacenc") {
-            audio_encoder.set("bitrate", 128000); // voaacenc: needs higher bitrate for comparable quality
+        if (audio_enc_name == "avenc_aac" || audio_enc_name == "voaacenc") {
+            audio_encoder.set("bitrate", 96000);
         }
 
         sink.set("location", output_path);
@@ -242,9 +230,6 @@ public class VideoRecorder : GLib.Object {
             muxer, sink);
         if (video_parser != null) {
             pipeline.add(video_parser);
-        }
-        if (noise_suppressor != null) {
-            pipeline.add(noise_suppressor);
         }
 
         // Link video source chain up to tee
@@ -293,7 +278,7 @@ public class VideoRecorder : GLib.Object {
             }
         }
 
-        // Audio chain: audio_source → volume → convert → resample → caps → [webrtcdsp] → queue → convert2 → encoder → parser → muxer
+        // Audio chain: audio_source → volume → convert → resample → caps → queue → convert2 → encoder → parser → muxer
         if (!audio_source.link(audio_volume)) {
             throw new Error(Quark.from_string("VideoRecorder"), 0, "Could not link audio_source → audio_volume");
         }
@@ -306,16 +291,8 @@ public class VideoRecorder : GLib.Object {
         if (!audio_resample.link(audio_capsfilter)) {
             throw new Error(Quark.from_string("VideoRecorder"), 0, "Could not link audio_resample → audio_capsfilter");
         }
-        // Link optional noise suppression between capsfilter and queue
-        Element audio_last = audio_capsfilter;
-        if (noise_suppressor != null) {
-            if (!audio_last.link(noise_suppressor)) {
-                throw new Error(Quark.from_string("VideoRecorder"), 0, "Could not link audio_capsfilter → webrtcdsp");
-            }
-            audio_last = noise_suppressor;
-        }
-        if (!audio_last.link(audio_queue)) {
-            throw new Error(Quark.from_string("VideoRecorder"), 0, "Could not link audio chain → audio_queue");
+        if (!audio_capsfilter.link(audio_queue)) {
+            throw new Error(Quark.from_string("VideoRecorder"), 0, "Could not link audio_capsfilter → audio_queue");
         }
         if (!audio_queue.link(audio_convert2)) {
             throw new Error(Quark.from_string("VideoRecorder"), 0, "Could not link audio_queue → audio_convert2");
@@ -340,8 +317,20 @@ public class VideoRecorder : GLib.Object {
         gtk_sink = preview_sink;
 
         bus = pipeline.get_bus();
-        bus.add_signal_watch();
-        bus.message.connect(on_bus_message);
+        bus_watch_id = bus.add_watch(0, (b, msg) => {
+            if (msg.type == MessageType.ERROR) {
+                Error err;
+                string debug_info;
+                msg.parse_error(out err, out debug_info);
+                warning("VideoRecorder: Pipeline error: %s (%s)", err.message, debug_info);
+            } else if (msg.type == MessageType.WARNING) {
+                Error warn;
+                string debug_info;
+                msg.parse_warning(out warn, out debug_info);
+                debug("VideoRecorder: Pipeline warning: %s (%s)", warn.message, debug_info);
+            }
+            return true;
+        });
 
         // Start directly in PLAYING - live sources (pipewiresrc, autoaudiosrc)
         // don't produce data in PAUSED state and may block preroll.
@@ -353,26 +342,12 @@ public class VideoRecorder : GLib.Object {
 
         // Unmute after PipeWire transient has passed (200ms)
         // Volume 0→1.5: silent buffers still flow, no timestamp gaps
-        Timeout.add(200, () => {
+        Timeout.add(400, () => {
             if (audio_volume != null && is_recording) {
                 audio_volume.set("volume", 1.5);
             }
             return false;
         });
-    }
-
-    private void on_bus_message(Gst.Bus bus, Gst.Message msg) {
-        if (msg.type == MessageType.ERROR) {
-            Error err;
-            string debug_info;
-            msg.parse_error(out err, out debug_info);
-            warning("VideoRecorder: Pipeline error: %s (%s)", err.message, debug_info);
-        } else if (msg.type == MessageType.WARNING) {
-            Error warn;
-            string debug_info;
-            msg.parse_warning(out warn, out debug_info);
-            debug("VideoRecorder: Pipeline warning: %s (%s)", warn.message, debug_info);
-        }
     }
 
     private bool update_duration() {
@@ -436,57 +411,35 @@ public class VideoRecorder : GLib.Object {
         return new Gdk.MemoryTexture(width, height, Gdk.MemoryFormat.R8G8B8A8, bytes, width * 4);
     }
 
-    public async void stop_recording_async() {
-        debug("VideoRecorder.stop_recording_async: called");
+    public void stop_recording() {
+        debug("VideoRecorder.stop_recording: called");
         if (timeout_id != 0) {
             Source.remove(timeout_id);
             timeout_id = 0;
         }
         if (pipeline != null && is_recording) {
-            debug("VideoRecorder.stop_recording_async: sending EOS");
-            pipeline.send_event(new Event.eos());
-
-            // Wait for EOS or Error
-            ulong signal_id = 0;
-            SourceFunc callback = stop_recording_async.callback;
-
-            bool eos_handled = false;
-            signal_id = bus.message.connect((bus, msg) => {
-                if (!eos_handled && (msg.type == Gst.MessageType.EOS || msg.type == Gst.MessageType.ERROR)) {
-                    eos_handled = true;
-                    debug("VideoRecorder.stop_recording_async: Received %s", msg.type.to_string());
-                    Idle.add((owned) callback);
-                }
-            });
-
-            // Safety timeout (5 seconds - video muxing takes longer than audio)
-            uint timeout_source = 0;
-            timeout_source = Timeout.add(5000, () => {
-                debug("VideoRecorder.stop_recording_async: Timeout reached");
-                callback();
-                timeout_source = 0;
-                return false;
-            });
-
-            yield;
-            debug("VideoRecorder.stop_recording_async: finished yield");
-
-            if (timeout_source != 0) {
-                Source.remove(timeout_source);
-                timeout_source = 0;
+            // 1. Remove bus watch FIRST — prevents callbacks during teardown
+            if (bus_watch_id != 0) {
+                Source.remove(bus_watch_id);
+                bus_watch_id = 0;
             }
+            
+            // 2. Send EOS so mp4mux writes the moov atom
+            pipeline.send_event(new Event.eos());
+            
+            // 3. Wait for muxer to finalize (max 1s, video takes longer)
             if (bus != null) {
-                bus.disconnect(signal_id);
-                bus.remove_signal_watch();
+                bus.timed_pop_filtered(Gst.SECOND,
+                    Gst.MessageType.EOS | Gst.MessageType.ERROR);
                 bus = null;
             }
-
-            if (pipeline != null) {
-                pipeline.set_state(State.NULL);
-                pipeline = null;
-            }
+            
+            // 4. Kill pipeline — synchronously releases all device connections
+            pipeline.set_state(State.NULL);
+            pipeline = null;
             is_recording = false;
             cleanup_elements();
+            debug("VideoRecorder.stop_recording: pipeline closed");
         }
     }
 
@@ -496,10 +449,11 @@ public class VideoRecorder : GLib.Object {
             timeout_id = 0;
         }
         if (pipeline != null) {
-            if (bus != null) {
-                bus.remove_signal_watch();
-                bus = null;
+            if (bus_watch_id != 0) {
+                Source.remove(bus_watch_id);
+                bus_watch_id = 0;
             }
+            bus = null;
             pipeline.set_state(State.NULL);
             pipeline = null;
             is_recording = false;

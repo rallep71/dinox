@@ -1,11 +1,11 @@
 using Dino.Entities;
 using Xmpp;
 using Xmpp.Xep;
-using Gtk;
+using Gst;
 
 namespace Dino.Ui.Util {
 
-public class AudioVideoFileMetadataProvider: Dino.FileMetadataProvider, Object {
+public class AudioVideoFileMetadataProvider: Dino.FileMetadataProvider, GLib.Object {
     public bool supports_file(File file) {
         string? mime_type = null;
         try {
@@ -22,49 +22,55 @@ public class AudioVideoFileMetadataProvider: Dino.FileMetadataProvider, Object {
     }
 
     public async void fill_metadata(File file, Xep.FileMetadataElement.FileMetadata metadata) {
-        MediaFile media = MediaFile.for_file(file);
-        if (!media.prepared) {
-            ulong prepared_sig = 0;
-            ulong error_sig = 0;
-            uint timeout_id = 0;
-            bool resumed = false;
+        // Use a minimal GStreamer pipeline with ONLY fakesink to query duration.
+        // NEVER use Gtk.MediaFile — it creates playbin with autoaudiosink/autovideosink
+        // which registers as a PipeWire client and stays open permanently.
+        var pipeline = new Gst.Pipeline("metadata-query");
+        var src = Gst.ElementFactory.make("uridecodebin", "meta-src");
+        var sink = Gst.ElementFactory.make("fakesink", "meta-sink");
 
-            prepared_sig = media.notify["prepared"].connect((o, p) => {
-                if (!resumed) {
-                    resumed = true;
-                    if (prepared_sig > 0) media.disconnect(prepared_sig);
-                    if (error_sig > 0) media.disconnect(error_sig);
-                    if (timeout_id > 0) Source.remove(timeout_id);
-                    fill_metadata.callback();
-                }
-            });
-            error_sig = media.notify["error"].connect((o, p) => {
-                if (!resumed) {
-                    resumed = true;
-                    if (prepared_sig > 0) media.disconnect(prepared_sig);
-                    if (error_sig > 0) media.disconnect(error_sig);
-                    if (timeout_id > 0) Source.remove(timeout_id);
-                    fill_metadata.callback();
-                }
-            });
-            // 2 seconds timeout to prevent hanging the send process
-            timeout_id = Timeout.add(2000, () => {
-                if (!resumed) {
-                    resumed = true;
-                    if (prepared_sig > 0) media.disconnect(prepared_sig);
-                    if (error_sig > 0) media.disconnect(error_sig);
-                    timeout_id = 0;
-                    fill_metadata.callback();
-                }
-                return Source.REMOVE;
-            });
-
-            yield;
+        if (src == null || sink == null) {
+            warning("Cannot create metadata query pipeline");
+            return;
         }
 
-        if (media.prepared && media.duration > 0) {
-            metadata.length = media.duration / 1000;
+        src.set("uri", file.get_uri());
+        pipeline.add_many(src, sink);
+
+        // Dynamic pad linking from uridecodebin
+        src.pad_added.connect((pad) => {
+            var sink_pad = sink.get_static_pad("sink");
+            if (sink_pad != null && !sink_pad.is_linked()) {
+                pad.link(sink_pad);
+            }
+        });
+
+        // Go to PAUSED to let uridecodebin discover the stream
+        pipeline.set_state(State.PAUSED);
+
+        Gst.Bus bus = pipeline.get_bus();
+        bool got_result = false;
+
+        // Wait for ASYNC_DONE (= pipeline fully prerolled) or ERROR, max 3 seconds
+        Gst.Message? msg = bus.timed_pop_filtered(3 * Gst.SECOND,
+            Gst.MessageType.ASYNC_DONE | Gst.MessageType.ERROR);
+
+        if (msg != null && msg.type == Gst.MessageType.ASYNC_DONE) {
+            int64 duration_ns = 0;
+            if (pipeline.query_duration(Gst.Format.TIME, out duration_ns) && duration_ns > 0) {
+                // Convert nanoseconds to milliseconds
+                metadata.length = (int)(duration_ns / (Gst.SECOND / 1000));
+                got_result = true;
+            }
         }
+
+        if (!got_result) {
+            debug("AudioVideoFileMetadataProvider: could not query duration for %s", file.get_uri());
+        }
+
+        // Immediately tear down — no PipeWire entry left behind
+        pipeline.set_state(State.NULL);
+        pipeline = null;
     }
 }
 
