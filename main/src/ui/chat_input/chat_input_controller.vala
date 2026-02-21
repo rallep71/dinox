@@ -309,7 +309,7 @@ public class ChatInputController : Object {
             recorder_popover.send_clicked.connect(() => {
                 if (is_recording) {
                     is_recording = false;
-                    stop_recording.begin();
+                    stop_recording();
                 }
                 recorder_popover.popdown();
             });
@@ -317,7 +317,7 @@ public class ChatInputController : Object {
             recorder_popover.cancel_clicked.connect(() => {
                 if (is_recording) {
                     is_recording = false;
-                    cancel_recording.begin();
+                    cancel_recording();
                 }
                 recorder_popover.popdown();
             });
@@ -325,7 +325,7 @@ public class ChatInputController : Object {
             recorder_popover.closed.connect(() => {
                 if (is_recording) {
                     is_recording = false;
-                    cancel_recording.begin();
+                    cancel_recording();
                 }
             });
         }
@@ -347,18 +347,15 @@ public class ChatInputController : Object {
         }
     }
 
-    private async void stop_recording() {
+    private void stop_recording() {
         debug("ChatInputController.stop_recording: called");
-        chat_input.record_button.sensitive = false;
-        yield audio_recorder.stop_recording_async();
-        debug("ChatInputController.stop_recording: returned from async stop");
-        chat_input.record_button.sensitive = true;
+        audio_recorder.stop_recording();
+        debug("ChatInputController.stop_recording: pipeline closed");
         
         chat_input.record_button.icon_name = "microphone-sensitivity-medium-symbolic";
         chat_input.record_button.remove_css_class("destructive-action");
 
         if (audio_recorder.current_output_path != null) {
-            // Verify file exists and has content
             File f = File.new_for_path(audio_recorder.current_output_path);
             try {
                 FileInfo info = f.query_info(FileAttribute.STANDARD_SIZE, FileQueryInfoFlags.NONE);
@@ -377,17 +374,11 @@ public class ChatInputController : Object {
         }
     }
     
-    private async void cancel_recording() {
-        chat_input.record_button.sensitive = false;
-        yield audio_recorder.stop_recording_async();
-        chat_input.record_button.sensitive = true;
+    private void cancel_recording() {
+        audio_recorder.cancel_recording();
         
         chat_input.record_button.icon_name = "microphone-sensitivity-medium-symbolic";
         chat_input.record_button.remove_css_class("destructive-action");
-        
-        if (audio_recorder.current_output_path != null) {
-            FileUtils.unlink(audio_recorder.current_output_path);
-        }
     }
 
     // === Video Recording ===
@@ -400,7 +391,7 @@ public class ChatInputController : Object {
             video_popover.send_clicked.connect(() => {
                 if (is_video_recording) {
                     is_video_recording = false;
-                    stop_video_recording.begin();
+                    stop_video_recording();
                 }
                 video_popover.popdown();
             });
@@ -408,7 +399,7 @@ public class ChatInputController : Object {
             video_popover.cancel_clicked.connect(() => {
                 if (is_video_recording) {
                     is_video_recording = false;
-                    cancel_video_recording.begin();
+                    cancel_video_recording();
                 }
                 video_popover.popdown();
             });
@@ -416,7 +407,7 @@ public class ChatInputController : Object {
             video_popover.closed.connect(() => {
                 if (is_video_recording) {
                     is_video_recording = false;
-                    cancel_video_recording.begin();
+                    cancel_video_recording();
                 }
                 // Destroy popover so preview poll restarts fresh next time
                 video_popover.unparent();
@@ -442,14 +433,11 @@ public class ChatInputController : Object {
         }
     }
 
-    private async void stop_video_recording() {
+    private void stop_video_recording() {
         debug("ChatInputController.stop_video_recording: called");
-        chat_input.video_record_button.sensitive = false;
-        // Save path before stop (stop may clear it)
         string? path = video_recorder.current_output_path;
-        yield video_recorder.stop_recording_async();
-        debug("ChatInputController.stop_video_recording: returned from async stop");
-        chat_input.video_record_button.sensitive = true;
+        video_recorder.stop_recording();
+        debug("ChatInputController.stop_video_recording: pipeline closed");
 
         chat_input.video_record_button.icon_name = "camera-video-symbolic";
         chat_input.video_record_button.remove_css_class("destructive-action");
@@ -472,9 +460,8 @@ public class ChatInputController : Object {
         }
     }
 
-    private async void cancel_video_recording() {
+    private void cancel_video_recording() {
         video_recorder.cancel_recording();
-        chat_input.video_record_button.sensitive = true;
         chat_input.video_record_button.icon_name = "camera-video-symbolic";
         chat_input.video_record_button.remove_css_class("destructive-action");
     }

@@ -47,6 +47,7 @@ public class AudioPlayerWidget : Box {
     private uint bus_watch_id = 0;
     private double playback_rate = 1.0;
     private File? temp_play_file = null;
+    private int64 saved_position = 0; // saved position for resume after pause
 
     // Waveform data
     private double[] waveform_bars = {};
@@ -56,6 +57,7 @@ public class AudioPlayerWidget : Box {
     private ArrayList<double?> scan_peaks = new ArrayList<double?>();
     private Element? scan_element = null;
     private uint scan_bus_watch_id = 0;
+    private uint scan_timeout_id = 0;
 
     // C binding for GValueArray peak parsing (same as AudioRecorder)
     [CCode (cname = "dino_gva_get_nth")]
@@ -80,6 +82,18 @@ public class AudioPlayerWidget : Box {
         play_button.valign = Align.CENTER;
         play_button.clicked.connect(toggle_playback);
         append(play_button);
+
+        // Stop pipeline when widget is unmapped (scrolled out of view, conversation switched)
+        this.unmap.connect(() => {
+            if (pipeline != null) {
+                if (is_playing) {
+                    // Save position before stopping
+                    pipeline.query_position(Format.TIME, out saved_position);
+                }
+                stop();
+            }
+            cleanup_scan(); // Also stop any ongoing waveform scan
+        });
         
         // Waveform display (replaces Scale slider)
         waveform_area = new DrawingArea();
@@ -136,15 +150,8 @@ public class AudioPlayerWidget : Box {
         speed_button.clicked.connect(toggle_speed);
         append(speed_button);
 
-        // Scan waveform if file is already available
-        if (file_transfer.path != null) {
-            scan_waveform.begin();
-        }
-        file_transfer.notify["path"].connect(() => {
-            if (file_transfer.path != null && !waveform_ready) {
-                scan_waveform.begin();
-            }
-        });
+        // Do NOT scan waveform automatically — no GStreamer pipeline until user clicks play
+        // Placeholder bars are shown in draw_waveform when waveform_ready == false
     }
 
     // Convert dB to perceptual 0.0-1.0 range (same curve as AudioRecorder)
@@ -243,19 +250,17 @@ public class AudioPlayerWidget : Box {
 
         scan_peaks.clear();
 
-        // playbin with custom audio sink: audioconvert → level → fakesink(sync=false)
-        scan_element = ElementFactory.make("playbin", "waveform-scanner");
-        if (scan_element == null) return;
-
-        var scan_bin = new Gst.Bin("scan-audio-bin");
+        // Pipeline + uridecodebin — NO playbin, NO autoaudiosink, ZERO PipeWire
+        // uridecodebin only decodes, it creates NO sinks
+        var scan_pipe = new Gst.Pipeline("waveform-scanner");
+        var sc_src = ElementFactory.make("uridecodebin", "sc-src");
         var sc_conv = ElementFactory.make("audioconvert", "sc-conv");
         var sc_resample = ElementFactory.make("audioresample", "sc-resample");
         var sc_caps = ElementFactory.make("capsfilter", "sc-caps");
         var sc_level = ElementFactory.make("level", "sc-level");
         var sc_sink = ElementFactory.make("fakesink", "sc-sink");
 
-        if (sc_conv == null || sc_resample == null || sc_caps == null || sc_level == null || sc_sink == null) {
-            scan_element = null;
+        if (sc_src == null || sc_conv == null || sc_resample == null || sc_caps == null || sc_level == null || sc_sink == null) {
             return;
         }
 
@@ -264,23 +269,27 @@ public class AudioPlayerWidget : Box {
         sc_level.set("post-messages", true);
         sc_sink.set("sync", false); // Process faster than real-time
 
-        scan_bin.add_many(sc_conv, sc_resample, sc_caps, sc_level, sc_sink);
+        // Only decode audio streams (caps filter on uridecodebin)
+        sc_src.set("caps", Caps.from_string("audio/x-raw"));
+
+        scan_pipe.add_many(sc_src, sc_conv, sc_resample, sc_caps, sc_level, sc_sink);
         sc_conv.link(sc_resample);
         sc_resample.link(sc_caps);
         sc_caps.link(sc_level);
         sc_level.link(sc_sink);
 
-        var ghost_pad = new Gst.GhostPad("sink", sc_conv.get_static_pad("sink"));
-        scan_bin.add_pad(ghost_pad);
+        // Dynamic pad linking from uridecodebin
+        sc_src.pad_added.connect((pad) => {
+            var sink_pad = sc_conv.get_static_pad("sink");
+            if (sink_pad != null && !sink_pad.is_linked()) {
+                pad.link(sink_pad);
+            }
+        });
 
-        scan_element.set("uri", audio_file.get_uri());
-        scan_element.set("audio-sink", scan_bin);
+        sc_src.set("uri", audio_file.get_uri());
+        scan_element = scan_pipe;
 
-        // Disable video for audio-only scan
-        var vsink = ElementFactory.make("fakesink", "sc-vsink");
-        if (vsink != null) scan_element.set("video-sink", vsink);
-
-        Gst.Bus sbus = scan_element.get_bus();
+        Gst.Bus sbus = scan_pipe.get_bus();
 
         scan_bus_watch_id = sbus.add_watch(0, (bus, msg) => {
             if (msg.type == Gst.MessageType.ELEMENT && msg.src != null && msg.src.name == "sc-level") {
@@ -299,14 +308,44 @@ public class AudioPlayerWidget : Box {
                 }
             } else if (msg.type == Gst.MessageType.EOS) {
                 finalize_waveform();
-                cleanup_scan();
+                // Don't call Source.remove from inside callback — return false instead
+                scan_bus_watch_id = 0;
+                if (scan_timeout_id != 0) {
+                    Source.remove(scan_timeout_id);
+                    scan_timeout_id = 0;
+                }
+                if (scan_element != null) {
+                    scan_element.set_state(State.NULL);
+                    scan_element = null;
+                }
+                return false; // Removes this bus watch source
             } else if (msg.type == Gst.MessageType.ERROR) {
-                cleanup_scan();
+                scan_bus_watch_id = 0;
+                if (scan_timeout_id != 0) {
+                    Source.remove(scan_timeout_id);
+                    scan_timeout_id = 0;
+                }
+                if (scan_element != null) {
+                    scan_element.set_state(State.NULL);
+                    scan_element = null;
+                }
+                return false; // Removes this bus watch source
             }
             return true;
         });
 
         scan_element.set_state(State.PLAYING);
+
+        // Safety timeout: force cleanup if scan hangs (10 seconds)
+        scan_timeout_id = Timeout.add(10000, () => {
+            scan_timeout_id = 0; // Clear before cleanup to prevent double-remove
+            if (scan_element != null) {
+                debug("AudioPlayerWidget: scan timeout, forcing cleanup");
+                finalize_waveform();
+                cleanup_scan();
+            }
+            return false;
+        });
     }
 
     private void finalize_waveform() {
@@ -342,13 +381,18 @@ public class AudioPlayerWidget : Box {
     }
 
     private void cleanup_scan() {
-        if (scan_element != null) {
-            scan_element.set_state(State.NULL);
-            scan_element = null;
+        if (scan_timeout_id != 0) {
+            Source.remove(scan_timeout_id);
+            scan_timeout_id = 0;
         }
+        // Remove bus watch FIRST to prevent callbacks during teardown
         if (scan_bus_watch_id != 0) {
             Source.remove(scan_bus_watch_id);
             scan_bus_watch_id = 0;
+        }
+        if (scan_element != null) {
+            scan_element.set_state(State.NULL);
+            scan_element = null;
         }
     }
     
@@ -376,7 +420,13 @@ public class AudioPlayerWidget : Box {
     
     private void play() {
         if (pipeline == null) {
-            setup_pipeline.begin();
+            setup_pipeline.begin((obj, res) => {
+                // After pipeline is set up, seek to saved position if we have one
+                if (pipeline != null && saved_position > 0 && duration > 0) {
+                    seek_to(saved_position);
+                    saved_position = 0;
+                }
+            });
             return;
         }
         
@@ -396,8 +446,9 @@ public class AudioPlayerWidget : Box {
     }
     
     private void pause() {
+        // Save current position before stopping pipeline
         if (pipeline != null) {
-            pipeline.set_state(State.PAUSED);
+            pipeline.query_position(Format.TIME, out saved_position);
         }
         is_playing = false;
         play_button.icon_name = "media-playback-start-symbolic";
@@ -406,16 +457,28 @@ public class AudioPlayerWidget : Box {
             Source.remove(update_id);
             update_id = 0;
         }
-    }
-
-    private void stop() {
+        
+        // Fully stop pipeline to release PipeWire/PulseAudio connection
+        // Remove bus watch FIRST to prevent callbacks during teardown
+        if (bus_watch_id != 0) {
+            Source.remove(bus_watch_id);
+            bus_watch_id = 0;
+        }
         if (pipeline != null) {
             pipeline.set_state(State.NULL);
             pipeline = null;
         }
+    }
+
+    private void stop() {
+        // Remove bus watch FIRST to prevent callbacks during teardown
         if (bus_watch_id != 0) {
             Source.remove(bus_watch_id);
             bus_watch_id = 0;
+        }
+        if (pipeline != null) {
+            pipeline.set_state(State.NULL);
+            pipeline = null;
         }
         is_playing = false;
         play_button.icon_name = "media-playback-start-symbolic";
@@ -535,16 +598,43 @@ public class AudioPlayerWidget : Box {
             }
         }
 
-        pipeline = ElementFactory.make("playbin", "playbin");
-        if (pipeline == null) {
-            warning("Could not create playbin");
+        // Use Pipeline + uridecodebin — NO playbin, NO autovideosink
+        // Only autoaudiosink for the actual audio output (1 PipeWire entry, released on NULL)
+        var play_pipe = new Gst.Pipeline("audio-playback");
+        var play_src = ElementFactory.make("uridecodebin", "play-src");
+        var play_conv = ElementFactory.make("audioconvert", "play-conv");
+        var play_sink = ElementFactory.make("autoaudiosink", "play-sink");
+
+        if (play_src == null || play_conv == null || play_sink == null) {
+            warning("Could not create audio playback pipeline");
             return;
         }
+
+        // Only decode audio (no video pads → no PipeWire video entry from album art)
+        play_src.set("caps", Caps.from_string("audio/x-raw"));
+        play_src.set("uri", file_to_play.get_uri());
+
+        play_pipe.add_many(play_src, play_conv, play_sink);
+        play_conv.link(play_sink);
+
+        // Dynamic pad linking from uridecodebin
+        play_src.pad_added.connect((pad) => {
+            var sink_pad = play_conv.get_static_pad("sink");
+            if (sink_pad != null && !sink_pad.is_linked()) {
+                pad.link(sink_pad);
+            }
+        });
+
+        pipeline = play_pipe;
         
-        pipeline.set("uri", file_to_play.get_uri());
-        
-        Gst.Bus bus = pipeline.get_bus();
+        Gst.Bus bus = play_pipe.get_bus();
         bus_watch_id = bus.add_watch(0, bus_callback);
+        
+        // Lazy waveform scan: only now (first play click) do we create a scan pipeline.
+        // The scan pipeline uses fakesink only — no PipeWire entry.
+        if (!waveform_ready) {
+            scan_waveform.begin();
+        }
         
         // Start playing after setup
         play();
