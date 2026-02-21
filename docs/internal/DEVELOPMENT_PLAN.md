@@ -1,7 +1,7 @@
 # DinoX - Development Plan
 
-> **Last Updated**: February 21, 2026 (v1.1.2.0)
-> **Current Release Line**: 1.1.1.x
+> **Last Updated**: February 21, 2026 (v1.1.2.1)
+> **Current Release Line**: 1.1.2.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
 
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.2.0 |
+| **Current Version** | 1.1.2.1 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (~85% translated) |
 | **Build Status** | Clean |
@@ -20,6 +20,12 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v1.1.2.1 (CRITICAL: Systray OMEMO Identity Fix)
+
+- **Systray Quit Destroyed OMEMO Keys**: Systray called `disconnect_account()` per account (fires `account_removed` → OMEMO keys deleted) BEFORE `shutdown()` ran. Fix: use `disconnect_all()`.
+- **Reconnect/Disable Account Destroyed OMEMO Keys**: Preferences reconnect and account disable also called `disconnect_account()`. Fix: use `connection_manager` directly.
+- `stream_interactor.disconnect_account()` now only used when user explicitly removes an account.
 
 ### v1.1.2.0 (Video Profile + Audio Playback Fix)
 

@@ -5,6 +5,16 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.2.1] - 2026-02-21
+
+### Fixed
+- **CRITICAL: OMEMO Identity STILL Destroyed on Quit (Systray Path)**: The v1.1.1.8 fix only patched `application.shutdown()`, but the systray quit handler ran FIRST and called `stream_interactor.disconnect_account()` per account — firing `account_removed` and deleting ALL OMEMO identity data before `shutdown()` was reached. Fix: systray now uses `connection_manager.disconnect_all()` (no `account_removed` signal).
+- **OMEMO Identity Destroyed on Reconnect**: `preferences_dialog.reconnect_account()` called `stream_interactor.disconnect_account()` which fires `account_removed` → OMEMO keys deleted. Fix: use `connection_manager.disconnect_account()` directly.
+- **OMEMO Identity Destroyed on Account Disable**: `preferences_dialog.enable_disable_account()` called `stream_interactor.disconnect_account()` when disabling → OMEMO keys deleted. Fix: use `connection_manager.disconnect_account()` directly.
+
+### Changed
+- **Version**: Bumped from 1.1.2.0 to 1.1.2.1
+
 ## [1.1.2.0] - 2026-02-21
 
 ### Fixed
