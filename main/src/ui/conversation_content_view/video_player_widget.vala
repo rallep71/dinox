@@ -693,16 +693,17 @@ public class VideoPlayerWidget : Widget {
 
         // Pipeline + uridecodebin — NO playbin, no internal autoaudiosink/autovideosink
         // Video: uridecodebin → videoconvert → capsfilter(RGBA) → fakesink (frame polling)
-        // Audio: uridecodebin → audioconvert → autoaudiosink (1 PipeWire entry, closed on NULL)
+        // Audio: uridecodebin → audioconvert → audioresample → autoaudiosink
         var play_pipe = new Gst.Pipeline("video-playback");
         var play_src = ElementFactory.make("uridecodebin", "play-src");
         var vconv = ElementFactory.make("videoconvert", "play-vc");
         var vcaps = ElementFactory.make("capsfilter", "play-vcaps");
         playback_vsink = ElementFactory.make("fakesink", "play-vs");
         var aconv = ElementFactory.make("audioconvert", "play-ac");
+        var aresample = ElementFactory.make("audioresample", "play-ar");
         var asink = ElementFactory.make("autoaudiosink", "play-as");
 
-        if (play_src == null || vconv == null || vcaps == null || playback_vsink == null || aconv == null || asink == null) {
+        if (play_src == null || vconv == null || vcaps == null || playback_vsink == null || aconv == null || aresample == null || asink == null) {
             warning("VideoPlayerWidget: missing playback elements");
             pipeline_active = false;
             if (start_play_button != null) start_play_button.visible = true;
@@ -715,10 +716,11 @@ public class VideoPlayerWidget : Widget {
 
         play_src.set("uri", file_to_play.get_uri());
 
-        play_pipe.add_many(play_src, vconv, vcaps, playback_vsink, aconv, asink);
+        play_pipe.add_many(play_src, vconv, vcaps, playback_vsink, aconv, aresample, asink);
         vconv.link(vcaps);
         vcaps.link(playback_vsink);
-        aconv.link(asink);
+        aconv.link(aresample);
+        aresample.link(asink);
 
         // Dynamic pad linking: audio pads → audioconvert, video pads → videoconvert
         play_src.pad_added.connect((pad) => {
