@@ -19,7 +19,6 @@ public class AudioRecorder : GLib.Object {
     private Element convert;
     private Element resample;
     private Element capsfilter;
-    private Element compressor;
     private Element convert2;  // S16LE → F32LE for encoder
     private Element encoder;
     private Element parser;
@@ -67,7 +66,6 @@ public class AudioRecorder : GLib.Object {
         convert = ElementFactory.make("audioconvert", "convert");
         resample = ElementFactory.make("audioresample", "resample");
         capsfilter = ElementFactory.make("capsfilter", "capsfilter");
-        compressor = ElementFactory.make("audiodynamic", "compressor");
         encoder = ElementFactory.make("avenc_aac", "encoder");
         if (encoder == null) {
             encoder = ElementFactory.make("voaacenc", "encoder");
@@ -92,18 +90,9 @@ public class AudioRecorder : GLib.Object {
             encoder.set("bitrate", 64000);
         }
 
-        // Start muted - unmute after 200ms to suppress PipeWire transient crackling
+        // Start muted - unmute after 400ms to suppress PipeWire transient crackling
         volume.set("volume", 0.0);
 
-        // Soft-knee compressor/limiter to prevent clipping and reduce dynamic range
-        // Threshold 0.5 = -6 dB, ratio 0.3 = ~3:1 compression above threshold
-        if (compressor != null) {
-            compressor.set("characteristics", 1); // soft-knee
-            compressor.set("mode", 0);            // compressor
-            compressor.set("threshold", 0.5f);    // activate at 50% amplitude (-6 dB)
-            compressor.set("ratio", 0.3f);        // compress to ~30% of excess (≈3:1)
-        }
-        
         // Try to enable faststart for web/streaming compatibility (moves moov atom to beginning)
         // Note: faststart might not be available in older GStreamer versions, but it's standard in recent ones.
         // We just set it; if it doesn't exist, GStreamer will emit a warning but continue.
@@ -114,15 +103,12 @@ public class AudioRecorder : GLib.Object {
         level.set("post-messages", true);
 
         // Add all elements to pipeline
+        // Clean chain: source → volume → level → convert → resample → capsfilter → convert2 → encoder → parser → muxer → sink
+        // No audio processing (noise gate, compressor etc.) — pass-through for cleanest signal
         pipeline.add_many(source, volume, level, convert, resample, capsfilter, convert2, encoder, parser, muxer, sink);
-        bool linked;
-        if (compressor != null) {
-            pipeline.add(compressor);
-            // source → volume → level → convert → resample → capsfilter(S16LE) → compressor → convert2(→F32LE) → encoder → parser → muxer → sink
-            linked = source.link(volume) && volume.link(level) && level.link(convert) && convert.link(resample) && resample.link(capsfilter) && capsfilter.link(compressor) && compressor.link(convert2) && convert2.link(encoder) && encoder.link(parser) && parser.link(muxer) && muxer.link(sink);
-        } else {
-            linked = source.link(volume) && volume.link(level) && level.link(convert) && convert.link(resample) && resample.link(capsfilter) && capsfilter.link(convert2) && convert2.link(encoder) && encoder.link(parser) && parser.link(muxer) && muxer.link(sink);
-        }
+        bool linked = source.link(volume) && volume.link(level) && level.link(convert)
+            && convert.link(resample) && resample.link(capsfilter) && capsfilter.link(convert2)
+            && convert2.link(encoder) && encoder.link(parser) && parser.link(muxer) && muxer.link(sink);
         if (!linked) {
              throw new Error(Quark.from_string("AudioRecorder"), 0, "Could not link GStreamer elements");
         }
@@ -163,11 +149,11 @@ public class AudioRecorder : GLib.Object {
         is_recording = true;
         start_time = GLib.get_monotonic_time();
 
-        // Unmute after PipeWire transient has passed (200ms)
-        // Silent buffers still flow (no timestamp gaps), only transient crackling is suppressed
+        // Unmute after PipeWire transient has passed (400ms)
+        // Volume 1.0 = no software amplification → cleanest signal, system mic gain handles level
         Timeout.add(400, () => {
             if (volume != null && is_recording) {
-                volume.set("volume", 1.8);
+                volume.set("volume", 1.0);
             }
             return false;
         });
@@ -272,7 +258,6 @@ public class AudioRecorder : GLib.Object {
         convert = null;
         resample = null;
         capsfilter = null;
-        compressor = null;
         convert2 = null;
         encoder = null;
         parser = null;
