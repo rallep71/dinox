@@ -1,6 +1,6 @@
 # DinoX - Development Plan
 
-> **Last Updated**: February 21, 2026 (v1.1.1.7)
+> **Last Updated**: February 21, 2026 (v1.1.1.8)
 > **Current Release Line**: 1.1.1.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.1.7 |
+| **Current Version** | 1.1.1.8 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (~85% translated) |
 | **Build Status** | Clean |
@@ -20,6 +20,10 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v1.1.1.8 (CRITICAL: OMEMO Identity Persistence Fix)
+
+- **OMEMO Identity Persistence**: Shutdown was destroying all OMEMO identity keys via `account_removed` signal. Every restart generated new OMEMO identities (new device IDs, new keypairs). Fix: `disconnect_all()` closes sockets without triggering account removal. Affects v1+v2.
 
 ### v1.1.1.7 (OMEMO v2 Phantom Fix, Encoder Validation, VP8 Fallback)
 
