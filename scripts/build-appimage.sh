@@ -257,9 +257,10 @@ copy_dependencies() {
         libgstapp.so \
         libgstvideoparsersbad.so \
         libgstvideofilter.so \
-        libgstgtk4.so \
+        libgstgdkpixbuf.so \
         libgstlibav.so \
         libgstopenh264.so \
+        libgstx264.so \
         libgstnice.so \
         libgstvaapi.so \
         libgstrtp.so \
