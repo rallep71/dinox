@@ -1,0 +1,210 @@
+Hallo Ralf,
+
+also mit der Videoaufzeichnung funktioniert bei mir (noch) nicht. Es erscheint zwar ein eingefrorenes Bild
+aber dann friert der Rechner ein. Ich muss dann auf eine virtuelle Konsole und Dinox "killen"
+
+Hier zunächst die Ausgabe von inxi -Gxxxz
+
+Graphics:
+  Device-1: Intel 4th Gen Core Processor Integrated Graphics
+    vendor: Hewlett-Packard driver: i915 v: kernel arch: Gen-7.5 ports:
+    active: eDP-1 empty: HDMI-A-1,VGA-1 bus-ID: 00:02.0 chip-ID: 8086:0416
+    class-ID: 0300
+  Device-2: AMD Mars [Radeon HD 8670A/8670M/8750M / R7 M370]
+    vendor: Hewlett-Packard driver: radeon v: kernel arch: GCN-1 pcie:
+    speed: 8 GT/s lanes: 8 bus-ID: 01:00.0 chip-ID: 1002:6600 class-ID: 0300
+    temp: 48.0 C
+  Device-3: Cheng Uei Precision Industry (Foxlink) HP HD Webcam
+    driver: uvcvideo type: USB rev: 2.0 speed: 480 Mb/s lanes: 1 bus-ID: 3-7:3
+    chip-ID: 05c8:0359 class-ID: 0e02
+  Display: x11 server: X.Org v: 21.1.11 compositor: marco v: 1.26.2 driver:
+    X: loaded: modesetting,radeon unloaded: fbdev,vesa dri: crocus gpu: i915
+    display-ID: :0 screens: 1
+  Screen-1: 0 s-res: 1600x900 s-dpi: 96 s-size: 423x238mm (16.65x9.37")
+    s-diag: 485mm (19.11")
+  Monitor-1: eDP-1 model: Samsung 0x3754 res: 1600x900 hz: 60 dpi: 106
+    size: 382x215mm (15.04x8.46") diag: 438mm (17.3") modes: 1600x900
+  API: EGL v: 1.5 hw: drv: intel crocus platforms: device: 0 drv: crocus
+    gbm: drv: crocus surfaceless: drv: crocus x11: drv: crocus inactive: wayland
+  API: OpenGL v: 4.6 vendor: intel mesa v: 25.2.8-0ubuntu0.24.04.1
+    glx-v: 1.4 direct-render: yes renderer: Mesa Intel HD Graphics 4600 (HSW
+    GT2) device-ID: 8086:0416
+
+
+------------------------------------------------------------------------------
+Hier sind die Debuginfos:
+
+Meldungen beim Start von Dinox:
+
+radeon: Failed to allocate virtual address for buffer:
+radeon:    size      : 65536 bytes
+radeon:    alignment : 4096 bytes
+radeon:    domains   : 4
+radeon:    va        : 0x0000000100000000
+radeon: Failed to deallocate virtual address for buffer:
+radeon:    size      : 65536 bytes
+radeon:    va        : 0x100000000
+radeon: Failed to allocate virtual address for buffer:
+radeon:    size      : 65536 bytes
+radeon:    alignment : 4096 bytes
+radeon:    domains   : 4
+radeon:    va        : 0x0000000100000000
+radeon: Failed to deallocate virtual address for buffer:
+radeon:    size      : 65536 bytes
+radeon:    va        : 0x100000000
+radeonsi: can't create border_color_buffer
+radeonsi: Failed to create a context.
+radeon: Failed to allocate virtual address for buffer:
+radeon:    size      : 65536 bytes
+radeon:    alignment : 4096 bytes
+radeon:    domains   : 4
+radeon:    va        : 0x0000000100000000
+radeon: Failed to deallocate virtual address for buffer:
+radeon:    size      : 65536 bytes
+radeon:    va        : 0x100000000
+radeon: Failed to allocate virtual address for buffer:
+radeon:    size      : 65536 bytes
+radeon:    alignment : 4096 bytes
+radeon:    domains   : 4
+radeon:    va        : 0x0000000100000000
+radeon: Failed to deallocate virtual address for buffer:
+radeon:    size      : 65536 bytes
+radeon:    va        : 0x100000000
+radeonsi: can't create border_color_buffer
+radeonsi: Failed to create a context.
+radeon: Failed to allocate virtual address for buffer:
+radeon:    size      : 65536 bytes
+radeon:    alignment : 4096 bytes
+radeon:    domains   : 4
+radeon:    va        : 0x0000000100000000
+radeon: Failed to deallocate virtual address for buffer:
+radeon:    size      : 65536 bytes
+radeon:    va        : 0x100000000
+radeon: Failed to allocate virtual address for buffer:
+radeon:    size      : 65536 bytes
+radeon:    alignment : 4096 bytes
+radeon:    domains   : 4
+radeon:    va        : 0x0000000100000000
+radeon: Failed to deallocate virtual address for buffer:
+radeon:    size      : 65536 bytes
+radeon:    va        : 0x100000000
+radeonsi: can't create border_color_buffer
+radeonsi: Failed to create a context.
+radeon: Failed to allocate virtual address for buffer:
+radeon:    size      : 65536 bytes
+radeon:    alignment : 4096 bytes
+radeon:    domains   : 4
+radeon:    va        : 0x0000000100000000
+radeon: Failed to deallocate virtual address for buffer:
+radeon:    size      : 65536 bytes
+radeon:    va        : 0x100000000
+radeon: Failed to allocate virtual address for buffer:
+radeon:    size      : 65536 bytes
+radeon:    alignment : 4096 bytes
+radeon:    domains   : 4
+radeon:    va        : 0x0000000100000000
+radeon: Failed to deallocate virtual address for buffer:
+radeon:    size      : 65536 bytes
+radeon:    va        : 0x100000000
+radeonsi: can't create border_color_buffer
+radeonsi: Failed to create a context.
+radeon: Failed to allocate virtual address for buffer:
+radeon:    size      : 65536 bytes
+radeon:    alignment : 4096 bytes
+radeon:    domains   : 4
+radeon:    va        : 0x0000000100000000
+radeon: Failed to deallocate virtual address for buffer:
+radeon:    size      : 65536 bytes
+radeon:    va        : 0x100000000
+radeon: Failed to allocate virtual address for buffer:
+radeon:    size      : 65536 bytes
+radeon:    alignment : 4096 bytes
+radeon:    domains   : 4
+radeon:    va        : 0x0000000100000000
+radeon: Failed to deallocate virtual address for buffer:
+radeon:    size      : 65536 bytes
+radeon:    va        : 0x100000000
+radeonsi: can't create border_color_buffer
+radeonsi: Failed to create a context.
+radeon: Failed to allocate virtual address for buffer:
+radeon:    size      : 65536 bytes
+radeon:    alignment : 4096 bytes
+radeon:    domains   : 4
+radeon:    va        : 0x0000000100000000
+radeon: Failed to deallocate virtual address for buffer:
+radeon:    size      : 65536 bytes
+radeon:    va        : 0x100000000
+radeon: Failed to allocate virtual address for buffer:
+radeon:    size      : 65536 bytes
+radeon:    alignment : 4096 bytes
+radeon:    domains   : 4
+radeon:    va        : 0x0000000100000000
+radeon: Failed to deallocate virtual address for buffer:
+radeon:    size      : 65536 bytes
+radeon:    va        : 0x100000000
+radeonsi: can't create border_color_buffer
+radeonsi: Failed to create a context.
+radeon: Failed to allocate virtual address for buffer:
+radeon:    size      : 65536 bytes
+radeon:    alignment : 4096 bytes
+radeon:    domains   : 4
+radeon:    va        : 0x0000000100000000
+radeon: Failed to deallocate virtual address for buffer:
+radeon:    size      : 65536 bytes
+radeon:    va        : 0x100000000
+radeon: Failed to allocate virtual address for buffer:
+radeon:    size      : 65536 bytes
+radeon:    alignment : 4096 bytes
+radeon:    domains   : 4
+radeon:    va        : 0x0000000100000000
+radeon: Failed to deallocate virtual address for buffer:
+radeon:    size      : 65536 bytes
+radeon:    va        : 0x100000000
+radeonsi: can't create border_color_buffer
+radeonsi: Failed to create a context.
+radeon: Failed to allocate virtual address for buffer:
+radeon:    size      : 65536 bytes
+radeon:    alignment : 4096 bytes
+radeon:    domains   : 4
+radeon:    va        : 0x0000000100000000
+radeon: Failed to deallocate virtual address for buffer:
+radeon:    size      : 65536 bytes
+radeon:    va        : 0x100000000
+radeon: Failed to allocate virtual address for buffer:
+radeon:    size      : 65536 bytes
+radeon:    alignment : 4096 bytes
+radeon:    domains   : 4
+radeon:    va        : 0x0000000100000000
+radeon: Failed to deallocate virtual address for buffer:
+radeon:    size      : 65536 bytes
+radeon:    va        : 0x100000000
+radeonsi: can't create border_color_buffer
+radeonsi: Failed to create a context.
+
+--------------------------------------------------------------
+
+Meldungen bei Videoaufnahme:
+
+(dinox:2): xmpp-vala-WARNING **: 15:38:51.606: tls_xmpp_stream.vala:90: [0x62d0496475f0, jabber.der-globetreter.de] Tls Certificate Errors: G_TLS_CERTIFICATE_UNKNOWN_CA, 
+
+(dinox:2): dino-WARNING **: 15:40:53.394: video_recorder.vala:326: VideoRecorder: Pipeline error: Die Unterstützungsbibliothek konnte nicht initialisiert werden. (../ext/openh264/gstopenh264enc.cpp(764): gst_openh264enc_set_format (): /GstPipeline:video-recorder/GstOpenh264Enc:video-encoder:
+Failed to create OpenH264 encoder.)
+
+(dinox:2): dino-WARNING **: 15:40:53.394: video_recorder.vala:326: VideoRecorder: Pipeline error: Die Unterstützungsbibliothek konnte nicht initialisiert werden. (../ext/openh264/gstopenh264enc.cpp(764): gst_openh264enc_set_format (): /GstPipeline:video-recorder/GstOpenh264Enc:video-encoder:
+Failed to create OpenH264 encoder.)
+
+
+(dinox:2): dino-WARNING **: 15:40:53.795: video_recorder.vala:326: VideoRecorder: Pipeline error: Die Unterstützungsbibliothek konnte nicht initialisiert werden. (../ext/openh264/gstopenh264enc.cpp(764): gst_openh264enc_set_format (): /GstPipeline:video-recorder/GstOpenh264Enc:video-encoder:
+Failed to create OpenH264 encoder.)
+
+(dinox:2): dino-WARNING **: 15:40:53.795: video_recorder.vala:326: VideoRecorder: Pipeline error: Die Unterstützungsbibliothek konnte nicht initialisiert werden. (../ext/openh264/gstopenh264enc.cpp(764): gst_openh264enc_set_format (): /GstPipeline:video-recorder/GstOpenh264Enc:video-encoder:
+Failed to create OpenH264 encoder.)
+
+(dinox:2): dino-WARNING **: 15:40:53.834: video_recorder.vala:326: VideoRecorder: Pipeline error: Die Unterstützungsbibliothek konnte nicht initialisiert werden. (../ext/openh264/gstopenh264enc.cpp(764): gst_openh264enc_set_format (): /GstPipeline:video-recorder/GstOpenh264Enc:video-encoder:
+Failed to create OpenH264 encoder.)
+
+(dinox:2): dino-WARNING **: 15:40:53.870: video_recorder.vala:326: VideoRecorder: Pipeline error: Internal data stream error. (../libs/gst/base/gstbasesrc.c(3177): gst_base_src_loop (): /GstPipeline:video-recorder/GstPipeWireSrc:video-source:
+streaming stopped, reason not-negotiated (-4))
+
+(dinox:2): dino-WARNING **: 15:40:53.870: video_recorder.vala:326: VideoRecorder: Pipeline error: Internal data stream error. (../plugins/elements/gstqueue.c(1040): gst_queue_handle_sink_event (): /GstPipeline:video-recorder/GstQueue:video-queue:
+streaming stopped, reason not-negotiated (-4))

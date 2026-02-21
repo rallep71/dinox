@@ -55,6 +55,25 @@ public class ChatInputController : Object {
         this.audio_recorder = new AudioRecorder();
         this.video_recorder = new VideoRecorder();
 
+        // Handle pipeline errors: cancel recording and show error to user
+        this.video_recorder.recording_error.connect((msg) => {
+            is_video_recording = false;
+            chat_input.video_record_button.icon_name = "camera-video-symbolic";
+            chat_input.video_record_button.remove_css_class("destructive-action");
+            if (video_popover != null) {
+                video_popover.popdown();
+            }
+            // Show error dialog
+            var root = chat_input.get_root() as Gtk.Window;
+            if (root != null) {
+                var dlg = new Adw.AlertDialog(
+                    _("Video recording failed"),
+                    _("The video encoder could not be initialized: %s\n\nPlease ensure GStreamer plugins are installed (gst-plugins-good, gst-plugins-ugly, gst-libav).").printf(msg));
+                dlg.add_response("ok", _("OK"));
+                dlg.present(root);
+            }
+        });
+
         chat_input.init(stream_interactor);
 
         reset_input_field_status();
@@ -430,6 +449,19 @@ public class ChatInputController : Object {
             chat_input.video_record_button.add_css_class("destructive-action");
         } catch (Error e) {
             warning("Failed to start video recording: %s", e.message);
+            is_video_recording = false;
+            if (video_popover != null) {
+                video_popover.popdown();
+            }
+            // Show error dialog with install instructions
+            var root = chat_input.get_root() as Gtk.Window;
+            if (root != null) {
+                var dlg = new Adw.AlertDialog(
+                    _("Video recording failed"),
+                    e.message);
+                dlg.add_response("ok", _("OK"));
+                dlg.present(root);
+            }
         }
     }
 

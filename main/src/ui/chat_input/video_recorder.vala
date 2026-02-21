@@ -41,6 +41,8 @@ public class VideoRecorder : GLib.Object {
     private uint bus_watch_id = 0;
     private uint timeout_id = 0;
     private int64 start_time = 0;
+    private bool error_cancelling = false; // prevent re-entrant cancel from bus callback
+    private bool use_webm = false; // true if VP8/WebM fallback is active
     public const int MAX_DURATION_SECONDS = 120; // 2 minutes
 
     public string? current_output_path { get; private set; }
@@ -51,6 +53,7 @@ public class VideoRecorder : GLib.Object {
 
     public signal void duration_changed(string text);
     public signal void max_duration_reached();
+    public signal void recording_error(string message);
 
     public VideoRecorder() {
     }
@@ -61,11 +64,50 @@ public class VideoRecorder : GLib.Object {
         }
     }
 
+    /**
+     * Test if a video encoder actually works by running a 1-frame test pipeline.
+     * ElementFactory.make() can succeed even when the underlying library is broken
+     * (e.g. openh264enc on systems without the Cisco OpenH264 binary).
+     */
+    private bool test_video_encoder(string factory_name) {
+        try {
+            var test_pipe = Gst.parse_launch(
+                "videotestsrc num-buffers=1 ! video/x-raw,format=I420,width=160,height=120,framerate=1/1 ! %s ! fakesink".printf(factory_name));
+            if (test_pipe == null) return false;
+
+            test_pipe.set_state(State.PLAYING);
+            var test_bus = ((Pipeline)test_pipe).get_bus();
+            var msg = test_bus.timed_pop_filtered(3 * Gst.SECOND,
+                MessageType.ERROR | MessageType.EOS);
+            bool works = (msg != null && msg.type == MessageType.EOS);
+            test_pipe.set_state(State.NULL);
+            if (!works) {
+                debug("VideoRecorder: encoder test FAILED for %s", factory_name);
+            } else {
+                debug("VideoRecorder: encoder test OK for %s", factory_name);
+            }
+            return works;
+        } catch (Error e) {
+            debug("VideoRecorder: encoder test exception for %s: %s", factory_name, e.message);
+            return false;
+        }
+    }
+
+    /**
+     * Try to create and validate a video encoder element.
+     * Returns the element if both factory creation and runtime test succeed, null otherwise.
+     */
+    private Element? try_create_encoder(string factory_name, string element_name) {
+        if (ElementFactory.find(factory_name) == null) return null;
+        if (!test_video_encoder(factory_name)) return null;
+        return ElementFactory.make(factory_name, element_name);
+    }
+
     public void start_recording(string output_path) throws Error {
         debug("VideoRecorder.start_recording: output_path=%s", output_path);
         if (is_recording) return;
 
-        current_output_path = output_path;
+        current_output_path = output_path; // may be overridden later if WebM fallback is used
 
         pipeline = new Pipeline("video-recorder");
 
@@ -106,12 +148,15 @@ public class VideoRecorder : GLib.Object {
         }
 
         // H.264 encoder - try hardware first, then software fallbacks
-        video_encoder = ElementFactory.make("vaapih264enc", "video-encoder");
+        // Each encoder is validated with a 1-frame test pipeline to catch runtime failures
+        // (e.g. openh264enc factory exists but the Cisco library can't initialize)
+        use_webm = false;
+        video_encoder = try_create_encoder("vaapih264enc", "video-encoder");
         if (video_encoder == null) {
-            video_encoder = ElementFactory.make("vah264enc", "video-encoder");
+            video_encoder = try_create_encoder("vah264enc", "video-encoder");
         }
         if (video_encoder == null) {
-            video_encoder = ElementFactory.make("x264enc", "video-encoder");
+            video_encoder = try_create_encoder("x264enc", "video-encoder");
             if (video_encoder != null) {
                 // Software encoder: tune for speed and low latency
                 video_encoder.set("speed-preset", 2); // superfast
@@ -122,7 +167,7 @@ public class VideoRecorder : GLib.Object {
         }
         if (video_encoder == null) {
             // Fallback: avenc_h264 from gst-libav (ffmpeg) - available in Flatpak via ffmpeg-full extension
-            video_encoder = ElementFactory.make("avenc_h264", "video-encoder");
+            video_encoder = try_create_encoder("avenc_h264", "video-encoder");
             if (video_encoder != null) {
                 debug("Using avenc_h264 (ffmpeg) as H.264 encoder fallback");
                 video_encoder.set("bitrate", 1500000); // bps (avenc uses bps, not kbps)
@@ -131,17 +176,35 @@ public class VideoRecorder : GLib.Object {
         }
         if (video_encoder == null) {
             // Fallback: openh264enc from gst-plugins-bad - available in GNOME Platform runtime (Flatpak)
-            video_encoder = ElementFactory.make("openh264enc", "video-encoder");
+            video_encoder = try_create_encoder("openh264enc", "video-encoder");
             if (video_encoder != null) {
                 debug("Using openh264enc as H.264 encoder fallback");
                 video_encoder.set("bitrate", 1500000); // bps
                 video_encoder.set("complexity", 1);     // medium complexity
             }
         }
-        // h264parse is optional - avenc_h264 output can go directly to mp4mux
-        video_parser = ElementFactory.make("h264parse", "video-parser");
-        if (video_parser == null) {
-            debug("h264parse not available, will link encoder directly to muxer");
+        if (video_encoder == null) {
+            // Ultimate fallback: VP8 (libvpx) in WebM container
+            // VP8 is in gst-plugins-good and works on every system without special libraries
+            video_encoder = try_create_encoder("vp8enc", "video-encoder");
+            if (video_encoder != null) {
+                debug("Using vp8enc (VP8/WebM) as ultimate encoder fallback");
+                video_encoder.set("target-bitrate", 1500000); // bps
+                video_encoder.set("cpu-used", 8);             // fastest encoding
+                video_encoder.set("deadline", (int64)1);      // realtime
+                video_encoder.set("keyframe-max-dist", 60);
+                use_webm = true;
+            }
+        }
+
+        // Parser: h264parse for H.264 encoders, no parser needed for VP8
+        if (!use_webm) {
+            video_parser = ElementFactory.make("h264parse", "video-parser");
+            if (video_parser == null) {
+                debug("h264parse not available, will link encoder directly to muxer");
+            }
+        } else {
+            video_parser = null;
         }
 
         // === AUDIO branch ===
@@ -162,8 +225,25 @@ public class VideoRecorder : GLib.Object {
         audio_parser = ElementFactory.make("aacparse", "audio-parser");
 
         // === Muxer + Sink ===
-        muxer = ElementFactory.make("mp4mux", "muxer");
+        if (use_webm) {
+            muxer = ElementFactory.make("webmmux", "muxer");
+            // Switch audio encoder to Vorbis for WebM container (AAC not allowed in WebM)
+            audio_encoder = ElementFactory.make("vorbisenc", "audio-encoder");
+            if (audio_encoder == null) {
+                audio_encoder = ElementFactory.make("opusenc", "audio-encoder");
+            }
+            audio_parser = null; // No aacparse needed for Vorbis/Opus
+        } else {
+            muxer = ElementFactory.make("mp4mux", "muxer");
+        }
         sink = ElementFactory.make("filesink", "sink");
+
+        // Adjust output path extension to match container format
+        if (use_webm && output_path.has_suffix(".mp4")) {
+            current_output_path = output_path.substring(0, output_path.length - 4) + ".webm";
+        } else {
+            current_output_path = output_path;
+        }
 
         // Validate all required elements - log which ones are missing for diagnostics
         string[] missing = {};
@@ -172,7 +252,7 @@ public class VideoRecorder : GLib.Object {
         if (video_scale == null) missing += "videoscale (gst-plugins-base)";
         if (video_rate == null) missing += "videorate (gst-plugins-base)";
         if (video_capsfilter == null) missing += "capsfilter (gstreamer)";
-        if (video_encoder == null) missing += "h264 encoder (x264enc from gst-plugins-ugly, vaapih264enc/vah264enc from gst-plugins-bad, avenc_h264 from gst-libav, or openh264enc from gst-plugins-bad)";
+        if (video_encoder == null) missing += "video encoder (all tested: vaapih264enc, vah264enc, x264enc, avenc_h264, openh264enc, vp8enc — none available/working)";
         if (tee == null) missing += "tee (gstreamer)";
         if (preview_queue == null) missing += "queue (gstreamer)";
         if (video_queue == null) missing += "queue (gstreamer)";
@@ -180,10 +260,12 @@ public class VideoRecorder : GLib.Object {
         if (audio_convert == null) missing += "audioconvert (gst-plugins-base)";
         if (audio_resample == null) missing += "audioresample (gst-plugins-base)";
         if (audio_capsfilter == null) missing += "capsfilter (gstreamer)";
-        if (audio_encoder == null) missing += "AAC encoder (avenc_aac from gst-libav, or voaacenc from gst-plugins-bad)";
-        if (audio_parser == null) missing += "aacparse (gst-plugins-good)";
+        if (audio_encoder == null) missing += use_webm
+            ? "Vorbis/Opus encoder (vorbisenc from gst-plugins-base, or opusenc from gst-plugins-bad)"
+            : "AAC encoder (avenc_aac from gst-libav, or voaacenc from gst-plugins-bad)";
+        if (!use_webm && audio_parser == null) missing += "aacparse (gst-plugins-good)";
         if (audio_queue == null) missing += "queue (gstreamer)";
-        if (muxer == null) missing += "mp4mux (gst-plugins-good)";
+        if (muxer == null) missing += use_webm ? "webmmux (gst-plugins-good)" : "mp4mux (gst-plugins-good)";
         if (sink == null) missing += "filesink (gstreamer)";
         if (missing.length > 0) {
             string details = string.joinv(", ", missing);
@@ -202,14 +284,18 @@ public class VideoRecorder : GLib.Object {
         // Mute during PipeWire connection transient, unmute after stabilization
         audio_volume.set("volume", 0.0);
 
-        // AAC bitrate for audio in video
+        // Audio encoder bitrate
         string audio_enc_name = audio_encoder.get_factory().get_name();
         debug("VideoRecorder: using audio encoder '%s'", audio_enc_name);
         if (audio_enc_name == "avenc_aac" || audio_enc_name == "voaacenc") {
             audio_encoder.set("bitrate", 96000);
+        } else if (audio_enc_name == "vorbisenc") {
+            audio_encoder.set("bitrate", 96000);
+        } else if (audio_enc_name == "opusenc") {
+            audio_encoder.set("bitrate", 96000);
         }
 
-        sink.set("location", output_path);
+        sink.set("location", current_output_path);
 
         // Queue settings for smooth recording
         video_queue.set("max-size-time", (uint64)3000000000); // 3s buffer
@@ -226,10 +312,13 @@ public class VideoRecorder : GLib.Object {
             video_capsfilter, tee, video_queue, video_encoder,
             preview_queue, preview_convert, preview_sink,
             audio_source, audio_volume, audio_convert, audio_resample, audio_capsfilter,
-            audio_queue, audio_convert2, audio_encoder, audio_parser,
+            audio_queue, audio_convert2, audio_encoder,
             muxer, sink);
         if (video_parser != null) {
             pipeline.add(video_parser);
+        }
+        if (audio_parser != null) {
+            pipeline.add(audio_parser);
         }
 
         // Link video source chain up to tee
@@ -301,11 +390,19 @@ public class VideoRecorder : GLib.Object {
         if (!audio_convert2.link(audio_encoder)) {
             throw new Error(Quark.from_string("VideoRecorder"), 0, "Could not link audio_convert2 → audio_encoder");
         }
-        if (!audio_encoder.link(audio_parser)) {
-            throw new Error(Quark.from_string("VideoRecorder"), 0, "Could not link audio_encoder → audio_parser");
-        }
-        if (!audio_parser.link(muxer)) {
-            throw new Error(Quark.from_string("VideoRecorder"), 0, "Could not link audio_parser → muxer");
+        if (audio_parser != null) {
+            // H.264/AAC path: encoder → parser → muxer
+            if (!audio_encoder.link(audio_parser)) {
+                throw new Error(Quark.from_string("VideoRecorder"), 0, "Could not link audio_encoder → audio_parser");
+            }
+            if (!audio_parser.link(muxer)) {
+                throw new Error(Quark.from_string("VideoRecorder"), 0, "Could not link audio_parser → muxer");
+            }
+        } else {
+            // WebM/Vorbis/Opus path: encoder → muxer directly
+            if (!audio_encoder.link(muxer)) {
+                throw new Error(Quark.from_string("VideoRecorder"), 0, "Could not link audio_encoder → muxer");
+            }
         }
 
         // Muxer → sink
@@ -318,12 +415,26 @@ public class VideoRecorder : GLib.Object {
         gtk_sink = preview_sink;
 
         bus = pipeline.get_bus();
+        error_cancelling = false;
         bus_watch_id = bus.add_watch(0, (b, msg) => {
             if (msg.type == MessageType.ERROR) {
                 Error err;
                 string debug_info;
                 msg.parse_error(out err, out debug_info);
                 warning("VideoRecorder: Pipeline error: %s (%s)", err.message, debug_info);
+                // Cancel recording on pipeline error to prevent app freeze.
+                // The pipeline is broken and won't produce valid output.
+                if (!error_cancelling) {
+                    error_cancelling = true;
+                    string user_msg = err.message;
+                    // Schedule cancel on idle to avoid re-entrant issues
+                    Idle.add(() => {
+                        cancel_recording();
+                        recording_error(user_msg);
+                        return false;
+                    });
+                }
+                return false; // stop watching — we're cancelling
             } else if (msg.type == MessageType.WARNING) {
                 Error warn;
                 string debug_info;
