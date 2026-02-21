@@ -147,15 +147,19 @@ public class Dino.Ui.ViewModel.PreferencesDialog : Object {
     }
 
     public void reconnect_account(Account account) {
-        stream_interactor.disconnect_account.begin(account, () => {
-            stream_interactor.connect_account(account);
+        // Use connection_manager directly to avoid firing account_removed,
+        // which would cause the OMEMO plugin to delete all identity keys.
+        stream_interactor.connection_manager.disconnect_account.begin(account, () => {
+            stream_interactor.connection_manager.connect_account(account);
         });
     }
 
     public void enable_disable_account(Account account) {
         if (account.enabled) {
             account.enabled = false;
-            stream_interactor.disconnect_account.begin(account);
+            // Use connection_manager directly — do NOT fire account_removed
+            // (that would delete OMEMO identity keys just for disabling an account)
+            stream_interactor.connection_manager.disconnect_account.begin(account);
         } else {
             account.enabled = true;
             stream_interactor.connect_account(account);
