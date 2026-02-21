@@ -19,6 +19,7 @@ public class VideoRecorder : GLib.Object {
     private Element video_rate;
     private Element video_capsfilter;
     private Element video_encoder;
+    private Element? video_profile_caps;  // capsfilter: force constrained-baseline for mobile compatibility
     private Element? video_parser;
     private Element video_queue;
     private Element audio_source;
@@ -192,6 +193,14 @@ public class VideoRecorder : GLib.Object {
                 "No working H.264 video encoder found. Install one of: gstreamer1.0-vaapi (Intel/AMD), gstreamer1.0-plugins-ugly (x264), gstreamer1.0-libav (ffmpeg), or libgstreamer-plugins-bad1.0 (openh264)");
         }
 
+        // Force Constrained Baseline profile for maximum mobile compatibility.
+        // High profile is not supported by many Android media players (Monocles, Conversations).
+        video_profile_caps = ElementFactory.make("capsfilter", "video-profile-caps");
+        if (video_profile_caps != null) {
+            video_profile_caps.set("caps", Caps.from_string(
+                "video/x-h264, profile=(string)constrained-baseline"));
+        }
+
         // Parser: h264parse for proper MP4 muxing (optional but recommended)
         video_parser = ElementFactory.make("h264parse", "video-parser");
         if (video_parser == null) {
@@ -293,6 +302,9 @@ public class VideoRecorder : GLib.Object {
             audio_source, audio_volume, audio_convert, audio_resample, audio_capsfilter,
             audio_queue, audio_convert2, audio_encoder,
             muxer, sink);
+        if (video_profile_caps != null) {
+            pipeline.add(video_profile_caps);
+        }
         if (video_parser != null) {
             pipeline.add(video_parser);
         }
@@ -332,18 +344,26 @@ public class VideoRecorder : GLib.Object {
             throw new Error(Quark.from_string("VideoRecorder"), 0,
                 "Could not link video_queue → video_encoder");
         }
+        // Build video encoding chain: encoder → [profile_caps →] [parser →] muxer
+        // profile_caps forces Constrained Baseline for mobile compatibility
+        Element last_video = video_encoder;
+        if (video_profile_caps != null) {
+            if (!last_video.link(video_profile_caps)) {
+                throw new Error(Quark.from_string("VideoRecorder"), 0,
+                    "Could not link video_encoder → profile capsfilter");
+            }
+            last_video = video_profile_caps;
+        }
         if (video_parser != null) {
-            // encoder → parser → muxer
-            if (!video_encoder.link(video_parser) || !video_parser.link(muxer)) {
+            if (!last_video.link(video_parser)) {
                 throw new Error(Quark.from_string("VideoRecorder"), 0,
-                    "Could not link video_encoder → video_parser → muxer");
+                    "Could not link video chain → h264parse");
             }
-        } else {
-            // encoder → muxer directly (avenc_h264 output is compatible with mp4mux)
-            if (!video_encoder.link(muxer)) {
-                throw new Error(Quark.from_string("VideoRecorder"), 0,
-                    "Could not link video_encoder → muxer");
-            }
+            last_video = video_parser;
+        }
+        if (!last_video.link(muxer)) {
+            throw new Error(Quark.from_string("VideoRecorder"), 0,
+                "Could not link video chain → muxer");
         }
 
         // Audio chain: source → volume → convert → resample → caps → queue → convert2 → encoder → parser → muxer

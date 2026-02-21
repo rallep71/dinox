@@ -5,6 +5,15 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.2.0] - 2026-02-21
+
+### Fixed
+- **Video Codec Not Supported on Monocles/Android**: All H.264 encoders (vaapih264enc, x264enc, openh264enc, avenc_h264) now produce **Constrained Baseline** profile instead of High profile. High profile is not supported by many Android media players. Added a `capsfilter` with `video/x-h264,profile=constrained-baseline` between encoder and h264parse to force the profile via GStreamer caps negotiation.
+- **No Audio When Playing Video in DinoX**: The video player pipeline was missing `audioresample` between `audioconvert` and `autoaudiosink`. Without resampling, decoded AAC audio at 48kHz could not negotiate with the audio sink, causing silent playback.
+
+### Changed
+- **Version**: Bumped from 1.1.1.9 to 1.1.2.0
+
 ## [1.1.1.9] - 2026-02-21
 
 ### Fixed

@@ -1,6 +1,6 @@
 # DinoX - Development Plan
 
-> **Last Updated**: February 21, 2026 (v1.1.1.9)
+> **Last Updated**: February 21, 2026 (v1.1.2.0)
 > **Current Release Line**: 1.1.1.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.1.9 |
+| **Current Version** | 1.1.2.0 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (~85% translated) |
 | **Build Status** | Clean |
@@ -20,6 +20,11 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v1.1.2.0 (Video Profile + Audio Playback Fix)
+
+- **Constrained Baseline Profile**: All H.264 encoders forced to Constrained Baseline via capsfilter. High profile was rejected by Android media players (Monocles, Conversations).
+- **Video Audio Playback**: Added missing `audioresample` in video player pipeline. Without it, decoded AAC could not negotiate sample rate with audio sink.
 
 ### v1.1.1.9 (Video Message Compatibility Fix)
 
