@@ -1,6 +1,6 @@
 # DinoX - Development Plan
 
-> **Last Updated**: February 21, 2026 (v1.1.1.6)
+> **Last Updated**: February 21, 2026 (v1.1.1.7)
 > **Current Release Line**: 1.1.1.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.1.6 |
+| **Current Version** | 1.1.1.7 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (~85% translated) |
 | **Build Status** | Clean |
@@ -20,6 +20,14 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v1.1.1.7 (OMEMO v2 Phantom Fix, Encoder Validation, VP8 Fallback)
+
+- **OMEMO v2 Phantom Fix**: Fixed v2 device list causing phantom devices to re-appear endlessly. Cleanup now runs after v2 list, PubSub node uses `max_items=1`, republish uses fixed item_id `"current"`, bundles only fetched for active devices.
+- **Encoder Runtime Validation**: Each video encoder tested with 1-frame pipeline before use. Catches broken `openh264enc` (factory exists but lib fails at runtime).
+- **VP8/WebM Fallback**: Added `vp8enc` as ultimate fallback (gst-plugins-good, works everywhere). Auto-switches to WebM container with Vorbis/Opus audio.
+- **Pipeline Error → Auto Cancel**: Broken pipelines now cancel recording + show error dialog instead of freezing the app.
+- **Graceful Shutdown**: Systray quit disconnects all XMPP accounts with 3s timeout before exit.
 
 ### v1.1.1.6 (Pipeline Leak Fix, Video Thumbnails, Audio Cleanup)
 
