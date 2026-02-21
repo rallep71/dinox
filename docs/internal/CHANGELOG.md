@@ -5,6 +5,22 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.1.9] - 2026-02-21
+
+### Fixed
+- **Video Messages Incompatible with Monocles/Android**: Removed VP8/WebM fallback encoder — mobile XMPP clients (Monocles, Conversations) cannot play WebM video messages. H.264/MP4 is now the only output format. If no H.264 encoder is available, a clear error lists required packages instead of silently producing unplayable files.
+- **All Recorded MP4 Files Corrupted (moov atom missing)**: `stop_recording()` waited only 1 second for EOS, which was insufficient for `mp4mux` to write the moov atom. Every recorded video was unplayable. Increased EOS timeout to 5 seconds with proper logging for timeout/error/success.
+- **VAAPI Encoder Test False-Negative**: `test_video_encoder()` sent raw I420 directly to hardware encoders (VAAPI, VA) which require native surfaces, causing them to always fail the test. Added `videoconvert` to the test pipeline so hardware encoders negotiate their preferred input format. Increased test timeout from 3s to 5s.
+
+### Added
+- **MP4 faststart**: Enabled `faststart=true` on mp4mux — moves moov atom to the beginning of the file for progressive playback before full download.
+
+### Removed
+- **VP8/WebM Fallback**: Removed `vp8enc` fallback, `use_webm` flag, WebM container (webmmux), Vorbis/Opus audio paths, and `.webm` extension switching. Encoder chain is now: vaapih264enc → vah264enc → x264enc → avenc_h264 → openh264enc.
+
+### Changed
+- **Version**: Bumped from 1.1.1.8 to 1.1.1.9
+
 ## [1.1.1.8] - 2026-02-21
 
 ### Fixed
@@ -32,7 +48,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Graceful Shutdown**: System tray quit now disconnects all XMPP accounts with a 3-second safety timeout before exiting, preventing unclean session termination.
 
 ### Added
-- **VP8/WebM Fallback Encoder**: Added `vp8enc` (libvpx, from gst-plugins-good) as ultimate video encoder fallback. Works on every system without special libraries. Automatically switches to WebM container with Vorbis/Opus audio. Encoder chain: vaapih264enc → vah264enc → x264enc → avenc_h264 → openh264enc → vp8enc.
+- **VP8/WebM Fallback Encoder**: ~~Added `vp8enc` as ultimate fallback~~ (removed in v1.1.1.9 — mobile clients can't play WebM).
 - **Video Recording Error Dialog**: `Adw.AlertDialog` shown to user when video encoder fails, with details about the error and install instructions.
 
 ### Changed
