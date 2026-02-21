@@ -5,6 +5,28 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.1.7] - 2026-02-21
+
+### Fixed
+- **OMEMO v2 Device List Phantom Accumulation**: Fixed v2 (OMEMO 2) device list causing phantom device entries to endlessly re-appear. Root cause: `insert_device_list_additive()` re-activated phantom devices, v2 PubSub node had `max_items="max"` (unlimited items), republish used `null` item_id (created new items instead of replacing), and cleanup only ran after v1 list processing.
+  * Run `cleanup_stale_own_devices` after v2 device list processing (not just v1)
+  * Delete stale v2 devicelist PubSub node before republishing
+  * Use `max_items="1"` for device list nodes (was `"max"` = unlimited)
+  * Use fixed item_id `"current"` for republish (replace existing, not create new)
+  * Only fetch bundles for active devices (skip inactive phantoms)
+  * `get_unknown_devices`: filter by `now_active=true`
+- **OMEMO Phantom Device Safety**: `cleanup_stale_own_devices` now only removes devices without identity keys. Devices with valid identity keys (e.g. Monal on same JID) are preserved.
+- **VideoRecorder Freeze on Encoder Failure**: Pipeline errors now auto-cancel recording and emit `recording_error` signal instead of leaving a broken pipeline running (which froze the entire app on older hardware).
+- **VideoRecorder Encoder Runtime Validation**: Each video encoder is now tested with a 1-frame test pipeline before use. `ElementFactory.make()` can succeed even when the underlying library is broken (e.g. `openh264enc` factory exists but Cisco OpenH264 binary fails to initialize).
+- **Graceful Shutdown**: System tray quit now disconnects all XMPP accounts with a 3-second safety timeout before exiting, preventing unclean session termination.
+
+### Added
+- **VP8/WebM Fallback Encoder**: Added `vp8enc` (libvpx, from gst-plugins-good) as ultimate video encoder fallback. Works on every system without special libraries. Automatically switches to WebM container with Vorbis/Opus audio. Encoder chain: vaapih264enc → vah264enc → x264enc → avenc_h264 → openh264enc → vp8enc.
+- **Video Recording Error Dialog**: `Adw.AlertDialog` shown to user when video encoder fails, with details about the error and install instructions.
+
+### Changed
+- **Version**: Bumped from 1.1.1.6 to 1.1.1.7
+
 ## [1.1.1.6] - 2026-02-21
 
 ### Fixed
