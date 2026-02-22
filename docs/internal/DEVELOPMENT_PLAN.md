@@ -1,6 +1,6 @@
 # DinoX - Development Plan
 
-> **Last Updated**: February 21, 2026 (v1.1.2.1)
+> **Last Updated**: February 22, 2026 (v1.1.2.2)
 > **Current Release Line**: 1.1.2.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.2.1 |
+| **Current Version** | 1.1.2.2 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (~85% translated) |
 | **Build Status** | Clean |
@@ -20,6 +20,15 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v1.1.2.2 (UI Performance & Avatar Cache Fix)
+
+- **Bookmark Close Lag**: `part()` (sync socket write + bookmark update) blocked UI before collapse animation. Fix: schedule via `Idle.add()`, animation runs first.
+- **Systray Quit Lag**: Window stayed visible during disconnect. Fix: hide window instantly, remove duplicate cleanup and unused safety timer.
+- **Avatar Cache Destroyed on Shutdown**: `cleanup_temp_files()` deleted encrypted avatar files every quit → 6s re-fetch on restart. Fix: stop deleting AES-encrypted avatar cache.
+- **Avatar Bytes Cache**: Added in-memory LRU cache (200 entries) for decrypted avatar bytes — no more file I/O + AES decrypt per access.
+- **Avatar Rebuild Debounce**: MUC avatar tiles debounced (150ms) to prevent repeated full rebuilds during login. Occupant avatar changes handled by individual tiles, not full rebuild.
+- **Animation**: Conversation row slide-up reduced 200ms → 120ms.
 
 ### v1.1.2.1 (CRITICAL: Systray OMEMO Identity Fix)
 
