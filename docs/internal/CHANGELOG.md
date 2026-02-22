@@ -5,6 +5,18 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.2.2] - 2026-02-22
+
+### Fixed
+- **UI Lag When Closing Bookmarks/MUCs**: Closing a MUC from the conversation list caused visible stutter because `part()` (synchronous socket write for unavailable presence + bookmark update) ran before UI handlers. Fix: schedule `part()` via `Idle.add()` so the collapse animation starts immediately.
+- **Systray Quit Felt Sluggish**: Window stayed visible during disconnect and cleanup. Fix: hide window instantly on quit, remove duplicate `cleanup_temp_files()` call (shutdown already handles it), remove unused 3s safety timer.
+- **Avatar Loading Slow (6s on Restart)**: `cleanup_temp_files()` deleted the encrypted avatar cache (`~/.cache/dinox/avatars/`) on every shutdown, forcing expensive network re-fetching (vCard IQ / PubSub) for every contact on restart. Fix: stop deleting the AES-256-GCM encrypted avatar files — they are safe to persist.
+- **Avatar Loading Lag During Login**: Each avatar access did synchronous file I/O + AES-256-GCM decryption on the main thread with no caching. MUC avatar tiles were fully rebuilt on every `received_avatar` signal during login. Fix: add in-memory LRU cache (max 200 entries) for decrypted avatar bytes, debounce MUC tile rebuilds (150ms), skip full rebuild for occupant avatar changes (individual tiles update themselves).
+
+### Changed
+- **Conversation Row Animation**: Slide-up animation reduced from 200ms to 120ms for snappier feel.
+- **Version**: Bumped from 1.1.2.1 to 1.1.2.2
+
 ## [1.1.2.1] - 2026-02-21
 
 ### Fixed
