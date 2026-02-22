@@ -116,37 +116,31 @@ public class SystrayManager : Object {
     
     public void quit_application() {
         debug("Systray: quit_application() called");
-        
-        // Cleanup systray first
+
+        // Hide window immediately for instant visual feedback
+        if (window != null) {
+            window.hide();
+        }
+
+        // Cleanup systray (DBus unregister etc.)
         cleanup();
-        
-        // Disconnect XMPP accounts gracefully (sends <presence type="unavailable"/>)
-        var accounts = application.stream_interactor.get_accounts();
-        debug("Systray: Disconnecting all accounts...");
-        
-        // Safety timer: force exit after 3 seconds if graceful disconnect hangs
-        uint force_timer = Timeout.add(3000, () => {
-            warning("Systray: Graceful disconnect timed out after 3s, forcing exit");
-            finalize_quit();
-            return false;
-        });
-        
+
         // Use disconnect_all() to close connections WITHOUT firing account_removed.
         // stream_interactor.disconnect_account() fires account_removed which
         // causes the OMEMO plugin to DELETE all identity keys and sessions.
+        debug("Systray: Disconnecting all accounts...");
         application.stream_interactor.connection_manager.disconnect_all();
-        Source.remove(force_timer);
+
         finalize_quit();
     }
     
     private void finalize_quit() {
-        // Ensure cache is cleaned up
-        application.cleanup_temp_files();
-        
-        // Graceful GTK quit — triggers application.shutdown() for final cleanup
+        // Graceful GTK quit — triggers application.shutdown() for final cleanup.
+        // shutdown() handles cleanup_temp_files() and disconnect_all() (no-op since
+        // connections are already cleared above).
         debug("Systray: Calling application.quit()");
         application.quit();
-        
+
         // Force exit as fallback — Flatpak sometimes doesn't quit cleanly
         debug("Systray: Force exit - Process.exit(0)");
         Process.exit(0);
