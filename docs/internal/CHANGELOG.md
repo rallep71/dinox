@@ -5,6 +5,31 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.2.3] - 2026-02-22
+
+### Security
+- **S1: bot_registry.db Encrypted**: Bot registry database now encrypted with app.db_key (same SQLCipher standard as dino.db). Plaintext databases are auto-migrated on first start.
+- **S4: Database File Permissions**: All database files (including WAL/SHM journals) now set to chmod 600 after open.
+- **S5: Secure Delete for bot_registry.db**: `PRAGMA secure_delete = ON` prevents deleted bot tokens from persisting on disk.
+
+### Fixed
+- **Preferences Dialog Lag**: Opening preferences from the burger menu caused visible lag. Contacts page now defers roster population until visible (map signal), Encryption page defers OMEMO key queries. Both pages track dirty state and refresh on next map. Reuses existing AccountDetails in ViewModel instead of duplicating.
+- **B1: Duplicate Conversations**: Added UNIQUE constraint on `(account_id, jid_id, type_)` in conversations table. Migration deduplicates existing rows (keeps lowest id, re-points messages).
+- **B2+B3: Orphan Data Cleanup**: Migration removes orphaned messages (referencing deleted conversations) and orphaned real_jid entries.
+- **B5: Foreign Keys Enforced**: `PRAGMA foreign_keys = ON` now set per connection to enforce referential integrity.
+
+### Changed
+- **O1: Auto-Vacuum**: Databases now use `auto_vacuum = INCREMENTAL` with one-time VACUUM conversion to reclaim space automatically.
+- **O2: File Transfer Index**: New index on `(account_id, counterpart_id)` for faster file transfer lookups.
+- **O3: FTS4 → FTS5 Upgrade**: Full-text search upgraded from FTS4 to FTS5 with runtime detection. Falls back to FTS4 if SQLCipher was built without FTS5 support.
+  - Runtime detection via in-memory test table at startup
+  - Conditional FTS5/FTS4 table creation and trigger syntax
+  - MatchQueryBuilder uses `rowid` (FTS5) or `docid` (FTS4)
+  - Migration v39: conditional FTS4→FTS5 upgrade with content rebuild
+- **SQLCipher from Source**: AppImage CI and Flatpak now build SQLCipher 4.5.6 from source with `--enable-fts5` for guaranteed FTS5 support.
+- **DB VERSION**: 37 → 39
+- **Version**: 1.1.2.2 → 1.1.2.3
+
 ## [1.1.2.2] - 2026-02-22
 
 ### Fixed

@@ -1,6 +1,6 @@
 # DinoX - Development Plan
 
-> **Last Updated**: February 22, 2026 (v1.1.2.2)
+> **Last Updated**: February 22, 2026 (v1.1.2.3)
 > **Current Release Line**: 1.1.2.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.2.2 |
+| **Current Version** | 1.1.2.3 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (~85% translated) |
 | **Build Status** | Clean |
@@ -20,6 +20,20 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v1.1.2.3 (Database Security Audit, FTS5 & Preferences Fix)
+
+- **Preferences Lazy Loading**: Contacts page defers roster population until visible; Encryption page defers OMEMO key queries. Dirty-state tracking refreshes on next map. Reuses existing AccountDetails. Fixes lag when opening preferences.
+- **bot_registry.db Encrypted**: Bot registry now encrypted with SQLCipher (same key as dino.db). Auto-migrates plaintext DBs.
+- **File Permissions**: All DB files chmod 600 (including WAL/SHM).
+- **Secure Delete**: `PRAGMA secure_delete = ON` for bot_registry.db.
+- **Duplicate Conversations**: UNIQUE constraint + dedup migration on `(account_id, jid_id, type_)`.
+- **Orphan Cleanup**: Migration removes orphaned messages and real_jid entries.
+- **Foreign Keys**: `PRAGMA foreign_keys = ON` enforced per connection.
+- **Auto-Vacuum**: `auto_vacuum = INCREMENTAL` with one-time VACUUM conversion.
+- **File Transfer Index**: New index on `(account_id, counterpart_id)`.
+- **FTS4 → FTS5**: Runtime detection, conditional upgrade, FTS4 fallback. SQLCipher now built from source with `--enable-fts5` in CI/Flatpak.
+- **DB VERSION**: 37 → 39.
 
 ### v1.1.2.2 (UI Performance & Avatar Cache Fix)
 
