@@ -122,11 +122,14 @@ sudo apt install build-essential meson ninja-build valac \
 
 **Required custom dependencies** (not available in distro packages or too old):
 
-DinoX requires **webrtc-audio-processing >= 2.1**, **libnice >= 0.1.23** and **libomemo-c** which are not available in Ubuntu 24.04 repos. Build them first:
+DinoX requires **SQLCipher with FTS5** (for optimal search), **webrtc-audio-processing >= 2.1**, **libnice >= 0.1.23** and **libomemo-c** which are not available in Ubuntu 24.04 repos. Build them first:
 
 ```bash
-# Build script does all three automatically:
+# Build script does all four automatically:
 ./scripts/ci-build-deps.sh
+
+# Verify FTS5 support:
+sqlcipher :memory: "PRAGMA compile_options;" 2>/dev/null | grep FTS5
 ```
 
 Or manually:

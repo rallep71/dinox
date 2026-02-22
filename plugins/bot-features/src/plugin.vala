@@ -45,7 +45,7 @@ public class Plugin : RootInterface, Object {
             GLib.Environment.get_user_data_dir(), "dinox", "bot_registry.db"
         );
         try {
-            registry = new BotRegistry(db_path);
+            registry = new BotRegistry(db_path, app.db_key);
         } catch (Error e) {
             warning("Botmother: Failed to open bot registry: %s", e.message);
             return;

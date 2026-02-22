@@ -2,6 +2,7 @@ dependencies = [
     dep_gee,
     dep_glib,
     dep_sqlcipher,
+    meson.get_compiler('vala').find_library('posix'),
 ]
 sources = files(
     'src/column.vala',

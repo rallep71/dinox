@@ -38,7 +38,7 @@ jobs:
               libnice-dev libsrtp2-dev \
               libgnutls28-dev libcanberra-dev libdbusmenu-glib-dev \
               libgdk-pixbuf-2.0-dev libsignal-protocol-c-dev libprotobuf-c-dev \
-              libsqlcipher-dev libsecret-1-dev protobuf-c-compiler cmake patchelf \
+              libsecret-1-dev protobuf-c-compiler cmake patchelf libssl-dev \
               file wget libfuse2 tor obfs4proxy libjson-glib-dev \
               libwebrtc-audio-processing-dev
             

@@ -58,10 +58,14 @@ pkg-config --modversion webrtc-audio-processing
 #### Quick checks (distro/source builds)
 
 ```bash
+# Core dependencies
 pkg-config --modversion nice
 pkg-config --modversion gstreamer-1.0
 pkg-config --modversion gstreamer-plugins-bad-1.0
 pkg-config --modversion webrtc-audio-processing || true
+
+# SQLCipher FTS support (FTS5 recommended for better search performance)
+sqlcipher :memory: "PRAGMA compile_options;" 2>/dev/null | grep -i FTS
 
 # Elements provided by gst-plugins-bad (names may vary by distro build options)
 gst-inspect-1.0 webrtcbin >/dev/null
@@ -171,6 +175,51 @@ sudo pacman -S \
     libsrtp
 
 ```
+
+### SQLCipher with FTS5 (Full-Text Search)
+
+DinoX uses SQLCipher for encrypted local databases. Distribution packages of SQLCipher typically include FTS3/FTS4 but **not FTS5**. DinoX detects FTS5 availability at runtime and uses it automatically when available, falling back to FTS4 otherwise.
+
+FTS5 provides better ranking, faster prefix queries, and lower memory usage for message search.
+
+#### Check your system
+
+```bash
+# Check which FTS modules your SQLCipher supports
+sqlcipher :memory: "PRAGMA compile_options;" 2>/dev/null | grep -i FTS
+# Expected output with FTS5:
+# ENABLE_FTS3
+# ENABLE_FTS4
+# ENABLE_FTS5
+```
+
+#### Building SQLCipher with FTS5 (recommended)
+
+If your system SQLCipher lacks FTS5, build from source:
+
+```bash
+# 1. Download
+wget -q https://github.com/sqlcipher/sqlcipher/archive/v4.5.6.tar.gz
+tar xf v4.5.6.tar.gz && cd sqlcipher-4.5.6
+
+# 2. Configure with FTS5
+./configure --prefix=/usr --enable-tempstore=yes --enable-fts5 \
+  CFLAGS="-DSQLITE_HAS_CODEC -DSQLITE_ENABLE_COLUMN_METADATA -DSQLITE_ENABLE_FTS3 -DSQLITE_ENABLE_FTS3_PARENTHESIS -DSQLITE_ENABLE_FTS4 -DSQLITE_ENABLE_FTS5 -DSQLITE_ENABLE_UNLOCK_NOTIFY -DSQLITE_ENABLE_DBSTAT_VTAB" \
+  LDFLAGS="-lcrypto"
+
+# 3. Build and install
+make -j$(nproc)
+sudo make install
+sudo ldconfig
+
+# 4. Verify
+sqlcipher :memory: "PRAGMA compile_options;" | grep -i FTS5
+# Should output: ENABLE_FTS5
+```
+
+> **Note:** After installing from source, you may need to remove the distribution package (`sudo apt remove libsqlcipher-dev libsqlcipher1`) to avoid library conflicts. The AppImage and Flatpak builds handle this automatically.
+
+> **Note:** `scripts/ci-build-deps.sh` builds SQLCipher from source with FTS5 automatically. If you use it to prepare your build environment, no manual SQLCipher build is needed.
 
 ### Audio/Video calling stack
 
@@ -365,7 +414,7 @@ All scripts live in the `scripts/` directory. Debug scripts are documented in [D
 |--------|--------|
 | `scripts/build-appimage.sh` | Build a portable AppImage for Linux. Auto-detects architecture (x86_64/aarch64), copies runtime libraries, GStreamer plugins, and icons into an AppDir, then packages it with `appimagetool`. Use on a clean build host for reproducible results. |
 | `scripts/update_dist.sh` | Collect the Windows build into a `dist/` folder: `dinox.exe`, all required DLLs, GStreamer plugins, Tor/obfs4proxy binaries, SSL certs, icons. Run after `ninja -C build` in MSYS2. |
-| `scripts/ci-build-deps.sh` | CI pipeline script: runs `scripts/scan_unicode.py`, then builds `webrtc-audio-processing` from source. Used in automated builds to prepare dependencies. |
+| `scripts/ci-build-deps.sh` | CI pipeline script: runs `scripts/scan_unicode.py`, then builds **SQLCipher** (with FTS5), **webrtc-audio-processing**, **libnice**, and **libomemo-c** from source. Used in automated builds and AppImage CI to prepare dependencies. |
 | `scripts/dinox.bat` | Windows launcher (legacy/fallback). Sets `PATH` and launches `dinox.exe`. Kept for backward compatibility — `dinox.exe` now sets all environment variables internally. |
 
 ### Release
