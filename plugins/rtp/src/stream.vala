@@ -76,7 +76,8 @@ public class Dino.Plugins.Rtp.Stream : Xmpp.Xep.JingleRtp.Stream {
     private bool dtmf_marker_sent = false;     // Marker bit sent on first packet
     private int dtmf_end_counter = 0;          // End packet redundancy counter
     private uint32 dtmf_duration_samples = 0;   // Duration threshold in audio clockrate units
-    private Gee.LinkedList<char> dtmf_queue = new Gee.LinkedList<char>();  // Queued digits
+    private Gee.LinkedList<int> dtmf_pending = new Gee.LinkedList<int>();  // Thread-safe via dtmf_mutex
+    private GLib.Mutex dtmf_mutex = GLib.Mutex();
 
     // Signal handler IDs for proper cleanup
     private ulong senders_changed_handler_id;
@@ -127,7 +128,7 @@ public class Dino.Plugins.Rtp.Stream : Xmpp.Xep.JingleRtp.Stream {
             return;
         }
 
-        // Resolve PT on first use
+        // Resolve PT on first use (main thread only, before streaming starts)
         if (dtmf_payload_type == 0) {
             resolve_dtmf_payload_type();
         }
@@ -136,20 +137,19 @@ public class Dino.Plugins.Rtp.Stream : Xmpp.Xep.JingleRtp.Stream {
             return;
         }
 
-        // If already sending DTMF, queue for later
-        if (dtmf_active) {
-            dtmf_queue.offer(digit);
-            debug("DTMF active, queued digit '%c' (queue size: %d)", digit, dtmf_queue.size);
-            return;
-        }
-
-        start_dtmf_digit(digit, event_code, duration_ms);
+        // Push digit+duration into thread-safe queue — streaming thread picks it up
+        // Encode: event_code in low 8 bits, duration_ms in high 24 bits
+        int encoded = (int)((duration_ms << 8) | (event_code & 0xFF));
+        dtmf_mutex.@lock();
+        dtmf_pending.offer(encoded);
+        dtmf_mutex.unlock();
+        debug("DTMF digit '%c' (event %d) queued for streaming thread", digit, event_code);
     }
 
-    private void start_dtmf_digit(char digit, int event_code, uint duration_ms) {
-        debug("Sending DTMF digit '%c' (event %d, PT %u, duration %u ms)", digit, event_code, dtmf_payload_type, duration_ms);
+    private void start_dtmf_digit_internal(int event_code, uint duration_ms) {
+        debug("Streaming thread: starting DTMF event %d (duration %u ms)", event_code, duration_ms);
 
-        // Start DTMF injection
+        // Start DTMF injection — all state mutations on streaming thread only
         dtmf_event_code = event_code;
         dtmf_marker_sent = false;
         dtmf_start_timestamp = 0;  // Will be set from first intercepted audio packet
@@ -244,13 +244,17 @@ public class Dino.Plugins.Rtp.Stream : Xmpp.Xep.JingleRtp.Stream {
                 dtmf_event_code = -1;
                 debug("DTMF completed (all end packets sent, last seq=%u)", seqnum);
 
-                // Process next queued digit directly (no main-loop Idle.add)
-                if (!dtmf_queue.is_empty) {
-                    char next_digit = dtmf_queue.poll();
-                    int next_code = dtmf_digit_to_event(next_digit);
-                    if (next_code >= 0) {
-                        start_dtmf_digit(next_digit, next_code, 250);
-                    }
+                // Check for next queued digit (mutex-protected)
+                dtmf_mutex.@lock();
+                if (!dtmf_pending.is_empty) {
+                    int next_encoded = dtmf_pending.poll();
+                    dtmf_mutex.unlock();
+                    int next_code = next_encoded & 0xFF;
+                    uint next_dur = (uint)(next_encoded >> 8);
+                    if (next_dur == 0) next_dur = 250;
+                    start_dtmf_digit_internal(next_code, next_dur);
+                } else {
+                    dtmf_mutex.unlock();
                 }
             }
         }
@@ -584,6 +588,20 @@ public class Dino.Plugins.Rtp.Stream : Xmpp.Xep.JingleRtp.Stream {
                 warning_once("Sending RTP %s buffer seq %u with SSRC %u when our ssrc is %u", media, buffer_seq, buffer_ssrc, our_ssrc);
             }
 #endif
+            // DTMF: check pending queue from main thread (mutex-protected)
+            if (!dtmf_active) {
+                dtmf_mutex.@lock();
+                if (!dtmf_pending.is_empty) {
+                    int encoded = dtmf_pending.poll();
+                    dtmf_mutex.unlock();
+                    int evt = encoded & 0xFF;
+                    uint dur = (uint)(encoded >> 8);
+                    if (dur == 0) dur = 250;
+                    start_dtmf_digit_internal(evt, dur);
+                } else {
+                    dtmf_mutex.unlock();
+                }
+            }
             // DTMF injection: replace audio buffer with RFC 4733 packet
             if (dtmf_active && dtmf_event_code >= 0) {
                 uint8[] audio_data;
@@ -745,6 +763,10 @@ public class Dino.Plugins.Rtp.Stream : Xmpp.Xep.JingleRtp.Stream {
         dtmf_active = false;
         dtmf_event_code = -1;
         dtmf_payload_type = 0;
+        // Drain pending DTMF queue
+        dtmf_mutex.@lock();
+        dtmf_pending.clear();
+        dtmf_mutex.unlock();
 
         // Disconnect input device
         if (input != null) {

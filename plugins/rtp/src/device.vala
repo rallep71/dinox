@@ -69,6 +69,7 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
     private Gst.Element? echo_convert;
     private Gst.Element? echo_resample;
     private Gst.Element? echo_filter;
+    private Gst.Element? recv_volume; // Volume element for receive ramp-up
     private int links;
 
     // Codecs
@@ -574,6 +575,26 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
                 mixer = (Gst.Base.Aggregator) Gst.ElementFactory.make("audiomixer", @"mixer_$id");
                 pipe.add(mixer);
                 mixer.sync_state_with_parent();
+
+                // Volume ramp-up on receive path to prevent initial crackling
+                recv_volume = Gst.ElementFactory.make("volume", @"recv_vol_$id");
+                pipe.add(recv_volume);
+                recv_volume.@set("volume", 0.0);
+                recv_volume.sync_state_with_parent();
+                mixer.link(recv_volume);
+                // Ramp up from 0.0 to 1.0 over 200ms (10 steps × 20ms)
+                double recv_vol = 0.0;
+                GLib.Timeout.add(20, () => {
+                    recv_vol += 0.1;
+                    if (recv_volume == null) return false;
+                    if (recv_vol >= 1.0) {
+                        recv_volume.@set("volume", 1.0);
+                        return false;
+                    }
+                    recv_volume.@set("volume", recv_vol);
+                    return true;
+                });
+
                 if (plugin.echoprobe != null && !plugin.echoprobe.get_static_pad("src").is_linked()) {
                     // Ensure the echo reference matches VoiceProcessor's expected format (48kHz/mono/S16LE)
                     // to avoid caps mismatches (e.g. stereo from some peers/devices) degrading AEC.
@@ -589,13 +610,13 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
                         echo_resample.sync_state_with_parent();
                         echo_filter.sync_state_with_parent();
 
-                        mixer.link(echo_convert);
+                        recv_volume.link(echo_convert);
                         echo_convert.link(echo_resample);
                         echo_resample.link(echo_filter);
                         echo_filter.link(plugin.echoprobe);
                         plugin.echoprobe.link(element);
                     } else {
-                        mixer.link(plugin.echoprobe);
+                        recv_volume.link(plugin.echoprobe);
                         plugin.echoprobe.link(element);
                     }
                 } else {
@@ -603,7 +624,7 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
                     filter.@set("caps", device_caps);
                     pipe.add(filter);
                     filter.sync_state_with_parent();
-                    mixer.link(filter);
+                    recv_volume.link(filter);
                     filter.link(element);
                 }
             }
@@ -627,7 +648,9 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
                     if (echo_filter != null) echo_filter.unlink(plugin.echoprobe);
                     if (echo_resample != null && echo_filter != null) echo_resample.unlink(echo_filter);
                     if (echo_convert != null && echo_resample != null) echo_convert.unlink(echo_resample);
-                    if (echo_convert != null) mixer.unlink(echo_convert);
+                    if (recv_volume != null && echo_convert != null) recv_volume.unlink(echo_convert);
+                    else if (recv_volume != null) recv_volume.unlink(plugin.echoprobe);
+                    if (recv_volume != null) mixer.unlink(recv_volume);
                     else mixer.unlink(plugin.echoprobe);
                 } else if (element != null) {
                     mixer.unlink(element);
@@ -657,6 +680,12 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
                 filter.unlink(element);
                 pipe.remove(filter);
                 filter = null;
+            }
+            if (recv_volume != null) {
+                recv_volume.set_locked_state(true);
+                recv_volume.set_state(Gst.State.NULL);
+                pipe.remove(recv_volume);
+                recv_volume = null;
             }
             if (plugin.echoprobe != null && element != null) {
                 plugin.echoprobe.unlink(element);

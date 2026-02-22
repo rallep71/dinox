@@ -27,6 +27,8 @@ public class Dino.Ui.CallDialpad : Gtk.Popover {
     private Gst.Pipeline? tone_pipeline = null;
     private Gst.Element? tone_src_low = null;
     private Gst.Element? tone_src_high = null;
+    private Gst.Element? vol_low = null;
+    private Gst.Element? vol_high = null;
     private uint tone_timeout_id = 0;
     private bool pipeline_ready = false;
 
@@ -99,12 +101,17 @@ public class Dino.Ui.CallDialpad : Gtk.Popover {
     private void ensure_pipeline() {
         if (pipeline_ready) return;
         try {
-            string desc = "audiotestsrc name=src_lo wave=sine volume=0.3 ! audio/x-raw,rate=44100 ! audiomixer name=mix ! autoaudiosink  audiotestsrc name=src_hi wave=sine volume=0.3 ! audio/x-raw,rate=44100 ! mix.";
+            // Pipeline stays in PLAYING permanently.
+            // Silence keepalive branch keeps audiomixer/sink alive at all times.
+            // Volume elements on tone branches: volume=0.0 → silent, volume=0.3 → tone.
+            // Unlike valve (abrupt cut → click), volume gives smooth gating.
+            string desc = "audiotestsrc wave=silence is-live=true ! audio/x-raw,rate=44100 ! audiomixer name=mix ! autoaudiosink  audiotestsrc name=src_lo wave=sine freq=697 is-live=true ! volume name=vol_lo volume=0.0 ! audio/x-raw,rate=44100 ! mix.  audiotestsrc name=src_hi wave=sine freq=1209 is-live=true ! volume name=vol_hi volume=0.0 ! audio/x-raw,rate=44100 ! mix.";
             tone_pipeline = (Gst.Pipeline) Gst.parse_launch(desc);
             tone_src_low = tone_pipeline.get_by_name("src_lo");
             tone_src_high = tone_pipeline.get_by_name("src_hi");
-            // Keep pipeline in READY state — not producing audio yet
-            tone_pipeline.set_state(Gst.State.READY);
+            vol_low = tone_pipeline.get_by_name("vol_lo");
+            vol_high = tone_pipeline.get_by_name("vol_hi");
+            tone_pipeline.set_state(Gst.State.PLAYING);
             pipeline_ready = true;
         } catch (Error e) {
             debug("DTMF tone pipeline creation failed: %s", e.message);
@@ -113,7 +120,7 @@ public class Dino.Ui.CallDialpad : Gtk.Popover {
 
     private void play_local_tone(int idx) {
         ensure_pipeline();
-        if (!pipeline_ready || tone_src_low == null || tone_src_high == null) return;
+        if (!pipeline_ready || vol_low == null || vol_high == null) return;
 
         // Cancel previous tone-off timer
         if (tone_timeout_id != 0) {
@@ -121,18 +128,16 @@ public class Dino.Ui.CallDialpad : Gtk.Popover {
             tone_timeout_id = 0;
         }
 
-        // Stop pipeline briefly to update frequencies
-        tone_pipeline.set_state(Gst.State.READY);
+        // Set frequencies and unmute
         tone_src_low.@set("freq", (double) DTMF_LOW[idx]);
         tone_src_high.@set("freq", (double) DTMF_HIGH[idx]);
-        // Start playing the tone
-        tone_pipeline.set_state(Gst.State.PLAYING);
+        vol_low.@set("volume", 0.3);
+        vol_high.@set("volume", 0.3);
 
-        // Stop after 120ms by moving back to READY
-        tone_timeout_id = GLib.Timeout.add(120, () => {
-            if (tone_pipeline != null) {
-                tone_pipeline.set_state(Gst.State.READY);
-            }
+        // Mute after 150ms
+        tone_timeout_id = GLib.Timeout.add(150, () => {
+            if (vol_low != null) vol_low.@set("volume", 0.0);
+            if (vol_high != null) vol_high.@set("volume", 0.0);
             tone_timeout_id = 0;
             return false;
         });
@@ -149,6 +154,8 @@ public class Dino.Ui.CallDialpad : Gtk.Popover {
         }
         tone_src_low = null;
         tone_src_high = null;
+        vol_low = null;
+        vol_high = null;
         pipeline_ready = false;
     }
 

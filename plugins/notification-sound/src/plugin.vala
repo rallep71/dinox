@@ -8,9 +8,16 @@ public class Plugin : RootInterface, Object {
 
     public Dino.Application app;
     private Canberra.Context? sound_context;
+
+    // Incoming call ringtone state
     private uint ringtone_timeout_id = 0;
     private Call? ringing_call = null;
     private ulong ringing_state_handler = 0;
+
+    // Outgoing call ringback state
+    private uint ringback_timeout_id = 0;
+    private Call? ringback_call = null;
+    private ulong ringback_state_handler = 0;
 
     public void registered(Dino.Application app) {
         this.app = app;
@@ -27,6 +34,7 @@ public class Plugin : RootInterface, Object {
 
         app.stream_interactor.get_module<NotificationEvents>(NotificationEvents.IDENTITY).notify_content_item.connect(on_notify_content_item);
         app.stream_interactor.get_module<Calls>(Calls.IDENTITY).call_incoming.connect(on_call_incoming);
+        app.stream_interactor.get_module<Calls>(Calls.IDENTITY).call_outgoing.connect(on_call_outgoing);
         app.stream_interactor.get_module<Calls>(Calls.IDENTITY).call_terminated.connect(on_call_terminated);
     }
 
@@ -36,6 +44,8 @@ public class Plugin : RootInterface, Object {
             Canberra.PROP_EVENT_ID, "message-new-instant",
             Canberra.PROP_EVENT_DESCRIPTION, "New message");
     }
+
+    // ── Incoming call ringtone ──────────────────────────────────────────
 
     private void on_call_incoming(Call call, CallState state, Conversation conversation, bool video, bool multiparty) {
         if (sound_context == null) return;
@@ -63,12 +73,6 @@ public class Plugin : RootInterface, Object {
         });
     }
 
-    private void on_call_terminated(Call call, string? reason_name, string? reason_text) {
-        if (ringing_call != null && ringing_call == call) {
-            stop_ringtone();
-        }
-    }
-
     private void play_ringtone() {
         if (sound_context == null) return;
         sound_context.play(1,
@@ -91,8 +95,72 @@ public class Plugin : RootInterface, Object {
         ringing_call = null;
     }
 
+    // ── Outgoing call ringback tone ─────────────────────────────────────
+
+    private void on_call_outgoing(Call call, CallState state, Conversation conversation) {
+        if (sound_context == null) return;
+
+        // Stop any previous ringback
+        stop_ringback();
+
+        ringback_call = call;
+
+        // Start ringback immediately — don't wait for session-info ringing
+        // (JMI-based calls don't send session-info ringing)
+        play_ringback();
+        ringback_timeout_id = GLib.Timeout.add_seconds(3, () => {
+            if (ringback_call == null || ringback_call.state != Call.State.RINGING) {
+                stop_ringback();
+                return GLib.Source.REMOVE;
+            }
+            play_ringback();
+            return GLib.Source.CONTINUE;
+        });
+
+        // Monitor call state changes to stop ringback
+        ringback_state_handler = call.notify["state"].connect(() => {
+            if (call.state != Call.State.RINGING) {
+                stop_ringback();
+            }
+        });
+    }
+
+    private void play_ringback() {
+        if (sound_context == null) return;
+        sound_context.play(2,
+            Canberra.PROP_EVENT_ID, "phone-outgoing-calling",
+            Canberra.PROP_EVENT_DESCRIPTION, "Outgoing call ringing");
+    }
+
+    private void stop_ringback() {
+        if (ringback_timeout_id != 0) {
+            GLib.Source.remove(ringback_timeout_id);
+            ringback_timeout_id = 0;
+        }
+        if (sound_context != null) {
+            sound_context.cancel(2);
+        }
+        if (ringback_call != null && ringback_state_handler != 0) {
+            ringback_call.disconnect(ringback_state_handler);
+            ringback_state_handler = 0;
+        }
+        ringback_call = null;
+    }
+
+    // ── Common ──────────────────────────────────────────────────────────
+
+    private void on_call_terminated(Call call, string? reason_name, string? reason_text) {
+        if (ringing_call != null && ringing_call == call) {
+            stop_ringtone();
+        }
+        if (ringback_call != null && ringback_call == call) {
+            stop_ringback();
+        }
+    }
+
     public void shutdown() {
         stop_ringtone();
+        stop_ringback();
         sound_context = null;
     }
 }

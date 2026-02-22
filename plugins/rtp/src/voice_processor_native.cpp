@@ -50,19 +50,19 @@ extern "C" void *dino_plugins_rtp_voice_processor_init_native(gint stream_delay)
     
     webrtc::AudioProcessing::Config config;
     config.echo_canceller.enabled = true;
-    config.echo_canceller.mobile_mode = true;
+    config.echo_canceller.mobile_mode = false; // Desktop mode: better echo cancellation quality
     
     config.noise_suppression.enabled = true;
-    config.noise_suppression.level = webrtc::AudioProcessing::Config::NoiseSuppression::kHigh;
+    config.noise_suppression.level = webrtc::AudioProcessing::Config::NoiseSuppression::kModerate; // kHigh was too aggressive, caused robotic artifacts
     
     config.gain_controller1.enabled = true;
-    config.gain_controller1.mode = webrtc::AudioProcessing::Config::GainController1::kAdaptiveDigital;
+    config.gain_controller1.mode = webrtc::AudioProcessing::Config::GainController1::kFixedDigital; // Fixed gain: no adaptive cutting of words
     config.gain_controller1.target_level_dbfs = 3;
-    config.gain_controller1.compression_gain_db = 9; // Slightly boosted default
+    config.gain_controller1.compression_gain_db = 6;
     config.gain_controller1.enable_limiter = true;
     
     config.high_pass_filter.enabled = true;
-    config.transient_suppression.enabled = true;
+    config.transient_suppression.enabled = false; // Disabled: was cutting first syllables of sentences
     
 #ifdef WEBRTC1
     config.level_estimation.enabled = true;

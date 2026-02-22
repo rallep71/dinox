@@ -215,7 +215,7 @@ public class Dino.Plugins.Rtp.CodecUtil {
 
         // OPUS
         if (encode == "opusenc") {
-            if (payload_type != null && payload_type.parameters.has("useinbandfec", "1")) return " audio-type=voice inband-fec=true";
+            if (payload_type != null && payload_type.parameters.has("useinbandfec", "1")) return " audio-type=voice inband-fec=true packet-loss-percentage=10";
             return " audio-type=voice";
         }
 
