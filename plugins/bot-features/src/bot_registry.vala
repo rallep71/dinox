@@ -99,18 +99,19 @@ public class BotRegistry : Qlite.Database {
     public SettingsTable settings;
     public AuditLogTable audit_log;
 
-    public BotRegistry(string db_path) throws Error {
+    public BotRegistry(string db_path, string? key = null) throws Error {
         base(db_path, VERSION);
         bot = new BotTable(this);
         bot_command = new BotCommandTable(this);
         update_queue = new UpdateTable(this);
         settings = new SettingsTable(this);
         audit_log = new AuditLogTable(this);
-        init({bot, bot_command, update_queue, settings, audit_log});
+        init({bot, bot_command, update_queue, settings, audit_log}, key);
 
         try {
             exec("PRAGMA journal_mode = WAL");
             exec("PRAGMA synchronous = NORMAL");
+            exec("PRAGMA secure_delete = ON");
         } catch (Error e) {
             warning("BotRegistry: PRAGMA error: %s", e.message);
         }

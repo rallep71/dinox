@@ -223,7 +223,9 @@ public class MatchQueryBuilder : QueryBuilder {
         base(db);
         if (table.fts_columns == null) error("MATCH query on non FTS table");
         from(table);
-        join_name(@"_fts_$table_name", @"_fts_$table_name.docid = $table_name.rowid");
+        // FTS5 uses rowid, FTS4 uses docid
+        string fts_id = db.fts5_available ? "rowid" : "docid";
+        join_name(@"_fts_$table_name", @"_fts_$table_name.$fts_id = $table_name.rowid");
     }
 
     public MatchQueryBuilder match(Column<string> column, string match) {

@@ -1,4 +1,5 @@
 using Sqlite;
+using Posix;
 
 namespace Qlite {
 
@@ -7,6 +8,7 @@ public class Database {
     private Sqlite.Database db;
     private long expected_version;
     private Table[]? tables;
+    public bool fts5_available { get; private set; default = false; }
 
     private static bool logged_plaintext_fallback = false;
     private static bool logged_plaintext_migration = false;
@@ -84,8 +86,52 @@ public class Database {
             }
         }
 
+        // S4: Restrict file permissions to owner-only (0600) — after potential migration which replaces the file
+        Posix.chmod(file_name, Posix.S_IRUSR | Posix.S_IWUSR);
+        // Also chmod WAL and SHM files if they exist
+        if (FileUtils.test(file_name + "-wal", FileTest.EXISTS)) {
+            Posix.chmod(file_name + "-wal", Posix.S_IRUSR | Posix.S_IWUSR);
+        }
+        if (FileUtils.test(file_name + "-shm", FileTest.EXISTS)) {
+            Posix.chmod(file_name + "-shm", Posix.S_IRUSR | Posix.S_IWUSR);
+        }
+
         this.tables = tables;
         if (debug) db.trace((message) => GLib.debug(@"Qlite trace: $message"));
+
+        // Detect FTS5 availability at runtime
+        Sqlite.Database fts_test_db;
+        if (Sqlite.Database.open_v2(":memory:", out fts_test_db, OPEN_READWRITE | OPEN_CREATE) == Sqlite.OK) {
+            fts5_available = (fts_test_db.exec("CREATE VIRTUAL TABLE _fts5_test USING fts5(x)", null, null) == Sqlite.OK);
+            fts_test_db = null;
+        }
+
+        // B5: Enable foreign key enforcement (must be outside transaction, per-connection)
+        db.exec("PRAGMA foreign_keys = ON;", null, null);
+
+        // O1: Check current auto_vacuum mode; if NONE, switch to INCREMENTAL via VACUUM
+        // PRAGMA auto_vacuum must be set before VACUUM converts the database.
+        // Must happen BEFORE start_migration() since VACUUM can't run in a transaction.
+        int auto_vac_mode = -1;
+        {
+            Sqlite.Statement av_stmt;
+            if (db.prepare_v2("PRAGMA auto_vacuum", -1, out av_stmt) == Sqlite.OK) {
+                if (av_stmt.step() == Sqlite.ROW) {
+                    auto_vac_mode = av_stmt.column_int(0);
+                }
+            }
+            // av_stmt goes out of scope here → finalized → no read lock
+        }
+        if (auto_vac_mode == 0) {  // NONE — convert to INCREMENTAL
+            db.exec("PRAGMA auto_vacuum = INCREMENTAL", null, null);
+            int vc = db.exec("VACUUM", null, null);
+            if (vc == Sqlite.OK) {
+                message("Qlite: Converted database \"%s\" to incremental auto-vacuum.", file_name);
+            } else {
+                warning("Qlite: Failed to VACUUM \"%s\" for auto_vacuum conversion: %s", file_name, db.errmsg());
+            }
+        }
+
         start_migration();
     }
 

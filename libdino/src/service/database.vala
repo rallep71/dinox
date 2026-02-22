@@ -16,7 +16,7 @@ using Dino.Entities;
 namespace Dino {
 
 public class Database : Qlite.Database {
-    private const int VERSION = 37;
+    private const int VERSION = 39;
 
     public class AccountTable : Table {
         public Column<int> id = new Column.Integer("id") { primary_key = true, auto_increment = true };
@@ -239,6 +239,7 @@ public class Database : Qlite.Database {
             init({id, file_sharing_id, account_id, counterpart_id, counterpart_resource, our_resource, direction,
                 time, local_time, encryption, file_name, path, mime_type, size, state, provider, info, modification_date,
                 width, height, length, is_sticker, sticker_pack_id, sticker_pack_jid, sticker_pack_node});
+            index("file_transfer_account_counterpart_idx", {account_id, counterpart_id});
         }
     }
 
@@ -371,6 +372,7 @@ public class Database : Qlite.Database {
         internal ConversationTable(Database db) {
             base(db, "conversation");
             init({id, account_id, jid_id, resource, active, active_last_changed, last_active, type_, encryption, read_up_to, read_up_to_item, notification, send_typing, send_marker, pinned, history_cleared_at, message_expiry_seconds});
+            unique({account_id, jid_id, type_}, "IGNORE");
         }
     }
 
@@ -752,6 +754,77 @@ public class Database : Qlite.Database {
                 exec(@"UPDATE conversation SET active_last_changed=$active_last_updated WHERE active_last_changed=0");
             } catch (Error e) {
                 error("Failed to upgrade to database version 23 (conversation): %s", e.message);
+            }
+        }
+        if (oldVersion < 38) {
+            // B1: Remove duplicate conversations — keep the one with the lower id
+            try {
+                exec("""DELETE FROM conversation WHERE id NOT IN (
+                    SELECT MIN(id) FROM conversation GROUP BY account_id, jid_id, type)""");
+            } catch (Error e) {
+                warning("Failed to clean up duplicate conversations: %s", e.message);
+            }
+
+            // B1: Add UNIQUE constraint on (account_id, jid_id, type)
+            try {
+                exec("CREATE UNIQUE INDEX IF NOT EXISTS conversation_account_jid_type_idx ON conversation (account_id, jid_id, type)");
+            } catch (Error e) {
+                warning("Failed to create unique conversation index: %s", e.message);
+            }
+
+            // O2: Add missing file_transfer indexes
+            try {
+                exec("CREATE INDEX IF NOT EXISTS file_transfer_account_counterpart_idx ON file_transfer (account_id, counterpart_id)");
+            } catch (Error e) {
+                warning("Failed to create file_transfer index: %s", e.message);
+            }
+
+            // B2: Clean up orphaned messages (messages without content_items that have empty or url-only bodies)
+            try {
+                exec("""DELETE FROM message WHERE id NOT IN (
+                    SELECT foreign_id FROM content_item WHERE content_type = 1)
+                    AND body IS NOT NULL AND (body = '' OR body LIKE 'aesgcm://%')""");
+            } catch (Error e) {
+                warning("Failed to clean up orphaned messages: %s", e.message);
+            }
+
+            // B3: Clean up orphaned real_jid entries referencing deleted messages
+            try {
+                exec("DELETE FROM real_jid WHERE message_id NOT IN (SELECT id FROM message)");
+            } catch (Error e) {
+                warning("Failed to clean up orphaned real_jid entries: %s", e.message);
+            }
+        }
+        if (oldVersion < 39) {
+            // O3: Migrate FTS4 → FTS5 for message full-text search (only if FTS5 available)
+            if (fts5_available) {
+                try {
+                    // Drop old FTS4 virtual table and triggers
+                    exec("DROP TABLE IF EXISTS _fts_message");
+                    exec("DROP TRIGGER IF EXISTS _fts_bu_message");
+                    exec("DROP TRIGGER IF EXISTS _fts_bd_message");
+                    exec("DROP TRIGGER IF EXISTS _fts_au_message");
+                    exec("DROP TRIGGER IF EXISTS _fts_ai_message");
+
+                    // Create new FTS5 virtual table
+                    exec("CREATE VIRTUAL TABLE IF NOT EXISTS _fts_message USING fts5(body, content='message', content_rowid='rowid', tokenize='unicode61')");
+
+                    // Create FTS5 content-sync triggers
+                    exec("CREATE TRIGGER IF NOT EXISTS _fts_bu_message BEFORE UPDATE ON message BEGIN INSERT INTO _fts_message(_fts_message, rowid, body) VALUES('delete', old.rowid, old.body); END");
+                    exec("CREATE TRIGGER IF NOT EXISTS _fts_bd_message BEFORE DELETE ON message BEGIN INSERT INTO _fts_message(_fts_message, rowid, body) VALUES('delete', old.rowid, old.body); END");
+                    exec("CREATE TRIGGER IF NOT EXISTS _fts_au_message AFTER UPDATE ON message BEGIN INSERT INTO _fts_message(rowid, body) VALUES(new.rowid, new.body); END");
+                    exec("CREATE TRIGGER IF NOT EXISTS _fts_ai_message AFTER INSERT ON message BEGIN INSERT INTO _fts_message(rowid, body) VALUES(new.rowid, new.body); END");
+
+                    // Rebuild FTS5 index from existing messages
+                    exec("INSERT INTO _fts_message(_fts_message) VALUES('rebuild')");
+
+                    print("Database: Migrated FTS4 → FTS5 for message search.\n");
+                } catch (Error e) {
+                    warning("Failed to migrate FTS4 → FTS5: %s", e.message);
+                }
+            } else {
+                // FTS5 not available — keep FTS4, just rebuild index
+                message.fts_rebuild();
             }
         }
     }

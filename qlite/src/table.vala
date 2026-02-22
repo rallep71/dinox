@@ -28,19 +28,40 @@ public class Table {
     public void fts(Column[] columns) {
         if (fts_columns != null) error("Only one FTS index may be used per table.");
         fts_columns = columns;
-        string cs = "";
+        string cnames_bare = "";  // column names without leading comma
         string cnames = "";
         string cnews = "";
+        string colds = "";
+        bool first = true;
         foreach (Column c in columns) {
-            cs += @", $(c.to_column_definition())";
+            if (!first) cnames_bare += ", ";
+            cnames_bare += c.name;
             cnames += @", $(c.name)";
             cnews += @", new.$(c.name)";
+            colds += @", old.$(c.name)";
+            first = false;
         }
-        add_create_statement(@"CREATE VIRTUAL TABLE IF NOT EXISTS _fts_$name USING fts4(tokenize=unicode61, content=\"$name\"$cs)");
-        add_post_statement(@"CREATE TRIGGER IF NOT EXISTS _fts_bu_$(name) BEFORE UPDATE ON $name BEGIN DELETE FROM _fts_$name WHERE docid=old.rowid; END");
-        add_post_statement(@"CREATE TRIGGER IF NOT EXISTS _fts_bd_$(name) BEFORE DELETE ON $name BEGIN DELETE FROM _fts_$name WHERE docid=old.rowid; END");
-        add_post_statement(@"CREATE TRIGGER IF NOT EXISTS _fts_au_$(name) AFTER UPDATE ON $name BEGIN INSERT INTO _fts_$name(docid$cnames) VALUES(new.rowid$cnews); END");
-        add_post_statement(@"CREATE TRIGGER IF NOT EXISTS _fts_ai_$(name) AFTER INSERT ON $name BEGIN INSERT INTO _fts_$name(docid$cnames) VALUES(new.rowid$cnews); END");
+
+        if (db.fts5_available) {
+            // FTS5 external content table
+            add_create_statement(@"CREATE VIRTUAL TABLE IF NOT EXISTS _fts_$name USING fts5($cnames_bare, content='$name', content_rowid='rowid', tokenize='unicode61')");
+            // FTS5 content-sync triggers: delete uses INSERT ... VALUES('delete', ...)
+            add_post_statement(@"CREATE TRIGGER IF NOT EXISTS _fts_bu_$(name) BEFORE UPDATE ON $name BEGIN INSERT INTO _fts_$name(_fts_$name, rowid$cnames) VALUES('delete', old.rowid$colds); END");
+            add_post_statement(@"CREATE TRIGGER IF NOT EXISTS _fts_bd_$(name) BEFORE DELETE ON $name BEGIN INSERT INTO _fts_$name(_fts_$name, rowid$cnames) VALUES('delete', old.rowid$colds); END");
+            add_post_statement(@"CREATE TRIGGER IF NOT EXISTS _fts_au_$(name) AFTER UPDATE ON $name BEGIN INSERT INTO _fts_$name(rowid$cnames) VALUES(new.rowid$cnews); END");
+            add_post_statement(@"CREATE TRIGGER IF NOT EXISTS _fts_ai_$(name) AFTER INSERT ON $name BEGIN INSERT INTO _fts_$name(rowid$cnames) VALUES(new.rowid$cnews); END");
+        } else {
+            // FTS4 fallback for systems without FTS5 (e.g. distro sqlcipher)
+            string cs = "";
+            foreach (Column c in columns) {
+                cs += @", $(c.to_column_definition())";
+            }
+            add_create_statement(@"CREATE VIRTUAL TABLE IF NOT EXISTS _fts_$name USING fts4(tokenize=unicode61, content=\"$name\"$cs)");
+            add_post_statement(@"CREATE TRIGGER IF NOT EXISTS _fts_bu_$(name) BEFORE UPDATE ON $name BEGIN DELETE FROM _fts_$name WHERE docid=old.rowid; END");
+            add_post_statement(@"CREATE TRIGGER IF NOT EXISTS _fts_bd_$(name) BEFORE DELETE ON $name BEGIN DELETE FROM _fts_$name WHERE docid=old.rowid; END");
+            add_post_statement(@"CREATE TRIGGER IF NOT EXISTS _fts_au_$(name) AFTER UPDATE ON $name BEGIN INSERT INTO _fts_$name(docid$cnames) VALUES(new.rowid$cnews); END");
+            add_post_statement(@"CREATE TRIGGER IF NOT EXISTS _fts_ai_$(name) AFTER INSERT ON $name BEGIN INSERT INTO _fts_$name(docid$cnames) VALUES(new.rowid$cnews); END");
+        }
     }
 
     public void fts_rebuild() {
