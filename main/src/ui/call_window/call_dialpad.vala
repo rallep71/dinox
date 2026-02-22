@@ -23,6 +23,11 @@ public class Dino.Ui.CallDialpad : Gtk.Popover {
     private const int[] DTMF_LOW  = { 697, 697, 697, 770, 770, 770, 852, 852, 852, 941, 941, 941 };
     private const int[] DTMF_HIGH = { 1209, 1336, 1477, 1209, 1336, 1477, 1209, 1336, 1477, 1209, 1336, 1477 };
 
+    // Debounce: prevent double-sending within 300ms
+    private int64 last_digit_time = 0;
+    private char last_digit_char = '\0';
+    private const int64 DEBOUNCE_US = 300000; // 300ms in microseconds
+
     // Persistent tone pipeline — created once, reused for all tones
     private Gst.Pipeline? tone_pipeline = null;
     private Gst.Element? tone_src_low = null;
@@ -78,6 +83,15 @@ public class Dino.Ui.CallDialpad : Gtk.Popover {
             string digit_str = BUTTON_LABELS[i];
             int tone_idx = i;
             button.clicked.connect(() => {
+                // Debounce: ignore same digit within 300ms
+                int64 now = GLib.get_monotonic_time();
+                if (digit_str[0] == last_digit_char && (now - last_digit_time) < DEBOUNCE_US) {
+                    debug("DTMF debounce: ignoring duplicate '%c' within 300ms", digit_str[0]);
+                    return;
+                }
+                last_digit_char = digit_str[0];
+                last_digit_time = now;
+
                 play_local_tone(tone_idx);
                 digit_pressed(digit_str[0]);
             });
