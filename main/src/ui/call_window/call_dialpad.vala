@@ -1,4 +1,5 @@
 using Gtk;
+using Gst;
 
 public class Dino.Ui.CallDialpad : Gtk.Popover {
 
@@ -17,6 +18,17 @@ public class Dino.Ui.CallDialpad : Gtk.Popover {
         "PQRS", "TUV", "WXYZ",
         "", "+", ""
     };
+
+    // DTMF dual-tone frequencies (low, high) per digit
+    private const int[] DTMF_LOW  = { 697, 697, 697, 770, 770, 770, 852, 852, 852, 941, 941, 941 };
+    private const int[] DTMF_HIGH = { 1209, 1336, 1477, 1209, 1336, 1477, 1209, 1336, 1477, 1209, 1336, 1477 };
+
+    // Persistent tone pipeline — created once, reused for all tones
+    private Gst.Pipeline? tone_pipeline = null;
+    private Gst.Element? tone_src_low = null;
+    private Gst.Element? tone_src_high = null;
+    private uint tone_timeout_id = 0;
+    private bool pipeline_ready = false;
 
     public CallDialpad() {
         var grid = new Grid() {
@@ -62,7 +74,9 @@ public class Dino.Ui.CallDialpad : Gtk.Popover {
             button.add_css_class("dtmf-button");
 
             string digit_str = BUTTON_LABELS[i];
+            int tone_idx = i;
             button.clicked.connect(() => {
+                play_local_tone(tone_idx);
                 digit_pressed(digit_str[0]);
             });
 
@@ -72,5 +86,73 @@ public class Dino.Ui.CallDialpad : Gtk.Popover {
         this.set_child(grid);
         this.has_arrow = true;
         this.position = PositionType.TOP;
+
+        // Create the persistent tone pipeline once (in READY state)
+        ensure_pipeline();
+
+        // Destroy pipeline when popover closes
+        this.closed.connect(() => {
+            destroy_pipeline();
+        });
+    }
+
+    private void ensure_pipeline() {
+        if (pipeline_ready) return;
+        try {
+            string desc = "audiotestsrc name=src_lo wave=sine volume=0.3 ! audio/x-raw,rate=44100 ! audiomixer name=mix ! autoaudiosink  audiotestsrc name=src_hi wave=sine volume=0.3 ! audio/x-raw,rate=44100 ! mix.";
+            tone_pipeline = (Gst.Pipeline) Gst.parse_launch(desc);
+            tone_src_low = tone_pipeline.get_by_name("src_lo");
+            tone_src_high = tone_pipeline.get_by_name("src_hi");
+            // Keep pipeline in READY state — not producing audio yet
+            tone_pipeline.set_state(Gst.State.READY);
+            pipeline_ready = true;
+        } catch (Error e) {
+            debug("DTMF tone pipeline creation failed: %s", e.message);
+        }
+    }
+
+    private void play_local_tone(int idx) {
+        ensure_pipeline();
+        if (!pipeline_ready || tone_src_low == null || tone_src_high == null) return;
+
+        // Cancel previous tone-off timer
+        if (tone_timeout_id != 0) {
+            GLib.Source.remove(tone_timeout_id);
+            tone_timeout_id = 0;
+        }
+
+        // Stop pipeline briefly to update frequencies
+        tone_pipeline.set_state(Gst.State.READY);
+        tone_src_low.@set("freq", (double) DTMF_LOW[idx]);
+        tone_src_high.@set("freq", (double) DTMF_HIGH[idx]);
+        // Start playing the tone
+        tone_pipeline.set_state(Gst.State.PLAYING);
+
+        // Stop after 120ms by moving back to READY
+        tone_timeout_id = GLib.Timeout.add(120, () => {
+            if (tone_pipeline != null) {
+                tone_pipeline.set_state(Gst.State.READY);
+            }
+            tone_timeout_id = 0;
+            return false;
+        });
+    }
+
+    private void destroy_pipeline() {
+        if (tone_timeout_id != 0) {
+            GLib.Source.remove(tone_timeout_id);
+            tone_timeout_id = 0;
+        }
+        if (tone_pipeline != null) {
+            tone_pipeline.set_state(Gst.State.NULL);
+            tone_pipeline = null;
+        }
+        tone_src_low = null;
+        tone_src_high = null;
+        pipeline_ready = false;
+    }
+
+    ~CallDialpad() {
+        destroy_pipeline();
     }
 }

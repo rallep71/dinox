@@ -642,7 +642,6 @@ public class ConversationSelectorRow : ListBoxRow {
         var popover = new PopoverMenu.from_model(menu);
         popover.set_parent(this);
         popover.set_pointing_to({ (int)x, (int)y, 1, 1 });
-        popover.closed.connect(() => { popover.unparent(); });
         popover.popup();
     }
 

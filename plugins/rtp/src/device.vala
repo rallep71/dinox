@@ -544,11 +544,26 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
             // Insert Software Volume Control (Post-Processing)
             if (media == "audio") {
                 volume_element = Gst.ElementFactory.make("volume", @"vol_$id");
+                // Start muted, ramp up over 200ms to avoid PipeWire/PulseAudio init transients
+                volume_element.@set("volume", 0.0);
                 pipe.add(volume_element);
                 volume_element.sync_state_with_parent();
                 
                 (dsp ?? filter).link(volume_element);
                 volume_element.link(source_queue);
+
+                // Smooth ramp-up: 0→1.0 in 200ms (10 steps of 20ms)
+                int ramp_step = 0;
+                GLib.Timeout.add(20, () => {
+                    ramp_step++;
+                    double vol = ramp_step / 10.0;
+                    if (vol >= 1.0) {
+                        volume_element.@set("volume", 1.0);
+                        return false;
+                    }
+                    volume_element.@set("volume", vol);
+                    return true;
+                });
             } else {
                 (dsp ?? filter).link(source_queue);
             }

@@ -381,6 +381,20 @@ box.dino-input-error .chat-input-status.input-status-highlight-once {
     border: 0;
 }
 
+/* DTMF Dial Pad */
+.dtmf-digit {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.dtmf-sublabel {
+    font-size: 8px;
+}
+
+.dtmf-button:active {
+    background: alpha(@accent_color, 0.35);
+}
+
 .dino-call-window {
     background-color: #212121;
 }
