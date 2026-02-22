@@ -139,14 +139,39 @@ public class Dino.Ui.ViewModel.CompatAvatarPictureModel : AvatarPictureModel {
         });
     }
 
+    private uint room_update_timeout = 0;
+
     private void on_room_updated(Account account, Jid room) {
         if (conversation != null && account.equals(conversation.account) && conversation.counterpart.equals_bare(room)) {
-            reset();
-            set_conversation(conversation);
+            // Debounce: during login many occupant updates arrive rapidly.
+            // Collect them and rebuild once after 150ms.
+            if (room_update_timeout != 0) {
+                Source.remove(room_update_timeout);
+            }
+            room_update_timeout = Timeout.add(150, () => {
+                room_update_timeout = 0;
+                if (conversation != null) {
+                    reset();
+                    set_conversation(conversation);
+                }
+                return false;
+            });
         }
     }
 
     private void on_received_avatar(Jid jid, Account account) {
+        if (conversation == null || !account.equals(conversation.account)) return;
+        if (!conversation.counterpart.equals_bare(jid)) return;
+
+        // For 1:1 chats: individual tile handles its own avatar update
+        if (conversation.type_ != Conversation.Type.GROUPCHAT) return;
+
+        // For groupchats: only rebuild if the room-level avatar (bare JID) changed.
+        // Occupant avatars (full JIDs like room@conf/nick) are handled by
+        // ConversationParticipantAvatarPictureTileModel's own signal handler.
+        if (jid.is_full()) return;
+
+        // Room's own avatar changed — may need layout switch
         on_room_updated(account, jid);
     }
 
