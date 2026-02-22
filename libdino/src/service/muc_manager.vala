@@ -59,7 +59,14 @@ public class MucManager : StreamInteractionModule, Object {
             // Conversation is still active if only the account is disabled. We don't need to part the room in this
             // case, as we will just go offline instead.
             if (conversation.type_ == Conversation.Type.GROUPCHAT && !conversation.active) {
-                part(conversation.account, conversation.counterpart);
+                // Schedule part() in next idle cycle so UI handlers (collapse animation)
+                // run first, avoiding lag from synchronous stream.write() in exit().
+                Account acc = conversation.account;
+                Jid jid = conversation.counterpart;
+                Idle.add(() => {
+                    part(acc, jid);
+                    return false;
+                });
             }
         });
         stream_interactor.stream_resumed.connect((account, stream) => self_ping(account));
