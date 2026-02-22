@@ -222,7 +222,11 @@ public class FileManager : StreamInteractionModule, Object {
                 file_meta = file_encryptor.encrypt_file(conversation, file_transfer);
             }
 
-            FileSendData file_send_data = yield file_sender.prepare_send_file(conversation, file_transfer, file_meta);
+            FileSendData? file_send_data = yield file_sender.prepare_send_file(conversation, file_transfer, file_meta);
+
+            if (file_send_data == null) {
+                throw new FileSendError.UPLOAD_FAILED("Failed to prepare file upload (no send data returned)");
+            }
 
             if (file_encryptor != null) {
                 file_send_data = file_encryptor.preprocess_send_file(conversation, file_transfer, file_send_data, file_meta);
