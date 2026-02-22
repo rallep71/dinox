@@ -117,7 +117,9 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
     }
 
     public void cleanup_temp_files () {
-        string[] temp_dirs = { "temp_audio", "temp_video", "temp_open", "avatars" };
+        // Note: "avatars" is NOT included — avatar files are persistent cache
+        // that would require expensive re-fetching from the server on each restart.
+        string[] temp_dirs = { "temp_audio", "temp_video", "temp_open" };
         string cache_root = Path.build_filename (Environment.get_user_cache_dir (), "dinox");
 
         foreach (string dir_name in temp_dirs) {

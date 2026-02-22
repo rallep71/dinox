@@ -36,6 +36,8 @@ public class AvatarManager : StreamInteractionModule, Object {
     private HashMap<Jid, string> user_avatars = new HashMap<Jid, string>(Jid.hash_func, Jid.equals_func);
     private HashMap<Jid, string> vcard_avatars = new HashMap<Jid, string>(Jid.hash_func, Jid.equals_func);
     private HashSet<string> pending_fetch = new HashSet<string>();
+    private HashMap<string, Bytes> avatar_bytes_cache = new HashMap<string, Bytes>();
+    private const int MAX_AVATAR_CACHE_SIZE = 200;
     private const int MAX_PIXEL = 192;
 
     private static bool bytes_contains_ascii_ci(uint8[] data, int data_len, string needle) {
@@ -176,6 +178,12 @@ public class AvatarManager : StreamInteractionModule, Object {
     public Bytes? get_avatar_bytes(Account account, Jid jid_) {
         string? hash = get_avatar_hash(account, jid_);
         if (hash == null) return null;
+
+        // Check in-memory cache first (avoids file I/O + AES decrypt)
+        if (avatar_bytes_cache.has_key(hash)) {
+            return avatar_bytes_cache[hash];
+        }
+
         File file = File.new_for_path(Path.build_filename(folder, hash));
         if (!file.query_exists()) {
             fetch_and_store_for_jid.begin(account, jid_);
@@ -185,7 +193,18 @@ public class AvatarManager : StreamInteractionModule, Object {
                 uint8[] data;
                 if (!FileUtils.get_data(file.get_path(), out data)) return null;
                 uint8[] plaintext = file_encryption.decrypt_data(data);
-                return new Bytes(plaintext);
+                Bytes result = new Bytes(plaintext);
+
+                // Cache the decrypted bytes (evict oldest if full)
+                if (avatar_bytes_cache.size >= MAX_AVATAR_CACHE_SIZE) {
+                    var iter = avatar_bytes_cache.map_iterator();
+                    if (iter.next()) {
+                        iter.unset();
+                    }
+                }
+                avatar_bytes_cache[hash] = result;
+
+                return result;
             } catch (Error e) {
                 warning("Failed to decrypt avatar: %s", e.message);
                 try {
@@ -226,6 +245,7 @@ public class AvatarManager : StreamInteractionModule, Object {
         user_avatars.clear();
         vcard_avatars.clear();
         pending_fetch.clear();
+        avatar_bytes_cache.clear();
     }
 
     public async void publish(Account account, File file) {
