@@ -21,6 +21,15 @@ This document is organized as a **chronological release timeline** first, follow
 
 ## Timeline (Recent Releases)
 
+### v1.1.2.5 (Audio Quality, DTMF Thread-Safety, Outgoing Ringback)
+
+- **DTMF Thread-Safety**: Mutex-protected queue replaces unsynchronized LinkedList. Fixes SIGSEGV, stream errors, one-directional audio after DTMF.
+- **DTMF Local Tones**: Silence keepalive + volume gating for reliable playback during audio and video calls.
+- **Audio Quality Tuning**: WebRTC APM: NS kModerate, AEC desktop, AGC kFixedDigital 6dB, transient suppression disabled.
+- **Opus FEC**: `packet-loss-percentage=10` for forward error correction on lossy networks.
+- **Receive Audio Ramp-Up**: 200ms volume fade-in prevents crackling at call start.
+- **Outgoing Ringback Tone**: `phone-outgoing-calling` plays immediately on outgoing calls.
+
 ### v1.1.2.4 (PopoverMenu, Flatpak H.264, MUC Corrections, ESFS Auth)
 
 - **PopoverMenu Unparent**: Right-click context menu popover now unparented on close. Fixes GTK "Broken accounting of active state" warning.

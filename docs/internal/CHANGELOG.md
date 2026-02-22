@@ -5,6 +5,23 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.2.5] - 2026-02-22
+
+### Fixed
+- **DTMF Thread-Safety (SIGSEGV/Stream Error Fix)**: DTMF digit queue (`Gee.LinkedList`) was accessed from both the main thread (`send_dtmf`) and the GStreamer streaming thread (`build_dtmf_rtp_packet`) without synchronization, causing race conditions that resulted in SIGSEGV crashes, "Internal data stream error", "Link count below zero" errors, and one-directional audio after pressing DTMF keys. Fix: replaced with `GLib.Mutex`-protected `Gee.LinkedList<int>` queue. `send_dtmf()` now only enqueues encoded digits; all DTMF state mutations happen exclusively on the streaming thread via `start_dtmf_digit_internal()`.
+- **DTMF Local Tone Playback (Audio + Video Calls)**: DTMF dial tones were not audible during video calls. Multiple approaches failed (pipeline state switching, valve elements). Final solution: persistent `audiotestsrc wave=silence` keepalive branch keeps the GStreamer mixer alive, two sine-wave branches with `volume` elements gate sound on/off (0.0 ↔ 0.3) for 150ms tone bursts.
+- **Incoming Audio Crackling at Call Start**: PipeWire initial transients caused crackling. Fix: added `recv_volume` element on the receive audio path with a 200ms fade-in (0.0 → 1.0 in 10 steps × 20ms).
+- **Words Cut at Sentence Start**: WebRTC APM transient suppression was interpreting initial phonemes as clicks and suppressing them. Fix: disabled `transient_suppression`.
+- **Outgoing Audio Quality Degraded**: WebRTC AudioProcessing Module was configured too aggressively. Fix: noise suppression `kHigh` → `kModerate`, AEC `mobile_mode` → desktop mode, AGC `kAdaptiveDigital` 9dB → `kFixedDigital` 6dB.
+
+### Added
+- **Outgoing Ringback Tone**: `phone-outgoing-calling` (freedesktop sound theme) now plays immediately when initiating a call and repeats every 3 seconds until the call is answered, rejected, or hung up. Uses separate Canberra cancel-ID (2) so it doesn't interfere with the incoming ringtone.
+- **Opus Forward Error Correction**: Added `packet-loss-percentage=10` to `opusenc` when FEC is enabled, improving audio resilience on lossy networks.
+- **DTMF Dialpad CSS**: Added visual styling for the DTMF dial pad buttons.
+
+### Changed
+- **Version**: 1.1.2.4 → 1.1.2.5
+
 ## [1.1.2.4] - 2026-02-22
 
 ### Fixed
