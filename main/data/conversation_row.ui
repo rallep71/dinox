@@ -4,7 +4,7 @@
         <child>
             <object class="GtkRevealer" id="main_revealer">
                 <property name="transition-type">slide-down</property>
-                <property name="transition-duration">200</property>
+                <property name="transition-duration">120</property>
                 <property name="reveal-child">True</property>
                 <child>
                     <object class="GtkBox">
