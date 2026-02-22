@@ -10,6 +10,7 @@ public class Dino.Ui.PreferencesWindowContacts : Adw.PreferencesPage {
     private Adw.PreferencesGroup contacts_group;
     private HashMap<string, Adw.ActionRow> contact_rows = new HashMap<string, Adw.ActionRow>();
     private bool signals_connected = false;
+    private bool needs_refresh = true;
 
     public ViewModel.PreferencesDialog model { get; set; }
 
@@ -18,42 +19,54 @@ public class Dino.Ui.PreferencesWindowContacts : Adw.PreferencesPage {
         this.icon_name = "avatar-default-symbolic";
 
         this.notify["model"].connect(() => {
-            setup_signals_and_refresh();
+            setup_signals();
+            // Mark dirty — will refresh when page becomes visible
+            needs_refresh = true;
         });
         
-        // Also check on map in case model is already set
+        // Lazy loading: refresh when page becomes visible (re-mapped)
         this.map.connect(() => {
-            setup_signals_and_refresh();
+            if (needs_refresh) {
+                needs_refresh = false;
+                refresh();
+            }
         });
     }
     
-    private void setup_signals_and_refresh() {
+    private void setup_signals() {
         if (model == null || model.stream_interactor == null) return;
         
         // Connect signals only once
         if (!signals_connected) {
-            model.update.connect(refresh);
+            model.update.connect(schedule_refresh);
             
             var roster_manager = model.stream_interactor.get_module<RosterManager>(RosterManager.IDENTITY);
             roster_manager.updated_roster_item.connect((account, jid, roster_item) => {
-                refresh();
+                schedule_refresh();
             });
             roster_manager.removed_roster_item.connect((account, jid, roster_item) => {
-                refresh();
+                schedule_refresh();
             });
             roster_manager.mutual_subscription.connect((account, jid) => {
-                refresh();
+                schedule_refresh();
             });
             
             var blocking_manager = model.stream_interactor.get_module<BlockingManager>(BlockingManager.IDENTITY);
             blocking_manager.block_changed.connect((account, jid) => {
-                refresh();
+                schedule_refresh();
             });
             
             signals_connected = true;
         }
-        
-        refresh();
+    }
+
+    private void schedule_refresh() {
+        // Only refresh if the page is currently visible. Otherwise mark dirty.
+        if (this.get_mapped()) {
+            refresh();
+        } else {
+            needs_refresh = true;
+        }
     }
 
     private void refresh() {

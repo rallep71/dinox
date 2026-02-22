@@ -9,6 +9,7 @@ public class Dino.Ui.PreferencesWindowEncryption : Adw.PreferencesPage {
     private DropDown drop_down = null;
     private Adw.PreferencesGroup accounts_group = new Adw.PreferencesGroup();
     private ArrayList<Adw.PreferencesGroup> added_widgets = new ArrayList<Adw.PreferencesGroup>();
+    private bool needs_refresh = true;
 
     public ViewModel.PreferencesDialog model { get; set; }
 
@@ -17,9 +18,26 @@ public class Dino.Ui.PreferencesWindowEncryption : Adw.PreferencesPage {
 
         this.notify["model"].connect(() => {
             this.model.update.connect(() => {
-                repopulate_account_selector();
+                schedule_refresh();
             });
+            needs_refresh = true;
         });
+
+        // Lazy loading: only populate when page becomes visible
+        this.map.connect(() => {
+            if (needs_refresh) {
+                needs_refresh = false;
+                repopulate_account_selector();
+            }
+        });
+    }
+
+    private void schedule_refresh() {
+        if (this.get_mapped()) {
+            repopulate_account_selector();
+        } else {
+            needs_refresh = true;
+        }
     }
 
     private void repopulate_account_selector() {
