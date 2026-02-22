@@ -225,13 +225,41 @@ public class OmemoFileDecryptor : FileDecryptor, Object {
       return new MemoryInputStream.from_data (plaintext);
 
     } else if (cipher_uri.contains ("aes-256-gcm")) {
-      // AES-256-GCM: Kaidan/QXmpp may not append auth tag, so taglen=0 for interop.
-      // This means ciphertext is NOT authenticated -- log a warning.
-      warning ("ESFS: GCM decryption without auth tag verification (interop mode)");
-      SymmetricCipher cipher = new SymmetricCipher ("AES256-GCM");
-      cipher.set_key (key);
-      cipher.set_iv (iv);
-      return new ConverterInputStream (encrypted_stream, new SymmetricCipherDecrypter ((owned) cipher, 0));
+      // AES-256-GCM: try with 16-byte auth tag first (standard), fall back to no tag (Kaidan/QXmpp interop)
+      var buffer = new GLib.ByteArray ();
+      uint8[] chunk = new uint8[65536];
+      while (true) {
+        ssize_t n = encrypted_stream.read (chunk);
+        if (n <= 0) break;
+        buffer.append (chunk[0:n]);
+      }
+
+      // Try authenticated decryption first (last 16 bytes = GCM tag)
+      if (buffer.len > 16) {
+        try {
+          uint8[] ciphertext = buffer.data[0:buffer.len - 16];
+          uint8[] tag = buffer.data[buffer.len - 16:buffer.len];
+          SymmetricCipher cipher = new SymmetricCipher ("AES256-GCM");
+          cipher.set_key (key);
+          cipher.set_iv (iv);
+          uint8[] plaintext = new uint8[ciphertext.length];
+          cipher.decrypt (plaintext, ciphertext);
+          cipher.check_tag (tag);
+          debug ("ESFS: GCM decrypted %u bytes with auth tag OK", buffer.len);
+          return new MemoryInputStream.from_data (plaintext);
+        } catch (Crypto.Error e) {
+          debug ("ESFS: GCM auth tag verification failed, trying without tag (interop): %s", e.message);
+        }
+      }
+
+      // Fallback: decrypt without auth tag (Kaidan/QXmpp interop)
+      debug ("ESFS: GCM decryption without auth tag (interop mode)");
+      SymmetricCipher cipher2 = new SymmetricCipher ("AES256-GCM");
+      cipher2.set_key (key);
+      cipher2.set_iv (iv);
+      uint8[] plaintext2 = new uint8[buffer.len];
+      cipher2.decrypt (plaintext2, buffer.data);
+      return new MemoryInputStream.from_data (plaintext2);
 
     } else {
       throw new GLib.Error (Quark.from_string ("esfs"), 2,

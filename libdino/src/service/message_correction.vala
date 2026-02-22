@@ -260,11 +260,21 @@ public class MessageCorrection : StreamInteractionModule, MessageListener {
     }
 }
 
-    // Accepts MUC corrections iff the occupant id matches
+    // Accepts MUC corrections iff the occupant id or nick matches
     // Accepts 1:1 corrections iff the bare jid matches
     private bool is_correction_acceptable(Message original_message, Message correction_message) {
-        bool acceptable = (original_message.type_.is_muc_semantic() && original_message.occupant_db_id != -1 && original_message.occupant_db_id == correction_message.occupant_db_id) ||
-                (original_message.type_ == Message.Type.CHAT && original_message.from.equals_bare(correction_message.from));
+        bool acceptable;
+        if (original_message.type_.is_muc_semantic()) {
+            if (original_message.occupant_db_id != -1 && correction_message.occupant_db_id != -1) {
+                // Both have occupant IDs (XEP-0421) — strict match
+                acceptable = original_message.occupant_db_id == correction_message.occupant_db_id;
+            } else {
+                // MUC without occupant ID support — fall back to nick match
+                acceptable = original_message.from.equals(correction_message.from);
+            }
+        } else {
+            acceptable = original_message.type_ == Message.Type.CHAT && original_message.from.equals_bare(correction_message.from);
+        }
         if (!acceptable) warning("Got unacceptable correction (%i to %i from %s)", correction_message.id, original_message.id, correction_message.from.to_string());
         return acceptable;
     }

@@ -1,6 +1,6 @@
 # DinoX - Development Plan
 
-> **Last Updated**: February 22, 2026 (v1.1.2.3)
+> **Last Updated**: February 22, 2026 (v1.1.2.4)
 > **Current Release Line**: 1.1.2.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.2.3 |
+| **Current Version** | 1.1.2.4 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (~85% translated) |
 | **Build Status** | Clean |
@@ -20,6 +20,13 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v1.1.2.4 (PopoverMenu, Flatpak H.264, MUC Corrections, ESFS Auth)
+
+- **PopoverMenu Unparent**: Right-click context menu popover now unparented on close. Fixes GTK "Broken accounting of active state" warning.
+- **Flatpak OpenH264**: Build OpenH264 v2.4.1 as Flatpak module. Video recording works without optional ffmpeg-full extension.
+- **MUC Correction Fallback**: Fall back to nick matching for MUC corrections when occupant IDs (XEP-0421) are unavailable.
+- **ESFS GCM Auth Tag**: Try authenticated GCM decryption first, fall back to tag-less mode for interop. Eliminates per-file warnings.
 
 ### v1.1.2.3 (Database Security Audit, FTS5 & Preferences Fix)
 

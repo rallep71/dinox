@@ -94,6 +94,18 @@
             ]
         },
         {
+            "name": "openh264",
+            "buildsystem": "meson",
+            "builddir": true,
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/cisco/openh264/archive/v2.4.1.tar.gz",
+                    "sha256": "8ffbe944e74043d0d3fb53d4a2a14c94de71f58dbea6a06d0dc92369542958ea"
+                }
+            ]
+        },
+        {
             "name": "sqlcipher",
             "buildsystem": "autotools",
             "config-opts": [

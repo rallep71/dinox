@@ -5,6 +5,17 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.2.4] - 2026-02-22
+
+### Fixed
+- **GtkPopoverMenu Active State Warning**: Right-click context menu on conversation rows created a `PopoverMenu` with `set_parent()` but never unparented it on close, causing GTK "Broken accounting of active state" warnings. Fix: unparent popover in `closed` signal handler.
+- **Flatpak: No H.264 Encoder Found**: Flatpak relied on the optional `org.freedesktop.Platform.ffmpeg-full` extension for video encoding. Without it, all 5 H.264 encoders failed. Fix: build OpenH264 v2.4.1 as a Flatpak module so `openh264enc` works out of the box.
+- **MUC Message Corrections Rejected**: `is_correction_acceptable()` required XEP-0421 occupant IDs for MUC corrections. MUCs without occupant ID support (e.g. ejabberd) have `occupant_db_id == -1`, causing ALL corrections to be rejected with "Got unacceptable correction". Fix: fall back to full JID (nick) matching when occupant IDs are unavailable.
+- **OMEMO ESFS GCM Auth Tag**: ESFS file decryption always skipped GCM auth tag verification (`taglen=0`), logging a `warning()` for every received file. Fix: try authenticated decryption first (last 16 bytes as GCM tag); only fall back to tag-less mode for Kaidan/QXmpp interop. Warning downgraded to `debug()` on fallback path.
+
+### Changed
+- **Version**: 1.1.2.3 → 1.1.2.4
+
 ## [1.1.2.3] - 2026-02-22
 
 ### Security
