@@ -56,11 +56,13 @@ public class Dino.Ui.ViewModel.PreferencesDialog : Object {
             if (selected_account == null && account.enabled) selected_account = account_details[account];
         }
 
-        // Update account picker model with currently active accounts
+        // Update account picker model with currently active accounts (reuse existing AccountDetails)
         var list_model = (GLib.ListStore) active_accounts_selection.model;
         list_model.remove_all();
         foreach (var account in stream_interactor.get_accounts()) {
-            list_model.append(new ViewModel.AccountDetails(account, stream_interactor));
+            if (account_details.has_key(account)) {
+                list_model.append(account_details[account]);
+            }
         }
 
         update();
