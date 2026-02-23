@@ -96,6 +96,16 @@ scripts/scan-dinox-latest-log.sh
 
 Searches the latest log for:
 - Warnings, errors, critical messages
+- SASL / authentication issues
+- Certificate pinning changes
+- OMEMO encrypt/decrypt failures
+- OpenPGP key publishing failures
+- Botmother / Telegram bridge errors
+- Tor connection issues
+- GIO / TLS backend problems (GDummyTlsBackend)
+- DTMF digit issues
+- File upload failures
+- GTK UI warnings (PopoverMenu, accessible_role)
 - Audio underflows / discontinuities
 - ICE/DTLS startup buffering
 - libnice TURN refresh warnings
