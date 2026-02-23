@@ -1,6 +1,6 @@
 # DinoX - Development Plan
 
-> **Last Updated**: February 22, 2026 (v1.1.2.4)
+> **Last Updated**: February 23, 2026 (v1.1.2.6)
 > **Current Release Line**: 1.1.2.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.2.4 |
+| **Current Version** | 1.1.2.6 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (~85% translated) |
 | **Build Status** | Clean |
@@ -20,6 +20,12 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v1.1.2.6 (AppImage TLS Fix, File Upload Crash, DTMF Debounce)
+
+- **AppImage TLS Fix**: Bundle glib-networking (libgiognutls.so) + set GIO_EXTRA_MODULES in AppRun. Fixes GitHub #13.
+- **File Upload Null Check**: Null check for prepare_send_file() result prevents CRITICAL assertion crash.
+- **DTMF Debounce**: 300ms per-digit debounce prevents double-send on fast clicks.
 
 ### v1.1.2.5 (Audio Quality, DTMF Thread-Safety, Outgoing Ringback)
 

@@ -5,6 +5,16 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.2.6] - 2026-02-23
+
+### Fixed
+- **AppImage TLS Connection Failure (GitHub #13)**: AppImage did not bundle `glib-networking` (`libgiognutls.so`), causing GLib to fall back to `GDummyTlsBackend`. All XMPP/TLS connections failed with "TLS support is not available" on systems without system-wide glib-networking (e.g. Arch Linux). Fix: bundle GIO TLS modules into AppDir, set `GIO_EXTRA_MODULES` in AppRun, add `glib-networking` to CI dependencies.
+- **File Upload Crash (CRITICAL assertion)**: `prepare_send_file()` could return null when the XMPP stream disconnects during upload preparation, triggering `assertion 'file_send_data != NULL' failed`. Fix: added null check, throws clean `FileSendError.UPLOAD_FAILED` instead of crashing.
+- **DTMF Double-Send on Fast Click**: GTK button `clicked` signal could fire twice on fast clicks, sending duplicate DTMF digits. Fix: 300ms per-digit debounce in `call_dialpad.vala`.
+
+### Changed
+- **Version**: 1.1.2.5 → 1.1.2.6
+
 ## [1.1.2.5] - 2026-02-22
 
 ### Fixed
