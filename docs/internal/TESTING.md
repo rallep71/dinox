@@ -22,6 +22,208 @@ Every test references its authoritative specification or contract.
 
 ---
 
+## Developer Quick Reference -- All Scripts & Test Tools
+
+This section lists **every** test-related script, binary, and tool in the project.
+Use it as a cheat sheet when working on DinoX.
+
+### Complete Script Inventory
+
+| Script | Language | Tests | What it does |
+|--------|----------|-------|--------------|
+| `scripts/run_all_tests.sh` | Bash | 642 | **Master runner** -- builds, runs all Meson suites + DB tests, prints color-coded summary |
+| `scripts/test_db_maintenance.sh` | Bash | 71 | SQLCipher CLI tests: rekey, reset, WAL checkpoint, backup |
+| `scripts/run_db_integration_tests.sh` | Bash+Vala | 65 | Compiles + runs Vala integration tests against `libqlite.so` |
+| `check_translations.py` | Python | -- | Checks `.po` files for missing/fuzzy translations via `msgfmt` |
+| `scripts/scan_unicode.py` | Python | -- | Scans source for hidden/dangerous Unicode (zero-width, BiDi overrides) |
+| `scripts/analyze_translations.py` | Python | -- | Analyzes specific translation keys across all `.po` files |
+| `scripts/translate_all.py` | Python | -- | Batch translation helper for `.po` files |
+
+### Compiled Test Binaries (Meson)
+
+After `ninja -C build`, these binaries are ready:
+
+| Binary | Suite | Tests | Component |
+|--------|-------|-------|-----------|
+| `build/xmpp-vala/xmpp-vala-test` | xmpp-vala | 231 | XMPP protocol, XML, JID, XEP parsers |
+| `build/plugins/omemo/omemo-test` | omemo | 102 | OMEMO encryption, Signal Protocol, key exchange |
+| `build/main/main-test` | main | 62 | UI view models, helper functions |
+| `build/plugins/openpgp/openpgp-test` | openpgp | 48 | OpenPGP stream module, GPG keylist, armor parser |
+| `build/libdino/libdino-test` | libdino | 39 | Crypto, key derivation, file transfer, data structures |
+| `build/plugins/bot-features/bot-features-test` | bot-features | 24 | Rate limiter, crypto hashes, JSON escaping |
+
+**Important:** Before running binaries directly, set the library path:
+
+```bash
+export LD_LIBRARY_PATH=build/libdino:build/xmpp-vala:build/qlite:build/crypto-vala
+```
+
+### Standalone Test Files (not in Meson)
+
+| File | Language | Purpose |
+|------|----------|---------|
+| `tests/security_audit_tests.vala` | Vala | Original security audit findings (732 lines) -- documents bugs found |
+| `tests/test_db_maintenance_integration.vala` | Vala | Qlite integration tests (compiled by `run_db_integration_tests.sh`) |
+| `test_omemo_deser.c` | C | OMEMO deserialization test with real Kaidan kex bytes |
+| `test_cb.vala` | Vala | TLS channel binding type check (minimal) |
+| `test_socks.py` | Python | Manual SOCKS5 proxy connectivity test |
+
+### Typical Developer Workflows
+
+#### Before every commit
+
+```bash
+# Fast: only the Meson tests (< 15 seconds)
+./scripts/run_all_tests.sh --meson
+```
+
+#### Full regression check
+
+```bash
+# All 642 tests -- Meson + DB
+./scripts/run_all_tests.sh
+```
+
+#### Working on a specific component
+
+```bash
+export LD_LIBRARY_PATH=build/libdino:build/xmpp-vala:build/qlite:build/crypto-vala
+ninja -C build
+
+# Run only the suite you changed:
+build/xmpp-vala/xmpp-vala-test          # XMPP/XML changes
+build/plugins/omemo/omemo-test           # OMEMO changes
+build/main/main-test                     # UI logic changes
+build/libdino/libdino-test               # Core library changes
+build/plugins/openpgp/openpgp-test       # OpenPGP changes
+build/plugins/bot-features/bot-features-test  # Bot plugin changes
+```
+
+#### Run a single test by path
+
+```bash
+# Pattern: binary -p /SuiteName/test_name
+build/xmpp-vala/xmpp-vala-test -p /Jid/RFC7622_valid_bare
+build/libdino/libdino-test -p /Security/SP800_38D_tag_is_128_bits
+build/main/main-test -p /UiHelperAudit/RFC3986_url_regex_matches_https
+```
+
+#### List all test names (without running)
+
+```bash
+build/xmpp-vala/xmpp-vala-test -l
+build/libdino/libdino-test -l
+build/main/main-test -l
+build/plugins/omemo/omemo-test -l
+build/plugins/bot-features/bot-features-test -l
+build/plugins/openpgp/openpgp-test -l
+```
+
+#### Verbose / debug output
+
+```bash
+# Via Meson (all suites):
+meson test -C build -v --print-errorlogs
+
+# Single binary:
+build/xmpp-vala/xmpp-vala-test --verbose
+```
+
+#### DB maintenance tests only
+
+```bash
+# CLI tests (requires sqlcipher in PATH)
+./scripts/test_db_maintenance.sh
+
+# Vala integration tests (compiles on the fly)
+./scripts/run_db_integration_tests.sh
+```
+
+#### Code quality checks
+
+```bash
+# Translation completeness
+python3 check_translations.py
+
+# Hidden Unicode scan (zero-width chars, BiDi overrides)
+python3 scripts/scan_unicode.py
+python3 scripts/scan_unicode.py --verbose   # show details
+```
+
+### Reading Test Output
+
+#### run_all_tests.sh output
+
+```
+==========================================
+ DinoX -- Complete Test Run
+==========================================
+  Date:    2026-02-23 14:30:00
+  Branch:  main
+  Commit:  0e0b766a
+
+============================================
+ Meson Tests (6 suites, 506 tests)
+============================================
+>>> main-test (16 UI ViewModel tests)
+    OK
+>>> xmpp-vala-test (67 XMPP protocol tests)
+    OK
+...
+==========================================
+ Summary
+==========================================
+  PASS  main-test (16 UI ViewModel tests)
+  PASS  xmpp-vala-test (67 XMPP protocol tests)
+  PASS  libdino-test (29 crypto + data structure tests)
+  PASS  omemo-test (10 Signal Protocol tests)
+  PASS  bot-features-test (24 rate limiter + crypto tests)
+  PASS  DB CLI tests (71 bash tests)
+  PASS  DB Integration tests (65 Vala tests)
+
+  Pass: 7  Fail: 0  Skip: 0
+
+ALL TESTS PASSED
+```
+
+Exit code **0** = all pass. Exit code **1** = at least one failure.
+
+#### Meson TAP output (single binary)
+
+```
+TAP version 13
+1..16
+ok 1 /PreferencesRow/GObject_Text_title_roundtrip
+ok 2 /PreferencesRow/GObject_Text_text_roundtrip
+not ok 3 /PreferencesRow/GObject_Text_media_type_nullable   <-- FAILURE
+# GLib.Test message: media_type should default to null
+```
+
+| Marker | Meaning |
+|--------|---------|
+| `ok N` | Test passed |
+| `not ok N` | Test **FAILED** -- read `#` lines below for details |
+| `1..N` | Total test count |
+
+#### When a test fails
+
+1. The test name tells you the spec: `RFC7622_` = JID, `SP800_38D_` = AES-GCM, `XEP0384_` = OMEMO, etc.
+2. The `#` comment lines show the assertion message with the spec violation
+3. Fix the **code**, not the test (tests encode spec requirements)
+4. Re-run: `ninja -C build && meson test -C build --print-errorlogs`
+5. Full logs: `build/meson-logs/testlog.txt`
+
+### Exit Codes
+
+| Code | Meaning |
+|------|---------|
+| 0 | All tests passed |
+| 1 | At least one test failed |
+| 77 | Test was skipped |
+| 99 | Hard error (segfault, build failure) |
+
+---
+
 ## How to Run Tests -- Step-by-Step
 
 ### Prerequisites
@@ -688,8 +890,7 @@ Pure GObject view model classes (zero GTK dependency). First UI-layer tests in t
 
 #### UiHelperAudit (46 Tests) -- Pure UI Helper Functions
 
-Namespace-level functions in `Dino.Ui.Util` (helper.vala).
-No GTK widget instantiation -- pure logic with Gdk.RGBA structs and ICU unicode.
+Pure static functions from `helper.vala` (`Dino.Ui.Util` namespace) -- no GTK widgets needed.
 
 | # | Test | Spec | Verifies |
 |---|------|------|----------|
@@ -1009,7 +1210,7 @@ ninja -C build test                    Meson-registered (506 tests)
   |
   |-- main-test                        2 suites, 62 tests (GLib.Test)
   |     |-- PreferencesRow (16)          GObject property/signal contract
-  |     +-- UiHelperAudit (46)           Presence colors, RGBA hex, URL regex, emoji, markup
+  |     +-- UiHelperAudit (46)           Pure helper.vala functions (no GTK)
   |
   |-- omemo-test                       9 suites, 76 tests (GLib.Test)
   |     |-- Curve25519 (4)               RFC 7748 key agreement
@@ -1308,4 +1509,4 @@ Examples:
 
 ---
 
-*Last updated: 23 February 2026 -- v1.6.0.0, 506 Meson tests (all spec-prefixed), 6 suites, Bugs #20-#21 fixed*
+*Last updated: 23 February 2026 -- v1.6.0.0, 506 Meson + 136 standalone = 642 tests, 0 failures, Developer Quick Reference added*
