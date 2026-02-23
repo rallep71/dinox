@@ -1241,96 +1241,17 @@ scripts/run_db_integration_tests.sh    Vala, 65 tests (Qlite)
 
 ## 6. What Is NOT Tested (Gaps)
 
-### 6.1 UI/GTK -- Mostly Untested
+Full gap analysis with UI file inventory, accessibility status, and prioritized
+future test ideas: see `docs/internal/TESTING_GAPS.md` (not tracked in Git).
 
-**16 of 92 UI files** have automated tests (PreferencesRow view model).
-
-| Area | Files | Status |
-|------|-------|--------|
-| **View models** | 4 files | `preferences_row.vala`: 16 tests (section 1.4). Others: NONE |
-| **Main window** | `main_window.vala`, `main_window_controller.vala` | NONE |
-| **Chat input** | 13 files (text_view, encryption, sticker, smiley, audio/video recorder) | NONE |
-| **Conversation view** | 22 files (message, file, call, quote, reactions, URL preview, video, audio) | NONE |
-| **Conversation list** | 2 files (selector, row) | NONE |
-| **Title bar** | 4 files (call, menu, occupants, search) | NONE |
-| **Add contact** | 12 files (add_contact, add_conference, roster, room_browser, user_search) | NONE |
-| **Call window** | 10 files (call_window, bottom_bar, dialpad, participant_list, audio/video settings) | NONE |
-| **Bot management** | 2 files (bot_create_dialog, bot_manager_dialog) | NONE |
-| **Settings** | 10 files (preferences, account, add_account, change_password, encryption) | NONE |
-| **Widgets** | 4 files (avatar, date_separator, fixed_ratio_picture, natural_size_increase) | NONE |
-| **UI templates** | 40 .ui files | NONE |
-
-### 6.2 Accessibility -- NO Tests
-
-- No ATK/AT-SPI tests
-- No `accessible-role`, `accessible-label` checks
-- No screen reader compatibility tests
-
-### 6.3 Other Gaps
+### 6.3 Partially Tested Components
 
 | Area | Status | Difficulty |
 |------|--------|------------|
 | **qlite** (SQLite ORM) | Only indirectly via DB tests | Medium -- pure library, testable |
 | **crypto-vala** | No dedicated suite -- tested via libdino Security | Low |
-| **http-files plugin** | No tests | Medium |
-| **ice plugin** | No tests | High -- ICE/STUN/TURN networking |
-| **notification-sound plugin** | No tests | Low -- pure GStreamer pipeline |
-| **openpgp plugin** | 48 tests (StreamModuleLogic, GPGKeylistParser, ArmorParser). GPG binary integration: No tests | Medium |
-| **omemo plugin** | 102 tests (12 suites: Curve25519, Signal, HKDF, FileDecryptor, DecryptLogic, BundleParser, Omemo2Crypto, SessionVersionGuard, PreKeyUpdateClassifier, EncryptSafetyCheck, DecryptFailureStage). Full session encrypt/decrypt: No tests | Medium |
-| **rtp plugin** | No tests | High -- real-time media |
-| **tor-manager plugin** | No tests | Medium -- SOCKS5 proxy |
-| **Network/protocol integration** | No mock XMPP server | High |
-| **App startup** (`main.vala`) | Untested | High -- requires full GTK/D-Bus |
-| **Translations** | `check_translations.py` exists, not in CI | Low |
-
-### 6.4 What COULD Be Tested (Prioritized)
-
-#### Priority 1: View Model Tests (testable WITHOUT GTK)
-
-The view models contain business logic without GTK dependency:
-
-| File | What can be tested |
-|------|--------------------|
-| `conversation_details.vala` | Sorter logic: `compare()` must return correct ordering (needs Gtk.init) |
-| `preferences_dialog.vala` | Account selection model (needs DB + StreamInteractor mock) |
-| ~~`preferences_row.vala`~~ | ~~Row data binding~~ -- **DONE** (16 tests, section 1.4) |
-| ~~`helper.vala`~~ | ~~Presence colors, RGBA hex, URL regex, emoji, markup~~ -- **DONE** (46 tests, section 1.4) |
-| `account_details.vala` | Minimal -- DTO with 1 computed property |
-
-#### Priority 2: UI Logic Tests (with Gtk.init() but without display)
-
-| Component | What can be tested |
-|-----------|--------------------|
-| `smiley_converter.vala` | Text-to-emoji conversion: `:)` to smiley |
-| `occupants_tab_completer.vala` | Tab completion logic |
-| `chat_text_view.vala` | Text processing before send |
-| `url_preview_widget.vala` | URL detection and validation |
-| `file_metadata_providers.vala` | MIME type detection |
-
-#### Priority 3: Widget Unit Tests (requires headless GTK)
-
-| Widget | Spec | What can be tested |
-|--------|------|--------------------|
-| `AvatarPicture` | -- | Fallback initials computation |
-| `DateSeparator` | i18n | Date formatting |
-| `FixedRatioPicture` | -- | Aspect ratio calculation |
-| `ConversationRow` | -- | Timestamp formatting, unread badge |
-
-#### Priority 4: Spec-Based UI Tests (complex)
-
-| What | Spec | How |
-|------|------|-----|
-| Password dialog | NIST SP 800-63B | Password validation: minimum length, entropy |
-| OMEMO fingerprint display | XEP-0384 S5 | Fingerprint format (8x4 hex) |
-| Encryption button | XEP-0384 | Encryption indicator correct |
-| JID input field | RFC 7622 | Input validation |
-| Contact details | RFC 6350 | vCard fields displayed correctly |
-
-#### Priority 5: Screenshot/Visual Regression (complex)
-
-- GTK Broadway backend for headless rendering
-- Pixmap comparison against reference screenshots
-- Required for theme compatibility
+| **openpgp plugin** | 48 tests (StreamModuleLogic, GPGKeylistParser, ArmorParser). GPG binary integration: untested | Medium |
+| **omemo plugin** | 102 tests (Curve25519, Signal, HKDF, FileDecryptor, DecryptLogic, BundleParser, Omemo2Crypto, SessionVersionGuard, etc.). Full session encrypt/decrypt: untested | Medium |
 
 ---
 
