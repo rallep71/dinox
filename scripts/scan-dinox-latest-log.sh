@@ -54,6 +54,26 @@ grep -nEi "\[TOR\]|TorController|obfs4|bridge.*fail" "$log_file" | head -n 50 ||
 
 echo
 
+echo "== GIO / TLS Backend =="
+grep -nEi "GDummyTls|gio-tls-backend|TLS support is not available|GIO_EXTRA_MODULES|giognutls" "$log_file" | head -n 20 || true
+
+echo
+
+echo "== DTMF =="
+grep -nEi "dtmf|dial.*tone|debounce" "$log_file" | head -n 50 || true
+
+echo
+
+echo "== File Upload =="
+grep -nEi "file_send_data.*NULL|prepare_send_file|upload.*fail|FileSendError" "$log_file" | head -n 50 || true
+
+echo
+
+echo "== GTK Warnings =="
+grep -nEi "Broken accounting|accessible.role.*cannot|PopoverMenu.*snapshot" "$log_file" | head -n 50 || true
+
+echo
+
 echo "== Audio underflow / discontinuities =="
 grep -nEi "underflow|skipping segment|audioringbuffer|too late|discont" "$log_file" | head -n 200 || true
 
