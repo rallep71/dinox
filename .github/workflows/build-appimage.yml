@@ -39,7 +39,7 @@ jobs:
               libgnutls28-dev libcanberra-dev libdbusmenu-glib-dev \
               libgdk-pixbuf-2.0-dev libsignal-protocol-c-dev libprotobuf-c-dev \
               libsecret-1-dev protobuf-c-compiler cmake patchelf libssl-dev \
-              file wget libfuse2 tor obfs4proxy libjson-glib-dev \
+              file wget libfuse2 tor obfs4proxy libjson-glib-dev glib-networking \
               libwebrtc-audio-processing-dev
             
             sudo pip3 install meson>=1.3.0

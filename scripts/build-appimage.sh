@@ -386,6 +386,31 @@ copy_dependencies() {
         mkdir -p "$APPDIR/usr/lib/libcanberra-0.30"
         cp -L "/usr/lib/${TRIPLET}/libcanberra-0.30"/*.so "$APPDIR/usr/lib/libcanberra-0.30/" 2>/dev/null || true
     fi
+
+    # Copy GIO modules (glib-networking provides TLS backend via libgiognutls.so).
+    # Without this, GLib falls back to GDummyTlsBackend and all TLS connections fail.
+    # See: https://github.com/rallep71/dinox/issues/13
+    log_info "Copying GIO modules (TLS backend)..."
+    GIO_MODULE_DIR=""
+    if command -v pkg-config &>/dev/null; then
+        GIO_MODULE_DIR="$(pkg-config --variable=giomoduledir gio-2.0 2>/dev/null || true)"
+    fi
+    if [ -z "$GIO_MODULE_DIR" ] || [ ! -d "$GIO_MODULE_DIR" ]; then
+        GIO_MODULE_DIR="/usr/lib/${TRIPLET}/gio/modules"
+    fi
+    if [ -d "$GIO_MODULE_DIR" ]; then
+        mkdir -p "$APPDIR/usr/lib/gio/modules"
+        cp -L "$GIO_MODULE_DIR"/libgiognutls.so "$APPDIR/usr/lib/gio/modules/" 2>/dev/null || true
+        cp -L "$GIO_MODULE_DIR"/libgioopenssl.so "$APPDIR/usr/lib/gio/modules/" 2>/dev/null || true
+        # Resolve dependencies of the GIO TLS module(s)
+        for f in "$APPDIR/usr/lib/gio/modules"/*.so; do
+            [ -e "$f" ] || continue
+            copy_elf_deps_recursive "$f" "$APPDIR/usr/lib"
+        done
+        log_info "GIO TLS modules bundled from $GIO_MODULE_DIR"
+    else
+        log_warn "GIO module directory not found at $GIO_MODULE_DIR — TLS will NOT work!"
+    fi
     
     log_info "Dependencies copied!"
 }
@@ -402,6 +427,12 @@ APPDIR="$(dirname "$(readlink -f "$0")")"
 
 # Set library path
 export LD_LIBRARY_PATH="$APPDIR/usr/lib:$LD_LIBRARY_PATH"
+
+# GIO modules — glib-networking provides the TLS backend (libgiognutls.so).
+# Without this, GLib uses GDummyTlsBackend and all XMPP/TLS connections fail.
+if [ -d "$APPDIR/usr/lib/gio/modules" ]; then
+    export GIO_EXTRA_MODULES="$APPDIR/usr/lib/gio/modules${GIO_EXTRA_MODULES:+:$GIO_EXTRA_MODULES}"
+fi
 
 # Set plugin path
 export DINO_PLUGIN_DIR="$APPDIR/usr/lib/dino/plugins"
