@@ -11,6 +11,9 @@ int main(string[] args) {
     TestSuite.get_root().add_suite(new BundleParserTest().get_suite());
     TestSuite.get_root().add_suite(new Omemo2CryptoTest().get_suite());
     TestSuite.get_root().add_suite(new SessionVersionGuardTest().get_suite());
+    TestSuite.get_root().add_suite(new PreKeyUpdateClassifierTest().get_suite());
+    TestSuite.get_root().add_suite(new EncryptSafetyCheckTest().get_suite());
+    TestSuite.get_root().add_suite(new DecryptFailureStageTest().get_suite());
     return GLib.Test.run();
 }
 

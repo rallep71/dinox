@@ -3,7 +3,7 @@
 Complete inventory of all automated tests in the DinoX project.
 Every test references its authoritative specification or contract.
 
-**Status: v1.3.0.0 -- 335 Meson tests + 136 standalone tests = 471 automated tests, 0 failures**
+**Status: v1.4.0.0 -- 361 Meson tests + 136 standalone tests = 497 automated tests, 0 failures**
 
 ---
 
@@ -13,7 +13,7 @@ Every test references its authoritative specification or contract.
 # All tests at once (recommended)
 ./scripts/run_all_tests.sh
 
-# Only Meson-registered tests (6 suites, 335 tests)
+# Only Meson-registered tests (6 suites, 361 tests)
 ./scripts/run_all_tests.sh --meson
 
 # Only DB maintenance tests (136 standalone)
@@ -54,7 +54,7 @@ export LD_LIBRARY_PATH=build/libdino:build/xmpp-vala:build/qlite:build/crypto-va
 build/xmpp-vala/xmpp-vala-test     # 142 tests
 build/libdino/libdino-test          # 29 tests
 build/main/main-test                # 16 tests
-build/plugins/omemo/omemo-test      # 76 tests
+build/plugins/omemo/omemo-test      # 102 tests
 build/plugins/bot-features/bot-features-test  # 24 tests
 build/plugins/openpgp/openpgp-test  # 48 tests
 ```
@@ -98,7 +98,7 @@ build/xmpp-vala/xmpp-vala-test --verbose
 
 ---
 
-## 1. Meson-Registered Tests (335 Tests)
+## 1. Meson-Registered Tests (361 Tests)
 
 Compiled and executed via `ninja -C build test`.
 Framework: GLib.Test + `Gee.TestCase` with `add_async_test()` for async XML parsing.
@@ -341,7 +341,7 @@ namespace constants, data classes, roundtrip serialization, random padding, modu
 | 28 | `RFC8259_newline_not_escaped_in_send_error` | RFC 8259 S7 | Newline in JSON string escaped |
 | 29 | `RFC8259_tab_not_escaped_in_send_error` | RFC 8259 S7 | Tab in JSON string escaped |
 
-### 1.3 OMEMO (76 Tests)
+### 1.3 OMEMO (102 Tests)
 
 **Target:** `omemo-test` -- `plugins/omemo/meson.build`
 
@@ -474,6 +474,56 @@ Tests for the session version detection that prevents v4 sessions in the v1 encr
 | 74 | `XEP0384_v3_session_reports_version_3` | XEP-0384 | v3 session → cipher reports version 3, guard does not fire |
 | 75 | `XEP0384_session_cipher_version_matches_record` | XEP-0384 | SessionCipher version == SessionRecord version |
 | 76 | `XEP0384_no_session_version_zero` | XEP-0384 | No session → get_session_version throws SG_ERR_NO_SESSION |
+
+#### PreKeyUpdateClassifier (6 Tests) -- Identity Key Change Detection (Bug #19)
+
+**Target:** Extracted `internal static classify_prekey_update()` from `update_db_for_prekey()`.
+**CWE-295/322:** Identity key change accepted without user confirmation.
+
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
+| 77 | `SEC_prekey_new_device` | CWE-295 | New device (device_exists=false) → INSERT_NEW |
+| 78 | `SEC_prekey_new_device_null_key` | CWE-295 | Device exists, stored key null → INSERT_NEW |
+| 79 | `SEC_prekey_same_key_no_change` | CWE-295 | Same identity key → NO_CHANGE |
+| 80 | `SEC_prekey_key_changed` | CWE-295 | Different key → KEY_CHANGED (Bug #19: silent accept) |
+| 81 | `SEC_prekey_key_changed_is_not_no_change` | CWE-295 | KEY_CHANGED must not be NO_CHANGE (regression guard) |
+| 82 | `SEC_prekey_empty_vs_populated` | CWE-295 | Empty existing key vs real key → KEY_CHANGED |
+
+#### EncryptSafetyCheck (8 Tests) -- Encrypt Error Body Validation
+
+**Target:** Extracted `internal static is_encrypt_result_safe_to_send()` from `encrypt()`.
+**CWE-311/319:** Plaintext or error body leak on encryption failure.
+
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
+| 83 | `SEC_encrypt_success_safe_to_send` | CWE-311 | encrypted=true + marker body → safe |
+| 84 | `SEC_encrypt_failure_must_not_send` | CWE-311 | encrypted=false → NEVER safe |
+| 85 | `SEC_encrypt_null_body_not_safe` | CWE-311 | null body → not safe |
+| 86 | `SEC_encrypt_plaintext_leak_detected` | CWE-311 | body == original plaintext → catastrophic leak detected |
+| 87 | `SEC_encrypt_error_body_not_safe` | CWE-311 | Error string body → not safe even if encrypted=true |
+| 88 | `SEC_encrypt_success_null_original_ok` | CWE-311 | null original body + marker → safe |
+| 89 | `SEC_encrypt_false_with_marker_not_safe` | CWE-311 | encrypted=false + marker body → still not safe |
+| 90 | `SEC_encrypt_true_with_error_body_not_safe` | CWE-311 | encrypted=true + error body → inconsistent, not safe |
+
+#### DecryptFailureStage (12 Tests) -- Ratchet Advance Detection
+
+**Target:** Extracted `internal static classify_decrypt_failure_stage()` from decrypt path.
+**CWE-755:** Inconsistent state when ratchet advances on partial success.
+
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
+| 91 | `SEC_stage_no_session_pre_ratchet` | CWE-755 | SG_ERR_NO_SESSION → PRE_RATCHET (safe to retry) |
+| 92 | `SEC_stage_invalid_message_pre_ratchet` | CWE-755 | SG_ERR_INVALID_MESSAGE → PRE_RATCHET |
+| 93 | `SEC_stage_legacy_message_pre_ratchet` | CWE-755 | SG_ERR_LEGACY_MESSAGE → PRE_RATCHET |
+| 94 | `SEC_stage_deserialize_pre_ratchet` | CWE-755 | Deserialization error → PRE_RATCHET |
+| 95 | `SEC_stage_db_update_failed_pre_ratchet` | CWE-755 | DB update failure → PRE_RATCHET |
+| 96 | `SEC_stage_hmac_failed_post_ratchet` | CWE-755 | HMAC verification → POST_RATCHET (cannot retry) |
+| 97 | `SEC_stage_aes_failed_post_ratchet` | CWE-755 | AES-256-CBC failure → POST_RATCHET |
+| 98 | `SEC_stage_sce_parse_post_ratchet` | CWE-755 | SCE envelope parse → POST_RATCHET |
+| 99 | `SEC_stage_key_too_short_post_ratchet` | CWE-755 | Key too short → POST_RATCHET |
+| 100 | `SEC_stage_hkdf_failed_post_ratchet` | CWE-755 | HKDF failure → POST_RATCHET |
+| 101 | `SEC_stage_hmac_compute_post_ratchet` | CWE-755 | HMAC computation failure → POST_RATCHET |
+| 102 | `SEC_stage_unknown_error_assume_post` | CWE-755 | Unknown error → UNKNOWN_ASSUME_POST (conservative) |
 
 ### 1.4 Main / UI View Models (16 Tests)
 
@@ -719,7 +769,7 @@ Every test references its authoritative source:
 ## 5. Test Architecture
 
 ```
-ninja -C build test                    Meson-registered (335 tests)
+ninja -C build test                    Meson-registered (361 tests)
   |-- xmpp-vala-test                   12 suites, 142 tests (GLib.Test)
   |     |-- Stanza (4)                   RFC 6120 S4 stream/namespace
   |     |-- util (5)                     xs:hexBinary parsing contract
@@ -810,7 +860,7 @@ scripts/run_db_integration_tests.sh    Vala, 65 tests (Qlite)
 | **ice plugin** | No tests | High -- ICE/STUN/TURN networking |
 | **notification-sound plugin** | No tests | Low -- pure GStreamer pipeline |
 | **openpgp plugin** | 48 tests (StreamModuleLogic, GPGKeylistParser, ArmorParser). GPG binary integration: No tests | Medium |
-| **omemo plugin** | 76 tests (Curve25519, Signal, HKDF, FileDecryptor, DecryptLogic, BundleParser, Omemo2Crypto, SessionVersionGuard). Full session encrypt/decrypt: No tests | Medium |
+| **omemo plugin** | 102 tests (12 suites: Curve25519, Signal, HKDF, FileDecryptor, DecryptLogic, BundleParser, Omemo2Crypto, SessionVersionGuard, PreKeyUpdateClassifier, EncryptSafetyCheck, DecryptFailureStage). Full session encrypt/decrypt: No tests | Medium |
 | **rtp plugin** | No tests | High -- real-time media |
 | **tor-manager plugin** | No tests | Medium -- SOCKS5 proxy |
 | **Network/protocol integration** | No mock XMPP server | High |
@@ -1041,4 +1091,4 @@ Examples:
 
 ---
 
-*Last updated: 23 February 2026 -- v1.3.0.0, 335 Meson tests (all spec-prefixed), 6 suites, 0 failures*
+*Last updated: 23 February 2026 -- v1.4.0.0, 361 Meson tests (all spec-prefixed), 6 suites, 0 failures*

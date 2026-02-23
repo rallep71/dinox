@@ -177,4 +177,35 @@ namespace Dino.Plugins.Omemo {
             encryption_data.add_device_key(device_id, device_key.serialized, device_key.type == CiphertextType.PREKEY);
         }
     }
+
+    /**
+     * Check whether the result of an OMEMO encrypt attempt is safe to send.
+     *
+     * After OmemoEncryptor.encrypt() or Omemo2Encrypt.encrypt(), the message body
+     * and EncryptState must be validated before transmission:
+     *
+     * - If encrypted==false, the message MUST NOT be sent (CWE-311: plaintext leak)
+     * - If encrypted==true but body still contains original plaintext, something is wrong
+     * - The fallback body must be the standard OMEMO marker, not the error string
+     *
+     * @param encrypted       Whether EncryptState.encrypted is true
+     * @param body            The message body after encrypt() returns
+     * @param original_body   The original plaintext body before encryption
+     * @return true if the message is safe to transmit
+     */
+    internal static bool is_encrypt_result_safe_to_send(bool encrypted, string? body, string? original_body) {
+        /* Rule 1: encryption failed → never send */
+        if (!encrypted) return false;
+
+        /* Rule 2: body is null → unsafe (no OMEMO marker) */
+        if (body == null) return false;
+
+        /* Rule 3: body still contains the original plaintext → catastrophic leak */
+        if (original_body != null && body == original_body) return false;
+
+        /* Rule 4: body is the error string → encryption failed but flag is wrong */
+        if (body == "[OMEMO encryption failed]") return false;
+
+        return true;
+    }
 }

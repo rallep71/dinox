@@ -388,6 +388,107 @@ namespace Dino.Plugins.Omemo {
     }
 
     /**
+     * Classification of what action to take when processing a pre-key message
+     * with respect to identity key storage.
+     *
+     * Security note: KEY_CHANGED currently proceeds silently (Bug #19).
+     * A compliant implementation should halt and require user confirmation
+     * (CWE-295: Improper Certificate Validation / CWE-322).
+     */
+    internal enum PreKeyUpdateAction {
+        /** Device is new — insert with blind-trust or UNKNOWN. */
+        INSERT_NEW,
+        /** Identity key matches — no database write needed. */
+        NO_CHANGE,
+        /** Identity key CHANGED — old session invalid, trust reset to UNKNOWN.
+         *  Currently accepted silently (Bug #19). */
+        KEY_CHANGED,
+    }
+
+    /**
+     * Pure decision function: classify what action update_db_for_prekey should take.
+     *
+     * Extracted from Omemo2Decrypt.update_db_for_prekey() and
+     * OmemoDecryptor.update_db_for_prekey() for testability.
+     *
+     * @param existing_identity_key  The identity key currently stored in DB (null if none)
+     * @param incoming_identity_key  The identity key from the incoming pre-key message
+     * @param device_exists          Whether a device record exists in the DB
+     * @return The action to take
+     */
+    internal static PreKeyUpdateAction classify_prekey_update(
+        string? existing_identity_key,
+        string incoming_identity_key,
+        bool device_exists
+    ) {
+        if (!device_exists || existing_identity_key == null) {
+            return PreKeyUpdateAction.INSERT_NEW;
+        }
+        if (existing_identity_key != incoming_identity_key) {
+            return PreKeyUpdateAction.KEY_CHANGED;
+        }
+        return PreKeyUpdateAction.NO_CHANGE;
+    }
+
+    /**
+     * Stage at which a decryption failure occurred, relative to ratchet state.
+     *
+     * PRE_RATCHET errors are safe to retry — the Double Ratchet has not advanced.
+     * POST_RATCHET errors mean the ratchet key was consumed and the message
+     * can never be retried (CWE-755: inconsistent state on partial failure).
+     */
+    internal enum DecryptFailureStage {
+        /** Failure before ratchet advance: deserialization, no session, lookup. */
+        PRE_RATCHET,
+        /** Failure after ratchet advance: HMAC, AES, SCE parse. */
+        POST_RATCHET,
+        /** Unknown error — assume post-ratchet for safety. */
+        UNKNOWN_ASSUME_POST,
+    }
+
+    /**
+     * Classify a decryption error to determine if the Double Ratchet has advanced.
+     *
+     * In the OMEMO 2 decrypt path (decrypt_key_raw → decrypt_envelope), failures
+     * can occur at different stages:
+     *
+     * PRE-RATCHET (safe to retry):
+     * - Deserialization failure (bad protobuf)
+     * - SG_ERR_NO_SESSION (no session in store)
+     * - SG_ERR_INVALID_MESSAGE (message format rejected before decrypt)
+     * - SG_ERR_LEGACY_MESSAGE (v3/v4 version mismatch)
+     * - DB update failure (update_db_for_prekey returns false)
+     *
+     * POST-RATCHET (ratchet consumed, cannot retry):
+     * - HMAC verification failed (ratchet decrypted key, but payload HMAC bad)
+     * - AES-256-CBC decrypt failed (key derived, CBC failed)
+     * - SCE envelope parse failed (plaintext obtained, XML parse failed)
+     * - Decrypted key too short (ratchet decrypted, but result wrong size)
+     *
+     * @param error_message  The GLib.Error.message string
+     * @return The failure stage classification
+     */
+    internal static DecryptFailureStage classify_decrypt_failure_stage(string error_message) {
+        /* Pre-ratchet: Signal Protocol errors occur before chain key consumption */
+        if (error_message.contains("SG_ERR_NO_SESSION")) return DecryptFailureStage.PRE_RATCHET;
+        if (error_message.contains("SG_ERR_INVALID_MESSAGE")) return DecryptFailureStage.PRE_RATCHET;
+        if (error_message.contains("SG_ERR_LEGACY_MESSAGE")) return DecryptFailureStage.PRE_RATCHET;
+        if (error_message.contains("deserialize")) return DecryptFailureStage.PRE_RATCHET;
+        if (error_message.contains("Failed updating db for prekey")) return DecryptFailureStage.PRE_RATCHET;
+
+        /* Post-ratchet: these occur after cipher.decrypt returned successfully */
+        if (error_message.contains("HMAC verification failed")) return DecryptFailureStage.POST_RATCHET;
+        if (error_message.contains("AES-256-CBC decrypt failed")) return DecryptFailureStage.POST_RATCHET;
+        if (error_message.contains("Failed to parse SCE envelope")) return DecryptFailureStage.POST_RATCHET;
+        if (error_message.contains("Decrypted key too short")) return DecryptFailureStage.POST_RATCHET;
+        if (error_message.contains("HKDF failed")) return DecryptFailureStage.POST_RATCHET;
+        if (error_message.contains("HMAC computation failed")) return DecryptFailureStage.POST_RATCHET;
+
+        /* Unknown — conservative: assume ratchet may have advanced */
+        return DecryptFailureStage.UNKNOWN_ASSUME_POST;
+    }
+
+    /**
      * Message listener for OMEMO 2 decryption.
      */
     public class Omemo2DecryptMessageListener : MessageListener {

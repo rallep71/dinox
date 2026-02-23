@@ -92,6 +92,7 @@ test_sources = [
     'tests/native/hkdf.vala',
     'tests/native/session_builder.vala',
     'tests/native/session_version_guard.vala',
+    'tests/native/security_logic.vala',
 ]
 test_vala_args = [
     '--vapidir', meson.current_source_dir() / 'vapi',
