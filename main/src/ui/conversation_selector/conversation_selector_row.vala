@@ -643,7 +643,10 @@ public class ConversationSelectorRow : ListBoxRow {
         popover.set_parent(this);
         popover.set_pointing_to({ (int)x, (int)y, 1, 1 });
         popover.closed.connect(() => {
-            popover.unparent();
+            Idle.add(() => {
+                popover.unparent();
+                return false;
+            });
         });
         popover.popup();
     }

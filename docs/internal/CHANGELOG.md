@@ -5,6 +5,18 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.2.9] - 2026-02-23
+
+### Fixed
+- **Bookmark Close Action Race**: GTK4 schließt das PopoverMenu *bevor* die ausgewählte Menü-Aktion ausgelöst wird. Der `popover.closed`-Handler rief `popover.unparent()` direkt auf, was den Widget-Baum und damit die Action-Group entfernte — die Aktion (z.B. MUC verlassen, Lesezeichen schließen) wurde stillschweigend ignoriert. Fix: `unparent()` in `Idle.add()` gewrappt, damit die Aktion zuerst ausgeführt wird.
+- **MUC Role.NONE Compiler-Warnung**: Fehlender `case Xep.Muc.Role.NONE` im Switch-Statement in `status_populator.vala` verursachte eine Compiler-Warnung. Jetzt behandelt mit passender Nachricht.
+- **"Unterhaltung starten" Dialog Lag**: Synchrones Laden der Roster-Liste beim Öffnen des Dialogs blockierte den Main-Thread. Fix: Verzögertes Batch-Laden (Batch-Größe 2, 150ms initiale Verzögerung, 10ms zwischen Batches, `invalidate_sort/filter` nur einmal am Ende).
+- **Konversationen bei Konto-Deaktivierung nicht geschlossen**: Beim Deaktivieren eines Kontos blieben alle Konversationen sichtbar, weil `account_removed` bewusst nicht gefeuert wird (OMEMO-Schlüsselschutz seit v1.1.2.1). Fix: Alle aktiven Konversationen des deaktivierten Kontos werden jetzt explizit per `close_conversation()` geschlossen.
+- **MUC-Browser Such-Schalter Lag**: Der Schalter "Öffentliche MUCs durchsuchen" blockierte den Main-Thread während der Switch-Animation mit synchronem `clear_list()` + `populate_list()`. Fix: Verarbeitung in `Idle.add()` gewrappt, damit die Animation zuerst abläuft.
+
+### Changed
+- **Version**: 1.1.2.8 → 1.1.2.9
+
 ## [1.1.2.8] - 2026-02-23
 
 ### Fixed

@@ -162,6 +162,17 @@ public class Dino.Ui.ViewModel.PreferencesDialog : Object {
             // Use connection_manager directly — do NOT fire account_removed
             // (that would delete OMEMO identity keys just for disabling an account)
             stream_interactor.connection_manager.disconnect_account.begin(account);
+
+            // Close all conversations for this account (including pinned ones)
+            // so they disappear from the sidebar immediately
+            var conversation_manager = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY);
+            var to_close = new Gee.ArrayList<Conversation>();
+            foreach (Conversation conv in conversation_manager.get_active_conversations(account)) {
+                to_close.add(conv);
+            }
+            foreach (Conversation conv in to_close) {
+                conversation_manager.close_conversation(conv);
+            }
         } else {
             account.enabled = true;
             stream_interactor.connect_account(account);

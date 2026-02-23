@@ -65,20 +65,24 @@ public class RoomBrowserDialog : Adw.Dialog {
     }
 
     private void on_search_mode_changed() {
-        if (public_search_switch.active) {
-            // Public search mode - trigger search if there's text
-            string query = search_entry.text.strip();
-            if (query.length >= 2) {
-                search_public_rooms.begin(query);
+        // Defer heavy work so the switch animation completes first
+        Idle.add(() => {
+            if (public_search_switch.active) {
+                // Public search mode - trigger search if there's text
+                string query = search_entry.text.strip();
+                if (query.length >= 2) {
+                    search_public_rooms.begin(query);
+                } else {
+                    clear_list();
+                    show_info(_("Enter at least 2 characters to search public rooms."));
+                }
             } else {
-                clear_list();
-                show_info(_("Enter at least 2 characters to search public rooms."));
+                // Local mode - show local rooms filtered
+                status_label.visible = false;
+                populate_list(search_entry.text);
             }
-        } else {
-            // Local mode - show local rooms filtered
-            status_label.visible = false;
-            populate_list(search_entry.text);
-        }
+            return false;
+        });
     }
 
     private async void load_rooms() {

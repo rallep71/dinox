@@ -132,6 +132,7 @@ class StatusPopulator : Plugins.ConversationItemPopulator, Plugins.ConversationA
             case Xep.Muc.Role.MODERATOR: msg = _("%s is now a moderator.").printf(nick); break;
             case Xep.Muc.Role.VISITOR: msg = _("%s has been muted.").printf(nick); break;
             case Xep.Muc.Role.PARTICIPANT: msg = _("%s is now a participant.").printf(nick); break;
+            case Xep.Muc.Role.NONE: msg = _("%s has been removed.").printf(nick); break;
         }
 
         if (msg != "") {

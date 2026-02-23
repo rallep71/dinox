@@ -923,7 +923,8 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
 
         SimpleAction close_conversation_action = new SimpleAction ("close-conversation", VariantType.INT32);
         close_conversation_action.activate.connect ((variant) => {
-            Conversation? conversation = stream_interactor.get_module<ConversationManager> (ConversationManager.IDENTITY).get_conversation_by_id (variant.get_int32 ());
+            int conv_id = variant.get_int32 ();
+            Conversation? conversation = stream_interactor.get_module<ConversationManager> (ConversationManager.IDENTITY).get_conversation_by_id (conv_id);
             if (conversation != null) {
                 stream_interactor.get_module<ConversationManager> (ConversationManager.IDENTITY).close_conversation (conversation);
             }

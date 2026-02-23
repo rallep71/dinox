@@ -1,6 +1,6 @@
 # DinoX - Development Plan
 
-> **Last Updated**: February 23, 2026 (v1.1.2.8)
+> **Last Updated**: February 23, 2026 (v1.1.2.9)
 > **Current Release Line**: 1.1.2.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.2.8 |
+| **Current Version** | 1.1.2.9 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (~85% translated) |
 | **Build Status** | Clean |
@@ -20,6 +20,14 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v1.1.2.9 (UI-Bugfixes: Bookmark Close, Dialog Lag, Konto-Deaktivierung, MUC-Browser)
+
+- **Bookmark Close Action Race**: `Idle.add()` um `popover.unparent()` — GTK4 schloss Popover bevor Aktion feuerte, `unparent()` entfernte Action-Group.
+- **Role.NONE Warnung**: Fehlender Switch-Case in `status_populator.vala` behoben.
+- **"Unterhaltung starten" Lag**: Sync Roster-Laden → verzögertes Batch-Laden (2er-Batches, 150ms initial, 10ms zwischen Batches).
+- **Konto-Deaktivierung Konversationen**: Aktive Konversationen werden jetzt explizit geschlossen (OMEMO-sicherer Pfad).
+- **MUC-Browser Schalter Lag**: `clear_list()` + `populate_list()` in `Idle.add()` gewrappt.
 
 ### v1.1.2.8 (Legacy Encryption Fallback, Avatar Decrypt Fix)
 
