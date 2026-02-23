@@ -27,6 +27,14 @@ namespace Dino.Plugins.TorManager {
             }
             indicator = null;
         }
+
+        public void rekey_database(string new_key) throws Error {
+            // No own database
+        }
+
+        public void checkpoint_database() {
+            // No own database
+        }
         
         private void on_preferences_configure(Object object) {
              Adw.PreferencesDialog? dialog = object as Adw.PreferencesDialog;

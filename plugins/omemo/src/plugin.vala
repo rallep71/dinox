@@ -100,6 +100,21 @@ public class Plugin : RootInterface, Object {
         // Nothing to do
     }
 
+    public void rekey_database (string new_key) throws Error {
+        // OMEMO uses a separate auto-generated key from GNOME Keyring,
+        // NOT the shared app.db_key. Rekey is a no-op here.
+    }
+
+    public void checkpoint_database () {
+        if (db != null) {
+            try {
+                db.exec ("PRAGMA wal_checkpoint(TRUNCATE)");
+            } catch (Error e) {
+                warning ("OMEMO: WAL checkpoint failed: %s", e.message);
+            }
+        }
+    }
+
     public bool has_new_devices (Account account, Xmpp.Jid jid) {
         int identity_id = db.identity.get_id (account.id);
         if (identity_id < 0) return false;

@@ -1164,6 +1164,13 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
 
             try {
                 db.rekey (new_pw);
+
+                // Also rekey plugin databases that share app.db_key
+                // (pgp.db, bot_registry.db — but NOT omemo.db which uses its own key)
+                if (plugin_loader != null) {
+                    plugin_loader.rekey_databases (new_pw);
+                }
+
                 this.db_key = new_pw;
             } catch (Error e) {
                 warning ("Change DB password failed: %s", e.message);
@@ -1810,10 +1817,22 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
 
         // Delay the actual reset to let the toast show
         Timeout.add( 2000, () => {
-            // Delete the database file
+            // Delete the main database file
             FileUtils.unlink( db_path);
             FileUtils.unlink (db_path + "-shm");
             FileUtils.unlink (db_path + "-wal");
+
+            // Delete plugin databases
+            string[] plugin_dbs = { "pgp.db", "bot_registry.db", "omemo.db" };
+            foreach (string plugin_db in plugin_dbs) {
+                string p = Path.build_filename (data_dir, plugin_db);
+                FileUtils.unlink (p);
+                FileUtils.unlink (p + "-shm");
+                FileUtils.unlink (p + "-wal");
+            }
+
+            // Delete OMEMO key file (if using file-based key storage)
+            FileUtils.unlink (Path.build_filename (data_dir, "omemo.key"));
 
             // Also delete OMEMO data
             string omemo_dir = Path.build_filename( data_dir, "omemo");
@@ -2088,10 +2107,10 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             warning ("Failed to checkpoint main database: %s", e.message);
         }
 
-        // NOTE: We don't checkpoint omemo.db and pgp.db here because:
-        // 1. They are encrypted with SQLCipher and need a key
-        // 2. The plugins handle their own WAL checkpointing
-        // 3. Calling sqlite3 on encrypted DBs would fail or hang
+        // Checkpoint all plugin databases (omemo.db, pgp.db, bot_registry.db)
+        if (plugin_loader != null) {
+            plugin_loader.checkpoint_databases ();
+        }
     }
 
     private void perform_backup (string data_dir, string backup_path, string? password = null) {

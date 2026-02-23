@@ -725,6 +725,22 @@ public class Plugin : RootInterface, Object {
         }
         enabled = false;
     }
+
+    public void rekey_database(string new_key) throws Error {
+        if (registry != null) {
+            registry.rekey(new_key);
+        }
+    }
+
+    public void checkpoint_database() {
+        if (registry != null) {
+            try {
+                registry.exec("PRAGMA wal_checkpoint(TRUNCATE)");
+            } catch (Error e) {
+                warning("BotFeatures: WAL checkpoint failed: %s", e.message);
+            }
+        }
+    }
 }
 
 }

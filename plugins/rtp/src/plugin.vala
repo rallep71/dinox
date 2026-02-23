@@ -422,6 +422,14 @@ public class Dino.Plugins.Rtp.Plugin : RootInterface, VideoCallPlugin, Object {
         // Gst.deinit();
     }
 
+    public void rekey_database(string new_key) throws Error {
+        // No own database
+    }
+
+    public void checkpoint_database() {
+        // No own database
+    }
+
     public bool supported() {
         return codec_util.is_element_supported("rtpbin");
     }

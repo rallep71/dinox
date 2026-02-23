@@ -239,6 +239,22 @@ public class Plugin : Plugins.RootInterface, Object {
 
     public void shutdown() { }
 
+    public void rekey_database(string new_key) throws Error {
+        if (db != null) {
+            db.rekey(new_key);
+        }
+    }
+
+    public void checkpoint_database() {
+        if (db != null) {
+            try {
+                db.exec("PRAGMA wal_checkpoint(TRUNCATE)");
+            } catch (Error e) {
+                warning("OpenPGP: WAL checkpoint failed: %s", e.message);
+            }
+        }
+    }
+
     private void on_initialize_account_modules(Account account, ArrayList<Xmpp.XmppStreamModule> modules) {
         string? key_id = db.get_account_key(account);
         

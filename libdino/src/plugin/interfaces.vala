@@ -20,6 +20,19 @@ public interface RootInterface : Object {
     public abstract void registered(Dino.Application app);
 
     public abstract void shutdown();
+
+    /**
+     * Re-encrypt this plugin's database with a new key.
+     * Only plugins whose DB uses the shared app.db_key need to do real work;
+     * others (OMEMO, plugins without a DB) should implement this as a no-op.
+     */
+    public abstract void rekey_database(string new_key) throws Error;
+
+    /**
+     * Flush WAL journal to the main database file.
+     * Called before backup so that all data is in the .db file.
+     */
+    public abstract void checkpoint_database();
 }
 
 public interface EncryptionListEntry : Object {

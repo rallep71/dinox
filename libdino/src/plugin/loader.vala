@@ -120,6 +120,18 @@ public class Loader : Object {
             p.shutdown();
         }
     }
+
+    public void rekey_databases(string new_key) throws Error {
+        foreach (RootInterface p in plugins) {
+            p.rekey_database(new_key);
+        }
+    }
+
+    public void checkpoint_databases() {
+        foreach (RootInterface p in plugins) {
+            p.checkpoint_database();
+        }
+    }
 }
 
 }

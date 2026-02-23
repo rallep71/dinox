@@ -88,6 +88,14 @@ public class Dino.Plugins.Ice.Plugin : RootInterface, Object {
         // Nothing to do
     }
 
+    public void rekey_database(string new_key) throws Error {
+        // No own database
+    }
+
+    public void checkpoint_database() {
+        // No own database
+    }
+
     private async InetAddress? lookup_ipv4_addess(string host) {
         try {
             Resolver resolver = Resolver.get_default();

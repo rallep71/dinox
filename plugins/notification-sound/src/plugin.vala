@@ -163,6 +163,14 @@ public class Plugin : RootInterface, Object {
         stop_ringback();
         sound_context = null;
     }
+
+    public void rekey_database(string new_key) throws Error {
+        // No own database
+    }
+
+    public void checkpoint_database() {
+        // No own database
+    }
 }
 
 }
