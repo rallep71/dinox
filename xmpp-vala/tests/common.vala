@@ -15,6 +15,13 @@ int main(string[] args) {
     TestSuite.get_root().add_suite(new Xmpp.Test.StreamManagementAudit().get_suite());
     TestSuite.get_root().add_suite(new Xmpp.Test.OmemoAudit().get_suite());
     TestSuite.get_root().add_suite(new Xmpp.Test.OpenPgpAudit().get_suite());
+    // Tier 4 Security Audit Tests
+    TestSuite.get_root().add_suite(new Xmpp.Test.StanzaEntryAudit().get_suite());
+    TestSuite.get_root().add_suite(new Xmpp.Test.CryptoHashAudit().get_suite());
+    TestSuite.get_root().add_suite(new Xmpp.Test.EntityCapsAudit().get_suite());
+    TestSuite.get_root().add_suite(new Xmpp.Test.ProtocolParserAudit().get_suite());
+    TestSuite.get_root().add_suite(new Xmpp.Test.UtilAudit().get_suite());
+    TestSuite.get_root().add_suite(new Xmpp.Test.XepRoundtripAudit().get_suite());
     return GLib.Test.run();
 }
 

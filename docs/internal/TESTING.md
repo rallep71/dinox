@@ -3,7 +3,7 @@
 Complete inventory of all automated tests in the DinoX project.
 Every test references its authoritative specification or contract.
 
-**Status: v1.4.0.0 -- 361 Meson tests + 136 standalone tests = 497 automated tests, 0 failures**
+**Status: v1.5.0.0 -- 460 Meson tests + 136 standalone tests = 596 automated tests, 0 failures**
 
 ---
 
@@ -13,7 +13,7 @@ Every test references its authoritative specification or contract.
 # All tests at once (recommended)
 ./scripts/run_all_tests.sh
 
-# Only Meson-registered tests (6 suites, 361 tests)
+# Only Meson-registered tests (6 suites, 460 tests)
 ./scripts/run_all_tests.sh --meson
 
 # Only DB maintenance tests (136 standalone)
@@ -51,8 +51,8 @@ ninja -C build
 export LD_LIBRARY_PATH=build/libdino:build/xmpp-vala:build/qlite:build/crypto-vala
 
 # Run one suite
-build/xmpp-vala/xmpp-vala-test     # 142 tests
-build/libdino/libdino-test          # 29 tests
+build/xmpp-vala/xmpp-vala-test     # 231 tests
+build/libdino/libdino-test          # 39 tests
 build/main/main-test                # 16 tests
 build/plugins/omemo/omemo-test      # 102 tests
 build/plugins/bot-features/bot-features-test  # 24 tests
@@ -98,12 +98,12 @@ build/xmpp-vala/xmpp-vala-test --verbose
 
 ---
 
-## 1. Meson-Registered Tests (361 Tests)
+## 1. Meson-Registered Tests (460 Tests)
 
 Compiled and executed via `ninja -C build test`.
 Framework: GLib.Test + `Gee.TestCase` with `add_async_test()` for async XML parsing.
 
-### 1.1 xmpp-vala (142 Tests)
+### 1.1 xmpp-vala (231 Tests)
 
 **Target:** `xmpp-vala-test` -- `xmpp-vala/meson.build`
 
@@ -283,7 +283,126 @@ namespace constants, data classes, roundtrip serialization, random padding, modu
 | 141 | `XEP0374_sign_rejects_crypt_element` | XEP-0374 | Cross-element rejection: sign ≠ crypt |
 | 142 | `XEP0374_crypt_rejects_signcrypt_element` | XEP-0374 | Cross-element rejection: crypt ≠ signcrypt |
 
-### 1.2 libdino (29 Tests)
+#### StanzaEntryAudit (21 Tests) -- XML Entity Decode + Attribute Parsing
+
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
+| 143 | `XEP0115_5_1_amp_entity_decoded` | XEP-0115 S5.1 | `&amp;` decodes to `&` |
+| 144 | `XEP0115_5_1_lt_entity_decoded` | XEP-0115 S5.1 | `&lt;` decodes to `<` |
+| 145 | `XEP0115_5_1_gt_entity_decoded` | XEP-0115 S5.1 | `&gt;` decodes to `>` |
+| 146 | `XEP0115_5_1_apos_entity_decoded` | XEP-0115 S5.1 | `&apos;` decodes to `'` |
+| 147 | `XEP0115_5_1_quot_entity_decoded` | XEP-0115 S5.1 | `&quot;` decodes to `"` |
+| 148 | `XML_all_named_entities_combined` | XML 1.0 S4.6 | All 5 named entities in one string |
+| 149 | `XML_hex_char_ref_basic` | XML 1.0 S4.1 | **Bug #20**: `&#x41;` → `A` (substring arithmetic inverted) |
+| 150 | `XML_decimal_char_ref_basic` | XML 1.0 S4.1 | **Bug #20**: `&#65;` → `A` (substring arithmetic inverted) |
+| 151 | `XML_hex_char_ref_unicode` | XML 1.0 S4.1 | **Bug #20**: `&#x263A;` → `☺` |
+| 152 | `XML_numeric_ref_with_trailing_text` | XML 1.0 S4.1 | **Bug #20**: `&#x48;ello` → `Hello` |
+| 153 | `XML_multiple_numeric_refs` | XML 1.0 S4.1 | **Bug #20**: Multiple hex refs in sequence |
+| 154 | `XML_unclosed_numeric_ref_no_crash` | XML 1.0 S4.1 | Unclosed `&#x41` does not crash |
+| 155 | `XML_empty_numeric_ref_no_crash` | XML 1.0 S4.1 | `&#;` does not crash |
+| 156 | `XML_hash_without_semicolon_no_crash` | XML 1.0 S4.1 | Trailing `&#` does not crash |
+| 157 | `XML_entity_encode_decode_roundtrip` | XML 1.0 S4 | encode→decode roundtrip preserves all chars |
+| 158 | `RFC6120_bool_true_string` | RFC 6120 | `"true"` parses as boolean true |
+| 159 | `RFC6120_bool_one_is_true` | RFC 6120 | `"1"` parses as boolean true |
+| 160 | `RFC6120_bool_false_string` | RFC 6120 | `"false"` parses as boolean false |
+| 161 | `RFC6120_bool_zero_is_false` | RFC 6120 | `"0"` parses as boolean false |
+| 162 | `RFC6120_bool_missing_returns_default` | RFC 6120 | Missing attribute returns default |
+| 163 | `RFC6120_bool_garbage_is_false` | RFC 6120 | Unrecognized value treated as false |
+
+#### CryptoHashAudit (15 Tests) -- XEP-0300 Cryptographic Hashes
+
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
+| 164 | `XEP0300_sha1_type_to_string` | XEP-0300 | SHA1 → `"sha-1"` |
+| 165 | `XEP0300_sha256_type_to_string` | XEP-0300 | SHA256 → `"sha-256"` |
+| 166 | `XEP0300_sha384_type_to_string` | XEP-0300 | SHA384 → `"sha-384"` |
+| 167 | `XEP0300_sha512_type_to_string` | XEP-0300 | SHA512 → `"sha-512"` |
+| 168 | `XEP0300_md5_type_to_string` | XEP-0300 | MD5 → `"md5"` |
+| 169 | `XEP0300_sha1_string_to_type` | XEP-0300 | `"sha-1"` → SHA1 |
+| 170 | `XEP0300_sha256_string_to_type` | XEP-0300 | `"sha-256"` → SHA256 |
+| 171 | `XEP0300_sha384_string_to_type` | XEP-0300 | `"sha-384"` → SHA384 |
+| 172 | `XEP0300_sha512_string_to_type` | XEP-0300 | `"sha-512"` → SHA512 |
+| 173 | `XEP0300_md5_string_to_type_BUG21` | XEP-0300 | **Bug #21**: `"md5"` → null (asymmetry) |
+| 174 | `XEP0300_unknown_string_returns_null` | XEP-0300 | Unknown hash name → null |
+| 175 | `XEP0300_sha256_roundtrip` | XEP-0300 | type→string→type roundtrip |
+| 176 | `XEP0300_sha256_compute_empty` | NIST FIPS 180-4 | SHA-256 of empty = known vector |
+| 177 | `XEP0300_sha256_compute_abc` | NIST FIPS 180-4 | SHA-256 of "abc" = NIST vector |
+| 178 | `XEP0300_sha1_compute_abc` | NIST FIPS 180-4 | SHA-1 of "abc" = known vector |
+
+#### EntityCapsAudit (5 Tests) -- XEP-0115 Entity Capabilities
+
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
+| 179 | `XEP0115_5_4_example1_exodus` | XEP-0115 S5.4 | Example 1 hash = `QgayPKawpkPSDYmwT/WM94uAlu0=` |
+| 180 | `XEP0115_empty_identity_set` | XEP-0115 S5.1 | Empty identities → valid hash |
+| 181 | `XEP0115_multiple_identities_sorted` | XEP-0115 S5.2 | Deterministic hash with multiple identities |
+| 182 | `XEP0115_features_sorted` | XEP-0115 S5.3 | Feature order does not affect hash |
+| 183 | `XEP0115_identity_with_lt_sanitized` | XEP-0115 S5.1 | `<` in identity sanitized as `&lt;` |
+
+#### ProtocolParserAudit (27 Tests) -- Jingle/SOCKS5/ICE/Markup/DateTime
+
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
+| 184 | `XEP0166_senders_parse_initiator` | XEP-0166 | `"initiator"` → INITIATOR |
+| 185 | `XEP0166_senders_parse_responder` | XEP-0166 | `"responder"` → RESPONDER |
+| 186 | `XEP0166_senders_parse_both` | XEP-0166 | `"both"` → BOTH |
+| 187 | `XEP0166_senders_parse_null_defaults_both` | XEP-0166 | null → BOTH (default) |
+| 188 | `XEP0166_senders_parse_invalid_throws` | XEP-0166 | Invalid string → IqError |
+| 189 | `XEP0166_senders_parse_none_throws` | XEP-0166 | `"none"` → IqError (not in parse) |
+| 190 | `XEP0166_role_parse_initiator` | XEP-0166 | `"initiator"` → INITIATOR |
+| 191 | `XEP0166_role_parse_responder` | XEP-0166 | `"responder"` → RESPONDER |
+| 192 | `XEP0166_role_parse_invalid_throws` | XEP-0166 | Invalid role → IqError |
+| 193 | `XEP0260_candidate_parse_assisted` | XEP-0260 | `"assisted"` → ASSISTED |
+| 194 | `XEP0260_candidate_parse_direct` | XEP-0260 | `"direct"` → DIRECT |
+| 195 | `XEP0260_candidate_parse_proxy` | XEP-0260 | `"proxy"` → PROXY |
+| 196 | `XEP0260_candidate_parse_tunnel` | XEP-0260 | `"tunnel"` → TUNNEL |
+| 197 | `XEP0260_candidate_parse_invalid_throws` | XEP-0260 | Unknown type → IqError |
+| 198 | `XEP0260_type_preference_ordering` | XEP-0260 | direct > assisted > tunnel > proxy |
+| 199 | `XEP0176_ice_type_host` | XEP-0176 | `"host"` → HOST |
+| 200 | `XEP0176_ice_type_srflx` | XEP-0176 | `"srflx"` → SRFLX |
+| 201 | `XEP0176_ice_type_relay` | XEP-0176 | `"relay"` → RELAY |
+| 202 | `XEP0176_ice_type_prflx` | XEP-0176 | `"prflx"` → PRFLX |
+| 203 | `XEP0176_ice_type_invalid_throws` | XEP-0176 | Unknown type → IqError |
+| 204 | `XEP0394_span_emphasis_roundtrip` | XEP-0394 | EMPHASIS ↔ `"emphasis"` |
+| 205 | `XEP0394_span_strong_roundtrip` | XEP-0394 | STRONG ↔ `"strong"` |
+| 206 | `XEP0394_span_deleted_roundtrip` | XEP-0394 | DELETED ↔ `"deleted"` |
+| 207 | `XEP0394_span_unknown_defaults_emphasis` | XEP-0394 | Unknown → EMPHASIS (silent default) |
+| 208 | `XEP0082_parse_valid_iso8601` | XEP-0082 | Valid ISO 8601 → DateTime |
+| 209 | `XEP0082_parse_invalid_returns_null` | XEP-0082 | Invalid string → null |
+| 210 | `XEP0082_roundtrip` | XEP-0082 | format→parse roundtrip |
+
+#### UtilAudit (9 Tests) -- UUID + Data URI
+
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
+| 211 | `RFC4122_uuid_format_8_4_4_4_12` | RFC 4122 | Format: `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx` |
+| 212 | `RFC4122_uuid_version_nibble_is_4` | RFC 4122 S4.4 | Version nibble = `4` (20 samples) |
+| 213 | `RFC4122_uuid_variant_bits` | RFC 4122 S4.1.1 | Variant nibble ∈ {8,9,a,b} (20 samples) |
+| 214 | `RFC4122_uuid_uniqueness` | RFC 4122 | 100 UUIDs have no collisions |
+| 215 | `RFC4122_uuid_lowercase_hex` | RFC 4122 | Lowercase hex characters |
+| 216 | `DataURI_png_base64_parses` | RFC 2397 | `data:image/png;base64,...` → Bytes |
+| 217 | `DataURI_unknown_scheme_returns_null` | RFC 2397 | Unknown scheme → null |
+| 218 | `DataURI_jpeg_not_supported` | RFC 2397 | JPEG data URI → null (not implemented) |
+| 219 | `DataURI_empty_data_returns_bytes` | RFC 2397 | Empty PNG data → empty Bytes |
+
+#### XepRoundtripAudit (12 Tests) -- XEP Stanza Roundtrips
+
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
+| 220 | `XEP0424_retract_v1_roundtrip` | XEP-0424 | set→get retract ID (v1) |
+| 221 | `XEP0424_retract_direct_v1` | XEP-0424 | Direct `<retract>` v1 child |
+| 222 | `XEP0424_retract_direct_v0` | XEP-0424 | Direct `<retract>` v0 child |
+| 223 | `XEP0424_retract_no_retraction` | XEP-0424 | No retraction → null |
+| 224 | `XEP0424_retract_missing_id` | XEP-0424 | Missing id attribute → null |
+| 225 | `XEP0380_encryption_tag_roundtrip` | XEP-0380 | set→get encryption namespace |
+| 226 | `XEP0380_encryption_tag_with_name` | XEP-0380 | Encryption with name attribute |
+| 227 | `XEP0380_encryption_tag_missing` | XEP-0380 | No encryption → null |
+| 228 | `XEP0359_origin_id_roundtrip` | XEP-0359 | set→get origin ID |
+| 229 | `XEP0359_origin_id_missing` | XEP-0359 | No origin-id → null |
+| 230 | `XEP0359_stanza_id_roundtrip` | XEP-0359 | stanza-id with matching `by` |
+| 231 | `XEP0359_stanza_id_wrong_by` | XEP-0359 | stanza-id with wrong `by` → null |
+
+### 1.2 libdino (39 Tests)
 
 **Target:** `libdino-test` -- `libdino/meson.build`
 
@@ -340,6 +459,21 @@ namespace constants, data classes, roundtrip serialization, random padding, modu
 | 27 | `RFC8259_backslash_not_escaped_in_send_error` | RFC 8259 S7 | Backslash in error JSON properly escaped |
 | 28 | `RFC8259_newline_not_escaped_in_send_error` | RFC 8259 S7 | Newline in JSON string escaped |
 | 29 | `RFC8259_tab_not_escaped_in_send_error` | RFC 8259 S7 | Tab in JSON string escaped |
+
+#### FileTransferAudit (10 Tests) -- Path Traversal + ESFS Registry
+
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
+| 30 | `PathTraversal_dotdot_stripped` | CWE-22 | `../../etc/passwd` → `passwd` |
+| 31 | `PathTraversal_absolute_path_stripped` | CWE-22 | `/etc/shadow` → `shadow` |
+| 32 | `HiddenFile_dot_prefix_guarded` | CWE-22 | `.bashrc` → `_.bashrc` |
+| 33 | `HiddenFile_dotdot_special` | CWE-22 | `..` not kept as-is |
+| 34 | `Separator_only_becomes_unknown` | CWE-22 | `/` → `unknown filename` |
+| 35 | `Dot_only_becomes_unknown` | CWE-22 | `.` → `unknown filename` |
+| 36 | `Normal_filename_preserved` | Contract | `photo.jpg` preserved |
+| 37 | `Filename_with_spaces_preserved` | Contract | `my photo.jpg` preserved |
+| 38 | `ESFS_register_and_check` | XEP-0384 | Registered JID found by is_esfs_jid |
+| 39 | `ESFS_unknown_jid_false` | XEP-0384 | Unregistered JID → false |
 
 ### 1.3 OMEMO (102 Tests)
 
@@ -736,9 +870,12 @@ Every test references its authoritative source:
 
 | Spec | Area | Tests |
 |------|------|-------|
-| **RFC 6120** | XMPP Core (streams, stanzas, namespaces) | 4 |
+| **RFC 4122** | UUID v4 format | 5 |
+| **RFC 2397** | Data URI parsing | 4 |
+| **RFC 6120** | XMPP Core (streams, stanzas, namespaces, bool attrs) | 10 |
 | **RFC 7622** | XMPP JID format | 31 |
-| **RFC 4231** | HMAC-SHA-256 test vectors | 3 |\n| **RFC 4648** | Base64 encoding | 6 |
+| **RFC 4231** | HMAC-SHA-256 test vectors | 3 |
+| **RFC 4648** | Base64 encoding | 6 |
 | **RFC 5116** | AEAD (IND-CPA) | 2 |
 | **RFC 5869** | HKDF | 1 |
 | **RFC 6350/6351** | vCard 4.0 / xCard XML | 2 |
@@ -748,18 +885,30 @@ Every test references its authoritative source:
 | **NIST SP 800-132** | PBKDF2 key derivation | 5 |
 | **NIST SP 800-63B** | Secret entropy (128-bit minimum) | 2 |
 | **NIST SP 800-90A** | CSPRNG (Crypto.randomize) | 2 |
-| **FIPS 180-4** | SHA-256 | 4 |
+| **NIST FIPS 180-4** | SHA-256 / SHA-1 hash vectors | 7 |
+| **XML 1.0 S4** | Character references (&#xNN;, &amp;, etc.) | 9 |
+| **CWE-22** | Path traversal prevention | 8 |
+| **XEP-0082** | XMPP DateTime profiles (ISO 8601) | 3 |
 | **XEP-0059** | Result Set Management | 1 |
+| **XEP-0115** | Entity Capabilities (caps hash) | 5 |
+| **XEP-0166** | Jingle (Senders + Role parse) | 9 |
+| **XEP-0176** | ICE-UDP (candidate type parse) | 5 |
 | **XEP-0198** | Stream Management | 15 |
+| **XEP-0260** | SOCKS5 Bytestreams (candidate type) | 6 |
+| **XEP-0300** | Cryptographic Hashes (roundtrip, Bug #21) | 15 |
 | **XEP-0313** | Message Archive Management | 8 |
+| **XEP-0359** | Unique Stable Stanza IDs | 4 |
 | **XEP-0373** | OpenPGP for XMPP | 12 |
 | **XEP-0374** | OpenPGP for XMPP Instant Messaging | 40 |
-| **XEP-0384** | OMEMO encryption | 58 |
+| **XEP-0380** | Explicit Encryption | 3 |
+| **XEP-0384** | OMEMO encryption | 60 |
 | **XEP-0392** | Consistent Color Generation | 3 |
+| **XEP-0394** | Message Markup (span types) | 4 |
+| **XEP-0424** | Message Retraction | 5 |
 | **XEP-0448** | Encrypted File Sharing | 2 |
 | **XEP-0454** | OMEMO Media Sharing | 3 |
 | **Signal Protocol** | Double Ratchet, PreKeys | 5 |
-| **Contract** | Data structure/API contracts (WeakMap, RateLimiter, arr_to_str) | 22 |
+| **Contract** | Data structure/API contracts (WeakMap, RateLimiter, arr_to_str) | 24 |
 | **GObject** | Property/signal contract (PreferencesRow) | 16 |
 | **XSD** | xs:hexBinary parsing | 5 |
 | **CWE-208** | Timing attack prevention (constant_time_compare) | 10 |
@@ -769,8 +918,8 @@ Every test references its authoritative source:
 ## 5. Test Architecture
 
 ```
-ninja -C build test                    Meson-registered (361 tests)
-  |-- xmpp-vala-test                   12 suites, 142 tests (GLib.Test)
+ninja -C build test                    Meson-registered (460 tests)
+  |-- xmpp-vala-test                   18 suites, 231 tests (GLib.Test)
   |     |-- Stanza (4)                   RFC 6120 S4 stream/namespace
   |     |-- util (5)                     xs:hexBinary parsing contract
   |     |-- Jid (28)                     RFC 7622 JID validation
@@ -781,9 +930,15 @@ ninja -C build test                    Meson-registered (361 tests)
   |     |-- MAM (8)                      XEP-0313 S3-S5 + async XML
   |     |-- Audit_XEP0198 (3)            h-counter overflow
   |     |-- OmemoAudit (39)              XEP-0384 v0.3 + v0.8 stanza audit
-  |     +-- OpenPgpAudit (36)            XEP-0373 + XEP-0374 stanza + rpad audit
+  |     |-- OpenPgpAudit (36)            XEP-0373 + XEP-0374 stanza + rpad audit
+  |     |-- StanzaEntryAudit (21)        XML entity decode + bool parse (Bug #20)
+  |     |-- CryptoHashAudit (15)         XEP-0300 hash roundtrip + vectors (Bug #21)
+  |     |-- EntityCapsAudit (5)          XEP-0115 caps hash verification
+  |     |-- ProtocolParserAudit (27)     Jingle/SOCKS5/ICE/Markup/DateTime parsers
+  |     |-- UtilAudit (9)               UUID format + Data URI parsing
+  |     +-- XepRoundtripAudit (12)       XEP-0424/0380/0359 stanza roundtrips
   |
-  |-- libdino-test                     8 suites, 29 tests (GLib.Test)
+  |-- libdino-test                     9 suites, 39 tests (GLib.Test)
   |     |-- WeakMapTest (5)              Data structure contract
   |     |-- Jid (3)                      RFC 7622 basics
   |     |-- FileManagerTest (1)          GIO stream lifecycle
@@ -791,7 +946,8 @@ ninja -C build test                    Meson-registered (361 tests)
   |     |-- Audit_KeyDerivation (3)      NIST SP 800-132 KDF audit
   |     |-- Audit_KeyManager (1)         NIST SP 800-90A CSPRNG
   |     |-- Audit_TokenStorage (1)       RFC 4231 HMAC vs SHA-256
-  |     +-- Audit_JSONInjection (3)      RFC 8259 JSON escape
+  |     |-- Audit_JSONInjection (3)      RFC 8259 JSON escape
+  |     +-- FileTransferAudit (10)       CWE-22 path traversal + ESFS registry
   |
   |-- main-test                        1 suite, 16 tests (GLib.Test)
   |     +-- PreferencesRow (16)          GObject property/signal contract
@@ -1091,4 +1247,4 @@ Examples:
 
 ---
 
-*Last updated: 23 February 2026 -- v1.4.0.0, 361 Meson tests (all spec-prefixed), 6 suites, 0 failures*
+*Last updated: 23 February 2026 -- v1.5.0.0, 460 Meson tests (all spec-prefixed), 6 suites, Bugs #20-#21 documented*
