@@ -1,6 +1,6 @@
 # DinoX - Development Plan
 
-> **Last Updated**: February 23, 2026 (v1.1.2.6)
+> **Last Updated**: February 23, 2026 (v1.1.2.7)
 > **Current Release Line**: 1.1.2.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.2.6 |
+| **Current Version** | 1.1.2.7 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (~85% translated) |
 | **Build Status** | Clean |
@@ -20,6 +20,15 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v1.1.2.7 (Security Audit Test Suite, AppImage KDE Icons, Flatpak H.264 Fix)
+
+- **Security Audit Test Suite**: 506 Meson + 136 standalone = 642 tests. 6 suites, spec-based naming. Found and fixed 21 bugs (T-1 through T-21).
+- **Flatpak H.264 Fix**: Add `GST_PLUGIN_PATH=/app/lib/ffmpeg` + `autodownload: true` for ffmpeg-full extension. Old Radeon GPUs can now record video messages.
+- **AppImage KDE Icons (GitHub #14)**: Bundle Adwaita scalable + symbolic icons for KDE Plasma compatibility.
+- **AppImage VAAPI Segfault**: Remove bundled `libgstvaapi.so` (crashes on old Radeon). Host VAAPI still works via GST_PLUGIN_PATH prepending.
+- **File Manager Log Spam**: `warning()` → `debug()` for "Don't have download data (yet)" race condition.
+- **Documentation**: SECURITY_AUDIT.md updated with test-suite bugs. TESTING.md with Developer Quick Reference. README Testing link.
 
 ### v1.1.2.6 (AppImage TLS Fix, File Upload Crash, DTMF Debounce)
 

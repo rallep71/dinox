@@ -5,6 +5,23 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.2.7] - 2026-02-23
+
+### Fixed
+- **Flatpak: H.264 Video Encoder Not Found**: Flatpak had `ffmpeg-full` extension declared but never exposed its plugin directory to GStreamer (`GST_PLUGIN_PATH` missing). On systems where VAAPI fails (old Radeon GPUs), no working H.264 encoder was found, preventing video message recording. Fix: add `--env=GST_PLUGIN_PATH=/app/lib/ffmpeg` to `finish-args` and `"autodownload": true` to the extension config.
+- **AppImage VAAPI Segfault on Old Radeon**: Bundled `libgstvaapi.so` caused segfault on old Radeon GPUs (radeon driver, not amdgpu) due to Mesa failing to allocate virtual address for buffer. Fix: removed `libgstvaapi.so` from AppImage GStreamer plugin bundle. Users with modern hardware still use their host system's VAAPI plugin via `GST_PLUGIN_PATH` prepending.
+- **AppImage Missing Icons on KDE (GitHub #14)**: AppImage showed missing/broken icons on KDE Plasma because Adwaita icon theme is not installed. Fix: bundle Adwaita scalable + symbolic icons + `index.theme` into AppImage, rebuild icon cache.
+- **File Manager "Don't have download data" Log Spam**: `file_manager.vala` emitted `warning()` on a normal timing race (download data not yet available). Fix: downgraded to `debug()` to reduce log noise.
+
+### Added
+- **Security Audit Test Suite**: 506 Meson tests across 6 suites (main, xmpp-vala, openpgp, omemo, bot-features, libdino) + 136 standalone tests = 642 total. Spec-based naming (NIST, RFC, XEP prefixes). Found and fixed 21 bugs (T-1 through T-21).
+- **SECURITY_AUDIT.md**: Updated with all 21 test-suite bugs in new "Automated Test Suite" section.
+- **TESTING.md**: Complete test inventory, Developer Quick Reference section with scripts/binaries/workflows.
+- **README.md**: Added Testing link in navigation bar.
+
+### Changed
+- **Version**: 1.1.2.6 → 1.1.2.7
+
 ## [1.1.2.6] - 2026-02-23
 
 ### Fixed
