@@ -1,7 +1,13 @@
 # Security Audit
 
-**Date:** February 17, 2026 (manual audit), February 23, 2026 (test suite)  \n**Scope:** 39 crypto-related files (OMEMO v1/v2, Signal Protocol, SASL, file transfer, GCrypt wrapper) + OpenPGP plugin (15 files)  \n**Findings:** 6 Critical/High, 11 Medium, 3 Low (manual audit) + 3 Medium OpenPGP + 21 bugs from automated test suite  \n**Status:** All fixed  \n**Test Suite:** [docs/internal/TESTING.md](docs/internal/TESTING.md) -- 506 Meson tests + 136 standalone = 642 total, 0 failures  
-**Website:** [dinox.handwerker.jetzt/security-audit.html](https://dinox.handwerker.jetzt/security-audit.html)
+| | |
+|---|---|
+| **Date** | February 17, 2026 (manual audit), February 23, 2026 (test suite) |
+| **Scope** | 39 crypto-related files (OMEMO v1/v2, Signal Protocol, SASL, file transfer, GCrypt wrapper) + OpenPGP plugin (15 files) |
+| **Findings** | 6 Critical/High, 11 Medium, 3 Low (manual audit) + 3 Medium OpenPGP + 21 bugs from automated test suite |
+| **Status** | All fixed |
+| **Test Suite** | [docs/internal/TESTING.md](docs/internal/TESTING.md) — 506 Meson tests + 136 standalone = 642 total, 0 failures |
+| **Website** | [dinox.handwerker.jetzt/security-audit.html](https://dinox.handwerker.jetzt/security-audit.html) |
 
 ---
 
