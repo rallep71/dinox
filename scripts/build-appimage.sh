@@ -412,6 +412,53 @@ copy_dependencies() {
         log_warn "GIO module directory not found at $GIO_MODULE_DIR — TLS will NOT work!"
     fi
     
+    # ---------------------------------------------------------
+    # Bundle Adwaita icon theme for KDE/non-GNOME desktops
+    # ---------------------------------------------------------
+    # GTK4/libadwaita apps need Adwaita icons. On GNOME desktops these are
+    # always installed, but on KDE Plasma (Breeze icons) they are missing,
+    # causing broken/missing icon placeholders.  See:
+    # https://github.com/rallep71/dinox/issues/14
+    log_info "Bundling Adwaita icon theme..."
+    ADWAITA_ICON_DIR=""
+    for candidate in \
+        "/usr/share/icons/Adwaita" \
+        "/usr/local/share/icons/Adwaita" \
+        "/usr/share/icons/adwaita"; do
+        if [ -d "$candidate" ]; then
+            ADWAITA_ICON_DIR="$candidate"
+            break
+        fi
+    done
+    if [ -n "$ADWAITA_ICON_DIR" ]; then
+        mkdir -p "$APPDIR/usr/share/icons/Adwaita"
+        # Copy scalable symbolic icons (small footprint, used by GTK4)
+        if [ -d "$ADWAITA_ICON_DIR/scalable" ]; then
+            cp -r "$ADWAITA_ICON_DIR/scalable" "$APPDIR/usr/share/icons/Adwaita/"
+        fi
+        # Copy symbolic directory if separate (Adwaita >= 46)
+        if [ -d "$ADWAITA_ICON_DIR/symbolic" ]; then
+            cp -r "$ADWAITA_ICON_DIR/symbolic" "$APPDIR/usr/share/icons/Adwaita/"
+        fi
+        # Copy index.theme (required for GTK icon lookup)
+        if [ -f "$ADWAITA_ICON_DIR/index.theme" ]; then
+            cp "$ADWAITA_ICON_DIR/index.theme" "$APPDIR/usr/share/icons/Adwaita/"
+        fi
+        # Copy cursors directory if present
+        if [ -d "$ADWAITA_ICON_DIR/cursors" ]; then
+            cp -r "$ADWAITA_ICON_DIR/cursors" "$APPDIR/usr/share/icons/Adwaita/"
+        fi
+        # Rebuild icon cache
+        if command -v gtk4-update-icon-cache &>/dev/null; then
+            gtk4-update-icon-cache -f -t "$APPDIR/usr/share/icons/Adwaita" 2>/dev/null || true
+        elif command -v gtk-update-icon-cache &>/dev/null; then
+            gtk-update-icon-cache -f -t "$APPDIR/usr/share/icons/Adwaita" 2>/dev/null || true
+        fi
+        log_info "Adwaita icons bundled from $ADWAITA_ICON_DIR"
+    else
+        log_warn "Adwaita icon theme not found — icons may be missing on KDE!"
+    fi
+
     log_info "Dependencies copied!"
 }
 
@@ -492,6 +539,12 @@ export TEXTDOMAINDIR="$APPDIR/usr/share/locale"
 
 # Set GSettings schema path
 export GSETTINGS_SCHEMA_DIR="$APPDIR/usr/share/glib-2.0/schemas:$GSETTINGS_SCHEMA_DIR"
+
+# Icon theme: ensure Adwaita icons are available on KDE/non-GNOME desktops.
+# libadwaita handles its own color scheme (light/dark), so we do NOT force
+# GTK_THEME — libadwaita ignores it and it causes warning spam on KDE.
+# The icon fallback works via XDG_DATA_DIRS below (bundled Adwaita icons).
+# See: https://github.com/rallep71/dinox/issues/14
 
 # XDG_DATA_DIRS: GTK4 uses this to find icon themes, .desktop files, etc.
 # Prepend the bundled share directory so GTK finds the app icon for About dialog,
