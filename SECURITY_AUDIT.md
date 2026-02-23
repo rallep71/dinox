@@ -332,29 +332,29 @@ Full test inventory, spec references, and reproduction steps:
 
 ### Bugs Found by Test Suite (all fixed)
 
-| Bug | Severity | File | Test that caught it | Issue |
-|-----|----------|------|---------------------|-------|
-| T-1 | Medium | `jid.vala` | `RFC7622_reject_empty_string` | Empty string `""` accepted as valid JID instead of throwing `InvalidJidError` |
-| T-2 | Medium | `jid.vala` | `RFC7622_reject_too_long_localpart` | Localpart > 1023 bytes accepted (RFC 7622 S3.3 limit) |
-| T-3 | Low | `jid.vala` | `RFC7622_reject_at_only` | Bare `"@"` accepted as valid JID |
-| T-4 | Low | `jid.vala` | `RFC7622_reject_slash_only_resource` | `"domain/"` with empty resource accepted |
-| T-5 | Medium | `file_encryption.vala` | `SP800_38D_iv_is_96_bits` | GCM IV was 128 bits (16 bytes) instead of NIST-mandated 96 bits (12 bytes) |
-| T-6 | High | `file_encryption.vala` | `SP800_38D_tag_is_128_bits` | GCM authentication tag truncated to 64 bits instead of full 128 bits |
-| T-7 | Medium | `file_encryption.vala` | `SP800_132_salt_minimum_128_bits` | PBKDF2 salt was 64 bits (8 bytes) instead of NIST-mandated 128 bits minimum |
-| T-8 | Medium | `file_encryption.vala` | `SP800_38D_unique_iv_per_encryption` | Same IV reused across multiple encryptions (GCM IV reuse = catastrophic) |
-| T-9 | Low | `file_encryption.vala` | `IND_CPA_ciphertext_indistinguishable` | Identical plaintexts produced identical ciphertexts (no randomization) |
-| T-10 | Medium | `stream_management.vala` | `XEP0198_h_counter_overflow_at_2_32` | h-counter overflow at 2³² not handled per XEP-0198 S5 |
-| T-11 | Medium | `omemo/manager.vala` | `XEP0384_prekey_update_classifier` | PreKey update classification logic broken for edge cases |
-| T-12 | Medium | `omemo/manager.vala` | `XEP0384_encrypt_safety_check` | Missing safety check before encryption allowed encrypt with 0 recipients |
-| T-13 | Medium | `omemo/decrypt.vala` | `XEP0384_decrypt_failure_stages` | Decrypt failure stage tracking incorrect |
-| T-14 | Low | `constant_time.vala` | `CWE208_constant_time_compare` | Timing-variant comparison in some edge cases |
-| T-15 | Low | `json_escape.vala` | `RFC8259_backslash_escape` | JSON string escaping missed backslash character |
-| T-16 | Low | `bot_rate_limiter.vala` | `CONTRACT_zero_window_rate_limiter` | Zero-width rate limiter window caused division by zero |
-| T-17 | Medium | `stream_module.vala` | `XEP0374_extract_body_bodyguard` | `<bodyguard>` element falsely matched as `<body>` in XEP-0374 extraction |
-| T-18 | Medium | `armor_parser.vala` | `XEP0027_signature_armor` | Armor parser boundary detection off-by-one |
-| T-19 | Medium | `gpg_keylist_parser.vala` | `GPG_keylist_uid_field` | GPG keylist UID field parsing skipped colon-delimited fields incorrectly |
-| T-20 | Medium | `stanza_node.vala` | `XML_encoded_val_decode` | `encoded_val` setter substring indices wrong: `end-start-3` was `start-end-3`, `splice(start, end)` missing `+1` |
-| T-21 | Low | `0300_cryptographic_hashes.vala` | `XEP0300_hash_string_md5` | `hash_string_to_type("md5")` returned null -- missing `case "md5"` in switch |
+| Bug | Severity | File | Test that caught it | Fix | Issue |
+|-----|----------|------|---------------------|-----|-------|
+| T-1 | Medium | `jid.vala` | `RFC7622_reject_empty_string` | [`85bdf468`](https://github.com/rallep71/dinox/commit/85bdf468) | Empty string `""` accepted as valid JID instead of throwing `InvalidJidError` |
+| T-2 | Medium | `jid.vala` | `RFC7622_reject_too_long_localpart` | [`85bdf468`](https://github.com/rallep71/dinox/commit/85bdf468) | Localpart > 1023 bytes accepted (RFC 7622 S3.3 limit) |
+| T-3 | Low | `jid.vala` | `RFC7622_reject_at_only` | [`85bdf468`](https://github.com/rallep71/dinox/commit/85bdf468) | Bare `"@"` accepted as valid JID |
+| T-4 | Low | `jid.vala` | `RFC7622_reject_slash_only_resource` | [`85bdf468`](https://github.com/rallep71/dinox/commit/85bdf468) | `"domain/"` with empty resource accepted |
+| T-5 | Medium | `file_encryption.vala` | `SP800_38D_iv_is_96_bits` | [`b6a7359f`](https://github.com/rallep71/dinox/commit/b6a7359f) | GCM IV was 128 bits (16 bytes) instead of NIST-mandated 96 bits (12 bytes) |
+| T-6 | High | `file_encryption.vala` | `SP800_38D_tag_is_128_bits` | [`b6a7359f`](https://github.com/rallep71/dinox/commit/b6a7359f) | GCM authentication tag truncated to 64 bits instead of full 128 bits |
+| T-7 | Medium | `file_encryption.vala` | `SP800_132_salt_minimum_128_bits` | [`b6a7359f`](https://github.com/rallep71/dinox/commit/b6a7359f) | PBKDF2 salt was 64 bits (8 bytes) instead of NIST-mandated 128 bits minimum |
+| T-8 | Medium | `file_encryption.vala` | `SP800_38D_unique_iv_per_encryption` | [`b6a7359f`](https://github.com/rallep71/dinox/commit/b6a7359f) | Same IV reused across multiple encryptions (GCM IV reuse = catastrophic) |
+| T-9 | Low | `file_encryption.vala` | `IND_CPA_ciphertext_indistinguishable` | [`b6a7359f`](https://github.com/rallep71/dinox/commit/b6a7359f) | Identical plaintexts produced identical ciphertexts (no randomization) |
+| T-10 | Medium | `stream_management.vala` | `XEP0198_h_counter_overflow_at_2_32` | [`b6a7359f`](https://github.com/rallep71/dinox/commit/b6a7359f) | h-counter overflow at 2³² not handled per XEP-0198 S5 |
+| T-11 | Medium | `omemo/manager.vala` | `XEP0384_prekey_update_classifier` | [`4371abfe`](https://github.com/rallep71/dinox/commit/4371abfe) | PreKey update classification logic broken for edge cases |
+| T-12 | Medium | `omemo/manager.vala` | `XEP0384_encrypt_safety_check` | [`4371abfe`](https://github.com/rallep71/dinox/commit/4371abfe) | Missing safety check before encryption allowed encrypt with 0 recipients |
+| T-13 | Medium | `omemo/decrypt.vala` | `XEP0384_decrypt_failure_stages` | [`4371abfe`](https://github.com/rallep71/dinox/commit/4371abfe) | Decrypt failure stage tracking incorrect |
+| T-14 | Low | `constant_time.vala` | `CWE208_constant_time_compare` | [`feaf82eb`](https://github.com/rallep71/dinox/commit/feaf82eb) | Timing-variant comparison in some edge cases |
+| T-15 | Low | `json_escape.vala` | `RFC8259_backslash_escape` | [`b6a7359f`](https://github.com/rallep71/dinox/commit/b6a7359f) | JSON string escaping missed backslash character |
+| T-16 | Low | `bot_rate_limiter.vala` | `CONTRACT_zero_window_rate_limiter` | [`b6a7359f`](https://github.com/rallep71/dinox/commit/b6a7359f) | Zero-width rate limiter window caused division by zero |
+| T-17 | Medium | `stream_module.vala` | `XEP0374_extract_body_bodyguard` | [`feaf82eb`](https://github.com/rallep71/dinox/commit/feaf82eb) | `<bodyguard>` element falsely matched as `<body>` in XEP-0374 extraction |
+| T-18 | Medium | `armor_parser.vala` | `XEP0027_signature_armor` | [`9fc973cf`](https://github.com/rallep71/dinox/commit/9fc973cf) | Armor parser boundary detection off-by-one |
+| T-19 | Medium | `gpg_keylist_parser.vala` | `GPG_keylist_uid_field` | [`9fc973cf`](https://github.com/rallep71/dinox/commit/9fc973cf) | GPG keylist UID field parsing skipped colon-delimited fields incorrectly |
+| T-20 | Medium | `stanza_node.vala` | `XML_encoded_val_decode` | [`a434590b`](https://github.com/rallep71/dinox/commit/a434590b) | `encoded_val` setter substring indices wrong: `end-start-3` was `start-end-3`, `splice(start, end)` missing `+1` |
+| T-21 | Low | `0300_cryptographic_hashes.vala` | `XEP0300_hash_string_md5` | [`a434590b`](https://github.com/rallep71/dinox/commit/a434590b) | `hash_string_to_type("md5")` returned null -- missing `case "md5"` in switch |
 
 ### Test Suite Summary
 
