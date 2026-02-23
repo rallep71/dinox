@@ -86,6 +86,8 @@ test_sources = [
 
     'tests/native/curve25519.vala',
     'tests/native/file_decryptor.vala',
+    'tests/native/decrypt_logic.vala',
+    'tests/native/bundle_parser.vala',
     'tests/native/hkdf.vala',
     'tests/native/session_builder.vala',
 ]

@@ -176,7 +176,7 @@ namespace Dino.Plugins.OpenPgp {
         }
         
         // Extract PGP data from ASCII armor (remove headers/footers, base64 encode if needed)
-        private static string extract_pgp_data(string armored) {
+        internal static string extract_pgp_data(string armored) {
             int start = armored.index_of("\n\n");
             if (start < 0) start = armored.index_of("\r\n\r\n");
             if (start < 0) return Base64.encode(armored.data);
@@ -581,10 +581,25 @@ public class ReceivedPipelineDecryptListener : StanzaListener<MessageStanza> {
     }
     
     // Extract body text from signcrypt XML
-    private static string? extract_body_from_signcrypt(string xml) {
-        // Simple extraction - look for <body>...</body>
-        int body_start = xml.index_of("<body");
-        if (body_start < 0) return null;
+    internal static string? extract_body_from_signcrypt(string xml) {
+        // Bug #17 FIX: Use "<body>" or "<body " to avoid matching <bodyguard> etc.
+        // Look for <body> (self-closing or with attributes) followed by </body>
+        int body_start = -1;
+        int search_from = 0;
+        while (true) {
+            int pos = xml.index_of("<body", search_from);
+            if (pos < 0) return null;
+            // Check that the char after "<body" is '>', ' ', '/' or end-of-string
+            int after = pos + 5; // length of "<body"
+            if (after >= xml.length) return null;
+            char c = xml[after];
+            if (c == '>' || c == ' ' || c == '/' || c == '\t' || c == '\n' || c == '\r') {
+                body_start = pos;
+                break;
+            }
+            // Not a real <body> element — skip past and keep searching
+            search_from = after;
+        }
         
         int content_start = xml.index_of(">", body_start);
         if (content_start < 0) return null;

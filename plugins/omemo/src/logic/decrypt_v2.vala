@@ -278,7 +278,7 @@ namespace Dino.Plugins.Omemo {
         /**
          * Constant-time comparison to prevent timing attacks.
          */
-        private static bool constant_time_compare(uint8[] a, uint8[] b) {
+        internal static bool constant_time_compare(uint8[] a, uint8[] b) {
             if (a.length != b.length) return false;
             uint8 result = 0;
             for (int i = 0; i < a.length; i++) {

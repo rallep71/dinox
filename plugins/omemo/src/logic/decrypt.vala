@@ -250,7 +250,7 @@ namespace Dino.Plugins.Omemo {
             return true;
         }
 
-        private string arr_to_str(uint8[] arr) {
+        internal static string arr_to_str(uint8[] arr) {
             // null-terminate the array
             uint8[] rarr = new uint8[arr.length+1];
             Memory.copy(rarr, arr, arr.length);

@@ -7,6 +7,8 @@ int main(string[] args) {
     TestSuite.get_root().add_suite(new SessionBuilderTest().get_suite());
     TestSuite.get_root().add_suite(new HKDF().get_suite());
     TestSuite.get_root().add_suite(new FileDecryptorTest().get_suite());
+    TestSuite.get_root().add_suite(new DecryptLogicTest().get_suite());
+    TestSuite.get_root().add_suite(new BundleParserTest().get_suite());
     return GLib.Test.run();
 }
 

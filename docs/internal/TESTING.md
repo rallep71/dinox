@@ -3,7 +3,7 @@
 Complete inventory of all automated tests in the DinoX project.
 Every test references its authoritative specification or contract.
 
-**Status: v1.1.4.0 -- 241 Meson tests + 136 standalone tests = 377 automated tests, 0 failures**
+**Status: v1.2.0.0 -- 288 Meson tests + 136 standalone tests = 424 automated tests, 0 failures**
 
 ---
 
@@ -13,7 +13,7 @@ Every test references its authoritative specification or contract.
 # All tests at once (recommended)
 ./scripts/run_all_tests.sh
 
-# Only Meson-registered tests (5 suites, 241 tests)
+# Only Meson-registered tests (6 suites, 288 tests)
 ./scripts/run_all_tests.sh --meson
 
 # Only DB maintenance tests (136 standalone)
@@ -54,8 +54,9 @@ export LD_LIBRARY_PATH=build/libdino:build/xmpp-vala:build/qlite:build/crypto-va
 build/xmpp-vala/xmpp-vala-test     # 142 tests
 build/libdino/libdino-test          # 29 tests
 build/main/main-test                # 16 tests
-build/plugins/omemo/omemo-test      # 30 tests
+build/plugins/omemo/omemo-test      # 61 tests
 build/plugins/bot-features/bot-features-test  # 24 tests
+build/plugins/openpgp/openpgp-test  # 16 tests
 ```
 
 ### Running a single test by name
@@ -74,6 +75,7 @@ build/libdino/libdino-test -l
 build/main/main-test -l
 build/plugins/omemo/omemo-test -l
 build/plugins/bot-features/bot-features-test -l
+build/plugins/openpgp/openpgp-test -l
 ```
 
 ### Verbose output
@@ -96,7 +98,7 @@ build/xmpp-vala/xmpp-vala-test --verbose
 
 ---
 
-## 1. Meson-Registered Tests (241 Tests)
+## 1. Meson-Registered Tests (288 Tests)
 
 Compiled and executed via `ninja -C build test`.
 Framework: GLib.Test + `Gee.TestCase` with `add_async_test()` for async XML parsing.
@@ -339,7 +341,7 @@ namespace constants, data classes, roundtrip serialization, random padding, modu
 | 28 | `RFC8259_newline_not_escaped_in_send_error` | RFC 8259 S7 | Newline in JSON string escaped |
 | 29 | `RFC8259_tab_not_escaped_in_send_error` | RFC 8259 S7 | Tab in JSON string escaped |
 
-### 1.3 OMEMO (30 Tests)
+### 1.3 OMEMO (61 Tests)
 
 **Target:** `omemo-test` -- `plugins/omemo/meson.build`
 
@@ -396,6 +398,53 @@ Required `private` → `internal static` to enable testing via `--internal-vapi`
 | 29 | `XEP0454_aesgcm_to_https_preserves_path` | XEP-0454 | Path + query preserved |
 | 30 | `XEP0454_aesgcm_to_https_non_aesgcm_unchanged` | XEP-0454 | Non-aesgcm URL unchanged |
 
+#### DecryptLogic (15 Tests) -- CWE-208 / Contract Security Audit
+
+Security audit tests for OMEMO decrypt helper functions.
+Required `private` → `internal static` to enable testing via `--internal-vapi` + `-include omemo-internal.h`.
+
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
+| 31 | `CWE208_equal_arrays_returns_true` | CWE-208 | Identical arrays → true |
+| 32 | `CWE208_unequal_arrays_returns_false` | CWE-208 | Different arrays → false |
+| 33 | `CWE208_different_length_returns_false` | CWE-208 | Length mismatch → false (early) |
+| 34 | `CWE208_empty_arrays_returns_true` | CWE-208 | Empty arrays → true |
+| 35 | `CWE208_single_byte_match` | CWE-208 | Single identical byte → true |
+| 36 | `CWE208_single_byte_mismatch` | CWE-208 | Single different byte → false |
+| 37 | `CWE208_all_zero_arrays_equal` | CWE-208 | All-zero arrays → true |
+| 38 | `CWE208_one_bit_difference` | CWE-208 | 1-bit diff detected |
+| 39 | `CWE208_first_byte_differs` | CWE-208 | First byte difference detected |
+| 40 | `CWE208_last_byte_differs` | CWE-208 | Last byte difference detected |
+| 41 | `CONTRACT_arr_to_str_ascii` | Contract | ASCII bytes → string |
+| 42 | `CONTRACT_arr_to_str_empty` | Contract | Empty array → empty string |
+| 43 | `CONTRACT_arr_to_str_embedded_nul` | Contract | Embedded NUL → truncation (C behavior) |
+| 44 | `CONTRACT_arr_to_str_utf8_multibyte` | Contract | UTF-8 ä survives conversion |
+| 45 | `CONTRACT_arr_to_str_single_byte` | Contract | Single byte → single char |
+
+#### BundleParser (16 Tests) -- XEP-0384 v0.3 + v0.8 Security Audit
+
+Bundle XML parser tests against untrusted input: null nodes, missing elements,
+non-numeric IDs, missing keys/signatures.
+
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
+| 46 | `XEP0384v03_bundle_null_node_spk_id_minus1` | XEP-0384 v0.3 | Null node → spk_id -1 |
+| 47 | `XEP0384v03_bundle_missing_spk_node` | XEP-0384 v0.3 | Missing signedPreKeyPublic → -1 |
+| 48 | `XEP0384v03_bundle_valid_spk_id` | XEP-0384 v0.3 | signedPreKeyId=42 parsed correctly |
+| 49 | `XEP0384v03_bundle_non_numeric_spk_id` | XEP-0384 v0.3 | int.parse("garbage") → 0 (FINDING: ambiguous with id=0) |
+| 50 | `XEP0384v03_bundle_empty_prekeys` | XEP-0384 v0.3 | Missing prekeys → empty list |
+| 51 | `XEP0384v03_bundle_prekey_id_parsed` | XEP-0384 v0.3 | PreKey id=7 parsed |
+| 52 | `XEP0384v03_bundle_prekey_missing_id_skipped` | XEP-0384 v0.3 | Missing preKeyId → filtered out |
+| 53 | `XEP0384v08_bundle_null_node_spk_id_minus1` | XEP-0384 v0.8 | Null node → spk_id -1 |
+| 54 | `XEP0384v08_bundle_missing_spk_node` | XEP-0384 v0.8 | Missing spk → -1 |
+| 55 | `XEP0384v08_bundle_valid_spk_id` | XEP-0384 v0.8 | spk id=99 parsed correctly |
+| 56 | `XEP0384v08_bundle_non_numeric_spk_id` | XEP-0384 v0.8 | int.parse("not-a-number") → 0 |
+| 57 | `XEP0384v08_bundle_empty_prekeys` | XEP-0384 v0.8 | Missing prekeys → empty list |
+| 58 | `XEP0384v08_bundle_prekey_id_parsed` | XEP-0384 v0.8 | pk id=5 parsed |
+| 59 | `XEP0384v08_bundle_prekey_no_id_skipped` | XEP-0384 v0.8 | pk without id → filtered out |
+| 60 | `XEP0384v08_bundle_missing_sig_null` | XEP-0384 v0.8 | Missing spks → null signature |
+| 61 | `XEP0384v08_bundle_missing_ik_null` | XEP-0384 v0.8 | Missing ik → null identity key |
+
 ### 1.4 Main / UI View Models (16 Tests)
 
 **Target:** `main-test` -- `main/meson.build`
@@ -423,7 +472,36 @@ Pure GObject view model classes (zero GTK dependency). First UI-layer tests in t
 | 15 | `GObject_Button_clicked_signal_fires` | GObject signal | clicked fires, multiple clicks counted |
 | 16 | `GObject_inheritance_all_subtypes_are_Any` | GObject type | Text, Entry, PrivateText, Toggle, ComboBox, Button are-a Any |
 
-### 1.5 Bot-Features (24 Tests)
+### 1.5 OpenPGP (16 Tests)
+
+**Target:** `openpgp-test` -- `plugins/openpgp/meson.build`
+
+#### StreamModuleLogic (16 Tests) -- XEP-0373/0374 Security Audit
+
+Security audit tests for OpenPGP stream_module helper functions.
+Required `private static` → `internal static` to enable testing via `--internal-vapi` + `-include openpgp-internal.h`.
+First test suite for the openpgp plugin (new test infrastructure).
+
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
+| 1 | `XEP0374_extract_body_simple` | XEP-0374 S3 | Simple body extraction |
+| 2 | `XEP0374_extract_body_with_namespace` | XEP-0374 S3 | Body with xmlns='jabber:client' |
+| 3 | `XEP0374_extract_body_no_body_returns_null` | XEP-0374 | No body → null |
+| 4 | `XEP0374_extract_body_empty_body` | XEP-0374 | Empty body → empty string |
+| 5 | `XEP0374_extract_body_missing_close_tag` | XEP-0374 | Missing </body> → null |
+| 6 | `XEP0374_extract_body_bodyguard_no_false_match` | XEP-0374 | **Bug #17 FIXED**: `<bodyguard>` no longer matches `<body>` |
+| 7 | `XEP0374_extract_body_with_attributes` | XEP-0374 | Body with xml:lang + xmlns |
+| 8 | `XEP0374_extract_body_xml_entities` | XEP-0374 | XML entities preserved |
+| 9 | `XEP0374_extract_body_nested_elements` | XEP-0374 | Body nested in payload |
+| 10 | `XEP0374_extract_body_full_signcrypt` | XEP-0374 S3 | Full spec example |
+| 11 | `XEP0374_extract_pgp_data_normal_armor` | XEP-0374 | Normal ASCII armor extraction |
+| 12 | `XEP0374_extract_pgp_data_crlf_headers` | XEP-0374 | CRLF line endings handled |
+| 13 | `XEP0374_extract_pgp_data_no_headers_fallback` | XEP-0374 | No headers → base64 fallback (FINDING: double-encode) |
+| 14 | `XEP0374_extract_pgp_data_missing_footer` | XEP-0374 | Missing END footer → rest of data |
+| 15 | `XEP0374_extract_pgp_data_empty` | XEP-0374 | Empty input → base64 fallback |
+| 16 | `XEP0374_extract_pgp_data_preserves_base64` | XEP-0374 | Base64 data preserved exactly |
+
+### 1.6 Bot-Features (24 Tests)
 
 **Target:** `bot-features-test` -- `plugins/bot-features/meson.build`
 
@@ -545,24 +623,24 @@ Every test references its authoritative source:
 | **XEP-0059** | Result Set Management | 1 |
 | **XEP-0198** | Stream Management | 15 |
 | **XEP-0313** | Message Archive Management | 8 |
-| **XEP-0373** | OpenPGP for XMPP | 6 |
-| **XEP-0374** | OpenPGP for XMPP Instant Messaging | 30 |
-| **XEP-0384** | OMEMO encryption | 42 |
+| **XEP-0373** | OpenPGP for XMPP | 12 |
+| **XEP-0374** | OpenPGP for XMPP Instant Messaging | 40 |
+| **XEP-0384** | OMEMO encryption | 58 |
 | **XEP-0392** | Consistent Color Generation | 3 |
 | **XEP-0448** | Encrypted File Sharing | 2 |
 | **XEP-0454** | OMEMO Media Sharing | 3 |
 | **Signal Protocol** | Double Ratchet, PreKeys | 5 |
-| **Contract** | Data structure/API contracts (WeakMap, RateLimiter) | 17 |
+| **Contract** | Data structure/API contracts (WeakMap, RateLimiter, arr_to_str) | 22 |
 | **GObject** | Property/signal contract (PreferencesRow) | 16 |
 | **XSD** | xs:hexBinary parsing | 5 |
-| **GIO** | Stream lifecycle | 1 |
+| **CWE-208** | Timing attack prevention (constant_time_compare) | 10 |
 
 ---
 
 ## 5. Test Architecture
 
 ```
-ninja -C build test                    Meson-registered (241 tests)
+ninja -C build test                    Meson-registered (288 tests)
   |-- xmpp-vala-test                   12 suites, 142 tests (GLib.Test)
   |     |-- Stanza (4)                   RFC 6120 S4 stream/namespace
   |     |-- util (5)                     xs:hexBinary parsing contract
@@ -589,11 +667,16 @@ ninja -C build test                    Meson-registered (241 tests)
   |-- main-test                        1 suite, 16 tests (GLib.Test)
   |     +-- PreferencesRow (16)          GObject property/signal contract
   |
-  |-- omemo-test                       4 suites, 30 tests (GLib.Test)
+  |-- omemo-test                       7 suites, 61 tests (GLib.Test)
   |     |-- Curve25519 (4)               RFC 7748 key agreement
   |     |-- SessionBuilder (5)           Signal Protocol / XEP-0384
   |     |-- HKDF (1)                     RFC 5869 test vector
-  |     +-- FileDecryptor (20)           RFC 4648 + XEP-0454 security audit
+  |     |-- FileDecryptor (20)           RFC 4648 + XEP-0454 security audit
+  |     |-- DecryptLogic (15)            CWE-208 constant-time + arr_to_str
+  |     +-- BundleParser (16)            XEP-0384 v0.3 + v0.8 XML parser audit
+  |
+  |-- openpgp-test                     1 suite, 16 tests (GLib.Test)
+  |     +-- StreamModuleLogic (16)       XEP-0374 extract_body + extract_pgp_data
   |
   +-- bot-features-test                4 suites, 24 tests (GLib.Test)
         |-- RateLimiter (9)              Contract-based (C-1 to C-8)
@@ -874,4 +957,4 @@ Examples:
 
 ---
 
-*Last updated: 23 February 2026 -- v1.1.4.0, 241 Meson tests (all spec-prefixed), 5 suites, 0 failures*
+*Last updated: 23 February 2026 -- v1.2.0.0, 288 Meson tests (all spec-prefixed), 6 suites, 0 failures*
