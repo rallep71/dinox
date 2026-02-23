@@ -13,6 +13,8 @@ int main(string[] args) {
     TestSuite.get_root().add_suite(new Xmpp.Test.MAMTest().get_suite());
     // Security Audit Tests (spec-based, expected to FAIL = bugs found)
     TestSuite.get_root().add_suite(new Xmpp.Test.StreamManagementAudit().get_suite());
+    TestSuite.get_root().add_suite(new Xmpp.Test.OmemoAudit().get_suite());
+    TestSuite.get_root().add_suite(new Xmpp.Test.OpenPgpAudit().get_suite());
     return GLib.Test.run();
 }
 

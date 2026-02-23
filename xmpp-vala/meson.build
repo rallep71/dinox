@@ -184,6 +184,8 @@ test_sources = [
     'tests/stream_management.vala',
     'tests/mam.vala',
     'tests/audit_stream_management.vala',
+    'tests/audit_omemo.vala',
+    'tests/audit_openpgp.vala',
 ]
 exe_xmpp_vala_test = executable('xmpp-vala-test', test_sources, c_args: c_args, vala_args: vala_args, dependencies: dependencies + dep_xmpp_vala, install: false)
 test('Tests for xmpp-vala', exe_xmpp_vala_test)

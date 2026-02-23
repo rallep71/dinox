@@ -3,7 +3,7 @@
 Complete inventory of all automated tests in the DinoX project.
 Every test references its authoritative specification or contract.
 
-**Status: v1.1.2.9 -- 146 Meson tests + 136 standalone tests = 282 automated tests, 0 failures**
+**Status: v1.1.3.0 -- 217 Meson tests + 136 standalone tests = 353 automated tests, 0 failures**
 
 ---
 
@@ -13,7 +13,7 @@ Every test references its authoritative specification or contract.
 # All tests at once (recommended)
 ./scripts/run_all_tests.sh
 
-# Only Meson-registered tests (5 suites, 146 tests)
+# Only Meson-registered tests (5 suites, 217 tests)
 ./scripts/run_all_tests.sh --meson
 
 # Only DB maintenance tests (136 standalone)
@@ -51,7 +51,7 @@ ninja -C build
 export LD_LIBRARY_PATH=build/libdino:build/xmpp-vala:build/qlite:build/crypto-vala
 
 # Run one suite
-build/xmpp-vala/xmpp-vala-test     # 67 tests
+build/xmpp-vala/xmpp-vala-test     # 138 tests
 build/libdino/libdino-test          # 29 tests
 build/main/main-test                # 16 tests
 build/plugins/omemo/omemo-test      # 10 tests
@@ -96,12 +96,12 @@ build/xmpp-vala/xmpp-vala-test --verbose
 
 ---
 
-## 1. Meson-Registered Tests (146 Tests)
+## 1. Meson-Registered Tests (217 Tests)
 
 Compiled and executed via `ninja -C build test`.
 Framework: GLib.Test + `Gee.TestCase` with `add_async_test()` for async XML parsing.
 
-### 1.1 xmpp-vala (67 Tests)
+### 1.1 xmpp-vala (138 Tests)
 
 **Target:** `xmpp-vala-test` -- `xmpp-vala/meson.build`
 
@@ -189,6 +189,93 @@ Framework: GLib.Test + `Gee.TestCase` with `add_async_test()` for async XML pars
 | 65 | `h_counter_must_be_uint32` | XEP-0198 S5 | Declared type is `uint32` |
 | 66 | `h_counter_overflow_produces_negative` | NIST | Integer overflow detection |
 | 67 | `h_to_string_must_not_be_negative` | XEP-0198 S5 | String representation must never be negative |
+
+#### OmemoAudit (39 Tests) -- XEP-0384 v0.3 + v0.8
+
+OMEMO v1 (legacy, `eu.siacs.conversations.axolotl`) and OMEMO 2 (`urn:xmpp:omemo:2`) stanza structure,
+namespace constants, key/tag layout, parsing, and encrypt-state accumulation.
+
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
+| 68 | `XEP0384v03_ns_uri_is_siacs_axolotl` | XEP-0384 v0.3 | Legacy namespace constant |
+| 69 | `XEP0384v03_node_devicelist_suffix` | XEP-0384 v0.3 | Devicelist PubSub node suffix |
+| 70 | `XEP0384v03_node_bundles_suffix` | XEP-0384 v0.3 | Bundles PubSub node suffix |
+| 71 | `XEP0384v03_encrypted_node_has_header_with_sid` | XEP-0384 v0.3 S4 | `<encrypted>` → `<header sid='...'>` |
+| 72 | `XEP0384v03_encrypted_node_has_iv_in_header` | XEP-0384 v0.3 S4 | IV element in header (required for AES-GCM) |
+| 73 | `XEP0384v03_encrypted_node_has_payload` | XEP-0384 v0.3 S4 | `<payload>` with base64 ciphertext |
+| 74 | `XEP0384v03_key_node_has_rid_and_prekey` | XEP-0384 v0.3 S4 | `<key rid='...' prekey='true'>` attributes |
+| 75 | `XEP0384v03_key_node_contains_base64_key` | XEP-0384 v0.3 S4 | Key element value is base64 |
+| 76 | `XEP0384v03_multiple_keys_in_header` | XEP-0384 v0.3 S4 | Multiple recipients → multiple `<key>` nodes |
+| 77 | `XEP0384v03_no_payload_for_keyexchange_only` | XEP-0384 v0.3 S4 | Empty payload → no `<payload>` element |
+| 78 | `SP800_38D_keytag_32_bytes_is_key16_tag16` | NIST SP 800-38D | AES-GCM key\|\|tag = 16+16 = 32 bytes |
+| 79 | `XEP0384v03_parse_extracts_sid` | XEP-0384 v0.3 S4 | Parser extracts sender device ID from header |
+| 80 | `XEP0384v03_parse_extracts_iv` | XEP-0384 v0.3 S4 | Parser extracts IV from header |
+| 81 | `XEP0384v03_parse_extracts_payload` | XEP-0384 v0.3 S4 | Parser extracts payload ciphertext |
+| 82 | `XEP0384v03_parse_missing_header_returns_null` | XEP-0384 v0.3 | Missing header → null (not crash) |
+| 83 | `XEP0384v03_parse_missing_iv_returns_null` | XEP-0384 v0.3 | Missing IV → null (not crash) |
+| 84 | `XEP0384v03_parse_finds_our_key_by_rid` | XEP-0384 v0.3 S4 | Correct key selected by recipient device ID |
+| 85 | `XEP0384v03_parse_prekey_attribute` | XEP-0384 v0.3 S4 | PreKey flag correctly parsed |
+| 86 | `XEP0384v08_ns_uri_is_omemo_2` | XEP-0384 v0.8 | OMEMO 2 namespace `urn:xmpp:omemo:2` |
+| 87 | `XEP0384v08_node_devicelist_suffix` | XEP-0384 v0.8 | OMEMO 2 devicelist node suffix |
+| 88 | `XEP0384v08_node_bundles_suffix` | XEP-0384 v0.8 | OMEMO 2 bundles node suffix |
+| 89 | `XEP0384v08_encrypted_node_uses_v2_namespace` | XEP-0384 v0.8 S4 | `<encrypted xmlns='urn:xmpp:omemo:2'>` |
+| 90 | `XEP0384v08_keys_grouped_by_jid` | XEP-0384 v0.8 S4 | Keys grouped in `<keys jid='...'>` elements |
+| 91 | `XEP0384v08_kex_attribute_not_prekey` | XEP-0384 v0.8 S4 | OMEMO 2 uses `kex` attribute (not `prekey`) |
+| 92 | `XEP0384v08_no_iv_in_header` | XEP-0384 v0.8 S4 | No IV element in v2 header (derived via HKDF) |
+| 93 | `XEP0384v08_payload_contains_ciphertext` | XEP-0384 v0.8 S4 | `<payload>` base64 ciphertext present |
+| 94 | `XEP0384v08_header_has_sid` | XEP-0384 v0.8 S4 | Header carries sender device ID |
+| 95 | `XEP0384v08_multiple_jids_multiple_keys` | XEP-0384 v0.8 S4 | Multiple JIDs with multiple keys each |
+| 96 | `XEP0384v08_empty_payload_no_element` | XEP-0384 v0.8 S4 | Empty payload → no `<payload>` element |
+| 97 | `XEP0384v08_parse_extracts_sid` | XEP-0384 v0.8 S4 | Parser extracts sender device ID |
+| 98 | `XEP0384v08_parse_extracts_payload` | XEP-0384 v0.8 S4 | Parser extracts payload ciphertext |
+| 99 | `XEP0384v08_parse_finds_keys_by_jid` | XEP-0384 v0.8 S4 | Keys matched by recipient JID |
+| 100 | `XEP0384v08_parse_kex_attribute` | XEP-0384 v0.8 S4 | KEX flag correctly parsed |
+| 101 | `XEP0384v08_parse_missing_header_returns_null` | XEP-0384 v0.8 | Missing header → null (not crash) |
+| 102 | `XEP0384v08_parse_missing_sid_returns_null` | XEP-0384 v0.8 | Missing SID → null (not crash) |
+| 103 | `XEP0384v08_parse_ignores_other_jid_keys` | XEP-0384 v0.8 S4 | Keys for other JIDs not included |
+| 104 | `XEP0384v08_mk_with_tag_must_be_48_bytes` | XEP-0384 v0.8 | mk\|\|auth_tag = 32+16 = 48 bytes |
+| 105 | `XEP0384_encrypt_state_add_result_own` | XEP-0384 | EncryptState accumulates own-device results |
+| 106 | `XEP0384_encrypt_state_add_result_other` | XEP-0384 | EncryptState accumulates other-device results |
+
+#### OpenPgpAudit (32 Tests) -- XEP-0373 + XEP-0374
+
+OpenPGP for XMPP stanza structure (signcrypt/sign/crypt/openpgp elements),
+namespace constants, data classes, roundtrip serialization, random padding, and cross-element rejection.
+
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
+| 107 | `XEP0373_ns_uri_is_openpgp_0` | XEP-0373 S2 | Namespace `urn:xmpp:openpgp:0` |
+| 108 | `XEP0373_ns_pubkeys_suffix` | XEP-0373 S4 | Public-keys namespace suffix |
+| 109 | `XEP0373_public_key_meta_stores_fingerprint` | XEP-0373 S4 | PublicKeyMeta.fingerprint stored |
+| 110 | `XEP0373_public_key_meta_stores_date` | XEP-0373 S4 | PublicKeyMeta.date stored |
+| 111 | `XEP0373_public_key_data_has_armored_key` | XEP-0373 S4 | PublicKeyData.armored_key stored |
+| 112 | `XEP0373_public_key_data_date_optional` | XEP-0373 S4 | PublicKeyData.date nullable |
+| 113 | `XEP0374_ns_uri_is_openpgp_0` | XEP-0374 S2 | Matches XEP-0373 NS_URI |
+| 114 | `XEP0374_ns_uri_im_service_discovery` | XEP-0374 S6 | IM namespace `urn:xmpp:openpgp:im:0` |
+| 115 | `XEP0374_signcrypt_with_body_roundtrip` | XEP-0374 S3 | create → serialize → parse → get_body_text |
+| 116 | `XEP0374_signcrypt_has_to_jid` | XEP-0374 S3 | `<to jid='...'>` element |
+| 117 | `XEP0374_signcrypt_has_time_stamp` | XEP-0374 S3 | `<time stamp='...'>` element |
+| 118 | `XEP0374_signcrypt_has_rpad` | XEP-0374 S3 | `<rpad>` random padding element |
+| 119 | `XEP0374_signcrypt_has_payload_with_body` | XEP-0374 S3 | `<payload>` wrapping `<body>` |
+| 120 | `XEP0374_signcrypt_get_body_text` | XEP-0374 S3 | Body text extraction |
+| 121 | `XEP0374_signcrypt_stanza_element_name` | XEP-0374 S3 | Root element name is `signcrypt` |
+| 122 | `XEP0374_signcrypt_invalid_root_returns_null` | XEP-0374 | Invalid root → null (not crash) |
+| 123 | `XEP0374_signcrypt_wrong_ns_returns_null` | XEP-0374 | Wrong namespace → null (not crash) |
+| 124 | `XEP0374_sign_element_structure` | XEP-0374 S4 | `<sign>` element with time+rpad+payload |
+| 125 | `XEP0374_sign_roundtrip` | XEP-0374 S4 | Sign create → serialize → parse |
+| 126 | `XEP0374_sign_invalid_root_returns_null` | XEP-0374 S4 | Invalid sign root → null |
+| 127 | `XEP0374_crypt_element_structure` | XEP-0374 S5 | `<crypt>` element with to+time+rpad+payload |
+| 128 | `XEP0374_crypt_roundtrip` | XEP-0374 S5 | Crypt create → serialize → parse |
+| 129 | `XEP0374_crypt_invalid_root_returns_null` | XEP-0374 S5 | Invalid crypt root → null |
+| 130 | `XEP0374_openpgp_element_wraps_base64` | XEP-0374 S6 | `<openpgp>` wraps base64 content |
+| 131 | `XEP0374_openpgp_element_roundtrip` | XEP-0374 S6 | OpenpgpElement serialize → parse |
+| 132 | `XEP0374_openpgp_invalid_root_returns_null` | XEP-0374 S6 | Invalid openpgp root → null |
+| 133 | `XEP0374_openpgp_null_content_returns_null` | XEP-0374 S6 | Null content → null |
+| 134 | `XEP0374_signcrypt_rpad_is_nonempty` | XEP-0374 S3 | Random padding never empty |
+| 135 | `XEP0374_signcrypt_rpad_is_base64` | XEP-0374 S3 | Padding is valid base64 |
+| 136 | `XEP0374_signcrypt_rejects_sign_element` | XEP-0374 | Cross-element rejection: signcrypt ≠ sign |
+| 137 | `XEP0374_sign_rejects_crypt_element` | XEP-0374 | Cross-element rejection: sign ≠ crypt |
+| 138 | `XEP0374_crypt_rejects_signcrypt_element` | XEP-0374 | Cross-element rejection: crypt ≠ signcrypt |
 
 ### 1.2 libdino (29 Tests)
 
@@ -414,7 +501,9 @@ Every test references its authoritative source:
 | **XEP-0059** | Result Set Management | 1 |
 | **XEP-0198** | Stream Management | 15 |
 | **XEP-0313** | Message Archive Management | 8 |
-| **XEP-0384** | OMEMO encryption | 3 |
+| **XEP-0373** | OpenPGP for XMPP | 6 |
+| **XEP-0374** | OpenPGP for XMPP Instant Messaging | 26 |
+| **XEP-0384** | OMEMO encryption | 42 |
 | **XEP-0392** | Consistent Color Generation | 3 |
 | **XEP-0448** | Encrypted File Sharing | 2 |
 | **Signal Protocol** | Double Ratchet, PreKeys | 5 |
@@ -428,8 +517,8 @@ Every test references its authoritative source:
 ## 5. Test Architecture
 
 ```
-ninja -C build test                    Meson-registered (146 tests)
-  |-- xmpp-vala-test                   10 suites, 67 tests (GLib.Test)
+ninja -C build test                    Meson-registered (217 tests)
+  |-- xmpp-vala-test                   12 suites, 138 tests (GLib.Test)
   |     |-- Stanza (4)                   RFC 6120 S4 stream/namespace
   |     |-- util (5)                     xs:hexBinary parsing contract
   |     |-- Jid (28)                     RFC 7622 JID validation
@@ -438,7 +527,9 @@ ninja -C build test                    Meson-registered (146 tests)
   |     |-- Xep0448Test (2)              XEP-0448 ESFS
   |     |-- StreamManagement (12)        XEP-0198 S3-S6 + async XML
   |     |-- MAM (8)                      XEP-0313 S3-S5 + async XML
-  |     +-- Audit_XEP0198 (3)           h-counter overflow
+  |     |-- Audit_XEP0198 (3)            h-counter overflow
+  |     |-- OmemoAudit (39)              XEP-0384 v0.3 + v0.8 stanza audit
+  |     +-- OpenPgpAudit (32)            XEP-0373 + XEP-0374 stanza audit
   |
   |-- libdino-test                     8 suites, 29 tests (GLib.Test)
   |     |-- WeakMapTest (5)              Data structure contract
@@ -506,7 +597,7 @@ scripts/run_db_integration_tests.sh    Vala, 65 tests (Qlite)
 | **http-files plugin** | No tests | Medium |
 | **ice plugin** | No tests | High -- ICE/STUN/TURN networking |
 | **notification-sound plugin** | No tests | Low -- pure GStreamer pipeline |
-| **openpgp plugin** | No tests | Medium |
+| **openpgp plugin** | Stanza tests via xmpp-vala (32 tests). Plugin logic: No tests | Medium |
 | **rtp plugin** | No tests | High -- real-time media |
 | **tor-manager plugin** | No tests | Medium -- SOCKS5 proxy |
 | **Network/protocol integration** | No mock XMPP server | High |
@@ -567,8 +658,8 @@ The view models contain business logic without GTK dependency:
 
 | Workflow | Trigger | Tests |
 |----------|---------|-------|
-| `build.yml` | push, PR | `meson test` (146 tests) |
-| `build.yml` (Vala nightly) | push, PR | `meson test` (146 tests) |
+| `build.yml` | push, PR | `meson test` (217 tests) |
+| `build.yml` (Vala nightly) | push, PR | `meson test` (217 tests) |
 | `build-flatpak.yml` | push | Build only |
 | `build-appimage.yml` | Tag | Build only |
 | `windows-build.yml` | push | Build only |
@@ -582,10 +673,10 @@ The view models contain business logic without GTK dependency:
 Script: `scripts/run_all_tests.sh`
 
 ```bash
-# All 282 tests (Meson + DB)
+# All 353 tests (Meson + DB)
 ./scripts/run_all_tests.sh
 
-# Only Meson-registered tests (146)
+# Only Meson-registered tests (217)
 ./scripts/run_all_tests.sh --meson
 
 # Only DB maintenance tests (136)
@@ -737,4 +828,4 @@ Examples:
 
 ---
 
-*Last updated: 23 February 2026 -- v1.1.2.9, 146 Meson tests (all spec-prefixed), 5 suites, 0 failures*
+*Last updated: 23 February 2026 -- v1.1.3.0, 217 Meson tests (all spec-prefixed), 5 suites, 0 failures*

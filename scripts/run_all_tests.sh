@@ -52,7 +52,7 @@ run_suite() {
 
 run_meson_tests() {
     echo -e "${BOLD}============================================${NC}"
-    echo -e "${BOLD} Meson Tests (5 suites, 146 tests)${NC}"
+    echo -e "${BOLD} Meson Tests (5 suites, 217 tests)${NC}"
     echo -e "${BOLD}============================================${NC}"
 
     # Build first
@@ -118,7 +118,7 @@ elif [[ "${1:-}" == "--db" ]]; then
 elif [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
     echo "Usage: $0 [--meson|--db|--help]"
     echo ""
-    echo "  --meson   Run only Meson-registered tests (146 tests)"
+    echo "  --meson   Run only Meson-registered tests (217 tests)"
     echo "  --db      Run only DB maintenance tests (136 tests)"
     echo "  --help    Show this help"
     echo ""
