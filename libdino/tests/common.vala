@@ -6,6 +6,7 @@ int main(string[] args) {
     TestSuite.get_root().add_suite(new WeakMapTest().get_suite());
     TestSuite.get_root().add_suite(new JidTest().get_suite());
     TestSuite.get_root().add_suite(new FileManagerTest().get_suite());
+    TestSuite.get_root().add_suite(new SecurityTest().get_suite());
     return GLib.Test.run();
 }
 

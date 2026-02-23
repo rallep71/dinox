@@ -68,3 +68,13 @@ vala_args = [
 lib_bot_features = shared_library('bot-features', sources + c_sources + vapi_sources, name_prefix: '', c_args: c_args, vala_args: vala_args, include_directories: include_directories('src'), dependencies: dependencies + dep_omemo_bot, install: true, install_dir: get_option('libdir') / get_option('plugindir'), install_rpath: default_install_rpath)
 dep_bot_features = declare_dependency(link_with: lib_bot_features, include_directories: include_directories('.'))
 summary('BotFather API and Bot Management (bot-features)', dep_bot_features, section: 'Plugins')
+
+# Unit tests for bot-features (standalone, only rate_limiter.vala needs Gee)
+bot_test_sources = files(
+    'tests/common.vala',
+    'tests/testcase.vala',
+    'tests/bot_tests.vala',
+    'src/rate_limiter.vala',
+)
+exe_bot_test = executable('bot-features-test', bot_test_sources, c_args: ['-DG_LOG_DOMAIN="bot-features-test"'], dependencies: [dep_gee, dep_glib, dep_gio], install: false)
+test('bot-features-test', exe_bot_test)

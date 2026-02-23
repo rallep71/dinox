@@ -29,17 +29,19 @@ These are compiled and run via `ninja -C build test` (or `meson test -C build`).
 **Registration:** `xmpp-vala/meson.build` line 186  
 **Framework:** GLib.Test via custom `Gee.TestCase` base class  
 
-| Suite        | File              | Tests |
-|--------------|-------------------|-------|
-| StanzaTest   | `stanza.vala`     | Stanza parsing, building, namespace handling |
-| UtilTest     | `util.vala`       | Utility functions |
-| JidTest      | `jid.vala`        | JID parsing, components, resource handling |
-| ColorTest    | `color.vala`      | XEP-0392 consistent color generation |
-| VCard4Test   | `vcard4.vala`     | vCard4 XML parsing |
-| Xep0448Test  | `xep_0448.vala`   | XEP-0448 encryption element parsing |
+| Suite                | File                     | Tests |
+|----------------------|--------------------------|-------|
+| StanzaTest           | `stanza.vala`            | Stanza parsing, building, namespace handling |
+| UtilTest             | `util.vala`              | Utility functions |
+| JidTest              | `jid.vala`               | JID parsing, components, resource handling |
+| ColorTest            | `color.vala`             | XEP-0392 consistent color generation |
+| VCard4Test           | `vcard4.vala`            | vCard4 XML parsing |
+| Xep0448Test          | `xep_0448.vala`          | XEP-0448 encryption element parsing |
+| StreamManagementTest | `stream_management.vala` | XEP-0198 stanza construction & parsing (10 tests) |
+| MAMTest              | `mam.vala`               | XEP-0313 MAM query/result stanzas (8 tests) |
 
 **Files:**
-- `common.vala` — main(), registers all 6 suites
+- `common.vala` — main(), registers all 8 suites
 - `testcase.vala` — `Gee.TestCase` base class (set_up/tear_down hooks)
 
 **Run individually:**
@@ -79,9 +81,10 @@ These are compiled and run via `ninja -C build test` (or `meson test -C build`).
 | WeakMapTest    | `weak_map.vala`    | set, set2, set3, unset, remove_when_out_of_scope |
 | JidTest        | `jid.vala`         | parse, components, with_res |
 | FileManagerTest| `file_manager.vala`| stream_close |
+| SecurityTest   | `security.vala`    | AES-256-GCM encrypt/decrypt round-trips (9 tests) |
 
 **Files:**
-- `common.vala` — main(), registers all 3 suites + helper assert functions
+- `common.vala` — main(), registers all 4 suites + helper assert functions
 - `testcase.vala` — `Gee.TestCase` base class
 
 **Run individually:**
@@ -164,7 +167,31 @@ These are useful for manual debugging but not part of automated CI.
 
 ---
 
-## 4. Other Test-Related Scripts
+## 4. Bot-Features Tests (`plugins/bot-features/tests/`)
+
+**Meson target:** `bot-features-test`  
+**Registration:** `plugins/bot-features/meson.build`  
+**Framework:** GLib.Test via custom `Gee.TestCase` base class  
+
+| Suite           | File              | Tests |
+|-----------------|-------------------|-------|
+| RateLimiterTest | `bot_tests.vala`  | Rate limiting: within/over limit, independent bots, window reset, retry_after, cleanup (8 tests) |
+| CryptoTest      | `bot_tests.vala`  | SHA-256 vectors, HMAC-SHA256 (RFC 4231), webhook secret format/uniqueness (8 tests) |
+
+**Files:**
+- `common.vala` — main(), registers 2 suites
+- `testcase.vala` — `Gee.TestCase` base class
+- `bot_tests.vala` — RateLimiterTest + CryptoTest
+- Compiles `src/rate_limiter.vala` standalone (no plugin dependencies)
+
+**Run individually:**
+```bash
+./build/plugins/bot-features/bot-features-test
+```
+
+---
+
+## 5. Other Test-Related Scripts
 
 | File | Purpose |
 |------|---------|
@@ -174,13 +201,14 @@ These are useful for manual debugging but not part of automated CI.
 
 ---
 
-## 5. Test Architecture Overview
+## 6. Test Architecture Overview
 
 ```
-ninja test                             meson-registered
-  ├── xmpp-vala-test                   6 suites (GLib.Test)
-  ├── libdino-test                     3 suites (GLib.Test)
-  └── omemo-test                       3 suites (GLib.Test)
+ninja test                             meson-registered (105 tests total)
+  ├── xmpp-vala-test                   8 suites, 61 tests (GLib.Test)
+  ├── libdino-test                     4 suites, 18 tests (GLib.Test)
+  ├── omemo-test                       3 suites, 10 tests (GLib.Test)
+  └── bot-features-test                2 suites, 16 tests (GLib.Test)
 
 ./scripts/test_db_maintenance.sh       bash CLI, 71 tests
 ./scripts/run_db_integration_tests.sh  Vala, 65 tests (Qlite)
@@ -201,7 +229,7 @@ All four encrypted databases are tested:
 
 ---
 
-## 6. Running All Tests
+## 7. Running All Tests
 
 ```bash
 #!/bin/bash
@@ -219,7 +247,7 @@ echo "=== DB Maintenance Integration Tests ==="
 
 ---
 
-## 7. Writing New Tests
+## 8. Writing New Tests
 
 ### GLib.Test / Gee.TestCase (for xmpp-vala, omemo, libdino)
 
@@ -257,4 +285,4 @@ void ok(bool condition, string description) {
 
 ---
 
-*Last updated: v1.1.2.6 (commits 9c8bb799, ab0550f8)*
+*Last updated: v1.1.2.6 (commits 9c8bb799, ab0550f8, pending)*
