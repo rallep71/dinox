@@ -11,6 +11,8 @@ int main(string[] args) {
     TestSuite.get_root().add_suite(new Xmpp.Test.Xep0448Test().get_suite());
     TestSuite.get_root().add_suite(new Xmpp.Test.StreamManagementTest().get_suite());
     TestSuite.get_root().add_suite(new Xmpp.Test.MAMTest().get_suite());
+    // Security Audit Tests (spec-based, expected to FAIL = bugs found)
+    TestSuite.get_root().add_suite(new Xmpp.Test.StreamManagementAudit().get_suite());
     return GLib.Test.run();
 }
 

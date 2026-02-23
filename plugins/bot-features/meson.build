@@ -74,6 +74,7 @@ bot_test_sources = files(
     'tests/common.vala',
     'tests/testcase.vala',
     'tests/bot_tests.vala',
+    'tests/audit_tests.vala',
     'src/rate_limiter.vala',
 )
 exe_bot_test = executable('bot-features-test', bot_test_sources, c_args: ['-DG_LOG_DOMAIN="bot-features-test"'], dependencies: [dep_gee, dep_glib, dep_gio], install: false)

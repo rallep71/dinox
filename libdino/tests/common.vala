@@ -7,6 +7,11 @@ int main(string[] args) {
     TestSuite.get_root().add_suite(new JidTest().get_suite());
     TestSuite.get_root().add_suite(new FileManagerTest().get_suite());
     TestSuite.get_root().add_suite(new SecurityTest().get_suite());
+    // Security Audit Tests (spec-based, expected to FAIL = bugs found)
+    TestSuite.get_root().add_suite(new Dino.SecurityAudit.KeyDerivationAudit().get_suite());
+    TestSuite.get_root().add_suite(new Dino.SecurityAudit.KeyManagerAudit().get_suite());
+    TestSuite.get_root().add_suite(new Dino.SecurityAudit.TokenStorageAudit().get_suite());
+    TestSuite.get_root().add_suite(new Dino.SecurityAudit.JSONInjectionAudit().get_suite());
     return GLib.Test.run();
 }
 
