@@ -1,4 +1,4 @@
-using Dino.Entities;
+using Xmpp;
 
 namespace Dino.Test {
 
@@ -12,27 +12,40 @@ class JidTest : Gee.TestCase {
     }
 
     private void test_parse() {
-        Jid jid = new Jid("user@example.com/res");
-        fail_if(jid.localpart != "user");
-        fail_if(jid.domainpart != "example.com");
-        fail_if(jid.resourcepart != "res");
-        fail_if(jid.to_string() != "user@example.com/res");
+        try {
+            Jid jid = new Jid("user@example.com/res");
+            fail_if(jid.localpart != "user");
+            fail_if(jid.domainpart != "example.com");
+            fail_if(jid.resourcepart != "res");
+            fail_if(jid.to_string() != "user@example.com/res");
+        } catch (InvalidJidError e) {
+            fail_if_reached(@"Unexpected InvalidJidError: $(e.message)");
+        }
     }
 
     private void test_components() {
-        Jid jid = new Jid.components("user", "example.com", "res");
-        fail_if(jid.localpart != "user");
-        fail_if(jid.domainpart != "example.com");
-        fail_if(jid.resourcepart != "res");
-        fail_if(jid.to_string() != "user@example.com/res");
+        try {
+            Jid jid = new Jid.components("user", "example.com", "res");
+            fail_if(jid.localpart != "user");
+            fail_if(jid.domainpart != "example.com");
+            fail_if(jid.resourcepart != "res");
+            fail_if(jid.to_string() != "user@example.com/res");
+        } catch (InvalidJidError e) {
+            fail_if_reached(@"Unexpected InvalidJidError: $(e.message)");
+        }
     }
 
     private void test_with_res() {
-        Jid jid = new Jid.with_resource("user@example.com", "res");
-        fail_if(jid.localpart != "user");
-        fail_if(jid.domainpart != "example.com");
-        fail_if(jid.resourcepart != "res");
-        fail_if(jid.to_string() != "user@example.com/res");
+        try {
+            Jid bare = new Jid("user@example.com");
+            Jid jid = bare.with_resource("res");
+            fail_if(jid.localpart != "user");
+            fail_if(jid.domainpart != "example.com");
+            fail_if(jid.resourcepart != "res");
+            fail_if(jid.to_string() != "user@example.com/res");
+        } catch (InvalidJidError e) {
+            fail_if_reached(@"Unexpected InvalidJidError: $(e.message)");
+        }
     }
 }
 

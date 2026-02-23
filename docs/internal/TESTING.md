@@ -70,18 +70,24 @@ These are compiled and run via `ninja -C build test` (or `meson test -C build`).
 
 ### 1.3 libdino (`libdino/tests/`)
 
-> **⚠ NOT registered in meson.** These test files exist but `libdino/meson.build`
-> does not compile or register them.  They are NOT run by `ninja test`.
+**Meson target:** `libdino-test`  
+**Registration:** `libdino/meson.build`  
+**Framework:** GLib.Test via custom `Gee.TestCase` base class  
 
-| File               | Content |
-|--------------------|---------|
-| `common.vala`      | main() — only registers `WeakMapTest` |
-| `weak_map.vala`    | `WeakMapTest` — 5 tests: set, set2, set3, unset, remove_when_out_of_scope |
-| `jid.vala`         | `JidTest` — 3 tests: parse, components, with_res — **not registered** in common.vala |
-| `file_manager.vala`| `FileManagerTest` — **not registered** in common.vala |
-| `testcase.vala`    | `Gee.TestCase` base class |
+| Suite          | File               | Tests |
+|----------------|--------------------|---------|
+| WeakMapTest    | `weak_map.vala`    | set, set2, set3, unset, remove_when_out_of_scope |
+| JidTest        | `jid.vala`         | parse, components, with_res |
+| FileManagerTest| `file_manager.vala`| stream_close |
 
-These tests would need to be added to `libdino/meson.build` to be compiled and run.
+**Files:**
+- `common.vala` — main(), registers all 3 suites + helper assert functions
+- `testcase.vala` — `Gee.TestCase` base class
+
+**Run individually:**
+```bash
+./build/libdino/libdino-test
+```
 
 ---
 
@@ -173,12 +179,12 @@ These are useful for manual debugging but not part of automated CI.
 ```
 ninja test                             meson-registered
   ├── xmpp-vala-test                   6 suites (GLib.Test)
+  ├── libdino-test                     3 suites (GLib.Test)
   └── omemo-test                       3 suites (GLib.Test)
 
 ./scripts/test_db_maintenance.sh       bash CLI, 71 tests
 ./scripts/run_db_integration_tests.sh  Vala, 65 tests (Qlite)
 
-libdino/tests/                         ⚠ exists but NOT in meson
 root: test_cb.vala, test_omemo_deser.c, test_socks.py   ad-hoc
 ```
 
