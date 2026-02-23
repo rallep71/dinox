@@ -359,7 +359,7 @@ public class FileManager : StreamInteractionModule, Object {
             // Get meta info
             FileReceiveData? receive_data = file_provider.get_file_receive_data(file_transfer);
             if (receive_data == null) {
-                warning("Don't have download data (yet)");
+                debug("Don't have download data (yet)");
                 return;
             }
             FileDecryptor? file_decryptor = null;

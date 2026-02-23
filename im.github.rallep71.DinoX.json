@@ -9,7 +9,8 @@
         "org.freedesktop.Platform.ffmpeg-full": {
             "directory": "lib/ffmpeg",
             "version": "24.08",
-            "add-ld-path": "."
+            "add-ld-path": ".",
+            "autodownload": true
         }
     },
     "cleanup-commands": [
@@ -44,7 +45,8 @@
         "--system-talk-name=org.freedesktop.login1",
         "--own-name=org.mpris.MediaPlayer2.Dino",
         "--filesystem=xdg-cache/dinox:create",
-        "--filesystem=xdg-run/dinox:create"
+        "--filesystem=xdg-run/dinox:create",
+        "--env=GST_PLUGIN_PATH=/app/lib/ffmpeg"
     ],
     "modules": [
         {
