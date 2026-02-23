@@ -1077,8 +1077,8 @@ The view models contain business logic without GTK dependency:
 
 | Workflow | Trigger | Tests |
 |----------|---------|-------|
-| `build.yml` | push, PR | `meson test` (217 tests) |
-| `build.yml` (Vala nightly) | push, PR | `meson test` (217 tests) |
+| `build.yml` | push, PR | `meson test` (460 tests) |
+| `build.yml` (Vala nightly) | push, PR | `meson test` (460 tests) |
 | `build-flatpak.yml` | push | Build only |
 | `build-appimage.yml` | Tag | Build only |
 | `windows-build.yml` | push | Build only |
@@ -1092,10 +1092,10 @@ The view models contain business logic without GTK dependency:
 Script: `scripts/run_all_tests.sh`
 
 ```bash
-# All 377 tests (Meson + DB)
+# All 596 tests (Meson + DB)
 ./scripts/run_all_tests.sh
 
-# Only Meson-registered tests (241)
+# Only Meson-registered tests (460)
 ./scripts/run_all_tests.sh --meson
 
 # Only DB maintenance tests (136)
@@ -1116,13 +1116,14 @@ If `sqlcipher` is not installed, DB CLI tests are skipped with a warning.
 ### Meson Summary Output
 
 ```
-1/5 Tests for main      OK              0.01s
-2/5 Tests for xmpp-vala OK              0.03s
-3/5 Tests for omemo     OK              0.27s
-4/5 bot-features-test   OK              2.21s
-5/5 Tests for libdino   OK              9.68s
+1/6 Tests for main      OK              0.01s
+2/6 Tests for xmpp-vala OK              0.05s
+3/6 Tests for openpgp   OK              0.10s
+4/6 Tests for omemo     OK              0.36s
+5/6 bot-features-test   OK              2.22s
+6/6 Tests for libdino   OK             10.25s
 
-Ok:                 5
+Ok:                 6
 Expected Fail:      0
 Fail:               0        <-- MUST be 0
 Unexpected Pass:    0
@@ -1247,4 +1248,4 @@ Examples:
 
 ---
 
-*Last updated: 23 February 2026 -- v1.5.0.0, 460 Meson tests (all spec-prefixed), 6 suites, Bugs #20-#21 documented*
+*Last updated: 23 February 2026 -- v1.5.0.0, 460 Meson tests (all spec-prefixed), 6 suites, Bugs #20-#21 fixed*
