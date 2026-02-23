@@ -268,13 +268,19 @@ test_sources = [
     'tests/common.vala',
     'tests/testcase.vala',
     'tests/preferences_row_test.vala',
+    'tests/audit_ui_helpers.vala',
     'src/view_model/preferences_row.vala',
+    'src/ui/util/helper.vala',
 ]
 test_deps = [
     dep_dino,
     dep_gee,
     dep_gio,
     dep_glib,
+    dep_gtk4,
+    dep_icu_uc,
+    dep_libadwaita,
+    dep_m,
     dep_qlite,
     dep_xmpp_vala,
 ]

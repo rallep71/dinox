@@ -3,7 +3,7 @@
 Complete inventory of all automated tests in the DinoX project.
 Every test references its authoritative specification or contract.
 
-**Status: v1.5.0.0 -- 460 Meson tests + 136 standalone tests = 596 automated tests, 0 failures**
+**Status: v1.6.0.0 -- 506 Meson tests + 136 standalone tests = 642 automated tests, 0 failures**
 
 ---
 
@@ -13,7 +13,7 @@ Every test references its authoritative specification or contract.
 # All tests at once (recommended)
 ./scripts/run_all_tests.sh
 
-# Only Meson-registered tests (6 suites, 460 tests)
+# Only Meson-registered tests (6 suites, 506 tests)
 ./scripts/run_all_tests.sh --meson
 
 # Only DB maintenance tests (136 standalone)
@@ -53,7 +53,7 @@ export LD_LIBRARY_PATH=build/libdino:build/xmpp-vala:build/qlite:build/crypto-va
 # Run one suite
 build/xmpp-vala/xmpp-vala-test     # 231 tests
 build/libdino/libdino-test          # 39 tests
-build/main/main-test                # 16 tests
+build/main/main-test                # 62 tests
 build/plugins/omemo/omemo-test      # 102 tests
 build/plugins/bot-features/bot-features-test  # 24 tests
 build/plugins/openpgp/openpgp-test  # 48 tests
@@ -98,7 +98,7 @@ build/xmpp-vala/xmpp-vala-test --verbose
 
 ---
 
-## 1. Meson-Registered Tests (460 Tests)
+## 1. Meson-Registered Tests (506 Tests)
 
 Compiled and executed via `ninja -C build test`.
 Framework: GLib.Test + `Gee.TestCase` with `add_async_test()` for async XML parsing.
@@ -659,7 +659,7 @@ Tests for the session version detection that prevents v4 sessions in the v1 encr
 | 101 | `SEC_stage_hmac_compute_post_ratchet` | CWE-755 | HMAC computation failure → POST_RATCHET |
 | 102 | `SEC_stage_unknown_error_assume_post` | CWE-755 | Unknown error → UNKNOWN_ASSUME_POST (conservative) |
 
-### 1.4 Main / UI View Models (16 Tests)
+### 1.4 Main / UI View Models (62 Tests)
 
 **Target:** `main-test` -- `main/meson.build`
 
@@ -685,6 +685,60 @@ Pure GObject view model classes (zero GTK dependency). First UI-layer tests in t
 | 14 | `GObject_Button_text_roundtrip` | GObject property | button_text get/set |
 | 15 | `GObject_Button_clicked_signal_fires` | GObject signal | clicked fires, multiple clicks counted |
 | 16 | `GObject_inheritance_all_subtypes_are_Any` | GObject type | Text, Entry, PrivateText, Toggle, ComboBox, Button are-a Any |
+
+#### UiHelperAudit (46 Tests) -- Pure UI Helper Functions
+
+Namespace-level functions in `Dino.Ui.Util` (helper.vala).
+No GTK widget instantiation -- pure logic with Gdk.RGBA structs and ICU unicode.
+
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
+| 17 | `XMPP_color_for_show_online` | RFC 6121 | "online" → #9CCC65 |
+| 18 | `XMPP_color_for_show_away` | RFC 6121 | "away" → #FFCA28 |
+| 19 | `XMPP_color_for_show_chat` | RFC 6121 | "chat" → #66BB6A |
+| 20 | `XMPP_color_for_show_xa` | RFC 6121 | "xa" → #EF5350 |
+| 21 | `XMPP_color_for_show_dnd` | RFC 6121 | "dnd" → #EF5350 |
+| 22 | `XMPP_color_for_show_unknown_default` | RFC 6121 | unknown → #BDBDBD |
+| 23 | `CONTRACT_rgba_to_hex_red` | Contract | {1,0,0,1} → #FF0000FF |
+| 24 | `CONTRACT_rgba_to_hex_green` | Contract | {0,1,0,1} → #00FF00FF |
+| 25 | `CONTRACT_rgba_to_hex_blue` | Contract | {0,0,1,1} → #0000FFFF |
+| 26 | `CONTRACT_rgba_to_hex_white` | Contract | {1,1,1,1} → #FFFFFFFF |
+| 27 | `CONTRACT_rgba_to_hex_transparent` | Contract | {0,0,0,0} → #00000000 |
+| 28 | `CONTRACT_rgba_to_hex_clamp_overflow` | Contract | Values >1.0 / <0.0 clamped |
+| 29 | `CONTRACT_is_24h_format_returns_true` | Contract | Hardcoded true |
+| 30 | `CONTRACT_format_time_24h` | Contract | Uses 24h branch |
+| 31 | `CONTRACT_format_time_uses_24h_branch` | Contract | Selects format_24h string |
+| 32 | `RFC3986_url_regex_matches_https` | RFC 3986 | https:// matched |
+| 33 | `RFC3986_url_regex_matches_http` | RFC 3986 | http:// with path matched |
+| 34 | `RFC3986_url_regex_matches_xmpp` | RFC 3986 | xmpp: URI matched |
+| 35 | `RFC3986_url_regex_matches_mailto` | RFC 3986 | mailto: URI matched |
+| 36 | `RFC3986_url_regex_no_plain_text` | RFC 3986 | Plain text NOT matched |
+| 37 | `RFC3986_url_regex_matches_ftp` | RFC 3986 | ftp:// matched |
+| 38 | `RFC3986_url_regex_embedded_in_text` | RFC 3986 | URL extracted from prose |
+| 39 | `CONTRACT_matching_chars_paren` | Contract | ) → ( |
+| 40 | `CONTRACT_matching_chars_bracket` | Contract | ] → [ |
+| 41 | `CONTRACT_matching_chars_brace` | Contract | } → { |
+| 42 | `CONTRACT_summarize_ws_multiple_spaces` | Contract | Multiple spaces → single |
+| 43 | `CONTRACT_summarize_ws_tabs` | Contract | Tab → space |
+| 44 | `CONTRACT_summarize_ws_newlines` | Contract | Newline → space |
+| 45 | `CONTRACT_summarize_ws_mixed` | Contract | Mixed whitespace → single space |
+| 46 | `CONTRACT_summarize_ws_no_change` | Contract | Single space preserved |
+| 47 | `CONTRACT_summarize_ws_empty` | Contract | Empty string → empty |
+| 48 | `ICU_emoji_count_single` | ICU UAX #44 | Single emoji → 1 |
+| 49 | `ICU_emoji_count_multiple` | ICU UAX #44 | Three emoji → 3 |
+| 50 | `ICU_emoji_count_text_returns_neg1` | ICU UAX #44 | Plain text → -1 |
+| 51 | `ICU_emoji_count_mixed_returns_neg1` | ICU UAX #44 | Text + emoji → -1 |
+| 52 | `ICU_emoji_count_empty` | ICU UAX #44 | Empty → 0 |
+| 53 | `ICU_emoji_count_zwj_sequence` | ICU UAX #44 | ZWJ family → 1 |
+| 54 | `ICU_emoji_count_variation_selector` | ICU UAX #44 | VS16 keycap → 1 |
+| 55 | `CONTRACT_markup_bold` | Contract | *word* → \<b\> |
+| 56 | `CONTRACT_markup_italic` | Contract | _word_ → \<i\> |
+| 57 | `CONTRACT_markup_code` | Contract | \`word\` → \<tt\> |
+| 58 | `CONTRACT_markup_strikethrough` | Contract | ~word~ → \<s\> |
+| 59 | `CONTRACT_markup_plain_no_change` | Contract | Plain text passes through |
+| 60 | `CONTRACT_markup_link_detection` | Contract | URL → \<a href=\> |
+| 61 | `CONTRACT_markup_highlight_word` | Contract | Highlight → \<b\> |
+| 62 | `CONTRACT_markup_escape_entities` | CWE-79 | \<script\> escaped to &lt; |
 
 ### 1.5 OpenPGP (48 Tests)
 
@@ -908,8 +962,12 @@ Every test references its authoritative source:
 | **XEP-0448** | Encrypted File Sharing | 2 |
 | **XEP-0454** | OMEMO Media Sharing | 3 |
 | **Signal Protocol** | Double Ratchet, PreKeys | 5 |
-| **Contract** | Data structure/API contracts (WeakMap, RateLimiter, arr_to_str) | 24 |
+| **Contract** | Data structure/API contracts (WeakMap, RateLimiter, arr_to_str, rgba_to_hex, ws, matching chars, markup) | 54 |
 | **GObject** | Property/signal contract (PreferencesRow) | 16 |
+| **RFC 3986** | URI syntax (URL regex detection) | 7 |
+| **RFC 6121** | XMPP IM presence show values (color mapping) | 6 |
+| **ICU UAX #44** | Unicode emoji properties (ZWJ, VS16, keycap) | 7 |
+| **CWE-79** | XSS prevention (markup entity escaping) | 1 |
 | **XSD** | xs:hexBinary parsing | 5 |
 | **CWE-208** | Timing attack prevention (constant_time_compare) | 10 |
 
@@ -918,7 +976,7 @@ Every test references its authoritative source:
 ## 5. Test Architecture
 
 ```
-ninja -C build test                    Meson-registered (460 tests)
+ninja -C build test                    Meson-registered (506 tests)
   |-- xmpp-vala-test                   18 suites, 231 tests (GLib.Test)
   |     |-- Stanza (4)                   RFC 6120 S4 stream/namespace
   |     |-- util (5)                     xs:hexBinary parsing contract
@@ -949,8 +1007,9 @@ ninja -C build test                    Meson-registered (460 tests)
   |     |-- Audit_JSONInjection (3)      RFC 8259 JSON escape
   |     +-- FileTransferAudit (10)       CWE-22 path traversal + ESFS registry
   |
-  |-- main-test                        1 suite, 16 tests (GLib.Test)
-  |     +-- PreferencesRow (16)          GObject property/signal contract
+  |-- main-test                        2 suites, 62 tests (GLib.Test)
+  |     |-- PreferencesRow (16)          GObject property/signal contract
+  |     +-- UiHelperAudit (46)           Presence colors, RGBA hex, URL regex, emoji, markup
   |
   |-- omemo-test                       9 suites, 76 tests (GLib.Test)
   |     |-- Curve25519 (4)               RFC 7748 key agreement
@@ -1031,10 +1090,11 @@ The view models contain business logic without GTK dependency:
 
 | File | What can be tested |
 |------|--------------------|
-| `conversation_details.vala` | Sorter logic: `compare()` must return correct ordering |
-| `preferences_dialog.vala` | Account selection model, active accounts list |
+| `conversation_details.vala` | Sorter logic: `compare()` must return correct ordering (needs Gtk.init) |
+| `preferences_dialog.vala` | Account selection model (needs DB + StreamInteractor mock) |
 | ~~`preferences_row.vala`~~ | ~~Row data binding~~ -- **DONE** (16 tests, section 1.4) |
-| `account_details.vala` | Account data transformation |
+| ~~`helper.vala`~~ | ~~Presence colors, RGBA hex, URL regex, emoji, markup~~ -- **DONE** (46 tests, section 1.4) |
+| `account_details.vala` | Minimal -- DTO with 1 computed property |
 
 #### Priority 2: UI Logic Tests (with Gtk.init() but without display)
 
@@ -1077,8 +1137,8 @@ The view models contain business logic without GTK dependency:
 
 | Workflow | Trigger | Tests |
 |----------|---------|-------|
-| `build.yml` | push, PR | `meson test` (460 tests) |
-| `build.yml` (Vala nightly) | push, PR | `meson test` (460 tests) |
+| `build.yml` | push, PR | `meson test` (506 tests) |
+| `build.yml` (Vala nightly) | push, PR | `meson test` (506 tests) |
 | `build-flatpak.yml` | push | Build only |
 | `build-appimage.yml` | Tag | Build only |
 | `windows-build.yml` | push | Build only |
@@ -1092,10 +1152,10 @@ The view models contain business logic without GTK dependency:
 Script: `scripts/run_all_tests.sh`
 
 ```bash
-# All 596 tests (Meson + DB)
+# All 642 tests (Meson + DB)
 ./scripts/run_all_tests.sh
 
-# Only Meson-registered tests (460)
+# Only Meson-registered tests (506)
 ./scripts/run_all_tests.sh --meson
 
 # Only DB maintenance tests (136)
@@ -1248,4 +1308,4 @@ Examples:
 
 ---
 
-*Last updated: 23 February 2026 -- v1.5.0.0, 460 Meson tests (all spec-prefixed), 6 suites, Bugs #20-#21 fixed*
+*Last updated: 23 February 2026 -- v1.6.0.0, 506 Meson tests (all spec-prefixed), 6 suites, Bugs #20-#21 fixed*
