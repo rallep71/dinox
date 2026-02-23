@@ -1,9 +1,6 @@
 # Security Audit
 
-**Date:** February 17, 2026  
-**Scope:** 39 crypto-related files (OMEMO v1/v2, Signal Protocol, SASL, file transfer, GCrypt wrapper) + OpenPGP plugin (15 files)  
-**Findings:** 6 Critical/High, 11 Medium, 3 Low (OMEMO/Signal) + 3 Medium (OpenPGP)  
-**Status:** All fixed  
+**Date:** February 17, 2026 (manual audit), February 23, 2026 (test suite)  \n**Scope:** 39 crypto-related files (OMEMO v1/v2, Signal Protocol, SASL, file transfer, GCrypt wrapper) + OpenPGP plugin (15 files)  \n**Findings:** 6 Critical/High, 11 Medium, 3 Low (manual audit) + 3 Medium OpenPGP + 21 bugs from automated test suite  \n**Status:** All fixed  \n**Test Suite:** [docs/internal/TESTING.md](docs/internal/TESTING.md) -- 506 Meson tests + 136 standalone = 642 total, 0 failures  
 **Website:** [dinox.handwerker.jetzt/security-audit.html](https://dinox.handwerker.jetzt/security-audit.html)
 
 ---
@@ -315,3 +312,55 @@ in `plugins/omemo/src/native/helper.c` (formerly `signal_helper.c`) since 2017:
 
 These bugs are **not introduced by DinoX**. They were discovered during this audit and fixed
 in DinoX but remain unfixed in upstream Dino.
+
+---
+
+## Automated Test Suite -- Additional Bugs Found
+
+After the manual audit, a comprehensive **spec-based test suite** (506 Meson tests + 136
+standalone = 642 total) was built to verify all fixes and catch further defects.
+The test suite found **21 additional bugs** not discovered during the manual audit.
+
+Full test inventory, spec references, and reproduction steps:
+**[docs/internal/TESTING.md](docs/internal/TESTING.md)**
+
+### Bugs Found by Test Suite (all fixed)
+
+| Bug | Severity | File | Test that caught it | Issue |
+|-----|----------|------|---------------------|-------|
+| T-1 | Medium | `jid.vala` | `RFC7622_reject_empty_string` | Empty string `""` accepted as valid JID instead of throwing `InvalidJidError` |
+| T-2 | Medium | `jid.vala` | `RFC7622_reject_too_long_localpart` | Localpart > 1023 bytes accepted (RFC 7622 S3.3 limit) |
+| T-3 | Low | `jid.vala` | `RFC7622_reject_at_only` | Bare `"@"` accepted as valid JID |
+| T-4 | Low | `jid.vala` | `RFC7622_reject_slash_only_resource` | `"domain/"` with empty resource accepted |
+| T-5 | Medium | `file_encryption.vala` | `SP800_38D_iv_is_96_bits` | GCM IV was 128 bits (16 bytes) instead of NIST-mandated 96 bits (12 bytes) |
+| T-6 | High | `file_encryption.vala` | `SP800_38D_tag_is_128_bits` | GCM authentication tag truncated to 64 bits instead of full 128 bits |
+| T-7 | Medium | `file_encryption.vala` | `SP800_132_salt_minimum_128_bits` | PBKDF2 salt was 64 bits (8 bytes) instead of NIST-mandated 128 bits minimum |
+| T-8 | Medium | `file_encryption.vala` | `SP800_38D_unique_iv_per_encryption` | Same IV reused across multiple encryptions (GCM IV reuse = catastrophic) |
+| T-9 | Low | `file_encryption.vala` | `IND_CPA_ciphertext_indistinguishable` | Identical plaintexts produced identical ciphertexts (no randomization) |
+| T-10 | Medium | `stream_management.vala` | `XEP0198_h_counter_overflow_at_2_32` | h-counter overflow at 2³² not handled per XEP-0198 S5 |
+| T-11 | Medium | `omemo/manager.vala` | `XEP0384_prekey_update_classifier` | PreKey update classification logic broken for edge cases |
+| T-12 | Medium | `omemo/manager.vala` | `XEP0384_encrypt_safety_check` | Missing safety check before encryption allowed encrypt with 0 recipients |
+| T-13 | Medium | `omemo/decrypt.vala` | `XEP0384_decrypt_failure_stages` | Decrypt failure stage tracking incorrect |
+| T-14 | Low | `constant_time.vala` | `CWE208_constant_time_compare` | Timing-variant comparison in some edge cases |
+| T-15 | Low | `json_escape.vala` | `RFC8259_backslash_escape` | JSON string escaping missed backslash character |
+| T-16 | Low | `bot_rate_limiter.vala` | `CONTRACT_zero_window_rate_limiter` | Zero-width rate limiter window caused division by zero |
+| T-17 | Medium | `stream_module.vala` | `XEP0374_extract_body_bodyguard` | `<bodyguard>` element falsely matched as `<body>` in XEP-0374 extraction |
+| T-18 | Medium | `armor_parser.vala` | `XEP0027_signature_armor` | Armor parser boundary detection off-by-one |
+| T-19 | Medium | `gpg_keylist_parser.vala` | `GPG_keylist_uid_field` | GPG keylist UID field parsing skipped colon-delimited fields incorrectly |
+| T-20 | Medium | `stanza_node.vala` | `XML_encoded_val_decode` | `encoded_val` setter substring indices wrong: `end-start-3` was `start-end-3`, `splice(start, end)` missing `+1` |
+| T-21 | Low | `0300_cryptographic_hashes.vala` | `XEP0300_hash_string_md5` | `hash_string_to_type("md5")` returned null -- missing `case "md5"` in switch |
+
+### Test Suite Summary
+
+| Category | Tests | Bugs Found |
+|----------|-------|------------|
+| XMPP Core (RFC 6120, 7622) | 67 | T-1 to T-4 |
+| Crypto (NIST SP 800-38D/132, RFC 5116) | 27 | T-5 to T-9 |
+| Stream Management (XEP-0198) | 15 | T-10 |
+| OMEMO (XEP-0384) | 102 | T-11 to T-13 |
+| Timing/JSON/Rate Limiter | 17 | T-14 to T-16 |
+| OpenPGP (XEP-0027/0373/0374) | 48 | T-17 to T-19 |
+| XML/Stanza (RFC 6120) | 21 | T-20 |
+| Crypto Hashes (XEP-0300) | 15 | T-21 |
+| UI Helpers, Data Structures, Misc | 194 | 0 |
+| **Total** | **506** | **21** |
