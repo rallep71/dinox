@@ -246,6 +246,25 @@ rtp-Message: ... VoiceProcessor.start(echo_probe=yes, ...)
 
 If missing, `webrtc-audio-processing` may not be installed. See [BUILD.md](BUILD.md#building-webrtc-audio-processing-21-manual).
 
+#### DTMF (Dial Tones)
+
+Debug DTMF digit sending, local tone playback, and thread-safety:
+
+```bash
+G_MESSAGES_DEBUG="rtp" DINO_LOG_LEVEL=debug ./build/main/dinox 2>&1 | grep -iE "dtmf|dial|tone"
+```
+
+**What's logged:**
+- DTMF digit enqueue (main thread → mutex-protected queue)
+- DTMF digit dequeue and RTP event generation (streaming thread)
+- Local tone playback start/stop (audiotestsrc frequency gating)
+- Debounce filtering (same digit within 300ms ignored)
+
+**Common issues:**
+- **No DTMF sound during video calls**: Check that the silence keepalive branch is active in the GStreamer pipeline
+- **Double-digit sends**: Should not happen after v1.1.2.6 (300ms debounce). If it recurs, check `call_dialpad.vala` debounce logic
+- **SIGSEGV on DTMF press**: Fixed in v1.1.2.5 (mutex-protected queue). If crash recurs, check that `dtmf_mutex` is being acquired in both `send_dtmf()` and `build_dtmf_rtp_packet()`
+
 ### Tor & Obfs4proxy
 
 Debug Tor process management, bridge transport detection, and connection routing:
@@ -277,6 +296,186 @@ G_MESSAGES_DEBUG="qlite,libdino" DINO_LOG_LEVEL=debug ./build/main/dinox 2>&1 | 
 - Backup WAL checkpoint (`PRAGMA wal_checkpoint(TRUNCATE)`)
 - SQL trace mode (per-query tracing when compiled with debug flag)
 - Plaintext-to-encrypted database migration
+
+#### Database File Locations
+
+| Database | Path | Key Source | Purpose |
+|----------|------|------------|---------|
+| `dino.db` | `~/.local/share/dinox/dino.db` | User password (Preferences) | Main database (accounts, conversations, messages, roster) |
+| `pgp.db` | `~/.local/share/dinox/pgp.db` | User password (Preferences) | OpenPGP keys and account settings |
+| `bot_registry.db` | `~/.local/share/dinox/bot_registry.db` | User password (Preferences) | Botmother bot configuration and tokens |
+| `omemo.db` | `~/.local/share/dinox/omemo.db` | Auto-generated key (see below) | OMEMO identity keys, sessions, pre-keys |
+| WAL journals | `*.db-wal`, `*.db-shm` | — | Write-ahead log (auto-managed by SQLite) |
+
+Flatpak path: `~/.var/app/im.github.rallep71.DinoX/data/dinox/`
+
+> **Important:** `omemo.db` uses a **different key** than the other databases! It uses an auto-generated 64-char hex key stored in the system keyring (GNOME Keyring / KDE Wallet) or in `~/.local/share/dinox/omemo.key` (Windows / no keyring).
+
+#### Inspecting Databases with sqlcipher CLI
+
+DinoX databases are encrypted with SQLCipher (default settings, no custom cipher parameters). To open them interactively:
+
+```bash
+# Install sqlcipher CLI
+sudo apt install sqlcipher    # Debian/Ubuntu
+sudo pacman -S sqlcipher       # Arch
+
+# Open dino.db (replace YOUR_PASSWORD with the password set in DinoX preferences)
+sqlcipher ~/.local/share/dinox/dino.db
+```
+
+Once inside the sqlcipher shell, you **must** provide the key as the very first statement — before any other query or PRAGMA. If anything runs before `PRAGMA key`, SQLCipher treats the database as unkeyed and all subsequent operations will fail with `Error: file is not a database`:
+
+```sql
+-- FIRST COMMAND — must be the very first statement, nothing before it!
+PRAGMA key = 'YOUR_PASSWORD';
+
+-- Verify access works (if this fails: wrong password or DB not encrypted)
+SELECT count(*) FROM sqlite_master;
+```
+
+**Common mistakes that cause `Error: file is not a database`:**
+1. Running any query or PRAGMA before `PRAGMA key` (even `PRAGMA user_version`)
+2. Wrong password (check DinoX → Preferences → Database Password)
+3. Using a `sqlite3` binary instead of `sqlcipher` — standard SQLite cannot open encrypted databases
+4. Mismatched SQLCipher major version (e.g. DB created with SQLCipher 4.x, opened with 3.x) — in that case add `PRAGMA cipher_compatibility = 4;` right after `PRAGMA key`
+
+**Step-by-step example (copy-paste ready):**
+
+```bash
+sqlcipher ~/.local/share/dinox/dino.db "PRAGMA key = 'test123'; SELECT count(*) FROM message;"
+```
+
+Or interactively:
+
+```
+$ sqlcipher ~/.local/share/dinox/dino.db
+sqlite> PRAGMA key = 'test123';
+ok
+sqlite> SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;
+_fts_message
+_meta
+account
+conversation
+message
+...
+sqlite> SELECT count(*) FROM message;
+251
+```
+
+> **Tip:** Dot-commands like `.tables` and `.schema` only work in interactive mode, not in one-liner form. Use `SELECT name FROM sqlite_master WHERE type='table';` for one-liners.
+
+> **Note:** DinoX uses SQLCipher with default settings — no `cipher_page_size`, `kdf_iter`, or `cipher_compatibility` overrides. The `PRAGMA key` alone is sufficient. DinoX escapes single quotes in the password, so if your password contains `'`, double it: `PRAGMA key = 'it''s a test';`
+
+#### Opening omemo.db (Different Key!)
+
+`omemo.db` does **not** use the user password. It uses an auto-generated key stored in the system secrets service. To retrieve and use it:
+
+```bash
+# Get the OMEMO key from GNOME Keyring / KDE Wallet
+OMEMO_KEY=$(secret-tool lookup db_name omemo.db)
+
+# Open omemo.db
+sqlcipher ~/.local/share/dinox/omemo.db "PRAGMA key = '$OMEMO_KEY'; SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;"
+```
+
+If `secret-tool` is not installed: `sudo apt install libsecret-tools`
+
+On Windows or systems without a secrets service, the key is stored in `~/.local/share/dinox/omemo.key`:
+
+```bash
+# Fallback: read key from file
+OMEMO_KEY=$(cat ~/.local/share/dinox/omemo.key)
+sqlcipher ~/.local/share/dinox/omemo.db "PRAGMA key = '$OMEMO_KEY'; SELECT count(*) FROM identity;"
+```
+
+#### Useful OMEMO Debug Queries
+
+```sql
+PRAGMA key = '<OMEMO_KEY>';
+
+-- List all OMEMO identities (one per account)
+SELECT * FROM identity;
+
+-- List known devices for a contact
+SELECT address_name, device_id, trust_level, now_active, device_label
+FROM identity_meta WHERE address_name LIKE '%user@example.com%';
+
+-- Trust levels: 0=UNKNOWN, 1=TRUSTED, 2=UNTRUSTED, 3=VERIFIED
+
+-- Count active sessions
+SELECT count(*) FROM session;
+
+-- Check pre-key availability
+SELECT count(*) FROM pre_key;
+SELECT count(*) FROM signed_pre_key;
+```
+
+#### Opening pgp.db and bot_registry.db
+
+Both use the same user password as `dino.db`:
+
+```bash
+# PGP database
+sqlcipher ~/.local/share/dinox/pgp.db "PRAGMA key = 'YOUR_PASSWORD'; SELECT * FROM account_setting;"
+
+# Bot registry database
+sqlcipher ~/.local/share/dinox/bot_registry.db "PRAGMA key = 'YOUR_PASSWORD'; SELECT * FROM bot;"
+```
+
+#### Useful Debug Queries
+
+```sql
+-- Check database schema version
+PRAGMA user_version;
+
+-- List all accounts
+SELECT id, bare_jid, resourcepart, enabled FROM account;
+
+-- List all conversations with unread counts
+SELECT c.id, j.bare_jid, c.type_, c.read_up_to, c.notify_setting
+FROM conversation c JOIN jid j ON c.jid_id = j.id;
+
+-- Recent messages for a conversation
+SELECT m.id, m.body, m.time, j.bare_jid AS sender
+FROM message m JOIN jid j ON m.counterpart_id = j.id
+WHERE m.conversation_id = 1
+ORDER BY m.time DESC LIMIT 20;
+
+-- Check OMEMO identity keys
+SELECT identity_id, address_name, device_id, trusted_identity
+FROM identity;
+
+-- Check FTS index health
+SELECT count(*) FROM message_fts;
+
+-- Database size and WAL status
+PRAGMA page_count;
+PRAGMA page_size;
+PRAGMA wal_checkpoint(PASSIVE);
+
+-- Check auto-vacuum mode (should be 2 = INCREMENTAL)
+PRAGMA auto_vacuum;
+
+-- Run incremental vacuum manually
+PRAGMA incremental_vacuum(100);
+```
+
+#### Database Recovery
+
+If a database is corrupted:
+
+```bash
+# Check integrity
+sqlcipher ~/.local/share/dinox/dino.db "PRAGMA key = 'YOUR_PASSWORD'; PRAGMA integrity_check;"
+
+# Export and reimport (last resort)
+sqlcipher ~/.local/share/dinox/dino.db \
+  "PRAGMA key = 'YOUR_PASSWORD'; .dump" > dump.sql
+mv ~/.local/share/dinox/dino.db ~/.local/share/dinox/dino.db.corrupt
+sqlcipher ~/.local/share/dinox/dino.db \
+  "PRAGMA key = 'YOUR_PASSWORD'; .read dump.sql"
+```
 
 ### File Transfers
 
@@ -502,6 +701,47 @@ If you see `Channel binding required but no -PLUS mechanism available` — the d
 
 ```bash
 DINO_LOG_LEVEL=debug ./build/main/dinox 2>&1 | grep -iE "\[TOR\]|socks|proxy|bridge"
+```
+
+### TLS Not Available (AppImage)
+
+If you see `GDummyTlsBackend` or "TLS support is not available" (especially in AppImage):
+
+```bash
+# Check which GIO TLS backend is loaded
+G_MESSAGES_DEBUG=all ./DinoX-*.AppImage 2>&1 | grep -i "gio-tls-backend\|GDummyTls\|giognutls\|GIO_EXTRA_MODULES"
+```
+
+**Root cause:** `glib-networking` (provides `libgiognutls.so`) is not installed on the host and was not bundled in the AppImage. Fixed in v1.1.2.6.
+
+**Workaround (older AppImages):**
+```bash
+# Install glib-networking on the host
+sudo apt install glib-networking    # Debian/Ubuntu
+sudo pacman -S glib-networking       # Arch
+```
+
+**Verify GIO modules inside AppImage:**
+```bash
+./DinoX-*.AppImage --appimage-extract >/dev/null
+ls squashfs-root/usr/lib/gio/modules/
+# Should contain: libgiognutls.so
+```
+
+### GTK Warnings
+
+Common GTK warnings and their meaning:
+
+| Warning | Cause | Status |
+|---------|-------|--------|
+| `Broken accounting of active state for widget (GtkPopoverMenu)` | PopoverMenu not unparented on close | Fixed in v1.1.2.4 / v1.1.2.6 |
+| `Accessible role for GtkBox cannot be changed` | GTK4 internal — accessible role set after widget realization | Harmless, GTK4 bug |
+| `Trying to snapshot GtkPopover without a current allocation` | Popover rendered before layout pass | Harmless, timing-related |
+
+To suppress GTK debug noise and focus on app logic:
+
+```bash
+G_MESSAGES_DEBUG="libdino,xmpp-vala,OMEMO,rtp" DINO_LOG_LEVEL=debug ./build/main/dinox 2>&1 | grep -v "Gtk-WARNING"
 ```
 
 ---
