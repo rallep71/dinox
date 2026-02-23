@@ -245,6 +245,10 @@ copy_dependencies() {
         log_warn "Could not find executable gst-plugin-scanner at: $GST_SCANNER_DIR/gst-plugin-scanner"
     fi
     
+    # NOTE: libgstvaapi.so is intentionally NOT bundled.
+    # VAAPI is hardware-specific and requires host GPU drivers. Bundling it
+    # causes segfaults on older Radeon GPUs where the radeon driver cannot
+    # create the GPU context. Let GStreamer find the host's vaapi plugin instead.
     for plugin in \
         libgstcoreelements.so \
         libgstplayback.so \
@@ -262,7 +266,6 @@ copy_dependencies() {
         libgstopenh264.so \
         libgstx264.so \
         libgstnice.so \
-        libgstvaapi.so \
         libgstrtp.so \
         libgstrtpmanager.so \
         libgstdtls.so \
