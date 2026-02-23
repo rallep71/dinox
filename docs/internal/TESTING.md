@@ -3,7 +3,7 @@
 Complete inventory of all automated tests in the DinoX project.
 Every test references its authoritative specification or contract.
 
-**Status: v1.1.3.0 -- 217 Meson tests + 136 standalone tests = 353 automated tests, 0 failures**
+**Status: v1.1.4.0 -- 241 Meson tests + 136 standalone tests = 377 automated tests, 0 failures**
 
 ---
 
@@ -13,7 +13,7 @@ Every test references its authoritative specification or contract.
 # All tests at once (recommended)
 ./scripts/run_all_tests.sh
 
-# Only Meson-registered tests (5 suites, 217 tests)
+# Only Meson-registered tests (5 suites, 241 tests)
 ./scripts/run_all_tests.sh --meson
 
 # Only DB maintenance tests (136 standalone)
@@ -51,10 +51,10 @@ ninja -C build
 export LD_LIBRARY_PATH=build/libdino:build/xmpp-vala:build/qlite:build/crypto-vala
 
 # Run one suite
-build/xmpp-vala/xmpp-vala-test     # 138 tests
+build/xmpp-vala/xmpp-vala-test     # 142 tests
 build/libdino/libdino-test          # 29 tests
 build/main/main-test                # 16 tests
-build/plugins/omemo/omemo-test      # 10 tests
+build/plugins/omemo/omemo-test      # 30 tests
 build/plugins/bot-features/bot-features-test  # 24 tests
 ```
 
@@ -96,12 +96,12 @@ build/xmpp-vala/xmpp-vala-test --verbose
 
 ---
 
-## 1. Meson-Registered Tests (217 Tests)
+## 1. Meson-Registered Tests (241 Tests)
 
 Compiled and executed via `ninja -C build test`.
 Framework: GLib.Test + `Gee.TestCase` with `add_async_test()` for async XML parsing.
 
-### 1.1 xmpp-vala (138 Tests)
+### 1.1 xmpp-vala (142 Tests)
 
 **Target:** `xmpp-vala-test` -- `xmpp-vala/meson.build`
 
@@ -237,10 +237,10 @@ namespace constants, key/tag layout, parsing, and encrypt-state accumulation.
 | 105 | `XEP0384_encrypt_state_add_result_own` | XEP-0384 | EncryptState accumulates own-device results |
 | 106 | `XEP0384_encrypt_state_add_result_other` | XEP-0384 | EncryptState accumulates other-device results |
 
-#### OpenPgpAudit (32 Tests) -- XEP-0373 + XEP-0374
+#### OpenPgpAudit (36 Tests) -- XEP-0373 + XEP-0374
 
 OpenPGP for XMPP stanza structure (signcrypt/sign/crypt/openpgp elements),
-namespace constants, data classes, roundtrip serialization, random padding, and cross-element rejection.
+namespace constants, data classes, roundtrip serialization, random padding, modulo bias, CSPRNG, and cross-element rejection.
 
 | # | Test | Spec | Verifies |
 |---|------|------|----------|
@@ -273,9 +273,13 @@ namespace constants, data classes, roundtrip serialization, random padding, and 
 | 133 | `XEP0374_openpgp_null_content_returns_null` | XEP-0374 S6 | Null content → null |
 | 134 | `XEP0374_signcrypt_rpad_is_nonempty` | XEP-0374 S3 | Random padding never empty |
 | 135 | `XEP0374_signcrypt_rpad_is_base64` | XEP-0374 S3 | Padding is valid base64 |
-| 136 | `XEP0374_signcrypt_rejects_sign_element` | XEP-0374 | Cross-element rejection: signcrypt ≠ sign |
-| 137 | `XEP0374_sign_rejects_crypt_element` | XEP-0374 | Cross-element rejection: sign ≠ crypt |
-| 138 | `XEP0374_crypt_rejects_signcrypt_element` | XEP-0374 | Cross-element rejection: crypt ≠ signcrypt |
+| 136 | `XEP0374_rpad_modulo_bias_256_mod_49` | XEP-0374 S3 | **Bug #16 FIXED**: rejection sampling (245%49=0) eliminates modulo bias |
+| 137 | `XEP0374_rpad_length_varies_between_instances` | XEP-0374 S3 | Two SigncryptElements have different rpad (CSPRNG sanity) |
+| 138 | `XEP0374_rpad_decode_length_in_16_to_64` | XEP-0374 S3 | 20 samples all decode to [16,64] bytes |
+| 139 | `SP800_90A_rpad_uses_dev_urandom_on_linux` | NIST SP 800-90A | /dev/urandom exists on Linux (CSPRNG path) |
+| 140 | `XEP0374_signcrypt_rejects_sign_element` | XEP-0374 | Cross-element rejection: signcrypt ≠ sign |
+| 141 | `XEP0374_sign_rejects_crypt_element` | XEP-0374 | Cross-element rejection: sign ≠ crypt |
+| 142 | `XEP0374_crypt_rejects_signcrypt_element` | XEP-0374 | Cross-element rejection: crypt ≠ signcrypt |
 
 ### 1.2 libdino (29 Tests)
 
@@ -335,9 +339,11 @@ namespace constants, data classes, roundtrip serialization, random padding, and 
 | 28 | `RFC8259_newline_not_escaped_in_send_error` | RFC 8259 S7 | Newline in JSON string escaped |
 | 29 | `RFC8259_tab_not_escaped_in_send_error` | RFC 8259 S7 | Tab in JSON string escaped |
 
-### 1.3 OMEMO (10 Tests)
+### 1.3 OMEMO (30 Tests)
 
 **Target:** `omemo-test` -- `plugins/omemo/meson.build`
+
+#### Curve25519 (4 Tests) -- RFC 7748
 
 | # | Test | Spec | Verifies |
 |---|------|------|----------|
@@ -345,12 +351,50 @@ namespace constants, data classes, roundtrip serialization, random padding, and 
 | 2 | `RFC7748_generate_public` | RFC 7748 | Public key generation from private |
 | 3 | `RFC7748_random_agreements` | RFC 7748 | Random key agreements |
 | 4 | `RFC7748_signature` | RFC 7748 | Signature verification |
+
+#### SessionBuilder (5 Tests) -- Signal Protocol / XEP-0384
+
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
 | 5 | `SignalProtocol_basic_pre_key_v2` | Signal Protocol | PreKey bundle V2 session |
 | 6 | `SignalProtocol_basic_pre_key_v3` | Signal Protocol | PreKey bundle V3 session + double ratchet |
 | 7 | `XEP0384_basic_pre_key_omemo` | XEP-0384 | OMEMO-specific PreKey session |
 | 8 | `SignalProtocol_bad_signed_pre_key_signature` | Signal Protocol | Invalid signature -> rejection |
 | 9 | `SignalProtocol_repeat_bundle_message_v2` | Signal Protocol | Repeated bundle -> correct session |
+
+#### HKDF (1 Test) -- RFC 5869
+
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
 | 10 | `RFC5869_vector_v3` | RFC 5869 | HKDF test vector |
+
+#### FileDecryptor (20 Tests) -- RFC 4648 / XEP-0454 Security Audit
+
+Security audit tests for OMEMO file decryptor helper functions.
+Required `private` → `internal static` to enable testing via `--internal-vapi` + `-include omemo-internal.h`.
+
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
+| 11 | `RFC_is_hex_valid_lowercase` | Hex Contract | `0-9a-f` accepted |
+| 12 | `RFC_is_hex_valid_uppercase` | Hex Contract | `A-F` accepted |
+| 13 | `RFC_is_hex_valid_mixed` | Hex Contract | Mixed case accepted |
+| 14 | `RFC_is_hex_empty_is_false` | Hex Contract | Empty string -> false |
+| 15 | `RFC_is_hex_non_hex_char_false` | Hex Contract | Non-hex chars rejected |
+| 16 | `RFC_is_hex_space_is_false` | Hex Contract | Spaces rejected |
+| 17 | `RFC_is_hex_url_safe_base64_is_false` | Hex Contract | `-_` (URL-safe b64) rejected |
+| 18 | `RFC_hex_to_bin_known_vector` | Hex Contract | `AABBCCDD` -> {0xAA,0xBB,0xCC,0xDD} |
+| 19 | `RFC_hex_to_bin_empty` | Hex Contract | Empty -> empty array |
+| 20 | `RFC_hex_to_bin_all_ff` | Hex Contract | `FFFF` -> {0xFF,0xFF} |
+| 21 | `RFC_hex_to_bin_all_00` | Hex Contract | `0000` -> {0x00,0x00} |
+| 22 | `RFC4648_normalize_base64_rem_0_unchanged` | RFC 4648 S4 | len%4==0 unchanged |
+| 23 | `RFC4648_normalize_base64_rem_2_adds_double_pad` | RFC 4648 S4 | len%4==2 appends `==` |
+| 24 | `RFC4648_normalize_base64_rem_3_adds_single_pad` | RFC 4648 S4 | len%4==3 appends `=` |
+| 25 | `RFC4648_normalize_base64_rem_1_is_invalid` | RFC 4648 S3.5 | **Bug #15 FIXED**: len%4==1 returns `""` (was: returned malformed input) |
+| 26 | `RFC4648_normalize_base64_url_safe_to_standard` | RFC 4648 S5 | `-`->`+`, `_`->`/` |
+| 27 | `RFC4648_normalize_base64_empty_string` | RFC 4648 S4 | Empty -> empty |
+| 28 | `XEP0454_aesgcm_to_https_strips_fragment` | XEP-0454 | `aesgcm://...#secret` -> `https://...` |
+| 29 | `XEP0454_aesgcm_to_https_preserves_path` | XEP-0454 | Path + query preserved |
+| 30 | `XEP0454_aesgcm_to_https_non_aesgcm_unchanged` | XEP-0454 | Non-aesgcm URL unchanged |
 
 ### 1.4 Main / UI View Models (16 Tests)
 
@@ -487,7 +531,7 @@ Every test references its authoritative source:
 |------|------|-------|
 | **RFC 6120** | XMPP Core (streams, stanzas, namespaces) | 4 |
 | **RFC 7622** | XMPP JID format | 31 |
-| **RFC 4231** | HMAC-SHA-256 test vectors | 3 |
+| **RFC 4231** | HMAC-SHA-256 test vectors | 3 |\n| **RFC 4648** | Base64 encoding | 6 |
 | **RFC 5116** | AEAD (IND-CPA) | 2 |
 | **RFC 5869** | HKDF | 1 |
 | **RFC 6350/6351** | vCard 4.0 / xCard XML | 2 |
@@ -496,16 +540,17 @@ Every test references its authoritative source:
 | **NIST SP 800-38D** | AES-GCM authenticated encryption | 8 |
 | **NIST SP 800-132** | PBKDF2 key derivation | 5 |
 | **NIST SP 800-63B** | Secret entropy (128-bit minimum) | 2 |
-| **NIST SP 800-90A** | CSPRNG (Crypto.randomize) | 1 |
+| **NIST SP 800-90A** | CSPRNG (Crypto.randomize) | 2 |
 | **FIPS 180-4** | SHA-256 | 4 |
 | **XEP-0059** | Result Set Management | 1 |
 | **XEP-0198** | Stream Management | 15 |
 | **XEP-0313** | Message Archive Management | 8 |
 | **XEP-0373** | OpenPGP for XMPP | 6 |
-| **XEP-0374** | OpenPGP for XMPP Instant Messaging | 26 |
+| **XEP-0374** | OpenPGP for XMPP Instant Messaging | 30 |
 | **XEP-0384** | OMEMO encryption | 42 |
 | **XEP-0392** | Consistent Color Generation | 3 |
 | **XEP-0448** | Encrypted File Sharing | 2 |
+| **XEP-0454** | OMEMO Media Sharing | 3 |
 | **Signal Protocol** | Double Ratchet, PreKeys | 5 |
 | **Contract** | Data structure/API contracts (WeakMap, RateLimiter) | 17 |
 | **GObject** | Property/signal contract (PreferencesRow) | 16 |
@@ -517,8 +562,8 @@ Every test references its authoritative source:
 ## 5. Test Architecture
 
 ```
-ninja -C build test                    Meson-registered (217 tests)
-  |-- xmpp-vala-test                   12 suites, 138 tests (GLib.Test)
+ninja -C build test                    Meson-registered (241 tests)
+  |-- xmpp-vala-test                   12 suites, 142 tests (GLib.Test)
   |     |-- Stanza (4)                   RFC 6120 S4 stream/namespace
   |     |-- util (5)                     xs:hexBinary parsing contract
   |     |-- Jid (28)                     RFC 7622 JID validation
@@ -529,7 +574,7 @@ ninja -C build test                    Meson-registered (217 tests)
   |     |-- MAM (8)                      XEP-0313 S3-S5 + async XML
   |     |-- Audit_XEP0198 (3)            h-counter overflow
   |     |-- OmemoAudit (39)              XEP-0384 v0.3 + v0.8 stanza audit
-  |     +-- OpenPgpAudit (32)            XEP-0373 + XEP-0374 stanza audit
+  |     +-- OpenPgpAudit (36)            XEP-0373 + XEP-0374 stanza + rpad audit
   |
   |-- libdino-test                     8 suites, 29 tests (GLib.Test)
   |     |-- WeakMapTest (5)              Data structure contract
@@ -544,10 +589,11 @@ ninja -C build test                    Meson-registered (217 tests)
   |-- main-test                        1 suite, 16 tests (GLib.Test)
   |     +-- PreferencesRow (16)          GObject property/signal contract
   |
-  |-- omemo-test                       3 suites, 10 tests (GLib.Test)
+  |-- omemo-test                       4 suites, 30 tests (GLib.Test)
   |     |-- Curve25519 (4)               RFC 7748 key agreement
   |     |-- SessionBuilder (5)           Signal Protocol / XEP-0384
-  |     +-- HKDF (1)                     RFC 5869 test vector
+  |     |-- HKDF (1)                     RFC 5869 test vector
+  |     +-- FileDecryptor (20)           RFC 4648 + XEP-0454 security audit
   |
   +-- bot-features-test                4 suites, 24 tests (GLib.Test)
         |-- RateLimiter (9)              Contract-based (C-1 to C-8)
@@ -597,7 +643,7 @@ scripts/run_db_integration_tests.sh    Vala, 65 tests (Qlite)
 | **http-files plugin** | No tests | Medium |
 | **ice plugin** | No tests | High -- ICE/STUN/TURN networking |
 | **notification-sound plugin** | No tests | Low -- pure GStreamer pipeline |
-| **openpgp plugin** | Stanza tests via xmpp-vala (32 tests). Plugin logic: No tests | Medium |
+| **openpgp plugin** | Stanza tests via xmpp-vala (36 tests). Plugin logic: No tests | Medium |\n| **omemo plugin** | 30 tests (Curve25519, Signal, HKDF, FileDecryptor). Encrypt/decrypt logic: No tests | Medium |
 | **rtp plugin** | No tests | High -- real-time media |
 | **tor-manager plugin** | No tests | Medium -- SOCKS5 proxy |
 | **Network/protocol integration** | No mock XMPP server | High |
@@ -673,10 +719,10 @@ The view models contain business logic without GTK dependency:
 Script: `scripts/run_all_tests.sh`
 
 ```bash
-# All 353 tests (Meson + DB)
+# All 377 tests (Meson + DB)
 ./scripts/run_all_tests.sh
 
-# Only Meson-registered tests (217)
+# Only Meson-registered tests (241)
 ./scripts/run_all_tests.sh --meson
 
 # Only DB maintenance tests (136)
@@ -828,4 +874,4 @@ Examples:
 
 ---
 
-*Last updated: 23 February 2026 -- v1.1.3.0, 217 Meson tests (all spec-prefixed), 5 suites, 0 failures*
+*Last updated: 23 February 2026 -- v1.1.4.0, 241 Meson tests (all spec-prefixed), 5 suites, 0 failures*

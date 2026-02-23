@@ -144,7 +144,7 @@ public class OmemoFileDecryptor : FileDecryptor, Object {
     return bytes.length > 0;
   }
 
-  private bool is_hex (string s) {
+  internal static bool is_hex (string s) {
     for (int i = 0; i < s.length; i++) {
       unichar c = s.get_char (i);
       bool ok = (c >= '0' && c <= '9') || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F');
@@ -153,7 +153,7 @@ public class OmemoFileDecryptor : FileDecryptor, Object {
     return s.length > 0;
   }
 
-  private uint8[] hex_to_bin (string hex) {
+  internal static uint8[] hex_to_bin (string hex) {
     uint8[] bin = new uint8[hex.length / 2];
     const string HEX = "0123456789ABCDEF";
     for (int i = 0; i < hex.length / 2; i++) {
@@ -162,20 +162,21 @@ public class OmemoFileDecryptor : FileDecryptor, Object {
     return bin;
   }
 
-  private string normalize_base64 (string input) {
+  internal static string normalize_base64 (string input) {
     // Convert url-safe base64 to standard base64 and add padding.
     string s = input.replace ("-", "+").replace ("_", "/");
     int rem = s.length % 4;
     if (rem == 2) s += "==";
     else if (rem == 3) s += "=";
     else if (rem != 0) {
-      // Invalid base64 length
-      return input;
+      // RFC 4648: length ≡ 1 (mod 4) is always invalid base64.
+      // Return empty string so try_decode_secret() fails gracefully.
+      return "";
     }
     return s;
   }
 
-  private string aesgcm_to_https_link (string aesgcm_link) {
+  internal string aesgcm_to_https_link (string aesgcm_link) {
     MatchInfo match_info;
     if (!this.url_regex.match (aesgcm_link, 0, out match_info)) {
       return aesgcm_link;

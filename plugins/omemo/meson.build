@@ -85,12 +85,14 @@ test_sources = [
     'tests/native/testcase.vala',
 
     'tests/native/curve25519.vala',
+    'tests/native/file_decryptor.vala',
     'tests/native/hkdf.vala',
     'tests/native/session_builder.vala',
 ]
 test_vala_args = [
     '--vapidir', meson.current_source_dir() / 'vapi',
 ]
+test_c_args = c_args + ['-include', 'omemo-internal.h']
 
-exe_omemo_test = executable('omemo-test', test_sources, c_args: c_args, vala_args: test_vala_args, dependencies: dependencies + dep_omemo_internal, build_rpath: '$ORIGIN', install: false)
+exe_omemo_test = executable('omemo-test', test_sources, c_args: test_c_args, vala_args: test_vala_args, dependencies: dependencies + dep_omemo_internal, build_rpath: '$ORIGIN', install: false)
 test('Tests for omemo', exe_omemo_test)

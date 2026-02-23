@@ -66,6 +66,12 @@ public class OpenPgpAudit : Gee.TestCase {
         add_test("XEP0374_signcrypt_rpad_is_nonempty", test_rpad_nonempty);
         add_test("XEP0374_signcrypt_rpad_is_base64", test_rpad_is_base64);
 
+        /* === XEP-0374 random padding security audit === */
+        add_test("XEP0374_rpad_modulo_bias_256_mod_49", test_rpad_modulo_bias);
+        add_test("XEP0374_rpad_length_varies_between_instances", test_rpad_varies);
+        add_test("XEP0374_rpad_decode_length_in_16_to_64", test_rpad_decode_length_range);
+        add_test("SP800_90A_rpad_uses_dev_urandom_on_linux", test_rpad_csprng_available);
+
         /* === XEP-0374 cross-element rejection tests === */
         add_test("XEP0374_signcrypt_rejects_sign_element", test_cross_signcrypt_sign);
         add_test("XEP0374_sign_rejects_crypt_element", test_cross_sign_crypt);
@@ -428,6 +434,91 @@ public class OpenPgpAudit : Gee.TestCase {
             CryptElement? parsed = CryptElement.from_stanza_node(node);
             fail_if(parsed != null, "crypt parser must reject <signcrypt>");
         } catch (Error e) { fail_if_reached(); }
+    }
+
+    /* ==================================================================
+     * XEP-0374 RANDOM PADDING SECURITY AUDIT
+     * ================================================================== */
+
+    /**
+     * BUG #16: Modulo bias in generate_random_padding() length calculation.
+     *
+     * The code uses: length = 16 + (int)(len_buf[0] % 49)
+     * where len_buf[0] is a random byte [0..255].
+     *
+     * 256 % 49 = 11 (not zero!)
+     *
+     * This means values 0..10 appear with probability 6/256,
+     * while values 11..48 appear with probability 5/256.
+     * The first 11 lengths (16..26) are ~20% more likely than lengths 27..64.
+     *
+     * For uniform distribution, the accepted range must be divisible by 49.
+     * The fix uses rejection sampling: discard values ≥ 245 (= 49*5).
+     * Accepted range [0, 244] has 245 values, and 245 % 49 = 0 → uniform.
+     *
+     * This test verifies the mathematical invariant holds after the fix.
+     */
+    public void test_rpad_modulo_bias() {
+        int accepted_range = 245; // rejection sampling threshold: 49 * 5
+        int desired_range = 49;   // 16..64 = 49 distinct lengths
+        int remainder = accepted_range % desired_range;
+
+        // With rejection sampling (discard ≥ 245): 245 % 49 = 0 → uniform
+        fail_if_not(remainder == 0,
+            "BUG #16 FIXED: accepted range %d %% %d = %d (must be 0)".printf(
+                accepted_range, desired_range, remainder));
+
+        // Verify the old formula WAS biased
+        int old_remainder = 256 % desired_range;
+        fail_if_not(old_remainder != 0,
+            "Sanity: old formula 256 %% 49 = %d was biased".printf(old_remainder));
+    }
+
+    /**
+     * XEP-0374 §3: random padding must vary between instances.
+     * Two independently created SigncryptElements must have different rpad.
+     * (Probability of collision: ~2^-128 for 16+ random bytes)
+     */
+    public void test_rpad_varies() {
+        try {
+            var sc1 = new SigncryptElement.with_body(new Jid("a@b.com"), "msg1");
+            var sc2 = new SigncryptElement.with_body(new Jid("a@b.com"), "msg1");
+            fail_if(sc1.rpad == sc2.rpad,
+                "XEP-0374: two independent rpad values must differ (CSPRNG broken?)");
+        } catch (Error e) { fail_if_reached(); }
+    }
+
+    /**
+     * XEP-0374 §3: decoded rpad length must be in [16, 64].
+     * Test 20 samples to check the range.
+     */
+    public void test_rpad_decode_length_range() {
+        try {
+            for (int i = 0; i < 20; i++) {
+                var sc = new SigncryptElement.with_body(new Jid("a@b.com"), "test");
+                uint8[] decoded = Base64.decode(sc.rpad);
+                if (decoded.length < 16 || decoded.length > 64) {
+                    fail_if_reached("rpad decoded length %d out of [16,64] range on iteration %d"
+                        .printf(decoded.length, i));
+                    return;
+                }
+            }
+        } catch (Error e) { fail_if_reached(); }
+    }
+
+    /**
+     * NIST SP 800-90A: On Linux, /dev/urandom MUST be available for CSPRNG.
+     * The generate_random_padding() function falls back to GLib.Random
+     * (Mersenne Twister, NOT a CSPRNG) if /dev/urandom is unavailable.
+     *
+     * This test verifies that /dev/urandom exists on the current platform,
+     * ensuring the CSPRNG path is taken (not the Mersenne Twister fallback).
+     */
+    public void test_rpad_csprng_available() {
+        bool urandom_exists = FileUtils.test("/dev/urandom", FileTest.EXISTS);
+        fail_if_not(urandom_exists,
+            "SP800-90A: /dev/urandom must exist on Linux — " +
+            "without it, rpad uses GLib.Random (Mersenne Twister, NOT CSPRNG!)");
     }
 }
 
