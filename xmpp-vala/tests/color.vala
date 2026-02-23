@@ -2,17 +2,28 @@ using Xmpp.Xep;
 
 namespace Xmpp.Test {
 
+/**
+ * Spec-based tests for XEP-0392 Consistent Color Generation.
+ *
+ * References:
+ *   - XEP-0392 §5: Test Vectors (angle and RGB)
+ *   - XEP-0392 §3: Algorithm (SHA-1 → uint16 → angle → HSLuv → RGB)
+ */
 class ColorTest : Gee.TestCase {
 
     public ColorTest() {
         base("color");
 
-        add_test("xep-vectors-angle", () => { text_xep_vectors_angle(); });
-        add_test("xep-vectors-rgbf", () => { test_xep_vectors_rgbf(); });
-        add_test("rgb-to-angle", () => { test_rgb_to_angle(); });
+        add_test("XEP0392_angle_test_vectors", () => { test_xep_vectors_angle(); });
+        add_test("XEP0392_rgbf_test_vectors", () => { test_xep_vectors_rgbf(); });
+        add_test("XEP0392_rgb_angle_range_0_360", () => { test_rgb_angle_range(); });
     }
 
-    public void text_xep_vectors_angle() {
+    /**
+     * XEP-0392 §5 Test Vectors: angle values for known inputs.
+     * These are the official test vectors from the XEP.
+     */
+    public void test_xep_vectors_angle() {
         fail_if_not_eq_double(ConsistentColor.string_to_angle("Romeo"), 327.255249);
         fail_if_not_eq_double(ConsistentColor.string_to_angle("juliet@capulet.lit"), 209.410400);
         fail_if_not_eq_double(ConsistentColor.string_to_angle("😺"), 331.199341);
@@ -28,6 +39,9 @@ class ColorTest : Gee.TestCase {
         return failed;
     }
 
+    /**
+     * XEP-0392 §5 Test Vectors: RGB float values for known inputs.
+     */
     public void test_xep_vectors_rgbf() {
         fail_if_not_eq_rgbf(ConsistentColor.string_to_rgbf("Romeo"), {0.865f,0.000f,0.686f});
         fail_if_not_eq_rgbf(ConsistentColor.string_to_rgbf("juliet@capulet.lit"), {0.000f,0.515f,0.573f});
@@ -36,19 +50,34 @@ class ColorTest : Gee.TestCase {
         fail_if_not_eq_rgbf(ConsistentColor.string_to_rgbf("Board"), {0.000f,0.527f,0.457f});
     }
 
-    public void test_rgb_to_angle() {
-        string[] colors = {"e57373", "f06292", "ba68c8", "9575cd", "7986cb", "64b5f6", "4fc3f7", "4dd0e1", "4db6ac", "81c784", "aed581", "dce775", "fff176", "ffd54f", "ffb74d", "ff8a65"};
-        foreach(string hex_color in colors) {
-            int r_int;
-            hex_color.substring(0, 2).scanf("%x", out r_int);
-            //uint8 r = (uint8) r_int;
-            int g_int;
-            hex_color.substring(2, 2).scanf("%x", out g_int);
-            //uint8 g = (uint8) g_int;
-            int b_int;
-            hex_color.substring(4, 2).scanf("%x", out b_int);
-            //uint8 b = (uint8) b_int;
-            //print(@"$hex_color, $r, $g, $b, $(ConsistentColor.rgb_to_angle(r, g, b))\n");
+    /**
+     * XEP-0392 §3: The angle MUST be in range [0, 360).
+     * Algorithm: angle = (uint16_le / 65536.0) × 360.0
+     * Since uint16 ∈ [0, 65535], angle ∈ [0, 359.9945...).
+     *
+     * RGB values from HSLuv SHOULD be in [0, 1] per the color model.
+     * NOTE: HSLuv can produce values like -2.9e-13 due to IEEE 754
+     * floating-point arithmetic. We allow ±1e-10 tolerance.
+     */
+    public void test_rgb_angle_range() {
+        string[] inputs = {
+            "e57373", "f06292", "ba68c8", "9575cd", "7986cb", "64b5f6",
+            "4fc3f7", "4dd0e1", "4db6ac", "81c784", "aed581", "dce775",
+            "fff176", "ffd54f", "ffb74d", "ff8a65",
+            "Romeo", "juliet@capulet.lit", "😺", "", "a", "zzzzzz"
+        };
+        foreach (string input in inputs) {
+            float angle = ConsistentColor.string_to_angle(input);
+            // XEP-0392 §3: angle = (uint16 / 65536) × 360 → [0, 360)
+            fail_if(angle < 0.0f, @"Angle for '$input' must be ≥ 0, got $angle");
+            fail_if(angle >= 360.0f, @"Angle for '$input' must be < 360, got $angle");
+
+            // Verify RGB components are in valid range (allow IEEE 754 epsilon)
+            float[] rgb = ConsistentColor.string_to_rgbf(input);
+            for (int i = 0; i < 3; i++) {
+                fail_if(rgb[i] < -1e-10f || rgb[i] > 1.0f + 1e-10f,
+                    @"RGB[$i] for '$input' out of valid range: $(rgb[i])");
+            }
         }
     }
 

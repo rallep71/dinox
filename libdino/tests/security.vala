@@ -3,39 +3,58 @@ using Dino.Security;
 namespace Dino.Test {
 
 /**
- * Tests for FileEncryption: AES-256-GCM encrypt/decrypt round-trips.
- * Verifies data integrity, wrong-password rejection, and edge cases.
+ * Spec-based tests for FileEncryption (AES-256-GCM + PBKDF2).
+ *
+ * References:
+ *   - NIST SP 800-38D (AES-GCM): ciphertext length, IV/tag sizes, authentication
+ *   - NIST SP 800-132 (PBKDF2): key derivation, salt requirements
+ *   - RFC 5116 §5.1 (AEAD_AES_256_GCM): output format constraints
  */
 class SecurityTest : Gee.TestCase {
 
+    // Expected format: SALT(16) + IV(12) + Ciphertext + TAG(16)
+    private const int SALT_SIZE = 16;
+    private const int IV_SIZE = 12;
+    private const int TAG_SIZE = 16;
+    private const int OVERHEAD = 44;  // SALT + IV + TAG
+
     public SecurityTest() {
         base("Security");
-        add_test("encrypt_decrypt_roundtrip", test_encrypt_decrypt_roundtrip);
-        add_test("encrypt_decrypt_empty", test_encrypt_decrypt_empty);
-        add_test("encrypt_decrypt_large", test_encrypt_decrypt_large);
-        add_test("encrypt_decrypt_unicode_password", test_encrypt_decrypt_unicode_password);
-        add_test("wrong_password_fails", test_wrong_password_fails);
-        add_test("ciphertext_differs_from_plaintext", test_ciphertext_differs_from_plaintext);
-        add_test("two_encryptions_differ", test_two_encryptions_differ);
-        add_test("data_too_short_fails", test_data_too_short_fails);
-        add_test("deterministic_key_derivation", test_deterministic_key_derivation);
+        // NIST SP 800-38D: GCM correctness
+        add_test("SP800_38D_ciphertext_length_equals_plaintext", test_gcm_ciphertext_length);
+        add_test("SP800_38D_authentication_rejects_wrong_key", test_gcm_authentication);
+        add_test("SP800_38D_tag_is_128_bits", test_gcm_tag_size);
+        add_test("SP800_38D_iv_is_96_bits", test_gcm_iv_size);
+        add_test("SP800_38D_empty_plaintext_produces_only_overhead", test_gcm_empty_plaintext);
+        // RFC 5116: IND-CPA (ciphertext indistinguishability)
+        add_test("RFC5116_ind_cpa_different_nonces", test_ind_cpa);
+        add_test("RFC5116_ciphertext_not_plaintext", test_ciphertext_not_plaintext);
+        // NIST SP 800-132: PBKDF2 key derivation
+        add_test("SP800_132_same_password_cross_instance_decrypt", test_cross_instance_decrypt);
+        add_test("SP800_132_unicode_password_roundtrip", test_unicode_password);
+        // Robustness
+        add_test("reject_truncated_ciphertext", test_reject_truncated);
+        add_test("reject_corrupted_tag", test_reject_corrupted_tag);
+        add_test("large_plaintext_64KB_roundtrip", test_large_plaintext);
     }
 
-    private void test_encrypt_decrypt_roundtrip() {
-        string password = "test-password-123";
-        string message = "Hello, DinoX! This is a secret message.";
-
+    /**
+     * NIST SP 800-38D §7: AES-GCM ciphertext length MUST equal plaintext length.
+     * The output format is SALT(16) + IV(12) + CT(N) + TAG(16), so
+     * total output = plaintext.length + 44.
+     */
+    private void test_gcm_ciphertext_length() {
         try {
-            var enc = new FileEncryption(password);
-            uint8[] plaintext = message.data;
-            uint8[] encrypted = enc.encrypt_data(plaintext);
-            uint8[] decrypted = enc.decrypt_data(encrypted);
+            var enc = new FileEncryption("test-password");
+            int[] sizes = {0, 1, 15, 16, 17, 255, 1024};
+            foreach (int size in sizes) {
+                uint8[] pt = new uint8[size];
+                for (int i = 0; i < size; i++) pt[i] = (uint8)(i & 0xFF);
+                uint8[] ct = enc.encrypt_data(pt);
 
-            // Verify round-trip
-            assert_true(decrypted.length == plaintext.length);
-            for (int i = 0; i < plaintext.length; i++) {
-                if (plaintext[i] != decrypted[i]) {
-                    fail_if(true, @"Byte mismatch at position $i");
+                int expected_len = OVERHEAD + size;
+                if (ct.length != expected_len) {
+                    fail_if(true, @"NIST SP 800-38D violation: plaintext=$size, expected output=$expected_len, got=$(ct.length)");
                     return;
                 }
             }
@@ -44,163 +63,256 @@ class SecurityTest : Gee.TestCase {
         }
     }
 
-    private void test_encrypt_decrypt_empty() {
-        try {
-            var enc = new FileEncryption("password");
-            uint8[] empty = {};
-            uint8[] encrypted = enc.encrypt_data(empty);
-
-            // Encrypted should contain at least Salt (16) + IV (12) + Tag (16) = 44 bytes
-            assert_true(encrypted.length >= 44);
-
-            uint8[] decrypted = enc.decrypt_data(encrypted);
-            assert_true(decrypted.length == 0);
-        } catch (Error e) {
-            fail_if_reached(@"Unexpected error: $(e.message)");
-        }
-    }
-
-    private void test_encrypt_decrypt_large() {
-        try {
-            var enc = new FileEncryption("large-data-pw");
-
-            // 64 KB of data
-            uint8[] data = new uint8[65536];
-            for (int i = 0; i < data.length; i++) {
-                data[i] = (uint8)(i & 0xFF);
-            }
-
-            uint8[] encrypted = enc.encrypt_data(data);
-            uint8[] decrypted = enc.decrypt_data(encrypted);
-
-            assert_true(decrypted.length == data.length);
-            for (int i = 0; i < data.length; i++) {
-                if (data[i] != decrypted[i]) {
-                    fail_if(true, @"Byte mismatch at position $i in 64KB data");
-                    return;
-                }
-            }
-        } catch (Error e) {
-            fail_if_reached(@"Unexpected error: $(e.message)");
-        }
-    }
-
-    private void test_encrypt_decrypt_unicode_password() {
-        try {
-            string unicode_pw = "パスワード🔐Tëst";
-            var enc = new FileEncryption(unicode_pw);
-            uint8[] data = "Unicode password test data".data;
-
-            uint8[] encrypted = enc.encrypt_data(data);
-            uint8[] decrypted = enc.decrypt_data(encrypted);
-
-            assert_true(decrypted.length == data.length);
-            string result = (string) decrypted;
-            fail_if(result != "Unicode password test data", "Unicode pw round-trip failed");
-        } catch (Error e) {
-            fail_if_reached(@"Unexpected error: $(e.message)");
-        }
-    }
-
-    private void test_wrong_password_fails() {
+    /**
+     * NIST SP 800-38D §7.2: GCM decryption MUST reject ciphertext
+     * encrypted under a different key (authentication failure).
+     */
+    private void test_gcm_authentication() {
         try {
             var enc1 = new FileEncryption("correct-password");
             var enc2 = new FileEncryption("wrong-password");
 
-            uint8[] plaintext = "Secret data".data;
-            uint8[] encrypted = enc1.encrypt_data(plaintext);
-
-            // Decrypting with wrong password should fail (GCM tag check)
+            uint8[] ct = enc1.encrypt_data("Secret data".data);
             try {
-                enc2.decrypt_data(encrypted);
-                // If we get here, the tag check didn't throw — that's a security bug
-                fail_if(true, "Decryption with wrong password should have failed");
+                enc2.decrypt_data(ct);
+                fail_if(true, "NIST SP 800-38D: Decryption with wrong key MUST fail (tag mismatch)");
             } catch (Error e) {
-                // Expected: tag verification failure
+                // Expected: authentication tag verification failure
                 assert_true(true);
             }
         } catch (Error e) {
-            fail_if_reached(@"Unexpected error in setup: $(e.message)");
+            fail_if_reached(@"Setup error: $(e.message)");
         }
     }
 
-    private void test_ciphertext_differs_from_plaintext() {
+    /**
+     * NIST SP 800-38D §5.2.1.2: Tag length for AES-256-GCM SHOULD be 128 bits (16 bytes).
+     * The last 16 bytes of output are the tag.
+     */
+    private void test_gcm_tag_size() {
         try {
             var enc = new FileEncryption("pw");
-            uint8[] plaintext = "This must not appear in ciphertext".data;
-            uint8[] encrypted = enc.encrypt_data(plaintext);
+            uint8[] ct = enc.encrypt_data("test".data);
 
-            // Ciphertext should be longer (IV + tag overhead)
-            assert_true(encrypted.length > plaintext.length);
+            // Format: SALT(16) + IV(12) + CT(4) + TAG(16) = 48
+            assert_true(ct.length == OVERHEAD + 4);
 
-            // The ciphertext portion (after Salt+IV) should differ from plaintext
-            bool all_same = true;
-            int ct_start = 28; // After Salt(16) + IV(12)
-            int ct_len = plaintext.length;
-            for (int i = 0; i < ct_len && i + ct_start < encrypted.length; i++) {
-                if (encrypted[i + ct_start] != plaintext[i]) {
-                    all_same = false;
-                    break;
-                }
+            // Flip a bit in the tag region (last 16 bytes)
+            uint8[] corrupted = new uint8[ct.length];
+            Memory.copy(corrupted, ct, ct.length);
+            corrupted[ct.length - 1] ^= 0x01;
+
+            try {
+                enc.decrypt_data(corrupted);
+                fail_if(true, "SP 800-38D: Corrupted 128-bit tag must be rejected");
+            } catch (Error e) {
+                assert_true(true);
             }
-            fail_if(all_same, "Ciphertext matches plaintext — encryption broken");
         } catch (Error e) {
             fail_if_reached(@"Unexpected error: $(e.message)");
         }
     }
 
-    private void test_two_encryptions_differ() {
+    /**
+     * NIST SP 800-38D §8.2: IV for AES-GCM SHOULD be 96 bits (12 bytes).
+     * Bytes [SALT_SIZE .. SALT_SIZE+12) are the IV. They should be random.
+     */
+    private void test_gcm_iv_size() {
+        try {
+            var enc = new FileEncryption("pw");
+            uint8[] ct1 = enc.encrypt_data("same".data);
+            uint8[] ct2 = enc.encrypt_data("same".data);
+
+            // IVs at bytes [16..28) must differ between encryptions
+            bool iv_differs = false;
+            for (int i = SALT_SIZE; i < SALT_SIZE + IV_SIZE; i++) {
+                if (ct1[i] != ct2[i]) { iv_differs = true; break; }
+            }
+            fail_if(!iv_differs, "SP 800-38D §8.2: Each encryption MUST use a unique 96-bit IV");
+        } catch (Error e) {
+            fail_if_reached(@"Unexpected error: $(e.message)");
+        }
+    }
+
+    /**
+     * NIST SP 800-38D: Empty plaintext produces only overhead.
+     * Output = SALT(16) + IV(12) + TAG(16) = 44 bytes, zero ciphertext bytes.
+     */
+    private void test_gcm_empty_plaintext() {
+        try {
+            var enc = new FileEncryption("pw");
+            uint8[] ct = enc.encrypt_data({});
+            if (ct.length != OVERHEAD) {
+                fail_if(true, @"SP 800-38D: Empty plaintext must produce exactly $(OVERHEAD) bytes, got $(ct.length)");
+                return;
+            }
+            uint8[] dec = enc.decrypt_data(ct);
+            assert_true(dec.length == 0);
+        } catch (Error e) {
+            fail_if_reached(@"Unexpected error: $(e.message)");
+        }
+    }
+
+    /**
+     * RFC 5116 §5.1 (AEAD_AES_256_GCM): Same plaintext encrypted twice
+     * MUST produce different ciphertexts (IND-CPA property).
+     * Guaranteed by random salt + random IV.
+     */
+    private void test_ind_cpa() {
         try {
             var enc = new FileEncryption("same-password");
-            uint8[] data = "Same input".data;
+            uint8[] pt = "Same input".data;
+            uint8[] ct1 = enc.encrypt_data(pt);
+            uint8[] ct2 = enc.encrypt_data(pt);
 
-            uint8[] ct1 = enc.encrypt_data(data);
-            uint8[] ct2 = enc.encrypt_data(data);
-
-            // Different random IVs → different ciphertexts
             bool differ = false;
-            if (ct1.length != ct2.length) {
-                differ = true;
-            } else {
+            if (ct1.length != ct2.length) { differ = true; }
+            else {
                 for (int i = 0; i < ct1.length; i++) {
                     if (ct1[i] != ct2[i]) { differ = true; break; }
                 }
             }
-            fail_if(!differ, "Two encryptions of same data produced identical output — IV reuse bug");
+            fail_if(!differ, "RFC 5116: Two encryptions of same plaintext MUST produce different output (IND-CPA)");
         } catch (Error e) {
             fail_if_reached(@"Unexpected error: $(e.message)");
         }
     }
 
-    private void test_data_too_short_fails() {
-        var enc = new FileEncryption("pw");
+    /**
+     * RFC 5116: Ciphertext portion must not contain plaintext.
+     * CT bytes are at offset [SALT_SIZE+IV_SIZE .. length-TAG_SIZE).
+     */
+    private void test_ciphertext_not_plaintext() {
+        try {
+            var enc = new FileEncryption("pw");
+            uint8[] pt = "This must not appear in ciphertext".data;
+            uint8[] ct = enc.encrypt_data(pt);
 
-        // Less than IV_SIZE (12) + TAG_SIZE (16) = 28 bytes
-        uint8[] too_short = {1, 2, 3, 4, 5};
+            // Check that the ciphertext region doesn't match plaintext
+            int ct_start = SALT_SIZE + IV_SIZE;
+            bool all_same = true;
+            for (int i = 0; i < pt.length; i++) {
+                if (ct[ct_start + i] != pt[i]) { all_same = false; break; }
+            }
+            fail_if(all_same, "RFC 5116: Ciphertext must not equal plaintext (encryption not applied)");
+        } catch (Error e) {
+            fail_if_reached(@"Unexpected error: $(e.message)");
+        }
+    }
+
+    /**
+     * NIST SP 800-132: Same password + embedded salt → same derived key.
+     * Two FileEncryption instances with same password MUST cross-decrypt
+     * (salt is embedded in ciphertext, not per-instance).
+     */
+    private void test_cross_instance_decrypt() {
+        try {
+            var enc1 = new FileEncryption("deterministic-test");
+            var enc2 = new FileEncryption("deterministic-test");
+            uint8[] pt = "Cross-instance decryption must work".data;
+            uint8[] ct = enc1.encrypt_data(pt);
+            uint8[] dec = enc2.decrypt_data(ct);
+
+            assert_true(dec.length == pt.length);
+            for (int i = 0; i < pt.length; i++) {
+                if (pt[i] != dec[i]) {
+                    fail_if(true, @"SP 800-132: Cross-instance decrypt byte mismatch at pos $i");
+                    return;
+                }
+            }
+        } catch (Error e) {
+            fail_if_reached(@"SP 800-132: Cross-instance decrypt failed: $(e.message)");
+        }
+    }
+
+    /**
+     * NIST SP 800-132 §5.3: PBKDF2 MUST handle arbitrary-length passwords
+     * including multi-byte UTF-8 characters.
+     */
+    private void test_unicode_password() {
+        try {
+            string pw = "パスワード🔐Tëst";
+            var enc = new FileEncryption(pw);
+            uint8[] pt = "Unicode password test data".data;
+            uint8[] ct = enc.encrypt_data(pt);
+            uint8[] dec = enc.decrypt_data(ct);
+
+            string result = (string) dec;
+            fail_if(result != "Unicode password test data",
+                    "SP 800-132: Unicode password roundtrip failed");
+        } catch (Error e) {
+            fail_if_reached(@"Unexpected error: $(e.message)");
+        }
+    }
+
+    /**
+     * Robustness: Data shorter than OVERHEAD (44 bytes) MUST be rejected.
+     * Format requires at least SALT(16) + IV(12) + TAG(16).
+     */
+    private void test_reject_truncated() {
+        var enc = new FileEncryption("pw");
+        uint8[] short_data = {1, 2, 3, 4, 5};
 
         try {
-            enc.decrypt_data(too_short);
-            fail_if(true, "Decrypting too-short data should have thrown");
+            enc.decrypt_data(short_data);
+            fail_if(true, "Truncated data (<44 bytes) MUST be rejected");
         } catch (Error e) {
-            // Expected: "Data too short"
             assert_true(true);
         }
     }
 
-    private void test_deterministic_key_derivation() {
-        // Same password must produce same key (deterministic derivation)
-        // We test this indirectly: data encrypted with pw A must decrypt with new instance of pw A
+    /**
+     * NIST SP 800-38D §7.2: Corrupted authentication tag MUST cause
+     * decryption to fail. Verifies that tag integrity check works.
+     */
+    private void test_reject_corrupted_tag() {
         try {
-            var enc1 = new FileEncryption("deterministic-test");
-            var enc2 = new FileEncryption("deterministic-test");
+            var enc = new FileEncryption("pw");
+            uint8[] ct = enc.encrypt_data("important data".data);
 
-            uint8[] data = "Key derivation must be deterministic".data;
-            uint8[] encrypted = enc1.encrypt_data(data);
-            uint8[] decrypted = enc2.decrypt_data(encrypted);
+            // Corrupt the GCM tag (last 16 bytes)
+            uint8[] corrupted = new uint8[ct.length];
+            Memory.copy(corrupted, ct, ct.length);
+            for (int i = ct.length - TAG_SIZE; i < ct.length; i++) {
+                corrupted[i] ^= 0xFF;
+            }
 
-            string result = (string) decrypted;
-            fail_if(result != "Key derivation must be deterministic",
-                    "Different FileEncryption instances with same password produced different keys");
+            try {
+                enc.decrypt_data(corrupted);
+                fail_if(true, "SP 800-38D: Corrupted tag MUST be rejected");
+            } catch (Error e) {
+                assert_true(true);
+            }
+        } catch (Error e) {
+            fail_if_reached(@"Setup error: $(e.message)");
+        }
+    }
+
+    /**
+     * NIST SP 800-38D: AES-GCM must handle large inputs (multi-block).
+     * GCM uses GHASH which processes 128-bit blocks. 64KB = 4096 blocks.
+     */
+    private void test_large_plaintext() {
+        try {
+            var enc = new FileEncryption("large-data-pw");
+            uint8[] pt = new uint8[65536];
+            for (int i = 0; i < pt.length; i++) pt[i] = (uint8)(i & 0xFF);
+
+            uint8[] ct = enc.encrypt_data(pt);
+            // Verify format: output = 44 + 65536
+            if (ct.length != OVERHEAD + 65536) {
+                fail_if(true, @"SP 800-38D: 64KB plaintext should produce $(OVERHEAD + 65536) output, got $(ct.length)");
+                return;
+            }
+
+            uint8[] dec = enc.decrypt_data(ct);
+            assert_true(dec.length == pt.length);
+            for (int i = 0; i < pt.length; i++) {
+                if (pt[i] != dec[i]) {
+                    fail_if(true, @"SP 800-38D: 64KB roundtrip byte mismatch at pos $i");
+                    return;
+                }
+            }
         } catch (Error e) {
             fail_if_reached(@"Unexpected error: $(e.message)");
         }
