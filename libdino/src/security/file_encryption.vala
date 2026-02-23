@@ -13,34 +13,63 @@ using Crypto;
 namespace Dino.Security {
 
 public class FileEncryption : Object {
-    private uint8[] key;
-    private const string SALT = "DinoX File Encryption v1";
+    private const int SALT_SIZE = 16;       // 128-bit random salt per NIST SP 800-132
     private const int IV_SIZE = 12;
     private const int TAG_SIZE = 16;
+    private const int KDF_ITERATIONS = 100000;  // NIST SP 800-132 recommends ≥10,000
+
+    private string password_store;
 
     public FileEncryption(string password) {
-        this.key = derive_key(password);
+        this.password_store = password;
     }
 
-    private uint8[] derive_key(string password) {
-        Checksum checksum = new Checksum(ChecksumType.SHA256);
-        checksum.update(password.data, password.length);
-        checksum.update(SALT.data, SALT.length);
-        
-        uint8[] digest = new uint8[32]; // SHA256 is 32 bytes
-        size_t len = 32;
-        checksum.get_digest(digest, ref len);
-        return digest;
+    /*
+     * PBKDF2-SHA256 key derivation (NIST SP 800-132 compliant).
+     * Uses random salt and 100,000 iterations.
+     */
+    private static uint8[] derive_key(string password, uint8[] salt) {
+        uint8[] password_bytes = (uint8[]) password.to_utf8();
+
+        // PBKDF2-HMAC-SHA256, single block (output = 32 bytes = SHA256 size)
+        uint8[] result = new uint8[32];
+        uint8[] last = new uint8[salt.length + 4];
+        Memory.copy(last, salt, salt.length);
+        last[salt.length + 3] = 1;  // Block counter = 1
+
+        for (int i = 0; i < KDF_ITERATIONS; i++) {
+            // HMAC-SHA256(password, last)
+            Hmac hmac = new Hmac(ChecksumType.SHA256, password_bytes);
+            hmac.update(last);
+            size_t out_len = 32;
+            uint8[] step = new uint8[32];
+            hmac.get_digest(step, ref out_len);
+            last = step;
+
+            // XOR into result
+            for (int j = 0; j < 32; j++) {
+                result[j] ^= step[j];
+            }
+        }
+        return result;
     }
 
     public async void encrypt_stream(InputStream input, OutputStream output, Cancellable? cancellable = null) throws GLib.Error {
+        // Generate random salt
+        uint8[] salt = new uint8[SALT_SIZE];
+        Crypto.randomize(salt);
+        yield output.write_all_async(salt, Priority.DEFAULT, cancellable, null);
+
+        // Derive key from password + salt
+        uint8[] derived_key = derive_key(password_store, salt);
+
         // IV
         uint8[] iv = new uint8[IV_SIZE];
         Crypto.randomize(iv);
         yield output.write_all_async(iv, Priority.DEFAULT, cancellable, null);
 
         var cipher = new SymmetricCipher("AES256-GCM");
-        cipher.set_key(this.key);
+        cipher.set_key(derived_key);
         cipher.set_iv(iv);
 
         uint8[] buffer = new uint8[8192];
@@ -66,14 +95,22 @@ public class FileEncryption : Object {
     }
 
     public async void decrypt_stream(InputStream input, OutputStream output, Cancellable? cancellable = null) throws GLib.Error {
+        // Read Salt
+        uint8[] salt = new uint8[SALT_SIZE];
+        size_t bytes_read;
+        yield input.read_all_async(salt, Priority.DEFAULT, cancellable, out bytes_read);
+        if (bytes_read != SALT_SIZE) throw new IOError.FAILED("Stream too short (missing Salt)");
+
         // Read IV
         uint8[] iv = new uint8[IV_SIZE];
-        size_t bytes_read;
         yield input.read_all_async(iv, Priority.DEFAULT, cancellable, out bytes_read);
         if (bytes_read != IV_SIZE) throw new IOError.FAILED("Stream too short (missing IV)");
 
+        // Derive key from password + salt
+        uint8[] derived_key = derive_key(password_store, salt);
+
         var cipher = new SymmetricCipher("AES256-GCM");
-        cipher.set_key(this.key);
+        cipher.set_key(derived_key);
         cipher.set_iv(iv);
 
         // We need to read until the end to get the tag.
@@ -142,17 +179,21 @@ public class FileEncryption : Object {
     }
 
     public uint8[] decrypt_data(uint8[] encrypted_data) throws GLib.Error {
-        if (encrypted_data.length < IV_SIZE + TAG_SIZE) {
+        // New format: SALT(16) + IV(12) + Ciphertext + Tag(16) = 44 bytes overhead
+        if (encrypted_data.length < SALT_SIZE + IV_SIZE + TAG_SIZE) {
             throw new IOError.FAILED("Data too short");
         }
 
-        uint8[] iv = encrypted_data[0:IV_SIZE];
-        // Tag is at the end
+        uint8[] salt = encrypted_data[0:SALT_SIZE];
+        uint8[] iv = encrypted_data[SALT_SIZE:SALT_SIZE + IV_SIZE];
         uint8[] tag = encrypted_data[encrypted_data.length - TAG_SIZE:encrypted_data.length];
-        uint8[] ciphertext = encrypted_data[IV_SIZE:encrypted_data.length - TAG_SIZE];
+        uint8[] ciphertext = encrypted_data[SALT_SIZE + IV_SIZE:encrypted_data.length - TAG_SIZE];
+
+        // Derive key from password + salt
+        uint8[] derived_key = derive_key(password_store, salt);
 
         var cipher = new SymmetricCipher("AES256-GCM");
-        cipher.set_key(this.key);
+        cipher.set_key(derived_key);
         cipher.set_iv(iv);
 
         uint8[] plaintext = new uint8[ciphertext.length];
@@ -163,22 +204,30 @@ public class FileEncryption : Object {
     }
     
     public uint8[] encrypt_data(uint8[] plaintext) throws GLib.Error {
+        // Generate random salt (NIST SP 800-132)
+        uint8[] salt = new uint8[SALT_SIZE];
+        Crypto.randomize(salt);
+
+        // Derive key from password + random salt
+        uint8[] derived_key = derive_key(password_store, salt);
+
         uint8[] iv = new uint8[IV_SIZE];
         Crypto.randomize(iv);
 
         var cipher = new SymmetricCipher("AES256-GCM");
-        cipher.set_key(this.key);
+        cipher.set_key(derived_key);
         cipher.set_iv(iv);
 
         uint8[] ciphertext = new uint8[plaintext.length];
         cipher.encrypt(ciphertext, plaintext);
         uint8[] tag = cipher.get_tag(TAG_SIZE);
 
-        // Result: IV + Ciphertext + Tag
-        uint8[] result = new uint8[IV_SIZE + ciphertext.length + TAG_SIZE];
-        Memory.copy(result, iv, IV_SIZE);
-        Memory.copy((void*)((uint8*)result + IV_SIZE), ciphertext, ciphertext.length);
-        Memory.copy((void*)((uint8*)result + IV_SIZE + ciphertext.length), tag, TAG_SIZE);
+        // Result: Salt(16) + IV(12) + Ciphertext + Tag(16)
+        uint8[] result = new uint8[SALT_SIZE + IV_SIZE + ciphertext.length + TAG_SIZE];
+        Memory.copy(result, salt, SALT_SIZE);
+        Memory.copy((void*)((uint8*)result + SALT_SIZE), iv, IV_SIZE);
+        Memory.copy((void*)((uint8*)result + SALT_SIZE + IV_SIZE), ciphertext, ciphertext.length);
+        Memory.copy((void*)((uint8*)result + SALT_SIZE + IV_SIZE + ciphertext.length), tag, TAG_SIZE);
         
         return result;
     }

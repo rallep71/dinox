@@ -11,7 +11,8 @@ public class RateLimiter : Object {
 
     public RateLimiter(int max_requests = 30, int window_seconds = 1) {
         this.max_requests = max_requests;
-        this.window_seconds = window_seconds;
+        // Guard: window_seconds must be at least 1 to prevent bypass
+        this.window_seconds = window_seconds > 0 ? window_seconds : 1;
     }
 
     // Returns true if the request is allowed, false if rate limited
@@ -52,7 +53,8 @@ public class RateLimiter : Object {
         int64 now = new DateTime.now_utc().to_unix();
         var to_remove = new ArrayList<int>();
         foreach (var entry in windows.entries) {
-            if (now - entry.value.window_start > window_seconds * 10) {
+            // Use int64 multiplication to prevent overflow with large window_seconds
+            if (now - entry.value.window_start > (int64) window_seconds * 10) {
                 to_remove.add(entry.key);
             }
         }

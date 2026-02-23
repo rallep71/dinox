@@ -48,8 +48,15 @@ public class AuthMiddleware : Object {
     }
 
     public static void send_error(Soup.ServerMessage msg, uint status_code, string error_code, string description) {
+        // RFC 8259 §7: Escape backslash FIRST, then other special characters
+        string escaped = description
+            .replace("\\", "\\\\")
+            .replace("\"", "\\\"")
+            .replace("\n", "\\n")
+            .replace("\r", "\\r")
+            .replace("\t", "\\t");
         string json = "{\"ok\":false,\"error\":\"%s\",\"description\":\"%s\"}".printf(
-            error_code, description.replace("\"", "\\\"")
+            error_code, escaped
         );
         msg.set_status(status_code, null);
         msg.set_response("application/json", Soup.MemoryUse.COPY, json.data);

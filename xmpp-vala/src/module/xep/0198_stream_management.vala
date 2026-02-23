@@ -7,12 +7,12 @@ public const string NS_URI = "urn:xmpp:sm:3";
 public class Module : XmppStreamNegotiationModule, WriteNodeFunc {
     public static ModuleIdentity<Module> IDENTITY = new ModuleIdentity<Module>(NS_URI, "0198_stream_management");
 
-    public int h_inbound = 0;
-    public int h_outbound = 0;
+    public uint32 h_inbound = 0;
+    public uint32 h_outbound = 0;
 
     public string? session_id { get; set; default=null; }
     public Gee.List<XmppStreamFlag> flags = null;
-    private HashMap<int, QueueItem> in_flight_stanzas = new HashMap<int, QueueItem>();
+    private HashMap<uint32, QueueItem> in_flight_stanzas = new HashMap<uint32, QueueItem>();
     private Gee.Queue<QueueItem> node_queue = new PriorityQueue<QueueItem>((a, b) => {
         return a.io_priority - b.io_priority;
     });
@@ -171,7 +171,7 @@ public class Module : XmppStreamNegotiationModule, WriteNodeFunc {
                         stream.add_flag(flag);
                     }
 
-                    h_outbound = int.parse(node.get_attribute("h", NS_URI));
+                    h_outbound = (uint32) uint64.parse(node.get_attribute("h", NS_URI));
                     handle_incoming_h(stream, h_outbound);
                     foreach (var id in in_flight_stanzas.keys) {
                         node_queue.add(in_flight_stanzas[id]);
@@ -183,7 +183,7 @@ public class Module : XmppStreamNegotiationModule, WriteNodeFunc {
                     session_id = null;
                     string? h_acked = node.get_attribute("h", NS_URI);
                     if (h_acked != null) {
-                        h_outbound = int.parse(h_acked);
+                        h_outbound = (uint32) uint64.parse(h_acked);
                         handle_incoming_h(stream, h_outbound);
                     }
                     foreach (var id in in_flight_stanzas.keys) {
@@ -204,19 +204,24 @@ public class Module : XmppStreamNegotiationModule, WriteNodeFunc {
 
     private void handle_ack(XmppStream stream, StanzaNode node) {
         string? h_acked = node.get_attribute("h", NS_URI);
-        int parsed_int = int.parse(h_acked);
-        handle_incoming_h(stream, parsed_int);
+        if (h_acked == null) return;  // XEP-0198: h attribute is required, ignore malformed ack
+        uint32 parsed_h = (uint32) uint64.parse(h_acked);
+        handle_incoming_h(stream, parsed_h);
         check_queue(stream);
     }
 
-    private void handle_incoming_h(XmppStream stream, int h) {
-        var remove_nrs = new ArrayList<int>();
-        foreach (int nr in in_flight_stanzas.keys) {
-            if (nr <= h) {
+    private void handle_incoming_h(XmppStream stream, uint32 h) {
+        var remove_nrs = new ArrayList<uint32>();
+        foreach (uint32 nr in in_flight_stanzas.keys) {
+            // Handle uint32 wraparound: nr is acked if distance(nr, h) is small
+            // Simple case: nr <= h (no wraparound)
+            // Wraparound: h wrapped past 0, nr is near 2^32-1
+            uint32 diff = h - nr;  // unsigned subtraction wraps correctly
+            if (diff < 0x80000000) {
                 remove_nrs.add(nr);
             }
         }
-        foreach (int nr in remove_nrs) {
+        foreach (uint32 nr in remove_nrs) {
             in_flight_stanzas[nr].promise.set_value(null);
             in_flight_stanzas.unset(nr);
         }

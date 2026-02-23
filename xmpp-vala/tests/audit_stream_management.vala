@@ -22,35 +22,35 @@ class StreamManagementAudit : Gee.TestCase {
      * XEP-0198 §5: "the counter for an entity's own sent stanzas is
      * an unsigned integer from 0 to 2^32-1"
      *
-     * BUG: h_inbound and h_outbound are Vala `int` (signed 32-bit).
-     * They overflow to negative at 2^31.
+     * FIX VERIFIED: h_inbound and h_outbound are now uint32.
+     * Incrementing past uint32.MAX wraps to 0 (not negative).
      */
     void test_h_counter_type() {
         var module = new Xmpp.Xep.StreamManagement.Module();
 
-        // Set to INT_MAX (2147483647) — valid per XEP (< 2^32-1)
-        module.h_inbound = int.MAX;
+        // Set to UINT32_MAX - 1
+        module.h_inbound = uint32.MAX - 1;
 
-        // Increment — should be 2147483648, still valid per XEP
-        module.h_inbound++;
+        // Increment twice — should wrap to 0
+        module.h_inbound++;  // → UINT32_MAX
+        module.h_inbound++;  // → 0 (wrap)
 
-        // XEP says this MUST be ≥ 0 since it's unsigned
-        if (module.h_inbound < 0) {
-            GLib.Test.message("BUG: h_inbound overflowed to %d. XEP-0198 requires unsigned 32-bit counter.".printf(module.h_inbound));
+        // After wraparound, value must be 0, not negative
+        if (module.h_inbound != 0) {
+            GLib.Test.message("BUG: h_inbound after uint32 wraparound is %u, expected 0.".printf(module.h_inbound));
             GLib.Test.fail();
         }
     }
 
     /*
-     * At INT_MAX+1, signed int wraps to -2147483648.
-     * This would produce <a h="-2147483648"/> — invalid per XEP.
+     * FIX VERIFIED: uint32 overflow wraps to 0, never produces negative.
      */
     void test_h_overflow_negative() {
         var module = new Xmpp.Xep.StreamManagement.Module();
-        module.h_inbound = int.MAX;
+        module.h_inbound = uint32.MAX;
         module.h_inbound++;
 
-        // The stanza would contain h="<negative_number>"
+        // With uint32, this wraps to 0 — never negative
         string h_str = module.h_inbound.to_string();
 
         if (h_str.has_prefix("-")) {
@@ -60,20 +60,19 @@ class StreamManagementAudit : Gee.TestCase {
     }
 
     /*
-     * After 2^31 increments, the h value sent in <a h="..."/> must
-     * still be a valid non-negative number.
+     * After wraparound, the h value sent in <a h="..."/> must
+     * be "0", not a negative number.
      */
     void test_h_to_string() {
-        // Simulate h_inbound after receiving 2^31 + 100 stanzas
-        int h = int.MAX;
-        for (int i = 0; i < 101; i++) h++;
+        var module = new Xmpp.Xep.StreamManagement.Module();
+        // Simulate wraparound
+        module.h_inbound = uint32.MAX;
+        module.h_inbound++;
 
-        string val = h.to_string();
+        string h_str = module.h_inbound.to_string();
 
-        // Must be non-negative and parseable
-        int64 parsed = int64.parse(val);
-        if (parsed < 0) {
-            GLib.Test.message("BUG: After 2^31+100 stanzas, h='%s' (parsed=%lld). Must be non-negative per XEP-0198.".printf(val, parsed));
+        if (h_str != "0") {
+            GLib.Test.message("BUG: h_inbound.to_string() after wraparound is '%s', expected '0'.".printf(h_str));
             GLib.Test.fail();
         }
     }

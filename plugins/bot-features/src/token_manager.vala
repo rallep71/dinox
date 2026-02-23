@@ -5,9 +5,11 @@ namespace Dino.Plugins.BotFeatures {
 public class TokenManager : Object {
 
     private BotRegistry registry;
+    private string server_key;
 
-    public TokenManager(BotRegistry registry) {
+    public TokenManager(BotRegistry registry, string server_key = "dinox-default-server-key") {
         this.registry = registry;
+        this.server_key = server_key;
     }
 
     // Generate a new API token for a bot. Returns the raw token (shown once to user).
@@ -16,7 +18,7 @@ public class TokenManager : Object {
         string raw_token = create_raw_token(bot_id);
         string hash = hash_token(raw_token);
         registry.update_bot_token_hash(bot_id, hash);
-        registry.update_bot_token_raw(bot_id, raw_token);
+        // DO NOT store raw_token — only the HMAC hash is persisted
         registry.log_action(bot_id, "token_generated");
         return raw_token;
     }
@@ -36,7 +38,6 @@ public class TokenManager : Object {
     // Revoke a bot's token (sets hash to empty, effectively invalidating it)
     public void revoke_token(int bot_id) {
         registry.update_bot_token_hash(bot_id, "");
-        registry.update_bot_token_raw(bot_id, "");
         registry.log_action(bot_id, "token_revoked");
     }
 
@@ -52,11 +53,10 @@ public class TokenManager : Object {
         return "bot%d:%s".printf(bot_id, uuid);
     }
 
-    // SHA-256 hash of a token string
-    public static string hash_token(string token) {
-        Checksum checksum = new Checksum(ChecksumType.SHA256);
-        checksum.update((uchar[]) token.data, token.data.length);
-        return checksum.get_string();
+    // HMAC-SHA256 hash of a token string with server key
+    // Uses HMAC instead of plain SHA-256 to prevent offline brute-force from DB dumps
+    public string hash_token(string token) {
+        return hmac_sha256(this.server_key, token);
     }
 
     // Generate a webhook secret (random 32-byte hex string)

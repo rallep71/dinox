@@ -123,11 +123,9 @@ public class KeyManager : Object {
             throw new IOError.FAILED("OMEMO database exists at %s but key file is missing. Cannot recover — would make database inaccessible.", omemo_db_path);
         }
 
-        // Generate 32 random bytes as hex key
+        // Generate 32 random bytes as hex key using CSPRNG
         uint8[] key_bytes = new uint8[32];
-        for (int i = 0; i < 32; i++) {
-            key_bytes[i] = (uint8) Random.int_range(0, 256);
-        }
+        Crypto.randomize(key_bytes);  // Uses GCrypt CSPRNG, not Mersenne Twister
 
         StringBuilder hex = new StringBuilder();
         foreach (uint8 b in key_bytes) {

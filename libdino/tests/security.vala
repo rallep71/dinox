@@ -50,8 +50,8 @@ class SecurityTest : Gee.TestCase {
             uint8[] empty = {};
             uint8[] encrypted = enc.encrypt_data(empty);
 
-            // Encrypted should contain at least IV (12) + Tag (16) = 28 bytes
-            assert_true(encrypted.length >= 28);
+            // Encrypted should contain at least Salt (16) + IV (12) + Tag (16) = 44 bytes
+            assert_true(encrypted.length >= 44);
 
             uint8[] decrypted = enc.decrypt_data(encrypted);
             assert_true(decrypted.length == 0);
@@ -133,9 +133,9 @@ class SecurityTest : Gee.TestCase {
             // Ciphertext should be longer (IV + tag overhead)
             assert_true(encrypted.length > plaintext.length);
 
-            // The ciphertext portion (after IV) should differ from plaintext
+            // The ciphertext portion (after Salt+IV) should differ from plaintext
             bool all_same = true;
-            int ct_start = 12; // After IV
+            int ct_start = 28; // After Salt(16) + IV(12)
             int ct_len = plaintext.length;
             for (int i = 0; i < ct_len && i + ct_start < encrypted.length; i++) {
                 if (encrypted[i + ct_start] != plaintext[i]) {
