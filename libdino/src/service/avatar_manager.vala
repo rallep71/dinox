@@ -39,6 +39,7 @@ public class AvatarManager : StreamInteractionModule, Object {
     private HashMap<string, Bytes> avatar_bytes_cache = new HashMap<string, Bytes>();
     private const int MAX_AVATAR_CACHE_SIZE = 200;
     private const int MAX_PIXEL = 192;
+    private HashSet<string> failed_decrypt_hashes = new HashSet<string>();
 
     private static bool bytes_contains_ascii_ci(uint8[] data, int data_len, string needle) {
         if (needle == null || needle == "") return false;
@@ -184,6 +185,11 @@ public class AvatarManager : StreamInteractionModule, Object {
             return avatar_bytes_cache[hash];
         }
 
+        // Skip hashes that already failed decryption (avoids repeated expensive PBKDF2)
+        if (failed_decrypt_hashes.contains(hash)) {
+            return null;
+        }
+
         File file = File.new_for_path(Path.build_filename(folder, hash));
         if (!file.query_exists()) {
             fetch_and_store_for_jid.begin(account, jid_);
@@ -204,9 +210,24 @@ public class AvatarManager : StreamInteractionModule, Object {
                 }
                 avatar_bytes_cache[hash] = result;
 
+                // Silently migrate legacy-format (pre-v1.1.2.7) encrypted avatar
+                if (file_encryption.last_decrypt_used_legacy) {
+                    try {
+                        uint8[] reencrypted = file_encryption.encrypt_data(plaintext);
+                        var os = file.replace(null, false, FileCreateFlags.REPLACE_DESTINATION);
+                        size_t written;
+                        os.write_all(reencrypted, out written);
+                        os.close();
+                        debug("Migrated avatar %s from legacy to current encryption format", hash);
+                    } catch (Error migrate_err) {
+                        // Best effort -- will retry on next startup
+                    }
+                }
+
                 return result;
             } catch (Error e) {
                 warning("Failed to decrypt avatar: %s", e.message);
+                failed_decrypt_hashes.add(hash);
                 try {
                     file.delete();
                     debug("Deleted corrupt avatar file: %s", file.get_path());
@@ -246,6 +267,7 @@ public class AvatarManager : StreamInteractionModule, Object {
         vcard_avatars.clear();
         pending_fetch.clear();
         avatar_bytes_cache.clear();
+        failed_decrypt_hashes.clear();
     }
 
     public async void publish(Account account, File file) {
@@ -542,6 +564,16 @@ public class AvatarManager : StreamInteractionModule, Object {
             DataOutputStream fos = new DataOutputStream(file.create(FileCreateFlags.REPLACE_DESTINATION));
             yield fos.write_async(ciphertext);
             yield fos.close_async();
+
+            // Pre-populate cache so the next get_avatar_bytes() is instant
+            if (avatar_bytes_cache.size >= MAX_AVATAR_CACHE_SIZE) {
+                var iter = avatar_bytes_cache.map_iterator();
+                if (iter.next()) {
+                    iter.unset();
+                }
+            }
+            avatar_bytes_cache[id] = data;
+            failed_decrypt_hashes.remove(id);
         } catch (Error e) {
             warning("Error writing avatar file: %s", e.message);
             // Ignore: we failed in storing, so we refuse to display later...

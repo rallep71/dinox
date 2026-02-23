@@ -18,7 +18,18 @@ public class FileEncryption : Object {
     private const int TAG_SIZE = 16;
     private const int KDF_ITERATIONS = 100000;  // NIST SP 800-132 recommends ≥10,000
 
+    // Legacy (pre-v1.1.2.7) constants for backwards-compatible decryption
+    private const int LEGACY_SALT_SIZE = 8;    // was 64-bit salt
+    private const int LEGACY_IV_SIZE = 16;     // was 128-bit IV
+    private const int LEGACY_TAG_SIZE = 8;     // was 64-bit tag
+
     private string password_store;
+
+    /**
+     * Set to true when decrypt_data() falls back to legacy format.
+     * Callers can check this to re-encrypt with current format.
+     */
+    public bool last_decrypt_used_legacy { get; private set; default = false; }
 
     public FileEncryption(string password) {
         this.password_store = password;
@@ -178,18 +189,40 @@ public class FileEncryption : Object {
         cipher.check_tag(tag_buffer);
     }
 
+    /**
+     * Decrypt data, automatically falling back to legacy (pre-v1.1.2.7) format
+     * if the current format fails. Sets last_decrypt_used_legacy accordingly.
+     */
     public uint8[] decrypt_data(uint8[] encrypted_data) throws GLib.Error {
-        // New format: SALT(16) + IV(12) + Ciphertext + Tag(16) = 44 bytes overhead
-        if (encrypted_data.length < SALT_SIZE + IV_SIZE + TAG_SIZE) {
+        last_decrypt_used_legacy = false;
+
+        // Try current format first: SALT(16) + IV(12) + Ciphertext + Tag(16)
+        try {
+            return decrypt_data_format(encrypted_data, SALT_SIZE, IV_SIZE, TAG_SIZE);
+        } catch (GLib.Error e) {
+            // Fall back to legacy format (pre-v1.1.2.7): SALT(8) + IV(16) + Ciphertext + Tag(8)
+            try {
+                uint8[] result = decrypt_data_format(encrypted_data, LEGACY_SALT_SIZE, LEGACY_IV_SIZE, LEGACY_TAG_SIZE);
+                last_decrypt_used_legacy = true;
+                debug("Decrypted data using legacy encryption format (pre-v1.1.2.7)");
+                return result;
+            } catch (GLib.Error e2) {
+                throw e; // Re-throw original (current format) error
+            }
+        }
+    }
+
+    private uint8[] decrypt_data_format(uint8[] encrypted_data, int salt_sz, int iv_sz, int tag_sz) throws GLib.Error {
+        int overhead = salt_sz + iv_sz + tag_sz;
+        if (encrypted_data.length < overhead) {
             throw new IOError.FAILED("Data too short");
         }
 
-        uint8[] salt = encrypted_data[0:SALT_SIZE];
-        uint8[] iv = encrypted_data[SALT_SIZE:SALT_SIZE + IV_SIZE];
-        uint8[] tag = encrypted_data[encrypted_data.length - TAG_SIZE:encrypted_data.length];
-        uint8[] ciphertext = encrypted_data[SALT_SIZE + IV_SIZE:encrypted_data.length - TAG_SIZE];
+        uint8[] salt = encrypted_data[0:salt_sz];
+        uint8[] iv = encrypted_data[salt_sz:salt_sz + iv_sz];
+        uint8[] tag = encrypted_data[encrypted_data.length - tag_sz:encrypted_data.length];
+        uint8[] ciphertext = encrypted_data[salt_sz + iv_sz:encrypted_data.length - tag_sz];
 
-        // Derive key from password + salt
         uint8[] derived_key = derive_key(password_store, salt);
 
         var cipher = new SymmetricCipher("AES256-GCM");
