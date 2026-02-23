@@ -36,7 +36,7 @@ public abstract class StanzaEntry {
                 }
                 tmp = tmp.splice(start, end + 1, num.to_string());
             }
-            val = tmp.replace("&amp;", "&");
+            val = tmp.replace("&amp;", "&").make_valid();
         }
     }
 

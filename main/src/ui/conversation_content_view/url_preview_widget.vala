@@ -84,7 +84,26 @@ namespace Dino.Ui {
                     if (content_type == null || !content_type.has_prefix("text/html")) {
                         data.failed = true;
                     } else {
-                        string html = (string) bytes.get_data();
+                        // Detect charset from Content-Type header, convert to UTF-8 if needed
+                        string? charset = null;
+                        HashTable<string, string>? ct_params = null;
+                        msg.response_headers.get_content_type(out ct_params);
+                        if (ct_params != null) {
+                            charset = ct_params.lookup("charset");
+                        }
+
+                        string html;
+                        if (charset != null && charset.down() != "utf-8" && charset.down() != "utf8") {
+                            try {
+                                html = GLib.convert((string) bytes.get_data(), (ssize_t) bytes.get_size(), "UTF-8", charset);
+                            } catch (ConvertError ce) {
+                                debug("URL preview charset convert failed (%s→UTF-8): %s", charset, ce.message);
+                                html = ((string) bytes.get_data()).make_valid();
+                            }
+                        } else {
+                            html = ((string) bytes.get_data()).make_valid();
+                        }
+
                         if (html != null && html.length > 0) {
                             parse_html_meta(html, data, url);
                         } else {
