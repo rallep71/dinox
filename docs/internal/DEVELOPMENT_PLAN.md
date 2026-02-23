@@ -1,6 +1,6 @@
 # DinoX - Development Plan
 
-> **Last Updated**: February 23, 2026 (v1.1.2.7)
+> **Last Updated**: February 23, 2026 (v1.1.2.8)
 > **Current Release Line**: 1.1.2.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.2.7 |
+| **Current Version** | 1.1.2.8 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (~85% translated) |
 | **Build Status** | Clean |
@@ -20,6 +20,12 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v1.1.2.8 (Legacy Encryption Fallback, Avatar Decrypt Fix)
+
+- **Legacy Encryption Fallback**: `decrypt_data()` auto-falls back to pre-v1.1.2.7 format (SALT=8, IV=16, TAG=8) when current format fails. Old avatars decrypted and silently re-encrypted to current format.
+- **Avatar Decrypt Spam Fix**: `failed_decrypt_hashes` prevents repeated expensive PBKDF2 for corrupt files. `store_image()` pre-populates bytes cache.
+- **Upgrade Recommendation**: Panic Wipe (`Ctrl+Shift+Alt+P`) for cleanest migration to new encryption parameters, or let auto-migration handle it.
 
 ### v1.1.2.7 (Security Audit Test Suite, AppImage KDE Icons, Flatpak H.264 Fix)
 

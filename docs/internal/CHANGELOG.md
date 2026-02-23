@@ -5,6 +5,25 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.2.8] - 2026-02-23
+
+### Fixed
+- **Legacy Encryption Format Fallback**: After the security audit changed encryption parameters (T-5/T-6/T-7: SALT 8→16, IV 16→12, TAG 8→16), old avatar files encrypted with the pre-v1.1.2.7 format failed to decrypt with "Prüfsummenfehler" on every UI redraw, freezing the application. `decrypt_data()` now tries the current format first, then automatically falls back to the legacy format. Avatars are silently re-encrypted to the current format on first successful legacy decrypt.
+- **Avatar Decrypt Retry Spam**: Failed avatar decryption triggered expensive PBKDF2 key derivation (~100ms each) on every UI redraw for every contact with an old-format avatar, making DinoX unusable. Added `failed_decrypt_hashes` set to prevent repeated decryption attempts for truly corrupt files. `store_image()` now pre-populates the bytes cache for instant access after re-fetch.
+
+### Changed
+- **Version**: 1.1.2.7 → 1.1.2.8
+
+### Important — Upgrade Notice
+> **Empfehlung / Recommendation**: For the cleanest upgrade experience after the security audit encryption changes, use **Panic Wipe** (`Ctrl+Shift+Alt+P`) and set up your accounts fresh. This re-encrypts all local data (avatars, files, database) with the new, stronger encryption parameters (128-bit salt, 96-bit IV, 128-bit GCM tag) from scratch.
+>
+> If you prefer to keep your data, v1.1.2.8 handles legacy-format files automatically — old avatars are decrypted with the old parameters and silently re-encrypted with the new ones on first access. No manual action required.
+>
+> **Manual alternative** (without Panic Wipe):
+> 1. Close DinoX
+> 2. Delete `~/.cache/dinox/` (avatar + file cache)
+> 3. Restart DinoX — avatars will be re-fetched and encrypted with current parameters
+
 ## [1.1.2.7] - 2026-02-23
 
 ### Fixed

@@ -1,3 +1,16 @@
+dino (1.1.2.8) unstable; urgency=medium
+
+  * Legacy Encryption Format Fallback: decrypt_data() auto-falls back to
+    pre-v1.1.2.7 encryption format (SALT=8, IV=16, TAG=8). Old avatars
+    silently re-encrypted to current format on first access.
+  * Avatar Decrypt Retry Spam: failed_decrypt_hashes prevents repeated
+    expensive PBKDF2 (~100ms each) for corrupt/legacy files.
+  * store_image() pre-populates avatar bytes cache for instant access.
+  * Recommendation: Panic Wipe (Ctrl+Shift+Alt+P) for cleanest migration
+    to new encryption parameters, or let auto-migration handle it.
+
+ -- Dino Developers <chat@dino.im>  Sun, 23 Feb 2026 19:00:00 +0000
+
 dino (1.1.1.6) unstable; urgency=medium
 
   * PipeWire Pipeline Leaks: No GStreamer until user clicks play, full cleanup
