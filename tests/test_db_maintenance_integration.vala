@@ -20,7 +20,6 @@ using Qlite;
 
 int PASS = 0;
 int FAIL = 0;
-int SKIP = 0;
 unowned string current_suite = "";
 
 void ok(bool cond, string msg) {
@@ -31,11 +30,6 @@ void ok(bool cond, string msg) {
         FAIL = FAIL + 1;
         stdout.printf("  ✗ FAIL: %s\n", msg);
     }
-}
-
-void skip(string msg) {
-    SKIP = SKIP + 1;
-    stdout.printf("  ⊘ SKIP: %s\n", msg);
 }
 
 void suite(string name) {
@@ -72,7 +66,8 @@ class TestDatabase : Qlite.Database {
 
     public long count_rows() {
         long count = 0;
-        foreach (Row row in select({col_val}).from(test_table)) {
+        Qlite.RowIterator iter = select({col_val}).from(test_table).iterator();
+        while (iter.next()) {
             count = count + 1;
         }
         return count;
@@ -263,7 +258,7 @@ void test_wal_checkpoint() {
         } catch (Error e) {
             wal_size = -1;
         }
-        ok(wal_size == 0, "WAL file empty after truncate checkpoint (size=%lld)".printf(wal_size));
+        ok(wal_size == 0, "WAL file empty after truncate checkpoint (size=%ld)".printf((long) wal_size));
     } else {
         ok(true, "WAL file removed after close");
     }
@@ -379,11 +374,18 @@ void test_error_propagation() {
 
     string dir = test_dir() + "/errors";
     DirUtils.create_with_parents(dir, 0700);
-    string path = dir + "/error_prop.db";
 
-    // 6a  rekey on unopened DB calls g_error() (fatal abort) — cannot be tested.
-    //     The Qlite.ensure_init() check is a compile-time safeguard.
-    skip("rekey on unopened DB → g_error (fatal, untestable)");
+    // 6a  Whitespace-only key must be rejected ("  " is not empty but should fail strip check)
+    string path_ws = dir + "/whitespace_key.db";
+    try {
+        var db = new TestDatabase(path_ws);
+        db.open("tempkey");
+        db.rekey("   ");
+        ok(false, "whitespace-only key should throw");
+        db.close();
+    } catch (Error e) {
+        ok(true, "whitespace-only key rejected: " + e.message);
+    }
 
     // 6b  exec arbitrary SQL after rekey should work
     string path2 = dir + "/error_exec.db";
@@ -503,7 +505,7 @@ int main(string[] args) {
     test_concurrent_like_access();
 
     stdout.printf("\n══════════════════════════════════════════════════\n");
-    stdout.printf("  Results:  %d PASS  |  %d FAIL  |  %d SKIP\n", PASS, FAIL, SKIP);
+    stdout.printf("  Results:  %d PASS  |  %d FAIL\n", PASS, FAIL);
     stdout.printf("══════════════════════════════════════════════════\n");
 
     // Cleanup

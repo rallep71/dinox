@@ -53,6 +53,7 @@ valac \
     -X -I"$BUILD_DIR/qlite" \
     -X -L"$BUILD_DIR/qlite" \
     -X -lqlite \
+    -X -w \
     -X "$(pkg-config --cflags sqlcipher 2>/dev/null || echo '')" \
     -o "$TEST_BIN" \
     "$TEST_SRC" \
