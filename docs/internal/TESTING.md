@@ -1,288 +1,587 @@
-# DinoX — Testing Guide
+# DinoX -- Testing Guide
 
 Complete inventory of all automated tests in the DinoX project.
+Every test references its authoritative specification or contract.
+
+**Status: v1.1.2.8 -- 146 Meson tests + 136 standalone tests = 282 automated tests**
 
 ---
 
 ## Quick Start
 
 ```bash
-# Run all meson-registered tests (xmpp-vala + omemo)
+# All meson-registered tests (5 suites, 146 tests)
 ninja -C build test
 
-# Run DB maintenance bash CLI tests
+# Single suite
+LD_LIBRARY_PATH=build/libdino:build/xmpp-vala:build/qlite:build/crypto-vala \
+  build/xmpp-vala/xmpp-vala-test
+
+# DB maintenance CLI tests (71 tests)
 ./scripts/test_db_maintenance.sh
 
-# Run DB maintenance Vala integration tests (UI-flow)
+# DB maintenance Vala integration tests (65 tests)
 ./scripts/run_db_integration_tests.sh
+
+# Everything at once
+./scripts/run_all_tests.sh   # (see section 8)
 ```
 
 ---
 
-## 1. Meson-Registered Tests
+## 1. Meson-Registered Tests (146 Tests)
 
-These are compiled and run via `ninja -C build test` (or `meson test -C build`).
+Compiled and executed via `ninja -C build test`.
+Framework: GLib.Test + `Gee.TestCase` with `add_async_test()` for async XML parsing.
 
-### 1.1 xmpp-vala (`xmpp-vala/tests/`)
+### 1.1 xmpp-vala (67 Tests)
 
-**Meson target:** `xmpp-vala-test`  
-**Registration:** `xmpp-vala/meson.build` line 186  
-**Framework:** GLib.Test via custom `Gee.TestCase` base class  
+**Target:** `xmpp-vala-test` -- `xmpp-vala/meson.build`
 
-| Suite                | File                     | Tests |
-|----------------------|--------------------------|-------|
-| StanzaTest           | `stanza.vala`            | Stanza parsing, building, namespace handling |
-| UtilTest             | `util.vala`              | Utility functions |
-| JidTest              | `jid.vala`               | JID parsing, components, resource handling |
-| ColorTest            | `color.vala`             | XEP-0392 consistent color generation |
-| VCard4Test           | `vcard4.vala`            | vCard4 XML parsing |
-| Xep0448Test          | `xep_0448.vala`          | XEP-0448 encryption element parsing |
-| StreamManagementTest | `stream_management.vala` | XEP-0198 stanza construction & parsing (10 tests) |
-| MAMTest              | `mam.vala`               | XEP-0313 MAM query/result stanzas (8 tests) |
+#### Stanza (4 Tests) -- RFC 6120
 
-**Files:**
-- `common.vala` — main(), registers all 8 suites
-- `testcase.vala` — `Gee.TestCase` base class (set_up/tear_down hooks)
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
+| 1 | `RFC6120_xml_roundtrip_preserves_namespaces` | RFC 6120 S4.8 | XML namespace preservation across serialize-parse-reserialize |
+| 2 | `RFC6120_parse_stream_and_message` | RFC 6120 S4.7.1 | Parse complete XMPP stream: `<stream:stream>`, `<message>`, body text |
+| 3 | `RFC6120_parse_stream_features_with_namespaces` | RFC 6120 S4.3.2 | `<stream:features>` with multiple namespace prefixes (ack:, bind:) |
+| 4 | `RFC6120_attribute_int_parsing_edge_cases` | RFC 6120 S13.9 | Int parsing: valid decimal, negative, missing, hex string "0x42", non-numeric |
 
-**Run individually:**
-```bash
-./build/xmpp-vala/xmpp-vala-test
-```
+#### util (5 Tests) -- Hex Parsing Contract
 
-### 1.2 OMEMO (`plugins/omemo/tests/native/`)
+| # | Test | Verifies |
+|---|------|----------|
+| 5-9 | `XSD_hexBinary_from_hex("")`, etc. | xs:hexBinary parsing: empty->0, full hex, "0x" prefix->0, non-hex terminate |
 
-**Meson target:** `omemo-test`  
-**Registration:** `plugins/omemo/meson.build` line 96  
-**Framework:** GLib.Test via custom `Gee.TestCase` base class  
+#### Jid (28 Tests) -- RFC 7622
 
-| Suite              | File                    | Tests |
-|--------------------|-------------------------|-------|
-| Curve25519         | `curve25519.vala`       | Key agreement, signature verification |
-| SessionBuilderTest | `session_builder.vala`  | Double Ratchet session setup and messaging |
-| HKDF               | `hkdf.vala`             | HMAC-based key derivation |
+| # | Tests | Spec | Verifies |
+|---|-------|------|----------|
+| 10-13 | `RFC7622_valid_*` | RFC 7622 S3.1 | Valid JIDs: domain-only, bare, domain+resource, full |
+| 14-17 | `RFC7622_valid_emoji_*` | RFC 7622 + Unicode | Emoji in local/domain/resource part |
+| 18-21 | `RFC7622_invalid_*` | RFC 7622 S3.5 | Invalid JIDs: bidi characters, overlong IDN |
+| 22-29 | `RFC7622_equal_*` | RFC 7622 S3.6 | Equality: case-folding, normalization, punycode, resource case-sensitive |
+| 30-37 | `RFC7622_to_string_*` | RFC 7622 S3.1 | String representation after normalization |
 
-**Files:**
-- `common.vala` — main(), registers all 3 suites
-- `testcase.vala` — `Gee.TestCase` base class
+#### Color (3 Tests) -- XEP-0392
 
-**Run individually:**
-```bash
-./build/plugins/omemo/omemo-test
-```
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
+| 38 | `XEP0392_angle_test_vectors` | XEP-0392 S5 | Official angle test vectors: Romeo->327.25deg, juliet@capulet.lit->209.41deg |
+| 39 | `XEP0392_rgbf_test_vectors` | XEP-0392 S5 | Official RGB test vectors |
+| 40 | `XEP0392_rgb_angle_range_0_360` | XEP-0392 S3 | All angles in [0,360), RGB in [0,1] for 22 diverse inputs |
 
-### 1.3 libdino (`libdino/tests/`)
+#### VCard4 (2 Tests) -- RFC 6350/6351
 
-**Meson target:** `libdino-test`  
-**Registration:** `libdino/meson.build`  
-**Framework:** GLib.Test via custom `Gee.TestCase` base class  
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
+| 41 | `RFC6351_serialization_structure` | RFC 6351 S3 | xCard serialization: `<vcard>` root, FN mandatory (S6.2.1), EMAIL |
+| 42 | `RFC6351_parse_xcard_xml` | RFC 6350 S6 | Real XML parsing: FN, NICKNAME, EMAIL, TEL, TITLE, ORG, URL=null |
 
-| Suite          | File               | Tests |
-|----------------|--------------------|---------|
-| WeakMapTest    | `weak_map.vala`    | set, set2, set3, unset, remove_when_out_of_scope |
-| JidTest        | `jid.vala`         | parse, components, with_res |
-| FileManagerTest| `file_manager.vala`| stream_close |
-| SecurityTest   | `security.vala`    | AES-256-GCM encrypt/decrypt round-trips (9 tests) |
+#### Xep0448 (2 Tests) -- XEP-0448
 
-**Files:**
-- `common.vala` — main(), registers all 4 suites + helper assert functions
-- `testcase.vala` — `Gee.TestCase` base class
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
+| 43 | `XEP0448_encryption_element_structure` | XEP-0448 S3 | `<encrypted>` contains `<key>` + `<iv>` + inner `<sources>` |
+| 44 | `XEP0448_key_iv_base64_preserved` | XEP-0448 S3 | Base64 values survive serialization exactly |
 
-**Run individually:**
-```bash
-./build/libdino/libdino-test
-```
+#### StreamManagement (12 Tests) -- XEP-0198
+
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
+| 45 | `XEP0198_enable_must_have_xmlns_sm3` | XEP-0198 S3 | `<enable xmlns='urn:xmpp:sm:3'>` |
+| 46 | `XEP0198_enable_resume_attribute` | XEP-0198 S3 | Resume attribute is set |
+| 47 | `XEP0198_parse_enabled_from_xml` | XEP-0198 S4 | **Async**: parse real XML `<enabled>` via StanzaReader |
+| 48 | `XEP0198_r_element_is_empty` | XEP-0198 S5 | `<r/>` has no children |
+| 49 | `XEP0198_a_element_has_h` | XEP-0198 S5 | `<a h='5'>` has h attribute |
+| 50 | `XEP0198_h_counter_is_uint32` | XEP-0198 S5 | h=2^31 (2147483648) works (no signed overflow) |
+| 51 | `XEP0198_h_wraps_at_2_32` | XEP-0198 S5 | uint32.MAX+1 = 0 (wrap-around) |
+| 52 | `XEP0198_h_max_value_4294967295` | XEP-0198 S5 | h can reach 4294967295 |
+| 53 | `XEP0198_parse_resumed_from_xml` | XEP-0198 S6 | **Async**: parse `<resumed>` XML |
+| 54 | `XEP0198_parse_failed_with_h` | XEP-0198 S6 | **Async**: `<failed>` with h value and error child |
+| 55 | `XEP0198_feature_in_stream_features` | XEP-0198 S3 | **Async**: detect SM in `<stream:features>` |
+| 56 | `XEP0198_only_stanzas_increment_h` | XEP-0198 S5 | Only stanzas (message/iq/presence) count, not nonzas |
+
+#### MAM (8 Tests) -- XEP-0313
+
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
+| 57 | `XEP0313_query_namespace_is_mam2` | XEP-0313 S3 | Query element MUST be `urn:xmpp:mam:2` |
+| 58 | `XEP0313_query_must_carry_queryid` | XEP-0313 S3 | queryid attribute survives |
+| 59 | `XEP0313_fin_complete_true` | XEP-0313 S5.3 | `<fin complete='true'>` + RSM first/last |
+| 60 | `XEP0313_fin_absent_complete_means_incomplete` | XEP-0313 S5.3 | Missing complete -> false (more results available) |
+| 61 | `XEP0313_fin_rsm_first_last` | XEP-0059 S2.6 | Empty `<set/>` -> first=null, last=null |
+| 62 | `XEP0313_fin_missing_rsm_is_null` | XEP-0313 | `<fin>` without `<set>` -> rsm=null |
+| 63 | `XEP0313_parse_result_from_xml` | XEP-0313 S4 | **Async**: real XML parsing: result->forwarded->delay->message |
+| 64 | `XEP0313_message_flag_fields` | XEP-0313 S4 | MessageFlag: sender_jid, mam_id, query_id, server_time |
+
+#### Audit XEP-0198 (3 Tests) -- Security Audit
+
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
+| 65 | `h_counter_must_be_uint32` | XEP-0198 S5 | Declared type is `uint32` |
+| 66 | `h_counter_overflow_produces_negative` | NIST | Integer overflow detection |
+| 67 | `h_to_string_must_not_be_negative` | XEP-0198 S5 | String representation must never be negative |
+
+### 1.2 libdino (29 Tests)
+
+**Target:** `libdino-test` -- `libdino/meson.build`
+
+#### WeakMap (5 Tests) -- Data Structure Contract
+
+| # | Test | Contract | Verifies |
+|---|------|----------|----------|
+| 1 | `CONTRACT1_set_and_get` | C-1 | map[k]=v -> has_key(k)==true, map[k]==v, size==1 |
+| 2 | `CONTRACT2_set_replaces_value` | C-2 | Same key -> value replaced, size stays 1 |
+| 3 | `CONTRACT5_mixed_live_dead_refs` | C-5 | Weak refs going out of scope -> automatically removed |
+| 4 | `CONTRACT4_unset_removes_key` | C-4 | unset(k) -> size=0, is_empty=true, has_key=false |
+| 5 | `CONTRACT3_auto_remove_on_scope_exit` | C-3 | Last strong ref gone -> has_key=false |
+
+#### Jid (3 Tests) -- RFC 7622
+
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
+| 6 | `RFC7622_parse_full_jid` | RFC 7622 S3.1 | "user@example.com/res" -> localpart, domainpart, resourcepart |
+| 7 | `RFC7622_components_constructor` | RFC 7622 S3.1 | Component constructor = string parsing |
+| 8 | `RFC7622_with_resource` | RFC 7622 S3.4 | Bare JID + resource -> full JID |
+
+#### FileManager (1 Test) -- GIO Contract
+
+| # | Test | Verifies |
+|---|------|----------|
+| 9 | `GIO_stream_close_lifecycle` | MemoryInputStream: !is_closed() -> close() -> is_closed() (regression #1764) |
+
+#### Security (12 Tests) -- NIST/RFC Crypto
+
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
+| 10 | `SP800_38D_ciphertext_length_equals_plaintext` | NIST SP 800-38D | Output = plaintext + 44 (SALT+IV+TAG) for multiple sizes |
+| 11 | `SP800_38D_authentication_rejects_wrong_key` | NIST SP 800-38D | Wrong password -> exception |
+| 12 | `SP800_38D_tag_is_128_bits` | NIST SP 800-38D | Bit-flip in tag -> rejection |
+| 13 | `SP800_38D_iv_is_96_bits` | NIST SP 800-38D | IVs differ between encryptions |
+| 14 | `SP800_38D_empty_plaintext_produces_only_overhead` | NIST SP 800-38D | Empty plaintext -> exactly 44 bytes |
+| 15 | `RFC5116_ind_cpa_different_nonces` | RFC 5116 | IND-CPA: same plaintext -> different ciphertext |
+| 16 | `RFC5116_ciphertext_not_plaintext` | RFC 5116 | Ciphertext does not contain plaintext as substring |
+| 17 | `SP800_132_same_password_cross_instance_decrypt` | NIST SP 800-132 | Same password decrypts across instances |
+| 18 | `SP800_132_unicode_password_roundtrip` | NIST SP 800-132 | Unicode passwords (emoji, CJK) work |
+| 19 | `SP800_38D_reject_truncated_ciphertext` | NIST SP 800-38D | Truncated ciphertext -> exception |
+| 20 | `SP800_38D_reject_corrupted_tag` | NIST SP 800-38D | Corrupted tag -> exception |
+| 21 | `SP800_38D_large_plaintext_64KB_roundtrip` | NIST SP 800-38D | 65536-byte roundtrip |
+
+#### Audit (8 Tests) -- Security Audit
+
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
+| 22 | `NIST_iterated_kdf_not_single_hash` | NIST SP 800-132 | KDF uses iteration, not single hash |
+| 23 | `NIST_random_salt_per_encryption` | NIST SP 800-132 | Each encryption gets its own salt |
+| 24 | `NIST_min_iterations_10000` | NIST SP 800-132 | At least 10000 iterations |
+| 25 | `csprng_not_predictable_by_seed` | NIST SP 800-90A | CSPRNG output is not predictable |
+| 26 | `hmac_sha256_differs_from_plain_sha256` | RFC 4231 | HMAC(key,msg) != SHA256(msg) |
+| 27 | `backslash_not_escaped_in_send_error` | JSON injection | Backslash in error message escaped |
+| 28 | `newline_not_escaped_in_send_error` | JSON injection | Newline in JSON string escaped |
+| 29 | `tab_not_escaped_in_send_error` | JSON injection | Tab in JSON string escaped |
+
+### 1.3 OMEMO (10 Tests)
+
+**Target:** `omemo-test` -- `plugins/omemo/meson.build`
+
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
+| 1 | `RFC7748_agreement` | RFC 7748 | Curve25519 key agreement (DH) |
+| 2 | `RFC7748_generate_public` | RFC 7748 | Public key generation from private |
+| 3 | `RFC7748_random_agreements` | RFC 7748 | Random key agreements |
+| 4 | `RFC7748_signature` | RFC 7748 | Signature verification |
+| 5 | `SignalProtocol_basic_pre_key_v2` | Signal Protocol | PreKey bundle V2 session |
+| 6 | `SignalProtocol_basic_pre_key_v3` | Signal Protocol | PreKey bundle V3 session + double ratchet |
+| 7 | `XEP0384_basic_pre_key_omemo` | XEP-0384 | OMEMO-specific PreKey session |
+| 8 | `SignalProtocol_bad_signed_pre_key_signature` | Signal Protocol | Invalid signature -> rejection |
+| 9 | `SignalProtocol_repeat_bundle_message_v2` | Signal Protocol | Repeated bundle -> correct session |
+| 10 | `RFC5869_vector_v3` | RFC 5869 | HKDF test vector |
+
+### 1.4 Main / UI View Models (16 Tests)
+
+**Target:** `main-test` -- `main/meson.build`
+
+#### PreferencesRow (16 Tests) -- GObject Property/Signal Contract
+
+Pure GObject view model classes (zero GTK dependency). First UI-layer tests in the project.
+
+| # | Test | Contract | Verifies |
+|---|------|----------|----------|
+| 1 | `GObject_Text_title_roundtrip` | GObject property | title get/set round-trip |
+| 2 | `GObject_Text_text_roundtrip` | GObject property | text get/set round-trip |
+| 3 | `GObject_Text_media_type_nullable` | GObject property | Nullable media_type/media_uri, null accepted |
+| 4 | `GObject_Entry_text_roundtrip` | GObject property | Entry text + title properties |
+| 5 | `GObject_Entry_changed_signal_fires` | GObject signal | changed signal emits, multiple firings counted |
+| 6 | `GObject_Entry_notify_on_text_change` | GObject notify | notify["text"] fires on property assignment |
+| 7 | `GObject_PrivateText_text_roundtrip` | GObject property | PrivateText text round-trip |
+| 8 | `GObject_PrivateText_changed_signal_fires` | GObject signal | changed signal emits |
+| 9 | `GObject_Toggle_state_default_false` | GObject property | bool property defaults to false |
+| 10 | `GObject_Toggle_state_roundtrip` | GObject property | true/false round-trip |
+| 11 | `GObject_Toggle_subtitle_roundtrip` | GObject property | subtitle get/set |
+| 12 | `GObject_ComboBox_items_list_operations` | Gee.ArrayList | add, size, indexer, remove_at |
+| 13 | `GObject_ComboBox_active_item_roundtrip` | GObject property | active_item index round-trip |
+| 14 | `GObject_Button_text_roundtrip` | GObject property | button_text get/set |
+| 15 | `GObject_Button_clicked_signal_fires` | GObject signal | clicked fires, multiple clicks counted |
+| 16 | `GObject_inheritance_all_subtypes_are_Any` | GObject type | Text, Entry, PrivateText, Toggle, ComboBox, Button are-a Any |
+
+### 1.5 Bot-Features (24 Tests)
+
+**Target:** `bot-features-test` -- `plugins/bot-features/meson.build`
+
+#### RateLimiter (9 Tests) -- Contract-Based
+
+| # | Test | Contract | Verifies |
+|---|------|----------|----------|
+| 1 | `CONTRACT1_allows_exactly_max_requests` | C-1 | Exactly max_requests allowed |
+| 2 | `CONTRACT2_blocks_request_max_plus_one` | C-2 | (max+1)-th request blocked |
+| 3 | `CONTRACT3_separate_keys_independent` | C-3 | Keys isolated from each other |
+| 4 | `CONTRACT4_window_resets_after_expiry` | C-4 | Window expires -> quota reset |
+| 5 | `CONTRACT5_retry_after_positive_when_blocked` | C-5 | retry_after > 0 and <= window |
+| 6 | `CONTRACT5_retry_after_zero_unknown_key` | C-5 | Unknown key -> 0 |
+| 7 | `CONTRACT6_cleanup_preserves_live_windows` | C-6 | Cleanup only removes stale entries |
+| 8 | `CONTRACT7_window_seconds_clamped_to_1` | C-7 | window_seconds<=0 -> 1 (security) |
+| 9 | `CONTRACT8_single_request_limit` | C-8 | max=1 -> 1 allowed, 2 blocked |
+
+#### Crypto (8 Tests) -- FIPS/RFC
+
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
+| 10 | `FIPS180_4_sha256_abc` | FIPS 180-4 SB.1 | SHA-256("abc") = ba7816bf... |
+| 11 | `FIPS180_4_sha256_empty` | FIPS 180-4 | SHA-256("") = e3b0c442... |
+| 12 | `FIPS180_4_sha256_multiblock` | FIPS 180-4 SB.2 | Multi-block 448-bit message |
+| 13 | `FIPS180_4_sha256_digest_is_256_bits` | FIPS 180-4 S1 | Output = 64 hex characters (256 bits) |
+| 14 | `RFC4231_case2_hmac_sha256` | RFC 4231 #2 | HMAC with key="Jefe" |
+| 15 | `RFC4231_case3_hmac_sha256` | RFC 4231 #3 | HMAC with 0xaa*20 key, 0xdd*50 data |
+| 16 | `SP800_63B_secret_min_128_bit_entropy` | NIST SP 800-63B | Webhook secret >= 128-bit entropy (64 hex chars) |
+| 17 | `SP800_63B_secret_uniqueness_no_collision` | NIST SP 800-63B | Two secrets are unequal |
+
+#### Audit (7 Tests) -- Security Audit
+
+| # | Test | Verifies |
+|---|------|----------|
+| 18 | `zero_window_must_not_allow_unlimited` | window=0 must not allow unlimited requests |
+| 19 | `negative_max_must_block_all` | max<0 must block all requests |
+| 20 | `int_overflow_in_cleanup_staleness` | Integer overflow in cleanup staleness calculation |
+| 21 | `backslash_before_quote_produces_invalid_json` | Backslash before quote in JSON |
+| 22 | `newline_raw_in_json_string` | Raw newline in JSON |
+| 23 | `tab_raw_in_json_string` | Raw tab in JSON |
+| 24 | `null_byte_in_description` | Null byte in description |
 
 ---
 
-## 2. DB Maintenance Tests (DinoX-specific)
+## 2. DB Maintenance Tests (136 Standalone Tests)
 
-### 2.1 Bash CLI Tests (`scripts/test_db_maintenance.sh`)
+### 2.1 Bash CLI Tests (71 Tests)
 
-**Purpose:** Tests sqlcipher database operations via CLI commands.  
-**Result:** 71 PASS, 0 FAIL  
-**Commit:** `9c8bb799`  
-
-| Suite | Tests |
-|-------|-------|
-| Suite 1: Basic sqlcipher | DB creation, key setting, table creation, data insertion |
-| Suite 2: Rekey | Password change, old key rejection, new key verification |
-| Suite 3: Multi-DB rekey | All 4 databases (dino, pgp, bot_registry, omemo) rekeyed |
-| Suite 4: WAL checkpoint | PRAGMA wal_checkpoint(TRUNCATE) on all DBs |
-| Suite 5: Reset (unlink) | File deletion for all DBs + WAL/SHM + omemo.key + omemo/ dir |
-
-**Prerequisites:** `sqlcipher` command available in PATH.
-
-**Run:**
-```bash
-./scripts/test_db_maintenance.sh
-```
-
-### 2.2 Vala Integration Tests (`tests/test_db_maintenance_integration.vala`)
-
-**Purpose:** Tests the **actual Qlite.Database code paths** that the UI functions in
-`application.vala` use.  Proves that Change Password, Reset Database, and
-Backup/Checkpoint work correctly at the library level.  
-**Result:** 65 PASS, 0 FAIL, 0 warnings  
-**Commit:** `ab0550f8`  
+**Script:** `scripts/test_db_maintenance.sh`
+**Requires:** `sqlcipher` in PATH
 
 | Suite | Tests | Description |
 |-------|-------|-------------|
-| Suite 1: Change Password (20) | Validation (wrong old pw, empty, whitespace, mismatch), db.rekey(), plugin rekey chain, all 4 DBs verified, old key rejection | Replicates `application.vala` lines 1140-1181 |
-| Suite 2: Reset Database (8) | FileUtils.unlink for all DBs/WAL/SHM + omemo.key + omemo/ dir | Replicates `application.vala` lines 1804-1853 |
-| Suite 3: Backup Checkpoint (10) | PRAGMA wal_checkpoint(TRUNCATE) on all 4 DBs, WAL shrinkage verified | Replicates `application.vala` lines 2102-2113 |
-| Suite 4: E2E Flow (11) | Change PW → Checkpoint → Verify round-trip | Full end-to-end scenario |
-| Suite 5: Edge Cases (9) | SQL injection keys, 1000-char passwords, Unicode/emoji, WAL after rekey, rapid rekeys, missing file unlink, same-pw rekey | Robustness tests |
-| Suite 6: Plugin Null-Safety (7) | if(db!=null) guards for openpgp, bot-features, omemo; plugin_loader null checks | Plugin safety verification |
+| 1: Basic sqlcipher | ~15 | DB creation, key, tables, data |
+| 2: Rekey | ~12 | Password change, old key rejected |
+| 3: Multi-DB rekey | ~16 | All 4 DBs (dino, pgp, bot_registry, omemo) |
+| 4: WAL checkpoint | ~12 | PRAGMA wal_checkpoint(TRUNCATE) |
+| 5: Reset (unlink) | ~16 | File deletion + WAL/SHM + omemo.key |
 
-**Build & Run:**
-```bash
-./scripts/run_db_integration_tests.sh
+### 2.2 Vala Integration Tests (65 Tests)
+
+**Script:** `scripts/run_db_integration_tests.sh`
+**Source:** `tests/test_db_maintenance_integration.vala`
+
+| Suite | Tests | Description |
+|-------|-------|-------------|
+| 1: Change password | 20 | Validation, db.rekey(), plugin chain |
+| 2: Reset database | 8 | FileUtils.unlink for all DBs |
+| 3: Backup checkpoint | 10 | wal_checkpoint(TRUNCATE) |
+| 4: E2E flow | 11 | Change PW -> checkpoint -> verification |
+| 5: Edge cases | 9 | SQL injection, 1000-char PW, Unicode |
+| 6: Plugin null-safety | 7 | if(db!=null) guards |
+
+### Database Coverage
+
+| Database | Key Source | Rekey | Reset | Checkpoint |
+|----------|-----------|-------|-------|------------|
+| `dino.db` | User password | YES | YES | YES |
+| `pgp.db` | User password | YES | YES | YES |
+| `bot_registry.db` | User password | YES | YES | YES |
+| `omemo.db` | GNOME Keyring key | YES | YES | YES |
+
+---
+
+## 3. Ad-Hoc Tests
+
+| File | Language | Purpose |
+|------|----------|---------|
+| `test_cb.vala` | Vala | TLS channel-binding enum availability |
+| `test_omemo_deser.c` | C | OMEMO protobuf deserialization with Kaidan bytes |
+| `test_socks.py` | Python | SOCKS5 proxy connectivity |
+| `tests/security_audit_tests.vala` | Vala | 15 audit tests (standalone, not in meson) |
+
+---
+
+## 4. Specification References
+
+Every test references its authoritative source:
+
+| Spec | Area | Tests |
+|------|------|-------|
+| **RFC 6120** | XMPP Core (streams, stanzas, namespaces) | 4 |
+| **RFC 7622** | XMPP JID format | 31 |
+| **RFC 4231** | HMAC-SHA-256 test vectors | 2 |
+| **RFC 5116** | AEAD (IND-CPA) | 2 |
+| **RFC 5869** | HKDF | 1 |
+| **RFC 6350/6351** | vCard 4.0 / xCard XML | 2 |
+| **NIST SP 800-38D** | AES-GCM | 8 |
+| **NIST SP 800-132** | PBKDF2 | 5 |
+| **NIST SP 800-63B** | Secret entropy | 2 |
+| **NIST SP 800-90A** | CSPRNG | 1 |
+| **FIPS 180-4** | SHA-256 | 4 |
+| **XEP-0059** | Result Set Management | 1 |
+| **XEP-0198** | Stream Management | 15 |
+| **XEP-0297** | Stanza Forwarding | 1 |
+| **XEP-0313** | Message Archive Management | 8 |
+| **XEP-0384** | OMEMO | 3 |
+| **XEP-0392** | Consistent Color Generation | 3 |
+| **XEP-0448** | Encrypted File Sharing | 2 |
+| **RFC 7748** | Curve25519 | 4 |
+| **Signal Protocol** | Double Ratchet, PreKeys | 5 |
+| **Contract** | Data structure contracts (WeakMap, RateLimiter) | 14 |
+| **GObject** | Property/signal contract (PreferencesRow) | 16 |
+| **XSD** | xs:hexBinary parsing | 5 |
+
+---
+
+## 5. Test Architecture
+
 ```
+ninja -C build test                    Meson-registered (146 tests)
+  |-- xmpp-vala-test                   10 suites, 67 tests (GLib.Test)
+  |     |-- Stanza (4)                   RFC 6120 S4 stream/namespace
+  |     |-- util (5)                     xs:hexBinary parsing contract
+  |     |-- Jid (28)                     RFC 7622 JID validation
+  |     |-- color (3)                    XEP-0392 test vectors
+  |     |-- VCard4 (2)                   RFC 6350/6351 xCard
+  |     |-- Xep0448Test (2)              XEP-0448 ESFS
+  |     |-- StreamManagement (12)        XEP-0198 S3-S6 + async XML
+  |     |-- MAM (8)                      XEP-0313 S3-S5 + async XML
+  |     +-- Audit_XEP0198 (3)           h-counter overflow
+  |
+  |-- libdino-test                     8 suites, 29 tests (GLib.Test)
+  |     |-- WeakMapTest (5)              Data structure contract
+  |     |-- Jid (3)                      RFC 7622 basics
+  |     |-- FileManagerTest (1)          GIO stream lifecycle
+  |     |-- Security (12)                NIST SP 800-38D/132, RFC 5116
+  |     |-- Audit_KeyDerivation (3)      NIST KDF audit
+  |     |-- Audit_KeyManager (1)         CSPRNG audit
+  |     |-- Audit_TokenStorage (1)       HMAC vs SHA-256
+  |     +-- Audit_JSONInjection (3)      JSON escape audit
+  |
+  |-- main-test                        1 suite, 16 tests (GLib.Test)
+  |     +-- PreferencesRow (16)          GObject property/signal contract
+  |
+  |-- omemo-test                       3 suites, 10 tests (GLib.Test)
+  |     |-- Curve25519 (4)               RFC 7748 key agreement
+  |     |-- SessionBuilder (5)           Signal Protocol / XEP-0384
+  |     +-- HKDF (1)                     RFC 5869 test vector
+  |
+  +-- bot-features-test                4 suites, 24 tests (GLib.Test)
+        |-- RateLimiter (9)              Contract-based (C-1 to C-8)
+        |-- Crypto (8)                   FIPS 180-4, RFC 4231
+        |-- Audit_RateLimiter (3)        Security audit
+        +-- Audit_JSONEscape (4)         JSON injection audit
 
-**Manual build:**
-```bash
-valac --pkg gio-2.0 --pkg gee-0.8 --pkg sqlite3 \
-      --vapidir=qlite/vapi --pkg qlite \
-      -X -I./qlite/src -X -L./build/qlite -X -lqlite \
-      -X -w \
-      tests/test_db_maintenance_integration.vala \
-      -o build/test_db_maintenance_integration
-
-LD_LIBRARY_PATH=build/qlite ./build/test_db_maintenance_integration
+scripts/test_db_maintenance.sh         Bash CLI, 71 tests
+scripts/run_db_integration_tests.sh    Vala, 65 tests (Qlite)
 ```
 
 ---
 
-## 3. Ad-Hoc / Development Tests (Root Directory)
+## 6. What Is NOT Tested (Gaps)
 
-These are standalone one-off test scripts, not wired into any test runner.
+### 6.1 UI/GTK -- Mostly Untested
 
-| File                 | Language | Purpose |
-|----------------------|----------|---------|
-| `test_cb.vala`       | Vala     | TLS channel binding type test |
-| `test_omemo_deser.c` | C        | OMEMO deserialization with Kaidan key-exchange bytes |
-| `test_socks.py`      | Python   | SOCKS5 proxy connectivity test |
+**16 of 92 UI files** have automated tests (PreferencesRow view model).
 
-These are useful for manual debugging but not part of automated CI.
+| Area | Files | Status |
+|------|-------|--------|
+| **View models** | 4 files | `preferences_row.vala`: 16 tests (section 1.4). Others: NONE |
+| **Main window** | `main_window.vala`, `main_window_controller.vala` | NONE |
+| **Chat input** | 13 files (text_view, encryption, sticker, smiley, audio/video recorder) | NONE |
+| **Conversation view** | 22 files (message, file, call, quote, reactions, URL preview, video, audio) | NONE |
+| **Conversation list** | 2 files (selector, row) | NONE |
+| **Title bar** | 4 files (call, menu, occupants, search) | NONE |
+| **Add contact** | 12 files (add_contact, add_conference, roster, room_browser, user_search) | NONE |
+| **Call window** | 10 files (call_window, bottom_bar, dialpad, participant_list, audio/video settings) | NONE |
+| **Bot management** | 2 files (bot_create_dialog, bot_manager_dialog) | NONE |
+| **Settings** | 10 files (preferences, account, add_account, change_password, encryption) | NONE |
+| **Widgets** | 4 files (avatar, date_separator, fixed_ratio_picture, natural_size_increase) | NONE |
+| **UI templates** | 40 .ui files | NONE |
+
+### 6.2 Accessibility -- NO Tests
+
+- No ATK/AT-SPI tests
+- No `accessible-role`, `accessible-label` checks
+- No screen reader compatibility tests
+
+### 6.3 Other Gaps
+
+| Area | Status |
+|------|--------|
+| **qlite** (SQLite ORM) | Only indirectly via DB tests |
+| **crypto-vala** | No dedicated test suite |
+| **Plugins: http-files, ice, notification-sound, openpgp, rtp, tor-manager** | No tests (only omemo + bot-features) |
+| **Network/protocol integration** | No mock XMPP server |
+| **App startup** | main.vala untested |
+| **Translations** | Scripts exist, not in CI |
+| **Unicode scanning** | CI-only, not in meson test |
+
+### 6.4 What COULD Be Tested (Prioritized)
+
+#### Priority 1: View Model Tests (testable WITHOUT GTK)
+
+The view models contain business logic without GTK dependency:
+
+| File | What can be tested |
+|------|--------------------|
+| `conversation_details.vala` | Sorter logic: `compare()` must return correct ordering |
+| `preferences_dialog.vala` | Account selection model, active accounts list |
+| `preferences_row.vala` | Row data binding |
+| `account_details.vala` | Account data transformation |
+
+#### Priority 2: UI Logic Tests (with Gtk.init() but without display)
+
+| Component | What can be tested |
+|-----------|--------------------|
+| `smiley_converter.vala` | Text-to-emoji conversion: `:)` to smiley |
+| `occupants_tab_completer.vala` | Tab completion logic |
+| `chat_text_view.vala` | Text processing before send |
+| `url_preview_widget.vala` | URL detection and validation |
+| `file_metadata_providers.vala` | MIME type detection |
+
+#### Priority 3: Widget Unit Tests (requires headless GTK)
+
+| Widget | Spec | What can be tested |
+|--------|------|--------------------|
+| `AvatarPicture` | -- | Fallback initials computation |
+| `DateSeparator` | i18n | Date formatting |
+| `FixedRatioPicture` | -- | Aspect ratio calculation |
+| `ConversationRow` | -- | Timestamp formatting, unread badge |
+
+#### Priority 4: Spec-Based UI Tests (complex)
+
+| What | Spec | How |
+|------|------|-----|
+| Password dialog | NIST SP 800-63B | Password validation: minimum length, entropy |
+| OMEMO fingerprint display | XEP-0384 S5 | Fingerprint format (8x4 hex) |
+| Encryption button | XEP-0384 | Encryption indicator correct |
+| JID input field | RFC 7622 | Input validation |
+| Contact details | RFC 6350 | vCard fields displayed correctly |
+
+#### Priority 5: Screenshot/Visual Regression (complex)
+
+- GTK Broadway backend for headless rendering
+- Pixmap comparison against reference screenshots
+- Required for theme compatibility
 
 ---
 
-## 4. Bot-Features Tests (`plugins/bot-features/tests/`)
+## 7. CI Pipeline
 
-**Meson target:** `bot-features-test`  
-**Registration:** `plugins/bot-features/meson.build`  
-**Framework:** GLib.Test via custom `Gee.TestCase` base class  
+| Workflow | Trigger | Tests |
+|----------|---------|-------|
+| `build.yml` | push, PR | `meson test` (130 tests) |
+| `build.yml` (Vala nightly) | push, PR | `meson test` (130 tests) |
+| `build-flatpak.yml` | push | Build only |
+| `build-appimage.yml` | Tag | Build only |
+| `windows-build.yml` | push | Build only |
 
-| Suite           | File              | Tests |
-|-----------------|-------------------|-------|
-| RateLimiterTest | `bot_tests.vala`  | Rate limiting: within/over limit, independent bots, window reset, retry_after, cleanup (8 tests) |
-| CryptoTest      | `bot_tests.vala`  | SHA-256 vectors, HMAC-SHA256 (RFC 4231), webhook secret format/uniqueness (8 tests) |
-
-**Files:**
-- `common.vala` — main(), registers 2 suites
-- `testcase.vala` — `Gee.TestCase` base class
-- `bot_tests.vala` — RateLimiterTest + CryptoTest
-- Compiles `src/rate_limiter.vala` standalone (no plugin dependencies)
-
-**Run individually:**
-```bash
-./build/plugins/bot-features/bot-features-test
-```
+**Gap:** DB tests (136) do not run in CI.
 
 ---
 
-## 5. Other Test-Related Scripts
-
-| File | Purpose |
-|------|---------|
-| `check_translations.py` | Validates translation file completeness |
-| `scripts/analyze_translations.py` | Detailed translation analysis |
-| `scripts/scan_unicode.py` | Scans for problematic Unicode characters |
-
----
-
-## 6. Test Architecture Overview
-
-```
-ninja test                             meson-registered (105 tests total)
-  ├── xmpp-vala-test                   8 suites, 61 tests (GLib.Test)
-  ├── libdino-test                     4 suites, 18 tests (GLib.Test)
-  ├── omemo-test                       3 suites, 10 tests (GLib.Test)
-  └── bot-features-test                2 suites, 16 tests (GLib.Test)
-
-./scripts/test_db_maintenance.sh       bash CLI, 71 tests
-./scripts/run_db_integration_tests.sh  Vala, 65 tests (Qlite)
-
-root: test_cb.vala, test_omemo_deser.c, test_socks.py   ad-hoc
-```
-
-### Databases Covered by DB Maintenance Tests
-
-All four encrypted databases are tested:
-
-| Database         | Key Source          | Rekey | Reset | Checkpoint |
-|------------------|---------------------|-------|-------|------------|
-| `dino.db`        | User password       | ✅    | ✅    | ✅         |
-| `pgp.db`         | User password       | ✅    | ✅    | ✅         |
-| `bot_registry.db`| User password       | ✅    | ✅    | ✅         |
-| `omemo.db`       | GNOME Keyring key   | ✅    | ✅    | ✅         |
-
----
-
-## 7. Running All Tests
+## 8. Run All Tests
 
 ```bash
 #!/bin/bash
-echo "=== Meson Tests ==="
+set -e
+
+echo "==========================================="
+echo " DinoX -- Complete Test Run"
+echo "==========================================="
+
+echo ""
+echo ">> Meson tests (146)"
 ninja -C build test
 
 echo ""
-echo "=== DB Maintenance CLI Tests ==="
+echo ">> DB maintenance CLI (71)"
 ./scripts/test_db_maintenance.sh
 
 echo ""
-echo "=== DB Maintenance Integration Tests ==="
+echo ">> DB maintenance integration (65)"
 ./scripts/run_db_integration_tests.sh
+
+echo ""
+echo "==========================================="
+echo " Expected: 282 PASS, 0 FAIL"
+echo "==========================================="
 ```
 
 ---
 
-## 8. Writing New Tests
+## 9. Writing New Tests
 
-### GLib.Test / Gee.TestCase (for xmpp-vala, omemo, libdino)
+### Spec-Based Test (Gee.TestCase)
 
 ```vala
-class MyTest : Gee.TestCase {
-    public MyTest() {
-        base("MyTest");
-        add_test("test_something", test_something);
+/**
+ * Spec reference: XEP-XXXX SY
+ * What is verified: [description]
+ */
+class MySpecTest : Gee.TestCase {
+    public MySpecTest() {
+        base("MySpec");
+        add_test("XEP_XXXX_requirement_name", test_requirement);
+        add_async_test("XEP_XXXX_parse_xml", (cb) => { test_parse.begin(cb); });
     }
 
-    void test_something() {
-        assert_true(1 + 1 == 2);
+    private void test_requirement() {
+        // Test against spec requirement, not code behavior
+        fail_if(result != expected, "XEP-XXXX SY: [requirement]");
+    }
+
+    private async void test_parse(Gee.TestFinishedCallback cb) {
+        try {
+            // Parse real XML, do not build StanzaNode manually
+            var reader = new StanzaReader.for_string("<element xmlns='...'>..</element>");
+            var node = yield reader.read_node();
+            fail_if_not_eq_str(node.ns_uri, "expected_ns");
+        } catch (Error e) {
+            fail_if_reached("Parse error: " + e.message);
+        }
+        cb();
     }
 }
 ```
 
-Register in the corresponding `common.vala`:
+### Registration in `common.vala`
+
 ```vala
 GLib.Test.init(ref args);
-TestSuite.get_root().add_suite(new MyTest().get_suite());
+TestSuite.get_root().add_suite(new MySpecTest().get_suite());
 GLib.Test.run();
 ```
 
-### DB Maintenance Style (standalone Vala)
+### Golden Rules
 
-```vala
-static int PASS = 0;
-static int FAIL = 0;
-
-void ok(bool condition, string description) {
-    if (condition) { PASS++; stdout.printf("  PASS: %s\n", description); }
-    else           { FAIL++; stdout.printf("  FAIL: %s\n", description); }
-}
-```
+1. **Tests must find bugs**, not follow code
+2. **Every test references its spec** (RFC, XEP, NIST, contract)
+3. **Parse real XML** via StanzaReader, not StanzaNode roundtrips
+4. **Async tests** with `add_async_test()` + `Gee.TestFinishedCallback`
+5. **Error messages** name the spec violation
 
 ---
 
-*Last updated: v1.1.2.6 (commits 9c8bb799, ab0550f8, pending)*
+*Last updated: 23 February 2026 -- v1.1.2.8, 146 Meson tests (all spec-prefixed), 16 UI tests*

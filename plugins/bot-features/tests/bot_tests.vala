@@ -35,8 +35,8 @@ class RateLimiterTest : Gee.TestCase {
         add_test("CONTRACT6_cleanup_preserves_live_windows", test_cleanup_preserves_live);
         // CONTRACT-7: window_seconds guard
         add_test("CONTRACT7_window_seconds_clamped_to_1", test_window_seconds_clamped);
-        // Edge case: max_requests=1
-        add_test("edge_case_single_request_limit", test_single_request_limit);
+        // CONTRACT-8: Edge case max_requests=1
+        add_test("CONTRACT8_single_request_limit", test_single_request_limit);
     }
 
     /**
@@ -188,9 +188,9 @@ class CryptoTest : Gee.TestCase {
         // RFC 4231 test vectors
         add_test("RFC4231_case2_hmac_sha256", test_hmac_rfc4231_case2);
         add_test("RFC4231_case3_hmac_sha256", test_hmac_rfc4231_case3);
-        // Webhook secret entropy
+        // Webhook secret entropy (NIST SP 800-63B)
         add_test("SP800_63B_secret_min_128_bit_entropy", test_secret_entropy);
-        add_test("secret_uniqueness_no_collision", test_secret_unique);
+        add_test("SP800_63B_secret_uniqueness_no_collision", test_secret_unique);
     }
 
     // SHA-256 helper (mirrors TokenManager.hash_token)

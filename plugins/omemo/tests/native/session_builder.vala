@@ -7,11 +7,12 @@ class SessionBuilderTest : Gee.TestCase {
     public SessionBuilderTest() {
         base("SessionBuilder");
 
-        add_test("basic_pre_key_v2", test_basic_pre_key_v2);
-        add_test("basic_pre_key_v3", test_basic_pre_key_v3);
-        add_test("basic_pre_key_omemo", test_basic_pre_key_omemo);
-        add_test("bad_signed_pre_key_signature", test_bad_signed_pre_key_signature);
-        add_test("repeat_bundle_message_v2", test_repeat_bundle_message_v2);
+        // Signal Protocol session establishment (XEP-0384 for OMEMO)
+        add_test("SignalProtocol_basic_pre_key_v2", test_basic_pre_key_v2);
+        add_test("SignalProtocol_basic_pre_key_v3", test_basic_pre_key_v3);
+        add_test("XEP0384_basic_pre_key_omemo", test_basic_pre_key_omemo);
+        add_test("SignalProtocol_bad_signed_pre_key_signature", test_bad_signed_pre_key_signature);
+        add_test("SignalProtocol_repeat_bundle_message_v2", test_repeat_bundle_message_v2);
     }
 
     private Context global_context;

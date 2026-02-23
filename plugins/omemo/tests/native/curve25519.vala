@@ -4,10 +4,11 @@ class Curve25519 : Gee.TestCase {
 
     public Curve25519() {
         base("Curve25519");
-        add_test("agreement", test_curve25519_agreement);
-        add_test("generate_public", test_curve25519_generate_public);
-        add_test("random_agreements", test_curve25519_random_agreements);
-        add_test("signature", test_curve25519_signature);
+        // RFC 7748: Elliptic Curves for Security (Curve25519)
+        add_test("RFC7748_agreement", test_curve25519_agreement);
+        add_test("RFC7748_generate_public", test_curve25519_generate_public);
+        add_test("RFC7748_random_agreements", test_curve25519_random_agreements);
+        add_test("RFC7748_signature", test_curve25519_signature);
     }
 
     private Context global_context;

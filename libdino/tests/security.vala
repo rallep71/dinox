@@ -32,10 +32,10 @@ class SecurityTest : Gee.TestCase {
         // NIST SP 800-132: PBKDF2 key derivation
         add_test("SP800_132_same_password_cross_instance_decrypt", test_cross_instance_decrypt);
         add_test("SP800_132_unicode_password_roundtrip", test_unicode_password);
-        // Robustness
-        add_test("reject_truncated_ciphertext", test_reject_truncated);
-        add_test("reject_corrupted_tag", test_reject_corrupted_tag);
-        add_test("large_plaintext_64KB_roundtrip", test_large_plaintext);
+        // NIST SP 800-38D: AES-GCM robustness
+        add_test("SP800_38D_reject_truncated_ciphertext", test_reject_truncated);
+        add_test("SP800_38D_reject_corrupted_tag", test_reject_corrupted_tag);
+        add_test("SP800_38D_large_plaintext_64KB_roundtrip", test_large_plaintext);
     }
 
     /**

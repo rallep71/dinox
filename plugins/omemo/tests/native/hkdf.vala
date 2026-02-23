@@ -4,7 +4,8 @@ class HKDF : Gee.TestCase {
 
     public HKDF() {
         base("HKDF");
-        add_test("vector_v3", test_hkdf_vector_v3);
+        // RFC 5869: HKDF test vector
+        add_test("RFC5869_vector_v3", test_hkdf_vector_v3);
     }
 
     private Context global_context;

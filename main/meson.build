@@ -262,3 +262,25 @@ install_data('data/icons/hicolor/512x512/apps/im.github.rallep71.DinoX.png', ins
 install_data('data/im.github.rallep71.DinoX.appdata.xml', install_dir: get_option('datadir') / 'metainfo')
 install_data('data/im.github.rallep71.DinoX.desktop', install_dir: get_option('datadir') / 'applications')
 install_data('data/im.github.rallep71.DinoX.service', install_dir: get_option('datadir') / 'dbus-1/services')
+
+# UI ViewModel Tests (pure GObject, no display needed)
+test_sources = [
+    'tests/common.vala',
+    'tests/testcase.vala',
+    'tests/preferences_row_test.vala',
+    'src/view_model/preferences_row.vala',
+]
+test_deps = [
+    dep_dino,
+    dep_gee,
+    dep_gio,
+    dep_glib,
+    dep_qlite,
+    dep_xmpp_vala,
+]
+exe_main_test = executable('main-test', test_sources,
+    c_args: c_args,
+    vala_args: vala_args,
+    dependencies: test_deps,
+    install: false)
+test('Tests for main', exe_main_test)

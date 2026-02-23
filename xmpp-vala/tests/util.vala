@@ -29,7 +29,7 @@ class UtilTest : Gee.TestCase {
     }
 
     private void add_hex_test(int expected, string str) {
-        string test_name = @"from_hex(\"$(str)\")";
+        string test_name = @"XSD_hexBinary_from_hex(\"$(str)\")";
         add_test(test_name, () => {
             fail_if_not_eq_int(expected, (int)from_hex(str));
         });
