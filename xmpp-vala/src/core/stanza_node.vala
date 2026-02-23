@@ -30,11 +30,11 @@ public abstract class StanzaEntry {
                 if (end < start) break;
                 unichar num = -1;
                 if (tmp[start+2]=='x') {
-                    tmp.substring(start+3, start-end-3).scanf("%x", &num);
+                    tmp.substring(start+3, end-start-3).scanf("%x", &num);
                 } else {
-                    num = int.parse(tmp.substring(start+2, start-end-2));
+                    num = int.parse(tmp.substring(start+2, end-start-2));
                 }
-                tmp = tmp.splice(start, end, num.to_string());
+                tmp = tmp.splice(start, end + 1, num.to_string());
             }
             val = tmp.replace("&amp;", "&");
         }

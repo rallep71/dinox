@@ -10,7 +10,7 @@ namespace Xmpp.Test {
  * incoming stanzas. Incorrect parsing can lead to XSS if entities are
  * partially decoded, or crashes if substring arithmetic is wrong.
  *
- * Bug #20: encoded_val substring arithmetic is inverted.
+ * Bug #20 (FIXED): encoded_val substring arithmetic was inverted.
  *   In the line: tmp.substring(start+3, start-end-3)
  *   The second parameter is *length*, but `start - end - 3` is always
  *   negative when end > start (which is always true because end is found
@@ -102,20 +102,20 @@ class StanzaEntryAudit : Gee.TestCase {
     }
 
     // --- Numeric character references ---
-    // Bug #20: substring arithmetic is inverted (start-end-3 should be end-start-3)
+    // Bug #20 (FIXED): substring arithmetic was inverted (start-end-3 → end-start-3, splice end → end+1)
 
     private void test_hex_char_ref() {
         // &#x41; = 'A'
         string? result = decode("&#x41;");
         fail_if_not_eq_str(result, "A",
-            "&#x41; (hex) should decode to 'A' (Bug #20: substring arithmetic)");
+            "&#x41; (hex) should decode to 'A' (Bug #20 fixed)");
     }
 
     private void test_decimal_char_ref() {
         // &#65; = 'A'
         string? result = decode("&#65;");
         fail_if_not_eq_str(result, "A",
-            "&#65; (decimal) should decode to 'A' (Bug #20: substring arithmetic)");
+            "&#65; (decimal) should decode to 'A' (Bug #20 fixed)");
     }
 
     private void test_hex_char_ref_unicode() {

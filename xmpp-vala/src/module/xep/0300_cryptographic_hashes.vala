@@ -82,6 +82,8 @@ namespace Xmpp.Xep.CryptographicHashes {
 
     public static ChecksumType? hash_string_to_type(string hash) {
         switch (hash) {
+            case "md5":
+                return ChecksumType.MD5;
             case "sha-1":
                 return ChecksumType.SHA1;
             case "sha-256":

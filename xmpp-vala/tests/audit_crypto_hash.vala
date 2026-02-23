@@ -8,7 +8,7 @@ namespace Xmpp.Test {
  * Tests hash_type_to_string / hash_string_to_type roundtrip and
  * Hash.compute against known SHA-256 test vectors.
  *
- * Bug #21: hash_string_to_type("md5") returns null.
+ * Bug #21 (FIXED): hash_string_to_type("md5") no longer returns null.
  *   hash_type_to_string(ChecksumType.MD5) correctly returns "md5",
  *   but hash_string_to_type("md5") is missing from the switch and
  *   returns null. This means MD5 hashes received from peers cannot
@@ -32,7 +32,7 @@ class CryptoHashAudit : Gee.TestCase {
         add_test("XEP0300_sha256_string_to_type", test_sha256_from_str);
         add_test("XEP0300_sha384_string_to_type", test_sha384_from_str);
         add_test("XEP0300_sha512_string_to_type", test_sha512_from_str);
-        add_test("XEP0300_md5_string_to_type_BUG21", test_md5_from_str);
+        add_test("XEP0300_md5_string_to_type", test_md5_from_str);
         add_test("XEP0300_unknown_string_returns_null", test_unknown_from_str);
 
         // --- roundtrip ---
@@ -103,9 +103,9 @@ class CryptoHashAudit : Gee.TestCase {
     }
 
     private void test_md5_from_str() {
-        // Bug #21: "md5" is missing from hash_string_to_type switch
+        // Bug #21 (FIXED): "md5" was missing from hash_string_to_type switch
         ChecksumType? t = Xep.CryptographicHashes.hash_string_to_type("md5");
-        fail_if(t == null, "Bug #21: 'md5' should map to MD5 but returns null (asymmetry)");
+        fail_if(t == null, "Bug #21 fixed: 'md5' should map to MD5");
     }
 
     private void test_unknown_from_str() {

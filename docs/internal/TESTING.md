@@ -293,11 +293,11 @@ namespace constants, data classes, roundtrip serialization, random padding, modu
 | 146 | `XEP0115_5_1_apos_entity_decoded` | XEP-0115 S5.1 | `&apos;` decodes to `'` |
 | 147 | `XEP0115_5_1_quot_entity_decoded` | XEP-0115 S5.1 | `&quot;` decodes to `"` |
 | 148 | `XML_all_named_entities_combined` | XML 1.0 S4.6 | All 5 named entities in one string |
-| 149 | `XML_hex_char_ref_basic` | XML 1.0 S4.1 | **Bug #20**: `&#x41;` → `A` (substring arithmetic inverted) |
-| 150 | `XML_decimal_char_ref_basic` | XML 1.0 S4.1 | **Bug #20**: `&#65;` → `A` (substring arithmetic inverted) |
-| 151 | `XML_hex_char_ref_unicode` | XML 1.0 S4.1 | **Bug #20**: `&#x263A;` → `☺` |
-| 152 | `XML_numeric_ref_with_trailing_text` | XML 1.0 S4.1 | **Bug #20**: `&#x48;ello` → `Hello` |
-| 153 | `XML_multiple_numeric_refs` | XML 1.0 S4.1 | **Bug #20**: Multiple hex refs in sequence |
+| 149 | `XML_hex_char_ref_basic` | XML 1.0 S4.1 | `&#x41;` → `A` (Bug #20 fixed) |
+| 150 | `XML_decimal_char_ref_basic` | XML 1.0 S4.1 | `&#65;` → `A` (Bug #20 fixed) |
+| 151 | `XML_hex_char_ref_unicode` | XML 1.0 S4.1 | `&#x263A;` → `☺` (Bug #20 fixed) |
+| 152 | `XML_numeric_ref_with_trailing_text` | XML 1.0 S4.1 | `&#x48;ello` → `Hello` (Bug #20 fixed) |
+| 153 | `XML_multiple_numeric_refs` | XML 1.0 S4.1 | Multiple hex refs in sequence (Bug #20 fixed) |
 | 154 | `XML_unclosed_numeric_ref_no_crash` | XML 1.0 S4.1 | Unclosed `&#x41` does not crash |
 | 155 | `XML_empty_numeric_ref_no_crash` | XML 1.0 S4.1 | `&#;` does not crash |
 | 156 | `XML_hash_without_semicolon_no_crash` | XML 1.0 S4.1 | Trailing `&#` does not crash |
@@ -322,7 +322,7 @@ namespace constants, data classes, roundtrip serialization, random padding, modu
 | 170 | `XEP0300_sha256_string_to_type` | XEP-0300 | `"sha-256"` → SHA256 |
 | 171 | `XEP0300_sha384_string_to_type` | XEP-0300 | `"sha-384"` → SHA384 |
 | 172 | `XEP0300_sha512_string_to_type` | XEP-0300 | `"sha-512"` → SHA512 |
-| 173 | `XEP0300_md5_string_to_type_BUG21` | XEP-0300 | **Bug #21**: `"md5"` → null (asymmetry) |
+| 173 | `XEP0300_md5_string_to_type` | XEP-0300 | `"md5"` → MD5 (Bug #21 fixed) |
 | 174 | `XEP0300_unknown_string_returns_null` | XEP-0300 | Unknown hash name → null |
 | 175 | `XEP0300_sha256_roundtrip` | XEP-0300 | type→string→type roundtrip |
 | 176 | `XEP0300_sha256_compute_empty` | NIST FIPS 180-4 | SHA-256 of empty = known vector |
@@ -895,7 +895,7 @@ Every test references its authoritative source:
 | **XEP-0176** | ICE-UDP (candidate type parse) | 5 |
 | **XEP-0198** | Stream Management | 15 |
 | **XEP-0260** | SOCKS5 Bytestreams (candidate type) | 6 |
-| **XEP-0300** | Cryptographic Hashes (roundtrip, Bug #21) | 15 |
+| **XEP-0300** | Cryptographic Hashes (roundtrip, Bug #21 fixed) | 15 |
 | **XEP-0313** | Message Archive Management | 8 |
 | **XEP-0359** | Unique Stable Stanza IDs | 4 |
 | **XEP-0373** | OpenPGP for XMPP | 12 |
@@ -931,8 +931,8 @@ ninja -C build test                    Meson-registered (460 tests)
   |     |-- Audit_XEP0198 (3)            h-counter overflow
   |     |-- OmemoAudit (39)              XEP-0384 v0.3 + v0.8 stanza audit
   |     |-- OpenPgpAudit (36)            XEP-0373 + XEP-0374 stanza + rpad audit
-  |     |-- StanzaEntryAudit (21)        XML entity decode + bool parse (Bug #20)
-  |     |-- CryptoHashAudit (15)         XEP-0300 hash roundtrip + vectors (Bug #21)
+  |     |-- StanzaEntryAudit (21)        XML entity decode + bool parse (Bug #20 fixed)
+  |     |-- CryptoHashAudit (15)         XEP-0300 hash roundtrip + vectors (Bug #21 fixed)
   |     |-- EntityCapsAudit (5)          XEP-0115 caps hash verification
   |     |-- ProtocolParserAudit (27)     Jingle/SOCKS5/ICE/Markup/DateTime parsers
   |     |-- UtilAudit (9)               UUID format + Data URI parsing
