@@ -125,7 +125,7 @@ class KeyManagerAudit : Gee.TestCase {
 
     public KeyManagerAudit() {
         base("Audit_KeyManager");
-        add_test("csprng_not_predictable_by_seed", test_csprng_quality);
+        add_test("SP800_90A_csprng_not_predictable_by_seed", test_csprng_quality);
     }
 
     /*
@@ -166,7 +166,7 @@ class TokenStorageAudit : Gee.TestCase {
 
     public TokenStorageAudit() {
         base("Audit_TokenStorage");
-        add_test("hmac_sha256_differs_from_plain_sha256", test_hmac_not_sha256);
+        add_test("RFC4231_hmac_sha256_differs_from_plain_sha256", test_hmac_not_sha256);
     }
 
     /*
@@ -218,9 +218,9 @@ class JSONInjectionAudit : Gee.TestCase {
 
     public JSONInjectionAudit() {
         base("Audit_JSONInjection");
-        add_test("backslash_not_escaped_in_send_error", test_backslash_escape);
-        add_test("newline_not_escaped_in_send_error", test_newline_escape);
-        add_test("tab_not_escaped_in_send_error", test_tab_escape);
+        add_test("RFC8259_backslash_not_escaped_in_send_error", test_backslash_escape);
+        add_test("RFC8259_newline_not_escaped_in_send_error", test_newline_escape);
+        add_test("RFC8259_tab_not_escaped_in_send_error", test_tab_escape);
     }
 
     /*

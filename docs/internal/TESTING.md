@@ -3,28 +3,95 @@
 Complete inventory of all automated tests in the DinoX project.
 Every test references its authoritative specification or contract.
 
-**Status: v1.1.2.8 -- 146 Meson tests + 136 standalone tests = 282 automated tests**
+**Status: v1.1.2.9 -- 146 Meson tests + 136 standalone tests = 282 automated tests, 0 failures**
 
 ---
 
 ## Quick Start
 
 ```bash
-# All meson-registered tests (5 suites, 146 tests)
-ninja -C build test
+# All tests at once (recommended)
+./scripts/run_all_tests.sh
 
-# Single suite
-LD_LIBRARY_PATH=build/libdino:build/xmpp-vala:build/qlite:build/crypto-vala \
-  build/xmpp-vala/xmpp-vala-test
+# Only Meson-registered tests (5 suites, 146 tests)
+./scripts/run_all_tests.sh --meson
 
-# DB maintenance CLI tests (71 tests)
-./scripts/test_db_maintenance.sh
+# Only DB maintenance tests (136 standalone)
+./scripts/run_all_tests.sh --db
+```
 
-# DB maintenance Vala integration tests (65 tests)
-./scripts/run_db_integration_tests.sh
+---
 
-# Everything at once
-./scripts/run_all_tests.sh   # (see section 8)
+## How to Run Tests -- Step-by-Step
+
+### Prerequisites
+
+| Requirement | Purpose | Check |
+|-------------|---------|-------|
+| `meson` + `ninja` | Build system | `meson --version` |
+| `valac` >= 0.56 | Vala compiler | `valac --version` |
+| GTK4, libadwaita, GLib, Gee | Runtime deps | `pkg-config --modversion gtk4` |
+| `sqlcipher` | DB CLI tests (optional) | `which sqlcipher` |
+| Build directory exists | Compiled tests | `ls build/build.ninja` |
+
+### Build
+
+```bash
+# First time setup
+meson setup build
+
+# Rebuild (incremental)
+ninja -C build
+```
+
+### Running individual suites
+
+```bash
+# Set library path (needed when running directly)
+export LD_LIBRARY_PATH=build/libdino:build/xmpp-vala:build/qlite:build/crypto-vala
+
+# Run one suite
+build/xmpp-vala/xmpp-vala-test     # 67 tests
+build/libdino/libdino-test          # 29 tests
+build/main/main-test                # 16 tests
+build/plugins/omemo/omemo-test      # 10 tests
+build/plugins/bot-features/bot-features-test  # 24 tests
+```
+
+### Running a single test by name
+
+```bash
+export LD_LIBRARY_PATH=build/libdino:build/xmpp-vala:build/qlite:build/crypto-vala
+build/xmpp-vala/xmpp-vala-test -p /Jid/RFC7622_valid_bare
+build/libdino/libdino-test -p /Security/SP800_38D_tag_is_128_bits
+```
+
+### List all test names (without running)
+
+```bash
+build/xmpp-vala/xmpp-vala-test -l
+build/libdino/libdino-test -l
+build/main/main-test -l
+build/plugins/omemo/omemo-test -l
+build/plugins/bot-features/bot-features-test -l
+```
+
+### Verbose output
+
+```bash
+meson test -C build -v --print-errorlogs
+# or for a single binary:
+build/xmpp-vala/xmpp-vala-test --verbose
+```
+
+### DB maintenance tests
+
+```bash
+# CLI tests (requires sqlcipher)
+./scripts/test_db_maintenance.sh        # 71 tests
+
+# Vala integration tests
+./scripts/run_db_integration_tests.sh   # 65 tests
 ```
 
 ---
@@ -172,14 +239,14 @@ Framework: GLib.Test + `Gee.TestCase` with `add_async_test()` for async XML pars
 
 | # | Test | Spec | Verifies |
 |---|------|------|----------|
-| 22 | `NIST_iterated_kdf_not_single_hash` | NIST SP 800-132 | KDF uses iteration, not single hash |
-| 23 | `NIST_random_salt_per_encryption` | NIST SP 800-132 | Each encryption gets its own salt |
-| 24 | `NIST_min_iterations_10000` | NIST SP 800-132 | At least 10000 iterations |
-| 25 | `csprng_not_predictable_by_seed` | NIST SP 800-90A | CSPRNG output is not predictable |
-| 26 | `hmac_sha256_differs_from_plain_sha256` | RFC 4231 | HMAC(key,msg) != SHA256(msg) |
-| 27 | `backslash_not_escaped_in_send_error` | JSON injection | Backslash in error message escaped |
-| 28 | `newline_not_escaped_in_send_error` | JSON injection | Newline in JSON string escaped |
-| 29 | `tab_not_escaped_in_send_error` | JSON injection | Tab in JSON string escaped |
+| 22 | `NIST_iterated_kdf_not_single_hash` | NIST SP 800-132 S5.2 | KDF uses iteration >= 10ms per derivation |
+| 23 | `NIST_random_salt_per_encryption` | NIST SP 800-132 S5.1 | Each encryption gets its own 128-bit salt |
+| 24 | `NIST_min_iterations_10000` | NIST SP 800-132 S5.2 | At least 10,000 PBKDF2 iterations |
+| 25 | `SP800_90A_csprng_not_predictable_by_seed` | NIST SP 800-90A | Crypto.randomize() uses OS CSPRNG, not GLib.Random |
+| 26 | `RFC4231_hmac_sha256_differs_from_plain_sha256` | RFC 4231 | HMAC(key,msg) != SHA256(msg) |
+| 27 | `RFC8259_backslash_not_escaped_in_send_error` | RFC 8259 S7 | Backslash in error JSON properly escaped |
+| 28 | `RFC8259_newline_not_escaped_in_send_error` | RFC 8259 S7 | Newline in JSON string escaped |
+| 29 | `RFC8259_tab_not_escaped_in_send_error` | RFC 8259 S7 | Tab in JSON string escaped |
 
 ### 1.3 OMEMO (10 Tests)
 
@@ -256,17 +323,22 @@ Pure GObject view model classes (zero GTK dependency). First UI-layer tests in t
 | 16 | `SP800_63B_secret_min_128_bit_entropy` | NIST SP 800-63B | Webhook secret >= 128-bit entropy (64 hex chars) |
 | 17 | `SP800_63B_secret_uniqueness_no_collision` | NIST SP 800-63B | Two secrets are unequal |
 
-#### Audit (7 Tests) -- Security Audit
+#### Audit RateLimiter (3 Tests) -- Security Audit
 
-| # | Test | Verifies |
-|---|------|----------|
-| 18 | `zero_window_must_not_allow_unlimited` | window=0 must not allow unlimited requests |
-| 19 | `negative_max_must_block_all` | max<0 must block all requests |
-| 20 | `int_overflow_in_cleanup_staleness` | Integer overflow in cleanup staleness calculation |
-| 21 | `backslash_before_quote_produces_invalid_json` | Backslash before quote in JSON |
-| 22 | `newline_raw_in_json_string` | Raw newline in JSON |
-| 23 | `tab_raw_in_json_string` | Raw tab in JSON |
-| 24 | `null_byte_in_description` | Null byte in description |
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
+| 18 | `CONTRACT_zero_window_must_not_allow_unlimited` | Contract | window=0 clamped to 1, not unlimited |
+| 19 | `CONTRACT_negative_max_must_block_all` | Contract | max<0 blocks all requests |
+| 20 | `CONTRACT_int_overflow_in_cleanup_staleness` | Contract | int64 arithmetic prevents overflow in staleness |
+
+#### Audit JSON Escape (4 Tests) -- RFC 8259
+
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
+| 21 | `RFC8259_backslash_before_quote_produces_invalid_json` | RFC 8259 S7 | Backslash escaped before quote in JSON |
+| 22 | `RFC8259_newline_raw_in_json_string` | RFC 8259 S7 | Raw newline escaped in JSON |
+| 23 | `RFC8259_tab_raw_in_json_string` | RFC 8259 S7 | Raw tab escaped in JSON |
+| 24 | `RFC8259_null_byte_in_description` | RFC 8259 S7 | Null byte handling in strings |
 
 ---
 
@@ -317,7 +389,6 @@ Pure GObject view model classes (zero GTK dependency). First UI-layer tests in t
 | `test_cb.vala` | Vala | TLS channel-binding enum availability |
 | `test_omemo_deser.c` | C | OMEMO protobuf deserialization with Kaidan bytes |
 | `test_socks.py` | Python | SOCKS5 proxy connectivity |
-| `tests/security_audit_tests.vala` | Vala | 15 audit tests (standalone, not in meson) |
 
 ---
 
@@ -329,27 +400,28 @@ Every test references its authoritative source:
 |------|------|-------|
 | **RFC 6120** | XMPP Core (streams, stanzas, namespaces) | 4 |
 | **RFC 7622** | XMPP JID format | 31 |
-| **RFC 4231** | HMAC-SHA-256 test vectors | 2 |
+| **RFC 4231** | HMAC-SHA-256 test vectors | 3 |
 | **RFC 5116** | AEAD (IND-CPA) | 2 |
 | **RFC 5869** | HKDF | 1 |
 | **RFC 6350/6351** | vCard 4.0 / xCard XML | 2 |
-| **NIST SP 800-38D** | AES-GCM | 8 |
-| **NIST SP 800-132** | PBKDF2 | 5 |
-| **NIST SP 800-63B** | Secret entropy | 2 |
-| **NIST SP 800-90A** | CSPRNG | 1 |
+| **RFC 7748** | Curve25519 elliptic curves | 4 |
+| **RFC 8259** | JSON encoding (string escaping) | 7 |
+| **NIST SP 800-38D** | AES-GCM authenticated encryption | 8 |
+| **NIST SP 800-132** | PBKDF2 key derivation | 5 |
+| **NIST SP 800-63B** | Secret entropy (128-bit minimum) | 2 |
+| **NIST SP 800-90A** | CSPRNG (Crypto.randomize) | 1 |
 | **FIPS 180-4** | SHA-256 | 4 |
 | **XEP-0059** | Result Set Management | 1 |
 | **XEP-0198** | Stream Management | 15 |
-| **XEP-0297** | Stanza Forwarding | 1 |
 | **XEP-0313** | Message Archive Management | 8 |
-| **XEP-0384** | OMEMO | 3 |
+| **XEP-0384** | OMEMO encryption | 3 |
 | **XEP-0392** | Consistent Color Generation | 3 |
 | **XEP-0448** | Encrypted File Sharing | 2 |
-| **RFC 7748** | Curve25519 | 4 |
 | **Signal Protocol** | Double Ratchet, PreKeys | 5 |
-| **Contract** | Data structure contracts (WeakMap, RateLimiter) | 14 |
+| **Contract** | Data structure/API contracts (WeakMap, RateLimiter) | 17 |
 | **GObject** | Property/signal contract (PreferencesRow) | 16 |
 | **XSD** | xs:hexBinary parsing | 5 |
+| **GIO** | Stream lifecycle | 1 |
 
 ---
 
@@ -373,10 +445,10 @@ ninja -C build test                    Meson-registered (146 tests)
   |     |-- Jid (3)                      RFC 7622 basics
   |     |-- FileManagerTest (1)          GIO stream lifecycle
   |     |-- Security (12)                NIST SP 800-38D/132, RFC 5116
-  |     |-- Audit_KeyDerivation (3)      NIST KDF audit
-  |     |-- Audit_KeyManager (1)         CSPRNG audit
-  |     |-- Audit_TokenStorage (1)       HMAC vs SHA-256
-  |     +-- Audit_JSONInjection (3)      JSON escape audit
+  |     |-- Audit_KeyDerivation (3)      NIST SP 800-132 KDF audit
+  |     |-- Audit_KeyManager (1)         NIST SP 800-90A CSPRNG
+  |     |-- Audit_TokenStorage (1)       RFC 4231 HMAC vs SHA-256
+  |     +-- Audit_JSONInjection (3)      RFC 8259 JSON escape
   |
   |-- main-test                        1 suite, 16 tests (GLib.Test)
   |     +-- PreferencesRow (16)          GObject property/signal contract
@@ -389,8 +461,8 @@ ninja -C build test                    Meson-registered (146 tests)
   +-- bot-features-test                4 suites, 24 tests (GLib.Test)
         |-- RateLimiter (9)              Contract-based (C-1 to C-8)
         |-- Crypto (8)                   FIPS 180-4, RFC 4231
-        |-- Audit_RateLimiter (3)        Security audit
-        +-- Audit_JSONEscape (4)         JSON injection audit
+        |-- Audit_RateLimiter (3)        CONTRACT audit (zero-window, negative-max, overflow)
+        +-- Audit_JSONEscape (4)         RFC 8259 JSON audit
 
 scripts/test_db_maintenance.sh         Bash CLI, 71 tests
 scripts/run_db_integration_tests.sh    Vala, 65 tests (Qlite)
@@ -427,15 +499,19 @@ scripts/run_db_integration_tests.sh    Vala, 65 tests (Qlite)
 
 ### 6.3 Other Gaps
 
-| Area | Status |
-|------|--------|
-| **qlite** (SQLite ORM) | Only indirectly via DB tests |
-| **crypto-vala** | No dedicated test suite |
-| **Plugins: http-files, ice, notification-sound, openpgp, rtp, tor-manager** | No tests (only omemo + bot-features) |
-| **Network/protocol integration** | No mock XMPP server |
-| **App startup** | main.vala untested |
-| **Translations** | Scripts exist, not in CI |
-| **Unicode scanning** | CI-only, not in meson test |
+| Area | Status | Difficulty |
+|------|--------|------------|
+| **qlite** (SQLite ORM) | Only indirectly via DB tests | Medium -- pure library, testable |
+| **crypto-vala** | No dedicated suite -- tested via libdino Security | Low |
+| **http-files plugin** | No tests | Medium |
+| **ice plugin** | No tests | High -- ICE/STUN/TURN networking |
+| **notification-sound plugin** | No tests | Low -- pure GStreamer pipeline |
+| **openpgp plugin** | No tests | Medium |
+| **rtp plugin** | No tests | High -- real-time media |
+| **tor-manager plugin** | No tests | Medium -- SOCKS5 proxy |
+| **Network/protocol integration** | No mock XMPP server | High |
+| **App startup** (`main.vala`) | Untested | High -- requires full GTK/D-Bus |
+| **Translations** | `check_translations.py` exists, not in CI | Low |
 
 ### 6.4 What COULD Be Tested (Prioritized)
 
@@ -447,7 +523,7 @@ The view models contain business logic without GTK dependency:
 |------|--------------------|
 | `conversation_details.vala` | Sorter logic: `compare()` must return correct ordering |
 | `preferences_dialog.vala` | Account selection model, active accounts list |
-| `preferences_row.vala` | Row data binding |
+| ~~`preferences_row.vala`~~ | ~~Row data binding~~ -- **DONE** (16 tests, section 1.4) |
 | `account_details.vala` | Account data transformation |
 
 #### Priority 2: UI Logic Tests (with Gtk.init() but without display)
@@ -491,8 +567,8 @@ The view models contain business logic without GTK dependency:
 
 | Workflow | Trigger | Tests |
 |----------|---------|-------|
-| `build.yml` | push, PR | `meson test` (130 tests) |
-| `build.yml` (Vala nightly) | push, PR | `meson test` (130 tests) |
+| `build.yml` | push, PR | `meson test` (146 tests) |
+| `build.yml` (Vala nightly) | push, PR | `meson test` (146 tests) |
 | `build-flatpak.yml` | push | Build only |
 | `build-appimage.yml` | Tag | Build only |
 | `windows-build.yml` | push | Build only |
@@ -503,35 +579,98 @@ The view models contain business logic without GTK dependency:
 
 ## 8. Run All Tests
 
+Script: `scripts/run_all_tests.sh`
+
 ```bash
-#!/bin/bash
-set -e
+# All 282 tests (Meson + DB)
+./scripts/run_all_tests.sh
 
-echo "==========================================="
-echo " DinoX -- Complete Test Run"
-echo "==========================================="
+# Only Meson-registered tests (146)
+./scripts/run_all_tests.sh --meson
 
-echo ""
-echo ">> Meson tests (146)"
-ninja -C build test
+# Only DB maintenance tests (136)
+./scripts/run_all_tests.sh --db
 
-echo ""
-echo ">> DB maintenance CLI (71)"
-./scripts/test_db_maintenance.sh
-
-echo ""
-echo ">> DB maintenance integration (65)"
-./scripts/run_db_integration_tests.sh
-
-echo ""
-echo "==========================================="
-echo " Expected: 282 PASS, 0 FAIL"
-echo "==========================================="
+# Help
+./scripts/run_all_tests.sh --help
 ```
+
+Output includes color-coded results per suite, date/branch/commit header, and exit code 0 (all pass) or 1 (any fail).
+
+If `sqlcipher` is not installed, DB CLI tests are skipped with a warning.
 
 ---
 
-## 9. Writing New Tests
+## 9. Evaluating Test Results (Auswertung)
+
+### Meson Summary Output
+
+```
+1/5 Tests for main      OK              0.01s
+2/5 Tests for xmpp-vala OK              0.03s
+3/5 Tests for omemo     OK              0.27s
+4/5 bot-features-test   OK              2.21s
+5/5 Tests for libdino   OK              9.68s
+
+Ok:                 5
+Expected Fail:      0
+Fail:               0        <-- MUST be 0
+Unexpected Pass:    0
+Skipped:            0
+Timeout:            0
+```
+
+| Field | Meaning |
+|-------|---------|
+| **Ok** | Suites that passed all their tests |
+| **Fail** | Suites with at least one failing test -- investigate immediately |
+| **Timeout** | Suite took too long (default: 30s) -- may indicate infinite loop |
+| **Skipped** | Suite was skipped (missing dependency) |
+
+### TAP Output (single-binary run)
+
+```
+TAP version 13
+1..16
+ok 1 /PreferencesRow/GObject_Text_title_roundtrip
+ok 2 /PreferencesRow/GObject_Text_text_roundtrip
+not ok 3 /PreferencesRow/GObject_Text_media_type_nullable   <-- FAILURE
+# GLib.Test message: media_type should default to null
+```
+
+| Output | Meaning |
+|--------|---------|
+| `ok N /path/name` | Test passed |
+| `not ok N /path/name` | Test **FAILED** |
+| Lines starting with `#` after `not ok` | Failure message with spec violation |
+| `1..N` | Total test count declared |
+
+### When a Test Fails
+
+1. Read the failure message -- it names the spec violation
+2. The test name prefix tells you which spec: `RFC7622_` = JID format, `SP800_38D_` = AES-GCM, etc.
+3. Look up the spec section referenced in the test's doc comment
+4. Fix the code to match the spec, not the other way around
+5. Re-run: `ninja -C build test`
+
+**Rule: Tests must find bugs. Never change a test to make it pass -- fix the code.**
+
+### Exit Codes
+
+| Exit Code | Meaning |
+|-----------|---------|
+| 0 | All tests passed |
+| 1 | At least one test failed |
+| 77 | Test was skipped |
+| 99 | Hard error (segfault, build failure) |
+
+### Build Log Location
+
+After `meson test`, full logs are in: `build/meson-logs/testlog.txt`
+
+---
+
+## 10. Writing New Tests
 
 ### Spec-Based Test (Gee.TestCase)
 
@@ -574,14 +713,28 @@ TestSuite.get_root().add_suite(new MySpecTest().get_suite());
 GLib.Test.run();
 ```
 
+### Naming Convention
+
+```
+{SPEC}_{what_is_tested}
+
+Examples:
+  RFC7622_valid_bare_jid           -- RFC 7622: valid bare JID parses
+  SP800_38D_tag_is_128_bits        -- NIST SP 800-38D: GCM tag length
+  CONTRACT3_keys_independent       -- Contract #3: keys isolated
+  GObject_Entry_changed_signal     -- GObject signal: Entry.changed
+  RFC8259_newline_raw_in_json      -- RFC 8259 S7: JSON string escaping
+```
+
 ### Golden Rules
 
 1. **Tests must find bugs**, not follow code
-2. **Every test references its spec** (RFC, XEP, NIST, contract)
+2. **Every test name carries its spec** (RFC, XEP, NIST, CONTRACT, GObject)
 3. **Parse real XML** via StanzaReader, not StanzaNode roundtrips
 4. **Async tests** with `add_async_test()` + `Gee.TestFinishedCallback`
 5. **Error messages** name the spec violation
+6. **Never change a test to make it pass** -- fix the code
 
 ---
 
-*Last updated: 23 February 2026 -- v1.1.2.8, 146 Meson tests (all spec-prefixed), 16 UI tests*
+*Last updated: 23 February 2026 -- v1.1.2.9, 146 Meson tests (all spec-prefixed), 5 suites, 0 failures*

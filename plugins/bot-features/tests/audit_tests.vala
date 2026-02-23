@@ -11,9 +11,9 @@ class RateLimiterAudit : Gee.TestCase {
 
     public RateLimiterAudit() {
         base("Audit_RateLimiter");
-        add_test("zero_window_must_not_allow_unlimited", test_zero_window);
-        add_test("negative_max_must_block_all", test_negative_max);
-        add_test("int_overflow_in_cleanup_staleness", test_cleanup_overflow);
+        add_test("CONTRACT_zero_window_must_not_allow_unlimited", test_zero_window);
+        add_test("CONTRACT_negative_max_must_block_all", test_negative_max);
+        add_test("CONTRACT_int_overflow_in_cleanup_staleness", test_cleanup_overflow);
     }
 
     /*
@@ -73,10 +73,10 @@ class JSONEscapeAudit : Gee.TestCase {
 
     public JSONEscapeAudit() {
         base("Audit_JSONEscape");
-        add_test("backslash_before_quote_produces_invalid_json", test_backslash_escape);
-        add_test("newline_raw_in_json_string", test_newline_escape);
-        add_test("tab_raw_in_json_string", test_tab_escape);
-        add_test("null_byte_in_description", test_null_byte);
+        add_test("RFC8259_backslash_before_quote_produces_invalid_json", test_backslash_escape);
+        add_test("RFC8259_newline_raw_in_json_string", test_newline_escape);
+        add_test("RFC8259_tab_raw_in_json_string", test_tab_escape);
+        add_test("RFC8259_null_byte_in_description", test_null_byte);
     }
 
     /*
