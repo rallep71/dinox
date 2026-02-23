@@ -325,10 +325,28 @@ namespace Dino.Plugins.OpenPgp {
                 return null;
             }
             
-            // Extract base64 content between headers
-            // Format: -----BEGIN PGP MESSAGE-----\n\n[base64]\n-----END PGP MESSAGE-----
+            string? result = extract_encrypted_from_armor(encr);
+            if (result != null) {
+                debug("OpenPGP gpg_encrypt: Extracted (length %d)", result.length);
+            }
+            return result;
+        }
+
+        /**
+         * Extract base64 content from PGP MESSAGE armor.
+         *
+         * Format:
+         *   -----BEGIN PGP MESSAGE-----
+         *   (optional headers)
+         *
+         *   [base64 data]
+         *   -----END PGP MESSAGE-----
+         *
+         * Returns null if no valid armor found.
+         */
+        internal static string? extract_encrypted_from_armor(string raw) {
             // Note: Windows GPG may use \r\n, so normalize first
-            string normalized = encr.replace("\r\n", "\n");
+            string normalized = raw.replace("\r\n", "\n");
             
             int begin_marker = normalized.index_of("-----BEGIN PGP MESSAGE-----");
             if (begin_marker == -1) {
@@ -352,10 +370,7 @@ namespace Dino.Plugins.OpenPgp {
             
             // Extract only the base64 part
             string base64_content = normalized.substring(content_start, end_marker - content_start);
-            base64_content = base64_content.strip();
-            
-            debug("OpenPGP gpg_encrypt: Extracted (length %d)", base64_content.length);
-            return base64_content;
+            return base64_content.strip();
         }
 
         private static string? gpg_sign(string str, GPGHelper.Key key) {
@@ -367,49 +382,67 @@ namespace Dino.Plugins.OpenPgp {
                 return null;
             }
             
-            // Debug: log full GPG output
             debug("OpenPGP gpg_sign: Full GPG output:\n%s", signed);
             
-            // For detached signature, extract just the base64 part
-            // GPG output format:
-            // -----BEGIN PGP SIGNATURE-----
-            // 
-            // iQIzBAABCAAdFiEE...   (base64 data, may have newlines every 64 chars)
-            // =XXXX                  (checksum)
-            // -----END PGP SIGNATURE-----
-            
-            int begin_marker = signed.index_of("-----BEGIN PGP SIGNATURE-----");
+            string? result = extract_signature_from_armor(signed);
+            if (result != null) {
+                debug("OpenPGP gpg_sign: Extracted signature (length %d):\n%s", result.length, result);
+            }
+            return result;
+        }
+
+        /**
+         * Extract base64 content from PGP SIGNATURE armor.
+         *
+         * GPG output format:
+         *   -----BEGIN PGP SIGNATURE-----
+         *   Hash: SHA256              (optional header lines)
+         *
+         *   iQIzBAABCAAdFiEE...       (base64 data, 64-char wrapped)
+         *   =XXXX                      (CRC24 checksum)
+         *   -----END PGP SIGNATURE-----
+         *
+         * Returns null if armor is malformed.
+         *
+         * FRAGILITY NOTE: The fallback path (when \n\n is missing) uses an
+         * offset of +30 to skip the BEGIN header. This is a magic number and
+         * the +2 adjustment after it assumes \n\n was found, causing an
+         * off-by-one in the fallback path.
+         */
+        internal static string? extract_signature_from_armor(string raw) {
+            int begin_marker = raw.index_of("-----BEGIN PGP SIGNATURE-----");
             if (begin_marker == -1) {
                 debug("OpenPGP: No PGP SIGNATURE header found in signed output");
                 return null;
             }
             
             // Find the empty line after any headers (Hash: SHA256, etc.)
-            int content_start = signed.index_of("\n\n", begin_marker);
-            if (content_start == -1) {
-                // Try with just one newline
-                content_start = signed.index_of("\n", begin_marker + 30);
+            int content_start = raw.index_of("\n\n", begin_marker);
+            if (content_start != -1) {
+                content_start += 2; // Skip the \n\n
+            } else {
+                // Fallback: no blank line separator. Find first \n after header.
+                int header_end = raw.index_of("\n", begin_marker);
+                if (header_end == -1) {
+                    return null;
+                }
+                content_start = header_end + 1; // Skip the single \n
             }
-            content_start += 2; // Skip the \n\n
             
-            int end_marker = signed.index_of("-----END PGP SIGNATURE-----");
+            int end_marker = raw.index_of("-----END PGP SIGNATURE-----");
             if (end_marker == -1) {
                 debug("OpenPGP: No END PGP SIGNATURE footer found");
                 return null;
             }
             
             // Extract the base64 content (includes checksum line like =XXXX)
-            string base64_content = signed.substring(content_start, end_marker - content_start);
+            string base64_content = raw.substring(content_start, end_marker - content_start);
             
             // Remove newlines to get pure base64
             base64_content = base64_content.replace("\r\n", "\n").replace("\r", "");
             
             // Strip trailing newline
-            base64_content = base64_content.strip();
-            
-            debug("OpenPGP gpg_sign: Extracted signature (length %d):\n%s", base64_content.length, base64_content);
-            
-            return base64_content;
+            return base64_content.strip();
         }
     }
 

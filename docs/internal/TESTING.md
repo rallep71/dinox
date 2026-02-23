@@ -3,7 +3,7 @@
 Complete inventory of all automated tests in the DinoX project.
 Every test references its authoritative specification or contract.
 
-**Status: v1.2.0.0 -- 288 Meson tests + 136 standalone tests = 424 automated tests, 0 failures**
+**Status: v1.3.0.0 -- 335 Meson tests + 136 standalone tests = 471 automated tests, 0 failures**
 
 ---
 
@@ -13,7 +13,7 @@ Every test references its authoritative specification or contract.
 # All tests at once (recommended)
 ./scripts/run_all_tests.sh
 
-# Only Meson-registered tests (6 suites, 288 tests)
+# Only Meson-registered tests (6 suites, 335 tests)
 ./scripts/run_all_tests.sh --meson
 
 # Only DB maintenance tests (136 standalone)
@@ -54,9 +54,9 @@ export LD_LIBRARY_PATH=build/libdino:build/xmpp-vala:build/qlite:build/crypto-va
 build/xmpp-vala/xmpp-vala-test     # 142 tests
 build/libdino/libdino-test          # 29 tests
 build/main/main-test                # 16 tests
-build/plugins/omemo/omemo-test      # 61 tests
+build/plugins/omemo/omemo-test      # 76 tests
 build/plugins/bot-features/bot-features-test  # 24 tests
-build/plugins/openpgp/openpgp-test  # 16 tests
+build/plugins/openpgp/openpgp-test  # 48 tests
 ```
 
 ### Running a single test by name
@@ -98,7 +98,7 @@ build/xmpp-vala/xmpp-vala-test --verbose
 
 ---
 
-## 1. Meson-Registered Tests (288 Tests)
+## 1. Meson-Registered Tests (335 Tests)
 
 Compiled and executed via `ninja -C build test`.
 Framework: GLib.Test + `Gee.TestCase` with `add_async_test()` for async XML parsing.
@@ -341,7 +341,7 @@ namespace constants, data classes, roundtrip serialization, random padding, modu
 | 28 | `RFC8259_newline_not_escaped_in_send_error` | RFC 8259 S7 | Newline in JSON string escaped |
 | 29 | `RFC8259_tab_not_escaped_in_send_error` | RFC 8259 S7 | Tab in JSON string escaped |
 
-### 1.3 OMEMO (61 Tests)
+### 1.3 OMEMO (76 Tests)
 
 **Target:** `omemo-test` -- `plugins/omemo/meson.build`
 
@@ -445,6 +445,36 @@ non-numeric IDs, missing keys/signatures.
 | 60 | `XEP0384v08_bundle_missing_sig_null` | XEP-0384 v0.8 | Missing spks → null signature |
 | 61 | `XEP0384v08_bundle_missing_ik_null` | XEP-0384 v0.8 | Missing ik → null identity key |
 
+#### Omemo2Crypto (12 Tests) -- XEP-0384 v0.8 Encrypt/Decrypt Pipeline
+
+Security audit tests for the HKDF→AES-256-CBC→HMAC-SHA-256 pipeline.
+Required extracting `omemo2_encrypt_payload()` and `omemo2_decrypt_payload()` as `internal static`.
+
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
+| 62 | `XEP0384v08_encrypt_decrypt_roundtrip` | XEP-0384 v0.8 S4 | Encrypt then decrypt recovers plaintext |
+| 63 | `XEP0384v08_roundtrip_empty_plaintext` | XEP-0384 v0.8 S4 | Empty input roundtrips (PKCS7 pads to 16) |
+| 64 | `XEP0384v08_roundtrip_large_plaintext` | XEP-0384 v0.8 S4 | 4KB plaintext roundtrip |
+| 65 | `XEP0384v08_mk_with_tag_is_48_bytes` | XEP-0384 v0.8 S4 | mk_with_tag = 32 mk + 16 HMAC = 48 bytes |
+| 66 | `XEP0384v08_ciphertext_padded_to_block` | XEP-0384 v0.8 S4 | AES-CBC ciphertext is multiple of 16 |
+| 67 | `XEP0384v08_same_mk_same_plaintext_same_output` | XEP-0384 v0.8 | Deterministic: same mk → same ciphertext |
+| 68 | `XEP0384v08_different_mk_different_ciphertext` | XEP-0384 v0.8 | Different mk → different ciphertext |
+| 69 | `XEP0384v08_tampered_ciphertext_fails_hmac` | XEP-0384 v0.8 | Flipped ciphertext bit → HMAC reject |
+| 70 | `XEP0384v08_tampered_tag_fails_hmac` | XEP-0384 v0.8 | Flipped auth_tag bit → HMAC reject |
+| 71 | `XEP0384v08_truncated_mk_and_tag_rejected` | XEP-0384 v0.8 | mk_with_tag < 48 bytes → error |
+| 72 | `XEP0384v08_single_byte_plaintext` | XEP-0384 v0.8 | 1 byte → 16 bytes ciphertext (PKCS7) |
+| 73 | `XEP0384v08_exactly_16_byte_plaintext` | XEP-0384 v0.8 | 16 bytes → 32 bytes ciphertext (PKCS7 full block) |
+
+#### SessionVersionGuard (3 Tests) -- XEP-0384 v1/v2 Guard
+
+Tests for the session version detection that prevents v4 sessions in the v1 encryptor.
+
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
+| 74 | `XEP0384_v3_session_reports_version_3` | XEP-0384 | v3 session → cipher reports version 3, guard does not fire |
+| 75 | `XEP0384_session_cipher_version_matches_record` | XEP-0384 | SessionCipher version == SessionRecord version |
+| 76 | `XEP0384_no_session_version_zero` | XEP-0384 | No session → get_session_version throws SG_ERR_NO_SESSION |
+
 ### 1.4 Main / UI View Models (16 Tests)
 
 **Target:** `main-test` -- `main/meson.build`
@@ -472,7 +502,7 @@ Pure GObject view model classes (zero GTK dependency). First UI-layer tests in t
 | 15 | `GObject_Button_clicked_signal_fires` | GObject signal | clicked fires, multiple clicks counted |
 | 16 | `GObject_inheritance_all_subtypes_are_Any` | GObject type | Text, Entry, PrivateText, Toggle, ComboBox, Button are-a Any |
 
-### 1.5 OpenPGP (16 Tests)
+### 1.5 OpenPGP (48 Tests)
 
 **Target:** `openpgp-test` -- `plugins/openpgp/meson.build`
 
@@ -500,6 +530,55 @@ First test suite for the openpgp plugin (new test infrastructure).
 | 14 | `XEP0374_extract_pgp_data_missing_footer` | XEP-0374 | Missing END footer → rest of data |
 | 15 | `XEP0374_extract_pgp_data_empty` | XEP-0374 | Empty input → base64 fallback |
 | 16 | `XEP0374_extract_pgp_data_preserves_base64` | XEP-0374 | Base64 data preserved exactly |
+
+#### GPGKeylistParser (16 Tests) -- `gpg_cli_helper.vala::parse_keylist_output()`
+
+**Target:** Extracted `internal static parse_keylist_output()` from `get_keylist()`.
+Parses GPG `--with-colons` output into `Key` objects (fpr, keyid, uid, email, flags).
+
+| # | Test Name | Spec | Description |
+|---|-----------|------|-------------|
+| 17 | `GPG_keylist_empty_output` | GPG colons | Empty string → empty list |
+| 18 | `GPG_keylist_single_pub_key` | GPG colons | pub+fpr+uid → 1 Key, fpr/keyid/uid/email correct |
+| 19 | `GPG_keylist_single_sec_key` | GPG colons | sec+fpr+uid → Key.secret = true |
+| 20 | `GPG_keylist_expired_key` | GPG colons | validity "e" → Key.expired = true |
+| 21 | `GPG_keylist_revoked_key` | GPG colons | validity "r" → Key.revoked = true |
+| 22 | `GPG_keylist_email_normal` | GPG colons | `<alice@example.com>` extracted from uid |
+| 23 | `GPG_keylist_email_no_brackets` | GPG colons | No `<>` → email = null |
+| 24 | `GPG_keylist_email_malformed_brackets` | GPG colons | `<no-at-sign>` → extracted verbatim |
+| 25 | `GPG_keylist_fpr_to_keyid_40char` | GPG colons | Last 16 of 40-char fpr = keyid |
+| 26 | `GPG_keylist_subkey_fpr_skipped` | GPG colons | fpr after ssb/sub → not used as main fpr |
+| 27 | `GPG_keylist_multiple_keys` | GPG colons | Two pub blocks → 2 Key objects |
+| 28 | `GPG_keylist_no_uid_not_added` | GPG colons | pub+fpr but no uid → key not in list |
+| 29 | `GPG_keylist_no_fpr_not_added` | GPG colons | pub+uid but no fpr → key not in list |
+| 30 | `GPG_keylist_malformed_line` | GPG colons | Short/garbage lines skipped |
+| 31 | `GPG_keylist_only_first_uid` | GPG colons | Multiple uid lines → only first captured |
+| 32 | `GPG_keylist_fpr_short` | GPG colons | fpr < 16 chars → keyid = fpr |
+
+#### ArmorParser (16 Tests) -- `stream_module.vala::extract_signature/encrypted_from_armor()`
+
+**Target:** Extracted `internal static extract_signature_from_armor()` and `extract_encrypted_from_armor()`.
+**Bug #18 FIXED:** Fallback path used `begin_marker + 30` magic offset with unconditional `+2`,
+extracting `----END PGP SIGNATURE-----` instead of base64 data.
+
+| # | Test Name | Spec | Description |
+|---|-----------|------|-------------|
+| 33 | `XEP0027_sig_normal_armor` | XEP-0027 | Standard armor → base64 extracted |
+| 34 | `XEP0027_sig_with_hash_header` | XEP-0027 | Hash: SHA256 header → skipped to base64 |
+| 35 | `XEP0027_sig_multiline_base64` | XEP-0027 | Multi-line base64 → all lines joined |
+| 36 | `XEP0027_sig_with_crc24` | XEP-0027 | CRC24 checksum line → included |
+| 37 | `XEP0027_sig_no_begin` | XEP-0027 | Missing BEGIN → null |
+| 38 | `XEP0027_sig_no_end` | XEP-0027 | Missing END → null |
+| 39 | `XEP0027_sig_crlf` | XEP-0027 | CRLF line endings → normalized |
+| 40 | `XEP0027_sig_fallback_no_blank_line` | XEP-0027 | No blank line separator → Bug #18 fix verified |
+| 41 | `XEP0027_sig_empty_base64` | XEP-0027 | Empty base64 between headers → empty string |
+| 42 | `XEP0027_enc_normal_armor` | XEP-0027 | Standard encrypted armor → base64 extracted |
+| 43 | `XEP0027_enc_no_header` | XEP-0027 | Missing BEGIN → null |
+| 44 | `XEP0027_enc_no_blank_line` | XEP-0027 | No blank line separator → null (no fallback) |
+| 45 | `XEP0027_enc_no_footer` | XEP-0027 | Missing END → null |
+| 46 | `XEP0027_enc_crlf` | XEP-0027 | CRLF line endings → normalized |
+| 47 | `XEP0027_enc_multiline` | XEP-0027 | Multi-line base64 → all lines joined |
+| 48 | `XEP0027_enc_with_version_header` | XEP-0027 | Version: header → skipped to base64 |
 
 ### 1.6 Bot-Features (24 Tests)
 
@@ -640,7 +719,7 @@ Every test references its authoritative source:
 ## 5. Test Architecture
 
 ```
-ninja -C build test                    Meson-registered (288 tests)
+ninja -C build test                    Meson-registered (335 tests)
   |-- xmpp-vala-test                   12 suites, 142 tests (GLib.Test)
   |     |-- Stanza (4)                   RFC 6120 S4 stream/namespace
   |     |-- util (5)                     xs:hexBinary parsing contract
@@ -667,16 +746,20 @@ ninja -C build test                    Meson-registered (288 tests)
   |-- main-test                        1 suite, 16 tests (GLib.Test)
   |     +-- PreferencesRow (16)          GObject property/signal contract
   |
-  |-- omemo-test                       7 suites, 61 tests (GLib.Test)
+  |-- omemo-test                       9 suites, 76 tests (GLib.Test)
   |     |-- Curve25519 (4)               RFC 7748 key agreement
   |     |-- SessionBuilder (5)           Signal Protocol / XEP-0384
   |     |-- HKDF (1)                     RFC 5869 test vector
   |     |-- FileDecryptor (20)           RFC 4648 + XEP-0454 security audit
   |     |-- DecryptLogic (15)            CWE-208 constant-time + arr_to_str
-  |     +-- BundleParser (16)            XEP-0384 v0.3 + v0.8 XML parser audit
+  |     |-- BundleParser (16)            XEP-0384 v0.3 + v0.8 XML parser audit
+  |     |-- Omemo2Crypto (12)            HKDF→AES→HMAC encrypt/decrypt roundtrip
+  |     +-- SessionVersionGuard (3)      v3↔v4 session version detection
   |
-  |-- openpgp-test                     1 suite, 16 tests (GLib.Test)
-  |     +-- StreamModuleLogic (16)       XEP-0374 extract_body + extract_pgp_data
+  |-- openpgp-test                     3 suites, 48 tests (GLib.Test)
+  |     |-- StreamModuleLogic (16)       XEP-0374 extract_body + extract_pgp_data
+  |     |-- GPGKeylistParser (16)        GPG --with-colons keylist parser
+  |     +-- ArmorParser (16)             XEP-0027 signature/encrypted armor parser
   |
   +-- bot-features-test                4 suites, 24 tests (GLib.Test)
         |-- RateLimiter (9)              Contract-based (C-1 to C-8)
@@ -726,7 +809,8 @@ scripts/run_db_integration_tests.sh    Vala, 65 tests (Qlite)
 | **http-files plugin** | No tests | Medium |
 | **ice plugin** | No tests | High -- ICE/STUN/TURN networking |
 | **notification-sound plugin** | No tests | Low -- pure GStreamer pipeline |
-| **openpgp plugin** | Stanza tests via xmpp-vala (36 tests). Plugin logic: No tests | Medium |\n| **omemo plugin** | 30 tests (Curve25519, Signal, HKDF, FileDecryptor). Encrypt/decrypt logic: No tests | Medium |
+| **openpgp plugin** | 48 tests (StreamModuleLogic, GPGKeylistParser, ArmorParser). GPG binary integration: No tests | Medium |
+| **omemo plugin** | 76 tests (Curve25519, Signal, HKDF, FileDecryptor, DecryptLogic, BundleParser, Omemo2Crypto, SessionVersionGuard). Full session encrypt/decrypt: No tests | Medium |
 | **rtp plugin** | No tests | High -- real-time media |
 | **tor-manager plugin** | No tests | Medium -- SOCKS5 proxy |
 | **Network/protocol integration** | No mock XMPP server | High |
@@ -957,4 +1041,4 @@ Examples:
 
 ---
 
-*Last updated: 23 February 2026 -- v1.2.0.0, 288 Meson tests (all spec-prefixed), 6 suites, 0 failures*
+*Last updated: 23 February 2026 -- v1.3.0.0, 335 Meson tests (all spec-prefixed), 6 suites, 0 failures*

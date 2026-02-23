@@ -140,7 +140,36 @@ namespace Dino.Plugins.Omemo {
             uint8[] mk = new uint8[MK_SIZE];
             Plugin.get_context().randomize(mk);
 
-            /* 3. HKDF to derive enc_key, auth_key, iv */
+            /* 3-6. Crypto pipeline */
+            uint8[] ciphertext;
+            uint8[] mk_with_tag;
+            omemo2_encrypt_payload(mk, sce_bytes, out ciphertext, out mk_with_tag);
+
+            var ret = new Omemo2EncryptionData(own_device_id);
+            ret.ciphertext = ciphertext;
+            ret.message_key = mk_with_tag;
+
+            // Zeroize sensitive key material
+            Memory.set(mk, 0, MK_SIZE);
+
+            return ret;
+        }
+
+        /**
+         * Pure crypto pipeline: HKDF → AES-256-CBC → HMAC-SHA-256.
+         *
+         * Deterministic given (mk, plaintext). No I/O, no RNG,
+         * no Account/Store/Plugin dependencies.
+         *
+         * @param mk           32-byte message key (caller-generated)
+         * @param plaintext     SCE envelope bytes to encrypt
+         * @param ciphertext    [out] AES-256-CBC-PKCS7 ciphertext
+         * @param mk_with_tag  [out] mk || truncated_hmac (48 bytes)
+         */
+        internal static void omemo2_encrypt_payload(uint8[] mk, uint8[] plaintext,
+                out uint8[] ciphertext, out uint8[] mk_with_tag) throws GLib.Error {
+
+            /* HKDF-SHA-256(mk, salt=32_zeros, info="OMEMO Payload") → 80 bytes */
             uint8[] salt = new uint8[HKDF_SALT_SIZE];
             Memory.set(salt, 0, HKDF_SALT_SIZE);
             uint8[] hkdf_output = new uint8[HKDF_OUTPUT_SIZE];
@@ -153,35 +182,27 @@ namespace Dino.Plugins.Omemo {
             uint8[] auth_key = hkdf_output[32:64];
             uint8[] iv = hkdf_output[64:80];
 
-            /* 4. AES-256-CBC-PKCS7 encrypt */
-            uint8[] ciphertext;
+            /* AES-256-CBC-PKCS7 encrypt */
             size_t ciphertext_len;
             rc = omemo2_aes_256_cbc_pkcs7_encrypt(out ciphertext, out ciphertext_len,
-                enc_key, iv, sce_bytes);
+                enc_key, iv, plaintext);
             if (rc != 0) throw new GLib.Error(Quark.from_string("omemo2"), 2, "AES-256-CBC encrypt failed");
             ciphertext.length = (int)ciphertext_len;
 
-            /* 5. HMAC-SHA-256 auth tag (truncated to 16 bytes) */
+            /* HMAC-SHA-256 auth tag (truncated to 16 bytes) */
             uint8[] auth_tag = new uint8[16];
             rc = omemo2_hmac_sha256(auth_tag, 16, auth_key, ciphertext);
             if (rc != 0) throw new GLib.Error(Quark.from_string("omemo2"), 3, "HMAC-SHA-256 failed");
 
-            /* 6. Build mk || auth_tag = 48 bytes (encrypted per device) */
-            uint8[] mk_with_tag = new uint8[MK_SIZE + 16];
+            /* Build mk || auth_tag = 48 bytes */
+            mk_with_tag = new uint8[MK_SIZE + 16];
             Memory.copy(mk_with_tag, mk, MK_SIZE);
             Memory.copy((uint8*)mk_with_tag + MK_SIZE, auth_tag, 16);
 
-            var ret = new Omemo2EncryptionData(own_device_id);
-            ret.ciphertext = ciphertext;
-            ret.message_key = mk_with_tag;  /* 48 bytes: mk || auth_tag */
-
-            // Zeroize sensitive key material
-            Memory.set(mk, 0, MK_SIZE);
+            // Zeroize intermediates
             Memory.set(hkdf_output, 0, HKDF_OUTPUT_SIZE);
             Memory.set(enc_key, 0, 32);
             Memory.set(auth_key, 0, 32);
-
-            return ret;
         }
 
         internal EncryptState encrypt_key_to_recipients(Omemo2EncryptionData enc_data, Jid self_jid, Gee.List<Jid> recipients, XmppStream stream) throws Error {

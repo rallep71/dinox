@@ -4,6 +4,8 @@ int main(string[] args) {
     GLib.Test.init(ref args);
     GLib.Test.set_nonfatal_assertions();
     TestSuite.get_root().add_suite(new StreamModuleLogicTest().get_suite());
+    TestSuite.get_root().add_suite(new GPGKeylistParserTest().get_suite());
+    TestSuite.get_root().add_suite(new ArmorParserTest().get_suite());
     return GLib.Test.run();
 }
 

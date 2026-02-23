@@ -960,11 +960,27 @@ public static Gee.List<Key> get_keylist(string? pattern = null, bool secret_only
         }
     }
     
-    // Parse output
+    return parse_keylist_output(stdout_str);
+}
+
+/**
+ * Parse GPG --with-colons output into a list of Key objects.
+ *
+ * Pure function — no GPG binary needed. Extracted from get_keylist()
+ * for testability.
+ *
+ * Record types handled:
+ *   pub/sec  → new Key, read validity (e=expired, r=revoked)
+ *   fpr      → fingerprint, derive keyid (last 16 chars)
+ *   uid      → user ID + email extraction from <…>
+ *   ssb/sub  → skip subkey fingerprints
+ */
+internal static Gee.List<Key> parse_keylist_output(string gpg_stdout) {
+    var keys = new ArrayList<Key>();
     Key? current_key = null;
     bool expect_fpr = false;
     
-    foreach (string line in stdout_str.split("\n")) {
+    foreach (string line in gpg_stdout.split("\n")) {
         var parts = line.split(":");
         if (parts.length < 2) continue;
         

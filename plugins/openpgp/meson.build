@@ -60,6 +60,8 @@ test_sources = [
     'tests/common.vala',
     'tests/testcase.vala',
     'tests/stream_module_logic.vala',
+    'tests/gpg_keylist_parser.vala',
+    'tests/armor_parser.vala',
     'vapi/gpg-error.vapi',
 ]
 test_vala_args = [

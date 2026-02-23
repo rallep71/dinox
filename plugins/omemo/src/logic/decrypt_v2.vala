@@ -226,6 +226,31 @@ namespace Dino.Plugins.Omemo {
          * Returns the full SCE envelope for processing all content nodes.
          */
         private async Xep.Sce.Envelope decrypt_envelope(uint8[] ciphertext, uint8[] mk_and_tag) throws GLib.Error {
+            uint8[] plaintext = omemo2_decrypt_payload(ciphertext, mk_and_tag);
+
+            /* Parse SCE envelope */
+            Xep.Sce.Envelope? envelope = yield Xep.Sce.Envelope.from_xml(plaintext);
+            if (envelope == null) {
+                throw new GLib.Error(Quark.from_string("omemo2"), 15, "Failed to parse SCE envelope");
+            }
+
+            debug("OMEMO 2: SCE envelope decoded, %d content nodes, body=%s",
+                  envelope.content_nodes.size, envelope.get_body() != null ? "yes" : "no");
+
+            return envelope;
+        }
+
+        /**
+         * Pure crypto pipeline for decryption: HKDF → HMAC verify → AES-256-CBC decrypt.
+         *
+         * Inverse of Omemo2Encrypt.omemo2_encrypt_payload().
+         * Deterministic given (ciphertext, mk_and_tag). No I/O, no async.
+         *
+         * @param ciphertext    AES-256-CBC ciphertext
+         * @param mk_and_tag   mk || truncated_hmac (48 bytes)
+         * @return              decrypted plaintext bytes
+         */
+        internal static uint8[] omemo2_decrypt_payload(uint8[] ciphertext, uint8[] mk_and_tag) throws GLib.Error {
             if (mk_and_tag.length < MK_SIZE + 16) {
                 throw new GLib.Error(Quark.from_string("omemo2"), 10, "Decrypted key too short (got %d, need %d)", mk_and_tag.length, MK_SIZE + 16);
             }
@@ -263,16 +288,7 @@ namespace Dino.Plugins.Omemo {
             if (rc != 0) throw new GLib.Error(Quark.from_string("omemo2"), 14, "AES-256-CBC decrypt failed");
             plaintext.length = (int)plaintext_len;
 
-            /* Parse SCE envelope */
-            Xep.Sce.Envelope? envelope = yield Xep.Sce.Envelope.from_xml(plaintext);
-            if (envelope == null) {
-                throw new GLib.Error(Quark.from_string("omemo2"), 15, "Failed to parse SCE envelope");
-            }
-
-            debug("OMEMO 2: SCE envelope decoded, %d content nodes, body=%s",
-                  envelope.content_nodes.size, envelope.get_body() != null ? "yes" : "no");
-
-            return envelope;
+            return plaintext;
         }
 
         /**

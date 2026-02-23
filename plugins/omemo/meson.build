@@ -88,8 +88,10 @@ test_sources = [
     'tests/native/file_decryptor.vala',
     'tests/native/decrypt_logic.vala',
     'tests/native/bundle_parser.vala',
+    'tests/native/omemo2_crypto.vala',
     'tests/native/hkdf.vala',
     'tests/native/session_builder.vala',
+    'tests/native/session_version_guard.vala',
 ]
 test_vala_args = [
     '--vapidir', meson.current_source_dir() / 'vapi',
