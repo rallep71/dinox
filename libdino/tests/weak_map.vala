@@ -87,11 +87,6 @@ namespace Dino.Test {
 
             assert_false(map.has_key(0));
         }
-
-        private void test_non_object_construction() {
-            WeakMap<int, int> map = new WeakMap<int, int>();
-            assert_not_reached();
-        }
     }
 
 }
