@@ -1,6 +1,20 @@
 #!/bin/bash
 set -e
 
+# ============================================================================
+# Custom dependency builder for CI
+#
+# TODO: Check periodically for newer versions!
+# Current versions (last checked: 2026-02-24):
+#   SQLCipher              4.5.6   https://github.com/sqlcipher/sqlcipher/releases
+#   webrtc-audio-processing v2.1   https://gitlab.freedesktop.org/pulseaudio/webrtc-audio-processing/-/tags
+#   libnice                0.1.23  https://gitlab.freedesktop.org/libnice/libnice/-/tags
+#   libomemo-c             (fork)  https://github.com/rallep71/libomemo-c
+#
+# When updating versions: bump the *_VER variables below. The CI cache
+# key is derived from this file's hash, so any edit auto-invalidates caches.
+# ============================================================================
+
 # Checks if running as root, otherwise use sudo
 SUDO=""
 if [ "$(id -u)" != "0" ]; then

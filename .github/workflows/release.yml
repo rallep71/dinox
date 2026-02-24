@@ -38,9 +38,15 @@ jobs:
           sudo apt-get install -y flatpak flatpak-builder elfutils
           flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
+      - name: "Cache Flatpak Builder"
+        uses: actions/cache@v4
+        with:
+          path: .flatpak-builder
+          key: flatpak-x86_64-${{ hashFiles('im.github.rallep71.DinoX.json') }}
+          restore-keys: flatpak-x86_64-
+
       - name: "Build Flatpak"
         run: |
-          # Install dependencies and build
           flatpak-builder --user --install-deps-from=flathub --force-clean --default-branch=master --repo=repo build-dir im.github.rallep71.DinoX.json
           
           # Create bundle
@@ -76,6 +82,13 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y flatpak flatpak-builder elfutils
           flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+
+      - name: "Cache Flatpak Builder"
+        uses: actions/cache@v4
+        with:
+          path: .flatpak-builder
+          key: flatpak-aarch64-${{ hashFiles('im.github.rallep71.DinoX.json') }}
+          restore-keys: flatpak-aarch64-
 
       - name: "Build Flatpak"
         run: |

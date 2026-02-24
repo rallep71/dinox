@@ -22,10 +22,27 @@ jobs:
             libgnutls28-dev libdbusmenu-glib-dev meson valac pkg-config \
             libjson-glib-dev libprotobuf-c-dev protobuf-c-compiler \
             gstreamer1.0-plugins-good
-      - name: "Build custom dependencies"
+      - name: "Cache custom dependencies"
+        id: cache-deps
+        uses: actions/cache@v4
+        with:
+          path: ~/ci-deps-cache
+          key: ci-deps-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('scripts/ci-build-deps.sh') }}
+      - name: "Restore cached dependencies"
+        if: steps.cache-deps.outputs.cache-hit == 'true'
         run: |
+          sudo tar xf ~/ci-deps-cache/deps.tar -C /
+          sudo ldconfig
+      - name: "Build custom dependencies"
+        if: steps.cache-deps.outputs.cache-hit != 'true'
+        run: |
+          touch /tmp/deps-marker && sleep 1
           chmod +x scripts/ci-build-deps.sh
           ./scripts/ci-build-deps.sh
+          mkdir -p ~/ci-deps-cache
+          cd / && sudo find usr/lib usr/include usr/bin usr/share/gir-1.0 usr/share/vala \
+            -newer /tmp/deps-marker \( -type f -o -type l \) 2>/dev/null | \
+            sudo tar cf ~/ci-deps-cache/deps.tar -T - 2>/dev/null || true
       - name: "Check A/V dependency versions"
         run: |
           set -euo pipefail
@@ -99,22 +116,59 @@ jobs:
             libgnutls28-dev libdbusmenu-glib-dev meson valac pkg-config \
             libjson-glib-dev libprotobuf-c-dev protobuf-c-compiler \
             gstreamer1.0-plugins-good
-      - name: "Build custom dependencies"
+      - name: "Cache custom dependencies"
+        id: cache-deps-nightly
+        uses: actions/cache@v4
+        with:
+          path: ~/ci-deps-cache
+          key: ci-deps-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('scripts/ci-build-deps.sh') }}
+      - name: "Restore cached dependencies"
+        if: steps.cache-deps-nightly.outputs.cache-hit == 'true'
         run: |
+          sudo tar xf ~/ci-deps-cache/deps.tar -C /
+          sudo ldconfig
+      - name: "Build custom dependencies"
+        if: steps.cache-deps-nightly.outputs.cache-hit != 'true'
+        run: |
+          touch /tmp/deps-marker && sleep 1
           chmod +x scripts/ci-build-deps.sh
           ./scripts/ci-build-deps.sh
+          mkdir -p ~/ci-deps-cache
+          cd / && sudo find usr/lib usr/include usr/bin usr/share/gir-1.0 usr/share/vala \
+            -newer /tmp/deps-marker \( -type f -o -type l \) 2>/dev/null | \
+            sudo tar cf ~/ci-deps-cache/deps.tar -T - 2>/dev/null || true
+      - name: "Get week number"
+        id: week
+        run: echo "week=$(date +%Y-W%V)" >> $GITHUB_OUTPUT
+      - name: "Cache Vala Nightly"
+        id: cache-vala
+        uses: actions/cache@v4
+        with:
+          path: ~/vala-cache
+          key: vala-nightly-${{ runner.os }}-${{ runner.arch }}-${{ steps.week.outputs.week }}
+      - name: "Restore cached Vala Nightly"
+        if: steps.cache-vala.outputs.cache-hit == 'true'
+        run: |
+          sudo apt-get remove -y valac && sudo apt-get autoremove -y
+          sudo tar xf ~/vala-cache/vala.tar -C /
+          sudo ldconfig
       - name: "Install Vala Nightly"
+        if: steps.cache-vala.outputs.cache-hit != 'true'
         run: |
           sudo apt-get install -y autoconf-archive gobject-introspection libgraphviz-dev
-          git clone https://gitlab.gnome.org/GNOME/vala.git/ vala-nightly
+          touch /tmp/vala-marker && sleep 1
+          git clone --depth 1 https://gitlab.gnome.org/GNOME/vala.git/ vala-nightly
           pushd vala-nightly
           ./autogen.sh --prefix=/usr
-          make -j5
-          sudo apt-get remove valac
-          sudo apt-get autoremove
+          make -j$(nproc)
+          sudo apt-get remove -y valac && sudo apt-get autoremove -y
           sudo make install
           popd
           rm -rf vala-nightly
+          mkdir -p ~/vala-cache
+          cd / && sudo find usr/lib usr/include usr/bin usr/share usr/libexec \
+            -newer /tmp/vala-marker \( -type f -o -type l \) 2>/dev/null | \
+            sudo tar cf ~/vala-cache/vala.tar -T - 2>/dev/null || true
       - name: "Check A/V dependency versions"
         run: |
           set -euo pipefail
@@ -185,6 +239,7 @@ jobs:
           manifest-path: im.github.rallep71.DinoX.json
           bundle: im.github.rallep71.DinoX.flatpak
           arch: x86_64
+          cache-key: flatpak-builder-${{ hashFiles('im.github.rallep71.DinoX.json') }}
 
       - name: "Upload Flatpak bundle"
         uses: actions/upload-artifact@v4
