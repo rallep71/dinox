@@ -1,6 +1,6 @@
 # DinoX - Development Plan
 
-> **Last Updated**: February 24, 2026 (v1.1.3.0)
+> **Last Updated**: February 24, 2026 (v1.1.3.1)
 > **Current Release Line**: 1.1.3.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.3.0 |
+| **Current Version** | 1.1.3.1 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (~85% translated) |
 | **Build Status** | Clean |
@@ -20,6 +20,17 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v1.1.3.1 (MUC/Avatar/GTK Warning Fixes, Panic Wipe Resync, URL Preview)
+
+- **MUC Close vs. Leave**: Separated hide from close/leave to prevent race conditions and unintended MUC departures.
+- **Avatar Fixes**: Removed debug prints, fixed portrait resize, removed redundant DB reads, added MUC avatar remove button.
+- **MUC Message Retraction**: Fixed wrong moderation ID, missing local feedback, feature cache race.
+- **GTK Warnings**: Fixed AdwBreakpointBin min > natural height (vhomogeneous + measure() override), sidebar placeholder wrapping.
+- **Panic Wipe Resync**: Added sync_not_before + panic marker to prevent MAM from restoring wiped data.
+- **GLib-GObject-CRITICAL**: Fixed realize_id not reset after handler disconnect.
+- **URL Preview vs. Reactions**: Fixed priority conflict (both priority 3), reactions moved to priority 4.
+- **CI**: aarch64 builds now optional (allow-failure).
 
 ### v1.1.3.0 (GTK4 Crash Fix, SRTP/SOCKS5 Audit Tests, Legacy Code Cleanup)
 

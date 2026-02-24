@@ -5,6 +5,27 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.3.1] - 2026-02-24
+
+### Fixed
+- **MUC Close vs. Leave Race Conditions**: Separated `hide_conversation()` from `close_conversation()` with new `conversation_hidden` signal. Closing a chat now only hides it instead of triggering a full MUC leave, preventing race conditions and unintended MUC departures.
+- **Avatar Debug Prints & Portrait Resize**: Removed leftover debug `print()` calls from avatar handling. Fixed portrait-mode avatar resize calculation. Preserved MUC vCard avatars correctly.
+- **Avatar Redundant DB Reads**: Removed unnecessary database reads on avatar display. Added MUC avatar remove button.
+- **MUC Message Retraction**: Fixed wrong moderation ID used for retraction, missing local feedback after retraction, and feature cache race condition.
+- **GTK Warning: AdwBreakpointBin min > natural height**: Set `vhomogeneous=false` on main stack and left_stack to prevent libadwaita from computing inflated minimum heights.
+- **GTK Warning: Sidebar Placeholder Text Wrapping**: Removed description from sidebar placeholder `AdwStatusPage` that caused text wrapping warnings.
+- **Old Chats Reappearing After Panic Wipe**: Added `sync_not_before` timestamp and panic marker file to prevent MAM resync from restoring wiped conversations and messages.
+- **GLib-GObject-CRITICAL: realize_id Not Reset**: Fixed handler disconnect in `message_widget.vala` where `realize_id` was not reset after `disconnect()`, causing critical GObject warnings on widget reuse.
+- **URL Preview Hidden by Reactions**: Priority conflict — both URL preview and Reactions used priority 3 in `set_widget()`. Reactions moved to priority 4 so URL previews remain visible.
+- **AdwBreakpointBin min > natural Height (Persistent)**: Override `measure()` in `MainWindow` and `NaturalSizeIncrease` to enforce `natural >= minimum`, fixing persistent libadwaita warnings that vhomogeneous alone didn't resolve.
+
+### Added
+- **Website og-image.png**: Added missing Open Graph preview image for social media link sharing.
+
+### Changed
+- **CI**: Made aarch64 builds optional (allow-failure) in release and AppImage workflows.
+- **Version**: 1.1.3.0 → 1.1.3.1
+
 ## [1.1.3.0] - 2026-02-24
 
 ### Fixed
