@@ -13,6 +13,7 @@
         </child>
         <property name="content">
             <object class="GtkStack" id="stack">
+                <property name="vhomogeneous">False</property>
                 <child>
                     <object class="GtkStackPage">
                         <property name="name">main</property>
