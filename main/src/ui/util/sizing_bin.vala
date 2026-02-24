@@ -61,6 +61,11 @@ public class SizingBin : Widget {
             }
             child = child.get_next_sibling();
         }
+        // GTK4 only supports vertical baselines — suppress for horizontal
+        if (orientation == Orientation.HORIZONTAL) {
+            minimum_baseline = -1;
+            natural_baseline = -1;
+        }
         if (orientation == Orientation.HORIZONTAL) {
             if (max_width != -1) natural = int.min(natural, max_width);
         } else {

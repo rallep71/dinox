@@ -47,6 +47,11 @@ public class Dino.Ui.NaturalSizeIncrease : Gtk.Widget {
             }
             child = child.get_next_sibling();
         }
+        // GTK4 only supports vertical baselines — suppress for horizontal
+        if (orientation == Orientation.HORIZONTAL) {
+            minimum_baseline = -1;
+            natural_baseline = -1;
+        }
         // GTK4/Adw requires: natural >= minimum
         natural = int.max(natural, minimum);
     }

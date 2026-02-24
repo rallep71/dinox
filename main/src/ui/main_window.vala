@@ -11,9 +11,14 @@ public class MainWindow : Adw.ApplicationWindow {
 
     // Prevent AdwBreakpointBin warning: clamp natural >= minimum
     // (libadwaita AdwStatusPage can report min > natural at certain widths)
+    // Also suppress horizontal baseline (GTK4 only supports vertical baselines)
     public override void measure(Orientation orientation, int for_size, out int minimum, out int natural, out int minimum_baseline, out int natural_baseline) {
         base.measure(orientation, for_size, out minimum, out natural, out minimum_baseline, out natural_baseline);
         if (natural < minimum) natural = minimum;
+        if (orientation == Orientation.HORIZONTAL) {
+            minimum_baseline = -1;
+            natural_baseline = -1;
+        }
     }
 
     public signal void conversation_selected(Conversation conversation);
