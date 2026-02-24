@@ -5,6 +5,32 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.3.0] - 2026-02-24
+
+### Fixed
+- **GTK4 Segfault in Call Window Close**: Recursive `gtk_window_close` caused by `conn_details_window.close()` inside `close_request` handler + `this.dispose()` destroying controller mid-signal-emission. Added `closing` guard, removed unsafe calls. Crash occurred after hanging up VoIP calls.
+- **SRTP `force_reset_encrypt_stream` Bug**: `force_reset()` reset the encrypt stream but not the decrypt stream counter, causing SRTP authentication failures after re-keying. Found by RFC 3711 audit tests.
+- **Tor Toggle UI Lag**: SOCKS5 proxy toggle in settings caused main-thread blocking. Fixed with deferred application.
+- **GCM Tag Always-Append**: HTTP file encryption always appended the GCM authentication tag even when already present, causing double-tag corruption on re-encryption. Fixed in http-files plugin.
+- **SFS Encryption Propagation**: Stateless File Sharing encryption metadata was not propagated correctly through the message pipeline, causing decryption failures for received encrypted files.
+- **Legacy Decrypt Tag Bug**: Legacy decryption path used wrong tag size, causing silent failures on old-format files.
+- **UI Widget Fixes**: Various minor widget state issues in conversation content view.
+- **Pango Invalid UTF-8**: Added `make_valid()` in XMPP parser to prevent Pango crashes on malformed UTF-8 stanzas. Added charset detection for URL preview content.
+- **`run_all_tests.sh` Missing OpenPGP Suite**: The master test runner never called `openpgp-test` -- 48 tests were silently skipped. All test counts in the script were stale.
+
+### Added
+- **SRTP/RFC 3711 Audit Tests**: 10 new tests covering RTP/RTCP encrypt/decrypt, wrong-key rejection, null-input handling, and counter management.
+- **SOCKS5/XEP-0260 Audit Tests**: 14 new tests covering SOCKS5 Bytestreams protocol logic, SHA-1 hash computation, candidate generation, and error handling.
+- **HTTP-Files Plugin Tests**: 25 tests (originally 28, consolidated to 25) for URL regex, filename extraction, and log sanitization.
+- **TESTING.md**: Complete test source file reference (51 source files mapped to suites and specs). OMEMO coverage updated to 11 suites/102 tests. All stale test counts fixed. German text replaced with English.
+
+### Removed
+- **Legacy/Dead Code Cleanup**: Removed ESFS registry, legacy encryption fallback paths, avatar re-encryption code, and `esfs_mode` flag. ~400 lines of unused code eliminated.
+
+### Changed
+- **Test Coverage**: 556 Meson tests (7 suites) + 136 standalone = 692 total, 0 failures
+- **Version**: 1.1.2.9 → 1.1.3.0
+
 ## [1.1.2.9] - 2026-02-23
 
 ### Fixed

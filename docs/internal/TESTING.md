@@ -3,7 +3,7 @@
 Complete inventory of all automated tests in the DinoX project.
 Every test references its authoritative specification or contract.
 
-**Status: v1.7.0.0 -- 556 Meson tests + 136 standalone tests = 692 automated tests, 0 failures**
+**Status: v1.1.3.0 -- 556 Meson tests + 136 standalone tests = 692 automated tests, 0 failures**
 
 ---
 
@@ -1638,4 +1638,4 @@ Examples:
 
 ---
 
-*Last updated: 24 February 2026 -- v1.7.0.0, 556 Meson + 136 standalone = 692 tests, 0 failures, OMEMO coverage updated (11 suites, 102 tests), stale counts fixed*
+*Last updated: 24 February 2026 -- v1.1.3.0, 556 Meson + 136 standalone = 692 tests, 0 failures, OMEMO coverage updated (11 suites, 102 tests), stale counts fixed*

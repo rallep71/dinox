@@ -1,7 +1,7 @@
 # DinoX - Development Plan
 
-> **Last Updated**: February 23, 2026 (v1.1.2.9)
-> **Current Release Line**: 1.1.2.x
+> **Last Updated**: February 24, 2026 (v1.1.3.0)
+> **Current Release Line**: 1.1.3.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
 
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.2.9 |
+| **Current Version** | 1.1.3.0 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (~85% translated) |
 | **Build Status** | Clean |
@@ -20,6 +20,16 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v1.1.3.0 (GTK4 Crash Fix, SRTP/SOCKS5 Audit Tests, Legacy Code Cleanup)
+
+- **GTK4 Call Window Segfault**: Recursive `gtk_window_close` in call window close handler. Added `closing` guard, removed `dispose()` during signal emission.
+- **SRTP force_reset Bug**: `force_reset()` only reset encrypt stream, not decrypt counter. Found by RFC 3711 audit, 10 new tests.
+- **SOCKS5/XEP-0260 Audit**: 14 new tests for SOCKS5 Bytestreams protocol logic. Tor toggle lag fixed.
+- **HTTP-Files Tests**: 25 tests for URL regex, filename extraction, log sanitization. GCM tag always-append bug fixed.
+- **SFS + Legacy Fixes**: Encryption propagation, legacy decrypt tag, UI widget fixes, Pango invalid UTF-8.
+- **Legacy Code Removed**: ~400 lines dead code (ESFS registry, encryption fallback, avatar re-encryption, esfs_mode).
+- **Testing Infrastructure**: 692 total tests (556 Meson + 136 standalone). `run_all_tests.sh` fixed (openpgp-test was missing). Complete source file reference in TESTING.md.
 
 ### v1.1.2.9 (UI-Bugfixes: Bookmark Close, Dialog Lag, Konto-Deaktivierung, MUC-Browser)
 
