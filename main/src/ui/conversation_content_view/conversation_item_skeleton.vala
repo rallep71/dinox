@@ -236,7 +236,7 @@ public class ConversationItemSkeleton : Plugins.ConversationItemWidgetInterface,
     }
 
     private void on_reaction_box_activated(Widget widget) {
-        set_widget(widget, Plugins.WidgetType.GTK4, 3);
+        set_widget(widget, Plugins.WidgetType.GTK4, 4);
     }
 
     private void on_time_update_timeout() {
