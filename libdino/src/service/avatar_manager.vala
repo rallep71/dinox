@@ -269,7 +269,7 @@ public class AvatarManager : StreamInteractionModule, Object {
             if (pixbuf.width >= pixbuf.height && pixbuf.width > MAX_PIXEL) {
                 int dest_height = (int) ((float) MAX_PIXEL / pixbuf.width * pixbuf.height);
                 pixbuf = pixbuf.scale_simple(MAX_PIXEL, dest_height, InterpType.BILINEAR);
-            } else if (pixbuf.height > pixbuf.width && pixbuf.width > MAX_PIXEL) {
+            } else if (pixbuf.height > pixbuf.width && pixbuf.height > MAX_PIXEL) {
                 int dest_width = (int) ((float) MAX_PIXEL / pixbuf.height * pixbuf.width);
                 pixbuf = pixbuf.scale_simple(dest_width, MAX_PIXEL, InterpType.BILINEAR);
             }

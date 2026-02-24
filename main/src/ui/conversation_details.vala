@@ -672,7 +672,7 @@ namespace Dino.Ui.ConversationDetails {
             if (pixbuf.width >= pixbuf.height && pixbuf.width > MAX_PIXEL) {
                 int dest_height = (int) ((float) MAX_PIXEL / pixbuf.width * pixbuf.height);
                 pixbuf = pixbuf.scale_simple(MAX_PIXEL, dest_height, Gdk.InterpType.BILINEAR);
-            } else if (pixbuf.height > pixbuf.width && pixbuf.width > MAX_PIXEL) {
+            } else if (pixbuf.height > pixbuf.width && pixbuf.height > MAX_PIXEL) {
                 int dest_width = (int) ((float) MAX_PIXEL / pixbuf.height * pixbuf.width);
                 pixbuf = pixbuf.scale_simple(dest_width, MAX_PIXEL, Gdk.InterpType.BILINEAR);
             }
@@ -681,13 +681,14 @@ namespace Dino.Ui.ConversationDetails {
             pixbuf.save_to_buffer(out buffer, "png");
             Bytes bytes = new Bytes(buffer);
             
-            var vcard = new Xmpp.Xep.VCard.VCardInfo();
-            vcard.photo = bytes;
-            vcard.photo_type = "image/png";
-            
             var stream = stream_interactor.get_stream(account);
             if (stream != null) {
                 debug("Updating MUC avatar for %s...", room_jid.to_string());
+                // Fetch existing vCard first to preserve other fields (description, etc.)
+                var vcard = yield Xmpp.Xep.VCard.fetch_vcard(stream, room_jid);
+                if (vcard == null) vcard = new Xmpp.Xep.VCard.VCardInfo();
+                vcard.photo = bytes;
+                vcard.photo_type = "image/png";
                 yield Xmpp.Xep.VCard.publish_vcard(stream, vcard, room_jid);
                 debug("MUC vCard published.");
                 

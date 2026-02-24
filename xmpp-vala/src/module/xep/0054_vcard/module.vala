@@ -52,8 +52,6 @@ public class VCardInfo : Object {
 
     public static VCardInfo from_node(StanzaNode node) {
         var vcard = new VCardInfo();
-        // Debug: Print the entire vCard node structure
-        print("Parsing vCard node: %s\n", node.to_string());
 
         vcard.full_name = node.get_subnode("FN")?.get_string_content();
         vcard.nickname = node.get_subnode("NICKNAME")?.get_string_content();
@@ -233,9 +231,6 @@ public async VCardInfo? fetch_vcard(XmppStream stream, Jid? jid = null) {
     }
 
     if (iq_res.is_error()) return null;
-    
-    // Debug: Print full IQ response
-    print("vCard IQ response: %s\n", iq_res.stanza.to_string());
 
     var vcard_node = iq_res.stanza.get_subnode("vCard", NS_URI);
     if (vcard_node == null) return null;
