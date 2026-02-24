@@ -121,6 +121,7 @@ test_sources = [
     'tests/security.vala',
     'tests/audit.vala',
     'tests/audit_file_transfer.vala',
+    'tests/audit_srtp.vala',
 ]
 exe_libdino_test = executable('libdino-test', test_sources, c_args: c_args, vala_args: vala_args, dependencies: dependencies + dep_dino, install: false)
 test('Tests for libdino', exe_libdino_test)

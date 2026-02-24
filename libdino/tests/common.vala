@@ -14,6 +14,7 @@ int main(string[] args) {
     TestSuite.get_root().add_suite(new Dino.SecurityAudit.JSONInjectionAudit().get_suite());
     // Tier 4 Security Audit Tests
     TestSuite.get_root().add_suite(new Dino.Test.FileTransferAudit().get_suite());
+    TestSuite.get_root().add_suite(new Dino.Test.SrtpAudit().get_suite());
     return GLib.Test.run();
 }
 

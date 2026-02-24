@@ -3,7 +3,7 @@
 Complete inventory of all automated tests in the DinoX project.
 Every test references its authoritative specification or contract.
 
-**Status: v1.7.0.0 -- 546 Meson tests + 136 standalone tests = 682 automated tests, 0 failures**
+**Status: v1.7.0.0 -- 556 Meson tests + 136 standalone tests = 692 automated tests, 0 failures**
 
 ---
 
@@ -49,7 +49,7 @@ After `ninja -C build`, these binaries are ready:
 | `build/plugins/omemo/omemo-test` | omemo | 102 | OMEMO encryption, Signal Protocol, key exchange |
 | `build/main/main-test` | main | 62 | UI view models, helper functions |
 | `build/plugins/openpgp/openpgp-test` | openpgp | 48 | OpenPGP stream module, GPG keylist, armor parser |
-| `build/libdino/libdino-test` | libdino | 40 | Crypto, key derivation, file transfer, data structures |
+| `build/libdino/libdino-test` | libdino | 50 | Crypto, key derivation, file transfer, SRTP, data structures |
 | `build/plugins/http-files/http-files-test` | http-files | 25 | URL regex, filename extraction, log sanitization |
 | `build/plugins/bot-features/bot-features-test` | bot-features | 24 | Rate limiter, crypto hashes, JSON escaping |
 
@@ -625,7 +625,7 @@ namespace constants, data classes, roundtrip serialization, random padding, modu
 | 244 | `XEP0260_candidate_parse_default_port_1080` | XEP-0260 | Missing port → 1080 |
 | 245 | `XEP0260_candidate_priority_includes_type` | XEP-0260 | DIRECT priority > PROXY priority |
 
-### 1.2 libdino (47 Tests)
+### 1.2 libdino (50 Tests)
 
 **Target:** `libdino-test` -- `libdino/meson.build`
 
@@ -698,6 +698,21 @@ namespace constants, data classes, roundtrip serialization, random padding, modu
 | 38 | `Dot_only_becomes_unknown` | CWE-22 | `.` → `unknown filename` |
 | 39 | `Normal_filename_preserved` | Contract | `photo.jpg` preserved |
 | 40 | `Filename_with_spaces_preserved` | Contract | `my photo.jpg` preserved |
+
+#### SrtpAudit (10 Tests) -- RFC 3711 SRTP/SRTCP
+
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
+| 41 | `RFC3711_session_initial_state` | RFC 3711 | New session: has_encrypt=false, has_decrypt=false |
+| 42 | `RFC3711_session_has_encrypt_after_key` | RFC 3711 | set_encryption_key → has_encrypt=true |
+| 43 | `RFC3711_session_has_decrypt_after_key` | RFC 3711 | set_decryption_key → has_decrypt=true |
+| 44 | `RFC3711_rtp_encrypt_decrypt_roundtrip` | RFC 3711 S3.3 | Same key: encrypt_rtp → decrypt_rtp = original |
+| 45 | `RFC3711_rtp_ciphertext_differs_from_plaintext` | RFC 3711 S3.3 | Payload must differ (IND-CPA) |
+| 46 | `RFC3711_rtp_ciphertext_longer_than_plaintext` | RFC 3711 S3.3 | +10 bytes HMAC-SHA1-80 auth tag |
+| 47 | `RFC3711_rtp_wrong_key_rejects` | RFC 3711 S3.3 | Wrong key → AUTHENTICATION_FAILED |
+| 48 | `RFC3711_rtcp_encrypt_decrypt_roundtrip` | RFC 3711 S3.4 | SRTCP roundtrip with same key |
+| 49 | `RFC3711_rtcp_wrong_key_rejects` | RFC 3711 S3.4 | SRTCP wrong key → AUTHENTICATION_FAILED |
+| 50 | `RFC3711_force_reset_preserves_key` | RFC 3711 | force_reset_encrypt_stream re-applies key, roundtrip works |
 
 ### 1.3 OMEMO (102 Tests)
 
@@ -1272,7 +1287,7 @@ ninja -C build test                    Meson-registered (514 tests)
   |     |-- UtilAudit (9)               UUID format + Data URI parsing
   |     +-- XepRoundtripAudit (12)       XEP-0424/0380/0359 stanza roundtrips
   |
-  |-- libdino-test                     8 suites, 40 tests (GLib.Test)
+  |-- libdino-test                     9 suites, 50 tests (GLib.Test)
   |     |-- WeakMapTest (5)              Data structure contract
   |     |-- Jid (3)                      RFC 7622 basics
   |     |-- FileManagerTest (1)          GIO stream lifecycle
@@ -1281,7 +1296,8 @@ ninja -C build test                    Meson-registered (514 tests)
   |     |-- Audit_KeyManager (1)         NIST SP 800-90A CSPRNG
   |     |-- Audit_TokenStorage (1)       RFC 4231 HMAC vs SHA-256
   |     |-- Audit_JSONInjection (3)      RFC 8259 JSON escape
-  |     +-- FileTransferAudit (8)        CWE-22 path traversal
+  |     |-- FileTransferAudit (8)        CWE-22 path traversal
+  |     +-- SrtpAudit (10)              RFC 3711 SRTP/SRTCP VoIP encryption
   |
   |-- main-test                        2 suites, 62 tests (GLib.Test)
   |     |-- PreferencesRow (16)          GObject property/signal contract
@@ -1329,7 +1345,7 @@ future test ideas: see `docs/internal/TESTING_GAPS.md` (not tracked in Git).
 | Area | Status | Difficulty |
 |------|--------|------------|
 | **qlite** (SQLite ORM) | Only indirectly via DB tests | Medium -- pure library, testable |
-| **crypto-vala** | No dedicated suite -- tested via libdino Security | Low |
+| **crypto-vala** | Vollständig getestet: Cipher/Converter/Random/Error via libdino Security (15) + Audit (4), `srtp.vala` via SrtpAudit (10) in §1.2. Bug in `force_reset_encrypt_stream` gefunden und behoben. | ~~Low~~ Done |
 | **http-files plugin** | 25 tests (UrlRegex, FileNameExtraction, SanitizeLog) -- vollständig getestet, siehe §1.7 | ~~Medium~~ Done |
 | **openpgp plugin** | 48 tests (StreamModuleLogic, GPGKeylistParser, ArmorParser). GPG binary integration: untested | Medium |
 | **omemo plugin** | 102 tests (Curve25519, Signal, HKDF, FileDecryptor, DecryptLogic, BundleParser, Omemo2Crypto, SessionVersionGuard, etc.). Full session encrypt/decrypt: untested | Medium |
@@ -1511,4 +1527,4 @@ Examples:
 
 ---
 
-*Last updated: 24 February 2026 -- v1.7.0.0, 546 Meson + 136 standalone = 682 tests, 0 failures, added SOCKS5/XEP-0260 audit tests*
+*Last updated: 24 February 2026 -- v1.7.0.0, 556 Meson + 136 standalone = 692 tests, 0 failures, added SRTP/RFC 3711 audit tests + force_reset bugfix*

@@ -102,10 +102,18 @@ public class Session {
     private uint8[]? last_encryption_salt = null;
 
     public void force_reset_encrypt_stream() {
+        if (last_encryption_profile == null) return;
+
+        // Copy key/salt before recreation to avoid self-reference issues
+        string profile = last_encryption_profile;
+        uint8[] key = new uint8[last_encryption_key.length];
+        Memory.copy(key, last_encryption_key, last_encryption_key.length);
+        uint8[] salt = new uint8[last_encryption_salt.length];
+        Memory.copy(salt, last_encryption_salt, last_encryption_salt.length);
+
+        encrypt_context = null;
         Context.create(out encrypt_context, null);
-        if (last_encryption_profile != null) {
-            set_encryption_key(last_encryption_profile, last_encryption_key, last_encryption_salt);
-        }
+        set_encryption_key(profile, key, salt);
     }
 
     public void set_encryption_key(string profile, uint8[] key, uint8[] salt) {
@@ -119,7 +127,10 @@ public class Session {
         Memory.copy(policy.key, key, key.length);
         Memory.copy(((uint8*)policy.key) + key.length, salt, salt.length);
         policy.next = null;
-        encrypt_context.add_stream(ref policy);
+        ErrorStatus res = encrypt_context.add_stream(ref policy);
+        if (res != ErrorStatus.ok) {
+            warning("SRTP set_encryption_key: add_stream failed: %s", res.to_string());
+        }
         has_encrypt = true;
     }
 
