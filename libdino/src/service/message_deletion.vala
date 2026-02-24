@@ -59,8 +59,10 @@ namespace Dino {
             }
 
             if (conversation.type_.is_muc_semantic()) {
+                // Use has_feature_offline to also check DB, not just in-memory cache.
+                // has_feature_cached returns false if disco hasn't been queried yet (e.g. right after join).
                 bool muc_supports_moderation = stream_interactor.get_module<EntityInfo>(EntityInfo.IDENTITY)
-                        .has_feature_cached(conversation.account, conversation.counterpart, Xmpp.Xep.MessageModeration.NS_URI);
+                        .has_feature_offline(conversation.account, conversation.counterpart, Xmpp.Xep.MessageModeration.NS_URI);
                 bool we_are_moderator = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_own_role(conversation) == Xmpp.Xep.Muc.Role.MODERATOR;
                 return is_own_message || (muc_supports_moderation && we_are_moderator);
             } else {
@@ -122,10 +124,21 @@ namespace Dino {
 
                 if (is_own_message) {
                     perform_retraction = true;
+                    // Delete locally immediately so the user gets instant visual feedback.
+                    // The server reflection will be consumed by the pipeline (returns true) without
+                    // causing a duplicate delete because the content item is already hidden.
+                    delete_locally(conversation, content_item, conversation.account.bare_jid);
                 } else {
-                    Xmpp.Xep.MessageModeration.moderate.begin(stream, conversation.counterpart, (!)message_id_to_delete);
+                    // XEP-0425 Message Moderation: requires the server's stanza-id (server_id),
+                    // NOT the origin-id (stanza_id). The MUC server tracks messages by its own
+                    // assigned stanza-id.
+                    Message? msg = stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).get_message_for_content_item(conversation, content_item);
+                    string? moderation_id = (msg != null && msg.server_id != null) ? msg.server_id : message_id_to_delete;
+                    Xmpp.Xep.MessageModeration.moderate.begin(stream, conversation.counterpart, (!)moderation_id);
+                    // Delete locally — server confirmation via reflected moderation message
+                    // will be consumed as a no-op since the content item is already hidden.
+                    delete_locally(conversation, content_item, conversation.account.bare_jid);
                 }
-                // Message will be deleted locally when the MUC server sends out a moderation/retraction message
             }
             
             if (perform_retraction) {
