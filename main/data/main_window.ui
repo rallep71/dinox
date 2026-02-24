@@ -87,6 +87,7 @@
                                                 <property name="content">
                                                     <object class="GtkStack" id="left_stack">
                                                         <property name="hexpand">False</property>
+                                                        <property name="vhomogeneous">False</property>
                                                         <child>
                                                             <object class="GtkStackPage">
                                                                 <property name="name">content</property>
@@ -114,10 +115,8 @@
                                                                         <property name="margin-end">20</property>
                                                                         <property name="margin-top">20</property>
                                                                         <property name="margin-bottom">20</property>
-                                                                        <property name="width_request">260</property>
 
                                                                         <property name="title" translatable="yes">You have no open chats</property>
-                                                                        <property name="description" translatable="yes">Click + to start a chat or join a channel</property>
                                                                     </object>
                                                                 </property>
                                                             </object>
