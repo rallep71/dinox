@@ -935,8 +935,6 @@ public static void invalidate_secret_keys_cache() {
 public static Gee.List<Key> get_keylist(string? pattern = null, bool secret_only = false) throws GLib.Error {
     initialize();
     
-    var keys = new ArrayList<Key>();
-    
     var args = new ArrayList<string>();
     if (secret_only) {
         args.add("--list-secret-keys");

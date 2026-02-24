@@ -25,16 +25,4 @@ void fail_if_not_eq_str(string expected, string actual) {
     }
 }
 
-void fail_if_not_eq_int(int expected, int actual) {
-    if (expected != actual) {
-        GLib.Test.fail();
-        GLib.Test.message("Expected %d but got %d", expected, actual);
-    }
-}
 
-void fail_if_null(void* ptr, string? msg = null) {
-    if (ptr == null) {
-        GLib.Test.fail();
-        if (msg != null) GLib.Test.message("FAIL (null): %s", msg);
-    }
-}

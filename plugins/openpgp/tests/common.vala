@@ -18,10 +18,6 @@ bool fail_if(bool exp, string? reason = null) {
     return false;
 }
 
-void fail_if_reached(string? reason = null) {
-    fail_if(true, reason);
-}
-
 bool fail_if_not(bool exp, string? reason = null) {
     return fail_if(!exp, reason);
 }
