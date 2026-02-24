@@ -59,6 +59,108 @@ After `ninja -C build`, these binaries are ready:
 export LD_LIBRARY_PATH=build/libdino:build/xmpp-vala:build/qlite:build/crypto-vala
 ```
 
+### Test Source Files -- Where to Read and Review
+
+Every test is a plain Vala file. To verify that a test correctly implements its
+spec, open the source file and check the assertion against the referenced RFC/XEP section.
+
+#### xmpp-vala (19 suites, 245 tests)
+
+| Source File | Suite(s) | Spec Coverage |
+|-------------|----------|---------------|
+| `xmpp-vala/tests/stanza.vala` | Stanza (4) | RFC 6120 S4 stream/namespace |
+| `xmpp-vala/tests/util.vala` | util (5) | xs:hexBinary parsing contract |
+| `xmpp-vala/tests/jid.vala` | Jid (28) | RFC 7622 JID validation |
+| `xmpp-vala/tests/color.vala` | color (3) | XEP-0392 test vectors |
+| `xmpp-vala/tests/vcard4.vala` | VCard4 (2) | RFC 6350/6351 xCard |
+| `xmpp-vala/tests/xep_0448.vala` | Xep0448Test (2) | XEP-0448 ESFS |
+| `xmpp-vala/tests/stream_management.vala` | StreamManagement (12) | XEP-0198 S3-S6 + async XML |
+| `xmpp-vala/tests/mam.vala` | MAM (8) | XEP-0313 S3-S5 + async XML |
+| `xmpp-vala/tests/audit_stream_management.vala` | Audit_XEP0198 (3) | XEP-0198 h-counter overflow |
+| `xmpp-vala/tests/audit_omemo.vala` | OmemoAudit (39) | XEP-0384 v0.3 + v0.8 stanza audit |
+| `xmpp-vala/tests/audit_openpgp.vala` | OpenPgpAudit (36) | XEP-0373 + XEP-0374 stanza + rpad |
+| `xmpp-vala/tests/audit_stanza_entry.vala` | StanzaEntryAudit (21) | XML entity decode + bool parse |
+| `xmpp-vala/tests/audit_crypto_hash.vala` | CryptoHashAudit (15) | XEP-0300 hash roundtrip + vectors |
+| `xmpp-vala/tests/audit_entity_caps.vala` | EntityCapsAudit (5) | XEP-0115 caps hash verification |
+| `xmpp-vala/tests/audit_protocol_parsers.vala` | ProtocolParserAudit (27) | Jingle/SOCKS5/ICE/Markup/DateTime |
+| `xmpp-vala/tests/audit_socks5.vala` | Socks5Audit (14) | XEP-0260/RFC 1928 SOCKS5 logic |
+| `xmpp-vala/tests/audit_util_extra.vala` | UtilAudit (9) | UUID format + Data URI parsing |
+| `xmpp-vala/tests/audit_xep_roundtrips.vala` | XepRoundtripAudit (12) | XEP-0424/0380/0359 roundtrips |
+| `xmpp-vala/tests/common.vala` | -- | Test registration (main entry point) |
+
+#### libdino (9 suites, 50 tests)
+
+| Source File | Suite(s) | Spec Coverage |
+|-------------|----------|---------------|
+| `libdino/tests/weak_map.vala` | WeakMapTest (5) | Data structure contract |
+| `libdino/tests/jid.vala` | Jid (3) | RFC 7622 basics |
+| `libdino/tests/file_manager.vala` | FileManagerTest (1) | GIO stream lifecycle |
+| `libdino/tests/security.vala` | Security (15) | NIST SP 800-38D/132, RFC 5116 |
+| `libdino/tests/audit.vala` | Audit_KeyDerivation (3), Audit_KeyManager (1), Audit_TokenStorage (1), Audit_JSONInjection (3) | NIST SP 800-132, RFC 4231, RFC 8259 |
+| `libdino/tests/audit_file_transfer.vala` | FileTransferAudit (8) | CWE-22 path traversal |
+| `libdino/tests/audit_srtp.vala` | SrtpAudit (10) | RFC 3711 SRTP/SRTCP |
+| `libdino/tests/common.vala` | -- | Test registration (main entry point) |
+
+#### main (2 suites, 62 tests)
+
+| Source File | Suite(s) | Spec Coverage |
+|-------------|----------|---------------|
+| `main/tests/preferences_row_test.vala` | PreferencesRow (16) | GObject property/signal contract |
+| `main/tests/audit_ui_helpers.vala` | UiHelperAudit (46) | Pure helper.vala functions |
+| `main/tests/common.vala` | -- | Test registration (main entry point) |
+
+#### omemo (11 suites, 102 tests)
+
+| Source File | Suite(s) | Spec Coverage |
+|-------------|----------|---------------|
+| `plugins/omemo/tests/native/curve25519.vala` | Curve25519 (4) | RFC 7748 key agreement |
+| `plugins/omemo/tests/native/session_builder.vala` | SessionBuilder (5) | Signal Protocol / XEP-0384 |
+| `plugins/omemo/tests/native/hkdf.vala` | HKDF (1) | RFC 5869 test vector |
+| `plugins/omemo/tests/native/file_decryptor.vala` | FileDecryptor (20) | RFC 4648 + XEP-0454 security |
+| `plugins/omemo/tests/native/decrypt_logic.vala` | DecryptLogic (15) | CWE-208 constant-time + arr_to_str |
+| `plugins/omemo/tests/native/bundle_parser.vala` | BundleParser (16) | XEP-0384 v0.3 + v0.8 XML parser |
+| `plugins/omemo/tests/native/omemo2_crypto.vala` | Omemo2Crypto (12) | HKDF→AES→HMAC roundtrip |
+| `plugins/omemo/tests/native/session_version_guard.vala` | SessionVersionGuard (3) | v3↔v4 session version detection |
+| `plugins/omemo/tests/native/security_logic.vala` | PreKeyUpdateClassifier (6), EncryptSafetyCheck (8), DecryptFailureStage (12) | Pre-key change, safety checks, error classification |
+| `plugins/omemo/tests/native/common.vala` | -- | Test registration (main entry point) |
+
+#### openpgp (3 suites, 48 tests)
+
+| Source File | Suite(s) | Spec Coverage |
+|-------------|----------|---------------|
+| `plugins/openpgp/tests/stream_module_logic.vala` | StreamModuleLogic (16) | XEP-0374 extract_body + extract_pgp_data |
+| `plugins/openpgp/tests/gpg_keylist_parser.vala` | GPGKeylistParser (16) | GPG --with-colons keylist parser |
+| `plugins/openpgp/tests/armor_parser.vala` | ArmorParser (16) | XEP-0027 signature/encrypted armor |
+| `plugins/openpgp/tests/common.vala` | -- | Test registration (main entry point) |
+
+#### bot-features (4 suites, 24 tests)
+
+| Source File | Suite(s) | Spec Coverage |
+|-------------|----------|---------------|
+| `plugins/bot-features/tests/bot_tests.vala` | RateLimiter (9), Crypto (8) | Contract-based, FIPS 180-4, RFC 4231 |
+| `plugins/bot-features/tests/audit_tests.vala` | Audit_RateLimiter (3), Audit_JSONEscape (4) | Contract audit, RFC 8259 JSON |
+| `plugins/bot-features/tests/common.vala` | -- | Test registration (main entry point) |
+
+#### http-files (3 suites, 25 tests)
+
+| Source File | Suite(s) | Spec Coverage |
+|-------------|----------|---------------|
+| `plugins/http-files/tests/http_files_test.vala` | UrlRegex (13), FileNameExtraction (6), SanitizeLog (6) | XEP-0363, OMEMO aesgcm://, contract |
+| `plugins/http-files/tests/common.vala` | -- | Test registration (main entry point) |
+
+#### Scripts and Standalone Tests
+
+| File | Purpose |
+|------|---------|
+| `scripts/run_all_tests.sh` | Master test runner -- builds + runs all Meson suites + DB tests |
+| `scripts/test_db_maintenance.sh` | 71 SQLCipher CLI tests (rekey, reset, WAL, backup) |
+| `scripts/run_db_integration_tests.sh` | Compiles + runs 65 Qlite integration tests |
+| `tests/security_audit_tests.vala` | Original security audit findings (documents bugs found) |
+| `tests/test_db_maintenance_integration.vala` | Qlite integration test source (compiled by script above) |
+| `test_omemo_deser.c` | OMEMO deserialization test with real Kaidan kex bytes |
+| `test_cb.vala` | TLS channel binding type check (minimal) |
+| `test_socks.py` | Manual SOCKS5 proxy connectivity test |
+
 ### Standalone Test Files (not in Meson)
 
 | File | Language | Purpose |
