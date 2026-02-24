@@ -126,12 +126,12 @@ obfs4 198.245.60.50:443 6C61208D644265A16CB0C7E835787C1D8429EC08 cert=sT/u/T1uA+
             } else {
                 // CRITICAL FIX: If state is OFF, strictly ensure no accounts are left in SOCKS5 mode.
                 debug("TorManager: state is DISABLED. Ensuring clear-net (DB Cleanup)...");
-                cleanup_lingering_proxies();
+                cleanup_lingering_proxies.begin();
             }
         }
 
 
-        private void cleanup_lingering_proxies() {
+        private async void cleanup_lingering_proxies() {
             // 1. Collect targets first to avoid DB locking/iterator invalidation during updates
             var targets = new Gee.ArrayList<int>();
             
@@ -190,7 +190,7 @@ obfs4 198.245.60.50:443 6C61208D644265A16CB0C7E835787C1D8429EC08 cert=sT/u/T1uA+
 
             warning("TorManager: [CRITICAL] Tor exited with status %d. Retries exhausted. Initiating emergency proxy removal.", status);
             // Force disable, regardless of current state check, to ensure cleanup happens
-            set_enabled(false); 
+            set_enabled.begin(false); 
         }
         
         public async void set_bridges(string bridges) {
@@ -203,7 +203,7 @@ obfs4 198.245.60.50:443 6C61208D644265A16CB0C7E835787C1D8429EC08 cert=sT/u/T1uA+
             
             // If running, restart to apply
             if (is_enabled) {
-                stop_tor(false);
+                yield stop_tor(false);
                 yield start_tor(true);
             }
         }
@@ -220,7 +220,7 @@ obfs4 198.245.60.50:443 6C61208D644265A16CB0C7E835787C1D8429EC08 cert=sT/u/T1uA+
             
              // If running, restart to apply
             if (is_enabled) {
-                stop_tor(false);
+                yield stop_tor(false);
                 yield start_tor(true);
             }
         }
@@ -237,12 +237,12 @@ obfs4 198.245.60.50:443 6C61208D644265A16CB0C7E835787C1D8429EC08 cert=sT/u/T1uA+
 
             // If running, restart to apply
             if (is_enabled) {
-                stop_tor(false);
+                yield stop_tor(false);
                 yield start_tor(true);
             }
         }
 
-        public void set_enabled(bool enabled) {
+        public async void set_enabled(bool enabled) {
             debug("TorManager: set_enabled(%s) called. Current state: %s", enabled.to_string(), is_enabled.to_string());
             is_enabled = enabled;
             // Update DB
@@ -255,10 +255,10 @@ obfs4 198.245.60.50:443 6C61208D644265A16CB0C7E835787C1D8429EC08 cert=sT/u/T1uA+
 
             if (enabled) {
                 debug("TorManager: Starting Tor...");
-                start_tor.begin(true);
+                yield start_tor(true);
             } else {
                 debug("TorManager: Stopping Tor and cleaning up...");
-                stop_tor(true);
+                yield stop_tor(true);
             }
         }
 
@@ -267,14 +267,14 @@ obfs4 198.245.60.50:443 6C61208D644265A16CB0C7E835787C1D8429EC08 cert=sT/u/T1uA+
             if (apply_proxy) apply_proxy_to_accounts(true);
         }
 
-        public void stop_tor(bool remove_proxy = false) {
+        public async void stop_tor(bool remove_proxy = false) {
             controller.stop();
             // ALWAYS try to remove proxy if requested, even if we think it's stopped
             if (remove_proxy) {
                 // Ensure the database and RAM are consistent with "Tor OFF"
                 // This prevents "Zombie connection" where proxy is ON but Tor is dead
                 debug("TorManager: stop_tor calling cleanup_lingering_proxies() to fix RAM/DB mismatch.");
-                cleanup_lingering_proxies();
+                yield cleanup_lingering_proxies();
             }
 
         }
@@ -322,7 +322,7 @@ obfs4 198.245.60.50:443 6C61208D644265A16CB0C7E835787C1D8429EC08 cert=sT/u/T1uA+
             } else {
                 // DISABLE sequence - use the robust cleanup logic we unified
                 debug("TorManager: DISABLE sequence - invoking robust cleanup_lingering_proxies()");
-                cleanup_lingering_proxies();
+                cleanup_lingering_proxies.begin();
             }
         }
 

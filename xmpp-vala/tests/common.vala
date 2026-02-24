@@ -22,6 +22,7 @@ int main(string[] args) {
     TestSuite.get_root().add_suite(new Xmpp.Test.ProtocolParserAudit().get_suite());
     TestSuite.get_root().add_suite(new Xmpp.Test.UtilAudit().get_suite());
     TestSuite.get_root().add_suite(new Xmpp.Test.XepRoundtripAudit().get_suite());
+    TestSuite.get_root().add_suite(new Xmpp.Test.Socks5Audit().get_suite());
     return GLib.Test.run();
 }
 

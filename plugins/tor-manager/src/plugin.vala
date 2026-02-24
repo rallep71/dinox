@@ -22,7 +22,7 @@ namespace Dino.Plugins.TorManager {
             if (tor_manager != null) {
                 // IMPORTANT: Tell TorManager we are shutting down so it doesn't trigger "process exited" signals that disable the setting
                 tor_manager.prepare_shutdown();
-                tor_manager.stop_tor();
+                tor_manager.stop_tor.begin();
                 tor_manager = null;
             }
             indicator = null;

@@ -146,7 +146,7 @@ namespace Dino.Plugins.TorManager {
             // Simplify: Let the switch toggle visually instantly (default behavior), just sync the manager
             toggle_switch.notify["active"].connect(() => {
                  if (manager.is_enabled != toggle_switch.active) {
-                     manager.set_enabled(toggle_switch.active);
+                     manager.set_enabled.begin(toggle_switch.active);
                  }
             });
 

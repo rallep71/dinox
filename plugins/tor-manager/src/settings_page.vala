@@ -36,8 +36,9 @@ namespace Dino.Plugins.TorManager {
             toggle.active = manager.is_enabled;
             
             toggle.state_set.connect((state) => {
-                manager.set_enabled(state);
-                return false; 
+                toggle.state = state;
+                manager.set_enabled.begin(state);
+                return true; 
             });
             
             main_switch_row.add_suffix(toggle);

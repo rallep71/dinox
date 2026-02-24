@@ -93,7 +93,7 @@ public class Module : Jingle.Transport, XmppStreamModule {
     }
 }
 
-private string calculate_dstaddr(string sid, Jid first_jid, Jid second_jid) {
+public string calculate_dstaddr(string sid, Jid first_jid, Jid second_jid) {
     string hashed = sid + first_jid.to_string() + second_jid.to_string();
     return Checksum.compute_for_string(ChecksumType.SHA1, hashed);
 }
@@ -191,7 +191,7 @@ public class Candidate : Socks5Bytestreams.Proxy {
     }
 }
 
-bool bytes_equal(uint8[] a, uint8[] b) {
+public bool bytes_equal(uint8[] a, uint8[] b) {
     if (a.length != b.length) {
         return false;
     }

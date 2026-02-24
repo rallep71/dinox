@@ -3,7 +3,7 @@
 Complete inventory of all automated tests in the DinoX project.
 Every test references its authoritative specification or contract.
 
-**Status: v1.7.0.0 -- 532 Meson tests + 136 standalone tests = 668 automated tests, 0 failures**
+**Status: v1.7.0.0 -- 546 Meson tests + 136 standalone tests = 682 automated tests, 0 failures**
 
 ---
 
@@ -45,7 +45,7 @@ After `ninja -C build`, these binaries are ready:
 
 | Binary | Suite | Tests | Component |
 |--------|-------|-------|-----------|
-| `build/xmpp-vala/xmpp-vala-test` | xmpp-vala | 231 | XMPP protocol, XML, JID, XEP parsers |
+| `build/xmpp-vala/xmpp-vala-test` | xmpp-vala | 245 | XMPP protocol, XML, JID, XEP parsers, SOCKS5 |
 | `build/plugins/omemo/omemo-test` | omemo | 102 | OMEMO encryption, Signal Protocol, key exchange |
 | `build/main/main-test` | main | 62 | UI view models, helper functions |
 | `build/plugins/openpgp/openpgp-test` | openpgp | 48 | OpenPGP stream module, GPG keylist, armor parser |
@@ -255,7 +255,7 @@ ninja -C build
 export LD_LIBRARY_PATH=build/libdino:build/xmpp-vala:build/qlite:build/crypto-vala
 
 # Run one suite
-build/xmpp-vala/xmpp-vala-test     # 231 tests
+build/xmpp-vala/xmpp-vala-test     # 245 tests
 build/libdino/libdino-test          # 47 tests
 build/main/main-test                # 62 tests
 build/plugins/omemo/omemo-test      # 102 tests
@@ -307,7 +307,7 @@ build/xmpp-vala/xmpp-vala-test --verbose
 Compiled and executed via `ninja -C build test`.
 Framework: GLib.Test + `Gee.TestCase` with `add_async_test()` for async XML parsing.
 
-### 1.1 xmpp-vala (231 Tests)
+### 1.1 xmpp-vala (245 Tests)
 
 **Target:** `xmpp-vala-test` -- `xmpp-vala/meson.build`
 
@@ -605,6 +605,25 @@ namespace constants, data classes, roundtrip serialization, random padding, modu
 | 229 | `XEP0359_origin_id_missing` | XEP-0359 | No origin-id → null |
 | 230 | `XEP0359_stanza_id_roundtrip` | XEP-0359 | stanza-id with matching `by` |
 | 231 | `XEP0359_stanza_id_wrong_by` | XEP-0359 | stanza-id with wrong `by` → null |
+
+#### Socks5Audit (14 Tests) -- XEP-0260 / RFC 1928 SOCKS5 Protocol Logic
+
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
+| 232 | `XEP0260_dstaddr_sha1_deterministic` | XEP-0260 §4 | Same inputs → same SHA1 hash |
+| 233 | `XEP0260_dstaddr_order_matters` | XEP-0260 §4 | Swapped JIDs → different hash |
+| 234 | `XEP0260_dstaddr_is_sha1_hex_lowercase` | XEP-0260 §4 | Output is 40 lowercase hex chars |
+| 235 | `XEP0260_dstaddr_different_sid_different_hash` | XEP-0260 §4 | Different SID → different hash |
+| 236 | `RFC1928_bytes_equal_same` | RFC 1928 | Identical arrays → true |
+| 237 | `RFC1928_bytes_equal_different_content` | RFC 1928 | Different content → false |
+| 238 | `RFC1928_bytes_equal_different_length` | RFC 1928 | Different length → false |
+| 239 | `RFC1928_bytes_equal_empty` | RFC 1928 | Two empty arrays → true |
+| 240 | `XEP0260_candidate_type_roundtrip_all` | XEP-0260 | All 4 CandidateTypes roundtrip to_string/parse |
+| 241 | `XEP0260_candidate_parse_xml_roundtrip` | XEP-0260 | XML → Candidate → to_xml preserves all attrs |
+| 242 | `XEP0260_candidate_parse_missing_cid_throws` | XEP-0260 | Missing cid → IqError.BAD_REQUEST |
+| 243 | `XEP0260_candidate_parse_default_type_direct` | XEP-0260 | Missing type → DIRECT |
+| 244 | `XEP0260_candidate_parse_default_port_1080` | XEP-0260 | Missing port → 1080 |
+| 245 | `XEP0260_candidate_priority_includes_type` | XEP-0260 | DIRECT priority > PROXY priority |
 
 ### 1.2 libdino (47 Tests)
 
@@ -1233,7 +1252,7 @@ Every test references its authoritative source:
 
 ```
 ninja -C build test                    Meson-registered (514 tests)
-  |-- xmpp-vala-test                   18 suites, 231 tests (GLib.Test)
+  |-- xmpp-vala-test                   19 suites, 245 tests (GLib.Test)
   |     |-- Stanza (4)                   RFC 6120 S4 stream/namespace
   |     |-- util (5)                     xs:hexBinary parsing contract
   |     |-- Jid (28)                     RFC 7622 JID validation
@@ -1249,6 +1268,7 @@ ninja -C build test                    Meson-registered (514 tests)
   |     |-- CryptoHashAudit (15)         XEP-0300 hash roundtrip + vectors (Bug #21 fixed)
   |     |-- EntityCapsAudit (5)          XEP-0115 caps hash verification
   |     |-- ProtocolParserAudit (27)     Jingle/SOCKS5/ICE/Markup/DateTime parsers
+  |     |-- Socks5Audit (14)             XEP-0260/RFC 1928 SOCKS5 protocol logic
   |     |-- UtilAudit (9)               UUID format + Data URI parsing
   |     +-- XepRoundtripAudit (12)       XEP-0424/0380/0359 stanza roundtrips
   |
@@ -1310,7 +1330,7 @@ future test ideas: see `docs/internal/TESTING_GAPS.md` (not tracked in Git).
 |------|--------|------------|
 | **qlite** (SQLite ORM) | Only indirectly via DB tests | Medium -- pure library, testable |
 | **crypto-vala** | No dedicated suite -- tested via libdino Security | Low |
-| **http-files plugin** | 25 tests (UrlRegex, FileNameExtraction, SanitizeLog). Upload/download integration: untested | Medium |
+| **http-files plugin** | 25 tests (UrlRegex, FileNameExtraction, SanitizeLog) -- vollständig getestet, siehe §1.7 | ~~Medium~~ Done |
 | **openpgp plugin** | 48 tests (StreamModuleLogic, GPGKeylistParser, ArmorParser). GPG binary integration: untested | Medium |
 | **omemo plugin** | 102 tests (Curve25519, Signal, HKDF, FileDecryptor, DecryptLogic, BundleParser, Omemo2Crypto, SessionVersionGuard, etc.). Full session encrypt/decrypt: untested | Medium |
 
@@ -1491,4 +1511,4 @@ Examples:
 
 ---
 
-*Last updated: 24 February 2026 -- v1.7.0.0, 532 Meson + 136 standalone = 668 tests, 0 failures, legacy code cleanup (removed ESFS registry, legacy encryption fallback, avatar re-encryption)*
+*Last updated: 24 February 2026 -- v1.7.0.0, 546 Meson + 136 standalone = 682 tests, 0 failures, added SOCKS5/XEP-0260 audit tests*
