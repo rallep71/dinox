@@ -223,6 +223,7 @@ public class MessageMetaItem : ContentMetaItem {
             realize_id = label.realize.connect(update_label);
         } else if (!theme_dependent && realize_id != -1) {
             label.disconnect(realize_id);
+            realize_id = -1;
         }
 
         // Reset selectable before changing text to avoid stale cursor index
