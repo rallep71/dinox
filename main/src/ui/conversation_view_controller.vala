@@ -142,7 +142,13 @@ public class ConversationViewController : Object {
 
         SimpleAction close_conversation_action = new SimpleAction("close-current-conversation", null);
         close_conversation_action.activate.connect(() => {
-            stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).close_conversation(conversation);
+            // For MUC: Ctrl+W only hides the conversation (stays joined).
+            // For 1:1: close as before.
+            if (conversation.type_ == Conversation.Type.GROUPCHAT) {
+                stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).hide_conversation(conversation);
+            } else {
+                stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).close_conversation(conversation);
+            }
         });
         app.add_action(close_conversation_action);
         app.set_accels_for_action("app.close-current-conversation", KEY_COMBINATION_CLOSE_CONVERSATION);

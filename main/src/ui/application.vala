@@ -931,6 +931,17 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         });
         add_action (close_conversation_action);
 
+        // Hide conversation: removes from sidebar without leaving MUC rooms
+        SimpleAction hide_conversation_action = new SimpleAction ("hide-conversation", VariantType.INT32);
+        hide_conversation_action.activate.connect ((variant) => {
+            int conv_id = variant.get_int32 ();
+            Conversation? conversation = stream_interactor.get_module<ConversationManager> (ConversationManager.IDENTITY).get_conversation_by_id (conv_id);
+            if (conversation != null) {
+                stream_interactor.get_module<ConversationManager> (ConversationManager.IDENTITY).hide_conversation (conversation);
+            }
+        });
+        add_action (hide_conversation_action);
+
         SimpleAction open_conversation_details_action = new SimpleAction ("open-conversation-details", new VariantType.tuple( new VariantType[]{VariantType.INT32, VariantType.STRING}));
         open_conversation_details_action.activate.connect ((variant) => {
             int conversation_id = variant.get_child_value (0).get_int32 ();

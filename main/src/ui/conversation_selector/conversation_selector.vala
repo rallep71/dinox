@@ -24,6 +24,7 @@ public class ConversationSelector : Widget {
 
         stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).conversation_activated.connect(add_conversation);
         stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).conversation_deactivated.connect(remove_conversation);
+        stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).conversation_hidden.connect(remove_conversation);
         stream_interactor.account_added.connect(on_account_added);
         stream_interactor.account_removed.connect(on_account_removed);
         stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).new_item.connect(on_content_item_received);
@@ -158,10 +159,14 @@ public class ConversationSelector : Widget {
             conversation.notify["pinned"].disconnect(list_box.invalidate_sort);
 
             ConversationSelectorRow conversation_row;
+            // Unset from map BEFORE async yield to prevent race condition:
+            // two concurrent calls could both pass has_key() before unset()
             rows.unset(conversation, out conversation_row);
 
             yield conversation_row.colapse();
-            list_box.remove(conversation_row);
+            if (conversation_row.get_parent() == list_box) {
+                list_box.remove(conversation_row);
+            }
         }
     }
 

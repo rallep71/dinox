@@ -63,8 +63,12 @@ public class List : Box {
     }
 
     public void remove_occupant(Jid jid) {
-        list_box.remove(rows[jid]);
+        if (!rows.has_key(jid)) return;
+        var widget = rows[jid];
         rows.unset(jid);
+        if (widget.get_parent() == list_box) {
+            list_box.remove(widget);
+        }
     }
 
     private void on_received_offline_presence(Jid jid, Account account) {

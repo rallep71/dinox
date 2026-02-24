@@ -19,6 +19,7 @@ public class ConversationManager : StreamInteractionModule, Object {
 
     public signal void conversation_activated(Conversation conversation);
     public signal void conversation_deactivated(Conversation conversation);
+    public signal void conversation_hidden(Conversation conversation);
     public signal void conversation_cleared(Conversation conversation);
 
     private StreamInteractor stream_interactor;
@@ -169,6 +170,16 @@ public class ConversationManager : StreamInteractionModule, Object {
 
         conversation.active = false;
         conversation_deactivated(conversation);
+    }
+
+    // Hide conversation from sidebar without leaving MUC rooms.
+    // For 1:1 chats this is identical to close_conversation().
+    // For MUC: the room stays joined, autojoin stays set, only the UI is closed.
+    public void hide_conversation(Conversation conversation) {
+        if (!conversation.active) return;
+
+        conversation.active = false;
+        conversation_hidden(conversation);
     }
 
     private void on_account_added(Account account) {
