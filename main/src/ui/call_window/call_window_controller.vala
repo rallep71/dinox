@@ -20,6 +20,7 @@ public class Dino.Ui.CallWindowController : Object {
     private int window_height = -1;
     private int window_width = -1;
     private bool window_size_changed = false;
+    private bool closing = false;
     private ulong[] call_window_handler_ids = new ulong[0];
     private ulong[] bottom_bar_handler_ids = new ulong[0];
     private uint inhibit_cookie;
@@ -43,9 +44,10 @@ public class Dino.Ui.CallWindowController : Object {
 
             call_window.show_counterpart_ended(display_name, reason_name, reason_text);
             Timeout.add_seconds(3, () => {
-                call_window.close();
-                call_window.destroy();
-
+                if (!closing) {
+                    closing = true;
+                    call_window.close();
+                }
                 return false;
             });
         });
@@ -68,14 +70,15 @@ public class Dino.Ui.CallWindowController : Object {
         // Call window signals
 
         bottom_bar_handler_ids += call_window.bottom_bar.hang_up.connect(() => {
+            if (closing) return;
+            closing = true;
             call_state.end();
             call_window.close();
-            call_window.destroy();
-            this.dispose();
         });
         call_window_handler_ids += call_window.close_request.connect(() => {
+            if (closing) return false;
+            closing = true;
             call_state.end();
-            this.dispose();
             return false;
         });
         bottom_bar_handler_ids += call_window.bottom_bar.notify["audio-enabled"].connect(() => {
@@ -296,7 +299,17 @@ public class Dino.Ui.CallWindowController : Object {
                 }
             });
             conn_details_window.present(call_window);
-            this.call_window.close_request.connect(() => { conn_details_window.close(); return false; });
+            this.call_window.close_request.connect(() => {
+                // Don't call conn_details_window.close() here — it triggers
+                // recursive gtk_window_close on the already-closing parent,
+                // causing a segfault.  The dialog is a child of call_window
+                // and will be torn down automatically.  Just stop the timer.
+                if (timeout_handle_id > 0) {
+                    Source.remove(timeout_handle_id);
+                    timeout_handle_id = 0;
+                }
+                return false;
+            });
         });
         invite_handler_ids[participant_id] += participant_widget.invite_button_clicked.connect(() => invite_button_clicked());
         
