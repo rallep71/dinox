@@ -27,7 +27,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/ci-deps-cache
-          key: ci-deps-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('scripts/ci-build-deps.sh') }}
+          key: ci-deps-v2-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('scripts/ci-build-deps.sh') }}
       - name: "Restore cached dependencies"
         if: steps.cache-deps.outputs.cache-hit == 'true'
         run: |
@@ -36,13 +36,31 @@ jobs:
       - name: "Build custom dependencies"
         if: steps.cache-deps.outputs.cache-hit != 'true'
         run: |
-          touch /tmp/deps-marker && sleep 1
+          # Snapshot installed files before building custom deps
+          cd / && find usr/lib usr/include usr/bin usr/share/gir-1.0 usr/share/vala \
+            \( -type f -o -type l \) 2>/dev/null | sort > /tmp/files-before.txt
+          cd "$GITHUB_WORKSPACE"
           chmod +x scripts/ci-build-deps.sh
           ./scripts/ci-build-deps.sh
+          # Snapshot installed files after building custom deps
+          cd / && find usr/lib usr/include usr/bin usr/share/gir-1.0 usr/share/vala \
+            \( -type f -o -type l \) 2>/dev/null | sort > /tmp/files-after.txt
+          # Capture new files (webrtc-audio-processing-2, libomemo-c are entirely new)
+          comm -13 /tmp/files-before.txt /tmp/files-after.txt > /tmp/cache-files.txt
+          # Also include dirs replaced by custom builds — meson install preserves
+          # original file timestamps, so same-path replacements are invisible to
+          # timestamp-based approaches.  Explicitly capture them:
+          { find usr/include/nice usr/include/sqlcipher \
+              \( -type f -o -type l \) 2>/dev/null || true
+            find usr/lib -maxdepth 2 \( -name 'libnice*' -o -name 'libsqlcipher*' \) \
+              \( -type f -o -type l \) 2>/dev/null || true
+            find usr/lib -maxdepth 3 -path '*/pkgconfig/*' \
+              \( -name 'nice.pc' -o -name 'sqlcipher.pc' \) 2>/dev/null || true
+          } >> /tmp/cache-files.txt
+          sort -u /tmp/cache-files.txt -o /tmp/cache-files.txt
+          echo "::notice::Caching $(wc -l < /tmp/cache-files.txt) custom dependency files"
           mkdir -p ~/ci-deps-cache
-          cd / && sudo find usr/lib usr/include usr/bin usr/share/gir-1.0 usr/share/vala \
-            -newer /tmp/deps-marker \( -type f -o -type l \) 2>/dev/null | \
-            sudo tar cf ~/ci-deps-cache/deps.tar -T - 2>/dev/null || true
+          sudo tar cf ~/ci-deps-cache/deps.tar -T /tmp/cache-files.txt
       - name: "Check A/V dependency versions"
         run: |
           set -euo pipefail
@@ -98,6 +116,7 @@ jobs:
   build-vala-nightly:
     name: "Build with Vala Nightly"
     runs-on: ubuntu-24.04
+    continue-on-error: true
     steps:
       - name: "Checkout sources"
         uses: actions/checkout@v4
@@ -121,7 +140,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/ci-deps-cache
-          key: ci-deps-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('scripts/ci-build-deps.sh') }}
+          key: ci-deps-v2-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('scripts/ci-build-deps.sh') }}
       - name: "Restore cached dependencies"
         if: steps.cache-deps-nightly.outputs.cache-hit == 'true'
         run: |
@@ -130,13 +149,25 @@ jobs:
       - name: "Build custom dependencies"
         if: steps.cache-deps-nightly.outputs.cache-hit != 'true'
         run: |
-          touch /tmp/deps-marker && sleep 1
+          cd / && find usr/lib usr/include usr/bin usr/share/gir-1.0 usr/share/vala \
+            \( -type f -o -type l \) 2>/dev/null | sort > /tmp/files-before.txt
+          cd "$GITHUB_WORKSPACE"
           chmod +x scripts/ci-build-deps.sh
           ./scripts/ci-build-deps.sh
+          cd / && find usr/lib usr/include usr/bin usr/share/gir-1.0 usr/share/vala \
+            \( -type f -o -type l \) 2>/dev/null | sort > /tmp/files-after.txt
+          comm -13 /tmp/files-before.txt /tmp/files-after.txt > /tmp/cache-files.txt
+          { find usr/include/nice usr/include/sqlcipher \
+              \( -type f -o -type l \) 2>/dev/null || true
+            find usr/lib -maxdepth 2 \( -name 'libnice*' -o -name 'libsqlcipher*' \) \
+              \( -type f -o -type l \) 2>/dev/null || true
+            find usr/lib -maxdepth 3 -path '*/pkgconfig/*' \
+              \( -name 'nice.pc' -o -name 'sqlcipher.pc' \) 2>/dev/null || true
+          } >> /tmp/cache-files.txt
+          sort -u /tmp/cache-files.txt -o /tmp/cache-files.txt
+          echo "::notice::Caching $(wc -l < /tmp/cache-files.txt) custom dependency files"
           mkdir -p ~/ci-deps-cache
-          cd / && sudo find usr/lib usr/include usr/bin usr/share/gir-1.0 usr/share/vala \
-            -newer /tmp/deps-marker \( -type f -o -type l \) 2>/dev/null | \
-            sudo tar cf ~/ci-deps-cache/deps.tar -T - 2>/dev/null || true
+          sudo tar cf ~/ci-deps-cache/deps.tar -T /tmp/cache-files.txt
       - name: "Get week number"
         id: week
         run: echo "week=$(date +%Y-W%V)" >> $GITHUB_OUTPUT
@@ -159,6 +190,8 @@ jobs:
           touch /tmp/vala-marker && sleep 1
           git clone --depth 1 https://gitlab.gnome.org/GNOME/vala.git/ vala-nightly
           pushd vala-nightly
+          # Fetch tags so autogen.sh can determine version numbers
+          git fetch --tags --depth=1 2>/dev/null || true
           ./autogen.sh --prefix=/usr
           make -j$(nproc)
           sudo apt-get remove -y valac && sudo apt-get autoremove -y

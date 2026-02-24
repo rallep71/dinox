@@ -48,7 +48,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/ci-deps-cache
-          key: ci-deps-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('scripts/ci-build-deps.sh') }}
+          key: ci-deps-v2-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('scripts/ci-build-deps.sh') }}
 
       - name: "Restore cached dependencies"
         if: steps.cache-deps.outputs.cache-hit == 'true'
@@ -59,13 +59,25 @@ jobs:
       - name: "Build custom dependencies"
         if: steps.cache-deps.outputs.cache-hit != 'true'
         run: |
-          touch /tmp/deps-marker && sleep 1
+          cd / && find usr/lib usr/include usr/bin usr/share/gir-1.0 usr/share/vala \
+            \( -type f -o -type l \) 2>/dev/null | sort > /tmp/files-before.txt
+          cd "$GITHUB_WORKSPACE"
           chmod +x scripts/ci-build-deps.sh
           ./scripts/ci-build-deps.sh
+          cd / && find usr/lib usr/include usr/bin usr/share/gir-1.0 usr/share/vala \
+            \( -type f -o -type l \) 2>/dev/null | sort > /tmp/files-after.txt
+          comm -13 /tmp/files-before.txt /tmp/files-after.txt > /tmp/cache-files.txt
+          { find usr/include/nice usr/include/sqlcipher \
+              \( -type f -o -type l \) 2>/dev/null || true
+            find usr/lib -maxdepth 2 \( -name 'libnice*' -o -name 'libsqlcipher*' \) \
+              \( -type f -o -type l \) 2>/dev/null || true
+            find usr/lib -maxdepth 3 -path '*/pkgconfig/*' \
+              \( -name 'nice.pc' -o -name 'sqlcipher.pc' \) 2>/dev/null || true
+          } >> /tmp/cache-files.txt
+          sort -u /tmp/cache-files.txt -o /tmp/cache-files.txt
+          echo "::notice::Caching $(wc -l < /tmp/cache-files.txt) custom dependency files"
           mkdir -p ~/ci-deps-cache
-          cd / && sudo find usr/lib usr/include usr/bin usr/share/gir-1.0 usr/share/vala \
-            -newer /tmp/deps-marker \( -type f -o -type l \) 2>/dev/null | \
-            sudo tar cf ~/ci-deps-cache/deps.tar -T - 2>/dev/null || true
+          sudo tar cf ~/ci-deps-cache/deps.tar -T /tmp/cache-files.txt
 
       - name: "Build AppImage"
         run: |
