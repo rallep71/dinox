@@ -220,6 +220,10 @@ public class ConversationItemSkeleton : Plugins.ConversationItemWidgetInterface,
 
         if (item.encryption == Encryption.NONE) {
             if (conversation.encryption != Encryption.NONE) {
+                debug("update_encryption_icon: OPEN LOCK — item.encryption=NONE but conversation.encryption=%d jid=%s time=%s",
+                      (int) conversation.encryption,
+                      conversation.counterpart.to_string(),
+                      item.time != null ? item.time.to_string() : "(null)");
                 encryption_image.icon_name = "changes-allow-symbolic";
                 encryption_image.tooltip_text = Util.string_if_tooltips_active(_("Unencrypted"));
                 Util.force_error_color(encryption_image);

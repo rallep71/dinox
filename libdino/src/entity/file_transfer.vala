@@ -209,6 +209,25 @@ public class FileTransfer : Object {
         }
 
         notify.connect(on_update);
+
+        // Fix SFS file transfers that were stored without encryption due to a bug
+        // in stateless_file_sharing.vala (pre-v1.1.3.0). Look up the message's
+        // encryption and propagate it to the file transfer + persist to DB.
+        if (provider == 2 /* SFS_PROVIDER_ID */ && encryption == Encryption.NONE && info != null) {
+            try {
+                int msg_id = int.parse(info);
+                Qlite.RowOption msg_row = db.message.select().with(db.message.id, "=", msg_id).row();
+                if (msg_row.is_present()) {
+                    int msg_enc = msg_row.inner[db.message.encryption];
+                    if (msg_enc != 0) {
+                        debug("Fixing SFS file_transfer id=%d: encryption NONE → %d (from message %d)", id, msg_enc, msg_id);
+                        encryption = (Encryption) msg_enc;
+                    }
+                }
+            } catch (Error e) {
+                // Ignore — info might not be a valid message ID
+            }
+        }
     }
 
     public void persist(Database db) {

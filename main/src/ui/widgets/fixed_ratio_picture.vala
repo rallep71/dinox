@@ -69,6 +69,8 @@ class Dino.Ui.FixedRatioPicture : Gtk.Widget {
         } else {
             minimum = natural = int.max(min_height, int.min(height * for_size / width, height));
         }
+        // GTK4/Adw requires: natural >= minimum
+        natural = int.max(natural, minimum);
     }
 
     public override void size_allocate(int width, int height, int baseline) {

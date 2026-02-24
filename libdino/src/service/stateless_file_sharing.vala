@@ -48,6 +48,7 @@ public class Dino.StatelessFileSharing : StreamInteractionModule, Object {
         file_transfer.time = message.time;
         file_transfer.local_time = message.local_time;
         file_transfer.provider = SFS_PROVIDER_ID;
+        file_transfer.encryption = message.encryption;
         file_transfer.file_metadata = metadata;
         file_transfer.info = message.id.to_string();
         if (sources != null) {

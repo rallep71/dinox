@@ -106,16 +106,42 @@ public class FileEncryption : Object {
     }
 
     public async void decrypt_stream(InputStream input, OutputStream output, Cancellable? cancellable = null) throws GLib.Error {
+        // Try current format first
+        try {
+            yield decrypt_stream_format(input, output, SALT_SIZE, IV_SIZE, TAG_SIZE, cancellable);
+            return;
+        } catch (GLib.Error e) {
+            // If streams are seekable, try legacy format
+            var seekable_in = input as Seekable;
+            var seekable_out = output as Seekable;
+            if (seekable_in != null && seekable_in.can_seek() &&
+                seekable_out != null && seekable_out.can_seek()) {
+                try {
+                    seekable_in.seek(0, SeekType.SET);
+                    seekable_out.seek(0, SeekType.SET);
+                    seekable_out.truncate(0);
+                    yield decrypt_stream_format(input, output, LEGACY_SALT_SIZE, LEGACY_IV_SIZE, LEGACY_TAG_SIZE, cancellable);
+                    debug("Decrypted stream using legacy encryption format (pre-v1.1.2.7)");
+                    return;
+                } catch (GLib.Error e2) {
+                    // Both failed, throw original error
+                }
+            }
+            throw e;
+        }
+    }
+
+    private async void decrypt_stream_format(InputStream input, OutputStream output, int salt_sz, int iv_sz, int tag_sz, Cancellable? cancellable = null) throws GLib.Error {
         // Read Salt
-        uint8[] salt = new uint8[SALT_SIZE];
+        uint8[] salt = new uint8[salt_sz];
         size_t bytes_read;
         yield input.read_all_async(salt, Priority.DEFAULT, cancellable, out bytes_read);
-        if (bytes_read != SALT_SIZE) throw new IOError.FAILED("Stream too short (missing Salt)");
+        if (bytes_read != salt_sz) throw new IOError.FAILED("Stream too short (missing Salt)");
 
         // Read IV
-        uint8[] iv = new uint8[IV_SIZE];
+        uint8[] iv = new uint8[iv_sz];
         yield input.read_all_async(iv, Priority.DEFAULT, cancellable, out bytes_read);
-        if (bytes_read != IV_SIZE) throw new IOError.FAILED("Stream too short (missing IV)");
+        if (bytes_read != iv_sz) throw new IOError.FAILED("Stream too short (missing IV)");
 
         // Derive key from password + salt
         uint8[] derived_key = derive_key(password_store, salt);
@@ -125,21 +151,21 @@ public class FileEncryption : Object {
         cipher.set_iv(iv);
 
         // We need to read until the end to get the tag.
-        // The last TAG_SIZE bytes are the tag.
+        // The last tag_sz bytes are the tag.
         // This is tricky in a stream because we don't know when it ends until it ends.
         // We need a rolling buffer or lookahead.
         
         // Strategy:
-        // Maintain a buffer of size TAG_SIZE + CHUNK_SIZE.
-        // Always keep TAG_SIZE bytes "held back" as potential tag.
+        // Maintain a buffer of size tag_sz + CHUNK_SIZE.
+        // Always keep tag_sz bytes "held back" as potential tag.
         
         uint8[] buffer = new uint8[8192];
-        uint8[] tag_buffer = new uint8[TAG_SIZE];
+        uint8[] tag_buffer = new uint8[tag_sz];
         
         // Initial fill of tag buffer (holdback for potential GCM tag at EOF)
         yield input.read_all_async(tag_buffer, Priority.DEFAULT, cancellable, out bytes_read);
         
-        if (bytes_read < TAG_SIZE) {
+        if (bytes_read < tag_sz) {
              throw new IOError.FAILED("Stream too short (missing Tag)");
         }
 
@@ -147,18 +173,18 @@ public class FileEncryption : Object {
             ssize_t n = yield input.read_async(buffer, Priority.DEFAULT, cancellable);
             if (n == 0) break; // EOF
 
-            // tag_buffer holds TAG_SIZE bytes from previous reads (potential tag).
-            // We now have n new bytes in buffer. Total: TAG_SIZE + n bytes.
-            // The first n bytes are confirmed ciphertext, last TAG_SIZE are new holdback.
+            // tag_buffer holds tag_sz bytes from previous reads (potential tag).
+            // We now have n new bytes in buffer. Total: tag_sz + n bytes.
+            // The first n bytes are confirmed ciphertext, last tag_sz are new holdback.
 
-            if (n >= TAG_SIZE) {
+            if (n >= tag_sz) {
                 // Decrypt all of tag_buffer (confirmed ciphertext)
-                uint8[] out_held = new uint8[TAG_SIZE];
+                uint8[] out_held = new uint8[tag_sz];
                 cipher.decrypt(out_held, tag_buffer);
                 yield output.write_all_async(out_held, Priority.DEFAULT, cancellable, null);
 
-                // Decrypt buffer[0 : n - TAG_SIZE]
-                int middle_len = (int)n - TAG_SIZE;
+                // Decrypt buffer[0 : n - tag_sz]
+                int middle_len = (int)n - tag_sz;
                 if (middle_len > 0) {
                     uint8[] middle = buffer[0:middle_len];
                     uint8[] out_middle = new uint8[middle_len];
@@ -166,22 +192,22 @@ public class FileEncryption : Object {
                     yield output.write_all_async(out_middle, Priority.DEFAULT, cancellable, null);
                 }
 
-                // New tag_buffer = buffer[n - TAG_SIZE : n]
-                Memory.copy(tag_buffer, (void*)((uint8*)buffer + (n - TAG_SIZE)), TAG_SIZE);
+                // New tag_buffer = buffer[n - tag_sz : n]
+                Memory.copy(tag_buffer, (void*)((uint8*)buffer + (n - tag_sz)), tag_sz);
             } else {
-                // n < TAG_SIZE: decrypt only the first n bytes of tag_buffer,
+                // n < tag_sz: decrypt only the first n bytes of tag_buffer,
                 // then slide remaining tag_buffer bytes + new buffer bytes into new holdback.
                 uint8[] to_decrypt = tag_buffer[0:(int)n];
                 uint8[] out_decrypt = new uint8[(int)n];
                 cipher.decrypt(out_decrypt, to_decrypt);
                 yield output.write_all_async(out_decrypt, Priority.DEFAULT, cancellable, null);
 
-                // New tag_buffer = tag_buffer[n:TAG_SIZE] + buffer[0:n]
-                uint8[] new_tag = new uint8[TAG_SIZE];
-                int keep = TAG_SIZE - (int)n;
+                // New tag_buffer = tag_buffer[n:tag_sz] + buffer[0:n]
+                uint8[] new_tag = new uint8[tag_sz];
+                int keep = tag_sz - (int)n;
                 Memory.copy(new_tag, (void*)((uint8*)tag_buffer + n), (size_t)keep);
                 Memory.copy((void*)((uint8*)new_tag + keep), buffer, (size_t)n);
-                Memory.copy(tag_buffer, new_tag, TAG_SIZE);
+                Memory.copy(tag_buffer, new_tag, tag_sz);
             }
         }
         
@@ -262,6 +288,40 @@ public class FileEncryption : Object {
         Memory.copy((void*)((uint8*)result + SALT_SIZE + IV_SIZE), ciphertext, ciphertext.length);
         Memory.copy((void*)((uint8*)result + SALT_SIZE + IV_SIZE + ciphertext.length), tag, TAG_SIZE);
         
+        return result;
+    }
+
+    /**
+     * Encrypt data using legacy (pre-v1.1.2.7) format for testing purposes.
+     * Format: SALT(8) + IV(16) + Ciphertext + TAG(8)
+     * This method is ONLY for verifying that decrypt_data() correctly falls
+     * back to LEGACY_SALT_SIZE/LEGACY_IV_SIZE/LEGACY_TAG_SIZE.
+     */
+    public uint8[] encrypt_data_legacy(uint8[] plaintext) throws GLib.Error {
+        uint8[] salt = new uint8[LEGACY_SALT_SIZE];
+        Crypto.randomize(salt);
+
+        uint8[] derived_key = derive_key(password_store, salt);
+
+        uint8[] iv = new uint8[LEGACY_IV_SIZE];
+        Crypto.randomize(iv);
+
+        var cipher = new SymmetricCipher("AES256-GCM");
+        cipher.set_key(derived_key);
+        cipher.set_iv(iv);
+
+        uint8[] ciphertext = new uint8[plaintext.length];
+        cipher.encrypt(ciphertext, plaintext);
+        uint8[] tag = cipher.get_tag(LEGACY_TAG_SIZE);
+
+        // Legacy format: SALT(8) + IV(16) + Ciphertext + TAG(8)
+        int overhead = LEGACY_SALT_SIZE + LEGACY_IV_SIZE + LEGACY_TAG_SIZE;
+        uint8[] result = new uint8[overhead + ciphertext.length];
+        Memory.copy(result, salt, LEGACY_SALT_SIZE);
+        Memory.copy((void*)((uint8*)result + LEGACY_SALT_SIZE), iv, LEGACY_IV_SIZE);
+        Memory.copy((void*)((uint8*)result + LEGACY_SALT_SIZE + LEGACY_IV_SIZE), ciphertext, ciphertext.length);
+        Memory.copy((void*)((uint8*)result + LEGACY_SALT_SIZE + LEGACY_IV_SIZE + ciphertext.length), tag, LEGACY_TAG_SIZE);
+
         return result;
     }
 }

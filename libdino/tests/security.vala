@@ -36,6 +36,16 @@ class SecurityTest : Gee.TestCase {
         add_test("SP800_38D_reject_truncated_ciphertext", test_reject_truncated);
         add_test("SP800_38D_reject_corrupted_tag", test_reject_corrupted_tag);
         add_test("SP800_38D_large_plaintext_64KB_roundtrip", test_large_plaintext);
+        // Legacy format fallback (pre-v1.1.2.7 compatibility)
+        add_test("LEGACY_fallback_decrypt_data_roundtrip", test_legacy_fallback_decrypt_data);
+        add_test("LEGACY_fallback_sets_flag", test_legacy_fallback_sets_flag);
+        add_test("LEGACY_current_format_clears_flag", test_current_format_clears_flag);
+        add_test("LEGACY_fallback_wrong_password_rejects", test_legacy_wrong_password);
+        add_test("LEGACY_fallback_cross_instance", test_legacy_cross_instance);
+        // Stream encrypt/decrypt roundtrip
+        add_test("SP800_38D_stream_encrypt_decrypt_roundtrip", test_stream_roundtrip_sync);
+        add_test("SP800_38D_stream_large_64KB_roundtrip", test_stream_large_roundtrip_sync);
+        add_test("SP800_38D_stream_wrong_password_rejects", test_stream_wrong_password_sync);
     }
 
     /**
@@ -315,6 +325,276 @@ class SecurityTest : Gee.TestCase {
             }
         } catch (Error e) {
             fail_if_reached(@"Unexpected error: $(e.message)");
+        }
+    }
+
+    // ===== Legacy Format Fallback Tests (pre-v1.1.2.7 compatibility) =====
+
+    /**
+     * Legacy format: SALT(8) + IV(16) + CT + TAG(8) = 32 bytes overhead.
+     * decrypt_data() MUST transparently fall back when current format fails.
+     */
+    private void test_legacy_fallback_decrypt_data() {
+        try {
+            var enc = new FileEncryption("legacy-test-pw");
+            uint8[] pt = "Legacy encrypted data from old DinoX".data;
+
+            // Encrypt in legacy format (simulates pre-v1.1.2.7 data)
+            uint8[] ct_legacy = enc.encrypt_data_legacy(pt);
+
+            // Legacy overhead = 8 + 16 + 8 = 32
+            if (ct_legacy.length != 32 + pt.length) {
+                fail_if(true, @"Legacy format overhead wrong: expected $(32 + pt.length), got $(ct_legacy.length)");
+                return;
+            }
+
+            // decrypt_data MUST handle this via fallback
+            uint8[] dec = enc.decrypt_data(ct_legacy);
+
+            assert_true(dec.length == pt.length);
+            for (int i = 0; i < pt.length; i++) {
+                if (pt[i] != dec[i]) {
+                    fail_if(true, @"Legacy fallback byte mismatch at pos $i");
+                    return;
+                }
+            }
+        } catch (Error e) {
+            fail_if_reached(@"Legacy fallback decrypt failed: $(e.message)");
+        }
+    }
+
+    /**
+     * After decrypting legacy data, last_decrypt_used_legacy MUST be true.
+     */
+    private void test_legacy_fallback_sets_flag() {
+        try {
+            var enc = new FileEncryption("flag-test-pw");
+            uint8[] pt = "Flag test".data;
+            uint8[] ct_legacy = enc.encrypt_data_legacy(pt);
+            enc.decrypt_data(ct_legacy);
+
+            fail_if(!enc.last_decrypt_used_legacy,
+                    "last_decrypt_used_legacy MUST be true after legacy fallback");
+        } catch (Error e) {
+            fail_if_reached(@"Error: $(e.message)");
+        }
+    }
+
+    /**
+     * After decrypting current-format data, last_decrypt_used_legacy MUST be false.
+     */
+    private void test_current_format_clears_flag() {
+        try {
+            var enc = new FileEncryption("flag-test-pw");
+            uint8[] pt = "Current format".data;
+
+            // First decrypt legacy to set the flag
+            uint8[] ct_legacy = enc.encrypt_data_legacy(pt);
+            enc.decrypt_data(ct_legacy);
+            assert_true(enc.last_decrypt_used_legacy);
+
+            // Now decrypt current format — flag must be cleared
+            uint8[] ct_current = enc.encrypt_data(pt);
+            enc.decrypt_data(ct_current);
+
+            fail_if(enc.last_decrypt_used_legacy,
+                    "last_decrypt_used_legacy MUST be false after current-format decrypt");
+        } catch (Error e) {
+            fail_if_reached(@"Error: $(e.message)");
+        }
+    }
+
+    /**
+     * Legacy-format data encrypted with password A MUST be rejected by password B.
+     * Both current and legacy format attempts must fail.
+     */
+    private void test_legacy_wrong_password() {
+        try {
+            var enc_a = new FileEncryption("password-A");
+            var enc_b = new FileEncryption("password-B");
+            uint8[] pt = "Secret".data;
+            uint8[] ct_legacy = enc_a.encrypt_data_legacy(pt);
+
+            try {
+                enc_b.decrypt_data(ct_legacy);
+                fail_if(true, "Legacy data with wrong password MUST be rejected");
+            } catch (Error e) {
+                // Expected
+                assert_true(true);
+            }
+        } catch (Error e) {
+            fail_if_reached(@"Setup error: $(e.message)");
+        }
+    }
+
+    /**
+     * Legacy-format data MUST be decryptable by a different FileEncryption
+     * instance with the same password (cross-instance, same as current format).
+     */
+    private void test_legacy_cross_instance() {
+        try {
+            var enc1 = new FileEncryption("cross-legacy");
+            var enc2 = new FileEncryption("cross-legacy");
+            uint8[] pt = "Cross-instance legacy".data;
+            uint8[] ct_legacy = enc1.encrypt_data_legacy(pt);
+            uint8[] dec = enc2.decrypt_data(ct_legacy);
+
+            assert_true(dec.length == pt.length);
+            string result = (string) dec;
+            fail_if(result != "Cross-instance legacy",
+                    "Cross-instance legacy decrypt mismatch");
+        } catch (Error e) {
+            fail_if_reached(@"Error: $(e.message)");
+        }
+    }
+
+    // ===== Stream Encrypt/Decrypt Tests =====
+
+    /** Helper: run an async function synchronously via MainLoop. */
+    private delegate void AsyncRunner();
+    private static void run_async(owned AsyncRunner runner) {
+        var loop = new MainLoop();
+        runner();
+        loop.quit();
+    }
+
+    /**
+     * encrypt_stream + decrypt_stream roundtrip MUST reproduce plaintext.
+     * Tests the streaming GCM tag holdback logic.
+     */
+    private void test_stream_roundtrip_sync() {
+        var loop = new MainLoop();
+        test_stream_roundtrip.begin((obj, res) => {
+            test_stream_roundtrip.end(res);
+            loop.quit();
+        });
+        loop.run();
+    }
+
+    private async void test_stream_roundtrip() {
+        try {
+            var enc = new FileEncryption("stream-test-pw");
+            uint8[] pt = "Stream encryption roundtrip test data with some content".data;
+
+            // Encrypt to memory
+            var pt_stream = new MemoryInputStream.from_data(pt);
+            var ct_out = new MemoryOutputStream.resizable();
+            yield enc.encrypt_stream(pt_stream, ct_out, null);
+            ct_out.close();
+
+            // Decrypt from memory
+            uint8[] ct_data = ct_out.steal_data();
+            ct_data.length = (int) ct_out.get_data_size();
+            var ct_stream = new MemoryInputStream.from_data(ct_data);
+            var dec_out = new MemoryOutputStream.resizable();
+            yield enc.decrypt_stream(ct_stream, dec_out, null);
+            dec_out.close();
+
+            uint8[] dec_data = dec_out.steal_data();
+            dec_data.length = (int) dec_out.get_data_size();
+
+            if (dec_data.length != pt.length) {
+                fail_if(true, @"Stream roundtrip length mismatch: expected $(pt.length), got $(dec_data.length)");
+                return;
+            }
+            for (int i = 0; i < pt.length; i++) {
+                if (pt[i] != dec_data[i]) {
+                    fail_if(true, @"Stream roundtrip byte mismatch at pos $i");
+                    return;
+                }
+            }
+        } catch (Error e) {
+            fail_if_reached(@"Stream roundtrip error: $(e.message)");
+        }
+    }
+
+    /**
+     * Stream encrypt/decrypt with 64KB data (multi-block GCM, multi-chunk stream).
+     * Exercises the tag holdback buffer logic across many read iterations.
+     */
+    private void test_stream_large_roundtrip_sync() {
+        var loop = new MainLoop();
+        test_stream_large_roundtrip.begin((obj, res) => {
+            test_stream_large_roundtrip.end(res);
+            loop.quit();
+        });
+        loop.run();
+    }
+
+    private async void test_stream_large_roundtrip() {
+        try {
+            var enc = new FileEncryption("stream-large-pw");
+            uint8[] pt = new uint8[65536];
+            for (int i = 0; i < pt.length; i++) pt[i] = (uint8)(i & 0xFF);
+
+            var pt_stream = new MemoryInputStream.from_data(pt);
+            var ct_out = new MemoryOutputStream.resizable();
+            yield enc.encrypt_stream(pt_stream, ct_out, null);
+            ct_out.close();
+
+            uint8[] ct_data = ct_out.steal_data();
+            ct_data.length = (int) ct_out.get_data_size();
+            var ct_stream = new MemoryInputStream.from_data(ct_data);
+            var dec_out = new MemoryOutputStream.resizable();
+            yield enc.decrypt_stream(ct_stream, dec_out, null);
+            dec_out.close();
+
+            uint8[] dec_data = dec_out.steal_data();
+            dec_data.length = (int) dec_out.get_data_size();
+
+            if (dec_data.length != pt.length) {
+                fail_if(true, @"Stream 64KB length mismatch: expected $(pt.length), got $(dec_data.length)");
+                return;
+            }
+            for (int i = 0; i < pt.length; i++) {
+                if (pt[i] != dec_data[i]) {
+                    fail_if(true, @"Stream 64KB byte mismatch at pos $i");
+                    return;
+                }
+            }
+        } catch (Error e) {
+            fail_if_reached(@"Stream 64KB error: $(e.message)");
+        }
+    }
+
+    /**
+     * Stream decrypt with wrong password MUST fail (GCM tag mismatch).
+     */
+    private void test_stream_wrong_password_sync() {
+        var loop = new MainLoop();
+        test_stream_wrong_password.begin((obj, res) => {
+            test_stream_wrong_password.end(res);
+            loop.quit();
+        });
+        loop.run();
+    }
+
+    private async void test_stream_wrong_password() {
+        try {
+            var enc1 = new FileEncryption("correct-stream-pw");
+            var enc2 = new FileEncryption("wrong-stream-pw");
+            uint8[] pt = "Secret stream data".data;
+
+            // Encrypt
+            var pt_stream = new MemoryInputStream.from_data(pt);
+            var ct_out = new MemoryOutputStream.resizable();
+            yield enc1.encrypt_stream(pt_stream, ct_out, null);
+            ct_out.close();
+
+            // Decrypt with wrong password
+            uint8[] ct_data = ct_out.steal_data();
+            ct_data.length = (int) ct_out.get_data_size();
+            var ct_stream = new MemoryInputStream.from_data(ct_data);
+            var dec_out = new MemoryOutputStream.resizable();
+            try {
+                yield enc2.decrypt_stream(ct_stream, dec_out, null);
+                fail_if(true, "Stream decrypt with wrong password MUST fail");
+            } catch (Error e) {
+                // Expected: tag mismatch
+                assert_true(true);
+            }
+        } catch (Error e) {
+            fail_if_reached(@"Setup error: $(e.message)");
         }
     }
 }

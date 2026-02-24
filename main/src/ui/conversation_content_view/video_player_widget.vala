@@ -555,6 +555,11 @@ public class VideoPlayerWidget : Widget {
 
     private void show_fallback_preview() {
         if (preview_image == null) {
+            var existing = stack.get_child_by_name("fallback");
+            if (existing != null) {
+                stack.set_visible_child(existing);
+                return;
+            }
             var icon = new Gtk.Image.from_icon_name("video-x-generic");
             icon.pixel_size = 96;
             stack.add_named(icon, "fallback");

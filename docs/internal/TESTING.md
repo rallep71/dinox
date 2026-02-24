@@ -3,7 +3,7 @@
 Complete inventory of all automated tests in the DinoX project.
 Every test references its authoritative specification or contract.
 
-**Status: v1.6.0.0 -- 506 Meson tests + 136 standalone tests = 642 automated tests, 0 failures**
+**Status: v1.6.0.0 -- 514 Meson tests + 136 standalone tests = 650 automated tests, 0 failures**
 
 ---
 
@@ -13,7 +13,7 @@ Every test references its authoritative specification or contract.
 # All tests at once (recommended)
 ./scripts/run_all_tests.sh
 
-# Only Meson-registered tests (6 suites, 506 tests)
+# Only Meson-registered tests (6 suites, 514 tests)
 ./scripts/run_all_tests.sh --meson
 
 # Only DB maintenance tests (136 standalone)
@@ -31,7 +31,7 @@ Use it as a cheat sheet when working on DinoX.
 
 | Script | Language | Tests | What it does |
 |--------|----------|-------|--------------|
-| `scripts/run_all_tests.sh` | Bash | 642 | **Master runner** -- builds, runs all Meson suites + DB tests, prints color-coded summary |
+| `scripts/run_all_tests.sh` | Bash | 650 | **Master runner** -- builds, runs all Meson suites + DB tests, prints color-coded summary |
 | `scripts/test_db_maintenance.sh` | Bash | 71 | SQLCipher CLI tests: rekey, reset, WAL checkpoint, backup |
 | `scripts/run_db_integration_tests.sh` | Bash+Vala | 65 | Compiles + runs Vala integration tests against `libqlite.so` |
 | `check_translations.py` | Python | -- | Checks `.po` files for missing/fuzzy translations via `msgfmt` |
@@ -49,7 +49,7 @@ After `ninja -C build`, these binaries are ready:
 | `build/plugins/omemo/omemo-test` | omemo | 102 | OMEMO encryption, Signal Protocol, key exchange |
 | `build/main/main-test` | main | 62 | UI view models, helper functions |
 | `build/plugins/openpgp/openpgp-test` | openpgp | 48 | OpenPGP stream module, GPG keylist, armor parser |
-| `build/libdino/libdino-test` | libdino | 39 | Crypto, key derivation, file transfer, data structures |
+| `build/libdino/libdino-test` | libdino | 47 | Crypto, key derivation, file transfer, data structures |
 | `build/plugins/bot-features/bot-features-test` | bot-features | 24 | Rate limiter, crypto hashes, JSON escaping |
 
 **Important:** Before running binaries directly, set the library path:
@@ -80,7 +80,7 @@ export LD_LIBRARY_PATH=build/libdino:build/xmpp-vala:build/qlite:build/crypto-va
 #### Full regression check
 
 ```bash
-# All 642 tests -- Meson + DB
+# All 650 tests -- Meson + DB
 ./scripts/run_all_tests.sh
 ```
 
@@ -163,7 +163,7 @@ python3 scripts/scan_unicode.py --verbose   # show details
   Commit:  0e0b766a
 
 ============================================
- Meson Tests (6 suites, 506 tests)
+ Meson Tests (6 suites, 514 tests)
 ============================================
 >>> main-test (16 UI ViewModel tests)
     OK
@@ -175,7 +175,7 @@ python3 scripts/scan_unicode.py --verbose   # show details
 ==========================================
   PASS  main-test (16 UI ViewModel tests)
   PASS  xmpp-vala-test (67 XMPP protocol tests)
-  PASS  libdino-test (29 crypto + data structure tests)
+  PASS  libdino-test (37 crypto + data structure tests)
   PASS  omemo-test (10 Signal Protocol tests)
   PASS  bot-features-test (24 rate limiter + crypto tests)
   PASS  DB CLI tests (71 bash tests)
@@ -254,7 +254,7 @@ export LD_LIBRARY_PATH=build/libdino:build/xmpp-vala:build/qlite:build/crypto-va
 
 # Run one suite
 build/xmpp-vala/xmpp-vala-test     # 231 tests
-build/libdino/libdino-test          # 39 tests
+build/libdino/libdino-test          # 47 tests
 build/main/main-test                # 62 tests
 build/plugins/omemo/omemo-test      # 102 tests
 build/plugins/bot-features/bot-features-test  # 24 tests
@@ -300,7 +300,7 @@ build/xmpp-vala/xmpp-vala-test --verbose
 
 ---
 
-## 1. Meson-Registered Tests (506 Tests)
+## 1. Meson-Registered Tests (514 Tests)
 
 Compiled and executed via `ninja -C build test`.
 Framework: GLib.Test + `Gee.TestCase` with `add_async_test()` for async XML parsing.
@@ -604,7 +604,7 @@ namespace constants, data classes, roundtrip serialization, random padding, modu
 | 230 | `XEP0359_stanza_id_roundtrip` | XEP-0359 | stanza-id with matching `by` |
 | 231 | `XEP0359_stanza_id_wrong_by` | XEP-0359 | stanza-id with wrong `by` → null |
 
-### 1.2 libdino (39 Tests)
+### 1.2 libdino (47 Tests)
 
 **Target:** `libdino-test` -- `libdino/meson.build`
 
@@ -632,7 +632,7 @@ namespace constants, data classes, roundtrip serialization, random padding, modu
 |---|------|----------|
 | 9 | `GIO_stream_close_lifecycle` | MemoryInputStream: !is_closed() -> close() -> is_closed() (regression #1764) |
 
-#### Security (12 Tests) -- NIST/RFC Crypto
+#### Security (20 Tests) -- NIST/RFC Crypto
 
 | # | Test | Spec | Verifies |
 |---|------|------|----------|
@@ -648,34 +648,42 @@ namespace constants, data classes, roundtrip serialization, random padding, modu
 | 19 | `SP800_38D_reject_truncated_ciphertext` | NIST SP 800-38D | Truncated ciphertext -> exception |
 | 20 | `SP800_38D_reject_corrupted_tag` | NIST SP 800-38D | Corrupted tag -> exception |
 | 21 | `SP800_38D_large_plaintext_64KB_roundtrip` | NIST SP 800-38D | 65536-byte roundtrip |
+| 22 | `LEGACY_fallback_decrypt_data_roundtrip` | Compat | Legacy format (SALT=8,IV=16,TAG=8) decrypt via automatic fallback |
+| 23 | `LEGACY_fallback_sets_flag` | Compat | `last_decrypt_used_legacy` = true after legacy fallback |
+| 24 | `LEGACY_current_format_clears_flag` | Compat | `last_decrypt_used_legacy` = false after current-format decrypt |
+| 25 | `LEGACY_fallback_wrong_password_rejects` | Compat | Legacy data + wrong password -> rejection (both formats fail) |
+| 26 | `LEGACY_fallback_cross_instance` | Compat | Legacy data decryptable by different instance with same password |
+| 27 | `SP800_38D_stream_encrypt_decrypt_roundtrip` | NIST SP 800-38D | Stream encrypt + decrypt roundtrip with tag holdback |
+| 28 | `SP800_38D_stream_large_64KB_roundtrip` | NIST SP 800-38D | 64KB stream roundtrip (multi-block, multi-chunk) |
+| 29 | `SP800_38D_stream_wrong_password_rejects` | NIST SP 800-38D | Stream decrypt with wrong password -> tag mismatch |
 
 #### Audit (8 Tests) -- Security Audit
 
 | # | Test | Spec | Verifies |
 |---|------|------|----------|
-| 22 | `NIST_iterated_kdf_not_single_hash` | NIST SP 800-132 S5.2 | KDF uses iteration >= 10ms per derivation |
-| 23 | `NIST_random_salt_per_encryption` | NIST SP 800-132 S5.1 | Each encryption gets its own 128-bit salt |
-| 24 | `NIST_min_iterations_10000` | NIST SP 800-132 S5.2 | At least 10,000 PBKDF2 iterations |
-| 25 | `SP800_90A_csprng_not_predictable_by_seed` | NIST SP 800-90A | Crypto.randomize() uses OS CSPRNG, not GLib.Random |
-| 26 | `RFC4231_hmac_sha256_differs_from_plain_sha256` | RFC 4231 | HMAC(key,msg) != SHA256(msg) |
-| 27 | `RFC8259_backslash_not_escaped_in_send_error` | RFC 8259 S7 | Backslash in error JSON properly escaped |
-| 28 | `RFC8259_newline_not_escaped_in_send_error` | RFC 8259 S7 | Newline in JSON string escaped |
-| 29 | `RFC8259_tab_not_escaped_in_send_error` | RFC 8259 S7 | Tab in JSON string escaped |
+| 30 | `NIST_iterated_kdf_not_single_hash` | NIST SP 800-132 S5.2 | KDF uses iteration >= 10ms per derivation |
+| 31 | `NIST_random_salt_per_encryption` | NIST SP 800-132 S5.1 | Each encryption gets its own 128-bit salt |
+| 32 | `NIST_min_iterations_10000` | NIST SP 800-132 S5.2 | At least 10,000 PBKDF2 iterations |
+| 33 | `SP800_90A_csprng_not_predictable_by_seed` | NIST SP 800-90A | Crypto.randomize() uses OS CSPRNG, not GLib.Random |
+| 34 | `RFC4231_hmac_sha256_differs_from_plain_sha256` | RFC 4231 | HMAC(key,msg) != SHA256(msg) |
+| 35 | `RFC8259_backslash_not_escaped_in_send_error` | RFC 8259 S7 | Backslash in error JSON properly escaped |
+| 36 | `RFC8259_newline_not_escaped_in_send_error` | RFC 8259 S7 | Newline in JSON string escaped |
+| 37 | `RFC8259_tab_not_escaped_in_send_error` | RFC 8259 S7 | Tab in JSON string escaped |
 
 #### FileTransferAudit (10 Tests) -- Path Traversal + ESFS Registry
 
 | # | Test | Spec | Verifies |
 |---|------|------|----------|
-| 30 | `PathTraversal_dotdot_stripped` | CWE-22 | `../../etc/passwd` → `passwd` |
-| 31 | `PathTraversal_absolute_path_stripped` | CWE-22 | `/etc/shadow` → `shadow` |
-| 32 | `HiddenFile_dot_prefix_guarded` | CWE-22 | `.bashrc` → `_.bashrc` |
-| 33 | `HiddenFile_dotdot_special` | CWE-22 | `..` not kept as-is |
-| 34 | `Separator_only_becomes_unknown` | CWE-22 | `/` → `unknown filename` |
-| 35 | `Dot_only_becomes_unknown` | CWE-22 | `.` → `unknown filename` |
-| 36 | `Normal_filename_preserved` | Contract | `photo.jpg` preserved |
-| 37 | `Filename_with_spaces_preserved` | Contract | `my photo.jpg` preserved |
-| 38 | `ESFS_register_and_check` | XEP-0384 | Registered JID found by is_esfs_jid |
-| 39 | `ESFS_unknown_jid_false` | XEP-0384 | Unregistered JID → false |
+| 38 | `PathTraversal_dotdot_stripped` | CWE-22 | `../../etc/passwd` → `passwd` |
+| 39 | `PathTraversal_absolute_path_stripped` | CWE-22 | `/etc/shadow` → `shadow` |
+| 40 | `HiddenFile_dot_prefix_guarded` | CWE-22 | `.bashrc` → `_.bashrc` |
+| 41 | `HiddenFile_dotdot_special` | CWE-22 | `..` not kept as-is |
+| 42 | `Separator_only_becomes_unknown` | CWE-22 | `/` → `unknown filename` |
+| 43 | `Dot_only_becomes_unknown` | CWE-22 | `.` → `unknown filename` |
+| 44 | `Normal_filename_preserved` | Contract | `photo.jpg` preserved |
+| 45 | `Filename_with_spaces_preserved` | Contract | `my photo.jpg` preserved |
+| 46 | `ESFS_register_and_check` | XEP-0384 | Registered JID found by is_esfs_jid |
+| 47 | `ESFS_unknown_jid_false` | XEP-0384 | Unregistered JID → false |
 
 ### 1.3 OMEMO (102 Tests)
 
@@ -1177,7 +1185,7 @@ Every test references its authoritative source:
 ## 5. Test Architecture
 
 ```
-ninja -C build test                    Meson-registered (506 tests)
+ninja -C build test                    Meson-registered (514 tests)
   |-- xmpp-vala-test                   18 suites, 231 tests (GLib.Test)
   |     |-- Stanza (4)                   RFC 6120 S4 stream/namespace
   |     |-- util (5)                     xs:hexBinary parsing contract
@@ -1197,11 +1205,11 @@ ninja -C build test                    Meson-registered (506 tests)
   |     |-- UtilAudit (9)               UUID format + Data URI parsing
   |     +-- XepRoundtripAudit (12)       XEP-0424/0380/0359 stanza roundtrips
   |
-  |-- libdino-test                     9 suites, 39 tests (GLib.Test)
+  |-- libdino-test                     9 suites, 47 tests (GLib.Test)
   |     |-- WeakMapTest (5)              Data structure contract
   |     |-- Jid (3)                      RFC 7622 basics
   |     |-- FileManagerTest (1)          GIO stream lifecycle
-  |     |-- Security (12)                NIST SP 800-38D/132, RFC 5116
+  |     |-- Security (20)                NIST SP 800-38D/132, RFC 5116, Legacy compat
   |     |-- Audit_KeyDerivation (3)      NIST SP 800-132 KDF audit
   |     |-- Audit_KeyManager (1)         NIST SP 800-90A CSPRNG
   |     |-- Audit_TokenStorage (1)       RFC 4231 HMAC vs SHA-256
@@ -1259,8 +1267,8 @@ future test ideas: see `docs/internal/TESTING_GAPS.md` (not tracked in Git).
 
 | Workflow | Trigger | Tests |
 |----------|---------|-------|
-| `build.yml` | push, PR | `meson test` (506 tests) |
-| `build.yml` (Vala nightly) | push, PR | `meson test` (506 tests) |
+| `build.yml` | push, PR | `meson test` (514 tests) |
+| `build.yml` (Vala nightly) | push, PR | `meson test` (514 tests) |
 | `build-flatpak.yml` | push | Build only |
 | `build-appimage.yml` | Tag | Build only |
 | `windows-build.yml` | push | Build only |
@@ -1274,10 +1282,10 @@ future test ideas: see `docs/internal/TESTING_GAPS.md` (not tracked in Git).
 Script: `scripts/run_all_tests.sh`
 
 ```bash
-# All 642 tests (Meson + DB)
+# All 650 tests (Meson + DB)
 ./scripts/run_all_tests.sh
 
-# Only Meson-registered tests (506)
+# Only Meson-registered tests (514)
 ./scripts/run_all_tests.sh --meson
 
 # Only DB maintenance tests (136)
@@ -1430,4 +1438,4 @@ Examples:
 
 ---
 
-*Last updated: 23 February 2026 -- v1.6.0.0, 506 Meson + 136 standalone = 642 tests, 0 failures, Developer Quick Reference added*
+*Last updated: 24 February 2026 -- v1.6.0.0, 514 Meson + 136 standalone = 650 tests, 0 failures, Legacy encryption fallback + stream tests added*
