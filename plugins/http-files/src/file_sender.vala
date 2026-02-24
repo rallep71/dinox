@@ -8,9 +8,6 @@ namespace Dino.Plugins.HttpFiles {
 class EncryptedHttpFileSendData : HttpFileSendData {
     public uint8[] key;
     public uint8[] iv;
-    /* ESFS mode: aes-256-gcm-nopadding:0 -> no GCM auth tag appended.
-     * Legacy aesgcm:// mode: GCM auth tag (16 bytes) IS appended. */
-    public bool esfs_mode = false;
 }
 
 public class HttpFileSender : FileSender, Object {
@@ -61,12 +58,8 @@ public class HttpFileSender : FileSender, Object {
             Crypto.randomize(enc_data.key);
             Crypto.randomize(enc_data.iv);
             // Always append the 16-byte GCM auth tag to the encrypted upload.
-            // The aesgcm:// URL format (legacy path) REQUIRES the tag.
-            // The ESFS receiver also handles it (tries with-tag first, falls back to tag-less).
-            // Before this fix, esfs_mode=true omitted the tag, causing Prüfsummenfehler
-            // when the receiver fell back to the legacy aesgcm:// decryptor.
-            bool is_esfs = Dino.Entities.FileTransfer.is_esfs_jid(conversation.counterpart.bare_jid.to_string());
-            enc_data.esfs_mode = is_esfs;
+            // The aesgcm:// URL format requires the tag appended to ciphertext.
+            // ESFS receivers also handle it (tries with-tag first, falls back to tag-less).
             upload_size += 16;
             send_data = enc_data;
         } else {
@@ -150,12 +143,6 @@ public class HttpFileSender : FileSender, Object {
         // Share encrypted files without SFS
         else {
             debug("http-files: sending encrypted or non-referenceable; uploading first url=%s", sanitize_url_for_log(send_data.url_down));
-
-            // esfs_mode was already set in prepare_send_file() so slot size matches.
-            if (send_data is EncryptedHttpFileSendData) {
-                var enc = (EncryptedHttpFileSendData) send_data;
-                debug("http-files: esfs_mode=%s for %s", enc.esfs_mode.to_string(), conversation.counterpart.bare_jid.to_string());
-            }
 
             yield upload(file_transfer, send_data, file_meta);
 

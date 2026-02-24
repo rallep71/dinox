@@ -646,8 +646,6 @@ public class Manager : StreamInteractionModule, Object {
                 /* Track JIDs that announce OMEMO 2 devices */
                 if (devices.size > 0) {
                     v2_jids.add(jid.bare_jid.to_string());
-                    /* Also register for ESFS file transfer detection */
-                    Dino.Entities.FileTransfer.register_esfs_jid(jid.bare_jid.to_string());
                     debug("OMEMO 2: Marked %s as v2-capable (%d devices)", jid.bare_jid.to_string(), devices.size);
                 }
                 /* Handle v2 device list separately -- must be ADDITIVE.

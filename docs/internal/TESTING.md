@@ -3,7 +3,7 @@
 Complete inventory of all automated tests in the DinoX project.
 Every test references its authoritative specification or contract.
 
-**Status: v1.6.0.0 -- 542 Meson tests + 136 standalone tests = 678 automated tests, 0 failures**
+**Status: v1.7.0.0 -- 532 Meson tests + 136 standalone tests = 668 automated tests, 0 failures**
 
 ---
 
@@ -49,8 +49,8 @@ After `ninja -C build`, these binaries are ready:
 | `build/plugins/omemo/omemo-test` | omemo | 102 | OMEMO encryption, Signal Protocol, key exchange |
 | `build/main/main-test` | main | 62 | UI view models, helper functions |
 | `build/plugins/openpgp/openpgp-test` | openpgp | 48 | OpenPGP stream module, GPG keylist, armor parser |
-| `build/libdino/libdino-test` | libdino | 47 | Crypto, key derivation, file transfer, data structures |
-| `build/plugins/http-files/http-files-test` | http-files | 28 | URL regex, filename extraction, log sanitization, ESFS registry |
+| `build/libdino/libdino-test` | libdino | 40 | Crypto, key derivation, file transfer, data structures |
+| `build/plugins/http-files/http-files-test` | http-files | 25 | URL regex, filename extraction, log sanitization |
 | `build/plugins/bot-features/bot-features-test` | bot-features | 24 | Rate limiter, crypto hashes, JSON escaping |
 
 **Important:** Before running binaries directly, set the library path:
@@ -650,42 +650,35 @@ namespace constants, data classes, roundtrip serialization, random padding, modu
 | 19 | `SP800_38D_reject_truncated_ciphertext` | NIST SP 800-38D | Truncated ciphertext -> exception |
 | 20 | `SP800_38D_reject_corrupted_tag` | NIST SP 800-38D | Corrupted tag -> exception |
 | 21 | `SP800_38D_large_plaintext_64KB_roundtrip` | NIST SP 800-38D | 65536-byte roundtrip |
-| 22 | `LEGACY_fallback_decrypt_data_roundtrip` | Compat | Legacy format (SALT=8,IV=16,TAG=8) decrypt via automatic fallback |
-| 23 | `LEGACY_fallback_sets_flag` | Compat | `last_decrypt_used_legacy` = true after legacy fallback |
-| 24 | `LEGACY_current_format_clears_flag` | Compat | `last_decrypt_used_legacy` = false after current-format decrypt |
-| 25 | `LEGACY_fallback_wrong_password_rejects` | Compat | Legacy data + wrong password -> rejection (both formats fail) |
-| 26 | `LEGACY_fallback_cross_instance` | Compat | Legacy data decryptable by different instance with same password |
-| 27 | `SP800_38D_stream_encrypt_decrypt_roundtrip` | NIST SP 800-38D | Stream encrypt + decrypt roundtrip with tag holdback |
-| 28 | `SP800_38D_stream_large_64KB_roundtrip` | NIST SP 800-38D | 64KB stream roundtrip (multi-block, multi-chunk) |
-| 29 | `SP800_38D_stream_wrong_password_rejects` | NIST SP 800-38D | Stream decrypt with wrong password -> tag mismatch |
+| 22 | `SP800_38D_stream_encrypt_decrypt_roundtrip` | NIST SP 800-38D | Stream encrypt + decrypt roundtrip with tag holdback |
+| 23 | `SP800_38D_stream_large_64KB_roundtrip` | NIST SP 800-38D | 64KB stream roundtrip (multi-block, multi-chunk) |
+| 24 | `SP800_38D_stream_wrong_password_rejects` | NIST SP 800-38D | Stream decrypt with wrong password -> tag mismatch |
 
 #### Audit (8 Tests) -- Security Audit
 
 | # | Test | Spec | Verifies |
 |---|------|------|----------|
-| 30 | `NIST_iterated_kdf_not_single_hash` | NIST SP 800-132 S5.2 | KDF uses iteration >= 10ms per derivation |
-| 31 | `NIST_random_salt_per_encryption` | NIST SP 800-132 S5.1 | Each encryption gets its own 128-bit salt |
-| 32 | `NIST_min_iterations_10000` | NIST SP 800-132 S5.2 | At least 10,000 PBKDF2 iterations |
-| 33 | `SP800_90A_csprng_not_predictable_by_seed` | NIST SP 800-90A | Crypto.randomize() uses OS CSPRNG, not GLib.Random |
-| 34 | `RFC4231_hmac_sha256_differs_from_plain_sha256` | RFC 4231 | HMAC(key,msg) != SHA256(msg) |
-| 35 | `RFC8259_backslash_not_escaped_in_send_error` | RFC 8259 S7 | Backslash in error JSON properly escaped |
-| 36 | `RFC8259_newline_not_escaped_in_send_error` | RFC 8259 S7 | Newline in JSON string escaped |
-| 37 | `RFC8259_tab_not_escaped_in_send_error` | RFC 8259 S7 | Tab in JSON string escaped |
+| 25 | `NIST_iterated_kdf_not_single_hash` | NIST SP 800-132 S5.2 | KDF uses iteration >= 10ms per derivation |
+| 26 | `NIST_random_salt_per_encryption` | NIST SP 800-132 S5.1 | Each encryption gets its own 128-bit salt |
+| 27 | `NIST_min_iterations_10000` | NIST SP 800-132 S5.2 | At least 10,000 PBKDF2 iterations |
+| 28 | `SP800_90A_csprng_not_predictable_by_seed` | NIST SP 800-90A | Crypto.randomize() uses OS CSPRNG, not GLib.Random |
+| 29 | `RFC4231_hmac_sha256_differs_from_plain_sha256` | RFC 4231 | HMAC(key,msg) != SHA256(msg) |
+| 30 | `RFC8259_backslash_not_escaped_in_send_error` | RFC 8259 S7 | Backslash in error JSON properly escaped |
+| 31 | `RFC8259_newline_not_escaped_in_send_error` | RFC 8259 S7 | Newline in JSON string escaped |
+| 32 | `RFC8259_tab_not_escaped_in_send_error` | RFC 8259 S7 | Tab in JSON string escaped |
 
-#### FileTransferAudit (10 Tests) -- Path Traversal + ESFS Registry
+#### FileTransferAudit (8 Tests) -- Path Traversal
 
 | # | Test | Spec | Verifies |
 |---|------|------|----------|
-| 38 | `PathTraversal_dotdot_stripped` | CWE-22 | `../../etc/passwd` → `passwd` |
-| 39 | `PathTraversal_absolute_path_stripped` | CWE-22 | `/etc/shadow` → `shadow` |
-| 40 | `HiddenFile_dot_prefix_guarded` | CWE-22 | `.bashrc` → `_.bashrc` |
-| 41 | `HiddenFile_dotdot_special` | CWE-22 | `..` not kept as-is |
-| 42 | `Separator_only_becomes_unknown` | CWE-22 | `/` → `unknown filename` |
-| 43 | `Dot_only_becomes_unknown` | CWE-22 | `.` → `unknown filename` |
-| 44 | `Normal_filename_preserved` | Contract | `photo.jpg` preserved |
-| 45 | `Filename_with_spaces_preserved` | Contract | `my photo.jpg` preserved |
-| 46 | `ESFS_register_and_check` | XEP-0384 | Registered JID found by is_esfs_jid |
-| 47 | `ESFS_unknown_jid_false` | XEP-0384 | Unregistered JID → false |
+| 33 | `PathTraversal_dotdot_stripped` | CWE-22 | `../../etc/passwd` → `passwd` |
+| 34 | `PathTraversal_absolute_path_stripped` | CWE-22 | `/etc/shadow` → `shadow` |
+| 35 | `HiddenFile_dot_prefix_guarded` | CWE-22 | `.bashrc` → `_.bashrc` |
+| 36 | `HiddenFile_dotdot_special` | CWE-22 | `..` not kept as-is |
+| 37 | `Separator_only_becomes_unknown` | CWE-22 | `/` → `unknown filename` |
+| 38 | `Dot_only_becomes_unknown` | CWE-22 | `.` → `unknown filename` |
+| 39 | `Normal_filename_preserved` | Contract | `photo.jpg` preserved |
+| 40 | `Filename_with_spaces_preserved` | Contract | `my photo.jpg` preserved |
 
 ### 1.3 OMEMO (102 Tests)
 
@@ -1079,12 +1072,12 @@ extracting `----END PGP SIGNATURE-----` instead of base64 data.
 
 ---
 
-### 1.7 HTTP-Files (28 Tests)
+### 1.7 HTTP-Files (25 Tests)
 
 **Target:** `http-files-test` -- `plugins/http-files/meson.build`
 
 Tests the HTTP file upload/download plugin: URL recognition, filename extraction,
-log sanitization (secret stripping), and ESFS JID registry.
+and log sanitization (secret stripping).
 
 **Note:** Uses `_force_class_init(typeof(FileProvider))` to trigger GObject class
 initialization for static Regex fields when linked via internal VAPI.
@@ -1128,14 +1121,6 @@ initialization for static Regex fields when linked via internal VAPI.
 | 23 | `CONTRACT_truncates_oversized_url` | CONTRACT | URLs > 200 chars truncated |
 | 24 | `CONTRACT_sender_strips_query_token` | CONTRACT | Query string (upload token) replaced with "..." |
 | 25 | `CONTRACT_sender_null_safe` | CONTRACT | null input returns "(null)" |
-
-#### EsfsRegistry (3 Tests) -- XEP-0448
-
-| # | Test | Spec | Verifies |
-|---|------|------|----------|
-| 26 | `XEP0448_register_lookup` | XEP-0448 | Registered ESFS JID found |
-| 27 | `XEP0448_unknown_jid_returns_false` | XEP-0448 | Unregistered JID not found |
-| 28 | `XEP0448_multiple_jids_coexist` | XEP-0448 | Multiple JIDs persist simultaneously |
 
 ---
 
@@ -1267,16 +1252,16 @@ ninja -C build test                    Meson-registered (514 tests)
   |     |-- UtilAudit (9)               UUID format + Data URI parsing
   |     +-- XepRoundtripAudit (12)       XEP-0424/0380/0359 stanza roundtrips
   |
-  |-- libdino-test                     9 suites, 47 tests (GLib.Test)
+  |-- libdino-test                     8 suites, 40 tests (GLib.Test)
   |     |-- WeakMapTest (5)              Data structure contract
   |     |-- Jid (3)                      RFC 7622 basics
   |     |-- FileManagerTest (1)          GIO stream lifecycle
-  |     |-- Security (20)                NIST SP 800-38D/132, RFC 5116, Legacy compat
+  |     |-- Security (15)                NIST SP 800-38D/132, RFC 5116
   |     |-- Audit_KeyDerivation (3)      NIST SP 800-132 KDF audit
   |     |-- Audit_KeyManager (1)         NIST SP 800-90A CSPRNG
   |     |-- Audit_TokenStorage (1)       RFC 4231 HMAC vs SHA-256
   |     |-- Audit_JSONInjection (3)      RFC 8259 JSON escape
-  |     +-- FileTransferAudit (10)       CWE-22 path traversal + ESFS registry
+  |     +-- FileTransferAudit (8)        CWE-22 path traversal
   |
   |-- main-test                        2 suites, 62 tests (GLib.Test)
   |     |-- PreferencesRow (16)          GObject property/signal contract
@@ -1303,11 +1288,10 @@ ninja -C build test                    Meson-registered (514 tests)
   |     |-- Audit_RateLimiter (3)        CONTRACT audit (zero-window, negative-max, overflow)
   |     +-- Audit_JSONEscape (4)         RFC 8259 JSON audit
   |
-  +-- http-files-test                  4 suites, 28 tests (GLib.Test)
+  +-- http-files-test                  3 suites, 25 tests (GLib.Test)
         |-- UrlRegex (13)                XEP-0363 + OMEMO aesgcm:// URL recognition
         |-- FileNameExtraction (6)       CONTRACT filename from URL path
-        |-- SanitizeLog (6)              CONTRACT secret stripping for logs
-        +-- EsfsRegistry (3)            XEP-0448 ESFS JID registry
+        +-- SanitizeLog (6)              CONTRACT secret stripping for logs
 
 scripts/test_db_maintenance.sh         Bash CLI, 71 tests
 scripts/run_db_integration_tests.sh    Vala, 65 tests (Qlite)
@@ -1326,7 +1310,7 @@ future test ideas: see `docs/internal/TESTING_GAPS.md` (not tracked in Git).
 |------|--------|------------|
 | **qlite** (SQLite ORM) | Only indirectly via DB tests | Medium -- pure library, testable |
 | **crypto-vala** | No dedicated suite -- tested via libdino Security | Low |
-| **http-files plugin** | 28 tests (UrlRegex, FileNameExtraction, SanitizeLog, EsfsRegistry). Upload/download integration: untested | Medium |
+| **http-files plugin** | 25 tests (UrlRegex, FileNameExtraction, SanitizeLog). Upload/download integration: untested | Medium |
 | **openpgp plugin** | 48 tests (StreamModuleLogic, GPGKeylistParser, ArmorParser). GPG binary integration: untested | Medium |
 | **omemo plugin** | 102 tests (Curve25519, Signal, HKDF, FileDecryptor, DecryptLogic, BundleParser, Omemo2Crypto, SessionVersionGuard, etc.). Full session encrypt/decrypt: untested | Medium |
 
@@ -1507,4 +1491,4 @@ Examples:
 
 ---
 
-*Last updated: 24 February 2026 -- v1.6.0.0, 542 Meson + 136 standalone = 678 tests, 0 failures, http-files plugin tests added (28 tests: URL regex, filename extraction, log sanitization, ESFS registry)*
+*Last updated: 24 February 2026 -- v1.7.0.0, 532 Meson + 136 standalone = 668 tests, 0 failures, legacy code cleanup (removed ESFS registry, legacy encryption fallback, avatar re-encryption)*

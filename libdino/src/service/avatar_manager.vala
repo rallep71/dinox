@@ -210,20 +210,6 @@ public class AvatarManager : StreamInteractionModule, Object {
                 }
                 avatar_bytes_cache[hash] = result;
 
-                // Silently migrate legacy-format (pre-v1.1.2.7) encrypted avatar
-                if (file_encryption.last_decrypt_used_legacy) {
-                    try {
-                        uint8[] reencrypted = file_encryption.encrypt_data(plaintext);
-                        var os = file.replace(null, false, FileCreateFlags.REPLACE_DESTINATION);
-                        size_t written;
-                        os.write_all(reencrypted, out written);
-                        os.close();
-                        debug("Migrated avatar %s from legacy to current encryption format", hash);
-                    } catch (Error migrate_err) {
-                        // Best effort -- will retry on next startup
-                    }
-                }
-
                 return result;
             } catch (Error e) {
                 warning("Failed to decrypt avatar: %s", e.message);

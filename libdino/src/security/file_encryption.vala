@@ -18,18 +18,7 @@ public class FileEncryption : Object {
     private const int TAG_SIZE = 16;
     private const int KDF_ITERATIONS = 100000;  // NIST SP 800-132 recommends ≥10,000
 
-    // Legacy (pre-v1.1.2.7) constants for backwards-compatible decryption
-    private const int LEGACY_SALT_SIZE = 8;    // was 64-bit salt
-    private const int LEGACY_IV_SIZE = 16;     // was 128-bit IV
-    private const int LEGACY_TAG_SIZE = 8;     // was 64-bit tag
-
     private string password_store;
-
-    /**
-     * Set to true when decrypt_data() falls back to legacy format.
-     * Callers can check this to re-encrypt with current format.
-     */
-    public bool last_decrypt_used_legacy { get; private set; default = false; }
 
     public FileEncryption(string password) {
         this.password_store = password;
@@ -106,29 +95,7 @@ public class FileEncryption : Object {
     }
 
     public async void decrypt_stream(InputStream input, OutputStream output, Cancellable? cancellable = null) throws GLib.Error {
-        // Try current format first
-        try {
-            yield decrypt_stream_format(input, output, SALT_SIZE, IV_SIZE, TAG_SIZE, cancellable);
-            return;
-        } catch (GLib.Error e) {
-            // If streams are seekable, try legacy format
-            var seekable_in = input as Seekable;
-            var seekable_out = output as Seekable;
-            if (seekable_in != null && seekable_in.can_seek() &&
-                seekable_out != null && seekable_out.can_seek()) {
-                try {
-                    seekable_in.seek(0, SeekType.SET);
-                    seekable_out.seek(0, SeekType.SET);
-                    seekable_out.truncate(0);
-                    yield decrypt_stream_format(input, output, LEGACY_SALT_SIZE, LEGACY_IV_SIZE, LEGACY_TAG_SIZE, cancellable);
-                    debug("Decrypted stream using legacy encryption format (pre-v1.1.2.7)");
-                    return;
-                } catch (GLib.Error e2) {
-                    // Both failed, throw original error
-                }
-            }
-            throw e;
-        }
+        yield decrypt_stream_format(input, output, SALT_SIZE, IV_SIZE, TAG_SIZE, cancellable);
     }
 
     private async void decrypt_stream_format(InputStream input, OutputStream output, int salt_sz, int iv_sz, int tag_sz, Cancellable? cancellable = null) throws GLib.Error {
@@ -215,27 +182,8 @@ public class FileEncryption : Object {
         cipher.check_tag(tag_buffer);
     }
 
-    /**
-     * Decrypt data, automatically falling back to legacy (pre-v1.1.2.7) format
-     * if the current format fails. Sets last_decrypt_used_legacy accordingly.
-     */
     public uint8[] decrypt_data(uint8[] encrypted_data) throws GLib.Error {
-        last_decrypt_used_legacy = false;
-
-        // Try current format first: SALT(16) + IV(12) + Ciphertext + Tag(16)
-        try {
-            return decrypt_data_format(encrypted_data, SALT_SIZE, IV_SIZE, TAG_SIZE);
-        } catch (GLib.Error e) {
-            // Fall back to legacy format (pre-v1.1.2.7): SALT(8) + IV(16) + Ciphertext + Tag(8)
-            try {
-                uint8[] result = decrypt_data_format(encrypted_data, LEGACY_SALT_SIZE, LEGACY_IV_SIZE, LEGACY_TAG_SIZE);
-                last_decrypt_used_legacy = true;
-                debug("Decrypted data using legacy encryption format (pre-v1.1.2.7)");
-                return result;
-            } catch (GLib.Error e2) {
-                throw e; // Re-throw original (current format) error
-            }
-        }
+        return decrypt_data_format(encrypted_data, SALT_SIZE, IV_SIZE, TAG_SIZE);
     }
 
     private uint8[] decrypt_data_format(uint8[] encrypted_data, int salt_sz, int iv_sz, int tag_sz) throws GLib.Error {
@@ -288,40 +236,6 @@ public class FileEncryption : Object {
         Memory.copy((void*)((uint8*)result + SALT_SIZE + IV_SIZE), ciphertext, ciphertext.length);
         Memory.copy((void*)((uint8*)result + SALT_SIZE + IV_SIZE + ciphertext.length), tag, TAG_SIZE);
         
-        return result;
-    }
-
-    /**
-     * Encrypt data using legacy (pre-v1.1.2.7) format for testing purposes.
-     * Format: SALT(8) + IV(16) + Ciphertext + TAG(8)
-     * This method is ONLY for verifying that decrypt_data() correctly falls
-     * back to LEGACY_SALT_SIZE/LEGACY_IV_SIZE/LEGACY_TAG_SIZE.
-     */
-    public uint8[] encrypt_data_legacy(uint8[] plaintext) throws GLib.Error {
-        uint8[] salt = new uint8[LEGACY_SALT_SIZE];
-        Crypto.randomize(salt);
-
-        uint8[] derived_key = derive_key(password_store, salt);
-
-        uint8[] iv = new uint8[LEGACY_IV_SIZE];
-        Crypto.randomize(iv);
-
-        var cipher = new SymmetricCipher("AES256-GCM");
-        cipher.set_key(derived_key);
-        cipher.set_iv(iv);
-
-        uint8[] ciphertext = new uint8[plaintext.length];
-        cipher.encrypt(ciphertext, plaintext);
-        uint8[] tag = cipher.get_tag(LEGACY_TAG_SIZE);
-
-        // Legacy format: SALT(8) + IV(16) + Ciphertext + TAG(8)
-        int overhead = LEGACY_SALT_SIZE + LEGACY_IV_SIZE + LEGACY_TAG_SIZE;
-        uint8[] result = new uint8[overhead + ciphertext.length];
-        Memory.copy(result, salt, LEGACY_SALT_SIZE);
-        Memory.copy((void*)((uint8*)result + LEGACY_SALT_SIZE), iv, LEGACY_IV_SIZE);
-        Memory.copy((void*)((uint8*)result + LEGACY_SALT_SIZE + LEGACY_IV_SIZE), ciphertext, ciphertext.length);
-        Memory.copy((void*)((uint8*)result + LEGACY_SALT_SIZE + LEGACY_IV_SIZE + ciphertext.length), tag, LEGACY_TAG_SIZE);
-
         return result;
     }
 }

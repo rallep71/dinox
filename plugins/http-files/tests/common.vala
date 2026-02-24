@@ -5,7 +5,6 @@ int main(string[] args) {
     TestSuite.get_root().add_suite(new Dino.Plugins.HttpFiles.Test.UrlRegexTest().get_suite());
     TestSuite.get_root().add_suite(new Dino.Plugins.HttpFiles.Test.FileNameExtractionTest().get_suite());
     TestSuite.get_root().add_suite(new Dino.Plugins.HttpFiles.Test.SanitizeLogTest().get_suite());
-    TestSuite.get_root().add_suite(new Dino.Plugins.HttpFiles.Test.EsfsRegistryTest().get_suite());
 
     return GLib.Test.run();
 }

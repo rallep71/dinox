@@ -217,38 +217,4 @@ class SanitizeLogTest : Gee.TestCase {
     }
 }
 
-/**
- * XEP-0448 Stateless File Sharing — ESFS JID registry.
- * The registry tracks which counterparts support ESFS so that
- * file_sender can choose the correct upload format (with/without GCM tag).
- */
-class EsfsRegistryTest : Gee.TestCase {
-    public EsfsRegistryTest() {
-        base("EsfsRegistry");
-        add_test("XEP0448_register_lookup", test_register_and_check);
-        add_test("XEP0448_unknown_jid_returns_false", test_unknown_jid_false);
-        add_test("XEP0448_multiple_jids_coexist", test_register_multiple);
-    }
-
-    void test_register_and_check() {
-        Dino.Entities.FileTransfer.register_esfs_jid("test-http@example.com");
-        fail_if_not(Dino.Entities.FileTransfer.is_esfs_jid("test-http@example.com"),
-                    "XEP-0448: registered ESFS JID MUST be found by is_esfs_jid()");
-    }
-
-    void test_unknown_jid_false() {
-        fail_if(Dino.Entities.FileTransfer.is_esfs_jid("unknown-http-test@nowhere.invalid"),
-                "XEP-0448: unregistered JID MUST return false from is_esfs_jid()");
-    }
-
-    void test_register_multiple() {
-        Dino.Entities.FileTransfer.register_esfs_jid("alice-http@example.com");
-        Dino.Entities.FileTransfer.register_esfs_jid("bob-http@example.com");
-        fail_if_not(Dino.Entities.FileTransfer.is_esfs_jid("alice-http@example.com"),
-                    "XEP-0448: first registered ESFS JID MUST persist after second registration");
-        fail_if_not(Dino.Entities.FileTransfer.is_esfs_jid("bob-http@example.com"),
-                    "XEP-0448: second registered ESFS JID MUST also be found");
-    }
-}
-
 }

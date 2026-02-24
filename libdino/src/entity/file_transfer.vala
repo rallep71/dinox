@@ -9,29 +9,6 @@ public class FileTransfer : Object {
     public const bool DIRECTION_SENT = true;
     public const bool DIRECTION_RECEIVED = false;
 
-    /**
-     * Registry of JIDs that support OMEMO 2 / ESFS file transfers.
-     * Set by the OMEMO plugin when v2 device lists are received.
-     * Read by the http-files plugin to choose GCM tag handling.
-     *
-     * Note: lazy initialization is required because static field initializers
-     * in Vala run in GObject class_init, which only fires on first instantiation.
-     * These static methods may be called before any FileTransfer instance exists.
-     */
-    private static Gee.HashSet<string>? _esfs_jids = null;
-
-    public static void register_esfs_jid(string jid) {
-        if (_esfs_jids == null) {
-            _esfs_jids = new Gee.HashSet<string>();
-        }
-        _esfs_jids.add(jid);
-    }
-
-    public static bool is_esfs_jid(string jid) {
-        if (_esfs_jids == null) return false;
-        return _esfs_jids.contains(jid);
-    }
-
     public enum State {
         COMPLETE,
         IN_PROGRESS,
@@ -209,25 +186,6 @@ public class FileTransfer : Object {
         }
 
         notify.connect(on_update);
-
-        // Fix SFS file transfers that were stored without encryption due to a bug
-        // in stateless_file_sharing.vala (pre-v1.1.3.0). Look up the message's
-        // encryption and propagate it to the file transfer + persist to DB.
-        if (provider == 2 /* SFS_PROVIDER_ID */ && encryption == Encryption.NONE && info != null) {
-            try {
-                int msg_id = int.parse(info);
-                Qlite.RowOption msg_row = db.message.select().with(db.message.id, "=", msg_id).row();
-                if (msg_row.is_present()) {
-                    int msg_enc = msg_row.inner[db.message.encryption];
-                    if (msg_enc != 0) {
-                        debug("Fixing SFS file_transfer id=%d: encryption NONE → %d (from message %d)", id, msg_enc, msg_id);
-                        encryption = (Encryption) msg_enc;
-                    }
-                }
-            } catch (Error e) {
-                // Ignore — info might not be a valid message ID
-            }
-        }
     }
 
     public void persist(Database db) {
