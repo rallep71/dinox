@@ -3,7 +3,7 @@
 Complete inventory of all automated tests in the DinoX project.
 Every test references its authoritative specification or contract.
 
-**Status: v1.6.0.0 -- 514 Meson tests + 136 standalone tests = 650 automated tests, 0 failures**
+**Status: v1.6.0.0 -- 542 Meson tests + 136 standalone tests = 678 automated tests, 0 failures**
 
 ---
 
@@ -13,7 +13,7 @@ Every test references its authoritative specification or contract.
 # All tests at once (recommended)
 ./scripts/run_all_tests.sh
 
-# Only Meson-registered tests (6 suites, 514 tests)
+# Only Meson-registered tests (7 suites, 542 tests)
 ./scripts/run_all_tests.sh --meson
 
 # Only DB maintenance tests (136 standalone)
@@ -31,7 +31,7 @@ Use it as a cheat sheet when working on DinoX.
 
 | Script | Language | Tests | What it does |
 |--------|----------|-------|--------------|
-| `scripts/run_all_tests.sh` | Bash | 650 | **Master runner** -- builds, runs all Meson suites + DB tests, prints color-coded summary |
+| `scripts/run_all_tests.sh` | Bash | 678 | **Master runner** -- builds, runs all Meson suites + DB tests, prints color-coded summary |
 | `scripts/test_db_maintenance.sh` | Bash | 71 | SQLCipher CLI tests: rekey, reset, WAL checkpoint, backup |
 | `scripts/run_db_integration_tests.sh` | Bash+Vala | 65 | Compiles + runs Vala integration tests against `libqlite.so` |
 | `check_translations.py` | Python | -- | Checks `.po` files for missing/fuzzy translations via `msgfmt` |
@@ -50,6 +50,7 @@ After `ninja -C build`, these binaries are ready:
 | `build/main/main-test` | main | 62 | UI view models, helper functions |
 | `build/plugins/openpgp/openpgp-test` | openpgp | 48 | OpenPGP stream module, GPG keylist, armor parser |
 | `build/libdino/libdino-test` | libdino | 47 | Crypto, key derivation, file transfer, data structures |
+| `build/plugins/http-files/http-files-test` | http-files | 28 | URL regex, filename extraction, log sanitization, ESFS registry |
 | `build/plugins/bot-features/bot-features-test` | bot-features | 24 | Rate limiter, crypto hashes, JSON escaping |
 
 **Important:** Before running binaries directly, set the library path:
@@ -163,7 +164,7 @@ python3 scripts/scan_unicode.py --verbose   # show details
   Commit:  0e0b766a
 
 ============================================
- Meson Tests (6 suites, 514 tests)
+ Meson Tests (7 suites, 542 tests)
 ============================================
 >>> main-test (16 UI ViewModel tests)
     OK
@@ -178,10 +179,11 @@ python3 scripts/scan_unicode.py --verbose   # show details
   PASS  libdino-test (37 crypto + data structure tests)
   PASS  omemo-test (10 Signal Protocol tests)
   PASS  bot-features-test (24 rate limiter + crypto tests)
+  PASS  http-files-test (28 URL regex + sanitize tests)
   PASS  DB CLI tests (71 bash tests)
   PASS  DB Integration tests (65 Vala tests)
 
-  Pass: 7  Fail: 0  Skip: 0
+  Pass: 8  Fail: 0  Skip: 0
 
 ALL TESTS PASSED
 ```
@@ -300,7 +302,7 @@ build/xmpp-vala/xmpp-vala-test --verbose
 
 ---
 
-## 1. Meson-Registered Tests (514 Tests)
+## 1. Meson-Registered Tests (542 Tests)
 
 Compiled and executed via `ninja -C build test`.
 Framework: GLib.Test + `Gee.TestCase` with `add_async_test()` for async XML parsing.
@@ -1077,6 +1079,66 @@ extracting `----END PGP SIGNATURE-----` instead of base64 data.
 
 ---
 
+### 1.7 HTTP-Files (28 Tests)
+
+**Target:** `http-files-test` -- `plugins/http-files/meson.build`
+
+Tests the HTTP file upload/download plugin: URL recognition, filename extraction,
+log sanitization (secret stripping), and ESFS JID registry.
+
+**Note:** Uses `_force_class_init(typeof(FileProvider))` to trigger GObject class
+initialization for static Regex fields when linked via internal VAPI.
+
+#### UrlRegex (13 Tests) -- XEP-0363 + OMEMO aesgcm://
+
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
+| 1 | `XEP0363_http_url_accepts_https` | XEP-0363 | HTTPS upload URL recognized |
+| 2 | `XEP0363_http_url_accepts_http` | XEP-0363 | HTTP upload URL recognized |
+| 3 | `XEP0363_http_url_rejects_ftp_scheme` | XEP-0363 | Only http/https schemes valid |
+| 4 | `RFC3986_rejects_spaces_in_url` | RFC 3986 §3.3 | Spaces invalid in URI path |
+| 5 | `XEP0363_http_url_rejects_fragment` | XEP-0363 | Fragment breaks GET download |
+| 6 | `CONTRACT_http_url_rejects_empty` | CONTRACT | Empty string rejected |
+| 7 | `XEP0363_http_url_accepts_port_path` | XEP-0363 | URL with port and multi-segment path |
+| 8 | `OMEMO_aesgcm_url_matches` | OMEMO | aesgcm:// with fragment recognized |
+| 9 | `OMEMO_aesgcm_requires_fragment` | OMEMO | aesgcm:// without fragment rejected |
+| 10 | `OMEMO_aesgcm_rejects_https_scheme` | OMEMO | https:// must not match omemo regex |
+| 11 | `OMEMO_aesgcm_rejects_empty_fragment` | OMEMO | Empty fragment = no iv+key |
+| 12 | `OMEMO_aesgcm_captures_host_and_secret` | OMEMO | Capture groups for host+path and secret |
+| 13 | `RFC3986_aesgcm_rejects_spaces_in_fragment` | RFC 3986 §3.5 | Spaces in fragment corrupt iv+key |
+
+#### FileNameExtraction (6 Tests) -- CONTRACT
+
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
+| 14 | `CONTRACT_simple_https_url` | CONTRACT | Filename from simple HTTPS URL |
+| 15 | `OMEMO_aesgcm_strips_fragment` | OMEMO | Fragment stripped before filename extraction |
+| 16 | `RFC3986_url_decode_percent_encoding` | RFC 3986 | Percent-encoded characters decoded |
+| 17 | `CONTRACT_deep_path_last_segment` | CONTRACT | Last path segment returned |
+| 18 | `CONTRACT_trailing_slash_empty` | CONTRACT | Trailing slash gives empty name |
+| 19 | `XEP0363_real_upload_url` | XEP-0363 | Real upload URL with port and hash path |
+
+#### SanitizeLog (6 Tests) -- CONTRACT (Security)
+
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
+| 20 | `CONTRACT_null_safe` | CONTRACT | null input returns "(null)" |
+| 21 | `CONTRACT_strips_fragment_secret` | CONTRACT | Fragment (OMEMO key) replaced with "..." |
+| 22 | `CONTRACT_preserves_url_without_fragment` | CONTRACT | Clean URL unchanged |
+| 23 | `CONTRACT_truncates_oversized_url` | CONTRACT | URLs > 200 chars truncated |
+| 24 | `CONTRACT_sender_strips_query_token` | CONTRACT | Query string (upload token) replaced with "..." |
+| 25 | `CONTRACT_sender_null_safe` | CONTRACT | null input returns "(null)" |
+
+#### EsfsRegistry (3 Tests) -- XEP-0448
+
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
+| 26 | `XEP0448_register_lookup` | XEP-0448 | Registered ESFS JID found |
+| 27 | `XEP0448_unknown_jid_returns_false` | XEP-0448 | Unregistered JID not found |
+| 28 | `XEP0448_multiple_jids_coexist` | XEP-0448 | Multiple JIDs persist simultaneously |
+
+---
+
 ## 2. DB Maintenance Tests (136 Standalone Tests)
 
 ### 2.1 Bash CLI Tests (71 Tests)
@@ -1236,10 +1298,16 @@ ninja -C build test                    Meson-registered (514 tests)
   |     +-- ArmorParser (16)             XEP-0027 signature/encrypted armor parser
   |
   +-- bot-features-test                4 suites, 24 tests (GLib.Test)
-        |-- RateLimiter (9)              Contract-based (C-1 to C-8)
-        |-- Crypto (8)                   FIPS 180-4, RFC 4231
-        |-- Audit_RateLimiter (3)        CONTRACT audit (zero-window, negative-max, overflow)
-        +-- Audit_JSONEscape (4)         RFC 8259 JSON audit
+  |     |-- RateLimiter (9)              Contract-based (C-1 to C-8)
+  |     |-- Crypto (8)                   FIPS 180-4, RFC 4231
+  |     |-- Audit_RateLimiter (3)        CONTRACT audit (zero-window, negative-max, overflow)
+  |     +-- Audit_JSONEscape (4)         RFC 8259 JSON audit
+  |
+  +-- http-files-test                  4 suites, 28 tests (GLib.Test)
+        |-- UrlRegex (13)                XEP-0363 + OMEMO aesgcm:// URL recognition
+        |-- FileNameExtraction (6)       CONTRACT filename from URL path
+        |-- SanitizeLog (6)              CONTRACT secret stripping for logs
+        +-- EsfsRegistry (3)            XEP-0448 ESFS JID registry
 
 scripts/test_db_maintenance.sh         Bash CLI, 71 tests
 scripts/run_db_integration_tests.sh    Vala, 65 tests (Qlite)
@@ -1258,6 +1326,7 @@ future test ideas: see `docs/internal/TESTING_GAPS.md` (not tracked in Git).
 |------|--------|------------|
 | **qlite** (SQLite ORM) | Only indirectly via DB tests | Medium -- pure library, testable |
 | **crypto-vala** | No dedicated suite -- tested via libdino Security | Low |
+| **http-files plugin** | 28 tests (UrlRegex, FileNameExtraction, SanitizeLog, EsfsRegistry). Upload/download integration: untested | Medium |
 | **openpgp plugin** | 48 tests (StreamModuleLogic, GPGKeylistParser, ArmorParser). GPG binary integration: untested | Medium |
 | **omemo plugin** | 102 tests (Curve25519, Signal, HKDF, FileDecryptor, DecryptLogic, BundleParser, Omemo2Crypto, SessionVersionGuard, etc.). Full session encrypt/decrypt: untested | Medium |
 
@@ -1267,8 +1336,8 @@ future test ideas: see `docs/internal/TESTING_GAPS.md` (not tracked in Git).
 
 | Workflow | Trigger | Tests |
 |----------|---------|-------|
-| `build.yml` | push, PR | `meson test` (514 tests) |
-| `build.yml` (Vala nightly) | push, PR | `meson test` (514 tests) |
+| `build.yml` | push, PR | `meson test` (542 tests) |
+| `build.yml` (Vala nightly) | push, PR | `meson test` (542 tests) |
 | `build-flatpak.yml` | push | Build only |
 | `build-appimage.yml` | Tag | Build only |
 | `windows-build.yml` | push | Build only |
@@ -1438,4 +1507,4 @@ Examples:
 
 ---
 
-*Last updated: 24 February 2026 -- v1.6.0.0, 514 Meson + 136 standalone = 650 tests, 0 failures, Legacy encryption fallback + stream tests added*
+*Last updated: 24 February 2026 -- v1.6.0.0, 542 Meson + 136 standalone = 678 tests, 0 failures, http-files plugin tests added (28 tests: URL regex, filename extraction, log sanitization, ESFS registry)*

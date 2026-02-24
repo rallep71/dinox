@@ -60,14 +60,14 @@ public class HttpFileSender : FileSender, Object {
             enc_data.iv = new uint8[12];
             Crypto.randomize(enc_data.key);
             Crypto.randomize(enc_data.iv);
-            // Check ESFS vs legacy mode early so the slot size is correct.
-            // ESFS (aes-256-gcm-nopadding:0): no GCM auth tag -> upload_size = file size.
-            // Legacy aesgcm://: 16-byte GCM auth tag appended -> upload_size = file size + 16.
+            // Always append the 16-byte GCM auth tag to the encrypted upload.
+            // The aesgcm:// URL format (legacy path) REQUIRES the tag.
+            // The ESFS receiver also handles it (tries with-tag first, falls back to tag-less).
+            // Before this fix, esfs_mode=true omitted the tag, causing Prüfsummenfehler
+            // when the receiver fell back to the legacy aesgcm:// decryptor.
             bool is_esfs = Dino.Entities.FileTransfer.is_esfs_jid(conversation.counterpart.bare_jid.to_string());
             enc_data.esfs_mode = is_esfs;
-            if (!is_esfs) {
-                upload_size += 16;
-            }
+            upload_size += 16;
             send_data = enc_data;
         } else {
             send_data = new HttpFileSendData();
@@ -307,9 +307,10 @@ public class HttpFileSender : FileSender, Object {
                 var cipher = new SymmetricCipher("AES256-GCM");
                 cipher.set_key(enc_data.key);
                 cipher.set_iv(enc_data.iv);
-                /* ESFS (aes-256-gcm-nopadding:0): no GCM auth tag (Kaidan/QXmpp).
-                 * Legacy aesgcm://: 16-byte GCM auth tag appended (Conversations/Monocles). */
-                int tag_len = enc_data.esfs_mode ? 0 : 16;
+                /* Always include the 16-byte GCM auth tag so both ESFS and
+                 * legacy aesgcm:// receivers can decrypt the file correctly.
+                 * The ESFS receiver tries with-tag first, then falls back to tag-less. */
+                int tag_len = 16;
                 var encrypter = new SymmetricCipherEncrypter((owned) cipher, tag_len);
                 var cis = new ConverterInputStream(upload_stream, encrypter);
                 cis.close_base_stream = false;
@@ -357,7 +358,7 @@ public class HttpFileSender : FileSender, Object {
         }
     }
 
-    private static string sanitize_url_for_log(string? url) {
+    public static string sanitize_url_for_log(string? url) {
         if (url == null) return "(null)";
         string s = url;
         int hash = s.index_of("#");

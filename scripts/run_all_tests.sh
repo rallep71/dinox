@@ -52,7 +52,7 @@ run_suite() {
 
 run_meson_tests() {
     echo -e "${BOLD}============================================${NC}"
-    echo -e "${BOLD} Meson Tests (6 suites, 506 tests)${NC}"
+    echo -e "${BOLD} Meson Tests (7 suites, 542 tests)${NC}"
     echo -e "${BOLD}============================================${NC}"
 
     # Build first
@@ -77,6 +77,9 @@ run_meson_tests() {
 
     run_suite "bot-features-test (24 rate limiter + crypto tests)" \
         "meson test -C build 'bot-features-test' --print-errorlogs"
+
+    run_suite "http-files-test (28 URL regex + sanitize tests)" \
+        "meson test -C build 'Tests for http-files' --print-errorlogs"
 }
 
 run_db_tests() {

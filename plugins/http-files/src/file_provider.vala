@@ -11,13 +11,13 @@ public class FileProvider : Dino.FileProvider, Object {
     private Dino.Database dino_db;
     private Soup.Session session;
     private GLib.MainContext soup_context;
-    private static Regex http_url_regex = /^https?:\/\/([^\s#]*)$/; // Spaces are invalid in URLs and we can't use fragments for downloads
+    public static Regex http_url_regex = /^https?:\/\/([^\s#]*)$/; // Spaces are invalid in URLs and we can't use fragments for downloads
     // OMEMO aesgcm:// links carry the secret (iv+key) in the fragment. Different clients may
     // encode the fragment differently (hex, base64, urlsafe base64), so only validate the
     // rough structure here and let the OMEMO decryptor parse the secret.
-    private static Regex omemo_url_regex = /^aesgcm:\/\/([^\s#]+)#([^\s]+)$/;
+    public static Regex omemo_url_regex = /^aesgcm:\/\/([^\s#]+)#([^\s]+)$/;
 
-    private static string sanitize_for_log(string? s) {
+    public static string sanitize_for_log(string? s) {
         if (s == null) return "(null)";
         string out = s;
         // Never log secrets in fragments.
@@ -302,7 +302,7 @@ public class FileProvider : Dino.FileProvider, Object {
         return receive_data;
     }
 
-    private string extract_file_name_from_url(string url) {
+    public string extract_file_name_from_url(string url) {
         string ret = url;
         if (ret.contains("#")) {
             ret = ret.substring(0, ret.last_index_of("#"));
