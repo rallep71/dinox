@@ -398,12 +398,10 @@ public class AvatarManager : StreamInteractionModule, Object {
             on_vcard_avatar_received(account, jid, id)
         );
 
-        foreach (var entry in get_avatar_hashes(account, Source.USER_AVATARS).entries) {
-            on_user_avatar_received(account, entry.key, entry.value);
-        }
-        foreach (var entry in get_avatar_hashes(account, Source.VCARD).entries) {
-            on_vcard_avatar_received(account, entry.key, entry.value);
-        }
+        // No need to re-load hashes from DB here — the constructor already
+        // pre-loaded ALL avatar hashes into user_avatars/vcard_avatars maps.
+        // The old code did get_avatar_hashes() + on_*_received() which caused
+        // redundant DB reads and unnecessary received_avatar signal emissions.
     }
 
     /**
@@ -464,6 +462,13 @@ public class AvatarManager : StreamInteractionModule, Object {
                 set_avatar_hash(account, jid, id, Source.VCARD);
             }
         }
+        received_avatar(jid, account);
+    }
+
+    /** Remove a vCard avatar from memory, DB, and notify UI. Used for MUC room avatar removal. */
+    public void remove_vcard_avatar(Account account, Jid jid) {
+        vcard_avatars.unset(jid);
+        remove_avatar_hash(account, jid, Source.VCARD);
         received_avatar(jid, account);
     }
 

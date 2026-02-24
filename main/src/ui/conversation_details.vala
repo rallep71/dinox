@@ -292,6 +292,15 @@ namespace Dino.Ui.ConversationDetails {
                     });
                     view_model.settings_rows.append(change_avatar_button);
 
+                    var remove_avatar_button = new ViewModel.PreferencesRow.Button() {
+                        title = _("Avatar"),
+                        button_text = _("Remove Avatar")
+                    };
+                    remove_avatar_button.clicked.connect(() => {
+                        remove_muc_avatar.begin(stream_interactor, model.conversation.account, model.conversation.counterpart);
+                    });
+                    view_model.settings_rows.append(remove_avatar_button);
+
                     var admin_button = new ViewModel.PreferencesRow.Button() {
                         title = _("Permissions"),
                         button_text = _("Manage Affiliations")
@@ -700,6 +709,30 @@ namespace Dino.Ui.ConversationDetails {
             }
         } catch (Error e) {
             warning("Failed to select or upload avatar: %s", e.message);
+        }
+    }
+
+    private async void remove_muc_avatar(StreamInteractor stream_interactor, Account account, Jid room_jid) {
+        try {
+            var stream = stream_interactor.get_stream(account);
+            if (stream == null) return;
+
+            // Fetch existing vCard to preserve other fields (description, etc.)
+            var vcard = yield Xmpp.Xep.VCard.fetch_vcard(stream, room_jid);
+            if (vcard == null) vcard = new Xmpp.Xep.VCard.VCardInfo();
+
+            // Clear the photo — to_node() will omit the PHOTO element entirely
+            vcard.photo = null;
+            vcard.photo_type = null;
+
+            yield Xmpp.Xep.VCard.publish_vcard(stream, vcard, room_jid);
+            debug("MUC avatar removed for %s", room_jid.to_string());
+
+            // Clear local avatar cache
+            var avatar_manager = stream_interactor.get_module<AvatarManager>(AvatarManager.IDENTITY);
+            avatar_manager.remove_vcard_avatar(account, room_jid);
+        } catch (Error e) {
+            warning("Failed to remove MUC avatar: %s", e.message);
         }
     }
 }
