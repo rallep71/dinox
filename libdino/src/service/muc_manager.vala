@@ -123,8 +123,9 @@ public class MucManager : StreamInteractionModule, Object {
             if (can_do_mam) {
                 var history_sync = stream_interactor.get_module<MessageProcessor>(MessageProcessor.IDENTITY).history_sync;
                 if (conversation == null) {
-                    // We never joined the conversation before, just fetch the latest MAM page
-                    yield history_sync.fetch_latest_page(account, jid.bare_jid, null, new DateTime.from_unix_utc(0), cancellable);
+                    // We never joined the conversation before, just fetch the latest MAM page.
+                    // Respect sync_not_before to avoid fetching ancient history after a panic wipe.
+                    yield history_sync.fetch_latest_page(account, jid.bare_jid, null, history_sync.sync_not_before, cancellable);
                 } else {
                     // Fetch everything up to the last time the user actively joined
                     if (!mucs_sync_cancellables.has_key(account)) {
@@ -132,8 +133,12 @@ public class MucManager : StreamInteractionModule, Object {
                     }
                     if (!mucs_sync_cancellables[account].has_key(jid.bare_jid)) {
                         mucs_sync_cancellables[account][jid.bare_jid] = new Cancellable();
-                        // If the conversation was newly opened, fetch a bit before
+                        // If the conversation was newly opened, fetch a bit before.
+                        // But never go further back than sync_not_before (e.g. after panic wipe).
                         DateTime fetch_from_time = conversation.active_last_changed.add(-TimeSpan.DAY * 5);
+                        if (fetch_from_time.compare(history_sync.sync_not_before) < 0) {
+                            fetch_from_time = history_sync.sync_not_before;
+                        }
                         history_sync.fetch_everything.begin(account, jid.bare_jid, mucs_sync_cancellables[account][jid.bare_jid], fetch_from_time, (_, res) => {
                             history_sync.fetch_everything.end(res);
                             mucs_sync_cancellables[account].unset(jid.bare_jid);

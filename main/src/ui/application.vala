@@ -116,6 +116,41 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         return !FileUtils.test (db_path, FileTest.EXISTS);
     }
 
+    // Panic marker path: placed in the PARENT of the storage dir so it
+    // survives the recursive wipe of ~/.local/share/dinox/
+    private static string get_panic_marker_path() {
+        return Path.build_filename(Environment.get_user_data_dir(), "dinox_panic_marker");
+    }
+
+    // Check if a panic wipe happened before this startup.
+    // If a marker file exists, read the timestamp and configure HistorySync
+    // to not fetch MAM messages from before the wipe.
+    private void check_panic_marker() {
+        string marker_path = get_panic_marker_path();
+        if (!FileUtils.test(marker_path, FileTest.EXISTS)) return;
+
+        try {
+            string contents;
+            FileUtils.get_contents(marker_path, out contents);
+            long wipe_time = long.parse(contents.strip());
+            if (wipe_time > 0) {
+                DateTime wipe_dt = new DateTime.from_unix_utc(wipe_time);
+                debug("Panic marker found: wipe at %s — setting MAM sync_not_before", wipe_dt.to_string());
+
+                // Tell HistorySync to not fetch messages from before the wipe
+                var message_processor = stream_interactor.get_module<MessageProcessor>(MessageProcessor.IDENTITY);
+                if (message_processor != null && message_processor.history_sync != null) {
+                    message_processor.history_sync.sync_not_before = wipe_dt;
+                }
+            }
+        } catch (Error e) {
+            warning("Failed to read panic marker: %s", e.message);
+        }
+
+        // Remove the marker — it has been consumed
+        FileUtils.unlink(marker_path);
+    }
+
     public void cleanup_temp_files () {
         // Note: "avatars" is NOT included — avatar files are persistent cache
         // that would require expensive re-fetching from the server on each restart.
@@ -540,6 +575,10 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
                     unlock_parent = null;
                 }
 
+                // Check if a panic wipe happened before this startup.
+                // If so, configure MAM sync to skip old messages.
+                check_panic_marker();
+
                 if (pending_activate) {
                     pending_activate = false;
                     activate ();
@@ -716,9 +755,30 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
     }
 
     private void panic_wipe_and_exit () {
-        // CRITICAL: First close all database connections before trying to delete files!
+        // Phase 1: Write a panic marker file (outside the wiped directories).
+        // On next startup, this tells HistorySync to NOT re-fetch old MAM messages.
+        // The marker is placed in the config parent dir so it survives the dinox dir wipe.
+        try {
+            string marker_path = get_panic_marker_path();
+            long now_unix = (long) new DateTime.now_utc().to_unix();
+            FileUtils.set_contents(marker_path, now_unix.to_string());
+            debug("Panic wipe: wrote marker to %s (timestamp %ld)", marker_path, now_unix);
+        } catch (Error e) {
+            warning("Panic wipe: failed to write marker: %s", e.message);
+        }
+
+        // Phase 2: Best-effort server cleanup (fire-and-forget, no waiting).
+        // Send unavailable presence to notify contacts and leave MUC rooms.
+        if (stream_interactor != null) {
+            stream_interactor.connection_manager.make_offline_all();
+
+            // Brief pause to let stanzas be sent before killing the process.
+            // This is fire-and-forget — if the server is unreachable, we don't wait.
+            Thread.usleep(300000); // 300ms
+        }
+
+        // Phase 3: Close database connections before file deletion.
         // On Windows, open files cannot be deleted.
-        // Close main database
         if (db != null) {
             db.close();
         }

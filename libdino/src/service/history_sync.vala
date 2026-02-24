@@ -21,6 +21,11 @@ public class Dino.HistorySync {
     // Time of the latest message of the previous segment
     public HashMap<Account, DateTime> catchup_until_time = new HashMap<Account, DateTime>(Account.hash_func, Account.equals_func);
 
+    // Minimum time for MAM sync. After a panic wipe, this is set to the wipe
+    // timestamp so that old messages are not re-fetched from the server archive.
+    // For fresh installs (no panic wipe), defaults to 30 days ago.
+    public DateTime sync_not_before { get; set; default = new DateTime.now_utc().add_days(-30); }
+
     private HashMap<string, Gee.List<Xmpp.MessageStanza>> stanzas = new HashMap<string, Gee.List<Xmpp.MessageStanza>>();
 
     public HistorySync(Database db, StreamInteractor stream_interactor) {
@@ -490,7 +495,7 @@ public class Dino.HistorySync {
     private void consider_fetch_everything(Account account, XmppStream stream) {
         if (sync_streams.has(account, stream)) return;
 
-        debug("[%s] MAM available", account.bare_jid.to_string());
+        debug("[%s] MAM available, sync_not_before=%s", account.bare_jid.to_string(), sync_not_before.to_string());
         sync_streams[account] = stream;
         if (!cancellables.has_key(account)) {
             cancellables[account] = new HashMap<Jid, Cancellable>();
@@ -499,7 +504,7 @@ public class Dino.HistorySync {
             cancellables[account][account.bare_jid].cancel();
         }
         cancellables[account][account.bare_jid] = new Cancellable();
-        fetch_everything.begin(account, account.bare_jid, cancellables[account][account.bare_jid], new DateTime.from_unix_utc(0), (_, res) => {
+        fetch_everything.begin(account, account.bare_jid, cancellables[account][account.bare_jid], sync_not_before, (_, res) => {
             fetch_everything.end(res);
             cancellables[account].unset(account.bare_jid);
         });
