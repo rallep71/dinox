@@ -93,6 +93,7 @@ jobs:
   create-release:
     name: "Create Release"
     needs: [build-x86_64, build-aarch64]
+    if: always() && needs.build-x86_64.result == 'success'
     runs-on: ubuntu-24.04
     steps:
       - name: "Checkout sources"
@@ -117,6 +118,7 @@ jobs:
           path: ./
 
       - name: "Download aarch64 Artifacts"
+        if: needs.build-aarch64.result == 'success'
         uses: actions/download-artifact@v4
         with:
           name: build-artifacts-aarch64
@@ -126,16 +128,20 @@ jobs:
         run: |
           version="${{ steps.get_version.outputs.version }}"
           mv dinox-x86_64.flatpak dinox-${version}-x86_64.flatpak
-          mv dinox-aarch64.flatpak dinox-${version}-aarch64.flatpak
+          if [ -f dinox-aarch64.flatpak ]; then
+            mv dinox-aarch64.flatpak dinox-${version}-aarch64.flatpak
+          fi
 
       - name: "Generate Checksums"
         run: |
           version="${{ steps.get_version.outputs.version }}"
           sha256sum dinox-${version}-x86_64.flatpak > dinox-${version}-x86_64.flatpak.sha256
-          sha256sum dinox-${version}-aarch64.flatpak > dinox-${version}-aarch64.flatpak.sha256
+          if [ -f dinox-${version}-aarch64.flatpak ]; then
+            sha256sum dinox-${version}-aarch64.flatpak > dinox-${version}-aarch64.flatpak.sha256
+          fi
           echo "=== SHA256 Checksums ==="
           cat dinox-${version}-x86_64.flatpak.sha256
-          cat dinox-${version}-aarch64.flatpak.sha256
+          [ -f dinox-${version}-aarch64.flatpak.sha256 ] && cat dinox-${version}-aarch64.flatpak.sha256
           cat dinox-${version}.tar.gz.sha256
 
       - name: "Prepare Release Body"
@@ -237,6 +243,7 @@ jobs:
           tag_name: v${{ steps.get_version.outputs.version }}
           name: DinoX v${{ steps.get_version.outputs.version }}
           body_path: RELEASE_BODY.md
+          fail_on_unmatched_files: false
           files: |
             dinox-*-x86_64.flatpak
             dinox-*-x86_64.flatpak.sha256
