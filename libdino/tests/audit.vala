@@ -34,6 +34,7 @@ class KeyDerivationAudit : Gee.TestCase {
      * Key derivation is deferred to encrypt_data/decrypt_data calls.
      */
     void test_iterated_kdf() {
+        try {
         var enc = new Dino.Security.FileEncryption("benchmark_password");
         uint8[] data = "kdf benchmark".data;
 
@@ -53,6 +54,10 @@ class KeyDerivationAudit : Gee.TestCase {
             GLib.Test.message("BUG: Key derivation took only %lld µs (need ≥10000 µs). Using single SHA-256 instead of PBKDF2/Argon2.".printf(per_derivation_us));
             GLib.Test.fail();
         }
+        } catch (GLib.Error e) {
+            GLib.Test.message("Unexpected error: %s".printf(e.message));
+            GLib.Test.fail();
+        }
     }
 
     /*
@@ -64,6 +69,7 @@ class KeyDerivationAudit : Gee.TestCase {
      * with the same password must produce different salt bytes.
      */
     void test_random_salt() {
+        try {
         var enc = new Dino.Security.FileEncryption("same_password");
 
         uint8[] data = "test data for salt verification".data;
@@ -82,15 +88,14 @@ class KeyDerivationAudit : Gee.TestCase {
         }
 
         // Verify both ciphertexts can be decrypted (salt is properly embedded)
-        try {
-            uint8[] dec1 = enc.decrypt_data(ct1);
-            uint8[] dec2 = enc.decrypt_data(ct2);
-            if (dec1.length != data.length || dec2.length != data.length) {
-                GLib.Test.message("BUG: Round-trip with random salt failed — length mismatch.");
-                GLib.Test.fail();
-            }
-        } catch (Error e) {
-            GLib.Test.message("BUG: Round-trip with random salt failed — %s".printf(e.message));
+        uint8[] dec1 = enc.decrypt_data(ct1);
+        uint8[] dec2 = enc.decrypt_data(ct2);
+        if (dec1.length != data.length || dec2.length != data.length) {
+            GLib.Test.message("BUG: Round-trip with random salt failed — length mismatch.");
+            GLib.Test.fail();
+        }
+        } catch (GLib.Error e) {
+            GLib.Test.message("BUG: Round-trip or encryption failed — %s".printf(e.message));
             GLib.Test.fail();
         }
     }
@@ -101,6 +106,7 @@ class KeyDerivationAudit : Gee.TestCase {
      * triggers a full KDF pass.
      */
     void test_min_iterations() {
+        try {
         var enc = new Dino.Security.FileEncryption("iteration_test");
         uint8[] data = "iteration benchmark".data;
 
@@ -113,6 +119,10 @@ class KeyDerivationAudit : Gee.TestCase {
         // 5 derivations at ≥10ms each = ≥50ms = 50000us
         if (elapsed_us < 50000) {
             GLib.Test.message("BUG: 5 key derivations took only %lld µs (need ≥50000 µs). No iterated KDF.".printf(elapsed_us));
+            GLib.Test.fail();
+        }
+        } catch (GLib.Error e) {
+            GLib.Test.message("Unexpected error: %s".printf(e.message));
             GLib.Test.fail();
         }
     }

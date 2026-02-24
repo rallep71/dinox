@@ -324,14 +324,6 @@ class SecurityTest : Gee.TestCase {
 
     // ===== Stream Encrypt/Decrypt Tests =====
 
-    /** Helper: run an async function synchronously via MainLoop. */
-    private delegate void AsyncRunner();
-    private static void run_async(owned AsyncRunner runner) {
-        var loop = new MainLoop();
-        runner();
-        loop.quit();
-    }
-
     /**
      * encrypt_stream + decrypt_stream roundtrip MUST reproduce plaintext.
      * Tests the streaming GCM tag holdback logic.

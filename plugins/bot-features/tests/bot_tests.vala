@@ -279,12 +279,10 @@ class CryptoTest : Gee.TestCase {
         // Build key: 20 bytes of 0xaa
         uint8[] key_bytes = new uint8[20];
         for (int i = 0; i < 20; i++) key_bytes[i] = 0xaa;
-        string key = (string) key_bytes;
 
         // Build data: 50 bytes of 0xdd
         uint8[] data_bytes = new uint8[50];
         for (int i = 0; i < 50; i++) data_bytes[i] = 0xdd;
-        string data = (string) data_bytes;
 
         // Use raw byte HMAC since key/data are binary
         var hmac = new Hmac(ChecksumType.SHA256, key_bytes);

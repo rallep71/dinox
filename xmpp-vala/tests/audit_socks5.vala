@@ -215,23 +215,19 @@ class Socks5Audit : Gee.TestCase {
      * XEP-0260: Missing cid attribute MUST throw IqError.BAD_REQUEST.
      */
     private void test_candidate_parse_missing_cid() {
+        // Missing cid attribute
+        string xml = "<candidate xmlns='urn:xmpp:jingle:transports:s5b:1' " +
+                     "host='1.2.3.4' jid='j@ex.com' port='1080' priority='100' type='direct'/>";
+
+        var reader = new StanzaReader.for_string(xml);
+        var node = yield_stanza_node(reader);
+
         try {
-            // Missing cid attribute
-            string xml = "<candidate xmlns='urn:xmpp:jingle:transports:s5b:1' " +
-                         "host='1.2.3.4' jid='j@ex.com' port='1080' priority='100' type='direct'/>";
-
-            var reader = new StanzaReader.for_string(xml);
-            var node = yield_stanza_node(reader);
-
-            try {
-                Xep.JingleSocks5Bytestreams.Candidate.parse(node);
-                fail_if(true, "XEP-0260: missing cid MUST throw IqError");
-            } catch (Xep.Jingle.IqError e) {
-                // Expected
-                assert_true(true);
-            }
-        } catch (Error e) {
-            fail_if_reached(@"Unexpected error: $(e.message)");
+            Xep.JingleSocks5Bytestreams.Candidate.parse(node);
+            fail_if(true, "XEP-0260: missing cid MUST throw IqError");
+        } catch (Xep.Jingle.IqError e) {
+            // Expected
+            assert_true(true);
         }
     }
 

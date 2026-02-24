@@ -146,7 +146,6 @@ class UiHelperAudit : Gee.TestCase {
     private void test_rgba_clamp() {
         // Values > 1.0 should be clamped to 1.0
         Gdk.RGBA over = { 2.0f, -1.0f, 0.5f, 1.0f };
-        string hex = Util.rgba_to_hex(over);
         // red=2.0 clamped to 1.0 → FF, green=-1.0 clamped to 0.0 → 00
         fail_if_not_eq_str("#FF0080FF", Util.rgba_to_hex(over));
     }
