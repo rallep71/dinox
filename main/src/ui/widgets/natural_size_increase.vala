@@ -47,6 +47,8 @@ public class Dino.Ui.NaturalSizeIncrease : Gtk.Widget {
             }
             child = child.get_next_sibling();
         }
+        // GTK4/Adw requires: natural >= minimum
+        natural = int.max(natural, minimum);
     }
 
     public override void size_allocate(int width, int height, int baseline) {

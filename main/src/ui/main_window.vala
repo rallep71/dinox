@@ -9,6 +9,13 @@ namespace Dino.Ui {
 [GtkTemplate (ui = "/im/github/rallep71/DinoX/main_window.ui")]
 public class MainWindow : Adw.ApplicationWindow {
 
+    // Prevent AdwBreakpointBin warning: clamp natural >= minimum
+    // (libadwaita AdwStatusPage can report min > natural at certain widths)
+    public override void measure(Orientation orientation, int for_size, out int minimum, out int natural, out int minimum_baseline, out int natural_baseline) {
+        base.measure(orientation, for_size, out minimum, out natural, out minimum_baseline, out natural_baseline);
+        if (natural < minimum) natural = minimum;
+    }
+
     public signal void conversation_selected(Conversation conversation);
 
     [GtkChild] public unowned Stack stack;
