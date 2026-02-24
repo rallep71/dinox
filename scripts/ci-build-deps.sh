@@ -5,8 +5,8 @@ set -e
 # Custom dependency builder for CI
 #
 # TODO: Check periodically for newer versions!
-# Current versions (last checked: 2026-02-24):
-#   SQLCipher              4.5.6   https://github.com/sqlcipher/sqlcipher/releases
+# Current versions (last checked/verified: 2026-02-24):
+#   SQLCipher              4.6.1   https://github.com/sqlcipher/sqlcipher/releases
 #   webrtc-audio-processing v2.1   https://gitlab.freedesktop.org/pulseaudio/webrtc-audio-processing/-/tags
 #   libnice                0.1.23  https://gitlab.freedesktop.org/libnice/libnice/-/tags
 #   libomemo-c             (fork)  https://github.com/rallep71/libomemo-c
@@ -39,7 +39,7 @@ echo "Building dependencies..."
 # 1. SQLCipher with FTS5 support
 # Ubuntu's libsqlcipher-dev lacks FTS5. Build from source to enable it.
 echo "Building SQLCipher with FTS5..."
-SQLCIPHER_VER=4.5.6
+SQLCIPHER_VER=4.6.1
 wget -q -O "sqlcipher-${SQLCIPHER_VER}.tar.gz" "https://github.com/sqlcipher/sqlcipher/archive/v${SQLCIPHER_VER}.tar.gz"
 tar xf "sqlcipher-${SQLCIPHER_VER}.tar.gz"
 cd "sqlcipher-${SQLCIPHER_VER}"

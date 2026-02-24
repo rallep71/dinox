@@ -199,8 +199,8 @@ If your system SQLCipher lacks FTS5, build from source:
 
 ```bash
 # 1. Download
-wget -q https://github.com/sqlcipher/sqlcipher/archive/v4.5.6.tar.gz
-tar xf v4.5.6.tar.gz && cd sqlcipher-4.5.6
+wget -q https://github.com/sqlcipher/sqlcipher/archive/v4.6.1.tar.gz
+tar xf v4.6.1.tar.gz && cd sqlcipher-4.6.1
 
 # 2. Configure with FTS5
 ./configure --prefix=/usr --enable-tempstore=yes --enable-fts5 \

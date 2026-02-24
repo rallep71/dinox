@@ -118,8 +118,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://github.com/sqlcipher/sqlcipher/archive/v4.5.5.tar.gz",
-                    "sha256": "014ef9d4f5b5f4e7af4d93ad399667947bb55e31860e671f0def1b8ae6f05de0"
+                    "url": "https://github.com/sqlcipher/sqlcipher/archive/v4.6.1.tar.gz",
+                    "sha256": "d8f9afcbc2f4b55e316ca4ada4425daf3d0b4aab25f45e11a802ae422b9f53a3"
                 }
             ]
         },

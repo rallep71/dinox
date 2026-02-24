@@ -159,7 +159,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Conditional FTS5/FTS4 table creation and trigger syntax
   - MatchQueryBuilder uses `rowid` (FTS5) or `docid` (FTS4)
   - Migration v39: conditional FTS4→FTS5 upgrade with content rebuild
-- **SQLCipher from Source**: AppImage CI and Flatpak now build SQLCipher 4.5.6 from source with `--enable-fts5` for guaranteed FTS5 support.
+- **SQLCipher from Source**: AppImage CI and Flatpak now build SQLCipher 4.6.1 from source with `--enable-fts5` for guaranteed FTS5 support.
 - **DB VERSION**: 37 → 39
 - **Version**: 1.1.2.2 → 1.1.2.3
 
