@@ -13,7 +13,7 @@ Every test references its authoritative specification or contract.
 # All tests at once (recommended)
 ./scripts/run_all_tests.sh
 
-# Only Meson-registered tests (7 suites, 542 tests)
+# Only Meson-registered tests (7 suites, 556 tests)
 ./scripts/run_all_tests.sh --meson
 
 # Only DB maintenance tests (136 standalone)
@@ -164,7 +164,7 @@ python3 scripts/scan_unicode.py --verbose   # show details
   Commit:  0e0b766a
 
 ============================================
- Meson Tests (7 suites, 542 tests)
+ Meson Tests (7 suites, 556 tests)
 ============================================
 >>> main-test (16 UI ViewModel tests)
     OK
@@ -302,7 +302,7 @@ build/xmpp-vala/xmpp-vala-test --verbose
 
 ---
 
-## 1. Meson-Registered Tests (542 Tests)
+## 1. Meson-Registered Tests (556 Tests)
 
 Compiled and executed via `ninja -C build test`.
 Framework: GLib.Test + `Gee.TestCase` with `add_async_test()` for async XML parsing.
@@ -1303,7 +1303,7 @@ ninja -C build test                    Meson-registered (514 tests)
   |     |-- PreferencesRow (16)          GObject property/signal contract
   |     +-- UiHelperAudit (46)           Pure helper.vala functions (no GTK)
   |
-  |-- omemo-test                       9 suites, 76 tests (GLib.Test)
+  |-- omemo-test                       11 suites, 102 tests (GLib.Test)
   |     |-- Curve25519 (4)               RFC 7748 key agreement
   |     |-- SessionBuilder (5)           Signal Protocol / XEP-0384
   |     |-- HKDF (1)                     RFC 5869 test vector
@@ -1311,7 +1311,10 @@ ninja -C build test                    Meson-registered (514 tests)
   |     |-- DecryptLogic (15)            CWE-208 constant-time + arr_to_str
   |     |-- BundleParser (16)            XEP-0384 v0.3 + v0.8 XML parser audit
   |     |-- Omemo2Crypto (12)            HKDF→AES→HMAC encrypt/decrypt roundtrip
-  |     +-- SessionVersionGuard (3)      v3↔v4 session version detection
+  |     |-- SessionVersionGuard (3)      v3↔v4 session version detection
+  |     |-- PreKeyUpdateClassifier (6)   Pre-key change detection
+  |     |-- EncryptSafetyCheck (8)       Plaintext-leak guard, safety checks
+  |     +-- DecryptFailureStage (12)     Pre/post-ratchet error classification
   |
   |-- openpgp-test                     3 suites, 48 tests (GLib.Test)
   |     |-- StreamModuleLogic (16)       XEP-0374 extract_body + extract_pgp_data
@@ -1348,7 +1351,7 @@ future test ideas: see `docs/internal/TESTING_GAPS.md` (not tracked in Git).
 | **crypto-vala** | Vollständig getestet: Cipher/Converter/Random/Error via libdino Security (15) + Audit (4), `srtp.vala` via SrtpAudit (10) in §1.2. Bug in `force_reset_encrypt_stream` gefunden und behoben. | ~~Low~~ Done |
 | **http-files plugin** | 25 tests (UrlRegex, FileNameExtraction, SanitizeLog) -- vollständig getestet, siehe §1.7 | ~~Medium~~ Done |
 | **openpgp plugin** | 48 tests (StreamModuleLogic, GPGKeylistParser, ArmorParser). GPG binary integration: untested | Medium |
-| **omemo plugin** | 102 tests (Curve25519, Signal, HKDF, FileDecryptor, DecryptLogic, BundleParser, Omemo2Crypto, SessionVersionGuard, etc.). Full session encrypt/decrypt: untested | Medium |
+| **omemo plugin** | 102 tests (11 suites): Curve25519, SessionBuilder, HKDF, FileDecryptor, DecryptLogic, BundleParser, Omemo2Crypto, SessionVersionGuard, PreKeyUpdateClassifier, EncryptSafetyCheck, DecryptFailureStage. Encrypt/decrypt roundtrip, safety checks, error classification vollständig getestet. | ~~Medium~~ Done |
 
 ---
 
@@ -1356,8 +1359,8 @@ future test ideas: see `docs/internal/TESTING_GAPS.md` (not tracked in Git).
 
 | Workflow | Trigger | Tests |
 |----------|---------|-------|
-| `build.yml` | push, PR | `meson test` (542 tests) |
-| `build.yml` (Vala nightly) | push, PR | `meson test` (542 tests) |
+| `build.yml` | push, PR | `meson test` (556 tests) |
+| `build.yml` (Vala nightly) | push, PR | `meson test` (556 tests) |
 | `build-flatpak.yml` | push | Build only |
 | `build-appimage.yml` | Tag | Build only |
 | `windows-build.yml` | push | Build only |
@@ -1395,14 +1398,15 @@ If `sqlcipher` is not installed, DB CLI tests are skipped with a warning.
 ### Meson Summary Output
 
 ```
-1/6 Tests for main      OK              0.01s
-2/6 Tests for xmpp-vala OK              0.05s
-3/6 Tests for openpgp   OK              0.10s
-4/6 Tests for omemo     OK              0.36s
-5/6 bot-features-test   OK              2.22s
-6/6 Tests for libdino   OK             10.25s
+1/7 Tests for main      OK              0.01s
+2/7 Tests for xmpp-vala OK              0.05s
+3/7 Tests for openpgp   OK              0.10s
+4/7 Tests for omemo     OK              0.36s
+5/7 bot-features-test   OK              2.22s
+6/7 Tests for srtp      OK              0.02s
+7/7 Tests for libdino   OK             10.25s
 
-Ok:                 6
+Ok:                 7
 Expected Fail:      0
 Fail:               0        <-- MUST be 0
 Unexpected Pass:    0
@@ -1527,4 +1531,4 @@ Examples:
 
 ---
 
-*Last updated: 24 February 2026 -- v1.7.0.0, 556 Meson + 136 standalone = 692 tests, 0 failures, added SRTP/RFC 3711 audit tests + force_reset bugfix*
+*Last updated: 25 February 2026 -- v1.7.0.0, 556 Meson + 136 standalone = 692 tests, 0 failures, OMEMO coverage updated (11 suites, 102 tests)*
