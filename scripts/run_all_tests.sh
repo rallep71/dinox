@@ -52,7 +52,7 @@ run_suite() {
 
 run_meson_tests() {
     echo -e "${BOLD}============================================${NC}"
-    echo -e "${BOLD} Meson Tests (7 suites, 542 tests)${NC}"
+    echo -e "${BOLD} Meson Tests (7 suites, 556 tests)${NC}"
     echo -e "${BOLD}============================================${NC}"
 
     # Build first
@@ -63,22 +63,25 @@ run_meson_tests() {
         return 1
     fi
 
-    run_suite "main-test (16 UI ViewModel tests)" \
+    run_suite "main-test (62 UI ViewModel + helper tests)" \
         "meson test -C build 'Tests for main' --print-errorlogs"
 
-    run_suite "xmpp-vala-test (67 XMPP protocol tests)" \
+    run_suite "xmpp-vala-test (245 XMPP protocol tests)" \
         "meson test -C build 'Tests for xmpp-vala' --print-errorlogs"
 
-    run_suite "libdino-test (29 crypto + data structure tests)" \
+    run_suite "libdino-test (50 crypto + data structure tests)" \
         "meson test -C build 'Tests for libdino' --print-errorlogs"
 
-    run_suite "omemo-test (10 Signal Protocol tests)" \
+    run_suite "omemo-test (102 Signal Protocol + OMEMO tests)" \
         "meson test -C build 'Tests for omemo' --print-errorlogs"
+
+    run_suite "openpgp-test (48 OpenPGP stream + armor tests)" \
+        "meson test -C build 'Tests for openpgp' --print-errorlogs"
 
     run_suite "bot-features-test (24 rate limiter + crypto tests)" \
         "meson test -C build 'bot-features-test' --print-errorlogs"
 
-    run_suite "http-files-test (28 URL regex + sanitize tests)" \
+    run_suite "http-files-test (25 URL regex + sanitize tests)" \
         "meson test -C build 'Tests for http-files' --print-errorlogs"
 }
 
@@ -121,11 +124,11 @@ elif [[ "${1:-}" == "--db" ]]; then
 elif [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
     echo "Usage: $0 [--meson|--db|--help]"
     echo ""
-    echo "  --meson   Run only Meson-registered tests (506 tests)"
+    echo "  --meson   Run only Meson-registered tests (556 tests)"
     echo "  --db      Run only DB maintenance tests (136 tests)"
     echo "  --help    Show this help"
     echo ""
-    echo "Without arguments: run all tests (642 total)"
+    echo "Without arguments: run all tests (692 total)"
     exit 0
 fi
 

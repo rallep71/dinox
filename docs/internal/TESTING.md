@@ -81,7 +81,7 @@ export LD_LIBRARY_PATH=build/libdino:build/xmpp-vala:build/qlite:build/crypto-va
 #### Full regression check
 
 ```bash
-# All 650 tests -- Meson + DB
+# All 692 tests -- Meson + DB
 ./scripts/run_all_tests.sh
 ```
 
@@ -98,6 +98,7 @@ build/main/main-test                     # UI logic changes
 build/libdino/libdino-test               # Core library changes
 build/plugins/openpgp/openpgp-test       # OpenPGP changes
 build/plugins/bot-features/bot-features-test  # Bot plugin changes
+build/plugins/http-files/http-files-test      # HTTP file upload changes
 ```
 
 #### Run a single test by path
@@ -116,8 +117,9 @@ build/xmpp-vala/xmpp-vala-test -l
 build/libdino/libdino-test -l
 build/main/main-test -l
 build/plugins/omemo/omemo-test -l
-build/plugins/bot-features/bot-features-test -l
 build/plugins/openpgp/openpgp-test -l
+build/plugins/bot-features/bot-features-test -l
+build/plugins/http-files/http-files-test -l
 ```
 
 #### Verbose / debug output
@@ -166,24 +168,25 @@ python3 scripts/scan_unicode.py --verbose   # show details
 ============================================
  Meson Tests (7 suites, 556 tests)
 ============================================
->>> main-test (16 UI ViewModel tests)
+>>> main-test (62 UI ViewModel + helper tests)
     OK
->>> xmpp-vala-test (67 XMPP protocol tests)
+>>> xmpp-vala-test (245 XMPP protocol tests)
     OK
 ...
 ==========================================
  Summary
 ==========================================
-  PASS  main-test (16 UI ViewModel tests)
-  PASS  xmpp-vala-test (67 XMPP protocol tests)
-  PASS  libdino-test (37 crypto + data structure tests)
-  PASS  omemo-test (10 Signal Protocol tests)
+  PASS  main-test (62 UI ViewModel + helper tests)
+  PASS  xmpp-vala-test (245 XMPP protocol tests)
+  PASS  libdino-test (50 crypto + data structure tests)
+  PASS  omemo-test (102 Signal Protocol + OMEMO tests)
+  PASS  openpgp-test (48 OpenPGP stream + armor tests)
   PASS  bot-features-test (24 rate limiter + crypto tests)
-  PASS  http-files-test (28 URL regex + sanitize tests)
+  PASS  http-files-test (25 URL regex + sanitize tests)
   PASS  DB CLI tests (71 bash tests)
   PASS  DB Integration tests (65 Vala tests)
 
-  Pass: 8  Fail: 0  Skip: 0
+  Pass: 9  Fail: 0  Skip: 0
 
 ALL TESTS PASSED
 ```
@@ -256,11 +259,12 @@ export LD_LIBRARY_PATH=build/libdino:build/xmpp-vala:build/qlite:build/crypto-va
 
 # Run one suite
 build/xmpp-vala/xmpp-vala-test     # 245 tests
-build/libdino/libdino-test          # 47 tests
+build/libdino/libdino-test          # 50 tests
 build/main/main-test                # 62 tests
 build/plugins/omemo/omemo-test      # 102 tests
-build/plugins/bot-features/bot-features-test  # 24 tests
 build/plugins/openpgp/openpgp-test  # 48 tests
+build/plugins/bot-features/bot-features-test  # 24 tests
+build/plugins/http-files/http-files-test      # 25 tests
 ```
 
 ### Running a single test by name
@@ -278,8 +282,9 @@ build/xmpp-vala/xmpp-vala-test -l
 build/libdino/libdino-test -l
 build/main/main-test -l
 build/plugins/omemo/omemo-test -l
-build/plugins/bot-features/bot-features-test -l
 build/plugins/openpgp/openpgp-test -l
+build/plugins/bot-features/bot-features-test -l
+build/plugins/http-files/http-files-test -l
 ```
 
 ### Verbose output
@@ -1266,7 +1271,7 @@ Every test references its authoritative source:
 ## 5. Test Architecture
 
 ```
-ninja -C build test                    Meson-registered (514 tests)
+ninja -C build test                    Meson-registered (556 tests)
   |-- xmpp-vala-test                   19 suites, 245 tests (GLib.Test)
   |     |-- Stanza (4)                   RFC 6120 S4 stream/namespace
   |     |-- util (5)                     xs:hexBinary parsing contract
@@ -1348,10 +1353,10 @@ future test ideas: see `docs/internal/TESTING_GAPS.md` (not tracked in Git).
 | Area | Status | Difficulty |
 |------|--------|------------|
 | **qlite** (SQLite ORM) | Only indirectly via DB tests | Medium -- pure library, testable |
-| **crypto-vala** | Vollständig getestet: Cipher/Converter/Random/Error via libdino Security (15) + Audit (4), `srtp.vala` via SrtpAudit (10) in §1.2. Bug in `force_reset_encrypt_stream` gefunden und behoben. | ~~Low~~ Done |
-| **http-files plugin** | 25 tests (UrlRegex, FileNameExtraction, SanitizeLog) -- vollständig getestet, siehe §1.7 | ~~Medium~~ Done |
-| **openpgp plugin** | 48 tests (StreamModuleLogic, GPGKeylistParser, ArmorParser). GPG binary integration: untested | Medium |
-| **omemo plugin** | 102 tests (11 suites): Curve25519, SessionBuilder, HKDF, FileDecryptor, DecryptLogic, BundleParser, Omemo2Crypto, SessionVersionGuard, PreKeyUpdateClassifier, EncryptSafetyCheck, DecryptFailureStage. Encrypt/decrypt roundtrip, safety checks, error classification vollständig getestet. | ~~Medium~~ Done |
+| **crypto-vala** | Fully tested: Cipher/Converter/Random/Error via libdino Security (15) + Audit (4), `srtp.vala` via SrtpAudit (10) in §1.2. Bug in `force_reset_encrypt_stream` found and fixed. | ~~Low~~ Done |
+| **http-files plugin** | 25 tests (UrlRegex, FileNameExtraction, SanitizeLog) -- fully tested, see §1.7 | ~~Medium~~ Done |
+| **openpgp plugin** | 48 tests (StreamModuleLogic, GPGKeylistParser, ArmorParser) + 36 OpenPgpAudit tests in xmpp-vala (XEP-0373/0374 stanza + rpad). GPG binary integration (keygen, sign, encrypt subprocess): untested | Medium |
+| **omemo plugin** | 102 tests (11 suites): Curve25519, SessionBuilder, HKDF, FileDecryptor, DecryptLogic, BundleParser, Omemo2Crypto, SessionVersionGuard, PreKeyUpdateClassifier, EncryptSafetyCheck, DecryptFailureStage. Encrypt/decrypt roundtrip, safety checks, error classification fully tested. | ~~Medium~~ Done |
 
 ---
 
@@ -1374,10 +1379,10 @@ future test ideas: see `docs/internal/TESTING_GAPS.md` (not tracked in Git).
 Script: `scripts/run_all_tests.sh`
 
 ```bash
-# All 650 tests (Meson + DB)
+# All 692 tests (Meson + DB)
 ./scripts/run_all_tests.sh
 
-# Only Meson-registered tests (514)
+# Only Meson-registered tests (556)
 ./scripts/run_all_tests.sh --meson
 
 # Only DB maintenance tests (136)
@@ -1393,18 +1398,18 @@ If `sqlcipher` is not installed, DB CLI tests are skipped with a warning.
 
 ---
 
-## 9. Evaluating Test Results (Auswertung)
+## 9. Evaluating Test Results
 
 ### Meson Summary Output
 
 ```
-1/7 Tests for main      OK              0.01s
-2/7 Tests for xmpp-vala OK              0.05s
-3/7 Tests for openpgp   OK              0.10s
-4/7 Tests for omemo     OK              0.36s
-5/7 bot-features-test   OK              2.22s
-6/7 Tests for srtp      OK              0.02s
-7/7 Tests for libdino   OK             10.25s
+1/7 Tests for http-files OK              0.03s
+2/7 Tests for xmpp-vala  OK              0.08s
+3/7 Tests for main       OK              0.09s
+4/7 Tests for openpgp    OK              0.06s
+5/7 Tests for omemo      OK              0.32s
+6/7 bot-features-test    OK              2.21s
+7/7 Tests for libdino    OK             11.10s
 
 Ok:                 7
 Expected Fail:      0
@@ -1531,4 +1536,4 @@ Examples:
 
 ---
 
-*Last updated: 25 February 2026 -- v1.7.0.0, 556 Meson + 136 standalone = 692 tests, 0 failures, OMEMO coverage updated (11 suites, 102 tests)*
+*Last updated: 24 February 2026 -- v1.7.0.0, 556 Meson + 136 standalone = 692 tests, 0 failures, OMEMO coverage updated (11 suites, 102 tests), stale counts fixed*
