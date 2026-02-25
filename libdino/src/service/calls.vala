@@ -33,6 +33,13 @@ namespace Dino {
             this.db = db;
 
             stream_interactor.account_added.connect(on_account_added);
+
+            // End active calls when the connection drops (no ICE restart support)
+            stream_interactor.connection_manager.connection_state_changed.connect((account, state) => {
+                if (state == ConnectionManager.ConnectionState.DISCONNECTED) {
+                    on_connection_lost(account);
+                }
+            });
         }
 
         public async CallState? initiate_call(Conversation conversation, bool video) {
@@ -309,6 +316,25 @@ namespace Dino {
         private void remove_call_from_datastructures(Call call) {
             jmi_request_peer.unset(call);
             call_states.unset(call);
+        }
+
+        // End all active calls for an account when the connection is lost.
+        // Without ICE restart support, media can't recover even if SM resumes
+        // the XMPP session — the UDP paths are dead.
+        private void on_connection_lost(Account account) {
+            var active = new ArrayList<CallState>();
+            foreach (var entry in call_states.entries) {
+                if (!entry.key.account.equals(account)) continue;
+                Call.State s = entry.key.state;
+                if (s == Call.State.IN_PROGRESS || s == Call.State.ESTABLISHING || s == Call.State.RINGING) {
+                    active.add(entry.value);
+                }
+            }
+            if (active.size == 0) return;
+            debug("[%s] Connection lost — ending %d active call(s)", account.bare_jid.to_string(), active.size);
+            foreach (CallState cs in active) {
+                cs.end("Connection lost");
+            }
         }
 
         private void connect_call_state_signals(CallState call_state) {
