@@ -124,6 +124,12 @@ public class Manager : StreamInteractionModule, Object {
         stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).conversation_cleared.connect(on_conversation_cleared);
         stream_interactor.get_module<MucManager>(MucManager.IDENTITY).conference_removed.connect(on_conference_removed);
 
+        // Proactively fetch OMEMO keys when a new member joins a private MUC
+        // Without this, keys are only fetched on first message send → visible delay
+        stream_interactor.get_module<MucManager>(MucManager.IDENTITY).private_room_occupant_updated.connect((account, room, occupant) => {
+            on_private_room_occupant_updated.begin(account, room, occupant);
+        });
+
         // When the user removes an own device via TrustManager, republish the device list
         trust_manager.own_device_removed.connect((account) => {
             XmppStream? stream = stream_interactor.get_stream(account);
@@ -132,6 +138,30 @@ public class Manager : StreamInteractionModule, Object {
                 republish_device_list_v2(account, stream);
             }
         });
+    }
+
+    private async void on_private_room_occupant_updated(Account account, Jid room, Jid occupant) {
+        // A new member joined or real JID was revealed in a private MUC.
+        // Proactively fetch their OMEMO device list + bundles so encryption
+        // is ready when the user sends a message (no delay).
+        Jid? real_jid = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_real_jid(occupant, account);
+        if (real_jid == null || real_jid.equals(account.bare_jid)) return;
+
+        Jid bare = real_jid.bare_jid;
+        if (trust_manager.is_known_address(account, bare)) return;
+
+        XmppStream? stream = stream_interactor.get_stream(account);
+        if (stream == null) return;
+
+        debug("OMEMO: Proactively fetching keys for new MUC member %s in %s", bare.to_string(), room.bare_jid.to_string());
+        StreamModule? module = stream.get_module<StreamModule>(StreamModule.IDENTITY);
+        if (module != null) {
+            yield module.request_user_devicelist(stream, bare);
+        }
+        StreamModule2? module2 = stream.get_module<StreamModule2>(StreamModule2.IDENTITY);
+        if (module2 != null) {
+            yield module2.request_user_devicelist(stream, bare);
+        }
     }
 
     private void on_conversation_cleared(Conversation conversation) {
@@ -203,7 +233,12 @@ public class Manager : StreamInteractionModule, Object {
             occupants.add(jid);
         }
         Gee.List<Jid>? occupant_jids = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_offline_members(jid, account);
-        if(occupant_jids == null) {
+        if(occupant_jids == null || occupant_jids.size == 0) {
+            // Affiliations may not be loaded yet after (re)join — warn but continue
+            // Encryptor will encrypt to self devices only in this case
+            if (stream_interactor.get_module<MucManager>(MucManager.IDENTITY).is_groupchat(jid, account)) {
+                warning("OMEMO: No offline members for MUC %s — affiliations may not be loaded yet", jid.to_string());
+            }
             return occupants;
         }
         foreach (Jid occupant in occupant_jids) {

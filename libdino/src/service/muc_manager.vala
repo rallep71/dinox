@@ -1063,8 +1063,20 @@ public class MucManager : StreamInteractionModule, Object {
             if (conversation.type_ != Conversation.Type.GROUPCHAT) return false;
             XmppStream stream = stream_interactor.get_stream(conversation.account);
             if (stream == null) return false;
+            Xep.Muc.Flag? flag = stream.get_flag(Xep.Muc.Flag.IDENTITY);
+            if (flag == null) return false;
+
             if (Xep.DelayedDelivery.MessageFlag.get_flag(stanza) == null) {
-                Jid? real_jid = stream.get_flag(Xep.Muc.Flag.IDENTITY).get_real_jid(message.counterpart);
+                // Live message: resolve real JID from current occupant table
+                Jid? real_jid = flag.get_real_jid(message.counterpart);
+                if (real_jid != null && !real_jid.equals(message.counterpart)) {
+                    message.real_jid = real_jid.bare_jid;
+                }
+            } else if (message.real_jid == null) {
+                // MAM/delayed message: try to resolve real JID from occupant table.
+                // In non-anonymous rooms, the nick→real_jid mapping is often still
+                // valid if the sender is currently in the room with the same nick.
+                Jid? real_jid = flag.get_real_jid(message.counterpart);
                 if (real_jid != null && !real_jid.equals(message.counterpart)) {
                     message.real_jid = real_jid.bare_jid;
                 }
