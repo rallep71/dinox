@@ -21,8 +21,10 @@ public class Dino.Ui.CallWindowController : Object {
     private int window_width = -1;
     private bool window_size_changed = false;
     private bool closing = false;
+    private uint close_timeout_id = 0;
     private ulong[] call_window_handler_ids = new ulong[0];
     private ulong[] bottom_bar_handler_ids = new ulong[0];
+    private ulong devices_changed_handler_id = 0;
     private uint inhibit_cookie;
 
     public CallWindowController(CallWindow call_window, CallState call_state, StreamInteractor stream_interactor) {
@@ -39,11 +41,17 @@ public class Dino.Ui.CallWindowController : Object {
         this.call_window.bottom_bar.video_enabled = call_state.should_we_send_video();
 
         call_state.terminated.connect((who_terminated, reason_name, reason_text) => {
+            // Immediately shut down the DTMF tone pipeline so its
+            // PipeWire playback stream disappears right away, not
+            // 3 seconds later when the window closes.
+            call_window.bottom_bar.shutdown();
+
             Conversation? conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_conversation(who_terminated.bare_jid, call.account, Conversation.Type.CHAT);
             string display_name = conversation != null ? Util.get_conversation_display_name(stream_interactor, conversation) : who_terminated.bare_jid.to_string();
 
             call_window.show_counterpart_ended(display_name, reason_name, reason_text);
-            Timeout.add_seconds(3, () => {
+            close_timeout_id = Timeout.add_seconds(3, () => {
+                close_timeout_id = 0;
                 if (!closing) {
                     closing = true;
                     call_window.close();
@@ -72,12 +80,20 @@ public class Dino.Ui.CallWindowController : Object {
         bottom_bar_handler_ids += call_window.bottom_bar.hang_up.connect(() => {
             if (closing) return;
             closing = true;
+            if (close_timeout_id != 0) {
+                Source.remove(close_timeout_id);
+                close_timeout_id = 0;
+            }
             call_state.end();
             call_window.close();
         });
         call_window_handler_ids += call_window.close_request.connect(() => {
             if (closing) return false;
             closing = true;
+            if (close_timeout_id != 0) {
+                Source.remove(close_timeout_id);
+                close_timeout_id = 0;
+            }
             call_state.end();
             return false;
         });
@@ -201,7 +217,7 @@ public class Dino.Ui.CallWindowController : Object {
                     participant_widgets[peer_id].may_show_invite_button = can_convert;
                 });
 
-                call_plugin.devices_changed.connect((media, incoming) => {
+                devices_changed_handler_id = call_plugin.devices_changed.connect((media, incoming) => {
                     if (media == "audio") update_audio_device_choices();
                     if (media == "video") update_video_device_choices();
                 });
@@ -353,6 +369,10 @@ public class Dino.Ui.CallWindowController : Object {
     private void remove_participant(string participant_id) {
         if (peer_states.has_key(participant_id)) debug(@"[%s] Call window controller | Remove participant: %s", call.account.bare_jid.to_string(), peer_states[participant_id].jid.to_string());
 
+        // Detach video widget GStreamer elements before removing reference
+        if (participant_videos.has_key(participant_id)) {
+            participant_videos[participant_id].detach();
+        }
         participant_videos.unset(participant_id);
         participant_widgets[participant_id].disconnect(invite_handler_ids[participant_id]);
         participant_widgets.unset(participant_id);
@@ -459,6 +479,17 @@ public class Dino.Ui.CallWindowController : Object {
     }
 
     public override void dispose() {
+        // Shut down DTMF tone pipeline immediately — GTK4 dispose doesn't
+        // guarantee child finalizers run before the GStreamer pipeline is
+        // observed as lingering in the PipeWire mixer.
+        call_window.bottom_bar.shutdown();
+
+        // Disconnect from the singleton call_plugin to break the reference
+        // cycle that keeps this controller (and CallState's Device refs) alive.
+        if (devices_changed_handler_id != 0) {
+            call_plugin.disconnect(devices_changed_handler_id);
+            devices_changed_handler_id = 0;
+        }
         foreach (ulong handler_id in call_window_handler_ids) call_window.disconnect(handler_id);
         foreach (ulong handler_id in bottom_bar_handler_ids) call_window.bottom_bar.disconnect(handler_id);
 
@@ -470,10 +501,8 @@ public class Dino.Ui.CallWindowController : Object {
 
         call_window_handler_ids = bottom_bar_handler_ids = new ulong[0];
         if (own_video != null) {
-            if (this.call_window.bottom_bar.video_enabled) {
-                own_video.detach();
-                call_window.unset_own_video();
-            }
+            own_video.detach();
+            call_window.unset_own_video();
             own_video = null;
         }
         base.dispose();

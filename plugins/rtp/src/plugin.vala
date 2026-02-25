@@ -22,6 +22,9 @@ public class Dino.Plugins.Rtp.Plugin : RootInterface, VideoCallPlugin, Object {
     private Gee.List<Stream> streams = new ArrayList<Stream>();
     private Gee.List<Device> devices = new ArrayList<Device>();
     private int64 last_devices_refresh = 0;
+    private uint device_monitor_watch_id = 0;
+    private uint pipe_watch_id = 0;
+    private bool tearing_down = false; // Guards against pipe.set_state(PLAYING) during teardown
     //    private Gee.List<Participant> participants = new ArrayList<Participant>();
 
     public void registered(Dino.Application app) {
@@ -47,7 +50,7 @@ public class Dino.Plugins.Rtp.Plugin : RootInterface, VideoCallPlugin, Object {
     }
     public void unpause() {
         pause_count--;
-        if (pause_count == 0) {
+        if (pause_count == 0 && pipe != null && !tearing_down) {
             debug("Continue pipe after modifications");
             pipe.set_state(Gst.State.PLAYING);
         }
@@ -62,6 +65,10 @@ public class Dino.Plugins.Rtp.Plugin : RootInterface, VideoCallPlugin, Object {
             if (device.properties.get_string("device.class") == "monitor") continue;
             var pre_device = devices.first_match((it) => it.matches(device));
             if (pre_device != null) {
+                // Update the Gst.Device ref so the wrapper points at
+                // the *current* provider's device, not a stale one
+                // from a previous (now-stopped) provider.
+                pre_device.update(device);
                 if (!new_devices.contains(pre_device)) new_devices.add(pre_device);
                 continue;
             }
@@ -87,13 +94,17 @@ public class Dino.Plugins.Rtp.Plugin : RootInterface, VideoCallPlugin, Object {
         if (device_monitor != null) return;
         device_monitor = new Gst.DeviceMonitor();
         device_monitor.show_all = true;
-        device_monitor.get_bus().add_watch(Priority.DEFAULT, on_device_monitor_message);
+        device_monitor_watch_id = device_monitor.get_bus().add_watch(Priority.DEFAULT, on_device_monitor_message);
         device_monitor.start();
         handle_existing_devices(device_monitor);
     }
 
     private void stop_device_monitor() {
         if (device_monitor == null) return;
+        if (device_monitor_watch_id != 0) {
+            Source.remove(device_monitor_watch_id);
+            device_monitor_watch_id = 0;
+        }
         device_monitor.stop();
         device_monitor = null;
     }
@@ -127,7 +138,7 @@ public class Dino.Plugins.Rtp.Plugin : RootInterface, VideoCallPlugin, Object {
 
         // Pipeline
         pipe.auto_flush_bus = true;
-        pipe.bus.add_watch(GLib.Priority.DEFAULT, (_, message) => {
+        pipe_watch_id = pipe.bus.add_watch(GLib.Priority.DEFAULT, (_, message) => {
             on_pipe_bus_message(message);
             return true;
         });
@@ -135,20 +146,47 @@ public class Dino.Plugins.Rtp.Plugin : RootInterface, VideoCallPlugin, Object {
     }
 
     public void destroy_call_pipe_if_unused() {
-        if (streams.is_empty && !VideoWidget.has_instances()) {
+        if (streams.is_empty) {
             destroy_call_pipe();
         }
     }
 
     private void destroy_call_pipe() {
         if (pipe == null) return;
+        tearing_down = true;
+        // Stop device monitor FIRST — its GstDeviceProvider holds a
+        // PipeWire connection that persists as long as any Gst.Device
+        // from it is alive. Stopping it first releases the provider.
+        stop_device_monitor();
+        // Remove the pipeline bus watch BEFORE setting state to NULL
+        // to prevent the GSource from keeping GstBus (and indirectly
+        // the pipeline/device-provider PipeWire connections) alive.
+        if (pipe_watch_id != 0) {
+            Source.remove(pipe_watch_id);
+            pipe_watch_id = 0;
+        }
         pipe.set_state(Gst.State.NULL);
+        // All device elements are children of this pipe — null their
+        // references so create() re-builds them on the next call.
+        // Also drop Gst.Device refs to release the device provider.
+        foreach (Device dev in devices) {
+            dev.on_pipe_destroyed();
+        }
+        // Release all Device wrappers (and their Gst.Device refs).
+        // Each Gst.Device internally refs its GstDeviceProvider; as
+        // long as any Gst.Device from the PipeWire provider survives
+        // the provider (and its PipeWire daemon connection) stays
+        // alive.  Clearing the list lets the provider finalize and
+        // close the connection.  The list is repopulated the next
+        // time start_device_monitor() or refresh_devices() runs.
+        devices.clear();
+        last_devices_refresh = 0; // force refresh on next get_devices()
         rtpbin = null;
 #if WITH_VOICE_PROCESSOR
         echoprobe = null;
 #endif
         pipe = null;
-        stop_device_monitor();
+        tearing_down = false;
         debug("Call pipe destroyed");
     }
 
@@ -416,6 +454,18 @@ public class Dino.Plugins.Rtp.Plugin : RootInterface, VideoCallPlugin, Object {
         destroy_call_pipe_if_unused();
     }
 
+    public void dispose_pipeline() {
+        // Force-close all remaining streams and destroy the pipeline.
+        // Safety net for zombie sessions that survived normal teardown.
+        var remaining = new Gee.ArrayList<Stream>();
+        remaining.add_all(streams);
+        foreach (Stream s in remaining) {
+            streams.remove(s);
+            s.destroy();
+        }
+        destroy_call_pipe();
+    }
+
     public void shutdown() {
         stop_device_monitor();
         destroy_call_pipe();
@@ -487,6 +537,7 @@ public class Dino.Plugins.Rtp.Plugin : RootInterface, VideoCallPlugin, Object {
         ArrayList<MediaDevice> other_devices = new ArrayList<MediaDevice>();
 
         foreach (Device device in devices) {
+            if (device.device == null) continue;
             if (device.media != "video") continue;
             if (device.is_sink) continue;
 
@@ -520,6 +571,7 @@ public class Dino.Plugins.Rtp.Plugin : RootInterface, VideoCallPlugin, Object {
 
     private int get_max_fps(Device device) {
         int fps = 0;
+        if (device.device == null) return fps;
         for (int i = 0; i < device.device.caps.get_size(); i++) {
             unowned Gst.Structure structure = device.device.caps.get_structure(i);
 

@@ -103,8 +103,9 @@ public class Dino.Ui.CallDialpad : Gtk.Popover {
         this.has_arrow = true;
         this.position = PositionType.TOP;
 
-        // Create the persistent tone pipeline once (in READY state)
-        ensure_pipeline();
+        // Pipeline is created lazily on first tone play (not eagerly)
+        // to avoid opening a PipeWire/PulseAudio playback stream
+        // as soon as the call window opens.
 
         // Destroy pipeline when popover closes
         this.closed.connect(() => {
@@ -171,6 +172,15 @@ public class Dino.Ui.CallDialpad : Gtk.Popover {
         vol_low = null;
         vol_high = null;
         pipeline_ready = false;
+    }
+
+    /**
+     * Explicit cleanup — call when the call ends to ensure
+     * the GStreamer pipeline (and its PipeWire stream) is released
+     * immediately, rather than waiting for GC finalization.
+     */
+    public void shutdown() {
+        destroy_pipeline();
     }
 
     ~CallDialpad() {

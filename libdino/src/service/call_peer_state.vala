@@ -34,6 +34,11 @@ public class Dino.PeerState : Object {
     public bool waiting_for_inbound_muji_connection = false;
     public Xep.Muji.GroupCall? group_call { get; set; }
 
+    // Signal handler IDs for singleton session_info_type (must be disconnected to prevent leak)
+    private ulong session_info_mute_handler_id = 0;
+    private ulong session_info_info_handler_id = 0;
+    private Xep.JingleRtp.SessionInfoType? connected_session_info_type = null;
+
     public bool counterpart_sends_video = false;
     public bool we_should_send_audio { get; set; default=false; }
     public bool we_should_send_video { get; set; default=false; }
@@ -48,8 +53,8 @@ public class Dino.PeerState : Object {
         Xep.JingleRtp.Module jinglertp_module = stream_interactor.module_manager.get_module<Xep.JingleRtp.Module>(call.account, Xep.JingleRtp.Module.IDENTITY);
         if (jinglertp_module == null) return;
 
-        var session_info_type = jinglertp_module.session_info_type;
-        session_info_type.mute_update_received.connect((session,mute, name) => {
+        connected_session_info_type = jinglertp_module.session_info_type;
+        session_info_mute_handler_id = connected_session_info_type.mute_update_received.connect((session,mute, name) => {
             if (this.sid != session.sid) return;
 
             foreach (Xep.Jingle.Content content in session.contents) {
@@ -61,7 +66,7 @@ public class Dino.PeerState : Object {
                 }
             }
         });
-        session_info_type.info_received.connect((session, session_info) => {
+        session_info_info_handler_id = connected_session_info_type.info_received.connect((session, session_info) => {
             if (this.sid != session.sid) return;
 
             info_received(session_info);
@@ -119,6 +124,14 @@ public class Dino.PeerState : Object {
             warning("Failed to start call: %s", e.message);
             return;
         }
+        // Guard: call may have ended while we were yielding (async race).
+        // If so, terminate the zombie session immediately.
+        if (call.state == Call.State.ENDED || call.state == Call.State.MISSED ||
+            call.state == Call.State.FAILED || call.state == Call.State.DECLINED) {
+            debug("call_resource: call already ended during async yield — terminating zombie session");
+            session.terminate(Xep.Jingle.ReasonElement.CANCEL, null, "call already ended");
+            return;
+        }
         set_session(session);
     }
 
@@ -172,6 +185,9 @@ public class Dino.PeerState : Object {
     }
 
     public void end(string terminate_reason, string? reason_text = null) {
+        // Disconnect singleton signal handlers to prevent PeerState memory leak
+        disconnect_session_info_handlers();
+
         switch (terminate_reason) {
             case Xep.Jingle.ReasonElement.SUCCESS:
                 if (session != null) {
@@ -190,6 +206,30 @@ public class Dino.PeerState : Object {
                     stream.get_module<Xep.JingleMessageInitiation.Module>(Xep.JingleMessageInitiation.Module.IDENTITY).send_session_retract_to_peer(stream, jid, sid);
                 }
                 break;
+        }
+    }
+
+    /**
+     * Disconnect signal handlers from the long-lived session_info_type singleton.
+     * Without this, the closures capture `this` (PeerState) and prevent GC,
+     * keeping audio/video content parameters and GStreamer streams alive
+     * (causing PipeWire connection leaks).
+     */
+    private void disconnect_session_info_handlers() {
+        if (connected_session_info_type != null) {
+            if (session_info_mute_handler_id != 0) {
+                if (SignalHandler.is_connected(connected_session_info_type, session_info_mute_handler_id)) {
+                    connected_session_info_type.disconnect(session_info_mute_handler_id);
+                }
+                session_info_mute_handler_id = 0;
+            }
+            if (session_info_info_handler_id != 0) {
+                if (SignalHandler.is_connected(connected_session_info_type, session_info_info_handler_id)) {
+                    connected_session_info_type.disconnect(session_info_info_handler_id);
+                }
+                session_info_info_handler_id = 0;
+            }
+            connected_session_info_type = null;
         }
     }
 

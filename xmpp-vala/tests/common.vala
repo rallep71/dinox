@@ -23,6 +23,8 @@ int main(string[] args) {
     TestSuite.get_root().add_suite(new Xmpp.Test.UtilAudit().get_suite());
     TestSuite.get_root().add_suite(new Xmpp.Test.XepRoundtripAudit().get_suite());
     TestSuite.get_root().add_suite(new Xmpp.Test.Socks5Audit().get_suite());
+    // MUJI Group Call Security Audit (XEP-0272, XEP-0482, XEP-0167)
+    TestSuite.get_root().add_suite(new Xmpp.Test.MujiAudit().get_suite());
     return GLib.Test.run();
 }
 

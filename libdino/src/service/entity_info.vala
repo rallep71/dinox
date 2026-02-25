@@ -247,7 +247,7 @@ public class EntityInfo : StreamInteractionModule, Object {
         var computed_hash = EntityCapabilities.Module.compute_hash_for_info_result(info_result);
 
         if (hash != null && computed_hash != hash) {
-            warning("Claimed entity caps hash from %s doesn't match computed one (claimed: %s, computed: %s). Using computed hash as fallback.",
+            debug("Entity caps hash mismatch from %s (claimed: %s, computed: %s). Using computed hash.",
                     jid.to_string(), hash, computed_hash);
         }
         

@@ -305,8 +305,9 @@ public class Dino.Plugins.Rtp.Stream : Xmpp.Xep.JingleRtp.Stream {
         send_rtp.async = false;
         send_rtp.caps = CodecUtil.get_caps(media, payload_type, false);
         send_rtp.emit_signals = true;
-        send_rtp.sync = true;
-        send_rtp.drop = true;
+        send_rtp.sync = false;
+        send_rtp.drop = false;
+        send_rtp.@set("max-buffers", 1);
         send_rtp.wait_on_eos = false;
         send_rtp_new_sample_handler_id = send_rtp.new_sample.connect(on_new_sample);
 #if GST_1_20
@@ -320,8 +321,8 @@ public class Dino.Plugins.Rtp.Stream : Xmpp.Xep.JingleRtp.Stream {
         send_rtcp.async = false;
         send_rtcp.caps = new Gst.Caps.empty_simple("application/x-rtcp");
         send_rtcp.emit_signals = true;
-        send_rtcp.sync = true;
-        send_rtcp.drop = true;
+        send_rtcp.sync = false;
+        send_rtcp.drop = false;
         send_rtcp.wait_on_eos = false;
         send_rtcp_new_sample_handler_id = send_rtcp.new_sample.connect(on_new_sample);
         send_rtcp_eos_handler_id = GLib.Signal.connect(send_rtcp, "eos", (GLib.Callback)on_eos_static, this);
@@ -725,9 +726,12 @@ public class Dino.Plugins.Rtp.Stream : Xmpp.Xep.JingleRtp.Stream {
             feedback_rtcp_handler_id = 0;
         }
         internal_session = null;
+        session = null;
+        crypto_session = null;
         
         // Stop network communication
         push_recv_data = false;
+        created = false;
         if (recv_rtp != null) recv_rtp.end_of_stream();
         if (recv_rtcp != null) recv_rtcp.end_of_stream();
         
@@ -787,9 +791,27 @@ public class Dino.Plugins.Rtp.Stream : Xmpp.Xep.JingleRtp.Stream {
             this.input = null;
         }
 
-        // Inject EOS
+        // Inject EOS (handlers already disconnected, so clean up inline)
         if (send_rtp_sink_pad != null) {
             send_rtp_sink_pad.send_event(new Gst.Event.eos());
+        }
+
+        // Clean up send_rtp appsink (EOS handler won't fire since we disconnected it)
+        if (send_rtp_src_pad != null) {
+            send_rtp_src_pad.unlink(send_rtp.get_static_pad("sink"));
+            send_rtp_src_pad = null;
+        }
+        if (send_rtp != null) {
+            send_rtp.set_locked_state(true);
+            send_rtp.set_state(Gst.State.NULL);
+            if (pipe != null) pipe.remove(send_rtp);
+            send_rtp = null;
+        }
+        if (send_rtcp != null) {
+            send_rtcp.set_locked_state(true);
+            send_rtcp.set_state(Gst.State.NULL);
+            if (pipe != null) pipe.remove(send_rtcp);
+            send_rtcp = null;
         }
 
         // Disconnect decode
@@ -801,7 +823,15 @@ public class Dino.Plugins.Rtp.Stream : Xmpp.Xep.JingleRtp.Stream {
         // Disconnect output
         if (output != null) {
             decode.get_static_pad("src").add_probe(Gst.PadProbeType.BLOCK, drop_probe);
-            decode.unlink(output);
+            if (output_queue != null) {
+                decode.unlink(output_queue);
+                output_queue.unlink(output);
+                output_queue.set_state(Gst.State.NULL);
+                pipe.remove(output_queue);
+                output_queue = null;
+            } else {
+                decode.unlink(output);
+            }
         }
 
         // Disconnect output device

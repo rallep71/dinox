@@ -748,6 +748,12 @@ Common GTK warnings and their meaning:
 | `Accessible role for GtkBox cannot be changed` | GTK4 internal — accessible role set after widget realization | Harmless, GTK4 bug |
 | `Trying to snapshot GtkPopover without a current allocation` | Popover rendered before layout pass | Harmless, timing-related |
 
+### XMPP / Server Warnings
+
+| Warning | Cause | Status |
+|---------|-------|--------|
+| `Entity caps hash mismatch from …@conference.… (claimed: …, computed: …). Using computed hash.` | Der XMPP-Server (z.B. ejabberd) berechnet den XEP-0115 Entity Caps Hash für MUC-Räume nicht korrekt — bekannter serverseitiger Bug. Tritt besonders bei MUJI-Gruppen-Call-Räumen auf. DinoX verwendet den selbst berechneten Hash als Fallback, Funktionalität ist nicht eingeschränkt. | Harmless, serverseitiger Bug. Seit v1.1.5 nur noch im Debug-Log (`debug()` statt `warning()`). |
+
 To suppress GTK debug noise and focus on app logic:
 
 ```bash

@@ -44,6 +44,10 @@ namespace Dino.Ui {
                 update_button_state();
             });
 
+            stream_interactor.get_module<Calls>(Calls.IDENTITY).call_outgoing.connect((call, state, conversation) => {
+                update_button_state();
+            });
+
             stream_interactor.get_module<Calls>(Calls.IDENTITY).call_terminated.connect((call) => {
                 update_button_state();
             });
@@ -59,16 +63,25 @@ namespace Dino.Ui {
         }
 
         private void initiate_call(bool video) {
+            // Guard: disable button immediately to prevent double-clicks
+            button.sensitive = false;
+
             // Check if this is a groupchat and if default MUC server is configured
             if (conversation.type_ == Conversation.Type.GROUPCHAT) {
                 if (!stream_interactor.get_module<Calls>(Calls.IDENTITY).can_initiate_groupcall(conversation.account)) {
                     show_muc_server_required_dialog();
+                    button.sensitive = true;
                     return;
                 }
             }
 
             stream_interactor.get_module<Calls>(Calls.IDENTITY).initiate_call.begin(conversation, video, (_, res) => {
-                CallState call_state = stream_interactor.get_module<Calls>(Calls.IDENTITY).initiate_call.end(res);
+                CallState? call_state = stream_interactor.get_module<Calls>(Calls.IDENTITY).initiate_call.end(res);
+                if (call_state == null) {
+                    // Call was blocked (already in progress) — re-enable button
+                    update_button_state();
+                    return;
+                }
                 open_call_window(call_state);
             });
         }

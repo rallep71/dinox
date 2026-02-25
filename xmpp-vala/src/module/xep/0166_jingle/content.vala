@@ -113,8 +113,7 @@ public class Xmpp.Xep.Jingle.Content : Object {
 
     public void terminate(bool we_terminated, string? reason_name, string? reason_text) {
         if (state == State.PENDING) {
-            warning("terminating a pending call");
-            return;
+            debug("terminating content in PENDING state — cleanup still required");
         }
         content_params.terminate(we_terminated, reason_name, reason_text);
         

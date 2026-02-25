@@ -93,6 +93,18 @@ namespace Dino.Ui {
 
             this.set_titlebar(new OutsideHeaderBar(this.header_bar));
 
+            // Cancel pending timeouts and remove event controllers before
+            // the GDK surface is destroyed — prevents GTK critical:
+            //   gdk_surface_get_device_position: assertion 'GDK_IS_SURFACE (surface)' failed
+            this.close_request.connect(() => {
+                if (hide_control_handler != 0) {
+                    Source.remove(hide_control_handler);
+                    hide_control_handler = 0;
+                }
+                ((Widget) this).remove_controller(this_motion_events);
+                return false;
+            });
+
             reveal_control_elements();
         }
 
@@ -251,6 +263,14 @@ namespace Dino.Ui {
             }
 
             hide_control_handler = Timeout.add_seconds(3, () => {
+                // Guard: if the window is already unrealized (surface
+                // destroyed), don't touch widget properties — it would
+                // trigger gdk_surface_get_device_position on a dead surface.
+                if (!((Widget) this).get_realized()) {
+                    hide_control_handler = 0;
+                    return false;
+                }
+
                 if (!hide_control_elements) {
                     hide_control_handler = 0;
                     return false;

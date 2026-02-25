@@ -134,15 +134,46 @@ public class Xmpp.Xep.JingleRtp.Parameters : Jingle.ContentParameters, Object {
             rtp_ready_handler_id = 0;
         });
 
+        ulong rtp_recv_handler_id = 0;
+        ulong rtcp_recv_handler_id = 0;
+        ulong rtp_send_handler_id = 0;
+        ulong rtcp_send_handler_id = 0;
+
         ulong session_state_handler_id = 0;
         session_state_handler_id = session.notify["state"].connect((obj, _) => {
             Jingle.Session session2 = (Jingle.Session) obj;
             if (session2.state == Jingle.Session.State.ENDED) {
-                if (rtcp_ready_handler_id != 0) rtcp_datagram.disconnect(rtcp_ready_handler_id);
-                if (rtp_ready_handler_id != 0) rtp_datagram.disconnect(rtp_ready_handler_id);
-                if (session_state_handler_id != 0) {
+                if (rtcp_ready_handler_id != 0 && SignalHandler.is_connected(rtcp_datagram, rtcp_ready_handler_id)) {
+                    rtcp_datagram.disconnect(rtcp_ready_handler_id);
+                }
+                rtcp_ready_handler_id = 0;
+                if (rtp_ready_handler_id != 0 && SignalHandler.is_connected(rtp_datagram, rtp_ready_handler_id)) {
+                    rtp_datagram.disconnect(rtp_ready_handler_id);
+                }
+                rtp_ready_handler_id = 0;
+                // Disconnect data signal connections to break reference cycles.
+                // These use g_signal_connect_object (Vala instance-method delegates),
+                // so they may already be auto-disconnected if the stream was finalized.
+                if (rtp_recv_handler_id != 0 && SignalHandler.is_connected(rtp_datagram, rtp_recv_handler_id)) {
+                    rtp_datagram.disconnect(rtp_recv_handler_id);
+                }
+                rtp_recv_handler_id = 0;
+                if (rtcp_recv_handler_id != 0 && SignalHandler.is_connected(rtcp_datagram, rtcp_recv_handler_id)) {
+                    rtcp_datagram.disconnect(rtcp_recv_handler_id);
+                }
+                rtcp_recv_handler_id = 0;
+                if (rtp_send_handler_id != 0 && this.stream != null && SignalHandler.is_connected(this.stream, rtp_send_handler_id)) {
+                    this.stream.disconnect(rtp_send_handler_id);
+                }
+                rtp_send_handler_id = 0;
+                if (rtcp_send_handler_id != 0 && this.stream != null && SignalHandler.is_connected(this.stream, rtcp_send_handler_id)) {
+                    this.stream.disconnect(rtcp_send_handler_id);
+                }
+                rtcp_send_handler_id = 0;
+                if (session_state_handler_id != 0 && SignalHandler.is_connected(session2, session_state_handler_id)) {
                     session2.disconnect(session_state_handler_id);
                 }
+                session_state_handler_id = 0;
             }
         });
 
@@ -161,10 +192,10 @@ public class Xmpp.Xep.JingleRtp.Parameters : Jingle.ContentParameters, Object {
 
         this.stream = parent.create_stream(content);
         this.stream.weak_ref(() => this.stream = null);
-        rtp_datagram.datagram_received.connect(this.stream.on_recv_rtp_data);
-        rtcp_datagram.datagram_received.connect(this.stream.on_recv_rtcp_data);
-        this.stream.on_send_rtp_data.connect(rtp_datagram.send_datagram);
-        this.stream.on_send_rtcp_data.connect(rtcp_datagram.send_datagram);
+        rtp_recv_handler_id = rtp_datagram.datagram_received.connect(this.stream.on_recv_rtp_data);
+        rtcp_recv_handler_id = rtcp_datagram.datagram_received.connect(this.stream.on_recv_rtcp_data);
+        rtp_send_handler_id = this.stream.on_send_rtp_data.connect(rtp_datagram.send_datagram);
+        rtcp_send_handler_id = this.stream.on_send_rtcp_data.connect(rtcp_datagram.send_datagram);
         this.stream_created(this.stream);
         this.stream.create();
     }

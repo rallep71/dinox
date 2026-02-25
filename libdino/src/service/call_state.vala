@@ -32,6 +32,7 @@ public class Dino.CallState : Object {
     private HashMap<Jid, uint> invite_timeout_ids = new HashMap<Jid, uint>(Jid.hash_bare_func, Jid.equals_bare_func);
     private uint establishing_timeout_id = 0;
     private uint muji_empty_muc_timeout_id = 0;
+    private bool group_call_converting = false;
 
     private Plugins.MediaDevice selected_microphone_device;
     private Plugins.MediaDevice selected_speaker_device;
@@ -146,13 +147,18 @@ public class Dino.CallState : Object {
         var peers_cpy = new ArrayList<PeerState>();
         peers_cpy.add_all(peers.values);
 
+        // Capture group_call ref before nulling — prevents double-leave
+        // from handle_peer_left() which is triggered by peer.end() below.
+        Xep.Muji.GroupCall? gc = this.group_call;
+        this.group_call = null;
+
         // Terminate sessions, send out messages about the ended call, exit MUC if applicable
         XmppStream stream = stream_interactor.get_stream(call.account);
         if (stream != null) {
-            if (group_call != null) {
-                stream.get_module<Xep.Muc.Module>(Xep.Muc.Module.IDENTITY).exit(stream, group_call.muc_jid);
-            }
-
+            // Terminate all peer Jingle sessions FIRST (closes streams,
+            // releases camera/mic) BEFORE exiting the MUC — otherwise
+            // the MUC exit triggers peer_left events that race with the
+            // explicit termination loop below.
             if (call.state == Call.State.IN_PROGRESS || call.state == Call.State.ESTABLISHING) {
                 foreach (PeerState peer in peers_cpy) {
                     peer.end(Xep.Jingle.ReasonElement.SUCCESS, reason_text);
@@ -174,6 +180,34 @@ public class Dino.CallState : Object {
             }
         }
 
+        // NOW exit/destroy the MUJI MUC — after all Jingle sessions are
+        // terminated and all streams/devices are released.
+        if (gc != null && stream != null) {
+            // Clean up the MUJI flag
+            var flag = stream.get_flag(Xep.Muji.Flag.IDENTITY);
+            if (flag != null) flag.calls.unset(gc.muc_jid);
+
+            // Destroy the ephemeral MUC (we are owner). If that fails,
+            // fall back to just leaving.
+            stream.get_module<Xep.Muc.Module>(Xep.Muc.Module.IDENTITY).destroy_room.begin(
+                stream, gc.muc_jid, "Call ended", null, (_, res) => {
+                try {
+                    stream.get_module<Xep.Muc.Module>(Xep.Muc.Module.IDENTITY).destroy_room.end(res);
+                    debug("MUJI MUC %s destroyed", gc.muc_jid.to_string());
+                } catch (Error e) {
+                    debug("Could not destroy MUJI MUC %s: %s — leaving instead", gc.muc_jid.to_string(), e.message);
+                    stream.get_module<Xep.Muc.Module>(Xep.Muc.Module.IDENTITY).exit(stream, gc.muc_jid);
+                }
+            });
+
+            // Remove the ephemeral MUJI conversation from the sidebar
+            Conversation? muji_conv = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY)
+                .get_conversation(gc.muc_jid, call.account, Conversation.Type.GROUPCHAT);
+            if (muji_conv != null) {
+                stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).close_conversation(muji_conv);
+            }
+        }
+
         // Update the call state
         if (call.state == Call.State.IN_PROGRESS || call.state == Call.State.ESTABLISHING) {
             call.state = Call.State.ENDED;
@@ -184,6 +218,16 @@ public class Dino.CallState : Object {
         }
 
         call.end_time = new DateTime.now_utc();
+
+        // Safety net: force-destroy the GStreamer pipeline in case any
+        // zombie streams survived (e.g. from async call_resource() that
+        // completed after end() ran).  Scheduled as idle so that any
+        // pending close_stream() calls from session.terminate() above
+        // finish first.
+        Idle.add(() => {
+            call_plugin.dispose_pipeline();
+            return Source.REMOVE;
+        });
 
         terminated(call.account.bare_jid, null, reason_text);
     }
@@ -321,6 +365,16 @@ public class Dino.CallState : Object {
     }
 
     private void on_call_terminated(Jid who_terminated, bool we_terminated, string? reason_name, string? reason_text) {
+        // Cancel any pending timeouts (establishing, MUJI empty MUC, invite)
+        cancel_all_timeouts();
+
+        // Release cached device references so that the RTP plugin's
+        // Gst.Device / GstDeviceProvider (and its PipeWire connection)
+        // can be finalized after destroy_call_pipe().
+        selected_microphone_device = null;
+        selected_speaker_device = null;
+        selected_video_device = null;
+
         if (call.state == Call.State.RINGING || call.state == Call.State.IN_PROGRESS || call.state == Call.State.ESTABLISHING) {
             call.end_time = new DateTime.now_utc();
         }
@@ -360,12 +414,20 @@ public class Dino.CallState : Object {
     }
 
     public async void convert_into_group_call() {
+        // Guard: prevent async race — only one conversion at a time
+        if (group_call_converting) {
+            debug("[%s] convert_into_group_call already in progress, skipping", call.account.bare_jid.to_string());
+            return;
+        }
+        group_call_converting = true;
+
         XmppStream stream = stream_interactor.get_stream(call.account);
-        if (stream == null) return;
+        if (stream == null) { group_call_converting = false; return; }
 
         Jid? muc_jid = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).default_muc_server[call.account];
         if (muc_jid == null) {
             warning("Failed to initiate group call: MUC server not known.");
+            group_call_converting = false;
             return;
         }
 
@@ -374,6 +436,7 @@ public class Dino.CallState : Object {
             muc_jid = new Jid("%08x@".printf(Random.next_int()) + muc_jid.to_string()); // TODO longer?
         } catch (Xmpp.InvalidJidError e) {
             warning("Failed to create MUC JID for group call: %s", e.message);
+            group_call_converting = false;
             return;
         }
 
@@ -548,7 +611,29 @@ public class Dino.CallState : Object {
 
         if (peers.is_empty) {
             if (group_call != null) {
-                group_call.leave(stream_interactor.get_stream(call.account));
+                Xep.Muji.GroupCall gc = group_call;
+                group_call = null;
+                XmppStream? stream = stream_interactor.get_stream(call.account);
+                if (stream != null) {
+                    // Destroy the ephemeral MUC, falling back to just leaving
+                    var flag = stream.get_flag(Xep.Muji.Flag.IDENTITY);
+                    if (flag != null) flag.calls.unset(gc.muc_jid);
+                    stream.get_module<Xep.Muc.Module>(Xep.Muc.Module.IDENTITY).destroy_room.begin(
+                        stream, gc.muc_jid, "Call ended", null, (_, res) => {
+                        try {
+                            stream.get_module<Xep.Muc.Module>(Xep.Muc.Module.IDENTITY).destroy_room.end(res);
+                        } catch (Error e) {
+                            debug("Could not destroy MUJI MUC %s: %s", gc.muc_jid.to_string(), e.message);
+                            stream.get_module<Xep.Muc.Module>(Xep.Muc.Module.IDENTITY).exit(stream, gc.muc_jid);
+                        }
+                    });
+                }
+                // Remove the ephemeral MUJI conversation from the sidebar
+                Conversation? muji_conv = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY)
+                    .get_conversation(gc.muc_jid, call.account, Conversation.Type.GROUPCHAT);
+                if (muji_conv != null) {
+                    stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).close_conversation(muji_conv);
+                }
                 on_call_terminated(peer_state.jid, we_terminated, null, "All participants have left the call");
             } else {
                 on_call_terminated(peer_state.jid, we_terminated, reason_name, reason_text);

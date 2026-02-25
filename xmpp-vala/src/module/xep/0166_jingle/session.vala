@@ -413,7 +413,7 @@ public class Xmpp.Xep.Jingle.Session : Object {
         if (state == State.ENDED) return;
         debug("Jingle session %s terminated: %s; %s; %s", this.sid, reason_name ?? "-", reason_text ?? "-", local_reason ?? "-");
 
-        if (state == State.ACTIVE) {
+        if (state != State.ENDED) {
             string reason_str;
             if (local_reason != null) {
                 reason_str = @"local session-terminate: $(local_reason)";

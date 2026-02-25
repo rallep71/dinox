@@ -141,6 +141,9 @@ public interface VideoCallPlugin : Object {
     // DTMF (RFC 4733 telephone-event)
     public abstract void send_dtmf(Xmpp.Xep.JingleRtp.Stream? stream, char digit, uint duration_ms = 250);
 
+    // Pipeline lifecycle
+    public abstract void dispose_pipeline();
+
     public abstract void dump_dot();
 }
 

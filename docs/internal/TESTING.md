@@ -3,7 +3,7 @@
 Complete inventory of all automated tests in the DinoX project.
 Every test references its authoritative specification or contract.
 
-**Status: v1.1.3.0 -- 556 Meson tests + 136 standalone tests = 692 automated tests, 0 failures**
+**Status: v1.1.4.0 -- 588 Meson tests + 136 standalone tests = 724 automated tests, 0 failures**
 
 ---
 
@@ -13,7 +13,7 @@ Every test references its authoritative specification or contract.
 # All tests at once (recommended)
 ./scripts/run_all_tests.sh
 
-# Only Meson-registered tests (7 suites, 556 tests)
+# Only Meson-registered tests (7 suites, 588 tests)
 ./scripts/run_all_tests.sh --meson
 
 # Only DB maintenance tests (136 standalone)
@@ -45,7 +45,7 @@ After `ninja -C build`, these binaries are ready:
 
 | Binary | Suite | Tests | Component |
 |--------|-------|-------|-----------|
-| `build/xmpp-vala/xmpp-vala-test` | xmpp-vala | 245 | XMPP protocol, XML, JID, XEP parsers, SOCKS5 |
+| `build/xmpp-vala/xmpp-vala-test` | xmpp-vala | 277 | XMPP protocol, XML, JID, XEP parsers, SOCKS5, MUJI |
 | `build/plugins/omemo/omemo-test` | omemo | 102 | OMEMO encryption, Signal Protocol, key exchange |
 | `build/main/main-test` | main | 62 | UI view models, helper functions |
 | `build/plugins/openpgp/openpgp-test` | openpgp | 48 | OpenPGP stream module, GPG keylist, armor parser |
@@ -64,7 +64,7 @@ export LD_LIBRARY_PATH=build/libdino:build/xmpp-vala:build/qlite:build/crypto-va
 Every test is a plain Vala file. To verify that a test correctly implements its
 spec, open the source file and check the assertion against the referenced RFC/XEP section.
 
-#### xmpp-vala (19 suites, 245 tests)
+#### xmpp-vala (20 suites, 277 tests)
 
 | Source File | Suite(s) | Spec Coverage |
 |-------------|----------|---------------|
@@ -84,6 +84,7 @@ spec, open the source file and check the assertion against the referenced RFC/XE
 | `xmpp-vala/tests/audit_entity_caps.vala` | EntityCapsAudit (5) | XEP-0115 caps hash verification |
 | `xmpp-vala/tests/audit_protocol_parsers.vala` | ProtocolParserAudit (27) | Jingle/SOCKS5/ICE/Markup/DateTime |
 | `xmpp-vala/tests/audit_socks5.vala` | Socks5Audit (14) | XEP-0260/RFC 1928 SOCKS5 logic |
+| `xmpp-vala/tests/audit_muji.vala` | MujiAudit (32) | XEP-0272/XEP-0482/XEP-0167 MUJI group calls |
 | `xmpp-vala/tests/audit_util_extra.vala` | UtilAudit (9) | UUID format + Data URI parsing |
 | `xmpp-vala/tests/audit_xep_roundtrips.vala` | XepRoundtripAudit (12) | XEP-0424/0380/0359 roundtrips |
 | `xmpp-vala/tests/common.vala` | -- | Test registration (main entry point) |
@@ -183,7 +184,7 @@ spec, open the source file and check the assertion against the referenced RFC/XE
 #### Full regression check
 
 ```bash
-# All 692 tests -- Meson + DB
+# All 724 tests -- Meson + DB
 ./scripts/run_all_tests.sh
 ```
 
@@ -268,18 +269,18 @@ python3 scripts/scan_unicode.py --verbose   # show details
   Commit:  0e0b766a
 
 ============================================
- Meson Tests (7 suites, 556 tests)
+ Meson Tests (7 suites, 588 tests)
 ============================================
 >>> main-test (62 UI ViewModel + helper tests)
     OK
->>> xmpp-vala-test (245 XMPP protocol tests)
+>>> xmpp-vala-test (277 XMPP protocol tests)
     OK
 ...
 ==========================================
  Summary
 ==========================================
   PASS  main-test (62 UI ViewModel + helper tests)
-  PASS  xmpp-vala-test (245 XMPP protocol tests)
+  PASS  xmpp-vala-test (277 XMPP protocol tests)
   PASS  libdino-test (50 crypto + data structure tests)
   PASS  omemo-test (102 Signal Protocol + OMEMO tests)
   PASS  openpgp-test (48 OpenPGP stream + armor tests)
@@ -360,7 +361,7 @@ ninja -C build
 export LD_LIBRARY_PATH=build/libdino:build/xmpp-vala:build/qlite:build/crypto-vala
 
 # Run one suite
-build/xmpp-vala/xmpp-vala-test     # 245 tests
+build/xmpp-vala/xmpp-vala-test     # 277 tests
 build/libdino/libdino-test          # 50 tests
 build/main/main-test                # 62 tests
 build/plugins/omemo/omemo-test      # 102 tests
@@ -409,12 +410,12 @@ build/xmpp-vala/xmpp-vala-test --verbose
 
 ---
 
-## 1. Meson-Registered Tests (556 Tests)
+## 1. Meson-Registered Tests (588 Tests)
 
 Compiled and executed via `ninja -C build test`.
 Framework: GLib.Test + `Gee.TestCase` with `add_async_test()` for async XML parsing.
 
-### 1.1 xmpp-vala (245 Tests)
+### 1.1 xmpp-vala (277 Tests)
 
 **Target:** `xmpp-vala-test` -- `xmpp-vala/meson.build`
 
@@ -731,6 +732,43 @@ namespace constants, data classes, roundtrip serialization, random padding, modu
 | 243 | `XEP0260_candidate_parse_default_type_direct` | XEP-0260 | Missing type → DIRECT |
 | 244 | `XEP0260_candidate_parse_default_port_1080` | XEP-0260 | Missing port → 1080 |
 | 245 | `XEP0260_candidate_priority_includes_type` | XEP-0260 | DIRECT priority > PROXY priority |
+
+#### MujiAudit (32 Tests) -- XEP-0272 / XEP-0482 / XEP-0167 MUJI Group Call Security
+
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
+| 246 | `XEP0272_ns_uri_is_jingle_muji_0` | XEP-0272 §2 | NS_URI = "urn:xmpp:jingle:muji:0" |
+| 247 | `XEP0272_call_invites_ns_uri` | XEP-0482 §2 | NS_URI = "urn:xmpp:call-invites:0" |
+| 248 | `XEP0272_S3_preparing_presence_parse` | XEP-0272 §3.1 | `<preparing>` element parseable from XML |
+| 249 | `XEP0272_S3_ready_presence_with_codecs_parse` | XEP-0272 §3.2 | Ready presence with `<content><description>` |
+| 250 | `XEP0272_S3_presence_missing_muji_node_ignored` | XEP-0272 §3 | Missing `<muji>` → no crash |
+| 251 | `XEP0272_S3_presence_preparing_is_empty_element` | XEP-0272 §3.1 | `<preparing/>` has zero subnodes |
+| 252 | `XEP0272_S5_audio_payload_type_opus_parsed` | XEP-0167 §5 | Opus PayloadType parsed from XML |
+| 253 | `XEP0272_S5_video_payload_type_vp8_parsed` | XEP-0167 §5 | VP8 PayloadType parsed from XML |
+| 254 | `XEP0272_S5_multiple_payload_types_in_description` | XEP-0167 §5 | Multiple PayloadTypes in one description |
+| 255 | `XEP0272_S5_payload_type_with_parameters` | XEP-0167 §5 | PayloadType `<parameter>` children parsed |
+| 256 | `XEP0167_payload_type_equals_same` | XEP-0167 §5 | Identical PayloadTypes are equal |
+| 257 | `XEP0167_payload_type_equals_different_id` | XEP-0167 §5 | Different id → not equal |
+| 258 | `XEP0167_payload_type_clone_is_equal` | XEP-0167 §5 | clone() produces equal + independent copy |
+| 259 | `XEP0272_groupcall_muc_jid_stored` | XEP-0272 §3 | GroupCall.muc_jid matches constructor arg |
+| 260 | `XEP0272_groupcall_peers_initially_empty` | XEP-0272 §3 | New GroupCall.peers is empty |
+| 261 | `XEP0272_groupcall_peers_to_connect_initially_empty` | XEP-0272 §3 | New GroupCall.peers_to_connect_to is empty |
+| 262 | `XEP0272_groupcall_signal_peer_joined_fires` | XEP-0272 §3 | peer_joined signal carries correct JID |
+| 263 | `XEP0272_groupcall_signal_peer_left_fires` | XEP-0272 §3 | peer_left signal carries correct JID |
+| 264 | `XEP0272_groupcall_signal_codecs_changed_fires` | XEP-0272 §3.2 | codecs_changed signal with PayloadTypes |
+| 265 | `XEP0272_flag_ns_matches_module` | XEP-0272 §3 | Flag.get_ns() returns MUJI namespace |
+| 266 | `XEP0272_flag_calls_map_initially_empty` | XEP-0272 §3 | New Flag.calls is empty |
+| 267 | `XEP0272_flag_calls_map_store_retrieve` | XEP-0272 §3 | Store/retrieve GroupCall by MUC JID |
+| 268 | `XEP0272_nick_is_8_hex_chars` | XEP-0272 §3.1 | Nick format ^[0-9a-f]{8}$ (20 samples) |
+| 269 | `XEP0482_muji_propose_has_room_attribute` | XEP-0482 §3.1 | `<invite>` → `<muji room='...'>` |
+| 270 | `XEP0482_muji_propose_muji_ns_correct` | XEP-0482 §3.1 | `<muji>` uses MUJI namespace |
+| 271 | `XEP0482_invite_has_call_id` | XEP-0482 §3.1 | `<invite id='...'>` carries call ID |
+| 272 | `XEP0482_invite_video_attribute` | XEP-0482 §3.1 | `video='true'` attribute present |
+| 273 | `XEP0482_retract_has_id` | XEP-0482 §3.3 | `<retract id='...'>` well-formed |
+| 274 | `XEP0482_accept_has_muji_room` | XEP-0482 §3.2 | `<accept>` → `<muji room='...'>` |
+| 275 | `RFC4566_payload_id_range_0_127` | RFC 4566 §6 | PayloadType ids 0-127 valid range |
+| 276 | `XEP0272_payload_intersection_empty_if_no_common` | XEP-0272 §3.2 | Disjoint codec sets → empty result |
+| 277 | `XEP0272_payload_intersection_keeps_common` | XEP-0272 §3.2 | Intersection yields shared codecs |
 
 ### 1.2 libdino (50 Tests)
 
@@ -1373,8 +1411,8 @@ Every test references its authoritative source:
 ## 5. Test Architecture
 
 ```
-ninja -C build test                    Meson-registered (556 tests)
-  |-- xmpp-vala-test                   19 suites, 245 tests (GLib.Test)
+ninja -C build test                    Meson-registered (588 tests)
+  |-- xmpp-vala-test                   20 suites, 277 tests (GLib.Test)
   |     |-- Stanza (4)                   RFC 6120 S4 stream/namespace
   |     |-- util (5)                     xs:hexBinary parsing contract
   |     |-- Jid (28)                     RFC 7622 JID validation
@@ -1391,6 +1429,7 @@ ninja -C build test                    Meson-registered (556 tests)
   |     |-- EntityCapsAudit (5)          XEP-0115 caps hash verification
   |     |-- ProtocolParserAudit (27)     Jingle/SOCKS5/ICE/Markup/DateTime parsers
   |     |-- Socks5Audit (14)             XEP-0260/RFC 1928 SOCKS5 protocol logic
+  |     |-- MujiAudit (32)              XEP-0272/XEP-0482/XEP-0167 MUJI group calls
   |     |-- UtilAudit (9)               UUID format + Data URI parsing
   |     +-- XepRoundtripAudit (12)       XEP-0424/0380/0359 stanza roundtrips
   |
@@ -1466,8 +1505,8 @@ future test ideas: see `docs/internal/TESTING_GAPS.md` (not tracked in Git).
 
 | Workflow | Trigger | Tests |
 |----------|---------|-------|
-| `build.yml` | push, PR | `meson test` (556 tests) |
-| `build.yml` (Vala nightly) | push, PR | `meson test` (556 tests) |
+| `build.yml` | push, PR | `meson test` (588 tests) |
+| `build.yml` (Vala nightly) | push, PR | `meson test` (588 tests) |
 | `build-flatpak.yml` | push | Build only |
 | `build-appimage.yml` | Tag | Build only |
 | `windows-build.yml` | push | Build only |
@@ -1481,10 +1520,10 @@ future test ideas: see `docs/internal/TESTING_GAPS.md` (not tracked in Git).
 Script: `scripts/run_all_tests.sh`
 
 ```bash
-# All 692 tests (Meson + DB)
+# All 724 tests (Meson + DB)
 ./scripts/run_all_tests.sh
 
-# Only Meson-registered tests (556)
+# Only Meson-registered tests (588)
 ./scripts/run_all_tests.sh --meson
 
 # Only DB maintenance tests (136)
@@ -1638,4 +1677,4 @@ Examples:
 
 ---
 
-*Last updated: 24 February 2026 -- v1.1.3.0, 556 Meson + 136 standalone = 692 tests, 0 failures, OMEMO coverage updated (11 suites, 102 tests), stale counts fixed*
+*Last updated: 27 February 2026 -- v1.1.4.0, 588 Meson + 136 standalone = 724 tests, 0 failures, MUJI group call audit added (MujiAudit 32 tests, XEP-0272/XEP-0482/XEP-0167)*

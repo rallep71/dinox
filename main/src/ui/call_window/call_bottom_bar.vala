@@ -171,6 +171,15 @@ public class Dino.Ui.CallBottomBar : Gtk.Box {
         label.label = Util.unbreak_space_around_non_spacing_mark(text);
     }
 
+    /**
+     * Shut down any GStreamer resources owned by child widgets
+     * (e.g. the DTMF tone pipeline in CallDialpad).
+     */
+    public void shutdown() {
+        var dp = dialpad_button.popover as CallDialpad;
+        if (dp != null) dp.shutdown();
+    }
+
     public bool is_menu_active() {
         return (video_settings_button.popover != null && video_settings_button.popover.visible) ||
                 (audio_settings_button.popover != null && audio_settings_button.popover.visible) ||

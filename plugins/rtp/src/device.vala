@@ -19,7 +19,7 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
     public string id { owned get { return device_name; }}
     public string display_name { owned get { return device_display_name; }}
     public string? detail_name { owned get {
-        if (device.properties == null) return null;
+        if (device == null || device.properties == null) return null;
         if (device.properties.has_field("alsa.card_name")) return device.properties.get_string("alsa.card_name");
         if (device.properties.has_field("alsa.name")) return device.properties.get_string("alsa.name");
         if (device.properties.has_field("alsa.id")) return device.properties.get_string("alsa.id");
@@ -27,6 +27,7 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
         return null;
     }}
     public string? media { owned get {
+        if (device == null) return _cached_media;
         if (device.has_classes("Audio")) {
             return "audio";
         } else if (device.has_classes("Video")) {
@@ -38,17 +39,17 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
     public bool incoming { get { return is_sink; } }
 
     public Gst.Pipeline pipe { get { return plugin.pipe; }}
-    public bool is_source { get { return device.has_classes("Source"); }}
-    public bool is_sink { get { return device.has_classes("Sink"); }}
-    public bool is_monitor { get { return (device.properties != null && device.properties.get_string("device.class") == "monitor") || (protocol == DeviceProtocol.PIPEWIRE && device.has_classes("Stream")); } }
+    public bool is_source { get { return device != null && device.has_classes("Source"); }}
+    public bool is_sink { get { return device != null && device.has_classes("Sink"); }}
+    public bool is_monitor { get { return device != null && ((device.properties != null && device.properties.get_string("device.class") == "monitor") || (protocol == DeviceProtocol.PIPEWIRE && device.has_classes("Stream"))); } }
     public bool is_default { get {
-        if (device.properties == null) return false;
+        if (device == null || device.properties == null) return false;
         bool ret;
         device.properties.get_boolean("is-default", out ret);
         return ret;
     }}
     public DeviceProtocol protocol { get {
-        if (device.properties == null) return DeviceProtocol.OTHER;
+        if (device == null || device.properties == null) return DeviceProtocol.OTHER;
         if (device.properties.has_name("pulse-proplist")) return DeviceProtocol.PULSEAUDIO;
         if (device.properties.has_name("pipewire-proplist")) return DeviceProtocol.PIPEWIRE;
         if (device.properties.has_name("v4l2deviceprovider")) return DeviceProtocol.V4L2;
@@ -57,6 +58,7 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
 
     private string device_name;
     private string device_display_name;
+    private string? _cached_media;
 
     private Gst.Caps device_caps;
     private Gst.Element element;
@@ -107,6 +109,7 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
     }
 
     public bool matches(Gst.Device device) {
+        if (this.device == null) return false;
         if (this.device.name == device.name) return true;
         return false;
     }
@@ -126,6 +129,14 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
         this.device = device;
         this.device_name = device.name;
         this.device_display_name = device.display_name;
+        // Cache media type so it's available even after device ref is released
+        if (device.has_classes("Audio")) {
+            _cached_media = "audio";
+        } else if (device.has_classes("Video")) {
+            _cached_media = "video";
+        } else {
+            _cached_media = null;
+        }
     }
 
     public Gst.Element? link_sink() {
@@ -436,7 +447,7 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
     private Gst.Caps get_best_caps() {
         if (media == "audio") {
             return Gst.Caps.from_string("audio/x-raw,rate=48000,channels=1");
-        } else if (media == "video" && device.caps.get_size() > 0) {
+        } else if (media == "video" && device != null && device.caps.get_size() > 0) {
             int best_index = -1;
             Value? best_fraction = null;
             int best_fps = 0;
@@ -567,6 +578,10 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
     }
 
     private void create() {
+        if (device == null) {
+            warning("Cannot create device %s — Gst.Device already released", id);
+            return;
+        }
         debug("Creating device %s", id);
         plugin.pause();
         element = device.create_element(id);
@@ -618,6 +633,7 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
                 // Smooth ramp-up: 0→1.0 in 200ms (10 steps of 20ms)
                 int ramp_step = 0;
                 GLib.Timeout.add(20, () => {
+                    if (volume_element == null) return false;
                     ramp_step++;
                     double vol = ramp_step / 10.0;
                     if (vol >= 1.0) {
@@ -698,7 +714,43 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
         plugin.unpause();
     }
 
+    /**
+     * Called when the pipeline is being destroyed. All child elements
+     * go with it — just null references so create() re-builds them.
+     * Also release the Gst.Device ref so that the GstDeviceProvider
+     * (and its PipeWire connection) can be finalized.
+     */
+    public void on_pipe_destroyed() {
+        device = null;
+        element = null;
+        mixer = null;
+        tee = null;
+        filter = null;
+        source_queue = null;
+        volume_element = null;
+        dsp = null;
+        recv_volume = null;
+        echo_convert = null;
+        echo_resample = null;
+        echo_filter = null;
+        codecs.clear();
+        codec_tees.clear();
+        payloaders.clear();
+        payloader_tees.clear();
+        payloader_links.clear();
+        codec_bitrates.clear();
+        links = 0;
+        sink_peers = 0;
+        recv_ramp_done = false;
+    }
+
     private void destroy() {
+        if (pipe == null) {
+            // Pipeline already torn down
+            on_pipe_destroyed();
+            debug("Destroyed device %s (pipe already gone)", id);
+            return;
+        }
         if (is_sink) {
             if (mixer != null) {
                 int linked_sink_pads = 0;
@@ -756,22 +808,20 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
                 plugin.echoprobe.unlink(element);
             }
         }
-        if (element != null) {
-            element.set_locked_state(true);
-            element.set_state(Gst.State.NULL);
-            if (filter != null) element.unlink(filter);
-            else if (is_source) element.unlink(tee);
-            pipe.remove(element);
-            element = null;
-        }
-        if (mixer != null) {
-            mixer.set_locked_state(true);
-            mixer.set_state(Gst.State.NULL);
-            pipe.remove(mixer);
-            mixer = null;
-        }
         if (is_source) {
-            // 1. Stop execution of all elements
+            // 1. Unlink the full source chain to break pad reference cycles.
+            //    gst_bin_remove() does NOT unlink pads, so we must do it
+            //    explicitly to avoid elements keeping each other alive.
+            if (element != null && filter != null) element.unlink(filter);
+            if (filter != null && dsp != null) filter.unlink(dsp);
+            else if (filter != null && volume_element != null) filter.unlink(volume_element);
+            else if (filter != null && source_queue != null) filter.unlink(source_queue);
+            if (dsp != null && volume_element != null) dsp.unlink(volume_element);
+            else if (dsp != null && source_queue != null) dsp.unlink(source_queue);
+            if (volume_element != null && source_queue != null) volume_element.unlink(source_queue);
+            if (source_queue != null && tee != null) source_queue.unlink(tee);
+
+            // 2. Stop execution of all elements
             if (tee != null) tee.set_state(Gst.State.NULL);
             if (source_queue != null) source_queue.set_state(Gst.State.NULL);
             if (volume_element != null) volume_element.set_state(Gst.State.NULL);
@@ -787,7 +837,7 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
             foreach (var t in codec_tees.values) t.set_state(Gst.State.NULL);
             foreach (var c in codecs.values) c.set_state(Gst.State.NULL);
 
-            // 2. Remove auxiliary chains (Codecs/Payloaders)
+            // 3. Remove auxiliary chains (Codecs/Payloaders)
             foreach (var map in payloader_tees.values) {
                 foreach (var pt in map.values) pipe.remove(pt);
             }
@@ -806,10 +856,7 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
             codecs.clear();
             codec_bitrates.clear();
 
-            // 3. Remove main chain elements
-            // Removing from bin automatically handles unlinking. 
-            // We remove in reverse order of data flow to be safe.
-            
+            // 4. Remove main chain elements (reverse data-flow order)
             if (tee != null) {
                 pipe.remove(tee);
                 tee = null;
@@ -830,6 +877,18 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
                 pipe.remove(filter);
                 filter = null;
             }
+        }
+        if (element != null) {
+            element.set_locked_state(true);
+            element.set_state(Gst.State.NULL);
+            pipe.remove(element);
+            element = null;
+        }
+        if (mixer != null) {
+            mixer.set_locked_state(true);
+            mixer.set_state(Gst.State.NULL);
+            pipe.remove(mixer);
+            mixer = null;
         }
         debug("Destroyed device %s", id);
     }

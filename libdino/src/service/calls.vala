@@ -43,6 +43,12 @@ namespace Dino {
         }
 
         public async CallState? initiate_call(Conversation conversation, bool video) {
+            // Guard: prevent creating a second call while one is active
+            if (is_call_in_progress()) {
+                warning("Not initiating call — another call is already in progress");
+                return null;
+            }
+
             Call call = new Call();
             call.direction = Call.DIRECTION_OUTGOING;
             call.account = conversation.account;

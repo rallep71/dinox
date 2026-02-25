@@ -184,13 +184,8 @@ public class Dino.Plugins.Rtp.VideoWidget : Gtk.Widget, Dino.Plugins.VideoCallWi
     }
 
     private static void notify_weak(Object widget_object) {
-        if (active_widgets > 0) {
-            debug("Video widget %p destroyed. left=%u", widget_object, active_widgets);
-            active_widgets--;
-        }
-        if (active_widgets == 0 && widget_object is VideoWidget) {
-            ((VideoWidget)widget_object).plugin.destroy_call_pipe_if_unused();
-        }
+        // Counter is now decremented in dispose(); this is just for debug
+        debug("Video widget %p finalized", widget_object);
     }
 
     public VideoWidget(Plugin plugin) {
@@ -305,24 +300,40 @@ public class Dino.Plugins.Rtp.VideoWidget : Gtk.Widget, Dino.Plugins.VideoCallWi
                 connected_stream = null;
             }
             if (connected_device != null) {
-                connected_device_element.unlink(sink);
+                if (connected_device_element != null) {
+                    connected_device_element.unlink(sink);
+                }
                 connected_device_element = null;
-                connected_device.unlink();
+                // Only unlink device if pipe still exists; if pipe was
+                // already destroyed, on_pipe_destroyed() reset the device.
+                if (pipe != null) {
+                    connected_device.unlink();
+                }
                 connected_device = null;
             }
-            prepare.set_locked_state(true);
-            prepare.set_state(Gst.State.NULL);
-            pipe.remove(prepare);
-            prepare = null;
+            if (prepare != null) {
+                prepare.set_locked_state(true);
+                prepare.set_state(Gst.State.NULL);
+                if (pipe != null) pipe.remove(prepare);
+                prepare = null;
+            }
             sink.set_locked_state(true);
             sink.set_state(Gst.State.NULL);
-            pipe.remove(sink);
+            if (pipe != null) pipe.remove(sink);
             attached = false;
         }
     }
 
     public override void dispose() {
         detach();
+        // Decrement widget counter (use sink != null as double-dispose guard)
+        if (sink != null && active_widgets > 0) {
+            active_widgets--;
+            debug("Video widget %p disposed. left=%u", this, active_widgets);
+            if (active_widgets == 0) {
+                plugin.destroy_call_pipe_if_unused();
+            }
+        }
         if (widget != null) widget.unparent();
         widget = null;
         sink = null;
