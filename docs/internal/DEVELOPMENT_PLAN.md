@@ -1,6 +1,6 @@
 # DinoX - Development Plan
 
-> **Last Updated**: February 25, 2026 (v1.1.4)
+> **Last Updated**: February 25, 2026 (v1.1.4.1)
 > **Current Release Line**: 1.1.4.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.4 |
+| **Current Version** | 1.1.4.1 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (~85% translated) |
 | **Build Status** | Clean |
@@ -20,6 +20,16 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v1.1.4.1 (1:1 & MUJI Call Teardown, PipeWire/Camera Cleanup)
+
+- **MUJI MUC Cleanup (F10)**: Ephemeral MUC rooms destroyed after call (`destroy_room` + `close_conversation`). Correct teardown order: terminate peers first, then destroy MUC.
+- **MUJI Camera Leak (F11)**: Fixed camera staying on after MUJI call. Zombie-session guard in async `call_resource()`, new `dispose_pipeline()` safety net.
+- **Entity Caps Hash (F12)**: Downgraded to `debug()` — server-side ejabberd bug.
+- **1:1 PipeWire Leak**: Disconnected `devices_changed` handler, nulled device refs, removed pipe recycling.
+- **DTMF Pipeline**: Lazy init + immediate shutdown.
+- **GDK_IS_SURFACE**: Cancelled `hide_control_handler` on `close_request`.
+- **Signal/Stream Cleanup**: PeerState signal handler disconnection, stream null-safety, VideoWidget null-safe dispose.
 
 ### v1.1.4 (MUJI Group Calls Audit, OMEMO MUC Fixes, Audio & Network Improvements)
 

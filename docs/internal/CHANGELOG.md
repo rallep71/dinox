@@ -5,6 +5,26 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.4.1] - 2026-02-25
+
+### Fixed
+- **MUJI MUC Cleanup (F10)**: Ephemeral MUJI MUC rooms are now destroyed (`destroy_room`) after call ends instead of just leaving. Conversation removed from sidebar (`close_conversation`). MUJI Flag cleanup.
+- **MUJI Camera Leak (F11)**: Fixed camera/PipeWire staying on after MUJI video call. Root cause: async `call_resource()` race condition creating zombie Jingle sessions. Added zombie-guard after async yield, new `dispose_pipeline()` safety net, correct teardown order (peers first, then MUC).
+- **Entity Caps Hash (F12)**: Downgraded entity caps hash mismatch warning to `debug()` — server-side ejabberd bug, documented in DEBUG.md.
+- **1:1 PipeWire Leak**: Fixed PipeWire connection staying open after 1:1 call. Disconnected `devices_changed` handler, nulled `Gst.Device` refs in `on_pipe_destroyed()`, nulled `selected_*_device` in `on_call_terminated()`.
+- **1:1 Pipe Recycling**: Removed unnecessary destroy/recreate cycle in `init_call_pipe()`.
+- **DTMF Pipeline**: Lazy init + immediate `shutdown()` on call end instead of relying on GC.
+- **GDK_IS_SURFACE Assertion**: Fixed 3-second `hide_control_handler` timeout firing after GDK surface destroyed. Cancelled on `close_request`, `get_realized()` guard.
+- **Signal Handler Leaks**: `disconnect_session_info_handlers()` in PeerState prevents memory leaks via closures capturing `this`.
+- **Stream Cleanup**: Null `session`/`crypto_session` in `destroy()`, explicit `send_rtp`/`send_rtcp` cleanup.
+- **VideoWidget**: Null-safe `detach()`/`dispose()`, proper `active_widgets` decrement.
+
+### Added
+- **`dispose_pipeline()`**: New method in `VideoCallPlugin` interface — force-closes all remaining streams and destroys the GStreamer pipeline.
+
+### Changed
+- **Version**: 1.1.4 → 1.1.4.1
+
 ## [1.1.4] - 2026-02-25
 
 ### Fixed
