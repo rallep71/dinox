@@ -70,6 +70,8 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
     private Gst.Element? echo_resample;
     private Gst.Element? echo_filter;
     private Gst.Element? recv_volume; // Volume element for receive ramp-up
+    private bool recv_ramp_done = false; // true after initial 200ms ramp-up
+    private int sink_peers = 0; // Number of peers connected to this sink (for gain scaling)
     private int links;
 
     // Codecs
@@ -126,9 +128,11 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
         if (element == null) create();
         links++;
         if (mixer != null) {
+            sink_peers++;
             Gst.Element rate = Gst.ElementFactory.make("audiorate", @"$(id)_rate_$(Random.next_int())");
             pipe.add(rate);
             rate.link(mixer);
+            update_recv_gain();
             return rate;
         }
         if (media == "audio") return filter;
@@ -364,11 +368,29 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
             pipe.remove(link);
             mixer.release_request_pad(mixer_sink_pad);
             plugin.unpause();
+            sink_peers = int.max(0, sink_peers - 1);
+            update_recv_gain();
         }
         links--;
         if (links == 0) {
             destroy();
         }
+    }
+
+    // Compute target receive gain: 1/sqrt(N) to prevent clipping when
+    // multiple peers speak simultaneously through the audiomixer.
+    // 1 peer = 1.0, 2 = 0.71, 3 = 0.58, 4 = 0.50, 5 = 0.45
+    private double get_target_recv_gain() {
+        if (sink_peers <= 1) return 1.0;
+        return 1.0 / Math.sqrt((double) sink_peers);
+    }
+
+    // Adjust recv_volume to current target gain (only after ramp-up is done)
+    private void update_recv_gain() {
+        if (!recv_ramp_done || recv_volume == null) return;
+        double target = get_target_recv_gain();
+        debug("Recv gain updated: %d peers -> %.2f", sink_peers, target);
+        recv_volume.@set("volume", target);
     }
 
     private Gst.Caps get_best_caps() {
@@ -582,13 +604,16 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
                 recv_volume.@set("volume", 0.0);
                 recv_volume.sync_state_with_parent();
                 mixer.link(recv_volume);
-                // Ramp up from 0.0 to 1.0 over 200ms (10 steps × 20ms)
+                // Ramp up from 0.0 to target over 200ms (10 steps x 20ms)
+                // Target gain is 1/sqrt(N) to prevent clipping with N peers
                 double recv_vol = 0.0;
                 GLib.Timeout.add(20, () => {
-                    recv_vol += 0.1;
+                    double target = get_target_recv_gain();
+                    recv_vol += target / 10.0;
                     if (recv_volume == null) return false;
-                    if (recv_vol >= 1.0) {
-                        recv_volume.@set("volume", 1.0);
+                    if (recv_vol >= target) {
+                        recv_volume.@set("volume", target);
+                        recv_ramp_done = true;
                         return false;
                     }
                     recv_volume.@set("volume", recv_vol);
