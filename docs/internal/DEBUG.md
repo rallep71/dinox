@@ -747,6 +747,7 @@ Common GTK warnings and their meaning:
 | `Broken accounting of active state for widget (GtkPopoverMenu)` | PopoverMenu not unparented on close | Fixed in v1.1.2.4 / v1.1.2.6 |
 | `Accessible role for GtkBox cannot be changed` | GTK4 internal — accessible role set after widget realization | Harmless, GTK4 bug |
 | `Trying to snapshot GtkPopover without a current allocation` | Popover rendered before layout pass | Harmless, timing-related |
+| `Trying to snapshot GtkGizmo without a current allocation` | GtkGizmo is an internal GTK4 helper widget (used inside ScrolledWindow, Stack, etc.). Snapshot triggered before layout allocation completes. | Harmless, GTK4 framework timing issue |
 
 ### XMPP / Server Warnings
 
