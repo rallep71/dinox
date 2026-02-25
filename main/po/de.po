@@ -1214,6 +1214,11 @@ msgstr "%s hat den Anruf beendet"
 msgid "%s declined the call"
 msgstr "%s hat den Anruf abgelehnt"
 
+#: main/src/ui/call_window/call_window.vala:218
+#, c-format
+msgid "Call full (max. %d participants)"
+msgstr "Anruf voll (max. %d Teilnehmer)"
+
 #: main/src/ui/call_window/participant_widget.vala:140
 msgid "Debug information"
 msgstr "Debug-Information"

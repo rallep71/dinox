@@ -57,6 +57,9 @@ namespace Dino {
                 PeerState peer_state = call_state.set_first_peer(conversation.counterpart);
                 jmi_request_peer[call] = peer_state;
                 yield peer_state.initiate_call(conversation.counterpart);
+
+                // 1:1 timeout: 30s without answer -> MISSED
+                call_state.start_establishing_timeout(30);
             } else {
                 call_state.initiate_groupchat_call.begin(conversation.counterpart);
             }
@@ -518,7 +521,19 @@ namespace Dino {
                     return;
                 }
 
-                // TODO prevent other MUC occupants from retracting a call
+                // Only the call initiator may retract
+                if (call_state.cim_counterpart != null && !from_jid.equals_bare(call_state.cim_counterpart)) {
+                    debug("%s tried to retract a call initiated by %s. Ignoring.", from_jid.to_string(), call_state.cim_counterpart.to_string());
+                    return;
+                }
+
+                // Leave the MUJI MUC if we joined one
+                if (call_state.group_call != null) {
+                    XmppStream? stream = stream_interactor.get_stream(account);
+                    if (stream != null) {
+                        call_state.group_call.leave(stream);
+                    }
+                }
 
                 call_state.call.state = Call.State.MISSED;
                 remove_call_from_datastructures(call_state.call);

@@ -59,10 +59,10 @@ namespace Dino.Plugins.Omemo.DtlsSrtpVerificationDraft {
                         transport_node.put_node(new_fingerprint_node);
 
                         device_id_by_jingle_sid[jingle_sid] = parsed_data.sid;
-                        if (!content_names_by_jingle_sid.has_key(content_name)) {
-                            content_names_by_jingle_sid[content_name] = new ArrayList<string>();
+                        if (!content_names_by_jingle_sid.has_key(jingle_sid)) {
+                            content_names_by_jingle_sid[jingle_sid] = new ArrayList<string>();
                         }
-                        content_names_by_jingle_sid[content_name].add(content_name);
+                        content_names_by_jingle_sid[jingle_sid].add(content_name);
 
                         stream.get_flag(Xep.Jingle.Flag.IDENTITY).get_session.begin(jingle_sid, (_, res) => {
                             Xep.Jingle.Session? session = stream.get_flag(Xep.Jingle.Flag.IDENTITY).get_session.end(res);
@@ -78,9 +78,12 @@ namespace Dino.Plugins.Omemo.DtlsSrtpVerificationDraft {
                         break;
                     } catch (Error e) {
                         debug("Decrypting message from %s/%d failed: %s", iq.from.bare_jid.to_string(), parsed_data.sid, e.message);
-                        // Trigger async bundle refresh for next call attempt
-                        refresh_bundles_async.begin(stream, iq.from.bare_jid, parsed_data.sid);
                     }
+                }
+
+                // If decryption failed for all keys, refresh bundles (once per content, not per key)
+                if (!device_id_by_jingle_sid.has_key(jingle_sid) || device_id_by_jingle_sid[jingle_sid] != parsed_data.sid) {
+                    refresh_bundles_async.begin(stream, iq.from.bare_jid, parsed_data.sid);
                 }
             }
         }
@@ -110,14 +113,18 @@ namespace Dino.Plugins.Omemo.DtlsSrtpVerificationDraft {
 
             StanzaNode? muji_node = jingle_node.get_subnode("muji", Xep.Muji.NS_URI);
             if (muji_node != null) {
-                string muji_room = muji_node.get_attribute("room");
-                try {
-                    Jid muji_jid = new Jid(muji_room);
-                    if (device_id_by_muji_member.has_key(@"$(muji_jid.bare_jid)/$(iq.to)")) {
-                        device_id = device_id_by_muji_member[@"$(muji_jid.bare_jid)/$(iq.to)"];
+                string? muji_room = muji_node.get_attribute("room");
+                if (muji_room != null) {
+                    try {
+                        Jid muji_jid = new Jid(muji_room);
+                        // Look up using bare JID to avoid resource mismatch
+                        string lookup_key = @"$(muji_jid.bare_jid)/$(iq.to.bare_jid)";
+                        if (device_id_by_muji_member.has_key(lookup_key)) {
+                            device_id = device_id_by_muji_member[lookup_key];
+                        }
+                    } catch (InvalidJidError e) {
+                        // Ignore
                     }
-                } catch (InvalidJidError e) {
-                    // Ignore
                 }
             }
 
@@ -141,7 +148,7 @@ namespace Dino.Plugins.Omemo.DtlsSrtpVerificationDraft {
                     encrypted_node = enc_data.get_encrypted_node();
                 } catch (Error e) {
                     warning("Error while OMEMO-encrypting call keys: %s", e.message);
-                    return;
+                    continue;
                 }
 
                 StanzaNode new_fingerprint_node = new StanzaNode.build("fingerprint", NS_URI).add_self_xmlns().put_node(encrypted_node);
@@ -176,8 +183,9 @@ namespace Dino.Plugins.Omemo.DtlsSrtpVerificationDraft {
                 foreach (Xep.Jingle.Content content in session.contents) {
                     on_content_add_received(stream, content);
                 }
+                // Only connect if not already connected via session-accept path
+                session.additional_content_add_incoming.connect(on_content_add_received);
             }
-            session.additional_content_add_incoming.connect(on_content_add_received);
         }
 
         private void on_content_add_received(XmppStream stream, Xep.Jingle.Content content) {
@@ -222,7 +230,7 @@ namespace Dino.Plugins.Omemo.DtlsSrtpVerificationDraft {
                 return;
             }
 
-            device_id_by_muji_member[@"$(presence.from.bare_jid)/$(real_jid)"] = device_id;
+            device_id_by_muji_member[@"$(presence.from.bare_jid)/$(real_jid.bare_jid)"] = device_id;
         }
 
         public override void attach(XmppStream stream) {
@@ -242,6 +250,11 @@ namespace Dino.Plugins.Omemo.DtlsSrtpVerificationDraft {
             stream.get_module<Xmpp.Iq.Module>(Xmpp.Iq.Module.IDENTITY).preprocess_outgoing_iq_set_get.disconnect(on_preprocess_outgoing_iq_set_get);
             stream.get_module<Xep.Jingle.Module>(Xep.Jingle.Module.IDENTITY).session_initiate_received.disconnect(on_session_initiate_received);
             stream.get_module<Xmpp.Presence.Module>(Xmpp.Presence.Module.IDENTITY).received_available.disconnect(on_received_available);
+            stream.get_module<Xmpp.Presence.Module>(Xmpp.Presence.Module.IDENTITY).pre_send_presence_stanza.disconnect(on_pre_send_presence_stanza);
+            // Clear state maps on disconnect to prevent stale data after reconnect
+            device_id_by_jingle_sid.clear();
+            device_id_by_muji_member.clear();
+            content_names_by_jingle_sid.clear();
         }
 
         public override string get_ns() { return NS_URI; }

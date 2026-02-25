@@ -13,11 +13,24 @@ namespace Xmpp.Xep.Muji {
             var group_call = new GroupCall(muc_jid);
             stream.get_flag(Flag.IDENTITY).calls[muc_jid] = group_call;
 
-            group_call.our_nick = "%08x".printf(Random.next_int());
-            debug(@"[%s] MUJI joining as %s", stream.get_flag(Bind.Flag.IDENTITY).my_jid.to_string(), group_call.our_nick);
-            Xep.Muc.JoinResult? result = yield stream.get_module<Muc.Module>(Muc.Module.IDENTITY).enter(stream, muc_jid, group_call.our_nick, null, null, false, initial_muji_node);
-            if (result == null || result.nick == null) return null;
-            debug(@"[%s] MUJI joining as %s done", stream.get_flag(Bind.Flag.IDENTITY).my_jid.to_string(), group_call.our_nick);
+            // Try joining with random nick, retry on conflict (max 3 attempts)
+            Xep.Muc.JoinResult? result = null;
+            for (int attempt = 0; attempt < 3; attempt++) {
+                group_call.our_nick = "%08x".printf(Random.next_int());
+                debug("[%s] MUJI joining as %s (attempt %d)", stream.get_flag(Bind.Flag.IDENTITY).my_jid.to_string(), group_call.our_nick, attempt + 1);
+                result = yield stream.get_module<Muc.Module>(Muc.Module.IDENTITY).enter(stream, muc_jid, group_call.our_nick, null, null, false, initial_muji_node);
+                if (result != null && result.muc_error == Muc.MucEnterError.NICK_CONFLICT) {
+                    debug("[%s] MUJI nick conflict for %s, retrying", stream.get_flag(Bind.Flag.IDENTITY).my_jid.to_string(), group_call.our_nick);
+                    continue;
+                }
+                break;
+            }
+            if (result == null || result.nick == null) {
+                warning("[%s] MUJI join failed after retries", stream.get_flag(Bind.Flag.IDENTITY).my_jid.to_string());
+                stream.get_flag(Flag.IDENTITY).calls.unset(muc_jid);
+                return null;
+            }
+            debug("[%s] MUJI joining as %s done", stream.get_flag(Bind.Flag.IDENTITY).my_jid.to_string(), group_call.our_nick);
 
             // Determine all participants that have finished preparation. Those are the ones we have to initiate the call with.
             Gee.List<Presence.Stanza> other_presences = yield wait_for_preparing_peers(stream, muc_jid);
@@ -255,6 +268,8 @@ namespace Xmpp.Xep.Muji {
 
         public override void detach(XmppStream stream) {
             stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).remove_feature(stream, NS_URI);
+            stream.get_module<Presence.Module>(Presence.Module.IDENTITY).received_available.disconnect(on_received_available);
+            stream.get_module<Presence.Module>(Presence.Module.IDENTITY).received_unavailable.disconnect(on_received_unavailable);
         }
 
         public override string get_ns() {

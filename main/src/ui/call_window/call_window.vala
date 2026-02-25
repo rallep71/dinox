@@ -220,7 +220,9 @@ namespace Dino.Ui {
             } else if (reason_name == Xmpp.Xep.Jingle.ReasonElement.DECLINE || reason_name == Xmpp.Xep.Jingle.ReasonElement.BUSY) {
                 text = _("%s declined the call").printf(who_terminated);
             } else {
-                if (reason_text == null) {
+                if (reason_text == CallState.CALL_FULL_REASON) {
+                    text = _("Call full (max. %d participants)").printf(CallState.MAX_MUJI_PEERS + 1);
+                } else if (reason_text == null) {
                     text = "The call has been terminated" + " " + (reason_name ?? "");
                 } else {
                     text = reason_text + " " + (reason_name ?? "");

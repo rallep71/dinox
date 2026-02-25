@@ -4,6 +4,9 @@ using Xmpp;
 
 public class Dino.CallState : Object {
 
+    public const int MAX_MUJI_PEERS = 4;
+    public const string CALL_FULL_REASON = "call-full";
+
     public signal void terminated(Jid who_terminated, string? reason_name, string? reason_text);
     public signal void peer_joined(Jid jid, PeerState peer_state);
     public signal void peer_left(Jid jid, PeerState peer_state, string? reason_name, string? reason_text);
@@ -11,7 +14,6 @@ public class Dino.CallState : Object {
     public StreamInteractor stream_interactor;
     public Plugins.VideoCallPlugin call_plugin = Dino.Application.get_default().plugin_registry.video_call_plugin;
     public Call call;
-    public Jid? parent_muc { get; set; }
     public Jid? invited_to_group_call = null;
     public bool accepted { get; private set; default=false; }
 
@@ -27,6 +29,10 @@ public class Dino.CallState : Object {
 
     public HashMap<Jid, PeerState> peers = new HashMap<Jid, PeerState>(Jid.hash_func, Jid.equals_func);
 
+    private HashMap<Jid, uint> invite_timeout_ids = new HashMap<Jid, uint>(Jid.hash_bare_func, Jid.equals_bare_func);
+    private uint establishing_timeout_id = 0;
+    private uint muji_empty_muc_timeout_id = 0;
+
     private Plugins.MediaDevice selected_microphone_device;
     private Plugins.MediaDevice selected_speaker_device;
     private Plugins.MediaDevice selected_video_device;
@@ -37,15 +43,7 @@ public class Dino.CallState : Object {
 
         if (call.direction == Call.DIRECTION_OUTGOING && call.state != Call.State.OTHER_DEVICE) {
             accepted = true;
-
-            Timeout.add_seconds(30, () => {
-                if (this == null) return false; // TODO enough?
-                if (call.state == Call.State.ESTABLISHING) {
-                    call.state = Call.State.MISSED;
-                    terminated(call.account.bare_jid, null, null);
-                }
-                return false;
-            });
+            // Timeout is started separately per call type (1:1 or MUJI)
         }
     }
 
@@ -97,6 +95,7 @@ public class Dino.CallState : Object {
     public void accept() {
         accepted = true;
         call.state = Call.State.ESTABLISHING;
+        cancel_all_timeouts();
 
         XmppStream stream = stream_interactor.get_stream(call.account);
         if (stream == null) return;
@@ -141,6 +140,9 @@ public class Dino.CallState : Object {
     }
 
     public void end(string? reason_text = null) {
+        // Cancel all pending timeouts
+        cancel_all_timeouts();
+
         var peers_cpy = new ArrayList<PeerState>();
         peers_cpy.add_all(peers.values);
 
@@ -208,6 +210,12 @@ public class Dino.CallState : Object {
         if (this.group_call == null) yield convert_into_group_call();
         if (this.group_call == null) return;
 
+        // Don't invite if call is already at capacity
+        if (peers.size >= MAX_MUJI_PEERS) {
+            debug("[%s] Not inviting %s — call already at max peers (%d/%d)", call.account.bare_jid.to_string(), invitee.to_string(), peers.size, MAX_MUJI_PEERS);
+            return;
+        }
+
         XmppStream stream = stream_interactor.get_stream(call.account);
         if (stream == null) return;
 
@@ -215,11 +223,14 @@ public class Dino.CallState : Object {
         yield stream.get_module<Xep.Muc.Module>(Xep.Muc.Module.IDENTITY).change_affiliation(stream, group_call.muc_jid, invitee, null, "owner");
         stream.get_module<Xep.CallInvites.Module>(Xep.CallInvites.Module.IDENTITY).send_muji_propose(stream, cim_call_id, invitee, group_call.muc_jid, we_should_send_video, "chat");
 
-        // If the peer hasn't accepted within a minute, retract the invite
-        // TODO this should be unset when we retract the invite. otherwise a second invite attempt might break due to this
-        Timeout.add_seconds(60, () => {
-            if (this == null) return false;
+        // Cancel any existing invite timeout for this invitee (re-invite scenario)
+        if (invite_timeout_ids.has_key(invitee)) {
+            Source.remove(invite_timeout_ids[invitee]);
+            invite_timeout_ids.unset(invitee);
+        }
 
+        // If the peer hasn't joined within 60s, retract the invite and remove affiliation
+        uint timeout_id = Timeout.add_seconds(60, () => {
             bool contains_peer = false;
             foreach (Jid peer in peers.keys) {
                 if (peer.equals_bare(invitee)) {
@@ -229,11 +240,16 @@ public class Dino.CallState : Object {
 
             if (!contains_peer) {
                 debug("[%s] Retracting invite to %s from %s", call.account.bare_jid.to_string(), group_call.muc_jid.to_string(), invitee.to_string());
-//                stream.get_module<Xep.CallInvites.Module>(Xep.CallInvites.Module.IDENTITY).send_retract(stream, invitee, invite_id);
-//                stream.get_module<Xep.Muc.Module>(Xep.Muc.Module.IDENTITY).change_affiliation.begin(stream, group_call.muc_jid, invitee, null, "none");
+                XmppStream? current_stream = stream_interactor.get_stream(call.account);
+                if (current_stream != null) {
+                    current_stream.get_module<Xep.CallInvites.Module>(Xep.CallInvites.Module.IDENTITY).send_retract(current_stream, invitee, cim_call_id, "chat");
+                    current_stream.get_module<Xep.Muc.Module>(Xep.Muc.Module.IDENTITY).change_affiliation.begin(current_stream, group_call.muc_jid, invitee, null, "none");
+                }
             }
+            invite_timeout_ids.unset(invitee);
             return false;
         });
+        invite_timeout_ids[invitee] = timeout_id;
     }
 
     public Plugins.MediaDevice? get_microphone_device() {
@@ -413,6 +429,12 @@ public class Dino.CallState : Object {
         this.group_call.peer_joined.connect((jid) => {
             debug("[%s] Group call peer joined: %s", call.account.bare_jid.to_string(), jid.to_string());
 
+            // First peer joined: cancel empty-MUC timeout
+            if (muji_empty_muc_timeout_id != 0) {
+                Source.remove(muji_empty_muc_timeout_id);
+                muji_empty_muc_timeout_id = 0;
+            }
+
             // Newly joined peers have to call us, not the other way round
             // Maybe they called us already. Accept the call.
             // (Except for the first peer, we already have a connection to that one.)
@@ -437,8 +459,21 @@ public class Dino.CallState : Object {
             handle_peer_left(peer_state, false, Xep.Jingle.ReasonElement.CANCEL, "Peer left the MUJI MUC");
         });
 
-        if (group_call.peers_to_connect_to.size > 4) {
-            end("Call too full - P2p calls don't work well with many participants");
+        this.group_call.codecs_changed.connect((payload_types) => {
+            if (payload_types.is_empty) {
+                warning("[%s] MUJI codec intersection is now EMPTY — no common codecs with all peers", call.account.bare_jid.to_string());
+            } else {
+                var codec_names = new Gee.ArrayList<string>();
+                foreach (var pt in payload_types) {
+                    codec_names.add(pt.name ?? "unknown");
+                }
+                debug("[%s] MUJI codec intersection updated: %s", call.account.bare_jid.to_string(), string.joinv(", ", codec_names.to_array()));
+            }
+        });
+
+        if (group_call.peers_to_connect_to.size > MAX_MUJI_PEERS) {
+            debug("[%s] Call full: %d peers (max %d)", call.account.bare_jid.to_string(), group_call.peers_to_connect_to.size, MAX_MUJI_PEERS);
+            end(CALL_FULL_REASON);
             return;
         }
 
@@ -454,7 +489,57 @@ public class Dino.CallState : Object {
             peer_state.call_resource.begin(peer_jid);
         }
 
+        // Start MUJI empty-MUC timeout: if no peers appear, end the call
+        // Initiator gets more time (90s) because peers need to receive invite + join
+        // Receiver gets 30s — if MUC is empty, the initiator probably left
+        if (peers.is_empty) {
+            uint muji_timeout = (call.direction == Call.DIRECTION_OUTGOING) ? 90 : 30;
+            start_muji_empty_muc_timeout(muji_timeout);
+        }
+
         debug("[%s] Finished joining MUJI muc %s", call.account.bare_jid.to_string(), muc_jid.to_string());
+    }
+
+    // --- Timeout management: 1:1 and MUJI are completely separate ---
+
+    public void start_establishing_timeout(uint seconds) {
+        if (establishing_timeout_id != 0) Source.remove(establishing_timeout_id);
+        establishing_timeout_id = Timeout.add_seconds(seconds, () => {
+            if (call.state == Call.State.ESTABLISHING || call.state == Call.State.RINGING) {
+                debug("[%s] Establishing timeout (%us) expired", call.account.bare_jid.to_string(), seconds);
+                call.state = Call.State.MISSED;
+                terminated(call.account.bare_jid, null, null);
+            }
+            establishing_timeout_id = 0;
+            return false;
+        });
+    }
+
+    private void start_muji_empty_muc_timeout(uint seconds) {
+        if (muji_empty_muc_timeout_id != 0) Source.remove(muji_empty_muc_timeout_id);
+        muji_empty_muc_timeout_id = Timeout.add_seconds(seconds, () => {
+            if (peers.is_empty && group_call != null) {
+                debug("[%s] MUJI empty MUC timeout (%us) expired", call.account.bare_jid.to_string(), seconds);
+                end("No participants joined the group call");
+            }
+            muji_empty_muc_timeout_id = 0;
+            return false;
+        });
+    }
+
+    private void cancel_all_timeouts() {
+        if (establishing_timeout_id != 0) {
+            Source.remove(establishing_timeout_id);
+            establishing_timeout_id = 0;
+        }
+        if (muji_empty_muc_timeout_id != 0) {
+            Source.remove(muji_empty_muc_timeout_id);
+            muji_empty_muc_timeout_id = 0;
+        }
+        foreach (uint tid in invite_timeout_ids.values) {
+            Source.remove(tid);
+        }
+        invite_timeout_ids.clear();
     }
 
     private void handle_peer_left(PeerState peer_state, bool we_terminated, string? reason_name, string? reason_text) {
