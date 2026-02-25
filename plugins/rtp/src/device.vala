@@ -86,6 +86,11 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
     // Bitrate
     private Gee.Map<PayloadType, Gee.List<CodecBitrate>> codec_bitrates = new HashMap<PayloadType, Gee.List<CodecBitrate>>(PayloadType.hash_func, PayloadType.equals_func);
 
+    // Bandwidth coordination: max total video upload budget (kbit/s).
+    // With N outgoing peers the encoder is capped at MAX_VIDEO_UPLOAD_KBPS/N
+    // so the aggregate upload stays within the budget.
+    private const uint MAX_VIDEO_UPLOAD_KBPS = 2048;
+
     private class CodecBitrate {
         public uint bitrate;
         public int64 timestamp;
@@ -192,6 +197,15 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
             if (new_codec) {
                 tee.link(codecs[payload_type]);
             }
+            // Bandwidth coordination: immediately cap encoder bitrate
+            // when a new outgoing peer is added for video.
+            if (media == "video" && payloaders.has_key(payload_type) && payloaders[payload_type].size > 1) {
+                uint budget = MAX_VIDEO_UPLOAD_KBPS / (uint)payloaders[payload_type].size;
+                if (budget < 128) budget = 128;
+                debug("Bandwidth: new peer #%d, capping encoder to %u kbps",
+                      payloaders[payload_type].size, budget);
+                update_bitrate(payload_type, budget);
+            }
             return payloader_tees[payload_type][ssrc];
         }
         if (tee != null) return tee;
@@ -274,6 +288,17 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
             codec_bitrates[payload_type].remove_all(remove);
             if (media == "video") {
                 if (bitrate < 128) bitrate = 128;
+                // Multi-peer bandwidth coordination: cap at per-peer budget
+                int source_peers = get_source_peer_count(payload_type);
+                if (source_peers > 1) {
+                    uint per_peer_budget = MAX_VIDEO_UPLOAD_KBPS / (uint)source_peers;
+                    if (per_peer_budget < 128) per_peer_budget = 128;
+                    if (bitrate > per_peer_budget) {
+                        debug("Bandwidth: cap %u -> %u kbps (%d peers, %u total)",
+                              bitrate, per_peer_budget, source_peers, MAX_VIDEO_UPLOAD_KBPS);
+                        bitrate = per_peer_budget;
+                    }
+                }
                 Gst.Caps active_caps = get_active_caps(payload_type);
                 double max_bitrate = get_target_bitrate(device_caps) * 2;
                 double current_target_bitrate = get_target_bitrate(active_caps);
@@ -337,6 +362,14 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
 
                 payloader_links[payload_type].unset(ssrc);
                 plugin.unpause();
+                // Bandwidth coordination: peer left, raise budget for remaining peers
+                if (media == "video" && payloaders.has_key(payload_type) && payloaders[payload_type].size > 0) {
+                    uint budget = MAX_VIDEO_UPLOAD_KBPS / (uint)payloaders[payload_type].size;
+                    if (budget < 128) budget = 128;
+                    debug("Bandwidth: peer left, raising cap to %u kbps (%d peers)",
+                          budget, payloaders[payload_type].size);
+                    update_bitrate(payload_type, budget);
+                }
             }
             if (payloader_links[payload_type].size == 0) {
                 plugin.pause();
@@ -375,6 +408,13 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
         if (links == 0) {
             destroy();
         }
+    }
+
+    // Number of outgoing peers sharing the video encoder for a codec.
+    // Used to divide the upload budget fairly.
+    private int get_source_peer_count(PayloadType payload_type) {
+        if (!payloaders.has_key(payload_type)) return 1;
+        return int.max(1, payloaders[payload_type].size);
     }
 
     // Compute target receive gain: 1/sqrt(N) to prevent clipping when
