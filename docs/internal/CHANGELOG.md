@@ -5,6 +5,27 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.4] - 2026-02-25
+
+### Fixed
+- **MUJI Signal Leak**: Fixed signal leak in `detach()` — handlers were not disconnected from MUC module on call end (`0272_muji.vala`).
+- **MUJI Invite-Retract**: Activated invite retraction with 60s timeout; MUC is left on retract (`call_state.vala`, `calls.vala`).
+- **MUJI Nick Collision**: Added 3-attempt retry with `_2`/`_3` suffix on nick conflict (`0272_muji.vala`).
+- **MUJI Codecs Changed**: `codecs_changed` signal now consumed; warns on empty codec intersection (`call_state.vala`).
+- **MUJI Dead Code**: Removed unused `parent_muc` variable (`call_state.vala`).
+- **MUJI Timeout Separation**: 1:1 calls 30s, MUJI initiator 90s, MUJI receiver 30s, invite 60s (`call_state.vala`, `calls.vala`).
+- **OMEMO DTLS-SRTP**: 8 bug fixes — null safety, key comparison, error handling, fingerprint verification (`dtls_srtp_verification_draft.vala`).
+- **OMEMO MUC Key Fetch**: Proactive key fetch for MUC participants, MAM real_jid resolution, empty occupant guard (`manager.vala`, `muc_manager.vala`).
+- **Audio Clipping**: Multi-peer receive gain reduced to `1/sqrt(N)` to prevent clipping (`device.vala`).
+- **Network Recovery**: Active calls are ended with "Connection lost" when XMPP connection drops (`calls.vala`).
+
+### Added
+- **Peer Limit UI**: `MAX_MUJI_PEERS=4` constant with "Anruf voll" / "Call is full" feedback in call window (`call_state.vala`, `call_window.vala`, `de.po`).
+- **Bandwidth Coordination**: Per-peer video bitrate cap (`MAX_VIDEO_UPLOAD_KBPS/N`), rebalanced on peer join/leave (`device.vala`).
+
+### Changed
+- **Version**: 1.1.3.1 → 1.1.4
+
 ## [1.1.3.1] - 2026-02-24
 
 ### Fixed

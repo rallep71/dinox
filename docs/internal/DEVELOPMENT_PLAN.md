@@ -1,7 +1,7 @@
 # DinoX - Development Plan
 
-> **Last Updated**: February 24, 2026 (v1.1.3.1)
-> **Current Release Line**: 1.1.3.x
+> **Last Updated**: February 25, 2026 (v1.1.4)
+> **Current Release Line**: 1.1.4.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
 
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.3.1 |
+| **Current Version** | 1.1.4 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (~85% translated) |
 | **Build Status** | Clean |
@@ -20,6 +20,17 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v1.1.4 (MUJI Group Calls Audit, OMEMO MUC Fixes, Audio & Network Improvements)
+
+- **MUJI Group Calls Audit**: Fixed 14 findings (F1-F9) — signal leak in detach(), invite-retract with 60s timeout, MUC-leave on retract, nick collision retry (3 attempts), codecs_changed signal consumption, dead code removal.
+- **Peer Limit**: MAX_MUJI_PEERS=4 with UI feedback ("Anruf voll" / "Call is full").
+- **Timeout Separation**: 1:1 calls 30s, MUJI initiator 90s, MUJI receiver 30s, invite 60s.
+- **OMEMO DTLS-SRTP**: 8 bug fixes in verification draft (null checks, key comparison, error handling).
+- **OMEMO MUC**: Proactive key fetch, MAM real_jid resolution, empty occupant guard.
+- **Audio Clipping Mitigation**: recv_gain = 1/sqrt(N) for multi-peer group calls.
+- **Bandwidth Coordination**: Per-peer video bitrate cap (upload_budget/N), rebalance on peer join/leave.
+- **Network Recovery**: End active calls on XMPP connection loss.
 
 ### v1.1.3.1 (MUC/Avatar/GTK Warning Fixes, Panic Wipe Resync, URL Preview)
 
