@@ -1,6 +1,6 @@
 # DinoX - Development Plan
 
-> **Last Updated**: February 25, 2026 (v1.1.4.1)
+> **Last Updated**: February 26, 2026 (v1.1.4.2)
 > **Current Release Line**: 1.1.4.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.4.1 |
+| **Current Version** | 1.1.4.2 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (~85% translated) |
 | **Build Status** | Clean |
@@ -20,6 +20,14 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v1.1.4.2 (Dependency Updates, CI Build Fixes)
+
+- **Flatpak Module Updates**: Updated 4 outdated Flatpak modules: openh264 2.4.1→2.6.0, tor 0.4.8.10→0.4.8.22, obfs4proxy 0.0.14-2+b5→+b6 (now arch-aware for amd64+aarch64), pipewire 1.2.7→1.4.10.
+- **cJSON Module**: Added cJSON 1.7.18 as Flatpak module (required by mosquitto 2.1.2).
+- **protobuf-c & mosquitto from Source**: CI/AppImage now build protobuf-c 1.5.2 and mosquitto 2.1.2 from source via `ci-build-deps.sh` (Ubuntu 24.04 packages outdated).
+- **mosquitto Build Fix**: Added `-DWITH_DOCS=OFF` and `-DWITH_TESTS=OFF` to mosquitto cmake (xsltproc/GTest not available in CI).
+- **CI**: All 4 workflows pass (Build, AppImage, Windows MSYS2, Release/Flatpak).
 
 ### v1.1.4.1 (1:1 & MUJI Call Teardown, PipeWire/Camera Cleanup)
 
@@ -468,7 +476,7 @@ This document is organized as a **chronological release timeline** first, follow
 | **XEP-0388** | SASL2 / FAST | Implement SASL2 negotiation and FAST token handling; ensure interaction with XEP-0198 stream management and session resumption remains correct. | TODO |
 | **XEP-0386** | Bind 2 | Implement Bind2 negotiation and integrate with session establishment; verify multi-device and reconnection behavior. | TODO |
 
-### Q3 2026: MQTT IoT / Smart Home Integration ✅
+### Q3 2026: MQTT IoT / Smart Home Integration
 
 | Item | Description | Status |
 |------|-------------|--------|

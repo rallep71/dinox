@@ -122,7 +122,7 @@ sudo apt install build-essential meson ninja-build valac \
   libsqlcipher-dev libsecret-1-dev libicu-dev libdbusmenu-glib-dev libgcrypt20-dev \
   libgpgme-dev libqrencode-dev libsoup-3.0-dev libgstreamer1.0-dev \
   libgstreamer-plugins-base1.0-dev libgstreamer-plugins-bad1.0-dev \
-  libnice-dev libgnutls28-dev libsrtp2-dev \
+  libnice-dev libgnutls28-dev libsrtp2-dev libcjson-dev \
   gstreamer1.0-plugins-good gstreamer1.0-pipewire cmake wget
 ```
 
@@ -167,7 +167,7 @@ cd ../..
 # mosquitto 2.1.2 (MQTT client library)
 wget -O mosquitto-2.1.2.tar.gz "https://mosquitto.org/files/source/mosquitto-2.1.2.tar.gz"
 tar xf mosquitto-2.1.2.tar.gz && cd mosquitto-2.1.2
-cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_BROKER=OFF -DWITH_CLIENTS=OFF -DWITH_APPS=OFF -DWITH_PLUGINS=OFF -DDOCUMENTATION=OFF .
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_BROKER=OFF -DWITH_CLIENTS=OFF -DWITH_APPS=OFF -DWITH_PLUGINS=OFF -DWITH_TESTS=OFF -DWITH_DOCS=OFF .
 make -j$(nproc) && sudo make install && sudo ldconfig
 cd ..
 ```

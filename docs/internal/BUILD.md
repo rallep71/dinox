@@ -108,6 +108,7 @@ sudo apt install \
     libnice-dev \
     libgnutls28-dev \
     libsrtp2-dev \
+    libcjson-dev \
     gstreamer1.0-plugins-good
 
 # Then build custom dependencies from source (protobuf-c, mosquitto, libomemo-c, etc.)
@@ -460,7 +461,7 @@ All scripts live in the `scripts/` directory. Debug scripts are documented in [D
 |--------|--------|
 | `scripts/build-appimage.sh` | Build a portable AppImage for Linux. Auto-detects architecture (x86_64/aarch64), copies runtime libraries, GStreamer plugins, and icons into an AppDir, then packages it with `appimagetool`. Use on a clean build host for reproducible results. |
 | `scripts/update_dist.sh` | Collect the Windows build into a `dist/` folder: `dinox.exe`, all required DLLs, GStreamer plugins, Tor/obfs4proxy binaries, SSL certs, icons. Run after `ninja -C build` in MSYS2. |
-| `scripts/ci-build-deps.sh` | CI pipeline script: runs `scripts/scan_unicode.py`, then builds **SQLCipher** (with FTS5), **webrtc-audio-processing**, **libnice**, and **libomemo-c** from source. Used in automated builds and AppImage CI to prepare dependencies. |
+| `scripts/ci-build-deps.sh` | CI pipeline script: runs `scripts/scan_unicode.py`, then builds **SQLCipher** (with FTS5), **webrtc-audio-processing**, **libnice**, **protobuf-c**, **libomemo-c**, and **mosquitto** from source. Used in automated builds and AppImage CI to prepare dependencies. |
 | `scripts/dinox.bat` | Windows launcher (legacy/fallback). Sets `PATH` and launches `dinox.exe`. Kept for backward compatibility — `dinox.exe` now sets all environment variables internally. |
 
 ### Release
