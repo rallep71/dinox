@@ -64,6 +64,10 @@ public class Plugin : RootInterface, Object {
     private string? cfg_pass = null;
     private string[] cfg_topics = {};
 
+    /* ── Phase 2: Bot-Conversation ─────────────────────────────────── */
+    private MqttBotConversation? bot_conversation = null;
+    private MqttCommandHandler? command_handler = null;
+
     /* ── DB keys (shared with MqttSettingsPage) ───────────────────── */
 
     internal const string KEY_ENABLED     = "mqtt_enabled";
@@ -96,15 +100,29 @@ public class Plugin : RootInterface, Object {
             message("MQTT plugin: registered (disabled — enable in Preferences > MQTT)");
         }
 
+        /* Initialize bot conversation manager and command handler */
+        bot_conversation = new MqttBotConversation(this);
+        command_handler = new MqttCommandHandler(this, bot_conversation);
+
         /* Register settings page */
         app.configure_preferences.connect(on_preferences_configure);
 
         /* Listen for XMPP connection state changes */
         app.stream_interactor.connection_manager.connection_state_changed.connect(
             on_xmpp_connection_state_changed);
+
+        /* Intercept outgoing messages to the MQTT bot (prevent XMPP send) */
+        app.stream_interactor.get_module<MessageProcessor>(
+            MessageProcessor.IDENTITY).pre_message_send.connect(
+                on_pre_message_send);
     }
 
     public void shutdown() {
+        /* Remove bot conversations */
+        if (bot_conversation != null) {
+            bot_conversation.remove_all();
+        }
+
         /* Disconnect standalone */
         if (standalone_client != null) {
             standalone_client.disconnect_sync();
@@ -365,15 +383,90 @@ public class Plugin : RootInterface, Object {
                         client.subscribe(t);
                     }
                 }
+
+                /* Phase 2: Create/activate bot conversation */
+                if (bot_conversation != null) {
+                    if (label == "standalone") {
+                        var conv = bot_conversation.ensure_standalone_conversation();
+                        if (conv != null) {
+                            /* Register under "standalone" key */
+                            bot_conversation.inject_bot_message(conv,
+                                "MQTT Bot connected ✔\n\n" +
+                                "Type /mqtt help for available commands.\n" +
+                                "Subscribed MQTT messages will appear here.");
+                        }
+                    } else {
+                        /* Per-account: label is the account JID */
+                        var accounts = app.stream_interactor.get_accounts();
+                        foreach (var acct in accounts) {
+                            if (acct.bare_jid.to_string() == label) {
+                                var conv = bot_conversation.ensure_conversation(acct);
+                                if (conv != null) {
+                                    bot_conversation.inject_bot_message(conv,
+                                        "MQTT Bot connected for %s ✔\n\n".printf(label) +
+                                        "Type /mqtt help for available commands.");
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
             }
         });
 
         client.on_message.connect((topic, payload) => {
             string payload_str = (string) payload;
             message_received(label, topic, payload_str);
+
+            /* Phase 2: Inject into bot conversation */
+            if (bot_conversation != null) {
+                Conversation? conv = bot_conversation.get_conversation(label);
+                if (conv == null) conv = bot_conversation.get_any_conversation();
+                if (conv != null) {
+                    bot_conversation.inject_mqtt_message(conv, topic, payload_str);
+                }
+            }
         });
 
         return client;
+    }
+
+    /* ── Phase 2: Command interception ─────────────────────────────── */
+
+    /**
+     * Intercept outgoing messages to the MQTT Bot.
+     * If the message is a /mqtt command, handle it locally and
+     * prevent it from being sent over XMPP.
+     */
+    private void on_pre_message_send(Entities.Message message,
+                                     Xmpp.MessageStanza stanza,
+                                     Conversation conversation) {
+        if (bot_conversation == null) return;
+        if (!bot_conversation.is_bot_conversation(conversation)) return;
+
+        /* ALL messages to the bot are local — never send over XMPP */
+        message.marked = Entities.Message.Marked.WONTSEND;
+
+        string body = message.body ?? "";
+
+        if (body.has_prefix("/mqtt")) {
+            /* Process /mqtt command */
+            Idle.add(() => {
+                /* Mark as SENT so it looks like a normal sent message */
+                message.marked = Entities.Message.Marked.SENT;
+                command_handler.process(body, conversation);
+                return false;
+            });
+        } else if (body.strip() != "") {
+            /* Non-command text to the bot → show help hint */
+            Idle.add(() => {
+                message.marked = Entities.Message.Marked.SENT;
+                bot_conversation.inject_bot_message(conversation,
+                    "I only understand /mqtt commands.\n\n" +
+                    "Type /mqtt help for available commands.");
+                return false;
+            });
+        }
     }
 
     /* ── Public API ────────────────────────────────────────────────── */

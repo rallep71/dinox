@@ -30,6 +30,7 @@ if dep_mosquitto_check.found() and plugin_mqtt_opt.allowed()
         dep_glib,
         dep_gmodule,
         dep_gtk4,
+        dep_json_glib,
         dep_libadwaita,
         dep_qlite,
         dep_xmpp_vala,
@@ -41,6 +42,8 @@ if dep_mosquitto_check.found() and plugin_mqtt_opt.allowed()
         'src/mqtt_client.vala',
         'src/server_detector.vala',
         'src/settings_page.vala',
+        'src/bot_conversation.vala',
+        'src/command_handler.vala',
     )
 
     vapi_sources = files(
