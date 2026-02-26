@@ -414,21 +414,21 @@ The MQTT Bot uses the **same notification system** as regular chat contacts:
 - [x] Settings UI: enable/disable, broker, port, TLS, server type
 
 ### Phase 2: Bot-Conversation (v1.2.1)
-- [ ] Virtual bot contact: create MQTT Bot entity in conversation list
-- [ ] Bot visibility lifecycle (appear on data, disappear on disable)
-- [ ] Incoming MQTT messages → chat message bubbles (topic header + payload)
-- [ ] Payload parsing: JSON value extraction, plain text, retained flag
-- [ ] Bot per-account + standalone (separate conversations)
-- [ ] Chat commands: `/mqtt subscribe`, `/mqtt publish`, `/mqtt status`, `/mqtt topics`
+- [x] Virtual bot contact: create MQTT Bot entity in conversation list
+- [x] Bot visibility lifecycle (appear on data, disappear on disable)
+- [x] Incoming MQTT messages → chat message bubbles (topic header + payload)
+- [x] Payload parsing: JSON value extraction, plain text
+- [x] Bot per-account + standalone (separate conversations)
+- [x] Chat commands: `/mqtt subscribe`, `/mqtt publish`, `/mqtt status`, `/mqtt topics`
 - [ ] ejabberd auto-detect (XEP-0030 → `mod_mqtt`) + shared auth hint
 - [ ] Prosody topic format display (`<HOST>/<TYPE>/<NODE>` → human-readable)
 
 ### Phase 3: Alerts & Notifications (v1.3.0)
-- [ ] Threshold alerts (`/mqtt alert <topic> <condition>`)
-- [ ] Notification priority system (normal / alert / critical / silent)
-- [ ] Alert messages with warning icon + desktop notification + sound
-- [ ] Topic-level notification settings (per-topic sound/silent)
-- [ ] History: last N values per topic in bot conversation
+- [x] Threshold alerts (`/mqtt alert <topic> <condition>`)
+- [x] Notification priority system (normal / alert / critical / silent)
+- [x] Alert messages with warning icon + desktop notification + sound
+- [x] Topic-level notification settings (per-topic sound/silent)
+- [x] History: last N values per topic in bot conversation
 - [ ] Prosody security warning (no auth → warning in settings + bot)
 
 ### Phase 4: Advanced (v1.4.0)

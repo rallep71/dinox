@@ -44,6 +44,7 @@ if dep_mosquitto_check.found() and plugin_mqtt_opt.allowed()
         'src/settings_page.vala',
         'src/bot_conversation.vala',
         'src/command_handler.vala',
+        'src/alert_manager.vala',
     )
 
     vapi_sources = files(

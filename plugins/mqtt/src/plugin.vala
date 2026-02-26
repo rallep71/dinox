@@ -68,6 +68,9 @@ public class Plugin : RootInterface, Object {
     private MqttBotConversation? bot_conversation = null;
     private MqttCommandHandler? command_handler = null;
 
+    /* ── Phase 3: Alerts & Notifications ────────────────────────────── */
+    private MqttAlertManager? alert_manager = null;
+
     /* ── DB keys (shared with MqttSettingsPage) ───────────────────── */
 
     internal const string KEY_ENABLED     = "mqtt_enabled";
@@ -100,9 +103,10 @@ public class Plugin : RootInterface, Object {
             message("MQTT plugin: registered (disabled — enable in Preferences > MQTT)");
         }
 
-        /* Initialize bot conversation manager and command handler */
+        /* Initialize bot conversation manager, command handler, and alert manager */
         bot_conversation = new MqttBotConversation(this);
         command_handler = new MqttCommandHandler(this, bot_conversation);
+        alert_manager = new MqttAlertManager(this);
 
         /* Register settings page */
         app.configure_preferences.connect(on_preferences_configure);
@@ -418,12 +422,33 @@ public class Plugin : RootInterface, Object {
             string payload_str = (string) payload;
             message_received(label, topic, payload_str);
 
-            /* Phase 2: Inject into bot conversation */
+            /* Phase 3: Evaluate alert rules and determine priority */
+            MqttPriority priority = MqttPriority.NORMAL;
+            if (alert_manager != null) {
+                var result = alert_manager.evaluate(topic, payload_str);
+                priority = result.priority;
+
+                /* If paused, still record history (done in evaluate)
+                 * but don't display as chat bubble */
+                if (alert_manager.paused && priority < MqttPriority.ALERT) {
+                    return;
+                }
+
+                /* Log triggered alerts */
+                if (result.triggered_rules.size > 0) {
+                    message("MQTT [%s]: Alert triggered on %s (%d rules, priority=%s)",
+                            label, topic, result.triggered_rules.size,
+                            priority.to_string_key());
+                }
+            }
+
+            /* Inject into bot conversation with priority */
             if (bot_conversation != null) {
                 Conversation? conv = bot_conversation.get_conversation(label);
                 if (conv == null) conv = bot_conversation.get_any_conversation();
                 if (conv != null) {
-                    bot_conversation.inject_mqtt_message(conv, topic, payload_str);
+                    bot_conversation.inject_mqtt_message(
+                        conv, topic, payload_str, priority);
                 }
             }
         });
@@ -576,6 +601,13 @@ public class Plugin : RootInterface, Object {
      */
     public MqttClient? get_standalone_client() {
         return standalone_client;
+    }
+
+    /**
+     * Get the alert manager (or null).
+     */
+    public MqttAlertManager? get_alert_manager() {
+        return alert_manager;
     }
 
     /* ── Signals ───────────────────────────────────────────────────── */

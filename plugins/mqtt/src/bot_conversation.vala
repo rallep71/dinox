@@ -181,13 +181,19 @@ public class MqttBotConversation : Object {
      * @param conversation  The bot conversation
      * @param topic         MQTT topic name
      * @param payload       MQTT payload (UTF-8 text)
+     * @param priority      Notification priority for this message
      */
     public void inject_mqtt_message(Conversation conversation,
-                                     string topic, string payload) {
+                                     string topic, string payload,
+                                     MqttPriority priority = MqttPriority.NORMAL) {
         /* Format: topic on first line, payload on second */
-        string body = format_mqtt_message(topic, payload);
+        string body = format_mqtt_message(topic, payload, priority);
 
-        inject_bot_message(conversation, body);
+        if (priority == MqttPriority.SILENT) {
+            inject_silent_message(conversation, body);
+        } else {
+            inject_bot_message(conversation, body);
+        }
     }
 
     /**
@@ -229,28 +235,71 @@ public class MqttBotConversation : Object {
         mp.message_received(msg, conversation);
     }
 
+    /**
+     * Inject a silent message (no badge, no notification).
+     * Message is persisted and visible in timeline but marked as read.
+     */
+    public void inject_silent_message(Conversation conversation, string body) {
+        var storage = app.stream_interactor.get_module<MessageStorage>(
+            MessageStorage.IDENTITY);
+        var cis = app.stream_interactor.get_module<ContentItemStore>(
+            ContentItemStore.IDENTITY);
+
+        Message msg = new Message(body);
+        msg.account = conversation.account;
+        msg.counterpart = mqtt_bot_jid;
+        msg.ourpart = conversation.account.bare_jid;
+        msg.direction = Message.DIRECTION_RECEIVED;
+        msg.type_ = Message.Type.CHAT;
+        msg.stanza_id = Xmpp.random_uuid();
+
+        DateTime now = new DateTime.from_unix_utc(
+            new DateTime.now_utc().to_unix());
+        msg.time = now;
+        msg.local_time = now;
+        msg.marked = Message.Marked.READ;
+        msg.encryption = Encryption.NONE;
+
+        storage.add_message(msg, conversation);
+        cis.insert_message(msg, conversation);
+
+        /* Advance read pointer so no badge/notification appears */
+        var latest = cis.get_latest(conversation);
+        if (latest != null) {
+            conversation.read_up_to_item = latest.id;
+        }
+
+        /* Do NOT call mp.message_received() — this suppresses the
+         * notification pipeline. The message is still visible when
+         * the user opens the conversation. */
+    }
+
     /* ── Message Formatting ──────────────────────────────────────── */
 
     /**
      * Format an MQTT message for display in the chat bubble.
      * Topic is shown as a bracketed header, payload below.
+     * Alert/Critical messages get a priority icon prefix.
      */
-    private string format_mqtt_message(string topic, string payload) {
+    private string format_mqtt_message(string topic, string payload,
+                                        MqttPriority priority = MqttPriority.NORMAL) {
         string trimmed = payload.strip();
+        string icon = priority.to_icon();
+        string prefix = (icon != "") ? "%s ".printf(icon) : "";
 
         /* Try to detect JSON and pretty-print key values */
         if (trimmed.has_prefix("{") && trimmed.has_suffix("}")) {
             string? pretty = try_format_json(trimmed);
             if (pretty != null) {
-                return "[%s]\n%s".printf(topic, pretty);
+                return "%s[%s]\n%s".printf(prefix, topic, pretty);
             }
         }
 
         /* Plain text */
         if (trimmed.length > 0) {
-            return "[%s]\n%s".printf(topic, trimmed);
+            return "%s[%s]\n%s".printf(prefix, topic, trimmed);
         }
-        return "[%s] (empty)".printf(topic);
+        return "%s[%s] (empty)".printf(prefix, topic);
     }
 
     /**
