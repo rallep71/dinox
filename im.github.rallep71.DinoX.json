@@ -102,8 +102,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://github.com/cisco/openh264/archive/v2.4.1.tar.gz",
-                    "sha256": "8ffbe944e74043d0d3fb53d4a2a14c94de71f58dbea6a06d0dc92369542958ea"
+                    "url": "https://github.com/cisco/openh264/archive/v2.6.0.tar.gz",
+                    "sha256": "558544ad358283a7ab2930d69a9ceddf913f4a51ee9bf1bfb9e377322af81a69"
                 }
             ]
         },
@@ -275,8 +275,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://dist.torproject.org/tor-0.4.8.10.tar.gz",
-                    "sha256": "e628b4fab70edb4727715b23cf2931375a9f7685ac08f2c59ea498a178463a86"
+                    "url": "https://dist.torproject.org/tor-0.4.8.22.tar.gz",
+                    "sha256": "c88620d9278a279e3d227ff60975b84aa41359211f8ecff686019923b9929332"
                 }
             ]
         },
@@ -293,8 +293,16 @@
             "sources": [
                 {
                     "type": "file",
-                    "url": "http://ftp.de.debian.org/debian/pool/main/o/obfs4proxy/obfs4proxy_0.0.14-2+b5_amd64.deb",
-                    "sha256": "ed9b68429f2893502603c74a50dafeae502e6cd5e1c34efea9418bbd19c54e85",
+                    "only-arches": ["x86_64"],
+                    "url": "http://ftp.de.debian.org/debian/pool/main/o/obfs4proxy/obfs4proxy_0.0.14-2+b6_amd64.deb",
+                    "sha256": "2792b32ac3f92e8c34a0aa12778cc0afb5a195cddaabf1ad87ddafddd304fe76",
+                    "dest-filename": "obfs4proxy.deb"
+                },
+                {
+                    "type": "file",
+                    "only-arches": ["aarch64"],
+                    "url": "http://ftp.de.debian.org/debian/pool/main/o/obfs4proxy/obfs4proxy_0.0.14-2+b6_arm64.deb",
+                    "sha256": "9650d81d5f7df23c161677963294d982242422bcf00fb12f2f62a3382c7f46f1",
                     "dest-filename": "obfs4proxy.deb"
                 }
             ]
@@ -343,8 +351,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://gitlab.freedesktop.org/pipewire/pipewire/-/archive/1.2.7/pipewire-1.2.7.tar.gz",
-                    "sha256": "e75568ed18bcbe75e9779af57cb9cc256fd7ebfaadc12bb347a0717055d1d3a9"
+                    "url": "https://gitlab.freedesktop.org/pipewire/pipewire/-/archive/1.4.10/pipewire-1.4.10.tar.gz",
+                    "sha256": "20184b3fac2e2759385302423bdf04db64490a3c79a091147993a822ae992128"
                 }
             ]
         },
