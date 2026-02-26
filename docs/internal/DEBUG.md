@@ -47,6 +47,7 @@ DinoX uses dedicated log domains per module. You can filter with `G_MESSAGES_DEB
 | `OpenPGP` | OpenPGP encryption plugin |
 | `rtp` | Audio/video calls (RTP/Jingle) |
 | `ice` | ICE/DTLS-SRTP (call transport) |
+| `mqtt` | MQTT IoT/Event integration plugin |
 | `bot-features` | Botmother bot framework (Telegram, AI, webhooks) |
 
 Example — show only OMEMO and connection logs:
@@ -274,6 +275,51 @@ G_MESSAGES_DEBUG="rtp" DINO_LOG_LEVEL=debug ./build/main/dinox 2>&1 | grep -iE "
 - **No DTMF sound during video calls**: Check that the silence keepalive branch is active in the GStreamer pipeline
 - **Double-digit sends**: Should not happen after v1.1.2.6 (300ms debounce). If it recurs, check `call_dialpad.vala` debounce logic
 - **SIGSEGV on DTMF press**: Fixed in v1.1.2.5 (mutex-protected queue). If crash recurs, check that `dtmf_mutex` is being acquired in both `send_dtmf()` and `build_dtmf_rtp_packet()`
+
+### MQTT Plugin
+
+Debug MQTT broker connectivity, topic subscriptions, message bridging, and alert rules:
+
+```bash
+G_MESSAGES_DEBUG="mqtt" DINO_LOG_LEVEL=debug ./build/main/dinox 2>&1 | grep -iE "MQTT:"
+```
+
+**What's logged:**
+- Plugin registration and mode (standalone vs. per-account)
+- Broker connection attempts, CONNACK success/failure, TLS setup
+- Topic subscribe/unsubscribe actions
+- Incoming message dispatch (topic, payload size)
+- Reconnection attempts (5s interval on disconnect)
+- Socket I/O events (read/write/hangup)
+- Server type detection (ejabberd/Prosody) for MQTT bridge
+- Alert rule evaluation (priority matching, pause state)
+- Environment variable overrides (when set)
+
+**Environment variable overrides** (useful for CI/Docker/testing):
+
+| Variable | Purpose |
+|----------|--------|
+| `DINOX_MQTT_HOST` | Override broker hostname (implies standalone mode + enabled) |
+| `DINOX_MQTT_PORT` | Override broker port |
+| `DINOX_MQTT_TLS` | Set to `1` to force TLS |
+| `DINOX_MQTT_USER` | Override MQTT username |
+| `DINOX_MQTT_PASS` | Override MQTT password |
+| `DINOX_MQTT_TOPICS` | Override topic subscriptions (comma-separated) |
+| `DINOX_MQTT_ACCOUNT` | Override XMPP account JID for per-account mode |
+
+Example — test standalone MQTT with debug logging:
+
+```bash
+DINOX_MQTT_HOST=mqtt.example.com DINOX_MQTT_PORT=1883 \
+  G_MESSAGES_DEBUG="mqtt" DINO_LOG_LEVEL=debug ./build/main/dinox
+```
+
+**Common issues:**
+- **"MQTT: TCP connect failed"**: Broker not reachable. Check host/port, firewall, TLS settings.
+- **"CONNACK refused"**: Wrong credentials or broker rejected client. Check username/password.
+- **"Connection lost, reconnecting in 5 s"**: Network issue or broker kicked the client. Check broker logs.
+- **No MQTT log output at all**: Plugin not built (missing `libmosquitto-dev`). Check `meson configure build | grep mqtt`.
+- **Plugin built but not active**: Enable in DinoX → Preferences → MQTT.
 
 ### Tor & Obfs4proxy
 

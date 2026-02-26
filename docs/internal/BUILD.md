@@ -102,6 +102,7 @@ sudo apt install \
     libgstreamer-plugins-bad1.0-dev \
     gstreamer1.0-pipewire \
     libwebrtc-audio-processing-dev \
+    libmosquitto-dev \
     libnice-dev \
     libgnutls28-dev \
     libsrtp2-dev \
@@ -136,6 +137,7 @@ sudo dnf install \
     gstreamer1-plugins-bad-free-devel \
     pipewire-gstreamer \
     webrtc-audio-processing-devel \
+    mosquitto-devel \
     libnice-devel \
     gnutls-devel \
     libsrtp2-devel \
@@ -170,6 +172,7 @@ sudo pacman -S \
     gst-plugins-bad \
     gst-plugin-pipewire \
     webrtc-audio-processing \
+    mosquitto \
     libnice \
     gnutls \
     libsrtp
@@ -232,6 +235,39 @@ If you want to build DinoX without call support, you can disable the plugin:
 meson setup build -Dplugin-rtp=false
 ```
 
+### MQTT Plugin (Optional)
+
+The MQTT plugin bridges IoT/event messages from an MQTT broker into XMPP conversations. It requires `libmosquitto` (the Mosquitto client library) at build time.
+
+- **Meson option:** `plugin-mqtt` (default: `auto`)
+- **Dependency:** `libmosquitto` (detected via pkg-config)
+- When set to `auto` (default), the plugin is built if `libmosquitto` is found, otherwise silently skipped.
+
+```bash
+# Check if libmosquitto is available
+pkg-config --modversion libmosquitto
+
+# Verify MQTT plugin was built
+meson configure build | grep mqtt
+# Expected: plugin-mqtt  auto  [enabled]
+
+# Force-disable MQTT plugin
+meson setup build -Dplugin-mqtt=disabled
+
+# Force-enable (fails if libmosquitto not installed)
+meson setup build -Dplugin-mqtt=enabled
+```
+
+#### Install libmosquitto
+
+| Distro | Command |
+|--------|---------|
+| Debian/Ubuntu | `sudo apt install libmosquitto-dev` |
+| Fedora | `sudo dnf install mosquitto-devel` |
+| Arch Linux | `sudo pacman -S mosquitto` |
+| MSYS2 (Windows) | `pacman -S mingw-w64-x86_64-mosquitto` |
+| Flatpak | Built from source in manifest (mosquitto 2.1.2) |
+
 ### Windows (MSYS2 / MINGW64)
 
 DinoX can be built on Windows 10/11 using the MSYS2 environment with the MINGW64 toolchain.
@@ -272,6 +308,7 @@ pacman -S --noconfirm \
     mingw-w64-x86_64-libsrtp \
     mingw-w64-x86_64-python \
     mingw-w64-x86_64-glib-networking \
+    mingw-w64-x86_64-mosquitto \
     mingw-w64-x86_64-sqlite3 \
     mingw-w64-x86_64-hicolor-icon-theme \
     mingw-w64-x86_64-adwaita-icon-theme \
