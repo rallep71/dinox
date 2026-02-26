@@ -20,7 +20,7 @@ jobs:
             libnice-dev libnotify-dev libqrencode-dev libsoup-3.0-dev \
             libsqlite3-dev libsqlcipher-dev libsecret-1-dev libsrtp2-dev \
             libgnutls28-dev libdbusmenu-glib-dev meson valac pkg-config \
-            libjson-glib-dev \
+            libjson-glib-dev libcjson-dev \
             gstreamer1.0-plugins-good
       - name: "Cache custom dependencies"
         id: cache-deps
@@ -137,7 +137,7 @@ jobs:
             libnice-dev libnotify-dev libqrencode-dev libsoup-3.0-dev \
             libsqlite3-dev libsqlcipher-dev libsecret-1-dev libsrtp2-dev \
             libgnutls28-dev libdbusmenu-glib-dev meson valac pkg-config \
-            libjson-glib-dev \
+            libjson-glib-dev libcjson-dev \
             gstreamer1.0-plugins-good
       - name: "Cache custom dependencies"
         id: cache-deps-nightly

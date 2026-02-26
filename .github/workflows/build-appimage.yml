@@ -38,7 +38,7 @@ jobs:
               libnice-dev libsrtp2-dev \
               libgnutls28-dev libcanberra-dev libdbusmenu-glib-dev \
               libgdk-pixbuf-2.0-dev \
-              libsecret-1-dev cmake patchelf libssl-dev \
+              libsecret-1-dev cmake patchelf libssl-dev libcjson-dev \
               file wget libfuse2 tor obfs4proxy libjson-glib-dev glib-networking \
               libwebrtc-audio-processing-dev
             sudo pip3 install meson>=1.3.0
