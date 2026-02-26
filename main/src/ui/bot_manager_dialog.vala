@@ -32,6 +32,7 @@ public class BotManagerDialog : Adw.Dialog {
     private Soup.Session http;
     private uint16 api_port = 7842;
     private bool toggle_loading = false; // suppress signal during load
+    private bool api_reachable = false; // track API availability
 
     public string account_jid { get; set; default = ""; }
 
@@ -59,7 +60,7 @@ public class BotManagerDialog : Adw.Dialog {
         // Auto-refresh when dialog gets focus — BUT NOT when clicking inside the dialog
         // Only refresh when the entire dialog regains focus from outside
         this.map.connect(() => {
-            if (account_jid != "") {
+            if (account_jid != "" && api_reachable) {
                 load_bots.begin();
             }
         });
@@ -79,8 +80,33 @@ public class BotManagerDialog : Adw.Dialog {
         // Initial load deferred until account_jid is set
     }
 
+    /**
+     * Quick connectivity check — try to reach the Botmother API.
+     * Returns true if the API responded, false on connection error.
+     */
+    private async bool check_api_reachable() {
+        try {
+            var msg = new Soup.Message("GET",
+                "http://127.0.0.1:%u/bot/list".printf(api_port));
+            yield http.send_and_read_async(msg, GLib.Priority.DEFAULT, null);
+            api_reachable = true;
+            return true;
+        } catch (Error e) {
+            api_reachable = false;
+            return false;
+        }
+    }
+
     // Load the per-account enabled status from the API, then load bots
     private async void load_account_status() {
+        /* First check if the Botmother API is running at all */
+        if (!(yield check_api_reachable())) {
+            toggle_loading = false;
+            api_status_label.label = _("Botmother API not running (port %u)").printf(api_port);
+            main_stack.visible_child_name = "list";
+            return;  /* Don't spam warnings — API is simply not started */
+        }
+
         toggle_loading = true;
         try {
             string url = "http://127.0.0.1:%u/bot/account/status?account=%s".printf(
