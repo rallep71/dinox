@@ -3,19 +3,34 @@
  *
  * Copyright (C) 2026 Ralf Peter <dinox@handwerker.jetzt>
  *
- * Connects to any MQTT broker (standalone Mosquitto, HiveMQ, EMQX, …
- * or optionally the same ejabberd/Prosody XMPP server) and provides
- * publish/subscribe functionality for IoT dashboards, bot events,
- * and lightweight notifications.
+ * Two connection modes:
  *
- * Configuration (Phase 1 — environment variables, until Settings UI):
- *   DINOX_MQTT_HOST   — broker hostname/IP (required for auto-connect)
- *   DINOX_MQTT_PORT   — broker port (default: 1883, or 8883 with TLS)
- *   DINOX_MQTT_TLS    — "1" to enable TLS
- *   DINOX_MQTT_USER   — username (optional)
- *   DINOX_MQTT_PASS   — password (optional)
- *   DINOX_MQTT_TOPICS — comma-separated topic filters to subscribe
- *                       e.g. "home/sensors/#,dinox/bots/#"
+ *   1. Per-Account MQTT  — each XMPP account can connect to its domain's
+ *      MQTT broker (ejabberd mod_mqtt / Prosody mod_pubsub_mqtt).
+ *      Enabled per account, uses XMPP credentials or explicit config.
+ *
+ *   2. Standalone MQTT   — a single connection to any MQTT broker,
+ *      independent of XMPP accounts (Mosquitto, HiveMQ, HA, …).
+ *
+ * Phase 1 Configuration (environment variables, until Settings UI):
+ *
+ *   Per-Account mode (connects when XMPP account goes online):
+ *     DINOX_MQTT_ACCOUNT   — "1" to enable per-account MQTT
+ *                            (uses account domain as broker host)
+ *     DINOX_MQTT_PORT      — broker port (default: 1883)
+ *     DINOX_MQTT_TLS       — "1" to enable TLS
+ *     DINOX_MQTT_TOPICS    — comma-separated topic filters
+ *
+ *   Standalone mode (connects once, first XMPP account triggers it):
+ *     DINOX_MQTT_HOST      — broker hostname/IP (enables standalone)
+ *     DINOX_MQTT_PORT      — broker port (default: 1883)
+ *     DINOX_MQTT_TLS       — "1" to enable TLS
+ *     DINOX_MQTT_USER      — username (optional)
+ *     DINOX_MQTT_PASS      — password (optional)
+ *     DINOX_MQTT_TOPICS    — comma-separated topic filters
+ *
+ *   If both DINOX_MQTT_HOST and DINOX_MQTT_ACCOUNT are set,
+ *   standalone mode takes precedence (one broker, not per-account).
  *
  * Requires: libmosquitto-dev
  */
@@ -29,8 +44,21 @@ namespace Dino.Plugins.Mqtt {
 public class Plugin : RootInterface, Object {
 
     public Dino.Application app;
-    private MqttClient? client = null;
-    private bool mqtt_auto_connect = false;
+
+    /* Per-account MQTT connections */
+    private HashMap<string, MqttClient> account_clients =
+        new HashMap<string, MqttClient>();  /* key = bare_jid string */
+
+    /* Standalone MQTT connection (independent of accounts) */
+    private MqttClient? standalone_client = null;
+
+    /* Track connect-in-progress to prevent duplicate async calls */
+    private HashSet<string> connecting_accounts = new HashSet<string>();
+    private bool standalone_connecting = false;
+
+    /* Mode flags */
+    private bool mode_standalone = false;   /* DINOX_MQTT_HOST set */
+    private bool mode_per_account = false;  /* DINOX_MQTT_ACCOUNT=1 */
 
     /* Env-based config (Phase 1) */
     private string? cfg_host = null;
@@ -57,26 +85,46 @@ public class Plugin : RootInterface, Object {
             cfg_topics = topics_s.split(",");
         }
 
-        mqtt_auto_connect = (cfg_host != null && cfg_host != "");
+        /* Determine mode */
+        mode_standalone = (cfg_host != null && cfg_host != "");
+        mode_per_account = Environment.get_variable("DINOX_MQTT_ACCOUNT") == "1";
 
-        if (mqtt_auto_connect) {
-            message("MQTT plugin: auto-connect configured for %s:%d (tls=%s)",
-                    cfg_host, cfg_port, cfg_tls.to_string());
-        } else {
-            message("MQTT plugin: registered (no DINOX_MQTT_HOST set — " +
-                    "use mqtt_connect() or set env vars to connect)");
+        /* Standalone overrides per-account */
+        if (mode_standalone && mode_per_account) {
+            message("MQTT: Both DINOX_MQTT_HOST and DINOX_MQTT_ACCOUNT set " +
+                    "— using standalone mode");
+            mode_per_account = false;
         }
 
-        /* Listen for XMPP connection state changes to sync MQTT lifecycle */
+        if (mode_standalone) {
+            message("MQTT plugin: standalone mode — broker %s:%d (tls=%s)",
+                    cfg_host, cfg_port, cfg_tls.to_string());
+        } else if (mode_per_account) {
+            message("MQTT plugin: per-account mode — will use each " +
+                    "account's domain as MQTT broker");
+        } else {
+            message("MQTT plugin: registered (idle — set DINOX_MQTT_HOST " +
+                    "or DINOX_MQTT_ACCOUNT=1 to auto-connect)");
+        }
+
+        /* Listen for XMPP connection state changes */
         app.stream_interactor.connection_manager.connection_state_changed.connect(
             on_xmpp_connection_state_changed);
     }
 
     public void shutdown() {
-        if (client != null) {
-            client.disconnect_sync();
-            client = null;
+        /* Disconnect standalone */
+        if (standalone_client != null) {
+            standalone_client.disconnect_sync();
+            standalone_client = null;
         }
+
+        /* Disconnect all per-account clients */
+        foreach (var entry in account_clients.entries) {
+            entry.value.disconnect_sync();
+        }
+        account_clients.clear();
+
         message("MQTT plugin: shutdown");
     }
 
@@ -92,38 +140,96 @@ public class Plugin : RootInterface, Object {
 
     private void on_xmpp_connection_state_changed(Account account,
                                                   ConnectionManager.ConnectionState state) {
+        string jid = account.bare_jid.to_string();
+
         if (state == ConnectionManager.ConnectionState.CONNECTED) {
-            /* First XMPP account online → connect MQTT (if configured) */
-            if (mqtt_auto_connect && client == null) {
-                start_mqtt.begin();
+            if (mode_standalone) {
+                /* Standalone: connect once (first account triggers it) */
+                if (standalone_client == null && !standalone_connecting) {
+                    standalone_connecting = true;
+                    start_standalone.begin((obj, res) => {
+                        start_standalone.end(res);
+                        standalone_connecting = false;
+                    });
+                }
+            } else if (mode_per_account) {
+                /* Per-account: connect MQTT for this specific account */
+                if (!account_clients.has_key(jid) &&
+                    !connecting_accounts.contains(jid)) {
+                    connecting_accounts.add(jid);
+                    start_per_account.begin(account, (obj, res) => {
+                        start_per_account.end(res);
+                        connecting_accounts.remove(jid);
+                    });
+                }
             }
+        } else if (state == ConnectionManager.ConnectionState.DISCONNECTED) {
+            if (mode_per_account) {
+                /* Per-account: disconnect MQTT when XMPP goes offline */
+                if (account_clients.has_key(jid)) {
+                    message("MQTT: Account %s offline — disconnecting MQTT", jid);
+                    account_clients[jid].disconnect_sync();
+                    account_clients.unset(jid);
+                }
+            }
+            /* Standalone mode: keep MQTT connected regardless */
         }
-        /* Note: we do NOT disconnect MQTT when XMPP goes offline —
-         * MQTT is independent and should stay connected to the broker. */
     }
 
-    private async void start_mqtt() {
-        /* Derive host from XMPP account if not explicitly set */
-        string host = cfg_host;
-        if (host == null || host == "") {
-            var accounts = app.stream_interactor.get_accounts();
-            if (accounts.size > 0) {
-                host = accounts.first().domainpart;
-                message("MQTT: No host configured, using XMPP domain '%s'", host);
-            } else {
-                warning("MQTT: No host and no XMPP accounts — cannot connect");
-                return;
-            }
+    /* ── Standalone connect ────────────────────────────────────────── */
+
+    private async void start_standalone() {
+        message("MQTT: Connecting standalone to %s:%d…", cfg_host, cfg_port);
+
+        standalone_client = create_client("standalone");
+
+        bool ok = yield standalone_client.connect_async(
+            cfg_host, cfg_port, cfg_tls, cfg_user, cfg_pass);
+
+        if (!ok) {
+            warning("MQTT: Standalone connect failed (host=%s port=%d)",
+                    cfg_host, cfg_port);
+            standalone_client = null;
         }
+    }
 
-        client = new MqttClient();
+    /* ── Per-account connect ───────────────────────────────────────── */
 
-        /* Wire up signals */
+    private async void start_per_account(Account account) {
+        string jid = account.bare_jid.to_string();
+        string host = account.domainpart;
+
+        /* For ejabberd, XMPP credentials can be reused as MQTT login */
+        string? user = account.bare_jid.to_string();
+        string? pass = account.password;
+
+        message("MQTT: Connecting per-account for %s → %s:%d…",
+                jid, host, cfg_port);
+
+        var client = create_client(jid);
+
+        bool ok = yield client.connect_async(
+            host, cfg_port, cfg_tls, user, pass);
+
+        if (ok) {
+            account_clients[jid] = client;
+        } else {
+            warning("MQTT: Per-account connect failed for %s (host=%s port=%d)",
+                    jid, host, cfg_port);
+            client.disconnect_sync();
+        }
+    }
+
+    /* ── Client factory ────────────────────────────────────────────── */
+
+    private MqttClient create_client(string label) {
+        var client = new MqttClient();
+
         client.on_connection_changed.connect((connected) => {
-            connection_changed(connected);
+            connection_changed(label, connected);
             if (connected) {
-                message("MQTT: Connection established — subscribing to %d topics",
-                        cfg_topics.length);
+                message("MQTT [%s]: Connected — subscribing to %d topics",
+                        label, cfg_topics.length);
                 foreach (string topic in cfg_topics) {
                     string t = topic.strip();
                     if (t != "") {
@@ -135,34 +241,29 @@ public class Plugin : RootInterface, Object {
 
         client.on_message.connect((topic, payload) => {
             string payload_str = (string) payload;
-            message_received(topic, payload_str);
+            message_received(label, topic, payload_str);
         });
 
-        bool ok = yield client.connect_async(host, cfg_port, cfg_tls,
-                                              cfg_user, cfg_pass);
-        if (!ok) {
-            warning("MQTT: Auto-connect failed (host=%s port=%d)", host, cfg_port);
-            client = null;
-        }
+        return client;
     }
 
     /* ── Public API ────────────────────────────────────────────────── */
 
     /**
-     * Connect to an MQTT broker programmatically.
+     * Connect to an MQTT broker programmatically (standalone mode).
      * If host is null, the domain of the first XMPP account is used.
      */
     public async bool mqtt_connect(string? host = null, int port = 1883,
                                    bool use_tls = false,
                                    string? username = null,
                                    string? password = null) {
-        if (client != null && client.is_connected) {
-            warning("MQTT: Already connected");
+        if (standalone_client != null && standalone_client.is_connected) {
+            warning("MQTT: Standalone already connected");
             return true;
         }
 
-        string broker_host = host;
-        if (broker_host == null || broker_host == "") {
+        string broker_host = host ?? "";
+        if (broker_host == "") {
             var accounts = app.stream_interactor.get_accounts();
             if (accounts.size > 0) {
                 broker_host = accounts.first().domainpart;
@@ -172,61 +273,103 @@ public class Plugin : RootInterface, Object {
             }
         }
 
-        if (client == null) {
-            client = new MqttClient();
-            client.on_connection_changed.connect((connected) => {
-                connection_changed(connected);
-            });
-            client.on_message.connect((topic, payload) => {
-                string payload_str = (string) payload;
-                message_received(topic, payload_str);
-            });
+        if (standalone_client == null) {
+            standalone_client = create_client("standalone");
         }
 
-        return yield client.connect_async(broker_host, port, use_tls,
-                                           username, password);
+        return yield standalone_client.connect_async(
+            broker_host, port, use_tls, username, password);
     }
 
     /**
-     * Subscribe to an MQTT topic.
+     * Subscribe to an MQTT topic on all active connections.
      */
     public void subscribe(string topic, int qos = 0) {
-        if (client == null || !client.is_connected) {
-            warning("MQTT: Cannot subscribe, not connected");
-            return;
+        bool any = false;
+
+        if (standalone_client != null && standalone_client.is_connected) {
+            standalone_client.subscribe(topic, qos);
+            any = true;
         }
-        client.subscribe(topic, qos);
+
+        foreach (var entry in account_clients.entries) {
+            if (entry.value.is_connected) {
+                entry.value.subscribe(topic, qos);
+                any = true;
+            }
+        }
+
+        if (!any) {
+            warning("MQTT: Cannot subscribe — no active connections");
+        }
     }
 
     /**
      * Publish a UTF-8 string to an MQTT topic.
+     * If account_jid is null, publishes on the standalone connection.
+     * If account_jid is given, publishes on that account's connection.
      */
     public void publish(string topic, string payload, int qos = 0,
-                        bool retain = false) {
-        if (client == null || !client.is_connected) {
-            warning("MQTT: Cannot publish, not connected");
+                        bool retain = false, string? account_jid = null) {
+        MqttClient? target = null;
+
+        if (account_jid != null && account_clients.has_key(account_jid)) {
+            target = account_clients[account_jid];
+        } else if (standalone_client != null) {
+            target = standalone_client;
+        }
+
+        if (target == null || !target.is_connected) {
+            warning("MQTT: Cannot publish — no active connection%s",
+                    account_jid != null ? " for " + account_jid : "");
             return;
         }
-        client.publish_string(topic, payload, qos, retain);
+
+        target.publish_string(topic, payload, qos, retain);
     }
 
     /**
-     * Disconnect from the MQTT broker.
+     * Disconnect all MQTT connections.
      */
     public async void mqtt_disconnect() {
-        if (client != null) {
-            yield client.disconnect_async();
-            client = null;
+        if (standalone_client != null) {
+            yield standalone_client.disconnect_async();
+            standalone_client = null;
         }
+        foreach (var entry in account_clients.entries) {
+            entry.value.disconnect_sync();
+        }
+        account_clients.clear();
+    }
+
+    /**
+     * Get the MqttClient for a specific account (or null).
+     */
+    public MqttClient? get_client_for_account(string bare_jid) {
+        return account_clients.has_key(bare_jid) ? account_clients[bare_jid] : null;
+    }
+
+    /**
+     * Get the standalone MqttClient (or null).
+     */
+    public MqttClient? get_standalone_client() {
+        return standalone_client;
     }
 
     /* ── Signals ───────────────────────────────────────────────────── */
 
-    /** Emitted when a message is received on a subscribed topic. */
-    public signal void message_received(string topic, string payload);
+    /**
+     * Emitted when a message is received on a subscribed topic.
+     * source = account JID (per-account) or "standalone".
+     */
+    public signal void message_received(string source, string topic,
+                                         string payload);
 
-    /** Emitted when the MQTT connection state changes. */
-    public signal void connection_changed(bool connected);
+    /**
+     * Emitted when an MQTT connection state changes.
+     * source = account JID (per-account) or "standalone".
+     */
+    public signal void connection_changed(string source, bool connected);
 }
 
 }

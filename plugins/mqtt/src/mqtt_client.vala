@@ -51,8 +51,12 @@ public class MqttClient : Object {
     private Gee.HashMap<string, int> subscribed_topics =
         new Gee.HashMap<string, int>();
 
-    /* Static dispatch — only one MqttClient per process (Plugin creates one) */
-    private static unowned MqttClient? _active = null;
+    /* Instance registry for C callback dispatch.
+     * mosquitto_new() stores a userdata pointer that is passed to every
+     * callback.  We pass the instance_id, then look up the MqttClient. */
+    private static uint _next_instance_id = 1;
+    private static Gee.HashMap<uint, unowned MqttClient>? _instances = null;
+    private uint _instance_id = 0;
 
     private static bool _lib_initialized = false;
 
@@ -63,12 +67,18 @@ public class MqttClient : Object {
             Mosquitto.lib_init();
             _lib_initialized = true;
         }
-        _active = this;
+        if (_instances == null) {
+            _instances = new Gee.HashMap<uint, unowned MqttClient>();
+        }
+        _instance_id = _next_instance_id++;
+        _instances[_instance_id] = this;
     }
 
     ~MqttClient() {
         disconnect_sync();
-        if (_active == this) _active = null;
+        if (_instances != null) {
+            _instances.unset(_instance_id);
+        }
     }
 
     /* ── Connect ─────────────────────────────────────────────────── */
@@ -98,9 +108,12 @@ public class MqttClient : Object {
         broker_username = username;
         broker_password = password;
 
-        /* Create mosquitto client */
-        string client_id = "dinox-%lld".printf(GLib.get_real_time() / 1000);
-        mosq = new Mosquitto.Client(client_id, true, null);
+        /* Create mosquitto client — pass instance_id as userdata for
+         * C callback dispatch (supports multiple MqttClient instances) */
+        string client_id = "dinox-%u-%lld".printf(_instance_id,
+                                                   GLib.get_real_time() / 1000);
+        mosq = new Mosquitto.Client(client_id, true,
+                                     (void*)(ulong)_instance_id);
 
         if (mosq == null) {
             warning("MQTT: mosquitto_new() failed");
@@ -294,21 +307,32 @@ public class MqttClient : Object {
         }
     }
 
-    /* ── Mosquitto C callbacks (static → dispatch to _active) ──── */
+    /* ── Mosquitto C callbacks (static → dispatch via instance registry) ── */
+
+    private static unowned MqttClient? lookup(void* userdata) {
+        uint id = (uint)(ulong)userdata;
+        if (_instances != null && _instances.has_key(id)) {
+            return _instances[id];
+        }
+        return null;
+    }
 
     private static void on_connect_cb(Mosquitto.Client mosq,
                                       void* userdata, int rc) {
-        if (_active != null) _active.handle_connect(rc);
+        unowned MqttClient? self = lookup(userdata);
+        if (self != null) self.handle_connect(rc);
     }
 
     private static void on_disconnect_cb(Mosquitto.Client mosq,
                                          void* userdata, int rc) {
-        if (_active != null) _active.handle_disconnect_event(rc);
+        unowned MqttClient? self = lookup(userdata);
+        if (self != null) self.handle_disconnect_event(rc);
     }
 
     private static void on_message_cb(Mosquitto.Client mosq,
                                       void* userdata, Mosquitto.Message* msg) {
-        if (_active != null) _active.handle_message(msg);
+        unowned MqttClient? self = lookup(userdata);
+        if (self != null) self.handle_message(msg);
     }
 
     /* ── Instance event handlers ─────────────────────────────────── */
