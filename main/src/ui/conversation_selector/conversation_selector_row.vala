@@ -514,7 +514,6 @@ public class ConversationSelectorRow : ListBoxRow {
             menu.append(is_muted ? _("Unmute") : _("Mute"), "row.mute");
             
             menu.append(_("Delete Conversation History"), "row.clear");
-            menu.append(_("Close"), "row.hide");
             menu.append(_("Leave and Close"), "row.close");
             
             // Show "Destroy Room" only for owners
@@ -555,14 +554,7 @@ public class ConversationSelectorRow : ListBoxRow {
             });
             action_group.add_action(clear_action);
             
-            // Hide conversation action (remove from sidebar without leaving MUC)
-            var hide_action = new SimpleAction("hide", null);
-            hide_action.activate.connect(() => {
-                GLib.Application.get_default().activate_action("hide-conversation", new GLib.Variant.int32(conversation.id));
-            });
-            action_group.add_action(hide_action);
-
-            // Close conversation action (leave and close)
+            // Close conversation action (leave MUC and close)
             var close_action = new SimpleAction("close", null);
             close_action.activate.connect(() => {
                 GLib.Application.get_default().activate_action("close-conversation", new GLib.Variant.int32(conversation.id));

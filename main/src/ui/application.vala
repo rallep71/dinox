@@ -986,7 +986,13 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             int conv_id = variant.get_int32 ();
             Conversation? conversation = stream_interactor.get_module<ConversationManager> (ConversationManager.IDENTITY).get_conversation_by_id (conv_id);
             if (conversation != null) {
-                stream_interactor.get_module<ConversationManager> (ConversationManager.IDENTITY).close_conversation (conversation);
+                if (conversation.type_ == Conversation.Type.GROUPCHAT) {
+                    // For MUCs: leave room, unset autojoin, and close conversation
+                    // directly (no Idle.add) to avoid race with incoming messages.
+                    stream_interactor.get_module<MucManager> (MucManager.IDENTITY).part (conversation.account, conversation.counterpart);
+                } else {
+                    stream_interactor.get_module<ConversationManager> (ConversationManager.IDENTITY).close_conversation (conversation);
+                }
             }
         });
         add_action (close_conversation_action);
