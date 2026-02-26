@@ -34,7 +34,8 @@ DinoX unabhängig vom eingesetzten Server-Typ MQTT nutzen kann:
 | MQTT-Version | 5.0 + 3.1.1 | 3.1.1 |
 | Auth | XMPP-Credentials | Keine (!) |
 | QoS | 0, 1, 2 | Nur 0 |
-| Architektur | Nativer Broker | Bridge → XMPP PubSub |
+| Architektur | Nativer Broker (eigener Topic-Space) | Bridge → XMPP PubSub (XEP-0060) |
+| XMPP-PubSub-Bridge | **Nein** — MQTT-Topics und XEP-0060 getrennt | **Ja** — MQTT = PubSub-Node |
 | Topic-Format | Frei wählbar | `<HOST>/<TYPE>/<NODE>` |
 | Payloads | Beliebig | json, utf8, atom_title |
 | Status | Production | Beta (Community-Modul) |
@@ -42,9 +43,11 @@ DinoX unabhängig vom eingesetzten Server-Typ MQTT nutzen kann:
 | Standard-Port | 1883 | 1883 |
 
 DinoX kann **beide Server-Typen** nutzen, da libmosquitto MQTT 3.1.1+ spricht.
-Die Prosody-Bridge ist besonders spannend: MQTT-Publishes werden automatisch
-als XMPP-PubSub-Nodes verfügbar, sodass auch reine XMPP-Clients ohne MQTT
-die Daten empfangen können.
+
+**Prosody-Alleinstellungsmerkmal:** Bei Prosody sind MQTT-Publishes automatisch
+als Standard-XMPP-PubSub-Nodes (XEP-0060) lesbar — auch Clients **ohne**
+MQTT-Unterstützung können die Daten empfangen. Bei ejabberd sind MQTT-Topics
+und XMPP-PubSub getrennte Welten (sie teilen nur Auth/ACL/DB-Infrastruktur).
 
 ---
 
