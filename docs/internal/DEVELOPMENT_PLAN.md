@@ -468,6 +468,15 @@ This document is organized as a **chronological release timeline** first, follow
 | **XEP-0388** | SASL2 / FAST | Implement SASL2 negotiation and FAST token handling; ensure interaction with XEP-0198 stream management and session resumption remains correct. | TODO |
 | **XEP-0386** | Bind 2 | Implement Bind2 negotiation and integrate with session establishment; verify multi-device and reconnection behavior. | TODO |
 
+### Q3 2026: MQTT IoT / Smart Home Integration
+
+| Item | Description | Status |
+|------|-------------|--------|
+| **MQTT Plugin (libmosquitto)** | Optional plugin for MQTT 3.1.1/5.0 connectivity. Supports ejabberd (`mod_mqtt`) and Prosody (`mod_pubsub_mqtt`). Plugin skeleton, Vala VAPI, Windows (MSYS2) and Flatpak build integration complete. See [MQTT Feature Concept](https://github.com/rallep71/dinox/blob/master/docs/internal/MQTT_FEATURE_CONCEPT.md) for full architecture, use cases, HA/Node-RED integration and implementation plan. | IN PROGRESS |
+| **MQTT Dashboard** | GTK4 panel with sensor tiles, topic subscriptions, JSON payload parsing. | TODO |
+| **MQTT Settings UI** | Broker host/port, TLS, server type detection (ejabberd vs Prosody), XMPP credential reuse. | TODO |
+| **Home Assistant / Node-RED** | Subscribe to HA discovery topics, control actuators, Node-RED flow integration. 3 network scenarios documented (LAN, mixed, cloud). | TODO |
+
 ### Q3 2026: Advanced media
 
 | Item | Description | Status |
