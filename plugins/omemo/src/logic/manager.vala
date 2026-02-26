@@ -165,8 +165,48 @@ public class Manager : StreamInteractionModule, Object {
     }
 
     private void on_conversation_cleared(Conversation conversation) {
-        // When conversation history is cleared, also clear OMEMO data for this contact
-        clear_contact_data(conversation.account, conversation.counterpart);
+        /* When conversation history is cleared, only clear Signal sessions
+         * (ratchet state).  Preserve identity_meta (known devices + keys)
+         * and trust (user trust decisions).
+         *
+         * Rationale: Deleting the message history is NOT the same as
+         * resetting the cryptographic relationship.  Wiping identity_meta
+         * causes is_known_address() to return false, which triggers a
+         * complex device-list-re-fetch → bundle-fetch → session-setup
+         * retry dance that often fails (empty PEP result, timing issues,
+         * contact offline) and leaves messages stuck in WONTSEND with
+         * "contact doesn't support OMEMO".
+         *
+         * By keeping identity_meta, the next send attempt sees existing
+         * devices, detects NO_SESSION, fetches bundles, builds sessions
+         * and sends — the normal, well-tested code path. */
+        int identity_id = db.identity.get_id(conversation.account.id);
+        if (identity_id < 0) return;
+
+        string address_name = conversation.counterpart.bare_jid.to_string();
+
+        // Only clear Signal sessions — new ones will be established on next send
+        db.session.delete()
+                .with(db.session.identity_id, "=", identity_id)
+                .with(db.session.address_name, "=", address_name)
+                .perform();
+
+        debug("OMEMO: Cleared sessions for %s (chat history deleted, device knowledge preserved)", address_name);
+
+        // Proactively re-fetch bundles to rebuild sessions before user tries to send
+        XmppStream? stream = stream_interactor.get_stream(conversation.account);
+        if (stream != null) {
+            StreamModule? module = ((!)stream).get_module<StreamModule>(StreamModule.IDENTITY);
+            if (module != null) {
+                module.fetch_bundles((!)stream, conversation.counterpart.bare_jid,
+                    trust_manager.get_trusted_devices(conversation.account, conversation.counterpart.bare_jid));
+            }
+            StreamModule2? module2 = ((!)stream).get_module<StreamModule2>(StreamModule2.IDENTITY);
+            if (module2 != null) {
+                module2.fetch_bundles((!)stream, conversation.counterpart.bare_jid,
+                    trust_manager.get_trusted_devices(conversation.account, conversation.counterpart.bare_jid));
+            }
+        }
     }
 
     private void on_conference_removed(Account account, Jid room_jid) {
@@ -195,7 +235,12 @@ public class Manager : StreamInteractionModule, Object {
         debug("OMEMO: Cleaned data for removed MUC %s", room_address);
     }
 
-    private void clear_contact_data(Account account, Xmpp.Jid jid) {
+    /**
+     * Fully wipe all OMEMO data for a contact (identity_meta, sessions, trust).
+     * Used for account removal and MUC cleanup.  NOT used for chat-clear
+     * (see on_conversation_cleared which preserves device knowledge).
+     */
+    internal void clear_contact_data(Account account, Xmpp.Jid jid) {
         int identity_id = db.identity.get_id(account.id);
         if (identity_id < 0) return;
 
