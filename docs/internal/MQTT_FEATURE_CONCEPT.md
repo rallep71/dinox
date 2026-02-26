@@ -266,22 +266,22 @@ Incoming MQTT messages appear as chat bubbles from the bot:
 │  MQTT Bot                                   ≡    │
 │                                                  │
 │  ┌─────────────────────────────────────────────┐ │
-│  │ [topic] home/sensors/temperature              │ │
+│  │ [topic] home/sensors/temperature            │ │
 │  │ Temperature: 22.1°C                    14:32│ │
 │  └─────────────────────────────────────────────┘ │
 │                                                  │
 │  ┌─────────────────────────────────────────────┐ │
-│  │ [topic] home/sensors/door/front               │ │
+│  │ [topic] home/sensors/door/front             │ │
 │  │ Door: OPEN [!]                         14:33│ │
 │  └─────────────────────────────────────────────┘ │
 │                                                  │
 │  ┌─────────────────────────────────────────────┐ │
-│  │ [topic] benzin/preise/aral_karlsruhe          │ │
-│  │ Benzin: 1,299 EUR/L                   14:35│ │
+│  │ [topic] benzin/preise/aral_karlsruhe        │ │
+│  │ Benzin: 1,299 EUR/L                   14:35 │ │
 │  └─────────────────────────────────────────────┘ │
 │                                                  │
 │  ┌───────────────────────────────────┐  [Send]   │
-│  │ /mqtt subscribe home/alerts/#    │           │
+│  │ /mqtt subscribe home/alerts/#     │           │
 │  └───────────────────────────────────┘           │
 └──────────────────────────────────────────────────┘
 ```
@@ -410,8 +410,8 @@ The MQTT Bot uses the **same notification system** as regular chat contacts:
 - [x] GLib main loop integration (IOChannel + Timeout on mosquitto socket)
 - [x] Auto-connect when XMPP is connected (env-var config for Phase 1)
 - [x] Reconnection logic (auto-reconnect after 5 s, re-subscribe topics)
-- [ ] Server type detection (ejabberd vs Prosody via XEP-0030 disco)
-- [ ] Settings UI: enable/disable, broker, port, TLS, server type
+- [x] Server type detection (ejabberd vs Prosody via XEP-0030 disco)
+- [x] Settings UI: enable/disable, broker, port, TLS, server type
 
 ### Phase 2: Bot-Conversation (v1.2.1)
 - [ ] Virtual bot contact: create MQTT Bot entity in conversation list

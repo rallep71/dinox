@@ -1,0 +1,378 @@
+/*
+ * MqttSettingsPage — Adw.PreferencesPage for MQTT plugin configuration.
+ *
+ * Provides:
+ *   - Enable/disable toggle
+ *   - Mode selection (standalone / per-account / auto)
+ *   - Broker host, port, TLS
+ *   - Username / password
+ *   - Server type display (auto-detected or manual)
+ *   - Topic list management
+ *
+ * Registered via configure_preferences signal in Plugin.registered().
+ *
+ * Copyright (C) 2026 Ralf Peter <dinox@handwerker.jetzt>
+ */
+
+using Gtk;
+using Adw;
+using GLib;
+using Gee;
+using Dino.Entities;
+
+namespace Dino.Plugins.Mqtt {
+
+public class MqttSettingsPage : Adw.PreferencesPage {
+
+    /* References */
+    private Plugin plugin;
+    private Dino.Database db;
+
+    /* Widgets */
+    private Switch enable_switch;
+    private Adw.ComboRow mode_row;
+    private Adw.EntryRow host_row;
+    private Adw.SpinRow port_row;
+    private Switch tls_switch;
+    private Adw.EntryRow user_row;
+    private Adw.PasswordEntryRow pass_row;
+    private Adw.ActionRow server_type_row;
+    private Adw.ActionRow detect_row;
+    private Button detect_button;
+    private Adw.EntryRow topics_row;
+    private Label status_label;
+
+    /* Prevent saving during programmatic updates */
+    private bool loading = true;
+
+    /* ── DB keys ──────────────────────────────────────────────────── */
+
+    private const string KEY_ENABLED     = "mqtt_enabled";
+    private const string KEY_MODE        = "mqtt_mode";        /* "standalone" | "per_account" */
+    private const string KEY_HOST        = "mqtt_host";
+    private const string KEY_PORT        = "mqtt_port";
+    private const string KEY_TLS         = "mqtt_tls";
+    private const string KEY_USER        = "mqtt_user";
+    private const string KEY_PASS        = "mqtt_pass";
+    private const string KEY_TOPICS      = "mqtt_topics";      /* comma-separated */
+    private const string KEY_SERVER_TYPE = "mqtt_server_type";  /* auto-detected */
+
+    /* Mode list for ComboRow */
+    private const string[] MODE_LABELS = {
+        "Standalone (any broker)", "Per Account (XMPP server)"
+    };
+    private const string[] MODE_VALUES = {
+        "standalone", "per_account"
+    };
+
+    /* ── Constructor ──────────────────────────────────────────────── */
+
+    public MqttSettingsPage(Plugin plugin) {
+        this.plugin = plugin;
+        this.db = plugin.app.db;
+        this.title = "MQTT";
+        this.icon_name = "network-transmit-symbolic";
+        this.name = "mqtt";
+
+        build_ui();
+        load_settings();
+        loading = false;
+    }
+
+    /* ── UI construction ──────────────────────────────────────────── */
+
+    private void build_ui() {
+        /* ── Group 1: Connection ──────────────────────────────────── */
+        var conn_group = new Adw.PreferencesGroup();
+        conn_group.title = "MQTT Connection";
+        conn_group.description = "Connect to an MQTT broker for IoT data, sensor values and bot events.";
+        this.add(conn_group);
+
+        /* Enable switch */
+        var enable_row = new Adw.ActionRow();
+        enable_row.title = "Enable MQTT";
+        enable_row.subtitle = "Activate MQTT client connection";
+
+        enable_switch = new Switch();
+        enable_switch.valign = Align.CENTER;
+        enable_switch.state_set.connect((state) => {
+            enable_switch.state = state;
+            if (!loading) save_setting(KEY_ENABLED, state ? "1" : "0");
+            update_sensitivity();
+            return true;
+        });
+        enable_row.add_suffix(enable_switch);
+        conn_group.add(enable_row);
+
+        /* Mode */
+        mode_row = new Adw.ComboRow();
+        mode_row.title = "Connection Mode";
+        mode_row.subtitle = "Standalone = any broker. Per Account = XMPP server's MQTT.";
+        var mode_model = new Gtk.StringList(MODE_LABELS);
+        mode_row.model = mode_model;
+        mode_row.notify["selected"].connect(() => {
+            if (!loading) {
+                uint idx = mode_row.selected;
+                if (idx < MODE_VALUES.length) {
+                    save_setting(KEY_MODE, MODE_VALUES[idx]);
+                }
+                update_sensitivity();
+            }
+        });
+        conn_group.add(mode_row);
+
+        /* ── Group 2: Broker ──────────────────────────────────────── */
+        var broker_group = new Adw.PreferencesGroup();
+        broker_group.title = "Broker";
+        this.add(broker_group);
+
+        /* Host */
+        host_row = new Adw.EntryRow();
+        host_row.title = "Host";
+        host_row.changed.connect(() => {
+            if (!loading) save_setting(KEY_HOST, host_row.text);
+        });
+        broker_group.add(host_row);
+
+        /* Port */
+        var port_adj = new Adjustment(1883, 1, 65535, 1, 100, 0);
+        port_row = new Adw.SpinRow(port_adj, 1, 0);
+        port_row.title = "Port";
+        port_row.notify["value"].connect(() => {
+            if (!loading) save_setting(KEY_PORT, ((int) port_row.value).to_string());
+        });
+        broker_group.add(port_row);
+
+        /* TLS */
+        var tls_row = new Adw.ActionRow();
+        tls_row.title = "TLS Encryption";
+        tls_row.subtitle = "Enable for port 8883 or secure connections";
+
+        tls_switch = new Switch();
+        tls_switch.valign = Align.CENTER;
+        tls_switch.state_set.connect((state) => {
+            tls_switch.state = state;
+            if (!loading) save_setting(KEY_TLS, state ? "1" : "0");
+            return true;
+        });
+        tls_row.add_suffix(tls_switch);
+        broker_group.add(tls_row);
+
+        /* ── Group 3: Authentication ──────────────────────────────── */
+        var auth_group = new Adw.PreferencesGroup();
+        auth_group.title = "Authentication";
+        auth_group.description = "Leave empty if the broker requires no authentication (e.g. Prosody).";
+        this.add(auth_group);
+
+        user_row = new Adw.EntryRow();
+        user_row.title = "Username";
+        user_row.changed.connect(() => {
+            if (!loading) save_setting(KEY_USER, user_row.text);
+        });
+        auth_group.add(user_row);
+
+        pass_row = new Adw.PasswordEntryRow();
+        pass_row.title = "Password";
+        pass_row.changed.connect(() => {
+            if (!loading) save_setting(KEY_PASS, pass_row.text);
+        });
+        auth_group.add(pass_row);
+
+        /* ── Group 4: Server Detection ────────────────────────────── */
+        var detect_group = new Adw.PreferencesGroup();
+        detect_group.title = "Server Type";
+        detect_group.description = "DinoX can detect ejabberd or Prosody MQTT support automatically.";
+        this.add(detect_group);
+
+        server_type_row = new Adw.ActionRow();
+        server_type_row.title = "Detected Server";
+        server_type_row.subtitle = "Not detected yet";
+        detect_group.add(server_type_row);
+
+        detect_row = new Adw.ActionRow();
+        detect_row.title = "Detect Server Type";
+        detect_row.subtitle = "Queries your XMPP server via Service Discovery (XEP-0030)";
+
+        detect_button = new Button.with_label("Detect");
+        detect_button.valign = Align.CENTER;
+        detect_button.clicked.connect(on_detect_clicked);
+        detect_row.add_suffix(detect_button);
+        detect_group.add(detect_row);
+
+        /* ── Group 5: Topics ──────────────────────────────────────── */
+        var topics_group = new Adw.PreferencesGroup();
+        topics_group.title = "Topic Subscriptions";
+        topics_group.description = "Comma-separated MQTT topics (wildcards # and + supported).";
+        this.add(topics_group);
+
+        topics_row = new Adw.EntryRow();
+        topics_row.title = "Topics";
+        topics_row.changed.connect(() => {
+            if (!loading) save_setting(KEY_TOPICS, topics_row.text);
+        });
+        topics_group.add(topics_row);
+
+        /* ── Group 6: Status ──────────────────────────────────────── */
+        var status_group = new Adw.PreferencesGroup();
+        status_group.title = "Status";
+        this.add(status_group);
+
+        var status_row = new Adw.ActionRow();
+        status_row.title = "Connection Status";
+        status_label = new Label("Not connected");
+        status_label.add_css_class("dim-label");
+        status_label.valign = Align.CENTER;
+        status_row.add_suffix(status_label);
+        status_group.add(status_row);
+
+        /* Update status periodically */
+        update_status();
+    }
+
+    /* ── Settings persistence ─────────────────────────────────────── */
+
+    private void load_settings() {
+        loading = true;
+
+        enable_switch.active = get_setting(KEY_ENABLED) == "1";
+
+        string mode = get_setting(KEY_MODE) ?? "standalone";
+        for (int i = 0; i < MODE_VALUES.length; i++) {
+            if (MODE_VALUES[i] == mode) {
+                mode_row.selected = i;
+                break;
+            }
+        }
+
+        host_row.text = get_setting(KEY_HOST) ?? "";
+        string? port_s = get_setting(KEY_PORT);
+        port_row.value = port_s != null ? double.parse(port_s) : 1883;
+        tls_switch.active = get_setting(KEY_TLS) == "1";
+        user_row.text = get_setting(KEY_USER) ?? "";
+        pass_row.text = get_setting(KEY_PASS) ?? "";
+        topics_row.text = get_setting(KEY_TOPICS) ?? "";
+
+        string? stype = get_setting(KEY_SERVER_TYPE);
+        if (stype != null && stype != "") {
+            ServerType st = ServerType.from_string(stype);
+            server_type_row.subtitle = st.to_label();
+        }
+
+        update_sensitivity();
+        loading = false;
+    }
+
+    private string? get_setting(string key) {
+        var row_opt = db.settings.select({db.settings.value})
+            .with(db.settings.key, "=", key)
+            .single()
+            .row();
+        if (row_opt.is_present()) return row_opt[db.settings.value];
+        return null;
+    }
+
+    private void save_setting(string key, string val) {
+        db.settings.upsert()
+            .value(db.settings.key, key, true)
+            .value(db.settings.value, val)
+            .perform();
+    }
+
+    /* ── Sensitivity logic ────────────────────────────────────────── */
+
+    private void update_sensitivity() {
+        bool enabled = enable_switch.active;
+        bool standalone = mode_row.selected == 0;
+
+        mode_row.sensitive = enabled;
+        host_row.sensitive = enabled && standalone;
+        port_row.sensitive = enabled;
+        tls_switch.sensitive = enabled;
+        user_row.sensitive = enabled && standalone;
+        pass_row.sensitive = enabled && standalone;
+        detect_row.sensitive = enabled && !standalone;
+        topics_row.sensitive = enabled;
+    }
+
+    /* ── Server detection ─────────────────────────────────────────── */
+
+    private void on_detect_clicked() {
+        detect_button.sensitive = false;
+        detect_button.label = "Detecting...";
+        server_type_row.subtitle = "Detecting...";
+        run_detection.begin();
+    }
+
+    private async void run_detection() {
+        /* Use the first connected account */
+        var accounts = plugin.app.stream_interactor.get_accounts();
+        Account? target = null;
+        foreach (var acc in accounts) {
+            var state = plugin.app.stream_interactor.connection_manager
+                .get_state(acc);
+            if (state == ConnectionManager.ConnectionState.CONNECTED) {
+                target = acc;
+                break;
+            }
+        }
+
+        if (target == null) {
+            server_type_row.subtitle = "No connected account";
+            detect_button.sensitive = true;
+            detect_button.label = "Detect";
+            return;
+        }
+
+        DetectionResult result = yield ServerDetector.detect(
+            plugin.app.stream_interactor, target);
+
+        server_type_row.subtitle = result.server_type.to_label();
+        if (result.info != "") {
+            server_type_row.subtitle += " -- " + result.info;
+        }
+
+        save_setting(KEY_SERVER_TYPE, result.server_type.to_string_key());
+
+        detect_button.sensitive = true;
+        detect_button.label = "Detect";
+    }
+
+    /* ── Status display ───────────────────────────────────────────── */
+
+    private void update_status() {
+        var standalone = plugin.get_standalone_client();
+        if (standalone != null && standalone.is_connected) {
+            status_label.label = "Connected (standalone)";
+            status_label.remove_css_class("dim-label");
+            status_label.add_css_class("success");
+            return;
+        }
+
+        /* Check per-account clients */
+        var accounts = plugin.app.stream_interactor.get_accounts();
+        int connected = 0;
+        foreach (var acc in accounts) {
+            var client = plugin.get_client_for_account(acc.bare_jid.to_string());
+            if (client != null && client.is_connected) {
+                connected++;
+            }
+        }
+
+        if (connected > 0) {
+            status_label.label = "Connected (%d account%s)".printf(
+                connected, connected > 1 ? "s" : "");
+            status_label.remove_css_class("dim-label");
+            status_label.add_css_class("success");
+        } else if (enable_switch.active) {
+            status_label.label = "Waiting for connection...";
+            status_label.remove_css_class("success");
+            status_label.add_css_class("dim-label");
+        } else {
+            status_label.label = "Disabled";
+            status_label.remove_css_class("success");
+            status_label.add_css_class("dim-label");
+        }
+    }
+}
+
+}

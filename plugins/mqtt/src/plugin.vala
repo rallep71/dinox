@@ -10,27 +10,22 @@
  *      Enabled per account, uses XMPP credentials or explicit config.
  *
  *   2. Standalone MQTT   — a single connection to any MQTT broker,
- *      independent of XMPP accounts (Mosquitto, HiveMQ, HA, …).
+ *      independent of XMPP accounts (Mosquitto, HiveMQ, HA, ...).
  *
- * Phase 1 Configuration (environment variables, until Settings UI):
+ * Configuration:
  *
- *   Per-Account mode (connects when XMPP account goes online):
- *     DINOX_MQTT_ACCOUNT   — "1" to enable per-account MQTT
- *                            (uses account domain as broker host)
- *     DINOX_MQTT_PORT      — broker port (default: 1883)
- *     DINOX_MQTT_TLS       — "1" to enable TLS
- *     DINOX_MQTT_TOPICS    — comma-separated topic filters
+ *   Settings are stored in the DinoX database (settings table) and
+ *   configurable via Preferences > MQTT.
  *
- *   Standalone mode (connects once, first XMPP account triggers it):
- *     DINOX_MQTT_HOST      — broker hostname/IP (enables standalone)
- *     DINOX_MQTT_PORT      — broker port (default: 1883)
- *     DINOX_MQTT_TLS       — "1" to enable TLS
- *     DINOX_MQTT_USER      — username (optional)
- *     DINOX_MQTT_PASS      — password (optional)
- *     DINOX_MQTT_TOPICS    — comma-separated topic filters
+ *   Environment variable overrides (backward-compatible, for CI/Docker):
+ *     DINOX_MQTT_HOST, DINOX_MQTT_PORT, DINOX_MQTT_TLS,
+ *     DINOX_MQTT_USER, DINOX_MQTT_PASS, DINOX_MQTT_TOPICS,
+ *     DINOX_MQTT_ACCOUNT
  *
- *   If both DINOX_MQTT_HOST and DINOX_MQTT_ACCOUNT are set,
- *   standalone mode takes precedence (one broker, not per-account).
+ * Server Detection:
+ *
+ *   On XMPP connect, the plugin auto-detects ejabberd (mod_mqtt)
+ *   or Prosody (mod_pubsub_mqtt) via XEP-0030 Service Discovery.
  *
  * Requires: libmosquitto-dev
  */
@@ -57,10 +52,11 @@ public class Plugin : RootInterface, Object {
     private bool standalone_connecting = false;
 
     /* Mode flags */
-    private bool mode_standalone = false;   /* DINOX_MQTT_HOST set */
-    private bool mode_per_account = false;  /* DINOX_MQTT_ACCOUNT=1 */
+    private bool mode_standalone = false;
+    private bool mode_per_account = false;
+    private bool mqtt_enabled = false;
 
-    /* Env-based config (Phase 1) */
+    /* Config (from DB, with env-var override for backward compat) */
     private string? cfg_host = null;
     private int cfg_port = 1883;
     private bool cfg_tls = false;
@@ -68,44 +64,40 @@ public class Plugin : RootInterface, Object {
     private string? cfg_pass = null;
     private string[] cfg_topics = {};
 
+    /* ── DB keys (shared with MqttSettingsPage) ───────────────────── */
+
+    internal const string KEY_ENABLED     = "mqtt_enabled";
+    internal const string KEY_MODE        = "mqtt_mode";
+    internal const string KEY_HOST        = "mqtt_host";
+    internal const string KEY_PORT        = "mqtt_port";
+    internal const string KEY_TLS         = "mqtt_tls";
+    internal const string KEY_USER        = "mqtt_user";
+    internal const string KEY_PASS        = "mqtt_pass";
+    internal const string KEY_TOPICS      = "mqtt_topics";
+    internal const string KEY_SERVER_TYPE = "mqtt_server_type";
+
     /* ── RootInterface ─────────────────────────────────────────────── */
 
     public void registered(Dino.Application app) {
         this.app = app;
 
-        /* Read config from environment */
-        cfg_host = Environment.get_variable("DINOX_MQTT_HOST");
-        string? port_s = Environment.get_variable("DINOX_MQTT_PORT");
-        if (port_s != null) cfg_port = int.parse(port_s);
-        cfg_tls = Environment.get_variable("DINOX_MQTT_TLS") == "1";
-        cfg_user = Environment.get_variable("DINOX_MQTT_USER");
-        cfg_pass = Environment.get_variable("DINOX_MQTT_PASS");
-        string? topics_s = Environment.get_variable("DINOX_MQTT_TOPICS");
-        if (topics_s != null) {
-            cfg_topics = topics_s.split(",");
-        }
+        /* Load configuration: DB first, then env-var overrides */
+        load_config();
 
-        /* Determine mode */
-        mode_standalone = (cfg_host != null && cfg_host != "");
-        mode_per_account = Environment.get_variable("DINOX_MQTT_ACCOUNT") == "1";
-
-        /* Standalone overrides per-account */
-        if (mode_standalone && mode_per_account) {
-            message("MQTT: Both DINOX_MQTT_HOST and DINOX_MQTT_ACCOUNT set " +
-                    "— using standalone mode");
-            mode_per_account = false;
-        }
-
-        if (mode_standalone) {
-            message("MQTT plugin: standalone mode — broker %s:%d (tls=%s)",
-                    cfg_host, cfg_port, cfg_tls.to_string());
-        } else if (mode_per_account) {
-            message("MQTT plugin: per-account mode — will use each " +
-                    "account's domain as MQTT broker");
+        if (mqtt_enabled) {
+            if (mode_standalone) {
+                message("MQTT plugin: standalone mode — broker %s:%d (tls=%s)",
+                        cfg_host, cfg_port, cfg_tls.to_string());
+            } else if (mode_per_account) {
+                message("MQTT plugin: per-account mode — will use each " +
+                        "account's domain as MQTT broker");
+            }
         } else {
-            message("MQTT plugin: registered (idle — set DINOX_MQTT_HOST " +
-                    "or DINOX_MQTT_ACCOUNT=1 to auto-connect)");
+            message("MQTT plugin: registered (disabled — enable in Preferences > MQTT)");
         }
+
+        /* Register settings page */
+        app.configure_preferences.connect(on_preferences_configure);
 
         /* Listen for XMPP connection state changes */
         app.stream_interactor.connection_manager.connection_state_changed.connect(
@@ -136,6 +128,113 @@ public class Plugin : RootInterface, Object {
         /* No database in this plugin — no-op */
     }
 
+    /* ── Configuration ─────────────────────────────────────────────── */
+
+    /**
+     * Load config from DB settings, with environment variable overrides.
+     * Env vars always win (for backward compat and CI/Docker).
+     */
+    private void load_config() {
+        /* Read from DB first */
+        mqtt_enabled = get_db_setting(KEY_ENABLED) == "1";
+
+        string? db_mode = get_db_setting(KEY_MODE);
+        cfg_host = get_db_setting(KEY_HOST);
+        string? db_port = get_db_setting(KEY_PORT);
+        if (db_port != null) cfg_port = int.parse(db_port);
+        cfg_tls = get_db_setting(KEY_TLS) == "1";
+        cfg_user = get_db_setting(KEY_USER);
+        cfg_pass = get_db_setting(KEY_PASS);
+        string? db_topics = get_db_setting(KEY_TOPICS);
+        if (db_topics != null && db_topics != "") {
+            cfg_topics = db_topics.split(",");
+        }
+
+        /* Determine mode from DB */
+        if (db_mode == "per_account") {
+            mode_per_account = true;
+            mode_standalone = false;
+        } else {
+            mode_standalone = (cfg_host != null && cfg_host != "");
+            mode_per_account = false;
+        }
+
+        /* Environment variable overrides (backward-compatible) */
+        string? env_host = Environment.get_variable("DINOX_MQTT_HOST");
+        if (env_host != null && env_host != "") {
+            cfg_host = env_host;
+            mode_standalone = true;
+            mode_per_account = false;
+            mqtt_enabled = true;  /* env var implies enabled */
+            message("MQTT: env override — DINOX_MQTT_HOST=%s", env_host);
+        }
+
+        string? env_port = Environment.get_variable("DINOX_MQTT_PORT");
+        if (env_port != null) cfg_port = int.parse(env_port);
+
+        if (Environment.get_variable("DINOX_MQTT_TLS") == "1") cfg_tls = true;
+
+        string? env_user = Environment.get_variable("DINOX_MQTT_USER");
+        if (env_user != null) cfg_user = env_user;
+
+        string? env_pass = Environment.get_variable("DINOX_MQTT_PASS");
+        if (env_pass != null) cfg_pass = env_pass;
+
+        string? env_topics = Environment.get_variable("DINOX_MQTT_TOPICS");
+        if (env_topics != null) cfg_topics = env_topics.split(",");
+
+        if (Environment.get_variable("DINOX_MQTT_ACCOUNT") == "1") {
+            mode_per_account = true;
+            mode_standalone = false;
+            mqtt_enabled = true;
+        }
+
+        /* Standalone overrides per-account if both are set */
+        if (mode_standalone && mode_per_account) {
+            message("MQTT: Both standalone and per-account set — using standalone");
+            mode_per_account = false;
+        }
+    }
+
+    /**
+     * Reload config from DB (called after settings page changes).
+     */
+    public void reload_config() {
+        load_config();
+        message("MQTT: Config reloaded — enabled=%s mode=%s host=%s port=%d",
+                mqtt_enabled.to_string(),
+                mode_standalone ? "standalone" : (mode_per_account ? "per_account" : "none"),
+                cfg_host ?? "(none)", cfg_port);
+    }
+
+    private string? get_db_setting(string key) {
+        var row_opt = app.db.settings.select({app.db.settings.value})
+            .with(app.db.settings.key, "=", key)
+            .single()
+            .row();
+        if (row_opt.is_present()) return row_opt[app.db.settings.value];
+        return null;
+    }
+
+    /* ── Preferences UI ────────────────────────────────────────────── */
+
+    private void on_preferences_configure(Object object) {
+        Adw.PreferencesDialog? dialog = object as Adw.PreferencesDialog;
+        if (dialog != null) {
+            var page = new MqttSettingsPage(this);
+            dialog.add(page);
+
+            /* Match the main dialog breakpoint: hide title at narrow width */
+            var bp = new Adw.Breakpoint(
+                new Adw.BreakpointCondition.length(
+                    Adw.BreakpointConditionLengthType.MAX_WIDTH, 600,
+                    Adw.LengthUnit.PX));
+            bp.apply.connect(() => { page.title = ""; });
+            bp.unapply.connect(() => { page.title = "MQTT"; });
+            dialog.add_breakpoint(bp);
+        }
+    }
+
     /* ── XMPP ↔ MQTT lifecycle ─────────────────────────────────────── */
 
     private void on_xmpp_connection_state_changed(Account account,
@@ -143,6 +242,12 @@ public class Plugin : RootInterface, Object {
         string jid = account.bare_jid.to_string();
 
         if (state == ConnectionManager.ConnectionState.CONNECTED) {
+            /* Only connect MQTT if enabled */
+            if (!mqtt_enabled) return;
+
+            /* Run server detection in background (non-blocking) */
+            run_server_detection.begin(account);
+
             if (mode_standalone) {
                 /* Standalone: connect once (first account triggers it) */
                 if (standalone_client == null && !standalone_connecting) {
@@ -173,6 +278,30 @@ public class Plugin : RootInterface, Object {
                 }
             }
             /* Standalone mode: keep MQTT connected regardless */
+        }
+    }
+
+    /* ── Server detection (async, background) ─────────────────────── */
+
+    private async void run_server_detection(Account account) {
+        /* Only run detection if no type is set yet */
+        string? existing = get_db_setting(KEY_SERVER_TYPE);
+        if (existing != null && existing != "" && existing != "unknown") {
+            return;
+        }
+
+        message("MQTT: Running server type detection for %s…",
+                account.bare_jid.to_string());
+
+        DetectionResult result = yield ServerDetector.detect(
+            app.stream_interactor, account);
+
+        if (result.server_type != ServerType.UNKNOWN) {
+            app.db.settings.upsert()
+                .value(app.db.settings.key, KEY_SERVER_TYPE, true)
+                .value(app.db.settings.value, result.server_type.to_string_key())
+                .perform();
+            message("MQTT: Server type saved: %s", result.server_type.to_label());
         }
     }
 
