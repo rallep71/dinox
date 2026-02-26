@@ -388,6 +388,7 @@
                 "-DWITH_APPS=OFF",
                 "-DWITH_PLUGINS=OFF",
                 "-DWITH_TESTS=OFF",
+                "-DWITH_DOCS=OFF",
                 "-DWITH_TLS=ON",
                 "-DWITH_STATIC_LIBRARIES=OFF",
                 "-DCMAKE_INSTALL_LIBDIR=lib"
