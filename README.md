@@ -11,9 +11,14 @@
 
 **The Most Secure XMPP Messenger for Linux & Windows**
 
-Built for ultimate privacy with Omemo 1 + 2, integrated OpenPGP Key Manager, integrated Tor & Obfs4proxy, full local database encryption, WebRTC Audio/Video Calls and decentralized MUJI Group Video Calls Hardware Accelerated, voice messages, video messages, message retraction, advanced MUC moderation and more...in a modern GTK4/libadwaita interface with System Tray support. Local API Server, Botmother Bot Management and AI Integration (9 providers incl. OpenClaw). DTMF Support (RFC 4733) with Dialpad UI for XMPP SIP Provider telephony
+Built for ultimate privacy with OMEMO 1 + 2, integrated OpenPGP Key Manager, integrated Tor & Obfs4proxy and full local database encryption.
+WebRTC Audio/Video Calls, decentralized MUJI Group Video Calls (hardware accelerated), voice messages, video messages, message retraction and advanced MUC moderation — all in a modern GTK4/libadwaita interface with System Tray support.
 
-[Website](https://dinox.handwerker.jetzt) • [Download](#installation) • [Features](#key-features) • [XEP Support](#xep-support) • [Build](docs/internal/BUILD.md) • [Debug](docs/internal/DEBUG.md) • [Testing](docs/internal/TESTING.md) • [Changelog](docs/internal/CHANGELOG.md) • [API & Botmother AI Guide](docs/internal/API_BOTMOTHER_AI_GUIDE.md) • [Development Plan](docs/internal/DEVELOPMENT_PLAN.md) • [Contributing](docs/internal/CONTRIBUTING.md) • [Security Audit](SECURITY_AUDIT.md)
+Local API Server, Botmother Bot Management and AI Integration (9 providers incl. OpenClaw).
+MQTT Plugin for IoT sensor data, topic subscriptions, sparkline charts and XMPP bridging.
+DTMF Support (RFC 4733) with Dialpad UI for XMPP SIP Provider telephony.
+
+[Website](https://dinox.handwerker.jetzt) • [Download](#installation) • [Features](#key-features) • [XEP Support](#xep-support) • [Build](docs/internal/BUILD.md) • [Debug](docs/internal/DEBUG.md) • [Testing](docs/internal/TESTING.md) • [Changelog](docs/internal/CHANGELOG.md) • [API & Botmother AI Guide](docs/internal/API_BOTMOTHER_AI_GUIDE.md) • [MQTT Plugin](docs/internal/MQTT_PLUGIN.md) • [Development Plan](docs/internal/DEVELOPMENT_PLAN.md) • [Contributing](docs/internal/CONTRIBUTING.md) • [Security Audit](SECURITY_AUDIT.md)
 
 </div>
 
@@ -46,6 +51,7 @@ Built for ultimate privacy with Omemo 1 + 2, integrated OpenPGP Key Manager, int
 | **Emoji Reactions** | React to messages (XEP-0444) |
 | **Stickers** | Send & receive sticker packs (XEP-0449) |
 | **Message Replies** | Quote and reply to messages (XEP-0461) |
+| **MQTT Plugin** | IoT sensor data via MQTT 3.1.1 — topic subscriptions, alerts, sparkline charts, XMPP bridging, Prosody mod_pubsub_mqtt support |
 | **MUC Moderation** | Kick, ban (timed), manage roles (XEP-0425) |
 | **TLS Certificate Pinning** | Trust self-signed certs for self-hosted servers |
 | **TLS Certificate Info** | View TLS certificate details (issuer, validity, fingerprint) in account settings |

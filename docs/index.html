@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- Primary SEO Meta Tags -->
-    <title>DinoX - XMPP Client | First XMPP Messenger with Extensible REST API, AI Support & Botmother</title>
-    <meta name="title" content="DinoX - XMPP Client | First XMPP Messenger with Extensible REST API, AI Support & Botmother">
-    <meta name="description" content="DinoX is the first XMPP client with an extensible REST API supporting 9 AI providers (OpenClaw, Claude, OpenAI, Gemini, Groq, Mistral, DeepSeek, Perplexity, Ollama), DTMF support with Dialpad for SIP Provider telephony, Telegram bridge, Botmother bot management, local API server with 31 endpoints, integrated Tor & Obfs4proxy, OMEMO encryption, group video calls, and full database encryption in a modern GTK4/libadwaita interface.">
-    <meta name="keywords" content="XMPP client, XMPP REST API, extensible API, XMPP AI support, OpenClaw XMPP, Claude XMPP, XMPP bot, XMPP messenger, Jabber client, AI chat client, OpenClaw agent, Botmother, XMPP Telegram bridge, XMPP API server, OMEMO encryption, Tor, Obfs4proxy, privacy, secure chat, video calls, DTMF, SIP gateway, dialpad, RFC 4733, telephone, Linux chat app, Windows chat app, Windows XMPP client, Linux XMPP client, GTK4, open source messenger, DinoX, group video conference, database encryption, VAAPI, hardware acceleration, OpenAI XMPP, Gemini XMPP, Groq XMPP, Mistral XMPP, DeepSeek XMPP, Perplexity XMPP, Ollama XMPP, first XMPP client with REST API, XMPP bot management, secure AI chat">
+    <title>DinoX - XMPP Client | First XMPP Messenger with Extensible REST API, AI Support, MQTT &amp; Botmother</title>
+    <meta name="title" content="DinoX - XMPP Client | First XMPP Messenger with Extensible REST API, AI Support, MQTT &amp; Botmother">
+    <meta name="description" content="DinoX is the first XMPP client with an extensible REST API supporting 9 AI providers (OpenClaw, Claude, OpenAI, Gemini, Groq, Mistral, DeepSeek, Perplexity, Ollama), MQTT plugin for IoT sensor data and XMPP bridging, DTMF support with Dialpad for SIP Provider telephony, Telegram bridge, Botmother bot management, local API server with 31 endpoints, integrated Tor & Obfs4proxy, OMEMO encryption, group video calls, and full database encryption in a modern GTK4/libadwaita interface.">
+    <meta name="keywords" content="XMPP client, XMPP REST API, extensible API, XMPP AI support, XMPP MQTT, MQTT IoT XMPP, MQTT sensor data, XMPP IoT client, MQTT bridge XMPP, OpenClaw XMPP, Claude XMPP, XMPP bot, XMPP messenger, Jabber client, AI chat client, OpenClaw agent, Botmother, XMPP Telegram bridge, XMPP API server, OMEMO encryption, Tor, Obfs4proxy, privacy, secure chat, video calls, DTMF, SIP gateway, dialpad, RFC 4733, telephone, Linux chat app, Windows chat app, Windows XMPP client, Linux XMPP client, GTK4, open source messenger, DinoX, group video conference, database encryption, VAAPI, hardware acceleration, OpenAI XMPP, Gemini XMPP, Groq XMPP, Mistral XMPP, DeepSeek XMPP, Perplexity XMPP, Ollama XMPP, first XMPP client with REST API, XMPP bot management, secure AI chat, MQTT 3.1.1, Prosody mod_pubsub_mqtt, IoT sparkline, XMPP client with MQTT support">
     <meta name="author" content="Ralf Peter">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <meta name="googlebot" content="index, follow">
@@ -22,8 +22,8 @@
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://dinox.handwerker.jetzt/">
-    <meta property="og:title" content="DinoX - First XMPP Client with Extensible REST API | AI Support, Botmother & 9 Providers">
-    <meta property="og:description" content="The first XMPP messenger with an extensible REST API and AI support for 9 providers (OpenClaw, Claude, OpenAI, Gemini, Groq, Mistral, DeepSeek, Perplexity, Ollama), Telegram bridge, Botmother bot management, Tor privacy, OMEMO encryption and group video calls.">
+    <meta property="og:title" content="DinoX - First XMPP Client with Extensible REST API | AI Support, MQTT, Botmother &amp; 9 Providers">
+    <meta property="og:description" content="The first XMPP messenger with an extensible REST API and AI support for 9 providers (OpenClaw, Claude, OpenAI, Gemini, Groq, Mistral, DeepSeek, Perplexity, Ollama), MQTT plugin for IoT sensor data, Telegram bridge, Botmother bot management, Tor privacy, OMEMO encryption and group video calls.">
     <meta property="og:image" content="https://dinox.handwerker.jetzt/assets/og-image.png">
     <meta property="og:image:width" content="512">
     <meta property="og:image:height" content="512">
@@ -34,8 +34,8 @@
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://dinox.handwerker.jetzt/">
-    <meta name="twitter:title" content="DinoX - First XMPP Client with Extensible REST API & AI Support">
-    <meta name="twitter:description" content="The first XMPP messenger with an extensible REST API. AI support for 9 providers, Botmother bot management, Telegram bridge, Tor, OMEMO, group video calls.">
+    <meta name="twitter:title" content="DinoX - First XMPP Client with Extensible REST API, AI &amp; MQTT Support">
+    <meta name="twitter:description" content="The first XMPP messenger with an extensible REST API. AI support for 9 providers, MQTT plugin for IoT, Botmother bot management, Telegram bridge, Tor, OMEMO, group video calls.">
     <meta name="twitter:image" content="https://dinox.handwerker.jetzt/assets/og-image.png">
     <meta name="twitter:image:alt" content="DinoX XMPP Messenger">
     
@@ -267,13 +267,18 @@
                         <span>Version 1.1.1.2 available — First XMPP Client with Extensible REST API</span>
                     </div>
                     
-                    <h1 class="hero-title">The First XMPP Messenger with Extensible REST API, AI Support &amp; Advanced Security Features</h1>
+                    <h1 class="hero-title">The First XMPP Messenger with Extensible REST API, AI Support, MQTT &amp; Advanced Security Features</h1>
                 </div>
 
                 <div class="hero-content">
                     <p class="hero-subtitle">
-                        Built for ultimate privacy with OMEMO 1 + 2 encryption, integrated OpenPGP Key Manager, integrated Tor & Obfs4proxy and full local data encryption. 
-                        Featuring WebRTC Audio/Video Calls and decentralized Group Video Calls in a modern GTK4 interface. Voice and video messages for quick async communication. Local API Server, Botmother Bot Management and AI Integration with 9 providers including OpenClaw, Claude, OpenAI, Gemini, Groq, Mistral, DeepSeek, Perplexity and Ollama. DTMF Support (RFC 4733) with Dialpad UI for XMPP SIP Provider telephony.
+                        Built for ultimate privacy with OMEMO 1 + 2 encryption, integrated OpenPGP Key Manager, integrated Tor &amp; Obfs4proxy and full local data encryption.
+                        <br><br>
+                        Featuring WebRTC Audio/Video Calls and decentralized Group Video Calls in a modern GTK4 interface. Voice and video messages for quick async communication.
+                        <br><br>
+                        Local API Server, Botmother Bot Management and AI Integration with 9 providers including OpenClaw, Claude, OpenAI, Gemini, Groq, Mistral, DeepSeek, Perplexity and Ollama.
+                        MQTT Plugin for IoT sensor data, topic subscriptions, sparkline charts and XMPP bridging.
+                        DTMF Support (RFC 4733) with Dialpad UI for XMPP SIP Provider telephony.
                     </p>
                 </div>
 
@@ -460,6 +465,17 @@
                         </div>
                         <h3>MUJI Group Calls</h3>
                         <p>Audio and video conferences with multiple participants. Mesh-based, decentralized and without a central server.</p>
+                    </article>
+                    
+                    <article class="feature-card" role="listitem">
+                        <div class="feature-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M2 16.1A5 5 0 0 1 5.9 20M2 12.05A9 9 0 0 1 9.95 20M2 8V6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-6"/>
+                                <line x1="2" y1="20" x2="2.01" y2="20"/>
+                            </svg>
+                        </div>
+                        <h3>MQTT Plugin for IoT &amp; Sensors</h3>
+                        <p>Subscribe to MQTT topics, receive IoT sensor data with sparkline charts and alerts. Bridge MQTT messages to XMPP chats with Prosody mod_pubsub_mqtt support.</p>
                     </article>
                     
                     <article class="feature-card" role="listitem">
