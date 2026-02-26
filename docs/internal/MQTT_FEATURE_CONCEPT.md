@@ -46,7 +46,7 @@ to XMPP PubSub:
 | Topic Format | Freely configurable | `<HOST>/<TYPE>/<NODE>` |
 | Payloads | Arbitrary | json, utf8, atom_title |
 | Status | Production | Beta (community module) |
-| TLS | Yes (Port 8883) | Yes (Port 8883) |
+| TLS | Yes (Port 8883) | Yes (Port 8883, [since Jan 2024](https://hg.prosody.im/prosody-modules/rev/801f64e6d4e9)) |
 | Default Port | 1883 | 1883 |
 
 DinoX works with **any MQTT broker**. The ejabberd/Prosody integration is
@@ -207,9 +207,11 @@ mqtt_ports = { 1883 }
 mqtt_tls_ports = { 8883 }
 ```
 
-**Warning:** Prosody's `mod_pubsub_mqtt` currently has **no authentication**
-and only **QoS 0**. For production environments, the MQTT port should be
-protected by firewall rules or VPN.
+**Warning:** Prosody's `mod_pubsub_mqtt` supports TLS on port 8883
+([added Jan 2024](https://hg.prosody.im/prosody-modules/rev/801f64e6d4e9))
+but still has **no authentication** and only **QoS 0**. TLS encrypts the
+connection but does not restrict access. For production environments, the
+MQTT port should be protected by firewall rules or VPN.
 
 ---
 
@@ -476,6 +478,7 @@ nodered/                       ← Node-RED flows
 
 - [ejabberd MQTT Guide](https://docs.ejabberd.im/admin/guide/mqtt/)
 - [Prosody mod_pubsub_mqtt](https://modules.prosody.im/mod_pubsub_mqtt)
+- [Prosody mod_pubsub_mqtt TLS commit (Jan 2024)](https://hg.prosody.im/prosody-modules/rev/801f64e6d4e9)
 - [Prosody PubSub Docs](https://prosody.im/doc/pubsub)
 - [Home Assistant MQTT Integration](https://www.home-assistant.io/integrations/mqtt/)
 - [Home Assistant MQTT Discovery](https://www.home-assistant.io/integrations/mqtt/#mqtt-discovery)
