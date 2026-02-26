@@ -73,6 +73,7 @@ jobs:
             mingw-w64-x86_64-protobuf-c
             mingw-w64-x86_64-openssl
             mingw-w64-x86_64-librsvg
+            mingw-w64-x86_64-mosquitto
             mingw-w64-x86_64-tor
 
       # libomemo-c is not in MSYS2 repos — build from source

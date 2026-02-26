@@ -21,7 +21,7 @@ jobs:
             libsqlite3-dev libsqlcipher-dev libsecret-1-dev libsrtp2-dev \
             libgnutls28-dev libdbusmenu-glib-dev meson valac pkg-config \
             libjson-glib-dev libprotobuf-c-dev protobuf-c-compiler \
-            gstreamer1.0-plugins-good
+            gstreamer1.0-plugins-good libmosquitto-dev
       - name: "Cache custom dependencies"
         id: cache-deps
         uses: actions/cache@v4
@@ -134,7 +134,7 @@ jobs:
             libsqlite3-dev libsqlcipher-dev libsecret-1-dev libsrtp2-dev \
             libgnutls28-dev libdbusmenu-glib-dev meson valac pkg-config \
             libjson-glib-dev libprotobuf-c-dev protobuf-c-compiler \
-            gstreamer1.0-plugins-good
+            gstreamer1.0-plugins-good libmosquitto-dev
       - name: "Cache custom dependencies"
         id: cache-deps-nightly
         uses: actions/cache@v4
