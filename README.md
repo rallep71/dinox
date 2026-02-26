@@ -120,7 +120,7 @@ ninja -C build
 sudo apt install build-essential meson ninja-build valac \
   libgtk-4-dev libadwaita-1-dev libglib2.0-dev libgee-0.8-dev \
   libsqlcipher-dev libsecret-1-dev libicu-dev libdbusmenu-glib-dev libgcrypt20-dev \
-  libgpgme-dev libqrencode-dev libsoup-3.0-dev libgstreamer1.0-dev \
+  libgpgme-dev libjson-glib-dev libqrencode-dev libsoup-3.0-dev libgstreamer1.0-dev \
   libgstreamer-plugins-base1.0-dev libgstreamer-plugins-bad1.0-dev \
   libnice-dev libgnutls28-dev libsrtp2-dev libcjson-dev \
   gstreamer1.0-plugins-good gstreamer1.0-pipewire cmake wget
