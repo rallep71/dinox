@@ -1,15 +1,25 @@
 # MQTT Plugin for DinoX
 #
-# Optional plugin — requires libmosquitto-dev
+# Optional plugin — requires libmosquitto (client library).
 # If libmosquitto is not available, the plugin is skipped.
+#
+# Platform notes:
+#   Linux:   apt install libmosquitto-dev
+#   MSYS2:   pacman -S mingw-w64-x86_64-mosquitto
+#   Flatpak: Built from source (see im.github.rallep71.DinoX.json)
 
-dep_mosquitto_check = dependency('libmosquitto', required: false)
+plugin_mqtt_opt = get_option('plugin-mqtt')
 
-if dep_mosquitto_check.found()
+# Step 1: Detect libmosquitto via pkg-config
+dep_mosquitto_check = dependency('libmosquitto',
+    required: plugin_mqtt_opt.enabled(),
+)
 
-    # libmosquitto has no system Vala VAPI.
-    # We provide our own vapi/mosquitto.vapi and link against -lmosquitto directly.
-    # This avoids meson passing --pkg libmosquitto to valac (which would fail).
+if dep_mosquitto_check.found() and plugin_mqtt_opt.allowed()
+
+    # Step 2: Link via C compiler (not valac --pkg) because there is
+    #         no system Vala VAPI. Our custom vapi/mosquitto.vapi is
+    #         added to sources instead.
     cc = meson.get_compiler('c')
     lib_mosquitto_link = cc.find_library('mosquitto')
 
@@ -57,8 +67,12 @@ if dep_mosquitto_check.found()
         include_directories: include_directories('.'),
     )
 
-    summary('MQTT IoT/Event Plugin (mqtt)', dep_mqtt, section: 'Plugins')
+    summary('MQTT IoT/Event Plugin (mqtt)', true, section: 'Plugins')
 
 else
-    summary('MQTT IoT/Event Plugin (mqtt)', 'SKIPPED — libmosquitto not found', section: 'Plugins')
+    if plugin_mqtt_opt.enabled()
+        error('MQTT plugin was explicitly enabled but libmosquitto was not found.\n' + \
+              'Install: apt install libmosquitto-dev (Linux) or pacman -S mingw-w64-x86_64-mosquitto (MSYS2)')
+    endif
+    summary('MQTT IoT/Event Plugin (mqtt)', false, section: 'Plugins')
 endif

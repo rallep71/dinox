@@ -1,91 +1,91 @@
-# DinoX MQTT Plugin — Feature-Konzept
+# DinoX MQTT Plugin — Feature Concept
 
-**Status:** Konzeptphase  
-**Erstellt:** 2026-02-26  
-**Version:** v0.3 (Entwurf — Server-agnostisch + HA/Node-RED Integration)
+**Status:** Concept Phase  
+**Created:** 2026-02-26  
+**Version:** v0.4 (Draft — Server-agnostic + HA/Node-RED + Windows/Flatpak Build)
 
 ---
 
 ## 1. Motivation
 
-Sowohl **ejabberd** als auch **Prosody** bieten MQTT-Anbindung, sodass
-DinoX unabhängig vom eingesetzten Server-Typ MQTT nutzen kann:
+Both **ejabberd** and **Prosody** offer MQTT connectivity, allowing
+DinoX to use MQTT regardless of the server type in use:
 
-### ejabberd — Nativer MQTT-Broker (`mod_mqtt`)
-- **Gleiche Authentifizierung** — XMPP-Accounts (`user@domain`) funktionieren als MQTT-Logins
-- **Gleiche ACL / Security Policy** — einmal definiert, gilt für beide Protokolle
-- **Gleiche DB-Backends** — kein zweiter Server nötig
-- **MQTT 5.0 + 3.1.1** — volle Protokoll-Unterstützung
-- Quelle: https://docs.ejabberd.im/admin/guide/mqtt/#benefits
+### ejabberd — Native MQTT Broker (`mod_mqtt`)
+- **Shared Authentication** — XMPP accounts (`user@domain`) work as MQTT logins
+- **Shared ACL / Security Policy** — defined once, applies to both protocols
+- **Shared DB Backends** — no second server needed
+- **MQTT 5.0 + 3.1.1** — full protocol support
+- Source: https://docs.ejabberd.im/admin/guide/mqtt/#benefits
 
 ### Prosody — MQTT↔PubSub Bridge (`mod_pubsub_mqtt`)
-- **MQTT-Topics = XMPP-PubSub-Nodes** — MQTT-Publishes landen als XEP-0060 Items
-- **Bidirektional** — XMPP-Clients können PubSub-Nodes subscriben, MQTT-Clients dasselbe Topic
-- **Community-Modul** — Beta, von Matthew Wild (Prosody-Lead)
-- **MQTT 3.1.1** — kein Auth, nur QoS 0
-- **Topic-Format:** `<HOST>/<TYPE>/<NODE>` (z.B. `pubsub.example.org/json/sensors`)
-- **Payload-Typen:** json (XEP-0335), utf8, atom_title
-- Quelle: https://modules.prosody.im/mod_pubsub_mqtt
+- **MQTT Topics = XMPP PubSub Nodes** — MQTT publishes land as XEP-0060 items
+- **Bidirectional** — XMPP clients can subscribe to PubSub nodes, MQTT clients to the same topic
+- **Community Module** — Beta, by Matthew Wild (Prosody lead)
+- **MQTT 3.1.1** — no auth, QoS 0 only
+- **Topic Format:** `<HOST>/<TYPE>/<NODE>` (e.g. `pubsub.example.org/json/sensors`)
+- **Payload Types:** json (XEP-0335), utf8, atom_title
+- Source: https://modules.prosody.im/mod_pubsub_mqtt
 
-### Server-Vergleich
+### Server Comparison
 
 | Feature | ejabberd (`mod_mqtt`) | Prosody (`mod_pubsub_mqtt`) |
 |---------|----------------------|-----------------------------|
-| MQTT-Version | 5.0 + 3.1.1 | 3.1.1 |
-| Auth | XMPP-Credentials | Keine (!) |
-| QoS | 0, 1, 2 | Nur 0 |
-| Architektur | Nativer Broker (eigener Topic-Space) | Bridge → XMPP PubSub (XEP-0060) |
-| XMPP-PubSub-Bridge | **Nein** — MQTT-Topics und XEP-0060 getrennt | **Ja** — MQTT = PubSub-Node |
-| Topic-Format | Frei wählbar | `<HOST>/<TYPE>/<NODE>` |
-| Payloads | Beliebig | json, utf8, atom_title |
-| Status | Production | Beta (Community-Modul) |
-| TLS | ✓ (Port 8883) | ✓ (Port 8883) |
-| Standard-Port | 1883 | 1883 |
+| MQTT Version | 5.0 + 3.1.1 | 3.1.1 |
+| Auth | XMPP Credentials | None (!) |
+| QoS | 0, 1, 2 | 0 only |
+| Architecture | Native Broker (own topic space) | Bridge → XMPP PubSub (XEP-0060) |
+| XMPP PubSub Bridge | **No** — MQTT topics and XEP-0060 are separate | **Yes** — MQTT = PubSub node |
+| Topic Format | Freely configurable | `<HOST>/<TYPE>/<NODE>` |
+| Payloads | Arbitrary | json, utf8, atom_title |
+| Status | Production | Beta (community module) |
+| TLS | Yes (Port 8883) | Yes (Port 8883) |
+| Default Port | 1883 | 1883 |
 
-DinoX kann **beide Server-Typen** nutzen, da libmosquitto MQTT 3.1.1+ spricht.
+DinoX can use **both server types** since libmosquitto speaks MQTT 3.1.1+.
 
-**Prosody-Alleinstellungsmerkmal:** Bei Prosody sind MQTT-Publishes automatisch
-als Standard-XMPP-PubSub-Nodes (XEP-0060) lesbar — auch Clients **ohne**
-MQTT-Unterstützung können die Daten empfangen. Bei ejabberd sind MQTT-Topics
-und XMPP-PubSub getrennte Welten (sie teilen nur Auth/ACL/DB-Infrastruktur).
+**Prosody's Unique Advantage:** With Prosody, MQTT publishes are automatically
+readable as standard XMPP PubSub nodes (XEP-0060) — even clients **without**
+MQTT support can receive the data. With ejabberd, MQTT topics and XMPP PubSub
+are separate worlds (they only share auth/ACL/DB infrastructure).
 
 ---
 
 ## 2. Use Cases
 
-### 2.1 IoT / Smart Home Dashboard (Priorität: hoch)
-- Sensordaten (Temperatur, Luftfeuchtigkeit, Türstatus) über MQTT-Topics subscriben
-- Werte in einer dedizierten UI-Ansicht anzeigen (Kacheln/Widgets)
-- Historische Werte als Sparkline-Diagramm
-- Alerts bei Schwellwertüberschreitung
+### 2.1 IoT / Smart Home Dashboard (Priority: high)
+- Subscribe to sensor data (temperature, humidity, door status) via MQTT topics
+- Display values in a dedicated UI view (tiles/widgets)
+- Historical values as sparkline charts
+- Alerts on threshold exceedance
 
-### 2.2 Bot-Event-Stream (Priorität: mittel)
-- DinoX-Bots publizieren Status-Events über MQTT statt XMPP-Messages
-- Leichtgewichtiger als volle XMPP-Stanzas
-- Dashboard für Bot-Monitoring (online/offline, Nachrichtenzähler)
+### 2.2 Bot Event Stream (Priority: medium)
+- DinoX bots publish status events via MQTT instead of XMPP messages
+- More lightweight than full XMPP stanzas
+- Dashboard for bot monitoring (online/offline, message counters)
 
-### 2.3 Push Notifications (Priorität: niedrig)
-- MQTT als leichtgewichtiger Wakeup-Kanal für Mobile
-- Battery-effizient durch dauerhaft offene TCP-Verbindung mit Keepalive
-- Alternative zu XEP-0357 Push (das einen externen Push-Server braucht)
+### 2.3 Push Notifications (Priority: low)
+- MQTT as lightweight wakeup channel for mobile
+- Battery-efficient via persistent TCP connection with keepalive
+- Alternative to XEP-0357 Push (which requires an external push server)
 
-### 2.4 Cross-Protocol Bridging (Priorität: niedrig)
-- MQTT-Nachrichten in XMPP-Chat weiterleiten und umgekehrt
-- Brücke zwischen IoT-Welt und Chat-Welt
+### 2.4 Cross-Protocol Bridging (Priority: low)
+- Forward MQTT messages to XMPP chat and vice versa
+- Bridge between IoT world and chat world
 
 ---
 
-## 3. Architektur
+## 3. Architecture
 
 ```
 ┌─────────────────────────────────────────────────┐
 │                    DinoX                        │
 │                                                 │
-│  ┌──────────┐   ┌──────────┐   ┌────────────┐  │
-│  │ XMPP     │   │ MQTT     │   │ MQTT       │  │
-│  │ Module   │   │ Plugin   │   │ UI Panel   │  │
-│  │(existing)│   │(new)     │   │(new)       │  │
-│  └─────┬────┘   └─────┬────┘   └─────┬──────┘  │
+│  ┌──────────┐   ┌──────────┐   ┌────────────┐   │
+│  │ XMPP     │   │ MQTT     │   │ MQTT       │   │
+│  │ Module   │   │ Plugin   │   │ UI Panel   │   │
+│  │(existing)│   │(new)     │   │(new)       │   │
+│  └─────┬────┘   └─────┬────┘   └─────┬──────┘   │
 │        │              │              │          │
 │        │    ┌─────────┴─────────┐    │          │
 │        │    │ MqttClient        │    │          │
@@ -100,65 +100,65 @@ und XMPP-PubSub getrennte Welten (sie teilen nur Auth/ACL/DB-Infrastruktur).
 ┌────────┴──────────────┴──────────────┘
 │
 │  ┌──────────────────────────────────┐  ┌──────────────────────────────────────┐
-│  │     ejabberd Server             │  │     Prosody Server                   │
-│  │  ┌──────────┐  ┌──────────┐     │  │  ┌──────────┐  ┌────────────────┐    │
-│  │  │ XMPP     │  │ mod_mqtt │     │  │  │ XMPP     │  │mod_pubsub_mqtt │    │
-│  │  │ Modules  │  │ (native) │     │  │  │ Modules  │  │(→ PubSub XEP60)│    │
-│  │  └──────────┘  └──────────┘     │  │  └──────────┘  └────────────────┘    │
+│  │     ejabberd Server              │  │     Prosody Server                   │
+│  │  ┌──────────┐  ┌──────────┐      │  │  ┌──────────┐  ┌────────────────┐    │
+│  │  │ XMPP     │  │ mod_mqtt │      │  │  │ XMPP     │  │mod_pubsub_mqtt │    │
+│  │  │ Modules  │  │ (native) │      │  │  │ Modules  │  │(→ PubSub XEP60)│    │
+│  │  └──────────┘  └──────────┘      │  │  └──────────┘  └────────────────┘    │
 │  └──────────────────────────────────┘  └──────────────────────────────────────┘
 │           (MQTT 5.0 + 3.1.1)                    (MQTT 3.1.1 only)
 └─┘
 ```
 
-### 3.1 Komponenten
+### 3.1 Components
 
-| Komponente | Datei | Beschreibung |
-|-----------|-------|--------------|
-| `Plugin` | `plugin.vala` | RootInterface, registriert sich bei DinoX, verwaltet Lifecycle |
-| `MqttClient` | `mqtt_client.vala` | Wrapper um libmosquitto — connect, subscribe, publish, disconnect |
-| `TopicManager` | `topic_manager.vala` | Verwaltet Topic-Subscriptions, parsed eingehende Payloads |
-| `MqttSettingsWidget` | `settings_widget.vala` | GTK4-UI für MQTT-Konfiguration (Broker, Port, Topics) |
-| `MqttDashboard` | `dashboard.vala` | GTK4-Panel mit Sensor-Kacheln und Event-Stream |
-| Vala VAPI | `vapi/mosquitto.vapi` | Vala-Bindings für libmosquitto C-API |
+| Component | File | Description |
+|-----------|------|-------------|
+| `Plugin` | `plugin.vala` | RootInterface, registers with DinoX, manages lifecycle |
+| `MqttClient` | `mqtt_client.vala` | Wrapper around libmosquitto — connect, subscribe, publish, disconnect |
+| `TopicManager` | `topic_manager.vala` | Manages topic subscriptions, parses incoming payloads |
+| `MqttSettingsWidget` | `settings_widget.vala` | GTK4 UI for MQTT configuration (broker, port, topics) |
+| `MqttDashboard` | `dashboard.vala` | GTK4 panel with sensor tiles and event stream |
+| Vala VAPI | `vapi/mosquitto.vapi` | Vala bindings for libmosquitto C API |
 
-### 3.2 Abhängigkeiten
+### 3.2 Dependencies
 
-| Library | Paket | Zweck |
-|---------|-------|-------|
-| libmosquitto | `libmosquitto-dev` | MQTT 5.0/3.1.1 Client-Bibliothek (C, pkg-config) |
-| GLib | (vorhanden) | Main Loop Integration, GSource für mosquitto fd |
-| GTK4 | (vorhanden) | UI-Widgets für Dashboard |
+| Library | Package | Purpose |
+|---------|---------|---------|
+| libmosquitto | `libmosquitto-dev` | MQTT 5.0/3.1.1 client library (C, pkg-config) |
+| GLib | (existing) | Main loop integration, GSource for mosquitto fd |
+| GTK4 | (existing) | UI widgets for dashboard |
 
 ### 3.3 Main Loop Integration
 
-libmosquitto läuft normalerweise mit eigenem Thread (`mosquitto_loop_start()`).
-Für GTK-Integration besser: `mosquitto_loop_read/write/misc()` mit
-GLib.IOChannel/GSource auf dem mosquitto-Socket — so läuft alles im GTK Main Loop
-ohne Threading-Probleme.
+libmosquitto normally runs with its own thread (`mosquitto_loop_start()`).
+For GTK integration it's better to use `mosquitto_loop_read/write/misc()` with
+GLib.IOChannel/GSource on the mosquitto socket — this way everything runs in the
+GTK main loop without threading issues.
 
 ---
 
-## 4. MQTT-Konfiguration
+## 4. MQTT Configuration
 
 ```
-# Gespeichert in DinoX-Settings (GSettings oder DB)
+# Stored in DinoX settings (GSettings or DB)
 mqtt_enabled: bool = false
-mqtt_broker_host: string = ""        # leer = gleicher Host wie XMPP
-mqtt_broker_port: int = 1883         # 8883 für TLS
+mqtt_broker_host: string = ""        # empty = same host as XMPP
+mqtt_broker_port: int = 1883         # 8883 for TLS
 mqtt_use_tls: bool = true
 mqtt_server_type: string = "auto"    # "auto", "ejabberd", "prosody"
-mqtt_use_xmpp_credentials: bool = true  # XMPP-Login wiederverwenden (nur ejabberd)
-mqtt_username: string = ""           # nur wenn use_xmpp_credentials = false
-mqtt_topics: string[] = []           # z.B. ["home/sensors/#", "bots/status/#"]
+mqtt_use_xmpp_credentials: bool = true  # reuse XMPP login (ejabberd only)
+mqtt_username: string = ""           # only if use_xmpp_credentials = false
+mqtt_topics: string[] = []           # e.g. ["home/sensors/#", "bots/status/#"]
 #
-# Hinweis: Bei Prosody haben Topics das Format <HOST>/<TYPE>/<NODE>,
-# z.B. "pubsub.example.org/json/sensors". DinoX kann das automatisch
-# erkennen wenn mqtt_server_type = "auto".
+# Note: With Prosody, topics use the format <HOST>/<TYPE>/<NODE>,
+# e.g. "pubsub.example.org/json/sensors". DinoX can auto-detect
+# this when mqtt_server_type = "auto".
 ```
 
 ---
 
-## 5. Server-Konfiguration (Voraussetzung)
+## 5. Server Configuration (Prerequisite)
 
 ### 5.1 ejabberd
 
@@ -198,280 +198,282 @@ mqtt_ports = { 1883 }
 mqtt_tls_ports = { 8883 }
 ```
 
-**Achtung:** Prosody's `mod_pubsub_mqtt` hat aktuell **keine Authentifizierung**
-und nur **QoS 0**. Für Produktionsumgebungen sollte der MQTT-Port durch
-Firewall-Regeln oder VPN geschützt werden.
+**Warning:** Prosody's `mod_pubsub_mqtt` currently has **no authentication**
+and only **QoS 0**. For production environments, the MQTT port should be
+protected by firewall rules or VPN.
 
 ---
 
-## 6. Implementierungsplan
+## 6. Implementation Plan
 
-### Phase 1: Grundgerüst (v1.2.0)
-- [x] Plugin-Skeleton erstellen (meson.build, plugin.vala, register_plugin.vala)
-- [x] Vala VAPI für libmosquitto schreiben
+### Phase 1: Foundation (v1.2.0)
+- [x] Create plugin skeleton (meson.build, plugin.vala, register_plugin.vala)
+- [x] Write Vala VAPI for libmosquitto
+- [x] Windows build: MSYS2 package verified, meson.build + update_dist.sh adapted
+- [x] Flatpak build: Mosquitto module added to manifest
 - [ ] MqttClient: connect/disconnect/subscribe/publish
-- [ ] GLib Main Loop Integration (GSource auf mosquitto fd)
-- [ ] Server-Typ-Erkennung (ejabberd vs Prosody, Topic-Format-Handling)
-- [ ] Settings-UI: Enable/Disable, Broker, Port, TLS, Server-Typ
-- [ ] Auto-Connect wenn XMPP verbunden
+- [ ] GLib main loop integration (GSource on mosquitto fd)
+- [ ] Server type detection (ejabberd vs Prosody, topic format handling)
+- [ ] Settings UI: enable/disable, broker, port, TLS, server type
+- [ ] Auto-connect when XMPP is connected
 
 ### Phase 2: Dashboard (v1.2.1)
-- [ ] Topic-Manager: Subscribe, Payload-Parsing (JSON, plain text)
-- [ ] Dashboard-Widget: Kacheln mit Topic-Name + letztem Wert
-- [ ] Sidebar-Eintrag für MQTT-Dashboard
-- [ ] Topic-Verwaltung in Settings
+- [ ] Topic manager: subscribe, payload parsing (JSON, plain text)
+- [ ] Dashboard widget: tiles with topic name + last value
+- [ ] Sidebar entry for MQTT dashboard
+- [ ] Topic management in settings
 
 ### Phase 3: Alerts & History (v1.3.0)
-- [ ] Schwellwert-Alerts (Notification wenn Wert > X)
-- [ ] Sparkline-Diagramme für Verlauf (letzte 24h)
-- [ ] MQTT-Events in Chat-Conversation weiterleiten können
-- [ ] Retained Messages Support
+- [ ] Threshold alerts (notification when value > X)
+- [ ] Sparkline charts for history (last 24h)
+- [ ] Forward MQTT events to chat conversation
+- [ ] Retained messages support
 
 ### Phase 4: Advanced (v1.4.0)
-- [ ] MQTT → XMPP Bridge (topics als Chat-Messages)
-- [ ] Bot-Monitoring-Dashboard
-- [ ] Windows-Build: libmosquitto Cross-Compile
-- [ ] QoS Level Konfiguration (0/1/2)
+- [ ] MQTT → XMPP bridge (topics as chat messages)
+- [ ] Bot monitoring dashboard
+- [ ] QoS level configuration (0/1/2)
 
 ---
 
-## 7. Risiken & Offene Fragen
+## 7. Risks & Open Questions
 
-| Risiko | Mitigation |
-|--------|-----------|
-| libmosquitto nicht auf allen Plattformen verfügbar | Optional Dependency, Plugin wird nur geladen wenn lib vorhanden |
-| Windows Cross-Compile | mosquitto hat CMake-Build, muss für MSYS2/MinGW angepasst werden |
-| Threading vs Main Loop | GSource-Integration statt mosquitto_loop_start() |
-| MQTT 5.0 vs 3.1.1 | libmosquitto unterstützt beides; ejabberd→5.0, Prosody→3.1.1 |
-| Prosody kein Auth | MQTT-Port mit Firewall/VPN sichern, DinoX warnt in Settings |
-| Prosody Topic-Format | Plugin erkennt Server-Typ und passt Topic-Prefix automatisch an |
-| Battery Drain durch offene Verbindung | MQTT hat eingebautes Keep-Alive, deutlich effizienter als XMPP-Polling |
+| Risk | Mitigation |
+|------|-----------|
+| libmosquitto not available on all platforms | Optional dependency, plugin only loads when lib is present |
+| ~~Windows cross-compile~~ | **Resolved:** MSYS2 has `mingw-w64-x86_64-mosquitto` (v2.0.22+) as a prebuilt package — no CMake build needed. `pacman -S mingw-w64-x86_64-mosquitto` installs DLL, headers, pkg-config. Auto-detect in `update_dist.sh` copies `libmosquitto.dll` automatically. |
+| ~~Flatpak build~~ | **Resolved:** Mosquitto module added to `im.github.rallep71.DinoX.json` (CMake, client lib only, no broker/CLI). |
+| Threading vs main loop | GSource integration instead of mosquitto_loop_start() |
+| MQTT 5.0 vs 3.1.1 | libmosquitto supports both; ejabberd→5.0, Prosody→3.1.1 |
+| Prosody no auth | Secure MQTT port with firewall/VPN, DinoX warns in settings |
+| Prosody topic format | Plugin detects server type and adapts topic prefix automatically |
+| Battery drain from open connection | MQTT has built-in keep-alive, significantly more efficient than XMPP polling |
 
 ---
 
 ## 8. Integration: Home Assistant & Node-RED
 
-### 8.1 Übersicht
+### 8.1 Overview
 
-Home Assistant (HA) und Node-RED sind die beiden wichtigsten Smart-Home-Plattformen
-und beide haben **erstklassige MQTT-Unterstützung**:
+Home Assistant (HA) and Node-RED are the two most important smart home platforms,
+and both have **first-class MQTT support**:
 
-| Plattform | MQTT-Feature | Details |
-|-----------|-------------|---------|
-| **Home Assistant** | Eingebaute MQTT-Integration | Auto-Discovery (`homeassistant/+/…/config`), Publish/Subscribe, MQTT 3.1.1 + 5.0 |
-| **Node-RED** | `mqtt in` / `mqtt out` Nodes | Verbindet sich mit beliebigem Broker, JSON-Parsing, Flows |
+| Platform | MQTT Feature | Details |
+|----------|-------------|---------|
+| **Home Assistant** | Built-in MQTT integration | Auto-discovery (`homeassistant/+/…/config`), publish/subscribe, MQTT 3.1.1 + 5.0 |
+| **Node-RED** | `mqtt in` / `mqtt out` nodes | Connects to any broker, JSON parsing, flows |
 
-DinoX kann sich als **MQTT-Client** mit dem gleichen Broker verbinden, den auch
-HA und Node-RED nutzen, und so dieselben Sensordaten, Events und Aktoren empfangen.
+DinoX can connect as an **MQTT client** to the same broker that HA and Node-RED
+use, receiving the same sensor data, events, and actuator states.
 
-### 8.2 Netzwerk-Szenarien
+### 8.2 Network Scenarios
 
-#### Szenario A: Alles lokal (LAN)
+#### Scenario A: All Local (LAN)
 
 ```
-┌─────────────────── Lokales Netzwerk (192.168.x.x) ──────────────────┐
+┌─────────────────── Local Network (192.168.x.x) ─────────────────────-┐
 │                                                                      │
-│  ┌──────────┐    ┌──────────────────┐    ┌──────────────────┐       │
-│  │  DinoX   │    │  Home Assistant  │    │    Node-RED      │       │
-│  │ (Desktop)│    │  (Raspberry Pi)  │    │ (Docker/RPi)     │       │
-│  └────┬─────┘    └───────┬──────────┘    └───────┬──────────┘       │
+│  ┌──────────┐    ┌──────────────────┐    ┌──────────────────┐        │
+│  │  DinoX   │    │  Home Assistant  │    │    Node-RED      │        │
+│  │ (Desktop)│    │  (Raspberry Pi)  │    │ (Docker/RPi)     │        │
+│  └────┬─────┘    └───────┬──────────┘    └───────┬──────────┘        │
 │       │                  │                       │                   │
 │       │     MQTT (1883)  │         MQTT (1883)   │                   │
 │       └─────────┬────────┴───────────────────────┘                   │
-│                 │                                                     │
+│                 │                                                    │
 │       ┌─────────┴─────────┐                                          │
-│       │   MQTT-Broker     │  ← ejabberd mod_mqtt                     │
-│       │ (ejabberd/Prosody │    ODER Prosody mod_pubsub_mqtt          │
-│       │  ODER Mosquitto)  │    ODER standalone Mosquitto              │
+│       │   MQTT Broker     │  ← ejabberd mod_mqtt                     │
+│       │ (ejabberd/Prosody │    OR Prosody mod_pubsub_mqtt            │
+│       │  OR Mosquitto)    │    OR standalone Mosquitto               │
 │       └───────────────────┘                                          │
 └──────────────────────────────────────────────────────────────────────┘
 ```
 
-**Einfachster Fall:** Alle Geräte im gleichen Netzwerk.
-- DinoX verbindet sich zu `mqtt://192.168.x.x:1883`
-- Keine TLS nötig (optional empfohlen)
-- Kein Internet-Zugang erforderlich
+**Simplest case:** All devices on the same network.
+- DinoX connects to `mqtt://192.168.x.x:1883`
+- No TLS needed (optionally recommended)
+- No internet access required
 
-#### Szenario B: XMPP-Server im Internet, Smart Home lokal
-
-```
-┌─── Internet ─────────────┐     ┌─── Lokales Netzwerk ─────────────┐
-│                           │     │                                   │
-│  ┌───────────────────┐    │     │  ┌────────────────┐              │
-│  │ ejabberd/Prosody  │    │     │  │ Home Assistant  │              │
-│  │ (XMPP + MQTT)     │    │     │  └───────┬────────┘              │
-│  │ mqtt.example.org  │    │     │          │                        │
-│  └────────┬──────────┘    │     │  ┌───────┴────────┐              │
-│           │               │     │  │ Mosquitto       │              │
-│           │ TLS (8883)    │     │  │ (HA Add-on)     │              │
-│           │               │     │  │ Port 1883       │              │
-└───────────┼───────────────┘     │  └───────┬────────┘              │
-            │                      │          │                        │
-    ┌───────┴──────┐               │  ┌───────┴────────┐              │
-    │    DinoX     │               │  │    Node-RED     │              │
-    │ (überall)    │               │  └────────────────┘              │
-    └──────────────┘               └──────────────────────────────────┘
-```
-
-**Häufigster Fall im Praxis:** XMPP-Server im Internet, Smart Home lokal.
-
-**Zwei Broker-Optionen:**
-
-1. **DinoX → lokaler Mosquitto (HA Add-on)**
-   - DinoX verbindet sich direkt zum lokalen Mosquitto (Port-Forwarding oder VPN)
-   - Vorteil: Alle HA-Sensoren direkt sichtbar
-   - Nachteil: Lokaler Broker muss erreichbar sein
-
-2. **Mosquitto-Bridge** (empfohlen)
-   - Lokaler Mosquitto leitet ausgewählte Topics an ejabberd/Prosody weiter
-   - DinoX verbindet sich nur zum Internet-Broker
-   - Konfiguration in `/etc/mosquitto/conf.d/bridge.conf`:
+#### Scenario B: XMPP Server on Internet, Smart Home Local
 
 ```
-# Lokaler Mosquitto → ejabberd/Prosody Bridge
+┌─── Internet ─────────────┐     ┌─── Local Network ────────────────┐
+│                          │     │                                  │
+│  ┌───────────────────┐   │     │  ┌────────────────┐              │
+│  │ ejabberd/Prosody  │   │     │  │ Home Assistant │              │
+│  │ (XMPP + MQTT)     │   │     │  └───────┬────────┘              │
+│  │ mqtt.example.org  │   │     │          │                       │
+│  └────────┬──────────┘   │     │  ┌───────┴────────┐              │
+│           │              │     │  │ Mosquitto      │              │
+│           │ TLS (8883)   │     │  │ (HA Add-on)    │              │
+│           │              │     │  │ Port 1883      │              │
+└───────────┼──────────────┘     │  └───────┬────────┘              │
+            │                    │          │                       │
+    ┌───────┴──────┐             │  ┌───────┴────────┐              │
+    │    DinoX     │             │  │    Node-RED    │              │
+    │ (anywhere)   │             │  └────────────────┘              │
+    └──────────────┘             └──────────────────────────────────┘
+```
+
+**Most common real-world case:** XMPP server on the internet, smart home local.
+
+**Two broker options:**
+
+1. **DinoX → local Mosquitto (HA add-on)**
+   - DinoX connects directly to local Mosquitto (port forwarding or VPN)
+   - Advantage: All HA sensors directly visible
+   - Disadvantage: Local broker must be reachable
+
+2. **Mosquitto Bridge** (recommended)
+   - Local Mosquitto forwards selected topics to ejabberd/Prosody
+   - DinoX only connects to the internet broker
+   - Configuration in `/etc/mosquitto/conf.d/bridge.conf`:
+
+```
+# Local Mosquitto → ejabberd/Prosody Bridge
 connection xmpp-bridge
 address mqtt.example.org:8883
 bridge_capath /etc/ssl/certs
 remote_username user@example.org
-remote_password geheim
+remote_password secret
 topic home/sensors/# out 1
 topic home/actuators/# both 1
 topic dinox/# in 1
 ```
 
-#### Szenario C: Alles im Internet / Cloud
+#### Scenario C: Everything on Internet / Cloud
 
 ```
 ┌─── Internet / Cloud ──────────────────────────────────────────────┐
-│                                                                    │
-│  ┌───────────────┐   ┌───────────────┐   ┌───────────────┐       │
-│  │   DinoX       │   │ Home Assistant │   │   Node-RED    │       │
-│  │   (Client)    │   │   (Cloud/VPS)  │   │   (Cloud)     │       │
-│  └───────┬───────┘   └───────┬───────┘   └───────┬───────┘       │
-│          │                   │                   │                 │
-│          │     TLS (8883)    │      TLS (8883)   │                 │
-│          └──────────┬────────┴───────────────────┘                 │
-│                     │                                               │
-│           ┌─────────┴──────────┐                                    │
-│           │  ejabberd/Prosody  │                                    │
-│           │  (MQTT + XMPP)    │                                    │
-│           └────────────────────┘                                    │
-└────────────────────────────────────────────────────────────────────┘
+│                                                                   │
+│  ┌───────────────┐   ┌───────────────┐   ┌───────────────┐        │
+│  │   DinoX       │   │ Home Assistant│   │   Node-RED    │        │
+│  │   (Client)    │   │   (Cloud/VPS) │   │   (Cloud)     │        │
+│  └───────┬───────┘   └───────┬───────┘   └───────┬───────┘        │
+│          │                   │                   │                │
+│          │     TLS (8883)    │      TLS (8883)   │                │
+│          └──────────┬────────┴───────────────────┘                │
+│                     │                                             │
+│           ┌─────────┴──────────┐                                  │
+│           │  ejabberd/Prosody  │                                  │
+│           │  (MQTT + XMPP)     │                                  │
+│           └────────────────────┘                                  │
+└───────────────────────────────────────────────────────────────────┘
 ```
 
-**TLS ist Pflicht.** Alle Clients nutzen Port 8883 mit Zertifikatsvalidierung.
+**TLS is mandatory.** All clients use port 8883 with certificate validation.
 
-### 8.3 Home Assistant Anbindung
+### 8.3 Home Assistant Integration
 
-**HA verbindet sich zum gleichen MQTT-Broker wie DinoX.** Die Konfiguration erfolgt
-in HA unter „Settings → Devices & Services → MQTT":
+**HA connects to the same MQTT broker as DinoX.** Configuration is done
+in HA under "Settings → Devices & Services → MQTT":
 
-- **Broker:** IP/Hostname des ejabberd/Prosody/Mosquitto
-- **Port:** 1883 (lokal) oder 8883 (TLS)
-- **Username/Password:** XMPP-Credentials (ejabberd) oder leer (Prosody)
+- **Broker:** IP/hostname of ejabberd/Prosody/Mosquitto
+- **Port:** 1883 (local) or 8883 (TLS)
+- **Username/Password:** XMPP credentials (ejabberd) or empty (Prosody)
 
-**HA MQTT Discovery:** HA registriert Geräte automatisch über Topics wie:
+**HA MQTT Discovery:** HA automatically registers devices via topics like:
 ```
-homeassistant/sensor/wohnzimmer_temp/config   → Konfiguration (JSON)
-homeassistant/sensor/wohnzimmer_temp/state    → Messwerte
+homeassistant/sensor/living_room_temp/config   → Configuration (JSON)
+homeassistant/sensor/living_room_temp/state    → Readings
 ```
 
-**DinoX kann diese Topics subscriben** und die Sensordaten im Dashboard anzeigen:
+**DinoX can subscribe to these topics** and display sensor data in the dashboard:
 ```
-# Beispiel: Alle HA-Sensoren empfangen
+# Example: Receive all HA sensors
 mqtt_topics: ["homeassistant/sensor/#", "homeassistant/binary_sensor/#"]
 ```
 
-**Aktoren steuern** (z.B. Licht an/aus):
+**Control actuators** (e.g. light on/off):
 ```
-# Publish an HA-Command-Topic
+# Publish to HA command topic
 topic: homeassistant/switch/irrigation/set
 payload: ON
 ```
 
-### 8.4 Node-RED Anbindung
+### 8.4 Node-RED Integration
 
-Node-RED verbindet sich über den `mqtt-broker`-Node zum gleichen Broker:
+Node-RED connects via the `mqtt-broker` node to the same broker:
 
 ```
 ┌──────────┐    ┌─────────────────┐    ┌──────────────┐
 │ Sensor   │───→│ Node-RED Flow   │───→│ MQTT Broker  │───→ DinoX
-│ (HTTP/   │    │ (Verarbeitung,  │    │              │
-│  GPIO)   │    │  Formatierung)  │    │              │
+│ (HTTP/   │    │ (Processing,    │    │              │
+│  GPIO)   │    │  Formatting)    │    │              │
 └──────────┘    └─────────────────┘    └──────────────┘
 ```
 
-**Beispiel Node-RED Flow** (JSON-Import):
+**Example Node-RED Flow** (JSON import):
 ```json
 [
   {"id":"mqtt-out","type":"mqtt out","topic":"home/sensors/temperature",
    "broker":"mqtt-broker-node","qos":"1","retain":"true"},
   {"id":"mqtt-broker-node","type":"mqtt-broker",
    "broker":"mqtt.example.org","port":"8883","tls":"true",
-   "credentials":{"user":"user@example.org","password":"geheim"}}
+   "credentials":{"user":"user@example.org","password":"secret"}}
 ]
 ```
 
-Node-RED kann auch **DinoX-Events konsumieren**:
+Node-RED can also **consume DinoX events**:
 ```
-# Node-RED subscribes auf DinoX-Bot-Topics
+# Node-RED subscribes to DinoX bot topics
 topic: dinox/bots/status/#
 ```
 
-### 8.5 Empfohlene Topic-Hierarchie
+### 8.5 Recommended Topic Hierarchy
 
-Um Kollisionen zu vermeiden, empfiehlt sich folgende Struktur:
+To avoid collisions, the following structure is recommended:
 
 ```
 home/                          ← Smart Home (HA / Node-RED)
   sensors/
-    temperature/wohnzimmer     → {"value": 22.1, "unit": "°C"}
-    humidity/schlafzimmer      → {"value": 45, "unit": "%"}
-    door/haustuer              → {"state": "closed"}
+    temperature/living_room    → {"value": 22.1, "unit": "°C"}
+    humidity/bedroom           → {"value": 45, "unit": "%"}
+    door/front_door            → {"state": "closed"}
   actuators/
-    light/wohnzimmer/set       → ON / OFF
-    thermostat/wohnzimmer/set  → {"target": 21.0}
+    light/living_room/set      → ON / OFF
+    thermostat/living_room/set → {"target": 21.0}
 
-homeassistant/                 ← HA Discovery (automatisch)
+homeassistant/                 ← HA Discovery (automatic)
   sensor/…/config
   binary_sensor/…/config
 
-dinox/                         ← DinoX-eigene Topics
-  bots/status/#                → Bot-Status-Events
-  notifications/#              → Push-Notifications
-  bridge/#                     → XMPP↔MQTT Bridge-Messages
+dinox/                         ← DinoX-specific topics
+  bots/status/#                → Bot status events
+  notifications/#              → Push notifications
+  bridge/#                     → XMPP↔MQTT bridge messages
 
-nodered/                       ← Node-RED Flows
-  alerts/#                     → Verarbeitete Alarme
-  automations/#                → Automations-Status
+nodered/                       ← Node-RED flows
+  alerts/#                     → Processed alerts
+  automations/#                → Automation status
 ```
 
-### 8.6 Netzwerk-Sicherheit
+### 8.6 Network Security
 
-| Szenario | Empfehlung |
-|----------|-----------|
-| LAN-only | TLS optional, Firewall auf Port 1883 (nur LAN) |
-| Internet | **TLS Pflicht** (Port 8883), Username+Passwort |
-| Gemischt (Bridge) | Bridge mit TLS, lokaler Broker ohne TLS akzeptabel |
-| Prosody (kein Auth) | MQTT-Port **nur** im LAN/VPN erreichbar machen |
+| Scenario | Recommendation |
+|----------|---------------|
+| LAN-only | TLS optional, firewall on port 1883 (LAN only) |
+| Internet | **TLS mandatory** (port 8883), username+password |
+| Mixed (bridge) | Bridge with TLS, local broker without TLS acceptable |
+| Prosody (no auth) | MQTT port reachable **only** via LAN/VPN |
 
-**DinoX Settings-UI sollte warnen** wenn:
-- TLS deaktiviert bei nicht-lokaler IP
-- Prosody (kein Auth) bei Internet-Zugang
+**DinoX settings UI should warn** when:
+- TLS disabled for non-local IP
+- Prosody (no auth) with internet access
 
 ---
 
-## 9. Referenzen
+## 9. References
 
 - [ejabberd MQTT Guide](https://docs.ejabberd.im/admin/guide/mqtt/)
 - [Prosody mod_pubsub_mqtt](https://modules.prosody.im/mod_pubsub_mqtt)
-- [Prosody PubSub Doku](https://prosody.im/doc/pubsub)
+- [Prosody PubSub Docs](https://prosody.im/doc/pubsub)
 - [Home Assistant MQTT Integration](https://www.home-assistant.io/integrations/mqtt/)
 - [Home Assistant MQTT Discovery](https://www.home-assistant.io/integrations/mqtt/#mqtt-discovery)
 - [Node-RED MQTT Nodes](https://nodered.org/docs/user-guide/messages)
-- [Mosquitto Bridge Konfiguration](https://mosquitto.org/man/mosquitto-conf-5.html)
+- [Mosquitto Bridge Configuration](https://mosquitto.org/man/mosquitto-conf-5.html)
 - [XEP-0060: PubSub](https://xmpp.org/extensions/xep-0060.html)
 - [XEP-0335: JSON Containers](https://xmpp.org/extensions/xep-0335.html)
 - [libmosquitto API](https://mosquitto.org/api/files/mosquitto-h.html)
 - [MQTT 5.0 Spec](https://docs.oasis-open.org/mqtt/mqtt/v5.0/mqtt-v5.0.html)
-- [Eclipse Paho](https://www.eclipse.org/paho/) (alternative Client-Lib)
+- [Eclipse Paho](https://www.eclipse.org/paho/) (alternative client lib)

@@ -1,0 +1,164 @@
+cp -rf /x/* ~/dino-win/
+
+rm -rf build
+
+# MQTT Plugin: Install libmosquitto (optional, skip if MQTT not needed)
+pacman -S --needed mingw-w64-x86_64-mosquitto
+
+meson setup build -Dplugin-omemo=enabled -Dplugin-rtp=enabled --wipe
+
+ninja -C build && ./scripts/update_dist.sh && ./dist/dinox.exe
+
+windows läuft in vm, x ist das laufwerk was gemappt wird von linux /media/linux/SSD128/xmppwin
+info@Windows11 MINGW64 ~/dino-win
+$ meson setup build -Dplugin-omemo=enabled -Dplugin-rtp=enabled --wipe
+The Meson build system
+Version: 1.10.1
+Source dir: C:/msys64/home/info/dino-win
+Build dir: C:/msys64/home/info/dino-win/build
+Build type: native build
+Project name: Dino
+Project version: 0.9.8.4
+C compiler for the host machine: cc (gcc 15.2.0 "cc (Rev9, Built by MSYS2 project) 15.2.0")
+C linker for the host machine: cc ld.bfd 2.45.1
+C++ compiler for the host machine: c++ (gcc 15.2.0 "c++ (Rev9, Built by MSYS2 project) 15.2.0")
+C++ linker for the host machine: c++ ld.bfd 2.45.1
+Vala compiler for the host machine: valac (valac 0.56.18)
+Host machine cpu family: x86_64
+Host machine cpu: x86_64
+Message: Forcing WINDOWS define for Vala
+Found pkg-config: YES (C:\msys64\mingw64\bin/pkg-config.EXE) 2.5.1
+Run-time dependency gdk-pixbuf-2.0 found: YES 2.44.4
+Run-time dependency gee-0.8 found: YES 0.20.8
+Run-time dependency gio-2.0 found: YES 2.86.3
+Run-time dependency glib-2.0 found: YES 2.86.3
+Run-time dependency gnutls found: YES 3.8.11
+Run-time dependency gmodule-2.0 found: YES 2.86.3
+Run-time dependency gpgme found: YES 1.23.2
+Run-time dependency gstreamer-1.0 found: YES 1.26.10
+Run-time dependency gstreamer-app-1.0 found: YES 1.26.10
+Run-time dependency gstreamer-audio-1.0 found: YES 1.26.10
+Run-time dependency gstreamer-rtp-1.0 found: YES 1.26.10
+Run-time dependency gstreamer-sdp-1.0 found: YES 1.26.10
+Run-time dependency gstreamer-video-1.0 found: YES 1.26.10
+Run-time dependency gstreamer-webrtc-1.0 found: YES 1.26.10
+Run-time dependency gtk4 found: YES 4.20.3
+Did not find CMake 'cmake'
+Found CMake: NO
+Run-time dependency gtk4-x11 found: NO (tried pkgconfig and cmake)
+Run-time dependency x11 found: NO (tried pkgconfig and cmake)
+Run-time dependency icu-uc found: YES 78.2
+Run-time dependency libadwaita-1 found: YES 1.8.3
+Run-time dependency libgcrypt found: YES 1.11.2-unknown
+Run-time dependency libqrencode found: YES 4.1.1
+Run-time dependency libsrtp2 found: YES 2.7.0
+Run-time dependency libomemo-c found: YES 0.5.1
+Run-time dependency libsoup-3.0 found: YES 3.6.5
+Run-time dependency nice found: YES 0.1.23
+Library m found: YES
+Run-time dependency sqlcipher found: YES 3.46.1
+Run-time dependency libsecret-1 found: YES 0.21.2
+Run-time dependency webrtc-audio-processing-2 found: YES 2.1
+Program git found: YES (C:\msys64\usr\bin/git.EXE)
+Program python3 found: YES (C:/msys64/mingw64/bin/python.exe)
+Program msgfmt found: YES (C:\msys64\usr\bin/msgfmt.EXE)
+Program msginit found: YES (C:\msys64\usr\bin/msginit.EXE)
+Program msgmerge found: YES (C:\msys64\usr\bin/msgmerge.EXE)
+Program xgettext found: YES (C:\msys64\usr\bin/xgettext.EXE)
+Library posix found: YES
+Dependency gio-2.0 found: YES 2.86.3 (cached)
+Program C:/msys64/mingw64/bin/glib-compile-resources found: YES (C:/msys64/mingw64/bin/glib-compile-resources.EXE)
+Message: VAPI DIR: C:/msys64/home/info/dino-win/main/vapi
+Dependency gio-2.0 found: YES 2.86.3 (cached)
+Program C:/msys64/mingw64/bin/glib-compile-resources found: YES (C:/msys64/mingw64/bin/glib-compile-resources.EXE)
+Program touch found: YES (C:\msys64\usr\bin/touch.EXE)
+Dependency gio-2.0 found: YES 2.86.3 (cached)
+Program C:/msys64/mingw64/bin/glib-compile-resources found: YES (C:/msys64/mingw64/bin/glib-compile-resources.EXE)
+Dependency gtk4 found: YES 4.20.3 (cached)
+Dependency libadwaita-1 found: YES 1.8.3 (cached)
+Run-time dependency json-glib-1.0 found: YES 1.10.8
+Dependency libsoup-3.0 found: YES 3.6.5 (cached)
+Build targets in project: 164
+
+Dino 0.9.8.4
+
+  Plugins
+    HTTP file upload (http-files)            : YES
+    Peer-to-peer communication (ice)         : YES
+    End-to-end encryption using OMEMO (omemo): YES
+    End-to-end encryption using PGP (openpgp): YES
+    Voice/video calls (rtp)                  : YES
+
+  RTP configuration
+    H264 codec                               : true
+    Intel MediaSDK                           : false
+    Video Acceleration API                   : true
+    V4L2 API (stateful)                      : false
+    V4L2 API (stateless)                     : true
+    Voice preprocessing                      : true
+
+  User defined options
+    plugin-omemo                             : enabled
+    plugin-rtp                               : enabled
+
+Found ninja-1.13.2 at C:\msys64\mingw64\bin/ninja.EXE
+
+================================================
+  DinoX Windows Distribution Builder
+================================================
+
+[1/8] Creating directory structure...
+[2/8] Cleaning up old files...
+[3/8] Copying main executable...
+  ✓ dinox.bat (Windows launcher with environment setup)
+[4/8] Copying Core DLLs...
+  ✓ libdino-0.dll, libxmpp-vala-0.dll, libqlite-0.dll, libcrypto-vala-0.dll
+[4b/8] Copying MSYS2 system DLLs...
+  ✓ 113 system DLLs copied
+  ✓ GDK-Pixbuf loaders
+  ✓ GIO modules
+  ✓ GStreamer plugins
+[5/8] Copying Plugins...
+  ✓ 6 plugins copied
+[6/8] Copying helper executables to bin/...
+  ✓ gpg.exe
+  ✓ gpg-agent.exe
+  ✓ gpgconf.exe
+  ✓ pinentry-w32.exe
+  ✓ gpgme-w32spawn.exe (bin/ + root)
+  ℹ tar.exe: Using Windows built-in (C:\Windows\System32\tar.exe)
+  ✓ openssl.exe
+  ✓ tor.exe
+  ✓ obfs4proxy.exe
+[7/8] Copying resources...
+  ✓ GLib schemas
+  ✓ Adwaita icons
+  ✓ Hicolor icons
+  ✓ Pixbuf loaders cache
+  ✓ DinoX icons
+
+[8/8] Build complete!
+
+Directory structure:
+  dist/
+  ├── dinox.bat              (Windows launcher - USE THIS!)
+  ├── dinox.exe              (main application)
+  ├── *.dll                  (system + core libraries)
+  ├── bin/
+  │   ├── gpg.exe            (OpenPGP encryption)
+  │   ├── openssl.exe        (backup encryption)
+  │   ├── tor.exe            (anonymity)
+  │   └── obfs4proxy.exe     (bridges)
+  ├── lib/
+  │   ├── gdk-pixbuf-2.0/    (image loaders)
+  │   ├── gio/               (GIO modules)
+  │   └── gstreamer-1.0/     (audio/video plugins)
+  ├── plugins/
+  │   └── *.dll              (DinoX feature plugins)
+  ├── share/
+  │   ├── glib-2.0/schemas/  (GSettings)
+  │   └── icons/             (Adwaita + app icons)
+  └── ssl/certs/             (CA certificates)
+
+To run from Windows Explorer: Double-click dinox.bat
+To run from MSYS2 terminal:   ./dist/dinox.exe

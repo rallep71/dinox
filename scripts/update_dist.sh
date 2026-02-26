@@ -216,6 +216,9 @@ SYSTEM_DLLS=(
     # JSON-GLib (required by tor-manager plugin)
     "libjson-glib-1.0-0.dll"
     
+    # MQTT (required by mqtt plugin — pacman -S mingw-w64-x86_64-mosquitto)
+    "libmosquitto.dll"
+    
     # SQLCipher (if using encrypted DB instead of plain sqlite)
     "libsqlcipher-0.dll"
 )

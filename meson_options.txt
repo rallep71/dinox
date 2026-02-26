@@ -15,3 +15,5 @@ option('plugin-rtp-vaapi', type: 'feature', value: 'auto', description: 'Video A
 option('plugin-rtp-v4l2', type: 'feature', value: 'disabled', description: 'V4L2 API (stateful)')
 option('plugin-rtp-v4l2-sl', type: 'feature', value: 'auto', description: 'V4L2 API (stateless)')
 option('plugin-rtp-webrtc-audio-processing', value: 'auto', type: 'feature', description: 'Voice preprocessing')
+
+option('plugin-mqtt', type: 'feature', value: 'auto', description: 'MQTT IoT/Event integration')
