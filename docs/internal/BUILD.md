@@ -27,7 +27,12 @@ For a plain “build from source” on a Linux distro, DinoX will use the versio
 In particular:
 
 - **libnice (ICE):** DinoX call support is known to have issues with older libnice versions. The release builds bundle/build **libnice 0.1.23**; for distro/source builds you should use **libnice >= 0.1.23**.
-- **“webrtc” in DinoX does NOT mean Google/libwebrtc:** DinoX uses **GStreamer** (not the full Google WebRTC stack). The relevant pieces are the GStreamer plugins from `gst-plugins-bad` (DTLS/SRTP/WebRTC elements) plus `libnice` for ICE.
+- **protobuf-c:** Ubuntu 24.04 ships 1.4.1 which has a memory corruption bug in `protobuf_c_message_unpack()` (fixed in 1.5.1). Release builds use **protobuf-c 1.5.2**.
+- **mosquitto:** Ubuntu 24.04 ships 2.0.18. Release builds use **mosquitto 2.1.2** for latest security/protocol fixes.
+- **libomemo-c (OMEMO):** Ubuntu 24.04 ships 0.5.0. Release builds use **libomemo-c 0.5.1** from the [rallep71 fork](https://github.com/rallep71/libomemo-c).
+- **"webrtc" in DinoX does NOT mean Google/libwebrtc:** DinoX uses **GStreamer** (not the full Google WebRTC stack). The relevant pieces are the GStreamer plugins from `gst-plugins-bad` (DTLS/SRTP/WebRTC elements) plus `libnice` for ICE.
+
+> **Recommended:** Use `scripts/ci-build-deps.sh` to build all custom dependencies from source with the same versions as the CI/release builds. This replaces SQLCipher, webrtc-audio-processing, libnice, protobuf-c, libomemo-c, and mosquitto with tested versions.
 - **webrtc-audio-processing (Highly Recommended):** This library provides professional-grade Echo Cancellation (AEC), Noise Suppression (NS), and Automatic Gain Control (AGC).
     - Without it, calls may have echo or background noise.
     - DinoX detects it at build time. If found, it is used automatically.
@@ -93,7 +98,6 @@ sudo apt install \
     libdbusmenu-glib-dev \
     libgcrypt20-dev \
     libgpgme-dev \
-    libomemo-c-dev \
     libjson-glib-dev \
     libqrencode-dev \
     libsoup-3.0-dev \
@@ -101,13 +105,16 @@ sudo apt install \
     libgstreamer-plugins-base1.0-dev \
     libgstreamer-plugins-bad1.0-dev \
     gstreamer1.0-pipewire \
-    libwebrtc-audio-processing-dev \
-    libmosquitto-dev \
     libnice-dev \
     libgnutls28-dev \
     libsrtp2-dev \
     gstreamer1.0-plugins-good
+
+# Then build custom dependencies from source (protobuf-c, mosquitto, libomemo-c, etc.)
+./scripts/ci-build-deps.sh
 ```
+
+> **Note:** `ci-build-deps.sh` builds protobuf-c 1.5.2, mosquitto 2.1.2, libomemo-c 0.5.1, SQLCipher 4.6.1 (FTS5), webrtc-audio-processing 2.1, and libnice 0.1.23 from source. These replace the (often outdated) Ubuntu packages.
 
 ### Fedora
 
@@ -128,7 +135,6 @@ sudo dnf install \
     libdbusmenu-glib-devel \
     libgcrypt-devel \
     gpgme-devel \
-    libomemo-c-devel \
     json-glib-devel \
     qrencode-devel \
     libsoup3-devel \
@@ -136,12 +142,13 @@ sudo dnf install \
     gstreamer1-plugins-base-devel \
     gstreamer1-plugins-bad-free-devel \
     pipewire-gstreamer \
-    webrtc-audio-processing-devel \
-    mosquitto-devel \
     libnice-devel \
     gnutls-devel \
     libsrtp2-devel \
     gstreamer1-plugins-good
+
+# Then build custom dependencies from source
+./scripts/ci-build-deps.sh
 ```
 
 ### Arch Linux / Manjaro
@@ -162,7 +169,6 @@ sudo pacman -S \
     libdbusmenu-glib \
     libgcrypt \
     gpgme \
-    libomemo-c \
     json-glib \
     qrencode \
     libsoup3 \
@@ -171,12 +177,12 @@ sudo pacman -S \
     gst-plugins-good \
     gst-plugins-bad \
     gst-plugin-pipewire \
-    webrtc-audio-processing \
-    mosquitto \
     libnice \
     gnutls \
     libsrtp
 
+# Then build custom dependencies from source
+./scripts/ci-build-deps.sh
 ```
 
 ### SQLCipher with FTS5 (Full-Text Search)
@@ -260,13 +266,16 @@ meson setup build -Dplugin-mqtt=enabled
 
 #### Install libmosquitto
 
-| Distro | Command |
-|--------|---------|
-| Debian/Ubuntu | `sudo apt install libmosquitto-dev` |
-| Fedora | `sudo dnf install mosquitto-devel` |
-| Arch Linux | `sudo pacman -S mosquitto` |
-| MSYS2 (Windows) | `pacman -S mingw-w64-x86_64-mosquitto` |
-| Flatpak | Built from source in manifest (mosquitto 2.1.2) |
+`scripts/ci-build-deps.sh` builds **mosquitto 2.1.2** from source automatically (recommended). For manual install:
+
+| Distro | Command | Version |
+|--------|---------|---------|
+| ci-build-deps.sh | `./scripts/ci-build-deps.sh` | **2.1.2** (recommended) |
+| Debian/Ubuntu (apt) | `sudo apt install libmosquitto-dev` | 2.0.18 (older) |
+| Fedora | `sudo dnf install mosquitto-devel` | varies |
+| Arch Linux | `sudo pacman -S mosquitto` | latest |
+| MSYS2 (Windows) | `pacman -S mingw-w64-x86_64-mosquitto` | latest |
+| Flatpak | Built from source in manifest | **2.1.2** |
 
 ### Windows (MSYS2 / MINGW64)
 

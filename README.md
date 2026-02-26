@@ -128,10 +128,10 @@ sudo apt install build-essential meson ninja-build valac \
 
 **Required custom dependencies** (not available in distro packages or too old):
 
-DinoX requires **SQLCipher with FTS5** (for optimal search), **webrtc-audio-processing >= 2.1**, **libnice >= 0.1.23** and **libomemo-c** which are not available in Ubuntu 24.04 repos. Build them first:
+DinoX requires **SQLCipher with FTS5** (for optimal search), **webrtc-audio-processing >= 2.1**, **libnice >= 0.1.23**, **protobuf-c >= 1.5.2** (fixes memory corruption), **mosquitto >= 2.1.2**, and **libomemo-c** which are not available (or too old) in Ubuntu 24.04 repos. Build them all at once:
 
 ```bash
-# Build script does all four automatically:
+# Build script does all six automatically:
 ./scripts/ci-build-deps.sh
 
 # Verify FTS5 support:
@@ -152,11 +152,24 @@ tar xf libnice-0.1.23.tar.gz && cd libnice-0.1.23
 meson setup build --prefix=/usr -Dtests=disabled -Dgtk_doc=disabled && ninja -C build && sudo ninja -C build install && sudo ldconfig
 cd ..
 
+# protobuf-c 1.5.2 (runtime library — fixes memory corruption in 1.4.x)
+wget -O protobuf-c-1.5.2.tar.gz "https://github.com/protobuf-c/protobuf-c/releases/download/v1.5.2/protobuf-c-1.5.2.tar.gz"
+tar xf protobuf-c-1.5.2.tar.gz && cd protobuf-c-1.5.2
+./configure --prefix=/usr --disable-protoc && make -j$(nproc) && sudo make install && sudo ldconfig
+cd ..
+
 # libomemo-c (OMEMO encryption)
 git clone https://github.com/rallep71/libomemo-c.git && cd libomemo-c
 mkdir build && cd build && cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_POSITION_INDEPENDENT_CODE=ON ..
 make -j$(nproc) && sudo make install && sudo ldconfig
 cd ../..
+
+# mosquitto 2.1.2 (MQTT client library)
+wget -O mosquitto-2.1.2.tar.gz "https://mosquitto.org/files/source/mosquitto-2.1.2.tar.gz"
+tar xf mosquitto-2.1.2.tar.gz && cd mosquitto-2.1.2
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_BROKER=OFF -DWITH_CLIENTS=OFF -DWITH_APPS=OFF -DWITH_PLUGINS=OFF -DDOCUMENTATION=OFF .
+make -j$(nproc) && sudo make install && sudo ldconfig
+cd ..
 ```
 
 For a complete, up-to-date build guide (including Fedora/Arch and call stack notes), see [BUILD.md](docs/internal/BUILD.md).
