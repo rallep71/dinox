@@ -2,24 +2,49 @@
 
 **Status:** Konzeptphase  
 **Erstellt:** 2026-02-26  
-**Version:** v0.1 (Entwurf)
+**Version:** v0.2 (Entwurf — Server-agnostisch: ejabberd + Prosody)
 
 ---
 
 ## 1. Motivation
 
-ejabberd bietet seit v19.02 einen eingebauten MQTT-Broker (`mod_mqtt`), der die
-gleiche Infrastruktur wie XMPP nutzt:
+Sowohl **ejabberd** als auch **Prosody** bieten MQTT-Anbindung, sodass
+DinoX unabhängig vom eingesetzten Server-Typ MQTT nutzen kann:
 
+### ejabberd — Nativer MQTT-Broker (`mod_mqtt`)
 - **Gleiche Authentifizierung** — XMPP-Accounts (`user@domain`) funktionieren als MQTT-Logins
 - **Gleiche ACL / Security Policy** — einmal definiert, gilt für beide Protokolle
 - **Gleiche DB-Backends** — kein zweiter Server nötig
-- **MQTT 5.0 + 3.1.1** — modernes Publish/Subscribe-Protokoll
+- **MQTT 5.0 + 3.1.1** — volle Protokoll-Unterstützung
+- Quelle: https://docs.ejabberd.im/admin/guide/mqtt/#benefits
 
-Quelle: https://docs.ejabberd.im/admin/guide/mqtt/#benefits
+### Prosody — MQTT↔PubSub Bridge (`mod_pubsub_mqtt`)
+- **MQTT-Topics = XMPP-PubSub-Nodes** — MQTT-Publishes landen als XEP-0060 Items
+- **Bidirektional** — XMPP-Clients können PubSub-Nodes subscriben, MQTT-Clients dasselbe Topic
+- **Community-Modul** — Beta, von Matthew Wild (Prosody-Lead)
+- **MQTT 3.1.1** — kein Auth, nur QoS 0
+- **Topic-Format:** `<HOST>/<TYPE>/<NODE>` (z.B. `pubsub.example.org/json/sensors`)
+- **Payload-Typen:** json (XEP-0335), utf8, atom_title
+- Quelle: https://modules.prosody.im/mod_pubsub_mqtt
 
-DinoX kann diese Infrastruktur nutzen, um **leichtgewichtiges Event-Streaming**
-neben dem regulären XMPP-Messaging anzubieten.
+### Server-Vergleich
+
+| Feature | ejabberd (`mod_mqtt`) | Prosody (`mod_pubsub_mqtt`) |
+|---------|----------------------|-----------------------------|
+| MQTT-Version | 5.0 + 3.1.1 | 3.1.1 |
+| Auth | XMPP-Credentials | Keine (!) |
+| QoS | 0, 1, 2 | Nur 0 |
+| Architektur | Nativer Broker | Bridge → XMPP PubSub |
+| Topic-Format | Frei wählbar | `<HOST>/<TYPE>/<NODE>` |
+| Payloads | Beliebig | json, utf8, atom_title |
+| Status | Production | Beta (Community-Modul) |
+| TLS | ✓ (Port 8883) | ✓ (Port 8883) |
+| Standard-Port | 1883 | 1883 |
+
+DinoX kann **beide Server-Typen** nutzen, da libmosquitto MQTT 3.1.1+ spricht.
+Die Prosody-Bridge ist besonders spannend: MQTT-Publishes werden automatisch
+als XMPP-PubSub-Nodes verfügbar, sodass auch reine XMPP-Clients ohne MQTT
+die Daten empfangen können.
 
 ---
 
@@ -70,12 +95,16 @@ neben dem regulären XMPP-Messaging anzubieten.
    (5222)│        (1883)│              │
          │              │              │
 ┌────────┴──────────────┴──────────────┘
-│           ejabberd Server
-│   ┌──────────┐  ┌──────────┐
-│   │ XMPP     │  │ mod_mqtt │
-│   │ Modules  │  │ (Broker) │
-│   └──────────┘  └──────────┘
-└─────────────────────────────────────┘
+│
+│  ┌──────────────────────────────────┐  ┌──────────────────────────────────────┐
+│  │     ejabberd Server             │  │     Prosody Server                   │
+│  │  ┌──────────┐  ┌──────────┐     │  │  ┌──────────┐  ┌────────────────┐    │
+│  │  │ XMPP     │  │ mod_mqtt │     │  │  │ XMPP     │  │mod_pubsub_mqtt │    │
+│  │  │ Modules  │  │ (native) │     │  │  │ Modules  │  │(→ PubSub XEP60)│    │
+│  │  └──────────┘  └──────────┘     │  │  └──────────┘  └────────────────┘    │
+│  └──────────────────────────────────┘  └──────────────────────────────────────┘
+│           (MQTT 5.0 + 3.1.1)                    (MQTT 3.1.1 only)
+└─┘
 ```
 
 ### 3.1 Komponenten
@@ -114,14 +143,21 @@ mqtt_enabled: bool = false
 mqtt_broker_host: string = ""        # leer = gleicher Host wie XMPP
 mqtt_broker_port: int = 1883         # 8883 für TLS
 mqtt_use_tls: bool = true
-mqtt_use_xmpp_credentials: bool = true  # XMPP-Login wiederverwenden
+mqtt_server_type: string = "auto"    # "auto", "ejabberd", "prosody"
+mqtt_use_xmpp_credentials: bool = true  # XMPP-Login wiederverwenden (nur ejabberd)
 mqtt_username: string = ""           # nur wenn use_xmpp_credentials = false
 mqtt_topics: string[] = []           # z.B. ["home/sensors/#", "bots/status/#"]
+#
+# Hinweis: Bei Prosody haben Topics das Format <HOST>/<TYPE>/<NODE>,
+# z.B. "pubsub.example.org/json/sensors". DinoX kann das automatisch
+# erkennen wenn mqtt_server_type = "auto".
 ```
 
 ---
 
-## 5. ejabberd Server-Konfiguration (Voraussetzung)
+## 5. Server-Konfiguration (Voraussetzung)
+
+### 5.1 ejabberd
 
 ```yaml
 listen:
@@ -145,16 +181,35 @@ modules:
         - allow
 ```
 
+### 5.2 Prosody
+
+```lua
+-- Installation:
+-- sudo prosodyctl install --server=https://modules.prosody.im/rocks/ mod_pubsub_mqtt
+
+Component "pubsub.example.org" "pubsub"
+    modules_enabled = { "pubsub_mqtt" }
+
+-- Optional: Ports (global section)
+mqtt_ports = { 1883 }
+mqtt_tls_ports = { 8883 }
+```
+
+**Achtung:** Prosody's `mod_pubsub_mqtt` hat aktuell **keine Authentifizierung**
+und nur **QoS 0**. Für Produktionsumgebungen sollte der MQTT-Port durch
+Firewall-Regeln oder VPN geschützt werden.
+
 ---
 
 ## 6. Implementierungsplan
 
 ### Phase 1: Grundgerüst (v1.2.0)
 - [x] Plugin-Skeleton erstellen (meson.build, plugin.vala, register_plugin.vala)
-- [ ] Vala VAPI für libmosquitto schreiben
+- [x] Vala VAPI für libmosquitto schreiben
 - [ ] MqttClient: connect/disconnect/subscribe/publish
 - [ ] GLib Main Loop Integration (GSource auf mosquitto fd)
-- [ ] Settings-UI: Enable/Disable, Broker, Port, TLS
+- [ ] Server-Typ-Erkennung (ejabberd vs Prosody, Topic-Format-Handling)
+- [ ] Settings-UI: Enable/Disable, Broker, Port, TLS, Server-Typ
 - [ ] Auto-Connect wenn XMPP verbunden
 
 ### Phase 2: Dashboard (v1.2.1)
@@ -184,7 +239,9 @@ modules:
 | libmosquitto nicht auf allen Plattformen verfügbar | Optional Dependency, Plugin wird nur geladen wenn lib vorhanden |
 | Windows Cross-Compile | mosquitto hat CMake-Build, muss für MSYS2/MinGW angepasst werden |
 | Threading vs Main Loop | GSource-Integration statt mosquitto_loop_start() |
-| MQTT 5.0 vs 3.1.1 | libmosquitto unterstützt beides, default auf 5.0 |
+| MQTT 5.0 vs 3.1.1 | libmosquitto unterstützt beides; ejabberd→5.0, Prosody→3.1.1 |
+| Prosody kein Auth | MQTT-Port mit Firewall/VPN sichern, DinoX warnt in Settings |
+| Prosody Topic-Format | Plugin erkennt Server-Typ und passt Topic-Prefix automatisch an |
 | Battery Drain durch offene Verbindung | MQTT hat eingebautes Keep-Alive, deutlich effizienter als XMPP-Polling |
 
 ---
@@ -192,6 +249,10 @@ modules:
 ## 8. Referenzen
 
 - [ejabberd MQTT Guide](https://docs.ejabberd.im/admin/guide/mqtt/)
+- [Prosody mod_pubsub_mqtt](https://modules.prosody.im/mod_pubsub_mqtt)
+- [Prosody PubSub Doku](https://prosody.im/doc/pubsub)
+- [XEP-0060: PubSub](https://xmpp.org/extensions/xep-0060.html)
+- [XEP-0335: JSON Containers](https://xmpp.org/extensions/xep-0335.html)
 - [libmosquitto API](https://mosquitto.org/api/files/mosquitto-h.html)
 - [MQTT 5.0 Spec](https://docs.oasis-open.org/mqtt/mqtt/v5.0/mqtt-v5.0.html)
 - [Eclipse Paho](https://www.eclipse.org/paho/) (alternative Client-Lib)
