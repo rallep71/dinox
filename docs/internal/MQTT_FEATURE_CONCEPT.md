@@ -2,7 +2,7 @@
 
 **Status:** Concept Phase  
 **Created:** 2026-02-26  
-**Version:** v0.5 (Draft — Phase 1 Implementation: connect/subscribe/publish)
+**Version:** v0.6 (Draft — Bot-Conversation UX Concept)
 
 ---
 
@@ -215,7 +215,191 @@ MQTT port should be protected by firewall rules or VPN.
 
 ---
 
-## 6. Implementation Plan
+## 6. UX Concept: Bot-Conversation Paradigm
+
+### 6.1 Core Idea
+
+MQTT data is **not** displayed in a separate dashboard, sidebar, or tab.  
+Instead, a **virtual bot contact** (e.g. `MQTT Bot`) appears in the regular  
+conversation list. All MQTT messages arrive as **chat messages from this bot**,  
+and the user can send **commands** to the bot via the chat input.
+
+**Why Bot-Conversation instead of Dashboard?**
+
+- DinoX is a **chat client** — a conversation-based UI is the natural paradigm
+- No new navigation concepts needed (sidebar entries, tab bars, floating panels)
+- Notifications work like any other chat (badge, sound, unread counter)
+- Mobile-friendly — same layout on desktop and mobile
+- Users already understand how to interact with bots in chat
+
+### 6.2 Visibility & Lifecycle
+
+The MQTT Bot follows strict visibility rules:
+
+| State | Bot visible? | Behavior |
+|-------|-------------|----------|
+| MQTT disabled in settings | **No** | Bot does not appear in contact list |
+| MQTT enabled, not connected | **Yes** (greyed out) | Shows "Connecting…" or "Offline" status |
+| MQTT enabled, connected, no data yet | **Yes** | Shows "Waiting for data…" |
+| **Data arrives on subscribed topic** | **Yes + notification** | Bot appears immediately, badge/sound like a real message |
+| MQTT disabled after use | **No** | Bot disappears from contact list, history preserved in DB |
+
+**Key rule:** The bot **must become visible as soon as a subscribed value arrives** —  
+even if the user has never opened the bot conversation. This is push-notification  
+behavior: if you subscribe to `home/sensors/benzinpreis` and a value comes in,  
+the bot appears with a notification like:
+
+```
+MQTT Bot
+  Benzin: 1,299 EUR/L (Tanke Aral, 14:32)
+```
+
+This way the user does not need to actively check for MQTT data — the **data comes  
+to the user**, just like a message from a real contact.
+
+### 6.3 Message Display
+
+Incoming MQTT messages appear as chat bubbles from the bot:
+
+```
+┌──────────────────────────────────────────────────┐
+│  MQTT Bot                                   ≡    │
+│                                                  │
+│  ┌─────────────────────────────────────────────┐ │
+│  │ [topic] home/sensors/temperature              │ │
+│  │ Temperature: 22.1°C                    14:32│ │
+│  └─────────────────────────────────────────────┘ │
+│                                                  │
+│  ┌─────────────────────────────────────────────┐ │
+│  │ [topic] home/sensors/door/front               │ │
+│  │ Door: OPEN [!]                         14:33│ │
+│  └─────────────────────────────────────────────┘ │
+│                                                  │
+│  ┌─────────────────────────────────────────────┐ │
+│  │ [topic] benzin/preise/aral_karlsruhe          │ │
+│  │ Benzin: 1,299 EUR/L                   14:35│ │
+│  └─────────────────────────────────────────────┘ │
+│                                                  │
+│  ┌───────────────────────────────────┐  [Send]   │
+│  │ /mqtt subscribe home/alerts/#    │           │
+│  └───────────────────────────────────┘           │
+└──────────────────────────────────────────────────┘
+```
+
+**Message formatting rules:**
+
+- Topic name displayed as header (small, grey)
+- Payload parsed: JSON values extracted and formatted, plain text shown as-is
+- Timestamp from receive time (or MQTT 5.0 User Property if available)
+- Retained messages marked with [pinned] icon
+- Alert thresholds trigger [!] warning icon and notification sound
+
+### 6.4 Chat Commands
+
+The user types commands in the chat input to control MQTT:
+
+| Command | Action |
+|---------|--------|
+| `/mqtt status` | Show connection status, broker, subscribed topics |
+| `/mqtt subscribe <topic>` | Subscribe to a new topic (wildcards supported) |
+| `/mqtt unsubscribe <topic>` | Unsubscribe from a topic |
+| `/mqtt publish <topic> <payload>` | Publish a message to a topic |
+| `/mqtt topics` | List all active subscriptions with last values |
+| `/mqtt alert <topic> <condition>` | Set threshold alert (e.g. `/mqtt alert temp > 30`) |
+| `/mqtt history <topic>` | Show last N values for a topic |
+| `/mqtt pause` | Pause all messages (bot stays visible but stops showing data) |
+| `/mqtt resume` | Resume message display |
+
+**Alternative:** Instead of slash commands, a **toolbar button** in the bot  
+conversation header could open a settings popover for topic management.
+
+### 6.5 Per-Account Bot vs Standalone Bot
+
+DinoX supports both **per-account** and **standalone** MQTT connections.  
+Each connection gets its **own bot contact**:
+
+| Mode | Bot Name | When Used |
+|------|----------|-----------|
+| Per-account (ejabberd) | `MQTT Bot (user@example.org)` | MQTT via ejabberd `mod_mqtt` — reuses XMPP auth |
+| Per-account (Prosody) | `MQTT Bot (user@example.org)` | MQTT via Prosody `mod_pubsub_mqtt` — topics bridged to PubSub |
+| Standalone | `MQTT Bot` | Direct connection to any MQTT broker |
+
+**Multiple bots are possible** — e.g. one per XMPP account (each with its own  
+ejabberd MQTT broker) plus one standalone connection to a local Mosquitto.  
+Each bot is a separate conversation.
+
+### 6.6 ejabberd-Specific UX
+
+When the XMPP server is ejabberd with `mod_mqtt`:
+
+- **Auto-detect:** DinoX can check for `mod_mqtt` via XEP-0030 Service Discovery
+- **Shared auth:** MQTT login = XMPP credentials → no separate username/password in UI
+- **Topic isolation:** MQTT topics are separate from XMPP PubSub — the bot shows
+  only MQTT data, no PubSub crossover
+- **MQTT 5.0 features:** User Properties in messages can carry metadata (units, labels)
+- **Settings hint:** "Your server supports MQTT — enable MQTT Bot to receive sensor data"
+
+### 6.7 Prosody-Specific UX
+
+When the XMPP server is Prosody with `mod_pubsub_mqtt`:
+
+- **Topic format:** Topics follow `<HOST>/<TYPE>/<NODE>` — DinoX must present this
+  clearly, e.g. show `pubsub.example.org/json/sensors` as "sensors (JSON)"
+- **No auth:** No username/password required — DinoX should show a security warning
+  ("MQTT port is open without authentication — use TLS + firewall")
+- **PubSub bridge:** MQTT publishes are visible as XEP-0060 PubSub items — the bot
+  could show a hint: "This data is also available via XMPP PubSub"
+- **QoS 0 only:** Messages may be lost — bot could show a disclaimer for unreliable
+  topics or offer retry/polling as fallback
+- **Payload types:** Prosody supports `json`, `utf8`, `atom_title` — the bot should
+  auto-detect and format accordingly
+
+### 6.8 Settings Location
+
+MQTT settings are placed in:
+
+**Per-account mode:**
+```
+Preferences → Accounts → [Account Name] → MQTT
+  [x] Enable MQTT Bot
+  Server type: [Auto-detect | ejabberd | Prosody | Custom Broker]
+  Broker: ________ Port: ____
+  [x] Use XMPP credentials (ejabberd only)
+  Topics: [ home/sensors/# ] [+]
+```
+
+**Standalone mode:**
+```
+Preferences → MQTT (global)
+  [x] Enable Standalone MQTT Bot
+  Broker: ________ Port: ____
+  Username: ________ Password: ________
+  [x] TLS
+  Topics: [ home/sensors/# ] [+]
+```
+
+### 6.9 Notification Behavior
+
+The MQTT Bot uses the **same notification system** as regular chat contacts:
+
+- **Unread badge** on the bot conversation when new MQTT data arrives
+- **Desktop notification** for alert messages (threshold exceeded, critical state)
+- **Sound** configurable per topic or globally (default: standard message sound)
+- **Do Not Disturb** respected — MQTT messages are silenced in DND mode
+- **Quiet mode** option: data arrives silently (no badge/sound), user checks manually
+
+**Priority levels for MQTT messages:**
+
+| Priority | Trigger | Notification |
+|----------|---------|-------------|
+| Normal | Regular sensor data | Unread badge only |
+| Alert | Threshold exceeded (`/mqtt alert`) | Badge + desktop notification |
+| Critical | User-defined critical topics | Badge + notification + sound |
+| Silent | Status updates, heartbeats | No notification, visible in history |
+
+---
+
+## 7. Implementation Plan
 
 ### Phase 1: Foundation (v1.2.0)
 - [x] Create plugin skeleton (meson.build, plugin.vala, register_plugin.vala)
@@ -226,29 +410,37 @@ MQTT port should be protected by firewall rules or VPN.
 - [x] GLib main loop integration (IOChannel + Timeout on mosquitto socket)
 - [x] Auto-connect when XMPP is connected (env-var config for Phase 1)
 - [x] Reconnection logic (auto-reconnect after 5 s, re-subscribe topics)
-- [ ] Server type detection (ejabberd vs Prosody, topic format handling)
+- [ ] Server type detection (ejabberd vs Prosody via XEP-0030 disco)
 - [ ] Settings UI: enable/disable, broker, port, TLS, server type
 
-### Phase 2: Dashboard (v1.2.1)
-- [ ] Topic manager: subscribe, payload parsing (JSON, plain text)
-- [ ] Dashboard widget: tiles with topic name + last value
-- [ ] Sidebar entry for MQTT dashboard
-- [ ] Topic management in settings
+### Phase 2: Bot-Conversation (v1.2.1)
+- [ ] Virtual bot contact: create MQTT Bot entity in conversation list
+- [ ] Bot visibility lifecycle (appear on data, disappear on disable)
+- [ ] Incoming MQTT messages → chat message bubbles (topic header + payload)
+- [ ] Payload parsing: JSON value extraction, plain text, retained flag
+- [ ] Bot per-account + standalone (separate conversations)
+- [ ] Chat commands: `/mqtt subscribe`, `/mqtt publish`, `/mqtt status`, `/mqtt topics`
+- [ ] ejabberd auto-detect (XEP-0030 → `mod_mqtt`) + shared auth hint
+- [ ] Prosody topic format display (`<HOST>/<TYPE>/<NODE>` → human-readable)
 
-### Phase 3: Alerts & History (v1.3.0)
-- [ ] Threshold alerts (notification when value > X)
-- [ ] Sparkline charts for history (last 24h)
-- [ ] Forward MQTT events to chat conversation
-- [ ] Retained messages support
+### Phase 3: Alerts & Notifications (v1.3.0)
+- [ ] Threshold alerts (`/mqtt alert <topic> <condition>`)
+- [ ] Notification priority system (normal / alert / critical / silent)
+- [ ] Alert messages with warning icon + desktop notification + sound
+- [ ] Topic-level notification settings (per-topic sound/silent)
+- [ ] History: last N values per topic in bot conversation
+- [ ] Prosody security warning (no auth → warning in settings + bot)
 
 ### Phase 4: Advanced (v1.4.0)
-- [ ] MQTT → XMPP bridge (topics as chat messages)
-- [ ] Bot monitoring dashboard
-- [ ] QoS level configuration (0/1/2)
+- [ ] MQTT → XMPP bridge (forward MQTT topics to real XMPP contacts)
+- [ ] Sparkline charts for topic history in bot conversation
+- [ ] QoS level configuration (0/1/2, per topic)
+- [ ] MQTT 5.0 User Properties display (units, labels from ejabberd)
+- [ ] Bot toolbar: visual topic manager (subscribe/unsubscribe without commands)
 
 ---
 
-## 7. Risks & Open Questions
+## 8. Risks & Open Questions
 
 | Risk | Mitigation |
 |------|-----------|
@@ -263,9 +455,9 @@ MQTT port should be protected by firewall rules or VPN.
 
 ---
 
-## 8. Integration: Home Assistant & Node-RED
+## 9. Integration: Home Assistant & Node-RED
 
-### 8.1 Overview
+### 9.1 Overview
 
 Home Assistant (HA) and Node-RED are the two most important smart home platforms,
 and both have **first-class MQTT support**:
@@ -278,7 +470,7 @@ and both have **first-class MQTT support**:
 DinoX can connect as an **MQTT client** to the same broker that HA and Node-RED
 use, receiving the same sensor data, events, and actuator states.
 
-### 8.2 Network Scenarios
+### 9.2 Network Scenarios
 
 #### Scenario A: All Local (LAN)
 
@@ -375,7 +567,7 @@ topic dinox/# in 1
 
 **TLS is mandatory.** All clients use port 8883 with certificate validation.
 
-### 8.3 Home Assistant Integration
+### 9.3 Home Assistant Integration
 
 **HA connects to the same MQTT broker as DinoX.** Configuration is done
 in HA under "Settings → Devices & Services → MQTT":
@@ -403,7 +595,7 @@ topic: homeassistant/switch/irrigation/set
 payload: ON
 ```
 
-### 8.4 Node-RED Integration
+### 9.4 Node-RED Integration
 
 Node-RED connects via the `mqtt-broker` node to the same broker:
 
@@ -432,7 +624,7 @@ Node-RED can also **consume DinoX events**:
 topic: dinox/bots/status/#
 ```
 
-### 8.5 Recommended Topic Hierarchy
+### 9.5 Recommended Topic Hierarchy
 
 To avoid collisions, the following structure is recommended:
 
@@ -460,7 +652,7 @@ nodered/                       ← Node-RED flows
   automations/#                → Automation status
 ```
 
-### 8.6 Network Security
+### 9.6 Network Security
 
 | Scenario | Recommendation |
 |----------|---------------|
@@ -475,7 +667,7 @@ nodered/                       ← Node-RED flows
 
 ---
 
-## 9. References
+## 10. References
 
 - [ejabberd MQTT Guide](https://docs.ejabberd.im/admin/guide/mqtt/)
 - [Prosody mod_pubsub_mqtt](https://modules.prosody.im/mod_pubsub_mqtt)
