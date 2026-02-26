@@ -2,7 +2,7 @@
 
 **Status:** Konzeptphase  
 **Erstellt:** 2026-02-26  
-**Version:** v0.2 (Entwurf — Server-agnostisch: ejabberd + Prosody)
+**Version:** v0.3 (Entwurf — Server-agnostisch + HA/Node-RED Integration)
 
 ---
 
@@ -249,11 +249,227 @@ Firewall-Regeln oder VPN geschützt werden.
 
 ---
 
-## 8. Referenzen
+## 8. Integration: Home Assistant & Node-RED
+
+### 8.1 Übersicht
+
+Home Assistant (HA) und Node-RED sind die beiden wichtigsten Smart-Home-Plattformen
+und beide haben **erstklassige MQTT-Unterstützung**:
+
+| Plattform | MQTT-Feature | Details |
+|-----------|-------------|---------|
+| **Home Assistant** | Eingebaute MQTT-Integration | Auto-Discovery (`homeassistant/+/…/config`), Publish/Subscribe, MQTT 3.1.1 + 5.0 |
+| **Node-RED** | `mqtt in` / `mqtt out` Nodes | Verbindet sich mit beliebigem Broker, JSON-Parsing, Flows |
+
+DinoX kann sich als **MQTT-Client** mit dem gleichen Broker verbinden, den auch
+HA und Node-RED nutzen, und so dieselben Sensordaten, Events und Aktoren empfangen.
+
+### 8.2 Netzwerk-Szenarien
+
+#### Szenario A: Alles lokal (LAN)
+
+```
+┌─────────────────── Lokales Netzwerk (192.168.x.x) ──────────────────┐
+│                                                                      │
+│  ┌──────────┐    ┌──────────────────┐    ┌──────────────────┐       │
+│  │  DinoX   │    │  Home Assistant  │    │    Node-RED      │       │
+│  │ (Desktop)│    │  (Raspberry Pi)  │    │ (Docker/RPi)     │       │
+│  └────┬─────┘    └───────┬──────────┘    └───────┬──────────┘       │
+│       │                  │                       │                   │
+│       │     MQTT (1883)  │         MQTT (1883)   │                   │
+│       └─────────┬────────┴───────────────────────┘                   │
+│                 │                                                     │
+│       ┌─────────┴─────────┐                                          │
+│       │   MQTT-Broker     │  ← ejabberd mod_mqtt                     │
+│       │ (ejabberd/Prosody │    ODER Prosody mod_pubsub_mqtt          │
+│       │  ODER Mosquitto)  │    ODER standalone Mosquitto              │
+│       └───────────────────┘                                          │
+└──────────────────────────────────────────────────────────────────────┘
+```
+
+**Einfachster Fall:** Alle Geräte im gleichen Netzwerk.
+- DinoX verbindet sich zu `mqtt://192.168.x.x:1883`
+- Keine TLS nötig (optional empfohlen)
+- Kein Internet-Zugang erforderlich
+
+#### Szenario B: XMPP-Server im Internet, Smart Home lokal
+
+```
+┌─── Internet ─────────────┐     ┌─── Lokales Netzwerk ─────────────┐
+│                           │     │                                   │
+│  ┌───────────────────┐    │     │  ┌────────────────┐              │
+│  │ ejabberd/Prosody  │    │     │  │ Home Assistant  │              │
+│  │ (XMPP + MQTT)     │    │     │  └───────┬────────┘              │
+│  │ mqtt.example.org  │    │     │          │                        │
+│  └────────┬──────────┘    │     │  ┌───────┴────────┐              │
+│           │               │     │  │ Mosquitto       │              │
+│           │ TLS (8883)    │     │  │ (HA Add-on)     │              │
+│           │               │     │  │ Port 1883       │              │
+└───────────┼───────────────┘     │  └───────┬────────┘              │
+            │                      │          │                        │
+    ┌───────┴──────┐               │  ┌───────┴────────┐              │
+    │    DinoX     │               │  │    Node-RED     │              │
+    │ (überall)    │               │  └────────────────┘              │
+    └──────────────┘               └──────────────────────────────────┘
+```
+
+**Häufigster Fall im Praxis:** XMPP-Server im Internet, Smart Home lokal.
+
+**Zwei Broker-Optionen:**
+
+1. **DinoX → lokaler Mosquitto (HA Add-on)**
+   - DinoX verbindet sich direkt zum lokalen Mosquitto (Port-Forwarding oder VPN)
+   - Vorteil: Alle HA-Sensoren direkt sichtbar
+   - Nachteil: Lokaler Broker muss erreichbar sein
+
+2. **Mosquitto-Bridge** (empfohlen)
+   - Lokaler Mosquitto leitet ausgewählte Topics an ejabberd/Prosody weiter
+   - DinoX verbindet sich nur zum Internet-Broker
+   - Konfiguration in `/etc/mosquitto/conf.d/bridge.conf`:
+
+```
+# Lokaler Mosquitto → ejabberd/Prosody Bridge
+connection xmpp-bridge
+address mqtt.example.org:8883
+bridge_capath /etc/ssl/certs
+remote_username user@example.org
+remote_password geheim
+topic home/sensors/# out 1
+topic home/actuators/# both 1
+topic dinox/# in 1
+```
+
+#### Szenario C: Alles im Internet / Cloud
+
+```
+┌─── Internet / Cloud ──────────────────────────────────────────────┐
+│                                                                    │
+│  ┌───────────────┐   ┌───────────────┐   ┌───────────────┐       │
+│  │   DinoX       │   │ Home Assistant │   │   Node-RED    │       │
+│  │   (Client)    │   │   (Cloud/VPS)  │   │   (Cloud)     │       │
+│  └───────┬───────┘   └───────┬───────┘   └───────┬───────┘       │
+│          │                   │                   │                 │
+│          │     TLS (8883)    │      TLS (8883)   │                 │
+│          └──────────┬────────┴───────────────────┘                 │
+│                     │                                               │
+│           ┌─────────┴──────────┐                                    │
+│           │  ejabberd/Prosody  │                                    │
+│           │  (MQTT + XMPP)    │                                    │
+│           └────────────────────┘                                    │
+└────────────────────────────────────────────────────────────────────┘
+```
+
+**TLS ist Pflicht.** Alle Clients nutzen Port 8883 mit Zertifikatsvalidierung.
+
+### 8.3 Home Assistant Anbindung
+
+**HA verbindet sich zum gleichen MQTT-Broker wie DinoX.** Die Konfiguration erfolgt
+in HA unter „Settings → Devices & Services → MQTT":
+
+- **Broker:** IP/Hostname des ejabberd/Prosody/Mosquitto
+- **Port:** 1883 (lokal) oder 8883 (TLS)
+- **Username/Password:** XMPP-Credentials (ejabberd) oder leer (Prosody)
+
+**HA MQTT Discovery:** HA registriert Geräte automatisch über Topics wie:
+```
+homeassistant/sensor/wohnzimmer_temp/config   → Konfiguration (JSON)
+homeassistant/sensor/wohnzimmer_temp/state    → Messwerte
+```
+
+**DinoX kann diese Topics subscriben** und die Sensordaten im Dashboard anzeigen:
+```
+# Beispiel: Alle HA-Sensoren empfangen
+mqtt_topics: ["homeassistant/sensor/#", "homeassistant/binary_sensor/#"]
+```
+
+**Aktoren steuern** (z.B. Licht an/aus):
+```
+# Publish an HA-Command-Topic
+topic: homeassistant/switch/irrigation/set
+payload: ON
+```
+
+### 8.4 Node-RED Anbindung
+
+Node-RED verbindet sich über den `mqtt-broker`-Node zum gleichen Broker:
+
+```
+┌──────────┐    ┌─────────────────┐    ┌──────────────┐
+│ Sensor   │───→│ Node-RED Flow   │───→│ MQTT Broker  │───→ DinoX
+│ (HTTP/   │    │ (Verarbeitung,  │    │              │
+│  GPIO)   │    │  Formatierung)  │    │              │
+└──────────┘    └─────────────────┘    └──────────────┘
+```
+
+**Beispiel Node-RED Flow** (JSON-Import):
+```json
+[
+  {"id":"mqtt-out","type":"mqtt out","topic":"home/sensors/temperature",
+   "broker":"mqtt-broker-node","qos":"1","retain":"true"},
+  {"id":"mqtt-broker-node","type":"mqtt-broker",
+   "broker":"mqtt.example.org","port":"8883","tls":"true",
+   "credentials":{"user":"user@example.org","password":"geheim"}}
+]
+```
+
+Node-RED kann auch **DinoX-Events konsumieren**:
+```
+# Node-RED subscribes auf DinoX-Bot-Topics
+topic: dinox/bots/status/#
+```
+
+### 8.5 Empfohlene Topic-Hierarchie
+
+Um Kollisionen zu vermeiden, empfiehlt sich folgende Struktur:
+
+```
+home/                          ← Smart Home (HA / Node-RED)
+  sensors/
+    temperature/wohnzimmer     → {"value": 22.1, "unit": "°C"}
+    humidity/schlafzimmer      → {"value": 45, "unit": "%"}
+    door/haustuer              → {"state": "closed"}
+  actuators/
+    light/wohnzimmer/set       → ON / OFF
+    thermostat/wohnzimmer/set  → {"target": 21.0}
+
+homeassistant/                 ← HA Discovery (automatisch)
+  sensor/…/config
+  binary_sensor/…/config
+
+dinox/                         ← DinoX-eigene Topics
+  bots/status/#                → Bot-Status-Events
+  notifications/#              → Push-Notifications
+  bridge/#                     → XMPP↔MQTT Bridge-Messages
+
+nodered/                       ← Node-RED Flows
+  alerts/#                     → Verarbeitete Alarme
+  automations/#                → Automations-Status
+```
+
+### 8.6 Netzwerk-Sicherheit
+
+| Szenario | Empfehlung |
+|----------|-----------|
+| LAN-only | TLS optional, Firewall auf Port 1883 (nur LAN) |
+| Internet | **TLS Pflicht** (Port 8883), Username+Passwort |
+| Gemischt (Bridge) | Bridge mit TLS, lokaler Broker ohne TLS akzeptabel |
+| Prosody (kein Auth) | MQTT-Port **nur** im LAN/VPN erreichbar machen |
+
+**DinoX Settings-UI sollte warnen** wenn:
+- TLS deaktiviert bei nicht-lokaler IP
+- Prosody (kein Auth) bei Internet-Zugang
+
+---
+
+## 9. Referenzen
 
 - [ejabberd MQTT Guide](https://docs.ejabberd.im/admin/guide/mqtt/)
 - [Prosody mod_pubsub_mqtt](https://modules.prosody.im/mod_pubsub_mqtt)
 - [Prosody PubSub Doku](https://prosody.im/doc/pubsub)
+- [Home Assistant MQTT Integration](https://www.home-assistant.io/integrations/mqtt/)
+- [Home Assistant MQTT Discovery](https://www.home-assistant.io/integrations/mqtt/#mqtt-discovery)
+- [Node-RED MQTT Nodes](https://nodered.org/docs/user-guide/messages)
+- [Mosquitto Bridge Konfiguration](https://mosquitto.org/man/mosquitto-conf-5.html)
 - [XEP-0060: PubSub](https://xmpp.org/extensions/xep-0060.html)
 - [XEP-0335: JSON Containers](https://xmpp.org/extensions/xep-0335.html)
 - [libmosquitto API](https://mosquitto.org/api/files/mosquitto-h.html)
