@@ -8,8 +8,15 @@
 
 ## 1. Motivation
 
-Both **ejabberd** and **Prosody** offer MQTT connectivity, allowing
-DinoX to use MQTT regardless of the server type in use:
+The DinoX MQTT plugin uses **libmosquitto** as a standard MQTT client and
+connects to **any MQTT broker** — no XMPP server integration required.
+Users can subscribe and publish to any Mosquitto, HiveMQ, EMQX, CloudMQTT,
+AWS IoT Core, or other MQTT 3.1.1/5.0 broker by simply entering the broker
+address in the settings.
+
+As a **bonus**, both ejabberd and Prosody offer built-in MQTT connectivity,
+allowing DinoX to optionally reuse XMPP credentials or bridge MQTT topics
+to XMPP PubSub:
 
 ### ejabberd — Native MQTT Broker (`mod_mqtt`)
 - **Shared Authentication** — XMPP accounts (`user@domain`) work as MQTT logins
@@ -42,7 +49,8 @@ DinoX to use MQTT regardless of the server type in use:
 | TLS | Yes (Port 8883) | Yes (Port 8883) |
 | Default Port | 1883 | 1883 |
 
-DinoX can use **both server types** since libmosquitto speaks MQTT 3.1.1+.
+DinoX works with **any MQTT broker**. The ejabberd/Prosody integration is
+optional — the plugin is a general-purpose MQTT client first.
 
 **Prosody's Unique Advantage:** With Prosody, MQTT publishes are automatically
 readable as standard XMPP PubSub nodes (XEP-0060) — even clients **without**
@@ -143,12 +151,13 @@ GTK main loop without threading issues.
 ```
 # Stored in DinoX settings (GSettings or DB)
 mqtt_enabled: bool = false
-mqtt_broker_host: string = ""        # empty = same host as XMPP
+mqtt_broker_host: string = ""        # any broker: IP, hostname, or domain
 mqtt_broker_port: int = 1883         # 8883 for TLS
 mqtt_use_tls: bool = true
-mqtt_server_type: string = "auto"    # "auto", "ejabberd", "prosody"
-mqtt_use_xmpp_credentials: bool = true  # reuse XMPP login (ejabberd only)
-mqtt_username: string = ""           # only if use_xmpp_credentials = false
+mqtt_server_type: string = "auto"    # "auto", "ejabberd", "prosody", "standalone"
+mqtt_use_xmpp_credentials: bool = false # true = reuse XMPP login (ejabberd only)
+mqtt_username: string = ""           # broker credentials (standalone / Prosody)
+mqtt_password: string = ""           # broker credentials
 mqtt_topics: string[] = []           # e.g. ["home/sensors/#", "bots/status/#"]
 #
 # Note: With Prosody, topics use the format <HOST>/<TYPE>/<NODE>,
