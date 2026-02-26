@@ -6,9 +6,6 @@
  * pkg-config: libmosquitto
  *
  * Reference: https://mosquitto.org/api/files/mosquitto-h.html
- *
- * TODO: This is a minimal binding covering connect/subscribe/publish/disconnect.
- *       Add more functions as needed (will, TLS options, v5 properties, etc.)
  */
 
 [CCode (cheader_filename = "mosquitto.h")]
@@ -29,6 +26,9 @@ namespace Mosquitto {
 
         [CCode (cname = "mosquitto_connect")]
         public int connect(string host, int port = 1883, int keepalive = 60);
+
+        [CCode (cname = "mosquitto_reconnect")]
+        public int reconnect();
 
         [CCode (cname = "mosquitto_disconnect")]
         public int disconnect();
@@ -53,6 +53,7 @@ namespace Mosquitto {
         [CCode (cname = "mosquitto_loop_write")]
         public int loop_write(int max_packets = 1);
 
+        /* loop_misc has no parameters besides the client pointer */
         [CCode (cname = "mosquitto_loop_misc")]
         public int loop_misc();
 
@@ -95,53 +96,58 @@ namespace Mosquitto {
     }
 
     /* ── Callback delegates ────────────────────────────────────── */
+    /* has_target = false: plain C function pointers, userdata via mosquitto_new() */
 
-    [CCode (cname = "mosquitto_connect_callback", has_target = false)]
+    [CCode (cname = "mosquitto_on_connect_cb", has_target = false)]
     public delegate void ConnectCallback(Client mosq, void* userdata, int rc);
 
-    [CCode (cname = "mosquitto_disconnect_callback", has_target = false)]
+    [CCode (cname = "mosquitto_on_disconnect_cb", has_target = false)]
     public delegate void DisconnectCallback(Client mosq, void* userdata, int rc);
 
-    [CCode (cname = "mosquitto_message_callback", has_target = false)]
-    public delegate void MessageCallback(Client mosq, void* userdata, Message msg);
+    [CCode (cname = "mosquitto_on_message_cb", has_target = false)]
+    public delegate void MessageCallback(Client mosq, void* userdata, Message* msg);
 
-    [CCode (cname = "mosquitto_subscribe_callback", has_target = false)]
+    [CCode (cname = "mosquitto_on_subscribe_cb", has_target = false)]
     public delegate void SubscribeCallback(Client mosq, void* userdata, int mid,
                                             int qos_count,
                                             [CCode (array_length = false)] int[] granted_qos);
 
     /* ── Message struct ────────────────────────────────────────── */
+    /* No destroy_function — mosquitto manages message lifetime in callbacks.
+     * Use void* for payload and unowned string for topic to avoid
+     * Vala ownership issues with the C struct we don't own. */
 
-    [CCode (cname = "struct mosquitto_message", destroy_function = "mosquitto_message_free")]
+    [CCode (cname = "struct mosquitto_message")]
     public struct Message {
         public int mid;
-        public string topic;
-        [CCode (array_length_cname = "payloadlen")]
-        public uint8[] payload;
+        public unowned string topic;
+        public void* payload;
         public int payloadlen;
         public int qos;
         public bool retain;
     }
 
-    /* ── Error codes ───────────────────────────────────────────── */
+    /* ── Error codes (enum mosq_err_t from mosquitto.h) ────────── */
 
     [CCode (cname = "int", cprefix = "MOSQ_ERR_")]
     public enum Error {
-        SUCCESS,
-        NOMEM,
-        PROTOCOL,
-        INVAL,
-        NO_CONN,
-        CONN_REFUSED,
-        NOT_FOUND,
-        CONN_LOST,
-        TLS,
-        PAYLOAD_SIZE,
-        NOT_SUPPORTED,
-        AUTH,
-        ACL_DENIED,
-        UNKNOWN,
-        ERRNO,
-        EAI
+        CONN_PENDING  = -1,
+        SUCCESS       =  0,
+        NOMEM         =  1,
+        PROTOCOL      =  2,
+        INVAL         =  3,
+        NO_CONN       =  4,
+        CONN_REFUSED  =  5,
+        NOT_FOUND     =  6,
+        CONN_LOST     =  7,
+        TLS           =  8,
+        PAYLOAD_SIZE  =  9,
+        NOT_SUPPORTED = 10,
+        AUTH          = 11,
+        ACL_DENIED    = 12,
+        UNKNOWN       = 13,
+        ERRNO         = 14,
+        EAI           = 15,
+        PROXY         = 16
     }
 }

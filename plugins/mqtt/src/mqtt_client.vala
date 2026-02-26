@@ -1,9 +1,17 @@
 /*
- * MqttClient — Wrapper around libmosquitto for GLib Main Loop integration.
+ * MqttClient — libmosquitto wrapper with GLib Main Loop integration.
  *
- * Instead of using mosquitto_loop_start() (which spawns a thread),
- * we integrate the mosquitto socket into GLib's main loop using GSource.
- * This avoids threading issues with GTK4.
+ * Instead of mosquitto_loop_start() (which spawns a thread), we integrate
+ * the mosquitto socket into GLib's main loop via IOChannel + Timeout.
+ * This keeps everything on the GTK main thread — no locking needed.
+ *
+ * Flow:
+ *   1. mosquitto_connect() runs in a GLib.Thread (blocks for TCP handshake)
+ *   2. On success: IOChannel watch on the socket fd for IN/ERR/HUP
+ *   3. loop_read()  — processes incoming MQTT packets, fires callbacks
+ *   4. loop_write() — flushes outgoing data (triggered when want_write())
+ *   5. loop_misc()  — keepalive + housekeeping, every 1 second via Timeout
+ *   6. On disconnect: teardown sources, schedule reconnect after 5 seconds
  *
  * Requires: libmosquitto-dev (apt install libmosquitto-dev)
  */
@@ -16,132 +24,503 @@ public class MqttClient : Object {
 
     public bool is_connected { get; private set; default = false; }
 
-    /** Emitted on incoming message. */
+    /** Emitted on incoming message (topic + raw payload bytes). */
     public signal void on_message(string topic, uint8[] payload);
 
-    /** Emitted when connection state changes. */
+    /** Emitted when MQTT connection state changes. */
     public signal void on_connection_changed(bool connected);
 
-    // TODO: Replace these stubs with actual libmosquitto calls
-    // once the mosquitto.vapi binding is written.
+    /* ── Private state ───────────────────────────────────────────── */
 
-    // private Mosquitto.Client? mosq = null;
-    // private uint io_source_id = 0;
-    // private uint misc_timer_id = 0;
+    private Mosquitto.Client? mosq = null;
+    private GLib.IOChannel? io_channel = null;
+    private uint io_watch_id = 0;
+    private uint write_watch_id = 0;
+    private uint misc_timer_id = 0;
+    private uint reconnect_timer_id = 0;
+
+    /* Stored for reconnection */
+    private string broker_host = "";
+    private int broker_port = 1883;
+    private bool broker_use_tls = false;
+    private string? broker_username = null;
+    private string? broker_password = null;
+    private bool initial_connect_done = false;
+
+    /* Topics to re-subscribe after reconnect */
+    private Gee.HashMap<string, int> subscribed_topics =
+        new Gee.HashMap<string, int>();
+
+    /* Static dispatch — only one MqttClient per process (Plugin creates one) */
+    private static unowned MqttClient? _active = null;
+
+    private static bool _lib_initialized = false;
+
+    /* ── Construction / Destruction ──────────────────────────────── */
 
     public MqttClient() {
-        // Mosquitto.lib_init();  // call once globally
+        if (!_lib_initialized) {
+            Mosquitto.lib_init();
+            _lib_initialized = true;
+        }
+        _active = this;
     }
 
     ~MqttClient() {
         disconnect_sync();
-        // Mosquitto.lib_cleanup();
+        if (_active == this) _active = null;
     }
+
+    /* ── Connect ─────────────────────────────────────────────────── */
 
     /**
-     * Connect to the MQTT broker asynchronously.
+     * Connect to an MQTT broker.
      *
-     * Returns true if the connection succeeds.
+     * The TCP handshake runs in a background thread so the GTK main loop
+     * is not blocked. After TCP succeeds, GLib sources are installed and
+     * the CONNACK callback sets is_connected = true.
+     *
+     * Returns true if TCP connect + CONNACK succeeded within the timeout.
      */
     public async bool connect_async(string host, int port = 1883,
-                                      bool use_tls = false,
-                                      string? username = null,
-                                      string? password = null) {
+                                    bool use_tls = false,
+                                    string? username = null,
+                                    string? password = null) {
+        if (is_connected) {
+            message("MQTT: Already connected to %s:%d", broker_host, broker_port);
+            return true;
+        }
 
-        // ── Stub implementation ──────────────────────────────────
-        // Real implementation will:
-        // 1. mosq = new Mosquitto.Client(client_id, clean_session, userdata)
-        // 2. mosq.username_pw_set(username, password)
-        // 3. if (use_tls) mosq.tls_set(...)
-        // 4. mosq.connect_callback_set(on_connect_cb)
-        // 5. mosq.message_callback_set(on_message_cb)
-        // 6. mosq.disconnect_callback_set(on_disconnect_cb)
-        // 7. int rc = mosq.connect(host, port, keepalive: 60)
-        // 8. Setup GLib.IOChannel on mosq.socket() for read/write events
-        // 9. Setup GLib.Timeout for mosquitto_loop_misc() every 1s
+        /* Store for reconnect */
+        broker_host = host;
+        broker_port = port;
+        broker_use_tls = use_tls;
+        broker_username = username;
+        broker_password = password;
 
-        message("MQTT stub: connect_async(%s, %d, tls=%s, user=%s)",
-                host, port, use_tls.to_string(),
-                username ?? "(xmpp-credentials)");
+        /* Create mosquitto client */
+        string client_id = "dinox-%lld".printf(GLib.get_real_time() / 1000);
+        mosq = new Mosquitto.Client(client_id, true, null);
 
-        // Simulate async delay
-        Idle.add(connect_async.callback);
+        if (mosq == null) {
+            warning("MQTT: mosquitto_new() failed");
+            return false;
+        }
+
+        /* Credentials */
+        if (username != null && username != "") {
+            mosq.username_pw_set(username, password);
+        }
+
+        /* TLS — try common CA certificate locations */
+        if (use_tls) {
+            string? cafile = null;
+            string? capath = null;
+
+            if (FileUtils.test("/etc/ssl/certs/ca-certificates.crt", FileTest.EXISTS)) {
+                cafile = "/etc/ssl/certs/ca-certificates.crt";
+            } else if (FileUtils.test("/etc/ssl/certs/ca-bundle.crt", FileTest.EXISTS)) {
+                cafile = "/etc/ssl/certs/ca-bundle.crt";
+            } else if (FileUtils.test("/etc/ssl/certs", FileTest.IS_DIR)) {
+                capath = "/etc/ssl/certs";
+            }
+
+            int tls_rc = mosq.tls_set(cafile, capath, null, null);
+            if (tls_rc != Mosquitto.Error.SUCCESS) {
+                warning("MQTT: tls_set failed (rc=%d)", tls_rc);
+            }
+        }
+
+        /* Install C callbacks (dispatch via static _active pointer) */
+        mosq.connect_callback_set(on_connect_cb);
+        mosq.disconnect_callback_set(on_disconnect_cb);
+        mosq.message_callback_set(on_message_cb);
+
+        /* ---------- TCP connect in background thread ---------- */
+        int tcp_rc = Mosquitto.Error.UNKNOWN;
+        /* capture async resume callback */
+        SourceFunc resume = connect_async.callback;
+
+        new Thread<void*>("mqtt-connect", () => {
+            tcp_rc = mosq.connect(host, port, 60);
+            Idle.add((owned) resume);
+            return null;
+        });
+        yield;   /* resume when thread finishes */
+
+        if (tcp_rc != Mosquitto.Error.SUCCESS) {
+            warning("MQTT: TCP connect to %s:%d failed (rc=%d: %s)",
+                    host, port, tcp_rc, rc_to_string(tcp_rc));
+            mosq = null;
+            return false;
+        }
+
+        initial_connect_done = true;
+
+        /* TCP connected — install GLib main loop sources */
+        setup_glib_sources();
+
+        message("MQTT: TCP connected to %s:%d, waiting for CONNACK…", host, port);
+
+        /* Wait for CONNACK (on_connect_cb stores result and resumes us) */
+        int connack_rc = -1;
+        connack_resume = connect_async.callback;
+
+        /* Timeout: give broker 10 s to respond */
+        uint timeout_id = Timeout.add_seconds(10, () => {
+            connack_rc = -1;    /* timeout */
+            if (connack_resume != null) {
+                Idle.add((owned) connack_resume);
+                connack_resume = null;
+            }
+            return false;
+        });
+
+        yield;   /* resume on CONNACK or timeout */
+
+        /* If CONNACK arrived, connack_rc was written by handle_connect */
+        connack_rc = connack_result;
+        Source.remove(timeout_id);
+        connack_resume = null;
+
+        if (connack_rc != 0) {
+            warning("MQTT: CONNACK refused (rc=%d: %s)",
+                    connack_rc, connack_rc_to_string(connack_rc));
+            teardown_glib_sources();
+            mosq.disconnect();
+            mosq = null;
+            initial_connect_done = false;
+            return false;
+        }
+
+        message("MQTT: Connected to %s:%d ✔", host, port);
+        return true;
+    }
+
+    /* Used to resume connect_async from the CONNACK callback */
+    private SourceFunc? connack_resume = null;
+    private int connack_result = -1;
+
+    /* ── GLib Main Loop Integration ──────────────────────────────── */
+
+    private void setup_glib_sources() {
+        int fd = mosq.socket();
+        if (fd < 0) {
+            warning("MQTT: mosquitto_socket() returned %d", fd);
+            return;
+        }
+
+        io_channel = new IOChannel.unix_new(fd);
+        try {
+            io_channel.set_encoding(null);
+        } catch (IOChannelError e) {
+            warning("MQTT: set_encoding failed: %s", e.message);
+        }
+        io_channel.set_buffered(false);
+
+        /* Persistent read watch */
+        io_watch_id = io_channel.add_watch(
+            IOCondition.IN | IOCondition.ERR | IOCondition.HUP,
+            on_io_readable);
+
+        /* Periodic housekeeping (keepalive, ping, retry) */
+        misc_timer_id = Timeout.add_seconds(1, on_misc_timer);
+    }
+
+    private void teardown_glib_sources() {
+        if (io_watch_id  != 0) { Source.remove(io_watch_id);  io_watch_id  = 0; }
+        if (write_watch_id != 0) { Source.remove(write_watch_id); write_watch_id = 0; }
+        if (misc_timer_id != 0) { Source.remove(misc_timer_id); misc_timer_id = 0; }
+        if (reconnect_timer_id != 0) { Source.remove(reconnect_timer_id); reconnect_timer_id = 0; }
+        io_channel = null;
+    }
+
+    /* ── IO callbacks ────────────────────────────────────────────── */
+
+    private bool on_io_readable(IOChannel source, IOCondition cond) {
+        if (mosq == null) return false;
+
+        if ((cond & IOCondition.ERR) != 0 || (cond & IOCondition.HUP) != 0) {
+            warning("MQTT: Socket error/hangup");
+            handle_disconnect_event(Mosquitto.Error.CONN_LOST);
+            return false;    /* remove this watch */
+        }
+
+        int rc = mosq.loop_read(1);
+        if (rc != Mosquitto.Error.SUCCESS) {
+            warning("MQTT: loop_read failed (rc=%d: %s)", rc, rc_to_string(rc));
+            handle_disconnect_event(rc);
+            return false;
+        }
+
+        /* Flush outgoing data if the library buffered a response */
+        schedule_write_if_needed();
+
+        return true;    /* keep watching */
+    }
+
+    private bool on_io_writable(IOChannel source, IOCondition cond) {
+        if (mosq == null) return false;
+
+        int rc = mosq.loop_write(1);
+        if (rc != Mosquitto.Error.SUCCESS) {
+            warning("MQTT: loop_write failed (rc=%d)", rc);
+        }
+
+        write_watch_id = 0;
+        return false;    /* one-shot: remove write watch */
+    }
+
+    private bool on_misc_timer() {
+        if (mosq == null) return false;
+
+        int rc = mosq.loop_misc();
+        if (rc != Mosquitto.Error.SUCCESS) {
+            if (rc == Mosquitto.Error.NO_CONN || rc == Mosquitto.Error.CONN_LOST) {
+                handle_disconnect_event(rc);
+                return false;
+            }
+        }
+
+        schedule_write_if_needed();
+        return true;    /* keep timer */
+    }
+
+    private void schedule_write_if_needed() {
+        if (mosq != null && mosq.want_write() &&
+            write_watch_id == 0 && io_channel != null) {
+            write_watch_id = io_channel.add_watch(
+                IOCondition.OUT, on_io_writable);
+        }
+    }
+
+    /* ── Mosquitto C callbacks (static → dispatch to _active) ──── */
+
+    private static void on_connect_cb(Mosquitto.Client mosq,
+                                      void* userdata, int rc) {
+        if (_active != null) _active.handle_connect(rc);
+    }
+
+    private static void on_disconnect_cb(Mosquitto.Client mosq,
+                                         void* userdata, int rc) {
+        if (_active != null) _active.handle_disconnect_event(rc);
+    }
+
+    private static void on_message_cb(Mosquitto.Client mosq,
+                                      void* userdata, Mosquitto.Message* msg) {
+        if (_active != null) _active.handle_message(msg);
+    }
+
+    /* ── Instance event handlers ─────────────────────────────────── */
+
+    private void handle_connect(int rc) {
+        connack_result = rc;
+
+        if (rc == 0) {
+            is_connected = true;
+            on_connection_changed(true);
+            message("MQTT: CONNACK success");
+
+            /* Re-subscribe topics (after reconnect) */
+            foreach (var entry in subscribed_topics.entries) {
+                mosq.subscribe(null, entry.key, entry.value);
+                message("MQTT: Re-subscribed to '%s' (qos=%d)", entry.key, entry.value);
+            }
+        } else {
+            warning("MQTT: CONNACK refused (rc=%d: %s)",
+                    rc, connack_rc_to_string(rc));
+            is_connected = false;
+            on_connection_changed(false);
+        }
+
+        /* Resume connect_async if it's waiting */
+        if (connack_resume != null) {
+            Idle.add((owned) connack_resume);
+            connack_resume = null;
+        }
+    }
+
+    private void handle_disconnect_event(int rc) {
+        bool was_connected = is_connected;
+        is_connected = false;
+
+        teardown_glib_sources();
+
+        if (was_connected) {
+            on_connection_changed(false);
+            warning("MQTT: Connection lost (rc=%d: %s), reconnecting in 5 s…",
+                    rc, rc_to_string(rc));
+            schedule_reconnect();
+        }
+    }
+
+    private void handle_message(Mosquitto.Message* msg) {
+        /* Copy topic and payload — they're only valid during this callback */
+        string topic = msg->topic;
+
+        uint8[] payload = new uint8[msg->payloadlen];
+        if (msg->payloadlen > 0 && msg->payload != null) {
+            GLib.Memory.move(payload, msg->payload, msg->payloadlen);
+        }
+
+        on_message(topic, payload);
+    }
+
+    /* ── Reconnection ────────────────────────────────────────────── */
+
+    private void schedule_reconnect() {
+        if (reconnect_timer_id != 0) return;
+        if (!initial_connect_done) return;    /* first connect never succeeded */
+
+        reconnect_timer_id = Timeout.add_seconds(5, () => {
+            reconnect_timer_id = 0;
+            attempt_reconnect.begin();
+            return false;
+        });
+    }
+
+    private async void attempt_reconnect() {
+        if (mosq == null || is_connected) return;
+
+        message("MQTT: Reconnecting to %s:%d…", broker_host, broker_port);
+
+        int rc = Mosquitto.Error.UNKNOWN;
+        SourceFunc resume = attempt_reconnect.callback;
+
+        new Thread<void*>("mqtt-reconnect", () => {
+            rc = mosq.reconnect();
+            Idle.add((owned) resume);
+            return null;
+        });
         yield;
 
-        // Stub: always fails until real implementation
-        warning("MQTT: libmosquitto bindings not yet implemented");
-        return false;
+        if (rc == Mosquitto.Error.SUCCESS) {
+            setup_glib_sources();
+            message("MQTT: Reconnect TCP OK, waiting for CONNACK…");
+            /* handle_connect will fire from on_connect_cb via loop_read */
+        } else {
+            warning("MQTT: Reconnect failed (rc=%d), retrying…", rc);
+            schedule_reconnect();
+        }
     }
+
+    /* ── Public API ──────────────────────────────────────────────── */
 
     /**
      * Subscribe to an MQTT topic filter.
-     * topic can include wildcards: + (single level), # (multi level)
+     * Supports wildcards: + (single level), # (multi level).
      */
     public void subscribe(string topic, int qos = 0) {
-        if (!is_connected) return;
-        // mosq.subscribe(null, topic, qos);
-        message("MQTT stub: subscribe('%s', qos=%d)", topic, qos);
+        subscribed_topics[topic] = qos;  /* remember for reconnect */
+
+        if (mosq == null || !is_connected) return;
+
+        int rc = mosq.subscribe(null, topic, qos);
+        if (rc != Mosquitto.Error.SUCCESS) {
+            warning("MQTT: subscribe('%s') failed (rc=%d)", topic, rc);
+        } else {
+            message("MQTT: Subscribed to '%s' (qos=%d)", topic, qos);
+        }
+
+        schedule_write_if_needed();
     }
 
     /**
      * Unsubscribe from an MQTT topic filter.
      */
     public void unsubscribe(string topic) {
-        if (!is_connected) return;
-        // mosq.unsubscribe(null, topic);
-        message("MQTT stub: unsubscribe('%s')", topic);
+        subscribed_topics.unset(topic);
+
+        if (mosq == null || !is_connected) return;
+        mosq.unsubscribe(null, topic);
+        schedule_write_if_needed();
     }
 
     /**
-     * Publish a message to an MQTT topic.
+     * Publish raw bytes to an MQTT topic.
      */
-    public void publish(string topic, string payload, int qos = 0,
-                         bool retain = false) {
-        if (!is_connected) return;
-        // mosq.publish(null, topic, payload.data, qos, retain);
-        message("MQTT stub: publish('%s', '%s', qos=%d, retain=%s)",
-                topic, payload, qos, retain.to_string());
+    public void publish(string topic, uint8[] payload,
+                        int qos = 0, bool retain = false) {
+        if (mosq == null || !is_connected) return;
+
+        int rc = mosq.publish(null, topic, payload.length, payload, qos, retain);
+        if (rc != Mosquitto.Error.SUCCESS) {
+            warning("MQTT: publish('%s') failed (rc=%d)", topic, rc);
+        }
+
+        schedule_write_if_needed();
     }
 
     /**
-     * Disconnect from the MQTT broker (async-safe).
+     * Publish a UTF-8 string to an MQTT topic (convenience wrapper).
+     */
+    public void publish_string(string topic, string payload,
+                               int qos = 0, bool retain = false) {
+        publish(topic, payload.data, qos, retain);
+    }
+
+    /**
+     * Disconnect gracefully (async-safe).
      */
     public async void disconnect_async() {
         disconnect_sync();
-        Idle.add(disconnect_async.callback);
-        yield;
     }
 
-    private void disconnect_sync() {
-        if (!is_connected) return;
+    /**
+     * Disconnect immediately (safe to call from any context).
+     */
+    public void disconnect_sync() {
+        if (mosq == null) return;
 
-        // // Remove GLib sources
-        // if (io_source_id != 0) { GLib.Source.remove(io_source_id); io_source_id = 0; }
-        // if (misc_timer_id != 0) { GLib.Source.remove(misc_timer_id); misc_timer_id = 0; }
-        //
-        // mosq.disconnect();
-        // mosq.destroy();
-        // mosq = null;
+        teardown_glib_sources();
 
+        bool was_connected = is_connected;
         is_connected = false;
-        on_connection_changed(false);
-        message("MQTT stub: disconnected");
+        initial_connect_done = false;
+
+        mosq.disconnect();
+        mosq = null;
+
+        if (was_connected) {
+            on_connection_changed(false);
+        }
+
+        message("MQTT: Disconnected");
     }
 
-    /* ── GLib Main Loop Integration (to be implemented) ──────── */
+    /* ── Helpers ──────────────────────────────────────────────────── */
 
-    // The idea:
-    // 1. After mosquitto_connect(), get the socket fd via mosquitto_socket()
-    // 2. Create a GLib.IOChannel on that fd
-    // 3. Add GLib.io_add_watch() for IN/OUT/ERR conditions
-    // 4. In the callback:
-    //    - On G_IO_IN: call mosquitto_loop_read()
-    //    - On G_IO_OUT: call mosquitto_loop_write()
-    //    - On G_IO_ERR: handle reconnection
-    // 5. Add GLib.Timeout.add_seconds(1, () => mosquitto_loop_misc())
-    //    for keepalive and housekeeping
-    //
-    // This avoids mosquitto_loop_start() which creates a background thread.
+    /** Human-readable MOSQ_ERR_* code. */
+    private static string rc_to_string(int rc) {
+        switch (rc) {
+            case Mosquitto.Error.SUCCESS:       return "SUCCESS";
+            case Mosquitto.Error.NOMEM:         return "NOMEM";
+            case Mosquitto.Error.PROTOCOL:      return "PROTOCOL";
+            case Mosquitto.Error.INVAL:         return "INVAL";
+            case Mosquitto.Error.NO_CONN:       return "NO_CONN";
+            case Mosquitto.Error.CONN_REFUSED:  return "CONN_REFUSED";
+            case Mosquitto.Error.NOT_FOUND:     return "NOT_FOUND";
+            case Mosquitto.Error.CONN_LOST:     return "CONN_LOST";
+            case Mosquitto.Error.TLS:           return "TLS";
+            case Mosquitto.Error.AUTH:          return "AUTH";
+            case Mosquitto.Error.ERRNO:         return "ERRNO";
+            case Mosquitto.Error.EAI:           return "EAI (DNS)";
+            default:                            return "UNKNOWN(%d)".printf(rc);
+        }
+    }
+
+    /** Human-readable CONNACK return code. */
+    private static string connack_rc_to_string(int rc) {
+        switch (rc) {
+            case 0: return "Accepted";
+            case 1: return "Refused: wrong protocol version";
+            case 2: return "Refused: identifier rejected";
+            case 3: return "Refused: server unavailable";
+            case 4: return "Refused: bad username/password";
+            case 5: return "Refused: not authorized";
+            default: return "Unknown CONNACK rc=%d".printf(rc);
+        }
+    }
 }
 
 }

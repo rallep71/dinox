@@ -2,7 +2,7 @@
 
 **Status:** Concept Phase  
 **Created:** 2026-02-26  
-**Version:** v0.4 (Draft — Server-agnostic + HA/Node-RED + Windows/Flatpak Build)
+**Version:** v0.5 (Draft — Phase 1 Implementation: connect/subscribe/publish)
 
 ---
 
@@ -222,11 +222,12 @@ MQTT port should be protected by firewall rules or VPN.
 - [x] Write Vala VAPI for libmosquitto
 - [x] Windows build: MSYS2 package verified, meson.build + update_dist.sh adapted
 - [x] Flatpak build: Mosquitto module added to manifest
-- [ ] MqttClient: connect/disconnect/subscribe/publish
-- [ ] GLib main loop integration (GSource on mosquitto fd)
+- [x] MqttClient: connect/disconnect/subscribe/publish (real libmosquitto calls)
+- [x] GLib main loop integration (IOChannel + Timeout on mosquitto socket)
+- [x] Auto-connect when XMPP is connected (env-var config for Phase 1)
+- [x] Reconnection logic (auto-reconnect after 5 s, re-subscribe topics)
 - [ ] Server type detection (ejabberd vs Prosody, topic format handling)
 - [ ] Settings UI: enable/disable, broker, port, TLS, server type
-- [ ] Auto-connect when XMPP is connected
 
 ### Phase 2: Dashboard (v1.2.1)
 - [ ] Topic manager: subscribe, payload parsing (JSON, plain text)
@@ -254,7 +255,7 @@ MQTT port should be protected by firewall rules or VPN.
 | libmosquitto not available on all platforms | Optional dependency, plugin only loads when lib is present |
 | ~~Windows cross-compile~~ | **Resolved:** MSYS2 has `mingw-w64-x86_64-mosquitto` (v2.0.22+) as a prebuilt package — no CMake build needed. `pacman -S mingw-w64-x86_64-mosquitto` installs DLL, headers, pkg-config. Auto-detect in `update_dist.sh` copies `libmosquitto.dll` automatically. |
 | ~~Flatpak build~~ | **Resolved:** Mosquitto module added to `im.github.rallep71.DinoX.json` (CMake, client lib only, no broker/CLI). |
-| Threading vs main loop | GSource integration instead of mosquitto_loop_start() |
+| ~~Threading vs main loop~~ | **Resolved:** IOChannel watch on mosquitto fd + Timeout for loop_misc(). TCP connect runs in GLib.Thread to avoid blocking the GUI. No threading issues. |
 | MQTT 5.0 vs 3.1.1 | libmosquitto supports both; ejabberd→5.0, Prosody→3.1.1 |
 | Prosody no auth | Secure MQTT port with firewall/VPN, DinoX warns in settings |
 | Prosody topic format | Plugin detects server type and adapts topic prefix automatically |
