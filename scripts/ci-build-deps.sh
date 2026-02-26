@@ -5,11 +5,13 @@ set -e
 # Custom dependency builder for CI
 #
 # TODO: Check periodically for newer versions!
-# Current versions (last checked/verified: 2026-02-24):
+# Current versions (last checked/verified: 2025-06-25):
 #   SQLCipher              4.6.1   https://github.com/sqlcipher/sqlcipher/releases
 #   webrtc-audio-processing v2.1   https://gitlab.freedesktop.org/pulseaudio/webrtc-audio-processing/-/tags
 #   libnice                0.1.23  https://gitlab.freedesktop.org/libnice/libnice/-/tags
+#   protobuf-c             1.5.2   https://github.com/protobuf-c/protobuf-c/releases
 #   libomemo-c             (fork)  https://github.com/rallep71/libomemo-c
+#   mosquitto              2.1.2   https://mosquitto.org/download/
 #
 # When updating versions: bump the *_VER variables below. The CI cache
 # key is derived from this file's hash, so any edit auto-invalidates caches.
@@ -79,7 +81,23 @@ $SUDO ldconfig
 cd ..
 rm -rf "libnice-${LIBNICE_VER}" "libnice-${LIBNICE_VER}.tar.gz"
 
-# 4. libomemo-c
+# 4. protobuf-c (runtime library only, no compiler — avoids protobuf C++ dependency)
+# Ubuntu 24.04 ships 1.4.1 which has a memory corruption bug in protobuf_c_message_unpack()
+# fixed in 1.5.1 (PR #703). Build 1.5.2 from source.
+echo "Building protobuf-c..."
+PROTOBUFC_VER=1.5.2
+wget -q -O "protobuf-c-${PROTOBUFC_VER}.tar.gz" "https://github.com/protobuf-c/protobuf-c/releases/download/v${PROTOBUFC_VER}/protobuf-c-${PROTOBUFC_VER}.tar.gz"
+tar xf "protobuf-c-${PROTOBUFC_VER}.tar.gz"
+cd "protobuf-c-${PROTOBUFC_VER}"
+./configure --prefix=/usr --disable-protoc
+make $MAKE_ARGS
+$SUDO make install
+$SUDO ldconfig
+cd ..
+rm -rf "protobuf-c-${PROTOBUFC_VER}" "protobuf-c-${PROTOBUFC_VER}.tar.gz"
+echo "protobuf-c $(pkg-config --modversion libprotobuf-c 2>/dev/null || echo '?') installed."
+
+# 5. libomemo-c
 echo "Building libomemo-c..."
 if [ -d "libomemo-c" ]; then rm -rf libomemo-c; fi
 git clone https://github.com/rallep71/libomemo-c.git
@@ -92,5 +110,27 @@ $SUDO make install
 $SUDO ldconfig
 cd ../..
 rm -rf libomemo-c
+
+# 6. mosquitto (client library only — no broker, no CLI tools)
+# Ubuntu 24.04 ships 2.0.18; build 2.1.2 for latest security & protocol fixes.
+echo "Building mosquitto..."
+MOSQUITTO_VER=2.1.2
+wget -q -O "mosquitto-${MOSQUITTO_VER}.tar.gz" "https://mosquitto.org/files/source/mosquitto-${MOSQUITTO_VER}.tar.gz"
+tar xf "mosquitto-${MOSQUITTO_VER}.tar.gz"
+cd "mosquitto-${MOSQUITTO_VER}"
+cmake -DCMAKE_INSTALL_PREFIX=/usr \
+      -DWITH_BROKER=OFF \
+      -DWITH_CLIENTS=OFF \
+      -DWITH_APPS=OFF \
+      -DWITH_PLUGINS=OFF \
+      -DDOCUMENTATION=OFF \
+      -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
+      .
+make $MAKE_ARGS
+$SUDO make install
+$SUDO ldconfig
+cd ..
+rm -rf "mosquitto-${MOSQUITTO_VER}" "mosquitto-${MOSQUITTO_VER}.tar.gz"
+echo "mosquitto $(pkg-config --modversion libmosquitto 2>/dev/null || echo '?') installed."
 
 echo "Dependencies built and installed."

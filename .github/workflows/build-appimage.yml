@@ -37,10 +37,10 @@ jobs:
               gstreamer1.0-tools gstreamer1.0-nice gstreamer1.0-vaapi gstreamer1.0-pipewire \
               libnice-dev libsrtp2-dev \
               libgnutls28-dev libcanberra-dev libdbusmenu-glib-dev \
-              libgdk-pixbuf-2.0-dev libsignal-protocol-c-dev libprotobuf-c-dev \
-              libsecret-1-dev protobuf-c-compiler cmake patchelf libssl-dev \
+              libgdk-pixbuf-2.0-dev \
+              libsecret-1-dev cmake patchelf libssl-dev \
               file wget libfuse2 tor obfs4proxy libjson-glib-dev glib-networking \
-              libwebrtc-audio-processing-dev libmosquitto-dev
+              libwebrtc-audio-processing-dev
             sudo pip3 install meson>=1.3.0
 
       - name: "Cache custom dependencies"
@@ -67,12 +67,16 @@ jobs:
           cd / && find usr/lib usr/include usr/bin usr/share/gir-1.0 usr/share/vala \
             \( -type f -o -type l \) 2>/dev/null | sort > /tmp/files-after.txt
           comm -13 /tmp/files-before.txt /tmp/files-after.txt > /tmp/cache-files.txt
-          { find usr/include/nice usr/include/sqlcipher \
+          { find usr/include/nice usr/include/sqlcipher usr/include/protobuf-c \
+              usr/include/mosquitto.h usr/include/mosquitto \
               \( -type f -o -type l \) 2>/dev/null || true
-            find usr/lib -maxdepth 2 \( -name 'libnice*' -o -name 'libsqlcipher*' \) \
+            find usr/lib -maxdepth 2 \( -name 'libnice*' -o -name 'libsqlcipher*' \
+              -o -name 'libprotobuf-c*' -o -name 'libmosquitto*' \) \
               \( -type f -o -type l \) 2>/dev/null || true
             find usr/lib -maxdepth 3 -path '*/pkgconfig/*' \
-              \( -name 'nice.pc' -o -name 'sqlcipher.pc' \) 2>/dev/null || true
+              \( -name 'nice.pc' -o -name 'sqlcipher.pc' \
+              -o -name 'libprotobuf-c.pc' -o -name 'libmosquitto.pc' \) \
+              2>/dev/null || true
           } >> /tmp/cache-files.txt
           sort -u /tmp/cache-files.txt -o /tmp/cache-files.txt
           echo "::notice::Caching $(wc -l < /tmp/cache-files.txt) custom dependency files"

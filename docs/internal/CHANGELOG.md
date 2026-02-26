@@ -22,6 +22,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **MUC Close — Sidebar Race Condition**: Removed `Idle.add()` wrapper in `conversation_deactivated` handler that caused a race where incoming messages could re-activate the conversation before `part()` fired. Added `mucs_joined` guard. Removed confusing "Close" menu option for MUCs (only "Leave and Close" remains).
 - **BotManager API Warnings**: BotManager dialog no longer spams "Verbindungsaufbau abgelehnt" warnings when the Botmother API is not running. Added `check_api_reachable()` pre-flight check.
 - **OMEMO Chat-Clear**: Preserve device knowledge and trust state when clearing chat history — only delete sessions, not device identity.
+- **Flatpak Build**: Updated protobuf-c 1.5.0 → 1.5.2 in Flatpak manifest (fixes protobuf ≥26.0 compatibility with GNOME 48 SDK)
+- **CI Dependency Security**: Build protobuf-c 1.5.2 and mosquitto 2.1.2 from source in CI/AppImage instead of using outdated Ubuntu apt packages (protobuf-c 1.4.1 had memory corruption bug in `protobuf_c_message_unpack()`, mosquitto 2.0.18 outdated)
 
 ### Changed
 - MUC titlebar menu now shows "Leave Conversation" instead of "Close Conversation" for group chats

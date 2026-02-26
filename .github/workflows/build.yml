@@ -20,8 +20,8 @@ jobs:
             libnice-dev libnotify-dev libqrencode-dev libsoup-3.0-dev \
             libsqlite3-dev libsqlcipher-dev libsecret-1-dev libsrtp2-dev \
             libgnutls28-dev libdbusmenu-glib-dev meson valac pkg-config \
-            libjson-glib-dev libprotobuf-c-dev protobuf-c-compiler \
-            gstreamer1.0-plugins-good libmosquitto-dev
+            libjson-glib-dev \
+            gstreamer1.0-plugins-good
       - name: "Cache custom dependencies"
         id: cache-deps
         uses: actions/cache@v4
@@ -50,12 +50,16 @@ jobs:
           # Also include dirs replaced by custom builds — meson install preserves
           # original file timestamps, so same-path replacements are invisible to
           # timestamp-based approaches.  Explicitly capture them:
-          { find usr/include/nice usr/include/sqlcipher \
+          { find usr/include/nice usr/include/sqlcipher usr/include/protobuf-c \
+              usr/include/mosquitto.h usr/include/mosquitto \
               \( -type f -o -type l \) 2>/dev/null || true
-            find usr/lib -maxdepth 2 \( -name 'libnice*' -o -name 'libsqlcipher*' \) \
+            find usr/lib -maxdepth 2 \( -name 'libnice*' -o -name 'libsqlcipher*' \
+              -o -name 'libprotobuf-c*' -o -name 'libmosquitto*' \) \
               \( -type f -o -type l \) 2>/dev/null || true
             find usr/lib -maxdepth 3 -path '*/pkgconfig/*' \
-              \( -name 'nice.pc' -o -name 'sqlcipher.pc' \) 2>/dev/null || true
+              \( -name 'nice.pc' -o -name 'sqlcipher.pc' \
+              -o -name 'libprotobuf-c.pc' -o -name 'libmosquitto.pc' \) \
+              2>/dev/null || true
           } >> /tmp/cache-files.txt
           sort -u /tmp/cache-files.txt -o /tmp/cache-files.txt
           echo "::notice::Caching $(wc -l < /tmp/cache-files.txt) custom dependency files"
@@ -133,8 +137,8 @@ jobs:
             libnice-dev libnotify-dev libqrencode-dev libsoup-3.0-dev \
             libsqlite3-dev libsqlcipher-dev libsecret-1-dev libsrtp2-dev \
             libgnutls28-dev libdbusmenu-glib-dev meson valac pkg-config \
-            libjson-glib-dev libprotobuf-c-dev protobuf-c-compiler \
-            gstreamer1.0-plugins-good libmosquitto-dev
+            libjson-glib-dev \
+            gstreamer1.0-plugins-good
       - name: "Cache custom dependencies"
         id: cache-deps-nightly
         uses: actions/cache@v4
@@ -157,12 +161,16 @@ jobs:
           cd / && find usr/lib usr/include usr/bin usr/share/gir-1.0 usr/share/vala \
             \( -type f -o -type l \) 2>/dev/null | sort > /tmp/files-after.txt
           comm -13 /tmp/files-before.txt /tmp/files-after.txt > /tmp/cache-files.txt
-          { find usr/include/nice usr/include/sqlcipher \
+          { find usr/include/nice usr/include/sqlcipher usr/include/protobuf-c \
+              usr/include/mosquitto.h usr/include/mosquitto \
               \( -type f -o -type l \) 2>/dev/null || true
-            find usr/lib -maxdepth 2 \( -name 'libnice*' -o -name 'libsqlcipher*' \) \
+            find usr/lib -maxdepth 2 \( -name 'libnice*' -o -name 'libsqlcipher*' \
+              -o -name 'libprotobuf-c*' -o -name 'libmosquitto*' \) \
               \( -type f -o -type l \) 2>/dev/null || true
             find usr/lib -maxdepth 3 -path '*/pkgconfig/*' \
-              \( -name 'nice.pc' -o -name 'sqlcipher.pc' \) 2>/dev/null || true
+              \( -name 'nice.pc' -o -name 'sqlcipher.pc' \
+              -o -name 'libprotobuf-c.pc' -o -name 'libmosquitto.pc' \) \
+              2>/dev/null || true
           } >> /tmp/cache-files.txt
           sort -u /tmp/cache-files.txt -o /tmp/cache-files.txt
           echo "::notice::Caching $(wc -l < /tmp/cache-files.txt) custom dependency files"
