@@ -1,8 +1,8 @@
-# DinoX MQTT Plugin — Feature Concept
+# DinoX MQTT Plugin — Documentation
 
-**Status:** Concept Phase  
+**Status:** Implemented (Phase 1–4 complete)  
 **Created:** 2026-02-26  
-**Version:** v0.6 (Draft — Bot-Conversation UX Concept)
+**Version:** v1.4.0
 
 ---
 
@@ -123,11 +123,16 @@ are separate worlds (they only share auth/ACL/DB infrastructure).
 | Component | File | Description |
 |-----------|------|-------------|
 | `Plugin` | `plugin.vala` | RootInterface, registers with DinoX, manages lifecycle |
-| `MqttClient` | `mqtt_client.vala` | Wrapper around libmosquitto — connect, subscribe, publish, disconnect |
-| `TopicManager` | `topic_manager.vala` | Manages topic subscriptions, parses incoming payloads |
-| `MqttSettingsWidget` | `settings_widget.vala` | GTK4 UI for MQTT configuration (broker, port, topics) |
-| `MqttDashboard` | `dashboard.vala` | GTK4 panel with sensor tiles and event stream |
-| Vala VAPI | `vapi/mosquitto.vapi` | Vala bindings for libmosquitto C API |
+| `MqttClient` | `mqtt_client.vala` | Wrapper around libmosquitto — connect, subscribe, publish, disconnect (MQTT 5.0) |
+| `ServerDetector` | `server_detector.vala` | XEP-0030 disco for ejabberd/Prosody MQTT detection |
+| `MqttBotConversation` | `bot_conversation.vala` | Virtual bot contact, message injection, Prosody topic formatting |
+| `MqttCommandHandler` | `command_handler.vala` | 21 chat commands (`/mqtt help` for full list) |
+| `MqttAlertManager` | `alert_manager.vala` | Threshold alerts, priorities, history, QoS, sparklines |
+| `MqttBridgeManager` | `bridge_manager.vala` | MQTT→XMPP bridge with wildcard matching, rate limiting |
+| `MqttTopicManagerDialog` | `topic_manager_dialog.vala` | Adw.Dialog for visual topic/bridge/alert management |
+| `MqttSettingsPage` | `settings_page.vala` | Adw.PreferencesPage for MQTT configuration (broker, port, TLS) |
+| `MqttUtils` | `mqtt_utils.vala` | Pure utility functions (topic matching, formatting, numeric extraction) |
+| Vala VAPI | `vapi/mosquitto.vapi` | Vala bindings for libmosquitto C API (MQTT 3.1.1 + 5.0) |
 
 ### 3.2 Dependencies
 
@@ -399,9 +404,11 @@ The MQTT Bot uses the **same notification system** as regular chat contacts:
 
 ---
 
-## 7. Implementation Plan
+## 7. Implementation History
 
-### Phase 1: Foundation (v1.2.0)
+All phases are complete. This section documents what was implemented in each release.
+
+### Phase 1: Foundation (v1.2.0) — Commit dc743672
 - [x] Create plugin skeleton (meson.build, plugin.vala, register_plugin.vala)
 - [x] Write Vala VAPI for libmosquitto
 - [x] Windows build: MSYS2 package verified, meson.build + update_dist.sh adapted
@@ -413,7 +420,7 @@ The MQTT Bot uses the **same notification system** as regular chat contacts:
 - [x] Server type detection (ejabberd vs Prosody via XEP-0030 disco)
 - [x] Settings UI: enable/disable, broker, port, TLS, server type
 
-### Phase 2: Bot-Conversation (v1.2.1)
+### Phase 2: Bot-Conversation (v1.2.1) — Commit 8d4810aa
 - [x] Virtual bot contact: create MQTT Bot entity in conversation list
 - [x] Bot visibility lifecycle (appear on data, disappear on disable)
 - [x] Incoming MQTT messages → chat message bubbles (topic header + payload)
@@ -423,7 +430,7 @@ The MQTT Bot uses the **same notification system** as regular chat contacts:
 - [x] ejabberd auto-detect (XEP-0030 → `mod_mqtt`) + shared auth hint
 - [x] Prosody topic format display (`<HOST>/<TYPE>/<NODE>` → human-readable)
 
-### Phase 3: Alerts & Notifications (v1.3.0)
+### Phase 3: Alerts & Notifications (v1.3.0) — Commit 8ab8795b
 - [x] Threshold alerts (`/mqtt alert <topic> <condition>`)
 - [x] Notification priority system (normal / alert / critical / silent)
 - [x] Alert messages with warning icon + desktop notification + sound
@@ -431,7 +438,7 @@ The MQTT Bot uses the **same notification system** as regular chat contacts:
 - [x] History: last N values per topic in bot conversation
 - [x] Prosody security warning (no auth → warning in settings + bot)
 
-### Phase 4: Advanced (v1.4.0)
+### Phase 4: Advanced (v1.4.0) — Commit ba243a9a
 - [x] MQTT → XMPP bridge (forward MQTT topics to real XMPP contacts)
 - [x] Sparkline charts for topic history in bot conversation
 - [x] QoS level configuration (0/1/2, per topic)
@@ -440,7 +447,7 @@ The MQTT Bot uses the **same notification system** as regular chat contacts:
 
 ---
 
-## 8. Risks & Open Questions
+## 8. Resolved Risks
 
 | Risk | Mitigation |
 |------|-----------|

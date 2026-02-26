@@ -52,7 +52,7 @@ run_suite() {
 
 run_meson_tests() {
     echo -e "${BOLD}============================================${NC}"
-    echo -e "${BOLD} Meson Tests (7 suites, 588 tests)${NC}"
+    echo -e "${BOLD} Meson Tests (8 suites, 640 tests)${NC}"
     echo -e "${BOLD}============================================${NC}"
 
     # Build first
@@ -83,6 +83,9 @@ run_meson_tests() {
 
     run_suite "http-files-test (25 URL regex + sanitize tests)" \
         "meson test -C build 'Tests for http-files' --print-errorlogs"
+
+    run_suite "mqtt-test (52 MQTT utility tests)" \
+        "meson test -C build 'mqtt-test' --print-errorlogs"
 }
 
 run_db_tests() {
@@ -124,7 +127,7 @@ elif [[ "${1:-}" == "--db" ]]; then
 elif [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
     echo "Usage: $0 [--meson|--db|--help]"
     echo ""
-    echo "  --meson   Run only Meson-registered tests (588 tests)"
+    echo "  --meson   Run only Meson-registered tests (640 tests)"
     echo "  --db      Run only DB maintenance tests (136 tests)"
     echo "  --help    Show this help"
     echo ""

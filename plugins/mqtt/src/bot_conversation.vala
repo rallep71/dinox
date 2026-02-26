@@ -317,19 +317,7 @@ public class MqttBotConversation : Object {
      * Standard MQTT topics pass through unchanged.
      */
     private string format_topic_display(string topic) {
-        /* Detect Prosody format: starts with a hostname followed by /pubsub/ */
-        if (topic.contains("/pubsub/")) {
-            int pubsub_idx = topic.index_of("/pubsub/");
-            if (pubsub_idx > 0) {
-                string host = topic.substring(0, pubsub_idx);
-                string node = topic.substring(pubsub_idx + 8);  /* skip /pubsub/ */
-                /* Verify host looks like a domain (contains a dot) */
-                if (host.contains(".") && node.length > 0) {
-                    return "%s (PubSub@%s)".printf(node, host);
-                }
-            }
-        }
-        return topic;
+        return MqttUtils.format_topic_display(topic);
     }
 
     /**

@@ -133,29 +133,7 @@ public class AlertRule : Object {
      * Supports exact match and simple MQTT wildcard patterns.
      */
     public bool matches_topic(string incoming_topic) {
-        if (topic == incoming_topic) return true;
-        if (topic == "#") return true;
-
-        /* Simple wildcard matching */
-        string[] rule_parts = topic.split("/");
-        string[] topic_parts = incoming_topic.split("/");
-
-        int ri = 0;
-        int ti = 0;
-        while (ri < rule_parts.length && ti < topic_parts.length) {
-            if (rule_parts[ri] == "#") return true; /* # matches rest */
-            if (rule_parts[ri] == "+") {
-                /* + matches single level */
-                ri++;
-                ti++;
-                continue;
-            }
-            if (rule_parts[ri] != topic_parts[ti]) return false;
-            ri++;
-            ti++;
-        }
-
-        return ri == rule_parts.length && ti == topic_parts.length;
+        return MqttUtils.topic_matches(topic, incoming_topic);
     }
 
     /**
@@ -571,43 +549,10 @@ public class MqttAlertManager : Object {
 
     /**
      * Try to extract a numeric value from a payload.
-     * Handles plain numbers and JSON objects with a single numeric field.
+     * Delegates to MqttUtils.try_extract_numeric().
      */
     private double? try_extract_numeric(string payload) {
-        string trimmed = payload.strip();
-
-        /* Try direct parse */
-        double val;
-        if (double.try_parse(trimmed, out val)) {
-            return val;
-        }
-
-        /* Try JSON: first numeric field */
-        if (trimmed.has_prefix("{")) {
-            try {
-                var parser = new Json.Parser();
-                parser.load_from_data(trimmed, -1);
-                var root = parser.get_root();
-                if (root != null && root.get_node_type() == Json.NodeType.OBJECT) {
-                    var obj = root.get_object();
-                    foreach (string member in obj.get_members()) {
-                        var node = obj.get_member(member);
-                        if (node.get_node_type() == Json.NodeType.VALUE) {
-                            var vt = node.get_value_type();
-                            if (vt == typeof(double)) {
-                                return node.get_double();
-                            } else if (vt == typeof(int64)) {
-                                return (double) node.get_int();
-                            }
-                        }
-                    }
-                }
-            } catch (GLib.Error e) {
-                /* not JSON */
-            }
-        }
-
-        return null;
+        return MqttUtils.try_extract_numeric(payload);
     }
 
     /* ── Topic History ───────────────────────────────────────────── */

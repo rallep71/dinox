@@ -3,7 +3,7 @@
 Complete inventory of all automated tests in the DinoX project.
 Every test references its authoritative specification or contract.
 
-**Status: v1.1.4.0 -- 588 Meson tests + 136 standalone tests = 724 automated tests, 0 failures**
+**Status: v1.1.5.0 -- 640 Meson tests + 136 standalone tests = 776 automated tests, 0 failures**
 
 ---
 
@@ -13,7 +13,7 @@ Every test references its authoritative specification or contract.
 # All tests at once (recommended)
 ./scripts/run_all_tests.sh
 
-# Only Meson-registered tests (7 suites, 588 tests)
+# Only Meson-registered tests (8 suites, 640 tests)
 ./scripts/run_all_tests.sh --meson
 
 # Only DB maintenance tests (136 standalone)
@@ -52,6 +52,7 @@ After `ninja -C build`, these binaries are ready:
 | `build/libdino/libdino-test` | libdino | 50 | Crypto, key derivation, file transfer, SRTP, data structures |
 | `build/plugins/http-files/http-files-test` | http-files | 25 | URL regex, filename extraction, log sanitization |
 | `build/plugins/bot-features/bot-features-test` | bot-features | 24 | Rate limiter, crypto hashes, JSON escaping |
+| `build/plugins/mqtt/mqtt-test` | mqtt | 52 | MQTT topic matching, Prosody format, sparklines, bridge format |
 
 **Important:** Before running binaries directly, set the library path:
 
@@ -149,6 +150,13 @@ spec, open the source file and check the assertion against the referenced RFC/XE
 | `plugins/http-files/tests/http_files_test.vala` | UrlRegex (13), FileNameExtraction (6), SanitizeLog (6) | XEP-0363, OMEMO aesgcm://, contract |
 | `plugins/http-files/tests/common.vala` | -- | Test registration (main entry point) |
 
+#### mqtt (7 suites, 52 tests)
+
+| Source File | Suite(s) | Spec Coverage |
+|-------------|----------|---------------|
+| `plugins/mqtt/tests/mqtt_tests.vala` | MqttTopicMatch (15), ProsodyFormat (7), NumericExtract (10), Sparkline (8), SparkChars (2), BridgeFormat (5), TruncateStr (5) | MQTT 3.1.1 §4.7, Prosody mod_pubsub_mqtt, contract |
+| `plugins/mqtt/tests/common.vala` | -- | Test registration (main entry point) |
+
 #### Scripts and Standalone Tests
 
 | File | Purpose |
@@ -184,7 +192,7 @@ spec, open the source file and check the assertion against the referenced RFC/XE
 #### Full regression check
 
 ```bash
-# All 724 tests -- Meson + DB
+# All 776 tests -- Meson + DB
 ./scripts/run_all_tests.sh
 ```
 
@@ -269,7 +277,7 @@ python3 scripts/scan_unicode.py --verbose   # show details
   Commit:  0e0b766a
 
 ============================================
- Meson Tests (7 suites, 588 tests)
+ Meson Tests (8 suites, 640 tests)
 ============================================
 >>> main-test (62 UI ViewModel + helper tests)
     OK
@@ -286,10 +294,11 @@ python3 scripts/scan_unicode.py --verbose   # show details
   PASS  openpgp-test (48 OpenPGP stream + armor tests)
   PASS  bot-features-test (24 rate limiter + crypto tests)
   PASS  http-files-test (25 URL regex + sanitize tests)
+  PASS  mqtt-test (52 MQTT utility tests)
   PASS  DB CLI tests (71 bash tests)
   PASS  DB Integration tests (65 Vala tests)
 
-  Pass: 9  Fail: 0  Skip: 0
+  Pass: 10  Fail: 0  Skip: 0
 
 ALL TESTS PASSED
 ```
@@ -368,6 +377,7 @@ build/plugins/omemo/omemo-test      # 102 tests
 build/plugins/openpgp/openpgp-test  # 48 tests
 build/plugins/bot-features/bot-features-test  # 24 tests
 build/plugins/http-files/http-files-test      # 25 tests
+build/plugins/mqtt/mqtt-test                  # 52 tests
 ```
 
 ### Running a single test by name
@@ -410,7 +420,7 @@ build/xmpp-vala/xmpp-vala-test --verbose
 
 ---
 
-## 1. Meson-Registered Tests (588 Tests)
+## 1. Meson-Registered Tests (640 Tests)
 
 Compiled and executed via `ninja -C build test`.
 Framework: GLib.Test + `Gee.TestCase` with `add_async_test()` for async XML parsing.
@@ -1303,6 +1313,108 @@ initialization for static Regex fields when linked via internal VAPI.
 
 ---
 
+### 1.8 MQTT Plugin (52 Tests)
+
+**Target:** `mqtt-test` -- `plugins/mqtt/meson.build`
+
+Tests the MQTT plugin utility functions: topic filter matching (MQTT 3.1.1 §4.7
+wildcard semantics), Prosody mod_pubsub_mqtt topic display formatting, numeric
+payload extraction (plain + JSON), Unicode sparkline chart generation, bridge
+message formatting, and string truncation.
+
+**Note:** All functions under test are pure static methods in `MqttUtils`
+(`plugins/mqtt/src/mqtt_utils.vala`). No MQTT broker, database, or UI
+dependencies are required.
+
+#### MqttTopicMatch (15 Tests) -- MQTT 3.1.1 §4.7
+
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
+| 1 | `MQTT_3_1_1_exact_match` | MQTT 3.1.1 §4.7 | Exact topic string matches |
+| 2 | `MQTT_3_1_1_exact_match_multlevel` | MQTT 3.1.1 §4.7 | Exact multi-level topic matches |
+| 3 | `MQTT_3_1_1_exact_mismatch` | MQTT 3.1.1 §4.7 | Different topic name rejected |
+| 4 | `MQTT_3_1_1_hash_matches_all` | MQTT 3.1.1 §4.7.2 | `#` alone matches any topic |
+| 5 | `MQTT_3_1_1_hash_suffix_matches_subtree` | MQTT 3.1.1 §4.7.2 | `home/#` matches subtree |
+| 6 | `MQTT_3_1_1_hash_matches_deep_subtree` | MQTT 3.1.1 §4.7.2 | `#` matches arbitrarily deep subtree |
+| 7 | `MQTT_3_1_1_plus_single_level` | MQTT 3.1.1 §4.7.1 | `+` matches exactly one level |
+| 8 | `MQTT_3_1_1_plus_no_cross_level` | MQTT 3.1.1 §4.7.1 | `+` must not cross level boundary |
+| 9 | `MQTT_3_1_1_plus_middle_level` | MQTT 3.1.1 §4.7.1 | `+` in middle position matches |
+| 10 | `MQTT_3_1_1_plus_plus_exact` | MQTT 3.1.1 §4.7.1 | Two `+` wildcards match exactly two levels |
+| 11 | `MQTT_3_1_1_plus_hash_combined` | MQTT 3.1.1 §4.7 | `+` and `#` wildcards combined |
+| 12 | `MQTT_3_1_1_empty_topic_no_match` | MQTT 3.1.1 §4.7 | Empty topic string never matches |
+| 13 | `MQTT_3_1_1_trailing_slash_exact` | MQTT 3.1.1 §4.7 | Trailing slash makes different topic |
+| 14 | `MQTT_3_1_1_pattern_longer_than_topic` | MQTT 3.1.1 §4.7 | More pattern levels than topic → no match |
+| 15 | `MQTT_3_1_1_topic_longer_than_pattern` | MQTT 3.1.1 §4.7 | More topic levels than pattern → no match |
+
+#### ProsodyFormat (7 Tests) -- Prosody mod_pubsub_mqtt
+
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
+| 16 | `PROSODY_pubsub_basic_conversion` | Prosody | `host.tld/pubsub/node` → `node (PubSub@host.tld)` |
+| 17 | `PROSODY_pubsub_with_subdomain` | Prosody | Subdomain host formatted correctly |
+| 18 | `PROSODY_pubsub_slashes_in_node` | Prosody | Multi-segment node preserved |
+| 19 | `PROSODY_non_prosody_topic_unchanged` | Prosody | Non-Prosody topic passed through |
+| 20 | `PROSODY_no_dot_in_host_unchanged` | Prosody | Host without dot → not Prosody format |
+| 21 | `PROSODY_empty_node_unchanged` | Prosody | Empty node after `/pubsub/` → unchanged |
+| 22 | `PROSODY_pubsub_at_start_unchanged` | Prosody | Empty host → unchanged |
+
+#### NumericExtract (10 Tests) -- CONTRACT
+
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
+| 23 | `CONTRACT_plain_integer` | CONTRACT | Plain integer string → double |
+| 24 | `CONTRACT_plain_double` | CONTRACT | Plain decimal string → double |
+| 25 | `CONTRACT_plain_negative` | CONTRACT | Negative number → double |
+| 26 | `CONTRACT_whitespace_trimmed` | CONTRACT | Leading/trailing whitespace stripped |
+| 27 | `CONTRACT_json_double_field` | CONTRACT | JSON object first double field extracted |
+| 28 | `CONTRACT_json_int_field` | CONTRACT | JSON object integer field extracted |
+| 29 | `CONTRACT_json_no_numeric_returns_null` | CONTRACT | JSON with only string fields → null |
+| 30 | `CONTRACT_non_numeric_returns_null` | CONTRACT | Non-numeric text → null |
+| 31 | `CONTRACT_empty_string_returns_null` | CONTRACT | Empty string → null (GLib fix) |
+| 32 | `CONTRACT_json_nested_first_numeric` | CONTRACT | First numeric field returned from multi-field JSON |
+
+#### Sparkline (8 Tests) -- CONTRACT
+
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
+| 33 | `CONTRACT_ascending_values` | CONTRACT | Ascending values: ▁ first, █ last |
+| 34 | `CONTRACT_descending_values` | CONTRACT | Descending values: █ first, ▁ last |
+| 35 | `CONTRACT_constant_values` | CONTRACT | All same value → identical chars |
+| 36 | `CONTRACT_two_values_min_max` | CONTRACT | Two values → `▁█` |
+| 37 | `CONTRACT_single_value_returns_null` | CONTRACT | Single value → null (no chart) |
+| 38 | `CONTRACT_empty_returns_null` | CONTRACT | Empty array → null |
+| 39 | `CONTRACT_length_matches_input` | CONTRACT | Output char count = input count |
+| 40 | `CONTRACT_stats_min_max_avg` | CONTRACT | Stats: min/max/avg computed correctly |
+
+#### SparkChars (2 Tests) -- CONTRACT
+
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
+| 41 | `CONTRACT_8_levels` | CONTRACT | SPARK_CHARS array has exactly 8 elements |
+| 42 | `CONTRACT_ascending_unicode_blocks` | CONTRACT | U+2581 (▁) to U+2588 (█) in order |
+
+#### BridgeFormat (5 Tests) -- CONTRACT
+
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
+| 43 | `CONTRACT_full_format` | CONTRACT | `"full"` → `MQTT [topic]\npayload` |
+| 44 | `CONTRACT_payload_format` | CONTRACT | `"payload"` → payload only |
+| 45 | `CONTRACT_short_format` | CONTRACT | `"short"` → `[topic] payload` |
+| 46 | `CONTRACT_short_truncates_at_200` | CONTRACT | Short format truncates payload at 200 chars |
+| 47 | `CONTRACT_unknown_defaults_full` | CONTRACT | Unknown format type → full format |
+
+#### TruncateStr (5 Tests) -- CONTRACT
+
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
+| 48 | `CONTRACT_short_unchanged` | CONTRACT | String shorter than limit unchanged |
+| 49 | `CONTRACT_exact_length_unchanged` | CONTRACT | String exactly at limit unchanged |
+| 50 | `CONTRACT_over_length_truncated` | CONTRACT | String over limit truncated |
+| 51 | `CONTRACT_ellipsis_appended` | CONTRACT | Truncation appends `...` |
+| 52 | `CONTRACT_truncated_length_exact` | CONTRACT | Result length = max_len exactly |
+
+---
+
 ## 2. DB Maintenance Tests (136 Standalone Tests)
 
 ### 2.1 Bash CLI Tests (71 Tests)
@@ -1397,7 +1509,9 @@ Every test references its authoritative source:
 | **XEP-0448** | Encrypted File Sharing | 2 |
 | **XEP-0454** | OMEMO Media Sharing | 3 |
 | **Signal Protocol** | Double Ratchet, PreKeys | 5 |
-| **Contract** | Data structure/API contracts (WeakMap, RateLimiter, arr_to_str, rgba_to_hex, ws, matching chars, markup) | 54 |
+| **Contract** | Data structure/API contracts (WeakMap, RateLimiter, arr_to_str, rgba_to_hex, ws, matching chars, markup, MQTT utils) | 89 |
+| **MQTT 3.1.1** | Topic Filter Matching (§4.7 wildcards +, #) | 15 |
+| **Prosody** | mod_pubsub_mqtt topic display format | 7 |
 | **GObject** | Property/signal contract (PreferencesRow) | 16 |
 | **RFC 3986** | URI syntax (URL regex detection) | 7 |
 | **RFC 6121** | XMPP IM presence show values (color mapping) | 6 |
@@ -1411,7 +1525,7 @@ Every test references its authoritative source:
 ## 5. Test Architecture
 
 ```
-ninja -C build test                    Meson-registered (588 tests)
+ninja -C build test                    Meson-registered (640 tests)
   |-- xmpp-vala-test                   20 suites, 277 tests (GLib.Test)
   |     |-- Stanza (4)                   RFC 6120 S4 stream/namespace
   |     |-- util (5)                     xs:hexBinary parsing contract
@@ -1474,9 +1588,18 @@ ninja -C build test                    Meson-registered (588 tests)
   |     +-- Audit_JSONEscape (4)         RFC 8259 JSON audit
   |
   +-- http-files-test                  3 suites, 25 tests (GLib.Test)
-        |-- UrlRegex (13)                XEP-0363 + OMEMO aesgcm:// URL recognition
-        |-- FileNameExtraction (6)       CONTRACT filename from URL path
-        +-- SanitizeLog (6)              CONTRACT secret stripping for logs
+  |     |-- UrlRegex (13)                XEP-0363 + OMEMO aesgcm:// URL recognition
+  |     |-- FileNameExtraction (6)       CONTRACT filename from URL path
+  |     +-- SanitizeLog (6)              CONTRACT secret stripping for logs
+  |
+  +-- mqtt-test                        7 suites, 52 tests (GLib.Test)
+        |-- MqttTopicMatch (15)          MQTT 3.1.1 §4.7 wildcard topic matching
+        |-- ProsodyFormat (7)            Prosody mod_pubsub_mqtt topic display
+        |-- NumericExtract (10)          Payload numeric extraction (plain + JSON)
+        |-- Sparkline (8)                Unicode sparkline chart generation
+        |-- SparkChars (2)               Spark character array validation
+        |-- BridgeFormat (5)             Bridge message formatting (full/payload/short)
+        +-- TruncateStr (5)              String truncation with ellipsis
 
 scripts/test_db_maintenance.sh         Bash CLI, 71 tests
 scripts/run_db_integration_tests.sh    Vala, 65 tests (Qlite)
@@ -1505,8 +1628,8 @@ future test ideas: see `docs/internal/TESTING_GAPS.md` (not tracked in Git).
 
 | Workflow | Trigger | Tests |
 |----------|---------|-------|
-| `build.yml` | push, PR | `meson test` (588 tests) |
-| `build.yml` (Vala nightly) | push, PR | `meson test` (588 tests) |
+| `build.yml` | push, PR | `meson test` (640 tests) |
+| `build.yml` (Vala nightly) | push, PR | `meson test` (640 tests) |
 | `build-flatpak.yml` | push | Build only |
 | `build-appimage.yml` | Tag | Build only |
 | `windows-build.yml` | push | Build only |
@@ -1520,10 +1643,10 @@ future test ideas: see `docs/internal/TESTING_GAPS.md` (not tracked in Git).
 Script: `scripts/run_all_tests.sh`
 
 ```bash
-# All 724 tests (Meson + DB)
+# All 776 tests (Meson + DB)
 ./scripts/run_all_tests.sh
 
-# Only Meson-registered tests (588)
+# Only Meson-registered tests (640)
 ./scripts/run_all_tests.sh --meson
 
 # Only DB maintenance tests (136)
@@ -1544,15 +1667,16 @@ If `sqlcipher` is not installed, DB CLI tests are skipped with a warning.
 ### Meson Summary Output
 
 ```
-1/7 Tests for http-files OK              0.03s
-2/7 Tests for xmpp-vala  OK              0.08s
-3/7 Tests for main       OK              0.09s
-4/7 Tests for openpgp    OK              0.06s
-5/7 Tests for omemo      OK              0.32s
-6/7 bot-features-test    OK              2.21s
-7/7 Tests for libdino    OK             11.10s
+1/8 Tests for http-files OK              0.03s
+2/8 Tests for xmpp-vala  OK              0.08s
+3/8 Tests for main       OK              0.09s
+4/8 Tests for openpgp    OK              0.06s
+5/8 Tests for omemo      OK              0.32s
+6/8 bot-features-test    OK              2.21s
+7/8 mqtt-test            OK              0.01s
+8/8 Tests for libdino    OK             11.10s
 
-Ok:                 7
+Ok:                 8
 Expected Fail:      0
 Fail:               0        <-- MUST be 0
 Unexpected Pass:    0
@@ -1677,4 +1801,4 @@ Examples:
 
 ---
 
-*Last updated: 27 February 2026 -- v1.1.4.0, 588 Meson + 136 standalone = 724 tests, 0 failures, MUJI group call audit added (MujiAudit 32 tests, XEP-0272/XEP-0482/XEP-0167)*
+*Last updated: 28 February 2026 -- v1.1.5.0, 640 Meson + 136 standalone = 776 tests, 0 failures, MQTT plugin utility tests added (7 suites, 52 tests: topic matching, Prosody format, numeric extraction, sparklines, bridge format)*

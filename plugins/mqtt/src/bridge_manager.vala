@@ -39,46 +39,14 @@ public class BridgeRule : Object {
      * Check if this rule matches an MQTT topic.
      */
     public bool matches_topic(string incoming_topic) {
-        if (topic == incoming_topic) return true;
-        if (topic == "#") return true;
-
-        string[] rule_parts = topic.split("/");
-        string[] topic_parts = incoming_topic.split("/");
-
-        int ri = 0;
-        int ti = 0;
-        while (ri < rule_parts.length && ti < topic_parts.length) {
-            if (rule_parts[ri] == "#") return true;
-            if (rule_parts[ri] == "+") {
-                ri++;
-                ti++;
-                continue;
-            }
-            if (rule_parts[ri] != topic_parts[ti]) return false;
-            ri++;
-            ti++;
-        }
-
-        return ri == rule_parts.length && ti == topic_parts.length;
+        return MqttUtils.topic_matches(topic, incoming_topic);
     }
 
     /**
      * Format the bridged message body.
      */
     public string format_message(string topic_name, string payload) {
-        switch (format) {
-            case "payload":
-                return payload;
-            case "short":
-                return "[%s] %s".printf(topic_name, truncate(payload, 200));
-            default: /* "full" */
-                return "MQTT [%s]\n%s".printf(topic_name, payload);
-        }
-    }
-
-    private string truncate(string s, int max_len) {
-        if (s.length <= max_len) return s;
-        return s.substring(0, max_len - 3) + "...";
+        return MqttUtils.format_bridge_message(format ?? "full", topic_name, payload);
     }
 
     /**

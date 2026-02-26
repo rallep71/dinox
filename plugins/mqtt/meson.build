@@ -47,6 +47,7 @@ if dep_mosquitto_check.found() and plugin_mqtt_opt.allowed()
         'src/alert_manager.vala',
         'src/bridge_manager.vala',
         'src/topic_manager_dialog.vala',
+        'src/mqtt_utils.vala',
     )
 
     vapi_sources = files(
@@ -78,6 +79,19 @@ if dep_mosquitto_check.found() and plugin_mqtt_opt.allowed()
     )
 
     summary('MQTT IoT/Event Plugin (mqtt)', true, section: 'Plugins')
+
+    # Unit tests for MQTT plugin (standalone, only mqtt_utils.vala + glib + json-glib)
+    mqtt_test_sources = files(
+        'tests/common.vala',
+        'tests/testcase.vala',
+        'tests/mqtt_tests.vala',
+        'src/mqtt_utils.vala',
+    )
+    exe_mqtt_test = executable('mqtt-test', mqtt_test_sources,
+        c_args: ['-DG_LOG_DOMAIN="mqtt-test"'],
+        dependencies: [dep_gee, dep_glib, dep_gio, dep_json_glib],
+        install: false)
+    test('mqtt-test', exe_mqtt_test)
 
 else
     if plugin_mqtt_opt.enabled()
