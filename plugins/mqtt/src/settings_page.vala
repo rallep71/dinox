@@ -331,6 +331,11 @@ public class MqttSettingsPage : Adw.PreferencesPage {
             server_type_row.subtitle += " -- " + result.info;
         }
 
+        /* Prosody security warning */
+        if (result.server_type == ServerType.PROSODY) {
+            server_type_row.subtitle += "\n⚠ Prosody MQTT has no authentication — restrict access via firewall!";
+        }
+
         save_setting(KEY_SERVER_TYPE, result.server_type.to_string_key());
 
         detect_button.sensitive = true;

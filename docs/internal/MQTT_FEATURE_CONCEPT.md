@@ -420,8 +420,8 @@ The MQTT Bot uses the **same notification system** as regular chat contacts:
 - [x] Payload parsing: JSON value extraction, plain text
 - [x] Bot per-account + standalone (separate conversations)
 - [x] Chat commands: `/mqtt subscribe`, `/mqtt publish`, `/mqtt status`, `/mqtt topics`
-- [ ] ejabberd auto-detect (XEP-0030 → `mod_mqtt`) + shared auth hint
-- [ ] Prosody topic format display (`<HOST>/<TYPE>/<NODE>` → human-readable)
+- [x] ejabberd auto-detect (XEP-0030 → `mod_mqtt`) + shared auth hint
+- [x] Prosody topic format display (`<HOST>/<TYPE>/<NODE>` → human-readable)
 
 ### Phase 3: Alerts & Notifications (v1.3.0)
 - [x] Threshold alerts (`/mqtt alert <topic> <condition>`)
@@ -429,14 +429,14 @@ The MQTT Bot uses the **same notification system** as regular chat contacts:
 - [x] Alert messages with warning icon + desktop notification + sound
 - [x] Topic-level notification settings (per-topic sound/silent)
 - [x] History: last N values per topic in bot conversation
-- [ ] Prosody security warning (no auth → warning in settings + bot)
+- [x] Prosody security warning (no auth → warning in settings + bot)
 
 ### Phase 4: Advanced (v1.4.0)
-- [ ] MQTT → XMPP bridge (forward MQTT topics to real XMPP contacts)
-- [ ] Sparkline charts for topic history in bot conversation
-- [ ] QoS level configuration (0/1/2, per topic)
-- [ ] MQTT 5.0 User Properties display (units, labels from ejabberd)
-- [ ] Bot toolbar: visual topic manager (subscribe/unsubscribe without commands)
+- [x] MQTT → XMPP bridge (forward MQTT topics to real XMPP contacts)
+- [x] Sparkline charts for topic history in bot conversation
+- [x] QoS level configuration (0/1/2, per topic)
+- [x] MQTT 5.0 User Properties display (units, labels from ejabberd)
+- [x] Bot toolbar: visual topic manager (subscribe/unsubscribe without commands)
 
 ---
 

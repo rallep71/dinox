@@ -312,6 +312,9 @@ public class MqttAlertManager : Object {
     /* DB key for per-topic priority JSON */
     internal const string KEY_TOPIC_PRIORITIES = "mqtt_topic_priorities";
 
+    /* DB key for per-topic QoS JSON */
+    internal const string KEY_TOPIC_QOS = "mqtt_topic_qos";
+
     /* Max history entries per topic */
     private const int MAX_HISTORY_PER_TOPIC = 50;
 
@@ -324,6 +327,10 @@ public class MqttAlertManager : Object {
     /* Per-topic priority settings (topic → priority) */
     private HashMap<string, MqttPriority> topic_priorities =
         new HashMap<string, MqttPriority>();
+
+    /* Per-topic QoS settings (topic → 0/1/2) */
+    private HashMap<string, int> topic_qos =
+        new HashMap<string, int>();
 
     /* Topic history (topic → list of entries, most recent last) */
     private HashMap<string, ArrayList<TopicHistoryEntry>> history =
@@ -343,6 +350,7 @@ public class MqttAlertManager : Object {
         this.plugin = plugin;
         load_rules();
         load_topic_priorities();
+        load_topic_qos();
     }
 
     /* ── Alert Rule Management ───────────────────────────────────── */
@@ -439,6 +447,167 @@ public class MqttAlertManager : Object {
      */
     public HashMap<string, MqttPriority> get_all_topic_priorities() {
         return topic_priorities;
+    }
+
+    /* ── Per-Topic QoS ───────────────────────────────────────────── */
+
+    /**
+     * Set QoS level for a specific topic (0, 1, or 2).
+     */
+    public void set_topic_qos(string topic, int qos) {
+        if (qos < 0 || qos > 2) return;
+        if (qos == 0) {
+            /* 0 is default — remove the override */
+            topic_qos.unset(topic);
+        } else {
+            topic_qos[topic] = qos;
+        }
+        save_topic_qos();
+    }
+
+    /**
+     * Get QoS level for a topic (default: 0).
+     */
+    public int get_topic_qos(string topic) {
+        if (topic_qos.has_key(topic)) {
+            return topic_qos[topic];
+        }
+
+        /* Check wildcard patterns */
+        foreach (var entry in topic_qos.entries) {
+            if (topic_matches_pattern(topic, entry.key)) {
+                return entry.value;
+            }
+        }
+
+        return 0;
+    }
+
+    /**
+     * Get all per-topic QoS overrides.
+     */
+    public HashMap<string, int> get_all_topic_qos() {
+        return topic_qos;
+    }
+
+    /* ── Sparkline Generation ────────────────────────────────────── */
+
+    /**
+     * Unicode block elements for 8-level sparkline.
+     */
+    private const string[] SPARK_CHARS = {
+        "▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"
+    };
+
+    /**
+     * Generate a sparkline chart from topic history.
+     *
+     * @param topic   The topic to chart
+     * @param count   Max number of data points (default: 20)
+     * @return Formatted chart string, or null if no numeric data
+     */
+    public string? generate_sparkline(string topic, int count = 20) {
+        var entries = get_history(topic);
+        if (entries == null || entries.size == 0) return null;
+
+        /* Extract numeric values */
+        var values = new ArrayList<double?>();
+        var timestamps = new ArrayList<string>();
+
+        int start = (entries.size > count) ? entries.size - count : 0;
+        for (int i = start; i < entries.size; i++) {
+            double? val = try_extract_numeric(entries[i].payload);
+            if (val != null) {
+                values.add(val);
+                timestamps.add(entries[i].timestamp.format("%H:%M"));
+            }
+        }
+
+        if (values.size < 2) return null;
+
+        /* Find min/max */
+        double min_val = values[0];
+        double max_val = values[0];
+        double sum = 0;
+        foreach (double? v in values) {
+            if (v < min_val) min_val = v;
+            if (v > max_val) max_val = v;
+            sum += v;
+        }
+        double avg = sum / values.size;
+
+        /* Build sparkline */
+        double range = max_val - min_val;
+        if (range < 0.001) range = 1.0;  /* avoid div by zero */
+
+        var sb = new StringBuilder();
+
+        /* Chart line */
+        foreach (double? v in values) {
+            int idx = (int) (((v - min_val) / range) * 7.0 + 0.5);
+            if (idx < 0) idx = 0;
+            if (idx > 7) idx = 7;
+            sb.append(SPARK_CHARS[idx]);
+        }
+
+        string sparkline = sb.str;
+
+        /* Format output */
+        var out_sb = new StringBuilder();
+        out_sb.append("📊 %s\n".printf(topic));
+        out_sb.append("────────");
+        for (int j = 0; j < int.min((int) topic.length, 30); j++) out_sb.append("─");
+        out_sb.append("\n");
+        out_sb.append("%s\n\n".printf(sparkline));
+        out_sb.append("Min: %.2f  Max: %.2f  Avg: %.2f\n".printf(
+            min_val, max_val, avg));
+        out_sb.append("Points: %d  Period: %s → %s".printf(
+            values.size,
+            timestamps.size > 0 ? timestamps[0] : "?",
+            timestamps.size > 0 ? timestamps[timestamps.size - 1] : "?"));
+
+        return out_sb.str;
+    }
+
+    /**
+     * Try to extract a numeric value from a payload.
+     * Handles plain numbers and JSON objects with a single numeric field.
+     */
+    private double? try_extract_numeric(string payload) {
+        string trimmed = payload.strip();
+
+        /* Try direct parse */
+        double val;
+        if (double.try_parse(trimmed, out val)) {
+            return val;
+        }
+
+        /* Try JSON: first numeric field */
+        if (trimmed.has_prefix("{")) {
+            try {
+                var parser = new Json.Parser();
+                parser.load_from_data(trimmed, -1);
+                var root = parser.get_root();
+                if (root != null && root.get_node_type() == Json.NodeType.OBJECT) {
+                    var obj = root.get_object();
+                    foreach (string member in obj.get_members()) {
+                        var node = obj.get_member(member);
+                        if (node.get_node_type() == Json.NodeType.VALUE) {
+                            var vt = node.get_value_type();
+                            if (vt == typeof(double)) {
+                                return node.get_double();
+                            } else if (vt == typeof(int64)) {
+                                return (double) node.get_int();
+                            }
+                        }
+                    }
+                }
+            } catch (GLib.Error e) {
+                /* not JSON */
+            }
+        }
+
+        return null;
     }
 
     /* ── Topic History ───────────────────────────────────────────── */
@@ -704,6 +873,49 @@ public class MqttAlertManager : Object {
         string json_str = gen.to_data(null);
 
         set_db_setting(KEY_TOPIC_PRIORITIES, json_str);
+    }
+
+    private void load_topic_qos() {
+        string? json_str = get_db_setting(KEY_TOPIC_QOS);
+        if (json_str == null || json_str.strip() == "") return;
+
+        try {
+            var parser = new Json.Parser();
+            parser.load_from_data(json_str, -1);
+            var root = parser.get_root();
+            if (root == null || root.get_node_type() != Json.NodeType.OBJECT)
+                return;
+
+            var obj = root.get_object();
+            foreach (string member in obj.get_members()) {
+                int qos_val = (int) obj.get_int_member(member);
+                if (qos_val >= 0 && qos_val <= 2) {
+                    topic_qos[member] = qos_val;
+                }
+            }
+
+            message("MQTT AlertManager: Loaded %d topic QoS settings",
+                    topic_qos.size);
+        } catch (GLib.Error e) {
+            warning("MQTT AlertManager: Failed to load QoS settings: %s",
+                    e.message);
+        }
+    }
+
+    private void save_topic_qos() {
+        var obj = new Json.Object();
+        foreach (var entry in topic_qos.entries) {
+            obj.set_int_member(entry.key, entry.value);
+        }
+
+        var root = new Json.Node(Json.NodeType.OBJECT);
+        root.set_object(obj);
+
+        var gen = new Json.Generator();
+        gen.set_root(root);
+        string json_str = gen.to_data(null);
+
+        set_db_setting(KEY_TOPIC_QOS, json_str);
     }
 
     /* ── DB helpers ──────────────────────────────────────────────── */

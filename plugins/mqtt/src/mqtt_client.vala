@@ -27,6 +27,12 @@ public class MqttClient : Object {
     /** Emitted on incoming message (topic + raw payload bytes). */
     public signal void on_message(string topic, uint8[] payload);
 
+    /** Emitted on incoming message with MQTT 5.0 User Properties.
+     *  The properties HashMap maps name→value string pairs.
+     *  Only emitted if the message actually carries user properties. */
+    public signal void on_message_properties(string topic,
+                                              Gee.HashMap<string, string> properties);
+
     /** Emitted when MQTT connection state changes. */
     public signal void on_connection_changed(bool connected);
 
@@ -147,7 +153,13 @@ public class MqttClient : Object {
         /* Install C callbacks (dispatch via static _active pointer) */
         mosq.connect_callback_set(on_connect_cb);
         mosq.disconnect_callback_set(on_disconnect_cb);
-        mosq.message_callback_set(on_message_cb);
+
+        /* Use MQTT 5.0 protocol for User Properties support.
+         * The v5 message callback works for all protocol versions —
+         * props will be NULL for v3.1.1 connections. */
+        mosq.int_option(Mosquitto.Option.PROTOCOL_VERSION,
+                         Mosquitto.PROTOCOL_V5);
+        mosq.message_v5_callback_set(on_message_v5_cb);
 
         /* ---------- TCP connect in background thread ---------- */
         int tcp_rc = Mosquitto.Error.UNKNOWN;
@@ -329,10 +341,11 @@ public class MqttClient : Object {
         if (self != null) self.handle_disconnect_event(rc);
     }
 
-    private static void on_message_cb(Mosquitto.Client mosq,
-                                      void* userdata, Mosquitto.Message* msg) {
+    private static void on_message_v5_cb(Mosquitto.Client mosq,
+                                       void* userdata, Mosquitto.Message* msg,
+                                       Mosquitto.Property? props) {
         unowned MqttClient? self = lookup(userdata);
-        if (self != null) self.handle_message(msg);
+        if (self != null) self.handle_message(msg, props);
     }
 
     /* ── Instance event handlers ─────────────────────────────────── */
@@ -378,7 +391,8 @@ public class MqttClient : Object {
         }
     }
 
-    private void handle_message(Mosquitto.Message* msg) {
+    private void handle_message(Mosquitto.Message* msg,
+                                Mosquitto.Property? props = null) {
         /* Copy topic and payload — they're only valid during this callback */
         string topic = msg->topic;
 
@@ -388,6 +402,31 @@ public class MqttClient : Object {
         }
 
         on_message(topic, payload);
+
+        /* Extract MQTT 5.0 User Properties if present */
+        if (props != null) {
+            var user_props = new Gee.HashMap<string, string>();
+            string? name = null;
+            string? value = null;
+
+            unowned Mosquitto.Property? current = props;
+            bool skip = false;
+
+            while (true) {
+                current = Mosquitto.Property.read_string_pair(
+                    current, Mosquitto.PropertyId.USER_PROPERTY,
+                    out name, out value, skip);
+                if (current == null) break;
+                if (name != null && value != null) {
+                    user_props[name] = value;
+                }
+                skip = true;  /* skip the one we just read */
+            }
+
+            if (user_props.size > 0) {
+                on_message_properties(topic, user_props);
+            }
+        }
     }
 
     /* ── Reconnection ────────────────────────────────────────────── */

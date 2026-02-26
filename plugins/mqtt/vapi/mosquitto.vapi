@@ -8,7 +8,7 @@
  * Reference: https://mosquitto.org/api/files/mosquitto-h.html
  */
 
-[CCode (cheader_filename = "mosquitto.h")]
+[CCode (cheader_filename = "mosquitto.h,mqtt_protocol.h")]
 namespace Mosquitto {
 
     [CCode (cname = "mosquitto_lib_init")]
@@ -93,6 +93,12 @@ namespace Mosquitto {
 
         [CCode (cname = "mosquitto_subscribe_callback_set")]
         public void subscribe_callback_set(SubscribeCallback cb);
+
+        [CCode (cname = "mosquitto_message_v5_callback_set")]
+        public void message_v5_callback_set(MessageV5Callback cb);
+
+        [CCode (cname = "mosquitto_int_option")]
+        public int int_option(Option option, int value);
     }
 
     /* ── Callback delegates ────────────────────────────────────── */
@@ -150,4 +156,84 @@ namespace Mosquitto {
         EAI           = 15,
         PROXY         = 16
     }
+
+    /* ── Options (enum mosq_opt_t from mosquitto.h) ────────────── */
+
+    [CCode (cname = "int", cprefix = "MOSQ_OPT_")]
+    public enum Option {
+        PROTOCOL_VERSION = 1,
+        TCP_NODELAY      = 2,
+        RECEIVE_MAXIMUM  = 3,
+        SEND_MAXIMUM     = 4
+    }
+
+    /* ── MQTT Protocol Versions ────────────────────────────────── */
+
+    [CCode (cname = "MQTT_PROTOCOL_V31")]
+    public const int PROTOCOL_V31;
+
+    [CCode (cname = "MQTT_PROTOCOL_V311")]
+    public const int PROTOCOL_V311;
+
+    [CCode (cname = "MQTT_PROTOCOL_V5")]
+    public const int PROTOCOL_V5;
+
+    /* ── MQTT 5.0 Property Identifiers ─────────────────────────── */
+
+    [CCode (cname = "int", cprefix = "MQTT_PROP_")]
+    public enum PropertyId {
+        PAYLOAD_FORMAT_INDICATOR    =  1,
+        MESSAGE_EXPIRY_INTERVAL     =  2,
+        CONTENT_TYPE                =  3,
+        RESPONSE_TOPIC              =  8,
+        CORRELATION_DATA            =  9,
+        SUBSCRIPTION_IDENTIFIER     = 11,
+        SESSION_EXPIRY_INTERVAL     = 17,
+        ASSIGNED_CLIENT_IDENTIFIER  = 18,
+        SERVER_KEEP_ALIVE           = 19,
+        AUTHENTICATION_METHOD       = 21,
+        AUTHENTICATION_DATA         = 22,
+        REQUEST_PROBLEM_INFORMATION = 23,
+        WILL_DELAY_INTERVAL         = 24,
+        REQUEST_RESPONSE_INFORMATION = 25,
+        RESPONSE_INFORMATION        = 26,
+        SERVER_REFERENCE            = 28,
+        REASON_STRING               = 31,
+        RECEIVE_MAXIMUM             = 33,
+        TOPIC_ALIAS_MAXIMUM         = 34,
+        TOPIC_ALIAS                 = 35,
+        MAXIMUM_QOS                 = 36,
+        RETAIN_AVAILABLE            = 37,
+        USER_PROPERTY               = 38,
+        MAXIMUM_PACKET_SIZE         = 39,
+        WILDCARD_SUB_AVAILABLE      = 40,
+        SUBSCRIPTION_ID_AVAILABLE   = 41,
+        SHARED_SUB_AVAILABLE        = 42
+    }
+
+    /* ── MQTT 5.0 Property list (opaque pointer) ───────────────── */
+
+    [Compact]
+    [CCode (cname = "mosquitto_property", free_function = "")]
+    public class Property {
+        /* Read a string pair from the property list.
+         * Returns a pointer to the next match, or null.
+         * Caller must free name and value with GLib.free(). */
+        [CCode (cname = "mosquitto_property_read_string_pair")]
+        public static unowned Property? read_string_pair(
+            Property? proplist, int identifier,
+            out string? name, out string? value, bool skip_first);
+
+        /* Read a string from the property list. */
+        [CCode (cname = "mosquitto_property_read_string")]
+        public static unowned Property? read_string(
+            Property? proplist, int identifier,
+            out string? value, bool skip_first);
+    }
+
+    /* ── MQTT 5.0 Message callback with properties ─────────────── */
+
+    [CCode (cname = "mosquitto_on_message_v5_cb", has_target = false)]
+    public delegate void MessageV5Callback(Client mosq, void* userdata,
+                                            Message* msg, Property? props);
 }

@@ -287,19 +287,49 @@ public class MqttBotConversation : Object {
         string icon = priority.to_icon();
         string prefix = (icon != "") ? "%s ".printf(icon) : "";
 
+        /* Format topic — Prosody uses HOST/TYPE/NODE format */
+        string display_topic = format_topic_display(topic);
+
         /* Try to detect JSON and pretty-print key values */
         if (trimmed.has_prefix("{") && trimmed.has_suffix("}")) {
             string? pretty = try_format_json(trimmed);
             if (pretty != null) {
-                return "%s[%s]\n%s".printf(prefix, topic, pretty);
+                return "%s[%s]\n%s".printf(prefix, display_topic, pretty);
             }
         }
 
         /* Plain text */
         if (trimmed.length > 0) {
-            return "%s[%s]\n%s".printf(prefix, topic, trimmed);
+            return "%s[%s]\n%s".printf(prefix, display_topic, trimmed);
         }
-        return "%s[%s] (empty)".printf(prefix, topic);
+        return "%s[%s] (empty)".printf(prefix, display_topic);
+    }
+
+    /**
+     * Format a topic for human-readable display.
+     *
+     * Prosody mod_pubsub_mqtt bridges use the format:
+     *   HOST/TYPE/NODE → e.g. "example.com/pubsub/home/sensors/temp"
+     *
+     * This method detects the Prosody format and shows a cleaner version:
+     *   "example.com/pubsub/home/sensors/temp" → "home/sensors/temp (PubSub)"
+     *
+     * Standard MQTT topics pass through unchanged.
+     */
+    private string format_topic_display(string topic) {
+        /* Detect Prosody format: starts with a hostname followed by /pubsub/ */
+        if (topic.contains("/pubsub/")) {
+            int pubsub_idx = topic.index_of("/pubsub/");
+            if (pubsub_idx > 0) {
+                string host = topic.substring(0, pubsub_idx);
+                string node = topic.substring(pubsub_idx + 8);  /* skip /pubsub/ */
+                /* Verify host looks like a domain (contains a dot) */
+                if (host.contains(".") && node.length > 0) {
+                    return "%s (PubSub@%s)".printf(node, host);
+                }
+            }
+        }
+        return topic;
     }
 
     /**

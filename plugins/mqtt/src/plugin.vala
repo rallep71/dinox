@@ -71,6 +71,9 @@ public class Plugin : RootInterface, Object {
     /* ── Phase 3: Alerts & Notifications ────────────────────────────── */
     private MqttAlertManager? alert_manager = null;
 
+    /* ── Phase 4: Bridge Manager ─────────────────────────────────── */
+    private MqttBridgeManager? bridge_manager = null;
+
     /* ── DB keys (shared with MqttSettingsPage) ───────────────────── */
 
     internal const string KEY_ENABLED     = "mqtt_enabled";
@@ -107,6 +110,7 @@ public class Plugin : RootInterface, Object {
         bot_conversation = new MqttBotConversation(this);
         command_handler = new MqttCommandHandler(this, bot_conversation);
         alert_manager = new MqttAlertManager(this);
+        bridge_manager = new MqttBridgeManager(this);
 
         /* Register settings page */
         app.configure_preferences.connect(on_preferences_configure);
@@ -324,6 +328,33 @@ public class Plugin : RootInterface, Object {
                 .value(app.db.settings.value, result.server_type.to_string_key())
                 .perform();
             message("MQTT: Server type saved: %s", result.server_type.to_label());
+
+            /* Inject server-specific hints into bot conversation */
+            if (bot_conversation != null) {
+                Conversation? conv = bot_conversation.get_any_conversation();
+                if (conv != null) {
+                    if (result.server_type == ServerType.EJABBERD) {
+                        /* ejabberd: shared XMPP/MQTT auth hint */
+                        bot_conversation.inject_silent_message(conv,
+                            "ℹ Server: ejabberd (mod_mqtt detected)\n\n" +
+                            "ejabberd shares XMPP and MQTT authentication.\n" +
+                            "You can use your XMPP credentials to connect\n" +
+                            "to the MQTT broker on the same domain.\n\n" +
+                            "Per-account mode uses these credentials automatically.");
+                    } else if (result.server_type == ServerType.PROSODY) {
+                        /* Prosody: security warning (no MQTT auth) */
+                        bot_conversation.inject_bot_message(conv,
+                            "⚠ Server: Prosody (mod_pubsub_mqtt detected)\n\n" +
+                            "Prosody's MQTT bridge does NOT support authentication.\n" +
+                            "Any client on the network can subscribe to topics.\n\n" +
+                            "Recommendations:\n" +
+                            "• Restrict MQTT port via firewall\n" +
+                            "• Use TLS for encryption\n" +
+                            "• Do not publish sensitive data\n\n" +
+                            "Topic format: <HOST>/<TYPE>/<NODE>");
+                    }
+                }
+            }
         }
     }
 
@@ -384,7 +415,12 @@ public class Plugin : RootInterface, Object {
                 foreach (string topic in cfg_topics) {
                     string t = topic.strip();
                     if (t != "") {
-                        client.subscribe(t);
+                        /* Use per-topic QoS if configured */
+                        int qos = 0;
+                        if (alert_manager != null) {
+                            qos = alert_manager.get_topic_qos(t);
+                        }
+                        client.subscribe(t, qos);
                     }
                 }
 
@@ -422,6 +458,11 @@ public class Plugin : RootInterface, Object {
             string payload_str = (string) payload;
             message_received(label, topic, payload_str);
 
+            /* Phase 4: Evaluate bridge rules (MQTT → XMPP forwarding) */
+            if (bridge_manager != null) {
+                bridge_manager.evaluate(label, topic, payload_str);
+            }
+
             /* Phase 3: Evaluate alert rules and determine priority */
             MqttPriority priority = MqttPriority.NORMAL;
             if (alert_manager != null) {
@@ -449,6 +490,22 @@ public class Plugin : RootInterface, Object {
                 if (conv != null) {
                     bot_conversation.inject_mqtt_message(
                         conv, topic, payload_str, priority);
+                }
+            }
+        });
+
+        /* Phase 4: MQTT 5.0 User Properties display */
+        client.on_message_properties.connect((topic, properties) => {
+            if (bot_conversation != null && properties.size > 0) {
+                Conversation? conv = bot_conversation.get_conversation(label);
+                if (conv == null) conv = bot_conversation.get_any_conversation();
+                if (conv != null) {
+                    var sb = new StringBuilder();
+                    sb.append("📋 Properties [%s]\n".printf(topic));
+                    foreach (var entry in properties.entries) {
+                        sb.append("  %s: %s\n".printf(entry.key, entry.value));
+                    }
+                    bot_conversation.inject_silent_message(conv, sb.str);
                 }
             }
         });
@@ -608,6 +665,13 @@ public class Plugin : RootInterface, Object {
      */
     public MqttAlertManager? get_alert_manager() {
         return alert_manager;
+    }
+
+    /**
+     * Get the bridge manager (or null).
+     */
+    public MqttBridgeManager? get_bridge_manager() {
+        return bridge_manager;
     }
 
     /* ── Signals ───────────────────────────────────────────────────── */

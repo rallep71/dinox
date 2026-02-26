@@ -118,6 +118,33 @@ public class MqttCommandHandler : Object {
                 response = cmd_resume();
                 break;
 
+            case "qos":
+                response = cmd_qos(arg1, arg2);
+                break;
+
+            case "chart":
+            case "sparkline":
+                response = cmd_chart(arg1, arg2);
+                break;
+
+            case "bridge":
+                response = cmd_bridge(arg1, arg2);
+                break;
+
+            case "bridges":
+                response = cmd_bridges();
+                break;
+
+            case "rmbridge":
+            case "delbridge":
+                response = cmd_rmbridge(arg1);
+                break;
+
+            case "manager":
+            case "manage":
+                response = cmd_manager();
+                break;
+
             case "help":
             case "?":
                 response = cmd_help();
@@ -258,11 +285,20 @@ public class MqttCommandHandler : Object {
         sb.append("Active Topic Subscriptions\n");
         sb.append("─────────────────────────\n");
 
+        MqttAlertManager? am = plugin.get_alert_manager();
+
         int i = 1;
         foreach (string t in topics) {
             string trimmed = t.strip();
             if (trimmed != "") {
-                sb.append_printf("%d. %s\n", i++, trimmed);
+                int qos = (am != null) ? am.get_topic_qos(trimmed) : 0;
+                MqttPriority prio = (am != null) ?
+                    am.get_topic_priority(trimmed) : MqttPriority.NORMAL;
+                string extras = "QoS %d".printf(qos);
+                if (prio != MqttPriority.NORMAL) {
+                    extras += ", %s".printf(prio.to_string_key());
+                }
+                sb.append_printf("%d. %s  [%s]\n", i++, trimmed, extras);
             }
         }
 
@@ -277,6 +313,12 @@ public class MqttCommandHandler : Object {
                "/mqtt unsubscribe <topic> — Unsubscribe from a topic\n" +
                "/mqtt publish <t> <msg>   — Publish to a topic\n" +
                "/mqtt topics              — List subscriptions\n" +
+               "/mqtt qos <topic> <0|1|2> — Set topic QoS level\n" +
+               "/mqtt chart <topic> [N]   — Sparkline chart\n" +
+               "/mqtt bridge <topic> <jid>— Forward to XMPP contact\n" +
+               "/mqtt bridges             — List bridge rules\n" +
+               "/mqtt rmbridge <number>   — Remove bridge rule\n" +
+               "/mqtt manager             — Open Topic Manager\n" +
                "/mqtt alert <topic> <op> <value>\n" +
                "                          — Set threshold alert\n" +
                "/mqtt alerts              — List alert rules\n" +
@@ -295,8 +337,11 @@ public class MqttCommandHandler : Object {
                "Alert examples:\n" +
                "  /mqtt alert home/temp > 30\n" +
                "  /mqtt alert home/door == OPEN\n" +
-               "  /mqtt alert sensors/# contains error\n" +
                "\n" +
+               "Bridge example:\n" +
+               "  /mqtt bridge home/alerts/# user@example.com\n" +
+               "\n" +
+               "QoS levels: 0 (fire&forget), 1 (ack), 2 (exactly once)\n" +
                "Priority levels: silent, normal, alert, critical";
     }
 
@@ -571,6 +616,226 @@ public class MqttCommandHandler : Object {
         am.paused = false;
         return "MQTT messages resumed ▶\n\n" +
                "Incoming messages will appear as chat bubbles again.";
+    }
+
+    /**
+     * /mqtt qos [topic] [0|1|2]
+     * Without args: show all QoS settings.
+     * With args: set QoS for a topic.
+     */
+    private string cmd_qos(string topic, string level_str) {
+        MqttAlertManager? am = plugin.get_alert_manager();
+        if (am == null) return "Alert manager not available.";
+
+        if (topic == "") {
+            /* Show current QoS settings */
+            var qos_map = am.get_all_topic_qos();
+            if (qos_map.size == 0) {
+                return "No per-topic QoS overrides set.\n" +
+                       "All topics use default QoS: 0 (at most once)\n\n" +
+                       "Usage: /mqtt qos <topic> <0|1|2>\n\n" +
+                       "QoS levels:\n" +
+                       "  0 = At most once (fire & forget)\n" +
+                       "  1 = At least once (acknowledged)\n" +
+                       "  2 = Exactly once (guaranteed)";
+            }
+
+            var sb = new StringBuilder();
+            sb.append("Topic QoS Settings\n");
+            sb.append("──────────────────\n");
+            foreach (var entry in qos_map.entries) {
+                sb.append("%s → QoS %d (%s)\n".printf(
+                    entry.key, entry.value, qos_label(entry.value)));
+            }
+            sb.append("\nUse /mqtt qos <topic> 0 to reset to default.");
+            return sb.str;
+        }
+
+        if (level_str == "") {
+            /* Show QoS for specific topic */
+            int current = am.get_topic_qos(topic);
+            return "Topic '%s' QoS: %d (%s)\n\n".printf(
+                       topic, current, qos_label(current)) +
+                   "Usage: /mqtt qos <topic> <0|1|2>";
+        }
+
+        int qos = int.parse(level_str);
+        if (qos < 0 || qos > 2) {
+            return "Invalid QoS level: %s\n\nValid values: 0, 1, 2".printf(level_str);
+        }
+
+        am.set_topic_qos(topic, qos);
+
+        /* Re-subscribe with new QoS on active connections */
+        plugin.subscribe(topic, qos);
+
+        if (qos == 0) {
+            return "Topic '%s' QoS reset to default (0 — at most once) ✔".printf(topic);
+        }
+        return "Topic '%s' QoS set to %d (%s) ✔\n\n".printf(
+                   topic, qos, qos_label(qos)) +
+               "Active subscriptions have been updated.";
+    }
+
+    private string qos_label(int qos) {
+        switch (qos) {
+            case 0: return "at most once";
+            case 1: return "at least once";
+            case 2: return "exactly once";
+            default: return "unknown";
+        }
+    }
+
+    /**
+     * /mqtt chart [topic] [N]
+     * Generate a sparkline chart from topic history.
+     */
+    private string cmd_chart(string topic, string count_str) {
+        MqttAlertManager? am = plugin.get_alert_manager();
+        if (am == null) return "Alert manager not available.";
+
+        if (topic == "") {
+            /* Show topics with numeric history */
+            var topics = am.get_history_topics();
+            if (topics.size == 0) {
+                return "No topic history available.\n" +
+                       "History is recorded when MQTT messages arrive.\n\n" +
+                       "Usage: /mqtt chart <topic> [N]";
+            }
+
+            var sb = new StringBuilder();
+            sb.append("Topics with History Data\n");
+            sb.append("───────────────────────\n");
+            int i = 1;
+            foreach (string t in topics) {
+                var entries = am.get_history(t);
+                int count = (entries != null) ? entries.size : 0;
+                sb.append("%d. %s (%d values)\n".printf(i++, t, count));
+            }
+            sb.append("\nUse /mqtt chart <topic> [N] to generate a chart.");
+            return sb.str;
+        }
+
+        int max_points = 20;
+        if (count_str != "") {
+            int parsed = int.parse(count_str);
+            if (parsed > 0 && parsed <= 50) max_points = parsed;
+        }
+
+        string? chart = am.generate_sparkline(topic, max_points);
+        if (chart == null) {
+            return "Cannot generate chart for '%s'.\n\n".printf(topic) +
+                   "Possible reasons:\n" +
+                   "• No history data for this topic\n" +
+                   "• Payload is not numeric (need numbers or JSON with numeric fields)\n" +
+                   "• Less than 2 data points available";
+        }
+
+        return chart;
+    }
+
+    /* ── Phase 4: Bridge Commands ────────────────────────────────── */
+
+    /**
+     * /mqtt bridge <topic> <jid>  — Create MQTT→XMPP bridge.
+     */
+    private string cmd_bridge(string topic, string jid_str) {
+        if (topic == "" || jid_str == "") {
+            return "Usage: /mqtt bridge <topic> <jid>\n\n" +
+                   "Forward MQTT messages to an XMPP contact.\n\n" +
+                   "Examples:\n" +
+                   "  /mqtt bridge home/alerts/# user@example.com\n" +
+                   "  /mqtt bridge sensors/fire admin@company.org";
+        }
+
+        /* Validate JID */
+        try {
+            new Xmpp.Jid(jid_str);
+        } catch (Xmpp.InvalidJidError e) {
+            return "Invalid JID: %s\n\n%s".printf(jid_str, e.message);
+        }
+
+        MqttBridgeManager? bm = plugin.get_bridge_manager();
+        if (bm == null) return "Bridge manager not available.";
+
+        var rule = new BridgeRule();
+        rule.topic = topic;
+        rule.target_jid = jid_str;
+        bm.add_rule(rule);
+
+        return "Bridge rule created ✔\n\n" +
+               "Topic: %s\n".printf(topic) +
+               "Target: %s\n\n".printf(jid_str) +
+               "MQTT messages matching this topic will be forwarded\n" +
+               "as XMPP chat messages to the target contact.";
+    }
+
+    /**
+     * /mqtt bridges — List all bridge rules.
+     */
+    private string cmd_bridges() {
+        MqttBridgeManager? bm = plugin.get_bridge_manager();
+        if (bm == null) return "Bridge manager not available.";
+
+        var rules = bm.get_rules();
+        if (rules.size == 0) {
+            return "No bridge rules defined.\n\n" +
+                   "Use /mqtt bridge <topic> <jid> to create one.";
+        }
+
+        var sb = new StringBuilder();
+        sb.append("MQTT → XMPP Bridge Rules\n");
+        sb.append("────────────────────────\n");
+
+        int i = 1;
+        foreach (var rule in rules) {
+            string status = rule.enabled ? "✔" : "✘";
+            sb.append("%d. [%s] %s → %s\n".printf(
+                i++, status, rule.topic, rule.target_jid));
+        }
+
+        sb.append("\nUse /mqtt rmbridge <number> to remove a rule.");
+        return sb.str;
+    }
+
+    /**
+     * /mqtt rmbridge <number> — Remove bridge rule by index.
+     */
+    private string cmd_rmbridge(string index_str) {
+        if (index_str == "") {
+            return "Usage: /mqtt rmbridge <number>\n\n" +
+                   "Use /mqtt bridges to see rule numbers.";
+        }
+
+        int index = int.parse(index_str);
+        if (index <= 0) {
+            return "Invalid number: %s".printf(index_str);
+        }
+
+        MqttBridgeManager? bm = plugin.get_bridge_manager();
+        if (bm == null) return "Bridge manager not available.";
+
+        if (bm.remove_rule_by_index(index)) {
+            return "Bridge rule #%d removed ✔".printf(index);
+        } else {
+            return "Bridge rule #%d not found.\n\nUse /mqtt bridges to see rule numbers.".printf(index);
+        }
+    }
+
+    /**
+     * /mqtt manager — Open visual topic manager dialog.
+     */
+    private string cmd_manager() {
+        Idle.add(() => {
+            var dialog = new MqttTopicManagerDialog(plugin);
+            var gtk_app = plugin.app as Gtk.Application;
+            if (gtk_app != null && gtk_app.active_window != null) {
+                dialog.present(gtk_app.active_window);
+            }
+            return false;
+        });
+
+        return "Opening Topic Manager…";
     }
 
     /* ── DB helpers ──────────────────────────────────────────────── */
