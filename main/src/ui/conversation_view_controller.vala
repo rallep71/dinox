@@ -142,10 +142,10 @@ public class ConversationViewController : Object {
 
         SimpleAction close_conversation_action = new SimpleAction("close-current-conversation", null);
         close_conversation_action.activate.connect(() => {
-            // For MUC: Ctrl+W only hides the conversation (stays joined).
-            // For 1:1: close as before.
             if (conversation.type_ == Conversation.Type.GROUPCHAT) {
-                stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).hide_conversation(conversation);
+                // Leave the MUC room, unset autojoin bookmark, and close
+                stream_interactor.get_module<MucManager>(MucManager.IDENTITY).part(
+                    conversation.account, conversation.counterpart);
             } else {
                 stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).close_conversation(conversation);
             }

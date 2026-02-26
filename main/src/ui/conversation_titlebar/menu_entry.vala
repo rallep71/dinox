@@ -88,7 +88,11 @@ class MenuEntry : Plugins.ConversationTitlebarEntry, Object {
         //    menu_model.append(_("Invite Contact"), "conversation.invite");
         // }
         menu_model.append(_("Delete Conversation History"), "conversation.clear");
-        menu_model.append(_("Close Conversation"), "app.close-current-conversation");
+        if (conversation.type_ == Conversation.Type.GROUPCHAT) {
+            menu_model.append(_("Leave Conversation"), "app.close-current-conversation");
+        } else {
+            menu_model.append(_("Close Conversation"), "app.close-current-conversation");
+        }
         
         Gtk.PopoverMenu popover_menu = new Gtk.PopoverMenu.from_model(menu_model);
         button.popover = popover_menu;
