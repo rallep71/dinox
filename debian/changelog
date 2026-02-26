@@ -1,3 +1,16 @@
+dino (1.1.4.2) unstable; urgency=medium
+
+  * MQTT IoT/Smart Home Plugin: Full implementation with libmosquitto
+    (Phase 1-4: connect/subscribe/publish, bot conversation, alerts,
+    bridge, sparklines, QoS, MQTT 5.0). 52 unit tests.
+  * MUC Close Fix: Titlebar menu and Ctrl+W now properly leave MUC rooms.
+  * MUC Race Condition Fix: Removed Idle.add() wrapper for part().
+  * BotManager: No more warnings when Botmother API not running.
+  * OMEMO: Preserve device trust on chat-clear.
+  * CI: MQTT plugin now built in all CI workflows (AppImage, Flatpak, Windows).
+
+ -- Ralf Peter <ralf@hookipa.net>  Wed, 26 Feb 2026 12:00:00 +0100
+
 dino (1.1.2.8) unstable; urgency=medium
 
   * Legacy Encryption Format Fallback: decrypt_data() auto-falls back to

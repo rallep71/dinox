@@ -5,6 +5,28 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.4.2] - 2026-02-26
+
+### Added
+- **MQTT Plugin — Full Implementation**: Complete MQTT IoT/Smart Home integration plugin with 4 development phases:
+  - **Phase 1**: Real libmosquitto connect/subscribe/publish, per-account and standalone mode, server type detection (ejabberd/Prosody), Settings UI with broker host/port/TLS
+  - **Phase 2**: Bot conversation paradigm with chat commands (`/mqtt subscribe`, `/mqtt publish`, `/mqtt status`, etc.)
+  - **Phase 3**: Alert system with priority rules (info/warning/critical), notification sound integration, topic history
+  - **Phase 4**: Advanced features — XMPP↔MQTT bridge, ASCII sparklines for numeric topics, QoS levels, MQTT 5.0 properties, topic manager
+- **MQTT Tests**: 52 unit tests covering mqtt_utils, alert rules, topic parsing, bridge formatting
+- **MQTT CI Integration**: Added `libmosquitto-dev` to all CI workflows (AppImage, build, Windows MSYS2). Flatpak manifest already included mosquitto 2.1.2
+- **MQTT Documentation**: Added MQTT debugging section to DEBUG.md (log domain `mqtt`, env var overrides), MQTT build instructions to BUILD.md (all distros + MSYS2), dedicated MQTT_PLUGIN.md
+
+### Fixed
+- **MUC Close — Titlebar Menu / Ctrl+W**: "Close Conversation" in the titlebar ⋮ menu and Ctrl+W now properly leaves the MUC room (calls `MucManager.part()` instead of `hide_conversation()`). Previously, bookmark was removed but chat stayed open.
+- **MUC Close — Sidebar Race Condition**: Removed `Idle.add()` wrapper in `conversation_deactivated` handler that caused a race where incoming messages could re-activate the conversation before `part()` fired. Added `mucs_joined` guard. Removed confusing "Close" menu option for MUCs (only "Leave and Close" remains).
+- **BotManager API Warnings**: BotManager dialog no longer spams "Verbindungsaufbau abgelehnt" warnings when the Botmother API is not running. Added `check_api_reachable()` pre-flight check.
+- **OMEMO Chat-Clear**: Preserve device knowledge and trust state when clearing chat history — only delete sessions, not device identity.
+
+### Changed
+- MUC titlebar menu now shows "Leave Conversation" instead of "Close Conversation" for group chats
+- **Version**: 1.1.4.1 → 1.1.4.2
+
 ## [1.1.4.1] - 2026-02-25
 
 ### Fixed
