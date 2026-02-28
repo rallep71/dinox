@@ -1,6 +1,6 @@
 # DinoX - Development Plan
 
-> **Last Updated**: February 26, 2026 (v1.1.4.2)
+> **Last Updated**: February 28, 2026 (v1.1.4.3)
 > **Current Release Line**: 1.1.4.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.4.2 |
+| **Current Version** | 1.1.4.3 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (~85% translated) |
 | **Build Status** | Clean |
@@ -20,6 +20,17 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v1.1.4.3 (MQTT 20-Bug Audit, UI Improvements, Docs)
+
+- **MQTT 20-Bug Audit**: Fixed all 20 bugs found in comprehensive plugin audit:
+  - 2 CRITICAL: publish routing to wrong client, save_rules() without DB rollback
+  - 4 HIGH: crash after yield, timer leak, stale index in topic manager, double signal
+  - 7 MEDIUM: unsafe payload cast, null module guards, hardcoded QoS, save_rules on every alert, GTK child iteration, disconnected account fallback, coordinated QoS
+  - 7 LOW: discovery unsub, port validation, state topic cleanup, dead null check, discovery sensitivity, uint overflow, publish ack check
+- **MQTT UI Improvements**: Mode selector (XMPP Server / Custom Broker), Show Bot in Chat button, HA Discovery guard for XMPP mode, standalone enable switch lag fix (Idle.add), removed duplicate settings from standalone Bot Manager
+- **BUILD.md**: Complete plugin build options table (13 plugins with meson options, defaults, dependencies)
+- **Docs**: Updated MQTT_PLUGIN.md and MQTT_UI_GUIDE.md with HA Discovery compatibility notes
 
 ### v1.1.4.2 (Dependency Updates, CI Build Fixes)
 

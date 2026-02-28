@@ -5,6 +5,28 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.4.3] - 2026-02-28
+
+### Fixed
+- **MQTT Bug Audit (20 fixes)**: Comprehensive audit of the MQTT plugin found and fixed 20 bugs:
+  - **CRITICAL**: `cmd_publish` now routes to the correct MQTT client per conversation; `save_rules()` wraps DELETE+INSERT in a DB transaction with ROLLBACK on error
+  - **HIGH**: Null check on mosquitto handle after async yield (crash fix); timer leak in settings page destructor; topic manager uses rule IDs instead of stale indices; removed duplicate `connection_changed` signal emissions
+  - **MEDIUM**: Payload cast uses `.make_valid()` for safe UTF-8; null guards on `get_module<>()` in bot conversation; subscribe uses configured QoS instead of hardcoded 0; alert evaluation uses targeted UPDATE instead of full save; topic UI rebuild tracks rows in ArrayList; `find_account()` returns null instead of disconnected fallback
+  - **LOW**: Unsubscribe command topics on discovery disable; env port parsing validates range 1-65535; clear ENTITY_ALERTS_PAUSE state topic; remove dead null check; discovery group linked to sensitivity; publish checks connectivity before success report
+- **Standalone Settings Lag**: Enable switch no longer blocks the GTK main thread — heavy work (20+ DB reads, disconnect/reconnect) deferred to `Idle.add()`
+
+### Added
+- **Per-Account Mode Selector**: ComboRow in Bot Manager to choose "XMPP Server" vs "Custom Broker" connection mode
+- **Show Bot in Chat**: Button in Bot Manager to reopen a closed bot conversation
+- **HA Discovery Guard**: Home Assistant Discovery automatically disabled in XMPP mode (no retain/LWT support)
+- **BUILD.md Plugin Table**: Complete build options table for all 13 plugins with meson options, defaults, and dependencies
+- **Alert Manager**: `toggle_rule_by_id()` method for safe rule toggling without index staleness
+
+### Changed
+- Standalone Bot Manager no longer shows duplicate connection settings (managed by Settings page)
+- MQTT_PLUGIN.md and MQTT_UI_GUIDE.md updated with HA Discovery compatibility notes
+- **Version**: 1.1.4.2 → 1.1.4.3
+
 ## [1.1.4.2] - 2026-02-26
 
 ### Added
