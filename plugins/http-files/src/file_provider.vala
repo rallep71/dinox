@@ -161,6 +161,11 @@ public class FileProvider : Dino.FileProvider, Object {
             throw new FileReceiveError.GET_METADATA_FAILED("HEAD request failed");
         }
 
+        uint head_status = head_message.status_code;
+        if (head_status < 200 || head_status >= 300) {
+            throw new FileReceiveError.GET_METADATA_FAILED("HEAD request returned HTTP %u".printf(head_status));
+        }
+
         string? content_type = null, content_length = null;
         head_message.response_headers.foreach((name, val) => {
             if (name.down() == "content-type") content_type = val;
@@ -211,6 +216,10 @@ public class FileProvider : Dino.FileProvider, Object {
 #else
             InputStream stream = yield session.send_async(get_message, file_transfer.cancellable);
 #endif
+            uint status = get_message.status_code;
+            if (status < 200 || status >= 300) {
+                throw new IOError.FAILED("HTTP download failed: status %u".printf(status));
+            }
             if (file_meta.size != -1) {
                 return new LimitInputStream(stream, file_meta.size);
             } else {
