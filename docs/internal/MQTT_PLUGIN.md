@@ -231,7 +231,9 @@ simultaneously without conflicts. XMPP mode clients cannot use Discovery.
 ```
 
 ### 3.2 Components
-|-----------|------|-------|-------------|
+
+| Class | File | Lines | Purpose |
+|-------|------|-------|---------|
 | `Plugin` | `plugin.vala` | 1397 | Main plugin class: lifecycle, config, routing, discovery integration |
 | `MqttClient` | `mqtt_client.vala` | 656 | libmosquitto wrapper: MQTT 5.0, LWT, GLib main loop, auto-reconnect |
 | `MqttConnectionConfig` | `connection_config.vala` | 248 | Per-connection config model (26 properties incl. discovery) |
