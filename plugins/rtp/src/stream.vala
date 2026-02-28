@@ -427,7 +427,7 @@ public class Dino.Plugins.Rtp.Stream : Xmpp.Xep.JingleRtp.Stream {
                 uint64 new_received = packets_received - last_packets_received;
                 if (packets_received < last_packets_received) new_received = 0;
                 uint64 new_octets = octets_received - last_octets_received;
-                if (octets_received < last_octets_received) octets_received = 0;
+                if (octets_received < last_octets_received) new_octets = 0;
                 if (new_received == 0) continue;
                 last_packets_lost = packets_lost;
                 last_packets_received = packets_received;
@@ -447,7 +447,7 @@ public class Dino.Plugins.Rtp.Stream : Xmpp.Xep.JingleRtp.Stream {
                     int64 time_now = get_monotonic_time();
                     int64 time_diff = time_now - last_remb_time;
                     last_remb_time = time_now;
-                    uint actual_bitrate = (uint)(((double)new_octets * 8.0) * (double)time_diff / 1000.0 / 1000000.0);
+                    uint actual_bitrate = (uint)((double)new_octets * 8000.0 / (double)time_diff);
                     new_target_receive_bitrate = uint.max(new_target_receive_bitrate, (uint)(0.9 * (double)actual_bitrate));
                     max_target_receive_bitrate = uint.max((uint)(1.5 * (double)actual_bitrate), max_target_receive_bitrate);
                     new_target_receive_bitrate = uint.min(new_target_receive_bitrate, max_target_receive_bitrate);
@@ -629,6 +629,7 @@ public class Dino.Plugins.Rtp.Stream : Xmpp.Xep.JingleRtp.Stream {
                     if (flip) extension_data[0] = extension_data[0] | 0x4;
                     if (camera) extension_data[0] = extension_data[0] | 0x8;
                     rtp_buffer.add_extension_onebyte_header(ext.id, extension_data);
+                    rtp_buffer.unmap();
                 }
             }
         }
