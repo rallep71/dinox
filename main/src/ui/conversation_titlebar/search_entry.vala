@@ -15,8 +15,12 @@ public class SearchMenuEntry : Plugins.ConversationTitlebarEntry, Object {
         button.set_icon_name("system-search-symbolic");
     }
 
-    public new void set_conversation(Conversation conversation) { }
-    public new void unset_conversation() { }
+    public new void set_conversation(Conversation conversation) {
+        button.visible = true;
+    }
+    public new void unset_conversation() {
+        button.visible = false;
+    }
 
     public Object? get_widget(Plugins.WidgetType type) {
         if (type != Plugins.WidgetType.GTK4) return null;

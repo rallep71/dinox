@@ -75,6 +75,7 @@ class MenuEntry : Plugins.ConversationTitlebarEntry, Object {
     }
 
     public new void set_conversation(Conversation conversation) {
+        button.visible = true;
         button.sensitive = true;
         this.conversation = conversation;
         update_menu();
@@ -119,7 +120,7 @@ class MenuEntry : Plugins.ConversationTitlebarEntry, Object {
     }
 
     public new void unset_conversation() {
-        button.sensitive = false;
+        button.visible = false;
     }
 
 

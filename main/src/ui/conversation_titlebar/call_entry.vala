@@ -139,7 +139,10 @@ namespace Dino.Ui {
             button.visible = can_do_calls;
         }
 
-        public new void unset_conversation() { }
+        public new void unset_conversation() {
+            this.conversation = null;
+            button.visible = false;
+        }
 
         public Object? get_widget(Plugins.WidgetType type) {
             if (type != Plugins.WidgetType.GTK4) return null;
