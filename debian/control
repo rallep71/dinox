@@ -1,7 +1,7 @@
 Source: dino
 Section: net
 Priority: optional
-Maintainer: Dino Developers <chat@dino.im>
+Maintainer: DinoX / Ralf Peter <dinox@handwerker.jetzt>
 Build-Depends: debhelper-compat (= 13),
                meson,
                ninja-build,
@@ -25,9 +25,9 @@ Build-Depends: debhelper-compat (= 13),
                libwebrtc-audio-processing-dev,
                libdbusmenu-glib-dev
 Standards-Version: 4.6.2
-Homepage: https://dino.im
-Vcs-Git: https://github.com/dino/dino.git
-Vcs-Browser: https://github.com/dino/dino
+Homepage: https://dinox.handwerker.jetzt
+Vcs-Git: https://github.com/rallep71/dinox.git
+Vcs-Browser: https://github.com/rallep71/dinox
 
 Package: dino
 Architecture: any

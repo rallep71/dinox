@@ -23,5 +23,11 @@ int main(string[] args) {
     /* Contract — String truncation */
     TestSuite.get_root().add_suite(new TruncateTest().get_suite());
 
+    /* Contract — Local host detection (TLS warning) */
+    TestSuite.get_root().add_suite(new LocalHostTest().get_suite());
+
+    /* Contract — MqttConnectionConfig model */
+    TestSuite.get_root().add_suite(new ConnectionConfigTest().get_suite());
+
     return GLib.Test.run();
 }

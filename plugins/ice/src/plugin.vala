@@ -54,13 +54,13 @@ public class Dino.Plugins.Ice.Plugin : RootInterface, Object {
             }
         }
         if (ice_udp_module.stun_ip == null) {
-            InetAddress ip = yield lookup_ipv4_addess("stun.dino.im");
+            InetAddress ip = yield lookup_ipv4_addess("stun.l.google.com");
             if (ip == null) return;
 
-            debug("Using fallback STUN server: stun.dino.im:7886, resolved to %s", ip.to_string());
+            debug("Using fallback STUN server: stun.l.google.com:19302, resolved to %s", ip.to_string());
 
             ice_udp_module.stun_ip = ip.to_string();
-            ice_udp_module.stun_port = 7886;
+            ice_udp_module.stun_port = 19302;
         }
 
         // Refresh TURN credentials before they expire

@@ -264,9 +264,10 @@ create_test_db "$RESET_DIR/dino.db"          "$OLD_PW"    "accounts"
 create_test_db "$RESET_DIR/pgp.db"           "$OLD_PW"    "keys"
 create_test_db "$RESET_DIR/bot_registry.db"  "$OLD_PW"    "bots"
 create_test_db "$RESET_DIR/omemo.db"         "$OMEMO_KEY" "identity"
+create_test_db "$RESET_DIR/mqtt.db"          "$OLD_PW"    "messages"
 
 # Create WAL/SHM files (they may already exist from WAL mode, but create explicitly)
-for db in dino.db pgp.db bot_registry.db omemo.db; do
+for db in dino.db pgp.db bot_registry.db omemo.db mqtt.db; do
     touch "$RESET_DIR/${db}-wal"
     touch "$RESET_DIR/${db}-shm"
 done
@@ -282,6 +283,7 @@ ALL_FILES=(
     "pgp.db" "pgp.db-wal" "pgp.db-shm"
     "bot_registry.db" "bot_registry.db-wal" "bot_registry.db-shm"
     "omemo.db" "omemo.db-wal" "omemo.db-shm"
+    "mqtt.db" "mqtt.db-wal" "mqtt.db-shm"
     "omemo.key"
     "omemo/device1.dat" "omemo/session2.dat"
 )
@@ -311,7 +313,7 @@ simulate_reset_database() {
     rm -f "${db_path}-wal"
 
     # Delete plugin databases (NEW CODE)
-    for plugin_db in pgp.db bot_registry.db omemo.db; do
+    for plugin_db in pgp.db bot_registry.db omemo.db mqtt.db; do
         local p="$data_dir/$plugin_db"
         rm -f "$p"
         rm -f "${p}-shm"
@@ -366,16 +368,25 @@ if [[ ! -f "$RESET_DIR/omemo.db-wal" ]]; then pass "2.12 omemo.db-wal deleted"; 
 log_test "2.13 omemo.db-shm deleted"
 if [[ ! -f "$RESET_DIR/omemo.db-shm" ]]; then pass "2.13 omemo.db-shm deleted"; else fail "2.13 omemo.db-shm deleted" "file still exists"; fi
 
-log_test "2.14 omemo.key deleted"
-if [[ ! -f "$RESET_DIR/omemo.key" ]]; then pass "2.14 omemo.key deleted"; else fail "2.14 omemo.key deleted" "file still exists"; fi
+log_test "2.14 mqtt.db deleted"
+if [[ ! -f "$RESET_DIR/mqtt.db" ]]; then pass "2.14 mqtt.db deleted"; else fail "2.14 mqtt.db deleted" "file still exists"; fi
 
-log_test "2.15 omemo/ directory deleted"
-if [[ ! -d "$RESET_DIR/omemo" ]]; then pass "2.15 omemo/ directory deleted"; else fail "2.15 omemo/ directory deleted" "directory still exists"; fi
+log_test "2.15 mqtt.db-wal deleted"
+if [[ ! -f "$RESET_DIR/mqtt.db-wal" ]]; then pass "2.15 mqtt.db-wal deleted"; else fail "2.15 mqtt.db-wal deleted" "file still exists"; fi
+
+log_test "2.16 mqtt.db-shm deleted"
+if [[ ! -f "$RESET_DIR/mqtt.db-shm" ]]; then pass "2.16 mqtt.db-shm deleted"; else fail "2.16 mqtt.db-shm deleted" "file still exists"; fi
+
+log_test "2.17 omemo.key deleted"
+if [[ ! -f "$RESET_DIR/omemo.key" ]]; then pass "2.17 omemo.key deleted"; else fail "2.17 omemo.key deleted" "file still exists"; fi
+
+log_test "2.18 omemo/ directory deleted"
+if [[ ! -d "$RESET_DIR/omemo" ]]; then pass "2.18 omemo/ directory deleted"; else fail "2.18 omemo/ directory deleted" "directory still exists"; fi
 
 # --- Test that reset on empty dir doesn't crash ---
-log_test "2.16 Reset on already-empty dir (idempotent)"
+log_test "2.19 Reset on already-empty dir (idempotent)"
 simulate_reset_database "$RESET_DIR"
-pass "2.16 Reset on already-empty dir (idempotent)"
+pass "2.19 Reset on already-empty dir (idempotent)"
 
 # ============================================================================
 # TEST SUITE 3: WAL CHECKPOINT — Data in WAL must be flushed before backup
@@ -386,7 +397,7 @@ CHECKPOINT_DIR="$TEST_DIR/checkpoint"
 mkdir -p "$CHECKPOINT_DIR"
 
 # Create databases in WAL mode with unflushed data
-for db_info in "dino.db:$OLD_PW:accounts" "pgp.db:$OLD_PW:keys" "bot_registry.db:$OLD_PW:bots" "omemo.db:$OMEMO_KEY:identity"; do
+for db_info in "dino.db:$OLD_PW:accounts" "pgp.db:$OLD_PW:keys" "bot_registry.db:$OLD_PW:bots" "omemo.db:$OMEMO_KEY:identity" "mqtt.db:$OLD_PW:messages"; do
     IFS=: read -r db key table <<< "$db_info"
     create_test_db "$CHECKPOINT_DIR/$db" "$key" "$table"
     # Insert more data WITHOUT checkpoint to ensure WAL has data
@@ -668,6 +679,13 @@ else
     fail "4.15 reset_database deletes omemo.db" "omemo.db not in delete list"
 fi
 
+log_test "4.15b reset_database deletes mqtt.db"
+if grep -q '"mqtt.db"' /media/linux/SSD128/xmppwin/main/src/ui/application.vala; then
+    pass "4.15b reset_database deletes mqtt.db"
+else
+    fail "4.15b reset_database deletes mqtt.db" "mqtt.db not in delete list"
+fi
+
 log_test "4.16 reset_database deletes omemo.key"
 if grep -q '"omemo.key"' /media/linux/SSD128/xmppwin/main/src/ui/application.vala; then
     pass "4.16 reset_database deletes omemo.key"
@@ -696,13 +714,14 @@ create_test_db "$WORKFLOW_DIR/dino.db"          "$OLD_PW"    "accounts"
 create_test_db "$WORKFLOW_DIR/pgp.db"           "$OLD_PW"    "keys"
 create_test_db "$WORKFLOW_DIR/bot_registry.db"  "$OLD_PW"    "bots"
 create_test_db "$WORKFLOW_DIR/omemo.db"         "$OMEMO_KEY" "identity"
+create_test_db "$WORKFLOW_DIR/mqtt.db"          "$OLD_PW"    "messages"
 echo "auto_key_data" > "$WORKFLOW_DIR/omemo.key"
 echo "device" > "$WORKFLOW_DIR/omemo/dev1.dat"
 
 # Step 2: Checkpoint all DBs
 log_test "5.1 Full workflow: checkpoint all DBs"
 CHECKPOINT_OK=true
-for db_info in "dino.db:$OLD_PW" "pgp.db:$OLD_PW" "bot_registry.db:$OLD_PW" "omemo.db:$OMEMO_KEY"; do
+for db_info in "dino.db:$OLD_PW" "pgp.db:$OLD_PW" "bot_registry.db:$OLD_PW" "omemo.db:$OMEMO_KEY" "mqtt.db:$OLD_PW"; do
     IFS=: read -r db key <<< "$db_info"
     if ! sqlcipher_exec "$WORKFLOW_DIR/$db" "$key" "PRAGMA wal_checkpoint(TRUNCATE);" 2>/dev/null; then
         CHECKPOINT_OK=false

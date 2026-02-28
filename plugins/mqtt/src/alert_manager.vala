@@ -40,11 +40,11 @@ public enum MqttPriority {
 
     public string to_label() {
         switch (this) {
-            case SILENT:   return "Silent (no notification)";
-            case NORMAL:   return "Normal (badge)";
-            case ALERT:    return "Alert (badge + notification)";
-            case CRITICAL: return "Critical (badge + notification + sound)";
-            default:       return "Normal";
+            case SILENT:   return _("Silent (no notification)");
+            case NORMAL:   return _("Normal (badge)");
+            case ALERT:    return _("Alert (badge + notification)");
+            case CRITICAL: return _("Critical (badge + notification + sound)");
+            default:       return _("Normal");
         }
     }
 
@@ -412,7 +412,7 @@ public class MqttAlertManager : Object {
 
         /* Check wildcard patterns in topic_priorities */
         foreach (var entry in topic_priorities.entries) {
-            if (topic_matches_pattern(topic, entry.key)) {
+            if (MqttUtils.topic_matches(entry.key, topic)) {
                 return entry.value;
             }
         }
@@ -453,7 +453,7 @@ public class MqttAlertManager : Object {
 
         /* Check wildcard patterns */
         foreach (var entry in topic_qos.entries) {
-            if (topic_matches_pattern(topic, entry.key)) {
+            if (MqttUtils.topic_matches(entry.key, topic)) {
                 return entry.value;
             }
         }
@@ -470,12 +470,7 @@ public class MqttAlertManager : Object {
 
     /* ── Sparkline Generation ────────────────────────────────────── */
 
-    /**
-     * Unicode block elements for 8-level sparkline.
-     */
-    private const string[] SPARK_CHARS = {
-        "▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"
-    };
+    /* SPARK_CHARS removed — use MqttUtils.SPARK_CHARS */
 
     /**
      * Generate a sparkline chart from topic history.
@@ -488,47 +483,34 @@ public class MqttAlertManager : Object {
         var entries = get_history(topic);
         if (entries == null || entries.size == 0) return null;
 
-        /* Extract numeric values */
-        var values = new ArrayList<double?>();
+        /* Extract numeric values into a double[] for MqttUtils */
+        var val_list = new ArrayList<double?>();
         var timestamps = new ArrayList<string>();
 
         int start = (entries.size > count) ? entries.size - count : 0;
         for (int i = start; i < entries.size; i++) {
             double? val = try_extract_numeric(entries[i].payload);
             if (val != null) {
-                values.add(val);
+                val_list.add(val);
                 timestamps.add(entries[i].timestamp.format("%H:%M"));
             }
         }
 
-        if (values.size < 2) return null;
+        if (val_list.size < 2) return null;
 
-        /* Find min/max */
-        double min_val = values[0];
-        double max_val = values[0];
-        double sum = 0;
-        foreach (double? v in values) {
-            if (v < min_val) min_val = v;
-            if (v > max_val) max_val = v;
-            sum += v;
-        }
-        double avg = sum / values.size;
-
-        /* Build sparkline */
-        double range = max_val - min_val;
-        if (range < 0.001) range = 1.0;  /* avoid div by zero */
-
-        var sb = new StringBuilder();
-
-        /* Chart line */
-        foreach (double? v in values) {
-            int idx = (int) (((v - min_val) / range) * 7.0 + 0.5);
-            if (idx < 0) idx = 0;
-            if (idx > 7) idx = 7;
-            sb.append(SPARK_CHARS[idx]);
+        /* Convert to double[] for MqttUtils */
+        double[] values = new double[val_list.size];
+        for (int i = 0; i < val_list.size; i++) {
+            values[i] = (double) val_list[i];
         }
 
-        string sparkline = sb.str;
+        /* Statistics via MqttUtils */
+        double min_val, max_val, avg;
+        MqttUtils.sparkline_stats(values, out min_val, out max_val, out avg);
+
+        /* Build sparkline via MqttUtils */
+        string? sparkline = MqttUtils.build_sparkline(values);
+        if (sparkline == null) return null;
 
         /* Format output */
         var out_sb = new StringBuilder();
@@ -540,7 +522,7 @@ public class MqttAlertManager : Object {
         out_sb.append("Min: %.2f  Max: %.2f  Avg: %.2f\n".printf(
             min_val, max_val, avg));
         out_sb.append("Points: %d  Period: %s → %s".printf(
-            values.size,
+            values.length,
             timestamps.size > 0 ? timestamps[0] : "?",
             timestamps.size > 0 ? timestamps[timestamps.size - 1] : "?"));
 
@@ -587,7 +569,7 @@ public class MqttAlertManager : Object {
         /* Try wildcard match */
         var result = new ArrayList<TopicHistoryEntry>();
         foreach (var entry in history.entries) {
-            if (topic_matches_pattern(entry.key, topic)) {
+            if (MqttUtils.topic_matches(topic, entry.key)) {
                 result.add_all(entry.value);
             }
         }
@@ -706,35 +688,42 @@ public class MqttAlertManager : Object {
         }
     }
 
-    /* ── MQTT Wildcard Matching ──────────────────────────────────── */
-
-    private bool topic_matches_pattern(string topic, string pattern) {
-        if (pattern == topic) return true;
-        if (pattern == "#") return true;
-
-        string[] pat_parts = pattern.split("/");
-        string[] top_parts = topic.split("/");
-
-        int pi = 0;
-        int ti = 0;
-        while (pi < pat_parts.length && ti < top_parts.length) {
-            if (pat_parts[pi] == "#") return true;
-            if (pat_parts[pi] == "+") {
-                pi++;
-                ti++;
-                continue;
-            }
-            if (pat_parts[pi] != top_parts[ti]) return false;
-            pi++;
-            ti++;
-        }
-
-        return pi == pat_parts.length && ti == top_parts.length;
-    }
+    /* topic_matches_pattern() removed — use MqttUtils.topic_matches() */
 
     /* ── Persistence ─────────────────────────────────────────────── */
 
     private void load_rules() {
+        /* Phase 1c: Try loading from mqtt.db first */
+        if (plugin.mqtt_db != null) {
+            var iter = plugin.mqtt_db.alert_rules.select()
+                .order_by(plugin.mqtt_db.alert_rules.created_at, "ASC")
+                .iterator();
+            while (iter.next()) {
+                var row = iter.get();
+                var rule = new AlertRule();
+                rule.id = plugin.mqtt_db.alert_rules.id[row];
+                rule.topic = plugin.mqtt_db.alert_rules.topic[row];
+                rule.field = plugin.mqtt_db.alert_rules.field[row];
+                string op_str = plugin.mqtt_db.alert_rules.operator[row];
+                AlertOperator? parsed_op = AlertOperator.from_string(op_str);
+                if (parsed_op == null) continue;
+                rule.op = parsed_op;
+                rule.threshold = plugin.mqtt_db.alert_rules.threshold[row];
+                rule.priority = MqttPriority.from_string(
+                    plugin.mqtt_db.alert_rules.priority[row]);
+                rule.enabled = plugin.mqtt_db.alert_rules.enabled[row];
+                rule.cooldown_secs = (int64) plugin.mqtt_db.alert_rules.cooldown_secs[row];
+                rule.last_triggered = (int64) plugin.mqtt_db.alert_rules.last_triggered[row];
+                rules.add(rule);
+            }
+
+            if (rules.size > 0) {
+                message("MQTT AlertManager: Loaded %d alert rules from mqtt.db", rules.size);
+                return;
+            }
+        }
+
+        /* Fallback: load from JSON in settings (legacy) */
         string? json_str = get_db_setting(KEY_ALERTS);
         if (json_str == null || json_str.strip() == "") return;
 
@@ -755,13 +744,52 @@ public class MqttAlertManager : Object {
                 }
             }
 
-            message("MQTT AlertManager: Loaded %d alert rules", rules.size);
+            message("MQTT AlertManager: Loaded %d alert rules from JSON (legacy)", rules.size);
+
+            /* One-time migration: write rules to mqtt.db */
+            if (rules.size > 0 && plugin.mqtt_db != null) {
+                save_rules();
+                message("MQTT AlertManager: Migrated %d rules from JSON → mqtt.db", rules.size);
+            }
         } catch (GLib.Error e) {
             warning("MQTT AlertManager: Failed to load rules: %s", e.message);
         }
     }
 
     private void save_rules() {
+        /* Phase 1c: Save to mqtt.db */
+        if (plugin.mqtt_db != null) {
+            /* Wrap DELETE ALL + INSERT ALL in a transaction for atomicity */
+            try { plugin.mqtt_db.exec("BEGIN TRANSACTION"); } catch (Error e) {
+                warning("MQTT AlertManager: BEGIN TRANSACTION failed: %s", e.message);
+            }
+
+            /* Delete all existing rules and re-insert */
+            plugin.mqtt_db.alert_rules.delete().perform();
+
+            long now = (long) new DateTime.now_utc().to_unix();
+            foreach (var rule in rules) {
+                plugin.mqtt_db.alert_rules.insert()
+                    .value(plugin.mqtt_db.alert_rules.id, rule.id)
+                    .value(plugin.mqtt_db.alert_rules.topic, rule.topic)
+                    .value(plugin.mqtt_db.alert_rules.field, rule.field)
+                    .value(plugin.mqtt_db.alert_rules.operator, rule.op.to_symbol())
+                    .value(plugin.mqtt_db.alert_rules.threshold, rule.threshold)
+                    .value(plugin.mqtt_db.alert_rules.priority, rule.priority.to_string_key())
+                    .value(plugin.mqtt_db.alert_rules.enabled, rule.enabled)
+                    .value(plugin.mqtt_db.alert_rules.cooldown_secs, (long) rule.cooldown_secs)
+                    .value(plugin.mqtt_db.alert_rules.last_triggered, (long) rule.last_triggered)
+                    .value(plugin.mqtt_db.alert_rules.created_at, now)
+                    .perform();
+            }
+
+            try { plugin.mqtt_db.exec("COMMIT"); } catch (Error e) {
+                warning("MQTT AlertManager: COMMIT failed: %s", e.message);
+            }
+            return;
+        }
+
+        /* Fallback: save as JSON in settings (legacy) */
         var array = new Json.Array();
         foreach (var rule in rules) {
             var node = new Json.Node(Json.NodeType.OBJECT);

@@ -40,13 +40,17 @@ if dep_mosquitto_check.found() and plugin_mqtt_opt.allowed()
         'src/plugin.vala',
         'src/register_plugin.vala',
         'src/mqtt_client.vala',
+        'src/connection_config.vala',
+        'src/database.vala',
         'src/server_detector.vala',
         'src/settings_page.vala',
         'src/bot_conversation.vala',
         'src/command_handler.vala',
         'src/alert_manager.vala',
         'src/bridge_manager.vala',
+        'src/discovery_manager.vala',
         'src/topic_manager_dialog.vala',
+        'src/mqtt_bot_manager_dialog.vala',
         'src/mqtt_utils.vala',
     )
 
@@ -61,6 +65,7 @@ if dep_mosquitto_check.found() and plugin_mqtt_opt.allowed()
     c_args = [
         '-DG_LOG_DOMAIN="mqtt"',
         '-DGETTEXT_PACKAGE="dino"',
+        '-DLOCALE_INSTALL_DIR="@0@"'.format(get_option('prefix') / get_option('localedir')),
     ]
 
     lib_mqtt = shared_library('mqtt', sources + vapi_sources,
@@ -80,12 +85,13 @@ if dep_mosquitto_check.found() and plugin_mqtt_opt.allowed()
 
     summary('MQTT IoT/Event Plugin (mqtt)', true, section: 'Plugins')
 
-    # Unit tests for MQTT plugin (standalone, only mqtt_utils.vala + glib + json-glib)
+    # Unit tests for MQTT plugin (standalone, only mqtt_utils.vala + connection_config.vala + glib + json-glib)
     mqtt_test_sources = files(
         'tests/common.vala',
         'tests/testcase.vala',
         'tests/mqtt_tests.vala',
         'src/mqtt_utils.vala',
+        'src/connection_config.vala',
     )
     exe_mqtt_test = executable('mqtt-test', mqtt_test_sources,
         c_args: ['-DG_LOG_DOMAIN="mqtt-test"'],

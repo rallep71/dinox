@@ -178,6 +178,12 @@ public class MqttUtils : Object {
                                        out double out_min,
                                        out double out_max,
                                        out double out_avg) {
+        if (values.length == 0) {
+            out_min = 0;
+            out_max = 0;
+            out_avg = 0;
+            return;
+        }
         out_min = values[0];
         out_max = values[0];
         double sum = 0;
@@ -225,6 +231,31 @@ public class MqttUtils : Object {
             default: /* "full" */
                 return "MQTT [%s]\n%s".printf(topic_name, payload);
         }
+    }
+
+    /**
+     * Check if a host string refers to a local/private network address.
+     *
+     * Returns true for:
+     *   - localhost, 127.0.0.1, ::1
+     *   - RFC 1918 private ranges: 10.x, 192.168.x, 172.16-31.x
+     *   - Common local domain suffixes: .local, .lan, .home
+     */
+    public static bool is_local_host(string host) {
+        string h = host.down().strip();
+        if (h == "" ) return true;  /* empty = probably auto-detect → local */
+        if (h == "localhost" || h == "127.0.0.1" || h == "::1") return true;
+        if (h.has_prefix("192.168.")) return true;
+        if (h.has_prefix("10.")) return true;
+        if (h.has_prefix("172.")) {
+            string[] parts = h.split(".");
+            if (parts.length >= 2) {
+                int second = int.parse(parts[1]);
+                if (second >= 16 && second <= 31) return true;
+            }
+        }
+        if (h.has_suffix(".local") || h.has_suffix(".lan") || h.has_suffix(".home")) return true;
+        return false;
     }
 }
 

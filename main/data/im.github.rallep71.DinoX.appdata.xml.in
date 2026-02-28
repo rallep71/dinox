@@ -20,11 +20,11 @@
     <keyword translate="no">Jabber</keyword>
     <keyword translate="no">XMPP</keyword>
   </keywords>
-  <url type="homepage">https://dino.im</url>
-  <url type="bugtracker">https://github.com/dino/dino/issues</url>
-  <url type="donation">https://dino.im/#donate</url>
-  <url type="vcs-browser">https://github.com/dino/dino</url>
-  <url type="translate">https://hosted.weblate.org/projects/dino/</url>
+  <url type="homepage">https://dinox.handwerker.jetzt</url>
+  <url type="bugtracker">https://github.com/rallep71/dinox/issues</url>
+  <url type="donation">https://dinox.handwerker.jetzt/spenden.html</url>
+  <url type="vcs-browser">https://github.com/rallep71/dinox</url>
+  <url type="translate">https://hosted.weblate.org/projects/dinox/</url>
   <launchable type="desktop-id">im.github.rallep71.DinoX.desktop</launchable>
   <releases>
     <release date="2025-12-01" version="0.8.2">
@@ -111,28 +111,28 @@
     <display_length>360</display_length>
   </supports>
   <project_license>GPL-3.0+</project_license>
-  <developer id="im.dino">
-    <name translate="no">Dino Development Team</name>
-    <url>https://dino.im/</url>
+  <developer id="im.github.rallep71">
+    <name translate="no">DinoX / Ralf Peter</name>
+    <url>https://dinox.handwerker.jetzt</url>
   </developer>
   <!-- Deprecated: -->
-  <developer_name translate="no">Dino Development Team</developer_name>
+  <developer_name translate="no">DinoX / Ralf Peter</developer_name>
   <screenshots>
     <screenshot type="default">
-      <image type="source" width="2244" height="1644" scale="2">https://dino.im/img/appdata/screenshot-dino-0.4-main-2244x1644@2.png</image>
+      <image type="source" width="800" height="600">https://dinox.handwerker.jetzt/assets/privt.png</image>
       <caption>Main screen</caption>
     </screenshot>
     <screenshot>
-      <image type="source" width="1441" height="929" scale="2">https://dino.im/img/appdata/screenshot-dino-0.4-call-1441x929@2.png</image>
+      <image type="source" width="800" height="600">https://dinox.handwerker.jetzt/assets/voicecal.png</image>
       <caption>Video call screen</caption>
     </screenshot>
     <screenshot>
-      <image type="source" width="2244" height="1644" scale="2">https://dino.im/img/appdata/screenshot-dino-0.4-search-2244x1644@2.png</image>
-      <caption>Main screen featuring search overlay</caption>
+      <image type="source" width="800" height="600">https://dinox.handwerker.jetzt/assets/voise.png</image>
+      <caption>Voice messages</caption>
     </screenshot>
     <screenshot>
-      <image type="source" width="964" height="1552" scale="2">https://dino.im/img/appdata/screenshot-dino-0.4-mobile-964x1552@2.png</image>
-      <caption>Main screen in mobile size window</caption>
+      <image type="source" width="800" height="600">https://dinox.handwerker.jetzt/assets/emoji.png</image>
+      <caption>Emoji picker</caption>
     </screenshot>
   </screenshots>
   <translation type="gettext">dino</translation>
@@ -140,7 +140,7 @@
     <content_attribute id="social-chat">intense</content_attribute>
     <content_attribute id="social-audio">intense</content_attribute>
   </content_rating>
-  <update_contact>appstream@dino.im</update_contact>
+  <update_contact>dinox@handwerker.jetzt</update_contact>
   <branding>
     <color type="primary" scheme_preference="light">#B2DFDB</color>
     <color type="primary" scheme_preference="dark">#004D40</color>

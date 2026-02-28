@@ -161,13 +161,13 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://github.com/dino/libomemo-c/releases/download/v0.5.1/libomemo-c-0.5.1.tar.gz",
+                    "url": "https://github.com/rallep71/libomemo-c/releases/download/v0.5.1/libomemo-c-0.5.1.tar.gz",
                     "sha512": "ff59565406c51663f2944e9a7c12c5b0e3fa01073039f5161472dd81f59194b1cf2685bc1e0cc930a141bc409b965c5d93313cfc3e0e237250102af3b5e88826",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 359676,
                         "stable-only": true,
-                        "url-template": "https://github.com/dino/libomemo-c/releases/download/v$version/libomemo-c-$version.tar.gz"
+                        "url-template": "https://github.com/rallep71/libomemo-c/releases/download/v$version/libomemo-c-$version.tar.gz"
                     }
                 }
             ]

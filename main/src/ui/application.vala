@@ -1901,7 +1901,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             FileUtils.unlink (db_path + "-wal");
 
             // Delete plugin databases
-            string[] plugin_dbs = { "pgp.db", "bot_registry.db", "omemo.db" };
+            string[] plugin_dbs = { "pgp.db", "bot_registry.db", "omemo.db", "mqtt.db" };
             foreach (string plugin_db in plugin_dbs) {
                 string p = Path.build_filename (data_dir, plugin_db);
                 FileUtils.unlink (p);

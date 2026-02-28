@@ -13,7 +13,12 @@
  *   5. loop_misc()  — keepalive + housekeeping, every 1 second via Timeout
  *   6. On disconnect: teardown sources, schedule reconnect after 5 seconds
  *
+ * Platform notes:
+ *   Linux:   IOChannel.unix_new() for socket, /etc/ssl/certs/ for CA certs
+ *   Windows: IOChannel.win32_new_socket() for Winsock, bundled ssl/certs/ca-bundle.crt
+ *
  * Requires: libmosquitto-dev (apt install libmosquitto-dev)
+ *           MSYS2: pacman -S mingw-w64-x86_64-mosquitto
  */
 
 using GLib;
@@ -24,8 +29,8 @@ public class MqttClient : Object {
 
     public bool is_connected { get; private set; default = false; }
 
-    /** Emitted on incoming message (topic + raw payload bytes). */
-    public signal void on_message(string topic, uint8[] payload);
+    /** Emitted on incoming message (topic + raw payload bytes + QoS + retained). */
+    public signal void on_message(string topic, uint8[] payload, int qos, bool retained);
 
     /** Emitted on incoming message with MQTT 5.0 User Properties.
      *  The properties HashMap maps name→value string pairs.
@@ -56,6 +61,10 @@ public class MqttClient : Object {
     /* Topics to re-subscribe after reconnect */
     private Gee.HashMap<string, int> subscribed_topics =
         new Gee.HashMap<string, int>();
+
+    /* LWT (Last Will and Testament) — set before connect */
+    private string? lwt_topic = null;
+    private string lwt_payload = "offline";
 
     /* Instance registry for C callback dispatch.
      * mosquitto_new() stores a userdata pointer that is passed to every
@@ -88,6 +97,17 @@ public class MqttClient : Object {
     }
 
     /* ── Connect ─────────────────────────────────────────────────── */
+
+    /**
+     * Set the Last Will and Testament (LWT) for this connection.
+     * Must be called BEFORE connect_async().
+     * The broker will publish this message if the client disconnects
+     * unexpectedly (without a clean DISCONNECT packet).
+     */
+    public void set_will(string topic, string payload) {
+        lwt_topic = topic;
+        lwt_payload = payload;
+    }
 
     /**
      * Connect to an MQTT broker.
@@ -136,6 +156,28 @@ public class MqttClient : Object {
             string? cafile = null;
             string? capath = null;
 
+#if WINDOWS
+            /* Windows: check bundled ca-bundle.crt next to dinox.exe,
+             * then MSYS2 development locations */
+            string cwd = Environment.get_current_dir();
+            string[] win_ca_paths = {
+                Path.build_filename(cwd, "ssl", "certs", "ca-bundle.crt"),
+                Path.build_filename(cwd, "ca-bundle.crt"),
+                "C:\\msys64\\mingw64\\ssl\\certs\\ca-bundle.crt",
+                "/mingw64/ssl/certs/ca-bundle.crt",
+            };
+            foreach (string p in win_ca_paths) {
+                if (FileUtils.test(p, FileTest.EXISTS)) {
+                    cafile = p;
+                    break;
+                }
+            }
+            if (cafile == null) {
+                warning("MQTT: No CA certificate bundle found — TLS may fail. " +
+                        "Tried: %s", string.joinv(", ", win_ca_paths));
+            }
+#else
+            /* Linux / macOS: standard CA certificate locations */
             if (FileUtils.test("/etc/ssl/certs/ca-certificates.crt", FileTest.EXISTS)) {
                 cafile = "/etc/ssl/certs/ca-certificates.crt";
             } else if (FileUtils.test("/etc/ssl/certs/ca-bundle.crt", FileTest.EXISTS)) {
@@ -143,6 +185,7 @@ public class MqttClient : Object {
             } else if (FileUtils.test("/etc/ssl/certs", FileTest.IS_DIR)) {
                 capath = "/etc/ssl/certs";
             }
+#endif
 
             int tls_rc = mosq.tls_set(cafile, capath, null, null);
             if (tls_rc != Mosquitto.Error.SUCCESS) {
@@ -153,6 +196,17 @@ public class MqttClient : Object {
         /* Install C callbacks (dispatch via static _active pointer) */
         mosq.connect_callback_set(on_connect_cb);
         mosq.disconnect_callback_set(on_disconnect_cb);
+
+        /* LWT (Last Will and Testament) — set before connect */
+        if (lwt_topic != null && lwt_topic != "") {
+            uint8[] lwt_data = lwt_payload.data;
+            int will_rc = mosq.will_set(lwt_topic, lwt_data.length, lwt_data, 1, true);
+            if (will_rc != Mosquitto.Error.SUCCESS) {
+                warning("MQTT: will_set failed (rc=%d)", will_rc);
+            } else {
+                message("MQTT: LWT set — topic=%s payload=%s", lwt_topic, lwt_payload);
+            }
+        }
 
         /* Use MQTT 5.0 protocol for User Properties support.
          * The v5 message callback works for all protocol versions —
@@ -189,11 +243,13 @@ public class MqttClient : Object {
 
         /* Wait for CONNACK (on_connect_cb stores result and resumes us) */
         int connack_rc = -1;
+        bool connack_timed_out = false;
         connack_resume = connect_async.callback;
 
         /* Timeout: give broker 10 s to respond */
         uint timeout_id = Timeout.add_seconds(10, () => {
             connack_rc = -1;    /* timeout */
+            connack_timed_out = true;
             if (connack_resume != null) {
                 Idle.add((owned) connack_resume);
                 connack_resume = null;
@@ -203,8 +259,11 @@ public class MqttClient : Object {
 
         yield;   /* resume on CONNACK or timeout */
 
-        /* If CONNACK arrived, connack_rc was written by handle_connect */
-        connack_rc = connack_result;
+        /* If CONNACK arrived, connack_rc was written by handle_connect.
+         * If we timed out, ignore any late-arriving CONNACK. */
+        if (!connack_timed_out) {
+            connack_rc = connack_result;
+        }
         Source.remove(timeout_id);
         connack_resume = null;
 
@@ -235,7 +294,11 @@ public class MqttClient : Object {
             return;
         }
 
+#if WINDOWS
+        io_channel = new IOChannel.win32_new_socket(fd);
+#else
         io_channel = new IOChannel.unix_new(fd);
+#endif
         try {
             io_channel.set_encoding(null);
         } catch (IOChannelError e) {
@@ -355,14 +418,16 @@ public class MqttClient : Object {
 
         if (rc == 0) {
             is_connected = true;
-            on_connection_changed(true);
-            message("MQTT: CONNACK success");
 
-            /* Re-subscribe topics (after reconnect) */
+            /* Re-subscribe topics BEFORE signal — prevents double-subscribe
+             * because on_connection_changed handlers won't re-subscribe */
             foreach (var entry in subscribed_topics.entries) {
                 mosq.subscribe(null, entry.key, entry.value);
                 message("MQTT: Re-subscribed to '%s' (qos=%d)", entry.key, entry.value);
             }
+
+            on_connection_changed(true);
+            message("MQTT: CONNACK success");
         } else {
             warning("MQTT: CONNACK refused (rc=%d: %s)",
                     rc, connack_rc_to_string(rc));
@@ -395,13 +460,15 @@ public class MqttClient : Object {
                                 Mosquitto.Property? props = null) {
         /* Copy topic and payload — they're only valid during this callback */
         string topic = msg->topic;
+        int qos = msg->qos;
+        bool retained = msg->retain;
 
         uint8[] payload = new uint8[msg->payloadlen];
         if (msg->payloadlen > 0 && msg->payload != null) {
             GLib.Memory.move(payload, msg->payload, msg->payloadlen);
         }
 
-        on_message(topic, payload);
+        on_message(topic, payload, qos, retained);
 
         /* Extract MQTT 5.0 User Properties if present */
         if (props != null) {
@@ -411,12 +478,19 @@ public class MqttClient : Object {
 
             unowned Mosquitto.Property? current = props;
             bool skip = false;
+            int prop_count = 0;
+            const int MAX_USER_PROPERTIES = 256;
 
             while (true) {
                 current = Mosquitto.Property.read_string_pair(
                     current, Mosquitto.PropertyId.USER_PROPERTY,
                     out name, out value, skip);
                 if (current == null) break;
+                if (++prop_count > MAX_USER_PROPERTIES) {
+                    warning("MQTT: User Property limit (%d) reached, truncating",
+                            MAX_USER_PROPERTIES);
+                    break;
+                }
                 if (name != null && value != null) {
                     user_props[name] = value;
                 }

@@ -77,6 +77,14 @@ namespace Mosquitto {
         [CCode (cname = "mosquitto_tls_insecure_set")]
         public int tls_insecure_set(bool value);
 
+        [CCode (cname = "mosquitto_will_set")]
+        public int will_set(string topic, int payloadlen,
+                            [CCode (array_length = false)] uint8[]? payload,
+                            int qos, bool retain);
+
+        [CCode (cname = "mosquitto_will_clear")]
+        public int will_clear();
+
         [CCode (cname = "mosquitto_want_write")]
         public bool want_write();
 

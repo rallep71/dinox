@@ -126,6 +126,25 @@ public class MqttBridgeManager : Object {
         return true;
     }
 
+    /**
+     * Remove a bridge rule by its UUID.
+     */
+    public bool remove_rule(string id) {
+        BridgeRule? target = null;
+        foreach (var rule in rules) {
+            if (rule.id == id) {
+                target = rule;
+                break;
+            }
+        }
+        if (target != null) {
+            rules.remove(target);
+            save_rules();
+            return true;
+        }
+        return false;
+    }
+
     public ArrayList<BridgeRule> get_rules() {
         return rules;
     }
@@ -238,6 +257,29 @@ public class MqttBridgeManager : Object {
     /* ── Persistence ─────────────────────────────────────────────── */
 
     private void load_rules() {
+        /* Phase 1c: Try loading from mqtt.db first */
+        if (plugin.mqtt_db != null) {
+            var iter = plugin.mqtt_db.bridge_rules.select()
+                .order_by(plugin.mqtt_db.bridge_rules.created_at, "ASC")
+                .iterator();
+            while (iter.next()) {
+                var row = iter.get();
+                var rule = new BridgeRule();
+                rule.id = plugin.mqtt_db.bridge_rules.id[row];
+                rule.topic = plugin.mqtt_db.bridge_rules.topic[row];
+                rule.target_jid = plugin.mqtt_db.bridge_rules.target_jid[row];
+                rule.format = plugin.mqtt_db.bridge_rules.format[row];
+                rule.enabled = plugin.mqtt_db.bridge_rules.enabled[row];
+                rules.add(rule);
+            }
+
+            if (rules.size > 0) {
+                message("MQTT BridgeManager: Loaded %d bridge rules from mqtt.db", rules.size);
+                return;
+            }
+        }
+
+        /* Fallback: load from JSON in settings (legacy) */
         string? json_str = get_db_setting(KEY_BRIDGES);
         if (json_str == null || json_str.strip() == "") return;
 
@@ -258,13 +300,48 @@ public class MqttBridgeManager : Object {
                 }
             }
 
-            message("MQTT BridgeManager: Loaded %d bridge rules", rules.size);
+            message("MQTT BridgeManager: Loaded %d bridge rules from JSON (legacy)", rules.size);
+
+            /* One-time migration: write rules to mqtt.db */
+            if (rules.size > 0 && plugin.mqtt_db != null) {
+                save_rules();
+                message("MQTT BridgeManager: Migrated %d rules from JSON → mqtt.db", rules.size);
+            }
         } catch (GLib.Error e) {
             warning("MQTT BridgeManager: Failed to load rules: %s", e.message);
         }
     }
 
     private void save_rules() {
+        /* Phase 1c: Save to mqtt.db */
+        if (plugin.mqtt_db != null) {
+            /* Wrap DELETE ALL + INSERT ALL in a transaction for atomicity */
+            try { plugin.mqtt_db.exec("BEGIN TRANSACTION"); } catch (Error e) {
+                warning("MQTT BridgeManager: BEGIN TRANSACTION failed: %s", e.message);
+            }
+
+            /* Delete all existing rules and re-insert */
+            plugin.mqtt_db.bridge_rules.delete().perform();
+
+            long now = (long) new DateTime.now_utc().to_unix();
+            foreach (var rule in rules) {
+                plugin.mqtt_db.bridge_rules.insert()
+                    .value(plugin.mqtt_db.bridge_rules.id, rule.id)
+                    .value(plugin.mqtt_db.bridge_rules.topic, rule.topic)
+                    .value(plugin.mqtt_db.bridge_rules.target_jid, rule.target_jid)
+                    .value(plugin.mqtt_db.bridge_rules.format, rule.format ?? "full")
+                    .value(plugin.mqtt_db.bridge_rules.enabled, rule.enabled)
+                    .value(plugin.mqtt_db.bridge_rules.created_at, now)
+                    .perform();
+            }
+
+            try { plugin.mqtt_db.exec("COMMIT"); } catch (Error e) {
+                warning("MQTT BridgeManager: COMMIT failed: %s", e.message);
+            }
+            return;
+        }
+
+        /* Fallback: save as JSON in settings (legacy) */
         var array = new Json.Array();
         foreach (var rule in rules) {
             var node = new Json.Node(Json.NodeType.OBJECT);

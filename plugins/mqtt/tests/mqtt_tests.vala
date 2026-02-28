@@ -450,3 +450,239 @@ class SparkCharsTest : Gee.TestCase {
         assert_true(MqttUtils.SPARK_CHARS[7] == "█");
     }
 }
+
+/* ── Local Host Detection ───────────────────────────────────── */
+
+class LocalHostTest : Gee.TestCase {
+
+    public LocalHostTest() {
+        base("LocalHost");
+
+        add_test("LOCAL_localhost", test_localhost);
+        add_test("LOCAL_127_0_0_1", test_loopback_ipv4);
+        add_test("LOCAL_ipv6_loopback", test_loopback_ipv6);
+        add_test("LOCAL_192_168_x", test_rfc1918_class_c);
+        add_test("LOCAL_10_x", test_rfc1918_class_a);
+        add_test("LOCAL_172_16_x", test_rfc1918_172_16);
+        add_test("LOCAL_172_31_x", test_rfc1918_172_31);
+        add_test("NON_LOCAL_172_32_x", test_non_rfc1918_172_32);
+        add_test("LOCAL_dot_local", test_dot_local);
+        add_test("LOCAL_dot_lan", test_dot_lan);
+        add_test("LOCAL_dot_home", test_dot_home);
+        add_test("NON_LOCAL_public_ip", test_public_ip);
+        add_test("NON_LOCAL_domain", test_public_domain);
+        add_test("LOCAL_empty_string", test_empty);
+        add_test("LOCAL_case_insensitive", test_case_insensitive);
+    }
+
+    private void test_localhost() {
+        assert_true(MqttUtils.is_local_host("localhost"));
+    }
+
+    private void test_loopback_ipv4() {
+        assert_true(MqttUtils.is_local_host("127.0.0.1"));
+    }
+
+    private void test_loopback_ipv6() {
+        assert_true(MqttUtils.is_local_host("::1"));
+    }
+
+    private void test_rfc1918_class_c() {
+        assert_true(MqttUtils.is_local_host("192.168.1.100"));
+    }
+
+    private void test_rfc1918_class_a() {
+        assert_true(MqttUtils.is_local_host("10.0.0.1"));
+    }
+
+    private void test_rfc1918_172_16() {
+        assert_true(MqttUtils.is_local_host("172.16.0.1"));
+    }
+
+    private void test_rfc1918_172_31() {
+        assert_true(MqttUtils.is_local_host("172.31.255.254"));
+    }
+
+    private void test_non_rfc1918_172_32() {
+        assert_false(MqttUtils.is_local_host("172.32.0.1"));
+    }
+
+    private void test_dot_local() {
+        assert_true(MqttUtils.is_local_host("myserver.local"));
+    }
+
+    private void test_dot_lan() {
+        assert_true(MqttUtils.is_local_host("mqtt.lan"));
+    }
+
+    private void test_dot_home() {
+        assert_true(MqttUtils.is_local_host("broker.home"));
+    }
+
+    private void test_public_ip() {
+        assert_false(MqttUtils.is_local_host("8.8.8.8"));
+    }
+
+    private void test_public_domain() {
+        assert_false(MqttUtils.is_local_host("mqtt.example.com"));
+    }
+
+    private void test_empty() {
+        assert_true(MqttUtils.is_local_host(""));
+    }
+
+    private void test_case_insensitive() {
+        assert_true(MqttUtils.is_local_host("LOCALHOST"));
+        assert_true(MqttUtils.is_local_host("MyServer.LOCAL"));
+    }
+}
+
+/* ── MqttConnectionConfig Tests ─────────────────────────────── */
+
+class ConnectionConfigTest : Gee.TestCase {
+
+    public ConnectionConfigTest() {
+        base("ConnectionConfig");
+
+        add_test("CONFIG_defaults", test_defaults);
+        add_test("CONFIG_copy_preserves_all", test_copy);
+        add_test("CONFIG_copy_is_independent", test_copy_independent);
+        add_test("CONFIG_connection_differs_host", test_differs_host);
+        add_test("CONFIG_connection_differs_port", test_differs_port);
+        add_test("CONFIG_connection_differs_tls", test_differs_tls);
+        add_test("CONFIG_connection_same", test_same_connection);
+        add_test("CONFIG_get_topic_list_basic", test_topic_list_basic);
+        add_test("CONFIG_get_topic_list_whitespace", test_topic_list_whitespace);
+        add_test("CONFIG_get_topic_list_empty", test_topic_list_empty);
+        add_test("CONFIG_to_debug_string", test_debug_string);
+    }
+
+    private void test_defaults() {
+        var cfg = new MqttConnectionConfig();
+        assert_false(cfg.enabled);
+        assert_true(cfg.broker_host == "");
+        assert_true(cfg.broker_port == 1883);
+        assert_false(cfg.tls);
+        assert_false(cfg.use_xmpp_auth);
+        assert_true(cfg.username == "");
+        assert_true(cfg.password == "");
+        assert_true(cfg.topics == "");
+        assert_true(cfg.bot_enabled);
+        assert_true(cfg.bot_name == "MQTT Bot");
+        assert_true(cfg.server_type == "unknown");
+        assert_false(cfg.freetext_enabled);
+        assert_true(cfg.freetext_publish_topic == "");
+        assert_true(cfg.freetext_qos == 1);
+        assert_false(cfg.freetext_retain);
+        assert_true(cfg.publish_presets_json == "[]");
+    }
+
+    private void test_copy() {
+        var orig = new MqttConnectionConfig();
+        orig.enabled = true;
+        orig.broker_host = "mqtt.example.com";
+        orig.broker_port = 8883;
+        orig.tls = true;
+        orig.use_xmpp_auth = true;
+        orig.username = "alice";
+        orig.password = "secret";
+        orig.topics = "home/#,office/#";
+        orig.bot_name = "MyBot";
+        orig.freetext_enabled = true;
+        orig.freetext_publish_topic = "cmds/in";
+
+        var copy = orig.copy();
+        assert_true(copy.enabled);
+        assert_true(copy.broker_host == "mqtt.example.com");
+        assert_true(copy.broker_port == 8883);
+        assert_true(copy.tls);
+        assert_true(copy.use_xmpp_auth);
+        assert_true(copy.username == "alice");
+        assert_true(copy.password == "secret");
+        assert_true(copy.topics == "home/#,office/#");
+        assert_true(copy.bot_name == "MyBot");
+        assert_true(copy.freetext_enabled);
+        assert_true(copy.freetext_publish_topic == "cmds/in");
+    }
+
+    private void test_copy_independent() {
+        var orig = new MqttConnectionConfig();
+        orig.broker_host = "old.host";
+        var copy = orig.copy();
+        copy.broker_host = "new.host";
+        /* Original must remain unchanged */
+        assert_true(orig.broker_host == "old.host");
+        assert_true(copy.broker_host == "new.host");
+    }
+
+    private void test_differs_host() {
+        var a = new MqttConnectionConfig();
+        var b = new MqttConnectionConfig();
+        a.broker_host = "host1";
+        b.broker_host = "host2";
+        assert_true(a.connection_differs(b));
+    }
+
+    private void test_differs_port() {
+        var a = new MqttConnectionConfig();
+        var b = new MqttConnectionConfig();
+        a.broker_port = 1883;
+        b.broker_port = 8883;
+        assert_true(a.connection_differs(b));
+    }
+
+    private void test_differs_tls() {
+        var a = new MqttConnectionConfig();
+        var b = new MqttConnectionConfig();
+        a.tls = false;
+        b.tls = true;
+        assert_true(a.connection_differs(b));
+    }
+
+    private void test_same_connection() {
+        var a = new MqttConnectionConfig();
+        var b = new MqttConnectionConfig();
+        a.broker_host = "same.host";
+        b.broker_host = "same.host";
+        /* Topics differ but connection params don't → should NOT differ */
+        a.topics = "home/#";
+        b.topics = "office/#";
+        assert_false(a.connection_differs(b));
+    }
+
+    private void test_topic_list_basic() {
+        var cfg = new MqttConnectionConfig();
+        cfg.topics = "home/#,office/temp,garden/+/status";
+        string[] list = cfg.get_topic_list();
+        assert_true(list.length == 3);
+        assert_true(list[0] == "home/#");
+        assert_true(list[1] == "office/temp");
+        assert_true(list[2] == "garden/+/status");
+    }
+
+    private void test_topic_list_whitespace() {
+        var cfg = new MqttConnectionConfig();
+        cfg.topics = "  home/# , office/temp , garden/status  ";
+        string[] list = cfg.get_topic_list();
+        assert_true(list.length == 3);
+        assert_true(list[0] == "home/#");
+        assert_true(list[1] == "office/temp");
+        assert_true(list[2] == "garden/status");
+    }
+
+    private void test_topic_list_empty() {
+        var cfg = new MqttConnectionConfig();
+        cfg.topics = "";
+        string[] list = cfg.get_topic_list();
+        assert_true(list.length == 0);
+    }
+
+    private void test_debug_string() {
+        var cfg = new MqttConnectionConfig();
+        cfg.enabled = true;
+        cfg.broker_host = "test";
+        string dbg = cfg.to_debug_string();
+        assert_true(dbg.contains("enabled=true"));
+        assert_true(dbg.contains("host=test"));
+    }
+}

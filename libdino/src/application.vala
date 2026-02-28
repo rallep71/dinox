@@ -31,6 +31,15 @@ public interface Application : GLib.Application {
 
     public signal void configure_preferences(Object dialog);
 
+    /**
+     * Emitted when the user opens the MQTT Bot manager for a specific account.
+     * The mqtt plugin connects to this signal and presents its dialog.
+     *
+     * @param account  The XMPP account whose MQTT connection to manage
+     * @param window   The parent window (for dialog presentation)
+     */
+    public signal void open_account_mqtt_manager(Entities.Account account, Object window);
+
     public void ensure_core_options_registered() {
         if (core_options_registered) return;
         add_main_option_entries(options);

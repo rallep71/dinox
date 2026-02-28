@@ -373,6 +373,23 @@
                       </object>
                     </child>
                     <child>
+                      <object class="AdwPreferencesGroup">
+                        <property name="title" translatable="yes">MQTT Bot</property>
+                        <child>
+                          <object class="AdwActionRow" id="manage_mqtt_bot_row">
+                            <property name="title" translatable="yes">Manage MQTT Bot</property>
+                            <property name="subtitle" translatable="yes">Topics, Publish Presets, Alerts and Bridges for this account's MQTT connection</property>
+                            <property name="activatable">True</property>
+                            <child>
+                              <object class="GtkImage">
+                                <property name="icon-name">go-next-symbolic</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
                       <object class="GtkBox" id="button_container">
                         <property name="halign">center</property>
                         <property name="spacing">24</property>

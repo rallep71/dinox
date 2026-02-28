@@ -18,6 +18,7 @@ namespace Dino.Plugins.Mqtt {
 public class MqttTopicManagerDialog : Adw.Dialog {
 
     private Plugin plugin;
+    private string? connection_key;  /* null = standalone, else account bare JID */
 
     /* Widgets */
     private Adw.PreferencesPage main_page;
@@ -33,9 +34,12 @@ public class MqttTopicManagerDialog : Adw.Dialog {
     private Entry bridge_topic_entry;
     private Entry bridge_jid_entry;
 
-    public MqttTopicManagerDialog(Plugin plugin) {
+    public MqttTopicManagerDialog(Plugin plugin, string? connection_key = null) {
         this.plugin = plugin;
-        this.title = "MQTT Topic Manager";
+        this.connection_key = connection_key;
+        this.title = connection_key != null
+            ? _("MQTT Topics \u2014 %s").printf(connection_key)
+            : _("MQTT Topic Manager");
         this.content_width = 480;
         this.content_height = 600;
 
@@ -55,8 +59,8 @@ public class MqttTopicManagerDialog : Adw.Dialog {
 
         /* ── Topic Subscriptions Group ─────────────────────────── */
         topics_group = new Adw.PreferencesGroup();
-        topics_group.title = "Topic Subscriptions";
-        topics_group.description = "Active MQTT topic subscriptions with QoS level";
+        topics_group.title = _("Topic Subscriptions");
+        topics_group.description = _("Active MQTT topic subscriptions with QoS level");
 
         /* Add-topic row */
         var add_topic_box = new Box(Orientation.HORIZONTAL, 6);
@@ -74,7 +78,7 @@ public class MqttTopicManagerDialog : Adw.Dialog {
         qos_dropdown.selected = 0;
         add_topic_box.append(qos_dropdown);
 
-        var add_btn = new Button.with_label("Subscribe");
+        var add_btn = new Button.with_label(_("Subscribe"));
         add_btn.add_css_class("suggested-action");
         add_btn.clicked.connect(on_subscribe_clicked);
         add_topic_box.append(add_btn);
@@ -84,8 +88,8 @@ public class MqttTopicManagerDialog : Adw.Dialog {
 
         /* ── Bridge Rules Group ────────────────────────────────── */
         bridges_group = new Adw.PreferencesGroup();
-        bridges_group.title = "MQTT → XMPP Bridge";
-        bridges_group.description = "Forward MQTT messages to XMPP contacts";
+        bridges_group.title = _("MQTT → XMPP Bridge");
+        bridges_group.description = _("Forward MQTT messages to XMPP contacts");
 
         var add_bridge_box = new Box(Orientation.HORIZONTAL, 6);
         add_bridge_box.margin_top = 6;
@@ -101,7 +105,7 @@ public class MqttTopicManagerDialog : Adw.Dialog {
         bridge_jid_entry.hexpand = true;
         add_bridge_box.append(bridge_jid_entry);
 
-        var add_bridge_btn = new Button.with_label("Bridge");
+        var add_bridge_btn = new Button.with_label(_("Bridge"));
         add_bridge_btn.add_css_class("suggested-action");
         add_bridge_btn.clicked.connect(on_bridge_clicked);
         add_bridge_box.append(add_bridge_btn);
@@ -111,8 +115,8 @@ public class MqttTopicManagerDialog : Adw.Dialog {
 
         /* ── Alerts Group ──────────────────────────────────────── */
         alerts_group = new Adw.PreferencesGroup();
-        alerts_group.title = "Alert Rules";
-        alerts_group.description = "Threshold alerts for MQTT topics";
+        alerts_group.title = _("Alert Rules");
+        alerts_group.description = _("Threshold alerts for MQTT topics");
         main_page.add(alerts_group);
 
         toolbar_view.content = main_page;
@@ -128,8 +132,49 @@ public class MqttTopicManagerDialog : Adw.Dialog {
 
     /* ── Topic Display ───────────────────────────────────────────── */
 
+    /**
+     * Get topics string for the current connection context.
+     */
+    private string? get_topics_string() {
+        if (connection_key != null) {
+            /* Per-account: look up account by bare JID */
+            var accounts = plugin.app.stream_interactor.get_accounts();
+            foreach (var acc in accounts) {
+                if (acc.bare_jid.to_string() == connection_key) {
+                    var cfg = plugin.get_account_config(acc);
+                    return cfg.topics;
+                }
+            }
+            return null;
+        }
+        /* Standalone: read from standalone config */
+        return plugin.get_standalone_config().topics;
+    }
+
+    /**
+     * Save topics string for the current connection context.
+     */
+    private void save_topics_string(string topics) {
+        if (connection_key != null) {
+            var accounts = plugin.app.stream_interactor.get_accounts();
+            foreach (var acc in accounts) {
+                if (acc.bare_jid.to_string() == connection_key) {
+                    var cfg = plugin.get_account_config(acc);
+                    cfg.topics = topics;
+                    plugin.save_account_config(acc, cfg);
+                    return;
+                }
+            }
+        } else {
+            /* Standalone: save to standalone config */
+            var sa_cfg = plugin.get_standalone_config();
+            sa_cfg.topics = topics;
+            plugin.save_standalone_config();
+        }
+    }
+
     private void populate_topics() {
-        string? topics_str = get_db_setting(Plugin.KEY_TOPICS);
+        string? topics_str = get_topics_string();
         if (topics_str == null || topics_str.strip() == "") return;
 
         string[] topics = topics_str.split(",");
@@ -152,7 +197,7 @@ public class MqttTopicManagerDialog : Adw.Dialog {
             var unsub_btn = new Button.from_icon_name("list-remove-symbolic");
             unsub_btn.valign = Align.CENTER;
             unsub_btn.add_css_class("flat");
-            unsub_btn.tooltip_text = "Unsubscribe";
+            unsub_btn.tooltip_text = _("Unsubscribe");
             string topic_copy = topic;
             unsub_btn.clicked.connect(() => {
                 remove_topic(topic_copy);
@@ -172,12 +217,12 @@ public class MqttTopicManagerDialog : Adw.Dialog {
         foreach (var rule in rules) {
             var row = new Adw.ActionRow();
             row.title = "%s → %s".printf(rule.topic, rule.target_jid);
-            row.subtitle = rule.enabled ? "Active" : "Disabled";
+            row.subtitle = rule.enabled ? _("Active") : _("Disabled");
 
             var remove_btn = new Button.from_icon_name("list-remove-symbolic");
             remove_btn.valign = Align.CENTER;
             remove_btn.add_css_class("flat");
-            remove_btn.tooltip_text = "Remove bridge";
+            remove_btn.tooltip_text = _("Remove bridge");
             int rule_idx = idx;
             remove_btn.clicked.connect(() => {
                 if (bm.remove_rule_by_index(rule_idx)) {
@@ -206,7 +251,7 @@ public class MqttTopicManagerDialog : Adw.Dialog {
                 rule.topic, field_str,
                 rule.op.to_symbol(), rule.threshold);
             row.subtitle = "%s · %s".printf(
-                rule.enabled ? "Active" : "Disabled",
+                rule.enabled ? _("Active") : _("Disabled"),
                 rule.priority.to_string_key());
 
             var toggle = new Switch();
@@ -221,7 +266,7 @@ public class MqttTopicManagerDialog : Adw.Dialog {
             var remove_btn = new Button.from_icon_name("list-remove-symbolic");
             remove_btn.valign = Align.CENTER;
             remove_btn.add_css_class("flat");
-            remove_btn.tooltip_text = "Remove alert";
+            remove_btn.tooltip_text = _("Remove alert");
             remove_btn.clicked.connect(() => {
                 if (am.remove_rule_by_index(rule_idx)) {
                     alerts_group.remove(row);
@@ -243,10 +288,10 @@ public class MqttTopicManagerDialog : Adw.Dialog {
         int qos = (int) qos_dropdown.selected;
 
         /* Subscribe */
-        plugin.subscribe(topic, qos);
+        plugin.subscribe(topic, qos, connection_key);
 
         /* Persist */
-        string? existing = get_db_setting(Plugin.KEY_TOPICS);
+        string? existing = get_topics_string();
         string new_topics;
         if (existing != null && existing != "") {
             /* Check duplicate */
@@ -257,7 +302,7 @@ public class MqttTopicManagerDialog : Adw.Dialog {
         } else {
             new_topics = topic;
         }
-        set_db_setting(Plugin.KEY_TOPICS, new_topics);
+        save_topics_string(new_topics);
 
         /* Set QoS if not default */
         if (qos > 0) {
@@ -307,11 +352,11 @@ public class MqttTopicManagerDialog : Adw.Dialog {
     }
 
     private void remove_topic(string topic) {
-        /* Unsubscribe on all connections */
-        plugin.unsubscribe(topic);
+        /* Unsubscribe on the relevant connection */
+        plugin.unsubscribe(topic, connection_key);
 
-        /* Remove from DB */
-        string? existing = get_db_setting(Plugin.KEY_TOPICS);
+        /* Remove from persistent topic list */
+        string? existing = get_topics_string();
         if (existing != null && existing != "") {
             string[] parts = existing.split(",");
             var remaining = new ArrayList<string>();
@@ -320,7 +365,7 @@ public class MqttTopicManagerDialog : Adw.Dialog {
                     remaining.add(p.strip());
                 }
             }
-            set_db_setting(Plugin.KEY_TOPICS, string.joinv(",", remaining.to_array()));
+            save_topics_string(string.joinv(",", remaining.to_array()));
         }
 
         /* Rebuild topic list UI instead of closing the dialog */

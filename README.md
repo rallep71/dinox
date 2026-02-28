@@ -15,10 +15,10 @@ Built for ultimate privacy with OMEMO 1 + 2, integrated OpenPGP Key Manager, int
 WebRTC Audio/Video Calls, decentralized MUJI Group Video Calls (hardware accelerated), voice messages, video messages, message retraction and advanced MUC moderation — all in a modern GTK4/libadwaita interface with System Tray support.
 
 Local API Server, Botmother Bot Management and AI Integration (9 providers incl. OpenClaw).
-MQTT Plugin for IoT sensor data, topic subscriptions, sparkline charts and XMPP bridging.
+MQTT Plugin for IoT sensor data, topic subscriptions, sparkline charts, XMPP bridging and Home Assistant integration.
 DTMF Support (RFC 4733) with Dialpad UI for XMPP SIP Provider telephony.
 
-[Website](https://dinox.handwerker.jetzt) • [Download](#installation) • [Features](#key-features) • [XEP Support](#xep-support) • [Build](docs/internal/BUILD.md) • [Debug](docs/internal/DEBUG.md) • [Testing](docs/internal/TESTING.md) • [Changelog](docs/internal/CHANGELOG.md) • [API & Botmother AI Guide](docs/internal/API_BOTMOTHER_AI_GUIDE.md) • [MQTT Plugin](docs/internal/MQTT_PLUGIN.md) • [Development Plan](docs/internal/DEVELOPMENT_PLAN.md) • [Contributing](docs/internal/CONTRIBUTING.md) • [Security Audit](SECURITY_AUDIT.md)
+[Website](https://dinox.handwerker.jetzt) • [Download](#installation) • [Features](#key-features) • [XEP Support](#xep-support) • [Build](docs/internal/BUILD.md) • [Debug](docs/internal/DEBUG.md) • [Testing](docs/internal/TESTING.md) • [Changelog](docs/internal/CHANGELOG.md) • [API & Botmother AI Guide](docs/internal/API_BOTMOTHER_AI_GUIDE.md) • [MQTT Plugin](docs/internal/MQTT_PLUGIN.md) • [MQTT User Guide](docs/internal/MQTT_UI_GUIDE.md) • [Development Plan](docs/internal/DEVELOPMENT_PLAN.md) • [Contributing](docs/internal/CONTRIBUTING.md) • [Security Audit](SECURITY_AUDIT.md)
 
 </div>
 
@@ -51,7 +51,7 @@ DTMF Support (RFC 4733) with Dialpad UI for XMPP SIP Provider telephony.
 | **Emoji Reactions** | React to messages (XEP-0444) |
 | **Stickers** | Send & receive sticker packs (XEP-0449) |
 | **Message Replies** | Quote and reply to messages (XEP-0461) |
-| **MQTT Plugin** | IoT sensor data via MQTT 3.1.1 — topic subscriptions, alerts, sparkline charts, XMPP bridging, Prosody mod_pubsub_mqtt support |
+| **MQTT Plugin** | IoT sensor data via MQTT 5.0 — topic subscriptions, alerts, sparkline charts, XMPP bridging, Home Assistant integration, Prosody mod_pubsub_mqtt support |
 | **MUC Moderation** | Kick, ban (timed), manage roles (XEP-0425) |
 | **TLS Certificate Pinning** | Trust self-signed certs for self-hosted servers |
 | **TLS Certificate Info** | View TLS certificate details (issuer, validity, fingerprint) in account settings |

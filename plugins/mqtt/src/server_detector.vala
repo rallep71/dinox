@@ -35,10 +35,10 @@ public enum ServerType {
 
     public string to_label() {
         switch (this) {
-            case EJABBERD:   return "ejabberd (mod_mqtt)";
-            case PROSODY:    return "Prosody (mod_pubsub_mqtt)";
-            case STANDALONE: return "Standalone Broker";
-            default:         return "Unknown";
+            case EJABBERD:   return _("ejabberd (mod_mqtt)");
+            case PROSODY:    return _("Prosody (mod_pubsub_mqtt)");
+            case STANDALONE: return _("Standalone Broker");
+            default:         return _("Unknown");
         }
     }
 
@@ -94,7 +94,7 @@ public class ServerDetector {
         var disco = stream.get_module<ServiceDiscovery.Module>(
             ServiceDiscovery.Module.IDENTITY);
         if (disco == null) {
-            result.info = "Service Discovery module not available";
+            result.info = _("Service Discovery module not available");
             return result;
         }
 
@@ -163,7 +163,7 @@ public class ServerDetector {
         }
 
         if (result.server_type == ServerType.UNKNOWN) {
-            result.info = "No MQTT server type detected — configure manually";
+            result.info = _("No MQTT server type detected — configure manually");
         }
 
         message("MQTT ServerDetector: Result = %s (%s)",
