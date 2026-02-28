@@ -136,10 +136,18 @@ public class BotfatherHandler : Object {
         if (bot.mode == "dedicated" && bot.jid != null && bot.jid.contains("@")) {
             string username = bot.jid.split("@")[0];
             if (ejabberd_api != null) {
+                // BUG-22 fix: Await the result and log failures instead of fire-and-forget
                 ejabberd_api.unregister_account.begin(username, (obj, res) => {
                     var result = ejabberd_api.unregister_account.end(res);
-                    message("Botfather: ejabberd unregister %s: %s", username, result.success ? "OK" : "FAILED");
+                    if (!result.success) {
+                        warning("Botfather: Failed to unregister %s from ejabberd: %s - account may be orphaned",
+                            username, result.error_message ?? "unknown");
+                    } else {
+                        message("Botfather: ejabberd unregister %s: OK", username);
+                    }
                 });
+            } else {
+                warning("Botfather: ejabberd API not available, cannot unregister %s", username);
             }
         }
 

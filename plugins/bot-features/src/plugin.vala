@@ -111,10 +111,7 @@ public class Plugin : RootInterface, Object {
 
         // Fix encryption + subscriptions for existing dedicated bot conversations
         // Run after accounts and conversations are loaded
-        GLib.Timeout.add(1000, () => {
-            fix_dedicated_bot_conversations();
-            return false;
-        });
+        // BUG-10 fix: Single timer instead of duplicate 1s + 2.5s
         GLib.Timeout.add(2500, () => {
             fix_dedicated_bot_conversations();
             return false;
@@ -580,7 +577,8 @@ public class Plugin : RootInterface, Object {
                 Xmpp.Jid bot_jid = new Xmpp.Jid(bot.jid);
                 foreach (Account account in app.stream_interactor.get_accounts()) {
                     Conversation c = cm.create_conversation(bot_jid, account, Conversation.Type.CHAT);
-                    c.encryption = Entities.Encryption.NONE;
+                    // BUG-11 fix: Set OMEMO immediately (on_dedicated_bot_ready will confirm it)
+                    c.encryption = Entities.Encryption.OMEMO;
                     cm.start_conversation(c);
                 }
             } catch (Error e) { /* ignore */ }

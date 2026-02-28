@@ -38,6 +38,12 @@ public class WebhookDispatcher : Object {
                 warning("Webhook dispatch to %s returned status %u (attempt %d/%d)",
                     url, status, attempt + 1, MAX_RETRIES);
 
+                // BUG-21 fix: Don't retry client errors (4xx) — they will never succeed
+                if (status >= 400 && status < 500) {
+                    warning("Webhook: Client error %u, not retrying", status);
+                    return;
+                }
+
             } catch (Error e) {
                 warning("Webhook dispatch to %s failed: %s (attempt %d/%d)",
                     url, e.message, attempt + 1, MAX_RETRIES);

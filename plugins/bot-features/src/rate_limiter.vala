@@ -8,11 +8,24 @@ public class RateLimiter : Object {
     private int max_requests;
     private int window_seconds;
     private HashMap<int, RateWindow> windows = new HashMap<int, RateWindow>();
+    private uint cleanup_timer_id = 0;
 
     public RateLimiter(int max_requests = 30, int window_seconds = 1) {
         this.max_requests = max_requests;
         // Guard: window_seconds must be at least 1 to prevent bypass
         this.window_seconds = window_seconds > 0 ? window_seconds : 1;
+        // BUG-20 fix: Auto-cleanup stale rate windows every 5 minutes
+        cleanup_timer_id = GLib.Timeout.add_seconds(300, () => {
+            cleanup();
+            return GLib.Source.CONTINUE;
+        });
+    }
+
+    ~RateLimiter() {
+        if (cleanup_timer_id != 0) {
+            GLib.Source.remove(cleanup_timer_id);
+            cleanup_timer_id = 0;
+        }
     }
 
     // Returns true if the request is allowed, false if rate limited

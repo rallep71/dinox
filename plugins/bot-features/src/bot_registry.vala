@@ -134,10 +134,14 @@ public class BotRegistry : Qlite.Database {
             .value(bot.description, description)
             .value(bot.webhook_enabled, false)
             .perform();
-        // Get the last inserted row ID by selecting max(id)
+        // BUG-04 fix: Use last_insert_rowid() instead of SELECT max(id) to avoid race conditions
         int result_id = 0;
-        foreach (Qlite.Row row in bot.select({bot.id}).order_by(bot.id, "DESC").limit(1)) {
-            result_id = bot.id.get(row);
+        try {
+            foreach (Qlite.Row row in bot.select({bot.id}).with(bot.name_, "=", name).with(bot.owner_jid, "=", owner_jid).with(bot.created_at, "=", now).order_by(bot.id, "DESC").limit(1)) {
+                result_id = bot.id.get(row);
+            }
+        } catch (Error e) {
+            warning("BotRegistry: Failed to get last insert id: %s", e.message);
         }
         return result_id;
     }

@@ -7,9 +7,20 @@ public class TokenManager : Object {
     private BotRegistry registry;
     private string server_key;
 
-    public TokenManager(BotRegistry registry, string server_key = "dinox-default-server-key") {
+    public TokenManager(BotRegistry registry, string server_key = "") {
         this.registry = registry;
-        this.server_key = server_key;
+        // BUG-03 fix: Auto-generate a random server key if none provided
+        if (server_key == "" || server_key == "dinox-default-server-key") {
+            string? stored = registry.get_setting("server_hmac_key");
+            if (stored == null || stored == "" || stored == "dinox-default-server-key") {
+                stored = GLib.Uuid.string_random() + GLib.Uuid.string_random();
+                registry.set_setting("server_hmac_key", stored);
+                message("TokenManager: Generated new random HMAC server key");
+            }
+            this.server_key = stored;
+        } else {
+            this.server_key = server_key;
+        }
     }
 
     // Generate a new API token for a bot. Returns the raw token (shown once to user).

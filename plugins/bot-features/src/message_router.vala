@@ -901,10 +901,13 @@ public class MessageRouter : Object {
         }
 
         // 3. Clear MAM archive via ejabberd REST API if configured
+        // BUG-09 fix: Explicit warning that ejabberd only supports global MAM delete
         // Note: ejabberd has no per-user MAM delete, only global (all users).
         // We only delete if the admin explicitly requests it, as it affects ALL users.
         if (scope != null && scope.down() == "mam") {
             if (ejabberd_api != null && ejabberd_api.is_configured()) {
+                sb.append("⚠️ " + _("WARNING: ejabberd does NOT support per-user MAM deletion.") + "\n");
+                sb.append(_("This will delete the ENTIRE server message archive for ALL users on this domain!") + "\n");
                 sb.append(_("Deleting server message archive (ALL users)...") + "\n");
                 session_pool.send_message_for_bot(bot.id, from_str, sb.str);
                 sb.truncate(0);
@@ -1738,8 +1741,20 @@ public class MessageRouter : Object {
         Dino.send_message(conversation, text, 0, null, new Gee.ArrayList<Xmpp.Xep.MessageMarkup.Span>());
     }
 
+    // RFC 8259 compliant JSON string escaping (BUG-05 fix)
     private static string escape_json(string s) {
-        return s.replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", "\\n").replace("\r", "\\r");
+        var sb = new StringBuilder.sized(s.length);
+        for (int i = 0; i < s.length; i++) {
+            unichar c = s[i];
+            if (c == '\\') sb.append("\\\\");
+            else if (c == '"') sb.append("\\\"");
+            else if (c == '\n') sb.append("\\n");
+            else if (c == '\r') sb.append("\\r");
+            else if (c == '\t') sb.append("\\t");
+            else if (c < 0x20) sb.append("\\u%04x".printf(c));
+            else sb.append_unichar(c);
+        }
+        return sb.str;
     }
 
     // Listener for the message pipeline

@@ -30,6 +30,7 @@ public class AiIntegration : Object {
     // Per-bot conversation history (last N messages for context)
     private HashMap<string, ArrayList<ChatMessage>> histories;
     private const int MAX_HISTORY = 20;
+    private const int MAX_HISTORY_KEYS = 100;  // BUG-13 fix: max unique bot+JID combos
 
     // Provider preset info
     public class ProviderPreset {
@@ -195,6 +196,16 @@ public class AiIntegration : Object {
         // Build conversation history
         string hkey = "%d:%s".printf(bot_id, from_jid);
         if (!histories.has_key(hkey)) {
+            // BUG-13 fix: Evict oldest entries if we have too many unique conversations
+            if (histories.size >= MAX_HISTORY_KEYS) {
+                // Remove first key (oldest insertion)
+                string? oldest_key = null;
+                foreach (var key in histories.keys) {
+                    oldest_key = key;
+                    break;
+                }
+                if (oldest_key != null) histories.unset(oldest_key);
+            }
             histories[hkey] = new ArrayList<ChatMessage>();
         }
         var history = histories[hkey];
@@ -546,8 +557,20 @@ public class AiIntegration : Object {
         clear_history(bot_id, "all");
     }
 
+    // RFC 8259 compliant JSON string escaping (BUG-05 fix)
     private static string escape_json(string s) {
-        return s.replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", "\\n").replace("\r", "\\r");
+        var sb = new StringBuilder.sized(s.length);
+        for (int i = 0; i < s.length; i++) {
+            unichar c = s[i];
+            if (c == '\\') sb.append("\\\\");
+            else if (c == '"') sb.append("\\\"");
+            else if (c == '\n') sb.append("\\n");
+            else if (c == '\r') sb.append("\\r");
+            else if (c == '\t') sb.append("\\t");
+            else if (c < 0x20) sb.append("\\u%04x".printf(c));
+            else sb.append_unichar(c);
+        }
+        return sb.str;
     }
 }
 

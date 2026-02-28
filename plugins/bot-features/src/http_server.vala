@@ -122,9 +122,26 @@ public class HttpServer : Object {
         }
     }
 
+    // Check whether a request comes from localhost (127.0.0.1 or ::1)
+    private bool is_localhost(Soup.ServerMessage msg) {
+        string? remote = msg.get_remote_host();
+        return remote == "127.0.0.1" || remote == "::1" || remote == "localhost";
+    }
+
+    // Enforce localhost-only access for admin endpoints in network mode
+    private bool require_localhost(Soup.ServerMessage msg) {
+        if (current_mode == "network" && !is_localhost(msg)) {
+            AuthMiddleware.send_error(msg, 403, "forbidden",
+                "Admin endpoints are only accessible from localhost");
+            return false;
+        }
+        return true;
+    }
+
     // --- POST /bot/create --- (no token needed, localhost only)
     private void handle_create_bot(Soup.Server srv, Soup.ServerMessage msg,
                                    string path, HashTable<string, string>? query) {
+        if (!require_localhost(msg)) return;
         if (msg.get_method() != "POST") {
             AuthMiddleware.send_error(msg, 405, "method_not_allowed", "Use POST");
             return;
@@ -237,6 +254,7 @@ public class HttpServer : Object {
     // --- GET /bot/list --- (no token needed, localhost only)
     private void handle_list_bots(Soup.Server srv, Soup.ServerMessage msg,
                                   string path, HashTable<string, string>? query) {
+        if (!require_localhost(msg)) return;
         // Optional filter by account
         string? account_filter = null;
         if (query != null && query.contains("account")) {
@@ -261,6 +279,7 @@ public class HttpServer : Object {
     // --- POST or DELETE /bot/delete --- (no token needed, localhost only)
     private void handle_delete_bot(Soup.Server srv, Soup.ServerMessage msg,
                                    string path, HashTable<string, string>? query) {
+        if (!require_localhost(msg)) return;
         string method = msg.get_method();
         int bot_id = -1;
 
@@ -322,6 +341,7 @@ public class HttpServer : Object {
     // Sets bot status to "active" or "disabled"
     private void handle_activate_bot(Soup.Server srv, Soup.ServerMessage msg,
                                      string path, HashTable<string, string>? query) {
+        if (!require_localhost(msg)) return;
         if (msg.get_method() != "POST") {
             AuthMiddleware.send_error(msg, 405, "method_not_allowed", "Use POST");
             return;
@@ -366,6 +386,7 @@ public class HttpServer : Object {
     // Regenerates the token for a bot and returns the new token
     private void handle_regenerate_token(Soup.Server srv, Soup.ServerMessage msg,
                                          string path, HashTable<string, string>? query) {
+        if (!require_localhost(msg)) return;
         if (msg.get_method() != "POST") {
             AuthMiddleware.send_error(msg, 405, "method_not_allowed", "Use POST");
             return;
@@ -395,6 +416,7 @@ public class HttpServer : Object {
     // Revokes the token for a bot (disables the bot)
     private void handle_revoke_token(Soup.Server srv, Soup.ServerMessage msg,
                                      string path, HashTable<string, string>? query) {
+        if (!require_localhost(msg)) return;
         if (msg.get_method() != "POST") {
             AuthMiddleware.send_error(msg, 405, "method_not_allowed", "Use POST");
             return;
@@ -1245,9 +1267,7 @@ public class HttpServer : Object {
         sb.append(",\"status\":\"%s\"".printf(escape_json(bot.status ?? "active")));
         sb.append(",\"description\":\"%s\"".printf(escape_json(bot.description ?? "")));
         sb.append(",\"created_at\":%ld".printf(bot.created_at));
-        if (bot.token_raw != null && bot.token_raw.strip().length > 0) {
-            sb.append(",\"token\":\"%s\"".printf(escape_json(bot.token_raw)));
-        }
+        // BUG-02 fix: Never expose token_raw in list responses
         sb.append("}");
         return sb.str;
     }
@@ -1298,8 +1318,20 @@ public class HttpServer : Object {
         return commands;
     }
 
+    // RFC 8259 compliant JSON string escaping (BUG-05 fix)
     private static string escape_json(string s) {
-        return s.replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", "\\n").replace("\r", "\\r").replace("\t", "\\t");
+        var sb = new StringBuilder.sized(s.length);
+        for (int i = 0; i < s.length; i++) {
+            unichar c = s[i];
+            if (c == '\\') sb.append("\\\\");
+            else if (c == '"') sb.append("\\\"");
+            else if (c == '\n') sb.append("\\n");
+            else if (c == '\r') sb.append("\\r");
+            else if (c == '\t') sb.append("\\t");
+            else if (c < 0x20) sb.append("\\u%04x".printf(c));
+            else sb.append_unichar(c);
+        }
+        return sb.str;
     }
 }
 
