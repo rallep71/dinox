@@ -1,6 +1,6 @@
 # DinoX - Development Plan
 
-> **Last Updated**: February 28, 2026 (v1.1.4.3)
+> **Last Updated**: February 28, 2026 (v1.1.4.4)
 > **Current Release Line**: 1.1.4.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.4.3 |
+| **Current Version** | 1.1.4.4 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (~85% translated) |
 | **Build Status** | Clean |
@@ -20,6 +20,19 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v1.1.4.4 (Plugin Security Audit, OMEMO v1/v4 Race Fix)
+
+- **Plugin Security Audit**: Audited all 10 plugins, found and fixed 26 bugs total:
+  - bot-features: 16 bugs (1 CRITICAL, 3 HIGH, 5 MEDIUM, 7 LOW)
+  - http-files: 2 LOW (Content-Length overflow, null-check)
+  - omemo: 2 LOW (iterator invalidation, multi-account notification)
+  - openpgp: 1 MEDIUM + 1 LOW (null-check copy-paste, stdin piping)
+  - rtp: 1 MEDIUM + 2 LOW (REMB bitrate calc, buffer leak)
+  - tor-manager: 1 MEDIUM (infinite restart loop)
+  - ice, notification-sound: clean
+- **OMEMO v1/v4 Race Condition**: Fixed timing bug where v2 bundle arriving before v1 device list created orphaned v4 sessions causing broken encryption. Three fixes: v2 guard, proactive session replacement, proper error code
+- **MUC Status Code Spam**: Removed `printerr()` spam of "110" status codes from stderr
 
 ### v1.1.4.3 (MQTT 20-Bug Audit, UI Improvements, Docs)
 

@@ -5,6 +5,24 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.4.4] - 2026-02-28
+
+### Fixed
+- **Plugin Security Audit (10 plugins, 26 bugs fixed)**:
+  - **bot-features** (16 bugs): Full security audit — 1 CRITICAL (SQL injection in rule deletion), 3 HIGH (command injection, XSS in bot reply, unbounded topic history), 5 MEDIUM (missing auth checks, race conditions, memory leaks), 7 LOW (input validation, error handling)
+  - **http-files** (2 LOW): Content-Length int overflow on files >2GB, null-check on HTTP response before accessing status_code
+  - **omemo** (2 LOW): `delete_all_sessions` iterator invalidation (ConcurrentModificationException), `own_notifications` overwritten on multi-account login
+  - **openpgp** (1 MEDIUM + 1 LOW): Copy-paste null-check bug (checked `signed_data` instead of `encrypted_data` in decrypt path), stdin piping to GPG subprocess
+  - **rtp** (1 MEDIUM + 2 LOW): REMB `remb_adjust()` reset wrong variable (`octets_received` instead of `new_octets`), bitrate formula multiplied by time instead of dividing, missing `rtp_buffer.unmap()` after WRITE map for video orientation extension
+  - **tor-manager** (1 MEDIUM): Infinite Tor restart loop — `retry_count` reset on port-open instead of bootstrap completion, preventing emergency disable from ever triggering
+  - **ice**: 0 bugs found
+  - **notification-sound**: 0 bugs found
+- **OMEMO v1/v4 Session Race Condition**: Fixed timing bug where v2 device list + bundle arriving before v1 device list created orphaned v4 sessions. Three-pronged fix: v2 bundle fetch guard for known v1 JIDs, proactive v4→v3 session replacement on v1 bundle arrival, proper `NO_SESSION` error code for retry semantics
+- **MUC Status Code Spam**: Replaced `printerr()` with `debug()` for MUC status codes in `on_received_unavailable` — eliminated repeated "110" output on stderr and reduced I/O overhead
+
+### Changed
+- **Version**: 1.1.4.3 → 1.1.4.4
+
 ## [1.1.4.3] - 2026-02-28
 
 ### Fixed
