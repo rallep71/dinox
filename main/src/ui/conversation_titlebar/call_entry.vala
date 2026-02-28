@@ -11,7 +11,7 @@ namespace Dino.Ui {
         public string id { get { return "call"; } }
         public double order { get { return 4; } }
 
-        private MenuButton button = new MenuButton() { tooltip_text=_("Start call") };
+        private MenuButton button = new MenuButton() { tooltip_text=_("Start call"), visible=false };
 
         private StreamInteractor stream_interactor;
         private Conversation conversation;
