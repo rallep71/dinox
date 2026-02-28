@@ -303,7 +303,7 @@ public class MqttClient : Object {
         }
 
 #if WINDOWS
-        io_channel = new IOChannel.win32_new_socket(fd);
+        io_channel = new IOChannel.win32_socket(fd);
 #else
         io_channel = new IOChannel.unix_new(fd);
 #endif
