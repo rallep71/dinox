@@ -232,7 +232,7 @@ public class MqttBotManagerDialog : Adw.Dialog {
 
         var disc_enable = new Adw.SwitchRow();
         disc_enable.title = _("Enable Discovery");
-        disc_enable.subtitle = _("Publish device & entity configs via MQTT");
+        disc_enable.subtitle = _("Publish device &amp; entity configs via MQTT");
         disc_enable.active = config.discovery_enabled;
         disc_enable.notify["active"].connect(() => {
             config.discovery_enabled = disc_enable.active;

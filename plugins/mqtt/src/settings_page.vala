@@ -289,7 +289,7 @@ public class MqttStandaloneSettingsPage : Adw.PreferencesPage {
         disc_switch.active = (get_setting(StandaloneKey.DISCOVERY_ENABLED) ?? "0") == "1";
         var disc_row = new Adw.ActionRow();
         disc_row.title = _("Enable Discovery");
-        disc_row.subtitle = _("Publish device & entity configs to the broker");
+        disc_row.subtitle = _("Publish device &amp; entity configs to the broker");
         disc_row.add_suffix(disc_switch);
         disc_row.activatable_widget = disc_switch;
         disc_switch.notify["active"].connect(() => {
