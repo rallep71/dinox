@@ -218,6 +218,9 @@ public class MqttCommandHandler : Object {
         }
         set_db_setting(Plugin.KEY_TOPICS, new_topics);
 
+        /* Reload config so cfg_topics stays in sync */
+        plugin.reload_config();
+
         return "Subscribed to: %s ✔".printf(topic);
     }
 
@@ -226,19 +229,8 @@ public class MqttCommandHandler : Object {
             return "Usage: /mqtt unsubscribe <topic>";
         }
 
-        /* Unsubscribe on all connections */
-        MqttClient? standalone = plugin.get_standalone_client();
-        if (standalone != null && standalone.is_connected) {
-            standalone.unsubscribe(topic);
-        }
-        var accounts = plugin.app.stream_interactor.get_accounts();
-        foreach (var acct in accounts) {
-            MqttClient? client = plugin.get_client_for_account(
-                acct.bare_jid.to_string());
-            if (client != null && client.is_connected) {
-                client.unsubscribe(topic);
-            }
-        }
+        /* Unsubscribe on all connections and reload config */
+        plugin.unsubscribe(topic);
 
         /* Remove from DB */
         string? existing = get_db_setting(Plugin.KEY_TOPICS);
@@ -255,6 +247,8 @@ public class MqttCommandHandler : Object {
             }
             if (found) {
                 set_db_setting(Plugin.KEY_TOPICS, string.joinv(",", remaining.to_array()));
+                /* Reload config so cfg_topics stays in sync */
+                plugin.reload_config();
                 return "Unsubscribed from: %s ✔".printf(topic);
             }
         }

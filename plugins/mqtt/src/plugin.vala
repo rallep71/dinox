@@ -233,6 +233,144 @@ public class Plugin : RootInterface, Object {
                 cfg_host ?? "(none)", cfg_port);
     }
 
+    /**
+     * Apply settings changes immediately (called from settings page).
+     *
+     * Compares the new DB config with the running state and
+     * connects, disconnects, or reconnects as needed.
+     */
+    public void apply_settings() {
+        bool was_enabled = mqtt_enabled;
+        bool was_standalone = mode_standalone;
+        string? old_host = cfg_host;
+        int old_port = cfg_port;
+        bool old_tls = cfg_tls;
+        string? old_user = cfg_user;
+        string? old_pass = cfg_pass;
+
+        reload_config();
+
+        if (!mqtt_enabled) {
+            /* Disabled → disconnect everything */
+            if (was_enabled) {
+                message("MQTT: Disabled — disconnecting all");
+                disconnect_all();
+            }
+            return;
+        }
+
+        /* Enabled */
+        if (mode_standalone) {
+            bool settings_changed = (old_host != cfg_host ||
+                                     old_port != cfg_port ||
+                                     old_tls != cfg_tls ||
+                                     old_user != cfg_user ||
+                                     old_pass != cfg_pass ||
+                                     !was_standalone);
+
+            if (standalone_client != null && standalone_client.is_connected
+                && !settings_changed) {
+                /* Already connected with same settings — just re-sync topics */
+                sync_topics_to_client(standalone_client);
+                return;
+            }
+
+            /* Need (re)connect */
+            if (standalone_client != null) {
+                standalone_client.disconnect_sync();
+                standalone_client = null;
+            }
+
+            if (cfg_host != null && cfg_host != "" && !standalone_connecting) {
+                standalone_connecting = true;
+                start_standalone.begin((obj, res) => {
+                    start_standalone.end(res);
+                    standalone_connecting = false;
+                    connection_changed("standalone",
+                        standalone_client != null && standalone_client.is_connected);
+                });
+            }
+        } else if (mode_per_account) {
+            /* Disconnect standalone if it was running */
+            if (standalone_client != null) {
+                standalone_client.disconnect_sync();
+                standalone_client = null;
+            }
+
+            /* Connect per-account for all connected XMPP accounts */
+            var accounts = app.stream_interactor.get_accounts();
+            foreach (var acct in accounts) {
+                var state = app.stream_interactor.connection_manager.get_state(acct);
+                if (state == ConnectionManager.ConnectionState.CONNECTED) {
+                    string jid = acct.bare_jid.to_string();
+                    if (!account_clients.has_key(jid) &&
+                        !connecting_accounts.contains(jid)) {
+                        connecting_accounts.add(jid);
+                        start_per_account.begin(acct, (obj, res) => {
+                            start_per_account.end(res);
+                            connecting_accounts.remove(jid);
+                        });
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Disconnect all MQTT connections (standalone + per-account).
+     */
+    private void disconnect_all() {
+        if (standalone_client != null) {
+            standalone_client.disconnect_sync();
+            standalone_client = null;
+            connection_changed("standalone", false);
+        }
+
+        foreach (var entry in account_clients.entries) {
+            entry.value.disconnect_sync();
+        }
+        account_clients.clear();
+
+        /* Remove bot conversations */
+        if (bot_conversation != null) {
+            bot_conversation.remove_all();
+        }
+    }
+
+    /**
+     * Sync cfg_topics to an active client — subscribe new, unsubscribe removed.
+     */
+    private void sync_topics_to_client(MqttClient client) {
+        if (!client.is_connected) return;
+
+        /* Build set of wanted topics */
+        var wanted = new Gee.HashSet<string>();
+        foreach (string t in cfg_topics) {
+            string trimmed = t.strip();
+            if (trimmed != "") wanted.add(trimmed);
+        }
+
+        /* Unsubscribe topics that are no longer in cfg_topics */
+        var current = client.get_subscribed_topics();
+        foreach (string t in current) {
+            if (!wanted.contains(t)) {
+                client.unsubscribe(t);
+                message("MQTT: Unsubscribed removed topic '%s'", t);
+            }
+        }
+
+        /* Subscribe new topics */
+        foreach (string t in wanted) {
+            if (!current.contains(t)) {
+                int qos = 0;
+                if (alert_manager != null) {
+                    qos = alert_manager.get_topic_qos(t);
+                }
+                client.subscribe(t, qos);
+            }
+        }
+    }
+
     private string? get_db_setting(string key) {
         var row_opt = app.db.settings.select({app.db.settings.value})
             .with(app.db.settings.key, "=", key)
@@ -606,6 +744,24 @@ public class Plugin : RootInterface, Object {
         if (!any) {
             warning("MQTT: Cannot subscribe — no active connections");
         }
+    }
+
+    /**
+     * Unsubscribe from an MQTT topic on all active connections.
+     */
+    public void unsubscribe(string topic) {
+        if (standalone_client != null && standalone_client.is_connected) {
+            standalone_client.unsubscribe(topic);
+        }
+
+        foreach (var entry in account_clients.entries) {
+            if (entry.value.is_connected) {
+                entry.value.unsubscribe(topic);
+            }
+        }
+
+        /* Reload cfg_topics from DB so reconnect uses the updated list */
+        reload_config();
     }
 
     /**

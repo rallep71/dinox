@@ -500,6 +500,13 @@ public class MqttClient : Object {
     }
 
     /**
+     * Get the set of currently subscribed topics.
+     */
+    public Gee.Set<string> get_subscribed_topics() {
+        return subscribed_topics.keys;
+    }
+
+    /**
      * Publish raw bytes to an MQTT topic.
      */
     public void publish(string topic, uint8[] payload,

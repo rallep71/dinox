@@ -45,6 +45,10 @@ public class MqttSettingsPage : Adw.PreferencesPage {
     /* Prevent saving during programmatic updates */
     private bool loading = true;
 
+    /* Status refresh timer */
+    private uint status_timer_id = 0;
+    private ulong connection_signal_id = 0;
+
     /* ── DB keys ──────────────────────────────────────────────────── */
 
     private const string KEY_ENABLED     = "mqtt_enabled";
@@ -58,9 +62,6 @@ public class MqttSettingsPage : Adw.PreferencesPage {
     private const string KEY_SERVER_TYPE = "mqtt_server_type";  /* auto-detected */
 
     /* Mode list for ComboRow */
-    private const string[] MODE_LABELS = {
-        "Standalone (any broker)", "Per Account (XMPP server)"
-    };
     private const string[] MODE_VALUES = {
         "standalone", "per_account"
     };
@@ -97,7 +98,12 @@ public class MqttSettingsPage : Adw.PreferencesPage {
         enable_switch.valign = Align.CENTER;
         enable_switch.state_set.connect((state) => {
             enable_switch.state = state;
-            if (!loading) save_setting(KEY_ENABLED, state ? "1" : "0");
+            if (!loading) {
+                save_setting(KEY_ENABLED, state ? "1" : "0");
+                plugin.apply_settings();
+                /* Refresh status after a short delay for connect to complete */
+                Timeout.add(500, () => { update_status(); return false; });
+            }
             update_sensitivity();
             return true;
         });
@@ -108,13 +114,16 @@ public class MqttSettingsPage : Adw.PreferencesPage {
         mode_row = new Adw.ComboRow();
         mode_row.title = "Connection Mode";
         mode_row.subtitle = "Standalone = any broker. Per Account = XMPP server's MQTT.";
-        var mode_model = new Gtk.StringList(MODE_LABELS);
+        var mode_model = new Gtk.StringList(null);
+        mode_model.append("Standalone (any broker)");
+        mode_model.append("Per Account (XMPP server)");
         mode_row.model = mode_model;
         mode_row.notify["selected"].connect(() => {
             if (!loading) {
                 uint idx = mode_row.selected;
                 if (idx < MODE_VALUES.length) {
                     save_setting(KEY_MODE, MODE_VALUES[idx]);
+                    schedule_apply();
                 }
                 update_sensitivity();
             }
@@ -130,7 +139,10 @@ public class MqttSettingsPage : Adw.PreferencesPage {
         host_row = new Adw.EntryRow();
         host_row.title = "Host";
         host_row.changed.connect(() => {
-            if (!loading) save_setting(KEY_HOST, host_row.text);
+            if (!loading) {
+                save_setting(KEY_HOST, host_row.text);
+                schedule_apply();
+            }
         });
         broker_group.add(host_row);
 
@@ -139,7 +151,10 @@ public class MqttSettingsPage : Adw.PreferencesPage {
         port_row = new Adw.SpinRow(port_adj, 1, 0);
         port_row.title = "Port";
         port_row.notify["value"].connect(() => {
-            if (!loading) save_setting(KEY_PORT, ((int) port_row.value).to_string());
+            if (!loading) {
+                save_setting(KEY_PORT, ((int) port_row.value).to_string());
+                schedule_apply();
+            }
         });
         broker_group.add(port_row);
 
@@ -152,7 +167,10 @@ public class MqttSettingsPage : Adw.PreferencesPage {
         tls_switch.valign = Align.CENTER;
         tls_switch.state_set.connect((state) => {
             tls_switch.state = state;
-            if (!loading) save_setting(KEY_TLS, state ? "1" : "0");
+            if (!loading) {
+                save_setting(KEY_TLS, state ? "1" : "0");
+                schedule_apply();
+            }
             return true;
         });
         tls_row.add_suffix(tls_switch);
@@ -167,14 +185,20 @@ public class MqttSettingsPage : Adw.PreferencesPage {
         user_row = new Adw.EntryRow();
         user_row.title = "Username";
         user_row.changed.connect(() => {
-            if (!loading) save_setting(KEY_USER, user_row.text);
+            if (!loading) {
+                save_setting(KEY_USER, user_row.text);
+                schedule_apply();
+            }
         });
         auth_group.add(user_row);
 
         pass_row = new Adw.PasswordEntryRow();
         pass_row.title = "Password";
         pass_row.changed.connect(() => {
-            if (!loading) save_setting(KEY_PASS, pass_row.text);
+            if (!loading) {
+                save_setting(KEY_PASS, pass_row.text);
+                schedule_apply();
+            }
         });
         auth_group.add(pass_row);
 
@@ -208,7 +232,10 @@ public class MqttSettingsPage : Adw.PreferencesPage {
         topics_row = new Adw.EntryRow();
         topics_row.title = "Topics";
         topics_row.changed.connect(() => {
-            if (!loading) save_setting(KEY_TOPICS, topics_row.text);
+            if (!loading) {
+                save_setting(KEY_TOPICS, topics_row.text);
+                schedule_apply();
+            }
         });
         topics_group.add(topics_row);
 
@@ -225,8 +252,47 @@ public class MqttSettingsPage : Adw.PreferencesPage {
         status_row.add_suffix(status_label);
         status_group.add(status_row);
 
-        /* Update status periodically */
+        /* Update status periodically and on connection changes */
         update_status();
+        status_timer_id = Timeout.add_seconds(3, () => {
+            update_status();
+            return true;  /* keep timer */
+        });
+        connection_signal_id = plugin.connection_changed.connect((source, connected) => {
+            update_status();
+        });
+    }
+
+    ~MqttSettingsPage() {
+        if (status_timer_id != 0) {
+            Source.remove(status_timer_id);
+            status_timer_id = 0;
+        }
+        if (connection_signal_id != 0) {
+            plugin.disconnect(connection_signal_id);
+            connection_signal_id = 0;
+        }
+    }
+
+    /* ── Debounced apply ──────────────────────────────────────────── */
+
+    private uint apply_timer_id = 0;
+
+    /**
+     * Schedule apply_settings() with debounce (1.5 s after last change).
+     * This avoids reconnecting on every keystroke in host/user/pass fields.
+     */
+    private void schedule_apply() {
+        if (apply_timer_id != 0) {
+            Source.remove(apply_timer_id);
+        }
+        apply_timer_id = Timeout.add(1500, () => {
+            apply_timer_id = 0;
+            if (enable_switch.active) {
+                plugin.apply_settings();
+            }
+            return false;
+        });
     }
 
     /* ── Settings persistence ─────────────────────────────────────── */

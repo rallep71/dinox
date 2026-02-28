@@ -181,7 +181,7 @@ public class MqttTopicManagerDialog : Adw.Dialog {
             int rule_idx = idx;
             remove_btn.clicked.connect(() => {
                 if (bm.remove_rule_by_index(rule_idx)) {
-                    topics_group.remove(row);  /* remove from UI */
+                    bridges_group.remove(row);  /* remove from UI */
                 }
             });
             row.add_suffix(remove_btn);
@@ -307,11 +307,8 @@ public class MqttTopicManagerDialog : Adw.Dialog {
     }
 
     private void remove_topic(string topic) {
-        /* Unsubscribe */
-        MqttClient? standalone = plugin.get_standalone_client();
-        if (standalone != null && standalone.is_connected) {
-            standalone.unsubscribe(topic);
-        }
+        /* Unsubscribe on all connections */
+        plugin.unsubscribe(topic);
 
         /* Remove from DB */
         string? existing = get_db_setting(Plugin.KEY_TOPICS);
@@ -326,8 +323,29 @@ public class MqttTopicManagerDialog : Adw.Dialog {
             set_db_setting(Plugin.KEY_TOPICS, string.joinv(",", remaining.to_array()));
         }
 
-        /* Refresh display */
-        this.close();
+        /* Rebuild topic list UI instead of closing the dialog */
+        rebuild_topics_ui();
+    }
+
+    /**
+     * Clear and re-populate the topics group.
+     */
+    private void rebuild_topics_ui() {
+        /* Remove all dynamic rows (keep the first child = add-topic box) */
+        Widget? child = topics_group.get_first_child();
+        var to_remove = new ArrayList<Widget>();
+        bool first = true;
+        while (child != null) {
+            if (!first) {
+                to_remove.add(child);
+            }
+            first = false;
+            child = child.get_next_sibling();
+        }
+        foreach (var w in to_remove) {
+            topics_group.remove(w);
+        }
+        populate_topics();
     }
 
     /* ── DB helpers ──────────────────────────────────────────────── */

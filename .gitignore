@@ -42,6 +42,7 @@ docs/internal/SIP_DTMF_ANALYSIS.md
 docs/internal/Audit.md
 docs/internal/TESTING_GAPS.md
 docs/internal/MUJI_GROUP_CALLS_PLAN.md
+docs/internal/MQTT_UI_PLAN.md
 docs/accessibility-pruefprotokoll.md
 
 # Text/log files (except build-system configs)
