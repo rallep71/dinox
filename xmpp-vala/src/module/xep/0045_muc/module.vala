@@ -442,9 +442,11 @@ public class Module : XmppStreamModule {
         }
 
         ArrayList<int> status_codes = get_status_codes(x_node);
-        debug("Status codes:");
-        foreach (int c in status_codes) printerr("%d ", c);
-        printerr("\n");
+        if (status_codes.size > 0) {
+            var sb = new StringBuilder();
+            foreach (int c in status_codes) sb.append_printf("%d ", c);
+            debug("Status codes: %s", sb.str.strip());
+        }
 
         if (StatusCode.SELF_PRESENCE in status_codes) {
             flag.remove_occupant_info(presence.from);
