@@ -262,7 +262,7 @@ meson configure build -Dplugin-omemo=disabled
 ```
 
 | Meson Option | Default | Description | Dependency |
-|------|-------|---------|-------------|------------|
+|---|---|---|---|
 | `plugin-http-files` | enabled | HTTP file upload (XEP-0363) | -- |
 | `plugin-ice` | enabled | Peer-to-peer connectivity (ICE/STUN/TURN) | libnice |
 | `plugin-omemo` | enabled | End-to-end encryption (OMEMO) | libgcrypt, libsignal-protocol-c |
