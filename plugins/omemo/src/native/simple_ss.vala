@@ -61,11 +61,12 @@ public class SimpleSessionStore : SessionStore {
 
     public override void delete_all_sessions(string name) throws Error {
         if (session_map.has_key(name)) {
-            foreach (SessionStore.Session session in session_map[name]) {
-                session_map[name].remove(session);
-                if (session_map[name].size == 0) {
-                    session_map.unset(name);
-                }
+            // Copy list before iterating — removing from an ArrayList during
+            // foreach skips elements because indices shift after remove().
+            var sessions_copy = new ArrayList<SessionStore.Session>();
+            sessions_copy.add_all(session_map[name]);
+            session_map.unset(name);
+            foreach (SessionStore.Session session in sessions_copy) {
                 session_removed(session);
             }
         }

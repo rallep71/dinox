@@ -34,7 +34,7 @@ public class Plugin : RootInterface, Object {
     public EncryptionListEntry list_entry;
     public ContactDetailsProvider contact_details_provider;
     public DeviceNotificationPopulator device_notification_populator;
-    public OwnNotifications own_notifications;
+    public HashMap<Account, OwnNotifications> own_notifications = new HashMap<Account, OwnNotifications> (Account.hash_func, Account.equals_func);
     public TrustManager trust_manager;
     public HashMap<Account, OmemoDecryptor> decryptors = new HashMap<Account, OmemoDecryptor> (Account.hash_func, Account.equals_func);
     public HashMap<Account, OmemoEncryptor> encryptors = new HashMap<Account, OmemoEncryptor> (Account.hash_func, Account.equals_func);
@@ -76,7 +76,7 @@ public class Plugin : RootInterface, Object {
             list.add (encryptors_v2[account]);
             list.add (new JetOmemo.Module ());
             list.add (new DtlsSrtpVerificationDraft.StreamModule ());
-            this.own_notifications = new OwnNotifications (this, this.app.stream_interactor, account);
+            this.own_notifications[account] = new OwnNotifications (this, this.app.stream_interactor, account);
         });
 
         app.stream_interactor.get_module<MessageProcessor> (MessageProcessor.IDENTITY).received_pipeline.connect (new DecryptMessageListener (decryptors));
