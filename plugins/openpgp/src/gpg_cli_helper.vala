@@ -266,32 +266,62 @@ private static bool run_gpg_internal(string[] extra_args, string? stdin_data, ou
     
     try {
         if (allow_interactive) {
-            // Interactive mode (with Pinentry): NO PIPES to avoid Windows GLib crash
-            debug("GPGHelper.run_gpg_internal: Interactive mode, creating subprocess...");
-            var subprocess = new Subprocess.newv(cmd, SubprocessFlags.NONE);
-            debug("GPGHelper.run_gpg_internal: Waiting for subprocess...");
-            subprocess.wait();
-            debug("GPGHelper.run_gpg_internal: Subprocess finished");
-            
-            if (subprocess.get_if_exited()) {
-                exit_status = subprocess.get_exit_status();
+            // Interactive mode (with Pinentry)
+            // If stdin_data is provided, pipe it; otherwise NO PIPES to avoid Windows GLib crash
+            if (stdin_data != null && stdin_data.length > 0) {
+                debug("GPGHelper.run_gpg_internal: Interactive mode WITH stdin data (%d bytes)", stdin_data.length);
+                var subprocess = new Subprocess.newv(cmd, SubprocessFlags.STDIN_PIPE | SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_PIPE);
+                Bytes? stdout_bytes = null;
+                Bytes? stderr_bytes = null;
+                var input_bytes = new Bytes(stdin_data.data);
+                subprocess.communicate(input_bytes, null, out stdout_bytes, out stderr_bytes);
+                
+                if (stdout_bytes != null) {
+                    stdout_str = (string) stdout_bytes.get_data();
+                    if (stdout_str == null) stdout_str = "";
+                }
+                if (stderr_bytes != null) {
+                    stderr_str = (string) stderr_bytes.get_data();
+                    if (stderr_str == null) stderr_str = "";
+                }
+                
+                if (subprocess.get_if_exited()) {
+                    exit_status = subprocess.get_exit_status();
+                } else {
+                    exit_status = -1;
+                }
+                return exit_status == 0;
             } else {
-                exit_status = -1;
+                debug("GPGHelper.run_gpg_internal: Interactive mode, creating subprocess...");
+                var subprocess = new Subprocess.newv(cmd, SubprocessFlags.NONE);
+                debug("GPGHelper.run_gpg_internal: Waiting for subprocess...");
+                subprocess.wait();
+                debug("GPGHelper.run_gpg_internal: Subprocess finished");
+                
+                if (subprocess.get_if_exited()) {
+                    exit_status = subprocess.get_exit_status();
+                } else {
+                    exit_status = -1;
+                }
+                
+                stdout_str = "";
+                stderr_str = "";
+                return exit_status == 0;
             }
-            
-            stdout_str = "";
-            stderr_str = "";
-            return exit_status == 0;
         } else {
             // Non-interactive mode (batch): Pipes are safe
             debug("GPGHelper.run_gpg_internal: Batch mode, creating subprocess with pipes...");
             SubprocessFlags flags = SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_PIPE;
+            if (stdin_data != null && stdin_data.length > 0) {
+                flags |= SubprocessFlags.STDIN_PIPE;
+            }
             var subprocess = new Subprocess.newv(cmd, flags);
             
             Bytes? stdout_bytes = null;
             Bytes? stderr_bytes = null;
+            Bytes? input_bytes = (stdin_data != null && stdin_data.length > 0) ? new Bytes(stdin_data.data) : null;
             debug("GPGHelper.run_gpg_internal: Communicating with subprocess...");
-            subprocess.communicate(null, null, out stdout_bytes, out stderr_bytes);
+            subprocess.communicate(input_bytes, null, out stdout_bytes, out stderr_bytes);
             debug("GPGHelper.run_gpg_internal: Communication complete");
             
             if (stdout_bytes != null) {
