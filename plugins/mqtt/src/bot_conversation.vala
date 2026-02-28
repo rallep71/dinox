@@ -167,6 +167,56 @@ public class MqttBotConversation : Object {
     }
 
     /**
+     * Re-open (re-activate) the bot conversation for a specific account.
+     * If the user closed the bot in the sidebar, this brings it back.
+     */
+    public Conversation? reopen_conversation(Account account) {
+        string key = account.bare_jid.to_string();
+        return reopen_for_key(key, account);
+    }
+
+    /**
+     * Re-open the standalone bot conversation.
+     */
+    public Conversation? reopen_standalone_conversation() {
+        var accounts = app.stream_interactor.get_accounts();
+        if (accounts.size == 0) return null;
+
+        Account? target = null;
+        foreach (var acct in accounts) {
+            var state = app.stream_interactor.connection_manager
+                .get_state(acct);
+            if (state == ConnectionManager.ConnectionState.CONNECTED) {
+                target = acct;
+                break;
+            }
+        }
+        if (target == null) target = accounts.first();
+        return reopen_for_key(STANDALONE_KEY, target);
+    }
+
+    /**
+     * Internal: re-activate a bot conversation (or create if missing).
+     * Forces start_conversation + pin even if the conv already exists.
+     */
+    private Conversation? reopen_for_key(string key, Account account) {
+        var cm = app.stream_interactor.get_module<ConversationManager>(
+            ConversationManager.IDENTITY);
+
+        if (bot_conversations.has_key(key)) {
+            Conversation conv = bot_conversations[key];
+            cm.start_conversation(conv);
+            conv.pinned = 1;
+            conv.notify_property("pinned");
+            message("MQTT Bot: Conversation re-opened for '%s'", key);
+            return conv;
+        }
+
+        /* Not in HashMap — create fresh */
+        return ensure_conversation_for_key(key, account);
+    }
+
+    /**
      * Remove (deactivate) the bot conversation for a specific account.
      * The conversation is closed but history is preserved.
      */
@@ -300,6 +350,12 @@ public class MqttBotConversation : Object {
         var mp = app.stream_interactor.get_module<MessageProcessor>(
             MessageProcessor.IDENTITY);
 
+        /* BUG-8 fix: bail out if any required module is unavailable */
+        if (storage == null || cis == null || mp == null) {
+            warning("MQTT BotConversation: inject_bot_message — required module(s) unavailable");
+            return;
+        }
+
         /* Use the conversation's counterpart JID (includes resource) */
         Jid bot_jid = conversation.counterpart;
 
@@ -340,6 +396,12 @@ public class MqttBotConversation : Object {
             MessageStorage.IDENTITY);
         var cis = app.stream_interactor.get_module<ContentItemStore>(
             ContentItemStore.IDENTITY);
+
+        /* BUG-8 fix: bail out if any required module is unavailable */
+        if (storage == null || cis == null) {
+            warning("MQTT BotConversation: inject_silent_message — required module(s) unavailable");
+            return;
+        }
 
         /* Use the conversation's counterpart JID (includes resource) */
         Jid bot_jid = conversation.counterpart;

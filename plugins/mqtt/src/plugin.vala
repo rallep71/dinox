@@ -389,7 +389,10 @@ public class Plugin : RootInterface, Object {
             message("MQTT: env override — DINOX_MQTT_HOST=%s", env_host);
         }
         string? env_port = Environment.get_variable("DINOX_MQTT_PORT");
-        if (env_port != null) cfg.broker_port = int.parse(env_port);
+        if (env_port != null) {
+            int p = int.parse(env_port);
+            if (p > 0 && p <= 65535) cfg.broker_port = p;
+        }
         if (Environment.get_variable("DINOX_MQTT_TLS") == "1") cfg.tls = true;
         string? env_user = Environment.get_variable("DINOX_MQTT_USER");
         if (env_user != null) cfg.username = env_user;
@@ -520,7 +523,9 @@ public class Plugin : RootInterface, Object {
             if (standalone_client != null) {
                 standalone_client.disconnect_sync();
                 standalone_client = null;
-                connection_changed("standalone", false);
+                /* Note: disconnect_sync() already fires connection_changed
+                 * via the on_connection_changed handler in create_client.
+                 * No explicit signal emit needed here (BUG-6 fix). */
             }
         }
 
@@ -547,7 +552,8 @@ public class Plugin : RootInterface, Object {
                 /* Disabled → disconnect */
                 account_clients[jid].disconnect_sync();
                 account_clients.unset(jid);
-                connection_changed(jid, false);
+                /* Note: disconnect_sync() already fires connection_changed
+                 * via the on_connection_changed handler (BUG-6 fix). */
             }
         }
 
@@ -572,13 +578,18 @@ public class Plugin : RootInterface, Object {
             if (trimmed != "") wanted.add(trimmed);
         }
 
-        /* Unsubscribe topics that are no longer wanted */
+        /* Unsubscribe topics that are no longer wanted.
+         * Collect first, then unsubscribe — avoids modifying the set during iteration. */
         var current = client.get_subscribed_topics();
+        var to_remove = new Gee.ArrayList<string>();
         foreach (string t in current) {
             if (!wanted.contains(t)) {
-                client.unsubscribe(t);
-                message("MQTT: Unsubscribed removed topic '%s'", t);
+                to_remove.add(t);
             }
+        }
+        foreach (string t in to_remove) {
+            client.unsubscribe(t);
+            message("MQTT: Unsubscribed removed topic '%s'", t);
         }
 
         /* Subscribe new topics */
@@ -699,6 +710,13 @@ public class Plugin : RootInterface, Object {
             return account_clients[account_jid].is_connected;
         }
         return false;
+    }
+
+    /**
+     * Check if the standalone MQTT client is currently connected.
+     */
+    public bool is_standalone_connected() {
+        return standalone_client != null && standalone_client.is_connected;
     }
 
     /**
@@ -939,13 +957,19 @@ public class Plugin : RootInterface, Object {
         string cfg_host = cfg.broker_host;
         int cfg_port = cfg.broker_port;
 
-        /* HA Discovery: set up LWT and DiscoveryManager if enabled */
+        /* HA Discovery: set up LWT and DiscoveryManager if enabled.
+         * Discovery requires a real MQTT broker (retained messages, LWT,
+         * free topic hierarchies).  ejabberd/Prosody XMPP-MQTT do not
+         * support these features — skip Discovery for XMPP mode. */
         MqttDiscoveryManager? disc_mgr = null;
-        if (cfg.discovery_enabled) {
+        bool is_xmpp_mode = cfg.use_xmpp_auth || cfg.broker_host.strip() == "";
+        if (cfg.discovery_enabled && !is_xmpp_mode) {
             disc_mgr = new MqttDiscoveryManager(this, client, label, cfg.discovery_prefix);
             /* Set LWT before connect — broker publishes "offline" on unclean disconnect */
             client.set_will(disc_mgr.get_availability_topic(), disc_mgr.get_lwt_payload());
             discovery_managers[label] = disc_mgr;
+        } else if (cfg.discovery_enabled && is_xmpp_mode) {
+            message("MQTT [%s]: HA Discovery skipped — XMPP server MQTT does not support retained messages/LWT", label);
         }
 
         /* Fix #6: Subscribe topics BEFORE connect — handle_connect() will
@@ -1024,7 +1048,8 @@ public class Plugin : RootInterface, Object {
         });
 
         client.on_message.connect((topic, payload, qos, retained) => {
-            string payload_str = (string) payload;
+            /* BUG-7 fix: validate UTF-8 — payload may contain arbitrary bytes */
+            string payload_str = ((string) payload).make_valid();
             message_received(label, topic, payload_str);
 
             /* HA Discovery: route HA status messages and command topics */
@@ -1184,7 +1209,7 @@ public class Plugin : RootInterface, Object {
                         _("I only understand /mqtt commands.\n\n" +
                         "Type /mqtt help for available commands.\n" +
                         "To enable free-text publishing, configure it in\n" +
-                        "Account Settings → MQTT Bot → Publish & Free Text."));
+                        "Account Settings → MQTT Bot → Publish &amp; Free Text."));
                     return false;
                 });
             }

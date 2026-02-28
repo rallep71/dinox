@@ -498,6 +498,17 @@ public class MqttDiscoveryManager : GLib.Object {
         publish_retained(state_topic(ENTITY_BRIDGES), "");
         publish_retained(state_topic(ENTITY_ALERTS), "");
         publish_retained(state_topic(ENTITY_STATUS), "");
+        /* BUG-16 fix: also clear ENTITY_ALERTS_PAUSE state topic */
+        publish_retained(state_topic(ENTITY_ALERTS_PAUSE), "");
+
+        /* BUG-14 fix: unsubscribe from command topics + HA status topic */
+        if (subscribed_to_ha_status) {
+            client.unsubscribe(get_ha_status_topic());
+            client.unsubscribe(command_topic(ENTITY_ALERTS_PAUSE));
+            client.unsubscribe(command_topic(ENTITY_RECONNECT));
+            client.unsubscribe(command_topic(ENTITY_REFRESH));
+            subscribed_to_ha_status = false;
+        }
 
         published = false;
         message("MQTT Discovery: Removed device config for node=%s", node_id);

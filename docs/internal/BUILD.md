@@ -242,6 +242,45 @@ If you want to build DinoX without call support, you can disable the plugin:
 meson setup build -Dplugin-rtp=false
 ```
 
+### Plugin Build Options
+
+All plugins can be individually enabled or disabled at build time via Meson options.
+Use `-D<option>=enabled`, `disabled`, or `auto` (default for most).
+
+```bash
+# Show current plugin configuration
+meson configure build | grep plugin
+
+# Example: disable RTP and enable MQTT explicitly
+meson setup build -Dplugin-rtp=disabled -Dplugin-mqtt=enabled
+
+# Reconfigure an existing build directory (no wipe needed)
+meson setup build --reconfigure -Dplugin-omemo=disabled
+
+# Alternative: meson configure (same effect)
+meson configure build -Dplugin-omemo=disabled
+```
+
+| Meson Option | Default | Description | Dependency |
+|------|-------|---------|-------------|------------|
+| `plugin-http-files` | enabled | HTTP file upload (XEP-0363) | -- |
+| `plugin-ice` | enabled | Peer-to-peer connectivity (ICE/STUN/TURN) | libnice |
+| `plugin-omemo` | enabled | End-to-end encryption (OMEMO) | libgcrypt, libsignal-protocol-c |
+| `plugin-openpgp` | enabled | End-to-end encryption (OpenPGP/XEP-0373) | gpgme |
+| `plugin-rtp` | enabled | Voice/video calls (Jingle RTP) | GStreamer, libnice, libsrtp2 |
+| `plugin-notification-sound` | auto | Notification sounds | libcanberra |
+| `plugin-rtp-h264` | auto | H.264 video codec for calls | GStreamer bad plugins |
+| `plugin-rtp-msdk` | disabled | Intel MediaSDK hardware encoding | Intel Media SDK |
+| `plugin-rtp-vaapi` | auto | VA-API hardware video acceleration | gstreamer-vaapi |
+| `plugin-rtp-v4l2` | disabled | V4L2 stateful video codec | kernel V4L2 |
+| `plugin-rtp-v4l2-sl` | auto | V4L2 stateless video codec | kernel V4L2 |
+| `plugin-rtp-webrtc-audio-processing` | auto | Echo cancellation, noise suppression, AGC | webrtc-audio-processing |
+| `plugin-mqtt` | auto | MQTT IoT/event integration | libmosquitto |
+
+> **auto** = built if the required dependency is found, otherwise silently skipped.
+> **enabled** = build fails if the dependency is missing.
+> **disabled** = plugin is never built, even if the dependency is available.
+
 ### MQTT Plugin (Optional)
 
 The MQTT plugin bridges IoT/event messages from an MQTT broker into XMPP conversations. It requires `libmosquitto` (the Mosquitto client library) at build time.

@@ -26,8 +26,16 @@ namespace Dino.Plugins.Mqtt {
 public class MqttBotManagerDialog : Adw.Dialog {
 
     private Plugin plugin;
-    private Account account;
+    private Account? account;
     private MqttConnectionConfig config;
+    private bool is_standalone;
+
+    /* Per-account mode groups (for show/hide by mode selector) */
+    private Adw.ComboRow mode_selector;
+    private Adw.PreferencesGroup xmpp_server_group;   /* Server Type (XMPP mode) */
+    private Adw.PreferencesGroup broker_group;         /* Hostname/Port/TLS (Custom mode) */
+    private Adw.PreferencesGroup auth_group;           /* Auth fields */
+    private Adw.PreferencesGroup disc_group;           /* HA Discovery (hidden in XMPP mode) */
 
     /* Navigation */
     private Adw.NavigationView nav_view;
@@ -69,8 +77,25 @@ public class MqttBotManagerDialog : Adw.Dialog {
     public MqttBotManagerDialog(Plugin plugin, Account account) {
         this.plugin = plugin;
         this.account = account;
+        this.is_standalone = false;
         this.config = plugin.get_account_config(account).copy();
         this.title = _("MQTT Bot — %s").printf(account.bare_jid.to_string());
+        this.content_width = 520;
+        this.content_height = 640;
+
+        build_ui();
+        populate_from_config();
+    }
+
+    /**
+     * Standalone constructor — manages the standalone MQTT connection.
+     */
+    public MqttBotManagerDialog.standalone(Plugin plugin) {
+        this.plugin = plugin;
+        this.account = null;
+        this.is_standalone = true;
+        this.config = plugin.get_standalone_config().copy();
+        this.title = _("MQTT Bot — Standalone");
         this.content_width = 520;
         this.content_height = 640;
 
@@ -100,84 +125,157 @@ public class MqttBotManagerDialog : Adw.Dialog {
 
         var page = new Adw.PreferencesPage();
 
-        /* ── 1. Connection Group ──────────────────────────────── */
-        var conn_group = new Adw.PreferencesGroup();
-        conn_group.title = _("Connection");
-        conn_group.description = _("MQTT broker connection for %s").printf(
-            account.bare_jid.to_string());
+        if (!is_standalone) {
+            /* ── 1. Connection Group (per-account only) ───────────── */
+            var conn_group = new Adw.PreferencesGroup();
+            conn_group.title = _("Connection");
+            conn_group.description = _("MQTT connection for %s").printf(
+                account.bare_jid.to_string());
 
-        enable_switch = new Adw.SwitchRow();
-        enable_switch.title = _("Enable MQTT");
-        enable_switch.subtitle = _("Connect to the account's MQTT broker");
-        conn_group.add(enable_switch);
+            enable_switch = new Adw.SwitchRow();
+            enable_switch.title = _("Enable MQTT");
+            enable_switch.subtitle = _("Activate the MQTT client for this account");
+            conn_group.add(enable_switch);
 
-        server_type_row = new Adw.ActionRow();
-        server_type_row.title = _("Server Type");
-        server_type_row.subtitle = _("unknown");
-        conn_group.add(server_type_row);
+            /* Mode selector: XMPP Server vs Custom Broker */
+            mode_selector = new Adw.ComboRow();
+            mode_selector.title = _("Connection Mode");
+            mode_selector.subtitle = _("How this account connects to MQTT");
+            var mode_model = new Gtk.StringList(null);
+            mode_model.append(_("XMPP Server (ejabberd / Prosody)"));
+            mode_model.append(_("Custom Broker (any MQTT server)"));
+            mode_selector.model = mode_model;
+            mode_selector.notify["selected"].connect(() => {
+                update_mode_visibility();
+            });
+            conn_group.add(mode_selector);
 
-        status_row = new Adw.ActionRow();
-        status_row.title = _("Status");
-        status_row.subtitle = _("Disconnected");
-        conn_group.add(status_row);
+            status_row = new Adw.ActionRow();
+            status_row.title = _("Status");
+            status_row.subtitle = _("Disconnected");
+            conn_group.add(status_row);
 
-        page.add(conn_group);
+            page.add(conn_group);
 
-        /* ── 2. Broker Group ──────────────────────────────────── */
-        var broker_group = new Adw.PreferencesGroup();
-        broker_group.title = _("Broker");
-        broker_group.description = _("Leave empty to auto-detect from XMPP server");
+            /* ── 2a. XMPP Server Group (visible in XMPP mode) ────── */
+            xmpp_server_group = new Adw.PreferencesGroup();
+            xmpp_server_group.title = _("XMPP Server MQTT");
+            xmpp_server_group.description = _("Uses your XMPP server's built-in MQTT.\nNote: ejabberd/Prosody MQTT is still in testing.");
 
-        broker_host_entry = new Adw.EntryRow();
-        broker_host_entry.title = _("Hostname");
-        broker_host_entry.changed.connect(() => { check_tls_warning(); });
-        broker_group.add(broker_host_entry);
+            server_type_row = new Adw.ActionRow();
+            server_type_row.title = _("Detected Server");
+            server_type_row.subtitle = _("unknown");
+            xmpp_server_group.add(server_type_row);
 
-        broker_port_entry = new Adw.EntryRow();
-        broker_port_entry.title = _("Port");
-        broker_group.add(broker_port_entry);
+            var xmpp_hint = new Adw.ActionRow();
+            xmpp_hint.title = _("Broker");
+            xmpp_hint.subtitle = _("Auto-detected from account domain (%s)").printf(
+                account.bare_jid.domain_jid.to_string());
+            xmpp_server_group.add(xmpp_hint);
 
-        tls_switch = new Adw.SwitchRow();
-        tls_switch.title = _("TLS Encryption");
-        tls_switch.notify["active"].connect(() => { check_tls_warning(); });
-        broker_group.add(tls_switch);
+            xmpp_auth_switch = new Adw.SwitchRow();
+            xmpp_auth_switch.title = _("Use XMPP Credentials");
+            xmpp_auth_switch.subtitle = _("Share your XMPP login with ejabberd's MQTT (recommended)");
+            xmpp_server_group.add(xmpp_auth_switch);
 
-        page.add(broker_group);
+            page.add(xmpp_server_group);
 
-        /* TLS Warning — visible when non-local host + TLS off */
-        tls_warning_group = new Adw.PreferencesGroup();
-        var tls_warn_row = new Adw.ActionRow();
-        tls_warn_row.title = _("⚠ TLS Disabled");
-        tls_warn_row.subtitle = _("Credentials and data are sent in plain text to a non-local host!");
-        tls_warn_row.add_css_class("error");
-        var warn_icon = new Image.from_icon_name("dialog-warning-symbolic");
-        warn_icon.add_css_class("error");
-        tls_warn_row.add_prefix(warn_icon);
-        tls_warning_group.add(tls_warn_row);
-        tls_warning_group.visible = false;
-        page.add(tls_warning_group);
+            /* ── 2b. Custom Broker Group (visible in Custom mode) ─── */
+            broker_group = new Adw.PreferencesGroup();
+            broker_group.title = _("Custom Broker");
+            broker_group.description = _("Connect to any MQTT broker with own credentials.");
 
-        /* ── 3. Authentication Group ──────────────────────────── */
-        var auth_group = new Adw.PreferencesGroup();
-        auth_group.title = _("Authentication");
+            broker_host_entry = new Adw.EntryRow();
+            broker_host_entry.title = _("Hostname");
+            broker_host_entry.changed.connect(() => { check_tls_warning(); });
+            broker_group.add(broker_host_entry);
 
-        xmpp_auth_switch = new Adw.SwitchRow();
-        xmpp_auth_switch.title = _("Use XMPP Credentials");
-        xmpp_auth_switch.subtitle = _("Recommended for ejabberd (shares XMPP login)");
-        xmpp_auth_switch.notify["active"].connect(() => {
-            update_auth_visibility();
-        });
-        auth_group.add(xmpp_auth_switch);
+            broker_port_entry = new Adw.EntryRow();
+            broker_port_entry.title = _("Port");
+            broker_group.add(broker_port_entry);
 
-        username_entry = new Adw.EntryRow();
-        username_entry.title = _("MQTT Username");
-        auth_group.add(username_entry);
+            tls_switch = new Adw.SwitchRow();
+            tls_switch.title = _("TLS Encryption");
+            tls_switch.notify["active"].connect(() => { check_tls_warning(); });
+            broker_group.add(tls_switch);
 
-        password_entry = new Adw.PasswordEntryRow();
-        password_entry.title = _("MQTT Password");
-        auth_group.add(password_entry);
+            page.add(broker_group);
 
-        page.add(auth_group);
+            /* TLS Warning — visible when non-local host + TLS off */
+            tls_warning_group = new Adw.PreferencesGroup();
+            var tls_warn_row = new Adw.ActionRow();
+            tls_warn_row.title = _("TLS Disabled");
+            tls_warn_row.subtitle = _("Credentials and data are sent in plain text to a non-local host!");
+            tls_warn_row.add_css_class("error");
+            var warn_icon = new Image.from_icon_name("dialog-warning-symbolic");
+            warn_icon.add_css_class("error");
+            tls_warn_row.add_prefix(warn_icon);
+            tls_warning_group.add(tls_warn_row);
+            tls_warning_group.visible = false;
+            page.add(tls_warning_group);
+
+            /* ── 3. Authentication (Custom mode only) ─────────────── */
+            auth_group = new Adw.PreferencesGroup();
+            auth_group.title = _("Authentication");
+            auth_group.description = _("Credentials for the custom MQTT broker.");
+
+            username_entry = new Adw.EntryRow();
+            username_entry.title = _("MQTT Username");
+            auth_group.add(username_entry);
+
+            password_entry = new Adw.PasswordEntryRow();
+            password_entry.title = _("MQTT Password");
+            auth_group.add(password_entry);
+
+            page.add(auth_group);
+
+            /* ── Show Bot button (per-account) ────────────────────── */
+            var bot_btn_group = new Adw.PreferencesGroup();
+            var show_bot_btn = new Button.with_label(_("Show Bot in Chat"));
+            show_bot_btn.add_css_class("flat");
+            show_bot_btn.add_css_class("pill");
+            show_bot_btn.halign = Align.CENTER;
+            show_bot_btn.tooltip_text = _("Re-open the MQTT Bot conversation in the sidebar");
+            show_bot_btn.clicked.connect(() => {
+                if (plugin.bot_conversation != null && account != null) {
+                    var conv = plugin.bot_conversation.reopen_conversation(account);
+                    if (conv != null) {
+                        message("MQTT Bot Manager: Bot conversation re-opened for %s",
+                                account.bare_jid.to_string());
+                    }
+                }
+            });
+            bot_btn_group.add(show_bot_btn);
+            page.add(bot_btn_group);
+        } else {
+            /* ── Standalone: just show status ─────────────────────── */
+            var status_group = new Adw.PreferencesGroup();
+            status_group.title = _("Standalone MQTT");
+            status_group.description = _("Connection settings are managed in Preferences → MQTT (Standalone).");
+
+            status_row = new Adw.ActionRow();
+            status_row.title = _("Status");
+            status_row.subtitle = _("Disconnected");
+            status_group.add(status_row);
+
+            /* Show Bot button (standalone) */
+            var show_bot_btn_sa = new Button.with_label(_("Show Bot in Chat"));
+            show_bot_btn_sa.add_css_class("flat");
+            show_bot_btn_sa.add_css_class("pill");
+            show_bot_btn_sa.halign = Align.CENTER;
+            show_bot_btn_sa.tooltip_text = _("Re-open the MQTT Bot conversation in the sidebar");
+            show_bot_btn_sa.clicked.connect(() => {
+                if (plugin.bot_conversation != null) {
+                    var conv = plugin.bot_conversation.reopen_standalone_conversation();
+                    if (conv != null) {
+                        message("MQTT Bot Manager: Standalone bot conversation re-opened");
+                    }
+                }
+            });
+            status_group.add(show_bot_btn_sa);
+
+            page.add(status_group);
+        }
 
         /* ── 4. Section navigation rows ───────────────────────── */
         var sections_group = new Adw.PreferencesGroup();
@@ -194,7 +292,7 @@ public class MqttBotManagerDialog : Adw.Dialog {
         sections_group.add(topics_nav);
 
         var publish_nav = new Adw.ActionRow();
-        publish_nav.title = _("Publish & Free Text");
+        publish_nav.title = _("Publish &amp; Free Text");
         publish_nav.subtitle = _("Publish presets and free-text publishing");
         publish_nav.activatable = true;
         publish_nav.add_suffix(new Image.from_icon_name("go-next-symbolic"));
@@ -226,7 +324,7 @@ public class MqttBotManagerDialog : Adw.Dialog {
         page.add(sections_group);
 
         /* ── 4b. HA Discovery ─────────────────────────────────── */
-        var disc_group = new Adw.PreferencesGroup();
+        disc_group = new Adw.PreferencesGroup();
         disc_group.title = _("Home Assistant Discovery");
         disc_group.description = _("Auto-announce DinoX as a device in HA.");
 
@@ -380,7 +478,7 @@ public class MqttBotManagerDialog : Adw.Dialog {
         page.add(add_preset_group);
 
         toolbar_view.set_content(page);
-        var nav_page = new Adw.NavigationPage.with_tag(toolbar_view, "publish", _("Publish & Free Text"));
+        var nav_page = new Adw.NavigationPage.with_tag(toolbar_view, "publish", _("Publish &amp; Free Text"));
         return nav_page;
     }
 
@@ -445,34 +543,78 @@ public class MqttBotManagerDialog : Adw.Dialog {
     /* ── Populate widgets from config ─────────────────────────────── */
 
     private void populate_from_config() {
-        enable_switch.active = config.enabled;
-        broker_host_entry.text = config.broker_host;
-        broker_port_entry.text = config.broker_port.to_string();
-        tls_switch.active = config.tls;
-        xmpp_auth_switch.active = config.use_xmpp_auth;
-        username_entry.text = config.username;
-        password_entry.text = config.password;
-        server_type_row.subtitle = format_server_type(config.server_type);
+        if (enable_switch != null) {
+            enable_switch.active = config.enabled;
+        }
 
-        update_auth_visibility();
+        /* Mode selector: XMPP mode if use_xmpp_auth OR empty broker_host */
+        if (mode_selector != null) {
+            bool xmpp_mode = config.use_xmpp_auth || config.broker_host.strip() == "";
+            mode_selector.selected = xmpp_mode ? 0 : 1;
+        }
+
+        if (broker_host_entry != null) {
+            broker_host_entry.text = config.broker_host;
+        }
+        if (broker_port_entry != null) {
+            broker_port_entry.text = config.broker_port.to_string();
+        }
+        if (tls_switch != null) {
+            tls_switch.active = config.tls;
+        }
+        if (xmpp_auth_switch != null) {
+            xmpp_auth_switch.active = config.use_xmpp_auth;
+        }
+        if (username_entry != null) {
+            username_entry.text = config.username;
+        }
+        if (password_entry != null) {
+            password_entry.text = config.password;
+        }
+        if (server_type_row != null) {
+            server_type_row.subtitle = format_server_type(config.server_type);
+        }
+
+        update_mode_visibility();
         update_status_display();
         check_tls_warning();
     }
 
-    private void update_auth_visibility() {
-        bool manual = !xmpp_auth_switch.active;
-        username_entry.sensitive = manual;
-        password_entry.sensitive = manual;
-        if (!manual) {
-            username_entry.text = "";
-            password_entry.text = "";
+    private void update_mode_visibility() {
+        if (mode_selector == null) return;
+        bool is_xmpp = (mode_selector.selected == 0);
+
+        /* XMPP mode: show server info, hide broker/auth fields */
+        if (xmpp_server_group != null) xmpp_server_group.visible = is_xmpp;
+        if (broker_group != null) broker_group.visible = !is_xmpp;
+        if (auth_group != null) auth_group.visible = !is_xmpp;
+        if (tls_warning_group != null && is_xmpp) tls_warning_group.visible = false;
+
+        /* HA Discovery requires a real MQTT broker (Mosquitto, EMQX etc.).
+         * ejabberd/Prosody XMPP-MQTT do not support retained messages,
+         * LWT, or free topic hierarchies — Discovery cannot work. */
+        if (disc_group != null) disc_group.visible = !is_xmpp;
+
+        /* XMPP mode: sync the xmpp_auth_switch */
+        if (xmpp_auth_switch != null) {
+            xmpp_auth_switch.active = is_xmpp;
+        }
+
+        /* Custom mode: re-check TLS warning */
+        if (!is_xmpp) {
+            check_tls_warning();
         }
     }
 
     private void update_status_display() {
-        /* Check if there's an active client for this account */
-        string key = account.bare_jid.to_string();
-        bool connected = plugin.is_account_connected(key);
+        /* Check if there's an active client for this connection */
+        bool connected;
+        if (is_standalone) {
+            connected = plugin.is_standalone_connected();
+        } else {
+            string key = account.bare_jid.to_string();
+            connected = plugin.is_account_connected(key);
+        }
         if (connected) {
             status_row.subtitle = _("Connected");
             status_row.remove_css_class("error");
@@ -832,19 +974,31 @@ public class MqttBotManagerDialog : Adw.Dialog {
     /* ── Save ─────────────────────────────────────────────────────── */
 
     private void on_save_clicked() {
-        /* Read values from widgets back to config */
-        config.enabled = enable_switch.active;
-        config.broker_host = broker_host_entry.text.strip();
-        string port_text = broker_port_entry.text.strip();
-        config.broker_port = port_text != "" ? int.parse(port_text) : 1883;
-        config.tls = tls_switch.active;
-        config.use_xmpp_auth = xmpp_auth_switch.active;
-        if (!config.use_xmpp_auth) {
-            config.username = username_entry.text.strip();
-            config.password = password_entry.text;
-        } else {
-            config.username = "";
-            config.password = "";
+        /* Read values from widgets back to config (connection widgets only for per-account) */
+        if (!is_standalone) {
+            config.enabled = enable_switch.active;
+
+            bool is_xmpp = (mode_selector != null && mode_selector.selected == 0);
+            if (is_xmpp) {
+                /* XMPP mode: auto-detect broker, use XMPP credentials */
+                config.broker_host = "";
+                config.broker_port = 1883;
+                config.tls = false;
+                config.use_xmpp_auth = true;
+                config.username = "";
+                config.password = "";
+                /* HA Discovery cannot work with XMPP-MQTT (no retain/LWT) */
+                config.discovery_enabled = false;
+            } else {
+                /* Custom broker mode */
+                config.broker_host = broker_host_entry.text.strip();
+                string port_text = broker_port_entry.text.strip();
+                config.broker_port = port_text != "" ? int.parse(port_text) : 1883;
+                config.tls = tls_switch.active;
+                config.use_xmpp_auth = false;
+                config.username = username_entry.text.strip();
+                config.password = password_entry.text;
+            }
         }
 
         /* Freitext settings (if publish page was visited) */
@@ -856,14 +1010,35 @@ public class MqttBotManagerDialog : Adw.Dialog {
 
         /* Discovery fields are already synced from widget callbacks */
 
-        /* Persist to DB */
-        plugin.save_account_config(account, config);
-
-        /* Notify plugin to apply changes (connect/reconnect/disconnect) */
-        plugin.apply_account_config_change(account, config);
-
-        message("MQTT Bot Manager: Saved config for %s (enabled=%s)",
-                account.bare_jid.to_string(), config.enabled.to_string());
+        /* Persist to DB and apply */
+        if (is_standalone) {
+            /* Copy only bot/feature fields — connection settings are managed by settings_page */
+            var sa = plugin.get_standalone_config();
+            sa.topics = config.topics;
+            sa.bot_enabled = config.bot_enabled;
+            sa.bot_name = config.bot_name;
+            sa.freetext_enabled = config.freetext_enabled;
+            sa.freetext_publish_topic = config.freetext_publish_topic;
+            sa.freetext_response_topic = config.freetext_response_topic;
+            sa.freetext_qos = config.freetext_qos;
+            sa.freetext_retain = config.freetext_retain;
+            sa.discovery_enabled = config.discovery_enabled;
+            sa.discovery_prefix = config.discovery_prefix;
+            sa.publish_presets_json = config.publish_presets_json;
+            sa.topic_qos_json = config.topic_qos_json;
+            sa.topic_priorities_json = config.topic_priorities_json;
+            sa.alerts_json = config.alerts_json;
+            sa.bridges_json = config.bridges_json;
+            plugin.save_standalone_config();
+            plugin.apply_settings();
+            message("MQTT Bot Manager: Saved standalone config (enabled=%s)",
+                    config.enabled.to_string());
+        } else {
+            plugin.save_account_config(account, config);
+            plugin.apply_account_config_change(account, config);
+            message("MQTT Bot Manager: Saved config for %s (enabled=%s)",
+                    account.bare_jid.to_string(), config.enabled.to_string());
+        }
 
         /* Close dialog */
         this.close();
@@ -875,6 +1050,7 @@ public class MqttBotManagerDialog : Adw.Dialog {
      * Show/hide TLS warning when host is non-local and TLS is off.
      */
     private void check_tls_warning() {
+        if (broker_host_entry == null || tls_switch == null || tls_warning_group == null) return;
         string host = broker_host_entry.text.strip();
         bool tls = tls_switch.active;
         tls_warning_group.visible = (host != "" && !tls && !MqttUtils.is_local_host(host));

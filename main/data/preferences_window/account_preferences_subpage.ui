@@ -374,11 +374,11 @@
                     </child>
                     <child>
                       <object class="AdwPreferencesGroup">
-                        <property name="title" translatable="yes">MQTT Bot</property>
+                        <property name="title" translatable="yes">MQTT Bot (Account)</property>
                         <child>
                           <object class="AdwActionRow" id="manage_mqtt_bot_row">
-                            <property name="title" translatable="yes">Manage MQTT Bot</property>
-                            <property name="subtitle" translatable="yes">Topics, Publish Presets, Alerts and Bridges for this account's MQTT connection</property>
+                            <property name="title" translatable="yes">Manage Account MQTT Bot</property>
+                            <property name="subtitle" translatable="yes">Topics, Publish Presets, Alerts and Bridges for this account's MQTT connection (separate from Standalone MQTT)</property>
                             <property name="activatable">True</property>
                             <child>
                               <object class="GtkImage">

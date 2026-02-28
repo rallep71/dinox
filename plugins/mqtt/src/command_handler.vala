@@ -118,7 +118,7 @@ public class MqttCommandHandler : Object {
 
             case "publish":
             case "pub":
-                response = cmd_publish(arg1, arg2);
+                response = cmd_publish(arg1, arg2, conversation);
                 break;
 
             case "topics":
@@ -286,9 +286,11 @@ public class MqttCommandHandler : Object {
         }
         save_config_for_conversation(conversation, cfg);
 
-        /* Subscribe on the correct client */
+        /* Subscribe on the correct client, respecting configured QoS */
         string key = get_connection_key(conversation);
-        plugin.subscribe(topic, 0, key);
+        MqttAlertManager? _am = plugin.get_alert_manager();
+        int sub_qos = _am != null ? _am.get_topic_qos(topic) : 0;
+        plugin.subscribe(topic, sub_qos, key);
 
         /* Reload config so cfg_topics stays in sync */
         plugin.reload_config();
@@ -334,7 +336,7 @@ public class MqttCommandHandler : Object {
         return _("Topic not found in subscriptions: %s").printf(topic);
     }
 
-    private string cmd_publish(string topic, string payload) {
+    private string cmd_publish(string topic, string payload, Conversation conversation) {
         if (topic == "") {
             return _("Usage: /mqtt publish <topic> <payload>\n\nExample:\n  /mqtt publish home/light/set ON");
         }
@@ -342,8 +344,17 @@ public class MqttCommandHandler : Object {
             return _("Usage: /mqtt publish <topic> <payload>\n\nPayload cannot be empty.");
         }
 
-        /* Publish on all active connections (same as before) */
-        plugin.publish(topic, payload);
+        /* Publish on the correct connection for this conversation */
+        string key = get_connection_key(conversation);
+        string? acct_jid = (key != MqttBotConversation.STANDALONE_KEY) ? key : null;
+
+        /* Check if the target client is connected */
+        MqttClient? client = get_client_for_conversation(conversation);
+        if (client == null || !client.is_connected) {
+            return _("Cannot publish — MQTT client is not connected.");
+        }
+
+        plugin.publish(topic, payload, 0, false, acct_jid);
         return _("Published to %s:\n%s").printf(topic, payload);
     }
 

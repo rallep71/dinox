@@ -117,7 +117,7 @@ public class MqttConnectionConfig : Object {
      * Split topics string into a trimmed, non-empty array.
      */
     public string[] get_topic_list() {
-        if (topics == null || topics.strip() == "") return {};
+        if (topics.strip() == "") return {};
         string[] result = {};
         foreach (string t in topics.split(",")) {
             string trimmed = t.strip();

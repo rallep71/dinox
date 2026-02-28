@@ -70,6 +70,7 @@ public class MqttClient : Object {
      * mosquitto_new() stores a userdata pointer that is passed to every
      * callback.  We pass the instance_id, then look up the MqttClient. */
     private static uint _next_instance_id = 1;
+    /* BUG-19 note: uint overflow wraps safely to 0 at 4 billion; benign */
     private static Gee.HashMap<uint, unowned MqttClient>? _instances = null;
     private uint _instance_id = 0;
 
@@ -226,6 +227,13 @@ public class MqttClient : Object {
             return null;
         });
         yield;   /* resume when thread finishes */
+
+        /* BUG-3 fix: If disconnect_sync() was called while the TCP thread
+         * was running, mosq is now null.  Bail out safely. */
+        if (mosq == null) {
+            warning("MQTT: connect_async aborted — client was disconnected during TCP handshake");
+            return false;
+        }
 
         if (tcp_rc != Mosquitto.Error.SUCCESS) {
             warning("MQTT: TCP connect to %s:%d failed (rc=%d: %s)",
@@ -577,7 +585,11 @@ public class MqttClient : Object {
      * Get the set of currently subscribed topics.
      */
     public Gee.Set<string> get_subscribed_topics() {
-        return subscribed_topics.keys;
+        /* Return a COPY to avoid concurrent-modification crashes
+         * when callers unsubscribe while iterating */
+        var copy = new Gee.HashSet<string>();
+        copy.add_all(subscribed_topics.keys);
+        return copy;
     }
 
     /**

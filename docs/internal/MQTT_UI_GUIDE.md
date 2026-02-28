@@ -21,7 +21,7 @@ from a virtual **MQTT Bot** contact.
 - Publish presets (quick-action buttons for common publishes)
 - Freetext publish (type natural language, forwarded to Node-RED)
 - Home Assistant device discovery (DinoX appears as HA device)
-- Per-account MQTT (reuse XMPP auth on ejabberd) + standalone broker
+- Per-account MQTT (reuse XMPP auth on ejabberd — in testing) + standalone broker
 - Encrypted local database with 30-day message history
 - Works independently -- no Home Assistant or XMPP server MQTT required
 
@@ -29,16 +29,40 @@ from a virtual **MQTT Bot** contact.
 
 ## 2. Getting Started
 
-### 2.1 Two Connection Modes
+### 2.1 Three Client Modes
 
-DinoX supports two MQTT connection modes that can run simultaneously:
+DinoX supports three MQTT client modes that can run simultaneously:
 
-| Mode | Use Case | Authentication |
-|------|----------|---------------|
-| **Per-account** | Your XMPP server has MQTT (ejabberd `mod_mqtt` or Prosody `mod_pubsub_mqtt`) | Automatic (XMPP credentials for ejabberd, none for Prosody) |
-| **Standalone** | Any external MQTT broker (Mosquitto, HA add-on, cloud) | Manual (username + password) |
+| Mode | Location | Broker | Authentication | Status |
+|------|----------|--------|----------------|--------|
+| **(A) Standalone** | Preferences → MQTT (Standalone) | Any external broker (Mosquitto, HA add-on, HiveMQ, AWS IoT…) | Manual (username + password) | **Stable** |
+| **(B) Per-Account (XMPP)** | Account Settings → MQTT Bot (Account) | XMPP server domain (ejabberd `mod_mqtt` / Prosody `mod_pubsub_mqtt`) | Automatic (XMPP credentials for ejabberd, none for Prosody) | **Testing** |
+| **(C) Per-Account (Custom)** | Account Settings → MQTT Bot (Account) | Any broker (manual host/port) | Manual (own username + password, XMPP auth OFF) | **Stable** |
 
-Each connection gets its own bot contact, topics, alerts, and bridges.
+Each connection gets its own bot contact, topics, alerts, bridges, and presets.
+All modes are fully isolated.
+
+**HA Discovery compatibility:** HA Discovery requires a real MQTT broker
+(Mosquitto, EMQX, etc.) with retained messages and LWT support. It is
+available in modes **(A) Standalone** and **(C) Per-Account Custom Broker**.
+It is **not available** in mode **(B) Per-Account XMPP** because ejabberd
+and Prosody do not support retained messages, LWT, or free topic hierarchies.
+
+**Key distinction:**
+
+- **(A) Standalone** is global — not bound to any XMPP account. Configured
+  in the general Preferences. No server detection, no XMPP credentials,
+  no ejabberd/Prosody-specific logic.
+- **(B) and (C)** are per-account — each XMPP account can have its own
+  MQTT connection, either using the XMPP server's built-in MQTT or any
+  custom broker.
+
+> **XMPP MQTT Notice:** Per-account MQTT using ejabberd's `mod_mqtt` or
+> Prosody's `mod_pubsub_mqtt` (mode B) is currently in **testing** and has
+> not been fully validated in production environments. Both ejabberd and
+> Prosody XMPP-MQTT integration need thorough testing. If you require a
+> reliable MQTT connection today, use mode (A) Standalone or mode (C)
+> Per-Account Custom with a dedicated MQTT broker.
 
 ### 2.2 Minimum Requirements
 
@@ -49,6 +73,13 @@ Each connection gets its own bot contact, topics, alerts, and bridges.
 ---
 
 ## 3. Per-Account Setup
+
+Per-account MQTT can work in two ways:
+
+- **XMPP-bound (testing):** Uses the XMPP server's built-in MQTT
+  (ejabberd or Prosody). XMPP credentials can be shared.
+- **Custom broker:** Any external MQTT broker with own credentials.
+  Disable "Use XMPP Credentials" and enter custom host/auth.
 
 ### 3.1 Opening the Configuration
 
@@ -94,12 +125,17 @@ The dialog uses a 5-page navigation layout. The root page contains:
 | Alert Rules | View and remove alert rules |
 | Bridge Rules | View and remove bridge rules |
 
-**Home Assistant Discovery group:**
+**Home Assistant Discovery group** (hidden in XMPP mode -- see note below):
 
 | Field | Description |
 |-------|-------------|
 | Enable HA Discovery | Register DinoX as a device in Home Assistant |
 | Discovery Prefix | Topic prefix (default: "homeassistant") |
+
+**Note:** The Discovery group is only visible when "Custom Broker" is selected
+as connection mode. ejabberd and Prosody XMPP-MQTT do not support retained
+messages or LWT, which HA Discovery requires. When XMPP mode is selected,
+the group is hidden and Discovery is automatically disabled.
 
 **Save and Apply** button at the bottom saves all changes and immediately
 connects, disconnects, or reconnects as needed.
@@ -173,14 +209,27 @@ Bridge format options: `full` (topic + payload), `payload_only`, `short`.
 
 ## 4. Standalone Setup
 
-The standalone configuration is on the MQTT settings page in DinoX preferences:
+The standalone MQTT client is configured in DinoX Preferences under the
+**MQTT (Standalone)** page. This is a pure MQTT client with no XMPP
+dependency — it connects to any external broker.
 
-1. Open DinoX preferences (menu -> Preferences)
-2. Select the **MQTT** page (standalone section)
-3. Configure broker host, port, TLS, and credentials
-4. Add topic subscriptions
-5. Optionally enable Home Assistant Discovery
-6. Save
+1. Open DinoX preferences (menu → Preferences)
+2. Select the **MQTT (Standalone)** page
+3. **Enable Standalone MQTT** → ON
+4. Enter broker **Host** (IP or hostname, e.g. `192.168.1.100`)
+5. Enter **Port** (default: 1883, or 8883 for TLS)
+6. Enable **TLS** for non-local connections
+7. Enter **Username** and **Password** if required by the broker
+8. Add **Topic Subscriptions** (comma-separated)
+9. Optionally open the **Bot Manager** for publish presets, alerts,
+   bridges, freetext, and HA Discovery
+
+**What is NOT on the standalone page:**
+
+- No "Connection Mode" selector (this IS the standalone mode)
+- No server type detection (ejabberd/Prosody detection is XMPP-specific)
+- No "Use XMPP Credentials" option
+- No Prosody-specific hints or warnings
 
 The standalone connection runs independently of any XMPP account's MQTT.
 Both per-account and standalone can be active simultaneously.
@@ -189,9 +238,12 @@ Both per-account and standalone can be active simultaneously.
 
 ## 5. Setup Walkthroughs
 
-### 5.1 ejabberd Server
+### 5.1 ejabberd Server (Testing)
 
-1. Open account preferences -> MQTT Bot -> Manage MQTT Bot
+> **Note:** XMPP-bound MQTT via ejabberd is currently in testing and
+> needs further validation before production use.
+
+1. Open account preferences → MQTT Bot (Account) → Manage Account MQTT Bot
 2. **Enable MQTT** -> ON
 3. **Hostname** -> leave empty (uses account domain automatically)
 4. **Port** -> 1883
@@ -200,9 +252,13 @@ Both per-account and standalone can be active simultaneously.
 7. Go back, click **Save and Apply**
 8. Status should change to "Connected"
 
-### 5.2 Prosody Server
+### 5.2 Prosody Server (Testing)
 
-1. Open account preferences -> MQTT Bot -> Manage MQTT Bot
+> **Note:** XMPP-bound MQTT via Prosody is currently in testing and
+> needs further validation. Prosody's `mod_pubsub_mqtt` is a community
+> module with limitations (QoS 0 only, no authentication).
+
+1. Open account preferences → MQTT Bot (Account) → Manage Account MQTT Bot
 2. **Enable MQTT** -> ON
 3. Server Type shows "Prosody (mod_pubsub_mqtt)" (read-only)
 4. **Hostname** -> leave empty
@@ -217,7 +273,7 @@ Both per-account and standalone can be active simultaneously.
 
 ### 5.3 Standalone Broker (Mosquitto / Home Assistant)
 
-1. Open DinoX preferences -> MQTT page
+1. Open DinoX preferences → **MQTT (Standalone)**
 2. **Enable** -> ON
 3. **Broker Host** -> IP or hostname of your broker (e.g. `192.168.1.100`)
 4. **Port** -> 1883 (or 8883 for TLS)
@@ -225,6 +281,20 @@ Both per-account and standalone can be active simultaneously.
 6. **Username / Password** -> as configured on your broker
 7. Add topic subscriptions
 8. Save
+
+### 5.4 Per-Account Custom Broker
+
+You can also configure a custom (non-XMPP) MQTT broker for a specific
+account. This is identical to standalone but bound to an account context:
+
+1. Open account preferences → MQTT Bot (Account) → Manage Account MQTT Bot
+2. **Enable MQTT** → ON
+3. **Hostname** → enter your broker address (e.g. `mqtt.example.com`)
+4. **Port** → 1883 or 8883 (TLS)
+5. **Use XMPP Credentials** → OFF
+6. **Username / Password** → your MQTT credentials
+7. Go to Topics page: subscribe to desired topics
+8. Go back, click **Save &amp; Apply**
 
 ---
 
@@ -375,10 +445,24 @@ When HA Discovery is enabled, DinoX registers itself as a device in Home Assista
 HA will show DinoX with 8 entities that you can use in dashboards, automations,
 and scripts.
 
+**Important:** HA Discovery requires a **real MQTT broker** (Mosquitto, EMQX,
+HiveMQ, etc.) that both DinoX and Home Assistant connect to as clients.
+It does **not** work with ejabberd or Prosody XMPP-MQTT because these
+XMPP servers do not support retained messages, LWT, or free topic hierarchies
+that HA Discovery depends on.
+
+Supported modes:
+- **(A) Standalone** -- always connects to a real broker
+- **(C) Per-Account Custom Broker** -- user provides a real broker hostname
+
+Not supported:
+- **(B) Per-Account XMPP** (ejabberd/Prosody) -- Discovery is automatically
+  disabled and hidden in the UI
+
 ### 8.2 Enabling Discovery
 
 **Via the UI:**
-- In the MqttBotManagerDialog (per-account) or standalone settings page,
+- In the MqttBotManagerDialog (Custom Broker mode or standalone settings page),
   enable the "HA Discovery" switch and set the prefix (default: "homeassistant")
 
 **Via chat command:**
@@ -519,17 +603,24 @@ forwarded messages per rule.
 
 ## 11. Server-Type Adaptive Behavior
 
-DinoX auto-detects your XMPP server's MQTT capabilities via XEP-0030
-Service Discovery and adapts the UI accordingly:
+> **XMPP MQTT is in testing:** The ejabberd and Prosody MQTT integration
+> (per-account mode B) has not been fully validated. Use standalone mode
+> (A) or per-account custom mode (C) for production use.
 
-| Feature | ejabberd | Prosody | Standalone/Unknown |
-|---------|----------|---------|-------------------|
+When using per-account MQTT with an XMPP server (mode B), DinoX auto-detects
+the server's MQTT capabilities via XEP-0030 Service Discovery and adapts
+the UI accordingly. This does **not** apply to standalone mode (A) or
+per-account custom mode (C).
+
+| Feature | ejabberd | Prosody | Custom / Standalone |
+|---------|----------|---------|---------------------|
 | Host field | Auto-filled: account domain | Auto-filled: account domain | Manual entry required |
-| XMPP credentials switch | Visible, default ON | Hidden (no MQTT auth) | Hidden |
-| Username/Password | Greyed out (from XMPP) | Greyed out + "No auth" hint | Editable |
+| XMPP credentials switch | Visible, default ON | Hidden (no MQTT auth) | Hidden (not applicable) |
+| Username/Password | Greyed out (from XMPP) | Greyed out + "No auth" hint | Editable (own credentials) |
 | QoS selection | 0, 1, 2 | 0 only (Prosody limitation) | 0, 1, 2 |
-| Security warning | None | "No authentication -- restrict access via firewall" | TLS warning if non-local |
+| Security warning | None | "No authentication — restrict access via firewall" | TLS warning if non-local |
 | Topic format hint | None | "Format: host/type/node" | None |
+| Server detection | Via XEP-0030 | Via XEP-0030 | Not available |
 
 ---
 
@@ -599,7 +690,7 @@ SQLCipher. The encryption key is shared across all DinoX databases.
 ## 15. Troubleshooting
 
 | Problem | Solution |
-|---------|---------|
+|---------|----------|
 | Bot does not appear | Check that MQTT is enabled and at least one XMPP account is connected |
 | Status shows "Disconnected" | Verify broker host, port, and credentials. Check TLS setting. |
 | No messages arriving | Check topic subscriptions (`/mqtt topics`). Verify the topic pattern matches what the broker publishes. |

@@ -26,6 +26,9 @@ public class MqttTopicManagerDialog : Adw.Dialog {
     private Adw.PreferencesGroup bridges_group;
     private Adw.PreferencesGroup alerts_group;
 
+    /* BUG-11 fix: track dynamic topic rows for clean rebuild */
+    private Gee.ArrayList<Gtk.Widget> topic_rows = new Gee.ArrayList<Gtk.Widget>();
+
     /* Topic entry */
     private Entry topic_entry;
     private DropDown qos_dropdown;
@@ -205,6 +208,7 @@ public class MqttTopicManagerDialog : Adw.Dialog {
             row.add_suffix(unsub_btn);
 
             topics_group.add(row);
+            topic_rows.add(row);  /* BUG-11: track for rebuild */
         }
     }
 
@@ -213,7 +217,6 @@ public class MqttTopicManagerDialog : Adw.Dialog {
         if (bm == null) return;
 
         var rules = bm.get_rules();
-        int idx = 1;
         foreach (var rule in rules) {
             var row = new Adw.ActionRow();
             row.title = "%s → %s".printf(rule.topic, rule.target_jid);
@@ -223,16 +226,15 @@ public class MqttTopicManagerDialog : Adw.Dialog {
             remove_btn.valign = Align.CENTER;
             remove_btn.add_css_class("flat");
             remove_btn.tooltip_text = _("Remove bridge");
-            int rule_idx = idx;
+            string rule_id = rule.id;
             remove_btn.clicked.connect(() => {
-                if (bm.remove_rule_by_index(rule_idx)) {
+                if (bm.remove_rule(rule_id)) {
                     bridges_group.remove(row);  /* remove from UI */
                 }
             });
             row.add_suffix(remove_btn);
 
             bridges_group.add(row);
-            idx++;
         }
     }
 
@@ -241,7 +243,6 @@ public class MqttTopicManagerDialog : Adw.Dialog {
         if (am == null) return;
 
         var rules = am.get_rules();
-        int idx = 1;
         foreach (var rule in rules) {
             string field_str = (rule.field != null && rule.field != "")
                 ? ".%s".printf(rule.field) : "";
@@ -257,9 +258,9 @@ public class MqttTopicManagerDialog : Adw.Dialog {
             var toggle = new Switch();
             toggle.valign = Align.CENTER;
             toggle.active = rule.enabled;
-            int rule_idx = idx;
+            string toggle_id = rule.id;
             toggle.notify["active"].connect(() => {
-                am.toggle_rule(rule_idx);
+                am.toggle_rule_by_id(toggle_id);
             });
             row.add_suffix(toggle);
 
@@ -267,15 +268,15 @@ public class MqttTopicManagerDialog : Adw.Dialog {
             remove_btn.valign = Align.CENTER;
             remove_btn.add_css_class("flat");
             remove_btn.tooltip_text = _("Remove alert");
+            string remove_id = rule.id;
             remove_btn.clicked.connect(() => {
-                if (am.remove_rule_by_index(rule_idx)) {
+                if (am.remove_rule(remove_id)) {
                     alerts_group.remove(row);
                 }
             });
             row.add_suffix(remove_btn);
 
             alerts_group.add(row);
-            idx++;
         }
     }
 
@@ -323,6 +324,7 @@ public class MqttTopicManagerDialog : Adw.Dialog {
         row.add_suffix(unsub_btn);
 
         topics_group.add(row);
+        topic_rows.add(row);  /* BUG-11: track for rebuild */
 
         /* Clear entry */
         topic_entry.text = "";
@@ -376,20 +378,11 @@ public class MqttTopicManagerDialog : Adw.Dialog {
      * Clear and re-populate the topics group.
      */
     private void rebuild_topics_ui() {
-        /* Remove all dynamic rows (keep the first child = add-topic box) */
-        Widget? child = topics_group.get_first_child();
-        var to_remove = new ArrayList<Widget>();
-        bool first = true;
-        while (child != null) {
-            if (!first) {
-                to_remove.add(child);
-            }
-            first = false;
-            child = child.get_next_sibling();
-        }
-        foreach (var w in to_remove) {
+        /* BUG-11 fix: use tracked rows instead of fragile GTK child iteration */
+        foreach (var w in topic_rows) {
             topics_group.remove(w);
         }
+        topic_rows.clear();
         populate_topics();
     }
 

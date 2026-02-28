@@ -40,7 +40,7 @@ to XMPP PubSub:
 ### Server Comparison
 
 | Feature | ejabberd (`mod_mqtt`) | Prosody (`mod_pubsub_mqtt`) |
-|---------|----------------------|-----------------------------|
+|---------|-----------------------|-----------------------------|
 | MQTT Version | 5.0 + 3.1.1 | 3.1.1 |
 | Auth | XMPP Credentials | None |
 | QoS | 0, 1, 2 | 0 only |
@@ -75,6 +75,9 @@ are separate worlds (they only share auth/ACL/DB infrastructure).
 - HA Device Discovery publishes DinoX as a device with 8 entities
 - Command topics allow HA to control DinoX (pause alerts, reconnect, refresh)
 - Freetext chat messages forwarded to Node-RED via configurable topic
+- **Note:** HA Discovery requires a real MQTT broker (Mosquitto, EMQX, etc.).
+  It does not work with ejabberd or Prosody XMPP-MQTT (no retain/LWT support).
+  Only Standalone and Per-Account Custom Broker modes support HA Discovery.
 
 ### 2.3 MQTT-to-XMPP Bridge (Priority: medium)
 - Forward MQTT messages to real XMPP contacts
@@ -89,22 +92,133 @@ are separate worlds (they only share auth/ACL/DB infrastructure).
 
 ## 3. Architecture
 
+### 3.0 Client Modes
+
+The MQTT plugin supports **three independent client modes** that can all
+run simultaneously without interference:
+
 ```
-+-------------------------------------------------+
-|                    DinoX                        |
-|                                                 |
-|  +----------+   +----------+   +------------+   |
-|  | XMPP     |   | MQTT     |   | MQTT       |   |
-|  | Module   |   | Plugin   |   | UI         |   |
-|  |(existing)|   |          |   |            |   |
-|  +----+-----+   +----+-----+   +-----+------+   |
-|       |              |              |            |
-|       |    +---------+----------+   |            |
-|       |    | MqttClient         |   |            |
-|       |    | (libmosquitto)     |   |            |
-|       |    +---------+----------+   |            |
-|       |              |              |            |
-+-------+--------------+--------------+------------+
+┌─────────────────────────────────────────────────────────────────┐
+│  DinoX MQTT Plugin                                              │
+│                                                                 │
+│  ┌─────────────────────────────────────┐                        │
+│  │  (A) Standalone MQTT Client         │  Preferences → MQTT    │
+│  │  • Any external broker              │  (Standalone)          │
+│  │  • Manual host/port/TLS/auth        │                        │
+│  │  • No XMPP dependency               │                        │
+│  │  • Global (not account-bound)       │                        │
+│  │  • No server detection              │                        │
+│  └─────────────────────────────────────┘                        │
+│                                                                 │
+│  ┌─────────────────────────────────────┐                        │
+│  │  (B) Per-Account Client (XMPP)      │  Account Settings      │
+│  │  • Broker = XMPP server domain      │  → MQTT Bot (Account)  │
+│  │  • XMPP credentials (ejabberd)      │                        │
+│  │  • Auto-detect server type          │  TESTING / BETA        │
+│  │  • One client per XMPP account      │                        │
+│  └─────────────────────────────────────┘                        │
+│                                                                 │
+│  ┌─────────────────────────────────────┐                        │
+│  │  (C) Per-Account Client (Custom)    │  Account Settings      │
+│  │  • Any broker (manual host/port)    │  → MQTT Bot (Account)  │
+│  │  • Own username/password            │                        │
+│  │  • XMPP auth OFF                    │                        │
+│  │  • One client per XMPP account      │                        │
+│  └─────────────────────────────────────┘                        │
+│                                                                 │
+│  Each client has its own:                                       │
+│  • MqttClient instance (libmosquitto)                           │
+│  • Bot conversation (virtual contact)                           │
+│  • Topic subscriptions, alerts, bridges, presets                │
+│  • HA Discovery device (unique ID per client)                   │
+│  • Database entries (keyed by connection label)                 │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+**Mode (A) — Standalone:** Configured under Preferences → MQTT (Standalone).
+Pure MQTT client for any broker (Mosquitto, HiveMQ, Home Assistant, AWS IoT, etc.).
+No XMPP credentials, no server detection, no ejabberd/Prosody logic.
+Connection label: `"standalone"`. HA Discovery device ID: `dinox_standalone`.
+
+**Mode (B) — Per-Account XMPP:** Each XMPP account can bind to its XMPP
+server's built-in MQTT (ejabberd `mod_mqtt` or Prosody `mod_pubsub_mqtt`).
+Hostname is auto-filled from the account domain, XMPP credentials can be
+reused for ejabberd. Server type is detected via XEP-0030.
+**Note:** XMPP-bound MQTT (both ejabberd and Prosody) is currently in
+testing and has not been fully validated in production. Use with caution.
+
+**Mode (C) — Per-Account Custom:** Same dialog as (B), but the user enters
+a custom broker hostname, disables "Use XMPP Credentials", and provides own
+MQTT username/password. Functionally identical to standalone, but bound to
+an account context (appears under that account's settings).
+
+### 3.0.1 HA Discovery Compatibility
+
+HA Discovery requires a **real MQTT broker** (Mosquitto, EMQX, HiveMQ, etc.)
+that supports retained messages, Last Will and Testament (LWT), and free topic
+hierarchies. XMPP server MQTT does **not** meet these requirements:
+
+| Feature | Mosquitto / EMQX | ejabberd (mod_mqtt) | Prosody (mod_pubsub_mqtt) |
+|---------|------------------|---------------------|--------------------------|
+| Retained messages | Yes | No (not persistent) | No |
+| LWT (Last Will) | Yes | Limited | No |
+| Free topic hierarchy | Yes | Yes | No (HOST/pubsub/NODE only) |
+| HA Discovery compatible | **Yes** | **No** | **No** |
+
+**Consequence:** HA Discovery is only available in:
+- **(A) Standalone** -- always connects to a real broker
+- **(C) Per-Account Custom Broker** -- user provides a real broker hostname
+
+It is **not available** in **(B) Per-Account XMPP** (ejabberd/Prosody).
+The UI hides the Discovery section when XMPP mode is selected, and the
+runtime skips Discovery even if the config flag is set.
+
+### 3.0.2 HA Discovery Uniqueness
+
+Each client publishes its own HA device with a unique identifier:
+
+| Client | Device ID | Device Name | Availability Topic |
+|--------|-----------|-------------|--------------------|
+| Standalone | `dinox_standalone` | DinoX MQTT (Standalone) | `dinox/standalone/availability` |
+| Account `user@srv.de` | `dinox_user_srv_de` | DinoX MQTT (user@srv.de) | `dinox/user_srv_de/availability` |
+| Account `bot@other.org` | `dinox_bot_other_org` | DinoX MQTT (bot@other.org) | `dinox/bot_other_org/availability` |
+
+Standalone and Custom Broker clients can have HA Discovery enabled
+simultaneously without conflicts. XMPP mode clients cannot use Discovery.
+
+### 3.0.3 Client Isolation
+
+| Resource | Isolated per client |
+|----------|---------------------|
+| libmosquitto connection | Yes -- Separate socket, separate MQTT session |
+| Topic subscriptions | Yes -- Each client subscribes to its own topics |
+| Alert rules | Yes -- Stored per connection label in DB |
+| Bridge rules | Yes -- Stored per connection label in DB |
+| Publish presets | Yes -- Stored per connection label in DB |
+| Freetext config | Yes -- Per client |
+| HA Discovery device | Yes -- Unique device ID, unique topics |
+| Bot conversation | Yes -- Separate virtual contact per client |
+| Message history | Yes -- Keyed by connection label in DB |
+| Connection state | Yes -- Independent connect/disconnect/reconnect |
+
+### 3.1 Network Topology
+
+```
++------------------------------------------------+
+|                    DinoX                       |
+|                                                |
+|  +----------+   +----------+   +------------+  |
+|  | XMPP     |   | MQTT     |   | MQTT       |  |
+|  | Module   |   | Plugin   |   | UI         |  |
+|  |(existing)|   |          |   |            |  |
+|  +----+-----+   +----+-----+   +-----+------+  |
+|       |              |              |          |
+|       |    +---------+----------+   |          |
+|       |    | MqttClient         |   |          |
+|       |    | (libmosquitto)     |   |          |
+|       |    +---------+----------+   |          |
+|       |              |              |          |
++-------+--------------+--------------+----------+
         |              |              |
    XMPP |         MQTT |              | Signals
   (5222)|        (1883)|              |
@@ -112,13 +226,11 @@ are separate worlds (they only share auth/ACL/DB infrastructure).
         v              v              v
   +------------------+  +-------------------+
   | ejabberd/Prosody |  | Any MQTT Broker   |
-  | (XMPP + MQTT)   |  | (Mosquitto, etc.) |
+  | (XMPP + MQTT)    |  | (Mosquitto, etc.) |
   +------------------+  +-------------------+
 ```
 
-### 3.1 Components
-
-| Component | File | Lines | Description |
+### 3.2 Components
 |-----------|------|-------|-------------|
 | `Plugin` | `plugin.vala` | 1397 | Main plugin class: lifecycle, config, routing, discovery integration |
 | `MqttClient` | `mqtt_client.vala` | 656 | libmosquitto wrapper: MQTT 5.0, LWT, GLib main loop, auto-reconnect |
@@ -130,7 +242,7 @@ are separate worlds (they only share auth/ACL/DB infrastructure).
 | `MqttAlertManager` | `alert_manager.vala` | 948 | Threshold alerts, 4 priorities, 7 operators, sparklines |
 | `MqttBridgeManager` | `bridge_manager.vala` | 374 | MQTT-to-XMPP bridge with wildcard matching, rate limiting |
 | `MqttDiscoveryManager` | `discovery_manager.vala` | 633 | HA Device Discovery (8 entities), command topics, LWT |
-| `MqttBotManagerDialog` | `mqtt_bot_manager_dialog.vala` | 917 | Adw.Dialog: 5-page per-account MQTT management dialog |
+| `MqttBotManagerDialog` | `mqtt_bot_manager_dialog.vala` | 996 | Adw.Dialog: 5-page MQTT management dialog (per-account + standalone) |
 | `MqttTopicManagerDialog` | `topic_manager_dialog.vala` | 413 | Adw.Dialog: visual topic/bridge/alert management |
 | `MqttStandaloneSettingsPage` | `settings_page.vala` | 513 | Adw.PreferencesPage: standalone broker config + discovery |
 | `MqttUtils` | `mqtt_utils.vala` | 256 | Pure utility functions (topic matching, sparklines, formatting) |
@@ -138,7 +250,7 @@ are separate worlds (they only share auth/ACL/DB infrastructure).
 
 **Total:** 9,547 lines across 15 source files.
 
-### 3.2 Dependencies
+### 3.3 Dependencies
 
 | Library | Package | Purpose |
 |---------|---------|---------|
@@ -148,7 +260,7 @@ are separate worlds (they only share auth/ACL/DB infrastructure).
 | Qlite | (existing) | SQLite ORM for mqtt.db |
 | json-glib | (existing) | JSON serialization for configs and payloads |
 
-### 3.3 Main Loop Integration
+### 3.4 Main Loop Integration
 
 libmosquitto normally runs with its own thread (`mosquitto_loop_start()`).
 DinoX instead uses `mosquitto_loop_read/write/misc()` with GLib.IOChannel
@@ -156,7 +268,7 @@ on the mosquitto socket fd. This way everything runs in the GTK main loop
 without threading issues. TCP connect runs in a GLib.Thread to avoid
 blocking the GUI during DNS resolution.
 
-### 3.4 Signals
+### 3.5 Signals
 
 The plugin exposes two signals for external consumers:
 
@@ -175,7 +287,7 @@ Each MQTT connection (per-account or standalone) has its own `MqttConnectionConf
 with 26 properties:
 
 | Category | Properties |
-|----------|-----------|
+|----------|------------|
 | Connection | `enabled`, `broker_host`, `broker_port`, `tls` |
 | Auth | `use_xmpp_auth`, `username`, `password` |
 | Topics | `topics`, `topic_qos_json`, `topic_priorities_json` |
@@ -273,7 +385,7 @@ and the user can send **commands** to the bot via the chat input.
 Each connection gets a unique synthetic JID:
 
 | Connection | Bot JID | Display Name |
-|-----------|---------|-------------|
+|-----------|----------|--------------|
 | Per-account (user@example.org) | `mqtt-bot@mqtt.local/user@example.org` | "MQTT Bot (user@example.org)" |
 | Standalone | `mqtt-bot@mqtt.local/standalone` | "MQTT Bot" (or custom name) |
 
@@ -283,7 +395,7 @@ conversation in the database.
 ### 6.3 Bot Visibility Rules
 
 | State | Bot visible? | Behavior |
-|-------|-------------|----------|
+|-------|--------------|----------|
 | MQTT disabled in settings | No | Bot does not appear in contact list |
 | MQTT enabled, not connected | Yes (greyed out) | Shows "Connecting..." or "Offline" status |
 | MQTT enabled, connected, no data yet | Yes | Shows "Waiting for data..." |
@@ -293,7 +405,7 @@ conversation in the database.
 ### 6.4 Priority Levels
 
 | Priority | Trigger | Notification |
-|----------|---------|-------------|
+|----------|---------|--------------|
 | Normal | Regular sensor data | Unread badge only |
 | Alert | Threshold exceeded (`/mqtt alert`) | Badge + desktop notification |
 | Critical | User-defined critical topics | Badge + notification + sound |
@@ -437,7 +549,7 @@ The availability topic `dinox/<node>/availability` uses Last Will and Testament:
 HA can control DinoX through command topics:
 
 | Command Topic | Accepted Values | Action |
-|--------------|----------------|--------|
+|---------------|-----------------|--------|
 | `dinox/<node>/alerts_pause/set` | ON / OFF | Pause or resume alert evaluation |
 | `dinox/<node>/reconnect/set` | PRESS | Disconnect and reconnect to broker |
 | `dinox/<node>/refresh/set` | PRESS | Re-publish all entity states |
@@ -526,7 +638,7 @@ User types: "kitchen light on"
 ### 10.4 Network Security
 
 | Scenario | Recommendation |
-|----------|---------------|
+|----------|----------------|
 | LAN-only | TLS optional, firewall on port 1883 |
 | Internet | TLS mandatory (port 8883), username+password |
 | Mixed (bridge) | Bridge with TLS, local without TLS acceptable |
@@ -584,7 +696,7 @@ All phases are complete.
 ## 12. Resolved Risks
 
 | Risk | Mitigation |
-|------|-----------|
+|------|------------|
 | libmosquitto not available | Optional dependency, plugin only loads when lib is present |
 | Windows cross-compile | MSYS2 `mingw-w64-x86_64-mosquitto` package, auto-detected |
 | Flatpak build | Mosquitto module in manifest (CMake, client lib only) |

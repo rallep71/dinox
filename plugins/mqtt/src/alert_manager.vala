@@ -387,6 +387,20 @@ public class MqttAlertManager : Object {
         return true;
     }
 
+    /**
+     * Toggle an alert rule's enabled state by ID.
+     */
+    public bool toggle_rule_by_id(string id) {
+        foreach (var rule in rules) {
+            if (rule.id == id) {
+                rule.enabled = !rule.enabled;
+                save_rules();
+                return true;
+            }
+        }
+        return false;
+    }
+
     /* ── Per-Topic Priority ──────────────────────────────────────── */
 
     /**
@@ -636,9 +650,20 @@ public class MqttAlertManager : Object {
             }
         }
 
-        /* Save rules if any were triggered (to persist last_triggered) */
-        if (result.triggered_rules.size > 0) {
-            save_rules();
+        /* BUG-10 fix: Only update last_triggered in the DB
+         * rather than doing a full DELETE ALL + INSERT ALL cycle.
+         * This avoids an expensive save_rules() call on every alert. */
+        if (result.triggered_rules.size > 0 && plugin.mqtt_db != null) {
+            long ts = (long) new DateTime.now_utc().to_unix();
+            foreach (var triggered_rule in result.triggered_rules) {
+                try {
+                    plugin.mqtt_db.exec(
+                        "UPDATE alert_rules SET last_triggered=%lld WHERE id='%s'"
+                        .printf((int64) ts, triggered_rule.id));
+                } catch (Error e) {
+                    warning("MQTT AlertManager: UPDATE last_triggered failed: %s", e.message);
+                }
+            }
         }
 
         /* Record in history */
@@ -759,32 +784,36 @@ public class MqttAlertManager : Object {
     private void save_rules() {
         /* Phase 1c: Save to mqtt.db */
         if (plugin.mqtt_db != null) {
-            /* Wrap DELETE ALL + INSERT ALL in a transaction for atomicity */
-            try { plugin.mqtt_db.exec("BEGIN TRANSACTION"); } catch (Error e) {
-                warning("MQTT AlertManager: BEGIN TRANSACTION failed: %s", e.message);
-            }
+            /* Wrap DELETE ALL + INSERT ALL in a transaction for atomicity.
+             * On any error, ROLLBACK to preserve existing data (BUG-2 fix). */
+            try {
+                plugin.mqtt_db.exec("BEGIN TRANSACTION");
 
-            /* Delete all existing rules and re-insert */
-            plugin.mqtt_db.alert_rules.delete().perform();
+                /* Delete all existing rules and re-insert */
+                plugin.mqtt_db.alert_rules.delete().perform();
 
-            long now = (long) new DateTime.now_utc().to_unix();
-            foreach (var rule in rules) {
-                plugin.mqtt_db.alert_rules.insert()
-                    .value(plugin.mqtt_db.alert_rules.id, rule.id)
-                    .value(plugin.mqtt_db.alert_rules.topic, rule.topic)
-                    .value(plugin.mqtt_db.alert_rules.field, rule.field)
-                    .value(plugin.mqtt_db.alert_rules.operator, rule.op.to_symbol())
-                    .value(plugin.mqtt_db.alert_rules.threshold, rule.threshold)
-                    .value(plugin.mqtt_db.alert_rules.priority, rule.priority.to_string_key())
-                    .value(plugin.mqtt_db.alert_rules.enabled, rule.enabled)
-                    .value(plugin.mqtt_db.alert_rules.cooldown_secs, (long) rule.cooldown_secs)
-                    .value(plugin.mqtt_db.alert_rules.last_triggered, (long) rule.last_triggered)
-                    .value(plugin.mqtt_db.alert_rules.created_at, now)
-                    .perform();
-            }
+                long now = (long) new DateTime.now_utc().to_unix();
+                foreach (var rule in rules) {
+                    plugin.mqtt_db.alert_rules.insert()
+                        .value(plugin.mqtt_db.alert_rules.id, rule.id)
+                        .value(plugin.mqtt_db.alert_rules.topic, rule.topic)
+                        .value(plugin.mqtt_db.alert_rules.field, rule.field)
+                        .value(plugin.mqtt_db.alert_rules.operator, rule.op.to_symbol())
+                        .value(plugin.mqtt_db.alert_rules.threshold, rule.threshold)
+                        .value(plugin.mqtt_db.alert_rules.priority, rule.priority.to_string_key())
+                        .value(plugin.mqtt_db.alert_rules.enabled, rule.enabled)
+                        .value(plugin.mqtt_db.alert_rules.cooldown_secs, (long) rule.cooldown_secs)
+                        .value(plugin.mqtt_db.alert_rules.last_triggered, (long) rule.last_triggered)
+                        .value(plugin.mqtt_db.alert_rules.created_at, now)
+                        .perform();
+                }
 
-            try { plugin.mqtt_db.exec("COMMIT"); } catch (Error e) {
-                warning("MQTT AlertManager: COMMIT failed: %s", e.message);
+                plugin.mqtt_db.exec("COMMIT");
+            } catch (Error e) {
+                warning("MQTT AlertManager: save_rules failed, rolling back: %s", e.message);
+                try { plugin.mqtt_db.exec("ROLLBACK"); } catch (Error e2) {
+                    warning("MQTT AlertManager: ROLLBACK also failed: %s", e2.message);
+                }
             }
             return;
         }

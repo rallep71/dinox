@@ -33,16 +33,11 @@ public class MqttStandaloneSettingsPage : Adw.PreferencesPage {
 
     /* Widgets */
     private Switch enable_switch;
-    private Adw.ComboRow mode_row;
     private Adw.EntryRow host_row;
     private Adw.SpinRow port_row;
     private Switch tls_switch;
     private Adw.EntryRow user_row;
     private Adw.PasswordEntryRow pass_row;
-    private Adw.ActionRow server_type_row;
-    private Adw.ActionRow detect_row;
-    private Button detect_button;
-    private Adw.EntryRow topics_row;
     private Label status_label;
 
     /* Prevent saving during programmatic updates */
@@ -50,6 +45,9 @@ public class MqttStandaloneSettingsPage : Adw.PreferencesPage {
 
     /* TLS warning */
     private Adw.PreferencesGroup tls_warning_group;
+
+    /* HA Discovery group (BUG-18) */
+    private Adw.PreferencesGroup discovery_group;
 
     /* Status refresh timer */
     private uint status_timer_id = 0;
@@ -59,20 +57,14 @@ public class MqttStandaloneSettingsPage : Adw.PreferencesPage {
 
     /* The mode row is kept for UX but doesn't affect backend anymore.
      * Backend uses standalone_config + per-account configs independently. */
-    private const string KEY_MODE        = "mqtt_mode";        /* UI only */
-    private const string KEY_SERVER_TYPE = "mqtt_server_type";  /* legacy, for detect result display */
 
-    /* Mode list for ComboRow */
-    private const string[] MODE_VALUES = {
-        "standalone", "per_account"
-    };
 
     /* ── Constructor ──────────────────────────────────────────────── */
 
     public MqttStandaloneSettingsPage(Plugin plugin) {
         this.plugin = plugin;
         this.db = plugin.app.db;
-        this.title = "MQTT";
+        this.title = _("MQTT (Standalone)");
         this.icon_name = "network-transmit-symbolic";
         this.name = "mqtt";
 
@@ -86,14 +78,15 @@ public class MqttStandaloneSettingsPage : Adw.PreferencesPage {
     private void build_ui() {
         /* ── Group 1: Connection ──────────────────────────────────── */
         var conn_group = new Adw.PreferencesGroup();
-        conn_group.title = _("MQTT Connection");
-        conn_group.description = _("Connect to an MQTT broker for IoT data, sensor values and bot events.");
+        conn_group.title = _("Standalone MQTT Connection");
+        conn_group.description = _("Global MQTT broker — independent of your XMPP accounts.\n" +
+            "For account-specific MQTT, use Account Settings → MQTT Bot.");
         this.add(conn_group);
 
         /* Enable switch */
         var enable_row = new Adw.ActionRow();
-        enable_row.title = _("Enable MQTT");
-        enable_row.subtitle = _("Activate MQTT client connection");
+        enable_row.title = _("Enable Standalone MQTT");
+        enable_row.subtitle = _("Connect to an external MQTT broker (Mosquitto, Home Assistant, HiveMQ…)");
 
         enable_switch = new Switch();
         enable_switch.valign = Align.CENTER;
@@ -101,35 +94,20 @@ public class MqttStandaloneSettingsPage : Adw.PreferencesPage {
             enable_switch.state = state;
             if (!loading) {
                 save_setting(StandaloneKey.ENABLED, state ? "1" : "0");
-                plugin.apply_settings();
-                /* Refresh status after a short delay for connect to complete */
-                Timeout.add(500, () => { update_status(); return false; });
+                /* Defer heavy work (20+ DB reads, disconnect, reconnect)
+                 * to the next idle iteration so the switch animation
+                 * is not blocked on the main thread. */
+                Idle.add(() => {
+                    plugin.apply_settings();
+                    Timeout.add(500, () => { update_status(); return false; });
+                    return false;
+                });
             }
             update_sensitivity();
             return true;
         });
         enable_row.add_suffix(enable_switch);
         conn_group.add(enable_row);
-
-        /* Mode */
-        mode_row = new Adw.ComboRow();
-        mode_row.title = _("Connection Mode");
-        mode_row.subtitle = _("Standalone = any broker. Per Account = XMPP server's MQTT.");
-        var mode_model = new Gtk.StringList(null);
-        mode_model.append(_("Standalone (any broker)"));
-        mode_model.append(_("Per Account (XMPP server)"));
-        mode_row.model = mode_model;
-        mode_row.notify["selected"].connect(() => {
-            if (!loading) {
-                uint idx = mode_row.selected;
-                if (idx < MODE_VALUES.length) {
-                    save_setting(KEY_MODE, MODE_VALUES[idx]);
-                    schedule_apply();
-                }
-                update_sensitivity();
-            }
-        });
-        conn_group.add(mode_row);
 
         /* ── Group 2: Broker ──────────────────────────────────────── */
         var broker_group = new Adw.PreferencesGroup();
@@ -195,7 +173,7 @@ public class MqttStandaloneSettingsPage : Adw.PreferencesPage {
         /* ── Group 3: Authentication ──────────────────────────────── */
         var auth_group = new Adw.PreferencesGroup();
         auth_group.title = _("Authentication");
-        auth_group.description = _("Leave empty if the broker requires no authentication (e.g. Prosody).");
+        auth_group.description = _("Leave empty if the broker requires no authentication.");
         this.add(auth_group);
 
         user_row = new Adw.EntryRow();
@@ -218,44 +196,44 @@ public class MqttStandaloneSettingsPage : Adw.PreferencesPage {
         });
         auth_group.add(pass_row);
 
-        /* ── Group 4: Server Detection ────────────────────────────── */
-        var detect_group = new Adw.PreferencesGroup();
-        detect_group.title = _("Server Type");
-        detect_group.description = _("DinoX can detect ejabberd or Prosody MQTT support automatically.");
-        this.add(detect_group);
+        /* ── Group 4: Bot Manager ─────────────────────────────────── */
+        var manager_group = new Adw.PreferencesGroup();
+        manager_group.title = _("MQTT Bot Manager");
+        manager_group.description = _("Publish presets, alerts, bridges, free-text and more");
+        this.add(manager_group);
 
-        server_type_row = new Adw.ActionRow();
-        server_type_row.title = _("Detected Server");
-        server_type_row.subtitle = _("Not detected yet");
-        detect_group.add(server_type_row);
-
-        detect_row = new Adw.ActionRow();
-        detect_row.title = _("Detect Server Type");
-        detect_row.subtitle = _("Queries your XMPP server via Service Discovery (XEP-0030)");
-
-        detect_button = new Button.with_label(_("Detect"));
-        detect_button.valign = Align.CENTER;
-        detect_button.clicked.connect(on_detect_clicked);
-        detect_row.add_suffix(detect_button);
-        detect_group.add(detect_row);
-
-        /* ── Group 5: Topics ──────────────────────────────────────── */
-        var topics_group = new Adw.PreferencesGroup();
-        topics_group.title = _("Topic Subscriptions");
-        topics_group.description = _("Comma-separated MQTT topics (wildcards # and + supported).");
-        this.add(topics_group);
-
-        topics_row = new Adw.EntryRow();
-        topics_row.title = _("Topics");
-        topics_row.changed.connect(() => {
-            if (!loading) {
-                save_setting(StandaloneKey.TOPICS, topics_row.text);
-                schedule_apply();
+        var manager_row = new Adw.ActionRow();
+        manager_row.title = _("Open Bot Manager");
+        manager_row.subtitle = _("Configure publish presets, alert rules, bridge rules, free-text publishing");
+        manager_row.activatable = true;
+        manager_row.add_suffix(new Image.from_icon_name("go-next-symbolic"));
+        manager_row.activated.connect(() => {
+            var dialog = new MqttBotManagerDialog.standalone(plugin);
+            /* Find the top-level window to present the dialog on */
+            var win = this.get_root() as Gtk.Window;
+            if (win != null) {
+                dialog.present(win);
             }
         });
-        topics_group.add(topics_row);
+        manager_group.add(manager_row);
 
-        /* ── Group 6: Status ──────────────────────────────────────── */
+        /* Show Bot in Chat — re-open closed bot conversation */
+        var show_bot_row = new Adw.ActionRow();
+        show_bot_row.title = _("Show Bot in Chat");
+        show_bot_row.subtitle = _("Re-open the MQTT Bot conversation if you closed it");
+        show_bot_row.activatable = true;
+        show_bot_row.add_suffix(new Image.from_icon_name("chat-message-new-symbolic"));
+        show_bot_row.activated.connect(() => {
+            if (plugin.bot_conversation != null) {
+                var conv = plugin.bot_conversation.reopen_standalone_conversation();
+                if (conv != null) {
+                    message("MQTT Settings: Standalone bot conversation re-opened");
+                }
+            }
+        });
+        manager_group.add(show_bot_row);
+
+        /* ── Group 7: Status ──────────────────────────────────────── */
         var status_group = new Adw.PreferencesGroup();
         status_group.title = _("Status");
         this.add(status_group);
@@ -279,7 +257,7 @@ public class MqttStandaloneSettingsPage : Adw.PreferencesPage {
         });
 
         /* ── Group 7: HA Discovery ────────────────────────────────── */
-        var discovery_group = new Adw.PreferencesGroup();
+        discovery_group = new Adw.PreferencesGroup();
         discovery_group.title = _("Home Assistant Discovery");
         discovery_group.description = _("Announce DinoX as a device in Home Assistant via MQTT Discovery.");
         this.add(discovery_group);
@@ -318,6 +296,10 @@ public class MqttStandaloneSettingsPage : Adw.PreferencesPage {
     }
 
     ~MqttStandaloneSettingsPage() {
+        if (apply_timer_id != 0) {
+            Source.remove(apply_timer_id);
+            apply_timer_id = 0;
+        }
         if (status_timer_id != 0) {
             Source.remove(status_timer_id);
             status_timer_id = 0;
@@ -356,27 +338,12 @@ public class MqttStandaloneSettingsPage : Adw.PreferencesPage {
 
         enable_switch.active = get_setting(StandaloneKey.ENABLED) == "1";
 
-        string mode = get_setting(KEY_MODE) ?? "standalone";
-        for (int i = 0; i < MODE_VALUES.length; i++) {
-            if (MODE_VALUES[i] == mode) {
-                mode_row.selected = i;
-                break;
-            }
-        }
-
         host_row.text = get_setting(StandaloneKey.BROKER_HOST) ?? "";
         string? port_s = get_setting(StandaloneKey.BROKER_PORT);
         port_row.value = port_s != null ? double.parse(port_s) : 1883;
         tls_switch.active = get_setting(StandaloneKey.TLS) == "1";
         user_row.text = get_setting(StandaloneKey.USERNAME) ?? "";
         pass_row.text = get_setting(StandaloneKey.PASSWORD) ?? "";
-        topics_row.text = get_setting(StandaloneKey.TOPICS) ?? "";
-
-        string? stype = get_setting(KEY_SERVER_TYPE);
-        if (stype != null && stype != "") {
-            ServerType st = ServerType.from_string(stype);
-            server_type_row.subtitle = st.to_label();
-        }
 
         update_sensitivity();
         check_tls_warning();
@@ -403,64 +370,13 @@ public class MqttStandaloneSettingsPage : Adw.PreferencesPage {
 
     private void update_sensitivity() {
         bool enabled = enable_switch.active;
-        bool standalone = mode_row.selected == 0;
-
-        mode_row.sensitive = enabled;
-        host_row.sensitive = enabled && standalone;
+        host_row.sensitive = enabled;
         port_row.sensitive = enabled;
         tls_switch.sensitive = enabled;
-        user_row.sensitive = enabled && standalone;
-        pass_row.sensitive = enabled && standalone;
-        detect_row.sensitive = enabled && !standalone;
-        topics_row.sensitive = enabled;
-    }
-
-    /* ── Server detection ─────────────────────────────────────────── */
-
-    private void on_detect_clicked() {
-        detect_button.sensitive = false;
-        detect_button.label = _("Detecting...");
-        server_type_row.subtitle = _("Detecting...");
-        run_detection.begin();
-    }
-
-    private async void run_detection() {
-        /* Use the first connected account */
-        var accounts = plugin.app.stream_interactor.get_accounts();
-        Account? target = null;
-        foreach (var acc in accounts) {
-            var state = plugin.app.stream_interactor.connection_manager
-                .get_state(acc);
-            if (state == ConnectionManager.ConnectionState.CONNECTED) {
-                target = acc;
-                break;
-            }
-        }
-
-        if (target == null) {
-            server_type_row.subtitle = _("No connected account");
-            detect_button.sensitive = true;
-            detect_button.label = _("Detect");
-            return;
-        }
-
-        DetectionResult result = yield ServerDetector.detect(
-            plugin.app.stream_interactor, target);
-
-        server_type_row.subtitle = result.server_type.to_label();
-        if (result.info != "") {
-            server_type_row.subtitle += " -- " + result.info;
-        }
-
-        /* Prosody security warning */
-        if (result.server_type == ServerType.PROSODY) {
-            server_type_row.subtitle += "\n" + _("⚠ Prosody MQTT has no authentication — restrict access via firewall!");
-        }
-
-        save_setting(KEY_SERVER_TYPE, result.server_type.to_string_key());
-
-        detect_button.sensitive = true;
-        detect_button.label = _("Detect");
+        user_row.sensitive = enabled;
+        pass_row.sensitive = enabled;
+        /* BUG-18 fix: discovery settings depend on MQTT being enabled */
+        if (discovery_group != null) discovery_group.sensitive = enabled;
     }
 
     /* ── Status display ───────────────────────────────────────────── */
