@@ -166,10 +166,16 @@ namespace Dino.Plugins.Omemo {
             SessionCipher cipher = store.create_session_cipher(address);
             uint32 sess_ver = cipher.get_session_version();
             if (sess_ver >= 4) {
-                warning("encrypt_key: v1 encryptor using v4 session for %s/%d! This will produce broken messages. Deleting session.", jid.bare_jid.to_string(), device_id);
+                /* Race condition: v2 bundle arrived before v1 device list,
+                 * creating a v4 session.  The v1 encryptor cannot use v4
+                 * sessions (would produce SG_ERR_LEGACY_MESSAGE on the
+                 * recipient).  Delete the v4 session and throw NO_SESSION
+                 * so the retry mechanism fetches the v1 bundle and builds
+                 * a proper v3 session. */
+                debug("encrypt_key: replacing stale v4 session for %s/%d with v3 (retry will rebuild)", jid.bare_jid.to_string(), device_id);
                 store.delete_session(address);
                 address.device_id = 0;
-                throw new GLib.Error(Quark.from_string("omemo"), -1000, "v4 session in v1 encryptor");
+                throw new GLib.Error(Quark.from_string("omemo"), ErrorCode.NO_SESSION, "v4 session deleted, need v3 rebuild");
             }
             CiphertextMessage device_key = cipher.encrypt(encryption_data.keytag);
             address.device_id = 0;

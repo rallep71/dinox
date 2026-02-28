@@ -937,10 +937,14 @@ public class Manager : StreamInteractionModule, Object {
             cleanup_stale_own_devices(account, stream);
         }
 
-        // Fetch v2 bundles only for ACTIVE devices without a session.
-        // After cleanup, phantom devices are inactive and should not trigger bundle fetches.
+        // Fetch v2 bundles only for ACTIVE devices without a session,
+        // and ONLY for v2-only JIDs.  For JIDs with v1 devices we use
+        // the v1 encryptor, and a v4 session in the shared store would
+        // conflict (SG_ERR_LEGACY_MESSAGE).  Mirrors the guard in
+        // on_device_list_loaded() and on_bundle_v2_fetched().
+        string dl_v2_bare = jid.bare_jid.to_string();
         StreamModule2? module2 = stream.get_module<StreamModule2>(StreamModule2.IDENTITY);
-        if (module2 != null) {
+        if (module2 != null && !v1_jids.contains(dl_v2_bare)) {
             foreach (Row row in db.identity_meta.with_address(identity_id, jid.bare_jid.to_string())
                     .with(db.identity_meta.now_active, "=", true)) {
                 int32 device_id = row[db.identity_meta.device_id];
@@ -988,7 +992,15 @@ public class Manager : StreamInteractionModule, Object {
         //Update the database with the appropriate trust information
         db.identity_meta.insert_device_bundle(identity_id, jid.bare_jid.to_string(), device_id, bundle, trusted);
 
-        if (should_start_session(account, jid)) {
+        /* Always call start_session — not just when a message is pending.
+         * start_session() checks contains_session() internally and is a
+         * no-op when a valid v3 session already exists.  But if a stale
+         * v4 session is present (race: v2 bundle arrived before v1 device
+         * list), start_session() replaces it with a proper v3 session.
+         * Without this, the v4 session survives until the user sends a
+         * message, at which point the v1 encryptor has to delete + retry,
+         * causing unnecessary warnings and a round-trip delay. */
+        {
             XmppStream? stream = stream_interactor.get_stream(account);
             if (stream != null) {
                 StreamModule? module = ((!)stream).get_module<StreamModule>(StreamModule.IDENTITY);
@@ -1093,24 +1105,6 @@ public class Manager : StreamInteractionModule, Object {
             debug("OMEMO 2: Skipping v2 session for %s/%d (JID has v1 devices, would conflict with v1 encryptor)", jid.to_string(), device_id);
         }
         continue_message_sending(account, jid);
-    }
-
-    private bool should_start_session(Account account, Jid jid) {
-        lock (message_states) {
-            foreach (Entities.Message msg in message_states.keys) {
-                if (!msg.account.equals(account)) continue;
-                if (account.bare_jid.equals(jid)) {
-                    return true;
-                }
-                if (msg.counterpart != null) {
-                    Gee.List<Jid> occupants = get_occupants(msg.counterpart.bare_jid, account);
-                    if (msg.counterpart.equals_bare(jid) || occupants.contains(jid)) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
     }
 
     private void continue_message_sending(Account account, Jid jid) {
