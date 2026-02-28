@@ -8,14 +8,16 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-01 18:06+0100\n"
-"PO-Revision-Date: 2025-09-06 12:01+0000\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2026-02-28 13:19+0000\n"
+"Last-Translator: ButterflyOfFire <boffire@users.noreply.hosted.weblate.org>\n"
+"Language-Team: Kabyle <https://hosted.weblate.org/projects/dinox/"
+"translations/kab/>\n"
 "Language: kab\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.14-dev\n"
+"X-Generator: Weblate 5.16.1-dev\n"
 
 #: main/data/add_conversation/add_groupchat_dialog.ui:81
 msgid "Add MUC"
@@ -458,9 +460,11 @@ msgid "_Keep Running in Background"
 msgstr "_Eǧǧ-it ad yeddu deg ugilal"
 
 #: main/data/preferences_window/general_preferences_page.ui:40
+#, fuzzy
 msgid ""
 "Continue running after closing window to receive notifications immediately"
-msgstr "Kemmel asehwel i wakken ad tawḍeḍ ilɣa imir imir"
+msgstr ""
+"Kemmel asehwel mbeɛd ma yemdel usfaylu i wakken ad tawḍen yilɣa imir imir"
 
 #: main/data/preferences_window/general_preferences_page.ui:48
 msgid "Appearance"
@@ -603,6 +607,7 @@ msgid "Password required to enter room"
 msgstr "Awal uffir yettwasra i unekcum ɣer texxamt"
 
 #: main/src/ui/add_conversation/conference_details_fragment.vala:169
+#, fuzzy
 msgid "Banned from joining or creating conference"
 msgstr "Yettwaḥkem-d seg unekcum neɣ seg tmerna n tmuγri"
 
@@ -803,6 +808,7 @@ msgid "Decrypt & Restore"
 msgstr "Kkes awgelhen u err-d"
 
 #: main/src/ui/application.vala:1016
+#, fuzzy
 msgid ""
 "This will replace all current data with the backup.\n"
 "\n"
@@ -924,6 +930,7 @@ msgid "Failed to clear cache"
 msgstr "Asfaḍ n lkač ur yeddi ara"
 
 #: main/src/ui/application.vala:1390
+#, fuzzy
 msgid ""
 "This will delete all messages, files and OMEMO encryption keys.\n"
 "\n"
@@ -944,6 +951,7 @@ msgid "Resetting database... DinoX will restart."
 msgstr "Tiririt n taffa n yisefka... DinoX ad yales."
 
 #: main/src/ui/application.vala:1448
+#, fuzzy
 msgid ""
 "<b>⚠️ WARNING: This will delete ALL data!</b>\n"
 "\n"
@@ -976,6 +984,7 @@ msgid "Are you absolutely sure?"
 msgstr "Tettḥeqqeḍ?"
 
 #: main/src/ui/application.vala:1475
+#, fuzzy
 msgid ""
 "Type 'DELETE' to confirm factory reset.\n"
 "\n"

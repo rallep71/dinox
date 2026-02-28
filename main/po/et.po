@@ -8,14 +8,16 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-01 18:06+0100\n"
-"PO-Revision-Date: 2025-05-06 13:05+0000\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2026-02-16 18:04+0000\n"
+"Last-Translator: Priit Jõerüüt <jrthwlate@users.noreply.hosted.weblate.org>\n"
+"Language-Team: Estonian <https://hosted.weblate.org/projects/dinox/"
+"translations/et/>\n"
 "Language: et\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12-dev\n"
+"X-Generator: Weblate 5.16\n"
 
 #: main/data/add_conversation/add_groupchat_dialog.ui:81
 msgid "Add MUC"
@@ -86,7 +88,7 @@ msgstr "Teave"
 
 #: main/data/conversation_row.ui:56
 msgid "Private room (supports group calls)"
-msgstr "Privaatne tuba (toetab grupikõnesid)"
+msgstr "Privaatne jututuba (toetab grupikõnesid)"
 
 #: main/data/conversation_row.ui:135
 #: main/src/windows/conversation_details.vala:181
@@ -217,7 +219,7 @@ msgstr "Klaviatuuri kiirklahvid"
 
 #: main/data/menu_app.ui:50 main/src/ui/application.vala:891
 msgid "About DinoX"
-msgstr "DinoX kohta"
+msgstr "Rakenduse teave: DinoX"
 
 #: main/data/menu_conversation.ui:7
 msgid "Contact Details"
@@ -249,7 +251,7 @@ msgstr "Kohalik varjunimi"
 
 #: main/src/ui/application.vala:266 main/src/ui/application.vala:361
 msgid "Password"
-msgstr "Parool"
+msgstr "Salasõna"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:104
 msgid "Connection status"
@@ -334,24 +336,23 @@ msgstr "Aadress"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:177
 msgid "Street"
-msgstr ""
+msgstr "Tänav"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:182
 msgid "Postal Code"
-msgstr ""
+msgstr "Sihtnumber"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:187
 msgid "City"
-msgstr ""
+msgstr "Linn/asula"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:192
-#, fuzzy
 msgid "Region"
-msgstr "Registreeri serveris %s"
+msgstr "Piirkond"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:197
 msgid "Country"
-msgstr ""
+msgstr "Riik/maa"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:204
 #: main/src/ui/conversation_details.vala:582
@@ -361,7 +362,7 @@ msgstr "E-post"
 #: main/data/preferences_window/account_preferences_subpage.ui:209
 #: main/src/ui/conversation_details.vala:584
 msgid "IM Address"
-msgstr "IM aadress"
+msgstr "Sõnumikliendi aadress"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:214
 msgid "Phone Number"
@@ -474,7 +475,7 @@ msgstr "_Värviskeem"
 
 #: main/data/preferences_window/general_preferences_page.ui:52
 msgid "Choose between light and dark appearance"
-msgstr "Valige hele või tume välimus"
+msgstr "Vali hele või tume kujundus"
 
 #: main/data/preferences_window/general_preferences_page.ui:62
 msgid "_Convert Smileys to Emoji"
@@ -532,11 +533,11 @@ msgstr "Andmebaasi hooldus"
 
 #: main/src/ui/application.vala:824
 msgid "Change Database Password"
-msgstr "Muuda andmebaasi parooli"
+msgstr "Muuda andmebaasi salasõna"
 
 #: main/data/preferences_window/general_preferences_page.ui:131
 msgid "Change the password used to encrypt your local data"
-msgstr "Muuda kohalike andmete krüpteerimiseks kasutatavat parooli"
+msgstr "Muuda kohalike andmete krüptimiseks kasutatavat salasõna"
 
 #: main/data/preferences_window/general_preferences_page.ui:142
 #: main/src/ui/application.vala:1312 main/src/ui/application.vala:1317
@@ -555,7 +556,8 @@ msgstr "Lähtesta andmebaas"
 #: main/data/preferences_window/general_preferences_page.ui:155
 msgid "Delete all messages, files and OMEMO keys. Your accounts will remain."
 msgstr ""
-"Kustuta kõik sõnumid, failid ja OMEMO võtmed. Teie kontod jäävad alles."
+"Kustuta kõik sõnumid, failid ja OMEMO võtmed. Sinu kasutajakontod jäävad "
+"alles."
 
 #: main/data/preferences_window/general_preferences_page.ui:166
 #: main/src/ui/application.vala:1447
@@ -603,7 +605,7 @@ msgstr "Liitume…"
 
 #: main/src/ui/add_conversation/conference_details_fragment.vala:164
 msgid "Password required to enter room"
-msgstr "Jututuppa pääsemiseks on vaja salasõna"
+msgstr "Jututuppa pääsemiseks on vajalik salasõna"
 
 #: main/src/ui/add_conversation/conference_details_fragment.vala:169
 msgid "Banned from joining or creating conference"
@@ -681,28 +683,28 @@ msgstr "Välju"
 
 #: main/src/ui/application.vala:271
 msgid "Unlock DinoX"
-msgstr ""
+msgstr "Ava DinoX-i lukustus"
 
 #: main/src/ui/application.vala:272
 msgid "Please enter your password to open the encrypted database."
-msgstr ""
+msgstr "Krüptitud andmebaasi avamiseks sisesta oma salasõna."
 
 #: main/src/ui/application.vala:274
 #, c-format
 msgid "Wrong password. Attempt %d/%d"
-msgstr ""
+msgstr "Vale salasõna. Katse %d/%d"
 
 #: main/src/ui/application.vala:346
 msgid "Unlock"
-msgstr ""
+msgstr "Ava lukustus"
 
 #: main/src/ui/application.vala:1617 main/src/ui/application.vala:1624
 msgid "Confirm Password"
-msgstr "Kinnita parool"
+msgstr "Korda salasõna"
 
 #: main/src/ui/application.vala:448
 msgid "Set Password"
-msgstr "Määra parool"
+msgstr "Sisesta salasõna"
 
 #: main/src/ui/application.vala:371
 msgid ""
@@ -715,7 +717,7 @@ msgstr ""
 #: main/src/ui/application.vala:373
 #, c-format
 msgid "Invalid password. Attempt %d/%d"
-msgstr ""
+msgstr "Vigane salasõna. Katse %d/%d"
 
 #: main/src/ui/application.vala:746
 msgid "Set Status Message"
@@ -727,15 +729,15 @@ msgstr "Määra"
 
 #: main/src/ui/application.vala:809
 msgid "Current Password"
-msgstr ""
+msgstr "Senine salasõna"
 
 #: main/src/ui/application.vala:811
 msgid "New Password"
-msgstr ""
+msgstr "Uus salasõna"
 
 #: main/src/ui/application.vala:813
 msgid "Confirm New Password"
-msgstr ""
+msgstr "Korda uut salasõna"
 
 #: main/src/ui/application.vala:825
 msgid ""
@@ -795,11 +797,11 @@ msgstr "Varukoopiafailid (*.tar.gz, *.tar.gz.gpg)"
 
 #: main/src/ui/application.vala:976
 msgid "Enter Backup Password"
-msgstr "Sisesta varukoopia parool"
+msgstr "Sisesta varukoopia salasõna"
 
 #: main/src/ui/application.vala:977
 msgid "This backup is encrypted. Please enter the password to decrypt it."
-msgstr "See varukoopia on krüpteeritud. Sisestage parool dekrüpteerimiseks."
+msgstr "See varukoopia on krüptitud. Dekrüpteerimiseks sisesta salasõna."
 
 #: main/src/ui/application.vala:993
 msgid "Decrypt & Restore"
@@ -849,9 +851,9 @@ msgid ""
 "\n"
 "Please check if the password is correct."
 msgstr ""
-"Varukoopia faili ei saanud dekrüpteerida.\n"
+"Varukoopia faili dekrüptimine ei õnnestunud.\n"
 "\n"
-"Palun kontrollige, kas parool on õige."
+"Palun kontrolli, kas salasõna on õige."
 
 #: main/src/ui/application.vala:1112 main/src/ui/application.vala:1222
 #: main/src/windows/preferences_window/account_preferences_subpage.vala:430
@@ -937,12 +939,12 @@ msgid ""
 "\n"
 "This action cannot be undone!"
 msgstr ""
-"This will delete all messages, files and OMEMO encryption keys.\n"
+"Järgnevaga kustutad kõik sõnumid, failid ja OMEMO krüptovõtmed.\n"
 "\n"
-"<b>Your accounts will remain, but you will lose all chat history and need to "
-"re-verify encryption with your contacts.</b>\n"
+"<b>Sinu kasutajakontod jäävad alles, kuid kaotad kogu vestluste ajaloo ja "
+"pead oma kontaktidega kasutatava krüptimise uuesti verifitseerima.</b>\n"
 "\n"
-"This action cannot be undone!"
+"Seda tegevust ei saa tagasi pöörata!"
 
 #: main/src/ui/application.vala:1418
 msgid "Resetting database... DinoX will restart."
@@ -959,14 +961,14 @@ msgid ""
 "\n"
 "This is irreversible. Make sure to create a backup first!"
 msgstr ""
-"<b>⚠️ WARNING: This will delete ALL data!</b>\n"
+"<b>⚠️ Hoiatus: Järgnevaga kustutad KÕIK andmed!</b>\n"
 "\n"
-"• All accounts\n"
-"• All messages and files\n"
-"• All encryption keys\n"
-"• All settings\n"
+"• Kõik kasutajakontod\n"
+"• Kõik sõnumid ja failid\n"
+"• Kõik krüptovõtmed\n"
+"• Kõik seadistused\n"
 "\n"
-"This is irreversible. Make sure to create a backup first!"
+"Kirjeldatud tegevus on pöördumatu. Igaks juhuks tee esmalt varukoopia!"
 
 #: main/src/ui/application.vala:1453
 msgid "Create Backup First"
@@ -1008,9 +1010,9 @@ msgid ""
 "\n"
 "Encrypted backups are more secure but require the password to restore."
 msgstr ""
-"Kas soovite varukoopia parooliga krüpteerida?\n"
+"Kas soovid varukoopia salasõnaga krüptida?\n"
 "\n"
-"Krüpteeritud varukoopiad on turvalisemad, kuid taastamiseks on vaja parooli."
+"Krüptitud varukoopiad on turvalisemad, kuid taastamiseks on vaja salasõna."
 
 #: main/src/ui/application.vala:1581
 msgid "No Encryption"
@@ -1018,11 +1020,11 @@ msgstr "Krüpteerimata"
 
 #: main/src/ui/application.vala:1582
 msgid "Encrypt with Password"
-msgstr "Krüpteeri parooliga"
+msgstr "Krüpti salasõnaga"
 
 #: main/src/ui/application.vala:1600
 msgid "Set Backup Password"
-msgstr "Määra varukoopia parool"
+msgstr "Seadista varukoopia salasõna"
 
 #: main/src/ui/application.vala:1601
 msgid ""
@@ -1031,14 +1033,14 @@ msgid ""
 "<b>Important:</b> Remember this password! Without it, the backup cannot be "
 "restored."
 msgstr ""
-"Sisestage parool varukoopia krüpteerimiseks.\n"
+"Varukoopia krüpteerimiseks siseta salasõna.\n"
 "\n"
-"<b>Oluline:</b> Pidage seda parooli meeles! Ilma selleta ei saa varukoopiat "
+"<b>Oluline:</b> Pea seda salasõna meeles! Ilma selleta ei saa varukoopiat "
 "taastada."
 
 #: main/src/ui/application.vala:1609
 msgid "Password (minimum 4 characters)"
-msgstr "Parool (vähemalt 4 tähemärki)"
+msgstr "Salasõna (vähemalt 4 tähemärki)"
 
 #: main/src/ui/application.vala:1641
 msgid "Create Encrypted Backup"
@@ -1046,15 +1048,15 @@ msgstr "Loo krüpteeritud varukoopia"
 
 #: main/src/ui/application.vala:1653 main/src/ui/application.vala:1668
 msgid "Password too short"
-msgstr "Parool on liiga lühike"
+msgstr "Salasõna on liiga lühike"
 
 #: main/src/ui/application.vala:1655 main/src/ui/application.vala:1670
 msgid "Passwords do not match"
-msgstr "Paroolid ei kattu"
+msgstr "Salasõnad ei kattu"
 
 #: main/src/ui/application.vala:1657 main/src/ui/application.vala:1672
 msgid "✓ Passwords match"
-msgstr "✓ Paroolid kattuvad"
+msgstr "✓ Salasõnad kattuvad"
 
 #: main/src/ui/application.vala:1690
 msgid "Select Backup Location"
@@ -1611,9 +1613,8 @@ msgid "New"
 msgstr "Uus"
 
 #: main/src/ui/conversation_details.vala:188
-#, fuzzy
 msgid "Affiliation"
-msgstr "Halda seoseid"
+msgstr "Seosed"
 
 #: main/src/ui/conversation_details.vala:197
 msgid "Real JID"
@@ -1997,11 +1998,11 @@ msgid ""
 "If you need a password or a nickname, provide them in the dialog. Use the "
 "discovery features in the server to find public rooms."
 msgstr ""
-"Kanalile liitumiseks klõpsa nuppu \"Liitu kanaliga\" ja sisesta kanali JID "
+"Kanaliga liitumiseks klõpsa nuppu „Liitu kanaliga“ ja sisesta kanali JID "
 "(näide: room@conference.example.org).\n"
 "\n"
-"Kui vajad parooli või hüüdnime, sisesta need dialoogis. Kasuta serveri "
-"avastamisfunktsioone avalike tubade leidmiseks."
+"Kui vajad salasõna või hüüdnime, sisesta need vastavas vaates. Kasuta "
+"serveri avastamisfunktsioone avalike jututubade leidmiseks."
 
 #: main/src/ui/main_window.vala:222
 msgid "Welcome to DinoX!"
@@ -2298,9 +2299,8 @@ msgid "Notifications disabled"
 msgstr "Teavitused pole kasutusel"
 
 #: main/src/windows/conversation_details.vala:242
-#, fuzzy
 msgid "Profile"
-msgstr "Salvesta profiil"
+msgstr "Profiil"
 
 #: main/src/windows/conversation_details.vala:245
 msgid "Settings"
@@ -2443,6 +2443,8 @@ msgid ""
 "This will remove %s from your contact list and delete all conversation "
 "history."
 msgstr ""
+"See eemaldab kasutaja %s sinu kontaktiloendist ja kustutab kogu vestluste "
+"ajaloo."
 
 #: main/src/windows/preferences_window/contacts_preferences_page.vala:312
 msgid "Edit Contact Alias"
@@ -2458,10 +2460,10 @@ msgid "Alias (optional)"
 msgstr "Alias (valikuline)"
 
 msgid "Error: %s"
-msgstr ""
+msgstr "Viga: %s"
 
 msgid "Wrong current password"
-msgstr ""
+msgstr "Vale senine salasõna"
 
 #~ msgid "Change"
 #~ msgstr "Muuda"
