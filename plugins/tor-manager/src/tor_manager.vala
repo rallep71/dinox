@@ -34,9 +34,11 @@ obfs4 198.245.60.50:443 6C61208D644265A16CB0C7E835787C1D8429EC08 cert=sT/u/T1uA+
             this.db = db;
             controller = new TorController();
             controller.process_exited.connect(on_process_exited);
-            controller.started.connect(() => { 
-                debug("TorManager: Tor started successfully. Resetting retry count.");
-                retry_count = 0; 
+            controller.bootstrap_status.connect((percent, summary) => {
+                if (percent >= 100) {
+                    debug("TorManager: Tor fully bootstrapped. Resetting retry count.");
+                    retry_count = 0;
+                }
             });
             
             this.stream_interactor.account_added.connect(on_account_added);
