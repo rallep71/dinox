@@ -47,6 +47,11 @@ wget https://freedesktop.org/software/pulseaudio/webrtc-audio-processing/webrtc-
 tar xf webrtc-audio-processing-2.1.tar.xz
 cd webrtc-audio-processing-2.1
 
+# 1b. Fix for abseil-cpp >= 20250814 (e.g. Arch Linux):
+#     Removes deprecated absl::Nullable/Nonnull template aliases (identity types).
+find webrtc -name '*.h' -o -name '*.cc' | \
+    xargs perl -pi -e 's/absl::(Nullable|Nonnull|NullabilityUnknown)<((?:[^<>]|<(?:[^<>]|<[^<>]*>)*>)*)>/\2/g'
+
 # 2. Build and install
 meson setup build --prefix=/usr/local
 ninja -C build

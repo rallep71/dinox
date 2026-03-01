@@ -123,6 +123,12 @@ WEBRTC_VER=v2.1
 wget -O "webrtc-audio-processing-${WEBRTC_VER}.tar.gz" "https://gitlab.freedesktop.org/pulseaudio/webrtc-audio-processing/-/archive/${WEBRTC_VER}/webrtc-audio-processing-${WEBRTC_VER}.tar.gz"
 tar xf "webrtc-audio-processing-${WEBRTC_VER}.tar.gz"
 cd "webrtc-audio-processing-${WEBRTC_VER}"
+# Fix for abseil-cpp >= 20250814: Nullability template aliases (absl::Nullable<T>,
+# absl::Nonnull<T>, absl::NullabilityUnknown<T>) were removed. They were identity
+# aliases (using Nullable = T;) so stripping them is a no-op semantically.
+# Upstream hasn't fixed this yet (as of master 2026-03).
+find webrtc -name '*.h' -o -name '*.cc' | \
+    xargs perl -pi -e 's/absl::(Nullable|Nonnull|NullabilityUnknown)<((?:[^<>]|<(?:[^<>]|<[^<>]*>)*>)*)>/\2/g'
 meson setup build --prefix=/usr $MESON_OPTS
 ninja -C build $NINJA_ARGS
 $SUDO ninja -C build install
