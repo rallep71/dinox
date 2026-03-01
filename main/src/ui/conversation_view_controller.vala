@@ -142,6 +142,7 @@ public class ConversationViewController : Object {
 
         SimpleAction close_conversation_action = new SimpleAction("close-current-conversation", null);
         close_conversation_action.activate.connect(() => {
+            if (conversation == null) return;
             if (conversation.type_ == Conversation.Type.GROUPCHAT) {
                 // Leave the MUC room, unset autojoin bookmark, and close
                 stream_interactor.get_module<MucManager>(MucManager.IDENTITY).part(

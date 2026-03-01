@@ -184,24 +184,23 @@ public class StickerPackImportDialog : Adw.Window {
             var stickers = stream_interactor.get_module<Dino.Stickers>(Dino.Stickers.IDENTITY);
             if (stickers == null) throw new Dino.StickerError.NOT_CONNECTED("Stickers module unavailable");
             pack = yield stickers.import_pack(account, source_jid, node, item);
+            spinner.spinning = false;
             this.close();
         } catch (Error e) {
             title_label.label = _("Failed to import sticker pack");
             summary_label.label = e.message;
             import_button.sensitive = true;
             copy_uri_button.sensitive = pack != null;
-        } finally {
             spinner.spinning = false;
         }
     }
 
     private void copy_share_uri() {
-        var account = account_combo.active_account;
-        if (account == null || pack == null) return;
+        if (pack == null) return;
 
-        string share_jid = account.bare_jid.to_string();
-        string node_enc = Uri.escape_string(Xmpp.Xep.Stickers.NS_URI, null, false);
-        string item_enc = Uri.escape_string(pack.pack_id, null, false);
+        string share_jid = source_jid.to_string();
+        string node_enc = Uri.escape_string(node, null, false);
+        string item_enc = Uri.escape_string(item, null, false);
         string uri = @"xmpp:$(share_jid)?pubsub;action=retrieve;node=$(node_enc);item=$(item_enc)";
 
         var clipboard = this.get_display().get_clipboard();

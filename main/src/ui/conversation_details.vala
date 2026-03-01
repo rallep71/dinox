@@ -312,10 +312,10 @@ namespace Dino.Ui.ConversationDetails {
                             var window = parent.get_root() as Gtk.Window;
                             admin_dialog.present(window);
                         } else {
-                            // Fallback if no parent found, though present() requires one.
-                            // We might need to find the active window from application
                             var app = GLib.Application.get_default() as Gtk.Application;
-                            admin_dialog.present(app.active_window);
+                            if (app != null) {
+                                admin_dialog.present(app.active_window);
+                            }
                         }
                     });
                     view_model.settings_rows.append(admin_button);
@@ -679,10 +679,10 @@ namespace Dino.Ui.ConversationDetails {
             yield file_stream.close_async();
 
             if (pixbuf.width >= pixbuf.height && pixbuf.width > MAX_PIXEL) {
-                int dest_height = (int) ((float) MAX_PIXEL / pixbuf.width * pixbuf.height);
+                int dest_height = int.max(1, (int) ((float) MAX_PIXEL / pixbuf.width * pixbuf.height));
                 pixbuf = pixbuf.scale_simple(MAX_PIXEL, dest_height, Gdk.InterpType.BILINEAR);
             } else if (pixbuf.height > pixbuf.width && pixbuf.height > MAX_PIXEL) {
-                int dest_width = (int) ((float) MAX_PIXEL / pixbuf.height * pixbuf.width);
+                int dest_width = int.max(1, (int) ((float) MAX_PIXEL / pixbuf.height * pixbuf.width));
                 pixbuf = pixbuf.scale_simple(dest_width, MAX_PIXEL, Gdk.InterpType.BILINEAR);
             }
 

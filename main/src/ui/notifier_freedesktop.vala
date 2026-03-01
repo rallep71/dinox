@@ -241,7 +241,7 @@ public class Dino.Ui.FreeDesktopNotifier : NotificationProvider, Object {
             add_action_listener(notification_id, "accept", () => {
                 GLib.Application.get_default().activate_action("open-muc-join", new Variant.int32(group_conversation.id));
             });
-            add_action_listener(notification_id, "deny", () => {
+            add_action_listener(notification_id, "reject", () => {
                 GLib.Application.get_default().activate_action("deny-invite", new Variant.int32(group_conversation.id));
             });
         } catch (Error e) {
@@ -256,7 +256,7 @@ public class Dino.Ui.FreeDesktopNotifier : NotificationProvider, Object {
         string summary = _("Permission request");
         string body = _("%s requests the permission to write in %s").printf(display_name, display_room);
         if (supports_body_markup) {
-            Markup.escape_text(body);
+            body = Markup.escape_text(body);
         }
 
         HashTable<string, Variant> hash_table = new HashTable<string, Variant>(null, null);

@@ -199,13 +199,13 @@ namespace Dino.Ui {
 
         private void send_notification_safe(string? id, Notification notification) {
 #if !WINDOWS
-            send_notification_safe(id, notification);
+            GLib.Application.get_default().send_notification(id, notification);
 #endif
         }
 
         private void withdraw_notification_safe(string id) {
 #if !WINDOWS
-            withdraw_notification_safe(id);
+            GLib.Application.get_default().withdraw_notification(id);
 #endif
         }
     }

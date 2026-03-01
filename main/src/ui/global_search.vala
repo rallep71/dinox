@@ -89,7 +89,8 @@ public class GlobalSearch {
             return true;
         }
         if (keyval == Gdk.Key.Tab) {
-            auto_complete_list.get_selected_row().activate();
+            var selected = auto_complete_list.get_selected_row();
+            if (selected != null) selected.activate();
             return true;
         }
         // TODO: Handle cursor movement in results
@@ -101,7 +102,8 @@ public class GlobalSearch {
         if (!auto_complete_overlay.visible) return;
 
         if (keyval == Gdk.Key.Return) {
-            auto_complete_list.get_selected_row().activate();
+            var selected = auto_complete_list.get_selected_row();
+            if (selected != null) selected.activate();
         }
     }
 
@@ -234,7 +236,9 @@ public class GlobalSearch {
             } else if (char_index >= text.char_count() - 100) {
                 text = text.substring(0, text.index_of_nth_char(50)) + " … " + text.substring(text.index_of_nth_char(text.char_count() - 150));
             } else {
-                text = text.substring(0, text.index_of_nth_char(25)) + " … " + text.substring(text.index_of_nth_char(char_index - 50), text.index_of_nth_char(char_index + 100)) + " … " + text.substring(text.index_of_nth_char(text.char_count() - 25));
+                long mid_start = text.index_of_nth_char(char_index - 50);
+                long mid_end = text.index_of_nth_char(char_index + 100);
+                text = text.substring(0, text.index_of_nth_char(25)) + " … " + text.substring(mid_start, mid_end - mid_start) + " … " + text.substring(text.index_of_nth_char(text.char_count() - 25));
             }
         }
         Label label = new Label("") { use_markup=true, xalign=0, selectable=true, wrap=true, wrap_mode=Pango.WrapMode.WORD_CHAR, vexpand=true };

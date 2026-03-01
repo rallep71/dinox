@@ -31,7 +31,7 @@ public class MainWindowController : Object {
         jump_to_conversatio_message_action.activate.connect((variant) => {
             int conversation_id = variant.get_child_value(0).get_int32();
             Conversation? conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_conversation_by_id(conversation_id);
-            if (conversation == null || !this.conversation.equals(conversation)) return;
+            if (conversation == null || this.conversation == null || !this.conversation.equals(conversation)) return;
 
             int item_id = variant.get_child_value(1).get_int32();
             ContentItem? content_item = stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).get_item_by_id(conversation, item_id);
@@ -155,6 +155,7 @@ public class MainWindowController : Object {
         
         int64 t0_us = Dino.Ui.UiTiming.now_us();
         this.conversation = conversation;
+        if (conversation == null) return;
 
         conversation_view_controller.select_conversation(conversation, default_initialize_conversation);
 

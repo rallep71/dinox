@@ -736,6 +736,10 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             jid = jid.substring (1);
         }
         jid = Uri.unescape_string (jid);
+        if (jid == null) {
+            warning ("Invalid percent-encoding in xmpp:-URI");
+            return;
+        }
         try {
             jid = new Xmpp.Jid (jid).to_string ();
         } catch (Xmpp.InvalidJidError e) {
@@ -1092,6 +1096,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
 
             int call_id = variant.get_child_value (1).get_int32 ();
             Call? call = stream_interactor.get_module<CallStore> (CallStore.IDENTITY).get_call_by_id (call_id, conversation);
+            if (call == null) return;
             CallState? call_state = stream_interactor.get_module<Calls> (Calls.IDENTITY).call_states[call];
             if (call_state == null) return;
 
@@ -1111,6 +1116,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
 
             int call_id = variant.get_child_value (1).get_int32 ();
             Call? call = stream_interactor.get_module<CallStore> (CallStore.IDENTITY).get_call_by_id (call_id, conversation);
+            if (call == null) return;
             CallState? call_state = stream_interactor.get_module<Calls> (Calls.IDENTITY).call_states[call];
             if (call_state == null) return;
 
@@ -1885,6 +1891,9 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
 
         // Close the database before deleting
         // We need to restart the app after this
+        if (db != null) {
+            db.close();
+        }
 
         var toast_overlay = window.get_first_child () as Adw.ToastOverlay;
         if (toast_overlay != null) {
@@ -2000,6 +2009,11 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         }
 
         Timeout.add (2000, () => {
+            // Close database connections before file deletion (on Windows, open files can't be deleted)
+            if (db != null) {
+                db.close();
+            }
+
             // Delete everything
             try {
                 delete_directory_contents (data_dir);
@@ -2355,6 +2369,8 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
                     stderr_str = err.message;
                     success = false;
                     warning ("Failed to run GPG encrypt: %s", err.message);
+                    // Clean up unencrypted temp file to avoid leaking plaintext data
+                    FileUtils.unlink(temp_tar_path);
                 }
             }
 

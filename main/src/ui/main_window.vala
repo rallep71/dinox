@@ -157,7 +157,8 @@ public class MainWindow : Adw.ApplicationWindow {
         Gdk.Display? display = get_display();
         Gdk.Surface? surface = get_surface();
         if (display != null && surface != null) {
-            Gdk.Monitor monitor = display.get_monitor_at_surface(surface);
+            Gdk.Monitor? monitor = display.get_monitor_at_surface(surface);
+            if (monitor == null) return;
 
             // Only store if the values have changed and are reasonable-looking.
             if (config.window_width != default_width && default_width > 0 && default_width <= monitor.geometry.width) {

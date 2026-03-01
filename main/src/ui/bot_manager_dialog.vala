@@ -137,8 +137,16 @@ public class BotManagerDialog : Adw.Dialog {
     // Toggle per-account enabled via POST to API
     private async void set_account_enabled(bool new_enabled) {
         try {
-            string json_body = "{\"account\":\"%s\",\"enabled\":%s}".printf(
-                account_jid, new_enabled ? "true" : "false");
+            var builder = new Json.Builder();
+            builder.begin_object();
+            builder.set_member_name("account");
+            builder.add_string_value(account_jid);
+            builder.set_member_name("enabled");
+            builder.add_boolean_value(new_enabled);
+            builder.end_object();
+            var gen = new Json.Generator();
+            gen.root = builder.get_root();
+            string json_body = gen.to_data(null);
             string url = "http://127.0.0.1:%u/bot/account/status".printf(api_port);
             var msg = new Soup.Message("POST", url);
             msg.set_request_body_from_bytes("application/json", new Bytes(json_body.data));
@@ -605,11 +613,11 @@ public class BotManagerDialog : Adw.Dialog {
     // Reliable clipboard copy that works from Adw.Dialog on X11
     private void copy_to_clipboard(string text) {
         try {
-            // Write token to temp file, then use xclip to read it
-            string tmp_path = Path.build_filename(Environment.get_tmp_dir(), "dinox_clip_%d".printf(Posix.getpid()));
-            FileUtils.set_contents(tmp_path, text);
-            string[] argv = { "/bin/sh", "-c", "xclip -selection clipboard < " + tmp_path + " && rm -f " + tmp_path };
-            Process.spawn_async(null, argv, null, SpawnFlags.SEARCH_PATH, null, null);
+            int stdin_fd;
+            string[] argv = { "xclip", "-selection", "clipboard" };
+            Process.spawn_async_with_pipes(null, argv, null, SpawnFlags.SEARCH_PATH, null, null, out stdin_fd, null, null);
+            Posix.write(stdin_fd, text, text.length);
+            Posix.close(stdin_fd);
         } catch (Error e) {
             warning("Clipboard copy failed: %s", e.message);
         }
