@@ -81,7 +81,7 @@ namespace Dino {
             if (muc_manager.is_private_room(conversation.account, conversation.counterpart)) {
                 Jid? real_jid = null;
                 if (jid.equals_bare(conversation.counterpart)) {
-                    muc_manager.get_real_jid(jid, conversation.account);
+                    real_jid = muc_manager.get_real_jid(jid, conversation.account);
                 } else {
                     real_jid = jid;
                 }

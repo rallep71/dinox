@@ -32,10 +32,11 @@ namespace Dino {
             fallback_list.add(new Xep.FallbackIndication.Fallback(Xep.Replies.NS_URI, fallback_locations));
             out_message.set_fallbacks(fallback_list);
 
-            // Adjust markups to new prefix
+            // Adjust markups to new prefix (use char_count, not byte length)
+            int fallback_chars = (int) fallback.char_count();
             foreach (var span in markups) {
-                span.start_char += fallback.length;
-                span.end_char += fallback.length;
+                span.start_char += fallback_chars;
+                span.end_char += fallback_chars;
             }
         }
 

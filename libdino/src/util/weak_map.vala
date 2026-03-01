@@ -18,7 +18,7 @@ public class WeakMap<K, V> : Gee.AbstractMap<K, V> {
         this.key_equal_func = (owned)key_equal_func;
         this.value_equal_func = (owned)value_equal_func;
 
-        if (this.key_equal_func == null || this.key_equal_func == null || this.value_equal_func == null) {
+        if (this.key_hash_func == null || this.key_equal_func == null || this.value_equal_func == null) {
             hash_map = new HashMap<K, weak V>();
             notify_map = new HashMap<K, WeakNotifyWrapper>();
         } else {
