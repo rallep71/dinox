@@ -34,6 +34,11 @@ int main(string[] args) {
     TestSuite.get_root().add_suite(new Xmpp.Test.PubSubAudit().get_suite());
     TestSuite.get_root().add_suite(new Xmpp.Test.HttpUploadAudit().get_suite());
     TestSuite.get_root().add_suite(new Xmpp.Test.BlockingAudit().get_suite());
+    // Phase 10c: Remaining priority XEP tests
+    TestSuite.get_root().add_suite(new Xmpp.Test.SceAudit().get_suite());
+    TestSuite.get_root().add_suite(new Xmpp.Test.JingleFileTransferAudit().get_suite());
+    TestSuite.get_root().add_suite(new Xmpp.Test.RegistrationCommandsAudit().get_suite());
+    TestSuite.get_root().add_suite(new Xmpp.Test.MamJmiModerationAudit().get_suite());
     return GLib.Test.run();
 }
 
