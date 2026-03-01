@@ -99,7 +99,7 @@ public class RowIterator {
         this.stmt = db.prepare(sql);
         if (args != null) {
             for (int i = 0; i < args.length; i++) {
-                stmt.bind_text(i, sql, sql.length);
+                stmt.bind_text(i + 1, args[i]);
             }
         }
     }

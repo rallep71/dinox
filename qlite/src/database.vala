@@ -136,6 +136,7 @@ public class Database {
     }
 
     public void close() {
+        db = null;
     }
 
     private bool try_migrate_plaintext_to_encrypted(string key) throws Error {
@@ -349,7 +350,7 @@ public class Database {
     public bool is_known_column(string table, string field) {
         ensure_init();
         foreach (Table t in tables) {
-            if (t.is_known_column(field)) return true;
+            if (t.name == table && t.is_known_column(field)) return true;
         }
         return false;
     }
