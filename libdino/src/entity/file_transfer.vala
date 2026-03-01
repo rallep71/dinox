@@ -171,8 +171,10 @@ public class FileTransfer : Object {
         }
 
         foreach(var thumbnail_row in db.file_thumbnails.select().with(db.file_thumbnails.id, "=", id)) {
+            Bytes? data = Xmpp.get_data_for_uri(thumbnail_row[db.file_thumbnails.uri]);
+            if (data == null) continue;
             Xep.JingleContentThumbnails.Thumbnail thumbnail = new Xep.JingleContentThumbnails.Thumbnail();
-            thumbnail.data = Xmpp.get_data_for_uri(thumbnail_row[db.file_thumbnails.uri]);
+            thumbnail.data = data;
             thumbnail.media_type = thumbnail_row[db.file_thumbnails.mime_type];
             thumbnail.width = thumbnail_row[db.file_thumbnails.width];
             thumbnail.height = thumbnail_row[db.file_thumbnails.height];
@@ -215,7 +217,6 @@ public class FileTransfer : Object {
         if (file_sharing_id != null) builder.value(db.file_transfer.file_sharing_id, file_sharing_id);
         if (path != null) builder.value(db.file_transfer.path, path);
         if (mime_type != null) builder.value(db.file_transfer.mime_type, mime_type);
-        if (path != null) builder.value(db.file_transfer.path, path);
         if (modification_date != null) builder.value(db.file_transfer.modification_date, (long) modification_date.to_unix());
         if (width != -1) builder.value(db.file_transfer.width, width);
         if (height != -1) builder.value(db.file_transfer.height, height);
@@ -231,6 +232,7 @@ public class FileTransfer : Object {
                     .perform();
         }
         foreach (Xep.JingleContentThumbnails.Thumbnail thumbnail in thumbnails) {
+            if (thumbnail.data == null) continue;
             string data_uri = "data:image/png;base64," + Base64.encode(thumbnail.data.get_data());
 
             db.file_thumbnails.insert()
