@@ -39,10 +39,19 @@ namespace Dino.Ui {
             return _instance;
         }
 
+        /* Shared HTTP session — avoids per-request session disposal warnings */
+        private Soup.Session session;
+
         /* url -> preview data (including "failed" entries) */
         private HashMap<string, UrlPreviewData> cache = new HashMap<string, UrlPreviewData>();
         /* urls currently being fetched */
         private HashSet<string> in_flight = new HashSet<string>();
+
+        private UrlPreviewCache() {
+            session = new Soup.Session();
+            session.user_agent = "Mozilla/5.0 (compatible; DinoX/1.0)";
+            session.timeout = 10;
+        }
 
         public signal void preview_ready(string url, UrlPreviewData data);
 
@@ -66,9 +75,6 @@ namespace Dino.Ui {
             data.url = url;
 
             try {
-                var session = new Soup.Session();
-                session.user_agent = "Mozilla/5.0 (compatible; DinoX/1.0)";
-                session.timeout = 10;
                 var msg = new Soup.Message("GET", url);
 
                 // Only accept HTML content
@@ -132,9 +138,6 @@ namespace Dino.Ui {
 
         private async void fetch_image(UrlPreviewData data) {
             try {
-                var session = new Soup.Session();
-                session.user_agent = "Mozilla/5.0 (compatible; DinoX/1.0)";
-                session.timeout = 10;
                 var msg = new Soup.Message("GET", data.image_url);
                 Bytes bytes = yield session.send_and_read_async(msg, Priority.DEFAULT, null);
 

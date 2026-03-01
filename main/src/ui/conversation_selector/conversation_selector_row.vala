@@ -41,7 +41,8 @@ public class ConversationSelectorRow : ListBoxRow {
 
     protected ContentItem? last_content_item;
     protected int num_unread = 0;
-
+    private PopoverMenu? active_popover = null;
+    private Widget? cached_groupchat_tooltip = null;
 
     protected StreamInteractor stream_interactor;
 
@@ -98,12 +99,16 @@ public class ConversationSelectorRow : ListBoxRow {
             case Conversation.Type.GROUPCHAT:
                 has_tooltip = Util.use_tooltips();
                 query_tooltip.connect ((x, y, keyboard_tooltip, tooltip) => {
-                    tooltip.set_custom(Util.widget_if_tooltips_active(generate_groupchat_tooltip()));
+                    if (cached_groupchat_tooltip == null) {
+                        cached_groupchat_tooltip = generate_groupchat_tooltip();
+                    }
+                    tooltip.set_custom(Util.widget_if_tooltips_active(cached_groupchat_tooltip));
                     return true;
                 });
                 // Invalidate tooltip when subject changes
                 stream_interactor.get_module<MucManager>(MucManager.IDENTITY).subject_set.connect((account, jid, subject) => {
                     if (conversation.account.equals(account) && conversation.counterpart.equals_bare(jid)) {
+                        cached_groupchat_tooltip = null;
                         trigger_tooltip_query();
                     }
                 });
@@ -178,7 +183,16 @@ public class ConversationSelectorRow : ListBoxRow {
         update_read();
     }
 
+    public void dismiss_popover() {
+        if (active_popover != null) {
+            active_popover.popdown();
+            active_popover.unparent();
+            active_popover = null;
+        }
+    }
+
     public async void colapse() {
+        dismiss_popover();
         main_revealer.set_transition_type(RevealerTransitionType.SLIDE_UP);
         main_revealer.set_reveal_child(false);
 
@@ -360,7 +374,7 @@ public class ConversationSelectorRow : ListBoxRow {
 
         // Room topic/subject
         string? topic = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_groupchat_subject(conversation.counterpart, conversation.account);
-        debug("generate_groupchat_tooltip: topic='%s' for %s", topic ?? "(null)", conversation.counterpart.to_string());
+        // topic can legitimately be null for rooms without a subject set
         if (topic != null && topic.strip() != "") {
             Label topic_title = new Label(_("Thema:")) { valign=Align.START, xalign=0 };
             topic_title.attributes = new AttrList();
@@ -639,13 +653,20 @@ public class ConversationSelectorRow : ListBoxRow {
         
         this.insert_action_group("row", action_group);
         
+        // Dismiss any existing popover first
+        dismiss_popover();
+        
         // Show popover menu
         var popover = new PopoverMenu.from_model(menu);
+        active_popover = popover;
         popover.set_parent(this);
         popover.set_pointing_to({ (int)x, (int)y, 1, 1 });
         popover.closed.connect(() => {
             Idle.add(() => {
-                popover.unparent();
+                if (active_popover == popover) {
+                    popover.unparent();
+                    active_popover = null;
+                }
                 return false;
             });
         });
