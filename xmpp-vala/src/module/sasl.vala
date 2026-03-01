@@ -217,7 +217,9 @@ namespace Xmpp.Sasl {
                 if (node.name == "success") {
                     Flag flag = stream.get_flag(Flag.IDENTITY);
                     if (is_scram(flag.mechanism)) {
-                        string confirm = (string) Base64.decode(node.get_string_content());
+                        string? success_content = node.get_string_content();
+                        if (success_content == null) return;
+                        string confirm = (string) Base64.decode(success_content);
                         uint8[] server_signature = null;
                         foreach(string c in confirm.split(",")) {
                             string[] split = c.split("=", 2);
@@ -296,6 +298,7 @@ namespace Xmpp.Sasl {
             if (stream.is_setup_needed()) return;
 
             var mechanisms = stream.features.get_subnode("mechanisms", NS_URI);
+            if (mechanisms == null) return;
             string[] supported_mechanisms = {};
             foreach (var mechanism in mechanisms.sub_nodes) {
                 if (mechanism.name != "mechanism" || mechanism.ns_uri != NS_URI) continue;

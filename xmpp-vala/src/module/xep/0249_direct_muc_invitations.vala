@@ -40,7 +40,7 @@ namespace Xmpp.Xep.DirectMucInvitations {
         }
 
         public override void detach(XmppStream stream) {
-            stream.get_module<MessageModule>(MessageModule.IDENTITY).received_message.connect(received_message);
+            stream.get_module<MessageModule>(MessageModule.IDENTITY).received_message.disconnect(received_message);
         }
 
         public override string get_ns() {

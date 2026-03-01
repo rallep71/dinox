@@ -8,8 +8,8 @@ namespace  Xmpp.Xep.Jingle.ReasonElement {
     public const string CONNECTIVITY_ERROR = "connectivity-error";
     public const string DECLINE = "decline";
     public const string EXPIRED = "expired";
-    public const string FAILED_APPLICATION = "failed_application";
-    public const string FAILED_TRANSPORT = "failed_transport";
+    public const string FAILED_APPLICATION = "failed-application";
+    public const string FAILED_TRANSPORT = "failed-transport";
     public const string GENERAL_ERROR = "general-error";
     public const string GONE = "gone";
     public const string INCOMPATIBLE_PARAMETERS = "incompatible-parameters";

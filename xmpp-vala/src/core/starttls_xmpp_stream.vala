@@ -58,12 +58,12 @@ public class Xmpp.StartTlsXmppStream : TlsXmppStream {
                 warning("%s does not offer starttls", remote_name.to_string());
             }
 
-            write(new StanzaNode.build("starttls", TLS_NS_URI).add_self_xmlns());
+            yield write_async(new StanzaNode.build("starttls", TLS_NS_URI).add_self_xmlns());
 
             node = yield read();
 
             if (node.ns_uri != TLS_NS_URI || node.name != "proceed") {
-                warning("Server did not 'proceed' starttls request");
+                throw new IOError.CONNECTION_REFUSED("%s did not proceed with STARTTLS", remote_name.to_string());
             }
 
             try {

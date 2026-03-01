@@ -14,7 +14,7 @@ public class Flag : XmppStreamFlag {
     private HashMap<Jid, string> subjects = new HashMap<Jid, string>(Jid.hash_bare_func, Jid.equals_bare_func);
     private HashMap<Jid, Jid> subjects_by = new HashMap<Jid, Jid>(Jid.hash_bare_func, Jid.equals_bare_func);
 
-    private HashMap<Jid, Jid> occupant_real_jids = new HashMap<Jid, Jid>(Jid.hash_func, Jid.equals_bare_func);
+    private HashMap<Jid, Jid> occupant_real_jids = new HashMap<Jid, Jid>(Jid.hash_func, Jid.equals_func);
     private HashMap<Jid, HashMap<Jid, Affiliation>> affiliations = new HashMap<Jid, HashMap<Jid, Affiliation>>(Jid.hash_bare_func, Jid.equals_bare_func);
     private HashMap<Jid, Role> occupant_role = new HashMap<Jid, Role>(Jid.hash_func, Jid.equals_func);
 

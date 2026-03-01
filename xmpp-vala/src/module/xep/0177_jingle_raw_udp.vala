@@ -68,7 +68,7 @@ namespace Xmpp.Xep.JingleRawUdp {
                     candidate.component = int.parse(component_str);
                     string generation_str = candidate_node.get_attribute("generation");
                     candidate.generation = int.parse(generation_str);
-                    candidate.id = candidate_node.get_attribute("generation");
+                    candidate.id = candidate_node.get_attribute("id");
                     string ip_str = candidate_node.get_attribute("ip");
                     candidate.ip = new InetAddress.from_string(ip_str);
                     string port_str = candidate_node.get_attribute("port");

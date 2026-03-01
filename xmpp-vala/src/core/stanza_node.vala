@@ -28,12 +28,18 @@ public abstract class StanzaEntry {
                 int start = tmp.index_of("&#");
                 int end = tmp.index_of(";", start);
                 if (end < start) break;
-                unichar num = -1;
+                unichar num = 0xFFFD;
                 if (tmp[start+2]=='x') {
-                    tmp.substring(start+3, end-start-3).scanf("%x", &num);
+                    string hex_str = tmp.substring(start+3, end-start-3);
+                    if (hex_str.length > 0) hex_str.scanf("%x", &num);
                 } else {
-                    num = int.parse(tmp.substring(start+2, end-start-2));
+                    string dec_str = tmp.substring(start+2, end-start-2);
+                    if (dec_str.length > 0) {
+                        int parsed = int.parse(dec_str);
+                        if (parsed > 0) num = (unichar) parsed;
+                    }
                 }
+                if (!num.validate()) num = 0xFFFD;
                 tmp = tmp.splice(start, end + 1, num.to_string());
             }
             val = tmp.replace("&amp;", "&").make_valid();
