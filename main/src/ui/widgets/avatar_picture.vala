@@ -334,9 +334,9 @@ public class Dino.Ui.CompatAvatarDrawer {
     }
 
     private Cairo.Surface sub_surface_idx(Cairo.Context ctx, int idx, int width, int height, int font_factor = 1) {
-        ViewModel.AvatarPictureTileModel tile = (ViewModel.AvatarPictureTileModel) this.model.tiles.get_item(idx);
+        ViewModel.AvatarPictureTileModel? tile = (idx >= 0) ? (ViewModel.AvatarPictureTileModel) this.model.tiles.get_item(idx) : null;
         Gdk.Pixbuf? avatar = null;
-        if (tile.image_bytes != null) {
+        if (tile != null && tile.image_bytes != null) {
             try {
                 var stream = new MemoryInputStream.from_data(tile.image_bytes.get_data(), null);
                 avatar = new Gdk.Pixbuf.from_stream(stream);
@@ -344,8 +344,8 @@ public class Dino.Ui.CompatAvatarDrawer {
                 warning("Failed to load avatar from bytes: %s", e.message);
             }
         }
-        string? name = idx >= 0 ? tile.display_text : "";
-        Gdk.RGBA hex_color = tile.background_color;
+        string? name = (idx >= 0 && tile != null) ? tile.display_text : "";
+        Gdk.RGBA hex_color = (tile != null) ? tile.background_color : Gdk.RGBA() { red = 0.5f, green = 0.5f, blue = 0.5f, alpha = 1.0f };
         return sub_surface(ctx, font_family, avatar, name, hex_color, width, height, font_factor);
     }
 

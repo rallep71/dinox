@@ -308,9 +308,10 @@ public class ConversationSelectorRow : ListBoxRow {
         if (update_read_pending) return;
         update_read_pending = true;
         Idle.add(() => {
+            bool force = update_read_pending_force;
             update_read_pending = false;
             update_read_pending_force = false;
-            update_read_idle(update_read_pending_force);
+            update_read_idle(force);
             return Source.REMOVE;
         }, Priority.LOW);
     }

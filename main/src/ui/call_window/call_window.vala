@@ -201,7 +201,7 @@ namespace Dino.Ui {
         }
 
         public void set_own_video_ratio(int width, int height) {
-            if (width / height > 150 / 100) {
+            if (width * 100 > height * 150) {
                 this.own_video_width = 150;
                 this.own_video_height = height * 150 / width;
             } else {

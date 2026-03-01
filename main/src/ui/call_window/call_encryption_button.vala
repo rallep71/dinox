@@ -15,7 +15,7 @@ public class Dino.Ui.CallEncryptionButtonController : Object {
         button.opacity = 0;
 //        button.set_popover(popover);
 
-        button.notify["controls-active"].connect(update_opacity);
+        this.notify["controls-active"].connect(update_opacity);
     }
 
     public void set_icon(bool encrypted, string? icon_name) {

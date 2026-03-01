@@ -228,6 +228,7 @@ public class ChatInputController : Object {
                     text = token[1];
                     break;
                 case "/kick":
+                    if (token.length < 2) return;
                     stream_interactor.get_module<MucManager>(MucManager.IDENTITY).kick(conversation.account, conversation.counterpart, token[1]);
                     return;
                 case "/affiliate":
@@ -241,9 +242,11 @@ public class ChatInputController : Object {
                     }
                     return;
                 case "/nick":
+                    if (token.length < 2) return;
                     stream_interactor.get_module<MucManager>(MucManager.IDENTITY).change_nick.begin(conversation, token[1]);
                     return;
                 case "/ping":
+                    if (token.length < 2) return;
                     Xmpp.XmppStream? stream = stream_interactor.get_stream(conversation.account);
                     try {
                         stream.get_module<Xmpp.Xep.Ping.Module>(Xmpp.Xep.Ping.Module.IDENTITY).send_ping.begin(stream, conversation.counterpart.with_resource(token[1]));
@@ -252,6 +255,7 @@ public class ChatInputController : Object {
                     }
                     return;
                 case "/topic":
+                    if (token.length < 2) return;
                     stream_interactor.get_module<MucManager>(MucManager.IDENTITY).change_subject(conversation.account, conversation.counterpart, token[1]);
                     return;
                 default:
@@ -261,7 +265,7 @@ public class ChatInputController : Object {
                         string cmd_name = token[0].substring(1);
                         Dino.Application app = GLib.Application.get_default() as Dino.Application;
                         if (app != null && app.plugin_registry.text_commands.has_key(cmd_name)) {
-                            string? new_text = app.plugin_registry.text_commands[cmd_name].handle_command(token[1], conversation);
+                            string? new_text = app.plugin_registry.text_commands[cmd_name].handle_command(token.length > 1 ? token[1] : "", conversation);
                             if (new_text == null) return;
                             text = (!)new_text;
                         }

@@ -153,8 +153,9 @@ public class List : Box {
 
     private bool filter(ListBoxRow r) {
         ListRow row_wrapper = row_wrappers[r.get_child()];
+        string name_lower = row_wrapper.name_label.label.down();
         foreach (string filter in filter_values) {
-            return row_wrapper.name_label.label.down().contains(filter.down());
+            if (!name_lower.contains(filter.down())) return false;
         }
         return true;
     }

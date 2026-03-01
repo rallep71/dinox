@@ -171,7 +171,9 @@ public class ConversationSelector : Widget {
     }
 
     public void loop_conversations(bool backwards) {
-        int index = list_box.get_selected_row().get_index();
+        ListBoxRow? selected = list_box.get_selected_row();
+        if (selected == null) return;
+        int index = selected.get_index();
         int new_index = ((index + (backwards ? -1 : 1)) + rows.size) % rows.size;
         ListBoxRow? next_select_row = list_box.get_row_at_index(new_index);
         if (next_select_row != null) {

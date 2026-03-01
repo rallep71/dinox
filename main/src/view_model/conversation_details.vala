@@ -64,7 +64,11 @@ public class MucMemberSorter : Sorter {
         var test = new Xmpp.Xep.Muc.Affiliation[] { OWNER, ADMIN, MEMBER };
         var affiliation_ordering = new ArrayList<Xmpp.Xep.Muc.Affiliation>.wrap(test);
 
-        var affiliation_sorting = affiliation_ordering.index_of(member_list_row1.affiliation) - affiliation_ordering.index_of(member_list_row2.affiliation);
+        int idx1 = affiliation_ordering.index_of(member_list_row1.affiliation);
+        int idx2 = affiliation_ordering.index_of(member_list_row2.affiliation);
+        if (idx1 < 0) idx1 = affiliation_ordering.size;
+        if (idx2 < 0) idx2 = affiliation_ordering.size;
+        var affiliation_sorting = idx1 - idx2;
         if (affiliation_sorting == 0) {
             return Ordering.from_cmpfunc(member_list_row1.name.collate(member_list_row2.name));
         }

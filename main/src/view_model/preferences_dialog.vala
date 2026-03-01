@@ -21,13 +21,13 @@ public class Dino.Ui.ViewModel.PreferencesDialog : Object {
 
         stream_interactor.connection_manager.connection_error.connect((account, error) => {
             var account_detail = account_details[account];
-            if (account_details != null) {
+            if (account_detail != null) {
                 account_detail.connection_error = error;
             }
         });
         stream_interactor.connection_manager.connection_state_changed.connect((account, state) => {
             var account_detail = account_details[account];
-            if (account_details != null) {
+            if (account_detail != null) {
                 account_detail.connection_state = state;
                 account_detail.connection_error = stream_interactor.connection_manager.get_error(account);
             }

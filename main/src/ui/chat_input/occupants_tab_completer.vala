@@ -37,6 +37,7 @@ public class OccupantsTabCompletor {
     }
 
     public bool on_text_input_key_press(uint keyval, uint keycode, Gdk.ModifierType state) {
+        if (conversation == null) return false;
         if (conversation.type_ == Conversation.Type.GROUPCHAT) {
             if (keyval == Key.Tab || keyval == Key.ISO_Left_Tab) {
                 string text = text_input.buffer.text;
@@ -91,7 +92,7 @@ public class OccupantsTabCompletor {
     private Gee.List<string> generate_completions_from_messages(string? prefix = null) {
         Gee.List<string> ret = new ArrayList<string>();
         Gee.List<ContentItem> content_items = stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).get_n_latest(conversation, 10);
-        for (int i = content_items.size - 1; i > 0; i--) {
+        for (int i = content_items.size - 1; i >= 0; i--) {
             string resourcepart = content_items[i].jid.resourcepart;
             Jid? own_nick = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_own_jid(conversation.counterpart, conversation.account);
             if (resourcepart != null && resourcepart != "" && (own_nick == null || resourcepart != own_nick.resourcepart) && !ret.contains(resourcepart)) {
