@@ -36,7 +36,7 @@ bool fail_if_not(bool exp, string? reason = null) {
 }
 
 bool fail_if_not_eq_str(string? left, string? right, string? reason = null) {
-    bool nullcheck = (left == null || right == null) && (left != null && right != null);
+    bool nullcheck = (left == null) != (right == null);
     string l = left ?? "(null)";
     string r = right ?? "(null)";
     return fail_if(nullcheck || l != r, @"$(reason != null ? reason + ": " : "")'$l' != '$r'");

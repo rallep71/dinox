@@ -19,6 +19,13 @@ if [ -z "$1" ]; then
 fi
 
 VERSION="$1"
+
+# Validate version format
+if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(\.[0-9]+)?$ ]]; then
+    echo "ERROR: Invalid version format: $VERSION (expected: X.Y.Z or X.Y.Z.W)"
+    exit 1
+fi
+
 DATE=$(date +%Y-%m-%d)
 READABLE_DATE=$(date "+%B %d, %Y")
 
@@ -31,7 +38,7 @@ sed -i "s/## \[Unreleased\]/## [Unreleased]\n\n## [$VERSION] - $DATE/" docs/inte
 # Update the links at the bottom of CHANGELOG.md
 # This is a bit complex with sed, so we'll append the new link and update the Unreleased link
 # Assuming the last line is the previous version link
-PREV_VERSION=$(grep -oP "\[\d+\.\d+\.\d+(\d+)?\]:.*tag/v\K.*" docs/internal/CHANGELOG.md | head -1)
+PREV_VERSION=$(grep -oP "\[\d+\.\d+\.\d+(\.\d+)?\]:.*tag/v\K.*" docs/internal/CHANGELOG.md | head -1)
 if [ ! -z "$PREV_VERSION" ]; then
     # Update Unreleased link to compare VERSION...HEAD
     sed -i "s/\[Unreleased\]:.*compare\/v.*HEAD/[Unreleased]: https:\/\/github.com\/rallep71\/dinox\/compare\/v$VERSION...HEAD/" docs/internal/CHANGELOG.md

@@ -95,7 +95,7 @@ bool fail_if_not_eq_double(double left, double right, float accuracy = 3, string
 }
 
 bool fail_if_not_eq_str(string? left, string? right, string? reason = null) {
-    bool nullcheck = (left == null || right == null) && (left != null && right != null);
+    bool nullcheck = (left == null) != (right == null);
     if (left == null) left = "(null)";
     if (right == null) right = "(null)";
     return fail_if_not(!nullcheck && left == right, @"$(reason + ": " ?? "")'$left' != '$right'");

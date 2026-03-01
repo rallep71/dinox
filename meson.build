@@ -8,6 +8,13 @@ add_project_arguments(
   '-Werror=format-security',
   language: 'c'
 )
+add_project_arguments(
+  '-fstack-protector-strong',
+  '-D_FORTIFY_SOURCE=2',
+  '-Wformat',
+  '-Werror=format-security',
+  language: 'cpp'
+)
 
 add_project_arguments(
   '--vapidir=' + meson.current_source_dir() / 'qlite/vapi',

@@ -146,8 +146,9 @@ class SessionVersionGuardTest : Gee.TestCase {
             SessionCipher cipher = store.create_session_cipher(bob_address);
             try {
                 cipher.get_session_version();
-                // If we get here, version was returned — check it's < 4
-                GLib.Test.message("XEP-0384: get_session_version() did not throw for no-session");
+                // If we get here without exception, the guard can't protect
+                GLib.Test.message("XEP-0384: get_session_version() did not throw for no-session — guard unreachable");
+                GLib.Test.fail();
             } catch (Error e) {
                 // Expected: libomemo-c throws SG_ERR_NO_SESSION
                 // This means encrypt_key would also fail before reaching the guard

@@ -91,9 +91,7 @@ MAKE_ARGS="-j$(nproc)"
 MESON_OPTS=""
 
 echo "Running Unicode Security Scan..."
-python3 scripts/scan_unicode.py
-
-if [ $? -ne 0 ]; then
+if ! python3 scripts/scan_unicode.py; then
     echo "Unicode scan failed! Potential unsafe hidden chars found."
     exit 1
 fi

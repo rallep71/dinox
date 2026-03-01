@@ -24,5 +24,5 @@ shared_module(plugin_name,
         dep_qlite
     ],
     install: true,
-    install_dir: get_option('libdir') / 'dino' / 'plugins'
+    install_dir: get_option('libdir') / get_option('plugindir')
 )

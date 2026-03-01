@@ -471,7 +471,7 @@ class SessionBuilderTest : Gee.TestCase {
 
         /* Simulate Bob sending a message to Alice */
         CiphertextMessage bob_message = bob_session_cipher.encrypt(original_message.data);
-        fail_if_not_eq_int(alice_message.type, CiphertextType.SIGNAL);
+        fail_if_not_eq_int(bob_message.type, CiphertextType.SIGNAL);
 
         OmemoMessage bob_message_copy = global_context.copy_message(bob_message);
         plaintext = alice_session_cipher.decrypt_message(bob_message_copy);
