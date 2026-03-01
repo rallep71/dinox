@@ -97,6 +97,25 @@ public class BotManagerDialog : Adw.Dialog {
         }
     }
 
+    // Shared helper: POST JSON to the Botmother API (clone removal).
+    // Returns the Soup.Message (check status_code). Throws on network error.
+    private async Soup.Message post_bot_api(string path, string json_body) throws Error {
+        string url = "http://127.0.0.1:%u%s".printf(api_port, path);
+        var msg = new Soup.Message("POST", url);
+        msg.set_request_body_from_bytes("application/json", new Bytes(json_body.data));
+        yield http.send_and_read_async(msg, GLib.Priority.DEFAULT, null);
+        return msg;
+    }
+
+    // Shared helper: POST JSON and return parsed response bytes (clone removal).
+    private async Soup.Message post_bot_api_with_response(string path, string json_body, out Bytes response) throws Error {
+        string url = "http://127.0.0.1:%u%s".printf(api_port, path);
+        var msg = new Soup.Message("POST", url);
+        msg.set_request_body_from_bytes("application/json", new Bytes(json_body.data));
+        response = yield http.send_and_read_async(msg, GLib.Priority.DEFAULT, null);
+        return msg;
+    }
+
     // Load the per-account enabled status from the API, then load bots
     private async void load_account_status() {
         /* First check if the Botmother API is running at all */
@@ -147,10 +166,7 @@ public class BotManagerDialog : Adw.Dialog {
             var gen = new Json.Generator();
             gen.root = builder.get_root();
             string json_body = gen.to_data(null);
-            string url = "http://127.0.0.1:%u/bot/account/status".printf(api_port);
-            var msg = new Soup.Message("POST", url);
-            msg.set_request_body_from_bytes("application/json", new Bytes(json_body.data));
-            yield http.send_and_read_async(msg, GLib.Priority.DEFAULT, null);
+            var msg = yield post_bot_api("/bot/account/status", json_body);
 
             if (msg.status_code != 200) {
                 warning("BotManager: Toggle failed with status %u", msg.status_code);
@@ -373,9 +389,8 @@ public class BotManagerDialog : Adw.Dialog {
     private async void regenerate_token(int64 bot_id) {
         try {
             string json_body = "{\"id\":%lld}".printf(bot_id);
-            var msg = new Soup.Message("POST", "http://127.0.0.1:%u/bot/token".printf(api_port));
-            msg.set_request_body_from_bytes("application/json", new Bytes(json_body.data));
-            Bytes response = yield http.send_and_read_async(msg, GLib.Priority.DEFAULT, null);
+            Bytes response;
+            var msg = yield post_bot_api_with_response("/bot/token", json_body, out response);
 
             if (msg.status_code == 200) {
                 // Parse the new token and copy it to clipboard
@@ -416,9 +431,7 @@ public class BotManagerDialog : Adw.Dialog {
     private async void revoke_token(int64 bot_id) {
         try {
             string json_body = "{\"id\":%lld}".printf(bot_id);
-            var msg = new Soup.Message("POST", "http://127.0.0.1:%u/bot/revoke".printf(api_port));
-            msg.set_request_body_from_bytes("application/json", new Bytes(json_body.data));
-            yield http.send_and_read_async(msg, GLib.Priority.DEFAULT, null);
+            var msg = yield post_bot_api("/bot/revoke", json_body);
 
             if (msg.status_code == 200) {
                 yield load_bots();
@@ -433,9 +446,7 @@ public class BotManagerDialog : Adw.Dialog {
     private async void toggle_bot_status(int64 bot_id, bool new_active) {
         try {
             string json_body = "{\"id\":%lld,\"active\":%s}".printf(bot_id, new_active ? "true" : "false");
-            var msg = new Soup.Message("POST", "http://127.0.0.1:%u/bot/activate".printf(api_port));
-            msg.set_request_body_from_bytes("application/json", new Bytes(json_body.data));
-            yield http.send_and_read_async(msg, GLib.Priority.DEFAULT, null);
+            var msg = yield post_bot_api("/bot/activate", json_body);
 
             if (msg.status_code == 200) {
                 yield load_bots();
@@ -468,9 +479,7 @@ public class BotManagerDialog : Adw.Dialog {
         try {
             // Send empty values to clear the settings
             string body = "{\"api_url\":\"\",\"host\":\"\",\"admin_jid\":\"\",\"admin_password\":\"\"}";
-            var msg = new Soup.Message("POST", "http://127.0.0.1:%u/bot/ejabberd/settings".printf(api_port));
-            msg.set_request_body_from_bytes("application/json", new Bytes(body.data));
-            yield http.send_and_read_async(msg, GLib.Priority.DEFAULT, null);
+            yield post_bot_api("/bot/ejabberd/settings", body);
 
             // Clear form fields
             ejabberd_url_entry.text = "";
@@ -540,9 +549,7 @@ public class BotManagerDialog : Adw.Dialog {
             gen.root = builder.get_root();
             string body = gen.to_data(null);
 
-            var msg = new Soup.Message("POST", "http://127.0.0.1:%u/bot/ejabberd/settings".printf(api_port));
-            msg.set_request_body_from_bytes("application/json", new Bytes(body.data));
-            yield http.send_and_read_async(msg, GLib.Priority.DEFAULT, null);
+            var msg = yield post_bot_api("/bot/ejabberd/settings", body);
 
             if (msg.status_code == 200) {
                 ejabberd_actions_row.subtitle = _("Saved");

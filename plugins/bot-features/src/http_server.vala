@@ -102,10 +102,6 @@ public class HttpServer : Object {
         }
     }
 
-    public string get_mode() {
-        return current_mode;
-    }
-
     public uint16 get_port() {
         return current_port;
     }

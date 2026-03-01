@@ -32,18 +32,6 @@ public class Registry {
         return true;
     }
 
-    public bool register_account_settings_entry(AccountSettingsEntry entry) {
-        lock(account_settings_entries) {
-            foreach(var e in account_settings_entries) {
-                if (e.id == entry.id) return false;
-            }
-            account_settings_entries.add(entry);
-            // TODO: Order by priority
-            account_settings_entries.sort((a,b) => b.name.collate(a.name));
-            return true;
-        }
-    }
-
     public bool register_encryption_preferences_entry(EncryptionPreferencesEntry entry) {
         lock(encryption_preferences_entries) {
             foreach(var e in encryption_preferences_entries) {
@@ -62,14 +50,6 @@ public class Registry {
                 if (e.id == entry.id) return false;
             }
             contact_details_entries.add(entry);
-            return true;
-        }
-    }
-
-    public bool register_text_command(TextCommand cmd) {
-        lock(text_commands) {
-            if (text_commands.has_key(cmd.cmd)) return false;
-            text_commands[cmd.cmd] = cmd;
             return true;
         }
     }

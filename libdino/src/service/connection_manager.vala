@@ -514,23 +514,7 @@ public class ConnectionManager : Object {
      */
     public void pin_certificate(string domain, TlsCertificate cert, TlsCertificateFlags flags) {
         if (db == null) return;
-
-        string fingerprint = CertificateManager.get_certificate_fingerprint(cert);
-        string? issuer = CertificateManager.get_certificate_issuer(cert);
-        DateTime? not_before = CertificateManager.get_certificate_not_before(cert);
-        DateTime? not_after = CertificateManager.get_certificate_not_after(cert);
-
-        db.pinned_certificate.upsert()
-            .value(db.pinned_certificate.domain, domain, true)
-            .value(db.pinned_certificate.fingerprint_sha256, fingerprint)
-            .value(db.pinned_certificate.issuer, issuer)
-            .value(db.pinned_certificate.not_valid_before, not_before != null ? (long) not_before.to_unix() : -1)
-            .value(db.pinned_certificate.not_valid_after, not_after != null ? (long) not_after.to_unix() : -1)
-            .value(db.pinned_certificate.pinned_at, (long) new DateTime.now_utc().to_unix())
-            .value(db.pinned_certificate.tls_flags, (int) flags)
-            .perform();
-
-        debug("Certificate pinned for domain %s with fingerprint %s", domain, fingerprint);
+        CertificateManager.pin_to_db(db, domain, cert, flags);
     }
 
     /**
@@ -558,25 +542,7 @@ public class ConnectionManager : Object {
      */
     public CertificateInfo? get_pinned_certificate_info(string domain) {
         if (db == null) return null;
-
-        var row_opt = db.pinned_certificate.select()
-            .with(db.pinned_certificate.domain, "=", domain)
-            .single()
-            .row();
-
-        if (!row_opt.is_present()) return null;
-
-        return new CertificateInfo(
-            domain,
-            row_opt[db.pinned_certificate.fingerprint_sha256],
-            row_opt[db.pinned_certificate.issuer],
-            row_opt[db.pinned_certificate.not_valid_before] > 0 
-                ? new DateTime.from_unix_utc(row_opt[db.pinned_certificate.not_valid_before]) : null,
-            row_opt[db.pinned_certificate.not_valid_after] > 0 
-                ? new DateTime.from_unix_utc(row_opt[db.pinned_certificate.not_valid_after]) : null,
-            new DateTime.from_unix_utc(row_opt[db.pinned_certificate.pinned_at]),
-            (TlsCertificateFlags) row_opt[db.pinned_certificate.tls_flags]
-        );
+        return CertificateManager.get_pinned_info_from_db(db, domain);
     }
 }
 

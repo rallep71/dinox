@@ -58,9 +58,9 @@ public class CertificateManager : Object {
     }
 
     /**
-     * Pin a certificate for the given domain.
+     * Pin a certificate for the given domain (static DB operation, clone removal).
      */
-    public void pin_certificate(string domain, TlsCertificate cert, TlsCertificateFlags flags) {
+    public static void pin_to_db(Database db, string domain, TlsCertificate cert, TlsCertificateFlags flags) {
         string fingerprint = get_certificate_fingerprint(cert);
         string? issuer = get_certificate_issuer(cert);
         DateTime? not_before = get_certificate_not_before(cert);
@@ -80,6 +80,13 @@ public class CertificateManager : Object {
     }
 
     /**
+     * Pin a certificate for the given domain.
+     */
+    public void pin_certificate(string domain, TlsCertificate cert, TlsCertificateFlags flags) {
+        pin_to_db(db, domain, cert, flags);
+    }
+
+    /**
      * Remove a pinned certificate for the given domain.
      */
     public void unpin_certificate(string domain) {
@@ -90,9 +97,9 @@ public class CertificateManager : Object {
     }
 
     /**
-     * Get information about a pinned certificate.
+     * Get information about a pinned certificate (static DB operation, clone removal).
      */
-    public CertificateInfo? get_pinned_certificate_info(string domain) {
+    public static CertificateInfo? get_pinned_info_from_db(Database db, string domain) {
         var row_opt = db.pinned_certificate.select()
             .with(db.pinned_certificate.domain, "=", domain)
             .single()
@@ -111,6 +118,13 @@ public class CertificateManager : Object {
             new DateTime.from_unix_utc(row_opt[db.pinned_certificate.pinned_at]),
             (TlsCertificateFlags) row_opt[db.pinned_certificate.tls_flags]
         );
+    }
+
+    /**
+     * Get information about a pinned certificate.
+     */
+    public CertificateInfo? get_pinned_certificate_info(string domain) {
+        return get_pinned_info_from_db(db, domain);
     }
 
     /**

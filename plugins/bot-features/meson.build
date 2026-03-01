@@ -37,6 +37,7 @@ dep_omemo_bot = declare_dependency(
 sources = files(
     'src/plugin.vala',
     'src/register_plugin.vala',
+    'src/bot_utils.vala',
     'src/bot_registry.vala',
     'src/token_manager.vala',
     'src/auth_middleware.vala',

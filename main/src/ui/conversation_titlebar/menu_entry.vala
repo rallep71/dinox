@@ -42,33 +42,7 @@ class MenuEntry : Plugins.ConversationTitlebarEntry, Object {
         SimpleAction clear_action = new SimpleAction("clear", null);
         clear_action.activate.connect((parameter) => {
             if (conversation == null) return;
-            
-            var dialog = new Adw.AlertDialog(
-                _("Delete all message history?"),
-                _("This will permanently delete all messages in this conversation. This action cannot be undone.")
-            );
-
-            Gtk.CheckButton? global_check = null;
-            if (conversation.type_ == Conversation.Type.CHAT) {
-                global_check = new Gtk.CheckButton.with_label(_("Also delete for chat partner"));
-                global_check.halign = Gtk.Align.CENTER;
-                dialog.set_extra_child(global_check);
-            }
-
-            dialog.add_response("cancel", _("Cancel"));
-            dialog.add_response("delete", _("Delete"));
-            dialog.set_response_appearance("delete", Adw.ResponseAppearance.DESTRUCTIVE);
-            dialog.set_default_response("cancel");
-            dialog.set_close_response("cancel");
-            
-            dialog.response.connect((response) => {
-                if (response == "delete") {
-                    bool global = global_check != null && global_check.active;
-                    stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).clear_conversation_history(conversation, global);
-                }
-            });
-            
-            dialog.present(button.get_root() as Gtk.Window);
+            Util.show_clear_history_dialog(conversation, stream_interactor, button.get_root() as Gtk.Window);
         });
         action_group.add_action(clear_action);
         

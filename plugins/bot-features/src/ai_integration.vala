@@ -251,6 +251,30 @@ public class AiIntegration : Object {
     }
 
     // ──────────────────────────────────────────
+    // Shared HTTP + JSON helpers (clone removal)
+    // ──────────────────────────────────────────
+    private async string? send_ai_http(Soup.Message request, string provider_name, out string? error_result) throws Error {
+        error_result = null;
+        var response = yield http.send_and_read_async(request, GLib.Priority.DEFAULT, null);
+        uint status = request.get_status();
+
+        if (status < 200 || status >= 300) {
+            string body_text = (string) response.get_data();
+            warning("AI %s: HTTP %u - %s", provider_name, status, body_text);
+            error_result = "KI HTTP-Fehler %u".printf(status);
+            return null;
+        }
+
+        return (string) response.get_data();
+    }
+
+    private Json.Object parse_json_body(string body_text) throws Error {
+        var parser = new Json.Parser();
+        parser.load_from_data(body_text, -1);
+        return parser.get_root().get_object();
+    }
+
+    // ──────────────────────────────────────────
     // OpenAI-compatible API (OpenAI, Groq, Mistral, DeepSeek, Perplexity, vLLM, LM Studio)
     // ──────────────────────────────────────────
     private async string? ask_openai(string endpoint, string api_key, string model,
@@ -270,19 +294,11 @@ public class AiIntegration : Object {
             request.get_request_headers().append("Authorization", "Bearer " + api_key);
         }
 
-        var response = yield http.send_and_read_async(request, GLib.Priority.DEFAULT, null);
-        uint status = request.get_status();
+        string? err;
+        string? body_text = yield send_ai_http(request, "OpenAI", out err);
+        if (body_text == null) return err;
 
-        if (status < 200 || status >= 300) {
-            string body_text = (string) response.get_data();
-            warning("AI OpenAI: HTTP %u - %s", status, body_text);
-            return "KI HTTP-Fehler %u".printf(status);
-        }
-
-        string body_text = (string) response.get_data();
-        var parser = new Json.Parser();
-        parser.load_from_data(body_text, -1);
-        var root = parser.get_root().get_object();
+        var root = parse_json_body(body_text);
 
         if (root.has_member("choices")) {
             var choices = root.get_array_member("choices");
@@ -294,8 +310,8 @@ public class AiIntegration : Object {
         }
 
         if (root.has_member("error")) {
-            var err = root.get_object_member("error");
-            return "KI-Fehler: %s".printf(err.get_string_member("message"));
+            var err_obj = root.get_object_member("error");
+            return "KI-Fehler: %s".printf(err_obj.get_string_member("message"));
         }
 
         return "KI: Unerwartete Antwort";
@@ -325,19 +341,11 @@ public class AiIntegration : Object {
         request.get_request_headers().append("anthropic-version", "2023-06-01");
         request.get_request_headers().append("Content-Type", "application/json");
 
-        var response = yield http.send_and_read_async(request, GLib.Priority.DEFAULT, null);
-        uint status = request.get_status();
+        string? err;
+        string? body_text = yield send_ai_http(request, "Claude", out err);
+        if (body_text == null) return err;
 
-        if (status < 200 || status >= 300) {
-            string body_text = (string) response.get_data();
-            warning("AI Claude: HTTP %u - %s", status, body_text);
-            return "KI HTTP-Fehler %u".printf(status);
-        }
-
-        string body_text = (string) response.get_data();
-        var parser = new Json.Parser();
-        parser.load_from_data(body_text, -1);
-        var root = parser.get_root().get_object();
+        var root = parse_json_body(body_text);
 
         // Claude response: { "content": [{"type": "text", "text": "..."}] }
         if (root.has_member("content")) {
@@ -351,8 +359,8 @@ public class AiIntegration : Object {
         }
 
         if (root.has_member("error")) {
-            var err = root.get_object_member("error");
-            return "Claude-Fehler: %s".printf(err.get_string_member("message"));
+            var err_obj = root.get_object_member("error");
+            return "Claude-Fehler: %s".printf(err_obj.get_string_member("message"));
         }
 
         return "KI: Unerwartete Claude-Antwort";
@@ -394,19 +402,11 @@ public class AiIntegration : Object {
         var request = new Soup.Message("POST", url);
         request.set_request_body_from_bytes("application/json", new Bytes.take(sb.str.data));
 
-        var response = yield http.send_and_read_async(request, GLib.Priority.DEFAULT, null);
-        uint status = request.get_status();
+        string? err;
+        string? body_text = yield send_ai_http(request, "Gemini", out err);
+        if (body_text == null) return err;
 
-        if (status < 200 || status >= 300) {
-            string body_text = (string) response.get_data();
-            warning("AI Gemini: HTTP %u - %s", status, body_text);
-            return "KI HTTP-Fehler %u".printf(status);
-        }
-
-        string body_text = (string) response.get_data();
-        var parser = new Json.Parser();
-        parser.load_from_data(body_text, -1);
-        var root = parser.get_root().get_object();
+        var root = parse_json_body(body_text);
 
         // Gemini response: { "candidates": [{"content": {"parts": [{"text": "..."}]}}] }
         if (root.has_member("candidates")) {
@@ -429,8 +429,8 @@ public class AiIntegration : Object {
         }
 
         if (root.has_member("error")) {
-            var err = root.get_object_member("error");
-            return "Gemini-Fehler: %s".printf(err.get_string_member("message"));
+            var err_obj = root.get_object_member("error");
+            return "Gemini-Fehler: %s".printf(err_obj.get_string_member("message"));
         }
 
         return "KI: Unerwartete Gemini-Antwort";
@@ -459,19 +459,11 @@ public class AiIntegration : Object {
         var request = new Soup.Message("POST", url);
         request.set_request_body_from_bytes("application/json", new Bytes.take(sb.str.data));
 
-        var response = yield http.send_and_read_async(request, GLib.Priority.DEFAULT, null);
-        uint status = request.get_status();
+        string? err;
+        string? body_text = yield send_ai_http(request, "Ollama", out err);
+        if (body_text == null) return err;
 
-        if (status < 200 || status >= 300) {
-            string body_text = (string) response.get_data();
-            warning("AI Ollama: HTTP %u - %s", status, body_text);
-            return "KI HTTP-Fehler %u".printf(status);
-        }
-
-        string body_text = (string) response.get_data();
-        var parser = new Json.Parser();
-        parser.load_from_data(body_text, -1);
-        var root = parser.get_root().get_object();
+        var root = parse_json_body(body_text);
 
         if (root.has_member("message")) {
             var msg_obj = root.get_object_member("message");
@@ -505,17 +497,11 @@ public class AiIntegration : Object {
             request.get_request_headers().append("Authorization", "Bearer " + api_key);
         }
 
-        var response = yield http.send_and_read_async(request, GLib.Priority.DEFAULT, null);
-        uint status = request.get_status();
+        string? err;
+        string? body_text = yield send_ai_http(request, "OpenClaw", out err);
+        if (body_text == null) return err;
 
-        if (status < 200 || status >= 300) {
-            string body_text = (string) response.get_data();
-            warning("AI OpenClaw: HTTP %u - %s", status, body_text);
-            return "OpenClaw HTTP error %u".printf(status);
-        }
-
-        string body_text = (string) response.get_data();
-        if (body_text == null || body_text.strip() == "") {
+        if (body_text.strip() == "") {
             return "OpenClaw: Empty response";
         }
 
@@ -561,20 +547,9 @@ public class AiIntegration : Object {
         clear_history(bot_id, "all");
     }
 
-    // RFC 8259 compliant JSON string escaping (BUG-05 fix)
+    // Delegate to shared BotUtils (clone removal)
     private static string escape_json(string s) {
-        var sb = new StringBuilder.sized(s.length);
-        for (int i = 0; i < s.length; i++) {
-            unichar c = s[i];
-            if (c == '\\') sb.append("\\\\");
-            else if (c == '"') sb.append("\\\"");
-            else if (c == '\n') sb.append("\\n");
-            else if (c == '\r') sb.append("\\r");
-            else if (c == '\t') sb.append("\\t");
-            else if (c < 0x20) sb.append("\\u%04x".printf(c));
-            else sb.append_unichar(c);
-        }
-        return sb.str;
+        return BotUtils.escape_json(s);
     }
 }
 

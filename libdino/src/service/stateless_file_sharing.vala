@@ -104,37 +104,6 @@ public class Dino.StatelessFileSharing : StreamInteractionModule, Object {
         }
     }
 
-    /*
-    public async void create_sfs_for_legacy_transfer(FileProvider file_provider, string info, Jid from, DateTime time, DateTime local_time, Conversation conversation, FileReceiveData receive_data, FileMeta file_meta) {
-        FileTransfer file_transfer = file_manager.create_file_transfer_from_provider_incoming(file_provider, info, from, time, local_time, conversation, receive_data, file_meta);
-
-        HttpFileReceiveData? http_receive_data = receive_data as HttpFileReceiveData;
-        if (http_receive_data == null) return;
-
-        var sources = new ArrayList<Xep.StatelessFileSharing.Source>();
-        Xep.StatelessFileSharing.HttpSource source = new Xep.StatelessFileSharing.HttpSource();
-        source.url = http_receive_data.url;
-        sources.add(source);
-
-        if (file_manager.is_jid_trustworthy(from, conversation)) {
-            try {
-                file_meta = yield file_provider.get_meta_info(file_transfer, http_receive_data, file_meta);
-            } catch (Error e) {
-                warning("Http meta request failed: %s", e.message);
-            }
-        }
-
-        var metadata = new Xep.FileMetadataElement.FileMetadata();
-        metadata.size = file_meta.size;
-        metadata.name = file_meta.file_name;
-        metadata.mime_type = file_meta.mime_type;
-
-        file_transfer.provider = SFS_PROVIDER_ID;
-        file_transfer.file_metadata = metadata;
-        file_transfer.sfs_sources = sources;
-    }
-    */
-
     private class ReceivedMessageListener : MessageListener {
 
         public string[] after_actions_const = new string[]{ "STORE" };

@@ -198,16 +198,8 @@ public class BotRegistry : Qlite.Database {
         bot.update().with(bot.id, "=", bot_id).set(bot.status, status).perform();
     }
 
-    public void update_bot_jid(int bot_id, string jid) {
-        bot.update().with(bot.id, "=", bot_id).set(bot.jid, jid).perform();
-    }
-
     public void update_bot_password(int bot_id, string password) {
         bot.update().with(bot.id, "=", bot_id).set(bot.bot_password, password).perform();
-    }
-
-    public void update_bot_owner(int bot_id, string owner_jid) {
-        bot.update().with(bot.id, "=", bot_id).set(bot.owner_jid, owner_jid).perform();
     }
 
     public void update_bot_last_active(int bot_id) {
@@ -325,14 +317,6 @@ public class BotRegistry : Qlite.Database {
             return settings.value_.get(row.inner);
         }
         return null;
-    }
-
-    public int get_setting_int(string key, int default_value) {
-        string? val = get_setting(key);
-        if (val != null) {
-            return int.parse((!) val);
-        }
-        return default_value;
     }
 
     public void set_setting(string key, string value) {

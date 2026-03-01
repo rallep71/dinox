@@ -131,15 +131,6 @@ public class ContentItemStore : StreamInteractionModule, Object {
         return MessageStorage.get_reference_id(message);
     }
 
-    public Jid? get_message_sender_for_content_item(Conversation conversation, ContentItem content_item) {
-        Message? message = get_message_for_content_item(conversation, content_item);
-        if (message == null) return null;
-
-        // No need to look at edit_to, because it's the same sender JID.
-
-        return message.from;
-    }
-
     public Message? get_message_for_content_item(Conversation conversation, ContentItem content_item) {
         FileItem? file_item = content_item as FileItem;
         if (file_item != null) {
@@ -249,26 +240,6 @@ public class ContentItemStore : StreamInteractionModule, Object {
         return get_items_from_query(select, conversation);
     }
 
-//    public Gee.List<ContentItemMeta> get_latest_meta(Conversation conversation, int count) {
-//        QueryBuilder select = db.content_item.select()
-//                .with(db.content_item.conversation_id, "=", conversation.id)
-//                .with(db.content_item.hide, "=", false)
-//                .order_by(db.content_item.time, "DESC")
-//                .order_by(db.content_item.id, "DESC")
-//                .limit(count);
-//
-//        var ret = new ArrayList<ContentItemMeta>();
-//        foreach (var row in select) {
-//            var item_meta = new ContentItemMeta() {
-//                id = row[db.content_item.id],
-//                content_type = row[db.content_item.content_type],
-//                foreign_id = row[db.content_item.foreign_id],
-//                time = new DateTime.from_unix_utc(row[db.content_item.time])
-//            };
-//        }
-//        return ret;
-//    }
-
     public Gee.List<ContentItem> get_before(Conversation conversation, ContentItem item, int count) {
         long time = (long) item.time.to_unix();
         QueryBuilder select = db.content_item.select()
@@ -343,10 +314,6 @@ public class ContentItemStore : StreamInteractionModule, Object {
             collection_conversations.get(conversation).insert_item(item);
         }
         new_item(item, conversation);
-    }
-
-    public bool get_item_hide(ContentItem content_item) {
-        return db.content_item.row_with(db.content_item.id, content_item.id)[db.content_item.hide, false];
     }
 
     public void set_item_hide(ContentItem content_item, bool hide) {

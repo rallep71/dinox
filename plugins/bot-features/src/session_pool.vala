@@ -39,11 +39,6 @@ public class SessionPool : Object {
         this.bot_omemo = omemo;
     }
 
-    // For personal mode: bind a bot to the user's active account
-    public void bind_personal(int bot_id, Account account) {
-        personal_bindings[bot_id] = account;
-    }
-
     public void unbind(int bot_id) {
         personal_bindings.unset(bot_id);
         disconnect_dedicated(bot_id);
@@ -76,26 +71,6 @@ public class SessionPool : Object {
             return null;
         }
 
-        return null;
-    }
-
-    // Get a Jid to send from for a bot
-    public Jid? get_sender_jid(BotInfo bot) {
-        if (bot.mode == "personal") {
-            Account? account = personal_bindings[bot.id];
-            if (account == null) account = get_first_active_account();
-            if (account != null) {
-                return account.bare_jid;
-            }
-        }
-        // For dedicated mode, the bot has its own JID
-        if (bot.jid != null) {
-            try {
-                return new Jid(bot.jid);
-            } catch (Error e) {
-                warning("Invalid bot JID: %s", bot.jid);
-            }
-        }
         return null;
     }
 

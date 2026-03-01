@@ -7,10 +7,6 @@ namespace Dino.Entities {
         DTLS_SRTP,
         SRTP,
         UNKNOWN;
-
-        public bool is_some() {
-            return this != NONE;
-        }
     }
 
 }

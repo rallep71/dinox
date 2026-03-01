@@ -27,16 +27,6 @@ public class Dino.Replies : StreamInteractionModule, Object {
         stream_interactor.get_module<MessageProcessor>(MessageProcessor.IDENTITY).received_pipeline.connect(received_message_listener);
     }
 
-    public ContentItem? get_quoted_content_item(Message message, Conversation conversation) {
-        if (message.quoted_item_id == 0) return null;
-
-        RowOption row_option = db.reply.select().with(db.reply.message_id, "=", message.id).row();
-        if (row_option.is_present()) {
-            return stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).get_item_by_id(conversation, row_option[db.reply.quoted_content_item_id]);
-        }
-        return null;
-    }
-
     private void on_incoming_message(Entities.Message message, Xmpp.MessageStanza stanza, Conversation conversation) {
         // Check if a previous message was in reply to this one
         var reply_qry = db.reply.select();

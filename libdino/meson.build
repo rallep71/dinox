@@ -86,6 +86,7 @@ sources = files(
     'src/service/util.vala',
     'src/util/checksum_output_stream.vala',
     'src/util/display_name.vala',
+    'src/util/file_utils.vala',
     'src/util/limit_input_stream.vala',
     'src/util/send_message.vala',
     'src/util/util.vala',
