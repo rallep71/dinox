@@ -51,9 +51,8 @@ public class Session {
             default:
                 throw new Error.UNKNOWN(@"SRTP decrypt failed: $res");
         }
-        uint8[] ret = new uint8[buf_use];
-        GLib.Memory.copy(ret, buf, buf_use);
-        return ret;
+        buf.length = buf_use;
+        return buf;
     }
 
     public uint8[] encrypt_rtcp(uint8[] data) throws Error {
@@ -81,9 +80,8 @@ public class Session {
             default:
                 throw new Error.UNKNOWN(@"SRTCP decrypt failed: $res");
         }
-        uint8[] ret = new uint8[buf_use];
-        GLib.Memory.copy(ret, buf, buf_use);
-        return ret;
+        buf.length = buf_use;
+        return buf;
     }
 
     private Policy create_policy(string profile) {
@@ -92,6 +90,15 @@ public class Session {
             case AES_CM_128_HMAC_SHA1_80:
                 policy.rtp.set_aes_cm_128_hmac_sha1_80();
                 policy.rtcp.set_aes_cm_128_hmac_sha1_80();
+                break;
+            case AES_CM_128_HMAC_SHA1_32:
+                policy.rtp.set_aes_cm_128_hmac_sha1_32();
+                policy.rtcp.set_aes_cm_128_hmac_sha1_32();
+                break;
+            default:
+                warning("SRTP create_policy: unsupported profile '%s', using default", profile);
+                policy.rtp.set_rtp_default();
+                policy.rtcp.set_rtcp_default();
                 break;
         }
         return policy;
@@ -141,7 +148,10 @@ public class Session {
         Memory.copy(policy.key, key, key.length);
         Memory.copy(((uint8*)policy.key) + key.length, salt, salt.length);
         policy.next = null;
-        decrypt_context.add_stream(ref policy);
+        ErrorStatus res = decrypt_context.add_stream(ref policy);
+        if (res != ErrorStatus.ok) {
+            warning("SRTP set_decryption_key: add_stream failed: %s", res.to_string());
+        }
         has_decrypt = true;
     }
 }
