@@ -22,6 +22,9 @@ public class VersioningModule : XmppStreamModule {
 
     public override void detach(XmppStream stream) {
         stream.get_module<Module>(Module.IDENTITY).pre_get_roster.disconnect(on_pre_get_roster);
+        stream.get_module<Module>(Module.IDENTITY).received_roster.disconnect(on_received_roster);
+        stream.get_module<Module>(Module.IDENTITY).item_updated.disconnect(on_item_updated);
+        stream.get_module<Module>(Module.IDENTITY).item_removed.disconnect(on_item_removed);
     }
 
     internal override string get_ns() { return NS_URI; }

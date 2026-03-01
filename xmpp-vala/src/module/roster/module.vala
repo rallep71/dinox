@@ -47,7 +47,8 @@ public class Module : XmppStreamModule, Iq.Handler {
     public async void on_iq_set(XmppStream stream, Iq.Stanza iq) {
         StanzaNode? query_node = iq.stanza.get_subnode("query", NS_URI);
         if (query_node == null) return;
-        if (!iq.from.equals(stream.get_flag(Bind.Flag.IDENTITY).my_jid.bare_jid)) {
+        // RFC 6121 §2.1.6: roster pushes from the server may have no "from" attribute
+        if (iq.from != null && !iq.from.equals(stream.get_flag(Bind.Flag.IDENTITY).my_jid.bare_jid)) {
             warning("Received alleged roster push from %s, ignoring", iq.from.to_string());
             return;
         }
@@ -62,7 +63,7 @@ public class Module : XmppStreamModule, Iq.Handler {
             default:
                 bool is_new = false;
                 Item old = flag.get_item(item.jid);
-                is_new = item.subscription == Item.SUBSCRIPTION_BOTH && (old == null || old.subscription == Item.SUBSCRIPTION_BOTH);
+                is_new = item.subscription == Item.SUBSCRIPTION_BOTH && (old == null || old.subscription != Item.SUBSCRIPTION_BOTH);
                 flag.roster_items[item.jid] = item;
                 item_updated(stream, item,  iq);
                 if(is_new) mutual_subscription(stream, item.jid);

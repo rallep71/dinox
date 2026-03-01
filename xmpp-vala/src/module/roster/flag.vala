@@ -6,7 +6,7 @@ public class Flag : XmppStreamFlag {
     public const string ID = "roster";
     public static FlagIdentity<Flag> IDENTITY = new FlagIdentity<Flag>(NS_URI, ID);
 
-    public HashMap<Jid, Item> roster_items = new HashMap<Jid, Item>();
+    public HashMap<Jid, Item> roster_items = new HashMap<Jid, Item>(Jid.hash_bare_func, Jid.equals_bare_func);
 
     public string? iq_id;
 

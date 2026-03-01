@@ -25,7 +25,7 @@ namespace Xmpp.Iq {
             });
             stream.write_async.begin (iq.stanza, io_priority, cancellable);
             yield;
-            cancellable.set_error_if_cancelled ();
+            if (cancellable != null) cancellable.set_error_if_cancelled ();
             return return_stanza;
         }
 
