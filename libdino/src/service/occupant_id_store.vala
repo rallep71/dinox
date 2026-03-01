@@ -73,7 +73,7 @@ namespace Dino {
                     .value(db.occupantid.account_id, account.id, true)
                     .value(db.occupantid.jid_id, muc_jid_id, true)
                     .value(db.occupantid.occupant_id, occupant_id, true)
-                    .value(db.occupantid.last_nick, muc_jid.resourcepart, false)
+                    .value(db.occupantid.last_nick, last_nick, false)
                     .perform();
             }
 

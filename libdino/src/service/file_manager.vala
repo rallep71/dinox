@@ -478,7 +478,6 @@ public class FileManager : StreamInteractionModule, Object {
     public FileTransfer create_file_transfer_from_provider_incoming(FileProvider file_provider, string info, Jid from, DateTime time, DateTime local_time, Conversation conversation, FileReceiveData receive_data, FileMeta file_meta) {
         FileTransfer file_transfer = new FileTransfer();
         file_transfer.account = conversation.account;
-        file_transfer.counterpart = file_transfer.direction == FileTransfer.DIRECTION_RECEIVED ? from : conversation.counterpart;
         if (conversation.type_.is_muc_semantic()) {
             file_transfer.ourpart = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_own_jid(conversation.counterpart, conversation.account) ?? conversation.account.bare_jid;
             file_transfer.direction = from.equals(file_transfer.ourpart) ? FileTransfer.DIRECTION_SENT : FileTransfer.DIRECTION_RECEIVED;
@@ -491,6 +490,7 @@ public class FileManager : StreamInteractionModule, Object {
                 file_transfer.direction = FileTransfer.DIRECTION_RECEIVED;
             }
         }
+        file_transfer.counterpart = file_transfer.direction == FileTransfer.DIRECTION_RECEIVED ? from : conversation.counterpart;
         file_transfer.time = time;
         file_transfer.local_time = local_time;
         file_transfer.provider = file_provider.get_id();

@@ -154,8 +154,7 @@ public class ChatInteraction : StreamInteractionModule, Object {
     }
 
     private bool update_interactions() {
-        for (MapIterator<Conversation, DateTime> iter = last_input_interaction.map_iterator(); iter.has_next(); iter.next()) {
-            if (!iter.valid && iter.has_next()) iter.next();
+        for (MapIterator<Conversation, DateTime> iter = last_input_interaction.map_iterator(); iter.next(); ) {
             Conversation conversation = iter.get_key();
             if (last_input_interaction.has_key(conversation) &&
                     (new DateTime.now_utc()).difference(last_input_interaction[conversation]) >= 15 *  TimeSpan.SECOND) {
@@ -163,8 +162,7 @@ public class ChatInteraction : StreamInteractionModule, Object {
                 send_chat_state_notification(conversation, Xep.ChatStateNotifications.STATE_PAUSED);
             }
         }
-        for (MapIterator<Conversation, DateTime> iter = last_interface_interaction.map_iterator(); iter.has_next(); iter.next()) {
-            if (!iter.valid && iter.has_next()) iter.next();
+        for (MapIterator<Conversation, DateTime> iter = last_interface_interaction.map_iterator(); iter.next(); ) {
             Conversation conversation = iter.get_key();
             if (last_interface_interaction.has_key(conversation) &&
                     (new DateTime.now_utc()).difference(last_interface_interaction[conversation]) >= 1.5 *  TimeSpan.MINUTE) {

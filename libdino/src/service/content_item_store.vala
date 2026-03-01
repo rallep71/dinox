@@ -385,7 +385,7 @@ public abstract class ContentItem : Object {
     public static int compare_func(ContentItem a, ContentItem b) {
         int res = a.time.compare(b.time);
         if (res == 0) {
-            res = a.id - b.id > 0 ? 1 : -1;
+            res = a.id > b.id ? 1 : (a.id < b.id ? -1 : 0);
         }
         return res;
     }

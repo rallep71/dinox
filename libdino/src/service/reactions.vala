@@ -247,7 +247,9 @@ public class Dino.Reactions : StreamInteractionModule, Object {
                     index[emoji] = new ReactionUsers() { reaction=emoji, jids=new ArrayList<Jid>(Jid.equals_func) };
                     ret.add(index[emoji]);
                 }
-                index[emoji].jids.add(jid);
+                if (jid != null) {
+                    index[emoji].jids.add(jid);
+                }
             }
         }
         return ret;

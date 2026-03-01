@@ -882,7 +882,7 @@ public class Database : Qlite.Database {
             if (id > 0) {
                 select.where(@"time < ? OR (time = ? AND message.id < ?)", { before.to_unix().to_string(), before.to_unix().to_string(), id.to_string() });
             } else {
-                select.with(message.id, "<", id);
+                select.with(message.time, "<", (long) before.to_unix());
             }
         }
         if (after != null) {
@@ -890,9 +890,6 @@ public class Database : Qlite.Database {
                 select.where(@"time > ? OR (time = ? AND message.id > ?)", { after.to_unix().to_string(), after.to_unix().to_string(), id.to_string() });
             } else {
                 select.with(message.time, ">", (long) after.to_unix());
-            }
-            if (id > 0) {
-                select.with(message.id, ">", id);
             }
         } else {
             select.order_by(message.time, "DESC");

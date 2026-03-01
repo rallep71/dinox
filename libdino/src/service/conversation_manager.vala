@@ -35,7 +35,6 @@ public class ConversationManager : StreamInteractionModule, Object {
     private ConversationManager(StreamInteractor stream_interactor, Database db) {
         this.db = db;
         this.stream_interactor = stream_interactor;
-        stream_interactor.add_module(this);
         stream_interactor.account_added.connect(on_account_added);
         stream_interactor.account_removed.connect(on_account_removed);
         stream_interactor.get_module<MessageProcessor>(MessageProcessor.IDENTITY).received_pipeline.connect(new MessageListener(stream_interactor));

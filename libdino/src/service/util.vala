@@ -42,7 +42,7 @@ public class Util {
 
         foreach (Gdk.PixbufFormat pixbuf_format in Gdk.Pixbuf.get_formats()) {
             foreach (string pixbuf_mime in pixbuf_format.get_mime_types()) {
-                if (pixbuf_mime == mime_type) return true;
+                if (pixbuf_mime == mime_type || pixbuf_mime == lower) return true;
             }
         }
         return false;

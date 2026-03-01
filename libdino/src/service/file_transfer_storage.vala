@@ -58,7 +58,7 @@ namespace Dino {
             return create_file_from_row_opt(row_option, conversation);
         }
 
-        public FileTransfer get_files_by_message_and_file_id(int message_id, string file_sharing_id, Conversation conversation) {
+        public FileTransfer? get_files_by_message_and_file_id(int message_id, string file_sharing_id, Conversation conversation) {
             string combined_identifier = message_id.to_string() + file_sharing_id;
             FileTransfer? file_transfer = files_by_message_and_file_id[combined_identifier];
 

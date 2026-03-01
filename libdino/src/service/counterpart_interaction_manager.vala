@@ -35,7 +35,7 @@ public class CounterpartInteractionManager : StreamInteractionModule, Object {
         stream_interactor.stream_negotiated.connect((account) => clear_all_chat_states(account) );
 
         Timeout.add_seconds(60, () => {
-            var one_min_ago = new DateTime.now_utc().add_seconds(-1);
+            var one_min_ago = new DateTime.now_utc().add_seconds(-60);
 
             foreach (Conversation conversation in typing_since.keys) {
                 ArrayList<Jid> to_remove = new ArrayList<Jid>();

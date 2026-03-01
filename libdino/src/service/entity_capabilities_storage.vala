@@ -24,6 +24,7 @@ public class EntityCapabilitiesStorage : Xep.EntityCapabilities.Storage, Object 
                     .value(db.entity_feature.feature, feature)
                     .perform();
         }
+        features_cache[entity] = features;
     }
 
     public void store_identities(string entity, Gee.Set<Identity> identities) {

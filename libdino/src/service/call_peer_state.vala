@@ -439,8 +439,6 @@ public class Dino.PeerState : Object {
     }
 
     private void on_counterpart_mute_update(bool mute, string? media) {
-        if (!call.equals(call)) return;
-
         if (media == "video") {
             counterpart_sends_video = !mute;
             debug(@"[%s] %s video muted %s", call.account.bare_jid.to_string(), jid.to_string(), mute.to_string());

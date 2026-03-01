@@ -49,14 +49,16 @@ public class BlockingManager : StreamInteractionModule, Object {
     }
 
     public void block(Account account, Jid jid) {
-        XmppStream stream = stream_interactor.get_stream(account);
+        XmppStream? stream = stream_interactor.get_stream(account);
+        if (stream == null) return;
         stream.get_module<Xmpp.Xep.BlockingCommand.Module>(Xmpp.Xep.BlockingCommand.Module.IDENTITY).block(stream, { jid.to_string() });
         // Emit signal immediately for UI responsiveness
         block_changed(account, jid);
     }
 
     public void unblock(Account account, Jid jid) {
-        XmppStream stream = stream_interactor.get_stream(account);
+        XmppStream? stream = stream_interactor.get_stream(account);
+        if (stream == null) return;
         stream.get_module<Xmpp.Xep.BlockingCommand.Module>(Xmpp.Xep.BlockingCommand.Module.IDENTITY).unblock(stream, { jid.to_string() });
         // Emit signal immediately for UI responsiveness
         block_changed(account, jid);

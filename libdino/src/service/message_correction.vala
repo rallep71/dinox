@@ -237,7 +237,7 @@ public class MessageCorrection : StreamInteractionModule, MessageListener {
 
             HashMap<Jid, Message> last_conversation_messages = new HashMap<Jid, Message>(Jid.hash_func, Jid.equals_func);
             Gee.List<Message> messages = stream_interactor.get_module<MessageStorage>(MessageStorage.IDENTITY).get_messages(conversation);
-            for (int i = messages.size - 1; i > 0; i--) {
+            for (int i = messages.size - 1; i >= 0; i--) {
                 Message message = messages[i];
                 if (!last_conversation_messages.has_key(message.from) && message.edit_to == null) {
                     last_conversation_messages[message.from] = message;

@@ -168,8 +168,8 @@ public class Dino.StatelessFileSharing : StreamInteractionModule, Object {
             if (source_attachments != null) {
                 foreach (var source_attachment in source_attachments) {
                     outer.on_received_sources(stanza.from, conversation, source_attachment.to_message_id, source_attachment.to_file_transfer_id, source_attachment.sources);
-                    return true;
                 }
+                return true;
             }
 
             // Don't process messages that are fallback for legacy clients

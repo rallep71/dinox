@@ -33,7 +33,7 @@ public class ModuleManager {
             foreach (XmppStreamModule module in module_map[account]) modules.add(module);
         }
 
-        foreach (XmppStreamModule module in module_map[account]) {
+        foreach (XmppStreamModule module in modules) {
             if (module.get_id() == Bind.Module.IDENTITY.id) {
                 ((Bind.Module) module).requested_resource = account.resourcepart;
             } else if (module.get_id() == Sasl.Module.IDENTITY.id) {

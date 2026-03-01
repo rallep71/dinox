@@ -78,6 +78,7 @@ public class MessageStorage : StreamInteractionModule, Object {
     }
 
     public Gee.List<MessageItem> get_messages_before_message(Conversation? conversation, DateTime before, int id, int count = 20) {
+        if (conversation == null) return new ArrayList<MessageItem>();
         Gee.List<Message> db_messages = db.get_messages(conversation.counterpart, conversation.account, Util.get_message_type_for_conversation(conversation), count, before, null, id);
         Gee.List<MessageItem> ret = new ArrayList<MessageItem>();
         foreach (Message message in db_messages) {
@@ -87,6 +88,7 @@ public class MessageStorage : StreamInteractionModule, Object {
     }
 
     public Gee.List<MessageItem> get_messages_after_message(Conversation? conversation, DateTime after, int id, int count = 20) {
+        if (conversation == null) return new ArrayList<MessageItem>();
         Gee.List<Message> db_messages = db.get_messages(conversation.counterpart, conversation.account, Util.get_message_type_for_conversation(conversation), count, null, after, id);
         Gee.List<MessageItem> ret = new ArrayList<MessageItem>();
         foreach (Message message in db_messages) {

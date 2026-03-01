@@ -354,7 +354,7 @@ public class Dino.HistorySync {
             if (earliest_mam_id != null) {
                 debug("[%s | %s] Updating to %s, %s", account.bare_jid.to_string(), query_params.mam_server.to_string(), earliest_mam_time.to_string(), earliest_mam_id);
                 query.set(db.mam_catchup.from_id, earliest_mam_id);
-                if (page_result.page_result != PageResult.NoMoreMessages || query_params.start != null || earliest_mam_time < query_params.start.to_unix()) {
+                if (page_result.page_result != PageResult.NoMoreMessages || (query_params.start != null && earliest_mam_time < query_params.start.to_unix())) {
                     query.set(db.mam_catchup.from_time, earliest_mam_time);
                 }
             }

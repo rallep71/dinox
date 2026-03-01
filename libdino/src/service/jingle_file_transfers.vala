@@ -148,7 +148,7 @@ public class JingleFileSender : FileSender, Object {
         XmppStream? stream = stream_interactor.get_stream(conversation.account);
         if (stream == null) return false;
 
-        Gee.List<Jid>? resources = stream.get_flag(Presence.Flag.IDENTITY).get_resources(conversation.counterpart);
+        Gee.List<Jid>? resources = stream.get_flag(Presence.Flag.IDENTITY) != null ? stream.get_flag(Presence.Flag.IDENTITY).get_resources(conversation.counterpart) : null;
         if (resources == null) return false;
 
         foreach (Jid full_jid in resources) {
@@ -196,8 +196,8 @@ public class JingleFileSender : FileSender, Object {
         JingleFileEncryptionHelper? helper = JingleFileHelperRegistry.instance.get_encryption_helper(file_transfer.encryption);
         bool must_encrypt = helper != null && yield helper.can_encrypt(conversation, file_transfer);
         // TODO(hrxi): Prioritization of transports (and resources?).
-        foreach (Jid full_jid in stream.get_flag(Presence.Flag.IDENTITY).get_resources(conversation.counterpart)) {
-            if (full_jid.equals(stream.get_flag(Bind.Flag.IDENTITY).my_jid)) {
+        foreach (Jid full_jid in stream.get_flag(Presence.Flag.IDENTITY) != null ? stream.get_flag(Presence.Flag.IDENTITY).get_resources(conversation.counterpart) : new ArrayList<Jid>()) {
+            if (stream.get_flag(Bind.Flag.IDENTITY) != null && full_jid.equals(stream.get_flag(Bind.Flag.IDENTITY).my_jid)) {
                 continue;
             }
             if (!yield stream.get_module<Xep.JingleFileTransfer.Module>(Xep.JingleFileTransfer.Module.IDENTITY).is_available(stream, full_jid)) {
