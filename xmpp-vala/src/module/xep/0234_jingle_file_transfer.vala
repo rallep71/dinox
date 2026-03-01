@@ -107,7 +107,7 @@ public class Module : Jingle.ContentType, XmppStreamModule {
             // Send the file data
             Jingle.StreamingConnection connection = content.component_connections[1] as Jingle.StreamingConnection;
             if (connection == null || connection.stream == null) {
-                warning("Connection or stream not null");
+                warning("Connection or stream is null");
                 return;
             }
             IOStream io_stream = yield connection.stream.wait_async();

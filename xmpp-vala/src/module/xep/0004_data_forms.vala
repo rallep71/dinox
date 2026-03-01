@@ -86,7 +86,9 @@ public class DataForm {
             Gee.List<Option> ret = new ArrayList<Option>();
             Gee.List<StanzaNode> option_nodes = node.get_subnodes("option", NS_URI);
             foreach (StanzaNode node in option_nodes) {
-                Option option = new Option(node.get_attribute("label", NS_URI), node.get_subnode("value").get_string_content());
+                StanzaNode? value_node = node.get_subnode("value");
+                if (value_node == null) continue;
+                Option option = new Option(node.get_attribute("label", NS_URI), value_node.get_string_content());
                 ret.add(option);
             }
             return ret;

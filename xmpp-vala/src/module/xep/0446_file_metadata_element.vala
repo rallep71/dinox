@@ -96,7 +96,7 @@ namespace Xmpp.Xep.FileMetadataElement {
         }
         StanzaNode? length_node = file_node.get_subnode("length");
         if (length_node != null && length_node.get_string_content() != null) {
-            metadata.length = int.parse(length_node.get_string_content());
+            metadata.length = int64.parse(length_node.get_string_content());
         }
         metadata.thumbnails = Xep.JingleContentThumbnails.get_thumbnails(file_node);
         metadata.hashes = CryptographicHashes.get_hashes(file_node);

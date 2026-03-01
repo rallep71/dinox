@@ -299,6 +299,8 @@ namespace Xmpp.Xep.OpenPgp {
             
             // Decode base64 - the result should be ASCII-armored key
             uint8[] key_bytes = Base64.decode(base64_key);
+            // Ensure NUL-terminated string from binary data
+            key_bytes += 0;
             string armored_key = (string) key_bytes;
             
             debug("XEP-0373: fetch_public_key - decoded key length: %d, first 100 chars: %.100s", 

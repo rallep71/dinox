@@ -39,7 +39,8 @@ namespace Xmpp.Xep.JingleContentThumbnails {
             string uri = node.get_attribute("uri");
             if (uri == null) return null;
 
-            Bytes data = Xmpp.get_data_for_uri(uri);
+            Bytes? data = Xmpp.get_data_for_uri(uri);
+            if (data == null) return null;
 
             Thumbnail thumbnail = new Thumbnail();
             thumbnail.data = data;

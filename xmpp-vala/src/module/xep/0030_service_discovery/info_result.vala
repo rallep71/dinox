@@ -8,7 +8,9 @@ public class InfoResult {
     public Gee.List<string> features {
         owned get {
             ArrayList<string> ret = new ArrayList<string>();
-            foreach (StanzaNode feature_node in iq.stanza.get_subnode("query", NS_URI_INFO).get_subnodes("feature", NS_URI_INFO)) {
+            StanzaNode? query_node = iq.stanza.get_subnode("query", NS_URI_INFO);
+            if (query_node == null) return ret;
+            foreach (StanzaNode feature_node in query_node.get_subnodes("feature", NS_URI_INFO)) {
                 ret.add(feature_node.get_attribute("var", NS_URI_INFO));
             }
             return ret;
@@ -23,7 +25,9 @@ public class InfoResult {
     public Gee.Set<Identity> identities {
         owned get {
             HashSet<Identity> ret = new HashSet<Identity>();
-            foreach (StanzaNode feature_node in iq.stanza.get_subnode("query", NS_URI_INFO).get_subnodes("identity", NS_URI_INFO)) {
+            StanzaNode? query_node = iq.stanza.get_subnode("query", NS_URI_INFO);
+            if (query_node == null) return ret;
+            foreach (StanzaNode feature_node in query_node.get_subnodes("identity", NS_URI_INFO)) {
                 ret.add(new Identity(feature_node.get_attribute("category", NS_URI_INFO),
                                         feature_node.get_attribute("type", NS_URI_INFO),
                                         feature_node.get_attribute("name", NS_URI_INFO)));

@@ -66,6 +66,11 @@ public class Module : XmppStreamModule, Iq.Handler {
     }
 
     private async void on_iq_set(XmppStream stream, Iq.Stanza iq) {
+        // Block/unblock pushes MUST come from the user's own bare JID (server)
+        Jid? my_jid = stream.get_flag(Bind.Flag.IDENTITY).my_jid;
+        if (my_jid != null && iq.from != null && !iq.from.equals_bare(my_jid)) {
+            return;
+        }
         StanzaNode? block_node = iq.stanza.get_subnode("block", NS_URI);
         StanzaNode? unblock_node = iq.stanza.get_subnode("unblock", NS_URI);
         Gee.List<string> jids;

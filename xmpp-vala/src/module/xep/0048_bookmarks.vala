@@ -12,7 +12,9 @@ public class Module : BookmarksProvider, XmppStreamModule {
         if (result_node == null) return null;
 
         Set<Conference> ret = new HashSet<Conference>(Conference.hash_func, Conference.equals_func);
-        Gee.List<StanzaNode> conferences_node = result_node.get_subnode("storage", NS_URI).get_subnodes("conference", NS_URI);
+        StanzaNode? storage_node = result_node.get_subnode("storage", NS_URI);
+        if (storage_node == null) return ret;
+        Gee.List<StanzaNode> conferences_node = storage_node.get_subnodes("conference", NS_URI);
         foreach (StanzaNode conference_node in conferences_node) {
             Conference? conference = Bookmarks1Conference.create_from_stanza_node(conference_node);
             ret.add(conference);
@@ -47,12 +49,14 @@ public class Module : BookmarksProvider, XmppStreamModule {
 
     public async void add_conference(XmppStream stream, Conference conference) {
         Set<Conference>? conferences = yield get_conferences(stream);
+        if (conferences == null) conferences = new HashSet<Conference>(Conference.hash_func, Conference.equals_func);
         conferences.add(conference);
         yield set_conferences(stream, conferences);
     }
 
     public async void replace_conference(XmppStream stream, Jid muc_jid, Conference modified_conference) {
         Set<Conference>? conferences = yield get_conferences(stream);
+        if (conferences == null) return;
         foreach (Conference conference in conferences) {
             if (conference.jid.equals(muc_jid)) {
                 conference.autojoin = modified_conference.autojoin;
@@ -66,6 +70,7 @@ public class Module : BookmarksProvider, XmppStreamModule {
 
     public async void remove_conference(XmppStream stream, Conference conference_remove) {
         Set<Conference>? conferences = yield get_conferences(stream);
+        if (conferences == null) return;
         conferences.remove(conference_remove);
         yield set_conferences(stream, conferences);
     }

@@ -36,7 +36,9 @@ namespace Xmpp.Xep.BitsOfBinary {
                 string cid = data_node.get_attribute("cid", NS_URI);
                 if (cid == null) continue;
 
-                known_bobs[cid] = new Bytes.take(Base64.decode(data_node.get_string_content()));
+                string? content = data_node.get_string_content();
+                if (content == null) continue;
+                known_bobs[cid] = new Bytes.take(Base64.decode(content));
             }
         }
 
@@ -57,7 +59,9 @@ namespace Xmpp.Xep.BitsOfBinary {
                 string cid = data_node.get_attribute("cid", NS_URI);
                 if (cid == null) continue;
 
-                known_bobs[cid] = new Bytes.take(Base64.decode(data_node.get_string_content()));
+                string? content = data_node.get_string_content();
+                if (content == null) continue;
+                known_bobs[cid] = new Bytes.take(Base64.decode(content));
             }
 
             return false;

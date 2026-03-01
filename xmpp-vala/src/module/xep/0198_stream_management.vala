@@ -80,7 +80,7 @@ public class Module : XmppStreamNegotiationModule, WriteNodeFunc {
         while (!node_queue.is_empty && in_flight_stanzas.size < 10) {
             QueueItem queue_item = node_queue.poll();
             try {
-                queue_item.cancellable.set_error_if_cancelled();
+                if (queue_item.cancellable != null) queue_item.cancellable.set_error_if_cancelled();
             } catch (IOError e) {
                 queue_item.promise.set_exception(e);
                 continue;

@@ -37,7 +37,8 @@ namespace Xmpp.Xep.MessageDeliveryReceipts {
         private void received_message(XmppStream stream, MessageStanza message) {
             StanzaNode? received_node = message.stanza.get_subnode("received", NS_URI);
             if (received_node != null) {
-                receipt_received(stream, message.from, received_node.get_attribute("id", NS_URI), message);
+                string? id = received_node.get_attribute("id", NS_URI);
+                if (id != null) receipt_received(stream, message.from, id, message);
             }
         }
     }

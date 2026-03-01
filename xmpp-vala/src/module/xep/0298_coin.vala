@@ -44,7 +44,7 @@ namespace Xmpp.Xep.Coin {
 //            if (!jid_string.has_prefix("xmpp:")) continue; // silk does this wrong
             Jid? jid = null;
             try {
-                jid = new Jid(jid_string.substring(4));
+                jid = new Jid(jid_string.has_prefix("xmpp:") ? jid_string.substring(5) : jid_string);
             } catch (Error e) {
                 continue;
             }

@@ -62,6 +62,7 @@ namespace Xmpp.Xep.UserAvatars {
         }
 
         public void on_pupsub_item(XmppStream stream, Jid jid, string hash, StanzaNode? node) {
+            if (node == null) return;
             foreach (var info_node in node.get_subnodes("info", NS_URI_METADATA)) {
                 if (info_node.get_attribute("id") == hash) {
                     string? type = info_node == null ? null : info_node.get_attribute("type");

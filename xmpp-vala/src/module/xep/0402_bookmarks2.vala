@@ -20,6 +20,7 @@ public class Module : BookmarksProvider, XmppStreamModule {
 
             hm = new HashMap<Jid, Conference>(Jid.hash_func, Jid.equals_func);
             foreach (StanzaNode item_node in items) {
+                if (item_node.sub_nodes.size == 0) continue;
                 Conference? conference = parse_item_node(item_node.sub_nodes[0], item_node.get_attribute("id"));
                 if (conference == null) continue;
                 hm[conference.jid] = conference;
@@ -73,7 +74,9 @@ public class Module : BookmarksProvider, XmppStreamModule {
             return;
         }
 
-        Conference conference = parse_item_node(node, id);
+        if (node == null) return;
+        Conference? conference = parse_item_node(node, id);
+        if (conference == null) return;
         Flag? flag = stream.get_flag(Flag.IDENTITY);
         if (flag != null) {
             flag.conferences[conference.jid] = conference;

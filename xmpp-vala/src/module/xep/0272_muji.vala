@@ -243,7 +243,8 @@ namespace Xmpp.Xep.Muji {
 
         private Gee.List<Presence.Stanza> get_other_presences(XmppStream stream, Jid muc_jid) {
             Gee.List<Presence.Stanza> presences = stream.get_flag(Presence.Flag.IDENTITY).get_presences(muc_jid);
-            string? own_nick = stream.get_flag(Flag.IDENTITY).calls[muc_jid].our_nick;
+            GroupCall? call = stream.get_flag(Flag.IDENTITY).calls[muc_jid];
+            string? own_nick = call != null ? call.our_nick : null;
 
             var remove_presences = new ArrayList<Presence.Stanza>();
             foreach (Presence.Stanza presence in presences) {

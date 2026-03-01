@@ -174,8 +174,8 @@ public class Module : XmppStreamModule {
             foreach (StanzaNode node in field_nodes) {
                 string? var_attr = node.get_attribute("var");
                 if (var_attr == "max-file-size") {
-                    StanzaNode value_node = node.get_subnode("value", "jabber:x:data");
-                    max_file_size_str = value_node.get_string_content();
+                    StanzaNode? value_node = node.get_subnode("value", "jabber:x:data");
+                    if (value_node != null) max_file_size_str = value_node.get_string_content();
                     break;
                 }
             }

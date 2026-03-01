@@ -39,6 +39,7 @@ namespace Xmpp.Xep.Pubsub {
             stream.get_module<ServiceDiscovery.Module>(ServiceDiscovery.Module.IDENTITY).remove_feature_notify(stream, node);
             item_listeners.unset(node);
             retract_listeners.unset(node);
+            delete_listeners.unset(node);
         }
 
         public async Gee.List<StanzaNode>? request_all(XmppStream stream, Jid jid, string node) { // TODO multiple nodes gehen auch
@@ -99,7 +100,7 @@ namespace Xmpp.Xep.Pubsub {
                 StanzaNode items_node = event_node != null ? event_node.get_subnode("items", NS_URI) : null;
                 StanzaNode item_node = items_node != null ? items_node.get_subnode("item", NS_URI) : null;
                 string? id = item_node != null ? item_node.get_attribute("id", NS_URI) : null;
-                listener(stream, iq.from, id, item_node != null ? item_node.sub_nodes[0] : null);
+                listener(stream, iq.from, id, (item_node != null && item_node.sub_nodes.size > 0) ? item_node.sub_nodes[0] : null);
             });
         }
 
@@ -277,7 +278,7 @@ namespace Xmpp.Xep.Pubsub {
                 if (item_node != null) {
                     string id = item_node.get_attribute("id", NS_URI_EVENT);
 
-                    if (item_listeners.has_key(node)) {
+                    if (item_listeners.has_key(node) && item_node.sub_nodes.size > 0) {
                         item_listeners[node].on_result(stream, message.from, id, item_node.sub_nodes[0]);
                     }
                 }

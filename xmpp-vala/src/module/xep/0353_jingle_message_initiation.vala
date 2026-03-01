@@ -67,7 +67,8 @@ namespace Xmpp.Xep.JingleMessageInitiation {
             switch (mi_node.name) {
                 case "accept":
                 case "proceed":
-                    session_accepted(message.from, message.to, mi_node.get_attribute("id"));
+                    string? session_id = mi_node.get_attribute("id");
+                    if (session_id != null) session_accepted(message.from, message.to, session_id);
                     break;
                 case "propose":
                     ArrayList<StanzaNode> descriptions = new ArrayList<StanzaNode>();
@@ -78,14 +79,17 @@ namespace Xmpp.Xep.JingleMessageInitiation {
                     }
 
                     if (descriptions.size > 0) {
-                        session_proposed(message.from, message.to, mi_node.get_attribute("id"), descriptions);
+                        string? propose_id = mi_node.get_attribute("id");
+                        if (propose_id != null) session_proposed(message.from, message.to, propose_id, descriptions);
                     }
                     break;
                 case "retract":
-                    session_retracted(message.from, message.to, mi_node.get_attribute("id"));
+                    string? retract_id = mi_node.get_attribute("id");
+                    if (retract_id != null) session_retracted(message.from, message.to, retract_id);
                     break;
                 case "reject":
-                    session_rejected(message.from, message.to, mi_node.get_attribute("id"));
+                    string? reject_id = mi_node.get_attribute("id");
+                    if (reject_id != null) session_rejected(message.from, message.to, reject_id);
                     break;
             }
         }
