@@ -5,6 +5,38 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.4.5] - 2026-03-01
+
+### Fixed
+- **Tor Proxy Timing**: Fixed "Verbindungsaufbau abgelehnt" when enabling Tor — `start_tor()` now waits for bootstrap completion (up to 60s) before applying SOCKS5 proxy settings
+- **Signal Disconnect Guards**: Fixed `GLib-GObject-CRITICAL` warnings about handler ID not found — added `SignalHandler.is_connected()` checks before every `disconnect()` in avatar_picture.vala and conversation_selector_row.vala
+- **Popover SIGSEGV Crash (#134)**: Fixed segfault from null popover access in conversation view
+- **libsoup Session Lifecycle (#135)**: Fixed HTTP session not properly shut down on account disconnect
+- **Tooltip Rebuild Spam (#136)**: Eliminated unnecessary repeated tooltip widget rebuilds
+- **Soup.Sessions Shutdown**: Abort active HTTP sessions on application exit
+- **libdino** (48 bugs): Service layer null checks, entity lifecycle fixes, XEP compliance (XEP-0030, XEP-0045, XEP-0060, XEP-0115, etc.), plugin/dbus error handling
+- **xmpp-vala** (16 bugs): Presence stanza handling, IQ error responses, message archive fixes, roster versioning edge cases
+- **UI** (49 bugs): Conversation content view layout, main window state management, chat input handling, file transfer display, notification deduplication
+- **qlite** (3 bugs): SQL query builder null safety, transaction isolation
+- **crypto-vala** (4 bugs): SRTP counter overflow, cipher padding, key comparison safety
+- **OMEMO** (3 bugs): Decryptor session lookup, encryptor key distribution, device list sync
+- **Systray** (5 bugs): Icon rendering, tooltip updates, menu action handling
+- **Infrastructure** (9 bugs): Meson build configuration, test runner scripts, CI pipeline fixes
+- **4 additional bugs found by expanded test suite** (#137–#140)
+
+### Improved
+- **Performance** (13 optimizations): Memory allocation reduction, startup time improvement, hot-path optimizations across libdino, UI, and xmpp-vala
+- **Test Suite**: +299 test cases (835 total), covering 52 of 69 XEPs (75.4%) — SCE, Jingle FT, Registration, Ad-Hoc, MAM v2, JMI, Moderation
+
+### Added
+- **Systray IconPixmap**: Support for Qt-based tray hosts (KDE Plasma, LXQt)
+- **CI `--clean` mode**: New `--clean` option for `ci-build-deps.sh` to rebuild dependencies from scratch
+- **webrtc/abseil Build Fix**: Replaced fragile perl regex with proper `.patch` file for webrtc-audio-processing abseil-cpp compatibility
+- **Coding Guidelines**: Security guidelines, review checklist, and coding standards documentation
+
+### Changed
+- **Version**: 1.1.4.4 → 1.1.4.5
+
 ## [1.1.4.4] - 2026-02-28
 
 ### Fixed

@@ -1,6 +1,6 @@
 # DinoX - Development Plan
 
-> **Last Updated**: February 28, 2026 (v1.1.4.4)
+> **Last Updated**: March 1, 2026 (v1.1.4.5)
 > **Current Release Line**: 1.1.4.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.4.4 |
+| **Current Version** | 1.1.4.5 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (~85% translated) |
 | **Build Status** | Clean |
@@ -20,6 +20,16 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v1.1.4.5 (Bugfix Release — 140 Fixes, Performance, Test Suite)
+
+- **140 bugs fixed** across all modules: libdino (48), UI (49), xmpp-vala (16), infrastructure (9), systray (5), crypto-vala (4), qlite (3), OMEMO (3), runtime (3)
+- **Tor Proxy Timing**: Fixed "Verbindungsaufbau abgelehnt" — waits for bootstrap before applying SOCKS5 proxy
+- **Signal Disconnect Guards**: Fixed GLib-GObject-CRITICAL warnings (handler ID not found)
+- **3 Runtime Fixes**: Popover SIGSEGV crash, libsoup session lifecycle, tooltip rebuild spam
+- **13 Performance Optimizations**: Memory allocation, startup time, hot-path improvements
+- **Test Suite**: +299 tests (835 total), 52/69 XEPs covered (75.4%)
+- **New**: Systray IconPixmap for Qt-based tray hosts, CI --clean mode, coding guidelines
 
 ### v1.1.4.4 (Plugin Security Audit, OMEMO v1/v4 Race Fix)
 
