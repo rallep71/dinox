@@ -266,7 +266,56 @@ obfs4 198.245.60.50:443 6C61208D644265A16CB0C7E835787C1D8429EC08 cert=sT/u/T1uA+
 
         public async void start_tor(bool apply_proxy = false) {
             yield controller.start();
-            if (apply_proxy) apply_proxy_to_accounts(true);
+            if (apply_proxy) {
+                // Wait for Tor to fully bootstrap before applying proxy settings.
+                // Otherwise, XMPP connections attempt to use the SOCKS5 proxy before
+                // Tor has built circuits, resulting in "connection refused" errors.
+                bool bootstrapped = yield wait_for_bootstrap(60);
+                if (bootstrapped) {
+                    debug("TorManager: Tor bootstrapped, applying proxy settings now.");
+                    apply_proxy_to_accounts(true);
+                } else {
+                    warning("TorManager: Tor bootstrap timed out. Applying proxy anyway (will retry on connect).");
+                    apply_proxy_to_accounts(true);
+                }
+            }
+        }
+
+        /**
+         * Wait until the TorController emits bootstrap_status with percent >= 100,
+         * or until timeout_seconds expires. Returns true if bootstrap completed.
+         */
+        private async bool wait_for_bootstrap(int timeout_seconds) {
+            if (!controller.is_running) return false;
+
+            bool completed = false;
+            ulong handler_id = 0;
+            uint timeout_id = 0;
+
+            handler_id = controller.bootstrap_status.connect((percent, summary) => {
+                if (percent >= 100) {
+                    completed = true;
+                    wait_for_bootstrap.callback();
+                }
+            });
+
+            timeout_id = Timeout.add_seconds((uint) timeout_seconds, () => {
+                timeout_id = 0;
+                wait_for_bootstrap.callback();
+                return Source.REMOVE;
+            });
+
+            yield;
+
+            // Cleanup
+            if (handler_id != 0) {
+                SignalHandler.disconnect(controller, handler_id);
+            }
+            if (timeout_id != 0) {
+                Source.remove(timeout_id);
+            }
+
+            return completed;
         }
 
         public async void stop_tor(bool remove_proxy = false) {
