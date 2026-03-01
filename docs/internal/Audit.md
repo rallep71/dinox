@@ -258,35 +258,35 @@ The order is prioritized by **risk × impact**:
 
 ### Applied Fixes (Commit 4edd36dc)
 
-| # | File | Severity | Description | Fix | Status |
-|---|------|----------|-------------|-----|--------|
-| P1 | qlite/src/database.vala | **High** | WAL journal_mode set after migration — first migration without WAL | PRAGMA WAL + synchronous=NORMAL BEFORE start_migration() | DONE |
-| P2 | libdino/src/service/database.vala | **High** | body_meta.message_id without index — every message lookup full table scan | `index("body_meta_message_id_idx", {message_id})` | DONE |
-| P3 | libdino/src/service/database.vala | **Medium** | file_transfer.info without index | `index("file_transfer_info_idx", {info})` | DONE |
-| P4 | libdino/src/service/database.vala | **Low** | undecrypted.message_id without index | `index("undecrypted_message_id_idx", {message_id})` | DONE |
-| P5 | libdino/src/service/database.vala | **Medium** | purge_caches: 9× COUNT(*) before/after DELETE — double query | `changes()` after DELETE instead of separate COUNT | DONE |
-| P6 | main/src/ui/.../conversation_view.vala | **High** | update_highlight scans all items on mouse movement instead of breaking after match | `break` after match in second foreach | DONE |
-| P7 | libdino/src/service/conversation_manager.vala | **High** | get_conversation_by_id: O(n) triple-nested loop | HashMap lookup O(1) with conversations_by_id | DONE |
+| # | File | Severity | Description | Status |
+|---|------|----------|-------------|--------|
+| P1 | qlite/src/database.vala | **High** | WAL journal_mode set after migration — first migration without WAL | DONE |
+| P2 | libdino/src/service/database.vala | **High** | body_meta.message_id without index — every message lookup full table scan | DONE |
+| P3 | libdino/src/service/database.vala | **Medium** | file_transfer.info without index | DONE |
+| P4 | libdino/src/service/database.vala | **Low** | undecrypted.message_id without index | DONE |
+| P5 | libdino/src/service/database.vala | **Medium** | purge_caches: 9× COUNT(*) before/after DELETE — double query | DONE |
+| P6 | main/src/ui/.../conversation_view.vala | **High** | update_highlight scans all items on mouse movement instead of breaking after match | DONE |
+| P7 | libdino/src/service/conversation_manager.vala | **High** | get_conversation_by_id: O(n) triple-nested loop | DONE |
 
 ### Identified but Deferred (too invasive for Phase 8)
 
-| # | Area | Severity | Description | Status | Recommended Fix |
-|---|------|----------|-------------|--------|----------------|
-| D1 | Startup | Medium | GStreamer init blocks main thread 200–500 ms | Deferred | Idle.add() or background thread |
-| D2 | Startup | Medium | /tmp enumeration on every start | Deferred | Lazy/targeted cleanup |
-| D3 | DB | **High** | Sidebar N+1: Last message per conversation loaded individually | **Fixed (Phase 11)** | Skip DB query when ContentItem already provided |
-| D4 | DB | **High** | content_item N+1: Each message fetched individually | Deferred | JOIN refactor |
-| D5 | DB | **High** | get_items_older_than without LIMIT — unbounded result set | **Fixed (Phase 11)** | LIMIT 500 + batch loop |
-| D6 | Memory | **High** | Tile model signal handlers never disconnected — gradual leak | **Fixed (Phase 11)** | Handler IDs + destructor with SignalHandler.disconnect() |
-| D7 | Memory | Medium | Conversation view widgets accumulate without limit | Deferred | Eviction/recycling |
-| D8 | Memory | Medium | mam_times HashMap grows unbounded | **Fixed (Phase 11)** | Clear after fetch_everything completes |
-| D9 | Memory | Low | entity_caps/features/identity caches unbounded | **Fixed (Phase 11)** | Clear on disconnect |
-| D10 | I/O | **High** | Avatar loading: synchronous file I/O on main thread | Deferred | async I/O (cache already mitigates) |
-| D11 | I/O | **High** | Video decryption blocks main thread | Deferred | Already uses yield |
-| D12 | I/O | Medium | Thumbnail parsing synchronous | Deferred | async |
-| D13 | UI | Medium | Builder XML re-parsed per message skeleton | Deferred | Template/composite widget |
-| D14 | UI | Low | Selector row signal leak (7 lambda handlers) | **Fixed (Phase 11)** | Handler IDs + destructor with SignalHandler.disconnect() |
-| D15 | I/O | Low | Avatar preload N+1 | Deferred | JOIN or lazy loading |
+| # | Area | Severity | Description | Status |
+|---|------|----------|-------------|--------|
+| D1 | Startup | Medium | GStreamer init blocks main thread 200–500 ms | Deferred |
+| D2 | Startup | Medium | /tmp enumeration on every start | Deferred |
+| D3 | DB | **High** | Sidebar N+1: Last message per conversation loaded individually | **Fixed (Phase 11)** |
+| D4 | DB | **High** | content_item N+1: Each message fetched individually | Deferred |
+| D5 | DB | **High** | get_items_older_than without LIMIT — unbounded result set | **Fixed (Phase 11)** |
+| D6 | Memory | **High** | Tile model signal handlers never disconnected — gradual leak | **Fixed (Phase 11)** |
+| D7 | Memory | Medium | Conversation view widgets accumulate without limit | Deferred |
+| D8 | Memory | Medium | mam_times HashMap grows unbounded | **Fixed (Phase 11)** |
+| D9 | Memory | Low | entity_caps/features/identity caches unbounded | **Fixed (Phase 11)** |
+| D10 | I/O | **High** | Avatar loading: synchronous file I/O on main thread | Deferred |
+| D11 | I/O | **High** | Video decryption blocks main thread | Deferred |
+| D12 | I/O | Medium | Thumbnail parsing synchronous | Deferred |
+| D13 | UI | Medium | Builder XML re-parsed per message skeleton | Deferred |
+| D14 | UI | Low | Selector row signal leak (7 lambda handlers) | **Fixed (Phase 11)** |
+| D15 | I/O | Low | Avatar preload N+1 | Deferred |
 
 ## Phase 9: Coding Guidelines
 
