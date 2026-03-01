@@ -62,7 +62,7 @@ For every found bug, before applying the fix:
 | **Jingle File Transfer** | **Yes** (Phase 10c) | 21 tests: parsing, size validation, filename path traversal/XSS/unicode, FileTransferInputStream, description roundtrip |
 | **Registration / Ad-Hoc** | **Yes** (Phase 10c) | 20 tests: IBR structure, Command parsing/roundtrip, actions, notes, status enum, adversarial |
 | **MAM v2 / JMI / Moderation** | **Yes** (Phase 10c) | 19 tests: MAM query params, JMI propose/accept/retract/reject/proceed, moderation node structure |
-| **Duplicates / dead code** | **NO** | Static analysis completely missing |
+| **Duplicates / dead code** | DONE | Clone dedup (8 clusters) + dead code removal (15 methods) |
 | **Integration (end-to-end)** | **NO** | No test XMPP server, no message flow test |
 | **UI / GTK** | **Minimal** | Only preferences_row_test, no widget tests |
 
@@ -88,8 +88,8 @@ For every found bug, before applying the fix:
 | 2 | **Adversarial tests** | JID injection, stanza-id spoofing, path traversal, XSS, boundary values | High | Done: 26 tests |
 | 3 | **Null safety tests** | Systematically test `get_attribute()` / `get_subnode()` returns for null | High | Done: 22 tests |
 | 4 | **Entity logic tests** | Pure function tests for Message, FileTransfer without DB/stream | High | Done: 29 tests |
-| 5 | **Duplicate detection** | Script to find similar code blocks (simhash etc.) | Medium | Deferred |
-| 6 | **Dead code detection** | Build call graph, find never-referenced public methods | Medium | Deferred |
+| 5 | **Duplicate detection** | Script to find similar code blocks (simhash etc.) | Medium | DONE |
+| 6 | **Dead code detection** | Build call graph, find never-referenced public methods | Medium | DONE |
 | 7 | **Integration tests** | Mock XMPP server with prosody-in-docker, end-to-end message flow | Low (expensive) | Deferred |
 
 ---
@@ -484,7 +484,7 @@ All documents are in `docs/internal/` (in .gitignore).
 | 3 | **STARTTLS downgrade simulation** | High | Requires mock TLS handshake in mock stream | Core XMPP |
 | 4 | **End-to-end message flow** | Medium | Requires mock XMPP server (e.g. prosody-in-docker) | All |
 | 5 | **GTK4 widget tests** | Low | GTK4 test harness complex; only `preferences_row_test` exists | UI layer |
-| 6 | **Static analysis (duplicates, dead code)** | Low | Requires simhash/call-graph tooling, not test code | N/A |
+| 6 | **Static analysis (duplicates, dead code)** | Low | DONE — jscpd + find_dead_code.py | N/A |
 
 ---
 
