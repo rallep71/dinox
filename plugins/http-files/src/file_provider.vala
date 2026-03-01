@@ -41,6 +41,10 @@ public class FileProvider : Dino.FileProvider, Object {
         stream_interactor.get_module<MessageProcessor>(MessageProcessor.IDENTITY).received_pipeline.connect(new ReceivedMessageListener(this));
     }
 
+    public void shutdown() {
+        session.abort();
+    }
+
     private async void ensure_soup_context() {
         // `get_thread_default()` may be null even while running on the default main
         // context. `MainContext.invoke()` may execute callbacks immediately in some

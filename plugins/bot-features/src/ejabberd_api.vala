@@ -21,6 +21,10 @@ public class EjabberdApi : Object {
         this.http = new Soup.Session();
     }
 
+    public void shutdown() {
+        http.abort();
+    }
+
     // Check if ejabberd API is configured
     public bool is_configured() {
         string? url = registry.get_setting(KEY_API_URL);

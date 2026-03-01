@@ -545,6 +545,10 @@ public class AiIntegration : Object {
         return body_text.strip();
     }
 
+    public void shutdown() {
+        http.abort();
+    }
+
     // Cleanup all settings for a bot
     public void cleanup(int bot_id) {
         string prefix = "bot_%d_ai".printf(bot_id);

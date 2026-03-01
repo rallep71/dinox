@@ -7,7 +7,7 @@ public class Plugin : RootInterface, Object {
 
     public Dino.Application app;
     public FileProvider file_provider;
-    public FileSender file_sender;
+    public HttpFileSender file_sender;
 
     public void registered(Dino.Application app) {
         this.app = app;
@@ -20,7 +20,8 @@ public class Plugin : RootInterface, Object {
     }
 
     public void shutdown() {
-        // Nothing to do
+        if (file_provider != null) file_provider.shutdown();
+        if (file_sender != null) file_sender.shutdown();
     }
 
     public void rekey_database(string new_key) throws Error {

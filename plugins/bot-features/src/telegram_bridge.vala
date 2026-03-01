@@ -640,6 +640,15 @@ public class TelegramBridge : Object {
         }
     }
 
+    public void shutdown() {
+        // Stop all polling timers
+        foreach (var entry in poll_timers.entries) {
+            GLib.Source.remove(entry.value);
+        }
+        poll_timers.clear();
+        http.abort();
+    }
+
     // Cleanup all settings for a bot
     public void cleanup(int bot_id) {
         stop_polling(bot_id);

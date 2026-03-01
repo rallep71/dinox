@@ -2477,6 +2477,12 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             systray_manager = null;
         }
 
+        // Abort any in-flight HTTP requests to avoid libsoup dispose warnings
+        if (stream_interactor != null) {
+            var stickers = stream_interactor.get_module<Stickers>(Stickers.IDENTITY);
+            if (stickers != null) stickers.shutdown();
+        }
+
         // Close XMPP connections without triggering account_removed.
         // stream_interactor.disconnect_account() fires account_removed which
         // causes the OMEMO plugin to DELETE all identity keys and sessions.

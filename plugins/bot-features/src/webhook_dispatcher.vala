@@ -11,6 +11,10 @@ public class WebhookDispatcher : Object {
         session.timeout = TIMEOUT_SECONDS;
     }
 
+    public void shutdown() {
+        session.abort();
+    }
+
     // Dispatch a webhook POST with HMAC-SHA256 signature
     public void dispatch(string url, string secret, string payload) {
         dispatch_async.begin(url, secret, payload);

@@ -721,6 +721,9 @@ public class Plugin : RootInterface, Object {
         if (message_router != null) {
             message_router.shutdown();
         }
+        if (webhook_dispatcher != null) {
+            webhook_dispatcher.shutdown();
+        }
         enabled = false;
     }
 

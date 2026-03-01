@@ -52,6 +52,9 @@ public class MessageRouter : Object {
             GLib.Source.remove(cleanup_timer_id);
             cleanup_timer_id = 0;
         }
+        if (telegram != null) telegram.shutdown();
+        if (ai != null) ai.shutdown();
+        if (ejabberd_api != null) ejabberd_api.shutdown();
     }
 
     // Handle Telegram -> XMPP forwarding

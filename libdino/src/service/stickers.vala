@@ -120,6 +120,10 @@ public class Stickers : StreamInteractionModule, Object {
         DirUtils.create_with_parents(get_stickers_dir(), 0700);
     }
 
+    public void shutdown() {
+        http.abort();
+    }
+
     private async void ensure_http_context() {
         // `get_thread_default()` may be null even while running on the default main
         // context. `invoke()` executes callbacks immediately if the context is already
