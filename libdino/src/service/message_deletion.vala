@@ -303,12 +303,16 @@ namespace Dino {
 
         private void delete_expired_messages(Conversation conversation, DateTime now, ContentItemStore content_item_store) {
             var cutoff_time = now.add_seconds(-conversation.message_expiry_seconds);
-            var items = content_item_store.get_items_older_than(conversation, cutoff_time);
-            
-            if (items.size > 0) {
-                debug("Auto-deleting %d expired messages for %s (older than %s)", 
-                      items.size, conversation.counterpart.to_string(), cutoff_time.to_string());
-            }
+            // Process in batches to avoid loading all expired messages into memory at once (D5)
+            Gee.List<ContentItem> items = new Gee.ArrayList<ContentItem>();
+            int total_deleted = 0;
+            do {
+                items = content_item_store.get_items_older_than(conversation, cutoff_time, 500);
+                if (items.size > 0 && total_deleted == 0) {
+                    debug("Auto-deleting expired messages for %s (older than %s)", 
+                          conversation.counterpart.to_string(), cutoff_time.to_string());
+                }
+                total_deleted += items.size;
             
             foreach (ContentItem item in items) {
                 // Check if it's our own message
@@ -326,6 +330,10 @@ namespace Dino {
                     // Received message: Delete locally only
                     delete_locally(conversation, item, conversation.account.bare_jid);
                 }
+            }
+            } while (items.size >= 500); // Continue if batch was full (more may remain)
+            if (total_deleted > 0) {
+                debug("Auto-deleted %d expired messages for %s", total_deleted, conversation.counterpart.to_string());
             }
         }
     }

@@ -295,13 +295,14 @@ public class ContentItemStore : StreamInteractionModule, Object {
         return get_items_from_query(select, conversation);
     }
 
-    public Gee.List<ContentItem> get_items_older_than(Conversation conversation, DateTime cutoff_time) {
+    public Gee.List<ContentItem> get_items_older_than(Conversation conversation, DateTime cutoff_time, int limit = 500) {
         long cutoff_unix = (long) cutoff_time.to_unix();
         QueryBuilder select = db.content_item.select()
             .where("time < ?", { cutoff_unix.to_string() })
             .with(db.content_item.conversation_id, "=", conversation.id)
             .with(db.content_item.hide, "=", false)
-            .order_by(db.content_item.time, "ASC");
+            .order_by(db.content_item.time, "ASC")
+            .limit(limit);
 
         return get_items_from_query(select, conversation);
     }

@@ -20,6 +20,10 @@ public class Dino.Ui.ViewModel.ConversationParticipantAvatarPictureTileModel : A
     private Jid? primary_avatar_jid;
     private Jid? secondary_avatar_jid;
     private Jid? display_name_jid;
+    // Signal handler IDs for cleanup in dispose() (D6)
+    private ulong roster_updated_handler_id;
+    private ulong received_avatar_handler_id;
+    private ulong fetched_avatar_handler_id;
 
     public ConversationParticipantAvatarPictureTileModel(StreamInteractor stream_interactor, Conversation conversation, Jid jid) {
         this.stream_interactor = stream_interactor;
@@ -43,14 +47,34 @@ public class Dino.Ui.ViewModel.ConversationParticipantAvatarPictureTileModel : A
         }
         string display = Util.get_participant_display_name(stream_interactor, conversation, display_name_jid);
         display_text = display.get_char(0).toupper().to_string();
-        stream_interactor.get_module<RosterManager>(RosterManager.IDENTITY).updated_roster_item.connect(on_roster_updated);
+        roster_updated_handler_id = stream_interactor.get_module<RosterManager>(RosterManager.IDENTITY).updated_roster_item.connect(on_roster_updated);
 
         float[] rgbf = color_id != null ? Xep.ConsistentColor.string_to_rgbf(color_id) : new float[] {0.5f, 0.5f, 0.5f};
         background_color = Gdk.RGBA() { red = rgbf[0], green = rgbf[1], blue = rgbf[2], alpha = 1.0f};
 
         update_image_bytes();
-        avatar_manager.received_avatar.connect(on_received_avatar);
-        avatar_manager.fetched_avatar.connect(on_received_avatar);
+        received_avatar_handler_id = avatar_manager.received_avatar.connect(on_received_avatar);
+        fetched_avatar_handler_id = avatar_manager.fetched_avatar.connect(on_received_avatar);
+    }
+
+    ~ConversationParticipantAvatarPictureTileModel() {
+        // Disconnect signal handlers to prevent leaks (D6)
+        if (roster_updated_handler_id != 0) {
+            var roster_mgr = stream_interactor.get_module<RosterManager>(RosterManager.IDENTITY);
+            if (roster_mgr != null) SignalHandler.disconnect(roster_mgr, roster_updated_handler_id);
+            roster_updated_handler_id = 0;
+        }
+        var am = avatar_manager;
+        if (am != null) {
+            if (received_avatar_handler_id != 0) {
+                SignalHandler.disconnect(am, received_avatar_handler_id);
+                received_avatar_handler_id = 0;
+            }
+            if (fetched_avatar_handler_id != 0) {
+                SignalHandler.disconnect(am, fetched_avatar_handler_id);
+                fetched_avatar_handler_id = 0;
+            }
+        }
     }
 
     private void update_image_bytes() {

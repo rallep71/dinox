@@ -49,6 +49,22 @@ public class EntityInfo : StreamInteractionModule, Object {
                 }
             });
         });
+        // D9: Clear per-JID caches on disconnect to prevent unbounded growth
+        stream_interactor.connection_manager.connection_state_changed.connect((account, state) => {
+            if (state == ConnectionManager.ConnectionState.DISCONNECTED) {
+                // Clear volatile per-JID caches (caps hashes are re-populated from presence on reconnect)
+                int caps_count = entity_caps_hashes.size;
+                int feat_count = jid_features.size;
+                int ident_count = jid_identity.size;
+                entity_caps_hashes.clear();
+                jid_features.clear();
+                jid_identity.clear();
+                if (caps_count + feat_count + ident_count > 50) {
+                    debug("D9: Cleared entity caches on disconnect: %d caps, %d features, %d identities",
+                          caps_count, feat_count, ident_count);
+                }
+            }
+        });
         stream_interactor.module_manager.initialize_account_modules.connect(initialize_modules);
 
         remove_old_entities();

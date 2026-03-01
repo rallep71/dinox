@@ -43,6 +43,14 @@ public class ConversationSelectorRow : ListBoxRow {
     protected int num_unread = 0;
     private PopoverMenu? active_popover = null;
     private Widget? cached_groupchat_tooltip = null;
+    // D14: Signal handler IDs for proper cleanup
+    private ulong muc_room_info_handler_id;
+    private ulong muc_subject_set_handler_id;
+    private ulong content_new_item_handler_id;
+    private ulong correction_handler_id;
+    private ulong deletion_handler_id;
+    private ulong conversation_cleared_handler_id;
+    private ulong block_changed_handler_id;
 
     protected StreamInteractor stream_interactor;
 
@@ -78,7 +86,7 @@ public class ConversationSelectorRow : ListBoxRow {
 
         if (conversation.type_ == Conversation.Type.GROUPCHAT) {
             muc_indicator.visible = true;
-            stream_interactor.get_module<MucManager>(MucManager.IDENTITY).room_info_updated.connect((account, jid) => {
+            muc_room_info_handler_id = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).room_info_updated.connect((account, jid) => {
                 if (conversation != null && conversation.counterpart.equals_bare(jid) && conversation.account.equals(account)) {
                     update_read(true); // bubble color might have changed
                     update_private_room_indicator();
@@ -106,7 +114,7 @@ public class ConversationSelectorRow : ListBoxRow {
                     return true;
                 });
                 // Invalidate tooltip when subject changes
-                stream_interactor.get_module<MucManager>(MucManager.IDENTITY).subject_set.connect((account, jid, subject) => {
+                muc_subject_set_handler_id = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).subject_set.connect((account, jid, subject) => {
                     if (conversation.account.equals(account) && conversation.counterpart.equals_bare(jid)) {
                         cached_groupchat_tooltip = null;
                         trigger_tooltip_query();
@@ -117,22 +125,22 @@ public class ConversationSelectorRow : ListBoxRow {
                 break;
         }
 
-        stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).new_item.connect((item, c) => {
+        content_new_item_handler_id = stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).new_item.connect((item, c) => {
             if (conversation.equals(c)) {
                 content_item_received(item);
             }
         });
-        stream_interactor.get_module<MessageCorrection>(MessageCorrection.IDENTITY).received_correction.connect((item) => {
+        correction_handler_id = stream_interactor.get_module<MessageCorrection>(MessageCorrection.IDENTITY).received_correction.connect((item) => {
             if (last_content_item != null && last_content_item.id == item.id) {
                 content_item_received(item);
             }
         });
-        stream_interactor.get_module<MessageDeletion>(MessageDeletion.IDENTITY).item_deleted.connect((item) => {
+        deletion_handler_id = stream_interactor.get_module<MessageDeletion>(MessageDeletion.IDENTITY).item_deleted.connect((item) => {
             if (last_content_item != null && last_content_item.id == item.id) {
                 content_item_received(item);
             }
         });
-        stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).conversation_cleared.connect((cleared_conversation) => {
+        conversation_cleared_handler_id = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).conversation_cleared.connect((cleared_conversation) => {
             if (conversation.id == cleared_conversation.id) {
                 last_content_item = null;
                 update_message_label();
@@ -149,7 +157,7 @@ public class ConversationSelectorRow : ListBoxRow {
         
         // Listen for block status changes
         if (conversation.type_ == Conversation.Type.CHAT) {
-            stream_interactor.get_module<BlockingManager>(BlockingManager.IDENTITY).block_changed.connect((account, jid) => {
+            block_changed_handler_id = stream_interactor.get_module<BlockingManager>(BlockingManager.IDENTITY).block_changed.connect((account, jid) => {
                 if (conversation.account.equals(account) && conversation.counterpart.equals_bare(jid)) {
                     update_blocked_icon();
                 }
@@ -170,6 +178,28 @@ public class ConversationSelectorRow : ListBoxRow {
             pm.received_offline_presence.disconnect(on_presence_changed);
             pm.status_changed.disconnect(on_own_status_changed);
         }
+        // D14: Disconnect all registered signal handlers to prevent leaks
+        if (muc_room_info_handler_id != 0) {
+            SignalHandler.disconnect(stream_interactor.get_module<MucManager>(MucManager.IDENTITY), muc_room_info_handler_id);
+        }
+        if (muc_subject_set_handler_id != 0) {
+            SignalHandler.disconnect(stream_interactor.get_module<MucManager>(MucManager.IDENTITY), muc_subject_set_handler_id);
+        }
+        if (content_new_item_handler_id != 0) {
+            SignalHandler.disconnect(stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY), content_new_item_handler_id);
+        }
+        if (correction_handler_id != 0) {
+            SignalHandler.disconnect(stream_interactor.get_module<MessageCorrection>(MessageCorrection.IDENTITY), correction_handler_id);
+        }
+        if (deletion_handler_id != 0) {
+            SignalHandler.disconnect(stream_interactor.get_module<MessageDeletion>(MessageDeletion.IDENTITY), deletion_handler_id);
+        }
+        if (conversation_cleared_handler_id != 0) {
+            SignalHandler.disconnect(stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY), conversation_cleared_handler_id);
+        }
+        if (block_changed_handler_id != 0) {
+            SignalHandler.disconnect(stream_interactor.get_module<BlockingManager>(BlockingManager.IDENTITY), block_changed_handler_id);
+        }
     }
 
     public void update() {
@@ -177,7 +207,13 @@ public class ConversationSelectorRow : ListBoxRow {
     }
 
     public void content_item_received(ContentItem? ci = null) {
-        last_content_item = stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).get_latest(conversation) ?? ci;
+        // D3: If a new item is provided and is newer than cached, use it directly
+        // instead of querying the DB (avoids N+1 on every incoming message)
+        if (ci != null && (last_content_item == null || ci.compare(last_content_item) >= 0)) {
+            last_content_item = ci;
+        } else {
+            last_content_item = stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).get_latest(conversation) ?? ci;
+        }
         update_message_label();
         update_time_label();
         update_read();

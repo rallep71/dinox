@@ -1,10 +1,10 @@
 # DinoX Code Audit Plan
 
-> **Status:** COMPLETED (Phase 10c — all feasible XEP tests completed)
+> **Status:** COMPLETED (Phase 11 — deferred performance fixes applied)
 > **Created:** March 1, 2026
 > **Completed:** March 2, 2026
 > **Goal:** Systematically audit every directory for bugs, security vulnerabilities, clean code, duplicates, and redundant calls.
-> **After:** Performance analysis (bottlenecks) ✓ + Coding guidelines ✓ + Runtime bug investigation ✓ + Test suite expansion ✓
+> **After:** Performance analysis (bottlenecks) [x] + Coding guidelines [x] + Runtime bug investigation [x] + Test suite expansion [x] + Deferred perf fixes [x]
 
 ---
 
@@ -84,10 +84,10 @@ For every found bug, before applying the fix:
 
 | # | Test Category | Description | Priority | Status |
 |---|--------------|-------------|----------|--------|
-| 1 | **Malformed stanza tests** | For each XEP: Send stanzas with missing attributes, empty nodes, null content | Critical | ✅ 43 tests |
-| 2 | **Adversarial tests** | JID injection, stanza-id spoofing, path traversal, XSS, boundary values | High | ✅ 26 tests |
-| 3 | **Null safety tests** | Systematically test `get_attribute()` / `get_subnode()` returns for null | High | ✅ 22 tests |
-| 4 | **Entity logic tests** | Pure function tests for Message, FileTransfer without DB/stream | High | ✅ 29 tests |
+| 1 | **Malformed stanza tests** | For each XEP: Send stanzas with missing attributes, empty nodes, null content | Critical | Done: 43 tests |
+| 2 | **Adversarial tests** | JID injection, stanza-id spoofing, path traversal, XSS, boundary values | High | Done: 26 tests |
+| 3 | **Null safety tests** | Systematically test `get_attribute()` / `get_subnode()` returns for null | High | Done: 22 tests |
+| 4 | **Entity logic tests** | Pure function tests for Message, FileTransfer without DB/stream | High | Done: 29 tests |
 | 5 | **Duplicate detection** | Script to find similar code blocks (simhash etc.) | Medium | Deferred |
 | 6 | **Dead code detection** | Build call graph, find never-referenced public methods | Medium | Deferred |
 | 7 | **Integration tests** | Mock XMPP server with prosody-in-docker, end-to-end message flow | Low (expensive) | Deferred |
@@ -245,7 +245,7 @@ The order is prioritized by **risk × impact**:
 ## Phase 8: Performance Analysis (after the code audit)
 
 > **Status:** COMPLETED (4edd36dc)
-> **Result:** 24 performance findings identified, 7 safe high-impact fixes applied
+> **Result:** 24 performance findings identified, 7 safe high-impact fixes applied, 6 deferred fixes applied in Phase 11
 
 | # | Task | Description |
 |---|------|-------------|
@@ -268,25 +268,25 @@ The order is prioritized by **risk × impact**:
 | P6 | main/src/ui/.../conversation_view.vala | **High** | update_highlight scans all items on mouse movement instead of breaking after match | `break` after match in second foreach |
 | P7 | libdino/src/service/conversation_manager.vala | **High** | get_conversation_by_id: O(n) triple-nested loop | HashMap lookup O(1) with conversations_by_id |
 
-### Identified but Deferred (too invasive for this phase)
+### Identified but Deferred (too invasive for Phase 8)
 
-| # | Area | Severity | Description | Recommended Fix |
-|---|------|----------|-------------|----------------|
-| D1 | Startup | Medium | GStreamer init blocks main thread 200–500 ms | Idle.add() or background thread |
-| D2 | Startup | Medium | /tmp enumeration on every start | Lazy/targeted cleanup |
-| D3 | DB | **High** | Sidebar N+1: Last message per conversation loaded individually | JOIN refactor in one query |
-| D4 | DB | **High** | content_item N+1: Each message fetched individually | JOIN refactor |
-| D5 | DB | **High** | get_items_older_than without LIMIT — unbounded result set | Introduce LIMIT parameter |
-| D6 | Memory | **High** | Tile model signal handlers never disconnected — gradual leak | dispose() with handler IDs |
-| D7 | Memory | Medium | Conversation view widgets accumulate without limit | Eviction/recycling |
-| D8 | Memory | Medium | mam_times HashMap grows unbounded | Cleanup on disconnect |
-| D9 | Memory | Low | entity_caps unbounded | LRU cache |
-| D10 | I/O | **High** | Avatar loading: synchronous file I/O on main thread | async I/O |
-| D11 | I/O | **High** | Video decryption blocks main thread | Background thread |
-| D12 | I/O | Medium | Thumbnail parsing synchronous | async |
-| D13 | UI | Medium | Builder XML re-parsed per message skeleton | Template/composite widget |
-| D14 | UI | Low | Selector row signal leak | disconnect in dispose() |
-| D15 | I/O | Low | Avatar preload N+1 | JOIN or lazy loading |
+| # | Area | Severity | Description | Status | Recommended Fix |
+|---|------|----------|-------------|--------|----------------|
+| D1 | Startup | Medium | GStreamer init blocks main thread 200–500 ms | Deferred | Idle.add() or background thread |
+| D2 | Startup | Medium | /tmp enumeration on every start | Deferred | Lazy/targeted cleanup |
+| D3 | DB | **High** | Sidebar N+1: Last message per conversation loaded individually | **Fixed (Phase 11)** | Skip DB query when ContentItem already provided |
+| D4 | DB | **High** | content_item N+1: Each message fetched individually | Deferred | JOIN refactor |
+| D5 | DB | **High** | get_items_older_than without LIMIT — unbounded result set | **Fixed (Phase 11)** | LIMIT 500 + batch loop |
+| D6 | Memory | **High** | Tile model signal handlers never disconnected — gradual leak | **Fixed (Phase 11)** | Handler IDs + destructor with SignalHandler.disconnect() |
+| D7 | Memory | Medium | Conversation view widgets accumulate without limit | Deferred | Eviction/recycling |
+| D8 | Memory | Medium | mam_times HashMap grows unbounded | **Fixed (Phase 11)** | Clear after fetch_everything completes |
+| D9 | Memory | Low | entity_caps/features/identity caches unbounded | **Fixed (Phase 11)** | Clear on disconnect |
+| D10 | I/O | **High** | Avatar loading: synchronous file I/O on main thread | Deferred | async I/O (cache already mitigates) |
+| D11 | I/O | **High** | Video decryption blocks main thread | Deferred | Already uses yield |
+| D12 | I/O | Medium | Thumbnail parsing synchronous | Deferred | async |
+| D13 | UI | Medium | Builder XML re-parsed per message skeleton | Deferred | Template/composite widget |
+| D14 | UI | Low | Selector row signal leak (7 lambda handlers) | **Fixed (Phase 11)** | Handler IDs + destructor with SignalHandler.disconnect() |
+| D15 | I/O | Low | Avatar preload N+1 | Deferred | JOIN or lazy loading |
 
 ## Phase 9: Coding Guidelines
 
@@ -485,6 +485,51 @@ All documents are in `docs/internal/` (in .gitignore).
 | 4 | **End-to-end message flow** | Medium | Requires mock XMPP server (e.g. prosody-in-docker) | All |
 | 5 | **GTK4 widget tests** | Low | GTK4 test harness complex; only `preferences_row_test` exists | UI layer |
 | 6 | **Static analysis (duplicates, dead code)** | Low | Requires simhash/call-graph tooling, not test code | N/A |
+
+---
+
+## Phase 11: Deferred Performance Fixes
+
+> **Status:** COMPLETED
+> **Goal:** Implement safe, high-impact performance fixes from the D1–D15 deferred list (Phase 8).
+> **Result:** 6 of 15 deferred items fixed; 9 remain deferred (too invasive or low priority).
+
+### Applied Fixes
+
+| # | File(s) | D-Item | Description | Fix |
+|---|---------|--------|-------------|-----|
+| 1 | content_item_store.vala, message_deletion.vala | **D5** | `get_items_older_than()` without LIMIT — loads entire expired message history in one query | Added `int limit = 500` parameter + `.limit(limit)` on QueryBuilder; `delete_expired_messages()` now processes in batch do-while loop |
+| 2 | avatar_picture.vala | **D6** | `ConversationParticipantAvatarPictureTileModel` connects 3 signals (roster_updated, received_avatar, fetched_avatar) but never disconnects → gradual leak | Store handler IDs; destructor calls `SignalHandler.disconnect()` for all 3 |
+| 3 | conversation_selector_row.vala | **D14** | 7 lambda signal handlers (muc_room_info, subject_set, content_new_item, correction, deletion, conversation_cleared, block_changed) never disconnected | Store 7 handler IDs; destructor calls `SignalHandler.disconnect()` for all 7 |
+| 4 | conversation_selector_row.vala | **D3** | `content_item_received(ContentItem? ci)` ignores the passed `ci` parameter and always queries DB for latest content item | Skip DB query when `ci != null` and newer than cached `last_content_item` |
+| 5 | history_sync.vala | **D8** | `mam_times[account]` HashMap grows unbounded — entries added during MAM sync never removed | `mam_times[account].clear()` after `fetch_everything.end()` completes |
+| 6 | entity_info.vala | **D9** | `entity_caps_hashes`, `jid_features`, `jid_identity` caches grow unbounded across sessions | Connect to `connection_state_changed`; clear all 3 maps on `DISCONNECTED` |
+
+### Still Deferred (9 items)
+
+| # | Reason |
+|---|--------|
+| D1 | GStreamer lazy init requires touching all callers (main.vala, rtp plugin, audio/video widgets) |
+| D2 | /tmp cleanup — low impact, already works |
+| D4 | content_item N+1 JOIN refactor — requires significant DB layer changes |
+| D7 | Widget eviction — complex scroll position management, risk of regressions |
+| D10 | Avatar async I/O — file cache already mitigates, async conversion too invasive |
+| D11 | Video decryption — already uses yield/async, no blocking I/O found |
+| D12 | Thumbnail async — medium effort, low user impact |
+| D13 | Builder XML template caching — requires GTK composite widget migration |
+| D15 | Avatar preload N+1 — low frequency, already cached |
+
+### Technical Note: Vala Signal Disconnect Pattern
+
+When disconnecting signals in Vala, `signal.disconnect(handler_id)` does **not** compile for signals defined in Vala classes — the compiler expects the delegate type, not `ulong`. The correct pattern is:
+
+```vala
+ulong handler_id = obj.some_signal.connect(() => { ... });
+// Later in destructor:
+SignalHandler.disconnect(obj, handler_id);  // GLib.SignalHandler
+```
+
+This was discovered through two build failures during Phase 11 and is now documented in CODING_GUIDELINES.md as well.
 
 ---
 

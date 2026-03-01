@@ -507,6 +507,12 @@ public class Dino.HistorySync {
         fetch_everything.begin(account, account.bare_jid, cancellables[account][account.bare_jid], sync_not_before, (_, res) => {
             fetch_everything.end(res);
             cancellables[account].unset(account.bare_jid);
+            // D8: Clean up mam_times after catchup completes to prevent unbounded growth
+            if (mam_times.has_key(account)) {
+                int old_size = mam_times[account].size;
+                mam_times[account].clear();
+                if (old_size > 100) debug("[%s] Cleared %d mam_times entries after sync", account.bare_jid.to_string(), old_size);
+            }
         });
     }
 
