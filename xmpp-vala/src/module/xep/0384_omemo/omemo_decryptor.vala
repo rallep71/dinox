@@ -40,8 +40,9 @@ namespace Xmpp.Xep.Omemo {
             ret.iv = Base64.decode(iv_str);
 
             foreach (StanzaNode key_node in header_node.get_subnodes("key")) {
-                debug("Is ours? %d =? %u", key_node.get_attribute_int("rid"), own_device_id);
-                if (key_node.get_attribute_int("rid") == own_device_id) {
+                uint rid = key_node.get_attribute_uint("rid");
+                debug("Is ours? %u =? %u", rid, own_device_id);
+                if (rid == own_device_id) {
                     string? key_node_content = key_node.get_string_content();
                     if (key_node_content == null) continue;
                     uchar[] encrypted_key = Base64.decode(key_node_content);

@@ -69,11 +69,11 @@ namespace Xmpp.Xep.Omemo {
                 /* Check if this keys group is for our JID */
                 if (jid_attr == our_bare_jid) {
                     foreach (StanzaNode key_node in keys_node.get_subnodes("key", NS_URI_V2)) {
-                        int rid = key_node.get_attribute_int("rid", -1);
-                        if (rid == -1) continue;
+                        uint rid = key_node.get_attribute_uint("rid", 0);
+                        if (rid == 0) continue;
 
-                        debug("OMEMO 2: Is ours? rid=%d =? own=%u", rid, own_device_id);
-                        if (rid == (int)own_device_id) {
+                        debug("OMEMO 2: Is ours? rid=%u =? own=%u", rid, own_device_id);
+                        if (rid == own_device_id) {
                             string? key_content = key_node.get_string_content();
                             if (key_content == null) continue;
                             uint8[] encrypted_key = Base64.decode(key_content);
