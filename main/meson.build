@@ -152,6 +152,7 @@ if host_machine.system() == 'windows'
     sources += files('src/ui/systray_windows.vala')
 else
     sources += files('src/ui/systray.vala')
+    sources += files('src/ui/systray_sni_dbus.c')
 endif
 
 sources += gnome.compile_resources(
@@ -164,11 +165,15 @@ c_args = [
     '-DG_LOG_DOMAIN="dino"',
     '-DGETTEXT_PACKAGE="dino"',
     '-DLOCALE_INSTALL_DIR="@0@"'.format(get_option('prefix') / get_option('localedir')),
+    '-I' + meson.current_source_dir() / 'src/ui',
 ]
 vala_args = [
     '--vapidir=' + (meson.current_source_dir() / 'vapi'),
 ]
 message('VAPI DIR: ' + (meson.current_source_dir() / 'vapi'))
+if host_machine.system() != 'windows'
+    vala_args += ['--pkg', 'systray_sni_dbus']
+endif
 if have_x11
     vala_args += ['-D', 'HAVE_X11']
 endif

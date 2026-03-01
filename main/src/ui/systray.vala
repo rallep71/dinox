@@ -19,61 +19,135 @@ using GLib;
 
 namespace Dino.Ui {
 
-[DBus (name = "org.kde.StatusNotifierItem")]
+// Plain data holder for SNI properties.
+// D-Bus registration is done manually via systray_sni_dbus.c
+// so we can export IconPixmap as the correct a(iiay) type.
 public class StatusNotifierItem : Object {
-    
+
     public string status { get; set; default = "Active"; }
     public string icon_name { get; set; default = "im.github.rallep71.DinoX"; }
     public string title { get; set; default = "DinoX"; }
     public string category { get; set; default = "Communications"; }
     public string id { get; set; default = "dinox"; }
     public bool item_is_menu { get; set; default = false; }
-
-    // IconThemePath tells the StatusNotifierHost where to look for the icon.
-    // Critical for AppImage/Flatpak where the icon is not in the system theme.
     public string icon_theme_path { get; set; default = ""; }
-    
-    // Menu is exported on /MenuBar
-    public ObjectPath menu { 
-        owned get { return new ObjectPath("/MenuBar"); }
-    }
-    
-    [DBus (name = "NewIcon")]
-    public signal void new_icon();
-    
-    [DBus (name = "NewStatus")]
-    public signal void new_status(string status);
-    
+
+    // IconPixmap variant of type a(iiay) for Qt-based trays (Quickshell, etc.)
+    private GLib.Variant? _icon_pixmap = null;
+
     public signal void activate(int x, int y);
     public signal void secondary_activate(int x, int y);
-    
-    [DBus (name = "Activate")]
-    public void dbus_activate(int x, int y) throws Error {
-        activate(x, y);
+
+    // Return the D-Bus value for a given property name
+    public GLib.Variant? get_dbus_property(string name) {
+        switch (name) {
+            case "Status":        return new Variant.string(status);
+            case "IconName":      return new Variant.string(icon_name);
+            case "IconThemePath": return new Variant.string(icon_theme_path);
+            case "Title":         return new Variant.string(title);
+            case "Category":      return new Variant.string(category);
+            case "Id":            return new Variant.string(id);
+            case "ItemIsMenu":    return new Variant.boolean(item_is_menu);
+            case "Menu":          return new Variant.object_path("/MenuBar");
+            case "IconPixmap":    return get_icon_pixmap();
+            default:              return null;
+        }
     }
-    
-    [DBus (name = "SecondaryActivate")]
-    public void dbus_secondary_activate(int x, int y) throws Error {
-        secondary_activate(x, y);
+
+    private GLib.Variant get_icon_pixmap() {
+        if (_icon_pixmap != null) return _icon_pixmap;
+        return new Variant("a(iiay)", null);
     }
-    
-    [DBus (name = "ContextMenu")]
-    public void context_menu(int x, int y) throws Error {
-        debug("Systray: ContextMenu called at (%d, %d)", x, y);
+
+    // Load icon PNGs as ARGB32 pixel data for IconPixmap.
+    // If any loaded, clears icon_name so Qt trays use pixel data.
+    public void load_icon_pixmaps() {
+        string icon_id = "im.github.rallep71.DinoX";
+        int[] sizes = {32, 48};
+
+        string? hicolor = find_hicolor_dir(icon_id);
+        if (hicolor == null) {
+            debug("Systray: no hicolor dir found for IconPixmap");
+            return;
+        }
+
+        var builder = new VariantBuilder(new VariantType("a(iiay)"));
+        int count = 0;
+
+        foreach (int sz in sizes) {
+            string path = Path.build_filename(hicolor, "%dx%d".printf(sz, sz), "apps", icon_id + ".png");
+            uint8[]? argb = load_png_as_argb32(path, sz);
+            if (argb == null) continue;
+
+            var bytes_builder = new VariantBuilder(new VariantType("ay"));
+            foreach (uint8 b in argb) {
+                bytes_builder.add("y", b);
+            }
+            builder.add("(ii@ay)", (int32) sz, (int32) sz, bytes_builder.end());
+            count++;
+            debug("Systray: IconPixmap loaded %dx%d", sz, sz);
+        }
+
+        if (count > 0) {
+            _icon_pixmap = builder.end();
+            // Keep icon_name set! Tray hosts that support IconPixmap will use
+            // the pixel data; older hosts fall back to IconName + IconThemePath.
+            debug("Systray: IconPixmap ready (%d sizes)", count);
+        }
     }
-    
-    [DBus (name = "Scroll")]
-    public void scroll(int delta, string orientation) throws Error {
+
+    private string? find_hicolor_dir(string icon_id) {
+        string[] dirs = {};
+
+        string? appdir = Environment.get_variable("APPDIR");
+        if (appdir != null) {
+            dirs += Path.build_filename(appdir, "usr", "share", "icons", "hicolor");
+        }
+
+        string? xdg = Environment.get_variable("XDG_DATA_DIRS");
+        if (xdg != null) {
+            foreach (string d in xdg.split(":")) {
+                if (d.length > 0) dirs += Path.build_filename(d, "icons", "hicolor");
+            }
+        }
+        dirs += "/usr/share/icons/hicolor";
+
+        foreach (string dir in dirs) {
+            string test = Path.build_filename(dir, "48x48", "apps", icon_id + ".png");
+            if (FileUtils.test(test, FileTest.IS_REGULAR)) return dir;
+        }
+        return null;
     }
-    
-    public void update_icon(string icon) throws Error {
-        icon_name = icon;
-        new_icon();
-    }
-    
-    public void update_status(string new_status_value) throws Error {
-        status = new_status_value;
-        new_status(new_status_value);
+
+    private uint8[]? load_png_as_argb32(string path, int size) {
+        if (!FileUtils.test(path, FileTest.IS_REGULAR)) return null;
+
+        try {
+            var pb = new Gdk.Pixbuf.from_file_at_size(path, size, size);
+            if (pb == null) return null;
+            if (!pb.get_has_alpha()) pb = pb.add_alpha(false, 0, 0, 0);
+
+            int w = pb.get_width();
+            int h = pb.get_height();
+            int rs = pb.get_rowstride();
+            unowned uint8[] px = pb.get_pixels();
+
+            // GdkPixbuf RGBA -> SNI ARGB32 network byte order (A R G B)
+            uint8[] argb = new uint8[w * h * 4];
+            for (int y = 0; y < h; y++) {
+                for (int x = 0; x < w; x++) {
+                    int s = y * rs + x * 4;
+                    int d = (y * w + x) * 4;
+                    argb[d]     = px[s + 3]; // A
+                    argb[d + 1] = px[s];     // R
+                    argb[d + 2] = px[s + 1]; // G
+                    argb[d + 3] = px[s + 2]; // B
+                }
+            }
+            return argb;
+        } catch (Error e) {
+            return null;
+        }
     }
 }
 
@@ -153,11 +227,9 @@ public class SystrayManager : Object {
             connection = conn;
             
             status_notifier = new StatusNotifierItem();
-            status_notifier.activate.connect(on_activate);
-            status_notifier.secondary_activate.connect(on_secondary_activate);
             
-            // Set IconThemePath for AppImage/Flatpak so the desktop can find the icon.
-            // APPDIR env is set by AppRun; for normal installs this stays empty (system theme).
+            // Set IconThemePath so the desktop can find the icon.
+            // AppImage: use bundled icons; regular install: system icons.
             string? appdir = Environment.get_variable("APPDIR");
             if (appdir != null) {
                 string theme_path = Path.build_filename(appdir, "usr", "share", "icons");
@@ -165,7 +237,13 @@ public class SystrayManager : Object {
                     status_notifier.icon_theme_path = theme_path;
                     debug("Systray: IconThemePath set to %s", theme_path);
                 }
+            } else {
+                // Regular install: also set path for Qt trays that need explicit lookup
+                status_notifier.icon_theme_path = "/usr/share/icons";
             }
+
+            // Load inline pixel data for Qt-based trays (Quickshell, etc.)
+            status_notifier.load_icon_pixmaps();
             
             // Initialize Dbusmenu Server
             menu_server = new Dbusmenu.Server("/MenuBar");
@@ -221,7 +299,9 @@ public class SystrayManager : Object {
             
             debug("Systray: Dbusmenu.Server initialized on /MenuBar");
             
-            dbus_id = connection.register_object("/StatusNotifierItem", status_notifier);
+            // Register SNI via C helper (supports IconPixmap a(iiay) type)
+            dbus_id = SniDbus.register(connection, "/StatusNotifierItem",
+                sni_get_property_cb, sni_method_call_cb, (void*) this);
             
             debug("Systray: StatusNotifierItem registered on D-Bus");
             
@@ -292,14 +372,6 @@ public class SystrayManager : Object {
             application.hold();
             debug("Systray: Using GApplication.hold() fallback for background mode");
         }
-    }
-    
-    private void on_activate(int x, int y) {
-        toggle_window_visibility();
-    }
-    
-    private void on_secondary_activate(int x, int y) {
-        toggle_window_visibility();
     }
     
     public void toggle_window_visibility() {
@@ -375,6 +447,51 @@ public class SystrayManager : Object {
 
     ~SystrayManager() {
         cleanup();
+    }
+
+    // --- Static D-Bus callbacks for the C helper ---
+
+    private static GLib.Variant? sni_get_property_cb(string property_name, void* user_data) {
+        unowned SystrayManager self = (SystrayManager) user_data;
+        if (self.status_notifier == null) return null;
+        return self.status_notifier.get_dbus_property(property_name);
+    }
+
+    private static void sni_method_call_cb(string method_name, GLib.Variant parameters,
+                                            GLib.DBusMethodInvocation invocation, void* user_data) {
+        unowned SystrayManager self = (SystrayManager) user_data;
+        switch (method_name) {
+            case "Activate":
+            case "SecondaryActivate":
+                self.toggle_window_visibility();
+                invocation.return_value(null);
+                break;
+            case "ContextMenu":
+                debug("Systray: ContextMenu called");
+                invocation.return_value(null);
+                break;
+            case "Scroll":
+                invocation.return_value(null);
+                break;
+            default:
+                invocation.return_dbus_error("org.freedesktop.DBus.Error.UnknownMethod",
+                    "Unknown method: " + method_name);
+                break;
+        }
+    }
+
+    // Emit D-Bus signals (replaces [DBus] auto-generated signal emission)
+    private void emit_new_icon() {
+        if (connection != null && !connection.is_closed()) {
+            SniDbus.emit_signal(connection, "/StatusNotifierItem", "NewIcon");
+        }
+    }
+
+    private void emit_new_status(string new_status_value) {
+        if (connection != null && !connection.is_closed()) {
+            SniDbus.emit_signal(connection, "/StatusNotifierItem",
+                "NewStatus", new Variant("(s)", new_status_value));
+        }
     }
 }
 
