@@ -25,6 +25,10 @@ int main(string[] args) {
     TestSuite.get_root().add_suite(new Xmpp.Test.Socks5Audit().get_suite());
     // MUJI Group Call Security Audit (XEP-0272, XEP-0482, XEP-0167)
     TestSuite.get_root().add_suite(new Xmpp.Test.MujiAudit().get_suite());
+    // Phase 10: Test Suite Expansion
+    TestSuite.get_root().add_suite(new Xmpp.Test.MalformedStanzaAudit().get_suite());
+    TestSuite.get_root().add_suite(new Xmpp.Test.NullSafetyAudit().get_suite());
+    TestSuite.get_root().add_suite(new Xmpp.Test.AdversarialAudit().get_suite());
     return GLib.Test.run();
 }
 

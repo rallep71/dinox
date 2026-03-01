@@ -15,6 +15,8 @@ int main(string[] args) {
     // Tier 4 Security Audit Tests
     TestSuite.get_root().add_suite(new Dino.Test.FileTransferAudit().get_suite());
     TestSuite.get_root().add_suite(new Dino.Test.SrtpAudit().get_suite());
+    // Phase 10: Test Suite Expansion
+    TestSuite.get_root().add_suite(new Dino.Test.EntityAudit().get_suite());
     return GLib.Test.run();
 }
 
