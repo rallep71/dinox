@@ -79,8 +79,12 @@ public class FileDefaultWidget : Gtk.Box {
                         mime_label.label = _("Downloading %s…").printf(get_size_string(size));
                     }
                 } else {
-                    int64 progress = transferred_bytes * 100 / size;
-                    mime_label.label = _("Uploading %s… (%u%%)").printf(get_size_string(size), progress);
+                    if (size > 0) {
+                        int64 progress = transferred_bytes * 100 / size;
+                        mime_label.label = _("Uploading %s… (%u%%)").printf(get_size_string(size), progress);
+                    } else {
+                        mime_label.label = _("Uploading…");
+                    }
                 }
                 spinner.start();
                 image_stack.set_visible_child_name("spinner");

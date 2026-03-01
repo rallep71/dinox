@@ -60,12 +60,11 @@ namespace Dino.Ui.Quote {
         }
 
         public override void dispose() {
-            base.dispose();
-
             if (display_time_timeout != 0) {
                 Source.remove(display_time_timeout);
                 display_time_timeout = 0;
             }
+            base.dispose();
         }
     }
 

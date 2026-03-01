@@ -48,7 +48,10 @@ public class ContentProvider : ContentItemCollection, Object {
         Gee.List<ContentItem> items = stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).get_n_latest(conversation, n);
         Gee.List<ContentMetaItem> ret = new ArrayList<ContentMetaItem>();
         foreach (ContentItem item in items) {
-            ret.add(create_content_meta_item(item));
+            var meta_item = create_content_meta_item(item);
+            if (meta_item != null) {
+                ret.add(meta_item);
+            }
         }
         return ret;
     }
@@ -57,7 +60,10 @@ public class ContentProvider : ContentItemCollection, Object {
         Gee.List<ContentMetaItem> ret = new ArrayList<ContentMetaItem>();
         Gee.List<ContentItem> items = stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).get_before(conversation, before_item, n);
         foreach (ContentItem item in items) {
-            ret.add(create_content_meta_item(item));
+            var meta_item = create_content_meta_item(item);
+            if (meta_item != null) {
+                ret.add(meta_item);
+            }
         }
         return ret;
     }

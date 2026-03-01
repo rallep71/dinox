@@ -92,22 +92,26 @@ namespace Dino.Ui {
                             charset = ct_params.lookup("charset");
                         }
 
-                        string html;
-                        if (charset != null && charset.down() != "utf-8" && charset.down() != "utf8") {
-                            try {
-                                html = GLib.convert((string) bytes.get_data(), (ssize_t) bytes.get_size(), "UTF-8", charset);
-                            } catch (ConvertError ce) {
-                                debug("URL preview charset convert failed (%s→UTF-8): %s", charset, ce.message);
+                        if (bytes == null || bytes.get_size() == 0) {
+                            data.failed = true;
+                        } else {
+                            string html;
+                            if (charset != null && charset.down() != "utf-8" && charset.down() != "utf8") {
+                                try {
+                                    html = GLib.convert((string) bytes.get_data(), (ssize_t) bytes.get_size(), "UTF-8", charset);
+                                } catch (ConvertError ce) {
+                                    debug("URL preview charset convert failed (%s→UTF-8): %s", charset, ce.message);
+                                    html = ((string) bytes.get_data()).make_valid();
+                                }
+                            } else {
                                 html = ((string) bytes.get_data()).make_valid();
                             }
-                        } else {
-                            html = ((string) bytes.get_data()).make_valid();
-                        }
 
-                        if (html != null && html.length > 0) {
-                            parse_html_meta(html, data, url);
-                        } else {
-                            data.failed = true;
+                            if (html != null && html.length > 0) {
+                                parse_html_meta(html, data, url);
+                            } else {
+                                data.failed = true;
+                            }
                         }
                     }
                 }
@@ -145,9 +149,10 @@ namespace Dino.Ui {
                         int max_h = 200;
                         if (w > max_w || h > max_h) {
                             double scale = double.min((double) max_w / w, (double) max_h / h);
-                            int new_w = (int)(w * scale);
-                            int new_h = (int)(h * scale);
-                            pixbuf = pixbuf.scale_simple(new_w, new_h, Gdk.InterpType.BILINEAR);
+                            int new_w = int.max(1, (int)(w * scale));
+                            int new_h = int.max(1, (int)(h * scale));
+                            var scaled = pixbuf.scale_simple(new_w, new_h, Gdk.InterpType.BILINEAR);
+                            if (scaled != null) pixbuf = scaled;
                         }
                         data.image_texture = Gdk.Texture.for_pixbuf(pixbuf);
                     }
@@ -214,11 +219,13 @@ namespace Dino.Ui {
             }
 
             // Truncate very long text
-            if (data.title != null && data.title.length > 200) {
-                data.title = data.title.substring(0, 197) + "...";
+            if (data.title != null && data.title.char_count() > 200) {
+                long byte_off = data.title.index_of_nth_char(197);
+                data.title = data.title.substring(0, byte_off) + "...";
             }
-            if (data.description != null && data.description.length > 300) {
-                data.description = data.description.substring(0, 297) + "...";
+            if (data.description != null && data.description.char_count() > 300) {
+                long byte_off = data.description.index_of_nth_char(297);
+                data.description = data.description.substring(0, byte_off) + "...";
             }
 
             // Decode HTML entities

@@ -73,6 +73,7 @@ namespace Dino.Ui {
             }
 
             accept_call_button.clicked.connect(() => {
+                if (call_manager == null) return;
                 call_manager.accept();
 
                 var call_window = new CallWindow();
@@ -80,7 +81,9 @@ namespace Dino.Ui {
                 call_window.present();
             });
 
-            reject_call_button.clicked.connect(call_manager.reject);
+            reject_call_button.clicked.connect(() => {
+                if (call_manager != null) call_manager.reject();
+            });
 
             update_call_state();
         }

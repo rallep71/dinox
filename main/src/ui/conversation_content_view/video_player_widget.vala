@@ -862,7 +862,9 @@ public class VideoPlayerWidget : Widget {
                 string temp_dir = Path.build_filename(Environment.get_user_cache_dir(), "dinox", "temp_open");
                 DirUtils.create_with_parents(temp_dir, 0700);
 
-                string temp_path = Path.build_filename(temp_dir, file_transfer.file_name);
+                string safe_name = Path.get_basename(file_transfer.file_name);
+                if (safe_name == "" || safe_name == "." || safe_name == "..") safe_name = "file";
+                string temp_path = Path.build_filename(temp_dir, safe_name);
                 File temp_file = File.new_for_path(temp_path);
 
                 var source_stream = file.read();
@@ -873,12 +875,7 @@ public class VideoPlayerWidget : Widget {
                 try { source_stream.close(); } catch (Error e) {}
                 try { target_stream.close(); } catch (Error e) {}
 
-#if WINDOWS
-                string win_path = temp_file.get_path().replace("/", "\\");
-                Process.spawn_command_line_async("cmd.exe /c start \"\" \"" + win_path + "\"");
-#else
                 AppInfo.launch_default_for_uri(temp_file.get_uri(), null);
-#endif
             }
         } catch (GLib.Error err) {
             warning("Failed to open file: %s", err.message);

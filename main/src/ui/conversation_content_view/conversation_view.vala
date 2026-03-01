@@ -445,10 +445,10 @@ public class ConversationView : Widget, Plugins.ConversationItemCollection, Plug
         Dino.Application app = Dino.Application.get_default();
         if (this.conversation != null) {
             foreach (Plugins.ConversationItemPopulator populator in app.plugin_registry.conversation_addition_populators) {
-                populator.close(conversation);
+                populator.close(this.conversation);
             }
             foreach (Plugins.NotificationPopulator populator in app.plugin_registry.notification_populators) {
-                populator.close(conversation);
+                populator.close(this.conversation);
             }
         }
 
