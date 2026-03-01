@@ -1,6 +1,6 @@
 # DinoX Code Audit Plan
 
-> **Status:** COMPLETED (Phase 10 test suite expansion completed)
+> **Status:** COMPLETED (Phase 10b priority-1 XEP tests completed)
 > **Created:** March 1, 2026
 > **Completed:** March 2, 2026
 > **Goal:** Systematically audit every directory for bugs, security vulnerabilities, clean code, duplicates, and redundant calls.
@@ -39,10 +39,10 @@ For every found bug, before applying the fix:
 | Metric | Value |
 |--------|-------|
 | Production code | **108,496 lines** (446 .vala files) |
-| Test code | **13,953 lines** (66 .vala files) |
-| Test ratio | **12.9%** (industry recommendation: 50–100%) |
-| Test cases | **786** across 8 test suites |
-| Estimated code coverage | **~18–28%** (no coverage tool available for Vala) |
+| Test code | **17,130 lines** (70 .vala files) |
+| Test ratio | **15.8%** (industry recommendation: 50–100%) |
+| Test cases | **1,040** across 8 test suites |
+| Estimated code coverage | **~20–30%** (no coverage tool available for Vala) |
 
 ### What Tests Cover (and What They DON'T)
 
@@ -309,27 +309,45 @@ All documents are in `docs/internal/` (in .gitignore).
 | 4 | `libdino/tests/audit_entity.vala` | 281 | 29 | Message type conversion (4), MUC semantics (3), Equality/hashing (5), Marked state guard (3), Body validation (4), FileTransfer.file_name sanitization (8), server_file_name fallback (2) |
 | | **Total** | **1,677** | **120** | |
 
+### Phase 10b: Priority-1 XEP Tests
+
+| # | File | Lines | Tests | Coverage |
+|---|------|-------|-------|----------|
+| 5 | `xmpp-vala/tests/audit_carbons_forwarding.vala` | 427 | 23 | Carbon structure (6), Sender validation (4), Edge cases (5), XEP-0297 Forwarding (5), Flag tests (2), Nested carbon injection (1) |
+| 6 | `xmpp-vala/tests/audit_pubsub.vala` | 426 | 25 | Event notifications (4), Malformed events (6), PEP sender validation (3), IQ response parsing (5), Publish options (3), Edge cases (4) |
+| 7 | `xmpp-vala/tests/audit_http_upload.vala` | 328 | 27 | Slot parsing (5), HTTPS enforcement (6), Header filtering (7), Max file size (5), Flag (1), Legacy URL format (3) |
+| 8 | `xmpp-vala/tests/audit_blocking.vala` | 328 | 22 | Blocklist parsing (5), Push parsing (4), Sender validation (3), API behavior (2), Flag state (4), Edge cases (4) |
+| | **Phase 10b Total** | **1,509** | **97** | |
+
 ### Metrics Before/After
 
-| Metric | Before | After | Change |
-|--------|--------|-------|--------|
-| Test files | 62 | 66 | +4 |
-| Test lines | 12,276 | 13,953 | +1,677 (+13.7%) |
-| Test cases | 666 | 786 | +120 (+18.0%) |
-| Test ratio | 11.3% | 12.9% | +1.6pp |
-| XEPs with tests | ~12 | ~27 | +15 |
+| Metric | Before Phase 10 | After Phase 10 | After Phase 10b | Total Change |
+|--------|-----------------|----------------|-----------------|---------------|
+| Test files | 62 | 66 | 70 | +8 |
+| Test lines | 12,276 | 13,953 | 17,130 | +4,854 (+39.5%) |
+| Test cases | 666 | 786 | 1,040 | +374 (+56.2%) |
+| Test ratio | 11.3% | 12.9% | 15.8% | +4.5pp |
+| XEPs with tests | ~12 | ~27 | ~32 | +20 |
 
-### Notable Finding
+### Notable Findings
 
 **JID parser accepts HTML-dangerous characters:** `<script>alert('xss')</script>@example.com` is accepted as a valid JID (angle brackets are not prohibited by RFC 7622). This means the **display layer must always escape JID strings** when rendering in HTML/Pango contexts. Documented in `audit_adversarial.vala::test_reply_xss_jid`.
+
+**Carbons sender validation is the ONLY defense against nested carbon injection:** When DinoX processes a carbon, it replaces the stanza and sets `rerun_parsing = true`. A nested carbon inside the forwarded message WILL be re-processed. The bare-JID sender check is the sole protection. Documented in `audit_carbons_forwarding.vala::test_nested_carbon`.
+
+**PubSub batch notifications lose items:** DinoX uses `get_subnode()` (returns first match) for PEP item events. If a server sends multiple `<item>` elements in one event, only the first is processed. Documented in `audit_pubsub.vala::test_multiple_items_in_event`.
+
+**Negative max-file-size from server not validated:** HTTP Upload's `extract_max_file_size()` returns `long.parse()` of the server-provided value. A malicious server could send `-1`, which would pass a `file_size < max_file_size` check for any file. Documented in `audit_http_upload.vala::test_max_file_size_negative`.
+
+**Empty JID string accepted in blocklist:** `<item jid=""/>` adds an empty string to the blocklist without validation. Documented in `audit_blocking.vala::test_item_empty_jid`.
 
 ### Remaining Test Gaps (for future phases)
 
 | # | Gap | Priority | Why not addressed |
 |---|-----|----------|-------------------|
 | 1 | STARTTLS downgrade simulation | High | Requires mock TLS stream, cannot test with stanza manipulation alone |
-| 2 | Pubsub event manipulation | Medium | Requires multi-module integration test with mock stream |
-| 3 | End-to-end message flow | Medium | Requires mock XMPP server (e.g. prosody-in-docker) |
+| 2 | End-to-end message flow | Medium | Requires mock XMPP server (e.g. prosody-in-docker) |
+| 3 | `libdino/src/service/` layer (37 files) | Medium | Requires DB fixtures + mock StreamInteractor |
 | 4 | UI widget tests (GTK) | Low | GTK4 test harness complex; only `preferences_row_test` exists |
 | 5 | Static analysis (duplicates, dead code) | Low | Requires simhash/call-graph tooling, not test code |
 

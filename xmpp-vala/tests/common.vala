@@ -29,6 +29,11 @@ int main(string[] args) {
     TestSuite.get_root().add_suite(new Xmpp.Test.MalformedStanzaAudit().get_suite());
     TestSuite.get_root().add_suite(new Xmpp.Test.NullSafetyAudit().get_suite());
     TestSuite.get_root().add_suite(new Xmpp.Test.AdversarialAudit().get_suite());
+    // Phase 10b: Priority 1 XEP tests
+    TestSuite.get_root().add_suite(new Xmpp.Test.CarbonsForwardingAudit().get_suite());
+    TestSuite.get_root().add_suite(new Xmpp.Test.PubSubAudit().get_suite());
+    TestSuite.get_root().add_suite(new Xmpp.Test.HttpUploadAudit().get_suite());
+    TestSuite.get_root().add_suite(new Xmpp.Test.BlockingAudit().get_suite());
     return GLib.Test.run();
 }
 

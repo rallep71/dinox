@@ -197,6 +197,10 @@ test_sources = [
     'tests/audit_malformed_stanzas.vala',
     'tests/audit_null_safety.vala',
     'tests/audit_adversarial.vala',
+    'tests/audit_carbons_forwarding.vala',
+    'tests/audit_pubsub.vala',
+    'tests/audit_http_upload.vala',
+    'tests/audit_blocking.vala',
 ]
 exe_xmpp_vala_test = executable('xmpp-vala-test', test_sources, c_args: c_args, vala_args: vala_args, dependencies: dependencies + dep_xmpp_vala, install: false)
 test('Tests for xmpp-vala', exe_xmpp_vala_test)
