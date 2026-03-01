@@ -98,8 +98,11 @@ sni_dbus_register (GDBusConnection     *connection,
                    gpointer              user_data,
                    GError              **error)
 {
-    if (node_info == NULL)
-        node_info = g_dbus_node_info_new_for_xml (sni_xml, NULL);
+    if (node_info == NULL) {
+        node_info = g_dbus_node_info_new_for_xml (sni_xml, error);
+        if (node_info == NULL)
+            return 0;
+    }
 
     SniCallbacks *cb = g_new0 (SniCallbacks, 1);
     cb->get_property = get_property_func;

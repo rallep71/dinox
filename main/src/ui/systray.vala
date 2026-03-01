@@ -163,6 +163,7 @@ public class SystrayManager : Object {
     private ulong status_changed_id = 0;
     private uint watcher_id = 0;
     private bool sni_registered = false;
+    private bool holding = false;
     
     public bool is_hidden = false;
     
@@ -310,7 +311,7 @@ public class SystrayManager : Object {
         } catch (Error e) {
             warning("Systray: Failed to initialize D-Bus: %s", e.message);
             // Fallback: hold application so it stays alive when window is hidden
-            application.hold();
+            hold_app();
             debug("Systray: Using GApplication.hold() fallback for background mode");
         }
     }
@@ -327,7 +328,7 @@ public class SystrayManager : Object {
                 debug("Systray: StatusNotifierWatcher vanished");
                 if (!sni_registered) {
                     // No watcher available - use hold() fallback for background mode
-                    application.hold();
+                    hold_app();
                     debug("Systray: No SNI watcher found, using GApplication.hold() fallback");
                 }
             }
@@ -369,7 +370,7 @@ public class SystrayManager : Object {
         if (!registered) {
             warning("Systray: No StatusNotifierWatcher available - tray icon will not be visible");
             // Fallback: hold application so it stays alive when window is hidden
-            application.hold();
+            hold_app();
             debug("Systray: Using GApplication.hold() fallback for background mode");
         }
     }
@@ -413,9 +414,26 @@ public class SystrayManager : Object {
             string emoji = (statuses[i] == current_status) ? active_emojis[i] : inactive_emoji;
             status_items[i].property_set(Dbusmenu.MENUITEM_PROP_LABEL, emoji + "  " + labels[i]);
         }
+
+        // Notify D-Bus clients that the status changed
+        emit_new_status(current_status);
     }
     
     private bool disposed = false;
+
+    private void hold_app() {
+        if (!holding) {
+            application.hold();
+            holding = true;
+        }
+    }
+
+    private void release_app() {
+        if (holding) {
+            application.release();
+            holding = false;
+        }
+    }
     
     public void cleanup() {
         if (disposed) {
@@ -439,6 +457,8 @@ public class SystrayManager : Object {
             dbus_id = 0;
         }
         
+        release_app();
+
         status_items = null;
         menu_server = null;
         status_notifier = null;
@@ -453,13 +473,17 @@ public class SystrayManager : Object {
 
     private static GLib.Variant? sni_get_property_cb(string property_name, void* user_data) {
         unowned SystrayManager self = (SystrayManager) user_data;
-        if (self.status_notifier == null) return null;
+        if (self.disposed || self.status_notifier == null) return null;
         return self.status_notifier.get_dbus_property(property_name);
     }
 
     private static void sni_method_call_cb(string method_name, GLib.Variant parameters,
                                             GLib.DBusMethodInvocation invocation, void* user_data) {
         unowned SystrayManager self = (SystrayManager) user_data;
+        if (self.disposed) {
+            invocation.return_dbus_error("org.freedesktop.DBus.Error.Failed", "Shutting down");
+            return;
+        }
         switch (method_name) {
             case "Activate":
             case "SecondaryActivate":
