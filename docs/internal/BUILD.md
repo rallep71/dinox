@@ -48,9 +48,15 @@ tar xf webrtc-audio-processing-2.1.tar.xz
 cd webrtc-audio-processing-2.1
 
 # 1b. Fix for abseil-cpp >= 20250814 (e.g. Arch Linux):
-#     Removes deprecated absl::Nullable/Nonnull template aliases (identity types).
-find webrtc -name '*.h' -o -name '*.cc' | \
-    xargs perl -pi -e 's/absl::(Nullable|Nonnull|NullabilityUnknown)<((?:[^<>]|<(?:[^<>]|<[^<>]*>)*>)*)>/\2/g'
+#     Only needed if your abseil-cpp is version 20250814 or newer.
+ABSEIL_VER=$(pkg-config --modversion absl_base 2>/dev/null || echo "0")
+if [[ "$ABSEIL_VER" > "20250813" ]]; then
+    echo "Patching for abseil-cpp $ABSEIL_VER..."
+    # Download patch from DinoX repo (or use local copy from scripts/patches/)
+    wget -q -O /tmp/webrtc-abseil.patch \
+        "https://raw.githubusercontent.com/rallep71/dinox/master/scripts/patches/webrtc-audio-processing-v2.1-remove-abseil-nullability.patch"
+    patch -p1 < /tmp/webrtc-abseil.patch
+fi
 
 # 2. Build and install
 meson setup build --prefix=/usr/local
