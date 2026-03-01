@@ -142,6 +142,7 @@ public class Database : Qlite.Database {
         internal BodyMeta(Database db) {
             base(db, "body_meta");
             init({id, message_id, from_char, to_char, info_type, info});
+            index("body_meta_message_id_idx", {message_id});
         }
     }
 
@@ -203,6 +204,7 @@ public class Database : Qlite.Database {
         internal UndecryptedTable(Database db) {
             base(db, "undecrypted");
             init({message_id, type_, data});
+            index("undecrypted_message_id_idx", {message_id});
         }
     }
 
@@ -240,6 +242,7 @@ public class Database : Qlite.Database {
                 time, local_time, encryption, file_name, path, mime_type, size, state, provider, info, modification_date,
                 width, height, length, is_sticker, sticker_pack_id, sticker_pack_jid, sticker_pack_node});
             index("file_transfer_account_counterpart_idx", {account_id, counterpart_id});
+            index("file_transfer_info_idx", {info});
         }
     }
 
@@ -614,6 +617,7 @@ public class Database : Qlite.Database {
         init({ account, jid, entity, content_item, message, message_occupant_id, body_meta, message_correction, reply, real_jid, occupantid, file_transfer, file_hashes, file_thumbnails, sfs_sources, call, call_counterpart, conversation, avatar, entity_identity, entity_feature, roster, mam_catchup, reaction, settings, account_settings, conversation_settings, pinned_certificate, sticker_pack, sticker_item }, key, false);
 
         try {
+            // WAL + synchronous already set in qlite before migration; re-assert here for clarity
             exec("PRAGMA journal_mode = WAL");
             exec("PRAGMA synchronous = NORMAL");
             exec("PRAGMA secure_delete = ON");
@@ -990,42 +994,41 @@ public class Database : Qlite.Database {
     public int purge_caches() {
         int total_deleted = 0;
         try {
-            // Count rows before deleting for reporting
-            total_deleted += (int) entity.select().count();
-            total_deleted += (int) entity_identity.select().count();
-            total_deleted += (int) entity_feature.select().count();
-            total_deleted += (int) avatar.select().count();
-            total_deleted += (int) file_thumbnails.select().count();
-            total_deleted += (int) mam_catchup.select().count();
-            total_deleted += (int) roster.select().count();
-            total_deleted += (int) sticker_item.select().count();
-            total_deleted += (int) sticker_pack.select().count();
-
             // Entity discovery cache (caps hashes, disco#info results)
             exec("DELETE FROM entity");
+            total_deleted += changes();
             exec("DELETE FROM entity_identity");
+            total_deleted += changes();
             exec("DELETE FROM entity_feature");
+            total_deleted += changes();
 
             // Avatar references (actual files cleared from filesystem separately)
             exec("DELETE FROM contact_avatar");
+            total_deleted += changes();
 
             // File thumbnail cache (data URIs, re-fetchable)
             exec("DELETE FROM file_thumbnails");
+            total_deleted += changes();
 
             // Undecrypted message stash (transient, keys won't arrive later)
             exec("DELETE FROM undecrypted");
+            total_deleted += changes();
 
             // MAM sync progress markers (forces clean re-sync from server)
             exec("DELETE FROM mam_catchup");
+            total_deleted += changes();
 
             // Roster cache (fully re-synced on next connect)
             exec("DELETE FROM roster");
+            total_deleted += changes();
             // Reset roster_version so server sends full roster instead of incremental
             exec("UPDATE account SET roster_version = NULL");
 
             // Sticker cache (re-fetchable from PubSub, local files cleared from filesystem)
             exec("DELETE FROM sticker_item");
+            total_deleted += changes();
             exec("DELETE FROM sticker_pack");
+            total_deleted += changes();
 
             // Reclaim disk space
             exec("VACUUM");

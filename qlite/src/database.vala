@@ -132,6 +132,10 @@ public class Database {
             }
         }
 
+        // P1: Enable WAL mode + relaxed sync BEFORE migration for faster schema upgrades
+        db.exec("PRAGMA journal_mode = WAL", null, null);
+        db.exec("PRAGMA synchronous = NORMAL", null, null);
+
         start_migration();
     }
 
@@ -328,6 +332,10 @@ public class Database {
         if (db.exec(sql) != OK) {
             throw new Error(-1, 0, "SQLite error: %d - %s", db.errcode(), db.errmsg());
         }
+    }
+
+    public int changes() {
+        return db.changes();
     }
 
     public void rekey(string new_key) throws Error {

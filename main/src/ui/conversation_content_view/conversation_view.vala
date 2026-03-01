@@ -264,6 +264,7 @@ public class ConversationView : Widget, Plugins.ConversationItemCollection, Plug
         foreach (Plugins.MetaConversationItem item in item_item_skeletons.keys) {
             if (item_item_skeletons[item].get_widget() == w) {
                 current_meta_item = item as ContentMetaItem;
+                break;
             }
         }
 

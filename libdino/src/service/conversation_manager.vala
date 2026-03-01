@@ -26,6 +26,7 @@ public class ConversationManager : StreamInteractionModule, Object {
     private Database db;
 
     private HashMap<Account, HashMap<Jid, Gee.List<Conversation>>> conversations = new HashMap<Account, HashMap<Jid, Gee.List<Conversation>>>(Account.hash_func, Account.equals_func);
+    private HashMap<int, Conversation> conversations_by_id = new HashMap<int, Conversation>();
 
     public static void start(StreamInteractor stream_interactor, Database db) {
         ConversationManager m = new ConversationManager(stream_interactor, db);
@@ -128,14 +129,8 @@ public class ConversationManager : StreamInteractionModule, Object {
     }
 
     public Conversation? get_conversation_by_id(int id) {
-        foreach (HashMap<Jid, Gee.List<Conversation>> hm in conversations.values) {
-            foreach (Gee.List<Conversation> hm2 in hm.values) {
-                foreach (Conversation conversation in hm2) {
-                    if (conversation.id == id) {
-                        return conversation;
-                    }
-                }
-            }
+        if (conversations_by_id.has_key(id)) {
+            return conversations_by_id[id];
         }
         return null;
     }
@@ -314,6 +309,7 @@ public class ConversationManager : StreamInteractionModule, Object {
         }
 
         conversations[conversation.account][conversation.counterpart].add(conversation);
+        conversations_by_id[conversation.id] = conversation;
 
         if (conversation.active) {
             conversation_activated(conversation);
