@@ -61,16 +61,18 @@ public class Dino.Ui.ViewModel.ConversationParticipantAvatarPictureTileModel : A
         // Disconnect signal handlers to prevent leaks (D6)
         if (roster_updated_handler_id != 0) {
             var roster_mgr = stream_interactor.get_module<RosterManager>(RosterManager.IDENTITY);
-            if (roster_mgr != null) SignalHandler.disconnect(roster_mgr, roster_updated_handler_id);
+            if (roster_mgr != null && SignalHandler.is_connected(roster_mgr, roster_updated_handler_id)) {
+                SignalHandler.disconnect(roster_mgr, roster_updated_handler_id);
+            }
             roster_updated_handler_id = 0;
         }
         var am = avatar_manager;
         if (am != null) {
-            if (received_avatar_handler_id != 0) {
+            if (received_avatar_handler_id != 0 && SignalHandler.is_connected(am, received_avatar_handler_id)) {
                 SignalHandler.disconnect(am, received_avatar_handler_id);
                 received_avatar_handler_id = 0;
             }
-            if (fetched_avatar_handler_id != 0) {
+            if (fetched_avatar_handler_id != 0 && SignalHandler.is_connected(am, fetched_avatar_handler_id)) {
                 SignalHandler.disconnect(am, fetched_avatar_handler_id);
                 fetched_avatar_handler_id = 0;
             }

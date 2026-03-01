@@ -179,26 +179,34 @@ public class ConversationSelectorRow : ListBoxRow {
             pm.status_changed.disconnect(on_own_status_changed);
         }
         // D14: Disconnect all registered signal handlers to prevent leaks
-        if (muc_room_info_handler_id != 0) {
-            SignalHandler.disconnect(stream_interactor.get_module<MucManager>(MucManager.IDENTITY), muc_room_info_handler_id);
+        // Use is_connected() guard: module instance from get_module() during finalization
+        // may differ from the one used during construction.
+        var muc_mgr = stream_interactor.get_module<MucManager>(MucManager.IDENTITY);
+        if (muc_room_info_handler_id != 0 && muc_mgr != null && SignalHandler.is_connected(muc_mgr, muc_room_info_handler_id)) {
+            SignalHandler.disconnect(muc_mgr, muc_room_info_handler_id);
         }
-        if (muc_subject_set_handler_id != 0) {
-            SignalHandler.disconnect(stream_interactor.get_module<MucManager>(MucManager.IDENTITY), muc_subject_set_handler_id);
+        if (muc_subject_set_handler_id != 0 && muc_mgr != null && SignalHandler.is_connected(muc_mgr, muc_subject_set_handler_id)) {
+            SignalHandler.disconnect(muc_mgr, muc_subject_set_handler_id);
         }
-        if (content_new_item_handler_id != 0) {
-            SignalHandler.disconnect(stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY), content_new_item_handler_id);
+        var cis = stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY);
+        if (content_new_item_handler_id != 0 && cis != null && SignalHandler.is_connected(cis, content_new_item_handler_id)) {
+            SignalHandler.disconnect(cis, content_new_item_handler_id);
         }
-        if (correction_handler_id != 0) {
-            SignalHandler.disconnect(stream_interactor.get_module<MessageCorrection>(MessageCorrection.IDENTITY), correction_handler_id);
+        var mc = stream_interactor.get_module<MessageCorrection>(MessageCorrection.IDENTITY);
+        if (correction_handler_id != 0 && mc != null && SignalHandler.is_connected(mc, correction_handler_id)) {
+            SignalHandler.disconnect(mc, correction_handler_id);
         }
-        if (deletion_handler_id != 0) {
-            SignalHandler.disconnect(stream_interactor.get_module<MessageDeletion>(MessageDeletion.IDENTITY), deletion_handler_id);
+        var md = stream_interactor.get_module<MessageDeletion>(MessageDeletion.IDENTITY);
+        if (deletion_handler_id != 0 && md != null && SignalHandler.is_connected(md, deletion_handler_id)) {
+            SignalHandler.disconnect(md, deletion_handler_id);
         }
-        if (conversation_cleared_handler_id != 0) {
-            SignalHandler.disconnect(stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY), conversation_cleared_handler_id);
+        var cm = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY);
+        if (conversation_cleared_handler_id != 0 && cm != null && SignalHandler.is_connected(cm, conversation_cleared_handler_id)) {
+            SignalHandler.disconnect(cm, conversation_cleared_handler_id);
         }
-        if (block_changed_handler_id != 0) {
-            SignalHandler.disconnect(stream_interactor.get_module<BlockingManager>(BlockingManager.IDENTITY), block_changed_handler_id);
+        var bm = stream_interactor.get_module<BlockingManager>(BlockingManager.IDENTITY);
+        if (block_changed_handler_id != 0 && bm != null && SignalHandler.is_connected(bm, block_changed_handler_id)) {
+            SignalHandler.disconnect(bm, block_changed_handler_id);
         }
     }
 
