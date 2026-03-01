@@ -303,8 +303,9 @@ class CarbonsForwardingAudit : Gee.TestCase {
         // The inner message has another received carbon
         StanzaNode? nested = msg.get_subnode("received", CARBON_NS);
         assert_nonnull(nested);
-        // SECURITY NOTE: After rerun_parsing, this nested carbon WILL be processed.
-        // The sender validation check is the ONLY protection.
+        // FIX applied: ReceivedPipelineListener.run() now checks if the message
+        // already has a carbon MessageFlag set. If so, it returns false immediately,
+        // preventing nested carbon re-processing regardless of sender validation.
     }
 
     private void test_carbon_preserves_type() {

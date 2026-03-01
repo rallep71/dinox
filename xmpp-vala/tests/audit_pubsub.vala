@@ -396,12 +396,14 @@ class PubSubAudit : Gee.TestCase {
 
         StanzaNode? items_node = event.get_subnode("items", NS_EVENT);
         assert_nonnull(items_node);
-        // DinoX only processes the FIRST item via get_subnode()
-        // If multiple items are published at once, only the first is seen
-        StanzaNode? first_item = items_node.get_subnode("item", NS_EVENT);
-        assert_nonnull(first_item);
-        // Note: This means batch notifications (multiple items) lose all but the first.
-        // This is a known limitation — the code could use get_subnodes() instead.
+        // FIX applied: DinoX now uses get_subnodes() + foreach loop
+        // All items in batch notifications are processed correctly
+        Gee.List<StanzaNode> all_items = items_node.get_subnodes("item", NS_EVENT);
+        assert_true(all_items.size == 5);
+        // Verify all items accessible
+        for (int j = 0; j < 5; j++) {
+            assert_true(all_items[j].get_attribute("id") == "item%d".printf(j));
+        }
     }
 
     private void test_item_multiple_payloads() {

@@ -269,10 +269,10 @@ class HttpUploadAudit : Gee.TestCase {
         assert_nonnull(max_str);
         long parsed = long.parse(max_str);
         assert_true(parsed == -1);
-        // Negative file size → long.parse returns -1
-        // DinoX doesn't guard against negative values
-        // This could bypass size limits if checked with `file_size < max_file_size`
-        // Document: negative max_file_size from server is not validated
+        // Negative file size → long.parse returns -1 at parse level
+        // FIX applied: extract_max_file_size() now validates parsed > 0
+        // and returns long.MAX for invalid values (negative, zero, non-numeric)
+        // This prevents bypass of size limits via malicious server response
     }
 
     private void test_max_file_size_non_numeric() {

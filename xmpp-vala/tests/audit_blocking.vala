@@ -272,11 +272,9 @@ class BlockingAudit : Gee.TestCase {
         block_node.put_node(item);
 
         var jids = get_jids_from_items(block_node);
-        // Empty string is non-null → added to list
-        // This could cause issues if empty string is used in comparisons
-        assert_true(jids.size == 1);
-        assert_true(jids[0] == "");
-        // Document: empty JID string is accepted into blocklist without validation
+        // FIX applied: empty JID strings are now filtered out (jid.length > 0 check)
+        assert_true(jids.size == 0);
+        // Empty JID no longer pollutes the blocklist
     }
 
     private void test_jid_with_resource() {
@@ -310,14 +308,14 @@ class BlockingAudit : Gee.TestCase {
     }
 
     /**
-     * Mirrors DinoX's get_jids_from_items() logic.
+     * Mirrors DinoX's get_jids_from_items() logic (with empty-JID fix).
      */
     private Gee.List<string> get_jids_from_items(StanzaNode node) {
         Gee.List<StanzaNode> item_nodes = node.get_subnodes("item", NS_URI);
         Gee.List<string> jids = new Gee.ArrayList<string>();
         foreach (StanzaNode item_node in item_nodes) {
             string? jid = item_node.get_attribute("jid", NS_URI);
-            if (jid != null) {
+            if (jid != null && jid.length > 0) {
                 jids.add(jid);
             }
         }

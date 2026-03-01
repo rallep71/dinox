@@ -136,7 +136,7 @@ public class Module : XmppStreamModule, Iq.Handler {
         Gee.List<string> jids = new ArrayList<string>();
         foreach (StanzaNode item_node in item_nodes) {
             string? jid = item_node.get_attribute("jid", NS_URI);
-            if (jid != null) {
+            if (jid != null && jid.length > 0) {
                 jids.add(jid);
             }
         }

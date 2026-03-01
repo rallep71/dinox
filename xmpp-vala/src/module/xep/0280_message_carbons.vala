@@ -54,6 +54,10 @@ public class ReceivedPipelineListener : StanzaListener<MessageStanza> {
     public override string[] after_actions { get { return after_actions_const; } }
 
     public override async bool run(XmppStream stream, MessageStanza message) {
+        // Guard against nested carbon processing: if this message was already
+        // unwrapped from a carbon (rerun_parsing), do not process inner carbons.
+        if (message.get_flag(NS_URI, MessageFlag.ID) != null) return false;
+
         StanzaNode? received_node = message.stanza.get_subnode("received", NS_URI);
         StanzaNode? sent_node = received_node == null ? message.stanza.get_subnode("sent", NS_URI) : null;
         StanzaNode? carbons_node = received_node != null ? received_node : sent_node;

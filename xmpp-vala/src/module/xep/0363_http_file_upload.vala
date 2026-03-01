@@ -180,9 +180,14 @@ public class Module : XmppStreamModule {
                 }
             }
         }
-        if (max_file_size_str != null) return long.parse(max_file_size_str);
+        if (max_file_size_str != null) {
+            long parsed = long.parse(max_file_size_str);
+            if (parsed > 0) return parsed;
+            // Negative or zero values from server are invalid — treat as unlimited
+            warning("Server reported invalid max-file-size: %s, ignoring", max_file_size_str);
+        }
 
-        // If there is no max-file-size node, there is no file size limit
+        // If there is no max-file-size node or the value was invalid, there is no file size limit
         return long.MAX;
     }
 }

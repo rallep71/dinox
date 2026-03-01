@@ -157,6 +157,8 @@ For every found bug, before applying the fix:
 
 **Post-Audit Runtime Investigation:** 3 additional bugs found via debug log analysis (#134–#136), total **167 bugs**.
 
+**Phase 10b Test-Discovered Fixes:** 4 additional bugs found via new test suite (#137–#140), total **171 bugs**.
+
 ---
 
 ## Recommended Order
@@ -333,13 +335,13 @@ All documents are in `docs/internal/` (in .gitignore).
 
 **JID parser accepts HTML-dangerous characters:** `<script>alert('xss')</script>@example.com` is accepted as a valid JID (angle brackets are not prohibited by RFC 7622). This means the **display layer must always escape JID strings** when rendering in HTML/Pango contexts. Documented in `audit_adversarial.vala::test_reply_xss_jid`.
 
-**Carbons sender validation is the ONLY defense against nested carbon injection:** When DinoX processes a carbon, it replaces the stanza and sets `rerun_parsing = true`. A nested carbon inside the forwarded message WILL be re-processed. The bare-JID sender check is the sole protection. Documented in `audit_carbons_forwarding.vala::test_nested_carbon`.
+**Carbons nested carbon injection — FIXED (#140):** When DinoX processes a carbon, it replaces the stanza and sets `rerun_parsing = true`. A nested carbon inside the forwarded message would be re-processed. Fix: `ReceivedPipelineListener.run()` now checks if message already has a carbon MessageFlag and returns false immediately, preventing re-processing.
 
-**PubSub batch notifications lose items:** DinoX uses `get_subnode()` (returns first match) for PEP item events. If a server sends multiple `<item>` elements in one event, only the first is processed. Documented in `audit_pubsub.vala::test_multiple_items_in_event`.
+**PubSub batch notifications lose items — FIXED (#139):** DinoX used `get_subnode()` (returns first match) for PEP item events. If a server sent multiple `<item>` elements in one event, only the first was processed. Fix: changed to `get_subnodes()` + foreach loop.
 
-**Negative max-file-size from server not validated:** HTTP Upload's `extract_max_file_size()` returns `long.parse()` of the server-provided value. A malicious server could send `-1`, which would pass a `file_size < max_file_size` check for any file. Documented in `audit_http_upload.vala::test_max_file_size_negative`.
+**Negative max-file-size from server — FIXED (#137):** HTTP Upload's `extract_max_file_size()` returned `long.parse()` of the server-provided value without validation. A malicious server could send `-1`, bypassing size limits. Fix: validates `parsed > 0`, returns `long.MAX` for invalid values.
 
-**Empty JID string accepted in blocklist:** `<item jid=""/>` adds an empty string to the blocklist without validation. Documented in `audit_blocking.vala::test_item_empty_jid`.
+**Empty JID string in blocklist — FIXED (#138):** `<item jid=""/>` added an empty string to the blocklist without validation. Fix: added `jid.length > 0` check.
 
 ### Remaining Test Gaps (for future phases)
 
@@ -519,3 +521,8 @@ All documents are in `docs/internal/` (in .gitignore).
 | 134 | conversation_selector | conversation_selector_row.vala:~640 | **Critical** | PopoverMenu `set_parent(this)` → row removed while popover open → `gdk_surface_request_motion` SIGSEGV. Context menu right-click on contact then "Close Conversation" crashes app. | `dismiss_popover()` before row removal in `colapse()`; track `active_popover` and check identity in `closed` handler (2da94da3) | [x] |
 | 135 | conversation_content_view | url_preview_widget.vala:~69,~135 | Medium | New `Soup.Session` created per HTTP request in `UrlPreviewCache.fetch_async()` and `fetch_image()` → session GC'd with active connections → libsoup WARNING on every URL preview fetch | Shared `Soup.Session` field in singleton, initialized in private constructor (2da94da3) | [x] |
 | 136 | conversation_selector | conversation_selector_row.vala:~98 | Low | `generate_groupchat_tooltip()` rebuilds entire widget tree on every `query_tooltip` signal (fires per mouse pixel) → 36× redundant calls in a single session | Cache tooltip widget in `cached_groupchat_tooltip`, invalidate only on `subject_set` signal (2da94da3) | [x] |
+| -- | **Phase 10b: Test-Discovered Fixes** | | | | | |
+| 137 | xmpp-vala/xep | 0363_http_file_upload.vala:~180 | Medium (Security) | `extract_max_file_size()` returns `long.parse()` without validation — negative value (`-1`) from malicious server passes `file_size < max_file_size` check for any file | Validate `parsed > 0`; return `long.MAX` for invalid/negative/zero values + warning log | [x] |
+| 138 | xmpp-vala/xep | 0191_blocking_command.vala:~140 | Medium | `get_jids_from_items()` accepts empty JID string (`<item jid=""/>`) into blocklist → empty string in comparisons causes undefined matching behavior | Added `jid.length > 0` check alongside null check | [x] |
+| 139 | xmpp-vala/xep | 0060_pubsub.vala:~285 | Medium | `on_received_message()` uses `get_subnode("item")` (returns first match only) — batch PEP notifications with multiple `<item>` elements lose all but the first | Changed to `get_subnodes("item")` + foreach loop to process all items | [x] |
+| 140 | xmpp-vala/xep | 0280_message_carbons.vala:~55 | Medium (Security) | `ReceivedPipelineListener.run()` has no guard against nested carbon injection — after `rerun_parsing`, an inner `<received>` carbon inside forwarded message would be re-processed | Added MessageFlag check: if message already has carbon flag, return false immediately | [x] |

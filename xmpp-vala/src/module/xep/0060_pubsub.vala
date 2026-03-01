@@ -274,8 +274,8 @@ namespace Xmpp.Xep.Pubsub {
             if (items_node != null) {
                 string node = items_node.get_attribute("node", NS_URI_EVENT);
 
-                StanzaNode? item_node = items_node.get_subnode("item", NS_URI_EVENT);
-                if (item_node != null) {
+                Gee.List<StanzaNode> item_nodes = items_node.get_subnodes("item", NS_URI_EVENT);
+                foreach (StanzaNode item_node in item_nodes) {
                     string id = item_node.get_attribute("id", NS_URI_EVENT);
 
                     if (item_listeners.has_key(node) && item_node.sub_nodes.size > 0) {
